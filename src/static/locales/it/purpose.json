@@ -92,8 +92,18 @@
           "false": "L’erogatore dichiara di non trattare dati personali",
           "undefined": "L’erogatore non ha dichiarato il trattamento dei dati personali"
         },
-        "incompatibleAnswerError": "Assicurati che la risposta di questa domanda sia uguale a quella che hai indicato nelle informazioni generali dell’e-service. Se i dati non corrispondono ti verrà bloccata la pubblicazione di questa finalità.",
-        "alertForIncompatibleAnswer": "Assicurati che la risposta alla domanda \"Indicare se si accede a dati personali (richiesto)\" sia uguale a quella che hai indicato nelle informazioni generali. Se i dati non corrispondono ti verrà bloccata la pubblicazione."
+        "incompatibleAnswerError": {
+          "purposeEdit": {
+            "personalData": "Non potrai pubblicare questa finalità perché hai dichiarato che vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore.",
+            "noPersonalData": "Non potrai pubblicare questa finalità perché hai dichiarato che non vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore."
+          },
+          "eserviceEdit": "Assicurati che la risposta a questa domanda corrisponda a quella fornita nelle informazioni generali dell’e-service. Se i dati non corrispondono, la pubblicazione di questo e-service sarà bloccata."
+        },
+        "alertForIncompatibleAnswer": "Assicurati che la risposta alla domanda \"Indica se accedi a dati personali (richiesto)\" corrisponda a quella fornita dall’erogatore nelle informazioni generali. Se i dati non corrispondono, la pubblicazione sarà bloccata.",
+        "alertForIncompatibleAnswerPurpose": {
+          "personalData": "Non potrai pubblicare questa finalità perché hai dichiarato che vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore.",
+          "noPersonalData": "Non potrai pubblicare questa finalità perché hai dichiarato che non vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore."
+        }
       }
     }
   },
