@@ -158,13 +158,27 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
                         sx={{
                           px: 0,
                           py: 0,
+                          justifyContent: 'flex-start',
+                          '& .MuiAccordionSummary-content': {
+                            display: 'flex',
+                            flex: 'none',
+                          },
                           '& .MuiAccordionSummary-expandIconWrapper': {
                             color: 'primary.main',
-                            mr: '84%',
+                            marginLeft: 0,
+                            marginRight: 0,
+                            order: 2,
                           },
                         }}
                       >
-                        <Typography fontWeight={700} sx={{ color: 'primary.main' }}>
+                        <Typography
+                          fontWeight={700}
+                          sx={{
+                            color: 'primary.main',
+                            whiteSpace: 'nowrap',
+                            order: 1,
+                          }}
+                        >
                           {t('annotationSection.readAnnotationBtnLabel')}
                         </Typography>
                       </AccordionSummary>
