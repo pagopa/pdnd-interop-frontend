@@ -108,14 +108,25 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
             <ListItem key={i} sx={{ pl: 0 }}>
               <ListItemText>
                 <Typography variant="body2" fontWeight={600} sx={{ mb: 3 }}>
-                  <Box display="flex" justifyContent="space-between" alignItems="center">
-                    <span>{question}</span>
+                  <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="flex-start"
+                    gap={2}
+                  >
+                    <Box sx={{ flex: 1, minWidth: 0 }}>
+                      <span>{question}</span>
+                    </Box>
                     {!isEditable && (
                       <Chip
                         size="small"
                         label={t('notEditableLabel')}
                         color="default"
-                        sx={{ borderRadius: 1 }}
+                        sx={{
+                          borderRadius: 1,
+                          flexShrink: 0,
+                          whiteSpace: 'nowrap',
+                        }}
                       />
                     )}
                   </Box>
