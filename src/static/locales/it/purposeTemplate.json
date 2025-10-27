@@ -109,7 +109,9 @@
         "documentDeletedSuccess": "Il documento è stato cancellato correttamente.",
         "documentDeleteError": "Il documento non è stato cancellato. Riprova!",
         "documentUploadError": "Non è stato possibile caricare il documento. Riprova più tardi.",
-        "documentUploadedSuccess": "Documento caricato con successo."
+        "documentUploadedSuccess": "Documento caricato con successo.",
+        "documentDownloadError": "Non è stato possibile scaricare il documento. Riprova più tardi.",
+        "documentDownloadedSuccess": "Documento scaricato con successo."
       },
       "drawer": {
         "title": "Aggiungi annotazioni",
