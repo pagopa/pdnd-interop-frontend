@@ -111,6 +111,7 @@
         "descriptionTitle": "Descrizione",
         "purposeTemplateName": "Nome finalità",
         "handlesPersonalDataLabel": "Tratta dati personali",
+        "targetDescription": "A chi è rivolto",
         "handlesPersonalData": {
           "value": {
             "true": "Sì",

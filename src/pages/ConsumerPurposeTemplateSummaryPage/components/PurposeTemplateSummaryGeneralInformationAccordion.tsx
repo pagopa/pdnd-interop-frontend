@@ -41,6 +41,11 @@ export const PurposeTemplateTemplateSummaryGeneralInformationAccordion: React.FC
             direction="row"
             label={t('purposeTemplateDescription')}
           />
+          <InformationContainer
+            content={purposeTemplate.targetDescription}
+            direction="row"
+            label={t('targetDescription')}
+          />
         </Stack>
       </SectionContainer>
       <SectionContainer innerSection title={t('thresholdTitle')}>

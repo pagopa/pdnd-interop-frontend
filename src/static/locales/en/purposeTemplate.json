@@ -111,6 +111,7 @@
         "descriptionTitle": "Description",
         "purposeTemplateName": "Purpose template name",
         "handlesPersonalDataLabel": "Handles personal data",
+        "targetDescription": "Target audience",
         "handlesPersonalData": {
           "value": {
             "true": "Yes",
