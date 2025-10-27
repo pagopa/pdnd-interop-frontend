@@ -32,6 +32,11 @@ export const PurposeTemplateTemplateSummaryGeneralInformationAccordion: React.FC
             label={t('purposeTemplateName')}
           />
           <InformationContainer
+            content={t(`handlesPersonalData.value.${purposeTemplate.handlesPersonalData}`)}
+            direction="row"
+            label={t('handlesPersonalDataLabel')}
+          />
+          <InformationContainer
             content={purposeTemplate.purposeDescription}
             direction="row"
             label={t('purposeTemplateDescription')}

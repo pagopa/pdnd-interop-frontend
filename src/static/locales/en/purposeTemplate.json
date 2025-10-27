@@ -110,7 +110,13 @@
         "title": "General information",
         "descriptionTitle": "Description",
         "purposeTemplateName": "Purpose template name",
-        "treatsPersonalDataLabel": "Treats personal data",
+        "handlesPersonalDataLabel": "Handles personal data",
+        "handlesPersonalData": {
+          "value": {
+            "true": "Yes",
+            "false": "No"
+          }
+        },
         "purposeTemplateDescription": "Purpose template description",
         "thresholdTitle": "Thresholds",
         "thresholdLabel": "Suggested plan",

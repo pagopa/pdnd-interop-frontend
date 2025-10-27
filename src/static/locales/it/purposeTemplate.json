@@ -110,7 +110,13 @@
         "title": "Informazioni generali",
         "descriptionTitle": "Descrizione",
         "purposeTemplateName": "Nome finalità",
-        "treatsPersonalDataLabel": "Tratta dati personali",
+        "handlesPersonalDataLabel": "Tratta dati personali",
+        "handlesPersonalData": {
+          "value": {
+            "true": "Sì",
+            "false": "No"
+          }
+        },
         "purposeTemplateDescription": "Descrizione",
         "thresholdTitle": "Stime di carico",
         "thresholdLabel": "Il tuo piano suggerito",
