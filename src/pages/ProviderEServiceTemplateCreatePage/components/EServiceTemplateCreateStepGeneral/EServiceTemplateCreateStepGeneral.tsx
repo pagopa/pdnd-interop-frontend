@@ -33,6 +33,7 @@ export type EServiceTemplateCreateStepGeneralFormValues = {
 
 export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate')
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'validation.mixed' })
   const navigate = useNavigate()
 
   const {
@@ -193,7 +194,9 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
                 },
               ]}
               disabled={!areEServiceTemplateGeneralInfoEditable}
-              rules={{ required: true }}
+              rules={{
+                validate: (value) => value === true || value === false || tCommon('required'),
+              }}
               sx={{ mb: 0, mt: 3 }}
               isOptionValueAsBoolean
             />

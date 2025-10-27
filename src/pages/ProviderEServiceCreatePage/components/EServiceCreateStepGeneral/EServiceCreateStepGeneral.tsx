@@ -58,6 +58,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const { isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   const { t } = useTranslation('eservice')
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'validation.mixed' })
   const navigate = useNavigate()
 
   const { eServiceTemplateId } = useParams<'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE'>()
@@ -254,7 +255,9 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                   },
                 ]}
                 disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
-                rules={{ required: true }}
+                rules={{
+                  validate: (value) => value === true || value === false || tCommon('required'),
+                }}
                 sx={{ mb: 3, mt: 3 }}
                 isOptionValueAsBoolean
               />

@@ -77,6 +77,10 @@ export const UpdatePersonalDataDrawer: React.FC<UpdatePersonalDataDrawerProps> =
               { value: true, label: t(`options.${eserviceMode}.true`) },
             ]}
             isOptionValueAsBoolean
+            rules={{
+              validate: (value) =>
+                value === true || value === false || tCommon('validation.mixed.required'),
+            }}
           />
         </Box>
       </Drawer>

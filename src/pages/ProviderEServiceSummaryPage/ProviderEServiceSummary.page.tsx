@@ -154,6 +154,8 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     return !!descriptor.templateRef?.interfaceMetadata
   }
 
+  const arePersonalDataSet = descriptor?.eservice.personalData !== undefined
+
   const canBePublished = () => {
     return (
       !!(descriptor &&
@@ -164,7 +166,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
       descriptor.dailyCallsPerConsumer &&
       descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer &&
       FEATURE_FLAG_ESERVICE_PERSONAL_DATA
-        ? descriptor.eservice.personalData
+        ? arePersonalDataSet
         : true) && checklistEServiceFromTemplate()
     )
   }
