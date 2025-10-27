@@ -158,16 +158,16 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 
   const canBePublished = () => {
     return (
-      !!(descriptor &&
-      descriptor.interface &&
-      descriptor.description &&
-      descriptor.audience[0] &&
-      descriptor.voucherLifespan &&
-      descriptor.dailyCallsPerConsumer &&
-      descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer &&
-      FEATURE_FLAG_ESERVICE_PERSONAL_DATA
-        ? arePersonalDataSet
-        : true) && checklistEServiceFromTemplate()
+      !!(
+        descriptor &&
+        descriptor.interface &&
+        descriptor.description &&
+        descriptor.audience[0] &&
+        descriptor.voucherLifespan &&
+        descriptor.dailyCallsPerConsumer &&
+        descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer &&
+        (FEATURE_FLAG_ESERVICE_PERSONAL_DATA ? arePersonalDataSet : true)
+      ) && checklistEServiceFromTemplate()
     )
   }
 
@@ -283,9 +283,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
           <PublishButton
             onClick={handlePublishDraft}
             disabled={!canBePublished() || isSupport}
-            arePersonalDataSet={
-              FEATURE_FLAG_ESERVICE_PERSONAL_DATA ? !!descriptor?.eservice.personalData : true
-            }
+            arePersonalDataSet={FEATURE_FLAG_ESERVICE_PERSONAL_DATA ? arePersonalDataSet : true}
           />
         </Stack>
       )}
