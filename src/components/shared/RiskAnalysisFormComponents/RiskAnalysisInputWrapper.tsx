@@ -17,6 +17,7 @@ type RiskAnalysisInputWrapperProps = {
   isInputGroup?: boolean
   isFromPurposeTemplate?: boolean
   questionId?: string
+  questionType?: string
 }
 
 const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
@@ -33,6 +34,7 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
   isInputGroup,
   isFromPurposeTemplate,
   questionId,
+  questionType,
 }) => {
   return (
     <SectionContainer component={isInputGroup ? 'fieldset' : 'div'}>
@@ -86,7 +88,11 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
         </FormControl>
       </SectionContainer>
       {isFromPurposeTemplate && (
-        <RiskAnalysisAnswerComponent question={label} questionId={questionId as string} />
+        <RiskAnalysisAnswerComponent
+          question={label}
+          questionId={questionId as string}
+          questionType={questionType as string}
+        />
       )}
     </SectionContainer>
   )

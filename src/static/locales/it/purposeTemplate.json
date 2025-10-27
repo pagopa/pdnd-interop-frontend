@@ -119,7 +119,9 @@
         "question": "Domanda: ",
         "label": "Annotazioni",
         "addBtn": "Aggiungi"
-      }
+      },
+      "answerInputPlaceholder": "Risposta",
+      "addAnswerBtn": "Aggiungi risposta"
     },
     "summary": {
       "title": "Riepilogo",

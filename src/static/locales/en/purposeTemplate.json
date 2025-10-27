@@ -119,7 +119,9 @@
         "question": "Question: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut laboolore magna aliqua.",
         "label": "Annotations",
         "addBtn": "Add"
-      }
+      },
+      "answerInputPlaceholder": "Answer",
+      "addAnswerBtn": "Add answer"
     },
     "summary": {
       "title": "Summary",

@@ -29,10 +29,11 @@ const defaultValues: DocumentUploadFormValues = {
   doc: null,
 }
 
-export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; question: string }> = ({
-  questionId,
-  question,
-}) => {
+export const RiskAnalysisAnswerComponent: React.FC<{
+  questionId: string
+  question: string
+  questionType: string
+}> = ({ questionId, questionType, question }) => {
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step3' })
   const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'>()
 
@@ -50,6 +51,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
     : questionValue
     ? [questionValue]
     : []
+  const suggestedValues: string[] = watch(`suggestedValues.${questionId}`) || []
 
   // Document management states
   const [showDocInput, setShowDocInput] = useState(false)
@@ -102,7 +104,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
               text: annotation.text,
               docs: [], // Always empty array for this API
             },
-            suggestedValues: [],
+            suggestedValues: suggestedValues,
           },
         }
 
@@ -287,13 +289,15 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
 
   return (
     <>
-      <RHFSwitch
-        id={questionId}
-        label={t('switchLabel')}
-        name={`assignToTemplateUsers.${questionId}`}
-        disabled={false}
-        sx={{ my: 2, ml: 2 }}
-      />
+      {questionType !== 'text' && (
+        <RHFSwitch
+          id={questionId}
+          label={t('switchLabel')}
+          name={`assignToTemplateUsers.${questionId}`}
+          disabled={false}
+          sx={{ my: 2, ml: 2 }}
+        />
+      )}
       {!annotation?.text && (
         <ButtonNaked
           color="primary"
