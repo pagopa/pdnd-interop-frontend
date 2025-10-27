@@ -213,12 +213,12 @@ export const RiskAnalysisAnswerComponent: React.FC<{
     }
   }
 
-  const handleDownload = async (doc: EServiceDoc) => {
+  const handleDocumentDownload = async (doc: EServiceDoc) => {
     try {
       const existingAnswerId = watch(`answerIds.${questionId}`)
 
       if (!existingAnswerId) {
-        showToast(t('notifications.documentUploadError'), 'error')
+        showToast(t('notifications.documentDownloadError'), 'error')
         return
       }
 
@@ -238,10 +238,10 @@ export const RiskAnalysisAnswerComponent: React.FC<{
       document.body.removeChild(link)
       window.URL.revokeObjectURL(url)
 
-      showToast(t('notifications.documentUploadedSuccess'), 'success')
+      showToast(t('notifications.documentDownloadedSuccess'), 'success')
     } catch (error) {
       console.error('Error downloading document:', error)
-      showToast(t('notifications.documentUploadError'), 'error')
+      showToast(t('notifications.documentDownloadError'), 'error')
     }
   }
 
@@ -390,7 +390,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{
                       contentType: doc.contentType,
                       checksum: '',
                     }}
-                    onDownload={handleDownload}
+                    onDownload={handleDocumentDownload}
                     onDelete={handleDelete}
                   />
                 ))}

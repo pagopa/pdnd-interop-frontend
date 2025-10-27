@@ -105,7 +105,9 @@
         "documentDeletedSuccess": "Document deleted correctly.",
         "documentDeleteError": "The document could not be deleted. Please try again!",
         "documentUploadError": "It was not possible to upload the document. Please try again later.",
-        "documentUploadedSuccess": "Document uploaded successfully."
+        "documentUploadedSuccess": "Document uploaded successfully.",
+        "documentDownloadError": "It was not possible to download the document. Please try again later.",
+        "documentDownloadedSuccess": "Document downloaded successfully."
       },
       "drawer": {
         "title": "Add annotations",
