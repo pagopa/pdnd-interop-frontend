@@ -191,6 +191,7 @@ describe('PurposeTemplateServices', () => {
         purposeDescription: 'Test purpose description',
         purposeIsFreeOfCharge: true,
         purposeDailyCalls: 1000,
+        handlesPersonalData: false,
       }
 
       await PurposeTemplateServices.createDraft(payload)
@@ -211,6 +212,7 @@ describe('PurposeTemplateServices', () => {
         purposeDescription: 'Test purpose description',
         purposeIsFreeOfCharge: true,
         purposeDailyCalls: 1000,
+        handlesPersonalData: false,
       }
 
       await PurposeTemplateServices.updateDraft({
@@ -263,9 +265,17 @@ describe('PurposeTemplateServices', () => {
 
   describe('addAnnotationToAnswer', () => {
     it('should log annotation addition message', async () => {
-      await PurposeTemplateServices.addAnnotationToAnswer({
+      await PurposeTemplateServices.addRiskAnalysisAnswer({
         purposeTemplateId: 'test-template-id',
-        answerId: 'test-answer-id',
+        answerRequest: {
+          answerKey: 'test-answer-key',
+          answerData: {
+            values: ['test-value'],
+            editable: false,
+            annotation: { text: 'test annotation', docs: [] },
+            suggestedValues: [],
+          },
+        },
       })
 
       expect(mockConsoleLog).toHaveBeenCalledWith('Added annotation to answer')
@@ -286,9 +296,13 @@ describe('PurposeTemplateServices', () => {
 
   describe('addDocumentsToAnnotation', () => {
     it('should log documents addition message', async () => {
-      await PurposeTemplateServices.addDocumentsToAnnotation({
+      await PurposeTemplateServices.addDocumentToAnnotation({
         purposeTemplateId: 'test-template-id',
         answerId: 'test-answer-id',
+        documentPayload: {
+          prettyName: 'test-document.pdf',
+          doc: new File(['test-content'], 'test-document.pdf'),
+        },
       })
 
       expect(mockConsoleLog).toHaveBeenCalledWith('Added documents to annotation')
@@ -366,7 +380,7 @@ describe('PurposeTemplateServices', () => {
 
   describe('deleteDocument', () => {
     it('should log document deletion message', async () => {
-      await PurposeTemplateServices.deleteDocument({
+      await PurposeTemplateServices.deleteDocumentFromAnnotation({
         purposeTemplateId: 'test-template-id',
         answerId: 'test-answer-id',
         documentId: 'test-document-id',
