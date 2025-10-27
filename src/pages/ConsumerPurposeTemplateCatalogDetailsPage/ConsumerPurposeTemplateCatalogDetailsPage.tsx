@@ -9,7 +9,7 @@ import { Tab } from '@mui/material'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { ConsumerPurposeTemplateCatalogDetailsTab } from './components/ConsumerPurposeTemplateCatalogDetailsTab'
 import { ConsumerPurposeTemplateCatalogLinkedEServiceTab } from './components/ConsumerPurposeTemplateCatalogLinkedEServiceTab'
-import { PurposeTemplateRiskAnalysisTab } from '@/components/shared/PurposeTemplate/PurposeTemplateRiskAnalysisTab/PurposeTemplateRiskAnalysisTab'
+import { PurposeTemplateRiskAnalysisTab } from '@/components/shared/PurposeTemplate/PurposeTemplateRiskAnalysisTab'
 
 const ConsumerPurposeTemplateCatalogDetailsPage: React.FC = () => {
   const { t } = useTranslation('purposeTemplate')
