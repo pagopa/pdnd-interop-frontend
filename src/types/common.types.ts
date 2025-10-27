@@ -68,7 +68,11 @@ export type StepperStep = {
   component: React.ElementType<StepperStepComponentProps & any>
 }
 
-export type InputOption = { label: string | JSX.Element; value: string | number | boolean }
+export type InputOption = { label: string | JSX.Element; value: string | number }
+export type InputRadioGroupOption = {
+  label: string | JSX.Element
+  value: string | number | boolean
+}
 
 /**
  * InputDescriptors describes the various labels and messages that can be
