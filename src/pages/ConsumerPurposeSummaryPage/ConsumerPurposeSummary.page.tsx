@@ -35,10 +35,11 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   const hasRiskAnalysisVersionMismatch = useCheckRiskAnalysisVersionMismatch(purpose)
   const alertProps = useGetConsumerPurposeAlertProps(purpose)
 
-  const eservicePersonalData = undefined //purpose?.eservice.personalData
+  const eservicePersonalData = purpose?.eservice.personalData
 
   const isPublishButtonDisabled =
     purpose?.riskAnalysisForm &&
+    eservicePersonalData !== undefined &&
     eservicePersonalData !== purpose?.riskAnalysisForm?.answers['usesPersonalData']
 
   const arePublishOrEditButtonsDisabled =
