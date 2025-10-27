@@ -35,11 +35,23 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   const hasRiskAnalysisVersionMismatch = useCheckRiskAnalysisVersionMismatch(purpose)
   const alertProps = useGetConsumerPurposeAlertProps(purpose)
 
-  const eservicePersonalData = undefined //purpose?.eservice.personalData
+  const eservicePersonalData = purpose?.eservice.personalData
+
+  const checkIncompatibleAnswerValue = () => {
+    const userAnswer = purpose?.riskAnalysisForm?.answers['usesPersonalData']?.[0]
+    const isYes = userAnswer === 'YES'
+    const isNo = userAnswer === 'NO'
+
+    const incompatible =
+      (isYes && eservicePersonalData !== true) || (isNo && eservicePersonalData !== false)
+
+    return incompatible
+  }
 
   const isPublishButtonDisabled =
     purpose?.riskAnalysisForm &&
-    eservicePersonalData !== purpose?.riskAnalysisForm?.answers['usesPersonalData']
+    eservicePersonalData !== undefined &&
+    checkIncompatibleAnswerValue()
 
   const arePublishOrEditButtonsDisabled =
     (purpose?.eservice.mode === 'DELIVER' && hasRiskAnalysisVersionMismatch) ||

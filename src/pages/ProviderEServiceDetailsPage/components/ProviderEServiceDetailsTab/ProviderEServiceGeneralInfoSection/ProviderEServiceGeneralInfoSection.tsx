@@ -43,6 +43,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   })
 
   const isEserviceFromTemplate = Boolean(descriptor.templateRef)
+  const arePersonalDataSet = descriptor.eservice.personalData !== undefined
 
   const downloadConsumerList = EServiceDownloads.useDownloadConsumerList()
   const exportVersion = EServiceDownloads.useExportVersion()
@@ -150,19 +151,14 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     )
   }
 
-  const handleEServicePersonalDataUpdate = (
-    eserviceId: string,
-    personalData: boolean | undefined
-  ) => {
-    if (personalData) {
-      updateEservicePersonalData(
-        {
-          eserviceId: eserviceId,
-          personalData: personalData,
-        },
-        { onSuccess: closeEServiceUpdatePersonalDataDrawer }
-      )
-    }
+  const handleEServicePersonalDataUpdate = (eserviceId: string, personalData: boolean) => {
+    updateEservicePersonalData(
+      {
+        eserviceId: eserviceId,
+        personalData: personalData,
+      },
+      { onSuccess: closeEServiceUpdatePersonalDataDrawer }
+    )
   }
 
   const watchRiskyAnalysisAssociatedAction = {
@@ -200,7 +196,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
             content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
           />
           {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
-            !descriptor.eservice.personalData &&
+            !arePersonalDataSet &&
             !isEserviceFromTemplate && (
               <Alert severity="warning" sx={{ alignItems: 'center' }}>
                 <Stack spacing={25} direction="row" alignItems="center">

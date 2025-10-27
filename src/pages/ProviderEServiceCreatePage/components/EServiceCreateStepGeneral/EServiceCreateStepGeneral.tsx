@@ -58,6 +58,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const { isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   const { t } = useTranslation('eservice')
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'validation.mixed' })
   const navigate = useNavigate()
 
   const { eServiceTemplateId } = useParams<'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE'>()
@@ -244,18 +245,21 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 options={[
                   {
                     label: t(`create.step1.eservicePersonalDataField.${eserviceMode}.options.true`),
-                    value: 'true',
+                    value: true,
                   },
                   {
                     label: t(
                       `create.step1.eservicePersonalDataField.${eserviceMode}.options.false`
                     ),
-                    value: 'false',
+                    value: false,
                   },
                 ]}
                 disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
-                rules={{ required: true }}
+                rules={{
+                  validate: (value) => value === true || value === false || tCommon('required'),
+                }}
                 sx={{ mb: 3, mt: 3 }}
+                isOptionValueAsBoolean
               />
               {isEserviceFromTemplate && !eserviceTemplate?.personalData && (
                 <Alert severity="error">

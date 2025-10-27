@@ -37,6 +37,9 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   const [incompatibleAnswerValue, setIncompatibleAnswerValue] = React.useState<boolean>(false)
 
   const checkIncompatibleAnswerValue = (answers: Record<string, string[]>) => {
+    if (personalData === undefined) {
+      return false
+    }
     const userAnswer = answers['usesPersonalData']?.[0]
     const isYes = userAnswer === 'YES'
     const isNo = userAnswer === 'NO'

@@ -69,6 +69,10 @@ export type StepperStep = {
 }
 
 export type InputOption = { label: string | JSX.Element; value: string | number }
+export type InputRadioGroupOption = {
+  label: string | JSX.Element
+  value: string | number | boolean
+}
 
 /**
  * InputDescriptors describes the various labels and messages that can be
