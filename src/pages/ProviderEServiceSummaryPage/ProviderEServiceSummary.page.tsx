@@ -182,6 +182,15 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     return dateB.getTime() - dateA.getTime()
   })
 
+  const eserviceLabel = t('summary.alertMissingPersonalData.eserviceLabel')
+    .split('\n')
+    .map((line, idx) => (
+      <span key={idx}>
+        {line}
+        <br />
+      </span>
+    ))
+
   return (
     <PageContainer
       title={t('summary.title', {
@@ -256,10 +265,13 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             <ProviderEServiceDocumentationSummary />
           </SummaryAccordion>
         </React.Suspense>
-        {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
-          !hasPersonalData &&
-          isEServiceFromTemplate &&
-          isDelegator && <Alert severity="error">{t('summary.alertMissingPersonalData')}</Alert>}
+        {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && !hasPersonalData && isDelegator && (
+          <Alert severity="error">
+            {isEServiceFromTemplate
+              ? t('summary.alertMissingPersonalData.eserviceTemplateLabel')
+              : eserviceLabel}
+          </Alert>
+        )}
       </Stack>
       {!isDelegator && (
         <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
