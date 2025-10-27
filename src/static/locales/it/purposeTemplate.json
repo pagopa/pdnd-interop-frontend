@@ -126,7 +126,8 @@
       "suggestedEServicesSection": {
         "title": "E-service suggeriti",
         "subtitle": "E-service collegati",
-        "providedBy": "erogato da"
+        "providedBy": "erogato da",
+        "noLinkedEservices": "Non hai indicato e-service associati a questo template."
       },
       "riskAnalysisSection": {
         "title": "Analisi del rischio"

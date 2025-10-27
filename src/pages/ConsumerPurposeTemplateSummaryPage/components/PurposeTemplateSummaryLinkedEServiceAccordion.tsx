@@ -47,7 +47,7 @@ export const PurposeTemplateSummaryLinkedEServiceAccordion: React.FC<
             ))
           ) : (
             <Typography variant="body2" color="text.secondary">
-              Nessun e-service collegato
+              {t('noLinkedEservices')}
             </Typography>
           )}
         </Stack>
