@@ -50,8 +50,14 @@ export const PurposeTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({
         purposeDailyCalls: purposeTemplate.purposeDailyCalls,
         targetDescription: purposeTemplate.targetDescription,
         targetTenantKind: purposeTemplate.targetTenantKind,
+        handlesPersonalData: purposeTemplate.handlesPersonalData,
       },
-      { onSuccess: goToSummary }
+      {
+        onSuccess: goToSummary,
+        onError: (error) => {
+          console.error('Failed to update purpose template:', error)
+        },
+      }
     )
   }
 
