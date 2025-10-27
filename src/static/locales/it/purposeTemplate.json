@@ -172,7 +172,15 @@
     },
     "linkedEservicesTab": {
       "title": "E-service e template e-service collegati",
-      "description": "Definisci un elenco di e-service per cui è suggerito usare la finalità agevolata. Il fruitore ha facoltà di utilizzare \n questo template anche per e-service che non compaiono nella lista."
+      "description": "Definisci un elenco di e-service per cui è suggerito usare la finalità agevolata. Il fruitore ha facoltà di utilizzare \n questo template anche per e-service che non compaiono nella lista.",
+      "filters": {
+        "eserviceField": {
+          "label": "Cerca per e-service"
+        },
+        "providerField": {
+          "label": "Cerca per erogatore"
+        }
+      }
     },
     "riskAnalysisTab": {
       "titlePA": "Analisi del rischio (Pubbliche Amministrazioni)",
