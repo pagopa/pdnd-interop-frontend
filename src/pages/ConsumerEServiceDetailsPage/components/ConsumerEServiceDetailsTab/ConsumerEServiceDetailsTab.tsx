@@ -25,7 +25,6 @@ import {
 
 const ConsumerEServiceDetailsTab: React.FC = () => {
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
-  const { jwt } = AuthHooks.useJwt()
 
   const { data: descriptor } = useQuery(
     EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)

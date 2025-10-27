@@ -170,7 +170,7 @@ describe('PurposeTemplateServices', () => {
 
   describe('getCatalogPurposeTemplates', () => {
     it('should make correct API call to catalog endpoint with id', async () => {
-      await PurposeTemplateServices.getCatalogPurposeTemplates({
+      await PurposeTemplateServices.getConsumerCatalogPurposeTemplates({
         offset: 0,
         limit: 10,
       })

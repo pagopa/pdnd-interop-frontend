@@ -1032,6 +1032,34 @@ export interface PurposeTemplateWithCompactCreator {
   handlesPersonalData: boolean
 }
 
+/** a purpose template with its creator and a list for the answer annotation documents */
+export interface PurposeTemplateWithCompactCreator {
+  /** @format uuid */
+  id: string
+  targetDescription: string
+  targetTenantKind: TenantKind
+  creator: CompactOrganization
+  /** Purpose Template State */
+  state: PurposeTemplateState
+  /** @format date-time */
+  createdAt: string
+  /** @format date-time */
+  updatedAt?: string
+  purposeTitle: string
+  purposeDescription: string
+  purposeRiskAnalysisForm?: RiskAnalysisFormTemplate
+  purposeIsFreeOfCharge: boolean
+  purposeFreeOfChargeReason?: string
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  purposeDailyCalls?: number
+  annotationDocuments?: RiskAnalysisTemplateAnswerAnnotationDocument[]
+  handlesPersonalData: boolean
+}
+
 export interface PurposeTemplateSeed {
   /**
    * @minLength 10
