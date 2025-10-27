@@ -46,6 +46,7 @@ const PurposeTemplateEditStepGeneralForm: React.FC<PurposeTemplateEditStepGenera
       ...data,
       purposeIsFreeOfCharge: isFreeOfChargeBool,
       purposeFreeOfChargeReason: isFreeOfChargeBool ? purposeFreeOfChargeReason : undefined,
+      handlesPersonalData: purposeTemplate.handlesPersonalData,
     }
 
     updateDraft(
