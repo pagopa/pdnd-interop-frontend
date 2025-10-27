@@ -46,6 +46,11 @@ export function Breadcrumbs() {
           ? false
           : routeLabels.SUBSCRIBE_PURPOSE_DETAILS,
 
+        /*
+         * The SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY breadcrumb segment must not be visible in the SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY route
+         */
+        SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY: false,
+
         DEFAULT: false,
         ASSISTENCE_PARTY_SELECTION: false,
       }}
