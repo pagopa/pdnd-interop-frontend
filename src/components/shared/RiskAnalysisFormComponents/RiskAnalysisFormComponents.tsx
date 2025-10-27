@@ -87,6 +87,7 @@ function RiskAnalysisQuestion({
         inputProps={{ maxLength }}
         rules={isAssignedToTemplateUsersSwitch ? { required: false } : { required: true }}
         isFromPurposeTemplate={isFromPurposeTemplate}
+        questionType={question.visualType}
       />
     ))
     .with('select-one', () => (

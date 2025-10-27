@@ -115,7 +115,9 @@
         "question": "Domanda: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut laboolore magna aliqua.",
         "label": "Annotazioni",
         "addBtn": "Aggiungi"
-      }
+      },
+      "answerInputPlaceholder": "Risposta",
+      "addAnswerBtn": "Aggiungi risposta"
     },
     "summary": {
       "title": "Riepilogo",

@@ -36,7 +36,7 @@ export const RiskAnalysisFormTemplate: React.FC<RiskAnalysisFormTemplateProps> =
   })
 
   const handleSubmit = riskAnalysisForm.handleSubmit(
-    ({ validAnswers, assignToTemplateUsers, annotations }) => {
+    ({ validAnswers, assignToTemplateUsers, annotations, suggestedValues }) => {
       // Transform the answers to the correct format for RiskAnalysisFormTemplateSeed
       const transformedAnswers: Record<string, RiskAnalysisTemplateAnswerSeed> = {}
 
@@ -44,12 +44,15 @@ export const RiskAnalysisFormTemplate: React.FC<RiskAnalysisFormTemplateProps> =
         // Get the editable value from the assignToTemplateUsers switch for this question
         const editable = assignToTemplateUsers?.[key] ?? false
         const annotationObj = annotations?.[key]
+        const questionSuggestedValues = suggestedValues?.[key] || []
 
         transformedAnswers[key] = {
-          values: editable ? [] : values, // Empty array if editable, actual values if not editable
+          // If there are suggested values, this is a freeText question - always send empty array for values
+          // Otherwise, use the normal logic (empty if editable, actual values if not editable)
+          values: questionSuggestedValues.length > 0 ? [] : editable ? [] : values,
           editable,
           ...(annotationObj?.text ? { annotation: { text: annotationObj.text, docs: [] } } : {}),
-          suggestedValues: [],
+          suggestedValues: questionSuggestedValues,
         }
       })
 
