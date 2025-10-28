@@ -319,7 +319,10 @@
       "delegate": "The publication of this draft was rejected by the delegator. <1>Read the reasons for rejection</1> and resend the draft with the corrections.",
       "delegator": "You have rejected the publication of this draft. <1>Read the reasons for rejection here</1>."
     },
-    "alertMissingPersonalData": "This e-service derives from a template that does not comply with the new requirements on the processing of personal data. To unlock the publication the template must be updated. Contact the creator to request the modification of this template."
+    "alertMissingPersonalData": {
+      "eserviceTemplateLabel": "Questo e-service deriva da un template che non rispetta i nuovi requisiti sul trattamento dei dati personali. Per sbloccare la pubblicazione è necessario che il creatore del template e-service aggiorni il campo. Contattalo per richiedere l’integrazione.",
+      "eserviceLabel": "Per poter pubblicare l'e-service, è necessario aggiornare la sua compilazione per rispondere ai nuovi requisiti sul trattamento dei dati personali.\n\nSi prega di rifiutare la richiesta di pubblicazione. L'e-service tornerà in stato di bozza all'ente delegato per l’integrazione. Una volta pronto, riceverai una nuova richiesta di approvazione."
+    }
   },
   "list": {
     "filters": {

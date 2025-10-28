@@ -70,6 +70,7 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
       onSubmit={handleSubmit}
       onCancel={back}
       personalData={purpose.eservice.personalData ? purpose.eservice.personalData : undefined}
+      from="purposeEdit"
     />
   )
 }
