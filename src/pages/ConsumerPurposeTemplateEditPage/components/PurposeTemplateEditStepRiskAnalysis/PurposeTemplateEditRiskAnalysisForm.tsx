@@ -19,7 +19,7 @@ export const PurposeTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({
   )
 
   if (!purposeTemplate || !riskAnalysis || !purposeTemplate.purposeRiskAnalysisForm) {
-    return <RiskAnalysisFormSkeleton />
+    return <RiskAnalysisFormSkeleton data-testid="skeleton" />
   }
 
   const goToSummary = () => {

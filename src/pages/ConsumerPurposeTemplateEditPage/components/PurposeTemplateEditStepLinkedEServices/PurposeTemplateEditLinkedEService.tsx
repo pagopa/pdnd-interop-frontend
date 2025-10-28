@@ -92,7 +92,6 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
               linkedEServices={linkedEServices}
               showWarning={isWarningShown}
             />{' '}
-            {/*TODO ADD LINKED ESERVICES PROP */}
             <StepActions
               back={{
                 to: isInDraftState ? 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST' : 'NOT_FOUND', //TODO: REPLACE WITH DETAILS PAGE RUOTE
