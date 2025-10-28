@@ -61,6 +61,7 @@ import ConsumerEServiceTemplateDetailsPage from '@/pages/ConsumerEServiceTemplat
 import ConsumerPurposeTemplateListPage from '@/pages/ConsumerPurposeTemplateListPage/ConsumerPurposeTemplateList.page'
 import ConsumerPurposeTemplateCatalogPage from '@/pages/ConsumerPurposeTemplateCatalogPage/ConsumerPurposeTemplateCatalog.page'
 import { ConsumerPurposeTemplateSummaryPage } from '@/pages/ConsumerPurposeTemplateSummaryPage'
+import { ConsumerPurposeTemplateEditPage } from '@/pages/ConsumerPurposeTemplateEditPage'
 
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
   LangCode,
@@ -597,6 +598,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: true,
     authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT',
+    path: 'fruizione/template-finalita/:purposeTemplateId/modifica',
+    element: <ConsumerPurposeTemplateEditPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api'],
   })
   .build()
 
