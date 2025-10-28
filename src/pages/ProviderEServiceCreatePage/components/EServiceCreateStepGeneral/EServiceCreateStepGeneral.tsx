@@ -261,7 +261,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 sx={{ mb: 3, mt: 3 }}
                 isOptionValueAsBoolean
               />
-              {isEserviceFromTemplate && !eserviceTemplate?.personalData && (
+              {isEserviceFromTemplate && eserviceTemplate?.personalData === undefined && (
                 <Alert severity="error">
                   {t('create.step1.eservicePersonalDataField.alertMissingPersonalData', {
                     tenantName: eserviceTemplate?.creator.name,
