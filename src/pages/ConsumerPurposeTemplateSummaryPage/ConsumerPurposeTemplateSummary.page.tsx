@@ -44,12 +44,11 @@ const ConsumerPurposeTemplateTemplateSummaryPage: React.FC = () => {
   }
 
   const handleEditDraft = () => {
-    //TODO REMOVE COMMENT WHEN READY
-    // navigate('SUBSCRIBE_PURPOSE_TEMPLATE_EDIT', {
-    //   params: {
-    //     purposeTemplateId,
-    //   },
-    // })
+    navigate('SUBSCRIBE_PURPOSE_TEMPLATE_EDIT', {
+      params: {
+        purposeTemplateId,
+      },
+    })
   }
 
   const handlePublishDraft = () => {
