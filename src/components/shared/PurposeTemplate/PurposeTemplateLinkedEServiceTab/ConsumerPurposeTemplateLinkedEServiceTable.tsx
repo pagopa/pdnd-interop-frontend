@@ -15,7 +15,7 @@ import {
   ConsumerPurposeTemplateLinkedEServiceTableRowSkeleton,
 } from './ConsumerPurposeTemplateLinkedEServiceTableRow'
 import type {
-  GetEServicesCatalogParams,
+  GetPurposeTemplateEServicesParams,
   PurposeTemplateWithCompactCreator,
 } from '@/api/api.generatedTypes'
 import { EServiceQueries } from '@/api/eservice'
@@ -45,11 +45,11 @@ export const ConsumerPurposeTemplateLinkedEServiceTable: React.FC<
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
 
   const { filtersParams, ...filtersHandlers } = useFilters<
-    Omit<GetEServicesCatalogParams, 'limit' | 'offset'>
+    Omit<GetPurposeTemplateEServicesParams, 'limit' | 'offset' | 'purposeTemplateId'>
   >([
-    { name: 'q', label: t('filters.eserviceField.label'), type: 'freetext' },
+    // { name: 'q', label: t('filters.eserviceField.label'), type: 'freetext' },
     {
-      name: 'producersIds',
+      name: 'producerIds',
       label: t('filters.providerField.label'),
       type: 'autocomplete-multiple',
       options: producersOptions,
@@ -58,14 +58,15 @@ export const ConsumerPurposeTemplateLinkedEServiceTable: React.FC<
   ])
 
   const queryParams = {
-    //TODO: filters are not working; check if it's BE problem or FE
     ...paginationParams,
     ...filtersParams,
-    purposeTemplateId: purposeTemplate.id,
   }
 
   const { data: eserviceDescriptorsPurposeTemplateList, isFetching } = useQuery({
-    ...PurposeTemplateQueries.getEservicesLinkedToPurposeTemplatesList(queryParams),
+    ...PurposeTemplateQueries.getEservicesLinkedToPurposeTemplatesList({
+      ...queryParams,
+      purposeTemplateId: purposeTemplate.id,
+    }),
     placeholderData: keepPreviousData,
   })
 
