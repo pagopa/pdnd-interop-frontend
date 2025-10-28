@@ -13,9 +13,9 @@ import type {
   EServiceDescriptorState,
   EServiceTemplateVersionState,
   Purpose,
+  PurposeTemplateState,
   PurposeVersionState,
 } from '@/api/api.generatedTypes'
-import type { PurposeTemplateState } from '@/api/purposeTemplate/mockedResponses'
 
 const CHIP_COLORS_E_SERVICE: Record<EServiceDescriptorState, MUIColor> = {
   PUBLISHED: 'success',
@@ -60,7 +60,7 @@ const CHIP_COLORS_E_SERVICE_TEMPLATE: Record<EServiceTemplateVersionState, MUICo
 }
 
 const CHIP_COLORS_PURPOSE_TEMPLATE: Record<PurposeTemplateState, MUIColor> = {
-  ACTIVE: 'success',
+  PUBLISHED: 'success',
   DRAFT: 'info',
   SUSPENDED: 'error',
   ARCHIVED: 'warning',

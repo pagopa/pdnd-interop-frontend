@@ -133,7 +133,7 @@
       "DEPRECATED": "deprecated"
     },
     "purposeTemplate": {
-      "ACTIVE": "active",
+      "PUBLISHED": "active",
       "DRAFT": "draft",
       "SUSPENDED": "suspended",
       "ARCHIVED": "archived"

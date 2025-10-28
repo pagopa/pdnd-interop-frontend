@@ -7,12 +7,11 @@ import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { useLocation, useNavigate } from '@/router'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
-import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
-import type { TenantKind } from '@/api/api.generatedTypes'
+import type { CreatorPurposeTemplate, TenantKind } from '@/api/api.generatedTypes'
 
 function useGetConsumerPurposeTemplateTemplatesActions(
   tenantKind: TenantKind,
-  purposeTemplate?: PurposeTemplate
+  purposeTemplate?: CreatorPurposeTemplate
 ) {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'read' })
@@ -120,7 +119,7 @@ function useGetConsumerPurposeTemplateTemplatesActions(
   const actions: Array<ActionItemButton> = []
 
   const isSuspended = purposeTemplate?.state === 'SUSPENDED'
-  const isActive = purposeTemplate?.state === 'ACTIVE'
+  const isActive = purposeTemplate?.state === 'PUBLISHED'
   const isArchived = purposeTemplate?.state === 'ARCHIVED'
 
   if (isActive) {

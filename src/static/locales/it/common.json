@@ -133,7 +133,7 @@
       "DEPRECATED": "deprecato"
     },
     "purposeTemplate": {
-      "ACTIVE": "attivo",
+      "PUBLISHED": "attivo",
       "DRAFT": "in bozza",
       "SUSPENDED": "sospeso",
       "ARCHIVED": "archiviato"
