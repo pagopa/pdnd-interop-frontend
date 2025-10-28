@@ -69,7 +69,7 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
       defaultAnswers={purpose.riskAnalysisForm?.answers}
       onSubmit={handleSubmit}
       onCancel={back}
-      personalData={purpose.eservice.personalData ? purpose.eservice.personalData : undefined}
+      personalData={purpose.eservice.personalData}
       from="purposeEdit"
     />
   )
