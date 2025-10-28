@@ -69,7 +69,7 @@
     }
   },
   "personalDataDrawer": {
-    "title": "Dati personali",
+    "title": "Questo {{where}} tratta dati personali?",
     "subtitle": "Per questo {{where}} è necessario indicare se vengono trattati dati personali.",
     "alertLabel": "Al salvataggio, questo dato non sarà più modificabile.",
     "options": {

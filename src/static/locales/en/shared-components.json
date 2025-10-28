@@ -69,7 +69,7 @@
     }
   },
   "personalDataDrawer": {
-    "title": "Personal data",
+    "title": "Does this {{where}} process personal data?",
     "subtitle": "For this {{where}}, it is necessary to indicate whether personal data is processed.",
     "alertLabel": "Once saved, this data can no longer be changed.",
     "options": {

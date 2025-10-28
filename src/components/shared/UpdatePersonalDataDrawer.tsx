@@ -61,7 +61,7 @@ export const UpdatePersonalDataDrawer: React.FC<UpdatePersonalDataDrawerProps> =
         isOpen={isOpen}
         onTransitionExited={handleTransitionExited}
         onClose={handleCloseDrawer}
-        title={t('title')}
+        title={t('title', { where })}
         subtitle={t('subtitle', { where })}
         buttonAction={{
           action: formMethods.handleSubmit(handleSubmit),
