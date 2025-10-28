@@ -146,11 +146,11 @@
         "infoLabel": "Min 5 caratteri, max 60 caratteri",
         "infoLabelAutocomplete": {
           "consumer": "La lista include solo gli e-service per i quali i rispettivi erogatori hanno dato disponibilità alla fruizione per delega.",
-          "producer": "La lista include solo gli e-service per i quali i rispettivi erogatori hanno dato disponibilità all’erogazione per delega."
+          "producer": "La lista include gli e-service per i quali è stato indicato se trattano dati personali"
         },
         "infoLabelAutocompleteFromTemplate": {
           "consumer": "La lista include solo i template degli e-service per i quali i rispettivi erogatori hanno dato disponibilità alla fruizione per delega.",
-          "producer": "La lista include i template di e-service da te istanziabili che hanno indicato se vengono trattati dati per i quali è stato indicato se trattano dati personali"
+          "producer": "La lista include i template di e-service da te istanziabili per i quali è stato indicato se trattano dati personali"
         },
         "descriptionLabel": "Descrizione dell'e-service",
         "descriptionInfoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri",
