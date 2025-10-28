@@ -68,31 +68,38 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
 
       const questionInfoLabel = infoLabel?.[currentLanguage]
 
-      const annotations = riskAnalysisForm.answers[id].annotation
+      const currentAnswer = riskAnalysisForm.answers[id]
 
-      const isEditable = riskAnalysisForm.answers[id].editable
+      const annotations = currentAnswer.annotation
 
-      // Get the value of the answer
-      // The value can be of three types: plain text, multiple options, single option
-      const answerValue = riskAnalysisForm.answers[id].values
+      const isEditable = Boolean(currentAnswer.editable)
 
       // Plain text: this value comes from a text field
       if (visualType === 'text') {
         return {
           question,
-          answer: answerValue[0],
-          isEditable: riskAnalysisForm.answers[id].editable ?? false, //TODO: CHECK WHEN BE IS READY
+          answer: currentAnswer.values[0],
+          isEditable,
           questionInfoLabel,
           annotations,
-          answerId: id,
+          answerId: currentAnswer.id,
         }
       }
 
       // Multiple options: this value comes from a multiple choice checkbox
-      const selectedOptions = options?.filter(({ value }) => answerValue.includes(String(value)))
+      const selectedOptions = options?.filter(({ value }) =>
+        currentAnswer.values.includes(String(value))
+      )
       const answer = selectedOptions?.map((o) => o.label[currentLanguage]).join(', ') ?? ''
 
-      return { question, answer, questionInfoLabel, annotations, isEditable, answerId: id }
+      return {
+        question,
+        answer,
+        questionInfoLabel,
+        annotations,
+        isEditable,
+        answerId: riskAnalysisForm.answers[id].id,
+      }
     })
 
     return answers
