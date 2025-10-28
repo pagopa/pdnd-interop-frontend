@@ -10,7 +10,6 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; questio
   question,
 }) => {
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step3' })
-  console.log('domanda', question)
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
