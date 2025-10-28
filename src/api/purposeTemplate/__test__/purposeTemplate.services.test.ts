@@ -148,6 +148,7 @@ describe('PurposeTemplateServices', () => {
         purposeDescription: 'Test purpose description',
         purposeIsFreeOfCharge: true,
         purposeDailyCalls: 1000,
+        handlesPersonalData: false,
       }
 
       await PurposeTemplateServices.createDraft(payload)
@@ -168,6 +169,7 @@ describe('PurposeTemplateServices', () => {
         purposeDescription: 'Test purpose description',
         purposeIsFreeOfCharge: true,
         purposeDailyCalls: 1000,
+        handlesPersonalData: false,
       }
 
       await PurposeTemplateServices.updateDraft({

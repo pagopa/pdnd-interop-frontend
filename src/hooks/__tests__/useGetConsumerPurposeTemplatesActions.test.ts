@@ -2,8 +2,7 @@ import { act, fireEvent, screen, waitFor } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import useGetConsumerPurposeTemplatesActions from '../useGetConsumerPurposeTemplatesActions'
 import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
-import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
-import type { TenantKind } from '@/api/api.generatedTypes'
+import type { CreatorPurposeTemplate, TenantKind } from '@/api/api.generatedTypes'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
@@ -49,42 +48,20 @@ afterAll(() => {
 })
 
 // Helper function to create mock purpose template
-const createMockPurposeTemplate = (overrides: Partial<PurposeTemplate> = {}): PurposeTemplate => ({
+const createMockPurposeTemplate = (
+  overrides: Partial<CreatorPurposeTemplate> = {}
+): CreatorPurposeTemplate => ({
   id: mockPurposeTemplateId,
-  description: 'Test description',
-  targetDescription: 'Test target description',
   targetTenantKind: 'PA',
-  creatorId: 'creator-id',
-  state: 'ACTIVE',
-  createdAt: '2025-01-01T00:00:00.000Z',
-  updatedAt: '2025-01-01T00:00:00.000Z',
   purposeTitle: 'Test Purpose',
-  purposeDescription: 'Test purpose description',
-  purposeRiskAnalysisForm: {
-    version: '1.0',
-    answers: {
-      dataSensitivity: {
-        value: 'medium',
-        editable: true,
-        annotation: {
-          id: 'annotation-1',
-          text: 'Test annotation',
-          docs: [],
-        },
-        suggestedValues: ['high', 'medium', 'low'],
-      },
-    },
-  },
-  purposeIsFreeOfCharge: true,
-  purposeFreeOfChargeReason: 'Public service',
-  purposeDailyCalls: 1000,
+  state: 'PUBLISHED',
   ...overrides,
 })
 
 // Helper function to render the hook
 function renderUseGetConsumerPurposeTemplatesActionsHook(
   tenantKind: TenantKind,
-  purposeTemplate?: PurposeTemplate,
+  purposeTemplate?: CreatorPurposeTemplate,
   isAdmin: boolean = true
 ) {
   mockUseJwt({ isAdmin })
@@ -160,7 +137,7 @@ describe('useGetConsumerPurposeTemplatesActions', () => {
 
   describe('when purpose template state is ACTIVE', () => {
     it('should return use, suspend, and archive actions', () => {
-      const purposeTemplate = createMockPurposeTemplate({ state: 'ACTIVE' })
+      const purposeTemplate = createMockPurposeTemplate({ state: 'PUBLISHED' })
       const { result } = renderUseGetConsumerPurposeTemplatesActionsHook('PA', purposeTemplate)
 
       expect(result.current.actions).toHaveLength(3)
@@ -171,7 +148,7 @@ describe('useGetConsumerPurposeTemplatesActions', () => {
 
     it('should disable use action when tenant kind does not match', () => {
       const purposeTemplate = createMockPurposeTemplate({
-        state: 'ACTIVE',
+        state: 'PUBLISHED',
         targetTenantKind: 'PA',
       })
       const { result } = renderUseGetConsumerPurposeTemplatesActionsHook('PRIVATE', purposeTemplate)
@@ -182,7 +159,7 @@ describe('useGetConsumerPurposeTemplatesActions', () => {
 
     it('should enable use action when tenant kind matches', () => {
       const purposeTemplate = createMockPurposeTemplate({
-        state: 'ACTIVE',
+        state: 'PUBLISHED',
         targetTenantKind: 'PA',
       })
       const { result } = renderUseGetConsumerPurposeTemplatesActionsHook('PA', purposeTemplate)
@@ -192,7 +169,7 @@ describe('useGetConsumerPurposeTemplatesActions', () => {
     })
 
     it('should call suspend API when suspend action is executed', async () => {
-      const purposeTemplate = createMockPurposeTemplate({ state: 'ACTIVE' })
+      const purposeTemplate = createMockPurposeTemplate({ state: 'PUBLISHED' })
       const { result } = renderUseGetConsumerPurposeTemplatesActionsHook('PA', purposeTemplate)
 
       const suspendAction = result.current.actions[1]
@@ -213,7 +190,7 @@ describe('useGetConsumerPurposeTemplatesActions', () => {
     })
 
     it('should call archive API when archive action is executed', async () => {
-      const purposeTemplate = createMockPurposeTemplate({ state: 'ACTIVE' })
+      const purposeTemplate = createMockPurposeTemplate({ state: 'PUBLISHED' })
       const { result } = renderUseGetConsumerPurposeTemplatesActionsHook('PA', purposeTemplate)
 
       const archiveAction = result.current.actions[2]
@@ -277,7 +254,7 @@ describe('useGetConsumerPurposeTemplatesActions', () => {
 
   describe('action properties', () => {
     it('should have correct icon and color for suspend action', () => {
-      const purposeTemplate = createMockPurposeTemplate({ state: 'ACTIVE' })
+      const purposeTemplate = createMockPurposeTemplate({ state: 'PUBLISHED' })
       const { result } = renderUseGetConsumerPurposeTemplatesActionsHook('PA', purposeTemplate)
 
       const suspendAction = result.current.actions[1]
@@ -303,7 +280,7 @@ describe('useGetConsumerPurposeTemplatesActions', () => {
     })
 
     it('should have correct variant for use action', () => {
-      const purposeTemplate = createMockPurposeTemplate({ state: 'ACTIVE' })
+      const purposeTemplate = createMockPurposeTemplate({ state: 'PUBLISHED' })
       const { result } = renderUseGetConsumerPurposeTemplatesActionsHook('PA', purposeTemplate)
 
       const useAction = result.current.actions[0]
