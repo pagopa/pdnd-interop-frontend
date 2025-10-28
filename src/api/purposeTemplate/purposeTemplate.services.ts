@@ -59,6 +59,24 @@ async function getAnswerDocuments(purposeTemplateId: string, answerId: string) {
   return []
 }
 
+async function getRiskAnalysisTemplateAnswerAnnotationDocument({
+  purposeTemplateId,
+  answerId,
+  documentId,
+}: {
+  purposeTemplateId: string
+  answerId: string
+  documentId: string
+}) {
+  const response = await axiosInstance.get<File>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation/documents/${documentId}`,
+    {
+      responseType: 'blob',
+    }
+  )
+  return response.data
+}
+
 async function getCatalogPurposeTemplates(params: GetCatalogPurposeTemplatesParams) {
   const response = await axiosInstance.get<CatalogPurposeTemplates>(
     `${BACKEND_FOR_FRONTEND_URL}/catalog/purposeTemplates`,
@@ -213,6 +231,7 @@ export const PurposeTemplateServices = {
   publishDraft,
   deleteDraft,
   deleteAnnotation,
+  getRiskAnalysisTemplateAnswerAnnotationDocument,
   deleteDocument,
   suspendPurposeTemplate,
   reactivatePurposeTemplate,

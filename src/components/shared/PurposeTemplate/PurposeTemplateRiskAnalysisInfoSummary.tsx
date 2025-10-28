@@ -23,6 +23,7 @@ import type {
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import DownloadIcon from '@mui/icons-material/Download'
+import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 
 type PurposeTemplateRiskAnalysisInfoSummaryProps = {
   riskAnalysisConfig: RiskAnalysisFormConfig
@@ -33,6 +34,7 @@ type PurposeTemplateRiskAnalysisInfoSummaryProps = {
 const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryProps> = ({
   riskAnalysisConfig,
   riskAnalysisForm,
+  purposeTemplate,
 }) => {
   type QuestionItem = {
     question: string
@@ -40,6 +42,7 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
     isEditable: boolean
     questionInfoLabel?: string
     annotations?: RiskAnalysisTemplateAnswerAnnotation
+    answerId: string
   }
 
   const { t } = useTranslation('shared-components', {
@@ -81,6 +84,7 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
           isEditable: riskAnalysisForm.answers[id].editable ?? false, //TODO: CHECK WHEN BE IS READY
           questionInfoLabel,
           annotations,
+          answerId: id,
         }
       }
 
@@ -88,7 +92,7 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
       const selectedOptions = options?.filter(({ value }) => answerValue.includes(String(value)))
       const answer = selectedOptions?.map((o) => o.label[currentLanguage]).join(', ') ?? ''
 
-      return { question, answer, questionInfoLabel, annotations, isEditable }
+      return { question, answer, questionInfoLabel, annotations, isEditable, answerId: id }
     })
 
     return answers
@@ -99,105 +103,113 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
   return (
     <SectionContainer innerSection>
       <List>
-        {questions.map(({ question, answer, questionInfoLabel, annotations, isEditable }, i) => (
-          <SectionContainer
-            innerSection
-            key={i}
-            sx={{ p: 2, mb: 2, border: '1px solid', borderColor: 'divider', borderRadius: 2 }}
-          >
-            <ListItem key={i} sx={{ pl: 0 }}>
-              <ListItemText>
-                <Typography variant="body2" fontWeight={600} sx={{ mb: 3 }}>
-                  <Box
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="flex-start"
-                    gap={2}
-                  >
-                    <Box sx={{ flex: 1, minWidth: 0 }}>
-                      <span>{question}</span>
-                    </Box>
-                    {!isEditable && (
-                      <Chip
-                        size="small"
-                        label={t('notEditableLabel')}
-                        color="default"
-                        sx={{
-                          borderRadius: 1,
-                          flexShrink: 0,
-                          whiteSpace: 'nowrap',
-                        }}
-                      />
-                    )}
-                  </Box>
-                </Typography>
-
-                {questionInfoLabel && (
-                  <Typography variant="caption" color="grey" component="p">
-                    {questionInfoLabel}
-                  </Typography>
-                )}
-                <Typography variant="body2" fontWeight={600} mt={2}>
-                  {t('answerLabel')}
-                  <span style={{ fontWeight: 400 }}>{answer ? answer : '-'}</span>
-                </Typography>
-                {annotations && (
-                  <>
-                    <Accordion
-                      sx={{
-                        '&:before': { display: 'none' },
-                        boxShadow: 'none',
-                        mt: 0, // no top margin before accordion
-                      }}
+        {questions.map(
+          ({ question, answer, questionInfoLabel, annotations, isEditable, answerId }, i) => (
+            <SectionContainer
+              innerSection
+              key={i}
+              sx={{ p: 2, mb: 2, border: '1px solid', borderColor: 'divider', borderRadius: 2 }}
+            >
+              <ListItem key={i} sx={{ pl: 0 }}>
+                <ListItemText>
+                  <Typography variant="body2" fontWeight={600} sx={{ mb: 3 }}>
+                    <Box
+                      display="flex"
+                      justifyContent="space-between"
+                      alignItems="flex-start"
+                      gap={2}
                     >
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        onClick={() => setHasExpandedOnce(true)}
-                        aria-controls={panelContentId}
-                        id={headerId}
+                      <Box sx={{ flex: 1, minWidth: 0 }}>
+                        <span>{question}</span>
+                      </Box>
+                      {!isEditable && (
+                        <Chip
+                          size="small"
+                          label={t('notEditableLabel')}
+                          color="default"
+                          sx={{
+                            borderRadius: 1,
+                            flexShrink: 0,
+                            whiteSpace: 'nowrap',
+                          }}
+                        />
+                      )}
+                    </Box>
+                  </Typography>
+
+                  {questionInfoLabel && (
+                    <Typography variant="caption" color="grey" component="p">
+                      {questionInfoLabel}
+                    </Typography>
+                  )}
+                  <Typography variant="body2" fontWeight={600} mt={2}>
+                    {t('answerLabel')}
+                    <span style={{ fontWeight: 400 }}>{answer ? answer : '-'}</span>
+                  </Typography>
+                  {annotations && (
+                    <>
+                      <Accordion
                         sx={{
-                          px: 0,
-                          py: 0,
-                          justifyContent: 'flex-start',
-                          '& .MuiAccordionSummary-content': {
-                            display: 'flex',
-                            flex: 'none',
-                          },
-                          '& .MuiAccordionSummary-expandIconWrapper': {
-                            color: 'primary.main',
-                            marginLeft: 0,
-                            marginRight: 0,
-                            order: 2,
-                          },
+                          '&:before': { display: 'none' },
+                          boxShadow: 'none',
+                          mt: 0, // no top margin before accordion
                         }}
                       >
-                        <Typography
-                          fontWeight={700}
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          onClick={() => setHasExpandedOnce(true)}
+                          aria-controls={panelContentId}
+                          id={headerId}
                           sx={{
-                            color: 'primary.main',
-                            whiteSpace: 'nowrap',
-                            order: 1,
+                            px: 0,
+                            py: 0,
+                            justifyContent: 'flex-start',
+                            '& .MuiAccordionSummary-content': {
+                              display: 'flex',
+                              flex: 'none',
+                            },
+                            '& .MuiAccordionSummary-expandIconWrapper': {
+                              color: 'primary.main',
+                              marginLeft: 0,
+                              marginRight: 0,
+                              order: 2,
+                            },
                           }}
                         >
-                          {t('annotationSection.readAnnotationBtnLabel')}
-                        </Typography>
-                      </AccordionSummary>
+                          <Typography
+                            fontWeight={700}
+                            sx={{
+                              color: 'primary.main',
+                              whiteSpace: 'nowrap',
+                              order: 1,
+                            }}
+                          >
+                            {t('annotationSection.readAnnotationBtnLabel')}
+                          </Typography>
+                        </AccordionSummary>
 
-                      <AccordionDetails
-                        sx={{
-                          px: 0,
-                          py: 0,
-                        }}
-                      >
-                        {hasExpandedOnce && <AnnotationDetails annotation={annotations} />}
-                      </AccordionDetails>
-                    </Accordion>
-                  </>
-                )}
-              </ListItemText>
-            </ListItem>
-          </SectionContainer>
-        ))}
+                        <AccordionDetails
+                          sx={{
+                            px: 0,
+                            py: 0,
+                          }}
+                        >
+                          {hasExpandedOnce && annotations && (
+                            <AnnotationDetails
+                              annotation={annotations}
+                              purposeTemplateId={purposeTemplate.id}
+                              answerId={answerId}
+                            />
+                          )}
+                        </AccordionDetails>
+                      </Accordion>
+                    </>
+                  )}
+                </ListItemText>
+              </ListItem>
+            </SectionContainer>
+          )
+        )}
       </List>
     </SectionContainer>
   )
@@ -232,12 +244,40 @@ export const PurposeTemplateRiskAnalysisInfoSummary: React.FC<
   )
 }
 
-const AnnotationDetails: React.FC<{ annotation: RiskAnalysisTemplateAnswerAnnotation }> = ({
-  annotation,
-}) => {
+const AnnotationDetails: React.FC<{
+  annotation: RiskAnalysisTemplateAnswerAnnotation
+  purposeTemplateId: string
+  answerId: string
+}> = ({ annotation, purposeTemplateId, answerId }) => {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'purposeTemplateRiskAnalysisInfoSummary.annotationSection',
   })
+
+  const { mutate: downloadDocument, isPending: isDownloading } =
+    PurposeTemplateMutations.useDownloadDocument()
+
+  const handleDownload = (documentId: string, fileName: string) => {
+    downloadDocument(
+      {
+        purposeTemplateId,
+        answerId,
+        documentId,
+      },
+      {
+        onSuccess: (fileBlob) => {
+          // Create a download link
+          const url = window.URL.createObjectURL(fileBlob)
+          const link = document.createElement('a')
+          link.href = url
+          link.download = fileName
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+          window.URL.revokeObjectURL(url)
+        },
+      }
+    )
+  }
 
   return (
     <SectionContainer
@@ -254,7 +294,8 @@ const AnnotationDetails: React.FC<{ annotation: RiskAnalysisTemplateAnswerAnnota
                 key={doc.id}
                 endIcon={<DownloadIcon fontSize="small" />}
                 component="button"
-                onClick={() => {}} // TODO: handle download
+                onClick={() => handleDownload(doc.id, doc.prettyName)}
+                disabled={isDownloading}
                 sx={{
                   fontWeight: 700,
                   alignSelf: 'flex-start',
