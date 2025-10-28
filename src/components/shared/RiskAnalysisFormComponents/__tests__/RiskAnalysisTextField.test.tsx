@@ -72,7 +72,7 @@ describe('RiskAnalysisTextField', () => {
       )
 
       expect(screen.getByTestId('risk-analysis-input-wrapper')).toBeInTheDocument()
-      expect(screen.getByText('purposeTemplate.answerInputPlaceholder')).toBeInTheDocument()
+      expect(screen.getAllByText('purposeTemplate.answerInputPlaceholder')).toHaveLength(2)
       expect(screen.getByText('purposeTemplate.addAnswerBtn')).toBeInTheDocument()
     })
   })
@@ -109,7 +109,7 @@ describe('RiskAnalysisTextField', () => {
         }
       )
 
-      const input = screen.getByLabelText('purposeTemplate.edit.step3.answerInputPlaceholder')
+      const input = screen.getByLabelText('purposeTemplate.answerInputPlaceholder')
 
       fireEvent.change(input, { target: { value: 'Test suggested value' } })
       fireEvent.keyDown(input, { key: 'Enter' })
