@@ -21,6 +21,49 @@ import type {
 import { PurposeTemplateServices } from '@/api/purposeTemplate/purposeTemplate.services'
 import { useParams } from '@/router'
 
+// Document Upload Form Component
+const DocumentUploadForm: React.FC<{
+  documentFormMethods: ReturnType<typeof useForm<{ doc: File | null }>>
+  selectedFile: File | null
+  onFileChange: (file: File | null) => void
+  onSubmit: (data: { doc: File | null }) => Promise<void>
+  t: (key: string) => string
+}> = ({ documentFormMethods, selectedFile, onFileChange, onSubmit, t }) => (
+  <FormProvider {...documentFormMethods}>
+    <Box
+      component="form"
+      noValidate
+      onSubmit={(e) => {
+        e.preventDefault()
+        documentFormMethods.handleSubmit(onSubmit)(e)
+      }}
+      sx={{ mt: 2, px: 2, py: 2 }}
+      bgcolor="common.white"
+    >
+      <RHFSingleFileInput
+        sx={{ my: 0 }}
+        name="doc"
+        rules={{ required: true }}
+        onValueChange={onFileChange}
+      />
+
+      {selectedFile && (
+        <Stack direction="row" justifyContent="flex-end" sx={{ mt: 2 }}>
+          <Button
+            type="button"
+            variant="contained"
+            onClick={() => {
+              documentFormMethods.handleSubmit(onSubmit)()
+            }}
+          >
+            <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('uploadBtn') as string}
+          </Button>
+        </Stack>
+      )}
+    </Box>
+  </FormProvider>
+)
+
 export const RiskAnalysisAnswerComponent: React.FC<{
   questionId: string
   questionType: string
@@ -345,39 +388,13 @@ export const RiskAnalysisAnswerComponent: React.FC<{
                 {t('addDocumentBtn')}
               </Button>
             ) : (
-              <FormProvider {...documentFormMethods}>
-                <Box
-                  component="form"
-                  noValidate
-                  onSubmit={(e) => {
-                    e.preventDefault()
-                    documentFormMethods.handleSubmit(handleDocumentSubmit)(e)
-                  }}
-                  sx={{ mt: 2, px: 2, py: 2 }}
-                  bgcolor="common.white"
-                >
-                  <RHFSingleFileInput
-                    sx={{ my: 0 }}
-                    name="doc"
-                    rules={{ required: true }}
-                    onValueChange={handleFileChange}
-                  />
-
-                  {selectedFile && (
-                    <Stack direction="row" justifyContent="flex-end" sx={{ mt: 2 }}>
-                      <Button
-                        type="button"
-                        variant="contained"
-                        onClick={() => {
-                          documentFormMethods.handleSubmit(handleDocumentSubmit)()
-                        }}
-                      >
-                        <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('uploadBtn')}
-                      </Button>
-                    </Stack>
-                  )}
-                </Box>
-              </FormProvider>
+              <DocumentUploadForm
+                documentFormMethods={documentFormMethods}
+                selectedFile={selectedFile}
+                onFileChange={handleFileChange}
+                onSubmit={handleDocumentSubmit}
+                t={t as (key: string) => string}
+              />
             ))}
 
           {docs.length > 0 && (
@@ -410,39 +427,13 @@ export const RiskAnalysisAnswerComponent: React.FC<{
                   {t('addDocumentBtn')}
                 </Button>
               ) : showDocInput ? (
-                <FormProvider {...documentFormMethods}>
-                  <Box
-                    component="form"
-                    noValidate
-                    onSubmit={(e) => {
-                      e.preventDefault()
-                      documentFormMethods.handleSubmit(handleDocumentSubmit)(e)
-                    }}
-                    sx={{ mt: 2, px: 2, py: 2 }}
-                    bgcolor="common.white"
-                  >
-                    <RHFSingleFileInput
-                      sx={{ my: 0 }}
-                      name="doc"
-                      rules={{ required: true }}
-                      onValueChange={handleFileChange}
-                    />
-
-                    {selectedFile && (
-                      <Stack direction="row" justifyContent="flex-end" sx={{ mt: 2 }}>
-                        <Button
-                          type="button"
-                          variant="contained"
-                          onClick={() => {
-                            documentFormMethods.handleSubmit(handleDocumentSubmit)()
-                          }}
-                        >
-                          <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('uploadBtn')}
-                        </Button>
-                      </Stack>
-                    )}
-                  </Box>
-                </FormProvider>
+                <DocumentUploadForm
+                  documentFormMethods={documentFormMethods}
+                  selectedFile={selectedFile}
+                  onFileChange={handleFileChange}
+                  onSubmit={handleDocumentSubmit}
+                  t={t as (key: string) => string}
+                />
               ) : null}
             </Box>
           )}
