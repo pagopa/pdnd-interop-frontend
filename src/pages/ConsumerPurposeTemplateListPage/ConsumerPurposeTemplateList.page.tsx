@@ -61,8 +61,7 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
         purposeIsFreeOfCharge: true,
         purposeFreeOfChargeReason: tPurposeTemplateDefaults('freeOfChargeReason'),
         purposeDailyCalls: 1,
-        // TODO: Add personalData field to the request body when API supports it
-        // personalData: _handlesPersonalData,
+        handlesPersonalData: _handlesPersonalData,
       },
       {
         onSuccess() {
