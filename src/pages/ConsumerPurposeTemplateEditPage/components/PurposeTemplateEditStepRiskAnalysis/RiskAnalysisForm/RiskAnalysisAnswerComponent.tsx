@@ -5,8 +5,12 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AddAnnotationDrawer } from '@/components/shared/AddAnnotationDrawer'
 
-export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string }> = ({ questionId }) => {
+export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string; question: string }> = ({
+  questionId,
+  question,
+}) => {
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step3' })
+  console.log('domanda', question)
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
@@ -32,7 +36,12 @@ export const RiskAnalysisAnswerComponent: React.FC<{ questionId: string }> = ({ 
       >
         {t('addAnnotationBtn')}
       </ButtonNaked>
-      <AddAnnotationDrawer isOpen={isOpen} onClose={closeDrawer} onSubmit={() => {}} />
+      <AddAnnotationDrawer
+        isOpen={isOpen}
+        onClose={closeDrawer}
+        question={question}
+        onSubmit={() => {}}
+      />
     </>
   )
 }

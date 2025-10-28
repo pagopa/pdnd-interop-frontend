@@ -103,7 +103,7 @@
       "drawer": {
         "title": "Aggiungi annotazioni",
         "description": "Fornisci all’utilizzatore indicazioni su come rispondere a questo campo. Una volta creata la annotazione, potrai allegare documenti.",
-        "question": "Domanda: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut laboolore magna aliqua.",
+        "question": "Domanda: ",
         "label": "Annotazioni",
         "addBtn": "Aggiungi"
       }

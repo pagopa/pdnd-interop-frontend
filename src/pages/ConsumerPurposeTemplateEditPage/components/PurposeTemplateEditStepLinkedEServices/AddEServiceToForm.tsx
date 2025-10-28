@@ -47,8 +47,8 @@ export const AddEServiceToForm: React.FC<AddEServiceToFormProps> = ({
     })),
   ]
 
-  const handleRemoveAttributeFromGroup = (eserviceId: string) => {
-    const newEServicesGroup = eserviceGroup.filter((eservice) => eservice.id !== eserviceId) //TODO: SHOULD IT BE REMOVED WHEN THE API IS AVAILABLE?
+  const handleRemoveEserviceFromGroup = (eserviceId: string) => {
+    const newEServicesGroup = eserviceGroup.filter((eservice) => eservice.id !== eserviceId)
     setValue(`eservices`, newEServicesGroup, {
       shouldValidate: false,
     })
@@ -65,7 +65,7 @@ export const AddEServiceToForm: React.FC<AddEServiceToFormProps> = ({
           key={0}
           group={mergedEServices}
           readOnly={readOnly}
-          onRemoveEServiceFromGroup={handleRemoveAttributeFromGroup}
+          onRemoveEServiceFromGroup={handleRemoveEserviceFromGroup}
           purposeTemplate={purposeTemplate}
           showWarning={showWarning}
         />

@@ -85,7 +85,9 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
           )}
         </FormControl>
       </SectionContainer>
-      {isFromPurposeTemplate && <RiskAnalysisAnswerComponent questionId={questionId as string} />}
+      {isFromPurposeTemplate && (
+        <RiskAnalysisAnswerComponent question={label} questionId={questionId as string} />
+      )}
     </SectionContainer>
   )
 }

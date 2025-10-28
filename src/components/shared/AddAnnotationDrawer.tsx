@@ -14,12 +14,14 @@ type AddAnnotationDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   onSubmit: (annotation: RiskAnalysisTemplateAnswerAnnotation) => void
+  question: string
 }
 
 export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
   isOpen,
   onClose,
   onSubmit,
+  question,
 }) => {
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step3.drawer' })
   const { t: tCommon } = useTranslation('common')
@@ -46,7 +48,9 @@ export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
   const subtitle = (
     <Stack spacing={3} sx={{ mt: 2, mb: 0 }}>
       <Typography>{t('description')}</Typography>
-      <Typography sx={{ fontWeight: 600 }}>{t('question')}</Typography>
+      <Typography sx={{ fontWeight: 600 }}>
+        {t('question')} {question}
+      </Typography>
     </Stack>
   )
 
