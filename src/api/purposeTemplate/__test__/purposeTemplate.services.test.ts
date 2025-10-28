@@ -49,7 +49,7 @@ describe('PurposeTemplateServices', () => {
       const params: GetConsumerPurposeTemplatesParams = {
         q: 'healthcare',
         eservicesIds: ['11111111-1111-1111-1111-111111111111'],
-        states: ['ACTIVE'],
+        states: ['PUBLISHED'],
         offset: 0,
         limit: 20,
       }

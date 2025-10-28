@@ -68,7 +68,6 @@ const ConsumerPurposeTemplateTemplateSummaryPage: React.FC = () => {
       }
     )
   }
-  purposeTemplate?.state
 
   return (
     <PageContainer

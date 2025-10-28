@@ -11,7 +11,7 @@
       "statusField": {
         "label": "Filtra per stato",
         "optionLabels": {
-          "ACTIVE": "Attivo",
+          "PUBLISHED": "Attivo",
           "DRAFT": "In bozza",
           "SUSPENDED": "Sospeso",
           "ARCHIVED": "Archiviato"
