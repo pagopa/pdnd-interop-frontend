@@ -137,8 +137,10 @@ async function addDocumentsToAnnotation({
 }
 
 async function publishDraft({ id }: { id: string }) {
-  //return await axiosInstance.post<void>(`${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/publish`)
-  return console.log('Draft published')
+  const response = await axiosInstance.post<PurposeTemplate>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/publish`
+  )
+  return response.data
 }
 
 async function deleteDraft({ id }: { id: string }) {
