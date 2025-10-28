@@ -336,20 +336,17 @@ describe('PurposeTemplateServices', () => {
   })
 
   describe('publishDraft', () => {
-    it('should log draft publication message', async () => {
-      await PurposeTemplateServices.publishDraft({ id: TEST_ID })
+    it('should make correct API call to publish draft', async () => {
+      const mockResponse = { id: TEST_ID, state: 'PUBLISHED' }
+      vi.mocked(axiosInstance.post).mockResolvedValue({ data: mockResponse })
 
-      expect(mockConsoleLog).toHaveBeenCalledWith('Draft published')
+      const result = await PurposeTemplateServices.publishDraft({ id: TEST_ID })
+
+      expect(axiosInstance.post).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/publish`
+      )
+      expect(result).toEqual(mockResponse)
     })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call to publish draft', async () => {
-    //   await PurposeTemplateServices.publishDraft({ id: TEST_ID })
-    //
-    //   expect(axiosInstance.post).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/publish`
-    //   )
-    // })
   })
 
   describe('deleteDraft', () => {
