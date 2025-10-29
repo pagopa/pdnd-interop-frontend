@@ -95,7 +95,7 @@ const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
     },
   ])
 
-  const queryParams = { ...paginationParams, ...filtersParams }
+  const queryParams: GetCatalogPurposeTemplatesParams = { ...paginationParams, ...filtersParams }
 
   const { data } = useQuery({
     ...PurposeTemplateQueries.getCatalogPurposeTemplates(queryParams),
@@ -114,7 +114,7 @@ const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
   )
 }
 
-const PurposeTemplateCatalogWrapper: React.FC<{ params: { limit: number; offset: number } }> = ({
+const PurposeTemplateCatalogWrapper: React.FC<{ params: GetCatalogPurposeTemplatesParams }> = ({
   params,
 }) => {
   const { data, isFetching } = useQuery(PurposeTemplateQueries.getCatalogPurposeTemplates(params))
