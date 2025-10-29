@@ -5,8 +5,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useQuery } from '@tanstack/react-query'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import type { PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
-import { RiskAnalysisForm } from '..'
 import { PurposeTemplateEditStepRiskAnalysis } from '../PurposeTemplateEditRiskAnalysisForm'
+import { RiskAnalysisFormTemplate } from '../RiskAnalysisForm/RiskAnalysisFormTemplate'
 
 // --- mocks ---
 vi.mock('@/router', () => ({
@@ -125,7 +125,7 @@ describe('PurposeTemplateEditStepRiskAnalysis', () => {
       <PurposeTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
     )
 
-    const props = (RiskAnalysisForm as Mock).mock.calls[0][0]
+    const props = (RiskAnalysisFormTemplate as Mock).mock.calls[0][0]
     props.onSubmit({ q1: ['answer1'] })
 
     await waitFor(() => {

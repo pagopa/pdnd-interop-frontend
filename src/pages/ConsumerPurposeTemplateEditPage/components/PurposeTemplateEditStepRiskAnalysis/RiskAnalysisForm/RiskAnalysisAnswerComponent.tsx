@@ -64,14 +64,6 @@ const DocumentUploadForm: React.FC<{
   </FormProvider>
 )
 
-type DocumentUploadFormValues = {
-  doc: File | null
-}
-
-const defaultValues: DocumentUploadFormValues = {
-  doc: null,
-}
-
 export const RiskAnalysisAnswerComponent: React.FC<{
   questionId: string
   question: string
