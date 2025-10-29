@@ -5,6 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RHFRadioGroup } from './react-hook-form-inputs'
 import type { EServiceMode } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth/auth.hooks'
 
 type UpdatePersonalDataFormValues = {
   personalData: boolean | undefined
@@ -31,6 +32,8 @@ export const UpdatePersonalDataDrawer: React.FC<UpdatePersonalDataDrawerProps> =
 }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'personalDataDrawer' })
   const { t: tCommon } = useTranslation('common')
+
+  const { isOperatorAPI } = AuthHooks.useJwt()
 
   const defaultValues = {
     personalData: personalData,
@@ -61,14 +64,16 @@ export const UpdatePersonalDataDrawer: React.FC<UpdatePersonalDataDrawerProps> =
         isOpen={isOpen}
         onTransitionExited={handleTransitionExited}
         onClose={handleCloseDrawer}
-        title={t('title')}
+        title={t('title', { where })}
         subtitle={t('subtitle', { where })}
         buttonAction={{
           action: formMethods.handleSubmit(handleSubmit),
           label: tCommon('actions.save'),
         }}
       >
-        <Alert severity="warning">{t('alertLabel')}</Alert>
+        <Alert severity="warning">
+          {isOperatorAPI ? t('alertForAPIOperator') : t('alertLabel')}
+        </Alert>
         <Box component="form" noValidate>
           <RHFRadioGroup
             name="personalData"

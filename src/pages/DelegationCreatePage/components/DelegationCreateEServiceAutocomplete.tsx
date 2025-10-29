@@ -60,36 +60,17 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
     return result
   }
 
-  //todo: refactor this, we are making two requests because we need eservices with personal data true and false
-  const { data: producerEservicePersonalDataTrue = [] } = useQuery({
+  const { data: producerEservice = [], isLoading: isLoadingProducerEservices } = useQuery({
     ...EServiceQueries.getProviderList({
       q: getQ(),
       limit: 50,
       offset: 0,
       delegated: false,
-      personalData: true,
+      personalData: 'DEFINED',
     }),
     enabled: delegationKind === 'DELEGATED_PRODUCER',
     select: (d) => d.results ?? [],
   })
-
-  const { data: producerEservicePersonalDataFalse = [], isLoading: isLoadingProducerEservices } =
-    useQuery({
-      ...EServiceQueries.getProviderList({
-        q: getQ(),
-        limit: 50,
-        offset: 0,
-        delegated: false,
-        personalData: false,
-      }),
-      enabled: delegationKind === 'DELEGATED_PRODUCER',
-      select: (d) => d.results ?? [],
-    })
-
-  const producerEservice = [
-    ...producerEservicePersonalDataTrue,
-    ...producerEservicePersonalDataFalse,
-  ]
 
   const { data: catalogEservices = [], isLoading: isLoadingCatalogEservices } = useQuery({
     ...EServiceQueries.getCatalogList({

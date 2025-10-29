@@ -69,8 +69,9 @@
     }
   },
   "personalDataDrawer": {
-    "title": "Personal data",
+    "title": "Does this {{where}} process personal data?",
     "subtitle": "For this {{where}}, it is necessary to indicate whether personal data is processed.",
+    "alertForAPIOperator": "Consult with the administrator before confirming. Once saved, this data can no longer be changed.",
     "alertLabel": "Once saved, this data can no longer be changed.",
     "options": {
       "DELIVER": {

@@ -55,34 +55,16 @@ export const DelegationCreateEServiceFromTemplateAutocomplete: React.FC<
     return result
   }
 
-  //todo: refactor this, we are making two requests because we need eservices templates with personal data true and false
-  const {
-    data: catalogEservicesTemplatesPersonalDataTrue = [],
-    isLoading: isLoadingCatalogEservicesTemplates,
-  } = useQuery({
-    ...EServiceTemplateQueries.getProviderEServiceTemplatesCatalogList({
-      q: getQ(),
-      limit: 50,
-      offset: 0,
-      personalData: true,
-    }),
-    select: (d) => d.results ?? [],
-  })
-
-  const { data: catalogEservicesTemplatesPersonalDataFalse = [] } = useQuery({
-    ...EServiceTemplateQueries.getProviderEServiceTemplatesCatalogList({
-      q: getQ(),
-      limit: 50,
-      offset: 0,
-      personalData: false,
-    }),
-    select: (d) => d.results ?? [],
-  })
-
-  const catalogEservicesTemplates = [
-    ...catalogEservicesTemplatesPersonalDataTrue,
-    ...catalogEservicesTemplatesPersonalDataFalse,
-  ]
+  const { data: catalogEservicesTemplates = [], isLoading: isLoadingCatalogEservicesTemplates } =
+    useQuery({
+      ...EServiceTemplateQueries.getProviderEServiceTemplatesCatalogList({
+        q: getQ(),
+        limit: 50,
+        offset: 0,
+        personalData: 'DEFINED',
+      }),
+      select: (d) => d.results ?? [],
+    })
 
   const autocompleteOptions = catalogEservicesTemplates.map((eserviceTemplate) => ({
     label: formatAutocompleteOptionLabel(eserviceTemplate),

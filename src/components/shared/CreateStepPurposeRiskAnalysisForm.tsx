@@ -86,10 +86,10 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
               content={t(`riskAnalysis.riskAnalysisSection.personalDataFlag.${personalData}`)}
             />
           )}
-          <Alert sx={{ mt: 2, mb: -1 }} severity="warning">
-            {t('riskAnalysis.riskAnalysisSection.personalDataAlert')}
-          </Alert>
         </SectionContainer>
+        <Alert sx={{ mt: 2, mb: 2 }} severity="warning">
+          {t('riskAnalysis.riskAnalysisSection.personalDataAlert')}
+        </Alert>
         <Stack spacing={2}>
           <RiskAnalysisFormComponents questions={riskAnalysisForm.questions} />
         </Stack>

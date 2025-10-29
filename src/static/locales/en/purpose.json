@@ -93,11 +93,8 @@
           "undefined": "The provider has not declared the processing of personal data"
         },
         "incompatibleAnswerError": {
-          "purposeEdit": {
-            "personalData": "You will not be able to publish this purpose because you declared that personal data is processed, but the provider declared otherwise. For clarifications, contact the provider.",
-            "noPersonalData": "You will not be able to publish this purpose because you declared that personal data is not processed, but the provider declared otherwise. For clarifications, contact the provider."
-          },
-          "eserviceEdit": "Make sure that the answer to this question matches the one you provided in the general information of the e-service. If the data does not match, the publication of this e-service will be blocked."
+          "purposeEdit": "The answer in this field differs from what was defined by the e-service provider",
+          "eserviceEdit": "The answer in this field differs from what was defined in the general properties of the e-service"
         },
         "alertForIncompatibleAnswer": "Make sure that the answer to the question \"Indicate whether you access personal data (required)\" matches the one the provider provided in the general information. If the data does not match, the publication will be blocked.",
         "alertForIncompatibleAnswerPurpose": {

@@ -69,8 +69,9 @@
     }
   },
   "personalDataDrawer": {
-    "title": "Dati personali",
+    "title": "Questo {{where}} tratta dati personali?",
     "subtitle": "Per questo {{where}} è necessario indicare se vengono trattati dati personali.",
+    "alertForAPIOperator": "Consultati con l’amministratore prima di confermare. Al salvataggio, questo dato non sarà più modificabile.",
     "alertLabel": "Al salvataggio, questo dato non sarà più modificabile.",
     "options": {
       "DELIVER": {

@@ -30,7 +30,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t: tDrawer } = useTranslation('eservice', {
     keyPrefix: 'read.drawers',
   })
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt, isOperatorAPI, isAdmin } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
   const { data: descriptor } = useSuspenseQuery(
@@ -196,6 +196,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
             content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
           />
           {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
+            (isAdmin || isOperatorAPI) &&
             !arePersonalDataSet &&
             !isEserviceFromTemplate && (
               <Alert severity="warning" sx={{ alignItems: 'center' }}>
