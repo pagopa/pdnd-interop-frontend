@@ -124,14 +124,14 @@
             }
           },
           "freeOfChargeReasonField": {
-            "label": "Motivazione titolo gratuito"
+            "label": "Motivazione del titolo gratuito"
           }
         }
       },
       "technicalInformationsSection": {
         "title": "Informazioni tecniche",
         "instanceNameField": {
-          "label": "Nome istanza",
+          "label": "Nome dell'istanza",
           "defaultPurposeInstanceName": "Template per la compilazione agevolata della finalità"
         },
         "dailyCallsField": {

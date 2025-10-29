@@ -23,7 +23,7 @@ const ConsumerPurposeFromTemplateEditPage: React.FC = () => {
 
   const steps: Array<StepperStep> = [
     { label: t('edit.stepper.stepGeneralLabel'), component: PurposeFromTemplateEditStepGeneral },
-    // { label: t('edit.stepper.stepRiskAnalysisLabel'), component: PurposeEditStepRiskAnalysis },
+    //{ label: t('edit.stepper.stepRiskAnalysisLabel'), component: PurposeFromTemplateEditStepRiskAnalysis },
   ]
 
   const { component: Step } = steps[activeStep]
