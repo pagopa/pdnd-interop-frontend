@@ -25,7 +25,6 @@ const ConsumerLinkedPurposeTemplatesTab: React.FC = () => {
   const [creatorsAutocompleteInput, setCreatorsAutocompleteInput] = useAutocompleteTextInput()
 
   const { data: creatorsOptions = [] } = useQuery({
-    //TODO: REPLACE WHEN THE API IS AVAILABLE
     ...EServiceQueries.getProducers({ offset: 0, limit: 50, q: creatorsAutocompleteInput }),
     placeholderData: keepPreviousData,
     select: (data) =>
@@ -36,7 +35,7 @@ const ConsumerLinkedPurposeTemplatesTab: React.FC = () => {
   })
 
   const { filtersParams, ...filtersHandlers } = useFilters<
-    Omit<GetCatalogPurposeTemplatesParams, 'limit' | 'offset'> //TODO: CHANGE PARAMS
+    Omit<GetCatalogPurposeTemplatesParams, 'limit' | 'offset' | 'eserviceIds'>
   >([
     { name: 'q', label: t('filters.purposeTemplateNameField.label'), type: 'freetext' },
     {
@@ -49,7 +48,7 @@ const ConsumerLinkedPurposeTemplatesTab: React.FC = () => {
     {
       name: 'targetTenantKind',
       label: t('filters.targetTenantKindField.label'),
-      type: 'autocomplete-multiple',
+      type: 'autocomplete-single',
       options: [
         { label: t('filters.targetTenantKindField.values.labelPA'), value: 'PA' },
         { label: t('filters.targetTenantKindField.values.labelNotPA'), value: 'GSP' },
@@ -58,9 +57,17 @@ const ConsumerLinkedPurposeTemplatesTab: React.FC = () => {
   ])
 
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
-  const queryParams = { ...paginationParams, ...filtersParams, eserviceIds: [eserviceId] } //TODO: IS THE CORRECT WAY TO PASS THE ESERVICE ID TO API?
+
+  // Ensure eserviceId is always present in query params
+  const queryParams: GetCatalogPurposeTemplatesParams = {
+    ...paginationParams,
+    ...filtersParams,
+    eserviceIds: [eserviceId],
+  }
+
   const { data: totalPageCount = 0 } = useQuery({
     ...PurposeTemplateQueries.getCatalogPurposeTemplates(queryParams),
+    enabled: Boolean(eserviceId),
     placeholderData: keepPreviousData,
     select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
   })
