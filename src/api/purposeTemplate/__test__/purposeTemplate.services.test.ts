@@ -169,15 +169,18 @@ describe('PurposeTemplateServices', () => {
   })
 
   describe('getCatalogPurposeTemplates', () => {
-    it('should make correct API call to catalog endpoint with id', async () => {
-      await PurposeTemplateServices.getConsumerCatalogPurposeTemplates({
+    it('should make correct API call to catalog endpoint', async () => {
+      const params: GetCatalogPurposeTemplatesParams = {
         offset: 0,
         limit: 10,
-      })
+        eserviceIds: ['test-eservice-id'],
+      }
+
+      await PurposeTemplateServices.getCatalogPurposeTemplates(params)
 
       expect(axiosInstance.get).toHaveBeenCalledWith(
         `${BACKEND_FOR_FRONTEND_URL}/catalog/purposeTemplates`,
-        { params: { offset: 0, limit: 10 } }
+        { params }
       )
     })
   })
