@@ -16,6 +16,7 @@ import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTempla
 import { EServiceTemplateVersionSelectorDrawer } from '@/components/shared/EserviceTemplate'
 import { UpdatePersonalDataDrawer } from '../UpdatePersonalDataDrawer'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
+import { AuthHooks } from '@/api/auth'
 
 type EServiceTemplateGeneralInfoSectionProps = {
   readonly: boolean
@@ -32,6 +33,11 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
     keyPrefix: 'read.drawers',
   })
   const { t: tCommon } = useTranslation('common')
+
+  const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
+
+  console.log('isAdmin', isAdmin)
+  console.log('isOperatorAPI', isOperatorAPI)
 
   const { eServiceTemplateId, eServiceTemplateVersionId } = useParams<typeof routeKey>()
   const { data: eserviceTemplateVersion } = useQuery(
@@ -181,6 +187,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
             />
           )}
           {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
+            (isAdmin || isOperatorAPI) &&
             routeKey === 'PROVIDE_ESERVICE_TEMPLATE_DETAILS' &&
             eserviceTemplateVersion?.eserviceTemplate.personalData === undefined && (
               <Alert severity="warning" sx={{ alignItems: 'center' }}>
