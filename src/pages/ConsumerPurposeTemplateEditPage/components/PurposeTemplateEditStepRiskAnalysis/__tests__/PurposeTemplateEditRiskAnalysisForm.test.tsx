@@ -36,9 +36,9 @@ vi.mock('@/api/purposeTemplate/purposeTemplate.mutations', () => ({
   },
 }))
 
-vi.mock('../RiskAnalysisForm/RiskAnalysisForm', () => ({
-  RiskAnalysisForm: vi.fn(() => <div data-testid="risk-form" />),
-  RiskAnalysisFormSkeleton: vi.fn(() => <div data-testid="skeleton" />),
+vi.mock('../RiskAnalysisForm/RiskAnalysisFormTemplate', () => ({
+  RiskAnalysisFormTemplate: vi.fn(() => <div data-testid="risk-form" />),
+  RiskAnalysisFormTemplateSkeleton: vi.fn(() => <div data-testid="skeleton" />),
 }))
 
 describe('PurposeTemplateEditStepRiskAnalysis', () => {
@@ -125,8 +125,20 @@ describe('PurposeTemplateEditStepRiskAnalysis', () => {
       <PurposeTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
     )
 
+    await waitFor(() => {
+      expect(screen.getByTestId('risk-form')).toBeInTheDocument()
+    })
+
     const props = (RiskAnalysisFormTemplate as Mock).mock.calls[0][0]
-    props.onSubmit({ q1: ['answer1'] })
+    props.onSubmit({
+      version: 2,
+      answers: {
+        q1: {
+          values: ['answer1'],
+          editable: false,
+        },
+      },
+    })
 
     await waitFor(() => {
       expect(mockMutate).toHaveBeenCalledWith(
@@ -134,7 +146,12 @@ describe('PurposeTemplateEditStepRiskAnalysis', () => {
           purposeTemplateId: 'template-123',
           purposeRiskAnalysisForm: {
             version: 2,
-            answers: { q1: ['answer1'] },
+            answers: {
+              q1: {
+                values: ['answer1'],
+                editable: false,
+              },
+            },
           },
         }),
         expect.any(Object)
