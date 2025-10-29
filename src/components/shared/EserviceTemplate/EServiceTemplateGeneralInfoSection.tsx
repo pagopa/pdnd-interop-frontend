@@ -36,9 +36,6 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
 
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
 
-  console.log('isAdmin', isAdmin)
-  console.log('isOperatorAPI', isOperatorAPI)
-
   const { eServiceTemplateId, eServiceTemplateVersionId } = useParams<typeof routeKey>()
   const { data: eserviceTemplateVersion } = useQuery(
     EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
