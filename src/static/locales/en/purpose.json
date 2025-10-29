@@ -107,7 +107,7 @@
     "purposeFromTemplate": {
       "generalInformationSection": {
         "title": "General information",
-        "subtitle": "The following information was pre-filled by the creator of the facilitated purpose template and can be modified.",
+        "subtitle": "The following information was pre-filled by the creator of the facilitated purpose template and can't be modified.",
         "descriptionSection": {
           "title": "Description",
           "nameField": {

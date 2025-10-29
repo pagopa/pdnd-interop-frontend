@@ -107,7 +107,7 @@
     "purposeFromTemplate": {
       "generalInformationSection": {
         "title": "Informazioni generali",
-        "subtitle": "Le seguenti informazioni sono state precompilate dal creatore del template di finalità agevolata e possono essere modificate.",
+        "subtitle": "Le seguenti informazioni sono state precompilate dal creatore del template di finalità agevolata e non sono modificabili.",
         "descriptionSection": {
           "title": "Descrizione",
           "nameField": {
