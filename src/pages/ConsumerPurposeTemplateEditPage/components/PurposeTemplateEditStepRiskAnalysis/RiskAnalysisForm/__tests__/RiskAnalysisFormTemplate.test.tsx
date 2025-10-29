@@ -37,15 +37,6 @@ vi.mock('react-i18next', () => ({
 describe('RiskAnalysisFormTemplate', () => {
   const mockOnSubmit = vi.fn()
   const mockOnCancel = vi.fn()
-  const mockHandleSubmit = vi.fn((callback) => (e: React.FormEvent) => {
-    e.preventDefault()
-    callback({
-      validAnswers: { q1: ['answer1'] },
-      assignToTemplateUsers: { q1: false },
-      annotations: {},
-      suggestedValues: {},
-    })
-  })
 
   const defaultAnswers = {
     q1: {
@@ -63,13 +54,24 @@ describe('RiskAnalysisFormTemplate', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+  })
+
+  it('renders correctly', () => {
+    const mockHandleSubmit = vi.fn((callback) => (e: React.FormEvent) => {
+      e.preventDefault()
+      callback({
+        validAnswers: { q1: ['answer1'] },
+        assignToTemplateUsers: { q1: false },
+        annotations: {},
+        suggestedValues: {},
+      })
+    })
+
     ;(useRiskAnalysisFormTemplate as Mock).mockReturnValue({
       handleSubmit: mockHandleSubmit,
       questions: {},
     })
-  })
 
-  it('renders correctly', () => {
     render(
       <RiskAnalysisFormTemplate
         defaultAnswers={defaultAnswers}
@@ -86,6 +88,13 @@ describe('RiskAnalysisFormTemplate', () => {
 
   it('calls onCancel when back button is clicked', async () => {
     const user = userEvent.setup()
+    const mockHandleSubmit = vi.fn()
+
+    ;(useRiskAnalysisFormTemplate as Mock).mockReturnValue({
+      handleSubmit: mockHandleSubmit,
+      questions: {},
+    })
+
     render(
       <RiskAnalysisFormTemplate
         defaultAnswers={defaultAnswers}
@@ -103,6 +112,21 @@ describe('RiskAnalysisFormTemplate', () => {
 
   it('calls onSubmit when form is submitted', async () => {
     const user = userEvent.setup()
+    const mockHandleSubmit = vi.fn((callback) => (e: React.FormEvent) => {
+      e.preventDefault()
+      callback({
+        validAnswers: { q1: ['answer1'] },
+        assignToTemplateUsers: { q1: false },
+        annotations: {},
+        suggestedValues: {},
+      })
+    })
+
+    ;(useRiskAnalysisFormTemplate as Mock).mockReturnValue({
+      handleSubmit: mockHandleSubmit,
+      questions: {},
+    })
+
     render(
       <RiskAnalysisFormTemplate
         defaultAnswers={defaultAnswers}
@@ -120,8 +144,9 @@ describe('RiskAnalysisFormTemplate', () => {
         version: '1',
         answers: {
           q1: {
-            values: [],
+            values: ['answer1'],
             editable: false,
+            suggestedValues: [],
           },
         },
       })
@@ -130,7 +155,7 @@ describe('RiskAnalysisFormTemplate', () => {
 
   it('transforms answers correctly when editable is true', async () => {
     const user = userEvent.setup()
-    mockHandleSubmit.mockImplementation((callback) => (e: React.FormEvent) => {
+    const mockHandleSubmit = vi.fn((callback) => (e: React.FormEvent) => {
       e.preventDefault()
       callback({
         validAnswers: { q1: ['answer1'] },
@@ -138,6 +163,11 @@ describe('RiskAnalysisFormTemplate', () => {
         annotations: {},
         suggestedValues: {},
       })
+    })
+
+    ;(useRiskAnalysisFormTemplate as Mock).mockReturnValue({
+      handleSubmit: mockHandleSubmit,
+      questions: {},
     })
 
     render(
@@ -159,6 +189,7 @@ describe('RiskAnalysisFormTemplate', () => {
           q1: {
             values: [],
             editable: true,
+            suggestedValues: [],
           },
         },
       })
@@ -167,7 +198,7 @@ describe('RiskAnalysisFormTemplate', () => {
 
   it('includes annotation when provided', async () => {
     const user = userEvent.setup()
-    mockHandleSubmit.mockImplementation((callback) => (e: React.FormEvent) => {
+    const mockHandleSubmit = vi.fn((callback) => (e: React.FormEvent) => {
       e.preventDefault()
       callback({
         validAnswers: { q1: ['answer1'] },
@@ -175,6 +206,11 @@ describe('RiskAnalysisFormTemplate', () => {
         annotations: { q1: { text: 'annotation text', docs: [] } },
         suggestedValues: {},
       })
+    })
+
+    ;(useRiskAnalysisFormTemplate as Mock).mockReturnValue({
+      handleSubmit: mockHandleSubmit,
+      questions: {},
     })
 
     render(
@@ -194,9 +230,10 @@ describe('RiskAnalysisFormTemplate', () => {
         version: '1',
         answers: {
           q1: {
-            values: [],
+            values: ['answer1'],
             editable: false,
             annotation: { text: 'annotation text', docs: [] },
+            suggestedValues: [],
           },
         },
       })
@@ -205,7 +242,7 @@ describe('RiskAnalysisFormTemplate', () => {
 
   it('handles suggestedValues correctly', async () => {
     const user = userEvent.setup()
-    mockHandleSubmit.mockImplementation((callback) => (e: React.FormEvent) => {
+    const mockHandleSubmit = vi.fn((callback) => (e: React.FormEvent) => {
       e.preventDefault()
       callback({
         validAnswers: { q1: ['answer1'] },
@@ -213,6 +250,11 @@ describe('RiskAnalysisFormTemplate', () => {
         annotations: {},
         suggestedValues: { q1: ['suggested1', 'suggested2'] },
       })
+    })
+
+    ;(useRiskAnalysisFormTemplate as Mock).mockReturnValue({
+      handleSubmit: mockHandleSubmit,
+      questions: {},
     })
 
     render(
@@ -241,4 +283,3 @@ describe('RiskAnalysisFormTemplate', () => {
     })
   })
 })
-
