@@ -53,9 +53,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
 
   const errorToShow =
     from === 'purposeEdit'
-      ? !personalData
-        ? t('stepRiskAnalysis.personalDataFlag.incompatibleAnswerError.purposeEdit.personalData')
-        : t('stepRiskAnalysis.personalDataFlag.incompatibleAnswerError.purposeEdit.noPersonalData')
+      ? t('stepRiskAnalysis.personalDataFlag.incompatibleAnswerError.purposeEdit')
       : t('stepRiskAnalysis.personalDataFlag.incompatibleAnswerError.eserviceEdit')
 
   const handleSubmit = riskAnalysisForm.handleSubmit(({ validAnswers }) => {

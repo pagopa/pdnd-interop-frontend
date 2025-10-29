@@ -93,11 +93,8 @@
           "undefined": "L’erogatore non ha dichiarato il trattamento dei dati personali"
         },
         "incompatibleAnswerError": {
-          "purposeEdit": {
-            "personalData": "Non potrai pubblicare questa finalità perché hai dichiarato che vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore.",
-            "noPersonalData": "Non potrai pubblicare questa finalità perché hai dichiarato che non vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore."
-          },
-          "eserviceEdit": "Assicurati che la risposta a questa domanda corrisponda a quella fornita nelle informazioni generali dell’e-service. Se i dati non corrispondono, la pubblicazione di questo e-service sarà bloccata."
+          "purposeEdit": "La risposta di questo campo differisce da quanto è stato definito dall’erogatore dell’e-service",
+          "eserviceEdit": "La risposta di questo campo differisce da quanto è stato definito nelle proprietà generali dell’e-service"
         },
         "alertForIncompatibleAnswer": "Assicurati che la risposta alla domanda \"Indica se accedi a dati personali (richiesto)\" corrisponda a quella fornita dall’erogatore nelle informazioni generali. Se i dati non corrispondono, la pubblicazione sarà bloccata.",
         "alertForIncompatibleAnswerPurpose": {
