@@ -18,6 +18,12 @@ type AddAnnotationDrawerProps = {
   question: string
 }
 
+const defaultInitialAnnotationValues: RiskAnalysisTemplateAnswerAnnotation = {
+  id: '',
+  text: '',
+  docs: [],
+}
+
 export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
   isOpen,
   onClose,
@@ -34,13 +40,13 @@ export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
 
   const formMethods = useForm<AddAnnotationFormValues>({
     defaultValues: {
-      annotation: initialAnnotation ?? { id: '', text: '', docs: [] },
+      annotation: initialAnnotation ?? defaultInitialAnnotationValues,
     },
   })
 
   useEffect(() => {
     if (isOpen) {
-      formMethods.reset({ annotation: initialAnnotation ?? { id: '', text: '', docs: [] } })
+      formMethods.reset({ annotation: initialAnnotation ?? defaultInitialAnnotationValues })
     }
   }, [isOpen, initialAnnotation, formMethods])
 
