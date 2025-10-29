@@ -24,13 +24,11 @@ async function getConsumerPurposeTemplatesList(params: GetConsumerPurposeTemplat
   return purposeTemplatesListMock
 }
 
-async function getConsumerCatalogPurposeTemplates(params: GetCatalogPurposeTemplatesParams) {
-  //   const response = await axiosInstance.get<CatalogPurposeTemplates>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/catalog/purposeTemplates`
-  //      {params}
-  //   )
-  //   return response.data
-  return mockCatalogPurposeTemplates
+async function getConsumerCatalogPurposeTemplates() {
+  const response = await axiosInstance.get<CatalogPurposeTemplates>(
+    `${BACKEND_FOR_FRONTEND_URL}/catalog/purposeTemplates`
+  )
+  return response.data
 }
 
 async function getEservicesLinkedToPurposeTemplatesList(
