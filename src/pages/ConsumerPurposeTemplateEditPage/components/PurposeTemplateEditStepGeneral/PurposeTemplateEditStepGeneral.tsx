@@ -35,7 +35,7 @@ export const PurposeTemplateEditStepGeneral: React.FC<ActiveStepProps> = (props)
       purposeTemplate?.purposeFreeOfChargeReason ?? t('freeOfChargeReason'),
     targetTenantKind: purposeTemplate.targetTenantKind,
     targetDescription: purposeTemplate.targetDescription,
-    handlesPersonalData: purposeTemplate.handlesPersonalData ?? false,
+    handlesPersonalData: purposeTemplate.handlesPersonalData,
   }
 
   return (

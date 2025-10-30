@@ -16,7 +16,7 @@ import type {
 
 export const PurposeTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back }) => {
   const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'>()
-  const navigate = useNavigate()
+  const _navigate = useNavigate()
 
   const { mutate: updatePurposeTemplate } = PurposeTemplateMutations.useUpdateDraft()
   const { data: purposeTemplate } = useQuery(PurposeTemplateQueries.getSingle(purposeTemplateId))
