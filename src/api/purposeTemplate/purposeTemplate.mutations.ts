@@ -188,6 +188,19 @@ function useAddDocumentsToAnnotation() {
   })
 }
 
+function useDownloadDocument() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purposeTemplate.downloadDocument',
+  })
+  return useMutation({
+    mutationFn: PurposeTemplateServices.getRiskAnalysisTemplateAnswerAnnotationDocument,
+    meta: {
+      loadingLabel: t('loading'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
 export const PurposeTemplateMutations = {
   useUpdateDraft,
   useLinkEserviceToPurposeTemplate,
@@ -202,4 +215,5 @@ export const PurposeTemplateMutations = {
   useArchivePurposeTemplate,
   useAddAnnotationToAnswer,
   useAddDocumentsToAnnotation,
+  useDownloadDocument,
 }

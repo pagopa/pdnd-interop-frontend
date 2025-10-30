@@ -66,8 +66,9 @@ const DocumentUploadForm: React.FC<{
 
 export const RiskAnalysisAnswerComponent: React.FC<{
   questionId: string
+  question: string
   questionType: string
-}> = ({ questionId, questionType }) => {
+}> = ({ questionId, questionType, question }) => {
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step3' })
   const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'>()
 
@@ -445,6 +446,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{
         onClose={closeDrawer}
         onSubmit={handleAnnotationSubmit}
         initialAnnotation={annotation}
+        question={question}
       />
     </>
   )

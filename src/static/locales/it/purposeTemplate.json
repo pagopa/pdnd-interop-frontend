@@ -84,6 +84,10 @@
       "saveBtn": "Salva",
       "autocompleteInput": {
         "label": "E-service o template e-service da associare"
+      },
+      "notifications": {
+        "eserviceLinkError": "Non è stato possibile salvare questo e-service. Per favore riprova!",
+        "eserviceLinkSuccess": "L'e-service è stato salvato correttamente."
       }
     },
     "step3": {
@@ -111,8 +115,8 @@
       },
       "drawer": {
         "title": "Aggiungi annotazioni",
-        "description": "Fornisci all'utilizzatore indicazioni su come rispondere a questo campo. Una volta creata la annotazione, potrai allegare documenti.",
-        "question": "Domanda: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut laboolore magna aliqua.",
+        "description": "Fornisci all’utilizzatore indicazioni su come rispondere a questo campo. Una volta creata la annotazione, potrai allegare documenti.",
+        "question": "Domanda: ",
         "label": "Annotazioni",
         "addBtn": "Aggiungi"
       },

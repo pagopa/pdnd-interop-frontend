@@ -84,6 +84,10 @@
       "saveBtn": "Save",
       "autocompleteInput": {
         "label": "E-service or e-service template to associate"
+      },
+      "notifications": {
+        "eserviceLinkError": "It was not possible to save this e-service. Please try again!",
+        "eserviceLinkSuccess": "The e-service has been saved correctly."
       }
     },
     "step3": {

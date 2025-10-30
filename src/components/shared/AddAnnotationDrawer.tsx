@@ -15,6 +15,13 @@ type AddAnnotationDrawerProps = {
   onClose: VoidFunction
   onSubmit: (annotation: RiskAnalysisTemplateAnswerAnnotation) => void
   initialAnnotation?: RiskAnalysisTemplateAnswerAnnotation
+  question: string
+}
+
+const defaultInitialAnnotationValues: RiskAnalysisTemplateAnswerAnnotation = {
+  id: '',
+  text: '',
+  docs: [],
 }
 
 export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
@@ -22,6 +29,7 @@ export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
   onClose,
   onSubmit,
   initialAnnotation,
+  question,
 }) => {
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step3.drawer' })
   const { t: tCommon } = useTranslation('common')
@@ -32,17 +40,17 @@ export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
 
   const formMethods = useForm<AddAnnotationFormValues>({
     defaultValues: {
-      annotation: initialAnnotation ?? { id: '', text: '', docs: [] },
+      annotation: initialAnnotation ?? defaultInitialAnnotationValues,
     },
   })
 
   useEffect(() => {
     if (isOpen) {
-      formMethods.reset({ annotation: initialAnnotation ?? { id: '', text: '', docs: [] } })
+      formMethods.reset({ annotation: initialAnnotation ?? defaultInitialAnnotationValues })
     }
   }, [isOpen, initialAnnotation, formMethods])
 
-  const _onSubmit = ({ annotation }: AddAnnotationFormValues) => {
+  const onSubmitAnnotationText = ({ annotation }: AddAnnotationFormValues) => {
     onClose()
     onSubmit(annotation)
   }
@@ -67,7 +75,7 @@ export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
         subtitle={subtitle}
         buttonAction={{
           label: tCommon('addBtn'),
-          action: formMethods.handleSubmit(_onSubmit),
+          action: formMethods.handleSubmit(onSubmitAnnotationText),
         }}
         onTransitionExited={handleTransitionExited}
       >

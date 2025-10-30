@@ -30,7 +30,7 @@ describe('AddAnnotationDrawer', () => {
 
   describe('rendering', () => {
     it('should render drawer when isOpen is true', () => {
-      renderWithApplicationContext(<AddAnnotationDrawer {...defaultProps} />, {
+      renderWithApplicationContext(<AddAnnotationDrawer question={''} {...defaultProps} />, {
         withReactQueryContext: true,
       })
 
@@ -40,15 +40,18 @@ describe('AddAnnotationDrawer', () => {
     })
 
     it('should not render drawer when isOpen is false', () => {
-      renderWithApplicationContext(<AddAnnotationDrawer {...defaultProps} isOpen={false} />, {
-        withReactQueryContext: true,
-      })
+      renderWithApplicationContext(
+        <AddAnnotationDrawer question={''} {...defaultProps} isOpen={false} />,
+        {
+          withReactQueryContext: true,
+        }
+      )
 
       expect(screen.queryByText('purposeTemplate.title')).not.toBeInTheDocument()
     })
 
     it('should render text field for annotation input', () => {
-      renderWithApplicationContext(<AddAnnotationDrawer {...defaultProps} />, {
+      renderWithApplicationContext(<AddAnnotationDrawer question={''} {...defaultProps} />, {
         withReactQueryContext: true,
       })
 
@@ -58,7 +61,7 @@ describe('AddAnnotationDrawer', () => {
     })
 
     it('should render add button', () => {
-      renderWithApplicationContext(<AddAnnotationDrawer {...defaultProps} />, {
+      renderWithApplicationContext(<AddAnnotationDrawer question={''} {...defaultProps} />, {
         withReactQueryContext: true,
       })
 
@@ -68,7 +71,7 @@ describe('AddAnnotationDrawer', () => {
 
   describe('initial annotation handling', () => {
     it('should initialize with empty annotation when no initialAnnotation provided', () => {
-      renderWithApplicationContext(<AddAnnotationDrawer {...defaultProps} />, {
+      renderWithApplicationContext(<AddAnnotationDrawer question={''} {...defaultProps} />, {
         withReactQueryContext: true,
       })
 
@@ -78,7 +81,7 @@ describe('AddAnnotationDrawer', () => {
 
     it('should initialize with provided initialAnnotation', () => {
       renderWithApplicationContext(
-        <AddAnnotationDrawer {...defaultProps} initialAnnotation={mockAnnotation} />,
+        <AddAnnotationDrawer question={''} {...defaultProps} initialAnnotation={mockAnnotation} />,
         {
           withReactQueryContext: true,
         }
@@ -90,7 +93,7 @@ describe('AddAnnotationDrawer', () => {
 
     it('should reset form when drawer opens with new initialAnnotation', async () => {
       const { rerender } = renderWithApplicationContext(
-        <AddAnnotationDrawer {...defaultProps} initialAnnotation={mockAnnotation} />,
+        <AddAnnotationDrawer question={''} {...defaultProps} initialAnnotation={mockAnnotation} />,
         {
           withReactQueryContext: true,
         }
@@ -101,7 +104,9 @@ describe('AddAnnotationDrawer', () => {
 
       // Change the initial annotation
       const newAnnotation = { ...mockAnnotation, text: 'New annotation text' }
-      rerender(<AddAnnotationDrawer {...defaultProps} initialAnnotation={newAnnotation} />)
+      rerender(
+        <AddAnnotationDrawer question={''} {...defaultProps} initialAnnotation={newAnnotation} />
+      )
 
       await waitFor(() => {
         expect(textField).toHaveValue('New annotation text')
@@ -111,7 +116,7 @@ describe('AddAnnotationDrawer', () => {
 
   describe('form submission', () => {
     it('should call onSubmit with annotation data when form is submitted', async () => {
-      renderWithApplicationContext(<AddAnnotationDrawer {...defaultProps} />, {
+      renderWithApplicationContext(<AddAnnotationDrawer question={''} {...defaultProps} />, {
         withReactQueryContext: true,
       })
 
@@ -131,7 +136,7 @@ describe('AddAnnotationDrawer', () => {
     })
 
     it('should call onClose after successful submission', async () => {
-      renderWithApplicationContext(<AddAnnotationDrawer {...defaultProps} />, {
+      renderWithApplicationContext(<AddAnnotationDrawer question={''} {...defaultProps} />, {
         withReactQueryContext: true,
       })
 
@@ -148,7 +153,7 @@ describe('AddAnnotationDrawer', () => {
 
     it('should preserve initial annotation id when submitting', async () => {
       renderWithApplicationContext(
-        <AddAnnotationDrawer {...defaultProps} initialAnnotation={mockAnnotation} />,
+        <AddAnnotationDrawer question={''} {...defaultProps} initialAnnotation={mockAnnotation} />,
         {
           withReactQueryContext: true,
         }
@@ -173,7 +178,7 @@ describe('AddAnnotationDrawer', () => {
   describe('drawer close handling', () => {
     it('should reset form when drawer transition exits', () => {
       const { rerender } = renderWithApplicationContext(
-        <AddAnnotationDrawer {...defaultProps} isOpen={true} />,
+        <AddAnnotationDrawer question={''} {...defaultProps} isOpen={true} />,
         {
           withReactQueryContext: true,
         }
@@ -184,10 +189,10 @@ describe('AddAnnotationDrawer', () => {
       expect(textField).toHaveValue('Some text')
 
       // Close the drawer
-      rerender(<AddAnnotationDrawer {...defaultProps} isOpen={false} />)
+      rerender(<AddAnnotationDrawer question={''} {...defaultProps} isOpen={false} />)
 
       // Reopen the drawer
-      rerender(<AddAnnotationDrawer {...defaultProps} isOpen={true} />)
+      rerender(<AddAnnotationDrawer question={''} {...defaultProps} isOpen={true} />)
 
       // Form should be reset
       expect(textField).toHaveValue('')
@@ -196,7 +201,7 @@ describe('AddAnnotationDrawer', () => {
 
   describe('accessibility', () => {
     it('should have proper labels and attributes', () => {
-      renderWithApplicationContext(<AddAnnotationDrawer {...defaultProps} />, {
+      renderWithApplicationContext(<AddAnnotationDrawer question={''} {...defaultProps} />, {
         withReactQueryContext: true,
       })
 
@@ -206,7 +211,7 @@ describe('AddAnnotationDrawer', () => {
     })
 
     it('should focus on text field when drawer opens', () => {
-      renderWithApplicationContext(<AddAnnotationDrawer {...defaultProps} />, {
+      renderWithApplicationContext(<AddAnnotationDrawer question={''} {...defaultProps} />, {
         withReactQueryContext: true,
       })
 
@@ -217,7 +222,7 @@ describe('AddAnnotationDrawer', () => {
 
   describe('edge cases', () => {
     it('should handle empty text submission', async () => {
-      renderWithApplicationContext(<AddAnnotationDrawer {...defaultProps} />, {
+      renderWithApplicationContext(<AddAnnotationDrawer question={''} {...defaultProps} />, {
         withReactQueryContext: true,
       })
 

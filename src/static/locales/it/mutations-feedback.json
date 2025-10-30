@@ -1057,6 +1057,12 @@
         "success": "Il documento è stato rimosso correttamente",
         "error": "Non è stato possibile rimuovere il documento. Per favore, riprova!"
       }
+    },
+    "downloadDocument": {
+      "loading": "Stiamo scaricando il documento",
+      "outcome": {
+        "error": "Non è stato possibile scaricare il documento. Per favore, riprova!"
+      }
     }
   }
 }
