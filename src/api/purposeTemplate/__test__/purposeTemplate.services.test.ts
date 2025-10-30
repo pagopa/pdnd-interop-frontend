@@ -82,7 +82,7 @@ describe('PurposeTemplateServices', () => {
         limit: 10,
       }
 
-      const result = await PurposeTemplateServices.getConsumerCatalogPurposeTemplates(params)
+      const result = await PurposeTemplateServices.getCatalogPurposeTemplates(params)
 
       expect(result).toEqual(mockCatalogPurposeTemplates)
       expect(result.results).toHaveLength(3)
@@ -97,7 +97,7 @@ describe('PurposeTemplateServices', () => {
         limit: 5,
       }
 
-      const result = await PurposeTemplateServices.getConsumerCatalogPurposeTemplates(params)
+      const result = await PurposeTemplateServices.getCatalogPurposeTemplates(params)
 
       expect(result).toEqual(mockCatalogPurposeTemplates)
     })
