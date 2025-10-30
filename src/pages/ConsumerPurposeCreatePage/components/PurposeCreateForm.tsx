@@ -132,7 +132,6 @@ export const PurposeCreateForm: React.FC = () => {
     }
 
     if (usePurposeTemplate && purposeTemplateId) {
-      console.log(payloadCreatePurposeDraftFromTemplate)
       createPurposeDraftFromPurposeTemplate(
         { ...payloadCreatePurposeDraftFromTemplate, purposeTemplateId },
         {
