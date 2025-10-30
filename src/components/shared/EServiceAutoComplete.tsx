@@ -4,7 +4,7 @@ import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-input
 import { Button, Stack } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import type { CatalogEService } from '@/api/api.generatedTypes'
+import type { CatalogEService, PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { useQuery } from '@tanstack/react-query'
 
@@ -12,6 +12,7 @@ export type EServiceAutocompleteProps = {
   onAddEService: (eservice: CatalogEService) => void
   alreadySelectedEServiceIds: string[]
   direction?: 'column' | 'row'
+  purposeTemplate?: PurposeTemplateWithCompactCreator
 }
 
 type EServiceAutocompleteFormValues = { eservice: null | CatalogEService }
@@ -20,6 +21,7 @@ export const EServiceAutocomplete: React.FC<EServiceAutocompleteProps> = ({
   onAddEService,
   alreadySelectedEServiceIds,
   direction = 'row',
+  purposeTemplate,
 }) => {
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step2' })
   const [eserviceSearchParam, setEServiceSearchParam] = useAutocompleteTextInput()
@@ -45,12 +47,18 @@ export const EServiceAutocomplete: React.FC<EServiceAutocompleteProps> = ({
     return result
   }
 
+  let personalDataFilter: 'TRUE' | 'FALSE' = 'FALSE'
+  if (purposeTemplate?.handlesPersonalData === true) {
+    personalDataFilter = 'TRUE'
+  }
+
   const { data } = useQuery(
     EServiceQueries.getCatalogList({
       q: getQ(),
-      states: ['PUBLISHED', 'SUSPENDED'], //TODO: REMOVE SUSPENDED STATE
+      states: ['PUBLISHED'],
       limit: 50,
       offset: 0,
+      personalData: personalDataFilter,
     })
   )
 

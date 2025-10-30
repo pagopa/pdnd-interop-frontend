@@ -74,6 +74,7 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
             <EServiceAutocomplete
               onAddEService={handleAddEServiceToGroup}
               alreadySelectedEServiceIds={group.map((e) => e.id)} //TODO
+              purposeTemplate={purposeTemplate}
             />
           ) : (
             <ButtonNaked
