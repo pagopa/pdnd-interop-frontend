@@ -93,8 +93,7 @@
           "undefined": "The provider has not declared the processing of personal data"
         },
         "incompatibleAnswerError": {
-          "purposeEdit": "The answer in this field differs from what was defined by the e-service provider",
-          "eserviceEdit": "The answer in this field differs from what was defined in the general properties of the e-service"
+          "purposeEdit": "The answer in this field differs from what was defined by the e-service provider"
         },
         "alertForIncompatibleAnswer": "Make sure that the answer to the question \"Indicate whether you access personal data (required)\" matches the one the provider provided in the general information. If the data does not match, the publication will be blocked.",
         "alertForIncompatibleAnswerPurpose": {

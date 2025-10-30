@@ -93,8 +93,7 @@
           "undefined": "L’erogatore non ha dichiarato il trattamento dei dati personali"
         },
         "incompatibleAnswerError": {
-          "purposeEdit": "La risposta di questo campo differisce da quanto è stato definito dall’erogatore dell’e-service",
-          "eserviceEdit": "La risposta di questo campo differisce da quanto è stato definito nelle proprietà generali dell’e-service"
+          "purposeEdit": "La risposta a questa domanda differisce da quanto è stato definito dall’erogatore dell’e-service"
         },
         "alertForIncompatibleAnswer": "Assicurati che la risposta alla domanda \"Indica se accedi a dati personali (richiesto)\" corrisponda a quella fornita dall’erogatore nelle informazioni generali. Se i dati non corrispondono, la pubblicazione sarà bloccata.",
         "alertForIncompatibleAnswerPurpose": {
