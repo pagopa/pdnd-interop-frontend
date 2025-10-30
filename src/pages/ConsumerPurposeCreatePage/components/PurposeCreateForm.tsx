@@ -2,6 +2,7 @@ import type {
   CatalogEService,
   CompactEService,
   PurposeEServiceSeed,
+  PurposeFromTemplateSeed,
   PurposeSeed,
   RiskAnalysisForm,
 } from '@/api/api.generatedTypes'
@@ -29,6 +30,7 @@ export type PurposeCreateFormValues = {
   templateId: string | null
   providerRiskAnalysisId: string | null
   usePurposeTemplate: boolean | null
+  purposeTemplateId: string | null
 }
 
 export const PurposeCreateForm: React.FC = () => {
@@ -38,6 +40,8 @@ export const PurposeCreateForm: React.FC = () => {
   const { mutate: createPurposeDraft } = PurposeMutations.useCreateDraft()
   const { mutate: createPurposeDraftForReceiveEService } =
     PurposeMutations.useCreateDraftForReceiveEService()
+  const { mutate: createPurposeDraftFromPurposeTemplate } =
+    PurposeMutations.useCreateDraftFromPurposeTemplate()
 
   const formMethods = useForm<PurposeCreateFormValues>({
     defaultValues: {
@@ -54,6 +58,7 @@ export const PurposeCreateForm: React.FC = () => {
   const purposeId = formMethods.watch('templateId')
   const useTemplate = formMethods.watch('useTemplate')
   const usePurposeTemplate = formMethods.watch('usePurposeTemplate')
+  const purposeTemplateId = formMethods.watch('purposeTemplateId')
 
   const selectedProviderRiskAnalysisId = formMethods.watch('providerRiskAnalysisId')
 
@@ -119,6 +124,27 @@ export const PurposeCreateForm: React.FC = () => {
       riskAnalysisForm = purpose.riskAnalysisForm
     }
 
+    const payloadCreatePurposeDraftFromTemplate: PurposeFromTemplateSeed = {
+      eserviceId: eservice.id,
+      consumerId: consumerId,
+      title,
+      dailyCalls: 1, //TODO: confirm if this is correct
+    }
+
+    if (usePurposeTemplate && purposeTemplateId) {
+      console.log(payloadCreatePurposeDraftFromTemplate)
+      createPurposeDraftFromPurposeTemplate(
+        { ...payloadCreatePurposeDraftFromTemplate, purposeTemplateId },
+        {
+          onSuccess(data) {
+            const purposeId = data.id
+            navigate('NOT_FOUND')
+          },
+        }
+      )
+      return
+    }
+
     if (selectedEServiceMode === 'RECEIVE') {
       if (!providerRiskAnalysisId) return
 
@@ -136,8 +162,7 @@ export const PurposeCreateForm: React.FC = () => {
       createPurposeDraftForReceiveEService(payloadCreatePurposeDraft, {
         onSuccess(data) {
           const purposeId = data.id
-          navigate(usePurposeTemplate ? 'NOT_FOUND' : 'SUBSCRIBE_PURPOSE_EDIT', {
-            //TODO: REPLACE 'NOT_FOUND' WITH CORRECT ROUTE; IS THERE AN API CALL TO CREATE PURPOSE FROM PURPOSE TEMPLATE?
+          navigate('SUBSCRIBE_PURPOSE_EDIT', {
             params: { purposeId },
           })
         },
@@ -159,8 +184,7 @@ export const PurposeCreateForm: React.FC = () => {
       createPurposeDraft(payloadCreatePurposeDraft, {
         onSuccess(data) {
           const purposeId = data.id
-          navigate(usePurposeTemplate ? 'NOT_FOUND' : 'SUBSCRIBE_PURPOSE_EDIT', {
-            //TODO: REPLACE 'NOT_FOUND' WITH CORRECT ROUTE; IS THERE AN API CALL TO CREATE PURPOSE FROM PURPOSE TEMPLATE?
+          navigate('SUBSCRIBE_PURPOSE_EDIT', {
             params: { purposeId },
           })
         },
