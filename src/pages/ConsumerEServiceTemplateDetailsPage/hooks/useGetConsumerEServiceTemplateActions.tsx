@@ -56,7 +56,10 @@ export function useGetConsumerEServiceTemplateActions(
     action: handleCreateEServiceFromTemplate,
     label: t('createNewEServiceInstance'),
     icon: FiberNewIcon,
-    disabled: isAlreadyInstantiated || !hasRequesterRiskAnalysis,
+    disabled:
+      isAlreadyInstantiated ||
+      !hasRequesterRiskAnalysis ||
+      (!hasPersonalDataValue && FEATURE_FLAG_ESERVICE_PERSONAL_DATA),
     tooltip: tooltipToShow,
   }
 

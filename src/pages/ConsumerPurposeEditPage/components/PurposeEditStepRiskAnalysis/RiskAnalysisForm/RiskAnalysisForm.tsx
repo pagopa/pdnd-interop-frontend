@@ -18,7 +18,6 @@ type RiskAnalysisFormProps = {
   onSubmit: (answers: Record<string, string[]>) => void
   onCancel: VoidFunction
   personalData?: boolean
-  from?: 'purposeEdit' | 'eserviceEdit'
 }
 
 export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
@@ -27,7 +26,6 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   onSubmit,
   onCancel,
   personalData,
-  from,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
 
@@ -51,17 +49,12 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
     return incompatible
   }
 
-  const errorToShow =
-    from === 'purposeEdit'
-      ? t('stepRiskAnalysis.personalDataFlag.incompatibleAnswerError.purposeEdit')
-      : t('stepRiskAnalysis.personalDataFlag.incompatibleAnswerError.eserviceEdit')
-
   const handleSubmit = riskAnalysisForm.handleSubmit(({ validAnswers }) => {
     if (checkIncompatibleAnswerValue(validAnswers)) {
       setIncompatibleAnswerValue(true)
       riskAnalysisForm.setError('answers.usesPersonalData', {
         type: 'manual',
-        message: errorToShow,
+        message: t('stepRiskAnalysis.personalDataFlag.incompatibleAnswerError.purposeEdit'),
       })
       return
     }
