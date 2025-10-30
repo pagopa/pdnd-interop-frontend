@@ -16,13 +16,13 @@ import type {
 
 export const PurposeTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back }) => {
   const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'>()
-  const _navigate = useNavigate()
+  const navigate = useNavigate()
 
   const { mutate: updatePurposeTemplate } = PurposeTemplateMutations.useUpdateDraft()
   const { data: purposeTemplate } = useQuery(PurposeTemplateQueries.getSingle(purposeTemplateId))
 
   const { data: riskAnalysis } = useQuery(
-    PurposeQueries.getRiskAnalysisLatest({ tenantKind: purposeTemplate?.targetTenantKind }) //TODO: PURPOSE TEMPLATE QUERIES?
+    PurposeQueries.getRiskAnalysisLatest({ tenantKind: purposeTemplate?.targetTenantKind })
   )
 
   if (!purposeTemplate || !riskAnalysis || !purposeTemplate.purposeRiskAnalysisForm) {
