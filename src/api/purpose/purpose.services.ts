@@ -223,11 +223,13 @@ function removeClient({ clientId, purposeId }: { clientId: string; purposeId: st
 
 async function createDraftFromPurposeTemplate({
   purposeTemplateId,
+  ...payload
 }: {
   purposeTemplateId: string
 } & PurposeFromTemplateSeed) {
   const response = await axiosInstance.post<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/purposes`
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/purposes`,
+    payload
   )
   return response.data
 }
