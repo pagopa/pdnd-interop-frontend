@@ -5,6 +5,7 @@ import type {
   PurposeFromTemplateSeed,
   PurposeSeed,
   RiskAnalysisForm,
+  TenantKind,
 } from '@/api/api.generatedTypes'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { SectionContainer } from '@/components/layout/containers'
@@ -31,6 +32,7 @@ export type PurposeCreateFormValues = {
   providerRiskAnalysisId: string | null
   usePurposeTemplate: boolean | null
   purposeTemplateId: string | null
+  tenantKind?: TenantKind
 }
 
 export const PurposeCreateForm: React.FC = () => {
@@ -51,10 +53,12 @@ export const PurposeCreateForm: React.FC = () => {
       templateId: null,
       providerRiskAnalysisId: null,
       usePurposeTemplate: false,
+      tenantKind: undefined,
     },
   })
 
   const selectedEService = formMethods.watch('eservice')
+  const selectedTenantKind = formMethods.watch('tenantKind')
   const purposeId = formMethods.watch('templateId')
   const useTemplate = formMethods.watch('useTemplate')
   const usePurposeTemplate = formMethods.watch('usePurposeTemplate')
@@ -97,6 +101,7 @@ export const PurposeCreateForm: React.FC = () => {
   })
 
   const selectedEServiceMode = selectedEServiceDescriptor?.eservice.mode
+  const handlesPersonalData = selectedEServiceDescriptor?.eservice.personalData
 
   // const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
 
@@ -230,7 +235,11 @@ export const PurposeCreateForm: React.FC = () => {
           description={t('create.purposeTemplateField.description')}
         >
           <Stack spacing={3}>
-            <PurposeCreatePurposeTemplateSection eserviceId={selectedEService?.id as string} />
+            <PurposeCreatePurposeTemplateSection
+              eserviceId={selectedEService?.id as string}
+              tenantKind={selectedTenantKind}
+              handlesPersonalData={handlesPersonalData}
+            />
           </Stack>
         </SectionContainer>
         <Stack direction="row" sx={{ mt: 4, justifyContent: 'right' }}>

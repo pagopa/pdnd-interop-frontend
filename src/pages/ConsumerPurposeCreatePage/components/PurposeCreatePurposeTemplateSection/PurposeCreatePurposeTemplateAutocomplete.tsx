@@ -1,6 +1,7 @@
 import type {
   CatalogPurposeTemplate,
   GetCatalogPurposeTemplatesParams,
+  TenantKind,
 } from '@/api/api.generatedTypes'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -12,11 +13,13 @@ import { useFormContext, useWatch } from 'react-hook-form'
 
 type PurposeCreatePurposeTemplateAutocompleteProps = {
   eserviceId: string
+  tenantKind?: TenantKind
+  handlesPersonalData?: boolean
 }
 
 export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
   PurposeCreatePurposeTemplateAutocompleteProps
-> = ({ eserviceId }) => {
+> = ({ eserviceId, tenantKind, handlesPersonalData }) => {
   const { t } = useTranslation('purpose', {
     keyPrefix: 'create.purposeTemplateField.usePurposeTemplateSwitch.selectPurposeTemplate',
   })
@@ -47,9 +50,14 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
 
     return result
   }
-  const queryParams: GetCatalogPurposeTemplatesParams = showOnlyLinkedPurposeTemplates
-    ? { q: getQ(), eserviceIds: [eserviceId], limit: 50, offset: 0 }
-    : { q: getQ(), limit: 50, offset: 0 }
+  const queryParams: GetCatalogPurposeTemplatesParams = {
+    q: getQ(),
+    limit: 50,
+    offset: 0,
+    targetTenantKind: tenantKind,
+    handlesPersonalData,
+    eserviceIds: [eserviceId],
+  }
 
   const { data: purposeTemplates = [], isLoading: isLoadingPurposeTemplates } = useQuery({
     ...PurposeTemplateQueries.getCatalogPurposeTemplates(queryParams),
