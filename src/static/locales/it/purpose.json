@@ -50,7 +50,7 @@
         "selectPurposeTemplate": {
           "title": "Scegli il modello di compilazione agevolata della finalità",
           "showOnlyLinkedPurposeTemplates": "Mostra solo template suggeriti per l’e-service che ho selezionato",
-          "autocompleteLabel": "Template per la compilazione agevolata della finalità",
+          "autocompleteLabelPurposeTemplate": "Template per la compilazione agevolata della finalità",
           "viewPurposeTemplateBtn": "Visualizza il template selezionato"
         },
         "acknowledgeInfoResponsibility": {

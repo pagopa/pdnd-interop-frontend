@@ -80,7 +80,7 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
         sx={{ mb: 2 }}
         loading={isLoadingPurposeTemplates}
         name="purposeTemplateId"
-        label={t('autocompleteLabel')}
+        label={t('autocompleteLabelPurposeTemplate')}
         options={autocompleteOptions}
         onValueChange={(value) => {
           selectedPurposeTemplateRef.current = purposeTemplates.find(
