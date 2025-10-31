@@ -60,7 +60,6 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   )
 
   const isEServiceFromTemplate = descriptor?.templateRef
-  const hasPersonalData = descriptor?.eservice.personalData
 
   const handleDeleteDraft = () => {
     if (!descriptor) return
@@ -265,7 +264,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             <ProviderEServiceDocumentationSummary />
           </SummaryAccordion>
         </React.Suspense>
-        {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && !hasPersonalData && isDelegator && (
+        {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && !arePersonalDataSet && isDelegator && (
           <Alert severity="error">
             {isEServiceFromTemplate
               ? t('summary.alertMissingPersonalData.eserviceTemplateLabel')
