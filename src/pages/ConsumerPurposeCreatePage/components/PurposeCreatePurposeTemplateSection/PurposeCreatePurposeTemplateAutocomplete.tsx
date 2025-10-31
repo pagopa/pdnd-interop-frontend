@@ -56,7 +56,7 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
     offset: 0,
     targetTenantKind: tenantKind,
     handlesPersonalData,
-    eserviceIds: [eserviceId],
+    eserviceIds: showOnlyLinkedPurposeTemplates ? [eserviceId] : [],
   }
 
   const { data: purposeTemplates = [], isLoading: isLoadingPurposeTemplates } = useQuery({
