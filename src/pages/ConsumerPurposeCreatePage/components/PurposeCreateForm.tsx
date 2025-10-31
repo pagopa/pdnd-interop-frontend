@@ -1,6 +1,7 @@
 import type {
   CatalogEService,
   CompactEService,
+  GetCatalogPurposeTemplatesParams,
   PurposeEServiceSeed,
   PurposeFromTemplateSeed,
   PurposeSeed,
@@ -23,6 +24,7 @@ import { useQuery } from '@tanstack/react-query'
 import { PurposeCreateConsumerAutocomplete } from './PurposeCreateConsumerAutocomplete'
 import { EServiceRiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 import { PurposeCreatePurposeTemplateSection } from './PurposeCreatePurposeTemplateSection/PurposeCreatePurposeTemplateSection'
+import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 
 export type PurposeCreateFormValues = {
   consumerId: string
@@ -92,6 +94,15 @@ export const PurposeCreateForm: React.FC = () => {
       eservices.find((eservice) => eservice.id === selectedEService?.id)?.activeDescriptor?.id,
   })
 
+  const queryParams: GetCatalogPurposeTemplatesParams = {
+    limit: 50,
+    offset: 0,
+  }
+
+  const { data: purposeTemplates, isLoading: isLoadingPurposeTemplates } = useQuery({
+    ...PurposeTemplateQueries.getCatalogPurposeTemplates(queryParams),
+  })
+
   const { data: selectedEServiceDescriptor } = useQuery({
     ...EServiceQueries.getDescriptorCatalog(
       selectedEService?.id as string,
@@ -142,7 +153,7 @@ export const PurposeCreateForm: React.FC = () => {
         {
           onSuccess(data) {
             const purposeId = data.id
-            navigate('NOT_FOUND')
+            navigate('NOT_FOUND') //TODO: replace with correct route
           },
         }
       )
@@ -230,18 +241,22 @@ export const PurposeCreateForm: React.FC = () => {
             </Stack>
           </SectionContainer>
         )}
-        <SectionContainer
-          title={t('create.purposeTemplateField.title')}
-          description={t('create.purposeTemplateField.description')}
-        >
-          <Stack spacing={3}>
-            <PurposeCreatePurposeTemplateSection
-              eserviceId={selectedEService?.id as string}
-              tenantKind={selectedTenantKind}
-              handlesPersonalData={handlesPersonalData}
-            />
-          </Stack>
-        </SectionContainer>
+        {!isLoadingPurposeTemplates &&
+          purposeTemplates?.results &&
+          purposeTemplates.results.length > 0 && (
+            <SectionContainer
+              title={t('create.purposeTemplateField.title')}
+              description={t('create.purposeTemplateField.description')}
+            >
+              <Stack spacing={3}>
+                <PurposeCreatePurposeTemplateSection
+                  eserviceId={selectedEService?.id as string}
+                  tenantKind={selectedTenantKind}
+                  handlesPersonalData={handlesPersonalData}
+                />
+              </Stack>
+            </SectionContainer>
+          )}
         <Stack direction="row" sx={{ mt: 4, justifyContent: 'right' }}>
           <Button variant="contained" type="submit" startIcon={<NoteAddIcon />}>
             {t('create.createNewPurposeBtn')}

@@ -10,11 +10,16 @@ import { useQuery } from '@tanstack/react-query'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { useFormContext, useWatch } from 'react-hook-form'
+import { ButtonNaked } from '@pagopa/mui-italia'
+import { Link } from '@/router'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
+import { Stack } from '@mui/system'
 
 type PurposeCreatePurposeTemplateAutocompleteProps = {
   eserviceId: string
   tenantKind?: TenantKind
   handlesPersonalData?: boolean
+  purposeTemplateId?: string
 }
 
 export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
@@ -70,19 +75,34 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
   }))
 
   return (
-    <RHFAutocompleteSingle
-      sx={{ my: 0 }}
-      loading={isLoadingPurposeTemplates}
-      name="purposeTemplateId"
-      label={t('autocompleteLabel')}
-      options={autocompleteOptions}
-      onValueChange={(value) => {
-        selectedPurposeTemplateRef.current = purposeTemplates.find(
-          (purposeTemplate) => purposeTemplate.id === value?.value
-        )
-      }}
-      onInputChange={(_, value) => setPurposeTemplateAutocompleteTextInput(value)}
-      rules={{ required: true }}
-    />
+    <Stack>
+      <RHFAutocompleteSingle
+        sx={{ mb: 2 }}
+        loading={isLoadingPurposeTemplates}
+        name="purposeTemplateId"
+        label={t('autocompleteLabel')}
+        options={autocompleteOptions}
+        onValueChange={(value) => {
+          selectedPurposeTemplateRef.current = purposeTemplates.find(
+            (purposeTemplate) => purposeTemplate.id === value?.value
+          )
+        }}
+        onInputChange={(_, value) => setPurposeTemplateAutocompleteTextInput(value)}
+        rules={{ required: true }}
+      />
+      {selectedPurposeTemplateRef.current && (
+        <ButtonNaked
+          component={Link}
+          to="NOT_FOUND" //TODO: replace with purpose template details route when available
+          color="primary"
+          target="_blank"
+          params={undefined}
+          endIcon={<OpenInNewIcon />}
+          sx={{ alignSelf: 'flex-start', fontWeight: 700 }}
+        >
+          {t('viewPurposeTemplateBtn')}
+        </ButtonNaked>
+      )}
+    </Stack>
   )
 }
