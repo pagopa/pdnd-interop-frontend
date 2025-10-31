@@ -154,7 +154,6 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   }
 
   const arePersonalDataSet = descriptor?.eservice.personalData !== undefined
-  console.log(arePersonalDataSet)
 
   const canBePublished = () => {
     return (
