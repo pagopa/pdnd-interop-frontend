@@ -84,7 +84,10 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
                 }}
                 checked={value === 'true'}
                 inputRef={ref}
-                disabled={isAssignedToTemplateUsersSwitch}
+                disabled={
+                  isAssignedToTemplateUsersSwitch ||
+                  (type === 'consumer' && !isAssignedToTemplateUsersSwitch)
+                }
               />
             )}
           />

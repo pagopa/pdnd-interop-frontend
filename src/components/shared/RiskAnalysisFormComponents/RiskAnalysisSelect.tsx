@@ -83,7 +83,10 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
               onChange(e)
             }}
             inputRef={ref}
-            disabled={isAssignedToTemplateUsersSwitch}
+            disabled={
+              isAssignedToTemplateUsersSwitch ||
+              (type === 'consumer' && !isAssignedToTemplateUsersSwitch)
+            }
           >
             {options.length > 0 ? (
               options.map((o, i) => (

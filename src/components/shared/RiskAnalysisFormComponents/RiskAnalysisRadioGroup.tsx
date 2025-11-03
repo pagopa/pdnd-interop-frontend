@@ -88,7 +88,12 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
           >
             {options.map((o) => (
               <FormControlLabel
-                disabled={disabled || o.disabled || isAssignedToTemplateUsersSwitch}
+                disabled={
+                  disabled ||
+                  o.disabled ||
+                  isAssignedToTemplateUsersSwitch ||
+                  (type === 'consumer' && !isAssignedToTemplateUsersSwitch)
+                }
                 key={`${labelId}-${o.value}`}
                 value={o.value}
                 control={<Radio />}

@@ -85,7 +85,10 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
                         checked={field.value?.includes(o.value) ?? false}
                         onChange={onChange}
                         name={String(o.value)}
-                        disabled={isAssignedToTemplateUsersSwitch}
+                        disabled={
+                          isAssignedToTemplateUsersSwitch ||
+                          (type === 'consumer' && !isAssignedToTemplateUsersSwitch)
+                        }
                       />
                     }
                     label={o.label}
