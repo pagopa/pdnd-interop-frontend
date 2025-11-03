@@ -1,8 +1,9 @@
 import { SectionContainer } from '@/components/layout/containers'
-import { FormControl, FormHelperText, FormLabel, Stack, Typography } from '@mui/material'
+import { Box, Chip, FormControl, FormHelperText, FormLabel, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { RiskAnalysisAnswerComponent } from '@/pages/ConsumerPurposeTemplateEditPage/components/PurposeTemplateEditStepRiskAnalysis/RiskAnalysisForm/RiskAnalysisAnswerComponent'
 import { RiskAnalysisReadAnnotationsComponent } from '@/pages/ConsumerPurposeFromTemplateEditPage/components/PurposeFromTemplateEditStepRiskAnalysis/RiskAnalysisReadAnnotationsComponent'
+import { useTranslation } from 'react-i18next'
 
 type RiskAnalysisInputWrapperProps = {
   children: React.ReactNode
@@ -20,6 +21,7 @@ type RiskAnalysisInputWrapperProps = {
   questionId?: string
   questionType?: string
   type?: 'creator' | 'consumer'
+  isAssignedToTemplateUsersSwitch?: boolean
 }
 
 const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
@@ -38,7 +40,9 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
   questionId,
   questionType,
   type,
+  isAssignedToTemplateUsersSwitch,
 }) => {
+  const { t } = useTranslation('common')
   return (
     <SectionContainer component={isInputGroup ? 'fieldset' : 'div'}>
       <SectionContainer
@@ -47,14 +51,30 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
       >
         <FormControl fullWidth error={!!error}>
           <Stack spacing={1} sx={{ mb: 4 }}>
-            <FormLabel
-              htmlFor={name}
-              component={isInputGroup ? 'legend' : 'label'}
-              id={labelId}
-              sx={{ fontWeight: 600 }}
-            >
-              {label}
-            </FormLabel>
+            <Box display="flex" justifyContent="space-between" alignItems="flex-start" gap={2}>
+              <Box sx={{ flex: 1, minWidth: 0 }}>
+                <FormLabel
+                  htmlFor={name}
+                  component={isInputGroup ? 'legend' : 'label'}
+                  id={labelId}
+                  sx={{ fontWeight: 600 }}
+                >
+                  {label}
+                </FormLabel>
+              </Box>
+              {isFromPurposeTemplate && type === 'consumer' && !isAssignedToTemplateUsersSwitch && (
+                <Chip
+                  size="small"
+                  label={t('notEditableLabel')}
+                  color="default"
+                  sx={{
+                    borderRadius: 1,
+                    flexShrink: 0,
+                    whiteSpace: 'nowrap',
+                  }}
+                />
+              )}
+            </Box>
             {infoLabel && (
               <Typography
                 id={infoLabelId}

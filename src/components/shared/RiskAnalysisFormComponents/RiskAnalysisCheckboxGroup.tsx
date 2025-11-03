@@ -57,6 +57,7 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
       isFromPurposeTemplate={isFromPurposeTemplate}
       questionId={questionId}
       type={type}
+      isAssignedToTemplateUsersSwitch={isAssignedToTemplateUsersSwitch}
     >
       <FormGroup>
         <Controller

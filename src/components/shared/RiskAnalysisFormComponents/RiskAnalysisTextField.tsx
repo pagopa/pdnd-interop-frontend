@@ -98,6 +98,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
         questionId={questionId}
         questionType={questionType}
         type={type}
+        isAssignedToTemplateUsersSwitch={true}
       >
         {type === 'consumer' ? (
           <RHFSelect

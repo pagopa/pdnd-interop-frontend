@@ -67,6 +67,7 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
       isFromPurposeTemplate={isFromPurposeTemplate}
       questionId={questionId}
       type={type}
+      isAssignedToTemplateUsersSwitch={isAssignedToTemplateUsersSwitch}
     >
       <Controller
         name={name}

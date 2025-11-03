@@ -73,6 +73,7 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
       isFromPurposeTemplate={isFromPurposeTemplate}
       questionId={questionId}
       type={type}
+      isAssignedToTemplateUsersSwitch={isAssignedToTemplateUsersSwitch}
     >
       <Controller
         name={name}
