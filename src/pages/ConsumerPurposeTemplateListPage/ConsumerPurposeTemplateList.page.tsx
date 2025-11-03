@@ -1,7 +1,6 @@
 import { AuthHooks } from '@/api/auth'
 import type { ActionItemButton } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from 'react-router-dom'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { PageContainer } from '@/components/layout/containers'
 import {
@@ -19,6 +18,10 @@ import {
 import type { GetConsumerPurposeTemplatesParams } from '@/api/purposeTemplate/mockedResponses'
 import type { CreatorPurposeTemplates } from '@/api/api.generatedTypes'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
+import { useDialog } from '@/stores'
+import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
+import type { TenantKind } from '@/api/api.generatedTypes'
+import { useNavigate } from '@/router'
 import { EServiceQueries } from '@/api/eservice'
 
 const ConsumerPurposeTemplateListPage: React.FC = () => {
@@ -26,13 +29,55 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerPurposeTemplatesList' })
   const { t: tCommon } = useTranslation('common')
   const { t: tPurposeTemplate } = useTranslation('purposeTemplate', { keyPrefix: 'list.filters' })
+  const { t: tPurposeTemplateDefaults } = useTranslation('purposeTemplate', {
+    keyPrefix: 'edit.defaultPurposeTemplate',
+  })
   const navigate = useNavigate()
 
   const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = useAutocompleteTextInput()
 
+  const { mutate: createDraft } = PurposeTemplateMutations.useCreateDraft()
+
+  const { openDialog } = useDialog()
+
+  const handleCreateDraft = (tenantKind: TenantKind, _handlesPersonalData: boolean) => {
+    /**
+     * A purpose template cannot have two templates with the same title.
+     * To avoid this, we add the current date to the title to make it unique.
+     */
+    const currentDateString = new Intl.DateTimeFormat('it', {
+      dateStyle: 'short',
+      timeStyle: 'short',
+    })
+      .format()
+      .replace(',', '')
+
+    createDraft(
+      {
+        targetDescription: tPurposeTemplateDefaults('intendedTarget'),
+        targetTenantKind: tenantKind,
+        purposeTitle: `Template finalità ${currentDateString}`,
+        purposeDescription: tPurposeTemplateDefaults('description'),
+        purposeIsFreeOfCharge: true,
+        purposeFreeOfChargeReason: tPurposeTemplateDefaults('freeOfChargeReason'),
+        purposeDailyCalls: 1,
+        handlesPersonalData: _handlesPersonalData,
+      },
+      {
+        onSuccess() {
+          navigate(/*'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'*/ 'NOT_FOUND') //TODO TO FIX WHEN ROUTE IS AVAILABLE
+        },
+      }
+    )
+  }
+
   const topSideActions: Array<ActionItemButton> = [
     {
-      action: () => navigate('PROVIDE_ESERVICE_TEMPLATE_CREATE'),
+      action: () =>
+        openDialog({
+          type: 'tenantKindPurposeTemplate',
+          onConfirm: handleCreateDraft,
+        }),
       label: tCommon('createNewBtn'),
       variant: 'contained',
       icon: PlusOneIcon,
@@ -45,7 +90,6 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
       states: ['PUBLISHED'],
       limit: 50,
       offset: 0,
-      isConsumerDelegable: true,
     }),
     placeholderData: keepPreviousData,
     select: ({ results }) =>
@@ -107,7 +151,12 @@ const PurposeTemplateTableWrapper: React.FC<{
   data: CreatorPurposeTemplates | undefined
 }> = ({ data }) => {
   if (!data) return <ConsumerPurposeTemplateTableSkeleton />
-  return <ConsumerPurposeTemplateTable purposeTemplates={data.results ?? []} />
+  return (
+    <ConsumerPurposeTemplateTable
+      purposeTemplates={data.results ?? []}
+      data-testid="purpose-template-table-component"
+    />
+  )
 }
 
 export default ConsumerPurposeTemplateListPage

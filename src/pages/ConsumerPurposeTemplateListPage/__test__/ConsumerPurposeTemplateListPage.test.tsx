@@ -1,6 +1,7 @@
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import ConsumerPurposeTemplateListPage from '../ConsumerPurposeTemplateList.page'
 import { screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 mockUseJwt()
 
@@ -29,6 +30,13 @@ describe('ConsumerPurposeTemplateListPage', () => {
       expect(screen.getByText('createNewBtn')).toBeInTheDocument()
       expect(screen.getByRole('table')).toBeInTheDocument()
     })
+  })
+
+  it('should open the dialog when clicking the create button', async () => {
+    const createButton = screen.getByText('createNewBtn')
+    await userEvent.click(createButton)
+
+    expect(await screen.findByTestId('create-purpose-modal')).toBeInTheDocument()
   })
 
   it('should be have four columns (intended target, purpose template, status, actions)', () => {
