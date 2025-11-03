@@ -113,6 +113,9 @@
         "documentDownloadError": "Non è stato possibile scaricare il documento. Riprova più tardi.",
         "documentDownloadedSuccess": "Documento scaricato con successo."
       },
+      "validation": {
+        "usesPersonalDataMismatch": "La risposta di questo campo differisce da quanto è stato definito dall'erogatore dell'e-service"
+      },
       "drawer": {
         "title": "Aggiungi annotazioni",
         "description": "Fornisci all’utilizzatore indicazioni su come rispondere a questo campo. Una volta creata la annotazione, potrai allegare documenti.",

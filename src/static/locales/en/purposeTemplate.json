@@ -113,6 +113,9 @@
         "documentDownloadError": "It was not possible to download the document. Please try again later.",
         "documentDownloadedSuccess": "Document downloaded successfully."
       },
+      "validation": {
+        "usesPersonalDataMismatch": "The answer to this field differs from what was defined by the e-service provider"
+      },
       "drawer": {
         "title": "Add annotations",
         "description": "Provide the user with instructions on how to respond to this field. Once the annotation is created, you can attach documents.",

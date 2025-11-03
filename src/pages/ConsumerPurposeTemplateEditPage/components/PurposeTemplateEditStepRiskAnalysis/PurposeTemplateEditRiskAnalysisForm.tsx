@@ -73,6 +73,7 @@ export const PurposeTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({
       defaultAnswers={defaultAnswers}
       onSubmit={handleSubmit}
       onCancel={back}
+      handlesPersonalData={purposeTemplate.handlesPersonalData}
     />
   )
 }

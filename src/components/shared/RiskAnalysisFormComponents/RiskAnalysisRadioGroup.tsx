@@ -58,7 +58,7 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
   })
 
   const conditionalRules = isAssignedToTemplateUsersSwitch
-    ? { required: false }
+    ? { required: false, validate: rules?.validate ? rules.validate : undefined }
     : mapValidationErrorMessages(rules, t)
 
   return (
