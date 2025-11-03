@@ -117,7 +117,7 @@ const purposeTemplateData = [
     targetDescription: 'Student data processing',
     targetTenantKind: 'PA' as TenantKind,
     creatorId: 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb',
-    state: 'ACTIVE' as PurposeTemplateState,
+    state: 'PUBLISHED' as PurposeTemplateState,
     createdAt: '2025-08-28T10:02:30.116Z',
     updatedAt: '2025-08-28T10:02:30.116Z',
     purposeTitle: 'Student Performance Analysis',
@@ -144,7 +144,7 @@ const purposeTemplateData = [
     targetDescription: 'Financial data processing',
     targetTenantKind: 'PA' as TenantKind,
     creatorId: 'cccccccc-cccc-cccc-cccc-cccccccccccc',
-    state: 'ACTIVE' as PurposeTemplateState,
+    state: 'PUBLISHED' as PurposeTemplateState,
     createdAt: '2025-08-27T08:03:40.116Z',
     updatedAt: '2025-08-27T08:03:40.116Z',
     purposeTitle: 'Credit Scoring Analysis',
@@ -198,7 +198,7 @@ const purposeTemplateData = [
     targetDescription: 'Research data processing',
     targetTenantKind: 'GSP' as TenantKind,
     creatorId: 'eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee',
-    state: 'ACTIVE' as PurposeTemplateState,
+    state: 'PUBLISHED' as PurposeTemplateState,
     createdAt: '2025-08-25T06:05:00.116Z',
     updatedAt: '2025-08-25T06:05:00.116Z',
     purposeTitle: 'Research Data Analysis',
@@ -368,7 +368,7 @@ export const purposeTemplateEservicesMock = purposeTemplateEServiceData.map((dat
   )
 )
 
-export type PurposeTemplateState = 'DRAFT' | 'ACTIVE' | 'SUSPENDED' | 'ARCHIVED'
+export type PurposeTemplateState = 'DRAFT' | 'PUBLISHED' | 'SUSPENDED' | 'ARCHIVED'
 
 type RiskAnalysisTemplateAnswerAnnotationDocument = {
   id: string // UUID

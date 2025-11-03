@@ -102,6 +102,44 @@ export function getUpdatedQuestions(
 }
 
 /**
+ * Returns the updated question data for template forms.
+ * Hides questions that depend on questions marked as editable (assignToTemplateUsers).
+ *
+ * @param answers - the actual form values
+ * @param riskAnalysisQuestions - the risk analysis document questions
+ * @param assignToTemplateUsers - the editable flags for each question
+ * @returns the updated questions data
+ */
+export function getUpdatedQuestionsForTemplate(
+  answers: RiskAnalysisAnswers,
+  riskAnalysisQuestions: FormConfigQuestion[],
+  assignToTemplateUsers: Record<string, boolean>
+): RiskAnalysisQuestions {
+  return riskAnalysisQuestions.reduce<RiskAnalysisQuestions>((acc, question) => {
+    // Check if any dependency question is editable (user will fill it)
+    const hasEditableDependency = question.dependencies.some((dependency) => {
+      const dependencyQuestionId = dependency.id
+      return assignToTemplateUsers[dependencyQuestionId] === true
+    })
+
+    // If a dependency is editable, hide this question
+    if (hasEditableDependency) {
+      return acc
+    }
+
+    // Check normal dependencies
+    const doesSatisfyDeps = question.dependencies.every((dependency) =>
+      isDependencySatisfied(dependency, answers)
+    )
+
+    if (doesSatisfyDeps) {
+      acc[question.id] = question
+    }
+    return acc
+  }, {})
+}
+
+/**
  * Returns the default values for the risk analysis form.
  * The default values are the values that the form should have when it is first loaded.
  * The default values are the values that the user has already answered, if any.

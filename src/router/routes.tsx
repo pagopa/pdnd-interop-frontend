@@ -61,6 +61,8 @@ import ConsumerEServiceTemplateDetailsPage from '@/pages/ConsumerEServiceTemplat
 import ConsumerPurposeTemplateListPage from '@/pages/ConsumerPurposeTemplateListPage/ConsumerPurposeTemplateList.page'
 import ConsumerPurposeTemplateCatalogPage from '@/pages/ConsumerPurposeTemplateCatalogPage/ConsumerPurposeTemplateCatalog.page'
 import ConsumerPurposeFromTemplateEditPage from '@/pages/ConsumerPurposeFromTemplateEditPage/ConsumerPurposeFromTemplateEdit'
+import { ConsumerPurposeTemplateSummaryPage } from '@/pages/ConsumerPurposeTemplateSummaryPage'
+import { ConsumerPurposeTemplateEditPage } from '@/pages/ConsumerPurposeTemplateEditPage'
 
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
   LangCode,
@@ -576,7 +578,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST',
-    path: 'fruizione/template-finalita',
+    path: '/fruizione/template-finalita',
     element: <ConsumerPurposeTemplateListPage />,
     public: false,
     hideSideNav: false,
@@ -584,19 +586,27 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG',
-    path: 'fruizione/catalogo-template-finalita',
+    path: '/fruizione/catalogo-template-finalita',
     element: <ConsumerPurposeTemplateCatalogPage />,
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'api', 'support'],
   })
   .addRoute({
-    key: 'SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT',
-    path: '/fruizione/template-finalita/:purposeTemplateId/finalita/modifica',
-    element: <ConsumerPurposeFromTemplateEditPage />,
+    key: 'SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY',
+    path: '/fruizione/template-finalita/:purposeTemplateId/modifica/riepilogo',
+    element: <ConsumerPurposeTemplateSummaryPage />,
     public: false,
     hideSideNav: true,
     authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT',
+    path: 'fruizione/template-finalita/:purposeTemplateId/modifica',
+    element: <ConsumerPurposeTemplateEditPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api'],
   })
   .build()
 
