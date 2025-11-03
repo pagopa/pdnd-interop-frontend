@@ -22,6 +22,7 @@ export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> &
   rules?: ControllerProps['rules']
   options: Array<InputOption & { disabled?: boolean }>
   isFromPurposeTemplate?: boolean
+  type?: 'creator' | 'consumer'
 }
 
 export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
@@ -33,6 +34,7 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
   disabled,
   rules,
   isFromPurposeTemplate,
+  type,
   ...props
 }) => {
   const { control } = useFormContext()
@@ -70,6 +72,7 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
       {...ids}
       isFromPurposeTemplate={isFromPurposeTemplate}
       questionId={questionId}
+      type={type}
     >
       <Controller
         name={name}

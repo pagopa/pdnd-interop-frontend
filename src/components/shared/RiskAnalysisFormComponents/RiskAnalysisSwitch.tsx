@@ -17,6 +17,7 @@ type RiskAnalysisSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   questionId: string
   rules?: ControllerProps['rules']
   isFromPurposeTemplate?: boolean
+  type?: 'creator' | 'consumer'
 }
 
 export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
@@ -27,6 +28,7 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
   questionId,
   rules,
   isFromPurposeTemplate,
+  type,
   ...switchProps
 }) => {
   const { control } = useFormContext()
@@ -62,6 +64,7 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
       {...ids}
       isFromPurposeTemplate={isFromPurposeTemplate}
       questionId={questionId}
+      type={type}
     >
       <FormLabel sx={{ color: 'text.primary' }}>
         <Stack sx={{ mt: 2, mb: 1 }} direction="row" alignItems="center" spacing={1}>

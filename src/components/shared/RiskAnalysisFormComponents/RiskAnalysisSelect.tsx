@@ -17,6 +17,7 @@ export type RiskAnalysisSelectProps = Omit<MUISelectProps, 'onChange' | 'label'>
   options: Array<InputOption>
   rules?: ControllerProps['rules']
   isFromPurposeTemplate?: boolean
+  type?: 'creator' | 'consumer'
 }
 
 export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
@@ -28,6 +29,7 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
   emptyLabel,
   rules,
   isFromPurposeTemplate,
+  type,
   ...props
 }) => {
   const { control } = useFormContext()
@@ -64,6 +66,7 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
       {...ids}
       isFromPurposeTemplate={isFromPurposeTemplate}
       questionId={questionId}
+      type={type}
     >
       <Controller
         name={name}

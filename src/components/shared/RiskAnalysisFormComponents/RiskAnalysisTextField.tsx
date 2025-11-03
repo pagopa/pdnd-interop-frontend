@@ -19,6 +19,7 @@ export type RiskAnalysisTextFieldProps = Omit<OutlinedInputProps, 'type'> & {
   rules?: ControllerProps['rules']
   isFromPurposeTemplate?: boolean
   questionType?: string
+  type?: 'creator' | 'consumer'
 }
 
 export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
@@ -30,6 +31,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
   rules,
   isFromPurposeTemplate,
   questionType,
+  type,
   ...props
 }) => {
   const { setValue, watch } = useFormContext()
@@ -95,6 +97,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
         isFromPurposeTemplate={isFromPurposeTemplate}
         questionId={questionId}
         questionType={questionType}
+        type={type}
       >
         <Stack spacing={2}>
           {/* Input field and add button */}

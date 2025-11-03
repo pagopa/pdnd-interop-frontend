@@ -27,17 +27,20 @@ import { match } from 'ts-pattern'
 type RiskAnalysisFormComponentsProps = {
   questions: RiskAnalysisQuestions
   isFromPurposeTemplate?: boolean
+  type?: 'creator' | 'consumer'
 }
 
 export const RiskAnalysisFormComponents: React.FC<RiskAnalysisFormComponentsProps> = ({
   questions,
   isFromPurposeTemplate,
+  type,
 }) => {
   return Object.entries(questions).map(([questionId, question]) => (
     <RiskAnalysisQuestion
       key={questionId}
       question={question}
       isFromPurposeTemplate={isFromPurposeTemplate}
+      type={type}
     />
   ))
 }
@@ -45,9 +48,11 @@ export const RiskAnalysisFormComponents: React.FC<RiskAnalysisFormComponentsProp
 function RiskAnalysisQuestion({
   question,
   isFromPurposeTemplate,
+  type,
 }: {
   question: FormConfigQuestion
   isFromPurposeTemplate?: boolean
+  type?: 'creator' | 'consumer'
 }) {
   const lang = useCurrentLanguage()
   const answers = useFormContext<{ answers: RiskAnalysisAnswers }>().watch('answers')
@@ -88,6 +93,7 @@ function RiskAnalysisQuestion({
         rules={isAssignedToTemplateUsersSwitch ? { required: false } : { required: true }}
         isFromPurposeTemplate={isFromPurposeTemplate}
         questionType={question.visualType}
+        type={type}
       />
     ))
     .with('select-one', () => (
@@ -97,6 +103,7 @@ function RiskAnalysisQuestion({
         emptyLabel={t('riskAnalysis.formComponents.emptyLabel')}
         rules={{ required: true }}
         isFromPurposeTemplate={isFromPurposeTemplate}
+        type={type}
       />
     ))
     .with('checkbox', () => (
@@ -109,6 +116,7 @@ function RiskAnalysisQuestion({
             t('riskAnalysis.formComponents.multiCheckboxField.validation.mixed.required'),
         }}
         isFromPurposeTemplate={isFromPurposeTemplate}
+        type={type}
       />
     ))
     .with('radio', () => (
@@ -117,6 +125,7 @@ function RiskAnalysisQuestion({
         options={inputOptions}
         rules={{ required: true }}
         isFromPurposeTemplate={isFromPurposeTemplate}
+        type={type}
       />
     ))
     .with('switch', () => (
@@ -129,6 +138,7 @@ function RiskAnalysisQuestion({
             t('riskAnalysis.formComponents.riskAnalysisSwitch.validation.boolean.isValue'),
         }}
         isFromPurposeTemplate={isFromPurposeTemplate}
+        type={type}
       />
     ))
     .otherwise(() => null)

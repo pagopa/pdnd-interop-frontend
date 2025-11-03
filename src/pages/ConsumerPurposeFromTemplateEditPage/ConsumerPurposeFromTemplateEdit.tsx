@@ -7,9 +7,9 @@ import type { StepperStep } from '@/types/common.types'
 import { useParams } from '@/router'
 import { useQuery } from '@tanstack/react-query'
 
-import { PurposeEditStepRiskAnalysis } from '../ConsumerPurposeEditPage/components/PurposeEditStepRiskAnalysis'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { PurposeFromTemplateEditStepGeneral } from './components/PurposeFromTemplateEditStepGeneral/PurposeFromTemplateEditStepGeneral'
+import PurposeFromTemplateEditStepRiskAnalysis from './components/PurposeFromTemplateEditStepRiskAnalysis/PurposeFromTemplateEditStepRiskAnalysis'
 
 const ConsumerPurposeFromTemplateEditPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -23,7 +23,10 @@ const ConsumerPurposeFromTemplateEditPage: React.FC = () => {
 
   const steps: Array<StepperStep> = [
     { label: t('edit.stepper.stepGeneralLabel'), component: PurposeFromTemplateEditStepGeneral },
-    //{ label: t('edit.stepper.stepRiskAnalysisLabel'), component: PurposeFromTemplateEditStepRiskAnalysis },
+    {
+      label: t('edit.stepper.stepRiskAnalysisLabel'),
+      component: PurposeFromTemplateEditStepRiskAnalysis,
+    },
   ]
 
   const { component: Step } = steps[activeStep]

@@ -16,6 +16,7 @@ export type RiskAnalysisCheckboxGroupProps = {
   options: Array<InputOption>
   rules?: ControllerProps['rules']
   isFromPurposeTemplate?: boolean
+  type?: 'creator' | 'consumer'
 }
 
 export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps> = ({
@@ -26,6 +27,7 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
   helperText,
   rules,
   isFromPurposeTemplate,
+  type,
 }) => {
   const { control } = useFormContext()
 
@@ -54,6 +56,7 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
       error={error}
       isFromPurposeTemplate={isFromPurposeTemplate}
       questionId={questionId}
+      type={type}
     >
       <FormGroup>
         <Controller

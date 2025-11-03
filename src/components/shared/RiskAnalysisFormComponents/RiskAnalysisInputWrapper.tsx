@@ -2,6 +2,7 @@ import { SectionContainer } from '@/components/layout/containers'
 import { FormControl, FormHelperText, FormLabel, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { RiskAnalysisAnswerComponent } from '@/pages/ConsumerPurposeTemplateEditPage/components/PurposeTemplateEditStepRiskAnalysis/RiskAnalysisForm/RiskAnalysisAnswerComponent'
+import { RiskAnalysisReadAnnotationsComponent } from '@/pages/ConsumerPurposeFromTemplateEditPage/components/PurposeFromTemplateEditStepRiskAnalysis/RiskAnalysisReadAnnotationsComponent'
 
 type RiskAnalysisInputWrapperProps = {
   children: React.ReactNode
@@ -18,6 +19,7 @@ type RiskAnalysisInputWrapperProps = {
   isFromPurposeTemplate?: boolean
   questionId?: string
   questionType?: string
+  type?: 'creator' | 'consumer'
 }
 
 const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
@@ -35,6 +37,7 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
   isFromPurposeTemplate,
   questionId,
   questionType,
+  type,
 }) => {
   return (
     <SectionContainer component={isInputGroup ? 'fieldset' : 'div'}>
@@ -88,11 +91,18 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
         </FormControl>
       </SectionContainer>
       {isFromPurposeTemplate && (
-        <RiskAnalysisAnswerComponent
-          question={label}
-          questionId={questionId as string}
-          questionType={questionType as string}
-        />
+        <>
+          {type === 'creator' && (
+            <RiskAnalysisAnswerComponent
+              question={label}
+              questionId={questionId as string}
+              questionType={questionType as string}
+            />
+          )}
+          {type === 'consumer' && (
+            <RiskAnalysisReadAnnotationsComponent questionId={questionId as string} />
+          )}
+        </>
       )}
     </SectionContainer>
   )
