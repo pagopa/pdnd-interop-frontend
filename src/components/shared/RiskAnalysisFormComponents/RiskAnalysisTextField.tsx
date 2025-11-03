@@ -11,7 +11,7 @@ import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 import { RemoveCircleOutline } from '@mui/icons-material'
 
 export type RiskAnalysisTextFieldProps = Omit<OutlinedInputProps, 'type'> & {
-  questionId: string
+  questionKey: string
   label: string
   infoLabel?: string
   helperText?: string
@@ -22,7 +22,7 @@ export type RiskAnalysisTextFieldProps = Omit<OutlinedInputProps, 'type'> & {
 }
 
 export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
-  questionId,
+  questionKey,
   label,
   infoLabel,
   helperText,
@@ -44,10 +44,10 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step3' })
   const { t: tCommon } = useTranslation('common')
 
-  const name = `answers.${questionId}`
-  const suggestedValuesName = `suggestedValues.${questionId}`
+  const name = `answers.${questionKey}`
+  const suggestedValuesName = `suggestedValues.${questionKey}`
 
-  const error = formState.errors.answers?.[questionId]?.message as string | undefined
+  const error = formState.errors.answers?.[questionKey]?.message as string | undefined
   const suggestedValues: string[] = watch(suggestedValuesName) || []
 
   const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
@@ -93,7 +93,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
         error={error}
         {...ids}
         isFromPurposeTemplate={isFromPurposeTemplate}
-        questionId={questionId}
+        questionKey={questionKey}
         questionType={questionType}
       >
         <Stack spacing={2}>
@@ -159,7 +159,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
       error={error}
       {...ids}
       isFromPurposeTemplate={isFromPurposeTemplate}
-      questionId={questionId}
+      questionKey={questionKey}
     >
       <Controller
         name={name}

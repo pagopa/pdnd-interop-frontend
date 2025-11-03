@@ -33,9 +33,10 @@ export const RiskAnalysisFormComponents: React.FC<RiskAnalysisFormComponentsProp
   questions,
   isFromPurposeTemplate,
 }) => {
-  return Object.entries(questions).map(([questionId, question]) => (
+  return Object.entries(questions).map(([questionKey, question]) => (
     <RiskAnalysisQuestion
-      key={questionId}
+      key={questionKey}
+      questionKey={questionKey}
       question={question}
       isFromPurposeTemplate={isFromPurposeTemplate}
     />
@@ -43,9 +44,11 @@ export const RiskAnalysisFormComponents: React.FC<RiskAnalysisFormComponentsProp
 }
 
 function RiskAnalysisQuestion({
+  questionKey,
   question,
   isFromPurposeTemplate,
 }: {
+  questionKey: string
   question: FormConfigQuestion
   isFromPurposeTemplate?: boolean
 }) {
@@ -65,7 +68,6 @@ function RiskAnalysisQuestion({
     : undefined
 
   const commonProps = {
-    questionId: question.id,
     id: question.id,
     label,
     infoLabel,
@@ -77,13 +79,14 @@ function RiskAnalysisQuestion({
 
   const isAssignedToTemplateUsersSwitch = useWatch({
     control,
-    name: `assignToTemplateUsers.${question.id}`,
+    name: `assignToTemplateUsers.${questionKey}`,
   })
 
   return match(question.visualType)
     .with('text', () => (
       <RiskAnalysisTextField
         {...commonProps}
+        questionKey={questionKey}
         inputProps={{ maxLength }}
         rules={isAssignedToTemplateUsersSwitch ? { required: false } : { required: true }}
         isFromPurposeTemplate={isFromPurposeTemplate}
@@ -93,6 +96,7 @@ function RiskAnalysisQuestion({
     .with('select-one', () => (
       <RiskAnalysisSelect
         {...commonProps}
+        questionKey={questionKey}
         options={inputOptions}
         emptyLabel={t('riskAnalysis.formComponents.emptyLabel')}
         rules={{ required: true }}
@@ -102,6 +106,7 @@ function RiskAnalysisQuestion({
     .with('checkbox', () => (
       <RiskAnalysisCheckboxGroup
         {...commonProps}
+        questionKey={questionKey}
         options={inputOptions}
         rules={{
           validate: (value) =>
@@ -114,6 +119,7 @@ function RiskAnalysisQuestion({
     .with('radio', () => (
       <RiskAnalysisRadioGroup
         {...commonProps}
+        questionKey={questionKey}
         options={inputOptions}
         rules={{ required: true }}
         isFromPurposeTemplate={isFromPurposeTemplate}
@@ -122,6 +128,7 @@ function RiskAnalysisQuestion({
     .with('switch', () => (
       <RiskAnalysisSwitch
         {...commonProps}
+        questionKey={questionKey}
         options={inputOptions}
         rules={{
           validate: (value) =>
