@@ -19,7 +19,7 @@ import type { UpdateEServiceDescriptorTemplateInstanceSeed } from '@/api/api.gen
 
 export type EServiceCreateStepVersionFormValues = {
   audience: string
-  version: string
+  version: number
   voucherLifespan: number
   description: string
   dailyCallsPerConsumer: number
@@ -41,7 +41,7 @@ export const EServiceCreateStepVersion: React.FC<ActiveStepProps> = () => {
   })
 
   const defaultValues: EServiceCreateStepVersionFormValues = {
-    version: descriptor?.version ?? '1',
+    version: descriptor?.version ?? 1,
     audience: descriptor?.audience?.[0] ?? '',
     voucherLifespan: descriptor ? secondsToMinutes(descriptor.voucherLifespan) : 1,
     description: descriptor?.description ?? '',

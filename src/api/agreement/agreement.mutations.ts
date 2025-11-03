@@ -12,7 +12,7 @@ function useCreateDraft(hasConfirmationDialog = true) {
       delegationId,
     }: {
       eserviceName: string
-      eserviceVersion: string | undefined
+      eserviceVersion: number | undefined
     } & AgreementPayload) =>
       AgreementServices.createDraft({ eserviceId, descriptorId, delegationId }),
     meta: {

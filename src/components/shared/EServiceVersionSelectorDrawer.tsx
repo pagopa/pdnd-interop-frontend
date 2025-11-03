@@ -37,10 +37,7 @@ export const EServiceVersionSelectorDrawer: React.FC<EServiceVersionSelectorDraw
   const marks = React.useMemo<Mark[]>(() => {
     return Array.from({ length: numVersions }).map((_, index) => ({
       value: -(index + 1),
-      label:
-        (index + 1).toString() === descriptor.version
-          ? t('currentVersion', { versionNum: index + 1 })
-          : '',
+      label: index + 1 === descriptor.version ? t('currentVersion', { versionNum: index + 1 }) : '',
     }))
   }, [numVersions, descriptor.version, t])
 
@@ -50,7 +47,7 @@ export const EServiceVersionSelectorDrawer: React.FC<EServiceVersionSelectorDraw
 
   const handleGoToVersion = () => {
     const selectedDescriptor = descriptorsWithoutDraftVersion.find(
-      (d) => d.version === selectedVersion.toString()
+      (d) => d.version === selectedVersion
     )
 
     if (selectedDescriptor) {

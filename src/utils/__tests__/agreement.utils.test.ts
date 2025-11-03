@@ -22,7 +22,7 @@ describe('canAgreementBeUpgraded', () => {
   it('shoud not be possible to upgrade an ARCHIVED agreement', () => {
     const agreementMock = createMockAgreement({
       state: 'ARCHIVED',
-      eservice: { activeDescriptor: { state: 'PUBLISHED', version: '4' }, version: '3' },
+      eservice: { activeDescriptor: { state: 'PUBLISHED', version: 4 }, version: 3 },
     })
     const result = canAgreementBeUpgraded(agreementMock)
 
@@ -32,7 +32,7 @@ describe('canAgreementBeUpgraded', () => {
   it('shoud not be possible to upgrade an agreement to an e-service with an active version with a state different from SUSPENDED or PUBLISHED', () => {
     const agreementMock = createMockAgreement({
       state: 'ACTIVE',
-      eservice: { activeDescriptor: { state: 'ARCHIVED', version: '4' }, version: '3' },
+      eservice: { activeDescriptor: { state: 'ARCHIVED', version: 4 }, version: 3 },
     })
     const result = canAgreementBeUpgraded(agreementMock)
 
@@ -42,7 +42,7 @@ describe('canAgreementBeUpgraded', () => {
   it('shoud not be possible to upgrade an agreement if the active descriptor version is equal to the actual version the user is subscribed to', () => {
     const agreementMock = createMockAgreement({
       state: 'ACTIVE',
-      eservice: { activeDescriptor: { state: 'PUBLISHED', version: '4' }, version: '4' },
+      eservice: { activeDescriptor: { state: 'PUBLISHED', version: 4 }, version: 4 },
     })
     const result = canAgreementBeUpgraded(agreementMock)
 
@@ -52,7 +52,7 @@ describe('canAgreementBeUpgraded', () => {
   it('shoud be possible to upgrade an agreement if the requirements are met', () => {
     const agreementMock = createMockAgreement({
       state: 'ACTIVE',
-      eservice: { activeDescriptor: { state: 'PUBLISHED', version: '4' }, version: '2' },
+      eservice: { activeDescriptor: { state: 'PUBLISHED', version: 4 }, version: 2 },
     })
     const result = canAgreementBeUpgraded(agreementMock)
 
@@ -62,7 +62,7 @@ describe('canAgreementBeUpgraded', () => {
   it('shoud not be possible to upgrade an agreement if the agreement state is REJECTED', () => {
     const agreementMock = createMockAgreement({
       state: 'REJECTED',
-      eservice: { activeDescriptor: { state: 'PUBLISHED', version: '4' }, version: '2' },
+      eservice: { activeDescriptor: { state: 'PUBLISHED', version: 4 }, version: 2 },
     })
     const result = canAgreementBeUpgraded(agreementMock)
 
@@ -237,7 +237,7 @@ describe('checkIfcanCreateAgreementDraft', () => {
 describe('isNewEServiceVersionAvailable', () => {
   it('should return true if the eservice has an active descriptor and it has a version greater than the actual agreement eservice version', () => {
     const agreement = createMockAgreement({
-      eservice: { activeDescriptor: { version: '4' }, version: '3' },
+      eservice: { activeDescriptor: { version: 4 }, version: 3 },
     })
     const result = isNewEServiceVersionAvailable(agreement)
     expect(result).toBe(true)
@@ -245,7 +245,7 @@ describe('isNewEServiceVersionAvailable', () => {
 
   it('should return false if the eservice has not an active descriptor', () => {
     const agreement = createMockAgreement({
-      eservice: { activeDescriptor: undefined, version: '3' },
+      eservice: { activeDescriptor: undefined, version: 3 },
     })
     const result = isNewEServiceVersionAvailable(agreement)
     expect(result).toBe(false)
@@ -253,7 +253,7 @@ describe('isNewEServiceVersionAvailable', () => {
 
   it('should return false if the eservice has an active descriptor but it has not a version greater than the actual agreement eservice version', () => {
     const agreement = createMockAgreement({
-      eservice: { activeDescriptor: { version: '3' }, version: '3' },
+      eservice: { activeDescriptor: { version: 3 }, version: 3 },
     })
     const result = isNewEServiceVersionAvailable(agreement)
     expect(result).toBe(false)

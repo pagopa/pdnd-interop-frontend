@@ -148,7 +148,7 @@ export type DialogCreateAgreementDraftProps = {
   }
   descriptor: {
     id: string
-    version: string
+    version: number
   }
   onSubmit: ({
     isOwnEService,
