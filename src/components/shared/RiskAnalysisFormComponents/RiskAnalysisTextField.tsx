@@ -5,7 +5,7 @@ import type { ControllerProps } from 'react-hook-form/dist/types/controller'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 import { useTranslation } from 'react-i18next'
 import AddIcon from '@mui/icons-material/Add'
-import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { RHFSelect, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 import { RemoveCircleOutline } from '@mui/icons-material'
@@ -99,55 +99,63 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
         questionType={questionType}
         type={type}
       >
-        <Stack spacing={2}>
-          {/* Input field and add button */}
-          <Stack direction="column" spacing={2} alignItems="flex-start">
-            <FormProvider {...suggestedValueFormMethods}>
-              <RHFTextField
-                fullWidth
-                label={t('answerInputPlaceholder')}
-                name="suggestedValue"
-                size="small"
-                onKeyDown={handleKeyDown}
-                sx={{ flex: 1 }}
-              />
-            </FormProvider>
-            <Button
-              variant="contained"
-              startIcon={<AddIcon fontSize="small" />}
-              onClick={handleAddSuggestedValue}
-              disabled={!suggestedValueFormMethods.watch('suggestedValue')?.trim()}
-            >
-              {t('addAnswerBtn')}
-            </Button>
-          </Stack>
-
-          {/* List of suggested values */}
-          {suggestedValues.length > 0 && (
-            <Stack spacing={2}>
-              {suggestedValues.map((value, index) => (
-                <Stack key={index} direction="row" spacing={1} alignItems="center">
-                  <IconButton
-                    size="small"
-                    onClick={() => handleRemoveSuggestedValue(index)}
-                    sx={{ color: 'error.main' }}
-                  >
-                    <RemoveCircleOutline fontSize="small" />
-                  </IconButton>
-                  <RHFTextField
-                    fullWidth
-                    value={value}
-                    disabled
-                    size="small"
-                    label={t('answerInputPlaceholder')}
-                    name={`readonly-${index}`} // RHFTextField requires a name
-                    sx={{ flex: 1 }}
-                  />
-                </Stack>
-              ))}
+        {type === 'consumer' ? (
+          <RHFSelect
+            label="Risposte suggerite" //TODO
+            options={suggestedValues.map((value) => ({ label: value, value }))}
+            name="suggestedValueConsumer"
+          />
+        ) : (
+          <Stack spacing={2}>
+            {/* Input field and add button */}
+            <Stack direction="column" spacing={2} alignItems="flex-start">
+              <FormProvider {...suggestedValueFormMethods}>
+                <RHFTextField
+                  fullWidth
+                  label={t('answerInputPlaceholder')}
+                  name="suggestedValue"
+                  size="small"
+                  onKeyDown={handleKeyDown}
+                  sx={{ flex: 1 }}
+                />
+              </FormProvider>
+              <Button
+                variant="contained"
+                startIcon={<AddIcon fontSize="small" />}
+                onClick={handleAddSuggestedValue}
+                disabled={!suggestedValueFormMethods.watch('suggestedValue')?.trim()}
+              >
+                {t('addAnswerBtn')}
+              </Button>
             </Stack>
-          )}
-        </Stack>
+
+            {/* List of suggested values */}
+            {suggestedValues.length > 0 && (
+              <Stack spacing={2}>
+                {suggestedValues.map((value, index) => (
+                  <Stack key={index} direction="row" spacing={1} alignItems="center">
+                    <IconButton
+                      size="small"
+                      onClick={() => handleRemoveSuggestedValue(index)}
+                      sx={{ color: 'error.main' }}
+                    >
+                      <RemoveCircleOutline fontSize="small" />
+                    </IconButton>
+                    <RHFTextField
+                      fullWidth
+                      value={value}
+                      disabled
+                      size="small"
+                      label={t('answerInputPlaceholder')}
+                      name={`readonly-${index}`} // RHFTextField requires a name
+                      sx={{ flex: 1 }}
+                    />
+                  </Stack>
+                ))}
+              </Stack>
+            )}
+          </Stack>
+        )}
       </RiskAnalysisInputWrapper>
     )
   }
