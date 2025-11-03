@@ -87,7 +87,7 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
           )}
         </FormControl>
       </SectionContainer>
-      {isFromPurposeTemplate && (
+      {isFromPurposeTemplate && questionId !== 'usesPersonalData' && (
         <RiskAnalysisAnswerComponent
           question={label}
           questionId={questionId as string}
