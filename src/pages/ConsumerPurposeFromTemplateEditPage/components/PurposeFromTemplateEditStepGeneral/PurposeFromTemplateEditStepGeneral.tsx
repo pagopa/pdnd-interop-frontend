@@ -38,10 +38,10 @@ export const PurposeFromTemplateEditStepGeneral: React.FC<ActiveStepProps> = (pr
 
   const defaultValues: PurposeFromTemplateEditStepGeneralFormValues = {
     title: purposeTemplate.purposeTitle,
-    description: purposeTemplate.description,
-    dailyCalls: purposeTemplate.purposeDailyCalls ?? '',
+    description: purposeTemplate.purposeDescription,
+    dailyCalls: purposeTemplate.purposeDailyCalls ?? 1,
     isFreeOfCharge: purposeTemplate.purposeIsFreeOfCharge === true ? 'YES' : 'NO',
-    freeOfChargeReason: purposeTemplate.purposeFreeOfChargeReason,
+    freeOfChargeReason: purposeTemplate.purposeFreeOfChargeReason ?? '',
     instanceName: instanceName,
   }
 

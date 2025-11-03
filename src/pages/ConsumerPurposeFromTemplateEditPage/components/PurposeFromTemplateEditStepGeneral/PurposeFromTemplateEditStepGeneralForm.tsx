@@ -6,9 +6,11 @@ import { useTranslation } from 'react-i18next'
 import { StepActions } from '@/components/shared/StepActions'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
-import type { PurposeUpdateContent } from '@/api/api.generatedTypes'
+import type {
+  PurposeTemplateWithCompactCreator,
+  PurposeUpdateContent,
+} from '@/api/api.generatedTypes'
 import SaveIcon from '@mui/icons-material/Save'
-import type { PurposeTemplate } from '@/api/purposeTemplate/mockedResponses'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { PurposeMutations } from '@/api/purpose'
 import { Stack } from '@mui/system'
@@ -24,7 +26,7 @@ export type PurposeFromTemplateEditStepGeneralFormValues = Omit<
 }
 
 type PurposeEditStepGeneralFormProps = ActiveStepProps & {
-  purposeTemplate: PurposeTemplate
+  purposeTemplate: PurposeTemplateWithCompactCreator
   defaultValues: PurposeFromTemplateEditStepGeneralFormValues
 }
 
@@ -37,7 +39,7 @@ const PurposeFromTemplateEditStepGeneralForm: React.FC<PurposeEditStepGeneralFor
     keyPrefix: 'edit.purposeFromTemplate',
   })
   const { t: tPurposeActions } = useTranslation('purpose')
-  const { mutate: updateDraft } = PurposeMutations.useUpdateDraft()
+  const { mutate: updateDraft } = PurposeMutations.useUpdateDraft() //TODO PATCH:/purposeTemplates/{purposeTemplateId}/purposes/{purposeId} CALL THIS
 
   const formMethods = useForm<PurposeFromTemplateEditStepGeneralFormValues>({
     defaultValues,
@@ -100,7 +102,7 @@ const PurposeFromTemplateEditStepGeneralForm: React.FC<PurposeEditStepGeneralFor
                   label={t(
                     'generalInformationSection.descriptionSection.freeOfChargeReasonField.label'
                   )}
-                  content={purposeTemplate.purposeFreeOfChargeReason}
+                  content={purposeTemplate.purposeFreeOfChargeReason ?? ''}
                 />
               )}
             </Stack>
