@@ -197,7 +197,7 @@
       "description": "Define a list of e-services for which it is suggested to use the facilitated purpose. The user \n  may also use this template for e-services not included in the list.",
       "filters": {
         "eserviceField": {
-          "label": "Filter by e-service"
+          "label": "E-service name"
         },
         "providerField": {
           "label": "Filter by provider"

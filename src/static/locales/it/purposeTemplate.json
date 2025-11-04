@@ -6,7 +6,7 @@
         "label": "Cerca per nome"
       },
       "eserviceField": {
-        "label": "Cerca per e-service"
+        "label": "Nome e-service"
       },
       "statusField": {
         "label": "Filtra per stato",
@@ -197,7 +197,7 @@
       "description": "Definisci un elenco di e-service per cui è suggerito usare la finalità agevolata. Il fruitore ha facoltà di utilizzare \n questo template anche per e-service che non compaiono nella lista.",
       "filters": {
         "eserviceField": {
-          "label": "Cerca per e-service"
+          "label": "Nome e-service"
         },
         "providerField": {
           "label": "Cerca per erogatore"
