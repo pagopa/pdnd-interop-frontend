@@ -94,20 +94,18 @@ export function CatalogCardForPurposeTemplate<TRouteKey extends CatalogRoutesKey
             <Typography variant="caption-semibold">{creatorName}</Typography>
           </Stack>
         </Stack>
-        <span>
-          <Link
-            as="button"
-            size="small"
-            variant="contained"
-            to={to}
-            params={params}
-            onFocusVisible={prefetchFn}
-            color="primary"
-            sx={{ minWidth: 113, minHeight: 48 }}
-          >
-            {tCommon('actions.inspect')}
-          </Link>
-        </span>
+        <Link
+          as="button"
+          size="small"
+          variant="contained"
+          to={to}
+          params={params}
+          onFocusVisible={prefetchFn}
+          color="primary"
+          sx={{ minWidth: 113, minHeight: 48 }}
+        >
+          {tCommon('actions.inspect')}
+        </Link>
       </CardActions>
     </Card>
   )
