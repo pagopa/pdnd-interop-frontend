@@ -97,7 +97,7 @@ function useDeleteDocument() {
     keyPrefix: 'purposeTemplate.deleteDocument',
   })
   return useMutation({
-    mutationFn: PurposeTemplateServices.deleteDocument,
+    mutationFn: PurposeTemplateServices.deleteDocumentFromAnnotation,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -165,7 +165,7 @@ function useAddAnnotationToAnswer() {
     keyPrefix: 'purposeTemplate.addAnnotationToAnswer',
   })
   return useMutation({
-    mutationFn: PurposeTemplateServices.addAnnotationToAnswer,
+    mutationFn: PurposeTemplateServices.addRiskAnalysisAnswer,
     meta: {
       loadingLabel: t('loading'),
       successToastLabel: t('outcome.success'),
@@ -179,10 +179,23 @@ function useAddDocumentsToAnnotation() {
     keyPrefix: 'purposeTemplate.addDocumentsToAnswer',
   })
   return useMutation({
-    mutationFn: PurposeTemplateServices.addDocumentsToAnnotation,
+    mutationFn: PurposeTemplateServices.addDocumentToAnnotation,
     meta: {
       loadingLabel: t('loading'),
       successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useDownloadDocument() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purposeTemplate.downloadDocument',
+  })
+  return useMutation({
+    mutationFn: PurposeTemplateServices.getRiskAnalysisTemplateAnswerAnnotationDocument,
+    meta: {
+      loadingLabel: t('loading'),
       errorToastLabel: t('outcome.error'),
     },
   })
@@ -202,4 +215,5 @@ export const PurposeTemplateMutations = {
   useArchivePurposeTemplate,
   useAddAnnotationToAnswer,
   useAddDocumentsToAnnotation,
+  useDownloadDocument,
 }

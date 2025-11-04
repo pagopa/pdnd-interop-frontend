@@ -2409,6 +2409,9 @@ export interface NotificationsCountBySection {
   totalCount: number
 }
 
+/** Filter e-services by personal data */
+export type PersonalDataFilter = 'TRUE' | 'FALSE' | 'DEFINED'
+
 export interface ProblemError {
   /**
    * Internal code of the error
@@ -2529,6 +2532,8 @@ export interface AddAgreementConsumerDocumentPayload {
 }
 
 export interface GetEServicesCatalogParams {
+  /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+  personalData?: PersonalDataFilter
   /** Query to filter EServices by name */
   q?: string
   /**
@@ -2555,8 +2560,6 @@ export interface GetEServicesCatalogParams {
   mode?: EServiceMode
   /** EService isConsumerDelegable filter */
   isConsumerDelegable?: boolean
-  /** if true only e-services that handle personal data will be returned, if false only non-personal data e-services will be returned, if not present all e-services will be returned */
-  personalData?: boolean
   /**
    * @format int32
    * @min 0
@@ -2674,6 +2677,8 @@ export interface GetProducersParams {
 }
 
 export interface GetProducerEServicesParams {
+  /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+  personalData?: PersonalDataFilter
   /** Query to filter EServices by name */
   q?: string
   /**
@@ -2683,8 +2688,6 @@ export interface GetProducerEServicesParams {
   consumersIds?: string[]
   /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
   delegated?: boolean
-  /** if true only e-services that handle personal data will be returned, if false only non-personal data e-services will be returned, if not present all e-services will be returned */
-  personalData?: boolean
   /**
    * @format int32
    * @min 0
@@ -2840,11 +2843,8 @@ export interface GetPurposeTemplateEServicesParams {
    * @default []
    */
   producerIds?: string[]
-  /**
-   * comma separated sequence of e-service IDs
-   * @default []
-   */
-  eserviceIds?: string[]
+  /** filter linked e-services by name */
+  eserviceName?: string
   /**
    * @format int32
    * @min 0
@@ -3129,6 +3129,8 @@ export interface GetConsumerDelegatedEservicesParams {
 }
 
 export interface GetEServiceTemplatesCatalogParams {
+  /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned, if "defined" all e-service templates with a defined personal data flag will be returned */
+  personalData?: PersonalDataFilter
   /** Query to filter EService template by name */
   q?: string
   /**
@@ -3136,8 +3138,6 @@ export interface GetEServiceTemplatesCatalogParams {
    * @default []
    */
   creatorsIds?: string[]
-  /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned */
-  personalData?: boolean
   /**
    * @format int32
    * @min 0
@@ -3613,6 +3613,8 @@ export namespace Producers {
   export namespace GetProducerEServices {
     export type RequestParams = {}
     export type RequestQuery = {
+      /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+      personalData?: PersonalDataFilter
       /** Query to filter EServices by name */
       q?: string
       /**
@@ -3622,8 +3624,6 @@ export namespace Producers {
       consumersIds?: string[]
       /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
       delegated?: boolean
-      /** if true only e-services that handle personal data will be returned, if false only non-personal data e-services will be returned, if not present all e-services will be returned */
-      personalData?: boolean
       /**
        * @format int32
        * @min 0
@@ -4633,6 +4633,8 @@ export namespace Catalog {
   export namespace GetEServicesCatalog {
     export type RequestParams = {}
     export type RequestQuery = {
+      /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+      personalData?: PersonalDataFilter
       /** Query to filter EServices by name */
       q?: string
       /**
@@ -4659,8 +4661,6 @@ export namespace Catalog {
       mode?: EServiceMode
       /** EService isConsumerDelegable filter */
       isConsumerDelegable?: boolean
-      /** if true only e-services that handle personal data will be returned, if false only non-personal data e-services will be returned, if not present all e-services will be returned */
-      personalData?: boolean
       /**
        * @format int32
        * @min 0
@@ -4762,6 +4762,8 @@ export namespace Catalog {
   export namespace GetEServiceTemplatesCatalog {
     export type RequestParams = {}
     export type RequestQuery = {
+      /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned, if "defined" all e-service templates with a defined personal data flag will be returned */
+      personalData?: PersonalDataFilter
       /** Query to filter EService template by name */
       q?: string
       /**
@@ -4769,8 +4771,6 @@ export namespace Catalog {
        * @default []
        */
       creatorsIds?: string[]
-      /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned */
-      personalData?: boolean
       /**
        * @format int32
        * @min 0
@@ -6847,11 +6847,8 @@ export namespace PurposeTemplates {
        * @default []
        */
       producerIds?: string[]
-      /**
-       * comma separated sequence of e-service IDs
-       * @default []
-       */
-      eserviceIds?: string[]
+      /** filter linked e-services by name */
+      eserviceName?: string
       /**
        * @format int32
        * @min 0

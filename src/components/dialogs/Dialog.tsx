@@ -2,10 +2,12 @@ import React from 'react'
 import { DialogBasic } from './DialogBasic'
 import { DialogAttributeDetails } from './DialogAttributeDetails'
 import { DialogSessionExpired } from './DialogSessionExpired'
+import { DialogDeleteAnnotation } from './DialogDeleteAnnotation'
 import type {
   DialogAttributeDetailsProps,
   DialogBasicProps,
   DialogDeleteOperatorProps,
+  DialogDeleteAnnotationProps,
   DialogClonePurposeProps,
   DialogProps,
   DialogRejectAgreementProps,
@@ -53,6 +55,7 @@ function match<T>(
   onRejectAgreement: (props: DialogRejectAgreementProps) => T,
   onUpgradeAgreementVersion: (props: DialogUpgradeAgreementVersionProps) => T,
   onDeleteOperator: (props: DialogDeleteOperatorProps) => T,
+  onDeleteAnnotation: (props: DialogDeleteAnnotationProps) => T,
   onRemoveOperatorFromClient: (props: DialogRemoveOperatorFromClientProps) => T,
   onRevokeCertifiedAttribute: (props: DialogRevokeCertifiedAttributeProps) => T,
   onClonePurpose: (props: DialogClonePurposeProps) => T,
@@ -82,6 +85,8 @@ function match<T>(
         return onUpgradeAgreementVersion(props)
       case 'deleteOperator':
         return onDeleteOperator(props)
+      case 'deleteAnnotation':
+        return onDeleteAnnotation(props)
       case 'removeOperatorFromClient':
         return onRemoveOperatorFromClient(props)
       case 'revokeCertifiedAttribute':
@@ -121,6 +126,7 @@ const _Dialog = match(
   (props) => <DialogRejectAgreement {...props} />,
   (props) => <DialogUpgradeAgreementVersion {...props} />,
   (props) => <DialogDeleteOperator {...props} />,
+  (props) => <DialogDeleteAnnotation {...props} />,
   (props) => <DialogRemoveOperatorFromClient {...props} />,
   (props) => <DialogRevokeCertifiedAttribute {...props} />,
   (props) => <DialogClonePurpose {...props} />,
