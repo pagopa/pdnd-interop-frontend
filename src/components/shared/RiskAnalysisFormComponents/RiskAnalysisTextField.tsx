@@ -103,6 +103,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
             label="Risposte suggerite" //TODO
             options={suggestedValues.map((value) => ({ label: value, value }))}
             name="suggestedValueConsumer"
+            rules={{ required: true }}
           />
         ) : (
           <Stack spacing={2}>

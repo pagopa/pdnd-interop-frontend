@@ -24,6 +24,19 @@ function useUpdateDraft() {
   })
 }
 
+function useUpdateDraftFromPurposeTemplate() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purpose.updateDraft',
+  })
+  return useMutation({
+    mutationFn: PurposeServices.updateDraftFromPurposeTemplate,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 function useDeleteDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.deleteDraft' })
   return useMutation({
@@ -199,6 +212,7 @@ function useRemoveClient() {
 export const PurposeMutations = {
   useCreateDraft,
   useUpdateDraft,
+  useUpdateDraftFromPurposeTemplate,
   useDeleteDraft,
   useCreateDraftForReceiveEService,
   useUpdateDraftForReceiveEService,

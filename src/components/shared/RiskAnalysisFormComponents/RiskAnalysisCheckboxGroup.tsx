@@ -42,9 +42,10 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
 
   const error = formState.errors.answers?.[questionId]?.message as string | undefined
 
-  const conditionalRules = isAssignedToTemplateUsersSwitch
-    ? { validate: () => true }
-    : mapValidationErrorMessages(rules, t)
+  const conditionalRules =
+    isAssignedToTemplateUsersSwitch && type === 'creator'
+      ? { validate: () => true }
+      : mapValidationErrorMessages(rules, t)
 
   return (
     <RiskAnalysisInputWrapper
