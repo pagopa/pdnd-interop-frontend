@@ -1,6 +1,7 @@
 import { AgreementQueries } from '@/api/agreement'
 import { PageContainer } from '@/components/layout/containers'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { useParams } from '@/router'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -31,6 +32,8 @@ const ProviderAgreementDetailsPageContent: React.FC = () => {
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_READ'>()
   const { data: agreement } = useSuspenseQuery(AgreementQueries.getSingle(agreementId))
   const { actions } = useGetAgreementsActions(agreement, 'PRODUCER')
+
+  useMarkNotificationsAsRead(agreementId)
 
   const suspendedBy = match(agreement)
     .with({ suspendedByProducer: true }, () => 'byProducer' as const)

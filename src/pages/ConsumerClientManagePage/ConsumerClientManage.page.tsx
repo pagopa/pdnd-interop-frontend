@@ -2,6 +2,7 @@ import { ClientMutations, ClientQueries } from '@/api/client'
 import { PageContainer, SectionContainer } from '@/components/layout/containers'
 import { useParams } from '@/router'
 import { useActiveTab } from '@/hooks/useActiveTab'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Alert, Button, Grid, Link, Stack, Tab, Typography } from '@mui/material'
 import React from 'react'
@@ -28,6 +29,8 @@ const ConsumerClientManagePage: React.FC = () => {
   const { data: client, isLoading: isLoadingClient } = useQuery(ClientQueries.getSingle(clientId))
 
   const { actions } = useGetClientActions(client)
+
+  useMarkNotificationsAsRead(clientId)
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
   const { mutate: removeClientAdmin } = ClientMutations.useRemoveClientAdmin()

@@ -9,7 +9,7 @@ export const NotificationBadgeDot = () => {
       sx={{
         height: 8,
         width: 8,
-        ml: 2,
+        mr: 2,
         borderRadius: 5,
         background: theme.palette.primary.main,
       }}

@@ -4,10 +4,11 @@ import { AuthHooks } from '@/api/auth'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
+import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { Link } from '@/router'
-import { Box, Skeleton } from '@mui/material'
+import { Box, Skeleton, Stack } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
@@ -33,10 +34,11 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
   }
 
   const eserviceCellData = (
-    <>
+    <Stack direction="row" alignItems="center">
+      {agreement.hasUnreadNotifications && <NotificationBadgeDot />}
       {t('eserviceName', { name: eservice.name, version: descriptor.version })}
       {agreement.delegation && <ByDelegationChip />}
-    </>
+    </Stack>
   )
 
   return (

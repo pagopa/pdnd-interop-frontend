@@ -1,6 +1,7 @@
 import { DelegationQueries } from '@/api/delegation'
 import { PageContainer } from '@/components/layout/containers'
 import { useParams } from '@/router'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -22,6 +23,8 @@ export const DelegationDetailsPage: React.FC = () => {
   const { data: delegation, isLoading } = useQuery(
     DelegationQueries.getSingle({ delegationId: delegationId })
   )
+
+  useMarkNotificationsAsRead(delegationId)
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 

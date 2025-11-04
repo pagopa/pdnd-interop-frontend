@@ -42,6 +42,14 @@ function useDeleteNotifications() {
   })
 }
 
+function useMarkNotificationsAsReadByEntityId() {
+  return useMutation({
+    mutationFn: (payload: { entityId: string }) =>
+      NotificationServices.markNotificationsAsReadByEntityId(payload),
+    retry: false,
+  })
+}
+
 export const NotificationMutations = {
   useMarkAsRead,
   useBulkMarkAsRead,
@@ -49,4 +57,5 @@ export const NotificationMutations = {
   useBulkMarkAsNotRead,
   useDeleteNotification,
   useDeleteNotifications,
+  useMarkNotificationsAsReadByEntityId,
 }

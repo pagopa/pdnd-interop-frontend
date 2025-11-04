@@ -20,7 +20,7 @@ export const NotificationsTableRow: React.FC<{
   const { t: tCommon } = useTranslation('common')
 
   const currentLang = useCurrentLanguage()
-  const isReaded = notification.readAt !== null
+  const isRead = notification.readAt === null
   const notificationLink = `/${currentLang}${notification.deepLink}`
 
   return (
@@ -33,20 +33,20 @@ export const NotificationsTableRow: React.FC<{
             checked={isSelected}
             onChange={onToggle}
           />
-          {isReaded && <NotificationBadgeDot />}
+          {isRead && <NotificationBadgeDot />}
         </Stack>
       </TableCell>
 
-      <TableCell sx={{ fontWeight: isReaded ? 600 : 'normal' }} width={250} key={notification.id}>
+      <TableCell sx={{ fontWeight: isRead ? 600 : 'normal' }} width={250} key={notification.id}>
         {format(new Date(notification.createdAt), 'dd/MM/yyyy HH:mm')}
       </TableCell>
-      <TableCell sx={{ fontWeight: isReaded ? 600 : 'normal' }} width={250} key={notification.id}>
+      <TableCell sx={{ fontWeight: isRead ? 600 : 'normal' }} width={250} key={notification.id}>
         {/* {notification.notificationType} */}
       </TableCell>
-      <TableCell sx={{ fontWeight: isReaded ? 600 : 'normal' }} width={450} key={notification.id}>
+      <TableCell sx={{ fontWeight: isRead ? 600 : 'normal' }} width={450} key={notification.id}>
         {notification.body}
       </TableCell>
-      <TableCell sx={{ fontWeight: isReaded ? 600 : 'normal' }}>
+      <TableCell sx={{ fontWeight: isRead ? 600 : 'normal' }}>
         <Button component={Link} size="small" variant="outlined" to={notificationLink}>
           {tCommon('actions.inspect')}
         </Button>
