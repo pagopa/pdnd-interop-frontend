@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { mapValidationErrorMessages } from '@/utils/form.utils'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
+import { isRiskAnalysisQuestionDisabled } from '@/utils/common.utils'
 
 export type RiskAnalysisCheckboxGroupProps = {
   questionId: string
@@ -86,10 +87,11 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
                         checked={field.value?.includes(o.value) ?? false}
                         onChange={onChange}
                         name={String(o.value)}
-                        disabled={
-                          isAssignedToTemplateUsersSwitch ||
-                          (type === 'consumer' && !isAssignedToTemplateUsersSwitch)
-                        }
+                        disabled={isRiskAnalysisQuestionDisabled(
+                          isFromPurposeTemplate,
+                          type,
+                          isAssignedToTemplateUsersSwitch
+                        )}
                       />
                     }
                     label={o.label}

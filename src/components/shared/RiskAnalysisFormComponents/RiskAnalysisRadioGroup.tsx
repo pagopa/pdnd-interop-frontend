@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
+import { isRiskAnalysisQuestionDisabled } from '@/utils/common.utils'
 
 export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
   questionId: string
@@ -92,8 +93,11 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
                 disabled={
                   disabled ||
                   o.disabled ||
-                  isAssignedToTemplateUsersSwitch ||
-                  (type === 'consumer' && !isAssignedToTemplateUsersSwitch)
+                  isRiskAnalysisQuestionDisabled(
+                    isFromPurposeTemplate,
+                    type,
+                    isAssignedToTemplateUsersSwitch
+                  )
                 }
                 key={`${labelId}-${o.value}`}
                 value={o.value}

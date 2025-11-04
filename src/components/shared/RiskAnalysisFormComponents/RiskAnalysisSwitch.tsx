@@ -8,6 +8,7 @@ import type { ControllerProps } from 'react-hook-form/dist/types'
 import type { InputOption } from '@/types/common.types'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
+import { isRiskAnalysisQuestionDisabled } from '@/utils/common.utils'
 
 type RiskAnalysisSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   label: string
@@ -85,10 +86,11 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
                 }}
                 checked={value === 'true'}
                 inputRef={ref}
-                disabled={
-                  isAssignedToTemplateUsersSwitch ||
-                  (type === 'consumer' && !isAssignedToTemplateUsersSwitch)
-                }
+                disabled={isRiskAnalysisQuestionDisabled(
+                  isFromPurposeTemplate,
+                  type,
+                  isAssignedToTemplateUsersSwitch
+                )}
               />
             )}
           />

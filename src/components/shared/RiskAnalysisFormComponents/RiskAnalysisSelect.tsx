@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
+import { isRiskAnalysisQuestionDisabled } from '@/utils/common.utils'
 
 export type RiskAnalysisSelectProps = Omit<MUISelectProps, 'onChange' | 'label'> & {
   questionId: string
@@ -84,10 +85,11 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
               onChange(e)
             }}
             inputRef={ref}
-            disabled={
-              isAssignedToTemplateUsersSwitch ||
-              (type === 'consumer' && !isAssignedToTemplateUsersSwitch)
-            }
+            disabled={isRiskAnalysisQuestionDisabled(
+              isFromPurposeTemplate,
+              type,
+              isAssignedToTemplateUsersSwitch
+            )}
           >
             {options.length > 0 ? (
               options.map((o, i) => (
