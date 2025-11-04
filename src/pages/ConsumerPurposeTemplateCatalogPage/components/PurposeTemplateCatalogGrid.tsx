@@ -1,4 +1,4 @@
-import { Grid, Alert } from '@mui/material'
+import { Grid, Alert, Box } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CatalogPurposeTemplate } from '@/api/api.generatedTypes'
@@ -21,13 +21,18 @@ export const PurposeTemplateCatalogGrid: React.FC<PurposeTemplateGridProps> = ({
   if (isEmpty) return <Alert severity="info">{t('noDataLabel')}</Alert>
 
   return (
-    <Grid container spacing={3}>
-      {purposeTemplates?.map((purposeTemplate) => (
-        <Grid item key={purposeTemplate.id} xs={6} md={6}>
-          <PurposeTemplateCatalogCard key={purposeTemplate.id} purposeTemplate={purposeTemplate} />
-        </Grid>
-      ))}
-    </Grid>
+    <Box sx={{ mt: 3, px: 1.5 }}>
+      <Grid container spacing={3}>
+        {purposeTemplates?.map((purposeTemplate) => (
+          <Grid item key={purposeTemplate.id} xs={6} md={6}>
+            <PurposeTemplateCatalogCard
+              key={purposeTemplate.id}
+              purposeTemplate={purposeTemplate}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   )
 }
 
@@ -60,12 +65,14 @@ export const PurposeTemplateCatalogCard: React.FC<{
 
 export const PurposeTemplateCatalogGridSkeleton: React.FC = () => {
   return (
-    <Grid container spacing={3}>
-      {new Array(9).fill('').map((_, i) => (
-        <Grid key={i} xs={6} md={6} item>
-          <CatalogCardForPurposeTemplateSkeleton />
-        </Grid>
-      ))}
-    </Grid>
+    <Box sx={{ mt: 3, px: 1.5 }}>
+      <Grid container spacing={3}>
+        {new Array(9).fill('').map((_, i) => (
+          <Grid key={i} xs={6} md={6} item>
+            <CatalogCardForPurposeTemplateSkeleton />
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
   )
 }
