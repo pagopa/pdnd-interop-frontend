@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormControlLabel, FormGroup, Checkbox } from '@mui/material'
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import type { InputOption } from '@/types/common.types'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
@@ -9,28 +9,41 @@ import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 
 export type RiskAnalysisCheckboxGroupProps = {
-  questionId: string
+  questionKey: string
   label: string
   infoLabel?: string
   helperText?: string
   options: Array<InputOption>
   rules?: ControllerProps['rules']
+  isFromPurposeTemplate?: boolean
 }
 
 export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps> = ({
-  questionId,
+  questionKey,
   label,
   options,
   infoLabel,
   helperText,
   rules,
+  isFromPurposeTemplate,
 }) => {
+  const { control } = useFormContext()
+
+  const isAssignedToTemplateUsersSwitch = useWatch({
+    control,
+    name: `assignToTemplateUsers.${questionKey}`,
+  })
+
   const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
   const { t } = useTranslation()
 
-  const name = `answers.${questionId}`
+  const name = `answers.${questionKey}`
 
-  const error = formState.errors.answers?.[questionId]?.message as string | undefined
+  const error = formState.errors.answers?.[questionKey]?.message as string | undefined
+
+  const conditionalRules = isAssignedToTemplateUsersSwitch
+    ? { validate: () => true }
+    : mapValidationErrorMessages(rules, t)
 
   return (
     <RiskAnalysisInputWrapper
@@ -39,11 +52,13 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
       infoLabel={infoLabel}
       helperText={helperText}
       error={error}
+      isFromPurposeTemplate={isFromPurposeTemplate}
+      questionKey={questionKey}
     >
       <FormGroup>
         <Controller
           name={name}
-          rules={mapValidationErrorMessages(rules, t)}
+          rules={conditionalRules}
           render={({ field }) => {
             const onChange = (e: React.SyntheticEvent) => {
               const target = e.target as HTMLInputElement
@@ -67,6 +82,7 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
                         checked={field.value?.includes(o.value) ?? false}
                         onChange={onChange}
                         name={String(o.value)}
+                        disabled={isAssignedToTemplateUsersSwitch}
                       />
                     }
                     label={o.label}
