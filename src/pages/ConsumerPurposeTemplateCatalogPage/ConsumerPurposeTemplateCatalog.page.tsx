@@ -90,7 +90,7 @@ const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
       type: 'autocomplete-multiple',
       options: [
         { label: tPurposeTemplate('targetTenantKindField.values.labelPA'), value: 'PA' },
-        { label: tPurposeTemplate('targetTenantKindField.values.labelNotPA'), value: 'PRIVATE' }, //TODO: TO CHECK IF THIS FILTER WORKS IN THE RIGHT WAY
+        { label: tPurposeTemplate('targetTenantKindField.values.labelNotPA'), value: 'PRIVATE' },
       ],
     },
   ])
