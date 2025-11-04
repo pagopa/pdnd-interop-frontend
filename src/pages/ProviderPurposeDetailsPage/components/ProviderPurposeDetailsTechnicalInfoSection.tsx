@@ -35,7 +35,7 @@ export const ProviderPurposeDetailsTechnicalInfoSection: React.FC<
             tooltipTitle: t('consumerField.copySuccessFeedbackText'),
           }}
         />
-        {purpose.purposeTemplateRef && (
+        {purpose.purposeTemplate && (
           <InformationContainer
             label={t('purposeTemplateField.label')}
             content={purpose.consumer.id}

@@ -77,7 +77,7 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
             </Link>
           }
         />
-        {purpose.purposeTemplateRef && ( //TODO: CHECK IF IT'S purpose.purposeTemplateRef
+        {purpose.purposeTemplate && (
           <InformationContainer
             label={t('purposeTemplateField.label')}
             content={
@@ -87,7 +87,7 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
                 //   purposeTemplateId: purpose.purposeTemplate.name,
                 // }}
               >
-                {purpose.purposeTemplateRef?.name}
+                {purpose.purposeTemplate.purposeTitle}
               </Link>
             }
           />
