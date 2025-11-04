@@ -1,1 +1,1 @@
-export * from './RiskAnalysisForm/RiskAnalysisForm'
+export * from './RiskAnalysisForm/RiskAnalysisFormTemplate'

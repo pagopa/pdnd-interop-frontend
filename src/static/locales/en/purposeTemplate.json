@@ -96,17 +96,35 @@
       "alert": "Warning: Do not enter personal data in the free text fields",
       "switchLabel": "Assign the completion of this item to the template user",
       "addAnnotationBtn": "Add annotations",
-      "editAnnotationBtn": "Edit annotations",
-      "deleteAnnotationBtn": "Remove annotations",
+      "editAnnotationBtn": "Edit",
+      "deleteAnnotationBtn": "Remove",
       "annotationSectionTitle": "Annotations provided by the creator",
-      "addAnswerBtn": "Add answer",
+      "addDocumentBtn": "Add documents",
+      "uploadBtn": "Upload",
+      "notifications": {
+        "annotationAddedSuccess": "Annotation added successfully.",
+        "annotationAddError": "It was not possible to add the annotation. Make sure you have entered the correct information and try again.",
+        "annotationDeletedSuccess": "Annotation deleted successfully.",
+        "annotationDeleteError": "It was not possible to delete the annotation. Please try again later.",
+        "documentDeletedSuccess": "Document deleted correctly.",
+        "documentDeleteError": "The document could not be deleted. Please try again!",
+        "documentUploadError": "It was not possible to upload the document. Please try again later.",
+        "documentUploadedSuccess": "Document uploaded successfully.",
+        "documentDownloadError": "It was not possible to download the document. Please try again later.",
+        "documentDownloadedSuccess": "Document downloaded successfully."
+      },
+      "validation": {
+        "usesPersonalDataMismatch": "The answer to this field differs from what was defined by the e-service provider"
+      },
       "drawer": {
         "title": "Add annotations",
         "description": "Provide the user with instructions on how to respond to this field. Once the annotation is created, you can attach documents.",
         "question": "Question: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut laboolore magna aliqua.",
         "label": "Annotations",
         "addBtn": "Add"
-      }
+      },
+      "answerInputPlaceholder": "Answer",
+      "addAnswerBtn": "Add answer"
     },
     "summary": {
       "title": "Summary",
@@ -196,6 +214,12 @@
     "targetTenantKind": {
       "labelPA": "For Public Administrations",
       "labelNotPA": "For Public service managers, Publicly controlled companies, Private individuals"
+    },
+    "deleteAnnotationDialog": {
+      "title": "Remove annotation",
+      "description": "Do you confirm that you want to remove this annotation?",
+      "proceedLabel": "Remove annotation",
+      "cancelLabel": "Keep annotation"
     }
   }
 }

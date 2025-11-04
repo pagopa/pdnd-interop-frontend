@@ -12,6 +12,17 @@ import { vi } from 'vitest'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
 
+// Test constants
+const TEST_PURPOSE_TEMPLATE_ID = 'test-template-id'
+const TEST_ANSWER_ID = 'test-answer-id'
+const TEST_DOCUMENT_ID = 'test-document-id'
+const TEST_ESERVICE_ID = 'test-eservice-id'
+const TEST_ID = 'test-id'
+const TEST_ANSWER_KEY = 'test-answer-key'
+const TEST_VALUE = 'test-value'
+const TEST_DOCUMENT_NAME = 'test-document.pdf'
+const TEST_DOCUMENT_CONTENT = 'test-content'
+
 // Mock axiosInstance to avoid real HTTP calls
 vi.mock('@/config/axios', () => ({
   default: {
@@ -135,7 +146,7 @@ describe('PurposeTemplateServices', () => {
 
   describe('getSingle', () => {
     it('should make correct API call with purpose template id', async () => {
-      const id = 'test-id'
+      const id = TEST_ID
 
       await PurposeTemplateServices.getSingle(id)
 
@@ -147,8 +158,8 @@ describe('PurposeTemplateServices', () => {
 
   describe('getAnswerDocuments', () => {
     it('should return empty array for documents', async () => {
-      const purposeTemplateId = 'test-template-id'
-      const answerId = 'test-answer-id'
+      const purposeTemplateId = TEST_PURPOSE_TEMPLATE_ID
+      const answerId = TEST_ANSWER_ID
 
       const result = await PurposeTemplateServices.getAnswerDocuments(purposeTemplateId, answerId)
 
@@ -216,7 +227,7 @@ describe('PurposeTemplateServices', () => {
       }
 
       await PurposeTemplateServices.updateDraft({
-        purposeTemplateId: 'test-id',
+        purposeTemplateId: TEST_ID,
         ...payload,
       })
 
@@ -230,11 +241,11 @@ describe('PurposeTemplateServices', () => {
   describe('linkEserviceToPurposeTemplate', () => {
     it('should make correct API call to link eservice', async () => {
       const payload: LinkEServiceToPurposeTemplatePayload = {
-        eserviceId: 'test-eservice-id',
+        eserviceId: TEST_ESERVICE_ID,
       }
 
       await PurposeTemplateServices.linkEserviceToPurposeTemplate({
-        purposeTemplateId: 'test-template-id',
+        purposeTemplateId: TEST_PURPOSE_TEMPLATE_ID,
         ...payload,
       })
 
@@ -248,11 +259,11 @@ describe('PurposeTemplateServices', () => {
   describe('unlinkEserviceFromPurposeTemplate', () => {
     it('should make correct API call to unlink eservice', async () => {
       const payload: UnlinkEServiceToPurposeTemplatePayload = {
-        eserviceId: 'test-eservice-id',
+        eserviceId: TEST_ESERVICE_ID,
       }
 
       await PurposeTemplateServices.unlinkEserviceFromPurposeTemplate({
-        purposeTemplateId: 'test-template-id',
+        purposeTemplateId: TEST_PURPOSE_TEMPLATE_ID,
         ...payload,
       })
 
@@ -263,62 +274,77 @@ describe('PurposeTemplateServices', () => {
     })
   })
 
-  describe('addAnnotationToAnswer', () => {
-    it('should log annotation addition message', async () => {
-      await PurposeTemplateServices.addAnnotationToAnswer({
-        purposeTemplateId: 'test-template-id',
-        answerId: 'test-answer-id',
+  describe('addRiskAnalysisAnswer', () => {
+    it('should make correct API call to add risk analysis answer', async () => {
+      const mockResponse = { id: TEST_ANSWER_ID }
+      vi.mocked(axiosInstance.post).mockResolvedValue({ data: mockResponse })
+
+      const result = await PurposeTemplateServices.addRiskAnalysisAnswer({
+        purposeTemplateId: TEST_PURPOSE_TEMPLATE_ID,
+        answerRequest: {
+          answerKey: TEST_ANSWER_KEY,
+          answerData: {
+            values: [TEST_VALUE],
+            editable: false,
+            annotation: { text: 'test annotation', docs: [] },
+            suggestedValues: [],
+          },
+        },
       })
 
-      expect(mockConsoleLog).toHaveBeenCalledWith('Added annotation to answer')
+      expect(axiosInstance.post).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-template-id/riskAnalysis/answers`,
+        {
+          answerKey: TEST_ANSWER_KEY,
+          answerData: {
+            values: [TEST_VALUE],
+            editable: false,
+            annotation: { text: 'test annotation', docs: [] },
+            suggestedValues: [],
+          },
+        }
+      )
+      expect(result).toEqual(mockResponse)
     })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call to add annotation', async () => {
-    //   await PurposeTemplateServices.addAnnotationToAnswer({
-    //     purposeTemplateId: 'test-template-id',
-    //     answerId: 'test-answer-id',
-    //   })
-    //
-    //   expect(axiosInstance.patch).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-template-id/riskAnalysis/answers/test-answer-id/annotation`
-    //   )
-    // })
   })
 
-  describe('addDocumentsToAnnotation', () => {
-    it('should log documents addition message', async () => {
-      await PurposeTemplateServices.addDocumentsToAnnotation({
-        purposeTemplateId: 'test-template-id',
-        answerId: 'test-answer-id',
+  describe('addDocumentToAnnotation', () => {
+    it('should make correct API call to add document to annotation', async () => {
+      const mockResponse = { id: TEST_DOCUMENT_ID }
+      vi.mocked(axiosInstance.post).mockResolvedValue({ data: mockResponse })
+
+      const result = await PurposeTemplateServices.addDocumentToAnnotation({
+        purposeTemplateId: TEST_PURPOSE_TEMPLATE_ID,
+        answerId: TEST_ANSWER_ID,
+        documentPayload: {
+          prettyName: TEST_DOCUMENT_NAME,
+          doc: new File([TEST_DOCUMENT_CONTENT], TEST_DOCUMENT_NAME),
+        },
       })
 
-      expect(mockConsoleLog).toHaveBeenCalledWith('Added documents to annotation')
+      expect(axiosInstance.post).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-template-id/riskAnalysis/answers/test-answer-id/annotation/documents`,
+        expect.any(FormData),
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      )
+      expect(result).toEqual(mockResponse)
     })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call to add documents', async () => {
-    //   await PurposeTemplateServices.addDocumentsToAnnotation({
-    //     purposeTemplateId: 'test-template-id',
-    //     answerId: 'test-answer-id',
-    //   })
-    //
-    //   expect(axiosInstance.post).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-template-id/riskAnalysis/answers/test-answer-id/annotation/documents`
-    //   )
-    // })
   })
 
   describe('publishDraft', () => {
     it('should log draft publication message', async () => {
-      await PurposeTemplateServices.publishDraft({ id: 'test-id' })
+      await PurposeTemplateServices.publishDraft({ id: TEST_ID })
 
       expect(mockConsoleLog).toHaveBeenCalledWith('Draft published')
     })
 
     // TODO: Update this test when real API calls are implemented
     // it('should make correct API call to publish draft', async () => {
-    //   await PurposeTemplateServices.publishDraft({ id: 'test-id' })
+    //   await PurposeTemplateServices.publishDraft({ id: TEST_ID })
     //
     //   expect(axiosInstance.post).toHaveBeenCalledWith(
     //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/publish`
@@ -328,14 +354,14 @@ describe('PurposeTemplateServices', () => {
 
   describe('deleteDraft', () => {
     it('should log draft deletion message', async () => {
-      await PurposeTemplateServices.deleteDraft({ id: 'test-id' })
+      await PurposeTemplateServices.deleteDraft({ id: TEST_ID })
 
       expect(mockConsoleLog).toHaveBeenCalledWith('Draft deleted')
     })
 
     // TODO: Update this test when real API calls are implemented
     // it('should make correct API call to delete draft', async () => {
-    //   await PurposeTemplateServices.deleteDraft({ id: 'test-id' })
+    //   await PurposeTemplateServices.deleteDraft({ id: TEST_ID })
     //
     //   expect(axiosInstance.delete).toHaveBeenCalledWith(
     //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id`
@@ -346,8 +372,8 @@ describe('PurposeTemplateServices', () => {
   describe('deleteAnnotation', () => {
     it('should log annotation deletion message', async () => {
       await PurposeTemplateServices.deleteAnnotation({
-        purposeTemplateId: 'test-template-id',
-        answerId: 'test-answer-id',
+        purposeTemplateId: TEST_PURPOSE_TEMPLATE_ID,
+        answerId: TEST_ANSWER_ID,
       })
 
       expect(mockConsoleLog).toHaveBeenCalledWith('Annotation deleted')
@@ -356,8 +382,8 @@ describe('PurposeTemplateServices', () => {
     // TODO: Update this test when real API calls are implemented
     // it('should make correct API call to delete annotation', async () => {
     //   await PurposeTemplateServices.deleteAnnotation({
-    //     purposeTemplateId: 'test-template-id',
-    //     answerId: 'test-answer-id',
+    //     purposeTemplateId: TEST_PURPOSE_TEMPLATE_ID,
+    //     answerId: TEST_ANSWER_ID,
     //   })
     //
     //   expect(axiosInstance.delete).toHaveBeenCalledWith(
@@ -366,41 +392,32 @@ describe('PurposeTemplateServices', () => {
     // })
   })
 
-  describe('deleteDocument', () => {
-    it('should log document deletion message', async () => {
-      await PurposeTemplateServices.deleteDocument({
-        purposeTemplateId: 'test-template-id',
-        answerId: 'test-answer-id',
-        documentId: 'test-document-id',
+  describe('deleteDocumentFromAnnotation', () => {
+    it('should make correct API call to delete document from annotation', async () => {
+      vi.mocked(axiosInstance.delete).mockResolvedValue({})
+
+      await PurposeTemplateServices.deleteDocumentFromAnnotation({
+        purposeTemplateId: TEST_PURPOSE_TEMPLATE_ID,
+        answerId: TEST_ANSWER_ID,
+        documentId: TEST_DOCUMENT_ID,
       })
 
-      expect(mockConsoleLog).toHaveBeenCalledWith('Document deleted')
+      expect(axiosInstance.delete).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-template-id/riskAnalysis/answers/test-answer-id/annotation/documents/test-document-id`
+      )
     })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call to delete document', async () => {
-    //   await PurposeTemplateServices.deleteDocument({
-    //     purposeTemplateId: 'test-template-id',
-    //     answerId: 'test-answer-id',
-    //     documentId: 'test-document-id',
-    //   })
-    //
-    //   expect(axiosInstance.delete).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-template-id/riskAnalysis/answers/test-answer-id/annotation/documents/test-document-id`
-    //   )
-    // })
   })
 
   describe('suspendPurposeTemplate', () => {
     it('should log suspension message', async () => {
-      await PurposeTemplateServices.suspendPurposeTemplate({ id: 'test-id' })
+      await PurposeTemplateServices.suspendPurposeTemplate({ id: TEST_ID })
 
       expect(mockConsoleLog).toHaveBeenCalledWith('Suspended')
     })
 
     // TODO: Update this test when real API calls are implemented
     // it('should make correct API call to suspend purpose template', async () => {
-    //   await PurposeTemplateServices.suspendPurposeTemplate({ id: 'test-id' })
+    //   await PurposeTemplateServices.suspendPurposeTemplate({ id: TEST_ID })
     //
     //   expect(axiosInstance.post).toHaveBeenCalledWith(
     //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/suspend`
@@ -410,14 +427,14 @@ describe('PurposeTemplateServices', () => {
 
   describe('reactivatePurposeTemplate', () => {
     it('should log reactivation message', async () => {
-      await PurposeTemplateServices.reactivatePurposeTemplate({ id: 'test-id' })
+      await PurposeTemplateServices.reactivatePurposeTemplate({ id: TEST_ID })
 
       expect(mockConsoleLog).toHaveBeenCalledWith('Reactivate')
     })
 
     // TODO: Update this test when real API calls are implemented
     // it('should make correct API call to reactivate purpose template', async () => {
-    //   await PurposeTemplateServices.reactivatePurposeTemplate({ id: 'test-id' })
+    //   await PurposeTemplateServices.reactivatePurposeTemplate({ id: TEST_ID })
     //
     //   expect(axiosInstance.post).toHaveBeenCalledWith(
     //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/unsuspend`
@@ -427,14 +444,14 @@ describe('PurposeTemplateServices', () => {
 
   describe('archivePurposeTemplate', () => {
     it('should log archiving message', async () => {
-      await PurposeTemplateServices.archivePurposeTemplate({ id: 'test-id' })
+      await PurposeTemplateServices.archivePurposeTemplate({ id: TEST_ID })
 
       expect(mockConsoleLog).toHaveBeenCalledWith('Archived!')
     })
 
     // TODO: Update this test when real API calls are implemented
     // it('should make correct API call to archive purpose template', async () => {
-    //   await PurposeTemplateServices.archivePurposeTemplate({ id: 'test-id' })
+    //   await PurposeTemplateServices.archivePurposeTemplate({ id: TEST_ID })
     //
     //   expect(axiosInstance.post).toHaveBeenCalledWith(
     //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/archive`

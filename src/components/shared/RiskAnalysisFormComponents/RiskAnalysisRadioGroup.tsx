@@ -14,7 +14,7 @@ import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 
 export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
-  questionId: string
+  questionKey: string
   label: string
   infoLabel?: string
   helperText?: string
@@ -25,7 +25,7 @@ export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> &
 }
 
 export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
-  questionId,
+  questionKey,
   label,
   options,
   infoLabel,
@@ -39,16 +39,16 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
 
   const isAssignedToTemplateUsersSwitch = useWatch({
     control,
-    name: `assignToTemplateUsers.${questionId}`,
+    name: `assignToTemplateUsers.${questionKey}`,
   })
 
   const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
   const { t } = useTranslation()
   const labelId = useId()
 
-  const name = `answers.${questionId}`
+  const name = `answers.${questionKey}`
 
-  const error = formState.errors.answers?.[questionId]?.message as string | undefined
+  const error = formState.errors.answers?.[questionKey]?.message as string | undefined
 
   const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
     label,
@@ -58,7 +58,7 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
   })
 
   const conditionalRules = isAssignedToTemplateUsersSwitch
-    ? { required: false }
+    ? { required: false, validate: rules?.validate ? rules.validate : undefined }
     : mapValidationErrorMessages(rules, t)
 
   return (
@@ -69,7 +69,7 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
       helperText={helperText}
       {...ids}
       isFromPurposeTemplate={isFromPurposeTemplate}
-      questionId={questionId}
+      questionKey={questionKey}
     >
       <Controller
         name={name}
