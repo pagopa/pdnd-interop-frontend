@@ -5,6 +5,7 @@ import { mockCatalogPurposeTemplates, purposeTemplatesListMock } from './mockedR
 import type {
   CatalogPurposeTemplates,
   CreatedResource,
+  EServiceDescriptorPurposeTemplate,
   EServiceDescriptorsPurposeTemplate,
   GetCatalogPurposeTemplatesParams,
   GetPurposeTemplateEServicesParams,
@@ -12,6 +13,12 @@ import type {
   PurposeTemplate,
   PurposeTemplateSeed,
   PurposeTemplateWithCompactCreator,
+  RiskAnalysisTemplateAnswerAnnotation,
+  RiskAnalysisTemplateAnswerAnnotationText,
+  RiskAnalysisTemplateAnswerRequest,
+  RiskAnalysisTemplateAnswerResponse,
+  AddRiskAnalysisTemplateAnswerAnnotationDocumentPayload,
+  RiskAnalysisTemplateAnswerAnnotationDocument,
   UnlinkEServiceToPurposeTemplatePayload,
 } from '../api.generatedTypes'
 
@@ -109,7 +116,7 @@ async function linkEserviceToPurposeTemplate({
   purposeTemplateId,
   ...payload
 }: { purposeTemplateId: string } & LinkEServiceToPurposeTemplatePayload) {
-  const response = await axiosInstance.post<LinkEServiceToPurposeTemplatePayload>(
+  const response = await axiosInstance.post<EServiceDescriptorPurposeTemplate>(
     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/linkEservice`,
     payload
   )
@@ -126,32 +133,71 @@ async function unlinkEserviceFromPurposeTemplate({
   )
 }
 
-async function addAnnotationToAnswer({
+async function addRiskAnalysisAnswer({
   purposeTemplateId,
-  answerId,
+  answerRequest,
 }: {
   purposeTemplateId: string
-  answerId: string
+  answerRequest: RiskAnalysisTemplateAnswerRequest
 }) {
-  //   const response = await axiosInstance.put<RiskAnalysisAnswerAnnotationText>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation`,
-  //   )
-  //   return response.data
-  return console.log('Added annotation to answer')
+  const response = await axiosInstance.post<RiskAnalysisTemplateAnswerResponse>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers`,
+    answerRequest
+  )
+  return response.data
 }
 
-async function addDocumentsToAnnotation({
+async function updateRiskAnalysisAnswerAnnotation({
+  purposeTemplateId,
+  answerId,
+  annotationText,
+}: {
+  purposeTemplateId: string
+  answerId: string
+  annotationText: RiskAnalysisTemplateAnswerAnnotationText
+}) {
+  const response = await axiosInstance.put<RiskAnalysisTemplateAnswerAnnotation>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation`,
+    annotationText
+  )
+  return response.data
+}
+
+async function deleteRiskAnalysisAnswerAnnotation({
   purposeTemplateId,
   answerId,
 }: {
   purposeTemplateId: string
   answerId: string
 }) {
-  //   const response = await axiosInstance.post<void>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation/documents`,
-  //   )
-  //   return response.data
-  return console.log('Added documents to annotation')
+  await axiosInstance.delete<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation`
+  )
+}
+
+async function addDocumentToAnnotation({
+  purposeTemplateId,
+  answerId,
+  documentPayload,
+}: {
+  purposeTemplateId: string
+  answerId: string
+  documentPayload: AddRiskAnalysisTemplateAnswerAnnotationDocumentPayload
+}) {
+  const formData = new FormData()
+  formData.append('prettyName', documentPayload.prettyName)
+  formData.append('doc', documentPayload.doc)
+
+  const response = await axiosInstance.post<RiskAnalysisTemplateAnswerAnnotationDocument>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation/documents`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  )
+  return response.data
 }
 
 async function publishDraft({ id }: { id: string }) {
@@ -180,7 +226,7 @@ async function deleteAnnotation({
   return console.log('Annotation deleted')
 }
 
-async function deleteDocument({
+async function deleteDocumentFromAnnotation({
   purposeTemplateId,
   answerId,
   documentId,
@@ -189,10 +235,27 @@ async function deleteDocument({
   answerId: string
   documentId: string
 }) {
-  //   return await axiosInstance.delete<void>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/riskAnalysis/answers/${answerId}/annotation/documents/${documentId}`
-  //   )
-  return console.log('Document deleted')
+  await axiosInstance.delete<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation/documents/${documentId}`
+  )
+}
+
+async function downloadDocumentFromAnnotation({
+  purposeTemplateId,
+  answerId,
+  documentId,
+}: {
+  purposeTemplateId: string
+  answerId: string
+  documentId: string
+}) {
+  const response = await axiosInstance.get<Blob>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation/documents/${documentId}`,
+    {
+      responseType: 'blob',
+    }
+  )
+  return response.data
 }
 
 async function suspendPurposeTemplate({ id }: { id: string }) {
@@ -225,14 +288,17 @@ export const PurposeTemplateServices = {
   updateDraft,
   linkEserviceToPurposeTemplate,
   unlinkEserviceFromPurposeTemplate,
-  addAnnotationToAnswer,
-  addDocumentsToAnnotation,
+  addRiskAnalysisAnswer,
+  updateRiskAnalysisAnswerAnnotation,
+  deleteRiskAnalysisAnswerAnnotation,
+  addDocumentToAnnotation,
   createDraft,
   publishDraft,
   deleteDraft,
   deleteAnnotation,
   getRiskAnalysisTemplateAnswerAnnotationDocument,
-  deleteDocument,
+  deleteDocumentFromAnnotation,
+  downloadDocumentFromAnnotation,
   suspendPurposeTemplate,
   reactivatePurposeTemplate,
   archivePurposeTemplate,

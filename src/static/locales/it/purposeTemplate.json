@@ -84,6 +84,10 @@
       "saveBtn": "Salva",
       "autocompleteInput": {
         "label": "E-service o template e-service da associare"
+      },
+      "notifications": {
+        "eserviceLinkError": "Non è stato possibile salvare questo e-service. Per favore riprova!",
+        "eserviceLinkSuccess": "L'e-service è stato salvato correttamente."
       }
     },
     "step3": {
@@ -92,17 +96,35 @@
       "alert": "Attenzione non inserire dati personali all’interno dei campi liberi di testo",
       "switchLabel": "Assegna la compilazione di questo elemento all’utilizzatore del template",
       "addAnnotationBtn": "Aggiungi annotazioni",
-      "editAnnotationBtn": "Modifica annotazioni",
-      "deleteAnnotationBtn": "Rimuovi annotazioni",
+      "editAnnotationBtn": "Modifica",
+      "deleteAnnotationBtn": "Rimuovi",
       "annotationSectionTitle": "Annotazioni fornite dal creatore",
-      "addAnswerBtn": "Aggiungi risposta",
+      "addDocumentBtn": "Aggiungi documenti",
+      "uploadBtn": "Carica",
+      "notifications": {
+        "annotationAddedSuccess": "Annotazione aggiunta con successo.",
+        "annotationAddError": "Non è stato possibile aggiungere l'annotazione. Assicurati di aver inserito le informazioni corrette e riprova.",
+        "annotationDeletedSuccess": "Annotazione eliminata con successo.",
+        "annotationDeleteError": "Non è stato possibile eliminare l'annotazione. Riprova più tardi.",
+        "documentDeletedSuccess": "Il documento è stato cancellato correttamente.",
+        "documentDeleteError": "Il documento non è stato cancellato. Riprova!",
+        "documentUploadError": "Non è stato possibile caricare il documento. Riprova più tardi.",
+        "documentUploadedSuccess": "Documento caricato con successo.",
+        "documentDownloadError": "Non è stato possibile scaricare il documento. Riprova più tardi.",
+        "documentDownloadedSuccess": "Documento scaricato con successo."
+      },
+      "validation": {
+        "usesPersonalDataMismatch": "La risposta di questo campo differisce da quanto è stato definito dall'erogatore dell'e-service"
+      },
       "drawer": {
         "title": "Aggiungi annotazioni",
         "description": "Fornisci all’utilizzatore indicazioni su come rispondere a questo campo. Una volta creata la annotazione, potrai allegare documenti.",
-        "question": "Domanda: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut laboolore magna aliqua.",
+        "question": "Domanda: ",
         "label": "Annotazioni",
         "addBtn": "Aggiungi"
-      }
+      },
+      "answerInputPlaceholder": "Risposta",
+      "addAnswerBtn": "Aggiungi risposta"
     },
     "summary": {
       "title": "Riepilogo",
@@ -192,6 +214,12 @@
     "targetTenantKind": {
       "labelPA": "Per Pubbliche Amministrazioni",
       "labelNotPA": "Per Gestori di pubblici servizi, Società a controllo pubblico, Privati"
+    },
+    "deleteAnnotationDialog": {
+      "title": "Rimuovi annotazione",
+      "description": "Confermi di voler rimuovere questa annotazione?",
+      "proceedLabel": "Rimuovi annotazione",
+      "cancelLabel": "Mantieni annotazione"
     }
   }
 }
