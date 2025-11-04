@@ -91,6 +91,11 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
     enabled: Boolean(selectedEServiceRef.current?.id),
   })
 
+  const showAlert =
+    linkedPurposeTemplates &&
+    linkedPurposeTemplates?.results.length > 0 &&
+    eserviceAutocompleteTextInput !== ''
+
   return (
     <Stack spacing={2} sx={{ mb: 2 }}>
       <RHFAutocompleteSingle
@@ -108,11 +113,7 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
         onInputChange={(_, value) => setEserviceAutocompleteTextInput(value)}
         rules={{ required: true }}
       />
-      {linkedPurposeTemplates &&
-        linkedPurposeTemplates?.results.length > 0 &&
-        eserviceAutocompleteTextInput !== '' && (
-          <Alert severity="success"> {t('create.eserviceField.alert.label')}</Alert>
-        )}
+      {showAlert && <Alert severity="success"> {t('create.eserviceField.alert.label')}</Alert>}
     </Stack>
   )
 }
