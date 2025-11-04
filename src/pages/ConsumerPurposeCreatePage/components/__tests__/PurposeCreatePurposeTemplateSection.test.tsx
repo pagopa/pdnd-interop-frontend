@@ -24,12 +24,6 @@ vi.mock('@/components/shared/react-hook-form-inputs', () => ({
   },
 }))
 
-vi.mock('react-i18next', () => ({
-  useTranslation: () => ({
-    t: (key: string) => key,
-  }),
-}))
-
 vi.mock('../PurposeCreatePurposeTemplateSection/PurposeCreatePurposeTemplateAutocomplete', () => ({
   PurposeCreatePurposeTemplateAutocomplete: (props: { eserviceId: string }) => (
     <div>Autocomplete {props.eserviceId}</div>
