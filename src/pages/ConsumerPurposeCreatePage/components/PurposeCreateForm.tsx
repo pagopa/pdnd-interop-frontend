@@ -113,6 +113,8 @@ export const PurposeCreateForm: React.FC = () => {
 
   const selectedEServiceMode = selectedEServiceDescriptor?.eservice.mode
   const handlesPersonalData = selectedEServiceDescriptor?.eservice.personalData
+  const isPurposeTemplateCreateSectionVisible =
+    !isLoadingPurposeTemplates && purposeTemplates?.results && purposeTemplates.results.length > 0
 
   // const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
 
@@ -144,7 +146,7 @@ export const PurposeCreateForm: React.FC = () => {
       eserviceId: eservice.id,
       consumerId: consumerId,
       title,
-      dailyCalls: 1, //TODO: confirm if this is correct
+      dailyCalls: 1,
     }
 
     if (usePurposeTemplate && purposeTemplateId) {
@@ -241,22 +243,20 @@ export const PurposeCreateForm: React.FC = () => {
             </Stack>
           </SectionContainer>
         )}
-        {!isLoadingPurposeTemplates &&
-          purposeTemplates?.results &&
-          purposeTemplates.results.length > 0 && (
-            <SectionContainer
-              title={t('create.purposeTemplateField.title')}
-              description={t('create.purposeTemplateField.description')}
-            >
-              <Stack spacing={3}>
-                <PurposeCreatePurposeTemplateSection
-                  eserviceId={selectedEService?.id as string}
-                  tenantKind={selectedTenantKind}
-                  handlesPersonalData={handlesPersonalData}
-                />
-              </Stack>
-            </SectionContainer>
-          )}
+        {isPurposeTemplateCreateSectionVisible && (
+          <SectionContainer
+            title={t('create.purposeTemplateField.title')}
+            description={t('create.purposeTemplateField.description')}
+          >
+            <Stack spacing={3}>
+              <PurposeCreatePurposeTemplateSection
+                eserviceId={selectedEService?.id as string}
+                tenantKind={selectedTenantKind}
+                handlesPersonalData={handlesPersonalData}
+              />
+            </Stack>
+          </SectionContainer>
+        )}
         <Stack direction="row" sx={{ mt: 4, justifyContent: 'right' }}>
           <Button variant="contained" type="submit" startIcon={<NoteAddIcon />}>
             {t('create.createNewPurposeBtn')}
