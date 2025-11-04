@@ -13,6 +13,7 @@ import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/ut
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 import { isRiskAnalysisQuestionDisabled } from '@/utils/common.utils'
+import { usePurposeCreateContext } from '../PurposeCreateContext'
 
 export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
   questionId: string
@@ -22,8 +23,6 @@ export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> &
   disabled?: boolean
   rules?: ControllerProps['rules']
   options: Array<InputOption & { disabled?: boolean }>
-  isFromPurposeTemplate?: boolean
-  type?: 'creator' | 'consumer'
 }
 
 export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
@@ -34,11 +33,10 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
   helperText,
   disabled,
   rules,
-  isFromPurposeTemplate,
-  type,
   ...props
 }) => {
   const { control } = useFormContext()
+  const { isFromPurposeTemplate, type } = usePurposeCreateContext()
 
   const isAssignedToTemplateUsersSwitch = useWatch({
     control,

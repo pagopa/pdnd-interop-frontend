@@ -9,6 +9,7 @@ import { RHFSelect, RHFTextField } from '@/components/shared/react-hook-form-inp
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 import { RemoveCircleOutline } from '@mui/icons-material'
+import { usePurposeCreateContext } from '../PurposeCreateContext'
 
 export type RiskAnalysisTextFieldProps = Omit<OutlinedInputProps, 'type'> & {
   questionId: string
@@ -17,9 +18,7 @@ export type RiskAnalysisTextFieldProps = Omit<OutlinedInputProps, 'type'> & {
   helperText?: string
   formHelper?: string
   rules?: ControllerProps['rules']
-  isFromPurposeTemplate?: boolean
   questionType?: string
-  type?: 'creator' | 'consumer'
 }
 
 export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
@@ -29,9 +28,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
   helperText,
   multiline,
   rules,
-  isFromPurposeTemplate,
   questionType,
-  type,
   ...props
 }) => {
   const { setValue, watch } = useFormContext()
@@ -43,6 +40,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
   })
 
   const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
+  const { isFromPurposeTemplate, type } = usePurposeCreateContext()
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step3' })
   const { t: tCommon } = useTranslation('common')
 

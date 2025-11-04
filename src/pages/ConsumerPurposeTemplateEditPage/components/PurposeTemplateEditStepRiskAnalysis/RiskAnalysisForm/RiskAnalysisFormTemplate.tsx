@@ -20,7 +20,6 @@ type RiskAnalysisFormTemplateProps = {
   riskAnalysis: RiskAnalysisFormConfig
   onSubmit: (riskAnalysisFormTemplateSeed: RiskAnalysisFormTemplateSeed) => void
   onCancel: VoidFunction
-  type?: 'creator' | 'consumer'
 }
 
 export const RiskAnalysisFormTemplate: React.FC<RiskAnalysisFormTemplateProps> = ({
@@ -28,7 +27,6 @@ export const RiskAnalysisFormTemplate: React.FC<RiskAnalysisFormTemplateProps> =
   riskAnalysis,
   onSubmit,
   onCancel,
-  type,
 }) => {
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit' })
 
@@ -74,11 +72,7 @@ export const RiskAnalysisFormTemplate: React.FC<RiskAnalysisFormTemplateProps> =
           </Alert>
         </SectionContainer>
         <Stack spacing={2}>
-          <RiskAnalysisFormComponents
-            questions={riskAnalysisForm.questions}
-            isFromPurposeTemplate={true}
-            type={type}
-          />
+          <RiskAnalysisFormComponents questions={riskAnalysisForm.questions} />
         </Stack>
         <StepActions
           back={{

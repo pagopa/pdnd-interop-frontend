@@ -9,6 +9,7 @@ import type { InputOption } from '@/types/common.types'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 import { isRiskAnalysisQuestionDisabled } from '@/utils/common.utils'
+import { usePurposeCreateContext } from '../PurposeCreateContext'
 
 type RiskAnalysisSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   label: string
@@ -17,8 +18,6 @@ type RiskAnalysisSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   options: Array<InputOption>
   questionId: string
   rules?: ControllerProps['rules']
-  isFromPurposeTemplate?: boolean
-  type?: 'creator' | 'consumer'
 }
 
 export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
@@ -28,11 +27,10 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
   options,
   questionId,
   rules,
-  isFromPurposeTemplate,
-  type,
   ...switchProps
 }) => {
   const { control } = useFormContext()
+  const { isFromPurposeTemplate, type } = usePurposeCreateContext()
 
   const isAssignedToTemplateUsersSwitch = useWatch({
     control,

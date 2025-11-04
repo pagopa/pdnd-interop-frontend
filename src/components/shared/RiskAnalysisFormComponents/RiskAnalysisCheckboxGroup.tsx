@@ -8,6 +8,7 @@ import { mapValidationErrorMessages } from '@/utils/form.utils'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 import { isRiskAnalysisQuestionDisabled } from '@/utils/common.utils'
+import { usePurposeCreateContext } from '../PurposeCreateContext'
 
 export type RiskAnalysisCheckboxGroupProps = {
   questionId: string
@@ -16,8 +17,6 @@ export type RiskAnalysisCheckboxGroupProps = {
   helperText?: string
   options: Array<InputOption>
   rules?: ControllerProps['rules']
-  isFromPurposeTemplate?: boolean
-  type?: 'creator' | 'consumer'
 }
 
 export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps> = ({
@@ -27,10 +26,9 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
   infoLabel,
   helperText,
   rules,
-  isFromPurposeTemplate,
-  type,
 }) => {
   const { control } = useFormContext()
+  const { isFromPurposeTemplate, type } = usePurposeCreateContext()
 
   const isAssignedToTemplateUsersSwitch = useWatch({
     control,

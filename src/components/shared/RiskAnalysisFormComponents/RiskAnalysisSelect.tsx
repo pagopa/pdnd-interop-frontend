@@ -8,6 +8,7 @@ import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/ut
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 import { isRiskAnalysisQuestionDisabled } from '@/utils/common.utils'
+import { usePurposeCreateContext } from '../PurposeCreateContext'
 
 export type RiskAnalysisSelectProps = Omit<MUISelectProps, 'onChange' | 'label'> & {
   questionId: string
@@ -17,8 +18,6 @@ export type RiskAnalysisSelectProps = Omit<MUISelectProps, 'onChange' | 'label'>
   emptyLabel?: string
   options: Array<InputOption>
   rules?: ControllerProps['rules']
-  isFromPurposeTemplate?: boolean
-  type?: 'creator' | 'consumer'
 }
 
 export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
@@ -29,11 +28,10 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
   helperText,
   emptyLabel,
   rules,
-  isFromPurposeTemplate,
-  type,
   ...props
 }) => {
   const { control } = useFormContext()
+  const { isFromPurposeTemplate, type } = usePurposeCreateContext()
 
   const isAssignedToTemplateUsersSwitch = useWatch({
     control,

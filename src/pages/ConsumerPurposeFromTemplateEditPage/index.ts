@@ -1,1 +1,1 @@
-export { default as ConsumerPurposeFromTemplateEditPage } from './ConsumerPurposeFromTemplateEdit'
+export { default as ConsumerPurposeFromTemplateEditPage } from './ConsumerPurposeFromTemplateEdit.page'

@@ -27,7 +27,6 @@ const PurposeFromTemplateEditStepRiskAnalysis: React.FC = () => {
       defaultAnswers={mergedDefaultAnswers}
       onSubmit={() => {}}
       onCancel={() => {}}
-      type="consumer"
     />
   )
 }

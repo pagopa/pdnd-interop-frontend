@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { PurposeFromTemplateEditStepGeneral } from './components/PurposeFromTemplateEditStepGeneral/PurposeFromTemplateEditStepGeneral'
 import PurposeFromTemplateEditStepRiskAnalysis from './components/PurposeFromTemplateEditStepRiskAnalysis/PurposeFromTemplateEditStepRiskAnalysis'
+import { PurposeCreateContextProvider } from '@/components/shared/PurposeCreateContext'
 
 const ConsumerPurposeFromTemplateEditPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -33,17 +34,19 @@ const ConsumerPurposeFromTemplateEditPage: React.FC = () => {
   const stepProps = { forward, back }
 
   return (
-    <PageContainer
-      title={t('edit.emptyTitle')}
-      isLoading={isLoadingPurposeTemplate}
-      backToAction={{
-        label: t('backToListBtn'),
-        to: 'SUBSCRIBE_PURPOSE_LIST',
-      }}
-    >
-      <Stepper steps={steps} activeIndex={activeStep} />
-      <Step {...stepProps} />
-    </PageContainer>
+    <PurposeCreateContextProvider type="consumer" isFromPurposeTemplate={true}>
+      <PageContainer
+        title={t('edit.emptyTitle')}
+        isLoading={isLoadingPurposeTemplate}
+        backToAction={{
+          label: t('backToListBtn'),
+          to: 'SUBSCRIBE_PURPOSE_LIST',
+        }}
+      >
+        <Stepper steps={steps} activeIndex={activeStep} />
+        <Step {...stepProps} />
+      </PageContainer>
+    </PurposeCreateContextProvider>
   )
 }
 
