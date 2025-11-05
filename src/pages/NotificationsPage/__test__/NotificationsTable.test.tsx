@@ -15,6 +15,7 @@ export const notificationMock: Notification[] = [
     deepLink: '/notifications/1',
     readAt: null,
     createdAt: '2025-02-13T10:00:00.000Z',
+    category: '',
   },
   {
     id: 'b8c1a3b2-7e3e-4fa2-8d4d-5a42ec3873f5',
@@ -24,6 +25,7 @@ export const notificationMock: Notification[] = [
     deepLink: '/notifications/2',
     readAt: '2025-02-13T11:30:00.000Z',
     createdAt: '2025-02-13T11:23:00.000Z',
+    category: '',
   },
 ]
 const navigateRouteFn = vi.fn()

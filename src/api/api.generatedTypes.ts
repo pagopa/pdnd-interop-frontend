@@ -714,6 +714,7 @@ export interface CompactPurposeEService {
   descriptor: CompactDescriptor
   /** Risk Analysis Mode */
   mode: EServiceMode
+  personalData?: boolean
 }
 
 export interface CompactPurposeTemplateEService {
@@ -1001,7 +1002,7 @@ export interface PurposeTemplate {
 }
 
 /** Purpose Template State */
-export type PurposeTemplateState = 'ACTIVE' | 'DRAFT' | 'SUSPENDED' | 'ARCHIVED'
+export type PurposeTemplateState = 'PUBLISHED' | 'DRAFT' | 'SUSPENDED' | 'ARCHIVED'
 
 /** a purpose template with its creator and a list for the answer annotation documents */
 export interface PurposeTemplateWithCompactCreator {
@@ -2003,6 +2004,7 @@ export interface EServiceTemplateVersionDetails {
   eserviceTemplate: EServiceTemplateDetails
   isAlreadyInstantiated: boolean
   hasRequesterRiskAnalysis?: boolean
+  personalData?: boolean
 }
 
 export interface EServiceTemplateVersionQuotasUpdateSeed {
@@ -2403,11 +2405,12 @@ export interface NotificationsCountBySection {
     /** @format int32 */
     totalCount: number
   }
-  notifiche: {
-    /** @format int32 */
-    totalCount: number
-  }
+  /** @format int32 */
+  totalCount: number
 }
+
+/** Filter e-services by personal data */
+export type PersonalDataFilter = 'TRUE' | 'FALSE' | 'DEFINED'
 
 export interface ProblemError {
   /**
@@ -2529,6 +2532,8 @@ export interface AddAgreementConsumerDocumentPayload {
 }
 
 export interface GetEServicesCatalogParams {
+  /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+  personalData?: PersonalDataFilter
   /** Query to filter EServices by name */
   q?: string
   /**
@@ -2555,8 +2560,6 @@ export interface GetEServicesCatalogParams {
   mode?: EServiceMode
   /** EService isConsumerDelegable filter */
   isConsumerDelegable?: boolean
-  /** if true only e-services that handle personal data will be returned, if false only non-personal data e-services will be returned, if not present all e-services will be returned */
-  personalData?: boolean
   /**
    * @format int32
    * @min 0
@@ -2674,6 +2677,8 @@ export interface GetProducersParams {
 }
 
 export interface GetProducerEServicesParams {
+  /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+  personalData?: PersonalDataFilter
   /** Query to filter EServices by name */
   q?: string
   /**
@@ -2838,11 +2843,8 @@ export interface GetPurposeTemplateEServicesParams {
    * @default []
    */
   producerIds?: string[]
-  /**
-   * comma separated sequence of e-service IDs
-   * @default []
-   */
-  eserviceIds?: string[]
+  /** filter linked e-services by name */
+  eserviceName?: string
   /**
    * @format int32
    * @min 0
@@ -3127,6 +3129,8 @@ export interface GetConsumerDelegatedEservicesParams {
 }
 
 export interface GetEServiceTemplatesCatalogParams {
+  /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned, if "defined" all e-service templates with a defined personal data flag will be returned */
+  personalData?: PersonalDataFilter
   /** Query to filter EService template by name */
   q?: string
   /**
@@ -3134,8 +3138,6 @@ export interface GetEServiceTemplatesCatalogParams {
    * @default []
    */
   creatorsIds?: string[]
-  /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned */
-  personalData?: boolean
   /**
    * @format int32
    * @min 0
@@ -3611,6 +3613,8 @@ export namespace Producers {
   export namespace GetProducerEServices {
     export type RequestParams = {}
     export type RequestQuery = {
+      /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+      personalData?: PersonalDataFilter
       /** Query to filter EServices by name */
       q?: string
       /**
@@ -4629,6 +4633,8 @@ export namespace Catalog {
   export namespace GetEServicesCatalog {
     export type RequestParams = {}
     export type RequestQuery = {
+      /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+      personalData?: PersonalDataFilter
       /** Query to filter EServices by name */
       q?: string
       /**
@@ -4655,8 +4661,6 @@ export namespace Catalog {
       mode?: EServiceMode
       /** EService isConsumerDelegable filter */
       isConsumerDelegable?: boolean
-      /** if true only e-services that handle personal data will be returned, if false only non-personal data e-services will be returned, if not present all e-services will be returned */
-      personalData?: boolean
       /**
        * @format int32
        * @min 0
@@ -4758,6 +4762,8 @@ export namespace Catalog {
   export namespace GetEServiceTemplatesCatalog {
     export type RequestParams = {}
     export type RequestQuery = {
+      /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned, if "defined" all e-service templates with a defined personal data flag will be returned */
+      personalData?: PersonalDataFilter
       /** Query to filter EService template by name */
       q?: string
       /**
@@ -4765,8 +4771,6 @@ export namespace Catalog {
        * @default []
        */
       creatorsIds?: string[]
-      /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned */
-      personalData?: boolean
       /**
        * @format int32
        * @min 0
@@ -6843,11 +6847,8 @@ export namespace PurposeTemplates {
        * @default []
        */
       producerIds?: string[]
-      /**
-       * comma separated sequence of e-service IDs
-       * @default []
-       */
-      eserviceIds?: string[]
+      /** filter linked e-services by name */
+      eserviceName?: string
       /**
        * @format int32
        * @min 0
@@ -7131,7 +7132,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
   /**
    * @description Unsuspends a purpose template by id (from Suspended State to Active State)
@@ -7149,7 +7150,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
   /**
    * @description Suspends a purpose template by id (from Active State to Suspended State)
@@ -7167,7 +7168,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
   /**
    * @description Archives a purpose template by id (from Suspended State to Archived State)
@@ -7185,7 +7186,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
 }
 

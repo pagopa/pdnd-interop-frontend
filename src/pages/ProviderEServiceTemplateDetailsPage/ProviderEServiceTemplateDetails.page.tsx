@@ -4,7 +4,7 @@ import { useParams } from '@/router'
 import { Tab } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
-import { NotificationMutations } from '@/api/notification'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
@@ -17,20 +17,13 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
   const { eServiceTemplateId, eServiceTemplateVersionId } =
     useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
-  const { mutate: markNotificationsAsRead } =
-    NotificationMutations.useMarkNotificationsAsReadByEntityId()
-
   const { activeTab, updateActiveTab } = useActiveTab('eserviceTemplateDetails')
 
   const { data: eserviceTemplate } = useQuery(
     EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
-  React.useEffect(() => {
-    if (eServiceTemplateId) {
-      markNotificationsAsRead({ entityId: eServiceTemplateId })
-    }
-  }, [eServiceTemplateId, markNotificationsAsRead])
+  useMarkNotificationsAsRead(eServiceTemplateId)
 
   const { actions } = useGetProviderEServiceTemplateActions(
     eServiceTemplateId,
