@@ -714,6 +714,7 @@ export interface CompactPurposeEService {
   descriptor: CompactDescriptor
   /** Risk Analysis Mode */
   mode: EServiceMode
+  personalData?: boolean
 }
 
 export interface CompactPurposeTemplateEService {
@@ -967,6 +968,7 @@ export interface PurposeAdditionDetailsSeed {
 
 /** Contains some information about the purpose template */
 export interface CompactPurposeTemplate {
+<<<<<<< HEAD
   /** @format uuid */
   id: string
   purposeTitle: string
@@ -1005,6 +1007,48 @@ export type PurposeTemplateState = 'ACTIVE' | 'DRAFT' | 'SUSPENDED' | 'ARCHIVED'
 
 /** a purpose template with its creator and a list for the answer annotation documents */
 export interface PurposeTemplateWithCompactCreator {
+=======
+>>>>>>> PIN-7319_notification-badge-and-mark-as-read-by-entityId
+  /** @format uuid */
+  id: string
+  purposeTitle: string
+<<<<<<< HEAD
+=======
+}
+
+/** Business representation of a purpose template */
+export interface PurposeTemplate {
+  /** @format uuid */
+  id: string
+  targetDescription: string
+  targetTenantKind: TenantKind
+  /** @format uuid */
+  creatorId: string
+  /** Purpose Template State */
+  state: PurposeTemplateState
+  /** @format date-time */
+  createdAt: string
+  /** @format date-time */
+  updatedAt?: string
+  purposeTitle: string
+  purposeDescription: string
+  purposeRiskAnalysisForm?: RiskAnalysisFormTemplate
+  purposeIsFreeOfCharge: boolean
+  purposeFreeOfChargeReason?: string
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  purposeDailyCalls?: number
+  handlesPersonalData: boolean
+}
+
+/** Purpose Template State */
+export type PurposeTemplateState = 'PUBLISHED' | 'DRAFT' | 'SUSPENDED' | 'ARCHIVED'
+
+/** a purpose template with its creator and a list for the answer annotation documents */
+export interface PurposeTemplateWithCompactCreator {
   /** @format uuid */
   id: string
   targetDescription: string
@@ -1017,6 +1061,7 @@ export interface PurposeTemplateWithCompactCreator {
   /** @format date-time */
   updatedAt?: string
   purposeTitle: string
+>>>>>>> PIN-7319_notification-badge-and-mark-as-read-by-entityId
   purposeDescription: string
   purposeRiskAnalysisForm?: RiskAnalysisFormTemplate
   purposeIsFreeOfCharge: boolean
@@ -2003,6 +2048,7 @@ export interface EServiceTemplateVersionDetails {
   eserviceTemplate: EServiceTemplateDetails
   isAlreadyInstantiated: boolean
   hasRequesterRiskAnalysis?: boolean
+  personalData?: boolean
 }
 
 export interface EServiceTemplateVersionQuotasUpdateSeed {
@@ -2409,6 +2455,9 @@ export interface NotificationsCountBySection {
   }
 }
 
+/** Filter e-services by personal data */
+export type PersonalDataFilter = 'TRUE' | 'FALSE' | 'DEFINED'
+
 export interface ProblemError {
   /**
    * Internal code of the error
@@ -2529,6 +2578,8 @@ export interface AddAgreementConsumerDocumentPayload {
 }
 
 export interface GetEServicesCatalogParams {
+  /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+  personalData?: PersonalDataFilter
   /** Query to filter EServices by name */
   q?: string
   /**
@@ -2674,6 +2725,8 @@ export interface GetProducersParams {
 }
 
 export interface GetProducerEServicesParams {
+  /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+  personalData?: PersonalDataFilter
   /** Query to filter EServices by name */
   q?: string
   /**
@@ -2838,11 +2891,8 @@ export interface GetPurposeTemplateEServicesParams {
    * @default []
    */
   producerIds?: string[]
-  /**
-   * comma separated sequence of e-service IDs
-   * @default []
-   */
-  eserviceIds?: string[]
+  /** filter linked e-services by name */
+  eserviceName?: string
   /**
    * @format int32
    * @min 0
@@ -3127,6 +3177,8 @@ export interface GetConsumerDelegatedEservicesParams {
 }
 
 export interface GetEServiceTemplatesCatalogParams {
+  /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned, if "defined" all e-service templates with a defined personal data flag will be returned */
+  personalData?: PersonalDataFilter
   /** Query to filter EService template by name */
   q?: string
   /**
@@ -3611,6 +3663,8 @@ export namespace Producers {
   export namespace GetProducerEServices {
     export type RequestParams = {}
     export type RequestQuery = {
+      /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+      personalData?: PersonalDataFilter
       /** Query to filter EServices by name */
       q?: string
       /**
@@ -4629,6 +4683,8 @@ export namespace Catalog {
   export namespace GetEServicesCatalog {
     export type RequestParams = {}
     export type RequestQuery = {
+      /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
+      personalData?: PersonalDataFilter
       /** Query to filter EServices by name */
       q?: string
       /**
@@ -4758,6 +4814,8 @@ export namespace Catalog {
   export namespace GetEServiceTemplatesCatalog {
     export type RequestParams = {}
     export type RequestQuery = {
+      /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned, if "defined" all e-service templates with a defined personal data flag will be returned */
+      personalData?: PersonalDataFilter
       /** Query to filter EService template by name */
       q?: string
       /**
@@ -6843,11 +6901,8 @@ export namespace PurposeTemplates {
        * @default []
        */
       producerIds?: string[]
-      /**
-       * comma separated sequence of e-service IDs
-       * @default []
-       */
-      eserviceIds?: string[]
+      /** filter linked e-services by name */
+      eserviceName?: string
       /**
        * @format int32
        * @min 0

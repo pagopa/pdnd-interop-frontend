@@ -1,8 +1,8 @@
 import { ClientMutations, ClientQueries } from '@/api/client'
-import { NotificationMutations } from '@/api/notification'
 import { PageContainer, SectionContainer } from '@/components/layout/containers'
 import { useParams } from '@/router'
 import { useActiveTab } from '@/hooks/useActiveTab'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Alert, Button, Grid, Link, Stack, Tab, Typography } from '@mui/material'
 import React from 'react'
@@ -26,18 +26,11 @@ const ConsumerClientManagePage: React.FC = () => {
   const clientKind = useClientKind()
   const { activeTab, updateActiveTab } = useActiveTab('voucher')
 
-  const { mutate: markNotificationsAsRead } =
-    NotificationMutations.useMarkNotificationsAsReadByEntityId()
-
   const { data: client, isLoading: isLoadingClient } = useQuery(ClientQueries.getSingle(clientId))
 
   const { actions } = useGetClientActions(client)
 
-  React.useEffect(() => {
-    if (clientId) {
-      markNotificationsAsRead({ entityId: clientId })
-    }
-  }, [clientId, markNotificationsAsRead])
+  useMarkNotificationsAsRead(clientId)
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
   const { mutate: removeClientAdmin } = ClientMutations.useRemoveClientAdmin()

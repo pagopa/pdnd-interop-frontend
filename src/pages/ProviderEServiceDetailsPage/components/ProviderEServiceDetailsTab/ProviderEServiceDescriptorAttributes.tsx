@@ -16,7 +16,7 @@ import { UpdateAttributesDrawer } from '@/components/shared/UpdateAttributesDraw
 export const ProviderEServiceDescriptorAttributes: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.sections.attributes' })
   const { t: tCommon } = useTranslation('common')
-  const { jwt, isAdmin } = AuthHooks.useJwt()
+  const { jwt, isAdmin, isOperatorAPI } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
 
@@ -42,7 +42,7 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
     if (
       descriptorAttributes[kind].length === 0 ||
       isDelegator ||
-      !isAdmin ||
+      !(isAdmin || isOperatorAPI) ||
       isEserviceFromTemplate
     )
       return

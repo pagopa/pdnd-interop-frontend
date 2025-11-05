@@ -11,7 +11,7 @@ import { KeychainPublicKeysTab } from './components/KeychainPublicKeysTab/Keycha
 import { useQuery } from '@tanstack/react-query'
 import { KeychainQueries } from '@/api/keychain/keychain.queries'
 import { KeychainMutations } from '@/api/keychain/keychain.mutations'
-import { NotificationMutations } from '@/api/notification'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { useNavigate } from '@/router'
 import { useParams } from '@/router'
 import { AuthHooks } from '@/api/auth'
@@ -25,18 +25,12 @@ const ProviderKeychainDetailsPage: React.FC = () => {
   const { keychainId } = useParams<'PROVIDE_KEYCHAIN_DETAILS'>()
 
   const { mutate: deleteKeychain } = KeychainMutations.useDeleteKeychain()
-  const { mutate: markNotificationsAsRead } =
-    NotificationMutations.useMarkNotificationsAsReadByEntityId()
 
   const { data: keychain, isLoading: isLoadingKeychain } = useQuery(
     KeychainQueries.getSingle(keychainId)
   )
 
-  React.useEffect(() => {
-    if (keychainId) {
-      markNotificationsAsRead({ entityId: keychainId })
-    }
-  }, [keychainId, markNotificationsAsRead])
+  useMarkNotificationsAsRead(keychainId)
 
   const { isAdmin } = AuthHooks.useJwt()
 

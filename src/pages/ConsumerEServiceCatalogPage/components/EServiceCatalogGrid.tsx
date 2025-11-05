@@ -49,7 +49,6 @@ export const EServiceCatalogCard: React.FC<{ eservice: CatalogEService; disabled
       key={eservice.id}
       producerName={eservice.producer.name}
       description={eservice.description}
-      hasUnreadNotifications={eservice.hasUnreadNotifications}
       title={eservice.name}
       prefetchFn={handlePrefetch}
       to="SUBSCRIBE_CATALOG_VIEW"

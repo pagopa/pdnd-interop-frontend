@@ -11,7 +11,6 @@ vi.mock('@/api/template', () => ({
   },
 }))
 
-
 vi.mock('@/api/purpose', () => ({
   PurposeQueries: {
     getRiskAnalysisLatest: vi.fn(() => ({ queryKey: ['riskAnalysisLatest'] })),
@@ -48,7 +47,7 @@ describe('EServiceTemplateCreateStepAddRiskAnalysis', () => {
     const mutate = vi.fn((_, { onSuccess }: { onSuccess: () => void }) => onSuccess())
     // Patch the mocked hook to return our spy
     EServiceTemplateMutations.useAddEServiceTemplateRiskAnalysis = () => ({ mutate }) as never
-
+    
     render(
       <EServiceTemplateCreateStepAddRiskAnalysis
         eserviceTemplateId="template-id"
