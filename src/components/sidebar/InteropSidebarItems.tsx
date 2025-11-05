@@ -9,11 +9,16 @@ import PeopleIcon from '@mui/icons-material/People'
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle'
 import { useTranslation } from 'react-i18next'
 import type { SidebarRoute, SidebarRoutes } from './sidebar.types'
-import { SELFCARE_BASE_URL } from '@/config/env'
+import { NOTIFICATION_COUNT_REFRESH_INTERVAL, SELFCARE_BASE_URL } from '@/config/env'
 import { Link } from 'react-router-dom'
 import { useIsRouteInCurrentSubtree } from '../layout/SideNav/hooks/useIsRouteInCurrentSubtree'
 import { AuthHooks } from '@/api/auth'
 import { SidebarItem } from './components/SidebarItem'
+import { useQuery } from '@tanstack/react-query'
+import { NotificationQueries } from '@/api/notification'
+import { match } from 'ts-pattern'
+import { routes as routesDefinitions } from '@/router/routes'
+import { get } from 'lodash'
 
 type InteropSidebarItems = {
   routes: SidebarRoutes
@@ -38,8 +43,22 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
     )?.rootRouteKey
   )
 
+  const { data: inAppNotificationCount } = useQuery({
+    ...NotificationQueries.getInAppNotificationsCount(),
+    refetchInterval: NOTIFICATION_COUNT_REFRESH_INTERVAL,
+  })
+
   const handleExpandParent = (routeKey: RouteKey) => {
     setParentExpandedItem((prev) => (prev === routeKey ? undefined : routeKey))
+  }
+
+  const getNotificationCountByRouteKey = (routeKey: RouteKey, kind: 'root' | 'child') => {
+    const path = routesDefinitions[routeKey]?.path
+    const notificationCount = match(kind)
+      .with('root', () => get(inAppNotificationCount, path.substring(1).split('/')[0])?.totalCount)
+      .with('child', () => get(inAppNotificationCount, path.substring(1).replaceAll('/', '.')))
+      .exhaustive()
+    return notificationCount ?? 0
   }
 
   const renderChildItems = (route: SidebarRoute) =>
@@ -54,10 +73,7 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
             to={generatePath(routeKey)}
             key={routeKey}
             label={child.label}
-            notification={{
-              content: 0,
-              show: true,
-            }}
+            notification={getNotificationCountByRouteKey(routeKey, 'child')}
           />
         )
       })
@@ -71,10 +87,7 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
             isSelected: isRouteInCurrentSubtree(route.rootRouteKey),
             StartIcon: route.icon,
             label: route.label,
-            notification: {
-              content: 0,
-              show: true,
-            },
+            notification: getNotificationCountByRouteKey(route.rootRouteKey, 'root'),
             component: Link,
             divider: route.divider,
             to: generatePath(route.rootRouteKey),
@@ -87,10 +100,7 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
                   <SidebarItem datatest-id={route.label} key={route.label} {...sidebarItemProps} />
                 }
                 key={route.label}
-                notification={{
-                  show: route?.showNotification ?? false,
-                  content: 0,
-                }}
+                notification={getNotificationCountByRouteKey(route.rootRouteKey, 'root')}
                 label={route.label}
                 divider={route.divider}
                 isSelected={route.children?.some((child) => isRouteInCurrentSubtree(child.to))}

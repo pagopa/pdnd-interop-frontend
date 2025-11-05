@@ -12,6 +12,7 @@ export const renderWithSidebarContext = ({
     </Sidebar>,
     {
       withRouterContext: true,
+      withReactQueryContext: true,
     }
   )
 }

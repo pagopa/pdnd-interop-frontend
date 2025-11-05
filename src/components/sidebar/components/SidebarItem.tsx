@@ -11,7 +11,6 @@ import {
 } from '@mui/material'
 import type { ComponentPropsWithoutRef, ElementType } from 'react'
 import { BadgeNotification } from './BadgeNotification'
-import type { Notification } from '../sidebar.types'
 import { sidebarStyles } from '../sidebar.styles'
 import type { SvgIconComponent } from '@mui/icons-material'
 import { SidebarIcon } from './SidebarIcon'
@@ -30,7 +29,7 @@ export type SidebarItem<C extends ElementType = 'a'> = PolymorphicProps<
     typographyProps?: ComponentPropsWithoutRef<typeof Typography>
     disabled?: boolean
     label: string
-    notification?: Notification
+    notification?: number
     isSelected?: boolean
     divider?: boolean
   }
@@ -88,7 +87,9 @@ export function SidebarItem<C extends ElementType = 'a'>({
                 }
               />
             )}
-            {notification && <BadgeNotification badgeContent={notification.content} />}
+            {notification !== undefined && notification !== 0 && (
+              <BadgeNotification badgeContent={notification} />
+            )}
             {open && EndIcon && (
               <ListItemIcon>
                 <EndIcon data-testid="itemlink-end-icon" fontSize="inherit" color="action" />

@@ -8,13 +8,7 @@ export type SidebarRoute = {
   hide?: boolean
   children?: SidebarChildRoutes
   divider?: boolean
-  showNotification?: boolean
 }
 export type SidebarRoutes = Array<SidebarRoute>
-
-export type Notification = {
-  show: boolean
-  content: number
-}
 
 export type SidebarChildRoutes = Array<{ to: RouteKey; hide?: boolean; label: string }>

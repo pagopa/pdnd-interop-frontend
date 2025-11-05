@@ -12,12 +12,11 @@ import {
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { type SvgIconComponent } from '@mui/icons-material'
-import type { Notification } from '../sidebar.types'
 import { SidebarIcon } from './SidebarIcon'
 import { useSidebarContext } from './Sidebar'
 
 type SidebarItemGroupProps = {
-  notification?: Notification
+  notification?: number
   label: string
   isExpanded: boolean
   isSelected: boolean

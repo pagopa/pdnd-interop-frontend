@@ -17,7 +17,6 @@ const mockRoutes: SidebarRoutes = [
     children: [],
   },
   {
-    showNotification: false,
     icon: ConsumerIcon,
     label: 'item-root-2',
     rootRouteKey: 'PROVIDE_AGREEMENT_LIST',
