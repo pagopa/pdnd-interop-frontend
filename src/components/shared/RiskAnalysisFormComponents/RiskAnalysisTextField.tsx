@@ -110,7 +110,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
         questionId={questionId}
         questionType={questionType}
         type={type}
-        isAssignedToTemplateUsersSwitch={isEditable ?? true}
+        isAssignedToTemplateUsersSwitch={true}
       >
         {type === 'consumer' && suggestedValues.length > 0 && !isEditable ? (
           // Show select only if there are suggestedValues AND question is not editable
