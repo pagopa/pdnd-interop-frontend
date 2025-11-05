@@ -1,11 +1,11 @@
 import React from 'react'
 import { Stack, IconButton, OutlinedInput, type OutlinedInputProps, Button } from '@mui/material'
-import { Controller, useFormContext, useForm, FormProvider } from 'react-hook-form'
+import { Controller, useFormContext, useForm, FormProvider, useWatch } from 'react-hook-form'
 import type { ControllerProps } from 'react-hook-form/dist/types/controller'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 import { useTranslation } from 'react-i18next'
 import AddIcon from '@mui/icons-material/Add'
-import { RHFSelect, RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { RHFTextField, RHFSelect } from '@/components/shared/react-hook-form-inputs'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 import { RemoveCircleOutline } from '@mui/icons-material'
@@ -31,7 +31,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
   questionType,
   ...props
 }) => {
-  const { setValue, watch } = useFormContext()
+  const { setValue, watch, control } = useFormContext()
 
   // Form for suggested value input
   const suggestedValueFormMethods = useForm<{ suggestedValue: string }>({
@@ -46,14 +46,28 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
 
   const name = `answers.${questionId}`
   const suggestedValuesName = `suggestedValues.${questionId}`
+  const suggestedValueConsumerName = `suggestedValueConsumer.${questionId}`
+
+  // Check if question is editable (for consumer, editable=true means user can answer)
+  const isEditable = useWatch({
+    control,
+    name: `assignToTemplateUsers.${questionId}`,
+  }) as boolean | undefined
 
   const error = formState.errors.answers?.[questionId]?.message as string | undefined
   const suggestedValues: string[] = watch(suggestedValuesName) || []
 
+  // For freeText questions with suggestedValues in consumer mode, check error on suggestedValueConsumer field
+  const suggestedValueConsumerError = (
+    formState.errors as Record<string, Record<string, { message?: string }>>
+  ).suggestedValueConsumer?.[questionId]?.message as string | undefined
+  const displayError =
+    suggestedValues.length > 0 && type === 'consumer' ? suggestedValueConsumerError || error : error
+
   const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
     label,
     infoLabel,
-    error,
+    error: displayError,
     helperText,
   })
 
@@ -90,20 +104,42 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
         name={name}
         label={label}
         infoLabel={infoLabel}
-        error={error}
+        error={displayError}
         {...ids}
         isFromPurposeTemplate={isFromPurposeTemplate}
         questionId={questionId}
         questionType={questionType}
         type={type}
-        isAssignedToTemplateUsersSwitch={true}
+        isAssignedToTemplateUsersSwitch={isEditable ?? true}
       >
-        {type === 'consumer' ? (
+        {type === 'consumer' && suggestedValues.length > 0 && !isEditable ? (
+          // Show select only if there are suggestedValues AND question is not editable
           <RHFSelect
+            name={suggestedValueConsumerName}
             label="Risposte suggerite" //TODO
             options={suggestedValues.map((value) => ({ label: value, value }))}
-            name="suggestedValueConsumer"
             rules={{ required: true }}
+          />
+        ) : type === 'consumer' ? (
+          // Show textArea for consumer if editable or no suggestedValues
+          <Controller
+            name={name}
+            rules={conditionalRules}
+            render={({ field: { ref, onChange, ...fieldProps } }) => (
+              <OutlinedInput
+                {...props}
+                inputProps={{ ...props.inputProps, ...accessibilityProps }}
+                multiline={multiline}
+                rows={multiline ? 6 : undefined}
+                error={!!error}
+                onChange={(e) => {
+                  onChange(e)
+                }}
+                inputRef={ref}
+                {...fieldProps}
+                disabled={false}
+              />
+            )}
           />
         ) : (
           <Stack spacing={2}>

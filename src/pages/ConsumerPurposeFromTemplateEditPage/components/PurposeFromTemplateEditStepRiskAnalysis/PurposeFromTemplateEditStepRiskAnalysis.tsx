@@ -2,16 +2,16 @@ import { PurposeQueries } from '@/api/purpose/purpose.queries'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { useParams, useNavigate } from '@/router'
 import { useQuery } from '@tanstack/react-query'
-import { RiskAnalysisFormTemplate } from '@/pages/ConsumerPurposeTemplateEditPage/components/PurposeTemplateEditStepRiskAnalysis'
+import { RiskAnalysisFormFromTemplate } from './RiskAnalysisForm/RiskAnalysisFormFromTemplate'
 import type {
   RiskAnalysisTemplateAnswer,
   PatchPurposeUpdateFromTemplateContent,
-  RiskAnalysisFormSeed,
 } from '@/api/api.generatedTypes'
 import React from 'react'
 import { PurposeMutations } from '@/api/purpose/purpose.mutations'
+import type { ActiveStepProps } from '@/hooks/useActiveStep'
 
-const PurposeFromTemplateEditStepRiskAnalysis: React.FC = () => {
+const PurposeFromTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back }) => {
   const { purposeTemplateId, purposeId } = useParams<'SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT'>()
   const navigate = useNavigate()
   const { mutate: updatePurposeFromTemplate } = PurposeMutations.useUpdateDraftFromPurposeTemplate()
@@ -22,22 +22,29 @@ const PurposeFromTemplateEditStepRiskAnalysis: React.FC = () => {
     PurposeQueries.getRiskAnalysisLatest({ tenantKind: purpose?.consumer.kind })
   )
 
-  if (!riskAnalysis || !purpose || !purposeTemplate || !purposeTemplate.purposeRiskAnalysisForm) {
+  if (
+    !riskAnalysis ||
+    !purpose ||
+    !purposeTemplate ||
+    !purpose.riskAnalysisForm ||
+    !purposeTemplate.purposeRiskAnalysisForm
+  ) {
     return null
   }
 
+  const purposeRiskAnalysisForm = purpose.riskAnalysisForm
+  const purposeTemplateRiskAnalysisForm = purposeTemplate.purposeRiskAnalysisForm
+
   const mergedDefaultAnswers = {
-    ...purpose.riskAnalysisForm?.answers,
-    ...purposeTemplate.purposeRiskAnalysisForm?.answers,
+    //...purposeRiskAnalysisForm.answers,
+    ...purposeTemplateRiskAnalysisForm.answers,
   } as Record<string, RiskAnalysisTemplateAnswer>
 
-  const handleSubmit = (riskAnalysisFormSeed: RiskAnalysisFormSeed) => {
-    // Convert RiskAnalysisFormTemplateSeed to RiskAnalysisFormSeed
-    // Both have the same structure: { version: string, answers: any }
+  const handleSubmit = (answers: Record<string, string[]>) => {
     const updatePurposePayload: PatchPurposeUpdateFromTemplateContent = {
       riskAnalysisForm: {
-        version: riskAnalysisFormSeed.version,
-        answers: riskAnalysisFormSeed.answers,
+        version: purposeRiskAnalysisForm.version,
+        answers,
       },
     }
 
@@ -62,11 +69,11 @@ const PurposeFromTemplateEditStepRiskAnalysis: React.FC = () => {
   }
 
   return (
-    <RiskAnalysisFormTemplate
+    <RiskAnalysisFormFromTemplate
       riskAnalysis={riskAnalysis}
       defaultAnswers={mergedDefaultAnswers}
       onSubmit={handleSubmit}
-      onCancel={() => navigate('SUBSCRIBE_PURPOSE_LIST')}
+      onCancel={back}
     />
   )
 }
