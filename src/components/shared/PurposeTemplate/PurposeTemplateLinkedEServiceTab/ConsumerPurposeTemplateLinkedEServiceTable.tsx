@@ -47,7 +47,7 @@ export const ConsumerPurposeTemplateLinkedEServiceTable: React.FC<
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetPurposeTemplateEServicesParams, 'limit' | 'offset' | 'purposeTemplateId'>
   >([
-    // { name: 'q', label: t('filters.eserviceField.label'), type: 'freetext' }, todo: add filter when BE is ready
+    { name: 'eserviceName', label: t('filters.eserviceField.label'), type: 'freetext' },
     {
       name: 'producerIds',
       label: t('filters.providerField.label'),
