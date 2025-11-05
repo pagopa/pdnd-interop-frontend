@@ -203,7 +203,7 @@ describe('RiskAnalysisFormTemplate', () => {
       callback({
         validAnswers: { q1: ['answer1'] },
         assignToTemplateUsers: { q1: false },
-        annotations: { q1: { text: 'annotation text', docs: [] } },
+        annotations: { q1: { text: 'annotation text' } },
         suggestedValues: {},
       })
     })
@@ -232,7 +232,7 @@ describe('RiskAnalysisFormTemplate', () => {
           q1: {
             values: ['answer1'],
             editable: false,
-            annotation: { text: 'annotation text', docs: [] },
+            annotation: { text: 'annotation text' },
             suggestedValues: [],
           },
         },
