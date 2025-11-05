@@ -968,52 +968,9 @@ export interface PurposeAdditionDetailsSeed {
 
 /** Contains some information about the purpose template */
 export interface CompactPurposeTemplate {
-<<<<<<< HEAD
   /** @format uuid */
   id: string
   purposeTitle: string
-}
-
-/** Business representation of a purpose template */
-export interface PurposeTemplate {
-  /** @format uuid */
-  id: string
-  targetDescription: string
-  targetTenantKind: TenantKind
-  /** @format uuid */
-  creatorId: string
-  /** Purpose Template State */
-  state: PurposeTemplateState
-  /** @format date-time */
-  createdAt: string
-  /** @format date-time */
-  updatedAt?: string
-  purposeTitle: string
-  purposeDescription: string
-  purposeRiskAnalysisForm?: RiskAnalysisFormTemplate
-  purposeIsFreeOfCharge: boolean
-  purposeFreeOfChargeReason?: string
-  /**
-   * @format int32
-   * @min 1
-   * @max 1000000000
-   */
-  purposeDailyCalls?: number
-  handlesPersonalData: boolean
-}
-
-/** Purpose Template State */
-export type PurposeTemplateState = 'ACTIVE' | 'DRAFT' | 'SUSPENDED' | 'ARCHIVED'
-
-/** a purpose template with its creator and a list for the answer annotation documents */
-export interface PurposeTemplateWithCompactCreator {
-=======
->>>>>>> PIN-7319_notification-badge-and-mark-as-read-by-entityId
-  /** @format uuid */
-  id: string
-  purposeTitle: string
-<<<<<<< HEAD
-=======
 }
 
 /** Business representation of a purpose template */
@@ -1061,7 +1018,6 @@ export interface PurposeTemplateWithCompactCreator {
   /** @format date-time */
   updatedAt?: string
   purposeTitle: string
->>>>>>> PIN-7319_notification-badge-and-mark-as-read-by-entityId
   purposeDescription: string
   purposeRiskAnalysisForm?: RiskAnalysisFormTemplate
   purposeIsFreeOfCharge: boolean
@@ -2449,10 +2405,8 @@ export interface NotificationsCountBySection {
     /** @format int32 */
     totalCount: number
   }
-  notifiche: {
-    /** @format int32 */
-    totalCount: number
-  }
+  /** @format int32 */
+  totalCount: number
 }
 
 /** Filter e-services by personal data */
@@ -2606,8 +2560,6 @@ export interface GetEServicesCatalogParams {
   mode?: EServiceMode
   /** EService isConsumerDelegable filter */
   isConsumerDelegable?: boolean
-  /** if true only e-services that handle personal data will be returned, if false only non-personal data e-services will be returned, if not present all e-services will be returned */
-  personalData?: boolean
   /**
    * @format int32
    * @min 0
@@ -3186,8 +3138,6 @@ export interface GetEServiceTemplatesCatalogParams {
    * @default []
    */
   creatorsIds?: string[]
-  /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned */
-  personalData?: boolean
   /**
    * @format int32
    * @min 0
@@ -4711,8 +4661,6 @@ export namespace Catalog {
       mode?: EServiceMode
       /** EService isConsumerDelegable filter */
       isConsumerDelegable?: boolean
-      /** if true only e-services that handle personal data will be returned, if false only non-personal data e-services will be returned, if not present all e-services will be returned */
-      personalData?: boolean
       /**
        * @format int32
        * @min 0
@@ -4823,8 +4771,6 @@ export namespace Catalog {
        * @default []
        */
       creatorsIds?: string[]
-      /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned */
-      personalData?: boolean
       /**
        * @format int32
        * @min 0
@@ -7186,7 +7132,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
   /**
    * @description Unsuspends a purpose template by id (from Suspended State to Active State)
@@ -7204,7 +7150,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
   /**
    * @description Suspends a purpose template by id (from Active State to Suspended State)
@@ -7222,7 +7168,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
   /**
    * @description Archives a purpose template by id (from Suspended State to Archived State)
@@ -7240,7 +7186,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
 }
 
