@@ -176,10 +176,13 @@
           "intendedTarget": "Who is the template for",
           "purposeDescription": "Purpose description",
           "riskAnalysisDownloadLink": "Download risk analysis",
+          "handlesPersonalDataLabel": "Treats personal data",
           "tenantKindValues": {
             "labelNotPA": "Private entities",
             "labelPA": "Public Administrations"
-          }
+          },
+          "yes": "Yes",
+          "no": "No"
         },
         "linkedEservices": {
           "title": "Linked e-services",

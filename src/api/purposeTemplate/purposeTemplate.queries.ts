@@ -1,12 +1,12 @@
 import { queryOptions } from '@tanstack/react-query'
 import { PurposeTemplateServices } from './purposeTemplate.services'
-import type { GetConsumerPurposeTemplatesParams } from './mockedResponses'
 import type {
   GetCatalogPurposeTemplatesParams,
+  GetCreatorPurposeTemplatesParams,
   GetPurposeTemplateEServicesParams,
 } from '../api.generatedTypes'
 
-function getConsumerPurposeTemplatesList(params: GetConsumerPurposeTemplatesParams) {
+function getConsumerPurposeTemplatesList(params: GetCreatorPurposeTemplatesParams) {
   return queryOptions({
     queryKey: ['PurposeTemplateGetProviderPurposeTemplatesList', params],
     queryFn: () => PurposeTemplateServices.getConsumerPurposeTemplatesList(params),

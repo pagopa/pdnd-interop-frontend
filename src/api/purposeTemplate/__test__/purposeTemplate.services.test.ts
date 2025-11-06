@@ -1,10 +1,10 @@
 import { PurposeTemplateServices } from '../purposeTemplate.services'
-import type { GetConsumerPurposeTemplatesParams } from '../mockedResponses'
 import type {
   GetCatalogPurposeTemplatesParams,
   LinkEServiceToPurposeTemplatePayload,
   UnlinkEServiceToPurposeTemplatePayload,
   PurposeTemplateSeed,
+  GetCreatorPurposeTemplatesParams,
 } from '../../api.generatedTypes'
 
 import { vi } from 'vitest'
@@ -44,7 +44,7 @@ describe('PurposeTemplateServices', () => {
 
   describe('getConsumerPurposeTemplatesList', () => {
     it('should make correct API call with parameters', async () => {
-      const params: GetConsumerPurposeTemplatesParams = {
+      const params: GetCreatorPurposeTemplatesParams = {
         offset: 0,
         limit: 10,
       }
@@ -298,20 +298,13 @@ describe('PurposeTemplateServices', () => {
   })
 
   describe('deleteDraft', () => {
-    it('should log draft deletion message', async () => {
-      await PurposeTemplateServices.deleteDraft({ id: TEST_ID })
+    it('should make correct API call to delete draft', async () => {
+      await PurposeTemplateServices.deleteDraft({ id: 'test-id' })
 
-      expect(mockConsoleLog).toHaveBeenCalledWith('Draft deleted')
+      expect(axiosInstance.delete).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id`
+      )
     })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call to delete draft', async () => {
-    //   await PurposeTemplateServices.deleteDraft({ id: TEST_ID })
-    //
-    //   expect(axiosInstance.delete).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id`
-    //   )
-    // })
   })
 
   describe('deleteAnnotation', () => {
@@ -354,44 +347,32 @@ describe('PurposeTemplateServices', () => {
   })
 
   describe('suspendPurposeTemplate', () => {
-    it('should log suspension message', async () => {
+    it('should make API call to suspend purpose template', async () => {
       await PurposeTemplateServices.suspendPurposeTemplate({ id: TEST_ID })
 
-      expect(mockConsoleLog).toHaveBeenCalledWith('Suspended')
+      expect(axiosInstance.post).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/suspend`
+      )
     })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call to suspend purpose template', async () => {
-    //   await PurposeTemplateServices.suspendPurposeTemplate({ id: TEST_ID })
-    //
-    //   expect(axiosInstance.post).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/suspend`
-    //   )
-    // })
   })
 
   describe('reactivatePurposeTemplate', () => {
-    it('should log reactivation message', async () => {
-      await PurposeTemplateServices.reactivatePurposeTemplate({ id: TEST_ID })
+    it('should make correct API call to reactivate purpose template', async () => {
+      await PurposeTemplateServices.reactivatePurposeTemplate({ id: 'test-id' })
 
-      expect(mockConsoleLog).toHaveBeenCalledWith('Reactivate')
+      expect(axiosInstance.post).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/unsuspend`
+      )
     })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call to reactivate purpose template', async () => {
-    //   await PurposeTemplateServices.reactivatePurposeTemplate({ id: TEST_ID })
-    //
-    //   expect(axiosInstance.post).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/unsuspend`
-    //   )
-    // })
   })
 
   describe('archivePurposeTemplate', () => {
-    it('should log archiving message', async () => {
-      await PurposeTemplateServices.archivePurposeTemplate({ id: TEST_ID })
+    it('should make correct API call to archive purpose template', async () => {
+      await PurposeTemplateServices.archivePurposeTemplate({ id: 'test-id' })
 
-      expect(mockConsoleLog).toHaveBeenCalledWith('Archived!')
+      expect(axiosInstance.post).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/archive`
+      )
     })
 
     // TODO: Update this test when real API calls are implemented

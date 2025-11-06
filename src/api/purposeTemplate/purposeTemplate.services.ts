@@ -1,7 +1,5 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
-import type { GetConsumerPurposeTemplatesParams } from './mockedResponses'
-import { mockCatalogPurposeTemplates, purposeTemplatesListMock } from './mockedResponses'
 import type {
   CatalogPurposeTemplates,
   CreatedResource,
@@ -21,9 +19,10 @@ import type {
   AddRiskAnalysisTemplateAnswerAnnotationDocumentPayload,
   RiskAnalysisTemplateAnswerAnnotationDocument,
   UnlinkEServiceToPurposeTemplatePayload,
+  GetCreatorPurposeTemplatesParams,
 } from '../api.generatedTypes'
 
-async function getConsumerPurposeTemplatesList(params: GetConsumerPurposeTemplatesParams) {
+async function getConsumerPurposeTemplatesList(params: GetCreatorPurposeTemplatesParams) {
   const response = await axiosInstance.get<CreatorPurposeTemplates>(
     `${BACKEND_FOR_FRONTEND_URL}/creators/purposeTemplates`,
     { params }
@@ -199,11 +198,7 @@ async function publishDraft({ id }: { id: string }) {
 }
 
 async function deleteDraft({ id }: { id: string }) {
-  //   return await axiosInstance.delete<void>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}
-  // `
-  //   )
-  return console.log('Draft deleted')
+  return await axiosInstance.delete<void>(`${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}`)
 }
 
 async function deleteAnnotation({
@@ -252,23 +247,23 @@ async function downloadDocumentFromAnnotation({
 }
 
 async function suspendPurposeTemplate({ id }: { id: string }) {
-  //   return await axiosInstance.post<void>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/suspend`
-  //   )
+  return await axiosInstance.post<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/suspend`
+  )
   return console.log('Suspended')
 }
 
 async function reactivatePurposeTemplate({ id }: { id: string }) {
-  //   return await axiosInstance.post<void>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/unsuspend`
-  //   )
+  return await axiosInstance.post<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/unsuspend`
+  )
   return console.log('Reactivate')
 }
 
 async function archivePurposeTemplate({ id }: { id: string }) {
-  //   return await axiosInstance.post<void>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/archive`
-  //   )
+  return await axiosInstance.post<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/archive`
+  )
   return console.log('Archived!')
 }
 

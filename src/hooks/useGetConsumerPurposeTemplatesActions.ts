@@ -5,7 +5,7 @@ import ArchiveIcon from '@mui/icons-material/Archive'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
-import { useLocation, useNavigate } from '@/router'
+import { useCurrentRoute, useNavigate } from '@/router'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import type { CreatorPurposeTemplate, TenantKind } from '@/api/api.generatedTypes'
 
@@ -18,7 +18,7 @@ function useGetConsumerPurposeTemplateTemplatesActions(
   const { isAdmin } = AuthHooks.useJwt()
 
   const navigate = useNavigate()
-  const { routeKey } = useLocation()
+  const { routeKey } = useCurrentRoute()
 
   const { mutate: archivePurposeTemplate } = PurposeTemplateMutations.useArchivePurposeTemplate()
   const { mutate: suspendPurposeTemplate } = PurposeTemplateMutations.useSuspendPurposeTemplate()

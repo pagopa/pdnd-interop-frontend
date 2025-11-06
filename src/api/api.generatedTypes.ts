@@ -2405,8 +2405,10 @@ export interface NotificationsCountBySection {
     /** @format int32 */
     totalCount: number
   }
-  /** @format int32 */
-  totalCount: number
+  notifiche: {
+    /** @format int32 */
+    totalCount: number
+  }
 }
 
 /** Filter e-services by personal data */
@@ -7132,7 +7134,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
   /**
    * @description Unsuspends a purpose template by id (from Suspended State to Active State)
@@ -7150,7 +7152,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
   /**
    * @description Suspends a purpose template by id (from Active State to Suspended State)
@@ -7168,7 +7170,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
   /**
    * @description Archives a purpose template by id (from Suspended State to Archived State)
@@ -7186,7 +7188,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
 }
 
