@@ -32,9 +32,12 @@ export const ConsumerPurposeTemplateTableRow: React.FC<{
         onFocusVisible={() => {}}
         variant="outlined"
         size="small"
-        to="NOT_FOUND" //{purposeTemplate.state === 'DRAFT' ? 'SUBCRIBE_PURPOSE_TEMPLATE_EDIT' : 'SUBCRIBE_PURPOSE_TEMPLATE_DETAILS'}
-        // TODO: TO COMMENT OUT WHEN THE PAGE WILL BE READY
-        //params={{ delegationId: delegation.id }}
+        to={
+          purposeTemplate.state === 'DRAFT'
+            ? 'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'
+            : 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS'
+        }
+        params={{ purposeTemplateId: purposeTemplate.id }}
       >
         {tCommon(`actions.${purposeTemplate.state === 'DRAFT' ? 'manageDraft' : 'inspect'}`)}
       </Link>
