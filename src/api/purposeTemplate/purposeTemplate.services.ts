@@ -155,16 +155,13 @@ async function addDocumentsToAnnotation({
 }
 
 async function publishDraft({ id }: { id: string }) {
-  //return await axiosInstance.post<void>(`${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/publish`)
-  return console.log('Draft published')
+  return await axiosInstance.post<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/publish`
+  )
 }
 
 async function deleteDraft({ id }: { id: string }) {
-  //   return await axiosInstance.delete<void>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}
-  // `
-  //   )
-  return console.log('Draft deleted')
+  return await axiosInstance.delete<void>(`${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}`)
 }
 
 async function deleteAnnotation({
@@ -196,23 +193,23 @@ async function deleteDocument({
 }
 
 async function suspendPurposeTemplate({ id }: { id: string }) {
-  //   return await axiosInstance.post<void>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/suspend`
-  //   )
+  return await axiosInstance.post<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/suspend`
+  )
   return console.log('Suspended')
 }
 
 async function reactivatePurposeTemplate({ id }: { id: string }) {
-  //   return await axiosInstance.post<void>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/unsuspend`
-  //   )
+  return await axiosInstance.post<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/unsuspend`
+  )
   return console.log('Reactivate')
 }
 
 async function archivePurposeTemplate({ id }: { id: string }) {
-  //   return await axiosInstance.post<void>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/archive`
-  //   )
+  return await axiosInstance.post<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/archive`
+  )
   return console.log('Archived!')
 }
 
