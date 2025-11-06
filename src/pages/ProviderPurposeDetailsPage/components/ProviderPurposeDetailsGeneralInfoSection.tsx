@@ -77,6 +77,21 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
             </Link>
           }
         />
+        {purpose.purposeTemplate && (
+          <InformationContainer
+            label={t('purposeTemplateField.label')}
+            content={
+              <Link
+                to="NOT_FOUND" // TODO: update when the purpose template details page will be available
+                // params={{
+                //   purposeTemplateId: purpose.purposeTemplate.name,
+                // }}
+              >
+                {purpose.purposeTemplate.purposeTitle}
+              </Link>
+            }
+          />
+        )}
         <InformationContainer label={t('consumerField.label')} content={purpose.consumer.name} />
         <InformationContainer
           label={t('descriptionField.label')}
