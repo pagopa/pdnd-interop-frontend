@@ -15,8 +15,10 @@ import {
   ConsumerPurposeTemplateTable,
   ConsumerPurposeTemplateTableSkeleton,
 } from './components/ConsumerPurposeTemplateTable'
-import type { GetConsumerPurposeTemplatesParams } from '@/api/purposeTemplate/__mocks__/mockedResponses'
-import type { CreatorPurposeTemplates } from '@/api/api.generatedTypes'
+import type {
+  CreatorPurposeTemplates,
+  GetCreatorPurposeTemplatesParams,
+} from '@/api/api.generatedTypes'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { useDialog } from '@/stores'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
@@ -100,11 +102,11 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
   })
 
   const { filtersParams, ...filtersHandlers } = useFilters<
-    Omit<GetConsumerPurposeTemplatesParams, 'limit' | 'offset'>
+    Omit<GetCreatorPurposeTemplatesParams, 'limit' | 'offset'>
   >([
     { name: 'q', label: tPurposeTemplate('nameField.label'), type: 'freetext' },
     {
-      name: 'eservicesIds',
+      name: 'eserviceIds',
       label: tPurposeTemplate('eserviceField.label'),
       type: 'autocomplete-multiple',
       options: eservicesOptions,

@@ -1,10 +1,10 @@
 import { PurposeTemplateServices } from '../purposeTemplate.services'
-import type { GetConsumerPurposeTemplatesParams } from '../__mocks__/mockedResponses'
 import type {
   GetCatalogPurposeTemplatesParams,
   LinkEServiceToPurposeTemplatePayload,
   UnlinkEServiceToPurposeTemplatePayload,
   PurposeTemplateSeed,
+  GetCreatorPurposeTemplatesParams,
 } from '../../api.generatedTypes'
 
 import { vi } from 'vitest'
@@ -44,7 +44,7 @@ describe('PurposeTemplateServices', () => {
 
   describe('getConsumerPurposeTemplatesList', () => {
     it('should make correct API call with parameters', async () => {
-      const params: GetConsumerPurposeTemplatesParams = {
+      const params: GetCreatorPurposeTemplatesParams = {
         offset: 0,
         limit: 10,
       }

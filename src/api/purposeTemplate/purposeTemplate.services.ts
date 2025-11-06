@@ -1,6 +1,5 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
-import type { GetConsumerPurposeTemplatesParams } from './__mocks__/mockedResponses'
 import type {
   CatalogPurposeTemplates,
   CreatedResource,
@@ -20,9 +19,10 @@ import type {
   AddRiskAnalysisTemplateAnswerAnnotationDocumentPayload,
   RiskAnalysisTemplateAnswerAnnotationDocument,
   UnlinkEServiceToPurposeTemplatePayload,
+  GetCreatorPurposeTemplatesParams,
 } from '../api.generatedTypes'
 
-async function getConsumerPurposeTemplatesList(params: GetConsumerPurposeTemplatesParams) {
+async function getConsumerPurposeTemplatesList(params: GetCreatorPurposeTemplatesParams) {
   const response = await axiosInstance.get<CreatorPurposeTemplates>(
     `${BACKEND_FOR_FRONTEND_URL}/creators/purposeTemplates`,
     { params }
