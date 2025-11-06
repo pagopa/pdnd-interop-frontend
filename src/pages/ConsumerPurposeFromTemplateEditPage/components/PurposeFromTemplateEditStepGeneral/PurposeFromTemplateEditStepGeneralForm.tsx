@@ -9,6 +9,7 @@ import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import type {
   PurposeTemplateWithCompactCreator,
   PurposeUpdateContent,
+  Purpose,
 } from '@/api/api.generatedTypes'
 import SaveIcon from '@mui/icons-material/Save'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
@@ -22,15 +23,17 @@ export type PurposeFromTemplateEditStepGeneralFormValues = Omit<
   dailyCalls: number
   isFreeOfCharge: 'YES' | 'NO'
   freeOfChargeReason: string
-  instanceName: string
+  purposeTitle: string
 }
 
 type PurposeEditStepGeneralFormProps = ActiveStepProps & {
+  purpose: Purpose
   purposeTemplate: PurposeTemplateWithCompactCreator
   defaultValues: PurposeFromTemplateEditStepGeneralFormValues
 }
 
 const PurposeFromTemplateEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
+  purpose,
   purposeTemplate,
   defaultValues,
   forward,
@@ -39,30 +42,27 @@ const PurposeFromTemplateEditStepGeneralForm: React.FC<PurposeEditStepGeneralFor
     keyPrefix: 'edit.purposeFromTemplate',
   })
   const { t: tPurposeActions } = useTranslation('purpose')
-  const { mutate: updateDraft } = PurposeMutations.useUpdateDraft() //TODO PATCH:/purposeTemplates/{purposeTemplateId}/purposes/{purposeId} CALL THIS
+  const { mutate: updateDraftFromPurposeTemplate } =
+    PurposeMutations.useUpdateDraftFromPurposeTemplate()
 
   const formMethods = useForm<PurposeFromTemplateEditStepGeneralFormValues>({
     defaultValues,
   })
 
   const onSubmit = (values: PurposeFromTemplateEditStepGeneralFormValues) => {
-    forward() //TODO FIX WHEN TYPES FROM BFF WILL BE READY
-    // const { dailyCalls, isFreeOfCharge, freeOfChargeReason, ...updateDraftPayload } = values
-    // const isFreeOfChargeBool = isFreeOfCharge === 'YES'
-    // const purposeId = purposeTemplate.id
+    const { dailyCalls, purposeTitle } = values
 
-    // const requestPayload = {
-    //   ...updateDraftPayload,
-    //   isFreeOfCharge: isFreeOfChargeBool,
-    //   freeOfChargeReason: isFreeOfChargeBool ? freeOfChargeReason : undefined,
-    //   purposeId,
-    //   dailyCalls: dailyCalls,
-    // }
+    const requestPayload = {
+      title: purposeTitle,
+      dailyCalls,
+    }
 
-    // updateDraft(
-    //   { ...requestPayload, riskAnalysisForm: purposeTemplate.riskAnalysisForm },
-    //   { onSuccess: forward }
-    // )
+    console.log('requestPayload', requestPayload)
+
+    updateDraftFromPurposeTemplate(
+      { purposeTemplateId: purposeTemplate.id, purposeId: purpose.id, ...requestPayload },
+      { onSuccess: forward }
+    )
   }
 
   return (
@@ -110,17 +110,19 @@ const PurposeFromTemplateEditStepGeneralForm: React.FC<PurposeEditStepGeneralFor
         </SectionContainer>
         <SectionContainer title={t('technicalInformationsSection.title')}>
           <RHFTextField
-            name="instanceName"
+            name="purposeTitle"
             label={t('technicalInformationsSection.instanceNameField.label')}
             fullWidth
-            inputProps={{ maxLength: 250 }}
+            inputProps={{ maxLength: 60 }}
             rules={{ required: true, minLength: 5 }}
           />
           <RHFTextField
+            type="number"
             name="dailyCalls"
             label={t('technicalInformationsSection.dailyCallsField.label')}
             fullWidth
-            rules={{ required: true }}
+            rules={{ required: true, min: 1 }}
+            inputProps={{ min: '1' }}
           />
         </SectionContainer>
         <StepActions

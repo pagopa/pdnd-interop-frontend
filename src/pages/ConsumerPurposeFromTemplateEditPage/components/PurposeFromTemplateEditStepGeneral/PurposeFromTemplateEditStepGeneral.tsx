@@ -8,45 +8,37 @@ import type { PurposeFromTemplateEditStepGeneralFormValues } from './PurposeFrom
 import PurposeFromTemplateEditStepGeneralForm, {
   PurposeFromTemplateEditStepGeneralFormSkeleton,
 } from './PurposeFromTemplateEditStepGeneralForm'
-import { useTranslation } from 'react-i18next'
+import { PurposeQueries } from '@/api/purpose/purpose.queries'
 
 export const PurposeFromTemplateEditStepGeneral: React.FC<ActiveStepProps> = (props) => {
-  const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT'>()
-  const { t } = useTranslation('purpose', {
-    keyPrefix: 'edit.purposeFromTemplate.technicalInformationsSection',
-  })
+  const { purposeTemplateId, purposeId } = useParams<'SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT'>()
+
   const { data: purposeTemplate, isLoading: isLoadingPurposeTemplate } = useQuery(
     PurposeTemplateQueries.getSingle(purposeTemplateId)
   )
-
-  if (isLoadingPurposeTemplate) {
+  const { data: purpose, isLoading: isLoadingPurpose } = useQuery(
+    PurposeQueries.getSingle(purposeId)
+  )
+  if (isLoadingPurposeTemplate || isLoadingPurpose) {
     return <PurposeFromTemplateEditStepGeneralFormSkeleton />
   }
 
-  if (!purposeTemplate) {
+  if (!purposeTemplate || !purpose) {
     throw new NotFoundError()
   }
-
-  const currentDateString = new Intl.DateTimeFormat('it', {
-    dateStyle: 'short',
-    timeStyle: 'short',
-  })
-    .format()
-    .replace(',', '')
-
-  const instanceName = `${t('instanceNameField.defaultPurposeInstanceName')} - ${currentDateString}`
 
   const defaultValues: PurposeFromTemplateEditStepGeneralFormValues = {
     title: purposeTemplate.purposeTitle,
     description: purposeTemplate.purposeDescription,
-    dailyCalls: purposeTemplate.purposeDailyCalls ?? 1,
+    dailyCalls: purpose.dailyCallsPerConsumer,
     isFreeOfCharge: purposeTemplate.purposeIsFreeOfCharge === true ? 'YES' : 'NO',
     freeOfChargeReason: purposeTemplate.purposeFreeOfChargeReason ?? '',
-    instanceName: instanceName,
+    purposeTitle: purpose.title,
   }
 
   return (
     <PurposeFromTemplateEditStepGeneralForm
+      purpose={purpose}
       purposeTemplate={purposeTemplate}
       defaultValues={defaultValues}
       {...props}

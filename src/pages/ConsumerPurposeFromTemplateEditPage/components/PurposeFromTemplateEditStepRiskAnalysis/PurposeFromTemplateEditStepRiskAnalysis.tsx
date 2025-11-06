@@ -99,10 +99,12 @@ const PurposeFromTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ ba
     return null
   }
 
+  const riskAnalysisVersion = purposeTemplate.purposeRiskAnalysisForm.version
+
   const handleSubmit = (answers: Record<string, string[]>) => {
     const updatePurposePayload: PatchPurposeUpdateFromTemplateContent = {
       riskAnalysisForm: {
-        version: '3.1', // todo fix this
+        version: '3.1',
         answers,
       },
     }
