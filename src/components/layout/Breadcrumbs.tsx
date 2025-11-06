@@ -38,11 +38,13 @@ export function Breadcrumbs() {
           routeKey === 'SUBSCRIBE_AGREEMENT_EDIT' ? false : routeLabels.SUBSCRIBE_AGREEMENT_READ,
 
         /*
-         * The SUBSCRIBE_PURPOSE_DETAILS breadcrumb segment must not be visible in the SUBSCRIBE_PURPOSE_EDIT route
+         * The SUBSCRIBE_PURPOSE_DETAILS breadcrumb segment must not be visible in the SUBSCRIBE_PURPOSE_EDIT, SUBSCRIBE_PURPOSE_SUMMARY, and SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT routes
          */
-        SUBSCRIBE_PURPOSE_DETAILS: ['SUBSCRIBE_PURPOSE_EDIT', 'SUBSCRIBE_PURPOSE_SUMMARY'].includes(
-          routeKey
-        )
+        SUBSCRIBE_PURPOSE_DETAILS: [
+          'SUBSCRIBE_PURPOSE_EDIT',
+          'SUBSCRIBE_PURPOSE_SUMMARY',
+          'SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT',
+        ].includes(routeKey)
           ? false
           : routeLabels.SUBSCRIBE_PURPOSE_DETAILS,
 
@@ -50,6 +52,10 @@ export function Breadcrumbs() {
          * The SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY breadcrumb segment must not be visible in the SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY route
          */
         SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY: false,
+
+        SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT:
+          (routeLabels as Record<string, string | false>).SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT ??
+          false,
 
         DEFAULT: false,
         ASSISTENCE_PARTY_SELECTION: false,

@@ -3,6 +3,7 @@ import { screen, fireEvent, waitFor } from '@testing-library/react'
 import { RiskAnalysisTextField } from '../RiskAnalysisTextField'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { FormProvider, useForm } from 'react-hook-form'
+import { PurposeCreateContextProvider } from '@/components/shared/PurposeCreateContext'
 
 // Mock react-i18next
 vi.mock('react-i18next', () => ({
@@ -29,7 +30,11 @@ vi.mock('../RiskAnalysisInputWrapper', () => ({
   ),
 }))
 
-const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const TestWrapper: React.FC<{
+  children: React.ReactNode
+  isFromPurposeTemplate?: boolean
+  type?: 'creator' | 'consumer'
+}> = ({ children, isFromPurposeTemplate = false, type }) => {
   const formMethods = useForm({
     defaultValues: {
       answers: { 'test-question': '' },
@@ -37,7 +42,11 @@ const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     },
   })
 
-  return <FormProvider {...formMethods}>{children}</FormProvider>
+  return (
+    <PurposeCreateContextProvider isFromPurposeTemplate={isFromPurposeTemplate} type={type}>
+      <FormProvider {...formMethods}>{children}</FormProvider>
+    </PurposeCreateContextProvider>
+  )
 }
 
 const defaultProps = {
@@ -63,8 +72,8 @@ describe('RiskAnalysisTextField', () => {
 
     it('should render suggested values UI for purpose template', () => {
       renderWithApplicationContext(
-        <TestWrapper>
-          <RiskAnalysisTextField {...defaultProps} isFromPurposeTemplate={true} />
+        <TestWrapper isFromPurposeTemplate={true} type="creator">
+          <RiskAnalysisTextField {...defaultProps} />
         </TestWrapper>,
         {
           withReactQueryContext: true,
@@ -80,8 +89,8 @@ describe('RiskAnalysisTextField', () => {
   describe('suggested values functionality', () => {
     it('should add suggested value when add button is clicked', async () => {
       renderWithApplicationContext(
-        <TestWrapper>
-          <RiskAnalysisTextField {...defaultProps} isFromPurposeTemplate={true} />
+        <TestWrapper isFromPurposeTemplate={true} type="creator">
+          <RiskAnalysisTextField {...defaultProps} />
         </TestWrapper>,
         {
           withReactQueryContext: true,
@@ -101,8 +110,8 @@ describe('RiskAnalysisTextField', () => {
 
     it('should add suggested value when Enter key is pressed', async () => {
       renderWithApplicationContext(
-        <TestWrapper>
-          <RiskAnalysisTextField {...defaultProps} isFromPurposeTemplate={true} />
+        <TestWrapper isFromPurposeTemplate={true} type="creator">
+          <RiskAnalysisTextField {...defaultProps} />
         </TestWrapper>,
         {
           withReactQueryContext: true,
@@ -121,8 +130,8 @@ describe('RiskAnalysisTextField', () => {
 
     it('should disable add button when input is empty', () => {
       renderWithApplicationContext(
-        <TestWrapper>
-          <RiskAnalysisTextField {...defaultProps} isFromPurposeTemplate={true} />
+        <TestWrapper isFromPurposeTemplate={true} type="creator">
+          <RiskAnalysisTextField {...defaultProps} />
         </TestWrapper>,
         {
           withReactQueryContext: true,
@@ -135,8 +144,8 @@ describe('RiskAnalysisTextField', () => {
 
     it('should enable add button when input has value', () => {
       renderWithApplicationContext(
-        <TestWrapper>
-          <RiskAnalysisTextField {...defaultProps} isFromPurposeTemplate={true} />
+        <TestWrapper isFromPurposeTemplate={true} type="creator">
+          <RiskAnalysisTextField {...defaultProps} />
         </TestWrapper>,
         {
           withReactQueryContext: true,
@@ -153,8 +162,8 @@ describe('RiskAnalysisTextField', () => {
 
     it('should not add empty or whitespace-only values', async () => {
       renderWithApplicationContext(
-        <TestWrapper>
-          <RiskAnalysisTextField {...defaultProps} isFromPurposeTemplate={true} />
+        <TestWrapper isFromPurposeTemplate={true} type="creator">
+          <RiskAnalysisTextField {...defaultProps} />
         </TestWrapper>,
         {
           withReactQueryContext: true,
@@ -183,12 +192,16 @@ describe('RiskAnalysisTextField', () => {
           },
         })
 
-        return <FormProvider {...formMethods}>{children}</FormProvider>
+        return (
+          <PurposeCreateContextProvider isFromPurposeTemplate={true} type="creator">
+            <FormProvider {...formMethods}>{children}</FormProvider>
+          </PurposeCreateContextProvider>
+        )
       }
 
       renderWithApplicationContext(
         <TestWrapperWithValues>
-          <RiskAnalysisTextField {...defaultProps} isFromPurposeTemplate={true} />
+          <RiskAnalysisTextField {...defaultProps} />
         </TestWrapperWithValues>,
         {
           withReactQueryContext: true,
@@ -208,12 +221,16 @@ describe('RiskAnalysisTextField', () => {
           },
         })
 
-        return <FormProvider {...formMethods}>{children}</FormProvider>
+        return (
+          <PurposeCreateContextProvider isFromPurposeTemplate={true} type="creator">
+            <FormProvider {...formMethods}>{children}</FormProvider>
+          </PurposeCreateContextProvider>
+        )
       }
 
       renderWithApplicationContext(
         <TestWrapperWithValues>
-          <RiskAnalysisTextField {...defaultProps} isFromPurposeTemplate={true} />
+          <RiskAnalysisTextField {...defaultProps} />
         </TestWrapperWithValues>,
         {
           withReactQueryContext: true,
@@ -233,7 +250,7 @@ describe('RiskAnalysisTextField', () => {
     it('should not display suggested values section when no values exist', () => {
       renderWithApplicationContext(
         <TestWrapper>
-          <RiskAnalysisTextField {...defaultProps} isFromPurposeTemplate={true} />
+          <RiskAnalysisTextField {...defaultProps} />
         </TestWrapper>,
         {
           withReactQueryContext: true,
@@ -257,12 +274,16 @@ describe('RiskAnalysisTextField', () => {
           },
         })
 
-        return <FormProvider {...formMethods}>{children}</FormProvider>
+        return (
+          <PurposeCreateContextProvider isFromPurposeTemplate={false}>
+            <FormProvider {...formMethods}>{children}</FormProvider>
+          </PurposeCreateContextProvider>
+        )
       }
 
       renderWithApplicationContext(
         <TestWrapperWithUndefined>
-          <RiskAnalysisTextField {...defaultProps} isFromPurposeTemplate={true} />
+          <RiskAnalysisTextField {...defaultProps} />
         </TestWrapperWithUndefined>,
         {
           withReactQueryContext: true,
@@ -281,12 +302,16 @@ describe('RiskAnalysisTextField', () => {
           },
         })
 
-        return <FormProvider {...formMethods}>{children}</FormProvider>
+        return (
+          <PurposeCreateContextProvider isFromPurposeTemplate={false}>
+            <FormProvider {...formMethods}>{children}</FormProvider>
+          </PurposeCreateContextProvider>
+        )
       }
 
       renderWithApplicationContext(
         <TestWrapperWithEmpty>
-          <RiskAnalysisTextField {...defaultProps} isFromPurposeTemplate={true} />
+          <RiskAnalysisTextField {...defaultProps} />
         </TestWrapperWithEmpty>,
         {
           withReactQueryContext: true,

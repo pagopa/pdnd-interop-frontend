@@ -286,7 +286,7 @@ describe('PurposeTemplateServices', () => {
           answerData: {
             values: [TEST_VALUE],
             editable: false,
-            annotation: { text: 'test annotation', docs: [] },
+            annotation: { text: 'test annotation' },
             suggestedValues: [],
           },
         },
@@ -299,7 +299,7 @@ describe('PurposeTemplateServices', () => {
           answerData: {
             values: [TEST_VALUE],
             editable: false,
-            annotation: { text: 'test annotation', docs: [] },
+            annotation: { text: 'test annotation' },
             suggestedValues: [],
           },
         }

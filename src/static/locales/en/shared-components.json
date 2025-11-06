@@ -455,6 +455,7 @@
     "SUBSCRIBE_PURPOSE_TEMPLATE_LIST": "My purpose templates",
     "SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY": "Purpose template summary",
     "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG": "Purpose template",
-    "SUBSCRIBE_PURPOSE_TEMPLATE_EDIT": "Edit purpose template"
+    "SUBSCRIBE_PURPOSE_TEMPLATE_EDIT": "Edit purpose template",
+    "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Edit purpose from template"
   }
 }
