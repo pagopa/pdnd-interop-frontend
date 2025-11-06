@@ -16,13 +16,13 @@ import type {
 
 export const PurposeTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back }) => {
   const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'>()
-  const _navigate = useNavigate()
+  const navigate = useNavigate()
 
   const { mutate: updatePurposeTemplate } = PurposeTemplateMutations.useUpdateDraft()
   const { data: purposeTemplate } = useQuery(PurposeTemplateQueries.getSingle(purposeTemplateId))
 
   const { data: riskAnalysis } = useQuery(
-    PurposeQueries.getRiskAnalysisLatest({ tenantKind: purposeTemplate?.targetTenantKind }) //TODO: PURPOSE TEMPLATE QUERIES?
+    PurposeQueries.getRiskAnalysisLatest({ tenantKind: purposeTemplate?.targetTenantKind })
   )
 
   if (!purposeTemplate || !riskAnalysis || !purposeTemplate.purposeRiskAnalysisForm) {
@@ -30,12 +30,11 @@ export const PurposeTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({
   }
 
   const goToSummary = () => {
-    // navigate('SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY', {
-    //   params: {
-    //     purposeTemplateId: purposeTemplateId,
-    //   },
-    // })
-    return //todo
+    navigate('SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY', {
+      params: {
+        purposeTemplateId,
+      },
+    })
   }
 
   const handleSubmit = (riskAnalysisFormTemplateSeed: RiskAnalysisFormTemplateSeed) => {

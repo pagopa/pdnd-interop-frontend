@@ -11,7 +11,7 @@
       "statusField": {
         "label": "Filter by status",
         "optionLabels": {
-          "ACTIVE": "Active",
+          "PUBLISHED": "Active",
           "DRAFT": "Draft",
           "SUSPENDED": "Suspended",
           "ARCHIVED": "Archived"
@@ -132,14 +132,24 @@
         "title": "General information",
         "descriptionTitle": "Description",
         "purposeTemplateName": "Purpose template name",
+        "handlesPersonalDataLabel": "Handles personal data",
+        "targetDescription": "Target audience",
+        "handlesPersonalData": {
+          "value": {
+            "true": "Yes",
+            "false": "No"
+          }
+        },
         "purposeTemplateDescription": "Purpose template description",
         "thresholdTitle": "Thresholds",
-        "thresholdLabel": "Suggested daily API calls threshold"
+        "thresholdLabel": "Suggested plan",
+        "dailyCallsLabel": "suggested daily API calls"
       },
       "suggestedEServicesSection": {
         "title": "Suggested e-services",
         "subtitle": "Linked e-services",
-        "providedBy": "provided by"
+        "providedBy": "provided by",
+        "noLinkedEservices": "You have not specified e-services associated with this template."
       },
       "riskAnalysisSection": {
         "title": "Risk analysis"

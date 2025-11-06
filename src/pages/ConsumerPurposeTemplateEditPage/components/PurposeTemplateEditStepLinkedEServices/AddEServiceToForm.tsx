@@ -29,7 +29,7 @@ export const AddEServiceToForm: React.FC<AddEServiceToFormProps> = ({
   linkedEServices,
   showWarning,
 }) => {
-  const { watch, setValue } = useFormContext<EditStepLinkedEServicesForm>()
+  const { watch } = useFormContext<EditStepLinkedEServicesForm>()
   const { mutate: removeEService } = PurposeTemplateMutations.useUnlinkEserviceFromPurposeTemplate()
 
   const eserviceGroup = watch(`eservices`)
@@ -47,11 +47,7 @@ export const AddEServiceToForm: React.FC<AddEServiceToFormProps> = ({
     })),
   ]
 
-  const handleRemoveEserviceFromGroup = (eserviceId: string) => {
-    const newEServicesGroup = eserviceGroup.filter((eservice) => eservice.id !== eserviceId)
-    setValue(`eservices`, newEServicesGroup, {
-      shouldValidate: false,
-    })
+  const handleRemoveAttributeFromGroup = (eserviceId: string) => {
     removeEService({
       purposeTemplateId: purposeTemplate.id,
       eserviceId,
@@ -65,7 +61,7 @@ export const AddEServiceToForm: React.FC<AddEServiceToFormProps> = ({
           key={0}
           group={mergedEServices}
           readOnly={readOnly}
-          onRemoveEServiceFromGroup={handleRemoveEserviceFromGroup}
+          onRemoveEServiceFromGroup={handleRemoveAttributeFromGroup}
           purposeTemplate={purposeTemplate}
           showWarning={showWarning}
         />

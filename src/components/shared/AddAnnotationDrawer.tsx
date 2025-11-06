@@ -50,7 +50,7 @@ export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
     }
   }, [isOpen, initialAnnotation, formMethods])
 
-  const _onSubmit = ({ annotation }: AddAnnotationFormValues) => {
+  const onSubmitAnnotationText = ({ annotation }: AddAnnotationFormValues) => {
     onClose()
     onSubmit(annotation)
   }
@@ -62,9 +62,7 @@ export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
   const subtitle = (
     <Stack spacing={3} sx={{ mt: 2, mb: 0 }}>
       <Typography>{t('description')}</Typography>
-      <Typography sx={{ fontWeight: 600 }}>
-        {t('question')} {question}
-      </Typography>
+      <Typography sx={{ fontWeight: 600 }}>{t('question')}</Typography>
     </Stack>
   )
 
@@ -77,7 +75,7 @@ export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
         subtitle={subtitle}
         buttonAction={{
           label: tCommon('addBtn'),
-          action: formMethods.handleSubmit(_onSubmit),
+          action: formMethods.handleSubmit(onSubmitAnnotationText),
         }}
         onTransitionExited={handleTransitionExited}
       >

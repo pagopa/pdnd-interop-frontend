@@ -60,6 +60,7 @@ import type { UserProductRole } from '@/types/party.types'
 import ConsumerEServiceTemplateDetailsPage from '@/pages/ConsumerEServiceTemplateDetailsPage/ConsumerEServiceTemplateDetails.page'
 import ConsumerPurposeTemplateListPage from '@/pages/ConsumerPurposeTemplateListPage/ConsumerPurposeTemplateList.page'
 import ConsumerPurposeTemplateCatalogPage from '@/pages/ConsumerPurposeTemplateCatalogPage/ConsumerPurposeTemplateCatalog.page'
+import { ConsumerPurposeTemplateSummaryPage } from '@/pages/ConsumerPurposeTemplateSummaryPage'
 import { ConsumerPurposeTemplateEditPage } from '@/pages/ConsumerPurposeTemplateEditPage'
 
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
@@ -576,7 +577,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST',
-    path: 'fruizione/template-finalita',
+    path: '/fruizione/template-finalita',
     element: <ConsumerPurposeTemplateListPage />,
     public: false,
     hideSideNav: false,
@@ -584,10 +585,18 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG',
-    path: 'fruizione/catalogo-template-finalita',
+    path: '/fruizione/catalogo-template-finalita',
     element: <ConsumerPurposeTemplateCatalogPage />,
     public: false,
     hideSideNav: false,
+    authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY',
+    path: '/fruizione/template-finalita/:purposeTemplateId/modifica/riepilogo',
+    element: <ConsumerPurposeTemplateSummaryPage />,
+    public: false,
+    hideSideNav: true,
     authLevels: ['admin', 'api', 'support'],
   })
   .addRoute({
