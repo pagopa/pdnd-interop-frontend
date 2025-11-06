@@ -50,7 +50,8 @@
         "selectPurposeTemplate": {
           "title": "Choose the facilitated purpose compilation template",
           "showOnlyLinkedPurposeTemplates": "Show only templates suggested for the selected e-service",
-          "autocompleteLabel": "Facilitated purpose compilation template"
+          "autocompleteLabelPurposeTemplate": "Facilitated purpose compilation template",
+          "viewPurposeTemplateBtn": "View selected template"
         },
         "acknowledgeInfoResponsibility": {
           "label": "I acknowledge that, even in the presence of pre-filled suggestions, it is my responsibility to verify and validate all information before publication."

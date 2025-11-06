@@ -1,5 +1,4 @@
 import { PurposeTemplateServices } from '../purposeTemplate.services'
-import { mockCatalogPurposeTemplates } from '../mockedResponses'
 import type { GetConsumerPurposeTemplatesParams } from '../mockedResponses'
 import type {
   GetCatalogPurposeTemplatesParams,
@@ -59,6 +58,22 @@ describe('PurposeTemplateServices', () => {
     })
   })
 
+  describe('getConsumerCatalogPurposeTemplates', () => {
+    it('should make correct API call to catalog endpoint', async () => {
+      const params: GetCatalogPurposeTemplatesParams = {
+        offset: 0,
+        limit: 10,
+      }
+
+      await PurposeTemplateServices.getCatalogPurposeTemplates(params)
+
+      expect(axiosInstance.get).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/catalog/purposeTemplates`,
+        { params }
+      )
+    })
+  })
+
   describe('getEservicesLinkedToPurposeTemplatesList', () => {
     it('should make correct API call to eservices endpoint', async () => {
       const id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
@@ -110,15 +125,18 @@ describe('PurposeTemplateServices', () => {
   })
 
   describe('getCatalogPurposeTemplates', () => {
-    it('should make correct API call to catalog endpoint with id', async () => {
-      await PurposeTemplateServices.getCatalogPurposeTemplates({
+    it('should make correct API call to catalog endpoint', async () => {
+      const params: GetCatalogPurposeTemplatesParams = {
         offset: 0,
         limit: 10,
-      })
+        eserviceIds: ['test-eservice-id'],
+      }
+
+      await PurposeTemplateServices.getCatalogPurposeTemplates(params)
 
       expect(axiosInstance.get).toHaveBeenCalledWith(
         `${BACKEND_FOR_FRONTEND_URL}/catalog/purposeTemplates`,
-        { params: { offset: 0, limit: 10 } }
+        { params }
       )
     })
   })
