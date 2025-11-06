@@ -26,7 +26,6 @@ const PurposeFromTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ ba
     !riskAnalysis ||
     !purpose ||
     !purposeTemplate ||
-    !purpose.riskAnalysisForm ||
     !purposeTemplate.purposeRiskAnalysisForm
   ) {
     return null
@@ -35,15 +34,27 @@ const PurposeFromTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ ba
   const purposeRiskAnalysisForm = purpose.riskAnalysisForm
   const purposeTemplateRiskAnalysisForm = purposeTemplate.purposeRiskAnalysisForm
 
-  const mergedDefaultAnswers = {
-    //...purposeRiskAnalysisForm.answers,
-    ...purposeTemplateRiskAnalysisForm.answers,
-  } as Record<string, RiskAnalysisTemplateAnswer>
+  const templateAnswers = purposeTemplateRiskAnalysisForm.answers as Record<
+    string,
+    RiskAnalysisTemplateAnswer
+  >
+  const mergedDefaultAnswers = Object.entries(templateAnswers).reduce(
+    (acc, [questionId, templateAnswer]) => {
+      const purposeAnswerValues = purposeRiskAnalysisForm?.answers?.[questionId]
+
+      acc[questionId] = {
+        ...templateAnswer,
+        values: purposeAnswerValues ?? templateAnswer.values,
+      }
+      return acc
+    },
+    {} as Record<string, RiskAnalysisTemplateAnswer>
+  )
 
   const handleSubmit = (answers: Record<string, string[]>) => {
     const updatePurposePayload: PatchPurposeUpdateFromTemplateContent = {
       riskAnalysisForm: {
-        version: purposeRiskAnalysisForm.version,
+        version: '3.1', // todo fix this
         answers,
       },
     }
