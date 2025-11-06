@@ -8,6 +8,7 @@ import { Box } from '@mui/system'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import type { CreatorPurposeTemplate } from '@/api/api.generatedTypes'
+import { use } from 'i18next'
 
 export const ConsumerPurposeTemplateTableRow: React.FC<{
   purposeTemplate: CreatorPurposeTemplate
@@ -17,11 +18,16 @@ export const ConsumerPurposeTemplateTableRow: React.FC<{
     purposeTemplate
   )
   const { t: tCommon } = useTranslation('common')
+  const { t } = useTranslation('purposeTemplate', {
+    keyPrefix: 'list.filters.targetTenantKindField.values',
+  })
+
+  const isPA = Boolean(purposeTemplate.targetTenantKind === 'PA')
 
   return (
     <TableRow
       cellData={[
-        purposeTemplate.targetTenantKind,
+        isPA ? t('labelPA') : t('labelNotPA'),
         purposeTemplate.purposeTitle,
         <StatusChip key={purposeTemplate.id} for="purposeTemplate" state={purposeTemplate.state} />,
       ]}
