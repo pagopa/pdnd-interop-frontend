@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { PurposeServices } from './purpose.services'
-
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.createDraft' })
   return useMutation({
@@ -196,6 +195,17 @@ function useRemoveClient() {
   })
 }
 
+function useCreateDraftFromPurposeTemplate() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.createDraft' })
+  return useMutation({
+    mutationFn: PurposeServices.createDraftFromPurposeTemplate,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const PurposeMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -211,4 +221,5 @@ export const PurposeMutations = {
   useClone,
   useAddClient,
   useRemoveClient,
+  useCreateDraftFromPurposeTemplate,
 }

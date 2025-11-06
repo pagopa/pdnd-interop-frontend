@@ -27,7 +27,7 @@ describe('RiskAnalysisInputWrapper', () => {
 
   it('renders correctly with basic props', () => {
     render(
-      <RiskAnalysisInputWrapper label="Test Label">
+      <RiskAnalysisInputWrapper label="Test Label" questionKey="test-key">
         <input data-testid="test-input" />
       </RiskAnalysisInputWrapper>
     )
@@ -38,7 +38,7 @@ describe('RiskAnalysisInputWrapper', () => {
 
   it('renders infoLabel when provided', () => {
     render(
-      <RiskAnalysisInputWrapper label="Test Label" infoLabel="Info text">
+      <RiskAnalysisInputWrapper label="Test Label" infoLabel="Info text" questionKey="test-key">
         <input />
       </RiskAnalysisInputWrapper>
     )
@@ -48,7 +48,7 @@ describe('RiskAnalysisInputWrapper', () => {
 
   it('renders helperText when provided', () => {
     render(
-      <RiskAnalysisInputWrapper label="Test Label" helperText="Helper text">
+      <RiskAnalysisInputWrapper label="Test Label" helperText="Helper text" questionKey="test-key">
         <input />
       </RiskAnalysisInputWrapper>
     )
@@ -58,7 +58,7 @@ describe('RiskAnalysisInputWrapper', () => {
 
   it('renders error when provided', () => {
     render(
-      <RiskAnalysisInputWrapper label="Test Label" error="Error message">
+      <RiskAnalysisInputWrapper label="Test Label" error="Error message" questionKey="test-key">
         <input />
       </RiskAnalysisInputWrapper>
     )
@@ -68,7 +68,7 @@ describe('RiskAnalysisInputWrapper', () => {
 
   it('renders as fieldset when isInputGroup is true', () => {
     render(
-      <RiskAnalysisInputWrapper label="Test Label" isInputGroup>
+      <RiskAnalysisInputWrapper label="Test Label" isInputGroup questionKey="test-key">
         <input />
       </RiskAnalysisInputWrapper>
     )
@@ -81,7 +81,7 @@ describe('RiskAnalysisInputWrapper', () => {
       <RiskAnalysisInputWrapper
         label="Test Label"
         isFromPurposeTemplate
-        questionId="q1"
+        questionKey="q1"
         questionType="SINGLE"
       >
         <input />
@@ -92,7 +92,7 @@ describe('RiskAnalysisInputWrapper', () => {
     expect(RiskAnalysisAnswerComponent).toHaveBeenCalledWith(
       expect.objectContaining({
         question: 'Test Label',
-        questionId: 'q1',
+        questionKey: 'q1',
         questionType: 'SINGLE',
       }),
       expect.any(Object)
@@ -101,7 +101,11 @@ describe('RiskAnalysisInputWrapper', () => {
 
   it('does not render RiskAnalysisAnswerComponent when isFromPurposeTemplate is false', () => {
     render(
-      <RiskAnalysisInputWrapper label="Test Label" isFromPurposeTemplate={false}>
+      <RiskAnalysisInputWrapper
+        label="Test Label"
+        isFromPurposeTemplate={false}
+        questionKey="test-key"
+      >
         <input />
       </RiskAnalysisInputWrapper>
     )
@@ -111,7 +115,7 @@ describe('RiskAnalysisInputWrapper', () => {
 
   it('applies proper styling when isFromPurposeTemplate is true', () => {
     const { container } = render(
-      <RiskAnalysisInputWrapper label="Test Label" isFromPurposeTemplate>
+      <RiskAnalysisInputWrapper label="Test Label" isFromPurposeTemplate questionKey="test-key">
         <input />
       </RiskAnalysisInputWrapper>
     )

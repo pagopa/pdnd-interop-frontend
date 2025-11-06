@@ -9,7 +9,7 @@ import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 
 export type RiskAnalysisCheckboxGroupProps = {
-  questionId: string
+  questionKey: string
   label: string
   infoLabel?: string
   helperText?: string
@@ -19,7 +19,7 @@ export type RiskAnalysisCheckboxGroupProps = {
 }
 
 export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps> = ({
-  questionId,
+  questionKey,
   label,
   options,
   infoLabel,
@@ -31,15 +31,15 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
 
   const isAssignedToTemplateUsersSwitch = useWatch({
     control,
-    name: `assignToTemplateUsers.${questionId}`,
+    name: `assignToTemplateUsers.${questionKey}`,
   })
 
   const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
   const { t } = useTranslation()
 
-  const name = `answers.${questionId}`
+  const name = `answers.${questionKey}`
 
-  const error = formState.errors.answers?.[questionId]?.message as string | undefined
+  const error = formState.errors.answers?.[questionKey]?.message as string | undefined
 
   const conditionalRules = isAssignedToTemplateUsersSwitch
     ? { validate: () => true }
@@ -53,7 +53,7 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
       helperText={helperText}
       error={error}
       isFromPurposeTemplate={isFromPurposeTemplate}
-      questionId={questionId}
+      questionKey={questionKey}
     >
       <FormGroup>
         <Controller

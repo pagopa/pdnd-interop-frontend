@@ -41,7 +41,7 @@ const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 }
 
 const defaultProps = {
-  questionId: 'test-question',
+  questionKey: 'test-question',
   label: 'Test Label',
   name: 'test-field',
 }
