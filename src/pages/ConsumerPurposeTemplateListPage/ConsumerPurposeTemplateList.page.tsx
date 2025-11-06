@@ -116,7 +116,7 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
       type: 'autocomplete-multiple',
       options: [
         { label: tPurposeTemplate('statusField.optionLabels.ARCHIVED'), value: 'ARCHIVED' },
-        { label: tPurposeTemplate('statusField.optionLabels.ACTIVE'), value: 'ACTIVE' },
+        { label: tPurposeTemplate('statusField.optionLabels.PUBLISHED'), value: 'PUBLISHED' },
         { label: tPurposeTemplate('statusField.optionLabels.DRAFT'), value: 'DRAFT' },
         { label: tPurposeTemplate('statusField.optionLabels.SUSPENDED'), value: 'SUSPENDED' },
       ],
