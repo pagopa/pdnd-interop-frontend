@@ -81,6 +81,7 @@ describe('RiskAnalysisInputWrapper', () => {
       <RiskAnalysisInputWrapper
         label="Test Label"
         isFromPurposeTemplate
+        type="creator"
         questionId="q1"
         questionType="SINGLE"
       >
