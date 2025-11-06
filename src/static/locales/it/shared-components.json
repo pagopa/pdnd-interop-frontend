@@ -453,6 +453,8 @@
     "RISK_ANALYSIS_EXPORTER_TOOL": "Export analisi del rischio",
     "CLIENT_MANAGEMENT": "Gestione dei client",
     "SUBSCRIBE_PURPOSE_TEMPLATE_LIST": "I miei template finalità",
-    "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG": "Template finalità"
+    "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG": "Template finalità",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS": "Visualizza finalità",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS": "Visualizza finalità"
   }
 }

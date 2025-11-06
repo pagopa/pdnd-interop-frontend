@@ -13,6 +13,7 @@ export const PurposeTemplateLinkedEServicesSection: React.FC = () => {
   const { updateActiveTab } = useActiveTab('details')
 
   const handleGoToLinkedEServicesTab = () => {
+    console.log('updateActiveTab called', updateActiveTab) // DEBUG LOG
     updateActiveTab('', 'linkedEservices')
   }
 

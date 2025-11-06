@@ -49,7 +49,7 @@ describe('PurposeTemplateServices', () => {
       const params: GetConsumerPurposeTemplatesParams = {
         q: 'healthcare',
         eservicesIds: ['11111111-1111-1111-1111-111111111111'],
-        states: ['ACTIVE'],
+        states: ['PUBLISHED'],
         offset: 0,
         limit: 20,
       }
@@ -310,37 +310,31 @@ describe('PurposeTemplateServices', () => {
   })
 
   describe('publishDraft', () => {
-    it('should log draft publication message', async () => {
+    // TODO: Update this test when real API calls are implemented
+    it('should make correct API call to publish draft', async () => {
       await PurposeTemplateServices.publishDraft({ id: 'test-id' })
 
-      expect(mockConsoleLog).toHaveBeenCalledWith('Draft published')
+      expect(axiosInstance.post).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/publish`
+      )
     })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call to publish draft', async () => {
-    //   await PurposeTemplateServices.publishDraft({ id: 'test-id' })
-    //
-    //   expect(axiosInstance.post).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/publish`
-    //   )
-    // })
   })
 
   describe('deleteDraft', () => {
-    it('should log draft deletion message', async () => {
-      await PurposeTemplateServices.deleteDraft({ id: 'test-id' })
+    // it('should log draft deletion message', async () => {
+    //   await PurposeTemplateServices.deleteDraft({ id: 'test-id' })
 
-      expect(mockConsoleLog).toHaveBeenCalledWith('Draft deleted')
-    })
+    //   expect(mockConsoleLog).toHaveBeenCalledWith('Draft deleted')
+    // })
 
     // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call to delete draft', async () => {
-    //   await PurposeTemplateServices.deleteDraft({ id: 'test-id' })
-    //
-    //   expect(axiosInstance.delete).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id`
-    //   )
-    // })
+    it('should make correct API call to delete draft', async () => {
+      await PurposeTemplateServices.deleteDraft({ id: 'test-id' })
+
+      expect(axiosInstance.delete).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id`
+      )
+    })
   })
 
   describe('deleteAnnotation', () => {
@@ -392,53 +386,32 @@ describe('PurposeTemplateServices', () => {
   })
 
   describe('suspendPurposeTemplate', () => {
-    it('should log suspension message', async () => {
+    it('should make correct API call to suspend purpose template', async () => {
       await PurposeTemplateServices.suspendPurposeTemplate({ id: 'test-id' })
 
-      expect(mockConsoleLog).toHaveBeenCalledWith('Suspended')
+      expect(axiosInstance.post).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/suspend`
+      )
     })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call to suspend purpose template', async () => {
-    //   await PurposeTemplateServices.suspendPurposeTemplate({ id: 'test-id' })
-    //
-    //   expect(axiosInstance.post).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/suspend`
-    //   )
-    // })
   })
 
   describe('reactivatePurposeTemplate', () => {
-    it('should log reactivation message', async () => {
+    it('should make correct API call to reactivate purpose template', async () => {
       await PurposeTemplateServices.reactivatePurposeTemplate({ id: 'test-id' })
 
-      expect(mockConsoleLog).toHaveBeenCalledWith('Reactivate')
+      expect(axiosInstance.post).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/unsuspend`
+      )
     })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call to reactivate purpose template', async () => {
-    //   await PurposeTemplateServices.reactivatePurposeTemplate({ id: 'test-id' })
-    //
-    //   expect(axiosInstance.post).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/unsuspend`
-    //   )
-    // })
   })
 
   describe('archivePurposeTemplate', () => {
-    it('should log archiving message', async () => {
+    it('should make correct API call to archive purpose template', async () => {
       await PurposeTemplateServices.archivePurposeTemplate({ id: 'test-id' })
 
-      expect(mockConsoleLog).toHaveBeenCalledWith('Archived!')
+      expect(axiosInstance.post).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/archive`
+      )
     })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call to archive purpose template', async () => {
-    //   await PurposeTemplateServices.archivePurposeTemplate({ id: 'test-id' })
-    //
-    //   expect(axiosInstance.post).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/archive`
-    //   )
-    // })
   })
 })

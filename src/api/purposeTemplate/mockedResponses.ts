@@ -65,7 +65,8 @@ const createPurposeTemplate = (
   riskAnalysisAnswer: RiskAnalysisTemplateAnswer,
   purposeIsFreeOfCharge: boolean,
   purposeFreeOfChargeReason: string,
-  purposeDailyCalls: number
+  purposeDailyCalls: number,
+  handlesPersonalData: boolean
 ): PurposeTemplate => ({
   description,
   id,
@@ -81,6 +82,7 @@ const createPurposeTemplate = (
   purposeIsFreeOfCharge,
   purposeFreeOfChargeReason,
   purposeDailyCalls,
+  handlesPersonalData,
 })
 
 // Mock data templates
@@ -96,6 +98,7 @@ const purposeTemplateData = [
     updatedAt: '2025-08-29T09:01:20.116Z',
     purposeTitle: 'Medical Analysis',
     purposeDescription: 'Analyze patient data for diagnostics',
+    handlesPersonalData: true,
     riskAnalysis: {
       value: 'high',
       editable: true,
@@ -123,6 +126,7 @@ const purposeTemplateData = [
     updatedAt: '2025-08-28T10:02:30.116Z',
     purposeTitle: 'Student Performance Analysis',
     purposeDescription: 'Analyze student performance data for grading purposes',
+    handlesPersonalData: true,
     riskAnalysis: {
       value: 'medium',
       editable: false,
@@ -150,6 +154,7 @@ const purposeTemplateData = [
     updatedAt: '2025-08-27T08:03:40.116Z',
     purposeTitle: 'Credit Scoring Analysis',
     purposeDescription: 'Analyze financial data for credit scoring purposes',
+    handlesPersonalData: true,
     riskAnalysis: {
       value: 'high',
       editable: true,
@@ -177,6 +182,7 @@ const purposeTemplateData = [
     updatedAt: '2025-08-26T07:04:50.116Z',
     purposeTitle: 'Public Record Processing',
     purposeDescription: 'Process public records for government purposes',
+    handlesPersonalData: false,
     riskAnalysis: {
       value: 'low',
       editable: false,
@@ -204,6 +210,7 @@ const purposeTemplateData = [
     updatedAt: '2025-08-25T06:05:00.116Z',
     purposeTitle: 'Research Data Analysis',
     purposeDescription: 'Analyze research data for scientific studies',
+    handlesPersonalData: true,
     riskAnalysis: {
       value: 'medium',
       editable: true,
@@ -256,7 +263,8 @@ export const purposeTemplatesListMock: Array<PurposeTemplateWithCompactCreator> 
         riskAnalysisAnswer,
         data.purposeIsFreeOfCharge,
         data.purposeFreeOfChargeReason,
-        data.purposeDailyCalls
+        data.purposeDailyCalls,
+        data.handlesPersonalData
       ),
       creator: {
         id: data.creatorId,
@@ -378,7 +386,7 @@ export const purposeTemplateEservicesMock = purposeTemplateEServiceData.map((dat
   )
 )
 
-export type PurposeTemplateState = 'DRAFT' | 'ACTIVE' | 'SUSPENDED' | 'ARCHIVED'
+export type PurposeTemplateState = 'DRAFT' | 'PUBLISHED' | 'SUSPENDED' | 'ARCHIVED'
 
 type RiskAnalysisTemplateAnswerAnnotationDocument = {
   id: string // UUID
@@ -423,6 +431,7 @@ export type PurposeTemplate = {
   purposeIsFreeOfCharge: boolean
   purposeFreeOfChargeReason: string
   purposeDailyCalls: number // Must be between 1 and 1,000,000,000
+  handlesPersonalData: boolean
 }
 export interface RiskAnalysisFormTemplateSeed {
   version: string

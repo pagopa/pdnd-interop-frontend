@@ -10,6 +10,7 @@ import { useActiveTab } from '@/hooks/useActiveTab'
 import { ConsumerPurposeTemplateCatalogDetailsTab } from './components/ConsumerPurposeTemplateCatalogDetailsTab'
 import { ConsumerPurposeTemplateCatalogLinkedEServiceTab } from './components/ConsumerPurposeTemplateCatalogLinkedEServiceTab'
 import { PurposeTemplateRiskAnalysisTab } from '@/components/shared/PurposeTemplate/PurposeTemplateRiskAnalysisTab'
+import { TenantHooks } from '@/api/tenant'
 
 const ConsumerPurposeTemplateCatalogDetailsPage: React.FC = () => {
   const { t } = useTranslation('purposeTemplate')
@@ -19,8 +20,9 @@ const ConsumerPurposeTemplateCatalogDetailsPage: React.FC = () => {
   const { data: purposeTemplate } = useQuery(PurposeTemplateQueries.getSingle(purposeTemplateId))
 
   const { activeTab, updateActiveTab } = useActiveTab('details')
+  const { data: tenant } = TenantHooks.useGetActiveUserParty()
 
-  const { actions } = useGetConsumerPurposeTemplateTemplatesActions('PA', purposeTemplate) //TO DO: TENANT KIND WILL BE PASSED BY BFF
+  const { actions } = useGetConsumerPurposeTemplateTemplatesActions(tenant.kind!, purposeTemplate)
 
   if (!purposeTemplate) return
 

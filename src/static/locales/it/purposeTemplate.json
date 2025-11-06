@@ -148,7 +148,9 @@
           "tenantKindValues": {
             "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico, Privati",
             "labelPA": "Pubbliche Amministrazioni"
-          }
+          },
+          "yes": "Sì",
+          "no": "No"
         },
         "linkedEservices": {
           "title": "E-service collegati",

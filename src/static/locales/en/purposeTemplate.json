@@ -148,7 +148,9 @@
           "tenantKindValues": {
             "labelNotPA": "Private entities",
             "labelPA": "Public Administrations"
-          }
+          },
+          "yes": "Yes",
+          "no": "No"
         },
         "linkedEservices": {
           "title": "Linked e-services",

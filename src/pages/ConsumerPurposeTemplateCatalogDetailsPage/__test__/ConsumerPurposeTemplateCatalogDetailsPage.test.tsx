@@ -4,6 +4,7 @@ import {
   mockUseJwt,
   renderWithApplicationContext,
   mockUseParams,
+  mockUseGetActiveUserParty,
 } from '@/utils/testing.utils'
 import { setupServer } from 'msw/node'
 import { rest } from 'msw'
@@ -30,6 +31,7 @@ const mockPurposeTemplateResponse: PurposeTemplateWithCompactCreator = {
   state: 'PUBLISHED',
 }
 
+mockUseGetActiveUserParty()
 mockUseJwt()
 mockUseCurrentRoute({ routeKey: 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS' })
 mockUseParams({ purposeTemplateId: mockTemplateId })
@@ -50,7 +52,7 @@ afterEach(() => {
 afterAll(() => server.close())
 
 describe('ConsumerPurposeTemplateCatalogDetailsPage', async () => {
-  it('should render purpose Title', async () => {
+  it('Should render purpose Title', async () => {
     const screen = renderWithApplicationContext(<ConsumerPurposeTemplateCatalogDetailsPage />, {
       withReactQueryContext: true,
       withRouterContext: true,
