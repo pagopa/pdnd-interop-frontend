@@ -64,7 +64,7 @@ export function CatalogCardForPurposeTemplate<TRouteKey extends CatalogRoutesKey
         disableTypography={true}
         title={t(`targetTenantKind.${targetTenantKindLabel}`)}
       />
-      <CardContent sx={{ alignItems: 'start' }}>
+      <CardContent sx={{ alignItems: 'start', py: 2 }}>
         <Typography variant="h6" color="text.primary" sx={{ marginBottom: 1 }}>
           {title}
         </Typography>
