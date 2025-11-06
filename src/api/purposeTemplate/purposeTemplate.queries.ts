@@ -37,7 +37,7 @@ function getSingle(purposeTemplateId: string) {
 
 function getCatalogPurposeTemplates(params: GetCatalogPurposeTemplatesParams) {
   return queryOptions({
-    queryKey: ['PurposeTemplateGetCatalogPurposeTemplates'],
+    queryKey: ['PurposeTemplateGetCatalogPurposeTemplates', params],
     queryFn: () => PurposeTemplateServices.getCatalogPurposeTemplates(params),
   })
 }
