@@ -22,12 +22,7 @@ const PurposeFromTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ ba
     PurposeQueries.getRiskAnalysisLatest({ tenantKind: purpose?.consumer.kind })
   )
 
-  if (
-    !riskAnalysis ||
-    !purpose ||
-    !purposeTemplate ||
-    !purposeTemplate.purposeRiskAnalysisForm
-  ) {
+  if (!riskAnalysis || !purpose || !purposeTemplate?.purposeRiskAnalysisForm) {
     return null
   }
 
@@ -38,18 +33,72 @@ const PurposeFromTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ ba
     string,
     RiskAnalysisTemplateAnswer
   >
+
+  // Crea una mappa delle domande per identificare quelle freeText con suggestedValues
+  const questionsMap = new Map(riskAnalysis.questions.map((q) => [q.id, q]))
+
+  // Merge delle risposte dal template e dal purpose
   const mergedDefaultAnswers = Object.entries(templateAnswers).reduce(
     (acc, [questionId, templateAnswer]) => {
-      const purposeAnswerValues = purposeRiskAnalysisForm?.answers?.[questionId]
+      const purposeAnswerValues = purposeRiskAnalysisForm?.answers?.[questionId] as
+        | string[]
+        | undefined
+      const hasSuggestedValues = templateAnswer.suggestedValues?.length > 0
 
-      acc[questionId] = {
-        ...templateAnswer,
-        values: purposeAnswerValues ?? templateAnswer.values,
+      // Per domande freeText con suggestedValues, controlla se il valore salvato è uno dei suggestedValues
+      if (hasSuggestedValues && purposeAnswerValues && purposeAnswerValues.length > 0) {
+        const savedValue = purposeAnswerValues[0]
+        const isValueInSuggested = templateAnswer.suggestedValues.includes(savedValue)
+
+        acc[questionId] = {
+          ...templateAnswer,
+          // Se il valore salvato è uno dei suggestedValues, mantieni values vuoto (verrà usato suggestedValueConsumer)
+          // Altrimenti, usa il valore salvato (è un valore custom)
+          values: isValueInSuggested ? [] : purposeAnswerValues,
+        }
+      } else {
+        // Per le altre domande, usa il valore dal purpose se esiste, altrimenti dal template
+        acc[questionId] = {
+          ...templateAnswer,
+          values: purposeAnswerValues ?? templateAnswer.values,
+        }
       }
       return acc
     },
     {} as Record<string, RiskAnalysisTemplateAnswer>
   )
+
+  // Aggiungi le domande che sono solo nel purpose (non nel template) - tipicamente domande dipendenti
+  const purposeAnswers = purposeRiskAnalysisForm?.answers || {}
+  Object.entries(purposeAnswers).forEach(([questionId, purposeAnswerValues]) => {
+    // Se la domanda non è nel template, aggiungila
+    if (!mergedDefaultAnswers[questionId] && questionsMap.has(questionId)) {
+      mergedDefaultAnswers[questionId] = {
+        id: '', // Le domande dipendenti potrebbero non avere un id nel template
+        values: purposeAnswerValues as string[],
+        editable: true, // Le domande dipendenti sono sempre editabili
+        suggestedValues: [],
+      }
+    }
+  })
+
+  // Crea l'oggetto suggestedValueConsumer per le domande freeText con suggestedValues
+  const suggestedValueConsumer: Record<string, string> = {}
+  Object.entries(mergedDefaultAnswers).forEach(([questionId, answer]) => {
+    const purposeAnswerValues = purposeRiskAnalysisForm?.answers?.[questionId] as
+      | string[]
+      | undefined
+    const hasSuggestedValues = answer.suggestedValues?.length > 0
+
+    if (hasSuggestedValues && purposeAnswerValues && purposeAnswerValues.length > 0) {
+      const savedValue = purposeAnswerValues[0]
+      const isValueInSuggested = answer.suggestedValues.includes(savedValue)
+
+      if (isValueInSuggested) {
+        suggestedValueConsumer[questionId] = savedValue
+      }
+    }
+  })
 
   const handleSubmit = (answers: Record<string, string[]>) => {
     const updatePurposePayload: PatchPurposeUpdateFromTemplateContent = {
@@ -83,6 +132,7 @@ const PurposeFromTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ ba
     <RiskAnalysisFormFromTemplate
       riskAnalysis={riskAnalysis}
       defaultAnswers={mergedDefaultAnswers}
+      suggestedValueConsumer={suggestedValueConsumer}
       onSubmit={handleSubmit}
       onCancel={back}
     />

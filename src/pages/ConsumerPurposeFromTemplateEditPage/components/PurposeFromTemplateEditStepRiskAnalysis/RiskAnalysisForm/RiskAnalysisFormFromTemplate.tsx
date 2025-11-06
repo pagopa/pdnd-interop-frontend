@@ -14,6 +14,7 @@ import { useRiskAnalysisFormFromTemplate } from '@/hooks/useRiskAnalysisFormFrom
 type RiskAnalysisFormFromTemplateProps = {
   defaultAnswers: Record<string, RiskAnalysisTemplateAnswer>
   riskAnalysis: RiskAnalysisFormConfig
+  suggestedValueConsumer?: Record<string, string>
   onSubmit: (answers: Record<string, string[]>) => void
   onCancel: VoidFunction
 }
@@ -21,6 +22,7 @@ type RiskAnalysisFormFromTemplateProps = {
 export const RiskAnalysisFormFromTemplate: React.FC<RiskAnalysisFormFromTemplateProps> = ({
   defaultAnswers,
   riskAnalysis,
+  suggestedValueConsumer,
   onSubmit,
   onCancel,
 }) => {
@@ -29,6 +31,7 @@ export const RiskAnalysisFormFromTemplate: React.FC<RiskAnalysisFormFromTemplate
   const riskAnalysisForm = useRiskAnalysisFormFromTemplate({
     riskAnalysisConfig: riskAnalysis,
     defaultAnswers: defaultAnswers,
+    extraFields: suggestedValueConsumer ? { suggestedValueConsumer } : undefined,
   })
 
   const handleSubmit = riskAnalysisForm.handleSubmit(({ validAnswers }) => onSubmit(validAnswers))
