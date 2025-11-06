@@ -1,5 +1,5 @@
 import { PurposeTemplateServices } from '../purposeTemplate.services'
-import { purposeTemplatesListMock, mockCatalogPurposeTemplates } from '../mockedResponses'
+import { purposeTemplatesListMock } from '../mockedResponses'
 import type { GetConsumerPurposeTemplatesParams } from '../mockedResponses'
 import type {
   GetCatalogPurposeTemplatesParams,
@@ -84,6 +84,22 @@ describe('PurposeTemplateServices', () => {
     //     { params }
     //   )
     // })
+  })
+
+  describe('getConsumerCatalogPurposeTemplates', () => {
+    it('should make correct API call to catalog endpoint', async () => {
+      const params: GetCatalogPurposeTemplatesParams = {
+        offset: 0,
+        limit: 10,
+      }
+
+      await PurposeTemplateServices.getCatalogPurposeTemplates(params)
+
+      expect(axiosInstance.get).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/catalog/purposeTemplates`,
+        { params }
+      )
+    })
   })
 
   describe('getEservicesLinkedToPurposeTemplatesList', () => {
