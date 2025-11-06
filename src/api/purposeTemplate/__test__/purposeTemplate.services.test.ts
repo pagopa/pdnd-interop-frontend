@@ -1,5 +1,4 @@
 import { PurposeTemplateServices } from '../purposeTemplate.services'
-import { purposeTemplatesListMock } from '../mockedResponses'
 import type { GetConsumerPurposeTemplatesParams } from '../mockedResponses'
 import type {
   GetCatalogPurposeTemplatesParams,
@@ -44,46 +43,19 @@ describe('PurposeTemplateServices', () => {
   })
 
   describe('getConsumerPurposeTemplatesList', () => {
-    it('should return mocked purpose templates list', async () => {
+    it('should make correct API call with parameters', async () => {
       const params: GetConsumerPurposeTemplatesParams = {
         offset: 0,
         limit: 10,
       }
 
-      const result = await PurposeTemplateServices.getConsumerPurposeTemplatesList(params)
+      await PurposeTemplateServices.getConsumerPurposeTemplatesList(params)
 
-      expect(result).toEqual(purposeTemplatesListMock)
-      expect(result).toHaveLength(5)
+      expect(axiosInstance.get).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/creators/purposeTemplates`,
+        { params }
+      )
     })
-
-    it('should handle different query parameters', async () => {
-      const params: GetConsumerPurposeTemplatesParams = {
-        q: 'healthcare',
-        eservicesIds: ['11111111-1111-1111-1111-111111111111'],
-        states: ['ACTIVE'],
-        offset: 0,
-        limit: 20,
-      }
-
-      const result = await PurposeTemplateServices.getConsumerPurposeTemplatesList(params)
-
-      expect(result).toEqual(purposeTemplatesListMock)
-    })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call with parameters', async () => {
-    //   const params: GetConsumerPurposeTemplatesParams = {
-    //     offset: 0,
-    //     limit: 10,
-    //   }
-    //
-    //   await PurposeTemplateServices.getConsumerPurposeTemplatesList(params)
-    //
-    //   expect(axiosInstance.get).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/creators/purposeTemplates`,
-    //     { params }
-    //   )
-    // })
   })
 
   describe('getConsumerCatalogPurposeTemplates', () => {
