@@ -78,6 +78,7 @@ describe('RiskAnalysisFormTemplate', () => {
         riskAnalysis={riskAnalysis}
         onSubmit={mockOnSubmit}
         onCancel={mockOnCancel}
+        handlesPersonalData={true}
       />
     )
 
@@ -101,6 +102,7 @@ describe('RiskAnalysisFormTemplate', () => {
         riskAnalysis={riskAnalysis}
         onSubmit={mockOnSubmit}
         onCancel={mockOnCancel}
+        handlesPersonalData={true}
       />
     )
 
@@ -133,6 +135,7 @@ describe('RiskAnalysisFormTemplate', () => {
         riskAnalysis={riskAnalysis}
         onSubmit={mockOnSubmit}
         onCancel={mockOnCancel}
+        handlesPersonalData={true}
       />
     )
 
@@ -176,6 +179,7 @@ describe('RiskAnalysisFormTemplate', () => {
         riskAnalysis={riskAnalysis}
         onSubmit={mockOnSubmit}
         onCancel={mockOnCancel}
+        handlesPersonalData={true}
       />
     )
 
@@ -219,6 +223,7 @@ describe('RiskAnalysisFormTemplate', () => {
         riskAnalysis={riskAnalysis}
         onSubmit={mockOnSubmit}
         onCancel={mockOnCancel}
+        handlesPersonalData={true}
       />
     )
 
@@ -263,6 +268,7 @@ describe('RiskAnalysisFormTemplate', () => {
         riskAnalysis={riskAnalysis}
         onSubmit={mockOnSubmit}
         onCancel={mockOnCancel}
+        handlesPersonalData={true}
       />
     )
 

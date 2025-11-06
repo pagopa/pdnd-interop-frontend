@@ -12,7 +12,7 @@ import { RemoveCircleOutline } from '@mui/icons-material'
 import { usePurposeCreateContext } from '../PurposeCreateContext'
 
 export type RiskAnalysisTextFieldProps = Omit<OutlinedInputProps, 'type'> & {
-  questionId: string
+  questionKey: string
   label: string
   infoLabel?: string
   helperText?: string
@@ -22,7 +22,7 @@ export type RiskAnalysisTextFieldProps = Omit<OutlinedInputProps, 'type'> & {
 }
 
 export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
-  questionId,
+  questionKey,
   label,
   infoLabel,
   helperText,
@@ -44,17 +44,17 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step3' })
   const { t: tCommon } = useTranslation('common')
 
-  const name = `answers.${questionId}`
-  const suggestedValuesName = `suggestedValues.${questionId}`
-  const suggestedValueConsumerName = `suggestedValueConsumer.${questionId}`
+  const name = `answers.${questionKey}`
+  const suggestedValuesName = `suggestedValues.${questionKey}`
+  const suggestedValueConsumerName = `suggestedValueConsumer.${questionKey}`
 
   // Check if question is editable (for consumer, editable=true means user can answer)
   const isEditable = useWatch({
     control,
-    name: `assignToTemplateUsers.${questionId}`,
+    name: `assignToTemplateUsers.${questionKey}`,
   }) as boolean | undefined
 
-  const error = formState.errors.answers?.[questionId]?.message as string | undefined
+  const error = formState.errors.answers?.[questionKey]?.message as string | undefined
   const suggestedValues: string[] = watch(suggestedValuesName) || []
 
   // For freeText questions with suggestedValues in consumer mode, check error on suggestedValueConsumer field
@@ -107,7 +107,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
         error={displayError}
         {...ids}
         isFromPurposeTemplate={isFromPurposeTemplate}
-        questionId={questionId}
+        questionKey={questionKey}
         questionType={questionType}
         type={type}
         isAssignedToTemplateUsersSwitch={true}
@@ -206,7 +206,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
       error={error}
       {...ids}
       isFromPurposeTemplate={isFromPurposeTemplate}
-      questionId={questionId}
+      questionKey={questionKey}
     >
       <Controller
         name={name}

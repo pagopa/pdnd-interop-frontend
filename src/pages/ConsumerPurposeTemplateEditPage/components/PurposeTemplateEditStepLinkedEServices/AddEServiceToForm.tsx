@@ -29,7 +29,7 @@ export const AddEServiceToForm: React.FC<AddEServiceToFormProps> = ({
   linkedEServices,
   showWarning,
 }) => {
-  const { watch, setValue } = useFormContext<EditStepLinkedEServicesForm>()
+  const { watch } = useFormContext<EditStepLinkedEServicesForm>()
   const { mutate: removeEService } = PurposeTemplateMutations.useUnlinkEserviceFromPurposeTemplate()
 
   const eserviceGroup = watch(`eservices`)
@@ -48,10 +48,6 @@ export const AddEServiceToForm: React.FC<AddEServiceToFormProps> = ({
   ]
 
   const handleRemoveAttributeFromGroup = (eserviceId: string) => {
-    const newEServicesGroup = eserviceGroup.filter((eservice) => eservice.id !== eserviceId) //TODO: SHOULD IT BE REMOVED WHEN THE API IS AVAILABLE?
-    setValue(`eservices`, newEServicesGroup, {
-      shouldValidate: false,
-    })
     removeEService({
       purposeTemplateId: purposeTemplate.id,
       eserviceId,

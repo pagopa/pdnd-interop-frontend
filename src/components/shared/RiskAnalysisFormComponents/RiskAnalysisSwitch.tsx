@@ -16,7 +16,7 @@ type RiskAnalysisSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   infoLabel?: string
   helperText?: string
   options: Array<InputOption>
-  questionId: string
+  questionKey: string
   rules?: ControllerProps['rules']
 }
 
@@ -25,7 +25,7 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
   infoLabel,
   helperText,
   options,
-  questionId,
+  questionKey,
   rules,
   ...switchProps
 }) => {
@@ -34,14 +34,14 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
 
   const isAssignedToTemplateUsersSwitch = useWatch({
     control,
-    name: `assignToTemplateUsers.${questionId}`,
+    name: `assignToTemplateUsers.${questionKey}`,
   })
   const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
   const { t } = useTranslation()
 
-  const name = `answers.${questionId}`
+  const name = `answers.${questionKey}`
 
-  const error = formState.errors.answers?.[questionId]?.message as string | undefined
+  const error = formState.errors.answers?.[questionKey]?.message as string | undefined
 
   const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
     label,
@@ -63,7 +63,7 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
       helperText={helperText}
       {...ids}
       isFromPurposeTemplate={isFromPurposeTemplate}
-      questionId={questionId}
+      questionKey={questionKey}
       type={type}
       isAssignedToTemplateUsersSwitch={isAssignedToTemplateUsersSwitch}
     >

@@ -11,7 +11,7 @@ import { isRiskAnalysisQuestionDisabled } from '@/utils/common.utils'
 import { usePurposeCreateContext } from '../PurposeCreateContext'
 
 export type RiskAnalysisSelectProps = Omit<MUISelectProps, 'onChange' | 'label'> & {
-  questionId: string
+  questionKey: string
   label: string
   infoLabel?: string
   helperText?: string
@@ -21,7 +21,7 @@ export type RiskAnalysisSelectProps = Omit<MUISelectProps, 'onChange' | 'label'>
 }
 
 export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
-  questionId,
+  questionKey,
   label,
   options,
   infoLabel,
@@ -35,15 +35,15 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
 
   const isAssignedToTemplateUsersSwitch = useWatch({
     control,
-    name: `assignToTemplateUsers.${questionId}`,
+    name: `assignToTemplateUsers.${questionKey}`,
   })
 
   const { t } = useTranslation()
   const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
 
-  const name = `answers.${questionId}`
+  const name = `answers.${questionKey}`
 
-  const error = formState.errors.answers?.[questionId]?.message as string | undefined
+  const error = formState.errors.answers?.[questionKey]?.message as string | undefined
 
   const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
     label,
@@ -65,7 +65,7 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
       helperText={helperText}
       {...ids}
       isFromPurposeTemplate={isFromPurposeTemplate}
-      questionId={questionId}
+      questionKey={questionKey}
       type={type}
       isAssignedToTemplateUsersSwitch={isAssignedToTemplateUsersSwitch}
     >

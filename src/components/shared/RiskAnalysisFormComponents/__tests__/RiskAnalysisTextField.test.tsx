@@ -50,7 +50,7 @@ const TestWrapper: React.FC<{
 }
 
 const defaultProps = {
-  questionId: 'test-question',
+  questionKey: 'test-question',
   label: 'Test Label',
   name: 'test-field',
 }

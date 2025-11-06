@@ -65,10 +65,10 @@ const DocumentUploadForm: React.FC<{
 )
 
 export const RiskAnalysisAnswerComponent: React.FC<{
-  questionId: string
+  questionKey: string
   question: string
   questionType: string
-}> = ({ questionId, questionType, question }) => {
+}> = ({ questionKey, questionType, question }) => {
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step3' })
   const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'>()
 
@@ -77,16 +77,16 @@ export const RiskAnalysisAnswerComponent: React.FC<{
   const { showToast } = useToastNotification()
   const { openDialog } = useDialog()
   const annotation: RiskAnalysisTemplateAnswerAnnotation | undefined = watch(
-    `annotations.${questionId}`
+    `annotations.${questionKey}`
   )
-  const assignToTemplateUsers: boolean = watch(`assignToTemplateUsers.${questionId}`) || false
-  const questionValue = watch(`answers.${questionId}`)
+  const assignToTemplateUsers: boolean = watch(`assignToTemplateUsers.${questionKey}`) || false
+  const questionValue = watch(`answers.${questionKey}`)
   const questionValues: string[] = Array.isArray(questionValue)
     ? questionValue
     : questionValue
     ? [questionValue]
     : []
-  const suggestedValues: string[] = watch(`suggestedValues.${questionId}`) || []
+  const suggestedValues: string[] = watch(`suggestedValues.${questionKey}`) || []
 
   // Document management states
   const [showDocInput, setShowDocInput] = useState(false)
@@ -104,9 +104,9 @@ export const RiskAnalysisAnswerComponent: React.FC<{
   useEffect(() => {
     if (assignToTemplateUsers) {
       // Clear the answer field when the question becomes editable
-      setValue(`answers.${questionId}`, '', { shouldDirty: true })
+      setValue(`answers.${questionKey}`, '', { shouldDirty: true })
     }
-  }, [assignToTemplateUsers, questionId, setValue])
+  }, [assignToTemplateUsers, questionKey, setValue])
 
   const handleClick = () => {
     openDrawer()
@@ -115,7 +115,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{
   const handleAnnotationSubmit = async (annotation: RiskAnalysisTemplateAnswerAnnotation) => {
     try {
       // Check if we already have an answerId (from previous creation)
-      const existingAnswerId = watch(`answerIds.${questionId}`)
+      const existingAnswerId = watch(`answerIds.${questionKey}`)
 
       if (existingAnswerId) {
         // Update existing annotation using PUT API
@@ -124,14 +124,14 @@ export const RiskAnalysisAnswerComponent: React.FC<{
           answerId: existingAnswerId,
           annotationText: { text: annotation.text },
         })
-        setValue(`annotations.${questionId}`, updatedAnnotation, { shouldDirty: true })
+        setValue(`annotations.${questionKey}`, updatedAnnotation, { shouldDirty: true })
 
         // Show success notification
         showToast(t('notifications.annotationAddedSuccess'), 'success')
       } else {
         // Create new annotation using POST API
         const answerRequest: RiskAnalysisTemplateAnswerRequest = {
-          answerKey: questionId,
+          answerKey: questionKey,
           answerData: {
             values: assignToTemplateUsers ? [] : questionValues,
             editable: assignToTemplateUsers,
@@ -148,11 +148,11 @@ export const RiskAnalysisAnswerComponent: React.FC<{
         })
 
         // Save the answerId for future updates
-        setValue(`answerIds.${questionId}`, savedAnswer.id, { shouldDirty: true })
+        setValue(`answerIds.${questionKey}`, savedAnswer.id, { shouldDirty: true })
 
         // Update the form with the saved annotation
         if (savedAnswer.annotation) {
-          setValue(`annotations.${questionId}`, savedAnswer.annotation, { shouldDirty: true })
+          setValue(`annotations.${questionKey}`, savedAnswer.annotation, { shouldDirty: true })
         }
 
         // Show success notification
@@ -163,7 +163,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{
       // Show error notification
       showToast(t('notifications.annotationAddError'), 'error')
       // Fallback: save locally anyway
-      setValue(`annotations.${questionId}`, annotation, { shouldDirty: true })
+      setValue(`annotations.${questionKey}`, annotation, { shouldDirty: true })
     }
   }
 
@@ -173,7 +173,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{
       onProceed: async () => {
         try {
           // Check if we have an answerId (annotation exists in database)
-          const existingAnswerId = watch(`answerIds.${questionId}`)
+          const existingAnswerId = watch(`answerIds.${questionKey}`)
 
           if (existingAnswerId) {
             // Delete annotation from database
@@ -184,10 +184,10 @@ export const RiskAnalysisAnswerComponent: React.FC<{
           }
 
           // Clear form fields
-          setValue(`annotations.${questionId}`, undefined, { shouldDirty: true })
-          setValue(`answerIds.${questionId}`, undefined, { shouldDirty: true })
+          setValue(`annotations.${questionKey}`, undefined, { shouldDirty: true })
+          setValue(`answerIds.${questionKey}`, undefined, { shouldDirty: true })
           // Clear the upload input field
-          setValue(`__annotationUpload.${questionId}`, null, { shouldDirty: true })
+          setValue(`__annotationUpload.${questionKey}`, null, { shouldDirty: true })
           // Reset the document input state
           setShowDocInput(false)
 
@@ -221,7 +221,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{
     if (!doc) return
 
     try {
-      const existingAnswerId = watch(`answerIds.${questionId}`)
+      const existingAnswerId = watch(`answerIds.${questionKey}`)
 
       const documentPayload = {
         prettyName: doc.name,
@@ -237,9 +237,9 @@ export const RiskAnalysisAnswerComponent: React.FC<{
       // Update form with the uploaded document
       const currentDocs =
         (watch(
-          `annotations.${questionId}.docs`
+          `annotations.${questionKey}.docs`
         ) as RiskAnalysisTemplateAnswerAnnotationDocument[]) ?? []
-      setValue(`annotations.${questionId}.docs`, [...currentDocs, uploadedDoc], {
+      setValue(`annotations.${questionKey}.docs`, [...currentDocs, uploadedDoc], {
         shouldDirty: true,
       })
 
@@ -259,7 +259,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{
 
   const handleDocumentDownload = async (doc: EServiceDoc) => {
     try {
-      const existingAnswerId = watch(`answerIds.${questionId}`)
+      const existingAnswerId = watch(`answerIds.${questionKey}`)
 
       if (!existingAnswerId) {
         showToast(t('notifications.documentDownloadError'), 'error')
@@ -291,7 +291,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{
 
   const handleDelete = async (doc: EServiceDoc) => {
     try {
-      const existingAnswerId = watch(`answerIds.${questionId}`)
+      const existingAnswerId = watch(`answerIds.${questionKey}`)
 
       if (existingAnswerId) {
         // Delete document from backend
@@ -305,10 +305,10 @@ export const RiskAnalysisAnswerComponent: React.FC<{
       // Update form by removing the document
       const currentDocs =
         (watch(
-          `annotations.${questionId}.docs`
+          `annotations.${questionKey}.docs`
         ) as RiskAnalysisTemplateAnswerAnnotationDocument[]) ?? []
       setValue(
-        `annotations.${questionId}.docs`,
+        `annotations.${questionKey}.docs`,
         currentDocs.filter((d) => d.id !== doc.id),
         { shouldDirty: true }
       )
@@ -325,9 +325,9 @@ export const RiskAnalysisAnswerComponent: React.FC<{
     <>
       {questionType !== 'text' && (
         <RHFSwitch
-          id={questionId}
+          id={questionKey}
           label={t('switchLabel')}
-          name={`assignToTemplateUsers.${questionId}`}
+          name={`assignToTemplateUsers.${questionKey}`}
           disabled={false}
           sx={{ my: 2, ml: 2 }}
         />

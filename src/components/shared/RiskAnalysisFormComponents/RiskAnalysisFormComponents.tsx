@@ -26,21 +26,24 @@ import { match } from 'ts-pattern'
  * */
 type RiskAnalysisFormComponentsProps = {
   questions: RiskAnalysisQuestions
+  handlesPersonalData?: boolean
 }
 
 export const RiskAnalysisFormComponents: React.FC<RiskAnalysisFormComponentsProps> = ({
   questions,
+  handlesPersonalData
 }) => {
   return Object.entries(questions).map(([questionId, question]) => (
-    <RiskAnalysisQuestion key={questionId} question={question} />
+    <RiskAnalysisQuestion key={questionId} question={question} handlesPersonalData={handlesPersonalData} />
   ))
 }
 
-function RiskAnalysisQuestion({ question }: { question: FormConfigQuestion }) {
+function RiskAnalysisQuestion({ question, handlesPersonalData }: { question: FormConfigQuestion, handlesPersonalData?: boolean }) {
   const lang = useCurrentLanguage()
   const answers = useFormContext<{ answers: RiskAnalysisAnswers }>().watch('answers')
 
   const { t } = useTranslation('shared-components')
+  const { t: tPurposeTemplate } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step3' })
 
   const maxLength = question?.validation?.maxLength
 
@@ -53,7 +56,6 @@ function RiskAnalysisQuestion({ question }: { question: FormConfigQuestion }) {
     : undefined
 
   const commonProps = {
-    questionId: question.id,
     id: question.id,
     label,
     infoLabel,
@@ -65,13 +67,14 @@ function RiskAnalysisQuestion({ question }: { question: FormConfigQuestion }) {
 
   const isAssignedToTemplateUsersSwitch = useWatch({
     control,
-    name: `assignToTemplateUsers.${question.id}`,
+    name: `assignToTemplateUsers.${questionKey}`,
   })
 
   return match(question.visualType)
     .with('text', () => (
       <RiskAnalysisTextField
         {...commonProps}
+        questionKey={questionKey}
         inputProps={{ maxLength }}
         rules={isAssignedToTemplateUsersSwitch ? { required: false } : { required: true }}
         questionType={question.visualType}
@@ -80,6 +83,7 @@ function RiskAnalysisQuestion({ question }: { question: FormConfigQuestion }) {
     .with('select-one', () => (
       <RiskAnalysisSelect
         {...commonProps}
+        questionKey={questionKey}
         options={inputOptions}
         emptyLabel={t('riskAnalysis.formComponents.emptyLabel')}
         rules={{ required: true }}
@@ -88,6 +92,7 @@ function RiskAnalysisQuestion({ question }: { question: FormConfigQuestion }) {
     .with('checkbox', () => (
       <RiskAnalysisCheckboxGroup
         {...commonProps}
+        questionKey={questionKey}
         options={inputOptions}
         rules={{
           validate: (value) =>
@@ -96,12 +101,34 @@ function RiskAnalysisQuestion({ question }: { question: FormConfigQuestion }) {
         }}
       />
     ))
-    .with('radio', () => (
-      <RiskAnalysisRadioGroup {...commonProps} options={inputOptions} rules={{ required: true }} />
-    ))
+    .with('radio', () => {
+      const radioRules = {
+        required: true,
+        validate: (value: string) => {
+          // Special validation for usesPersonalData question
+          if (questionKey === 'usesPersonalData' && handlesPersonalData !== undefined) {
+            const selectedValue = value === 'YES' ? true : false
+            if (selectedValue !== handlesPersonalData) {
+              return tPurposeTemplate('validation.usesPersonalDataMismatch')
+            }
+          }
+          return true
+        },
+      }
+
+      return (
+        <RiskAnalysisRadioGroup
+          {...commonProps}
+          questionKey={questionKey}
+          options={inputOptions}
+          rules={radioRules}
+        />
+      )
+    })
     .with('switch', () => (
       <RiskAnalysisSwitch
         {...commonProps}
+        questionKey={questionKey}
         options={inputOptions}
         rules={{
           validate: (value) =>

@@ -1,9 +1,12 @@
 import type {
   CatalogEService,
   CompactEService,
+  GetCatalogPurposeTemplatesParams,
   PurposeEServiceSeed,
+  PurposeFromTemplateSeed,
   PurposeSeed,
   RiskAnalysisForm,
+  TenantKind,
 } from '@/api/api.generatedTypes'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { SectionContainer } from '@/components/layout/containers'
@@ -20,6 +23,8 @@ import { EServiceQueries } from '@/api/eservice'
 import { useQuery } from '@tanstack/react-query'
 import { PurposeCreateConsumerAutocomplete } from './PurposeCreateConsumerAutocomplete'
 import { EServiceRiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
+import { PurposeCreatePurposeTemplateSection } from './PurposeCreatePurposeTemplateSection/PurposeCreatePurposeTemplateSection'
+import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 
 export type PurposeCreateFormValues = {
   consumerId: string
@@ -27,6 +32,9 @@ export type PurposeCreateFormValues = {
   useTemplate: boolean
   templateId: string | null
   providerRiskAnalysisId: string | null
+  usePurposeTemplate: boolean | null
+  purposeTemplateId: string | null
+  tenantKind?: TenantKind
 }
 
 export const PurposeCreateForm: React.FC = () => {
@@ -36,6 +44,8 @@ export const PurposeCreateForm: React.FC = () => {
   const { mutate: createPurposeDraft } = PurposeMutations.useCreateDraft()
   const { mutate: createPurposeDraftForReceiveEService } =
     PurposeMutations.useCreateDraftForReceiveEService()
+  const { mutate: createPurposeDraftFromPurposeTemplate } =
+    PurposeMutations.useCreateDraftFromPurposeTemplate()
 
   const formMethods = useForm<PurposeCreateFormValues>({
     defaultValues: {
@@ -44,12 +54,17 @@ export const PurposeCreateForm: React.FC = () => {
       useTemplate: false,
       templateId: null,
       providerRiskAnalysisId: null,
+      usePurposeTemplate: false,
+      tenantKind: undefined,
     },
   })
 
   const selectedEService = formMethods.watch('eservice')
+  const selectedTenantKind = formMethods.watch('tenantKind')
   const purposeId = formMethods.watch('templateId')
   const useTemplate = formMethods.watch('useTemplate')
+  const usePurposeTemplate = formMethods.watch('usePurposeTemplate')
+  const purposeTemplateId = formMethods.watch('purposeTemplateId')
 
   const selectedProviderRiskAnalysisId = formMethods.watch('providerRiskAnalysisId')
 
@@ -79,6 +94,15 @@ export const PurposeCreateForm: React.FC = () => {
       eservices.find((eservice) => eservice.id === selectedEService?.id)?.activeDescriptor?.id,
   })
 
+  const queryParams: GetCatalogPurposeTemplatesParams = {
+    limit: 50,
+    offset: 0,
+  }
+
+  const { data: purposeTemplates, isLoading: isLoadingPurposeTemplates } = useQuery({
+    ...PurposeTemplateQueries.getCatalogPurposeTemplates(queryParams),
+  })
+
   const { data: selectedEServiceDescriptor } = useQuery({
     ...EServiceQueries.getDescriptorCatalog(
       selectedEService?.id as string,
@@ -88,6 +112,9 @@ export const PurposeCreateForm: React.FC = () => {
   })
 
   const selectedEServiceMode = selectedEServiceDescriptor?.eservice.mode
+  const handlesPersonalData = selectedEServiceDescriptor?.eservice.personalData
+  const isPurposeTemplateCreateSectionVisible =
+    !isLoadingPurposeTemplates && purposeTemplates?.results && purposeTemplates.results.length > 0
 
   // const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
 
@@ -115,6 +142,26 @@ export const PurposeCreateForm: React.FC = () => {
       riskAnalysisForm = purpose.riskAnalysisForm
     }
 
+    const payloadCreatePurposeDraftFromTemplate: PurposeFromTemplateSeed = {
+      eserviceId: eservice.id,
+      consumerId: consumerId,
+      title,
+      dailyCalls: 1,
+    }
+
+    if (usePurposeTemplate && purposeTemplateId) {
+      createPurposeDraftFromPurposeTemplate(
+        { ...payloadCreatePurposeDraftFromTemplate, purposeTemplateId },
+        {
+          onSuccess(data) {
+            const purposeId = data.id
+            navigate('NOT_FOUND') //TODO: replace with correct route
+          },
+        }
+      )
+      return
+    }
+
     if (selectedEServiceMode === 'RECEIVE') {
       if (!providerRiskAnalysisId) return
 
@@ -132,7 +179,9 @@ export const PurposeCreateForm: React.FC = () => {
       createPurposeDraftForReceiveEService(payloadCreatePurposeDraft, {
         onSuccess(data) {
           const purposeId = data.id
-          navigate('SUBSCRIBE_PURPOSE_EDIT', { params: { purposeId } })
+          navigate('SUBSCRIBE_PURPOSE_EDIT', {
+            params: { purposeId },
+          })
         },
       })
     }
@@ -152,7 +201,9 @@ export const PurposeCreateForm: React.FC = () => {
       createPurposeDraft(payloadCreatePurposeDraft, {
         onSuccess(data) {
           const purposeId = data.id
-          navigate('SUBSCRIBE_PURPOSE_EDIT', { params: { purposeId } })
+          navigate('SUBSCRIBE_PURPOSE_EDIT', {
+            params: { purposeId },
+          })
         },
       })
     }
@@ -189,6 +240,20 @@ export const PurposeCreateForm: React.FC = () => {
                   />
                 </>
               )}
+            </Stack>
+          </SectionContainer>
+        )}
+        {isPurposeTemplateCreateSectionVisible && (
+          <SectionContainer
+            title={t('create.purposeTemplateField.title')}
+            description={t('create.purposeTemplateField.description')}
+          >
+            <Stack spacing={3}>
+              <PurposeCreatePurposeTemplateSection
+                eserviceId={selectedEService?.id as string}
+                tenantKind={selectedTenantKind}
+                handlesPersonalData={handlesPersonalData}
+              />
             </Stack>
           </SectionContainer>
         )}

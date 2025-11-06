@@ -61,6 +61,8 @@ import ConsumerEServiceTemplateDetailsPage from '@/pages/ConsumerEServiceTemplat
 import ConsumerPurposeTemplateListPage from '@/pages/ConsumerPurposeTemplateListPage/ConsumerPurposeTemplateList.page'
 import ConsumerPurposeTemplateCatalogPage from '@/pages/ConsumerPurposeTemplateCatalogPage/ConsumerPurposeTemplateCatalog.page'
 import ConsumerPurposeFromTemplateEditPage from '@/pages/ConsumerPurposeFromTemplateEditPage/ConsumerPurposeFromTemplateEdit.page'
+import { ConsumerPurposeTemplateDetailsPage } from '@/pages/ConsumerPurposeTemplateDetailsPage'
+import ConsumerPurposeTemplateCatalogDetailsPage from '@/pages/ConsumerPurposeTemplateCatalogDetailsPage/ConsumerPurposeTemplateCatalogDetailsPage'
 import { ConsumerPurposeTemplateSummaryPage } from '@/pages/ConsumerPurposeTemplateSummaryPage'
 import { ConsumerPurposeTemplateEditPage } from '@/pages/ConsumerPurposeTemplateEditPage'
 
@@ -588,6 +590,22 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG',
     path: '/fruizione/catalogo-template-finalita',
     element: <ConsumerPurposeTemplateCatalogPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS',
+    path: 'fruizione/template-finalita/:purposeTemplateId',
+    element: <ConsumerPurposeTemplateDetailsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS',
+    path: 'fruizione/catalogo-template-finalita/:purposeTemplateId',
+    element: <ConsumerPurposeTemplateCatalogDetailsPage />,
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'api', 'support'],
