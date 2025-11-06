@@ -14,6 +14,7 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import { Link } from '@/router'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { Stack } from '@mui/system'
+import { TenantHooks } from '@/api/tenant'
 
 type PurposeCreatePurposeTemplateAutocompleteProps = {
   eserviceId: string
@@ -29,6 +30,7 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
     keyPrefix: 'create.purposeTemplateField.usePurposeTemplateSwitch.selectPurposeTemplate',
   })
   const selectedPurposeTemplateRef = React.useRef<CatalogPurposeTemplate | undefined>(undefined)
+  const { data: tenant } = TenantHooks.useGetActiveUserParty()
 
   const [purposeTemplateAutocompleteTextInput, setPurposeTemplateAutocompleteTextInput] =
     useAutocompleteTextInput()
@@ -59,7 +61,7 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
     q: getQ(),
     limit: 50,
     offset: 0,
-    targetTenantKind: tenantKind,
+    targetTenantKind: tenant.kind !== 'PA' ? 'PRIVATE' : tenantKind, //we pass PRIVATE if the tenant is not PA because gsp scp and private have the same RA and in create draft we pass private for not PA tenants
     handlesPersonalData,
     eserviceIds: showOnlyLinkedPurposeTemplates ? [eserviceId] : [],
   }
