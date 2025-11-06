@@ -104,7 +104,7 @@ const PurposeFromTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ ba
   const handleSubmit = (answers: Record<string, string[]>) => {
     const updatePurposePayload: PatchPurposeUpdateFromTemplateContent = {
       riskAnalysisForm: {
-        version: '3.1',
+        version: purpose.riskAnalysisForm?.version ?? riskAnalysisVersion,
         answers,
       },
     }
