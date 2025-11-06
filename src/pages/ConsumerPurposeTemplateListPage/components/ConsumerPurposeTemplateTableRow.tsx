@@ -8,7 +8,6 @@ import { Box } from '@mui/system'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import type { CreatorPurposeTemplate } from '@/api/api.generatedTypes'
-import { use } from 'i18next'
 
 export const ConsumerPurposeTemplateTableRow: React.FC<{
   purposeTemplate: CreatorPurposeTemplate
