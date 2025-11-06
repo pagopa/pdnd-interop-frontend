@@ -607,6 +607,8 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT',
     path: 'fruizione/template-finalita/:purposeTemplateId/modifica',
     element: <ConsumerPurposeTemplateEditPage />,
