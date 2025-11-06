@@ -1,5 +1,14 @@
 import { SectionContainer } from '@/components/layout/containers'
-import { Box, Chip, FormControl, FormHelperText, FormLabel, Stack, Typography } from '@mui/material'
+import {
+  Box,
+  Chip,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/material'
 import React from 'react'
 import { RiskAnalysisAnswerComponent } from '@/pages/ConsumerPurposeTemplateEditPage/components/PurposeTemplateEditStepRiskAnalysis/RiskAnalysisForm/RiskAnalysisAnswerComponent'
 import { RiskAnalysisReadAnnotationsComponent } from '@/pages/ConsumerPurposeFromTemplateEditPage/components/PurposeFromTemplateEditStepRiskAnalysis/RiskAnalysisReadAnnotationsComponent'
@@ -43,6 +52,9 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
   isAssignedToTemplateUsersSwitch,
 }) => {
   const { t } = useTranslation('common')
+  const { t: tShared } = useTranslation('shared-components', {
+    keyPrefix: 'purposeTemplateRiskAnalysisInfoSummary',
+  })
   return (
     <SectionContainer component={isInputGroup ? 'fieldset' : 'div'}>
       <SectionContainer
@@ -63,16 +75,18 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
                 </FormLabel>
               </Box>
               {isFromPurposeTemplate && type === 'consumer' && !isAssignedToTemplateUsersSwitch && (
-                <Chip
-                  size="small"
-                  label={t('notEditableLabel')}
-                  color="default"
-                  sx={{
-                    borderRadius: 1,
-                    flexShrink: 0,
-                    whiteSpace: 'nowrap',
-                  }}
-                />
+                <Tooltip title={tShared('notEditableTooltip')}>
+                  <Chip
+                    size="small"
+                    label={t('notEditableLabel')}
+                    color="default"
+                    sx={{
+                      borderRadius: 1,
+                      flexShrink: 0,
+                      whiteSpace: 'nowrap',
+                    }}
+                  />
+                </Tooltip>
               )}
             </Box>
             {infoLabel && (

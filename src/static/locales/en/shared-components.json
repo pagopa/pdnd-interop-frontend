@@ -386,7 +386,8 @@
       "title": "Annotations provided by the creator"
     },
     "answerLabel": "Answer: ",
-    "notEditableLabel": "Not editable"
+    "notEditableLabel": "Not editable",
+    "notEditableTooltip": "The creator of the template does not allow the modification of this field"
   },
   "routeLabels": {
     "LOGOUT": "Logout",
