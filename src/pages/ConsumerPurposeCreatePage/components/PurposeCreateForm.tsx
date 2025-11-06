@@ -155,7 +155,7 @@ export const PurposeCreateForm: React.FC = () => {
         {
           onSuccess(data) {
             const purposeId = data.id
-            navigate('NOT_FOUND') //TODO: replace with correct route
+            navigate('NOT_FOUND') //TODO: replace with correct route create purpose from template
           },
         }
       )

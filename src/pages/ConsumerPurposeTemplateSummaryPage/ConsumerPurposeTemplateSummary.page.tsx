@@ -56,13 +56,11 @@ const ConsumerPurposeTemplateTemplateSummaryPage: React.FC = () => {
       { id: purposeTemplateId },
       {
         onSuccess() {
-          //TODO REMOVE COMMENT WHEN READY, REMOVE NAVIGATE TO NOT_FOUND
-          //   navigate('SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS', {
-          //     params: {
-          //       purposeTemplateId,
-          //     },
-          //   })
-          navigate('NOT_FOUND')
+          navigate('SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS', {
+            params: {
+              purposeTemplateId,
+            },
+          })
         },
       }
     )
