@@ -60,7 +60,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
   // For freeText questions with suggestedValues in consumer mode, check error on suggestedValueConsumer field
   const suggestedValueConsumerError = (
     formState.errors as Record<string, Record<string, { message?: string }>>
-  ).suggestedValueConsumer?.[questionId]?.message as string | undefined
+  ).suggestedValueConsumer?.[questionKey]?.message as string | undefined
   const displayError =
     suggestedValues.length > 0 && type === 'consumer' ? suggestedValueConsumerError || error : error
 

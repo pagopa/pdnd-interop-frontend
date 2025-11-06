@@ -58,9 +58,10 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
     helperText,
   })
 
-  const conditionalRules = isAssignedToTemplateUsersSwitch && type === 'creator'
-    ? { required: false, validate: rules?.validate ? rules.validate : undefined }
-    : mapValidationErrorMessages(rules, t)
+  const conditionalRules =
+    isAssignedToTemplateUsersSwitch && type === 'creator'
+      ? { required: false, validate: rules?.validate ? rules.validate : undefined }
+      : mapValidationErrorMessages(rules, t)
 
   return (
     <RiskAnalysisInputWrapper

@@ -129,12 +129,12 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
           {type === 'creator' && questionKey !== 'usesPersonalData' && (
             <RiskAnalysisAnswerComponent
               question={label}
-              questionId={questionId as string}
+              questionKey={questionKey}
               questionType={questionType as string}
             />
           )}
           {type === 'consumer' && (
-            <RiskAnalysisReadAnnotationsComponent questionId={questionId as string} />
+            <RiskAnalysisReadAnnotationsComponent questionKey={questionKey} />
           )}
         </>
       )}

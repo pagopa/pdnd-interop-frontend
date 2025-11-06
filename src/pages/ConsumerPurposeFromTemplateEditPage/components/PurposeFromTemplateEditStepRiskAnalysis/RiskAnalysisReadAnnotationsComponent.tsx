@@ -8,8 +8,8 @@ import { useFormContext } from 'react-hook-form'
 import { AnnotationDetails } from '@/components/shared/PurposeTemplate/AnnotationDetails'
 
 export const RiskAnalysisReadAnnotationsComponent: React.FC<{
-  questionId: string
-}> = ({ questionId }) => {
+  questionKey: string
+}> = ({ questionKey }) => {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'purposeTemplateRiskAnalysisInfoSummary',
   })
@@ -18,10 +18,10 @@ export const RiskAnalysisReadAnnotationsComponent: React.FC<{
   const { watch } = useFormContext()
 
   const annotation: RiskAnalysisTemplateAnswerAnnotation | undefined = watch(
-    `annotations.${questionId}`
+    `annotations.${questionKey}`
   )
 
-  const answerId: string | undefined = watch(`answerIds.${questionId}`)
+  const answerId: string | undefined = watch(`answerIds.${questionKey}`)
 
   const [hasExpandedOnce, setHasExpandedOnce] = React.useState(false)
   const panelContentId = React.useId()

@@ -31,14 +31,27 @@ type RiskAnalysisFormComponentsProps = {
 
 export const RiskAnalysisFormComponents: React.FC<RiskAnalysisFormComponentsProps> = ({
   questions,
-  handlesPersonalData
+  handlesPersonalData,
 }) => {
-  return Object.entries(questions).map(([questionId, question]) => (
-    <RiskAnalysisQuestion key={questionId} question={question} handlesPersonalData={handlesPersonalData} />
+  return Object.entries(questions).map(([questionKey, question]) => (
+    <RiskAnalysisQuestion
+      key={questionKey}
+      questionKey={questionKey}
+      question={question}
+      handlesPersonalData={handlesPersonalData}
+    />
   ))
 }
 
-function RiskAnalysisQuestion({ question, handlesPersonalData }: { question: FormConfigQuestion, handlesPersonalData?: boolean }) {
+function RiskAnalysisQuestion({
+  questionKey,
+  question,
+  handlesPersonalData,
+}: {
+  questionKey: string
+  question: FormConfigQuestion
+  handlesPersonalData?: boolean
+}) {
   const lang = useCurrentLanguage()
   const answers = useFormContext<{ answers: RiskAnalysisAnswers }>().watch('answers')
 
