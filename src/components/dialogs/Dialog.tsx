@@ -25,6 +25,7 @@ import type {
   DialogRejectDelegatedVersionDraftProps,
   DialogRevokeDelegationProps,
   DialogTenantKindEserviceTemplateProps,
+  DialogTenantKindPurposeTemplateProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -45,6 +46,7 @@ import { DialogRevokeDelegation } from './DialogRevokeDelegation'
 import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersionDraft'
 import { DialogCreateAgreementDraft } from './DialogCreateAgreementDraft/DialogCreateAgreementDraft'
 import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemplate'
+import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTemplate'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -66,7 +68,8 @@ function match<T>(
   onCreateAgreementDraft: (props: DialogCreateAgreementDraftProps) => T,
   onRevokeDelegation: (props: DialogRevokeDelegationProps) => T,
   onRejectDelegatedVersionDraft: (props: DialogRejectDelegatedVersionDraftProps) => T,
-  onDialogTenantKindEserviceTemplate: (props: DialogTenantKindEserviceTemplateProps) => T
+  onDialogTenantKindEserviceTemplate: (props: DialogTenantKindEserviceTemplateProps) => T,
+  onDialogTenantKindPurposeTemplate: (props: DialogTenantKindPurposeTemplateProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -108,8 +111,10 @@ function match<T>(
         return onRejectDelegatedVersionDraft(props)
       case 'createAgreementDraft':
         return onCreateAgreementDraft(props)
-      case 'tenantKind':
+      case 'tenantKindEServiceTemplate':
         return onDialogTenantKindEserviceTemplate(props)
+      case 'tenantKindPurposeTemplate':
+        return onDialogTenantKindPurposeTemplate(props)
     }
   }
 }
@@ -134,7 +139,8 @@ const _Dialog = match(
   (props) => <DialogCreateAgreementDraft {...props} />,
   (props) => <DialogRevokeDelegation {...props} />,
   (props) => <DialogRejectDelegatedVersionDraft {...props} />,
-  (props) => <DialogTenantKindEserviceTemplate {...props} />
+  (props) => <DialogTenantKindEserviceTemplate {...props} />,
+  (props) => <DialogTenantKindPurposeTemplate {...props} />
 )
 
 export const Dialog: React.FC = () => {

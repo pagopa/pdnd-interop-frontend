@@ -11,7 +11,7 @@
       "statusField": {
         "label": "Filtra per stato",
         "optionLabels": {
-          "ACTIVE": "Attivo",
+          "PUBLISHED": "Attivo",
           "DRAFT": "In bozza",
           "SUSPENDED": "Sospeso",
           "ARCHIVED": "Archiviato"
@@ -131,15 +131,25 @@
       "generalInformationSection": {
         "title": "Informazioni generali",
         "descriptionTitle": "Descrizione",
-        "purposeTemplateName": "Nome template di finalità",
+        "purposeTemplateName": "Nome finalità",
+        "handlesPersonalDataLabel": "Tratta dati personali",
+        "targetDescription": "A chi è rivolto",
+        "handlesPersonalData": {
+          "value": {
+            "true": "Sì",
+            "false": "No"
+          }
+        },
         "purposeTemplateDescription": "Descrizione",
         "thresholdTitle": "Stime di carico",
-        "thresholdLabel": "Soglia giornaliera chiamate API suggerite"
+        "thresholdLabel": "Il tuo piano suggerito",
+        "dailyCallsLabel": "chiamate API/giorno"
       },
       "suggestedEServicesSection": {
         "title": "E-service suggeriti",
         "subtitle": "E-service collegati",
-        "providedBy": "erogato da"
+        "providedBy": "erogato da",
+        "noLinkedEservices": "Non hai indicato e-service associati a questo template."
       },
       "riskAnalysisSection": {
         "title": "Analisi del rischio"

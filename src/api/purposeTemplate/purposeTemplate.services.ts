@@ -1,10 +1,10 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type { GetConsumerPurposeTemplatesParams } from './mockedResponses'
-import { mockCatalogPurposeTemplates, purposeTemplatesListMock } from './mockedResponses'
 import type {
   CatalogPurposeTemplates,
   CreatedResource,
+  CreatorPurposeTemplates,
   EServiceDescriptorPurposeTemplate,
   EServiceDescriptorsPurposeTemplate,
   GetCatalogPurposeTemplatesParams,
@@ -23,12 +23,11 @@ import type {
 } from '../api.generatedTypes'
 
 async function getConsumerPurposeTemplatesList(params: GetConsumerPurposeTemplatesParams) {
-  //   const response = await axiosInstance.get<ConsumerPurposeTemplates>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/creators/purposeTemplates`,
-  //     { params }
-  //   )
-  //   return response.data
-  return purposeTemplatesListMock
+  const response = await axiosInstance.get<CreatorPurposeTemplates>(
+    `${BACKEND_FOR_FRONTEND_URL}/creators/purposeTemplates`,
+    { params }
+  )
+  return response.data
 }
 
 async function getEservicesLinkedToPurposeTemplatesList(
@@ -192,9 +191,10 @@ async function addDocumentToAnnotation({
 }
 
 async function publishDraft({ id }: { id: string }) {
-  return await axiosInstance.post<void>(
+  const response = await axiosInstance.post<PurposeTemplate>(
     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/publish`
   )
+  return response.data
 }
 
 async function deleteDraft({ id }: { id: string }) {
