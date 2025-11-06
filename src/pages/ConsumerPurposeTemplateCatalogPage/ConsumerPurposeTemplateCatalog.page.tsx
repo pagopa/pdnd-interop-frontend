@@ -8,11 +8,7 @@ import {
   useFilters,
   usePagination,
 } from '@pagopa/interop-fe-commons'
-import type {
-  CatalogEService,
-  CatalogPurposeTemplate,
-  GetCatalogPurposeTemplatesParams,
-} from '@/api/api.generatedTypes'
+import type { CatalogEService, GetCatalogPurposeTemplatesParams } from '@/api/api.generatedTypes'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import {
@@ -30,21 +26,26 @@ const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
 
   const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = useAutocompleteTextInput()
 
-  const { data: templateCreatorsOptions = [] } = useQuery({
+  const { data: templateCreators = [] } = useQuery({
     ...PurposeTemplateQueries.getCatalogPurposeTemplates({
       offset: 0,
       limit: 50,
-      q: purposeTemplateCreatorsAutocompleteInput
-        ? purposeTemplateCreatorsAutocompleteInput
-        : undefined,
+      q: purposeTemplateCreatorsAutocompleteInput,
     }),
     placeholderData: keepPreviousData,
     select: ({ results }) =>
-      results.map((purposeTemplate: CatalogPurposeTemplate) => ({
+      results.map((purposeTemplate) => ({
         label: purposeTemplate.creator.name,
         value: purposeTemplate.creator.id,
       })),
   })
+
+  const templateCreatorsOptions = templateCreators //TEMP? deduplicate creators there isn't a dedicated endpoint to retrieve them
+    .map((creator) => ({
+      label: creator.label,
+      value: creator.value,
+    }))
+    .filter((value, index, self) => index === self.findIndex((t) => t.value === value.value))
 
   const { data: eservicesOptions = [] } = useQuery({
     ...EServiceQueries.getCatalogList({
