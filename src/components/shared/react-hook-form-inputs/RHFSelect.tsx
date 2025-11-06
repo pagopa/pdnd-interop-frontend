@@ -44,12 +44,13 @@ export const RHFSelect: React.FC<RHFSelectProps> = ({
     <Controller
       name={name}
       rules={conditionalRules}
-      render={({ field: { ref, onChange, ...fieldProps } }) => (
+      render={({ field: { ref, onChange, value, ...fieldProps } }) => (
         <FormControl fullWidth error={!!error} size={size} disabled={disabled}>
           <InputLabel id={labelId}>{label}</InputLabel>
           <MUISelect
             {...props}
             {...fieldProps}
+            value={value ?? ''}
             labelId={labelId}
             id={name}
             label={label}
@@ -80,4 +81,3 @@ export const RHFSelect: React.FC<RHFSelectProps> = ({
     />
   )
 }
-

@@ -72,10 +72,11 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
       <Controller
         name={name}
         rules={conditionalRules}
-        render={({ field: { ref, onChange, ...fieldProps } }) => (
+        render={({ field: { ref, onChange, value, ...fieldProps } }) => (
           <MUISelect
             {...props}
             {...fieldProps}
+            value={value ?? ''}
             inputProps={{
               ...props.inputProps,
               ...accessibilityProps,
