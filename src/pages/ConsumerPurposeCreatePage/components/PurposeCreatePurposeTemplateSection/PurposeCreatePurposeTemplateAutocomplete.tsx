@@ -95,10 +95,10 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
       {selectedPurposeTemplateRef.current && (
         <ButtonNaked
           component={Link}
-          to="NOT_FOUND" //TODO: replace with purpose template details route when available
+          to="SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS"
+          params={{ purposeTemplateId: selectedPurposeTemplateRef.current.id }}
           color="primary"
           target="_blank"
-          params={undefined}
           endIcon={<OpenInNewIcon />}
           sx={{ alignSelf: 'flex-start', fontWeight: 700 }}
         >

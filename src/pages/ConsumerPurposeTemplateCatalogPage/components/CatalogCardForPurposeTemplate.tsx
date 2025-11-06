@@ -15,10 +15,7 @@ import { useTranslation } from 'react-i18next'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import type { TenantKind } from '@/api/api.generatedTypes'
 
-type CatalogRoutesKeys = Extract<
-  RouteKey,
-  'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS' | 'NOT_FOUND' //TODO: remove NOT_FOUND
->
+type CatalogRoutesKeys = Extract<RouteKey, 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS'>
 type CatalogCardForPurposeTemplateRouteParams<TRouteKey extends RouteKey> = ReturnType<
   typeof useParams<TRouteKey>
 >

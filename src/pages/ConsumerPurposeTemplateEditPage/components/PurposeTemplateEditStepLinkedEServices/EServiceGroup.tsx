@@ -73,7 +73,7 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
           {isEServiceAutocompleteShown ? (
             <EServiceAutocomplete
               onAddEService={handleAddEServiceToGroup}
-              alreadySelectedEServiceIds={group.map((e) => e.id)} //TODO
+              alreadySelectedEServiceIds={group.map((e) => e.id)}
               purposeTemplate={purposeTemplate}
             />
           ) : (
