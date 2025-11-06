@@ -15,7 +15,7 @@ import {
   ConsumerPurposeTemplateTable,
   ConsumerPurposeTemplateTableSkeleton,
 } from './components/ConsumerPurposeTemplateTable'
-import type { GetConsumerPurposeTemplatesParams } from '@/api/purposeTemplate/mockedResponses'
+import type { GetConsumerPurposeTemplatesParams } from '@/api/purposeTemplate/__mocks__/mockedResponses'
 import type { CreatorPurposeTemplates } from '@/api/api.generatedTypes'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { useDialog } from '@/stores'

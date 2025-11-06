@@ -1,6 +1,6 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
-import type { GetConsumerPurposeTemplatesParams } from './mockedResponses'
+import type { GetConsumerPurposeTemplatesParams } from './__mocks__/mockedResponses'
 import type {
   CatalogPurposeTemplates,
   CreatedResource,

@@ -4,7 +4,7 @@ import type {
   TenantKind,
   EServiceDescriptorState,
   PurposeTemplateWithCompactCreator,
-} from '../api.generatedTypes'
+} from '../../api.generatedTypes'
 
 const createDocument = (
   id: string,

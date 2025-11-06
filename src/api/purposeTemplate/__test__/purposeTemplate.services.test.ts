@@ -1,5 +1,5 @@
 import { PurposeTemplateServices } from '../purposeTemplate.services'
-import type { GetConsumerPurposeTemplatesParams } from '../mockedResponses'
+import type { GetConsumerPurposeTemplatesParams } from '../__mocks__/mockedResponses'
 import type {
   GetCatalogPurposeTemplatesParams,
   LinkEServiceToPurposeTemplatePayload,
