@@ -137,7 +137,6 @@ export const RiskAnalysisAnswerComponent: React.FC<{
             editable: assignToTemplateUsers,
             annotation: {
               text: annotation.text,
-              docs: [], // Always empty array for this API
             },
             suggestedValues: suggestedValues,
           },

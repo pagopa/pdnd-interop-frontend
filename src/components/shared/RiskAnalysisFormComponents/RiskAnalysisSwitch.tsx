@@ -8,6 +8,8 @@ import type { ControllerProps } from 'react-hook-form/dist/types'
 import type { InputOption } from '@/types/common.types'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
+import { isRiskAnalysisQuestionDisabled } from '@/utils/common.utils'
+import { usePurposeCreateContext } from '../PurposeCreateContext'
 
 type RiskAnalysisSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   label: string
@@ -16,7 +18,6 @@ type RiskAnalysisSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   options: Array<InputOption>
   questionKey: string
   rules?: ControllerProps['rules']
-  isFromPurposeTemplate?: boolean
 }
 
 export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
@@ -26,10 +27,10 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
   options,
   questionKey,
   rules,
-  isFromPurposeTemplate,
   ...switchProps
 }) => {
   const { control } = useFormContext()
+  const { isFromPurposeTemplate, type } = usePurposeCreateContext()
 
   const isAssignedToTemplateUsersSwitch = useWatch({
     control,
@@ -49,9 +50,10 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
     helperText,
   })
 
-  const conditionalRules = isAssignedToTemplateUsersSwitch
-    ? { validate: () => true }
-    : mapValidationErrorMessages(rules, t)
+  const conditionalRules =
+    isAssignedToTemplateUsersSwitch && type === 'creator'
+      ? { validate: () => true }
+      : mapValidationErrorMessages(rules, t)
 
   return (
     <RiskAnalysisInputWrapper
@@ -62,6 +64,8 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
       {...ids}
       isFromPurposeTemplate={isFromPurposeTemplate}
       questionKey={questionKey}
+      type={type}
+      isAssignedToTemplateUsersSwitch={isAssignedToTemplateUsersSwitch}
     >
       <FormLabel sx={{ color: 'text.primary' }}>
         <Stack sx={{ mt: 2, mb: 1 }} direction="row" alignItems="center" spacing={1}>
@@ -81,7 +85,11 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
                 }}
                 checked={value === 'true'}
                 inputRef={ref}
-                disabled={isAssignedToTemplateUsersSwitch}
+                disabled={isRiskAnalysisQuestionDisabled(
+                  isFromPurposeTemplate,
+                  type,
+                  isAssignedToTemplateUsersSwitch
+                )}
               />
             )}
           />

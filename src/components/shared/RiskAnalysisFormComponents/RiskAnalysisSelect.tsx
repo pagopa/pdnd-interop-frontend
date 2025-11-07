@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
+import { isRiskAnalysisQuestionDisabled } from '@/utils/common.utils'
+import { usePurposeCreateContext } from '../PurposeCreateContext'
 
 export type RiskAnalysisSelectProps = Omit<MUISelectProps, 'onChange' | 'label'> & {
   questionKey: string
@@ -16,7 +18,6 @@ export type RiskAnalysisSelectProps = Omit<MUISelectProps, 'onChange' | 'label'>
   emptyLabel?: string
   options: Array<InputOption>
   rules?: ControllerProps['rules']
-  isFromPurposeTemplate?: boolean
 }
 
 export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
@@ -27,10 +28,10 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
   helperText,
   emptyLabel,
   rules,
-  isFromPurposeTemplate,
   ...props
 }) => {
   const { control } = useFormContext()
+  const { isFromPurposeTemplate, type } = usePurposeCreateContext()
 
   const isAssignedToTemplateUsersSwitch = useWatch({
     control,
@@ -51,9 +52,10 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
     helperText,
   })
 
-  const conditionalRules = isAssignedToTemplateUsersSwitch
-    ? { required: false }
-    : mapValidationErrorMessages(rules, t)
+  const conditionalRules =
+    isAssignedToTemplateUsersSwitch && type === 'creator'
+      ? { required: false }
+      : mapValidationErrorMessages(rules, t)
 
   return (
     <RiskAnalysisInputWrapper
@@ -64,14 +66,17 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
       {...ids}
       isFromPurposeTemplate={isFromPurposeTemplate}
       questionKey={questionKey}
+      type={type}
+      isAssignedToTemplateUsersSwitch={isAssignedToTemplateUsersSwitch}
     >
       <Controller
         name={name}
         rules={conditionalRules}
-        render={({ field: { ref, onChange, ...fieldProps } }) => (
+        render={({ field: { ref, onChange, value, ...fieldProps } }) => (
           <MUISelect
             {...props}
             {...fieldProps}
+            value={value ?? ''}
             inputProps={{
               ...props.inputProps,
               ...accessibilityProps,
@@ -80,7 +85,11 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
               onChange(e)
             }}
             inputRef={ref}
-            disabled={isAssignedToTemplateUsersSwitch}
+            disabled={isRiskAnalysisQuestionDisabled(
+              isFromPurposeTemplate,
+              type,
+              isAssignedToTemplateUsersSwitch
+            )}
           >
             {options.length > 0 ? (
               options.map((o, i) => (

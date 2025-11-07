@@ -7,6 +7,7 @@ import type { StepperStep } from '@/types/common.types'
 import { PurposeTemplateEditStepGeneral } from './components/PurposeTemplateEditStepGeneral/PurposeTemplateEditStepGeneral'
 import { PurposeTemplateEditLinkedEService } from './components/PurposeTemplateEditStepLinkedEServices/PurposeTemplateEditLinkedEService'
 import { PurposeTemplateEditStepRiskAnalysis } from './components/PurposeTemplateEditStepRiskAnalysis/PurposeTemplateEditRiskAnalysisForm'
+import { PurposeCreateContextProvider } from '@/components/shared/PurposeCreateContext'
 
 const ConsumerPurposeTemplateEditPage: React.FC = () => {
   const { t } = useTranslation('purposeTemplate')
@@ -21,7 +22,7 @@ const ConsumerPurposeTemplateEditPage: React.FC = () => {
   const { component: Step } = steps[activeStep]
   const stepProps = { forward, back }
   return (
-    <>
+    <PurposeCreateContextProvider type="creator" isFromPurposeTemplate={true}>
       <PageContainer
         title={t('edit.emptyTitle')}
         backToAction={{
@@ -32,7 +33,7 @@ const ConsumerPurposeTemplateEditPage: React.FC = () => {
         <Stepper steps={steps} activeIndex={activeStep} />
         <Step {...stepProps} />
       </PageContainer>
-    </>
+    </PurposeCreateContextProvider>
   )
 }
 

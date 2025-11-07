@@ -133,6 +133,7 @@
         },
         "alertIncompatibleAnswer": "Assicurati che la risposta alla domanda “Indicare se si accede a dati personali (richiesto)” sia uguale a quella che hai indicato nelle informazioni generali. Se i dati non corrispondono ti verrà bloccata la pubblicazione."
       }
+      "suggestedAnswersLabel": "Risposte suggerite"
     },
     "summary": {
       "title": "Riepilogo",

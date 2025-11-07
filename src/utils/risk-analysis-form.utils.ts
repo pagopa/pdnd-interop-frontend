@@ -157,10 +157,17 @@ export function getRiskAnalysisDefaultValues(
   return riskAnalysisConfigQuestions.reduce<RiskAnalysisAnswers>((acc, question) => {
     const answer = backendAnswers?.[question.id] ?? question.defaultValue
 
-    acc[question.id] = question.visualType === 'checkbox' ? answer : answer[0]
+    if (question.visualType === 'checkbox') {
+      acc[question.id] = answer
+    } else {
+      acc[question.id] = answer?.[0]
+    }
 
-    if (!acc[question.id] && question.dataType === 'FREETEXT') {
-      acc[question.id] = ''
+    // Set default empty value for fields that don't have a value
+    if (!acc[question.id]) {
+      if (question.dataType === 'FREETEXT' || question.visualType === 'select-one') {
+        acc[question.id] = ''
+      }
     }
 
     return acc

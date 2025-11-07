@@ -1,7 +1,18 @@
 import { SectionContainer } from '@/components/layout/containers'
-import { FormControl, FormHelperText, FormLabel, Stack, Typography } from '@mui/material'
+import {
+  Box,
+  Chip,
+  FormControl,
+  FormHelperText,
+  FormLabel,
+  Stack,
+  Tooltip,
+  Typography,
+} from '@mui/material'
 import React from 'react'
 import { RiskAnalysisAnswerComponent } from '@/pages/ConsumerPurposeTemplateEditPage/components/PurposeTemplateEditStepRiskAnalysis/RiskAnalysisForm/RiskAnalysisAnswerComponent'
+import { RiskAnalysisReadAnnotationsComponent } from '@/pages/ConsumerPurposeFromTemplateEditPage/components/PurposeFromTemplateEditStepRiskAnalysis/RiskAnalysisReadAnnotationsComponent'
+import { useTranslation } from 'react-i18next'
 
 type RiskAnalysisInputWrapperProps = {
   children: React.ReactNode
@@ -18,6 +29,8 @@ type RiskAnalysisInputWrapperProps = {
   isFromPurposeTemplate?: boolean
   questionKey: string
   questionType?: string
+  type?: 'creator' | 'consumer'
+  isAssignedToTemplateUsersSwitch?: boolean
 }
 
 const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
@@ -35,7 +48,13 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
   isFromPurposeTemplate,
   questionKey,
   questionType,
+  type,
+  isAssignedToTemplateUsersSwitch,
 }) => {
+  const { t } = useTranslation('common')
+  const { t: tShared } = useTranslation('shared-components', {
+    keyPrefix: 'purposeTemplateRiskAnalysisInfoSummary',
+  })
   return (
     <SectionContainer component={isInputGroup ? 'fieldset' : 'div'}>
       <SectionContainer
@@ -44,14 +63,32 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
       >
         <FormControl fullWidth error={!!error}>
           <Stack spacing={1} sx={{ mb: 4 }}>
-            <FormLabel
-              htmlFor={name}
-              component={isInputGroup ? 'legend' : 'label'}
-              id={labelId}
-              sx={{ fontWeight: 600 }}
-            >
-              {label}
-            </FormLabel>
+            <Box display="flex" justifyContent="space-between" alignItems="flex-start" gap={2}>
+              <Box sx={{ flex: 1, minWidth: 0 }}>
+                <FormLabel
+                  htmlFor={name}
+                  component={isInputGroup ? 'legend' : 'label'}
+                  id={labelId}
+                  sx={{ fontWeight: 600 }}
+                >
+                  {label}
+                </FormLabel>
+              </Box>
+              {isFromPurposeTemplate && type === 'consumer' && !isAssignedToTemplateUsersSwitch && (
+                <Tooltip title={tShared('notEditableTooltip')}>
+                  <Chip
+                    size="small"
+                    label={t('notEditableLabel')}
+                    color="default"
+                    sx={{
+                      borderRadius: 1,
+                      flexShrink: 0,
+                      whiteSpace: 'nowrap',
+                    }}
+                  />
+                </Tooltip>
+              )}
+            </Box>
             {infoLabel && (
               <Typography
                 id={infoLabelId}
@@ -87,12 +124,19 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
           )}
         </FormControl>
       </SectionContainer>
-      {isFromPurposeTemplate && questionKey !== 'usesPersonalData' && (
-        <RiskAnalysisAnswerComponent
-          question={label}
-          questionKey={questionKey}
-          questionType={questionType as string}
-        />
+      {isFromPurposeTemplate && (
+        <>
+          {type === 'creator' && questionKey !== 'usesPersonalData' && (
+            <RiskAnalysisAnswerComponent
+              question={label}
+              questionKey={questionKey}
+              questionType={questionType as string}
+            />
+          )}
+          {type === 'consumer' && (
+            <RiskAnalysisReadAnnotationsComponent questionKey={questionKey} />
+          )}
+        </>
       )}
     </SectionContainer>
   )
