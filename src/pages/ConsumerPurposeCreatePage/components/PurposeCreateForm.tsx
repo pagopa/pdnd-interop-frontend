@@ -158,7 +158,12 @@ export const PurposeCreateForm: React.FC<PurposeCreateFormProps> = ({ purposeTem
         {
           onSuccess(data) {
             const purposeId = data.id
-            navigate('NOT_FOUND') //TODO: replace with correct route create purpose from template
+            const purposeTemplateIdParam = purposeTemplateId
+              ? purposeTemplateId
+              : purposeTemplateIdSelected
+            navigate('SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT', {
+              params: { purposeId, purposeTemplateId: purposeTemplateIdParam },
+            })
           },
         }
       )

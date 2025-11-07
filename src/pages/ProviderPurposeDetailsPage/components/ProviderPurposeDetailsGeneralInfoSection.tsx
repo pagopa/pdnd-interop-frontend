@@ -82,10 +82,10 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
             label={t('purposeTemplateField.label')}
             content={
               <Link
-                to="NOT_FOUND" // TODO: update when the purpose template details page will be available
-                // params={{
-                //   purposeTemplateId: purpose.purposeTemplate.name,
-                // }}
+                to="SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS"
+                params={{
+                  purposeTemplateId: purpose.purposeTemplate.id,
+                }}
               >
                 {purpose.purposeTemplate.purposeTitle}
               </Link>
