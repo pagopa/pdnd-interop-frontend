@@ -523,6 +523,10 @@ export interface UpdateEServiceDescriptorDocumentSeed {
   prettyName: string
 }
 
+export interface UpdateRiskAnalysisTemplateAnswerAnnotationDocumentSeed {
+  prettyName: string
+}
+
 export interface DescriptorRejectionReason {
   rejectionReason: string
   /** @format date-time */
@@ -1119,19 +1123,6 @@ export interface RiskAnalysisTemplateAnswerAnnotationText {
 
 export interface RiskAnalysisTemplateAnswerAnnotationSeed {
   text: string
-  docs: RiskAnalysisTemplateAnswerAnnotationDocumentSeed[]
-}
-
-export interface RiskAnalysisTemplateAnswerAnnotationDocumentSeed {
-  /** @format uuid */
-  documentId: string
-  name: string
-  contentType: string
-  checksum: string
-  prettyName: string
-  path: string
-  /** @format date-time */
-  createdAt: string
 }
 
 export interface EServiceDescriptorPurposeTemplate {
@@ -7077,6 +7068,37 @@ export namespace PurposeTemplates {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags purposeTemplates
+   * @name UpdateRiskAnalysisTemplateAnswerAnnotationDocument
+   * @summary Update Answer Annotation Document in Risk Analysis of Purpose Template
+   * @request POST:/purposeTemplates/{purposeTemplateId}/riskAnalysis/answers/{answerId}/annotation/documents/{documentId}/update
+   * @secure
+   */
+  export namespace UpdateRiskAnalysisTemplateAnswerAnnotationDocument {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string
+      /**
+       * the risk analysis template answer id
+       * @format uuid
+       */
+      answerId: string
+      /**
+       * the risk analysis template answer annotation document id
+       * @format uuid
+       */
+      documentId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = UpdateRiskAnalysisTemplateAnswerAnnotationDocumentSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = RiskAnalysisTemplateAnswerAnnotationDocument
   }
   /**
    * @description Add a risk analysis answer annotation for the specified purpose template risk analysis.

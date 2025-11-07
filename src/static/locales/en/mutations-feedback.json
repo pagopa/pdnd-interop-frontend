@@ -1062,6 +1062,13 @@
       "outcome": {
         "error": "It was not possible to download the document. Please try again!"
       }
+    },
+    "updatePrettyNameDocument": {
+      "loading": "We are updating the document name",
+      "outcome": {
+        "success": "The document name has been updated successfully",
+        "error": "It was not possible to update the document name. Please try again!"
+      }
     }
   }
 }

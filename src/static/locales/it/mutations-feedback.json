@@ -1063,6 +1063,13 @@
       "outcome": {
         "error": "Non è stato possibile scaricare il documento. Per favore, riprova!"
       }
+    },
+    "updatePrettyNameDocument": {
+      "loading": "Stiamo aggiornando il nome del documento",
+      "outcome": {
+        "success": "Il nome del documento è stato aggiornato correttamente",
+        "error": "Non è stato possibile aggiornare il nome del documento. Per favore, riprova!"
+      }
     }
   }
 }

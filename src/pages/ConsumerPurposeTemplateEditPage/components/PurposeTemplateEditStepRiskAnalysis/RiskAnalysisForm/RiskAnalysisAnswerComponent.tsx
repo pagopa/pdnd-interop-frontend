@@ -20,6 +20,7 @@ import type {
 } from '@/api/api.generatedTypes'
 import { PurposeTemplateServices } from '@/api/purposeTemplate/purposeTemplate.services'
 import { useParams } from '@/router'
+import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 
 // Document Upload Form Component
 const DocumentUploadForm: React.FC<{
@@ -100,6 +101,9 @@ export const RiskAnalysisAnswerComponent: React.FC<{
   // Get documents from annotation
   const docs: RiskAnalysisTemplateAnswerAnnotationDocument[] = annotation?.docs || []
 
+  const { mutate: updateDocumentPrettyName } =
+    PurposeTemplateMutations.useUpdatePrettyNameAnnotationAssociatedDocument()
+
   // Clear answer field when editable flag is set to true
   useEffect(() => {
     if (assignToTemplateUsers) {
@@ -137,7 +141,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{
             editable: assignToTemplateUsers,
             annotation: {
               text: annotation.text,
-              docs: [], // Always empty array for this API
+              // docs: [], // Always empty array for this API
             },
             suggestedValues: suggestedValues,
           },
@@ -322,6 +326,35 @@ export const RiskAnalysisAnswerComponent: React.FC<{
     }
   }
 
+  const handleUpdatePrettyName = (documentId: string, prettyName: string) => {
+    const existingAnswerId = watch(`answerIds.${questionKey}`)
+
+    updateDocumentPrettyName(
+      {
+        purposeTemplateId,
+        answerId: existingAnswerId,
+        documentId,
+        prettyName,
+      },
+      {
+        onSuccess: (updatedDoc) => {
+          const currentDocs =
+            (watch(
+              `annotations.${questionKey}.docs`
+            ) as RiskAnalysisTemplateAnswerAnnotationDocument[]) ?? []
+
+          const currentDocsPlusUpdatedDocument = [
+            ...currentDocs.filter((doc) => doc.id !== updatedDoc.id),
+            updatedDoc,
+          ]
+          setValue(`annotations.${questionKey}.docs`, currentDocsPlusUpdatedDocument, {
+            shouldDirty: true,
+          })
+        },
+      }
+    )
+  }
+
   return (
     <>
       {questionType !== 'text' && (
@@ -406,13 +439,14 @@ export const RiskAnalysisAnswerComponent: React.FC<{
                     key={doc.id}
                     doc={{
                       id: doc.id,
-                      name: doc.name,
+                      name: doc.prettyName,
                       prettyName: doc.prettyName,
                       contentType: doc.contentType,
                       checksum: '',
                     }}
                     onDownload={handleDocumentDownload}
                     onDelete={handleDelete}
+                    onUpdateDescription={(prettyName) => handleUpdatePrettyName(doc.id, prettyName)}
                   />
                 ))}
               </Stack>
