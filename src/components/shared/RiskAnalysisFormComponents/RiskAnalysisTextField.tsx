@@ -116,7 +116,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
           // Show select only if there are suggestedValues AND question is not editable
           <RHFSelect
             name={suggestedValueConsumerName}
-            label="Risposte suggerite" //TODO
+            label={t('suggestedAnswersLabel')} // todo check this label value is the right one
             options={suggestedValues.map((value) => ({ label: value, value }))}
             rules={{ required: true }}
           />

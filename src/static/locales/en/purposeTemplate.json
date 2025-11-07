@@ -124,7 +124,8 @@
         "addBtn": "Add"
       },
       "answerInputPlaceholder": "Answer",
-      "addAnswerBtn": "Add answer"
+      "addAnswerBtn": "Add answer",
+      "suggestedAnswersLabel": "Suggested answers"
     },
     "summary": {
       "title": "Summary",

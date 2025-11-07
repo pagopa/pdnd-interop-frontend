@@ -124,7 +124,8 @@
         "addBtn": "Aggiungi"
       },
       "answerInputPlaceholder": "Risposta",
-      "addAnswerBtn": "Aggiungi risposta"
+      "addAnswerBtn": "Aggiungi risposta",
+      "suggestedAnswersLabel": "Risposte suggerite"
     },
     "summary": {
       "title": "Riepilogo",
