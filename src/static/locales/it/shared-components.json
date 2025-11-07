@@ -386,7 +386,11 @@
       "title": "Annotazioni fornite dal creatore"
     },
     "answerLabel": "Risposta: ",
-    "notEditableLabel": "Non modificabile"
+    "notEditableLabel": "Non modificabile",
+    "suggestedValuesSection": {
+      "title": "Risposte:",
+      "option": "Opzione {{index}}:"
+    }
   },
   "routeLabels": {
     "LOGOUT": "Logout",
