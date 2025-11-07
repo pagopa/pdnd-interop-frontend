@@ -27,13 +27,11 @@ import { match } from 'ts-pattern'
 type RiskAnalysisFormComponentsProps = {
   questions: RiskAnalysisQuestions
   isFromPurposeTemplate?: boolean
-  handlesPersonalData?: boolean
 }
 
 export const RiskAnalysisFormComponents: React.FC<RiskAnalysisFormComponentsProps> = ({
   questions,
   isFromPurposeTemplate,
-  handlesPersonalData,
 }) => {
   return Object.entries(questions).map(([questionKey, question]) => (
     <RiskAnalysisQuestion
@@ -41,7 +39,6 @@ export const RiskAnalysisFormComponents: React.FC<RiskAnalysisFormComponentsProp
       questionKey={questionKey}
       question={question}
       isFromPurposeTemplate={isFromPurposeTemplate}
-      handlesPersonalData={handlesPersonalData}
     />
   ))
 }
@@ -50,18 +47,15 @@ function RiskAnalysisQuestion({
   questionKey,
   question,
   isFromPurposeTemplate,
-  handlesPersonalData,
 }: {
   questionKey: string
   question: FormConfigQuestion
   isFromPurposeTemplate?: boolean
-  handlesPersonalData?: boolean
 }) {
   const lang = useCurrentLanguage()
   const answers = useFormContext<{ answers: RiskAnalysisAnswers }>().watch('answers')
 
   const { t } = useTranslation('shared-components')
-  const { t: tPurposeTemplate } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step3' })
 
   const maxLength = question?.validation?.maxLength
 
@@ -123,26 +117,12 @@ function RiskAnalysisQuestion({
       />
     ))
     .with('radio', () => {
-      const radioRules = {
-        required: true,
-        validate: (value: string) => {
-          // Special validation for usesPersonalData question
-          if (questionKey === 'usesPersonalData' && handlesPersonalData !== undefined) {
-            const selectedValue = value === 'YES' ? true : false
-            if (selectedValue !== handlesPersonalData) {
-              return tPurposeTemplate('validation.usesPersonalDataMismatch')
-            }
-          }
-          return true
-        },
-      }
-
       return (
         <RiskAnalysisRadioGroup
           {...commonProps}
           questionKey={questionKey}
           options={inputOptions}
-          rules={radioRules}
+          rules={{ required: true }}
           isFromPurposeTemplate={isFromPurposeTemplate}
         />
       )
