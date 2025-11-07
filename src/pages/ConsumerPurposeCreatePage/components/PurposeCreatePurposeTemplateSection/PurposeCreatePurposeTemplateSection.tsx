@@ -5,24 +5,21 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import { PurposeCreatePurposeTemplateAutocomplete } from './PurposeCreatePurposeTemplateAutocomplete'
-import { useFormContext, useWatch } from 'react-hook-form'
+import { useFormContext } from 'react-hook-form'
 
 export type PurposeCreatePurposeTemplateSectionProps = {
   eserviceId: string
   handlesPersonalData?: boolean
+  purposeTemplateId?: string
 }
 
 export const PurposeCreatePurposeTemplateSection: React.FC<
   PurposeCreatePurposeTemplateSectionProps
-> = ({ eserviceId, handlesPersonalData }) => {
+> = ({ eserviceId, handlesPersonalData, purposeTemplateId }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'create.purposeTemplateField' })
 
-  const { control } = useFormContext()
-  const usePurposeTemplate = useWatch({
-    control,
-    name: 'usePurposeTemplate',
-    defaultValue: false,
-  })
+  const { watch } = useFormContext()
+  const usePurposeTemplate = watch('usePurposeTemplate')
 
   const innerSectionTitle = (
     <>
@@ -58,6 +55,7 @@ export const PurposeCreatePurposeTemplateSection: React.FC<
               <PurposeCreatePurposeTemplateAutocomplete
                 eserviceId={eserviceId}
                 handlesPersonalData={handlesPersonalData}
+                purposeTemplateId={purposeTemplateId}
               />
             </Stack>
           </SectionContainer>

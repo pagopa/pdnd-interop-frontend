@@ -104,12 +104,14 @@ function useGetConsumerPurposeTemplateTemplatesActions(
     action: handleUsePurposeTemplateAction,
     variant: 'contained',
     disabled: tenantKind !== purposeTemplate.targetTenantKind,
-    tooltip: t('actions.tooltip'),
+    tooltip: tenantKind !== purposeTemplate.targetTenantKind ? t('actions.tooltip') : undefined,
   }
 
   function handleUsePurposeTemplateAction() {
     if (!purposeTemplate) return
-    console.log('create purpose draft page') //TODO: navigate to create purpose draft from template
+    navigate('SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE', {
+      params: { purposeTemplateId: purposeTemplate.id },
+    })
   }
 
   if (purposeTemplate?.state === 'DRAFT') {

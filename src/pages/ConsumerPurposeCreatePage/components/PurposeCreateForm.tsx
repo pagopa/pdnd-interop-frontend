@@ -33,11 +33,15 @@ export type PurposeCreateFormValues = {
   templateId: string | null
   providerRiskAnalysisId: string | null
   usePurposeTemplate: boolean | null
-  purposeTemplateId: string | null
+  purposeTemplateIdSelected: string | null
   tenantKind?: TenantKind
 }
 
-export const PurposeCreateForm: React.FC = () => {
+type PurposeCreateFormProps = {
+  purposeTemplateId?: string
+}
+
+export const PurposeCreateForm: React.FC<PurposeCreateFormProps> = ({ purposeTemplateId }) => {
   const { t } = useTranslation('purpose')
   const navigate = useNavigate()
   const { jwt } = AuthHooks.useJwt()
@@ -54,7 +58,7 @@ export const PurposeCreateForm: React.FC = () => {
       useTemplate: false,
       templateId: null,
       providerRiskAnalysisId: null,
-      usePurposeTemplate: false,
+      usePurposeTemplate: purposeTemplateId ? true : false,
       tenantKind: undefined,
     },
   })
@@ -63,7 +67,7 @@ export const PurposeCreateForm: React.FC = () => {
   const purposeId = formMethods.watch('templateId')
   const useTemplate = formMethods.watch('useTemplate')
   const usePurposeTemplate = formMethods.watch('usePurposeTemplate')
-  const purposeTemplateId = formMethods.watch('purposeTemplateId')
+  const purposeTemplateIdSelected = formMethods.watch('purposeTemplateIdSelected')
 
   const selectedProviderRiskAnalysisId = formMethods.watch('providerRiskAnalysisId')
 
@@ -148,9 +152,9 @@ export const PurposeCreateForm: React.FC = () => {
       dailyCalls: 1,
     }
 
-    if (usePurposeTemplate && purposeTemplateId) {
+    if (usePurposeTemplate && purposeTemplateIdSelected) {
       createPurposeDraftFromPurposeTemplate(
-        { ...payloadCreatePurposeDraftFromTemplate, purposeTemplateId },
+        { ...payloadCreatePurposeDraftFromTemplate, purposeTemplateId: purposeTemplateIdSelected },
         {
           onSuccess(data) {
             const purposeId = data.id
@@ -251,6 +255,7 @@ export const PurposeCreateForm: React.FC = () => {
               <PurposeCreatePurposeTemplateSection
                 eserviceId={selectedEService?.id as string}
                 handlesPersonalData={handlesPersonalData}
+                purposeTemplateId={purposeTemplateId}
               />
             </Stack>
           </SectionContainer>

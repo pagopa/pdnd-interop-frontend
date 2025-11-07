@@ -23,10 +23,15 @@ type PurposeCreatePurposeTemplateAutocompleteProps = {
 
 export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
   PurposeCreatePurposeTemplateAutocompleteProps
-> = ({ eserviceId, handlesPersonalData }) => {
+> = ({ eserviceId, handlesPersonalData, purposeTemplateId }) => {
   const { t } = useTranslation('purpose', {
     keyPrefix: 'create.purposeTemplateField.usePurposeTemplateSwitch.selectPurposeTemplate',
   })
+  const { data: purposeTemplateById } = useQuery({
+    ...PurposeTemplateQueries.getSingle(purposeTemplateId as string),
+    enabled: Boolean(purposeTemplateId),
+  })
+
   const selectedPurposeTemplateRef = React.useRef<CatalogPurposeTemplate | undefined>(undefined)
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
 
@@ -81,6 +86,14 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
         loading={isLoadingPurposeTemplates}
         name="purposeTemplateId"
         label={t('autocompleteLabelPurposeTemplate')}
+        defaultValue={
+          purposeTemplateById
+            ? {
+                label: `${purposeTemplateById.purposeTitle} - ${purposeTemplateById.creator.name}`,
+                value: purposeTemplateById.id,
+              }
+            : { label: '', value: '' }
+        }
         options={autocompleteOptions}
         onValueChange={(value) => {
           selectedPurposeTemplateRef.current = purposeTemplates.find(
