@@ -17,12 +17,9 @@ vi.mock('@tanstack/react-query', async () => {
   }
 })
 
-vi.mock('react-router-dom', () => ({
-  useNavigate: vi.fn(),
-}))
-
 vi.mock('@/router', () => ({
   useParams: vi.fn(() => ({ purposeTemplateId: 'template-123' })),
+  useNavigate: vi.fn(() => vi.fn()),
 }))
 
 vi.mock('@/api/purposeTemplate/purposeTemplate.queries', () => ({
@@ -74,7 +71,6 @@ vi.mock('@/components/layout/containers', () => ({
 
 describe('PurposeTemplateEditLinkedEService', () => {
   const mockForward = vi.fn()
-  const mockNavigate = vi.fn()
 
   const mockPurposeTemplate: PurposeTemplateWithCompactCreator = {
     id: 'template-123',
@@ -97,7 +93,6 @@ describe('PurposeTemplateEditLinkedEService', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    ;(useNavigate as Mock).mockReturnValue(mockNavigate)
     ;(useQuery as Mock).mockImplementation(() => ({ data: undefined }))
   })
 
