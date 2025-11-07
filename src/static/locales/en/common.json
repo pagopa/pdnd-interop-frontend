@@ -2,6 +2,7 @@
   "addBtn": "Add",
   "closeBtn": "Close",
   "createNewBtn": "Create new",
+  "notEditableLabel": "Not editable",
   "validation": {
     "mixed": {
       "required": "Field required"

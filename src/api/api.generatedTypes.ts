@@ -1119,19 +1119,6 @@ export interface RiskAnalysisTemplateAnswerAnnotationText {
 
 export interface RiskAnalysisTemplateAnswerAnnotationSeed {
   text: string
-  docs: RiskAnalysisTemplateAnswerAnnotationDocumentSeed[]
-}
-
-export interface RiskAnalysisTemplateAnswerAnnotationDocumentSeed {
-  /** @format uuid */
-  documentId: string
-  name: string
-  contentType: string
-  checksum: string
-  prettyName: string
-  path: string
-  /** @format date-time */
-  createdAt: string
 }
 
 export interface EServiceDescriptorPurposeTemplate {

@@ -190,3 +190,19 @@ export async function getAllFromPaginated<A>(
 
   return await getAllFromOffset(0)
 }
+
+export function isRiskAnalysisQuestionDisabled(
+  isFromPurposeTemplate: boolean | undefined,
+  type: 'creator' | 'consumer' | undefined,
+  isAssignedToTemplateUsersSwitch: boolean | undefined
+) {
+  if (!isFromPurposeTemplate) {
+    return false
+  }
+
+  if (type === 'consumer') {
+    return !isAssignedToTemplateUsersSwitch
+  }
+
+  return isAssignedToTemplateUsersSwitch
+}

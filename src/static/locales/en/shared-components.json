@@ -386,7 +386,8 @@
       "title": "Annotations provided by the creator"
     },
     "answerLabel": "Answer: ",
-    "notEditableLabel": "Not editable"
+    "notEditableLabel": "Not editable",
+    "notEditableTooltip": "The creator of the template does not allow the modification of this field"
   },
   "routeLabels": {
     "LOGOUT": "Logout",
@@ -457,6 +458,7 @@
     "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG": "Purpose template",
     "SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS": "View purpose",
     "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS": "View purpose",
-    "SUBSCRIBE_PURPOSE_TEMPLATE_EDIT": "Edit purpose template"
+    "SUBSCRIBE_PURPOSE_TEMPLATE_EDIT": "Edit purpose template",
+    "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Edit purpose from template"
   }
 }

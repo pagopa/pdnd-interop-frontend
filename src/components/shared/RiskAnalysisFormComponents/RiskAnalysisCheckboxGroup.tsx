@@ -7,6 +7,8 @@ import { useTranslation } from 'react-i18next'
 import { mapValidationErrorMessages } from '@/utils/form.utils'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
+import { isRiskAnalysisQuestionDisabled } from '@/utils/common.utils'
+import { usePurposeCreateContext } from '../PurposeCreateContext'
 
 export type RiskAnalysisCheckboxGroupProps = {
   questionKey: string
@@ -15,7 +17,6 @@ export type RiskAnalysisCheckboxGroupProps = {
   helperText?: string
   options: Array<InputOption>
   rules?: ControllerProps['rules']
-  isFromPurposeTemplate?: boolean
 }
 
 export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps> = ({
@@ -25,9 +26,9 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
   infoLabel,
   helperText,
   rules,
-  isFromPurposeTemplate,
 }) => {
   const { control } = useFormContext()
+  const { isFromPurposeTemplate, type } = usePurposeCreateContext()
 
   const isAssignedToTemplateUsersSwitch = useWatch({
     control,
@@ -41,9 +42,10 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
 
   const error = formState.errors.answers?.[questionKey]?.message as string | undefined
 
-  const conditionalRules = isAssignedToTemplateUsersSwitch
-    ? { validate: () => true }
-    : mapValidationErrorMessages(rules, t)
+  const conditionalRules =
+    isAssignedToTemplateUsersSwitch && type === 'creator'
+      ? { validate: () => true }
+      : mapValidationErrorMessages(rules, t)
 
   return (
     <RiskAnalysisInputWrapper
@@ -54,6 +56,8 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
       error={error}
       isFromPurposeTemplate={isFromPurposeTemplate}
       questionKey={questionKey}
+      type={type}
+      isAssignedToTemplateUsersSwitch={isAssignedToTemplateUsersSwitch}
     >
       <FormGroup>
         <Controller
@@ -82,7 +86,11 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
                         checked={field.value?.includes(o.value) ?? false}
                         onChange={onChange}
                         name={String(o.value)}
-                        disabled={isAssignedToTemplateUsersSwitch}
+                        disabled={isRiskAnalysisQuestionDisabled(
+                          isFromPurposeTemplate,
+                          type,
+                          isAssignedToTemplateUsersSwitch
+                        )}
                       />
                     }
                     label={o.label}

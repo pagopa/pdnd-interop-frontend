@@ -60,6 +60,7 @@ import type { UserProductRole } from '@/types/party.types'
 import ConsumerEServiceTemplateDetailsPage from '@/pages/ConsumerEServiceTemplateDetailsPage/ConsumerEServiceTemplateDetails.page'
 import ConsumerPurposeTemplateListPage from '@/pages/ConsumerPurposeTemplateListPage/ConsumerPurposeTemplateList.page'
 import ConsumerPurposeTemplateCatalogPage from '@/pages/ConsumerPurposeTemplateCatalogPage/ConsumerPurposeTemplateCatalog.page'
+import ConsumerPurposeFromTemplateEditPage from '@/pages/ConsumerPurposeFromTemplateEditPage/ConsumerPurposeFromTemplateEdit.page'
 import { ConsumerPurposeTemplateDetailsPage } from '@/pages/ConsumerPurposeTemplateDetailsPage'
 import ConsumerPurposeTemplateCatalogDetailsPage from '@/pages/ConsumerPurposeTemplateCatalogDetailsPage/ConsumerPurposeTemplateCatalogDetailsPage'
 import { ConsumerPurposeTemplateSummaryPage } from '@/pages/ConsumerPurposeTemplateSummaryPage'
@@ -624,6 +625,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: true,
     authLevels: ['admin', 'api'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT',
+    path: '/fruizione/finalita/:purposeId/:purposeTemplateId/modifica',
+    element: <ConsumerPurposeFromTemplateEditPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api', 'support'],
   })
   .build()
 
