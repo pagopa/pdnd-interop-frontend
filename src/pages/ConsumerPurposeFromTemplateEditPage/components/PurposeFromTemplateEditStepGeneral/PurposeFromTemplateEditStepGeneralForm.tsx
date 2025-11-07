@@ -57,8 +57,6 @@ const PurposeFromTemplateEditStepGeneralForm: React.FC<PurposeEditStepGeneralFor
       dailyCalls,
     }
 
-    console.log('requestPayload', requestPayload)
-
     updateDraftFromPurposeTemplate(
       { purposeTemplateId: purposeTemplate.id, purposeId: purpose.id, ...requestPayload },
       { onSuccess: forward }
