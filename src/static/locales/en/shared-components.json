@@ -387,6 +387,7 @@
     },
     "answerLabel": "Answer: ",
     "notEditableLabel": "Not editable",
+    "notEditableTooltip": "The template creator does not allow changes to this field",
     "suggestedValuesSection": {
       "title": "Answers:",
       "option": "Option {{index}}:"

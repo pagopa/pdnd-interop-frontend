@@ -10,6 +10,7 @@ import {
   ListItem,
   ListItemText,
   Stack,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import React from 'react'
@@ -144,17 +145,19 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
                       <Box sx={{ flex: 1, minWidth: 0 }}>
                         <span>{question}</span>
                       </Box>
-                      {!isEditable && (
-                        <Chip
-                          size="small"
-                          label={t('notEditableLabel')}
-                          color="default"
-                          sx={{
-                            borderRadius: 1,
-                            flexShrink: 0,
-                            whiteSpace: 'nowrap',
-                          }}
-                        />
+                      {!isEditable && suggestedValues === undefined && (
+                        <Tooltip title={t('notEditableTooltip')} arrow>
+                          <Chip
+                            size="small"
+                            label={t('notEditableLabel')}
+                            color="default"
+                            sx={{
+                              borderRadius: 1,
+                              flexShrink: 0,
+                              whiteSpace: 'nowrap',
+                            }}
+                          />
+                        </Tooltip>
                       )}
                     </Box>
                   </Typography>

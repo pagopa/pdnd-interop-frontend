@@ -387,6 +387,7 @@
     },
     "answerLabel": "Risposta: ",
     "notEditableLabel": "Non modificabile",
+    "notEditableTooltip": "L’ente creatore del template non permette la modifica di questo campo",
     "suggestedValuesSection": {
       "title": "Risposte:",
       "option": "Opzione {{index}}:"
