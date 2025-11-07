@@ -100,7 +100,7 @@ describe('PurposeCreatePurposeTemplateAutocomplete', () => {
     render(
       <BrowserRouter>
         <FormWrapper>
-          <PurposeCreatePurposeTemplateAutocomplete eserviceId="123" tenantKind="PA" />
+          <PurposeCreatePurposeTemplateAutocomplete eserviceId="123" />
         </FormWrapper>
       </BrowserRouter>
     )
@@ -113,7 +113,7 @@ describe('PurposeCreatePurposeTemplateAutocomplete', () => {
     render(
       <BrowserRouter>
         <FormWrapper>
-          <PurposeCreatePurposeTemplateAutocomplete eserviceId="123" tenantKind="PA" />
+          <PurposeCreatePurposeTemplateAutocomplete eserviceId="123" />
         </FormWrapper>
       </BrowserRouter>
     )
@@ -135,7 +135,7 @@ describe('PurposeCreatePurposeTemplateAutocomplete', () => {
     render(
       <BrowserRouter>
         <FormWrapper>
-          <PurposeCreatePurposeTemplateAutocomplete eserviceId="123" tenantKind="PA" />
+          <PurposeCreatePurposeTemplateAutocomplete eserviceId="123" />
         </FormWrapper>
       </BrowserRouter>
     )
@@ -163,7 +163,7 @@ describe('PurposeCreatePurposeTemplateAutocomplete', () => {
     render(
       <BrowserRouter>
         <FormWrapper>
-          <PurposeCreatePurposeTemplateAutocomplete eserviceId="123" tenantKind="PA" />
+          <PurposeCreatePurposeTemplateAutocomplete eserviceId="123" />
         </FormWrapper>
       </BrowserRouter>
     )
