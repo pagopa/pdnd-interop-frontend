@@ -53,7 +53,7 @@ export const RiskAnalysisFormTemplate: React.FC<RiskAnalysisFormTemplateProps> =
           // Otherwise, use the normal logic (empty if editable, actual values if not editable)
           values: questionSuggestedValues.length > 0 ? [] : editable ? [] : values,
           editable,
-          ...(annotationObj?.text ? { annotation: { text: annotationObj.text, docs: [] } } : {}),
+          ...(annotationObj?.text ? { annotation: { text: annotationObj.text } } : {}),
           suggestedValues: questionSuggestedValues,
         }
       })
