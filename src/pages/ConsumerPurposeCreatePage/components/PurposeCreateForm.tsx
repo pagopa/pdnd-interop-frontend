@@ -60,7 +60,6 @@ export const PurposeCreateForm: React.FC = () => {
   })
 
   const selectedEService = formMethods.watch('eservice')
-  const selectedTenantKind = formMethods.watch('tenantKind')
   const purposeId = formMethods.watch('templateId')
   const useTemplate = formMethods.watch('useTemplate')
   const usePurposeTemplate = formMethods.watch('usePurposeTemplate')
@@ -251,7 +250,6 @@ export const PurposeCreateForm: React.FC = () => {
             <Stack spacing={3}>
               <PurposeCreatePurposeTemplateSection
                 eserviceId={selectedEService?.id as string}
-                tenantKind={selectedTenantKind}
                 handlesPersonalData={handlesPersonalData}
               />
             </Stack>

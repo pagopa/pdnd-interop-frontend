@@ -1,7 +1,6 @@
 import type {
   CatalogPurposeTemplate,
   GetCatalogPurposeTemplatesParams,
-  TenantKind,
 } from '@/api/api.generatedTypes'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -18,14 +17,13 @@ import { TenantHooks } from '@/api/tenant'
 
 type PurposeCreatePurposeTemplateAutocompleteProps = {
   eserviceId: string
-  tenantKind?: TenantKind
   handlesPersonalData?: boolean
   purposeTemplateId?: string
 }
 
 export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
   PurposeCreatePurposeTemplateAutocompleteProps
-> = ({ eserviceId, tenantKind, handlesPersonalData }) => {
+> = ({ eserviceId, handlesPersonalData }) => {
   const { t } = useTranslation('purpose', {
     keyPrefix: 'create.purposeTemplateField.usePurposeTemplateSwitch.selectPurposeTemplate',
   })
@@ -61,7 +59,7 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
     q: getQ(),
     limit: 50,
     offset: 0,
-    targetTenantKind: tenant.kind !== 'PA' ? 'PRIVATE' : tenantKind, //we pass PRIVATE if the tenant is not PA because gsp scp and private have the same RA and in create draft we pass private for not PA tenants
+    targetTenantKind: tenant.kind !== 'PA' ? 'PRIVATE' : 'PA', //we pass PRIVATE if the tenant is not PA because gsp scp and private have the same RA and in create draft we pass private for not PA tenants
     handlesPersonalData,
     eserviceIds: showOnlyLinkedPurposeTemplates ? [eserviceId] : [],
   }
