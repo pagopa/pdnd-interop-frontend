@@ -189,7 +189,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
       isLoading={isLoading}
       statusChip={{
         for: 'eservice',
-        state: 'DRAFT',
+        state: descriptor?.state || 'DRAFT',
         isDraftToCorrect: requireDelegateCorrections,
       }}
     >
