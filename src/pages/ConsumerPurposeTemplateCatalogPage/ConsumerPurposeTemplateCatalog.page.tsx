@@ -8,11 +8,7 @@ import {
   useFilters,
   usePagination,
 } from '@pagopa/interop-fe-commons'
-import type {
-  CatalogEService,
-  CatalogPurposeTemplate,
-  GetCatalogPurposeTemplatesParams,
-} from '@/api/api.generatedTypes'
+import type { CatalogEService, GetCatalogPurposeTemplatesParams } from '@/api/api.generatedTypes'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import {
@@ -31,18 +27,16 @@ const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
   const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = useAutocompleteTextInput()
 
   const { data: templateCreatorsOptions = [] } = useQuery({
-    ...PurposeTemplateQueries.getCatalogPurposeTemplates({
+    ...PurposeTemplateQueries.getPublishedPurposeTemplateCreators({
+      q: purposeTemplateCreatorsAutocompleteInput,
       offset: 0,
       limit: 50,
-      q: purposeTemplateCreatorsAutocompleteInput
-        ? purposeTemplateCreatorsAutocompleteInput
-        : undefined,
     }),
     placeholderData: keepPreviousData,
-    select: ({ results }) =>
-      results.map((purposeTemplate: CatalogPurposeTemplate) => ({
-        label: purposeTemplate.creator.name,
-        value: purposeTemplate.creator.id,
+    select: (response) =>
+      response.data.results.map((creator) => ({
+        label: creator.name,
+        value: creator.id,
       })),
   })
 

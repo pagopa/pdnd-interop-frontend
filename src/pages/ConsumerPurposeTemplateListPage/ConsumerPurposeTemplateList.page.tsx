@@ -42,7 +42,7 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
 
   const { openDialog } = useDialog()
 
-  const handleCreateDraft = (tenantKind: TenantKind, _handlesPersonalData: boolean) => {
+  const handleCreateDraft = (tenantKind: TenantKind, handlesPersonalData: boolean) => {
     /**
      * A purpose template cannot have two templates with the same title.
      * To avoid this, we add the current date to the title to make it unique.
@@ -63,11 +63,15 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
         purposeIsFreeOfCharge: true,
         purposeFreeOfChargeReason: tPurposeTemplateDefaults('freeOfChargeReason'),
         purposeDailyCalls: 1,
-        handlesPersonalData: _handlesPersonalData,
+        handlesPersonalData: handlesPersonalData,
       },
       {
-        onSuccess() {
-          navigate(/*'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'*/ 'NOT_FOUND') //TODO TO FIX WHEN ROUTE IS AVAILABLE
+        onSuccess({ id: purposeTemplateId }) {
+          navigate('SUBSCRIBE_PURPOSE_TEMPLATE_EDIT', {
+            params: {
+              purposeTemplateId: purposeTemplateId,
+            },
+          })
         },
       }
     )

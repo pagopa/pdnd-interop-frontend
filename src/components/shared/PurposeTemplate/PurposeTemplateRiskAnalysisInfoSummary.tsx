@@ -4,12 +4,12 @@ import {
   AccordionDetails,
   AccordionSummary,
   Box,
-  Button,
   Chip,
   List,
   ListItem,
   ListItemText,
   Stack,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import React from 'react'
@@ -22,8 +22,7 @@ import type {
 } from '@/api/api.generatedTypes'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
-import DownloadIcon from '@mui/icons-material/Download'
-import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
+import { AnnotationDetails } from './AnnotationDetails'
 
 type PurposeTemplateRiskAnalysisInfoSummaryProps = {
   riskAnalysisConfig: RiskAnalysisFormConfig
@@ -43,6 +42,7 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
     questionInfoLabel?: string
     annotations?: RiskAnalysisTemplateAnswerAnnotation
     answerId: string
+    suggestedValues?: string[]
   }
 
   const { t } = useTranslation('shared-components', {
@@ -74,6 +74,8 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
 
       const isEditable = Boolean(currentAnswer.editable)
 
+      const suggestedValues = currentAnswer.suggestedValues
+
       // Plain text: this value comes from a text field
       if (visualType === 'text') {
         return {
@@ -82,6 +84,7 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
           isEditable,
           questionInfoLabel,
           annotations,
+          suggestedValues,
           answerId: currentAnswer.id,
         }
       }
@@ -111,7 +114,18 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
     <SectionContainer innerSection>
       <List>
         {questions.map(
-          ({ question, answer, questionInfoLabel, annotations, isEditable, answerId }, i) => (
+          (
+            {
+              question,
+              answer,
+              questionInfoLabel,
+              annotations,
+              isEditable,
+              answerId,
+              suggestedValues,
+            },
+            i
+          ) => (
             <SectionContainer
               innerSection
               key={i}
@@ -129,17 +143,19 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
                       <Box sx={{ flex: 1, minWidth: 0 }}>
                         <span>{question}</span>
                       </Box>
-                      {!isEditable && (
-                        <Chip
-                          size="small"
-                          label={t('notEditableLabel')}
-                          color="default"
-                          sx={{
-                            borderRadius: 1,
-                            flexShrink: 0,
-                            whiteSpace: 'nowrap',
-                          }}
-                        />
+                      {!isEditable && suggestedValues === undefined && (
+                        <Tooltip title={t('notEditableTooltip')} arrow>
+                          <Chip
+                            size="small"
+                            label={t('notEditableLabel')}
+                            color="default"
+                            sx={{
+                              borderRadius: 1,
+                              flexShrink: 0,
+                              whiteSpace: 'nowrap',
+                            }}
+                          />
+                        </Tooltip>
                       )}
                     </Box>
                   </Typography>
@@ -150,8 +166,18 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
                     </Typography>
                   )}
                   <Typography variant="body2" fontWeight={600} mt={2}>
-                    {t('answerLabel')}
-                    <span style={{ fontWeight: 400 }}>{answer ? answer : '-'}</span>
+                    {suggestedValues && suggestedValues.length > 0
+                      ? t('suggestedValuesSection.title')
+                      : t('answerLabel')}
+                    <span style={{ fontWeight: 400 }}>
+                      {answer ? (
+                        answer
+                      ) : suggestedValues && suggestedValues.length > 0 ? (
+                        <SuggestedValuesSection suggestedValues={suggestedValues} />
+                      ) : (
+                        '-'
+                      )}
+                    </span>
                   </Typography>
                   {annotations && (
                     <>
@@ -251,71 +277,34 @@ export const PurposeTemplateRiskAnalysisInfoSummary: React.FC<
   )
 }
 
-const AnnotationDetails: React.FC<{
-  annotation: RiskAnalysisTemplateAnswerAnnotation
-  purposeTemplateId: string
-  answerId: string
-}> = ({ annotation, purposeTemplateId, answerId }) => {
+const SuggestedValuesSection: React.FC<{
+  suggestedValues: string[]
+}> = ({ suggestedValues }) => {
   const { t } = useTranslation('shared-components', {
-    keyPrefix: 'purposeTemplateRiskAnalysisInfoSummary.annotationSection',
+    keyPrefix: 'purposeTemplateRiskAnalysisInfoSummary.suggestedValuesSection',
   })
-
-  const { mutate: downloadDocument, isPending: isDownloading } =
-    PurposeTemplateMutations.useDownloadDocument()
-
-  const handleDownload = (documentId: string, fileName: string) => {
-    downloadDocument(
-      {
-        purposeTemplateId,
-        answerId,
-        documentId,
-      },
-      {
-        onSuccess: (fileBlob) => {
-          // Create a download link
-          const url = window.URL.createObjectURL(fileBlob)
-          const link = document.createElement('a')
-          link.href = url
-          link.download = fileName
-          document.body.appendChild(link)
-          link.click()
-          document.body.removeChild(link)
-          window.URL.revokeObjectURL(url)
-        },
-      }
-    )
-  }
-
   return (
-    <SectionContainer
-      innerSection
-      title={t('title')}
-      sx={{ backgroundColor: 'grey.50', p: 3, fontWeight: 700 }}
-    >
-      <Stack spacing={2}>
-        <Typography variant="body2">{annotation.text}</Typography>
-        {annotation.docs && annotation.docs.length > 0 && (
-          <Stack spacing={1}>
-            {annotation.docs.map((doc) => (
-              <Button
-                key={doc.id}
-                endIcon={<DownloadIcon fontSize="small" />}
-                component="button"
-                onClick={() => handleDownload(doc.id, doc.prettyName)}
-                disabled={isDownloading}
-                sx={{
-                  fontWeight: 700,
-                  alignSelf: 'flex-start',
-                  p: 0,
-                }}
-                disableRipple
-              >
-                {doc.prettyName}
-              </Button>
-            ))}
-          </Stack>
-        )}
-      </Stack>
-    </SectionContainer>
+    <Box>
+      <List sx={{ pl: 3, listStyleType: 'disc', listStylePosition: 'initial' }}>
+        {suggestedValues.map((value, index) => (
+          <ListItem
+            key={index}
+            sx={{
+              p: 0,
+              display: 'list-item',
+            }}
+          >
+            <ListItemText
+              primary={`${t('option', { index: index + 1 })} ${value}`}
+              sx={{
+                margin: 0,
+                paddingLeft: 0,
+                '& .MuiTypography-root': { fontWeight: 400 },
+              }}
+            />
+          </ListItem>
+        ))}
+      </List>
+    </Box>
   )
 }

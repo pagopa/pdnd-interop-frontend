@@ -49,10 +49,22 @@ function getAnswerDocuments(purposeTemplateId: string, answerId: string) {
   })
 }
 
+function getPublishedPurposeTemplateCreators(params: {
+  q?: string
+  offset: number
+  limit: number
+}) {
+  return queryOptions({
+    queryKey: ['PurposeTemplateGetPublishedPurposeTemplateCreators', params],
+    queryFn: () => PurposeTemplateServices.getPublishedPurposeTemplateCreators(params),
+  })
+}
+
 export const PurposeTemplateQueries = {
   getConsumerPurposeTemplatesList,
   getEservicesLinkedToPurposeTemplatesList,
   getSingle,
   getCatalogPurposeTemplates,
   getAnswerDocuments,
+  getPublishedPurposeTemplateCreators,
 }

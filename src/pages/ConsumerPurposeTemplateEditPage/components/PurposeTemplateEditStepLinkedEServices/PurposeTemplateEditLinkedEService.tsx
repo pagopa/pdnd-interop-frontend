@@ -2,6 +2,7 @@ import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { useTranslation } from 'react-i18next'
 import SaveIcon from '@mui/icons-material/Save'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { SectionContainer } from '@/components/layout/containers'
 import { FormProvider, useForm } from 'react-hook-form'
 import type { CatalogEService } from '@/api/api.generatedTypes'
@@ -9,15 +10,15 @@ import { Box } from '@mui/material'
 import { AddEServiceToForm, type LinkedEServiceWithDescriptor } from './AddEServiceToForm'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { useQuery } from '@tanstack/react-query'
-import { useParams } from '@/router'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams, useGeneratePath } from '@/router'
+import { useNavigate as useReactRouterNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
 export type EditStepLinkedEServicesForm = {
   eservices: Array<CatalogEService>
 }
 
-export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ forward }) => {
+export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ forward, back }) => {
   const { t } = useTranslation('purposeTemplate')
   const { t: tCommon } = useTranslation('common')
 
@@ -42,8 +43,21 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
     })) || []
 
   const navigate = useNavigate()
+  const reactRouterNavigate = useReactRouterNavigate()
+  const generatePath = useGeneratePath()
 
   const isInDraftState = purposeTemplate?.state === 'DRAFT'
+
+  const handleBack = () => {
+    if (isInDraftState) {
+      back()
+    } else {
+      const path = generatePath('SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS', {
+        purposeTemplateId: purposeTemplateId,
+      })
+      reactRouterNavigate(`${path}?tab=linkedEservices`)
+    }
+  }
 
   const defaultValues: EditStepLinkedEServicesForm = {
     eservices: [],
@@ -72,7 +86,11 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
     if (isInDraftState) {
       forward()
     } else {
-      navigate('NOT_FOUND') // TODO: Replace with details page route
+      navigate('SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS', {
+        params: {
+          purposeTemplateId: purposeTemplateId,
+        },
+      })
     }
   }
 
@@ -94,9 +112,10 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
             />{' '}
             <StepActions
               back={{
-                to: isInDraftState ? 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST' : 'NOT_FOUND', //TODO: REPLACE WITH DETAILS PAGE RUOTE
-                label: isInDraftState ? t('backToListBtn') : tCommon('actions.cancel'),
-                type: 'link',
+                onClick: handleBack,
+                label: isInDraftState ? t('edit.backWithoutSaveBtn') : tCommon('actions.cancel'),
+                type: 'button',
+                startIcon: isInDraftState ? <ArrowBackIcon /> : undefined,
               }}
               forward={{
                 label: isInDraftState

@@ -12,6 +12,8 @@ import { useTranslation } from 'react-i18next'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
+import { isRiskAnalysisQuestionDisabled } from '@/utils/common.utils'
+import { usePurposeCreateContext } from '../PurposeCreateContext'
 
 export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
   questionKey: string
@@ -21,7 +23,6 @@ export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> &
   disabled?: boolean
   rules?: ControllerProps['rules']
   options: Array<InputOption & { disabled?: boolean }>
-  isFromPurposeTemplate?: boolean
 }
 
 export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
@@ -32,10 +33,10 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
   helperText,
   disabled,
   rules,
-  isFromPurposeTemplate,
   ...props
 }) => {
   const { control } = useFormContext()
+  const { isFromPurposeTemplate, type } = usePurposeCreateContext()
 
   const isAssignedToTemplateUsersSwitch = useWatch({
     control,
@@ -57,9 +58,10 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
     helperText,
   })
 
-  const conditionalRules = isAssignedToTemplateUsersSwitch
-    ? { required: false, validate: rules?.validate ? rules.validate : undefined }
-    : mapValidationErrorMessages(rules, t)
+  const conditionalRules =
+    isAssignedToTemplateUsersSwitch && type === 'creator'
+      ? { required: false, validate: rules?.validate ? rules.validate : undefined }
+      : mapValidationErrorMessages(rules, t)
 
   return (
     <RiskAnalysisInputWrapper
@@ -70,6 +72,8 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
       {...ids}
       isFromPurposeTemplate={isFromPurposeTemplate}
       questionKey={questionKey}
+      type={type}
+      isAssignedToTemplateUsersSwitch={isAssignedToTemplateUsersSwitch}
     >
       <Controller
         name={name}
@@ -85,7 +89,15 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
           >
             {options.map((o) => (
               <FormControlLabel
-                disabled={disabled || o.disabled || isAssignedToTemplateUsersSwitch}
+                disabled={
+                  disabled ||
+                  o.disabled ||
+                  isRiskAnalysisQuestionDisabled(
+                    isFromPurposeTemplate,
+                    type,
+                    isAssignedToTemplateUsersSwitch
+                  )
+                }
                 key={`${labelId}-${o.value}`}
                 value={o.value}
                 control={<Radio />}

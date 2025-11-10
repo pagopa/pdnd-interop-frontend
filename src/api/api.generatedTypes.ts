@@ -2820,6 +2820,22 @@ export interface GetConsumerPurposesParams {
   limit: number
 }
 
+export interface GetPublishedPurposeTemplateCreatorsParams {
+  /** Query to filter creators by name */
+  q?: string
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
 export interface LinkEServiceToPurposeTemplatePayload {
   /** @format uuid */
   eserviceId: string
@@ -6778,6 +6794,34 @@ export namespace PurposeTemplates {
     export type RequestBody = PurposeTemplateSeed
     export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
+  }
+  /**
+   * @description Retrieve Tenants that have published a purposeTemplate
+   * @tags purposeTemplates
+   * @name GetPublishedPurposeTemplateCreators
+   * @request GET:/purposeTemplates/filter/creators
+   * @secure
+   */
+  export namespace GetPublishedPurposeTemplateCreators {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter creators by name */
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = CompactOrganizations
   }
   /**
    * @description Link one Eservice to Purpose Template (Draft or Active state)

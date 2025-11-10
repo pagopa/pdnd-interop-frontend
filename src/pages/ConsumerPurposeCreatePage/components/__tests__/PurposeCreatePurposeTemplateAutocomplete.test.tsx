@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { useForm, FormProvider } from 'react-hook-form'
 import type { CatalogPurposeTemplate } from '@/api/api.generatedTypes'
 import { PurposeCreatePurposeTemplateAutocomplete } from '../PurposeCreatePurposeTemplateSection/PurposeCreatePurposeTemplateAutocomplete'
+import React from 'react'
 
 vi.mock('@tanstack/react-query', async () => {
   const actual =
@@ -17,23 +18,29 @@ vi.mock('@tanstack/react-query', async () => {
   }
 })
 
-vi.mock('@pagopa/interop-fe-commons', () => ({
-  useAutocompleteTextInput: vi.fn().mockReturnValue([vi.fn(), vi.fn()]),
-}))
-
-vi.mock('react-i18next', () => ({
-  useTranslation: vi.fn().mockReturnValue({
-    t: (key: string) => key,
-  }),
-}))
+vi.mock('@pagopa/interop-fe-commons', async () => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+  const actual = await vi.importActual<typeof import('@pagopa/interop-fe-commons')>(
+    '@pagopa/interop-fe-commons'
+  )
+  return {
+    ...actual,
+    useAutocompleteTextInput: vi.fn().mockReturnValue([vi.fn(), vi.fn()]),
+  }
+})
 
 vi.mock('@mui/system', () => ({
   Stack: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }))
 
-vi.mock('@pagopa/mui-italia', () => ({
-  ButtonNaked: ({ children }: { children: React.ReactNode }) => <button>{children}</button>,
-}))
+vi.mock('@pagopa/mui-italia', async () => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+  const actual = await vi.importActual<typeof import('@pagopa/mui-italia')>('@pagopa/mui-italia')
+  return {
+    ...actual,
+    ButtonNaked: ({ children }: { children: React.ReactNode }) => <button>{children}</button>,
+  }
+})
 
 vi.mock('@/router', () => ({
   Link: ({ children, to }: { children: React.ReactNode; to: string }) => (
@@ -50,6 +57,14 @@ vi.mock('@mui/icons-material/OpenInNew', async () => {
     default: () => <span>OpenInNewIcon</span>,
   }
 })
+
+vi.mock('@/api/tenant', () => ({
+  TenantHooks: {
+    useGetActiveUserParty: vi.fn(() => ({
+      data: { id: 'tenant-123', name: 'Tenant Mock', kind: 'PA' },
+    })),
+  },
+}))
 
 const mockPurposeTemplates: CatalogPurposeTemplate[] = [
   {
@@ -85,7 +100,7 @@ describe('PurposeCreatePurposeTemplateAutocomplete', () => {
     render(
       <BrowserRouter>
         <FormWrapper>
-          <PurposeCreatePurposeTemplateAutocomplete eserviceId="123" tenantKind="PA" />
+          <PurposeCreatePurposeTemplateAutocomplete eserviceId="123" />
         </FormWrapper>
       </BrowserRouter>
     )
@@ -98,7 +113,7 @@ describe('PurposeCreatePurposeTemplateAutocomplete', () => {
     render(
       <BrowserRouter>
         <FormWrapper>
-          <PurposeCreatePurposeTemplateAutocomplete eserviceId="123" tenantKind="PA" />
+          <PurposeCreatePurposeTemplateAutocomplete eserviceId="123" />
         </FormWrapper>
       </BrowserRouter>
     )
@@ -120,7 +135,7 @@ describe('PurposeCreatePurposeTemplateAutocomplete', () => {
     render(
       <BrowserRouter>
         <FormWrapper>
-          <PurposeCreatePurposeTemplateAutocomplete eserviceId="123" tenantKind="PA" />
+          <PurposeCreatePurposeTemplateAutocomplete eserviceId="123" />
         </FormWrapper>
       </BrowserRouter>
     )
@@ -148,7 +163,7 @@ describe('PurposeCreatePurposeTemplateAutocomplete', () => {
     render(
       <BrowserRouter>
         <FormWrapper>
-          <PurposeCreatePurposeTemplateAutocomplete eserviceId="123" tenantKind="PA" />
+          <PurposeCreatePurposeTemplateAutocomplete eserviceId="123" />
         </FormWrapper>
       </BrowserRouter>
     )

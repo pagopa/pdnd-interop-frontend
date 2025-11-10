@@ -21,6 +21,7 @@ import type {
   UnlinkEServiceToPurposeTemplatePayload,
   GetCreatorPurposeTemplatesParams,
   UpdateRiskAnalysisTemplateAnswerAnnotationDocumentSeed,
+  CompactOrganizations,
 } from '../api.generatedTypes'
 
 async function getConsumerPurposeTemplatesList(params: GetCreatorPurposeTemplatesParams) {
@@ -50,11 +51,10 @@ async function getSingle(purposeTemplateId: string) {
 }
 
 async function getAnswerDocuments(purposeTemplateId: string, answerId: string) {
-  //   const response = await axiosInstance.get<Document[]>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/documents`
-  //   )
-  //   return response.data
-  return []
+  const response = await axiosInstance.get<Document[]>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/documents`
+  )
+  return response.data
 }
 
 async function getRiskAnalysisTemplateAnswerAnnotationDocument({
@@ -209,10 +209,9 @@ async function deleteAnnotation({
   purposeTemplateId: string
   answerId: string
 }) {
-  //   return await axiosInstance.delete<void>(
-  //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/riskAnalysis/answers/${answerId}/annotation`
-  //   )
-  return console.log('Annotation deleted')
+  return await axiosInstance.delete<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation`
+  )
 }
 
 async function deleteDocumentFromAnnotation({
@@ -251,21 +250,29 @@ async function suspendPurposeTemplate({ id }: { id: string }) {
   return await axiosInstance.post<void>(
     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/suspend`
   )
-  return console.log('Suspended')
 }
 
 async function reactivatePurposeTemplate({ id }: { id: string }) {
   return await axiosInstance.post<void>(
     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/unsuspend`
   )
-  return console.log('Reactivate')
 }
 
 async function archivePurposeTemplate({ id }: { id: string }) {
   return await axiosInstance.post<void>(
     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/archive`
   )
-  return console.log('Archived!')
+}
+
+async function getPublishedPurposeTemplateCreators(params: {
+  q?: string
+  offset: number
+  limit: number
+}) {
+  return await axiosInstance.get<CompactOrganizations>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/filter/creators`,
+    { params }
+  )
 }
 
 async function updatePrettyNameAnnotationAssociatedDocument({
@@ -310,4 +317,5 @@ export const PurposeTemplateServices = {
   archivePurposeTemplate,
   getCatalogPurposeTemplates,
   updatePrettyNameAnnotationAssociatedDocument,
+  getPublishedPurposeTemplateCreators,
 }

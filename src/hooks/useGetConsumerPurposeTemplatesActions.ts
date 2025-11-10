@@ -104,12 +104,14 @@ function useGetConsumerPurposeTemplateTemplatesActions(
     action: handleUsePurposeTemplateAction,
     variant: 'contained',
     disabled: tenantKind !== purposeTemplate.targetTenantKind,
-    tooltip: t('actions.tooltip'),
+    tooltip: tenantKind !== purposeTemplate.targetTenantKind ? t('actions.tooltip') : undefined,
   }
 
   function handleUsePurposeTemplateAction() {
     if (!purposeTemplate) return
-    console.log('create purpose draft') //TODO: API CALL
+    navigate('SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE', {
+      params: { purposeTemplateId: purposeTemplate.id },
+    })
   }
 
   if (purposeTemplate?.state === 'DRAFT') {
@@ -124,14 +126,16 @@ function useGetConsumerPurposeTemplateTemplatesActions(
 
   if (isActive) {
     actions.push(usePurposeTemplateAction)
-    actions.push(suspendAction)
+    if (routeKey !== 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS') {
+      actions.push(suspendAction)
+    }
   }
 
-  if (isSuspended) {
+  if (isSuspended && routeKey !== 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS') {
     actions.push(activateAction)
   }
 
-  if (!isArchived) {
+  if (!isArchived && routeKey !== 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS') {
     actions.push(archiveAction)
   }
 

@@ -114,7 +114,7 @@
         "documentDownloadedSuccess": "Documento scaricato con successo."
       },
       "validation": {
-        "usesPersonalDataMismatch": "La risposta di questo campo differisce da quanto è stato definito dall'erogatore dell'e-service"
+        "usesPersonalDataMismatch": "La risposta di questo campo differisce da quanto indicato nelle informazioni generali del template."
       },
       "drawer": {
         "title": "Aggiungi annotazioni",
@@ -124,7 +124,16 @@
         "addBtn": "Aggiungi"
       },
       "answerInputPlaceholder": "Risposta",
-      "addAnswerBtn": "Aggiungi risposta"
+      "addAnswerBtn": "Aggiungi risposta",
+      "personalData": {
+        "title": "Trattamento dati personali",
+        "content": {
+          "true": "Hai dichiarato di trattare dati personali",
+          "false": "Hai dichiarato di non trattare dati personali"
+        },
+        "alertIncompatibleAnswer": "Assicurati che la risposta alla domanda “Indicare se si accede a dati personali (richiesto)” sia uguale a quella che hai indicato nelle informazioni generali. Se i dati non corrispondono ti verrà bloccata la pubblicazione."
+      },
+      "suggestedAnswersLabel": "Risposte suggerite"
     },
     "summary": {
       "title": "Riepilogo",
