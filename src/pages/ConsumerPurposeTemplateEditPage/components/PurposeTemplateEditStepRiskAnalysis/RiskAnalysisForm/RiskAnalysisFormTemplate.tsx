@@ -100,10 +100,7 @@ export const RiskAnalysisFormTemplate: React.FC<RiskAnalysisFormTemplateProps> =
           {t('step3.alert')}
         </Alert>
         <Stack spacing={2}>
-          <RiskAnalysisFormComponents
-            questions={riskAnalysisForm.questions}
-            handlesPersonalData={handlesPersonalData}
-          />
+          <RiskAnalysisFormComponents questions={riskAnalysisForm.questions} />
         </Stack>
         {incompatibleAnswerValue && (
           <Alert sx={{ my: 2 }} severity="warning">

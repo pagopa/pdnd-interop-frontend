@@ -103,6 +103,22 @@
         "description": "C'è una nuova versione di analisi del rischio disponibile. Quella compilata in precedenza è obsoleta e non può più essere usata. Se clicchi “Aggiorna”, tutti i campi che non sono cambiati ed erano stati compilati li troverai già compilati nella nuova versione",
         "proceedButtonLabel": "Aggiorna",
         "cancelButtonLabel": "Abbandona"
+      },
+      "personalDataFlag": {
+        "label": "Trattamento dati personali",
+        "content": {
+          "true": "L’erogatore dichiara di trattare dati personali",
+          "false": "L’erogatore dichiara di non trattare dati personali",
+          "undefined": "L’erogatore non ha dichiarato il trattamento dei dati personali"
+        },
+        "incompatibleAnswerError": {
+          "purposeEdit": "La risposta a questa domanda differisce da quanto è stato definito dall’erogatore dell’e-service"
+        },
+        "alertForIncompatibleAnswer": "Assicurati che la risposta alla domanda \"Indica se accedi a dati personali (richiesto)\" corrisponda a quella fornita dall’erogatore nelle informazioni generali. Se i dati non corrispondono, la pubblicazione sarà bloccata.",
+        "alertForIncompatibleAnswerPurpose": {
+          "personalData": "Non potrai pubblicare questa finalità perché hai dichiarato che vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore.",
+          "noPersonalData": "Non potrai pubblicare questa finalità perché hai dichiarato che non vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore."
+        }
       }
     },
     "purposeFromTemplate": {
@@ -179,7 +195,8 @@
     "riskAnalysisSection": {
       "title": "Analisi del rischio",
       "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
-    }
+    },
+    "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione"
   },
   "list": {
     "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare",
@@ -378,6 +395,14 @@
             "infoLable": "Numero di chiamate API/giorno stimate",
             "validation": {
               "sameValue": "Il numero di chiamate API/giorno richiesto deve essere diverso da quello attuale"
+            }
+          },
+          "riskAnalysisSection": {
+            "title": "Analisi del rischio",
+            "description": "Puoi aggiornare la stima solo se l’analisi del rischio collegata a questa finalità è ancora valida.",
+            "checkbox": {
+              "label": "L’analisi del rischio è invariata",
+              "requiredValidation": "Per richiedere l’adeguamento, conferma che l’analisi del rischio è rimasta invariata"
             }
           }
         },

@@ -39,6 +39,23 @@
           "RECEIVE": "Riceve"
         }
       },
+      "eservicePersonalDataField": {
+        "DELIVER": {
+          "label": "L’e-service eroga dati personali?",
+          "options": {
+            "true": "Eroga dati personali",
+            "false": "Non eroga dati personali"
+          }
+        },
+        "RECEIVE": {
+          "label": "L’e-service riceve dati personali?",
+          "options": {
+            "true": "Riceve dati personali",
+            "false": "Non riceve dati personali"
+          }
+        },
+        "alertMissingPersonalData": "Non puoi pubblicare questa bozza in quanto il creatore del template non ha indicato se l’e-service tratta dati personali. Contatta {{tenantName}} per richiedere la modifica di questo template."
+      },
       "isSignalHubEnabled": {
         "title": "Signal Hub: servizio di notifica della variazione dei dati",
         "description": {
@@ -212,6 +229,19 @@
       "description": {
         "label": "Descrizione"
       },
+      "personalDataField": {
+        "DELIVER": {
+          "label": "Eroga dati personali"
+        },
+        "RECEIVE": {
+          "label": "Riceve dati personali"
+        },
+        "value": {
+          "true": "Sì",
+          "false": "No",
+          "undefined": "Non indicato"
+        }
+      },
       "apiTechnology": {
         "label": "Tecnologia API"
       },
@@ -284,9 +314,14 @@
     "notPublishableTooltip": {
       "label": "Uno o più campi richiesti non sono stati compilati. Completa la bozza"
     },
+    "missingPersonalDataField": "Questa bozza di e-service non indica se verranno trattati dati personali.",
     "rejectedDelegatedVersionDraftAlert": {
       "delegate": "La pubblicazione di questa bozza è stata rifiutata dal delegante. <1>Leggi i motivi del rifiuto</1> ed invia di nuovo la bozza con le correzioni.",
       "delegator": "Hai rifiutato la pubblicazione di questa bozza. <1>Leggi qui i motivi del rifiuto</1>."
+    },
+    "alertMissingPersonalData": {
+      "eserviceTemplateLabel": "Questo e-service deriva da un template che non rispetta i nuovi requisiti sul trattamento dei dati personali. Per sbloccare la pubblicazione è necessario che il creatore del template e-service aggiorni il campo. Contattalo per richiedere l’integrazione.",
+      "eserviceLabel": "Per poter pubblicare l'e-service, è necessario aggiornare la sua compilazione per rispondere ai nuovi requisiti sul trattamento dei dati personali.\n\nSi prega di rifiutare la richiesta di pubblicazione. L'e-service tornerà in stato di bozza all'ente delegato per l’integrazione. Una volta pronto, riceverai una nuova richiesta di approvazione."
     }
   },
   "list": {
@@ -374,6 +409,22 @@
         },
         "descriptorDescription": {
           "label": "Descrizione della versione"
+        },
+        "personalDataField": {
+          "DELIVER": {
+            "label": "Eroga dati personali"
+          },
+          "RECEIVE": {
+            "label": "Riceve dati personali"
+          },
+          "value": {
+            "true": "Sì",
+            "false": "No",
+            "undefined": "Non indicato"
+          },
+          "alert": {
+            "label": "Specificare se questo e-service tratta dati personali."
+          }
         },
         "consumerListFileName": "{{timestamp}}-lista-fruitori-{{eserviceName}}.csv",
         "bottomActions": {

@@ -26,31 +26,22 @@ import { match } from 'ts-pattern'
  * */
 type RiskAnalysisFormComponentsProps = {
   questions: RiskAnalysisQuestions
-  handlesPersonalData?: boolean
 }
 
 export const RiskAnalysisFormComponents: React.FC<RiskAnalysisFormComponentsProps> = ({
   questions,
-  handlesPersonalData,
 }) => {
   return Object.entries(questions).map(([questionKey, question]) => (
-    <RiskAnalysisQuestion
-      key={questionKey}
-      questionKey={questionKey}
-      question={question}
-      handlesPersonalData={handlesPersonalData}
-    />
+    <RiskAnalysisQuestion key={questionKey} questionKey={questionKey} question={question} />
   ))
 }
 
 function RiskAnalysisQuestion({
   questionKey,
   question,
-  handlesPersonalData,
 }: {
   questionKey: string
   question: FormConfigQuestion
-  handlesPersonalData?: boolean
 }) {
   const lang = useCurrentLanguage()
   const answers = useFormContext<{ answers: RiskAnalysisAnswers }>().watch('answers')

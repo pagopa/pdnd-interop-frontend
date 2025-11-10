@@ -52,7 +52,9 @@
     "select": "Seleziona",
     "selectAdmin": "Seleziona admin",
     "substituteAdmin": "Sostituisci admin",
-    "copy": "Copia"
+    "copy": "Copia",
+    "specifyProcessing": "Indica trattamento",
+    "save": "Salva"
   },
   "table": {
     "headData": {

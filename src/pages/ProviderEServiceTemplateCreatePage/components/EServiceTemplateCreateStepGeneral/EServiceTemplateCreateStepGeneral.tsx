@@ -19,6 +19,7 @@ import LaunchIcon from '@mui/icons-material/Launch'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { SIGNALHUB_GUIDE_URL } from '@/config/constants'
+import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 export type EServiceTemplateCreateStepGeneralFormValues = {
   name: string
@@ -27,10 +28,12 @@ export type EServiceTemplateCreateStepGeneralFormValues = {
   technology: EServiceTechnology
   mode: EServiceMode
   isSignalHubEnabled?: boolean
+  personalData?: boolean
 }
 
 export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate')
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'validation.mixed' })
   const navigate = useNavigate()
 
   const {
@@ -51,6 +54,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
     technology: eserviceTemplateVersion?.eserviceTemplate.technology ?? 'REST',
     mode: eserviceTemplateMode,
     isSignalHubEnabled: eserviceTemplateVersion?.eserviceTemplate.isSignalHubEnabled ?? false,
+    personalData: eserviceTemplateVersion?.eserviceTemplate.personalData,
   }
 
   const formMethods = useForm({ defaultValues })
@@ -170,6 +174,33 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceTemplateModeChange(mode as EServiceMode)}
           />
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
+            <RHFRadioGroup
+              name="personalData"
+              row
+              label={t(`create.step1.eservicePersonalDataField.${eserviceTemplateMode}.label`)}
+              options={[
+                {
+                  label: t(
+                    `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.true`
+                  ),
+                  value: true,
+                },
+                {
+                  label: t(
+                    `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.false`
+                  ),
+                  value: false,
+                },
+              ]}
+              disabled={!areEServiceTemplateGeneralInfoEditable}
+              rules={{
+                validate: (value) => value === true || value === false || tCommon('required'),
+              }}
+              sx={{ mb: 0, mt: 3 }}
+              isOptionValueAsBoolean
+            />
+          )}
 
           <SectionContainer innerSection sx={{ mt: 3 }}>
             <RHFCheckbox

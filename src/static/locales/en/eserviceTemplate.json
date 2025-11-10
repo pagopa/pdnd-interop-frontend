@@ -32,7 +32,23 @@
           "downloadUsingTenantsList": "Download list of using tenants",
           "viewTechnicalInfo": "View eservice technical information "
         },
-        "consumerListFileName": "{{timestamp}}-consumers-template-list-{{eServiceTemplateName}}.csv"
+        "consumerListFileName": "{{timestamp}}-consumers-template-list-{{eServiceTemplateName}}.csv",
+        "personalDataField": {
+          "DELIVER": {
+            "label": "Delivers personal data"
+          },
+          "RECEIVE": {
+            "label": "Receives personal data"
+          },
+          "value": {
+            "true": "Yes",
+            "false": "No",
+            "undefined": "Not specified"
+          },
+          "alert": {
+            "label": "Specify whether this template e-service handles personal data."
+          }
+        }
       },
       "technicalInformations": {
         "title": "E-service technical specifications",
@@ -159,7 +175,8 @@
   "actions": {
     "createNewEServiceInstance": "Use template",
     "createNewEServiceInstanceDisabled": "You have already created an instance from this\ntemplate.",
-    "createInstanceDisabledTenantKind": "It is not possible to use the template because the provider has not created a purpose for your type of entity."
+    "createInstanceDisabledTenantKind": "It is not possible to use the template because the provider has not created a purpose for your type of entity.",
+    "createInstanceDisabledPersonalData": "It is not possible to use the template because the provider has not indicated whether personal data is processed."
   },
   "createInstance": {
     "title": "Create e-service from template",
@@ -211,6 +228,22 @@
             "before": "Signal Hub uses the",
             "linkLabel": "push service",
             "after": "to generate notifications related to data changes regarding the e-service."
+          }
+        }
+      },
+      "eservicePersonalDataField": {
+        "DELIVER": {
+          "label": "Does the e-service deliver personal data?",
+          "options": {
+            "true": "Delivers personal data",
+            "false": "Does not deliver personal data"
+          }
+        },
+        "RECEIVE": {
+          "label": "Does the e-service receive personal data?",
+          "options": {
+            "true": "Receives personal data",
+            "false": "Does not receive personal data"
           }
         }
       }
@@ -318,6 +351,19 @@
       "apiTechnology": {
         "label": "API Technology"
       },
+      "personalDataField": {
+        "DELIVER": {
+          "label": "Delivers personal data"
+        },
+        "RECEIVE": {
+          "label": "Receives personal data"
+        },
+        "value": {
+          "true": "Yes",
+          "false": "No",
+          "undefined": "Not specified"
+        }
+      },
       "isSignalHubEnabled": {
         "label": "Is it suggested to use the data update system (Signal Hub)? ",
         "value": {
@@ -370,6 +416,7 @@
     },
     "notPublishableTooltip": {
       "label": "One or more required fields have not been filled out. Complete the draft, please."
-    }
+    },
+    "missingPersonalDataField": "You have not indicated whether the e-service delivers or receives personal data. You can go back to the first step to specify it, or you can proceed and add this information later."
   }
 }

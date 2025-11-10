@@ -256,6 +256,7 @@ const createMockAgreement = createMockFactory<Agreement>({
 
 const createMockAgreementListingItem = createMockFactory<AgreementListEntry>({
   canBeUpgraded: false,
+  hasUnreadNotifications: false,
   consumer: { id: '6b16be70-9230-4209-bd1f-7e5ae0eed289', name: 'PagoPa S.p.A.' },
   descriptor: {
     id: '2881e984-4279-47e8-8fc4-aa236468436e',
@@ -268,7 +269,6 @@ const createMockAgreementListingItem = createMockFactory<AgreementListEntry>({
     name: '00_test video 22',
     producer: { id: '6b16be70-9230-4209-bd1f-7e5ae0eed289', name: 'PagoPa S.p.A.' },
   },
-  hasUnreadNotifications: false,
   id: '5f75fe14-3f71-442b-8098-d3021b399deb',
   state: 'ACTIVE',
   suspendedByPlatform: false,
