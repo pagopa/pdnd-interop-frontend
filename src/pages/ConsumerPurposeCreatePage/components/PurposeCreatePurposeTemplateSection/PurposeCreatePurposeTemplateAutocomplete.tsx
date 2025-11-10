@@ -89,7 +89,9 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
         defaultValue={
           purposeTemplateById
             ? {
-                label: `${purposeTemplateById.purposeTitle} - ${purposeTemplateById.creator.name}`,
+                label: `${purposeTemplateById.purposeTitle ?? ''} - ${
+                  purposeTemplateById.creator?.name ?? ''
+                }`,
                 value: purposeTemplateById.id,
               }
             : { label: '', value: '' }
