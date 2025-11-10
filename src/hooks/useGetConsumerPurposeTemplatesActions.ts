@@ -8,6 +8,7 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { useCurrentRoute, useNavigate } from '@/router'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import type { CreatorPurposeTemplate, TenantKind } from '@/api/api.generatedTypes'
+import { tenantKindForPurposeTemplate } from '@/utils/tenant.utils'
 
 function useGetConsumerPurposeTemplateTemplatesActions(
   tenantKind: TenantKind,
@@ -26,6 +27,8 @@ function useGetConsumerPurposeTemplateTemplatesActions(
     PurposeTemplateMutations.useReactivatePurposeTemplate()
   const { mutate: deletePurposeTemplateDraft } = PurposeTemplateMutations.useDeleteDraft()
   const { mutate: publishPurposeTemplateDraft } = PurposeTemplateMutations.usePublishDraft()
+
+  const tenantKindNormalized = tenantKindForPurposeTemplate(tenantKind) // normalize tenant kind for purpose templates: map all non-PA kinds to PRIVATE because RA for scp/gsp/private are the same
 
   if (!purposeTemplate || !isAdmin) return { actions: [] }
 
@@ -103,8 +106,9 @@ function useGetConsumerPurposeTemplateTemplatesActions(
     label: t('actions.createNewPurposeInstance'),
     action: handleUsePurposeTemplateAction,
     variant: 'contained',
-    disabled: tenantKind !== purposeTemplate.targetTenantKind,
-    tooltip: tenantKind !== purposeTemplate.targetTenantKind ? t('actions.tooltip') : undefined,
+    disabled: tenantKindNormalized !== purposeTemplate.targetTenantKind,
+    tooltip:
+      tenantKindNormalized !== purposeTemplate.targetTenantKind ? t('actions.tooltip') : undefined,
   }
 
   function handleUsePurposeTemplateAction() {

@@ -30,7 +30,7 @@ function getEservicesLinkedToPurposeTemplatesList(params: GetPurposeTemplateESer
 
 function getSingle(purposeTemplateId: string) {
   return queryOptions({
-    queryKey: ['PurposeTemplateGetSingle'],
+    queryKey: ['PurposeTemplateGetSingle', purposeTemplateId],
     queryFn: () => PurposeTemplateServices.getSingle(purposeTemplateId),
   })
 }

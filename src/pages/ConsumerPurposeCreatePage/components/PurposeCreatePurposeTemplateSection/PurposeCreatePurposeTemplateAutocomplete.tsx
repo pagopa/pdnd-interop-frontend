@@ -14,6 +14,7 @@ import { Link } from '@/router'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { Stack } from '@mui/system'
 import { TenantHooks } from '@/api/tenant'
+import { tenantKindForPurposeTemplate } from '@/utils/tenant.utils'
 
 type PurposeCreatePurposeTemplateAutocompleteProps = {
   eserviceId: string
@@ -34,6 +35,7 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
 
   const selectedPurposeTemplateRef = React.useRef<CatalogPurposeTemplate | undefined>(undefined)
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
+  const tenantKindNormalized = tenant.kind && tenantKindForPurposeTemplate(tenant.kind)
 
   const [purposeTemplateAutocompleteTextInput, setPurposeTemplateAutocompleteTextInput] =
     useAutocompleteTextInput()
@@ -64,7 +66,7 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
     q: getQ(),
     limit: 50,
     offset: 0,
-    targetTenantKind: tenant.kind !== 'PA' ? 'PRIVATE' : 'PA', //we pass PRIVATE if the tenant is not PA because gsp scp and private have the same RA and in create draft we pass private for not PA tenants
+    targetTenantKind: tenantKindNormalized, // normalize tenant kind for purpose templates: map all non-PA kinds to PRIVATE because RA for scp/gsp/private are the same
     handlesPersonalData,
     eserviceIds: showOnlyLinkedPurposeTemplates ? [eserviceId] : [],
   }
@@ -87,14 +89,10 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
         name="purposeTemplateId"
         label={t('autocompleteLabelPurposeTemplate')}
         defaultValue={
-          purposeTemplateById
-            ? {
-                label: `${purposeTemplateById.purposeTitle ?? ''} - ${
-                  purposeTemplateById.creator?.name ?? ''
-                }`,
-                value: purposeTemplateById.id,
-              }
-            : { label: '', value: '' }
+          purposeTemplateById && {
+            label: `${purposeTemplateById.purposeTitle} - ${purposeTemplateById.creator?.name}`,
+            value: purposeTemplateById.id,
+          }
         }
         options={autocompleteOptions}
         onValueChange={(value) => {

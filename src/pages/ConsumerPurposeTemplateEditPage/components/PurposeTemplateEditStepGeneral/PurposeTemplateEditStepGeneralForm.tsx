@@ -11,6 +11,7 @@ import type {
   PurposeTemplateSeed,
   PurposeTemplateWithCompactCreator,
 } from '@/api/api.generatedTypes'
+import { compareObjects } from '@/utils/common.utils'
 
 export type PurposeTemplateEditStepGeneralFormValues = Omit<
   PurposeTemplateSeed,
