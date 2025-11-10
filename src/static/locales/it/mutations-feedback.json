@@ -527,8 +527,8 @@
     "activateVersion": {
       "loading": "Stiamo pubblicando la finalità",
       "outcome": {
-        "success": "La finalità è ora pubblicata. Attenzione: se il numero di chiamate eccede il limite stabilito dall'erogatore, sarà necessaria una sua approvazione per poter sfruttare quel carico",
-        "error": "Non è stato possibile riattivare la finalità. Per favore, riprova! Se è la prima attivazione, assicurati che tutti i campi richiesti dalla finalità siano compilati"
+        "success": "La finalità è stata pubblicata con successo.",
+        "error": "Non è stato possibile pubblicare la finalità. Assicurati di aver inserito le informazioni corrette e riprova."
       },
       "confirmDialog": {
         "title": "Conferma attivazione finalità",
@@ -966,6 +966,123 @@
       "confirmDialog": {
         "title": "Conferma riattivazione versione",
         "description": "Cliccando \"conferma\" questa versione del template di e-service sarà riattivata. Tutti i fruitori che hanno una richiesta di fruizione attiva per questa versione del template di e-service potranno nuovamente usufruirne"
+      }
+    }
+  },
+  "purposeTemplate": {
+    "createDraft": {
+      "loading": "Stiamo creando la bozza",
+      "outcome": {
+        "error": "Non è stato possibile creare la bozza del template di finalità agevolata. Per favore, riprova!"
+      }
+    },
+    "updateDraft": {
+      "loading": "Stiamo aggiornando la bozza",
+      "outcome": {
+        "error": "Non è stato possibile aggiornare la bozza del template di finalità agevolata. Per favore, riprova!"
+      }
+    },
+    "deleteDraft": {
+      "loading": "Stiamo cancellando il template in bozza",
+      "outcome": {
+        "success": "Il template è stato cancellato correttamente",
+        "error": "Non è stato possibile cancellare il template. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma cancellazione del template",
+        "description": "Cliccando \"conferma\" questo template verrà cancellata e non sarà più recuperabile."
+      }
+    },
+
+    "suspendPurposeTemplate": {
+      "loading": "Stiamo sospendendo il template",
+      "outcome": {
+        "success": "Il template è stato sospeso correttamente.",
+        "error": "Non è stato possibile sospendere il template. Riprova più tardi."
+      },
+      "confirmDialog": {
+        "title": "Conferma sospensione template",
+        "description": "Cliccando \"conferma\" questo template sarà sospeso. Nessun utilizzatore potrà utilizzare questo template finché non sarà riattivato."
+      }
+    },
+    "activatePurposeTemplate": {
+      "loading": "Stiamo attivando il template",
+      "outcome": {
+        "success": "Il template è ora pubblicato.",
+        "error": "Non è stato possibile riattivare il template. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma riattivazione del template",
+        "description": "Cliccando \"conferma\" questo template verrà riattivato."
+      }
+    },
+    "publishDraft": {
+      "loading": "Stiamo pubblicando il template della finalità agevolata",
+      "outcome": {
+        "success": "Il template di finalità agevolata è stato creato con successo.",
+        "error": "Non è stato possibile creare il template di finalità agevolata. Assicurati di aver inserito le informazioni corrette e riprova."
+      },
+      "confirmDialog": {
+        "title": "Conferma pubblicazione del template",
+        "description": "Cliccando \"conferma\" questo template verrà pubblicato."
+      }
+    },
+    "archivePurposeTemplate": {
+      "loading": "Stiamo archiviando il template",
+      "outcome": {
+        "success": "Il template è stato archiviato correttamente.",
+        "error": "Non è stato possibile archiviare il template. Riprova più tardi."
+      },
+      "confirmDialog": {
+        "title": "Conferma archiviazione template",
+        "description": "Cliccando \"conferma\" questo template sarà archiviato. Una volta archiviato, il template non potrà più essere utilizzato."
+      }
+    },
+    "addAnnotationToAnswer": {
+      "loading": "Stiamo aggiungendo l'annotazione",
+      "outcome": {
+        "success": "Annotazione aggiunta con successo.",
+        "error": "Non è stato possibile aggiungere l’annotazione. Assicurati di aver inserito le informazioni corrette e riprova."
+      }
+    },
+    "addDocumentsToAnswer": {
+      "loading": "Stiamo aggiungendo i documenti",
+      "outcome": {
+        "success": "I documenti sono stati aggiunti correttamente",
+        "error": "Non è stato possibile aggiungere i documenti. Per favore, riprova!"
+      }
+    },
+    "deleteAnnotation": {
+      "loading": "Stiamo rimuovendo l'annotazione",
+      "outcome": {
+        "success": "L'annotazione è stata rimossa correttamente",
+        "error": "Non è stato possibile rimuovere l'annotazione. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Rimuovi annotazione",
+        "description": "Confermi di voler rimuovere questa annotazione?",
+        "proceedLabel": "Rimuovi annotazione",
+        "cancelLabel": "Mantieni annotazione"
+      }
+    },
+    "deleteDocument": {
+      "loading": "Stiamo rimuovendo il documento",
+      "outcome": {
+        "success": "Il documento è stato rimosso correttamente",
+        "error": "Non è stato possibile rimuovere il documento. Per favore, riprova!"
+      }
+    },
+    "downloadDocument": {
+      "loading": "Stiamo scaricando il documento",
+      "outcome": {
+        "error": "Non è stato possibile scaricare il documento. Per favore, riprova!"
+      }
+    },
+    "updatePrettyNameDocument": {
+      "loading": "Stiamo aggiornando il nome del documento",
+      "outcome": {
+        "success": "Il nome del documento è stato aggiornato correttamente",
+        "error": "Non è stato possibile aggiornare il nome del documento. Per favore, riprova!"
       }
     }
   }

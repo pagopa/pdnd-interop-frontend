@@ -370,7 +370,10 @@
     "tabs": {
       "ariaLabel": "Two different tabs for e-service details and associated keychains",
       "eserviceDetails": "E-service details",
-      "keychain": "Keychains associated"
+      "keychain": "Keychains associated",
+      "ariaLabelEserviceDetail": "Two different tabs for e-service details and associated purpose templates",
+      "eserviceDetail": "E-service detail",
+      "purposeTemplate": "Linked purpose template"
     },
     "alert": {
       "suspended": "This e-service version is discontinued. Until its reactivation, no consumer will be able to access the data provided through the API.",
@@ -532,6 +535,30 @@
       "attributes": {
         "title": "Attributes",
         "description": "Below are all the certified, verified or declared attributes that are required for the use of the E-service."
+      },
+      "linkedPurposeTemplates": {
+        "title": "Facilitated purpose templates",
+        "description": "The simplified compilation feature provides annotations, supporting documents, and some pre-filled responses to facilitate the formulation of the risk analysis. The template is made available for reuse by other participating entities and can be used without restrictions.",
+        "linkedPurposeTabLink": "View linked purpose templates"
+      }
+    },
+    "linkedPurposeTemplatesTab": {
+      "title": "Linked facilitated purpose templates",
+      "description": "The simplified compilation feature provides annotations, supporting documents, and some \n pre-filled responses to facilitate the formulation of the risk analysis. The template is made available for reuse \n by other participating entities and can be used without restrictions.",
+      "filters": {
+        "purposeTemplateNameField": {
+          "label": "Template name"
+        },
+        "creatorNameField": {
+          "label": "Creator name"
+        },
+        "targetTenantKindField": {
+          "label": "Target tenant",
+          "values": {
+            "labelPA": "Public administations",
+            "labelNotPA": "Operators of public services, publicly controlled companies, Private"
+          }
+        }
       }
     },
     "drawers": {

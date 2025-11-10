@@ -27,7 +27,7 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC<{
 
   const handleAddNewPurpose = () => {
     openDialog({
-      type: 'tenantKind',
+      type: 'tenantKindEServiceTemplate',
       onConfirm: onOpenAddRiskAnalysisForm,
     })
   }

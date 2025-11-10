@@ -523,6 +523,10 @@ export interface UpdateEServiceDescriptorDocumentSeed {
   prettyName: string
 }
 
+export interface UpdateRiskAnalysisTemplateAnswerAnnotationDocumentSeed {
+  prettyName: string
+}
+
 export interface DescriptorRejectionReason {
   rejectionReason: string
   /** @format date-time */
@@ -1002,7 +1006,7 @@ export interface PurposeTemplate {
 }
 
 /** Purpose Template State */
-export type PurposeTemplateState = 'ACTIVE' | 'DRAFT' | 'SUSPENDED' | 'ARCHIVED'
+export type PurposeTemplateState = 'PUBLISHED' | 'DRAFT' | 'SUSPENDED' | 'ARCHIVED'
 
 /** a purpose template with its creator and a list for the answer annotation documents */
 export interface PurposeTemplateWithCompactCreator {
@@ -1119,19 +1123,6 @@ export interface RiskAnalysisTemplateAnswerAnnotationText {
 
 export interface RiskAnalysisTemplateAnswerAnnotationSeed {
   text: string
-  docs: RiskAnalysisTemplateAnswerAnnotationDocumentSeed[]
-}
-
-export interface RiskAnalysisTemplateAnswerAnnotationDocumentSeed {
-  /** @format uuid */
-  documentId: string
-  name: string
-  contentType: string
-  checksum: string
-  prettyName: string
-  path: string
-  /** @format date-time */
-  createdAt: string
 }
 
 export interface EServiceDescriptorPurposeTemplate {
@@ -2405,8 +2396,10 @@ export interface NotificationsCountBySection {
     /** @format int32 */
     totalCount: number
   }
-  /** @format int32 */
-  totalCount: number
+  notifiche: {
+    /** @format int32 */
+    totalCount: number
+  }
 }
 
 /** Filter e-services by personal data */
@@ -2827,6 +2820,22 @@ export interface GetConsumerPurposesParams {
   limit: number
 }
 
+export interface GetPublishedPurposeTemplateCreatorsParams {
+  /** Query to filter creators by name */
+  q?: string
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
 export interface LinkEServiceToPurposeTemplatePayload {
   /** @format uuid */
   eserviceId: string
@@ -2843,11 +2852,8 @@ export interface GetPurposeTemplateEServicesParams {
    * @default []
    */
   producerIds?: string[]
-  /**
-   * comma separated sequence of e-service IDs
-   * @default []
-   */
-  eserviceIds?: string[]
+  /** filter linked e-services by name */
+  eserviceName?: string
   /**
    * @format int32
    * @min 0
@@ -6790,6 +6796,34 @@ export namespace PurposeTemplates {
     export type ResponseBody = CreatedResource
   }
   /**
+   * @description Retrieve Tenants that have published a purposeTemplate
+   * @tags purposeTemplates
+   * @name GetPublishedPurposeTemplateCreators
+   * @request GET:/purposeTemplates/filter/creators
+   * @secure
+   */
+  export namespace GetPublishedPurposeTemplateCreators {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter creators by name */
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = CompactOrganizations
+  }
+  /**
    * @description Link one Eservice to Purpose Template (Draft or Active state)
    * @tags purposeTemplates
    * @name LinkEServiceToPurposeTemplate
@@ -6850,11 +6884,8 @@ export namespace PurposeTemplates {
        * @default []
        */
       producerIds?: string[]
-      /**
-       * comma separated sequence of e-service IDs
-       * @default []
-       */
-      eserviceIds?: string[]
+      /** filter linked e-services by name */
+      eserviceName?: string
       /**
        * @format int32
        * @min 0
@@ -7083,6 +7114,37 @@ export namespace PurposeTemplates {
     export type ResponseBody = void
   }
   /**
+   * No description
+   * @tags purposeTemplates
+   * @name UpdateRiskAnalysisTemplateAnswerAnnotationDocument
+   * @summary Update Answer Annotation Document in Risk Analysis of Purpose Template
+   * @request POST:/purposeTemplates/{purposeTemplateId}/riskAnalysis/answers/{answerId}/annotation/documents/{documentId}/update
+   * @secure
+   */
+  export namespace UpdateRiskAnalysisTemplateAnswerAnnotationDocument {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string
+      /**
+       * the risk analysis template answer id
+       * @format uuid
+       */
+      answerId: string
+      /**
+       * the risk analysis template answer annotation document id
+       * @format uuid
+       */
+      documentId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = UpdateRiskAnalysisTemplateAnswerAnnotationDocumentSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = RiskAnalysisTemplateAnswerAnnotationDocument
+  }
+  /**
    * @description Add a risk analysis answer annotation for the specified purpose template risk analysis.
    * @tags purposeTemplates
    * @name AddPurposeTemplateRiskAnalysisAnswerAnnotation
@@ -7138,7 +7200,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
   /**
    * @description Unsuspends a purpose template by id (from Suspended State to Active State)
@@ -7156,7 +7218,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
   /**
    * @description Suspends a purpose template by id (from Active State to Suspended State)
@@ -7174,7 +7236,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
   /**
    * @description Archives a purpose template by id (from Suspended State to Archived State)
@@ -7192,7 +7254,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
 }
 

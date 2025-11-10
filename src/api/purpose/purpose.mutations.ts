@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { PurposeServices } from './purpose.services'
-
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.createDraft' })
   return useMutation({
@@ -17,6 +16,19 @@ function useUpdateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.updateDraft' })
   return useMutation({
     mutationFn: PurposeServices.updateDraft,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useUpdateDraftFromPurposeTemplate() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purpose.updateDraft',
+  })
+  return useMutation({
+    mutationFn: PurposeServices.updateDraftFromPurposeTemplate,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -196,9 +208,21 @@ function useRemoveClient() {
   })
 }
 
+function useCreateDraftFromPurposeTemplate() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.createDraft' })
+  return useMutation({
+    mutationFn: PurposeServices.createDraftFromPurposeTemplate,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const PurposeMutations = {
   useCreateDraft,
   useUpdateDraft,
+  useUpdateDraftFromPurposeTemplate,
   useDeleteDraft,
   useCreateDraftForReceiveEService,
   useUpdateDraftForReceiveEService,
@@ -211,4 +235,5 @@ export const PurposeMutations = {
   useClone,
   useAddClient,
   useRemoveClient,
+  useCreateDraftFromPurposeTemplate,
 }

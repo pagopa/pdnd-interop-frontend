@@ -17,7 +17,10 @@
     },
     "eserviceField": {
       "label": "E-service da associare",
-      "infoLabel": "Puoi selezionare solo gli e-service per i quali il fruitore selezionato ha una richiesta di fruizione attiva"
+      "infoLabel": "Puoi selezionare solo gli e-service per i quali il fruitore selezionato ha una richiesta di fruizione attiva",
+      "alert": {
+        "label": "Per l’e-service selezionato è possibile utilizzare la funzionalità di compilazione agevolata!"
+      }
     },
     "eserviceRiskAnalysisSection": {
       "title": "Finalità da utilizzare",
@@ -38,7 +41,23 @@
       "description": "Lorem ipsum dolor sit amet...",
       "freeOfChargeReason": "Sono una Pubblica Amministrazione"
     },
-    "riskAnalysisPreviewTitle": "Analisi del rischio"
+    "riskAnalysisPreviewTitle": "Analisi del rischio",
+    "purposeTemplateField": {
+      "title": "Compilazione agevolata della finalità",
+      "description": "La funzionalità di compilazione agevolata mette a disposizione annotazioni, documenti di supporto e alcune risposte precompilate per facilitare la formulazione dell’analisi del rischio. Il modello è reso disponibile per il riuso da altri enti aderenti e può essere utilizzato senza vincoli.",
+      "usePurposeTemplateSwitch": {
+        "label": "Utilizza la funzionalità di compilazione agevolata",
+        "selectPurposeTemplate": {
+          "title": "Scegli il modello di compilazione agevolata della finalità",
+          "showOnlyLinkedPurposeTemplates": "Mostra solo template suggeriti per l’e-service che ho selezionato",
+          "autocompleteLabelPurposeTemplate": "Template per la compilazione agevolata della finalità",
+          "viewPurposeTemplateBtn": "Visualizza il template selezionato"
+        },
+        "acknowledgeInfoResponsibility": {
+          "label": "Dichiaro di aver compreso che, anche in presenza di suggerimenti precompilati, è mia responsabilità verificare e validare tutte le informazioni prima della pubblicazione."
+        }
+      }
+    }
   },
   "edit": {
     "emptyTitle": "Modifica finalità",
@@ -99,6 +118,41 @@
         "alertForIncompatibleAnswerPurpose": {
           "personalData": "Non potrai pubblicare questa finalità perché hai dichiarato che vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore.",
           "noPersonalData": "Non potrai pubblicare questa finalità perché hai dichiarato che non vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore."
+        }
+      }
+    },
+    "purposeFromTemplate": {
+      "generalInformationSection": {
+        "title": "Informazioni generali",
+        "subtitle": "Le seguenti informazioni sono state precompilate dal creatore del template di finalità agevolata e non sono modificabili.",
+        "descriptionSection": {
+          "title": "Descrizione",
+          "nameField": {
+            "label": "Nome della finalità"
+          },
+          "descriptionField": {
+            "label": "Descrizione della finalità"
+          },
+          "isFreeOfChargeField": {
+            "label": "Accesso a titolo gratuito",
+            "options": {
+              "YES": "Sì",
+              "NO": "No"
+            }
+          },
+          "freeOfChargeReasonField": {
+            "label": "Motivazione del titolo gratuito"
+          }
+        }
+      },
+      "technicalInformationsSection": {
+        "title": "Informazioni tecniche",
+        "instanceNameField": {
+          "label": "Nome dell'istanza",
+          "defaultPurposeInstanceName": "Template per la compilazione agevolata della finalità"
+        },
+        "dailyCallsField": {
+          "label": "Quante chiamate API/giorno stimi di effettuare?"
         }
       }
     }
@@ -186,6 +240,9 @@
           "label": "E-service di riferimento",
           "value": "{{name}}, versione {{version}}"
         },
+        "purposeTemplateField": {
+          "label": "Template collegato"
+        },
         "consumerField": {
           "label": "Fruitore"
         },
@@ -211,6 +268,10 @@
         },
         "consumerField": {
           "label": "ID fruitore",
+          "copySuccessFeedbackText": "ID copiato correttamente"
+        },
+        "purposeTemplateField": {
+          "label": "ID template collegato",
           "copySuccessFeedbackText": "ID copiato correttamente"
         }
       },
@@ -354,6 +415,9 @@
           "dailyCallsTotalsField": {
             "label": "Totali"
           }
+        },
+        "alertExceedingThreshold": {
+          "label": "Se il numero di chiamate eccede il limite stabilito dall'erogatore, sarà necessaria una sua approvazione per poter sfruttare quel carico"
         }
       }
     }
