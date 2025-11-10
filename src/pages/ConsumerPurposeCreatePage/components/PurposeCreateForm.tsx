@@ -33,7 +33,7 @@ export type PurposeCreateFormValues = {
   templateId: string | null
   providerRiskAnalysisId: string | null
   usePurposeTemplate: boolean | null
-  purposeTemplateIdSelected: string | null
+  purposeTemplateId: string | null
   tenantKind?: TenantKind
 }
 
@@ -67,7 +67,7 @@ export const PurposeCreateForm: React.FC<PurposeCreateFormProps> = ({ purposeTem
   const purposeId = formMethods.watch('templateId')
   const useTemplate = formMethods.watch('useTemplate')
   const usePurposeTemplate = formMethods.watch('usePurposeTemplate')
-  const purposeTemplateIdSelected = formMethods.watch('purposeTemplateIdSelected')
+  const purposeTemplateIdSelected = formMethods.watch('purposeTemplateId')
 
   const selectedProviderRiskAnalysisId = formMethods.watch('providerRiskAnalysisId')
 
