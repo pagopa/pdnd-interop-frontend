@@ -48,10 +48,12 @@ export function Breadcrumbs() {
           ? false
           : routeLabels.SUBSCRIBE_PURPOSE_DETAILS,
 
-        /*
-         * The SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY breadcrumb segment must not be visible in the SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY route
-         */
-        SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY: false,
+        SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS: [
+          'SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY',
+          'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT',
+        ].includes(routeKey)
+          ? false
+          : routeLabels.SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS,
 
         SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT:
           (routeLabels as Record<string, string | false>).SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT ??
