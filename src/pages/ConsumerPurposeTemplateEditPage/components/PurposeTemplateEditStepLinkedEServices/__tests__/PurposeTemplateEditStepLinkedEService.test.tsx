@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import type { Mock } from 'vitest'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useQuery } from '@tanstack/react-query'
@@ -19,6 +19,15 @@ vi.mock('@tanstack/react-query', async () => {
 vi.mock('@/router', () => ({
   useParams: vi.fn(() => ({ purposeTemplateId: 'template-123' })),
   useNavigate: vi.fn(() => vi.fn()),
+  useGeneratePath: vi.fn(() => (route: string, params?: Record<string, string>) => {
+    if (params) {
+      const paramString = Object.entries(params)
+        .map(([key, value]) => `${key}=${value}`)
+        .join('&')
+      return `/${route}?${paramString}`
+    }
+    return `/${route}`
+  }),
 }))
 
 vi.mock('@/api/purposeTemplate/purposeTemplate.queries', () => ({
@@ -100,8 +109,12 @@ describe('PurposeTemplateEditLinkedEService', () => {
       .mockReturnValueOnce({ data: undefined })
       .mockReturnValueOnce({ data: undefined })
 
-    const { container } = render(
-      <PurposeTemplateEditLinkedEService forward={mockForward} back={() => {}} activeStep={0} />
+    const { container } = renderWithApplicationContext(
+      <PurposeTemplateEditLinkedEService forward={mockForward} back={() => {}} activeStep={0} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
     )
 
     expect(container).toBeEmptyDOMElement()
@@ -116,6 +129,7 @@ describe('PurposeTemplateEditLinkedEService', () => {
       <PurposeTemplateEditLinkedEService forward={mockForward} back={() => {}} activeStep={0} />,
       {
         withReactQueryContext: true,
+        withRouterContext: true,
       }
     )
 
@@ -140,6 +154,7 @@ describe('PurposeTemplateEditLinkedEService', () => {
       <PurposeTemplateEditLinkedEService forward={mockForward} back={() => {}} activeStep={0} />,
       {
         withReactQueryContext: true,
+        withRouterContext: true,
       }
     )
 
@@ -155,6 +170,7 @@ describe('PurposeTemplateEditLinkedEService', () => {
       <PurposeTemplateEditLinkedEService forward={mockForward} back={() => {}} activeStep={0} />,
       {
         withReactQueryContext: true,
+        withRouterContext: true,
       }
     )
 
