@@ -102,26 +102,16 @@ describe('PurposeTemplateServices', () => {
   })
 
   describe('getAnswerDocuments', () => {
-    it('should return empty array for documents', async () => {
-      const purposeTemplateId = TEST_PURPOSE_TEMPLATE_ID
-      const answerId = TEST_ANSWER_ID
+    it('should make correct API call with purpose template and answer ids', async () => {
+      const purposeTemplateId = 'template-id'
+      const answerId = 'answer-id'
 
-      const result = await PurposeTemplateServices.getAnswerDocuments(purposeTemplateId, answerId)
+      await PurposeTemplateServices.getAnswerDocuments(purposeTemplateId, answerId)
 
-      expect(result).toEqual([])
+      expect(axiosInstance.get).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/documents`
+      )
     })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call with purpose template and answer ids', async () => {
-    //   const purposeTemplateId = 'template-id'
-    //   const answerId = 'answer-id'
-    //
-    //   await PurposeTemplateServices.getAnswerDocuments(purposeTemplateId, answerId)
-    //
-    //   expect(axiosInstance.get).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/documents`
-    //   )
-    // })
   })
 
   describe('getCatalogPurposeTemplates', () => {
@@ -308,26 +298,16 @@ describe('PurposeTemplateServices', () => {
   })
 
   describe('deleteAnnotation', () => {
-    it('should log annotation deletion message', async () => {
+    it('should make correct API call to delete annotation', async () => {
       await PurposeTemplateServices.deleteAnnotation({
         purposeTemplateId: TEST_PURPOSE_TEMPLATE_ID,
         answerId: TEST_ANSWER_ID,
       })
 
-      expect(mockConsoleLog).toHaveBeenCalledWith('Annotation deleted')
+      expect(axiosInstance.delete).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-template-id/riskAnalysis/answers/test-answer-id/annotation`
+      )
     })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call to delete annotation', async () => {
-    //   await PurposeTemplateServices.deleteAnnotation({
-    //     purposeTemplateId: TEST_PURPOSE_TEMPLATE_ID,
-    //     answerId: TEST_ANSWER_ID,
-    //   })
-    //
-    //   expect(axiosInstance.delete).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-template-id/riskAnalysis/answers/test-answer-id/annotation`
-    //   )
-    // })
   })
 
   describe('deleteDocumentFromAnnotation', () => {

@@ -56,7 +56,6 @@ function RiskAnalysisQuestion({
   const answers = useFormContext<{ answers: RiskAnalysisAnswers }>().watch('answers')
 
   const { t } = useTranslation('shared-components')
-  const { t: tPurposeTemplate } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step3' })
 
   const maxLength = question?.validation?.maxLength
 
@@ -115,26 +114,12 @@ function RiskAnalysisQuestion({
       />
     ))
     .with('radio', () => {
-      const radioRules = {
-        required: true,
-        validate: (value: string) => {
-          // Special validation for usesPersonalData question
-          if (questionKey === 'usesPersonalData' && handlesPersonalData !== undefined) {
-            const selectedValue = value === 'YES' ? true : false
-            if (selectedValue !== handlesPersonalData) {
-              return tPurposeTemplate('validation.usesPersonalDataMismatch')
-            }
-          }
-          return true
-        },
-      }
-
       return (
         <RiskAnalysisRadioGroup
           {...commonProps}
           questionKey={questionKey}
           options={inputOptions}
-          rules={radioRules}
+          rules={{ required: true }}
         />
       )
     })

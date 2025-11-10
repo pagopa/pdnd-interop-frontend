@@ -17,11 +17,16 @@ export const ConsumerPurposeTemplateTableRow: React.FC<{
     purposeTemplate
   )
   const { t: tCommon } = useTranslation('common')
+  const { t } = useTranslation('purposeTemplate', {
+    keyPrefix: 'list.filters.targetTenantKindField.values',
+  })
+
+  const isPA = Boolean(purposeTemplate.targetTenantKind === 'PA')
 
   return (
     <TableRow
       cellData={[
-        purposeTemplate.targetTenantKind,
+        isPA ? t('labelPA') : t('labelNotPA'),
         purposeTemplate.purposeTitle,
         <StatusChip key={purposeTemplate.id} for="purposeTemplate" state={purposeTemplate.state} />,
       ]}
@@ -32,9 +37,12 @@ export const ConsumerPurposeTemplateTableRow: React.FC<{
         onFocusVisible={() => {}}
         variant="outlined"
         size="small"
-        to="NOT_FOUND" //{purposeTemplate.state === 'DRAFT' ? 'SUBCRIBE_PURPOSE_TEMPLATE_EDIT' : 'SUBCRIBE_PURPOSE_TEMPLATE_DETAILS'}
-        // TODO: TO COMMENT OUT WHEN THE PAGE WILL BE READY
-        //params={{ delegationId: delegation.id }}
+        to={
+          purposeTemplate.state === 'DRAFT'
+            ? 'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'
+            : 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS'
+        }
+        params={{ purposeTemplateId: purposeTemplate.id }}
       >
         {tCommon(`actions.${purposeTemplate.state === 'DRAFT' ? 'manageDraft' : 'inspect'}`)}
       </Link>

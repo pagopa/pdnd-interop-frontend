@@ -8,6 +8,8 @@ import {
   List,
   ListItem,
   ListItemText,
+  Stack,
+  Tooltip,
   Typography,
 } from '@mui/material'
 import React from 'react'
@@ -40,6 +42,7 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
     questionInfoLabel?: string
     annotations?: RiskAnalysisTemplateAnswerAnnotation
     answerId: string
+    suggestedValues?: string[]
   }
 
   const { t } = useTranslation('shared-components', {
@@ -71,6 +74,8 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
 
       const isEditable = Boolean(currentAnswer.editable)
 
+      const suggestedValues = currentAnswer.suggestedValues
+
       // Plain text: this value comes from a text field
       if (visualType === 'text') {
         return {
@@ -79,6 +84,7 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
           isEditable,
           questionInfoLabel,
           annotations,
+          suggestedValues,
           answerId: currentAnswer.id,
         }
       }
@@ -108,7 +114,18 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
     <SectionContainer innerSection>
       <List>
         {questions.map(
-          ({ question, answer, questionInfoLabel, annotations, isEditable, answerId }, i) => (
+          (
+            {
+              question,
+              answer,
+              questionInfoLabel,
+              annotations,
+              isEditable,
+              answerId,
+              suggestedValues,
+            },
+            i
+          ) => (
             <SectionContainer
               innerSection
               key={i}
@@ -126,17 +143,19 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
                       <Box sx={{ flex: 1, minWidth: 0 }}>
                         <span>{question}</span>
                       </Box>
-                      {!isEditable && (
-                        <Chip
-                          size="small"
-                          label={t('notEditableLabel')}
-                          color="default"
-                          sx={{
-                            borderRadius: 1,
-                            flexShrink: 0,
-                            whiteSpace: 'nowrap',
-                          }}
-                        />
+                      {!isEditable && suggestedValues === undefined && (
+                        <Tooltip title={t('notEditableTooltip')} arrow>
+                          <Chip
+                            size="small"
+                            label={t('notEditableLabel')}
+                            color="default"
+                            sx={{
+                              borderRadius: 1,
+                              flexShrink: 0,
+                              whiteSpace: 'nowrap',
+                            }}
+                          />
+                        </Tooltip>
                       )}
                     </Box>
                   </Typography>
@@ -147,8 +166,18 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
                     </Typography>
                   )}
                   <Typography variant="body2" fontWeight={600} mt={2}>
-                    {t('answerLabel')}
-                    <span style={{ fontWeight: 400 }}>{answer ? answer : '-'}</span>
+                    {suggestedValues && suggestedValues.length > 0
+                      ? t('suggestedValuesSection.title')
+                      : t('answerLabel')}
+                    <span style={{ fontWeight: 400 }}>
+                      {answer ? (
+                        answer
+                      ) : suggestedValues && suggestedValues.length > 0 ? (
+                        <SuggestedValuesSection suggestedValues={suggestedValues} />
+                      ) : (
+                        '-'
+                      )}
+                    </span>
                   </Typography>
                   {annotations && (
                     <>
@@ -245,5 +274,37 @@ export const PurposeTemplateRiskAnalysisInfoSummary: React.FC<
         purposeTemplate={purposeTemplate}
       />
     </SectionContainer>
+  )
+}
+
+const SuggestedValuesSection: React.FC<{
+  suggestedValues: string[]
+}> = ({ suggestedValues }) => {
+  const { t } = useTranslation('shared-components', {
+    keyPrefix: 'purposeTemplateRiskAnalysisInfoSummary.suggestedValuesSection',
+  })
+  return (
+    <Box>
+      <List sx={{ pl: 3, listStyleType: 'disc', listStylePosition: 'initial' }}>
+        {suggestedValues.map((value, index) => (
+          <ListItem
+            key={index}
+            sx={{
+              p: 0,
+              display: 'list-item',
+            }}
+          >
+            <ListItemText
+              primary={`${t('option', { index: index + 1 })} ${value}`}
+              sx={{
+                margin: 0,
+                paddingLeft: 0,
+                '& .MuiTypography-root': { fontWeight: 400 },
+              }}
+            />
+          </ListItem>
+        ))}
+      </List>
+    </Box>
   )
 }

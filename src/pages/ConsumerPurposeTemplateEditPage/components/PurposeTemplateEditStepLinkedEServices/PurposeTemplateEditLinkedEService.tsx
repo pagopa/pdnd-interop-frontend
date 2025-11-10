@@ -9,8 +9,7 @@ import { Box } from '@mui/material'
 import { AddEServiceToForm, type LinkedEServiceWithDescriptor } from './AddEServiceToForm'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { useQuery } from '@tanstack/react-query'
-import { useParams } from '@/router'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from '@/router'
 import { useState } from 'react'
 
 export type EditStepLinkedEServicesForm = {
@@ -72,7 +71,11 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
     if (isInDraftState) {
       forward()
     } else {
-      navigate('NOT_FOUND') // TODO: Replace with details page route
+      navigate('SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS', {
+        params: {
+          purposeTemplateId: purposeTemplateId,
+        },
+      })
     }
   }
 
@@ -94,7 +97,9 @@ export const PurposeTemplateEditLinkedEService: React.FC<ActiveStepProps> = ({ f
             />{' '}
             <StepActions
               back={{
-                to: isInDraftState ? 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST' : 'NOT_FOUND', //TODO: REPLACE WITH DETAILS PAGE RUOTE
+                to: isInDraftState
+                  ? 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST'
+                  : 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS',
                 label: isInDraftState ? t('backToListBtn') : tCommon('actions.cancel'),
                 type: 'link',
               }}

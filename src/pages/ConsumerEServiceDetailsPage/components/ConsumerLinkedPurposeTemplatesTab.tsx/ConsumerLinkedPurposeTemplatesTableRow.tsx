@@ -22,7 +22,8 @@ export const ConsumerLinkedPurposeTemplatesTableRow: React.FC<{
         as="button"
         variant="outlined"
         size="small"
-        to="NOT_FOUND" //TODO: REPLACE WITH PURPOSE TEMPLATE DETAILS ROUTE WHEN AVAILABLE
+        to="SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS"
+        params={{ purposeTemplateId: purposeTemplate.id }}
       >
         {tCommon('actions.inspect')}
       </Link>

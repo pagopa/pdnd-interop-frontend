@@ -15,10 +15,7 @@ import { useTranslation } from 'react-i18next'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 import type { TenantKind } from '@/api/api.generatedTypes'
 
-type CatalogRoutesKeys = Extract<
-  RouteKey,
-  'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS' | 'NOT_FOUND' //TODO: remove NOT_FOUND
->
+type CatalogRoutesKeys = Extract<RouteKey, 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS'>
 type CatalogCardForPurposeTemplateRouteParams<TRouteKey extends RouteKey> = ReturnType<
   typeof useParams<TRouteKey>
 >
@@ -64,7 +61,7 @@ export function CatalogCardForPurposeTemplate<TRouteKey extends CatalogRoutesKey
         disableTypography={true}
         title={t(`targetTenantKind.${targetTenantKindLabel}`)}
       />
-      <CardContent sx={{ alignItems: 'start' }}>
+      <CardContent sx={{ alignItems: 'start', py: 2 }}>
         <Typography variant="h6" color="text.primary" sx={{ marginBottom: 1 }}>
           {title}
         </Typography>

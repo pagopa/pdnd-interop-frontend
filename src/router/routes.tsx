@@ -627,6 +627,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     authLevels: ['admin', 'api'],
   })
   .addRoute({
+    key: 'SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE',
+    path: '/fruizione/finalita/:purposeTemplateId/crea',
+    element: <ConsumerPurposeCreatePage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'],
+  })
+  .addRoute({
     key: 'SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT',
     path: '/fruizione/finalita/:purposeId/:purposeTemplateId/modifica',
     element: <ConsumerPurposeFromTemplateEditPage />,

@@ -125,6 +125,14 @@
       },
       "answerInputPlaceholder": "Answer",
       "addAnswerBtn": "Add answer",
+      "personalData": {
+        "title": "Personal data processing",
+        "content": {
+          "true": "You have declared that you process personal data",
+          "false": "You have declared that you do not process personal data"
+        },
+        "alertIncompatibleAnswer": "Make sure that the answer to the question 'Indicate whether personal data is accessed (required)' matches the one you provided in the general information. If the data does not match, publication will be blocked."
+      },
       "suggestedAnswersLabel": "Suggested answers"
     },
     "summary": {

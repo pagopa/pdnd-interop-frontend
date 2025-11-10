@@ -57,6 +57,10 @@ export function Breadcrumbs() {
           (routeLabels as Record<string, string | false>).SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT ??
           false,
 
+        SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE:
+          (routeLabels as Record<string, string | false>).SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE ??
+          false,
+
         DEFAULT: false,
         ASSISTENCE_PARTY_SELECTION: false,
       }}

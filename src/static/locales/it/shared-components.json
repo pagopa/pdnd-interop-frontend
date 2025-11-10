@@ -387,7 +387,11 @@
     },
     "answerLabel": "Risposta: ",
     "notEditableLabel": "Non modificabile",
-    "notEditableTooltip": "L’ente creatore del template non permette la modifica di questo campo"
+    "notEditableTooltip": "L’ente creatore del template non permette la modifica di questo campo",
+    "suggestedValuesSection": {
+      "title": "Risposte:",
+      "option": "Opzione {{index}}:"
+    }
   },
   "routeLabels": {
     "LOGOUT": "Logout",
@@ -459,6 +463,7 @@
     "SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS": "Visualizza finalità",
     "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS": "Visualizza finalità",
     "SUBSCRIBE_PURPOSE_TEMPLATE_EDIT": "Modifica template finalità",
+    "SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE": "Crea finalità da template",
     "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Modifica finalità da template"
   }
 }

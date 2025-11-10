@@ -1,7 +1,6 @@
 import type {
   CatalogPurposeTemplate,
   GetCatalogPurposeTemplatesParams,
-  TenantKind,
 } from '@/api/api.generatedTypes'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -14,21 +13,27 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import { Link } from '@/router'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { Stack } from '@mui/system'
+import { TenantHooks } from '@/api/tenant'
 
 type PurposeCreatePurposeTemplateAutocompleteProps = {
   eserviceId: string
-  tenantKind?: TenantKind
   handlesPersonalData?: boolean
   purposeTemplateId?: string
 }
 
 export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
   PurposeCreatePurposeTemplateAutocompleteProps
-> = ({ eserviceId, tenantKind, handlesPersonalData }) => {
+> = ({ eserviceId, handlesPersonalData, purposeTemplateId }) => {
   const { t } = useTranslation('purpose', {
     keyPrefix: 'create.purposeTemplateField.usePurposeTemplateSwitch.selectPurposeTemplate',
   })
+  const { data: purposeTemplateById } = useQuery({
+    ...PurposeTemplateQueries.getSingle(purposeTemplateId as string),
+    enabled: Boolean(purposeTemplateId),
+  })
+
   const selectedPurposeTemplateRef = React.useRef<CatalogPurposeTemplate | undefined>(undefined)
+  const { data: tenant } = TenantHooks.useGetActiveUserParty()
 
   const [purposeTemplateAutocompleteTextInput, setPurposeTemplateAutocompleteTextInput] =
     useAutocompleteTextInput()
@@ -59,7 +64,7 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
     q: getQ(),
     limit: 50,
     offset: 0,
-    targetTenantKind: tenantKind,
+    targetTenantKind: tenant.kind !== 'PA' ? 'PRIVATE' : 'PA', //we pass PRIVATE if the tenant is not PA because gsp scp and private have the same RA and in create draft we pass private for not PA tenants
     handlesPersonalData,
     eserviceIds: showOnlyLinkedPurposeTemplates ? [eserviceId] : [],
   }
@@ -81,6 +86,16 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
         loading={isLoadingPurposeTemplates}
         name="purposeTemplateId"
         label={t('autocompleteLabelPurposeTemplate')}
+        defaultValue={
+          purposeTemplateById
+            ? {
+                label: `${purposeTemplateById.purposeTitle ?? ''} - ${
+                  purposeTemplateById.creator?.name ?? ''
+                }`,
+                value: purposeTemplateById.id,
+              }
+            : { label: '', value: '' }
+        }
         options={autocompleteOptions}
         onValueChange={(value) => {
           selectedPurposeTemplateRef.current = purposeTemplates.find(
@@ -93,10 +108,10 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
       {selectedPurposeTemplateRef.current && (
         <ButtonNaked
           component={Link}
-          to="NOT_FOUND" //TODO: replace with purpose template details route when available
+          to="SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS"
+          params={{ purposeTemplateId: selectedPurposeTemplateRef.current.id }}
           color="primary"
           target="_blank"
-          params={undefined}
           endIcon={<OpenInNewIcon />}
           sx={{ alignSelf: 'flex-start', fontWeight: 700 }}
         >

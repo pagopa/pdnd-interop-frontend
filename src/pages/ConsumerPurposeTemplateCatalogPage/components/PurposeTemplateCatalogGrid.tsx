@@ -55,10 +55,8 @@ export const PurposeTemplateCatalogCard: React.FC<{
       title={purposeTemplate.purposeTitle}
       targetTenantKind={purposeTemplate.targetTenantKind}
       prefetchFn={handlePrefetch}
-      to="NOT_FOUND" //TODO: change when the route will be available
-      params={undefined}
-      // to="SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS"
-      // params={{ purposeTemplateId: purposeTemplateId }}
+      to="SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS"
+      params={{ purposeTemplateId: purposeTemplateId }}
     />
   )
 }
