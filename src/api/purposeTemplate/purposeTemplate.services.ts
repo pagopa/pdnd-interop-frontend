@@ -20,6 +20,7 @@ import type {
   RiskAnalysisTemplateAnswerAnnotationDocument,
   UnlinkEServiceToPurposeTemplatePayload,
   GetCreatorPurposeTemplatesParams,
+  UpdateRiskAnalysisTemplateAnswerAnnotationDocumentSeed,
   CompactOrganizations,
 } from '../api.generatedTypes'
 
@@ -274,6 +275,24 @@ async function getPublishedPurposeTemplateCreators(params: {
   )
 }
 
+async function updatePrettyNameAnnotationAssociatedDocument({
+  purposeTemplateId,
+  answerId,
+  documentId,
+  ...payload
+}: {
+  purposeTemplateId: string
+  answerId: string
+  documentId: string
+} & UpdateRiskAnalysisTemplateAnswerAnnotationDocumentSeed) {
+  const response = await axiosInstance.post<RiskAnalysisTemplateAnswerAnnotationDocument>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation/documents/${documentId}/update`,
+    payload
+  )
+
+  return response.data
+}
+
 export const PurposeTemplateServices = {
   getConsumerPurposeTemplatesList,
   getEservicesLinkedToPurposeTemplatesList,
@@ -297,5 +316,6 @@ export const PurposeTemplateServices = {
   reactivatePurposeTemplate,
   archivePurposeTemplate,
   getCatalogPurposeTemplates,
+  updatePrettyNameAnnotationAssociatedDocument,
   getPublishedPurposeTemplateCreators,
 }

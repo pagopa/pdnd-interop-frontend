@@ -201,6 +201,21 @@ function useDownloadDocument() {
   })
 }
 
+function useUpdatePrettyNameAnnotationAssociatedDocument() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purposeTemplate.updatePrettyNameDocument',
+  })
+
+  return useMutation({
+    mutationFn: PurposeTemplateServices.updatePrettyNameAnnotationAssociatedDocument,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const PurposeTemplateMutations = {
   useUpdateDraft,
   useLinkEserviceToPurposeTemplate,
@@ -216,4 +231,5 @@ export const PurposeTemplateMutations = {
   useAddAnnotationToAnswer,
   useAddDocumentsToAnnotation,
   useDownloadDocument,
+  useUpdatePrettyNameAnnotationAssociatedDocument,
 }

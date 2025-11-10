@@ -364,4 +364,22 @@ describe('PurposeTemplateServices', () => {
     //   )
     // })
   })
+
+  describe('updateDocumentPrettyNameForAnnotation', () => {
+    it('should make correct API call to update document pretty name for annotation', async () => {
+      vi.mocked(axiosInstance.put).mockResolvedValue({})
+
+      await PurposeTemplateServices.updatePrettyNameAnnotationAssociatedDocument({
+        purposeTemplateId: TEST_PURPOSE_TEMPLATE_ID,
+        answerId: TEST_ANSWER_ID,
+        documentId: TEST_DOCUMENT_ID,
+        prettyName: 'updated-name.pdf',
+      })
+
+      expect(axiosInstance.post).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-template-id/riskAnalysis/answers/test-answer-id/annotation/documents/test-document-id/update`,
+        { prettyName: 'updated-name.pdf' }
+      )
+    })
+  })
 })
