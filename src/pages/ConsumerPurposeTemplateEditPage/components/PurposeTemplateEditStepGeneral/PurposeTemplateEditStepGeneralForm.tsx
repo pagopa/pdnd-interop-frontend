@@ -11,6 +11,7 @@ import type {
   PurposeTemplateSeed,
   PurposeTemplateWithCompactCreator,
 } from '@/api/api.generatedTypes'
+import { compareObjects } from '@/utils/common.utils'
 
 export type PurposeTemplateEditStepGeneralFormValues = Omit<
   PurposeTemplateSeed,
@@ -48,13 +49,30 @@ const PurposeTemplateEditStepGeneralForm: React.FC<PurposeTemplateEditStepGenera
       handlesPersonalData: purposeTemplate.handlesPersonalData,
     }
 
-    updateDraft(
-      {
-        purposeTemplateId,
-        ...requestPayload,
-      },
-      { onSuccess: forward }
-    )
+    const oldPurposeTemplate = {
+      targetDescription: purposeTemplate.targetDescription,
+      targetTenantKind: purposeTemplate.targetTenantKind,
+      purposeTitle: purposeTemplate.purposeTitle,
+      purposeDescription: purposeTemplate.purposeDescription,
+      purposeDailyCalls: purposeTemplate.purposeDailyCalls,
+      handlesPersonalData: purposeTemplate.handlesPersonalData,
+      purposeIsFreeOfCharge: String(purposeTemplate.purposeIsFreeOfCharge),
+      purposeFreeOfChargeReason: purposeTemplate.purposeFreeOfChargeReason,
+    }
+
+    const isPurposeTemplateTheSame = compareObjects(values, oldPurposeTemplate)
+
+    if (!isPurposeTemplateTheSame) {
+      updateDraft(
+        {
+          purposeTemplateId,
+          ...requestPayload,
+        },
+        { onSuccess: forward }
+      )
+    } else {
+      forward()
+    }
   }
 
   const isFreeOfCharge = formMethods.watch('purposeIsFreeOfCharge')
