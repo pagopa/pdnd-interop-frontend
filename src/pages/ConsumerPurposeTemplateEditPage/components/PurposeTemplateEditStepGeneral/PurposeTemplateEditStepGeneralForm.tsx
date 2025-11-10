@@ -49,30 +49,13 @@ const PurposeTemplateEditStepGeneralForm: React.FC<PurposeTemplateEditStepGenera
       handlesPersonalData: purposeTemplate.handlesPersonalData,
     }
 
-    const oldPurposeTemplate = {
-      targetDescription: purposeTemplate.targetDescription,
-      targetTenantKind: purposeTemplate.targetTenantKind,
-      purposeTitle: purposeTemplate.purposeTitle,
-      purposeDescription: purposeTemplate.purposeDescription,
-      purposeDailyCalls: purposeTemplate.purposeDailyCalls,
-      handlesPersonalData: purposeTemplate.handlesPersonalData,
-      purposeIsFreeOfCharge: String(purposeTemplate.purposeIsFreeOfCharge),
-      purposeFreeOfChargeReason: purposeTemplate.purposeFreeOfChargeReason,
-    }
-
-    const isPurposeTemplateTheSame = compareObjects(values, oldPurposeTemplate)
-
-    if (!isPurposeTemplateTheSame) {
-      updateDraft(
-        {
-          purposeTemplateId,
-          ...requestPayload,
-        },
-        { onSuccess: forward }
-      )
-    } else {
-      forward()
-    }
+    updateDraft(
+      {
+        purposeTemplateId,
+        ...requestPayload,
+      },
+      { onSuccess: forward }
+    )
   }
 
   const isFreeOfCharge = formMethods.watch('purposeIsFreeOfCharge')

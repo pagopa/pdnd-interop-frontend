@@ -1,7 +1,6 @@
 import type {
   CatalogPurposeTemplate,
   GetCatalogPurposeTemplatesParams,
-  TenantKind,
 } from '@/api/api.generatedTypes'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -36,7 +35,7 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
 
   const selectedPurposeTemplateRef = React.useRef<CatalogPurposeTemplate | undefined>(undefined)
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
-  const tenantKindNormalized = tenantKindForPurposeTemplate(tenant.kind as TenantKind)
+  const tenantKindNormalized = tenant.kind && tenantKindForPurposeTemplate(tenant.kind)
 
   const [purposeTemplateAutocompleteTextInput, setPurposeTemplateAutocompleteTextInput] =
     useAutocompleteTextInput()
