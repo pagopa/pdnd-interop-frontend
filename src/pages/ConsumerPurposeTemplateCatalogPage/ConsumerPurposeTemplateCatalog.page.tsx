@@ -26,26 +26,19 @@ const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
 
   const [eservicesAutocompleteInput, setEServicesAutocompleteInput] = useAutocompleteTextInput()
 
-  const { data: templateCreators = [] } = useQuery({
-    ...PurposeTemplateQueries.getCatalogPurposeTemplates({
+  const { data: templateCreatorsOptions = [] } = useQuery({
+    ...PurposeTemplateQueries.getPublishedPurposeTemplateCreators({
+      q: purposeTemplateCreatorsAutocompleteInput,
       offset: 0,
       limit: 50,
-      q: purposeTemplateCreatorsAutocompleteInput,
     }),
     placeholderData: keepPreviousData,
-    select: ({ results }) =>
-      results.map((purposeTemplate) => ({
-        label: purposeTemplate.creator.name,
-        value: purposeTemplate.creator.id,
+    select: (response) =>
+      response.data.results.map((creator) => ({
+        label: creator.name,
+        value: creator.id,
       })),
   })
-
-  const templateCreatorsOptions = templateCreators //TEMP? deduplicate creators there isn't a dedicated endpoint to retrieve them
-    .map((creator) => ({
-      label: creator.label,
-      value: creator.value,
-    }))
-    .filter((value, index, self) => index === self.findIndex((t) => t.value === value.value))
 
   const { data: eservicesOptions = [] } = useQuery({
     ...EServiceQueries.getCatalogList({

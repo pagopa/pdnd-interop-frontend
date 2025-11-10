@@ -523,6 +523,10 @@ export interface UpdateEServiceDescriptorDocumentSeed {
   prettyName: string
 }
 
+export interface UpdateRiskAnalysisTemplateAnswerAnnotationDocumentSeed {
+  prettyName: string
+}
+
 export interface DescriptorRejectionReason {
   rejectionReason: string
   /** @format date-time */
@@ -2803,6 +2807,22 @@ export interface GetConsumerPurposesParams {
    * @default []
    */
   states?: PurposeVersionState[]
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
+export interface GetPublishedPurposeTemplateCreatorsParams {
+  /** Query to filter creators by name */
+  q?: string
   /**
    * @format int32
    * @min 0
@@ -6776,6 +6796,34 @@ export namespace PurposeTemplates {
     export type ResponseBody = CreatedResource
   }
   /**
+   * @description Retrieve Tenants that have published a purposeTemplate
+   * @tags purposeTemplates
+   * @name GetPublishedPurposeTemplateCreators
+   * @request GET:/purposeTemplates/filter/creators
+   * @secure
+   */
+  export namespace GetPublishedPurposeTemplateCreators {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter creators by name */
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = CompactOrganizations
+  }
+  /**
    * @description Link one Eservice to Purpose Template (Draft or Active state)
    * @tags purposeTemplates
    * @name LinkEServiceToPurposeTemplate
@@ -7064,6 +7112,37 @@ export namespace PurposeTemplates {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = void
+  }
+  /**
+   * No description
+   * @tags purposeTemplates
+   * @name UpdateRiskAnalysisTemplateAnswerAnnotationDocument
+   * @summary Update Answer Annotation Document in Risk Analysis of Purpose Template
+   * @request POST:/purposeTemplates/{purposeTemplateId}/riskAnalysis/answers/{answerId}/annotation/documents/{documentId}/update
+   * @secure
+   */
+  export namespace UpdateRiskAnalysisTemplateAnswerAnnotationDocument {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string
+      /**
+       * the risk analysis template answer id
+       * @format uuid
+       */
+      answerId: string
+      /**
+       * the risk analysis template answer annotation document id
+       * @format uuid
+       */
+      documentId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = UpdateRiskAnalysisTemplateAnswerAnnotationDocumentSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = RiskAnalysisTemplateAnswerAnnotationDocument
   }
   /**
    * @description Add a risk analysis answer annotation for the specified purpose template risk analysis.
