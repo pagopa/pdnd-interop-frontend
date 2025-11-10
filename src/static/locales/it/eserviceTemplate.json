@@ -32,7 +32,23 @@
           "downloadUsingTenantsList": "Scarica l’elenco degli implementatori",
           "viewTechnicalInfo": "Visualizza le specifiche tecniche dell’e-service"
         },
-        "consumerListFileName": "{{timestamp}}-lista-consumatori-template-{{eServiceTemplateName}}.csv"
+        "consumerListFileName": "{{timestamp}}-lista-consumatori-template-{{eServiceTemplateName}}.csv",
+        "personalDataField": {
+          "DELIVER": {
+            "label": "Eroga dati personali"
+          },
+          "RECEIVE": {
+            "label": "Riceve dati personali"
+          },
+          "value": {
+            "true": "Sì",
+            "false": "No",
+            "undefined": "Non indicato"
+          },
+          "alert": {
+            "label": "Specificare se questo template e-service tratta dati personali."
+          }
+        }
       },
       "technicalInformations": {
         "title": "Specifiche tecniche e-service",
@@ -159,7 +175,8 @@
   "actions": {
     "createNewEServiceInstance": "Usa template",
     "createNewEServiceInstanceDisabled": "Hai già creato una istanza da questo\ntemplate.",
-    "createInstanceDisabledTenantKind": "Non è possibile usare il template in quanto l’erogatore non ha creato una finalità per il tuo tipo di ente"
+    "createInstanceDisabledTenantKind": "Non è possibile usare il template in quanto l’erogatore non ha creato una finalità per il tuo tipo di ente",
+    "createInstanceDisabledPersonalData": "Non è possibile usare il template in quanto l’erogatore non ha indicato se vengono trattati dati personali"
   },
   "createInstance": {
     "title": "Crea e-service da template",
@@ -211,6 +228,22 @@
             "before": "Signal Hub utilizza il",
             "linkLabel": "servizio di push",
             "after": "per generare notifiche relative alle variazioni dei dati relativi all’e-service."
+          }
+        }
+      },
+      "eservicePersonalDataField": {
+        "DELIVER": {
+          "label": "L’e-service eroga dati personali?",
+          "options": {
+            "true": "Eroga dati personali",
+            "false": "Non eroga dati personali"
+          }
+        },
+        "RECEIVE": {
+          "label": "L’e-service riceve dati personali?",
+          "options": {
+            "true": "Riceve dati personali",
+            "false": "Non riceve dati personali"
           }
         }
       }
@@ -318,6 +351,19 @@
       "apiTechnology": {
         "label": "Tecnologia API"
       },
+      "personalDataField": {
+        "DELIVER": {
+          "label": "Eroga dati personali"
+        },
+        "RECEIVE": {
+          "label": "Riceve dati personali"
+        },
+        "value": {
+          "true": "Sì",
+          "false": "No",
+          "undefined": "Non indicato"
+        }
+      },
       "isSignalHubEnabled": {
         "label": "Viene suggerito di utilizzare il servizio di aggiornamento dati (Signal Hub)?",
         "value": {
@@ -370,6 +416,7 @@
     },
     "notPublishableTooltip": {
       "label": "Uno o più campi richiesti non sono stati compilati. Completa la bozza"
-    }
+    },
+    "missingPersonalDataField": "Non hai indicato se l’e-service tratta dati personali. Completa la bozza"
   }
 }

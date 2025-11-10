@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from '@/router'
-import { Alert, Button, Stack } from '@mui/material'
+import { Alert, Button, Stack, Tooltip } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
@@ -34,6 +34,24 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   const hasRiskAnalysisVersionMismatch = useCheckRiskAnalysisVersionMismatch(purpose)
   const alertProps = useGetConsumerPurposeAlertProps(purpose)
+
+  const eservicePersonalData = purpose?.eservice.personalData
+
+  const checkIncompatibleAnswerValue = () => {
+    const userAnswer = purpose?.riskAnalysisForm?.answers['usesPersonalData']?.[0]
+    const isYes = userAnswer === 'YES'
+    const isNo = userAnswer === 'NO'
+
+    const incompatible =
+      (isYes && eservicePersonalData !== true) || (isNo && eservicePersonalData !== false)
+
+    return incompatible
+  }
+
+  const isPublishButtonDisabled =
+    purpose?.riskAnalysisForm &&
+    eservicePersonalData !== undefined &&
+    checkIncompatibleAnswerValue()
 
   const arePublishOrEditButtonsDisabled =
     (purpose?.eservice.mode === 'DELIVER' && hasRiskAnalysisVersionMismatch) ||
@@ -128,14 +146,19 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
         >
           {tCommon('editDraft')}
         </Button>
-        <Button
-          disabled={arePublishOrEditButtonsDisabled}
-          startIcon={<PublishIcon />}
-          variant="contained"
-          onClick={handlePublishDraft}
-        >
-          {tCommon('publish')}
-        </Button>
+
+        <Tooltip title={isPublishButtonDisabled ? t('summary.publishBtnDisabled') : ''} arrow>
+          <span>
+            <Button
+              disabled={arePublishOrEditButtonsDisabled || isPublishButtonDisabled}
+              startIcon={<PublishIcon />}
+              variant="contained"
+              onClick={handlePublishDraft}
+            >
+              {tCommon('publish')}
+            </Button>
+          </span>
+        </Tooltip>
       </Stack>
     </PageContainer>
   )

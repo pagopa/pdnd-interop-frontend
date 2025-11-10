@@ -256,6 +256,7 @@ const createMockAgreement = createMockFactory<Agreement>({
 
 const createMockAgreementListingItem = createMockFactory<AgreementListEntry>({
   canBeUpgraded: false,
+  hasUnreadNotifications: false,
   consumer: { id: '6b16be70-9230-4209-bd1f-7e5ae0eed289', name: 'PagoPa S.p.A.' },
   descriptor: {
     id: '2881e984-4279-47e8-8fc4-aa236468436e',

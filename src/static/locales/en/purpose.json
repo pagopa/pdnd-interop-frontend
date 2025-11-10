@@ -84,6 +84,22 @@
         "description": "There is a new version of risk analysis available. The one compiled previously is obsolete and can no longer be used. If you click \"Update\", all the fields that have not changed and were filled in will already be filled in in the new version",
         "proceedButtonLabel": "Update",
         "cancelButtonLabel": "Discard"
+      },
+      "personalDataFlag": {
+        "label": "Personal data processing",
+        "content": {
+          "true": "The provider declares to process personal data",
+          "false": "The provider declares not to process personal data",
+          "undefined": "The provider has not declared the processing of personal data"
+        },
+        "incompatibleAnswerError": {
+          "purposeEdit": "The answer in this field differs from what was defined by the e-service provider"
+        },
+        "alertForIncompatibleAnswer": "Make sure that the answer to the question \"Indicate whether you access personal data (required)\" matches the one the provider provided in the general information. If the data does not match, the publication will be blocked.",
+        "alertForIncompatibleAnswerPurpose": {
+          "personalData": "You will not be able to publish this purpose because you declared that personal data is processed, but the provider declared otherwise. For clarifications, contact the provider.",
+          "noPersonalData": "You will not be able to publish this purpose because you declared that personal data is not processed, but the provider declared otherwise. For clarifications, contact the provider."
+        }
       }
     }
   },
@@ -125,7 +141,8 @@
     "riskAnalysisSection": {
       "title": "Risk analysis",
       "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
-    }
+    },
+    "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione"
   },
   "list": {
     "cantCreatePurposeTooltip": "You cannot create purposes because you have no associable e-service",
@@ -317,6 +334,14 @@
             "infoLable": "Estimated number of API calls/day",
             "validation": {
               "sameValue": "The number of API calls/day requested must be different than the current one"
+            }
+          },
+          "riskAnalysisSection": {
+            "title": "Risk analysis",
+            "description": "You can update the estimate only if the risk analysis linked to this purpose is still valid.",
+            "checkbox": {
+              "label": "The risk analysis is unchanged",
+              "requiredValidation": "To request the update, confirm that the risk analysis has remained unchanged"
             }
           }
         },

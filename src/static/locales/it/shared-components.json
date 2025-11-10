@@ -68,6 +68,22 @@
       "confirmLabel": "Aggiungi"
     }
   },
+  "personalDataDrawer": {
+    "title": "Questo {{where}} tratta dati personali?",
+    "subtitle": "Per questo {{where}} è necessario indicare se vengono trattati dati personali.",
+    "alertForAPIOperator": "Consultati con l’amministratore prima di confermare. Al salvataggio, questo dato non sarà più modificabile.",
+    "alertLabel": "Al salvataggio, questo dato non sarà più modificabile.",
+    "options": {
+      "DELIVER": {
+        "true": "Eroga dati personali",
+        "false": "Non eroga dati personali"
+      },
+      "RECEIVE": {
+        "true": "Riceve dati personali",
+        "false": "Non riceve dati personali"
+      }
+    }
+  },
   "dialogUpgradeAgreementVersion": {
     "title": "Aggiornamento richiesta di fruizione",
     "content": {
@@ -335,6 +351,20 @@
         "riskAnalysisSection": {
           "title": "Analisi del rischio",
           "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
+          "personalDataFlag": {
+            "label": "Trattamento dati personali",
+            "true": "Hai dichiarato di trattare dati personali",
+            "false": "Hai dichiarato di non trattare dati personali",
+            "undefined": "Non specificato"
+          },
+          "personalDataValuesAlert": {
+            "labelForEserviceCreateStep2": "La risposta a questa domanda differisce da quanto è stato definito nelle proprietà generali dell’e-service",
+            "alertForIncompatibleAnswer": "Assicurati che la risposta alla domanda \"Indicare se si accede a dati personali (richiesto)\" sia uguale a quella che hai indicato nelle informazioni generali. Se i dati non corrispondono ti verrà bloccata la pubblicazione.",
+            "labelForPurposeCreate": {
+              "YES": "Non potrai pubblicare questa finalità in quanto hai dichiarato che i dati personali vengono trattati, ma l'erogatore ha dichiarato il contrario. Per chiarimenti, contatta l'erogatore.",
+              "NO": "Non potrai pubblicare questa finalità in quanto hai dichiarato che i dati personali non vengono trattati, ma l'erogatore ha dichiarato il contrario. Per chiarimenti, contatta l'erogatore."
+            }
+          },
           "personalDataAlert": "Attenzione: non inserire dati personali all’interno dei campi liberi di testo",
           "eserviceTemplateRiskAnalysis": {
             "title": "Indicare chi potrà utilizzare la seguente analisi del rischio",

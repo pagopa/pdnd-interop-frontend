@@ -16,6 +16,7 @@ import {
   ProviderEServiceTemplateVersionInfoSummary,
 } from './components'
 import { ProviderEServiceTemplateRiskAnalysisSummaryList } from './components/ProviderEServiceTemplateRiskAnalysisSummaryList'
+import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate')
@@ -148,7 +149,15 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
         <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
           {tCommon('editDraft')}
         </Button>
-        <PublishButton onClick={handlePublishDraft} disabled={!canBePublished()} />
+        <PublishButton
+          onClick={handlePublishDraft}
+          disabled={!canBePublished()}
+          arePersonalDataSet={
+            FEATURE_FLAG_ESERVICE_PERSONAL_DATA
+              ? !!eserviceTemplate?.eserviceTemplate.personalData
+              : true
+          }
+        />
       </Stack>
     </PageContainer>
   )
@@ -157,15 +166,21 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
 type PublishButtonProps = {
   disabled: boolean
   onClick: VoidFunction
+  arePersonalDataSet: boolean
 }
 
-const PublishButton: React.FC<PublishButtonProps> = ({ disabled, onClick }) => {
+const PublishButton: React.FC<PublishButtonProps> = ({ disabled, onClick, arePersonalDataSet }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'summary' })
 
   const Wrapper = disabled
     ? ({ children }: { children: React.ReactElement }) => (
-        <Tooltip arrow title={t('notPublishableTooltip.label')}>
+        <Tooltip
+          arrow
+          title={
+            arePersonalDataSet ? t('notPublishableTooltip.label') : t('missingPersonalDataField')
+          }
+        >
           <span tabIndex={disabled ? 0 : undefined}>{children}</span>
         </Tooltip>
       )
