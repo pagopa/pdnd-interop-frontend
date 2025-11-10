@@ -26,6 +26,8 @@ export const ConsumerPurposeTemplateLinkedEServiceTab: React.FC<
 
   const navigate = useNavigate()
 
+  const isEditable = purposeTemplate.state === 'PUBLISHED' || purposeTemplate.state === 'DRAFT'
+
   const topSideActions: Array<ActionItemButton> =
     routeKey === 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS' && isAdmin
       ? [
@@ -40,6 +42,7 @@ export const ConsumerPurposeTemplateLinkedEServiceTab: React.FC<
             label: tCommon('actions.edit'),
             variant: 'contained',
             icon: EditIcon,
+            disabled: !isEditable,
           },
         ]
       : []
