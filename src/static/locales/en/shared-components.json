@@ -463,6 +463,7 @@
     "SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS": "View purpose",
     "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS": "View purpose",
     "SUBSCRIBE_PURPOSE_TEMPLATE_EDIT": "Edit purpose template",
+    "SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE": "Create purpose from template",
     "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Edit purpose from template"
   }
 }
