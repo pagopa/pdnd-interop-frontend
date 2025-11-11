@@ -109,7 +109,10 @@
       "associationRemoved": "<strong>The client association was removed</strong> within the process. It will be possible to associate one or more clients only after the activation of the purpose.",
       "newRiskAnalysisAvailable": "This draft is no longer publishable. Since its creation, a new version of the risk analysis has been released. Delete it and create a new one.",
       "descriptorOrAgreementArchived": "This draft is no longer publishable. The agreement of this e-service is no longer active. Delete it and create a new one.",
-      "rulesetExpired": "This risk analysis uses an obsolete version that you cannot publish.",
+      "rulesetExpired": {
+        "label": "This risk analysis uses an obsolete version that you cannot publish.",
+        "action": "Create new purpose"
+      },
       "infoRulesetExpiration": "This risk analysis uses a version that will become obsolete in {{days}} days. Publish it by {{date}} to avoid having to recompile it."
     },
     "generalInformationSection": {

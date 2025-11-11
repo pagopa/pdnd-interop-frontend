@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from '@/router'
-import { Alert, Button, Stack, Tooltip } from '@mui/material'
+import { Alert, Button, Stack, Tooltip, Typography } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
@@ -153,8 +153,20 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
         </Alert>
       )}
       {isRulesetExpired && (
-        <Alert sx={{ mt: 3 }} severity="error">
-          {t('summary.alerts.rulesetExpired')}
+        <Alert severity="error" sx={{ alignItems: 'center', mt: 3 }} variant="outlined">
+          <Stack spacing={13} direction="row" alignItems="center">
+            {' '}
+            {/**TODO FIX SPACING */}
+            <Typography>{t('summary.alerts.rulesetExpired.label')}</Typography>
+            <Button
+              variant="naked"
+              size="medium"
+              sx={{ fontWeight: 700, mr: 1 }}
+              onClick={() => navigate('SUBSCRIBE_PURPOSE_CREATE')}
+            >
+              {t('summary.alerts.rulesetExpired.action')}
+            </Button>
+          </Stack>
         </Alert>
       )}
       <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
