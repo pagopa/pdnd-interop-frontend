@@ -1,3 +1,0 @@
-
-echo "Validating commit message..."
-npx --no -- commitlint --edit $1
