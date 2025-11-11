@@ -82,7 +82,7 @@
     "vitest": "^0.34.4"
   },
   "validate-branch-name": {
-    "pattern": "^(feat|fix|docs|chore|refactor|test|style|perf)/[A-Z]+-[0-9]+_.+$",
+    "pattern": "^(feature|release|hotfix|bugfix|refactor|perfomance|documents|build|ci|chore)/[A-Z]+-[0-9]+_.+$",
     "errorMsg": "You need to follow this branching name rule: <type>/<JIRA_KEY>_<description>"
   }
 }
