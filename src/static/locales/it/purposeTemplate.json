@@ -217,6 +217,7 @@
     "linkedEservicesTab": {
       "title": "E-service e template e-service collegati",
       "description": "Definisci un elenco di e-service per cui è suggerito usare la finalità agevolata. Il fruitore ha facoltà di utilizzare \n questo template anche per e-service che non compaiono nella lista.",
+      "editButtonTooltip": "Non è possibile modificare l'elenco degli e-service se il template è sospeso o archiviato",
       "filters": {
         "eserviceField": {
           "label": "Nome e-service"
