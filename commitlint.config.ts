@@ -5,7 +5,7 @@ const Configuration: UserConfig = {
   rules: {
     'header-max-length': [2, 'always', 200],
     'type-enum': [
-      1,
+      2,
       'always',
       [
         'feat',
@@ -28,11 +28,10 @@ const Configuration: UserConfig = {
       rules: {
         'header-match-pattern': (parsed) => {
           const { header } = parsed
-          const pattern =
-            /^(feat|fix|docs|chore|refactor|test|style|perf|ci|build|revert): .+ \([A-Z]+-\d+(, [A-Z]+-\d+)*\)$/
+          const pattern = /^(feat|fix|docs|chore|refactor|test|style|perf|ci|build|revert): .+$/
 
           if (!header || !pattern.test(header)) {
-            return [false, 'Message should follow the format: <type>: <description> (<JIRA-KEY>)']
+            return [false, 'Message should follow the format: <type>: <description>']
           }
 
           return [true]
