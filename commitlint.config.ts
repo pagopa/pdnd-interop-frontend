@@ -4,6 +4,23 @@ const Configuration: UserConfig = {
   extends: ['@commitlint/config-conventional'],
   rules: {
     'header-max-length': [2, 'always', 200],
+    'type-enum': [
+      1,
+      'always',
+      [
+        'feat',
+        'fix',
+        'docs',
+        'chore',
+        'refactor',
+        'test',
+        'style',
+        'perf',
+        'ci',
+        'build',
+        'revert',
+      ],
+    ],
     'header-match-pattern': [2, 'always'],
   },
   plugins: [
