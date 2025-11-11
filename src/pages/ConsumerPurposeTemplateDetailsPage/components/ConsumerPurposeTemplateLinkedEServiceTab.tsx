@@ -43,6 +43,7 @@ export const ConsumerPurposeTemplateLinkedEServiceTab: React.FC<
             variant: 'contained',
             icon: EditIcon,
             disabled: !isEditable,
+            tooltip: !isEditable ? t('editButtonTooltip') : undefined,
           },
         ]
       : []
