@@ -61,8 +61,19 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
   const suggestedValueConsumerError = (
     formState.errors as Record<string, Record<string, { message?: string }>>
   ).suggestedValueConsumer?.[questionKey]?.message as string | undefined
-  const displayError =
-    suggestedValues.length > 0 && type === 'consumer' ? suggestedValueConsumerError || error : error
+
+  const suggestedValuesError = (
+    formState.errors as Record<string, Record<string, { message?: string }>>
+  ).suggestedValues?.[questionKey]?.message as string | undefined
+
+  let displayError = error
+  if (isFromPurposeTemplate) {
+    if (type === 'consumer' && suggestedValues.length > 0) {
+      displayError = suggestedValueConsumerError || error
+    } else if (type === 'creator' && questionType === 'text') {
+      displayError = suggestedValuesError || error
+    }
+  }
 
   const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
     label,
@@ -71,7 +82,22 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
     helperText,
   })
 
-  const conditionalRules = mapValidationErrorMessages(rules, tCommon)
+  const conditionalRules =
+    isFromPurposeTemplate && type === 'creator' && questionType === 'text'
+      ? { required: false }
+      : mapValidationErrorMessages(rules, tCommon)
+
+  const suggestedValuesRules =
+    isFromPurposeTemplate && type === 'creator' && questionType === 'text'
+      ? {
+          validate: (value: string[] | undefined) => {
+            if (!value || value.length === 0) {
+              return tCommon('validation.mixed.required')
+            }
+            return true
+          },
+        }
+      : undefined
 
   const handleAddSuggestedValue = () => {
     const suggestedValue = suggestedValueFormMethods.getValues('suggestedValue')
@@ -116,7 +142,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
           // Show select only if there are suggestedValues AND question is not editable
           <RHFSelect
             name={suggestedValueConsumerName}
-            label={t('suggestedAnswersLabel')} // todo check this label value is the right one
+            label={t('suggestedAnswersLabel')}
             options={suggestedValues.map((value) => ({ label: value, value }))}
             rules={{ required: true }}
           />
@@ -143,6 +169,14 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
           />
         ) : (
           <Stack spacing={2}>
+            {/* Hidden Controller for suggestedValues validation when creator and freeText */}
+            {suggestedValuesRules && (
+              <Controller
+                name={suggestedValuesName}
+                rules={suggestedValuesRules}
+                render={() => <></>} // Hidden controller, only for validation
+              />
+            )}
             {/* Input field and add button */}
             <Stack direction="column" spacing={2} alignItems="flex-start">
               <FormProvider {...suggestedValueFormMethods}>
@@ -152,6 +186,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
                   name="suggestedValue"
                   size="small"
                   onKeyDown={handleKeyDown}
+                  inputProps={{ maxLength: 250 }}
                   sx={{ flex: 1 }}
                 />
               </FormProvider>
