@@ -1093,10 +1093,10 @@
       }
     },
     "unlinkEService": {
-      "loading": "Stiamo scollegando l'e-service",
+      "loading": "Stiamo rimuovendo l'e-service",
       "outcome": {
-        "success": "L’e-service è stato disassociato correttamente.",
-        "error": "Non è stato possibile disassociare questo e-service. Per favore riprova!"
+        "success": "L’e-service è stato rimosso correttamente.",
+        "error": "Non è stato possibile rimuovere questo e-service. Per favore riprova!"
       }
     }
   }
