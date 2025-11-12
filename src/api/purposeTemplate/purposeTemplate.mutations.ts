@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { PurposeTemplateServices } from './purposeTemplate.services'
-import { success } from 'zod'
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purposeTemplate.createDraft' })
