@@ -187,7 +187,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
             (isAdmin || isOperatorAPI) &&
             routeKey === 'PROVIDE_ESERVICE_TEMPLATE_DETAILS' &&
             eserviceTemplateVersion?.eserviceTemplate.personalData === undefined && (
-              <Alert severity="warning" sx={{ alignItems: 'center' }}>
+              <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
                 <Stack spacing={17} direction="row" alignItems="center">
                   {' '}
                   {/**TODO FIX SPACING */}
