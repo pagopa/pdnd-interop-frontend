@@ -15,12 +15,12 @@ export const NotificationsBanner: React.FC = () => {
             isOpen={isOpen}
             setIsOpen={closeBanner}
             action1={
-                <Button size="small" color="inherit" startIcon={<SettingsIcon />} onClick={() => console.log('Button 1 clicked')}>
+                <Button size="small" color="inherit" startIcon={<SettingsIcon />} key="action1" onClick={() => console.log('Button 1 clicked')} aria-label="Settings button">
                     {action1Label}
                 </Button>
             }
             action2={
-                <Button size="small" color="inherit" endIcon={<OpenInNewIcon />} onClick={() => console.log('Button 2 clicked')}>
+                <Button size="small" color="inherit" endIcon={<OpenInNewIcon />} key="action2" onClick={() => console.log('Button 2 clicked')} aria-label="Open in new tab button">
                     {action2Label}
                 </Button>
             }

@@ -58,7 +58,7 @@ export const Banner: React.FC<BannerProps> = ({ title, content, isOpen, setIsOpe
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         >
             <Alert
-                aria-labelledby={id}
+                aria-label={id}
                 severity="info"
                 variant="filled"
                 action={closeButton}

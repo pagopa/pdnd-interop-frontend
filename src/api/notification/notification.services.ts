@@ -96,7 +96,7 @@ async function deleteNotifications(payload: { ids: string[] }) {
   })
 }
 
-async function getNotificationsJson() {
+async function getNotificationsBannerConfigJson() {
   // Mock data in development to avoid CORS issues with S3
   if (APP_MODE === 'development') {
     return {
@@ -125,5 +125,5 @@ export const NotificationServices = {
   markBulkAsNotRead,
   deleteNotification,
   deleteNotifications,
-  getNotificationsJson,
+  getNotificationsBannerConfigJson,
 }

@@ -9,9 +9,9 @@ export function useNotificationsBanner() {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'notificationsBanner',
   })
-  const { data } = useQuery(NotificationQueries.getNotificationsJson())
+  const { data } = useQuery(NotificationQueries.getNotificationsBannerConfigJson())
 
-  const { isOpen, closeBanner, bannerInfo } = useBaseBanner({
+  const { isOpen, closeBanner } = useBaseBanner({
     data,
     storageKey: STORAGE_KEY,
   })
