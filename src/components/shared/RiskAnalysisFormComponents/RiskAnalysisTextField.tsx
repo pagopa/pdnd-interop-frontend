@@ -66,11 +66,13 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
     formState.errors as Record<string, Record<string, { message?: string }>>
   ).suggestedValues?.[questionKey]?.message as string | undefined
 
+  const isCreatorFreeText = type === 'creator' && questionType === 'text'
+
   let displayError = error
   if (isFromPurposeTemplate) {
     if (type === 'consumer' && suggestedValues.length > 0) {
       displayError = suggestedValueConsumerError || error
-    } else if (type === 'creator' && questionType === 'text') {
+    } else if (isCreatorFreeText) {
       displayError = suggestedValuesError || error
     }
   }
@@ -83,12 +85,12 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
   })
 
   const conditionalRules =
-    isFromPurposeTemplate && type === 'creator' && questionType === 'text'
+    isFromPurposeTemplate && isCreatorFreeText
       ? { required: false }
       : mapValidationErrorMessages(rules, tCommon)
 
   const suggestedValuesRules =
-    isFromPurposeTemplate && type === 'creator' && questionType === 'text'
+    isFromPurposeTemplate && isCreatorFreeText
       ? {
           validate: (value: string[] | undefined) => {
             if (!value || value.length === 0) {
