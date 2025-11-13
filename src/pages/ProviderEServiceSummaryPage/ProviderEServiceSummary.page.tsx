@@ -162,30 +162,14 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 
   const arePersonalDataSet = descriptor?.eservice.personalData !== undefined
 
-  const currentDateString = new Intl.DateTimeFormat('it', {
-    dateStyle: 'short',
-    timeStyle: 'short',
-  })
-    .format()
-    .replace(',', '')
+  const eserviceRiskAnalyses = descriptor?.eservice.riskAnalysis
 
-  const checkRulesetExpiration = () => {
-    if (!isReceiveMode) return false
-
-    const eserviceRiskAnalyses = descriptor.eservice.riskAnalysis
-
-    const validExpirations = eserviceRiskAnalyses
-      .map((riskAnalysis) =>
-        riskAnalysis.rulesetExpiration ? new Date(riskAnalysis.rulesetExpiration) : null
-      )
-      .filter((date): date is Date => date !== null)
-
-    const hasExpired = validExpirations.some((date) => date < new Date(currentDateString))
-    if (hasExpired) return true
-    return false
-  }
-
-  const isRulesetExpired = checkRulesetExpiration()
+  const isRulesetExpired =
+    eserviceRiskAnalyses &&
+    eserviceRiskAnalyses.some(
+      (riskAnalysis) =>
+        riskAnalysis.rulesetExpiration && new Date(riskAnalysis.rulesetExpiration) < new Date()
+    )
 
   const canBePublished = () => {
     return (

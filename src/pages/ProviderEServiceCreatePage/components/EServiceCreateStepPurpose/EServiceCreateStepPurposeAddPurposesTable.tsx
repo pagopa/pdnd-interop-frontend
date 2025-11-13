@@ -42,7 +42,7 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
     const hasExpired = expiration < now
     if (hasExpired) return true
 
-    daysToExpiration = Math.ceil((expiration.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+    daysToExpiration = Math.floor((expiration.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
 
     return false
   }
@@ -74,6 +74,7 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
                       days: daysToExpiration,
                       expirationDate: new Intl.DateTimeFormat('it', {
                         dateStyle: 'short',
+                        timeZone: 'UTC',
                       }).format(new Date(riskAnalysis.rulesetExpiration!)),
                     })}
                     arrow
@@ -88,17 +89,20 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
               title={
                 checkRulesetExpiration(riskAnalysis) === true ? t('expiredRulesetTooltip') : ''
               }
+              arrow
             >
-              <Button
-                onClick={handleEditPurpose.bind(null, riskAnalysis.id)}
-                disabled={
-                  !areEServiceGeneralInfoEditable || checkRulesetExpiration(riskAnalysis) === true
-                }
-                variant="naked"
-                sx={{ mr: 3 }}
-              >
-                {tCommon('actions.edit')}
-              </Button>
+              <span>
+                <Button
+                  onClick={handleEditPurpose.bind(null, riskAnalysis.id)}
+                  disabled={
+                    !areEServiceGeneralInfoEditable || checkRulesetExpiration(riskAnalysis) === true
+                  }
+                  variant="naked"
+                  sx={{ mr: 3 }}
+                >
+                  {tCommon('actions.edit')}
+                </Button>
+              </span>
             </Tooltip>
             <Button
               onClick={handleDeletePurpose.bind(null, riskAnalysis.id)}
