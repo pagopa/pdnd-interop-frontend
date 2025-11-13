@@ -1,5 +1,5 @@
 import { renderHookWithApplicationContext } from '@/utils/testing.utils'
-import { useMaintenanceBanner } from '../useMaintenanceBanner'
+import { useMaintenanceBanner } from '../bannerHooks/useMaintenanceBanner'
 import { type Mock, vi } from 'vitest'
 import subDays from 'date-fns/subDays'
 import addDays from 'date-fns/addDays'
