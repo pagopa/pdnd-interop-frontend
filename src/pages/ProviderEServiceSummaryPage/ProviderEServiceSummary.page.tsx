@@ -61,7 +61,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
 
-  const { mutate: updateEserviceTemplatePersonalData } =
+  const { mutate: updateEservicePersonalData } =
     EServiceMutations.useUpdateEServicePersonalDataFlagAfterPublication()
 
   const isEServiceFromTemplate = descriptor?.templateRef
@@ -227,8 +227,8 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     closeDrawer: closeEServiceUpdatePersonalDataDrawer,
   } = useDrawerState()
 
-  const handleEServiceTemplatePersonalDataUpdate = (eserviceId: string, personalData: boolean) => {
-    updateEserviceTemplatePersonalData(
+  const handleEServicePersonalDataUpdate = (eserviceId: string, personalData: boolean) => {
+    updateEservicePersonalData(
       {
         eserviceId: eserviceId,
         personalData: personalData,
@@ -319,23 +319,26 @@ const ProviderEServiceSummaryPage: React.FC = () => {
                 : eserviceLabel}
             </Alert>
           )}
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && !arePersonalDataSet && !isLoading && (
-            <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
-              <Stack spacing={35} direction="row" alignItems="center">
-                {' '}
-                {/**TODO FIX SPACING */}
-                <Typography>{t('summary.alertUpdatePersonalData.label')}</Typography>
-                <Button
-                  variant="naked"
-                  size="medium"
-                  sx={{ fontWeight: 700, mr: 1, alignSelf: 'flex-end' }}
-                  onClick={openUpdatePersonalDataDrawer}
-                >
-                  {tCommon('specifyProcessing')}
-                </Button>
-              </Stack>
-            </Alert>
-          )}
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
+            !arePersonalDataSet &&
+            !isLoading &&
+            !isEServiceFromTemplate && (
+              <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
+                <Stack spacing={35} direction="row" alignItems="center">
+                  {' '}
+                  {/**TODO FIX SPACING */}
+                  <Typography>{t('summary.alertUpdatePersonalData.label')}</Typography>
+                  <Button
+                    variant="naked"
+                    size="medium"
+                    sx={{ fontWeight: 700, mr: 1, alignSelf: 'flex-end' }}
+                    onClick={openUpdatePersonalDataDrawer}
+                  >
+                    {tCommon('specifyProcessing')}
+                  </Button>
+                </Stack>
+              </Alert>
+            )}
         </Stack>
         {!isDelegator && (
           <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
@@ -405,7 +408,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
         onClose={closeEServiceUpdatePersonalDataDrawer}
         eserviceId={descriptor?.eservice.id as string}
         personalData={descriptor?.eservice.personalData}
-        onSubmit={handleEServiceTemplatePersonalDataUpdate}
+        onSubmit={handleEServicePersonalDataUpdate}
         eserviceMode={descriptor?.eservice.mode as EServiceMode}
         where="e-service"
       />

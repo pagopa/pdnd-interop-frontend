@@ -417,6 +417,9 @@
     "notPublishableTooltip": {
       "label": "One or more required fields have not been filled out. Complete the draft, please."
     },
-    "missingPersonalDataField": "You have not indicated whether the e-service delivers or receives personal data. You can go back to the first step to specify it, or you can proceed and add this information later."
+    "missingPersonalDataField": "You have not indicated whether the e-service delivers or receives personal data. You can go back to the first step to specify it, or you can proceed and add this information later.",
+    "alertUpdatePersonalData": {
+      "label": "Specify whether this e-service template handles personal data."
+    }
   }
 }
