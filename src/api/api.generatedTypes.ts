@@ -415,6 +415,8 @@ export interface EServiceRiskAnalysis {
   riskAnalysisForm: RiskAnalysisForm
   /** @format date-time */
   createdAt: string
+  /** @format date-time */
+  rulesetExpiration?: string
 }
 
 export interface EServiceTemplateRiskAnalysis {

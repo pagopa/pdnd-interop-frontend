@@ -1,10 +1,11 @@
-import { Button, Typography } from '@mui/material'
+import { Button, Chip, Tooltip, Typography } from '@mui/material'
 import { Table, TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceMutations } from '@/api/eservice'
+import type { EServiceRiskAnalysis } from '@/api/api.generatedTypes'
 
 export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -30,6 +31,29 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
     deleteRiskAnalysis({ eserviceId: descriptor.eservice.id, riskAnalysisId: riskAnalysisId })
   }
 
+  const currentDateString = new Intl.DateTimeFormat('it', {
+    dateStyle: 'short',
+    timeStyle: 'short',
+  })
+    .format()
+    .replace(',', '')
+
+  let daysToExpiration: number | undefined = undefined
+
+  const checkRulesetExpiration = (eserviceRiskAnalysis: EServiceRiskAnalysis) => {
+    console.log(eserviceRiskAnalysis)
+    if (!eserviceRiskAnalysis.rulesetExpiration) return undefined
+    const hasExpired =
+      new Date(eserviceRiskAnalysis.rulesetExpiration) < new Date(currentDateString)
+    if (hasExpired) return true
+
+    daysToExpiration =
+      (new Date(eserviceRiskAnalysis.rulesetExpiration).getTime() -
+        new Date(currentDateString).getTime()) /
+      (1000 * 60 * 60 * 24)
+    return false
+  }
+
   return (
     <>
       <Table
@@ -41,19 +65,41 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
           <TableRow
             key={riskAnalysis.id}
             cellData={[
-              <Typography key={riskAnalysis.id} variant="body1" fontWeight={600}>
-                {riskAnalysis.name}
-              </Typography>,
+              <>
+                <Typography key={riskAnalysis.id} variant="body1" fontWeight={600}>
+                  {riskAnalysis.name}
+                </Typography>
+                {checkRulesetExpiration(riskAnalysis) && daysToExpiration !== undefined ? (
+                  <Tooltip
+                    title={t('nextExpiringRulesetTooltip', {
+                      days: daysToExpiration,
+                      expirationDate: new Intl.DateTimeFormat('it', {
+                        dateStyle: 'short',
+                      }).format(new Date(riskAnalysis.rulesetExpiration!)),
+                    })}
+                  >
+                    <Chip color="info" size="small" label={t('nextExpiringRulesetChip')} />
+                  </Tooltip>
+                ) : null}
+              </>,
             ]}
           >
-            <Button
-              onClick={handleEditPurpose.bind(null, riskAnalysis.id)}
-              disabled={!areEServiceGeneralInfoEditable}
-              variant="naked"
-              sx={{ mr: 3 }}
+            <Tooltip
+              title={
+                checkRulesetExpiration(riskAnalysis) === true ? t('expiredRulesetTooltip') : ''
+              }
             >
-              {tCommon('actions.edit')}
-            </Button>
+              <Button
+                onClick={handleEditPurpose.bind(null, riskAnalysis.id)}
+                disabled={
+                  !areEServiceGeneralInfoEditable || checkRulesetExpiration(riskAnalysis) === true
+                }
+                variant="naked"
+                sx={{ mr: 3 }}
+              >
+                {tCommon('actions.edit')}
+              </Button>
+            </Tooltip>
             <Button
               onClick={handleDeletePurpose.bind(null, riskAnalysis.id)}
               disabled={!areEServiceGeneralInfoEditable}
