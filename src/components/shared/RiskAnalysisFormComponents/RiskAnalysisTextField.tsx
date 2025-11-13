@@ -10,6 +10,7 @@ import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 import { RemoveCircleOutline } from '@mui/icons-material'
 import { usePurposeCreateContext } from '../PurposeCreateContext'
+import { match, P } from 'ts-pattern'
 
 export type RiskAnalysisTextFieldProps = Omit<OutlinedInputProps, 'type'> & {
   questionKey: string
@@ -68,14 +69,14 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
 
   const isCreatorFreeText = type === 'creator' && questionType === 'text'
 
-  let displayError = error
-  if (isFromPurposeTemplate) {
-    if (type === 'consumer' && suggestedValues.length > 0) {
-      displayError = suggestedValueConsumerError || error
-    } else if (isCreatorFreeText) {
-      displayError = suggestedValuesError || error
-    }
+  const getDisplayError = (error: string | undefined) => {
+    return match([isFromPurposeTemplate, type, questionType, suggestedValues.length > 0])
+      .with([true, 'consumer', P._, true], () => suggestedValueConsumerError || error)
+      .with([true, 'creator', 'text', P._], () => suggestedValuesError || error)
+      .otherwise(() => error)
   }
+
+  const displayError = getDisplayError(error)
 
   const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
     label,
