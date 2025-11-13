@@ -76,6 +76,7 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
                         dateStyle: 'short',
                       }).format(new Date(riskAnalysis.rulesetExpiration!)),
                     })}
+                    arrow
                   >
                     <Chip color="default" size="small" label={t('nextExpiringRulesetChip')} />
                   </Tooltip>
