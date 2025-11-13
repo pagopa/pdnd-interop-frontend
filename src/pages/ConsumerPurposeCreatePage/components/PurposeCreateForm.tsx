@@ -158,11 +158,8 @@ export const PurposeCreateForm: React.FC<PurposeCreateFormProps> = ({ purposeTem
         {
           onSuccess(data) {
             const purposeId = data.id
-            const purposeTemplateIdParam = purposeTemplateId
-              ? purposeTemplateId
-              : purposeTemplateIdSelected
             navigate('SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT', {
-              params: { purposeId, purposeTemplateId: purposeTemplateIdParam },
+              params: { purposeId, purposeTemplateId: purposeTemplateIdSelected },
             })
           },
         }
