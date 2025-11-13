@@ -1,4 +1,4 @@
-import { Button, Chip, Tooltip, Typography } from '@mui/material'
+import { Button, Chip, Stack, Tooltip, Typography } from '@mui/material'
 import { Table, TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -31,26 +31,19 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
     deleteRiskAnalysis({ eserviceId: descriptor.eservice.id, riskAnalysisId: riskAnalysisId })
   }
 
-  const currentDateString = new Intl.DateTimeFormat('it', {
-    dateStyle: 'short',
-    timeStyle: 'short',
-  })
-    .format()
-    .replace(',', '')
-
   let daysToExpiration: number | undefined = undefined
 
   const checkRulesetExpiration = (eserviceRiskAnalysis: EServiceRiskAnalysis) => {
-    console.log(eserviceRiskAnalysis)
     if (!eserviceRiskAnalysis.rulesetExpiration) return undefined
-    const hasExpired =
-      new Date(eserviceRiskAnalysis.rulesetExpiration) < new Date(currentDateString)
+
+    const now = new Date()
+    const expiration = new Date(eserviceRiskAnalysis.rulesetExpiration)
+
+    const hasExpired = expiration < now
     if (hasExpired) return true
 
-    daysToExpiration =
-      (new Date(eserviceRiskAnalysis.rulesetExpiration).getTime() -
-        new Date(currentDateString).getTime()) /
-      (1000 * 60 * 60 * 24)
+    daysToExpiration = Math.ceil((expiration.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+
     return false
   }
 
@@ -65,11 +58,17 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
           <TableRow
             key={riskAnalysis.id}
             cellData={[
-              <>
-                <Typography key={riskAnalysis.id} variant="body1" fontWeight={600}>
+              <Stack direction="row" spacing={1} alignItems="center" key={riskAnalysis.id}>
+                <Typography
+                  key={riskAnalysis.id}
+                  variant="body1"
+                  fontWeight={600}
+                  sx={{ opacity: checkRulesetExpiration(riskAnalysis) === true ? 0.5 : 1 }}
+                >
                   {riskAnalysis.name}
                 </Typography>
-                {checkRulesetExpiration(riskAnalysis) && daysToExpiration !== undefined ? (
+                {checkRulesetExpiration(riskAnalysis) === false &&
+                daysToExpiration !== undefined ? (
                   <Tooltip
                     title={t('nextExpiringRulesetTooltip', {
                       days: daysToExpiration,
@@ -78,10 +77,10 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
                       }).format(new Date(riskAnalysis.rulesetExpiration!)),
                     })}
                   >
-                    <Chip color="info" size="small" label={t('nextExpiringRulesetChip')} />
+                    <Chip color="default" size="small" label={t('nextExpiringRulesetChip')} />
                   </Tooltip>
                 ) : null}
-              </>,
+              </Stack>,
             ]}
           >
             <Tooltip

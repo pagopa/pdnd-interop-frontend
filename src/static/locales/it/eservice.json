@@ -99,7 +99,7 @@
           "noDataLabel": "Nessuna finalità aggiunta",
           "expiredRulesetTooltip": "Questa analisi del rischio utilizza una versione obsoleta che non puoi pubblicare. Rimuovila e creane una nuova ",
           "nextExpiringRulesetTooltip": "Questa analisi del rischio utilizza una versione che sarà obsoleta tra {{days}} giorni. Pubblica l’e-service entro {{expirationDate}} per non doverla ricompilare, oppure creane una nuova subito.",
-          "nextExipiringRulesetChip": "In scadenza"
+          "nextExpiringRulesetChip": "In scadenza"
         }
       },
       "riskAnalysis": {
