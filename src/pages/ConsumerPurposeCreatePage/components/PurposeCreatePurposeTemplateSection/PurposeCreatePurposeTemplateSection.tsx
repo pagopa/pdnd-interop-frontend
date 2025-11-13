@@ -1,7 +1,7 @@
 import { SectionContainer } from '@/components/layout/containers'
 import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
-import { Stack } from '@mui/material'
-import React from 'react'
+import { Box, Stack, Tooltip, Typography } from '@mui/material'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import { PurposeCreatePurposeTemplateAutocomplete } from './PurposeCreatePurposeTemplateAutocomplete'
@@ -18,7 +18,7 @@ export const PurposeCreatePurposeTemplateSection: React.FC<
 > = ({ eserviceId, handlesPersonalData, purposeTemplateId }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'create.purposeTemplateField' })
 
-  const { watch } = useFormContext()
+  const { watch, setValue } = useFormContext()
   const usePurposeTemplate = watch('usePurposeTemplate')
 
   const innerSectionTitle = (
@@ -30,13 +30,45 @@ export const PurposeCreatePurposeTemplateSection: React.FC<
     </>
   ) as unknown as string
 
+  const isUsePurposeTemplateDisabled = Boolean(eserviceId && handlesPersonalData === undefined)
+
+  useEffect(() => {
+    if (isUsePurposeTemplateDisabled) {
+      setValue('usePurposeTemplate', false)
+    }
+  }, [isUsePurposeTemplateDisabled, setValue])
+
+  const tooltipLabel = t('usePurposeTemplateSwitch.disabledTooltip')
+    .split('\n')
+    .map((line, idx) => (
+      <span key={idx}>
+        {line}
+        <br />
+      </span>
+    ))
+
   return (
     <Stack spacing={3}>
-      <RHFSwitch
-        name="usePurposeTemplate"
-        label={t('usePurposeTemplateSwitch.label')}
-        sx={{ pl: 2, pt: 2 }}
-      />
+      <Box
+        component="span"
+        sx={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          position: 'relative',
+        }}
+      >
+        <Tooltip title={isUsePurposeTemplateDisabled ? tooltipLabel : ''} arrow placement="bottom">
+          <span>
+            <RHFSwitch
+              name="usePurposeTemplate"
+              label={t('usePurposeTemplateSwitch.label')}
+              sx={{ pl: 2, pt: 2 }}
+              disabled={isUsePurposeTemplateDisabled}
+            />
+          </span>
+        </Tooltip>
+      </Box>
+
       {usePurposeTemplate && (
         <Stack spacing={2}>
           <SectionContainer
