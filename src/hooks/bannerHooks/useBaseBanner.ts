@@ -1,27 +1,34 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import isBefore from 'date-fns/isBefore'
-import { match } from 'ts-pattern'
-import { STAGE } from '@/config/env'
 import {
-  formatBannerDate,
   calculateBannerDuration,
   getBannerDurationType,
   getBannerTimestamps,
   type BannerData,
+  type BannerDurationType,
 } from './utils'
+
+export interface BannerInfo {
+  startString: string
+  endString: string
+  startTimestamp: number
+  endTimestamp: number
+  durationInHours: number
+  durationType: BannerDurationType
+}
 
 interface UseBaseBannerProps {
   data: BannerData | undefined
   storageKey: string
-  translationKeyPrefix: string
 }
 
-export function useBaseBanner({ data, storageKey, translationKeyPrefix }: UseBaseBannerProps) {
-  const { t } = useTranslation('shared-components', {
-    keyPrefix: translationKeyPrefix as any,
-  })
+interface UseBaseBannerReturn {
+  isOpen: boolean
+  closeBanner: () => void
+  bannerInfo: BannerInfo | null
+}
 
+export function useBaseBanner({ data, storageKey }: UseBaseBannerProps): UseBaseBannerReturn {
   const timestamps = useMemo(() => getBannerTimestamps(data), [data])
 
   const [isOpen, setIsOpen] = useState(false)
@@ -64,32 +71,5 @@ export function useBaseBanner({ data, storageKey, translationKeyPrefix }: UseBas
     setIsOpen(isBefore(Date.now(), bannerInfo.endTimestamp))
   }, [bannerInfo, storageKey])
 
-  const text = useMemo(() => {
-    if (!data?.start || !data?.end || !bannerInfo) return ''
-
-    return bannerInfo.durationType === 'single'
-      ? t('bodySingleDay', {
-          maintenanceStartDay: formatBannerDate(data.start.date, 'single'),
-          maintenanceStartHour: data.start.time,
-          hoursDuration: bannerInfo.durationInHours,
-        })
-      : t('bodyMultipleDay', {
-          maintenanceStartHour: data.start.time,
-          maintenanceStartDay: formatBannerDate(data.start.date, 'multiple'),
-          maintenanceEndHour: data.end.time,
-          maintenanceEndDay: formatBannerDate(data.end.date, 'multiple'),
-        })
-  }, [data, bannerInfo, t])
-
-  const title = useMemo(
-    () =>
-      match(STAGE)
-        .with('PROD', () => t('titleProdEnv'))
-        .with('ATT', () => t('titleAttEnv'))
-        .with('UAT', () => t('titleTestEnv'))
-        .otherwise(() => null),
-    [t]
-  )
-
-  return { title, text, isOpen, closeBanner }
+  return { isOpen, closeBanner, bannerInfo }
 }
