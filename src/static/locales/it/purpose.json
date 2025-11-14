@@ -163,7 +163,12 @@
     "alerts": {
       "associationRemoved": "All’interno del processo <strong>è stata rimossa l’associazione del client</strong>. Sarà possibile associare uno o più client solo dopo l’attivazione della finalità.",
       "newRiskAnalysisAvailable": "Questa bozza non è più pubblicabile. Dal momento della sua creazione è uscita una nuova versione dell’analisi del rischio. Eliminala e creane una nuova.",
-      "descriptorOrAgreementArchived": "Questa bozza non è più pubblicabile. La tua fruizione per questo e-service non è più attiva. Elimina la finalità."
+      "descriptorOrAgreementArchived": "Questa bozza non è più pubblicabile. La tua fruizione per questo e-service non è più attiva. Elimina la finalità.",
+      "rulesetExpired": {
+        "label": "Questa analisi del rischio utilizza una versione obsoleta che non puoi pubblicare.",
+        "action": "Crea nuova finalità"
+      },
+      "infoRulesetExpiration": "Questa analisi del rischio utilizza una versione che sarà obsoleta tra {{days}} giorni. Pubblicala entro {{date}} per non doverla ricompilare."
     },
     "generalInformationSection": {
       "title": "Informazioni generali",
