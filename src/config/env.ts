@@ -25,6 +25,10 @@ const GeneralConfigs = z.object({
 const FeatureFlagConfigs = z.object({
   FEATURE_FLAG_ADMIN_CLIENT: z.enum(['true', 'false']),
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: z.enum(['true', 'false']),
+  FEATURE_FLAG_ESERVICE_PERSONAL_DATA: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform((value) => value === 'true'),
 })
 
 const EndpointConfigs = z.object({
@@ -101,6 +105,7 @@ export const {
   API_GATEWAY_V1_INTERFACE_URL,
   API_GATEWAY_V2_INTERFACE_URL,
   ERROR_DATA_DURATION_TIME,
+  FEATURE_FLAG_ESERVICE_PERSONAL_DATA,
 } = parseConfigs()
 
 export const APP_MODE = parseAppMode()

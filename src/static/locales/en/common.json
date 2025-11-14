@@ -51,7 +51,9 @@
     "select": "Select",
     "selectAdmin": "Select admin",
     "substituteAdmin": "Substitute admin",
-    "copy": "Copy"
+    "copy": "Copy",
+    "specifyProcessing": "Specify processing",
+    "save": "Save"
   },
   "table": {
     "headData": {

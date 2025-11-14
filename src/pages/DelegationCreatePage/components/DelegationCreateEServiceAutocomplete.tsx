@@ -11,7 +11,6 @@ import { EServiceQueries } from '@/api/eservice'
 import { useQuery } from '@tanstack/react-query'
 import { match } from 'ts-pattern'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
-import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 
 type DelegationCreateEServiceAutocompleteProps = {
   delegationKind: DelegationKind
@@ -67,6 +66,7 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
       limit: 50,
       offset: 0,
       delegated: false,
+      personalData: 'DEFINED',
     }),
     enabled: delegationKind === 'DELEGATED_PRODUCER',
     select: (d) => d.results ?? [],

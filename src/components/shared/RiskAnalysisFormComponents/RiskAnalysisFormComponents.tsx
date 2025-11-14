@@ -24,15 +24,20 @@ import { match } from 'ts-pattern'
  * @param questions - the actual updated questions visible to the user
  * @returns Array of components that should be rendered inside the form
  * */
-export const RiskAnalysisFormComponents: React.FC<{ questions: RiskAnalysisQuestions }> = ({
-  questions,
-}) => {
+export const RiskAnalysisFormComponents: React.FC<{
+  questions: RiskAnalysisQuestions
+}> = ({ questions }) => {
   return Object.entries(questions).map(([questionId, question]) => (
     <RiskAnalysisQuestion key={questionId} question={question} />
   ))
 }
 
-function RiskAnalysisQuestion({ question }: { question: FormConfigQuestion }) {
+function RiskAnalysisQuestion({
+  question,
+}: {
+  question: FormConfigQuestion
+  personalData?: boolean
+}) {
   const lang = useCurrentLanguage()
   const answers = useFormContext<{ answers: RiskAnalysisAnswers }>().watch('answers')
 

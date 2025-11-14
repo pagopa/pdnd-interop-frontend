@@ -12,7 +12,6 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC<{
   onOpenAddRiskAnalysisForm: (selectedTenantKind: TenantKind) => void
   onOpenEditRiskAnalysisForm: (riskAnalysis: EServiceTemplateRiskAnalysis) => void
 }> = ({ onOpenAddRiskAnalysisForm, onOpenEditRiskAnalysisForm }) => {
- 
   const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'create.stepPurpose.purposeTableSection.purposeTable',
   })

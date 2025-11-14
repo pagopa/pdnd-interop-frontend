@@ -17,7 +17,6 @@ export const EServiceTemplateCreateStepPurpose: FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const { eserviceTemplateVersion, forward, back } = useEServiceTemplateCreateContext()
 
-
   const [riskAnalysisFormState, setRiskAnalysisFormState] = useState<
     | { type: null }
     | {
@@ -29,7 +28,6 @@ export const EServiceTemplateCreateStepPurpose: FC = () => {
         selectedTenantKind: TenantKind
       }
   >({ type: null })
-
 
   const handleOpenEditRiskAnalysisForm = (riskAnalysis: EServiceTemplateRiskAnalysis) => {
     setRiskAnalysisFormState({
@@ -52,7 +50,7 @@ export const EServiceTemplateCreateStepPurpose: FC = () => {
   // Disable the forward button if there are no risk analyses inserted
   const isForwardButtonDisabled =
     eserviceTemplateVersion?.eserviceTemplate.riskAnalysis.length === 0
-  
+
   return (
     <>
       {eserviceTemplateVersion && riskAnalysisFormState.type !== null ? (

@@ -37,7 +37,7 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
   const { t } = useTranslation()
   const labelId = useId()
 
-  const name = `answers.${questionId}`
+  const name = `answers.${questionId}` as const
 
   const error = formState.errors.answers?.[questionId]?.message as string | undefined
 

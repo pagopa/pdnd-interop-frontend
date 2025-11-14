@@ -68,6 +68,22 @@
       "confirmLabel": "Add"
     }
   },
+  "personalDataDrawer": {
+    "title": "Does this {{where}} process personal data?",
+    "subtitle": "For this {{where}}, it is necessary to indicate whether personal data is processed.",
+    "alertForAPIOperator": "Consult with the administrator before confirming. Once saved, this data can no longer be changed.",
+    "alertLabel": "Once saved, this data can no longer be changed.",
+    "options": {
+      "DELIVER": {
+        "true": "Delivers personal data",
+        "false": "Does not deliver personal data"
+      },
+      "RECEIVE": {
+        "true": "Receives personal data",
+        "false": "Does not receive personal data"
+      }
+    }
+  },
   "dialogUpgradeAgreementVersion": {
     "title": "Update agreement",
     "content": {
@@ -335,6 +351,20 @@
         "riskAnalysisSection": {
           "title": "Risk analysis",
           "description": "The questions in the questionnaire will vary based on the answers provided gradually. If you change the answer to a previous question, subsequent questions may change.",
+          "personalDataFlag": {
+            "label": "Personal data processing",
+            "true": "You have declared that you process personal data",
+            "false": "You have declared that you do not process personal data",
+            "undefined": "You did not answer the question about personal data processing"
+          },
+          "personalDataValuesAlert": {
+            "labelForEserviceCreateStep2": "Make sure that the answer to this question matches the one you indicated in the general information of the e-service. If the data does not match, the publication of this purpose will be blocked.",
+            "alertForIncompatibleAnswer": "Make sure that the answer to the question \"Indicate whether you access personal data (required)\" matches the one you indicated in the general information. If the data does not match, the publication will be blocked.",
+            "labelForPurposeCreate": {
+              "YES": "You will not be able to publish this purpose because you have declared that personal data is processed, but the provider has declared otherwise. For clarification, contact the provider.",
+              "NO": "You will not be able to publish this purpose because you have declared that personal data is not processed, but the provider has declared otherwise. For clarification, contact the provider."
+            }
+          },
           "personalDataAlert": "Be careful not to enter personal data in the free text fields",
           "eserviceTemplateRiskAnalysis": {
             "title": "Indicate who will be able to use the following risk analysis.",
