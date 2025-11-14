@@ -64,12 +64,14 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const { mutate: updateEservicePersonalData } =
     EServiceMutations.useUpdateEServicePersonalDataFlagAfterPublication()
 
+  const { mutate: setEservicePersonalDataFirstDraft } = EServiceMutations.useUpdateDraft()
+
   const isEServiceFromTemplate = descriptor?.templateRef
+
+  const hasOnlyOneDraft = descriptor?.eservice.descriptors.length === 0
 
   const handleDeleteDraft = () => {
     if (!descriptor) return
-
-    const hasOnlyOneDraft = descriptor.eservice.descriptors.length === 0
 
     // In case the e-service has only one draft, we call the deleteDraft mutation
     if (hasOnlyOneDraft) {
@@ -212,14 +214,33 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   } = useDrawerState()
 
   const handleEServicePersonalDataUpdate = (eserviceId: string, personalData: boolean) => {
-    updateEservicePersonalData(
-      {
-        eserviceId: eserviceId,
-        personalData: personalData,
-      },
-      { onSuccess: closeEServiceUpdatePersonalDataDrawer }
-    )
+    if (hasOnlyOneDraft) {
+      setEservicePersonalDataFirstDraft(
+        {
+          eserviceId: descriptor.eservice.id,
+          description: descriptor.eservice.description,
+          mode: descriptor.eservice.mode,
+          name: descriptor.eservice.name,
+          technology: descriptor.eservice.technology,
+          isClientAccessDelegable: descriptor.eservice.isClientAccessDelegable,
+          isConsumerDelegable: descriptor.eservice.isConsumerDelegable,
+          isSignalHubEnabled: descriptor.eservice.isSignalHubEnabled,
+          personalData: personalData,
+        },
+        { onSuccess: closeEServiceUpdatePersonalDataDrawer }
+      )
+    } else {
+      updateEservicePersonalData(
+        {
+          eserviceId: eserviceId,
+          personalData: personalData,
+        },
+        { onSuccess: closeEServiceUpdatePersonalDataDrawer }
+      )
+    }
   }
+
+  console.log('arePersonalDataSet', arePersonalDataSet)
 
   return (
     <>
@@ -235,7 +256,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
         isLoading={isLoading}
         statusChip={{
           for: 'eservice',
-          state: 'DRAFT',
+          state: descriptor?.state || 'DRAFT',
           isDraftToCorrect: requireDelegateCorrections,
         }}
       >
@@ -296,16 +317,20 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               <ProviderEServiceDocumentationSummary />
             </SummaryAccordion>
           </React.Suspense>
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && !arePersonalDataSet && isDelegator && (
-            <Alert severity="error">
-              {isEServiceFromTemplate
-                ? t('summary.alertMissingPersonalData.eserviceTemplateLabel')
-                : eserviceLabel}
-            </Alert>
-          )}
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
+            !arePersonalDataSet &&
+            isDelegator &&
+            descriptor?.state === 'WAITING_FOR_APPROVAL' && (
+              <Alert severity="error">
+                {isEServiceFromTemplate
+                  ? t('summary.alertMissingPersonalData.eserviceTemplateLabel')
+                  : eserviceLabel}
+              </Alert>
+            )}
           {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
             !arePersonalDataSet &&
             !isLoading &&
+            !isDelegator &&
             !isEServiceFromTemplate && (
               <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
                 <Stack spacing={35} direction="row" alignItems="center">
@@ -346,39 +371,40 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             <PublishButton
               onClick={handlePublishDraft}
               disabled={!canBePublished() || isSupport}
-              arePersonalDataSet={FEATURE_FLAG_ESERVICE_PERSONAL_DATA ? arePersonalDataSet : true}
+              arePersonalDataSet={arePersonalDataSet}
               isRulesetExpired={isRulesetExpired}
             />
           </Stack>
         )}
-        {isDelegator && descriptor?.state === 'WAITING_FOR_APPROVAL' && (
-          <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
-            <Button
-              startIcon={<DeleteOutlineIcon />}
-              variant="text"
-              color="error"
-              onClick={handleRejectDelegatedVersionDraft}
-              disabled={isSupport}
-            >
-              {tCommon('reject')}
-            </Button>
-            <Tooltip
-              title={descriptor.eservice.personalData ? '' : t('summary.missingPersonalDataField')}
-              arrow
-            >
-              <span>
-                <Button
-                  startIcon={<PublishIcon />}
-                  variant="contained"
-                  onClick={handleApproveDelegatedVersionDraft}
-                  disabled={isSupport || !descriptor.eservice.personalData}
-                >
-                  {tCommon('publish')}
-                </Button>
-              </span>
-            </Tooltip>
-          </Stack>
-        )}
+        {isDelegator &&
+          descriptor?.state === 'WAITING_FOR_APPROVAL' && ( //TODO: || descriptor?.state === 'DRAFT'; now publish and reject are hidden
+            <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
+              <Button
+                startIcon={<DeleteOutlineIcon />}
+                variant="text"
+                color="error"
+                onClick={handleRejectDelegatedVersionDraft}
+                disabled={isSupport}
+              >
+                {tCommon('reject')}
+              </Button>
+              <Tooltip
+                title={arePersonalDataSet ? '' : t('summary.missingPersonalDataField')}
+                arrow
+              >
+                <span>
+                  <Button
+                    startIcon={<PublishIcon />}
+                    variant="contained"
+                    onClick={handleApproveDelegatedVersionDraft}
+                    disabled={isSupport || !arePersonalDataSet}
+                  >
+                    {tCommon('publish')}
+                  </Button>
+                </span>
+              </Tooltip>
+            </Stack>
+          )}
         {requireDelegateCorrections && sortedRejectedReasons && (
           <RejectReasonDrawer
             isOpen={isOpen}
