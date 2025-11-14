@@ -240,8 +240,6 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     }
   }
 
-  console.log('arePersonalDataSet', arePersonalDataSet)
-
   return (
     <>
       <PageContainer
