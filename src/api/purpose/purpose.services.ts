@@ -82,6 +82,22 @@ async function getRiskAnalysisVersion({
   return response.data
 }
 
+export type RiskAnlysisVersionConfig =
+  | Partial<RetrieveLatestRiskAnalysisConfigurationParams>
+  | Partial<RetrieveRiskAnalysisConfigurationByVersionParams>
+
+async function getRiskAnalyisLatestOrSpecificVersion(params: RiskAnlysisVersionConfig) {
+  if (
+    'riskAnalysisVersion' in params &&
+    params.riskAnalysisVersion !== undefined &&
+    params.eserviceId !== undefined
+  ) {
+    return getRiskAnalysisVersion(params as RetrieveRiskAnalysisConfigurationByVersionParams)
+  } else {
+    return getRiskAnalysisLatest(params as RetrieveLatestRiskAnalysisConfigurationParams)
+  }
+}
+
 async function createDraft(payload: PurposeSeed) {
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes`,
@@ -226,6 +242,7 @@ export const PurposeServices = {
   getSingle,
   getRiskAnalysisLatest,
   getRiskAnalysisVersion,
+  getRiskAnalyisLatestOrSpecificVersion,
   createDraft,
   updateDraft,
   deleteDraft,

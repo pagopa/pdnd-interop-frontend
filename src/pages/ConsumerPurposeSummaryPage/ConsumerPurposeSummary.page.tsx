@@ -71,9 +71,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
     isRulesetExpired
 
   const arePublishOrEditButtonsDisabled =
-    (purpose?.eservice.mode === 'DELIVER' && hasRiskAnalysisVersionMismatch) ||
-    purpose?.agreement.state === 'ARCHIVED' ||
-    purpose?.eservice.descriptor.state === 'ARCHIVED'
+    purpose?.agreement.state === 'ARCHIVED' || purpose?.eservice.descriptor.state === 'ARCHIVED'
 
   const { mutate: deleteDraft } = PurposeMutations.useDeleteDraft()
   const { mutate: publishDraft } = PurposeMutations.useActivateVersion()
