@@ -47,6 +47,7 @@
       "description": "The facilitated compilation feature provides annotations, supporting documents, and some pre-filled answers to help you formulate the risk analysis. The template is made available for reuse by other participating organizations and can be used without restrictions.",
       "usePurposeTemplateSwitch": {
         "label": "Use the facilitated compilation feature",
+        "disabledTooltip": "It is not possible to use the feature for the selected \n e-service  because the provider has not indicated how personal data will be processed",
         "selectPurposeTemplate": {
           "title": "Choose the facilitated purpose compilation template",
           "showOnlyLinkedPurposeTemplates": "Show only templates suggested for the selected e-service",
