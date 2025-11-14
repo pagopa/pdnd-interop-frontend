@@ -40,7 +40,7 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
     const isYes = userAnswer === 'YES'
     const isNo = userAnswer === 'NO'
 
-    const incompatible = (isYes && personalData !== true) || (isNo && personalData !== false)
+    const incompatible = (isYes && personalData === false) || (isNo && personalData === true)
 
     setIncompatibleAnswerValue(incompatible)
     return incompatible
