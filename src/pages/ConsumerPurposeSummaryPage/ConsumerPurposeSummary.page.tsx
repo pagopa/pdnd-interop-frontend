@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from '@/router'
-import { Alert, Button, Stack, Tooltip } from '@mui/material'
+import { Alert, Button, Stack, Tooltip, Typography } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
@@ -32,6 +32,22 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
 
+  const expirationDate = purpose?.rulesetExpiration
+
+  const currentDateString = new Intl.DateTimeFormat('it', {
+    dateStyle: 'short',
+    timeStyle: 'short',
+  })
+    .format()
+    .replace(',', '')
+
+  const daysToExpiration = expirationDate
+    ? (new Date(expirationDate).getTime() - new Date(currentDateString).getTime()) /
+      (1000 * 60 * 60 * 24)
+    : null
+
+  const isRulesetExpired = expirationDate ? expirationDate < currentDateString : false
+
   const hasRiskAnalysisVersionMismatch = useCheckRiskAnalysisVersionMismatch(purpose)
   const alertProps = useGetConsumerPurposeAlertProps(purpose)
 
@@ -49,14 +65,13 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   }
 
   const isPublishButtonDisabled =
-    purpose?.riskAnalysisForm &&
-    eservicePersonalData !== undefined &&
-    checkIncompatibleAnswerValue()
+    (purpose?.riskAnalysisForm &&
+      eservicePersonalData !== undefined &&
+      checkIncompatibleAnswerValue()) ||
+    isRulesetExpired
 
   const arePublishOrEditButtonsDisabled =
-    (purpose?.eservice.mode === 'DELIVER' && hasRiskAnalysisVersionMismatch) ||
-    purpose?.agreement.state === 'ARCHIVED' ||
-    purpose?.eservice.descriptor.state === 'ARCHIVED'
+    purpose?.agreement.state === 'ARCHIVED' || purpose?.eservice.descriptor.state === 'ARCHIVED'
 
   const { mutate: deleteDraft } = PurposeMutations.useDeleteDraft()
   const { mutate: publishDraft } = PurposeMutations.useActivateVersion()
@@ -115,7 +130,6 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       statusChip={purpose ? { for: 'purpose', purpose } : undefined}
     >
       {alertProps && <Alert sx={{ mb: 3 }} {...alertProps} />}
-
       <Stack spacing={3}>
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
           <SummaryAccordion headline="1" title={t('summary.generalInformationSection.title')}>
@@ -128,7 +142,31 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           </SummaryAccordion>
         </React.Suspense>
       </Stack>
-
+      {expirationDate && !isRulesetExpired && (
+        <Alert sx={{ mt: 3 }} severity="info">
+          {t('summary.alerts.infoRulesetExpiration', {
+            days: daysToExpiration,
+            date: expirationDate,
+          })}
+        </Alert>
+      )}
+      {isRulesetExpired && (
+        <Alert severity="error" sx={{ alignItems: 'center', mt: 3 }} variant="outlined">
+          <Stack spacing={13} direction="row" alignItems="center">
+            {' '}
+            {/**TODO FIX SPACING */}
+            <Typography>{t('summary.alerts.rulesetExpired.label')}</Typography>
+            <Button
+              variant="naked"
+              size="medium"
+              sx={{ fontWeight: 700, mr: 1 }}
+              onClick={() => navigate('SUBSCRIBE_PURPOSE_CREATE')}
+            >
+              {t('summary.alerts.rulesetExpired.action')}
+            </Button>
+          </Stack>
+        </Alert>
+      )}
       <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
         <Button
           startIcon={<DeleteOutlineIcon />}

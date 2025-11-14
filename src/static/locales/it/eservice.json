@@ -96,7 +96,10 @@
         "labelAutocompleteEServiceFromTemplate": "Seleziona caso d'uso",
         "noSelectedPurposesTooltip": "È necessario indicare almeno una finalità per proseguire",
         "purposeTable": {
-          "noDataLabel": "Nessuna finalità aggiunta"
+          "noDataLabel": "Nessuna finalità aggiunta",
+          "expiredRulesetTooltip": "Questa analisi del rischio utilizza una versione obsoleta che non puoi pubblicare. Rimuovila e creane una nuova ",
+          "nextExpiringRulesetTooltip": "Questa analisi del rischio utilizza una versione che sarà obsoleta tra {{days}} giorni. Pubblica l’e-service entro {{expirationDate}} per non doverla ricompilare, oppure creane una nuova subito.",
+          "nextExpiringRulesetChip": "In scadenza"
         }
       },
       "riskAnalysis": {
@@ -314,6 +317,9 @@
     "notPublishableTooltip": {
       "label": "Uno o più campi richiesti non sono stati compilati. Completa la bozza"
     },
+    "rulesetExpiredTooltip": {
+      "label": "Almeno una finalità tra quelle collegate all’e-service deve essere rimossa in quanto obsoleta."
+    },
     "missingPersonalDataField": "Questa bozza di e-service non indica se verranno trattati dati personali.",
     "rejectedDelegatedVersionDraftAlert": {
       "delegate": "La pubblicazione di questa bozza è stata rifiutata dal delegante. <1>Leggi i motivi del rifiuto</1> ed invia di nuovo la bozza con le correzioni.",
@@ -322,6 +328,9 @@
     "alertMissingPersonalData": {
       "eserviceTemplateLabel": "Questo e-service deriva da un template che non rispetta i nuovi requisiti sul trattamento dei dati personali. Per sbloccare la pubblicazione è necessario che il creatore del template e-service aggiorni il campo. Contattalo per richiedere l’integrazione.",
       "eserviceLabel": "Per poter pubblicare l'e-service, è necessario aggiornare la sua compilazione per rispondere ai nuovi requisiti sul trattamento dei dati personali.\n\nSi prega di rifiutare la richiesta di pubblicazione. L'e-service tornerà in stato di bozza all'ente delegato per l’integrazione. Una volta pronto, riceverai una nuova richiesta di approvazione."
+    },
+    "alertUpdatePersonalData": {
+      "label": "Specificare se questo e-service tratta dati personali."
     }
   },
   "list": {

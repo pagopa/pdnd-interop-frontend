@@ -417,6 +417,9 @@
     "notPublishableTooltip": {
       "label": "Uno o più campi richiesti non sono stati compilati. Completa la bozza"
     },
-    "missingPersonalDataField": "Non hai indicato se l’e-service tratta dati personali. Completa la bozza"
+    "missingPersonalDataField": "Questa bozza di template e-service non indica se verranno trattati dati personali. ",
+    "alertUpdatePersonalData": {
+      "label": "Specificare se questo template e-service tratta dati personali."
+    }
   }
 }
