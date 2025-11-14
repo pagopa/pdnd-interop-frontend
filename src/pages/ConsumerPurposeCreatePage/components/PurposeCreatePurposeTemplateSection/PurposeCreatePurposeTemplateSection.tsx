@@ -1,21 +1,21 @@
 import { SectionContainer } from '@/components/layout/containers'
 import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
-import { Box, Stack, Tooltip, Typography } from '@mui/material'
+import { Box, Stack, Tooltip } from '@mui/material'
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import MenuBookIcon from '@mui/icons-material/MenuBook'
 import { PurposeCreatePurposeTemplateAutocomplete } from './PurposeCreatePurposeTemplateAutocomplete'
 import { useFormContext } from 'react-hook-form'
+import type { CatalogDescriptorEService } from '@/api/api.generatedTypes'
 
 export type PurposeCreatePurposeTemplateSectionProps = {
-  eserviceId: string
-  handlesPersonalData?: boolean
+  selectedEService?: CatalogDescriptorEService | undefined
   purposeTemplateId?: string
 }
 
 export const PurposeCreatePurposeTemplateSection: React.FC<
   PurposeCreatePurposeTemplateSectionProps
-> = ({ eserviceId, handlesPersonalData, purposeTemplateId }) => {
+> = ({ selectedEService, purposeTemplateId }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'create.purposeTemplateField' })
 
   const { watch, setValue } = useFormContext()
@@ -30,7 +30,11 @@ export const PurposeCreatePurposeTemplateSection: React.FC<
     </>
   ) as unknown as string
 
-  const isUsePurposeTemplateDisabled = Boolean(eserviceId && handlesPersonalData === undefined)
+  const isUsePurposeTemplateDisabled = Boolean(
+    selectedEService && selectedEService.personalData === undefined
+  )
+
+  const handlesPersonalData = selectedEService?.personalData
 
   useEffect(() => {
     if (isUsePurposeTemplateDisabled) {
@@ -85,7 +89,7 @@ export const PurposeCreatePurposeTemplateSection: React.FC<
                 sx={{ pl: 2, pt: 2 }}
               />
               <PurposeCreatePurposeTemplateAutocomplete
-                eserviceId={eserviceId}
+                eserviceId={selectedEService?.id as string}
                 handlesPersonalData={handlesPersonalData}
                 purposeTemplateId={purposeTemplateId}
               />
