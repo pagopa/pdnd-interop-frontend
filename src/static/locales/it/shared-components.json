@@ -234,7 +234,7 @@
   "dialogPurposeTemplatesTenantKind": {
     "title": "Seleziona la tipologia di ente",
     "content": {
-      "description": "A chi si rivolge il template che stai realizzando?",
+      "description": "Indica chi potrà utilizzare l’analisi del rischio che stai creando e se vengono trattati dati personali.",
       "label": "Destinazione tipologia ente",
       "options": {
         "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera “a” del CAD)",
