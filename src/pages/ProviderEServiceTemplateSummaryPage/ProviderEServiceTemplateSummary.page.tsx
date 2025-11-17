@@ -2,7 +2,7 @@ import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from '@/router'
-import { Alert, Button, Stack, Tooltip, Typography } from '@mui/material'
+import { Button, Stack, Tooltip } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
@@ -17,9 +17,6 @@ import {
 } from './components'
 import { ProviderEServiceTemplateRiskAnalysisSummaryList } from './components/ProviderEServiceTemplateRiskAnalysisSummaryList'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
-import { useDrawerState } from '@/hooks/useDrawerState'
-import { UpdatePersonalDataDrawer } from '@/components/shared/UpdatePersonalDataDrawer'
-import type { EServiceMode } from '@/api/api.generatedTypes'
 
 const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate')
@@ -31,10 +28,6 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
 
   const { mutate: deleteVersion } = EServiceTemplateMutations.useDeleteVersionDraft()
   const { mutate: publishVersion } = EServiceTemplateMutations.usePublishVersionDraft()
-  const { mutate: updateEserviceTemplatePersonalData } =
-    EServiceTemplateMutations.useUpdateEServiceTemplatePersonalDataFlagAfterPublication()
-  const { mutate: setEserviceTemplatePersonalDataFirstDraft } =
-    EServiceTemplateMutations.useUpdateDraft()
 
   const { data: eserviceTemplate, isLoading } = useQuery(
     EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
@@ -80,154 +73,93 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
     )
   }
 
-  const arePersonalDataSet = eserviceTemplate?.eserviceTemplate.personalData !== undefined
-
   const canBePublished = () => {
-    return !!(eserviceTemplate?.interface && arePersonalDataSet)
+    return !!eserviceTemplate?.interface
   }
 
   const isReceiveMode = eserviceTemplate?.eserviceTemplate.mode === 'RECEIVE'
 
-  const {
-    isOpen: isEServiceTemplateUpdatePersonalDataDrawerOpen,
-    openDrawer: openUpdatePersonalDataDrawer,
-    closeDrawer: closeEServiceTemplateUpdatePersonalDataDrawer,
-  } = useDrawerState()
-
-  const handleEServiceTemplatePersonalDataUpdate = (
-    eserviceTemplateId: string,
-    personalData: boolean
-  ) => {
-    if (eserviceTemplate?.version === 1) {
-      setEserviceTemplatePersonalDataFirstDraft(
-        {
-          description: eserviceTemplate.eserviceTemplate.description,
-          eServiceTemplateId: eserviceTemplateId,
-          name: eserviceTemplate.eserviceTemplate.name,
-          mode: eserviceTemplate.eserviceTemplate.mode,
-          intendedTarget: eserviceTemplate.eserviceTemplate.intendedTarget,
-          technology: eserviceTemplate.eserviceTemplate.technology,
-          isSignalHubEnabled: eserviceTemplate.eserviceTemplate.isSignalHubEnabled,
-          personalData: personalData,
-        },
-        { onSuccess: closeEServiceTemplateUpdatePersonalDataDrawer }
-      )
-    } else {
-      updateEserviceTemplatePersonalData(
-        {
-          eserviceTemplateId: eserviceTemplateId,
-          personalData: personalData,
-        },
-        { onSuccess: closeEServiceTemplateUpdatePersonalDataDrawer }
-      )
-    }
-  }
-
   return (
-    <>
-      <PageContainer
-        title={t('summary.title', {
-          eserviceTemplateName: eserviceTemplate?.eserviceTemplate.name,
-          versionEserviceTemplateNumber: eserviceTemplate?.version ?? '1',
-        })}
-        backToAction={{
-          label: t('backToListBtn'),
-          to: 'PROVIDE_ESERVICE_TEMPLATE_LIST',
-        }}
-        isLoading={isLoading}
-        statusChip={{
-          for: 'eserviceTemplate',
-          state: 'DRAFT',
-        }}
-      >
-        <Stack spacing={3}>
+    <PageContainer
+      title={t('summary.title', {
+        eserviceTemplateName: eserviceTemplate?.eserviceTemplate.name,
+        versionEserviceTemplateNumber: eserviceTemplate?.version ?? '1',
+      })}
+      backToAction={{
+        label: t('backToListBtn'),
+        to: 'PROVIDE_ESERVICE_TEMPLATE_LIST',
+      }}
+      isLoading={isLoading}
+      statusChip={{
+        for: 'eserviceTemplate',
+        state: 'DRAFT',
+      }}
+    >
+      <Stack spacing={3}>
+        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+          <SummaryAccordion headline="1" title={t('summary.generalInfoSummary.title')}>
+            <ProviderEServiceTemplateGeneralInfoSummary />
+          </SummaryAccordion>
+        </React.Suspense>
+
+        {isReceiveMode && (
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-            <SummaryAccordion headline="1" title={t('summary.generalInfoSummary.title')}>
-              <ProviderEServiceTemplateGeneralInfoSummary />
+            <SummaryAccordion headline="2" title={t('summary.riskAnalysisSummaryList.title')}>
+              <ProviderEServiceTemplateRiskAnalysisSummaryList />
             </SummaryAccordion>
           </React.Suspense>
-
-          {isReceiveMode && (
-            <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-              <SummaryAccordion headline="2" title={t('summary.riskAnalysisSummaryList.title')}>
-                <ProviderEServiceTemplateRiskAnalysisSummaryList />
-              </SummaryAccordion>
-            </React.Suspense>
-          )}
-
-          <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-            <SummaryAccordion
-              headline={isReceiveMode ? '3' : '2'}
-              title={t('summary.versionInfoSummary.title')}
-            >
-              <ProviderEServiceTemplateVersionInfoSummary />
-            </SummaryAccordion>
-          </React.Suspense>
-
-          <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-            <SummaryAccordion
-              headline={isReceiveMode ? '4' : '3'}
-              title={t('summary.attributeVersionSummary.title')}
-            >
-              <ProviderEServiceTemplateAttributeVersionSummary />
-            </SummaryAccordion>
-          </React.Suspense>
-
-          <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-            <SummaryAccordion
-              headline={isReceiveMode ? '5' : '4'}
-              title={t('summary.documentationSummary.title')}
-            >
-              <ProviderEServiceTemplateDocumentationSummary />
-            </SummaryAccordion>
-          </React.Suspense>
-        </Stack>
-        {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && !arePersonalDataSet && !isLoading && (
-          <Alert severity="warning" sx={{ alignItems: 'center', mt: 3 }} variant="outlined">
-            <Stack spacing={30} direction="row" alignItems="center">
-              {' '}
-              {/**TODO FIX SPACING */}
-              <Typography>{t('summary.alertUpdatePersonalData.label')}</Typography>
-              <Button
-                variant="naked"
-                size="medium"
-                sx={{ fontWeight: 700, mr: 1, alignSelf: 'flex-end' }}
-                onClick={openUpdatePersonalDataDrawer}
-              >
-                {tCommon('specifyProcessing')}
-              </Button>
-            </Stack>
-          </Alert>
         )}
-        <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
-          <Button
-            startIcon={<DeleteOutlineIcon />}
-            variant="text"
-            color="error"
-            onClick={handleDeleteDraft}
+
+        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+          <SummaryAccordion
+            headline={isReceiveMode ? '3' : '2'}
+            title={t('summary.versionInfoSummary.title')}
           >
-            {tCommon('deleteDraft')}
-          </Button>
-          <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
-            {tCommon('editDraft')}
-          </Button>
-          <PublishButton
-            onClick={handlePublishDraft}
-            disabled={!canBePublished()}
-            arePersonalDataSet={FEATURE_FLAG_ESERVICE_PERSONAL_DATA && arePersonalDataSet}
-          />
-        </Stack>
-      </PageContainer>
-      <UpdatePersonalDataDrawer
-        isOpen={isEServiceTemplateUpdatePersonalDataDrawerOpen}
-        onClose={closeEServiceTemplateUpdatePersonalDataDrawer}
-        eserviceId={eserviceTemplate?.eserviceTemplate.id as string}
-        personalData={eserviceTemplate?.eserviceTemplate.personalData}
-        onSubmit={handleEServiceTemplatePersonalDataUpdate}
-        eserviceMode={eserviceTemplate?.eserviceTemplate.mode as EServiceMode}
-        where="template e-service"
-      />
-    </>
+            <ProviderEServiceTemplateVersionInfoSummary />
+          </SummaryAccordion>
+        </React.Suspense>
+
+        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+          <SummaryAccordion
+            headline={isReceiveMode ? '4' : '3'}
+            title={t('summary.attributeVersionSummary.title')}
+          >
+            <ProviderEServiceTemplateAttributeVersionSummary />
+          </SummaryAccordion>
+        </React.Suspense>
+
+        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+          <SummaryAccordion
+            headline={isReceiveMode ? '5' : '4'}
+            title={t('summary.documentationSummary.title')}
+          >
+            <ProviderEServiceTemplateDocumentationSummary />
+          </SummaryAccordion>
+        </React.Suspense>
+      </Stack>
+      <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
+        <Button
+          startIcon={<DeleteOutlineIcon />}
+          variant="text"
+          color="error"
+          onClick={handleDeleteDraft}
+        >
+          {tCommon('deleteDraft')}
+        </Button>
+        <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
+          {tCommon('editDraft')}
+        </Button>
+        <PublishButton
+          onClick={handlePublishDraft}
+          disabled={!canBePublished()}
+          arePersonalDataSet={
+            FEATURE_FLAG_ESERVICE_PERSONAL_DATA
+              ? !!eserviceTemplate?.eserviceTemplate.personalData
+              : true
+          }
+        />
+      </Stack>
+    </PageContainer>
   )
 }
 

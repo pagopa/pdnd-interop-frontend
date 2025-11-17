@@ -1,0 +1,247 @@
+{
+  "backToListBtn": "Torna ai template",
+  "list": {
+    "filters": {
+      "nameField": {
+        "label": "Search by name"
+      },
+      "eserviceField": {
+        "label": "Search by e-service"
+      },
+      "statusField": {
+        "label": "Filter by status",
+        "optionLabels": {
+          "PUBLISHED": "Active",
+          "DRAFT": "Draft",
+          "SUSPENDED": "Suspended",
+          "ARCHIVED": "Archived"
+        }
+      },
+      "creatorField": {
+        "label": "Creator tenant"
+      },
+      "targetTenantKindField": {
+        "label": "Target tenant kind",
+        "values": {
+          "labelNotPA": "Public service managers, Publicly controlled companies, Private individuals",
+          "labelPA": "Public Administrations"
+        }
+      }
+    },
+    "purposeTemplatesTable": {
+      "noResultsLabel": "The current search returned no results."
+    }
+  },
+  "edit": {
+    "emptyTitle": "Create purpose template",
+    "backWithoutSaveBtn": "Go back",
+    "forwardWithSaveBtn": "Save draft and proceed",
+    "defaultPurposeTemplate": {
+      "title": "",
+      "description": "Describe briefly which data are collected and how",
+      "intendedTarget": "Describe briefly which entities could benefit from this template",
+      "freeOfChargeReason": "I'm a Public Administration"
+    },
+    "stepper": {
+      "step1Label": "General",
+      "step2Label": "Suggested e-services",
+      "step3Label": "Risk analysis"
+    },
+    "step1": {
+      "detailsTitle": "General informations",
+      "purposeTemplateNameField": {
+        "label": "Purpose name",
+        "infoLabel": "Min 5 characters, max 60 characters"
+      },
+      "purposeTemplateDescriptionField": {
+        "label": "Purpose description (required)",
+        "infoLabel": "Min 10 characters, max 250 characters"
+      },
+      "purposeTemplateIntendedTargetField": {
+        "label": "Who is the template you are creating intended for?",
+        "infoLabel": "Min 10 characters, max 250 characters"
+      },
+      "purposeTemplateIsFreeOfCharge": {
+        "radioButton": {
+          "label": "Indicate whether access to the data made available through the use of this E-service is free of charge.",
+          "YES": "Yes",
+          "NO": "No"
+        },
+        "reasonField": {
+          "label": "Justification for free-of-charge access (required)",
+          "infoLabel": "You are required to specify whether the provision of data free of charge is due to a legal exemption/exclusion or other reason. Min 10 characters, max 250 characters."
+        }
+      },
+      "APICallsField": {
+        "label": "How many API calls per day do you suggest to the user? (optional)"
+      }
+    },
+    "step2": {
+      "detailsTitle": "Suggested e-services for this purpose template",
+      "detailsDescription": "Are there any e-services or e-service templates that you think this template is particularly suitable for? Select them here. You can also associate e-services after publication.",
+      "addBtn": "Add e-service",
+      "editLinkedEservices": "Update list",
+      "saveBtn": "Save",
+      "autocompleteInput": {
+        "label": "E-service or e-service template to associate"
+      },
+      "notifications": {
+        "eserviceLinkError": "It was not possible to save this e-service. Please try again!",
+        "eserviceLinkSuccess": "The e-service has been saved correctly."
+      }
+    },
+    "step3": {
+      "detailsTitle": "Risk Analysis",
+      "detailsDescription": "The questionnaire questions will vary based on the answers provided as you go. Changing the answer to a previous question may alter the following questions.",
+      "alert": "Warning: Do not enter personal data in the free text fields",
+      "switchLabel": "Assign the completion of this item to the template user",
+      "addAnnotationBtn": "Add annotations",
+      "editAnnotationBtn": "Edit",
+      "deleteAnnotationBtn": "Remove",
+      "annotationSectionTitle": "Annotations provided by the creator",
+      "addDocumentBtn": "Add documents",
+      "uploadBtn": "Upload",
+      "notifications": {
+        "annotationAddedSuccess": "Annotation added successfully.",
+        "annotationAddError": "It was not possible to add the annotation. Make sure you have entered the correct information and try again.",
+        "annotationDeletedSuccess": "Annotation deleted successfully.",
+        "annotationDeleteError": "It was not possible to delete the annotation. Please try again later.",
+        "documentDeletedSuccess": "Document deleted correctly.",
+        "documentDeleteError": "The document could not be deleted. Please try again!",
+        "documentUploadError": "It was not possible to upload the document. Please try again later.",
+        "documentUploadedSuccess": "Document uploaded successfully.",
+        "documentDownloadError": "It was not possible to download the document. Please try again later.",
+        "documentDownloadedSuccess": "Document downloaded successfully."
+      },
+      "validation": {
+        "usesPersonalDataMismatch": "The answer to this field differs from what was defined by the e-service provider"
+      },
+      "drawer": {
+        "title": "Add annotations",
+        "description": "Provide the user with instructions on how to respond to this field. Once the annotation is created, you can attach documents.",
+        "question": "Question: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut laboolore magna aliqua.",
+        "label": "Annotations",
+        "addBtn": "Add"
+      },
+      "answerInputPlaceholder": "Answer",
+      "addAnswerBtn": "Add answer",
+      "personalData": {
+        "title": "Personal data processing",
+        "content": {
+          "true": "You have declared that you process personal data",
+          "false": "You have declared that you do not process personal data"
+        },
+        "alertIncompatibleAnswer": "Make sure that the answer to the question 'Indicate whether personal data is accessed (required)' matches the one you provided in the general information. If the data does not match, publication will be blocked."
+      },
+      "suggestedAnswersLabel": "Suggested answers"
+    },
+    "summary": {
+      "title": "Summary",
+      "generalInformationSection": {
+        "title": "General information",
+        "descriptionTitle": "Description",
+        "purposeTemplateName": "Purpose template name",
+        "handlesPersonalDataLabel": "Handles personal data",
+        "targetDescription": "Target audience",
+        "handlesPersonalData": {
+          "value": {
+            "true": "Yes",
+            "false": "No"
+          }
+        },
+        "purposeTemplateDescription": "Purpose template description",
+        "thresholdTitle": "Thresholds",
+        "thresholdLabel": "Suggested plan",
+        "dailyCallsLabel": "suggested daily API calls"
+      },
+      "suggestedEServicesSection": {
+        "title": "Suggested e-services",
+        "subtitle": "Linked e-services",
+        "providedBy": "provided by",
+        "noLinkedEservices": "You have not specified e-services associated with this template."
+      },
+      "riskAnalysisSection": {
+        "title": "Risk analysis"
+      }
+    }
+  },
+  "read": {
+    "actions": {
+      "createNewPurposeInstance": "Use template",
+      "tooltip": "You cannot use the template because it is intended for a different type of entity."
+    },
+    "tabs": {
+      "ariaLabel": "Three separate tabs for purpose template details, linked e-services, and risk analysis",
+      "details": "Template details",
+      "linkedEservices": "Linked e-services",
+      "riskAnalysis": "Risk analysis"
+    },
+    "detailsTab": {
+      "sections": {
+        "generalInformation": {
+          "title": "Template information",
+          "producerName": "Created by",
+          "tenantKind": "Intended for",
+          "intendedTarget": "Who is the template for",
+          "purposeDescription": "Purpose description",
+          "riskAnalysisDownloadLink": "Download risk analysis",
+          "handlesPersonalDataLabel": "Treats personal data",
+          "tenantKindValues": {
+            "labelNotPA": "Private entities",
+            "labelPA": "Public Administrations"
+          },
+          "yes": "Yes",
+          "no": "No"
+        },
+        "linkedEservices": {
+          "title": "Linked e-services",
+          "description": "The entity has defined a list of e-services for which the facilitated purpose is suggested. The user may also use this template for e-services not included in the list.",
+          "linkedEservicesLink": "View linked e-services"
+        },
+        "documentation": {
+          "title": "Documentation",
+          "description": "The following guidelines are available for this facilitated risk analysis.",
+          "documentsLabel": "Supporting documents",
+          "usefulLink": "Useful links"
+        },
+        "thresholds": {
+          "title": "Suggested load estimate",
+          "description": "The estimated number of API calls per day to the provider's e-service",
+          "planCard": {
+            "title": "Suggested plan",
+            "subtitle": "API calls/day"
+          }
+        }
+      }
+    },
+    "linkedEservicesTab": {
+      "title": "Linked e-services and template e-services",
+      "description": "Define a list of e-services for which it is suggested to use the facilitated purpose. The user \n  may also use this template for e-services not included in the list.",
+      "filters": {
+        "eserviceField": {
+          "label": "E-service name"
+        },
+        "providerField": {
+          "label": "Filter by provider"
+        }
+      }
+    },
+    "riskAnalysisTab": {
+      "titlePA": "Risk analysis (Public Administrations)",
+      "titleNotPA": "Risk analysis (Public service managers, Publicly controlled companies, Private individuals)"
+    }
+  },
+  "catalogCard": {
+    "creatorLabel": "Created by",
+    "targetTenantKind": {
+      "labelPA": "For Public Administrations",
+      "labelNotPA": "For Public service managers, Publicly controlled companies, Private individuals"
+    },
+    "deleteAnnotationDialog": {
+      "title": "Remove annotation",
+      "description": "Do you confirm that you want to remove this annotation?",
+      "proceedLabel": "Remove annotation",
+      "cancelLabel": "Keep annotation"
+    }
+  }
+}

@@ -527,6 +527,10 @@ export interface UpdateEServiceDescriptorDocumentSeed {
   prettyName: string
 }
 
+export interface UpdateRiskAnalysisTemplateAnswerAnnotationDocumentSeed {
+  prettyName: string
+}
+
 export interface DescriptorRejectionReason {
   rejectionReason: string
   /** @format date-time */
@@ -574,6 +578,7 @@ export interface Agreement {
   updatedAt?: string
   /** @format date-time */
   suspendedAt?: string
+  isDocumentReady: boolean
 }
 
 export interface Agreements {
@@ -963,6 +968,7 @@ export interface Purpose {
   hasUnreadNotifications: boolean
   /** Contains some information about the purpose template */
   purposeTemplate?: CompactPurposeTemplate
+  isDocumentReady: boolean
   /** @format date-time */
   rulesetExpiration?: string
 }
@@ -1008,7 +1014,7 @@ export interface PurposeTemplate {
 }
 
 /** Purpose Template State */
-export type PurposeTemplateState = 'ACTIVE' | 'DRAFT' | 'SUSPENDED' | 'ARCHIVED'
+export type PurposeTemplateState = 'PUBLISHED' | 'DRAFT' | 'SUSPENDED' | 'ARCHIVED'
 
 /** a purpose template with its creator and a list for the answer annotation documents */
 export interface PurposeTemplateWithCompactCreator {
@@ -1115,29 +1121,12 @@ export interface RiskAnalysisTemplateAnswerAnnotation {
   docs: RiskAnalysisTemplateAnswerAnnotationDocument[]
 }
 
-export interface RiskAnalysisTemplateAnswerAnnotationText {
+export interface RiskAnalysisTemplateAnswerAnnotationSeed {
   /**
    * @minLength 1
-   * @maxLength 250
+   * @maxLength 2000
    */
   text: string
-}
-
-export interface RiskAnalysisTemplateAnswerAnnotationSeed {
-  text: string
-  docs: RiskAnalysisTemplateAnswerAnnotationDocumentSeed[]
-}
-
-export interface RiskAnalysisTemplateAnswerAnnotationDocumentSeed {
-  /** @format uuid */
-  documentId: string
-  name: string
-  contentType: string
-  checksum: string
-  prettyName: string
-  path: string
-  /** @format date-time */
-  createdAt: string
 }
 
 export interface EServiceDescriptorPurposeTemplate {
@@ -1900,6 +1889,7 @@ export interface Delegation {
   state: DelegationState
   /** Delegation State */
   kind: DelegationKind
+  isDocumentReady: boolean
 }
 
 export interface CompactDelegation {
@@ -2411,8 +2401,10 @@ export interface NotificationsCountBySection {
     /** @format int32 */
     totalCount: number
   }
-  /** @format int32 */
-  totalCount: number
+  notifiche: {
+    /** @format int32 */
+    totalCount: number
+  }
 }
 
 /** Filter e-services by personal data */
@@ -2833,6 +2825,22 @@ export interface GetConsumerPurposesParams {
   limit: number
 }
 
+export interface GetPublishedPurposeTemplateCreatorsParams {
+  /** Query to filter creators by name */
+  q?: string
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+}
+
 export interface LinkEServiceToPurposeTemplatePayload {
   /** @format uuid */
   eserviceId: string
@@ -2849,11 +2857,8 @@ export interface GetPurposeTemplateEServicesParams {
    * @default []
    */
   producerIds?: string[]
-  /**
-   * comma separated sequence of e-service IDs
-   * @default []
-   */
-  eserviceIds?: string[]
+  /** filter linked e-services by name */
+  eserviceName?: string
   /**
    * @format int32
    * @min 0
@@ -4209,6 +4214,27 @@ export namespace Agreements {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = Agreement
+  }
+  /**
+   * @description Returns the signed agreement contract file for a given agreementId
+   * @tags agreements
+   * @name GetSignedAgreementContract
+   * @summary Downloads the signed agreement contract
+   * @request GET:/agreements/{agreementId}/signedContract
+   * @secure
+   */
+  export namespace GetSignedAgreementContract {
+    export type RequestParams = {
+      /**
+       * The identifier of the agreement
+       * @format uuid
+       */
+      agreementId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = File
   }
 }
 
@@ -6583,6 +6609,37 @@ export namespace Purposes {
     export type ResponseBody = File
   }
   /**
+   * No description
+   * @tags purposes
+   * @name GetSignedDocument
+   * @summary Get a signed document
+   * @request GET:/purposes/{purposeId}/versions/{versionId}/signedDocuments/{documentId}
+   * @secure
+   */
+  export namespace GetSignedDocument {
+    export type RequestParams = {
+      /**
+       * the purpose id
+       * @format uuid
+       */
+      purposeId: string
+      /**
+       * the version Id
+       * @format uuid
+       */
+      versionId: string
+      /**
+       * the document id
+       * @format uuid
+       */
+      documentId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = File
+  }
+  /**
    * @description reject the purpose version by id
    * @tags purposes
    * @name RejectPurposeVersion
@@ -6796,6 +6853,34 @@ export namespace PurposeTemplates {
     export type ResponseBody = CreatedResource
   }
   /**
+   * @description Retrieve Tenants that have published a purposeTemplate
+   * @tags purposeTemplates
+   * @name GetPublishedPurposeTemplateCreators
+   * @request GET:/purposeTemplates/filter/creators
+   * @secure
+   */
+  export namespace GetPublishedPurposeTemplateCreators {
+    export type RequestParams = {}
+    export type RequestQuery = {
+      /** Query to filter creators by name */
+      q?: string
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = CompactOrganizations
+  }
+  /**
    * @description Link one Eservice to Purpose Template (Draft or Active state)
    * @tags purposeTemplates
    * @name LinkEServiceToPurposeTemplate
@@ -6856,11 +6941,8 @@ export namespace PurposeTemplates {
        * @default []
        */
       producerIds?: string[]
-      /**
-       * comma separated sequence of e-service IDs
-       * @default []
-       */
-      eserviceIds?: string[]
+      /** filter linked e-services by name */
+      eserviceName?: string
       /**
        * @format int32
        * @min 0
@@ -7089,6 +7171,37 @@ export namespace PurposeTemplates {
     export type ResponseBody = void
   }
   /**
+   * No description
+   * @tags purposeTemplates
+   * @name UpdateRiskAnalysisTemplateAnswerAnnotationDocument
+   * @summary Update Answer Annotation Document in Risk Analysis of Purpose Template
+   * @request POST:/purposeTemplates/{purposeTemplateId}/riskAnalysis/answers/{answerId}/annotation/documents/{documentId}/update
+   * @secure
+   */
+  export namespace UpdateRiskAnalysisTemplateAnswerAnnotationDocument {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string
+      /**
+       * the risk analysis template answer id
+       * @format uuid
+       */
+      answerId: string
+      /**
+       * the risk analysis template answer annotation document id
+       * @format uuid
+       */
+      documentId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = UpdateRiskAnalysisTemplateAnswerAnnotationDocumentSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = RiskAnalysisTemplateAnswerAnnotationDocument
+  }
+  /**
    * @description Add a risk analysis answer annotation for the specified purpose template risk analysis.
    * @tags purposeTemplates
    * @name AddPurposeTemplateRiskAnalysisAnswerAnnotation
@@ -7104,7 +7217,7 @@ export namespace PurposeTemplates {
       answerId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = RiskAnalysisTemplateAnswerAnnotationText
+    export type RequestBody = RiskAnalysisTemplateAnswerAnnotationSeed
     export type RequestHeaders = {}
     export type ResponseBody = RiskAnalysisTemplateAnswerAnnotation
   }
@@ -7144,7 +7257,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
   /**
    * @description Unsuspends a purpose template by id (from Suspended State to Active State)
@@ -7162,7 +7275,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
   /**
    * @description Suspends a purpose template by id (from Active State to Suspended State)
@@ -7180,7 +7293,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
   /**
    * @description Archives a purpose template by id (from Suspended State to Archived State)
@@ -7198,7 +7311,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {}
     export type RequestBody = never
     export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+    export type ResponseBody = void
   }
 }
 
@@ -8334,6 +8447,27 @@ export namespace Delegations {
       delegationId: string
       /** @format uuid */
       contractId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = File
+  }
+  /**
+   * @description Retrieve the signed contract file for a given delegationId
+   * @tags delegations
+   * @name GetDelegationSignedContract
+   * @summary Retrieve the signed contract of a delegation
+   * @request GET:/delegations/{delegationId}/signedContract
+   * @secure
+   */
+  export namespace GetDelegationSignedContract {
+    export type RequestParams = {
+      /**
+       * The identifier of the delegation
+       * @format uuid
+       */
+      delegationId: string
     }
     export type RequestQuery = {}
     export type RequestBody = never

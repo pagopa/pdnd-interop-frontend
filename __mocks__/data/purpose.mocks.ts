@@ -72,6 +72,7 @@ const createMockPurpose = createMockFactory<Purpose>({
   isFreeOfCharge: false,
   dailyCallsPerConsumer: 1,
   dailyCallsTotal: 10,
+  isDocumentReady: false,
 })
 
 const createMockRiskAnalysisFormConfig = createMockFactory<RiskAnalysisFormConfig>({
