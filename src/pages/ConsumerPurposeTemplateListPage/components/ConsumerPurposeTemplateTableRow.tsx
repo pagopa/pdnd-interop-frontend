@@ -1,21 +1,20 @@
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
-import useGetConsumerPurposeTemplatesActions from '@/hooks/useGetConsumerPurposeTemplatesActions'
 import { Link } from '@/router'
 import { Skeleton } from '@mui/material'
 import { Box } from '@mui/system'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import type { CreatorPurposeTemplate } from '@/api/api.generatedTypes'
+import useGetConsumerPurposeTemplateTemplatesActions from '@/hooks/useGetConsumerPurposeTemplatesActions'
+import { TenantHooks } from '@/api/tenant'
 
 export const ConsumerPurposeTemplateTableRow: React.FC<{
   purposeTemplate: CreatorPurposeTemplate
 }> = ({ purposeTemplate }) => {
-  const { actions } = useGetConsumerPurposeTemplatesActions(
-    purposeTemplate.targetTenantKind,
-    purposeTemplate
-  )
+  const { data: tenant } = TenantHooks.useGetActiveUserParty()
+  const { actions } = useGetConsumerPurposeTemplateTemplatesActions(tenant.kind!, purposeTemplate)
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('purposeTemplate', {
     keyPrefix: 'list.filters.targetTenantKindField.values',

@@ -9,6 +9,7 @@ import { useCurrentRoute, useNavigate } from '@/router'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import type { CreatorPurposeTemplate, TenantKind } from '@/api/api.generatedTypes'
 import { tenantKindForPurposeTemplate } from '@/utils/tenant.utils'
+import { match, P } from 'ts-pattern'
 
 function useGetConsumerPurposeTemplateTemplatesActions(
   tenantKind: TenantKind,
@@ -118,31 +119,31 @@ function useGetConsumerPurposeTemplateTemplatesActions(
     })
   }
 
-  if (purposeTemplate?.state === 'DRAFT') {
-    return { actions: [deleteAction, publishAction] }
-  }
+  const state = purposeTemplate?.state
+  const isList = routeKey === 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST'
+  const isCatalogDetails = routeKey === 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS'
 
-  const actions: Array<ActionItemButton> = []
+  const actions = match({ state, isList, isCatalogDetails })
+    .with({ state: 'DRAFT' }, () => [deleteAction, publishAction])
 
-  const isSuspended = purposeTemplate?.state === 'SUSPENDED'
-  const isActive = purposeTemplate?.state === 'PUBLISHED'
-  const isArchived = purposeTemplate?.state === 'ARCHIVED'
+    .with({ state: 'PUBLISHED', isCatalogDetails: false }, ({ isList }) => {
+      const arr: ActionItemButton[] = []
 
-  if (isActive) {
-    actions.push(usePurposeTemplateAction)
-    if (routeKey !== 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS') {
-      actions.push(suspendAction)
-    }
-  }
+      const canUse = !isList || tenantKindNormalized === purposeTemplate.targetTenantKind
+      if (canUse) arr.push(usePurposeTemplateAction)
 
-  if (isSuspended && routeKey !== 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS') {
-    actions.push(activateAction)
-  }
+      arr.push(suspendAction)
 
-  if (!isArchived && routeKey !== 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS') {
-    actions.push(archiveAction)
-  }
+      arr.push(archiveAction)
 
+      return arr
+    })
+
+    .with({ state: 'SUSPENDED', isCatalogDetails: false }, () => [activateAction, archiveAction])
+
+    .with({ isCatalogDetails: false, state: P.not('ARCHIVED') }, () => [archiveAction])
+
+    .otherwise(() => [])
   return { actions }
 }
 
