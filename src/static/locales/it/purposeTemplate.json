@@ -78,12 +78,13 @@
     },
     "step2": {
       "detailsTitle": "E-service suggeriti per questo template",
-      "detailsDescription": "Ci sono e-service o template e-service per cui pensi che questo template sia particolarmente adatto? Selezionali qui. Potrai associare gli e-service anche dopo la pubblicazione.",
+      "detailsDescription": "Ci sono e-service per cui pensi che questo template sia particolarmente adatto? Selezionali qui. Potrai associare gli e-service anche dopo la pubblicazione.",
       "addBtn": "Aggiungi e-service",
       "editLinkedEservices": "Aggiorna elenco",
       "saveBtn": "Salva",
+      "eserviceSelectionSubtitle": "Puoi inserire e-service che hanno un trattamento dei dati personali analogo a quanto hai indicato.",
       "autocompleteInput": {
-        "label": "E-service o template e-service da associare"
+        "label": "E-service da associare"
       },
       "notifications": {
         "eserviceLinkError": "Non è stato possibile salvare questo e-service. Per favore riprova!",
