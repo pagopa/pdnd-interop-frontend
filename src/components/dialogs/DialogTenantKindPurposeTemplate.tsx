@@ -34,7 +34,7 @@ export const DialogTenantKindPurposeTemplate: React.FC<DialogTenantKindPurposeTe
   const formMethods = useForm<{ tenantKind: TenantKind; personalData: string }>({
     defaultValues: {
       tenantKind: 'PA',
-      personalData: 'true',
+      personalData: undefined,
     },
   })
 
