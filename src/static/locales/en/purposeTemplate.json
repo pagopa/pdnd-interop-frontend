@@ -78,7 +78,7 @@
     },
     "step2": {
       "detailsTitle": "Suggested e-services for this purpose template",
-      "detailsDescription": "Are there any e-services or e-service templates that you think this template is particularly suitable for? Select them here. You can also associate e-services after publication.",
+      "detailsDescription": "Are there any e-services that you think this template is particularly suitable for? Select them here. You can also associate e-services after publication.",
       "addBtn": "Add e-service",
       "editLinkedEservices": "Update list",
       "saveBtn": "Save",
