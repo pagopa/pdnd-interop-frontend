@@ -82,8 +82,9 @@
       "addBtn": "Aggiungi e-service",
       "editLinkedEservices": "Aggiorna elenco",
       "saveBtn": "Salva",
+      "eserviceSelectionSubtitle": "Puoi inserire e-service che hanno un trattamento dei dati personali analogo a quanto hai indicato.",
       "autocompleteInput": {
-        "label": "E-service o template e-service da associare"
+        "label": "E-service da associare"
       },
       "notifications": {
         "eserviceLinkError": "Non è stato possibile salvare questo e-service. Per favore riprova!",
