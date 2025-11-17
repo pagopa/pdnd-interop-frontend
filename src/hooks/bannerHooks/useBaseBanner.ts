@@ -1,12 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import isBefore from 'date-fns/isBefore'
-import {
-  calculateBannerDuration,
-  getBannerDurationType,
-  getBannerTimestamps,
-  type BannerData,
-  type BannerDurationType,
-} from './utils'
+import { getBannerTimestamps, type BannerData } from './utils'
+import { useBannerStore } from '@/stores/banner.store'
+import { BannerDurationType } from './utils'
+import { calculateBannerDuration, getBannerDurationType } from './utils'
 
 export interface BannerInfo {
   startString: string
@@ -20,6 +16,8 @@ export interface BannerInfo {
 interface UseBaseBannerProps {
   data: BannerData | undefined
   storageKey: string
+  bannerKey: string // banner.store key (e.g., 'maintenance', 'notification')
+  priority: number // priority level of the banner
 }
 
 interface UseBaseBannerReturn {
@@ -28,12 +26,18 @@ interface UseBaseBannerReturn {
   bannerInfo: BannerInfo | null
 }
 
-export function useBaseBanner({ data, storageKey }: UseBaseBannerProps): UseBaseBannerReturn {
-  const timestamps = useMemo(() => getBannerTimestamps(data), [data])
-
+export function useBaseBanner({
+  data,
+  storageKey,
+  bannerKey,
+  priority,
+}: UseBaseBannerProps): UseBaseBannerReturn {
+  const { currentBanner, setCurrentBanner } = useBannerStore()
   const [isOpen, setIsOpen] = useState(false)
 
   const bannerInfo = useMemo(() => {
+    if (!data) return null
+    const timestamps = getBannerTimestamps(data)
     if (!timestamps) return null
 
     const durationInHours = calculateBannerDuration(
@@ -47,14 +51,15 @@ export function useBaseBanner({ data, storageKey }: UseBaseBannerProps): UseBase
       durationInHours,
       durationType,
     }
-  }, [timestamps])
+  }, [data])
 
   const closeBanner = useCallback(() => {
     setIsOpen(false)
+    setCurrentBanner(null) // Clear the current banner in Zustand store
     if (bannerInfo) {
       localStorage.setItem(storageKey, bannerInfo.endString)
     }
-  }, [bannerInfo, storageKey])
+  }, [bannerInfo, storageKey, setCurrentBanner])
 
   useEffect(() => {
     if (!bannerInfo) {
@@ -62,14 +67,33 @@ export function useBaseBanner({ data, storageKey }: UseBaseBannerProps): UseBase
       return
     }
 
+    const now = Date.now()
+
+    // banner config time window check
+    if (now < bannerInfo.startTimestamp || now > bannerInfo.endTimestamp) {
+      setIsOpen(false)
+      return
+    }
+
+    // already dismissed
     const lastViewed = localStorage.getItem(storageKey)
     if (lastViewed === bannerInfo.endString) {
       setIsOpen(false)
       return
     }
 
-    setIsOpen(isBefore(Date.now(), bannerInfo.endTimestamp))
-  }, [bannerInfo, storageKey])
+    // priority check
+    if (
+      currentBanner === null ||
+      priority < currentBanner.priority ||
+      currentBanner.bannerKey === bannerKey
+    ) {
+      setCurrentBanner({ bannerKey, priority })
+      setIsOpen(true)
+    } else {
+      setIsOpen(false)
+    }
+  }, [bannerInfo, storageKey, currentBanner, priority, setCurrentBanner, bannerKey])
 
   return { isOpen, closeBanner, bannerInfo }
 }

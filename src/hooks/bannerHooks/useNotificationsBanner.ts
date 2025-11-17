@@ -3,17 +3,17 @@ import { useBaseBanner } from './useBaseBanner'
 import { NotificationQueries } from '@/api/notification'
 import { useTranslation } from 'react-i18next'
 
-const STORAGE_KEY = 'lastNotificationsViewed'
+const STORAGE_KEY = 'notificationsBannerDismissedUntil'
 
 export function useNotificationsBanner() {
-  const { t } = useTranslation('shared-components', {
-    keyPrefix: 'notificationsBanner',
-  })
+  const { t } = useTranslation('shared-components', { keyPrefix: 'notificationsBanner' })
   const { data } = useQuery(NotificationQueries.getNotificationsBannerConfigJson())
 
   const { isOpen, closeBanner } = useBaseBanner({
     data,
     storageKey: STORAGE_KEY,
+    bannerKey: 'notification',
+    priority: 2, // lower than maintenance banner
   })
 
   const text = t('body')

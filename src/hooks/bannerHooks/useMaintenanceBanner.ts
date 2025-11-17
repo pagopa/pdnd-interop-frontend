@@ -5,9 +5,9 @@ import { match } from 'ts-pattern'
 import { MaintenanceQueries } from '@/api/maintenance'
 import { STAGE } from '@/config/env'
 import { useBaseBanner } from './useBaseBanner'
-import { formatBannerDate } from './utils'
+import { calculateBannerDuration, formatBannerDate, getBannerDurationType } from './utils'
 
-const STORAGE_KEY = 'lastMaintenanceViewed'
+const STORAGE_KEY = 'maintenanceBannerDismissedUntil'
 
 export function useMaintenanceBanner() {
   const { t } = useTranslation('shared-components', {
@@ -18,16 +18,22 @@ export function useMaintenanceBanner() {
   const { isOpen, closeBanner, bannerInfo } = useBaseBanner({
     data,
     storageKey: STORAGE_KEY,
+    bannerKey: 'maintenance',
+    priority: 1, // highest priority
   })
 
   const text = useMemo(() => {
     if (!data?.start || !data?.end || !bannerInfo) return ''
+    const durationInHours = calculateBannerDuration(
+      bannerInfo.startTimestamp,
+      bannerInfo.endTimestamp
+    )
 
-    return bannerInfo.durationType === 'single'
+    return getBannerDurationType(durationInHours) === 'single'
       ? t('bodySingleDay', {
           maintenanceStartDay: formatBannerDate(data.start.date, 'single'),
           maintenanceStartHour: data.start.time,
-          hoursDuration: bannerInfo.durationInHours,
+          hoursDuration: durationInHours,
         })
       : t('bodyMultipleDay', {
           maintenanceStartHour: data.start.time,
