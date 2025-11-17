@@ -96,7 +96,10 @@
         "labelAutocompleteEServiceFromTemplate": "Select use case",
         "noSelectedPurposesTooltip": "You must indicate at least one purpose to continue",
         "purposeTable": {
-          "noDataLabel": "No added purpose"
+          "noDataLabel": "No added purpose",
+          "expiredRulesetTooltip": "This risk analysis uses an obsolete version that you cannot publish. Remove it and create a new one",
+          "nextExpiringRulesetTooltip": "This risk analysis uses a version that will expire in {{days}} days. Publish the e-service by {{expirationDate}} to avoid having to recompile it, or create a new one now.",
+          "nextExpiringRulesetChip": "Expiring"
         }
       },
       "riskAnalysis": {
@@ -314,6 +317,9 @@
     "notPublishableTooltip": {
       "label": "One or more required fields have not been filled in. Complete the draft"
     },
+    "rulesetExpiredTooltip": {
+      "label": "At least one purpose linked to the e-service must be removed because it is obsolete."
+    },
     "missingPersonalDataField": "This e-service draft does not indicate whether personal data will be processed.",
     "rejectedDelegatedVersionDraftAlert": {
       "delegate": "The publication of this draft was rejected by the delegator. <1>Read the reasons for rejection</1> and resend the draft with the corrections.",
@@ -322,6 +328,9 @@
     "alertMissingPersonalData": {
       "eserviceTemplateLabel": "Questo e-service deriva da un template che non rispetta i nuovi requisiti sul trattamento dei dati personali. Per sbloccare la pubblicazione è necessario che il creatore del template e-service aggiorni il campo. Contattalo per richiedere l’integrazione.",
       "eserviceLabel": "Per poter pubblicare l'e-service, è necessario aggiornare la sua compilazione per rispondere ai nuovi requisiti sul trattamento dei dati personali.\n\nSi prega di rifiutare la richiesta di pubblicazione. L'e-service tornerà in stato di bozza all'ente delegato per l’integrazione. Una volta pronto, riceverai una nuova richiesta di approvazione."
+    },
+    "alertUpdatePersonalData": {
+      "label": "Specify whether this e-service processes personal data."
     }
   },
   "list": {

@@ -199,7 +199,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
             (isAdmin || isOperatorAPI) &&
             !arePersonalDataSet &&
             !isEserviceFromTemplate && (
-              <Alert severity="warning" sx={{ alignItems: 'center' }}>
+              <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
                 <Stack spacing={25} direction="row" alignItems="center">
                   {' '}
                   {/**TODO FIX SPACING */}

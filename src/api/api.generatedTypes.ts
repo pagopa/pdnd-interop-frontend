@@ -63,6 +63,8 @@ export interface PrivacyNoticeSeed {
 export interface RiskAnalysisFormConfig {
   version: string
   questions: FormConfigQuestion[]
+  /** @format date-time */
+  expiration?: string
 }
 
 export interface FormConfigQuestion {
@@ -413,6 +415,8 @@ export interface EServiceRiskAnalysis {
   riskAnalysisForm: RiskAnalysisForm
   /** @format date-time */
   createdAt: string
+  /** @format date-time */
+  rulesetExpiration?: string
 }
 
 export interface EServiceTemplateRiskAnalysis {
@@ -574,6 +578,7 @@ export interface Agreement {
   updatedAt?: string
   /** @format date-time */
   suspendedAt?: string
+  isDocumentReady: boolean
 }
 
 export interface Agreements {
@@ -963,6 +968,9 @@ export interface Purpose {
   hasUnreadNotifications: boolean
   /** Contains some information about the purpose template */
   purposeTemplate?: CompactPurposeTemplate
+  isDocumentReady: boolean
+  /** @format date-time */
+  rulesetExpiration?: string
 }
 
 export interface PurposeAdditionDetailsSeed {
@@ -1113,15 +1121,11 @@ export interface RiskAnalysisTemplateAnswerAnnotation {
   docs: RiskAnalysisTemplateAnswerAnnotationDocument[]
 }
 
-export interface RiskAnalysisTemplateAnswerAnnotationText {
+export interface RiskAnalysisTemplateAnswerAnnotationSeed {
   /**
    * @minLength 1
-   * @maxLength 250
+   * @maxLength 2000
    */
-  text: string
-}
-
-export interface RiskAnalysisTemplateAnswerAnnotationSeed {
   text: string
 }
 
@@ -1885,6 +1889,7 @@ export interface Delegation {
   state: DelegationState
   /** Delegation State */
   kind: DelegationKind
+  isDocumentReady: boolean
 }
 
 export interface CompactDelegation {
@@ -4209,6 +4214,27 @@ export namespace Agreements {
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = Agreement
+  }
+  /**
+   * @description Returns the signed agreement contract file for a given agreementId
+   * @tags agreements
+   * @name GetSignedAgreementContract
+   * @summary Downloads the signed agreement contract
+   * @request GET:/agreements/{agreementId}/signedContract
+   * @secure
+   */
+  export namespace GetSignedAgreementContract {
+    export type RequestParams = {
+      /**
+       * The identifier of the agreement
+       * @format uuid
+       */
+      agreementId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = File
   }
 }
 
@@ -6583,6 +6609,37 @@ export namespace Purposes {
     export type ResponseBody = File
   }
   /**
+   * No description
+   * @tags purposes
+   * @name GetSignedDocument
+   * @summary Get a signed document
+   * @request GET:/purposes/{purposeId}/versions/{versionId}/signedDocuments/{documentId}
+   * @secure
+   */
+  export namespace GetSignedDocument {
+    export type RequestParams = {
+      /**
+       * the purpose id
+       * @format uuid
+       */
+      purposeId: string
+      /**
+       * the version Id
+       * @format uuid
+       */
+      versionId: string
+      /**
+       * the document id
+       * @format uuid
+       */
+      documentId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = File
+  }
+  /**
    * @description reject the purpose version by id
    * @tags purposes
    * @name RejectPurposeVersion
@@ -7160,7 +7217,7 @@ export namespace PurposeTemplates {
       answerId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = RiskAnalysisTemplateAnswerAnnotationText
+    export type RequestBody = RiskAnalysisTemplateAnswerAnnotationSeed
     export type RequestHeaders = {}
     export type ResponseBody = RiskAnalysisTemplateAnswerAnnotation
   }
@@ -8390,6 +8447,27 @@ export namespace Delegations {
       delegationId: string
       /** @format uuid */
       contractId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = File
+  }
+  /**
+   * @description Retrieve the signed contract file for a given delegationId
+   * @tags delegations
+   * @name GetDelegationSignedContract
+   * @summary Retrieve the signed contract of a delegation
+   * @request GET:/delegations/{delegationId}/signedContract
+   * @secure
+   */
+  export namespace GetDelegationSignedContract {
+    export type RequestParams = {
+      /**
+       * The identifier of the delegation
+       * @format uuid
+       */
+      delegationId: string
     }
     export type RequestQuery = {}
     export type RequestBody = never

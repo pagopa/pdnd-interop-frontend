@@ -13,7 +13,7 @@ import type {
   PurposeTemplateSeed,
   PurposeTemplateWithCompactCreator,
   RiskAnalysisTemplateAnswerAnnotation,
-  RiskAnalysisTemplateAnswerAnnotationText,
+  RiskAnalysisTemplateAnswerAnnotationSeed,
   RiskAnalysisTemplateAnswerRequest,
   RiskAnalysisTemplateAnswerResponse,
   AddRiskAnalysisTemplateAnswerAnnotationDocumentPayload,
@@ -145,7 +145,7 @@ async function updateRiskAnalysisAnswerAnnotation({
 }: {
   purposeTemplateId: string
   answerId: string
-  annotationText: RiskAnalysisTemplateAnswerAnnotationText
+  annotationText: RiskAnalysisTemplateAnswerAnnotationSeed
 }) {
   const response = await axiosInstance.put<RiskAnalysisTemplateAnswerAnnotation>(
     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation`,
