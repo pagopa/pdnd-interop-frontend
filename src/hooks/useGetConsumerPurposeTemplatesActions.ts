@@ -139,6 +139,8 @@ function useGetConsumerPurposeTemplateTemplatesActions(
       return arr
     })
 
+    .with({ state: 'PUBLISHED', isCatalogDetails: true }, () => [usePurposeTemplateAction])
+
     .with({ state: 'SUSPENDED', isCatalogDetails: false }, () => [activateAction, archiveAction])
 
     .with({ isCatalogDetails: false, state: P.not('ARCHIVED') }, () => [archiveAction])
