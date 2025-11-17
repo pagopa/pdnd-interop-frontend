@@ -6,7 +6,7 @@
         "label": "Cerca per nome"
       },
       "eserviceField": {
-        "label": "Nome e-service"
+        "label": "Cerca per e-service"
       },
       "statusField": {
         "label": "Filtra per stato",
