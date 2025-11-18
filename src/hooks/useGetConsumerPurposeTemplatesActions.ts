@@ -27,7 +27,6 @@ function useGetConsumerPurposeTemplateTemplatesActions(
   const { mutate: reactivatePurposeTemplate } =
     PurposeTemplateMutations.useReactivatePurposeTemplate()
   const { mutate: deletePurposeTemplateDraft } = PurposeTemplateMutations.useDeleteDraft()
-  const { mutate: publishPurposeTemplateDraft } = PurposeTemplateMutations.usePublishDraft()
 
   const tenantKindNormalized = tenantKindForPurposeTemplate(tenantKind) // normalize tenant kind for purpose templates: map all non-PA kinds to PRIVATE because RA for scp/gsp/private are the same
 
@@ -93,16 +92,6 @@ function useGetConsumerPurposeTemplateTemplatesActions(
     color: 'error',
   }
 
-  function handlePublishDraft() {
-    if (!purposeTemplate) return
-    publishPurposeTemplateDraft({ id: purposeTemplate.id })
-  }
-
-  const publishAction: ActionItemButton = {
-    label: tCommon('publishDraft'),
-    action: handlePublishDraft,
-  }
-
   const usePurposeTemplateAction: ActionItemButton = {
     label: t('actions.createNewPurposeInstance'),
     action: handleUsePurposeTemplateAction,
@@ -124,7 +113,7 @@ function useGetConsumerPurposeTemplateTemplatesActions(
   const isCatalogDetails = routeKey === 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS'
 
   const actions = match({ state, isList, isCatalogDetails })
-    .with({ state: 'DRAFT' }, () => [deleteAction, publishAction])
+    .with({ state: 'DRAFT' }, () => [deleteAction])
 
     .with({ state: 'PUBLISHED', isCatalogDetails: false }, ({ isList }) => {
       const arr: ActionItemButton[] = []

@@ -34,13 +34,7 @@ const server = setupServer(
   ),
   rest.delete(`${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${mockPurposeTemplateId}`, (_, res) => {
     return res()
-  }),
-  rest.post(
-    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${mockPurposeTemplateId}/publish`,
-    (_, res) => {
-      return res()
-    }
-  )
+  })
 )
 
 beforeAll(() => {
@@ -106,13 +100,12 @@ describe('useGetConsumerPurposeTemplatesActions', () => {
   })
 
   describe('when purpose template state is DRAFT', () => {
-    it('should return delete and publish actions', () => {
+    it('should return delete action', () => {
       const purposeTemplate = createMockPurposeTemplate({ state: 'DRAFT' })
       const { result } = renderUseGetConsumerPurposeTemplatesActionsHook('PA', purposeTemplate)
 
-      expect(result.current.actions).toHaveLength(2)
+      expect(result.current.actions).toHaveLength(1)
       expect(result.current.actions[0].label).toBe('delete')
-      expect(result.current.actions[1].label).toBe('publishDraft')
     })
 
     it('should navigate to purpose template list after delete action', async () => {
