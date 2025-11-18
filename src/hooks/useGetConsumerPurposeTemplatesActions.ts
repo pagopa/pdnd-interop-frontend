@@ -109,17 +109,18 @@ function useGetConsumerPurposeTemplateTemplatesActions(
   }
 
   const state = purposeTemplate?.state
-  const isList = routeKey === 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST'
-  const isCatalogDetails = routeKey === 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS'
+  const isListPage = routeKey === 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST'
+  const isDetailsPage = routeKey === 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS'
 
-  const actions = match({ state, isList, isCatalogDetails })
+  const actions = match({ state, isListPage, isDetailsPage })
     .with({ state: 'DRAFT' }, () => [deleteAction])
 
-    .with({ state: 'PUBLISHED', isCatalogDetails: false }, ({ isList }) => {
+    .with({ state: 'PUBLISHED', isDetailsPage: false }, ({ isListPage }) => {
       const arr: ActionItemButton[] = []
 
-      const canUse = !isList || tenantKindNormalized === purposeTemplate.targetTenantKind
-      if (canUse) arr.push(usePurposeTemplateAction)
+      const canInstantiatePurposeTemplate =
+        !isListPage || tenantKindNormalized === purposeTemplate.targetTenantKind
+      if (canInstantiatePurposeTemplate) arr.push(usePurposeTemplateAction)
 
       arr.push(suspendAction)
 
@@ -128,11 +129,11 @@ function useGetConsumerPurposeTemplateTemplatesActions(
       return arr
     })
 
-    .with({ state: 'PUBLISHED', isCatalogDetails: true }, () => [usePurposeTemplateAction])
+    .with({ state: 'PUBLISHED', isDetailsPage: true }, () => [usePurposeTemplateAction])
 
-    .with({ state: 'SUSPENDED', isCatalogDetails: false }, () => [activateAction, archiveAction])
+    .with({ state: 'SUSPENDED', isDetailsPage: false }, () => [activateAction, archiveAction])
 
-    .with({ isCatalogDetails: false, state: P.not('ARCHIVED') }, () => [archiveAction])
+    .with({ isDetailsPage: false, state: P.not('ARCHIVED') }, () => [archiveAction])
 
     .otherwise(() => [])
   return { actions }
