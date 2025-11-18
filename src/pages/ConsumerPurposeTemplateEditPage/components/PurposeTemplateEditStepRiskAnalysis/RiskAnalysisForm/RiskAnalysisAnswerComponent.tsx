@@ -21,6 +21,7 @@ import type {
 import { PurposeTemplateServices } from '@/api/purposeTemplate/purposeTemplate.services'
 import { useParams } from '@/router'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
+import { PurposeTemplateDownloads } from '@/api/purposeTemplate/purposeTemplate.downloads'
 
 // Document Upload Form Component
 const DocumentUploadForm: React.FC<{
@@ -103,6 +104,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{
 
   const { mutate: updateDocumentPrettyName } =
     PurposeTemplateMutations.useUpdatePrettyNameAnnotationAssociatedDocument()
+  const downloadAnnotationDocument = PurposeTemplateDownloads.useDownloadAnnotationDocument()
 
   // Clear answer field when editable flag is set to true
   useEffect(() => {
@@ -262,35 +264,11 @@ export const RiskAnalysisAnswerComponent: React.FC<{
   }
 
   const handleDocumentDownload = async (doc: EServiceDoc) => {
-    try {
-      const existingAnswerId = watch(`answerIds.${questionKey}`)
-
-      if (!existingAnswerId) {
-        showToast(t('notifications.documentDownloadError'), 'error')
-        return
-      }
-
-      const blob = await PurposeTemplateServices.downloadDocumentFromAnnotation({
-        purposeTemplateId,
-        answerId: existingAnswerId,
-        documentId: doc.id,
-      })
-
-      // Create a download link
-      const url = window.URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = url
-      link.download = doc.prettyName || doc.name
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      window.URL.revokeObjectURL(url)
-
-      showToast(t('notifications.documentDownloadedSuccess'), 'success')
-    } catch (error) {
-      console.error('Error downloading document:', error)
-      showToast(t('notifications.documentDownloadError'), 'error')
-    }
+    downloadAnnotationDocument({
+      purposeTemplateId,
+      answerId: watch(`answerIds.${questionKey}`),
+      documentId: doc.id,
+    })
   }
 
   const handleDelete = async (doc: EServiceDoc) => {
