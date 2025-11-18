@@ -87,8 +87,8 @@ export const RiskAnalysisAnswerComponent: React.FC<{
   const questionValues: string[] = Array.isArray(questionValue)
     ? questionValue
     : questionValue
-      ? [questionValue]
-      : []
+    ? [questionValue]
+    : []
   const suggestedValues: string[] = watch(`suggestedValues.${questionKey}`) || []
 
   // Document management states
