@@ -22,6 +22,7 @@ import { PurposeTemplateServices } from '@/api/purposeTemplate/purposeTemplate.s
 import { useParams } from '@/router'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import { PurposeTemplateDownloads } from '@/api/purposeTemplate/purposeTemplate.downloads'
+import { getDownloadDocumentName } from '@/utils/purposeTemplate.utils'
 
 // Document Upload Form Component
 const DocumentUploadForm: React.FC<{
@@ -86,8 +87,8 @@ export const RiskAnalysisAnswerComponent: React.FC<{
   const questionValues: string[] = Array.isArray(questionValue)
     ? questionValue
     : questionValue
-    ? [questionValue]
-    : []
+      ? [questionValue]
+      : []
   const suggestedValues: string[] = watch(`suggestedValues.${questionKey}`) || []
 
   // Document management states
@@ -264,11 +265,14 @@ export const RiskAnalysisAnswerComponent: React.FC<{
   }
 
   const handleDocumentDownload = async (doc: EServiceDoc) => {
-    downloadAnnotationDocument({
-      purposeTemplateId,
-      answerId: watch(`answerIds.${questionKey}`),
-      documentId: doc.id,
-    })
+    downloadAnnotationDocument(
+      {
+        purposeTemplateId,
+        answerId: watch(`answerIds.${questionKey}`),
+        documentId: doc.id,
+      },
+      getDownloadDocumentName(doc)
+    )
   }
 
   const handleDelete = async (doc: EServiceDoc) => {
@@ -416,7 +420,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{
                     key={doc.id}
                     doc={{
                       id: doc.id,
-                      name: doc.prettyName,
+                      name: doc.name,
                       prettyName: doc.prettyName,
                       contentType: doc.contentType,
                       checksum: '',
