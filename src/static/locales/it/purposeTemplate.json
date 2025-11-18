@@ -100,7 +100,7 @@
       "editAnnotationBtn": "Modifica",
       "deleteAnnotationBtn": "Rimuovi",
       "annotationSectionTitle": "Annotazioni fornite dal creatore",
-      "addDocumentBtn": "Aggiungi documenti",
+      "addDocumentBtn": "Aggiungi documentazione",
       "uploadBtn": "Carica",
       "notifications": {
         "annotationAddedSuccess": "Annotazione aggiunta con successo.",
@@ -122,7 +122,10 @@
         "description": "Fornisci all’utilizzatore indicazioni su come rispondere a questo campo. Una volta creata la annotazione, potrai allegare documenti.",
         "question": "Domanda: ",
         "label": "Annotazioni",
-        "addBtn": "Aggiungi"
+        "addBtn": "Aggiungi",
+        "validation": {
+          "textRequiredWithDocs": "L'annotazione non può essere vuota."
+        }
       },
       "answerInputPlaceholder": "Risposta",
       "addAnswerBtn": "Aggiungi risposta",

@@ -42,6 +42,8 @@ export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
     defaultValues: {
       annotation: initialAnnotation ?? defaultInitialAnnotationValues,
     },
+    mode: 'onSubmit',
+    reValidateMode: 'onChange',
   })
 
   useEffect(() => {
@@ -63,8 +65,7 @@ export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
     <Stack spacing={3} sx={{ mt: 2, mb: 0 }}>
       <Typography>{t('description')}</Typography>
       <Typography sx={{ fontWeight: 600 }}>
-        {t('question')}
-        {question}
+        {t('question')} {question}
       </Typography>
     </Stack>
   )
@@ -91,6 +92,15 @@ export const AddAnnotationDrawer: React.FC<AddAnnotationDrawerProps> = ({
           rows={11}
           sx={{ mt: 0 }}
           inputProps={{ maxLength: 250 }}
+          rules={{
+            validate: (value: string) => {
+              const text = value?.trim() || ''
+              if (text === '') {
+                return t('validation.textRequiredWithDocs')
+              }
+              return true
+            },
+          }}
         />
       </Drawer>
     </FormProvider>

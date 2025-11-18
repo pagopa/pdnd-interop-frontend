@@ -1,10 +1,11 @@
-import type { RiskAnalysisTemplateAnswerAnnotation } from '@/api/api.generatedTypes'
-import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
+import type { EServiceDoc, RiskAnalysisTemplateAnswerAnnotation } from '@/api/api.generatedTypes'
+import { PurposeTemplateDownloads } from '@/api/purposeTemplate/purposeTemplate.downloads'
 import { SectionContainer } from '@/components/layout/containers'
-import { Typography, Button } from '@mui/material'
+import { getDownloadDocumentName } from '@/utils/purposeTemplate.utils'
+import DownloadIcon from '@mui/icons-material/Download'
+import { Button, Typography } from '@mui/material'
 import { Stack } from '@mui/system'
 import { useTranslation } from 'react-i18next'
-import DownloadIcon from '@mui/icons-material/Download'
 
 export const AnnotationDetails: React.FC<{
   annotation: RiskAnalysisTemplateAnswerAnnotation
@@ -15,29 +16,16 @@ export const AnnotationDetails: React.FC<{
     keyPrefix: 'purposeTemplateRiskAnalysisInfoSummary.annotationSection',
   })
 
-  const { mutate: downloadDocument, isPending: isDownloading } =
-    PurposeTemplateMutations.useDownloadDocument()
+  const downloadDocument = PurposeTemplateDownloads.useDownloadDocument()
 
-  const handleDownload = (documentId: string, fileName: string) => {
+  const handleDownload = (doc: EServiceDoc) => {
     downloadDocument(
       {
         purposeTemplateId,
         answerId,
-        documentId,
+        documentId: doc.id,
       },
-      {
-        onSuccess: (fileBlob) => {
-          // Create a download link
-          const url = window.URL.createObjectURL(fileBlob)
-          const link = document.createElement('a')
-          link.href = url
-          link.download = fileName
-          document.body.appendChild(link)
-          link.click()
-          document.body.removeChild(link)
-          window.URL.revokeObjectURL(url)
-        },
-      }
+      getDownloadDocumentName(doc)
     )
   }
 
@@ -56,8 +44,7 @@ export const AnnotationDetails: React.FC<{
                 key={doc.id}
                 endIcon={<DownloadIcon fontSize="small" />}
                 component="button"
-                onClick={() => handleDownload(doc.id, doc.prettyName)}
-                disabled={isDownloading}
+                onClick={() => handleDownload(doc)}
                 sx={{
                   fontWeight: 700,
                   alignSelf: 'flex-start',

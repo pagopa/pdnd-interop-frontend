@@ -55,7 +55,8 @@
           "viewPurposeTemplateBtn": "Visualizza il template selezionato"
         },
         "acknowledgeInfoResponsibility": {
-          "label": "Dichiaro di aver compreso che, anche in presenza di suggerimenti precompilati, è mia responsabilità verificare e validare tutte le informazioni prima della pubblicazione."
+          "label": "Dichiaro di aver compreso che, anche in presenza di suggerimenti precompilati, è mia responsabilità verificare e validare tutte le informazioni prima della pubblicazione.",
+          "requiredError": "Devi accettare le condizioni per proseguire"
         }
       }
     }
