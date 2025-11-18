@@ -122,7 +122,10 @@
         "description": "Provide the user with instructions on how to respond to this field. Once the annotation is created, you can attach documents.",
         "question": "Question: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut laboolore magna aliqua.",
         "label": "Annotations",
-        "addBtn": "Add"
+        "addBtn": "Add",
+        "validation": {
+          "textRequiredWithDocs": "The annotation cannot be empty as there are attachments present"
+        }
       },
       "answerInputPlaceholder": "Answer",
       "addAnswerBtn": "Add answer",
