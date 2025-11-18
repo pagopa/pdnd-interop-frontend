@@ -990,7 +990,7 @@
       },
       "confirmDialog": {
         "title": "Conferma cancellazione del template",
-        "description": "Cliccando \"conferma\" questo template verrà cancellata e non sarà più recuperabile."
+        "description": "Cliccando \"Conferma\" questo template verrà cancellata e non sarà più recuperabile."
       }
     },
 
@@ -1002,7 +1002,7 @@
       },
       "confirmDialog": {
         "title": "Conferma sospensione template",
-        "description": "Cliccando \"conferma\" questo template sarà sospeso. Nessun utilizzatore potrà utilizzare questo template finché non sarà riattivato."
+        "description": "Cliccando \"Conferma\" questo template sarà sospeso. Nessun utilizzatore potrà utilizzare questo template finché non sarà riattivato."
       }
     },
     "activatePurposeTemplate": {
@@ -1013,7 +1013,7 @@
       },
       "confirmDialog": {
         "title": "Conferma riattivazione del template",
-        "description": "Cliccando \"conferma\" questo template verrà riattivato."
+        "description": "Cliccando \"Conferma\" questo template verrà riattivato."
       }
     },
     "publishDraft": {
@@ -1024,7 +1024,7 @@
       },
       "confirmDialog": {
         "title": "Conferma pubblicazione del template",
-        "description": "Cliccando \"conferma\" questo template verrà pubblicato."
+        "description": "Cliccando \"Conferma\" questo template verrà pubblicato."
       }
     },
     "archivePurposeTemplate": {
@@ -1035,7 +1035,7 @@
       },
       "confirmDialog": {
         "title": "Conferma archiviazione template",
-        "description": "Cliccando \"conferma\" questo template sarà archiviato. Una volta archiviato, il template non potrà più essere utilizzato."
+        "description": "Cliccando \"Conferma\" questo template sarà archiviato. Una volta archiviato, il template non potrà più essere utilizzato."
       }
     },
     "addAnnotationToAnswer": {
