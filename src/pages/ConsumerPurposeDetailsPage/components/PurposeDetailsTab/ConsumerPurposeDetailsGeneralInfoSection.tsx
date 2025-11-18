@@ -36,11 +36,12 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
     )
   }
 
-  const downloadRiskAnalysisDocumentAction = {
+  const x = {
     startIcon: <DownloadIcon fontSize="small" />,
     label: t('riskAnalysis.link.label'),
     component: 'button',
     type: 'button',
+    disa
     onClick: handleDownloadDocument,
   }
 
