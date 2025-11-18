@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useConsumerAgreementDetailsContext } from '../ConsumerAgreementDetailsContext'
 import { useDrawerState } from '@/hooks/useDrawerState'
-import { Divider, Stack } from '@mui/material'
+import { Button, Divider, Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { Link } from '@/router'
 import { IconLink } from '@/components/shared/IconLink'
@@ -20,6 +20,7 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
   })
   const { agreement } = useConsumerAgreementDetailsContext()
   const downloadContract = AgreementDownloads.useDownloadContract()
+  const downloadSignedAgreementDocument = AgreementDownloads.useDownloadSignedContract()
 
   const isDelegated = Boolean(agreement.delegation)
 
@@ -45,6 +46,13 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
 
   const handleDownloadDocument = () => {
     downloadContract({ agreementId: agreement.id }, `${t('documentation.fileName')}.pdf`)
+  }
+
+  const handleDownloadSignedAgreementDocument = () => {
+    downloadSignedAgreementDocument(
+      { agreementId: agreement.id },
+      `${t('documentation.fileName')}.pdf`
+    )
   }
 
   return (
@@ -92,25 +100,28 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
           <>
             <Divider />
             {agreement.isContractPresent && (
-              <IconLink
-                onClick={handleDownloadDocument}
-                component="button"
-                startIcon={<DownloadIcon />}
-                alignSelf="start"
-              >
-                {t('documentation.link.label')}
-              </IconLink>
+              <>
+                <Button
+                  disabled={!agreement.isDocumentReady}
+                  onClick={handleDownloadSignedAgreementDocument}
+                  startIcon={<DownloadIcon />}
+                  sx={{ alignSelf: 'start', paddingX: 1 }}
+                >
+                  {t('documentation.link.label')}
+                </Button>
+              </>
             )}
             {agreement.state === 'PENDING' && (
               <>
-                <IconLink
+                <Button
                   onClick={handleOpenCertifiedAttributesDrawer}
                   component="button"
                   startIcon={<RuleIcon />}
-                  alignSelf="start"
+                  style={{ alignSelf: 'start', marginTop: 0 }}
+                  sx={{ paddingX: 1, marginTop: 0 }}
                 >
                   {t('certifiedAttributeLink.label')}
-                </IconLink>
+                </Button>
               </>
             )}
             {agreement.producer.contactMail && (
