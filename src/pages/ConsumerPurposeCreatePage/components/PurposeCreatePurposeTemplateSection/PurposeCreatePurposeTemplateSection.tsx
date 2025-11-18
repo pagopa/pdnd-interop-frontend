@@ -100,7 +100,7 @@ export const PurposeCreatePurposeTemplateSection: React.FC<
             label={t('usePurposeTemplateSwitch.acknowledgeInfoResponsibility.label')}
             sx={{ pl: 2, pt: 2 }}
             rules={{
-              required: true,
+              required: t('usePurposeTemplateSwitch.acknowledgeInfoResponsibility.requiredError'),
             }}
           />
         </Stack>

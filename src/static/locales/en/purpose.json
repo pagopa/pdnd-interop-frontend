@@ -55,7 +55,8 @@
           "viewPurposeTemplateBtn": "View selected template"
         },
         "acknowledgeInfoResponsibility": {
-          "label": "I acknowledge that, even in the presence of pre-filled suggestions, it is my responsibility to verify and validate all information before publication."
+          "label": "I acknowledge that, even in the presence of pre-filled suggestions, it is my responsibility to verify and validate all information before publication.",
+          "requiredError": "You must accept the conditions to proceed"
         }
       }
     }
