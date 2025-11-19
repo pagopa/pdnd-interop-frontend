@@ -11,3 +11,13 @@ export const useMarkNotificationsAsRead = (entityId: string | undefined) => {
     }
   }, [entityId, markNotificationsAsRead])
 }
+
+export const useMarkBulkNotificationsAsRead = (ids: string[] | undefined) => {
+  const { mutate: markBulkNotificationsAsRead } = NotificationMutations.useBulkMarkAsRead()
+
+  React.useEffect(() => {
+    if (ids) {
+      markBulkNotificationsAsRead({ ids })
+    }
+  }, [ids, markBulkNotificationsAsRead])
+}
