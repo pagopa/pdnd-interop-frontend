@@ -221,7 +221,7 @@ describe('AddAnnotationDrawer', () => {
   })
 
   describe('edge cases', () => {
-    it('should handle empty text submission', async () => {
+    it('should not submit form when text is empty', async () => {
       renderWithApplicationContext(<AddAnnotationDrawer question={''} {...defaultProps} />, {
         withReactQueryContext: true,
       })
@@ -230,12 +230,11 @@ describe('AddAnnotationDrawer', () => {
       fireEvent.click(addButton)
 
       await waitFor(() => {
-        expect(defaultProps.onSubmit).toHaveBeenCalledWith({
-          id: '',
-          text: '',
-          docs: [],
-        })
+        expect(screen.getByText('purposeTemplate.validation.textRequiredWithDocs')).toBeInTheDocument()
       })
+
+      expect(defaultProps.onSubmit).not.toHaveBeenCalled()
+      expect(defaultProps.onClose).not.toHaveBeenCalled()
     })
   })
 })

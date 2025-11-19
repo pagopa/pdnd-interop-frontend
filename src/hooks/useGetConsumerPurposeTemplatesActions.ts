@@ -9,6 +9,7 @@ import { useCurrentRoute, useNavigate } from '@/router'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import type { CreatorPurposeTemplate, TenantKind } from '@/api/api.generatedTypes'
 import { tenantKindForPurposeTemplate } from '@/utils/tenant.utils'
+import { match, P } from 'ts-pattern'
 
 function useGetConsumerPurposeTemplateTemplatesActions(
   tenantKind: TenantKind,
@@ -26,7 +27,6 @@ function useGetConsumerPurposeTemplateTemplatesActions(
   const { mutate: reactivatePurposeTemplate } =
     PurposeTemplateMutations.useReactivatePurposeTemplate()
   const { mutate: deletePurposeTemplateDraft } = PurposeTemplateMutations.useDeleteDraft()
-  const { mutate: publishPurposeTemplateDraft } = PurposeTemplateMutations.usePublishDraft()
 
   const tenantKindNormalized = tenantKindForPurposeTemplate(tenantKind) // normalize tenant kind for purpose templates: map all non-PA kinds to PRIVATE because RA for scp/gsp/private are the same
 
@@ -92,16 +92,6 @@ function useGetConsumerPurposeTemplateTemplatesActions(
     color: 'error',
   }
 
-  function handlePublishDraft() {
-    if (!purposeTemplate) return
-    publishPurposeTemplateDraft({ id: purposeTemplate.id })
-  }
-
-  const publishAction: ActionItemButton = {
-    label: tCommon('publishDraft'),
-    action: handlePublishDraft,
-  }
-
   const usePurposeTemplateAction: ActionItemButton = {
     label: t('actions.createNewPurposeInstance'),
     action: handleUsePurposeTemplateAction,
@@ -118,31 +108,34 @@ function useGetConsumerPurposeTemplateTemplatesActions(
     })
   }
 
-  if (purposeTemplate?.state === 'DRAFT') {
-    return { actions: [deleteAction, publishAction] }
-  }
+  const state = purposeTemplate?.state
+  const isListPage = routeKey === 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST'
+  const isDetailsPage = routeKey === 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS'
 
-  const actions: Array<ActionItemButton> = []
+  const actions = match({ state, isListPage, isDetailsPage })
+    .with({ state: 'DRAFT' }, () => [deleteAction])
 
-  const isSuspended = purposeTemplate?.state === 'SUSPENDED'
-  const isActive = purposeTemplate?.state === 'PUBLISHED'
-  const isArchived = purposeTemplate?.state === 'ARCHIVED'
+    .with({ state: 'PUBLISHED', isDetailsPage: false }, ({ isListPage }) => {
+      const arr: ActionItemButton[] = []
 
-  if (isActive) {
-    actions.push(usePurposeTemplateAction)
-    if (routeKey !== 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS') {
-      actions.push(suspendAction)
-    }
-  }
+      const canInstantiatePurposeTemplate =
+        !isListPage || tenantKindNormalized === purposeTemplate.targetTenantKind
+      if (canInstantiatePurposeTemplate) arr.push(usePurposeTemplateAction)
 
-  if (isSuspended && routeKey !== 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS') {
-    actions.push(activateAction)
-  }
+      arr.push(suspendAction)
 
-  if (!isArchived && routeKey !== 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS') {
-    actions.push(archiveAction)
-  }
+      arr.push(archiveAction)
 
+      return arr
+    })
+
+    .with({ state: 'PUBLISHED', isDetailsPage: true }, () => [usePurposeTemplateAction])
+
+    .with({ state: 'SUSPENDED', isDetailsPage: false }, () => [activateAction, archiveAction])
+
+    .with({ isDetailsPage: false, state: P.not('ARCHIVED') }, () => [archiveAction])
+
+    .otherwise(() => [])
   return { actions }
 }
 

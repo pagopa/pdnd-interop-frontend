@@ -16,7 +16,6 @@ import {
   ConsumerPurposeSummaryRiskAnalysisAccordion,
 } from './components'
 import { useGetConsumerPurposeAlertProps } from './hooks/useGetConsumerPurposeAlertProps'
-import { useCheckRiskAnalysisVersionMismatch } from '@/hooks/useCheckRiskAnalysisVersionMismatch'
 import { useQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
 
@@ -33,22 +32,22 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
 
   const expirationDate = purpose?.rulesetExpiration
+  const expirationDateToShow = expirationDate
+    ? new Date(expirationDate).toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+      })
+    : undefined
 
-  const currentDateString = new Intl.DateTimeFormat('it', {
-    dateStyle: 'short',
-    timeStyle: 'short',
-  })
-    .format()
-    .replace(',', '')
+  const now = new Date()
 
   const daysToExpiration = expirationDate
-    ? (new Date(expirationDate).getTime() - new Date(currentDateString).getTime()) /
-      (1000 * 60 * 60 * 24)
-    : null
+    ? Math.floor((new Date(expirationDate).getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+    : undefined
 
-  const isRulesetExpired = expirationDate ? expirationDate < currentDateString : false
+  const isRulesetExpired = expirationDate ? new Date(expirationDate) < now : false
 
-  const hasRiskAnalysisVersionMismatch = useCheckRiskAnalysisVersionMismatch(purpose)
   const alertProps = useGetConsumerPurposeAlertProps(purpose)
 
   const eservicePersonalData = purpose?.eservice.personalData
@@ -155,7 +154,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
         <Alert sx={{ mt: 3 }} severity="info">
           {t('summary.alerts.infoRulesetExpiration', {
             days: daysToExpiration,
-            date: expirationDate,
+            date: expirationDateToShow,
           })}
         </Alert>
       )}

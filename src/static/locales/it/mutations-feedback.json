@@ -997,7 +997,7 @@
     "suspendPurposeTemplate": {
       "loading": "Stiamo sospendendo il template",
       "outcome": {
-        "success": "Il template è stato sospeso correttamente.",
+        "success": "Il template finalità agevolata è stato sospeso correttamente.",
         "error": "Non è stato possibile sospendere il template. Riprova più tardi."
       },
       "confirmDialog": {
@@ -1030,7 +1030,7 @@
     "archivePurposeTemplate": {
       "loading": "Stiamo archiviando il template",
       "outcome": {
-        "success": "Il template è stato archiviato correttamente.",
+        "success": "Il template finalità agevolata è stato archiviato correttamente.",
         "error": "Non è stato possibile archiviare il template. Riprova più tardi."
       },
       "confirmDialog": {
