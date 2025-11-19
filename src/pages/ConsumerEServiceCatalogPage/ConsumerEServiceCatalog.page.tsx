@@ -14,6 +14,8 @@ import type { EServiceDescriptorState, GetEServicesCatalogParams } from '@/api/a
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { trackEvent } from '@/config/tracking'
 import { debounce } from 'lodash'
+import { useMarkBulkNotificationsAsRead, useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
+
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
@@ -88,9 +90,13 @@ const EServiceCatalogWrapper: React.FC<{ params: { limit: number; offset: number
   params,
 }) => {
   const { data, isFetching } = useQuery(EServiceQueries.getCatalogList(params))
+  const eservicesWithNotifications = data?.results.filter(eservice => eservice.hasUnreadNotifications)
+    .map(eservice => eservice.id) || [];
+  useMarkBulkNotificationsAsRead(eservicesWithNotifications)
 
   if (!data && isFetching) return <EServiceCatalogGridSkeleton />
   return <EServiceCatalogGrid eservices={data?.results} />
 }
 
 export default ConsumerEServiceCatalogPage
+
