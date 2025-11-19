@@ -7,15 +7,13 @@ import { NotificationsTable, NotificationsTableSkeleton } from './NotificationsT
 import type { GetUserNotificationsParams } from '@/api/notification/notification.services'
 import { NotificationMutations, NotificationQueries } from '@/api/notification'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { NoItemResults } from '@/components/shared/NoItemResults/NoItemResults'
-import { Link } from '@/router'
 
 const NotificationsPage: React.FC = () => {
   const { t } = useTranslation('notifications', { keyPrefix: 'notifications.page' })
 
   const action: ActionItemButton[] = [
     {
-      action: () => {}, //TODO
+      action: () => { }, //TODO
       label: t('addNotificationConfigBtn'),
       color: 'primary',
       variant: 'contained',
@@ -29,27 +27,27 @@ const NotificationsPage: React.FC = () => {
     {
       name: 'category',
       label: t('filters.categoryField.label'),
-      type: 'autocomplete-multiple',
+      type: 'autocomplete-single',
       options: [
-        { label: t('filters.categoryField.optionLabels.Deliver'), value: 'DELIVER' },
+        { label: t('filters.categoryField.optionLabels.Deliver'), value: 'Providers' },
         {
           label: t('filters.categoryField.optionLabels.Receive'),
-          value: 'RECEIVE',
+          value: 'Subscribers',
         },
         {
           label: t('filters.categoryField.optionLabels.Delegation'),
-          value: 'DELEGATION',
+          value: 'Delegations',
         },
         {
           label: t('filters.categoryField.optionLabels.keyAttributes'),
-          value: 'KEY_ATTRIBUTES',
+          value: 'AttributesAndKeys',
         },
       ],
     },
     {
       name: 'state',
       label: t('filters.stateField.label'),
-      type: 'autocomplete-multiple',
+      type: 'autocomplete-single',
       options: [
         { label: t('filters.stateField.optionLabels.Read'), value: 'Letto' },
         {
