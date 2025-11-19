@@ -8,7 +8,6 @@ import {
   List,
   ListItem,
   ListItemText,
-  Stack,
   Tooltip,
   Typography,
 } from '@mui/material'
