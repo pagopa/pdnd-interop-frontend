@@ -115,6 +115,16 @@ export const RiskAnalysisAnswerComponent: React.FC<{
     }
   }, [assignToTemplateUsers, questionKey, setValue])
 
+  const isAddAnnotationButtonEnabled = (() => {
+    if (assignToTemplateUsers) {
+      return true
+    }
+    if (questionType === 'text') {
+      return suggestedValues.length > 0
+    }
+    return questionValues.length > 0
+  })()
+
   const handleClick = () => {
     openDrawer()
   }
@@ -351,6 +361,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{
         <ButtonNaked
           color="primary"
           type="button"
+          disabled={!isAddAnnotationButtonEnabled}
           sx={{ fontWeight: 700 }}
           startIcon={<AddIcon fontSize="small" />}
           onClick={handleClick}
