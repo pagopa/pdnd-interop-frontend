@@ -220,7 +220,7 @@ export function useNotificationConfigHook(type: NotificationConfigType) {
           title: t('keyAndAttributes.keys.title'),
           components: [
             {
-              key: 'clientKeyAddedDeletedToClientUsers',
+              key: 'clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers',
               title: t('keyAndAttributes.keys.components.clientKeysAssociationUpdated.label'), // 25
               description: t(
                 'keyAndAttributes.keys.components.clientKeysAssociationUpdated.description'
