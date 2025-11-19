@@ -26,6 +26,7 @@ export const DialogTenantKindPurposeTemplate: React.FC<DialogTenantKindPurposeTe
     keyPrefix: 'dialogPurposeTemplatesTenantKind',
   })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const { t: tShared } = useTranslation('shared-components')
 
   const handleCancel = () => {
     closeDialog()
@@ -92,7 +93,11 @@ export const DialogTenantKindPurposeTemplate: React.FC<DialogTenantKindPurposeTe
                 name="personalData"
                 options={optionsPersonalData}
                 label={t('content.personalDataRadioBtn.label')}
-                rules={{ required: true }}
+                rules={{
+                  required: tShared(
+                    'dialogPurposeTemplatesTenantKind.content.personalDataRadioBtn.error'
+                  ),
+                }}
                 row
               />
             </Stack>
