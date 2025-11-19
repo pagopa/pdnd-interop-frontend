@@ -10,7 +10,7 @@ import { DocumentContainer } from '@/components/layout/containers/DocumentContai
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AddAnnotationDrawer } from '@/components/shared/AddAnnotationDrawer'
 import { useFormContext, useForm, FormProvider } from 'react-hook-form'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useToastNotification, useDialog } from '@/stores'
 import type {
   RiskAnalysisTemplateAnswerAnnotation,
@@ -84,12 +84,12 @@ export const RiskAnalysisAnswerComponent: React.FC<{
   )
   const assignToTemplateUsers: boolean = watch(`assignToTemplateUsers.${questionKey}`) || false
   const questionValue = watch(`answers.${questionKey}`)
-  const questionValues: string[] = Array.isArray(questionValue)
-    ? questionValue
-    : questionValue
-    ? [questionValue]
-    : []
-  const suggestedValues: string[] = watch(`suggestedValues.${questionKey}`) || []
+  const questionValues: string[] = useMemo(
+    () => (Array.isArray(questionValue) ? questionValue : questionValue ? [questionValue] : []),
+    [questionValue]
+  )
+  const suggestedValuesRaw = watch(`suggestedValues.${questionKey}`)
+  const suggestedValues: string[] = useMemo(() => suggestedValuesRaw || [], [suggestedValuesRaw])
 
   // Document management states
   const [showDocInput, setShowDocInput] = useState(false)
@@ -114,6 +114,16 @@ export const RiskAnalysisAnswerComponent: React.FC<{
       setValue(`answers.${questionKey}`, '', { shouldDirty: true })
     }
   }, [assignToTemplateUsers, questionKey, setValue])
+
+  const isAddAnnotationButtonEnabled = useMemo(() => {
+    if (assignToTemplateUsers) {
+      return true
+    }
+    if (questionType === 'text') {
+      return suggestedValues.length > 0
+    }
+    return questionValues.length > 0
+  }, [assignToTemplateUsers, questionType, suggestedValues, questionValues])
 
   const handleClick = () => {
     openDrawer()
@@ -351,6 +361,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{
         <ButtonNaked
           color="primary"
           type="button"
+          disabled={!isAddAnnotationButtonEnabled}
           sx={{ fontWeight: 700 }}
           startIcon={<AddIcon fontSize="small" />}
           onClick={handleClick}
