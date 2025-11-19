@@ -241,7 +241,8 @@
         "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere “b” e “c”) oppure Privati"
       },
       "personalDataRadioBtn": {
-        "label": "L’analisi del rischio prevede un trattamento dei dati personali?",
+        "label": "L'analisi del rischio prevede un trattamento dei dati personali?",
+        "error": "Indica se verranno trattati dati personali",
         "options": {
           "true": "Sì, verranno trattati dati personali",
           "false": "No, non verranno trattati dati personali"
