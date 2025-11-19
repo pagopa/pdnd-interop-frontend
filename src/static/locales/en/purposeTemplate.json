@@ -100,7 +100,7 @@
       "editAnnotationBtn": "Edit",
       "deleteAnnotationBtn": "Remove",
       "annotationSectionTitle": "Annotations provided by the creator",
-      "addDocumentBtn": "Add documentation",
+      "addDocumentBtn": "Attach documentation",
       "uploadBtn": "Upload",
       "notifications": {
         "annotationAddedSuccess": "Annotation added successfully.",
