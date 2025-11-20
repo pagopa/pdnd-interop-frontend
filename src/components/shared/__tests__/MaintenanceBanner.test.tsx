@@ -11,8 +11,8 @@ const mockMaintenanceHookData = {
     closeBanner: vi.fn(),
 };
 
-describe('Checks notifications banner alert', () => {
-    it('renders notification banner with message and closes on button click', async () => {
+describe('Checks maintenance banner alert', () => {
+    it('renders maintenance banner with message and closes on button click', async () => {
         const user = userEvent.setup();
 
         vi.spyOn(useMaintenanceBannerModule, 'useMaintenanceBanner').mockReturnValue(mockMaintenanceHookData);
