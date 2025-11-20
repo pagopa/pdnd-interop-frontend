@@ -8,7 +8,19 @@ function getUserNotificationsList(params: GetUserNotificationsParams) {
     queryFn: () => NotificationServices.getUserNotificationsList(params),
   })
 }
+function getNotificationsBannerConfigJson() {
+  return queryOptions({
+    queryKey: ['getNotificationsBannerConfigJson'],
+    queryFn: NotificationServices.getNotificationsBannerConfigJson,
+    throwOnError: false,
+    retry: false,
+    staleTime: Infinity,
+    gcTime: Infinity,
+  })
+}
 
 export const NotificationQueries = {
   getUserNotificationsList,
+  getNotificationsBannerConfigJson,
 }
+
