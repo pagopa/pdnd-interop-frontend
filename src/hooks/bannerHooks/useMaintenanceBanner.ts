@@ -46,7 +46,7 @@ export function useMaintenanceBanner() {
   const title = useMemo(
     () =>
       match(STAGE)
-        .with('DEV', () => 'Manutenzione in ambiente di sviluppo')
+        .with('DEV', () => t('titleTestEnv'))
         .with('PROD', () => t('titleProdEnv'))
         .with('ATT', () => t('titleAttEnv'))
         .with('UAT', () => t('titleTestEnv'))
