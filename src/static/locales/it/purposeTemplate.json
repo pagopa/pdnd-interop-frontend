@@ -103,6 +103,7 @@
       "addDocumentBtn": "Allega documentazione",
       "uploadBtn": "Carica",
       "notifications": {
+        "addAnnotationButtonDisabledTooltip": "Seleziona una risposta o assegna la compilazione per fornire annotazioni",
         "annotationAddedSuccess": "Annotazione aggiunta con successo.",
         "annotationAddError": "Non è stato possibile aggiungere l'annotazione. Assicurati di aver inserito le informazioni corrette e riprova.",
         "annotationDeletedSuccess": "Annotazione eliminata con successo.",

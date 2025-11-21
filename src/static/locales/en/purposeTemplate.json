@@ -103,6 +103,7 @@
       "addDocumentBtn": "Attach documentation",
       "uploadBtn": "Upload",
       "notifications": {
+        "addAnnotationButtonDisabledTooltip": "Select an answer or assign the completion to provide annotations",
         "annotationAddedSuccess": "Annotation added successfully.",
         "annotationAddError": "It was not possible to add the annotation. Make sure you have entered the correct information and try again.",
         "annotationDeletedSuccess": "Annotation deleted successfully.",
