@@ -4,7 +4,7 @@ import {
   type RiskAnalysisAnswers,
   type RiskAnalysisQuestions,
 } from '@/types/risk-analysis-form.types'
-import { useFormContext } from 'react-hook-form'
+import { useFormContext, useWatch } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import {
@@ -24,19 +24,24 @@ import { match } from 'ts-pattern'
  * @param questions - the actual updated questions visible to the user
  * @returns Array of components that should be rendered inside the form
  * */
-export const RiskAnalysisFormComponents: React.FC<{
+type RiskAnalysisFormComponentsProps = {
   questions: RiskAnalysisQuestions
-}> = ({ questions }) => {
-  return Object.entries(questions).map(([questionId, question]) => (
-    <RiskAnalysisQuestion key={questionId} question={question} />
+}
+
+export const RiskAnalysisFormComponents: React.FC<RiskAnalysisFormComponentsProps> = ({
+  questions,
+}) => {
+  return Object.entries(questions).map(([questionKey, question]) => (
+    <RiskAnalysisQuestion key={questionKey} questionKey={questionKey} question={question} />
   ))
 }
 
 function RiskAnalysisQuestion({
+  questionKey,
   question,
 }: {
+  questionKey: string
   question: FormConfigQuestion
-  personalData?: boolean
 }) {
   const lang = useCurrentLanguage()
   const answers = useFormContext<{ answers: RiskAnalysisAnswers }>().watch('answers')
@@ -54,7 +59,6 @@ function RiskAnalysisQuestion({
     : undefined
 
   const commonProps = {
-    questionId: question.id,
     id: question.id,
     label,
     infoLabel,
@@ -62,17 +66,27 @@ function RiskAnalysisQuestion({
     sx: { mb: 0 },
   }
 
+  const { control } = useFormContext()
+
+  const isAssignedToTemplateUsersSwitch = useWatch({
+    control,
+    name: `assignToTemplateUsers.${questionKey}`,
+  })
+
   return match(question.visualType)
     .with('text', () => (
       <RiskAnalysisTextField
         {...commonProps}
+        questionKey={questionKey}
         inputProps={{ maxLength }}
-        rules={{ required: true }}
+        rules={isAssignedToTemplateUsersSwitch ? { required: false } : { required: true }}
+        questionType={question.visualType}
       />
     ))
     .with('select-one', () => (
       <RiskAnalysisSelect
         {...commonProps}
+        questionKey={questionKey}
         options={inputOptions}
         emptyLabel={t('riskAnalysis.formComponents.emptyLabel')}
         rules={{ required: true }}
@@ -81,6 +95,7 @@ function RiskAnalysisQuestion({
     .with('checkbox', () => (
       <RiskAnalysisCheckboxGroup
         {...commonProps}
+        questionKey={questionKey}
         options={inputOptions}
         rules={{
           validate: (value) =>
@@ -89,12 +104,20 @@ function RiskAnalysisQuestion({
         }}
       />
     ))
-    .with('radio', () => (
-      <RiskAnalysisRadioGroup {...commonProps} options={inputOptions} rules={{ required: true }} />
-    ))
+    .with('radio', () => {
+      return (
+        <RiskAnalysisRadioGroup
+          {...commonProps}
+          questionKey={questionKey}
+          options={inputOptions}
+          rules={{ required: true }}
+        />
+      )
+    })
     .with('switch', () => (
       <RiskAnalysisSwitch
         {...commonProps}
+        questionKey={questionKey}
         options={inputOptions}
         rules={{
           validate: (value) =>

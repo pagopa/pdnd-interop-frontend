@@ -91,11 +91,20 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   }
 
   const handleEditDraft = () => {
-    navigate('SUBSCRIBE_PURPOSE_EDIT', {
-      params: {
-        purposeId,
-      },
-    })
+    if (purpose?.purposeTemplate?.id) {
+      navigate('SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT', {
+        params: {
+          purposeId,
+          purposeTemplateId: purpose.purposeTemplate.id,
+        },
+      })
+    } else {
+      navigate('SUBSCRIBE_PURPOSE_EDIT', {
+        params: {
+          purposeId,
+        },
+      })
+    }
   }
 
   const handlePublishDraft = () => {
@@ -192,7 +201,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
               variant="contained"
               onClick={handlePublishDraft}
             >
-              {tCommon('publish')}
+              {tCommon('publishDraft')}
             </Button>
           </span>
         </Tooltip>

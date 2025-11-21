@@ -1,0 +1,69 @@
+import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
+import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
+import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
+import { Link } from '@/router'
+import { Skeleton } from '@mui/material'
+import { Box } from '@mui/system'
+import { TableRow } from '@pagopa/interop-fe-commons'
+import { useTranslation } from 'react-i18next'
+import type { CreatorPurposeTemplate } from '@/api/api.generatedTypes'
+import useGetConsumerPurposeTemplateTemplatesActions from '@/hooks/useGetConsumerPurposeTemplatesActions'
+import { TenantHooks } from '@/api/tenant'
+
+export const ConsumerPurposeTemplateTableRow: React.FC<{
+  purposeTemplate: CreatorPurposeTemplate
+}> = ({ purposeTemplate }) => {
+  const { data: tenant } = TenantHooks.useGetActiveUserParty()
+  const { actions } = useGetConsumerPurposeTemplateTemplatesActions(tenant.kind!, purposeTemplate)
+  const { t: tCommon } = useTranslation('common')
+  const { t } = useTranslation('purposeTemplate', {
+    keyPrefix: 'list.filters.targetTenantKindField.values',
+  })
+
+  const isPA = Boolean(purposeTemplate.targetTenantKind === 'PA')
+
+  return (
+    <TableRow
+      cellData={[
+        isPA ? t('labelPA') : t('labelNotPA'),
+        purposeTemplate.purposeTitle,
+        <StatusChip key={purposeTemplate.id} for="purposeTemplate" state={purposeTemplate.state} />,
+      ]}
+    >
+      <Link
+        as="button"
+        onPointerEnter={() => {}}
+        onFocusVisible={() => {}}
+        variant="outlined"
+        size="small"
+        to={
+          purposeTemplate.state === 'DRAFT'
+            ? 'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'
+            : 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS'
+        }
+        params={{ purposeTemplateId: purposeTemplate.id }}
+      >
+        {tCommon(`actions.${purposeTemplate.state === 'DRAFT' ? 'manageDraft' : 'inspect'}`)}
+      </Link>
+      <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
+        <ActionMenu actions={actions} />
+      </Box>
+    </TableRow>
+  )
+}
+
+export const ConsumerPurposeTemplateTableRowSkeleton: React.FC = () => {
+  return (
+    <TableRow
+      cellData={[
+        <Skeleton key={0} width={180} />,
+        <Skeleton key={1} width={180} />,
+        <Skeleton key={2} width={180} />,
+        <StatusChipSkeleton key={3} />,
+      ]}
+    >
+      <ButtonSkeleton size="small" width={100} />
+      <ActionMenuSkeleton />
+    </TableRow>
+  )
+}

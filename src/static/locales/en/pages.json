@@ -54,5 +54,13 @@
   "providerEServiceTemplatesList": {
     "title": "My template e-service",
     "description": "Manage and provide new e-service templates from this dedicated area."
+  },
+  "consumerPurposeTemplatesList": {
+    "title": "My Facilitated Purpose Templates",
+    "description": "Make a facilitated purpose template available to help other participating entities more easily complete the risk analysis."
+  },
+  "consumerPurposeTemplatesCatalog": {
+    "title": "Facilitated Purpose Templates Catalog",
+    "description": "Purpose templates are shared models among all participants. After your fruition request is accepted, you can create a new purpose starting from one of these models, which contains a part of the pre-filled risk analysis."
   }
 }

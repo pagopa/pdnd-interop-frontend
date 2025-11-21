@@ -8,7 +8,7 @@ type RiskAnalysisSwitchProps = React.ComponentProps<typeof RiskAnalysisSwitch>
 const renderRiskAnalysisSwitch = (props?: Partial<RiskAnalysisSwitchProps>) => {
   const propsWithDefaults: RiskAnalysisSwitchProps = {
     label: 'RiskAnalysisSwitch',
-    questionId: 'RiskAnalysisSwitch',
+    questionKey: 'RiskAnalysisSwitch',
     options: [],
     rules: {},
     sx: {},

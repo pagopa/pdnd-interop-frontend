@@ -77,6 +77,21 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
             </Link>
           }
         />
+        {purpose.purposeTemplate && (
+          <InformationContainer
+            label={t('purposeTemplateField.label')}
+            content={
+              <Link
+                to="SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS"
+                params={{
+                  purposeTemplateId: purpose.purposeTemplate.id,
+                }}
+              >
+                {purpose.purposeTemplate.purposeTitle}
+              </Link>
+            }
+          />
+        )}
         <InformationContainer label={t('consumerField.label')} content={purpose.consumer.name} />
         <InformationContainer
           label={t('descriptionField.label')}

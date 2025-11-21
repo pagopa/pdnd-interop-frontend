@@ -1,4 +1,4 @@
-import type { Tenant, TenantFeature } from '@/api/api.generatedTypes'
+import type { Tenant, TenantFeature, TenantKind } from '@/api/api.generatedTypes'
 
 export function isTenantCertifier(tenant: Tenant) {
   return tenant.features.some((feature) => 'certifier' in feature && feature.certifier?.certifierId)
@@ -20,4 +20,12 @@ export function hasTenantGivenConsumerDelegationAvailability(tenant: Tenant) {
         Boolean('delegatedConsumer' in feature && feature.delegatedConsumer?.availabilityTimestamp)
     )?.delegatedConsumer?.availabilityTimestamp
   )
+}
+
+export function tenantKindForPurposeTemplate(tenantKind: TenantKind) {
+  // normalize tenant kind for purpose templates: map all non-PA kinds to PRIVATE because RA for scp/gsp/private are the same
+  if (tenantKind !== 'PA') {
+    return 'PRIVATE'
+  }
+  return tenantKind
 }

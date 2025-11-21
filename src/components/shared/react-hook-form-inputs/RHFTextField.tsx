@@ -6,6 +6,7 @@ import { useFormContext, Controller } from 'react-hook-form'
 import type { ControllerProps } from 'react-hook-form/dist/types/controller'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 import { useTranslation } from 'react-i18next'
+import get from 'lodash/get'
 
 export type RHFTextFieldProps = Omit<MUITextFieldProps, 'type' | 'label'> & {
   name: string
@@ -116,5 +117,15 @@ const getErrors = (
     return err?.[indexFieldArray]?.[fieldArrayKeyName]?.message as string | undefined
   }
 
-  return errors[name]?.message as string | undefined
+  const directError = errors[name]?.message as string | undefined
+  if (directError) {
+    return directError
+  }
+
+  if (name.includes('.')) {
+    const nestedError = get(errors, name) as { message?: string } | undefined
+    return nestedError?.message
+  }
+
+  return undefined
 }
