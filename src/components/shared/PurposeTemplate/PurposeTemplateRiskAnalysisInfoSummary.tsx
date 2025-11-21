@@ -41,7 +41,7 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
     questionInfoLabel?: string
     annotations?: RiskAnalysisTemplateAnswerAnnotation
     answerId: string
-    suggestedValues?: string[]
+    suggestedValues: string[]
   }
 
   const { t } = useTranslation('shared-components', {
@@ -73,7 +73,7 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
 
       const isEditable = Boolean(currentAnswer.editable)
 
-      const suggestedValues = currentAnswer.suggestedValues
+      const suggestedValues = currentAnswer.suggestedValues ?? []
 
       // Plain text: this value comes from a text field
       if (visualType === 'text') {
@@ -100,6 +100,7 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
         questionInfoLabel,
         annotations,
         isEditable,
+        suggestedValues,
         answerId: riskAnalysisForm.answers[id].id,
       }
     })
@@ -142,7 +143,7 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
                       <Box sx={{ flex: 1, minWidth: 0 }}>
                         <span>{question}</span>
                       </Box>
-                      {!isEditable && suggestedValues === undefined && (
+                      {!isEditable && suggestedValues.length === 0 && (
                         <Tooltip title={t('notEditableTooltip')} arrow>
                           <Chip
                             size="small"
@@ -171,7 +172,7 @@ const RiskAnalysisInfoSummary: React.FC<PurposeTemplateRiskAnalysisInfoSummaryPr
                     <span style={{ fontWeight: 400 }}>
                       {answer ? (
                         answer
-                      ) : suggestedValues && suggestedValues.length > 0 ? (
+                      ) : suggestedValues.length > 0 ? (
                         <SuggestedValuesSection suggestedValues={suggestedValues} />
                       ) : (
                         '-'
