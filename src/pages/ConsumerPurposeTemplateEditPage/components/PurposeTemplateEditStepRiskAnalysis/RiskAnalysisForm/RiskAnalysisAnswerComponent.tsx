@@ -5,7 +5,7 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
-import { Box, Stack, Typography, Button } from '@mui/material'
+import { Box, Stack, Typography, Button, Tooltip } from '@mui/material'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AddAnnotationDrawer } from '@/components/shared/AddAnnotationDrawer'
@@ -358,16 +358,28 @@ export const RiskAnalysisAnswerComponent: React.FC<{
         />
       )}
       {!annotation?.text && (
-        <ButtonNaked
-          color="primary"
-          type="button"
-          disabled={!isAddAnnotationButtonEnabled}
-          sx={{ fontWeight: 700 }}
-          startIcon={<AddIcon fontSize="small" />}
-          onClick={handleClick}
+        <Tooltip
+          title={
+            !isAddAnnotationButtonEnabled
+              ? t('notifications.addAnnotationButtonDisabledTooltip')
+              : ''
+          }
+          arrow
+          placement="top"
         >
-          {t('addAnnotationBtn')}
-        </ButtonNaked>
+          <span>
+            <ButtonNaked
+              color="primary"
+              type="button"
+              disabled={!isAddAnnotationButtonEnabled}
+              sx={{ fontWeight: 700 }}
+              startIcon={<AddIcon fontSize="small" />}
+              onClick={handleClick}
+            >
+              {t('addAnnotationBtn')}
+            </ButtonNaked>
+          </span>
+        </Tooltip>
       )}
 
       {annotation?.text && (
