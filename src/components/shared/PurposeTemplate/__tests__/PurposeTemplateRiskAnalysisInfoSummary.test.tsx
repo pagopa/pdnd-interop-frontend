@@ -15,21 +15,11 @@ import {
   createMockRiskAnalysisFormConfigForTests,
 } from '@/../__mocks__/data/purposeTemplate.mocks'
 
-vi.mock('react-i18next', () => ({
-  useTranslation: (namespace: string, options?: { keyPrefix?: string }) => {
-    const keyPrefix = options?.keyPrefix || ''
-    return {
-      t: (key: string) => {
-        const fullKey = keyPrefix ? `${keyPrefix}.${key}` : key
-        return `${namespace}.${fullKey}`
-      },
-      i18n: {
-        language: 'en',
-        changeLanguage: vi.fn(),
-      },
-    }
-  },
-}))
+const mockReactI18next = vi.hoisted(async () => {
+  const { createMockReactI18next } = await import('@/utils/__mocks__/react-i18next-helper')
+  return createMockReactI18next('en')
+})
+vi.mock('react-i18next', () => mockReactI18next)
 
 vi.mock('@/hooks/useCurrentLanguage', () => ({
   default: () => 'en' as const,

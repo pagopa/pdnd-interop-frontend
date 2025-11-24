@@ -13,21 +13,11 @@ const questionKey = 'test-question-key'
 
 vi.spyOn(router, 'useParams').mockReturnValue({ purposeTemplateId })
 
-vi.mock('react-i18next', () => ({
-  useTranslation: (namespace: string, options?: { keyPrefix?: string }) => {
-    const keyPrefix = options?.keyPrefix || ''
-    return {
-      t: (key: string) => {
-        const fullKey = keyPrefix ? `${keyPrefix}.${key}` : key
-        return `${namespace}.${fullKey}`
-      },
-      i18n: {
-        language: 'it',
-        changeLanguage: vi.fn(),
-      },
-    }
-  },
-}))
+const mockReactI18next = vi.hoisted(async () => {
+  const { createMockReactI18next } = await import('@/utils/__mocks__/react-i18next-helper')
+  return createMockReactI18next('it')
+})
+vi.mock('react-i18next', () => mockReactI18next)
 
 vi.mock('@/components/shared/PurposeTemplate/AnnotationDetails', () => ({
   AnnotationDetails: ({
