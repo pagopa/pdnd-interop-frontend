@@ -21,12 +21,13 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
   })
 
   const generatePath = useGeneratePath()
+  const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'documents' })
 
-  const downloadRiskAnalysis = PurposeDownloads.useDownloadRiskAnalysis()
+  const downloadSignedRiskAnalysis = PurposeDownloads.useDownloadSignedRiskAnalysis()
 
-  const handleDownloadDocument = () => {
+  const handleDownloadSignedDocument = () => {
     if (!purpose.currentVersion || !purpose.currentVersion.riskAnalysisDocument) return
-    downloadRiskAnalysis(
+    downloadSignedRiskAnalysis(
       {
         purposeId: purpose.id,
         versionId: purpose.currentVersion.id,
@@ -41,7 +42,9 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
     label: t('riskAnalysis.link.label'),
     component: 'button',
     type: 'button',
-    onClick: handleDownloadDocument,
+    disabled: purpose.isDocumentReady === false,
+    tooltip: purpose.isDocumentReady === false ? tShared('notAvailableYet') : undefined,
+    onClick: handleDownloadSignedDocument,
   }
 
   return (

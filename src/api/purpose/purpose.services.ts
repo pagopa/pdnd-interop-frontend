@@ -165,7 +165,7 @@ async function updateDailyCalls({
   return response.data
 }
 
-async function downloadRiskAnalysis({
+async function downloadSignedRiskAnalysis({
   purposeId,
   versionId,
   documentId,
@@ -175,7 +175,7 @@ async function downloadRiskAnalysis({
   documentId: string
 }) {
   const response = await axiosInstance.get<File>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/documents/${documentId}`,
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/signedDocuments/${documentId}`,
     { responseType: 'arraybuffer' }
   )
 
@@ -277,7 +277,7 @@ export const PurposeServices = {
   createDraftForReceiveEService,
   updateDraftForReceiveEService,
   updateDailyCalls,
-  downloadRiskAnalysis,
+  downloadSignedRiskAnalysis,
   suspendVersion,
   activateVersion,
   archiveVersion,
