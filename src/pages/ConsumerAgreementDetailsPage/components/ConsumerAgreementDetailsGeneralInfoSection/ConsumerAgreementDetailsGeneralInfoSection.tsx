@@ -3,23 +3,24 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useConsumerAgreementDetailsContext } from '../ConsumerAgreementDetailsContext'
 import { useDrawerState } from '@/hooks/useDrawerState'
-import { Button, Divider, Stack } from '@mui/material'
+import { Divider, Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { Link } from '@/router'
-import { IconLink } from '@/components/shared/IconLink'
 import ContactMailIcon from '@mui/icons-material/ContactMail'
 import DownloadIcon from '@mui/icons-material/Download'
 import RuleIcon from '@mui/icons-material/Rule'
 import { AgreementDownloads } from '@/api/agreement'
 import { ConsumerAgreementDetailsContactDrawer } from './ConsumerAgreementDetailsContactDrawer'
 import { ConsumerAgreementDetailsCertifiedAttributesDrawer } from './ConsumerAgreementDetailsCertifiedAttributesDrawer'
+import { IconLink } from '@/components/shared/IconLink'
 
 export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('agreement', {
     keyPrefix: 'consumerRead.sections.generalInformations',
   })
+
+  const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'documents' })
   const { agreement } = useConsumerAgreementDetailsContext()
-  const downloadContract = AgreementDownloads.useDownloadContract()
   const downloadSignedAgreementDocument = AgreementDownloads.useDownloadSignedContract()
 
   const isDelegated = Boolean(agreement.delegation)
@@ -42,10 +43,6 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
 
   const handleOpenCertifiedAttributesDrawer = () => {
     openCertifiedAttributeDrawer()
-  }
-
-  const handleDownloadDocument = () => {
-    downloadContract({ agreementId: agreement.id }, `${t('documentation.fileName')}.pdf`)
   }
 
   const handleDownloadSignedAgreementDocument = () => {
@@ -101,35 +98,35 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
             <Divider />
             {agreement.isContractPresent && (
               <>
-                <Button
+                <IconLink
+                  component="button"
                   disabled={!agreement.isDocumentReady}
-                  onClick={handleDownloadSignedAgreementDocument}
                   startIcon={<DownloadIcon />}
-                  sx={{ alignSelf: 'start', paddingX: 1 }}
+                  sx={{ alignSelf: 'start' }}
+                  onClick={handleDownloadSignedAgreementDocument}
+                  tooltip={!agreement.isDocumentReady ? tShared('notAvailableYet') : undefined}
                 >
                   {t('documentation.link.label')}
-                </Button>
+                </IconLink>
               </>
             )}
-            {agreement.state === 'PENDING' && (
+            {agreement.state !== 'PENDING' && (
               <>
-                <Button
-                  onClick={handleOpenCertifiedAttributesDrawer}
-                  component="button"
+                <IconLink
                   startIcon={<RuleIcon />}
-                  style={{ alignSelf: 'start', marginTop: 0 }}
-                  sx={{ paddingX: 1, marginTop: 0 }}
+                  sx={{ alignSelf: 'start' }}
+                  onClick={handleOpenCertifiedAttributesDrawer}
+                  style={{ alignSelf: 'start' }}
                 >
                   {t('certifiedAttributeLink.label')}
-                </Button>
+                </IconLink>
               </>
             )}
             {agreement.producer.contactMail && (
               <IconLink
                 onClick={handleOpenContactDrawer}
-                component="button"
                 startIcon={<ContactMailIcon />}
-                alignSelf="start"
+                style={{ alignSelf: 'start' }}
               >
                 {t('providerDetailsLink.label')}
               </IconLink>
