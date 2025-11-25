@@ -4,11 +4,12 @@ import type { Mock } from 'vitest'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useQuery } from '@tanstack/react-query'
 import { PurposeMutations } from '@/api/purpose/purpose.mutations'
-import { PurposeQueries } from '@/api/purpose/purpose.queries'
-import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import PurposeFromTemplateEditStepRiskAnalysis from '../PurposeFromTemplateEditStepRiskAnalysis'
 import { RiskAnalysisFormFromTemplate } from '../RiskAnalysisForm/RiskAnalysisFormFromTemplate'
-import { createMockPurpose, createMockRiskAnalysisFormConfig } from '@/../__mocks__/data/purpose.mocks'
+import {
+  createMockPurpose,
+  createMockRiskAnalysisFormConfig,
+} from '@/../__mocks__/data/purpose.mocks'
 import {
   createMockPurposeTemplate,
   createMockRiskAnalysisFormTemplate,
@@ -26,9 +27,9 @@ vi.mock('@/router', () => ({
 }))
 
 vi.mock('@tanstack/react-query', async () => {
-  const actual = await vi.importActual<typeof import('@tanstack/react-query')>('@tanstack/react-query')
+  const actual = await vi.importActual('@tanstack/react-query')
   return {
-    ...actual,
+    ...(actual as Record<string, unknown>),
     useQuery: vi.fn(),
   }
 })
@@ -92,7 +93,11 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
         .mockReturnValueOnce({ data: undefined })
 
       const { container } = render(
-        <PurposeFromTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
+        <PurposeFromTemplateEditStepRiskAnalysis
+          back={mockBack}
+          forward={() => {}}
+          activeStep={0}
+        />
       )
 
       expect(container.firstChild).toBeNull()
@@ -110,7 +115,11 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
         .mockReturnValueOnce({ data: riskAnalysis })
 
       const { container } = render(
-        <PurposeFromTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
+        <PurposeFromTemplateEditStepRiskAnalysis
+          back={mockBack}
+          forward={() => {}}
+          activeStep={0}
+        />
       )
 
       expect(container.firstChild).toBeNull()
@@ -129,7 +138,11 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
         .mockReturnValueOnce({ data: riskAnalysis })
 
       const { container } = render(
-        <PurposeFromTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
+        <PurposeFromTemplateEditStepRiskAnalysis
+          back={mockBack}
+          forward={() => {}}
+          activeStep={0}
+        />
       )
 
       expect(container.firstChild).toBeNull()
@@ -139,24 +152,24 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
       const purposeTemplate = createMockPurposeTemplate({
         purposeRiskAnalysisForm: createMockRiskAnalysisFormTemplate({
           version: '2.0',
-          answers: {
-            question1: createMockRiskAnalysisTemplateAnswer({
-              id: 'answer-1',
-              values: ['value1'],
-              editable: true,
-              suggestedValues: [],
-            }),
-          },
         }),
       })
+      purposeTemplate.purposeRiskAnalysisForm!.answers = {
+        question1: createMockRiskAnalysisTemplateAnswer({
+          id: 'answer-1',
+          values: ['value1'],
+          editable: true,
+          suggestedValues: [],
+        }),
+      }
       const purpose = createMockPurpose({
         riskAnalysisForm: {
           version: '2.0',
-          answers: {
-            question1: ['purpose-answer1'],
-          },
         },
       })
+      purpose.riskAnalysisForm!.answers = {
+        question1: ['purpose-answer1'],
+      }
       const riskAnalysis = createMockRiskAnalysisFormConfig({
         questions: [
           {
@@ -177,7 +190,11 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
         .mockReturnValueOnce({ data: riskAnalysis })
 
       render(
-        <PurposeFromTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
+        <PurposeFromTemplateEditStepRiskAnalysis
+          back={mockBack}
+          forward={() => {}}
+          activeStep={0}
+        />
       )
 
       await waitFor(() => {
@@ -202,24 +219,24 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
       const purposeTemplate = createMockPurposeTemplate({
         purposeRiskAnalysisForm: createMockRiskAnalysisFormTemplate({
           version: '2.0',
-          answers: {
-            question1: createMockRiskAnalysisTemplateAnswer({
-              id: 'answer-1',
-              values: [],
-              editable: true,
-              suggestedValues: ['suggested1', 'suggested2'],
-            }),
-          },
         }),
       })
+      purposeTemplate.purposeRiskAnalysisForm!.answers = {
+        question1: createMockRiskAnalysisTemplateAnswer({
+          id: 'answer-1',
+          values: [],
+          editable: true,
+          suggestedValues: ['suggested1', 'suggested2'],
+        }),
+      }
       const purpose = createMockPurpose({
         riskAnalysisForm: {
           version: '2.0',
-          answers: {
-            question1: ['suggested1'], // This value is in suggestedValues
-          },
         },
       })
+      purpose.riskAnalysisForm!.answers = {
+        question1: ['suggested1'],
+      }
       const riskAnalysis = createMockRiskAnalysisFormConfig({
         questions: [
           {
@@ -240,7 +257,11 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
         .mockReturnValueOnce({ data: riskAnalysis })
 
       render(
-        <PurposeFromTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
+        <PurposeFromTemplateEditStepRiskAnalysis
+          back={mockBack}
+          forward={() => {}}
+          activeStep={0}
+        />
       )
 
       await waitFor(() => {
@@ -256,24 +277,24 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
       const purposeTemplate = createMockPurposeTemplate({
         purposeRiskAnalysisForm: createMockRiskAnalysisFormTemplate({
           version: '2.0',
-          answers: {
-            question1: createMockRiskAnalysisTemplateAnswer({
-              id: 'answer-1',
-              values: [],
-              editable: true,
-              suggestedValues: ['suggested1', 'suggested2'],
-            }),
-          },
         }),
       })
+      purposeTemplate.purposeRiskAnalysisForm!.answers = {
+        question1: createMockRiskAnalysisTemplateAnswer({
+          id: 'answer-1',
+          values: [],
+          editable: true,
+          suggestedValues: ['suggested1', 'suggested2'],
+        }),
+      }
       const purpose = createMockPurpose({
         riskAnalysisForm: {
           version: '2.0',
-          answers: {
-            question1: ['custom-answer'], // This value is NOT in suggestedValues
-          },
         },
       })
+      purpose.riskAnalysisForm!.answers = {
+        question1: ['custom-answer'],
+      }
       const riskAnalysis = createMockRiskAnalysisFormConfig({
         questions: [
           {
@@ -294,7 +315,11 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
         .mockReturnValueOnce({ data: riskAnalysis })
 
       render(
-        <PurposeFromTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
+        <PurposeFromTemplateEditStepRiskAnalysis
+          back={mockBack}
+          forward={() => {}}
+          activeStep={0}
+        />
       )
 
       await waitFor(() => {
@@ -310,24 +335,24 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
       const purposeTemplate = createMockPurposeTemplate({
         purposeRiskAnalysisForm: createMockRiskAnalysisFormTemplate({
           version: '2.0',
-          answers: {
-            question1: createMockRiskAnalysisTemplateAnswer({
-              id: 'answer-1',
-              values: ['template-value'],
-              editable: true,
-              suggestedValues: [],
-            }),
-          },
         }),
       })
+      purposeTemplate.purposeRiskAnalysisForm!.answers = {
+        question1: createMockRiskAnalysisTemplateAnswer({
+          id: 'answer-1',
+          values: ['template-value'],
+          editable: true,
+          suggestedValues: [],
+        }),
+      }
       const purpose = createMockPurpose({
         riskAnalysisForm: {
           version: '2.0',
-          answers: {
-            question1: ['purpose-value'],
-          },
         },
       })
+      purpose.riskAnalysisForm!.answers = {
+        question1: ['purpose-value'],
+      }
       const riskAnalysis = createMockRiskAnalysisFormConfig({
         questions: [
           {
@@ -348,7 +373,11 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
         .mockReturnValueOnce({ data: riskAnalysis })
 
       render(
-        <PurposeFromTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
+        <PurposeFromTemplateEditStepRiskAnalysis
+          back={mockBack}
+          forward={() => {}}
+          activeStep={0}
+        />
       )
 
       await waitFor(() => {
@@ -363,16 +392,16 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
       const purposeTemplate = createMockPurposeTemplate({
         purposeRiskAnalysisForm: createMockRiskAnalysisFormTemplate({
           version: '2.0',
-          answers: {
-            question1: createMockRiskAnalysisTemplateAnswer({
-              id: 'answer-1',
-              values: ['template-value'],
-              editable: true,
-              suggestedValues: [],
-            }),
-          },
         }),
       })
+      purposeTemplate.purposeRiskAnalysisForm!.answers = {
+        question1: createMockRiskAnalysisTemplateAnswer({
+          id: 'answer-1',
+          values: ['template-value'],
+          editable: true,
+          suggestedValues: [],
+        }),
+      }
       const purpose = createMockPurpose({
         riskAnalysisForm: {
           version: '2.0',
@@ -399,7 +428,11 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
         .mockReturnValueOnce({ data: riskAnalysis })
 
       render(
-        <PurposeFromTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
+        <PurposeFromTemplateEditStepRiskAnalysis
+          back={mockBack}
+          forward={() => {}}
+          activeStep={0}
+        />
       )
 
       await waitFor(() => {
@@ -414,25 +447,25 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
       const purposeTemplate = createMockPurposeTemplate({
         purposeRiskAnalysisForm: createMockRiskAnalysisFormTemplate({
           version: '2.0',
-          answers: {
-            question1: createMockRiskAnalysisTemplateAnswer({
-              id: 'answer-1',
-              values: ['template-value'],
-              editable: true,
-              suggestedValues: [],
-            }),
-          },
         }),
       })
+      purposeTemplate.purposeRiskAnalysisForm!.answers = {
+        question1: createMockRiskAnalysisTemplateAnswer({
+          id: 'answer-1',
+          values: ['template-value'],
+          editable: true,
+          suggestedValues: [],
+        }),
+      }
       const purpose = createMockPurpose({
         riskAnalysisForm: {
           version: '2.0',
-          answers: {
-            question1: ['purpose-value'],
-            question2: ['purpose-only-value'], // This is not in template but exists in questions
-          },
         },
       })
+      purpose.riskAnalysisForm!.answers = {
+        question1: ['purpose-value'],
+        question2: ['purpose-only-value'],
+      }
       const riskAnalysis = createMockRiskAnalysisFormConfig({
         questions: [
           {
@@ -462,7 +495,11 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
         .mockReturnValueOnce({ data: riskAnalysis })
 
       render(
-        <PurposeFromTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
+        <PurposeFromTemplateEditStepRiskAnalysis
+          back={mockBack}
+          forward={() => {}}
+          activeStep={0}
+        />
       )
 
       await waitFor(() => {
@@ -500,7 +537,11 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
         .mockReturnValueOnce({ data: riskAnalysis })
 
       render(
-        <PurposeFromTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
+        <PurposeFromTemplateEditStepRiskAnalysis
+          back={mockBack}
+          forward={() => {}}
+          activeStep={0}
+        />
       )
 
       await waitFor(() => {
@@ -546,7 +587,11 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
         .mockReturnValueOnce({ data: riskAnalysis })
 
       render(
-        <PurposeFromTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
+        <PurposeFromTemplateEditStepRiskAnalysis
+          back={mockBack}
+          forward={() => {}}
+          activeStep={0}
+        />
       )
 
       await waitFor(() => {
@@ -589,7 +634,11 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
         .mockReturnValueOnce({ data: riskAnalysis })
 
       render(
-        <PurposeFromTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
+        <PurposeFromTemplateEditStepRiskAnalysis
+          back={mockBack}
+          forward={() => {}}
+          activeStep={0}
+        />
       )
 
       await waitFor(() => {
@@ -637,7 +686,11 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
         .mockReturnValueOnce({ data: riskAnalysis })
 
       render(
-        <PurposeFromTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
+        <PurposeFromTemplateEditStepRiskAnalysis
+          back={mockBack}
+          forward={() => {}}
+          activeStep={0}
+        />
       )
 
       await waitFor(() => {
@@ -659,7 +712,10 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
       const testError = new Error('Test error')
       mutationCall[1].onError(testError)
 
-      expect(consoleErrorSpy).toHaveBeenCalledWith('Failed to update purpose from template:', testError)
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        'Failed to update purpose from template:',
+        testError
+      )
 
       consoleErrorSpy.mockRestore()
     })
@@ -687,7 +743,11 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
         .mockReturnValueOnce({ data: riskAnalysis })
 
       render(
-        <PurposeFromTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
+        <PurposeFromTemplateEditStepRiskAnalysis
+          back={mockBack}
+          forward={() => {}}
+          activeStep={0}
+        />
       )
 
       await waitFor(() => {
@@ -706,24 +766,24 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
       const purposeTemplate = createMockPurposeTemplate({
         purposeRiskAnalysisForm: createMockRiskAnalysisFormTemplate({
           version: '2.0',
-          answers: {
-            question1: createMockRiskAnalysisTemplateAnswer({
-              id: 'answer-1',
-              values: ['template-value'],
-              editable: true,
-              suggestedValues: [],
-            }),
-          },
         }),
       })
+      purposeTemplate.purposeRiskAnalysisForm!.answers = {
+        question1: createMockRiskAnalysisTemplateAnswer({
+          id: 'answer-1',
+          values: ['template-value'],
+          editable: true,
+          suggestedValues: [],
+        }),
+      }
       const purpose = createMockPurpose({
         riskAnalysisForm: {
           version: '2.0',
-          answers: {
-            question1: [],
-          },
         },
       })
+      purpose.riskAnalysisForm!.answers = {
+        question1: [],
+      }
       const riskAnalysis = createMockRiskAnalysisFormConfig({
         questions: [
           {
@@ -744,7 +804,11 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
         .mockReturnValueOnce({ data: riskAnalysis })
 
       render(
-        <PurposeFromTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
+        <PurposeFromTemplateEditStepRiskAnalysis
+          back={mockBack}
+          forward={() => {}}
+          activeStep={0}
+        />
       )
 
       await waitFor(() => {
@@ -759,25 +823,25 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
       const purposeTemplate = createMockPurposeTemplate({
         purposeRiskAnalysisForm: createMockRiskAnalysisFormTemplate({
           version: '2.0',
-          answers: {
-            question1: createMockRiskAnalysisTemplateAnswer({
-              id: 'answer-1',
-              values: ['template-value'],
-              editable: true,
-              suggestedValues: [],
-            }),
-          },
         }),
       })
+      purposeTemplate.purposeRiskAnalysisForm!.answers = {
+        question1: createMockRiskAnalysisTemplateAnswer({
+          id: 'answer-1',
+          values: ['template-value'],
+          editable: true,
+          suggestedValues: [],
+        }),
+      }
       const purpose = createMockPurpose({
         riskAnalysisForm: {
           version: '2.0',
-          answers: {
-            question1: ['purpose-value'],
-            questionNotInMap: ['value'],
-          },
         },
       })
+      purpose.riskAnalysisForm!.answers = {
+        question1: ['purpose-value'],
+        questionNotInMap: ['value'],
+      }
       const riskAnalysis = createMockRiskAnalysisFormConfig({
         questions: [
           {
@@ -798,7 +862,11 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
         .mockReturnValueOnce({ data: riskAnalysis })
 
       render(
-        <PurposeFromTemplateEditStepRiskAnalysis back={mockBack} forward={() => {}} activeStep={0} />
+        <PurposeFromTemplateEditStepRiskAnalysis
+          back={mockBack}
+          forward={() => {}}
+          activeStep={0}
+        />
       )
 
       await waitFor(() => {
@@ -810,4 +878,3 @@ describe('PurposeFromTemplateEditStepRiskAnalysis', () => {
     })
   })
 })
-
