@@ -237,10 +237,10 @@ async function downloadDocumentFromAnnotation({
   answerId: string
   documentId: string
 }) {
-  const response = await axiosInstance.get<Blob>(
+  const response = await axiosInstance.get<File>(
     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysis/answers/${answerId}/annotation/documents/${documentId}`,
     {
-      responseType: 'blob',
+      responseType: 'arraybuffer',
     }
   )
   return response.data

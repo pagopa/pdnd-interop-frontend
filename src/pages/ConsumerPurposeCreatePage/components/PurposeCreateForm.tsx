@@ -115,7 +115,6 @@ export const PurposeCreateForm: React.FC<PurposeCreateFormProps> = ({ purposeTem
   })
 
   const selectedEServiceMode = selectedEServiceDescriptor?.eservice.mode
-  const handlesPersonalData = selectedEServiceDescriptor?.eservice.personalData
   const isPurposeTemplateCreateSectionVisible =
     !isLoadingPurposeTemplates && purposeTemplates?.results && purposeTemplates.results.length > 0
 
@@ -158,11 +157,8 @@ export const PurposeCreateForm: React.FC<PurposeCreateFormProps> = ({ purposeTem
         {
           onSuccess(data) {
             const purposeId = data.id
-            const purposeTemplateIdParam = purposeTemplateId
-              ? purposeTemplateId
-              : purposeTemplateIdSelected
             navigate('SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT', {
-              params: { purposeId, purposeTemplateId: purposeTemplateIdParam },
+              params: { purposeId, purposeTemplateId: purposeTemplateIdSelected },
             })
           },
         }
@@ -258,8 +254,7 @@ export const PurposeCreateForm: React.FC<PurposeCreateFormProps> = ({ purposeTem
           >
             <Stack spacing={3}>
               <PurposeCreatePurposeTemplateSection
-                eserviceId={selectedEService?.id as string}
-                handlesPersonalData={handlesPersonalData}
+                selectedEService={selectedEServiceDescriptor?.eservice}
                 purposeTemplateId={purposeTemplateId}
               />
             </Stack>

@@ -11,7 +11,7 @@ import type {
   PurposeTemplateSeed,
   PurposeTemplateWithCompactCreator,
 } from '@/api/api.generatedTypes'
-import { compareObjects } from '@/utils/common.utils'
+import { transformRiskAnalysisFormTemplateToSeed } from '@/utils/purposeTemplate.utils'
 
 export type PurposeTemplateEditStepGeneralFormValues = Omit<
   PurposeTemplateSeed,
@@ -47,6 +47,11 @@ const PurposeTemplateEditStepGeneralForm: React.FC<PurposeTemplateEditStepGenera
       purposeIsFreeOfCharge: isFreeOfChargeBool,
       purposeFreeOfChargeReason: isFreeOfChargeBool ? purposeFreeOfChargeReason : undefined,
       handlesPersonalData: purposeTemplate.handlesPersonalData,
+      purposeRiskAnalysisForm:
+        purposeTemplate.purposeRiskAnalysisForm?.answers &&
+        Object.keys(purposeTemplate.purposeRiskAnalysisForm.answers).length > 0
+          ? transformRiskAnalysisFormTemplateToSeed(purposeTemplate.purposeRiskAnalysisForm)
+          : undefined,
     }
 
     updateDraft(

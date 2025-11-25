@@ -78,12 +78,13 @@
     },
     "step2": {
       "detailsTitle": "Suggested e-services for this purpose template",
-      "detailsDescription": "Are there any e-services or e-service templates that you think this template is particularly suitable for? Select them here. You can also associate e-services after publication.",
+      "detailsDescription": "Are there any e-services that you think this template is particularly suitable for? Select them here. You can also associate e-services after publication.",
       "addBtn": "Add e-service",
       "editLinkedEservices": "Update list",
       "saveBtn": "Save",
+      "eserviceSelectionSubtitle": "You can insert e-services that have personal data processing similar to what you indicated.",
       "autocompleteInput": {
-        "label": "E-service or e-service template to associate"
+        "label": "E-service to associate"
       },
       "notifications": {
         "eserviceLinkError": "It was not possible to save this e-service. Please try again!",
@@ -99,9 +100,10 @@
       "editAnnotationBtn": "Edit",
       "deleteAnnotationBtn": "Remove",
       "annotationSectionTitle": "Annotations provided by the creator",
-      "addDocumentBtn": "Add documents",
+      "addDocumentBtn": "Attach documentation",
       "uploadBtn": "Upload",
       "notifications": {
+        "addAnnotationButtonDisabledTooltip": "Select an answer or assign the completion to provide annotations",
         "annotationAddedSuccess": "Annotation added successfully.",
         "annotationAddError": "It was not possible to add the annotation. Make sure you have entered the correct information and try again.",
         "annotationDeletedSuccess": "Annotation deleted successfully.",
@@ -121,7 +123,10 @@
         "description": "Provide the user with instructions on how to respond to this field. Once the annotation is created, you can attach documents.",
         "question": "Question: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut laboolore magna aliqua.",
         "label": "Annotations",
-        "addBtn": "Add"
+        "addBtn": "Add",
+        "validation": {
+          "textRequiredWithDocs": "The annotation cannot be empty as there are attachments present"
+        }
       },
       "answerInputPlaceholder": "Answer",
       "addAnswerBtn": "Add answer",
@@ -217,6 +222,7 @@
     "linkedEservicesTab": {
       "title": "Linked e-services and template e-services",
       "description": "Define a list of e-services for which it is suggested to use the facilitated purpose. The user \n  may also use this template for e-services not included in the list.",
+      "editButtonTooltip": "It is not possible to modify the list of e-services if the template is suspended or archived",
       "filters": {
         "eserviceField": {
           "label": "E-service name"

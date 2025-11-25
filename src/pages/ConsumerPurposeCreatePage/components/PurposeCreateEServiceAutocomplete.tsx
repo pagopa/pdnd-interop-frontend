@@ -12,6 +12,8 @@ import { AuthHooks } from '@/api/auth'
 import { Stack } from '@mui/system'
 import { Alert } from '@mui/material'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
+import { TenantQueries } from '@/api/tenant'
+import { tenantKindForPurposeTemplate } from '@/utils/tenant.utils'
 
 export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -31,6 +33,17 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   )
 
   const selectedConsumerId = watch('consumerId')
+
+  // Get tenantKind of selected consumer
+  const { data: selectedConsumer } = useQuery({
+    ...TenantQueries.getParty(selectedConsumerId),
+    enabled: Boolean(selectedConsumerId),
+  })
+
+  // Normalize tenantKind for purpose templates (PA -> PA, others -> PRIVATE)
+  const targetTenantKind = selectedConsumer?.kind
+    ? tenantKindForPurposeTemplate(selectedConsumer.kind)
+    : undefined
 
   /**
    * TEMP: This is a workaround to avoid the "q" param in the query to be equal to the selected eservice name.
@@ -85,10 +98,11 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   const { data: linkedPurposeTemplates } = useQuery({
     ...PurposeTemplateQueries.getCatalogPurposeTemplates({
       eserviceIds: selectedEServiceRef.current?.id ? [selectedEServiceRef.current.id] : [],
+      targetTenantKind,
       offset: 0,
       limit: 50,
     }),
-    enabled: Boolean(selectedEServiceRef.current?.id),
+    enabled: Boolean(selectedEServiceRef.current?.id) && Boolean(targetTenantKind),
   })
 
   const showAlert =

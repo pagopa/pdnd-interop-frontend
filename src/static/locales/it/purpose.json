@@ -47,6 +47,7 @@
       "description": "La funzionalità di compilazione agevolata mette a disposizione annotazioni, documenti di supporto e alcune risposte precompilate per facilitare la formulazione dell’analisi del rischio. Il modello è reso disponibile per il riuso da altri enti aderenti e può essere utilizzato senza vincoli.",
       "usePurposeTemplateSwitch": {
         "label": "Utilizza la funzionalità di compilazione agevolata",
+        "disabledTooltip": "Non è possibile utilizzare la funzionalità per \n l’e-service selezionato in quanto l’erogatore non ha indicato come verranno trattati i dati personali",
         "selectPurposeTemplate": {
           "title": "Scegli il modello di compilazione agevolata della finalità",
           "showOnlyLinkedPurposeTemplates": "Mostra solo template suggeriti per l’e-service che ho selezionato",
@@ -54,7 +55,8 @@
           "viewPurposeTemplateBtn": "Visualizza il template selezionato"
         },
         "acknowledgeInfoResponsibility": {
-          "label": "Dichiaro di aver compreso che, anche in presenza di suggerimenti precompilati, è mia responsabilità verificare e validare tutte le informazioni prima della pubblicazione."
+          "label": "Dichiaro di aver compreso che, anche in presenza di suggerimenti precompilati, è mia responsabilità verificare e validare tutte le informazioni prima della pubblicazione.",
+          "requiredError": "Devi accettare le condizioni per proseguire"
         }
       }
     }
