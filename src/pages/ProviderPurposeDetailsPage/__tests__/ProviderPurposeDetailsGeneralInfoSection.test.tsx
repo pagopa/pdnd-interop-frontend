@@ -33,7 +33,7 @@ describe('ProviderPurposeDetailsGeneralInfoSection', () => {
     expect(screen).toBeDefined()
   })
 
-  it('Should visibile Eservice link', () => {
+  it('Should display Eservice link', () => {
     const screen = renderWithApplicationContext(
       <ProviderPurposeDetailsGeneralInfoSection purpose={purpose} />,
       {
