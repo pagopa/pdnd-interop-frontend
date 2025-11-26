@@ -146,6 +146,4 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
     })
     expect(downloadButton).toBeEnabled()
   })
-
-  it('')
 })
