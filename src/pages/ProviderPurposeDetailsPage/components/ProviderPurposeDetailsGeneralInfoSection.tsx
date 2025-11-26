@@ -32,7 +32,7 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
       {
         purposeId: purpose.id,
         versionId: purpose.currentVersion.id,
-        documentId: purpose.currentVersion.riskAnalysisDocument.id,
+        signedContractId: purpose.currentVersion.riskAnalysisDocument.id,
       },
       `${t('riskAnalysis.fileName')}.pdf`
     )

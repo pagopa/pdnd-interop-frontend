@@ -168,14 +168,14 @@ async function updateDailyCalls({
 async function downloadSignedRiskAnalysis({
   purposeId,
   versionId,
-  documentId,
+  signedContractId,
 }: {
   purposeId: string
   versionId: string
-  documentId: string
+  signedContractId: string
 }) {
   const response = await axiosInstance.get<File>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/signedDocuments/${documentId}`,
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/signedDocuments/${signedContractId}`,
     { responseType: 'arraybuffer' }
   )
 
