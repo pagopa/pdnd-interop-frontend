@@ -10,6 +10,7 @@ import { Dialog } from '@/components/dialogs'
 import { deepmerge } from '@mui/utils'
 import { vi } from 'vitest'
 import * as useCurrentRoute from '@/router/hooks/useCurrentRoute'
+import * as useParams from '@/router'
 import { AuthHooks } from '@/api/auth'
 import { queryClient } from '@/config/query-client'
 import { TenantHooks } from '@/api/tenant'
@@ -98,6 +99,14 @@ export function mockUseGetActiveUserParty(
     returnValue as unknown as ReturnType<typeof TenantHooks.useGetActiveUserParty>
   )
   return useGetActiveUserPartySpy
+}
+
+export const mockUseParams = (key: Partial<ReturnType<typeof useParams.useParams>>) => {
+  const useParamsSpy = vi.spyOn(useParams, 'useParams')
+
+  useParamsSpy.mockReturnValue({
+    ...key,
+  } as ReturnType<typeof useParams.useParams>)
 }
 
 export const mockUseCurrentRoute = (

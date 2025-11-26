@@ -5,6 +5,8 @@ import {
   getRiskAnalysisDefaultValues,
   getRiskAnalysisInputOptions,
   getUpdatedQuestions,
+  getUpdatedQuestionsForTemplate,
+  getRiskAnalysisKind,
   getValidAnswers,
   isDependencySatisfied,
 } from '../risk-analysis-form.utils'
@@ -243,6 +245,211 @@ describe('Risk analysis form utils', () => {
 
       const result = getRiskAnalysisInputOptions(question, answers, 'it')
       expect(result.length).toBe(1)
+    })
+
+    it('should return all options when hideOption dependencies are not satisfied', () => {
+      const question = {
+        options: [
+          { value: 'option-1', label: { it: 'option-1', en: 'option-1' } },
+          { value: 'option-2', label: { it: 'option-2', en: 'option-2' } },
+        ],
+        hideOption: {
+          'option-1': [{ value: 'test', id: 'test-1' }],
+        },
+      } as unknown as FormConfigQuestion
+
+      const answers = {
+        'test-1': 'other-value',
+      }
+
+      const result = getRiskAnalysisInputOptions(question, answers, 'it')
+      expect(result.length).toBe(2)
+    })
+  })
+
+  describe('getUpdatedQuestionsForTemplate', () => {
+    it('should hide questions when a dependency question is editable', () => {
+      const questions: FormConfigQuestion[] = [
+        {
+          id: 'q1',
+          label: { it: 'Question 1', en: 'Question 1' },
+          dependencies: [],
+          dataType: 'SINGLE',
+          required: false,
+          visualType: 'radio',
+          defaultValue: ['value1'],
+        } as FormConfigQuestion,
+        {
+          id: 'q2',
+          label: { it: 'Question 2', en: 'Question 2' },
+          dependencies: [{ id: 'q1', value: 'value1' }],
+          dataType: 'SINGLE',
+          required: false,
+          visualType: 'radio',
+          defaultValue: ['value2'],
+        } as FormConfigQuestion,
+      ]
+
+      const answers: RiskAnalysisAnswers = {
+        q1: 'value1',
+      }
+
+      const assignToTemplateUsers = {
+        q1: true,
+      }
+
+      const result = getUpdatedQuestionsForTemplate(answers, questions, assignToTemplateUsers)
+      expect(result).toEqual({ q1: questions[0] })
+      expect(result).not.toHaveProperty('q2')
+    })
+
+    it('should show questions when dependencies are satisfied and not editable', () => {
+      const questions: FormConfigQuestion[] = [
+        {
+          id: 'q1',
+          label: { it: 'Question 1', en: 'Question 1' },
+          dependencies: [],
+          dataType: 'SINGLE',
+          required: false,
+          visualType: 'radio',
+          defaultValue: ['value1'],
+        } as FormConfigQuestion,
+        {
+          id: 'q2',
+          label: { it: 'Question 2', en: 'Question 2' },
+          dependencies: [{ id: 'q1', value: 'value1' }],
+          dataType: 'SINGLE',
+          required: false,
+          visualType: 'radio',
+          defaultValue: ['value2'],
+        } as FormConfigQuestion,
+      ]
+
+      const answers: RiskAnalysisAnswers = {
+        q1: 'value1',
+      }
+
+      const assignToTemplateUsers = {
+        q1: false,
+      }
+
+      const result = getUpdatedQuestionsForTemplate(answers, questions, assignToTemplateUsers)
+      expect(result).toHaveProperty('q1')
+      expect(result).toHaveProperty('q2')
+    })
+
+    it('should filter out questions with unsatisfied dependencies', () => {
+      const questions: FormConfigQuestion[] = [
+        {
+          id: 'q1',
+          label: { it: 'Question 1', en: 'Question 1' },
+          dependencies: [],
+          dataType: 'SINGLE',
+          required: false,
+          visualType: 'radio',
+          defaultValue: ['value1'],
+        } as FormConfigQuestion,
+        {
+          id: 'q2',
+          label: { it: 'Question 2', en: 'Question 2' },
+          dependencies: [{ id: 'q1', value: 'value1' }],
+          dataType: 'SINGLE',
+          required: false,
+          visualType: 'radio',
+          defaultValue: ['value2'],
+        } as FormConfigQuestion,
+      ]
+
+      const answers: RiskAnalysisAnswers = {
+        q1: 'other-value',
+      }
+
+      const assignToTemplateUsers = {
+        q1: false,
+      }
+
+      const result = getUpdatedQuestionsForTemplate(answers, questions, assignToTemplateUsers)
+      expect(result).toHaveProperty('q1')
+      expect(result).not.toHaveProperty('q2')
+    })
+  })
+
+  describe('getRiskAnalysisKind', () => {
+    it('should return PA for PA tenant kind', () => {
+      const result = getRiskAnalysisKind('PA')
+      expect(result).toBe('PA')
+    })
+
+    it('should return PRIVATE for PRIVATE tenant kind', () => {
+      const result = getRiskAnalysisKind('PRIVATE')
+      expect(result).toBe('PRIVATE')
+    })
+
+    it('should return PRIVATE for GSP tenant kind', () => {
+      const result = getRiskAnalysisKind('GSP')
+      expect(result).toBe('PRIVATE')
+    })
+
+    it('should return PRIVATE for SCP tenant kind', () => {
+      const result = getRiskAnalysisKind('SCP')
+      expect(result).toBe('PRIVATE')
+    })
+  })
+
+  describe('getValidAnswers', () => {
+    it('should include only answers for visible questions', () => {
+      const currentQuestionsIds = ['id-1', 'id-2']
+      const currentAnswersIds = {
+        'id-1': 'test1',
+        'id-2': ['test2'],
+        'id-3': 'test3',
+      }
+      const result = getValidAnswers(currentQuestionsIds, currentAnswersIds)
+      expect(result).toEqual({
+        'id-1': ['test1'],
+        'id-2': ['test2'],
+      })
+    })
+
+    it('should handle boolean answers', () => {
+      const currentQuestionsIds = ['id-1']
+      const currentAnswersIds = {
+        'id-1': true,
+      }
+      const result = getValidAnswers(currentQuestionsIds, currentAnswersIds)
+      expect(result).toEqual({
+        'id-1': ['true'],
+      })
+    })
+
+    it('should handle empty arrays', () => {
+      const currentQuestionsIds = ['id-1']
+      const currentAnswersIds = {
+        'id-1': [],
+      }
+      const result = getValidAnswers(currentQuestionsIds, currentAnswersIds)
+      expect(result).toEqual({
+        'id-1': [],
+      })
+    })
+  })
+
+  describe('getUpdatedQuestions', () => {
+    it('should include questions with satisfied dependencies', () => {
+      const answers: RiskAnalysisAnswers = {
+        'test-id': 'test',
+      }
+      const result = getUpdatedQuestions(answers, questions)
+      expect(result).toHaveProperty('test-id')
+      expect(result).toHaveProperty('test-id-3')
+    })
+
+    it('should include questions with no dependencies', () => {
+      const answers: RiskAnalysisAnswers = {
+        'test-id': 'test',
+      }
+      const result = getUpdatedQuestions(answers, questions)
+      expect(result).toHaveProperty('test-id')
     })
   })
 })

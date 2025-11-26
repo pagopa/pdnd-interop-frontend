@@ -252,6 +252,7 @@ const createMockAgreement = createMockFactory<Agreement>({
     },
   ],
   isContractPresent: true,
+  isDocumentReady: false,
 })
 
 const createMockAgreementListingItem = createMockFactory<AgreementListEntry>({

@@ -374,35 +374,31 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             />
           </Stack>
         )}
-        {isDelegator &&
-          descriptor?.state === 'WAITING_FOR_APPROVAL' && ( //TODO: || descriptor?.state === 'DRAFT'; now publish and reject are hidden
-            <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
-              <Button
-                startIcon={<DeleteOutlineIcon />}
-                variant="text"
-                color="error"
-                onClick={handleRejectDelegatedVersionDraft}
-                disabled={isSupport}
-              >
-                {tCommon('reject')}
-              </Button>
-              <Tooltip
-                title={arePersonalDataSet ? '' : t('summary.missingPersonalDataField')}
-                arrow
-              >
-                <span>
-                  <Button
-                    startIcon={<PublishIcon />}
-                    variant="contained"
-                    onClick={handleApproveDelegatedVersionDraft}
-                    disabled={isSupport || !arePersonalDataSet}
-                  >
-                    {tCommon('publish')}
-                  </Button>
-                </span>
-              </Tooltip>
-            </Stack>
-          )}
+        {isDelegator && descriptor?.state === 'WAITING_FOR_APPROVAL' && (
+          <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
+            <Button
+              startIcon={<DeleteOutlineIcon />}
+              variant="text"
+              color="error"
+              onClick={handleRejectDelegatedVersionDraft}
+              disabled={isSupport}
+            >
+              {tCommon('reject')}
+            </Button>
+            <Tooltip title={arePersonalDataSet ? '' : t('summary.missingPersonalDataField')} arrow>
+              <span>
+                <Button
+                  startIcon={<PublishIcon />}
+                  variant="contained"
+                  onClick={handleApproveDelegatedVersionDraft}
+                  disabled={isSupport || !arePersonalDataSet}
+                >
+                  {tCommon('publish')}
+                </Button>
+              </span>
+            </Tooltip>
+          </Stack>
+        )}
         {requireDelegateCorrections && sortedRejectedReasons && (
           <RejectReasonDrawer
             isOpen={isOpen}

@@ -231,6 +231,25 @@
       "approveAndPublish": "Approve and publish"
     }
   },
+  "dialogPurposeTemplatesTenantKind": {
+    "title": "Select the type of entity",
+    "content": {
+      "description": "Indicate who will be able to use the risk analysis you are creating and whether personal data is being processed.",
+      "label": "Target entity type",
+      "options": {
+        "labelPA": "Public Administrations (Art. 2, paragraph 2, letter “a” of the CAD)",
+        "labelNotPA": "Public service managers, publicly controlled companies (Art. 2, paragraph 2, letters “b” and “c”) or Private"
+      },
+      "personalDataRadioBtn": {
+        "label": "Does the risk analysis involve the processing of personal data?",
+        "error": "Indicate whether personal data will be processed",
+        "options": {
+          "true": "Yes, personal data will be processed",
+          "false": "No, personal data will not be processed"
+        }
+      }
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"
@@ -299,6 +318,20 @@
   },
   "attributeGroupContainer": {
     "removeGroupAriaLabel": "Remove attribute group"
+  },
+  "eserviceContainer": {
+    "eserviceIdField": "E-service ID",
+    "viewEserviceBtn": "View e-service",
+    "idCopytooltipLabel": "Id copied correctly",
+    "removeAttributeAriaLabel": "Remove {eserviceName}} e-service",
+    "tooltipTitle": {
+      "ARCHIVED": "This e-service has been archived and can no longer be associated",
+      "SUSPENDED": "This e-service has been suspended and can no longer be associated"
+    },
+    "warning": {
+      "ARCHIVED": "This e-service has been archived and can no longer be associated. Remove it before proceeding",
+      "SUSPENDED": "This e-service has been suspended and can no longer be associated. Remove it before proceeding"
+    }
   },
   "drawer": {
     "closeIconAriaLabel": "Close the drawer",
@@ -378,6 +411,19 @@
       }
     }
   },
+  "purposeTemplateRiskAnalysisInfoSummary": {
+    "annotationSection": {
+      "readAnnotationBtnLabel": "Read annotation",
+      "title": "Annotations provided by the creator"
+    },
+    "answerLabel": "Answer: ",
+    "notEditableLabel": "Not editable",
+    "notEditableTooltip": "The template creator does not allow changes to this field",
+    "suggestedValuesSection": {
+      "title": "Answers:",
+      "option": "Option {{index}}:"
+    }
+  },
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Terms of service",
@@ -441,6 +487,14 @@
     "WATCH_RISK_ANALYSIS_FOR_ESERVICE": "Risk analysis",
     "DEVELOPER_TOOLS": "Developer tools",
     "RISK_ANALYSIS_EXPORTER_TOOL": "Export risk analysis",
-    "CLIENT_MANAGEMENT": "Client management"
+    "CLIENT_MANAGEMENT": "Client management",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_LIST": "My purpose templates",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY": "Purpose template summary",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG": "Purpose template",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS": "Template details",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS": "Template details",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_EDIT": "Edit purpose template",
+    "SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE": "Create purpose from template",
+    "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Edit purpose from template"
   }
 }

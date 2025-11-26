@@ -5,10 +5,12 @@ import type {
   DelegationRef,
   GetConsumerPurposesParams,
   GetProducerPurposesParams,
+  PatchPurposeUpdateFromTemplateContent,
   Purpose,
   PurposeAdditionDetailsSeed,
   PurposeCloneSeed,
   PurposeEServiceSeed,
+  PurposeFromTemplateSeed,
   Purposes,
   PurposeSeed,
   PurposeUpdateContent,
@@ -112,6 +114,18 @@ async function updateDraft({
 }: { purposeId: string } & PurposeUpdateContent) {
   const response = await axiosInstance.post<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}`,
+    payload
+  )
+  return response.data
+}
+
+async function updateDraftFromPurposeTemplate({
+  purposeTemplateId,
+  purposeId,
+  ...payload
+}: { purposeTemplateId: string; purposeId: string } & PatchPurposeUpdateFromTemplateContent) {
+  const response = await axiosInstance.patch<PurposeVersionResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/purposes/${purposeId}`,
     payload
   )
   return response.data
@@ -236,6 +250,19 @@ function removeClient({ clientId, purposeId }: { clientId: string; purposeId: st
   )
 }
 
+async function createDraftFromPurposeTemplate({
+  purposeTemplateId,
+  ...payload
+}: {
+  purposeTemplateId: string
+} & PurposeFromTemplateSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/purposes`,
+    payload
+  )
+  return response.data
+}
+
 export const PurposeServices = {
   getProducersList,
   getConsumersList,
@@ -245,6 +272,7 @@ export const PurposeServices = {
   getRiskAnalyisLatestOrSpecificVersion,
   createDraft,
   updateDraft,
+  updateDraftFromPurposeTemplate,
   deleteDraft,
   createDraftForReceiveEService,
   updateDraftForReceiveEService,
@@ -258,4 +286,5 @@ export const PurposeServices = {
   clone,
   addClient,
   removeClient,
+  createDraftFromPurposeTemplate,
 }

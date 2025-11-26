@@ -33,8 +33,6 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   const { mutate: publishVersion } = EServiceTemplateMutations.usePublishVersionDraft()
   const { mutate: updateEserviceTemplatePersonalData } =
     EServiceTemplateMutations.useUpdateEServiceTemplatePersonalDataFlagAfterPublication()
-  const { mutate: setEserviceTemplatePersonalDataFirstDraft } =
-    EServiceTemplateMutations.useUpdateDraft()
 
   const { data: eserviceTemplate, isLoading } = useQuery(
     EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
@@ -98,29 +96,13 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
     eserviceTemplateId: string,
     personalData: boolean
   ) => {
-    if (eserviceTemplate?.version === 1) {
-      setEserviceTemplatePersonalDataFirstDraft(
-        {
-          description: eserviceTemplate.eserviceTemplate.description,
-          eServiceTemplateId: eserviceTemplateId,
-          name: eserviceTemplate.eserviceTemplate.name,
-          mode: eserviceTemplate.eserviceTemplate.mode,
-          intendedTarget: eserviceTemplate.eserviceTemplate.intendedTarget,
-          technology: eserviceTemplate.eserviceTemplate.technology,
-          isSignalHubEnabled: eserviceTemplate.eserviceTemplate.isSignalHubEnabled,
-          personalData: personalData,
-        },
-        { onSuccess: closeEServiceTemplateUpdatePersonalDataDrawer }
-      )
-    } else {
-      updateEserviceTemplatePersonalData(
-        {
-          eserviceTemplateId: eserviceTemplateId,
-          personalData: personalData,
-        },
-        { onSuccess: closeEServiceTemplateUpdatePersonalDataDrawer }
-      )
-    }
+    updateEserviceTemplatePersonalData(
+      {
+        eserviceTemplateId: eserviceTemplateId,
+        personalData: personalData,
+      },
+      { onSuccess: closeEServiceTemplateUpdatePersonalDataDrawer }
+    )
   }
 
   return (
