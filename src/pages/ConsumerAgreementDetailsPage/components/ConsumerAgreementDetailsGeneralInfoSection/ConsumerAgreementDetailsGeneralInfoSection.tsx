@@ -21,6 +21,7 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
 
   const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'documents' })
   const { agreement } = useConsumerAgreementDetailsContext()
+
   const downloadSignedAgreementDocument = AgreementDownloads.useDownloadSignedContract()
 
   const isDelegated = Boolean(agreement.delegation)
@@ -106,7 +107,7 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
                   onClick={handleDownloadSignedAgreementDocument}
                   tooltip={!agreement.isDocumentReady ? tShared('notAvailableYet') : undefined}
                 >
-                  {t('documentation.link.label')}
+                  {t('documentation.link.label')} ciao
                 </IconLink>
               </>
             )}
