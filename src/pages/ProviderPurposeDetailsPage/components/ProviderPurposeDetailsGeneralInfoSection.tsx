@@ -8,6 +8,7 @@ import LinkIcon from '@mui/icons-material/Link'
 import { PurposeDownloads } from '@/api/purpose'
 import { useTranslation } from 'react-i18next'
 import DownloadIcon from '@mui/icons-material/Download'
+import { FEATURE_FLAG_USE_SIGNED_DOCUMENT } from '@/config/env'
 
 type ProviderPurposeDetailsGeneralInfoSectionProps = {
   purpose: Purpose
@@ -25,6 +26,7 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
   const generatePath = useGeneratePath()
 
   const downloadSignedRiskAnalysis = PurposeDownloads.useDownloadSignedRiskAnalysis()
+  const downloadRiskAnalysis = PurposeDownloads.useDownloadRiskAnalysis()
 
   const handleDownloadSignedDocument = () => {
     if (!purpose.currentVersion || !purpose.currentVersion.riskAnalysisDocument) return
@@ -38,12 +40,26 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
     )
   }
 
+  const handleDownloadDocument = () => {
+    if (!purpose.currentVersion || !purpose.currentVersion.riskAnalysisDocument) return
+    downloadRiskAnalysis(
+      {
+        purposeId: purpose.id,
+        versionId: purpose.currentVersion.id,
+        documentId: purpose.currentVersion.riskAnalysisDocument?.id,
+      },
+      `${t('riskAnalysis.fileName')}.pdf`
+    )
+  }
+
   const downloadRiskAnalysisDocumentAction = {
     label: t('riskAnalysis.link.label'),
     component: 'button',
     type: 'button',
     disabled: purpose.isDocumentReady === false,
-    onClick: handleDownloadSignedDocument,
+    onClick: FEATURE_FLAG_USE_SIGNED_DOCUMENT
+      ? handleDownloadSignedDocument
+      : handleDownloadDocument,
     tooltip: purpose.isDocumentReady === false ? tShared('notAvailableYet') : undefined,
     startIcon: <DownloadIcon fontSize="small" />,
   }
