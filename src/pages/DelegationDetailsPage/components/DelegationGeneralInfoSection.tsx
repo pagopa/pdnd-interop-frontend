@@ -23,6 +23,7 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
 }) => {
   const { t } = useTranslation('party', { keyPrefix: 'delegations.details.generalInfoSection' })
   const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'documents' })
+
   const { data: delegation } = useSuspenseQuery(
     DelegationQueries.getSingle({ delegationId: delegationId })
   )
@@ -57,6 +58,7 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
 
   const handleDownloadSignedDelegationDocument = () => {
     if (!delegation.activationSignedContract) return
+
     downloadSignedDelegationContract(
       {
         delegationId: delegationId,
