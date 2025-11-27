@@ -1,4 +1,4 @@
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockEnvironmentParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import { ConsumerAgreementDetailsGeneralInfoSection } from '../ConsumerAgreementDetailsGeneralInfoSection/ConsumerAgreementDetailsGeneralInfoSection'
 import { createMockAgreement } from '../../../../../__mocks__/data/agreement.mocks'
 import * as ConsumerAgreementContext from '../ConsumerAgreementDetailsContext'
@@ -154,7 +154,7 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
     expect(downloadButton).toBeEnabled()
   })
 
-  describe.skip('FEATURE_FLAG_USE_SIGNED_DOCUMENT', () => {
+  describe('FEATURE_FLAG_USE_SIGNED_DOCUMENT', () => {
     it('should able to download signedDocument when feature flag is enabled', async () => {
       const agreementWithDocumentReady = {
         ...agreementMock,
@@ -182,6 +182,7 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
     })
 
     it('should able to download "classic" document when feature flag is disabled', () => {
+      mockEnvironmentParams('FEATURE_FLAG_USE_SIGNED_DOCUMENT', false)
       const agreementWithDocumentReady = {
         ...agreementMock,
         isDocumentReady: true,
