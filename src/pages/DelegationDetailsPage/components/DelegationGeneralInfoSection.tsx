@@ -12,6 +12,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
 import DownloadIcon from '@mui/icons-material/Download'
+import { FEATURE_FLAG_USE_SIGNED_DOCUMENT } from '@/config/env'
 
 type DelegationGeneralInfoSectionProps = {
   delegationId: string
@@ -94,7 +95,9 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
     type: 'button',
     disabled: delegation.isDocumentReady === false,
     tooltip: delegation.isDocumentReady === false ? tShared('notAvailableYet') : undefined,
-    onClick: handleDownloadSignedDelegationDocument,
+    onClick: FEATURE_FLAG_USE_SIGNED_DOCUMENT
+      ? handleDownloadSignedDelegationDocument
+      : handleDownloadDelegationDocument,
   }
 
   const downloadRevokeDelegationContractAction = {
@@ -104,7 +107,9 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
     type: 'button',
     disabled: delegation.isDocumentReady === false,
     tooltip: delegation.isDocumentReady === false ? tShared('notAvailableYet') : undefined,
-    onClick: handleDownloadRevokeSignedDelegationDocument,
+    onClick: FEATURE_FLAG_USE_SIGNED_DOCUMENT
+      ? handleDownloadRevokeSignedDelegationDocument
+      : handleDownloadRevokeDelegationDocument,
   }
 
   const downloadContractActions = match(delegation.state)
