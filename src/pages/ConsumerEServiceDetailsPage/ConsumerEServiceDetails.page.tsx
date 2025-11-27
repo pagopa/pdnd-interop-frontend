@@ -33,7 +33,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
     EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
   )
 
-  useMarkNotificationsAsRead(eserviceId)
+  useMarkNotificationsAsRead(`${eserviceId}/${descriptorId}`)
 
   const { data: delegators } = useQuery({
     ...DelegationQueries.getConsumerDelegators({
