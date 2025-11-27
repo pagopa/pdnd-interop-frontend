@@ -63,7 +63,7 @@ const transformedFEConfigs = FEConfigs.transform((c) => ({
 
 export type InteropFEConfigs = z.infer<typeof transformedFEConfigs>
 
-export const parseCommaSeparatedToArray = (input: string): string[] => {
+const parseCommaSeparatedToArray = (input: string): string[] => {
   return input
     .split(',')
     .map((item) => item.trim())

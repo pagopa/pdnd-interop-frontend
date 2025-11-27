@@ -111,6 +111,7 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
             {agreement.isContractPresent && (
               <>
                 <IconLink
+                  data-testid="download-agreement-document-button"
                   component="button"
                   disabled={!agreement.isDocumentReady}
                   startIcon={<DownloadIcon />}
@@ -122,7 +123,7 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
                   }
                   tooltip={!agreement.isDocumentReady ? tShared('notAvailableYet') : undefined}
                 >
-                  {t('documentation.link.label')} ciao
+                  {t('documentation.link.label')}
                 </IconLink>
               </>
             )}
