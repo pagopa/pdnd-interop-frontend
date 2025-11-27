@@ -1,8 +1,21 @@
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockEnvironmentParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockPurpose } from '../../../../../__mocks__/data/purpose.mocks'
 import { ConsumerPurposeDetailsGeneralInfoSection } from '../PurposeDetailsTab/ConsumerPurposeDetailsGeneralInfoSection'
+import { fireEvent } from '@testing-library/react'
+import { type Purpose } from '@/api/api.generatedTypes'
+import * as envs from '@/config/env'
 
 const purpose = createMockPurpose()
+
+const downloadSignedRiskAnalysisMock = vi.fn()
+const downloadRiskAnalysis = vi.fn()
+
+vi.mock('@/api/purpose', () => ({
+  PurposeDownloads: {
+    useDownloadSignedRiskAnalysis: () => downloadSignedRiskAnalysisMock,
+    useDownloadRiskAnalysis: () => downloadRiskAnalysis,
+  },
+}))
 
 vi.mock('react-i18next', () => ({
   useTranslation: (namespace: string, options?: { keyPrefix?: string }) => {
@@ -96,7 +109,7 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
   })
 
   it('should be available the download of the signed risk analysis document if document is already available', () => {
-    const mockPurposeWithDocumentReady = { ...purpose, isDocumentReady: true }
+    const mockPurposeWithDocumentReady: Purpose = { ...purpose, isDocumentReady: true }
     const screen = renderWithApplicationContext(
       <ConsumerPurposeDetailsGeneralInfoSection purpose={mockPurposeWithDocumentReady} />,
       {
@@ -129,5 +142,59 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
       'href',
       `/ui/it/fruizione/richieste/${purpose.agreement.id}`
     )
+  })
+
+  describe('FEATURE_FLAG_USE_SIGNED_DOCUMENT', () => {
+    it('should download signed riskAnalysis document when feature flag is enabled', () => {
+      const mockPurposeWithDocumentReady: Purpose = {
+        ...purpose,
+        isDocumentReady: true,
+        currentVersion: {
+          ...purpose.currentVersion!,
+          signedContract: {
+            id: 'signed-contract-id',
+            contentType: 'application/pdf',
+            createdAt: '2021-01-01T00:00:00Z',
+            signedAt: '2021-01-01T00:00:00Z',
+          },
+        },
+      }
+      const screen = renderWithApplicationContext(
+        <ConsumerPurposeDetailsGeneralInfoSection purpose={mockPurposeWithDocumentReady} />,
+        {
+          withReactQueryContext: true,
+          withRouterContext: true,
+        }
+      )
+
+      const downloadButton = screen.getByRole('button', {
+        name: 'purpose.consumerView.sections.generalInformations.riskAnalysis.link.label',
+      })
+
+      fireEvent.click(downloadButton)
+      expect(downloadSignedRiskAnalysisMock).toHaveBeenCalledOnce()
+    })
+    it('should download "classic" riskAnalysis document when feature flag is disabled', () => {
+      mockEnvironmentParams('FEATURE_FLAG_USE_SIGNED_DOCUMENT', false)
+
+      const mockPurposeWithDocumentReady: Purpose = {
+        ...purpose,
+        isDocumentReady: true,
+      }
+      const screen = renderWithApplicationContext(
+        <ConsumerPurposeDetailsGeneralInfoSection purpose={mockPurposeWithDocumentReady} />,
+        {
+          withReactQueryContext: true,
+          withRouterContext: true,
+        }
+      )
+
+      const downloadButton = screen.getByRole('button', {
+        name: 'purpose.consumerView.sections.generalInformations.riskAnalysis.link.label',
+      })
+
+      fireEvent.click(downloadButton)
+      expect(downloadRiskAnalysis).toHaveBeenCalledOnce()
+    })
   })
 })

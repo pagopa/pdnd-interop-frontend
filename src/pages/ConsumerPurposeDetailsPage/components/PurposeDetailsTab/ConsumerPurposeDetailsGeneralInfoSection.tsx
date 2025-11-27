@@ -61,6 +61,7 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
     onClick: FEATURE_FLAG_USE_SIGNED_DOCUMENT
       ? handleDownloadSignedDocument
       : handleDownloadDocument,
+    'data-testid': 'download-risk-analysis-document-button',
   }
 
   return (
