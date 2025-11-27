@@ -34,7 +34,6 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
   )
 
   useMarkNotificationsAsRead(`${eserviceId}/${descriptorId}`)
-
   const { data: delegators } = useQuery({
     ...DelegationQueries.getConsumerDelegators({
       limit: 50,
