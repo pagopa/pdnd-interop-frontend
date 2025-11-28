@@ -32,6 +32,7 @@ import {
 import type { EServiceMode } from '@/api/api.generatedTypes'
 import { useQuery } from '@tanstack/react-query'
 import { EServiceCreateFromTemplateStepPurpose } from './components/EServiceCreateStepPurpose/EServiceCreateFromTemplateStepPurpose'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -52,6 +53,11 @@ const ProviderEServiceCreatePage: React.FC = () => {
 
   const eservice = descriptor?.eservice
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
+  const eserviceTemplateId = descriptor?.templateRef?.templateId
+  const { data: eserviceTemplate } = useQuery({
+    ...EServiceTemplateQueries.getSingleByEServiceTemplateId(eserviceTemplateId as string),
+    enabled: isEserviceFromTemplate,
+  })
 
   const eserviceMode =
     selectedEServiceMode || // The mode selected by the user
@@ -145,6 +151,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
           descriptor={descriptor}
           eserviceMode={eserviceMode}
           onEserviceModeChange={setSelectedEServiceMode}
+          eserviceTemplate={eserviceTemplate}
           {...stepProps}
         >
           <Step />
