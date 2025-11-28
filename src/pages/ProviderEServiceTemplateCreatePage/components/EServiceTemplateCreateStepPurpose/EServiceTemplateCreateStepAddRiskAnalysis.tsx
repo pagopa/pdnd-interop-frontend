@@ -8,8 +8,9 @@ import type { TenantKind } from '@/api/api.generatedTypes'
 export const EServiceTemplateCreateStepAddRiskAnalysis: React.FC<{
   eserviceTemplateId: string
   selectedTenantKind: TenantKind
+  personalData?: boolean
   onClose: () => void
-}> = ({ eserviceTemplateId, selectedTenantKind, onClose }) => {
+}> = ({ eserviceTemplateId, selectedTenantKind, personalData, onClose }) => {
   const { mutate: addEServiceTemplateRiskAnalysis } =
     EServiceTemplateMutations.useAddEServiceTemplateRiskAnalysis()
 
@@ -43,6 +44,7 @@ export const EServiceTemplateCreateStepAddRiskAnalysis: React.FC<{
       riskAnalysis={riskAnalysisLatest}
       onSubmit={handleSubmit}
       onCancel={handleClose}
+      personalData={personalData}
     />
   )
 }
