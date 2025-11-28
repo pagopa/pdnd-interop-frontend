@@ -358,6 +358,9 @@
         "delegatedConsumerField": {
           "label": "Delegato alla fruizione"
         },
+        "purposeTemplateField": {
+          "label": "Template collegato"
+        },
         "descriptionField": {
           "label": "Descrizione della finalità"
         },

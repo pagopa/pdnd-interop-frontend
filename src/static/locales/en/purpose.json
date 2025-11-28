@@ -358,6 +358,9 @@
         "delegatedConsumerField": {
           "label": "Delegated Consumer"
         },
+        "purposeTemplateField": {
+          "label": "Linked purpose template"
+        },
         "descriptionField": {
           "label": "Purpose description"
         },
