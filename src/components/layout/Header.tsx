@@ -12,6 +12,7 @@ import { getCurrentSelfCareProductId } from '@/utils/common.utils'
 import { useQuery } from '@tanstack/react-query'
 import { SelfcareQueries } from '@/api/selfcare'
 import { useErrorData } from '@/stores/error-data.store'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 /**
  * Generate the party list to be used in the HeaderProduct component to show the party switcher
@@ -108,6 +109,7 @@ type HeaderProps = {
 
 export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
   const navigate = useNavigate()
+  const lang = useCurrentLanguage()
   const { t } = useTranslation('shared-components', { keyPrefix: 'header' })
   const { t: tCommon } = useTranslation('common')
 
@@ -141,8 +143,7 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
 
   const handleSelectParty = (party: PartySwitchItem) => {
     window.location.assign(
-      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${
-        party.id
+      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${party.id
       }&productId=${getCurrentSelfCareProductId()}`
     )
   }
@@ -179,13 +180,13 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
         onDocumentationClick={() => {
           window.open(documentationLink, '_blank')
         }}
-        // enableAssistanceButton={STAGE === 'UAT' || STAGE === 'PROD'}
+      // enableAssistanceButton={STAGE === 'UAT' || STAGE === 'PROD'}
       />
 
       <HeaderProduct
         // force re-render when selfcareId changes to solve a bug with the ProductSwitch component from mui-italia
         // must be removed when the bug is fixed
-        key={jwt?.selfcareId}
+        key={jwt?.selfcareId + lang}
         onSelectedParty={handleSelectParty}
         onSelectedProduct={handleSelectProduct}
         partyId={selfcareId}
