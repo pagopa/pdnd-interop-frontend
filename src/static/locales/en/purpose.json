@@ -47,6 +47,7 @@
       "description": "The facilitated compilation feature provides annotations, supporting documents, and some pre-filled answers to help you formulate the risk analysis. The template is made available for reuse by other participating organizations and can be used without restrictions.",
       "usePurposeTemplateSwitch": {
         "label": "Use the facilitated compilation feature",
+        "disabledTooltip": "It is not possible to use the feature for the selected \n e-service  because the provider has not indicated how personal data will be processed",
         "selectPurposeTemplate": {
           "title": "Choose the facilitated purpose compilation template",
           "showOnlyLinkedPurposeTemplates": "Show only templates suggested for the selected e-service",
@@ -54,7 +55,8 @@
           "viewPurposeTemplateBtn": "View selected template"
         },
         "acknowledgeInfoResponsibility": {
-          "label": "I acknowledge that, even in the presence of pre-filled suggestions, it is my responsibility to verify and validate all information before publication."
+          "label": "I acknowledge that, even in the presence of pre-filled suggestions, it is my responsibility to verify and validate all information before publication.",
+          "requiredError": "You must accept the conditions to proceed"
         }
       }
     }
@@ -162,7 +164,12 @@
     "alerts": {
       "associationRemoved": "<strong>The client association was removed</strong> within the process. It will be possible to associate one or more clients only after the activation of the purpose.",
       "newRiskAnalysisAvailable": "This draft is no longer publishable. Since its creation, a new version of the risk analysis has been released. Delete it and create a new one.",
-      "descriptorOrAgreementArchived": "This draft is no longer publishable. The agreement of this e-service is no longer active. Delete it and create a new one."
+      "descriptorOrAgreementArchived": "This draft is no longer publishable. The agreement of this e-service is no longer active. Delete it and create a new one.",
+      "rulesetExpired": {
+        "label": "This risk analysis uses an obsolete version that you cannot publish.",
+        "action": "Create new purpose"
+      },
+      "infoRulesetExpiration": "This risk analysis uses a version that will become obsolete in {{days}} days. Publish it by {{date}} to avoid having to recompile it."
     },
     "generalInformationSection": {
       "title": "General informations",

@@ -6,7 +6,7 @@
         "label": "Cerca per nome"
       },
       "eserviceField": {
-        "label": "Nome e-service"
+        "label": "Cerca per e-service"
       },
       "statusField": {
         "label": "Filtra per stato",
@@ -78,12 +78,13 @@
     },
     "step2": {
       "detailsTitle": "E-service suggeriti per questo template",
-      "detailsDescription": "Ci sono e-service o template e-service per cui pensi che questo template sia particolarmente adatto? Selezionali qui. Potrai associare gli e-service anche dopo la pubblicazione.",
+      "detailsDescription": "Ci sono e-service per cui pensi che questo template sia particolarmente adatto? Selezionali qui. Potrai associare gli e-service anche dopo la pubblicazione.",
       "addBtn": "Aggiungi e-service",
       "editLinkedEservices": "Aggiorna elenco",
       "saveBtn": "Salva",
+      "eserviceSelectionSubtitle": "Puoi inserire e-service che hanno un trattamento dei dati personali analogo a quanto hai indicato.",
       "autocompleteInput": {
-        "label": "E-service o template e-service da associare"
+        "label": "E-service da associare"
       },
       "notifications": {
         "eserviceLinkError": "Non è stato possibile salvare questo e-service. Per favore riprova!",
@@ -99,9 +100,10 @@
       "editAnnotationBtn": "Modifica",
       "deleteAnnotationBtn": "Rimuovi",
       "annotationSectionTitle": "Annotazioni fornite dal creatore",
-      "addDocumentBtn": "Aggiungi documenti",
+      "addDocumentBtn": "Allega documentazione",
       "uploadBtn": "Carica",
       "notifications": {
+        "addAnnotationButtonDisabledTooltip": "Seleziona una risposta o assegna la compilazione per fornire annotazioni",
         "annotationAddedSuccess": "Annotazione aggiunta con successo.",
         "annotationAddError": "Non è stato possibile aggiungere l'annotazione. Assicurati di aver inserito le informazioni corrette e riprova.",
         "annotationDeletedSuccess": "Annotazione eliminata con successo.",
@@ -121,7 +123,10 @@
         "description": "Fornisci all’utilizzatore indicazioni su come rispondere a questo campo. Una volta creata la annotazione, potrai allegare documenti.",
         "question": "Domanda: ",
         "label": "Annotazioni",
-        "addBtn": "Aggiungi"
+        "addBtn": "Aggiungi",
+        "validation": {
+          "textRequiredWithDocs": "L'annotazione non può essere vuota."
+        }
       },
       "answerInputPlaceholder": "Risposta",
       "addAnswerBtn": "Aggiungi risposta",
@@ -217,6 +222,7 @@
     "linkedEservicesTab": {
       "title": "E-service e template e-service collegati",
       "description": "Definisci un elenco di e-service per cui è suggerito usare la finalità agevolata. Il fruitore ha facoltà di utilizzare \n questo template anche per e-service che non compaiono nella lista.",
+      "editButtonTooltip": "Non è possibile modificare l'elenco degli e-service se il template è sospeso o archiviato",
       "filters": {
         "eserviceField": {
           "label": "Nome e-service"

@@ -5,12 +5,12 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
-import { Box, Stack, Typography, Button } from '@mui/material'
+import { Box, Stack, Typography, Button, Tooltip } from '@mui/material'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AddAnnotationDrawer } from '@/components/shared/AddAnnotationDrawer'
 import { useFormContext, useForm, FormProvider } from 'react-hook-form'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useToastNotification, useDialog } from '@/stores'
 import type {
   RiskAnalysisTemplateAnswerAnnotation,
@@ -21,6 +21,8 @@ import type {
 import { PurposeTemplateServices } from '@/api/purposeTemplate/purposeTemplate.services'
 import { useParams } from '@/router'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
+import { PurposeTemplateDownloads } from '@/api/purposeTemplate/purposeTemplate.downloads'
+import { getDownloadDocumentName } from '@/utils/purposeTemplate.utils'
 
 // Document Upload Form Component
 const DocumentUploadForm: React.FC<{
@@ -82,12 +84,12 @@ export const RiskAnalysisAnswerComponent: React.FC<{
   )
   const assignToTemplateUsers: boolean = watch(`assignToTemplateUsers.${questionKey}`) || false
   const questionValue = watch(`answers.${questionKey}`)
-  const questionValues: string[] = Array.isArray(questionValue)
-    ? questionValue
-    : questionValue
-    ? [questionValue]
-    : []
-  const suggestedValues: string[] = watch(`suggestedValues.${questionKey}`) || []
+  const questionValues: string[] = useMemo(
+    () => (Array.isArray(questionValue) ? questionValue : questionValue ? [questionValue] : []),
+    [questionValue]
+  )
+  const suggestedValuesRaw = watch(`suggestedValues.${questionKey}`)
+  const suggestedValues: string[] = useMemo(() => suggestedValuesRaw || [], [suggestedValuesRaw])
 
   // Document management states
   const [showDocInput, setShowDocInput] = useState(false)
@@ -103,6 +105,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{
 
   const { mutate: updateDocumentPrettyName } =
     PurposeTemplateMutations.useUpdatePrettyNameAnnotationAssociatedDocument()
+  const downloadAnnotationDocument = PurposeTemplateDownloads.useDownloadAnnotationDocument()
 
   // Clear answer field when editable flag is set to true
   useEffect(() => {
@@ -111,6 +114,16 @@ export const RiskAnalysisAnswerComponent: React.FC<{
       setValue(`answers.${questionKey}`, '', { shouldDirty: true })
     }
   }, [assignToTemplateUsers, questionKey, setValue])
+
+  const isAddAnnotationButtonEnabled = useMemo(() => {
+    if (assignToTemplateUsers) {
+      return true
+    }
+    if (questionType === 'text') {
+      return suggestedValues.length > 0
+    }
+    return questionValues.length > 0
+  }, [assignToTemplateUsers, questionType, suggestedValues, questionValues])
 
   const handleClick = () => {
     openDrawer()
@@ -262,35 +275,14 @@ export const RiskAnalysisAnswerComponent: React.FC<{
   }
 
   const handleDocumentDownload = async (doc: EServiceDoc) => {
-    try {
-      const existingAnswerId = watch(`answerIds.${questionKey}`)
-
-      if (!existingAnswerId) {
-        showToast(t('notifications.documentDownloadError'), 'error')
-        return
-      }
-
-      const blob = await PurposeTemplateServices.downloadDocumentFromAnnotation({
+    downloadAnnotationDocument(
+      {
         purposeTemplateId,
-        answerId: existingAnswerId,
+        answerId: watch(`answerIds.${questionKey}`),
         documentId: doc.id,
-      })
-
-      // Create a download link
-      const url = window.URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = url
-      link.download = doc.prettyName || doc.name
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      window.URL.revokeObjectURL(url)
-
-      showToast(t('notifications.documentDownloadedSuccess'), 'success')
-    } catch (error) {
-      console.error('Error downloading document:', error)
-      showToast(t('notifications.documentDownloadError'), 'error')
-    }
+      },
+      getDownloadDocumentName(doc)
+    )
   }
 
   const handleDelete = async (doc: EServiceDoc) => {
@@ -366,15 +358,28 @@ export const RiskAnalysisAnswerComponent: React.FC<{
         />
       )}
       {!annotation?.text && (
-        <ButtonNaked
-          color="primary"
-          type="button"
-          sx={{ fontWeight: 700 }}
-          startIcon={<AddIcon fontSize="small" />}
-          onClick={handleClick}
+        <Tooltip
+          title={
+            !isAddAnnotationButtonEnabled
+              ? t('notifications.addAnnotationButtonDisabledTooltip')
+              : ''
+          }
+          arrow
+          placement="top"
         >
-          {t('addAnnotationBtn')}
-        </ButtonNaked>
+          <span>
+            <ButtonNaked
+              color="primary"
+              type="button"
+              disabled={!isAddAnnotationButtonEnabled}
+              sx={{ fontWeight: 700 }}
+              startIcon={<AddIcon fontSize="small" />}
+              onClick={handleClick}
+            >
+              {t('addAnnotationBtn')}
+            </ButtonNaked>
+          </span>
+        </Tooltip>
       )}
 
       {annotation?.text && (
@@ -438,7 +443,7 @@ export const RiskAnalysisAnswerComponent: React.FC<{
                     key={doc.id}
                     doc={{
                       id: doc.id,
-                      name: doc.prettyName,
+                      name: doc.name,
                       prettyName: doc.prettyName,
                       contentType: doc.contentType,
                       checksum: '',

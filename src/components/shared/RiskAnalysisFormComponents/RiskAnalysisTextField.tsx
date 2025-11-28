@@ -10,6 +10,7 @@ import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 import { RemoveCircleOutline } from '@mui/icons-material'
 import { usePurposeCreateContext } from '../PurposeCreateContext'
+import { match, P } from 'ts-pattern'
 
 export type RiskAnalysisTextFieldProps = Omit<OutlinedInputProps, 'type'> & {
   questionKey: string
@@ -61,8 +62,21 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
   const suggestedValueConsumerError = (
     formState.errors as Record<string, Record<string, { message?: string }>>
   ).suggestedValueConsumer?.[questionKey]?.message as string | undefined
-  const displayError =
-    suggestedValues.length > 0 && type === 'consumer' ? suggestedValueConsumerError || error : error
+
+  const suggestedValuesError = (
+    formState.errors as Record<string, Record<string, { message?: string }>>
+  ).suggestedValues?.[questionKey]?.message as string | undefined
+
+  const isCreatorFreeText = type === 'creator' && questionType === 'text'
+
+  const getDisplayError = (error: string | undefined) => {
+    return match([isFromPurposeTemplate, type, questionType, suggestedValues.length > 0])
+      .with([true, 'consumer', P._, true], () => suggestedValueConsumerError || error)
+      .with([true, 'creator', 'text', P._], () => suggestedValuesError || error)
+      .otherwise(() => error)
+  }
+
+  const displayError = getDisplayError(error)
 
   const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
     label,
@@ -71,7 +85,22 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
     helperText,
   })
 
-  const conditionalRules = mapValidationErrorMessages(rules, tCommon)
+  const conditionalRules =
+    isFromPurposeTemplate && isCreatorFreeText
+      ? { required: false }
+      : mapValidationErrorMessages(rules, tCommon)
+
+  const suggestedValuesRules =
+    isFromPurposeTemplate && isCreatorFreeText
+      ? {
+          validate: (value: string[] | undefined) => {
+            if (!value || value.length === 0) {
+              return tCommon('validation.mixed.required')
+            }
+            return true
+          },
+        }
+      : undefined
 
   const handleAddSuggestedValue = () => {
     const suggestedValue = suggestedValueFormMethods.getValues('suggestedValue')
@@ -116,7 +145,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
           // Show select only if there are suggestedValues AND question is not editable
           <RHFSelect
             name={suggestedValueConsumerName}
-            label={t('suggestedAnswersLabel')} // todo check this label value is the right one
+            label={t('suggestedAnswersLabel')}
             options={suggestedValues.map((value) => ({ label: value, value }))}
             rules={{ required: true }}
           />
@@ -143,6 +172,14 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
           />
         ) : (
           <Stack spacing={2}>
+            {/* Hidden Controller for suggestedValues validation when creator and freeText */}
+            {suggestedValuesRules && (
+              <Controller
+                name={suggestedValuesName}
+                rules={suggestedValuesRules}
+                render={() => <></>} // Hidden controller, only for validation
+              />
+            )}
             {/* Input field and add button */}
             <Stack direction="column" spacing={2} alignItems="flex-start">
               <FormProvider {...suggestedValueFormMethods}>
@@ -152,6 +189,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
                   name="suggestedValue"
                   size="small"
                   onKeyDown={handleKeyDown}
+                  inputProps={{ maxLength: 250 }}
                   sx={{ flex: 1 }}
                 />
               </FormProvider>

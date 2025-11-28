@@ -1,7 +1,11 @@
 import { act, fireEvent, screen, waitFor } from '@testing-library/react'
 import { createMemoryHistory } from 'history'
 import useGetConsumerPurposeTemplatesActions from '../useGetConsumerPurposeTemplatesActions'
-import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
+import {
+  mockUseCurrentRoute,
+  mockUseJwt,
+  renderHookWithApplicationContext,
+} from '@/utils/testing.utils'
 import type { CreatorPurposeTemplate, TenantKind } from '@/api/api.generatedTypes'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
@@ -30,13 +34,7 @@ const server = setupServer(
   ),
   rest.delete(`${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${mockPurposeTemplateId}`, (_, res) => {
     return res()
-  }),
-  rest.post(
-    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${mockPurposeTemplateId}/publish`,
-    (_, res) => {
-      return res()
-    }
-  )
+  })
 )
 
 beforeAll(() => {
@@ -102,13 +100,12 @@ describe('useGetConsumerPurposeTemplatesActions', () => {
   })
 
   describe('when purpose template state is DRAFT', () => {
-    it('should return delete and publish actions', () => {
+    it('should return delete action', () => {
       const purposeTemplate = createMockPurposeTemplate({ state: 'DRAFT' })
       const { result } = renderUseGetConsumerPurposeTemplatesActionsHook('PA', purposeTemplate)
 
-      expect(result.current.actions).toHaveLength(2)
+      expect(result.current.actions).toHaveLength(1)
       expect(result.current.actions[0].label).toBe('delete')
-      expect(result.current.actions[1].label).toBe('publishDraft')
     })
 
     it('should navigate to purpose template list after delete action', async () => {
@@ -135,7 +132,8 @@ describe('useGetConsumerPurposeTemplatesActions', () => {
     })
   })
 
-  describe('when purpose template state is ACTIVE', () => {
+  describe('when purpose template state is ACTIVE and route is SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY', () => {
+    mockUseCurrentRoute({ routeKey: 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS' })
     it('should return use, suspend, and archive actions', () => {
       const purposeTemplate = createMockPurposeTemplate({ state: 'PUBLISHED' })
       const { result } = renderUseGetConsumerPurposeTemplatesActionsHook('PA', purposeTemplate)
@@ -146,7 +144,7 @@ describe('useGetConsumerPurposeTemplatesActions', () => {
       expect(result.current.actions[2].label).toBe('archive')
     })
 
-    it('should disable use action when tenant kind does not match', () => {
+    it('should disable use action when tenant kind does not match and not in list page', () => {
       const purposeTemplate = createMockPurposeTemplate({
         state: 'PUBLISHED',
         targetTenantKind: 'PA',

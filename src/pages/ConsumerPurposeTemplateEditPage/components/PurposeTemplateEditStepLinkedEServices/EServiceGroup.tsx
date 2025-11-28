@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Stack } from '@mui/material'
+import { Box, Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import AddIcon from '@mui/icons-material/Add'
 import { ButtonNaked } from '@pagopa/mui-italia'
@@ -71,11 +71,16 @@ export const EServiceGroup: React.FC<EServiceGroupProps> = ({
       {!readOnly && (
         <>
           {isEServiceAutocompleteShown ? (
-            <EServiceAutocomplete
-              onAddEService={handleAddEServiceToGroup}
-              alreadySelectedEServiceIds={group.map((e) => e.id)}
-              purposeTemplate={purposeTemplate}
-            />
+            <Stack spacing={1}>
+              <EServiceAutocomplete
+                onAddEService={handleAddEServiceToGroup}
+                alreadySelectedEServiceIds={group.map((e) => e.id)}
+                purposeTemplate={purposeTemplate}
+              />
+              <Typography variant="body2" color="text.secondary" sx={{ pl: 2 }}>
+                {t('eserviceSelectionSubtitle')}
+              </Typography>
+            </Stack>
           ) : (
             <ButtonNaked
               color="primary"

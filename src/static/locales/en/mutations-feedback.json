@@ -1083,6 +1083,20 @@
         "success": "The document name has been updated successfully",
         "error": "It was not possible to update the document name. Please try again!"
       }
+    },
+    "linkEService": {
+      "loading": "Stiamo collegando l'e-service",
+      "outcome": {
+        "success": "L’e-service è stato salvato correttamente.",
+        "error": "Non è stato possibile salvare questo e-service. Per favore riprova!"
+      }
+    },
+    "unlinkEService": {
+      "loading": "Stiamo scollegando l'e-service",
+      "outcome": {
+        "success": "L’e-service è stato disassociato correttamente.",
+        "error": "Non è stato possibile disassociare questo e-service. Per favore riprova!"
+      }
     }
   }
 }

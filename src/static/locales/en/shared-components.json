@@ -234,7 +234,7 @@
   "dialogPurposeTemplatesTenantKind": {
     "title": "Select the type of entity",
     "content": {
-      "description": "Who is the template you are creating intended for?",
+      "description": "Indicate who will be able to use the risk analysis you are creating and whether personal data is being processed.",
       "label": "Target entity type",
       "options": {
         "labelPA": "Public Administrations (Art. 2, paragraph 2, letter “a” of the CAD)",
@@ -242,6 +242,7 @@
       },
       "personalDataRadioBtn": {
         "label": "Does the risk analysis involve the processing of personal data?",
+        "error": "Indicate whether personal data will be processed",
         "options": {
           "true": "Yes, personal data will be processed",
           "false": "No, personal data will not be processed"

@@ -51,7 +51,7 @@ const ConsumerLinkedPurposeTemplatesTab: React.FC = () => {
       type: 'autocomplete-single',
       options: [
         { label: t('filters.targetTenantKindField.values.labelPA'), value: 'PA' },
-        { label: t('filters.targetTenantKindField.values.labelNotPA'), value: 'GSP' },
+        { label: t('filters.targetTenantKindField.values.labelNotPA'), value: 'PRIVATE' },
       ],
     },
   ])

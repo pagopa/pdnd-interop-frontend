@@ -47,6 +47,7 @@
       "description": "La funzionalità di compilazione agevolata mette a disposizione annotazioni, documenti di supporto e alcune risposte precompilate per facilitare la formulazione dell’analisi del rischio. Il modello è reso disponibile per il riuso da altri enti aderenti e può essere utilizzato senza vincoli.",
       "usePurposeTemplateSwitch": {
         "label": "Utilizza la funzionalità di compilazione agevolata",
+        "disabledTooltip": "Non è possibile utilizzare la funzionalità per \n l’e-service selezionato in quanto l’erogatore non ha indicato come verranno trattati i dati personali",
         "selectPurposeTemplate": {
           "title": "Scegli il modello di compilazione agevolata della finalità",
           "showOnlyLinkedPurposeTemplates": "Mostra solo template suggeriti per l’e-service che ho selezionato",
@@ -54,7 +55,8 @@
           "viewPurposeTemplateBtn": "Visualizza il template selezionato"
         },
         "acknowledgeInfoResponsibility": {
-          "label": "Dichiaro di aver compreso che, anche in presenza di suggerimenti precompilati, è mia responsabilità verificare e validare tutte le informazioni prima della pubblicazione."
+          "label": "Dichiaro di aver compreso che, anche in presenza di suggerimenti precompilati, è mia responsabilità verificare e validare tutte le informazioni prima della pubblicazione.",
+          "requiredError": "Devi accettare le condizioni per proseguire"
         }
       }
     }
@@ -162,7 +164,12 @@
     "alerts": {
       "associationRemoved": "All’interno del processo <strong>è stata rimossa l’associazione del client</strong>. Sarà possibile associare uno o più client solo dopo l’attivazione della finalità.",
       "newRiskAnalysisAvailable": "Questa bozza non è più pubblicabile. Dal momento della sua creazione è uscita una nuova versione dell’analisi del rischio. Eliminala e creane una nuova.",
-      "descriptorOrAgreementArchived": "Questa bozza non è più pubblicabile. La tua fruizione per questo e-service non è più attiva. Elimina la finalità."
+      "descriptorOrAgreementArchived": "Questa bozza non è più pubblicabile. La tua fruizione per questo e-service non è più attiva. Elimina la finalità.",
+      "rulesetExpired": {
+        "label": "Questa analisi del rischio utilizza una versione obsoleta che non puoi pubblicare.",
+        "action": "Crea nuova finalità"
+      },
+      "infoRulesetExpiration": "Questa analisi del rischio utilizza una versione che sarà obsoleta tra {{days}} giorni. Pubblicala entro {{date}} per non doverla ricompilare."
     },
     "generalInformationSection": {
       "title": "Informazioni generali",
