@@ -2207,7 +2207,7 @@ export interface NotificationConfig {
   eserviceNewVersionApprovedRejectedToDelegate: boolean
   delegationSubmittedRevokedToDelegate: boolean
   certifiedVerifiedAttributeAssignedRevokedToAssignee: boolean
-  clientKeyAddedDeletedToClientUsers: boolean
+  clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: boolean
 }
 
 export interface TenantNotificationConfig {
