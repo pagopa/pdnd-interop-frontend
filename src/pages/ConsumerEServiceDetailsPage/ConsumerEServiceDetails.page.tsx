@@ -18,6 +18,7 @@ import { useTrackPageViewEvent } from '@/config/tracking'
 import { useQuery } from '@tanstack/react-query'
 import { DelegationQueries } from '@/api/delegation'
 import { AuthHooks } from '@/api/auth'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import {
   ConsumerEServiceSignalHubSection,
   ConsumerEServiceSignalHubSectionSkeleton,
@@ -31,6 +32,8 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
   const { data: descriptor } = useQuery(
     EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
   )
+
+  useMarkNotificationsAsRead(`${eserviceId}/${descriptorId}`)
 
   const { data: delegators } = useQuery({
     ...DelegationQueries.getConsumerDelegators({

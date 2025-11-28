@@ -1,5 +1,5 @@
 import axiosInstance from '@/config/axios'
-import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import { BACKEND_FOR_FRONTEND_URL, FEATURE_FLAG_NOTIFICATION_CONFIG } from '@/config/env'
 import type { Notifications } from '../api.generatedTypes'
 import { type MarkNotificationsAsReadPayload, type Notification } from '../api.generatedTypes'
 
@@ -35,6 +35,7 @@ export const mockedNotifications: Notification[] = [
     readAt: null,
     createdAt: '2025-09-23T12:30:00.000Z',
     deepLink: '',
+    category: 'Subscribers',
   },
 ]
 
@@ -44,12 +45,12 @@ async function getUserNotificationsList(params: GetUserNotificationsParams) {
     { params }
   )
 
-  const responseMock: Notifications = {
+  const _responseMock: Notifications = {
     pagination: { limit: 10, offset: 0, totalCount: 10 },
     results: mockedNotifications,
   }
 
-  // return responseMock // TODO to be removed when API will be ready
+  // return _responseMock // TODO to be removed when API will be ready
   return response.data
 }
 
@@ -94,6 +95,17 @@ async function deleteNotifications(payload: { ids: string[] }) {
   })
 }
 
+async function markNotificationsAsReadByEntityId({ entityId }: { entityId: string }) {
+  if (FEATURE_FLAG_NOTIFICATION_CONFIG) {
+    const response = await axiosInstance.post<void>(
+      `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications/markAsReadByEntityId/${entityId}`
+    )
+    return response.data
+  } else {
+    return Promise.resolve()
+  }
+}
+
 export const NotificationServices = {
   getUserNotificationsList,
   markAsRead,
@@ -102,4 +114,5 @@ export const NotificationServices = {
   markBulkAsNotRead,
   deleteNotification,
   deleteNotifications,
+  markNotificationsAsReadByEntityId,
 }
