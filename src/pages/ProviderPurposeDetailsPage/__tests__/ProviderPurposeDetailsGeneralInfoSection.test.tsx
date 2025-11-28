@@ -1,6 +1,7 @@
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { ProviderPurposeDetailsGeneralInfoSection } from '../components/ProviderPurposeDetailsGeneralInfoSection'
 import { createMockPurpose } from '../../../../__mocks__/data/purpose.mocks'
+import { Purpose } from '@/api/api.generatedTypes'
 
 const purpose = createMockPurpose()
 
@@ -61,7 +62,23 @@ describe('ProviderPurposeDetailsGeneralInfoSection', () => {
     expect(consumerField).toBeInTheDocument()
   })
 
-  it('Should not be avialable chance to download risk analysisDocument if isDocumentReady is false', () => {
+  it('Should not be available chance to download riskAnalysis if currentVersion is not defined', () => {
+    const mockPurposeWithoutCurrentVersion = { ...purpose, currentVersion: undefined }
+    const screen = renderWithApplicationContext(
+      <ProviderPurposeDetailsGeneralInfoSection purpose={mockPurposeWithoutCurrentVersion} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    const downloadButton = screen.queryByRole('button', {
+      name: 'purpose.providerView.sections.generalInformations.riskAnalysis.link.label',
+    })
+    expect(downloadButton).not.toBeInTheDocument()
+  })
+
+  it('Should not be available chance to download risk analysisDocument if isDocumentReady is false', () => {
     const mockPurposeWithDocumentNotReady = { ...purpose, isDocumentReady: false }
     const screen = renderWithApplicationContext(
       <ProviderPurposeDetailsGeneralInfoSection purpose={mockPurposeWithDocumentNotReady} />,
@@ -91,5 +108,26 @@ describe('ProviderPurposeDetailsGeneralInfoSection', () => {
       name: 'purpose.providerView.sections.generalInformations.riskAnalysis.link.label',
     })
     expect(downloadButton).toBeInTheDocument()
+  })
+
+  it("Should visible purpose's template name if purpose is inherited from a purpose template", () => {
+    const mockPurposeInheritedFromTemplate: Purpose = {
+      ...purpose,
+      purposeTemplate: {
+        id: 'purpose-template-id',
+        purposeTitle: 'Purpose Template Name',
+      },
+    }
+
+    const screen = renderWithApplicationContext(
+      <ProviderPurposeDetailsGeneralInfoSection purpose={mockPurposeInheritedFromTemplate} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    const templateNameField = screen.getByText('Purpose Template Name')
+    expect(templateNameField).toBeInTheDocument()
   })
 })
