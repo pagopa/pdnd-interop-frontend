@@ -1345,6 +1345,7 @@ export interface PurposeVersion {
   dailyCalls: number
   riskAnalysisDocument?: PurposeVersionDocument
   rejectionReason?: string
+  signedContract?: PurposeVersionSignedDocument
 }
 
 export interface PurposeVersionDocument {
@@ -1371,6 +1372,16 @@ export type PurposeVersionState =
   | 'REJECTED'
   | 'WAITING_FOR_APPROVAL'
   | 'ARCHIVED'
+
+export interface PurposeVersionSignedDocument {
+  /** @format uuid */
+  id: string
+  contentType: string
+  /** @format date-time */
+  createdAt: string
+  /** @format date-time */
+  signedAt?: string
+}
 
 export interface User {
   /** @format uuid */
@@ -1424,6 +1435,18 @@ export interface Document {
   contentType: string
   /** @format date-time */
   createdAt: string
+}
+
+export interface SignedDocument {
+  /** @format uuid */
+  id: string
+  name: string
+  prettyName: string
+  contentType: string
+  /** @format date-time */
+  createdAt: string
+  /** @format date-time */
+  signedAt?: string
 }
 
 export interface AgreementsEService {
@@ -1889,6 +1912,8 @@ export interface Delegation {
   state: DelegationState
   /** Delegation State */
   kind: DelegationKind
+  activationSignedContract?: SignedDocument
+  revocationSignedContract?: SignedDocument
   isDocumentReady: boolean
 }
 
@@ -8458,7 +8483,7 @@ export namespace Delegations {
    * @tags delegations
    * @name GetDelegationSignedContract
    * @summary Retrieve the signed contract of a delegation
-   * @request GET:/delegations/{delegationId}/signedContract
+   * @request GET:/delegations/{delegationId}/signedContract/{contractId}
    * @secure
    */
   export namespace GetDelegationSignedContract {
@@ -8468,6 +8493,11 @@ export namespace Delegations {
        * @format uuid
        */
       delegationId: string
+      /**
+       * The identifier of the the signedContract
+       * @format uuid
+       */
+      contractId: string
     }
     export type RequestQuery = {}
     export type RequestBody = never
