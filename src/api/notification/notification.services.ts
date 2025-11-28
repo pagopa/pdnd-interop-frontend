@@ -77,7 +77,7 @@ async function markAsNotRead({ notificationId }: { notificationId: string }) {
 
 async function markBulkAsNotRead(payload: MarkNotificationsAsReadPayload) {
   const response = await axiosInstance.post<void>(
-    `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications/bulk/markAsUnread`,
+    `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications/markAsUnread`,
     payload
   )
   return response.data
@@ -85,12 +85,12 @@ async function markBulkAsNotRead(payload: MarkNotificationsAsReadPayload) {
 
 async function deleteNotification({ notificationId }: { notificationId: string }) {
   return await axiosInstance.delete<void>(
-    `${BACKEND_FOR_FRONTEND_URL}/notifications/${notificationId}/delete`
+    `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications/${notificationId}`
   )
 }
 
 async function deleteNotifications(payload: { ids: string[] }) {
-  return await axiosInstance.delete<void>(`${BACKEND_FOR_FRONTEND_URL}/inAppNotifications/bulk`, {
+  return await axiosInstance.delete<void>(`${BACKEND_FOR_FRONTEND_URL}/inAppNotifications`, {
     data: payload,
   })
 }
