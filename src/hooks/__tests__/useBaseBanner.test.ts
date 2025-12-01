@@ -81,14 +81,14 @@ describe('useBaseBanner', () => {
     const data = createBannerData('2023-05-15', '17:00', '2023-05-17', '14:00')
     const { result } = renderUseBaseBannerHook(data, 'test-banner', 2)
 
-    expect(result.current.bannerInfo?.durationType).toBe('multiple')
+    expect(result.current.bannerInfo?.durationType).toBe('days')
   })
 
   it('should return singleDay durationType if interval is one day or less', () => {
     const data = createBannerData('2023-05-16', '09:00', '2023-05-16', '19:00')
     const { result } = renderUseBaseBannerHook(data, 'test-banner', 2)
 
-    expect(result.current.bannerInfo?.durationType).toBe('single')
+    expect(result.current.bannerInfo?.durationType).toBe('hours')
   })
 
   it('should set isOpen to false and save end date to localStorage when closed', () => {

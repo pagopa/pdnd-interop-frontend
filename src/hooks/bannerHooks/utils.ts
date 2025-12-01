@@ -5,14 +5,14 @@ export type BannerData = {
   end: { date: string; time: string }
 }
 
-export type BannerDurationType = 'single' | 'multiple'
+export type BannerDurationType = 'hours' | 'days'
 
 const DATE_FORMATTERS = {
-  single: new Intl.DateTimeFormat('it', {
+  hours: new Intl.DateTimeFormat('it', {
     day: '2-digit',
     month: '2-digit',
   }),
-  multiple: new Intl.DateTimeFormat('it', {
+  days: new Intl.DateTimeFormat('it', {
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
@@ -27,7 +27,7 @@ export function formatBannerDate(dateString: string | undefined, type: BannerDur
 }
 
 export function getBannerDurationType(durationInHours: number): BannerDurationType {
-  return durationInHours <= SINGLE_DAY_THRESHOLD_HOURS ? 'single' : 'multiple'
+  return durationInHours <= SINGLE_DAY_THRESHOLD_HOURS ? 'hours' : 'days'
 }
 
 export function calculateBannerDuration(startTimestamp: number, endTimestamp: number): number {

@@ -29,17 +29,17 @@ export function useMaintenanceBanner() {
       bannerInfo.endTimestamp
     )
 
-    return getBannerDurationType(durationInHours) === 'single'
+    return getBannerDurationType(durationInHours) === 'hours'
       ? t('bodySingleDay', {
-          maintenanceStartDay: formatBannerDate(data.start.date, 'single'),
+          maintenanceStartDay: formatBannerDate(data.start.date, 'hours'),
           maintenanceStartHour: data.start.time,
           hoursDuration: durationInHours,
         })
       : t('bodyMultipleDay', {
           maintenanceStartHour: data.start.time,
-          maintenanceStartDay: formatBannerDate(data.start.date, 'multiple'),
+          maintenanceStartDay: formatBannerDate(data.start.date, 'days'),
           maintenanceEndHour: data.end.time,
-          maintenanceEndDay: formatBannerDate(data.end.date, 'multiple'),
+          maintenanceEndDay: formatBannerDate(data.end.date, 'days'),
         })
   }, [data, bannerInfo, t])
 
