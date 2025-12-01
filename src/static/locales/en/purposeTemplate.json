@@ -220,7 +220,7 @@
       }
     },
     "linkedEservicesTab": {
-      "title": "Linked e-services and template e-services",
+      "title": "Linked e-services",
       "description": "Define a list of e-services for which it is suggested to use the facilitated purpose. The user \n  may also use this template for e-services not included in the list.",
       "editButtonTooltip": "It is not possible to modify the list of e-services if the template is suspended or archived",
       "filters": {
