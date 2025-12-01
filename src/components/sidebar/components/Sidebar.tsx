@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import MenuIcon from '@mui/icons-material/Menu'
 import React, { useState } from 'react'
 import { sidebarStyles } from '../sidebar.styles'
-import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 type SidebarContextProps = {
   /**
@@ -19,7 +18,7 @@ type SidebarContextProps = {
 const { Provider, useContext } = createContext<SidebarContextProps>('SidebarContext', {
   mobile: false,
   open: true,
-  onSidebarOpen: () => { },
+  onSidebarOpen: () => {},
 })
 
 export { SidebarContextProvider, useContext as useSidebarContext }
@@ -55,7 +54,6 @@ export function Sidebar({
   labelMobile,
 }: SidebarContextProps & { children: React.ReactNode; labelMobile: string }) {
   const theme = useTheme()
-  const lang = useCurrentLanguage()
 
   const styles = sidebarStyles(theme, open)
 

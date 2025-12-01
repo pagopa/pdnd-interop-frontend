@@ -143,7 +143,8 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
 
   const handleSelectParty = (party: PartySwitchItem) => {
     window.location.assign(
-      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${party.id
+      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${
+        party.id
       }&productId=${getCurrentSelfCareProductId()}`
     )
   }
@@ -180,13 +181,13 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
         onDocumentationClick={() => {
           window.open(documentationLink, '_blank')
         }}
-      // enableAssistanceButton={STAGE === 'UAT' || STAGE === 'PROD'}
+        // enableAssistanceButton={STAGE === 'UAT' || STAGE === 'PROD'}
       />
 
       <HeaderProduct
         // force re-render when selfcareId changes to solve a bug with the ProductSwitch component from mui-italia
         // must be removed when the bug is fixed
-        key={jwt?.selfcareId + lang}
+        key={`${jwt?.selfcareId}${lang}`}
         onSelectedParty={handleSelectParty}
         onSelectedProduct={handleSelectProduct}
         partyId={selfcareId}

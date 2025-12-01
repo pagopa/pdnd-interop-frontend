@@ -20,7 +20,6 @@ export const Footer: React.FC<FooterProps> = ({ jwt }) => {
   const switchLang = useSwitchPathLang()
   const navigate = useNavigate()
 
-
   function convertLinks(inputLinks: Array<FooterLinksTypeMulti>) {
     return inputLinks.map((l) => {
       const link = { ...l }
@@ -62,10 +61,7 @@ export const Footer: React.FC<FooterProps> = ({ jwt }) => {
   ]
 
   const handleLanguageChange = (lang: LangCode) => {
-
-    /* No way to switch language right now  */
-
-    switchLang(lang as "it" | "en")
+    switchLang(lang as 'it' | 'en')
   }
 
   const LegalInfo = (
