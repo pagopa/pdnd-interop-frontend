@@ -43,9 +43,12 @@ export const NotificationsTableRow: React.FC<{
       <TableCell sx={{ fontWeight: isRead ? 600 : 'normal' }} width={250} key={notification.id}>
         {/* {notification.notificationType} */}
       </TableCell>
-      <TableCell sx={{ fontWeight: isRead ? 600 : 'normal' }} width={450} key={notification.id}>
-        {notification.body}
-      </TableCell>
+      <TableCell
+        sx={{ fontWeight: isRead ? 600 : 'normal' }}
+        width={450}
+        key={notification.id}
+        dangerouslySetInnerHTML={{ __html: notification.body }}
+      />
       <TableCell sx={{ fontWeight: isRead ? 600 : 'normal' }}>
         <Button component={Link} size="small" variant="outlined" to={notificationLink}>
           {tCommon('actions.inspect')}
