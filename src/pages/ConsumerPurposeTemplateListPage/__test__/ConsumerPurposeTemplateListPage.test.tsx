@@ -3,7 +3,7 @@ import ConsumerPurposeTemplateListPage from '../ConsumerPurposeTemplateList.page
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-mockUseJwt({ currentRoles: ['admin'] })
+mockUseJwt()
 
 vi.mock('../ConsumerPurposeTemplateTable', () => ({
   ConsumerPurposeTemplateTable: () => <div>purpose-template-table</div>,
