@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Stack, Box, Button } from '@mui/material'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { FormProvider, useForm } from 'react-hook-form'
-import { RHFSingleFileInput, RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { RHFSingleFileInput } from '@/components/shared/react-hook-form-inputs'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
@@ -13,7 +13,6 @@ import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
 type EServiceTemplateCreateStepDocumentsInterfaceFormValues = {
   interfaceDoc: File | null
-  prettyName: string
 }
 
 export function EServiceTemplateCreateStepDocumentsInterface() {
@@ -25,7 +24,6 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
 
   const defaultValues: EServiceTemplateCreateStepDocumentsInterfaceFormValues = {
     interfaceDoc: null,
-    prettyName: t('create.step4.interface.prettyName'),
   }
 
   const actualInterface: EServiceDoc | null = eserviceTemplateVersion?.interface ?? null
@@ -35,11 +33,9 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
     shouldUnregister: true,
   })
 
-  const onSubmit = ({
-    interfaceDoc,
-    prettyName,
-  }: EServiceTemplateCreateStepDocumentsInterfaceFormValues) => {
+  const onSubmit = ({ interfaceDoc }: EServiceTemplateCreateStepDocumentsInterfaceFormValues) => {
     if (!interfaceDoc || !eserviceTemplateVersion) return
+    const prettyName = t('create.step4.interface.prettyName')
     uploadDocument({
       eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
       eServiceTemplateVersionId: eserviceTemplateVersion.id,
@@ -81,6 +77,8 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
     )
   }
 
+  const selectedInterface = formMethods.watch('interfaceDoc')
+
   return (
     <FormProvider {...formMethods}>
       <Box
@@ -92,20 +90,18 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
       >
         <RHFSingleFileInput sx={{ my: 0 }} name="interfaceDoc" rules={{ required: true }} />
 
-        <RHFTextField
-          size="small"
-          sx={{ my: 2 }}
-          name="prettyName"
-          label={t('create.step4.nameField.label')}
-          disabled
-          rules={{ required: true }}
-        />
-
-        <Stack direction="row" justifyContent="flex-end">
-          <Button type="submit" variant="contained" startIcon={<UploadFileIcon fontSize="small" />}>
-            {t('create.step4.uploadBtn')}
-          </Button>
-        </Stack>
+        {selectedInterface && (
+          <Stack direction="row" justifyContent="flex-end">
+            <Button
+              type="submit"
+              variant="contained"
+              startIcon={<UploadFileIcon fontSize="small" />}
+              sx={{ mt: 2 }}
+            >
+              {t('create.step4.uploadBtn')}
+            </Button>
+          </Stack>
+        )}
       </Box>
     </FormProvider>
   )
