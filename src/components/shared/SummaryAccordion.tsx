@@ -15,17 +15,19 @@ type SummaryAccordionProps = {
   headline: string
   title: string
   children: React.ReactNode
+  defaultExpanded?: boolean
 }
 export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
   headline,
   title,
   children,
+  defaultExpanded,
 }) => {
   const id = React.useId()
 
   return (
     <Paper elevation={8} sx={{ borderRadius: 4, overflow: 'hidden' }}>
-      <MUIAccordion disableGutters>
+      <MUIAccordion disableGutters defaultExpanded={defaultExpanded}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon color="primary" />}
           aria-controls={`panel-content-${id}`}
