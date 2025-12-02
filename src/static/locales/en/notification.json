@@ -50,6 +50,14 @@
             "agreementStateUpdated": {
               "label": "Variazione dello stato della richiesta di fruizione",
               "description": "Avvisami quando una mia richiesta di fruizione viene sospesa o riattivata"
+            },
+            "purposeQuotaAdjustmentRequestToProducer": {
+              "label": "Richiesta di adeguamento della quota di una finalità",
+              "description": "Avvisami quando un erogatore accetta o rifiuta una mia richiesta di adeguamento della quota di una finalità"
+            },
+            "purposeOverQuotaStateToConsumer": {
+              "label": "Superamento della quota di una finalità",
+              "description": "Avvisami quando supero la quota stabilita per una finalità"
             }
           }
         },
