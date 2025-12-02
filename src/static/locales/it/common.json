@@ -2,6 +2,7 @@
   "addBtn": "Aggiungi",
   "closeBtn": "Chiudi",
   "createNewBtn": "Crea nuovo",
+  "notEditableLabel": "Non modificabile",
   "validation": {
     "mixed": {
       "required": "Campo richiesto"
@@ -51,7 +52,9 @@
     "select": "Seleziona",
     "selectAdmin": "Seleziona admin",
     "substituteAdmin": "Sostituisci admin",
-    "copy": "Copia"
+    "copy": "Copia",
+    "specifyProcessing": "Indica trattamento",
+    "save": "Salva"
   },
   "table": {
     "headData": {
@@ -79,7 +82,13 @@
       "eserviceTemplateUsingTenant": "Ente",
       "eserviceTemplateInstanceVersion": "Versione template",
       "eserviceTemplateInstanceState": "Stato istanza",
-      "eserviceTemplateName": "Template"
+      "eserviceTemplateName": "Template",
+      "targetOrganization": "Destinazione ente",
+      "purposeTemplateName": "Nome template finalità",
+      "linkedEserviceName": "E-service o template e-service",
+      "linkedEserviceProviderName": "Nome erogatore",
+      "purposeTemplateCreatorName": "Nome realizzatore",
+      "purposeTemplateTarget": "Destinatario"
     }
   },
   "status": {
@@ -125,6 +134,12 @@
       "DRAFT": "in bozza",
       "SUSPENDED": "sospeso",
       "DEPRECATED": "deprecato"
+    },
+    "purposeTemplate": {
+      "PUBLISHED": "attivo",
+      "DRAFT": "in bozza",
+      "SUSPENDED": "sospeso",
+      "ARCHIVED": "archiviato"
     }
   },
   "userProductRole": {

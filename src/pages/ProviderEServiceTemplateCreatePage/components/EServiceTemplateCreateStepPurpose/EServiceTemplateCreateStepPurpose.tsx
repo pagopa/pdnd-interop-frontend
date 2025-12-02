@@ -50,7 +50,7 @@ export const EServiceTemplateCreateStepPurpose: FC = () => {
   // Disable the forward button if there are no risk analyses inserted
   const isForwardButtonDisabled =
     eserviceTemplateVersion?.eserviceTemplate.riskAnalysis.length === 0
-  
+
   return (
     <>
       {eserviceTemplateVersion && riskAnalysisFormState.type !== null ? (

@@ -2,6 +2,7 @@
   "addBtn": "Add",
   "closeBtn": "Close",
   "createNewBtn": "Create new",
+  "notEditableLabel": "Not editable",
   "validation": {
     "mixed": {
       "required": "Field required"
@@ -51,7 +52,9 @@
     "select": "Select",
     "selectAdmin": "Select admin",
     "substituteAdmin": "Substitute admin",
-    "copy": "Copy"
+    "copy": "Copy",
+    "specifyProcessing": "Specify processing",
+    "save": "Save"
   },
   "table": {
     "headData": {
@@ -79,7 +82,13 @@
       "eserviceTemplateUsingTenant": "Tenant",
       "eserviceTemplateInstanceVersion": "Version",
       "eserviceTemplateInstanceState": "Instance's state",
-      "eserviceTemplateName": "Template"
+      "eserviceTemplateName": "Template",
+      "targetOrganization": "Target organization",
+      "purposeTemplateName": "Purpose template name",
+      "linkedEserviceName": "E-service or e-service template",
+      "linkedEserviceProviderName": "Provider Name",
+      "purposeTemplateCreatorName": "Creator name",
+      "purposeTemplateTarget": "Target"
     }
   },
   "status": {
@@ -125,6 +134,12 @@
       "DRAFT": "draft",
       "SUSPENDED": "suspended",
       "DEPRECATED": "deprecated"
+    },
+    "purposeTemplate": {
+      "PUBLISHED": "active",
+      "DRAFT": "draft",
+      "SUSPENDED": "suspended",
+      "ARCHIVED": "archived"
     }
   },
   "userProductRole": {

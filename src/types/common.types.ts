@@ -20,6 +20,7 @@ export type PagoPAEnvVars = {
   API_SIGNAL_HUB_PULL_INTERFACE_URL: string
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: string
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: string
+  FEATURE_FLAG_ESERVICE_PERSONAL_DATA: string
 }
 
 export type ExtendedWindow = Window & {
@@ -68,6 +69,10 @@ export type StepperStep = {
 }
 
 export type InputOption = { label: string | JSX.Element; value: string | number }
+export type InputRadioGroupOption = {
+  label: string | JSX.Element
+  value: string | number | boolean
+}
 
 /**
  * InputDescriptors describes the various labels and messages that can be

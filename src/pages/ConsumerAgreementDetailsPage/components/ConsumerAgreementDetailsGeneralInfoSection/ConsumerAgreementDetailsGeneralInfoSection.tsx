@@ -6,20 +6,25 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { Divider, Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { Link } from '@/router'
-import { IconLink } from '@/components/shared/IconLink'
 import ContactMailIcon from '@mui/icons-material/ContactMail'
 import DownloadIcon from '@mui/icons-material/Download'
 import RuleIcon from '@mui/icons-material/Rule'
 import { AgreementDownloads } from '@/api/agreement'
 import { ConsumerAgreementDetailsContactDrawer } from './ConsumerAgreementDetailsContactDrawer'
 import { ConsumerAgreementDetailsCertifiedAttributesDrawer } from './ConsumerAgreementDetailsCertifiedAttributesDrawer'
+import { IconLink } from '@/components/shared/IconLink'
+import { FEATURE_FLAG_USE_SIGNED_DOCUMENT } from '@/config/env'
 
 export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('agreement', {
     keyPrefix: 'consumerRead.sections.generalInformations',
   })
+
+  const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'documents' })
   const { agreement } = useConsumerAgreementDetailsContext()
-  const downloadContract = AgreementDownloads.useDownloadContract()
+
+  const downloadSignedAgreementDocument = AgreementDownloads.useDownloadSignedContract()
+  const downloadAgreementDocument = AgreementDownloads.useDownloadContract()
 
   const isDelegated = Boolean(agreement.delegation)
 
@@ -43,8 +48,20 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
     openCertifiedAttributeDrawer()
   }
 
-  const handleDownloadDocument = () => {
-    downloadContract({ agreementId: agreement.id }, `${t('documentation.fileName')}.pdf`)
+  const handleDownloadSignedAgreementDocument = () => {
+    downloadSignedAgreementDocument(
+      { agreementId: agreement.id },
+      `${t('documentation.fileName')}.pdf`
+    )
+  }
+
+  const handleDownloadAgreementDocument = () => {
+    downloadAgreementDocument(
+      {
+        agreementId: agreement.id,
+      },
+      `${t('documentation.fileName')}.pdf`
+    )
   }
 
   return (
@@ -92,22 +109,31 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
           <>
             <Divider />
             {agreement.isContractPresent && (
-              <IconLink
-                onClick={handleDownloadDocument}
-                component="button"
-                startIcon={<DownloadIcon />}
-                alignSelf="start"
-              >
-                {t('documentation.link.label')}
-              </IconLink>
-            )}
-            {agreement.state === 'PENDING' && (
               <>
                 <IconLink
-                  onClick={handleOpenCertifiedAttributesDrawer}
+                  data-testid="download-agreement-document-button"
                   component="button"
+                  disabled={!agreement.isDocumentReady}
+                  startIcon={<DownloadIcon />}
+                  sx={{ alignSelf: 'start' }}
+                  onClick={
+                    FEATURE_FLAG_USE_SIGNED_DOCUMENT
+                      ? handleDownloadSignedAgreementDocument
+                      : handleDownloadAgreementDocument
+                  }
+                  tooltip={!agreement.isDocumentReady ? tShared('notAvailableYet') : undefined}
+                >
+                  {t('documentation.link.label')}
+                </IconLink>
+              </>
+            )}
+            {agreement.state !== 'PENDING' && (
+              <>
+                <IconLink
                   startIcon={<RuleIcon />}
-                  alignSelf="start"
+                  sx={{ alignSelf: 'start' }}
+                  onClick={handleOpenCertifiedAttributesDrawer}
+                  style={{ alignSelf: 'start' }}
                 >
                   {t('certifiedAttributeLink.label')}
                 </IconLink>
@@ -116,9 +142,8 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
             {agreement.producer.contactMail && (
               <IconLink
                 onClick={handleOpenContactDrawer}
-                component="button"
                 startIcon={<ContactMailIcon />}
-                alignSelf="start"
+                style={{ alignSelf: 'start' }}
               >
                 {t('providerDetailsLink.label')}
               </IconLink>

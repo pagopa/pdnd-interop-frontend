@@ -149,11 +149,11 @@
         "infoLabel": "Min 5 chars, max 60 chars",
         "infoLabelAutocomplete": {
           "consumer": "The list includes only those e-services for which the respective providers have given availability to consume by delegation.",
-          "producer": "The list includes only those e-services for which the respective producers have given availability to provide by delegation."
+          "producer": "The list includes the e-services for which it has been indicated whether personal data is processed."
         },
         "infoLabelAutocompleteFromTemplate": {
-          "consumer": "The list includes only those e-services templates for which the respective providers have given availability to consume by delegation.",
-          "producer": "The list includes only those e-services templates for which the respective producers have given availability to provide by delegation."
+          "consumer": "The list includes only those e-service templates for which the respective providers have given availability to consume by delegation.",
+          "producer": "The list includes the e-service templates you can instantiate that have indicated whether personal data is processed."
         },
         "descriptionLabel": "E-service description",
         "descriptionInfoLabel": "Include input and output data in the description. Min 10 chars, max 250 chars",

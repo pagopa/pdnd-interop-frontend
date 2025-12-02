@@ -4,7 +4,9 @@
     "subscribe": {
       "subscribe": "Subscription",
       "agreement": "Submitted agreement requests",
-      "purpose": "Submitted purposes"
+      "purpose": "Submitted purposes",
+      "purposeTemplateCatalog": "Purpose templates",
+      "purposeTemplate": "My purpose templates"
     },
     "provider": {
       "provider": "Provider",

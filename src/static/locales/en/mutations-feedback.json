@@ -258,6 +258,20 @@
         "error": "Subscription to Signal Hub service not updated. Try again.",
         "success": "Subscription to Signal Hub service updated correctly"
       }
+    },
+    "updateEServicePersonalDataFlagAfterPublication": {
+      "loading": "We are updating the personal data processing",
+      "outcome": {
+        "error": "Personal data processing could not be updated. Please, try again!",
+        "success": "Personal data processing has been updated successfully!"
+      }
+    },
+    "updateEServiceTemplatePersonalDataFlagAfterPublication": {
+      "loading": "We are updating the personal data processing",
+      "outcome": {
+        "error": "Personal data processing could not be updated. Please, try again!",
+        "success": "Personal data processing has been updated successfully!"
+      }
     }
   },
   "attribute": {
@@ -513,7 +527,7 @@
     "activateVersion": {
       "loading": "Publishing purpose",
       "outcome": {
-        "success": "The purpose was published successfully. Warning: if the number of API calls/day exceeds any of the Provider threshold, they will have to manually approve the purpose before it can be used",
+        "success": "The purpose was published successfully.",
         "error": "The purpose could not be published. Please, make sure all required fields are filled and try again!"
       },
       "confirmDialog": {
@@ -952,6 +966,136 @@
       "confirmDialog": {
         "title": "Confirm version reactivation",
         "description": "By clicking \"confirm\",  this e-service template version will be reactivated. All the Subscribers that have an active fruition request for this e-service template version will be able to access it"
+      }
+    }
+  },
+  "purposeTemplate": {
+    "createDraft": {
+      "loading": "Creating the draft",
+      "outcome": {
+        "error": "The facilitated purpose template draft could not be created. Please try again!"
+      }
+    },
+    "updateDraft": {
+      "loading": "Updating the draft",
+      "outcome": {
+        "error": "The facilitated purpose template draft could not be updated. Please try again!"
+      }
+    },
+    "deleteDraft": {
+      "loading": "Deleting the facilitated purpose template draft",
+      "outcome": {
+        "success": "The facilitated purpose template has been successfully deleted",
+        "error": "The facilitated purpose template could not be deleted. Please try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm deletion of the facilitated purpose template",
+        "description": "By clicking \"confirm\" this facilitated purpose template will be deleted and cannot be recovered."
+      }
+    },
+    "suspendPurposeTemplate": {
+      "loading": "Suspending the purpose template",
+      "outcome": {
+        "success": "The facilitated purpose template has been successfully suspended.",
+        "error": "The template could not be suspended. Please try again later."
+      },
+      "confirmDialog": {
+        "title": "Confirm template suspension",
+        "description": "By clicking \"confirm\" this template will be suspended. No user will be able to use this template until it is reactivated."
+      }
+    },
+    "activatePurposeTemplate": {
+      "loading": "Publishing the purpose template",
+      "outcome": {
+        "success": "The purpose template is now published.",
+        "error": "The purpose template could not be reactivated. Please try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm purpose activation",
+        "description": "By clicking \"confirm\" this purpose will be reactivated."
+      }
+    },
+    "publishDraft": {
+      "loading": "Publishing the facilitated purpose template",
+      "outcome": {
+        "success": "The facilitated purpose template is now published.",
+        "error": "The facilitated purpose template could not be published. Make sure all required fields for the purpose are filled out."
+      },
+      "confirmDialog": {
+        "title": "Confirm publication of the facilitated purpose template",
+        "description": "By clicking \"confirm\" this facilitated purpose template will be published."
+      }
+    },
+    "archivePurposeTemplate": {
+      "loading": "Archiving the facilitated purpose template",
+      "outcome": {
+        "success": "The facilitated purpose template has been successfully archived.",
+        "error": "The template could not be archived. Please try again later."
+      },
+      "confirmDialog": {
+        "title": "Confirm template archiving",
+        "description": "By clicking \"confirm\" this template will be archived. Once archived, the template can no longer be used."
+      }
+    },
+    "addAnnotationToAnswer": {
+      "loading": "We are adding the annotation",
+      "outcome": {
+        "success": "The annotation has been added successfully",
+        "error": "It was not possible to add the annotation. Please try again!"
+      }
+    },
+    "addDocumentsToAnswer": {
+      "loading": "We are adding the documents",
+      "outcome": {
+        "success": "The documents have been added successfully",
+        "error": "It was not possible to add the documents. Please try again!"
+      }
+    },
+    "deleteAnnotation": {
+      "loading": "We are removing the annotation",
+      "outcome": {
+        "success": "The annotation has been removed successfully",
+        "error": "It was not possible to remove the annotation. Please try again!"
+      },
+      "confirmDialog": {
+        "title": "Remove annotation",
+        "description": "Do you confirm you want to remove this annotation?",
+        "proceedLabel": "Remove annotation",
+        "cancelLabel": "Keep annotation"
+      }
+    },
+    "deleteDocument": {
+      "loading": "We are removing the document",
+      "outcome": {
+        "success": "The document has been removed successfully",
+        "error": "It was not possible to remove the document. Please try again!"
+      }
+    },
+    "downloadDocument": {
+      "loading": "We are downloading the document",
+      "outcome": {
+        "error": "It was not possible to download the document. Please try again!"
+      }
+    },
+    "updatePrettyNameDocument": {
+      "loading": "We are updating the document name",
+      "outcome": {
+        "success": "The document name has been updated successfully",
+        "error": "It was not possible to update the document name. Please try again!"
+      }
+    },
+    "linkEService": {
+      "loading": "Stiamo collegando l'e-service",
+      "outcome": {
+        "success": "L’e-service è stato salvato correttamente.",
+        "error": "Non è stato possibile salvare questo e-service. Per favore riprova!"
+      }
+    },
+    "unlinkEService": {
+      "loading": "Stiamo scollegando l'e-service",
+      "outcome": {
+        "success": "L’e-service è stato disassociato correttamente.",
+        "error": "Non è stato possibile disassociare questo e-service. Per favore riprova!"
       }
     }
   }

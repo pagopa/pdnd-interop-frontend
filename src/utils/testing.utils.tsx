@@ -11,12 +11,14 @@ import { Dialog } from '@/components/dialogs'
 import { deepmerge } from '@mui/utils'
 import { vi } from 'vitest'
 import * as useCurrentRoute from '@/router/hooks/useCurrentRoute'
+import * as useParams from '@/router'
 import { AuthHooks } from '@/api/auth'
 import { queryClient } from '@/config/query-client'
 import { TenantHooks } from '@/api/tenant'
 import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/interop-fe-commons'
 import { FieldValues, FormProvider, useForm } from 'react-hook-form'
+import * as envs from '@/config/env'
 
 type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>
@@ -103,6 +105,14 @@ export function mockUseGetActiveUserParty(
   return useGetActiveUserPartySpy
 }
 
+export const mockUseParams = (key: Partial<ReturnType<typeof useParams.useParams>>) => {
+  const useParamsSpy = vi.spyOn(useParams, 'useParams')
+
+  useParamsSpy.mockReturnValue({
+    ...key,
+  } as ReturnType<typeof useParams.useParams>)
+}
+
 export const mockUseCurrentRoute = (
   returnValue?: Partial<ReturnType<typeof useCurrentRoute.useCurrentRoute>>
 ) => {
@@ -116,6 +126,15 @@ export const mockUseCurrentRoute = (
     } as ReturnType<typeof useCurrentRoute.useCurrentRoute>)
   }
   return useCurrentRouteSpy
+}
+
+/**
+ * This method allow to mock a single env vars (for instance when you want to test single FF enabled or disabled)
+ * @param key
+ * @param value
+ */
+export const mockEnvironmentParams = (key: keyof typeof envs, value: boolean | string) => {
+  vi.spyOn(envs, key, 'get').mockReturnValue(value)
 }
 
 type WrapperOptions = (

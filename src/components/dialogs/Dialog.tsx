@@ -2,10 +2,12 @@ import React from 'react'
 import { DialogBasic } from './DialogBasic'
 import { DialogAttributeDetails } from './DialogAttributeDetails'
 import { DialogSessionExpired } from './DialogSessionExpired'
+import { DialogDeleteAnnotation } from './DialogDeleteAnnotation'
 import type {
   DialogAttributeDetailsProps,
   DialogBasicProps,
   DialogDeleteOperatorProps,
+  DialogDeleteAnnotationProps,
   DialogClonePurposeProps,
   DialogProps,
   DialogRejectAgreementProps,
@@ -23,6 +25,7 @@ import type {
   DialogRejectDelegatedVersionDraftProps,
   DialogRevokeDelegationProps,
   DialogTenantKindEserviceTemplateProps,
+  DialogTenantKindPurposeTemplateProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -43,6 +46,7 @@ import { DialogRevokeDelegation } from './DialogRevokeDelegation'
 import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersionDraft'
 import { DialogCreateAgreementDraft } from './DialogCreateAgreementDraft/DialogCreateAgreementDraft'
 import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemplate'
+import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTemplate'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -51,6 +55,7 @@ function match<T>(
   onRejectAgreement: (props: DialogRejectAgreementProps) => T,
   onUpgradeAgreementVersion: (props: DialogUpgradeAgreementVersionProps) => T,
   onDeleteOperator: (props: DialogDeleteOperatorProps) => T,
+  onDeleteAnnotation: (props: DialogDeleteAnnotationProps) => T,
   onRemoveOperatorFromClient: (props: DialogRemoveOperatorFromClientProps) => T,
   onRevokeCertifiedAttribute: (props: DialogRevokeCertifiedAttributeProps) => T,
   onClonePurpose: (props: DialogClonePurposeProps) => T,
@@ -63,7 +68,8 @@ function match<T>(
   onCreateAgreementDraft: (props: DialogCreateAgreementDraftProps) => T,
   onRevokeDelegation: (props: DialogRevokeDelegationProps) => T,
   onRejectDelegatedVersionDraft: (props: DialogRejectDelegatedVersionDraftProps) => T,
-  onDialogTenantKindEserviceTemplate: (props: DialogTenantKindEserviceTemplateProps) => T
+  onDialogTenantKindEserviceTemplate: (props: DialogTenantKindEserviceTemplateProps) => T,
+  onDialogTenantKindPurposeTemplate: (props: DialogTenantKindPurposeTemplateProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -79,6 +85,8 @@ function match<T>(
         return onUpgradeAgreementVersion(props)
       case 'deleteOperator':
         return onDeleteOperator(props)
+      case 'deleteAnnotation':
+        return onDeleteAnnotation(props)
       case 'removeOperatorFromClient':
         return onRemoveOperatorFromClient(props)
       case 'revokeCertifiedAttribute':
@@ -103,8 +111,10 @@ function match<T>(
         return onRejectDelegatedVersionDraft(props)
       case 'createAgreementDraft':
         return onCreateAgreementDraft(props)
-      case 'tenantKind':
+      case 'tenantKindEServiceTemplate':
         return onDialogTenantKindEserviceTemplate(props)
+      case 'tenantKindPurposeTemplate':
+        return onDialogTenantKindPurposeTemplate(props)
     }
   }
 }
@@ -116,6 +126,7 @@ const _Dialog = match(
   (props) => <DialogRejectAgreement {...props} />,
   (props) => <DialogUpgradeAgreementVersion {...props} />,
   (props) => <DialogDeleteOperator {...props} />,
+  (props) => <DialogDeleteAnnotation {...props} />,
   (props) => <DialogRemoveOperatorFromClient {...props} />,
   (props) => <DialogRevokeCertifiedAttribute {...props} />,
   (props) => <DialogClonePurpose {...props} />,
@@ -128,7 +139,8 @@ const _Dialog = match(
   (props) => <DialogCreateAgreementDraft {...props} />,
   (props) => <DialogRevokeDelegation {...props} />,
   (props) => <DialogRejectDelegatedVersionDraft {...props} />,
-  (props) => <DialogTenantKindEserviceTemplate {...props} />
+  (props) => <DialogTenantKindEserviceTemplate {...props} />,
+  (props) => <DialogTenantKindPurposeTemplate {...props} />
 )
 
 export const Dialog: React.FC = () => {

@@ -25,7 +25,9 @@ const inAppNotificationConfigMock: NotificationConfig = {
   eserviceNewVersionApprovedRejectedToDelegate: true, // 22
   delegationSubmittedRevokedToDelegate: true, // 23
   certifiedVerifiedAttributeAssignedRevokedToAssignee: true, // 24
-  clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: true, // 25
+  clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: true,
+  purposeQuotaAdjustmentRequestToProducer: false,
+  purposeOverQuotaStateToConsumer: false,
 }
 
 describe('NotificationConfigUserTab', () => {
@@ -86,7 +88,9 @@ describe('NotificationConfigUserTab', () => {
       // To test this will be tested keyAndAttributes section with key: [certifiedVerifiedAttributeAssignedRevokedToAssignee,clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers]
 
       const firstKey = screen.getByTestId('certifiedVerifiedAttributeAssignedRevokedToAssignee')
-      const secondKey = screen.getByTestId('clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers')
+      const secondKey = screen.getByTestId(
+        'clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers'
+      )
       const enableAllSectionButton = screen.getByTestId(
         'enableSectionAllNotifications-keyAndAttributes'
       )

@@ -34,13 +34,17 @@ import {
 import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
-import { SIGNALHUB_PERSONAL_DATA_PROCESS_URL } from '@/config/env'
+import {
+  FEATURE_FLAG_ESERVICE_PERSONAL_DATA,
+  SIGNALHUB_PERSONAL_DATA_PROCESS_URL,
+} from '@/config/env'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
   description: string
   technology: EServiceTechnology
   mode: EServiceMode
+  personalData: boolean | undefined
   isSignalHubEnabled: boolean
   isConsumerDelegable: boolean
   isClientAccessDelegable: boolean
@@ -54,6 +58,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const { isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   const { t } = useTranslation('eservice')
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'validation.mixed' })
   const navigate = useNavigate()
 
   const { eServiceTemplateId } = useParams<'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE'>()
@@ -231,6 +236,40 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange!(mode as EServiceMode)}
           />
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
+            <>
+              <RHFRadioGroup
+                name="personalData"
+                row
+                label={t(`create.step1.eservicePersonalDataField.${eserviceMode}.label`)}
+                options={[
+                  {
+                    label: t(`create.step1.eservicePersonalDataField.${eserviceMode}.options.true`),
+                    value: true,
+                  },
+                  {
+                    label: t(
+                      `create.step1.eservicePersonalDataField.${eserviceMode}.options.false`
+                    ),
+                    value: false,
+                  },
+                ]}
+                disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
+                rules={{
+                  validate: (value) => value === true || value === false || tCommon('required'),
+                }}
+                sx={{ mb: 3, mt: 3 }}
+                isOptionValueAsBoolean
+              />
+              {isEserviceFromTemplate && eserviceTemplate?.personalData === undefined && (
+                <Alert severity="error">
+                  {t('create.step1.eservicePersonalDataField.alertMissingPersonalData', {
+                    tenantName: eserviceTemplate?.creator.name,
+                  })}
+                </Alert>
+              )}
+            </>
+          )}
         </SectionContainer>
 
         {/* Signalhub switch can be editable also if coming from a eservice eserviceTemplate */}
@@ -380,6 +419,7 @@ function evaluateFormDefaultValues(
       description: descriptor?.eservice.description ?? '',
       technology: descriptor?.eservice.technology ?? 'REST',
       mode: eserviceMode,
+      personalData: descriptor?.eservice.personalData,
       isSignalHubEnabled: descriptor?.eservice.isSignalHubEnabled ?? false,
       isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? false,
       isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? false,
@@ -390,6 +430,7 @@ function evaluateFormDefaultValues(
     description: eserviceTemplate?.description,
     technology: eserviceTemplate?.technology,
     mode: eserviceTemplate?.mode,
+    personalData: eserviceTemplate?.personalData,
     isSignalHubEnabled: eserviceTemplate?.isSignalHubEnabled ?? false,
     isConsumerDelegable: false,
     isClientAccessDelegable: false,
