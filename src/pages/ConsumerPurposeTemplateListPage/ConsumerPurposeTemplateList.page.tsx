@@ -27,7 +27,7 @@ import { useNavigate } from '@/router'
 import { EServiceQueries } from '@/api/eservice'
 
 const ConsumerPurposeTemplateListPage: React.FC = () => {
-  const { currentRoles } = AuthHooks.useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
   const { t } = useTranslation('pages', { keyPrefix: 'consumerPurposeTemplatesList' })
   const { t: tCommon } = useTranslation('common')
   const { t: tPurposeTemplate } = useTranslation('purposeTemplate', { keyPrefix: 'list.filters' })
@@ -41,8 +41,6 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
   const { mutate: createDraft } = PurposeTemplateMutations.useCreateDraft()
 
   const { openDialog } = useDialog()
-
-  const canCreatePurposeTemplate = currentRoles.includes('admin') || currentRoles.includes('api')
 
   const handleCreateDraft = (tenantKind: TenantKind, handlesPersonalData: boolean) => {
     /**
@@ -143,7 +141,7 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
     <PageContainer
       title={t('title')}
       description={t('description')}
-      topSideActions={canCreatePurposeTemplate ? topSideActions : undefined}
+      topSideActions={isAdmin ? topSideActions : undefined}
     >
       <Filters {...filtersHandlers} />
       <PurposeTemplateTableWrapper data={data} />
