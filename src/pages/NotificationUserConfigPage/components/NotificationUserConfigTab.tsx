@@ -155,6 +155,28 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
           </FormControl>
         )}
       />
+      {/* <RHFSwitch
+        sx={{ pl: 2 }}
+        name={'digest'}
+        label={
+          <SwitchLabelDescription
+            label={t('digestSwitch.label')}
+            description={t('digestSwitch.description')}
+          />
+        }
+      />
+      <RHFSwitch
+        sx={{ pl: 2 }}
+        key="customNotificationSwitch"
+        name={'customNotificationSwitch'}
+        label={
+          <SwitchLabelDescription
+            label={t('customNotificationSwitch.label')}
+            description={t('customNotificationSwitch.description')}
+          />
+        }
+      /> */}
+
       {preferenceChoice === 'DIGEST' && (
         <Alert severity="info" sx={{ mt: 3 }}>
           {t('digestInfoDescription')}
