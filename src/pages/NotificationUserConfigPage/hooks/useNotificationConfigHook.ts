@@ -36,6 +36,20 @@ export function useNotificationConfigHook(type: NotificationConfigType) {
               description: t('subscriber.dataUsage.components.agreementStateUpdated.description'),
               visibility: ['admin', 'security'],
             },
+            {
+              key: 'purposeQuotaAdjustmentRequestToProducer',
+              title: t('subscriber.purpose.components.purposeQuotaAdjustmentRequest.label'),
+              description: t(
+                'subscriber.purpose.components.purposeQuotaAdjustmentRequest.description'
+              ),
+              visibility: ['admin', 'security'],
+            },
+            {
+              key: 'purposeOverQuotaStateToConsumer',
+              title: t('subscriber.purpose.components.purposeOverQuota.label'),
+              description: t('subscriber.purpose.components.purposeOverQuota.description'),
+              visibility: ['admin', 'security'],
+            },
           ],
         },
         {
