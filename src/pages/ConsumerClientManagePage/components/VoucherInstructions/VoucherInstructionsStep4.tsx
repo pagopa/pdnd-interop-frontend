@@ -74,7 +74,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
                 {clientKind === 'API' && (
                   <IconLink
                     endIcon={<OpenInNewIcon fontSize="small" />}
-                    href=""
+                    href="https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/riferimenti-tecnici/utilizzare-i-voucher"
                     target="_blank"
                     sx={{
                       fontWeight: 600,
@@ -92,7 +92,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
                 <Typography variant="body2">{t(`step4.API.apiV2.description`)}</Typography>
                 <IconLink
                   endIcon={<OpenInNewIcon fontSize="small" />}
-                  href=""
+                  href="https://developer.pagopa.it/pdnd-interoperabilita/api/pdnd-core-v2#/"
                   target="_blank"
                   sx={{
                     fontWeight: 600,
@@ -119,7 +119,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
               <Typography variant="body2">{t(`step4.API.pushApiSH.description`)}</Typography>
               <IconLink
                 endIcon={<OpenInNewIcon fontSize="small" />}
-                href=""
+                href="https://developer.pagopa.it/pdnd-interoperabilita/api/signal-hub-push-v1#/"
                 target="_blank"
                 sx={{
                   fontWeight: 600,
@@ -136,7 +136,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
               <Typography variant="body2">{t(`step4.API.pullApiSH.description`)}</Typography>
               <IconLink
                 endIcon={<OpenInNewIcon fontSize="small" />}
-                href=""
+                href="https://developer.pagopa.it/pdnd-interoperabilita/api/signal-hub-pull-v1#/"
                 target="_blank"
                 sx={{
                   fontWeight: 600,
