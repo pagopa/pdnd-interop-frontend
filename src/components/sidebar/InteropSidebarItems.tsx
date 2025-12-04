@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next'
 import type { SidebarRoute, SidebarRoutes } from './sidebar.types'
 import { SELFCARE_BASE_URL } from '@/config/env'
 import { Link } from 'react-router-dom'
-import { useIsRouteInCurrentSubtree } from '../layout/SideNav/hooks/useIsRouteInCurrentSubtree'
+import { useIsRouteInCurrentSubtree } from './hooks/useIsRouteInCurrentSubtree'
 import { AuthHooks } from '@/api/auth'
 import { SidebarItem } from './components/SidebarItem'
 
