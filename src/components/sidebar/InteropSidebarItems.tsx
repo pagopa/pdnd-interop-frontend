@@ -25,7 +25,7 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
   const { t } = useTranslation('sidebar')
 
   const pathname = useCurrentRoute().routeKey
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt, isAdmin } = AuthHooks.useJwt()
 
   const selfcareUsersPageUrl =
     jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#${getCurrentSelfCareProductId()}`
@@ -105,21 +105,25 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
 
           return <SidebarItem key={route.label} {...sidebarItemProps} />
         })}
-      <Divider sx={{ marginBottom: 2 }} />
-      <SidebarItem
-        href={selfcareUsersPageUrl}
-        label={t('userExternalLinkLabel')}
-        StartIcon={PeopleIcon}
-        EndIcon={ExitToAppRoundedIcon}
-      />
-      <SidebarItem
-        href={selfcareGroupsPageUrl}
-        label={t('groupsExternalLinkLabel')}
-        target="_blank"
-        StartIcon={SupervisedUserCircleIcon}
-        EndIcon={ExitToAppRoundedIcon}
-        typographyProps={{ sx: { fontWeight: 600 } }}
-      />
+      {isAdmin && (
+        <>
+          <Divider sx={{ marginBottom: 2 }} />
+          <SidebarItem
+            href={selfcareUsersPageUrl}
+            label={t('userExternalLinkLabel')}
+            StartIcon={PeopleIcon}
+            EndIcon={ExitToAppRoundedIcon}
+          />
+          <SidebarItem
+            href={selfcareGroupsPageUrl}
+            label={t('groupsExternalLinkLabel')}
+            target="_blank"
+            StartIcon={SupervisedUserCircleIcon}
+            EndIcon={ExitToAppRoundedIcon}
+            typographyProps={{ sx: { fontWeight: 600 } }}
+          />
+        </>
+      )}
     </>
   )
 }
