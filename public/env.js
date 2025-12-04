@@ -13,16 +13,8 @@ window.pagopa_env = {
   M2M_JWT_AUDIENCE: 'dev.interop.pagopa.it/m2m',
   WELL_KNOWN_URLS: 'https://dev.interop.pagopa.it/.well-known/jwks.json',
   PRODUCER_ALLOWED_ORIGINS: 'IPA',
-  API_SIGNAL_HUB_PUSH_INTERFACE_URL:
-    'https://raw.githubusercontent.com/pagopa/interop-signalhub-core/refs/heads/develop/docs/openAPI/push-signals.yaml',
-  API_SIGNAL_HUB_PULL_INTERFACE_URL:
-    'https://raw.githubusercontent.com/pagopa/interop-signalhub-core/refs/heads/develop/docs/openAPI/pull-signals.yaml',
   FEATURE_FLAG_ADMIN_CLIENT: 'true',
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: 'true',
-  API_GATEWAY_V1_INTERFACE_URL:
-    'https://selfcare.dev.interop.pagopa.it/m2m/v1-interface-specification.yaml',
-  API_GATEWAY_V2_INTERFACE_URL:
-    'https://selfcare.dev.interop.pagopa.it/m2m/v2-interface-specification.yaml',
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: 'http://localhost',
   ERROR_DATA_DURATION_TIME: '90000',
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA: 'true',
