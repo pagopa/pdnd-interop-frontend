@@ -11,6 +11,12 @@ import { useQuery } from '@tanstack/react-query'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { Link } from '@/router'
 import { IconLink } from '@/components/shared/IconLink'
+import {
+  docV1GuideLink,
+  docV2GuideLink,
+  docSignalHubPush,
+  docSignalHubPull,
+} from '@/config/constants'
 
 export const VoucherInstructionsStep4: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -74,7 +80,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
                 {clientKind === 'API' && (
                   <IconLink
                     endIcon={<OpenInNewIcon fontSize="small" />}
-                    href="https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/riferimenti-tecnici/utilizzare-i-voucher"
+                    href={docV1GuideLink}
                     target="_blank"
                     sx={{
                       fontWeight: 600,
@@ -92,7 +98,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
                 <Typography variant="body2">{t(`step4.API.apiV2.description`)}</Typography>
                 <IconLink
                   endIcon={<OpenInNewIcon fontSize="small" />}
-                  href="https://developer.pagopa.it/pdnd-interoperabilita/api/pdnd-core-v2#/"
+                  href={docV2GuideLink}
                   target="_blank"
                   sx={{
                     fontWeight: 600,
@@ -119,7 +125,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
               <Typography variant="body2">{t(`step4.API.pushApiSH.description`)}</Typography>
               <IconLink
                 endIcon={<OpenInNewIcon fontSize="small" />}
-                href="https://developer.pagopa.it/pdnd-interoperabilita/api/signal-hub-push-v1#/"
+                href={docSignalHubPush}
                 target="_blank"
                 sx={{
                   fontWeight: 600,
@@ -136,7 +142,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
               <Typography variant="body2">{t(`step4.API.pullApiSH.description`)}</Typography>
               <IconLink
                 endIcon={<OpenInNewIcon fontSize="small" />}
-                href="https://developer.pagopa.it/pdnd-interoperabilita/api/signal-hub-pull-v1#/"
+                href={docSignalHubPull}
                 target="_blank"
                 sx={{
                   fontWeight: 600,

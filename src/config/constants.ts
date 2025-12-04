@@ -17,7 +17,6 @@ export const pagoPaLink = {
   ariaLabel: 'Vai al sito di PagoPA S.p.A.',
   title: 'Vai al sito di PagoPA S.p.A.',
 }
-
 export const documentationLink = 'https://docs.pagopa.it/interoperabilita-1'
 export const assistanceLink = `https://selfcare.pagopa.it/assistenza?productId=${getCurrentSelfCareProductId()}`
 export const attributesHelpLink = `${documentationLink}/manuale-operativo/attributi`
@@ -61,3 +60,13 @@ export const apiV2GuideLink =
 
 export const SIGNALHUB_GUIDE_URL =
   'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-signal-hub'
+
+export const docV1GuideLink =
+  'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/riferimenti-tecnici/utilizzare-i-voucher'
+
+export const docV2GuideLink = 'https://developer.pagopa.it/pdnd-interoperabilita/api/pdnd-core-v2#/'
+
+export const docSignalHubPush =
+  'https://developer.pagopa.it/pdnd-interoperabilita/api/signal-hub-push-v1#/'
+export const docSignalHubPull =
+  'https://developer.pagopa.it/pdnd-interoperabilita/api/signal-hub-pull-v1#/'
