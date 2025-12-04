@@ -182,6 +182,23 @@ async function downloadRiskAnalysis({
   return response.data
 }
 
+async function downloadSignedRiskAnalysis({
+  purposeId,
+  versionId,
+  signedContractId,
+}: {
+  purposeId: string
+  versionId: string
+  signedContractId: string
+}) {
+  const response = await axiosInstance.get<File>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/signedDocuments/${signedContractId}`,
+    { responseType: 'arraybuffer' }
+  )
+
+  return response.data
+}
+
 async function suspendVersion({
   purposeId,
   versionId,
@@ -277,7 +294,7 @@ export const PurposeServices = {
   createDraftForReceiveEService,
   updateDraftForReceiveEService,
   updateDailyCalls,
-  downloadRiskAnalysis,
+  downloadSignedRiskAnalysis,
   suspendVersion,
   activateVersion,
   archiveVersion,
@@ -287,4 +304,5 @@ export const PurposeServices = {
   addClient,
   removeClient,
   createDraftFromPurposeTemplate,
+  downloadRiskAnalysis,
 }

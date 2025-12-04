@@ -4,6 +4,7 @@ import type {
   CompactPurposeEService,
   DelegationKind,
   TenantKind,
+  TargetTenantKind,
 } from '@/api/api.generatedTypes'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
@@ -173,5 +174,5 @@ export type DialogTenantKindEserviceTemplateProps = {
 
 export type DialogTenantKindPurposeTemplateProps = {
   type: 'tenantKindPurposeTemplate'
-  onConfirm: (tenantKind: TenantKind, handlesPersonalData: boolean) => void
+  onConfirm: (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => void
 }

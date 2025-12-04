@@ -16,6 +16,7 @@ import { queryClient } from '@/config/query-client'
 import { TenantHooks } from '@/api/tenant'
 import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/interop-fe-commons'
+import * as envs from '@/config/env'
 
 type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>
@@ -122,6 +123,15 @@ export const mockUseCurrentRoute = (
     } as ReturnType<typeof useCurrentRoute.useCurrentRoute>)
   }
   return useCurrentRouteSpy
+}
+
+/**
+ * This method allow to mock a single env vars (for instance when you want to test single FF enabled or disabled)
+ * @param key
+ * @param value
+ */
+export const mockEnvironmentParams = (key: keyof typeof envs, value: boolean | string) => {
+  vi.spyOn(envs, key, 'get').mockReturnValue(value)
 }
 
 type WrapperOptions = (

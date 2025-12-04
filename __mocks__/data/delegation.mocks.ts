@@ -1,5 +1,5 @@
 import { createMockFactory } from '../../src/utils/testing.utils'
-import type { DelegationWithCompactTenants } from '../../src/api/api.generatedTypes'
+import type { Delegation, DelegationWithCompactTenants } from '../../src/api/api.generatedTypes'
 
 const createMockDelegationWithCompactTenants = createMockFactory<DelegationWithCompactTenants>({
   id: 'delegation-id',
@@ -17,4 +17,21 @@ const createMockDelegationWithCompactTenants = createMockFactory<DelegationWithC
   },
 })
 
-export { createMockDelegationWithCompactTenants }
+const createMockDelegation = createMockFactory<Delegation>({
+  id: 'delegation-id',
+  isDocumentReady: true,
+  createdAt: '2024-01-01T00:00:00Z',
+  updatedAt: '2024-01-02T00:00:00Z',
+  delegator: {
+    id: 'delegator-id',
+    name: 'delegator-name',
+  },
+  delegate: {
+    id: 'delegate-id',
+    name: 'delegate-name',
+  },
+  state: 'ACTIVE',
+  kind: 'DELEGATED_PRODUCER',
+})
+
+export { createMockDelegationWithCompactTenants, createMockDelegation }

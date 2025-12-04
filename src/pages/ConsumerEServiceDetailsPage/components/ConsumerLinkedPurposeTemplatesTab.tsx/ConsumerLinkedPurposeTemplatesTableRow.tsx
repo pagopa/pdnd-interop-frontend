@@ -1,4 +1,4 @@
-import type { CatalogPurposeTemplate, TenantKind } from '@/api/api.generatedTypes'
+import type { CatalogPurposeTemplate, TargetTenantKind } from '@/api/api.generatedTypes'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { Link } from '@/router'
 import { Skeleton } from '@mui/material'
@@ -14,13 +14,11 @@ export const ConsumerLinkedPurposeTemplatesTableRow: React.FC<{
     keyPrefix: 'read.linkedPurposeTemplatesTab.filters.targetTenantKindField.values',
   })
 
-  const getTargetTenantKindLabel = (targetTenantKind: TenantKind) => {
+  const getTargetTenantKindLabel = (targetTenantKind: TargetTenantKind) => {
     return match(targetTenantKind)
       .returnType<string>()
       .with('PA', () => t('labelPA'))
       .with('PRIVATE', () => t('labelNotPA'))
-      .with('GSP', () => t('labelNotPA'))
-      .with('SCP', () => t('labelNotPA'))
       .exhaustive()
   }
 
