@@ -80,7 +80,11 @@ const ConsumerPurposeTemplateTemplateSummaryPage: React.FC = () => {
     >
       <Stack spacing={3}>
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="1" title={t('edit.summary.generalInformationSection.title')}>
+          <SummaryAccordion
+            headline="1"
+            title={t('edit.summary.generalInformationSection.title')}
+            defaultExpanded={true}
+          >
             <PurposeTemplateTemplateSummaryGeneralInformationAccordion
               purposeTemplateId={purposeTemplateId}
             />
