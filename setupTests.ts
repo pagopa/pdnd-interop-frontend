@@ -2,6 +2,7 @@ import { afterEach, vi } from 'vitest'
 import { cleanup } from '@testing-library/react'
 // extends Vitest's expect method with methods from react-testing-library
 import '@testing-library/jest-dom/vitest'
+import { FEATURE_FLAG_NOTIFICATION_CONFIG } from '@/config/env'
 
 const localhost = 'http://localhost:3000/0.0'
 export const testConfigs = {
@@ -30,6 +31,7 @@ export const testConfigs = {
   API_GATEWAY_V2_INTERFACE_URL:
     'https://selfcare.dev.interop.pagopa.it/m2m/v2-interface-specification.yaml',
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: 'http://localhost',
+  FEATURE_FLAG_NOTIFICATION_CONFIG: 'true',
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA: 'true',
   FEATURE_FLAG_USE_SIGNED_DOCUMENT: 'true',
 }

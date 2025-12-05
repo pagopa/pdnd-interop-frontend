@@ -18,6 +18,7 @@ import type keychainNs from '@/static/locales/en/keychain.json'
 import type eserviceTemplateNs from '@/static/locales/en/eserviceTemplate.json'
 import type developerToolsNs from '@/static/locales/en/developer-tools.json'
 import type sidebarNs from '@/static/locales/en/sidebar.json'
+import type notificationNs from '@/static/locales/en/finalita.json'
 import type purposeTemplateNs from '@/static/locales/en/purposeTemplate.json'
 declare module 'i18next' {
   interface CustomTypeOptions {
@@ -43,6 +44,7 @@ declare module 'i18next' {
       eserviceTemplate: typeof eserviceTemplateNs
       'developer-tools': typeof developerToolsNs
       sidebar: typeof sidebarNs
+      notification: typeof notificationNs
       purposeTemplate: typeof purposeTemplateNs
     }
   }
