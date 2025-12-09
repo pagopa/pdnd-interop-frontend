@@ -1,24 +1,24 @@
 {
-  "backToMemberListBtn": "Back to members list",
+  "backToMemberListBtn": "Back to member list",
   "clientOperatorsTab": {
     "title": "Client members",
-    "description": "Members belonging to this client will appear in the list. If an API Admin is appointed, each member will be able to perform write operations."
+    "description": "The members belonging to this client will appear in the list. If an API Admin is appointed, each member will be able to perform write operations."
   },
-  "actionReservedToAdminTooltip": "This actions is reserved to user with administrator permissions",
+  "actionReservedToAdminTooltip": "This action is reserved for users with administrator permissions",
   "actions": {
     "removeFromClient": {
       "label": "Remove from client",
-      "tooltip": "The operation is permitted only to users with administrator permissions"
+      "tooltip": "This operation is allowed only for users with administrator permissions"
     },
     "delete": {
       "label": "Delete",
-      "tooltip": "The operation is permitted only to users with administrator permissions"
+      "tooltip": "This operation is allowed only for users with administrator permissions"
     }
   },
   "edit": {
-    "generalInformations": "General informations",
+    "generalInformations": "General information",
     "productRoleField": {
-      "label": "Permissions on PDND Interoperability"
+      "label": "Permissions on PDND"
     },
     "operatorKeysLink": {
       "label": "Go to the view of the keys associated with the user"

@@ -9,7 +9,7 @@
     "purposeField": {
       "label": "Choose template",
       "noDataLabel": "No templates available for this e-service",
-      "loadingLabel": "We are loading the templates"
+      "loadingLabel": "Templates are being loaded"
     },
     "consumerField": {
       "label": "Consumer",
@@ -19,12 +19,12 @@
       "label": "Choose e-service",
       "infoLabel": "You can only select the e-services for which the selected user has an active request for use",
       "alert": {
-        "label": "For the selected e-service, you can use the facilitated compilation feature!"
+        "label": "The facilitated compilation feature is available for the selected e-service!"
       }
     },
     "eserviceRiskAnalysisSection": {
       "title": "Choose purpose",
-      "description": "The selected e-service requires the provider to receive data from users. You can select from the purposes proposed by the provider the one for which you intend to send data to its e-service.",
+      "description": "The selected e-service requires the producer to receive data from consumers. You can select from the purposes proposed by the producer the one for which you intend to send data to its e-service.",
       "riskAnalysis": {
         "title": "Risk analysis"
       },
@@ -32,14 +32,14 @@
         "label": "Choose purpose"
       }
     },
-    "purposeInfoTitle": "Selected template informations",
+    "purposeInfoTitle": "Selected template information",
     "purposeTitle": "Purpose name",
     "purposeDescription": "Purpose description",
     "createNewPurposeBtn": "Create draft",
     "defaultPurpose": {
       "title": "New purpose",
       "description": "Lorem ipsum dolor sit amet...",
-      "freeOfChargeReason": "I'm a Public Amministration"
+      "freeOfChargeReason": "I'm a Public Administration"
     },
     "riskAnalysisPreviewTitle": "Risk analysis",
     "purposeTemplateField": {
@@ -47,7 +47,7 @@
       "description": "The facilitated compilation feature provides annotations, supporting documents, and some pre-filled answers to help you formulate the risk analysis. The template is made available for reuse by other participating organizations and can be used without restrictions.",
       "usePurposeTemplateSwitch": {
         "label": "Use the facilitated compilation feature",
-        "disabledTooltip": "It is not possible to use the feature for the selected \n e-service  because the provider has not indicated how personal data will be processed",
+        "disabledTooltip": "It is not possible to use the feature for the selected \n e-service because the producer has not indicated how personal data will be processed",
         "selectPurposeTemplate": {
           "title": "Choose the facilitated purpose compilation template",
           "showOnlyLinkedPurposeTemplates": "Show only templates suggested for the selected e-service",
@@ -75,11 +75,11 @@
       "title": "General information",
       "nameField": {
         "label": "Purpose name (required)",
-        "infoLabel": "It will help you tell them apart. Min 5 chars, max 60 chars"
+        "infoLabel": "It will help you tell them apart. Min 5 characters, max 60 characters"
       },
       "descriptionField": {
         "label": "Purpose description (required)",
-        "infoLabel": "Min 10 chars, max 250 chars"
+        "infoLabel": "Min 10 characters, max 250 characters"
       },
       "isFreeOfChargeField": {
         "label": "Indicate whether access to the data made available with the use of this e-service is free of charge (required)",
@@ -89,7 +89,7 @@
         }
       },
       "freeOfChargeReasonField": {
-        "label": "Free of charge reason (richiesto)",
+        "label": "Free of charge reason (required)",
         "infoLabel": "It is requested to specify whether the provision of data is free of charge by virtue of an exemption/exclusion provided for by law or other. Min 10 characters, max 250 characters"
       },
       "dailyCallsField": {
@@ -109,17 +109,17 @@
       "personalDataFlag": {
         "label": "Personal data processing",
         "content": {
-          "true": "The provider declares to process personal data",
-          "false": "The provider declares not to process personal data",
-          "undefined": "The provider has not declared the processing of personal data"
+          "true": "The producer declares to process personal data",
+          "false": "The producer declares not to process personal data",
+          "undefined": "The producer has not declared the processing of personal data"
         },
         "incompatibleAnswerError": {
-          "purposeEdit": "The answer in this field differs from what was defined by the e-service provider"
+          "purposeEdit": "The answer in this field differs from what was defined by the e-service producer"
         },
-        "alertForIncompatibleAnswer": "Make sure that the answer to the question \"Indicate whether you access personal data (required)\" matches the one the provider provided in the general information. If the data does not match, the publication will be blocked.",
+        "alertForIncompatibleAnswer": "Please ensure that the answer to the question \"Indicate whether you access personal data (required)\" matches the one the producer provided in the general information. If the data does not match, publication will be blocked.",
         "alertForIncompatibleAnswerPurpose": {
-          "personalData": "You will not be able to publish this purpose because you declared that personal data is processed, but the provider declared otherwise. For clarifications, contact the provider.",
-          "noPersonalData": "You will not be able to publish this purpose because you declared that personal data is not processed, but the provider declared otherwise. For clarifications, contact the provider."
+          "personalData": "You will not be able to publish this purpose because you declared that personal data is processed, but the producer declared otherwise. For clarification, contact the producer.",
+          "noPersonalData": "You will not be able to publish this purpose because you declared that personal data is not processed, but the producer declared otherwise. For clarification, contact the producer."
         }
       }
     },
@@ -172,13 +172,13 @@
       "infoRulesetExpiration": "This risk analysis uses a version that will become obsolete in {{days}} days. Publish it by {{date}} to avoid having to recompile it."
     },
     "generalInformationSection": {
-      "title": "General informations",
+      "title": "General information",
       "eservice": {
         "label": "Reference e-service",
         "value": "{{name}}, version {{version}}"
       },
       "producer": {
-        "label": "Provider"
+        "label": "Producer"
       },
       "description": {
         "label": "Description"
@@ -187,28 +187,28 @@
         "title": "Load estimation",
         "dailyCalls": {
           "label": "Your required plan",
-          "value": "{{value}} calls API/day"
+          "value": "{{value}} API calls/day"
         },
         "dailyCallsPerConsumer": {
-          "label": "Threshold for user set by the provider",
-          "value": "{{value}} calls API/day"
+          "label": "Per consumer threshold set by the producer",
+          "value": "{{value}} API calls/day"
         },
         "dailyCallsTotal": {
-          "label": "Total threshold set by the provider",
-          "value": "{{value}} calls API/day"
+          "label": "Total threshold set by the producer",
+          "value": "{{value}} API calls/day"
         }
       }
     },
     "riskAnalysisSection": {
       "title": "Risk analysis",
-      "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
+      "providerRiskAnalysisAlert": "The e-service selected for this purpose requires data to be sent from the consumer to the producer. The risk analysis was therefore compiled by the producer."
     },
-    "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione"
+    "publishBtnDisabled": "Your declaration on personal data processing in the risk analysis prevents publication"
   },
   "list": {
     "cantCreatePurposeTooltip": "You cannot create purposes because you have no associable e-service",
     "newVersionAvailableTooltip": "The consumer has requested an adjustment that requires your approval. Access the purpose for more details",
-    "waitingForApprovalVersionTooltip": "You have requested an adjustment that requires approval from the provider. Access the purpose for more details",
+    "waitingForApprovalVersionTooltip": "You have requested an adjustment that requires approval from the producer. Access the purpose for more details",
     "filters": {
       "nameField": {
         "label": "Find by purpose name"
@@ -220,7 +220,7 @@
         "label": "Find by consumer"
       },
       "providerField": {
-        "label": "Find by provider"
+        "label": "Find by producer"
       },
       "statusField": {
         "label": "Purpose status",
@@ -235,14 +235,14 @@
     }
   },
   "providerView": {
-    "suspendedAlert": "This purpose is suspended. Until it is reactivated, the user will not be able to access the data provided through the API.",
+    "suspendedAlert": "This purpose is suspended. Until it is reactivated, the consumer will not be able to access the data provided through the API.",
     "waitingForApprovalAlert": "The consumer has requested a load estimate update which requires your approval. Check the “Load Estimate” section.",
-    "archivedPurposeAlert": "The user will not be able to obtain a voucher from PDND Interoperabilità for this purpose because it is archived.",
+    "archivedPurposeAlert": "The consumer will not be able to obtain a voucher from PDND Interoperabilità for this purpose because it is archived.",
     "rejectedPurposeAlert": "This purpose has been rejected. <1>Read here the reject reason</1>.",
     "rejectedUpdatePlanInfoAlert": "A change of plan for this purpose was rejected. Check the “Load Estimate” section.",
     "sections": {
       "generalInformations": {
-        "title": "General informations",
+        "title": "General information",
         "eServiceField": {
           "label": "E-service",
           "value": "{{name}}, version {{version}}"
@@ -267,35 +267,35 @@
         }
       },
       "technicalInformations": {
-        "title": "Purpose technical informations",
-        "description": "In this section you can check the technical informations of the purpose.",
+        "title": "Purpose technical information",
+        "description": "In this section you can check the technical information of the purpose.",
         "purposeField": {
           "label": "Purpose ID",
-          "copySuccessFeedbackText": "Purpose id copied successfully"
+          "copySuccessFeedbackText": "Purpose ID copied successfully"
         },
         "consumerField": {
           "label": "Consumer ID",
-          "copySuccessFeedbackText": "Consumer id copied successfully"
+          "copySuccessFeedbackText": "Consumer ID copied successfully"
         },
         "purposeTemplateField": {
           "label": "Template ID",
-          "copySuccessFeedbackText": "Purpose Template id copied successfully"
+          "copySuccessFeedbackText": "Purpose Template ID copied successfully"
         }
       },
       "loadEstimate": {
         "title": "Load estimate",
-        "description": "The number of API calls/day that the user estimates to make to the API of your e-service",
+        "description": "The number of API calls/day that the consumer estimates to make to the API of your e-service",
         "rejectedUpdatePlanAlert": "The plan change was rejected. <1>Read the reject reasons here</1>.",
         "planCard": {
           "title": {
             "activePlan": "Consumer active plan",
             "waitingForApprovalPlan": {
-              "changePlan": "The plan change requested by the consumer",
-              "newPurpose": "The plan requested by the consumer"
+              "changePlan": "The plan change requested by the Consumer",
+              "newPurpose": "The plan requested by the Consumer"
             },
-            "rejectedPlan": "The plan requested by the consumer"
+            "rejectedPlan": "The plan requested by the Consumer"
           },
-          "subtitle": "API calls/day",
+          "subtitle": "(API calls/day)",
           "activateVersionButtonLabel": {
             "label": "Activate now"
           },
@@ -314,12 +314,12 @@
         },
         "thresholdsCard": {
           "title": "Thresholds set by you",
-          "subtitle": "API calls/day",
+          "subtitle": "(API calls/day)",
           "dailyCallsPerConsumerField": {
-            "label": "For single consumer"
+            "label": "Per Consumer"
           },
           "dailyCallsTotalsField": {
-            "label": "Totals"
+            "label": "Total"
           }
         }
       }
@@ -327,7 +327,7 @@
   },
   "consumerView": {
     "suspendedAlert": "This purpose is suspended. Until it is reactivated you will not be able to access the data made available through the API.",
-    "waitingForApprovalAlert": "This scope is awaiting approval. <strong>Until its activation</strong> by the provider you will <strong>not be able to access the data</strong> made available through the API and you will <strong>not be able to associate clients</strong>.",
+    "waitingForApprovalAlert": "This scope is awaiting approval. <strong>Until its activation</strong> by the producer you will <strong>not be able to access the data</strong> made available through the API and you will <strong>not be able to associate clients</strong>.",
     "archivedPurposeAlert": "This purpose is archived. You cannot access the data made available through the API. You can always <1>create a new one.</1>",
     "archivedPurposeClientsAlert": "This purpose has been archived. All clients were removed and new clients can no longer be associated",
     "rejectedPurposeAlert": "This purpose has been rejected. <2>Read here the reject reason</2>.",
@@ -344,13 +344,13 @@
     },
     "sections": {
       "generalInformations": {
-        "title": "Informazioni generali",
+        "title": "General information",
         "eServiceField": {
           "label": "E-service",
           "value": "{{name}}, version {{version}}"
         },
         "providerField": {
-          "label": "Provider"
+          "label": "Producer"
         },
         "consumerField": {
           "label": "Consumer"
@@ -373,22 +373,22 @@
       },
       "loadEstimate": {
         "title": "Load estimate",
-        "description": "The number of API calls/day that the user estimates to make to the API of your e-service",
+        "description": "The number of API calls/day that the Consumer estimates to make to the API of your e-service",
         "rejectedUpdatePlanAlert": "The plan change was rejected. <1>Read the reject reasons here</1>.",
         "planCard": {
           "title": {
             "activePlan": "Consumer active plan",
-            "waitingForApprovalPlan": "Consumer requeste plan",
+            "waitingForApprovalPlan": "Consumer requested plan",
             "rejectedPlan": "Consumer requested plan"
           },
-          "subtitle": "API calls/day",
+          "subtitle": "(API calls/day)",
           "changePlanRequestLink": {
             "label": "Request a change of plan"
           }
         },
         "updatePlanCard": {
           "title": "The plan change you requested",
-          "subtitle": "API calls/day",
+          "subtitle": "(API calls/day)",
           "expectApprovalDateInfo": "You estimated to activate this update on the day <strong>{{date}}</strong>",
           "removeChangePlanRequestLink": {
             "label": "Delete request"
@@ -396,7 +396,7 @@
         },
         "drawer": {
           "title": "Request update",
-          "subtitle": "Your current estimate is <strong>{{dailyCalls}} API calls/day</strong>. If the new value exceeds at least one of the thresholds imposed by the provider, it must be approved before becoming active. Do you have any doubts? <1>Read the guide</1>.",
+          "subtitle": "Your current estimate is <strong>{{dailyCalls}} API calls/day</strong>. If the new value exceeds at least one of the thresholds imposed by the producer, it must be approved before becoming active. Do you have any doubts? <1>Read the guide</1>.",
           "dailyCallsFormField": {
             "label": "New load estimate",
             "infoLable": "Estimated number of API calls/day",
@@ -414,17 +414,17 @@
           }
         },
         "thresholdsCard": {
-          "title": "Thresholds set by provider",
-          "subtitle": "API calls/day",
+          "title": "Thresholds set by Producer",
+          "subtitle": "(API calls/day)",
           "dailyCallsPerConsumerField": {
-            "label": "For single consumer"
+            "label": "Per Consumer"
           },
           "dailyCallsTotalsField": {
-            "label": "Totals"
+            "label": "Total"
           }
         },
         "alertExceedingThreshold": {
-          "label": "If the number of calls exceeds the limit set by the provider, its approval will be required to use that load"
+          "label": "If the number of calls exceeds the limit set by the producer, its approval will be required to use that load"
         }
       }
     }

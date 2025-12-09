@@ -1,33 +1,33 @@
 {
-  "backToRequestsBtn": "Go back to requests",
+  "backToRequestsBtn": "Back to service requests",
   "providerRead": {
-    "title": "Manage agreement",
-    "delegatedAlert": "This agreement relates to a delegation.",
+    "title": "Manage service request",
+    "delegatedAlert": "This service request is related to a delegation.",
     "suspendedAlert": {
-      "byProducer": "This agreement has been suspended by the PROVIDER. Until it is reactivated it will not be possible to access the data.",
-      "byConsumer": "This agreement has been suspended by the CONSUMER. Until it is reactivated it will not be possible to access the data.",
-      "byPlatform": "This agreement has been suspended by the PLATFORM. Until it is reactivated it will not be possible to access the data."
+      "byProducer": "This service request has been suspended by the <strong>Producer</strong>. Until it is reactivated, it will not be possible to access the data.",
+      "byConsumer": "This service request has been suspended by the <strong>Consumer</strong>. Until it is reactivated, it will not be possible to access the data.",
+      "byPlatform": "This service request has been suspended by the <strong>Platform</strong>. Until it is reactivated, it will not be possible to access the data."
     },
     "sections": {
       "generalInformations": {
-        "title": "General Informations",
+        "title": "General information",
         "eServiceField": {
-          "label": "Request for e-service",
+          "label": "Request for the e-service",
           "value": "{{name}}, version {{version}}"
         },
         "consumerField": {
           "label": "Consumer"
         },
         "delegatedConsumerField": {
-          "label": "Delegated Consumer"
+          "label": "Delegated to consuming"
         },
         "rejectionMessageField": {
-          "label": "Reason for rejection"
+          "label": "Rejection reason"
         },
         "documentation": {
-          "fileName": "Agreement request",
+          "fileName": "Service request",
           "link": {
-            "label": "Download agreement request"
+            "label": "Download service request"
           }
         },
         "certifiedAttributeLink": {
@@ -56,8 +56,8 @@
         },
         "attributesDrawer": {
           "title": {
-            "certified": "Certified attributes required",
-            "declared": "Declared attributes required"
+            "certified": "Required certified attributes",
+            "declared": "Required declared attributes"
           },
           "subtitle": {
             "certified": "That is, the attributes certified by a <1>recognized authoritative source</1> required to subscribe to this version of the e-service"
@@ -71,14 +71,14 @@
           },
           "documentationDrawer": {
             "title": "Documentation",
-            "subtitle": "The documentation that the user has attached to be recognized with the verified attributes required for this version of e-service",
+            "subtitle": "The documentation that the consumer has attached to have the required verified attributes recognized for this version of the e-service",
             "attachedDocuments": {
               "title": "Documentation",
-              "noDocumentsLabel": "There are no attached documents"
+              "noDocumentsLabel": "No documents attached"
             },
             "consumerMessage": {
-              "title": "Message for provider",
-              "description": "Useful supporting notes reported by the consumer"
+              "title": "Message for the producer",
+              "description": "Useful supporting notes provided by the consumer"
             }
           },
           "attributes": {
@@ -90,30 +90,30 @@
             "attributesDrawer": {
               "verify": {
                 "title": "Verify attribute",
-                "subtitle": "With this verification you declare that the consumer owns the requested attribute.",
+                "subtitle": "With this verification you declare that the consumer possesses the required attribute.",
                 "form": {
                   "radioGroup": {
                     "label": "When does the verification of this attribute expire?",
                     "options": {
-                      "NO": "Without expiration",
-                      "YES": "Set the expiration date"
+                      "NO": "No expiration",
+                      "YES": "Set expiration date"
                     }
                   },
                   "datePicker": {
-                    "label": "Set the expiration date"
+                    "label": "Set expiration date"
                   }
                 },
                 "info": {
                   "title": "What happens when an attribute expires?",
-                  "description": "To find out more, <1>read the guide.</1>"
+                  "description": "To learn more, <1>read the guide.</1>"
                 }
               },
               "revoke": {
                 "title": "Revoke attribute",
-                "subtitle": "By revoking the attribute, you declare that the consumer no longer owns the indicated attribute.",
+                "subtitle": "By revoking the attribute, you declare that the consumer no longer possesses the indicated attribute.",
                 "info": {
                   "title": "What happens when I revoke an attribute?",
-                  "description": "To find out more, <1>read the guide.</1>"
+                  "description": "To learn more, <1>read the guide.</1>"
                 }
               }
             }
@@ -123,48 +123,48 @@
     }
   },
   "consumerRead": {
-    "title": "Manage agreement",
+    "title": "Manage service request",
     "suspendedAlert": {
-      "byProducer": "This agreement has been suspended by the PROVIDER. Until it is reactivated it will not be possible to access the data.",
-      "byConsumer": "This agreement has been suspended by the CONSUMER. Until it is reactivated it will not be possible to access the data.",
-      "byPlatform": "This agreement has been suspended by the PLATFORM. Until it is reactivated it will not be possible to access the data."
+      "byProducer": "This service request has been suspended by the <strong>Producer</strong>. Until it is reactivated, it will not be possible to access the data.",
+      "byConsumer": "This service request has been suspended by the <strong>Consumer</strong>. Until it is reactivated, it will not be possible to access the data.",
+      "byPlatform": "This service request has been suspended by the <strong>Platform</strong>. Until it is reactivated, it will not be possible to access the data."
     },
     "missingCertifiedAttributesAlert": "This draft cannot be activated at the moment. One or more requirements are not met. Delete it and create a new one.",
     "noPurposeAlert": "To access the data <1>create your first purpose</1>.",
-    "noCertifiedAttributesForUpgradeTooltip": "There is an update available but your organization does not have the minimum requirements to perform it.",
+    "noCertifiedAttributesForUpgradeTooltip": "An update is available but your party does not have the minimum requirements to perform it.",
     "sections": {
       "generalInformations": {
-        "title": "General Informations",
+        "title": "General information",
         "eServiceField": {
-          "label": "Request for e-service",
+          "label": "Request for the e-service",
           "value": "{{name}}, version {{version}}"
         },
         "providerField": {
-          "label": "Provider"
+          "label": "Producer"
         },
         "consumerField": {
           "label": "Consumer"
         },
         "delegatedConsumerField": {
-          "label": "Delegated consumer"
+          "label": "Delegated to consuming"
         },
         "rejectionMessageField": {
-          "label": "Reason for rejection"
+          "label": "Rejection reason"
         },
         "documentation": {
-          "fileName": "Agreement request",
+          "fileName": "Service request",
           "link": {
-            "label": "Download agreement request"
+            "label": "Download service request"
           }
         },
         "certifiedAttributeLink": {
           "label": "View certified attributes"
         },
         "providerDetailsLink": {
-          "label": "View provider contacts"
+          "label": "View producer contacts"
         },
         "contactDrawer": {
-          "title": "Provider contacts",
+          "title": "Producer contacts",
           "emailField": {
             "label": "Contact email"
           },
@@ -173,7 +173,7 @@
           }
         },
         "attributesDrawer": {
-          "title": "Certified attributes required",
+          "title": "Required certified attributes",
           "subtitle": "That is, the attributes certified by a <1>recognized authoritative source</1> required to subscribe to this version of the e-service"
         }
       },
@@ -184,14 +184,14 @@
           },
           "documentationDrawer": {
             "title": "Documentation",
-            "subtitle": "The documentation that the user has attached to be recognized with the verified attributes required for this version of e-service",
+            "subtitle": "The documentation that the consumer has attached to have the required verified attributes recognized for this version of the e-service",
             "attachedDocuments": {
               "title": "Documentation",
-              "noDocumentsLabel": "There are no attached documents"
+              "noDocumentsLabel": "No documents attached"
             },
             "consumerMessage": {
-              "title": "Message for provider",
-              "description": "Useful supporting notes reported by the consumer"
+              "title": "Message for the producer",
+              "description": "Useful supporting notes provided by the consumer"
             }
           }
         },
@@ -204,30 +204,30 @@
     }
   },
   "edit": {
-    "title": "Manage fruition request",
+    "title": "Manage service request",
     "generalInformations": {
-      "title": "General Informations",
+      "title": "General information",
       "eserviceField": {
-        "label": "Request for",
+        "label": "Request related to",
         "versionLabel": "version"
       },
       "providerField": {
-        "label": "Provider"
+        "label": "Producer"
       },
       "consumerField": {
         "label": "Consumer"
       },
       "delegatedConsumerField": {
-        "label": "Delegated consumer"
+        "label": "Delegated to consuming"
       },
       "certifiedAttributesDrawerButtonLabel": "View certified attributes"
     },
     "consumerNotes": {
-      "title": "Message for provider",
-      "description": "Useful information to communicate to the provider for the verification of the attributes",
+      "title": "Message for the producer",
+      "description": "Useful information to communicate to the producer for attribute verification",
       "field": {
         "label": "Message",
-        "infoLabel": "Max 1000 chars"
+        "infoLabel": "Max 1000 characters"
       }
     },
     "documents": {
@@ -236,51 +236,51 @@
       "uploadBtn": "Upload",
       "documentPrettynameField": {
         "label": "Document name",
-        "infoLabel": "Min 5 chars, max 60 chars"
+        "infoLabel": "Min 5 characters, max 60 characters"
       }
     },
-    "submitBtn": "Publish request",
-    "noCertifiedAttributesForSubmitTooltip": "Your party does not have the needed certified attributes in order to publish the agreement request",
-    "noDeclaredAttributesForSubmitTooltip": "To proceed with the publication, you must have activated all the required declared attributes",
-    "suspendedEServiceTooltip": "Your institution does not have the certified attributes necessary to register",
-    "noContactEmailTooltip": "Before submitting the request, it is mandatory for your organization to enter a contact email",
-    "noContactEmailAlert": "To forward this agreement, you must indicate a contact email. You can add your email now <1>via this form</1>.",
+    "submitBtn": "Submit request",
+    "noCertifiedAttributesForSubmitTooltip": "Your party does not have the certified attributes required to submit the request",
+    "noDeclaredAttributesForSubmitTooltip": "To proceed with submission, you must have activated all the required declared attributes",
+    "suspendedEServiceTooltip": "Your party does not have the certified attributes required to subscribe",
+    "noContactEmailTooltip": "Before submitting the request, your party must enter a contact email",
+    "noContactEmailAlert": "To submit this service request, it is necessary to provide a contact email. You can now add your email <1>using this form</1>.",
     "newVersionAlert": "This draft can no longer be activated. Since its creation, a new version of the e-service has been released. Delete it and create a new one.",
-    "delegatedAttributesAlert": "The attributes requested and displayed on this page relate to the <strong>{{delegatorName}}</strong> tenat."
+    "delegatedAttributesAlert": "The attributes required and displayed on this page are related to the party <strong>{{delegatorName}}</strong>."
   },
   "list": {
-    "eserviceName": "{{name}}, version {{version}}",
-    "eserviceChip": "in delega",
+    "eserviceName": "{{name}}, v. {{version}}",
+    "eserviceChip": "delegated",
     "filters": {
       "eserviceField": {
-        "label": "Find by e-service"
+        "label": "Search by e-service"
       },
       "statusField": {
-        "label": "Agreement status",
+        "label": "Request status",
         "optionLabels": {
           "ACTIVE": "Active",
           "DRAFT": "Draft",
           "SUSPENDED": "Suspended",
-          "PENDING": "Pending",
+          "PENDING": "Waiting for approval",
           "ARCHIVED": "Archived",
           "REJECTED": "Rejected",
           "MISSING_CERTIFIED_ATTRIBUTES": "Missing certified attributes"
         }
       },
       "consumerField": {
-        "label": "Find by consumer"
+        "label": "Search by consumer"
       },
       "providerField": {
-        "label": "Find by provider"
+        "label": "Search by producer"
       }
     },
-    "upgradableAgreementTooltip": "A new version of this e-service is available. Access the agreement to update it"
+    "upgradableAgreementTooltip": "A new version of this e-service is available. Access the request to update"
   },
   "drawers": {
     "certifiedAttributes": {
-      "title": "Certified attributes required",
+      "title": "Required certified attributes",
       "description": "That is, the attributes certified by a <1>recognized authoritative source</1> required to subscribe to this version of the e-service",
-      "missingCertifiedAttributesAlert": "One or more authoritative sources have revoked one or more attributes necessary for the use of this e-service. If you think it's a mistake, check with them."
+      "missingCertifiedAttributesAlert": "One or more authoritative sources have revoked one or more attributes necessary for consuming this e-service. If you think this is an error, perform a verification with them."
     }
   }
 }
