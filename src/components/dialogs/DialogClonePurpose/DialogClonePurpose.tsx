@@ -48,10 +48,10 @@ export const DialogClonePurpose: React.FC<DialogClonePurposeProps> = ({ purposeI
 
   const incompatiblePersonalData = () => {
     if (isLoadingPurpose) return false
-    const userAnswer =
+    const userAnswerAboutPersonalData =
       purpose?.riskAnalysisForm?.answers['usesPersonalData'][0] === 'YES' ? true : false
     if (selectedEServicePersonalData === undefined) return false
-    else if (selectedEServicePersonalData !== userAnswer) return true
+    else if (selectedEServicePersonalData !== userAnswerAboutPersonalData) return true
     else return false
   }
 

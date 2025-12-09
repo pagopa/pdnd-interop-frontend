@@ -85,7 +85,7 @@ export const DialogClonePurposeEServiceAutocomplete: React.FC<
     value: eservice.id,
   }))
 
-  function handleValueChange(value: { label: string; value: string } | null) {
+  function handleEserviceIdValueChange(value: { label: string; value: string } | null) {
     selectedEServiceRef.current = eservices.find((eservice) => eservice.id === value?.value)
     onEServiceChange(selectedEServiceRef.current?.personalData)
   }
@@ -97,7 +97,7 @@ export const DialogClonePurposeEServiceAutocomplete: React.FC<
       name="eserviceId"
       label={t('eserviceField.label')}
       options={autocompleteOptions}
-      onValueChange={(value) => handleValueChange(value)}
+      onValueChange={(value) => handleEserviceIdValueChange(value)}
       onInputChange={(_, value) => setEserviceAutocompleteTextInput(value)}
     />
   )
