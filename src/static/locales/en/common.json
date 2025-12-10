@@ -54,7 +54,8 @@
     "substituteAdmin": "Substitute admin",
     "copy": "Copy",
     "specifyProcessing": "Specify processing",
-    "save": "Save"
+    "save": "Save",
+    "simulateVoucher": "Simulate obtaining the voucher"
   },
   "table": {
     "headData": {

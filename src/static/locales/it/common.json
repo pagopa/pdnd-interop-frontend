@@ -54,7 +54,8 @@
     "substituteAdmin": "Sostituisci admin",
     "copy": "Copia",
     "specifyProcessing": "Indica trattamento",
-    "save": "Salva"
+    "save": "Salva",
+    "simulateVoucher": "Simula l'ottenimento del voucher"
   },
   "table": {
     "headData": {

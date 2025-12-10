@@ -6,7 +6,6 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Alert, Button, Grid, Link, Stack, Tab, Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { VoucherInstructions } from './components/VoucherInstructions'
 import { useClientKind } from '@/hooks/useClientKind'
 import { ClientOperators } from './components/ClientOperators'
 import { ClientPublicKeys } from './components/ClientPublicKeys'
@@ -23,7 +22,7 @@ const ConsumerClientManagePage: React.FC = () => {
   const { t } = useTranslation('client', { keyPrefix: 'edit' })
   const { clientId } = useParams<'SUBSCRIBE_CLIENT_EDIT' | 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'>()
   const clientKind = useClientKind()
-  const { activeTab, updateActiveTab } = useActiveTab('voucher')
+  const { activeTab, updateActiveTab } = useActiveTab('clientOperators')
 
   const { data: client, isLoading: isLoadingClient } = useQuery(ClientQueries.getSingle(clientId))
 
@@ -100,14 +99,9 @@ const ConsumerClientManagePage: React.FC = () => {
       )}
       <TabContext value={activeTab}>
         <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
-          <Tab label={t('tabs.voucher')} value="voucher" />
           <Tab label={t('tabs.clientOperators')} value="clientOperators" />
           <Tab label={t('tabs.publicKeys')} value="publicKeys" />
         </TabList>
-
-        <TabPanel value="voucher">
-          <VoucherInstructions clientId={clientId} />
-        </TabPanel>
 
         <TabPanel value="clientOperators">
           <ClientOperators clientId={clientId} />

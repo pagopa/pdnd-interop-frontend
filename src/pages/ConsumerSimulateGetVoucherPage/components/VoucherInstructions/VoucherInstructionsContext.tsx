@@ -8,7 +8,6 @@ type VoucherInstructionsContextType = {
   selectedKeyId: string | undefined
   handleSelectedPurposeIdChange: (purpose: string) => void
   handleSelectedKeyIdChange: (key: string) => void
-  clientId: string
   goToNextStep: VoidFunction
   goToPreviousStep: VoidFunction
 }
@@ -18,7 +17,6 @@ const initialState: VoucherInstructionsContextType = {
   selectedKeyId: undefined,
   handleSelectedPurposeIdChange: noop,
   handleSelectedKeyIdChange: noop,
-  clientId: '',
   goToNextStep: noop,
   goToPreviousStep: noop,
 }
@@ -30,14 +28,12 @@ const { useContext, Provider } = createContext<VoucherInstructionsContextType>(
 
 type VoucherInstructionsContextProviderProps = {
   children: React.ReactNode
-  clientId: string
   goToNextStep: VoidFunction
   goToPreviousStep: VoidFunction
 }
 
 const VoucherInstructionsContextProvider: React.FC<VoucherInstructionsContextProviderProps> = ({
   children,
-  clientId,
   goToNextStep,
   goToPreviousStep,
 }) => {
@@ -72,7 +68,6 @@ const VoucherInstructionsContextProvider: React.FC<VoucherInstructionsContextPro
       handleSelectedPurposeIdChange,
       selectedKeyId,
       handleSelectedKeyIdChange,
-      clientId,
       goToNextStep,
       goToPreviousStep,
     }),
@@ -81,7 +76,6 @@ const VoucherInstructionsContextProvider: React.FC<VoucherInstructionsContextPro
       handleSelectedPurposeIdChange,
       selectedKeyId,
       handleSelectedKeyIdChange,
-      clientId,
       goToNextStep,
       goToPreviousStep,
     ]

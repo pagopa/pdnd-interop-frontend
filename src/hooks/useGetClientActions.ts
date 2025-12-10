@@ -39,7 +39,14 @@ function useGetClientActions(client?: Client | CompactClient): {
     color: 'error',
   }
 
-  return { actions: [deleteClientAction] }
+  const goToVoucherSimulation: ActionItemButton = {
+    action: () =>
+      navigate(clientKind === 'API' ? 'SIMULATE_GET_VOUCHER_API' : 'SIMULATE_GET_VOUCHER_CONSUMER'),
+    label: t('simulateVoucher'),
+    variant: 'contained',
+  }
+
+  return { actions: [goToVoucherSimulation, deleteClientAction] }
 }
 
 export default useGetClientActions

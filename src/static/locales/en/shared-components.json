@@ -465,6 +465,8 @@
     "PARTY_REGISTRY": "Party registry",
     "NOT_FOUND": "Page not found",
     "SUBSCRIBE_DEBUG_VOUCHER": "Voucher debug",
+    "SIMULATE_GET_VOUCHER_API": "Simulate getting a voucher",
+    "SIMULATE_GET_VOUCHER_CONSUMER": "Simulate getting a voucher",
     "ASSISTENCE_PARTY_SELECTION": "Party selection",
     "ASSISTENCE_PARTY_SELECTION_ERROR": "Party selection error",
     "DEFAULT": "",

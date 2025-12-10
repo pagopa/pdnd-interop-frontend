@@ -19,6 +19,9 @@
       "CONSUMER": "Select purpose and public key"
     },
     "description": "It is used to show you the correct parameters to enhance the client assertion",
+    "clientSelectInput": {
+      "label": "Choose the client to use"
+    },
     "purposeSelectInput": {
       "label": "Choose the purpose to use"
     },
