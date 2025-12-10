@@ -114,6 +114,10 @@
     "eserviceField": {
       "label": "Select e-service",
       "eserviceProvider": "provided by"
+    },
+    "alertPersonalData": {
+      "title": "La finalità non è compatibile con l’e-service selezionato",
+      "description": "La finalità da clonare indica un trattamento sui dati personali diverso da quanto definito dall’erogatore dell’e-service, pertanto non ti è consentita la pubblicazione. Per procedere, crea una nuova finalità rispettando il vincolo sui dati personali."
     }
   },
   "dialogCreateAgreementDraft": {
