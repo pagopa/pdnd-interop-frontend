@@ -1,14 +1,10 @@
 import React, { useEffect } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
-import { NotificationConfigSection } from './NotificationConfigSection'
 import { SectionContainer } from '@/components/layout/containers'
 import {
   Box,
-  Card,
-  Link,
   Stack,
   Typography,
-  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -20,13 +16,10 @@ import { useTranslation } from 'react-i18next'
 import { useNotificationConfigHook } from '../hooks/useNotificationConfigHook'
 import { type NotificationConfig } from '@/api/api.generatedTypes'
 import { debounce } from 'lodash'
-import type {
-  NotificationSubSectionSchema,
-  NotificationConfigType,
-  NotificationPreferenceChoiceType,
-} from '../types'
+import type { NotificationConfigType, NotificationPreferenceChoiceType } from '../types'
 import { match } from 'ts-pattern'
 import { AuthHooks } from '@/api/auth'
+import { NotificationConfigSection } from './NotificationConfigSection'
 
 type NotificationConfigFormValues = NotificationConfig & {
   preferenceChoice: NotificationPreferenceChoiceType
@@ -198,54 +191,16 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
           {isEnabledShowPreferencesSwitch() &&
             Object.keys(notificationSchema).map((sectionName) => {
               const isAllSwitchWithinSectionDisabled = getSwitchBySections(sectionName).length <= 0
-              const SectionIcon = notificationSchema[sectionName].icon
 
               return (
-                <Box key={sectionName} data-testid={`config-section-${sectionName}`} sx={{ mb: 3 }}>
-                  <Card sx={{ ml: -2, px: 3, mb: 2 }} variant="outlined">
-                    <Box
-                      display="flex"
-                      width="100%"
-                      justifyContent="space-between"
-                      alignItems="center"
-                      sx={{ mb: 4, mt: 3 }}
-                    >
-                      <Stack alignItems="center" direction="row" gap={1}>
-                        <SectionIcon />
-                        <Typography variant="button">
-                          {notificationSchema[sectionName].title}
-                        </Typography>
-                      </Stack>
-                      <Button
-                        data-testid={`enableSectionAllNotifications-${sectionName}`}
-                        variant="naked"
-                        sx={{ mr: 3 }}
-                        onClick={() =>
-                          onClickEnableAllSectionSwitch(
-                            sectionName,
-                            !isAllSwitchWithinSectionDisabled
-                          )
-                        }
-                      >
-                        {isAllSwitchWithinSectionDisabled
-                          ? t('disableSectionAllNotifications')
-                          : t('enableSectionAllNotifications')}
-                      </Button>
-                    </Box>
-
-                    {notificationSchema[sectionName].subsections.map(
-                      (subsection: NotificationSubSectionSchema) => {
-                        return (
-                          <NotificationConfigSection
-                            data-testid={sectionName}
-                            key={sectionName}
-                            subsection={subsection}
-                          />
-                        )
-                      }
-                    )}
-                  </Card>
-                </Box>
+                <NotificationConfigSection
+                  key={sectionName}
+                  notificationSchema={notificationSchema[sectionName]}
+                  type={type}
+                  name={sectionName}
+                  onClickEnableAllSectionSwitch={onClickEnableAllSectionSwitch}
+                  isAllSwitchWithinSectionDisabled={isAllSwitchWithinSectionDisabled}
+                />
               )
             })}
         </Box>

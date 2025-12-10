@@ -1,42 +1,60 @@
-import { RHFSwitch, SwitchLabelDescription } from '@/components/shared/react-hook-form-inputs'
-import { Box } from '@mui/system'
-import { Typography } from '@mui/material'
-import { AuthHooks } from '@/api/auth'
-import type { NotificationSubSectionSchema } from '../types'
+import { Card, Typography, Button } from '@mui/material'
+import { Box, Stack } from '@mui/system'
+import type { NotificationSectionSchema, NotificationSubSectionSchema } from '../types'
+import { useTranslation } from 'react-i18next'
+import { NotificationConfigSubSection } from './NotificationConfigSubSection'
 
 type NotificationConfigSectionProps = {
-  subsection: NotificationSubSectionSchema
+  name: string
+  notificationSchema: NotificationSectionSchema
+  type: 'email' | 'inApp'
+  onClickEnableAllSectionSwitch: (sectionName: string, enable: boolean) => void
+  isAllSwitchWithinSectionDisabled: boolean
 }
+
 export const NotificationConfigSection: React.FC<NotificationConfigSectionProps> = ({
-  subsection,
+  name,
+  notificationSchema,
+  type,
+  onClickEnableAllSectionSwitch,
+  isAllSwitchWithinSectionDisabled,
 }) => {
-  const { currentRoles } = AuthHooks.useJwt()
+  const { icon: Icon, subsections, title } = notificationSchema
+
+  const { t } = useTranslation('notification', { keyPrefix: `configurationPage.${type}` })
 
   return (
-    <>
-      <Typography variant="body2" component="h2" mb={1} fontWeight={600}>
-        {subsection.title}
-      </Typography>
-      <Box sx={{ ml: 3, mb: 2 }}>
-        {subsection.components.map(
-          (component) =>
-            // is currentRoles authorized to show the switch  ?
-            currentRoles.some((item) => component.visibility.includes(item)) && (
-              <RHFSwitch
-                sx={{ mt: 1, mb: 1 }}
-                data-testid={component.key}
-                key={component.key}
-                name={component.key}
-                label={
-                  <SwitchLabelDescription
-                    label={component.title}
-                    description={component.description}
-                  />
-                }
-              />
-            )
-        )}
-      </Box>
-    </>
+    <Box key={name} data-testid={`config-section-${name}`} sx={{ mb: 3 }}>
+      <Card sx={{ ml: -2, px: 3, mb: 2 }} variant="outlined">
+        <Box
+          display="flex"
+          width="100%"
+          justifyContent="space-between"
+          alignItems="center"
+          sx={{ mb: 4, mt: 3 }}
+        >
+          <Stack alignItems="center" direction="row" gap={1}>
+            <Icon />
+            <Typography variant="button">{title}</Typography>
+          </Stack>
+          <Button
+            data-testid={`enableSectionAllNotifications-${name}`}
+            variant="naked"
+            sx={{ mr: 3 }}
+            onClick={() => onClickEnableAllSectionSwitch(name, !isAllSwitchWithinSectionDisabled)}
+          >
+            {isAllSwitchWithinSectionDisabled
+              ? t('disableSectionAllNotifications')
+              : t('enableSectionAllNotifications')}
+          </Button>
+        </Box>
+
+        {subsections.map((subsection: NotificationSubSectionSchema) => {
+          return (
+            <NotificationConfigSubSection data-testid={name} key={name} subsection={subsection} />
+          )
+        })}
+      </Card>
+    </Box>
   )
 }
