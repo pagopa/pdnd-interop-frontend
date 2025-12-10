@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { NotificationServices } from './index'
 import { useTranslation } from 'react-i18next'
+import type { MarkNotificationsAsReadPayload } from '../api.generatedTypes'
 function useUpdateNotificationUserConfigs() {
   const { t } = useTranslation('notification', {
     keyPrefix: 'notifications.configurationPage.outcome',
