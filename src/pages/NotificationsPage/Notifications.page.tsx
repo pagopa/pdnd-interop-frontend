@@ -4,16 +4,18 @@ import { HeadSection } from '@/components/shared/HeadSection'
 import type { ActionItemButton } from '@/types/common.types'
 import { Filters, Pagination, useFilters, usePagination } from '@pagopa/interop-fe-commons'
 import { NotificationsTable, NotificationsTableSkeleton } from './NotificationsTable'
-import type { GetUserNotificationsParams } from '@/api/notification/notification.services'
 import { NotificationMutations, NotificationQueries } from '@/api/notification'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import type { GetNotificationsParams } from '@/api/api.generatedTypes'
+import { useNavigate } from '@/router'
 
 const NotificationsPage: React.FC = () => {
-  const { t } = useTranslation('notifications', { keyPrefix: 'notifications.page' })
+  const { t } = useTranslation('notification', { keyPrefix: 'notifications.page' })
+  const navigate = useNavigate()
 
   const action: ActionItemButton[] = [
     {
-      action: () => { }, //TODO
+      action: () => navigate('NOTIFICATIONS_CONFIG'),
       label: t('addNotificationConfigBtn'),
       color: 'primary',
       variant: 'contained',
@@ -21,7 +23,7 @@ const NotificationsPage: React.FC = () => {
   ]
 
   const { filtersParams, ...filtersHandlers } = useFilters<
-    Omit<GetUserNotificationsParams, 'limit' | 'offset'>
+    Omit<GetNotificationsParams, 'limit' | 'offset'>
   >([
     { name: 'q', label: t('filters.objectField.label'), type: 'freetext' },
     {
@@ -45,7 +47,7 @@ const NotificationsPage: React.FC = () => {
       ],
     },
     {
-      name: 'state',
+      name: 'unread',
       label: t('filters.stateField.label'),
       type: 'autocomplete-single',
       options: [
@@ -104,7 +106,7 @@ const NotificationsPage: React.FC = () => {
 }
 
 const NotificationsTableWrapper: React.FC<{
-  params: GetUserNotificationsParams
+  params: GetNotificationsParams
 }> = ({ params }) => {
   const { data, isFetching, refetch, dataUpdatedAt } = useQuery({
     ...NotificationQueries.getUserNotificationsList(params),
@@ -115,17 +117,14 @@ const NotificationsTableWrapper: React.FC<{
   const { mutate: deleteNotifications } = NotificationMutations.useDeleteNotifications()
 
   const handleMultipleRowMarkAsRead = (notificationIds: string[]) => {
-    console.log('MarkAsRead', notificationIds)
     markBulkAsRead({ ids: notificationIds })
   }
 
   const handleMultipleRowMarkAsUnread = (notificationIds: string[]) => {
-    console.log('MarkAsUnread', notificationIds)
     markBulkAsUnread({ ids: notificationIds })
   }
 
   const handleMultipleRowDelete = (notificationIds: string[]) => {
-    console.log('delete:', notificationIds)
     deleteNotifications({ ids: notificationIds })
   }
 

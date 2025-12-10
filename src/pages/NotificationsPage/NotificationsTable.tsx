@@ -127,7 +127,7 @@ const NotficationTableRowsActions: React.FC<NotficationTableRowsActionsProps> = 
   rowSelected,
   dataUpdatedAt,
 }) => {
-  const { t: tNotification } = useTranslation('notifications', {
+  const { t: tNotification } = useTranslation('notification', {
     keyPrefix: 'notifications.page.rowActions',
   })
 
