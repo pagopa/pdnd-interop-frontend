@@ -68,6 +68,22 @@
       "confirmLabel": "Add"
     }
   },
+  "personalDataDrawer": {
+    "title": "Does this {{where}} process personal data?",
+    "subtitle": "For this {{where}}, it is necessary to indicate whether personal data is processed.",
+    "alertForAPIOperator": "Consult with the administrator before confirming. Once saved, this data can no longer be changed.",
+    "alertLabel": "Once saved, this data can no longer be changed.",
+    "options": {
+      "DELIVER": {
+        "true": "Delivers personal data",
+        "false": "Does not deliver personal data"
+      },
+      "RECEIVE": {
+        "true": "Receives personal data",
+        "false": "Does not receive personal data"
+      }
+    }
+  },
   "dialogUpgradeAgreementVersion": {
     "title": "Update agreement",
     "content": {
@@ -98,6 +114,10 @@
     "eserviceField": {
       "label": "Select e-service",
       "eserviceProvider": "provided by"
+    },
+    "alertPersonalData": {
+      "title": "La finalità non è compatibile con l’e-service selezionato",
+      "description": "La finalità da clonare indica un trattamento sui dati personali diverso da quanto definito dall’erogatore dell’e-service, pertanto non ti è consentita la pubblicazione. Per procedere, crea una nuova finalità rispettando il vincolo sui dati personali."
     }
   },
   "dialogCreateAgreementDraft": {
@@ -215,6 +235,25 @@
       "approveAndPublish": "Approve and publish"
     }
   },
+  "dialogPurposeTemplatesTenantKind": {
+    "title": "Select the type of entity",
+    "content": {
+      "description": "Indicate who will be able to use the risk analysis you are creating and whether personal data is being processed.",
+      "label": "Target entity type",
+      "options": {
+        "labelPA": "Public Administrations (Art. 2, paragraph 2, letter “a” of the CAD)",
+        "labelNotPA": "Public service managers, publicly controlled companies (Art. 2, paragraph 2, letters “b” and “c”) or Private"
+      },
+      "personalDataRadioBtn": {
+        "label": "Does the risk analysis involve the processing of personal data?",
+        "error": "Indicate whether personal data will be processed",
+        "options": {
+          "true": "Yes, personal data will be processed",
+          "false": "No, personal data will not be processed"
+        }
+      }
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"
@@ -284,6 +323,20 @@
   "attributeGroupContainer": {
     "removeGroupAriaLabel": "Remove attribute group"
   },
+  "eserviceContainer": {
+    "eserviceIdField": "E-service ID",
+    "viewEserviceBtn": "View e-service",
+    "idCopytooltipLabel": "Id copied correctly",
+    "removeAttributeAriaLabel": "Remove {eserviceName}} e-service",
+    "tooltipTitle": {
+      "ARCHIVED": "This e-service has been archived and can no longer be associated",
+      "SUSPENDED": "This e-service has been suspended and can no longer be associated"
+    },
+    "warning": {
+      "ARCHIVED": "This e-service has been archived and can no longer be associated. Remove it before proceeding",
+      "SUSPENDED": "This e-service has been suspended and can no longer be associated. Remove it before proceeding"
+    }
+  },
   "drawer": {
     "closeIconAriaLabel": "Close the drawer",
     "updateLabel": "Update"
@@ -335,6 +388,20 @@
         "riskAnalysisSection": {
           "title": "Risk analysis",
           "description": "The questions in the questionnaire will vary based on the answers provided gradually. If you change the answer to a previous question, subsequent questions may change.",
+          "personalDataFlag": {
+            "label": "Personal data processing",
+            "true": "You have declared that you process personal data",
+            "false": "You have declared that you do not process personal data",
+            "undefined": "You did not answer the question about personal data processing"
+          },
+          "personalDataValuesAlert": {
+            "labelForEserviceCreateStep2": "Make sure that the answer to this question matches the one you indicated in the general information of the e-service. If the data does not match, the publication of this purpose will be blocked.",
+            "alertForIncompatibleAnswer": "Make sure that the answer to the question \"Indicate whether you access personal data (required)\" matches the one you indicated in the general information. If the data does not match, the publication will be blocked.",
+            "labelForPurposeCreate": {
+              "YES": "You will not be able to publish this purpose because you have declared that personal data is processed, but the provider has declared otherwise. For clarification, contact the provider.",
+              "NO": "You will not be able to publish this purpose because you have declared that personal data is not processed, but the provider has declared otherwise. For clarification, contact the provider."
+            }
+          },
           "personalDataAlert": "Be careful not to enter personal data in the free text fields",
           "eserviceTemplateRiskAnalysis": {
             "title": "Indicate who will be able to use the following risk analysis.",
@@ -347,6 +414,22 @@
         }
       }
     }
+  },
+  "purposeTemplateRiskAnalysisInfoSummary": {
+    "annotationSection": {
+      "readAnnotationBtnLabel": "Read annotation",
+      "title": "Annotations provided by the creator"
+    },
+    "answerLabel": "Answer: ",
+    "notEditableLabel": "Not editable",
+    "notEditableTooltip": "The template creator does not allow changes to this field",
+    "suggestedValuesSection": {
+      "title": "Answers:",
+      "option": "Option {{index}}:"
+    }
+  },
+  "documents": {
+    "notAvailableYet": "The document will be available soon"
   },
   "routeLabels": {
     "LOGOUT": "Logout",
@@ -412,6 +495,14 @@
     "DEVELOPER_TOOLS": "Developer tools",
     "RISK_ANALYSIS_EXPORTER_TOOL": "Export risk analysis",
     "CLIENT_MANAGEMENT": "Client management",
-    "NOTIFICATIONS": "Notifications"
+    "NOTIFICATIONS": "Notifications",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_LIST": "My purpose templates",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY": "Purpose template summary",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG": "Purpose template",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS": "Template details",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS": "Template details",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_EDIT": "Edit purpose template",
+    "SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE": "Create purpose from template",
+    "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Edit purpose from template"
   }
 }

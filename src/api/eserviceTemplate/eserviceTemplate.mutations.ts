@@ -349,6 +349,20 @@ function useUpdateInstanceFromEServiceTemplate() {
   })
 }
 
+function useUpdateEServiceTemplatePersonalDataFlagAfterPublication() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateEServiceTemplatePersonalDataFlagAfterPublication',
+  })
+  return useMutation({
+    mutationFn: EServiceTemplateServices.updateEServiceTemplatePersonalDataFlagAfterPublication,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const EServiceTemplateMutations = {
   useUpdateEServiceTemplateName,
   useUpdateEServiceTemplateIntendedTarget,
@@ -371,4 +385,5 @@ export const EServiceTemplateMutations = {
   useReactivateVersion,
   useCreateInstanceFromEServiceTemplate,
   useUpdateInstanceFromEServiceTemplate,
+  useUpdateEServiceTemplatePersonalDataFlagAfterPublication,
 }

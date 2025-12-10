@@ -16,15 +16,6 @@ describe('useGetConsumerPurposeAlertProps', () => {
     expect(result.current).toBe(undefined)
   })
 
-  it("should return a warning alert if the purpose's risk analysis version is different from the latest risk analysis", () => {
-    mockUseCheckRiskAnalysisVersionMismatch(true)
-    const { result } = renderHook(() => useGetConsumerPurposeAlertProps(createMockPurpose()))
-    expect(result.current).toStrictEqual({
-      severity: 'warning',
-      children: 'newRiskAnalysisAvailable',
-    })
-  })
-
   it('should return a warning alert if the purpose agreement is archived', () => {
     mockUseCheckRiskAnalysisVersionMismatch(false)
     const { result } = renderHook(() =>

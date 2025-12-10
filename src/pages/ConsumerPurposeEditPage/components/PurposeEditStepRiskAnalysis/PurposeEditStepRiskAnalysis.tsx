@@ -3,41 +3,26 @@ import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { RiskAnalysisForm, RiskAnalysisFormSkeleton } from './RiskAnalysisForm/RiskAnalysisForm'
 import { useNavigate, useParams } from '@/router'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
-import { RiskAnalysisVersionMismatchDialog } from './RiskAnalysisForm'
-import { useCheckRiskAnalysisVersionMismatch } from '@/hooks/useCheckRiskAnalysisVersionMismatch'
+
 import { useQuery } from '@tanstack/react-query'
 
 export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back }) => {
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_EDIT'>()
   const navigate = useNavigate()
 
-  const [shouldProceedWithVersionMismatch, setShouldProceedWithVersionMismatch] =
-    React.useState(false)
-
   const { mutate: updatePurpose } = PurposeMutations.useUpdateDraft()
   const { data: purpose } = useQuery(PurposeQueries.getSingle(purposeId))
 
-  const { data: riskAnalysis } = useQuery(
-    PurposeQueries.getRiskAnalysisLatest({ tenantKind: purpose?.consumer.kind })
-  )
-
-  const hasVersionMismatch = useCheckRiskAnalysisVersionMismatch(purpose)
+  const { data: riskAnalysis } = useQuery({
+    ...PurposeQueries.getRiskAnalyisLatestOrSpecificVersion({
+      eserviceId: purpose?.eservice.id,
+      riskAnalysisVersion: purpose?.riskAnalysisForm?.version,
+      tenantKind: purpose?.consumer.kind,
+    }),
+  })
 
   if (!purpose || !riskAnalysis) {
     return <RiskAnalysisFormSkeleton />
-  }
-
-  if (!shouldProceedWithVersionMismatch && hasVersionMismatch) {
-    return (
-      <RiskAnalysisVersionMismatchDialog
-        onProceed={() => {
-          setShouldProceedWithVersionMismatch(true)
-        }}
-        onRefuse={() => {
-          navigate('SUBSCRIBE_PURPOSE_LIST')
-        }}
-      />
-    )
   }
 
   const goToSummary = () => {
@@ -69,6 +54,7 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
       defaultAnswers={purpose.riskAnalysisForm?.answers}
       onSubmit={handleSubmit}
       onCancel={back}
+      personalData={purpose.eservice.personalData}
     />
   )
 }

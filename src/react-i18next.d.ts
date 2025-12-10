@@ -19,6 +19,7 @@ import type eserviceTemplateNs from '@/static/locales/en/eserviceTemplate.json'
 import type developerToolsNs from '@/static/locales/en/developer-tools.json'
 import type sidebarNs from '@/static/locales/en/sidebar.json'
 import type notificationsNs from '@/static/locales/en/notifications.json'
+import type purposeTemplateNs from '@/static/locales/en/purposeTemplate.json'
 
 declare module 'i18next' {
   interface CustomTypeOptions {
@@ -45,6 +46,7 @@ declare module 'i18next' {
       'developer-tools': typeof developerToolsNs
       sidebar: typeof sidebarNs
       notifications: typeof notificationsNs
+      purposeTemplate: typeof purposeTemplateNs
     }
   }
 }

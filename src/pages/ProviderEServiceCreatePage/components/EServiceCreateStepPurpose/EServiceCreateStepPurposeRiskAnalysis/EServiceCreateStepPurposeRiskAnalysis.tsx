@@ -11,24 +11,24 @@ import { useQuery } from '@tanstack/react-query'
 export const EServiceCreateStepPurposeRiskAnalysis: React.FC = () => {
   const { riskAnalysisFormState, closeRiskAnalysisForm, descriptor } = useEServiceCreateContext()
 
+  const personalData = descriptor?.eservice.personalData
+
   const { mutate: addEServiceRiskAnalysis } = EServiceMutations.useAddEServiceRiskAnalysis()
   const { mutate: updateEServiceRiskAnalysis } = EServiceMutations.useUpdateEServiceRiskAnalysis()
-
-  const { data: riskAnalysisLatest } = useQuery(
-    PurposeQueries.getRiskAnalysisLatest({
-      /**
-       * We need to retrieve the risk analysis configuration for the tenant kind of the producer
-       * because the actual user might be a producer delegate with a different tenant kind.
-       */
-      tenantKind: descriptor?.eservice.producer.tenantKind,
-    })
-  )
-
-  if (!riskAnalysisLatest || !descriptor) return <RiskAnalysisFormSkeleton />
 
   const riskAnalysisToEdit = descriptor?.eservice.riskAnalysis.find(
     (item) => item.id === riskAnalysisFormState.riskAnalysisId
   )
+
+  const { data: riskAnalysis } = useQuery({
+    ...PurposeQueries.getRiskAnalyisLatestOrSpecificVersion({
+      eserviceId: descriptor?.eservice.id,
+      riskAnalysisVersion: riskAnalysisToEdit?.riskAnalysisForm.version,
+      tenantKind: descriptor?.eservice.producer.tenantKind,
+    }),
+  })
+
+  if (!riskAnalysis || !descriptor) return <RiskAnalysisFormSkeleton />
 
   const handleCancel = () => {
     closeRiskAnalysisForm()
@@ -60,7 +60,7 @@ export const EServiceCreateStepPurposeRiskAnalysis: React.FC = () => {
           eserviceId: descriptor?.eservice.id,
           name: name,
           riskAnalysisForm: {
-            version: riskAnalysisLatest.version,
+            version: riskAnalysis.version,
             answers: answers,
           },
         },
@@ -77,9 +77,10 @@ export const EServiceCreateStepPurposeRiskAnalysis: React.FC = () => {
     <CreateStepPurposeRiskAnalysisForm
       defaultName={riskAnalysisToEdit?.name}
       defaultAnswers={riskAnalysisToEdit?.riskAnalysisForm.answers}
-      riskAnalysis={riskAnalysisLatest}
+      riskAnalysis={riskAnalysis}
       onSubmit={handleSubmit}
       onCancel={handleCancel}
+      personalData={personalData}
     />
   )
 }

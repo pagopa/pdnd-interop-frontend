@@ -12,6 +12,17 @@ function useDownloadDelegationContract() {
   })
 }
 
+function useDownloadSignedDelegationContract() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'delegation.downloadDelegationContract',
+  })
+  return useDownloadFile(DelegationServices.downloadSignedDelegationContract, {
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+  })
+}
+
 export const DelegationDownloads = {
   useDownloadDelegationContract,
+  useDownloadSignedDelegationContract,
 }

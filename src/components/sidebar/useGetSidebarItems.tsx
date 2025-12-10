@@ -42,6 +42,11 @@ export function useGetSidebarItems(): SidebarRoutes {
         children: [
           { to: 'SUBSCRIBE_AGREEMENT_LIST', label: t('subscribe.agreement') },
           { to: 'SUBSCRIBE_PURPOSE_LIST', label: t('subscribe.purpose') },
+          {
+            to: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG',
+            label: t('subscribe.purposeTemplateCatalog'),
+          },
+          { to: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST', label: t('subscribe.purposeTemplate') },
         ],
         divider: false,
       },
