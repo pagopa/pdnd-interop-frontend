@@ -29,7 +29,8 @@
       "tenantCertifier": "Certifying organization",
       "delegations": "Delegation management"
     },
-    "developerTools": "Developer tools"
+    "developerTools": "Developer tools",
+    "notifications": "Notifications"
   },
   "menu": "Menù",
   "userExternalLinkLabel": "Utenti",

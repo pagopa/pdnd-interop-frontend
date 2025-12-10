@@ -29,7 +29,8 @@
       "tenantCertifier": "Ente certificatore",
       "delegations": "Gestione delle deleghe"
     },
-    "developerTools": "Tool per lo sviluppo"
+    "developerTools": "Tool per lo sviluppo",
+    "notifications": "Notifiche"
   },
   "menu": "Menù",
   "userExternalLinkLabel": "Utenti",
