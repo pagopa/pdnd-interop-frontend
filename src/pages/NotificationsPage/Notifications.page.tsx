@@ -84,7 +84,7 @@ const NotificationsPage: React.FC = () => {
         actions={action}
       />
 
-      {filtersParams && totalPageCount == 0 ? (
+      {filtersParams && totalPageCount >= 0 ? (
         <>
           <Filters {...filtersHandlers} />
           <NotificationsTableWrapper params={params} />

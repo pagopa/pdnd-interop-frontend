@@ -94,23 +94,6 @@ async function markNotificationsAsReadByEntityId({ entityId }: { entityId: strin
   }
 }
 
-// export const NotificationServices = {
-//   getUserNotificationsList,
-//   markAsRead,
-//   markBulkAsRead,
-//   markAsNotRead,
-//   markBulkAsNotRead,
-//   deleteNotification,
-//   deleteNotifications,
-//   markNotificationsAsReadByEntityId,
-// import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
-// import type {
-//   TenantNotificationConfig,
-//   TenantNotificationConfigUpdateSeed,
-//   UserNotificationConfig,
-//   UserNotificationConfigUpdateSeed,
-// } from '../api.generatedTypes'
-
 async function updateUserNotificationConfigs(payload: UserNotificationConfigUpdateSeed) {
   return await axiosInstance.post<void>(
     `${BACKEND_FOR_FRONTEND_URL}/userNotificationConfigs`,
