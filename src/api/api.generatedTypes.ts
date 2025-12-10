@@ -427,6 +427,8 @@ export interface EServiceTemplateRiskAnalysis {
   tenantKind: TenantKind
   /** @format date-time */
   createdAt: string
+  /** @format date-time */
+  rulesetExpiration?: string
 }
 
 export interface ProducerEServiceDescriptor {
@@ -2348,6 +2350,8 @@ export interface NotificationConfig {
   delegationSubmittedRevokedToDelegate: boolean
   certifiedVerifiedAttributeAssignedRevokedToAssignee: boolean
   clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: boolean
+  purposeQuotaAdjustmentRequestToProducer: boolean
+  purposeOverQuotaStateToConsumer: boolean
 }
 
 export interface TenantNotificationConfig {
@@ -3239,6 +3243,7 @@ export interface IsEServiceNameAvailableParams {
 export interface GetNotificationsParams {
   /** Query to filter notifications */
   q?: string
+  unread?: boolean
   /** Category to filter notifications */
   category?: 'Subscribers' | 'Providers' | 'Delegations' | 'AttributesAndKeys'
   /**
@@ -8520,6 +8525,7 @@ export namespace InAppNotifications {
     export type RequestQuery = {
       /** Query to filter notifications */
       q?: string
+      unread?: boolean
       /** Category to filter notifications */
       category?: 'Subscribers' | 'Providers' | 'Delegations' | 'AttributesAndKeys'
       /**
