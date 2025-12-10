@@ -11,7 +11,7 @@ export type ParsedJwt = ReturnType<typeof parseJwt>
 export const parseJwt = memoize((token: string | null | undefined) => {
   const jwt = token ? jwtDecode<JwtUser>(token) : undefined
   const currentRoles = jwt ? jwt.organization.roles.map((r) => r.role) : []
-  const isAdmin = currentRoles.length === 1 && currentRoles[0] === ''
+  const isAdmin = currentRoles.length === 1 && currentRoles[0] === 'admin'
   const isOperatorAPI = currentRoles.includes('api')
   const isOperatorSecurity = currentRoles.includes('security')
   const isSupport = currentRoles.includes('support')
