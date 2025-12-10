@@ -586,6 +586,8 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'api', 'support', 'security'],
+  })
+  .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST',
     path: '/fruizione/template-finalita',
     element: <ConsumerPurposeTemplateListPage />,
