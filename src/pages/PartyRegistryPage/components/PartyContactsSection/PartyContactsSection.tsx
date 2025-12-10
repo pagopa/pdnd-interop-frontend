@@ -18,9 +18,9 @@ export const PartyContactsSection: React.FC = () => {
   const { isAdmin } = AuthHooks.useJwt()
 
   const { data: user } = TenantHooks.useGetActiveUserParty()
-  const { data: tenantEmailNotifictionConfigs } = useQuery({
-    ...NotificationQueries.getTenantNotificationConfigs(),
-  })
+  const { data: tenantEmailNotificationConfigs } = useQuery(
+    NotificationQueries.getTenantNotificationConfigs()
+  )
   const email = user.contactMail
 
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
@@ -57,7 +57,7 @@ export const PartyContactsSection: React.FC = () => {
             <InformationContainer
               label={tNotification('label')}
               content={
-                tenantEmailNotifictionConfigs?.enabled
+                tenantEmailNotificationConfigs?.enabled
                   ? tNotification('active')
                   : tNotification('inactive')
               }
@@ -73,7 +73,7 @@ export const PartyContactsSection: React.FC = () => {
             isOpen={isDrawerOpen}
             onClose={onCloseDrawer}
             email={email}
-            enabledTenantNotificationConfigEmail={tenantEmailNotifictionConfigs?.enabled}
+            enabledTenantNotificationConfigEmail={tenantEmailNotificationConfigs?.enabled}
           />
         </SectionContainer>
       </Grid>
