@@ -15,7 +15,7 @@ export const SwitchLabelDescription: React.FC<SwitchLabelDescriptionProps> = ({
       <Typography component="p" variant="body2" fontWeight={400}>
         {label}
       </Typography>
-      <Typography component="p" color="text.secondary" variant="caption">
+      <Typography component="span" color="text.secondary" variant="caption">
         {description}
       </Typography>
     </Box>
