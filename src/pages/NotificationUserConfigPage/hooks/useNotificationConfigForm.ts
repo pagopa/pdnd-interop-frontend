@@ -1,5 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
-import type { UseFormReturn } from 'react-hook-form'
+import { useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { debounce } from 'lodash'
 import type { NotificationConfigType, NotificationPreferenceChoiceType } from '../types'
@@ -19,22 +18,16 @@ type UseNotificationConfigFormProps = {
   type: NotificationConfigType
 }
 
-type UseNotificationConfigFormReturn = {
-  formMethods: UseFormReturn<NotificationConfigFormValues>
-  preferenceChoice: NotificationPreferenceChoiceType
-  valueChanged: NotificationConfigFormValues
-}
-
 export const useNotificationConfigForm = ({
   notificationConfig,
   handleUpdateNotificationConfigs,
   type,
-}: UseNotificationConfigFormProps): UseNotificationConfigFormReturn => {
+}: UseNotificationConfigFormProps) => {
   const formMethods = useForm<NotificationConfigFormValues>({
     defaultValues: { ...notificationConfig, preferenceChoice: notificationConfig.preferenceChoice },
   })
 
-  const valueChanged = formMethods.watch()
+  const valuesChanged = formMethods.watch()
   const preferenceChoice = formMethods.getValues('preferenceChoice')
 
   const debouncedUpdate = useMemo(
@@ -59,6 +52,6 @@ export const useNotificationConfigForm = ({
   return {
     formMethods,
     preferenceChoice,
-    valueChanged,
+    valuesChanged,
   }
 }

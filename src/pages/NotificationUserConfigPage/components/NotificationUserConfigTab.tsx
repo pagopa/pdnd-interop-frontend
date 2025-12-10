@@ -44,7 +44,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   const { t } = useTranslation('notification', { keyPrefix: `configurationPage.${type}` })
   const { userEmail } = AuthHooks.useJwt()
 
-  const { formMethods, preferenceChoice, valueChanged } = useNotificationConfigForm({
+  const { formMethods, preferenceChoice, valuesChanged } = useNotificationConfigForm({
     handleUpdateNotificationConfigs,
     notificationConfig,
     type,
@@ -62,20 +62,14 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
 
   const getSwitchBySections = (sectionName: string) => {
     return sectionComponentKeysMap[sectionName].filter(
-      (item) => !valueChanged[item as keyof NotificationConfig]
+      (item) => !valuesChanged[item as keyof NotificationConfig]
     )
   }
 
-  const isEnabledShowPreferencesSwitch = (): boolean => {
-    return match(type)
-      .with('email', () => {
-        return preferenceChoice === 'ENABLED'
-      })
-      .with('inApp', () => {
-        return !!preferenceChoice
-      })
-      .exhaustive()
-  }
+  const isEnabledShowPreferencesSwitch = match(type)
+    .with('email', () => preferenceChoice === 'ENABLED')
+    .with('inApp', () => !!preferenceChoice)
+    .exhaustive()
 
   return (
     <FormProvider {...formMethods}>
@@ -95,7 +89,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
           </Alert>
         )}
         <Box sx={{ ml: 2, mt: 2 }}>
-          {isEnabledShowPreferencesSwitch() &&
+          {isEnabledShowPreferencesSwitch &&
             Object.keys(notificationSchema).map((sectionName) => {
               const isAllSwitchWithinSectionDisabled = getSwitchBySections(sectionName).length <= 0
 
