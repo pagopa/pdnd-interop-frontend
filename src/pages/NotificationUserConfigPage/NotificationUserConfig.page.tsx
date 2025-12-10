@@ -47,38 +47,6 @@ const NotificationUserConfigTabs: React.FC<{
   const { mutate: updateUserNotificationConfigs } =
     NotificationMutations.useUpdateNotificationUserConfigs()
 
-  // const handleUpdate = (
-  //   notificationConfig: NotificationConfig,
-  //   type: NotificationConfigType,
-  //   preferenceChoice:
-  //     | UserNotificationConfig['emailNotificationPreference']
-  //     | UserNotificationConfig['inAppNotificationPreference']
-  // ) => {
-  //   const unnecessaryKeys = ['preferenceChoice']
-  //   const removeUnnecessaryKeys = (config: NotificationConfig) => {
-  //     return Object.fromEntries(
-  //       Object.entries(config).filter(([key]) => !unnecessaryKeys.includes(key))
-  //     ) as NotificationConfig
-  //   }
-
-  //   const notificationConfigSeed = match(type)
-  //     .with('inApp', () => ({
-  //       inAppNotificationPreference: preferenceChoice,
-  //       inAppConfig: removeUnnecessaryKeys(notificationConfig),
-  //       emailNotificationPreference: data?.emailNotificationPreference,
-  //       emailConfig: data?.emailConfig,
-  //     }))
-  //     .with('email', () => ({
-  //       inAppNotificationPreference: data?.inAppNotificationPreference,
-  //       inAppConfig: data?.inAppConfig,
-  //       emailConfig: removeUnnecessaryKeys(notificationConfig),
-  //       emailNotificationPreference: preferenceChoice,
-  //     }))
-  //     .exhaustive()
-
-  //   updateUserNotificationConfigs(notificationConfigSeed)
-  // }
-
   const handleUpdateNotificationConfigEmail = (
     notificationConfig: NotificationConfig,
     preferenceChoice: UserNotificationConfig['emailNotificationPreference']

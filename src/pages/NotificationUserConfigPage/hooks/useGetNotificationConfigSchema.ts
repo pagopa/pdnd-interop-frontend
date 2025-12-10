@@ -6,7 +6,7 @@ import React from 'react'
 import { ConsumerIcon, ProviderIcon, MyTenantIcon } from '@/icons'
 import CodeIcon from '@mui/icons-material/Code'
 
-export function useNotificationConfigHook(type: NotificationConfigType) {
+export function useGetNotificationConfigSchema(type: NotificationConfigType) {
   const { t } = useTranslation('notification', { keyPrefix: 'configurationPage.sections' })
 
   const notificationConfigSchema: NotificationConfigSchema = {
