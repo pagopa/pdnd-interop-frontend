@@ -32,12 +32,13 @@ export const VoucherInstructionsStep1: React.FC = () => {
     handleSelectedPurposeIdChange,
     handleSelectedKeyIdChange,
     selectedKeyId,
+    clientId,
+    handleSelectedClientIdChange,
     goToNextStep,
   } = useVoucherInstructionsContext()
 
   const [clientSearch, setClientSearch] = useAutocompleteTextInput('')
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
-  const [clientId, setClientId] = useState<string>('')
 
   const { data: clients, isFetching: isFetchingClients } = useQuery({
     ...ClientQueries.getList({
@@ -112,7 +113,7 @@ export const VoucherInstructionsStep1: React.FC = () => {
               }}
               value={options.find((o) => o.value === clientId) ?? null}
               onChange={(_, value) => {
-                setClientId(value?.value ?? '')
+                handleSelectedClientIdChange(value?.value ?? '')
                 handleSelectedPurposeIdChange('')
                 handleSelectedKeyIdChange('')
               }}
@@ -181,11 +182,7 @@ export const VoucherInstructionsStep1: React.FC = () => {
           }}
         />
       </form>
-      <VoucherInstructionsStep1CurrentIdsDrawer
-        isOpen={isOpen}
-        onClose={closeDrawer}
-        clientId={clientId}
-      />
+      <VoucherInstructionsStep1CurrentIdsDrawer isOpen={isOpen} onClose={closeDrawer} />
     </>
   )
 }
