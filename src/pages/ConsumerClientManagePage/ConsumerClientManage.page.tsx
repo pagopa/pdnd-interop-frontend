@@ -17,12 +17,15 @@ import SyncIcon from '@mui/icons-material/Sync'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { SetClientAdminDrawer } from './components/SetClientAdminDrawer/SetClientAdminDrawer'
 import { apiV2GuideLink } from '@/config/constants'
+import { useNavigate } from '@/router'
 
 const ConsumerClientManagePage: React.FC = () => {
   const { t } = useTranslation('client', { keyPrefix: 'edit' })
+  const { t: actionT } = useTranslation('common', { keyPrefix: 'actions' })
   const { clientId } = useParams<'SUBSCRIBE_CLIENT_EDIT' | 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'>()
   const clientKind = useClientKind()
   const { activeTab, updateActiveTab } = useActiveTab('clientOperators')
+  const navigate = useNavigate()
 
   const { data: client, isLoading: isLoadingClient } = useQuery(ClientQueries.getSingle(clientId))
 
@@ -44,7 +47,17 @@ const ConsumerClientManagePage: React.FC = () => {
     <PageContainer
       title={client?.name ?? ''}
       description={client?.description}
-      topSideActions={actions}
+      topSideActions={[
+        {
+          action: () =>
+            navigate(
+              clientKind === 'API' ? 'SIMULATE_GET_VOUCHER_API' : 'SIMULATE_GET_VOUCHER_CONSUMER'
+            ),
+          label: actionT('simulateVoucher'),
+          variant: 'contained',
+        },
+        ...actions,
+      ]}
       isLoading={isLoadingClient}
       backToAction={{
         label: t('actions.backToClientsLabel'),
