@@ -181,7 +181,11 @@ export const VoucherInstructionsStep1: React.FC = () => {
           }}
         />
       </form>
-      <VoucherInstructionsStep1CurrentIdsDrawer isOpen={isOpen} onClose={closeDrawer} />
+      <VoucherInstructionsStep1CurrentIdsDrawer
+        isOpen={isOpen}
+        onClose={closeDrawer}
+        clientId={clientId}
+      />
     </>
   )
 }

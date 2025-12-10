@@ -11,14 +11,15 @@ import { useQuery } from '@tanstack/react-query'
 type VoucherInstructionsStep1CurrentIdsDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
+  clientId: string
 }
 
 export const VoucherInstructionsStep1CurrentIdsDrawer: React.FC<
   VoucherInstructionsStep1CurrentIdsDrawerProps
-> = ({ isOpen, onClose }) => {
+> = ({ isOpen, onClose, clientId }) => {
   const { t } = useTranslation('voucher', { keyPrefix: 'step1.currentIdsDrawer' })
 
-  const { clientId, selectedPurposeId } = useVoucherInstructionsContext()
+  const { selectedPurposeId } = useVoucherInstructionsContext()
   const { data: purpose } = useQuery({
     ...PurposeQueries.getSingle(selectedPurposeId!),
     enabled: Boolean(selectedPurposeId),
