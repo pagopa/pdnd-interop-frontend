@@ -20,7 +20,7 @@ export const NotificationsTableRow: React.FC<{
   const { t: tCommon } = useTranslation('common')
 
   const currentLang = useCurrentLanguage()
-  const isRead = notification.readAt === null
+  const isRead = notification.readAt !== null
   const notificationLink = `/${currentLang}${notification.deepLink}`
 
   return (
@@ -41,7 +41,7 @@ export const NotificationsTableRow: React.FC<{
         {format(new Date(notification.createdAt), 'dd/MM/yyyy HH:mm')}
       </TableCell>
       <TableCell sx={{ fontWeight: isRead ? 600 : 'normal' }} width={250} key={notification.id}>
-        {/* {notification.notificationType} */}
+        {notification.category}
       </TableCell>
       <TableCell sx={{ fontWeight: isRead ? 600 : 'normal' }} width={450} key={notification.id}>
         {notification.body}

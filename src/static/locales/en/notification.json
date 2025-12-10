@@ -5,6 +5,7 @@
       "description": "View all notifications for your user account.",
       "addNotificationConfigBtn": "Configure Notifications",
       "notNotificationAvailable": "You have not yet received any platform notifications.",
+      "noItemsConfigurationLink": "Configure notification settings",
       "rowActions": {
         "lastUpdate": "Last update: ",
         "updateButton": "Update",

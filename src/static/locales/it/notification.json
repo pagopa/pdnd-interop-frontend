@@ -5,6 +5,7 @@
       "description": "Visualizza tutte le notifiche per la tua utenza.",
       "addNotificationConfigBtn": "Configura notifiche",
       "notNotificationAvailable": "Non hai ancora ricevuto notifiche di piattaforma.",
+      "noItemsConfigurationLink": "Configura le preferenze di notifica",
       "rowActions": {
         "lastUpdate": "Ultimo aggiornamento: ",
         "updateButton": "Aggiorna",

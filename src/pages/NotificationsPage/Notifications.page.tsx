@@ -7,7 +7,8 @@ import { NotificationsTable, NotificationsTableSkeleton } from './NotificationsT
 import { NotificationMutations, NotificationQueries } from '@/api/notification'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import type { GetNotificationsParams } from '@/api/api.generatedTypes'
-import { useNavigate } from '@/router'
+import { Link, useNavigate } from '@/router'
+import { NoItemResults } from '@/components/shared/NoItemResults/NoItemResults'
 
 const NotificationsPage: React.FC = () => {
   const { t } = useTranslation('notification', { keyPrefix: 'notifications.page' })
@@ -83,12 +84,7 @@ const NotificationsPage: React.FC = () => {
         actions={action}
       />
 
-      <>
-        <Filters {...filtersHandlers} />
-        <NotificationsTableWrapper params={params} />
-        <Pagination {...paginationProps} totalPages={totalPageCount} />
-      </>
-      {/* {filtersParams && totalPageCount <= 0 ? (
+      {filtersParams && totalPageCount == 0 ? (
         <>
           <Filters {...filtersHandlers} />
           <NotificationsTableWrapper params={params} />
@@ -97,10 +93,11 @@ const NotificationsPage: React.FC = () => {
       ) : (
         <NoItemResults>
           <div>
-            {t('notNotificationAvailable')} <Link to="DEFAULT">TODO</Link>
+            {t('notNotificationAvailable')}{' '}
+            <Link to="NOTIFICATIONS_CONFIG">{t('noItemsConfigurationLink')}</Link>
           </div>
         </NoItemResults>
-      )} */}
+      )}
     </>
   )
 }
