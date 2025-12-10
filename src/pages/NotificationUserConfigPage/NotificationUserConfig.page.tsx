@@ -7,13 +7,12 @@ import { NotificationConfigUserTab } from './components/NotificationUserConfigTa
 import { useTranslation } from 'react-i18next'
 import { NotificationMutations, NotificationQueries } from '@/api/notification'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { match } from 'ts-pattern'
 import type { UserNotificationConfig } from '@/api/api.generatedTypes'
 import {
   type NotificationConfig,
   type UserNotificationConfigUpdateSeed,
 } from '@/api/api.generatedTypes'
-import type { NotificationConfigType } from './types'
+import omit from 'lodash/omit'
 
 const NotificationUserConfigPage: React.FC = () => {
   const { activeTab, updateActiveTab } = useActiveTab('inApp')
@@ -48,42 +47,65 @@ const NotificationUserConfigTabs: React.FC<{
   const { mutate: updateUserNotificationConfigs } =
     NotificationMutations.useUpdateNotificationUserConfigs()
 
-  const handleUpdate = (
+  // const handleUpdate = (
+  //   notificationConfig: NotificationConfig,
+  //   type: NotificationConfigType,
+  //   preferenceChoice:
+  //     | UserNotificationConfig['emailNotificationPreference']
+  //     | UserNotificationConfig['inAppNotificationPreference']
+  // ) => {
+  //   const unnecessaryKeys = ['preferenceChoice']
+  //   const removeUnnecessaryKeys = (config: NotificationConfig) => {
+  //     return Object.fromEntries(
+  //       Object.entries(config).filter(([key]) => !unnecessaryKeys.includes(key))
+  //     ) as NotificationConfig
+  //   }
+
+  //   const notificationConfigSeed = match(type)
+  //     .with('inApp', () => ({
+  //       inAppNotificationPreference: preferenceChoice,
+  //       inAppConfig: removeUnnecessaryKeys(notificationConfig),
+  //       emailNotificationPreference: data?.emailNotificationPreference,
+  //       emailConfig: data?.emailConfig,
+  //     }))
+  //     .with('email', () => ({
+  //       inAppNotificationPreference: data?.inAppNotificationPreference,
+  //       inAppConfig: data?.inAppConfig,
+  //       emailConfig: removeUnnecessaryKeys(notificationConfig),
+  //       emailNotificationPreference: preferenceChoice,
+  //     }))
+  //     .exhaustive()
+
+  //   updateUserNotificationConfigs(notificationConfigSeed)
+  // }
+
+  const handleUpdateNotificationConfigEmail = (
     notificationConfig: NotificationConfig,
-    type: NotificationConfigType,
-    preferenceChoice:
-      | UserNotificationConfig['emailNotificationPreference']
-      | UserNotificationConfig['inAppNotificationPreference']
+    preferenceChoice: UserNotificationConfig['emailNotificationPreference']
   ) => {
-    const unnecessaryKeys = ['preferenceChoice']
-    const removeUnnecessaryKeys = (config: NotificationConfig) => {
-      return Object.fromEntries(
-        Object.entries(config).filter(([key]) => !unnecessaryKeys.includes(key))
-      ) as NotificationConfig
+    const emailConfigSeed = omit(notificationConfig, 'preferenceChoice')
+    const notificationConfigSeed: UserNotificationConfigUpdateSeed = {
+      inAppNotificationPreference: data?.inAppNotificationPreference,
+      inAppConfig: data?.inAppConfig,
+      emailConfig: emailConfigSeed,
+      emailNotificationPreference: preferenceChoice,
     }
 
-    const notificationConfigSeed = match(type)
-      .with(
-        'inApp',
-        () =>
-          ({
-            inAppNotificationPreference: preferenceChoice,
-            inAppConfig: removeUnnecessaryKeys(notificationConfig),
-            emailNotificationPreference: data?.emailNotificationPreference,
-            emailConfig: data?.emailConfig as NotificationConfig,
-          }) as UserNotificationConfigUpdateSeed
-      )
-      .with(
-        'email',
-        () =>
-          ({
-            inAppNotificationPreference: data?.inAppNotificationPreference,
-            inAppConfig: data?.inAppConfig as NotificationConfig,
-            emailConfig: removeUnnecessaryKeys(notificationConfig),
-            emailNotificationPreference: preferenceChoice,
-          }) as UserNotificationConfigUpdateSeed
-      )
-      .exhaustive()
+    updateUserNotificationConfigs(notificationConfigSeed)
+  }
+
+  const handleUpdateNotificationConfigInApp = (
+    notificationConfig: NotificationConfig,
+    preferenceChoice: UserNotificationConfig['inAppNotificationPreference']
+  ) => {
+    const inAppConfigSeed = omit(notificationConfig, 'preferenceChoice')
+
+    const notificationConfigSeed: UserNotificationConfigUpdateSeed = {
+      inAppNotificationPreference: preferenceChoice,
+      inAppConfig: inAppConfigSeed,
+      emailNotificationPreference: data?.emailNotificationPreference,
+      emailConfig: data?.emailConfig,
+    }
 
     updateUserNotificationConfigs(notificationConfigSeed)
   }
@@ -105,7 +127,10 @@ const NotificationUserConfigTabs: React.FC<{
                 preferenceChoice: data.inAppNotificationPreference,
               }}
               handleUpdateNotificationConfigs={(notification, type, preferenceChoice) =>
-                handleUpdate(notification, type, preferenceChoice)
+                handleUpdateNotificationConfigInApp(
+                  notification,
+                  preferenceChoice as UserNotificationConfig['inAppNotificationPreference']
+                )
               }
             />
           </TabPanel>
@@ -116,9 +141,12 @@ const NotificationUserConfigTabs: React.FC<{
                 ...data.emailConfig,
                 preferenceChoice: data.emailNotificationPreference,
               }}
-              handleUpdateNotificationConfigs={(notification, type, preferenceChoice) =>
-                handleUpdate(notification, type, preferenceChoice)
-              }
+              handleUpdateNotificationConfigs={(notification, type, preferenceChoice) => {
+                handleUpdateNotificationConfigEmail(
+                  notification,
+                  preferenceChoice as UserNotificationConfig['emailNotificationPreference']
+                )
+              }}
             />
           </TabPanel>
         </>
