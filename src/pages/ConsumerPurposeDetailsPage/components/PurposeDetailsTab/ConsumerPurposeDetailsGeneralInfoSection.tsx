@@ -44,6 +44,8 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
     onClick: handleDownloadDocument,
   }
 
+  const isFromPurposeTemplate = Boolean(purpose.purposeTemplate?.id)
+
   return (
     <SectionContainer
       title={t('title')}
@@ -87,6 +89,21 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
           <InformationContainer
             label={t('delegatedConsumerField.label')}
             content={purpose.delegation.delegate.name}
+          />
+        )}
+        {isFromPurposeTemplate && (
+          <InformationContainer
+            label={t('purposeTemplateField.label')}
+            content={
+              <Link
+                to="SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS"
+                params={{
+                  purposeTemplateId: purpose.purposeTemplate?.id as string,
+                }}
+              >
+                {purpose.purposeTemplate?.purposeTitle as string}
+              </Link>
+            }
           />
         )}
         <InformationContainer

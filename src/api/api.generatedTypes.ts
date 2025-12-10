@@ -627,6 +627,7 @@ export interface CatalogEService {
   activeDescriptor?: CompactDescriptor
   /** Indicates if there are unread notifications for this e-service */
   hasUnreadNotifications?: boolean
+  personalData?: boolean
 }
 
 export type ClientKind = 'API' | 'CONSUMER'
