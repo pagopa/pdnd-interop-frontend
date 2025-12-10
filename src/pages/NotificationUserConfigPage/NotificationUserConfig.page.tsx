@@ -6,7 +6,7 @@ import { Tab } from '@mui/material'
 import { NotificationConfigUserTab } from './components/NotificationUserConfigTab'
 import { useTranslation } from 'react-i18next'
 import { NotificationMutations, NotificationQueries } from '@/api/notification'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import type { UserNotificationConfig } from '@/api/api.generatedTypes'
 import {
   type NotificationConfig,
@@ -27,9 +27,7 @@ const NotificationUserConfigPage: React.FC = () => {
       //   to: '',
       // }}
     >
-      <React.Suspense fallback={<NotificationUserConfigPageSkeleton />}>
-        <NotificationUserConfigTabs activeTab={activeTab} updateActiveTab={updateActiveTab} />
-      </React.Suspense>
+      <NotificationUserConfigTabs activeTab={activeTab} updateActiveTab={updateActiveTab} />
     </PageContainer>
   )
 }
@@ -40,9 +38,7 @@ const NotificationUserConfigTabs: React.FC<{
 }> = ({ activeTab, updateActiveTab }) => {
   const { t } = useTranslation('notification', { keyPrefix: 'configurationPage' })
 
-  const { data } = useSuspenseQuery({
-    ...NotificationQueries.getUserNotificationConfigs(),
-  })
+  const { data, isFetching } = useQuery(NotificationQueries.getUserNotificationConfigs())
 
   const { mutate: updateUserNotificationConfigs } =
     NotificationMutations.useUpdateNotificationUserConfigs()
@@ -51,6 +47,7 @@ const NotificationUserConfigTabs: React.FC<{
     notificationConfig: NotificationConfig,
     preferenceChoice: UserNotificationConfig['emailNotificationPreference']
   ) => {
+    if (!data) return
     const emailConfigSeed = omit(notificationConfig, 'preferenceChoice')
     const notificationConfigSeed: UserNotificationConfigUpdateSeed = {
       inAppNotificationPreference: data?.inAppNotificationPreference,
@@ -66,6 +63,7 @@ const NotificationUserConfigTabs: React.FC<{
     notificationConfig: NotificationConfig,
     preferenceChoice: UserNotificationConfig['inAppNotificationPreference']
   ) => {
+    if (!data) return
     const inAppConfigSeed = omit(notificationConfig, 'preferenceChoice')
 
     const notificationConfigSeed: UserNotificationConfigUpdateSeed = {
@@ -85,9 +83,10 @@ const NotificationUserConfigTabs: React.FC<{
         <Tab label={t('emailTabTitle')} value="email" />
       </TabList>
 
-      {data && (
-        <>
-          <TabPanel value="inApp">
+      <>
+        <TabPanel value="inApp">
+          {isFetching && <NotificationUserConfigPageSkeleton />}
+          {data && (
             <NotificationConfigUserTab
               type="inApp"
               notificationConfig={{
@@ -101,8 +100,11 @@ const NotificationUserConfigTabs: React.FC<{
                 )
               }
             />
-          </TabPanel>
-          <TabPanel value="email">
+          )}
+        </TabPanel>
+        <TabPanel value="email">
+          {isFetching && <NotificationUserConfigPageSkeleton />}
+          {data && (
             <NotificationConfigUserTab
               type="email"
               notificationConfig={{
@@ -116,9 +118,9 @@ const NotificationUserConfigTabs: React.FC<{
                 )
               }}
             />
-          </TabPanel>
-        </>
-      )}
+          )}
+        </TabPanel>
+      </>
     </TabContext>
   )
 }
