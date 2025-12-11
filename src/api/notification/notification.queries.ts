@@ -9,6 +9,12 @@ function getUserNotificationsList(params: GetNotificationsParams) {
   })
 }
 
+function getInAppNotificationsCount() {
+  return queryOptions({
+    queryKey: ['InAppNotificationsCount'],
+    queryFn: () => NotificationServices.getInAppNotificationsCount(),
+  })
+}
 function getUserNotificationConfigs() {
   return queryOptions({
     queryKey: ['getUserNotificationConfiguration'],
@@ -27,4 +33,5 @@ export const NotificationQueries = {
   getUserNotificationConfigs,
   getTenantNotificationConfigs,
   getUserNotificationsList,
+  getInAppNotificationsCount,
 }

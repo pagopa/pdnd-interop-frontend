@@ -7,8 +7,9 @@ import type {
   TenantNotificationConfigUpdateSeed,
   UserNotificationConfig,
   UserNotificationConfigUpdateSeed,
+  NotificationsCountBySection,
+  MarkNotificationsAsReadPayload,
 } from '../api.generatedTypes'
-import { type MarkNotificationsAsReadPayload } from '../api.generatedTypes'
 
 // export interface GetUserNotificationsParams {
 //   /** Query to filter EServices by name */
@@ -94,6 +95,46 @@ async function markNotificationsAsReadByEntityId({ entityId }: { entityId: strin
   }
 }
 
+async function getInAppNotificationsCount() {
+  if (FEATURE_FLAG_NOTIFICATION_CONFIG) {
+    const response = await axiosInstance.get<NotificationsCountBySection>(
+      `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications/count`
+    )
+    return response.data
+  } else {
+    return Promise.resolve({
+      erogazione: {
+        richieste: 0,
+        finalita: 0,
+        'template-eservice': 0,
+        'e-service': 0,
+        portachiavi: 0,
+        totalCount: 0,
+      },
+      fruizione: {
+        richieste: 0,
+        finalita: 0,
+        totalCount: 0,
+      },
+      'catalogo-e-service': {
+        totalCount: 0,
+      },
+      aderente: {
+        deleghe: 0,
+        anagrafica: 0,
+        totalCount: 0,
+      },
+      'gestione-client': {
+        'api-e-service': 0,
+        totalCount: 0,
+      },
+      notifiche: {
+        totalCount: 0,
+      },
+    })
+  }
+}
+
 async function updateUserNotificationConfigs(payload: UserNotificationConfigUpdateSeed) {
   return await axiosInstance.post<void>(
     `${BACKEND_FOR_FRONTEND_URL}/userNotificationConfigs`,
@@ -134,4 +175,5 @@ export const NotificationServices = {
   deleteNotification,
   deleteNotifications,
   markNotificationsAsReadByEntityId,
+  getInAppNotificationsCount,
 }
