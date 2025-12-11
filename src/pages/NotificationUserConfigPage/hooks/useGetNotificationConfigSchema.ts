@@ -58,6 +58,30 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
             },
           ],
         },
+        {
+          name: 'soglieDiCarico',
+          title: t('subscriber.thresholds.title'),
+          components: [
+            {
+              key: 'purposeQuotaAdjustmentRequestToProducer',
+              title: t(
+                'subscriber.thresholds.components.purposeQuotaAdjustmentRequestToProducer.label'
+              ),
+              description: t(
+                'subscriber.thresholds.components.purposeQuotaAdjustmentRequestToProducer.description'
+              ),
+              visibility: ['admin', 'security'],
+            },
+            {
+              key: 'purposeOverQuotaStateToConsumer',
+              title: t('subscriber.thresholds.components.purposeOverQuotaStateToConsumer.label'),
+              description: t(
+                'subscriber.thresholds.components.purposeOverQuotaStateToConsumer.description'
+              ),
+              visibility: ['admin', 'security'],
+            },
+          ],
+        },
       ],
     },
     provider: {
