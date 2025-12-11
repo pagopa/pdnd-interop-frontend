@@ -40,8 +40,12 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   handleUpdateNotificationConfigs,
   type,
 }) => {
-  const { t: tConfiguration } = useTranslation('notification', { keyPrefix: 'configurationPage' })
-  const { t } = useTranslation('notification', { keyPrefix: `configurationPage.${type}` })
+  const { t: tConfiguration } = useTranslation('notification', {
+    keyPrefix: 'notifications.configurationPage',
+  })
+  const { t } = useTranslation('notification', {
+    keyPrefix: `notifications.configurationPage.${type}`,
+  })
   const { userEmail } = AuthHooks.useJwt()
 
   const { formMethods, preferenceChoice, valuesChanged } = useNotificationConfigForm({
@@ -120,7 +124,9 @@ const EmailConfigHeader = ({
   formMethods,
   preferenceChoice,
 }: EmailConfigHeaderProps) => {
-  const { t } = useTranslation('notification', { keyPrefix: `configurationPage.email` })
+  const { t } = useTranslation('notification', {
+    keyPrefix: `notifications.configurationPage.email`,
+  })
   return (
     <>
       <Stack direction="row" spacing={8} sx={{ mb: 2 }}>
@@ -183,7 +189,9 @@ const EmailConfigHeader = ({
 }
 
 const InAppConfigHeader = () => {
-  const { t } = useTranslation('notification', { keyPrefix: `configurationPage.inApp` })
+  const { t } = useTranslation('notification', {
+    keyPrefix: `notifications.configurationPage.inApp`,
+  })
   return (
     <>
       {/* Need to understand whats the link should point to */}

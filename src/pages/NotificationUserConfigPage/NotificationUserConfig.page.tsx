@@ -16,7 +16,7 @@ import omit from 'lodash/omit'
 
 const NotificationUserConfigPage: React.FC = () => {
   const { activeTab, updateActiveTab } = useActiveTab('inApp')
-  const { t } = useTranslation('notification', { keyPrefix: 'configurationPage' })
+  const { t } = useTranslation('notification', { keyPrefix: 'notifications.configurationPage' })
 
   return (
     <PageContainer
@@ -36,9 +36,9 @@ const NotificationUserConfigTabs: React.FC<{
   activeTab: string
   updateActiveTab: (_: unknown, newTab: string) => void
 }> = ({ activeTab, updateActiveTab }) => {
-  const { t } = useTranslation('notification', { keyPrefix: 'configurationPage' })
+  const { t } = useTranslation('notification', { keyPrefix: 'notifications.configurationPage' })
 
-  const { data, isFetching } = useQuery(NotificationQueries.getUserNotificationConfigs())
+  const { data } = useQuery(NotificationQueries.getUserNotificationConfigs())
 
   const { mutate: updateUserNotificationConfigs } =
     NotificationMutations.useUpdateNotificationUserConfigs()
@@ -85,7 +85,7 @@ const NotificationUserConfigTabs: React.FC<{
 
       <>
         <TabPanel value="inApp">
-          {isFetching && <NotificationUserConfigPageSkeleton />}
+          {!data && <NotificationUserConfigPageSkeleton />}
           {data && (
             <NotificationConfigUserTab
               type="inApp"
@@ -103,7 +103,7 @@ const NotificationUserConfigTabs: React.FC<{
           )}
         </TabPanel>
         <TabPanel value="email">
-          {isFetching && <NotificationUserConfigPageSkeleton />}
+          {!data && <NotificationUserConfigPageSkeleton />}
           {data && (
             <NotificationConfigUserTab
               type="email"

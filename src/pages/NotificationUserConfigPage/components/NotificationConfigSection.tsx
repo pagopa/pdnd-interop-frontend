@@ -21,7 +21,9 @@ export const NotificationConfigSection: React.FC<NotificationConfigSectionProps>
 }) => {
   const { icon: Icon, subsections, title } = notificationSchema
 
-  const { t } = useTranslation('notification', { keyPrefix: `configurationPage.${type}` })
+  const { t } = useTranslation('notification', {
+    keyPrefix: `notifications.configurationPage.${type}`,
+  })
 
   return (
     <Box key={name} data-testid={`config-section-${name}`} sx={{ mb: 3 }}>

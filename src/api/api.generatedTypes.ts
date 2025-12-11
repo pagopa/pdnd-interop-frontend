@@ -832,6 +832,8 @@ export interface CompactOrganization {
 
 export type TenantKind = 'PA' | 'PRIVATE' | 'GSP' | 'SCP'
 
+export type TargetTenantKind = 'PA' | 'PRIVATE'
+
 export interface CompactOrganizations {
   results: CompactOrganization[]
   pagination: Pagination
@@ -993,7 +995,7 @@ export interface PurposeTemplate {
   /** @format uuid */
   id: string
   targetDescription: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   /** @format uuid */
   creatorId: string
   /** Purpose Template State */
@@ -1024,7 +1026,7 @@ export interface PurposeTemplateWithCompactCreator {
   /** @format uuid */
   id: string
   targetDescription: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   creator: CompactOrganization
   /** Purpose Template State */
   state: PurposeTemplateState
@@ -1053,7 +1055,7 @@ export interface PurposeTemplateSeed {
    * @maxLength 250
    */
   targetDescription: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   /**
    * @minLength 5
    * @maxLength 60
@@ -1146,7 +1148,7 @@ export interface EServiceDescriptorPurposeTemplate {
 export interface CreatorPurposeTemplate {
   /** @format uuid */
   id: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   purposeTitle: string
   /** Purpose Template State */
   state: PurposeTemplateState
@@ -1160,7 +1162,7 @@ export interface CreatorPurposeTemplates {
 export interface CatalogPurposeTemplate {
   /** @format uuid */
   id: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   purposeTitle: string
   purposeDescription: string
   creator: CompactOrganization
@@ -2944,7 +2946,7 @@ export interface GetCatalogPurposeTemplatesParams {
    */
   eserviceIds?: string[]
   /** filter by target tenant kind */
-  targetTenantKind?: TenantKind
+  targetTenantKind?: TargetTenantKind
   /**
    * exclude purpose templates with expired risk analysis
    * @default true
@@ -4793,7 +4795,7 @@ export namespace Catalog {
        */
       eserviceIds?: string[]
       /** filter by target tenant kind */
-      targetTenantKind?: TenantKind
+      targetTenantKind?: TargetTenantKind
       /**
        * exclude purpose templates with expired risk analysis
        * @default true

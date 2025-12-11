@@ -13,6 +13,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import ConsumerEServiceDetailsTab from './components/ConsumerEServiceDetailsTab/ConsumerEServiceDetailsTab'
 import ConsumerLinkedPurposeTemplatesTab from './components/ConsumerLinkedPurposeTemplatesTab.tsx/ConsumerLinkedPurposeTemplatesTab'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -24,6 +25,8 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
   const { data: descriptor } = useQuery(
     EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
   )
+
+  useMarkNotificationsAsRead(`${eserviceId}/${descriptorId}`)
 
   const { data: delegators } = useQuery({
     ...DelegationQueries.getConsumerDelegators({
