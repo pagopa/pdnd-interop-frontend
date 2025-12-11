@@ -16,6 +16,28 @@
         "selectedPlural": "Selezionati",
         "selectedSingle": "Selezionata"
       },
+      "outcome": {
+        "delete": {
+          "success": "Notifica eliminata con successo.",
+          "error": "Si è verificato un errore durante l'eliminazione della notifica. Riprova più tardi."
+        },
+        "markAsRead": {
+          "success": "Notifica contrassegnata come letta.",
+          "error": "Si è verificato un errore durante la marcatura della notifica come letta. Riprova più tardi."
+        },
+        "markAsUnread": {
+          "success": "Notifica contrassegnata come non letta.",
+          "error": "Si è verificato un errore durante la marcatura della notifica come non letta. Riprova più tardi."
+        },
+        "markAsReadBulk": {
+          "success": "Notifiche contrassegnate come lette.",
+          "error": "Si è verificato un errore durante la marcatura delle notifiche come lette. Riprova più tardi."
+        },
+        "markAsUnreadBulk": {
+          "success": "Notifiche contrassegnate come non lette.",
+          "error": "Si è verificato un errore durante la marcatura delle notifiche come non lette. Riprova più tardi."
+        }
+      },
 
       "filters": {
         "objectField": {

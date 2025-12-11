@@ -9,6 +9,7 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import type { GetNotificationsParams } from '@/api/api.generatedTypes'
 import { Link, useNavigate } from '@/router'
 import { NoItemResults } from '@/components/shared/NoItemResults/NoItemResults'
+import { format } from 'date-fns'
 
 const NotificationsPage: React.FC = () => {
   const { t } = useTranslation('notification', { keyPrefix: 'notifications.page' })
@@ -112,6 +113,8 @@ const NotificationsTableWrapper: React.FC<{
     ...NotificationQueries.getUserNotificationsList(params),
   })
 
+  console.log('dataUpdateAt', dataUpdatedAt)
+
   const { mutate: markBulkAsRead } = NotificationMutations.useBulkMarkAsRead()
   const { mutate: markBulkAsUnread } = NotificationMutations.useBulkMarkAsNotRead()
   const { mutate: deleteNotifications } = NotificationMutations.useDeleteNotifications()
@@ -136,7 +139,7 @@ const NotificationsTableWrapper: React.FC<{
       handleMultipleRowMarkAsUnread={handleMultipleRowMarkAsUnread}
       handleRefetch={refetch}
       notifications={data?.results ?? []}
-      dataUpdatedAt={new Date(dataUpdatedAt).toLocaleTimeString()}
+      dataUpdatedAt={format(dataUpdatedAt, 'dd/MM/yyyy HH:mm')}
     />
   )
 }

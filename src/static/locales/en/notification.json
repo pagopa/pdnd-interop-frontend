@@ -16,6 +16,28 @@
         "selectedPlural": "Selected items",
         "selectedSingle": "Selected item"
       },
+      "outcome": {
+        "delete": {
+          "success": "Notification deleted successfully.",
+          "error": "An error occurred while deleting the notification. Please try again later."
+        },
+        "markAsRead": {
+          "success": "Notification marked as read.",
+          "error": "An error occurred while marking the notification as read. Please try again later."
+        },
+        "markAsUnread": {
+          "success": "Notification marked as unread.",
+          "error": "An error occurred while marking the notification as unread. Please try again later."
+        },
+        "markAsReadBulk": {
+          "success": "Notifications marked as read.",
+          "error": "An error occurred while marking the notifications as read. Please try again later."
+        },
+        "markAsUnreadBulk": {
+          "success": "Notifications marked as unread.",
+          "error": "An error occurred while marking the notifications as unread. Please try again later."
+        }
+      },
       "filters": {
         "objectField": {
           "label": "Search by Subject"

@@ -5,7 +5,7 @@ import { NotificationsTableRow, NotificationsTableRowSkeleton } from './Notifica
 import { Box, Button, Checkbox, Stack, Typography } from '@mui/material'
 import RefreshIcon from '@mui/icons-material/Refresh'
 import MarkEmailUnreadIcon from '@mui/icons-material/MarkEmailUnread'
-import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead'
+import MarkAsUnreadIcon from '@mui/icons-material/MarkAsUnread'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { match } from 'ts-pattern'
 import { type Notification } from '@/api/api.generatedTypes'
@@ -156,7 +156,7 @@ const NotficationTableRowsActions: React.FC<NotficationTableRowsActionsProps> = 
               onClick={handleMultipleRowMarkAsRead}
               sx={{ ml: 3 }}
               variant="naked"
-              startIcon={<MarkEmailReadIcon />}
+              startIcon={<MarkAsUnreadIcon />}
             >
               {tNotification('markAsRead')}
             </Button>
