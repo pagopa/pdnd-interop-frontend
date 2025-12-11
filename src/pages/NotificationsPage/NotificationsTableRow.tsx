@@ -28,11 +28,10 @@ export const NotificationsTableRow: React.FC<{
   const fontWeightRow = isRead ? 'normal' : 600
 
   return (
-    <MuiTableRow selected={isSelected}>
+    <MuiTableRow selected={isSelected} key={notification.id}>
       <TableCell>
-        <Stack key={notification.id} direction="row">
+        <Stack direction="row">
           <Checkbox
-            key={notification.id}
             data-testid={`checkbox-${notification.id}`}
             checked={isSelected}
             onChange={onToggle}
@@ -41,14 +40,10 @@ export const NotificationsTableRow: React.FC<{
         </Stack>
       </TableCell>
 
-      <TableCell
-        sx={{ fontWeight: isRead ? 'normal' : 'normal' }}
-        width={250}
-        key={notification.id}
-      >
+      <TableCell sx={{ fontWeight: isRead ? 'normal' : 'normal' }} width={250}>
         {format(new Date(notification.createdAt), 'dd/MM/yyyy HH:mm')}
       </TableCell>
-      <TableCell sx={{ fontWeight: fontWeightRow }} width={250} key={notification.id}>
+      <TableCell sx={{ fontWeight: fontWeightRow }} width={250}>
         {tNotification(
           notification.category as 'Providers' | 'Subscribers' | 'Delegation' | 'AttributesAndKeys'
         )}
@@ -56,7 +51,6 @@ export const NotificationsTableRow: React.FC<{
       <TableCell
         sx={{ fontWeight: isRead ? 600 : 'normal' }}
         width={450}
-        key={notification.id}
         dangerouslySetInnerHTML={{ __html: notification.body }}
       />
       <TableCell sx={{ fontWeight: isRead ? 600 : 'normal' }}>

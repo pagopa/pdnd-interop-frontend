@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
-import { NotificationMutations } from '@/api/notification/notification.mutation'
+import { NotificationMutations } from '@/api/notification/notification.mutations'
 import { theme } from '@pagopa/interop-fe-commons'
 import { type Notification } from '@/api/api.generatedTypes'
 
