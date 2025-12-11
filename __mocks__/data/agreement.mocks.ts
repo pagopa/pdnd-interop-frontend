@@ -273,7 +273,6 @@ const createMockAgreementListingItem = createMockFactory<AgreementListEntry>({
   id: '5f75fe14-3f71-442b-8098-d3021b399deb',
   state: 'ACTIVE',
   suspendedByPlatform: false,
-  hasUnreadNotifications: false,
 })
 
 export { createMockAgreementListingItem, createMockAgreement }
