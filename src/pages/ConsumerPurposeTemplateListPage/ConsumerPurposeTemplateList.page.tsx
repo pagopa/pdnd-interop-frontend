@@ -18,16 +18,16 @@ import {
 import type {
   CreatorPurposeTemplates,
   GetCreatorPurposeTemplatesParams,
+  TargetTenantKind,
 } from '@/api/api.generatedTypes'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { useDialog } from '@/stores'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
-import type { TenantKind } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
 import { EServiceQueries } from '@/api/eservice'
 
 const ConsumerPurposeTemplateListPage: React.FC = () => {
-  const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
   const { t } = useTranslation('pages', { keyPrefix: 'consumerPurposeTemplatesList' })
   const { t: tCommon } = useTranslation('common')
   const { t: tPurposeTemplate } = useTranslation('purposeTemplate', { keyPrefix: 'list.filters' })
@@ -42,7 +42,7 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
 
   const { openDialog } = useDialog()
 
-  const handleCreateDraft = (tenantKind: TenantKind, handlesPersonalData: boolean) => {
+  const handleCreateDraft = (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => {
     /**
      * A purpose template cannot have two templates with the same title.
      * To avoid this, we add the current date to the title to make it unique.
@@ -141,7 +141,7 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
     <PageContainer
       title={t('title')}
       description={t('description')}
-      topSideActions={isAdmin || isOperatorAPI ? topSideActions : undefined}
+      topSideActions={isAdmin ? topSideActions : undefined}
     >
       <Filters {...filtersHandlers} />
       <PurposeTemplateTableWrapper data={data} />

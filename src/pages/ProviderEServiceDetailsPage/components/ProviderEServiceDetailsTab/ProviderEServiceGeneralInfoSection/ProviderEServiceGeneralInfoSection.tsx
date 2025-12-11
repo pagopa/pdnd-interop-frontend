@@ -79,13 +79,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   } = useDrawerState()
 
   const handleDownloadConsumerList = () => {
-    downloadConsumerList(
-      { eserviceId },
-      t('consumerListFileName', {
-        timestamp: new Date().toISOString(),
-        eserviceName: descriptor.eservice.name,
-      })
-    )
+    downloadConsumerList({ eserviceId })
   }
 
   const handleExportVersion = () => {

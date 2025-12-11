@@ -3,7 +3,7 @@ import {
   ReactHookFormWrapper,
   renderWithApplicationContext,
 } from '@/utils/testing.utils'
-import { NotificationConfigSection } from '../components/NotificationConfigSection'
+import { NotificationConfigSubSection } from '../components/NotificationConfigSubSection'
 import { screen } from '@testing-library/react'
 
 mockUseJwt({ currentRoles: ['admin'] })
@@ -12,7 +12,7 @@ describe('NotificationConfigSection', () => {
   beforeEach(() => {
     renderWithApplicationContext(
       <ReactHookFormWrapper>
-        <NotificationConfigSection
+        <NotificationConfigSubSection
           subsection={{
             title: 'Test subsection',
             name: 'testSwitchSection',

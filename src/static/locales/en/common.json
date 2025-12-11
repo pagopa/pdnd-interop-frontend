@@ -53,6 +53,8 @@
     "selectAdmin": "Select admin",
     "substituteAdmin": "Substitute admin",
     "copy": "Copy",
+    "markAsRead": "Mark as read",
+    "marsAsNotRead": "Mark as not read",
     "specifyProcessing": "Specify processing",
     "save": "Save"
   },
@@ -83,6 +85,9 @@
       "eserviceTemplateInstanceVersion": "Version",
       "eserviceTemplateInstanceState": "Instance's state",
       "eserviceTemplateName": "Template",
+      "dateColumn": "Date",
+      "categoryColumn": "Category",
+      "objectColumn": "Object",
       "targetOrganization": "Target organization",
       "purposeTemplateName": "Purpose template name",
       "linkedEserviceName": "E-service or e-service template",

@@ -58,6 +58,7 @@ import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
 import type { UserProductRole } from '@/types/party.types'
 import ConsumerEServiceTemplateDetailsPage from '@/pages/ConsumerEServiceTemplateDetailsPage/ConsumerEServiceTemplateDetails.page'
+import { NotificationsPage } from '@/pages/NotificationsPage'
 import { NotificationUserConfigPage } from '@/pages/NotificationUserConfigPage'
 import ConsumerPurposeTemplateListPage from '@/pages/ConsumerPurposeTemplateListPage/ConsumerPurposeTemplateList.page'
 import ConsumerPurposeTemplateCatalogPage from '@/pages/ConsumerPurposeTemplateCatalogPage/ConsumerPurposeTemplateCatalog.page'
@@ -582,6 +583,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   .addRoute({
     key: 'NOTIFICATIONS',
     path: '/notifiche',
+    element: <NotificationsPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin', 'api', 'support', 'security'],
+  })
+  .addRoute({
+    key: 'NOTIFICATIONS_CONFIG',
+    path: '/notifiche/configurazione',
     element: <NotificationUserConfigPage />,
     public: false,
     hideSideNav: false,

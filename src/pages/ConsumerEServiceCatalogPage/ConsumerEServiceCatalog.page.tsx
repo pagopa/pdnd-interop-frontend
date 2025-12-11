@@ -11,9 +11,10 @@ import {
   usePagination,
 } from '@pagopa/interop-fe-commons'
 import type { EServiceDescriptorState, GetEServicesCatalogParams } from '@/api/api.generatedTypes'
-import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { keepPreviousData, useQuery, useQueryClient } from '@tanstack/react-query'
 import { trackEvent } from '@/config/tracking'
 import { debounce } from 'lodash'
+import { NotificationsBanner } from '@/components/shared/banners/NotificationsBanner'
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
@@ -74,6 +75,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
 
   return (
     <PageContainer title={t('title')} description={t('description')}>
+      <NotificationsBanner />
       <Filters {...filtersHandlers} />
       <EServiceCatalogWrapper params={queryParams} />
       <Pagination

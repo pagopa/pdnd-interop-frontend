@@ -14,7 +14,6 @@ describe('useGetSidebarItems', () => {
     mockUseJwt({ currentRoles: ['admin'], isOrganizationAllowedToProduce: true })
     mockUseGetActiveUserParty()
     const { result } = renderHook(() => useGetSidebarItems())
-
     expect(result.current.length).toBe(7)
   })
 })

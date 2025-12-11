@@ -29,13 +29,12 @@ export function useGetSidebarItems(): SidebarRoutes {
       {
         icon: NotificationsIcon,
         rootRouteKey: 'NOTIFICATIONS',
-        label: 'Notifiche ',
+        label: t('notifications'),
         children: [],
         divider: true,
         hide: !FEATURE_FLAG_NOTIFICATION_CONFIG,
       },
       {
-        showNotification: false,
         icon: ConsumerIcon,
         label: t('subscribe.subscribe'),
         rootRouteKey: 'SUBSCRIBE_AGREEMENT_LIST',

@@ -1,219 +1,281 @@
 {
-  "configurationPage": {
-    "title": "Configurazione notifiche utente",
-    "description": "Gestisci le tue impostazioni di notifica in app e via email personale.",
-    "inAppTabTitle": "Notifiche in-app",
-    "emailTabTitle": "Email",
-    "infoAlert": "Le notifiche selezionate potrebbero non arrivare subito, in quanto programmiamo un rilascio graduale. Dopo la tua configurazione delle preferenze non ti sarà richiesta alcuna azione.",
-    "inApp": {
-      "title": "Configurazione delle preferenze di notifica in piattaforma",
-      "manualLinkLabel": "Dubbi? Vai sul manuale",
-      "description": "Le notifiche di piattaforma ti informeranno sugli eventi che ti riguardano.",
-      "enableSectionAllNotifications": "Abilita tutto",
-      "disableSectionAllNotifications": "Disabilita tutto",
-      "enableAllNotifications": {
-        "label": "Abilita la ricezione delle notifiche in piattaforma",
-        "description": "Disabilitando questa opzione, non riceverai nessuna notifica in piattaforma"
-      }
-    },
-    "email": {
-      "title": "Configurazione delle preferenze di notifica tramite email",
-      "description": "Le notifiche email ti informeranno sulla tua casella personale gli eventi che ti riguardano. La mail che utilizzeremo è quella che ci hai fornito in fase di iscrizione.",
-      "linkLabel": "Non è la tua mail? Scopri come aggiornarla",
-      "mailLabel": "Indirizzo email",
-      "enableSectionAllNotifications": "Abilita tutto",
-      "disableSectionAllNotifications": "Disabilita tutto",
-      "digestInfoDescription": "Il resoconto settimanale sarà disponibile a breve, pertanto non riceverai subito comunicazioni. Abbiamo registrato la tua preferenza e non ti sarà richiesta alcuna azione.",
-      "enableAllNotifications": {
-        "label": "Abilita la ricezione delle notifiche e-mail",
-        "description": "Disabilitando questa opzione, non riceverai nessuna e-mail"
+  "notifications": {
+    "page": {
+      "title": "Notifications",
+      "description": "View all notifications for your user account.",
+      "addNotificationConfigBtn": "Configure Notifications",
+      "notNotificationAvailable": "You have not yet received any platform notifications.",
+      "noItemsConfigurationLink": "Configure notification settings",
+      "rowActions": {
+        "lastUpdate": "Last update: ",
+        "updateButton": "Update",
+        "markAsRead": "Mark as Read",
+        "markAsUnread": "Mark as Unread",
+        "delete": "Delete",
+        "selectedNull": "No item selected",
+        "selectedPlural": "Selected items",
+        "selectedSingle": "Selected item"
       },
-      "emailPreferencesLabel": "Preferenze di ricezione",
-      "notSend": "Non inviare le notifiche via e-mail",
-      "digest": "Invia una e-mail di resoconto settimanale",
-      "customize": "Personalizza le notifiche via e-mail"
-    },
-    "sections": {
-      "subscriber": {
-        "title": "Fruizione",
-        "dataUsage": {
-          "title": "Fruizione dei dati",
-          "components": {
-            "eServiceStateUpdated": {
-              "label": "Variazione di stato degli e-service",
-              "description": "Avvisami quando lo stato di un e-service cambia"
-            },
-            "agreementManagement": {
-              "label": "Accettazione o rifiuto delle richieste di fruizione",
-              "description": "Avvisami quando una mia richiesta di fruizione viene accettata o rifiutata"
-            },
-            "agreementStateUpdated": {
-              "label": "Variazione dello stato della richiesta di fruizione",
-              "description": "Avvisami quando una mia richiesta di fruizione viene sospesa o riattivata"
-            },
-            "purposeQuotaAdjustmentRequestToProducer": {
-              "label": "Richiesta di adeguamento della quota di una finalità",
-              "description": "Avvisami quando un erogatore accetta o rifiuta una mia richiesta di adeguamento della quota di una finalità"
-            },
-            "purposeOverQuotaStateToConsumer": {
-              "label": "Superamento della quota di una finalità",
-              "description": "Avvisami quando supero la quota stabilita per una finalità"
-            }
-          }
+      "outcome": {
+        "delete": {
+          "success": "Notification deleted successfully.",
+          "error": "An error occurred while deleting the notification. Please try again later."
         },
-        "purpose": {
-          "title": "Finalità",
-          "components": {
-            "purposeManagement": {
-              "label": "Accettazione o rifiuto di una finalità",
-              "description": "Avvisami quando una finalità viene accettata o rifiutata"
-            },
-            "purposeStateUpdated": {
-              "label": "Variazione di stato di una finalità",
-              "description": "Avvisami quando lo stato di una finalità viene sospesa, archiviata o riattivata"
-            }
-          }
+        "markAsRead": {
+          "success": "Notification marked as read.",
+          "error": "An error occurred while marking the notification as read. Please try again later."
         },
-        "thresholds": {
-          "title": "Soglie di carico",
-          "components": {
-            "thresholdsExcedeed": {
-              "label": "Stato delle soglie di carico",
-              "description": "Avvisami quando una mia richiesta supera le soglie massime stabilite dall’erogatore"
-            },
-            "thresholsdAdjustmentRequest": {
-              "label": "Richiesta di adeguamento soglia",
-              "description": "Avvisami quando un erogatore accetta o rifiuta una richiesta di adeguamento delle soglie"
-            }
-          }
+        "markAsUnread": {
+          "success": "Notification marked as unread.",
+          "error": "An error occurred while marking the notification as unread. Please try again later."
+        },
+        "markAsReadBulk": {
+          "success": "Notifications marked as read.",
+          "error": "An error occurred while marking the notifications as read. Please try again later."
+        },
+        "markAsUnreadBulk": {
+          "success": "Notifications marked as unread.",
+          "error": "An error occurred while marking the notifications as unread. Please try again later."
         }
       },
-      "provider": {
-        "title": "Erogazione",
-        "agreement": {
-          "title": "Richieste di fruizione",
-          "components": {
-            "agreementRequestReceived": {
-              "label": "Gestione delle richieste di fruizione in arrivo",
-              "description": "Avvisami sulle nuove richieste di fruizione in arrivo e quelle accettate automaticamente"
-            },
-            "agreementStateUpdated": {
-              "label": "Variazione dello stato di una richiesta di fruizione",
-              "description": "Avvisami se una richiesta di fruizione per un mio e-service viene sospesa, archiviata o riattivata"
-            }
+      "filters": {
+        "objectField": {
+          "label": "Search by Subject"
+        },
+        "categoryField": {
+          "label": "Category",
+          "optionLabels": {
+            "Providers": "Producing",
+            "Subscribers": "Consuming",
+            "Delegation": "Delegations",
+            "AttributesAndKeys": "Attributes and Keys"
           }
         },
-        "purpose": {
-          "title": "Finalità",
-          "components": {
-            "purposeStateUpdated": {
-              "label": "Variazioni di stato di una finalità",
-              "description": "Avvisami quando una finalità collegata ad un mio e-service viene sospesa, archiviata o riattivata"
-            }
-          }
-        },
-        "clientAndThresholds": {
-          "title": "Client",
-          "components": {
-            "clientAssociationFromSubscriber": {
-              "label": "Associazione di un client da parte del fruitore",
-              "description": "Avvisami quando un fruitore associa un client ad un mio e-service"
-            },
-            "thresholdExceeded": {
-              "label": "Superamento delle soglie",
-              "description": "Avvisami quando la stima di carico complessiva che ho stabilito per un mio e-service viene superata"
-            },
-            "thresholdAdjustmentRequest": {
-              "label": "Richiesta di adeguamento soglia",
-              "description": "Avvisami quando un fruitore richiede una modifica delle soglie di un mio e-service"
-            }
-          }
-        },
-        "eserviceTemplate": {
-          "title": "Template di e-service",
-          "components": {
-            "instanceFromTemplate": {
-              "label": "Generazione istanze da template e-service",
-              "description": "Avvisami quando viene generata un’istanza di e-service da un mio template"
-            },
-            "templateStateUpdated": {
-              "label": "Variazione dello stato di un template",
-              "description": "Avvisami quando lo stato di un mio template viene modificato"
-            },
-            "newTemplateVersion": {
-              "label": "Nuova versione di template",
-              "description": "Avvisami quando il creatore di un template di mio interesse e-service pubblica una nuova versione"
-            },
-            "templatePropertiesUpdated": {
-              "label": "Variazione delle proprietà di un template",
-              "description": "Avvisami quando le proprietà di un template di mio interesse vengono modificate"
-            },
-            "templateStateArchivedSuspended": {
-              "label": "Variazione dello stato di un template",
-              "description": "Avvisami quando un template di mio interesse viene sospeso, archiviato o riattivato"
-            }
-          }
-        }
-      },
-      "delegation": {
-        "title": "Deleghe",
-        "delegationAssignment": {
-          "title": "Conferimento di un e-service in delega",
-          "components": {
-            "delegationUpdated": {
-              "label": "Stato di accettazione di una delega",
-              "description": "Avvisami quando una delega viene accettata o rifiutata <o revocata> dall’ente a cui l’ho conferita"
-            },
-            "eserviceDelegatedCreated": {
-              "label": "Approvazione delle richieste del delegato",
-              "description": "Avvisami quando il delegato genera una nuova versione di e-service in delega affinché possa valutarla"
-            }
-          }
-        },
-        "delegationReceive": {
-          "title": "Ricezione di una delega per un e-service",
-          "components": {
-            "delegationUpdated": {
-              "label": "Stato delle deleghe ricevute",
-              "description": "Avvisami quando un ente mi affida o mi revoca la gestione di un e-service tramite delega"
-            },
-            "eserviceDelegatedApproval": {
-              "label": "Approvazione della pubblicazione di una nuova versione di e-service",
-              "description": "Avvisami quando l’ente delegante ha approvato o rifiutato la mia richiesta di variazione della versione"
-            }
-          }
-        }
-      },
-      "keyAndAttributes": {
-        "title": "Attributi e chiavi",
-        "attributes": {
-          "title": "Attributi certificati o verificati",
-          "components": {
-            "attributesStateUpdated": {
-              "label": "Conferimento o revoca di attributi certificati o verificati",
-              "description": "Avvisami quando mi viene conferito o revocato un attributo certificato o verificato"
-            }
-          }
-        },
-        "keys": {
-          "title": "Chiavi",
-          "components": {
-            "clientKeysAssociationUpdated": {
-              "label": "Variazioni sullo stato delle chiavi collegate ad un client",
-              "description": "Avvisami quando lo stato di una chiave collegata ad un client cambia oppure è bene venga sostituita."
-            }
+        "stateField": {
+          "label": "Read Status",
+          "optionLabels": {
+            "Read": "Read",
+            "NotRead": "Unread"
           }
         }
       }
     },
-    "outcome": {
-      "success": "Preferenza di notifica salvata.",
-      "error": "Non è stato possibile aggiornare la preferenza di notifica. Riprova più tardi."
+    "configurationPage": {
+      "title": "User Notification Configuration",
+      "description": "Manage your in-app and personal email notification settings.",
+      "inAppTabTitle": "In-App Notifications",
+      "emailTabTitle": "Email",
+      "infoAlert": "Selected notifications may not arrive immediately, as we are planning a gradual rollout. No further action will be required after setting your preferences.",
+      "inApp": {
+        "title": "Platform Notification Preferences Configuration",
+        "manualLinkLabel": "Doubts? See the manual",
+        "description": "Platform notifications will inform you about events concerning you.",
+        "enableSectionAllNotifications": "Enable All",
+        "disableSectionAllNotifications": "Disable All",
+        "enableAllNotifications": {
+          "label": "Enable platform notification receipt",
+          "description": "By disabling this option, you will not receive any platform notifications"
+        }
+      },
+      "email": {
+        "title": "Email Notification Preferences Configuration",
+        "description": "Email notifications will inform you about events concerning you in your personal inbox. The email we will use is the one you provided during registration.",
+        "linkLabel": "Not your email? Find out how to update it",
+        "mailLabel": "Email address",
+        "enableSectionAllNotifications": "Enable All",
+        "disableSectionAllNotifications": "Disable All",
+        "digestInfoDescription": "The weekly summary will be available shortly, so you will not receive communications immediately. We have registered your preference and no further action will be required.",
+        "enableAllNotifications": {
+          "label": "Enable email notification receipt",
+          "description": "By disabling this option, you will not receive any emails"
+        },
+        "emailPreferencesLabel": "Receipt preferences",
+        "notSend": "Do not send email notifications",
+        "digest": "Send a weekly summary email",
+        "customize": "Customize email notifications",
+        "digestSwitch": {
+          "label": "Receive reminders and news",
+          "description": "We will send you a summary once a week"
+        },
+        "customNotificationSwitch": {
+          "label": "Activate custom notifications",
+          "description": "Configure for which events you want to be notified immediately"
+        }
+      },
+      "sections": {
+        "subscriber": {
+          "title": "Consuming",
+          "dataUsage": {
+            "title": "Data Consumption",
+            "components": {
+              "eServiceStateUpdated": {
+                "label": "E-service status update",
+                "description": "Notify me when an e-service status changes"
+              },
+              "agreementManagement": {
+                "label": "Service request acceptance or rejection",
+                "description": "Notify me when one of my service requests is accepted or rejected"
+              },
+              "agreementStateUpdated": {
+                "label": "Service request status update",
+                "description": "Notify me when one of my service requests is suspended or reactivated"
+              }
+            }
+          },
+          "purpose": {
+            "title": "Purpose",
+            "components": {
+              "purposeManagement": {
+                "label": "Purpose acceptance or rejection",
+                "description": "Notify me when a purpose is accepted or rejected"
+              },
+              "purposeStateUpdated": {
+                "label": "Purpose status update",
+                "description": "Notify me when a purpose status is suspended, archived, or reactivated"
+              }
+            }
+          },
+          "thresholds": {
+            "title": "Load Thresholds",
+            "components": {
+              "thresholdsExcedeed": {
+                "label": "Load thresholds status",
+                "description": "Notify me when one of my requests exceeds the maximum thresholds set by the producer"
+              },
+              "thresholsdAdjustmentRequest": {
+                "label": "Threshold adjustment request",
+                "description": "Notify me when a producer accepts or rejects a threshold adjustment request"
+              }
+            }
+          }
+        },
+        "provider": {
+          "title": "Producing",
+          "agreement": {
+            "title": "Service Requests",
+            "components": {
+              "agreementRequestReceived": {
+                "label": "Management of incoming service requests",
+                "description": "Notify me about new incoming service requests and those automatically accepted"
+              },
+              "agreementStateUpdated": {
+                "label": "Service request status update",
+                "description": "Notify me if a service request for one of my e-services is suspended, archived, or reactivated"
+              }
+            }
+          },
+          "purpose": {
+            "title": "Purpose",
+            "components": {
+              "purposeStateUpdated": {
+                "label": "Purpose status update",
+                "description": "Notify me when a purpose linked to one of my e-services is suspended, archived, or reactivated"
+              }
+            }
+          },
+          "clientAndThresholds": {
+            "title": "Clients",
+            "components": {
+              "clientAssociationFromSubscriber": {
+                "label": "Client association by the consumer",
+                "description": "Notify me when a consumer associates a client with one of my e-services"
+              },
+              "thresholdExceeded": {
+                "label": "Threshold exceeded",
+                "description": "Notify me when the overall load estimate I set for one of my e-services is exceeded"
+              },
+              "thresholdAdjustmentRequest": {
+                "label": "Threshold adjustment request",
+                "description": "Notify me when a consumer requests a modification of the thresholds for one of my e-services"
+              }
+            }
+          },
+          "eserviceTemplate": {
+            "title": "E-service Templates",
+            "components": {
+              "instanceFromTemplate": {
+                "label": "E-service instance generation from template",
+                "description": "Notify me when an e-service instance is generated from one of my templates"
+              },
+              "templateStateUpdated": {
+                "label": "My template update",
+                "description": "Notify me when the status of one of my templates is modified"
+              },
+              "newTemplateVersion": {
+                "label": "New template version",
+                "description": "Notify me when the creator of an e-service template of my interest publishes a new version"
+              },
+              "templatePropertiesUpdated": {
+                "label": "Template property update",
+                "description": "Notify me when the properties of a template of my interest are modified"
+              },
+              "templateStateArchivedSuspended": {
+                "label": "Template status update",
+                "description": "Notify me when a template of my interest is suspended, archived, or reactivated"
+              }
+            }
+          }
+        },
+        "delegation": {
+          "title": "Delegations",
+          "delegationAssignment": {
+            "title": "E-service delegation conferral",
+            "components": {
+              "delegationUpdated": {
+                "label": "Delegation acceptance status",
+                "description": "Notify me when a delegation is accepted or rejected <or revoked> by the entity to whom I conferred it"
+              },
+              "eserviceDelegatedCreated": {
+                "label": "Delegate request approval",
+                "description": "Notify me when the delegate generates a new version of the delegated e-service so that I can evaluate it"
+              }
+            }
+          },
+          "delegationReceive": {
+            "title": "E-service delegation receipt",
+            "components": {
+              "delegationUpdated": {
+                "label": "Received delegation status",
+                "description": "Notify me when an entity entrusts or revokes the management of an e-service to me via delegation"
+              },
+              "eserviceDelegatedApproval": {
+                "label": "New e-service version publication approval",
+                "description": "Notify me when the delegating entity has approved or rejected my version change request"
+              }
+            }
+          }
+        },
+        "keyAndAttributes": {
+          "title": "Attributes and Keys",
+          "attributes": {
+            "title": "Certified or Verified Attributes",
+            "components": {
+              "attributesStateUpdated": {
+                "label": "Certified or verified attribute conferral or revocation",
+                "description": "Notify me when a certified or verified attribute is conferred or revoked to me"
+              }
+            }
+          },
+          "keys": {
+            "title": "Keys",
+            "components": {
+              "clientKeysAssociationUpdated": {
+                "label": "Key status updates linked to a client",
+                "description": "Notify me when the status of a key linked to a client changes or should be replaced."
+              }
+            }
+          }
+        }
+      },
+      "outcome": {
+        "success": "Notification preference saved.",
+        "error": "It was not possible to update the notification preference. Please try again later."
+      }
     }
   },
   "tenantPage": {
-    "label": "Ricezione mail di cortesia",
-    "active": "Attivo",
-    "inactive": "Non attivo"
+    "label": "Courtesy email receipt",
+    "active": "Active",
+    "inactive": "Inactive"
   }
 }
