@@ -139,13 +139,13 @@
           "thresholds": {
             "title": "Soglie di carico",
             "components": {
-              "thresholdsExcedeed": {
+              "purposeQuotaAdjustmentRequestToProducer": {
+                "label": "Richieste di adeguamento soglia",
+                "description": "Avvisami quando un erogatore accetta o rifiuta una richiesta di adeguamento delle soglie"
+              },
+              "purposeOverQuotaStateToConsumer": {
                 "label": "Stato delle soglie di carico",
                 "description": "Avvisami quando una mia richiesta supera le soglie massime stabilite dall’erogatore"
-              },
-              "thresholsdAdjustmentRequest": {
-                "label": "Richiesta di adeguamento soglia",
-                "description": "Avvisami quando un erogatore accetta o rifiuta una richiesta di adeguamento delle soglie"
               }
             }
           }

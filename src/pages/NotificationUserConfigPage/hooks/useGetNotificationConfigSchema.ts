@@ -38,6 +38,24 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
               description: t('subscriber.dataUsage.components.agreementStateUpdated.description'),
               visibility: ['admin', 'security'],
             },
+            // {
+            //   key: 'purposeQuotaAdjustmentRequestToProducer',
+            //   title: t(
+            //     'subscriber.purpose.components.purposeQuotaAdjustmentRequestToProducer.label'
+            //   ),
+            //   description: t(
+            //     'subscriber.purpose.components.purposeQuotaAdjustmentRequestToProducer.description'
+            //   ),
+            //   visibility: ['admin', 'security'],
+            // },
+            // {
+            //   key: 'purposeOverQuotaStateToConsumer',
+            //   title: t('subscriber.purpose.components.purposeOverQuotaStateToConsumer.label'),
+            //   description: t(
+            //     'subscriber.purpose.components.purposeOverQuotaStateToConsumer.description'
+            //   ),
+            //   visibility: ['admin', 'security'],
+            // },
           ],
         },
         {
@@ -54,6 +72,30 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
               key: 'purposeSuspendedUnsuspendedToConsumer',
               title: t('subscriber.purpose.components.purposeStateUpdated.label'), // 16
               description: t('subscriber.purpose.components.purposeStateUpdated.description'),
+              visibility: ['admin', 'security'],
+            },
+          ],
+        },
+        {
+          name: 'soglieDiCarico',
+          title: t('subscriber.thresholds.title'),
+          components: [
+            {
+              key: 'purposeOverQuotaStateToConsumer',
+              title: t('subscriber.thresholds.components.purposeOverQuotaStateToConsumer.label'),
+              description: t(
+                'subscriber.thresholds.components.purposeOverQuotaStateToConsumer.description'
+              ),
+              visibility: ['admin', 'security'],
+            },
+            {
+              key: 'purposeQuotaAdjustmentRequestToProducer',
+              title: t(
+                'subscriber.thresholds.components.purposeQuotaAdjustmentRequestToProducer.label'
+              ),
+              description: t(
+                'subscriber.thresholds.components.purposeQuotaAdjustmentRequestToProducer.description'
+              ),
               visibility: ['admin', 'security'],
             },
           ],

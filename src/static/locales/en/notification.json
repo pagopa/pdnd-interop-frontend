@@ -138,13 +138,13 @@
           "thresholds": {
             "title": "Load Thresholds",
             "components": {
-              "thresholdsExcedeed": {
+              "purposeQuotaAdjustmentRequestToProducer": {
+                "label": "Threshold adjustment requests",
+                "description": "Notify me when a producer accepts or rejects a threshold adjustment request"
+              },
+              "purposeOverQuotaStateToConsumer": {
                 "label": "Load thresholds status",
                 "description": "Notify me when one of my requests exceeds the maximum thresholds set by the producer"
-              },
-              "thresholsdAdjustmentRequest": {
-                "label": "Threshold adjustment request",
-                "description": "Notify me when a producer accepts or rejects a threshold adjustment request"
               }
             }
           }
