@@ -10,18 +10,21 @@ import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
 import { RiskAnalysisFormComponents } from '@/components/shared/RiskAnalysisFormComponents'
 import { useRiskAnalysisForm } from '@/hooks/useRiskAnalysisForm'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
+import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 type CreateStepPurposeRiskAnalysisFormProps = {
   defaultName?: string | undefined
   defaultAnswers?: Record<string, string[]>
   riskAnalysis: RiskAnalysisFormConfig
+  personalData?: boolean | undefined
   onSubmit: (name: string, answers: Record<string, string[]>) => void
   onCancel: VoidFunction
 }
 
 export const CreateStepPurposeRiskAnalysisForm: React.FC<
   CreateStepPurposeRiskAnalysisFormProps
-> = ({ defaultName, defaultAnswers, riskAnalysis, onSubmit, onCancel }) => {
+> = ({ defaultName, defaultAnswers, riskAnalysis, onSubmit, onCancel, personalData }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'create.stepPurpose' })
 
   const riskAnalysisForm = useRiskAnalysisForm({
@@ -30,7 +33,30 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
     extraFields: { name: defaultName ?? '' },
   })
 
+  const [incompatibleAnswerValue, setIncompatibleAnswerValue] = React.useState<boolean>(false)
+
+  const checkIncompatibleAnswerValue = (validAnswers: Record<string, string[]>) => {
+    const userAnswer = validAnswers['usesPersonalData']?.[0]
+    const isYes = userAnswer === 'YES'
+    const isNo = userAnswer === 'NO'
+
+    const incompatible = (isYes && personalData === false) || (isNo && personalData === true)
+
+    setIncompatibleAnswerValue(incompatible)
+    return incompatible
+  }
+
   const handleSubmit = riskAnalysisForm.handleSubmit(({ validAnswers, name }) => {
+    if (checkIncompatibleAnswerValue(validAnswers)) {
+      riskAnalysisForm.setError('answers.usesPersonalData', {
+        type: 'manual',
+        message: t(
+          'riskAnalysis.riskAnalysisSection.personalDataValuesAlert.labelForEserviceCreateStep2'
+        ),
+      })
+      return
+    }
+
     onSubmit(name, validAnswers)
   })
 
@@ -54,13 +80,26 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
           title={t('riskAnalysis.riskAnalysisSection.title')}
           description={t('riskAnalysis.riskAnalysisSection.description')}
         >
-          <Alert sx={{ mt: 2, mb: -1 }} severity="warning">
-            {t('riskAnalysis.riskAnalysisSection.personalDataAlert')}
-          </Alert>
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
+            <InformationContainer
+              label={t('riskAnalysis.riskAnalysisSection.personalDataFlag.label')}
+              content={t(`riskAnalysis.riskAnalysisSection.personalDataFlag.${personalData}`)}
+            />
+          )}
         </SectionContainer>
+        <Alert sx={{ mt: 2, mb: 2 }} severity="warning">
+          {t('riskAnalysis.riskAnalysisSection.personalDataAlert')}
+        </Alert>
         <Stack spacing={2}>
           <RiskAnalysisFormComponents questions={riskAnalysisForm.questions} />
         </Stack>
+        {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && incompatibleAnswerValue && (
+          <Alert sx={{ mt: 2 }} severity="warning">
+            {t(
+              'riskAnalysis.riskAnalysisSection.personalDataValuesAlert.alertForIncompatibleAnswer'
+            )}
+          </Alert>
+        )}
         <StepActions
           back={{
             label: t('backWithoutSaveBtn'),

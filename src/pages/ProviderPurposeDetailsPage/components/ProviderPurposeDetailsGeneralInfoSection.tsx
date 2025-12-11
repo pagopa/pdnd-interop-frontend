@@ -8,6 +8,7 @@ import LinkIcon from '@mui/icons-material/Link'
 import { PurposeDownloads } from '@/api/purpose'
 import { useTranslation } from 'react-i18next'
 import DownloadIcon from '@mui/icons-material/Download'
+import { FEATURE_FLAG_USE_SIGNED_DOCUMENT } from '@/config/env'
 
 type ProviderPurposeDetailsGeneralInfoSectionProps = {
   purpose: Purpose
@@ -20,9 +21,24 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
     keyPrefix: 'providerView.sections.generalInformations',
   })
 
+  const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'documents' })
+
   const generatePath = useGeneratePath()
 
+  const downloadSignedRiskAnalysis = PurposeDownloads.useDownloadSignedRiskAnalysis()
   const downloadRiskAnalysis = PurposeDownloads.useDownloadRiskAnalysis()
+
+  const handleDownloadSignedDocument = () => {
+    if (!purpose.currentVersion || !purpose.currentVersion.riskAnalysisDocument) return
+    downloadSignedRiskAnalysis(
+      {
+        purposeId: purpose.id,
+        versionId: purpose.currentVersion.id,
+        signedContractId: purpose.currentVersion.riskAnalysisDocument.id,
+      },
+      `${t('riskAnalysis.fileName')}.pdf`
+    )
+  }
 
   const handleDownloadDocument = () => {
     if (!purpose.currentVersion || !purpose.currentVersion.riskAnalysisDocument) return
@@ -30,7 +46,7 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
       {
         purposeId: purpose.id,
         versionId: purpose.currentVersion.id,
-        documentId: purpose.currentVersion.riskAnalysisDocument.id,
+        documentId: purpose.currentVersion.riskAnalysisDocument?.id,
       },
       `${t('riskAnalysis.fileName')}.pdf`
     )
@@ -40,7 +56,11 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
     label: t('riskAnalysis.link.label'),
     component: 'button',
     type: 'button',
-    onClick: handleDownloadDocument,
+    disabled: purpose.isDocumentReady === false,
+    onClick: FEATURE_FLAG_USE_SIGNED_DOCUMENT
+      ? handleDownloadSignedDocument
+      : handleDownloadDocument,
+    tooltip: purpose.isDocumentReady === false ? tShared('notAvailableYet') : undefined,
     startIcon: <DownloadIcon fontSize="small" />,
   }
 
@@ -77,6 +97,21 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
             </Link>
           }
         />
+        {purpose.purposeTemplate && (
+          <InformationContainer
+            label={t('purposeTemplateField.label')}
+            content={
+              <Link
+                to="SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS"
+                params={{
+                  purposeTemplateId: purpose.purposeTemplate.id,
+                }}
+              >
+                {purpose.purposeTemplate.purposeTitle}
+              </Link>
+            }
+          />
+        )}
         <InformationContainer label={t('consumerField.label')} content={purpose.consumer.name} />
         <InformationContainer
           label={t('descriptionField.label')}

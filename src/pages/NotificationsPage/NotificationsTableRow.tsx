@@ -18,10 +18,14 @@ export const NotificationsTableRow: React.FC<{
 }> = ({ notification, isSelected, onToggle }) => {
   const { actions } = useGetNotificationsActions(notification)
   const { t: tCommon } = useTranslation('common')
+  const { t: tNotification } = useTranslation('notification', {
+    keyPrefix: 'notifications.page.filters.categoryField.optionLabels',
+  })
 
   const currentLang = useCurrentLanguage()
-  const isRead = notification.readAt === null
+  const isRead = notification.readAt !== null
   const notificationLink = `/${currentLang}${notification.deepLink}`
+  const fontWeightRow = isRead ? 'normal' : 600
 
   return (
     <MuiTableRow selected={isSelected}>
@@ -33,20 +37,26 @@ export const NotificationsTableRow: React.FC<{
             checked={isSelected}
             onChange={onToggle}
           />
-          {isRead && <NotificationBadgeDot />}
+          {!isRead && <NotificationBadgeDot />}
         </Stack>
       </TableCell>
 
-      <TableCell sx={{ fontWeight: isRead ? 600 : 'normal' }} width={250} key={notification.id}>
+      <TableCell
+        sx={{ fontWeight: isRead ? 'normal' : 'normal' }}
+        width={250}
+        key={notification.id}
+      >
         {format(new Date(notification.createdAt), 'dd/MM/yyyy HH:mm')}
       </TableCell>
-      <TableCell sx={{ fontWeight: isRead ? 600 : 'normal' }} width={250} key={notification.id}>
-        {/* {notification.notificationType} */}
+      <TableCell sx={{ fontWeight: fontWeightRow }} width={250} key={notification.id}>
+        {tNotification(
+          notification.category as 'Providers' | 'Subscribers' | 'Delegation' | 'AttributesAndKeys'
+        )}
       </TableCell>
-      <TableCell sx={{ fontWeight: isRead ? 600 : 'normal' }} width={450} key={notification.id}>
+      <TableCell sx={{ fontWeight: fontWeightRow }} width={450} key={notification.id}>
         {notification.body}
       </TableCell>
-      <TableCell sx={{ fontWeight: isRead ? 600 : 'normal' }}>
+      <TableCell sx={{ fontWeight: fontWeightRow }} key={notification.id}>
         <Button component={Link} size="small" variant="outlined" to={notificationLink}>
           {tCommon('actions.inspect')}
         </Button>

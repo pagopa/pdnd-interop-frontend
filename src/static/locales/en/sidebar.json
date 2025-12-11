@@ -4,7 +4,9 @@
     "subscribe": {
       "subscribe": "Subscription",
       "agreement": "Submitted agreement requests",
-      "purpose": "Submitted purposes"
+      "purpose": "Submitted purposes",
+      "purposeTemplateCatalog": "Purpose templates",
+      "purposeTemplate": "My purpose templates"
     },
     "provider": {
       "provider": "Provider",
@@ -27,7 +29,8 @@
       "tenantCertifier": "Certifying organization",
       "delegations": "Delegation management"
     },
-    "developerTools": "Developer tools"
+    "developerTools": "Developer tools",
+    "notifications": "Notifications"
   },
   "menu": "Menù",
   "userExternalLinkLabel": "Utenti",

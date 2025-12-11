@@ -28,6 +28,7 @@ import type {
   CompactOrganizations,
   UpdateEServiceTemplateInstanceSeed,
   EServiceTemplateRiskAnalysisSeed,
+  EServiceTemplatePersonalDataFlagUpdateSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 
@@ -372,6 +373,19 @@ async function getSingleByEServiceTemplateId(eserviceTemplateId: string) {
   return response.data
 }
 
+async function updateEServiceTemplatePersonalDataFlagAfterPublication({
+  eserviceTemplateId,
+  ...payload
+}: {
+  eserviceTemplateId: string
+} & EServiceTemplatePersonalDataFlagUpdateSeed) {
+  const response = await axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/templates/${eserviceTemplateId}/personalDataFlag`,
+    payload
+  )
+  return response.data
+}
+
 export const EServiceTemplateServices = {
   getProviderEServiceTemplatesList,
   getSingle,
@@ -402,4 +416,5 @@ export const EServiceTemplateServices = {
   getProviderEServiceTemplatesCatalogList,
   getProducersEServiceTemplateList,
   updateInstanceFromEServiceTemplate,
+  updateEServiceTemplatePersonalDataFlagAfterPublication,
 }
