@@ -102,6 +102,44 @@ export function getUpdatedQuestions(
 }
 
 /**
+ * Returns the updated question data for template forms.
+ * Hides questions that depend on questions marked as editable (assignToTemplateUsers).
+ *
+ * @param answers - the actual form values
+ * @param riskAnalysisQuestions - the risk analysis document questions
+ * @param assignToTemplateUsers - the editable flags for each question
+ * @returns the updated questions data
+ */
+export function getUpdatedQuestionsForTemplate(
+  answers: RiskAnalysisAnswers,
+  riskAnalysisQuestions: FormConfigQuestion[],
+  assignToTemplateUsers: Record<string, boolean>
+): RiskAnalysisQuestions {
+  return riskAnalysisQuestions.reduce<RiskAnalysisQuestions>((acc, question) => {
+    // Check if any dependency question is editable (user will fill it)
+    const hasEditableDependency = question.dependencies.some((dependency) => {
+      const dependencyQuestionId = dependency.id
+      return assignToTemplateUsers[dependencyQuestionId] === true
+    })
+
+    // If a dependency is editable, hide this question
+    if (hasEditableDependency) {
+      return acc
+    }
+
+    // Check normal dependencies
+    const doesSatisfyDeps = question.dependencies.every((dependency) =>
+      isDependencySatisfied(dependency, answers)
+    )
+
+    if (doesSatisfyDeps) {
+      acc[question.id] = question
+    }
+    return acc
+  }, {})
+}
+
+/**
  * Returns the default values for the risk analysis form.
  * The default values are the values that the form should have when it is first loaded.
  * The default values are the values that the user has already answered, if any.
@@ -119,10 +157,17 @@ export function getRiskAnalysisDefaultValues(
   return riskAnalysisConfigQuestions.reduce<RiskAnalysisAnswers>((acc, question) => {
     const answer = backendAnswers?.[question.id] ?? question.defaultValue
 
-    acc[question.id] = question.visualType === 'checkbox' ? answer : answer[0]
+    if (question.visualType === 'checkbox') {
+      acc[question.id] = answer
+    } else {
+      acc[question.id] = answer?.[0]
+    }
 
-    if (!acc[question.id] && question.dataType === 'FREETEXT') {
-      acc[question.id] = ''
+    // Set default empty value for fields that don't have a value
+    if (!acc[question.id]) {
+      if (question.dataType === 'FREETEXT' || question.visualType === 'select-one') {
+        acc[question.id] = ''
+      }
     }
 
     return acc

@@ -42,6 +42,7 @@ const createMockPurpose = createMockFactory<Purpose>({
   suspendedByConsumer: false,
   suspendedByProducer: false,
   title: 'Nuova finalità',
+  hasUnreadNotifications: false,
   versions: [
     {
       createdAt: '2023-02-03T07:59:52.458Z',
@@ -72,7 +73,7 @@ const createMockPurpose = createMockFactory<Purpose>({
   isFreeOfCharge: false,
   dailyCallsPerConsumer: 1,
   dailyCallsTotal: 10,
-  hasUnreadNotifications: false,
+  isDocumentReady: false,
 })
 
 const createMockRiskAnalysisFormConfig = createMockFactory<RiskAnalysisFormConfig>({

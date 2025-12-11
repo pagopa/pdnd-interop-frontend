@@ -4,16 +4,19 @@ import { HeadSection } from '@/components/shared/HeadSection'
 import type { ActionItemButton } from '@/types/common.types'
 import { Filters, Pagination, useFilters, usePagination } from '@pagopa/interop-fe-commons'
 import { NotificationsTable, NotificationsTableSkeleton } from './NotificationsTable'
-import type { GetUserNotificationsParams } from '@/api/notification/notification.services'
 import { NotificationMutations, NotificationQueries } from '@/api/notification'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import type { GetNotificationsParams } from '@/api/api.generatedTypes'
+import { Link, useNavigate } from '@/router'
+import { NoItemResults } from '@/components/shared/NoItemResults/NoItemResults'
 
 const NotificationsPage: React.FC = () => {
-  const { t } = useTranslation('notifications', { keyPrefix: 'notifications.page' })
+  const { t } = useTranslation('notification', { keyPrefix: 'notifications.page' })
+  const navigate = useNavigate()
 
   const action: ActionItemButton[] = [
     {
-      action: () => { }, //TODO
+      action: () => navigate('NOTIFICATIONS_CONFIG'),
       label: t('addNotificationConfigBtn'),
       color: 'primary',
       variant: 'contained',
@@ -21,7 +24,7 @@ const NotificationsPage: React.FC = () => {
   ]
 
   const { filtersParams, ...filtersHandlers } = useFilters<
-    Omit<GetUserNotificationsParams, 'limit' | 'offset'>
+    Omit<GetNotificationsParams, 'limit' | 'offset'>
   >([
     { name: 'q', label: t('filters.objectField.label'), type: 'freetext' },
     {
@@ -29,9 +32,9 @@ const NotificationsPage: React.FC = () => {
       label: t('filters.categoryField.label'),
       type: 'autocomplete-single',
       options: [
-        { label: t('filters.categoryField.optionLabels.Deliver'), value: 'Providers' },
+        { label: t('filters.categoryField.optionLabels.Providers'), value: 'Providers' },
         {
-          label: t('filters.categoryField.optionLabels.Receive'),
+          label: t('filters.categoryField.optionLabels.Subscribers'),
           value: 'Subscribers',
         },
         {
@@ -39,20 +42,23 @@ const NotificationsPage: React.FC = () => {
           value: 'Delegations',
         },
         {
-          label: t('filters.categoryField.optionLabels.keyAttributes'),
+          label: t('filters.categoryField.optionLabels.AttributesAndKeys'),
           value: 'AttributesAndKeys',
         },
       ],
     },
     {
-      name: 'state',
+      name: 'unread',
       label: t('filters.stateField.label'),
       type: 'autocomplete-single',
       options: [
-        { label: t('filters.stateField.optionLabels.Read'), value: 'Letto' },
+        {
+          label: t('filters.stateField.optionLabels.Read'),
+          value: 'READ',
+        },
         {
           label: t('filters.stateField.optionLabels.NotRead'),
-          value: 'Non letto',
+          value: 'UNREAD',
         },
       ],
     },
@@ -81,12 +87,7 @@ const NotificationsPage: React.FC = () => {
         actions={action}
       />
 
-      <>
-        <Filters {...filtersHandlers} />
-        <NotificationsTableWrapper params={params} />
-        <Pagination {...paginationProps} totalPages={totalPageCount} />
-      </>
-      {/* {filtersParams && totalPageCount <= 0 ? (
+      {filtersParams || totalPageCount > 0 ? (
         <>
           <Filters {...filtersHandlers} />
           <NotificationsTableWrapper params={params} />
@@ -95,16 +96,17 @@ const NotificationsPage: React.FC = () => {
       ) : (
         <NoItemResults>
           <div>
-            {t('notNotificationAvailable')} <Link to="DEFAULT">TODO</Link>
+            {t('notNotificationAvailable')}{' '}
+            <Link to="NOTIFICATIONS_CONFIG">{t('noItemsConfigurationLink')}</Link>
           </div>
         </NoItemResults>
-      )} */}
+      )}
     </>
   )
 }
 
 const NotificationsTableWrapper: React.FC<{
-  params: GetUserNotificationsParams
+  params: GetNotificationsParams
 }> = ({ params }) => {
   const { data, isFetching, refetch, dataUpdatedAt } = useQuery({
     ...NotificationQueries.getUserNotificationsList(params),
@@ -115,17 +117,14 @@ const NotificationsTableWrapper: React.FC<{
   const { mutate: deleteNotifications } = NotificationMutations.useDeleteNotifications()
 
   const handleMultipleRowMarkAsRead = (notificationIds: string[]) => {
-    console.log('MarkAsRead', notificationIds)
     markBulkAsRead({ ids: notificationIds })
   }
 
   const handleMultipleRowMarkAsUnread = (notificationIds: string[]) => {
-    console.log('MarkAsUnread', notificationIds)
     markBulkAsUnread({ ids: notificationIds })
   }
 
   const handleMultipleRowDelete = (notificationIds: string[]) => {
-    console.log('delete:', notificationIds)
     deleteNotifications({ ids: notificationIds })
   }
 

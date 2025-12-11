@@ -17,7 +17,10 @@
     },
     "eserviceField": {
       "label": "Choose e-service",
-      "infoLabel": "You can only select the e-services for which the selected user has an active request for use"
+      "infoLabel": "You can only select the e-services for which the selected user has an active request for use",
+      "alert": {
+        "label": "For the selected e-service, you can use the facilitated compilation feature!"
+      }
     },
     "eserviceRiskAnalysisSection": {
       "title": "Choose purpose",
@@ -38,7 +41,25 @@
       "description": "Lorem ipsum dolor sit amet...",
       "freeOfChargeReason": "I'm a Public Amministration"
     },
-    "riskAnalysisPreviewTitle": "Risk analysis"
+    "riskAnalysisPreviewTitle": "Risk analysis",
+    "purposeTemplateField": {
+      "title": "Facilitated purpose compilation",
+      "description": "The facilitated compilation feature provides annotations, supporting documents, and some pre-filled answers to help you formulate the risk analysis. The template is made available for reuse by other participating organizations and can be used without restrictions.",
+      "usePurposeTemplateSwitch": {
+        "label": "Use the facilitated compilation feature",
+        "disabledTooltip": "It is not possible to use the feature for the selected \n e-service  because the provider has not indicated how personal data will be processed",
+        "selectPurposeTemplate": {
+          "title": "Choose the facilitated purpose compilation template",
+          "showOnlyLinkedPurposeTemplates": "Show only templates suggested for the selected e-service",
+          "autocompleteLabelPurposeTemplate": "Facilitated purpose compilation template",
+          "viewPurposeTemplateBtn": "View selected template"
+        },
+        "acknowledgeInfoResponsibility": {
+          "label": "I acknowledge that, even in the presence of pre-filled suggestions, it is my responsibility to verify and validate all information before publication.",
+          "requiredError": "You must accept the conditions to proceed"
+        }
+      }
+    }
   },
   "edit": {
     "emptyTitle": "Edit purpose",
@@ -84,6 +105,57 @@
         "description": "There is a new version of risk analysis available. The one compiled previously is obsolete and can no longer be used. If you click \"Update\", all the fields that have not changed and were filled in will already be filled in in the new version",
         "proceedButtonLabel": "Update",
         "cancelButtonLabel": "Discard"
+      },
+      "personalDataFlag": {
+        "label": "Personal data processing",
+        "content": {
+          "true": "The provider declares to process personal data",
+          "false": "The provider declares not to process personal data",
+          "undefined": "The provider has not declared the processing of personal data"
+        },
+        "incompatibleAnswerError": {
+          "purposeEdit": "The answer in this field differs from what was defined by the e-service provider"
+        },
+        "alertForIncompatibleAnswer": "Make sure that the answer to the question \"Indicate whether you access personal data (required)\" matches the one the provider provided in the general information. If the data does not match, the publication will be blocked.",
+        "alertForIncompatibleAnswerPurpose": {
+          "personalData": "You will not be able to publish this purpose because you declared that personal data is processed, but the provider declared otherwise. For clarifications, contact the provider.",
+          "noPersonalData": "You will not be able to publish this purpose because you declared that personal data is not processed, but the provider declared otherwise. For clarifications, contact the provider."
+        }
+      }
+    },
+    "purposeFromTemplate": {
+      "generalInformationSection": {
+        "title": "General information",
+        "subtitle": "The following information was pre-filled by the creator of the facilitated purpose template and can't be modified.",
+        "descriptionSection": {
+          "title": "Description",
+          "nameField": {
+            "label": "Purpose name"
+          },
+          "descriptionField": {
+            "label": "Purpose description"
+          },
+          "isFreeOfChargeField": {
+            "label": "Free of charge access",
+            "options": {
+              "YES": "Yes",
+              "NO": "No"
+            }
+          },
+          "freeOfChargeReasonField": {
+            "label": "Free of charge reason"
+          }
+        }
+      },
+      "technicalInformationsSection": {
+        "title": "Technical information",
+        "instanceNameField": {
+          "label": "Instance name",
+          "defaultPurposeInstanceName": "Template for facilitated purpose compilation"
+        },
+        "dailyCallsField": {
+          "label": "How many API calls/day do you estimate to make?"
+        }
       }
     }
   },
@@ -92,7 +164,12 @@
     "alerts": {
       "associationRemoved": "<strong>The client association was removed</strong> within the process. It will be possible to associate one or more clients only after the activation of the purpose.",
       "newRiskAnalysisAvailable": "This draft is no longer publishable. Since its creation, a new version of the risk analysis has been released. Delete it and create a new one.",
-      "descriptorOrAgreementArchived": "This draft is no longer publishable. The agreement of this e-service is no longer active. Delete it and create a new one."
+      "descriptorOrAgreementArchived": "This draft is no longer publishable. The agreement of this e-service is no longer active. Delete it and create a new one.",
+      "rulesetExpired": {
+        "label": "This risk analysis uses an obsolete version that you cannot publish.",
+        "action": "Create new purpose"
+      },
+      "infoRulesetExpiration": "This risk analysis uses a version that will become obsolete in {{days}} days. Publish it by {{date}} to avoid having to recompile it."
     },
     "generalInformationSection": {
       "title": "General informations",
@@ -125,7 +202,8 @@
     "riskAnalysisSection": {
       "title": "Risk analysis",
       "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
-    }
+    },
+    "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione"
   },
   "list": {
     "cantCreatePurposeTooltip": "You cannot create purposes because you have no associable e-service",
@@ -169,6 +247,9 @@
           "label": "E-service",
           "value": "{{name}}, version {{version}}"
         },
+        "purposeTemplateField": {
+          "label": "Linked purpose template"
+        },
         "consumerField": {
           "label": "Consumer"
         },
@@ -195,6 +276,10 @@
         "consumerField": {
           "label": "Consumer ID",
           "copySuccessFeedbackText": "Consumer id copied successfully"
+        },
+        "purposeTemplateField": {
+          "label": "Template ID",
+          "copySuccessFeedbackText": "Purpose Template id copied successfully"
         }
       },
       "loadEstimate": {
@@ -273,6 +358,9 @@
         "delegatedConsumerField": {
           "label": "Delegated Consumer"
         },
+        "purposeTemplateField": {
+          "label": "Linked purpose template"
+        },
         "descriptionField": {
           "label": "Purpose description"
         },
@@ -318,6 +406,14 @@
             "validation": {
               "sameValue": "The number of API calls/day requested must be different than the current one"
             }
+          },
+          "riskAnalysisSection": {
+            "title": "Risk analysis",
+            "description": "You can update the estimate only if the risk analysis linked to this purpose is still valid.",
+            "checkbox": {
+              "label": "The risk analysis is unchanged",
+              "requiredValidation": "To request the update, confirm that the risk analysis has remained unchanged"
+            }
           }
         },
         "thresholdsCard": {
@@ -329,6 +425,9 @@
           "dailyCallsTotalsField": {
             "label": "Totals"
           }
+        },
+        "alertExceedingThreshold": {
+          "label": "If the number of calls exceeds the limit set by the provider, its approval will be required to use that load"
         }
       }
     }

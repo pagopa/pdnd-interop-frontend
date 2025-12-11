@@ -20,12 +20,23 @@ const GeneralConfigs = z.object({
   API_GATEWAY_V1_INTERFACE_URL: z.url(),
   API_GATEWAY_V2_INTERFACE_URL: z.url(),
   ERROR_DATA_DURATION_TIME: z.string().default('60000'),
+  NOTIFICATION_COUNT_REFRESH_INTERVAL: z.coerce.number().default(30000),
 })
 
 const FeatureFlagConfigs = z.object({
   FEATURE_FLAG_ADMIN_CLIENT: z.enum(['true', 'false']),
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: z.enum(['true', 'false']),
-  FEATURE_FLAG_NOTIFICATION_CONFIG: z.boolean().default(false),
+  FEATURE_FLAG_NOTIFICATION_CONFIG: z.enum(['true', 'false']),
+  FEATURE_FLAG_ESERVICE_PERSONAL_DATA: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform((value) => value === 'true'),
+
+  FEATURE_FLAG_USE_SIGNED_DOCUMENT: z
+    .enum(['true', 'false'])
+    .default('false')
+    .default('false')
+    .transform((value) => value === 'true'),
 })
 
 const EndpointConfigs = z.object({
@@ -54,7 +65,7 @@ const transformedFEConfigs = FEConfigs.transform((c) => ({
 
 export type InteropFEConfigs = z.infer<typeof transformedFEConfigs>
 
-export const parseCommaSeparatedToArray = (input: string): string[] => {
+const parseCommaSeparatedToArray = (input: string): string[] => {
   return input
     .split(',')
     .map((item) => item.trim())
@@ -103,6 +114,9 @@ export const {
   API_GATEWAY_V2_INTERFACE_URL,
   ERROR_DATA_DURATION_TIME,
   FEATURE_FLAG_NOTIFICATION_CONFIG,
+  NOTIFICATION_COUNT_REFRESH_INTERVAL,
+  FEATURE_FLAG_ESERVICE_PERSONAL_DATA,
+  FEATURE_FLAG_USE_SIGNED_DOCUMENT,
 } = parseConfigs()
 
 export const APP_MODE = parseAppMode()

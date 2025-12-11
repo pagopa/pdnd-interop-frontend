@@ -1,14 +1,37 @@
 import { queryOptions } from '@tanstack/react-query'
-import type { GetUserNotificationsParams } from './notification.services'
 import { NotificationServices } from './notification.services'
+import type { GetNotificationsParams } from '../api.generatedTypes'
 
-function getUserNotificationsList(params: GetUserNotificationsParams) {
+function getUserNotificationsList(params: GetNotificationsParams) {
   return queryOptions({
     queryKey: ['UserNotificationsGetList', params],
     queryFn: () => NotificationServices.getUserNotificationsList(params),
   })
 }
 
+function getInAppNotificationsCount() {
+  return queryOptions({
+    queryKey: ['InAppNotificationsCount'],
+    queryFn: () => NotificationServices.getInAppNotificationsCount(),
+  })
+}
+function getUserNotificationConfigs() {
+  return queryOptions({
+    queryKey: ['getUserNotificationConfiguration'],
+    queryFn: () => NotificationServices.getUserNotificationConfigs(),
+  })
+}
+
+function getTenantNotificationConfigs() {
+  return queryOptions({
+    queryKey: ['getTenantNotificationConfiguration'],
+    queryFn: () => NotificationServices.getTenantNotificationConfigs(),
+  })
+}
+
 export const NotificationQueries = {
+  getUserNotificationConfigs,
+  getTenantNotificationConfigs,
   getUserNotificationsList,
+  getInAppNotificationsCount,
 }

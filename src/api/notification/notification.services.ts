@@ -1,56 +1,45 @@
 import axiosInstance from '@/config/axios'
 import { BACKEND_FOR_FRONTEND_URL, FEATURE_FLAG_NOTIFICATION_CONFIG } from '@/config/env'
-import type { Notifications } from '../api.generatedTypes'
-import { type MarkNotificationsAsReadPayload, type Notification } from '../api.generatedTypes'
+import type {
+  GetNotificationsParams,
+  Notifications,
+  TenantNotificationConfig,
+  TenantNotificationConfigUpdateSeed,
+  UserNotificationConfig,
+  UserNotificationConfigUpdateSeed,
+  NotificationsCountBySection,
+  MarkNotificationsAsReadPayload,
+} from '../api.generatedTypes'
 
-export interface GetUserNotificationsParams {
-  /** Query to filter EServices by name */
-  q?: string
-  /**
-   * comma separated sequence of consumers IDs
-   * @default []
-   */
-  category?: string
-  /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
-  state?: string
-  /**
-   * @format int32
-   * @min 0
-   */
-  offset: number
-  /**
-   * @format int32
-   * @min 1
-   * @max 50
-   */
-  limit: number
-}
+// export interface GetUserNotificationsParams {
+//   /** Query to filter EServices by name */
+//   q?: string
+//   /**
+//    * comma separated sequence of consumers IDs
+//    * @default []
+//    */
+//   category?: string
+//   /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
+//   state?: string
+//   /**
+//    * @format int32
+//    * @min 0
+//    */
+//   offset: number
+//   /**
+//    * @format int32
+//    * @min 1
+//    * @max 50
+//    */
+//   limit: number
+// }
 
-export const mockedNotifications: Notification[] = [
-  {
-    id: 'a1b2c3d4-e5f6-7890-1234-567890abcdef',
-    userId: '111852d9-1834-4654-b389-9efe9e0d1646',
-    tenantId: 'd0b6f9f9-e1a5-4f3d-9c3f-9a4f6d3a8e1b',
-    body: 'Hai un nuovo messaggio da Mario Rossi.',
-    readAt: null,
-    createdAt: '2025-09-23T12:30:00.000Z',
-    deepLink: '',
-    category: 'Subscribers',
-  },
-]
-
-async function getUserNotificationsList(params: GetUserNotificationsParams) {
+async function getUserNotificationsList(params: GetNotificationsParams) {
   const response = await axiosInstance.get<Notifications>(
     `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications`,
     { params }
   )
 
-  const _responseMock: Notifications = {
-    pagination: { limit: 10, offset: 0, totalCount: 10 },
-    results: mockedNotifications,
-  }
-
-  // return _responseMock // TODO to be removed when API will be ready
   return response.data
 }
 
@@ -106,7 +95,78 @@ async function markNotificationsAsReadByEntityId({ entityId }: { entityId: strin
   }
 }
 
+async function getInAppNotificationsCount() {
+  if (FEATURE_FLAG_NOTIFICATION_CONFIG) {
+    const response = await axiosInstance.get<NotificationsCountBySection>(
+      `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications/count`
+    )
+    return response.data
+  } else {
+    return Promise.resolve({
+      erogazione: {
+        richieste: 0,
+        finalita: 0,
+        'template-eservice': 0,
+        'e-service': 0,
+        portachiavi: 0,
+        totalCount: 0,
+      },
+      fruizione: {
+        richieste: 0,
+        finalita: 0,
+        totalCount: 0,
+      },
+      'catalogo-e-service': {
+        totalCount: 0,
+      },
+      aderente: {
+        deleghe: 0,
+        anagrafica: 0,
+        totalCount: 0,
+      },
+      'gestione-client': {
+        'api-e-service': 0,
+        totalCount: 0,
+      },
+      notifiche: {
+        totalCount: 0,
+      },
+    })
+  }
+}
+
+async function updateUserNotificationConfigs(payload: UserNotificationConfigUpdateSeed) {
+  return await axiosInstance.post<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/userNotificationConfigs`,
+    payload
+  )
+}
+
+async function updateTenantNotificationConfigs(payload: TenantNotificationConfigUpdateSeed) {
+  return await axiosInstance.post<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/tenantNotificationConfigs`,
+    payload
+  )
+}
+
+async function getUserNotificationConfigs() {
+  const response = await axiosInstance.get<UserNotificationConfig>(
+    `${BACKEND_FOR_FRONTEND_URL}/userNotificationConfigs`
+  )
+
+  return response.data
+}
+async function getTenantNotificationConfigs() {
+  const response = await axiosInstance.get<TenantNotificationConfig>(
+    `${BACKEND_FOR_FRONTEND_URL}/tenantNotificationConfigs`
+  )
+  return response.data
+}
 export const NotificationServices = {
+  updateUserNotificationConfigs,
+  updateTenantNotificationConfigs,
+  getUserNotificationConfigs,
+  getTenantNotificationConfigs,
   getUserNotificationsList,
   markAsRead,
   markBulkAsRead,
@@ -115,4 +175,5 @@ export const NotificationServices = {
   deleteNotification,
   deleteNotifications,
   markNotificationsAsReadByEntityId,
+  getInAppNotificationsCount,
 }

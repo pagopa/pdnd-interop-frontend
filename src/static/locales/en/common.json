@@ -2,6 +2,7 @@
   "addBtn": "Add",
   "closeBtn": "Close",
   "createNewBtn": "Create new",
+  "notEditableLabel": "Not editable",
   "validation": {
     "mixed": {
       "required": "Field required"
@@ -53,7 +54,9 @@
     "substituteAdmin": "Substitute admin",
     "copy": "Copy",
     "markAsRead": "Mark as read",
-    "marsAsNotRead": "Mark as not read"
+    "marsAsNotRead": "Mark as not read",
+    "specifyProcessing": "Specify processing",
+    "save": "Save"
   },
   "table": {
     "headData": {
@@ -84,7 +87,13 @@
       "eserviceTemplateName": "Template",
       "dateColumn": "Date",
       "categoryColumn": "Category",
-      "objectColumn": "Object"
+      "objectColumn": "Object",
+      "targetOrganization": "Target organization",
+      "purposeTemplateName": "Purpose template name",
+      "linkedEserviceName": "E-service or e-service template",
+      "linkedEserviceProviderName": "Provider Name",
+      "purposeTemplateCreatorName": "Creator name",
+      "purposeTemplateTarget": "Target"
     }
   },
   "status": {
@@ -130,6 +139,12 @@
       "DRAFT": "draft",
       "SUSPENDED": "suspended",
       "DEPRECATED": "deprecated"
+    },
+    "purposeTemplate": {
+      "PUBLISHED": "active",
+      "DRAFT": "draft",
+      "SUSPENDED": "suspended",
+      "ARCHIVED": "archived"
     }
   },
   "userProductRole": {

@@ -18,12 +18,14 @@ const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
 
   const isAlreadyInstantiated = eserviceTemplate?.isAlreadyInstantiated ?? false
   const hasRequesterRiskAnalysis = eserviceTemplate?.hasRequesterRiskAnalysis ?? true
+  const hasPersonalDataValue = eserviceTemplate?.eserviceTemplate.personalData !== undefined
 
   const { actions } = useGetConsumerEServiceTemplateActions(
     eServiceTemplateId,
     isAlreadyInstantiated,
     hasRequesterRiskAnalysis,
-    eserviceTemplate?.state
+    eserviceTemplate?.state,
+    hasPersonalDataValue
   )
   return (
     <PageContainer
