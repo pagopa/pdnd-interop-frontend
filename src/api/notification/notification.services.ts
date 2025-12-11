@@ -11,29 +11,6 @@ import type {
   MarkNotificationsAsReadPayload,
 } from '../api.generatedTypes'
 
-// export interface GetUserNotificationsParams {
-//   /** Query to filter EServices by name */
-//   q?: string
-//   /**
-//    * comma separated sequence of consumers IDs
-//    * @default []
-//    */
-//   category?: string
-//   /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
-//   state?: string
-//   /**
-//    * @format int32
-//    * @min 0
-//    */
-//   offset: number
-//   /**
-//    * @format int32
-//    * @min 1
-//    * @max 50
-//    */
-//   limit: number
-// }
-
 async function getUserNotificationsList(params: GetNotificationsParams) {
   const response = await axiosInstance.get<Notifications>(
     `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications`,
@@ -66,7 +43,7 @@ async function markAsNotRead({ notificationId }: { notificationId: string }) {
 
 async function markBulkAsNotRead(payload: MarkNotificationsAsReadPayload) {
   const response = await axiosInstance.post<void>(
-    `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications/markAsUnread`,
+    `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications/bulk/markAsUnread`,
     payload
   )
   return response.data

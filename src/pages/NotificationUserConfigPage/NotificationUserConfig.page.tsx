@@ -38,7 +38,7 @@ const NotificationUserConfigTabs: React.FC<{
 }> = ({ activeTab, updateActiveTab }) => {
   const { t } = useTranslation('notification', { keyPrefix: 'notifications.configurationPage' })
 
-  const { data, isFetching } = useQuery(NotificationQueries.getUserNotificationConfigs())
+  const { data } = useQuery(NotificationQueries.getUserNotificationConfigs())
 
   const { mutate: updateUserNotificationConfigs } =
     NotificationMutations.useUpdateNotificationUserConfigs()
@@ -85,7 +85,7 @@ const NotificationUserConfigTabs: React.FC<{
 
       <>
         <TabPanel value="inApp">
-          {isFetching && <NotificationUserConfigPageSkeleton />}
+          {!data && <NotificationUserConfigPageSkeleton />}
           {data && (
             <NotificationConfigUserTab
               type="inApp"
@@ -103,7 +103,7 @@ const NotificationUserConfigTabs: React.FC<{
           )}
         </TabPanel>
         <TabPanel value="email">
-          {isFetching && <NotificationUserConfigPageSkeleton />}
+          {!data && <NotificationUserConfigPageSkeleton />}
           {data && (
             <NotificationConfigUserTab
               type="email"
