@@ -10,7 +10,6 @@ import { VoucherInstructionsStep1 } from './VoucherInstructionsStep1'
 import { VoucherInstructionsStep2 } from './VoucherInstructionsStep2'
 import { VoucherInstructionsStep3 } from './VoucherInstructionsStep3'
 import { VoucherInstructionsStep4 } from './VoucherInstructionsStep4'
-import { HeadSection } from '@/components/shared/HeadSection'
 
 interface VoucherInstructionsProps {}
 
