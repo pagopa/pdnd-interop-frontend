@@ -54,11 +54,11 @@ const NotificationsPage: React.FC = () => {
       options: [
         {
           label: t('filters.stateField.optionLabels.Read'),
-          value: 'READ',
+          value: 'false',
         },
         {
           label: t('filters.stateField.optionLabels.NotRead'),
-          value: 'UNREAD',
+          value: 'true',
         },
       ],
     },
