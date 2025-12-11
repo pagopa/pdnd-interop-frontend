@@ -17,7 +17,10 @@
     },
     "eserviceField": {
       "label": "E-service da associare",
-      "infoLabel": "Puoi selezionare solo gli e-service per i quali il fruitore selezionato ha una richiesta di fruizione attiva"
+      "infoLabel": "Puoi selezionare solo gli e-service per i quali il fruitore selezionato ha una richiesta di fruizione attiva",
+      "alert": {
+        "label": "Per l’e-service selezionato è possibile utilizzare la funzionalità di compilazione agevolata!"
+      }
     },
     "eserviceRiskAnalysisSection": {
       "title": "Finalità da utilizzare",
@@ -38,7 +41,25 @@
       "description": "Lorem ipsum dolor sit amet...",
       "freeOfChargeReason": "Sono una Pubblica Amministrazione"
     },
-    "riskAnalysisPreviewTitle": "Analisi del rischio"
+    "riskAnalysisPreviewTitle": "Analisi del rischio",
+    "purposeTemplateField": {
+      "title": "Compilazione agevolata della finalità",
+      "description": "La funzionalità di compilazione agevolata mette a disposizione annotazioni, documenti di supporto e alcune risposte precompilate per facilitare la formulazione dell’analisi del rischio. Il modello è reso disponibile per il riuso da altri enti aderenti e può essere utilizzato senza vincoli.",
+      "usePurposeTemplateSwitch": {
+        "label": "Utilizza la funzionalità di compilazione agevolata",
+        "disabledTooltip": "Non è possibile utilizzare la funzionalità per \n l’e-service selezionato in quanto l’erogatore non ha indicato come verranno trattati i dati personali",
+        "selectPurposeTemplate": {
+          "title": "Scegli il modello di compilazione agevolata della finalità",
+          "showOnlyLinkedPurposeTemplates": "Mostra solo template suggeriti per l’e-service che ho selezionato",
+          "autocompleteLabelPurposeTemplate": "Template per la compilazione agevolata della finalità",
+          "viewPurposeTemplateBtn": "Visualizza il template selezionato"
+        },
+        "acknowledgeInfoResponsibility": {
+          "label": "Dichiaro di aver compreso che, anche in presenza di suggerimenti precompilati, è mia responsabilità verificare e validare tutte le informazioni prima della pubblicazione.",
+          "requiredError": "Devi accettare le condizioni per proseguire"
+        }
+      }
+    }
   },
   "edit": {
     "emptyTitle": "Modifica finalità",
@@ -84,6 +105,57 @@
         "description": "C'è una nuova versione di analisi del rischio disponibile. Quella compilata in precedenza è obsoleta e non può più essere usata. Se clicchi “Aggiorna”, tutti i campi che non sono cambiati ed erano stati compilati li troverai già compilati nella nuova versione",
         "proceedButtonLabel": "Aggiorna",
         "cancelButtonLabel": "Abbandona"
+      },
+      "personalDataFlag": {
+        "label": "Trattamento dati personali",
+        "content": {
+          "true": "L’erogatore dichiara di trattare dati personali",
+          "false": "L’erogatore dichiara di non trattare dati personali",
+          "undefined": "L’erogatore non ha dichiarato il trattamento dei dati personali"
+        },
+        "incompatibleAnswerError": {
+          "purposeEdit": "La risposta a questa domanda differisce da quanto è stato definito dall’erogatore dell’e-service"
+        },
+        "alertForIncompatibleAnswer": "Assicurati che la risposta alla domanda \"Indica se accedi a dati personali (richiesto)\" corrisponda a quella fornita dall’erogatore nelle informazioni generali. Se i dati non corrispondono, la pubblicazione sarà bloccata.",
+        "alertForIncompatibleAnswerPurpose": {
+          "personalData": "Non potrai pubblicare questa finalità perché hai dichiarato che vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore.",
+          "noPersonalData": "Non potrai pubblicare questa finalità perché hai dichiarato che non vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore."
+        }
+      }
+    },
+    "purposeFromTemplate": {
+      "generalInformationSection": {
+        "title": "Informazioni generali",
+        "subtitle": "Le seguenti informazioni sono state precompilate dal creatore del template di finalità agevolata e non sono modificabili.",
+        "descriptionSection": {
+          "title": "Descrizione",
+          "nameField": {
+            "label": "Nome della finalità"
+          },
+          "descriptionField": {
+            "label": "Descrizione della finalità"
+          },
+          "isFreeOfChargeField": {
+            "label": "Accesso a titolo gratuito",
+            "options": {
+              "YES": "Sì",
+              "NO": "No"
+            }
+          },
+          "freeOfChargeReasonField": {
+            "label": "Motivazione del titolo gratuito"
+          }
+        }
+      },
+      "technicalInformationsSection": {
+        "title": "Informazioni tecniche",
+        "instanceNameField": {
+          "label": "Nome dell'istanza",
+          "defaultPurposeInstanceName": "Template per la compilazione agevolata della finalità"
+        },
+        "dailyCallsField": {
+          "label": "Quante chiamate API/giorno stimi di effettuare?"
+        }
       }
     }
   },
@@ -92,7 +164,12 @@
     "alerts": {
       "associationRemoved": "All’interno del processo <strong>è stata rimossa l’associazione del client</strong>. Sarà possibile associare uno o più client solo dopo l’attivazione della finalità.",
       "newRiskAnalysisAvailable": "Questa bozza non è più pubblicabile. Dal momento della sua creazione è uscita una nuova versione dell’analisi del rischio. Eliminala e creane una nuova.",
-      "descriptorOrAgreementArchived": "Questa bozza non è più pubblicabile. La tua fruizione per questo e-service non è più attiva. Elimina la finalità."
+      "descriptorOrAgreementArchived": "Questa bozza non è più pubblicabile. La tua fruizione per questo e-service non è più attiva. Elimina la finalità.",
+      "rulesetExpired": {
+        "label": "Questa analisi del rischio utilizza una versione obsoleta che non puoi pubblicare.",
+        "action": "Crea nuova finalità"
+      },
+      "infoRulesetExpiration": "Questa analisi del rischio utilizza una versione che sarà obsoleta tra {{days}} giorni. Pubblicala entro {{date}} per non doverla ricompilare."
     },
     "generalInformationSection": {
       "title": "Informazioni generali",
@@ -125,7 +202,8 @@
     "riskAnalysisSection": {
       "title": "Analisi del rischio",
       "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
-    }
+    },
+    "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione"
   },
   "list": {
     "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare",
@@ -169,6 +247,9 @@
           "label": "E-service di riferimento",
           "value": "{{name}}, versione {{version}}"
         },
+        "purposeTemplateField": {
+          "label": "Template collegato"
+        },
         "consumerField": {
           "label": "Fruitore"
         },
@@ -194,6 +275,10 @@
         },
         "consumerField": {
           "label": "ID fruitore",
+          "copySuccessFeedbackText": "ID copiato correttamente"
+        },
+        "purposeTemplateField": {
+          "label": "ID template collegato",
           "copySuccessFeedbackText": "ID copiato correttamente"
         }
       },
@@ -273,6 +358,9 @@
         "delegatedConsumerField": {
           "label": "Delegato alla fruizione"
         },
+        "purposeTemplateField": {
+          "label": "Template collegato"
+        },
         "descriptionField": {
           "label": "Descrizione della finalità"
         },
@@ -318,6 +406,14 @@
             "validation": {
               "sameValue": "Il numero di chiamate API/giorno richiesto deve essere diverso da quello attuale"
             }
+          },
+          "riskAnalysisSection": {
+            "title": "Analisi del rischio",
+            "description": "Puoi aggiornare la stima solo se l’analisi del rischio collegata a questa finalità è ancora valida.",
+            "checkbox": {
+              "label": "L’analisi del rischio è invariata",
+              "requiredValidation": "Per richiedere l’adeguamento, conferma che l’analisi del rischio è rimasta invariata"
+            }
           }
         },
         "thresholdsCard": {
@@ -329,6 +425,9 @@
           "dailyCallsTotalsField": {
             "label": "Totali"
           }
+        },
+        "alertExceedingThreshold": {
+          "label": "Se il numero di chiamate eccede il limite stabilito dall'erogatore, sarà necessaria una sua approvazione per poter sfruttare quel carico"
         }
       }
     }

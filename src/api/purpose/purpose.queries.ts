@@ -1,4 +1,5 @@
 import { queryOptions } from '@tanstack/react-query'
+import type { RiskAnlysisVersionConfig } from './purpose.services'
 import { PurposeServices } from './purpose.services'
 import type {
   GetConsumerPurposesParams,
@@ -42,10 +43,18 @@ function getRiskAnalysisVersion(params: RetrieveRiskAnalysisConfigurationByVersi
   })
 }
 
+function getRiskAnalyisLatestOrSpecificVersion(params: RiskAnlysisVersionConfig) {
+  return queryOptions({
+    queryKey: ['GetRiskAnalysisLatestOrSpecificVersion', params],
+    queryFn: () => PurposeServices.getRiskAnalyisLatestOrSpecificVersion(params),
+  })
+}
+
 export const PurposeQueries = {
   getProducersList,
   getConsumersList,
   getSingle,
   getRiskAnalysisLatest,
   getRiskAnalysisVersion,
+  getRiskAnalyisLatestOrSpecificVersion,
 }

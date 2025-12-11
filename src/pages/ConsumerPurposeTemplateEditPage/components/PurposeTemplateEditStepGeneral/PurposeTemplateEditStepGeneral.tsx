@@ -1,0 +1,48 @@
+import React from 'react'
+import { useParams } from '@/router'
+import type { ActiveStepProps } from '@/hooks/useActiveStep'
+import { useQuery } from '@tanstack/react-query'
+import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
+import type { PurposeTemplateEditStepGeneralFormValues } from './PurposeTemplateEditStepGeneralForm'
+import PurposeTemplateEditStepGeneralForm, {
+  PurposeTemplateEditStepGeneralFormSkeleton,
+} from './PurposeTemplateEditStepGeneralForm'
+import { useTranslation } from 'react-i18next'
+import { NotFoundError } from '@/utils/errors.utils'
+
+export const PurposeTemplateEditStepGeneral: React.FC<ActiveStepProps> = (props) => {
+  const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.defaultPurposeTemplate' })
+
+  const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'>()
+  const { data: purposeTemplate, isLoading: isLoadingPurpose } = useQuery(
+    PurposeTemplateQueries.getSingle(purposeTemplateId)
+  )
+
+  if (isLoadingPurpose) {
+    return <PurposeTemplateEditStepGeneralFormSkeleton />
+  }
+
+  if (!purposeTemplate) {
+    throw new NotFoundError()
+  }
+
+  const defaultValues: PurposeTemplateEditStepGeneralFormValues = {
+    purposeTitle: purposeTemplate.purposeTitle ?? t('title'),
+    purposeDescription: purposeTemplate.purposeDescription ?? t('description'),
+    purposeDailyCalls: purposeTemplate?.purposeDailyCalls,
+    purposeIsFreeOfCharge: purposeTemplate?.purposeIsFreeOfCharge ? 'true' : 'false',
+    purposeFreeOfChargeReason:
+      purposeTemplate?.purposeFreeOfChargeReason ?? t('freeOfChargeReason'),
+    targetTenantKind: purposeTemplate.targetTenantKind,
+    targetDescription: purposeTemplate.targetDescription,
+    handlesPersonalData: purposeTemplate.handlesPersonalData,
+  }
+
+  return (
+    <PurposeTemplateEditStepGeneralForm
+      purposeTemplate={purposeTemplate}
+      defaultValues={defaultValues}
+      {...props}
+    />
+  )
+}

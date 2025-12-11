@@ -7,7 +7,7 @@ import { renderWithSidebarContext } from './testing.sidebar.commons'
 
 describe('SidebarItemGroup', () => {
   const defaultProps = {
-    notification: { show: true, content: 1 },
+    notification: 1,
     label: 'item-root',
     isExpanded: false,
     isSelected: false,

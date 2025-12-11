@@ -34,6 +34,7 @@ import type {
   TemplateInstanceInterfaceRESTSeed,
   TemplateInstanceInterfaceSOAPSeed,
   EServiceSignalHubUpdateSeed,
+  EServicePersonalDataFlagUpdateSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 import { getAllFromPaginated, waitFor } from '@/utils/common.utils'
@@ -367,7 +368,11 @@ async function downloadConsumerList({ eserviceId }: { eserviceId: string }) {
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/consumers`,
     { responseType: 'arraybuffer' }
   )
-  return response.data
+
+  const filename =
+    response?.headers?.['content-disposition']?.split('filename=')[1] || 'consumers.csv'
+
+  return { file: response.data, filename }
 }
 
 async function updateEServiceDescription({
@@ -593,6 +598,19 @@ async function updateEServiceSignalHub({
   return response.data
 }
 
+async function updateEServicePersonalDataFlagAfterPublication({
+  eserviceId,
+  ...payload
+}: {
+  eserviceId: string
+} & EServicePersonalDataFlagUpdateSeed) {
+  const response = await axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/personalDataFlag`,
+    payload
+  )
+  return response.data
+}
+
 export const EServiceServices = {
   getCatalogList,
   getAllCatalogEServices,
@@ -638,4 +656,5 @@ export const EServiceServices = {
   deleteDraftAndUpgradeEService,
   getIsEServiceNameAvailable,
   updateEServiceSignalHub,
+  updateEServicePersonalDataFlagAfterPublication,
 }

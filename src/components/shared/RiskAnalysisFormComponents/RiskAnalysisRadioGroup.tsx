@@ -5,16 +5,18 @@ import {
   RadioGroup as MUIRadioGroup,
   type RadioGroupProps as MUIRadioGroupProps,
 } from '@mui/material'
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import type { InputOption } from '@/types/common.types'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
+import { isRiskAnalysisQuestionDisabled } from '@/utils/common.utils'
+import { usePurposeCreateContext } from '../PurposeCreateContext'
 
 export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
-  questionId: string
+  questionKey: string
   label: string
   infoLabel?: string
   helperText?: string
@@ -24,7 +26,7 @@ export type RiskAnalysisRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> &
 }
 
 export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
-  questionId,
+  questionKey,
   label,
   options,
   infoLabel,
@@ -33,13 +35,21 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
   rules,
   ...props
 }) => {
+  const { control } = useFormContext()
+  const { isFromPurposeTemplate, type } = usePurposeCreateContext()
+
+  const isAssignedToTemplateUsersSwitch = useWatch({
+    control,
+    name: `assignToTemplateUsers.${questionKey}`,
+  })
+
   const { formState } = useFormContext<{ answers: RiskAnalysisAnswers }>()
   const { t } = useTranslation()
   const labelId = useId()
 
-  const name = `answers.${questionId}`
+  const name = `answers.${questionKey}`
 
-  const error = formState.errors.answers?.[questionId]?.message as string | undefined
+  const error = formState.errors.answers?.[questionKey]?.message as string | undefined
 
   const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
     label,
@@ -48,6 +58,11 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
     helperText,
   })
 
+  const conditionalRules =
+    isAssignedToTemplateUsersSwitch && type === 'creator'
+      ? { required: false, validate: rules?.validate ? rules.validate : undefined }
+      : mapValidationErrorMessages(rules, t)
+
   return (
     <RiskAnalysisInputWrapper
       label={label}
@@ -55,10 +70,14 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
       infoLabel={infoLabel}
       helperText={helperText}
       {...ids}
+      isFromPurposeTemplate={isFromPurposeTemplate}
+      questionKey={questionKey}
+      type={type}
+      isAssignedToTemplateUsersSwitch={isAssignedToTemplateUsersSwitch}
     >
       <Controller
         name={name}
-        rules={mapValidationErrorMessages(rules, t)}
+        rules={conditionalRules}
         render={({ field: { onChange, ...fieldProps } }) => (
           <MUIRadioGroup
             {...accessibilityProps}
@@ -70,7 +89,15 @@ export const RiskAnalysisRadioGroup: React.FC<RiskAnalysisRadioGroupProps> = ({
           >
             {options.map((o) => (
               <FormControlLabel
-                disabled={disabled || o.disabled}
+                disabled={
+                  disabled ||
+                  o.disabled ||
+                  isRiskAnalysisQuestionDisabled(
+                    isFromPurposeTemplate,
+                    type,
+                    isAssignedToTemplateUsersSwitch
+                  )
+                }
                 key={`${labelId}-${o.value}`}
                 value={o.value}
                 control={<Radio />}

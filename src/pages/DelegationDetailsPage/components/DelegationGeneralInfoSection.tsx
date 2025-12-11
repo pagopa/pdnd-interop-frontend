@@ -12,6 +12,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
 import DownloadIcon from '@mui/icons-material/Download'
+import { FEATURE_FLAG_USE_SIGNED_DOCUMENT } from '@/config/env'
 
 type DelegationGeneralInfoSectionProps = {
   delegationId: string
@@ -21,6 +22,8 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
   delegationId,
 }) => {
   const { t } = useTranslation('party', { keyPrefix: 'delegations.details.generalInfoSection' })
+  const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'documents' })
+
   const { data: delegation } = useSuspenseQuery(
     DelegationQueries.getSingle({ delegationId: delegationId })
   )
@@ -40,6 +43,7 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
   const lastDescriptor = getLastDescriptor(delegation.eservice?.descriptors)
 
   const downloadDelegationContract = DelegationDownloads.useDownloadDelegationContract()
+  const downloadSignedDelegationContract = DelegationDownloads.useDownloadSignedDelegationContract()
 
   const handleDownloadDelegationDocument = () => {
     if (!delegation.activationContract) return
@@ -49,6 +53,18 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
         contractId: delegation.activationContract?.id,
       },
       `${delegation.activationContract.prettyName}.pdf`
+    )
+  }
+
+  const handleDownloadSignedDelegationDocument = () => {
+    if (!delegation.activationSignedContract) return
+
+    downloadSignedDelegationContract(
+      {
+        delegationId: delegationId,
+        contractId: delegation.activationSignedContract?.id,
+      },
+      `${delegation.activationSignedContract.prettyName}.pdf`
     )
   }
 
@@ -63,12 +79,27 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
     )
   }
 
+  const handleDownloadRevokeSignedDelegationDocument = () => {
+    if (!delegation.revocationSignedContract) return
+    downloadDelegationContract(
+      {
+        delegationId: delegationId,
+        contractId: delegation.revocationSignedContract?.id,
+      },
+      `${delegation.revocationSignedContract.prettyName}.pdf`
+    )
+  }
+
   const downloadDelegationContractAction = {
     startIcon: <DownloadIcon fontSize="small" />,
     label: t('downloadContractAction.label'),
     component: 'button',
     type: 'button',
-    onClick: handleDownloadDelegationDocument,
+    disabled: delegation.isDocumentReady === false,
+    tooltip: delegation.isDocumentReady === false ? tShared('notAvailableYet') : undefined,
+    onClick: FEATURE_FLAG_USE_SIGNED_DOCUMENT
+      ? handleDownloadSignedDelegationDocument
+      : handleDownloadDelegationDocument,
   }
 
   const downloadRevokeDelegationContractAction = {
@@ -76,7 +107,11 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
     label: t('downloadRevokedContractAction.label'),
     component: 'button',
     type: 'button',
-    onClick: handleDownloadRevokeDelegationDocument,
+    disabled: delegation.isDocumentReady === false,
+    tooltip: delegation.isDocumentReady === false ? tShared('notAvailableYet') : undefined,
+    onClick: FEATURE_FLAG_USE_SIGNED_DOCUMENT
+      ? handleDownloadRevokeSignedDelegationDocument
+      : handleDownloadRevokeDelegationDocument,
   }
 
   const downloadContractActions = match(delegation.state)

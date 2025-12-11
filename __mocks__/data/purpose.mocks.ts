@@ -17,6 +17,7 @@ const createMockPurpose = createMockFactory<Purpose>({
     name: 'Test Attributi 2 - Ste',
     producer: { id: '6b16be70-9230-4209-bd1f-7e5ae0eed289', name: 'PagoPa S.p.A.' },
     mode: 'DELIVER',
+    personalData: true,
   },
   id: 'e46c7d27-18a0-40db-b7f9-ae8652355e8e',
   riskAnalysisForm: {
@@ -41,6 +42,7 @@ const createMockPurpose = createMockFactory<Purpose>({
   suspendedByConsumer: false,
   suspendedByProducer: false,
   title: 'Nuova finalità',
+  hasUnreadNotifications: false,
   versions: [
     {
       createdAt: '2023-02-03T07:59:52.458Z',
@@ -71,6 +73,7 @@ const createMockPurpose = createMockFactory<Purpose>({
   isFreeOfCharge: false,
   dailyCallsPerConsumer: 1,
   dailyCallsTotal: 10,
+  isDocumentReady: false,
 })
 
 const createMockRiskAnalysisFormConfig = createMockFactory<RiskAnalysisFormConfig>({

@@ -5,10 +5,12 @@ import type {
   DelegationRef,
   GetConsumerPurposesParams,
   GetProducerPurposesParams,
+  PatchPurposeUpdateFromTemplateContent,
   Purpose,
   PurposeAdditionDetailsSeed,
   PurposeCloneSeed,
   PurposeEServiceSeed,
+  PurposeFromTemplateSeed,
   Purposes,
   PurposeSeed,
   PurposeUpdateContent,
@@ -82,6 +84,22 @@ async function getRiskAnalysisVersion({
   return response.data
 }
 
+export type RiskAnlysisVersionConfig =
+  | Partial<RetrieveLatestRiskAnalysisConfigurationParams>
+  | Partial<RetrieveRiskAnalysisConfigurationByVersionParams>
+
+async function getRiskAnalyisLatestOrSpecificVersion(params: RiskAnlysisVersionConfig) {
+  if (
+    'riskAnalysisVersion' in params &&
+    params.riskAnalysisVersion !== undefined &&
+    params.eserviceId !== undefined
+  ) {
+    return getRiskAnalysisVersion(params as RetrieveRiskAnalysisConfigurationByVersionParams)
+  } else {
+    return getRiskAnalysisLatest(params as RetrieveLatestRiskAnalysisConfigurationParams)
+  }
+}
+
 async function createDraft(payload: PurposeSeed) {
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes`,
@@ -96,6 +114,18 @@ async function updateDraft({
 }: { purposeId: string } & PurposeUpdateContent) {
   const response = await axiosInstance.post<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}`,
+    payload
+  )
+  return response.data
+}
+
+async function updateDraftFromPurposeTemplate({
+  purposeTemplateId,
+  purposeId,
+  ...payload
+}: { purposeTemplateId: string; purposeId: string } & PatchPurposeUpdateFromTemplateContent) {
+  const response = await axiosInstance.patch<PurposeVersionResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/purposes/${purposeId}`,
     payload
   )
   return response.data
@@ -146,6 +176,23 @@ async function downloadRiskAnalysis({
 }) {
   const response = await axiosInstance.get<File>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/documents/${documentId}`,
+    { responseType: 'arraybuffer' }
+  )
+
+  return response.data
+}
+
+async function downloadSignedRiskAnalysis({
+  purposeId,
+  versionId,
+  signedContractId,
+}: {
+  purposeId: string
+  versionId: string
+  signedContractId: string
+}) {
+  const response = await axiosInstance.get<File>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/signedDocuments/${signedContractId}`,
     { responseType: 'arraybuffer' }
   )
 
@@ -220,19 +267,34 @@ function removeClient({ clientId, purposeId }: { clientId: string; purposeId: st
   )
 }
 
+async function createDraftFromPurposeTemplate({
+  purposeTemplateId,
+  ...payload
+}: {
+  purposeTemplateId: string
+} & PurposeFromTemplateSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/purposes`,
+    payload
+  )
+  return response.data
+}
+
 export const PurposeServices = {
   getProducersList,
   getConsumersList,
   getSingle,
   getRiskAnalysisLatest,
   getRiskAnalysisVersion,
+  getRiskAnalyisLatestOrSpecificVersion,
   createDraft,
   updateDraft,
+  updateDraftFromPurposeTemplate,
   deleteDraft,
   createDraftForReceiveEService,
   updateDraftForReceiveEService,
   updateDailyCalls,
-  downloadRiskAnalysis,
+  downloadSignedRiskAnalysis,
   suspendVersion,
   activateVersion,
   archiveVersion,
@@ -241,4 +303,6 @@ export const PurposeServices = {
   clone,
   addClient,
   removeClient,
+  createDraftFromPurposeTemplate,
+  downloadRiskAnalysis,
 }

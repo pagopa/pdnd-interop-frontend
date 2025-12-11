@@ -8,19 +8,20 @@ import {
 } from '@mui/material'
 import { InputWrapper } from '../InputWrapper'
 import { Controller, useFormContext } from 'react-hook-form'
-import type { InputOption } from '@/types/common.types'
+import type { InputRadioGroupOption } from '@/types/common.types'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
 import { mapValidationErrorMessages } from '@/utils/form.utils'
 
 export type RHFRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
   label?: string | JSX.Element
-  options: Array<InputOption & { disabled?: boolean }>
+  options: Array<InputRadioGroupOption & { disabled?: boolean }>
   name: string
   infoLabel?: string
   disabled?: boolean
   rules?: ControllerProps['rules']
   onValueChange?: (value: string) => void
+  isOptionValueAsBoolean?: boolean
 }
 
 export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
@@ -32,6 +33,7 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
   disabled,
   rules,
   onValueChange,
+  isOptionValueAsBoolean = false,
   ...props
 }) => {
   const { formState } = useFormContext()
@@ -59,8 +61,16 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
             aria-labelledby={labelId}
             {...props}
             {...fieldProps}
-            onChange={(_, value) => {
-              if (onValueChange) onValueChange(value)
+            onChange={(_, val) => {
+              let value: string | boolean = val
+              if (isOptionValueAsBoolean) {
+                if (val === 'true') {
+                  value = true
+                } else if (val === 'false') {
+                  value = false
+                }
+              }
+              if (onValueChange) onValueChange(val)
               onChange(value)
             }}
           >

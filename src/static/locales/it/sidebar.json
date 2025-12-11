@@ -4,7 +4,9 @@
     "subscribe": {
       "subscribe": "Fruizione",
       "agreement": "Richieste inoltrate",
-      "purpose": "Finalità inoltrate"
+      "purpose": "Finalità inoltrate",
+      "purposeTemplateCatalog": "Template finalità",
+      "purposeTemplate": "I miei template finalità"
     },
     "provider": {
       "provider": "Erogazione",
@@ -27,7 +29,8 @@
       "tenantCertifier": "Ente certificatore",
       "delegations": "Gestione delle deleghe"
     },
-    "developerTools": "Tool per lo sviluppo"
+    "developerTools": "Tool per lo sviluppo",
+    "notifications": "Notifiche"
   },
   "menu": "Menù",
   "userExternalLinkLabel": "Utenti",
