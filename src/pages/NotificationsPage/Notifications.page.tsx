@@ -32,9 +32,9 @@ const NotificationsPage: React.FC = () => {
       label: t('filters.categoryField.label'),
       type: 'autocomplete-single',
       options: [
-        { label: t('filters.categoryField.optionLabels.Deliver'), value: 'Providers' },
+        { label: t('filters.categoryField.optionLabels.Providers'), value: 'Providers' },
         {
-          label: t('filters.categoryField.optionLabels.Receive'),
+          label: t('filters.categoryField.optionLabels.Subscribers'),
           value: 'Subscribers',
         },
         {
@@ -42,7 +42,7 @@ const NotificationsPage: React.FC = () => {
           value: 'Delegations',
         },
         {
-          label: t('filters.categoryField.optionLabels.keyAttributes'),
+          label: t('filters.categoryField.optionLabels.AttributesAndKeys'),
           value: 'AttributesAndKeys',
         },
       ],
@@ -52,10 +52,13 @@ const NotificationsPage: React.FC = () => {
       label: t('filters.stateField.label'),
       type: 'autocomplete-single',
       options: [
-        { label: t('filters.stateField.optionLabels.Read'), value: 'Letto' },
+        {
+          label: t('filters.stateField.optionLabels.Read'),
+          value: 'READ',
+        },
         {
           label: t('filters.stateField.optionLabels.NotRead'),
-          value: 'Non letto',
+          value: 'UNREAD',
         },
       ],
     },
@@ -84,7 +87,7 @@ const NotificationsPage: React.FC = () => {
         actions={action}
       />
 
-      {filtersParams && totalPageCount >= 0 ? (
+      {filtersParams || totalPageCount > 0 ? (
         <>
           <Filters {...filtersHandlers} />
           <NotificationsTableWrapper params={params} />

@@ -16,6 +16,7 @@
         "selectedPlural": "Selezionati",
         "selectedSingle": "Selezionata"
       },
+
       "filters": {
         "objectField": {
           "label": "Cerca per Oggetto"
@@ -23,10 +24,10 @@
         "categoryField": {
           "label": "Categoria",
           "optionLabels": {
-            "Deliver": "Erogazione",
-            "Receive": "Fruizione",
+            "Providers": "Erogazione",
+            "Subscribers": "Fruizione",
             "Delegation": "Deleghe",
-            "keyAttributes": "Attributi e Chiavi"
+            "AttributesAndKeys": "Attributi e Chiavi"
           }
         },
         "stateField": {

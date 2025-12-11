@@ -23,10 +23,10 @@
         "categoryField": {
           "label": "Category",
           "optionLabels": {
-            "Deliver": "Producing",
-            "Receive": "Consuming",
+            "Providers": "Producing",
+            "Subscribers": "Consuming",
             "Delegation": "Delegations",
-            "keyAttributes": "Attributes and Keys"
+            "AttributesAndKeys": "Attributes and Keys"
           }
         },
         "stateField": {
