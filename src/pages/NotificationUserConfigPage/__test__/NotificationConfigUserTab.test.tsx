@@ -2,7 +2,7 @@ import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { cleanup, fireEvent, screen, within } from '@testing-library/react'
 import { NotificationConfigUserTab } from '../components/NotificationUserConfigTab'
 import { type NotificationConfig } from '@/api/api.generatedTypes'
-import { NotificationPreferenceChoiceType, type NotificationConfigType } from '../types'
+import type { NotificationPreferenceChoiceType, NotificationConfigType } from '../types'
 
 mockUseJwt({ currentRoles: ['admin'] })
 
@@ -25,9 +25,9 @@ const inAppNotificationConfigMock: NotificationConfig = {
   eserviceNewVersionApprovedRejectedToDelegate: true, // 22
   delegationSubmittedRevokedToDelegate: true, // 23
   certifiedVerifiedAttributeAssignedRevokedToAssignee: true, // 24
-  clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: true,
   purposeQuotaAdjustmentRequestToProducer: false,
   purposeOverQuotaStateToConsumer: false,
+  clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: true, // 25
 }
 
 describe('NotificationConfigUserTab', () => {
