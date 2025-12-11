@@ -315,6 +315,12 @@
     "bodySingleDay": "Interoperabilità PDND will undergo scheduled maintenance on {{maintenanceStartDay}} at {{maintenanceStartHour}} for approximately {{hoursDuration}} hours. We apologize for any inconvenience caused.",
     "bodyMultipleDay": "Interoperabilità PDND will undergo scheduled maintenance from {{maintenanceStartHour}} of {{maintenanceStartDay}} to {{maintenanceEndHour}} of {{maintenanceEndDay}}. We apologize for any inconvenience caused."
   },
+  "notificationsBanner": {
+    "title": "Notifications are coming!",
+    "body": "We will inform you when there are news of your interest directly on the platform or via personal email. Check the manual and set your preferences now.",
+    "action1Label": "Configure notifications",
+    "action2Label": "Check the manual"
+  },
   "attributeContainer": {
     "attributeIdLabel": "Attribute's id (attributeId)",
     "idCopytooltipLabel": "Id copied correctly",
