@@ -42,7 +42,7 @@ const _ToastNotification: React.FC = () => {
       open={isShown}
       autoHideDuration={5000}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      sx={{ maxWidth: 510 }}
+      sx={{ maxWidth: 505 }}
       onClose={hideToast}
     >
       <Alert aria-labelledby={id} severity={severity} variant="outlined">
