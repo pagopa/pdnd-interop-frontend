@@ -1,19 +1,22 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Divider, Stack, Typography } from '@mui/material'
+import { Alert, Button, Divider, Stack, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { useParams } from '@/router'
 import { useQuery } from '@tanstack/react-query'
-import { TemplateMutations, TemplateQueries } from '@/api/template'
+import { EServiceTemplateMutations, EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import DownloadIcon from '@mui/icons-material/Download'
 import EditIcon from '@mui/icons-material/Edit'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
-import { TemplateDownloads } from '@/api/template/template.downloads'
+import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import { EServiceTemplateVersionSelectorDrawer } from '@/components/shared/EserviceTemplate'
+import { UpdatePersonalDataDrawer } from '../UpdatePersonalDataDrawer'
+import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
+import { AuthHooks } from '@/api/auth'
 
 type EServiceTemplateGeneralInfoSectionProps = {
   readonly: boolean
@@ -23,28 +26,35 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
   EServiceTemplateGeneralInfoSectionProps
 > = ({ routeKey, readonly }) => {
   routeKey
-  const { t } = useTranslation('template', {
+  const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'read.sections.generalInformations',
   })
-  const { t: tDrawer } = useTranslation('template', {
+  const { t: tDrawer } = useTranslation('eserviceTemplate', {
     keyPrefix: 'read.drawers',
   })
   const { t: tCommon } = useTranslation('common')
 
+  const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
+
   const { eServiceTemplateId, eServiceTemplateVersionId } = useParams<typeof routeKey>()
-  const { data: templateVersion } = useQuery(
-    TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
+  const { data: eserviceTemplateVersion } = useQuery(
+    EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
-  const downloadTemplateConsumerList = TemplateDownloads.useDownloadTemplateConsumerList()
+  const downloadTemplateConsumerList =
+    EServiceTemplateDownloads.useDownloadEServiceTemplateConsumerList()
 
   const { mutate: updateEserviceTemplateDescription } =
-    TemplateMutations.useUpdateEServiceTemplateDescription()
+    EServiceTemplateMutations.useUpdateEServiceTemplateDescription()
 
   const { mutate: updateEserviceTemplateIntendedTarget } =
-    TemplateMutations.useUpdateEServiceTemplateIntendedTarget()
+    EServiceTemplateMutations.useUpdateEServiceTemplateIntendedTarget()
 
-  const { mutate: updateEserviceTemplateName } = TemplateMutations.useUpdateEServiceTemplateName()
+  const { mutate: updateEserviceTemplateName } =
+    EServiceTemplateMutations.useUpdateEServiceTemplateName()
+
+  const { mutate: updateEserviceTemplatePersonalData } =
+    EServiceTemplateMutations.useUpdateEServiceTemplatePersonalDataFlagAfterPublication()
 
   const {
     isOpen: isVersionSelectorDrawerOpen,
@@ -75,12 +85,13 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
       { eServiceTemplateId },
       t('consumerListFileName', {
         timestamp: new Date().toISOString(),
-        eserviceTemplateName: templateVersion?.eserviceTemplate.name,
+        eserviceTemplateName: eserviceTemplateVersion?.eserviceTemplate.name,
       })
     )
   }
 
-  const hasSingleVersion = templateVersion && templateVersion.eserviceTemplate.versions.length <= 1
+  const hasSingleVersion =
+    eserviceTemplateVersion && eserviceTemplateVersion.eserviceTemplate.versions.length <= 1
 
   const navigateTemplateVersionsAction = {
     startIcon: <FileCopyIcon fontSize="small" />,
@@ -126,6 +137,25 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
     )
   }
 
+  const {
+    isOpen: isEServiceUpdatePersonalDataDrawerOpen,
+    openDrawer: openUpdatePersonalDataDrawer,
+    closeDrawer: closeEServiceUpdatePersonalDataDrawer,
+  } = useDrawerState()
+
+  const handleEServiceTemplatePersonalDataUpdate = (
+    eserviceTemplateId: string,
+    personalData: boolean
+  ) => {
+    updateEserviceTemplatePersonalData(
+      {
+        eserviceTemplateId: eserviceTemplateId,
+        personalData: personalData,
+      },
+      { onSuccess: closeEServiceUpdatePersonalDataDrawer }
+    )
+  }
+
   return (
     <>
       <SectionContainer
@@ -139,8 +169,40 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
         <Stack spacing={2}>
           <InformationContainer
             label={t('version.label')}
-            content={templateVersion?.version.toString() || '1'}
+            content={eserviceTemplateVersion?.version.toString() || '1'}
           />
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
+            <InformationContainer
+              label={
+                eserviceTemplateVersion
+                  ? t(`personalDataField.${eserviceTemplateVersion?.eserviceTemplate.mode}.label`)
+                  : ''
+              }
+              content={t(
+                `personalDataField.value.${eserviceTemplateVersion?.eserviceTemplate.personalData}`
+              )}
+            />
+          )}
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
+            (isAdmin || isOperatorAPI) &&
+            routeKey === 'PROVIDE_ESERVICE_TEMPLATE_DETAILS' &&
+            eserviceTemplateVersion?.eserviceTemplate.personalData === undefined && (
+              <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
+                <Stack spacing={17} direction="row" alignItems="center">
+                  {' '}
+                  {/**TODO FIX SPACING */}
+                  <Typography>{t('personalDataField.alert.label')}</Typography>
+                  <Button
+                    variant="naked"
+                    size="medium"
+                    sx={{ fontWeight: 700, mr: 1 }}
+                    onClick={openUpdatePersonalDataDrawer}
+                  >
+                    {tCommon('actions.specifyProcessing')}
+                  </Button>
+                </Stack>
+              </Alert>
+            )}
           <Divider />
           <SectionContainer
             innerSection
@@ -158,7 +220,9 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                   ]
             }
           >
-            <Typography variant="body2">{templateVersion?.eserviceTemplate.name}</Typography>
+            <Typography variant="body2">
+              {eserviceTemplateVersion?.eserviceTemplate.name}
+            </Typography>
           </SectionContainer>
           <Divider />
           <SectionContainer
@@ -178,7 +242,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
             }
           >
             <Typography variant="body2">
-              {templateVersion?.eserviceTemplate.intendedTarget}
+              {eserviceTemplateVersion?.eserviceTemplate.intendedTarget}
             </Typography>
           </SectionContainer>
           <Divider />
@@ -198,7 +262,9 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                   ]
             }
           >
-            <Typography variant="body2">{templateVersion?.eserviceTemplate.description}</Typography>
+            <Typography variant="body2">
+              {eserviceTemplateVersion?.eserviceTemplate.description}
+            </Typography>
           </SectionContainer>
           <Divider />
           <SectionContainer
@@ -206,28 +272,28 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
             title={t('versionDescription.label')}
             titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
           >
-            <Typography variant="body2">{templateVersion?.description ?? ''}</Typography>
+            <Typography variant="body2">{eserviceTemplateVersion?.description ?? ''}</Typography>
           </SectionContainer>
         </Stack>
       </SectionContainer>
       <>
-        {templateVersion && (
+        {eserviceTemplateVersion && (
           <EServiceTemplateVersionSelectorDrawer
             isOpen={isVersionSelectorDrawerOpen}
             onClose={closeVersionSelectorDrawer}
-            actualVersion={templateVersion.version.toString()}
-            versions={templateVersion?.eserviceTemplate.versions ?? []}
-            eServiceTemplateId={templateVersion.eserviceTemplate.id}
+            actualVersion={eserviceTemplateVersion.version.toString()}
+            versions={eserviceTemplateVersion?.eserviceTemplate.versions ?? []}
+            eServiceTemplateId={eserviceTemplateVersion.eserviceTemplate.id}
           />
         )}
         <>
-          {templateVersion && !readonly && (
+          {eserviceTemplateVersion && !readonly && (
             <>
               <UpdateNameDrawer
                 isOpen={isEServiceTemplateUpdateNameDrawerOpen}
                 onClose={closeEServiceUpdateNameDrawer}
-                id={templateVersion.eserviceTemplate.id}
-                name={templateVersion.eserviceTemplate.name}
+                id={eserviceTemplateVersion.eserviceTemplate.id}
+                name={eserviceTemplateVersion.eserviceTemplate.name}
                 onSubmit={handleNameUpdate}
                 title={tDrawer('updateEServiceTemplateNameDrawer.title')}
                 subtitle={tDrawer('updateEServiceTemplateNameDrawer.subtitle')}
@@ -240,36 +306,47 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
               <UpdateDescriptionDrawer
                 isOpen={isEServiceTemplateUpdateDescriptionDrawerOpen}
                 onClose={closeEServiceTemplateUpdateDescriptionDrawer}
-                id={templateVersion.eserviceTemplate.id}
-                description={templateVersion.eserviceTemplate.description}
+                id={eserviceTemplateVersion.eserviceTemplate.id}
+                description={eserviceTemplateVersion.eserviceTemplate.description}
                 onSubmit={handleDescriptionUpdate}
                 title={tDrawer('updateEServiceTemplateDescriptionDrawer.title')}
                 subtitle={tDrawer('updateEServiceTemplateDescriptionDrawer.subtitle')}
                 label={tDrawer(
-                  'updateEServiceTemplateDescriptionDrawer.templateDescriptionField.label'
+                  'updateEServiceTemplateDescriptionDrawer.eserviceTemplateDescriptionField.label'
                 )}
                 infoLabel={tDrawer(
-                  'updateEServiceTemplateDescriptionDrawer.templateDescriptionField.infoLabel'
+                  'updateEServiceTemplateDescriptionDrawer.eserviceTemplateDescriptionField.infoLabel'
                 )}
                 validateLabel={tDrawer(
-                  'updateEServiceTemplateDescriptionDrawer.templateDescriptionField.validation.sameValue'
+                  'updateEServiceTemplateDescriptionDrawer.eserviceTemplateDescriptionField.validation.sameValue'
                 )}
               />
               <UpdateDescriptionDrawer
                 isOpen={isEServiceTemplateUpdateAudienceDrawerOpen}
                 onClose={closeEServiceUpdateAudienceDrawer}
-                id={templateVersion.eserviceTemplate.id}
-                description={templateVersion.eserviceTemplate.intendedTarget}
+                id={eserviceTemplateVersion.eserviceTemplate.id}
+                description={eserviceTemplateVersion.eserviceTemplate.intendedTarget}
                 onSubmit={handleIntendedTargetUpdate}
                 title={tDrawer('updateEServiceTemplateAudienceDrawer.title')}
                 subtitle={tDrawer('updateEServiceTemplateAudienceDrawer.subtitle')}
-                label={tDrawer('updateEServiceTemplateAudienceDrawer.templateAudienceField.label')}
+                label={tDrawer(
+                  'updateEServiceTemplateAudienceDrawer.eserviceTemplateAudienceField.label'
+                )}
                 infoLabel={tDrawer(
-                  'updateEServiceTemplateAudienceDrawer.templateAudienceField.infoLabel'
+                  'updateEServiceTemplateAudienceDrawer.eserviceTemplateAudienceField.infoLabel'
                 )}
                 validateLabel={tDrawer(
-                  'updateEServiceTemplateAudienceDrawer.templateAudienceField.validation.sameValue'
+                  'updateEServiceTemplateAudienceDrawer.eserviceTemplateAudienceField.validation.sameValue'
                 )}
+              />
+              <UpdatePersonalDataDrawer
+                isOpen={isEServiceUpdatePersonalDataDrawerOpen}
+                onClose={closeEServiceUpdatePersonalDataDrawer}
+                eserviceId={eserviceTemplateVersion.eserviceTemplate.id}
+                personalData={eserviceTemplateVersion.eserviceTemplate.personalData}
+                onSubmit={handleEServiceTemplatePersonalDataUpdate}
+                eserviceMode={eserviceTemplateVersion.eserviceTemplate.mode}
+                where="template e-service"
               />
             </>
           )}

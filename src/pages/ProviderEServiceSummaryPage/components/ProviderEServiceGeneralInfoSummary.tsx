@@ -6,12 +6,9 @@ import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
-import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
+import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
-  const producerId = AuthHooks.useJwt().jwt?.organizationId as string
-  const isSignalHubFlagEnabled = isSignalHubFeatureFlagEnabled(producerId)
-
   const { isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.generalInfoSummary' })
@@ -31,12 +28,16 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
         label={t('apiTechnology.label')}
         content={descriptor.eservice.technology}
       />
-      {isSignalHubFlagEnabled && (
+      {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
         <InformationContainer
-          label={t('isSignalHubEnabled.label')}
-          content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
+          label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
+          content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
         />
       )}
+      <InformationContainer
+        label={t('isSignalHubEnabled.label')}
+        content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
+      />
       {isOrganizationAllowedToProduce && (
         <>
           <InformationContainer

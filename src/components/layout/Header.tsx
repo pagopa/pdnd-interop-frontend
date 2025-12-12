@@ -11,12 +11,14 @@ import type { JwtUser, UserProductRole } from '@/types/party.types'
 import { getCurrentSelfCareProductId } from '@/utils/common.utils'
 import { useQuery } from '@tanstack/react-query'
 import { SelfcareQueries } from '@/api/selfcare'
+import { useErrorData } from '@/stores/error-data.store'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 /**
  * Generate the party list to be used in the HeaderProduct component to show the party switcher
  * If the parties list is not available, it will use the jwt to generate the party list containing only the active party
  */
-const getPartyList = (
+export const getPartyList = (
   parties: Array<SelfcareInstitution> | undefined,
   jwt: JwtUser | undefined,
   t: TFunction<'common'>
@@ -71,7 +73,9 @@ const getPartyList = (
  * If the products list is not available, it will return the default product list containing only
  * selfcare's Aria Riservata and interoperability products
  */
-const getProductList = (products?: Array<{ id: string; name: string }>): ProductSwitchItem[] => {
+export const getProductList = (
+  products?: Array<{ id: string; name: string }>
+): ProductSwitchItem[] => {
   const selfcareProduct: ProductSwitchItem = {
     id: 'selfcare',
     title: 'Area Riservata',
@@ -105,11 +109,14 @@ type HeaderProps = {
 
 export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
   const navigate = useNavigate()
+  const lang = useCurrentLanguage()
   const { t } = useTranslation('shared-components', { keyPrefix: 'header' })
   const { t: tCommon } = useTranslation('common')
 
   const { data: parties } = useQuery({ ...SelfcareQueries.getPartyList(), enabled: Boolean(jwt) })
   const { data: products } = useQuery({ ...SelfcareQueries.getProducts(), enabled: Boolean(jwt) })
+
+  const { correlationId, errorCode } = useErrorData()
 
   const partyList = getPartyList(parties, jwt, tCommon)
   const productList = getProductList(products)
@@ -120,6 +127,18 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
 
   const goToLoginPage = () => {
     window.location.assign(FE_LOGIN_URL)
+  }
+
+  const goToAssistance = () => {
+    const errorData = {
+      traceId: correlationId,
+      errorCode: errorCode,
+    }
+
+    window.open(
+      `${assistanceLink}${correlationId ? `&data=${JSON.stringify(errorData)}` : ''}`,
+      '_blank'
+    )
   }
 
   const handleSelectParty = (party: PartySwitchItem) => {
@@ -150,7 +169,7 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
     : undefined
 
   return (
-    <header>
+    <header style={{ position: 'sticky', zIndex: 0 }}>
       <HeaderAccount
         rootLink={pagoPaLink}
         loggedUser={headerAccountLoggedUser}
@@ -158,19 +177,17 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
         onLogout={() => {
           navigate('LOGOUT')
         }}
-        onAssistanceClick={() => {
-          window.open(assistanceLink, '_blank')
-        }}
+        onAssistanceClick={goToAssistance}
         onDocumentationClick={() => {
           window.open(documentationLink, '_blank')
         }}
-        enableAssistanceButton={STAGE === 'UAT' || STAGE === 'PROD'}
+        // enableAssistanceButton={STAGE === 'UAT' || STAGE === 'PROD'}
       />
 
       <HeaderProduct
         // force re-render when selfcareId changes to solve a bug with the ProductSwitch component from mui-italia
         // must be removed when the bug is fixed
-        key={jwt?.selfcareId}
+        key={`${jwt?.selfcareId}${lang}`}
         onSelectedParty={handleSelectParty}
         onSelectedProduct={handleSelectProduct}
         partyId={selfcareId}

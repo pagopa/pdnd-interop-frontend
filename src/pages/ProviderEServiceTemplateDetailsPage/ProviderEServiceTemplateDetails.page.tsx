@@ -4,43 +4,46 @@ import { useParams } from '@/router'
 import { Tab } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { useActiveTab } from '@/hooks/useActiveTab'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { ProviderEServiceTemplateDetailsTab } from './components/ProviderEServiceTemplateDetailsTab/ProviderEServiceTemplateDetailsTab'
 import { ProviderEServiceTemplateTenantsTab } from './components/ProviderEServiceTemplateTenantsTab/ProviderEServiceTemplateTenantsTab'
 import { useGetProviderEServiceTemplateActions } from '@/hooks/useGetProviderEServiceTemplateActions'
 
 const ProviderEServiceTemplateDetailsPage: React.FC = () => {
-  const { t } = useTranslation('template', { keyPrefix: 'read' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'read' })
   const { eServiceTemplateId, eServiceTemplateVersionId } =
     useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
   const { activeTab, updateActiveTab } = useActiveTab('eserviceTemplateDetails')
 
-  const { data: template } = useQuery(
-    TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
+  const { data: eserviceTemplate } = useQuery(
+    EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
+
+  useMarkNotificationsAsRead(eServiceTemplateId)
 
   const { actions } = useGetProviderEServiceTemplateActions(
     eServiceTemplateId,
     eServiceTemplateVersionId,
-    template?.eserviceTemplate.draftVersion?.id,
-    template?.state,
-    template?.eserviceTemplate.draftVersion?.state,
-    template?.eserviceTemplate.mode
+    eserviceTemplate?.eserviceTemplate.draftVersion?.id,
+    eserviceTemplate?.state,
+    eserviceTemplate?.eserviceTemplate.draftVersion?.state,
+    eserviceTemplate?.eserviceTemplate.mode
   )
 
   return (
     <PageContainer
-      title={template?.eserviceTemplate.name || ''}
+      title={eserviceTemplate?.eserviceTemplate.name || ''}
       topSideActions={actions}
-      isLoading={!template}
+      isLoading={!eserviceTemplate}
       statusChip={
-        template
+        eserviceTemplate
           ? {
-              for: 'template',
-              state: template?.state,
+              for: 'eserviceTemplate',
+              state: eserviceTemplate?.state,
             }
           : undefined
       }
@@ -55,11 +58,13 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
           <Tab label={t('tabs.eserviceTemplateTenants')} value="eserviceTemplateTenants" />
         </TabList>
         <TabPanel value="eserviceTemplateDetails">
-          <ProviderEServiceTemplateDetailsTab templateVersionState={template?.state} />
+          <ProviderEServiceTemplateDetailsTab
+            eserviceTemplateVersionState={eserviceTemplate?.state}
+          />
         </TabPanel>
         <TabPanel value="eserviceTemplateTenants">
           <ProviderEServiceTemplateTenantsTab
-            templateVersions={template?.eserviceTemplate.versions ?? []}
+            eserviceTemplateVersions={eserviceTemplate?.eserviceTemplate.versions ?? []}
           />
         </TabPanel>
       </TabContext>

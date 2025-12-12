@@ -4,6 +4,7 @@ import type {
   CompactPurposeEService,
   DelegationKind,
   TenantKind,
+  TargetTenantKind,
 } from '@/api/api.generatedTypes'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
@@ -23,6 +24,7 @@ export type DialogProps =
   | DialogRejectAgreementProps
   | DialogUpgradeAgreementVersionProps
   | DialogDeleteOperatorProps
+  | DialogDeleteAnnotationProps
   | DialogRemoveOperatorFromClientProps
   | DialogRevokeCertifiedAttributeProps
   | DialogClonePurposeProps
@@ -36,6 +38,7 @@ export type DialogProps =
   | DialogRejectDelegatedVersionDraftProps
   | DialogCreateAgreementDraftProps
   | DialogTenantKindEserviceTemplateProps
+  | DialogTenantKindPurposeTemplateProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -72,6 +75,11 @@ export type DialogDeleteOperatorProps = {
   type: 'deleteOperator'
   selfcareId: string
   userId: string
+}
+
+export type DialogDeleteAnnotationProps = {
+  type: 'deleteAnnotation'
+  onProceed: () => void
 }
 
 export type DialogRemoveOperatorFromClientProps = {
@@ -160,6 +168,11 @@ export type DialogCreateAgreementDraftProps = {
 }
 
 export type DialogTenantKindEserviceTemplateProps = {
-  type: 'tenantKind'
+  type: 'tenantKindEServiceTemplate'
   onConfirm: (tenantKind: TenantKind) => void
+}
+
+export type DialogTenantKindPurposeTemplateProps = {
+  type: 'tenantKindPurposeTemplate'
+  onConfirm: (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => void
 }

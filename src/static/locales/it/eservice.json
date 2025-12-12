@@ -39,13 +39,30 @@
           "RECEIVE": "Riceve"
         }
       },
+      "eservicePersonalDataField": {
+        "DELIVER": {
+          "label": "L’e-service eroga dati personali?",
+          "options": {
+            "true": "Eroga dati personali",
+            "false": "Non eroga dati personali"
+          }
+        },
+        "RECEIVE": {
+          "label": "L’e-service riceve dati personali?",
+          "options": {
+            "true": "Riceve dati personali",
+            "false": "Non riceve dati personali"
+          }
+        },
+        "alertMissingPersonalData": "Non puoi pubblicare questa bozza in quanto il creatore del template non ha indicato se l’e-service tratta dati personali. Contatta {{tenantName}} per richiedere la modifica di questo template."
+      },
       "isSignalHubEnabled": {
         "title": "Signal Hub: servizio di notifica della variazione dei dati",
         "description": {
           "firstParagraph": {
             "before": "Signal Hub è una",
             "linkLabel": "soluzione integrata",
-            "after": "che informa i fruitori attraverso notifiche push quando i dati dell’e-service vengono modificati."
+            "after": "che informa i fruitori quando i dati dell'e-service vengono modificati."
           },
           "secondParagraph": {
             "before": "Attivando la funzionalità designi PagoPa S.p.A. responsabile del trattamento dei dati facendo proprio il",
@@ -79,7 +96,10 @@
         "labelAutocompleteEServiceFromTemplate": "Seleziona caso d'uso",
         "noSelectedPurposesTooltip": "È necessario indicare almeno una finalità per proseguire",
         "purposeTable": {
-          "noDataLabel": "Nessuna finalità aggiunta"
+          "noDataLabel": "Nessuna finalità aggiunta",
+          "expiredRulesetTooltip": "Questa analisi del rischio utilizza una versione obsoleta che non puoi pubblicare. Rimuovila e creane una nuova ",
+          "nextExpiringRulesetTooltip": "Questa analisi del rischio utilizza una versione che sarà obsoleta tra {{days}} giorni. Pubblica l’e-service entro {{expirationDate}} per non doverla ricompilare, oppure creane una nuova subito.",
+          "nextExpiringRulesetChip": "In scadenza"
         }
       },
       "riskAnalysis": {
@@ -154,7 +174,7 @@
       }
     },
     "step4": {
-      "template": {
+      "eserviceTemplate": {
         "interface": {
           "documentation": {
             "title": "Documentazione",
@@ -211,6 +231,19 @@
       "title": "Informazioni generali",
       "description": {
         "label": "Descrizione"
+      },
+      "personalDataField": {
+        "DELIVER": {
+          "label": "Eroga dati personali"
+        },
+        "RECEIVE": {
+          "label": "Riceve dati personali"
+        },
+        "value": {
+          "true": "Sì",
+          "false": "No",
+          "undefined": "Non indicato"
+        }
       },
       "apiTechnology": {
         "label": "Tecnologia API"
@@ -284,9 +317,20 @@
     "notPublishableTooltip": {
       "label": "Uno o più campi richiesti non sono stati compilati. Completa la bozza"
     },
+    "rulesetExpiredTooltip": {
+      "label": "Almeno una finalità tra quelle collegate all’e-service deve essere rimossa in quanto obsoleta."
+    },
+    "missingPersonalDataField": "Questa bozza di e-service non indica se verranno trattati dati personali.",
     "rejectedDelegatedVersionDraftAlert": {
       "delegate": "La pubblicazione di questa bozza è stata rifiutata dal delegante. <1>Leggi i motivi del rifiuto</1> ed invia di nuovo la bozza con le correzioni.",
       "delegator": "Hai rifiutato la pubblicazione di questa bozza. <1>Leggi qui i motivi del rifiuto</1>."
+    },
+    "alertMissingPersonalData": {
+      "eserviceTemplateLabel": "Questo e-service deriva da un template che non rispetta i nuovi requisiti sul trattamento dei dati personali. Per sbloccare la pubblicazione è necessario che il creatore del template e-service aggiorni il campo. Contattalo per richiedere l’integrazione.",
+      "eserviceLabel": "Per poter pubblicare l'e-service, è necessario aggiornare la sua compilazione per rispondere ai nuovi requisiti sul trattamento dei dati personali.\n\nSi prega di rifiutare la richiesta di pubblicazione. L'e-service tornerà in stato di bozza all'ente delegato per l’integrazione. Una volta pronto, riceverai una nuova richiesta di approvazione."
+    },
+    "alertUpdatePersonalData": {
+      "label": "Specificare se questo e-service tratta dati personali."
     }
   },
   "list": {
@@ -335,7 +379,10 @@
     "tabs": {
       "ariaLabel": "Due tab diverse per i dettagli dell'e-service e i portachiavi associati",
       "eserviceDetails": "Dettagli e-service",
-      "keychain": "Portachiavi associati"
+      "keychain": "Portachiavi associati",
+      "ariaLabelEserviceDetail": "Due tab diverse per i dettagli dell'e-service e i template di finalità collegati",
+      "eserviceDetail": "Dettaglio e-service",
+      "purposeTemplate": "Template finalità collegati"
     },
     "alert": {
       "suspended": "Questa versione di e-service è sospesa. Fino alla sua riattivazione nessun fruitore potrà accedere ai dati erogati attraverso l’API.",
@@ -360,7 +407,7 @@
         "version": {
           "label": "Stai vedendo la versione"
         },
-        "eserviceTempalteName": {
+        "eserviceTemplateName": {
           "label": "Riferimento template"
         },
         "eserviceName": {
@@ -371,6 +418,22 @@
         },
         "descriptorDescription": {
           "label": "Descrizione della versione"
+        },
+        "personalDataField": {
+          "DELIVER": {
+            "label": "Eroga dati personali"
+          },
+          "RECEIVE": {
+            "label": "Riceve dati personali"
+          },
+          "value": {
+            "true": "Sì",
+            "false": "No",
+            "undefined": "Non indicato"
+          },
+          "alert": {
+            "label": "Specificare se questo e-service tratta dati personali."
+          }
         },
         "consumerListFileName": "{{timestamp}}-lista-fruitori-{{eserviceName}}.csv",
         "bottomActions": {
@@ -452,7 +515,7 @@
         "description": {
           "before": "Signal Hub è una",
           "linkLabel": "soluzione integrata",
-          "after": "che informa i fruitori attraverso notifiche push quando i dati dell’e-service vengono modificati."
+          "after": "che informa i fruitori quando i dati dell'e-service vengono modificati."
         },
         "innerSection": {
           "title": "Adesione al servizio di notifica",
@@ -481,6 +544,30 @@
       "attributes": {
         "title": "Attributi",
         "description": "Di seguito sono indicati tutti gli attributi certificati, verificati o dichiarati che sono richiesti per la fruizione dell’E-service."
+      },
+      "linkedPurposeTemplates": {
+        "title": "Compilazione agevolata della finalità",
+        "description": "La funzionalità di compilazione agevolata mette a disposizione annotazioni, documenti di supporto e alcune risposte precompilate per facilitare la formulazione dell’analisi del rischio. Il modello è reso disponibile per il riuso da altri enti aderenti e può essere utilizzato senza vincoli.",
+        "linkedPurposeTabLink": "Visualizza i template collegati"
+      }
+    },
+    "linkedPurposeTemplatesTab": {
+      "title": "Template di compilazione agevolata delle finalità collegati",
+      "description": "La funzionalità di compilazione agevolata mette a disposizione annotazioni, documenti di supporto e alcune \n risposte precompilate per facilitare la formulazione dell’analisi del rischio. Il modello è reso disponibile per il riuso \n da altri enti aderenti e può essere utilizzato senza vincoli.",
+      "filters": {
+        "purposeTemplateNameField": {
+          "label": "Nome template"
+        },
+        "creatorNameField": {
+          "label": "Nome creatore"
+        },
+        "targetTenantKindField": {
+          "label": "Destinatario",
+          "values": {
+            "labelPA": "Pubbliche amministrazioni",
+            "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico, Privati"
+          }
+        }
       }
     },
     "drawers": {
@@ -604,7 +691,7 @@
           "firstParagraph": {
             "before": "Signal Hub è una",
             "linkLabel": "soluzione integrata",
-            "after": "che informa i fruitori attraverso notifiche push quando i dati dell’e-service vengono modificati."
+            "after": "che informa i fruitori quando i dati dell'e-service vengono modificati."
           },
           "secondParagraph": {
             "before": "Attivando la funzionalità designi PagoPa S.p.A. responsabile del trattamento dei dati facendo proprio il",

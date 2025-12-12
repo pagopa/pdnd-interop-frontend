@@ -23,6 +23,8 @@ describe('useGetSideNavItems', () => {
             "SUBSCRIBE_CATALOG_LIST",
             "SUBSCRIBE_AGREEMENT_LIST",
             "SUBSCRIBE_PURPOSE_LIST",
+            "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG",
+            "SUBSCRIBE_PURPOSE_TEMPLATE_LIST",
             "SUBSCRIBE_CLIENT_LIST",
             "SUBSCRIBE_INTEROP_M2M",
             "SUBSCRIBE_DEBUG_VOUCHER",
@@ -54,6 +56,10 @@ describe('useGetSideNavItems', () => {
           "id": "deveoloperTools",
           "routeKey": "DEVELOPER_TOOLS",
         },
+        {
+          "id": "notifications",
+          "routeKey": "NOTIFICATIONS",
+        },
       ]
     `)
   })
@@ -68,6 +74,8 @@ describe('useGetSideNavItems', () => {
         {
           "children": [
             "SUBSCRIBE_CATALOG_LIST",
+            "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG",
+            "SUBSCRIBE_PURPOSE_TEMPLATE_LIST",
             "SUBSCRIBE_DEBUG_VOUCHER",
           ],
           "id": "subscriber",
@@ -94,6 +102,10 @@ describe('useGetSideNavItems', () => {
         {
           "id": "deveoloperTools",
           "routeKey": "DEVELOPER_TOOLS",
+        },
+        {
+          "id": "notifications",
+          "routeKey": "NOTIFICATIONS",
         },
       ]
     `)
@@ -129,6 +141,10 @@ describe('useGetSideNavItems', () => {
           "id": "deveoloperTools",
           "routeKey": "DEVELOPER_TOOLS",
         },
+        {
+          "id": "notifications",
+          "routeKey": "NOTIFICATIONS",
+        },
       ]
     `)
   })
@@ -145,6 +161,8 @@ describe('useGetSideNavItems', () => {
             "SUBSCRIBE_CATALOG_LIST",
             "SUBSCRIBE_AGREEMENT_LIST",
             "SUBSCRIBE_PURPOSE_LIST",
+            "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG",
+            "SUBSCRIBE_PURPOSE_TEMPLATE_LIST",
             "SUBSCRIBE_CLIENT_LIST",
             "SUBSCRIBE_INTEROP_M2M",
             "SUBSCRIBE_DEBUG_VOUCHER",
@@ -174,6 +192,10 @@ describe('useGetSideNavItems', () => {
         {
           "id": "deveoloperTools",
           "routeKey": "DEVELOPER_TOOLS",
+        },
+        {
+          "id": "notifications",
+          "routeKey": "NOTIFICATIONS",
         },
       ]
     `)
@@ -191,6 +213,8 @@ describe('useGetSideNavItems', () => {
             "SUBSCRIBE_CATALOG_LIST",
             "SUBSCRIBE_AGREEMENT_LIST",
             "SUBSCRIBE_PURPOSE_LIST",
+            "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG",
+            "SUBSCRIBE_PURPOSE_TEMPLATE_LIST",
             "SUBSCRIBE_CLIENT_LIST",
             "SUBSCRIBE_INTEROP_M2M",
             "SUBSCRIBE_DEBUG_VOUCHER",
@@ -221,6 +245,10 @@ describe('useGetSideNavItems', () => {
         {
           "id": "deveoloperTools",
           "routeKey": "DEVELOPER_TOOLS",
+        },
+        {
+          "id": "notifications",
+          "routeKey": "NOTIFICATIONS",
         },
       ]
     `)
@@ -238,6 +266,8 @@ describe('useGetSideNavItems', () => {
             "SUBSCRIBE_CATALOG_LIST",
             "SUBSCRIBE_AGREEMENT_LIST",
             "SUBSCRIBE_PURPOSE_LIST",
+            "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG",
+            "SUBSCRIBE_PURPOSE_TEMPLATE_LIST",
             "SUBSCRIBE_CLIENT_LIST",
             "SUBSCRIBE_INTEROP_M2M",
             "SUBSCRIBE_DEBUG_VOUCHER",
@@ -268,6 +298,10 @@ describe('useGetSideNavItems', () => {
         {
           "id": "deveoloperTools",
           "routeKey": "DEVELOPER_TOOLS",
+        },
+        {
+          "id": "notifications",
+          "routeKey": "NOTIFICATIONS",
         },
       ]
     `)
@@ -285,6 +319,8 @@ describe('useGetSideNavItems', () => {
             "SUBSCRIBE_CATALOG_LIST",
             "SUBSCRIBE_AGREEMENT_LIST",
             "SUBSCRIBE_PURPOSE_LIST",
+            "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG",
+            "SUBSCRIBE_PURPOSE_TEMPLATE_LIST",
             "SUBSCRIBE_CLIENT_LIST",
             "SUBSCRIBE_INTEROP_M2M",
             "SUBSCRIBE_DEBUG_VOUCHER",
@@ -315,6 +351,10 @@ describe('useGetSideNavItems', () => {
         {
           "id": "deveoloperTools",
           "routeKey": "DEVELOPER_TOOLS",
+        },
+        {
+          "id": "notifications",
+          "routeKey": "NOTIFICATIONS",
         },
       ]
     `)

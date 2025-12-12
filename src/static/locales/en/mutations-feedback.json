@@ -1,99 +1,99 @@
 {
   "auth": {
-    "loadingLabel": "We are authenticating this session. Please, wait"
+    "loadingLabel": "Session is being authenticated. Please wait"
   },
   "eservice": {
     "updateEServiceDescription": {
-      "loading": "We are updating the e-service description",
+      "loading": "E-service description is being updated",
       "outcome": {
-        "error": "E-service description not updated. Try again.",
-        "success": "E-service description updated correctly"
+        "error": "E-service description not updated. Please try again.",
+        "success": "E-service description updated successfully"
       }
     },
     "exportVersion": {
-      "loading": "Exporting e-service version",
+      "loading": "E-service version is being exported",
       "outcome": {
-        "error": "E-service version could not be exported. Try again, please!"
+        "error": "E-service version could not be exported. Please try again!"
       }
     },
     "importVersion": {
-      "loading": "Importing e-service",
+      "loading": "E-service is being imported",
       "outcome": {
         "error": "The e-service import could not be completed. Please check the file and try again.",
         "success": "The e-service was imported successfully"
       }
     },
     "createDraft": {
-      "loading": "Creating draft",
+      "loading": "Draft is being created",
       "outcome": {
-        "error": "Draft could not be created. Make sure you have filled all the required fields and try again!"
+        "error": "Draft could not be created. Please ensure all required fields are filled in and try again!"
       }
     },
     "updateDraft": {
-      "loading": "Updating draft",
+      "loading": "Draft is being updated",
       "outcome": {
-        "error": "Draft could not be updated. Make sure you have filled all the required fields and try again!"
+        "error": "Draft could not be updated. Please ensure all required fields are filled in and try again!"
       }
     },
     "deleteDraft": {
-      "loading": "Deleting draft",
+      "loading": "Draft is being deleted",
       "outcome": {
         "success": "Draft deleted successfully",
-        "error": "Draft could not be deleted. Try again, please!"
+        "error": "Draft could not be deleted. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm draft deletion",
-        "description": "By clicking \"confirm\", this draft will be deleted and it will not be recoverable. It will always be possible to create new drafts"
+        "title": "Confirm Draft Deletion",
+        "description": "By clicking \"confirm\", this draft will be deleted and will not be recoverable. New drafts can always be created"
       }
     },
     "cloneFromVersion": {
-      "loading": "Cloning e-service",
+      "loading": "E-service is being cloned",
       "outcome": {
         "success": "E-service cloned successfully and available as a draft",
-        "error": "E-service could not be cloned. Please, try again!"
+        "error": "E-service could not be cloned. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm e-service cloning",
-        "description": "A new e-service will be created as a draft. It will have the same features as the e-service it is cloned from"
+        "title": "Confirm E-service Cloning",
+        "description": "A new e-service will be created as a draft with the same features as the e-service it is cloned from"
       }
     },
     "createVersionDraft": {
-      "loading": "Creating draft of new e-service version",
+      "loading": "Draft of new e-service version is being created",
       "outcome": {
         "success": "New e-service version draft created successfully",
-        "error": "A new e-service version draft could not be created. Make sure all the required fields are filled in in the original e-service and try again, please!"
+        "error": "A new e-service version draft could not be created. Please ensure all required fields are filled in the original e-service and try again!"
       },
       "confirmDialog": {
-        "title": "Confirm e-service version draft creation",
+        "title": "Confirm E-service Version Draft Creation",
         "description": "A new draft version of the selected e-service will be created"
       }
     },
     "updateVersionDraft": {
-      "loading": "Updateing draft of new e-service version",
+      "loading": "Draft of new e-service version is being updated",
       "outcome": {
         "success": "New e-service version draft updated successfully",
-        "error": "The new e-service version draft could not be updated. Make sure all the required fields are filled in in the original e-service and try again, please!"
+        "error": "The new e-service version draft could not be updated. Please ensure all required fields are filled in the original e-service and try again!"
       }
     },
     "publishVersionDraft": {
-      "loading": "Publishing e-service version draft",
+      "loading": "E-service version draft is being published",
       "outcome": {
         "success": "New e-service version published successfully",
-        "error": "The new e-service version could not be published. Make sure the API document has been uploaded and try again, please!"
+        "error": "The new e-service version could not be published. Please ensure the API document has been uploaded and try again!"
       },
       "confirmDialog": {
-        "title": "Confirm draft publishing",
-        "description": "You will not be able to delete an e-service version after it is published. It will also become available in the e-service catalog. It will always be possible to suspend it or make it deprecated when a new version is published"
+        "title": "Confirm Draft Publication",
+        "description": "An e-service version cannot be deleted after it is published. It will also become available in the e-service catalog. It will always be possible to suspend it or mark it as deprecated when a new version is published"
       }
     },
     "publishDelegatedVersionDraft": {
-      "loading": "We are forwarding the version to the delegator",
+      "loading": "Version is being forwarded to the delegator",
       "outcome": {
-        "success": "New e-service version was forwarded to the delegator to approve its publication",
+        "success": "New e-service version was forwarded to the delegator for publication approval",
         "error": "It was not possible to forward the new e-service version to the delegator for approval. Please try again!"
       },
       "confirmDialog": {
-        "title": "Request new eservice version publication",
+        "title": "Request New E-service Version Publication",
         "description": "You are about to forward to <strong>{{delegatorName}}</strong> the request to publish a new version of the <strong>{{eserviceName}}</strong> e-service.",
         "actions": {
           "proceed": "Submit request"
@@ -101,586 +101,600 @@
       }
     },
     "addEServiceRiskAnalysis": {
-      "loading": "Adding the risk analysis to this e-service",
+      "loading": "Risk analysis is being added to this e-service",
       "outcome": {
         "success": "New risk analysis added successfully",
-        "error": "The risk analysis could not be added. Please make sure this risk analysis exists and try again!"
+        "error": "The risk analysis could not be added. Please ensure this risk analysis exists and try again!"
       }
     },
     "updateEServiceRiskAnalysis": {
-      "loading": "Updating risk analysis",
+      "loading": "Risk analysis is being updated",
       "outcome": {
-        "success": "New risk analysis updated successfully",
-        "error": "The new risk analysis could not be updated. Make sure all the required fields are filled in the original risk analysis and try again, please!"
+        "success": "Risk analysis updated successfully",
+        "error": "The risk analysis could not be updated. Please ensure all required fields are filled in the risk analysis and try again!"
       }
     },
     "deleteEServiceRiskAnalysis": {
-      "loading": "Removing the risk analysis from this e-service",
+      "loading": "Risk analysis is being removed from this e-service",
       "outcome": {
         "success": "Risk analysis removed successfully",
-        "error": "The risk analysis could not be removed from the e-service. Please, try again!"
+        "error": "The risk analysis could not be removed from the e-service. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm risk analysis removal from e-service",
+        "title": "Confirm Risk Analysis Removal from E-service",
         "description": "The risk analysis will be deleted from this e-service."
       }
     },
     "suspendVersion": {
-      "loading": "Suspending e-service version",
+      "loading": "E-service version is being suspended",
       "outcome": {
         "success": "E-service version suspended successfully",
-        "error": "The e-service version could not be suspended. Please, try again!"
+        "error": "The e-service version could not be suspended. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm version suspension",
-        "description": "By clicking \"confirm\", this e-service version will be suspended. No Subscriber will be able to access it until it is reactivated"
+        "title": "Confirm Version Suspension",
+        "description": "By clicking \"confirm\", this e-service version will be suspended. No **Consumer** will be able to access it until it is reactivated"
       }
     },
     "reactivateVersion": {
-      "loading": "Reactivating e-service version",
+      "loading": "E-service version is being reactivated",
       "outcome": {
         "success": "E-service version reactivated successfully",
-        "error": "The e-service version could not be reactivated. Please, try again!"
+        "error": "The e-service version could not be reactivated. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm version reactivation",
-        "description": "By clicking \"confirm\",  this e-service version will be reactivated. All the Subscribers that have an active fruition request for this e-service version will be able to access it"
+        "title": "Confirm Version Reactivation",
+        "description": "By clicking \"confirm\", this e-service version will be reactivated. All **Consumers** that have an active fruition request for this e-service version will be able to access it"
       }
     },
     "updateVersion": {
-      "loading": "Updating the information",
+      "loading": "Information is being updated",
       "outcome": {
         "success": "The requested information has been updated successfully",
         "error": "The requested information could not be updated. Please try again!"
       }
     },
     "updateAgreementApprovalPolicy": {
-      "loading": "Updating the agreement approval policy",
+      "loading": "Agreement approval policy is being updated",
       "outcome": {
         "success": "The agreement approval policy has been updated successfully",
         "error": "The agreement approval policy could not be updated. Please try again!"
       }
     },
     "deleteVersionDraft": {
-      "loading": "Deleting e-service version draft",
+      "loading": "E-service version draft is being deleted",
       "outcome": {
         "success": "E-service version draft deleted successfully",
-        "error": "The e-service version draft could not be deleted. Please, try again!"
+        "error": "The e-service version draft could not be deleted. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm draft deletion",
-        "description": "By clicking \"confirm\", this draft will be deleted and it will not be recoverable. It will always be possible to create new drafts"
+        "title": "Confirm Draft Deletion",
+        "description": "By clicking \"confirm\", this draft will be deleted and will not be recoverable. New drafts can always be created"
       }
     },
     "postVersionDraftDocument": {
-      "loading": "Uploading document",
+      "loading": "Document is being uploaded",
       "outcome": {
         "success": "The new document was uploaded successfully",
-        "error": "The document could not be uploaded. Please make sure that you uploaded the right document. Please, try again! Note: it cannot contain the string \"localhost\"."
+        "error": "The document could not be uploaded. Please ensure that you uploaded the correct document. Please try again! Note: it cannot contain the string \"localhost\"."
       }
     },
     "deleteVersionDraftDocument": {
-      "loading": "Deleting document",
+      "loading": "Document is being deleted",
       "outcome": {
         "success": "The document was deleted successfully",
-        "error": "The document could not be deleted. Please, try again!"
+        "error": "The document could not be deleted. Please try again!"
       }
     },
     "updateVersionDraftDocumentDescription": {
-      "loading": "Updating document name",
+      "loading": "Document name is being updated",
       "outcome": {
-        "success": "The document description was updated successfully",
-        "error": "The document name could not be updated. Please, try again!"
+        "success": "The document name was updated successfully",
+        "error": "The document name could not be updated. Please try again!"
       }
     },
     "downloadVersionDraftDocument": {
-      "loading": "Downloading document",
+      "loading": "Document is being downloaded",
       "outcome": {
-        "error": "The document could not be downloaded. Please, try again!"
+        "error": "The document could not be downloaded. Please try again!"
       }
     },
     "downloadConsumerList": {
-      "loading": " We are downloading the requested list. Please wait",
+      "loading": "The requested list is being downloaded. Please wait",
       "outcome": {
         "success": "The list has been downloaded successfully",
         "error": "The list could not be downloaded. Please try again"
       }
     },
     "updateDescriptorAttributes": {
-      "loading": "Saving new attributes",
+      "loading": "New attributes are being saved",
       "outcome": {
-        "success": "The {{attributeKind}} attributes have been modified correctly",
-        "error": "It was not possible to modify the {{attributeKind}} attributes. Please, try again!"
+        "success": "The {{attributeKind}} attributes have been modified successfully",
+        "error": "It was not possible to modify the {{attributeKind}} attributes. Please try again!"
       }
     },
     "approveDelegatedVersionDraft": {
-      "loading": "We are publishing the version",
+      "loading": "Version is being published",
       "outcome": {
         "success": "The new version of e-service has been published successfully",
         "error": "It was not possible to publish the new version of e-service. Please try again!"
       }
     },
     "rejectDelegatedVersionDraft": {
-      "loading": "We are rejecting the version",
+      "loading": "Version is being rejected",
       "outcome": {
-        "success": "The e-service version has returned to draft, and the reasons for the refusal have been notified to the delivery delegate",
+        "success": "The e-service version has reverted to draft, and the reasons for the refusal have been notified to the producing delegate",
         "error": "It was not possible to reject the new version of e-service. Please try again!"
       }
     },
     "updateEServiceName": {
-      "loading": "We are updating the e-service name",
+      "loading": "E-service name is being updated",
       "outcome": {
-        "error": "E-service name not updated. Try again.",
-        "success": "E-service name updated correctly"
+        "error": "E-service name not updated. Please try again.",
+        "success": "E-service name updated successfully"
       }
     },
     "updateEServiceInterfaceInfo": {
-      "loading": "We are updating the e-service interface info",
+      "loading": "E-service interface info is being updated",
       "outcome": {
-        "error": "E-service interface info not updated. Try again.",
-        "success": "E-service interface info updated correctly"
+        "error": "E-service interface info not updated. Please try again.",
+        "success": "E-service interface info updated successfully"
       }
     },
     "deleteAndUpgradeEService": {
-      "loading": "Deleting draft",
+      "loading": "Draft is being deleted",
       "outcome": {
         "success": "Draft deleted successfully",
-        "error": "Upgrading eservice failed. Try again, please!"
+        "error": "E-service upgrade failed. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm draft deletion",
-        "description": "By clicking \"confirm\", the draft previously created will be deleted and it will no longer be recoverable. Once the draft is deleted, you can proceed with updating the instance to the latest version."
+        "title": "Confirm Draft Deletion",
+        "description": "By clicking \"confirm\", the draft previously created will be deleted and will no longer be recoverable. Once the draft is deleted, you can proceed with updating the instance to the latest version."
       }
     },
     "updateEServiceIsSignalHubEnabled": {
-      "loading": "We are updating the e-service subscription to Signal Hub service",
+      "loading": "The e-service subscription to Signal Hub service is being updated",
       "outcome": {
-        "error": "Subscription to Signal Hub service not updated. Try again.",
-        "success": "Subscription to Signal Hub service updated correctly"
+        "error": "Subscription to Signal Hub service not updated. Please try again.",
+        "success": "Subscription to Signal Hub service updated successfully"
+      }
+    },
+    "updateEServicePersonalDataFlagAfterPublication": {
+      "loading": "Personal data processing is being updated",
+      "outcome": {
+        "error": "Personal data processing could not be updated. Please try again!",
+        "success": "Personal data processing has been updated successfully!"
+      }
+    },
+    "updateEServiceTemplatePersonalDataFlagAfterPublication": {
+      "loading": "Personal data processing is being updated",
+      "outcome": {
+        "error": "Personal data processing could not be updated. Please try again!",
+        "success": "Personal data processing has been updated successfully!"
       }
     }
   },
   "attribute": {
     "create": {
-      "loading": "Saving new attribute",
+      "loading": "New attribute is being saved",
       "outcome": {
-        "error": "The attribute could not be saved. Please, try again!",
-        "success": "The attribute has been created correctly"
+        "error": "The attribute could not be created. Please try again!",
+        "success": "The attribute has been created successfully"
       }
     },
     "addCertifiedAttribute": {
-      "loading": "Assigning the attribute",
+      "loading": "Attribute is being assigned",
       "outcome": {
-        "error": "The attribute could not be assigned. Please, try again!",
-        "success": "The attribute has been assigned correctly"
+        "error": "The attribute could not be assigned. Please try again",
+        "success": "The attribute has been assigned successfully"
       }
     },
     "revokeCertifiedAttribute": {
-      "loading": "Revoking certified attribute",
+      "loading": "Certified attribute is being revoked",
       "outcome": {
-        "error": "The attribute could not be revoked. Please, try again!",
+        "error": "The attribute could not be revoked. Please try again",
         "success": "The attribute has been revoked successfully"
       }
     },
     "verifyPartyAttribute": {
-      "loading": "Verifying the attribute",
+      "loading": "Attribute is being verified",
       "outcome": {
-        "error": "The attribute could not be verified. Please, try again!"
+        "error": "The attribute could not be verified. Please try again!"
       }
     },
     "updatingExpirationPartyAttribute": {
-      "loading": "Updating the attribute expiration date",
+      "loading": "Attribute expiration date is being updated",
       "outcome": {
-        "error": "The expiration date could not be updated. Please, try again!"
+        "error": "The expiration date could not be updated. Please try again!"
       }
     },
     "revokeVerifiedPartyAttribute": {
-      "loading": "Revoking verified attribute",
+      "loading": "Verified attribute is being revoked",
       "outcome": {
-        "error": "The verified attribute could not be revoked. Please, try again!"
+        "error": "The verified attribute could not be revoked. Please try again!"
       }
     },
     "declarePartyAttribute": {
-      "loading": "Confirming declared attribute",
+      "loading": "Declared attribute is being confirmed",
       "outcome": {
-        "error": "The declared attribute could not be confirmed. Please, try again!"
+        "error": "The declared attribute could not be confirmed. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm declared attribute",
+        "title": "Confirm Declared Attribute",
         "description": {
-          "default": "Do you declare under your responsibility that your institution has this attribute?",
-          "isDelegated": "Do you confirm on behalf of the delegator that <strong>{{delegatorName}}</strong> has the requested declared attribute?"
+          "default": "Do you declare under your own responsibility that your institution possesses this attribute?",
+          "isDelegated": "Do you confirm on behalf of the delegator that <strong>{{delegatorName}}</strong> possesses the requested declared attribute?"
         }
       }
     },
     "revokeDeclaredPartyAttribute": {
-      "loading": "Revoking declared attribute",
+      "loading": "Declared attribute is being revoked",
       "outcome": {
-        "error": "The declared attribute could not be revoked. Please, try again!"
+        "error": "The declared attribute could not be revoked. Please try again!"
       },
       "confirmDialog": {
-        "title": "Revoke declared attribtue",
+        "title": "Revoke Declared Attribute",
         "description": "Are you sure you want to revoke the attribute?"
       }
     }
   },
   "agreement": {
     "createDraft": {
-      "loading": "Creating fruition request",
+      "loading": "Fruition request draft is being created",
       "outcome": {
-        "error": "The request could not be created. Please, try again!"
+        "error": "The request could not be created. Please try again!"
       },
       "confirmDialog": {
-        "title": "Fruition request",
-        "description": "You are about to send a furition request for the e-service {{name}}, version {{version}}",
-        "proceedLabel": "Subscribe"
+        "title": "Fruition Request Draft Creation",
+        "description": "Do you want to create a fruition request draft for the e-service **{{name}}**, version **{{version}}**",
+        "proceedLabel": "Create draft"
       }
     },
     "submitDraft": {
-      "loading": "Sending fruition request to the Provider",
+      "loading": "Fruition request is being forwarded to the Producer",
       "outcome": {
-        "success": "Request sent successfully and awating approval by the Provider",
-        "error": "The request could not be sent. Please, try again!"
+        "success": "Request forwarded successfully and awaiting approval by the **Producer**",
+        "error": "The request could not be forwarded. If you believe you are entitled, please contact support for further checks"
       },
       "confirmDialog": {
-        "title": "Confirm request submit",
+        "title": "Confirm Request Submission",
         "description": {
-          "default": "By clicking \"confirm\", the fruition request will be sent to the e-service provider to be evaluated",
-          "isDelegated": "By clicking on \"confirm\", the request for use will be forwarded to the e-service provider for approval and a notification will be forwarded to the delegating body for information."
+          "default": "By clicking \"confirm\", the fruition request will be forwarded to the e-service producer for approval",
+          "isDelegated": "By clicking \"confirm\", the fruition request will be forwarded to the e-service producer for approval and a notification will be sent to the delegating party for information."
         }
       }
     },
     "submitToOwnEService": {
-      "loading": "Activating the fruition request",
+      "loading": "Fruition request is being activated",
       "outcome": {
-        "success": "The requested fruition request has been activated successfully",
-        "error": "The request could not be activated. Please, try again"
+        "success": "The fruition request has been activated successfully",
+        "error": "The request could not be activated. Please try again"
       },
       "confirmDialog": {
-        "title": "Confirm activation fruition request",
-        "description": "By clicking \"confirm\", the fruition request will activated. Your party is the e-service's provider, no attribute checking or approval is required"
+        "title": "Confirm Fruition Request Activation",
+        "description": "By clicking \"confirm\", the fruition request will be activated. Your party is the e-service's producer, so no attribute verification or approval is required"
       }
     },
     "deleteDraft": {
-      "loading": "Deleting fruition request",
+      "loading": "Fruition request draft is being deleted",
       "outcome": {
-        "success": "Request deleted successfully",
-        "error": "The request could not be deleted. Please, try again!"
+        "success": "The draft request was deleted successfully",
+        "error": "The request could not be deleted. Please try again"
       },
       "confirmDialog": {
-        "title": "Confirm request deletion",
-        "description": "By clicking \"confirm\", the draft of this fruition request will be deleted. You will always be able to create a new one"
+        "title": "Confirm Request Deletion",
+        "description": "By clicking \"confirm\", the fruition request draft will be deleted. You can always create a new one"
       }
     },
     "updateDraft": {
-      "loading": "Updating draft",
+      "loading": "Draft is being updated",
       "outcome": {
         "success": "Draft updated successfully",
-        "error": "Draft could not be updated. Make sure you have filled all the required fields and try again!"
+        "error": "Draft could not be updated. Please ensure all required fields are filled in and try again!"
       }
     },
     "downloadDraftDocument": {
-      "loading": "Downloading document",
+      "loading": "Document is being downloaded",
       "outcome": {
-        "error": "The document could not be downloaded. Please, try again!"
+        "error": "The document could not be downloaded. Please try again!"
       }
     },
     "uploadDraftDocument": {
-      "loading": "Uploading document",
+      "loading": "Document is being uploaded",
       "outcome": {
-        "error": "The document could not be uploaded. Please, try again!"
+        "error": "The document could not be uploaded. Please try again!"
       }
     },
     "deleteDraftDocument": {
-      "loading": "Deleting document",
+      "loading": "Document is being deleted",
       "outcome": {
         "success": "Document deleted successfully",
-        "error": "The document could not be deleted. Please, try again!"
+        "error": "The document could not be deleted. Please try again!"
       }
     },
     "activate": {
-      "loading": "Activating fruition request",
+      "loading": "Fruition request is being activated",
       "outcome": {
         "success": "The fruition request was activated successfully",
-        "error": "The fruition request could not be activated. Please, make sure all attributes are verified and try again!"
+        "error": "The fruition request could not be activated. Please ensure all attributes are verified and try again!"
       },
       "confirmDialog": {
-        "title": "Confirm request activation",
-        "description": "By clicking \"confirm\", the fruition request will be activated. It can be suspended anytime from this page"
+        "title": "Confirm Request Activation",
+        "description": "By clicking \"confirm\", the fruition request will be activated. It can be suspended at any time from this page"
       }
     },
     "reject": {
-      "loading": "Rejecting fruition request",
+      "loading": "Fruition request is being rejected",
       "outcome": {
-        "error": "The fruition request could not be rejected. Please, try again!"
+        "error": "The fruition request could not be rejected. Please try again!"
       }
     },
     "suspend": {
-      "loading": "Suspending fruition request",
+      "loading": "Fruition request is being suspended",
       "outcome": {
-        "success": "The fruition request was suspended successfully. The Subscriber can no longer access this e-service",
-        "error": "The fruition request could not be suspended. Please, try again!"
+        "success": "The fruition request was suspended successfully. The **Consumer's** clients can no longer access the e-service",
+        "error": "The fruition request could not be suspended. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm request suspension",
-        "description": "By clicking \"confirm\", the fruition request will be suspended. It will no longer be possible to the clients added to purposes for this e-service to access it. The request can be reactivated anytime from this page"
+        "title": "Confirm Request Suspension",
+        "description": "By clicking \"confirm\", the fruition request will be suspended. Clients linked to this request will no longer have access to the producing e-service. The request can be reactivated at any time from this same page"
       }
     },
     "archive": {
-      "loading": "Archiving fruition request",
+      "loading": "Fruition request is being archived",
       "outcome": {
         "success": "The fruition request was archived successfully",
-        "error": "The fruition request could not be archived. Please, try again!"
+        "error": "The fruition request could not be archived. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm request archiving",
-        "description": "By clicking \"confirm\", the fruition request will be archived"
+        "title": "Confirm Request Archiving",
+        "description": "By clicking \"confirm\", the fruition request will be archived. This action is irreversible. Clients linked to this request will no longer have access to the producing e-service. New service requests can always be created for this e-service"
       }
     },
     "upgrade": {
-      "loading": "Upgrading fruition request",
+      "loading": "Fruition request is being updated",
       "outcome": {
-        "success": "The fruition request was upgraded to the latest e-service version",
-        "error": "The fruition request could not be upgraded. Please, try again!"
+        "success": "The fruition request was updated to the latest version of the e-service",
+        "error": "The fruition request could not be updated. Please try again!"
       }
     },
     "clone": {
-      "loading": "Cloning agreement",
+      "loading": "Agreement is being cloned",
       "outcome": {
         "success": "Agreement cloned successfully and available as a draft",
-        "error": "Agreement could not be cloned. Please, try again!"
+        "error": "Agreement could not be cloned. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm agreement cloning",
+        "title": "Confirm Agreement Cloning",
         "description": "A new agreement will be created as a draft with the same features as the agreement it is cloned from. Remember to integrate the documentation with what is requested by the producer before submitting it again"
       }
     },
     "downloadContract": {
-      "loading": "Downloading fruition request document",
+      "loading": "Request document is being downloaded",
       "outcome": {
-        "error": "The fruition request document could not be downloaded. Please, try again!"
+        "error": "The request document could not be downloaded. Please try again!"
       }
     }
   },
   "purpose": {
     "createDraft": {
-      "loading": "Creating purpose draft",
+      "loading": "Purpose draft is being created",
       "outcome": {
-        "error": "The purpose draft could not be created. Please, try again!"
+        "error": "The purpose draft could not be created. Please try again!"
       }
     },
     "updateDraft": {
-      "loading": "Updating purpose draft",
+      "loading": "Purpose draft is being updated",
       "outcome": {
-        "error": "The purpose draft could not be updated. Please, try again!"
+        "error": "The purpose draft could not be updated. Please try again!"
       }
     },
     "deleteDraft": {
-      "loading": "Deleting purpose draft",
+      "loading": "Purpose draft is being deleted",
       "outcome": {
         "success": "The purpose draft was deleted successfully",
-        "error": "The purpose draft could not be deleted. Please, try again!"
+        "error": "The purpose draft could not be deleted. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm purpose deletion",
-        "description": "By clicking \"confirm\", this purpose will be deleted and it will not be recoverable. All the clients added to it will no longer be able to access the Provider e-service. It will always be possible to create new purposes"
+        "title": "Confirm Purpose Deletion",
+        "description": "By clicking \"confirm\", this purpose will be deleted and will not be recoverable. All clients associated with it will no longer be able to access the **Producer's** e-service. New purposes can always be created"
       }
     },
     "createDraftForReceiveEService": {
-      "loading": "Creating purpose draft",
+      "loading": "Purpose draft is being created",
       "outcome": {
-        "error": "The purpose draft could not be created. Please, try again!"
+        "error": "The purpose draft could not be created. Please try again!"
       }
     },
     "updateDailyCalls": {
-      "loading": "Updating daily calls",
+      "loading": "Daily calls are being updated",
       "outcome": {
-        "success": "The daily calls updated successfully.",
-        "error": "The daily calls could not be updated. Please, try again!"
+        "success": "The number of daily calls was updated successfully.",
+        "error": "The number of daily calls could not be updated. Please try again!"
       }
     },
     "suspendVersion": {
-      "loading": "Suspending purpose",
+      "loading": "Purpose is being suspended",
       "outcome": {
-        "success": "The purpose was suspended successfully. All associated clients can no longer access the e-service",
-        "error": "The purpose could not be suspended. Please, try again!"
+        "success": "The purpose was suspended successfully. Clients associated with the purpose can no longer access the e-service",
+        "error": "The purpose could not be suspended. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm purpose suspension",
-        "description": "By clicking \"confirm\", this purpose will be suspended. All the clients added to it will no longer be able to access the Provider e-service until it is reactivated"
+        "title": "Confirm Purpose Suspension",
+        "description": "By clicking \"confirm\", this purpose will be suspended. All associated clients will no longer have access to the **Producer's** e-service until it is reactivated"
       }
     },
     "activateVersion": {
-      "loading": "Publishing purpose",
+      "loading": "Purpose is being published",
       "outcome": {
-        "success": "The purpose was published successfully. Warning: if the number of API calls/day exceeds any of the Provider threshold, they will have to manually approve the purpose before it can be used",
-        "error": "The purpose could not be published. Please, make sure all required fields are filled and try again!"
+        "success": "The purpose was published successfully.",
+        "error": "The purpose could not be published. Please ensure all required fields are filled in and try again!"
       },
       "confirmDialog": {
-        "title": "Confirm purpose activation",
-        "description": "By clicking \"confirm\", this purpose will be activated. All the clients added to it will be able to access the Provider e-service by honoring the number of API calls/day established in the purpose itself"
+        "title": "Confirm Purpose Activation",
+        "description": "By clicking \"confirm\", this purpose will be activated. All clients associated with it will be able to access the **Producer's** e-service by honoring the number of API calls/day established in the purpose itself"
       }
     },
     "archiveVersion": {
-      "loading": "Archiving purpose",
+      "loading": "Purpose is being archived",
       "outcome": {
-        "success": "The purpose was archived successfully. You can always create new ones",
-        "error": "The purpose could not be archived. Please, try again!"
+        "success": "The purpose was archived successfully. New purposes can always be created",
+        "error": "The purpose could not be archived. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm purpose archiving",
-        "description": "By clicking \"confirm\", this purpose will be archived. All the clients added to it will no longer be able to access the Provider e-service"
+        "title": "Confirm Purpose Archiving",
+        "description": "By clicking \"confirm\", this purpose will be archived. All associated clients will no longer be able to access the **Producer's** e-service"
       }
     },
     "deleteVersion": {
-      "loading": "Deleting API calls/day update",
+      "loading": "API calls/day update is being deleted",
       "outcome": {
-        "success": "API calls/day was deleted successfully. You can keep using the purpose with the previous number of API calls per day",
-        "error": "The API calls/day update could not be deleted. Please, try again!"
+        "success": "API calls/day update was deleted successfully. You can keep using the purpose with the previous number of API calls per day",
+        "error": "The API calls/day update could not be deleted. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm update deletion",
+        "title": "Confirm Update Deletion",
         "description": "By clicking \"confirm\", the update to the number of API calls/day for this purpose will be deleted. This purpose can still be used with the former number of API calls/day declared"
       }
     },
     "rejectVersion": {
-      "loading": "Rejecting purpose",
+      "loading": "Purpose is being rejected",
       "outcome": {
         "success": "The purpose was rejected successfully",
-        "error": "The purpose could not be rejected. Please, try again!"
+        "error": "The purpose could not be rejected. Please try again!"
       }
     },
     "downloadRiskAnalysis": {
-      "loading": "Downloading risk analysis document",
+      "loading": "Risk analysis document is being downloaded",
       "outcome": {
-        "error": "The risk analysis document could not be downloaded. Please, try again!"
+        "error": "The risk analysis document could not be downloaded. Please try again!"
       }
     },
     "clone": {
-      "loading": "Cloning purpose",
+      "loading": "Purpose is being cloned",
       "outcome": {
         "success": "The purpose draft was cloned successfully",
-        "error": "The purpose could not be cloned. Please, try again!"
+        "error": "The purpose could not be cloned. Please try again!"
       }
     },
     "addClient": {
-      "loading": "Adding client to purpose",
+      "loading": "Client is being added to purpose",
       "outcome": {
         "success": "The client was added successfully to the purpose",
-        "error": "The client could not be added to the purpose. Please, try again!"
+        "error": "The client could not be added to the purpose. Please try again!"
       }
     },
     "removeClient": {
-      "loading": "Removing client from purpose",
+      "loading": "Client is being removed from purpose",
       "outcome": {
         "success": "The client was removed successfully from the purpose",
-        "error": "The client could not be removed from the purpose. Please, try again!"
+        "error": "The client could not be removed from the purpose. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm client removal from purpose",
-        "description": "This client will be removed from the current purpose. All the keys added will no longer be useful to access the Provider e-service for this purpose"
+        "title": "Confirm Client Removal from Purpose",
+        "description": "This client will be removed from the current purpose. All keys added will no longer be usable to access the **Producer's** e-service for this purpose"
       }
     }
   },
   "client": {
     "create": {
-      "loading": "Creating client",
+      "loading": "Client is being created",
       "outcome": {
         "success": "The client was created successfully",
-        "error": "The client could not be created. Please, try again!"
+        "error": "The client could not be created. Please try again!"
       }
     },
     "deleteOne": {
-      "loading": "Deleting client",
+      "loading": "Client is being deleted",
       "outcome": {
         "success": "The client was deleted successfully",
-        "error": "The client could not be deleted. Please, try again!"
+        "error": "The client could not be deleted. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm client deletion",
-        "description": "By clicking \"confirm\", this client will be deleted. All the keys added to it will also be deleted and will no longer be useful to access the e-services this client is related to"
+        "title": "Confirm Client Deletion",
+        "description": "By clicking \"confirm\", this client will be deleted. All keys added to it will also be deleted and will no longer be usable to access the e-services this client is related to"
       }
     },
     "createInteropM2M": {
-      "loading": "Creating client",
+      "loading": "Client is being created",
       "outcome": {
         "success": "The client was created successfully",
-        "error": "The client could not be created. Please, try again!"
+        "error": "The client could not be created. Please try again!"
       }
     },
     "postKey": {
-      "loading": "Uploading key",
+      "loading": "Key is being uploaded",
       "outcome": {
         "success": "The key was uploaded successfully. It can now be used to sign a client assertion to obtain a voucher",
-        "error": "The key could not be uploaded. Please, make sure it is in the right format and with the right algorithm. Warning: the same key cannot be uploaded twice"
+        "error": "The key could not be uploaded. Please ensure it is in the correct format and with the correct algorithm. Warning: the same key cannot be uploaded twice"
       }
     },
     "deleteKey": {
-      "loading": "Deleting key",
+      "loading": "Key is being deleted",
       "outcome": {
         "success": "The key was deleted successfully. It can no longer be used to sign a client assertion to obtain a voucher",
-        "error": "The key could not be deleted. Please, try again!"
+        "error": "The key could not be deleted. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm public key deletion",
-        "description": "By clicking \"confirm\", the public key will be deleted. Warning: all the services that use this key will no longer be able to access the Provider e-service. If you are not sure, download and save the public key before deleting it"
+        "title": "Confirm Public Key Deletion",
+        "description": "By clicking \"confirm\", the public key will be deleted. Warning: all services that use this key will no longer be able to access the **Producer's** e-service. If you are not sure, download and save the public key before deleting it"
       }
     },
     "downloadKey": {
-      "loading": "Downloading key"
+      "loading": "Key is being downloaded"
     },
     "addOperators": {
-      "loading": "Adding the users to this client",
+      "loading": "Users are being added to this client",
       "outcome": {
         "success": "New users added successfully",
-        "error": "The users could not be added. Please make sure these users exist and try again!"
+        "error": "The users could not be added. Please ensure these users exist and try again!"
       }
     },
     "removeOperator": {
-      "loading": "Removing the user from this client",
+      "loading": "User is being removed from this client",
       "outcome": {
         "success": "User removed successfully",
-        "error": "The user could not be removed from the client. Please, try again!"
+        "error": "The user could not be removed from the client. Please try again!"
       }
     },
     "setClientAdmin": {
-      "loading": "Assigning the admin API",
+      "loading": "API admin is being assigned",
       "outcome": {
-        "success": "Admin API assigned successfully!",
+        "success": "API admin assigned successfully!",
         "error": "The client API admin role could not be assigned. Please try again!"
       }
     },
     "removeClientAdmin": {
-      "loading": "Removing the admin API",
+      "loading": "API admin is being removed",
       "outcome": {
-        "success": "Admin API removed successfully!",
+        "success": "API admin removed successfully!",
         "error": "The client API admin could not be removed. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm Admin API Removal",
-        "description": "By clicking “Confirm” the user <strong>{{userName}}</strong> will be removed from the Client Admin API role. This client will no longer be able to write data to the Interop APIs until a new admin is selected."
+        "title": "Confirm API Admin Removal",
+        "description": "By clicking “Confirm”, the user <strong>{{userName}}</strong> will be removed from the Client API Admin role. This client will no longer be able to write data to the Interop APIs until a new admin is selected."
       }
     }
   },
   "party": {
     "updateMail": {
-      "loading": "Updating contacts info",
+      "loading": "Contact information is being updated",
       "outcome": {
-        "success": "Contact info updated successfully",
-        "error": "Contact Infos could not be updated. Please, try again!"
+        "success": "Contact information updated successfully",
+        "error": "Contact information could not be updated. Please try again!"
       }
     },
     "updateDelegationAvailability": {
-      "loading": "Updating delegation availability",
+      "loading": "Delegation availability is being updated",
       "outcome": {
-        "success": "Delegation availability updated succesfully",
-        "error": "Delegation availability could not be updated. Please, try again!"
+        "success": "Delegation availability updated successfully",
+        "error": "Delegation availability could not be updated. Please try again!"
       }
     }
   },
   "voucher": {
     "tokenVerification": {
-      "loading": "We are verifying. Please, wait",
+      "loading": "Verification is being performed. Please wait",
       "outcome": {
         "error": "There was an error processing your request. Please try again later!"
       }
@@ -688,67 +702,67 @@
   },
   "keychain": {
     "removeKeychainFromEService": {
-      "loading": "We are removing the keychain from the e-service",
+      "loading": "Keychain is being removed from the e-service",
       "outcome": {
         "success": "The keychain was removed successfully",
         "error": "The keychain could not be removed. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm keychain removal from e-service",
-        "description": "The keys uploaded to this keychain can no longer be used to sign responses to users for this e-service."
+        "title": "Confirm Keychain Removal from E-service",
+        "description": "The keys uploaded to this keychain can no longer be used to sign responses to **Consumers** for this e-service."
       }
     },
     "addKeychainToEService": {
-      "loading": "We are adding the keychain to the e-service",
+      "loading": "Keychain is being added to the e-service",
       "outcome": {
-        "error": "Keychain not added to e-service. Try again.",
-        "success": "Keychain added to e-service correctly"
+        "error": "Keychain not added to e-service. Please try again.",
+        "success": "Keychain added to e-service successfully"
       }
     },
     "addProducerKeychainUsers": {
-      "loading": "We are adding the users to the keychain",
+      "loading": "Users are being added to the keychain",
       "outcome": {
-        "success": "The users was successfully added to the keychain",
-        "error": "The new users could not be added to the keychain. Make sure the users do not already exist and try again"
+        "success": "The users were successfully added to the keychain",
+        "error": "The new users could not be added to the keychain. Please ensure the users do not already exist and try again"
       }
     },
     "downloadKey": {
-      "loading": "Downloading key"
+      "loading": "Key is being downloaded"
     },
     "deleteProducerKeychainKey": {
-      "loading": "We are removing the key from the keychain",
+      "loading": "Key is being removed from the keychain",
       "outcome": {
-        "success": "The key was successfully deleted from the keychain. From this moment it can no longer be used to sign replies to users",
+        "success": "The key was successfully deleted from the keychain. From now on it can no longer be used to sign replies to **Consumers**",
         "error": "The key could not be deleted. Please try again!"
       }
     },
     "deleteKeychain": {
-      "loading": "We are eliminating the keychain",
+      "loading": "Keychain is being deleted",
       "outcome": {
         "success": "The keychain was successfully deleted",
         "error": "The keychain could not be deleted. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm keychain deletion",
-        "description": "By clicking \"confirm\", this keychain will be deleted. All keys contained will be removed and will no longer be usable to sign responses to users of your e-services."
+        "title": "Confirm Keychain Deletion",
+        "description": "By clicking \"confirm\", this keychain will be deleted. All contained keys will be removed and will no longer be usable to sign responses to **Consumers** of your e-services."
       }
     },
     "createKeychain": {
-      "loading": "Creating keychain",
+      "loading": "Keychain is being created",
       "outcome": {
         "success": "The keychain was created successfully",
-        "error": "The keychain could not be created. Please, try again!"
+        "error": "The keychain could not be created. Please try again!"
       }
     },
     "createProducerKeychainKey": {
-      "loading": "We are inserting the key into the keychain",
+      "loading": "Key is being inserted into the keychain",
       "outcome": {
-        "success": "The key has been inserted correctly into the keychain",
-        "error": "The key could not be inserted. Make sure it is in the correct format and try again. Attention: the same key cannot be entered twice"
+        "success": "The key has been inserted successfully into the keychain",
+        "error": "The key could not be inserted. Please ensure it is in the correct format and try again. Warning: the same key cannot be entered twice"
       }
     },
     "removeUserFromProducerKeychain": {
-      "loading": "We are removing the user from the keychain",
+      "loading": "User is being removed from the keychain",
       "outcome": {
         "success": "The user was successfully removed from the keychain",
         "error": "The user could not be removed from the keychain. Please try again!"
@@ -757,42 +771,42 @@
   },
   "delegation": {
     "createDelegation": {
-      "loading": "We are forwarding the delegation",
+      "loading": "Delegation is being submitted",
       "outcome": {
-        "success": "The new delegation has been created correctly and has been forwarded to the member for evaluation",
-        "error": "The delegation could not be forwarded. Please try again!"
+        "success": "The new delegation has been created successfully and submitted to the party for evaluation",
+        "error": "The delegation could not be submitted. Please try again!"
       }
     },
     "approveProducerDelegation": {
-      "loading": "We are activating the delegation",
+      "loading": "Delegation is being activated",
       "outcome": {
-        "success": "Delegation has been activated successfully. From this moment you can manage the provision of the e-service by delegation",
+        "success": "Delegation has been activated successfully. From now on you can manage the provision of the e-service by delegation",
         "error": "Delegation could not be activated. Please try again!"
       }
     },
     "rejectDelegation": {
-      "loading": "We are rejecting the delegation",
+      "loading": "Delegation is being rejected",
       "outcome": {
         "success": "The delegation was successfully rejected.",
         "error": "It was not possible to reject the delegation. Please try again!"
       }
     },
     "revokeDelegation": {
-      "loading": "We are revoking the delegation",
+      "loading": "Delegation is being revoked",
       "outcome": {
         "success": "The delegation was successfully revoked.",
         "error": "It was not possible to revoke the delegation. Please try again!"
       }
     },
     "approveConsumerDelegation": {
-      "loading": "We are activating the delegation",
+      "loading": "Delegation is being activated",
       "outcome": {
-        "success": "Delegation has been activated successfully. From this moment you can manage the fruiction of the e-service by delegation",
+        "success": "Delegation has been activated successfully. From now on you can manage the fruition of the e-service by delegation",
         "error": "Delegation could not be activated. Please try again!"
       }
     },
     "downloadDelegationContract": {
-      "loading": "Downloading contract",
+      "loading": "Contract is being downloaded",
       "outcome": {
         "error": "It was not possible to download the contract. Please try again"
       }
@@ -800,158 +814,288 @@
   },
   "eserviceTemplate": {
     "updateEServiceTemplateName": {
-      "loading": "We are updating the e-service template name",
+      "loading": "E-service template name is being updated",
       "outcome": {
-        "error": "Template e-service name not updated. Try again.",
-        "success": "Template e-service name updated correctly"
+        "error": "E-service template name not updated. Please try again.",
+        "success": "E-service template name updated successfully"
       }
     },
     "updateEServiceTemplateAudience": {
-      "loading": "We are updating the e-service template target audience",
+      "loading": "E-service template target audience is being updated",
       "outcome": {
-        "error": "Template e-service target audience not updated. Try again.",
-        "success": "Template e-service target audience updated correctly"
+        "error": "E-service template target audience not updated. Please try again.",
+        "success": "E-service template target audience updated successfully"
       }
     },
     "suspendVersion": {
-      "loading": "Suspending e-service template version",
+      "loading": "E-service template version is being suspended",
       "outcome": {
         "success": "E-service template version suspended successfully",
-        "error": "The e-service template version could not be suspended. Please, try again!"
+        "error": "The e-service template version could not be suspended. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm version template suspension",
-        "description": "By clicking \"confirm\", this e-service template version will be suspended. No Subscriber will be able to access it until it is reactivated."
+        "title": "Confirm Template Suspension",
+        "description": "By clicking \"confirm\", this e-service template version will be suspended. No **Consumer** will be able to access it until it is reactivated."
       }
     },
     "updateEServiceDescription": {
-      "loading": "We are updating the e-service template description",
+      "loading": "E-service template description is being updated",
       "outcome": {
-        "error": "Template e-service description not updated. Try again.",
-        "success": "Template e-service description updated correctly"
+        "error": "E-service template description not updated. Please try again.",
+        "success": "E-service template description updated successfully"
       }
     },
     "updateVersion": {
-      "loading": "We are updating the e-service template version description",
+      "loading": "E-service template version description is being updated",
       "outcome": {
-        "error": "Template e-service version description not updated. Try again.",
-        "success": "Template e-service version description updated correctly"
+        "error": "E-service template version description not updated. Please try again.",
+        "success": "E-service template version description updated successfully"
       }
     },
     "postVersionDraftDocument": {
-      "loading": "Uploading document",
+      "loading": "Document is being uploaded",
       "outcome": {
         "success": "The new document was uploaded successfully",
-        "error": "The document could not be uploaded. Please make sure that you uploaded the right document. Please, try again! Note: it cannot contain the string \"localhost\"."
+        "error": "The document could not be uploaded. Please ensure that you uploaded the correct document. Please try again! Note: it cannot contain the string \"localhost\"."
       }
     },
     "deleteVersionDraftDocument": {
-      "loading": "Deleting document",
+      "loading": "Document is being deleted",
       "outcome": {
         "success": "The document was deleted successfully",
-        "error": "The document could not be deleted. Please, try again!"
+        "error": "The document could not be deleted. Please try again!"
       }
     },
     "updateVersionDraftDocumentDescription": {
-      "loading": "Updating document name",
+      "loading": "Document name is being updated",
       "outcome": {
         "success": "The document name was updated successfully",
-        "error": "The document name could not be updated. Please, try again!"
+        "error": "The document name could not be updated. Please try again!"
       }
     },
     "createDraft": {
-      "loading": "Creating draft",
+      "loading": "Draft is being created",
       "outcome": {
-        "error": "Draft could not be created. Make sure you have filled all the required fields and try again!"
+        "error": "Draft could not be created. Please ensure all required fields are filled in and try again!"
       }
     },
     "createNewVersionDraft": {
-      "loading": "Creating draft of new e-service template version",
+      "loading": "Draft of new e-service template version is being created",
       "outcome": {
         "success": "New e-service template version draft created successfully",
-        "error": "A new e-service template version draft could not be created. Make sure all the required fields are filled in in the original e-service and try again, please!"
+        "error": "A new e-service template version draft could not be created. Please ensure all required fields are filled in and try again!"
       },
       "confirmDialog": {
-        "title": "Confirm e-service template version draft creation",
+        "title": "Confirm E-service Template Version Draft Creation",
         "description": "A new draft version of the selected e-service template will be created"
       }
     },
     "updateDraft": {
-      "loading": "Updating draft",
+      "loading": "Draft is being updated",
       "outcome": {
-        "error": "Draft could not be updated. Make sure you have filled all the required fields and try again!"
+        "error": "Draft could not be updated. Please ensure all required fields are filled in and try again!"
       }
     },
     "updateVersionDraft": {
-      "loading": "Updateing draft of new e-service template version",
+      "loading": "Draft of new e-service template version is being updated",
       "outcome": {
         "success": "New e-service template version draft updated successfully",
-        "error": "The new e-service template version draft could not be updated. Make sure all the required fields are filled in in the original e-service template and try again, please!"
+        "error": "The new e-service template version draft could not be updated. Please ensure all required fields are filled in and try again!"
       }
     },
     "addEServiceTemplateRiskAnalysis": {
-      "loading": "Adding the risk analysis to this e-service template",
+      "loading": "Risk analysis is being added to this e-service template",
       "outcome": {
         "success": "New risk analysis added successfully",
-        "error": "The risk analysis could not be added. Please make sure this risk analysis exists and try again!"
+        "error": "The risk analysis could not be added. Please ensure this risk analysis exists and try again!"
       }
     },
     "updateEServiceTemplateRiskAnalysis": {
-      "loading": "Updating risk analysis",
+      "loading": "Risk analysis is being updated",
       "outcome": {
-        "success": "New risk analysis updated successfully",
-        "error": "The new risk analysis could not be updated. Make sure all the required fields are filled in the original risk analysis and try again, please!"
+        "success": "Risk analysis updated successfully",
+        "error": "The risk analysis could not be updated. Please ensure all required fields are filled in and try again!"
       }
     },
     "deleteEServiceTemplateRiskAnalysis": {
-      "loading": "Removing the risk analysis from this e-service template",
+      "loading": "Risk analysis is being removed from this e-service template",
       "outcome": {
         "success": "Risk analysis removed successfully",
-        "error": "The risk analysis could not be removed from the e-service template. Please, try again!"
+        "error": "The risk analysis could not be removed from the e-service template. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm risk analysis removal from e-service template",
+        "title": "Confirm Risk Analysis Removal from E-service Template",
         "description": "The risk analysis will be deleted from this e-service template."
       }
     },
     "updateDescriptorAttributes": {
-      "loading": "Saving new attributes",
+      "loading": "New attributes are being saved",
       "outcome": {
-        "success": "The {{attributeKind}} attributes have been modified correctly",
-        "error": "It was not possible to modify the {{attributeKind}} attributes. Please, try again!"
+        "success": "The {{attributeKind}} attributes have been modified successfully",
+        "error": "It was not possible to modify the {{attributeKind}} attributes. Please try again!"
       }
     },
     "publishVersionDraft": {
-      "loading": "Publishing e-service template version draft",
+      "loading": "E-service template version draft is being published",
       "outcome": {
         "success": "New e-service template version published successfully",
-        "error": "The new e-service template  version could not be published."
+        "error": "The new e-service template version could not be published."
       },
       "confirmDialog": {
-        "title": "Confirm draft publishing",
-        "description": "You will not be able to delete an e-service template  version after it is published. It will also become available in the e-service catalog. It will always be possible to suspend it or make it deprecated when a new version is published"
+        "title": "Confirm Draft Publication",
+        "description": "An e-service template version cannot be deleted after it is published. It will also become available in the e-service catalog. It will always be possible to suspend it or mark it as deprecated when a new version is published"
       }
     },
     "deleteVersionDraft": {
-      "loading": "Deleting e-service template version draft",
+      "loading": "E-service template version draft is being deleted",
       "outcome": {
         "success": "E-service template version draft deleted successfully",
-        "error": "The e-service template version draft could not be deleted. Please, try again!"
+        "error": "The e-service template version draft could not be deleted. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm draft deletion",
-        "description": "By clicking \"confirm\", this draft will be deleted and it will not be recoverable. It will always be possible to create new drafts"
+        "title": "Confirm Draft Deletion",
+        "description": "By clicking \"confirm\", this draft will be deleted and will not be recoverable. New drafts can always be created"
       }
     },
     "reactivateVersion": {
-      "loading": "Reactivating e-service template version",
+      "loading": "E-service template version is being reactivated",
       "outcome": {
         "success": "E-service template version reactivated successfully",
-        "error": "The e-service template version could not be reactivated. Please, try again!"
+        "error": "The e-service template version could not be reactivated. Please try again!"
       },
       "confirmDialog": {
-        "title": "Confirm version reactivation",
-        "description": "By clicking \"confirm\",  this e-service template version will be reactivated. All the Subscribers that have an active fruition request for this e-service template version will be able to access it"
+        "title": "Confirm Version Reactivation",
+        "description": "By clicking \"confirm\", this e-service template version will be reactivated. All **Consumers** that have an active fruition request for this e-service template version will be able to access it"
+      }
+    }
+  },
+  "purposeTemplate": {
+    "createDraft": {
+      "loading": "Facilitated purpose template draft is being created",
+      "outcome": {
+        "error": "The facilitated purpose template draft could not be created. Please try again!"
+      }
+    },
+    "updateDraft": {
+      "loading": "Facilitated purpose template draft is being updated",
+      "outcome": {
+        "error": "The facilitated purpose template draft could not be updated. Please try again!"
+      }
+    },
+    "deleteDraft": {
+      "loading": "Facilitated purpose template draft is being deleted",
+      "outcome": {
+        "success": "The facilitated purpose template has been successfully deleted",
+        "error": "The facilitated purpose template could not be deleted. Please try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm Deletion of the Facilitated Purpose Template",
+        "description": "By clicking \"confirm\", this facilitated purpose template will be deleted and cannot be recovered."
+      }
+    },
+    "suspendPurposeTemplate": {
+      "loading": "Purpose template is being suspended",
+      "outcome": {
+        "success": "The facilitated purpose template has been successfully suspended.",
+        "error": "The template could not be suspended. Please try again later."
+      },
+      "confirmDialog": {
+        "title": "Confirm Template Suspension",
+        "description": "By clicking \"confirm\", this template will be suspended. No user will be able to use this template until it is reactivated."
+      }
+    },
+    "activatePurposeTemplate": {
+      "loading": "Purpose template is being published",
+      "outcome": {
+        "success": "The purpose template is now published.",
+        "error": "The purpose template could not be reactivated. Please try again!"
+      },
+      "confirmDialog": {
+        "title": "Confirm Purpose Activation",
+        "description": "By clicking \"confirm\", this purpose will be reactivated."
+      }
+    },
+    "publishDraft": {
+      "loading": "Facilitated purpose template is being published",
+      "outcome": {
+        "success": "The facilitated purpose template is now published.",
+        "error": "The facilitated purpose template could not be published. Please ensure all required fields are filled out."
+      },
+      "confirmDialog": {
+        "title": "Confirm Publication of the Facilitated Purpose Template",
+        "description": "By clicking \"confirm\", this facilitated purpose template will be published."
+      }
+    },
+    "archivePurposeTemplate": {
+      "loading": "Facilitated purpose template is being archived",
+      "outcome": {
+        "success": "The facilitated purpose template has been successfully archived.",
+        "error": "The template could not be archived. Please try again later."
+      },
+      "confirmDialog": {
+        "title": "Confirm Template Archiving",
+        "description": "By clicking \"confirm\", this template will be archived. Once archived, the template can no longer be used."
+      }
+    },
+    "addAnnotationToAnswer": {
+      "loading": "Annotation is being added",
+      "outcome": {
+        "success": "The annotation has been added successfully",
+        "error": "It was not possible to add the annotation. Please try again!"
+      }
+    },
+    "addDocumentsToAnswer": {
+      "loading": "Documents are being added",
+      "outcome": {
+        "success": "The documents have been added successfully",
+        "error": "It was not possible to add the documents. Please try again!"
+      }
+    },
+    "deleteAnnotation": {
+      "loading": "Annotation is being removed",
+      "outcome": {
+        "success": "The annotation has been removed successfully",
+        "error": "It was not possible to remove the annotation. Please try again!"
+      },
+      "confirmDialog": {
+        "title": "Remove Annotation",
+        "description": "Do you confirm you want to remove this annotation?",
+        "proceedLabel": "Remove annotation",
+        "cancelLabel": "Keep annotation"
+      }
+    },
+    "deleteDocument": {
+      "loading": "Document is being removed",
+      "outcome": {
+        "success": "The document has been removed successfully",
+        "error": "It was not possible to remove the document. Please try again!"
+      }
+    },
+    "downloadDocument": {
+      "loading": "Document is being downloaded",
+      "outcome": {
+        "error": "It was not possible to download the document. Please try again!"
+      }
+    },
+    "updatePrettyNameDocument": {
+      "loading": "Document name is being updated",
+      "outcome": {
+        "success": "The document name has been updated successfully",
+        "error": "It was not possible to update the document name. Please try again!"
+      }
+    },
+    "linkEService": {
+      "loading": "E-service is being linked",
+      "outcome": {
+        "success": "The e-service was saved successfully.",
+        "error": "It was not possible to save this e-service. Please try again!"
+      }
+    },
+    "unlinkEService": {
+      "loading": "E-service is being unlinked",
+      "outcome": {
+        "success": "The e-service was unassociated successfully.",
+        "error": "It was not possible to unassociate this e-service. Please try again!"
       }
     }
   }

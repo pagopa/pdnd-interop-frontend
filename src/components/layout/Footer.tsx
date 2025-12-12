@@ -1,9 +1,9 @@
 import React from 'react'
 import { Typography } from '@mui/material'
 import { Footer as MUIItaliaFooter } from '@pagopa/mui-italia'
-import type { FooterLinksType } from '@pagopa/mui-italia'
+import type { FooterLinksType, LangCode } from '@pagopa/mui-italia'
 import { LANGUAGES, pagoPaLink } from '@/config/constants'
-import { useNavigate } from '@/router'
+import { useNavigate, useSwitchPathLang } from '@/router'
 import { useTranslation } from 'react-i18next'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import type { JwtUser } from '@/types/party.types'
@@ -17,6 +17,7 @@ type FooterProps = {
 export const Footer: React.FC<FooterProps> = ({ jwt }) => {
   const { t } = useTranslation('pagopa')
   const currentLanguage = useCurrentLanguage()
+  const switchLang = useSwitchPathLang()
   const navigate = useNavigate()
 
   function convertLinks(inputLinks: Array<FooterLinksTypeMulti>) {
@@ -54,13 +55,13 @@ export const Footer: React.FC<FooterProps> = ({ jwt }) => {
     },
     {
       labelKey: 'a11y',
-      href: 'https://form.agid.gov.it/view/1e9cd8e0-df2e-11ef-8637-9f856ac3da10',
+      href: 'https://form.agid.gov.it/view/51e3e520-9790-11f0-b5da-e1fd63eb9de5',
       linkType: 'external',
     },
   ]
 
-  const handleLanguageChange = (_: unknown) => {
-    /* No way to switch language right now  */
+  const handleLanguageChange = (lang: LangCode) => {
+    switchLang(lang as 'it' | 'en')
   }
 
   const LegalInfo = (

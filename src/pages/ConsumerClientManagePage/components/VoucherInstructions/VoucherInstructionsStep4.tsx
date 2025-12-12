@@ -16,8 +16,6 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import DownloadIcon from '@mui/icons-material/Download'
 import { Link } from '@/router'
-import { AuthHooks } from '@/api/auth'
-import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
 
 export const VoucherInstructionsStep4: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -31,10 +29,6 @@ export const VoucherInstructionsStep4: React.FC = () => {
 
   const eserviceName = purpose ? purpose.eservice.name : ''
   const producer = purpose ? purpose.eservice.producer.name : ''
-
-  const producerId = AuthHooks.useJwt().jwt?.organizationId as string
-
-  const isSignalHubFlagEnabled = isSignalHubFeatureFlagEnabled(producerId)
 
   return (
     <>
@@ -121,7 +115,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
           )}
         </Stack>
       </SectionContainer>
-      {clientKind === 'API' && isSignalHubFlagEnabled && (
+      {clientKind === 'API' && (
         <SectionContainer>
           <Stack spacing={2}>
             <Typography variant="h6" component="h2">

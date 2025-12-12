@@ -1,57 +1,66 @@
 {
   "consumerEServiceCatalog": {
-    "title": "E-service catalog",
-    "description": "In this section you can explore all the e-services in the catalog and subscribe to the ones you are interested into"
+    "title": "E-service Catalog",
+    "description": "The e-service catalog contains all the databases that other entities have made available. You can subscribe to those of interest to you."
   },
   "consumerAgreementsList": {
-    "title": "Your requests",
-    "description": "In this section, you can manage all the fruition requests you have sent to e-service Providers"
+    "title": "Your Submitted Requests",
+    "description": "Submitted requests will be collected in this area."
   },
   "providerEServiceList": {
-    "title": "Your e-services",
-    "description": "In this section you can manage all the e-services you are providing"
+    "title": "My E-services",
+    "description": "Manage and provide new e-services from this dedicated area."
   },
   "providerAgreementsList": {
-    "title": "Fruition requests",
-    "description": "In this section, you can manage all the fruition requests you have received from parties that want to subscribe to your e-services"
+    "title": "Received Requests",
+    "description": "In this area you can manage all the requests that have been sent to you by entities that wish to use your e-services. Received requests are collected here."
   },
   "consumerPurposesList": {
-    "title": "Your purposes",
-    "description": "In this section you can manage all the purposes you have created"
+    "title": "My Submitted Purposes",
+    "description": "When your fruition requests are accepted, you will need to fill a purpose to describe how you will process the data you receive. Your purposes are collected in this area."
   },
   "consumerClientList": {
-    "title": "Your e-service clients",
-    "description": "Here you can manage the clients that allow you to obtain a voucher that can be spent at the providers' e-service APIs"
+    "title": "My E-service API Clients",
+    "description": "E-service clients allow you to interface with the **Producer's** API specified in the e-services for which you have an active fruition request and purpose. Your e-service clients are collected here."
   },
   "consumerClientM2MList": {
-    "title": "Your Interop API clients",
-    "description": "Here you can manage the clients that allow you to obtain a voucher that can be spent at the PDND Interoperabilità API"
+    "title": "My Interop API Clients",
+    "description": "Interoperability clients allow you to interface with the read and write APIs exposed by PDND Interoperability. Your clients are collected here."
   },
   "providerPurposesList": {
-    "title": "Purposes",
-    "description": "Here you can manage the purposed created by you's e-service's subscribers"
+    "title": "Received Purposes",
+    "description": "Entities that wish to use your e-services will need to indicate how they will process the data they receive. Received purposes are collected in this area."
   },
   "consumerDebugVoucher": {
-    "title": "Voucher debug",
-    "description": "If you can't get a voucher and don't know why, you can debug with this simulator and understand possible errors"
+    "title": "Client Assertion Debug",
+    "description": "The debug tool allows you to highlight any anomalies contained in your client assertion necessary for obtaining an access token."
   },
   "tenantCertifier": {
-    "title": "Tenant certifier",
-    "description": "In this view you can manage the certified attributes you have created and their assignment"
+    "title": "Party Certifier",
+    "description": "Create and manage certified attributes and assign them to compliant entities."
   },
   "providerKeychainsList": {
-    "title": "Your keychains",
-    "description": "Here you can manage you keychains"
+    "title": "My Producer Keychains",
+    "description": "In this area you can view and manage the keychains associated with your e-services, uploading the public keys necessary for verifying responses from **Consumers**."
   },
   "delegations": {
-    "title": "Delegations",
-    "description": "Here you can manage all the delegations you have given or received from other entities"
+    "title": "Delegation Management",
+    "description": "Indicate your availability to delegate and manage the delegations you have conferred or received."
   },
   "providerEServiceTemplatesCatalog": {
-    "title": "E-service templates catalog",
-    "description": "Templates allow you to create e-service instances from pre-existing template."
+    "title": "E-service Templates Catalog",
+    "description": "Templates allow you to create e-service instances from a pre-existing model."
   },
   "providerEServiceTemplatesList": {
-    "title": "Your templates"
+    "title": "My E-service Templates",
+    "description": "Manage and provide new e-service templates from this dedicated area."
+  },
+  "consumerPurposeTemplatesList": {
+    "title": "My Facilitated Purpose Templates",
+    "description": "Make a facilitated purpose template available to help other participating entities more easily complete the risk analysis."
+  },
+  "consumerPurposeTemplatesCatalog": {
+    "title": "Facilitated Purpose Templates Catalog",
+    "description": "Purpose templates are shared models among all participants. After your fruition request is accepted, you can create a new purpose starting from one of these models, which contains a pre-filled part of the risk analysis."
   }
 }

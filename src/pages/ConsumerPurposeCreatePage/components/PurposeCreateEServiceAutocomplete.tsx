@@ -9,6 +9,11 @@ import type { PurposeCreateFormValues } from './PurposeCreateForm'
 import { useQuery } from '@tanstack/react-query'
 import { DelegationQueries } from '@/api/delegation'
 import { AuthHooks } from '@/api/auth'
+import { Stack } from '@mui/system'
+import { Alert } from '@mui/material'
+import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
+import { TenantQueries } from '@/api/tenant'
+import { tenantKindForPurposeTemplate } from '@/utils/tenant.utils'
 
 export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -28,6 +33,17 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
   )
 
   const selectedConsumerId = watch('consumerId')
+
+  // Get tenantKind of selected consumer
+  const { data: selectedConsumer } = useQuery({
+    ...TenantQueries.getParty(selectedConsumerId),
+    enabled: Boolean(selectedConsumerId),
+  })
+
+  // Normalize tenantKind for purpose templates (PA -> PA, others -> PRIVATE)
+  const targetTenantKind = selectedConsumer?.kind
+    ? tenantKindForPurposeTemplate(selectedConsumer.kind)
+    : undefined
 
   /**
    * TEMP: This is a workaround to avoid the "q" param in the query to be equal to the selected eservice name.
@@ -51,7 +67,7 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
       agreementStates: ['ACTIVE'],
       // e-service might also be on 'DEPRECATED' state
       states: ['PUBLISHED'],
-      limit: 50,
+      limit: 200,
       offset: 0,
     }),
     enabled: selectedConsumerId === jwt?.organizationId || !selectedConsumerId,
@@ -79,21 +95,39 @@ export const PurposeCreateEServiceAutocomplete: React.FC = () => {
     value: eservice,
   }))
 
+  const { data: linkedPurposeTemplates } = useQuery({
+    ...PurposeTemplateQueries.getCatalogPurposeTemplates({
+      eserviceIds: selectedEServiceRef.current?.id ? [selectedEServiceRef.current.id] : [],
+      targetTenantKind,
+      offset: 0,
+      limit: 50,
+    }),
+    enabled: Boolean(selectedEServiceRef.current?.id) && Boolean(targetTenantKind),
+  })
+
+  const showAlert =
+    linkedPurposeTemplates &&
+    linkedPurposeTemplates?.results.length > 0 &&
+    eserviceAutocompleteTextInput !== ''
+
   return (
-    <RHFAutocompleteSingle
-      sx={{ my: 0 }}
-      loading={isEServiceLoading || isDelegatedEServiceLoading}
-      name="eservice"
-      label={t('create.eserviceField.label')}
-      infoLabel={t('create.eserviceField.infoLabel')}
-      options={autocompleteOptions}
-      onValueChange={(value) => {
-        selectedEServiceRef.current = eservicesList.find(
-          (eservice) => eservice.id === value?.value.id
-        )
-      }}
-      onInputChange={(_, value) => setEserviceAutocompleteTextInput(value)}
-      rules={{ required: true }}
-    />
+    <Stack spacing={2} sx={{ mb: 2 }}>
+      <RHFAutocompleteSingle
+        sx={{ my: 0 }}
+        loading={isEServiceLoading || isDelegatedEServiceLoading}
+        name="eservice"
+        label={t('create.eserviceField.label')}
+        infoLabel={t('create.eserviceField.infoLabel')}
+        options={autocompleteOptions}
+        onValueChange={(value) => {
+          selectedEServiceRef.current = eservicesList.find(
+            (eservice) => eservice.id === value?.value.id
+          )
+        }}
+        onInputChange={(_, value) => setEserviceAutocompleteTextInput(value)}
+        rules={{ required: true }}
+      />
+      {showAlert && <Alert severity="success"> {t('create.eserviceField.alert.label')}</Alert>}
+    </Stack>
   )
 }

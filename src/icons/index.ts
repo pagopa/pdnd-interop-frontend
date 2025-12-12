@@ -1,0 +1,6 @@
+export * from './ConsumerIcon'
+export * from './ProviderIcon'
+export * from './MyTenantIcon'
+export * from './CatalogIcon'
+export * from './DeveloperToolIcon'
+export * from './MessageIcon'

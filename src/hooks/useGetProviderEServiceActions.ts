@@ -28,7 +28,9 @@ export function useGetProviderEServiceActions(
   eserviceName: string | undefined,
   isNewTemplateVersionAvailable: boolean,
   isTemplateInstance: boolean,
-  delegation?: DelegationWithCompactTenants
+  delegation?: DelegationWithCompactTenants,
+  hasPersonalData?: boolean,
+  where?: 'tableRow' | 'detailsPage'
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { t: tDialogApproveDelegatedVersionDraft } = useTranslation('shared-components', {
@@ -236,7 +238,7 @@ export function useGetProviderEServiceActions(
 
   const upgradeEServiceAction: ActionItemButton = {
     action: handleUpgradeEService,
-    label: t('updateIstance'),
+    label: t('updateInstance'),
     icon: FiberNewIcon,
   }
 
@@ -936,9 +938,12 @@ export function useGetProviderEServiceActions(
     DEPRECATED: isDelegator ? [] : [suspendAction],
     DRAFT: draftActions,
     SUSPENDED: fromTemplateSuspendActions,
-    WAITING_FOR_APPROVAL: isDelegator
-      ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
-      : [],
+    WAITING_FOR_APPROVAL:
+      isDelegator && where !== 'tableRow'
+        ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+        : isDelegator && where === 'tableRow' && !hasPersonalData
+        ? [rejectDelegatedVersionDraftAction]
+        : [],
   }
 
   const EServiceFromTemplateOperatorAPIActions: Record<
@@ -950,9 +955,12 @@ export function useGetProviderEServiceActions(
     DEPRECATED: [],
     DRAFT: draftActions,
     SUSPENDED: fromTemplateSuspendActions,
-    WAITING_FOR_APPROVAL: isDelegator
-      ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
-      : [],
+    WAITING_FOR_APPROVAL:
+      isDelegator && where !== 'tableRow'
+        ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+        : isDelegator && where === 'tableRow' && !hasPersonalData
+        ? [rejectDelegatedVersionDraftAction]
+        : [],
   }
 
   const adminActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
@@ -961,9 +969,12 @@ export function useGetProviderEServiceActions(
     DEPRECATED: isDelegator ? [] : [suspendAction],
     DRAFT: draftActions,
     SUSPENDED: suspendedActions,
-    WAITING_FOR_APPROVAL: isDelegator
-      ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
-      : [],
+    WAITING_FOR_APPROVAL:
+      isDelegator && where !== 'tableRow'
+        ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+        : isDelegator && where === 'tableRow' && !hasPersonalData
+        ? [rejectDelegatedVersionDraftAction]
+        : [],
   }
 
   const operatorAPIActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
@@ -972,9 +983,12 @@ export function useGetProviderEServiceActions(
     DEPRECATED: [],
     DRAFT: draftActions,
     SUSPENDED: suspendedActions,
-    WAITING_FOR_APPROVAL: isDelegator
-      ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
-      : [],
+    WAITING_FOR_APPROVAL:
+      isDelegator && where !== 'tableRow'
+        ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+        : isDelegator && where === 'tableRow' && !hasPersonalData
+        ? [rejectDelegatedVersionDraftAction]
+        : [],
   }
 
   const availableClassicEServiceAction = isAdmin ? adminActions[state] : operatorAPIActions[state]

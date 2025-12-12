@@ -68,6 +68,22 @@
       "confirmLabel": "Aggiungi"
     }
   },
+  "personalDataDrawer": {
+    "title": "Questo {{where}} tratta dati personali?",
+    "subtitle": "Per questo {{where}} è necessario indicare se vengono trattati dati personali.",
+    "alertForAPIOperator": "Consultati con l’amministratore prima di confermare. Al salvataggio, questo dato non sarà più modificabile.",
+    "alertLabel": "Al salvataggio, questo dato non sarà più modificabile.",
+    "options": {
+      "DELIVER": {
+        "true": "Eroga dati personali",
+        "false": "Non eroga dati personali"
+      },
+      "RECEIVE": {
+        "true": "Riceve dati personali",
+        "false": "Non riceve dati personali"
+      }
+    }
+  },
   "dialogUpgradeAgreementVersion": {
     "title": "Aggiornamento richiesta di fruizione",
     "content": {
@@ -98,6 +114,10 @@
     "eserviceField": {
       "label": "Seleziona e-service",
       "eserviceProvider": "erogato da"
+    },
+    "alertPersonalData": {
+      "title": "La finalità non è compatibile con l’e-service selezionato",
+      "description": "La finalità da clonare indica un trattamento sui dati personali diverso da quanto definito dall’erogatore dell’e-service, pertanto non ti è consentita la pubblicazione. Per procedere, crea una nuova finalità rispettando il vincolo sui dati personali."
     }
   },
   "dialogCreateAgreementDraft": {
@@ -190,7 +210,7 @@
     "consumer": {
       "title": "Revoca della delega alla fruizione",
       "content": {
-        "description": "Revocando la delega, entrerai in possesso delle richieste e finalità create dal delegato alla fruizione per conto del tuo ente e potrai gestirle in autonomia, o creare una nuova delega. Hai dubbi? <1>Consulta la guida</1>.<strong>A revoca avvenuta, dovrai riattivare e/o creare le finalità e associare i tuoi client per poter accedere nuovamente ai dati dell’e-service {{eserviceName}} con delega alla fruizione.</strong>",
+        "description": "Revocando la delega, entrerai in possesso delle richieste e finalità create dal delegato alla fruizione per conto del tuo ente e potrai gestirle in autonomia, o creare una nuova delega. Hai dubbi? <1>Consulta la guida</1>.<p><strong>A revoca avvenuta, dovrai riattivare e/o creare le finalità e associare i tuoi client per poter accedere nuovamente ai dati dell’e-service {{eserviceName}} con delega alla fruizione.</strong></p>",
         "checkbox": "Ho letto e voglio procedere con la revoca"
       },
       "actions": {
@@ -215,13 +235,35 @@
       "approveAndPublish": "Approva e pubblica"
     }
   },
+  "dialogPurposeTemplatesTenantKind": {
+    "title": "Seleziona la tipologia di ente",
+    "content": {
+      "description": "Indica chi potrà utilizzare l’analisi del rischio che stai creando e se vengono trattati dati personali.",
+      "label": "Destinazione tipologia ente",
+      "options": {
+        "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera “a” del CAD)",
+        "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere “b” e “c”) oppure Privati"
+      },
+      "personalDataRadioBtn": {
+        "label": "L'analisi del rischio prevede un trattamento dei dati personali?",
+        "error": "Indica se verranno trattati dati personali",
+        "options": {
+          "true": "Sì, verranno trattati dati personali",
+          "false": "No, non verranno trattati dati personali"
+        }
+      }
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"
   },
   "sidenav": {
     "userExternalLinkLabel": "Utenti",
-    "groupsExternalLinkLabel": "Gruppi"
+    "groupsExternalLinkLabel": "Gruppi",
+    "collapse": "Chiudi Menù",
+    "expand": "Apri Menù",
+    "navigationMenu": "Menù di navigazione"
   },
   "table": {
     "noDataLabel": "Questa ricerca non ha prodotto risultati"
@@ -273,6 +315,12 @@
     "bodySingleDay": "Interoperabilità PDND sarà sottoposto a manutenzione programmata il {{maintenanceStartDay}} alle {{maintenanceStartHour}} per circa {{hoursDuration}} ore. Ci scusiamo per gli eventuali disservizi causati.",
     "bodyMultipleDay": "Interoperabilità PDND sarà sottoposto a manutenzione programmata dalle {{maintenanceStartHour}} del {{maintenanceStartDay}} alle {{maintenanceEndHour}} del {{maintenanceEndDay}}. Ci scusiamo per gli eventuali disservizi causati."
   },
+  "notificationsBanner": {
+    "title": "Stanno arrivando le notifiche!",
+    "body": "Ti informeremo quando ci sono novità di tuo interesse direttamente in piattaforma o tramite e-mail personale. Consulta il manuale e configura subito le tue preferenze.",
+    "action1Label": "Configura le notifiche",
+    "action2Label": "Consulta il manuale"
+  },
   "attributeContainer": {
     "attributeIdLabel": "ID dell'attributo (attributeId)",
     "idCopytooltipLabel": "ID copiato correttamente",
@@ -280,6 +328,20 @@
   },
   "attributeGroupContainer": {
     "removeGroupAriaLabel": "Rimuovi gruppo di attributi"
+  },
+  "eserviceContainer": {
+    "eserviceIdField": "ID dell’e-service",
+    "viewEserviceBtn": "Visualizza e-service",
+    "idCopytooltipLabel": "ID copiato correttamente",
+    "removeAttributeAriaLabel": "Rimuovi attributo {{eserviceName}}",
+    "tooltipTitle": {
+      "ARCHIVED": "Questo e-service è stato archiviato e non può più essere associato",
+      "SUSPENDED": "Questo e-service è stato sospeso e non può più essere associato"
+    },
+    "warning": {
+      "ARCHIVED": "Questo e-service è stato archiviato e non può più essere associato. Rimuovilo prima di procedere",
+      "SUSPENDED": "Questo e-service è stato sospeso e non può più essere associato. Rimuovilo prima di procedere"
+    }
   },
   "drawer": {
     "closeIconAriaLabel": "Chiudi il drawer",
@@ -332,6 +394,20 @@
         "riskAnalysisSection": {
           "title": "Analisi del rischio",
           "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
+          "personalDataFlag": {
+            "label": "Trattamento dati personali",
+            "true": "Hai dichiarato di trattare dati personali",
+            "false": "Hai dichiarato di non trattare dati personali",
+            "undefined": "Non specificato"
+          },
+          "personalDataValuesAlert": {
+            "labelForEserviceCreateStep2": "La risposta a questa domanda differisce da quanto è stato definito nelle proprietà generali dell’e-service",
+            "alertForIncompatibleAnswer": "Assicurati che la risposta alla domanda \"Indicare se si accede a dati personali (richiesto)\" sia uguale a quella che hai indicato nelle informazioni generali. Se i dati non corrispondono ti verrà bloccata la pubblicazione.",
+            "labelForPurposeCreate": {
+              "YES": "Non potrai pubblicare questa finalità in quanto hai dichiarato che i dati personali vengono trattati, ma l'erogatore ha dichiarato il contrario. Per chiarimenti, contatta l'erogatore.",
+              "NO": "Non potrai pubblicare questa finalità in quanto hai dichiarato che i dati personali non vengono trattati, ma l'erogatore ha dichiarato il contrario. Per chiarimenti, contatta l'erogatore."
+            }
+          },
           "personalDataAlert": "Attenzione: non inserire dati personali all’interno dei campi liberi di testo",
           "eserviceTemplateRiskAnalysis": {
             "title": "Indicare chi potrà utilizzare la seguente analisi del rischio",
@@ -345,6 +421,22 @@
       }
     }
   },
+  "purposeTemplateRiskAnalysisInfoSummary": {
+    "annotationSection": {
+      "readAnnotationBtnLabel": "Leggi le annotazioni",
+      "title": "Annotazioni fornite dal creatore"
+    },
+    "answerLabel": "Risposta: ",
+    "notEditableLabel": "Non modificabile",
+    "notEditableTooltip": "L’ente creatore del template non permette la modifica di questo campo",
+    "suggestedValuesSection": {
+      "title": "Risposte:",
+      "option": "Opzione {{index}}:"
+    }
+  },
+  "documents": {
+    "notAvailableYet": "Il documento sarà disponibile a breve"
+  },
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Termini di servizio",
@@ -353,10 +445,10 @@
     "PROVIDE_ESERVICE_SUMMARY": "Riepilogo",
     "PROVIDE_ESERVICE_EDIT": "Modifica e-service",
     "PROVIDE_ESERVICE_MANAGE": "Visualizza e-service",
-    "PROVIDE_ESERVICE_LIST": "I tuoi e-service",
+    "PROVIDE_ESERVICE_LIST": "I miei e-service",
     "PROVIDE_AGREEMENT_READ": "Gestisci richiesta",
-    "PROVIDE_AGREEMENT_LIST": "Richieste di fruizione",
-    "PROVIDE_PURPOSE_LIST": "Finalità",
+    "PROVIDE_AGREEMENT_LIST": "Richieste ricevute",
+    "PROVIDE_PURPOSE_LIST": "Finalità ricevute",
     "PROVIDE_PURPOSE_DETAILS": "Visualizza finalità",
     "PROVIDE": "Erogazione",
     "SUBSCRIBE_CATALOG_VIEW": "Visualizza e-service",
@@ -365,20 +457,20 @@
     "SUBSCRIBE_PURPOSE_EDIT": "Modifica finalità",
     "SUBSCRIBE_PURPOSE_SUMMARY": "Riepilogo finalità",
     "SUBSCRIBE_PURPOSE_DETAILS": "Gestisci singola finalità",
-    "SUBSCRIBE_PURPOSE_LIST": "Le tue finalità",
+    "SUBSCRIBE_PURPOSE_LIST": "Finalità inoltrate",
     "SUBSCRIBE_CLIENT_OPERATOR_EDIT": "Gestisci operatore del client e-service",
     "SUBSCRIBE_CLIENT_KEY_EDIT": "Gestisci chiave pubblica del client e-service",
     "SUBSCRIBE_CLIENT_CREATE": "Crea client e-service",
     "SUBSCRIBE_CLIENT_EDIT": "Gestisci client e-service",
-    "SUBSCRIBE_CLIENT_LIST": "I tuoi client e-service",
+    "SUBSCRIBE_CLIENT_LIST": "API e-service",
     "SUBSCRIBE_AGREEMENT_READ": "Gestisci richiesta",
-    "SUBSCRIBE_AGREEMENT_LIST": "Le tue richieste",
+    "SUBSCRIBE_AGREEMENT_LIST": "Richieste inoltrate",
     "SUBSCRIBE_AGREEMENT_EDIT": "Modifica richiesta",
     "SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT": "Gestisci operatore del client API Interop",
     "SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT": "Gestisci chiave pubblica del client API Interop",
     "SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE": "Crea client API Interop",
     "SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT": "Gestisci client API Interop",
-    "SUBSCRIBE_INTEROP_M2M": "I tuoi client API Interop",
+    "SUBSCRIBE_INTEROP_M2M": " API Interoperabilità",
     "SUBSCRIBE": "Fruizione",
     "PARTY_REGISTRY": "Anagrafica e attributi",
     "NOT_FOUND": "Pagina non trovata",
@@ -389,16 +481,16 @@
     "TENANT": "Il tuo ente",
     "TENANT_CERTIFIER": "Ente certificatore",
     "TENANT_CERTIFIER_ATTRIBUTE_DETAILS": "Visualizza attributo",
-    "PROVIDE_KEYCHAINS_LIST": "I tuoi portachiavi",
+    "PROVIDE_KEYCHAINS_LIST": "Portachiavi erogatore",
     "PROVIDE_KEYCHAIN_CREATE": "Crea portachiavi",
     "PROVIDE_KEYCHAIN_DETAILS": "Gestisci portachiavi",
     "PROVIDE_KEYCHAIN_USER_DETAILS": "Gestisci utente del portachiavi",
     "PROVIDE_KEYCHAIN_PUBLIC_KEY_DETAILS": "Gestisci chiave pubblica del portachiavi",
-    "DELEGATIONS": "Deleghe",
+    "DELEGATIONS": "Gestione delle deleghe",
     "CREATE_DELEGATION": "Crea delega",
     "DELEGATION_DETAILS": "Gestisci delega",
-    "PROVIDE_ESERVICE_TEMPLATE_CATALOG": "Catalogo template",
-    "PROVIDE_ESERVICE_TEMPLATE_LIST": "I tuoi template",
+    "PROVIDE_ESERVICE_TEMPLATE_CATALOG": "Template e-service",
+    "PROVIDE_ESERVICE_TEMPLATE_LIST": "I miei template e-service",
     "PROVIDE_ESERVICE_TEMPLATE_DETAILS": "Visualizza template",
     "SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS": "Visualizza template",
     "PROVIDE_ESERVICE_TEMPLATE_CREATE": "Crea Template E-Service",
@@ -406,7 +498,18 @@
     "PROVIDE_ESERVICE_TEMPLATE_SUMMARY": "Riepilogo E-Service template",
     "PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE": "Crea E-Service da template",
     "WATCH_RISK_ANALYSIS_FOR_ESERVICE": "Analisi del rischio",
-    "DEVELOPER_TOOLS": "Tool per sviluppatori",
-    "RISK_ANALYSIS_EXPORTER_TOOL": "Export analisi del rischio"
+    "DEVELOPER_TOOLS": "Tool per lo sviluppo",
+    "RISK_ANALYSIS_EXPORTER_TOOL": "Export analisi del rischio",
+    "CLIENT_MANAGEMENT": "Gestione dei client",
+    "NOTIFICATIONS": "Notifiche",
+    "NOTIFICATIONS_CONFIG": " Configurazione notifiche",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_LIST": "I miei template finalità",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY": "Riepilogo template finalità",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG": "Template finalità",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS": "Dettaglio template",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS": "Dettaglio template",
+    "SUBSCRIBE_PURPOSE_TEMPLATE_EDIT": "Modifica template finalità",
+    "SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE": "Crea finalità da template",
+    "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Modifica finalità da template"
   }
 }

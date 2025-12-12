@@ -33,15 +33,18 @@ import {
 } from '@/config/constants'
 import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
-import { TemplateMutations } from '@/api/template'
-import { SIGNALHUB_PERSONAL_DATA_PROCESS_URL } from '@/config/env'
-import { isSignalHubFeatureFlagEnabled } from '@/utils/feature-flags.utils'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
+import {
+  FEATURE_FLAG_ESERVICE_PERSONAL_DATA,
+  SIGNALHUB_PERSONAL_DATA_PROCESS_URL,
+} from '@/config/env'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
   description: string
   technology: EServiceTechnology
   mode: EServiceMode
+  personalData: boolean | undefined
   isSignalHubEnabled: boolean
   isConsumerDelegable: boolean
   isClientAccessDelegable: boolean
@@ -52,12 +55,10 @@ type SignalHubSectionProps = {
 }
 
 export const EServiceCreateStepGeneral: React.FC = () => {
-  const producerId = AuthHooks.useJwt().jwt?.organizationId as string
-  const isSignalHubFlagEnabled = isSignalHubFeatureFlagEnabled(producerId)
-
   const { isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   const { t } = useTranslation('eservice')
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'validation.mixed' })
   const navigate = useNavigate()
 
   const { eServiceTemplateId } = useParams<'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE'>()
@@ -68,20 +69,20 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     forward,
     eserviceMode,
     onEserviceModeChange,
-    template,
+    eserviceTemplate,
   } = useEServiceCreateContext()
 
   const { mutate: updateDraft } = EServiceMutations.useUpdateDraft()
   const { mutate: createDraft } = EServiceMutations.useCreateDraft()
   const { mutate: createDraftFromTemplate } =
-    TemplateMutations.useCreateInstanceFromEServiceTemplate()
+    EServiceTemplateMutations.useCreateInstanceFromEServiceTemplate()
   const { mutate: updateDraftFromTemplate } =
-    TemplateMutations.useUpdateInstanceFromEServiceTemplate()
+    EServiceTemplateMutations.useUpdateInstanceFromEServiceTemplate()
 
-  const isEserviceFromTemplate = Boolean(descriptor?.templateRef) || !!template
+  const isEserviceFromTemplate = Boolean(descriptor?.templateRef) || !!eserviceTemplate
 
-  // If Template ID is present we are inheriting an e-service fields from a template
-  const defaultValues = evaluateFormDefaultValues(template, descriptor, eserviceMode)
+  // If Template ID is present we are inheriting an e-service fields from a eserviceTemplate
+  const defaultValues = evaluateFormDefaultValues(eserviceTemplate, descriptor, eserviceMode)
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (formValues: EServiceCreateStepGeneralFormValues & InstanceEServiceSeed) => {
@@ -116,8 +117,8 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const onCreateDraft = (
     formValues: EServiceCreateStepGeneralFormValues & InstanceEServiceSeed
   ) => {
-    // If we are creating a new e-service we need to understand if we are creating it from a template or not
-    if (!template) {
+    // If we are creating a new e-service we need to understand if we are creating it from a eserviceTemplate or not
+    if (!eserviceTemplate) {
       createDraft(formValues, {
         onSuccess({ id, descriptorId }) {
           navigate('PROVIDE_ESERVICE_EDIT', {
@@ -199,7 +200,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
             size="small"
             inputProps={{ maxLength: 250 }}
-            rules={!template ? { required: true, minLength: 10 } : undefined}
+            rules={!eserviceTemplate ? { required: true, minLength: 10 } : undefined}
             sx={{ mb: 0, mt: 3 }}
           />
 
@@ -235,12 +236,44 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceModeChange!(mode as EServiceMode)}
           />
+          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
+            <>
+              <RHFRadioGroup
+                name="personalData"
+                row
+                label={t(`create.step1.eservicePersonalDataField.${eserviceMode}.label`)}
+                options={[
+                  {
+                    label: t(`create.step1.eservicePersonalDataField.${eserviceMode}.options.true`),
+                    value: true,
+                  },
+                  {
+                    label: t(
+                      `create.step1.eservicePersonalDataField.${eserviceMode}.options.false`
+                    ),
+                    value: false,
+                  },
+                ]}
+                disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
+                rules={{
+                  validate: (value) => value === true || value === false || tCommon('required'),
+                }}
+                sx={{ mb: 3, mt: 3 }}
+                isOptionValueAsBoolean
+              />
+              {isEserviceFromTemplate && eserviceTemplate?.personalData === undefined && (
+                <Alert severity="error" variant="outlined">
+                  {t('create.step1.eservicePersonalDataField.alertMissingPersonalData', {
+                    tenantName: eserviceTemplate?.creator.name,
+                  })}
+                </Alert>
+              )}
+            </>
+          )}
         </SectionContainer>
 
-        {isSignalHubFlagEnabled && (
-          // Signalhub switch can be editable also if coming from a eservice template
-          <SignalHubSection isSignalHubActivationEditable={areEServiceGeneralInfoEditable} />
-        )}
+        {/* Signalhub switch can be editable also if coming from a eservice eserviceTemplate */}
+        <SignalHubSection isSignalHubActivationEditable={areEServiceGeneralInfoEditable} />
 
         {isOrganizationAllowedToProduce && (
           <SectionContainer
@@ -376,27 +409,29 @@ const SignalHubSection: React.FC<SignalHubSectionProps> = ({ isSignalHubActivati
 }
 
 function evaluateFormDefaultValues(
-  template: EServiceTemplateDetails | undefined,
+  eserviceTemplate: EServiceTemplateDetails | undefined,
   descriptor: ProducerEServiceDescriptor | undefined,
   eserviceMode: EServiceMode
 ): EServiceCreateStepGeneralFormValues {
-  if (!template)
+  if (!eserviceTemplate)
     return {
       name: descriptor?.eservice.name ?? '',
       description: descriptor?.eservice.description ?? '',
       technology: descriptor?.eservice.technology ?? 'REST',
       mode: eserviceMode,
+      personalData: descriptor?.eservice.personalData,
       isSignalHubEnabled: descriptor?.eservice.isSignalHubEnabled ?? false,
       isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? false,
       isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? false,
     }
 
   return {
-    name: template?.name,
-    description: template?.description,
-    technology: template?.technology,
-    mode: template?.mode,
-    isSignalHubEnabled: template?.isSignalHubEnabled ?? false,
+    name: eserviceTemplate?.name,
+    description: eserviceTemplate?.description,
+    technology: eserviceTemplate?.technology,
+    mode: eserviceTemplate?.mode,
+    personalData: eserviceTemplate?.personalData,
+    isSignalHubEnabled: eserviceTemplate?.isSignalHubEnabled ?? false,
     isConsumerDelegable: false,
     isClientAccessDelegable: false,
   }

@@ -2,6 +2,7 @@ import React from 'react'
 import { AgreementQueries } from '@/api/agreement'
 import { PageContainer } from '@/components/layout/containers'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { Link, useParams } from '@/router'
 import { canAgreementBeUpgraded } from '@/utils/agreement.utils'
 import { Alert, Grid, Stack, Typography } from '@mui/material'
@@ -40,9 +41,11 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_READ'>()
   const { data: agreement } = useSuspenseQuery(AgreementQueries.getSingle(agreementId))
 
+  useMarkNotificationsAsRead(agreementId)
+
   const isDelegated = Boolean(agreement?.delegation)
 
-  const { actions } = useGetAgreementsActions(agreement)
+  const { actions } = useGetAgreementsActions(agreement, 'CONSUMER')
 
   const alertProps = useGetConsumerAgreementAlertProps(agreement)
 
@@ -82,14 +85,7 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
       title={t('consumerRead.title')}
       topSideActions={actions}
       backToAction={{ label: t('backToRequestsBtn'), to: 'SUBSCRIBE_AGREEMENT_LIST' }}
-      statusChip={
-        agreement
-          ? {
-              for: 'agreement',
-              agreement,
-            }
-          : undefined
-      }
+      statusChip={agreement ? { for: 'agreement', agreement } : undefined}
     >
       {alertProps && (
         <Alert sx={{ mb: 3 }} severity={alertProps.severity}>

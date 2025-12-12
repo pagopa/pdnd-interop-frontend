@@ -1,0 +1,41 @@
+{
+  "menuItem": {
+    "eserviceCatalog": "E-service catalog",
+    "subscribe": {
+      "subscribe": "Consuming",
+      "agreement": "Submitted requests",
+      "purpose": "Submitted purposes",
+      "purposeTemplateCatalog": "Purpose Templates Catalog",
+      "purposeTemplate": "My purpose templates"
+    },
+    "provider": {
+      "provider": "Producing",
+      "providerEservice": "My e-services",
+      "providerAgreeemnt": "Received requests",
+      "providerPurpose": "Received purposes",
+      "eServiceTemplatesCatalog": "E-service Templates Catalog",
+      "providerEserviceTemplate": "My e-service templates",
+      "providerKeychainsList": "Producer keychains"
+    },
+    "client": {
+      "client": "Client management",
+      "eservice": "E-service API",
+      "interop": "Interop API",
+      "debugClientAssertion": "Debug client assertion"
+    },
+    "tenant": {
+      "tenant": "My party",
+      "partyRegistry": "Registry and attributes",
+      "tenantCertifier": "Certifying authority",
+      "delegations": "Delegations management"
+    },
+    "developerTools": "Developer tools",
+    "notifications": "Notifications"
+  },
+  "menu": "Menu",
+  "userExternalLinkLabel": "Users",
+  "groupsExternalLinkLabel": "Groups",
+  "collapse": "Close menu",
+  "expand": "Open menu",
+  "navigationMenu": "Navigation menu"
+}

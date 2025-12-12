@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from '@/router'
-import { Alert, Button, Stack } from '@mui/material'
+import { Alert, Button, Stack, Tooltip, Typography } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
@@ -16,8 +16,8 @@ import {
   ConsumerPurposeSummaryRiskAnalysisAccordion,
 } from './components'
 import { useGetConsumerPurposeAlertProps } from './hooks/useGetConsumerPurposeAlertProps'
-import { useCheckRiskAnalysisVersionMismatch } from '@/hooks/useCheckRiskAnalysisVersionMismatch'
 import { useQuery } from '@tanstack/react-query'
+import { AuthHooks } from '@/api/auth'
 
 const ConsumerPurposeSummaryPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -25,20 +25,59 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_SUMMARY'>()
 
+  const { jwt } = AuthHooks.useJwt()
+
   const navigate = useNavigate()
 
   const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
 
-  const hasRiskAnalysisVersionMismatch = useCheckRiskAnalysisVersionMismatch(purpose)
+  const expirationDate = purpose?.rulesetExpiration
+  const expirationDateToShow = expirationDate
+    ? new Date(expirationDate).toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+      })
+    : undefined
+
+  const now = new Date()
+
+  const daysToExpiration = expirationDate
+    ? Math.floor((new Date(expirationDate).getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+    : undefined
+
+  const isRulesetExpired = expirationDate ? new Date(expirationDate) < now : false
+
   const alertProps = useGetConsumerPurposeAlertProps(purpose)
 
+  const eservicePersonalData = purpose?.eservice.personalData
+
+  const checkIncompatibleAnswerValue = () => {
+    const userAnswer = purpose?.riskAnalysisForm?.answers['usesPersonalData']?.[0]
+    const isYes = userAnswer === 'YES'
+    const isNo = userAnswer === 'NO'
+
+    const incompatible =
+      (isYes && eservicePersonalData !== true) || (isNo && eservicePersonalData !== false)
+
+    return incompatible
+  }
+
+  const isPublishButtonDisabled =
+    (purpose?.riskAnalysisForm &&
+      eservicePersonalData !== undefined &&
+      checkIncompatibleAnswerValue()) ||
+    isRulesetExpired
+
   const arePublishOrEditButtonsDisabled =
-    (purpose?.eservice.mode === 'DELIVER' && hasRiskAnalysisVersionMismatch) ||
-    purpose?.agreement.state === 'ARCHIVED' ||
-    purpose?.eservice.descriptor.state === 'ARCHIVED'
+    purpose?.agreement.state === 'ARCHIVED' || purpose?.eservice.descriptor.state === 'ARCHIVED'
 
   const { mutate: deleteDraft } = PurposeMutations.useDeleteDraft()
   const { mutate: publishDraft } = PurposeMutations.useActivateVersion()
+
+  const isThereConsumerDelegation = Boolean(purpose?.delegation)
+  const isDelegationMine =
+    isThereConsumerDelegation && purpose?.delegation?.delegate.id === jwt?.organizationId //consumer side delegation
 
   const handleDeleteDraft = () => {
     deleteDraft(
@@ -52,17 +91,30 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   }
 
   const handleEditDraft = () => {
-    navigate('SUBSCRIBE_PURPOSE_EDIT', {
-      params: {
-        purposeId,
-      },
-    })
+    if (purpose?.purposeTemplate?.id) {
+      navigate('SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT', {
+        params: {
+          purposeId,
+          purposeTemplateId: purpose.purposeTemplate.id,
+        },
+      })
+    } else {
+      navigate('SUBSCRIBE_PURPOSE_EDIT', {
+        params: {
+          purposeId,
+        },
+      })
+    }
   }
 
   const handlePublishDraft = () => {
     if (!purpose?.currentVersion) return
     publishDraft(
-      { purposeId, versionId: purpose.currentVersion.id },
+      {
+        purposeId,
+        versionId: purpose.currentVersion.id,
+        ...(isDelegationMine && { delegationId: purpose.delegation?.id }),
+      },
       {
         onSuccess() {
           navigate('SUBSCRIBE_PURPOSE_DETAILS', {
@@ -86,10 +138,13 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       statusChip={purpose ? { for: 'purpose', purpose } : undefined}
     >
       {alertProps && <Alert sx={{ mb: 3 }} {...alertProps} />}
-
       <Stack spacing={3}>
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="1" title={t('summary.generalInformationSection.title')}>
+          <SummaryAccordion
+            headline="1"
+            title={t('summary.generalInformationSection.title')}
+            defaultExpanded={true}
+          >
             <ConsumerPurposeSummaryGeneralInformationAccordion purposeId={purposeId} />
           </SummaryAccordion>
         </React.Suspense>
@@ -99,7 +154,31 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           </SummaryAccordion>
         </React.Suspense>
       </Stack>
-
+      {expirationDate && !isRulesetExpired && (
+        <Alert sx={{ mt: 3 }} severity="info">
+          {t('summary.alerts.infoRulesetExpiration', {
+            days: daysToExpiration,
+            date: expirationDateToShow,
+          })}
+        </Alert>
+      )}
+      {isRulesetExpired && (
+        <Alert severity="error" sx={{ alignItems: 'center', mt: 3 }} variant="outlined">
+          <Stack spacing={13} direction="row" alignItems="center">
+            {' '}
+            {/**TODO FIX SPACING */}
+            <Typography>{t('summary.alerts.rulesetExpired.label')}</Typography>
+            <Button
+              variant="naked"
+              size="medium"
+              sx={{ fontWeight: 700, mr: 1 }}
+              onClick={() => navigate('SUBSCRIBE_PURPOSE_CREATE')}
+            >
+              {t('summary.alerts.rulesetExpired.action')}
+            </Button>
+          </Stack>
+        </Alert>
+      )}
       <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
         <Button
           startIcon={<DeleteOutlineIcon />}
@@ -117,14 +196,19 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
         >
           {tCommon('editDraft')}
         </Button>
-        <Button
-          disabled={arePublishOrEditButtonsDisabled}
-          startIcon={<PublishIcon />}
-          variant="contained"
-          onClick={handlePublishDraft}
-        >
-          {tCommon('publish')}
-        </Button>
+
+        <Tooltip title={isPublishButtonDisabled ? t('summary.publishBtnDisabled') : ''} arrow>
+          <span>
+            <Button
+              disabled={arePublishOrEditButtonsDisabled || isPublishButtonDisabled}
+              startIcon={<PublishIcon />}
+              variant="contained"
+              onClick={handlePublishDraft}
+            >
+              {tCommon('publishDraft')}
+            </Button>
+          </span>
+        </Tooltip>
       </Stack>
     </PageContainer>
   )

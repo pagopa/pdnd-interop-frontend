@@ -5,14 +5,16 @@ import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
 import { AuthHooks } from '@/api/auth'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
+import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 export function useGetConsumerEServiceTemplateActions(
   eServiceTemplateId: string,
   isAlreadyInstantiated: boolean,
   hasRequesterRiskAnalysis: boolean,
-  activeVersionState?: EServiceTemplateVersionState | undefined
+  activeVersionState?: EServiceTemplateVersionState | undefined,
+  hasPersonalDataValue?: boolean
 ): { actions: Array<ActionItemButton> } {
-  const { t } = useTranslation('template', { keyPrefix: 'actions' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'actions' })
 
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
   const navigate = useNavigate()
@@ -38,6 +40,9 @@ export function useGetConsumerEServiceTemplateActions(
   }
 
   const tooltipToShow = (() => {
+    if (!hasPersonalDataValue && FEATURE_FLAG_ESERVICE_PERSONAL_DATA) {
+      return t('createInstanceDisabledPersonalData')
+    }
     if (isAlreadyInstantiated) {
       return tooltipLabel as unknown as string
     }
@@ -51,7 +56,10 @@ export function useGetConsumerEServiceTemplateActions(
     action: handleCreateEServiceFromTemplate,
     label: t('createNewEServiceInstance'),
     icon: FiberNewIcon,
-    disabled: isAlreadyInstantiated || !hasRequesterRiskAnalysis,
+    disabled:
+      isAlreadyInstantiated ||
+      !hasRequesterRiskAnalysis ||
+      (!hasPersonalDataValue && FEATURE_FLAG_ESERVICE_PERSONAL_DATA),
     tooltip: tooltipToShow,
   }
 
