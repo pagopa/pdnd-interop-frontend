@@ -17,7 +17,9 @@ export const testConfigs = {
   CLIENT_ASSERTION_JWT_AUDIENCE: '',
   M2M_JWT_AUDIENCE: 'dev.interop.pagopa.it/m2m',
   WELL_KNOWN_URLS: 'https://dev.interop.pagopa.it/.well-known/jwks.json',
-  PRODUCER_ALLOWED_ORIGINS: 'IPA',
+  PRODUCER_ALLOWED_ORIGINS:
+    'IPA,ANAC,IVASS,INFOCAMERE,SELC,SELC-PT,PDND_INFOCAMERE-SCP,PDND_INFOCAMERE-PRV,PDND_INFOCAMERE-PT,INFOCAMERE-PT',
+  DELEGATIONS_ALLOWED_ORIGINS: 'IPA',
   API_SIGNAL_HUB_PUSH_INTERFACE_URL:
     'https://raw.githubusercontent.com/pagopa/interop-signalhub-core/refs/heads/develop/docs/openAPI/push-signals.yaml',
   API_SIGNAL_HUB_PULL_INTERFACE_URL:

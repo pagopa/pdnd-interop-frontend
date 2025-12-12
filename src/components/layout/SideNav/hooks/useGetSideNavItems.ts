@@ -50,7 +50,12 @@ const views = [
 ] as const
 
 export function useGetSideNavItems() {
-  const { currentRoles, isSupport, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
+  const {
+    currentRoles,
+    isSupport,
+    isOrganizationAllowedToProduce,
+    isOrganizationAllowedToDelegations,
+  } = AuthHooks.useJwt()
 
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
 
@@ -68,7 +73,7 @@ export function useGetSideNavItems() {
 
       if (!isCertifier && routeKey === 'TENANT_CERTIFIER') return false
 
-      if (!isOrganizationAllowedToProduce && routeKey === 'DELEGATIONS') return false
+      if (!isOrganizationAllowedToDelegations && routeKey === 'DELEGATIONS') return false
 
       if (!FEATURE_FLAG_NOTIFICATION_CONFIG && routeKey === 'NOTIFICATIONS') return false
 
@@ -93,5 +98,11 @@ export function useGetSideNavItems() {
 
       return [...acc, view]
     }, [])
-  }, [currentRoles, isOrganizationAllowedToProduce, isSupport, isCertifier])
+  }, [
+    currentRoles,
+    isOrganizationAllowedToProduce,
+    isOrganizationAllowedToDelegations,
+    isSupport,
+    isCertifier,
+  ])
 }

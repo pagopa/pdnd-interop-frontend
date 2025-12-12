@@ -21,6 +21,7 @@ export type PagoPAEnvVars = {
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: string
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: string
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA: string
+  DELEGATIONS_ALLOWED_ORIGINS: string
 }
 
 export type ExtendedWindow = Window & {
