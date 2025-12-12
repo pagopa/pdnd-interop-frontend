@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Box, Tooltip, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RHFRadioGroup, RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
@@ -209,34 +209,13 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
           )}
 
           <SectionContainer innerSection sx={{ mt: 3 }}>
-            <RHFCheckbox
-              disabled={!areEServiceTemplateGeneralInfoEditable}
-              name="isSignalHubEnabled"
-              label={
-                <>
-                  {' '}
-                  <span>
-                    {' '}
-                    {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.label')}{' '}
-                  </span>
-                  <Typography variant="body2" color="textSecondary" sx={{ marginTop: 0.5 }}>
-                    {t(
-                      'create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.before'
-                    )}{' '}
-                    <IconLink
-                      href={SIGNALHUB_GUIDE_URL}
-                      target="_blank"
-                      endIcon={<LaunchIcon fontSize="small" />}
-                    >
-                      {t(
-                        'create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.linkLabel'
-                      )}
-                    </IconLink>{' '}
-                    {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.after')}
-                  </Typography>
-                </>
-              }
-            />
+            <SectionContainer innerSection sx={{ mt: 3 }}>
+              <RHFSwitch
+                disabled={!areEServiceTemplateGeneralInfoEditable}
+                name="isSignalHubEnabled"
+                label={signalHubLabel}
+              />
+            </SectionContainer>
           </SectionContainer>
         </SectionContainer>
 
