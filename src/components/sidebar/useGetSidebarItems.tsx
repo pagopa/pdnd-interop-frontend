@@ -97,7 +97,7 @@ export function useGetSidebarItems(): SidebarRoutes {
       {
         icon: DeveloperToolIcon,
         rootRouteKey: 'DEVELOPER_TOOLS',
-        label: 'Tool per lo sviluppo',
+        label: t('developerTools'),
         children: [],
       },
     ]

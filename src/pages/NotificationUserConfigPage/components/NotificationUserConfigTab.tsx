@@ -130,7 +130,7 @@ const EmailConfigHeader = ({
   return (
     <>
       <Stack direction="row" spacing={8} sx={{ mb: 2 }}>
-        <Typography data-testid="test-email">Indirizzo email</Typography>
+        <Typography data-testid="test-email">{t('mailLabel')}</Typography>
         <Typography fontWeight={600}>{userEmail}</Typography>
       </Stack>
       {/* Need to understand whats the link should point to */}
