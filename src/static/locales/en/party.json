@@ -1,65 +1,65 @@
 {
   "generalInfo": {
-    "title": "General Information",
+    "title": "General information",
     "digitalAddressField": {
-      "label": "Digital Address"
+      "label": "Digital domicile"
     },
     "onBoardingDateField": {
-      "label": "Date of joining"
+      "label": "Subscription date"
     },
     "ipaCodeField": {
       "label": "IPA code",
-      "copySuccessFeedbackText": "IPA id copied correctly"
+      "copySuccessFeedbackText": "IPA code copied successfully"
     },
     "vatCodeField": {
-      "label": "VAT code"
+      "label": "VAT number"
     },
     "subUnitTypeField": {
-      "label": "Organization type"
+      "label": "Party type"
     },
     "tenantIdField": {
-      "label": "Tenant ID",
-      "copySuccessFeedbackText": "Id copied successfully"
+      "label": "Party ID",
+      "copySuccessFeedbackText": "ID copied successfully"
     }
   },
   "contacts": {
-    "title": "contacts",
+    "title": "Contacts",
     "mailField": {
-      "label": "Mail address"
+      "label": "Email address"
     },
     "descriptionField": {
       "label": "Notes"
     },
     "drawer": {
       "title": {
-        "edit": "Change contact email",
+        "edit": "Edit contact email",
         "insert": "Insert contact email"
       },
-      "subtitle": "The address entered has no legal value. It will be shown on PDND Interoperabilità as a reference point to facilitate the direct exchange of information between members (e.g. requests for support and clarification, etc.).",
+      "subtitle": "The entered address has no legal value. It will be shown on PDND as a reference point to facilitate direct information exchange between parties (e.g., support and clarification requests, etc.).",
       "mailField": {
-        "label": "Party mail address (required)"
+        "label": "Party email address (required)"
       },
       "notificationActivationField": {
         "label": "Receive courtesy emails for the organization through this mailbox"
       },
       "descriptionField": {
         "label": "Notes",
-        "infoLabel": "Min 10 chars, max 250 chars"
+        "infoLabel": "Min 10 characters, max 250 characters"
       },
-      "mailChangeAlert": "The information on the interface will be updated but not all members will be notified of the changes made."
+      "mailChangeAlert": "The information on the interface will be updated but no notification will be sent to all parties about the changes made."
     }
   },
   "attributes": {
     "title": "Attributes",
-    "description": "Below are all the certified, verified or declared attributes that your organization possesses.",
+    "description": "Below are all the certified, verified, or declared attributes your party possesses.",
     "certified": {
-      "noAttributesLabel": "There are no certified attributes"
+      "noAttributesLabel": "No certified attributes owned"
     },
     "verified": {
-      "noAttributesLabel": "There are no verified attributes"
+      "noAttributesLabel": "No verified attributes owned"
     },
     "declared": {
-      "noAttributesLabel": "You have not submitted any declared attributes",
+      "noAttributesLabel": "No declared attributes submitted",
       "declareActionLabel": "Declare attribute",
       "revokeActionLabel": "Revoke attribute"
     }
@@ -77,17 +77,17 @@
         }
       },
       "drawer": {
-        "title": "Create new certificate attribute",
-        "subtitle": "Once created, you can assign and revoke this attribute to other entities",
+        "title": "Create new certified attribute",
+        "subtitle": "Once created, you can assign and revoke this attribute to other parties",
         "submitBtnLabel": "Create attribute",
         "form": {
           "nameField": {
             "label": "Attribute name",
-            "infoLabel": "Min 5 chars, max 160 chars"
+            "infoLabel": "Min 5 characters, max 160 characters"
           },
           "descriptionField": {
             "label": "Attribute description",
-            "infoLabel": "Min 10 chars, max 250 chars"
+            "infoLabel": "Min 10 characters, max 250 characters"
           }
         }
       }
@@ -96,14 +96,14 @@
       "assignAttributeBtn": "Assign attribute",
       "drawer": {
         "title": "Assign attribute",
-        "subtitle": "The assigned body will be able to use the selected certified attribute for all e-services present on PDND Interoperability",
+        "subtitle": "The assignee party will be able to use the selected certified attribute for all e-services on PDND",
         "submitBtnLabel": "Assign attribute",
         "form": {
           "attributeField": {
             "label": "Attribute name"
           },
           "tenantField": {
-            "label": "Assignee tenant"
+            "label": "Assignee party"
           }
         }
       }
@@ -112,99 +112,99 @@
       "descriptionField": {
         "label": "Description"
       },
-      "backToTenantCertifierBtn": "Return to tenant certifier"
+      "backToTenantCertifierBtn": "Back to certifying authority"
     }
   },
   "delegations": {
     "tabs": {
-      "ariaLabel": "Three different tabs for managing granted delegations, received delegations and the availability to be delegated",
-      "delegationsGranted": "Delegations granted",
-      "delegationsReceived": "Delegations received",
+      "ariaLabel": "Three different tabs for managing granted delegations, received delegations, and for the availability to be delegated",
+      "delegationsGranted": "Granted delegations",
+      "delegationsReceived": "Received delegations",
       "availability": "Availability"
     },
     "list": {
-      "noDelegationsLabel": "There are no delegations to show",
+      "noDelegationsLabel": "No delegations to display",
       "delegationKind": {
-        "producer": "Producer",
-        "consumer": "Consumer"
+        "producer": "Producing",
+        "consumer": "Consuming"
       }
     },
     "create": {
       "title": "Create delegation",
-      "kindSectionTitle": "Delegation's kinds",
-      "consumerDelegationTitle": "Consumer delegation",
-      "providerDelegationTitle": "Provider delegation",
+      "kindSectionTitle": "Delegation types",
+      "consumerDelegationTitle": "Delegation for consuming",
+      "providerDelegationTitle": "Delegation for producing",
       "cancelBtn": "Cancel",
       "backWithoutSaveBtn": "Go back",
-      "forwardWithSaveBtn": "Next",
+      "forwardWithSaveBtn": "Continue",
       "submitBtn": "Submit delegation",
       "cards": {
         "common": "I want to create a ",
-        "consumer": "consumer's delegation",
-        "provider": "provider's delegation"
+        "consumer": "delegation for consuming",
+        "provider": "delegation for producing"
       },
       "eserviceField": {
         "label": "E-service name (required)",
         "labelFromTemplate": "E-service template name (required)",
-        "infoLabel": "Min 5 chars, max 60 chars",
+        "infoLabel": "Min 5 characters, max 60 characters",
         "infoLabelAutocomplete": {
-          "consumer": "The list includes only those e-services for which the respective providers have given availability to consume by delegation.",
-          "producer": "The list includes the e-services for which it has been indicated whether personal data is processed."
+          "consumer": "The list includes only e-services for which the respective producers have made available the option for delegation for consuming.",
+          "producer": "The list includes only e-services for which the respective producers have made available the option for delegation for producing."
         },
         "infoLabelAutocompleteFromTemplate": {
-          "consumer": "The list includes only those e-service templates for which the respective providers have given availability to consume by delegation.",
-          "producer": "The list includes the e-service templates you can instantiate that have indicated whether personal data is processed."
+          "consumer": "The list includes only e-service templates for which the respective producers have made available the option for delegation for consuming.",
+          "producer": "The list includes only e-service templates for which the respective producers have made available the option for delegation for producing."
         },
         "descriptionLabel": "E-service description",
-        "descriptionInfoLabel": "Include input and output data in the description. Min 10 chars, max 250 chars",
-        "eserviceNameLabel": "Provide by"
+        "descriptionInfoLabel": "Include input and output data in the text. Min 10 characters, max 250 characters",
+        "eserviceNameLabel": "Produced by"
       },
       "delegateField": {
         "consumer": {
-          "label": "Delegated tenant (required)",
-          "infoLabel": "The list includes only members who have given their willingness to become consumer delegates."
+          "label": "Party to delegate for consuming (required)",
+          "infoLabel": "The list includes only parties that have made themselves available to become delegates for consuming"
         },
         "provider": {
-          "label": "Delegated tenant (required)",
-          "infoLabel": "The list includes only members who have given their willingness to become provider delegates.",
-          "switch": "I still need to create the e-service for which I want to activate a delegation.",
-          "switchEserviceFromTemplate": "I want to create an e-service from a template available in the catalog.",
-          "alertEserviceFromTemplate": "Once the template is selected and the delegation is sent, a draft instance will be generated and will remain under your management."
+          "label": "Party to delegate for producing (required)",
+          "infoLabel": "The list includes only parties that have made themselves available to become delegates for producing",
+          "switch": "I still need to create the e-service for which I want to activate a delegation",
+          "switchEserviceFromTemplate": "I want to create an e-service from an available catalog template",
+          "alertEserviceFromTemplate": "Once the template is selected and the delegation sent, a draft instance will be generated and remain under your management."
         }
       },
       "dialog": {
-        "title": "Appointment of data controller",
-        "description": "Please note that is the obligation of the delegator to proceed at the appointment of the delegate as the person responsible for the processing of personal data by formalizing the act provided for in art. 28 of GDPR, before to star any processing activity through the infrastructure.",
+        "title": "Appointment of Data Processor",
+        "description": "Please note that it is the delegating party’s obligation to appoint the delegate as the Data Processor of personal data, formalizing the act required by Art. 28 of the GDPR, before starting any processing activity through the infrastructure.",
         "proceedLabel": "Submit delegation",
-        "cancelLabel": "Cancella",
+        "cancelLabel": "Cancel",
         "checkboxLabel": "I understand"
       },
-      "hasAgreementsAlert": "There is already an active or suspended agreement for the selected e-service, therefore it is not possible to delegate it. To delegate this e-service, ask that the currently active or suspended agreement be removed and try again.",
-      "isDelegatedAlert": "A delegation request already exists for the selected e-service, therefore it is not possible to delegate it. To delegate this e-service, ask that the currently active request be removed and try again.",
+      "hasAgreementsAlert": "There is already an active or suspended service request for the selected e-service, therefore it cannot be delegated. To delegate this e-service, ask for the currently active or suspended request to be removed and try again.",
+      "isDelegatedAlert": "There is already a delegation request for the selected e-service, therefore it cannot be delegated. To delegate this e-service, ask for the currently active request to be removed and try again.",
       "instanceField": {
-        "label": "Instance id",
+        "label": "Instance ID",
         "infoLabel": "The identification code is added to the e-service name and is used to differentiate two or more instances generated from a template."
       }
     },
     "actions": {
-      "backToTenant": "Return to tenant",
-      "backToDelegations": "Return to delegations"
+      "backToTenant": "Back to your party",
+      "backToDelegations": "Back to delegations"
     },
     "details": {
       "title": "Manage delegation",
       "backToDelegationList": "Back to delegations",
       "generalInfoSection": {
-        "title": "General Information",
+        "title": "General information",
         "eserviceNameField": {
-          "label": "E-Service name"
+          "label": "E-service name"
         },
         "eserviceProducerField": {
           "label": "Producer"
         },
         "delegationKindField": {
-          "label": "Kind",
-          "kindProducer": "Producer delegation",
-          "kindConsumer": "Consumer delegation"
+          "label": "Type",
+          "kindProducer": "Delegation for producing",
+          "kindConsumer": "Delegation for consuming"
         },
         "delegatorField": {
           "label": "Delegator"
@@ -213,33 +213,33 @@
           "label": "Delegate"
         },
         "submissionDateField": {
-          "label": "Submission date"
+          "label": "Request date"
         },
         "delegationStateField": {
-          "label": "Delegation state"
+          "label": "Delegation status"
         },
         "downloadContractAction": {
           "label": "Download delegation document"
         },
         "downloadRevokedContractAction": {
-          "label": "Download revoked delegation document"
+          "label": "Download delegation revocation document"
         }
       },
-      "rejectedDelegationAlert": "This delegation has been rejected. <1>Read here the reject reason</1>."
+      "rejectedDelegationAlert": "This delegation has been rejected. <1>Read here the reasons for the rejection</1>."
     },
     "availabilityTab": {
       "title": "Availability to accept new delegations",
       "consumeDelegation": {
-        "label": "Consume delegation",
-        "infoLabel": "Availability of tenant to consume e-service on behalf of others tenants",
+        "label": "Delegation for consuming",
+        "infoLabel": "The party’s availability to consume e-services on behalf of other parties",
         "value": {
           "true": "Yes, I am available",
           "false": "No, I am not available"
         }
       },
       "produceDelegation": {
-        "label": "Provide delegation",
-        "infoLabel": "Availability of tenant to provide e-service on behalf of others tenants",
+        "label": "Delegation for producing",
+        "infoLabel": "The party’s availability to produce e-services on behalf of other parties",
         "value": {
           "true": "Yes, I am available",
           "false": "No, I am not available"

@@ -1,9 +1,9 @@
 {
   "backToKeyListBtn": "Back to key list",
   "edit": {
-    "orphanAlertLabel": "The user who uploaded this key is no longer part of this client. It is recommended to replace the key with a new one. To find out more, <1>read the guide.</1>",
+    "orphanAlertLabel": "The user who uploaded this key is no longer part of this client. It is recommended to replace the key with a new one. To learn more, <1>read the guide.</1>",
     "generalInformations": {
-      "title": "General informations",
+      "title": "General information",
       "creationDateField": {
         "label": "Creation date"
       },
@@ -11,21 +11,21 @@
         "label": "Uploaded by"
       },
       "kidField": {
-        "label": "Key id (kid)",
-        "copySuccessFeedbackText": "Id copied successfully"
+        "label": "Key ID (kid)",
+        "copySuccessFeedbackText": "ID copied successfully"
       },
       "clientIdField": {
-        "label": "Client id (clientId)",
-        "copySuccessFeedbackText": "Id copied successfully"
+        "label": "Client ID (clientId)",
+        "copySuccessFeedbackText": "ID copied successfully"
       },
       "goToTechnicalDocButton": "Go to technical documentation"
     }
   },
   "list": {
     "title": "Public keys",
-    "description": "Public keys belonging to this client will appear in the list.",
-    "userEnableInfo": "Add yourself as a member of this client before you can upload a key",
+    "description": "The public keys belonging to this client will appear in the list.",
+    "userEnableInfo": "To upload a key, you must first add yourself as a user in the «Client members» tab",
     "publicKeyLimitInfo": "You have reached the maximum number of keys for this client",
-    "supportDisableInfo": "The support user is not authorized to add keys"
+    "supportDisableInfo": "The assistance account is not authorized to add keys"
   }
 }

@@ -238,7 +238,7 @@ export function useGetProviderEServiceActions(
 
   const upgradeEServiceAction: ActionItemButton = {
     action: handleUpgradeEService,
-    label: t('updateIstance'),
+    label: t('updateInstance'),
     icon: FiberNewIcon,
   }
 

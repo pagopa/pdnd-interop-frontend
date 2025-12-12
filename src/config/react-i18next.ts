@@ -23,6 +23,7 @@ import eserviceTemplateEnNs from '@/static/locales/en/eserviceTemplate.json'
 import developerToolsEnNs from '@/static/locales/en/developer-tools.json'
 import notificationEnNs from '@/static/locales/en/notification.json'
 import purposeTemplateEnNs from '@/static/locales/en/purposeTemplate.json'
+import sidebarEnNs from '@/static/locales/en/sidebar.json'
 
 import pagesItNs from '@/static/locales/it/pages.json'
 import commonItNs from '@/static/locales/it/common.json'
@@ -43,7 +44,7 @@ import assistanceItNs from '@/static/locales/it/assistance.json'
 import keychainItNs from '@/static/locales/it/keychain.json'
 import eserviceTemplateItNs from '@/static/locales/it/eserviceTemplate.json'
 import developerToolsItNs from '@/static/locales/it/developer-tools.json'
-import sidebarNs from '@/static/locales/it/sidebar.json'
+import sidebarItNs from '@/static/locales/it/sidebar.json'
 import notificationItNs from '@/static/locales/it/notification.json'
 import purposeTemplateItNs from '@/static/locales/it/purposeTemplate.json'
 
@@ -75,7 +76,7 @@ i18n.use(initReactI18next).init({
       keychain: keychainItNs,
       eserviceTemplate: eserviceTemplateItNs,
       'developer-tools': developerToolsItNs,
-      sidebar: sidebarNs,
+      sidebar: sidebarItNs,
       notification: notificationItNs,
       purposeTemplate: purposeTemplateItNs,
     },
@@ -99,7 +100,7 @@ i18n.use(initReactI18next).init({
       keychain: keychainEnNs,
       eserviceTemplate: eserviceTemplateEnNs,
       'developer-tools': developerToolsEnNs,
-      sidebar: sidebarNs,
+      sidebar: sidebarEnNs,
       notification: notificationEnNs,
       purposeTemplate: purposeTemplateEnNs,
     },

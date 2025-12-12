@@ -2,20 +2,20 @@
   "menuItem": {
     "eserviceCatalog": "E-service catalog",
     "subscribe": {
-      "subscribe": "Subscription",
-      "agreement": "Submitted agreement requests",
+      "subscribe": "Consuming",
+      "agreement": "Submitted requests",
       "purpose": "Submitted purposes",
-      "purposeTemplateCatalog": "Purpose templates",
+      "purposeTemplateCatalog": "Purpose Templates Catalog",
       "purposeTemplate": "My purpose templates"
     },
     "provider": {
-      "provider": "Provider",
+      "provider": "Producing",
       "providerEservice": "My e-services",
-      "providerAgreeemnt": "Received agreement requests",
+      "providerAgreeemnt": "Received requests",
       "providerPurpose": "Received purposes",
-      "eServiceTemplatesCatalog": "E-service templates",
+      "eServiceTemplatesCatalog": "E-service Templates Catalog",
       "providerEserviceTemplate": "My e-service templates",
-      "providerKeychainsList": "My provider keychains"
+      "providerKeychainsList": "Producer keychains"
     },
     "client": {
       "client": "Client management",
@@ -24,18 +24,18 @@
       "debugClientAssertion": "Debug client assertion"
     },
     "tenant": {
-      "tenant": "My organization",
+      "tenant": "My party",
       "partyRegistry": "Registry and attributes",
-      "tenantCertifier": "Certifying organization",
-      "delegations": "Delegation management"
+      "tenantCertifier": "Certifying authority",
+      "delegations": "Delegations management"
     },
     "developerTools": "Developer tools",
     "notifications": "Notifications"
   },
-  "menu": "Menù",
-  "userExternalLinkLabel": "Utenti",
-  "groupsExternalLinkLabel": "Gruppi",
-  "collapse": "Chiudi Menù",
-  "expand": "Apri Menù",
-  "navigationMenu": "Menù di navigazione"
+  "menu": "Menu",
+  "userExternalLinkLabel": "Users",
+  "groupsExternalLinkLabel": "Groups",
+  "collapse": "Close menu",
+  "expand": "Open menu",
+  "navigationMenu": "Navigation menu"
 }
