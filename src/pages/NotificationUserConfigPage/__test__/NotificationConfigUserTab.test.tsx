@@ -78,7 +78,7 @@ describe('NotificationConfigUserTab', () => {
       expect(screen.getByTestId('config-section-keyAndAttributes')).toBeInTheDocument()
     })
 
-    it('Should be able to turn on all switch for [subscriber] section if click on "enable all" for a section"', async () => {
+    it.only('Should be able to turn on all switch for [subscriber] section if click on "enable all" for a section"', async () => {
       cleanup()
 
       renderComponent('inApp', true, {

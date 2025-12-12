@@ -19,14 +19,7 @@ const NotificationUserConfigPage: React.FC = () => {
   const { t } = useTranslation('notification', { keyPrefix: 'notifications.configurationPage' })
 
   return (
-    <PageContainer
-      title={t('title')}
-      description={t('description')}
-      // backToAction={{
-      //   label: 'TODO',
-      //   to: '',
-      // }}
-    >
+    <PageContainer title={t('title')} description={t('description')}>
       <NotificationUserConfigTabs activeTab={activeTab} updateActiveTab={updateActiveTab} />
     </PageContainer>
   )
@@ -45,15 +38,22 @@ const NotificationUserConfigTabs: React.FC<{
 
   const handleUpdateNotificationConfigEmail = (
     notificationConfig: NotificationConfig,
-    preferenceChoice: UserNotificationConfig['emailNotificationPreference']
+    emailNotificationPreference: boolean,
+    emailDigestPreference: boolean
   ) => {
     if (!data) return
-    const emailConfigSeed = omit(notificationConfig, 'preferenceChoice')
+    const emailConfigSeed = omit(notificationConfig, [
+      'emailDigestPreference',
+      'emailNotificationPreference',
+      'inAppNotificationPreference',
+    ]) as NotificationConfig
+
     const notificationConfigSeed: UserNotificationConfigUpdateSeed = {
       inAppNotificationPreference: data?.inAppNotificationPreference,
       inAppConfig: data?.inAppConfig,
       emailConfig: emailConfigSeed,
-      emailNotificationPreference: preferenceChoice,
+      emailNotificationPreference,
+      emailDigestPreference,
     }
 
     updateUserNotificationConfigs(notificationConfigSeed)
@@ -61,15 +61,20 @@ const NotificationUserConfigTabs: React.FC<{
 
   const handleUpdateNotificationConfigInApp = (
     notificationConfig: NotificationConfig,
-    preferenceChoice: UserNotificationConfig['inAppNotificationPreference']
+    inAppNotificationPreference: boolean
   ) => {
     if (!data) return
-    const inAppConfigSeed = omit(notificationConfig, 'preferenceChoice')
+    const inAppConfigSeed = omit(notificationConfig, [
+      'emailDigestPreference',
+      'emailNotificationPreference',
+      'inAppNotificationPreference',
+    ]) as NotificationConfig
 
     const notificationConfigSeed: UserNotificationConfigUpdateSeed = {
-      inAppNotificationPreference: preferenceChoice,
+      inAppNotificationPreference,
       inAppConfig: inAppConfigSeed,
       emailNotificationPreference: data?.emailNotificationPreference,
+      emailDigestPreference: data?.emailDigestPreference,
       emailConfig: data?.emailConfig,
     }
 
@@ -91,7 +96,9 @@ const NotificationUserConfigTabs: React.FC<{
               type="inApp"
               notificationConfig={{
                 ...data.inAppConfig,
-                preferenceChoice: data.inAppNotificationPreference,
+                inAppNotificationPreference: data.inAppNotificationPreference,
+                emailDigestPreference: data.emailDigestPreference,
+                emailNotificationPreference: data.emailNotificationPreference,
               }}
               handleUpdateNotificationConfigs={(notification, type, preferenceChoice) =>
                 handleUpdateNotificationConfigInApp(
@@ -109,12 +116,19 @@ const NotificationUserConfigTabs: React.FC<{
               type="email"
               notificationConfig={{
                 ...data.emailConfig,
-                preferenceChoice: data.emailNotificationPreference,
+                inAppNotificationPreference: data.inAppNotificationPreference,
+                emailDigestPreference: data.emailDigestPreference,
+                emailNotificationPreference: data.emailNotificationPreference,
               }}
-              handleUpdateNotificationConfigs={(notification, type, preferenceChoice) => {
+              handleUpdateNotificationConfigs={(
+                notification,
+                emailNotificationPreference,
+                emailDigestPreference
+              ) => {
                 handleUpdateNotificationConfigEmail(
                   notification,
-                  preferenceChoice as UserNotificationConfig['emailNotificationPreference']
+                  emailNotificationPreference,
+                  emailDigestPreference
                 )
               }}
             />
