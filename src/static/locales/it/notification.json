@@ -48,7 +48,7 @@
           "optionLabels": {
             "Providers": "Erogazione",
             "Subscribers": "Fruizione",
-            "Delegation": "Deleghe",
+            "Delegations": "Deleghe",
             "AttributesAndKeys": "Attributi e Chiavi"
           }
         },
