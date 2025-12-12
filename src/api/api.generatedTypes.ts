@@ -2362,7 +2362,8 @@ export interface TenantNotificationConfig {
 
 export interface UserNotificationConfig {
   inAppNotificationPreference: boolean
-  emailNotificationPreference: 'ENABLED' | 'DISABLED' | 'DIGEST'
+  emailNotificationPreference: boolean
+  emailDigestPreference: boolean
   inAppConfig: NotificationConfig
   emailConfig: NotificationConfig
 }
@@ -2373,7 +2374,8 @@ export interface TenantNotificationConfigUpdateSeed {
 
 export interface UserNotificationConfigUpdateSeed {
   inAppNotificationPreference: boolean
-  emailNotificationPreference: 'ENABLED' | 'DISABLED' | 'DIGEST'
+  emailNotificationPreference: boolean
+  emailDigestPreference: boolean
   inAppConfig: NotificationConfig
   emailConfig: NotificationConfig
 }

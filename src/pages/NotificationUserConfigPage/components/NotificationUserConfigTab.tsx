@@ -1,36 +1,24 @@
 import React from 'react'
-import type { UseFormReturn } from 'react-hook-form'
-import { Controller, FormProvider } from 'react-hook-form'
+import { FormProvider } from 'react-hook-form'
 import { SectionContainer } from '@/components/layout/containers'
-import {
-  Box,
-  Stack,
-  Typography,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Alert,
-} from '@mui/material'
+import { Box, Stack, Typography, Alert } from '@mui/material'
 import { RHFSwitch, SwitchLabelDescription } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
 import { useGetNotificationConfigSchema } from '../hooks/useGetNotificationConfigSchema'
 import { type NotificationConfig } from '@/api/api.generatedTypes'
-import type { NotificationConfigType, NotificationPreferenceChoiceType } from '../types'
+import type { NotificationConfigFormValues, NotificationConfigType } from '../types'
 import { match } from 'ts-pattern'
 import { AuthHooks } from '@/api/auth'
 import { NotificationConfigSection } from './NotificationConfigSection'
 import { useNotificationConfigForm } from '../hooks/useNotificationConfigForm'
 
-type NotificationConfigFormValues = NotificationConfig & {
-  preferenceChoice: NotificationPreferenceChoiceType
-}
 type NotificationConfigUserTabProps = {
   notificationConfig: NotificationConfigFormValues
   handleUpdateNotificationConfigs: (
     notificationConfig: NotificationConfig,
-    type: NotificationConfigType,
-    preferenceChoice: NotificationPreferenceChoiceType
+    inAppNotificationPreference: boolean,
+    emailNotificationPreference: boolean,
+    emailDigestPreference: boolean
   ) => void
   type: NotificationConfigType
 }
@@ -48,7 +36,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   })
   const { userEmail } = AuthHooks.useJwt()
 
-  const { formMethods, preferenceChoice, valuesChanged } = useNotificationConfigForm({
+  const { formMethods, inAppNotificationPreference, valuesChanged } = useNotificationConfigForm({
     handleUpdateNotificationConfigs,
     notificationConfig,
     type,
@@ -71,8 +59,8 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   }
 
   const isEnabledShowPreferencesSwitch = match(type)
-    .with('email', () => preferenceChoice === 'ENABLED')
-    .with('inApp', () => !!preferenceChoice)
+    .with('email', () => notificationConfig.emailNotificationPreference)
+    .with('inApp', () => !!inAppNotificationPreference)
     .exhaustive()
 
   return (
@@ -80,18 +68,17 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
       <SectionContainer sx={{ px: 4, pt: 4 }} title={t('title')} description={t('description')}>
         {type === 'email' ? (
           <EmailConfigHeader
-            formMethods={formMethods}
             userEmail={userEmail}
-            preferenceChoice={preferenceChoice}
+            emailDigestPreference={notificationConfig.emailDigestPreference}
           />
         ) : (
           <InAppConfigHeader />
         )}
-        {preferenceChoice !== 'DIGEST' && (
-          <Alert sx={{ mt: 2 }} severity="info">
-            {tConfiguration('infoAlert')}
-          </Alert>
-        )}
+        {/* {inAppNotificationPreference !== 'DIGEST' && ( */}
+        <Alert sx={{ mt: 2 }} severity="info">
+          {tConfiguration('infoAlert')}
+        </Alert>
+        {/* )} */}
         <Box sx={{ ml: 2, mt: 2 }}>
           {isEnabledShowPreferencesSwitch &&
             Object.keys(notificationSchema).map((sectionName) => {
@@ -116,14 +103,9 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
 
 type EmailConfigHeaderProps = {
   userEmail: string | undefined
-  formMethods: UseFormReturn<NotificationConfigFormValues>
-  preferenceChoice: NotificationPreferenceChoiceType
+  emailDigestPreference: boolean
 }
-const EmailConfigHeader = ({
-  userEmail,
-  formMethods,
-  preferenceChoice,
-}: EmailConfigHeaderProps) => {
+const EmailConfigHeader = ({ userEmail, emailDigestPreference }: EmailConfigHeaderProps) => {
   const { t } = useTranslation('notification', {
     keyPrefix: `notifications.configurationPage.email`,
   })
@@ -137,29 +119,11 @@ const EmailConfigHeader = ({
       {/* <Link href="https://docs.pagopa.it/interoperabilita-1" underline="none" variant="button">
         {t('linkLabel')}
       </Link> */}
-      <Controller
-        name="preferenceChoice"
-        control={formMethods.control}
-        render={({ field }) => (
-          <FormControl fullWidth sx={{ mt: 3 }}>
-            <InputLabel id="emailPreferenceLabel">{t('emailPreferencesLabel')}</InputLabel>
-            <Select
-              labelId="emailPreferenceLabel"
-              id="preferenceChoice"
-              label={t('emailPreferencesLabel')}
-              {...field}
-            >
-              <MenuItem value="DISABLED">{t('notSend')}</MenuItem>
-              <MenuItem value="DIGEST">{t('digest')}</MenuItem>
-              <MenuItem value="ENABLED">{t('customize')}</MenuItem>
-            </Select>
-          </FormControl>
-        )}
-      />
 
-      {/* <RHFSwitch // Need for next features
+      <RHFSwitch
         sx={{ pl: 2 }}
-        name={'digest'}
+        key="emailNotificationPreference"
+        name="emailNotificationPreference"
         label={
           <SwitchLabelDescription
             label={t('digestSwitch.label')}
@@ -169,17 +133,17 @@ const EmailConfigHeader = ({
       />
       <RHFSwitch
         sx={{ pl: 2 }}
-        key="customNotificationSwitch"
-        name={'customNotificationSwitch'}
+        key="emailDigestPreference"
+        name="emailDigestPreference"
         label={
           <SwitchLabelDescription
             label={t('customNotificationSwitch.label')}
             description={t('customNotificationSwitch.description')}
           />
         }
-      /> */}
+      />
 
-      {preferenceChoice === 'DIGEST' && (
+      {emailDigestPreference && (
         <Alert severity="info" sx={{ mt: 3 }}>
           {t('digestInfoDescription')}
         </Alert>
@@ -200,7 +164,7 @@ const InAppConfigHeader = () => {
       </Link> */}
       <Box sx={{ ml: 2, mt: 2 }}>
         <RHFSwitch
-          name="preferenceChoice"
+          name="inAppNotificationPreference"
           label={
             <SwitchLabelDescription
               label={t('enableAllNotifications.label')}

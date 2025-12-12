@@ -40,20 +40,20 @@ export const NotificationsTableRow: React.FC<{
         </Stack>
       </TableCell>
 
-      <TableCell sx={{ fontWeight: isRead ? 'normal' : 'normal' }} width={250}>
+      <TableCell sx={{ fontWeight: fontWeightRow }} width={250}>
         {format(new Date(notification.createdAt), 'dd/MM/yyyy HH:mm')}
       </TableCell>
       <TableCell sx={{ fontWeight: fontWeightRow }} width={250}>
         {tNotification(
-          notification.category as 'Providers' | 'Subscribers' | 'Delegation' | 'AttributesAndKeys'
+          notification.category as 'Providers' | 'Subscribers' | 'Delegations' | 'AttributesAndKeys'
         )}
       </TableCell>
       <TableCell
-        sx={{ fontWeight: isRead ? 600 : 'normal' }}
+        sx={{ fontWeight: fontWeightRow }}
         width={450}
         dangerouslySetInnerHTML={{ __html: notification.body }}
       />
-      <TableCell sx={{ fontWeight: isRead ? 600 : 'normal' }}>
+      <TableCell sx={{ fontWeight: fontWeightRow }}>
         <Button component={Link} size="small" variant="outlined" to={notificationLink}>
           {tCommon('actions.inspect')}
         </Button>

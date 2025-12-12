@@ -39,7 +39,7 @@ const NotificationsPage: React.FC = () => {
           value: 'Subscribers',
         },
         {
-          label: t('filters.categoryField.optionLabels.Delegation'),
+          label: t('filters.categoryField.optionLabels.Delegations'),
           value: 'Delegations',
         },
         {
@@ -112,8 +112,6 @@ const NotificationsTableWrapper: React.FC<{
   const { data, isFetching, refetch, dataUpdatedAt } = useQuery({
     ...NotificationQueries.getUserNotificationsList(params),
   })
-
-  console.log('dataUpdateAt', dataUpdatedAt)
 
   const { mutate: markBulkAsRead } = NotificationMutations.useBulkMarkAsRead()
   const { mutate: markBulkAsUnread } = NotificationMutations.useBulkMarkAsNotRead()
