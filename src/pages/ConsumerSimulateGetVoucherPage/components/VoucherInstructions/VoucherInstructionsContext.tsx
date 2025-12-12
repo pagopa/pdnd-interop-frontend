@@ -6,9 +6,10 @@ import { useSearchParams } from 'react-router-dom'
 type VoucherInstructionsContextType = {
   selectedPurposeId: string | undefined
   selectedKeyId: string | undefined
+  clientId: string
   handleSelectedPurposeIdChange: (purpose: string) => void
   handleSelectedKeyIdChange: (key: string) => void
-  clientId: string
+  handleSelectedClientIdChange: (cliendId: string) => void
   goToNextStep: VoidFunction
   goToPreviousStep: VoidFunction
 }
@@ -16,9 +17,10 @@ type VoucherInstructionsContextType = {
 const initialState: VoucherInstructionsContextType = {
   selectedPurposeId: undefined,
   selectedKeyId: undefined,
+  clientId: '',
   handleSelectedPurposeIdChange: noop,
   handleSelectedKeyIdChange: noop,
-  clientId: '',
+  handleSelectedClientIdChange: noop,
   goToNextStep: noop,
   goToPreviousStep: noop,
 }
@@ -30,14 +32,12 @@ const { useContext, Provider } = createContext<VoucherInstructionsContextType>(
 
 type VoucherInstructionsContextProviderProps = {
   children: React.ReactNode
-  clientId: string
   goToNextStep: VoidFunction
   goToPreviousStep: VoidFunction
 }
 
 const VoucherInstructionsContextProvider: React.FC<VoucherInstructionsContextProviderProps> = ({
   children,
-  clientId,
   goToNextStep,
   goToPreviousStep,
 }) => {
@@ -63,8 +63,19 @@ const VoucherInstructionsContextProvider: React.FC<VoucherInstructionsContextPro
     [setSearchParams]
   )
 
+  const handleSelectedClientIdChange = React.useCallback(
+    (clientId: string) => {
+      setSearchParams((prev) => {
+        prev.set('clientId', clientId)
+        return prev
+      })
+    },
+    [setSearchParams]
+  )
+
   const selectedPurposeId = searchParams.get('purposeId') || undefined
   const selectedKeyId = searchParams.get('keyId') || undefined
+  const clientId = searchParams.get('clientId') || ''
 
   const providerValue = React.useMemo(
     () => ({
@@ -73,6 +84,7 @@ const VoucherInstructionsContextProvider: React.FC<VoucherInstructionsContextPro
       selectedKeyId,
       handleSelectedKeyIdChange,
       clientId,
+      handleSelectedClientIdChange,
       goToNextStep,
       goToPreviousStep,
     }),
@@ -82,6 +94,7 @@ const VoucherInstructionsContextProvider: React.FC<VoucherInstructionsContextPro
       selectedKeyId,
       handleSelectedKeyIdChange,
       clientId,
+      handleSelectedClientIdChange,
       goToNextStep,
       goToPreviousStep,
     ]
