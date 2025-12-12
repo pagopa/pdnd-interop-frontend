@@ -501,6 +501,8 @@
     "DEVELOPER_TOOLS": "Developer Tools",
     "RISK_ANALYSIS_EXPORTER_TOOL": "Export Risk Analysis",
     "CLIENT_MANAGEMENT": "Client Management",
+    "NOTIFICATIONS": "Notifications",
+    "NOTIFICATIONS_CONFIG": " Notifications settings",
     "SUBSCRIBE_PURPOSE_TEMPLATE_LIST": "My Purpose Templates",
     "SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY": "Purpose Template Summary",
     "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG": "Purpose Template Catalog",
