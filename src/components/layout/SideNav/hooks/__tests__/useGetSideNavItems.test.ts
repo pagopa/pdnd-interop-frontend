@@ -386,8 +386,8 @@ describe('useGetSideNavItems', () => {
     expect(result.current).not.toContain('TENANT_CERTIFIER')
   })
 
-  it("should not include 'DELEGATIONS' routes  if isOrganizationAllowedToProduce is set to false'", () => {
-    mockUseJwt({ currentRoles: ['admin'], isOrganizationAllowedToProduce: false })
+  it("should not include 'DELEGATIONS' routes  if isOrganizationAllowedToDelegations is set to false'", () => {
+    mockUseJwt({ currentRoles: ['admin'], isOrganizationAllowedToDelegations: false })
 
     const { result } = renderHook(() => useGetSideNavItems())
 
@@ -396,8 +396,8 @@ describe('useGetSideNavItems', () => {
     )
   })
 
-  it("should include 'DELEGATIONS' routes  if isOrganizationAllowedToProduce is set to true'", () => {
-    mockUseJwt({ currentRoles: ['admin'], isOrganizationAllowedToProduce: true })
+  it("should include 'DELEGATIONS' routes  if isOrganizationAllowedToDelegations is set to true'", () => {
+    mockUseJwt({ currentRoles: ['admin'], isOrganizationAllowedToDelegations: true })
 
     const { result } = renderHook(() => useGetSideNavItems())
 
