@@ -14,6 +14,7 @@ export interface AuthGuardProps {
   jwt?: JwtUser
   currentRoles: UserProductRole[]
   isOrganizationAllowedToProduce: boolean
+  isOrganizationAllowedToDelegations: boolean
   isSupport: boolean
 }
 
@@ -31,6 +32,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   jwt,
   currentRoles,
   isOrganizationAllowedToProduce,
+  isOrganizationAllowedToDelegations,
   isSupport,
 }) => {
   const { isUserAuthorized } = useAuthGuard()
@@ -67,7 +69,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
       'DELEGATION_DETAILS',
       'CREATE_DELEGATION',
     ]
-    return isOrganizationAllowedToProduce || !delegationsRoutes.includes(routeKey)
+    return isOrganizationAllowedToDelegations || !delegationsRoutes.includes(routeKey)
   }
 
   function isUserAllowedToAccessNotificationPage() {

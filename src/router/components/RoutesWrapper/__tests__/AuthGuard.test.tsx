@@ -22,6 +22,7 @@ const defaultProps: AuthGuardTestProps = {
   isOrganizationAllowedToProduce: true,
   isSupport: false,
   currentRoles: ['admin'],
+  isOrganizationAllowedToDelegations: true,
 }
 
 const ErrorComponent = () => {

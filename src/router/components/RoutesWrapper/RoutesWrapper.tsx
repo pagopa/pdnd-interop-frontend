@@ -21,7 +21,13 @@ function EmptyWrapper({ children }: { children: React.ReactNode }) {
 
 const _RoutesWrapper: React.FC = () => {
   const { isPublic, routeKey } = useCurrentRoute()
-  const { jwt, isSupport, currentRoles, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
+  const {
+    jwt,
+    isSupport,
+    currentRoles,
+    isOrganizationAllowedToProduce,
+    isOrganizationAllowedToDelegations,
+  } = AuthHooks.useJwt()
 
   useScrollTopOnLocationChange()
 
@@ -42,6 +48,7 @@ const _RoutesWrapper: React.FC = () => {
                 <_AuthGuard
                   jwt={jwt}
                   isOrganizationAllowedToProduce={isOrganizationAllowedToProduce}
+                  isOrganizationAllowedToDelegations={isOrganizationAllowedToDelegations}
                   isSupport={isSupport}
                   currentRoles={currentRoles}
                 >
