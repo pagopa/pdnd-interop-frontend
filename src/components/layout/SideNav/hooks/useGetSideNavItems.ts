@@ -5,6 +5,7 @@ import { routes } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import { TenantHooks } from '@/api/tenant'
 import { isTenantCertifier } from '@/utils/tenant.utils'
+import { FEATURE_FLAG_NOTIFICATION_CONFIG } from '@/config/env'
 
 const views = [
   {
@@ -42,6 +43,10 @@ const views = [
     routeKey: 'DEVELOPER_TOOLS',
     id: 'deveoloperTools',
   },
+  {
+    routeKey: 'NOTIFICATIONS',
+    id: 'notifications',
+  },
 ] as const
 
 export function useGetSideNavItems() {
@@ -64,6 +69,8 @@ export function useGetSideNavItems() {
       if (!isCertifier && routeKey === 'TENANT_CERTIFIER') return false
 
       if (!isOrganizationAllowedToProduce && routeKey === 'DELEGATIONS') return false
+
+      if (!FEATURE_FLAG_NOTIFICATION_CONFIG && routeKey === 'NOTIFICATIONS') return false
 
       const authLevels = routes[routeKey].authLevels
       return authLevels.some((authLevel) => currentRoles.includes(authLevel))

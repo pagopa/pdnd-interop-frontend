@@ -140,7 +140,11 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       {alertProps && <Alert sx={{ mb: 3 }} {...alertProps} />}
       <Stack spacing={3}>
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="1" title={t('summary.generalInformationSection.title')}>
+          <SummaryAccordion
+            headline="1"
+            title={t('summary.generalInformationSection.title')}
+            defaultExpanded={true}
+          >
             <ConsumerPurposeSummaryGeneralInformationAccordion purposeId={purposeId} />
           </SummaryAccordion>
         </React.Suspense>

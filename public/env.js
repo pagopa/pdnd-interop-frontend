@@ -5,7 +5,7 @@ window.pagopa_env = {
   AUTHORIZATION_SERVER_TOKEN_CREATION_URL: 'https://auth.dev.interop.pagopa.it/token.oauth2',
   SELFCARE_LOGIN_URL: 'https://uat.selfcare.pagopa.it/',
   SELFCARE_BASE_URL: 'https://uat.selfcare.pagopa.it',
-  INTEROP_RESOURCES_BASE_URL: 'https://interop-dev-public.s3.eu-central-1.amazonaws.com',
+  INTEROP_RESOURCES_BASE_URL: 'https://interop-public-assets-dev.s3.eu-south-1.amazonaws.com',
   BACKEND_FOR_FRONTEND_URL: `${localhost}/backend-for-frontend`,
   MIXPANEL_PROJECT_ID: 'b6c8c3c3ed0b32d66c61593bcb84e705',
   ONETRUST_DOMAIN_SCRIPT_ID: '018ef6c1-31f6-70a6-bf72-ds7d45c0ade7e',
@@ -25,6 +25,7 @@ window.pagopa_env = {
     'https://selfcare.dev.interop.pagopa.it/m2m/v2-interface-specification.yaml',
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: 'http://localhost',
   ERROR_DATA_DURATION_TIME: '90000',
+  FEATURE_FLAG_NOTIFICATION_CONFIG: 'true',
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA: 'true',
   FEATURE_FLAG_USE_SIGNED_DOCUMENT: 'false',
 }
