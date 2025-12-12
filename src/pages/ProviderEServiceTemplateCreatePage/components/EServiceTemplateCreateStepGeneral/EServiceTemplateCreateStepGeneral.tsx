@@ -209,7 +209,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
           )}
 
           <SectionContainer innerSection sx={{ mt: 3 }}>
-            <SectionContainer innerSection sx={{ mt: 3 }}>
+            <SectionContainer innerSection sx={{ mt: 3, ml: 1 }}>
               <RHFSwitch
                 disabled={!areEServiceTemplateGeneralInfoEditable}
                 name="isSignalHubEnabled"
