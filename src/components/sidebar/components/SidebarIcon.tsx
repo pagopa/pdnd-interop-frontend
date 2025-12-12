@@ -1,20 +1,19 @@
 import React from 'react'
 import { type SvgIconComponent } from '@mui/icons-material'
 import { ListItemIcon, Badge } from '@mui/material'
-import type { Notification } from '../sidebar.types'
 
 type SidebarIconProps = {
   Icon: SvgIconComponent
-  notification?: Notification
+  notification?: number
 }
 
 export const SidebarIcon: React.FC<SidebarIconProps> = ({ Icon, notification }) => {
   return (
     <ListItemIcon>
-      {!notification || notification?.content <= 0 ? (
+      {!notification ? (
         <Icon fontSize="inherit" />
       ) : (
-        <Badge color="primary" badgeContent={notification.content} variant="dot">
+        <Badge color="primary" badgeContent={notification} variant="dot">
           <Icon fontSize="inherit" />
         </Badge>
       )}

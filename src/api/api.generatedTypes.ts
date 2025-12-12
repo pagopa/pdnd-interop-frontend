@@ -427,6 +427,8 @@ export interface EServiceTemplateRiskAnalysis {
   tenantKind: TenantKind
   /** @format date-time */
   createdAt: string
+  /** @format date-time */
+  rulesetExpiration?: string
 }
 
 export interface ProducerEServiceDescriptor {
@@ -627,6 +629,7 @@ export interface CatalogEService {
   activeDescriptor?: CompactDescriptor
   /** Indicates if there are unread notifications for this e-service */
   hasUnreadNotifications?: boolean
+  personalData?: boolean
 }
 
 export type ClientKind = 'API' | 'CONSUMER'
@@ -829,6 +832,8 @@ export interface CompactOrganization {
 
 export type TenantKind = 'PA' | 'PRIVATE' | 'GSP' | 'SCP'
 
+export type TargetTenantKind = 'PA' | 'PRIVATE'
+
 export interface CompactOrganizations {
   results: CompactOrganization[]
   pagination: Pagination
@@ -990,7 +995,7 @@ export interface PurposeTemplate {
   /** @format uuid */
   id: string
   targetDescription: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   /** @format uuid */
   creatorId: string
   /** Purpose Template State */
@@ -1021,7 +1026,7 @@ export interface PurposeTemplateWithCompactCreator {
   /** @format uuid */
   id: string
   targetDescription: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   creator: CompactOrganization
   /** Purpose Template State */
   state: PurposeTemplateState
@@ -1050,7 +1055,7 @@ export interface PurposeTemplateSeed {
    * @maxLength 250
    */
   targetDescription: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   /**
    * @minLength 5
    * @maxLength 60
@@ -1143,7 +1148,7 @@ export interface EServiceDescriptorPurposeTemplate {
 export interface CreatorPurposeTemplate {
   /** @format uuid */
   id: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   purposeTitle: string
   /** Purpose Template State */
   state: PurposeTemplateState
@@ -1157,7 +1162,7 @@ export interface CreatorPurposeTemplates {
 export interface CatalogPurposeTemplate {
   /** @format uuid */
   id: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   purposeTitle: string
   purposeDescription: string
   creator: CompactOrganization
@@ -2347,6 +2352,8 @@ export interface NotificationConfig {
   delegationSubmittedRevokedToDelegate: boolean
   certifiedVerifiedAttributeAssignedRevokedToAssignee: boolean
   clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: boolean
+  purposeQuotaAdjustmentRequestToProducer: boolean
+  purposeOverQuotaStateToConsumer: boolean
 }
 
 export interface TenantNotificationConfig {
@@ -2939,7 +2946,7 @@ export interface GetCatalogPurposeTemplatesParams {
    */
   eserviceIds?: string[]
   /** filter by target tenant kind */
-  targetTenantKind?: TenantKind
+  targetTenantKind?: TargetTenantKind
   /**
    * exclude purpose templates with expired risk analysis
    * @default true
@@ -3238,6 +3245,7 @@ export interface IsEServiceNameAvailableParams {
 export interface GetNotificationsParams {
   /** Query to filter notifications */
   q?: string
+  unread?: boolean
   /** Category to filter notifications */
   category?: 'Subscribers' | 'Providers' | 'Delegations' | 'AttributesAndKeys'
   /**
@@ -4787,7 +4795,7 @@ export namespace Catalog {
        */
       eserviceIds?: string[]
       /** filter by target tenant kind */
-      targetTenantKind?: TenantKind
+      targetTenantKind?: TargetTenantKind
       /**
        * exclude purpose templates with expired risk analysis
        * @default true
@@ -8519,6 +8527,7 @@ export namespace InAppNotifications {
     export type RequestQuery = {
       /** Query to filter notifications */
       q?: string
+      unread?: boolean
       /** Category to filter notifications */
       category?: 'Subscribers' | 'Providers' | 'Delegations' | 'AttributesAndKeys'
       /**

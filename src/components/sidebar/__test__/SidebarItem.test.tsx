@@ -8,7 +8,7 @@ import { Sidebar } from '../components/Sidebar'
 describe('SidebarItem ', () => {
   const defaultProps = {
     label: 'Test Link',
-    notification: { show: true, content: 3 },
+    notification: 3,
     isSelected: false,
     StartIcon: HomeIcon,
     EndIcon: ArrowForwardIcon,

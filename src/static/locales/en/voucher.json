@@ -1,24 +1,24 @@
 {
   "backBtn": "Back",
-  "proceedBtn": "Proceed",
-  "noPurposesLabel": "This client is not associated with any purposes",
-  "noKeysLabel": "This client does not contain any public keys",
+  "proceedBtn": "Next",
+  "noPurposesLabel": "This client is not associated with any purpose",
+  "noKeysLabel": "This client does not contain public keys",
   "choosePurposeLabel": "Choose the purpose to use",
-  "purposeFailureMessage": "Warning! It will not be possible to obtain a voucher for this purpose. One or more components are currently suspended. Suspended components:",
+  "purposeFailureMessage": "Warning! It will not be possible to obtain a voucher for this purpose. Service has been suspended in one or more components of the pipeline. The suspended components are:",
   "purposeFailureReason": {
     "eservice": "E-service",
-    "agreement": "fruition agreement",
+    "agreement": "service request",
     "purpose": "purpose"
   },
-  "title": "Simulate getting a voucher",
-  "description": "Through this feature you can simulate obtaining a voucher. Once you have selected the parameters, you can perform a client assertion, request a voucher and verify that it is compatible.",
+  "title": "Simulate voucher acquisition",
+  "description": "Through this feature, you can simulate obtaining a voucher. Once the parameters are selected, you can perform a client assertion, request a voucher, and check that it is compatible.",
   "step1": {
-    "stepperLabel": "Parameters selection",
+    "stepperLabel": "Parameter selection",
     "title": {
       "API": "Select public key",
       "CONSUMER": "Select purpose and public key"
     },
-    "description": "It is used to show you the correct parameters to enhance the client assertion",
+    "description": "Used to show you the correct parameters to populate the client assertion",
     "clientSelectInput": {
       "label": "Choose the client to use"
     },
@@ -28,23 +28,23 @@
     "keySelectInput": {
       "label": "Choose the public key to use"
     },
-    "goToTechnicalDocsLabel": "Go to the technical documentation",
-    "showCurrentSelectionIds": "Show current selection ids",
+    "goToTechnicalDocsLabel": "Go to technical documentation",
+    "showCurrentSelectionIds": "View IDs for current selection",
     "currentIdsDrawer": {
-      "title": "View current selection ids",
-      "subtitle": "Useful parameters to obtain information through the PDND Interoperabilità APIs. Do you have any doubts? <1>Consult the guide</1>.",
-      "eserviceIdDescription": "The id of the e-service connected to the selected purpose",
-      "descriptorIdDescription": "The id of the e-service version connected to the selected purpose",
-      "agreementIdDescription": "The id of the fruition request connected to the selected purpose",
-      "purposeIdDescription": "The id of the selected purpose",
-      "clientIdDescription": "The id of this client",
+      "title": "View current selection IDs",
+      "subtitle": "Useful parameters to obtain information through PDND APIs. Have questions? <1>Check the guide</1>.",
+      "eserviceIdDescription": "The ID of the e-service linked to the selected purpose",
+      "descriptorIdDescription": "The ID of the e-service version linked to the selected purpose",
+      "agreementIdDescription": "The ID of the service request linked to the selected purpose",
+      "purposeIdDescription": "The ID of the selected purpose",
+      "clientIdDescription": "The ID of this client",
       "producerOrganizationId": {
-        "label": "organizationId (provider)",
-        "description": "The id of the provider organization"
+        "label": "organizationId (producer)",
+        "description": "The ID of the producing party"
       },
       "consumerOrganizationId": {
         "label": "organizationId (consumer)",
-        "description": "The id of your organization"
+        "description": "The ID of your party"
       }
     }
   },
@@ -52,119 +52,119 @@
     "stepperLabel": "Client assertion",
     "title": "Client assertion",
     "description": {
-      "label": "The first step is to create an assertion that is signed with the private key that corresponds to one of the public keys uploaded for this client. More details to create the JWS below",
+      "label": "The first step is to create an assertion signed by your party with the private key corresponding to one of the public keys you have uploaded to this client. Below are the details to create the JWS according to the specification",
       "link": {
         "label": "RFC7521",
-        "title": "Link to the spec RFC7521"
+        "title": "Link to RFC7521 specification"
       }
     },
     "assertionHeader": {
       "title": "Assertion header",
       "kidField": {
         "label": "KID",
-        "description": "The id of the selected key in the previous step.",
-        "copySuccessFeedbackText": "Id copied successfully"
+        "description": "The ID of the key selected in the previous step",
+        "copySuccessFeedbackText": "ID successfully copied"
       },
       "algField": {
         "label": "ALG",
-        "description": "The algorythm that will be used to sign this JWT. Currently only RS256 is available",
-        "copySuccessFeedbackText": "Text copied successfully"
+        "description": "The algorithm used to sign this JWT. At this time, signing is only possible with RS256",
+        "copySuccessFeedbackText": "Text successfully copied"
       },
       "typField": {
         "label": "TYP",
-        "description": "The type of object that can be sent, in this case “JWT”",
-        "copySuccessFeedbackText": "Text copied successfully"
+        "description": "The type of object being sent, in this case “JWT”",
+        "copySuccessFeedbackText": "Text successfully copied"
       }
     },
     "assertionPayload": {
       "title": "Assertion payload",
       "issField": {
         "label": "ISS",
-        "description": "The issuer, in this case the client id",
-        "copySuccessFeedbackText": "Id copied successfully"
+        "description": "The issuer of the request; in this case, the ID of this client",
+        "copySuccessFeedbackText": "ID successfully copied"
       },
       "subField": {
         "label": "SUB",
-        "description": "The subject, in this case still the client id",
-        "copySuccessFeedbackText": "Id copied successfully"
+        "description": "The subject of the request; in this case, always the client ID",
+        "copySuccessFeedbackText": "ID successfully copied"
       },
       "audField": {
         "label": "AUD",
-        "description": "The audience",
-        "copySuccessFeedbackText": "String copied successfully"
+        "description": "The target audience; in this case, a PDND resource",
+        "copySuccessFeedbackText": "String successfully copied"
       },
       "purposeIdField": {
         "label": "PurposeId",
-        "description": "The id of the purpose for which you will request access to the e-service Provider",
-        "copySuccessFeedbackText": "Id copied successfully"
+        "description": "The ID of the purpose selected in the previous step",
+        "copySuccessFeedbackText": "ID successfully copied"
       },
       "jtiField": {
         "label": "JTI",
-        "description": "The JWT ID, a randomic unique id (uuid) that is generated by who creates the token. It is used to univocally track the token. It is upon the caller to ensure that the id is in fact unique",
+        "description": "A unique random (UUID) ID generated by the token creator. Used to identify the token itself",
         "suggestionLabel": "You must generate this parameter yourself. Example value: 261cd445-3da6-421b-9ef4-7ba556efda5f"
       },
       "iatField": {
         "label": "IAT",
-        "description": "Issued at, the timestamp bearing the date and hour when the token was generated. It is expressed in UNIX epoch (numeric value, not a string)",
+        "description": "Issued at: the timestamp indicating the date and time when the token is created, expressed in UNIX epoch (numeric value, not string)",
         "suggestionLabel": "You must generate this parameter yourself. Example value: 1651659340"
       },
       "expField": {
         "label": "EXP",
-        "description": "Expiration, the timestamp bearing the date and hour when the token expires. It is expressed in UNIX epoch (numeric value, not a string)",
+        "description": "Expiration: the timestamp indicating the token expiration date and time, expressed in UNIX epoch (numeric value, not string)",
         "suggestionLabel": "You must generate this parameter yourself. Example value: 1651738540"
       }
     },
     "assertionScript": {
-      "title": "Example script to generate an assertion",
+      "title": "Example for generating a client assertion",
       "steps": {
         "1": "Create a folder and name it “client_assertion_test”",
-        "2": "Insert the <1>{{ filename }}</1> script into the folder (Python 3.8 is required)",
-        "3": "Create a “keys” folder and insert the private key inside, naming it “client-test-keypair.rsa.priv”",
+        "2": "Place the script <1>{{ filename }}</1> in the folder (Python 3.8 required)",
+        "3": "Create a “keys” folder and place the private key inside, naming it “client-test-keypair.rsa.priv”",
         "4": "Open the terminal and navigate to the client_assertion_test folder",
         "5": "Paste the command below and press enter",
-        "result": "This is how you obtain a client assertion signed with your private key. Note: the private key must correspond to the public key you selected in the previous step."
+        "result": "This will generate a client assertion signed with your private key. Warning: the private key must match the public key you selected in the previous step."
       },
-      "exampleLabel": "Usage example"
+      "exampleLabel": "Example usage"
     }
   },
   "step3": {
     "stepperLabel": "Voucher",
     "title": "Voucher request",
-    "consumerDescription": "In the previous step, you obtained a JWS signed with your private key. Now it will be used to make a voucher request towards the Interoperability authorization server. It all is fine, a voucher will be generated. It can be spent on the Provider e-service",
-    "apiDescription": "In the previous step, you obtained a JWS signed with your private key. Now it will be used to make a voucher request towards the Interoperability authorization server. It all is fine, a voucher will be generated. It can be spent on the Provider e-service",
+    "consumerDescription": "Once the JWS has been signed with your private key, it must be used to make a voucher request to the PDND authorization server. If successful, a voucher usable at the producer’s e-service will be returned",
+    "apiDescription": "Once the JWS has been signed with your private key, it must be used to make a voucher request to the PDND authorization server. If successful, a voucher usable at the PDND API gateway will be returned",
     "authEndpoint": {
       "label": "Authorization server endpoint",
-      "copySuccessFeedbackText": "URL copied successfully"
+      "copySuccessFeedbackText": "URL successfully copied"
     },
     "requestBody": {
       "title": "Request body",
       "clientIdField": {
         "label": "client_id",
-        "copySuccessFeedbackText": "Id copied successfully"
+        "copySuccessFeedbackText": "ID successfully copied"
       },
       "clientAssertionField": {
         "label": "client_assertion",
-        "suggestionLabel": "The JWS obtained at step 1 (starts with “ey”)"
+        "suggestionLabel": "The JWS obtained from the previous step (starts with “ey”)"
       },
       "clientAssertionTypeField": {
         "label": "client_assertion_type",
-        "description": "L’audience di destinazione; in questo caso una risorsa di PDND Interoperabilità",
-        "copySuccessFeedbackText": "String copied successfully"
+        "description": "The target audience; in this case, a PDND resource",
+        "copySuccessFeedbackText": "String successfully copied"
       },
       "grantTypeField": {
         "label": "grant_type",
-        "copySuccessFeedbackText": "String copied successfully"
+        "copySuccessFeedbackText": "String successfully copied"
       }
     },
     "voucherScript": {
-      "title": "cURL example",
-      "guide": "Open the terminal, replace the placeholder LA_TUA_CLIENT_ASSERTION with the assertion you obtained in the previous step and launch the cURL. If you don't have cURL, <1>you can install it</1> from Brew.",
-      "exampleLabel": "example cURL"
+      "title": "Example cURL",
+      "guide": "Open the terminal, replace the placeholder YOUR_CLIENT_ASSERTION with the assertion you obtained in the previous step, and run the cURL. If you don’t have cURL, <1>you can install it</1> via Brew.",
+      "exampleLabel": "Example cURL"
     },
     "debugVoucherAlert": {
-      "description": "Can't get a valid voucher? Try the",
+      "description": "Unable to obtain a valid voucher? Try the",
       "link": {
-        "label": "debugging functionality"
+        "label": "debug feature"
       }
     }
   },
@@ -174,51 +174,51 @@
     "actionLabel": "Download",
     "CONSUMER": {
       "title": "Congratulations!",
-      "description": "You can access the eservice <strong>{{ eserviceName }}</strong> provided by <strong>{{ producerName }}</strong>",
-      "actionTitle": "E-service tab",
-      "actionDescription": "You can access the data provided by the producer",
-      "actionLabel": "Go to the e-service tab"
+      "description": "You can now access the API of the e-service <strong>{{ eserviceName }}</strong> produced by <strong>{{ producerName }}</strong> ",
+      "actionTitle": "E-service page",
+      "actionDescription": "You can access the data made available by the producer",
+      "actionLabel": "Go to e-service page"
     },
     "API": {
       "title": "Congratulations!",
-      "description": "Now you can access the PDND Interoperabilità API.",
-      "actionTitle": "PDND Interoperabilità",
-      "actionDescription": "The API that allows members to interact with PDND Interoperabilità in machine to machine mode",
+      "description": "You can now access the PDND APIs",
+      "actionTitle": "PDND",
+      "actionDescription": "The API that allows parties to interact with PDND in machine-to-machine mode",
       "titleSignalHub": "Signal Hub",
       "actionLabel": "Download",
       "apiV1": {
         "title": "API v.1 (deprecated)",
-        "description": "The API version currently in use is being deprecated"
+        "description": "The API version currently in use and being deprecated."
       },
       "apiV2": {
-        "title": "API v.2 (suggested)",
-        "description": "The latest API version as the new standard for machine-to-machine communications with Interoperabilità."
+        "title": "API v.2 (recommended)",
+        "description": "The most recent API version as the new standard for machine-to-machine communications to Interoperability."
       },
       "pushApiSH": {
-        "title": "Signals storage(Push API)",
-        "description": "The API that allows members to send the signal of data change"
+        "title": "Signal submission (Push API)",
+        "description": "The API that allows producers to send data change signals"
       },
       "pullApiSH": {
-        "title": "Signals retrieval (Pull API)",
-        "description": "The API that allow consumers to retrieve the signal of data change"
+        "title": "Signal retrieval (Pull API)",
+        "description": "The API that allows consumers to retrieve data change signals"
       }
     }
   },
   "consumerDebugVoucher": {
     "edit": {
-      "title": "Server request data",
+      "title": "Request data to the server",
       "clientAssertionLabel": "Enter your client assertion (required)",
-      "clientIdLabel": "Enter the client id",
-      "description": "The request will be forwarded to the authorization server endpoint: <strong>{{ authServer }}</strong>",
-      "submitBtn": "Submit request"
+      "clientIdLabel": "Enter the client ID",
+      "description": "The request will be sent to the authorization server endpoint: <strong>{{ authServer }}</strong>",
+      "submitBtn": "Send request"
     },
     "result": {
-      "newRequestBtn": "Check again",
+      "newRequestBtn": "Perform new check",
       "alert": {
-        "title": "Request result",
+        "title": "Result of your request",
         "description": {
-          "apiSuccess": "This request is valid, you can get a voucher for the <strong>PDND Interoperabilità API</strong>",
-          "consumerSuccess": "This request is valid, you can get a voucher for the e-service <1>{{eserviceName}}, {{eserviceVersion}}</1>",
+          "apiSuccess": "This request is valid; it is possible to obtain a voucher for the <strong>PDND APIs</strong>",
+          "consumerSuccess": "This request is valid; it is possible to obtain a voucher for the e-service <1>{{eserviceName}}, {{eserviceVersion}}</1>",
           "failed": "It is not possible to obtain a voucher for this request"
         }
       },
@@ -227,15 +227,15 @@
         "step": {
           "label": {
             "clientAssertionValidation": "1. Client assertion validation",
-            "publicKeyRetrieve": "2. Retrieve of the public key deposited on PDND Interoperabilità",
-            "clientAssertionSignatureVerification": "3. Client assertion signature verification",
-            "platformStatesVerification": "4. PDND Interoperabilità components states verification"
+            "publicKeyRetrieve": "2. Retrieval of the public key stored on PDND",
+            "clientAssertionSignatureVerification": "3. Verification of the client assertion signature",
+            "platformStatesVerification": "4. Verification of the component states on PDND"
           }
         }
       },
       "requestSection": {
-        "title": "Your request content",
-        "description": "Below is the body (payload) of the request that was forwarded to the PDND Interoperabilità authorization server",
+        "title": "Content of your request",
+        "description": "Below is the body (payload) of the request that was sent to the PDND authorization server",
         "clientId": {
           "label": "Client_id"
         },
@@ -244,62 +244,62 @@
         },
         "clientAssertionType": {
           "label": "Client_assertion_type",
-          "description": "Client assertion format, as indicated in the RFC"
+          "description": "The format of the client assertion, as specified in RFC"
         },
         "grantType": {
           "label": "Grant_type",
-          "description": "Flow type used, as indicated in the RFC"
+          "description": "The type of flow used, as specified in RFC"
         }
       },
       "stepDrawer": {
         "title": {
           "clientAssertionValidation": "1. Client assertion validation",
-          "publicKeyRetrieve": "2. Retrieve of the public key deposited on PDND Interoperabilità",
-          "clientAssertionSignatureVerification": "3. Client assertion signature verification",
-          "platformStatesVerification": "4. PDND Interoperabilità components states verification"
+          "publicKeyRetrieve": "2. Retrieval of the public key stored on PDND",
+          "clientAssertionSignatureVerification": "3. Verification of the client assertion signature",
+          "platformStatesVerification": "4. Verification of the component states on PDND"
         },
         "description": {
-          "clientAssertionValidation": "Check that the client assertion is well structured. All required fields must be present and filled in correctly.",
-          "publicKeyRetrieve": "It verifies that the public key corresponding to the kid inserted in the client assertion is present on PDND Interoperabilità and that this is recoverable.",
-          "clientAssertionSignatureVerification": "Check that there is a match between the private key with which the client assertion was signed and the public one identified with the kid and recovered in step 2.",
-          "platformStatesVerification": "It verifies that all the administrative and technical components of the flow foreseen by PDND Interoperabilità are active"
+          "clientAssertionValidation": "It is verified that the client assertion is well structured. All required fields must be present and correctly filled.",
+          "publicKeyRetrieve": "It is verified that the public key corresponding to the kid in the client assertion is present on PDND and can be retrieved.",
+          "clientAssertionSignatureVerification": "It is verified that the private key used to sign the client assertion matches the public key identified by the kid and retrieved in step 2.",
+          "platformStatesVerification": "It is verified that all administrative and technical components required by PDND are active"
         },
         "stepResultLabel": "Verification result:",
         "nextStepBtn": "Go to next step"
       },
       "chipLabel": {
-        "passed": "Successful",
+        "passed": "Passed",
         "skipped": "Unable to execute",
         "failed_one": "{{count}} error",
         "failed_other": "{{count}} errors"
       },
       "errors": {
-        "8001": "String entered as client_id is not a uuid. You find the correct value within your client page",
-        "8002": "The string entered as grant_type is incorrect. Must be client_credentials",
-        "8003": "The string entered as client_assertion_type is incorrect. Must be urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
-        "8006": "The client assertion's claim SUB (subject) is not a valid uuid. The value of the subject is the client id, which you find inside your client page",
-        "8007": "The SUB (subject) claim is missing from the client assertion. The value of the subject is the client id, which you find inside your client page",
-        "8008": "Il SUB (subject) claim della client assertion non corrisponde al client_id inserito nella chiamata all'authorization server",
-        "8009": "String entered as purposeId is not a uuid. Find the correct value on your client's page by selecting the purpose of your interest",
+        "8001": "The string entered as client_id is not a UUID. You can find the correct value in your client page",
+        "8002": "The string entered as grant_type is incorrect. It must be client_credentials",
+        "8003": "The string entered as client_assertion_type is incorrect. It must be urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
+        "8006": "The SUB (subject) claim of the client assertion is not a valid UUID. The subject value is the client ID, which you can find in your client page",
+        "8007": "The SUB (subject) claim is missing from the client assertion. The subject value is the client ID, which you can find in your client page",
+        "8008": "The SUB (subject) claim in the client assertion does not match the client_id entered in the call to the authorization server",
+        "8009": "The string entered as purposeId is not a UUID. You can find the correct value in your client page by selecting the desired purpose",
         "8010": "The AUD (audience) claim does not contain the correct audience",
-        "8011": "The hash entered in the value field in the digest does not have the length expected by the SHA256 hashing algorithm",
-        "8012": "The value field in the digest must be hashed with SHA256",
+        "8011": "The hash entered in the value field in the digest does not have the expected length for the SHA256 hashing algorithm",
+        "8012": "The hashing of the value field in the digest must be performed using SHA256",
         "8013": "The KID field is missing from the client assertion header",
         "8014": "The ALG field is missing from the client assertion payload",
         "8015": "The JTI field is missing from the client assertion payload",
         "8016": "The IAT field is missing from the client assertion payload",
         "8017": "The ISS field is missing from the client assertion payload",
         "8018": "The EXP field is missing from the client assertion payload",
-        "8019": "The digest field within the client assertion payload must contain two fields: alg and value",
-        "8020": "The digest field within the client assertion payload must contain two fields: alg and value",
-        "8023": "The client assertion signature is invalid. Make sure that the private key with which you signed the assertion corresponds to the public key deposited on PDND Interoperabilità of which you indicated the kid",
+        "8019": "The digest field in the client assertion payload must contain two fields: alg and value",
+        "8020": "The digest field in the client assertion payload must contain two fields: alg and value",
+        "8023": "The signature of the client assertion is not valid. Make sure that the private key you used to sign the assertion matches the public key stored on PDND whose kid you indicated",
         "8024": "The purposeId field is missing from the client assertion payload",
-        "8025": "The purpose id you provided (purposeId) does not match any purpose associated with the client id you provided",
+        "8025": "The ID of the purpose you indicated (purposeId) does not match any purpose associated with the client ID you indicated",
         "8026": "The client assertion is valid but the purpose for which you are requesting the voucher is not active",
-        "8027": "The client assertion is valid but the e-service version for which you are requesting the voucher is not active",
-        "8028": "The client assertion is valid but the agreement for which you are requesting the voucher is not active",
-        "8033": "The kid field is not filled in correctly. The kid can only consist of alphanumeric characters, hyphens and underscores. The one sent contains unrecognized special characters",
-        "8099": "The key id you specified (kid) is not part of the client you specified as client id"
+        "8027": "The client assertion is valid but the version of the e-service for which you are requesting the voucher is not active",
+        "8028": "The client assertion is valid but the service request for which you are requesting the voucher is not active",
+        "8033": "The kid field is not correctly filled. The kid can only contain alphanumeric characters, hyphens, and underscores. The one sent contains unrecognized special characters",
+        "8099": "The key ID you indicated (kid) is not part of the client you indicated as client ID"
       }
     }
   }

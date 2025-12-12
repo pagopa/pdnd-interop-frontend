@@ -56,6 +56,10 @@ describe('useGetSideNavItems', () => {
           "id": "deveoloperTools",
           "routeKey": "DEVELOPER_TOOLS",
         },
+        {
+          "id": "notifications",
+          "routeKey": "NOTIFICATIONS",
+        },
       ]
     `)
   })
@@ -99,6 +103,10 @@ describe('useGetSideNavItems', () => {
           "id": "deveoloperTools",
           "routeKey": "DEVELOPER_TOOLS",
         },
+        {
+          "id": "notifications",
+          "routeKey": "NOTIFICATIONS",
+        },
       ]
     `)
   })
@@ -132,6 +140,10 @@ describe('useGetSideNavItems', () => {
         {
           "id": "deveoloperTools",
           "routeKey": "DEVELOPER_TOOLS",
+        },
+        {
+          "id": "notifications",
+          "routeKey": "NOTIFICATIONS",
         },
       ]
     `)
@@ -180,6 +192,10 @@ describe('useGetSideNavItems', () => {
         {
           "id": "deveoloperTools",
           "routeKey": "DEVELOPER_TOOLS",
+        },
+        {
+          "id": "notifications",
+          "routeKey": "NOTIFICATIONS",
         },
       ]
     `)
@@ -230,6 +246,10 @@ describe('useGetSideNavItems', () => {
           "id": "deveoloperTools",
           "routeKey": "DEVELOPER_TOOLS",
         },
+        {
+          "id": "notifications",
+          "routeKey": "NOTIFICATIONS",
+        },
       ]
     `)
   })
@@ -279,6 +299,10 @@ describe('useGetSideNavItems', () => {
           "id": "deveoloperTools",
           "routeKey": "DEVELOPER_TOOLS",
         },
+        {
+          "id": "notifications",
+          "routeKey": "NOTIFICATIONS",
+        },
       ]
     `)
   })
@@ -327,6 +351,10 @@ describe('useGetSideNavItems', () => {
         {
           "id": "deveoloperTools",
           "routeKey": "DEVELOPER_TOOLS",
+        },
+        {
+          "id": "notifications",
+          "routeKey": "NOTIFICATIONS",
         },
       ]
     `)

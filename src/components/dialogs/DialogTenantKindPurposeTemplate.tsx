@@ -14,7 +14,7 @@ import { useDialog } from '@/stores'
 import type { DialogTenantKindPurposeTemplateProps } from '@/types/dialog.types'
 import { RHFAutocompleteSingle, RHFRadioGroup } from '../shared/react-hook-form-inputs'
 import { FormProvider, useForm } from 'react-hook-form'
-import type { TenantKind } from '@/api/api.generatedTypes'
+import type { TargetTenantKind, TenantKind } from '@/api/api.generatedTypes'
 
 export const DialogTenantKindPurposeTemplate: React.FC<DialogTenantKindPurposeTemplateProps> = ({
   onConfirm,
@@ -32,7 +32,7 @@ export const DialogTenantKindPurposeTemplate: React.FC<DialogTenantKindPurposeTe
     closeDialog()
   }
 
-  const formMethods = useForm<{ tenantKind: TenantKind; personalData: string }>({
+  const formMethods = useForm<{ tenantKind: TargetTenantKind; personalData: string }>({
     defaultValues: {
       tenantKind: 'PA',
       personalData: undefined,
