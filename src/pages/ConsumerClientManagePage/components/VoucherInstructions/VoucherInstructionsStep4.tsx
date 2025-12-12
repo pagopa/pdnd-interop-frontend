@@ -12,10 +12,10 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { Link } from '@/router'
 import { IconLink } from '@/components/shared/IconLink'
 import {
-  docV1GuideLink,
-  docV2GuideLink,
-  docSignalHubPush,
-  docSignalHubPull,
+  apiV1DocLink,
+  apiV2DocLink,
+  apiSignalhubPushLink,
+  apiSignalhubPullLink,
 } from '@/config/constants'
 
 export const VoucherInstructionsStep4: React.FC = () => {
@@ -80,7 +80,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
                 {clientKind === 'API' && (
                   <IconLink
                     endIcon={<OpenInNewIcon fontSize="small" />}
-                    href={docV1GuideLink}
+                    href={apiV1DocLink}
                     target="_blank"
                     sx={{
                       fontWeight: 600,
@@ -98,7 +98,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
                 <Typography variant="body2">{t(`step4.API.apiV2.description`)}</Typography>
                 <IconLink
                   endIcon={<OpenInNewIcon fontSize="small" />}
-                  href={docV2GuideLink}
+                  href={apiV2DocLink}
                   target="_blank"
                   sx={{
                     fontWeight: 600,
@@ -125,7 +125,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
               <Typography variant="body2">{t(`step4.API.pushApiSH.description`)}</Typography>
               <IconLink
                 endIcon={<OpenInNewIcon fontSize="small" />}
-                href={docSignalHubPush}
+                href={apiSignalhubPushLink}
                 target="_blank"
                 sx={{
                   fontWeight: 600,
@@ -142,7 +142,7 @@ export const VoucherInstructionsStep4: React.FC = () => {
               <Typography variant="body2">{t(`step4.API.pullApiSH.description`)}</Typography>
               <IconLink
                 endIcon={<OpenInNewIcon fontSize="small" />}
-                href={docSignalHubPull}
+                href={apiSignalhubPullLink}
                 target="_blank"
                 sx={{
                   fontWeight: 600,
