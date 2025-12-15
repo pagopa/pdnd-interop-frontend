@@ -117,8 +117,6 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
             sx={{ px: 2, py: 2, borderLeft: 4, borderColor: 'primary.main' }}
             bgcolor="common.white"
           >
-            <RHFSingleFileInput sx={{ my: 0 }} name="doc" rules={{ required: true }} />
-
             <RHFTextField
               size="small"
               sx={{ my: 2 }}
@@ -129,8 +127,10 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
               rules={{ required: true, minLength: 5 }}
             />
 
+            <RHFSingleFileInput sx={{ my: 0 }} name="doc" rules={{ required: true }} />
+
             <Stack direction="row" justifyContent="flex-end">
-              <Button type="submit" variant="contained">
+              <Button type="submit" variant="contained" sx={{ mt: 3 }}>
                 <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('create.step4.uploadBtn')}
               </Button>
             </Stack>

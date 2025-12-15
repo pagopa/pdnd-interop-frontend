@@ -168,7 +168,7 @@
   "step4": {
     "consumerStepperLabel": "Accesso e-service",
     "apiStepperLabel": "Accesso API Interop",
-    "actionLabel": "Scarica",
+    "actionLabel": "Consulta",
     "CONSUMER": {
       "title": "Congratulazioni!",
       "description": "Ora puoi accedere all’API dell’e-service <strong>{{ eserviceName }}</strong> erogato da <strong>{{ producerName }}</strong> ",
@@ -182,7 +182,7 @@
       "actionTitle": "PDND Interoperabilità",
       "actionDescription": "L’API che permette agli aderenti di interagire con PDND Interoperabilità in modalità machine to machine",
       "titleSignalHub": "Signal Hub",
-      "actionLabel": "Scarica",
+      "actionLabel": "Consulta",
       "apiV1": {
         "title": "API v.1 (in dismissione)",
         "description": "La versione API attualmente utilizzata e in dismissione."

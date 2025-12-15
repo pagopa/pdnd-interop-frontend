@@ -2,8 +2,8 @@
   "read": {
     "tabs": {
       "eserviceTemplateDetails": "Template details",
-      "eserviceTemplateTenants": "Using Tenants",
-      "ariaLabel": "Two separate tabs: one for the template e-service details and another for using tenants."
+      "eserviceTemplateTenants": "Using Parties",
+      "ariaLabel": "Two separate tabs: one for the template e-service details and another for using parties."
     },
     "actions": {
       "backToEserviceTemplateListLabel": "Back to the e-service templates",
@@ -11,26 +11,26 @@
     },
     "sections": {
       "generalInformations": {
-        "title": "Template informations",
+        "title": "Template information",
         "version": {
-          "label": "You are watching version number"
+          "label": "You are viewing version number"
         },
         "eserviceTemplateName": {
-          "label": "E-Service template name"
+          "label": "E-service template name"
         },
         "eserviceTemplateintendedTarget": {
-          "label": "The template is aimed at "
+          "label": "The template is aimed at"
         },
         "eserviceTemplateDescription": {
-          "label": "E-Service template description"
+          "label": "E-service template description"
         },
         "versionDescription": {
           "label": "Version description"
         },
         "bottomActions": {
           "navigateTemplateVersions": "Navigate to another e-service template version",
-          "downloadUsingTenantsList": "Download list of using tenants",
-          "viewTechnicalInfo": "View eservice technical information "
+          "downloadUsingTenantsList": "Download list of using parties",
+          "viewTechnicalInfo": "View e-service technical information"
         },
         "consumerListFileName": "{{timestamp}}-consumers-template-list-{{eServiceTemplateName}}.csv",
         "personalDataField": {
@@ -67,15 +67,15 @@
           "title": "Thresholds",
           "voucherLifespan": {
             "label": "Voucher lifespan",
-            "labelDescription": "in minutes"
+            "labelDescription": "(in minutes)"
           },
           "dailyCallsPerConsumer": {
-            "label": "Per subscriber suggested threshold",
-            "labelDescription": "API calls/day"
+            "label": "Per consumer suggested threshold",
+            "labelDescription": "(API calls/day)"
           },
           "dailyCallsTotal": {
             "label": "Total suggested threshold",
-            "labelDescription": "API calls/day"
+            "labelDescription": "(API calls/day)"
           }
         },
         "documentation": {
@@ -96,7 +96,7 @@
         "subtitle": "From this panel you can update the name of the template e-service. The changes made will take effect immediately",
         "templateNameField": {
           "label": "Template e-service name",
-          "infoLabel": "Min 5 chars, max 60 chars",
+          "infoLabel": "Min 5 characters, max 60 characters",
           "validation": {
             "sameValue": "The template e-service name must be different from the current one"
           }
@@ -106,10 +106,10 @@
         "title": "Edit the target audience",
         "subtitle": "From this panel, you can update the target audience of the template. The changes made will take effect immediately",
         "eserviceTemplateAudienceField": {
-          "label": "Template target audience ",
-          "infoLabel": "Min 10 chars, max 250 chars",
+          "label": "Template target audience",
+          "infoLabel": "Min 10 characters, max 250 characters",
           "validation": {
-            "sameValue": "The template target audience  must be different from the current one"
+            "sameValue": "The template target audience must be different from the current one"
           }
         }
       },
@@ -118,15 +118,15 @@
         "subtitle": "From this panel, you can update the description of the template. The changes made will take effect immediately.",
         "eserviceTemplateDescriptionField": {
           "label": "Template e-service description",
-          "infoLabel": "Min 10 chars, max 250 chars",
+          "infoLabel": "Min 10 characters, max 250 characters",
           "validation": {
             "sameValue": "The template e-service description must be different from the current one"
           }
         }
       },
       "updateEServiceTemplateThresholdsDrawer": {
-        "subtitle": "From this panel, you can update the quotas of the template eservice. The changes made will take effect immediately",
-        "dailyCallsPerConsumerLabel": "Per subscriber suggested threshold",
+        "subtitle": "From this panel, you can update the quotas of the template e-service. The changes made will take effect immediately",
+        "dailyCallsPerConsumerLabel": "Per consumer suggested threshold",
         "dailyCallsTotalLabel": "Total suggested threshold"
       },
       "updateDocumentationDrawer": {
@@ -140,9 +140,9 @@
         "downloadDocumentTooltip": "Download document"
       },
       "versionSelectorDrawer": {
-        "title": "Navigate to another  e-service template version",
+        "title": "Navigate to another e-service template version",
         "label": "Select version",
-        "currentVersion": "{{ versionNum }} - current versino",
+        "currentVersion": "{{ versionNum }} - current version",
         "goToSelectedVersion": "Go to the selected version"
       }
     }
@@ -153,9 +153,9 @@
         "label": "Find by name"
       },
       "eserviceTemplateProviderField": {
-        "label": "Find by provider's template"
+        "label": "Find by producer's template"
       },
-      "tenantField": "Find by name",
+      "tenantField": "Find by party name",
       "statusField": {
         "label": "Instance status",
         "optionLabels": {
@@ -168,15 +168,15 @@
       }
     },
     "usingTenantTable": {
-      "noDataLabel": "This template has not yet been used by the tenants.",
+      "noDataLabel": "This template has not yet been used by any party.",
       "noResultsLabel": "Your current search returned no results"
     }
   },
   "actions": {
     "createNewEServiceInstance": "Use template",
-    "createNewEServiceInstanceDisabled": "You have already created an instance from this\ntemplate.",
-    "createInstanceDisabledTenantKind": "It is not possible to use the template because the provider has not created a purpose for your type of entity.",
-    "createInstanceDisabledPersonalData": "It is not possible to use the template because the provider has not indicated whether personal data is processed."
+    "createNewEServiceInstanceDisabled": "You have already created an instance from this template.",
+    "createInstanceDisabledTenantKind": "It is not possible to use the template because the producer has not created a purpose for your type of entity.",
+    "createInstanceDisabledPersonalData": "It is not possible to use the template because the producer has not indicated whether personal data is processed."
   },
   "createInstance": {
     "title": "Create e-service from template",
@@ -185,7 +185,7 @@
   "noMultiDataLabel": "You have not yet created e-service templates.",
   "backToListBtn": "Back to templates",
   "create": {
-    "emptyTitle": "Create eservice template",
+    "emptyTitle": "Create e-service template",
     "stepper": {
       "step1Label": "General",
       "step2Label": "Version",
@@ -198,19 +198,19 @@
     "forwardWithoutSaveBtn": "Proceed",
     "goToSummary": "Go to summary",
     "step1": {
-      "detailsTitle": "Eservice template instance details",
+      "detailsTitle": "E-service template details",
       "detailsDescription": "The information in this section will not be modifiable by the implementers of the instances.",
       "eserviceTemplateNameField": {
-        "label": "Eservice template instance name",
-        "infoLabel": "Min 5 chars, max 60 chars"
+        "label": "E-service template name",
+        "infoLabel": "Min 5 characters, max 60 characters"
       },
       "intendedTargetField": {
         "label": "Who is the template intended for?",
-        "infoLabel": "Min 10 chars, max 250 chars"
+        "infoLabel": "Min 10 characters, max 250 characters"
       },
       "eserviceDescriptionField": {
         "label": "What does this e-service allow you to do?",
-        "infoLabel": "Min 10 chars, max 250 chars"
+        "infoLabel": "Min 10 characters, max 250 characters"
       },
       "eserviceTemplateTechnologyField": {
         "label": "What technology is your API built with?"
@@ -260,7 +260,7 @@
       }
     },
     "step2": {
-      "versionTitle": "Informations for version  {{versionNumber}}",
+      "versionTitle": "Information for version {{versionNumber}}",
       "versionDescriptionField": {
         "label": "What changed in this version?"
       },
@@ -268,7 +268,7 @@
         "title": "Voucher",
         "voucherLifespanField": {
           "label": "Validity duration (minutes)",
-          "infoLabel": "Max value: 1440 minuites (24 hours)"
+          "infoLabel": "Max value: 1440 minutes (24 hours)"
         }
       },
       "thresholdsSection": {
@@ -282,7 +282,7 @@
         "dailyCallsTotalField": {
           "label": "Total API calls/day",
           "validation": {
-            "min": "This value cannot be below the threshold set for the API calls/day for each subscriber"
+            "min": "This value cannot be below the threshold set for the API calls/day for each consumer"
           }
         }
       },
@@ -300,7 +300,7 @@
     },
     "step3": {
       "attributesTitle": "Access requirements for version {{versionNumber}}",
-      "attributesDescription": "Please point out all the certified, verified and declared attributes that the provider must have in order to create an agreement for the e-service",
+      "attributesDescription": "Please indicate all the certified, verified, and declared attributes that the consumer must have in order to create an agreement for the e-service",
       "attributesAddBtn": "Add attribute",
       "attributesCreateBtn": "Create new attribute",
       "createAttributeDrawer": {
@@ -308,16 +308,16 @@
           "verified": "Create new verified attribute",
           "declared": "Create new declared attribute"
         },
-        "subtitle": "Una volta creato, troverai l’attributo nella lista tra quelli disponibili per essere aggiunti ad un e-service",
+        "subtitle": "Once created, the attribute will be available in the list to be added to an e-service",
         "nameField": {
-          "label": "Nome dell'attributo",
-          "infoLabel": "Min 5 caratteri, max 160 caratteri"
+          "label": "Attribute name",
+          "infoLabel": "Min 5 characters, max 160 characters"
         },
         "descriptionField": {
-          "label": "Descrizione dell'attributo",
-          "infoLabel": "Min 10 caratteri, max 250 caratteri"
+          "label": "Attribute description",
+          "infoLabel": "Min 10 characters, max 250 characters"
         },
-        "submitBtnLabel": "Crea attributo"
+        "submitBtnLabel": "Create attribute"
       }
     },
     "step4": {
@@ -335,8 +335,8 @@
         "description": "Upload all the technical documentation useful for the implementation of an integration with this e-service."
       },
       "nameField": {
-        "label": "Name document",
-        "infoLabel": "Min 5 chars, max 60 chars"
+        "label": "Document name",
+        "infoLabel": "Min 5 characters, max 60 characters"
       },
       "uploadBtn": "Upload"
     }
@@ -344,7 +344,7 @@
   "summary": {
     "title": "{{eserviceTemplateName}}, version {{versionEserviceTemplateNumber}}",
     "generalInfoSummary": {
-      "title": "General informations",
+      "title": "General information",
       "description": {
         "label": "Description"
       },
@@ -365,7 +365,7 @@
         }
       },
       "isSignalHubEnabled": {
-        "label": "Is it suggested to use the data update system (Signal Hub)? ",
+        "label": "Is the data update system (Signal Hub) suggested?",
         "value": {
           "true": "Yes",
           "false": "No",
@@ -378,9 +378,9 @@
       "riskAnalysisTitle": "{{riskAnalysisIndex}}/{{totalRiskAnalysis}} - {{riskAnalysisName}}"
     },
     "versionInfoSummary": {
-      "title": "Version's informations",
+      "title": "Version information",
       "description": {
-        "label": "Eservice description"
+        "label": "E-service description"
       },
       "audience": {
         "label": "Audience description"
@@ -408,14 +408,14 @@
       "title": "Version access requirements"
     },
     "documentationSummary": {
-      "title": "Version's documentations",
+      "title": "Version documentation",
       "interface": {
         "label": "OpenAPI Interface"
       },
       "emptyLabel": "No uploaded documents"
     },
     "notPublishableTooltip": {
-      "label": "One or more required fields have not been filled out. Complete the draft, please."
+      "label": "One or more required fields have not been filled out. Please complete the draft."
     },
     "missingPersonalDataField": "You have not indicated whether the e-service delivers or receives personal data. You can go back to the first step to specify it, or you can proceed and add this information later.",
     "alertUpdatePersonalData": {

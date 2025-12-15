@@ -1,43 +1,43 @@
 {
-  "noMultiDataLabel": "No client available",
+  "noMultiDataLabel": "No clients available",
   "tableClientInPurpose": {
     "actions": {
-      "removeFromPurpose": "Delete from purpose"
+      "removeFromPurpose": "Remove from purpose"
     },
     "noClientsAssociatedToPurposeLabel": "No clients associated with this purpose"
   },
   "create": {
     "title": "Create new client",
-    "description": "After creating a new client, you will always be able to add and remove security operators and public keys to access the Providers e-services",
+    "description": "Once the client is created, you can always add and remove operators and public keys to use for accessing producers' e-services",
     "infoSectionTitle": "General information",
     "nameField": {
       "label": "Client name (required)",
-      "infoLabel": "It will help you tell them apart. Min 5 chars, max 60 chars"
+      "infoLabel": "Helps you distinguish it from others. Min 5 characters, max 60 characters"
     },
     "descriptionField": {
       "label": "Client description (required)",
-      "infoLabel": "Min 10 chars, max 250 chars"
+      "infoLabel": "Min 10 characters, max 250 characters"
     },
     "clientOperatorsSection": {
-      "title": "Security operators",
-      "description": "You can manage the security operators in every moment, still after the creation"
+      "title": "Client members",
+      "description": "You can manage the client members at any time, even after creation"
     },
     "operatorsTable": {
-      "noDataLabel": "No operator added"
+      "noDataLabel": "No user added"
     },
     "addOperatorsDrawer": {
-      "title": "Add security operators",
+      "title": "Add members to client",
       "autocompleteInput": {
-        "label": "Selected operators"
+        "label": "Selected users"
       },
-      "adminAlert": "If you plan on uploading public keys for this client, add yourself as a member of this client, too"
+      "adminAlert": "If you want to upload public keys for this client, also add yourself to the client"
     },
     "addPublicKeyDrawer": {
-      "title": "Insert new public key",
-      "description": "Don't know how to create a set of cryptographic material? <1>Check the guide</1>.",
+      "title": "Enter new public key",
+      "description": "Don't know how to create a set of cryptographic material? <1>Read the guide</1>.",
       "nameInput": {
         "label": "Key name (required)",
-        "infoLabel": "It will help you tell them apart. Min. 5 characters, max. 60 characters"
+        "infoLabel": "It will help you distinguish it from others. Min 5 characters, max 60 characters"
       },
       "publicKeyInput": {
         "label": "Public key (required)"
@@ -46,46 +46,46 @@
     },
     "actions": {
       "createLabel": "Create",
-      "backToClientsLabel": "Back to the clients"
+      "backToClientsLabel": "Back to clients"
     }
   },
   "edit": {
     "alertApiV2": {
-      "description": "PDND will soon update its API model to version 2. In the future it will no longer be possible to interact with the previous version.",
-      "linkLabel": "Find out more"
+      "description": "PDND will soon update its API model to version 2. In the future, it will no longer be possible to interact with the previous version.",
+      "linkLabel": "Learn more"
     },
     "adminSection": {
       "title": "Admin API",
-      "description": "The Client Admin API is a user belonging to the entity who has the authority to perform write operations through the machine to machine channel.",
-      "adminLabel": "Admin",
+      "description": "The Client Admin API is a user belonging to the party who is authorized to perform write operations through the machine-to-machine channel.",
+      "adminLabel": "Manager",
       "actions": {
         "selectAdminLabel": "Select admin",
-        "substituteAdminLabel": "Substitute",
+        "substituteAdminLabel": "Replace",
         "removeAdminLabel": "Remove"
       }
     },
     "setClientAdminDrawer": {
       "title": {
-        "substitute": "Substitute Client Admin API",
+        "substitute": "Replace Client Admin API",
         "select": "Select Client Admin API"
       },
-      "subtitle": "You can enable a client member to write via API to the machine to machine flow.",
+      "subtitle": "You can enable a client member for writing via API in the machine-to-machine flow.",
       "adminField": {
         "label": "Client Admin API",
-        "infoLabel": "You can only choose one member per client.",
+        "infoLabel": "You can choose only one member per client.",
         "validation": {
           "sameValue": "The Client Admin API must be different from the current one"
         }
       }
     },
     "tabs": {
-      "ariaLabel": "Three different tabs with the instructions to obtain a voucher, for client members and public keys",
-      "voucher": "How do I obtain a voucher?",
+      "ariaLabel": "Three different tabs for voucher acquisition instructions, client members, and public keys",
+      "voucher": "How do I get a voucher?",
       "clientOperators": "Client members",
       "publicKeys": "Public keys"
     },
     "actions": {
-      "backToClientsLabel": "Back to the clients list"
+      "backToClientsLabel": "Back to clients list"
     },
     "filters": {
       "operatorField": {
@@ -96,7 +96,7 @@
   "list": {
     "filters": {
       "nameField": {
-        "label": "Find by name"
+        "label": "Search by name"
       }
     }
   }

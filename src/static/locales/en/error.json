@@ -2,34 +2,34 @@
   "actions": {
     "reloadPage": "Reload",
     "backToHome": "Back to home",
-    "retry": "Retry",
-    "backToSelfcare": "Go back to Area Riservata",
-    "goToSupportPage": "Go to the Support page"
+    "retry": "Please, try again",
+    "backToSelfcare": "Back to Members Area",
+    "goToSupportPage": "Go to Support page"
   },
   "default": {
-    "title": "Unexpected Error",
-    "description": "An unexpected error has occurred. Please reload the page."
+    "title": "Unexpected error",
+    "description": "An unexpected error has occurred. Please, reload the page."
   },
   "notFound": {
-    "title": "404",
-    "description": "The requested page does not exist"
+    "title": "Page not found",
+    "description": "404 - The page you were looking for unfortunately does not exist."
   },
   "axiosError": {
-    "title": "Server Error",
-    "description": "There was an error while handling the request. Please reload the page.",
-    "correlationIdText": "You will find the error id below, copy and paste it into the reporting form on the Support page.",
+    "title": "Server error",
+    "description": "An error occurred while handling the request. Please, try again.",
+    "correlationIdText": "If the error persists, open a request to support. Provide the context information and the code shown below.",
     "tooltipTitle": "Identifier copied successfully"
   },
   "forbidden": {
-    "title": "Not authorized",
-    "description": "You don't have the necessary permissions to view the page."
+    "title": "Unauthorized",
+    "description": "You do not have the necessary permissions to view the page."
   },
   "tokenExchange": {
     "title": "Authentication error",
-    "description": "Please, go back to Area Riservata and try again"
+    "description": "Please, return to the Members Area and try logging in again"
   },
   "assistencePartySelection": {
-    "title": "Error: not authorized.",
-    "description": "You do not have the necessary permissions to view PDND Interoperability in support mode, or your session has expired. Try signing in again from Google Workspace."
+    "title": "Error: unauthorized",
+    "description": "You do not have the necessary permissions to view PDND in assistance mode, or the session has expired. Please try logging in again from Google Workspace."
   }
 }
