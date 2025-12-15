@@ -7,12 +7,13 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetAgreementsActions from '@/hooks/useGetAgreementsActions'
 import { Link } from '@/router'
-import { Box, Skeleton, Tooltip } from '@mui/material'
+import { Box, Skeleton, Tooltip, Stack } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import UpdateIcon from '@mui/icons-material/Update'
 import { useQueryClient } from '@tanstack/react-query'
 import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
+import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
 
 export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntry }> = ({
   agreement,
@@ -47,10 +48,11 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
   const isDelegated = isDelegate || isDelegator
 
   const eserviceCellData = (
-    <>
+    <Stack direction="row" alignItems="center">
+      {agreement.hasUnreadNotifications && <NotificationBadgeDot />}
       {t('eserviceName', { name: eservice.name, version: descriptor.version })}
       {isDelegated && <ByDelegationChip tenantRole={isDelegator ? 'DELEGATOR' : 'DELEGATE'} />}
-    </>
+    </Stack>
   )
 
   return (
