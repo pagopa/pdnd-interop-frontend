@@ -171,7 +171,7 @@
   "step4": {
     "consumerStepperLabel": "E-service access",
     "apiStepperLabel": "API Interop access",
-    "actionLabel": "Download",
+    "actionLabel": "Consult",
     "CONSUMER": {
       "title": "Congratulations!",
       "description": "You can now access the API of the e-service <strong>{{ eserviceName }}</strong> produced by <strong>{{ producerName }}</strong> ",
@@ -185,7 +185,7 @@
       "actionTitle": "PDND",
       "actionDescription": "The API that allows parties to interact with PDND in machine-to-machine mode",
       "titleSignalHub": "Signal Hub",
-      "actionLabel": "Download",
+      "actionLabel": "Consult",
       "apiV1": {
         "title": "API v.1 (deprecated)",
         "description": "The API version currently in use and being deprecated."

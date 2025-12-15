@@ -14,7 +14,12 @@ import { FEATURE_FLAG_NOTIFICATION_CONFIG } from '@/config/env'
 
 export function useGetSidebarItems(): SidebarRoutes {
   const { t } = useTranslation('sidebar', { keyPrefix: 'menuItem' })
-  const { currentRoles, isSupport, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
+  const {
+    currentRoles,
+    isSupport,
+    isOrganizationAllowedToProduce,
+    isOrganizationAllowedToDelegations,
+  } = AuthHooks.useJwt()
 
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
 
@@ -89,7 +94,7 @@ export function useGetSidebarItems(): SidebarRoutes {
           },
           {
             to: 'DELEGATIONS',
-            hide: !isOrganizationAllowedToProduce,
+            hide: !isOrganizationAllowedToDelegations,
             label: t('tenant.delegations'),
           },
         ],
@@ -119,5 +124,12 @@ export function useGetSidebarItems(): SidebarRoutes {
       }
       return [...acc, item]
     }, [])
-  }, [currentRoles, isOrganizationAllowedToProduce, isSupport, t, tenant])
+  }, [
+    currentRoles,
+    isOrganizationAllowedToProduce,
+    isOrganizationAllowedToDelegations,
+    isSupport,
+    t,
+    tenant,
+  ])
 }
