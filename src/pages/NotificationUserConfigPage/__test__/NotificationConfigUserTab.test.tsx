@@ -128,12 +128,19 @@ describe('NotificationConfigUserTab', () => {
     beforeEach(() => {
       renderComponent('email', {
         emailNotificationPreference: true,
+        emailDigestPreference: false,
       })
     })
 
     it('Should be able to see user email', () => {
       const email = screen.getByTestId('test-email')
       expect(email).toBeInTheDocument()
+    })
+
+    it('Should be able to choose if user can receive digest emails', () => {
+      const digestSwitch = screen.getByTestId('emailDigestPreference')
+      expect(digestSwitch).toBeInTheDocument()
+      expect(digestSwitch).not.toBeChecked()
     })
   })
 })
