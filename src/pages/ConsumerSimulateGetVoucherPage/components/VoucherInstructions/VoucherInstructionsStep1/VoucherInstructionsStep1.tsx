@@ -96,11 +96,11 @@ export const VoucherInstructionsStep1: React.FC = () => {
   useEffect(() => {
     // RESET VALUES WHEN clientId CHANGE
     if (clientId !== selectedClientId) {
-      handleSelectedClientIdChange(clientId)
+      handleSelectedClientIdChange(clientId ?? '')
       handleSelectedPurposeIdChange('')
       handleSelectedKeyIdChange('')
-      methods.resetField('purposeId')
-      methods.resetField('keyId')
+      methods.setValue('purposeId', '')
+      methods.setValue('keyId', '')
     }
   }, [
     clientId,
