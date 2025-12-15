@@ -45,7 +45,6 @@ export const IconLink = <D extends React.ElementType = 'a'>({
           justifyContent="center"
           alignItems="center"
           component="span"
-          gap={1}
           sx={{
             cursor: 'pointer',
             textDecoration: 'inherit',
