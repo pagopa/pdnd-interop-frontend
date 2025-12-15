@@ -88,19 +88,27 @@ export const VoucherInstructionsStep1: React.FC = () => {
     if (clientKind === 'API' && !Boolean(values.keyId)) return
 
     handleSelectedClientIdChange(values.clientId)
-    handleSelectedPurposeIdChange(values.purposeId)
+    if (clientKind === 'CONSUMER') handleSelectedPurposeIdChange(values.purposeId)
     handleSelectedKeyIdChange(values.keyId)
     goToNextStep()
   }
 
   useEffect(() => {
     // RESET VALUES WHEN clientId CHANGE
-    handleSelectedClientIdChange(clientId)
-    handleSelectedPurposeIdChange('')
-    handleSelectedKeyIdChange('')
-    methods.resetField('purposeId')
-    methods.resetField('keyId')
-  }, [clientId])
+    if (clientId !== selectedClientId) {
+      handleSelectedClientIdChange(clientId)
+      handleSelectedPurposeIdChange('')
+      handleSelectedKeyIdChange('')
+      methods.resetField('purposeId')
+      methods.resetField('keyId')
+    }
+  }, [
+    clientId,
+    selectedClientId,
+    handleSelectedPurposeIdChange,
+    handleSelectedClientIdChange,
+    handleSelectedKeyIdChange,
+  ])
 
   return (
     <FormProvider {...methods}>
