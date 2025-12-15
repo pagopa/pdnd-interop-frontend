@@ -1,19 +1,16 @@
 import { useEffect, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { debounce } from 'lodash'
-import type { NotificationConfigType, NotificationPreferenceChoiceType } from '../types'
+import type { NotificationConfigFormValues, NotificationConfigType } from '../types'
 import { type NotificationConfig } from '@/api/api.generatedTypes'
-
-type NotificationConfigFormValues = NotificationConfig & {
-  preferenceChoice: NotificationPreferenceChoiceType
-}
 
 type UseNotificationConfigFormProps = {
   notificationConfig: NotificationConfigFormValues
   handleUpdateNotificationConfigs: (
     notificationConfig: NotificationConfig,
-    type: NotificationConfigType,
-    preferenceChoice: NotificationPreferenceChoiceType
+    inAppNotificationPreference: boolean,
+    emailNotificationPreference: boolean,
+    emailDigestPreference: boolean
   ) => void
   type: NotificationConfigType
 }
@@ -21,22 +18,32 @@ type UseNotificationConfigFormProps = {
 export const useNotificationConfigForm = ({
   notificationConfig,
   handleUpdateNotificationConfigs,
-  type,
 }: UseNotificationConfigFormProps) => {
   const formMethods = useForm<NotificationConfigFormValues>({
-    defaultValues: { ...notificationConfig, preferenceChoice: notificationConfig.preferenceChoice },
+    defaultValues: {
+      ...notificationConfig,
+      inAppNotificationPreference: notificationConfig.inAppNotificationPreference,
+      emailDigestPreference: notificationConfig.emailDigestPreference,
+      emailNotificationPreference: notificationConfig.emailNotificationPreference,
+    },
   })
 
   const valuesChanged = formMethods.watch()
-  const preferenceChoice = formMethods.getValues('preferenceChoice')
+  const inAppNotificationPreference = formMethods.getValues('inAppNotificationPreference')
+  const emailNotificationPreference = formMethods.getValues('emailNotificationPreference')
+  const emailDigestPreference = formMethods.getValues('emailDigestPreference')
 
   const debouncedUpdate = useMemo(
     () =>
       debounce((data: NotificationConfigFormValues) => {
-        const currentPreferenceChoice = formMethods.getValues('preferenceChoice')
-        handleUpdateNotificationConfigs(data, type, currentPreferenceChoice)
+        handleUpdateNotificationConfigs(
+          data,
+          data.inAppNotificationPreference,
+          data.emailNotificationPreference,
+          data.emailDigestPreference
+        )
       }, 1000),
-    [handleUpdateNotificationConfigs, formMethods, type]
+    [handleUpdateNotificationConfigs]
   )
 
   useEffect(() => {
@@ -51,7 +58,9 @@ export const useNotificationConfigForm = ({
 
   return {
     formMethods,
-    preferenceChoice,
+    inAppNotificationPreference,
+    emailNotificationPreference,
+    emailDigestPreference,
     valuesChanged,
   }
 }

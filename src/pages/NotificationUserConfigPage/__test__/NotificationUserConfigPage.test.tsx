@@ -1,8 +1,21 @@
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { screen, waitFor } from '@testing-library/react'
 import NotificationUserConfigPage from '../NotificationUserConfig.page'
+import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import type { UserNotificationConfig } from '@/api/api.generatedTypes'
+import { createUserNotificationConfigs } from '../../../../__mocks__/data/notification.mocks'
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
 
 mockUseJwt()
+
+const server = setupServer(
+  rest.get(`${BACKEND_FOR_FRONTEND_URL}/userNotificationConfigs`, (_, res, ctx) => {
+    return res(ctx.json<UserNotificationConfig>(createUserNotificationConfigs()))
+  })
+)
+beforeAll(() => server.listen())
+
 describe('NotificationUserConfigPage', () => {
   beforeEach(() => {
     renderWithApplicationContext(<NotificationUserConfigPage />, {

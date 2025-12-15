@@ -47,7 +47,7 @@
           "optionLabels": {
             "Providers": "Producing",
             "Subscribers": "Consuming",
-            "Delegation": "Delegations",
+            "Delegations": "Delegations",
             "AttributesAndKeys": "Attributes and Keys"
           }
         },
