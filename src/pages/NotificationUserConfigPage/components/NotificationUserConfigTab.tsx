@@ -72,11 +72,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   return (
     <FormProvider {...formMethods}>
       <SectionContainer sx={{ px: 4, pt: 4 }} title={t('title')} description={t('description')}>
-        {type === 'email' ? (
-          <EmailConfigHeader userEmail={userEmail} emailDigestPreference={emailDigestPreference} />
-        ) : (
-          <InAppConfigHeader />
-        )}
+        {type === 'email' ? <EmailConfigHeader userEmail={userEmail} /> : <InAppConfigHeader />}
         {/* {inAppNotificationPreference !== 'DIGEST' && ( */}
         <Alert sx={{ mt: 2 }} severity="info">
           {tConfiguration('infoAlert')}
@@ -106,9 +102,8 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
 
 type EmailConfigHeaderProps = {
   userEmail: string | undefined
-  emailDigestPreference: boolean
 }
-const EmailConfigHeader = ({ userEmail, emailDigestPreference }: EmailConfigHeaderProps) => {
+const EmailConfigHeader = ({ userEmail }: EmailConfigHeaderProps) => {
   const { t } = useTranslation('notification', {
     keyPrefix: `notifications.configurationPage.email`,
   })
@@ -125,6 +120,7 @@ const EmailConfigHeader = ({ userEmail, emailDigestPreference }: EmailConfigHead
 
       <RHFSwitch
         sx={{ pl: 2 }}
+        data-testid="emailDigestPreference"
         key="emailDigestPreference"
         name="emailDigestPreference"
         label={
@@ -146,9 +142,9 @@ const EmailConfigHeader = ({ userEmail, emailDigestPreference }: EmailConfigHead
         }
       />
 
-      {/* {emailDigestPreference && (
+      {/* {emailDigestPreference && (. // Not needed now
         <Alert severity="info" sx={{ mt: 3 }}>
-          {t('digestInfoDescription')}
+          {t('digestInfoDescription')}d
         </Alert>
       )} */}
     </>

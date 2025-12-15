@@ -135,7 +135,5 @@ describe('NotificationConfigUserTab', () => {
       const email = screen.getByTestId('test-email')
       expect(email).toBeInTheDocument()
     })
-
-    it('Should be able to choose   ')
   })
 })
