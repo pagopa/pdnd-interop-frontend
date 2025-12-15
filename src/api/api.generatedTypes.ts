@@ -427,6 +427,8 @@ export interface EServiceTemplateRiskAnalysis {
   tenantKind: TenantKind
   /** @format date-time */
   createdAt: string
+  /** @format date-time */
+  rulesetExpiration?: string
 }
 
 export interface ProducerEServiceDescriptor {
@@ -830,6 +832,8 @@ export interface CompactOrganization {
 
 export type TenantKind = 'PA' | 'PRIVATE' | 'GSP' | 'SCP'
 
+export type TargetTenantKind = 'PA' | 'PRIVATE'
+
 export interface CompactOrganizations {
   results: CompactOrganization[]
   pagination: Pagination
@@ -991,7 +995,7 @@ export interface PurposeTemplate {
   /** @format uuid */
   id: string
   targetDescription: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   /** @format uuid */
   creatorId: string
   /** Purpose Template State */
@@ -1022,7 +1026,7 @@ export interface PurposeTemplateWithCompactCreator {
   /** @format uuid */
   id: string
   targetDescription: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   creator: CompactOrganization
   /** Purpose Template State */
   state: PurposeTemplateState
@@ -1051,7 +1055,7 @@ export interface PurposeTemplateSeed {
    * @maxLength 250
    */
   targetDescription: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   /**
    * @minLength 5
    * @maxLength 60
@@ -1144,7 +1148,7 @@ export interface EServiceDescriptorPurposeTemplate {
 export interface CreatorPurposeTemplate {
   /** @format uuid */
   id: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   purposeTitle: string
   /** Purpose Template State */
   state: PurposeTemplateState
@@ -1158,7 +1162,7 @@ export interface CreatorPurposeTemplates {
 export interface CatalogPurposeTemplate {
   /** @format uuid */
   id: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   purposeTitle: string
   purposeDescription: string
   creator: CompactOrganization
@@ -1346,6 +1350,7 @@ export interface PurposeVersion {
   dailyCalls: number
   riskAnalysisDocument?: PurposeVersionDocument
   rejectionReason?: string
+  signedContract?: PurposeVersionSignedDocument
 }
 
 export interface PurposeVersionDocument {
@@ -1372,6 +1377,16 @@ export type PurposeVersionState =
   | 'REJECTED'
   | 'WAITING_FOR_APPROVAL'
   | 'ARCHIVED'
+
+export interface PurposeVersionSignedDocument {
+  /** @format uuid */
+  id: string
+  contentType: string
+  /** @format date-time */
+  createdAt: string
+  /** @format date-time */
+  signedAt?: string
+}
 
 export interface User {
   /** @format uuid */
@@ -1425,6 +1440,18 @@ export interface Document {
   contentType: string
   /** @format date-time */
   createdAt: string
+}
+
+export interface SignedDocument {
+  /** @format uuid */
+  id: string
+  name: string
+  prettyName: string
+  contentType: string
+  /** @format date-time */
+  createdAt: string
+  /** @format date-time */
+  signedAt?: string
 }
 
 export interface AgreementsEService {
@@ -1890,6 +1917,8 @@ export interface Delegation {
   state: DelegationState
   /** Delegation State */
   kind: DelegationKind
+  activationSignedContract?: SignedDocument
+  revocationSignedContract?: SignedDocument
   isDocumentReady: boolean
 }
 
@@ -2323,6 +2352,8 @@ export interface NotificationConfig {
   delegationSubmittedRevokedToDelegate: boolean
   certifiedVerifiedAttributeAssignedRevokedToAssignee: boolean
   clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: boolean
+  purposeQuotaAdjustmentRequestToProducer: boolean
+  purposeOverQuotaStateToConsumer: boolean
 }
 
 export interface TenantNotificationConfig {
@@ -2915,7 +2946,7 @@ export interface GetCatalogPurposeTemplatesParams {
    */
   eserviceIds?: string[]
   /** filter by target tenant kind */
-  targetTenantKind?: TenantKind
+  targetTenantKind?: TargetTenantKind
   /**
    * exclude purpose templates with expired risk analysis
    * @default true
@@ -3214,6 +3245,7 @@ export interface IsEServiceNameAvailableParams {
 export interface GetNotificationsParams {
   /** Query to filter notifications */
   q?: string
+  unread?: boolean
   /** Category to filter notifications */
   category?: 'Subscribers' | 'Providers' | 'Delegations' | 'AttributesAndKeys'
   /**
@@ -4763,7 +4795,7 @@ export namespace Catalog {
        */
       eserviceIds?: string[]
       /** filter by target tenant kind */
-      targetTenantKind?: TenantKind
+      targetTenantKind?: TargetTenantKind
       /**
        * exclude purpose templates with expired risk analysis
        * @default true
@@ -8459,7 +8491,7 @@ export namespace Delegations {
    * @tags delegations
    * @name GetDelegationSignedContract
    * @summary Retrieve the signed contract of a delegation
-   * @request GET:/delegations/{delegationId}/signedContract
+   * @request GET:/delegations/{delegationId}/signedContract/{contractId}
    * @secure
    */
   export namespace GetDelegationSignedContract {
@@ -8469,6 +8501,11 @@ export namespace Delegations {
        * @format uuid
        */
       delegationId: string
+      /**
+       * The identifier of the the signedContract
+       * @format uuid
+       */
+      contractId: string
     }
     export type RequestQuery = {}
     export type RequestBody = never
@@ -8490,6 +8527,7 @@ export namespace InAppNotifications {
     export type RequestQuery = {
       /** Query to filter notifications */
       q?: string
+      unread?: boolean
       /** Category to filter notifications */
       category?: 'Subscribers' | 'Providers' | 'Delegations' | 'AttributesAndKeys'
       /**

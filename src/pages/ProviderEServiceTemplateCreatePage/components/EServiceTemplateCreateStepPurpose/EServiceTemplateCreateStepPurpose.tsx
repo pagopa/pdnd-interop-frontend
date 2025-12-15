@@ -67,6 +67,7 @@ export const EServiceTemplateCreateStepPurpose: FC = () => {
               <EServiceTemplateCreateStepAddRiskAnalysis
                 eserviceTemplateId={eserviceTemplateVersion.eserviceTemplate.id}
                 selectedTenantKind={selectedTenantKind}
+                personalData={eserviceTemplateVersion.eserviceTemplate.personalData}
                 onClose={closeRiskAnalysisForm}
               />
             ))

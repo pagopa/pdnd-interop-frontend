@@ -428,6 +428,9 @@
       "option": "Option {{index}}:"
     }
   },
+  "documents": {
+    "notAvailableYet": "The document will be available soon"
+  },
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Terms of service",
