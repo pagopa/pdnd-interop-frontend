@@ -36,17 +36,12 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   })
   const { userEmail } = AuthHooks.useJwt()
 
-  const {
-    formMethods,
-    inAppNotificationPreference,
-    emailNotificationPreference,
-
-    valuesChanged,
-  } = useNotificationConfigForm({
-    handleUpdateNotificationConfigs,
-    notificationConfig,
-    type,
-  })
+  const { formMethods, inAppNotificationPreference, emailNotificationPreference, valuesChanged } =
+    useNotificationConfigForm({
+      handleUpdateNotificationConfigs,
+      notificationConfig,
+      type,
+    })
 
   const { notificationSchema, sectionComponentKeysMap } = useGetNotificationConfigSchema(type)
 
