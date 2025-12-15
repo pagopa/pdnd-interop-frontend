@@ -19,7 +19,11 @@ export const VoucherInstructionsStep3: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
 
-  const { clientId, goToPreviousStep, goToNextStep } = useVoucherInstructionsContext()
+  const {
+    selectedClientId: clientId,
+    goToPreviousStep,
+    goToNextStep,
+  } = useVoucherInstructionsContext()
 
   return (
     <>
@@ -44,9 +48,9 @@ export const VoucherInstructionsStep3: React.FC = () => {
           <Stack spacing={2}>
             <InformationContainer
               label={t('step3.requestBody.clientIdField.label')}
-              content={clientId}
+              content={clientId!}
               copyToClipboard={{
-                value: clientId,
+                value: clientId!,
                 tooltipTitle: t('step3.requestBody.clientIdField.copySuccessFeedbackText'),
               }}
             />
@@ -95,7 +99,7 @@ export const VoucherInstructionsStep3: React.FC = () => {
           entries={[{ url: `${FE_URL}/data/it/session_token_curl.txt`, value: 'curl' }]}
           scriptSubstitutionValues={{
             AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
-            CLIENT_ID: clientId,
+            CLIENT_ID: clientId!,
             CLIENT_ASSERTION_TYPE: CLIENT_ASSERTION_TYPE,
             GRANT_TYPE: GRANT_TYPE,
           }}

@@ -11,9 +11,7 @@ import { VoucherInstructionsStep2 } from './VoucherInstructionsStep2'
 import { VoucherInstructionsStep3 } from './VoucherInstructionsStep3'
 import { VoucherInstructionsStep4 } from './VoucherInstructionsStep4'
 
-interface VoucherInstructionsProps {}
-
-export const VoucherInstructions: React.FC<VoucherInstructionsProps> = ({}) => {
+export const VoucherInstructions: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
   const { activeStep, forward, back } = useActiveStep()
@@ -34,7 +32,6 @@ export const VoucherInstructions: React.FC<VoucherInstructionsProps> = ({}) => {
   const contextProps = {
     goToPreviousStep: back,
     goToNextStep: forward,
-    clientId: '',
   }
 
   return (

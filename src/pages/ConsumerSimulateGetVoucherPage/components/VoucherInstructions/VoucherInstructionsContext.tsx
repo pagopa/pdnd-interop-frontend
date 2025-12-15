@@ -6,7 +6,7 @@ import { useSearchParams } from 'react-router-dom'
 type VoucherInstructionsContextType = {
   selectedPurposeId: string | undefined
   selectedKeyId: string | undefined
-  clientId: string
+  selectedClientId: string | undefined
   handleSelectedPurposeIdChange: (purpose: string) => void
   handleSelectedKeyIdChange: (key: string) => void
   handleSelectedClientIdChange: (cliendId: string) => void
@@ -17,7 +17,7 @@ type VoucherInstructionsContextType = {
 const initialState: VoucherInstructionsContextType = {
   selectedPurposeId: undefined,
   selectedKeyId: undefined,
-  clientId: '',
+  selectedClientId: undefined,
   handleSelectedPurposeIdChange: noop,
   handleSelectedKeyIdChange: noop,
   handleSelectedClientIdChange: noop,
@@ -75,7 +75,7 @@ const VoucherInstructionsContextProvider: React.FC<VoucherInstructionsContextPro
 
   const selectedPurposeId = searchParams.get('purposeId') || undefined
   const selectedKeyId = searchParams.get('keyId') || undefined
-  const clientId = searchParams.get('clientId') || ''
+  const selectedClientId = searchParams.get('clientId') || undefined
 
   const providerValue = React.useMemo(
     () => ({
@@ -83,7 +83,7 @@ const VoucherInstructionsContextProvider: React.FC<VoucherInstructionsContextPro
       handleSelectedPurposeIdChange,
       selectedKeyId,
       handleSelectedKeyIdChange,
-      clientId,
+      selectedClientId,
       handleSelectedClientIdChange,
       goToNextStep,
       goToPreviousStep,
@@ -93,7 +93,7 @@ const VoucherInstructionsContextProvider: React.FC<VoucherInstructionsContextPro
       handleSelectedPurposeIdChange,
       selectedKeyId,
       handleSelectedKeyIdChange,
-      clientId,
+      selectedClientId,
       handleSelectedClientIdChange,
       goToNextStep,
       goToPreviousStep,

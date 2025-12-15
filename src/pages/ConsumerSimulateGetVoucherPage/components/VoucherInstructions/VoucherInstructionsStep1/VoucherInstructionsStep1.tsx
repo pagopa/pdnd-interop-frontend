@@ -1,17 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
-import {
-  Alert,
-  Paper,
-  Autocomplete,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from '@mui/material'
-import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
+import { Alert, FormControl } from '@mui/material'
 import { ClientQueries } from '@/api/client'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import ApiIcon from '@mui/icons-material/Api'
@@ -23,19 +13,40 @@ import { StepActions } from '@/components/shared/StepActions'
 import { useClientKind } from '@/hooks/useClientKind'
 import { useQuery } from '@tanstack/react-query'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
+import { useForm, FormProvider, type SubmitHandler } from 'react-hook-form'
+import { RHFAutocompleteSingle, RHFSelect } from '@/components/shared/react-hook-form-inputs'
+import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
+
+interface VoucherInstructionsStep1Form {
+  clientId: string
+  purposeId: string
+  keyId: string
+}
 
 export const VoucherInstructionsStep1: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
   const {
+    selectedClientId,
     selectedPurposeId,
+    selectedKeyId,
+    handleSelectedClientIdChange,
     handleSelectedPurposeIdChange,
     handleSelectedKeyIdChange,
-    selectedKeyId,
-    clientId,
-    handleSelectedClientIdChange,
     goToNextStep,
   } = useVoucherInstructionsContext()
+
+  const methods = useForm<VoucherInstructionsStep1Form>({
+    defaultValues: {
+      clientId: selectedClientId,
+      purposeId: selectedPurposeId,
+      keyId: selectedKeyId,
+    },
+  })
+
+  const clientId = methods.watch('clientId')
+  const purposeId = methods.watch('purposeId')
+  const keyId = methods.watch('keyId')
 
   const [clientSearch, setClientSearch] = useAutocompleteTextInput('')
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
@@ -59,20 +70,9 @@ export const VoucherInstructionsStep1: React.FC = () => {
     enabled: Boolean(clientId),
   })
 
-  const purposeSelectLabelId = React.useId()
-  const purposeSelectId = React.useId()
-  const keySelectLabelId = React.useId()
-  const keySelectId = React.useId()
-
   const purposes = client?.purposes
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    goToNextStep()
-  }
-
-  const canGoToNextStep =
-    clientKind === 'CONSUMER' ? Boolean(selectedKeyId && selectedPurposeId) : Boolean(selectedKeyId)
+  const canGoToNextStep = clientKind === 'CONSUMER' ? Boolean(keyId && purposeId) : Boolean(keyId)
 
   const options = React.useMemo(() => {
     const results = clients?.results ?? []
@@ -82,9 +82,29 @@ export const VoucherInstructionsStep1: React.FC = () => {
     }))
   }, [clients])
 
+  const onSubmit: SubmitHandler<VoucherInstructionsStep1Form> = (values) => {
+    if (clientKind === 'CONSUMER' && !Boolean(values.keyId && values.purposeId)) return
+
+    if (clientKind === 'API' && !Boolean(values.keyId)) return
+
+    handleSelectedClientIdChange(values.clientId)
+    handleSelectedPurposeIdChange(values.purposeId)
+    handleSelectedKeyIdChange(values.keyId)
+    goToNextStep()
+  }
+
+  useEffect(() => {
+    // RESET VALUES WHEN clientId CHANGE
+    handleSelectedClientIdChange(clientId)
+    handleSelectedPurposeIdChange('')
+    handleSelectedKeyIdChange('')
+    methods.resetField('purposeId')
+    methods.resetField('keyId')
+  }, [clientId])
+
   return (
-    <>
-      <form onSubmit={handleSubmit}>
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
         <SectionContainer
           title={t(`step1.title.${clientKind}`)}
           description={t('step1.description')}
@@ -105,43 +125,28 @@ export const VoucherInstructionsStep1: React.FC = () => {
           ]}
         >
           <FormControl fullWidth>
-            <Autocomplete
+            <RHFAutocompleteSingle
+              name="clientId"
+              rules={{ required: true }}
+              label={t('step1.clientSelectInput.label')}
+              onInputChange={(_, value) => setClientSearch(value)}
               options={options}
-              PaperComponent={({ children }) => <Paper elevation={4}>{children}</Paper>}
-              onInputChange={(_, value) => {
-                setClientSearch(value)
-              }}
-              value={options.find((o) => o.value === clientId) ?? null}
-              onChange={(_, value) => {
-                handleSelectedClientIdChange(value?.value ?? '')
-                handleSelectedPurposeIdChange('')
-                handleSelectedKeyIdChange('')
-              }}
-              renderInput={(params) => (
-                <TextField {...params} label={t('step1.clientSelectInput.label')} />
-              )}
+              loading={isFetchingClients}
             />
           </FormControl>
           {clientKind === 'CONSUMER' ? (
             !clientId || purposes?.length || isFetchingClient ? (
               <FormControl fullWidth sx={{ mt: 2 }}>
-                <InputLabel id={purposeSelectLabelId}>
-                  {t('step1.purposeSelectInput.label')}
-                </InputLabel>
-                <Select
-                  labelId={purposeSelectLabelId}
-                  id={purposeSelectId}
-                  value={selectedPurposeId ?? ''}
+                <RHFSelect
+                  name="purposeId"
                   label={t('step1.purposeSelectInput.label')}
-                  disabled={!purposes || isFetchingClients || isFetchingClient}
-                  onChange={(e) => handleSelectedPurposeIdChange(e.target.value)}
-                >
-                  {(purposes ?? []).map((purpose) => (
-                    <MenuItem key={purpose.purposeId} value={purpose.purposeId}>
-                      {purpose.title} per {purpose.eservice.name}
-                    </MenuItem>
-                  ))}
-                </Select>
+                  options={(purposes ?? []).map((purpose) => ({
+                    label: `${purpose.title} per ${purpose.eservice.name}`,
+                    value: purpose.purposeId,
+                  }))}
+                  rules={{ required: true }}
+                  disabled={!clientId || isFetchingClient}
+                />
               </FormControl>
             ) : (
               <Alert sx={{ mt: 2 }} severity="info">
@@ -151,21 +156,13 @@ export const VoucherInstructionsStep1: React.FC = () => {
           ) : null}
           {!clientId || clientKeys?.length || isFetchingClient || isFetchingKeys ? (
             <FormControl fullWidth sx={{ mt: 2 }}>
-              <InputLabel id={keySelectLabelId}>{t('step1.keySelectInput.label')}</InputLabel>
-              <Select
-                labelId={keySelectLabelId}
-                id={keySelectId}
-                value={selectedKeyId ?? ''}
+              <RHFSelect
+                name="keyId"
                 label={t('step1.keySelectInput.label')}
+                options={(clientKeys ?? []).map((key) => ({ label: key.name, value: key.keyId }))}
+                rules={{ required: true }}
                 disabled={!clientKeys || isFetchingClients || isFetchingKeys || isFetchingClient}
-                onChange={(e) => handleSelectedKeyIdChange(e.target.value)}
-              >
-                {(clientKeys ?? []).map((key) => (
-                  <MenuItem key={key.keyId} value={key.keyId}>
-                    {key.name}
-                  </MenuItem>
-                ))}
-              </Select>
+              />
             </FormControl>
           ) : (
             <Alert sx={{ mt: 2 }} severity="info">
@@ -182,7 +179,12 @@ export const VoucherInstructionsStep1: React.FC = () => {
           }}
         />
       </form>
-      <VoucherInstructionsStep1CurrentIdsDrawer isOpen={isOpen} onClose={closeDrawer} />
-    </>
+      <VoucherInstructionsStep1CurrentIdsDrawer
+        isOpen={isOpen}
+        onClose={closeDrawer}
+        clientId={clientId}
+        purposeId={purposeId}
+      />
+    </FormProvider>
   )
 }

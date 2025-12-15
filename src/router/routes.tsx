@@ -390,18 +390,18 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'SIMULATE_GET_VOUCHER_API',
-    path: '/tool-sviluppo/api-interop/simulate-get-voucher',
+    path: '/tool-sviluppo/api-interop/simulate-voucher',
     element: <ConsumerSimulateGetVoucherPage />,
     public: false,
-    hideSideNav: false,
+    hideSideNav: true,
     authLevels: ['admin', 'support', 'api', 'security'],
   })
   .addRoute({
     key: 'SIMULATE_GET_VOUCHER_CONSUMER',
-    path: '/tool-sviluppo/api-e-service/simulate-get-voucher',
+    path: '/tool-sviluppo/api-e-service/simulate-voucher',
     element: <ConsumerSimulateGetVoucherPage />,
     public: false,
-    hideSideNav: false,
+    hideSideNav: true,
     authLevels: ['admin', 'support', 'api', 'security'],
   })
   .addRoute({

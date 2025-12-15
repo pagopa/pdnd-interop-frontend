@@ -18,8 +18,13 @@ export const VoucherInstructionsStep2: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
 
-  const { selectedPurposeId, selectedKeyId, clientId, goToNextStep, goToPreviousStep } =
-    useVoucherInstructionsContext()
+  const {
+    selectedPurposeId,
+    selectedKeyId,
+    selectedClientId: clientId,
+    goToNextStep,
+    goToPreviousStep,
+  } = useVoucherInstructionsContext()
 
   const filename =
     clientKind === 'CONSUMER' ? 'create_client_assertion.py' : 'create_m2m_client_assertion.py'
@@ -82,9 +87,9 @@ export const VoucherInstructionsStep2: React.FC = () => {
             <InformationContainer
               label={t('step2.assertionPayload.issField.label')}
               labelDescription={t('step2.assertionPayload.issField.description')}
-              content={clientId}
+              content={clientId!}
               copyToClipboard={{
-                value: clientId,
+                value: clientId!,
                 tooltipTitle: t('step2.assertionPayload.issField.copySuccessFeedbackText'),
               }}
             />
@@ -92,9 +97,9 @@ export const VoucherInstructionsStep2: React.FC = () => {
             <InformationContainer
               label={t('step2.assertionPayload.subField.label')}
               labelDescription={t('step2.assertionPayload.subField.description')}
-              content={clientId}
+              content={clientId!}
               copyToClipboard={{
-                value: clientId,
+                value: clientId!,
                 tooltipTitle: t('step2.assertionPayload.subField.copySuccessFeedbackText'),
               }}
             />
@@ -173,8 +178,8 @@ export const VoucherInstructionsStep2: React.FC = () => {
             INSERISCI_VALORE_KID: selectedKeyId!,
             INSERISCI_VALORE_ALG: CLIENT_ASSERTION_ALG,
             INSERISCI_VALORE_TYP: CLIENT_ASSERTION_TYP,
-            INSERISCI_VALORE_ISS: clientId,
-            INSERISCI_VALORE_SUB: clientId,
+            INSERISCI_VALORE_ISS: clientId!,
+            INSERISCI_VALORE_SUB: clientId!,
             INSERISCI_VALORE_AUD: CLIENT_ASSERTION_JWT_AUDIENCE,
             INSERISCI_VALORE_PUR: selectedPurposeId ?? '',
           }}

@@ -1,6 +1,5 @@
 import { Drawer } from '@/components/shared/Drawer'
 import React from 'react'
-import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
 import { PurposeQueries } from '@/api/purpose'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { Trans, useTranslation } from 'react-i18next'
@@ -11,17 +10,18 @@ import { useQuery } from '@tanstack/react-query'
 type VoucherInstructionsStep1CurrentIdsDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
+  clientId: string
+  purposeId: string
 }
 
 export const VoucherInstructionsStep1CurrentIdsDrawer: React.FC<
   VoucherInstructionsStep1CurrentIdsDrawerProps
-> = ({ isOpen, onClose }) => {
+> = ({ isOpen, onClose, clientId, purposeId }) => {
   const { t } = useTranslation('voucher', { keyPrefix: 'step1.currentIdsDrawer' })
 
-  const { clientId, selectedPurposeId } = useVoucherInstructionsContext()
   const { data: purpose } = useQuery({
-    ...PurposeQueries.getSingle(selectedPurposeId!),
-    enabled: Boolean(selectedPurposeId),
+    ...PurposeQueries.getSingle(purposeId!),
+    enabled: Boolean(purposeId),
   })
 
   return (
