@@ -53,7 +53,11 @@ export const NotificationConfigSection: React.FC<NotificationConfigSectionProps>
 
         {subsections.map((subsection: NotificationSubSectionSchema) => {
           return (
-            <NotificationConfigSubSection data-testid={name} key={name} subsection={subsection} />
+            <NotificationConfigSubSection
+              data-testid={name}
+              key={`${name}-${subsection.title}`}
+              subsection={subsection}
+            />
           )
         })}
       </Card>

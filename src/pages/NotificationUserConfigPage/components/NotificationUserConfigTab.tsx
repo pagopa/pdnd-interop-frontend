@@ -36,7 +36,13 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   })
   const { userEmail } = AuthHooks.useJwt()
 
-  const { formMethods, inAppNotificationPreference, valuesChanged } = useNotificationConfigForm({
+  const {
+    formMethods,
+    inAppNotificationPreference,
+    emailNotificationPreference,
+    emailDigestPreference,
+    valuesChanged,
+  } = useNotificationConfigForm({
     handleUpdateNotificationConfigs,
     notificationConfig,
     type,
@@ -59,7 +65,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   }
 
   const isEnabledShowPreferencesSwitch = match(type)
-    .with('email', () => notificationConfig.emailNotificationPreference)
+    .with('email', () => !!emailNotificationPreference)
     .with('inApp', () => !!inAppNotificationPreference)
     .exhaustive()
 
@@ -67,10 +73,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
     <FormProvider {...formMethods}>
       <SectionContainer sx={{ px: 4, pt: 4 }} title={t('title')} description={t('description')}>
         {type === 'email' ? (
-          <EmailConfigHeader
-            userEmail={userEmail}
-            emailDigestPreference={notificationConfig.emailDigestPreference}
-          />
+          <EmailConfigHeader userEmail={userEmail} emailDigestPreference={emailDigestPreference} />
         ) : (
           <InAppConfigHeader />
         )}
@@ -122,8 +125,8 @@ const EmailConfigHeader = ({ userEmail, emailDigestPreference }: EmailConfigHead
 
       <RHFSwitch
         sx={{ pl: 2 }}
-        key="emailNotificationPreference"
-        name="emailNotificationPreference"
+        key="emailDigestPreference"
+        name="emailDigestPreference"
         label={
           <SwitchLabelDescription
             label={t('digestSwitch.label')}
@@ -133,8 +136,8 @@ const EmailConfigHeader = ({ userEmail, emailDigestPreference }: EmailConfigHead
       />
       <RHFSwitch
         sx={{ pl: 2 }}
-        key="emailDigestPreference"
-        name="emailDigestPreference"
+        key="emailNotificationPreference"
+        name="emailNotificationPreference"
         label={
           <SwitchLabelDescription
             label={t('customNotificationSwitch.label')}
@@ -143,11 +146,11 @@ const EmailConfigHeader = ({ userEmail, emailDigestPreference }: EmailConfigHead
         }
       />
 
-      {emailDigestPreference && (
+      {/* {emailDigestPreference && (
         <Alert severity="info" sx={{ mt: 3 }}>
           {t('digestInfoDescription')}
         </Alert>
-      )}
+      )} */}
     </>
   )
 }

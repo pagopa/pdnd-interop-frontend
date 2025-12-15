@@ -30,6 +30,8 @@ export const useNotificationConfigForm = ({
 
   const valuesChanged = formMethods.watch()
   const inAppNotificationPreference = formMethods.getValues('inAppNotificationPreference')
+  const emailNotificationPreference = formMethods.getValues('emailNotificationPreference')
+  const emailDigestPreference = formMethods.getValues('emailDigestPreference')
 
   const debouncedUpdate = useMemo(
     () =>
@@ -57,6 +59,8 @@ export const useNotificationConfigForm = ({
   return {
     formMethods,
     inAppNotificationPreference,
+    emailNotificationPreference,
+    emailDigestPreference,
     valuesChanged,
   }
 }
