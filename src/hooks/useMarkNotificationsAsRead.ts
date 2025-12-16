@@ -7,7 +7,7 @@ export const useMarkNotificationsAsRead = (entityId: string | undefined) => {
 
   React.useEffect(() => {
     if (entityId) {
-      markNotificationsAsRead({ entityId })
+      markNotificationsAsRead({ entityId: encodeURIComponent(entityId) })
     }
   }, [entityId, markNotificationsAsRead])
 }
