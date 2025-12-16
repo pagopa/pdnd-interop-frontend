@@ -2,7 +2,7 @@ import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { cleanup, fireEvent, screen, within } from '@testing-library/react'
 import { NotificationConfigUserTab } from '../components/NotificationUserConfigTab'
 import { type NotificationConfig } from '@/api/api.generatedTypes'
-import type { NotificationPreferenceChoiceType, NotificationConfigType } from '../types'
+import type { NotificationConfigType } from '../types'
 
 mockUseJwt({ currentRoles: ['admin'] })
 
@@ -33,7 +33,11 @@ const inAppNotificationConfigMock: NotificationConfig = {
 describe('NotificationConfigUserTab', () => {
   const renderComponent = (
     type: NotificationConfigType,
-    preferenceChoice: NotificationPreferenceChoiceType,
+    {
+      inAppNotificationPreference = false,
+      emailNotificationPreference = false,
+      emailDigestPreference = false,
+    },
     ovverideNotificationConfig = {}
   ) => {
     renderWithApplicationContext(
@@ -41,7 +45,9 @@ describe('NotificationConfigUserTab', () => {
         notificationConfig={{
           ...inAppNotificationConfigMock,
           ...ovverideNotificationConfig,
-          preferenceChoice,
+          emailDigestPreference: emailDigestPreference,
+          emailNotificationPreference: emailNotificationPreference,
+          inAppNotificationPreference: inAppNotificationPreference,
         }}
         type={type}
         handleUpdateNotificationConfigs={vi.fn()}
@@ -55,7 +61,9 @@ describe('NotificationConfigUserTab', () => {
 
   describe('inApp', () => {
     beforeEach(() => {
-      renderComponent('inApp', true)
+      renderComponent('inApp', {
+        inAppNotificationPreference: true,
+      })
     })
 
     it('Should not be se to user email into "inApp" tab', () => {
@@ -81,10 +89,14 @@ describe('NotificationConfigUserTab', () => {
     it('Should be able to turn on all switch for [subscriber] section if click on "enable all" for a section"', async () => {
       cleanup()
 
-      renderComponent('inApp', true, {
-        certifiedVerifiedAttributeAssignedRevokedToAssignee: false,
-        clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: false,
-      })
+      renderComponent(
+        'inApp',
+        { inAppNotificationPreference: true },
+        {
+          certifiedVerifiedAttributeAssignedRevokedToAssignee: false,
+          clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: false,
+        }
+      )
       // To test this will be tested keyAndAttributes section with key: [certifiedVerifiedAttributeAssignedRevokedToAssignee,clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers]
 
       const firstKey = screen.getByTestId('certifiedVerifiedAttributeAssignedRevokedToAssignee')
@@ -100,8 +112,6 @@ describe('NotificationConfigUserTab', () => {
       expect(firstKey).not.toBeChecked()
       expect(secondKey).not.toBeChecked()
 
-      screen.debug(firstKey)
-
       expect(
         within(enableAllSectionButton).getByText('enableSectionAllNotifications')
       ).toBeInTheDocument()
@@ -116,12 +126,21 @@ describe('NotificationConfigUserTab', () => {
 
   describe('mail', () => {
     beforeEach(() => {
-      renderComponent('email', 'ENABLED')
+      renderComponent('email', {
+        emailNotificationPreference: true,
+        emailDigestPreference: false,
+      })
     })
 
     it('Should be able to see user email', () => {
       const email = screen.getByTestId('test-email')
       expect(email).toBeInTheDocument()
+    })
+
+    it('Should be able to choose if user can receive digest emails', () => {
+      const digestSwitch = screen.getByTestId('emailDigestPreference')
+      expect(digestSwitch).toBeInTheDocument()
+      expect(digestSwitch).not.toBeChecked()
     })
   })
 })

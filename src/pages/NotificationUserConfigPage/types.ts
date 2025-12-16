@@ -1,12 +1,14 @@
-import { type UserNotificationConfig } from '@/api/api.generatedTypes'
+import { type NotificationConfig } from '@/api/api.generatedTypes'
 import { type UserProductRole } from '@/types/party.types'
 import { type SvgIconComponent } from '@mui/icons-material'
 
 export type NotificationConfigType = 'email' | 'inApp'
 
-export type NotificationPreferenceChoiceType =
-  | UserNotificationConfig['emailNotificationPreference']
-  | UserNotificationConfig['inAppNotificationPreference']
+export type NotificationConfigFormValues = NotificationConfig & {
+  inAppNotificationPreference: boolean
+  emailNotificationPreference: boolean
+  emailDigestPreference: boolean
+}
 
 export type NotificationSubSectionSchema = {
   name: string
