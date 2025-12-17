@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
-import { Alert, FormControl } from '@mui/material'
+import { Alert, Box, FormControl } from '@mui/material'
 import { ClientQueries } from '@/api/client'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import ApiIcon from '@mui/icons-material/Api'
@@ -16,37 +16,33 @@ import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { useForm, FormProvider, type SubmitHandler } from 'react-hook-form'
 import { RHFAutocompleteSingle, RHFSelect } from '@/components/shared/react-hook-form-inputs'
 import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
+import { useSearchParams } from 'react-router-dom'
 
 interface VoucherInstructionsStep1Form {
-  clientId: string
-  purposeId: string
-  keyId: string
+  clientId: string | null
+  purposeId: string | null
+  keyId: string | null
 }
 
 export const VoucherInstructionsStep1: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
-  const {
-    selectedClientId,
-    selectedPurposeId,
-    selectedKeyId,
-    handleSelectedClientIdChange,
-    handleSelectedPurposeIdChange,
-    handleSelectedKeyIdChange,
-    goToNextStep,
-  } = useVoucherInstructionsContext()
+  const { goToNextStep } = useVoucherInstructionsContext()
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  const methods = useForm<VoucherInstructionsStep1Form>({
+  const formMethods = useForm<VoucherInstructionsStep1Form>({
     defaultValues: {
-      clientId: selectedClientId,
-      purposeId: selectedPurposeId,
-      keyId: selectedKeyId,
+      clientId: searchParams.get('clientId'),
+      purposeId: searchParams.get('purposeId'),
+      keyId: searchParams.get('keyId'),
     },
   })
 
-  const clientId = methods.watch('clientId')
-  const purposeId = methods.watch('purposeId')
-  const keyId = methods.watch('keyId')
+  const { watch, handleSubmit, setValue } = formMethods
+
+  const clientId = watch('clientId') || ''
+  const purposeId = watch('purposeId') || ''
+  const keyId = watch('keyId')
 
   const [clientSearch, setClientSearch] = useAutocompleteTextInput('')
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
@@ -87,32 +83,33 @@ export const VoucherInstructionsStep1: React.FC = () => {
 
     if (clientKind === 'API' && !Boolean(values.keyId)) return
 
-    handleSelectedClientIdChange(values.clientId)
-    if (clientKind === 'CONSUMER') handleSelectedPurposeIdChange(values.purposeId)
-    handleSelectedKeyIdChange(values.keyId)
+    setSearchParams((prev) => {
+      if (values.clientId) prev.set('clientId', values.clientId)
+      if (values.purposeId) prev.set('purposeId', values.purposeId)
+      if (values.keyId) prev.set('keyId', values.keyId)
+      return prev
+    })
     goToNextStep()
   }
 
+  /**
+   * Subscribes to the form values changes
+   * and updates the actual visible questions on values change.
+   */
   useEffect(() => {
-    // RESET VALUES WHEN clientId CHANGE
-    if (clientId !== selectedClientId) {
-      handleSelectedClientIdChange(clientId ?? '')
-      handleSelectedPurposeIdChange('')
-      handleSelectedKeyIdChange('')
-      methods.setValue('purposeId', '')
-      methods.setValue('keyId', '')
-    }
-  }, [
-    clientId,
-    selectedClientId,
-    handleSelectedPurposeIdChange,
-    handleSelectedClientIdChange,
-    handleSelectedKeyIdChange,
-  ])
+    const subscription = watch((_, { name }) => {
+      if (name === 'clientId') {
+        setValue('purposeId', null)
+        setValue('keyId', null)
+        setSearchParams({})
+      }
+    })
+    return () => subscription.unsubscribe()
+  }, [watch, setValue, setSearchParams])
 
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>
+    <FormProvider {...formMethods}>
+      <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
         <SectionContainer
           title={t(`step1.title.${clientKind}`)}
           description={t('step1.description')}
@@ -162,7 +159,7 @@ export const VoucherInstructionsStep1: React.FC = () => {
               </Alert>
             )
           ) : null}
-          {!clientId || clientKeys?.length || isFetchingClient || isFetchingKeys ? (
+          {!Boolean(clientId) || clientKeys?.length || isFetchingClient || isFetchingKeys ? (
             <FormControl fullWidth sx={{ mt: 2 }}>
               <RHFSelect
                 name="keyId"
@@ -186,7 +183,7 @@ export const VoucherInstructionsStep1: React.FC = () => {
             endIcon: <ArrowForwardIcon />,
           }}
         />
-      </form>
+      </Box>
       <VoucherInstructionsStep1CurrentIdsDrawer
         isOpen={isOpen}
         onClose={closeDrawer}

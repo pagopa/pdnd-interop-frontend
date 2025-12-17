@@ -19,10 +19,11 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { SetClientAdminDrawer } from './components/SetClientAdminDrawer/SetClientAdminDrawer'
 import { apiV2GuideLink } from '@/config/constants'
 import { useNavigate } from '@/router'
+import type { ActionItemButton } from '@/types/common.types'
 
 const ConsumerClientManagePage: React.FC = () => {
   const { t } = useTranslation('client', { keyPrefix: 'edit' })
-  const { t: actionT } = useTranslation('common', { keyPrefix: 'actions' })
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { clientId } = useParams<'SUBSCRIBE_CLIENT_EDIT' | 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'>()
   const clientKind = useClientKind()
   const { activeTab, updateActiveTab } = useActiveTab('clientOperators')
@@ -46,21 +47,18 @@ const ConsumerClientManagePage: React.FC = () => {
     })
   }
 
+  const voucherSimulationAction: ActionItemButton = {
+    action: () =>
+      navigate(clientKind === 'API' ? 'SIMULATE_GET_VOUCHER_API' : 'SIMULATE_GET_VOUCHER_CONSUMER'),
+    label: tCommon('simulateVoucher'),
+    variant: 'contained',
+  }
+
   return (
     <PageContainer
       title={client?.name ?? ''}
       description={client?.description}
-      topSideActions={[
-        {
-          action: () =>
-            navigate(
-              clientKind === 'API' ? 'SIMULATE_GET_VOUCHER_API' : 'SIMULATE_GET_VOUCHER_CONSUMER'
-            ),
-          label: actionT('simulateVoucher'),
-          variant: 'contained',
-        },
-        ...actions,
-      ]}
+      topSideActions={[voucherSimulationAction, ...actions]}
       isLoading={isLoadingClient}
       backToAction={{
         label: t('actions.backToClientsLabel'),

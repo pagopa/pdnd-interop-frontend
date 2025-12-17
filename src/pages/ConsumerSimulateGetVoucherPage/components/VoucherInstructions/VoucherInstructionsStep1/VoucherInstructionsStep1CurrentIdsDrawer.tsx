@@ -20,7 +20,7 @@ export const VoucherInstructionsStep1CurrentIdsDrawer: React.FC<
   const { t } = useTranslation('voucher', { keyPrefix: 'step1.currentIdsDrawer' })
 
   const { data: purpose } = useQuery({
-    ...PurposeQueries.getSingle(purposeId!),
+    ...PurposeQueries.getSingle(purposeId || ''),
     enabled: Boolean(purposeId),
   })
 

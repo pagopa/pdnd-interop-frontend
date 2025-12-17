@@ -390,7 +390,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'SIMULATE_GET_VOUCHER_API',
-    path: '/tool-sviluppo/api-interop/simulate-voucher',
+    path: '/tool-sviluppo/api-interop/simulazione-voucher',
     element: <ConsumerSimulateGetVoucherPage />,
     public: false,
     hideSideNav: true,
@@ -398,7 +398,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'SIMULATE_GET_VOUCHER_CONSUMER',
-    path: '/tool-sviluppo/api-e-service/simulate-voucher',
+    path: '/tool-sviluppo/api-e-service/simulazione-voucher',
     element: <ConsumerSimulateGetVoucherPage />,
     public: false,
     hideSideNav: true,
