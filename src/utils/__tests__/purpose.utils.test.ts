@@ -1,5 +1,10 @@
-import { checkPurposeSuspendedByConsumer, getPurposeFailureReasons } from '../purpose.utils'
+import {
+  checkPurposeSuspendedByConsumer,
+  getPurposeFailureReasons,
+  getDaysToExpiration,
+} from '../purpose.utils'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
+import { describe, it, expect } from 'vitest'
 
 describe('checks if the getPurposeFailureReasons purpose util function work as expected', () => {
   it('should have no failure if the e-service is published, the agreement and the purpose current version are active', () => {
@@ -106,5 +111,30 @@ describe('checks if the checkPurposeSuspendedByConsumer purpose util function wo
     })
     const isSuspendedByConsumer = checkPurposeSuspendedByConsumer(mockPurpose, 'test-id')
     expect(isSuspendedByConsumer).toBe(true)
+  })
+})
+
+describe('getDaysToExpiration', () => {
+  it('returns undefined if no date is provided', () => {
+    expect(getDaysToExpiration(undefined)).toBeUndefined()
+  })
+
+  it('returns 0 for the same day', () => {
+    const now = new Date()
+    expect(getDaysToExpiration(now.toISOString())).toBe(0)
+  })
+
+  it('returns 1 for a date exactly 24 hours away', () => {
+    const tomorrow = new Date(Date.now() + 60 * 60 * 24 * 1000)
+    expect(getDaysToExpiration(tomorrow.toISOString())).toBe(1)
+  })
+
+  it('returns a negative number for past dates', () => {
+    const yesterday = new Date(Date.now() - 60 * 60 * 24 * 1000)
+    expect(getDaysToExpiration(yesterday.toISOString())).toBe(-1)
+  })
+
+  it('handles invalid date strings gracefully', () => {
+    expect(getDaysToExpiration('not-a-date')).toBeNaN()
   })
 })
