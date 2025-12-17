@@ -35,15 +35,22 @@ export const UploadDocumentsInterfaceComponent: React.FC<
         sx={sxBox}
         bgcolor="common.white"
       >
-        <RHFSingleFileInput sx={{ my: 0 }} name="interfaceDoc" rules={{ required: true }} />
+        <RHFSingleFileInput
+          sx={{ my: 0 }}
+          name="interfaceDoc"
+          rules={{ required: true }}
+          data-testid="fileInput"
+        />
 
         {selectedInterface && (
           <Stack direction="row" justifyContent="flex-end">
             <Button
+              name="uploadInterfaceDocBtn"
               type="submit"
               variant="contained"
               startIcon={<UploadFileIcon fontSize="small" />}
               sx={{ mt: 2 }}
+              data-testid="submitButton"
             >
               {t('actions.upload')}
             </Button>
