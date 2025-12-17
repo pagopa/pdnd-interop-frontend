@@ -18,6 +18,7 @@ import {
 import { useGetConsumerPurposeAlertProps } from './hooks/useGetConsumerPurposeAlertProps'
 import { useQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
+import { getDaysToExpiration } from '@/utils/purpose.utils'
 
 const ConsumerPurposeSummaryPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -42,9 +43,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   const now = new Date()
 
-  const daysToExpiration = expirationDate
-    ? Math.floor((new Date(expirationDate).getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
-    : undefined
+  const daysToExpiration = getDaysToExpiration(expirationDate)
 
   const isRulesetExpired = expirationDate ? new Date(expirationDate) < now : false
 

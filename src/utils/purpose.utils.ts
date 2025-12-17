@@ -39,3 +39,10 @@ export function checkPurposeSuspendedByConsumer(purpose: Purpose, partyId?: stri
     isPurposeSuspendedByProvider && isActualPartyPurposeConsumer && isActualPartyEServiceProvider
   )
 }
+
+export function getDaysToExpiration(expirationDate: string | undefined) {
+  const now = new Date()
+  return expirationDate
+    ? Math.floor((new Date(expirationDate).getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+    : undefined
+}
