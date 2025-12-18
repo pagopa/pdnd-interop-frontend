@@ -29,12 +29,17 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
   const downloadRiskAnalysis = PurposeDownloads.useDownloadRiskAnalysis()
 
   const handleDownloadSignedDocument = () => {
-    if (!purpose.currentVersion || !purpose.currentVersion.riskAnalysisDocument) return
+    if (
+      !purpose.currentVersion ||
+      !purpose.currentVersion.riskAnalysisDocument ||
+      !purpose.currentVersion.signedContract?.id
+    )
+      return
     downloadSignedRiskAnalysis(
       {
         purposeId: purpose.id,
         versionId: purpose.currentVersion.id,
-        signedContractId: purpose.currentVersion.riskAnalysisDocument.id,
+        signedContractId: purpose.currentVersion.signedContract?.id,
       },
       `${t('riskAnalysis.fileName')}.pdf`
     )
