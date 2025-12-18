@@ -18,7 +18,7 @@ import {
 import { useGetConsumerPurposeAlertProps } from './hooks/useGetConsumerPurposeAlertProps'
 import { useQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
-import { getDaysToExpiration } from '@/utils/purpose.utils'
+import { getDaysToExpiration, getExpirationDateToShow } from '@/utils/purpose.utils'
 
 const ConsumerPurposeSummaryPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -33,13 +33,6 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
 
   const expirationDate = purpose?.rulesetExpiration
-  const expirationDateToShow = expirationDate
-    ? new Date(expirationDate).toLocaleDateString(undefined, {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-      })
-    : undefined
 
   const now = new Date()
 
@@ -157,7 +150,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
         <Alert sx={{ mt: 3 }} severity="info">
           {t('summary.alerts.infoRulesetExpiration', {
             days: daysToExpiration,
-            date: expirationDateToShow,
+            date: getExpirationDateToShow(expirationDate),
           })}
         </Alert>
       )}

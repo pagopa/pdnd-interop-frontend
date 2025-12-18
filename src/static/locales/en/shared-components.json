@@ -118,6 +118,10 @@
     "alertPersonalData": {
       "title": "La finalità non è compatibile con l’e-service selezionato",
       "description": "La finalità da clonare indica un trattamento sui dati personali diverso da quanto definito dall’erogatore dell’e-service, pertanto non ti è consentita la pubblicazione. Per procedere, crea una nuova finalità rispettando il vincolo sui dati personali."
+    },
+    "alertRiskAnalysisRulesetExipiring": {
+      "title": "The selected purpose uses a risk analysis that will soon be obsolete",
+      "description": "The purpose you are cloning uses a risk analysis model that will no longer be publishable after {{expirationDate}}. Publish the purpose by that date or create a new one at any time. Existing ones remain valid."
     }
   },
   "dialogCreateAgreementDraft": {
