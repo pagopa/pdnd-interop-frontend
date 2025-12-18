@@ -46,3 +46,13 @@ export function getDaysToExpiration(expirationDate: string | undefined) {
     ? Math.floor((new Date(expirationDate).getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
     : undefined
 }
+
+export function getExpirationDateToShow(expirationDate?: string) {
+  return expirationDate
+    ? new Date(expirationDate).toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+      })
+    : undefined
+}

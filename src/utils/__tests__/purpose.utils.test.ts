@@ -2,6 +2,7 @@ import {
   checkPurposeSuspendedByConsumer,
   getPurposeFailureReasons,
   getDaysToExpiration,
+  getExpirationDateToShow,
 } from '../purpose.utils'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 import { describe, it, expect } from 'vitest'
@@ -136,5 +137,20 @@ describe('getDaysToExpiration', () => {
 
   it('handles invalid date strings gracefully', () => {
     expect(getDaysToExpiration('not-a-date')).toBeNaN()
+  })
+})
+
+describe('getExpirationDateToShow', () => {
+  it('returns undefined if no date is provided', () => {
+    expect(getExpirationDateToShow(undefined)).toBeUndefined()
+  })
+
+  it('should return a formatted date string for a valid ISO string', () => {
+    const result = getExpirationDateToShow('2025-12-25')
+    expect(result).toMatch(/\d{1,2}\/\d{1,2}\/\d{4}/)
+  })
+
+  it('handles invalid date strings gracefully', () => {
+    expect(getExpirationDateToShow('not-a-date')).toBe('Invalid Date')
   })
 })
