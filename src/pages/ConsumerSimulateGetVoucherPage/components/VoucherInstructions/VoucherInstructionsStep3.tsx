@@ -11,6 +11,7 @@ import { Link } from '@/router'
 import { useVoucherInstructionsContext } from './VoucherInstructionsContext'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { useSearchParams } from 'react-router-dom'
 
 const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
 const GRANT_TYPE = 'client_credentials'
@@ -18,8 +19,11 @@ const GRANT_TYPE = 'client_credentials'
 export const VoucherInstructionsStep3: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
+  const [searchParams] = useSearchParams()
 
-  const { clientId, goToPreviousStep, goToNextStep } = useVoucherInstructionsContext()
+  const { goToPreviousStep, goToNextStep } = useVoucherInstructionsContext()
+
+  const clientId = searchParams.get('clientId') || ''
 
   return (
     <>
