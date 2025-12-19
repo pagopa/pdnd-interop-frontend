@@ -3,6 +3,7 @@ import {
   getPurposeFailureReasons,
   getDaysToExpiration,
   getExpirationDateToShow,
+  checkIsRulesetExpired,
 } from '../purpose.utils'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 import { describe, it, expect } from 'vitest'
@@ -152,5 +153,21 @@ describe('getExpirationDateToShow', () => {
 
   it('handles invalid date strings gracefully', () => {
     expect(getExpirationDateToShow('not-a-date')).toBe('Invalid Date')
+  })
+})
+
+describe('checkIsRulesetExpired', () => {
+  it('returns false if no date is provided', () => {
+    expect(checkIsRulesetExpired(undefined)).toBeFalsy()
+  })
+
+  it('should return true if the date is in the past', () => {
+    const result = checkIsRulesetExpired('2020-12-25')
+    expect(result).toBeTruthy()
+  })
+
+  it('should return false if the date is in the future', () => {
+    const result = checkIsRulesetExpired('2099-12-25')
+    expect(result).toBeFalsy()
   })
 })
