@@ -421,8 +421,8 @@ function evaluateFormDefaultValues(
       mode: eserviceMode,
       personalData: descriptor?.eservice.personalData,
       isSignalHubEnabled: descriptor?.eservice.isSignalHubEnabled ?? false,
-      isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? false,
-      isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? false,
+      isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? true,
+      isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? true,
     }
 
   return {
@@ -432,7 +432,7 @@ function evaluateFormDefaultValues(
     mode: eserviceTemplate?.mode,
     personalData: eserviceTemplate?.personalData,
     isSignalHubEnabled: eserviceTemplate?.isSignalHubEnabled ?? false,
-    isConsumerDelegable: false,
-    isClientAccessDelegable: false,
+    isConsumerDelegable: true,
+    isClientAccessDelegable: true,
   }
 }
