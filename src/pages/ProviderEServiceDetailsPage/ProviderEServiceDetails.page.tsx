@@ -22,7 +22,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
 
-  useMarkNotificationsAsRead(eserviceId)
+  useMarkNotificationsAsRead(`${eserviceId}/${descriptorId}`)
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 

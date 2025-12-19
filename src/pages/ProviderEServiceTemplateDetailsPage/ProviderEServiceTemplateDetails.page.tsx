@@ -23,7 +23,7 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
     EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
-  useMarkNotificationsAsRead(eServiceTemplateId)
+  useMarkNotificationsAsRead(`${eServiceTemplateId}/${eServiceTemplateVersionId}`)
 
   const { actions } = useGetProviderEServiceTemplateActions(
     eServiceTemplateId,

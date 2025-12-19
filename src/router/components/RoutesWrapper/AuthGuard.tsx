@@ -79,8 +79,6 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
     return !notificationsRoute.includes(routeKey) || FEATURE_FLAG_NOTIFICATION_CONFIG
   }
 
-  console.log('AuthGuard check for route:', typeof isUserAllowedToAccessNotificationPage())
-
   // JWT will be undefined just in case route is public.
   if (
     jwt &&
