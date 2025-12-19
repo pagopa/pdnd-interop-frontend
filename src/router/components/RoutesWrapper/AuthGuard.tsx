@@ -73,7 +73,9 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   }
 
   function isUserAllowedToAccessNotificationPage() {
-    const notificationsRoute: Array<RouteKey> = ['NOTIFICATIONS']
+    const notificationsRoute: Array<RouteKey> = ['NOTIFICATIONS', 'NOTIFICATIONS_CONFIG']
+
+    // return
     return !notificationsRoute.includes(routeKey) || FEATURE_FLAG_NOTIFICATION_CONFIG
   }
 

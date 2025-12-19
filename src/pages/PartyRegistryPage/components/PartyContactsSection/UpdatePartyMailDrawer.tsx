@@ -8,6 +8,7 @@ import {
   RHFTextField,
   SwitchLabelDescription,
 } from '@/components/shared/react-hook-form-inputs'
+import { FEATURE_FLAG_NOTIFICATION_CONFIG } from '@/config/env'
 import { emailRegex } from '@/utils/form.utils'
 import { Alert, Stack, Box } from '@mui/material'
 import isEqual from 'lodash/isEqual'
@@ -82,7 +83,7 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
         )
       }
 
-      if (shouldUpdateNotification) {
+      if (FEATURE_FLAG_NOTIFICATION_CONFIG && shouldUpdateNotification) {
         promises.push(
           updateNotificationTenantConfigs({
             enabled: enabledTenantNotificationConfigEmail,
@@ -147,7 +148,7 @@ export const UpdatePartyMailDrawer: React.FC<UpdatePartyMailDrawerProps> = ({
               }}
             />
           </Box>
-          {currentRoles.includes('admin') && (
+          {FEATURE_FLAG_NOTIFICATION_CONFIG && currentRoles.includes('admin') && (
             <Box>
               <RHFSwitch
                 sx={{ ml: 2 }}
