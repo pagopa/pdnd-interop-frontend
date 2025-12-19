@@ -1,7 +1,7 @@
 import { PurposeMutations } from '@/api/purpose'
 import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
-import { checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
+import { checkIsRulesetExpired, checkPurposeSuspendedByConsumer } from '@/utils/purpose.utils'
 import type { Purpose } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import ArchiveIcon from '@mui/icons-material/Archive'
@@ -15,6 +15,7 @@ import { useLocation, useNavigate } from '@/router'
 
 function useGetConsumerPurposesActions(purpose?: Purpose) {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const { t } = useTranslation('purpose', { keyPrefix: 'consumerView' })
   const { jwt, isAdmin } = AuthHooks.useJwt()
 
   const navigate = useNavigate()
@@ -37,6 +38,9 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     ((purpose?.eservice.mode === 'DELIVER' && hasRiskAnalysisVersionMismatch) ||
       purpose?.agreement.state === 'ARCHIVED' ||
       purpose?.eservice.descriptor.state === 'ARCHIVED')
+
+  const expirationDate = purpose?.rulesetExpiration
+  const isRulesetExpired = checkIsRulesetExpired(expirationDate)
 
   if (
     !purpose ||
@@ -105,6 +109,8 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     label: tCommon('clone'),
     action: handleClone,
     icon: ContentCopyIcon,
+    disabled: isRulesetExpired,
+    tooltip: isRulesetExpired ? t('cloneDisabledDueToExpiredRuleset') : undefined,
   }
 
   function handleDeleteDraft() {
@@ -148,7 +154,15 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
 
   const actions: Array<ActionItemButton> = [archiveAction]
 
-  if (purpose.eservice.mode === 'DELIVER') {
+  if (purpose.eservice.mode === 'DELIVER' && routeKey !== 'SUBSCRIBE_PURPOSE_LIST') {
+    actions.push(cloneAction)
+  }
+
+  if (
+    purpose.eservice.mode === 'DELIVER' &&
+    routeKey === 'SUBSCRIBE_PURPOSE_LIST' &&
+    !isRulesetExpired
+  ) {
     actions.push(cloneAction)
   }
 

@@ -56,3 +56,8 @@ export function getExpirationDateToShow(expirationDate?: string) {
       })
     : undefined
 }
+
+export function checkIsRulesetExpired(expirationDate: string | undefined) {
+  const now = new Date()
+  return expirationDate ? new Date(expirationDate) < now : false
+}
