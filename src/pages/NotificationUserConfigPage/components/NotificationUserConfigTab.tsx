@@ -40,7 +40,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
     formMethods,
     inAppNotificationPreference,
     emailNotificationPreference,
-    emailDigestPreference,
+
     valuesChanged,
   } = useNotificationConfigForm({
     handleUpdateNotificationConfigs,
