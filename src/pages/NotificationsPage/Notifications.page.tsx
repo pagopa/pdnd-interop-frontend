@@ -10,6 +10,8 @@ import type { GetNotificationsParams } from '@/api/api.generatedTypes'
 import { Link, useNavigate } from '@/router'
 import { NoItemResults } from '@/components/shared/NoItemResults/NoItemResults'
 import { format } from 'date-fns'
+import isEmpty from 'lodash/isEmpty'
+import { match } from 'ts-pattern'
 
 const NotificationsPage: React.FC = () => {
   const { t } = useTranslation('notification', { keyPrefix: 'notifications.page' })
@@ -68,7 +70,7 @@ const NotificationsPage: React.FC = () => {
   const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
   const queryParams = { ...paginationParams, ...filtersParams }
 
-  const { data: totalPageCount = 0 } = useQuery({
+  const { data: totalPageCount = 0, isLoading } = useQuery({
     ...NotificationQueries.getUserNotificationsList(queryParams),
     placeholderData: keepPreviousData,
     select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
@@ -88,20 +90,24 @@ const NotificationsPage: React.FC = () => {
         actions={action}
       />
 
-      {filtersParams || totalPageCount > 0 ? (
-        <>
-          <Filters {...filtersHandlers} />
-          <NotificationsTableWrapper params={params} />
-          <Pagination {...paginationProps} totalPages={totalPageCount} />
-        </>
-      ) : (
-        <NoItemResults>
-          <div>
-            {t('notNotificationAvailable')}{' '}
-            <Link to="NOTIFICATIONS_CONFIG">{t('noItemsConfigurationLink')}</Link>
-          </div>
-        </NoItemResults>
-      )}
+      {match({ isLoading, hasData: !isEmpty(filtersParams) || totalPageCount > 0 })
+        .with({ isLoading: true }, () => <NotificationsTableSkeleton />)
+        .with({ isLoading: false, hasData: true }, () => (
+          <>
+            <Filters {...filtersHandlers} />
+            <NotificationsTableWrapper params={params} />
+            <Pagination {...paginationProps} totalPages={totalPageCount} />
+          </>
+        ))
+        .with({ isLoading: false, hasData: false }, () => (
+          <NoItemResults>
+            <div>
+              {t('notNotificationAvailable')}{' '}
+              <Link to="NOTIFICATIONS_CONFIG">{t('noItemsConfigurationLink')}</Link>
+            </div>
+          </NoItemResults>
+        ))
+        .exhaustive()}
     </>
   )
 }
@@ -109,7 +115,7 @@ const NotificationsPage: React.FC = () => {
 const NotificationsTableWrapper: React.FC<{
   params: GetNotificationsParams
 }> = ({ params }) => {
-  const { data, isFetching, refetch, dataUpdatedAt } = useQuery({
+  const { data, refetch, dataUpdatedAt } = useQuery({
     ...NotificationQueries.getUserNotificationsList(params),
   })
 
@@ -129,7 +135,6 @@ const NotificationsTableWrapper: React.FC<{
     deleteNotifications({ ids: notificationIds })
   }
 
-  if (!data && isFetching) return <NotificationsTableSkeleton />
   return (
     <NotificationsTable
       handleMultipleRowDelete={handleMultipleRowDelete}
