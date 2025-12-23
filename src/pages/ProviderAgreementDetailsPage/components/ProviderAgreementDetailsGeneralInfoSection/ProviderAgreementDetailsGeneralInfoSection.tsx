@@ -12,6 +12,7 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { ProviderAgreementDetailsContactDrawer } from './ProviderAgreementDetailsContactDrawer'
 import { ProviderAgreementDetailsAttributesDrawer } from './ProviderAgreementDetailsAttributesDrawer'
 import { useProviderAgreementDetailsContext } from '../ProviderAgreementDetailsContext'
+import { FEATURE_FLAG_USE_SIGNED_DOCUMENT } from '@/config/env'
 
 export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('agreement', {
@@ -19,6 +20,7 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
   })
   const { agreement } = useProviderAgreementDetailsContext()
   const downloadContract = AgreementDownloads.useDownloadContract()
+  const downloadSignedContract = AgreementDownloads.useDownloadSignedContract()
 
   const isDelegated = Boolean('delegation' in agreement)
 
@@ -59,6 +61,10 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
     downloadContract({ agreementId: agreement.id }, `${t('documentation.fileName')}.pdf`)
   }
 
+  const handleDownloadSignedDocument = () => {
+    downloadSignedContract({ agreementId: agreement.id }, `${t('documentation.fileName')}.pdf`)
+  }
+
   const actions = []
 
   if (agreement.isContractPresent) {
@@ -67,7 +73,9 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
       label: t('documentation.link.label'),
       component: 'button',
       type: 'button',
-      onClick: handleDownloadDocument,
+      onClick: FEATURE_FLAG_USE_SIGNED_DOCUMENT
+        ? handleDownloadSignedDocument
+        : handleDownloadDocument,
     })
   }
 
