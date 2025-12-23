@@ -1,15 +1,12 @@
 import React from 'react'
-import UploadFileIcon from '@mui/icons-material/UploadFile'
 import { useTranslation } from 'react-i18next'
-import { Stack, Box, Button } from '@mui/material'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
-import { FormProvider, useForm } from 'react-hook-form'
-import { RHFSingleFileInput } from '@/components/shared/react-hook-form-inputs'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
+import { UploadDocumentsInterfaceComponent } from '@/components/shared/UploadDocumentsInterfaceComponent'
 
 type EServiceTemplateCreateStepDocumentsInterfaceFormValues = {
   interfaceDoc: File | null
@@ -22,16 +19,7 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
   const { mutate: deleteDocument } = EServiceTemplateMutations.useDeleteVersionDraftDocument()
   const { mutate: uploadDocument } = EServiceTemplateMutations.usePostVersionDraftDocument()
 
-  const defaultValues: EServiceTemplateCreateStepDocumentsInterfaceFormValues = {
-    interfaceDoc: null,
-  }
-
   const actualInterface: EServiceDoc | null = eserviceTemplateVersion?.interface ?? null
-
-  const formMethods = useForm({
-    defaultValues,
-    shouldUnregister: true,
-  })
 
   const onSubmit = ({ interfaceDoc }: EServiceTemplateCreateStepDocumentsInterfaceFormValues) => {
     if (!interfaceDoc || !eserviceTemplateVersion) return
@@ -77,32 +65,10 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
     )
   }
 
-  const selectedInterface = formMethods.watch('interfaceDoc')
-
   return (
-    <FormProvider {...formMethods}>
-      <Box
-        component="form"
-        noValidate
-        onSubmit={formMethods.handleSubmit(onSubmit)}
-        sx={{ px: 2, py: 2, borderLeft: 4, borderColor: 'primary.main' }}
-        bgcolor="common.white"
-      >
-        <RHFSingleFileInput sx={{ my: 0 }} name="interfaceDoc" rules={{ required: true }} />
-
-        {selectedInterface && (
-          <Stack direction="row" justifyContent="flex-end">
-            <Button
-              type="submit"
-              variant="contained"
-              startIcon={<UploadFileIcon fontSize="small" />}
-              sx={{ mt: 2 }}
-            >
-              {t('create.step4.uploadBtn')}
-            </Button>
-          </Stack>
-        )}
-      </Box>
-    </FormProvider>
+    <UploadDocumentsInterfaceComponent
+      onSubmit={onSubmit}
+      sxBox={{ px: 2, py: 2, borderLeft: 4, borderColor: 'primary.main' }}
+    />
   )
 }
