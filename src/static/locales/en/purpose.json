@@ -334,6 +334,7 @@
     "rejectedUpdatePlanInfoAlert": "A change of plan for this purpose was rejected. Check the “Load Estimate” section in <1>Purpose Details</1>.",
     "noClientsAlert": "This purpose is active but has no associated clients. <1>Pair your first client</1> to use the e-service",
     "noClientsAlertForDelegateWithoutClientPermissions": "This intent is active but has no associated clients. Wait for {{delegatorName}} to connect its clients for the request to complete.",
+    "cloneDisabledDueToExpiredRuleset": "It is not possible to clone the purpose because the risk analysis model has been updated and is no longer compatible",
     "addClientToPurposeDisableTooltip": {
       "label": "Only an administrator can manage members of a client"
     },
