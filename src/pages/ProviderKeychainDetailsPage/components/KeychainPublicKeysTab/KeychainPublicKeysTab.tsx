@@ -57,7 +57,14 @@ export const KeychainPublicKeysTab: React.FC<KeychainPublicKeysTabProps> = ({ ke
       <Filters {...filtersHandlers} />
       <React.Suspense fallback={<KeychainPublicKeysTableSkeleton />}>
         <KeychainPublicKeysWrapper params={params} />
-        <Pagination {...paginationProps} totalPages={totalPageCount} />
+        <Pagination
+          {...paginationProps}
+          rowPerPageOptions={{
+            onLimitChange: paginationProps.onLimitChange,
+            limit: paginationParams.limit,
+          }}
+          totalPages={totalPageCount}
+        />
       </React.Suspense>
     </>
   )

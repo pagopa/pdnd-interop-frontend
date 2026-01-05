@@ -97,7 +97,14 @@ const ProviderPurposesListPage: React.FC = () => {
     <PageContainer title={t('title')} description={t('description')}>
       <Filters {...filtersHandlers} />
       <PurposesTableWrapper params={params} />
-      <Pagination {...paginationProps} totalPages={totalPageCount} />
+      <Pagination
+        {...paginationProps}
+        rowPerPageOptions={{
+          onLimitChange: paginationProps.onLimitChange,
+          limit: paginationParams.limit,
+        }}
+        totalPages={totalPageCount}
+      />
     </PageContainer>
   )
 }

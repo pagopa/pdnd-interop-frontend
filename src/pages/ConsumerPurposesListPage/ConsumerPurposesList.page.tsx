@@ -137,7 +137,14 @@ const ConsumerPurposesListPage: React.FC = () => {
     >
       <Filters {...filtersHandlers} />
       <PurposesTableWrapper params={params} />
-      <Pagination {...paginationProps} totalPages={totalPages} />
+      <Pagination
+        {...paginationProps}
+        rowPerPageOptions={{
+          onLimitChange: paginationProps.onLimitChange,
+          limit: paginationParams.limit,
+        }}
+        totalPages={totalPages}
+      />
     </PageContainer>
   )
 }

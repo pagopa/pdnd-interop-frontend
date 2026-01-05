@@ -70,6 +70,10 @@ const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
       <ProviderEServiceTemplatesCatalogWrapper params={queryParams} />
       <Pagination
         {...paginationProps}
+        rowPerPageOptions={{
+          onLimitChange: paginationProps.onLimitChange,
+          limit: paginationParams.limit,
+        }}
         totalPages={getTotalPageCount(data?.pagination.totalCount)}
       />
     </PageContainer>

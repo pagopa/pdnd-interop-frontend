@@ -32,7 +32,14 @@ export const DelegationsReceivedTab: React.FC = () => {
       >
         <DelegationsTable params={params} delegationType={'DELEGATION_RECEIVED'} />
       </React.Suspense>
-      <Pagination {...paginationProps} totalPages={totalPageCount} />
+      <Pagination
+        {...paginationProps}
+        rowPerPageOptions={{
+          onLimitChange: paginationProps.onLimitChange,
+          limit: paginationParams.limit,
+        }}
+        totalPages={totalPageCount}
+      />
     </>
   )
 }

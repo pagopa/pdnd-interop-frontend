@@ -103,6 +103,10 @@ const ConsumerAgreementsListPage: React.FC = () => {
       <ConsumerAgreementsTableWrapper params={params} />
       <Pagination
         {...paginationProps}
+        rowPerPageOptions={{
+          onLimitChange: paginationProps.onLimitChange,
+          limit: paginationParams.limit,
+        }}
         totalPages={getTotalPageCount(data?.pagination.totalCount)}
       />
     </PageContainer>

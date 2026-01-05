@@ -85,7 +85,14 @@ const ProviderEServiceListPage: React.FC = () => {
     >
       <Filters {...filtersHandlers} />
       <EServiceTableWrapper params={queryParams} />
-      <Pagination {...paginationProps} totalPages={totalPageCount} />
+      <Pagination
+        {...paginationProps}
+        rowPerPageOptions={{
+          onLimitChange: paginationProps.onLimitChange,
+          limit: paginationParams.limit,
+        }}
+        totalPages={totalPageCount}
+      />
       <ProviderEServiceImportVersionDrawer isOpen={isOpen} onClose={closeDrawer} />
     </PageContainer>
   )

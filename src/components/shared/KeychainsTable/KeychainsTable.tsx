@@ -37,6 +37,10 @@ export const KeychainsTable: React.FC = () => {
       </Suspense>
       <Pagination
         {...paginationProps}
+        rowPerPageOptions={{
+          onLimitChange: paginationProps.onLimitChange,
+          limit: paginationParams.limit,
+        }}
         totalPages={getTotalPageCount(keychains?.pagination.totalCount)}
       />
     </>

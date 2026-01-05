@@ -94,6 +94,10 @@ export const ConsumerPurposeTemplateLinkedEServiceTable: React.FC<
       </Table>
       <Pagination
         {...paginationProps}
+        rowPerPageOptions={{
+          onLimitChange: paginationProps.onLimitChange,
+          limit: paginationParams.limit,
+        }}
         totalPages={getTotalPageCount(
           eserviceDescriptorsPurposeTemplateList!.pagination.totalCount
         )}

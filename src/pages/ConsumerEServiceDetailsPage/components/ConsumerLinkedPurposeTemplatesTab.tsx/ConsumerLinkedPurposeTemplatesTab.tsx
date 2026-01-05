@@ -92,7 +92,14 @@ const ConsumerLinkedPurposeTemplatesTab: React.FC = () => {
       >
         <Filters {...filtersHandlers} />
         <ConsumerLinkedPurposeTemplatesTableWrapper params={queryParams} />
-        <Pagination {...paginationProps} totalPages={totalPageCount} />
+        <Pagination
+          {...paginationProps}
+          rowPerPageOptions={{
+            onLimitChange: paginationProps.onLimitChange,
+            limit: paginationParams.limit,
+          }}
+          totalPages={totalPageCount}
+        />
       </SectionContainer>
     </>
   )

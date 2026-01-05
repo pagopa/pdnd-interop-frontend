@@ -42,6 +42,10 @@ export const AssignAttributesTab: React.FC = () => {
       {isAdmin && <AssignAttributeDrawer isOpen={isOpen} onClose={closeDrawer} />}
       <Pagination
         {...paginationProps}
+        rowPerPageOptions={{
+          onLimitChange: paginationProps.onLimitChange,
+          limit: paginationParams.limit,
+        }}
         totalPages={getTotalPageCount(data?.pagination.totalCount)}
       />
     </>

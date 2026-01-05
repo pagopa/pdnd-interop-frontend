@@ -189,6 +189,10 @@ export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
         })}
         <Pagination
           {...paginationProps}
+          rowPerPageOptions={{
+            onLimitChange: paginationProps.onLimitChange,
+            limit: paginationParams.limit,
+          }}
           totalPages={getTotalPageCount(docs.length)}
           justifyContent="center"
           alignItems="flex-end"

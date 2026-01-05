@@ -68,7 +68,14 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
           noTableData={isDataEmpty && areFiltersEmpty}
         />
       </React.Suspense>
-      <Pagination {...paginationProps} totalPages={getTotalPageCount(templateInstancesCount)} />
+      <Pagination
+        {...paginationProps}
+        rowPerPageOptions={{
+          onLimitChange: paginationProps.onLimitChange,
+          limit: paginationParams.limit,
+        }}
+        totalPages={getTotalPageCount(templateInstancesCount)}
+      />
     </>
   )
 }

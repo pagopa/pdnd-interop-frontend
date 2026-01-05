@@ -57,7 +57,14 @@ export const ManageAttributesTab: React.FC = () => {
       <Filters {...filtersHandlers} />
       <AttributesTableWrapper params={queryParams} />
       {isAdmin && <CreateAttributeDrawer isOpen={isOpen} onClose={closeDrawer} />}
-      <Pagination {...paginationProps} totalPages={totalPageCount} />
+      <Pagination
+        {...paginationProps}
+        rowPerPageOptions={{
+          onLimitChange: paginationProps.onLimitChange,
+          limit: paginationParams.limit,
+        }}
+        totalPages={totalPageCount}
+      />
     </>
   )
 }

@@ -36,6 +36,10 @@ export const ClientTable: React.FC<ClientTableProps> = ({ clientKind }) => {
       </Suspense>
       <Pagination
         {...paginationProps}
+        rowPerPageOptions={{
+          onLimitChange: paginationProps.onLimitChange,
+          limit: paginationParams.limit,
+        }}
         totalPages={getTotalPageCount(clients?.pagination.totalCount)}
       />
     </>

@@ -59,7 +59,14 @@ export const ClientPublicKeys: React.FC<ClientPublicKeysProps> = ({ clientId }) 
       <Filters {...filtersHandlers} />
       <React.Suspense fallback={<ClientPublicKeysTableSkeleton />}>
         <ClientPublicKeysWrapper params={queryParams} />
-        <Pagination {...paginationProps} totalPages={totalPageCount} />
+        <Pagination
+          {...paginationProps}
+          rowPerPageOptions={{
+            onLimitChange: paginationProps.onLimitChange,
+            limit: paginationParams.limit,
+          }}
+          totalPages={totalPageCount}
+        />
       </React.Suspense>
     </>
   )

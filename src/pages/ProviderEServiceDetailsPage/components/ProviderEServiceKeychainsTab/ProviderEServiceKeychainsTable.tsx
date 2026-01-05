@@ -35,6 +35,10 @@ export const ProviderEServiceKeychainsTable: React.FC<ProviderEServiceKeychainsT
       </React.Suspense>
       <Pagination
         {...paginationProps}
+        rowPerPageOptions={{
+          onLimitChange: paginationProps.onLimitChange,
+          limit: paginationParams.limit,
+        }}
         totalPages={getTotalPageCount(associatedKeychainsTotalCount)}
       />
     </>

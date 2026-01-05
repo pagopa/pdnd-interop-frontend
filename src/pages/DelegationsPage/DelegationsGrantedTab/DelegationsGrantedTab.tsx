@@ -53,7 +53,14 @@ export const DelegationsGrantedTab: React.FC = () => {
       <React.Suspense fallback={<DelegationsTableSkeleton delegationType="DELEGATION_GRANTED" />}>
         <DelegationsTable delegationType="DELEGATION_GRANTED" params={queryParams} />
       </React.Suspense>
-      <Pagination {...paginationProps} totalPages={totalPageCount} />
+      <Pagination
+        {...paginationProps}
+        rowPerPageOptions={{
+          onLimitChange: paginationProps.onLimitChange,
+          limit: paginationParams.limit,
+        }}
+        totalPages={totalPageCount}
+      />
     </>
   )
 }
