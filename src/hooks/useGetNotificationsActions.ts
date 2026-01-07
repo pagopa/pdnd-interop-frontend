@@ -48,8 +48,8 @@ function useGetNotificationsActions(notification?: Notification): {
   }
 
   const validActions = !notification.readAt
-    ? [deleteNotifcationAction, markAsReadNotifcationAction]
-    : [deleteNotifcationAction, markAsNotReadNotifcationAction]
+    ? [markAsReadNotifcationAction, deleteNotifcationAction]
+    : [markAsNotReadNotifcationAction, deleteNotifcationAction]
 
   return {
     actions: validActions,
