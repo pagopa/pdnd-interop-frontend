@@ -3,6 +3,7 @@ import { Box, Stack } from '@mui/system'
 import type { NotificationSectionSchema, NotificationSubSectionSchema } from '../types'
 import { useTranslation } from 'react-i18next'
 import { NotificationConfigSubSection } from './NotificationConfigSubSection'
+import { AuthHooks } from '@/api/auth'
 
 type NotificationConfigSectionProps = {
   name: string
@@ -20,10 +21,21 @@ export const NotificationConfigSection: React.FC<NotificationConfigSectionProps>
   isAllSwitchWithinSectionDisabled,
 }) => {
   const { icon: Icon, subsections, title } = notificationSchema
+  const { currentRoles } = AuthHooks.useJwt()
 
   const { t } = useTranslation('notification', {
     keyPrefix: `notifications.configurationPage.${type}`,
   })
+
+  const shouldSectionVisible = subsections.some((subsection) =>
+    subsection.components.some(({ visibility }) =>
+      visibility.some((role) => currentRoles.includes(role))
+    )
+  )
+
+  if (!shouldSectionVisible) {
+    return null
+  }
 
   return (
     <Box key={name} data-testid={`config-section-${name}`} sx={{ mb: 3 }}>

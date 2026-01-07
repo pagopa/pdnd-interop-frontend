@@ -12,6 +12,14 @@ export const NotificationConfigSubSection: React.FC<NotificationConfigSubSection
 }) => {
   const { currentRoles } = AuthHooks.useJwt()
 
+  const shouldSubSectionVisible = subsection.components.some(({ visibility }) =>
+    visibility.some((role) => currentRoles.includes(role))
+  )
+
+  if (!shouldSubSectionVisible) {
+    return null
+  }
+
   return (
     <>
       <Typography variant="body2" component="h2" mb={1} fontWeight={600}>
