@@ -4,7 +4,7 @@ import { HeadSection } from '@/components/shared/HeadSection'
 import type { ActionItemButton } from '@/types/common.types'
 import { Filters, Pagination, useFilters, usePagination } from '@pagopa/interop-fe-commons'
 import { NotificationsTable, NotificationsTableSkeleton } from './NotificationsTable'
-import { NotificationMutations, NotificationQueries } from '@/api/notification'
+import { NotificationQueries } from '@/api/notification'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import type { GetNotificationsParams } from '@/api/api.generatedTypes'
 import { Link, useNavigate } from '@/router'
@@ -119,27 +119,9 @@ const NotificationsTableWrapper: React.FC<{
     ...NotificationQueries.getUserNotificationsList(params),
   })
 
-  const { mutate: markBulkAsRead } = NotificationMutations.useBulkMarkAsRead()
-  const { mutate: markBulkAsUnread } = NotificationMutations.useBulkMarkAsNotRead()
-  const { mutate: deleteNotifications } = NotificationMutations.useDeleteNotifications()
-
-  const handleMultipleRowMarkAsRead = (notificationIds: string[]) => {
-    markBulkAsRead({ ids: notificationIds })
-  }
-
-  const handleMultipleRowMarkAsUnread = (notificationIds: string[]) => {
-    markBulkAsUnread({ ids: notificationIds })
-  }
-
-  const handleMultipleRowDelete = (notificationIds: string[]) => {
-    deleteNotifications({ ids: notificationIds })
-  }
-
   return (
     <NotificationsTable
-      handleMultipleRowDelete={handleMultipleRowDelete}
-      handleMultipleRowMarkAsRead={handleMultipleRowMarkAsRead}
-      handleMultipleRowMarkAsUnread={handleMultipleRowMarkAsUnread}
+      offset={params.offset}
       handleRefetch={refetch}
       notifications={data?.results ?? []}
       dataUpdatedAt={format(dataUpdatedAt, 'dd/MM/yyyy HH:mm')}
