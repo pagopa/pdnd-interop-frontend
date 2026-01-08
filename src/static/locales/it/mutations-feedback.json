@@ -1098,6 +1098,12 @@
         "success": "L’e-service è stato rimosso correttamente.",
         "error": "Non è stato possibile rimuovere questo e-service. Per favore riprova!"
       }
+    },
+    "downloadRiskAnalysis": {
+      "loading": "Stiamo scaricando il documento dell'analisi del rischio",
+      "outcome": {
+        "error": "Non è stato possibile scaricare il documento dell'analisi del rischio. Per favore, riprova!"
+      }
     }
   }
 }

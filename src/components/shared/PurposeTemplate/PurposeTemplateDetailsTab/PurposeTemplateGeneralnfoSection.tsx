@@ -4,6 +4,8 @@ import { Stack, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import type { PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
+import DownloadIcon from '@mui/icons-material/Download'
+import { PurposeTemplateDownloads } from '@/api/purposeTemplate/purposeTemplate.downloads'
 
 type PurposeTemplateGeneralInfoSectionProps = {
   purposeTemplate: PurposeTemplateWithCompactCreator
@@ -15,19 +17,21 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
     keyPrefix: 'read.detailsTab.sections.generalInformation',
   })
 
-  /** Availabilty about download of risk analysis of template will be available on the future  */
+  const downloadSignedRiskAnalysis = PurposeTemplateDownloads.useDownloadSignedRiskAnalysis()
 
-  // const handleDownloadRiskAnalysis = () => {
-  //   console.log('TODO: ADD API CALLS WHEN AVAILABLE') // todo: add api calls when available
-  // }
+  const handleDownloadSignedDocument = () => {
+    downloadSignedRiskAnalysis({
+      purposeTemplateId: purposeTemplate.id,
+    })
+  }
 
-  // const downloadRiskAnalysisAction = {
-  //   startIcon: <DownloadIcon fontSize="small" />,
-  //   component: 'button',
-  //   onClick: handleDownloadRiskAnalysis,
-  //   label: t('riskAnalysisDownloadLink'),
-  //   sx: { fontWeight: 700 },
-  // }
+  const downloadRiskAnalysisAction = {
+    startIcon: <DownloadIcon fontSize="small" />,
+    component: 'button',
+    onClick: handleDownloadSignedDocument,
+    label: t('riskAnalysisDownloadLink'),
+    sx: { fontWeight: 700 },
+  }
 
   const tenantKindTranslationKey =
     purposeTemplate.targetTenantKind === 'PA'
@@ -36,7 +40,7 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
 
   return (
     <>
-      <SectionContainer title={t('title')} bottomActions={[]}>
+      <SectionContainer title={t('title')} bottomActions={[downloadRiskAnalysisAction]}>
         <Stack spacing={2}>
           <InformationContainer label={t('producerName')} content={purposeTemplate.creator.name} />
           <InformationContainer label={t('tenantKind')} content={tenantKindTranslationKey} />
