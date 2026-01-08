@@ -44,8 +44,7 @@ describe('ConsumerPurposeTemplateCatalogDetailsTab', () => {
     expect(screen.getByText(mockPurposeTemplate.purposeDescription)).toBeInTheDocument()
   })
 
-  /** This test throw an error when button will be available again */
-  it('should not render button "Download Risk Analysis" yet', () => {
+  it('should render button Download Risk Analysis', () => {
     const screen = renderWithApplicationContext(
       <ConsumerPurposeTemplateCatalogDetailsTab purposeTemplate={mockPurposeTemplate} />,
       {
@@ -53,7 +52,7 @@ describe('ConsumerPurposeTemplateCatalogDetailsTab', () => {
         withRouterContext: true,
       }
     )
-    expect(screen.queryByText('riskAnalysisDownloadLink')).not.toBeInTheDocument()
+    expect(screen.queryByText('riskAnalysisDownloadLink')).toBeInTheDocument()
   })
 
   it('should render "linked e-services" and call useActiveTab when clicked', async () => {
