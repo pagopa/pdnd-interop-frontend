@@ -100,10 +100,15 @@ const NotificationUserConfigTabs: React.FC<{
                 emailDigestPreference: data.emailDigestPreference,
                 emailNotificationPreference: data.emailNotificationPreference,
               }}
-              handleUpdateNotificationConfigs={(notification, type, preferenceChoice) =>
+              handleUpdateNotificationConfigs={(
+                notification,
+                inAppNotificationPreference,
+                _emailNotificationPreference,
+                _emailDigestPreference
+              ) =>
                 handleUpdateNotificationConfigInApp(
                   notification,
-                  preferenceChoice as UserNotificationConfig['inAppNotificationPreference']
+                  inAppNotificationPreference as UserNotificationConfig['inAppNotificationPreference']
                 )
               }
             />
