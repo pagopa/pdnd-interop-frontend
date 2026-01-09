@@ -95,7 +95,6 @@ describe('NotificationConfigSection', () => {
       )
     })
     it('Should not render null because no switch will be available', () => {
-      screen.debug()
       const sectionTitle = screen.queryByText('Test subsection')
       expect(sectionTitle).not.toBeInTheDocument()
     })
