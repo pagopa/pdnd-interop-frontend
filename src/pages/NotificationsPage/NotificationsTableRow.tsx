@@ -48,11 +48,9 @@ export const NotificationsTableRow: React.FC<{
           notification.category as 'Providers' | 'Subscribers' | 'Delegations' | 'AttributesAndKeys'
         )}
       </TableCell>
-      <TableCell
-        sx={{ fontWeight: fontWeightRow }}
-        width={450}
-        dangerouslySetInnerHTML={{ __html: notification.body }}
-      />
+      <TableCell sx={{ fontWeight: fontWeightRow }} width={450}>
+        {notification.body}
+      </TableCell>
       <TableCell sx={{ fontWeight: fontWeightRow }}>
         <Button component={Link} size="small" variant="outlined" to={notificationLink}>
           {tCommon('actions.inspect')}

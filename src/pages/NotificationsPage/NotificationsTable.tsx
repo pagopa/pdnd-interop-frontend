@@ -1,5 +1,5 @@
 import { Table } from '@pagopa/interop-fe-commons'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NotificationsTableRow, NotificationsTableRowSkeleton } from './NotificationsTableRow'
 import { Box, Button, Checkbox, Stack, Typography } from '@mui/material'
@@ -9,17 +9,16 @@ import MarkAsUnreadIcon from '@mui/icons-material/MarkAsUnread'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { match } from 'ts-pattern'
 import { type Notification } from '@/api/api.generatedTypes'
+import { NotificationMutations } from '@/api/notification'
 
 type NotificationsTableProps = {
   notifications: Array<Notification>
   handleRefetch: () => void
-  handleMultipleRowMarkAsRead: (notificationIds: string[]) => void
-  handleMultipleRowMarkAsUnread: (notificationIds: string[]) => void
-  handleMultipleRowDelete: (notificationIds: string[]) => void
   dataUpdatedAt: string
+  offset: number
 }
 
-type NotficationTableRowsActionsProps = {
+type NotificationTableRowsActionsProps = {
   handleRefetch: () => void
   handleMultipleRowMarkAsRead: () => void
   handleMultipleRowMarkAsUnread: () => void
@@ -31,15 +30,52 @@ type NotficationTableRowsActionsProps = {
 export const NotificationsTable: React.FC<NotificationsTableProps> = ({
   notifications,
   handleRefetch,
-  handleMultipleRowMarkAsRead,
-  handleMultipleRowMarkAsUnread,
-  handleMultipleRowDelete,
   dataUpdatedAt,
+  offset,
 }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
 
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const allSelected = notifications.length > 0 && selectedIds.length === notifications.length
+
+  useEffect(() => {
+    setSelectedIds([])
+  }, [offset])
+
+  const { mutate: markBulkAsRead } = NotificationMutations.useBulkMarkAsRead()
+  const { mutate: markBulkAsUnread } = NotificationMutations.useBulkMarkAsNotRead()
+  const { mutate: deleteNotifications } = NotificationMutations.useDeleteNotifications()
+
+  const handleMultipleRowMarkAsRead = (notificationIds: string[]) => {
+    markBulkAsRead(
+      { ids: notificationIds },
+      {
+        onSuccess: () => setSelectedIds([]),
+      }
+    )
+  }
+
+  const handleMultipleRowMarkAsUnread = (notificationIds: string[]) => {
+    markBulkAsUnread(
+      { ids: notificationIds },
+      {
+        onSuccess: () => {
+          setSelectedIds([])
+        },
+      }
+    )
+  }
+
+  const handleMultipleRowDelete = (notificationIds: string[]) => {
+    deleteNotifications(
+      { ids: notificationIds },
+      {
+        onSuccess: () => {
+          setSelectedIds([])
+        },
+      }
+    )
+  }
 
   const handleSelectAll = () => {
     if (allSelected) {
@@ -50,9 +86,10 @@ export const NotificationsTable: React.FC<NotificationsTableProps> = ({
   }
 
   const toggleSelection = (id: string) => {
-    setSelectedIds((prev) =>
-      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
-    )
+    const newIds = selectedIds.includes(id)
+      ? selectedIds.filter((item) => item !== id)
+      : [...selectedIds, id]
+    setSelectedIds(newIds)
   }
 
   const headLabels = [
@@ -79,9 +116,15 @@ export const NotificationsTable: React.FC<NotificationsTableProps> = ({
         rowSelected={selectedIds.length}
         handleRefetch={handleRefetch}
         dataUpdatedAt={dataUpdatedAt}
-        handleMultipleRowMarkAsRead={() => handleMultipleRowMarkAsRead(selectedIds)}
-        handleMultipleRowMarkAsUnread={() => handleMultipleRowMarkAsUnread(selectedIds)}
-        handleMultipleRowDelete={() => handleMultipleRowDelete(selectedIds)}
+        handleMultipleRowMarkAsRead={() => {
+          handleMultipleRowMarkAsRead(selectedIds)
+        }}
+        handleMultipleRowMarkAsUnread={() => {
+          handleMultipleRowMarkAsUnread(selectedIds)
+        }}
+        handleMultipleRowDelete={() => {
+          handleMultipleRowDelete(selectedIds)
+        }}
       />
       <Table headLabels={headLabels} isEmpty={notifications && notifications.length === 0}>
         {notifications?.map((notification) => (
@@ -119,7 +162,7 @@ export const NotificationsTableSkeleton: React.FC = () => {
   )
 }
 
-const NotficationTableRowsActions: React.FC<NotficationTableRowsActionsProps> = ({
+const NotficationTableRowsActions: React.FC<NotificationTableRowsActionsProps> = ({
   handleRefetch,
   handleMultipleRowMarkAsRead,
   handleMultipleRowMarkAsUnread,
