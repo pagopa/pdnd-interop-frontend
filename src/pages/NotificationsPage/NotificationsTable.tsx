@@ -18,7 +18,7 @@ type NotificationsTableProps = {
   offset: number
 }
 
-type NotficationTableRowsActionsProps = {
+type NotificationTableRowsActionsProps = {
   handleRefetch: () => void
   handleMultipleRowMarkAsRead: () => void
   handleMultipleRowMarkAsUnread: () => void
@@ -35,12 +35,12 @@ export const NotificationsTable: React.FC<NotificationsTableProps> = ({
 }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
 
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
+  const allSelected = notifications.length > 0 && selectedIds.length === notifications.length
+
   useEffect(() => {
     setSelectedIds([])
   }, [offset])
-
-  const [selectedIds, setSelectedIds] = useState<string[]>([])
-  const allSelected = notifications.length > 0 && selectedIds.length === notifications.length
 
   const { mutate: markBulkAsRead } = NotificationMutations.useBulkMarkAsRead()
   const { mutate: markBulkAsUnread } = NotificationMutations.useBulkMarkAsNotRead()
@@ -162,7 +162,7 @@ export const NotificationsTableSkeleton: React.FC = () => {
   )
 }
 
-const NotficationTableRowsActions: React.FC<NotficationTableRowsActionsProps> = ({
+const NotficationTableRowsActions: React.FC<NotificationTableRowsActionsProps> = ({
   handleRefetch,
   handleMultipleRowMarkAsRead,
   handleMultipleRowMarkAsUnread,

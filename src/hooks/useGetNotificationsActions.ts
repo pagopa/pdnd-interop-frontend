@@ -30,26 +30,26 @@ function useGetNotificationsActions(notification?: Notification): {
     }
   }
 
-  const deleteNotifcationAction: ActionItemButton = {
+  const deleteNotificationAction: ActionItemButton = {
     action: handleDeleteNotification,
     label: t('delete'),
     color: 'error',
     fontColor: theme.palette.error.main,
   }
 
-  const markAsReadNotifcationAction: ActionItemButton = {
+  const markAsReadNotificationAction: ActionItemButton = {
     action: handleMarkAsRead,
     label: t('markAsRead'),
   }
 
-  const markAsNotReadNotifcationAction: ActionItemButton = {
+  const markAsNotReadNotificationAction: ActionItemButton = {
     action: handleMarkAsNotRead,
     label: t('marsAsNotRead'),
   }
 
   const validActions = !notification.readAt
-    ? [markAsReadNotifcationAction, deleteNotifcationAction]
-    : [markAsNotReadNotifcationAction, deleteNotifcationAction]
+    ? [markAsReadNotificationAction, deleteNotificationAction]
+    : [markAsNotReadNotificationAction, deleteNotificationAction]
 
   return {
     actions: validActions,

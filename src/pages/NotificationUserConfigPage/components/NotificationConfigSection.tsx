@@ -21,6 +21,7 @@ export const NotificationConfigSection: React.FC<NotificationConfigSectionProps>
   isAllSwitchWithinSectionDisabled,
 }) => {
   const { icon: Icon, subsections, title } = notificationSchema
+
   const { currentRoles } = AuthHooks.useJwt()
 
   const { t } = useTranslation('notification', {
