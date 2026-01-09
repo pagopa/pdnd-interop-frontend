@@ -7,7 +7,6 @@ import { NotificationConfigUserTab } from './components/NotificationUserConfigTa
 import { useTranslation } from 'react-i18next'
 import { NotificationMutations, NotificationQueries } from '@/api/notification'
 import { useQuery } from '@tanstack/react-query'
-import type { UserNotificationConfig } from '@/api/api.generatedTypes'
 import {
   type NotificationConfig,
   type UserNotificationConfigUpdateSeed,

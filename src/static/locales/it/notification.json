@@ -224,7 +224,7 @@
             "components": {
               "delegationUpdated": {
                 "label": "Stato di accettazione di una delega",
-                "description": "Avvisami quando una delega viene accettata o rifiutata <o revocata> dall’ente a cui l’ho conferita"
+                "description": "Avvisami quando una delega viene accettata o rifiutata dall’ente a cui l’ho conferita"
               },
               "eserviceDelegatedCreated": {
                 "label": "Approvazione delle richieste del delegato",

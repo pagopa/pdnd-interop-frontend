@@ -40,12 +40,10 @@ describe('NotificationsTableRow', () => {
     beforeEach(() => {
       renderWithApplicationContext(
         <NotificationsTable
+          offset={0}
           notifications={notificationMock}
           dataUpdatedAt="2025-02-14T13:58:00Z"
           handleRefetch={vi.fn()}
-          handleMultipleRowMarkAsRead={vi.fn()}
-          handleMultipleRowMarkAsUnread={vi.fn()}
-          handleMultipleRowDelete={vi.fn()}
         />,
         {
           withRouterContext: true,

@@ -586,7 +586,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <NotificationsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support', 'security'],
+    authLevels: ['admin', 'api', 'security'],
   })
   .addRoute({
     key: 'NOTIFICATIONS_CONFIG',
@@ -594,7 +594,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <NotificationUserConfigPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'security', 'api'],
+    authLevels: ['admin', 'security', 'api'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST',

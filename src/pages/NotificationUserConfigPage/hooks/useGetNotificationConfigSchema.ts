@@ -5,8 +5,11 @@ import { match } from 'ts-pattern'
 import React from 'react'
 import { ConsumerIcon, ProviderIcon, MyTenantIcon } from '@/icons'
 import CodeIcon from '@mui/icons-material/Code'
+import { AuthHooks } from '@/api/auth'
 
 export function useGetNotificationConfigSchema(type: NotificationConfigType) {
+  const { currentRoles } = AuthHooks.useJwt()
+
   const { t } = useTranslation('notification', {
     keyPrefix: 'notifications.configurationPage.sections',
   })
@@ -272,11 +275,14 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
     const keyMap: Record<string, string[]> = {}
     Object.keys(notificationSchema).forEach((sectionName) => {
       keyMap[sectionName] = notificationSchema[sectionName].subsections.flatMap(
-        (section: NotificationSubSectionSchema) => section.components.map((c) => c.key)
+        (section: NotificationSubSectionSchema) =>
+          section.components
+            .filter((a) => a.visibility.some((role) => currentRoles.includes(role)))
+            .map((c) => c.key)
       )
     })
     return keyMap
-  }, [notificationSchema])
+  }, [currentRoles, notificationSchema])
 
   return { notificationSchema, sectionComponentKeysMap }
 }
