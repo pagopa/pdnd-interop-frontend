@@ -2,9 +2,9 @@ import React from 'react'
 import { PageContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Tab } from '@mui/material'
+import { Link, Tab } from '@mui/material'
 import { NotificationConfigUserTab } from './components/NotificationUserConfigTab'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { NotificationMutations, NotificationQueries } from '@/api/notification'
 import { useQuery } from '@tanstack/react-query'
 import {
@@ -12,13 +12,25 @@ import {
   type UserNotificationConfigUpdateSeed,
 } from '@/api/api.generatedTypes'
 import omit from 'lodash/omit'
+import { documentationLink } from '@/config/constants'
 
 const NotificationUserConfigPage: React.FC = () => {
   const { activeTab, updateActiveTab } = useActiveTab('inApp')
   const { t } = useTranslation('notification', { keyPrefix: 'notifications.configurationPage' })
 
   return (
-    <PageContainer title={t('title')} description={t('description')}>
+    <PageContainer
+      title={t('title')}
+      description={
+        <Trans
+          components={{
+            1: <Link underline="hover" href={documentationLink} target="_blank" />,
+          }}
+        >
+          {t('description')}
+        </Trans>
+      }
+    >
       <NotificationUserConfigTabs activeTab={activeTab} updateActiveTab={updateActiveTab} />
     </PageContainer>
   )
