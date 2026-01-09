@@ -26,7 +26,7 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
   }
 
   const downloadRiskAnalysisAction = {
-    startIcon: <DownloadIcon fontSize="small" />,
+    startIcon: <DownloadIcon fontSize="small" sx={{ mr: 1 }} />,
     component: 'button',
     onClick: handleDownloadSignedDocument,
     label: t('riskAnalysisDownloadLink'),
