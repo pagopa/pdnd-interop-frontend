@@ -18,10 +18,12 @@ export const PartyContactsSection: React.FC = () => {
 
   const { isAdmin } = AuthHooks.useJwt()
 
+  const isUserEnabledToShowNotificationConfig = FEATURE_FLAG_NOTIFICATION_CONFIG && isAdmin
+
   const { data: user } = TenantHooks.useGetActiveUserParty()
   const { data: tenantEmailNotificationConfigs } = useQuery({
     ...NotificationQueries.getTenantNotificationConfigs(),
-    enabled: FEATURE_FLAG_NOTIFICATION_CONFIG,
+    enabled: isUserEnabledToShowNotificationConfig,
   })
   const email = user.contactMail
 
@@ -56,7 +58,7 @@ export const PartyContactsSection: React.FC = () => {
         >
           <Stack spacing={2}>
             <InformationContainer label={t('mailField.label')} content={email?.address || 'n/a'} />
-            {FEATURE_FLAG_NOTIFICATION_CONFIG && (
+            {isUserEnabledToShowNotificationConfig && (
               <InformationContainer
                 label={tNotification('label')}
                 content={

@@ -40,7 +40,7 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
     formMethods,
     inAppNotificationPreference,
     emailNotificationPreference,
-    emailDigestPreference,
+
     valuesChanged,
   } = useNotificationConfigForm({
     handleUpdateNotificationConfigs,
@@ -74,9 +74,11 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
       <SectionContainer sx={{ px: 4, pt: 4 }} title={t('title')} description={t('description')}>
         {type === 'email' ? <EmailConfigHeader userEmail={userEmail} /> : <InAppConfigHeader />}
         {/* {inAppNotificationPreference !== 'DIGEST' && ( */}
-        <Alert sx={{ mt: 2 }} severity="info">
-          {tConfiguration('infoAlert')}
-        </Alert>
+        {isEnabledShowPreferencesSwitch && (
+          <Alert sx={{ mt: 2 }} severity="info">
+            {tConfiguration('infoAlert')}
+          </Alert>
+        )}
         {/* )} */}
         <Box sx={{ ml: 2, mt: 2 }}>
           {isEnabledShowPreferencesSwitch &&

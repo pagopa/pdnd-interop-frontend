@@ -63,7 +63,7 @@
     },
     "configurationPage": {
       "title": "Configurazione notifiche utente",
-      "description": "Gestisci le tue impostazioni di notifica in app e via email personale.",
+      "description": "Gestisci le tue impostazioni di notifica in app e via email personale. Hai dubbi su come configurare le notifiche? <1>Consulta il manuale</1>",
       "inAppTabTitle": "Notifiche in-app",
       "emailTabTitle": "Email",
       "infoAlert": "Le notifiche selezionate potrebbero non arrivare subito, in quanto programmiamo un rilascio graduale. Dopo la tua configurazione delle preferenze non ti sarà richiesta alcuna azione.",
@@ -224,7 +224,7 @@
             "components": {
               "delegationUpdated": {
                 "label": "Stato di accettazione di una delega",
-                "description": "Avvisami quando una delega viene accettata o rifiutata <o revocata> dall’ente a cui l’ho conferita"
+                "description": "Avvisami quando una delega viene accettata o rifiutata dall’ente a cui l’ho conferita"
               },
               "eserviceDelegatedCreated": {
                 "label": "Approvazione delle richieste del delegato",
