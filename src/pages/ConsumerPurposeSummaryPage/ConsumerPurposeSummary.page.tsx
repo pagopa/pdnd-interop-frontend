@@ -21,7 +21,7 @@ import { AuthHooks } from '@/api/auth'
 import {
   checkIsRulesetExpired,
   getDaysToExpiration,
-  getExpirationDateToShow,
+  getFormattedExpirationDate,
 } from '@/utils/purpose.utils'
 
 const ConsumerPurposeSummaryPage: React.FC = () => {
@@ -152,7 +152,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
         <Alert sx={{ mt: 3 }} severity="info">
           {t('summary.alerts.infoRulesetExpiration', {
             days: daysToExpiration,
-            date: getExpirationDateToShow(expirationDate),
+            date: getFormattedExpirationDate(expirationDate),
           })}
         </Alert>
       )}

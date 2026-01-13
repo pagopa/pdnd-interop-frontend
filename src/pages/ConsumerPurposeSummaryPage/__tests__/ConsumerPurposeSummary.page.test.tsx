@@ -9,7 +9,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import {
   checkIsRulesetExpired,
   getDaysToExpiration,
-  getExpirationDateToShow,
+  getFormattedExpirationDate,
 } from '@/utils/purpose.utils'
 import {
   createMockPurposeUsesPersonalDataAnswerYes,
@@ -69,7 +69,7 @@ vi.mock('./hooks/useGetConsumerPurposeAlertProps', () => ({
 vi.mock('@/utils/purpose.utils', () => ({
   checkIsRulesetExpired: vi.fn(),
   getDaysToExpiration: vi.fn(),
-  getExpirationDateToShow: vi.fn(),
+  getFormattedExpirationDate: vi.fn(),
 }))
 
 const createWrapper = () => {
@@ -96,7 +96,7 @@ describe('ConsumerPurposeSummaryPage', () => {
     vi.clearAllMocks()
     vi.mocked(checkIsRulesetExpired).mockReturnValue(false)
     vi.mocked(getDaysToExpiration).mockReturnValue(10)
-    vi.mocked(getExpirationDateToShow).mockReturnValue('01/01/2030')
+    vi.mocked(getFormattedExpirationDate).mockReturnValue('01/01/2030')
   })
 
   it('renders page title', () => {
@@ -194,7 +194,7 @@ describe('ConsumerPurposeSummaryPage', () => {
   it('shows alert if isRulesetExpired is true', () => {
     vi.mocked(checkIsRulesetExpired).mockReturnValue(true)
     vi.mocked(getDaysToExpiration).mockReturnValue(undefined)
-    vi.mocked(getExpirationDateToShow).mockReturnValue(undefined)
+    vi.mocked(getFormattedExpirationDate).mockReturnValue(undefined)
 
     useQueryMock.mockReturnValue({
       data: createMockPurposeUsesPersonalDataAnswerYes(),

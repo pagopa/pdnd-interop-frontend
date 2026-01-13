@@ -47,7 +47,7 @@ export function getDaysToExpiration(expirationDate: string | undefined) {
     : undefined
 }
 
-export function getExpirationDateToShow(expirationDate?: string) {
+export function getFormattedExpirationDate(expirationDate?: string) {
   return expirationDate
     ? new Date(expirationDate).toLocaleDateString(undefined, {
         year: 'numeric',

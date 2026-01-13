@@ -18,7 +18,7 @@ import {
 } from '@mui/material'
 import { DialogClonePurposeEServiceAutocomplete } from './DialogClonePurposeEServiceAutocomplete'
 import { useQuery } from '@tanstack/react-query'
-import { getExpirationDateToShow } from '@/utils/purpose.utils'
+import { getFormattedExpirationDate } from '@/utils/purpose.utils'
 
 type ClonePurposeFormValues = {
   eserviceId: string
@@ -88,7 +88,7 @@ export const DialogClonePurpose: React.FC<DialogClonePurposeProps> = ({ purposeI
                     {t('alertRiskAnalysisRulesetExipiring.title')}
                   </Typography>
                   {t('alertRiskAnalysisRulesetExipiring.description', {
-                    expirationDate: getExpirationDateToShow(expirationDate),
+                    expirationDate: getFormattedExpirationDate(expirationDate),
                   })}
                 </Alert>
               )}
