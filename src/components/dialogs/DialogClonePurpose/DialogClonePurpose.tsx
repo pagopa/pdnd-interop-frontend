@@ -82,9 +82,8 @@ export const DialogClonePurpose: React.FC<DialogClonePurposeProps> = ({ purposeI
           <DialogContent>
             <Stack spacing={2}>
               <Typography variant="body1">{t('description')}</Typography>
-              {purpose?.rulesetExpiration && (
+              {expirationDate && (
                 <Alert severity="warning">
-                  {' '}
                   <Typography sx={{ fontWeight: '600' }}>
                     {t('alertRiskAnalysisRulesetExipiring.title')}
                   </Typography>
