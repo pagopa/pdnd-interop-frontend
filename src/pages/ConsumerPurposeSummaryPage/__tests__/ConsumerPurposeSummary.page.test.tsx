@@ -2,9 +2,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import type { Purpose } from '@/api/api.generatedTypes'
 import ConsumerPurposeSummaryPage from '../ConsumerPurposeSummary.page'
-import { mockUseParams } from '@/utils/testing.utils'
+import { mockUseJwt, mockUseParams } from '@/utils/testing.utils'
 import * as router from '@/router'
 import { BrowserRouter as Router } from 'react-router-dom'
 import {
@@ -12,6 +11,12 @@ import {
   getDaysToExpiration,
   getExpirationDateToShow,
 } from '@/utils/purpose.utils'
+import {
+  createMockPurposeUsesPersonalDataAnswerYes,
+  createMockPurposeUsesPersonalDataAnswerNo,
+  createMockPurposeCompatiblePersonalDataYes,
+  createMockPurposeCompatiblePersonalDataNo,
+} from '@/../__mocks__/data/purpose.mocks'
 
 const mockPurposeId = 'test-purpose-id'
 mockUseParams({ purposeId: mockPurposeId })
@@ -27,13 +32,7 @@ vi.mock('../components', () => ({
   ConsumerPurposeSummaryRiskAnalysisAccordion: () => <div data-testid="risk-analysis-accordion" />,
 }))
 
-vi.mock('@/api/auth', () => ({
-  AuthHooks: {
-    useJwt: () => ({
-      jwt: { organizationId: 'org-id' },
-    }),
-  },
-}))
+mockUseJwt()
 
 const deleteDraftMock = vi.fn()
 const publishDraftMock = vi.fn()
@@ -92,89 +91,6 @@ const createWrapper = () => {
   return WrapperComponent
 }
 
-const mockPurposeAnswerNo: Purpose = {
-  id: 'purpose-id',
-  title: 'Test Purpose',
-  consumer: { id: 'consumer-id', name: 'Consumer Name' },
-  eservice: {
-    id: 'eservice-id',
-    name: 'Test Eservice',
-    mode: 'DELIVER',
-    producer: { id: 'producer-id', name: 'Producer Name' },
-    personalData: true,
-    descriptor: {
-      id: 'descriptor-id',
-      state: 'PUBLISHED',
-      version: '1',
-      audience: ['test'],
-    },
-  },
-  agreement: { id: 'agreement-id', state: 'ACTIVE', canBeUpgraded: false },
-  riskAnalysisForm: {
-    answers: { usesPersonalData: ['NO'] },
-    version: '3.1',
-    riskAnalysisId: 'risk-analysis-id',
-  },
-  versions: [],
-  clients: [],
-  description: '',
-  isFreeOfCharge: false,
-  dailyCallsPerConsumer: 0,
-  dailyCallsTotal: 0,
-  hasUnreadNotifications: false,
-  isDocumentReady: false,
-}
-
-const mockPurposeAnswerYes: Purpose = {
-  id: 'purpose-id',
-  title: 'Test Purpose',
-  consumer: { id: 'consumer-id', name: 'Consumer Name' },
-  eservice: {
-    id: 'eservice-id',
-    name: 'Test Eservice',
-    mode: 'DELIVER',
-    producer: { id: 'producer-id', name: 'Producer Name' },
-    personalData: false,
-    descriptor: {
-      id: 'descriptor-id',
-      state: 'PUBLISHED',
-      version: '1',
-      audience: ['test'],
-    },
-  },
-  agreement: { id: 'agreement-id', state: 'ACTIVE', canBeUpgraded: false },
-  riskAnalysisForm: {
-    answers: { usesPersonalData: ['YES'] },
-    version: '3.1',
-    riskAnalysisId: 'risk-analysis-id',
-  },
-  versions: [],
-  clients: [],
-  description: '',
-  isFreeOfCharge: false,
-  dailyCallsPerConsumer: 0,
-  dailyCallsTotal: 0,
-  hasUnreadNotifications: false,
-  isDocumentReady: false,
-  rulesetExpiration: '2030-01-01T00:00:00Z',
-}
-
-const mockPurposeCompatiblePersonalDataYes: Purpose = {
-  ...mockPurposeAnswerNo,
-  riskAnalysisForm: {
-    ...mockPurposeAnswerNo.riskAnalysisForm!,
-    answers: { usesPersonalData: ['YES'] },
-  },
-}
-
-const mockPurposeCompatiblePersonalDataNo: Purpose = {
-  ...mockPurposeAnswerYes,
-  riskAnalysisForm: {
-    ...mockPurposeAnswerYes.riskAnalysisForm!,
-    answers: { usesPersonalData: ['NO'] },
-  },
-}
-
 describe('ConsumerPurposeSummaryPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
@@ -185,7 +101,7 @@ describe('ConsumerPurposeSummaryPage', () => {
 
   it('renders page title', () => {
     useQueryMock.mockReturnValue({
-      data: mockPurposeAnswerYes,
+      data: createMockPurposeUsesPersonalDataAnswerYes(),
       isLoading: false,
     })
 
@@ -196,7 +112,7 @@ describe('ConsumerPurposeSummaryPage', () => {
 
   it('disables publish button when personal data answer is incompatible (case: user answer NO, eservice personalData true)', () => {
     useQueryMock.mockReturnValue({
-      data: mockPurposeAnswerNo,
+      data: createMockPurposeUsesPersonalDataAnswerNo(),
       isLoading: false,
     })
 
@@ -211,7 +127,7 @@ describe('ConsumerPurposeSummaryPage', () => {
 
   it('disables publish button when personal data answer is incompatible (case: user answer YES, eservice personalData false)', () => {
     useQueryMock.mockReturnValue({
-      data: mockPurposeAnswerYes,
+      data: createMockPurposeUsesPersonalDataAnswerYes(),
       isLoading: false,
     })
 
@@ -226,7 +142,7 @@ describe('ConsumerPurposeSummaryPage', () => {
 
   it('enables publish button when personal data answer is compatible (case: user answer YES, eservice personalData true)', () => {
     useQueryMock.mockReturnValue({
-      data: mockPurposeCompatiblePersonalDataYes,
+      data: createMockPurposeCompatiblePersonalDataYes(),
       isLoading: false,
     })
 
@@ -241,7 +157,7 @@ describe('ConsumerPurposeSummaryPage', () => {
 
   it('enables publish button when personal data answer is compatible (case: user answer NO, eservice personalData false)', () => {
     useQueryMock.mockReturnValue({
-      data: mockPurposeCompatiblePersonalDataNo,
+      data: createMockPurposeCompatiblePersonalDataNo(),
       isLoading: false,
     })
 
@@ -256,7 +172,7 @@ describe('ConsumerPurposeSummaryPage', () => {
 
   it('shows info alert when there is an expiration date to show', () => {
     useQueryMock.mockReturnValue({
-      data: mockPurposeAnswerYes,
+      data: createMockPurposeUsesPersonalDataAnswerYes(),
       isLoading: false,
     })
 
@@ -267,7 +183,7 @@ describe('ConsumerPurposeSummaryPage', () => {
 
   it('does not show alert when there is no expiration date to show', () => {
     useQueryMock.mockReturnValue({
-      data: mockPurposeAnswerNo,
+      data: createMockPurposeUsesPersonalDataAnswerNo(),
       isLoading: false,
     })
 
@@ -281,7 +197,7 @@ describe('ConsumerPurposeSummaryPage', () => {
     vi.mocked(getExpirationDateToShow).mockReturnValue(undefined)
 
     useQueryMock.mockReturnValue({
-      data: mockPurposeAnswerYes,
+      data: createMockPurposeUsesPersonalDataAnswerYes(),
       isLoading: false,
     })
 

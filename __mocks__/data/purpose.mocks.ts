@@ -116,4 +116,94 @@ const createMockRiskAnalysisFormConfig = createMockFactory<RiskAnalysisFormConfi
   ],
 })
 
-export { createMockPurpose, createMockRiskAnalysisFormConfig }
+const createMockPurposeUsesPersonalDataAnswerNo = createMockFactory<Purpose>({
+  id: 'purpose-id',
+  title: 'Test Purpose',
+  consumer: { id: 'consumer-id', name: 'Consumer Name' },
+  eservice: {
+    id: 'eservice-id',
+    name: 'Test Eservice',
+    mode: 'DELIVER',
+    producer: { id: 'producer-id', name: 'Producer Name' },
+    personalData: true,
+    descriptor: {
+      id: 'descriptor-id',
+      state: 'PUBLISHED',
+      version: '1',
+      audience: ['test'],
+    },
+  },
+  agreement: { id: 'agreement-id', state: 'ACTIVE', canBeUpgraded: false },
+  riskAnalysisForm: {
+    answers: { usesPersonalData: ['NO'] },
+    version: '3.1',
+    riskAnalysisId: 'risk-analysis-id',
+  },
+  versions: [],
+  clients: [],
+  description: '',
+  isFreeOfCharge: false,
+  dailyCallsPerConsumer: 0,
+  dailyCallsTotal: 0,
+  hasUnreadNotifications: false,
+  isDocumentReady: false,
+})
+
+const createMockPurposeUsesPersonalDataAnswerYes = createMockFactory<Purpose>({
+  id: 'purpose-id',
+  title: 'Test Purpose',
+  consumer: { id: 'consumer-id', name: 'Consumer Name' },
+  eservice: {
+    id: 'eservice-id',
+    name: 'Test Eservice',
+    mode: 'DELIVER',
+    producer: { id: 'producer-id', name: 'Producer Name' },
+    personalData: false,
+    descriptor: {
+      id: 'descriptor-id',
+      state: 'PUBLISHED',
+      version: '1',
+      audience: ['test'],
+    },
+  },
+  agreement: { id: 'agreement-id', state: 'ACTIVE', canBeUpgraded: false },
+  riskAnalysisForm: {
+    answers: { usesPersonalData: ['YES'] },
+    version: '3.1',
+    riskAnalysisId: 'risk-analysis-id',
+  },
+  versions: [],
+  clients: [],
+  description: '',
+  isFreeOfCharge: false,
+  dailyCallsPerConsumer: 0,
+  dailyCallsTotal: 0,
+  hasUnreadNotifications: false,
+  isDocumentReady: false,
+  rulesetExpiration: '2030-01-01T00:00:00Z',
+})
+
+const createMockPurposeCompatiblePersonalDataYes = createMockFactory<Purpose>({
+  ...createMockPurposeUsesPersonalDataAnswerNo(),
+  riskAnalysisForm: {
+    ...createMockPurposeUsesPersonalDataAnswerNo().riskAnalysisForm!,
+    answers: { usesPersonalData: ['YES'] },
+  },
+})
+
+const createMockPurposeCompatiblePersonalDataNo = createMockFactory<Purpose>({
+  ...createMockPurposeUsesPersonalDataAnswerYes(),
+  riskAnalysisForm: {
+    ...createMockPurposeUsesPersonalDataAnswerYes().riskAnalysisForm!,
+    answers: { usesPersonalData: ['NO'] },
+  },
+})
+
+export {
+  createMockPurpose,
+  createMockRiskAnalysisFormConfig,
+  createMockPurposeUsesPersonalDataAnswerNo,
+  createMockPurposeUsesPersonalDataAnswerYes,
+  createMockPurposeCompatiblePersonalDataYes,
+  createMockPurposeCompatiblePersonalDataNo,
+}
