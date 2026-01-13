@@ -35,7 +35,7 @@ export const KeychainPublicKeysTab: React.FC<KeychainPublicKeysTabProps> = ({ ke
     },
   ])
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
 
   const params = {
     ...filtersParams,

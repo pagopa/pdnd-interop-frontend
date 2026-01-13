@@ -18,7 +18,7 @@ export const ManageAttributesTab: React.FC = () => {
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
   const { isAdmin } = AuthHooks.useJwt()
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetAttributesParams, 'limit' | 'offset'>
   >([{ name: 'q', label: t('filters.nameField.label'), type: 'freetext' }])

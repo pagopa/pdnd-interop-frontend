@@ -40,7 +40,8 @@ const ProviderEServiceListPage: React.FC = () => {
       })),
   })
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
+
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetProducerEServicesParams, 'limit' | 'offset'>
   >([
@@ -86,7 +87,8 @@ const ProviderEServiceListPage: React.FC = () => {
       <Filters {...filtersHandlers} />
       <EServiceTableWrapper params={queryParams} />
       <Pagination
-        {...paginationProps}
+        pageNum={paginationProps.pageNum}
+        onPageChange={paginationProps.onPageChange}
         rowPerPageOptions={{
           onLimitChange: paginationProps.onLimitChange,
           limit: paginationParams.limit,

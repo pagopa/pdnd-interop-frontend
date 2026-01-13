@@ -129,7 +129,7 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
     },
   ])
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
   const queryParams = { ...paginationParams, ...filtersParams }
 
   const { data } = useQuery({

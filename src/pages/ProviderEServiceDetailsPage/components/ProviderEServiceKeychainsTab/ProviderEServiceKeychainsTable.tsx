@@ -16,7 +16,7 @@ type ProviderEServiceKeychainsTableProps = {
 export const ProviderEServiceKeychainsTable: React.FC<ProviderEServiceKeychainsTableProps> = ({
   eserviceId,
 }) => {
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
 
   const params: GetProducerKeychainsParams = {
     eserviceId: eserviceId,

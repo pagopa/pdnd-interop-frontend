@@ -39,7 +39,7 @@ const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
       })),
   })
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 12 })
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
 
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetEServiceTemplatesCatalogParams, 'limit' | 'offset'>
@@ -71,6 +71,7 @@ const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
       <Pagination
         {...paginationProps}
         rowPerPageOptions={{
+          options: [12, 24, 36],
           onLimitChange: paginationProps.onLimitChange,
           limit: paginationParams.limit,
         }}

@@ -42,7 +42,7 @@ export const ConsumerPurposeTemplateLinkedEServiceTable: React.FC<
       })),
   })
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
 
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetPurposeTemplateEServicesParams, 'limit' | 'offset' | 'purposeTemplateId'>

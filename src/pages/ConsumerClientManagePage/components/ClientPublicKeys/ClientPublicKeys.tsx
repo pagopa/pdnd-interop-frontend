@@ -37,7 +37,7 @@ export const ClientPublicKeys: React.FC<ClientPublicKeysProps> = ({ clientId }) 
     },
   ])
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
 
   const queryParams = {
     ...filtersParams,

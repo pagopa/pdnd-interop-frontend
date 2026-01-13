@@ -12,7 +12,7 @@ type ClientTableProps = {
 
 export const ClientTable: React.FC<ClientTableProps> = ({ clientKind }) => {
   const { t } = useTranslation('client', { keyPrefix: 'list.filters' })
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
   const { filtersParams, ...handlers } = useFilters([
     { name: 'q', type: 'freetext', label: t('nameField.label') },
   ])

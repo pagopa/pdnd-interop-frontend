@@ -16,7 +16,7 @@ export const AssignAttributesTab: React.FC = () => {
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
 
   const queryParams: GetRequesterCertifiedAttributesParams = {
     ...paginationParams,

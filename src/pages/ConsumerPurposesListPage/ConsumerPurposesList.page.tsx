@@ -51,7 +51,7 @@ const ConsumerPurposesListPage: React.FC = () => {
       })),
   })
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetConsumerPurposesParams, 'limit' | 'offset'>
   >([

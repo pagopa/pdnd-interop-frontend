@@ -56,7 +56,7 @@ const ConsumerLinkedPurposeTemplatesTab: React.FC = () => {
     },
   ])
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
 
   // Ensure eserviceId is always present in query params
   const queryParams: GetCatalogPurposeTemplatesParams = {
