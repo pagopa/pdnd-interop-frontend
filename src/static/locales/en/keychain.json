@@ -1,39 +1,39 @@
 {
-  "noMultiDataLabel": "No keychain available",
+  "noMultiDataLabel": "No keychains available",
   "create": {
     "title": "Create keychain",
     "infoSectionTitle": "General information",
     "nameField": {
       "label": "Keychain name",
-      "infoLabel": "It will help you tell them apart. Min 5 chars, max 60 chars"
+      "infoLabel": "Helps you distinguish it from others. Min 5 characters, max 60 characters"
     },
     "descriptionField": {
-      "label": "keychain description",
-      "infoLabel": "Min 10 chars, max 250 chars"
+      "label": "Keychain description",
+      "infoLabel": "Min 10 characters, max 250 characters"
     },
     "keychainUsersSection": {
       "title": "Keychain members",
-      "description": "You can manage the keychain members in every moment, still after the creation"
+      "description": "You can manage the keychain members at any time, even after creation"
     },
     "usersTable": {
       "noDataLabel": "No user added"
     },
     "addUsersToKeychainDrawer": {
-      "title": "Add keychain members",
+      "title": "Add members to keychain",
       "autocompleteInput": {
-        "label": "Selected members"
+        "label": "Selected users"
       },
-      "adminAlert": "If you plan on uploading public keys for this keychain, add yourself as a member of this keychain, too"
+      "adminAlert": "If you want to upload public keys for this keychain, add yourself as well"
     },
     "actions": {
       "createLabel": "Create",
-      "backToKeychainsLabel": "Back to the keychains"
+      "backToKeychainsLabel": "Back to keychains"
     }
   },
   "list": {
     "filters": {
       "nameField": {
-        "label": "Find by name"
+        "label": "Search by name"
       }
     }
   },
@@ -46,21 +46,21 @@
     "members": "Keychain members",
     "publicKeys": "Public keys"
   },
-  "actionReservedToAdminTooltip": "This actions is reserved to user with administrator permissions",
+  "actionReservedToAdminTooltip": "This action is reserved for users with administrator permissions",
   "drawers": {
-    "addUsersToKeychain": {
-      "title": "Add members to the keychain",
+    "addUsersToKeychainDrawer": {
+      "title": "Add members to keychain",
       "autocompleteInput": {
         "label": "Select users"
       },
-      "adminAlert": "If you plan on uploading public keys for this keychain, add yourself as a member of this keychain, too"
+      "adminAlert": "If you want to upload public keys for this keychain, also add yourself to the keychain"
     },
     "addPublicKeyDrawer": {
       "title": "Insert new public key",
-      "subtitle": "Don't know how to create a set of cryptographic material? <1>Check the guide</1>.",
+      "subtitle": "Not sure how to create a set of cryptographic material? <1>Read the guide.</1>",
       "nameInput": {
         "label": "Key name (required)",
-        "infoLabel": "It will help you tell them apart. Min. 5 characters, max. 60 characters"
+        "infoLabel": "This will help you distinguish it from others. Min. 5 characters, max. 60 characters"
       },
       "publicKeyInput": {
         "label": "Public key (required)"
@@ -73,27 +73,27 @@
     }
   },
   "user": {
-    "generalInformations": "General Informations",
+    "generalInformations": "General information",
     "userKeysLink": {
-      "label": "Go to the view of the keys associated with the user"
+      "label": "Go to the list of keys associated with the user"
     },
     "productRoleField": {
-      "label": "Permissions on PDND Interoperabilità"
+      "label": "Permissions on PDND"
     },
     "actions": {
       "removeFromKeychain": {
         "label": "Remove from keychain",
-        "tooltip": "The operation is permitted only to users with administrator permissions"
+        "tooltip": "Operation allowed only for users with administrator permissions"
       },
       "delete": {
         "label": "Delete",
-        "tooltip": "The operation is permitted only to users with administrator permissions"
+        "tooltip": "Operation allowed only for users with administrator permissions"
       }
     }
   },
   "publicKey": {
-    "orphanKeyAlertLabel": "The user who uploaded this key is no longer part of this keychain. It is recommended to replace the key with a new one. To find out more, <1>read the guide.</1>",
-    "generalInformations": "General Informations",
+    "orphanKeyAlertLabel": "The user who uploaded this key is no longer part of this keychain. It is recommended to replace the key with a new one. For more information, <1>read the guide.</1>",
+    "generalInformations": "General information",
     "goToTechnicalDocButton": "Go to technical documentation",
     "creationDateField": {
       "label": "Creation date"
@@ -102,13 +102,13 @@
       "label": "Uploaded by"
     },
     "keyIdField": {
-      "label": "Key id (kid)",
-      "copySuccessFeedbackText": "Id copied successfully"
+      "label": "Key ID (kid)",
+      "copySuccessFeedbackText": "ID copied successfully"
     },
     "list": {
-      "userEnableInfo": "Add yourself as a member of this keychain before you can upload a key",
+      "userEnableInfo": "To upload a key, you must first add yourself as a user in the «Keychain members» tab",
       "publicKeyLimitInfo": "You have reached the maximum number of keys for this keychain",
-      "supportDisableInfo": "The support user is not authorized to add keys"
+      "supportDisableInfo": "The support account is not enabled to add keys"
     }
   }
 }

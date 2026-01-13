@@ -114,6 +114,10 @@
     "eserviceField": {
       "label": "Seleziona e-service",
       "eserviceProvider": "erogato da"
+    },
+    "alertPersonalData": {
+      "title": "La finalità non è compatibile con l’e-service selezionato",
+      "description": "La finalità da clonare indica un trattamento sui dati personali diverso da quanto definito dall’erogatore dell’e-service, pertanto non ti è consentita la pubblicazione. Per procedere, crea una nuova finalità rispettando il vincolo sui dati personali."
     }
   },
   "dialogCreateAgreementDraft": {
@@ -234,14 +238,15 @@
   "dialogPurposeTemplatesTenantKind": {
     "title": "Seleziona la tipologia di ente",
     "content": {
-      "description": "A chi si rivolge il template che stai realizzando?",
+      "description": "Indica chi potrà utilizzare l’analisi del rischio che stai creando e se vengono trattati dati personali.",
       "label": "Destinazione tipologia ente",
       "options": {
         "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera “a” del CAD)",
         "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere “b” e “c”) oppure Privati"
       },
       "personalDataRadioBtn": {
-        "label": "L’analisi del rischio prevede un trattamento dei dati personali?",
+        "label": "L'analisi del rischio prevede un trattamento dei dati personali?",
+        "error": "Indica se verranno trattati dati personali",
         "options": {
           "true": "Sì, verranno trattati dati personali",
           "false": "No, non verranno trattati dati personali"
@@ -309,6 +314,12 @@
     "titleProdEnv": "Manutenzione programmata ambiente di produzione",
     "bodySingleDay": "Interoperabilità PDND sarà sottoposto a manutenzione programmata il {{maintenanceStartDay}} alle {{maintenanceStartHour}} per circa {{hoursDuration}} ore. Ci scusiamo per gli eventuali disservizi causati.",
     "bodyMultipleDay": "Interoperabilità PDND sarà sottoposto a manutenzione programmata dalle {{maintenanceStartHour}} del {{maintenanceStartDay}} alle {{maintenanceEndHour}} del {{maintenanceEndDay}}. Ci scusiamo per gli eventuali disservizi causati."
+  },
+  "notificationsBanner": {
+    "title": "Stanno arrivando le notifiche!",
+    "body": "Ti informeremo quando ci sono novità di tuo interesse direttamente in piattaforma o tramite e-mail personale. Consulta il manuale e configura subito le tue preferenze.",
+    "action1Label": "Configura le notifiche",
+    "action2Label": "Consulta il manuale"
   },
   "attributeContainer": {
     "attributeIdLabel": "ID dell'attributo (attributeId)",
@@ -423,6 +434,9 @@
       "option": "Opzione {{index}}:"
     }
   },
+  "documents": {
+    "notAvailableYet": "Il documento sarà disponibile a breve"
+  },
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Termini di servizio",
@@ -487,6 +501,8 @@
     "DEVELOPER_TOOLS": "Tool per lo sviluppo",
     "RISK_ANALYSIS_EXPORTER_TOOL": "Export analisi del rischio",
     "CLIENT_MANAGEMENT": "Gestione dei client",
+    "NOTIFICATIONS": "Notifiche",
+    "NOTIFICATIONS_CONFIG": " Configurazione notifiche",
     "SUBSCRIBE_PURPOSE_TEMPLATE_LIST": "I miei template finalità",
     "SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY": "Riepilogo template finalità",
     "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG": "Template finalità",

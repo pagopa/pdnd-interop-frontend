@@ -262,7 +262,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 isOptionValueAsBoolean
               />
               {isEserviceFromTemplate && eserviceTemplate?.personalData === undefined && (
-                <Alert severity="error">
+                <Alert severity="error" variant="outlined">
                   {t('create.step1.eservicePersonalDataField.alertMissingPersonalData', {
                     tenantName: eserviceTemplate?.creator.name,
                   })}
@@ -421,8 +421,8 @@ function evaluateFormDefaultValues(
       mode: eserviceMode,
       personalData: descriptor?.eservice.personalData,
       isSignalHubEnabled: descriptor?.eservice.isSignalHubEnabled ?? false,
-      isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? false,
-      isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? false,
+      isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? true,
+      isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? true,
     }
 
   return {
@@ -432,7 +432,7 @@ function evaluateFormDefaultValues(
     mode: eserviceTemplate?.mode,
     personalData: eserviceTemplate?.personalData,
     isSignalHubEnabled: eserviceTemplate?.isSignalHubEnabled ?? false,
-    isConsumerDelegable: false,
-    isClientAccessDelegable: false,
+    isConsumerDelegable: true,
+    isClientAccessDelegable: true,
   }
 }

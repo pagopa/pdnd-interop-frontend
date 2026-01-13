@@ -63,6 +63,8 @@ export interface PrivacyNoticeSeed {
 export interface RiskAnalysisFormConfig {
   version: string
   questions: FormConfigQuestion[]
+  /** @format date-time */
+  expiration?: string
 }
 
 export interface FormConfigQuestion {
@@ -413,6 +415,8 @@ export interface EServiceRiskAnalysis {
   riskAnalysisForm: RiskAnalysisForm
   /** @format date-time */
   createdAt: string
+  /** @format date-time */
+  rulesetExpiration?: string
 }
 
 export interface EServiceTemplateRiskAnalysis {
@@ -423,6 +427,8 @@ export interface EServiceTemplateRiskAnalysis {
   tenantKind: TenantKind
   /** @format date-time */
   createdAt: string
+  /** @format date-time */
+  rulesetExpiration?: string
 }
 
 export interface ProducerEServiceDescriptor {
@@ -574,6 +580,7 @@ export interface Agreement {
   updatedAt?: string
   /** @format date-time */
   suspendedAt?: string
+  isDocumentReady: boolean
 }
 
 export interface Agreements {
@@ -622,6 +629,7 @@ export interface CatalogEService {
   activeDescriptor?: CompactDescriptor
   /** Indicates if there are unread notifications for this e-service */
   hasUnreadNotifications?: boolean
+  personalData?: boolean
 }
 
 export type ClientKind = 'API' | 'CONSUMER'
@@ -824,6 +832,8 @@ export interface CompactOrganization {
 
 export type TenantKind = 'PA' | 'PRIVATE' | 'GSP' | 'SCP'
 
+export type TargetTenantKind = 'PA' | 'PRIVATE'
+
 export interface CompactOrganizations {
   results: CompactOrganization[]
   pagination: Pagination
@@ -963,6 +973,9 @@ export interface Purpose {
   hasUnreadNotifications: boolean
   /** Contains some information about the purpose template */
   purposeTemplate?: CompactPurposeTemplate
+  isDocumentReady: boolean
+  /** @format date-time */
+  rulesetExpiration?: string
 }
 
 export interface PurposeAdditionDetailsSeed {
@@ -982,7 +995,7 @@ export interface PurposeTemplate {
   /** @format uuid */
   id: string
   targetDescription: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   /** @format uuid */
   creatorId: string
   /** Purpose Template State */
@@ -1013,7 +1026,7 @@ export interface PurposeTemplateWithCompactCreator {
   /** @format uuid */
   id: string
   targetDescription: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   creator: CompactOrganization
   /** Purpose Template State */
   state: PurposeTemplateState
@@ -1042,7 +1055,7 @@ export interface PurposeTemplateSeed {
    * @maxLength 250
    */
   targetDescription: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   /**
    * @minLength 5
    * @maxLength 60
@@ -1113,15 +1126,11 @@ export interface RiskAnalysisTemplateAnswerAnnotation {
   docs: RiskAnalysisTemplateAnswerAnnotationDocument[]
 }
 
-export interface RiskAnalysisTemplateAnswerAnnotationText {
+export interface RiskAnalysisTemplateAnswerAnnotationSeed {
   /**
    * @minLength 1
-   * @maxLength 250
+   * @maxLength 2000
    */
-  text: string
-}
-
-export interface RiskAnalysisTemplateAnswerAnnotationSeed {
   text: string
 }
 
@@ -1139,7 +1148,7 @@ export interface EServiceDescriptorPurposeTemplate {
 export interface CreatorPurposeTemplate {
   /** @format uuid */
   id: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   purposeTitle: string
   /** Purpose Template State */
   state: PurposeTemplateState
@@ -1153,7 +1162,7 @@ export interface CreatorPurposeTemplates {
 export interface CatalogPurposeTemplate {
   /** @format uuid */
   id: string
-  targetTenantKind: TenantKind
+  targetTenantKind: TargetTenantKind
   purposeTitle: string
   purposeDescription: string
   creator: CompactOrganization
@@ -1341,6 +1350,7 @@ export interface PurposeVersion {
   dailyCalls: number
   riskAnalysisDocument?: PurposeVersionDocument
   rejectionReason?: string
+  signedContract?: PurposeVersionSignedDocument
 }
 
 export interface PurposeVersionDocument {
@@ -1367,6 +1377,16 @@ export type PurposeVersionState =
   | 'REJECTED'
   | 'WAITING_FOR_APPROVAL'
   | 'ARCHIVED'
+
+export interface PurposeVersionSignedDocument {
+  /** @format uuid */
+  id: string
+  contentType: string
+  /** @format date-time */
+  createdAt: string
+  /** @format date-time */
+  signedAt?: string
+}
 
 export interface User {
   /** @format uuid */
@@ -1420,6 +1440,18 @@ export interface Document {
   contentType: string
   /** @format date-time */
   createdAt: string
+}
+
+export interface SignedDocument {
+  /** @format uuid */
+  id: string
+  name: string
+  prettyName: string
+  contentType: string
+  /** @format date-time */
+  createdAt: string
+  /** @format date-time */
+  signedAt?: string
 }
 
 export interface AgreementsEService {
@@ -1885,6 +1917,9 @@ export interface Delegation {
   state: DelegationState
   /** Delegation State */
   kind: DelegationKind
+  activationSignedContract?: SignedDocument
+  revocationSignedContract?: SignedDocument
+  isDocumentReady: boolean
 }
 
 export interface CompactDelegation {
@@ -2317,6 +2352,8 @@ export interface NotificationConfig {
   delegationSubmittedRevokedToDelegate: boolean
   certifiedVerifiedAttributeAssignedRevokedToAssignee: boolean
   clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: boolean
+  purposeQuotaAdjustmentRequestToProducer: boolean
+  purposeOverQuotaStateToConsumer: boolean
 }
 
 export interface TenantNotificationConfig {
@@ -2325,7 +2362,8 @@ export interface TenantNotificationConfig {
 
 export interface UserNotificationConfig {
   inAppNotificationPreference: boolean
-  emailNotificationPreference: 'ENABLED' | 'DISABLED' | 'DIGEST'
+  emailNotificationPreference: boolean
+  emailDigestPreference: boolean
   inAppConfig: NotificationConfig
   emailConfig: NotificationConfig
 }
@@ -2336,7 +2374,8 @@ export interface TenantNotificationConfigUpdateSeed {
 
 export interface UserNotificationConfigUpdateSeed {
   inAppNotificationPreference: boolean
-  emailNotificationPreference: 'ENABLED' | 'DISABLED' | 'DIGEST'
+  emailNotificationPreference: boolean
+  emailDigestPreference: boolean
   inAppConfig: NotificationConfig
   emailConfig: NotificationConfig
 }
@@ -2909,7 +2948,7 @@ export interface GetCatalogPurposeTemplatesParams {
    */
   eserviceIds?: string[]
   /** filter by target tenant kind */
-  targetTenantKind?: TenantKind
+  targetTenantKind?: TargetTenantKind
   /**
    * exclude purpose templates with expired risk analysis
    * @default true
@@ -3208,6 +3247,7 @@ export interface IsEServiceNameAvailableParams {
 export interface GetNotificationsParams {
   /** Query to filter notifications */
   q?: string
+  unread?: boolean
   /** Category to filter notifications */
   category?: 'Subscribers' | 'Providers' | 'Delegations' | 'AttributesAndKeys'
   /**
@@ -4210,6 +4250,27 @@ export namespace Agreements {
     export type RequestHeaders = {}
     export type ResponseBody = Agreement
   }
+  /**
+   * @description Returns the signed agreement contract file for a given agreementId
+   * @tags agreements
+   * @name GetSignedAgreementContract
+   * @summary Downloads the signed agreement contract
+   * @request GET:/agreements/{agreementId}/signedContract
+   * @secure
+   */
+  export namespace GetSignedAgreementContract {
+    export type RequestParams = {
+      /**
+       * The identifier of the agreement
+       * @format uuid
+       */
+      agreementId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = File
+  }
 }
 
 export namespace Tenants {
@@ -4736,7 +4797,7 @@ export namespace Catalog {
        */
       eserviceIds?: string[]
       /** filter by target tenant kind */
-      targetTenantKind?: TenantKind
+      targetTenantKind?: TargetTenantKind
       /**
        * exclude purpose templates with expired risk analysis
        * @default true
@@ -6583,6 +6644,37 @@ export namespace Purposes {
     export type ResponseBody = File
   }
   /**
+   * No description
+   * @tags purposes
+   * @name GetSignedDocument
+   * @summary Get a signed document
+   * @request GET:/purposes/{purposeId}/versions/{versionId}/signedDocuments/{documentId}
+   * @secure
+   */
+  export namespace GetSignedDocument {
+    export type RequestParams = {
+      /**
+       * the purpose id
+       * @format uuid
+       */
+      purposeId: string
+      /**
+       * the version Id
+       * @format uuid
+       */
+      versionId: string
+      /**
+       * the document id
+       * @format uuid
+       */
+      documentId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = File
+  }
+  /**
    * @description reject the purpose version by id
    * @tags purposes
    * @name RejectPurposeVersion
@@ -7160,7 +7252,7 @@ export namespace PurposeTemplates {
       answerId: string
     }
     export type RequestQuery = {}
-    export type RequestBody = RiskAnalysisTemplateAnswerAnnotationText
+    export type RequestBody = RiskAnalysisTemplateAnswerAnnotationSeed
     export type RequestHeaders = {}
     export type ResponseBody = RiskAnalysisTemplateAnswerAnnotation
   }
@@ -8396,6 +8488,32 @@ export namespace Delegations {
     export type RequestHeaders = {}
     export type ResponseBody = File
   }
+  /**
+   * @description Retrieve the signed contract file for a given delegationId
+   * @tags delegations
+   * @name GetDelegationSignedContract
+   * @summary Retrieve the signed contract of a delegation
+   * @request GET:/delegations/{delegationId}/signedContract/{contractId}
+   * @secure
+   */
+  export namespace GetDelegationSignedContract {
+    export type RequestParams = {
+      /**
+       * The identifier of the delegation
+       * @format uuid
+       */
+      delegationId: string
+      /**
+       * The identifier of the the signedContract
+       * @format uuid
+       */
+      contractId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = File
+  }
 }
 
 export namespace InAppNotifications {
@@ -8411,6 +8529,7 @@ export namespace InAppNotifications {
     export type RequestQuery = {
       /** Query to filter notifications */
       q?: string
+      unread?: boolean
       /** Category to filter notifications */
       category?: 'Subscribers' | 'Providers' | 'Delegations' | 'AttributesAndKeys'
       /**

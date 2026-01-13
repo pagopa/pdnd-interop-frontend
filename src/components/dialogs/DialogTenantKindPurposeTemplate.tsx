@@ -14,7 +14,7 @@ import { useDialog } from '@/stores'
 import type { DialogTenantKindPurposeTemplateProps } from '@/types/dialog.types'
 import { RHFAutocompleteSingle, RHFRadioGroup } from '../shared/react-hook-form-inputs'
 import { FormProvider, useForm } from 'react-hook-form'
-import type { TenantKind } from '@/api/api.generatedTypes'
+import type { TargetTenantKind } from '@/api/api.generatedTypes'
 
 export const DialogTenantKindPurposeTemplate: React.FC<DialogTenantKindPurposeTemplateProps> = ({
   onConfirm,
@@ -26,15 +26,16 @@ export const DialogTenantKindPurposeTemplate: React.FC<DialogTenantKindPurposeTe
     keyPrefix: 'dialogPurposeTemplatesTenantKind',
   })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const { t: tShared } = useTranslation('shared-components')
 
   const handleCancel = () => {
     closeDialog()
   }
 
-  const formMethods = useForm<{ tenantKind: TenantKind; personalData: string }>({
+  const formMethods = useForm<{ tenantKind: TargetTenantKind; personalData: string }>({
     defaultValues: {
       tenantKind: 'PA',
-      personalData: 'true',
+      personalData: undefined,
     },
   })
 
@@ -44,7 +45,7 @@ export const DialogTenantKindPurposeTemplate: React.FC<DialogTenantKindPurposeTe
     closeDialog()
   })
 
-  const options: Array<{ label: string; value: TenantKind }> = [
+  const options: Array<{ label: string; value: TargetTenantKind }> = [
     {
       label: t('content.options.labelPA'),
       value: 'PA',
@@ -92,7 +93,11 @@ export const DialogTenantKindPurposeTemplate: React.FC<DialogTenantKindPurposeTe
                 name="personalData"
                 options={optionsPersonalData}
                 label={t('content.personalDataRadioBtn.label')}
-                rules={{ required: true }}
+                rules={{
+                  required: tShared(
+                    'dialogPurposeTemplatesTenantKind.content.personalDataRadioBtn.error'
+                  ),
+                }}
                 row
               />
             </Stack>

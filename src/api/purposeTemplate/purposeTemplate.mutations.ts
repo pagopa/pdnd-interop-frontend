@@ -25,22 +25,26 @@ function useUpdateDraft() {
 }
 
 function useLinkEserviceToPurposeTemplate() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purposeTemplate.createDraft' })
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purposeTemplate.linkEService' })
   return useMutation({
     mutationFn: PurposeTemplateServices.linkEserviceToPurposeTemplate,
     meta: {
       errorToastLabel: t('outcome.error'),
+      successToastLabel: t('outcome.success'),
       loadingLabel: t('loading'),
     },
   })
 }
 
 function useUnlinkEserviceFromPurposeTemplate() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purposeTemplate.createDraft' })
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purposeTemplate.unlinkEService',
+  })
   return useMutation({
     mutationFn: PurposeTemplateServices.unlinkEserviceFromPurposeTemplate,
     meta: {
       errorToastLabel: t('outcome.error'),
+      successToastLabel: t('outcome.success'),
       loadingLabel: t('loading'),
     },
   })

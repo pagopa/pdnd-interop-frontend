@@ -14,19 +14,26 @@ const GeneralConfigs = z.object({
   PRODUCER_ALLOWED_ORIGINS: z.string(),
   M2M_JWT_AUDIENCE: z.string().optional(),
   SELFCARE_LOGIN_URL: z.url(),
-  API_SIGNAL_HUB_PUSH_INTERFACE_URL: z.url(),
-  API_SIGNAL_HUB_PULL_INTERFACE_URL: z.url(),
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: z.url(),
-  API_GATEWAY_V1_INTERFACE_URL: z.url(),
-  API_GATEWAY_V2_INTERFACE_URL: z.url(),
   ERROR_DATA_DURATION_TIME: z.string().default('60000'),
+  DELEGATIONS_ALLOWED_ORIGINS: z.string(),
+  NOTIFICATION_COUNT_REFRESH_INTERVAL: z.coerce.number().default(30000),
 })
 
 const FeatureFlagConfigs = z.object({
   FEATURE_FLAG_ADMIN_CLIENT: z.enum(['true', 'false']),
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: z.enum(['true', 'false']),
+  FEATURE_FLAG_NOTIFICATION_CONFIG: z
+    .enum(['true', 'false'])
+    .transform((value) => value === 'true'),
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA: z
     .enum(['true', 'false'])
+    .default('false')
+    .transform((value) => value === 'true'),
+
+  FEATURE_FLAG_USE_SIGNED_DOCUMENT: z
+    .enum(['true', 'false'])
+    .default('false')
     .default('false')
     .transform((value) => value === 'true'),
 })
@@ -53,11 +60,14 @@ const transformedFEConfigs = FEConfigs.transform((c) => ({
   WELL_KNOWN_URLS: parseCommaSeparatedToArray(c.WELL_KNOWN_URLS),
   TEMP_USER_BLACKLIST_URL: c.INTEROP_RESOURCES_BASE_URL + '/blacklist.json',
   ERROR_DATA_DURATION_TIME: z.coerce.number().parse(c.ERROR_DATA_DURATION_TIME),
+  DELEGATIONS_ALLOWED_ORIGINS: c.DELEGATIONS_ALLOWED_ORIGINS
+    ? parseCommaSeparatedToArray(c.DELEGATIONS_ALLOWED_ORIGINS)
+    : ['IPA'],
 }))
 
 export type InteropFEConfigs = z.infer<typeof transformedFEConfigs>
 
-export const parseCommaSeparatedToArray = (input: string): string[] => {
+const parseCommaSeparatedToArray = (input: string): string[] => {
   return input
     .split(',')
     .map((item) => item.trim())
@@ -88,8 +98,6 @@ export const {
   SELFCARE_BASE_URL,
   AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
   CLIENT_ASSERTION_JWT_AUDIENCE,
-  API_SIGNAL_HUB_PULL_INTERFACE_URL,
-  API_SIGNAL_HUB_PUSH_INTERFACE_URL,
   INTEROP_RESOURCES_BASE_URL,
   MIXPANEL_PROJECT_ID,
   ONETRUST_DOMAIN_SCRIPT_ID,
@@ -102,10 +110,12 @@ export const {
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE,
   FEATURE_FLAG_ADMIN_CLIENT,
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL,
-  API_GATEWAY_V1_INTERFACE_URL,
-  API_GATEWAY_V2_INTERFACE_URL,
   ERROR_DATA_DURATION_TIME,
+  FEATURE_FLAG_NOTIFICATION_CONFIG,
+  NOTIFICATION_COUNT_REFRESH_INTERVAL,
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA,
+  FEATURE_FLAG_USE_SIGNED_DOCUMENT,
+  DELEGATIONS_ALLOWED_ORIGINS,
 } = parseConfigs()
 
 export const APP_MODE = parseAppMode()

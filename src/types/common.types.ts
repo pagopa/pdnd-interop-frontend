@@ -16,11 +16,10 @@ export type PagoPAEnvVars = {
   WELL_KNOWN_URLS: string
   SELFCARE_BASE_URL: string
   PRODUCER_ALLOWED_ORIGINS: string
-  API_SIGNAL_HUB_PUSH_INTERFACE_URL: string
-  API_SIGNAL_HUB_PULL_INTERFACE_URL: string
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: string
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: string
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA: string
+  DELEGATIONS_ALLOWED_ORIGINS: string
 }
 
 export type ExtendedWindow = Window & {
@@ -46,7 +45,7 @@ export type Provider = 'provider'
 export type Consumer = 'consumer'
 export type ProviderOrConsumer = Provider | Consumer
 
-export type ActionItem = { action: VoidFunction; label: string }
+export type ActionItem = { action: VoidFunction; label: string; fontColor?: string }
 export type ActionItemButton = ActionItem & {
   color?: ButtonProps['color']
   icon?: SvgIconComponent

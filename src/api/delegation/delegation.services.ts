@@ -94,6 +94,20 @@ async function downloadDelegationContract({
   return response.data
 }
 
+async function downloadSignedDelegationContract({
+  delegationId,
+  contractId,
+}: {
+  delegationId: string
+  contractId: string
+}) {
+  const response = await axiosInstance.get<File>(
+    `${BACKEND_FOR_FRONTEND_URL}/delegations/${delegationId}/signedContract/${contractId}`,
+    { responseType: 'arraybuffer' }
+  )
+  return response.data
+}
+
 async function createProducerDelegationAndEservice({
   delegateId,
   ...crateDraftPayload
@@ -184,4 +198,5 @@ export const DelegationServices = {
   getConsumerDelegatedEservices,
   revokeConsumerDelegation,
   createProducerDelegationAndEserviceFromTemplate,
+  downloadSignedDelegationContract,
 }
