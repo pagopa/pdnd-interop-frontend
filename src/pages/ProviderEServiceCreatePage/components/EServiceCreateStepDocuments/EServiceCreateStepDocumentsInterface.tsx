@@ -5,7 +5,7 @@ import { DocumentContainer } from '@/components/layout/containers/DocumentContai
 import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
-import { UploadDocumentsInterfaceComponent } from '@/components/shared/UploadDocumentsInterfaceComponent'
+import { UploadDocumentsInterface } from '@/components/shared/UploadDocumentsInterface'
 
 type EServiceCreateStepDocumentsInterfaceFormValues = {
   interfaceDoc: File | null
@@ -67,5 +67,5 @@ export function EServiceCreateStepDocumentsInterface() {
     )
   }
 
-  return <UploadDocumentsInterfaceComponent onSubmit={onSubmit} sxBox={{ py: 2 }} />
+  return <UploadDocumentsInterface onSubmit={onSubmit} sxBox={{ py: 2 }} />
 }

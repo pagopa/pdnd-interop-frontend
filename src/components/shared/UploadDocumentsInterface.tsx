@@ -8,14 +8,15 @@ type CreateStepDocumentsInterfaceFormValues = {
   interfaceDoc: File | null
 }
 
-type UploadDocumentsInterfaceComponentProps = {
+type UploadDocumentsInterfaceProps = {
   onSubmit: ({ interfaceDoc }: CreateStepDocumentsInterfaceFormValues) => void
   sxBox?: object
 }
 
-export const UploadDocumentsInterfaceComponent: React.FC<
-  UploadDocumentsInterfaceComponentProps
-> = ({ onSubmit, sxBox }) => {
+export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> = ({
+  onSubmit,
+  sxBox,
+}) => {
   const { t } = useTranslation('common')
   const defaultValues: CreateStepDocumentsInterfaceFormValues = {
     interfaceDoc: null,

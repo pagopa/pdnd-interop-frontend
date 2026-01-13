@@ -6,7 +6,7 @@ import type { EServiceDoc } from '@/api/api.generatedTypes'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
-import { UploadDocumentsInterfaceComponent } from '@/components/shared/UploadDocumentsInterfaceComponent'
+import { UploadDocumentsInterface } from '@/components/shared/UploadDocumentsInterface'
 
 type EServiceTemplateCreateStepDocumentsInterfaceFormValues = {
   interfaceDoc: File | null
@@ -66,7 +66,7 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
   }
 
   return (
-    <UploadDocumentsInterfaceComponent
+    <UploadDocumentsInterface
       onSubmit={onSubmit}
       sxBox={{ px: 2, py: 2, borderLeft: 4, borderColor: 'primary.main' }}
     />

@@ -1,40 +1,15 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { vi } from 'vitest'
-import { UploadDocumentsInterfaceComponent } from '../UploadDocumentsInterfaceComponent'
-import type { UseFormSetValue, UseFormWatch } from 'react-hook-form'
-import { FormProvider, useForm } from 'react-hook-form'
-import React from 'react'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { UploadDocumentsInterface } from '../UploadDocumentsInterface'
 import userEvent from '@testing-library/user-event'
 
-type FormValues = {
-  interfaceDoc: File | null
-}
-
-const mockWatch = vi.fn()
-const mockSetValue = vi.fn()
 const mockSubmit = vi.fn()
 
 const file = new File(['testFile'], 'testFile.pdf', { type: 'document/pdf' })
 
-const FormWrapper: React.FC<{
-  children: React.ReactNode
-}> = ({ children }) => {
-  const formMethods = useForm<FormValues>({
-    defaultValues: {
-      interfaceDoc: file,
-    },
-  })
-
-  formMethods.watch = mockWatch as UseFormWatch<FormValues>
-  formMethods.setValue = mockSetValue as UseFormSetValue<FormValues>
-
-  return <FormProvider {...formMethods}>{children}</FormProvider>
-}
-
-describe('UploadDocumentsInterfaceComponent', () => {
+describe('UploadDocumentsInterface', () => {
   it('renders the form with file input and submit button hidden initially', () => {
-    render(<UploadDocumentsInterfaceComponent onSubmit={mockSubmit} />)
+    render(<UploadDocumentsInterface onSubmit={mockSubmit} />)
 
     // Check that the file input is rendered
     const fileInput = screen.getByTestId('fileInput')
@@ -45,9 +20,9 @@ describe('UploadDocumentsInterfaceComponent', () => {
     expect(submitButton).not.toBeInTheDocument()
   })
 
-  it('shows the submit button when a file is selected', async () => {
+  it('show the submit button when a file is ready to uploaded', async () => {
     const user = userEvent.setup()
-    render(<UploadDocumentsInterfaceComponent onSubmit={mockSubmit} />)
+    render(<UploadDocumentsInterface onSubmit={mockSubmit} />)
 
     const fileInput = screen.getByTestId('fileInput').querySelector('input')!
 
@@ -60,7 +35,7 @@ describe('UploadDocumentsInterfaceComponent', () => {
 
   it('calls onSubmit with userEvent', async () => {
     const user = userEvent.setup()
-    render(<UploadDocumentsInterfaceComponent onSubmit={mockSubmit} />)
+    render(<UploadDocumentsInterface onSubmit={mockSubmit} />)
 
     const fileInput = screen.getByTestId('fileInput').querySelector('input')!
 
