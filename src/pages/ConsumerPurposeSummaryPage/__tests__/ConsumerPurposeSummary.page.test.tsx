@@ -1,11 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
-import React from 'react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { screen } from '@testing-library/react'
 import ConsumerPurposeSummaryPage from '../ConsumerPurposeSummary.page'
-import { mockUseJwt, mockUseParams } from '@/utils/testing.utils'
+import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import * as router from '@/router'
-import { BrowserRouter as Router } from 'react-router-dom'
 import {
   checkIsRulesetExpired,
   getDaysToExpiration,
@@ -72,25 +69,6 @@ vi.mock('@/utils/purpose.utils', () => ({
   getFormattedExpirationDate: vi.fn(),
 }))
 
-const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: { retry: false },
-      mutations: { retry: false },
-    },
-  })
-
-  const WrapperComponent = ({ children }: { children: React.ReactNode }) =>
-    React.createElement(
-      QueryClientProvider,
-      { client: queryClient },
-      React.createElement(Router, {}, children) // Wrap with Router
-    )
-
-  WrapperComponent.displayName = 'TestWrapper'
-  return WrapperComponent
-}
-
 describe('ConsumerPurposeSummaryPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
@@ -105,7 +83,10 @@ describe('ConsumerPurposeSummaryPage', () => {
       isLoading: false,
     })
 
-    render(<ConsumerPurposeSummaryPage />, { wrapper: createWrapper() })
+    renderWithApplicationContext(<ConsumerPurposeSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
 
     expect(screen.getByText('Test Purpose')).toBeInTheDocument()
   })
@@ -116,7 +97,10 @@ describe('ConsumerPurposeSummaryPage', () => {
       isLoading: false,
     })
 
-    render(<ConsumerPurposeSummaryPage />, { wrapper: createWrapper() })
+    renderWithApplicationContext(<ConsumerPurposeSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
 
     const publishButton = screen.getByRole('button', {
       name: 'publishDraft',
@@ -131,7 +115,10 @@ describe('ConsumerPurposeSummaryPage', () => {
       isLoading: false,
     })
 
-    render(<ConsumerPurposeSummaryPage />, { wrapper: createWrapper() })
+    renderWithApplicationContext(<ConsumerPurposeSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
 
     const publishButton = screen.getByRole('button', {
       name: 'publishDraft',
@@ -146,7 +133,10 @@ describe('ConsumerPurposeSummaryPage', () => {
       isLoading: false,
     })
 
-    render(<ConsumerPurposeSummaryPage />, { wrapper: createWrapper() })
+    renderWithApplicationContext(<ConsumerPurposeSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
 
     const publishButton = screen.getByRole('button', {
       name: 'publishDraft',
@@ -161,7 +151,10 @@ describe('ConsumerPurposeSummaryPage', () => {
       isLoading: false,
     })
 
-    render(<ConsumerPurposeSummaryPage />, { wrapper: createWrapper() })
+    renderWithApplicationContext(<ConsumerPurposeSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
 
     const publishButton = screen.getByRole('button', {
       name: 'publishDraft',
@@ -176,7 +169,10 @@ describe('ConsumerPurposeSummaryPage', () => {
       isLoading: false,
     })
 
-    render(<ConsumerPurposeSummaryPage />, { wrapper: createWrapper() })
+    renderWithApplicationContext(<ConsumerPurposeSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
 
     expect(screen.getByText('summary.alerts.infoRulesetExpiration')).toBeInTheDocument()
   })
@@ -187,7 +183,10 @@ describe('ConsumerPurposeSummaryPage', () => {
       isLoading: false,
     })
 
-    render(<ConsumerPurposeSummaryPage />, { wrapper: createWrapper() })
+    renderWithApplicationContext(<ConsumerPurposeSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
 
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
@@ -201,7 +200,10 @@ describe('ConsumerPurposeSummaryPage', () => {
       isLoading: false,
     })
 
-    render(<ConsumerPurposeSummaryPage />, { wrapper: createWrapper() })
+    renderWithApplicationContext(<ConsumerPurposeSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
 
     expect(screen.getByText('summary.alerts.rulesetExpired.label')).toBeInTheDocument()
   })
