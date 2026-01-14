@@ -12,7 +12,6 @@ import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { useDialog } from '@/stores'
 import { useCheckRiskAnalysisVersionMismatch } from './useCheckRiskAnalysisVersionMismatch'
 import { useLocation, useNavigate } from '@/router'
-import { match } from 'ts-pattern'
 
 function useGetConsumerPurposesActions(purpose?: Purpose) {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
@@ -133,129 +132,52 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     color: 'error',
   }
 
-  const isDeliverMode = purpose.eservice.mode === 'DELIVER'
-  const isSuspended = purpose?.currentVersion?.state === 'SUSPENDED'
-  const isActive = purpose?.currentVersion?.state === 'ACTIVE'
-  const isDraft = purpose?.currentVersion?.state === 'DRAFT'
-  const isArchived = purpose?.currentVersion?.state === 'ARCHIVED'
+  if (!purpose.currentVersion && purpose.waitingForApprovalVersion) {
+    // The purpose is also suspendedByConsumer here when the provider re-activated a
+    // suspended purpose associated with an overquota e-service
+    return { actions: purpose.suspendedByConsumer ? [] : [deleteAction] }
+  }
+
+  if (
+    purpose.eservice.mode === 'DELIVER' &&
+    ((!purpose.currentVersion && purpose.rejectedVersion) ||
+      purpose?.currentVersion?.state === 'ARCHIVED')
+  ) {
+    return { actions: [cloneAction] }
+  }
+
+  if (purpose?.currentVersion?.state === 'DRAFT') {
+    return { actions: isNotPublishable ? [deleteAction] : [activateAction, deleteAction] }
+  }
+
+  // If the currentVestion is not ARCHIVED or in DRAFT...
+
+  const actions: Array<ActionItemButton> = [archiveAction]
+
+  if (purpose.eservice.mode === 'DELIVER' && routeKey !== 'SUBSCRIBE_PURPOSE_LIST') {
+    actions.push(cloneAction)
+  }
+
+  if (
+    purpose.eservice.mode === 'DELIVER' &&
+    routeKey === 'SUBSCRIBE_PURPOSE_LIST' &&
+    !isRulesetExpired
+  ) {
+    actions.push(cloneAction)
+  }
+
+  const isSuspended = purpose?.currentVersion && purpose?.currentVersion.state === 'SUSPENDED'
+  const isActive = purpose?.currentVersion && purpose?.currentVersion.state === 'ACTIVE'
 
   const isSuspendedByConsumer = checkPurposeSuspendedByConsumer(purpose, jwt?.organizationId)
 
-  const hasCurrentVersion = Boolean(purpose?.currentVersion)
-  const hasWaitingForApprovalVersion = Boolean(purpose?.waitingForApprovalVersion)
-  const hasRejectedVersion = Boolean(purpose?.rejectedVersion)
+  if (isActive || (isSuspended && !isSuspendedByConsumer)) {
+    actions.push(suspendAction)
+  }
 
-  const actions = match({
-    isDeliverMode,
-    isDraft,
-    isArchived,
-    isActive,
-    isSuspended,
-    isSuspendedByConsumer,
-    isNotPublishable,
-    isRulesetExpired,
-    hasCurrentVersion,
-    hasWaitingForApprovalVersion,
-    hasRejectedVersion,
-    routeKey,
-  })
-    // purpose with no currentVersion but with waitingForApprovalVersion
-    .with(
-      {
-        hasCurrentVersion: false,
-        hasWaitingForApprovalVersion: true,
-        isSuspendedByConsumer: false,
-      },
-      () => [deleteAction]
-    )
-
-    // DELIVER mode + purpose rejected OR archived state
-    .with(
-      {
-        isDeliverMode: true,
-        hasCurrentVersion: false,
-        hasRejectedVersion: true,
-      },
-      () => [cloneAction]
-    )
-    .with(
-      {
-        isDeliverMode: true,
-        isArchived: true,
-      },
-      () => [cloneAction]
-    )
-
-    // purpose in DRAFT state
-    .with(
-      {
-        isDraft: true,
-        isNotPublishable: true,
-      },
-      () => [deleteAction]
-    )
-    .with(
-      {
-        isDraft: true,
-        isNotPublishable: false,
-      },
-      () => [activateAction, deleteAction]
-    )
-
-    // purpose in active or suspended state
-    .with(
-      {
-        isDeliverMode: true,
-        routeKey: 'SUBSCRIBE_PURPOSE_LIST',
-        isRulesetExpired: false,
-      },
-      (purpose) => {
-        const actions = [archiveAction, cloneAction]
-
-        if (purpose.isActive || (purpose.isSuspended && !purpose.isSuspendedByConsumer)) {
-          actions.push(suspendAction)
-        }
-
-        if (purpose.isSuspended && purpose.isSuspendedByConsumer) {
-          actions.push(activateAction)
-        }
-
-        return actions
-      }
-    )
-
-    .with(
-      {
-        isDeliverMode: true,
-      },
-      (purpose) => {
-        const actions = [archiveAction, cloneAction]
-
-        if (purpose.isActive || (purpose.isSuspended && !purpose.isSuspendedByConsumer)) {
-          actions.push(suspendAction)
-        }
-
-        if (purpose.isSuspended && purpose.isSuspendedByConsumer) {
-          actions.push(activateAction)
-        }
-
-        return actions
-      }
-    )
-
-    .otherwise(() => {
-      const actions = [archiveAction]
-
-      if (isActive || (isSuspended && !isSuspendedByConsumer)) {
-        actions.push(suspendAction)
-      }
-
-      if (isSuspended && isSuspendedByConsumer) {
-        actions.push(activateAction)
-      }
-
-      return actions
-    })
+  if (isSuspended && isSuspendedByConsumer) {
+    actions.push(activateAction)
+  }
 
   return { actions }
 }
