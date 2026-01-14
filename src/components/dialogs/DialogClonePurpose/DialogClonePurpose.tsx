@@ -19,6 +19,7 @@ import {
 import { DialogClonePurposeEServiceAutocomplete } from './DialogClonePurposeEServiceAutocomplete'
 import { useQuery } from '@tanstack/react-query'
 import { getFormattedExpirationDate } from '@/utils/purpose.utils'
+import { match } from 'ts-pattern'
 
 type ClonePurposeFormValues = {
   eserviceId: string
@@ -49,9 +50,14 @@ export const DialogClonePurpose: React.FC<DialogClonePurposeProps> = ({ purposeI
 
   const incompatiblePersonalData = () => {
     if (isLoadingPurpose) return false
-    const userAnswerAboutPersonalData =
-      purpose?.riskAnalysisForm?.answers['usesPersonalData'][0] === 'YES' ? true : false
-    if (selectedEServicePersonalData === undefined) return false
+    const userPersonalDataAnswerUnparsed =
+      purpose?.riskAnalysisForm?.answers['usesPersonalData']?.[0]
+    const userAnswerAboutPersonalData = match(userPersonalDataAnswerUnparsed)
+      .with('YES', () => true)
+      .with('NO', () => false)
+      .otherwise(() => undefined)
+    if (selectedEServicePersonalData === undefined || userAnswerAboutPersonalData === undefined)
+      return false
     else if (selectedEServicePersonalData !== userAnswerAboutPersonalData) return true
     else return false
   }
