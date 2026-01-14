@@ -85,9 +85,9 @@ export const DialogClonePurpose: React.FC<DialogClonePurposeProps> = ({ purposeI
               {expirationDate && (
                 <Alert severity="warning">
                   <Typography sx={{ fontWeight: '600' }}>
-                    {t('alertRiskAnalysisRulesetExipiring.title')}
+                    {t('alertRiskAnalysisRulesetExpiring.title')}
                   </Typography>
-                  {t('alertRiskAnalysisRulesetExipiring.description', {
+                  {t('alertRiskAnalysisRulesetExpiring.description', {
                     expirationDate: getFormattedExpirationDate(expirationDate),
                   })}
                 </Alert>
