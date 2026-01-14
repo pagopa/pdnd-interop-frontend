@@ -18,11 +18,11 @@ import {
 import type {
   CreatorPurposeTemplates,
   GetCreatorPurposeTemplatesParams,
+  TargetTenantKind,
 } from '@/api/api.generatedTypes'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { useDialog } from '@/stores'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
-import type { TargetTenantKind } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
 import { EServiceQueries } from '@/api/eservice'
 

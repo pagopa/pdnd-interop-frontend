@@ -2,6 +2,7 @@ import React from 'react'
 import { EServiceQueries } from '@/api/eservice'
 import { PageContainer } from '@/components/layout/containers'
 import { useParams } from '@/router'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { Tab } from '@mui/material'
 import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
 import { useTranslation } from 'react-i18next'
@@ -20,6 +21,8 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   const { data: descriptor } = useQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
+
+  useMarkNotificationsAsRead(`${eserviceId}/${descriptorId}`)
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 

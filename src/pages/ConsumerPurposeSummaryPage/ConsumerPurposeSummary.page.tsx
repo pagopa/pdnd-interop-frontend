@@ -18,6 +18,11 @@ import {
 import { useGetConsumerPurposeAlertProps } from './hooks/useGetConsumerPurposeAlertProps'
 import { useQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
+import {
+  checkIsRulesetExpired,
+  getDaysToExpiration,
+  getFormattedExpirationDate,
+} from '@/utils/purpose.utils'
 
 const ConsumerPurposeSummaryPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -32,21 +37,10 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
 
   const expirationDate = purpose?.rulesetExpiration
-  const expirationDateToShow = expirationDate
-    ? new Date(expirationDate).toLocaleDateString(undefined, {
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric',
-      })
-    : undefined
 
-  const now = new Date()
+  const daysToExpiration = getDaysToExpiration(expirationDate)
 
-  const daysToExpiration = expirationDate
-    ? Math.floor((new Date(expirationDate).getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
-    : undefined
-
-  const isRulesetExpired = expirationDate ? new Date(expirationDate) < now : false
+  const isRulesetExpired = checkIsRulesetExpired(expirationDate)
 
   const alertProps = useGetConsumerPurposeAlertProps(purpose)
 
@@ -140,7 +134,11 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       {alertProps && <Alert sx={{ mb: 3 }} {...alertProps} />}
       <Stack spacing={3}>
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="1" title={t('summary.generalInformationSection.title')}>
+          <SummaryAccordion
+            headline="1"
+            title={t('summary.generalInformationSection.title')}
+            defaultExpanded={true}
+          >
             <ConsumerPurposeSummaryGeneralInformationAccordion purposeId={purposeId} />
           </SummaryAccordion>
         </React.Suspense>
@@ -154,7 +152,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
         <Alert sx={{ mt: 3 }} severity="info">
           {t('summary.alerts.infoRulesetExpiration', {
             days: daysToExpiration,
-            date: expirationDateToShow,
+            date: getFormattedExpirationDate(expirationDate),
           })}
         </Alert>
       )}

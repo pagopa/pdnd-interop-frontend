@@ -2,20 +2,21 @@ import React from 'react'
 import { StepActions } from '@/components/shared/StepActions'
 import { Trans, useTranslation } from 'react-i18next'
 import { useVoucherInstructionsContext } from './VoucherInstructionsContext'
-import { Alert, AlertTitle, Button, Stack, Typography } from '@mui/material'
+import { Alert, AlertTitle, Stack, Typography } from '@mui/material'
 import { useClientKind } from '@/hooks/useClientKind'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { SectionContainer } from '@/components/layout/containers'
 import { PurposeQueries } from '@/api/purpose'
-import {
-  API_GATEWAY_V1_INTERFACE_URL,
-  API_GATEWAY_V2_INTERFACE_URL,
-  API_SIGNAL_HUB_PULL_INTERFACE_URL,
-  API_SIGNAL_HUB_PUSH_INTERFACE_URL,
-} from '@/config/env'
 import { useQuery } from '@tanstack/react-query'
-import DownloadIcon from '@mui/icons-material/Download'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { Link } from '@/router'
+import { IconLink } from '@/components/shared/IconLink'
+import {
+  apiV1DocLink,
+  apiV2DocLink,
+  apiSignalhubPushLink,
+  apiSignalhubPullLink,
+} from '@/config/constants'
 
 export const VoucherInstructionsStep4: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -77,19 +78,17 @@ export const VoucherInstructionsStep4: React.FC = () => {
               <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
                 <Typography variant="body2">{t(`step4.API.apiV1.description`)}</Typography>
                 {clientKind === 'API' && (
-                  <Button
+                  <IconLink
+                    endIcon={<OpenInNewIcon fontSize="small" />}
+                    href={apiV1DocLink}
+                    target="_blank"
                     sx={{
-                      '&:hover': {
-                        backgroundColor: 'white',
-                      },
+                      fontWeight: 600,
+                      whiteSpace: 'nowrap',
                     }}
-                    disableRipple
-                    href={API_GATEWAY_V1_INTERFACE_URL}
-                    download
                   >
-                    <DownloadIcon fontSize="small" />
                     {t(`step4.${clientKind}.actionLabel`)}
-                  </Button>
+                  </IconLink>
                 )}
               </Stack>
               <Typography variant="body2" fontWeight={600}>
@@ -97,19 +96,17 @@ export const VoucherInstructionsStep4: React.FC = () => {
               </Typography>
               <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
                 <Typography variant="body2">{t(`step4.API.apiV2.description`)}</Typography>
-                <Button
+                <IconLink
+                  endIcon={<OpenInNewIcon fontSize="small" />}
+                  href={apiV2DocLink}
+                  target="_blank"
                   sx={{
-                    '&:hover': {
-                      backgroundColor: 'white',
-                    },
+                    fontWeight: 600,
+                    whiteSpace: 'nowrap',
                   }}
-                  disableRipple
-                  href={API_GATEWAY_V2_INTERFACE_URL}
-                  download
                 >
-                  <DownloadIcon fontSize="small" />
                   {t(`step4.${clientKind}.actionLabel`)}
-                </Button>
+                </IconLink>
               </Stack>
             </>
           )}
@@ -126,38 +123,34 @@ export const VoucherInstructionsStep4: React.FC = () => {
             </Typography>
             <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
               <Typography variant="body2">{t(`step4.API.pushApiSH.description`)}</Typography>
-              <Button
+              <IconLink
+                endIcon={<OpenInNewIcon fontSize="small" />}
+                href={apiSignalhubPushLink}
+                target="_blank"
                 sx={{
-                  '&:hover': {
-                    backgroundColor: 'white',
-                  },
+                  fontWeight: 600,
+                  whiteSpace: 'nowrap',
                 }}
-                disableRipple
-                href={API_SIGNAL_HUB_PUSH_INTERFACE_URL}
-                download
               >
-                <DownloadIcon fontSize="small" />
-                {t(`step4.actionLabel`)}
-              </Button>
+                {t(`step4.${clientKind}.actionLabel`)}
+              </IconLink>
             </Stack>
             <Typography variant="body2" fontWeight={600}>
               {t(`step4.API.pullApiSH.title`)}
             </Typography>
             <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
               <Typography variant="body2">{t(`step4.API.pullApiSH.description`)}</Typography>
-              <Button
+              <IconLink
+                endIcon={<OpenInNewIcon fontSize="small" />}
+                href={apiSignalhubPullLink}
+                target="_blank"
                 sx={{
-                  '&:hover': {
-                    backgroundColor: 'white',
-                  },
+                  fontWeight: 600,
+                  whiteSpace: 'nowrap',
                 }}
-                disableRipple
-                href={API_SIGNAL_HUB_PULL_INTERFACE_URL}
-                download
               >
-                <DownloadIcon fontSize="small" />
-                {t(`step4.actionLabel`)}
-              </Button>
+                {t(`step4.${clientKind}.actionLabel`)}
+              </IconLink>
             </Stack>
           </Stack>
         </SectionContainer>

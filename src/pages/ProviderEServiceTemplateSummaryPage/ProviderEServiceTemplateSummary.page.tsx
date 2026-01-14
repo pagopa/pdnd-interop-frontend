@@ -124,7 +124,11 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
       >
         <Stack spacing={3}>
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-            <SummaryAccordion headline="1" title={t('summary.generalInfoSummary.title')}>
+            <SummaryAccordion
+              headline="1"
+              title={t('summary.generalInfoSummary.title')}
+              defaultExpanded={true}
+            >
               <ProviderEServiceTemplateGeneralInfoSummary />
             </SummaryAccordion>
           </React.Suspense>

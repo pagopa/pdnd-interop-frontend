@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 import React from 'react'
 import cloneDeep from 'lodash/cloneDeep'
 import { QueryClientProvider } from '@tanstack/react-query'
@@ -16,6 +17,7 @@ import { queryClient } from '@/config/query-client'
 import { TenantHooks } from '@/api/tenant'
 import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/interop-fe-commons'
+import { FieldValues, FormProvider, useForm } from 'react-hook-form'
 import * as envs from '@/config/env'
 
 type RecursivePartial<T> = {
@@ -66,6 +68,8 @@ export function mockUseJwt(overwrites: RecursivePartial<ReturnType<typeof AuthHo
       isSupport: false,
       currentRoles: [],
       isOrganizationAllowedToProduce: true,
+      isOrganizationAllowedToDelegations: true,
+      userEmail: 'user@example.com',
     }),
     overwrites
   )
@@ -201,4 +205,17 @@ export function renderHookWithApplicationContext<Props, Result>(
 ) {
   const renderResult = renderHook(render, { wrapper: generateWrapper({ ...options, history }) })
   return { ...renderResult, history }
+}
+
+export function ReactHookFormWrapper({
+  children,
+  defaultValues,
+}: {
+  children: React.ReactNode
+  defaultValues?: FieldValues
+}) {
+  const methods = useForm({
+    defaultValues: defaultValues,
+  })
+  return <FormProvider {...methods}>{children}</FormProvider>
 }

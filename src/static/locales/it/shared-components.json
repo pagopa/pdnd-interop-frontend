@@ -118,6 +118,10 @@
     "alertPersonalData": {
       "title": "La finalità non è compatibile con l’e-service selezionato",
       "description": "La finalità da clonare indica un trattamento sui dati personali diverso da quanto definito dall’erogatore dell’e-service, pertanto non ti è consentita la pubblicazione. Per procedere, crea una nuova finalità rispettando il vincolo sui dati personali."
+    },
+    "alertRiskAnalysisRulesetExpiring": {
+      "title": "La finalità selezionata utilizza una analisi del rischio che sarà a breve obsoleta",
+      "description": "La finalità che stai clonando utilizza un modello di analisi del rischio che non sarà più pubblicabile dopo il {{expirationDate}}. Pubblica la finalità entro quella data oppure creane una nuova in qualsiasi momento. Quelle esistenti restano valide."
     }
   },
   "dialogCreateAgreementDraft": {
@@ -315,6 +319,12 @@
     "bodySingleDay": "Interoperabilità PDND sarà sottoposto a manutenzione programmata il {{maintenanceStartDay}} alle {{maintenanceStartHour}} per circa {{hoursDuration}} ore. Ci scusiamo per gli eventuali disservizi causati.",
     "bodyMultipleDay": "Interoperabilità PDND sarà sottoposto a manutenzione programmata dalle {{maintenanceStartHour}} del {{maintenanceStartDay}} alle {{maintenanceEndHour}} del {{maintenanceEndDay}}. Ci scusiamo per gli eventuali disservizi causati."
   },
+  "notificationsBanner": {
+    "title": "Stanno arrivando le notifiche!",
+    "body": "Ti informeremo quando ci sono novità di tuo interesse direttamente in piattaforma o tramite e-mail personale. Consulta il manuale e configura subito le tue preferenze.",
+    "action1Label": "Configura le notifiche",
+    "action2Label": "Consulta il manuale"
+  },
   "attributeContainer": {
     "attributeIdLabel": "ID dell'attributo (attributeId)",
     "idCopytooltipLabel": "ID copiato correttamente",
@@ -495,6 +505,8 @@
     "DEVELOPER_TOOLS": "Tool per lo sviluppo",
     "RISK_ANALYSIS_EXPORTER_TOOL": "Export analisi del rischio",
     "CLIENT_MANAGEMENT": "Gestione dei client",
+    "NOTIFICATIONS": "Notifiche",
+    "NOTIFICATIONS_CONFIG": " Configurazione notifiche",
     "SUBSCRIBE_PURPOSE_TEMPLATE_LIST": "I miei template finalità",
     "SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY": "Riepilogo template finalità",
     "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG": "Template finalità",

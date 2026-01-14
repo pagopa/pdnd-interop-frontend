@@ -18,6 +18,7 @@ import {
 } from '@mui/material'
 import { DialogClonePurposeEServiceAutocomplete } from './DialogClonePurposeEServiceAutocomplete'
 import { useQuery } from '@tanstack/react-query'
+import { getFormattedExpirationDate } from '@/utils/purpose.utils'
 import { match } from 'ts-pattern'
 
 type ClonePurposeFormValues = {
@@ -76,6 +77,7 @@ export const DialogClonePurpose: React.FC<DialogClonePurposeProps> = ({ purposeI
   const handleEServiceChange = (personalData: boolean | undefined) => {
     setSelectedEServicePersonalData(personalData)
   }
+  const expirationDate = purpose?.rulesetExpiration
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} maxWidth="md" fullWidth>
@@ -86,6 +88,16 @@ export const DialogClonePurpose: React.FC<DialogClonePurposeProps> = ({ purposeI
           <DialogContent>
             <Stack spacing={2}>
               <Typography variant="body1">{t('description')}</Typography>
+              {expirationDate && (
+                <Alert severity="warning">
+                  <Typography sx={{ fontWeight: '600' }}>
+                    {t('alertRiskAnalysisRulesetExpiring.title')}
+                  </Typography>
+                  {t('alertRiskAnalysisRulesetExpiring.description', {
+                    expirationDate: getFormattedExpirationDate(expirationDate),
+                  })}
+                </Alert>
+              )}
               <DialogClonePurposeEServiceAutocomplete
                 preselectedEservice={eservice}
                 onEServiceChange={handleEServiceChange}
