@@ -147,13 +147,13 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
               description: t(
                 'provider.eserviceTemplate.components.templateStateUpdated.description'
               ),
-              visibility: ['admin', 'security'],
+              visibility: ['admin'],
             },
             {
               key: 'newEserviceTemplateVersionToInstantiator',
               title: t('provider.eserviceTemplate.components.newTemplateVersion.label'), // 17'
               description: t('provider.eserviceTemplate.components.newTemplateVersion.description'),
-              visibility: ['admin', 'security'], // To define
+              visibility: ['admin'],
             },
             {
               key: 'eserviceTemplateNameChangedToInstantiator',
@@ -161,7 +161,7 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
               description: t(
                 'provider.eserviceTemplate.components.templatePropertiesUpdated.description'
               ),
-              visibility: ['admin', 'security'],
+              visibility: ['admin'],
             },
             {
               key: 'templateStatusChangedToProducer',
@@ -220,7 +220,7 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
               description: t(
                 'delegation.delegationReceive.components.eserviceDelegatedApproval.description'
               ),
-              visibility: ['admin', 'api'],
+              visibility: ['admin'],
             },
           ],
         },

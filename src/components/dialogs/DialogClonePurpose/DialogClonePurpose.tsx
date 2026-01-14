@@ -18,6 +18,8 @@ import {
 } from '@mui/material'
 import { DialogClonePurposeEServiceAutocomplete } from './DialogClonePurposeEServiceAutocomplete'
 import { useQuery } from '@tanstack/react-query'
+import { getFormattedExpirationDate } from '@/utils/purpose.utils'
+import { match } from 'ts-pattern'
 
 type ClonePurposeFormValues = {
   eserviceId: string
@@ -48,9 +50,14 @@ export const DialogClonePurpose: React.FC<DialogClonePurposeProps> = ({ purposeI
 
   const incompatiblePersonalData = () => {
     if (isLoadingPurpose) return false
-    const userAnswerAboutPersonalData =
-      purpose?.riskAnalysisForm?.answers['usesPersonalData'][0] === 'YES' ? true : false
-    if (selectedEServicePersonalData === undefined) return false
+    const userPersonalDataAnswerUnparsed =
+      purpose?.riskAnalysisForm?.answers['usesPersonalData']?.[0]
+    const userAnswerAboutPersonalData = match(userPersonalDataAnswerUnparsed)
+      .with('YES', () => true)
+      .with('NO', () => false)
+      .otherwise(() => undefined)
+    if (selectedEServicePersonalData === undefined || userAnswerAboutPersonalData === undefined)
+      return false
     else if (selectedEServicePersonalData !== userAnswerAboutPersonalData) return true
     else return false
   }
@@ -70,6 +77,7 @@ export const DialogClonePurpose: React.FC<DialogClonePurposeProps> = ({ purposeI
   const handleEServiceChange = (personalData: boolean | undefined) => {
     setSelectedEServicePersonalData(personalData)
   }
+  const expirationDate = purpose?.rulesetExpiration
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} maxWidth="md" fullWidth>
@@ -80,6 +88,16 @@ export const DialogClonePurpose: React.FC<DialogClonePurposeProps> = ({ purposeI
           <DialogContent>
             <Stack spacing={2}>
               <Typography variant="body1">{t('description')}</Typography>
+              {expirationDate && (
+                <Alert severity="warning">
+                  <Typography sx={{ fontWeight: '600' }}>
+                    {t('alertRiskAnalysisRulesetExpiring.title')}
+                  </Typography>
+                  {t('alertRiskAnalysisRulesetExpiring.description', {
+                    expirationDate: getFormattedExpirationDate(expirationDate),
+                  })}
+                </Alert>
+              )}
               <DialogClonePurposeEServiceAutocomplete
                 preselectedEservice={eservice}
                 onEServiceChange={handleEServiceChange}
