@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { getBannerTimestamps, type BannerData } from './utils'
 import { useBannerStore } from '@/stores/banner.store'
-import { BannerDurationType } from './utils'
+import type { BannerDurationType } from './utils'
 import { calculateBannerDuration, getBannerDurationType } from './utils'
 
 export interface BannerInfo {
