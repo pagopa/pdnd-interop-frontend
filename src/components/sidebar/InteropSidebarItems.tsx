@@ -19,6 +19,7 @@ import { NotificationQueries } from '@/api/notification'
 import { match } from 'ts-pattern'
 import { routes as routesDefinitions } from '@/router/routes'
 import { get } from 'lodash'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 type InteropSidebarItems = {
   routes: SidebarRoutes
@@ -28,13 +29,18 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
   const generatePath = useGeneratePath()
   const isRouteInCurrentSubtree = useIsRouteInCurrentSubtree()
   const { t } = useTranslation('sidebar')
+  const lang = useCurrentLanguage()
 
   const pathname = useCurrentRoute().routeKey
   const { jwt, isAdmin } = AuthHooks.useJwt()
 
   const selfcareUsersPageUrl =
-    jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#${getCurrentSelfCareProductId()}`
-  const selfcareGroupsPageUrl = jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/groups`
+    jwt &&
+    `${SELFCARE_BASE_URL}/dashboard/${
+      jwt.selfcareId
+    }/users#${getCurrentSelfCareProductId()}?lang=${lang}`
+  const selfcareGroupsPageUrl =
+    jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/groups?lang=${lang}`
 
   const [parentExpandedItem, setParentExpandedItem] = useState<string | undefined>(
     routes.find(
