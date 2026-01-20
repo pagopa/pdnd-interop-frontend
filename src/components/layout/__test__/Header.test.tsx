@@ -379,7 +379,7 @@ describe('Header', () => {
     await user.click(selectPartyButton)
 
     expect(mockWindowAssign).toBeCalledWith(
-      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${'test-party-id'}&productId=prod-interop`
+      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${'test-party-id'}&productId=prod-interop&lang=it`
     )
   })
 
@@ -451,7 +451,7 @@ describe('Header', () => {
 
     await user.click(selectProductButton)
 
-    expect(mockWindowAssign).toBeCalledWith(`${SELFCARE_BASE_URL}/dashboard/${selfcareId}`)
+    expect(mockWindowAssign).toBeCalledWith(`${SELFCARE_BASE_URL}/dashboard/${selfcareId}?lang=it`)
   })
 
   it('Header handleSelectProcuct action should return the correct url if product.id is not "selfcare" and there is a jwt.selcareId', async () => {
@@ -493,7 +493,7 @@ describe('Header', () => {
     await user.click(selectProductButton)
 
     expect(mockWindowAssign).toBeCalledWith(
-      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${selfcareId}&productId=${productId}`
+      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${selfcareId}&productId=${productId}&lang=it`
     )
   })
 })
