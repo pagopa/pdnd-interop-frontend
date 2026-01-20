@@ -111,6 +111,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
   it('should return the suspend action if the purpose is active', () => {
     const purposeMock = createMockPurpose({
       currentVersion: { state: 'ACTIVE' },
+      rulesetExpiration: '2099-01-01T00:00:00Z',
     })
     const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
     expect(result.current.actions.length).toBeGreaterThanOrEqual(1)
@@ -126,6 +127,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     const purposeMock = createMockPurpose({
       currentVersion: { state: 'SUSPENDED' },
       suspendedByConsumer: false,
+      rulesetExpiration: '2099-01-01T00:00:00Z',
     })
     const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
     expect(result.current.actions.length).toBeGreaterThanOrEqual(1)
@@ -141,6 +143,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     const purposeMock = createMockPurpose({
       currentVersion: { state: 'SUSPENDED' },
       suspendedByConsumer: true,
+      rulesetExpiration: '2099-01-01T00:00:00Z',
     })
     const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
     expect(result.current.actions.length).toBeGreaterThanOrEqual(1)
@@ -173,6 +176,33 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
 
     await waitFor(() => {
       expect(history.location.pathname).toBe('/it/fruizione/finalita/test-purpose-id/riepilogo')
+    })
+  })
+  describe('clone action button', () => {
+    it('should have tooltip when ruleset is expired and the button is disabled', () => {
+      const purposeMock = createMockPurpose({
+        eservice: { mode: 'DELIVER' },
+        rulesetExpiration: '2023-01-01T00:00:00Z',
+      })
+      const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
+
+      const cloneAction = result.current.actions.find((action) => action.label === 'clone')
+
+      expect(cloneAction?.tooltip).toBeDefined()
+      expect(cloneAction?.disabled).toBe(true)
+    })
+
+    it('should not have tooltip when ruleset is not expired and the button is enabled', () => {
+      const purposeMock = createMockPurpose({
+        eservice: { mode: 'DELIVER' },
+        rulesetExpiration: '2099-01-01T00:00:00Z',
+      })
+      const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
+
+      const cloneAction = result.current.actions.find((action) => action.label === 'clone')
+
+      expect(cloneAction?.tooltip).toBeUndefined()
+      expect(cloneAction?.disabled).toBe(false)
     })
   })
 })
