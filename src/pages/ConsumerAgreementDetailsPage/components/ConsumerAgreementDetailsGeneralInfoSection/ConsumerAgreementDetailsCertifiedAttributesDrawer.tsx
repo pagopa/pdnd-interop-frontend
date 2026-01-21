@@ -1,11 +1,12 @@
 import React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 import { useConsumerAgreementDetailsContext } from '../ConsumerAgreementDetailsContext'
 import { Drawer } from '@/components/shared/Drawer'
+import { attributesHelpLink } from '@/config/constants'
 import type { DescriptorAttribute } from '@/api/api.generatedTypes'
 import { AttributeContainer, AttributeGroupContainer } from '@/components/layout/containers'
 import { isAttributeGroupFullfilled, isAttributeOwned } from '@/utils/attribute.utils'
-import { Stack } from '@mui/material'
+import { Stack, Link } from '@mui/material'
 
 type ConsumerAgreementDetailsCertifiedAttributesDrawerProps = {
   isOpen: boolean
@@ -53,7 +54,18 @@ export const ConsumerAgreementDetailsCertifiedAttributesDrawer: React.FC<
   }
 
   return (
-    <Drawer isOpen={isOpen} onClose={handleCloseDrawer} title={t('title')} subtitle={t('subtitle')}>
+    <Drawer 
+      isOpen={isOpen} 
+      onClose={handleCloseDrawer} 
+      title={t('title')}
+      subtitle={
+        <Trans
+          components={{ 1: <Link underline="hover" href={attributesHelpLink} target="_blank" /> }}
+        >
+          {t('subtitle')}
+        </Trans>
+      }
+    >
       <Stack spacing={2}>
         {certifiedAttributeGroups.map((group, i) => (
           <AttributeGroupContainer {...getGroupContainerProps(group)} key={i}>
