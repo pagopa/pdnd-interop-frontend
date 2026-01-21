@@ -190,7 +190,9 @@ mutationCache.config.onError = (error, variables, context, mutation) => {
       correlationId = error.response?.data?.correlationId
       errorCode = error.response?.data?.errors?.[0]?.code
     }
-    setErrorData(correlationId, errorCode)
+    if (correlationId && errorCode) {
+      setErrorData(correlationId, errorCode)
+    }
     showToast(meta.errorToastLabel, 'error', correlationId)
   }
 }
