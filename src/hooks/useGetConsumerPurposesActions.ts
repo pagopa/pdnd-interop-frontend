@@ -167,6 +167,14 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
       },
       () => [deleteAction]
     )
+    .with(
+      {
+        hasCurrentVersion: false,
+        hasWaitingForApprovalVersion: true,
+        isSuspendedByConsumer: true,
+      },
+      () => []
+    )
     // DELIVER mode + purpose rejected OR archived state
     .with(
       {
@@ -201,41 +209,30 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     .with(
       {
         isDeliverMode: true,
-        routeKey: 'SUBSCRIBE_PURPOSE_LIST',
-        isRulesetExpired: false,
+        hasCurrentVersion: true,
       },
-      (purpose) => {
-        const actions = [archiveAction, cloneAction]
-        if (purpose.isActive || (purpose.isSuspended && !purpose.isSuspendedByConsumer)) {
-          actions.push(suspendAction)
+      () => {
+        const actions: ActionItemButton[] = [archiveAction]
+        if (
+          (routeKey === 'SUBSCRIBE_PURPOSE_LIST' && !isRulesetExpired) || // in this route clone action is not shown if ruleset is expired
+          routeKey !== 'SUBSCRIBE_PURPOSE_LIST'
+        ) {
+          actions.push(cloneAction)
         }
-        if (purpose.isSuspended && purpose.isSuspendedByConsumer) {
-          actions.push(activateAction)
-        }
-        return actions
-      }
-    )
-    .with(
-      {
-        isDeliverMode: true,
-      },
-      (purpose) => {
-        const actions = [archiveAction, cloneAction]
 
-        if (purpose.isActive || (purpose.isSuspended && !purpose.isSuspendedByConsumer)) {
+        if (isActive || (isSuspended && !isSuspendedByConsumer)) {
           actions.push(suspendAction)
         }
 
-        if (purpose.isSuspended && purpose.isSuspendedByConsumer) {
+        if (isSuspended && isSuspendedByConsumer) {
           actions.push(activateAction)
         }
 
         return actions
       }
     )
-
     .otherwise(() => {
-      const actions = [archiveAction]
+      const actions: ActionItemButton[] = [archiveAction]
 
       if (isActive || (isSuspended && !isSuspendedByConsumer)) {
         actions.push(suspendAction)
