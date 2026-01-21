@@ -5,6 +5,7 @@ import { Stack } from '@mui/material'
 import React from 'react'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { useTranslation } from 'react-i18next'
+import { implementAndManageEServiceTemplateLink, updateEserviceInstanceLink } from '@/config/constants'
 
 export const EServiceTemplateUsefulLinksSection: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', {
@@ -15,14 +16,14 @@ export const EServiceTemplateUsefulLinksSection: React.FC = () => {
     <SectionContainer innerSection title={t('usefulLinks.title')}>
       <Stack alignItems="start" mt={1} spacing={0.5}>
         <IconLink
-          href="" //TODO: Link not yet available
+          href={implementAndManageEServiceTemplateLink}
           target="_blank"
           startIcon={<LaunchIcon fontSize="small" />}
         >
           {t('usefulLinks.implementAndManageEServiceTemplate')}
         </IconLink>
         <IconLink
-          href="" //TODO: Link not yet available
+          href={updateEserviceInstanceLink}
           target="_blank"
           startIcon={<LaunchIcon fontSize="small" />}
         >

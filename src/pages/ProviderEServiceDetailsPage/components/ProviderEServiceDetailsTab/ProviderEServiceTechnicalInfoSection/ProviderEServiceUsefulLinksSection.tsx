@@ -40,13 +40,6 @@ export const ProviderEServiceUsefulLinksSection: React.FC = () => {
         >
           {t('usefulLinks.wellKnown')}
         </IconLink>
-        <IconLink
-          href={interfaceVerificationGuideLink}
-          target="_blank"
-          startIcon={<LaunchIcon fontSize="small" />}
-        >
-          {t('usefulLinks.interfaceChecksum')}
-        </IconLink>
       </Stack>
     </SectionContainer>
   )
