@@ -178,6 +178,35 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
       expect(history.location.pathname).toBe('/it/fruizione/finalita/test-purpose-id/riepilogo')
     })
   })
+  it('should return only clone action when purpose is rejected in DELIVER mode', () => {
+    const purposeMock = createMockPurpose({
+      currentVersion: undefined,
+      rejectedVersion: {
+        id: 'rejected-id',
+        state: 'REJECTED',
+        dailyCalls: 1,
+      },
+      eservice: { mode: 'DELIVER' },
+    })
+
+    const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
+
+    expect(result.current.actions).toHaveLength(1)
+    expect(result.current.actions[0].label).toBe('clone')
+  })
+
+  it('should not return clone action for archived purpose in non-DELIVER mode', () => {
+    const purposeMock = createMockPurpose({
+      currentVersion: { state: 'ARCHIVED' },
+      eservice: { mode: 'RECEIVE' },
+    })
+
+    const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
+
+    const cloneAction = result.current.actions.find((a) => a.label === 'clone')
+    expect(cloneAction).toBeUndefined()
+  })
+
   describe('clone action button', () => {
     it('should have tooltip when ruleset is expired and the button is disabled', () => {
       const purposeMock = createMockPurpose({
