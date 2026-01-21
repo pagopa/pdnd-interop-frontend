@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material'
-import { RouterProvider } from '@/router'
+import { RouterProvider, useSwitchPathLang } from '@/router'
 import { LoadingOverlay, ToastNotification } from '@/components/layout'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
@@ -16,6 +16,7 @@ import { FirstLoadingSpinner } from './components/shared/FirstLoadingSpinner'
 import { queryClient } from './config/query-client'
 import type { EnvironmentBannerProps } from '@pagopa/mui-italia'
 import { AuthQueries } from './api/auth'
+import useCurrentLanguage from './hooks/useCurrentLanguage'
 
 queryClient.prefetchQuery(AuthQueries.getSessionToken())
 
@@ -23,6 +24,16 @@ function App() {
   const { t } = useTranslation('shared-components')
 
   let envBannerProps: EnvironmentBannerProps | undefined = undefined
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const lang = urlParams.get('lang')
+
+    if (lang) {
+      const url = `${lang}/`
+      window.location.replace(url)
+    }
+  }, [])
 
   if (STAGE === 'UAT') {
     envBannerProps = {
