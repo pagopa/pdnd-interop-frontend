@@ -30,7 +30,7 @@ function App() {
     const lang = urlParams.get('lang')
 
     if (lang) {
-      const url = `${lang}/`
+      const url = `${lang === 'en' ? 'en' : 'it'}/`
       window.location.replace(url)
     }
   }, [])
