@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material'
 import { RouterProvider } from '@/router'
@@ -16,13 +16,24 @@ import { FirstLoadingSpinner } from './components/shared/FirstLoadingSpinner'
 import { queryClient } from './config/query-client'
 import type { EnvironmentBannerProps } from '@pagopa/mui-italia'
 import { AuthQueries } from './api/auth'
+import useCurrentLanguage from './hooks/useCurrentLanguage'
 
 queryClient.prefetchQuery(AuthQueries.getSessionToken())
 
 function App() {
   const { t } = useTranslation('shared-components')
-
+  const currentLanguage = useCurrentLanguage()
   let envBannerProps: EnvironmentBannerProps | undefined = undefined
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const redirectUrl = urlParams.get('redirectUrl')
+
+    if (redirectUrl) {
+      const url = `${currentLanguage}${redirectUrl}`
+      window.location.replace(url)
+    }
+  }, [])
 
   if (STAGE === 'UAT') {
     envBannerProps = {

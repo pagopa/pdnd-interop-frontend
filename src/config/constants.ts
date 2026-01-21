@@ -39,6 +39,7 @@ export const eserviceNamingBestPracticeLink =
   'https://italia.github.io/pdnd-guida-nomenclatura-eservice/'
 export const keychainGuideLink = `${documentationLink}/manuale-operativo/utilizzare-i-voucher#garanzia-dellintegrita-della-risposta`
 export const keychainSetupGuideLink = `${documentationLink}/manuale-operativo/utilizzare-i-voucher#precondizioni`
+export const notificationGuideLink = `https://docs.pagopa.it/interoperabilita-1` // TODO: update when notification guide is available
 
 export const SH_ESERVICES_TO_HIDE_TEMP: Partial<Record<InteropFEConfigs['STAGE'], Array<string>>> =
   {

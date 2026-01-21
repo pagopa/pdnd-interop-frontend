@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormProvider } from 'react-hook-form'
 import { SectionContainer } from '@/components/layout/containers'
-import { Box, Stack, Typography, Alert } from '@mui/material'
+import { Box, Stack, Typography, Alert, Link } from '@mui/material'
 import { RHFSwitch, SwitchLabelDescription } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
 import { useGetNotificationConfigSchema } from '../hooks/useGetNotificationConfigSchema'
@@ -11,6 +11,7 @@ import { match } from 'ts-pattern'
 import { AuthHooks } from '@/api/auth'
 import { NotificationConfigSection } from './NotificationConfigSection'
 import { useNotificationConfigForm } from '../hooks/useNotificationConfigForm'
+import { notificationGuideLink } from '@/config/constants'
 
 type NotificationConfigUserTabProps = {
   notificationConfig: NotificationConfigFormValues
@@ -36,17 +37,12 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   })
   const { userEmail } = AuthHooks.useJwt()
 
-  const {
-    formMethods,
-    inAppNotificationPreference,
-    emailNotificationPreference,
-
-    valuesChanged,
-  } = useNotificationConfigForm({
-    handleUpdateNotificationConfigs,
-    notificationConfig,
-    type,
-  })
+  const { formMethods, inAppNotificationPreference, emailNotificationPreference, valuesChanged } =
+    useNotificationConfigForm({
+      handleUpdateNotificationConfigs,
+      notificationConfig,
+      type,
+    })
 
   const { notificationSchema, sectionComponentKeysMap } = useGetNotificationConfigSchema(type)
 
@@ -116,9 +112,9 @@ const EmailConfigHeader = ({ userEmail }: EmailConfigHeaderProps) => {
         <Typography fontWeight={600}>{userEmail}</Typography>
       </Stack>
       {/* Need to understand whats the link should point to */}
-      {/* <Link href="https://docs.pagopa.it/interoperabilita-1" underline="none" variant="button">
+      <Link href={notificationGuideLink} underline="none" variant="button">
         {t('linkLabel')}
-      </Link> */}
+      </Link>
 
       <RHFSwitch
         sx={{ pl: 2 }}
@@ -160,18 +156,13 @@ const InAppConfigHeader = () => {
   return (
     <>
       {/* Need to understand whats the link should point to */}
-      {/* <Link href="https://docs.pagopa.it/interoperabilita-1" underline="none" variant="button">
+      <Link href={notificationGuideLink} underline="none" variant="button">
         {t('manualLinkLabel')}
-      </Link> */}
+      </Link>
       <Box sx={{ ml: 2, mt: 2 }}>
         <RHFSwitch
           name="inAppNotificationPreference"
-          label={
-            <SwitchLabelDescription
-              label={t('enableAllNotifications.label')}
-              description={t('enableAllNotifications.description')}
-            />
-          }
+          label={<SwitchLabelDescription label={t('enableAllNotifications.label')} />}
         />
       </Box>
     </>
