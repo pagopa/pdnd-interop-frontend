@@ -11,7 +11,7 @@ import PauseCircleOutlineIcon from '@mui/icons-material/PauseCircleOutline'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline'
 import { useDialog } from '@/stores'
 import { useCheckRiskAnalysisVersionMismatch } from './useCheckRiskAnalysisVersionMismatch'
-import { useLocation, useNavigate } from '@/router'
+import { useCurrentRoute, useNavigate } from '@/router'
 import { match } from 'ts-pattern'
 
 function useGetConsumerPurposesActions(purpose?: Purpose) {
@@ -20,7 +20,7 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
   const { jwt, isAdmin } = AuthHooks.useJwt()
 
   const navigate = useNavigate()
-  const { routeKey } = useLocation()
+  const { routeKey } = useCurrentRoute()
 
   const { openDialog } = useDialog()
 
@@ -133,6 +133,28 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     color: 'error',
   }
 
+  function addConsumerPurposesActions({
+    includeCloneAction,
+  }: {
+    includeCloneAction: boolean
+  }): ActionItemButton[] {
+    const actions: ActionItemButton[] = [archiveAction]
+
+    if (includeCloneAction) {
+      actions.push(cloneAction)
+    }
+
+    if (isActive || (isSuspended && !isSuspendedByConsumer)) {
+      actions.push(suspendAction)
+    }
+
+    if (isSuspended && isSuspendedByConsumer) {
+      actions.push(activateAction)
+    }
+
+    return actions
+  }
+
   const isDeliverMode = purpose.eservice.mode === 'DELIVER'
   const isSuspended = purpose?.currentVersion?.state === 'SUSPENDED'
   const isActive = purpose?.currentVersion?.state === 'ACTIVE'
@@ -212,37 +234,13 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
         hasCurrentVersion: true,
       },
       () => {
-        const actions: ActionItemButton[] = [archiveAction]
-        if (
-          (routeKey === 'SUBSCRIBE_PURPOSE_LIST' && !isRulesetExpired) || // in this route clone action is not shown if ruleset is expired
-          routeKey !== 'SUBSCRIBE_PURPOSE_LIST'
-        ) {
-          actions.push(cloneAction)
-        }
-
-        if (isActive || (isSuspended && !isSuspendedByConsumer)) {
-          actions.push(suspendAction)
-        }
-
-        if (isSuspended && isSuspendedByConsumer) {
-          actions.push(activateAction)
-        }
-
-        return actions
+        return addConsumerPurposesActions({
+          includeCloneAction: !(routeKey === 'SUBSCRIBE_PURPOSE_LIST' && isRulesetExpired),
+        })
       }
     )
     .otherwise(() => {
-      const actions: ActionItemButton[] = [archiveAction]
-
-      if (isActive || (isSuspended && !isSuspendedByConsumer)) {
-        actions.push(suspendAction)
-      }
-
-      if (isSuspended && isSuspendedByConsumer) {
-        actions.push(activateAction)
-      }
-
-      return actions
+      return addConsumerPurposesActions({ includeCloneAction: false })
     })
 
   return { actions }
