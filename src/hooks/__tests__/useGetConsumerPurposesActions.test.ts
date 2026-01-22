@@ -1,4 +1,8 @@
-import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
+import {
+  mockUseCurrentRoute,
+  mockUseJwt,
+  renderHookWithApplicationContext,
+} from '@/utils/testing.utils'
 import useGetConsumerPurposesActions from '../useGetConsumerPurposesActions'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 import { rest } from 'msw'
@@ -195,6 +199,48 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     expect(result.current.actions[0].label).toBe('clone')
   })
 
+  it('should not return clone action if isRulesetExpired and routeKey is SUBSCRIBE_PURPOSE_LIST', () => {
+    mockUseCurrentRoute({ routeKey: 'SUBSCRIBE_PURPOSE_LIST' })
+    const purposeMock = createMockPurpose({
+      eservice: { mode: 'DELIVER' },
+      rulesetExpiration: '2023-01-01T00:00:00Z',
+      currentVersion: { state: 'ACTIVE' },
+    })
+
+    const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
+
+    const cloneAction = result.current.actions.find((a) => a.label === 'clone')
+    expect(cloneAction).toBeUndefined()
+  })
+
+  it('should return clone action if isRulesetExpired is not and routeKey is SUBSCRIBE_PURPOSE_LIST', () => {
+    mockUseCurrentRoute({ routeKey: 'SUBSCRIBE_PURPOSE_LIST' })
+    const purposeMock = createMockPurpose({
+      eservice: { mode: 'DELIVER' },
+      rulesetExpiration: '2099-01-01T00:00:00Z',
+      currentVersion: { state: 'ACTIVE' },
+    })
+
+    const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
+
+    const cloneAction = result.current.actions.find((a) => a.label === 'clone')
+    expect(cloneAction).toBeDefined()
+  })
+
+  it('should return clone action if routeKey is not SUBSCRIBE_PURPOSE_LIST', () => {
+    mockUseCurrentRoute({ routeKey: 'SUBSCRIBE_PURPOSE_DETAILS' })
+    const purposeMock = createMockPurpose({
+      eservice: { mode: 'DELIVER' },
+      rulesetExpiration: '2099-01-01T00:00:00Z',
+      currentVersion: { state: 'ACTIVE' },
+    })
+
+    const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
+
+    const cloneAction = result.current.actions.find((a) => a.label === 'clone')
+    expect(cloneAction).toBeDefined()
+  })
+
   it('should not return clone action for archived purpose in non-DELIVER mode', () => {
     const purposeMock = createMockPurpose({
       currentVersion: { state: 'ARCHIVED' },
@@ -209,6 +255,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
 
   describe('clone action button', () => {
     it('should have tooltip when ruleset is expired and the button is disabled', () => {
+      mockUseCurrentRoute({ routeKey: 'SUBSCRIBE_PURPOSE_DETAILS' })
       const purposeMock = createMockPurpose({
         eservice: { mode: 'DELIVER' },
         rulesetExpiration: '2023-01-01T00:00:00Z',
