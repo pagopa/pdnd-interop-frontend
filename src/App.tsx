@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material'
 import { RouterProvider } from '@/router'
@@ -15,25 +15,28 @@ import { MaintenanceBanner } from './components/shared/banners/MaintenanceBanner
 import { FirstLoadingSpinner } from './components/shared/FirstLoadingSpinner'
 import { queryClient } from './config/query-client'
 import type { EnvironmentBannerProps } from '@pagopa/mui-italia'
-import { AuthQueries } from './api/auth'
-import useCurrentLanguage from './hooks/useCurrentLanguage'
 
-queryClient.prefetchQuery(AuthQueries.getSessionToken())
+import { AuthQueries } from './api/auth'
+import i18n from './config/react-i18next'
+
+// --- Init application ----
+
+const urlParams = new URLSearchParams(window.location.search)
+const redirectUrl = urlParams.get('redirectUrl')
+
+if (redirectUrl) {
+  const selfCareIdentityToken = window.location.hash.replace('#id=', '')
+  const url = `/ui/${i18n.language}${redirectUrl}#id=${selfCareIdentityToken}`
+  window.location.replace(url)
+} else {
+  queryClient.prefetchQuery(AuthQueries.getSessionToken())
+}
+
+// end init ---
 
 function App() {
   const { t } = useTranslation('shared-components')
-  const currentLanguage = useCurrentLanguage()
   let envBannerProps: EnvironmentBannerProps | undefined = undefined
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search)
-    const redirectUrl = urlParams.get('redirectUrl')
-
-    if (redirectUrl) {
-      const url = `${currentLanguage}${redirectUrl}`
-      window.location.replace(url)
-    }
-  }, [])
 
   if (STAGE === 'UAT') {
     envBannerProps = {
