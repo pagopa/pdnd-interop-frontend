@@ -185,17 +185,8 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
       {
         hasCurrentVersion: false,
         hasWaitingForApprovalVersion: true,
-        isSuspendedByConsumer: false,
       },
-      () => [deleteAction]
-    )
-    .with(
-      {
-        hasCurrentVersion: false,
-        hasWaitingForApprovalVersion: true,
-        isSuspendedByConsumer: true,
-      },
-      () => []
+      ({ isSuspendedByConsumer }) => (isSuspendedByConsumer ? [] : [deleteAction])
     )
     // DELIVER mode + purpose rejected OR archived state
     .with(
