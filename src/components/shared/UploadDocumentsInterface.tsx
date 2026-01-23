@@ -1,6 +1,6 @@
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFSingleFileInput } from './react-hook-form-inputs'
-import { Box, Button, Stack } from '@mui/material'
+import { Box, Button, Stack, SxProps, Theme } from '@mui/material'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import { useTranslation } from 'react-i18next'
 
@@ -10,7 +10,7 @@ type CreateStepDocumentsInterfaceFormValues = {
 
 type UploadDocumentsInterfaceProps = {
   onSubmit: ({ interfaceDoc }: CreateStepDocumentsInterfaceFormValues) => void
-  sxBox?: object
+  sxBox?: SxProps<Theme>
 }
 
 export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> = ({
