@@ -20,7 +20,7 @@ describe('UploadDocumentsInterface', () => {
     expect(submitButton).not.toBeInTheDocument()
   })
 
-  it('show the submit button when a file is ready to uploaded', async () => {
+  it('shows the submit button when a file is ready to be uploaded', async () => {
     const user = userEvent.setup()
     render(<UploadDocumentsInterface onSubmit={mockSubmit} />)
 
