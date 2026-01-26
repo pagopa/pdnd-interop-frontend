@@ -28,6 +28,7 @@ type CreateAgreementDraftFormValues = {
 export const DialogCreateAgreementDraft: React.FC<DialogCreateAgreementDraftProps> = ({
   eservice,
   descriptor,
+  existingAgreements,
   onSubmit,
 }) => {
   const ariaLabelId = React.useId()
@@ -107,6 +108,7 @@ export const DialogCreateAgreementDraft: React.FC<DialogCreateAgreementDraftProp
                       } as DelegationTenant)
                     : undefined
                 }
+                existingAgreements={existingAgreements}
               />
               {!hasTenantCertifiedAttributes && (
                 <Alert severity="warning" title={t('certifiedAttributesAlert.title')}>

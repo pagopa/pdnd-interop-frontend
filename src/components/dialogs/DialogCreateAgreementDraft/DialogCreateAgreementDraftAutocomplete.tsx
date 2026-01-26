@@ -1,4 +1,4 @@
-import type { DelegationTenant } from '@/api/api.generatedTypes'
+import type { CompactAgreement, DelegationTenant } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { DelegationQueries } from '@/api/delegation'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
@@ -11,11 +11,12 @@ import { useTranslation } from 'react-i18next'
 type DialogCreateAgreementAutocompleteProps = {
   eserviceId: string
   preselectedConsumer: DelegationTenant | undefined
+  existingAgreements: CompactAgreement[]
 }
 
 export const DialogCreateAgreementAutocomplete: React.FC<
   DialogCreateAgreementAutocompleteProps
-> = ({ eserviceId, preselectedConsumer }) => {
+> = ({ eserviceId, preselectedConsumer, existingAgreements }) => {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogCreateAgreementDraft',
   })
@@ -84,10 +85,16 @@ export const DialogCreateAgreementAutocomplete: React.FC<
     }
   }, [setValue, selectedConsumerId, delegators, setConsumerAutocompleteTextInput])
 
+  const delegatorsWithoutAgreement = delegators.filter(
+    (delegator) => !existingAgreements.some((agreement) => agreement.consumerId === delegator.id)
+  )
+
   const tenantOptions =
-    jwt && !isDelegator
-      ? [{ id: jwt.organizationId, name: jwt.organization.name }, ...delegators]
-      : delegators
+    jwt &&
+    !isDelegator &&
+    !existingAgreements.some((agreement) => agreement.consumerId === jwt.organizationId)
+      ? [{ id: jwt.organizationId, name: jwt.organization.name }, ...delegatorsWithoutAgreement]
+      : delegatorsWithoutAgreement
 
   const autocompleteOptions = tenantOptions.map((tenant) => ({
     label: tenant.name,
