@@ -54,9 +54,9 @@ export const ConsumerAgreementDetailsCertifiedAttributesDrawer: React.FC<
   }
 
   return (
-    <Drawer 
-      isOpen={isOpen} 
-      onClose={handleCloseDrawer} 
+    <Drawer
+      isOpen={isOpen}
+      onClose={handleCloseDrawer}
       title={t('title')}
       subtitle={
         <Trans

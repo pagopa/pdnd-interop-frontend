@@ -3,7 +3,7 @@ import { Box } from '@mui/system'
 
 type SwitchLabelDescriptionProps = {
   label: string
-  description: string
+  description?: string
 }
 
 export const SwitchLabelDescription: React.FC<SwitchLabelDescriptionProps> = ({
@@ -15,9 +15,11 @@ export const SwitchLabelDescription: React.FC<SwitchLabelDescriptionProps> = ({
       <Typography component="p" variant="body2" fontWeight={400}>
         {label}
       </Typography>
-      <Typography component="span" color="text.secondary" variant="caption">
-        {description}
-      </Typography>
+      {description && (
+        <Typography component="span" color="text.secondary" variant="caption">
+          {description}
+        </Typography>
+      )}
     </Box>
   )
 }

@@ -29,6 +29,7 @@ vi.mock('react-i18next', () => ({
       },
     }
   },
+  Trans: ({ children }: { children: React.ReactNode }) => children,
 }))
 
 vi.mock('@pagopa/interop-fe-commons', async () => {
