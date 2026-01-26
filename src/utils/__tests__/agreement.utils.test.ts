@@ -1,14 +1,12 @@
 import { createMockAgreement } from '@/../__mocks__/data/agreement.mocks'
 import {
   canAgreementBeUpgraded,
-  checkIfAlreadySubscribed,
   checkIfcanCreateAgreementDraft,
   checkIfhasAlreadyAgreementDraft,
   isNewEServiceVersionAvailable,
 } from '../agreement.utils'
 import {
   createMockCatalogDescriptorEService,
-  createMockEServiceCatalog,
   createMockEServiceDescriptorCatalog,
 } from '@/../__mocks__/data/eservice.mocks'
 
@@ -70,46 +68,6 @@ describe('canAgreementBeUpgraded', () => {
   })
 })
 
-describe('checkIfAlreadySubscribed', () => {
-  it('should return false if the eservice is undefined', () => {
-    const result = checkIfAlreadySubscribed(undefined)
-    expect(result).toBe(false)
-  })
-
-  it('should return false if the eservice has no agreement', () => {
-    const result = checkIfAlreadySubscribed(createMockEServiceCatalog({ agreement: undefined }))
-    expect(result).toBe(false)
-  })
-
-  it('should return false if the eservice with agreement state as DRAFT ', () => {
-    const result = checkIfAlreadySubscribed(
-      createMockEServiceCatalog({ agreement: { state: 'DRAFT' } })
-    )
-    expect(result).toBe(false)
-  })
-
-  it('should return false if the eservice with agreement state as REJECTED ', () => {
-    const result = checkIfAlreadySubscribed(
-      createMockEServiceCatalog({ agreement: { state: 'REJECTED' } })
-    )
-    expect(result).toBe(false)
-  })
-
-  it('should return false if the eservice with agreement state as ARCHIVED ', () => {
-    const result = checkIfAlreadySubscribed(
-      createMockEServiceCatalog({ agreement: { state: 'ARCHIVED' } })
-    )
-    expect(result).toBe(false)
-  })
-
-  it('should return true if the eservice has an agreement with state different from DRAFT or REJECTED', () => {
-    const result = checkIfAlreadySubscribed(
-      createMockEServiceCatalog({ agreement: { state: 'ACTIVE' } })
-    )
-    expect(result).toBe(true)
-  })
-})
-
 describe('checkIfhasAlreadyAgreementDraft', () => {
   it('should return false if the eservice is undefined', () => {
     const result = checkIfhasAlreadyAgreementDraft(undefined)
@@ -118,21 +76,25 @@ describe('checkIfhasAlreadyAgreementDraft', () => {
 
   it('should return false if the eservice has no agreement', () => {
     const result = checkIfhasAlreadyAgreementDraft(
-      createMockEServiceCatalog({ agreement: undefined })
+      createMockCatalogDescriptorEService({ agreements: [] })
     )
     expect(result).toBe(false)
   })
 
   it('should return false if the eservice with agreement state different from DRAFT ', () => {
     const result = checkIfhasAlreadyAgreementDraft(
-      createMockEServiceCatalog({ agreement: { state: 'ACTIVE' } })
+      createMockCatalogDescriptorEService({
+        agreements: [{ id: 'agreement-id', state: 'ACTIVE', consumerId: 'consumer-id' }],
+      })
     )
     expect(result).toBe(false)
   })
 
   it('should return true if the eservice with agreement state as DRAFT ', () => {
     const result = checkIfhasAlreadyAgreementDraft(
-      createMockEServiceCatalog({ agreement: { state: 'DRAFT' } })
+      createMockCatalogDescriptorEService({
+        agreements: [{ id: 'agreement-id', state: 'DRAFT', consumerId: 'consumer-id' }],
+      })
     )
     expect(result).toBe(true)
   })
@@ -149,8 +111,8 @@ describe('checkIfcanCreateAgreementDraft', () => {
 
   it('should return false if descriptor state is undefined', () => {
     const result = checkIfcanCreateAgreementDraft(
-      createMockEServiceCatalog({
-        agreement: undefined,
+      createMockCatalogDescriptorEService({
+        agreements: [],
       }),
       undefined
     )
@@ -159,10 +121,8 @@ describe('checkIfcanCreateAgreementDraft', () => {
 
   it('should return false if the subscriber is already subscribed', () => {
     const result = checkIfcanCreateAgreementDraft(
-      createMockEServiceCatalog({
-        agreement: {
-          state: 'ACTIVE',
-        },
+      createMockCatalogDescriptorEService({
+        agreements: [{ id: 'agreement-id', state: 'ACTIVE', consumerId: 'consumer-id' }],
       }),
       createMockEServiceDescriptorCatalog({ state: 'PUBLISHED' })
     )
@@ -171,10 +131,8 @@ describe('checkIfcanCreateAgreementDraft', () => {
 
   it('should return false if the subscriber has already an agreement DRAFT', () => {
     const result = checkIfcanCreateAgreementDraft(
-      createMockEServiceCatalog({
-        agreement: {
-          state: 'DRAFT',
-        },
+      createMockCatalogDescriptorEService({
+        agreements: [{ id: 'agreement-id', state: 'DRAFT', consumerId: 'consumer-id' }],
       }),
       createMockEServiceDescriptorCatalog({ state: 'PUBLISHED' })
     )
@@ -183,8 +141,8 @@ describe('checkIfcanCreateAgreementDraft', () => {
 
   it('should return false if the descriptor state is different from PUBLISHED/SUSPENDED', () => {
     const result = checkIfcanCreateAgreementDraft(
-      createMockEServiceCatalog({
-        agreement: undefined,
+      createMockCatalogDescriptorEService({
+        agreements: [],
       }),
       createMockEServiceDescriptorCatalog({ state: 'DEPRECATED' })
     )
@@ -193,9 +151,9 @@ describe('checkIfcanCreateAgreementDraft', () => {
 
   it('should return false if the eservice has no certified attributes and is not owned by the user', () => {
     const result = checkIfcanCreateAgreementDraft(
-      createMockEServiceCatalog({
+      createMockCatalogDescriptorEService({
         isMine: false,
-        agreement: undefined,
+        agreements: [],
       }),
       createMockEServiceDescriptorCatalog({
         state: 'PUBLISHED',
@@ -207,9 +165,9 @@ describe('checkIfcanCreateAgreementDraft', () => {
 
   it('should return true if the eservice has certified attributes', () => {
     const result = checkIfcanCreateAgreementDraft(
-      createMockEServiceCatalog({
+      createMockCatalogDescriptorEService({
         isMine: false,
-        agreement: undefined,
+        agreements: [],
       }),
       createMockEServiceDescriptorCatalog({
         state: 'PUBLISHED',
@@ -221,9 +179,9 @@ describe('checkIfcanCreateAgreementDraft', () => {
 
   it('should return true if the eservice is owned by the subscriber', () => {
     const result = checkIfcanCreateAgreementDraft(
-      createMockEServiceCatalog({
+      createMockCatalogDescriptorEService({
         isMine: true,
-        agreement: undefined,
+        agreements: [],
       }),
       createMockEServiceDescriptorCatalog({
         state: 'PUBLISHED',

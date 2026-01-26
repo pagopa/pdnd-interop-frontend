@@ -9,13 +9,7 @@ mockUseJwt()
 describe('Checks CatalogCard button', () => {
   it('navigate correctly when click on button inspect', async () => {
     const user = userEvent.setup()
-    const eserviceMock = createMockEServiceCatalog({
-      agreement: {
-        id: 'test',
-        state: 'ACTIVE',
-        canBeUpgraded: false,
-      },
-    })
+    const eserviceMock = createMockEServiceCatalog()
     const { history, ...screen } = renderWithApplicationContext(
       <CatalogCard
         to="SUBSCRIBE_CATALOG_VIEW"
