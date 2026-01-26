@@ -19,25 +19,25 @@ export const pagoPaLink = {
   title: 'Vai al sito di PagoPA S.p.A.',
 }
 export const assistanceLink = `https://selfcare.pagopa.it/assistenza?productId=${getCurrentSelfCareProductId()}`
-export const attributesHelpLink = `${DOCUMENTATION_URL}/manuale-operativo/attributi`
-export const verifyVoucherGuideLink = `https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/riferimenti-tecnici/utilizzare-i-voucher`
-export const manageEServiceGuideLink = `${DOCUMENTATION_URL}/manuale-operativo/e-service`
-export const importExportEServiceGuideLink = `${DOCUMENTATION_URL}/manuale-operativo/e-service#esportare-ed-importare-un-e-service`
-export const implementAndManageEServiceGuideLink = `${DOCUMENTATION_URL}/tutorial/tutorial-per-lerogatore/come-creare-un-nuovo-e-service`
-export const voucherVerificationGuideLink = `${DOCUMENTATION_URL}/tutorial/tutorial-per-lerogatore/come-verificare-il-digest-di-un-voucher`
+export const attributesHelpLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/attributi`
+export const verifyVoucherGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/utilizzare-i-voucher`
+export const manageEServiceGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/e-service`
+export const importExportEServiceGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/e-service`
+export const implementAndManageEServiceGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/e-service/operazioni-e-ciclo-di-vita`
+export const voucherVerificationGuideLink = `${DOCUMENTATION_URL}/tutorial/tutorial-per-lerogatore/come-verificare-la-validita-di-un-voucher-bearer`
 export const interfaceVerificationGuideLink = `${DOCUMENTATION_URL}/manuale-operativo/e-service#verificare-lintegrita-di-un-file-di-interfaccia`
-export const purposeUpgradeGuideLink = `${DOCUMENTATION_URL}/manuale-operativo/finalita`
-export const agreementUpgradeGuideLink = `${DOCUMENTATION_URL}/manuale-operativo/richieste-di-fruizione#fruitore-aggiornare-una-richiesta-di-fruizione`
+export const purposeUpgradeGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/finalita`
+export const agreementUpgradeGuideLink = `${DOCUMENTATION_URL}/tutorial/tutorial-per-il-fruitore/come-aggiornare-una-richiesta-di-fruizione`
 export const clientKeyGuideLink = `${DOCUMENTATION_URL}/manuale-operativo/client-e-materiale-crittografico`
 export const generateKeyGuideLink = `${DOCUMENTATION_URL}/manuale-operativo/generare-e-caricare-chiavi-di-sicurezza`
 export const payloadVerificationGuideLink = `${DOCUMENTATION_URL}/manuale-operativo/utilizzare-i-voucher#verifiche-sul-payload`
-export const apiGuideLink = `${DOCUMENTATION_URL}/manuale-operativo/api-esposte-da-pdnd-interoperabilita`
-export const delegationGuideLink = `${DOCUMENTATION_URL}/manuale-operativo/deleghe`
+export const apiGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/api-esposte-da-pdnd`
+export const delegationGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/deleghe`
 export const delegationEServiceGuideLink = `${DOCUMENTATION_URL}/manuale-operativo/e-service#impostazioni-per-le-deleghe`
 export const openApiCheckerLink = 'https://italia.github.io/api-oas-checker/'
 export const eserviceNamingBestPracticeLink =
   'https://italia.github.io/pdnd-guida-nomenclatura-eservice/'
-export const keychainGuideLink = `${DOCUMENTATION_URL}/manuale-operativo/utilizzare-i-voucher#garanzia-dellintegrita-della-risposta`
+export const keychainGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/utilizzare-i-voucher/garanzia-dellintegrita-della-risposta`
 export const keychainSetupGuideLink = `${DOCUMENTATION_URL}/manuale-operativo/utilizzare-i-voucher#precondizioni`
 export const implementAndManageEServiceTemplateLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/template-e-service/operazioni-e-ciclo-di-vita`
 export const updateEserviceInstanceLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/template-e-service/relazione-tra-template-e-istanza`
