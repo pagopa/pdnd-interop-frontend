@@ -1,9 +1,8 @@
 import useGetEServiceConsumerActions from '../useGetEServiceConsumerActions'
 import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
-import type { CatalogEService, CatalogEServiceDescriptor } from '@/api/api.generatedTypes'
+import type { CatalogEServiceDescriptor } from '@/api/api.generatedTypes'
 import {
   createMockCatalogDescriptorEService,
-  createMockEServiceCatalog,
   createMockEServiceDescriptorCatalog,
 } from '@/../__mocks__/data/eservice.mocks'
 import { rest } from 'msw'
@@ -37,7 +36,7 @@ afterAll(() => {
 })
 
 function renderUseGetEServiceConsumerActionsHook(
-  eserviceMock?: CatalogEService | CatalogEServiceDescriptor['eservice'],
+  eserviceMock?: CatalogEServiceDescriptor['eservice'],
   descriptorMock?: CatalogEServiceDescriptor
 ) {
   return renderHookWithApplicationContext(
@@ -62,7 +61,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
   it('should return no actions if no descriptor is passed', () => {
     mockUseJwt({ isAdmin: true })
     const { result } = renderUseGetEServiceConsumerActionsHook(
-      createMockEServiceCatalog(),
+      createMockCatalogDescriptorEService(),
       undefined
     )
     expect(result.current.actions).toHaveLength(0)
@@ -71,12 +70,15 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
   it('should return the go to agreement action if the user has already an active agreement', async () => {
     mockUseJwt({ isAdmin: true })
 
-    const eserviceMock = createMockEServiceCatalog({
-      agreement: {
-        id: 'test',
-        state: 'ACTIVE',
-        canBeUpgraded: false,
-      },
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [
+        {
+          id: 'test',
+          state: 'ACTIVE',
+          canBeUpgraded: false,
+          consumerId: 'consumer-id',
+        },
+      ],
     })
 
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
@@ -88,18 +90,23 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     expect(goToAgreementAction.label).toBe('tableEServiceCatalog.inspect')
 
     goToAgreementAction.action()
-    expect(history.location.pathname).toBe(`/it/fruizione/richieste/${eserviceMock.agreement?.id}`)
+    expect(history.location.pathname).toBe(
+      `/it/fruizione/richieste/${eserviceMock.agreements[0]?.id}`
+    )
   })
 
   it('should return the go to agreement action if the user has already a draft agreement', async () => {
     mockUseJwt({ isAdmin: true })
 
-    const eserviceMock = createMockEServiceCatalog({
-      agreement: {
-        id: 'test',
-        state: 'DRAFT',
-        canBeUpgraded: false,
-      },
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [
+        {
+          id: 'test',
+          state: 'DRAFT',
+          canBeUpgraded: false,
+          consumerId: 'consumer-id',
+        },
+      ],
     })
 
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
@@ -112,19 +119,22 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
 
     goToAgreementAction.action()
     expect(history.location.pathname).toBe(
-      `/it/fruizione/richieste/${eserviceMock.agreement?.id}/modifica`
+      `/it/fruizione/richieste/${eserviceMock.agreements[0]?.id}/modifica`
     )
   })
 
   it('should not return the go to agreement action if the user is not an admin', () => {
     mockUseJwt({ isAdmin: false })
 
-    const eserviceMock = createMockEServiceCatalog({
-      agreement: {
-        id: 'test',
-        state: 'DRAFT',
-        canBeUpgraded: false,
-      },
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [
+        {
+          id: 'test',
+          state: 'DRAFT',
+          canBeUpgraded: false,
+          consumerId: 'consumer-id',
+        },
+      ],
     })
 
     const { result } = renderUseGetEServiceConsumerActionsHook(
@@ -137,8 +147,8 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
   it("should return the create agreement draft action if the user doesn't have an active agreement", async () => {
     mockUseJwt({ isAdmin: true })
 
-    const eserviceMock = createMockEServiceCatalog({
-      agreement: undefined,
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
       isMine: false,
     })
 
@@ -172,8 +182,8 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
   it("should return the create agreement draft action if the user doesn't have an active agreement and the subscriber is the e-service provider", async () => {
     mockUseJwt({ isAdmin: true })
 
-    const eserviceMock = createMockEServiceCatalog({
-      agreement: undefined,
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
       isMine: true,
     })
 
@@ -207,8 +217,8 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
   it('should not return the create agreement draft action if the user is not an admin', () => {
     mockUseJwt({ isAdmin: false })
 
-    const eserviceMock = createMockEServiceCatalog({
-      agreement: undefined,
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
       isMine: false,
     })
 
