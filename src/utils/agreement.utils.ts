@@ -1,28 +1,8 @@
 import type {
   Agreement,
-  AgreementState,
   CatalogDescriptorEService,
-  CatalogEService,
   CatalogEServiceDescriptor,
 } from '@/api/api.generatedTypes'
-
-/**
- * Checks if the user has already an active agreement for the given e-service.
- * An agreement is considered active if the eservice object owns the `agreement` property and its state is not one of the following:
- * - REJECTED
- * - DRAFT
- * - ARCHIVED
- * @param eservice The e-service to check
- * @returns `true` if the user has already an active agreement for the given e-service, `false` otherwise
- */
-export const checkIfAlreadySubscribed = (
-  eservice: CatalogEService | CatalogDescriptorEService | undefined
-) => {
-  if (!eservice?.agreement) return false
-  const notSubscribedStates: Array<AgreementState> = ['REJECTED', 'DRAFT', 'ARCHIVED']
-
-  return !notSubscribedStates.includes(eservice.agreement.state)
-}
 
 /**
  * Checks if the user has already an agreement draft for the given e-service.
@@ -30,9 +10,9 @@ export const checkIfAlreadySubscribed = (
  * @returns `true` if the user has already an agreement draft for the given e-service, `false` otherwise
  */
 export const checkIfhasAlreadyAgreementDraft = (
-  eservice: CatalogEService | CatalogDescriptorEService | undefined
+  eservice: CatalogDescriptorEService | undefined
 ) => {
-  return !!(eservice?.agreement && eservice.agreement.state === 'DRAFT')
+  return eservice?.agreements.some((agreement) => agreement.state === 'DRAFT') ?? false
 }
 /**
  * Checks if the user can create an agreement draft for the given e-service.
@@ -41,7 +21,7 @@ export const checkIfhasAlreadyAgreementDraft = (
  * @returns `true` if the user can create an agreement draft for the given e-service, `false` otherwise
  */
 export const checkIfcanCreateAgreementDraft = (
-  eservice: CatalogEService | CatalogDescriptorEService | undefined,
+  eservice: CatalogDescriptorEService | undefined,
   descriptor?: CatalogEServiceDescriptor
 ) => {
   if (!eservice || !descriptor) return false
@@ -57,7 +37,7 @@ export const checkIfcanCreateAgreementDraft = (
     result = true
   }
 
-  const isSubscribed = checkIfAlreadySubscribed(eservice)
+  const isSubscribed = eservice.isSubscribed
   const hasAgreementDraft = checkIfhasAlreadyAgreementDraft(eservice)
 
   /**
