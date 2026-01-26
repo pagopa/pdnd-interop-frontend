@@ -12,7 +12,7 @@ import {
   type UserNotificationConfigUpdateSeed,
 } from '@/api/api.generatedTypes'
 import omit from 'lodash/omit'
-import { documentationLink } from '@/config/constants'
+import { notificationGuideLink } from '@/config/constants'
 
 const NotificationUserConfigPage: React.FC = () => {
   const { activeTab, updateActiveTab } = useActiveTab('inApp')
@@ -24,7 +24,7 @@ const NotificationUserConfigPage: React.FC = () => {
       description={
         <Trans
           components={{
-            1: <Link underline="hover" href={documentationLink} target="_blank" />,
+            1: <Link underline="hover" href={notificationGuideLink} target="_blank" />,
           }}
         >
           {t('description')}
