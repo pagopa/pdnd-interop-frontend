@@ -11,7 +11,7 @@ import { match } from 'ts-pattern'
 import { AuthHooks } from '@/api/auth'
 import { NotificationConfigSection } from './NotificationConfigSection'
 import { useNotificationConfigForm } from '../hooks/useNotificationConfigForm'
-import { notificationGuideLink } from '@/config/constants'
+import { notificationGuideLink, notificationMailChangeLink } from '@/config/constants'
 
 type NotificationConfigUserTabProps = {
   notificationConfig: NotificationConfigFormValues
@@ -111,8 +111,7 @@ const EmailConfigHeader = ({ userEmail }: EmailConfigHeaderProps) => {
         <Typography data-testid="test-email">{t('mailLabel')}</Typography>
         <Typography fontWeight={600}>{userEmail}</Typography>
       </Stack>
-      {/* Need to understand whats the link should point to */}
-      <Link href={notificationGuideLink} underline="none" variant="button">
+      <Link href={notificationMailChangeLink} underline="none" variant="button" target="_blank">
         {t('linkLabel')}
       </Link>
 
