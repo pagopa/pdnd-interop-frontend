@@ -5,7 +5,7 @@ import Button from '@mui/material/Button'
 import SettingsIcon from '@mui/icons-material/Settings'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { useNavigate } from '@/router'
-import { documentationLink } from '@/config/constants'
+import { DOCUMENTATION_URL } from '@/config/env'
 
 export const NotificationsBanner: React.FC = () => {
   const { title, text, action1Label, action2Label, isOpen, closeBanner } = useNotificationsBanner()
@@ -35,7 +35,7 @@ export const NotificationsBanner: React.FC = () => {
           color="inherit"
           endIcon={<OpenInNewIcon />}
           key="action2"
-          onClick={() => window.open(documentationLink, '_blank')}
+          onClick={() => window.open(DOCUMENTATION_URL, '_blank')}
           aria-label="Open in new tab button"
         >
           {action2Label}

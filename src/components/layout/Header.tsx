@@ -1,8 +1,8 @@
 import React from 'react'
 import { useNavigate } from '@/router'
-import { assistanceLink, documentationLink, pagoPaLink } from '@/config/constants'
+import { assistanceLink, pagoPaLink } from '@/config/constants'
 import { HeaderAccount, HeaderProduct, type ProductSwitchItem } from '@pagopa/mui-italia'
-import { FE_LOGIN_URL, SELFCARE_BASE_URL, STAGE } from '@/config/env'
+import { DOCUMENTATION_URL, FE_LOGIN_URL, SELFCARE_BASE_URL, STAGE } from '@/config/env'
 import type { PartySwitchItem } from '@pagopa/mui-italia/dist/components/PartySwitch'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
@@ -179,7 +179,7 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
         }}
         onAssistanceClick={goToAssistance}
         onDocumentationClick={() => {
-          window.open(documentationLink, '_blank')
+          window.open(DOCUMENTATION_URL, '_blank')
         }}
         // enableAssistanceButton={STAGE === 'UAT' || STAGE === 'PROD'}
       />

@@ -43,6 +43,7 @@ const EndpointConfigs = z.object({
   BACKEND_FOR_FRONTEND_URL: z.url(),
   INTEROP_RESOURCES_BASE_URL: z.url(),
   SELFCARE_BASE_URL: z.url(),
+  DOCUMENTATION_URL: z.url().default('https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0')
 })
 
 const FEConfigs = z.object({
@@ -116,6 +117,7 @@ export const {
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA,
   FEATURE_FLAG_USE_SIGNED_DOCUMENT,
   DELEGATIONS_ALLOWED_ORIGINS,
+  DOCUMENTATION_URL,
 } = parseConfigs()
 
 export const APP_MODE = parseAppMode()
