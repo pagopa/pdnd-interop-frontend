@@ -159,7 +159,7 @@ export type DialogCreateAgreementDraftProps = {
     id: string
     version: string
   }
-  existingAgreements: CompactAgreement[]
+  agreements: CompactAgreement[]
   onSubmit: ({
     isOwnEService,
     delegationId,

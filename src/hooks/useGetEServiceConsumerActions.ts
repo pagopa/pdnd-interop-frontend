@@ -1,9 +1,5 @@
 import { AgreementMutations } from '@/api/agreement'
-import type {
-  CatalogEServiceDescriptor,
-  CompactAgreement,
-  DelegationTenant,
-} from '@/api/api.generatedTypes'
+import type { CatalogEServiceDescriptor, DelegationTenant } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
 import type { ActionItemButton } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
@@ -136,7 +132,7 @@ function useGetEServiceConsumerActions(
         id: descriptor.id,
         version: descriptor.version,
       },
-      existingAgreements: eservice.agreements as CompactAgreement[],
+      agreements: eservice.agreements,
       onSubmit: handleCreateAgreementDraft,
     })
   }
