@@ -52,7 +52,7 @@ describe('ConsumerPurposeTemplateCatalogDetailsTab', () => {
         withRouterContext: true,
       }
     )
-    expect(screen.queryByText('riskAnalysisDownloadLink')).toBeInTheDocument()
+    expect(screen.queryByText('riskAnalysis.link.label')).toBeInTheDocument()
   })
 
   it('should render "linked e-services" and call useActiveTab when clicked', async () => {
