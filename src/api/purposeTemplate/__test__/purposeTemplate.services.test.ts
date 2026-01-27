@@ -354,14 +354,6 @@ describe('PurposeTemplateServices', () => {
         `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/archive`
       )
     })
-
-    it('should make correct API call to archive purpose template', async () => {
-      await PurposeTemplateServices.archivePurposeTemplate({ id: TEST_ID })
-
-      expect(axiosInstance.post).toHaveBeenCalledWith(
-        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/archive`
-      )
-    })
   })
 
   describe('updateDocumentPrettyNameForAnnotation', () => {
