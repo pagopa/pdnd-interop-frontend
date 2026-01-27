@@ -39,3 +39,25 @@ export function checkPurposeSuspendedByConsumer(purpose: Purpose, partyId?: stri
     isPurposeSuspendedByProvider && isActualPartyPurposeConsumer && isActualPartyEServiceProvider
   )
 }
+
+export function getDaysToExpiration(expirationDate: string | undefined) {
+  const now = new Date()
+  return expirationDate
+    ? Math.floor((new Date(expirationDate).getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+    : undefined
+}
+
+export function getFormattedExpirationDate(expirationDate?: string) {
+  return expirationDate
+    ? new Date(expirationDate).toLocaleDateString(undefined, {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+      })
+    : undefined
+}
+
+export function checkIsRulesetExpired(expirationDate: string | undefined) {
+  const now = new Date()
+  return expirationDate ? new Date(expirationDate) < now : false
+}

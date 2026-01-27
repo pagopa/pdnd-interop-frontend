@@ -73,8 +73,7 @@
         "enableSectionAllNotifications": "Enable All",
         "disableSectionAllNotifications": "Disable All",
         "enableAllNotifications": {
-          "label": "Enable platform notification receipt",
-          "description": "By disabling this option, you will not receive any platform notifications"
+          "label": "Allow platform notifications"
         }
       },
       "email": {
@@ -85,10 +84,6 @@
         "enableSectionAllNotifications": "Enable All",
         "disableSectionAllNotifications": "Disable All",
         "digestInfoDescription": "The weekly summary will be available shortly, so you will not receive communications immediately. We have registered your preference and no further action will be required.",
-        "enableAllNotifications": {
-          "label": "Enable email notification receipt",
-          "description": "By disabling this option, you will not receive any emails"
-        },
         "emailPreferencesLabel": "Receipt preferences",
         "notSend": "Do not send email notifications",
         "digest": "Send a weekly summary email",

@@ -15,13 +15,27 @@ import { MaintenanceBanner } from './components/shared/banners/MaintenanceBanner
 import { FirstLoadingSpinner } from './components/shared/FirstLoadingSpinner'
 import { queryClient } from './config/query-client'
 import type { EnvironmentBannerProps } from '@pagopa/mui-italia'
-import { AuthQueries } from './api/auth'
 
-queryClient.prefetchQuery(AuthQueries.getSessionToken())
+import { AuthQueries } from './api/auth'
+import i18n from './config/react-i18next'
+
+// --- Init application ----
+
+const urlParams = new URLSearchParams(window.location.search)
+const redirectUrl = urlParams.get('redirectUrl')
+
+if (redirectUrl) {
+  const selfCareIdentityToken = window.location.hash.replace('#id=', '')
+  const url = `/ui/${i18n.language}${redirectUrl}#id=${selfCareIdentityToken}`
+  window.location.replace(url)
+} else {
+  queryClient.prefetchQuery(AuthQueries.getSessionToken())
+}
+
+// end init ---
 
 function App() {
   const { t } = useTranslation('shared-components')
-
   let envBannerProps: EnvironmentBannerProps | undefined = undefined
 
   if (STAGE === 'UAT') {

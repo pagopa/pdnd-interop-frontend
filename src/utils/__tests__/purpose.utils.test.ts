@@ -1,5 +1,12 @@
-import { checkPurposeSuspendedByConsumer, getPurposeFailureReasons } from '../purpose.utils'
+import {
+  checkPurposeSuspendedByConsumer,
+  getPurposeFailureReasons,
+  getDaysToExpiration,
+  checkIsRulesetExpired,
+  getFormattedExpirationDate,
+} from '../purpose.utils'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
+import { describe, it, expect } from 'vitest'
 
 describe('checks if the getPurposeFailureReasons purpose util function work as expected', () => {
   it('should have no failure if the e-service is published, the agreement and the purpose current version are active', () => {
@@ -106,5 +113,61 @@ describe('checks if the checkPurposeSuspendedByConsumer purpose util function wo
     })
     const isSuspendedByConsumer = checkPurposeSuspendedByConsumer(mockPurpose, 'test-id')
     expect(isSuspendedByConsumer).toBe(true)
+  })
+})
+
+describe('getDaysToExpiration', () => {
+  it('returns undefined if no date is provided', () => {
+    expect(getDaysToExpiration(undefined)).toBeUndefined()
+  })
+
+  it('returns 0 for the same day', () => {
+    const now = new Date()
+    expect(getDaysToExpiration(now.toISOString())).toBe(0)
+  })
+
+  it('returns 1 for a date exactly 24 hours away', () => {
+    const tomorrow = new Date(Date.now() + 60 * 60 * 24 * 1000)
+    expect(getDaysToExpiration(tomorrow.toISOString())).toBe(1)
+  })
+
+  it('returns a negative number for past dates', () => {
+    const yesterday = new Date(Date.now() - 60 * 60 * 24 * 1000)
+    expect(getDaysToExpiration(yesterday.toISOString())).toBe(-1)
+  })
+
+  it('handles invalid date strings gracefully', () => {
+    expect(getDaysToExpiration('not-a-date')).toBeNaN()
+  })
+})
+
+describe('getFormattedExpirationDate', () => {
+  it('returns undefined if no date is provided', () => {
+    expect(getFormattedExpirationDate(undefined)).toBeUndefined()
+  })
+
+  it('should return a formatted date string for a valid ISO string', () => {
+    const result = getFormattedExpirationDate('2025-12-25')
+    expect(result).toMatch(/\d{1,2}\/\d{1,2}\/\d{4}/)
+  })
+
+  it('handles invalid date strings gracefully', () => {
+    expect(getFormattedExpirationDate('not-a-date')).toBe('Invalid Date')
+  })
+})
+
+describe('checkIsRulesetExpired', () => {
+  it('returns false if no date is provided', () => {
+    expect(checkIsRulesetExpired(undefined)).toBeFalsy()
+  })
+
+  it('should return true if the date is in the past', () => {
+    const result = checkIsRulesetExpired('2020-12-25')
+    expect(result).toBeTruthy()
+  })
+
+  it('should return false if the date is in the future', () => {
+    const result = checkIsRulesetExpired('2099-12-25')
+    expect(result).toBeFalsy()
   })
 })

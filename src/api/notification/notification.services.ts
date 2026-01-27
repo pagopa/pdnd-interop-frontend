@@ -1,4 +1,5 @@
 import axiosInstance from '@/config/axios'
+import axios from 'axios'
 import {
   APP_MODE,
   BACKEND_FOR_FRONTEND_URL,
@@ -82,7 +83,7 @@ async function getNotificationsBannerConfigJson() {
     } as BannerData
   }
 
-  const response = await axiosInstance.get<BannerData>(
+  const response = await axios.get<BannerData>(
     `${INTEROP_RESOURCES_BASE_URL}/notifications-window/data.json`
   )
   return response.data
