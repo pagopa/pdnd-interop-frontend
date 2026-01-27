@@ -11,16 +11,20 @@ import { useTranslation } from 'react-i18next'
 type DialogCreateAgreementAutocompleteProps = {
   eserviceId: string
   preselectedConsumer: DelegationTenant | undefined
-  existingAgreements: CompactAgreement[]
+  agreements: CompactAgreement[]
 }
 
 export const DialogCreateAgreementAutocomplete: React.FC<
   DialogCreateAgreementAutocompleteProps
-> = ({ eserviceId, preselectedConsumer, existingAgreements }) => {
+> = ({ eserviceId, preselectedConsumer, agreements }) => {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogCreateAgreementDraft',
   })
   const { jwt } = AuthHooks.useJwt()
+
+  const existingAgreements = agreements.filter(
+    (agreement) => agreement.state !== 'ARCHIVED' && agreement.state !== 'REJECTED'
+  )
 
   const { data: delegations = [] } = useQuery({
     ...DelegationQueries.getList({
