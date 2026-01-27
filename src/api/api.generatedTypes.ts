@@ -786,10 +786,6 @@ export interface PurposeFromTemplateSeed {
 /** Contains the expected payload for purpose update from template */
 export interface PatchPurposeUpdateFromTemplateContent {
   title?: string
-  /**
-   * Optional in the purpose model, but a purpose cannot exist without a risk analysis.
-   * There is no practical use in letting the user remove it, we don't make it nullable.
-   */
   riskAnalysisForm?: RiskAnalysisFormSeed
   /**
    * Maximum number of daily calls that this version can perform
@@ -3983,7 +3979,7 @@ export namespace Agreements {
     export type ResponseBody = Agreement
   }
   /**
-   * No description
+   * @description Delete an agreement
    * @tags agreements
    * @name DeleteAgreement
    * @summary Delete an agreement
@@ -4604,7 +4600,7 @@ export namespace Tenants {
     export type ResponseBody = Tenant
   }
   /**
-   * No description
+   * @description Add a tenant mail
    * @tags tenants
    * @name AddTenantMail
    * @summary Add a tenant mail
@@ -4625,7 +4621,7 @@ export namespace Tenants {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Delete a tenant mail
    * @tags tenants
    * @name DeleteTenantMail
    * @summary Delete a tenant mail
@@ -4675,7 +4671,7 @@ export namespace Tenants {
     export type ResponseBody = Tenants
   }
   /**
-   * No description
+   * @description Update delegated producer and consumer feature to tenant caller
    * @tags tenants
    * @name UpdateTenantDelegatedFeatures
    * @summary Update delegated producer and consumer feature to tenant caller
@@ -4861,7 +4857,7 @@ export namespace Catalog {
 
 export namespace Eservices {
   /**
-   * No description
+   * @description Create a new EService
    * @tags eservices
    * @name CreateEService
    * @summary Create a new EService
@@ -4876,7 +4872,7 @@ export namespace Eservices {
     export type ResponseBody = CreatedEServiceDescriptor
   }
   /**
-   * No description
+   * @description Retrieve Consumers for an EService
    * @tags eservices
    * @name GetEServiceConsumers
    * @summary Retrieve Consumers for an EService
@@ -4897,7 +4893,7 @@ export namespace Eservices {
     export type ResponseBody = File
   }
   /**
-   * No description
+   * @description Deletes a draft descriptor or an eservice if empty
    * @tags eservices
    * @name DeleteDraft
    * @summary Deletes a draft descriptor or an eservice if empty
@@ -4923,7 +4919,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Updates a draft descriptor
    * @tags eservices
    * @name UpdateDraftDescriptor
    * @summary Updates a draft descriptor
@@ -4949,7 +4945,7 @@ export namespace Eservices {
     export type ResponseBody = CreatedResource
   }
   /**
-   * No description
+   * @description Adds a descriptor to the specified e-service
    * @tags eservices
    * @name CreateDescriptor
    * @summary Adds a descriptor to the specified e-service
@@ -4970,7 +4966,7 @@ export namespace Eservices {
     export type ResponseBody = CreatedResource
   }
   /**
-   * No description
+   * @description Activate the selected descriptor
    * @tags eservices
    * @name ActivateDescriptor
    * @summary Activate the selected descriptor.
@@ -4996,7 +4992,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Publish the selected descriptor
    * @tags eservices
    * @name UpdateDescriptor
    * @summary Publish the selected descriptor.
@@ -5022,7 +5018,7 @@ export namespace Eservices {
     export type ResponseBody = CreatedResource
   }
   /**
-   * No description
+   * @description Update agreement approval policy of published descriptor
    * @tags eservices
    * @name UpdateAgreementApprovalPolicy
    * @summary Update agreement approval policy of published descriptor
@@ -5048,7 +5044,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Publish the selected descriptor
    * @tags eservices
    * @name PublishDescriptor
    * @summary Publish the selected descriptor.
@@ -5074,7 +5070,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Suspend the selected descriptor
    * @tags eservices
    * @name SuspendDescriptor
    * @summary Suspend the selected descriptor.
@@ -5100,7 +5096,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Add new e-service document
    * @tags eservices
    * @name CreateEServiceDocument
    * @summary Add new e-service document
@@ -5126,7 +5122,7 @@ export namespace Eservices {
     export type ResponseBody = CreatedResource
   }
   /**
-   * No description
+   * @description Deletes an e-service document
    * @tags eservices
    * @name DeleteEServiceDocumentById
    * @summary Deletes an e-service document
@@ -5157,7 +5153,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Get an e-service document
    * @tags eservices
    * @name GetEServiceDocumentById
    * @summary Get an e-service document
@@ -5188,7 +5184,7 @@ export namespace Eservices {
     export type ResponseBody = File
   }
   /**
-   * No description
+   * @description Clones the selected descriptor
    * @tags eservices
    * @name CloneEServiceByDescriptor
    * @summary Clones the selected descriptor.
@@ -5214,7 +5210,7 @@ export namespace Eservices {
     export type ResponseBody = CreatedEServiceDescriptor
   }
   /**
-   * No description
+   * @description Updates an e-service document
    * @tags eservices
    * @name UpdateEServiceDocumentById
    * @summary Updates an e-service document
@@ -5245,7 +5241,7 @@ export namespace Eservices {
     export type ResponseBody = EServiceDoc
   }
   /**
-   * No description
+   * @description Deletes an e-service
    * @tags eservices
    * @name DeleteEService
    * @summary Deletes an e-service
@@ -5266,7 +5262,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Updates EService general information
    * @tags eservices
    * @name UpdateEServiceById
    * @summary Updates EService general information
@@ -5287,7 +5283,7 @@ export namespace Eservices {
     export type ResponseBody = CreatedResource
   }
   /**
-   * No description
+   * @description Add a risk analysis to an EService
    * @tags eservices
    * @name AddRiskAnalysisToEService
    * @summary add a risk analysis to an EService
@@ -5308,7 +5304,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Get EService risk analysis
    * @tags eservices
    * @name GetEServiceRiskAnalysis
    * @summary get EService risk analysis
@@ -5334,7 +5330,7 @@ export namespace Eservices {
     export type ResponseBody = EServiceRiskAnalysis
   }
   /**
-   * No description
+   * @description Update EService risk analysis
    * @tags eservices
    * @name UpdateEServiceRiskAnalysis
    * @summary update EService risk analysis
@@ -5360,7 +5356,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Delete EService risk analysis
    * @tags eservices
    * @name DeleteEServiceRiskAnalysis
    * @summary delete EService risk analysis
@@ -5386,7 +5382,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Update an e-service description
    * @tags eservices
    * @name UpdateEServiceDescription
    * @summary Update an e-service description
@@ -5407,7 +5403,7 @@ export namespace Eservices {
     export type ResponseBody = CreatedResource
   }
   /**
-   * No description
+   * @description Update an e-service delegation flags
    * @tags eservices
    * @name UpdateEServiceDelegationFlags
    * @summary Update an e-service delegation flags
@@ -5428,7 +5424,7 @@ export namespace Eservices {
     export type ResponseBody = CreatedResource
   }
   /**
-   * No description
+   * @description Update an e-service name
    * @tags eservices
    * @name UpdateEServiceName
    * @summary Update an e-service name
@@ -5449,7 +5445,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Enable or disable SignalHub for an e-service
    * @tags eservices
    * @name UpdateEServiceSignalHubFlag
    * @summary Enable/disable SignalHub for an e-service
@@ -5491,7 +5487,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Update e-service published descriptor attributes
    * @tags eservices
    * @name UpdateDescriptorAttributes
    * @summary Update e-service published descriptor attributes
@@ -5517,7 +5513,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Approve a delegated new e-service version
    * @tags eservices
    * @name ApproveDelegatedEServiceDescriptor
    * @summary approve a delegated new e-service version
@@ -5543,7 +5539,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Reject a delegated new e-service version
    * @tags eservices
    * @name RejectDelegatedEServiceDescriptor
    * @summary reject a delegated new e-service version
@@ -5569,7 +5565,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Create a new e-service template
    * @tags eserviceTemplates
    * @name CreateEServiceTemplate
    * @summary Create a new e-service template
@@ -5584,7 +5580,7 @@ export namespace Eservices {
     export type ResponseBody = CreatedEServiceTemplateVersion
   }
   /**
-   * No description
+   * @description Updates a draft e-service template general information
    * @tags eserviceTemplates
    * @name UpdateEServiceTemplate
    * @summary Updates a draft e-service template general information
@@ -5605,7 +5601,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Retrieve e-service template
    * @tags eserviceTemplates
    * @name GetEServiceTemplate
    * @summary Retrieve e-service template
@@ -5626,7 +5622,7 @@ export namespace Eservices {
     export type ResponseBody = EServiceTemplateDetails
   }
   /**
-   * No description
+   * @description Suspend the selected eservice template version
    * @tags eserviceTemplates
    * @name SuspendEServiceTemplateVersion
    * @summary Suspend the selected eservice template version.
@@ -5652,7 +5648,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Publish the selected eservice template version
    * @tags eserviceTemplates
    * @name PublishEServiceTemplateVersion
    * @summary Publish the selected eservice template version.
@@ -5678,7 +5674,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Activate the selected eservice template version
    * @tags eserviceTemplates
    * @name ActivateEServiceTemplateVersion
    * @summary Activate the selected eservice template version.
@@ -5704,7 +5700,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Update an e-service template name
    * @tags eserviceTemplates
    * @name UpdateEServiceTemplateName
    * @summary Update an e-service template name
@@ -5725,7 +5721,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Update an e-service template intended target description
    * @tags eserviceTemplates
    * @name UpdateEServiceTemplateIntendedTarget
    * @summary Update an e-service template intended target description
@@ -5746,7 +5742,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Update an e-service template e-service description
    * @tags eserviceTemplates
    * @name UpdateEServiceTemplateDescription
    * @summary Update an e-service template e-service description
@@ -5793,7 +5789,7 @@ export namespace Eservices {
     export type ResponseBody = EServiceTemplateVersionDetails
   }
   /**
-   * No description
+   * @description Updates a draft template version
    * @tags eserviceTemplates
    * @name UpdateDraftTemplateVersion
    * @summary Updates a draft template version
@@ -5819,7 +5815,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Delete a draft template version
    * @tags eserviceTemplates
    * @name DeleteDraftTemplateVersion
    * @summary Delete a draft template version
@@ -5845,10 +5841,10 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Update the quotas of the selected template version
    * @tags eserviceTemplates
    * @name UpdateTemplateVersionQuotas
-   * @summary Update the quotas of the selecter template version
+   * @summary Update the quotas of the selected template version
    * @request POST:/eservices/templates/{eServiceTemplateId}/versions/{eServiceTemplateVersionId}/quotas/update
    * @secure
    */
@@ -5871,7 +5867,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Create an e-service template risk analysis
    * @tags eserviceTemplates
    * @name CreateEServiceTemplateRiskAnalysis
    * @summary Create an e-service template risk analysis
@@ -5892,7 +5888,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Update an e-service template risk analysis
    * @tags eserviceTemplates
    * @name UpdateEServiceTemplateRiskAnalysis
    * @summary Update an e-service template risk analysis
@@ -5918,7 +5914,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Delete an e-service template risk analysis
    * @tags eserviceTemplates
    * @name DeleteEServiceTemplateRiskAnalysis
    * @summary Delete an e-service template risk analysis
@@ -5944,7 +5940,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Update e-service template published version attributes
    * @tags eserviceTemplates
    * @name UpdateEServiceTemplateVersionAttributes
    * @summary Update e-service template published version attributes
@@ -5999,7 +5995,7 @@ export namespace Eservices {
     export type ResponseBody = CompactOrganizations
   }
   /**
-   * No description
+   * @description Adds a new version to the specified e-service template
    * @tags eserviceTemplates
    * @name CreateEServiceTemplateVersion
    * @summary Adds a new version to the specified e-service template
@@ -6020,7 +6016,7 @@ export namespace Eservices {
     export type ResponseBody = CreatedResource
   }
   /**
-   * No description
+   * @description Add new e-service template document
    * @tags eserviceTemplates
    * @name CreateEServiceTemplateDocument
    * @summary Add new e-service template document
@@ -6046,7 +6042,7 @@ export namespace Eservices {
     export type ResponseBody = CreatedResource
   }
   /**
-   * No description
+   * @description Get an e-service template document
    * @tags eserviceTemplates
    * @name GetEServiceTemplateDocumentById
    * @summary Get an e-service template document
@@ -6077,7 +6073,7 @@ export namespace Eservices {
     export type ResponseBody = File
   }
   /**
-   * No description
+   * @description Deletes an e-service template document
    * @tags eserviceTemplates
    * @name DeleteEServiceTemplateDocumentById
    * @summary Deletes an e-service template document
@@ -6108,7 +6104,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Updates an e-service template document
    * @tags eserviceTemplates
    * @name UpdateEServiceTemplateDocumentById
    * @summary Updates an e-service template document
@@ -6139,7 +6135,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Set personalData flag for published EService templates
    * @tags eserviceTemplates
    * @name UpdateEServiceTemplatePersonalDataFlagAfterPublication
    * @summary Set personalData flag for published EService templates
@@ -6160,7 +6156,7 @@ export namespace Eservices {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Check if the e-service name is available
    * @tags eservices
    * @name IsEServiceNameAvailable
    * @summary Check if the e-service name is available
@@ -6181,7 +6177,7 @@ export namespace Eservices {
 
 export namespace Templates {
   /**
-   * No description
+   * @description Updates an eservice template instance draft descriptor
    * @tags eservices
    * @name UpdateDraftDescriptorTemplateInstance
    * @summary Updates an eservice template instance draft descriptor
@@ -6207,7 +6203,7 @@ export namespace Templates {
     export type ResponseBody = CreatedResource
   }
   /**
-   * No description
+   * @description Update the selected template instance descriptor
    * @tags eservices
    * @name UpdateTemplateInstanceDescriptor
    * @summary Update the selected template instance descriptor.
@@ -6233,7 +6229,7 @@ export namespace Templates {
     export type ResponseBody = CreatedResource
   }
   /**
-   * No description
+   * @description Add EService template instance interface for REST protocol
    * @tags eservices
    * @name AddEServiceTemplateInstanceInterfaceRest
    * @summary Add EService template instance interface for REST protocol
@@ -6259,7 +6255,7 @@ export namespace Templates {
     export type ResponseBody = CreatedResource
   }
   /**
-   * No description
+   * @description Add EService template instance interface for SOAP protocol
    * @tags eservices
    * @name AddEServiceTemplateInstanceInterfaceSoap
    * @summary Add EService template instance interface for SOAP protocol
@@ -6285,7 +6281,7 @@ export namespace Templates {
     export type ResponseBody = CreatedResource
   }
   /**
-   * No description
+   * @description Updates EService template instance general information
    * @tags eservices
    * @name UpdateEServiceTemplateInstanceById
    * @summary Updates EService template instance general information
@@ -6306,7 +6302,7 @@ export namespace Templates {
     export type ResponseBody = CreatedResource
   }
   /**
-   * No description
+   * @description Upgrade an instance of a template
    * @tags eservices
    * @name UpgradeEServiceInstance
    * @summary Upgrade an instance of a template
@@ -6367,7 +6363,7 @@ export namespace Templates {
     export type ResponseBody = EServiceTemplateInstances
   }
   /**
-   * No description
+   * @description Create a new e-service instance from a template
    * @tags eservices
    * @name CreateEServiceInstanceFromTemplate
    * @summary Create a new e-service instance from a template
@@ -6391,7 +6387,7 @@ export namespace Templates {
 
 export namespace Export {
   /**
-   * No description
+   * @description Export EService descriptor
    * @tags eservices
    * @name ExportEServiceDescriptor
    * @summary Export EService descriptor
@@ -6414,7 +6410,7 @@ export namespace Export {
 
 export namespace Import {
   /**
-   * No description
+   * @description Get presigned URL for eservice import
    * @tags eservices
    * @name GetImportEservicePresignedUrl
    * @summary Get presigned URL
@@ -6431,7 +6427,7 @@ export namespace Import {
     export type ResponseBody = PresignedUrl
   }
   /**
-   * No description
+   * @description Import EService
    * @tags eservices
    * @name ImportEService
    * @summary Import EService
@@ -6613,7 +6609,7 @@ export namespace Purposes {
     export type ResponseBody = PurposeVersionResource
   }
   /**
-   * No description
+   * @description Get a Risk Analysis document
    * @tags purposes
    * @name GetRiskAnalysisDocument
    * @summary Get an Risk Analysis document
@@ -6644,7 +6640,7 @@ export namespace Purposes {
     export type ResponseBody = File
   }
   /**
-   * No description
+   * @description Get a signed document
    * @tags purposes
    * @name GetSignedDocument
    * @summary Get a signed document
@@ -7103,6 +7099,48 @@ export namespace PurposeTemplates {
     export type ResponseBody = void
   }
   /**
+   * @description Returns the unsigned Risk Analysis Template document file for a given purposeTemplateId
+   * @tags purposeTemplates
+   * @name GetRiskAnalysisTemplateDocument
+   * @summary Downloads the unsigned Risk Analysis Template document
+   * @request GET:/purposeTemplates/{purposeTemplateId}/riskAnalysisDocument
+   * @secure
+   */
+  export namespace GetRiskAnalysisTemplateDocument {
+    export type RequestParams = {
+      /**
+       * The identifier of the Purpose Template
+       * @format uuid
+       */
+      purposeTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = File
+  }
+  /**
+   * @description Returns the signed Risk Analysis Template document file for a given purposeTemplateId
+   * @tags purposeTemplates
+   * @name GetRiskAnalysisTemplateSignedDocument
+   * @summary Downloads the signed Risk Analysis Template document
+   * @request GET:/purposeTemplates/{purposeTemplateId}/riskAnalysisDocument/signed
+   * @secure
+   */
+  export namespace GetRiskAnalysisTemplateSignedDocument {
+    export type RequestParams = {
+      /**
+       * The identifier of the Purpose Template
+       * @format uuid
+       */
+      purposeTemplateId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = File
+  }
+  /**
    * @description Add valid new risk analysis answer for the specified purpose template risk analysis.
    * @tags purposeTemplates
    * @name AddPurposeTemplateRiskAnalysisAnswer
@@ -7144,7 +7182,7 @@ export namespace PurposeTemplates {
     export type ResponseBody = RiskAnalysisTemplateAnswerAnnotationDocument
   }
   /**
-   * No description
+   * @description Retrieve risk analysis form template answer annotation document
    * @tags purposeTemplates
    * @name GetRiskAnalysisTemplateAnswerAnnotationDocument
    * @summary Retrieve risk analysis form template answer annotation document
@@ -7206,7 +7244,7 @@ export namespace PurposeTemplates {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Update Answer Annotation Document in Risk Analysis of Purpose Template
    * @tags purposeTemplates
    * @name UpdateRiskAnalysisTemplateAnswerAnnotationDocument
    * @summary Update Answer Annotation Document in Risk Analysis of Purpose Template
@@ -8583,7 +8621,7 @@ export namespace InAppNotifications {
    * @tags inAppNotifications
    * @name MarkNotificationAsRead
    * @summary Mark a notification as read
-   * @request POST:/inAppNotifications/:notificationId/markAsRead
+   * @request POST:/inAppNotifications/{notificationId}/markAsRead
    * @secure
    */
   export namespace MarkNotificationAsRead {
@@ -8601,7 +8639,7 @@ export namespace InAppNotifications {
    * @tags inAppNotifications
    * @name MarkNotificationAsUnread
    * @summary Mark a notification as unread
-   * @request POST:/inAppNotifications/:notificationId/markAsUnread
+   * @request POST:/inAppNotifications/{notificationId}/markAsUnread
    * @secure
    */
   export namespace MarkNotificationAsUnread {
@@ -8634,7 +8672,7 @@ export namespace InAppNotifications {
    * @tags inAppNotifications
    * @name MarkNotificationsAsReadByEntityId
    * @summary Mark all notifications with the given entity ID as read
-   * @request POST:/inAppNotifications/markAsReadByEntityId/:entityId
+   * @request POST:/inAppNotifications/markAsReadByEntityId/{entityId}
    * @secure
    */
   export namespace MarkNotificationsAsReadByEntityId {
@@ -8651,7 +8689,7 @@ export namespace InAppNotifications {
    * @tags inAppNotifications
    * @name DeleteNotification
    * @summary Delete a notification
-   * @request DELETE:/inAppNotifications/:notificationId
+   * @request DELETE:/inAppNotifications/{notificationId}
    * @secure
    */
   export namespace DeleteNotification {
@@ -8665,7 +8703,7 @@ export namespace InAppNotifications {
     export type ResponseBody = void
   }
   /**
-   * No description
+   * @description Retrieve the count of notifications grouped by section and subsection
    * @tags inAppNotifications
    * @name GetNotificationsCountBySection
    * @summary Retrieve the count of notifications grouped by section and subsection
@@ -8683,7 +8721,7 @@ export namespace InAppNotifications {
 
 export namespace TenantNotificationConfigs {
   /**
-   * No description
+   * @description Retrieve the tenant's notification configuration
    * @tags notificationConfigs
    * @name GetTenantNotificationConfig
    * @summary Retrieve the tenant's notification configuration
@@ -8697,7 +8735,7 @@ export namespace TenantNotificationConfigs {
     export type ResponseBody = TenantNotificationConfig
   }
   /**
-   * No description
+   * @description Update the tenant's notification configuration
    * @tags notificationConfigs
    * @name UpdateTenantNotificationConfig
    * @summary Update the tenant's notification configuration
@@ -8714,7 +8752,7 @@ export namespace TenantNotificationConfigs {
 
 export namespace UserNotificationConfigs {
   /**
-   * No description
+   * @description Retrieve the user's notification configuration
    * @tags notificationConfigs
    * @name GetUserNotificationConfig
    * @summary Retrieve the user's notification configuration
@@ -8728,7 +8766,7 @@ export namespace UserNotificationConfigs {
     export type ResponseBody = UserNotificationConfig
   }
   /**
-   * No description
+   * @description Update the user's notification configuration
    * @tags notificationConfigs
    * @name UpdateUserNotificationConfig
    * @summary Update the user's notification configuration
@@ -8745,7 +8783,7 @@ export namespace UserNotificationConfigs {
 
 export namespace EmailDeepLink {
   /**
-   * No description
+   * @description Redirect the user to the correct deepLink based on notification type and entity id
    * @tags emailDeepLink
    * @name GetNotificationDeeplink
    * @summary Redirect the user to the correct deepLink based on notification type and entity id

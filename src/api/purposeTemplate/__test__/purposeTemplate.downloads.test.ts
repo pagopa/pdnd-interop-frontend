@@ -21,6 +21,11 @@ vi.mock('react-i18next', () => ({
       t: (key: string) => {
         if (ns === 'mutations-feedback' && keyPrefix === 'purposeTemplate.downloadDocument') {
           return `mutations-feedback:purposeTemplate.downloadDocument.${key}`
+        } else if (
+          ns === 'mutations-feedback' &&
+          keyPrefix === 'purposeTemplate.downloadRiskAnalysis'
+        ) {
+          return `mutations-feedback:purposeTemplate.downloadRiskAnalysis.${key}`
         }
         return key
       },
@@ -81,6 +86,31 @@ describe('PurposeTemplateDownloads', () => {
 
       const result = PurposeTemplateDownloads.useDownloadAnnotationDocument()
 
+      expect(result).toBe(mockDownloadFn)
+    })
+  })
+
+  describe('useDownloadSignedRiskAnalysis', () => {
+    it('should call useDownloadFile with correct service and labels', () => {
+      const mockUseDownloadFile = vi.fn().mockReturnValue(vi.fn())
+      vi.mocked(useDownloadFile).mockImplementation(mockUseDownloadFile)
+
+      PurposeTemplateDownloads.useDownloadSignedRiskAnalysis()
+
+      expect(useDownloadFile).toHaveBeenCalledWith(
+        PurposeTemplateServices.downloadSignedRiskAnalysis,
+        {
+          errorToastLabel: 'mutations-feedback:purposeTemplate.downloadRiskAnalysis.outcome.error',
+          loadingLabel: 'mutations-feedback:purposeTemplate.downloadRiskAnalysis.loading',
+        }
+      )
+    })
+
+    it('should return the function from useDownloadSignedRiskAnalysis', () => {
+      const mockDownloadFn = vi.fn()
+      vi.mocked(useDownloadFile).mockReturnValue(mockDownloadFn)
+
+      const result = PurposeTemplateDownloads.useDownloadSignedRiskAnalysis()
       expect(result).toBe(mockDownloadFn)
     })
   })

@@ -293,6 +293,15 @@ async function updatePrettyNameAnnotationAssociatedDocument({
   return response.data
 }
 
+async function downloadSignedRiskAnalysis({ purposeTemplateId }: { purposeTemplateId: string }) {
+  const response = await axiosInstance.get<File>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysisDocument/signed`,
+    { responseType: 'arraybuffer' }
+  )
+
+  return response.data
+}
+
 export const PurposeTemplateServices = {
   getConsumerPurposeTemplatesList,
   getEservicesLinkedToPurposeTemplatesList,
@@ -318,4 +327,5 @@ export const PurposeTemplateServices = {
   getCatalogPurposeTemplates,
   updatePrettyNameAnnotationAssociatedDocument,
   getPublishedPurposeTemplateCreators,
+  downloadSignedRiskAnalysis,
 }
