@@ -20,16 +20,19 @@ export const PurposeTemplateGeneralInfoSection: React.FC<
   const downloadSignedRiskAnalysis = PurposeTemplateDownloads.useDownloadSignedRiskAnalysis()
 
   const handleDownloadSignedDocument = () => {
-    downloadSignedRiskAnalysis({
-      purposeTemplateId: purposeTemplate.id,
-    })
+    downloadSignedRiskAnalysis(
+      {
+        purposeTemplateId: purposeTemplate.id,
+      },
+      `${t('riskAnalysis.fileName')}.pdf`
+    )
   }
 
   const downloadRiskAnalysisAction = {
     startIcon: <DownloadIcon fontSize="small" sx={{ mr: 1 }} />,
     component: 'button',
     onClick: handleDownloadSignedDocument,
-    label: t('riskAnalysisDownloadLink'),
+    label: t('riskAnalysis.link.label'),
     sx: { fontWeight: 700 },
   }
 
