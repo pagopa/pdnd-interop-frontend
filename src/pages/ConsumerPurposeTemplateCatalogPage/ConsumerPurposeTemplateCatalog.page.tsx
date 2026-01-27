@@ -55,7 +55,7 @@ const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
       })),
   })
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 12 })
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetCatalogPurposeTemplatesParams, 'limit' | 'offset'>
   >([
@@ -102,11 +102,6 @@ const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
       <PurposeTemplateCatalogWrapper params={queryParams} />
       <Pagination
         {...paginationProps}
-        rowPerPageOptions={{
-          options: [12, 24, 36],
-          onLimitChange: paginationProps.onLimitChange,
-          limit: paginationParams.limit,
-        }}
         totalPages={getTotalPageCount(data?.pagination.totalCount)}
       />
     </PageContainer>

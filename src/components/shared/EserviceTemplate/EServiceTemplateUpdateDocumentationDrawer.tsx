@@ -53,7 +53,7 @@ export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
 
   const docs = [interfaceDocs, ...templateDocs]
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 3 })
 
   const paginatedDocs = docs.slice(
     paginationParams.offset,
