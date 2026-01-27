@@ -993,7 +993,6 @@
         "description": "Cliccando \"conferma\" questo template verrà cancellata e non sarà più recuperabile."
       }
     },
-
     "suspendPurposeTemplate": {
       "loading": "Stiamo sospendendo il template",
       "outcome": {
