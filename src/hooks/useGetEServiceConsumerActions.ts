@@ -189,7 +189,13 @@ function useGetEServiceConsumerActions(
     /// ... and it is not archived.
     descriptor?.state !== 'ARCHIVED' &&
     /// ... and it is not delegator
-    !isDelegator
+    !isDelegator &&
+    // ... and is not subscribed yet
+    !isSubscribed &&
+    // ... there are no delegators that can subscribe
+    !(delegators && delegators.length > 0) &&
+    // ... and there is no agreement draft yet
+    !hasAgreementDraft
 
   if (shouldShowhasMissingAttributesTooltip) {
     actions.push({
