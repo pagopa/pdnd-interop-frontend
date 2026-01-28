@@ -18,7 +18,8 @@ export const DelegationsGrantedTab: React.FC = () => {
   const { isAdmin, jwt } = AuthHooks.useJwt()
   const currentUserOrganizationId = jwt?.organizationId
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
 
   const defaultParams: Pick<GetDelegationsParams, 'delegatorIds'> = {
     delegatorIds: [currentUserOrganizationId as string],
@@ -55,10 +56,7 @@ export const DelegationsGrantedTab: React.FC = () => {
       </React.Suspense>
       <Pagination
         {...paginationProps}
-        rowPerPageOptions={{
-          onLimitChange: paginationProps.onLimitChange,
-          limit: paginationParams.limit,
-        }}
+        rowPerPageOptions={rowPerPageOptions}
         totalPages={totalPageCount}
       />
     </>

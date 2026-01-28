@@ -40,7 +40,8 @@ const ProviderEServiceListPage: React.FC = () => {
       })),
   })
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
 
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetProducerEServicesParams, 'limit' | 'offset'>
@@ -89,10 +90,7 @@ const ProviderEServiceListPage: React.FC = () => {
       <Pagination
         pageNum={paginationProps.pageNum}
         onPageChange={paginationProps.onPageChange}
-        rowPerPageOptions={{
-          onLimitChange: paginationProps.onLimitChange,
-          limit: paginationParams.limit,
-        }}
+        rowPerPageOptions={rowPerPageOptions}
         totalPages={totalPageCount}
       />
       <ProviderEServiceImportVersionDrawer isOpen={isOpen} onClose={closeDrawer} />

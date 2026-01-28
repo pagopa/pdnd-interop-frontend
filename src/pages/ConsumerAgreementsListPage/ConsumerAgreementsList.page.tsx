@@ -50,7 +50,8 @@ const ConsumerAgreementsListPage: React.FC = () => {
       })),
   })
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetConsumerAgreementsParams, 'limit' | 'offset'>
   >([
@@ -103,10 +104,7 @@ const ConsumerAgreementsListPage: React.FC = () => {
       <ConsumerAgreementsTableWrapper params={params} />
       <Pagination
         {...paginationProps}
-        rowPerPageOptions={{
-          onLimitChange: paginationProps.onLimitChange,
-          limit: paginationParams.limit,
-        }}
+        rowPerPageOptions={rowPerPageOptions}
         totalPages={getTotalPageCount(data?.pagination.totalCount)}
       />
     </PageContainer>

@@ -129,7 +129,8 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
     },
   ])
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
   const queryParams = { ...paginationParams, ...filtersParams }
 
   const { data } = useQuery({
@@ -147,10 +148,7 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
       <PurposeTemplateTableWrapper data={data} />
       <Pagination
         {...paginationProps}
-        rowPerPageOptions={{
-          onLimitChange: paginationProps.onLimitChange,
-          limit: paginationParams.limit,
-        }}
+        rowPerPageOptions={rowPerPageOptions}
         totalPages={getTotalPageCount(data?.pagination.totalCount)}
       />
     </PageContainer>

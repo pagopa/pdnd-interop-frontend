@@ -37,7 +37,8 @@ export const ClientPublicKeys: React.FC<ClientPublicKeysProps> = ({ clientId }) 
     },
   ])
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
 
   const queryParams = {
     ...filtersParams,
@@ -61,10 +62,7 @@ export const ClientPublicKeys: React.FC<ClientPublicKeysProps> = ({ clientId }) 
         <ClientPublicKeysWrapper params={queryParams} />
         <Pagination
           {...paginationProps}
-          rowPerPageOptions={{
-            onLimitChange: paginationProps.onLimitChange,
-            limit: paginationParams.limit,
-          }}
+          rowPerPageOptions={rowPerPageOptions}
           totalPages={totalPageCount}
         />
       </React.Suspense>

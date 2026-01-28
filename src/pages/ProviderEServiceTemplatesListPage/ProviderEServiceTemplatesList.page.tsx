@@ -31,7 +31,8 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
     Omit<GetProducerEServicesParams, 'limit' | 'offset'>
   >([{ name: 'q', label: tEServiceTemplate('nameField.label'), type: 'freetext' }])
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
   const queryParams = { ...paginationParams, ...filtersParams }
   const { data: totalPageCount = 0 } = useQuery({
     ...EServiceTemplateQueries.getProviderEServiceTemplatesList(queryParams),
@@ -49,10 +50,7 @@ const ProviderEServiceTemplatesListPage: React.FC = () => {
       <TemplateTableWrapper params={queryParams} />
       <Pagination
         {...paginationProps}
-        rowPerPageOptions={{
-          onLimitChange: paginationProps.onLimitChange,
-          limit: paginationParams.limit,
-        }}
+        rowPerPageOptions={rowPerPageOptions}
         totalPages={totalPageCount}
       />
     </PageContainer>

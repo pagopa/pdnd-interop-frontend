@@ -12,7 +12,8 @@ type ClientTableProps = {
 
 export const ClientTable: React.FC<ClientTableProps> = ({ clientKind }) => {
   const { t } = useTranslation('client', { keyPrefix: 'list.filters' })
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination()
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
   const { filtersParams, ...handlers } = useFilters([
     { name: 'q', type: 'freetext', label: t('nameField.label') },
   ])
@@ -36,10 +37,7 @@ export const ClientTable: React.FC<ClientTableProps> = ({ clientKind }) => {
       </Suspense>
       <Pagination
         {...paginationProps}
-        rowPerPageOptions={{
-          onLimitChange: paginationProps.onLimitChange,
-          limit: paginationParams.limit,
-        }}
+        rowPerPageOptions={rowPerPageOptions}
         totalPages={getTotalPageCount(clients?.pagination.totalCount)}
       />
     </>
