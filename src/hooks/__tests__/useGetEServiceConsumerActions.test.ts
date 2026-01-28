@@ -76,9 +76,10 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
           id: 'test',
           state: 'ACTIVE',
           canBeUpgraded: false,
-          consumerId: 'consumer-id',
+          consumerId: 'organizationId',
         },
       ],
+      isSubscribed: true,
     })
 
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
@@ -104,7 +105,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
           id: 'test',
           state: 'DRAFT',
           canBeUpgraded: false,
-          consumerId: 'consumer-id',
+          consumerId: 'organizationId',
         },
       ],
     })
