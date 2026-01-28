@@ -40,6 +40,7 @@ export type DialogProps =
   | DialogCreateAgreementDraftProps
   | DialogTenantKindEserviceTemplateProps
   | DialogTenantKindPurposeTemplateProps
+  | DialogSelectAgreementConsumerProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -167,6 +168,13 @@ export type DialogCreateAgreementDraftProps = {
     isOwnEService: boolean
     delegationId?: string
   }) => void
+}
+
+export type DialogSelectAgreementConsumerProps = {
+  type: 'selectAgreementConsumer'
+  action: 'inspect' | 'edit'
+  eserviceId: string
+  agreements: CompactAgreement[]
 }
 
 export type DialogTenantKindEserviceTemplateProps = {
