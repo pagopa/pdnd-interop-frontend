@@ -30,7 +30,7 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
   const { t } = useTranslation('sidebar')
 
   const pathname = useCurrentRoute().routeKey
-  const { jwt, isAdmin } = AuthHooks.useJwt()
+  const { jwt, isAdmin, isSupport } = AuthHooks.useJwt()
 
   const selfcareUsersPageUrl =
     jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#${getCurrentSelfCareProductId()}`
@@ -46,6 +46,7 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
   const { data: inAppNotificationCount } = useQuery({
     ...NotificationQueries.getInAppNotificationsCount(),
     refetchInterval: NOTIFICATION_COUNT_REFRESH_INTERVAL,
+    enabled: !isSupport,
   })
 
   const handleExpandParent = (routeKey: RouteKey) => {
