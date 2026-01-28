@@ -135,6 +135,23 @@
       "description": "The selected party does not have the certified attributes required to request the consumption of the e-service"
     }
   },
+  "dialogSelectAgreementConsumer": {
+    "title": {
+      "inspect": "Inspect agreement",
+      "edit": "Complete agreement"
+    },
+    "description": {
+      "inspect": "Select the tenant for which you want to inspect the agreement.",
+      "edit": "Select the tenant for which you want to complete the agreement."
+    },
+    "consumerField": {
+      "label": "Select tenant"
+    },
+    "actions": {
+      "inspect": "Inspect request",
+      "edit": "Complete request"
+    }
+  },
   "dialogDeleteOperator": {
     "title": "Forwarding to Members Area for User Removal",
     "description": "User operations on all products managed by PagoPA take place through the Members Area portal. By clicking \"confirm\", you will be redirected to the Members Area page to manage the selected user."

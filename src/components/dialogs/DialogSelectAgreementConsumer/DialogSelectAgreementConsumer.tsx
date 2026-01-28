@@ -30,8 +30,8 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
   const ariaLabelId = React.useId()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('shared-components', {
-    keyPrefix: action === 'inspect' ? 'dialogCreateAgreementDraft' : 'dialogCreateAgreementDraft',
-  }) // TODO strings
+    keyPrefix: 'dialogSelectAgreementConsumer',
+  })
 
   const navigate = useNavigate()
   const { closeDialog } = useDialog()
@@ -61,11 +61,11 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} maxWidth="md" fullWidth>
       <FormProvider {...formMethods}>
         <Box component="form" noValidate onSubmit={formMethods.handleSubmit(handleSubmit)}>
-          <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
+          <DialogTitle id={ariaLabelId}>{t(`title.${action}`)}</DialogTitle>
 
           <DialogContent>
             <Stack spacing={2}>
-              <Typography>{t('description')}</Typography>
+              <Typography>{t(`description.${action}`)}</Typography>
               <DialogSelectAgreementConsumerAutocomplete
                 eserviceId={eserviceId}
                 preselectedConsumer={
@@ -87,7 +87,7 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
               {tCommon('cancel')}
             </Button>
             <Button variant="contained" type="submit" disabled={!selectedConsumerId}>
-              {tCommon('createNewDraft')}
+              {t(`actions.${action}`)}
             </Button>
           </DialogActions>
         </Box>

@@ -135,6 +135,23 @@
       "description": "L'ente selezionato non dispone degli attributi certificati necessari a richiedere la fruizione dell'e-service"
     }
   },
+  "dialogSelectAgreementConsumer": {
+    "title": {
+      "inspect": "Visualizza richiesta di fruizione",
+      "edit": "Completa richiesta di fruizione"
+    },
+    "description": {
+      "inspect": "Seleziona l'ente per il quale vuoi visualizzare la richiesta di fruizione.",
+      "edit": "Seleziona l'ente per il quale vuoi finalizzare la richiesta di fruizione."
+    },
+    "consumerField": {
+      "label": "Seleziona ente"
+    },
+    "actions": {
+      "inspect": "Visualizza richiesta",
+      "edit": "Completa richiesta"
+    }
+  },
   "dialogDeleteOperator": {
     "title": "Inoltro ad Area Riservata per rimozione utente",
     "description": "Le operazioni sulle utenze su tutti i prodotti gestiti da PagoPA avvengono attraverso il portale Area Riservata. Cliccando \"conferma\", verrai reindirizzato alla pagina di Area Riservata per gestire l'utente selezionato."

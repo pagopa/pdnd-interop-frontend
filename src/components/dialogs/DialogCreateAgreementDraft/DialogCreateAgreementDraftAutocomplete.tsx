@@ -18,7 +18,7 @@ export const DialogCreateAgreementAutocomplete: React.FC<
   DialogCreateAgreementAutocompleteProps
 > = ({ eserviceId, preselectedConsumer, agreements }) => {
   const { t } = useTranslation('shared-components', {
-    keyPrefix: 'dialogCreateAgreementDraft',
+    keyPrefix: 'dialogSelectAgreementConsumer',
   })
   const { jwt } = AuthHooks.useJwt()
 
