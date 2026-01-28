@@ -54,7 +54,12 @@ function useGetEServiceConsumerActions(
         })
       })
       .otherwise(() => {
-        // TODO handle multiple agreements
+        openDialog({
+          type: 'selectAgreementConsumer',
+          eserviceId: eservice.id,
+          agreements: eservice.agreements,
+          action: 'inspect',
+        })
       })
   }
 
@@ -69,7 +74,12 @@ function useGetEServiceConsumerActions(
         })
       })
       .otherwise(() => {
-        // TODO handle multiple agreements
+        openDialog({
+          type: 'selectAgreementConsumer',
+          eserviceId: eservice.id,
+          agreements: eservice.agreements,
+          action: 'edit',
+        })
       })
   }
 
