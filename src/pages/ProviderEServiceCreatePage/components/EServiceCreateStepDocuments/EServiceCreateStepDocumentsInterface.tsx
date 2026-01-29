@@ -40,7 +40,7 @@ export function EServiceCreateStepDocumentsInterface() {
       eserviceId: descriptor.eservice.id,
       descriptorId: descriptor.id,
       doc: interfaceDoc,
-      prettyName: `${prettyName}_${descriptor.eservice.id}`,
+      prettyName: `${prettyName}_${descriptor.eservice.name}_${descriptor.id}`,
       kind: 'INTERFACE',
     })
   }
