@@ -8,6 +8,7 @@ import { RHFSingleFileInput } from '@/components/shared/react-hook-form-inputs'
 import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 
 type EServiceCreateStepDocumentsInterfaceFormValues = {
   interfaceDoc: File | null
@@ -19,6 +20,7 @@ export function EServiceCreateStepDocumentsInterface() {
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
   const { mutate: deleteDocument } = EServiceMutations.useDeleteVersionDraftDocument()
   const { mutate: uploadDocument } = EServiceMutations.usePostVersionDraftDocument()
+  const { jwt } = AuthHooks.useJwt() || {}
 
   const defaultValues: EServiceCreateStepDocumentsInterfaceFormValues = {
     interfaceDoc: null,
@@ -40,7 +42,7 @@ export function EServiceCreateStepDocumentsInterface() {
       eserviceId: descriptor.eservice.id,
       descriptorId: descriptor.id,
       doc: interfaceDoc,
-      prettyName: `${prettyName}_${descriptor.eservice.name}_${descriptor.id}`,
+      prettyName: `${prettyName}_${descriptor.eservice.name}_${jwt?.organization.name}_v${descriptor.version}`,
       kind: 'INTERFACE',
     })
   }
