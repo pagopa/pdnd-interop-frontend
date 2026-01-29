@@ -25,6 +25,7 @@ interface CatalogCardProps<TRouteKey extends CatalogRoutesKeys> {
   title: string
   description: string
   producerName: string
+  avatarURL: string
   prefetchFn: () => void
   to: TRouteKey
   params: CatalogCardRouteParams<TRouteKey>
@@ -36,6 +37,7 @@ export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
   description,
   disabled,
   producerName,
+  avatarURL,
   prefetchFn,
   to,
   params,
@@ -59,7 +61,7 @@ export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
         disableTypography={true}
         title={
           <Stack direction="row" spacing={1} alignItems="center">
-            <Avatar sx={{ bgcolor: 'background.default' }}>
+            <Avatar src={avatarURL} alt={producerName} sx={{ bgcolor: 'background.default' }}>
               <AccountBalanceIcon sx={{ color: '#bdbdbd' }} fontSize="small" />
             </Avatar>
             <Typography variant="caption" color="text.secondary">

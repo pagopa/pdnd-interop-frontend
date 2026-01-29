@@ -8,6 +8,7 @@ import {
   CatalogCardForPurposeTemplate,
   CatalogCardForPurposeTemplateSkeleton,
 } from './CatalogCardForPurposeTemplate'
+import { AVATAR_BASEPATH } from '@/config/env'
 
 type PurposeTemplateGridProps = { purposeTemplates: Array<CatalogPurposeTemplate> | undefined }
 
@@ -54,6 +55,7 @@ export const PurposeTemplateCatalogCard: React.FC<{
       description={purposeTemplate.purposeDescription}
       title={purposeTemplate.purposeTitle}
       targetTenantKind={purposeTemplate.targetTenantKind}
+      avatarURL={`${AVATAR_BASEPATH}/institutions/${purposeTemplate.creator.selfcareId}/logo.png`}
       prefetchFn={handlePrefetch}
       to="SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS"
       params={{ purposeTemplateId: purposeTemplateId }}
