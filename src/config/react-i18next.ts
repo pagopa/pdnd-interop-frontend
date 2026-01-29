@@ -47,6 +47,9 @@ import developerToolsItNs from '@/static/locales/it/developer-tools.json'
 import sidebarItNs from '@/static/locales/it/sidebar.json'
 import notificationItNs from '@/static/locales/it/notification.json'
 import purposeTemplateItNs from '@/static/locales/it/purposeTemplate.json'
+import z from 'zod'
+
+export const AllowedLanguage = z.enum(['en', 'it'])
 
 i18n.use(initReactI18next).init({
   debug: false,

@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Footer, Header } from '@/components/layout'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { PageContainerSkeleton } from '@/components/layout/containers'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useSearchParams } from 'react-router-dom'
 import useScrollTopOnLocationChange from '../../hooks/useScrollTopOnLocationChange'
 import { Box } from '@mui/material'
 import { AuthGuard } from './AuthGuard'
@@ -11,15 +11,28 @@ import TOSAgreement from './TOSAgreement'
 import { useTOSAgreement } from '../../hooks/useTOSAgreement'
 import { ErrorPage } from '@/pages'
 import { Dialog } from '@/components/dialogs'
-import { routes, useCurrentRoute } from '@/router'
+import { routes, useCurrentRoute, useSwitchPathLang } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import { Stack } from '@mui/system'
+import { AllowedLanguage } from '@/config/react-i18next'
 
 function EmptyWrapper({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }
 
 const _RoutesWrapper: React.FC = () => {
+  const switchLang = useSwitchPathLang()
+  const [searchParams] = useSearchParams()
+
+  useEffect(() => {
+    const language = AllowedLanguage.safeParse(searchParams.get('lang'))
+    if (language.success) {
+      switchLang(language.data)
+    } else {
+      console.warn('Language URL params is not valid')
+    }
+  }, [searchParams, switchLang])
+
   const { isPublic, routeKey } = useCurrentRoute()
   const {
     jwt,
