@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material'
-import { RouterProvider, useSwitchPathLang } from '@/router'
+import { RouterProvider } from '@/router'
 import { LoadingOverlay, ToastNotification } from '@/components/layout'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
@@ -16,24 +16,35 @@ import { FirstLoadingSpinner } from './components/shared/FirstLoadingSpinner'
 import { queryClient } from './config/query-client'
 import type { EnvironmentBannerProps } from '@pagopa/mui-italia'
 import { AuthQueries } from './api/auth'
-import useCurrentLanguage from './hooks/useCurrentLanguage'
+import i18n from './config/react-i18next'
 
-queryClient.prefetchQuery(AuthQueries.getSessionToken())
+// --- Init application ----
+
+const urlParams = new URLSearchParams(window.location.search)
+const redirectUrl = urlParams.get('redirectUrl')
+
+if (redirectUrl) {
+  const selfCareIdentityToken = window.location.hash.replace('#id=', '')
+  const url = `/ui/${i18n.language}${redirectUrl}#id=${selfCareIdentityToken}`
+  window.location.replace(url)
+} else {
+  queryClient.prefetchQuery(AuthQueries.getSessionToken())
+}
+// end init ---
 
 function App() {
   const { t } = useTranslation('shared-components')
-
+  // const switchPathLang = useSwitchPathLang()
   let envBannerProps: EnvironmentBannerProps | undefined = undefined
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search)
-    const lang = urlParams.get('lang')
+  // useEffect(() => {
+  //   const urlParams = new URLSearchParams(window.location.search)
+  //   const lang = urlParams.get('lang')
 
-    if (lang) {
-      const url = `${lang === 'en' ? 'en' : 'it'}/`
-      window.location.replace(url)
-    }
-  }, [])
+  //   if (lang === 'en' || lang === 'it') {
+  //     switchPathLang(lang)
+  //   }
+  // }, [])
 
   if (STAGE === 'UAT') {
     envBannerProps = {
