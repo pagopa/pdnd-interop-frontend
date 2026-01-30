@@ -28,14 +28,14 @@ const mockTemplates: CatalogPurposeTemplate[] = [
     purposeTitle: 'Template 1',
     targetTenantKind: 'PA',
     purposeDescription: '',
-    creator: { id: 'org-1', name: 'Organization 1', kind: 'PA' },
+    creator: { id: 'org-1', name: 'Organization 1' },
   },
   {
     id: '2',
     purposeTitle: 'Template 2',
     targetTenantKind: 'PA',
     purposeDescription: '',
-    creator: { id: 'org-2', name: 'Organization 2', kind: 'PA' },
+    creator: { id: 'org-2', name: 'Organization 2' },
   },
 ]
 
