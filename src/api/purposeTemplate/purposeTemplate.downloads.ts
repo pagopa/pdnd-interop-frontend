@@ -22,7 +22,18 @@ function useDownloadAnnotationDocument() {
   })
 }
 
+function useDownloadSignedRiskAnalysis() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purposeTemplate.downloadRiskAnalysis',
+  })
+  return useDownloadFile(PurposeTemplateServices.downloadSignedRiskAnalysis, {
+    loadingLabel: t('loading'),
+    errorToastLabel: t('outcome.error'),
+  })
+}
+
 export const PurposeTemplateDownloads = {
   useDownloadAnnotationDocument,
   useDownloadDocument,
+  useDownloadSignedRiskAnalysis,
 }

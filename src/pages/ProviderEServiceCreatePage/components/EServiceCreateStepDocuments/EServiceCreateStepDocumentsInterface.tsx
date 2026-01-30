@@ -1,14 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Box, Button, Stack } from '@mui/material'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
-import { FormProvider, useForm } from 'react-hook-form'
-import { RHFSingleFileInput } from '@/components/shared/react-hook-form-inputs'
 import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
+import { UploadDocumentsInterface } from '@/components/shared/UploadDocumentsInterface'
 
 type EServiceCreateStepDocumentsInterfaceFormValues = {
   interfaceDoc: File | null
@@ -20,18 +18,8 @@ export function EServiceCreateStepDocumentsInterface() {
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
   const { mutate: deleteDocument } = EServiceMutations.useDeleteVersionDraftDocument()
   const { mutate: uploadDocument } = EServiceMutations.usePostVersionDraftDocument()
-  const { jwt } = AuthHooks.useJwt() || {}
-
-  const defaultValues: EServiceCreateStepDocumentsInterfaceFormValues = {
-    interfaceDoc: null,
-  }
-
+  const { jwt } = AuthHooks.useJwt()
   const actualInterface: EServiceDoc | null = descriptor?.interface ?? null
-
-  const formMethods = useForm({
-    defaultValues,
-    shouldUnregister: true,
-  })
 
   const onSubmit = ({ interfaceDoc }: EServiceCreateStepDocumentsInterfaceFormValues) => {
     if (!interfaceDoc || !descriptor) return
@@ -80,21 +68,5 @@ export function EServiceCreateStepDocumentsInterface() {
     )
   }
 
-  const selectedInterface = formMethods.watch('interfaceDoc')
-
-  return (
-    <FormProvider {...formMethods}>
-      <Box component="form" noValidate sx={{ py: 2 }} onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <RHFSingleFileInput sx={{ my: 0 }} name="interfaceDoc" rules={{ required: true }} />
-
-        {selectedInterface && (
-          <Stack direction="row" justifyContent="flex-start" mt={3}>
-            <Button type="submit" variant="contained">
-              {t('create.step4.uploadBtn')}
-            </Button>
-          </Stack>
-        )}
-      </Box>
-    </FormProvider>
-  )
+  return <UploadDocumentsInterface onSubmit={onSubmit} sxBox={{ py: 2 }} />
 }

@@ -74,8 +74,7 @@
         "enableSectionAllNotifications": "Abilita tutto",
         "disableSectionAllNotifications": "Disabilita tutto",
         "enableAllNotifications": {
-          "label": "Abilita la ricezione delle notifiche in piattaforma",
-          "description": "Disabilitando questa opzione, non riceverai nessuna notifica in piattaforma"
+          "label": "Consenti le notifiche in piattaforma"
         }
       },
       "email": {
@@ -86,10 +85,6 @@
         "enableSectionAllNotifications": "Abilita tutto",
         "disableSectionAllNotifications": "Disabilita tutto",
         "digestInfoDescription": "Il resoconto settimanale sarà disponibile a breve, pertanto non riceverai subito comunicazioni. Abbiamo registrato la tua preferenza e non ti sarà richiesta alcuna azione.",
-        "enableAllNotifications": {
-          "label": "Abilita la ricezione delle notifiche e-mail",
-          "description": "Disabilitando questa opzione, non riceverai nessuna e-mail"
-        },
         "emailPreferencesLabel": "Preferenze di ricezione",
         "notSend": "Non inviare le notifiche via e-mail",
         "digest": "Invia una e-mail di resoconto settimanale",

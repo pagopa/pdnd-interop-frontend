@@ -1097,6 +1097,12 @@
         "success": "The e-service was unassociated successfully.",
         "error": "It was not possible to unassociate this e-service. Please try again!"
       }
+    },
+    "downloadRiskAnalysis": {
+      "loading": "Risk analysis document is being downloaded",
+      "outcome": {
+        "error": "The risk analysis document could not be downloaded. Please try again!"
+      }
     }
   }
 }

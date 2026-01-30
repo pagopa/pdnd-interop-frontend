@@ -6,6 +6,7 @@ import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceMutations } from '@/api/eservice'
 import type { EServiceRiskAnalysis } from '@/api/api.generatedTypes'
+import { getDaysToExpiration } from '@/utils/purpose.utils'
 
 export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -42,7 +43,7 @@ export const EServiceCreateStepPurposeAddPurposesTable: React.FC = () => {
     const hasExpired = expiration < now
     if (hasExpired) return true
 
-    daysToExpiration = Math.floor((expiration.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+    daysToExpiration = getDaysToExpiration(eserviceRiskAnalysis.rulesetExpiration)
 
     return false
   }
