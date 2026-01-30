@@ -82,7 +82,7 @@ export const DialogCreateAgreementAutocomplete: React.FC<
       delegators &&
       delegators?.length > 0
     ) {
-      setValue('consumerId', delegators[0])
+      setValue('consumerId', delegators[0].id)
       setConsumerAutocompleteTextInput(delegators[0].name)
       selectedConsumerRef.current = delegators[0]
       hasSetFirstConsumer.current = true
