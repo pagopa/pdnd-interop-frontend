@@ -25,7 +25,7 @@ interface CatalogCardForPurposeTemplateProps<TRouteKey extends CatalogRoutesKeys
   description: string
   creatorName: string
   targetTenantKind: TenantKind
-  avatarURL: string
+  avatarURL?: string
   prefetchFn: () => void
   to: TRouteKey
   params: CatalogCardForPurposeTemplateRouteParams<TRouteKey>

@@ -55,7 +55,11 @@ export const PurposeTemplateCatalogCard: React.FC<{
       description={purposeTemplate.purposeDescription}
       title={purposeTemplate.purposeTitle}
       targetTenantKind={purposeTemplate.targetTenantKind}
-      avatarURL={`${AVATAR_BASEPATH}/institutions/${purposeTemplate.creator.selfcareId}/logo.png`}
+      avatarURL={
+        purposeTemplate.creator.selfcareId
+          ? `${AVATAR_BASEPATH}/institutions/${purposeTemplate.creator.selfcareId}/logo.png`
+          : undefined
+      }
       prefetchFn={handlePrefetch}
       to="SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS"
       params={{ purposeTemplateId: purposeTemplateId }}

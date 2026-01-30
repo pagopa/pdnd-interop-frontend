@@ -50,7 +50,11 @@ export const EServiceTemplateCatalogCard: React.FC<{
       producerName={eserviceTemplate.creator.name}
       description={eserviceTemplate.description}
       title={eserviceTemplate.name}
-      avatarURL={`${AVATAR_BASEPATH}/institutions/${eserviceTemplate.creator.selfcareId}/logo.png`}
+      avatarURL={
+        eserviceTemplate.creator.selfcareId
+          ? `${AVATAR_BASEPATH}/institutions/${eserviceTemplate.creator.selfcareId}/logo.png`
+          : undefined
+      }
       prefetchFn={handlePrefetch}
       to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
       params={{

@@ -49,7 +49,11 @@ export const EServiceCatalogCard: React.FC<{ eservice: CatalogEService; disabled
       key={eservice.id}
       producerName={eservice.producer.name}
       description={eservice.description}
-      avatarURL={`${AVATAR_BASEPATH}/institutions/${eservice.producer.selfcareId}/logo.png`}
+      avatarURL={
+        eservice.producer.selfcareId
+          ? `${AVATAR_BASEPATH}/institutions/${eservice.producer.selfcareId}/logo.png`
+          : undefined
+      }
       title={eservice.name}
       prefetchFn={handlePrefetch}
       to="SUBSCRIBE_CATALOG_VIEW"

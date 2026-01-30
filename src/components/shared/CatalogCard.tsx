@@ -25,7 +25,7 @@ interface CatalogCardProps<TRouteKey extends CatalogRoutesKeys> {
   title: string
   description: string
   producerName: string
-  avatarURL: string
+  avatarURL?: string
   prefetchFn: () => void
   to: TRouteKey
   params: CatalogCardRouteParams<TRouteKey>
