@@ -18,7 +18,7 @@ const GeneralConfigs = z.object({
   ERROR_DATA_DURATION_TIME: z.string().default('60000'),
   DELEGATIONS_ALLOWED_ORIGINS: z.string(),
   NOTIFICATION_COUNT_REFRESH_INTERVAL: z.coerce.number().default(30000),
-  AVATAR_BASEPATH: z.url().default('http://selc-u-checkout-cdn-endpoint.azureedge.net'),
+  AVATAR_BASEPATH: z.url().default('https://selfcare.pagopa.it'),
 })
 
 const FeatureFlagConfigs = z.object({
