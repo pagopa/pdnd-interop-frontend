@@ -20,7 +20,7 @@ export const DialogSelectAgreementConsumerAutocomplete: React.FC<
   DialogSelectAgreementConsumerAutocompleteProps
 > = ({ eserviceId, preselectedConsumer, agreements, action }) => {
   const { t } = useTranslation('shared-components', {
-    keyPrefix: 'dialogCreateAgreementDraft',
+    keyPrefix: 'dialogSelectAgreementConsumer',
   })
   const { jwt } = AuthHooks.useJwt()
 
@@ -92,7 +92,7 @@ export const DialogSelectAgreementConsumerAutocomplete: React.FC<
       delegators &&
       delegators?.length > 0
     ) {
-      setValue('consumerId', delegators[0])
+      setValue('consumerId', delegators[0].id)
       setConsumerAutocompleteTextInput(delegators[0].name)
       selectedConsumerRef.current = delegators[0]
       hasSetFirstConsumer.current = true
