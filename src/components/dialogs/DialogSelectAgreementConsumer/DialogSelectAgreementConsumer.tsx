@@ -48,13 +48,15 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
   const handleSubmit = ({ consumerId }: SelectAgreementConsumerFormValues) => {
     const agreementId = agreements.find((agreement) => agreement.consumerId === consumerId)?.id
 
-    if (!agreementId) return
+    if (agreementId) {
+      navigate('SUBSCRIBE_AGREEMENT_READ', {
+        params: {
+          agreementId: agreementId,
+        },
+      })
+    }
 
-    navigate('SUBSCRIBE_AGREEMENT_READ', {
-      params: {
-        agreementId: agreementId,
-      },
-    })
+    closeDialog()
   }
 
   return (
