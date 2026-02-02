@@ -3,6 +3,7 @@ import { CatalogCard } from '../CatalogCard'
 import { createMockEServiceCatalog } from '@/../__mocks__/data/eservice.mocks'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import userEvent from '@testing-library/user-event'
+import { AVATAR_BASEPATH } from '@/config/env'
 
 mockUseJwt()
 
@@ -17,6 +18,7 @@ describe('Checks CatalogCard button', () => {
         producerName={eserviceMock.producer.name}
         prefetchFn={() => {}}
         title={eserviceMock.name}
+        avatarURL={`${AVATAR_BASEPATH}/institutions/${eserviceMock.producer.selfcareId}/logo.png`}
         params={{
           eserviceId: eserviceMock.id,
           descriptorId: eserviceMock.activeDescriptor?.id as string,

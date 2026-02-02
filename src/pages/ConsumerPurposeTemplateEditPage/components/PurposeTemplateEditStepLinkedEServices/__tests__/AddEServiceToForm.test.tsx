@@ -182,7 +182,7 @@ describe('AddEServiceToForm', () => {
       id: 'eservice-2',
       name: 'E-Service 2',
       description: 'Description 2',
-      producer: { id: 'producer-2', name: 'Producer 2', kind: 'PA' as const },
+      producer: { id: 'producer-2', name: 'Producer 2' },
       activeDescriptor: {
         id: 'desc-2',
         state: 'PUBLISHED' as const,

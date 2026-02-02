@@ -337,7 +337,7 @@
     "bodyMultipleDay": "PDND Interoperabilità will undergo scheduled maintenance from {{maintenanceStartHour}} on {{maintenanceStartDay}} to {{maintenanceEndHour}} on {{maintenanceEndDay}}. We apologize for any inconvenience caused."
   },
   "notificationsBanner": {
-    "title": "Notifications are coming!",
+    "title": "Notifications are here!",
     "body": "We will inform you when there are news of your interest directly on the platform or via personal email. Check the manual and set your preferences now.",
     "action1Label": "Configure notifications",
     "action2Label": "Check the manual"

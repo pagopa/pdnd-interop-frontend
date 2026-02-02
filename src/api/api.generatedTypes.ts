@@ -623,7 +623,7 @@ export interface CatalogEService {
   id: string
   name: string
   description: string
-  producer: CompactOrganization
+  producer: CatalogTenant
   isMine: boolean
   activeDescriptor?: CompactDescriptor
   /** Indicates if there are unread notifications for this e-service */
@@ -825,6 +825,16 @@ export interface CompactOrganization {
   contactMail?: Mail
   /** Indicates if there are unread notifications for this organization */
   hasUnreadNotifications?: boolean
+}
+
+export interface CatalogTenant {
+  /** @format uuid */
+  id: string
+  name: string
+  /** Indicates if there are unread notifications for this organization */
+  hasUnreadNotifications?: boolean
+  /** @format uuid */
+  selfcareId?: string
 }
 
 export type TenantKind = 'PA' | 'PRIVATE' | 'GSP' | 'SCP'
@@ -1162,7 +1172,7 @@ export interface CatalogPurposeTemplate {
   targetTenantKind: TargetTenantKind
   purposeTitle: string
   purposeDescription: string
-  creator: CompactOrganization
+  creator: CatalogTenant
 }
 
 export interface CatalogPurposeTemplates {
@@ -2169,7 +2179,7 @@ export interface CatalogEServiceTemplate {
   id: string
   name: string
   description: string
-  creator: CompactOrganization
+  creator: CatalogTenant
   publishedVersion: CompactEServiceTemplateVersion
 }
 
@@ -2228,7 +2238,7 @@ export interface Problem {
    */
   detail?: string
   /** @minItems 1 */
-  errors: ProblemError[]
+  errors?: ProblemError[]
 }
 
 export interface UpdateEServiceTemplateVersionSeed {
@@ -3270,6 +3280,15 @@ export interface MarkNotificationsAsReadPayload {
 
 export interface MarkNotificationsAsUnreadPayload {
   ids: string[]
+}
+
+export interface GetNotificationDeeplinkParams {
+  /** The selfcare ID for the institution (optional, falls back to generic URL if not provided) */
+  selfcareId?: string
+  /** The type of the notification */
+  notificationType: string
+  /** The id of the entity */
+  entityId: string
 }
 
 export namespace Consumers {
@@ -8562,6 +8581,7 @@ export namespace InAppNotifications {
    * @name GetNotifications
    * @summary Retrieves a list of notifications
    * @request GET:/inAppNotifications
+   * @secure
    */
   export namespace GetNotifications {
     export type RequestParams = {}
@@ -8727,6 +8747,7 @@ export namespace TenantNotificationConfigs {
    * @name GetTenantNotificationConfig
    * @summary Retrieve the tenant's notification configuration
    * @request GET:/tenantNotificationConfigs
+   * @secure
    */
   export namespace GetTenantNotificationConfig {
     export type RequestParams = {}
@@ -8741,6 +8762,7 @@ export namespace TenantNotificationConfigs {
    * @name UpdateTenantNotificationConfig
    * @summary Update the tenant's notification configuration
    * @request POST:/tenantNotificationConfigs
+   * @secure
    */
   export namespace UpdateTenantNotificationConfig {
     export type RequestParams = {}
@@ -8758,6 +8780,7 @@ export namespace UserNotificationConfigs {
    * @name GetUserNotificationConfig
    * @summary Retrieve the user's notification configuration
    * @request GET:/userNotificationConfigs
+   * @secure
    */
   export namespace GetUserNotificationConfig {
     export type RequestParams = {}
@@ -8772,6 +8795,7 @@ export namespace UserNotificationConfigs {
    * @name UpdateUserNotificationConfig
    * @summary Update the user's notification configuration
    * @request POST:/userNotificationConfigs
+   * @secure
    */
   export namespace UpdateUserNotificationConfig {
     export type RequestParams = {}
@@ -8789,6 +8813,7 @@ export namespace EmailDeepLink {
    * @name GetNotificationDeeplink
    * @summary Redirect the user to the correct deepLink based on notification type and entity id
    * @request GET:/emailDeepLink/{notificationType}/{entityId}
+   * @secure
    */
   export namespace GetNotificationDeeplink {
     export type RequestParams = {
@@ -8797,7 +8822,10 @@ export namespace EmailDeepLink {
       /** The id of the entity */
       entityId: string
     }
-    export type RequestQuery = {}
+    export type RequestQuery = {
+      /** The selfcare ID for the institution (optional, falls back to generic URL if not provided) */
+      selfcareId?: string
+    }
     export type RequestBody = never
     export type RequestHeaders = {}
     export type ResponseBody = any

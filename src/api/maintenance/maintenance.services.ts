@@ -1,5 +1,5 @@
 import { INTEROP_RESOURCES_BASE_URL, APP_MODE } from '@/config/env'
-import { BannerData } from '@/hooks/bannerHooks/utils'
+import type { BannerData } from '@/hooks/bannerHooks/utils'
 import axios from 'axios'
 
 async function getMaintenanceJson() {

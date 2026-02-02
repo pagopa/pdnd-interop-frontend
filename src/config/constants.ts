@@ -39,6 +39,9 @@ export const eserviceNamingBestPracticeLink =
   'https://italia.github.io/pdnd-guida-nomenclatura-eservice/'
 export const keychainGuideLink = `${documentationLink}/manuale-operativo/utilizzare-i-voucher#garanzia-dellintegrita-della-risposta`
 export const keychainSetupGuideLink = `${documentationLink}/manuale-operativo/utilizzare-i-voucher#precondizioni`
+export const notificationGuideLink = `https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/riferimenti-tecnici/notifiche`
+export const notificationMailChangeLink =
+  'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/tutorial/tutorial-generali/come-modificare-la-mail-associata-allutenza'
 
 export const SH_ESERVICES_TO_HIDE_TEMP: Partial<Record<InteropFEConfigs['STAGE'], Array<string>>> =
   {

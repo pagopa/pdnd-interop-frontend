@@ -354,15 +354,6 @@ describe('PurposeTemplateServices', () => {
         `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/archive`
       )
     })
-
-    // TODO: Update this test when real API calls are implemented
-    // it('should make correct API call to archive purpose template', async () => {
-    //   await PurposeTemplateServices.archivePurposeTemplate({ id: TEST_ID })
-    //
-    //   expect(axiosInstance.post).toHaveBeenCalledWith(
-    //     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id/archive`
-    //   )
-    // })
   })
 
   describe('updateDocumentPrettyNameForAnnotation', () => {
@@ -379,6 +370,19 @@ describe('PurposeTemplateServices', () => {
       expect(axiosInstance.post).toHaveBeenCalledWith(
         `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-template-id/riskAnalysis/answers/test-answer-id/annotation/documents/test-document-id/update`,
         { prettyName: 'updated-name.pdf' }
+      )
+    })
+  })
+
+  describe('downloadSignedRiskAnalysis', () => {
+    it('should make correct API call with purpose template id', async () => {
+      const purposeTemplateId = 'template-id'
+
+      await PurposeTemplateServices.downloadSignedRiskAnalysis({ purposeTemplateId })
+
+      expect(axiosInstance.get).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/riskAnalysisDocument/signed`,
+        { responseType: 'arraybuffer' }
       )
     })
   })
