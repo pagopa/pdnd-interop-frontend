@@ -48,7 +48,7 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
   const docs = [descriptor.interface, ...descriptor.docs]
 
   const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } = usePagination(
-    { limit: 3 }
+    { limit: 3, limitOptions: [3, 6, 9] }
   )
 
   const paginatedDocs = docs.slice(
@@ -185,10 +185,7 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
         })}
         <Pagination
           {...paginationProps}
-          rowPerPageOptions={{
-            ...rowPerPageOptions,
-            options: [3, 6, 9],
-          }}
+          rowPerPageOptions={rowPerPageOptions}
           totalPages={getTotalPageCount(docs.length)}
           justifyContent="center"
           alignItems="flex-end"
