@@ -39,9 +39,25 @@ export const DialogCreateAgreementDraft: React.FC<DialogCreateAgreementDraftProp
   const { closeDialog } = useDialog()
   const { jwt } = AuthHooks.useJwt()
 
+  const preselectedConsumer = jwt
+    ? ({
+        id: jwt?.organizationId,
+        name: jwt?.organization.name,
+      } as DelegationTenant)
+    : undefined
+
+  const existingAgreements = agreements.filter(
+    (agreement) => agreement.state !== 'ARCHIVED' && agreement.state !== 'REJECTED'
+  )
+
+  const hasPreselectedConsumer = !existingAgreements.some(
+    (agreement) => agreement.consumerId === preselectedConsumer?.id
+  )
+
   const formMethods = useForm<CreateAgreementDraftFormValues>({
     defaultValues: {
-      consumerId: jwt?.organizationId ?? undefined,
+      consumerId:
+        preselectedConsumer && hasPreselectedConsumer ? preselectedConsumer.id : undefined,
     },
   })
 
@@ -61,7 +77,7 @@ export const DialogCreateAgreementDraft: React.FC<DialogCreateAgreementDraftProp
     select: ({ results }) => results,
   })
 
-  const { data: hasTenantCertifiedAttributes } = useQuery({
+  const { data: hasTenantCertifiedAttributes, isLoading } = useQuery({
     ...TenantQueries.getHasTenantCertifiedAttributes({
       eserviceId: eservice.id,
       descriptorId: descriptor.id,
@@ -100,17 +116,10 @@ export const DialogCreateAgreementDraft: React.FC<DialogCreateAgreementDraftProp
               </Typography>
               <DialogCreateAgreementAutocomplete
                 eserviceId={eservice.id}
-                preselectedConsumer={
-                  jwt
-                    ? ({
-                        id: jwt?.organizationId,
-                        name: jwt?.organization.name,
-                      } as DelegationTenant)
-                    : undefined
-                }
-                agreements={agreements}
+                preselectedConsumer={hasPreselectedConsumer ? preselectedConsumer : undefined}
+                agreements={existingAgreements}
               />
-              {!hasTenantCertifiedAttributes && (
+              {!isLoading && !hasTenantCertifiedAttributes && (
                 <Alert severity="warning" title={t('certifiedAttributesAlert.title')}>
                   {t('certifiedAttributesAlert.description')}
                 </Alert>
@@ -125,7 +134,7 @@ export const DialogCreateAgreementDraft: React.FC<DialogCreateAgreementDraftProp
             <Button
               variant="contained"
               type="submit"
-              disabled={hasTenantCertifiedAttributes === false}
+              disabled={!isLoading && !hasTenantCertifiedAttributes}
             >
               {tCommon('createNewDraft')}
             </Button>
