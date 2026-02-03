@@ -47,9 +47,7 @@ export const ProviderEServiceUpdateDocumentationDrawer: React.FC<
 
   const docs = [descriptor.interface, ...descriptor.docs]
 
-  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } = usePagination(
-    { limit: 3 }
-  )
+  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 3 })
 
   const paginatedDocs = docs.slice(
     paginationParams.offset,
