@@ -1,5 +1,9 @@
 import { AgreementMutations } from '@/api/agreement'
-import type { CatalogEServiceDescriptor, DelegationTenant } from '@/api/api.generatedTypes'
+import type {
+  AgreementState,
+  CatalogEServiceDescriptor,
+  DelegationTenant,
+} from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
 import type { ActionItemButton } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
@@ -22,7 +26,7 @@ function useGetEServiceConsumerActions(
   isDelegator?: boolean
 ) {
   const { t } = useTranslation('eservice')
-  const { isAdmin } = AuthHooks.useJwt()
+  const { jwt, isAdmin } = AuthHooks.useJwt()
 
   const navigate = useNavigate()
 
@@ -43,13 +47,18 @@ function useGetEServiceConsumerActions(
 
   if (!eservice || !descriptor || !isAdmin) return { actions: [] satisfies Array<ActionItemButton> }
 
+  const inspectableAgreementsStates: AgreementState[] = ['ACTIVE', 'SUSPENDED', 'PENDING']
+  const inspectableAgreements = eservice.agreements.filter((agreement) =>
+    inspectableAgreementsStates.includes(agreement.state)
+  )
+
   const handleInspectAgreementAction = () => {
-    match(eservice.agreements.length)
+    match(inspectableAgreements.length)
       .with(0, () => {})
       .with(1, () => {
         navigate('SUBSCRIBE_AGREEMENT_READ', {
           params: {
-            agreementId: eservice.agreements[0].id,
+            agreementId: inspectableAgreements[0].id,
           },
         })
       })
@@ -63,13 +72,15 @@ function useGetEServiceConsumerActions(
       })
   }
 
+  const editableAgreements = eservice.agreements.filter((agreement) => agreement.state === 'DRAFT')
+
   const handleEditAgreementAction = () => {
-    match(eservice.agreements.length)
+    match(editableAgreements.length)
       .with(0, () => {})
       .with(1, () => {
         navigate('SUBSCRIBE_AGREEMENT_EDIT', {
           params: {
-            agreementId: eservice.agreements[0].id,
+            agreementId: editableAgreements[0].id,
           },
         })
       })
@@ -167,11 +178,26 @@ function useGetEServiceConsumerActions(
     (canCreateAgreementDraft && !isDelegator && (delegators?.length === 0 || !delegators)) ||
     (delegators && delegators?.length > 0)
   ) {
+    const existingAgreements = eservice.agreements.filter(
+      (agreement) => agreement.state !== 'ARCHIVED' && agreement.state !== 'REJECTED'
+    )
+
+    const tenants: DelegationTenant[] = jwt
+      ? [{ id: jwt.organizationId as string, name: jwt.organization.name }, ...(delegators ?? [])]
+      : delegators ?? []
+
+    const tenantsWithoutAgreement = tenants.filter(
+      (tenant) => !existingAgreements.some((agreement) => agreement.consumerId === tenant.id)
+    )
+
+    tenantsWithoutAgreement.length === 1 && tenantsWithoutAgreement[0].id === jwt?.organizationId
+
     actions.push({
       action:
-        delegators && delegators?.length > 0
-          ? handleOpenCreateAgreementDraftDialog
-          : handleCreateAgreementDraftAction,
+        tenantsWithoutAgreement.length === 1 &&
+        tenantsWithoutAgreement[0].id === jwt?.organizationId
+          ? handleCreateAgreementDraftAction
+          : handleOpenCreateAgreementDraftDialog,
       label: t('tableEServiceCatalog.subscribe'),
       icon: SendIcon,
       disabled: isSuspended,
