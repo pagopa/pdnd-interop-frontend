@@ -22,10 +22,6 @@ export const DialogCreateAgreementAutocomplete: React.FC<
   })
   const { jwt } = AuthHooks.useJwt()
 
-  const existingAgreements = agreements.filter(
-    (agreement) => agreement.state !== 'ARCHIVED' && agreement.state !== 'REJECTED'
-  )
-
   const { data: delegations = [] } = useQuery({
     ...DelegationQueries.getList({
       limit: 50,
@@ -90,13 +86,13 @@ export const DialogCreateAgreementAutocomplete: React.FC<
   }, [setValue, selectedConsumerId, delegators, setConsumerAutocompleteTextInput])
 
   const delegatorsWithoutAgreement = delegators.filter(
-    (delegator) => !existingAgreements.some((agreement) => agreement.consumerId === delegator.id)
+    (delegator) => !agreements.some((agreement) => agreement.consumerId === delegator.id)
   )
 
   const tenantOptions =
     jwt &&
     !isDelegator &&
-    !existingAgreements.some((agreement) => agreement.consumerId === jwt.organizationId)
+    !agreements.some((agreement) => agreement.consumerId === jwt.organizationId)
       ? [{ id: jwt.organizationId, name: jwt.organization.name }, ...delegatorsWithoutAgreement]
       : delegatorsWithoutAgreement
 
