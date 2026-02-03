@@ -24,18 +24,6 @@ export const DialogSelectAgreementConsumerAutocomplete: React.FC<
   })
   const { jwt } = AuthHooks.useJwt()
 
-  const agreementOptions = match(action)
-    .with('inspect', () =>
-      agreements.filter(
-        (agreement) =>
-          agreement.state === 'ACTIVE' ||
-          agreement.state === 'SUSPENDED' ||
-          agreement.state === 'PENDING'
-      )
-    )
-    .with('edit', () => agreements.filter((agreement) => agreement.state === 'DRAFT'))
-    .exhaustive()
-
   const { data: delegations = [] } = useQuery({
     ...DelegationQueries.getList({
       limit: 50,
@@ -100,19 +88,19 @@ export const DialogSelectAgreementConsumerAutocomplete: React.FC<
   }, [setValue, selectedConsumerId, delegators, setConsumerAutocompleteTextInput])
 
   const delegatorOptions = delegators.filter((delegator) =>
-    agreementOptions.some((agreement) => agreement.consumerId === delegator.id)
+    agreements.some((agreement) => agreement.consumerId === delegator.id)
   )
 
   const tenantOptions = match(action)
     .with('inspect', () =>
-      jwt && agreementOptions.some((agreement) => agreement.consumerId === jwt.organizationId)
+      jwt && agreements.some((agreement) => agreement.consumerId === jwt.organizationId)
         ? [{ id: jwt.organizationId, name: jwt.organization.name }, ...delegatorOptions]
         : delegatorOptions
     )
     .with('edit', () =>
       jwt &&
       !isDelegator &&
-      agreementOptions.some((agreement) => agreement.consumerId === jwt.organizationId)
+      agreements.some((agreement) => agreement.consumerId === jwt.organizationId)
         ? [{ id: jwt.organizationId, name: jwt.organization.name }, ...delegatorOptions]
         : delegatorOptions
     )

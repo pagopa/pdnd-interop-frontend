@@ -17,6 +17,7 @@ import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { DialogSelectAgreementConsumerAutocomplete } from './DialogSelectAgreementConsumerAutocomplete'
+import { match } from 'ts-pattern'
 
 type SelectAgreementConsumerFormValues = {
   consumerId: string
@@ -37,9 +38,33 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
   const { closeDialog } = useDialog()
   const { jwt } = AuthHooks.useJwt()
 
+  const preselectedConsumer = jwt
+    ? ({
+        id: jwt?.organizationId,
+        name: jwt?.organization.name,
+      } as DelegationTenant)
+    : undefined
+
+  const agreementsOptions = match(action)
+    .with('inspect', () =>
+      agreements.filter(
+        (agreement) =>
+          agreement.state === 'ACTIVE' ||
+          agreement.state === 'SUSPENDED' ||
+          agreement.state === 'PENDING'
+      )
+    )
+    .with('edit', () => agreements.filter((agreement) => agreement.state === 'DRAFT'))
+    .exhaustive()
+
+  const hasPreselectedConsumer = Boolean(
+    agreementsOptions.find((agreement) => agreement.consumerId === preselectedConsumer?.id)
+  )
+
   const formMethods = useForm<SelectAgreementConsumerFormValues>({
     defaultValues: {
-      consumerId: jwt?.organizationId ?? undefined,
+      consumerId:
+        preselectedConsumer && hasPreselectedConsumer ? preselectedConsumer.id : undefined,
     },
   })
 
@@ -70,15 +95,8 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
               <Typography>{t(`description.${action}`)}</Typography>
               <DialogSelectAgreementConsumerAutocomplete
                 eserviceId={eserviceId}
-                preselectedConsumer={
-                  jwt
-                    ? ({
-                        id: jwt?.organizationId,
-                        name: jwt?.organization.name,
-                      } as DelegationTenant)
-                    : undefined
-                }
-                agreements={agreements}
+                preselectedConsumer={hasPreselectedConsumer ? preselectedConsumer : undefined}
+                agreements={agreementsOptions}
                 action={action}
               />
             </Stack>
