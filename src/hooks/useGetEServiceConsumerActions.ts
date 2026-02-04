@@ -20,7 +20,6 @@ import { useDialog } from '@/stores'
 import { match } from 'ts-pattern'
 
 function useGetEServiceConsumerActions(
-  eservice?: CatalogEServiceDescriptor['eservice'],
   descriptor?: CatalogEServiceDescriptor,
   delegators?: Array<DelegationTenant>,
   isDelegator?: boolean
@@ -35,20 +34,24 @@ function useGetEServiceConsumerActions(
   const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
   const { mutate: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
 
-  const isMine = Boolean(eservice?.isMine)
-  const isSubscribed = eservice?.isSubscribed
-  const hasAgreementDraft = checkIfhasAlreadyAgreementDraft(eservice)
-  const canCreateAgreementDraft = checkIfcanCreateAgreementDraft(eservice, descriptor)
-  const isSuspended = descriptor?.state === 'SUSPENDED'
-
-  const hasCertifiedAttributes = descriptor?.eservice.hasCertifiedAttributes
-
   const actions: Array<ActionItemButton> = []
 
-  if (!eservice || !descriptor || !isAdmin) return { actions: [] satisfies Array<ActionItemButton> }
+  if (!descriptor || !isAdmin) return { actions: [] satisfies Array<ActionItemButton> }
+
+  const isMine = Boolean(descriptor.eservice.isMine)
+  const isSubscribed = descriptor.eservice.isSubscribed
+  const hasAgreementDraft = checkIfhasAlreadyAgreementDraft(descriptor.eservice)
+  const canCreateAgreementDraft = checkIfcanCreateAgreementDraft(
+    jwt?.organizationId,
+    descriptor.eservice,
+    descriptor
+  )
+  const isSuspended = descriptor?.state === 'SUSPENDED'
+
+  const hasCertifiedAttributes = descriptor.eservice.hasCertifiedAttributes
 
   const inspectableAgreementsStates: AgreementState[] = ['ACTIVE', 'SUSPENDED', 'PENDING']
-  const inspectableAgreements = eservice.agreements.filter((agreement) =>
+  const inspectableAgreements = descriptor.eservice.agreements.filter((agreement) =>
     inspectableAgreementsStates.includes(agreement.state)
   )
 
@@ -65,14 +68,16 @@ function useGetEServiceConsumerActions(
       .otherwise(() => {
         openDialog({
           type: 'selectAgreementConsumer',
-          eserviceId: eservice.id,
-          agreements: eservice.agreements,
+          eserviceId: descriptor.eservice.id,
+          agreements: descriptor.eservice.agreements,
           action: 'inspect',
         })
       })
   }
 
-  const editableAgreements = eservice.agreements.filter((agreement) => agreement.state === 'DRAFT')
+  const editableAgreements = descriptor.eservice.agreements.filter(
+    (agreement) => agreement.state === 'DRAFT'
+  )
 
   const handleEditAgreementAction = () => {
     match(editableAgreements.length)
@@ -87,8 +92,8 @@ function useGetEServiceConsumerActions(
       .otherwise(() => {
         openDialog({
           type: 'selectAgreementConsumer',
-          eserviceId: eservice.id,
-          agreements: eservice.agreements,
+          eserviceId: descriptor.eservice.id,
+          agreements: descriptor.eservice.agreements,
           action: 'edit',
         })
       })
@@ -108,7 +113,7 @@ function useGetEServiceConsumerActions(
     if (isOwnEService) {
       submitToOwnEService(
         {
-          eserviceId: eservice.id,
+          eserviceId: descriptor.eservice.id,
           descriptorId: descriptor.id,
           delegationId: delegationId,
         },
@@ -127,8 +132,8 @@ function useGetEServiceConsumerActions(
      * */
     createAgreementDraft(
       {
-        eserviceName: eservice.name,
-        eserviceId: eservice.id,
+        eserviceName: descriptor.eservice.name,
+        eserviceId: descriptor.eservice.id,
         eserviceVersion: descriptor.version,
         descriptorId: descriptor.id,
         delegationId: delegationId,
@@ -148,12 +153,16 @@ function useGetEServiceConsumerActions(
   const handleOpenCreateAgreementDraftDialog = () => {
     openDialog({
       type: 'createAgreementDraft',
-      eservice: { id: eservice.id, name: eservice.name, producerId: eservice.producer.id },
+      eservice: {
+        id: descriptor.eservice.id,
+        name: descriptor.eservice.name,
+        producerId: descriptor.eservice.producer.id,
+      },
       descriptor: {
         id: descriptor.id,
         version: descriptor.version,
       },
-      agreements: eservice.agreements,
+      agreements: descriptor.eservice.agreements,
       onSubmit: handleCreateAgreementDraft,
     })
   }
@@ -174,7 +183,7 @@ function useGetEServiceConsumerActions(
     })
   }
 
-  const existingAgreements = eservice.agreements.filter(
+  const existingAgreements = descriptor.eservice.agreements.filter(
     (agreement) => agreement.state !== 'ARCHIVED' && agreement.state !== 'REJECTED'
   )
 
@@ -217,7 +226,7 @@ function useGetEServiceConsumerActions(
     // ... the party doesn't own all the certified attributes required...
     !hasCertifiedAttributes &&
     // ... the e-service's latest active descriptor is the actual descriptor the user is viewing...
-    eservice.activeDescriptor?.id === descriptor?.id &&
+    descriptor.eservice.activeDescriptor?.id === descriptor?.id &&
     /// ... and it is not archived.
     descriptor?.state !== 'ARCHIVED' &&
     /// ... and it is not delegator
