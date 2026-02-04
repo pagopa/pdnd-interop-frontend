@@ -41,11 +41,7 @@ function useGetEServiceConsumerActions(
   const isMine = Boolean(descriptor.eservice.isMine)
   const isSubscribed = descriptor.eservice.isSubscribed
   const hasAgreementDraft = checkIfhasAlreadyAgreementDraft(descriptor.eservice)
-  const canCreateAgreementDraft = checkIfcanCreateAgreementDraft(
-    jwt?.organizationId,
-    descriptor.eservice,
-    descriptor
-  )
+  const canCreateAgreementDraft = checkIfcanCreateAgreementDraft(jwt?.organizationId, descriptor)
   const isSuspended = descriptor?.state === 'SUSPENDED'
 
   const hasCertifiedAttributes = descriptor.eservice.hasCertifiedAttributes

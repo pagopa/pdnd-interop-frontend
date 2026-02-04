@@ -16,16 +16,16 @@ export const checkIfhasAlreadyAgreementDraft = (
 }
 /**
  * Checks if the user can create an agreement draft for the given e-service.
+ * @param tenantId The tenant id of the user to check
  * @param eservice The e-service to check
  * @param descriptor the actual viewing descriptor
  * @returns `true` if the user can create an agreement draft for the given e-service, `false` otherwise
  */
 export const checkIfcanCreateAgreementDraft = (
   tenantId: string | undefined,
-  eservice: CatalogDescriptorEService | undefined,
   descriptor?: CatalogEServiceDescriptor
 ) => {
-  if (!eservice || !descriptor || !tenantId) return false
+  if (!descriptor || !tenantId) return false
 
   let result = false
 
@@ -34,11 +34,11 @@ export const checkIfcanCreateAgreementDraft = (
    * ... I own all the certified attributes...
    * ...or if the subscriber is the owner of the eservice...
    * */
-  if (descriptor.eservice.hasCertifiedAttributes || eservice.isMine) {
+  if (descriptor.eservice.hasCertifiedAttributes || descriptor.eservice.isMine) {
     result = true
   }
 
-  const subscribedAgreements = eservice.agreements.filter(
+  const subscribedAgreements = descriptor.eservice.agreements.filter(
     (agreement) =>
       agreement.state === 'ACTIVE' ||
       agreement.state === 'SUSPENDED' ||
@@ -46,7 +46,7 @@ export const checkIfcanCreateAgreementDraft = (
   )
   const isSubscribed = subscribedAgreements.some((agreement) => agreement.consumerId === tenantId)
 
-  const hasAgreementDraft = eservice.agreements.some(
+  const hasAgreementDraft = descriptor.eservice.agreements.some(
     (agreement) => agreement.state === 'DRAFT' && agreement.consumerId === tenantId
   )
 
