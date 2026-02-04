@@ -1,3 +1,5 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
 
-echo "Validating branch name..."
-npx --no-install validate-branch-name
+echo "Validate branch name before commit..."
+npx --no-install validate-branch-name 
