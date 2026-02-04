@@ -34,17 +34,7 @@ if (redirectUrl) {
 
 function App() {
   const { t } = useTranslation('shared-components')
-  // const switchPathLang = useSwitchPathLang()
   let envBannerProps: EnvironmentBannerProps | undefined = undefined
-
-  // useEffect(() => {
-  //   const urlParams = new URLSearchParams(window.location.search)
-  //   const lang = urlParams.get('lang')
-
-  //   if (lang === 'en' || lang === 'it') {
-  //     switchPathLang(lang)
-  //   }
-  // }, [])
 
   if (STAGE === 'UAT') {
     envBannerProps = {

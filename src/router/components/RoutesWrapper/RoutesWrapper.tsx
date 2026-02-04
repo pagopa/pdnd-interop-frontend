@@ -14,7 +14,9 @@ import { Dialog } from '@/components/dialogs'
 import { routes, useCurrentRoute, useSwitchPathLang } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import { Stack } from '@mui/system'
-import { AllowedLanguage } from '@/config/react-i18next'
+import z from 'zod'
+
+export const AllowedLanguage = z.enum(['en', 'it'])
 
 function EmptyWrapper({ children }: { children: React.ReactNode }) {
   return <>{children}</>
