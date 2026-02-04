@@ -86,7 +86,7 @@
           "checkboxLabel": "Autorizzo che i delegati possano associare i propri client alle finalità che hanno creato in qualità di delegati alla fruizione. Consulta la <1>documentazione</1> per approfondire"
         }
       },
-      "firstVersionOnlyEditableInfo": "I contenuti di questo passaggio, ad eccezione della descrizione, non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service."
+      "firstVersionOnlyEditableInfo": "Questi dati non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service."
     },
     "stepPurpose": {
       "firstVersionOnlyEditableInfoAlert": "I contenuti di questo passaggio non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
