@@ -14,9 +14,7 @@ import { Dialog } from '@/components/dialogs'
 import { routes, useCurrentRoute, useSwitchPathLang } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import { Stack } from '@mui/system'
-import z from 'zod'
-
-export const AllowedLanguage = z.enum(['en', 'it'])
+import { AllowedLanguage } from '@/router/routes'
 
 function EmptyWrapper({ children }: { children: React.ReactNode }) {
   return <>{children}</>
