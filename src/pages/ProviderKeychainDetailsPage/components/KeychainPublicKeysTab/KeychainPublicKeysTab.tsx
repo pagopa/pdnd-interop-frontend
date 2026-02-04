@@ -35,7 +35,8 @@ export const KeychainPublicKeysTab: React.FC<KeychainPublicKeysTabProps> = ({ ke
     },
   ])
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
 
   const params = {
     ...filtersParams,
@@ -57,7 +58,11 @@ export const KeychainPublicKeysTab: React.FC<KeychainPublicKeysTabProps> = ({ ke
       <Filters {...filtersHandlers} />
       <React.Suspense fallback={<KeychainPublicKeysTableSkeleton />}>
         <KeychainPublicKeysWrapper params={params} />
-        <Pagination {...paginationProps} totalPages={totalPageCount} />
+        <Pagination
+          {...paginationProps}
+          rowPerPageOptions={rowPerPageOptions}
+          totalPages={totalPageCount}
+        />
       </React.Suspense>
     </>
   )

@@ -16,7 +16,8 @@ export const AssignAttributesTab: React.FC = () => {
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
 
   const queryParams: GetRequesterCertifiedAttributesParams = {
     ...paginationParams,
@@ -42,6 +43,7 @@ export const AssignAttributesTab: React.FC = () => {
       {isAdmin && <AssignAttributeDrawer isOpen={isOpen} onClose={closeDrawer} />}
       <Pagination
         {...paginationProps}
+        rowPerPageOptions={rowPerPageOptions}
         totalPages={getTotalPageCount(data?.pagination.totalCount)}
       />
     </>
