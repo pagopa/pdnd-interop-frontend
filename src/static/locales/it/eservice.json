@@ -3,6 +3,7 @@
   "backToEServiceBtn": "Torna all'e-service",
   "create": {
     "emptyTitle": "Crea e-service",
+    "requiredLabel": "*Campi obbligatori.",
     "stepper": {
       "step1Label": "Generale",
       "step2Label": "Versione",

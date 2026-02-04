@@ -190,6 +190,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             inputProps={{ maxLength: 60 }}
             size="small"
             sx={{ width: '49%', my: 0, mt: 1 }}
+            required
           />
 
           <RHFTextField
@@ -202,6 +203,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             inputProps={{ maxLength: 250 }}
             rules={!eserviceTemplate ? { required: true, minLength: 10 } : undefined}
             sx={{ mb: 0, mt: 3 }}
+            required
           />
 
           <RHFRadioGroup
