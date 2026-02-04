@@ -21,10 +21,11 @@ export const checkIfhasAlreadyAgreementDraft = (
  * @returns `true` if the user can create an agreement draft for the given e-service, `false` otherwise
  */
 export const checkIfcanCreateAgreementDraft = (
+  tenantId: string | undefined,
   eservice: CatalogDescriptorEService | undefined,
   descriptor?: CatalogEServiceDescriptor
 ) => {
-  if (!eservice || !descriptor) return false
+  if (!eservice || !descriptor || !tenantId) return false
 
   let result = false
 
@@ -37,8 +38,17 @@ export const checkIfcanCreateAgreementDraft = (
     result = true
   }
 
-  const isSubscribed = eservice.isSubscribed
-  const hasAgreementDraft = checkIfhasAlreadyAgreementDraft(eservice)
+  const subscribedAgreements = eservice.agreements.filter(
+    (agreement) =>
+      agreement.state === 'ACTIVE' ||
+      agreement.state === 'SUSPENDED' ||
+      agreement.state === 'PENDING'
+  )
+  const isSubscribed = subscribedAgreements.some((agreement) => agreement.consumerId === tenantId)
+
+  const hasAgreementDraft = eservice.agreements.some(
+    (agreement) => agreement.state === 'DRAFT' && agreement.consumerId === tenantId
+  )
 
   /**
    * ... but only if I'm not subscribed to it yet...
