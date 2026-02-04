@@ -358,6 +358,13 @@
       "delegate": "Received by Delegation"
     }
   },
+  "delegationTooltip": {
+    "label": {
+      "default": "By Delegation",
+      "delegator": "Delegated to {{delegate}}",
+      "delegate": "Received by Delegation by {{delegator}}"
+    }
+  },
   "riskAnalysis": {
     "formComponents": {
       "emptyLabel": "No values available",

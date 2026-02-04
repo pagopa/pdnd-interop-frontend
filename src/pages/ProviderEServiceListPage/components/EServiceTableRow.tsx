@@ -11,8 +11,9 @@ import { TableRow } from '@pagopa/interop-fe-commons'
 import type { EServiceDescriptorState, ProducerEService } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
+// import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
 import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
+import { DelegationTooltip } from '@/components/shared/DelegationTooltip'
 
 type EServiceTableRow = {
   eservice: ProducerEService
@@ -69,10 +70,11 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
     <TableRow
       cellData={[
         isEServiceByDelegation ? (
-          <Stack direction="row" spacing={1}>
+          <Stack direction="row" alignItems={'center'} spacing={1}>
             {eservice.hasUnreadNotifications && <NotificationBadgeDot />}
             <Typography variant="body2">{eservice.name}</Typography>
-            <ByDelegationChip tenantRole={isDelegator ? 'DELEGATOR' : 'DELEGATE'} />
+            {/*<ByDelegationChip tenantRole={isDelegator ? 'DELEGATOR' : 'DELEGATE'} />*/}
+            {eservice.delegation && <DelegationTooltip delegation={eservice.delegation} />}
           </Stack>
         ) : (
           <Stack direction="row" alignItems="center">
