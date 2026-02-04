@@ -1,11 +1,6 @@
 import useGetEServiceConsumerActions from '../useGetEServiceConsumerActions'
 import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
-import {
-  type CompactDelegations,
-  type HasCertifiedAttributes,
-  type CatalogEServiceDescriptor,
-  type DelegationTenant,
-} from '@/api/api.generatedTypes'
+import { type CatalogEServiceDescriptor, type DelegationTenant } from '@/api/api.generatedTypes'
 import {
   createMockCatalogDescriptorEService,
   createMockEServiceDescriptorCatalog,
@@ -112,7 +107,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
 
     const delegatorsMock: Array<DelegationTenant> = [{ id: 'delegator-id', name: 'Delegator Name' }]
 
-    const { result, history } = renderUseGetEServiceConsumerActionsHook(
+    const { result } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock }),
       delegatorsMock,
       false
@@ -129,16 +124,6 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     await waitFor(() => {
       expect(screen.getByRole('button', { name: 'actions.inspect' })).toBeInTheDocument()
     })
-
-    // act(() => {
-    //   fireEvent.click(screen.getByRole('button', { name: 'confirmDialog.proceedLabel' }))
-    // })
-
-    // // TODO
-
-    // expect(history.location.pathname).toBe(
-    //   `/it/fruizione/richieste/${eserviceMock.agreements[0]?.id}`
-    // )
   })
 
   it('should return the edit agreement action if the user has one agreement with state DRAFT', async () => {
@@ -188,7 +173,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
       ],
     })
 
-    const { result, history } = renderUseGetEServiceConsumerActionsHook(
+    const { result } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
     expect(result.current.actions).toHaveLength(1)
@@ -202,16 +187,6 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     await waitFor(() => {
       expect(screen.getByRole('button', { name: 'actions.edit' })).toBeInTheDocument()
     })
-
-    // act(() => {
-    //   fireEvent.click(screen.getByRole('button', { name: 'confirmDialog.proceedLabel' }))
-    // })
-
-    // TODO
-
-    // expect(history.location.pathname).toBe(
-    //   `/it/fruizione/richieste/${eserviceMock.agreements[0]?.id}/modifica`
-    // )
   })
 
   it('should not return any action if the user is not an admin', () => {
@@ -357,7 +332,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
       hasCertifiedAttributes: true,
     })
 
-    const { result, history } = renderUseGetEServiceConsumerActionsHook(
+    const { result } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock }),
       [{ id: 'delegator-id', name: 'Delegator Name' }],
       false
@@ -373,16 +348,6 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     await waitFor(() => {
       expect(screen.getByRole('button', { name: 'createNewDraft' })).toBeInTheDocument()
     })
-
-    // act(() => {
-    //   fireEvent.click(screen.getByRole('button', { name: 'confirmDialog.proceedLabel' }))
-    // })
-
-    // TODO
-
-    // await waitFor(() => {
-    //   expect(history.location.pathname).toBe(`/it/fruizione/richieste/test-id/modifica`)
-    // })
   })
 
   it("should return the create agreement draft action if the user doesn't have an active agreement and the subscriber is the e-service provider", async () => {
