@@ -174,24 +174,30 @@ function useGetEServiceConsumerActions(
     })
   }
 
+  const existingAgreements = eservice.agreements.filter(
+    (agreement) => agreement.state !== 'ARCHIVED' && agreement.state !== 'REJECTED'
+  )
+
+  const tenants: DelegationTenant[] = jwt
+    ? [{ id: jwt.organizationId as string, name: jwt.organization.name }, ...(delegators ?? [])]
+    : delegators ?? []
+
+  const tenantsWithoutAgreement = tenants.filter(
+    (tenant) => !existingAgreements.some((agreement) => agreement.consumerId === tenant.id)
+  )
+
   if (
-    (canCreateAgreementDraft && !isDelegator && (delegators?.length === 0 || !delegators)) ||
-    (delegators && delegators?.length > 0)
+    // If there are more than one tenant without an agreement...
+    tenantsWithoutAgreement.length > 1 ||
+    // ...or there is exactly one tenant without an agreement and it is not the active party...
+    (tenantsWithoutAgreement.length === 1 &&
+      tenantsWithoutAgreement[0].id !== jwt?.organizationId) ||
+    // ...or there is exactly one tenant without an agreement, it is the active party, the user is not a delegator for this eservice and can create the agreement draft
+    (tenantsWithoutAgreement.length === 1 &&
+      tenantsWithoutAgreement[0].id === jwt?.organizationId &&
+      !isDelegator &&
+      canCreateAgreementDraft)
   ) {
-    const existingAgreements = eservice.agreements.filter(
-      (agreement) => agreement.state !== 'ARCHIVED' && agreement.state !== 'REJECTED'
-    )
-
-    const tenants: DelegationTenant[] = jwt
-      ? [{ id: jwt.organizationId as string, name: jwt.organization.name }, ...(delegators ?? [])]
-      : delegators ?? []
-
-    const tenantsWithoutAgreement = tenants.filter(
-      (tenant) => !existingAgreements.some((agreement) => agreement.consumerId === tenant.id)
-    )
-
-    tenantsWithoutAgreement.length === 1 && tenantsWithoutAgreement[0].id === jwt?.organizationId
-
     actions.push({
       action:
         tenantsWithoutAgreement.length === 1 &&
