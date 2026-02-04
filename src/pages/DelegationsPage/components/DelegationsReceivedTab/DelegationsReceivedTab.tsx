@@ -11,7 +11,8 @@ import { DelegationQueries } from '@/api/delegation'
 
 export const DelegationsReceivedTab: React.FC = () => {
   const { jwt } = AuthHooks.useJwt()
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
 
   const params: GetDelegationsParams = {
     ...paginationParams,
@@ -32,7 +33,11 @@ export const DelegationsReceivedTab: React.FC = () => {
       >
         <DelegationsTable params={params} delegationType={'DELEGATION_RECEIVED'} />
       </React.Suspense>
-      <Pagination {...paginationProps} totalPages={totalPageCount} />
+      <Pagination
+        {...paginationProps}
+        rowPerPageOptions={rowPerPageOptions}
+        totalPages={totalPageCount}
+      />
     </>
   )
 }
