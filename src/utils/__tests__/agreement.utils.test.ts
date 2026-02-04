@@ -101,91 +101,93 @@ describe('checkIfhasAlreadyAgreementDraft', () => {
 })
 
 describe('checkIfcanCreateAgreementDraft', () => {
-  it('should return false if the eservice is undefined', () => {
-    const result = checkIfcanCreateAgreementDraft(
-      undefined,
-      createMockEServiceDescriptorCatalog({ state: 'PUBLISHED' })
-    )
-    expect(result).toBe(false)
-  })
-
-  it('should return false if descriptor state is undefined', () => {
-    const result = checkIfcanCreateAgreementDraft(
-      createMockCatalogDescriptorEService({
-        agreements: [],
-      }),
-      undefined
-    )
+  it('should return false if descriptor is undefined', () => {
+    const result = checkIfcanCreateAgreementDraft('organizationId', undefined)
     expect(result).toBe(false)
   })
 
   it('should return false if the subscriber is already subscribed', () => {
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [{ id: 'agreement-id', state: 'ACTIVE', consumerId: 'organizationId' }],
+    })
+
     const result = checkIfcanCreateAgreementDraft(
-      createMockCatalogDescriptorEService({
-        agreements: [{ id: 'agreement-id', state: 'ACTIVE', consumerId: 'consumer-id' }],
-      }),
-      createMockEServiceDescriptorCatalog({ state: 'PUBLISHED' })
+      'organizationId',
+      createMockEServiceDescriptorCatalog({ state: 'PUBLISHED', eservice: eserviceMock })
     )
     expect(result).toBe(false)
   })
 
   it('should return false if the subscriber has already an agreement DRAFT', () => {
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [{ id: 'agreement-id', state: 'DRAFT', consumerId: 'organizationId' }],
+    })
+
     const result = checkIfcanCreateAgreementDraft(
-      createMockCatalogDescriptorEService({
-        agreements: [{ id: 'agreement-id', state: 'DRAFT', consumerId: 'consumer-id' }],
-      }),
-      createMockEServiceDescriptorCatalog({ state: 'PUBLISHED' })
+      'organizationId',
+      createMockEServiceDescriptorCatalog({ state: 'PUBLISHED', eservice: eserviceMock })
     )
     expect(result).toBe(false)
   })
 
   it('should return false if the descriptor state is different from PUBLISHED/SUSPENDED', () => {
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+    })
+
     const result = checkIfcanCreateAgreementDraft(
-      createMockCatalogDescriptorEService({
-        agreements: [],
-      }),
-      createMockEServiceDescriptorCatalog({ state: 'DEPRECATED' })
+      'organizationId',
+      createMockEServiceDescriptorCatalog({ state: 'DEPRECATED', eservice: eserviceMock })
     )
     expect(result).toBe(false)
   })
 
   it('should return false if the eservice has no certified attributes and is not owned by the user', () => {
+    const eserviceMock = createMockCatalogDescriptorEService({
+      isMine: false,
+      agreements: [],
+      hasCertifiedAttributes: false,
+    })
+
     const result = checkIfcanCreateAgreementDraft(
-      createMockCatalogDescriptorEService({
-        isMine: false,
-        agreements: [],
-      }),
+      'organizationId',
       createMockEServiceDescriptorCatalog({
         state: 'PUBLISHED',
-        eservice: createMockCatalogDescriptorEService({ hasCertifiedAttributes: false }),
+        eservice: eserviceMock,
       })
     )
     expect(result).toBe(false)
   })
 
   it('should return true if the eservice has certified attributes', () => {
+    const eserviceMock = createMockCatalogDescriptorEService({
+      isMine: false,
+      agreements: [],
+      hasCertifiedAttributes: true,
+    })
+
     const result = checkIfcanCreateAgreementDraft(
-      createMockCatalogDescriptorEService({
-        isMine: false,
-        agreements: [],
-      }),
+      'organizationId',
       createMockEServiceDescriptorCatalog({
         state: 'PUBLISHED',
-        eservice: createMockCatalogDescriptorEService({ hasCertifiedAttributes: true }),
+        eservice: eserviceMock,
       })
     )
     expect(result).toBe(true)
   })
 
   it('should return true if the eservice is owned by the subscriber', () => {
+    const eserviceMock = createMockCatalogDescriptorEService({
+      isMine: true,
+      agreements: [],
+      hasCertifiedAttributes: false,
+    })
+
     const result = checkIfcanCreateAgreementDraft(
-      createMockCatalogDescriptorEService({
-        isMine: true,
-        agreements: [],
-      }),
+      'organizationId',
       createMockEServiceDescriptorCatalog({
         state: 'PUBLISHED',
-        eservice: createMockCatalogDescriptorEService({ hasCertifiedAttributes: false }),
+        eservice: eserviceMock,
       })
     )
     expect(result).toBe(true)
