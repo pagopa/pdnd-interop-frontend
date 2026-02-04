@@ -61,7 +61,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     expect(result.current.actions).toHaveLength(0)
   })
 
-  it('should return the go to agreement action if the user has already an active agreement', async () => {
+  it('should return inspect agreement action if the user has just an agreement with state ACTIVE, SUSPENDED or PENDING', async () => {
     mockUseJwt({ isAdmin: true })
 
     const eserviceMock = createMockCatalogDescriptorEService({
@@ -89,7 +89,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     )
   })
 
-  it('should return the go to agreement action that open the dialog for selecting the tenant before go to agreement if the user has more than one active agreement', async () => {
+  it('should open the dialog for selecting the tenant before inspect agreement if the user has more than one agreement with state ACTIVE, SUSPENDED or PENDING', async () => {
     mockUseJwt({ isAdmin: true })
 
     const eserviceMock = createMockCatalogDescriptorEService({
@@ -102,7 +102,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
         },
         {
           id: 'test-2',
-          state: 'ACTIVE',
+          state: 'SUSPENDED',
           canBeUpgraded: false,
           consumerId: 'delegator-id',
         },
@@ -141,7 +141,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     // )
   })
 
-  it('should return the go to edit agreement action if the user has already a draft agreement', async () => {
+  it('should return the edit agreement action if the user has one agreement with state DRAFT', async () => {
     mockUseJwt({ isAdmin: true })
 
     const eserviceMock = createMockCatalogDescriptorEService({
@@ -168,7 +168,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     )
   })
 
-  it('should return the go to edit agreement action that open the dialog for selecting the tenant before go to agreement edit if the user has more than one draft agreement', async () => {
+  it('should open the dialog for selecting the tenant before edit agreement if agreements with state DRAFT are more than one', async () => {
     mockUseJwt({ isAdmin: true })
 
     const eserviceMock = createMockCatalogDescriptorEService({
@@ -234,7 +234,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     expect(result.current.actions).toHaveLength(0)
   })
 
-  it("should return the create agreement draft action if the user doesn't have an active agreement", async () => {
+  it("should return the create agreement draft action if the user doesn't have agreements", async () => {
     mockUseJwt({ isAdmin: true })
 
     const eserviceMock = createMockCatalogDescriptorEService({
@@ -267,7 +267,87 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     })
   })
 
-  it("should return the create agreement draft action that open the dialog for selecting the tenant before create agreement if the user doesn't have an active agreement and is delegate for this eservice", async () => {
+  it('should return the create agreement draft action if the user have only agreements with state ARCHIVED', async () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [
+        {
+          id: 'agreement-id',
+          state: 'ARCHIVED',
+          consumerId: 'organizationId',
+          canBeUpgraded: false,
+        },
+      ],
+      isMine: false,
+      hasCertifiedAttributes: true,
+    })
+
+    const { result, history } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
+    )
+    expect(result.current.actions).toHaveLength(1)
+    const createAgreementDraftAction = result.current.actions[0]!
+    expect(createAgreementDraftAction.label).toBe('tableEServiceCatalog.subscribe')
+
+    act(() => {
+      createAgreementDraftAction.action()
+    })
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'confirmDialog.proceedLabel' })).toBeInTheDocument()
+    })
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'confirmDialog.proceedLabel' }))
+    })
+
+    await waitFor(() => {
+      expect(history.location.pathname).toBe(`/it/fruizione/richieste/test-id/modifica`)
+    })
+  })
+
+  it('should return the create agreement draft action if the user have only agreements with state REJECTED', async () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [
+        {
+          id: 'agreement-id',
+          state: 'REJECTED',
+          consumerId: 'organizationId',
+          canBeUpgraded: false,
+        },
+      ],
+      isMine: false,
+      hasCertifiedAttributes: true,
+    })
+
+    const { result, history } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
+    )
+    expect(result.current.actions).toHaveLength(1)
+    const createAgreementDraftAction = result.current.actions[0]!
+    expect(createAgreementDraftAction.label).toBe('tableEServiceCatalog.subscribe')
+
+    act(() => {
+      createAgreementDraftAction.action()
+    })
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'confirmDialog.proceedLabel' })).toBeInTheDocument()
+    })
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'confirmDialog.proceedLabel' }))
+    })
+
+    await waitFor(() => {
+      expect(history.location.pathname).toBe(`/it/fruizione/richieste/test-id/modifica`)
+    })
+  })
+
+  it("should open the dialog for selecting the tenant before create agreement if the user doesn't have an agreement and act as 'delegate' for this e-service", async () => {
     mockUseJwt({ isAdmin: true })
 
     const eserviceMock = createMockCatalogDescriptorEService({
@@ -353,7 +433,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     expect(result.current.actions).toHaveLength(0)
   })
 
-  it('should return the go to agreement and the go to edit agreement actions if the user has an active agreement and a draft agreement', async () => {
+  it('should return the inspect agreement action and the edit agreement action if the user has an agreement with state ACTIVE and another agreement with state DRAFT', async () => {
     mockUseJwt({ isAdmin: true })
 
     const eserviceMock = createMockCatalogDescriptorEService({
@@ -386,7 +466,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     expect(goToEditAgreementAction.label).toBe('tableEServiceCatalog.editDraft')
   })
 
-  it('should return the go to agreement, the go to edit agreement and the create agreement action if the user has an active agreement and a draft agreement and can create an agreement (via delegation)', async () => {
+  it('should return the inspect agreement action, the edit agreement action and the create agreement action if the user has agreement with state ACTIVE, agreement with state DRAFT and can create another agreement (via delegation)', async () => {
     mockUseJwt({ isAdmin: true })
 
     const eserviceMock = createMockCatalogDescriptorEService({

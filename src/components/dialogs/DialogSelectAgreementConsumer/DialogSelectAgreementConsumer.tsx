@@ -38,7 +38,7 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
   const { closeDialog } = useDialog()
   const { jwt } = AuthHooks.useJwt()
 
-  const preselectedConsumer = jwt
+  const preselectedConsumer: DelegationTenant | undefined = jwt
     ? ({
         id: jwt?.organizationId,
         name: jwt?.organization.name,
@@ -57,6 +57,8 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
     .with('edit', () => agreements.filter((agreement) => agreement.state === 'DRAFT'))
     .exhaustive()
 
+  // If for this e-service there is agreement request
+  // we can preselect it on <Select/> component
   const hasPreselectedConsumer = Boolean(
     agreementsOptions.find((agreement) => agreement.consumerId === preselectedConsumer?.id)
   )

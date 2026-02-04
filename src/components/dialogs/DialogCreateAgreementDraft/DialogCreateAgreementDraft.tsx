@@ -39,18 +39,20 @@ export const DialogCreateAgreementDraft: React.FC<DialogCreateAgreementDraftProp
   const { closeDialog } = useDialog()
   const { jwt } = AuthHooks.useJwt()
 
-  const preselectedConsumer = jwt
+  const preselectedConsumer: DelegationTenant | undefined = jwt
     ? ({
         id: jwt?.organizationId,
         name: jwt?.organization.name,
       } as DelegationTenant)
     : undefined
 
-  const existingAgreements = agreements.filter(
+  const validAgreements = agreements.filter(
     (agreement) => agreement.state !== 'ARCHIVED' && agreement.state !== 'REJECTED'
   )
 
-  const hasPreselectedConsumer = !existingAgreements.some(
+  // If for this e-service there isn't agreement request
+  // we can preselect it on <Select/> component
+  const hasPreselectedConsumer = !validAgreements.some(
     (agreement) => agreement.consumerId === preselectedConsumer?.id
   )
 
@@ -117,7 +119,7 @@ export const DialogCreateAgreementDraft: React.FC<DialogCreateAgreementDraftProp
               <DialogCreateAgreementAutocomplete
                 eserviceId={eservice.id}
                 preselectedConsumer={hasPreselectedConsumer ? preselectedConsumer : undefined}
-                agreements={existingAgreements}
+                agreements={validAgreements}
               />
               {!isLoading && !hasTenantCertifiedAttributes && (
                 <Alert severity="warning" title={t('certifiedAttributesAlert.title')}>

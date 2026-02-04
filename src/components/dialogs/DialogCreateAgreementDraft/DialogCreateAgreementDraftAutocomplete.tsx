@@ -89,12 +89,12 @@ export const DialogCreateAgreementAutocomplete: React.FC<
     (delegator) => !agreements.some((agreement) => agreement.consumerId === delegator.id)
   )
 
-  const tenantOptions =
-    jwt &&
-    !isDelegator &&
-    !agreements.some((agreement) => agreement.consumerId === jwt.organizationId)
-      ? [{ id: jwt.organizationId, name: jwt.organization.name }, ...delegatorsWithoutAgreement]
-      : delegatorsWithoutAgreement
+  const canIncludeMyTenant =
+    jwt && !isDelegator && !agreements.some((a) => a.consumerId === jwt.organizationId)
+
+  const tenantOptions = canIncludeMyTenant
+    ? [{ id: jwt.organizationId, name: jwt.organization.name }, ...delegatorsWithoutAgreement]
+    : delegatorsWithoutAgreement
 
   const autocompleteOptions = tenantOptions.map((tenant) => ({
     label: tenant.name,
