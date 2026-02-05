@@ -200,7 +200,8 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             required
           />
-
+        </SectionContainer>
+        <SectionContainer title={t('create.step1.detailsSection.title')}>
           {!isEserviceFromTemplate && (
             <Alert severity="warning" sx={{ mb: 0, mt: 3 }}>
               {t('create.step1.firstVersionOnlyEditableInfo')}
