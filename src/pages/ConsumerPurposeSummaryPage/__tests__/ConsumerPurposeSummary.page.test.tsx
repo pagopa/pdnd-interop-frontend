@@ -237,10 +237,6 @@ describe('ConsumerPurposeSummaryPage', () => {
       withRouterContext: true,
     })
 
-    console.log('----------------')
-    screen.debug(undefined, 1000000)
-    console.log('----------------')
-
     expect(screen.getByText('summary.alerts.infoDailyCallsTotalExceed')).toBeInTheDocument()
   })
 })
