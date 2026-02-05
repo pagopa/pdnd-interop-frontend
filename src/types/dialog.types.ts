@@ -37,7 +37,6 @@ export type DialogProps =
   | DialogRejectDelegationProps
   | DialogRevokeDelegationProps
   | DialogRejectDelegatedVersionDraftProps
-  | DialogCreateAgreementDraftProps
   | DialogTenantKindEserviceTemplateProps
   | DialogTenantKindPurposeTemplateProps
   | DialogSelectAgreementConsumerProps
@@ -149,8 +148,9 @@ export type DialogRejectDelegatedVersionDraftProps = {
   descriptorId: string
 }
 
-export type DialogCreateAgreementDraftProps = {
-  type: 'createAgreementDraft'
+export type DialogSelectAgreementConsumerProps = {
+  type: 'selectAgreementConsumer'
+  action: 'inspect' | 'edit' | 'create'
   eservice: {
     id: string
     name: string
@@ -161,20 +161,13 @@ export type DialogCreateAgreementDraftProps = {
     version: string
   }
   agreements: CompactAgreement[]
-  onSubmit: ({
+  onSubmitCreate?: ({
     isOwnEService,
     delegationId,
   }: {
     isOwnEService: boolean
     delegationId?: string
   }) => void
-}
-
-export type DialogSelectAgreementConsumerProps = {
-  type: 'selectAgreementConsumer'
-  action: 'inspect' | 'edit'
-  eserviceId: string
-  agreements: CompactAgreement[]
 }
 
 export type DialogTenantKindEserviceTemplateProps = {

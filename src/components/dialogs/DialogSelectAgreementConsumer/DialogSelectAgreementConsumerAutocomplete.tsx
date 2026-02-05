@@ -7,13 +7,13 @@ import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { match } from 'ts-pattern'
+import { match, P } from 'ts-pattern'
 
 type DialogSelectAgreementConsumerAutocompleteProps = {
   eserviceId: string
   preselectedConsumer: DelegationTenant | undefined
   agreements: CompactAgreement[]
-  action: 'inspect' | 'edit'
+  action: 'inspect' | 'edit' | 'create'
 }
 
 export const DialogSelectAgreementConsumerAutocomplete: React.FC<
@@ -87,24 +87,39 @@ export const DialogSelectAgreementConsumerAutocomplete: React.FC<
     }
   }, [setValue, selectedConsumerId, delegators, setConsumerAutocompleteTextInput])
 
-  const delegatorOptions = delegators.filter((delegator) =>
-    agreements.some((agreement) => agreement.consumerId === delegator.id)
-  )
-
-  const tenantOptions = match(action)
-    .with('inspect', () =>
-      jwt && agreements.some((agreement) => agreement.consumerId === jwt.organizationId)
-        ? [{ id: jwt.organizationId, name: jwt.organization.name }, ...delegatorOptions]
-        : delegatorOptions
+  const delegatorOptions = match(action)
+    .with(P.union('inspect', 'edit'), () =>
+      delegators.filter((delegator) =>
+        agreements.some((agreement) => agreement.consumerId === delegator.id)
+      )
     )
-    .with('edit', () =>
-      jwt &&
-      !isDelegator &&
-      agreements.some((agreement) => agreement.consumerId === jwt.organizationId)
-        ? [{ id: jwt.organizationId, name: jwt.organization.name }, ...delegatorOptions]
-        : delegatorOptions
+    .with('create', () =>
+      delegators.filter(
+        (delegator) => !agreements.some((agreement) => agreement.consumerId === delegator.id)
+      )
     )
     .exhaustive()
+
+  const canIncludeMyTenant = match(action)
+    .with('inspect', () =>
+      Boolean(jwt && agreements.some((agreement) => agreement.consumerId === jwt.organizationId))
+    )
+    .with('edit', () =>
+      Boolean(
+        jwt &&
+          !isDelegator &&
+          agreements.some((agreement) => agreement.consumerId === jwt.organizationId)
+      )
+    )
+    .with('create', () =>
+      Boolean(jwt && !isDelegator && !agreements.some((a) => a.consumerId === jwt.organizationId))
+    )
+    .exhaustive()
+
+  const tenantOptions =
+    canIncludeMyTenant && jwt
+      ? [{ id: jwt.organizationId, name: jwt.organization.name }, ...delegatorOptions]
+      : delegatorOptions
 
   const autocompleteOptions = tenantOptions.map((tenant) => ({
     label: tenant.name,
