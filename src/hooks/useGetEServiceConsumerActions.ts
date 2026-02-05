@@ -64,7 +64,15 @@ function useGetEServiceConsumerActions(
       .otherwise(() => {
         openDialog({
           type: 'selectAgreementConsumer',
-          eserviceId: descriptor.eservice.id,
+          eservice: {
+            id: descriptor.eservice.id,
+            name: descriptor.eservice.name,
+            producerId: descriptor.eservice.producer.id,
+          },
+          descriptor: {
+            id: descriptor.id,
+            version: descriptor.version,
+          },
           agreements: descriptor.eservice.agreements,
           action: 'inspect',
         })
@@ -88,7 +96,15 @@ function useGetEServiceConsumerActions(
       .otherwise(() => {
         openDialog({
           type: 'selectAgreementConsumer',
-          eserviceId: descriptor.eservice.id,
+          eservice: {
+            id: descriptor.eservice.id,
+            name: descriptor.eservice.name,
+            producerId: descriptor.eservice.producer.id,
+          },
+          descriptor: {
+            id: descriptor.id,
+            version: descriptor.version,
+          },
           agreements: descriptor.eservice.agreements,
           action: 'edit',
         })
@@ -148,7 +164,7 @@ function useGetEServiceConsumerActions(
 
   const handleOpenCreateAgreementDraftDialog = () => {
     openDialog({
-      type: 'createAgreementDraft',
+      type: 'selectAgreementConsumer',
       eservice: {
         id: descriptor.eservice.id,
         name: descriptor.eservice.name,
@@ -159,7 +175,8 @@ function useGetEServiceConsumerActions(
         version: descriptor.version,
       },
       agreements: descriptor.eservice.agreements,
-      onSubmit: handleCreateAgreementDraft,
+      action: 'create',
+      onSubmitCreate: handleCreateAgreementDraft,
     })
   }
 
