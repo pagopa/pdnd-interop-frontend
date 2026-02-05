@@ -10,8 +10,8 @@ import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act, fireEvent, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
 
-vi.mock('../../components/dialogs/DialogCreateAgreementDraft/DialogCreateAgreementDraft', () => ({
-  DialogCreateAgreementDraft: () => <div>DialogCreateAgreementDraft</div>,
+vi.mock('@/components/dialogs/DialogSelectAgreementConsumer/DialogSelectAgreementConsumer', () => ({
+  DialogSelectAgreementConsumer: () => <div>DialogSelectAgreementConsumer</div>,
 }))
 
 const server = setupServer(
@@ -126,7 +126,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     })
 
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: 'actions.inspect' })).toBeInTheDocument()
+      expect(screen.getByText('DialogSelectAgreementConsumer')).toBeInTheDocument()
     })
   })
 
@@ -189,7 +189,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     })
 
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: 'actions.edit' })).toBeInTheDocument()
+      expect(screen.getByText('DialogSelectAgreementConsumer')).toBeInTheDocument()
     })
   })
 
@@ -350,8 +350,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     })
 
     await waitFor(() => {
-      expect(screen.getByText('DialogCreateAgreementDraft')).toBeInTheDocument()
-      // expect(screen.getByRole('button', { name: 'createNewDraft' })).toBeInTheDocument()
+      expect(screen.getByText('DialogSelectAgreementConsumer')).toBeInTheDocument()
     })
   })
 
