@@ -541,7 +541,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE',
-    path: '/erogazione/template-eservice/:eServiceTemplateId/e-service/crea',
+    path: '/erogazione/e-service/template-eservice/:eServiceTemplateId/crea',
     element: <ProviderEServiceFromTemplateCreatePage />,
     public: false,
     hideSideNav: true,
