@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from '@/router'
-import { Alert, Button, Stack, Tooltip, Typography } from '@mui/material'
+import { Alert, Button, Stack, Tooltip } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
@@ -18,11 +18,8 @@ import {
 import { useGetConsumerPurposeAlertProps } from './hooks/useGetConsumerPurposeAlertProps'
 import { useQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
-import {
-  checkIsRulesetExpired,
-  getDaysToExpiration,
-  getFormattedExpirationDate,
-} from '@/utils/purpose.utils'
+import { checkIsRulesetExpired } from '@/utils/purpose.utils'
+import { ConsumerPurposeSummaryAlertContainer } from './components/ConsumerPurposeSummaryAlertContainer'
 
 const ConsumerPurposeSummaryPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -37,8 +34,6 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
 
   const expirationDate = purpose?.rulesetExpiration
-
-  const daysToExpiration = getDaysToExpiration(expirationDate)
 
   const isRulesetExpired = checkIsRulesetExpired(expirationDate)
 
@@ -123,7 +118,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   return (
     <PageContainer
-      title={purpose?.title}
+      title={t('summary.title')}
       isLoading={isLoading}
       backToAction={{
         label: t('backToListBtn'),
@@ -148,31 +143,11 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           </SummaryAccordion>
         </React.Suspense>
       </Stack>
-      {expirationDate && !isRulesetExpired && (
-        <Alert sx={{ mt: 3 }} severity="info">
-          {t('summary.alerts.infoRulesetExpiration', {
-            days: daysToExpiration,
-            date: getFormattedExpirationDate(expirationDate),
-          })}
-        </Alert>
-      )}
-      {isRulesetExpired && (
-        <Alert severity="error" sx={{ alignItems: 'center', mt: 3 }} variant="outlined">
-          <Stack spacing={13} direction="row" alignItems="center">
-            {' '}
-            {/**TODO FIX SPACING */}
-            <Typography>{t('summary.alerts.rulesetExpired.label')}</Typography>
-            <Button
-              variant="naked"
-              size="medium"
-              sx={{ fontWeight: 700, mr: 1 }}
-              onClick={() => navigate('SUBSCRIBE_PURPOSE_CREATE')}
-            >
-              {t('summary.alerts.rulesetExpired.action')}
-            </Button>
-          </Stack>
-        </Alert>
-      )}
+      <ConsumerPurposeSummaryAlertContainer
+        purpose={purpose}
+        isRulesetExpired={isRulesetExpired}
+        expirationDate={expirationDate}
+      />
       <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
         <Button
           startIcon={<DeleteOutlineIcon />}
@@ -199,7 +174,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
               variant="contained"
               onClick={handlePublishDraft}
             >
-              {tCommon('publishDraft')}
+              {tCommon('publish')}
             </Button>
           </span>
         </Tooltip>

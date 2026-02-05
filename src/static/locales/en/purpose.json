@@ -169,13 +169,16 @@
         "label": "This risk analysis uses an obsolete version that you cannot publish.",
         "action": "Create new purpose"
       },
-      "infoRulesetExpiration": "This risk analysis uses a version that will become obsolete in {{days}} days. Publish it by {{date}} to avoid having to recompile it."
+      "infoRulesetExpiration": "This risk analysis uses a version that will become obsolete in {{days}} days. Publish it by {{date}} to avoid having to recompile it.",
+      "infoApprovalMayBeRequired": "If the producer receives other purposes before your publication, approval may be required.",
+      "infoDailyCallsPerConsumerExceed": "The estimated number of calls you indicated exceeds the per-user threshold. The purpose must be approved by the producer.",
+      "infoDailyCallsTotalExceed": "The estimated number of calls you indicated exceeds the total threshold. The purpose will need to be approved by the producer."
     },
     "generalInformationSection": {
       "title": "General information",
       "eservice": {
         "label": "Reference e-service",
-        "value": "{{name}}, version {{version}}"
+        "value": "{{name}}"
       },
       "producer": {
         "label": "Producer"

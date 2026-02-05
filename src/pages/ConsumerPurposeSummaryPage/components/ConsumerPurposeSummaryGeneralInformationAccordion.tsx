@@ -36,7 +36,6 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
           >
             {t('eservice.value', {
               name: purpose.eservice.name,
-              version: purpose.eservice.descriptor.version,
             })}
           </Link>
         }

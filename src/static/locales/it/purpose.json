@@ -169,13 +169,16 @@
         "label": "Questa analisi del rischio utilizza una versione obsoleta che non puoi pubblicare.",
         "action": "Crea nuova finalità"
       },
-      "infoRulesetExpiration": "Questa analisi del rischio utilizza una versione che sarà obsoleta tra {{days}} giorni. Pubblicala entro {{date}} per non doverla ricompilare."
+      "infoRulesetExpiration": "Questa analisi del rischio utilizza una versione che sarà obsoleta tra {{days}} giorni. Pubblicala entro {{date}} per non doverla ricompilare.",
+      "infoApprovalMayBeRequired": "Se l’erogatore riceve altre finalità prima della tua pubblicazione, potrebbe essere necessaria l’approvazione.",
+      "infoDailyCallsPerConsumerExceed": "La stima di chiamate che hai indicato supera la soglia per fruitore. La finalità dovrà essere approvata dall’erogatore.",
+      "infoDailyCallsTotalExceed": "La stima di chiamate che hai indicato supera la soglia totale. La finalità dovrà essere approvata dall’erogatore."
     },
     "generalInformationSection": {
       "title": "Informazioni generali",
       "eservice": {
-        "label": "E-service di riferimento",
-        "value": "{{name}}, versione {{version}}"
+        "label": "E-service associato",
+        "value": "{{name}}"
       },
       "producer": {
         "label": "Erogatore"
@@ -184,17 +187,17 @@
         "label": "Descrizione"
       },
       "loadEstimationSection": {
-        "title": "Stima di carico",
+        "title": "Stima e soglie di chiamate API",
         "dailyCalls": {
-          "label": "Il tuo piano richiesto",
+          "label": "Stima richiesta dal fruitore",
           "value": "{{value}} chiamate API/giorno"
         },
         "dailyCallsPerConsumer": {
-          "label": "Soglia per fruitore imposta dall'erogatore",
+          "label": "Soglia per fruitore prevista dall'erogatore",
           "value": "{{value}} chiamate API/giorno"
         },
         "dailyCallsTotal": {
-          "label": "Soglia totale imposta dall'erogatore",
+          "label": "Soglia totale prevista dall'erogatore",
           "value": "{{value}} chiamate API/giorno"
         }
       }

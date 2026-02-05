@@ -61,3 +61,29 @@ export function checkIsRulesetExpired(expirationDate: string | undefined) {
   const now = new Date()
   return expirationDate ? new Date(expirationDate) < now : false
 }
+
+export function getPurposeSummaryInfoAlertLabel(purpose: Purpose | undefined) {
+  const alertLabels = {
+    FallbackLabel: 'summary.alerts.infoApprovalMayBeRequired',
+    DailyCallsPerConsumerExceed: 'summary.alerts.infoDailyCallsPerConsumerExceed',
+    DailyCallsTotalExceed: 'summary.alerts.infoDailyCallsTotalExceed',
+  } as const
+
+  type AlertLabel = (typeof alertLabels)[keyof typeof alertLabels]
+
+  let label: AlertLabel = alertLabels.FallbackLabel
+
+  if (purpose?.currentVersion?.dailyCalls) {
+    const dailyCalls = purpose.currentVersion.dailyCalls
+    const dailyCallsPerConsumer = purpose.dailyCallsPerConsumer
+    const dailyCallsTotal = purpose.dailyCallsTotal
+
+    if (dailyCalls > dailyCallsPerConsumer) {
+      label = alertLabels.DailyCallsPerConsumerExceed
+    } else if (dailyCalls > dailyCallsTotal) {
+      label = alertLabels.DailyCallsTotalExceed
+    }
+  }
+
+  return label
+}

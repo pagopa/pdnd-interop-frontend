@@ -13,6 +13,8 @@ import {
   createMockPurposeUsesPersonalDataAnswerNo,
   createMockPurposeCompatiblePersonalDataYes,
   createMockPurposeCompatiblePersonalDataNo,
+  createMockPurposeCallsPerConsumerExceed,
+  createMockPurposeCallsTotalExceed,
 } from '@/../__mocks__/data/purpose.mocks'
 
 const mockPurposeId = 'test-purpose-id'
@@ -63,11 +65,15 @@ vi.mock('./hooks/useGetConsumerPurposeAlertProps', () => ({
   useGetConsumerPurposeAlertProps: () => undefined,
 }))
 
-vi.mock('@/utils/purpose.utils', () => ({
-  checkIsRulesetExpired: vi.fn(),
-  getDaysToExpiration: vi.fn(),
-  getFormattedExpirationDate: vi.fn(),
-}))
+vi.mock('@/utils/purpose.utils', async () => {
+  const actual = await vi.importActual('@/utils/purpose.utils')
+  return {
+    ...(actual as Record<string, unknown>),
+    checkIsRulesetExpired: vi.fn(),
+    getDaysToExpiration: vi.fn(),
+    getFormattedExpirationDate: vi.fn(),
+  }
+})
 
 describe('ConsumerPurposeSummaryPage', () => {
   beforeEach(() => {
@@ -88,7 +94,7 @@ describe('ConsumerPurposeSummaryPage', () => {
       withRouterContext: true,
     })
 
-    expect(screen.getByText('Test Purpose')).toBeInTheDocument()
+    expect(screen.getByText('summary.title')).toBeInTheDocument()
   })
 
   it('disables publish button when personal data answer is incompatible (case: user answer NO, eservice personalData true)', () => {
@@ -103,7 +109,7 @@ describe('ConsumerPurposeSummaryPage', () => {
     })
 
     const publishButton = screen.getByRole('button', {
-      name: 'publishDraft',
+      name: 'publish',
     })
 
     expect(publishButton).toBeDisabled()
@@ -121,7 +127,7 @@ describe('ConsumerPurposeSummaryPage', () => {
     })
 
     const publishButton = screen.getByRole('button', {
-      name: 'publishDraft',
+      name: 'publish',
     })
 
     expect(publishButton).toBeDisabled()
@@ -139,7 +145,7 @@ describe('ConsumerPurposeSummaryPage', () => {
     })
 
     const publishButton = screen.getByRole('button', {
-      name: 'publishDraft',
+      name: 'publish',
     })
 
     expect(publishButton).toBeEnabled()
@@ -157,7 +163,7 @@ describe('ConsumerPurposeSummaryPage', () => {
     })
 
     const publishButton = screen.getByRole('button', {
-      name: 'publishDraft',
+      name: 'publish',
     })
 
     expect(publishButton).toBeEnabled()
@@ -188,7 +194,7 @@ describe('ConsumerPurposeSummaryPage', () => {
       withRouterContext: true,
     })
 
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(screen.queryByText('summary.alerts.infoRulesetExpiration')).not.toBeInTheDocument()
   })
   it('shows alert if isRulesetExpired is true', () => {
     vi.mocked(checkIsRulesetExpired).mockReturnValue(true)
@@ -206,5 +212,35 @@ describe('ConsumerPurposeSummaryPage', () => {
     })
 
     expect(screen.getByText('summary.alerts.rulesetExpired.label')).toBeInTheDocument()
+  })
+  it('shows info alert when daily calls exceed calls per consumer', () => {
+    useQueryMock.mockReturnValue({
+      data: createMockPurposeCallsPerConsumerExceed(),
+      isLoading: false,
+    })
+
+    renderWithApplicationContext(<ConsumerPurposeSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('summary.alerts.infoDailyCallsPerConsumerExceed')).toBeInTheDocument()
+  })
+  it('shows info alert when daily calls exceed total calls', () => {
+    useQueryMock.mockReturnValue({
+      data: createMockPurposeCallsTotalExceed(),
+      isLoading: false,
+    })
+
+    renderWithApplicationContext(<ConsumerPurposeSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    console.log('----------------')
+    screen.debug(undefined, 1000000)
+    console.log('----------------')
+
+    expect(screen.getByText('summary.alerts.infoDailyCallsTotalExceed')).toBeInTheDocument()
   })
 })
