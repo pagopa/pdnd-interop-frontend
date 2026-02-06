@@ -358,6 +358,13 @@
       "delegate": "Ricevuto in delega"
     }
   },
+  "delegationTooltip": {
+    "label": {
+      "default": "In delega",
+      "delegator": "Delegato a {{delegate}}",
+      "delegate": "Ricevuto in delega da {{delegator}}"
+    }
+  },
   "riskAnalysis": {
     "formComponents": {
       "emptyLabel": "Nessun valore disponibile",
