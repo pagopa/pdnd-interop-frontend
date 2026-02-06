@@ -45,10 +45,10 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
   const { jwt } = AuthHooks.useJwt()
 
   const preselectedConsumer: DelegationTenant | undefined = jwt
-    ? ({
+    ? {
         id: jwt?.organizationId,
         name: jwt?.organization.name,
-      } as DelegationTenant)
+      }
     : undefined
 
   const agreementsOptions = match(action)
