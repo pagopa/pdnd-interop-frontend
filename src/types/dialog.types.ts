@@ -5,6 +5,7 @@ import type {
   DelegationKind,
   TenantKind,
   TargetTenantKind,
+  CompactAgreement,
 } from '@/api/api.generatedTypes'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
@@ -36,9 +37,9 @@ export type DialogProps =
   | DialogRejectDelegationProps
   | DialogRevokeDelegationProps
   | DialogRejectDelegatedVersionDraftProps
-  | DialogCreateAgreementDraftProps
   | DialogTenantKindEserviceTemplateProps
   | DialogTenantKindPurposeTemplateProps
+  | DialogSelectAgreementConsumerProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -147,8 +148,9 @@ export type DialogRejectDelegatedVersionDraftProps = {
   descriptorId: string
 }
 
-export type DialogCreateAgreementDraftProps = {
-  type: 'createAgreementDraft'
+export type DialogSelectAgreementConsumerProps = {
+  type: 'selectAgreementConsumer'
+  action: 'inspect' | 'edit' | 'create'
   eservice: {
     id: string
     name: string
@@ -158,7 +160,8 @@ export type DialogCreateAgreementDraftProps = {
     id: string
     version: string
   }
-  onSubmit: ({
+  agreements: CompactAgreement[]
+  onSubmitCreate?: ({
     isOwnEService,
     delegationId,
   }: {
