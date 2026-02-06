@@ -282,6 +282,18 @@ const createMockPurposeCallsTotalExceed = createMockFactory<Purpose>({
   dailyCallsTotal: 1,
 })
 
+const createMockPurposeCallsWithoutExceed = createMockFactory<Purpose>({
+  ...createMockPurposeCallsExceed(),
+  currentVersion: {
+    id: '1',
+    state: 'ACTIVE',
+    createdAt: '2023-02-03T07:59:52.458Z',
+    dailyCalls: 1,
+  },
+  dailyCallsPerConsumer: 10,
+  dailyCallsTotal: 100,
+})
+
 export {
   createMockPurpose,
   createMockRiskAnalysisFormConfig,
@@ -291,4 +303,5 @@ export {
   createMockPurposeCompatiblePersonalDataNo,
   createMockPurposeCallsPerConsumerExceed,
   createMockPurposeCallsTotalExceed,
+  createMockPurposeCallsWithoutExceed,
 }

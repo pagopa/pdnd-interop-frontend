@@ -224,7 +224,7 @@ describe('ConsumerPurposeSummaryPage', () => {
       withRouterContext: true,
     })
 
-    expect(screen.getByText('summary.alerts.infoDailyCallsPerConsumerExceed')).toBeInTheDocument()
+    expect(screen.getByText('infoDailyCallsPerConsumerExceed')).toBeInTheDocument()
   })
   it('shows info alert when daily calls exceed total calls', () => {
     useQueryMock.mockReturnValue({
@@ -237,6 +237,6 @@ describe('ConsumerPurposeSummaryPage', () => {
       withRouterContext: true,
     })
 
-    expect(screen.getByText('summary.alerts.infoDailyCallsTotalExceed')).toBeInTheDocument()
+    expect(screen.getByText('infoDailyCallsTotalExceed')).toBeInTheDocument()
   })
 })

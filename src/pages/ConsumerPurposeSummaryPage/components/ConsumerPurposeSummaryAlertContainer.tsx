@@ -1,14 +1,10 @@
 import type { Purpose } from '@/api/api.generatedTypes'
-import {
-  checkIsRulesetExpired,
-  getDaysToExpiration,
-  getFormattedExpirationDate,
-  getPurposeSummaryInfoAlertLabel,
-} from '@/utils/purpose.utils'
+import { getDaysToExpiration, getFormattedExpirationDate } from '@/utils/purpose.utils'
 import { Alert, Button, Stack, Typography } from '@mui/material'
 import { useNavigate } from '@/router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useGetConsumerPurposeInfoAlertProps } from '../hooks/useGetConsumerPurposeInfoAlertProps'
 
 type ConsumerPurposeSummaryAlertContainerProps = {
   purpose: Purpose | undefined
@@ -25,7 +21,7 @@ export const ConsumerPurposeSummaryAlertContainer: React.FC<
 
   const daysToExpiration = getDaysToExpiration(expirationDate)
 
-  const infoAlertLabel = getPurposeSummaryInfoAlertLabel(purpose)
+  const infoAlertProps = useGetConsumerPurposeInfoAlertProps(purpose)
 
   return (
     <>
@@ -54,11 +50,7 @@ export const ConsumerPurposeSummaryAlertContainer: React.FC<
           </Stack>
         </Alert>
       )}
-      {!expirationDate && !isRulesetExpired && (
-        <Alert severity="info" sx={{ mt: 3 }}>
-          {t(infoAlertLabel)}
-        </Alert>
-      )}
+      {!expirationDate && !isRulesetExpired && <Alert sx={{ mt: 3 }} {...infoAlertProps} />}
     </>
   )
 }
