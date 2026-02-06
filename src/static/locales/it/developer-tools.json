@@ -15,6 +15,12 @@
         "title": "Debug Client Assertion",
         "description": "Strumento per generare, visualizzare e validare client assertion JWT, utile per il debug e l’integrazione con flussi OAuth 2.0.",
         "button": "Effettua il debug"
+      },
+      "sectionVoucherSimulation": {
+        "title": "Simula l’ottenimento di un voucher",
+        "description": "Attraverso questa funzionalità potrai simulare l’ottenimento di un voucher. Una volta selezionati i parametri, potrai effettuare una client assertion, richiedere un voucher e verificare che sia compatibile.",
+        "firstButton": "Simulazione per e-service",
+        "secondButton": "Simulazione per interoperabilità"
       }
     }
   },

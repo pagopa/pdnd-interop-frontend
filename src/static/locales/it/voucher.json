@@ -19,6 +19,9 @@
       "CONSUMER": "Seleziona finalità e chiave pubblica"
     },
     "description": "Serve a mostrarti i parametri corretti per valorizzare la client assertion",
+    "clientSelectInput": {
+      "label": "Scegli un client da utilizzare"
+    },
     "purposeSelectInput": {
       "label": "Scegli la finalità da utilizzare"
     },
