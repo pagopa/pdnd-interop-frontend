@@ -124,32 +124,28 @@
       "description": "The purpose you are cloning uses a risk analysis model that will no longer be publishable after {{expirationDate}}. Publish the purpose by that date or create a new one at any time. Existing ones remain valid."
     }
   },
-  "dialogCreateAgreementDraft": {
-    "title": "Create Service Request Draft",
-    "description": "Do you want to create a service request draft for the e-service **{{eserviceName}}**, version **{{eserviceVersion}}**? Select the party for which to submit the request",
-    "consumerField": {
-      "label": "Select party"
-    },
-    "certifiedAttributesAlert": {
-      "title": "It is not possible to request the consumption of the e-service",
-      "description": "The selected party does not have the certified attributes required to request the consumption of the e-service"
-    }
-  },
   "dialogSelectAgreementConsumer": {
     "title": {
       "inspect": "Inspect agreement",
-      "edit": "Complete agreement"
+      "edit": "Complete agreement",
+      "create": "Create Service Request Draft"
     },
     "description": {
       "inspect": "Select the tenant for which you want to inspect the agreement.",
-      "edit": "Select the tenant for which you want to complete the agreement."
+      "edit": "Select the tenant for which you want to complete the agreement.",
+      "create": "Do you want to create a service request draft for the e-service <strong>{{eserviceName}}</strong>, version <strong>{{eserviceVersion}}</strong>? Select the party for which to submit the request"
     },
     "consumerField": {
       "label": "Select tenant"
     },
+    "certifiedAttributesAlert": {
+      "title": "It is not possible to request the consumption of the e-service",
+      "description": "The selected party does not have the certified attributes required to request the consumption of the e-service"
+    },
     "actions": {
       "inspect": "Inspect request",
-      "edit": "Complete request"
+      "edit": "Complete request",
+      "create": "Create draft"
     }
   },
   "dialogDeleteOperator": {

@@ -166,26 +166,21 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} maxWidth="md" fullWidth>
       <FormProvider {...formMethods}>
         <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <DialogTitle id={ariaLabelId}>{`TODO ${action}` /* t(`title.${action}`) */}</DialogTitle>
+          <DialogTitle id={ariaLabelId}>{t(`title.${action}`)}</DialogTitle>
 
           <DialogContent>
             <Stack spacing={2}>
               <Typography>
-                {action === 'create' ? (
-                  <Trans
-                    components={{
-                      strong: <Typography component="span" variant="inherit" fontWeight={600} />,
-                    }}
-                  >
-                    {`TODO ${action}`}
-                    {/* {t(`description.${action}`, {
-                      eserviceName: eservice.name,
-                      eserviceVersion: descriptor.version,
-                    })} */}
-                  </Trans>
-                ) : (
-                  t(`description.${action}`)
-                )}
+                <Trans
+                  components={{
+                    strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+                  }}
+                >
+                  {t(`description.${action}`, {
+                    eserviceName: eservice.name,
+                    eserviceVersion: descriptor.version,
+                  })}
+                </Trans>
               </Typography>
               <DialogSelectAgreementConsumerAutocomplete
                 eserviceId={eservice.id}
@@ -194,11 +189,8 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
                 action={action}
               />
               {!isLoading && !hasTenantCertifiedAttributes && action === 'create' && (
-                <Alert
-                  severity="warning"
-                  title={`TODO ${action}` /* t('certifiedAttributesAlert.title') */}
-                >
-                  {`TODO ${action}` /* t('certifiedAttributesAlert.description') */}
+                <Alert severity="warning" title={t('certifiedAttributesAlert.title')}>
+                  {t('certifiedAttributesAlert.description')}
                 </Alert>
               )}
             </Stack>
@@ -209,7 +201,7 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
               {tCommon('cancel')}
             </Button>
             <Button variant="contained" type="submit" disabled={isButtonActionDisable}>
-              {`TODO ${action}` /* t(`actions.${action}`) */}
+              {t(`actions.${action}`)}
             </Button>
           </DialogActions>
         </Box>
