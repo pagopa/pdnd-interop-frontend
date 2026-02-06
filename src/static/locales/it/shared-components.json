@@ -124,15 +124,28 @@
       "description": "La finalità che stai clonando utilizza un modello di analisi del rischio che non sarà più pubblicabile dopo il {{expirationDate}}. Pubblica la finalità entro quella data oppure creane una nuova in qualsiasi momento. Quelle esistenti restano valide."
     }
   },
-  "dialogCreateAgreementDraft": {
-    "title": "Crea bozza richiesta di fruizione",
-    "description": "Vuoi creare una bozza di richiesta di fruizione per l'e-service <strong>{{eserviceName}}</strong>, versione <strong>{{eserviceVersion}}</strong>. Seleziona l’ente per il quale effettuare la richiesta",
+  "dialogSelectAgreementConsumer": {
+    "title": {
+      "inspect": "Visualizza richiesta di fruizione",
+      "edit": "Completa richiesta di fruizione",
+      "create": "Crea bozza richiesta di fruizione"
+    },
+    "description": {
+      "inspect": "Seleziona l'ente per il quale vuoi visualizzare la richiesta di fruizione.",
+      "edit": "Seleziona l'ente per il quale vuoi finalizzare la richiesta di fruizione.",
+      "create": "Vuoi creare una bozza di richiesta di fruizione per l'e-service <strong>{{eserviceName}}</strong>, versione <strong>{{eserviceVersion}}</strong>. Seleziona l’ente per il quale effettuare la richiesta"
+    },
     "consumerField": {
       "label": "Seleziona ente"
     },
     "certifiedAttributesAlert": {
       "title": "Non è possibile richiedere la fruizione dell’e-service",
       "description": "L'ente selezionato non dispone degli attributi certificati necessari a richiedere la fruizione dell'e-service"
+    },
+    "actions": {
+      "inspect": "Visualizza richiesta",
+      "edit": "Completa richiesta",
+      "create": "Crea bozza"
     }
   },
   "dialogDeleteOperator": {

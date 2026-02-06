@@ -360,7 +360,7 @@ export interface CatalogDescriptorEService {
   mode: EServiceMode
   riskAnalysis: EServiceRiskAnalysis[]
   descriptors: CompactDescriptor[]
-  agreement?: CompactAgreement
+  agreements: CompactAgreement[]
   isMine: boolean
   /**
    * True in case:
@@ -624,7 +624,6 @@ export interface CatalogEService {
   name: string
   description: string
   producer: CatalogTenant
-  agreement?: CompactAgreement
   isMine: boolean
   activeDescriptor?: CompactDescriptor
   /** Indicates if there are unread notifications for this e-service */
@@ -668,6 +667,8 @@ export interface CompactAgreement {
   /** Agreement State */
   state: AgreementState
   canBeUpgraded: boolean
+  /** @format uuid */
+  consumerId: string
 }
 
 export interface CompactDescriptor {

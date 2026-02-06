@@ -76,6 +76,7 @@ const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDes
     technology: 'REST',
     mode: 'DELIVER',
     riskAnalysis: [],
+    agreements: [],
   },
   id: 'ec94e366-cbb2-4203-ac07-95acf5289a31',
   interface: {
@@ -123,6 +124,7 @@ const createMockCatalogDescriptorEService = createMockFactory<CatalogDescriptorE
   technology: 'REST',
   mode: 'DELIVER',
   riskAnalysis: [],
+  agreements: [],
 })
 
 const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceDescriptor>({
