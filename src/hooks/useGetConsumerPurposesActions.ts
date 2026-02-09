@@ -199,10 +199,9 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     )
     .with(
       {
-        isDeliverMode: true,
         isArchived: true,
       },
-      () => [cloneAction]
+      () => []
     )
     // purpose in DRAFT state
     .with(
