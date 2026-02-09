@@ -44,14 +44,11 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     expect(result.current.actions).toHaveLength(0)
   })
 
-  it('shoud only return clone action if an archived purpose is given', () => {
+  it('should not return any actionf if the current state of purpose is ARHCIVED', () => {
     const purposeMock = createMockPurpose({ currentVersion: { state: 'ARCHIVED' } })
     const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
 
-    const cloneAction = result.current.actions.find((action) => action.label === 'clone')
-
-    expect(result.current.actions).toHaveLength(1)
-    expect(cloneAction).toBeTruthy()
+    expect(result.current.actions).toHaveLength(0)
   })
 
   it('should return the publish and delete functions if the current version is in draft', () => {
