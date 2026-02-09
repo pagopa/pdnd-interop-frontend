@@ -133,7 +133,7 @@
     "description": {
       "inspect": "Seleziona l'ente per il quale vuoi visualizzare la richiesta di fruizione.",
       "edit": "Seleziona l'ente per il quale vuoi finalizzare la richiesta di fruizione.",
-      "create": "Vuoi creare una bozza di richiesta di fruizione per l'e-service <strong>{{eserviceName}}</strong>, versione <strong>{{eserviceVersion}}</strong>. Seleziona l’ente per il quale effettuare la richiesta"
+      "create": "Vuoi creare una bozza di richiesta di fruizione per l'e-service <strong>{{eserviceName}}</strong>, versione <strong>{{eserviceVersion}}</strong>? Seleziona l’ente per il quale effettuare la richiesta"
     },
     "consumerField": {
       "label": "Seleziona ente"
