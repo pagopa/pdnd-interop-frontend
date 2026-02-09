@@ -13,8 +13,6 @@ import {
   createMockPurposeUsesPersonalDataAnswerNo,
   createMockPurposeCompatiblePersonalDataYes,
   createMockPurposeCompatiblePersonalDataNo,
-  createMockPurposeCallsPerConsumerExceed,
-  createMockPurposeCallsTotalExceed,
 } from '@/../__mocks__/data/purpose.mocks'
 
 const mockPurposeId = 'test-purpose-id'
@@ -212,31 +210,5 @@ describe('ConsumerPurposeSummaryPage', () => {
     })
 
     expect(screen.getByText('summary.alerts.rulesetExpired.label')).toBeInTheDocument()
-  })
-  it('shows info alert when daily calls exceed calls per consumer', () => {
-    useQueryMock.mockReturnValue({
-      data: createMockPurposeCallsPerConsumerExceed(),
-      isLoading: false,
-    })
-
-    renderWithApplicationContext(<ConsumerPurposeSummaryPage />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
-
-    expect(screen.getByText('infoDailyCallsPerConsumerExceed')).toBeInTheDocument()
-  })
-  it('shows info alert when daily calls exceed total calls', () => {
-    useQueryMock.mockReturnValue({
-      data: createMockPurposeCallsTotalExceed(),
-      isLoading: false,
-    })
-
-    renderWithApplicationContext(<ConsumerPurposeSummaryPage />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
-
-    expect(screen.getByText('infoDailyCallsTotalExceed')).toBeInTheDocument()
   })
 })

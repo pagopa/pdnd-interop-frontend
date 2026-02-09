@@ -19,7 +19,7 @@ import { useGetConsumerPurposeAlertProps } from './hooks/useGetConsumerPurposeAl
 import { useQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
 import { checkIsRulesetExpired } from '@/utils/purpose.utils'
-import { ConsumerPurposeSummaryAlertContainer } from './components/ConsumerPurposeSummaryAlertContainer'
+import { ConsumerPurposeSummaryRiskAnalysisAlertContainer } from './components/ConsumerPurposeSummaryRiskAnalysisAlertContainer'
 
 const ConsumerPurposeSummaryPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -143,10 +143,9 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           </SummaryAccordion>
         </React.Suspense>
       </Stack>
-      <ConsumerPurposeSummaryAlertContainer
-        purpose={purpose}
-        isRulesetExpired={isRulesetExpired}
+      <ConsumerPurposeSummaryRiskAnalysisAlertContainer
         expirationDate={expirationDate}
+        isRulesetExpired={isRulesetExpired}
       />
       <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
         <Button

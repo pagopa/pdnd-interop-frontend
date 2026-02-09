@@ -4,11 +4,11 @@ import {
   createMockPurposeCallsWithoutExceed,
 } from '../../../../../__mocks__/data/purpose.mocks'
 import { renderHook } from '@testing-library/react'
-import { useGetConsumerPurposeInfoAlertProps } from '../useGetConsumerPurposeInfoAlertProps'
+import { useGetConsumerPurposeGeneralInfoAlertProps } from '../useGetConsumerPurposeGeneralInfoAlertProps'
 
 describe('useGetConsumerPurposeInfoAlertProps', () => {
   it('should return infoApprovalMayBeRequired if the purpose is undefined', () => {
-    const { result } = renderHook(() => useGetConsumerPurposeInfoAlertProps(undefined))
+    const { result } = renderHook(() => useGetConsumerPurposeGeneralInfoAlertProps(undefined))
     expect(result.current).toStrictEqual({
       children: 'infoApprovalMayBeRequired',
       severity: 'info',
@@ -16,7 +16,7 @@ describe('useGetConsumerPurposeInfoAlertProps', () => {
   })
   it('should return isDailyCallsTotalExceed if dailyCalls > dailyCallsTotal', () => {
     const { result } = renderHook(() =>
-      useGetConsumerPurposeInfoAlertProps(createMockPurposeCallsTotalExceed())
+      useGetConsumerPurposeGeneralInfoAlertProps(createMockPurposeCallsTotalExceed())
     )
     expect(result.current).toStrictEqual({
       children: 'infoDailyCallsTotalExceed',
@@ -25,7 +25,7 @@ describe('useGetConsumerPurposeInfoAlertProps', () => {
   })
   it('should return infoDailyCallsPerConsumerExceed if dailyCalls > dailyCallsPerConsumer', () => {
     const { result } = renderHook(() =>
-      useGetConsumerPurposeInfoAlertProps(createMockPurposeCallsPerConsumerExceed())
+      useGetConsumerPurposeGeneralInfoAlertProps(createMockPurposeCallsPerConsumerExceed())
     )
     expect(result.current).toStrictEqual({
       children: 'infoDailyCallsPerConsumerExceed',
@@ -34,7 +34,7 @@ describe('useGetConsumerPurposeInfoAlertProps', () => {
   })
   it('should return infoApprovalMayBeRequired if no daily calls exceed', () => {
     const { result } = renderHook(() =>
-      useGetConsumerPurposeInfoAlertProps(createMockPurposeCallsWithoutExceed())
+      useGetConsumerPurposeGeneralInfoAlertProps(createMockPurposeCallsWithoutExceed())
     )
     expect(result.current).toStrictEqual({
       children: 'infoApprovalMayBeRequired',

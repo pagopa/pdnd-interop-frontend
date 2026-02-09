@@ -1,36 +1,37 @@
-import type { Purpose } from '@/api/api.generatedTypes'
 import { getDaysToExpiration, getFormattedExpirationDate } from '@/utils/purpose.utils'
 import { Alert, Button, Stack, Typography } from '@mui/material'
 import { useNavigate } from '@/router'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
-import { useGetConsumerPurposeInfoAlertProps } from '../hooks/useGetConsumerPurposeInfoAlertProps'
+import { Trans, useTranslation } from 'react-i18next'
 
-type ConsumerPurposeSummaryAlertContainerProps = {
-  purpose: Purpose | undefined
+type ConsumerPurposeSummaryRiskAnalysisAlertContainerProps = {
   expirationDate?: string
   isRulesetExpired: boolean
 }
 
-export const ConsumerPurposeSummaryAlertContainer: React.FC<
-  ConsumerPurposeSummaryAlertContainerProps
-> = ({ purpose, expirationDate, isRulesetExpired }) => {
+export const ConsumerPurposeSummaryRiskAnalysisAlertContainer: React.FC<
+  ConsumerPurposeSummaryRiskAnalysisAlertContainerProps
+> = ({ expirationDate, isRulesetExpired }) => {
   const { t } = useTranslation('purpose')
 
   const navigate = useNavigate()
 
   const daysToExpiration = getDaysToExpiration(expirationDate)
 
-  const infoAlertProps = useGetConsumerPurposeInfoAlertProps(purpose)
-
   return (
     <>
       {expirationDate && !isRulesetExpired && (
-        <Alert sx={{ mt: 3 }} severity="info">
-          {t('summary.alerts.infoRulesetExpiration', {
-            days: daysToExpiration,
-            date: getFormattedExpirationDate(expirationDate),
-          })}
+        <Alert sx={{ mt: 3 }} severity="info" variant="outlined">
+          <Trans
+            components={{
+              strong: <Typography component="span" variant="inherit" fontWeight={700} />,
+            }}
+          >
+            {t('summary.alerts.infoRulesetExpiration', {
+              days: daysToExpiration,
+              date: getFormattedExpirationDate(expirationDate),
+            })}
+          </Trans>
         </Alert>
       )}
       {isRulesetExpired && (
@@ -50,7 +51,6 @@ export const ConsumerPurposeSummaryAlertContainer: React.FC<
           </Stack>
         </Alert>
       )}
-      {!expirationDate && !isRulesetExpired && <Alert sx={{ mt: 3 }} {...infoAlertProps} />}
     </>
   )
 }

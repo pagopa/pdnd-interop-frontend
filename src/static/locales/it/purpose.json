@@ -169,7 +169,7 @@
         "label": "Questa analisi del rischio utilizza una versione obsoleta che non puoi pubblicare.",
         "action": "Crea nuova finalità"
       },
-      "infoRulesetExpiration": "Questa analisi del rischio utilizza una versione che sarà obsoleta tra {{days}} giorni. Pubblicala entro {{date}} per non doverla ricompilare.",
+      "infoRulesetExpiration": "Questa analisi del rischio utilizza una versione che sarà obsoleta tra <strong>{{days}} giorni</strong>. Pubblicala entro {{date}} per non doverla ricompilare.",
       "infoApprovalMayBeRequired": "Se l’erogatore riceve altre finalità prima della tua pubblicazione, potrebbe essere necessaria l’approvazione.",
       "infoDailyCallsPerConsumerExceed": "La stima di chiamate che hai indicato supera la soglia per fruitore. La finalità dovrà essere approvata dall’erogatore.",
       "infoDailyCallsTotalExceed": "La stima di chiamate che hai indicato supera la soglia totale. La finalità dovrà essere approvata dall’erogatore."

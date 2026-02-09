@@ -3,7 +3,9 @@ import type { AlertProps } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { match } from 'ts-pattern'
 
-export function useGetConsumerPurposeInfoAlertProps(purpose: Purpose | undefined): AlertProps {
+export function useGetConsumerPurposeGeneralInfoAlertProps(
+  purpose: Purpose | undefined
+): AlertProps {
   const { t } = useTranslation('purpose', { keyPrefix: 'summary.alerts' })
 
   if (!purpose?.currentVersion?.dailyCalls) {
