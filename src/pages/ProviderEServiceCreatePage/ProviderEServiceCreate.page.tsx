@@ -33,6 +33,7 @@ import type { EServiceMode } from '@/api/api.generatedTypes'
 import { useQuery } from '@tanstack/react-query'
 import { EServiceCreateFromTemplateStepPurpose } from './components/EServiceCreateStepPurpose/EServiceCreateFromTemplateStepPurpose'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
+import { EServiceCreateStepThresholds } from './components/EServiceCreateStepThresholds'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -76,7 +77,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
     eserviceMode === 'DELIVER'
       ? [
           { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
-          { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
+          { label: t('create.stepper.step2Label'), component: EServiceCreateStepThresholds },
           { label: t('create.stepper.step3Label'), component: EServiceCreateStepAttributes },
           { label: t('create.stepper.step4Label'), component: CreateStepDocuments },
         ]

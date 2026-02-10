@@ -17,6 +17,11 @@ export type AttributeGroupProps = {
   readOnly: boolean
   onRemoveAttributesGroup: (groupIndex: number) => void
   onRemoveAttributeFromGroup: (attributeId: string, groupIndex: number) => void
+  onOpenCustomizeThresholdDrawer?: (
+    attribute: DescriptorAttribute,
+    attributeKey: AttributeKey,
+    attributeGroupIndex: number
+  ) => void
 }
 
 export const AttributeGroup: React.FC<AttributeGroupProps> = ({
@@ -26,6 +31,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
   readOnly,
   onRemoveAttributesGroup,
   onRemoveAttributeFromGroup,
+  onOpenCustomizeThresholdDrawer,
 }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = React.useState(false)
@@ -62,6 +68,9 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
                 attribute={attribute}
                 onRemove={
                   !readOnly ? handleDeleteAttributeFromGroup.bind(null, attribute.id) : undefined
+                }
+                onCustomizeThreshold={() =>
+                  onOpenCustomizeThresholdDrawer?.(attribute, attributeKey, groupIndex)
                 }
               />
             </Box>

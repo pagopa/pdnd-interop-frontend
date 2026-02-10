@@ -149,6 +149,32 @@
       "agreementApprovalPolicySection": {
         "title": "Desideri attivare manualmente tutte le richieste di fruizione pervenute?",
         "label": "Sì, le attiverò io manualmente"
+      },
+      "attributes": {
+        "tabs": {
+          "ariaLabel": "tre tabs differenti per la gestione di attributi certificati, verificati e dichiarati",
+          "certified": "Attributi certificati",
+          "verified": "Attributi verificati",
+          "declared": "Attributi dichiarati"
+        },
+        "customizeThresholdDrawer": {
+          "title": "Personalizza soglia",
+          "subtitle": "Imposta una soglia personalizzata per l’attributo {{type}} {{name}}.",
+          "submitBtnLabel": "Personalizza soglia",
+          "field": {
+            "placeholder": "Chiamate API/giorno per fruitore",
+            "error": "La soglia per fruitore non può essere superiore alla soglia totale.",
+            "info": "Inserisci un numero superiore o uguale a 1"
+          },
+          "limitAlert": {
+            "title": "Per questo e-service hai già definito",
+            "totalLimit": "Soglia totale",
+            "consumerLimit": "Soglia per fruitore",
+            "toInsert": "Da inserire",
+            "label": "{{threshold}} chiamate API/giorno"
+          },
+          "alert": "Se il fruitore soddisfa più attributi con soglie diverse, si applica automaticamente la soglia più alta."
+        }
       }
     },
     "step3": {

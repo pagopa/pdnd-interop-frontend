@@ -11,6 +11,7 @@ import {
   Skeleton,
   Stack,
   Typography,
+  Button,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { ButtonNaked } from '@pagopa/mui-italia'
@@ -21,7 +22,9 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 
-type AttributeContainerProps<TAttribute extends { id: string; name: string }> = {
+type AttributeContainerProps<
+  TAttribute extends { id: string; name: string; dailyCallsPerConsumer?: number },
+> = {
   attribute: TAttribute
   actions?: Array<{
     label: React.ReactNode
@@ -31,14 +34,18 @@ type AttributeContainerProps<TAttribute extends { id: string; name: string }> = 
   chipLabel?: string
   checked?: boolean
   onRemove?: (id: string, name: string) => void
+  onCustomizeThreshold?: VoidFunction
 }
 
-export const AttributeContainer = <TAttribute extends { id: string; name: string }>({
+export const AttributeContainer = <
+  TAttribute extends { id: string; name: string; dailyCallsPerConsumer?: number },
+>({
   attribute,
   actions,
   chipLabel,
   checked,
   onRemove,
+  onCustomizeThreshold,
 }: AttributeContainerProps<TAttribute>) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'attributeContainer' })
   const panelContentId = React.useId()
@@ -83,7 +90,43 @@ export const AttributeContainer = <TAttribute extends { id: string; name: string
             aria-controls={panelContentId}
             id={headerId}
           >
-            <Typography fontWeight={600}>{attribute.name}</Typography>
+            <Stack>
+              <Typography fontWeight={600}>{attribute.name}</Typography>
+              <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                {attribute.dailyCallsPerConsumer && (
+                  <Stack direction={'row'} spacing={1}>
+                    <Typography
+                      sx={{
+                        fontSize: 16,
+                      }}
+                    >
+                      {t('thresholdLabel')}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: 16,
+                        fontWeight: 700,
+                      }}
+                    >
+                      {attribute.dailyCallsPerConsumer}
+                    </Typography>
+                  </Stack>
+                )}
+                <Button
+                  sx={{
+                    justifyContent: 'start',
+                    px: 1,
+                    width: 'fit-content',
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    onCustomizeThreshold?.()
+                  }}
+                >
+                  {attribute.dailyCallsPerConsumer ? t('changeBtn') : t('customizeBtn')}
+                </Button>
+              </Stack>
+            </Stack>
           </AccordionSummary>
           <AccordionDetails>
             {hasExpandedOnce && <AttributeDetails attributeId={attribute.id} />}

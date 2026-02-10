@@ -341,7 +341,10 @@
   "attributeContainer": {
     "attributeIdLabel": "ID dell'attributo (attributeId)",
     "idCopytooltipLabel": "ID copiato correttamente",
-    "removeAttributeAriaLabel": "Rimuovi attributo {{attributeName}}"
+    "removeAttributeAriaLabel": "Rimuovi attributo {{attributeName}}",
+    "thresholdLabel": "Chiamate API/giorno per fruitore",
+    "customizeBtn": "Personalizza soglia",
+    "changeBtn": "Modifica soglia"
   },
   "attributeGroupContainer": {
     "removeGroupAriaLabel": "Rimuovi gruppo di attributi"
