@@ -132,17 +132,17 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     color: 'error',
   }
 
+  if (purpose.currentVersion?.state === 'ARCHIVED') {
+    return { actions: [] }
+  }
+
   if (!purpose.currentVersion && purpose.waitingForApprovalVersion) {
     // The purpose is also suspendedByConsumer here when the provider re-activated a
     // suspended purpose associated with an overquota e-service
     return { actions: purpose.suspendedByConsumer ? [] : [deleteAction] }
   }
 
-  if (
-    purpose.eservice.mode === 'DELIVER' &&
-    ((!purpose.currentVersion && purpose.rejectedVersion) ||
-      purpose?.currentVersion?.state === 'ARCHIVED')
-  ) {
+  if (purpose.eservice.mode === 'DELIVER' && !purpose.currentVersion && purpose.rejectedVersion) {
     return { actions: [cloneAction] }
   }
 
