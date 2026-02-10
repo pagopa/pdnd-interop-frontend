@@ -2,6 +2,7 @@
   "backToListBtn": "Torna alle finalità",
   "create": {
     "emptyTitle": "Crea finalità",
+    "requiredLabel": "*Campi obbligatori.",
     "preliminaryInformationSectionTitle": "Informazioni preliminari",
     "isTemplateField": {
       "label": "Usa un template precompilato"
@@ -74,26 +75,47 @@
     "stepGeneral": {
       "title": "Informazioni generali",
       "nameField": {
-        "label": "Nome della finalità (richiesto)",
+        "label": "Nome della finalità",
         "infoLabel": "Ti aiuterà a distinguerla dalle altre. Min 5 caratteri, max 60 caratteri"
       },
       "descriptionField": {
-        "label": "Descrizione della finalità (richiesto)",
+        "label": "Descrizione finalità",
         "infoLabel": "Min 10 caratteri, max 250 caratteri"
       },
       "isFreeOfChargeField": {
-        "label": "Indicare se l’accesso ai dati messi a disposizione con la fruizione del presente E-service è a titolo gratuito (richiesto)",
+        "label": "Come metterai a disposizione l'accesso ai dati di questo e-service?*",
         "options": {
-          "YES": "Sì",
-          "NO": "No"
+          "YES": "A titolo gratuito",
+          "NO": "A pagamento"
         }
       },
       "freeOfChargeReasonField": {
         "label": "Motivazione titolo gratuito (richiesto)",
-        "infoLabel": "Si richiede di specificare se la messa a disposizione dei dati è a titolo gratuito in forza di una esenzione/esclusione prevista dalla legge o altro. Min 10 caratteri, max 250 caratteri"
+        "infoLabel": "Spiega perché metterai questi dati a disposizione gratuitamente. Indica se lo fai in base a un’esenzione o a un’esclusione prevista dalla legge, oppure per un altro motivo. Min 10, max 250 caratteri"
+      }
+    },
+    "loadEstimationSection": {
+      "title": "Stima chiamate API",
+      "description": "Indica il numero di chiamate previste ogni giorno per questa finalità.",
+      "dailyCalls": {
+        "label": "Stima numero chiamate API/giorno",
+        "infoLabel": "Inserisci un numero superiore o uguale a 1"
       },
-      "dailyCallsField": {
-        "label": "Quante chiamate API/giorno stimi di effettuare?"
+      "providerThresholdsInfo": {
+        "label": "Soglie definite dall’erogatore",
+        "description": "Le chiamate residue possono variare se l'erogatore riceve altre finalità prima della tua pubblicazione.",
+        "dailyCallsPerConsumer": {
+          "label": "Soglia per fruitore",
+          "value": "{{min}} di {{max}} chiamate API/giorno"
+        },
+        "dailyCallsTotal": {
+          "label": "Soglia totale",
+          "value": "{{min}} di {{max}} chiamate API/giorno"
+        }
+      },
+      "alerts": {
+        "infoDailyCallsPerConsumerExceed": "Il numero che hai inserito supera la soglia prevista per fruitore. La finalità dovrà essere approvata dall’erogatore.",
+        "infoDailyCallsTotalExceed": "Il numero che hai inserito supera la soglia totale. La finalità dovrà essere approvata dall’erogatore."
       }
     },
     "stepRiskAnalysis": {
@@ -169,7 +191,10 @@
         "label": "Questa analisi del rischio utilizza una versione obsoleta che non puoi pubblicare.",
         "action": "Crea nuova finalità"
       },
-      "infoRulesetExpiration": "Questa analisi del rischio utilizza una versione che sarà obsoleta tra {{days}} giorni. Pubblicala entro {{date}} per non doverla ricompilare."
+      "infoRulesetExpiration": "Questa analisi del rischio utilizza una versione che sarà obsoleta tra <strong>{{days}} giorni</strong>. Pubblicala entro {{date}} per non doverla ricompilare.",
+      "infoApprovalMayBeRequired": "Se l’erogatore riceve altre finalità prima della tua pubblicazione, potrebbe essere necessaria l’approvazione.",
+      "infoDailyCallsPerConsumerExceed": "La stima di chiamate che hai indicato supera la soglia per fruitore. La finalità dovrà essere approvata dall’erogatore.",
+      "infoDailyCallsTotalExceed": "La stima di chiamate che hai indicato supera la soglia totale. La finalità dovrà essere approvata dall’erogatore."
     },
     "generalInformationSection": {
       "title": "Informazioni generali",

@@ -481,7 +481,7 @@
     "SUBSCRIBE_PURPOSE_EDIT": "Modifica finalità",
     "SUBSCRIBE_PURPOSE_SUMMARY": "Riepilogo finalità",
     "SUBSCRIBE_PURPOSE_DETAILS": "Gestisci singola finalità",
-    "SUBSCRIBE_PURPOSE_LIST": "Finalità inoltrate",
+    "SUBSCRIBE_PURPOSE_LIST": "Le tue finalità",
     "SUBSCRIBE_CLIENT_OPERATOR_EDIT": "Gestisci operatore del client e-service",
     "SUBSCRIBE_CLIENT_KEY_EDIT": "Gestisci chiave pubblica del client e-service",
     "SUBSCRIBE_CLIENT_CREATE": "Crea client e-service",

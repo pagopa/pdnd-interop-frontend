@@ -3,6 +3,7 @@
   "create": {
     "emptyTitle": "Create purpose",
     "preliminaryInformationSectionTitle": "Preliminary information",
+    "requiredLabel": "*Required fields.",
     "isTemplateField": {
       "label": "Clone from template"
     },
@@ -74,26 +75,47 @@
     "stepGeneral": {
       "title": "General information",
       "nameField": {
-        "label": "Purpose name (required)",
+        "label": "Purpose name",
         "infoLabel": "It will help you tell them apart. Min 5 characters, max 60 characters"
       },
       "descriptionField": {
-        "label": "Purpose description (required)",
+        "label": "Purpose description",
         "infoLabel": "Min 10 characters, max 250 characters"
       },
       "isFreeOfChargeField": {
-        "label": "Indicate whether access to the data made available with the use of this e-service is free of charge (required)",
+        "label": "How will you provide access to data from this e-service??*",
         "options": {
-          "YES": "Yes",
-          "NO": "No"
+          "YES": "Free of charge",
+          "NO": "For a fee"
         }
       },
       "freeOfChargeReasonField": {
         "label": "Free of charge reason (required)",
-        "infoLabel": "It is requested to specify whether the provision of data is free of charge by virtue of an exemption/exclusion provided for by law or other. Min 10 characters, max 250 characters"
+        "infoLabel": "Explain why you will make this data available free of charge. Indicate whether you are doing so under a statutory exemption or exclusion, or for another reason. Minimum 10 characters, maximum 250 characters."
+      }
+    },
+    "loadEstimationSection": {
+      "title": "Estimate API calls",
+      "description": "Indicates the number of calls expected each day for this purpose.",
+      "dailyCalls": {
+        "label": "Estimated number of API calls/day",
+        "infoLabel": "Please enter a number greater than or equal to 1."
       },
-      "dailyCallsField": {
-        "label": "How many API calls do you expect to make per day?"
+      "providerThresholdsInfo": {
+        "label": "Thresholds defined by the provider",
+        "description": "Residual calls may vary if the provider receives other purposes before your publication.",
+        "dailyCallsPerConsumer": {
+          "label": "Threshold per user",
+          "value": "{{min}} of {{max}} API calls/day"
+        },
+        "dailyCallsTotal": {
+          "label": "Total threshold",
+          "value": "{{{min}} of {{max}} API calls/day"
+        }
+      },
+      "alerts": {
+        "infoDailyCallsPerConsumerExceed": "The number you entered exceeds the user limit. The purpose must be approved by the provider.",
+        "infoDailyCallsTotalExceed": "The number you entered exceeds the total threshold. The purpose must be approved by the provider."
       }
     },
     "stepRiskAnalysis": {
@@ -169,7 +191,10 @@
         "label": "This risk analysis uses an obsolete version that you cannot publish.",
         "action": "Create new purpose"
       },
-      "infoRulesetExpiration": "This risk analysis uses a version that will become obsolete in {{days}} days. Publish it by {{date}} to avoid having to recompile it."
+      "infoRulesetExpiration": "This risk analysis uses a version that will become obsolete in <strong>{{days}} days</strong>. Publish it by {{date}} to avoid having to recompile it.",
+      "infoApprovalMayBeRequired": "If the producer receives other purposes before your publication, approval may be required.",
+      "infoDailyCallsPerConsumerExceed": "The estimated number of calls you indicated exceeds the per-user threshold. The purpose must be approved by the producer.",
+      "infoDailyCallsTotalExceed": "The estimated number of calls you indicated exceeds the total threshold. The purpose will need to be approved by the producer."
     },
     "generalInformationSection": {
       "title": "General information",
