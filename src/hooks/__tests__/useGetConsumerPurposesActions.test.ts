@@ -44,7 +44,7 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     expect(result.current.actions).toHaveLength(0)
   })
 
-  it('should not return any actionf if the current state of purpose is ARHCIVED', () => {
+  it('should not return any action if the current state of purpose is ARHCIVED', () => {
     const purposeMock = createMockPurpose({ currentVersion: { state: 'ARCHIVED' } })
     const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
 
