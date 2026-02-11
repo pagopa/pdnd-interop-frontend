@@ -159,7 +159,7 @@
         },
         "customizeThresholdDrawer": {
           "title": "Personalizza soglia",
-          "subtitle": "Imposta una soglia personalizzata per l’attributo {{type}} {{name}}.",
+          "subtitle": "Imposta una soglia personalizzata per l’attributo certificato {{name}}.",
           "submitBtnLabel": "Personalizza soglia",
           "field": {
             "placeholder": "Chiamate API/giorno per fruitore",

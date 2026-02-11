@@ -27,7 +27,7 @@ import { compareObjects } from '@/utils/common.utils'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import {
   CustomizeThresholdDrawer,
-  type CustomizeThresholdDrawerProps,
+  useCustomizeThresholdDrawer,
 } from '@/components/shared/CustomizeThresholdDrawer'
 
 export type CreateStepThresholdsFormValues = {
@@ -53,6 +53,12 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
     },
   })
 
+  const {
+    attribute,
+    attributeGroupIndex,
+    close: closeCustomizeThresholdDrawer,
+  } = useCustomizeThresholdDrawer()
+
   const isEServiceCreatedFromTemplate = Boolean(descriptor?.templateRef?.templateVersionId)
 
   const [createAttributeCreateDrawerState, setCreateAttributeCreateDrawerState] = React.useState<{
@@ -60,12 +66,6 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
     isOpen: boolean
   }>({
     attributeKey: 'verified',
-    isOpen: false,
-  })
-
-  const [customizeThresholdDrawerState, setCustomizeThresholdDrawerState] = React.useState<
-    Omit<CustomizeThresholdDrawerProps, 'onClose' | 'onSubmit'>
-  >({
     isOpen: false,
   })
 
@@ -78,34 +78,21 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
       setCreateAttributeCreateDrawerState({ attributeKey, isOpen: true })
     }
 
-  const handleCloseCustomizeThresholdDrawer = () => {
-    setCustomizeThresholdDrawerState({ isOpen: false })
-  }
-
   const handleSubmitCustomizeThresholdDrawer = (threshold: number) => {
-    const { attribute, attributeKey, attributeGroupIndex } = customizeThresholdDrawerState
-    if (!attribute || !attributeKey || attributeGroupIndex === undefined) return
+    if (!attribute || attributeGroupIndex === undefined) return
 
     const attributes = formMethods.getValues('attributes')
-    const groups = attributes[attributeKey as keyof typeof attributes]
+    const groups = attributes['certified']
     const group = groups[attributeGroupIndex]
 
     groups[attributeGroupIndex] = group.map((att) =>
       att.id === attribute.id ? { ...att, dailyCallsPerConsumer: threshold } : att
     )
 
-    formMethods.setValue(`attributes.${attributeKey as keyof typeof attributes}`, groups, {
+    formMethods.setValue(`attributes.certified`, groups, {
       shouldValidate: false,
     })
-    setCustomizeThresholdDrawerState({ isOpen: false })
-  }
-
-  const handleOpenCustomizeThresholdDrawer = (
-    attribute: DescriptorAttribute,
-    attributeKey: AttributeKey,
-    attributeGroupIndex: number
-  ) => {
-    setCustomizeThresholdDrawerState({ isOpen: true, attribute, attributeKey, attributeGroupIndex })
+    closeCustomizeThresholdDrawer()
   }
 
   const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
@@ -205,7 +192,6 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
                 <AddAttributesToForm
                   attributeKey="certified"
                   readOnly={isEServiceCreatedFromTemplate}
-                  openCustomizeThresholdDrawer={handleOpenCustomizeThresholdDrawer}
                 />
               </TabPanel>
               <TabPanel value="verified">
@@ -242,10 +228,8 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
         onClose={handleCloseAttributeCreateDrawer}
       />
       <CustomizeThresholdDrawer
-        {...customizeThresholdDrawerState}
         dailyCallsTotal={dailyCallsTotal}
         dailyCallsPerConsumer={dailyCallsPerConsumer}
-        onClose={handleCloseCustomizeThresholdDrawer}
         onSubmit={handleSubmitCustomizeThresholdDrawer}
       />
     </>

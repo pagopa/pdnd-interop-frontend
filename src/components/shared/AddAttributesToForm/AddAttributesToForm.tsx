@@ -6,25 +6,18 @@ import { SectionContainer } from '@/components/layout/containers'
 import { Box, Button, Link, Stack } from '@mui/material'
 import { attributesHelpLink } from '@/config/constants'
 import { AttributeGroup } from './AttributeGroup'
-import { type DescriptorAttribute } from '@/api/api.generatedTypes'
 import { type CreateStepThresholdsFormValues } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepThresholds'
 
 export type AddAttributesToFormProps = {
   attributeKey: AttributeKey
   readOnly: boolean
   openCreateAttributeDrawer?: VoidFunction
-  openCustomizeThresholdDrawer?: (
-    attribute: DescriptorAttribute,
-    attributeKey: AttributeKey,
-    attributeGroupIndex: number
-  ) => void
 }
 
 export const AddAttributesToForm: React.FC<AddAttributesToFormProps> = ({
   attributeKey,
   readOnly,
   openCreateAttributeDrawer,
-  openCustomizeThresholdDrawer,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: `create.step3` })
   const { t: tAttribute } = useTranslation('attribute')
@@ -77,7 +70,6 @@ export const AddAttributesToForm: React.FC<AddAttributesToFormProps> = ({
               readOnly={readOnly}
               onRemoveAttributesGroup={handleRemoveAttributesGroup}
               onRemoveAttributeFromGroup={handleRemoveAttributeFromGroup}
-              onOpenCustomizeThresholdDrawer={openCustomizeThresholdDrawer}
             />
           ))}
         </Stack>

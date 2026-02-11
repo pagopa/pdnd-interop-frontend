@@ -5,33 +5,39 @@ import { Alert, Stack, Button, Typography } from '@mui/material'
 import { RHFTextField } from './react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
 import { type DescriptorAttribute } from '@/api/api.generatedTypes'
-import { type AttributeKey } from '@/types/attribute.types'
 import { WarningAmber } from '@mui/icons-material'
+import { create } from 'zustand'
 
 export type CustomizeThresholdDrawerProps = {
-  isOpen: boolean
-  onClose: VoidFunction
-  attribute?: DescriptorAttribute
-  attributeKey?: AttributeKey
-  attributeGroupIndex?: number
   dailyCallsPerConsumer?: number
   dailyCallsTotal?: number
   onSubmit: (threshold: number) => void
 }
+
+type CustomizeThresholdDrawerStore = {
+  isOpen: boolean
+  open: (attribute: DescriptorAttribute, attributeGroupIndex: number) => void
+  close: VoidFunction
+  attribute?: DescriptorAttribute
+  attributeGroupIndex?: number
+}
+
+export const useCustomizeThresholdDrawer = create<CustomizeThresholdDrawerStore>((set) => ({
+  isOpen: false,
+  open: (attribute, attributeGroupIndex) => set({ attribute, attributeGroupIndex, isOpen: true }),
+  close: () => set({ isOpen: false }),
+}))
 
 type CustomizeThresholdFormValues = {
   threshold: number
 }
 
 export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> = ({
-  isOpen,
-  onClose,
   onSubmit,
-  attribute,
-  attributeKey,
   dailyCallsPerConsumer,
   dailyCallsTotal,
 }) => {
+  const { isOpen, close, attribute } = useCustomizeThresholdDrawer()
   const { t } = useTranslation('eservice', {
     keyPrefix: 'create.step2.attributes.customizeThresholdDrawer',
   })
@@ -57,9 +63,9 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
       <Drawer
         isOpen={isOpen}
         title={t('title')}
-        subtitle={t('subtitle', { type: attributeKey, name: attribute?.name })}
+        subtitle={t('subtitle', { name: attribute?.name })}
         onTransitionExited={formMethods.reset}
-        onClose={onClose}
+        onClose={close}
       >
         <Stack
           justifyContent={'space-between'}

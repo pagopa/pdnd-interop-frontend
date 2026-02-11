@@ -9,6 +9,7 @@ import { AttributeAutocomplete } from '../AttributeAutocomplete'
 import type { DescriptorAttribute } from '@/api/api.generatedTypes'
 import { useFormContext } from 'react-hook-form'
 import type { CreateStepAttributesFormValues } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
+import { useCustomizeThresholdDrawer } from '../CustomizeThresholdDrawer'
 
 export type AttributeGroupProps = {
   group: Array<DescriptorAttribute>
@@ -17,11 +18,6 @@ export type AttributeGroupProps = {
   readOnly: boolean
   onRemoveAttributesGroup: (groupIndex: number) => void
   onRemoveAttributeFromGroup: (attributeId: string, groupIndex: number) => void
-  onOpenCustomizeThresholdDrawer?: (
-    attribute: DescriptorAttribute,
-    attributeKey: AttributeKey,
-    attributeGroupIndex: number
-  ) => void
 }
 
 export const AttributeGroup: React.FC<AttributeGroupProps> = ({
@@ -31,10 +27,10 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
   readOnly,
   onRemoveAttributesGroup,
   onRemoveAttributeFromGroup,
-  onOpenCustomizeThresholdDrawer,
 }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = React.useState(false)
+  const { open } = useCustomizeThresholdDrawer()
 
   const handleDeleteAttributesGroup = () => {
     onRemoveAttributesGroup(groupIndex)
@@ -69,8 +65,8 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
                 onRemove={
                   !readOnly ? handleDeleteAttributeFromGroup.bind(null, attribute.id) : undefined
                 }
-                onCustomizeThreshold={() =>
-                  onOpenCustomizeThresholdDrawer?.(attribute, attributeKey, groupIndex)
+                onCustomizeThreshold={
+                  attributeKey === 'certified' ? () => open(attribute, groupIndex) : undefined
                 }
               />
             </Box>

@@ -159,7 +159,7 @@
         },
         "customizeThresholdDrawer": {
           "title": "Customize threshold",
-          "subtitle": "Set a custom threshold for the attribute {{type}} {{name}}.",
+          "subtitle": "Set a custom threshold for the certified attribute {{name}}.",
           "submitBtnLabel": "Customize threshold",
           "field": {
             "placeholder": "API calls/day per consumer",

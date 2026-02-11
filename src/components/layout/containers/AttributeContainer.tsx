@@ -92,40 +92,42 @@ export const AttributeContainer = <
           >
             <Stack>
               <Typography fontWeight={600}>{attribute.name}</Typography>
-              <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                {attribute.dailyCallsPerConsumer && (
-                  <Stack direction={'row'} spacing={1}>
-                    <Typography
-                      sx={{
-                        fontSize: 16,
-                      }}
-                    >
-                      {t('thresholdLabel')}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: 16,
-                        fontWeight: 700,
-                      }}
-                    >
-                      {attribute.dailyCallsPerConsumer}
-                    </Typography>
-                  </Stack>
-                )}
-                <Button
-                  sx={{
-                    justifyContent: 'start',
-                    px: 1,
-                    width: 'fit-content',
-                  }}
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    onCustomizeThreshold?.()
-                  }}
-                >
-                  {attribute.dailyCallsPerConsumer ? t('changeBtn') : t('customizeBtn')}
-                </Button>
-              </Stack>
+              {onCustomizeThreshold && (
+                <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                  {attribute.dailyCallsPerConsumer && (
+                    <Stack direction={'row'} spacing={1}>
+                      <Typography
+                        sx={{
+                          fontSize: 16,
+                        }}
+                      >
+                        {t('thresholdLabel')}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontSize: 16,
+                          fontWeight: 700,
+                        }}
+                      >
+                        {attribute.dailyCallsPerConsumer}
+                      </Typography>
+                    </Stack>
+                  )}
+                  <Button
+                    sx={{
+                      justifyContent: 'start',
+                      px: 1,
+                      width: 'fit-content',
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      onCustomizeThreshold()
+                    }}
+                  >
+                    {attribute.dailyCallsPerConsumer ? t('changeBtn') : t('customizeBtn')}
+                  </Button>
+                </Stack>
+              )}
             </Stack>
           </AccordionSummary>
           <AccordionDetails>
