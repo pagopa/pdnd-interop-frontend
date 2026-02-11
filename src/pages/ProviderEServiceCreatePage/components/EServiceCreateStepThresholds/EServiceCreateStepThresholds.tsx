@@ -130,8 +130,8 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
 
     const newDescriptorData: ProducerEServiceDescriptor = {
       ...descriptor,
-      dailyCallsPerConsumer: values.dailyCallsPerConsumer,
-      dailyCallsTotal: values.dailyCallsTotal,
+      dailyCallsPerConsumer: values.dailyCallsPerConsumer ?? 1,
+      dailyCallsTotal: values.dailyCallsTotal ?? 1,
       attributes,
     }
 
@@ -141,22 +141,23 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
       return
     }
 
-    // TODO: Update the eservide
-    //
-    // const payload: UpdateEServiceDescriptorSeed & {
-    //   eserviceId: string
-    //   descriptorId: string
-    // } = {
-    //   dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
-    //   dailyCallsTotal: descriptor.dailyCallsTotal,
-    //   agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
-    //   description: descriptor.description,
-    //   attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes),
-    //   eserviceId: descriptor.eservice.id,
-    //   descriptorId: descriptor.id,
-    // }
-    //
-    // updateVersionDraft(payload, { onSuccess: forward })
+    // TODO: Check if it is correct to default some fields
+    const payload: UpdateEServiceDescriptorSeed & {
+      eserviceId: string
+      descriptorId: string
+    } = {
+      audience: [],
+      voucherLifespan: 0,
+      dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
+      dailyCallsTotal: descriptor.dailyCallsTotal,
+      agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
+      description: descriptor.description,
+      attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes),
+      eserviceId: descriptor.eservice.id,
+      descriptorId: descriptor.id,
+    }
+
+    updateVersionDraft(payload, { onSuccess: forward })
   }
 
   return (
