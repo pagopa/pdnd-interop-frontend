@@ -41,6 +41,18 @@ describe('Provider E-service create page', () => {
 
     waitFor(() => {
       expect(screen.getByText(/step2.thresholdSection.title/i)).toBeInTheDocument()
+
+      const dailyCallsPerConsumerInput = screen.getByLabelText(/dailyCallsPerConsumerField/i)
+      user.type(dailyCallsPerConsumerInput, '20')
+
+      const dailyCallsTotalInput = screen.getByLabelText(/dailyCallsTotalField/i)
+      user.type(dailyCallsTotalInput, '20')
+
+      user.click(nextButton)
+
+      waitFor(() => {
+        expect(screen.getByText(/step3/i)).toBeInTheDocument()
+      })
     })
   })
 })

@@ -90,13 +90,9 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
     const groups = attributes[attributeKey as keyof typeof attributes]
     const group = groups[attributeGroupIndex]
 
-    groups[attributeGroupIndex] = group.map((att) => {
-      if (att.id === attribute.id) {
-        return { ...att, dailyCallsPerConsumer: threshold }
-      }
-
-      return att
-    })
+    groups[attributeGroupIndex] = group.map((att) =>
+      att.id === attribute.id ? { ...att, dailyCallsPerConsumer: threshold } : att
+    )
 
     formMethods.setValue(`attributes.${attributeKey as keyof typeof attributes}`, groups, {
       shouldValidate: false,
@@ -217,7 +213,6 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
                   attributeKey="verified"
                   readOnly={isEServiceCreatedFromTemplate}
                   openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('verified')}
-                  openCustomizeThresholdDrawer={handleOpenCustomizeThresholdDrawer}
                 />
               </TabPanel>
               <TabPanel value="declared">
@@ -225,7 +220,6 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
                   attributeKey="declared"
                   readOnly={isEServiceCreatedFromTemplate}
                   openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('declared')}
-                  openCustomizeThresholdDrawer={handleOpenCustomizeThresholdDrawer}
                 />
               </TabPanel>
             </TabContext>
