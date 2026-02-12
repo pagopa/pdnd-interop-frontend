@@ -227,6 +227,8 @@
   },
   "summary": {
     "title": "{{eserviceName}}, versione {{versionNumber}}",
+    "missingInformationsLabel": "Completa le informazioni richieste",
+    "publishWarningLabel": "Per poter pubblicare, inserisci le informazioni mancanti.",
     "generalInfoSummary": {
       "title": "Informazioni generali",
       "description": {
@@ -249,11 +251,11 @@
         "label": "Tecnologia API"
       },
       "isSignalHubEnabled": {
-        "label": "È disponibile il servizio di aggiornamento dati (Signal Hub)?",
+        "label": "È attivo il servizio di notifiche sulla variazione dati (Signal Hub)?",
         "value": {
-          "true": "Sì, è disponibile",
-          "false": "No, non è disponibile",
-          "undefined": "No, non è disponibile"
+          "true": "Sì, è attivo",
+          "false": "No, non è attivo",
+          "undefined": "No, non è attivo"
         }
       },
       "isConsumerDelegable": {
@@ -282,20 +284,7 @@
       "description": {
         "label": "Descrizione"
       },
-      "audience": {
-        "label": "Audience"
-      },
-      "voucherLifespan": {
-        "label": "Durata del voucher"
-      },
-      "dailyCallsPerConsumer": {
-        "label": "Soglia giornaliera chiamate API per fruitore",
-        "value": "{{value}} chiamate API/giorno"
-      },
-      "dailyCallsTotal": {
-        "label": "Soglia giornaliera totale chiamate API",
-        "value": "{{value}} chiamate API/giorno"
-      },
+      "documentation": "Documentazione",
       "manualApproval": {
         "label": "Attivazione manuale richieste di fruizione",
         "value": {
@@ -305,13 +294,31 @@
       }
     },
     "attributeVersionSummary": {
-      "title": "Requisiti di accesso di versione"
+      "title": "Soglie e attributi",
+      "thresholds": {
+        "label": "Soglie di chiamate API",
+        "dailyCallsPerConsumer": {
+          "label": "Per fruitore",
+          "value": "{{value}} chiamate API/giorno"
+        },
+        "dailyCallsTotal": {
+          "label": "Totali",
+          "value": "{{value}} chiamate API/giorno"
+        }
+      }
     },
     "documentationSummary": {
-      "title": "Documentazione di versione",
+      "title": "Specifiche tecniche",
       "interface": {
-        "label": "Interfaccia OpenAPI"
+        "label": "Interfaccia"
       },
+      "audience": {
+        "label": "Audience"
+      },
+      "voucherLifespan": {
+        "label": "Durata del voucher"
+      },
+      "missingInfoLabel": "Da inserire",
       "emptyLabel": "Nessun documento caricato"
     },
     "notPublishableTooltip": {
