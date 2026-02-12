@@ -25,6 +25,7 @@ import {
 } from '@/components/shared/CustomizeThresholdDrawer'
 import { ThresholdSection } from '../sections/ThresholdSection'
 import { AttributesSection } from '../sections/AttributesSection'
+import { SectionContainerSkeleton } from '@/components/layout/containers'
 
 export type CreateStepThresholdsFormValues = {
   dailyCallsPerConsumer?: number
@@ -170,4 +171,8 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
       />
     </>
   )
+}
+
+export const EServiceCreateStepThresholdsSkeleton: React.FC = () => {
+  return <SectionContainerSkeleton height={354} />
 }

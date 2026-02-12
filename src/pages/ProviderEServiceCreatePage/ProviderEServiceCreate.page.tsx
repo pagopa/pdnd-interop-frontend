@@ -33,7 +33,10 @@ import type { EServiceMode } from '@/api/api.generatedTypes'
 import { useQuery } from '@tanstack/react-query'
 import { EServiceCreateFromTemplateStepPurpose } from './components/EServiceCreateStepPurpose/EServiceCreateFromTemplateStepPurpose'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
-import { EServiceCreateStepThresholds } from './components/EServiceCreateStepThresholds'
+import {
+  EServiceCreateStepThresholds,
+  EServiceCreateStepThresholdsSkeleton,
+} from './components/EServiceCreateStepThresholds'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -87,7 +90,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
             label: t('create.stepper.step2ReceiveLabel'),
             component: CreateStepPurpose,
           },
-          { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
+          { label: t('create.stepper.step2Label'), component: EServiceCreateStepThresholds },
           { label: t('create.stepper.step3Label'), component: EServiceCreateStepAttributes },
           { label: t('create.stepper.step4Label'), component: CreateStepDocuments },
         ]
@@ -118,14 +121,14 @@ const ProviderEServiceCreatePage: React.FC = () => {
     eserviceMode === 'DELIVER'
       ? [
           <EServiceCreateStepGeneralSkeleton key={1} />,
-          <EServiceCreateStepVersionSkeleton key={2} />,
+          <EServiceCreateStepThresholdsSkeleton key={2} />,
           <EServiceCreateStepAttributesSkeleton key={3} />,
           <CreateStepDocumentsSkeleton key={4} />,
         ]
       : [
           <EServiceCreateStepGeneralSkeleton key={1} />,
           <CreateStepPurposeSkeleton key={2} />,
-          <EServiceCreateStepVersionSkeleton key={3} />,
+          <EServiceCreateStepThresholdsSkeleton key={3} />,
           <EServiceCreateStepAttributesSkeleton key={4} />,
           <CreateStepDocumentsSkeleton key={5} />,
         ]

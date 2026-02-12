@@ -98,7 +98,12 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
                 >
                   {t('limitAlert.title')}
                 </Typography>
-                <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
+                <Stack
+                  direction={'row'}
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
+                  gap={2}
+                >
                   <Typography
                     sx={{
                       fontSize: 16,
@@ -129,7 +134,12 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
                     </Stack>
                   )}
                 </Stack>
-                <Stack direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
+                <Stack
+                  direction={'row'}
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
+                  gap={2}
+                >
                   <Typography
                     sx={{
                       fontSize: 16,

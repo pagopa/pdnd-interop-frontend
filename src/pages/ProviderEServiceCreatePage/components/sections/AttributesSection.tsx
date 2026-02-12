@@ -36,7 +36,11 @@ export const AttributesSection: React.FC<AttributesSectionProps> = ({
           <Tab label={t('step2.attributes.tabs.declared')} value="declared" />
         </TabList>
         <TabPanel value="certified">
-          <AddAttributesToForm attributeKey="certified" readOnly={isEServiceCreatedFromTemplate} />
+          <AddAttributesToForm
+            attributeKey="certified"
+            readOnly={isEServiceCreatedFromTemplate}
+            withThreshold
+          />
         </TabPanel>
         <TabPanel value="verified">
           <AddAttributesToForm

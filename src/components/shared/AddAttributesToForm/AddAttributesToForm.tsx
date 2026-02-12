@@ -11,12 +11,14 @@ import { type CreateStepThresholdsFormValues } from '@/pages/ProviderEServiceCre
 export type AddAttributesToFormProps = {
   attributeKey: AttributeKey
   readOnly: boolean
+  withThreshold?: boolean
   openCreateAttributeDrawer?: VoidFunction
 }
 
 export const AddAttributesToForm: React.FC<AddAttributesToFormProps> = ({
   attributeKey,
   readOnly,
+  withThreshold,
   openCreateAttributeDrawer,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: `create.step3` })
@@ -68,6 +70,7 @@ export const AddAttributesToForm: React.FC<AddAttributesToFormProps> = ({
               group={group}
               attributeKey={attributeKey}
               readOnly={readOnly}
+              withThreshold={withThreshold}
               onRemoveAttributesGroup={handleRemoveAttributesGroup}
               onRemoveAttributeFromGroup={handleRemoveAttributeFromGroup}
             />

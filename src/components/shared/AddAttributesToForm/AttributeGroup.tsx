@@ -16,6 +16,7 @@ export type AttributeGroupProps = {
   groupIndex: number
   attributeKey: AttributeKey
   readOnly: boolean
+  withThreshold?: boolean
   onRemoveAttributesGroup: (groupIndex: number) => void
   onRemoveAttributeFromGroup: (attributeId: string, groupIndex: number) => void
 }
@@ -25,6 +26,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
   groupIndex,
   attributeKey,
   readOnly,
+  withThreshold,
   onRemoveAttributesGroup,
   onRemoveAttributeFromGroup,
 }) => {
@@ -65,9 +67,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
                 onRemove={
                   !readOnly ? handleDeleteAttributeFromGroup.bind(null, attribute.id) : undefined
                 }
-                onCustomizeThreshold={
-                  attributeKey === 'certified' ? () => open(attribute, groupIndex) : undefined
-                }
+                onCustomizeThreshold={withThreshold ? () => open(attribute, groupIndex) : undefined}
               />
             </Box>
           ))}
