@@ -2440,6 +2440,8 @@ export interface NotificationsCountBySection {
     /** @format int32 */
     'api-e-service': number
     /** @format int32 */
+    'api-interop': number
+    /** @format int32 */
     totalCount: number
   }
   notifiche: {
@@ -3289,6 +3291,15 @@ export interface GetNotificationDeeplinkParams {
   notificationType: string
   /** The id of the entity */
   entityId: string
+}
+
+export interface GetDigestNotificationDeeplinkParams {
+  /** The id of the entity */
+  entityId?: string
+  /** The selfcare ID for the institution (optional, falls back to generic URL if not provided) */
+  selfcareId?: string
+  /** The type of the notification */
+  digestNotificationType: string
 }
 
 export namespace Consumers {
@@ -8823,6 +8834,28 @@ export namespace EmailDeepLink {
       entityId: string
     }
     export type RequestQuery = {
+      /** The selfcare ID for the institution (optional, falls back to generic URL if not provided) */
+      selfcareId?: string
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = any
+  }
+  /**
+   * @description Redirect the user to the correct deepLink based on digest notification type and entity id
+   * @tags digestEmailDeepLink
+   * @name GetDigestNotificationDeeplink
+   * @summary Redirect the user to the correct deepLink based on digest notification type and entity id
+   * @request GET:/emailDeepLink/{digestNotificationType}
+   */
+  export namespace GetDigestNotificationDeeplink {
+    export type RequestParams = {
+      /** The type of the notification */
+      digestNotificationType: string
+    }
+    export type RequestQuery = {
+      /** The id of the entity */
+      entityId?: string
       /** The selfcare ID for the institution (optional, falls back to generic URL if not provided) */
       selfcareId?: string
     }

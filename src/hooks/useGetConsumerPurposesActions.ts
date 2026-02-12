@@ -14,6 +14,8 @@ import { useCheckRiskAnalysisVersionMismatch } from './useCheckRiskAnalysisVersi
 import { useCurrentRoute, useNavigate } from '@/router'
 import { match } from 'ts-pattern'
 
+// Source of truth about purpose here: https://pagopa.atlassian.net/wiki/spaces/PDNDI/pages/626360386/Purpose+Version+Lifecycle
+
 function useGetConsumerPurposesActions(purpose?: Purpose) {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('purpose', { keyPrefix: 'consumerView' })
@@ -199,10 +201,9 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     )
     .with(
       {
-        isDeliverMode: true,
         isArchived: true,
       },
-      () => [cloneAction]
+      () => []
     )
     // purpose in DRAFT state
     .with(
