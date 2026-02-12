@@ -189,7 +189,12 @@
           "tenantKind": "Intended for",
           "intendedTarget": "Who is the template for",
           "purposeDescription": "Purpose description",
-          "riskAnalysisDownloadLink": "Download risk analysis",
+          "riskAnalysis": {
+            "fileName": "Facilitated risk analysis",
+            "link": {
+              "label": "Download risk analysis"
+            }
+          },
           "handlesPersonalDataLabel": "Handles personal data",
           "tenantKindValues": {
             "labelNotPA": "Private entities",

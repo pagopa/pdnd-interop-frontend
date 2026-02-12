@@ -67,7 +67,8 @@ const NotificationsPage: React.FC = () => {
     },
   ])
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
   const queryParams = { ...paginationParams, ...filtersParams }
 
   const { data: totalPageCount = 0, isLoading } = useQuery({
@@ -96,7 +97,11 @@ const NotificationsPage: React.FC = () => {
           <>
             <Filters {...filtersHandlers} />
             <NotificationsTableWrapper params={params} />
-            <Pagination {...paginationProps} totalPages={totalPageCount} />
+            <Pagination
+              {...paginationProps}
+              rowPerPageOptions={rowPerPageOptions}
+              totalPages={totalPageCount}
+            />
           </>
         ))
         .with({ isLoading: false, hasData: false }, () => (

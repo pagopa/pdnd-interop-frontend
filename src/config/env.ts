@@ -18,6 +18,7 @@ const GeneralConfigs = z.object({
   ERROR_DATA_DURATION_TIME: z.string().default('60000'),
   DELEGATIONS_ALLOWED_ORIGINS: z.string(),
   NOTIFICATION_COUNT_REFRESH_INTERVAL: z.coerce.number().default(30000),
+  AVATAR_BASEPATH: z.url().default('https://selfcare.pagopa.it'),
 })
 
 const FeatureFlagConfigs = z.object({
@@ -116,6 +117,7 @@ export const {
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA,
   FEATURE_FLAG_USE_SIGNED_DOCUMENT,
   DELEGATIONS_ALLOWED_ORIGINS,
+  AVATAR_BASEPATH,
 } = parseConfigs()
 
 export const APP_MODE = parseAppMode()
