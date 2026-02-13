@@ -11,6 +11,7 @@ import type { Purpose, PurposeUpdateContent } from '@/api/api.generatedTypes'
 import SaveIcon from '@mui/icons-material/Save'
 import { useNavigate } from '@/router'
 import { useGetConsumerPurposeEditPageInfoAlertProps } from '../../hooks/useGetConsumerPurposeEditPageInfoAlertProps'
+import { GreyAlert } from '@/components/shared/GreyAlert'
 
 export type PurposeEditStepGeneralFormValues = Omit<
   PurposeUpdateContent,
@@ -132,7 +133,10 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
             />
           )}
         </SectionContainer>
-        <SectionContainer title={t('edit.loadEstimationSection.title')}>
+        <SectionContainer
+          title={t('edit.loadEstimationSection.title')}
+          description={t('edit.loadEstimationSection.description')}
+        >
           <RHFTextField
             name="dailyCalls"
             label={t('edit.loadEstimationSection.dailyCalls.label')}
@@ -142,10 +146,7 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
             rules={{ required: true, min: 1 }}
           />
           {alertProps && <Alert {...alertProps} sx={{ mt: 1, mb: 3 }} />}
-          <Alert
-            icon={false}
-            sx={{ p: 2, borderLeftColor: 'grey.700', backgroundColor: 'grey.50' }}
-          >
+          <GreyAlert>
             <AlertTitle sx={{ textTransform: 'uppercase', fontWeight: 700 }}>
               {t('edit.loadEstimationSection.providerThresholdsInfo.label')}
             </AlertTitle>
@@ -181,7 +182,7 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
             <Typography variant="caption" color="text.secondary">
               {t('edit.loadEstimationSection.providerThresholdsInfo.description')}
             </Typography>
-          </Alert>
+          </GreyAlert>
         </SectionContainer>
         <StepActions
           back={{ to: 'SUBSCRIBE_PURPOSE_LIST', label: t('backToListBtn'), type: 'link' }}
