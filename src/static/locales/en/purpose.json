@@ -83,7 +83,7 @@
         "infoLabel": "Min 10 characters, max 250 characters"
       },
       "isFreeOfChargeField": {
-        "label": "How will you provide access to data from this e-service??*",
+        "label": "How will you provide access to data from this e-service?*",
         "options": {
           "YES": "Free of charge",
           "NO": "For a fee"
@@ -110,7 +110,7 @@
         },
         "dailyCallsTotal": {
           "label": "Total threshold",
-          "value": "{{{min}} of {{max}} API calls/day"
+          "value": "{{min}} of {{max}} API calls/day"
         }
       },
       "alerts": {

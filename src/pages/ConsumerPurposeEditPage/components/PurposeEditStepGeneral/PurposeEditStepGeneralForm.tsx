@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, Box, Paper, Stack, Typography } from '@mui/material'
+import { Alert, AlertTitle, Box, Stack, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +10,7 @@ import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import type { Purpose, PurposeUpdateContent } from '@/api/api.generatedTypes'
 import SaveIcon from '@mui/icons-material/Save'
 import { useNavigate } from '@/router'
-import { useGetConsumerPurporseEditPageInfoAlertProps } from '../../hooks/useGetConsumerPurporseEditPageInfoAlertProps'
+import { useGetConsumerPurposeEditPageInfoAlertProps } from '../../hooks/useGetConsumerPurposeEditPageInfoAlertProps'
 
 export type PurposeEditStepGeneralFormValues = Omit<
   PurposeUpdateContent,
@@ -76,14 +76,14 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
 
   const isFreeOfCharge = formMethods.watch('isFreeOfCharge')
 
-  const dailyCalls = formMethods.watch('dailyCalls')
+  const dailyCallsFormValue = formMethods.watch('dailyCalls')
 
   const dailyCallsPerConsumer = purpose.dailyCallsPerConsumer
 
   const dailyCallsTotal = purpose.dailyCallsTotal
 
-  const alertProps = useGetConsumerPurporseEditPageInfoAlertProps(
-    dailyCalls,
+  const alertProps = useGetConsumerPurposeEditPageInfoAlertProps(
+    dailyCallsFormValue,
     dailyCallsPerConsumer,
     dailyCallsTotal
   )
@@ -146,9 +146,9 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
             icon={false}
             sx={{ p: 2, borderLeftColor: 'grey.700', backgroundColor: 'grey.50' }}
           >
-            <Typography fontWeight={700} sx={{ textTransform: 'uppercase' }}>
+            <AlertTitle sx={{ textTransform: 'uppercase', fontWeight: 700 }}>
               {t('edit.loadEstimationSection.providerThresholdsInfo.label')}
-            </Typography>
+            </AlertTitle>
             <Stack direction="row" spacing={6} sx={{ mt: 0.5, mb: 1 }}>
               <Stack direction="row" spacing={2} alignItems="center">
                 <Typography>
