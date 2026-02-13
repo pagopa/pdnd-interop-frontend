@@ -3,7 +3,7 @@
   "create": {
     "emptyTitle": "Crea finalità",
     "requiredLabel": "*Campi obbligatori.",
-    "preliminaryInformationSectionTitle": "Informazioni preliminari",
+    "preliminaryInformationSectionTitle": "Informazioni generali",
     "isTemplateField": {
       "label": "Usa un template precompilato"
     },
@@ -65,7 +65,7 @@
   "edit": {
     "emptyTitle": "Modifica finalità",
     "stepper": {
-      "stepGeneralLabel": "Generale",
+      "stepGeneralLabel": "Informazioni generali",
       "stepRiskAnalysisLabel": "Analisi del rischio"
     },
     "backWithoutSaveBtn": "Indietro",

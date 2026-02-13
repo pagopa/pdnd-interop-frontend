@@ -2,8 +2,8 @@
   "backToListBtn": "Back to purposes",
   "create": {
     "emptyTitle": "Create purpose",
-    "preliminaryInformationSectionTitle": "Preliminary information",
     "requiredLabel": "*Required fields.",
+    "preliminaryInformationSectionTitle": "General informations",
     "isTemplateField": {
       "label": "Clone from template"
     },
