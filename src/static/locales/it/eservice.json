@@ -7,7 +7,7 @@
       "step1Label": "Generale",
       "step2Label": "Versione",
       "step2ReceiveLabel": "Finalità",
-      "step3Label": "Attributi",
+      "step3Label": "Specifiche tecniche",
       "step4Label": "Documentazione"
     },
     "backWithoutSaveBtn": "Indietro",
@@ -123,17 +123,6 @@
       "descriptionField": {
         "label": "Cosa è cambiato in questa versione?"
       },
-      "voucherSection": {
-        "title": "Voucher",
-        "voucherLifespanField": {
-          "label": "Durata validità (in minuti)",
-          "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
-        },
-        "audienceField": {
-          "label": "Audience",
-          "infoLabel": "Rappresenta il destinatario del voucher, ossia la tua risorsa di destinazione. Dubbi? <1>Consulta la guida</1>"
-        }
-      },
       "thresholdSection": {
         "title": "Soglia di chiamate previste per i fruitori",
         "dailyCallsPerConsumerField": {
@@ -152,25 +141,25 @@
       }
     },
     "step3": {
-      "attributesTitle": "Requisiti di accesso per la versione {{versionNumber}}",
-      "attributesDescription": "Di seguito indica tutti quegli attributi, certificati, verificati o dichiarati che il fruitore dovrà possedere per richiedere la fruizione dell’e-service",
-      "attributesAddBtn": "Aggiungi attributo",
-      "attributesCreateBtn": "Crea nuovo attributo",
-      "createAttributeDrawer": {
-        "title": {
-          "verified": "Crea nuovo attributo verificato",
-          "declared": "Crea nuovo attributo dichiarato"
+      "interfaceSection": {
+        "title": "Interfaccia (richiesto)",
+        "description": {
+          "rest": "Carica il file OpenAPI che descrive l'API. Devi assicurarti che la tua specifica rispetti quanto previsto dal ModI. Per verificare usa",
+          "restLinkLabel": "l'OpenAPI Checker",
+          "soap": "Carica il file WSDL che descrive l'API"
         },
-        "subtitle": "Una volta creato, troverai l’attributo nella lista tra quelli disponibili per essere aggiunti ad un e-service",
-        "nameField": {
-          "label": "Nome dell'attributo",
-          "infoLabel": "Min 5 caratteri, max 160 caratteri"
+        "prettyName": "Specifica API"
+      },
+      "voucherSection": {
+        "title": "Voucher",
+        "voucherLifespanField": {
+          "label": "Durata validità (in minuti)",
+          "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
         },
-        "descriptionField": {
-          "label": "Descrizione dell'attributo",
-          "infoLabel": "Min 10 caratteri, max 250 caratteri"
-        },
-        "submitBtnLabel": "Crea attributo"
+        "audienceField": {
+          "label": "Audience",
+          "infoLabel": "Rappresenta il destinatario del voucher, ossia la tua risorsa di destinazione. Dubbi? <1>Consulta la guida</1>"
+        }
       }
     },
     "step4": {
@@ -204,15 +193,6 @@
             "download": "Scarica il file di interfaccia"
           }
         }
-      },
-      "interface": {
-        "title": "Interfaccia (richiesto)",
-        "description": {
-          "rest": "Carica il file OpenAPI che descrive l'API. Devi assicurarti che la tua specifica rispetti quanto previsto dal ModI. Per verificare usa",
-          "restLinkLabel": "l'OpenAPI Checker",
-          "soap": "Carica il file WSDL che descrive l'API"
-        },
-        "prettyName": "Specifica API"
       },
       "documentation": {
         "title": "Documentazione",

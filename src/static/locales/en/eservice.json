@@ -7,7 +7,7 @@
       "step1Label": "General",
       "step2Label": "Version",
       "step2ReceiveLabel": "Purpose",
-      "step3Label": "Attributes",
+      "step3Label": "Technical specifications",
       "step4Label": "Documentation"
     },
     "backWithoutSaveBtn": "Back",
@@ -123,17 +123,6 @@
       "descriptionField": {
         "label": "What changed in this version?"
       },
-      "voucherSection": {
-        "title": "Voucher",
-        "voucherLifespanField": {
-          "label": "Validity duration (minutes)",
-          "infoLabel": "Max value: 1440 minutes (24 hours)"
-        },
-        "audienceField": {
-          "label": "Audience",
-          "infoLabel": "Represents the recipient of the voucher, i.e. your target resource. Doubts? <1>Read the guide</1>"
-        }
-      },
       "thresholdSection": {
         "title": "Threshold of calls expected for consumers",
         "dailyCallsPerConsumerField": {
@@ -152,25 +141,25 @@
       }
     },
     "step3": {
-      "attributesTitle": "Access requirements for version {{versionNumber}}",
-      "attributesDescription": "Please indicate all the certified, verified, and declared attributes that the consumer must have in order to create an agreement for the e-service",
-      "attributesAddBtn": "Add attribute",
-      "attributesCreateBtn": "Create new attribute",
-      "createAttributeDrawer": {
-        "title": {
-          "verified": "Create new verified attribute",
-          "declared": "Create new declared attribute"
+      "interface": {
+        "title": "Interface (required)",
+        "description": {
+          "rest": "Upload the OpenAPI file that describes the API. You must ensure that your specification meets the requirements set in the ModI framework. To check, use",
+          "restLinkLabel": "the OpenAPI Checker",
+          "soap": "Upload the WSDL file that describes the API"
         },
-        "subtitle": "Once created, the attribute will be available in the list to be added to an e-service",
-        "nameField": {
-          "label": "Attribute name",
-          "infoLabel": "Min 5 characters, max 160 characters"
+        "prettyName": "API specification"
+      },
+      "voucherSection": {
+        "title": "Voucher",
+        "voucherLifespanField": {
+          "label": "Validity duration (minutes)",
+          "infoLabel": "Max value: 1440 minutes (24 hours)"
         },
-        "descriptionField": {
-          "label": "Attribute description",
-          "infoLabel": "Min 10 characters, max 250 characters"
-        },
-        "submitBtnLabel": "Create attribute"
+        "audienceField": {
+          "label": "Audience",
+          "infoLabel": "Represents the recipient of the voucher, i.e. your target resource. Doubts? <1>Read the guide</1>"
+        }
       }
     },
     "step4": {
@@ -204,15 +193,6 @@
             "download": "Download interface API file"
           }
         }
-      },
-      "interface": {
-        "title": "Interface (required)",
-        "description": {
-          "rest": "Upload the OpenAPI file that describes the API. You must ensure that your specification meets the requirements set in the ModI framework. To check, use",
-          "restLinkLabel": "the OpenAPI Checker",
-          "soap": "Upload the WSDL file that describes the API"
-        },
-        "prettyName": "API specification"
       },
       "documentation": {
         "title": "Documentation",
