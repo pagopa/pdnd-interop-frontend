@@ -6,20 +6,25 @@
   },
   "certified": {
     "label": "Certified attributes",
-    "description": "That is, attributes certified by a <1>recognized authoritative source.</1>"
+    "description": "That is, attributes certified by a <1>recognized authoritative source.</1>",
+    "requirement": "Requirement {{index}} | Certified Attributes"
   },
   "verified": {
     "label": "Verified attributes",
-    "description": "That is, attributes verified <1>by other organizations for the same consumer</1> with the possibility of requesting a verification from the producer. For each attribute verify or revoke..."
+    "description": "That is, attributes verified <1>by other organizations for the same consumer</1> with the possibility of requesting a verification from the producer. For each attribute verify or revoke...",
+    "requirement": "Requirement {{index}} | Verified Attributes"
   },
   "declared": {
     "label": "Declared attributes",
-    "description": "That is, attributes declared by the consumer under their own responsibility during the service request. No verification from the producer is required."
+    "description": "That is, attributes declared by the consumer under their own responsibility during the service request. No verification from the producer is required.",
+    "requirement": "Requirement {{index}} | Declared Attributes"
   },
+  "or": "Or",
   "noAttributesRequiredAlert": {
     "provider": "Your party does not require {{attributeKey}} attributes",
     "consumer": "The producer does not require {{attributeKey}} attributes"
   },
+  "noGenericAttributesRequiredAlert": "This e-service does not require {{attributeKey}} attributes",
   "group": {
     "read": {
       "provider": "The consumer must possess at least one of the following attributes",

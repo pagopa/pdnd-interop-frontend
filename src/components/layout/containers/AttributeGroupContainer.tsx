@@ -41,9 +41,9 @@ const containerColors = {
   },
   gray: {
     textColor: theme.palette.text.primary,
-    headerColor: '#F5F5F5',
-    borderColor: '#F5F5F5',
-    bodyColor: 'white',
+    headerColor: 'grey.200',
+    borderColor: 'grey.200',
+    bodyColor: 'grey.50',
   },
 }
 

@@ -11,6 +11,7 @@ import type { DescriptorAttribute, DescriptorAttributes } from '@/api/api.genera
 import { useCurrentRoute } from '@/router'
 import type { ActionItemButton, ProviderOrConsumer } from '@/types/common.types'
 import { attributesHelpLink } from '@/config/constants'
+import { Typography } from '@mui/material'
 
 type ReadOnlyDescriptorAttributesProps = {
   descriptorAttributes: DescriptorAttributes
@@ -52,10 +53,6 @@ export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProp
 }) => {
   const { t: tAttribute } = useTranslation('attribute')
 
-  const { mode } = useCurrentRoute()
-
-  const providerOrConsumer = mode as ProviderOrConsumer
-
   const attributeGroups = descriptorAttributes[attributeKey]
 
   return (
@@ -72,15 +69,22 @@ export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProp
       topSideActions={topSideActions}
     >
       {attributeGroups.length > 0 && (
-        <Stack spacing={3}>
-          {attributeGroups.map((attributeGroup, index) => (
-            <AttributeGroup key={index} attributes={attributeGroup} index={index} />
-          ))}
-        </Stack>
+        <>
+          <Stack spacing={3}>
+            {attributeGroups.map((attributeGroup, index) => (
+              <AttributeGroup
+                key={index}
+                attributes={attributeGroup}
+                index={index}
+                attributeKey={attributeKey}
+              />
+            ))}
+          </Stack>
+        </>
       )}
       {attributeGroups.length === 0 && (
         <AttributeGroupContainer
-          title={tAttribute(`noAttributesRequiredAlert.${providerOrConsumer}`, {
+          title={tAttribute(`noGenericAttributesRequiredAlert`, {
             attributeKey: tAttribute(`type.${attributeKey}_other`),
           })}
           color="gray"
@@ -93,19 +97,33 @@ export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProp
 type AttributeGroup = {
   attributes: Array<DescriptorAttribute>
   index: number
+  attributeKey: AttributeKey
 }
 
-const AttributeGroup: React.FC<AttributeGroup> = ({ attributes }) => {
+const AttributeGroup: React.FC<AttributeGroup> = ({ attributes, index, attributeKey }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group.read' })
+  const { t: tAttribute } = useTranslation('attribute')
   const { mode } = useCurrentRoute()
-
   return (
-    <AttributeGroupContainer title={t(mode as ProviderOrConsumer)} color="gray">
+    <AttributeGroupContainer
+      title={tAttribute(`${attributeKey}.requirement`, { index: index + 1 })}
+      color="gray"
+    >
+      <Typography>{t(mode as ProviderOrConsumer)}</Typography>
       <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
-        {attributes.map((attribute) => (
-          <Box key={attribute.id} component="li">
-            <AttributeContainer attribute={attribute} />
-          </Box>
+        {attributes.map((attribute, _index) => (
+          <>
+            <Box key={attribute.id} component="li">
+              <AttributeContainer attribute={attribute} />
+            </Box>
+            {attributes.length > 1 && _index < attributes.length - 1 && (
+              <Divider sx={{ py: 1 }}>
+                <Typography color="text.secondary" fontWeight={700} textTransform={'uppercase'}>
+                  {tAttribute('or')}
+                </Typography>
+              </Divider>
+            )}
+          </>
         ))}
       </Stack>
     </AttributeGroupContainer>
