@@ -152,11 +152,6 @@ export const EServiceCreateStepGeneral: React.FC = () => {
 
   return (
     <FormProvider {...formMethods}>
-      {!isEserviceFromTemplate && (
-        <Alert severity="warning" sx={{ mb: 3 }}>
-          {t('create.step1.firstVersionOnlyEditableInfo')}
-        </Alert>
-      )}
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer
           title={t('create.step1.detailsTitle')}
@@ -190,6 +185,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             inputProps={{ maxLength: 60 }}
             size="small"
             sx={{ width: '49%', my: 0, mt: 1 }}
+            required
           />
 
           <RHFTextField
@@ -202,8 +198,15 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             inputProps={{ maxLength: 250 }}
             rules={!eserviceTemplate ? { required: true, minLength: 10 } : undefined}
             sx={{ mb: 0, mt: 3 }}
+            required
           />
-
+        </SectionContainer>
+        <SectionContainer title={t('create.step1.detailsSection.title')}>
+          {!isEserviceFromTemplate && (
+            <Alert severity="warning" sx={{ mb: 0, mt: 3 }}>
+              {t('create.step1.firstVersionOnlyEditableInfo')}
+            </Alert>
+          )}
           <RHFRadioGroup
             name="technology"
             row

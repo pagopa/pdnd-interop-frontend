@@ -33,6 +33,7 @@ import type { EServiceMode } from '@/api/api.generatedTypes'
 import { useQuery } from '@tanstack/react-query'
 import { EServiceCreateFromTemplateStepPurpose } from './components/EServiceCreateStepPurpose/EServiceCreateFromTemplateStepPurpose'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
+import { Typography } from '@mui/material'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -145,6 +146,15 @@ const ProviderEServiceCreatePage: React.FC = () => {
       }}
       isLoading={!isReady}
     >
+      <Typography
+        sx={{
+          fontSize: 16,
+          fontWeight: 700,
+          color: 'text.secondary',
+        }}
+      >
+        {t('create.requiredLabel')}
+      </Typography>
       <Stepper steps={steps} activeIndex={activeStep} />
       {isReady && (
         <EServiceCreateContextProvider
