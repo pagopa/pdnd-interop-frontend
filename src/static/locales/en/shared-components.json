@@ -341,7 +341,10 @@
   "attributeContainer": {
     "attributeIdLabel": "Attribute ID (attributeId)",
     "idCopytooltipLabel": "ID copied successfully",
-    "removeAttributeAriaLabel": "Remove {{attributeName}} attribute"
+    "removeAttributeAriaLabel": "Remove {{attributeName}} attribute",
+    "thresholdLabel": "API calls/day per consumer",
+    "customizeBtn": "Customize threshold",
+    "changeBtn": "Change threshold"
   },
   "attributeGroupContainer": {
     "removeGroupAriaLabel": "Remove attribute group"
