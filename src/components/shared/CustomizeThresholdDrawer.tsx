@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { type DescriptorAttribute } from '@/api/api.generatedTypes'
 import { WarningAmber } from '@mui/icons-material'
 import { create } from 'zustand'
+import { isEmpty } from 'lodash'
 
 export type CustomizeThresholdDrawerProps = {
   dailyCallsPerConsumer?: number
@@ -58,6 +59,7 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
       })
     }
   }, [isOpen, formMethods, attribute])
+
   return (
     <FormProvider {...formMethods}>
       <Drawer
@@ -175,7 +177,12 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
           </Stack>
           <Stack spacing={5}>
             <Alert severity="info">{t('alert')}</Alert>
-            <Button type={'submit'} form="threshold-form" variant="contained">
+            <Button
+              type={'submit'}
+              form="threshold-form"
+              variant="contained"
+              color={isEmpty(formMethods.formState.errors) ? 'primary' : 'error'}
+            >
               {t('submitBtnLabel')}
             </Button>
           </Stack>
