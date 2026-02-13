@@ -240,25 +240,17 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     }
   }
 
-  enum Section {
-    GeneralInfoSummary = 'generalInfoSummary',
-    VersionInfoSummary = 'versionInfoSummary',
-    DocumentationSummary = 'documentationSummary',
-  }
+  const isGeneralInfoSectionValid =
+    Boolean(descriptor?.eservice.description) &&
+    Boolean(descriptor?.eservice.technology) &&
+    (FEATURE_FLAG_ESERVICE_PERSONAL_DATA ? arePersonalDataSet : true)
 
-  const isSectionValid = (section: Section) => {
-    const sections = {
-      [Section.GeneralInfoSummary]:
-        !!descriptor?.eservice.description &&
-        !!descriptor?.eservice.technology &&
-        (FEATURE_FLAG_ESERVICE_PERSONAL_DATA ? arePersonalDataSet : true),
-      [Section.VersionInfoSummary]:
-        !!descriptor?.description && !!descriptor?.audience[0] && !!descriptor?.voucherLifespan,
-      [Section.DocumentationSummary]: !!descriptor?.interface,
-    }
+  const isVersionInfoSectionValid =
+    Boolean(descriptor?.description) &&
+    Boolean(descriptor?.audience?.length) &&
+    Boolean(descriptor?.voucherLifespan)
 
-    return sections[section]
-  }
+  const isDocumentationSectionValid = Boolean(descriptor?.interface)
 
   return (
     <>
@@ -304,6 +296,8 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               headline="1"
               title={t('summary.generalInfoSummary.title')}
               defaultExpanded={true}
+              showWarning={!isGeneralInfoSectionValid}
+              warningLabel={t('summary.missingInformationsLabel')}
             >
               <ProviderEServiceGeneralInfoSummary />
             </SummaryAccordion>
@@ -324,7 +318,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
               title={t('summary.documentationSummary.title')}
-              showWarning={!isSectionValid(Section.DocumentationSummary)}
+              showWarning={!isVersionInfoSectionValid}
               warningLabel={t('summary.missingInformationsLabel')}
             >
               <ProviderEServiceDocumentationSummary />
@@ -334,7 +328,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '5' : '4'}
               title={t('summary.versionInfoSummary.title')}
-              showWarning={!isSectionValid(Section.VersionInfoSummary)}
+              showWarning={!isDocumentationSectionValid}
               warningLabel={t('summary.missingInformationsLabel')}
             >
               <ProviderEServiceVersionInfoSummary />

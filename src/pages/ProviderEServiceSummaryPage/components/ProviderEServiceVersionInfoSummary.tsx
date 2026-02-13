@@ -43,18 +43,18 @@ export const ProviderEServiceVersionInfoSummary: React.FC = () => {
           <ProviderEServiceInformationContainer
             key={doc.id}
             label={index === 0 ? t('documentation') : ''}
-            content={doc.prettyName}
-          >
-            {descriptor.interface && (
-              <IconLink
-                component="button"
-                startIcon={<AttachFileIcon fontSize="small" />}
-                onClick={handleDownloadDocument.bind(null, doc)}
-              >
-                {doc.prettyName}
-              </IconLink>
-            )}
-          </ProviderEServiceInformationContainer>
+            content={
+              descriptor.interface && (
+                <IconLink
+                  component="button"
+                  startIcon={<AttachFileIcon fontSize="small" />}
+                  onClick={handleDownloadDocument.bind(null, doc)}
+                >
+                  {doc.prettyName}
+                </IconLink>
+              )
+            }
+          />
         ))}
         <ProviderEServiceInformationContainer
           label={t('manualApproval.label')}

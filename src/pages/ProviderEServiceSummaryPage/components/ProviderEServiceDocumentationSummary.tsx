@@ -39,18 +39,18 @@ export const ProviderEServiceDocumentationSummary: React.FC = () => {
       <Stack spacing={2}>
         <ProviderEServiceInformationContainer
           label={t('interface.label')}
-          content={descriptor.interface?.prettyName}
-        >
-          {descriptor.interface && (
-            <IconLink
-              component="button"
-              startIcon={<AttachFileIcon fontSize="small" />}
-              onClick={handleDownloadDocument.bind(null, descriptor.interface)}
-            >
-              {descriptor.interface.prettyName}
-            </IconLink>
-          )}
-        </ProviderEServiceInformationContainer>
+          content={
+            descriptor.interface && (
+              <IconLink
+                component="button"
+                startIcon={<AttachFileIcon fontSize="small" />}
+                onClick={handleDownloadDocument.bind(null, descriptor.interface)}
+              >
+                {descriptor.interface.prettyName}
+              </IconLink>
+            )
+          }
+        />
         <ProviderEServiceInformationContainer
           label={t('audience.label')}
           content={descriptor.audience[0]}
