@@ -6,11 +6,10 @@ import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
-import { UploadDocumentsInterface } from '@/components/shared/UploadDocumentsInterface'
-
-type EServiceCreateStepDocumentsInterfaceFormValues = {
-  interfaceDoc: File | null
-}
+import {
+  UploadDocumentsInterface,
+  type UploadDocumentsInterfaceFormValues,
+} from '@/components/shared/UploadDocumentsInterface'
 
 export function EServiceCreateStepDocumentsInterface() {
   const { t } = useTranslation('eservice')
@@ -21,7 +20,7 @@ export function EServiceCreateStepDocumentsInterface() {
   const { jwt } = AuthHooks.useJwt()
   const actualInterface: EServiceDoc | null = descriptor?.interface ?? null
 
-  const onSubmit = ({ interfaceDoc }: EServiceCreateStepDocumentsInterfaceFormValues) => {
+  const onSubmit = ({ interfaceDoc }: UploadDocumentsInterfaceFormValues) => {
     if (!interfaceDoc || !descriptor) return
 
     const prettyName = t('create.step4.interface.prettyName')
