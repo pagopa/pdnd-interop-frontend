@@ -198,6 +198,65 @@ const createMockPurposeUsesPersonalDataAnswerYes = createMockFactory<Purpose>({
   rulesetExpiration: '2030-01-01T00:00:00Z',
 })
 
+const createMockPurposeCallsExceed = createMockFactory<Purpose>({
+  id: 'purpose-id',
+  title: 'Test Purpose',
+  consumer: { id: 'consumer-id', name: 'Consumer Name' },
+  eservice: {
+    id: 'eservice-id',
+    name: 'Test Eservice',
+    mode: 'DELIVER',
+    producer: { id: 'producer-id', name: 'Producer Name' },
+    personalData: false,
+    descriptor: {
+      id: 'descriptor-id',
+      state: 'PUBLISHED',
+      version: '1',
+      audience: ['test'],
+    },
+  },
+  agreement: { id: 'agreement-id', state: 'ACTIVE', canBeUpgraded: false },
+  riskAnalysisForm: {
+    answers: { usesPersonalData: ['YES'] },
+    version: '3.1',
+    riskAnalysisId: 'risk-analysis-id',
+  },
+  versions: [
+    {
+      createdAt: '2023-02-03T07:59:52.458Z',
+      dailyCalls: 1,
+      firstActivationAt: '2023-02-03T08:26:43.139Z',
+      id: '3a5c9422-876c-4de8-828a-66586fd68b55',
+      riskAnalysisDocument: {
+        contentType: 'application/pdf',
+        createdAt: '2023-02-03T08:26:43.049Z',
+        id: '3562b028-0193-45fa-acf9-4bbe1ced352a',
+      },
+      state: 'ACTIVE',
+    },
+  ],
+  clients: [],
+  description: '',
+  isFreeOfCharge: false,
+  dailyCallsPerConsumer: 0,
+  currentVersion: {
+    createdAt: '2023-02-03T07:59:52.458Z',
+    dailyCalls: 1,
+    firstActivationAt: '2023-02-03T08:26:43.139Z',
+    id: '3a5c9422-876c-4de8-828a-66586fd68b55',
+    riskAnalysisDocument: {
+      contentType: 'application/pdf',
+      createdAt: '2023-02-03T08:26:43.049Z',
+      id: '3562b028-0193-45fa-acf9-4bbe1ced352a',
+    },
+    state: 'ACTIVE',
+  },
+  dailyCallsTotal: 0,
+  hasUnreadNotifications: false,
+  isDocumentReady: false,
+  rulesetExpiration: undefined,
+})
+
 const createMockPurposeCompatiblePersonalDataYes = createMockFactory<Purpose>({
   ...createMockPurposeUsesPersonalDataAnswerNo(),
   riskAnalysisForm: {
@@ -214,6 +273,42 @@ const createMockPurposeCompatiblePersonalDataNo = createMockFactory<Purpose>({
   },
 })
 
+const createMockPurposeCallsPerConsumerExceed = createMockFactory<Purpose>({
+  ...createMockPurposeCallsExceed(),
+  currentVersion: {
+    id: '1',
+    state: 'ACTIVE',
+    createdAt: '2023-02-03T07:59:52.458Z',
+    dailyCalls: 2,
+  },
+  dailyCallsPerConsumer: 1,
+  dailyCallsTotal: 10,
+})
+
+const createMockPurposeCallsTotalExceed = createMockFactory<Purpose>({
+  ...createMockPurposeCallsExceed(),
+  currentVersion: {
+    id: '1',
+    state: 'ACTIVE',
+    createdAt: '2023-02-03T07:59:52.458Z',
+    dailyCalls: 2,
+  },
+  dailyCallsPerConsumer: 10,
+  dailyCallsTotal: 1,
+})
+
+const createMockPurposeCallsWithoutExceed = createMockFactory<Purpose>({
+  ...createMockPurposeCallsExceed(),
+  currentVersion: {
+    id: '1',
+    state: 'ACTIVE',
+    createdAt: '2023-02-03T07:59:52.458Z',
+    dailyCalls: 1,
+  },
+  dailyCallsPerConsumer: 10,
+  dailyCallsTotal: 100,
+})
+
 export {
   createMockPurpose,
   createMockRiskAnalysisFormConfig,
@@ -221,4 +316,7 @@ export {
   createMockPurposeUsesPersonalDataAnswerYes,
   createMockPurposeCompatiblePersonalDataYes,
   createMockPurposeCompatiblePersonalDataNo,
+  createMockPurposeCallsPerConsumerExceed,
+  createMockPurposeCallsTotalExceed,
+  createMockPurposeCallsWithoutExceed,
 }

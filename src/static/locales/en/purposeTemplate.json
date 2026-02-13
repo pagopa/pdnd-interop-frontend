@@ -43,7 +43,7 @@
       "freeOfChargeReason": "I'm a Public Administration"
     },
     "stepper": {
-      "step1Label": "General",
+      "step1Label": "General informations",
       "step2Label": "Suggested e-services",
       "step3Label": "Risk analysis"
     },

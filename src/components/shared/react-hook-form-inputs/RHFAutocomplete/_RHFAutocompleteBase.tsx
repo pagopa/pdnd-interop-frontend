@@ -118,6 +118,7 @@ export function _RHFAutocompleteBase<
                 <TextField
                   variant={variant}
                   error={!!error}
+                  required={Boolean(rules?.required)}
                   placeholder={placeholder ?? '...'}
                   {...params}
                   autoFocus={focusOnMount}
