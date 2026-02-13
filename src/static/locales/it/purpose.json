@@ -14,11 +14,11 @@
     },
     "consumerField": {
       "label": "Fruitore",
-      "infoLabel": "Tra gli aderenti, puoi selezionare solo il tuo ente o gli aderenti per i quali hai una delega in fruizione attiva"
+      "infoLabel": "Seleziona il tuo ente o l'ente per cui hai una delega attiva come fruitore"
     },
     "eserviceField": {
       "label": "E-service da associare",
-      "infoLabel": "Puoi selezionare solo gli e-service per i quali il fruitore selezionato ha una richiesta di fruizione attiva",
+      "infoLabel": "Qui trovi solo gli e-service per cui il fruitore ha una richiesta attiva",
       "alert": {
         "label": "Per l’e-service selezionato è possibile utilizzare la funzionalità di compilazione agevolata!"
       }
@@ -45,9 +45,9 @@
     "riskAnalysisPreviewTitle": "Analisi del rischio",
     "purposeTemplateField": {
       "title": "Compilazione agevolata della finalità",
-      "description": "La funzionalità di compilazione agevolata mette a disposizione annotazioni, documenti di supporto e alcune risposte precompilate per facilitare la formulazione dell’analisi del rischio. Il modello è reso disponibile per il riuso da altri enti aderenti e può essere utilizzato senza vincoli.",
+      "description": "Questa funzionalità ti guida durante l'analisi del rischio con annotazioni, documenti di supporto e alcune risposte precompilate. Il modello agevolato è reso disponibile per il riuso da altri enti e può essere usato senza vincoli.",
       "usePurposeTemplateSwitch": {
-        "label": "Utilizza la funzionalità di compilazione agevolata",
+        "label": "Usa la compilazione agevolata",
         "disabledTooltip": "Non è possibile utilizzare la funzionalità per \n l’e-service selezionato in quanto l’erogatore non ha indicato come verranno trattati i dati personali",
         "selectPurposeTemplate": {
           "title": "Scegli il modello di compilazione agevolata della finalità",

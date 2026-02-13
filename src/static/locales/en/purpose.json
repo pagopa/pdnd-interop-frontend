@@ -14,11 +14,11 @@
     },
     "consumerField": {
       "label": "Consumer",
-      "infoLabel": "Among the members, you can only select your organization or the members for whom you have an active delegation"
+      "infoLabel": "Select your organization or the organization for which you have an active delegation as a consumer"
     },
     "eserviceField": {
       "label": "Choose e-service",
-      "infoLabel": "You can only select the e-services for which the selected user has an active request for use",
+      "infoLabel": "Here you will find only the e-services for which the consumer has an active request",
       "alert": {
         "label": "The facilitated compilation feature is available for the selected e-service!"
       }
@@ -45,7 +45,7 @@
     "riskAnalysisPreviewTitle": "Risk analysis",
     "purposeTemplateField": {
       "title": "Facilitated purpose compilation",
-      "description": "The facilitated compilation feature provides annotations, supporting documents, and some pre-filled answers to help you formulate the risk analysis. The template is made available for reuse by other participating organizations and can be used without restrictions.",
+      "description": "This feature guides you through the risk analysis with annotations, supporting documents, and some pre-populated responses. The simplified template is available for reuse by other producers and can be used without restrictions.",
       "usePurposeTemplateSwitch": {
         "label": "Use the facilitated compilation feature",
         "disabledTooltip": "It is not possible to use the feature for the selected \n e-service because the producer has not indicated how personal data will be processed",
