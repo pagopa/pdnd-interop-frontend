@@ -19,9 +19,9 @@ import {
   EServiceTemplateCreateStepVersionSkeleton,
 } from './components/EServiceTemplateCreateStepVersion'
 import {
-  EServiceTemplateCreateStepAttributes,
-  EServiceTemplateCreateStepAttributesSkeleton,
-} from './components/EServiceTemplateCreateStepAttributes'
+  EServiceTemplateCreateStepThresholdsAndAttributes,
+  EServiceTemplateCreateStepThresholdsAndAttributesSkeleton,
+} from './components/EServiceTemplateCreateStepThresholdsAndAttributes'
 import {
   EServiceTemplateCreateStepPurpose,
   EServiceTemplateCreateStepPurposeSkeleton,
@@ -59,12 +59,12 @@ const ProviderEServiceCreatePage: React.FC = () => {
     eserviceTemplateMode === 'DELIVER'
       ? [
           { label: t('create.stepper.step1Label'), component: EServiceTemplateCreateStepGeneral },
-          { label: t('create.stepper.step2Label'), component: EServiceTemplateCreateStepVersion },
           {
-            label: t('create.stepper.step3Label'),
-            component: EServiceTemplateCreateStepAttributes,
+            label: t('create.stepper.step2Label'),
+            component: EServiceTemplateCreateStepThresholdsAndAttributes,
           },
-          { label: t('create.stepper.step4Label'), component: EServiceTemplateCreateStepDocuments },
+          { label: t('create.stepper.step3Label'), component: EServiceTemplateCreateStepDocuments },
+          { label: t('create.stepper.step4Label'), component: EServiceTemplateCreateStepVersion },
         ]
       : [
           { label: t('create.stepper.step1Label'), component: EServiceTemplateCreateStepGeneral },
@@ -72,12 +72,12 @@ const ProviderEServiceCreatePage: React.FC = () => {
             label: t('create.stepper.step2ReceiveLabel'),
             component: EServiceTemplateCreateStepPurpose,
           },
-          { label: t('create.stepper.step2Label'), component: EServiceTemplateCreateStepVersion },
           {
-            label: t('create.stepper.step3Label'),
-            component: EServiceTemplateCreateStepAttributes,
+            label: t('create.stepper.step2Label'),
+            component: EServiceTemplateCreateStepThresholdsAndAttributes,
           },
-          { label: t('create.stepper.step4Label'), component: EServiceTemplateCreateStepDocuments },
+          { label: t('create.stepper.step3Label'), component: EServiceTemplateCreateStepDocuments },
+          { label: t('create.stepper.step4Label'), component: EServiceTemplateCreateStepVersion },
         ]
 
   const { component: Step } = steps[activeStep]
@@ -101,16 +101,16 @@ const ProviderEServiceCreatePage: React.FC = () => {
     eserviceTemplateMode === 'DELIVER'
       ? [
           <EServiceTemplateCreateStepGeneralSkeleton key={1} />,
-          <EServiceTemplateCreateStepVersionSkeleton key={2} />,
-          <EServiceTemplateCreateStepAttributesSkeleton key={3} />,
-          <EServiceTemplateCreateStepDocumentsSkeleton key={4} />,
+          <EServiceTemplateCreateStepThresholdsAndAttributesSkeleton key={2} />,
+          <EServiceTemplateCreateStepDocumentsSkeleton key={3} />,
+          <EServiceTemplateCreateStepVersionSkeleton key={4} />,
         ]
       : [
           <EServiceTemplateCreateStepGeneralSkeleton key={1} />,
           <EServiceTemplateCreateStepPurposeSkeleton key={2} />,
-          <EServiceTemplateCreateStepVersionSkeleton key={3} />,
-          <EServiceTemplateCreateStepAttributesSkeleton key={4} />,
-          <EServiceTemplateCreateStepDocumentsSkeleton key={5} />,
+          <EServiceTemplateCreateStepThresholdsAndAttributesSkeleton key={3} />,
+          <EServiceTemplateCreateStepDocumentsSkeleton key={4} />,
+          <EServiceTemplateCreateStepVersionSkeleton key={5} />,
         ]
 
   const intro = isNewEServiceTemplate

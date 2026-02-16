@@ -189,10 +189,10 @@
     "requiredLabel": "*Campi obbligatori",
     "stepper": {
       "step1Label": "Informazioni generali",
-      "step2Label": "Versione",
+      "step2Label": "Soglie e attributi",
       "step2ReceiveLabel": "Finalità",
-      "step3Label": "Attributi",
-      "step4Label": "Documentazione"
+      "step3Label": "Specifiche tecniche",
+      "step4Label": "Informazioni versione"
     },
     "backWithoutSaveBtn": "Indietro",
     "forwardWithSaveBtn": "Salva bozza e prosegui",
@@ -258,6 +258,39 @@
         "noSelectedPurposesTooltip": "È necessario indicare almeno una finalità per proseguire",
         "purposeTable": {
           "noDataLabel": "Nessuna finalità aggiunta"
+        }
+      }
+    },
+    "stepThresholdsAndAttributes": {
+      "thresholdsTitle": "Soglie di chiamate API",
+      "thresholdsSwitch": {
+        "label": "Suggerisci delle soglie di chiamate API/giorno a chi userà questo template"
+      },
+      "dailyCallsPerConsumerField": {
+        "label": "Chiamate API/giorno per fruitore",
+        "infoLabel": "Inserisci un numero superiore o uguale a 1"
+      },
+      "dailyCallsTotalField": {
+        "label": "Chiamate API/giorno totali",
+        "infoLabel": "Inserisci un numero superiore al precedente",
+        "validation": {
+          "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore"
+        }
+      },
+      "thresholdsInfoAlert": "Chi userà questo template potrà modificare le soglie suggerite e personalizzarle per gli attributi certificati.",
+      "accessRequirements": {
+        "title": "Requisiti di accesso",
+        "description": "Definisci chi può accedere a questo e-service. Crea uno o più requisiti e associa a ciascuno gli attributi richiesti. Il fruitore dovrà soddisfare tutti i requisiti indicati e possedere almeno uno degli attributi in ogni requisito.",
+        "learnMoreLink": "Scopri di più sugli attributi",
+        "createRequirementBtn": "Crea requisito",
+        "placeholder": "Questa sezione sarà disponibile prossimamente.",
+        "tabs": {
+          "certified": "Attributi Certificati",
+          "verified": "Attributi Verificati",
+          "declared": "Attributi Dichiarati",
+          "certifiedDescription": "Sono attributi certificati da una fonte autoritativa riconosciuta.",
+          "verifiedDescription": "Sono attributi verificati dall'ente erogatore.",
+          "declaredDescription": "Sono attributi dichiarati dall'ente fruitore."
         }
       }
     },
