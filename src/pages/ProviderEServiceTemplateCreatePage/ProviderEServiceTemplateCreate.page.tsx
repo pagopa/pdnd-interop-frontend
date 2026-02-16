@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useActiveStep } from '@/hooks/useActiveStep'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { Redirect, useParams } from '@/router'
+import { Typography } from '@mui/material'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceTemplateCreateContextProvider } from './components/ProviderEServiceTemplateContext'
 import {
@@ -128,6 +129,15 @@ const ProviderEServiceCreatePage: React.FC = () => {
       }}
       isLoading={!isReady}
     >
+      <Typography
+        sx={{
+          fontSize: 16,
+          fontWeight: 700,
+          color: 'text.secondary',
+        }}
+      >
+        {t('create.requiredLabel')}
+      </Typography>
       <Stepper steps={steps} activeIndex={activeStep} />
       {isReady && (
         <EServiceTemplateCreateContextProvider
