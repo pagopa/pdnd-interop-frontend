@@ -215,7 +215,7 @@ const createMockPurposeCallsExceed = createMockFactory<Purpose>({
       audience: ['test'],
     },
   },
-  agreement: { id: 'agreement-id', state: 'ACTIVE', canBeUpgraded: false },
+  agreement: { id: 'agreement-id', state: 'ACTIVE', canBeUpgraded: false, consumerId: 'consumer-id' },
   riskAnalysisForm: {
     answers: { usesPersonalData: ['YES'] },
     version: '3.1',
