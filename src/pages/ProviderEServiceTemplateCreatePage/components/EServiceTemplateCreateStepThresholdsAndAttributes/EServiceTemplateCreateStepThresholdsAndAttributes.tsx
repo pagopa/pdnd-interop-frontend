@@ -106,7 +106,7 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
           <RHFSwitch
             label={t('stepThresholdsAndAttributes.thresholdsSwitch.label')}
             name="thresholdsSection"
-            sx={{ my: 0 }}
+            sx={{ my: 0, ml: 1 }}
           />
           {isThresholdSectionVisible && (
             <>
