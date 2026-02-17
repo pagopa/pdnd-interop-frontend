@@ -94,7 +94,7 @@ export const AttributeContainer = <
               <Typography fontWeight={600}>{attribute.name}</Typography>
               {onCustomizeThreshold && (
                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                  {attribute.dailyCallsPerConsumer && (
+                  {attribute.dailyCallsPerConsumer !== undefined && (
                     <Stack direction={'row'} spacing={1}>
                       <Typography
                         sx={{

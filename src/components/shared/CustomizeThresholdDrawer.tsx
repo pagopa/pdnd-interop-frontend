@@ -26,7 +26,7 @@ type CustomizeThresholdDrawerStore = {
 export const useCustomizeThresholdDrawer = create<CustomizeThresholdDrawerStore>((set) => ({
   isOpen: false,
   open: (attribute, attributeGroupIndex) => set({ attribute, attributeGroupIndex, isOpen: true }),
-  close: () => set({ isOpen: false }),
+  close: () => set({ isOpen: false, attribute: undefined, attributeGroupIndex: undefined }),
 }))
 
 type CustomizeThresholdFormValues = {

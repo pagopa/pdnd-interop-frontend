@@ -7,7 +7,7 @@ import { Tab } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 type AttributesSectionProps = {
-  version?: string
+  title: string
   isEServiceCreatedFromTemplate: boolean
   handleOpenAttributeCreateDrawerFactory: (
     attributeKey: Exclude<AttributeKey, 'certified'>
@@ -15,7 +15,7 @@ type AttributesSectionProps = {
 }
 
 export const AttributesSection: React.FC<AttributesSectionProps> = ({
-  version,
+  title,
   isEServiceCreatedFromTemplate,
   handleOpenAttributeCreateDrawerFactory,
 }) => {
@@ -24,11 +24,7 @@ export const AttributesSection: React.FC<AttributesSectionProps> = ({
   const { activeTab, updateActiveTab } = useActiveTab('certified')
 
   return (
-    <SectionContainer
-      title={t('step3.attributesTitle', { versionNumber: version ?? '1' })}
-      description={t('step3.attributesDescription')}
-      sx={{ mt: 3 }}
-    >
+    <SectionContainer title={title} description={t('step3.attributesDescription')} sx={{ mt: 3 }}>
       <TabContext value={activeTab}>
         <TabList onChange={updateActiveTab} aria-label={t('step2.attributes.tabs.ariaLabel')}>
           <Tab label={t('step2.attributes.tabs.certified')} value="certified" />

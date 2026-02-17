@@ -124,8 +124,8 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
       eserviceId: string
       descriptorId: string
     } = {
-      audience: [],
-      voucherLifespan: 0,
+      audience: descriptor.audience,
+      voucherLifespan: descriptor.voucherLifespan,
       dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
       dailyCallsTotal: descriptor.dailyCallsTotal,
       agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
@@ -144,7 +144,7 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
         <Box component={'form'} noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
           <ThresholdSection />
           <AttributesSection
-            version={descriptor?.version}
+            title={t('step3.attributesTitle', { versionNumber: descriptor?.version ?? '1' })}
             isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
             handleOpenAttributeCreateDrawerFactory={handleOpenAttributeCreateDrawerFactory}
           />
