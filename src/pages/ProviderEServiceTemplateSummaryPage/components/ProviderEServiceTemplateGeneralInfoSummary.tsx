@@ -18,7 +18,15 @@ export const ProviderEServiceTemplateGeneralInfoSummary: React.FC = () => {
   return (
     <Stack spacing={2}>
       <InformationContainer
-        label={t('description.label')}
+        label={t('templateName.label')}
+        content={eserviceTemplate.eserviceTemplate.name}
+      />
+      <InformationContainer
+        label={t('intendedTarget.label')}
+        content={eserviceTemplate.eserviceTemplate.intendedTarget}
+      />
+      <InformationContainer
+        label={t('templateDescription.label')}
         content={eserviceTemplate.eserviceTemplate.description}
       />
       <InformationContainer

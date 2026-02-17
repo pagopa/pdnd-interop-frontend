@@ -9,11 +9,11 @@ import PublishIcon from '@mui/icons-material/Publish'
 import { SummaryAccordion, SummaryAccordionSkeleton } from '@/components/shared/SummaryAccordion'
 import { useQuery } from '@tanstack/react-query'
 import { EServiceTemplateMutations, EServiceTemplateQueries } from '@/api/eserviceTemplate'
-import { ProviderEServiceTemplateGeneralInfoSummary } from './components/ProviderEServiceTemplateGeneralInfoSummary'
 import {
-  ProviderEServiceTemplateAttributeVersionSummary,
-  ProviderEServiceTemplateDocumentationSummary,
-  ProviderEServiceTemplateVersionInfoSummary,
+  ProviderEServiceTemplateGeneralInfoSummary,
+  ProviderEServiceTemplateThresholdsAndAttributesSummary,
+  ProviderEServiceTemplateTechnicalSpecsSummary,
+  ProviderEServiceTemplateAdditionalInfoSummary,
 } from './components'
 import { ProviderEServiceTemplateRiskAnalysisSummaryList } from './components/ProviderEServiceTemplateRiskAnalysisSummaryList'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
@@ -144,27 +144,27 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
             <SummaryAccordion
               headline={isReceiveMode ? '3' : '2'}
-              title={t('summary.versionInfoSummary.title')}
+              title={t('summary.thresholdsAndAttributesSummary.title')}
             >
-              <ProviderEServiceTemplateVersionInfoSummary />
+              <ProviderEServiceTemplateThresholdsAndAttributesSummary />
             </SummaryAccordion>
           </React.Suspense>
 
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
             <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
-              title={t('summary.attributeVersionSummary.title')}
+              title={t('summary.technicalSpecsSummary.title')}
             >
-              <ProviderEServiceTemplateAttributeVersionSummary />
+              <ProviderEServiceTemplateTechnicalSpecsSummary />
             </SummaryAccordion>
           </React.Suspense>
 
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
             <SummaryAccordion
               headline={isReceiveMode ? '5' : '4'}
-              title={t('summary.documentationSummary.title')}
+              title={t('summary.additionalInfoSummary.title')}
             >
-              <ProviderEServiceTemplateDocumentationSummary />
+              <ProviderEServiceTemplateAdditionalInfoSummary />
             </SummaryAccordion>
           </React.Suspense>
         </Stack>

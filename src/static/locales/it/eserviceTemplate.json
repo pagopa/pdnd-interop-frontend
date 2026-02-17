@@ -375,8 +375,14 @@
     "title": "{{eserviceTemplateName}}, versione {{versionEserviceTemplateNumber}}",
     "generalInfoSummary": {
       "title": "Informazioni generali",
-      "description": {
-        "label": "Descrizione"
+      "templateName": {
+        "label": "Nome del template di e-service"
+      },
+      "intendedTarget": {
+        "label": "A chi è rivolto questo template?"
+      },
+      "templateDescription": {
+        "label": "Cosa permette di fare questo template?"
       },
       "apiTechnology": {
         "label": "Tecnologia API"
@@ -395,7 +401,7 @@
         }
       },
       "isSignalHubEnabled": {
-        "label": "Viene suggerito di utilizzare il servizio di aggiornamento dati (Signal Hub)?",
+        "label": "Hai suggerito l'uso di Signal Hub?",
         "value": {
           "true": "Sì",
           "false": "No",
@@ -407,42 +413,62 @@
       "title": "Finalità",
       "riskAnalysisTitle": "{{riskAnalysisIndex}}/{{totalRiskAnalysis}} - {{riskAnalysisName}}"
     },
-    "versionInfoSummary": {
-      "title": "Informazioni di versione",
-      "description": {
-        "label": "Descrizione eservice"
-      },
-      "audience": {
-        "label": "Descrizione audience"
-      },
-      "voucherLifespan": {
-        "label": "Durata del voucher"
-      },
+    "thresholdsAndAttributesSummary": {
+      "title": "Soglie e attributi",
+      "thresholdsTitle": "Soglie suggerite di chiamate API",
       "dailyCallsPerConsumer": {
-        "label": "Soglia giornaliera suggerita chiamate API per fruitore",
+        "label": "Per fruitore",
         "value": "{{value}} chiamate API/giorno"
       },
       "dailyCallsTotal": {
-        "label": "Soglia giornaliera totale suggerita chiamate API",
+        "label": "Totale",
         "value": "{{value}} chiamate API/giorno"
       },
-      "manualApproval": {
-        "label": "Attivazione manuale richieste di fruizione",
-        "value": {
-          "true": "Sì, è suggerita",
-          "false": "No, non è suggerita"
-        }
+      "attributes": {
+        "certified": {
+          "label": "Attributi Certificati",
+          "description": "Sono attributi certificati da una <1>fonte autoritativa riconosciuta.</1>",
+          "noAttributesAlert": "Questo e-service non richiede attributi certificati"
+        },
+        "verified": {
+          "label": "Attributi verificati",
+          "description": "Sono attributi verificati <1>da altre organizzazioni</1>, con la possibilità di richiedere una verifica dall'erogatore.",
+          "noAttributesAlert": "Questo e-service non richiede attributi verificati"
+        },
+        "declared": {
+          "label": "Attributi dichiarati",
+          "description": "Sono attributi dichiarati dal fruitore stesso durante la richiesta di fruizione. Non è necessaria una verifica dell'erogatore.",
+          "noAttributesAlert": "Questo e-service non richiede attributi dichiarati"
+        },
+        "requirementTitle": "Requisito {{index}} | {{attributeType}}",
+        "requirementDescription": "Il fruitore deve possedere almeno uno degli attributi di questo requisito."
       }
     },
-    "attributeVersionSummary": {
-      "title": "Requisiti di accesso di versione"
-    },
-    "documentationSummary": {
-      "title": "Documentazione di versione",
+    "technicalSpecsSummary": {
+      "title": "Specifiche tecniche",
       "interface": {
-        "label": "Interfaccia OpenAPI"
+        "label": "Interfaccia"
       },
-      "emptyLabel": "Nessun documento caricato"
+      "voucherLifespan": {
+        "label": "Durata del voucher"
+      }
+    },
+    "additionalInfoSummary": {
+      "title": "Informazioni aggiuntive",
+      "versionDescription": {
+        "label": "Descrizione versione"
+      },
+      "documentation": {
+        "label": "Documentazione"
+      },
+      "emptyDocumentation": "Nessun documento caricato",
+      "manualApproval": {
+        "label": "Hai suggerito di approvare manualmente le richieste di fruizione?",
+        "value": {
+          "true": "Sì",
+          "false": "No"
+        }
+      }
     },
     "notPublishableTooltip": {
       "label": "Uno o più campi richiesti non sono stati compilati. Completa la bozza"

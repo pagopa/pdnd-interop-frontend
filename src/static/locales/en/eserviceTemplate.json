@@ -375,8 +375,14 @@
     "title": "{{eserviceTemplateName}}, version {{versionEserviceTemplateNumber}}",
     "generalInfoSummary": {
       "title": "General information",
-      "description": {
-        "label": "Description"
+      "templateName": {
+        "label": "E-service template name"
+      },
+      "intendedTarget": {
+        "label": "Who is this template intended for?"
+      },
+      "templateDescription": {
+        "label": "What does this template allow you to do?"
       },
       "apiTechnology": {
         "label": "API Technology"
@@ -395,7 +401,7 @@
         }
       },
       "isSignalHubEnabled": {
-        "label": "Is the data update system (Signal Hub) suggested?",
+        "label": "Did you suggest using Signal Hub?",
         "value": {
           "true": "Yes",
           "false": "No",
@@ -407,42 +413,62 @@
       "title": "Purpose",
       "riskAnalysisTitle": "{{riskAnalysisIndex}}/{{totalRiskAnalysis}} - {{riskAnalysisName}}"
     },
-    "versionInfoSummary": {
-      "title": "Version information",
-      "description": {
-        "label": "E-service description"
+    "thresholdsAndAttributesSummary": {
+      "title": "Thresholds and attributes",
+      "thresholdsTitle": "Suggested API call thresholds",
+      "dailyCallsPerConsumer": {
+        "label": "Per consumer",
+        "value": "{{value}} API calls/day"
       },
-      "audience": {
-        "label": "Audience description"
+      "dailyCallsTotal": {
+        "label": "Total",
+        "value": "{{value}} API calls/day"
+      },
+      "attributes": {
+        "certified": {
+          "label": "Certified Attributes",
+          "description": "These are attributes certified by a <1>recognized authoritative source.</1>",
+          "noAttributesAlert": "This e-service does not require certified attributes"
+        },
+        "verified": {
+          "label": "Verified Attributes",
+          "description": "These are attributes verified <1>by other organizations</1>, with the possibility of requesting a verification from the producer.",
+          "noAttributesAlert": "This e-service does not require verified attributes"
+        },
+        "declared": {
+          "label": "Declared Attributes",
+          "description": "These are attributes declared by the consumer during the usage request. No verification from the producer is required.",
+          "noAttributesAlert": "This e-service does not require declared attributes"
+        },
+        "requirementTitle": "Requirement {{index}} | {{attributeType}}",
+        "requirementDescription": "The consumer must possess at least one of the attributes in this requirement."
+      }
+    },
+    "technicalSpecsSummary": {
+      "title": "Technical specifications",
+      "interface": {
+        "label": "Interface"
       },
       "voucherLifespan": {
         "label": "Voucher lifespan"
-      },
-      "dailyCallsPerConsumer": {
-        "label": "Daily calls per consumer suggested",
-        "value": "{{value}} API calls per day"
-      },
-      "dailyCallsTotal": {
-        "label": "Total daily calls suggested",
-        "value": "{{value}} API calls per day"
-      },
-      "manualApproval": {
-        "label": "Manual approval requests",
-        "value": {
-          "true": "Yes, it is suggested",
-          "false": "No, it is not suggested"
-        }
       }
     },
-    "attributeVersionSummary": {
-      "title": "Version access requirements"
-    },
-    "documentationSummary": {
-      "title": "Version documentation",
-      "interface": {
-        "label": "OpenAPI Interface"
+    "additionalInfoSummary": {
+      "title": "Additional information",
+      "versionDescription": {
+        "label": "Version description"
       },
-      "emptyLabel": "No uploaded documents"
+      "documentation": {
+        "label": "Documentation"
+      },
+      "emptyDocumentation": "No uploaded documents",
+      "manualApproval": {
+        "label": "Did you suggest manually approving usage requests?",
+        "value": {
+          "true": "Yes",
+          "false": "No"
+        }
+      }
     },
     "notPublishableTooltip": {
       "label": "One or more required fields have not been filled out. Please complete the draft."

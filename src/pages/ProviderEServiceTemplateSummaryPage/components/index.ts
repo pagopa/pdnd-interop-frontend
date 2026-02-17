@@ -1,4 +1,4 @@
 export * from './ProviderEServiceTemplateGeneralInfoSummary'
-export * from './ProviderEServiceTemplateVersionInfoSummary'
-export * from './ProviderEServiceTemplateAttributeVersionSummary'
-export * from './ProviderEServiceTemplateDocumentationSummary'
+export * from './ProviderEServiceTemplateThresholdsAndAttributesSummary'
+export * from './ProviderEServiceTemplateTechnicalSpecsSummary'
+export * from './ProviderEServiceTemplateAdditionalInfoSummary'
