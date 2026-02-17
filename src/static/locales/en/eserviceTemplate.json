@@ -294,11 +294,26 @@
         }
       }
     },
-    "step2": {
+    "step4": {
       "versionTitle": "Information for version {{versionNumber}}",
+      "versionDescriptionTitle": "Version description",
       "versionDescriptionField": {
-        "label": "What changed in this version?"
+        "label": "Describe this e-service version*",
+        "infoLabel": "If it is a new version, indicate what has changed from the previous one"
       },
+      "documentationSection": {
+        "title": "Documentation",
+        "description": "Attach the technical documentation useful to consumers of e-services created from this template.",
+        "saveDocumentBtn": "Save document"
+      },
+      "requestManagementSection": {
+        "title": "Request management"
+      },
+      "agreementApprovalPolicySection": {
+        "label": "Suggest to those who will use this template the manual approval of received usage requests"
+      }
+    },
+    "step2": {
       "thresholdsSection": {
         "thresholdsSwitch": {
           "label": "Suggest custom API threshold values to the implementer"
@@ -314,15 +329,12 @@
           }
         }
       },
-      "agreementApprovalPolicySection": {
-        "label": "Suggest to the implementer the manual activation of the received fruition requests."
-      },
       "tenantKindDialog": {
         "title": "Indicate who will be able to use the following risk analysis.",
         "description": "Indicate for whom the following risk analysis is filled.",
         "tenantKind": {
-          "labelPA": "Public administration (Art. 2, comma 2, letter “a” of Codice dell’Amministrazione Digitale)",
-          "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters “b” e “c”) or Private"
+          "labelPA": "Public administration (Art. 2, comma 2, letter \u201Ca\u201D of Codice dell'Amministrazione Digitale)",
+          "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters \u201Cb\u201D e \u201Cc\u201D) or Private"
         }
       }
     },
