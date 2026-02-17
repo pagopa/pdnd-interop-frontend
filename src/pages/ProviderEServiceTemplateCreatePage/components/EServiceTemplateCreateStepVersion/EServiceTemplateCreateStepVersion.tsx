@@ -18,10 +18,7 @@ import type { UpdateEServiceTemplateVersionSeed } from '@/api/api.generatedTypes
 export type EServiceTemplateCreateStepVersionFormValues = {
   voucherLifespan: number
   description: string
-  dailyCallsPerConsumer?: number
-  dailyCallsTotal?: number
   agreementApprovalPolicy: boolean
-  thresholdsSection: boolean
 }
 
 export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () => {
@@ -34,23 +31,16 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
   })
 
   const defaultValues: EServiceTemplateCreateStepVersionFormValues = {
-    thresholdsSection:
-      eserviceTemplateVersion?.dailyCallsPerConsumer && eserviceTemplateVersion.dailyCallsTotal
-        ? true
-        : false,
     voucherLifespan: eserviceTemplateVersion
       ? secondsToMinutes(eserviceTemplateVersion.voucherLifespan)
       : 1,
     description: eserviceTemplateVersion?.description ?? '',
-    dailyCallsPerConsumer: eserviceTemplateVersion?.dailyCallsPerConsumer,
-    dailyCallsTotal: eserviceTemplateVersion?.dailyCallsTotal,
     agreementApprovalPolicy: eserviceTemplateVersion
       ? eserviceTemplateVersion.agreementApprovalPolicy === 'MANUAL'
       : false,
   }
 
   const formMethods = useForm({ defaultValues })
-  const isThresholdSectionVisible = formMethods.watch('thresholdsSection')
 
   const onSubmit = (values: EServiceTemplateCreateStepVersionFormValues) => {
     if (!eserviceTemplateVersion) return
@@ -80,12 +70,8 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
       ),
       voucherLifespan: newEServiceTemplateData.voucherLifespan,
       agreementApprovalPolicy: newEServiceTemplateData.agreementApprovalPolicy,
-      dailyCallsPerConsumer: newEServiceTemplateData.thresholdsSection
-        ? newEServiceTemplateData.dailyCallsPerConsumer
-        : undefined,
-      dailyCallsTotal: newEServiceTemplateData.thresholdsSection
-        ? newEServiceTemplateData.dailyCallsTotal
-        : undefined,
+      dailyCallsPerConsumer: eserviceTemplateVersion.dailyCallsPerConsumer,
+      dailyCallsTotal: eserviceTemplateVersion.dailyCallsTotal,
     }
 
     updateVersionDraft(
@@ -97,8 +83,6 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
       { onSuccess: forward }
     )
   }
-
-  const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
 
   return (
     <FormProvider {...formMethods}>
@@ -131,48 +115,6 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
               />
             </Stack>
           </SectionContainer>
-          <SectionContainer innerSection sx={{ mt: 3 }}>
-            <RHFSwitch
-              label={t('step2.thresholdsSection.thresholdsSwitch.label')}
-              name="thresholdsSection"
-              sx={{ my: 0 }}
-            />
-            {isThresholdSectionVisible && (
-              <SectionContainer
-                innerSection
-                sx={{ mt: 3 }}
-                title={t('step2.thresholdsSection.title')}
-              >
-                <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
-                  <RHFTextField
-                    size="small"
-                    name="dailyCallsPerConsumer"
-                    label={t('step2.thresholdsSection.dailyCallsPerConsumerField.label')}
-                    type="number"
-                    inputProps={{ min: '1' }}
-                    rules={{ min: 1 }}
-                    sx={{ my: 0, flex: 1 }}
-                  />
-
-                  <RHFTextField
-                    size="small"
-                    name="dailyCallsTotal"
-                    label={t('step2.thresholdsSection.dailyCallsTotalField.label')}
-                    type="number"
-                    inputProps={{ min: '1' }}
-                    sx={{ my: 0, flex: 1 }}
-                    rules={{
-                      min: {
-                        value: dailyCallsPerConsumer ?? 1,
-                        message: t('step2.thresholdsSection.dailyCallsTotalField.validation.min'),
-                      },
-                    }}
-                  />
-                </Stack>
-              </SectionContainer>
-            )}
-          </SectionContainer>
-
           <SectionContainer innerSection sx={{ mt: 3 }}>
             <RHFSwitch
               label={t('step2.agreementApprovalPolicySection.label')}
