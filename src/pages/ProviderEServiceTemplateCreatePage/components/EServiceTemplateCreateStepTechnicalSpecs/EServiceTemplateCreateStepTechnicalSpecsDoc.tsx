@@ -12,17 +12,17 @@ import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateCon
 import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
-type EServiceTemplateCreateStepDocumentsDocFormValues = {
+type EServiceTemplateCreateStepTechnicalSpecsDocFormValues = {
   doc: File | null
   prettyName: string
 }
 
-const defaultValues: EServiceTemplateCreateStepDocumentsDocFormValues = {
+const defaultValues: EServiceTemplateCreateStepTechnicalSpecsDocFormValues = {
   doc: null,
   prettyName: '',
 }
 
-export function EServiceTemplateCreateStepDocumentsDoc() {
+export function EServiceTemplateCreateStepTechnicalSpecsDoc() {
   const { t } = useTranslation('eserviceTemplate')
   const { t: tCommon } = useTranslation('common')
   const { eserviceTemplateVersion } = useEServiceTemplateCreateContext()
@@ -48,7 +48,7 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
     shouldUnregister: true,
   })
 
-  const onSubmit = ({ doc, prettyName }: EServiceTemplateCreateStepDocumentsDocFormValues) => {
+  const onSubmit = ({ doc, prettyName }: EServiceTemplateCreateStepTechnicalSpecsDocFormValues) => {
     if (!doc || !eserviceTemplateVersion) return
     uploadDocument(
       {

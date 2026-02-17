@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
 import {
-  EServiceTemplateCreateStepDocuments,
-  EServiceTemplateCreateStepDocumentsSkeleton,
-} from '../EServiceTemplateCreateStepDocuments'
+  EServiceTemplateCreateStepTechnicalSpecs,
+  EServiceTemplateCreateStepTechnicalSpecsSkeleton,
+} from '../EServiceTemplateCreateStepTechnicalSpecs'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import * as ContextModule from '../../ProviderEServiceTemplateContext'
 
@@ -43,10 +43,10 @@ afterEach(() => {
   vi.clearAllMocks()
 })
 
-describe('EServiceTemplateCreateStepDocuments', () => {
+describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
   it('renders the Interface section title', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepDocuments {...stepProps} />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepTechnicalSpecs {...stepProps} />, {
       withReactQueryContext: true,
     })
     expect(screen.getByText('create.stepTechnicalSpecs.interface.title')).toBeInTheDocument()
@@ -54,7 +54,7 @@ describe('EServiceTemplateCreateStepDocuments', () => {
 
   it('renders the info alert', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepDocuments {...stepProps} />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepTechnicalSpecs {...stepProps} />, {
       withReactQueryContext: true,
     })
     expect(screen.getByText('create.stepTechnicalSpecs.interface.alert')).toBeInTheDocument()
@@ -62,7 +62,7 @@ describe('EServiceTemplateCreateStepDocuments', () => {
 
   it('renders the Voucher section title', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepDocuments {...stepProps} />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepTechnicalSpecs {...stepProps} />, {
       withReactQueryContext: true,
     })
     expect(screen.getByText('create.stepTechnicalSpecs.voucher.title')).toBeInTheDocument()
@@ -70,7 +70,7 @@ describe('EServiceTemplateCreateStepDocuments', () => {
 
   it('renders the voucherLifespan field', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepDocuments {...stepProps} />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepTechnicalSpecs {...stepProps} />, {
       withReactQueryContext: true,
     })
     expect(
@@ -80,7 +80,7 @@ describe('EServiceTemplateCreateStepDocuments', () => {
 
   it('renders the forward button with save label and submit type', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepDocuments {...stepProps} />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepTechnicalSpecs {...stepProps} />, {
       withReactQueryContext: true,
     })
     const forwardButton = screen.getByRole('button', { name: /create.forwardWithSaveBtn/ })
@@ -90,7 +90,7 @@ describe('EServiceTemplateCreateStepDocuments', () => {
 
   it('renders the back button', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepDocuments {...stepProps} />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepTechnicalSpecs {...stepProps} />, {
       withReactQueryContext: true,
     })
     expect(screen.getByRole('button', { name: /create.backWithoutSaveBtn/ })).toBeInTheDocument()
@@ -98,7 +98,7 @@ describe('EServiceTemplateCreateStepDocuments', () => {
 
   it('renders REST description by default', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepDocuments {...stepProps} />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepTechnicalSpecs {...stepProps} />, {
       withReactQueryContext: true,
     })
     expect(
@@ -133,7 +133,7 @@ describe('EServiceTemplateCreateStepDocuments', () => {
         isAlreadyInstantiated: false,
       },
     })
-    renderWithApplicationContext(<EServiceTemplateCreateStepDocuments {...stepProps} />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepTechnicalSpecs {...stepProps} />, {
       withReactQueryContext: true,
     })
     expect(
@@ -143,15 +143,15 @@ describe('EServiceTemplateCreateStepDocuments', () => {
 
   it('does not render the Documentation section', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepDocuments {...stepProps} />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepTechnicalSpecs {...stepProps} />, {
       withReactQueryContext: true,
     })
     expect(screen.queryByText('create.step4.documentation.title')).not.toBeInTheDocument()
   })
 })
 
-describe('EServiceTemplateCreateStepDocumentsSkeleton', () => {
+describe('EServiceTemplateCreateStepTechnicalSpecsSkeleton', () => {
   it('correctly renders the skeleton', () => {
-    render(<EServiceTemplateCreateStepDocumentsSkeleton />)
+    render(<EServiceTemplateCreateStepTechnicalSpecsSkeleton />)
   })
 })

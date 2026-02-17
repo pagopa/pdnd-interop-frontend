@@ -4,7 +4,7 @@ import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { useTranslation } from 'react-i18next'
-import { EServiceTemplateCreateStepDocumentsInterface } from './EServiceTemplateCreateStepDocumentsInterface'
+import { EServiceTemplateCreateStepTechnicalSpecsInterface } from './EServiceTemplateCreateStepTechnicalSpecsInterface'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import SaveIcon from '@mui/icons-material/Save'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
@@ -15,11 +15,11 @@ import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import type { UpdateEServiceTemplateVersionSeed } from '@/api/api.generatedTypes'
 
-type EServiceTemplateCreateStepDocumentsFormValues = {
+type EServiceTemplateCreateStepTechnicalSpecsFormValues = {
   voucherLifespan: number
 }
 
-export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = () => {
+export const EServiceTemplateCreateStepTechnicalSpecs: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eserviceTemplate')
 
   const { eserviceTemplateVersion, forward, back } = useEServiceTemplateCreateContext()
@@ -28,7 +28,7 @@ export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = ()
     suppressSuccessToast: true,
   })
 
-  const defaultValues: EServiceTemplateCreateStepDocumentsFormValues = {
+  const defaultValues: EServiceTemplateCreateStepTechnicalSpecsFormValues = {
     voucherLifespan: eserviceTemplateVersion
       ? secondsToMinutes(eserviceTemplateVersion.voucherLifespan)
       : 1,
@@ -36,7 +36,7 @@ export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = ()
 
   const formMethods = useForm({ defaultValues })
 
-  const onSubmit = (values: EServiceTemplateCreateStepDocumentsFormValues) => {
+  const onSubmit = (values: EServiceTemplateCreateStepTechnicalSpecsFormValues) => {
     if (!eserviceTemplateVersion) return
 
     const payload: UpdateEServiceTemplateVersionSeed = {
@@ -76,7 +76,7 @@ export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = ()
         >
           <Stack spacing={3}>
             <Alert severity="info"> {t('create.stepTechnicalSpecs.interface.alert')}</Alert>
-            <EServiceTemplateCreateStepDocumentsInterface />
+            <EServiceTemplateCreateStepTechnicalSpecsInterface />
           </Stack>
         </SectionContainer>
         <SectionContainer title={t('create.stepTechnicalSpecs.voucher.title')}>
@@ -111,7 +111,7 @@ export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = ()
   )
 }
 
-export const EServiceTemplateCreateStepDocumentsSkeleton: React.FC = () => {
+export const EServiceTemplateCreateStepTechnicalSpecsSkeleton: React.FC = () => {
   return (
     <>
       <SectionContainerSkeleton height={365} />
