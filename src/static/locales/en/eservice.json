@@ -5,10 +5,10 @@
     "emptyTitle": "Create e-service",
     "stepper": {
       "step1Label": "General",
-      "step2Label": "Version",
+      "step2Label": "Thresholds and attributes",
       "step2ReceiveLabel": "Purpose",
       "step3Label": "Technical specifications",
-      "step4Label": "Documentation"
+      "step4Label": "Additional info"
     },
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
