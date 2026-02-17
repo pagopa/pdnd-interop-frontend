@@ -38,7 +38,7 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
     jwt &&
     `${SELFCARE_BASE_URL}/dashboard/${
       jwt.selfcareId
-    }/users#${getCurrentSelfCareProductId()}?lang=${lang}`
+    }/users?lang=${lang}#${getCurrentSelfCareProductId()}`
   const selfcareGroupsPageUrl =
     jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/groups?lang=${lang}`
 

@@ -25,11 +25,14 @@ const _RoutesWrapper: React.FC = () => {
   const [searchParams] = useSearchParams()
 
   useEffect(() => {
-    const language = AllowedLanguage.safeParse(searchParams.get('lang'))
-    if (language.success) {
-      switchLang(language.data)
-    } else {
-      console.warn('Language URL params is not valid')
+    const langParam = searchParams.get('lang')
+    if (langParam !== null) {
+      const language = AllowedLanguage.safeParse(langParam)
+      if (language.success) {
+        switchLang(language.data)
+      } else {
+        console.warn('Language URL params is not valid')
+      }
     }
   }, [searchParams, switchLang])
 
