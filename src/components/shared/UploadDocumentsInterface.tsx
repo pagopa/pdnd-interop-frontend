@@ -2,7 +2,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { RHFSingleFileInput } from './react-hook-form-inputs'
 import type { SxProps, Theme } from '@mui/material'
 import { Box, Button, Stack } from '@mui/material'
-import UploadFileIcon from '@mui/icons-material/UploadFile'
+import SaveIcon from '@mui/icons-material/Save'
 import { useTranslation } from 'react-i18next'
 
 type UploadDocumentsInterfaceFormValues = {
@@ -30,13 +30,7 @@ export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> =
   const selectedInterface = formMethods.watch('interfaceDoc')
   return (
     <FormProvider {...formMethods}>
-      <Box
-        component="form"
-        noValidate
-        onSubmit={formMethods.handleSubmit(onSubmit)}
-        sx={sxBox}
-        bgcolor="common.white"
-      >
+      <Box sx={sxBox} bgcolor="common.white">
         <RHFSingleFileInput
           sx={{ my: 0 }}
           name="interfaceDoc"
@@ -45,16 +39,16 @@ export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> =
         />
 
         {selectedInterface && (
-          <Stack direction="row" justifyContent="flex-end">
+          <Stack direction="row">
             <Button
               name="uploadInterfaceDocBtn"
-              type="submit"
               variant="contained"
-              startIcon={<UploadFileIcon fontSize="small" />}
+              startIcon={<SaveIcon fontSize="small" />}
               sx={{ mt: 2 }}
               data-testid="submitButton"
+              onClick={formMethods.handleSubmit(onSubmit)}
             >
-              {t('actions.upload')}
+              {t('actions.saveDocument')}
             </Button>
           </Stack>
         )}
