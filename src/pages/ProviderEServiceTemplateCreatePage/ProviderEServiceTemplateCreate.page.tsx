@@ -58,29 +58,54 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const steps: Array<StepperStep> =
     eserviceTemplateMode === 'DELIVER'
       ? [
-          { label: t('create.stepper.step1Label'), component: EServiceTemplateCreateStepGeneral },
+          {
+            label: t('create.stepper.step1Label'),
+            component: EServiceTemplateCreateStepGeneral,
+            showRequiredLabel: true,
+          },
           {
             label: t('create.stepper.step2Label'),
             component: EServiceTemplateCreateStepThresholdsAndAttributes,
           },
-          { label: t('create.stepper.step3Label'), component: EServiceTemplateCreateStepDocuments },
-          { label: t('create.stepper.step4Label'), component: EServiceTemplateCreateStepVersion },
+          {
+            label: t('create.stepper.step3Label'),
+            component: EServiceTemplateCreateStepDocuments,
+            showRequiredLabel: true,
+          },
+          {
+            label: t('create.stepper.step4Label'),
+            component: EServiceTemplateCreateStepVersion,
+            showRequiredLabel: true,
+          },
         ]
       : [
-          { label: t('create.stepper.step1Label'), component: EServiceTemplateCreateStepGeneral },
+          {
+            label: t('create.stepper.step1Label'),
+            component: EServiceTemplateCreateStepGeneral,
+            showRequiredLabel: true,
+          },
           {
             label: t('create.stepper.step2ReceiveLabel'),
             component: EServiceTemplateCreateStepPurpose,
+            showRequiredLabel: true,
           },
           {
             label: t('create.stepper.step2Label'),
             component: EServiceTemplateCreateStepThresholdsAndAttributes,
           },
-          { label: t('create.stepper.step3Label'), component: EServiceTemplateCreateStepDocuments },
-          { label: t('create.stepper.step4Label'), component: EServiceTemplateCreateStepVersion },
+          {
+            label: t('create.stepper.step3Label'),
+            component: EServiceTemplateCreateStepDocuments,
+            showRequiredLabel: true,
+          },
+          {
+            label: t('create.stepper.step4Label'),
+            component: EServiceTemplateCreateStepVersion,
+            showRequiredLabel: true,
+          },
         ]
 
-  const { component: Step } = steps[activeStep]
+  const { component: Step, showRequiredLabel } = steps[activeStep]
 
   // If this e-service is not in draft, you cannot edit it
   if (eserviceTemplate && eserviceTemplate.state !== 'DRAFT') {
@@ -129,15 +154,17 @@ const ProviderEServiceCreatePage: React.FC = () => {
       }}
       isLoading={!isReady}
     >
-      <Typography
-        sx={{
-          fontSize: 16,
-          fontWeight: 700,
-          color: 'text.secondary',
-        }}
-      >
-        {t('create.requiredLabel')}
-      </Typography>
+      {showRequiredLabel && (
+        <Typography
+          sx={{
+            fontSize: 16,
+            fontWeight: 700,
+            color: 'text.secondary',
+          }}
+        >
+          {t('create.requiredLabel')}
+        </Typography>
+      )}
       <Stepper steps={steps} activeIndex={activeStep} />
       {isReady && (
         <EServiceTemplateCreateContextProvider

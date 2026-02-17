@@ -66,6 +66,7 @@ export type StepperStep = {
   label: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   component: React.ElementType<StepperStepComponentProps & any>
+  showRequiredLabel?: boolean
 }
 
 export type InputOption = { label: string | JSX.Element; value: string | number }
