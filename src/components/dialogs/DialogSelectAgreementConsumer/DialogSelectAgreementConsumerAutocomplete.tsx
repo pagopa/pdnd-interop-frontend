@@ -1,4 +1,4 @@
-import type { DelegationTenant } from '@/api/api.generatedTypes'
+import type { CompactAgreement, DelegationTenant } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { DelegationQueries } from '@/api/delegation'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
@@ -7,17 +7,20 @@ import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { match, P } from 'ts-pattern'
 
-type DialogCreateAgreementAutocompleteProps = {
+type DialogSelectAgreementConsumerAutocompleteProps = {
   eserviceId: string
   preselectedConsumer: DelegationTenant | undefined
+  agreements: CompactAgreement[]
+  action: 'inspect' | 'edit' | 'create'
 }
 
-export const DialogCreateAgreementAutocomplete: React.FC<
-  DialogCreateAgreementAutocompleteProps
-> = ({ eserviceId, preselectedConsumer }) => {
+export const DialogSelectAgreementConsumerAutocomplete: React.FC<
+  DialogSelectAgreementConsumerAutocompleteProps
+> = ({ eserviceId, preselectedConsumer, agreements, action }) => {
   const { t } = useTranslation('shared-components', {
-    keyPrefix: 'dialogCreateAgreementDraft',
+    keyPrefix: 'dialogSelectAgreementConsumer',
   })
   const { jwt } = AuthHooks.useJwt()
 
@@ -77,17 +80,46 @@ export const DialogCreateAgreementAutocomplete: React.FC<
       delegators &&
       delegators?.length > 0
     ) {
-      setValue('consumerId', delegators[0])
+      setValue('consumerId', delegators[0].id)
       setConsumerAutocompleteTextInput(delegators[0].name)
       selectedConsumerRef.current = delegators[0]
       hasSetFirstConsumer.current = true
     }
   }, [setValue, selectedConsumerId, delegators, setConsumerAutocompleteTextInput])
 
+  const delegatorOptions = match(action)
+    .with(P.union('inspect', 'edit'), () =>
+      delegators.filter((delegator) =>
+        agreements.some((agreement) => agreement.consumerId === delegator.id)
+      )
+    )
+    .with('create', () =>
+      delegators.filter(
+        (delegator) => !agreements.some((agreement) => agreement.consumerId === delegator.id)
+      )
+    )
+    .exhaustive()
+
+  const canIncludeMyTenant = match(action)
+    .with('inspect', () =>
+      Boolean(jwt && agreements.some((agreement) => agreement.consumerId === jwt.organizationId))
+    )
+    .with('edit', () =>
+      Boolean(
+        jwt &&
+          !isDelegator &&
+          agreements.some((agreement) => agreement.consumerId === jwt.organizationId)
+      )
+    )
+    .with('create', () =>
+      Boolean(jwt && !isDelegator && !agreements.some((a) => a.consumerId === jwt.organizationId))
+    )
+    .exhaustive()
+
   const tenantOptions =
-    jwt && !isDelegator
-      ? [{ id: jwt.organizationId, name: jwt.organization.name }, ...delegators]
-      : delegators
+    canIncludeMyTenant && jwt
+      ? [{ id: jwt.organizationId, name: jwt.organization.name }, ...delegatorOptions]
+      : delegatorOptions
 
   const autocompleteOptions = tenantOptions.map((tenant) => ({
     label: tenant.name,

@@ -5,6 +5,7 @@ import type { CatalogEServiceTemplate } from '@/api/api.generatedTypes'
 import { CatalogCard, CatalogCardSkeleton } from '@/components/shared/CatalogCard'
 import { useQueryClient } from '@tanstack/react-query'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
+import { AVATAR_BASEPATH } from '@/config/env'
 
 type EServiceTemplateCatalogGridProps = {
   eservicesTemplateList: Array<CatalogEServiceTemplate> | undefined
@@ -49,6 +50,11 @@ export const EServiceTemplateCatalogCard: React.FC<{
       producerName={eserviceTemplate.creator.name}
       description={eserviceTemplate.description}
       title={eserviceTemplate.name}
+      avatarURL={
+        eserviceTemplate.creator.selfcareId
+          ? `${AVATAR_BASEPATH}/institutions/${eserviceTemplate.creator.selfcareId}/logo.png`
+          : undefined
+      }
       prefetchFn={handlePrefetch}
       to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
       params={{

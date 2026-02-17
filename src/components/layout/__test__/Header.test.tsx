@@ -13,7 +13,7 @@ import { renderWithApplicationContext } from '@/utils/testing.utils'
 import * as useErrorData from '@/stores/error-data.store'
 import userEvent from '@testing-library/user-event'
 import { assistanceLink } from '@/config/constants'
-import { FE_LOGIN_URL, SELFCARE_BASE_URL } from '@/config/env'
+import { FE_LOGIN_URL, SELFCARE_BASE_URL, AVATAR_BASEPATH } from '@/config/env'
 import type { Mock } from 'vitest'
 import type { PartySwitchItem } from '@pagopa/mui-italia/dist/components/PartySwitch'
 
@@ -126,12 +126,14 @@ describe('Header', () => {
         name: 'description1',
         productRole: 'userProductRole.admin',
         parentName: 'parent1',
+        logoUrl: `${AVATAR_BASEPATH}/institutions/id1/logo.png`,
       },
       {
         id: 'id2',
         name: 'description2',
         productRole: 'userProductRole.security, userProductRole.api',
         parentName: 'parent2',
+        logoUrl: `${AVATAR_BASEPATH}/institutions/id2/logo.png`,
       },
     ])
   })
@@ -152,18 +154,21 @@ describe('Header', () => {
         name: 'description1',
         productRole: 'userProductRole.admin',
         parentName: 'parent1',
+        logoUrl: `${AVATAR_BASEPATH}/institutions/id1/logo.png`,
       },
       {
         id: 'id2',
         name: 'description2',
         productRole: 'userProductRole.security, userProductRole.api',
         parentName: 'parent2',
+        logoUrl: `${AVATAR_BASEPATH}/institutions/id2/logo.png`,
       },
       {
         id: jwtMock.selfcareId,
         name: 'orgName',
         productRole: 'userProductRole.admin',
         parentName: jwtMock.rootParent?.description,
+        logoUrl: `${AVATAR_BASEPATH}/institutions/${jwtMock.selfcareId}/logo.png`,
       },
     ])
   })
@@ -186,6 +191,7 @@ describe('Header', () => {
         name: jwtMock.organization.name,
         productRole: 'userProductRole.admin',
         parentName: jwtMock.rootParent?.description,
+        logoUrl: `${AVATAR_BASEPATH}/institutions/${jwtMock.selfcareId}/logo.png`,
       },
     ])
   })

@@ -67,6 +67,8 @@ import { ConsumerPurposeTemplateDetailsPage } from '@/pages/ConsumerPurposeTempl
 import ConsumerPurposeTemplateCatalogDetailsPage from '@/pages/ConsumerPurposeTemplateCatalogDetailsPage/ConsumerPurposeTemplateCatalogDetailsPage'
 import { ConsumerPurposeTemplateSummaryPage } from '@/pages/ConsumerPurposeTemplateSummaryPage'
 import { ConsumerPurposeTemplateEditPage } from '@/pages/ConsumerPurposeTemplateEditPage'
+import { ConsumerSimulateGetVoucherPage } from '@/pages/ConsumerSimulateGetVoucherPage'
+
 import z from 'zod'
 
 const languages = ['it', 'en'] as const
@@ -392,6 +394,22 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     authLevels: ['admin', 'support', 'api', 'security'],
   })
   .addRoute({
+    key: 'SIMULATE_GET_VOUCHER_API',
+    path: '/tool-sviluppo/api-interop/simulazione-voucher',
+    element: <ConsumerSimulateGetVoucherPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'support', 'api', 'security'],
+  })
+  .addRoute({
+    key: 'SIMULATE_GET_VOUCHER_CONSUMER',
+    path: '/tool-sviluppo/api-e-service/simulazione-voucher',
+    element: <ConsumerSimulateGetVoucherPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'support', 'api', 'security'],
+  })
+  .addRoute({
     key: 'TENANT',
     path: '/aderente',
     redirect: 'PARTY_REGISTRY',
@@ -545,7 +563,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE',
-    path: '/erogazione/template-eservice/:eServiceTemplateId/e-service/crea',
+    path: '/erogazione/e-service/template-eservice/:eServiceTemplateId/crea',
     element: <ProviderEServiceFromTemplateCreatePage />,
     public: false,
     hideSideNav: true,

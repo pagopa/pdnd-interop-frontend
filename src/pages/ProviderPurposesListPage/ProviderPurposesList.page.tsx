@@ -44,7 +44,8 @@ const ProviderPurposesListPage: React.FC = () => {
       })),
   })
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetProducerPurposesParams, 'limit' | 'offset'>
   >([
@@ -97,7 +98,11 @@ const ProviderPurposesListPage: React.FC = () => {
     <PageContainer title={t('title')} description={t('description')}>
       <Filters {...filtersHandlers} />
       <PurposesTableWrapper params={params} />
-      <Pagination {...paginationProps} totalPages={totalPageCount} />
+      <Pagination
+        {...paginationProps}
+        rowPerPageOptions={rowPerPageOptions}
+        totalPages={totalPageCount}
+      />
     </PageContainer>
   )
 }

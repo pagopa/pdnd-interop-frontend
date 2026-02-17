@@ -56,7 +56,8 @@
     "markAsRead": "Mark as read",
     "marsAsNotRead": "Mark as not read",
     "specifyProcessing": "Specify processing",
-    "save": "Save"
+    "save": "Save",
+    "simulateVoucher": "Simulate obtaining the voucher"
   },
   "table": {
     "headData": {
