@@ -23,7 +23,7 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
 
   const onSubmit = ({ interfaceDoc }: EServiceTemplateCreateStepDocumentsInterfaceFormValues) => {
     if (!interfaceDoc || !eserviceTemplateVersion) return
-    const prettyName = t('create.step4.interface.prettyName')
+    const prettyName = t('create.stepTechnicalSpecs.interface.prettyName')
     uploadDocument({
       eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
       eServiceTemplateVersionId: eserviceTemplateVersion.id,
@@ -65,10 +65,5 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
     )
   }
 
-  return (
-    <UploadDocumentsInterface
-      onSubmit={onSubmit}
-      sxBox={{ px: 2, py: 2, borderLeft: 4, borderColor: 'primary.main' }}
-    />
-  )
+  return <UploadDocumentsInterface onSubmit={onSubmit} />
 }

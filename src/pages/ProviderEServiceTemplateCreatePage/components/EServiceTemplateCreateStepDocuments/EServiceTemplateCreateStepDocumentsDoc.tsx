@@ -121,8 +121,8 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
               size="small"
               sx={{ my: 2 }}
               name="prettyName"
-              label={t('create.step4.nameField.label')}
-              infoLabel={t('create.step4.nameField.infoLabel')}
+              label={t('create.stepTechnicalSpecs.nameField.label')}
+              infoLabel={t('create.stepTechnicalSpecs.nameField.infoLabel')}
               inputProps={{ maxLength: 60 }}
               rules={{ required: true, minLength: 5 }}
             />
@@ -131,7 +131,7 @@ export function EServiceTemplateCreateStepDocumentsDoc() {
 
             <Stack direction="row" justifyContent="flex-end">
               <Button type="submit" variant="contained" sx={{ mt: 3 }}>
-                <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('create.step4.uploadBtn')}
+                <UploadFileIcon fontSize="small" sx={{ mr: 1 }} /> {t('create.stepTechnicalSpecs.uploadBtn')}
               </Button>
             </Stack>
           </Box>

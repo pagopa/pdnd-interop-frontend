@@ -2,8 +2,7 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
-import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
-import { Box, Stack } from '@mui/material'
+import { Box } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -16,7 +15,6 @@ import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/att
 import type { UpdateEServiceTemplateVersionSeed } from '@/api/api.generatedTypes'
 
 export type EServiceTemplateCreateStepVersionFormValues = {
-  voucherLifespan: number
   description: string
   agreementApprovalPolicy: boolean
 }
@@ -31,9 +29,6 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
   })
 
   const defaultValues: EServiceTemplateCreateStepVersionFormValues = {
-    voucherLifespan: eserviceTemplateVersion
-      ? secondsToMinutes(eserviceTemplateVersion.voucherLifespan)
-      : 1,
     description: eserviceTemplateVersion?.description ?? '',
     agreementApprovalPolicy: eserviceTemplateVersion
       ? eserviceTemplateVersion.agreementApprovalPolicy === 'MANUAL'
@@ -47,7 +42,6 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
 
     const newEServiceTemplateData = {
       ...values,
-      voucherLifespan: minutesToSeconds(values.voucherLifespan),
       agreementApprovalPolicy: values.agreementApprovalPolicy
         ? ('MANUAL' as const)
         : ('AUTOMATIC' as const),
@@ -68,7 +62,7 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
       attributes: remapDescriptorAttributesToDescriptorAttributesSeed(
         eserviceTemplateVersion.attributes
       ),
-      voucherLifespan: newEServiceTemplateData.voucherLifespan,
+      voucherLifespan: eserviceTemplateVersion.voucherLifespan,
       agreementApprovalPolicy: newEServiceTemplateData.agreementApprovalPolicy,
       dailyCallsPerConsumer: eserviceTemplateVersion.dailyCallsPerConsumer,
       dailyCallsTotal: eserviceTemplateVersion.dailyCallsTotal,
@@ -101,20 +95,6 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
             rules={{ required: true, minLength: 10 }}
             sx={{ my: 0, mt: 1 }}
           />
-          <SectionContainer innerSection title={t('step2.voucherSection.title')} sx={{ mt: 3 }}>
-            <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
-              <RHFTextField
-                size="small"
-                name="voucherLifespan"
-                label={t('step2.voucherSection.voucherLifespanField.label')}
-                infoLabel={t('step2.voucherSection.voucherLifespanField.infoLabel')}
-                type="number"
-                inputProps={{ min: 1, max: 1440 }}
-                rules={{ required: true, min: 1, max: 1440 }}
-                sx={{ flex: 0.49, my: 0 }}
-              />
-            </Stack>
-          </SectionContainer>
           <SectionContainer innerSection sx={{ mt: 3 }}>
             <RHFSwitch
               label={t('step2.agreementApprovalPolicySection.label')}

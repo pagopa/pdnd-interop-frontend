@@ -299,13 +299,6 @@
       "versionDescriptionField": {
         "label": "What changed in this version?"
       },
-      "voucherSection": {
-        "title": "Voucher",
-        "voucherLifespanField": {
-          "label": "Validity duration (minutes)",
-          "infoLabel": "Max value: 1440 minutes (24 hours)"
-        }
-      },
       "thresholdsSection": {
         "thresholdsSwitch": {
           "label": "Suggest custom API threshold values to the implementer"
@@ -355,9 +348,9 @@
         "submitBtnLabel": "Create attribute"
       }
     },
-    "step4": {
+    "stepTechnicalSpecs": {
       "interface": {
-        "title": "Interface",
+        "title": "Interface*",
         "alert": "You can upload a file without contact data, terms and conditions, and server URLs, as these will be filled in by the implementer in the next phase.",
         "description": {
           "rest": "Upload a draft of the OpenAPI specification that describes the API.",
@@ -365,9 +358,12 @@
         },
         "prettyName": "API specification"
       },
-      "documentation": {
-        "title": "Documentation",
-        "description": "Upload all the technical documentation useful for the implementation of an integration with this e-service."
+      "voucher": {
+        "title": "Voucher",
+        "voucherLifespanField": {
+          "label": "Validity duration (in minutes)*",
+          "infoLabel": "Maximum value: 1440 minutes (24 hours)"
+        }
       },
       "nameField": {
         "label": "Document name",
