@@ -1,15 +1,23 @@
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form'
+import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceMutations } from '@/api/eservice'
 import { compareObjects } from '@/utils/common.utils'
 import {
-  UpdateEServiceDescriptorSeed,
-  UpdateEServiceDescriptorTemplateInstanceSeed,
+  type UpdateEServiceDescriptorSeed,
+  type UpdateEServiceDescriptorTemplateInstanceSeed,
 } from '@/api/api.generatedTypes'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import { SectionContainer } from '@/components/layout/containers'
+import { RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { StepActions } from '@/components/shared/StepActions'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { useNavigate } from '@/router'
+import { UploadDoc } from './components/UploadDoc'
+import { EServiceCreateStepDocumentsDoc } from '../EServiceCreateStepDocuments/EServiceCreateStepDocumentsDoc'
+import { Stack } from '@mui/system'
 
 type EServiceCreateStepVersionFormValues = {
   description: string
@@ -18,6 +26,7 @@ type EServiceCreateStepVersionFormValues = {
 
 export const EServiceCreateStepInfoVersion: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
+  const navigate = useNavigate()
 
   const { descriptor, forward, back } = useEServiceCreateContext()
 
@@ -52,7 +61,12 @@ export const EServiceCreateStepInfoVersion: React.FC = () => {
     // If nothing has changed skip the update call
     const areDescriptorsEquals = compareObjects(newDescriptorData, descriptor)
     if (areDescriptorsEquals) {
-      forward()
+      navigate('PROVIDE_ESERVICE_SUMMARY', {
+        params: {
+          eserviceId: descriptor.eservice.id,
+          descriptorId: descriptor.id,
+        },
+      })
       return
     }
 
@@ -70,7 +84,17 @@ export const EServiceCreateStepInfoVersion: React.FC = () => {
           eserviceId: descriptor.eservice.id,
           descriptorId: descriptor.id,
         },
-        { onSuccess: forward }
+        {
+          onSuccess: () => {
+            if (!descriptor) return
+            navigate('PROVIDE_ESERVICE_SUMMARY', {
+              params: {
+                eserviceId: descriptor.eservice.id,
+                descriptorId: descriptor.id,
+              },
+            })
+          },
+        }
       )
     } else {
       const payload: UpdateEServiceDescriptorSeed & {
@@ -92,13 +116,84 @@ export const EServiceCreateStepInfoVersion: React.FC = () => {
           ...payload,
           descriptorId: descriptor.id,
         },
-        { onSuccess: forward }
+        {
+          onSuccess: () => {
+            if (!descriptor) return
+            navigate('PROVIDE_ESERVICE_SUMMARY', {
+              params: {
+                eserviceId: descriptor.eservice.id,
+                descriptorId: descriptor.id,
+              },
+            })
+          },
+        }
       )
     }
   }
   return (
     <FormProvider {...formMethods}>
-      <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}></Box>
+      <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
+        <SectionContainer title={t('step4.descriptionSection.title')}>
+          {isEServiceCreatedFromTemplate ? (
+            <Stack direction={'row'} gap={24}>
+              <Typography color={'textSecondary'}>
+                {t('step4.descriptionSection.readOnlyLabel')}
+              </Typography>
+              <Typography fontWeight={600}>{descriptor?.description}</Typography>
+            </Stack>
+          ) : (
+            <RHFTextField
+              size="small"
+              name="description"
+              label={t('step4.descriptionSection.field.label')}
+              multiline
+              focusOnMount
+              inputProps={{ maxLength: 250 }}
+              rules={{ required: true, minLength: 10 }}
+              disabled={isEServiceCreatedFromTemplate}
+              sx={{ my: 0, mt: 1 }}
+            />
+          )}
+        </SectionContainer>
+
+        <SectionContainer
+          title={t('step4.documentationSection.title')}
+          description={t('step4.documentationSection.subtitle')}
+        >
+          <UploadDoc readonly={isEServiceCreatedFromTemplate} />
+        </SectionContainer>
+
+        <SectionContainer title={t('step4.requestManagementSection.title')} sx={{ mt: 3 }}>
+          <SectionContainer innerSection title={t('step4.requestManagementSection.field.title')}>
+            {/* This box is used to align the switch */}
+            <Box
+              sx={{
+                pl: '11px',
+              }}
+            >
+              <RHFSwitch
+                label={t('step4.requestManagementSection.field.label')}
+                name="agreementApprovalPolicy"
+                sx={{ m: 0 }}
+              />
+            </Box>
+          </SectionContainer>
+        </SectionContainer>
+
+        <StepActions
+          back={{
+            label: t('backWithoutSaveBtn'),
+            type: 'button',
+            onClick: back,
+            startIcon: <ArrowBackIcon />,
+          }}
+          forward={{
+            label: t('goToSummary'),
+            type: 'submit',
+            endIcon: <ArrowForwardIcon />,
+          }}
+        />
+      </Box>
     </FormProvider>
   )
 }
