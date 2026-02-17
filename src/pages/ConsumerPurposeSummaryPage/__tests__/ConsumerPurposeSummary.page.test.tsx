@@ -63,11 +63,15 @@ vi.mock('./hooks/useGetConsumerPurposeAlertProps', () => ({
   useGetConsumerPurposeAlertProps: () => undefined,
 }))
 
-vi.mock('@/utils/purpose.utils', () => ({
-  checkIsRulesetExpired: vi.fn(),
-  getDaysToExpiration: vi.fn(),
-  getFormattedExpirationDate: vi.fn(),
-}))
+vi.mock('@/utils/purpose.utils', async () => {
+  const actual = await vi.importActual('@/utils/purpose.utils')
+  return {
+    ...(actual as Record<string, unknown>),
+    checkIsRulesetExpired: vi.fn(),
+    getDaysToExpiration: vi.fn(),
+    getFormattedExpirationDate: vi.fn(),
+  }
+})
 
 describe('ConsumerPurposeSummaryPage', () => {
   beforeEach(() => {
@@ -88,7 +92,7 @@ describe('ConsumerPurposeSummaryPage', () => {
       withRouterContext: true,
     })
 
-    expect(screen.getByText('Test Purpose')).toBeInTheDocument()
+    expect(screen.getByText('summary.title')).toBeInTheDocument()
   })
 
   it('disables publish button when personal data answer is incompatible (case: user answer NO, eservice personalData true)', () => {
@@ -103,7 +107,7 @@ describe('ConsumerPurposeSummaryPage', () => {
     })
 
     const publishButton = screen.getByRole('button', {
-      name: 'publishDraft',
+      name: 'publish',
     })
 
     expect(publishButton).toBeDisabled()
@@ -121,7 +125,7 @@ describe('ConsumerPurposeSummaryPage', () => {
     })
 
     const publishButton = screen.getByRole('button', {
-      name: 'publishDraft',
+      name: 'publish',
     })
 
     expect(publishButton).toBeDisabled()
@@ -139,7 +143,7 @@ describe('ConsumerPurposeSummaryPage', () => {
     })
 
     const publishButton = screen.getByRole('button', {
-      name: 'publishDraft',
+      name: 'publish',
     })
 
     expect(publishButton).toBeEnabled()
@@ -157,7 +161,7 @@ describe('ConsumerPurposeSummaryPage', () => {
     })
 
     const publishButton = screen.getByRole('button', {
-      name: 'publishDraft',
+      name: 'publish',
     })
 
     expect(publishButton).toBeEnabled()
@@ -188,7 +192,7 @@ describe('ConsumerPurposeSummaryPage', () => {
       withRouterContext: true,
     })
 
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(screen.queryByText('summary.alerts.infoRulesetExpiration')).not.toBeInTheDocument()
   })
   it('shows alert if isRulesetExpired is true', () => {
     vi.mocked(checkIsRulesetExpired).mockReturnValue(true)

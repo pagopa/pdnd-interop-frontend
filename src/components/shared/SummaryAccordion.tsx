@@ -41,9 +41,9 @@ export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
             },
           }}
         >
-          <Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography variant="subtitle2">{headline}</Typography>
-            <Typography sx={{ mt: 2 }} variant="h6">
+            <Typography sx={{ ml: 1 }} variant="h6">
               {title}
             </Typography>
           </Box>

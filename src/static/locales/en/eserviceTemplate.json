@@ -186,23 +186,25 @@
   "backToListBtn": "Back to templates",
   "create": {
     "emptyTitle": "Create e-service template",
+    "requiredLabel": "*Required fields",
     "stepper": {
-      "step1Label": "General",
-      "step2Label": "Version",
+      "step1Label": "General information",
+      "step2Label": "Thresholds and attributes",
       "step2ReceiveLabel": "Purpose",
-      "step3Label": "Attributes",
-      "step4Label": "Documentation"
+      "step3Label": "Technical specifications",
+      "step4Label": "Version information"
     },
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
     "forwardWithoutSaveBtn": "Proceed",
     "goToSummary": "Go to summary",
     "step1": {
-      "detailsTitle": "E-service template details",
-      "detailsDescription": "The information in this section will not be modifiable by the implementers of the instances.",
+      "templateInfoTitle": "Template information",
+      "instanceDetailsTitle": "E-service instance details",
+      "signalHubTitle": "Signal Hub",
       "eserviceTemplateNameField": {
-        "label": "E-service template name",
-        "infoLabel": "Min 5 characters, max 60 characters"
+        "label": "Template name",
+        "infoLabel": "This is the name that will appear in the e-service template catalog and will become the base name of all e-services created from this template."
       },
       "intendedTargetField": {
         "label": "Who is the template intended for?",
@@ -223,11 +225,11 @@
           "RECEIVE": "Receive"
         },
         "isSignalHubEnabled": {
-          "label": "I suggest the implementer to report any data changes on Signal Hub.",
+          "label": "Suggest to those who will use this template to report data changes with Signal Hub",
           "infoLabel": {
-            "before": "Signal Hub uses the",
-            "linkLabel": "push service",
-            "after": "to generate notifications related to data changes regarding the e-service."
+            "before": "Signal Hub sends",
+            "linkLabel": "push notifications",
+            "after": "when there are changes to the e-service data."
           }
         }
       },
@@ -256,6 +258,39 @@
         "noSelectedPurposesTooltip": "You must indicate at least one purpose to continue",
         "purposeTable": {
           "noDataLabel": "No added purpose"
+        }
+      }
+    },
+    "stepThresholdsAndAttributes": {
+      "thresholdsTitle": "API call thresholds",
+      "thresholdsSwitch": {
+        "label": "Suggest API calls/day thresholds to those who will use this template"
+      },
+      "dailyCallsPerConsumerField": {
+        "label": "API calls/day per consumer",
+        "infoLabel": "Enter a number greater than or equal to 1"
+      },
+      "dailyCallsTotalField": {
+        "label": "Total API calls/day",
+        "infoLabel": "Enter a number greater than the previous one",
+        "validation": {
+          "min": "This value cannot be below the threshold set for the API calls/day for each consumer"
+        }
+      },
+      "thresholdsInfoAlert": "Those who use this template will be able to modify the suggested thresholds and customize them for certified attributes.",
+      "accessRequirements": {
+        "title": "Access requirements",
+        "description": "Define who can access this e-service. Create one or more requirements and associate the required attributes to each. The consumer must meet all the indicated requirements and possess at least one of the attributes in each requirement.",
+        "learnMoreLink": "Learn more about attributes",
+        "createRequirementBtn": "Create requirement",
+        "placeholder": "This section will be available soon.",
+        "tabs": {
+          "certified": "Certified Attributes",
+          "verified": "Verified Attributes",
+          "declared": "Declared Attributes",
+          "certifiedDescription": "These are attributes certified by a recognized authoritative source.",
+          "verifiedDescription": "These are attributes verified by the providing entity.",
+          "declaredDescription": "These are attributes declared by the consuming entity."
         }
       }
     },
