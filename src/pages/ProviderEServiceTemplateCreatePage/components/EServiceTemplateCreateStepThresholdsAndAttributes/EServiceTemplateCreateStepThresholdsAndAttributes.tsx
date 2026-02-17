@@ -94,17 +94,20 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
   const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
 
   const tabDescriptions = [
-    t('stepThresholdsAndAttributes.accessRequirements.tabs.certifiedDescription'),
-    t('stepThresholdsAndAttributes.accessRequirements.tabs.verifiedDescription'),
-    t('stepThresholdsAndAttributes.accessRequirements.tabs.declaredDescription'),
+    t('step2.thresholdsAndAttributes.accessRequirements.tabs.certifiedDescription'),
+    t('step2.thresholdsAndAttributes.accessRequirements.tabs.verifiedDescription'),
+    t('step2.thresholdsAndAttributes.accessRequirements.tabs.declaredDescription'),
   ]
 
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer title={t('stepThresholdsAndAttributes.thresholdsTitle')} component="div">
+        <SectionContainer
+          title={t('step2.thresholdsAndAttributes.thresholdsTitle')}
+          component="div"
+        >
           <RHFSwitch
-            label={t('stepThresholdsAndAttributes.thresholdsSwitch.label')}
+            label={t('step2.thresholdsAndAttributes.thresholdsSwitch.label')}
             name="thresholdsSection"
             sx={{ my: 0, ml: 1 }}
           />
@@ -114,8 +117,10 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
                 <RHFTextField
                   size="small"
                   name="dailyCallsPerConsumer"
-                  label={t('stepThresholdsAndAttributes.dailyCallsPerConsumerField.label')}
-                  infoLabel={t('stepThresholdsAndAttributes.dailyCallsPerConsumerField.infoLabel')}
+                  label={t('step2.thresholdsAndAttributes.dailyCallsPerConsumerField.label')}
+                  infoLabel={t(
+                    'step2.thresholdsAndAttributes.dailyCallsPerConsumerField.infoLabel'
+                  )}
                   type="number"
                   inputProps={{ min: '1' }}
                   rules={{ required: true, min: 1 }}
@@ -125,8 +130,8 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
                 <RHFTextField
                   size="small"
                   name="dailyCallsTotal"
-                  label={t('stepThresholdsAndAttributes.dailyCallsTotalField.label')}
-                  infoLabel={t('stepThresholdsAndAttributes.dailyCallsTotalField.infoLabel')}
+                  label={t('step2.thresholdsAndAttributes.dailyCallsTotalField.label')}
+                  infoLabel={t('step2.thresholdsAndAttributes.dailyCallsTotalField.infoLabel')}
                   type="number"
                   inputProps={{ min: '1' }}
                   sx={{ my: 0, flex: 1 }}
@@ -134,14 +139,16 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
                     required: true,
                     min: {
                       value: dailyCallsPerConsumer ?? 1,
-                      message: t('stepThresholdsAndAttributes.dailyCallsTotalField.validation.min'),
+                      message: t(
+                        'step2.thresholdsAndAttributes.dailyCallsTotalField.validation.min'
+                      ),
                     },
                   }}
                   required
                 />
               </Stack>
               <Alert severity="info" sx={{ mt: 3 }}>
-                {t('stepThresholdsAndAttributes.thresholdsInfoAlert')}
+                {t('step2.thresholdsAndAttributes.thresholdsInfoAlert')}
               </Alert>
             </>
           )}
@@ -151,12 +158,12 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
          * TODO: Implement correct UI for access requirements section
          */}
         <SectionContainer
-          title={t('stepThresholdsAndAttributes.accessRequirements.title')}
+          title={t('step2.thresholdsAndAttributes.accessRequirements.title')}
           description={
             <>
-              {t('stepThresholdsAndAttributes.accessRequirements.description')}{' '}
+              {t('step2.thresholdsAndAttributes.accessRequirements.description')}{' '}
               <Link href={attributesHelpLink} target="_blank" underline="hover">
-                {t('stepThresholdsAndAttributes.accessRequirements.learnMoreLink')}
+                {t('step2.thresholdsAndAttributes.accessRequirements.learnMoreLink')}
               </Link>
             </>
           }
@@ -165,9 +172,9 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
         >
           <Box sx={{ borderBottom: 1, borderColor: 'divider', mt: 1 }}>
             <Tabs value={activeTab} onChange={handleTabChange}>
-              <Tab label={t('stepThresholdsAndAttributes.accessRequirements.tabs.certified')} />
-              <Tab label={t('stepThresholdsAndAttributes.accessRequirements.tabs.verified')} />
-              <Tab label={t('stepThresholdsAndAttributes.accessRequirements.tabs.declared')} />
+              <Tab label={t('step2.thresholdsAndAttributes.accessRequirements.tabs.certified')} />
+              <Tab label={t('step2.thresholdsAndAttributes.accessRequirements.tabs.verified')} />
+              <Tab label={t('step2.thresholdsAndAttributes.accessRequirements.tabs.declared')} />
             </Tabs>
           </Box>
 
@@ -177,7 +184,7 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
 
           <Box sx={{ mt: 3 }}>
             <Button variant="outlined" color="primary" sx={{ fontWeight: 700 }} disabled>
-              {t('stepThresholdsAndAttributes.accessRequirements.createRequirementBtn')}
+              {t('step2.thresholdsAndAttributes.accessRequirements.createRequirementBtn')}
             </Button>
           </Box>
         </SectionContainer>

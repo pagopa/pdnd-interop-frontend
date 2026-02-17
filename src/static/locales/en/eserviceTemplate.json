@@ -250,48 +250,105 @@
         }
       }
     },
-    "stepPurpose": {
-      "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",
-      "purposeTableSection": {
-        "title": "Purpose",
-        "description": "Indicate the use cases for which you intend to collect data. For each purpose you will need to complete a risk analysis.",
-        "noSelectedPurposesTooltip": "You must indicate at least one purpose to continue",
-        "purposeTable": {
-          "noDataLabel": "No added purpose"
+    "step2": {
+      "purpose": {
+        "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",
+        "purposeTableSection": {
+          "title": "Purpose",
+          "description": "Indicate the use cases for which you intend to collect data. For each purpose you will need to complete a risk analysis.",
+          "noSelectedPurposesTooltip": "You must indicate at least one purpose to continue",
+          "purposeTable": {
+            "noDataLabel": "No added purpose"
+          }
+        },
+        "tenantKindDialog": {
+          "title": "Indicate who will be able to use the following risk analysis.",
+          "description": "Indicate for whom the following risk analysis is filled.",
+          "tenantKind": {
+            "labelPA": "Public administration (Art. 2, comma 2, letter \u201Ca\u201D of Codice dell'Amministrazione Digitale)",
+            "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters \u201Cb\u201D e \u201Cc\u201D) or Private"
+          }
+        }
+      },
+      "thresholdsAndAttributes": {
+        "thresholdsTitle": "API call thresholds",
+        "thresholdsSwitch": {
+          "label": "Suggest API calls/day thresholds to those who will use this template"
+        },
+        "dailyCallsPerConsumerField": {
+          "label": "API calls/day per consumer",
+          "infoLabel": "Enter a number greater than or equal to 1"
+        },
+        "dailyCallsTotalField": {
+          "label": "Total API calls/day",
+          "infoLabel": "Enter a number greater than the previous one",
+          "validation": {
+            "min": "This value cannot be below the threshold set for the API calls/day for each consumer"
+          }
+        },
+        "thresholdsInfoAlert": "Those who use this template will be able to modify the suggested thresholds and customize them for certified attributes.",
+        "accessRequirements": {
+          "title": "Access requirements",
+          "description": "Define who can access this e-service. Create one or more requirements and associate the required attributes to each. The consumer must meet all the indicated requirements and possess at least one of the attributes in each requirement.",
+          "learnMoreLink": "Learn more about attributes",
+          "createRequirementBtn": "Create requirement",
+          "placeholder": "This section will be available soon.",
+          "tabs": {
+            "certified": "Certified Attributes",
+            "verified": "Verified Attributes",
+            "declared": "Declared Attributes",
+            "certifiedDescription": "These are attributes certified by a recognized authoritative source.",
+            "verifiedDescription": "These are attributes verified by the providing entity.",
+            "declaredDescription": "These are attributes declared by the consuming entity."
+          }
         }
       }
     },
-    "stepThresholdsAndAttributes": {
-      "thresholdsTitle": "API call thresholds",
-      "thresholdsSwitch": {
-        "label": "Suggest API calls/day thresholds to those who will use this template"
-      },
-      "dailyCallsPerConsumerField": {
-        "label": "API calls/day per consumer",
-        "infoLabel": "Enter a number greater than or equal to 1"
-      },
-      "dailyCallsTotalField": {
-        "label": "Total API calls/day",
-        "infoLabel": "Enter a number greater than the previous one",
-        "validation": {
-          "min": "This value cannot be below the threshold set for the API calls/day for each consumer"
+    "step3": {
+      "attributes": {
+        "attributesTitle": "Access requirements for version {{versionNumber}}",
+        "attributesDescription": "Please indicate all the certified, verified, and declared attributes that the consumer must have in order to create an agreement for the e-service",
+        "attributesAddBtn": "Add attribute",
+        "attributesCreateBtn": "Create new attribute",
+        "createAttributeDrawer": {
+          "title": {
+            "verified": "Create new verified attribute",
+            "declared": "Create new declared attribute"
+          },
+          "subtitle": "Once created, the attribute will be available in the list to be added to an e-service",
+          "nameField": {
+            "label": "Attribute name",
+            "infoLabel": "Min 5 characters, max 160 characters"
+          },
+          "descriptionField": {
+            "label": "Attribute description",
+            "infoLabel": "Min 10 characters, max 250 characters"
+          },
+          "submitBtnLabel": "Create attribute"
         }
       },
-      "thresholdsInfoAlert": "Those who use this template will be able to modify the suggested thresholds and customize them for certified attributes.",
-      "accessRequirements": {
-        "title": "Access requirements",
-        "description": "Define who can access this e-service. Create one or more requirements and associate the required attributes to each. The consumer must meet all the indicated requirements and possess at least one of the attributes in each requirement.",
-        "learnMoreLink": "Learn more about attributes",
-        "createRequirementBtn": "Create requirement",
-        "placeholder": "This section will be available soon.",
-        "tabs": {
-          "certified": "Certified Attributes",
-          "verified": "Verified Attributes",
-          "declared": "Declared Attributes",
-          "certifiedDescription": "These are attributes certified by a recognized authoritative source.",
-          "verifiedDescription": "These are attributes verified by the providing entity.",
-          "declaredDescription": "These are attributes declared by the consuming entity."
-        }
+      "technicalSpecs": {
+        "interface": {
+          "title": "Interface*",
+          "alert": "You can upload a file without contact data, terms and conditions, and server URLs, as these will be filled in by the implementer in the next phase.",
+          "description": {
+            "rest": "Upload a draft of the OpenAPI specification that describes the API.",
+            "soap": "Upload a draft of the WSDL specification that describes the API"
+          },
+          "prettyName": "API specification"
+        },
+        "voucher": {
+          "title": "Voucher",
+          "voucherLifespanField": {
+            "label": "Validity duration (in minutes)*",
+            "infoLabel": "Maximum value: 1440 minutes (24 hours)"
+          }
+        },
+        "nameField": {
+          "label": "Document name",
+          "infoLabel": "Min 5 characters, max 60 characters"
+        },
+        "uploadBtn": "Upload"
       }
     },
     "step4": {
@@ -312,76 +369,6 @@
       "agreementApprovalPolicySection": {
         "label": "Suggest to those who will use this template the manual approval of received usage requests"
       }
-    },
-    "step2": {
-      "thresholdsSection": {
-        "thresholdsSwitch": {
-          "label": "Suggest custom API threshold values to the implementer"
-        },
-        "title": "Expected call threshold for users",
-        "dailyCallsPerConsumerField": {
-          "label": "API calls/day per consumer"
-        },
-        "dailyCallsTotalField": {
-          "label": "Total API calls/day",
-          "validation": {
-            "min": "This value cannot be below the threshold set for the API calls/day for each consumer"
-          }
-        }
-      },
-      "tenantKindDialog": {
-        "title": "Indicate who will be able to use the following risk analysis.",
-        "description": "Indicate for whom the following risk analysis is filled.",
-        "tenantKind": {
-          "labelPA": "Public administration (Art. 2, comma 2, letter \u201Ca\u201D of Codice dell'Amministrazione Digitale)",
-          "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters \u201Cb\u201D e \u201Cc\u201D) or Private"
-        }
-      }
-    },
-    "step3": {
-      "attributesTitle": "Access requirements for version {{versionNumber}}",
-      "attributesDescription": "Please indicate all the certified, verified, and declared attributes that the consumer must have in order to create an agreement for the e-service",
-      "attributesAddBtn": "Add attribute",
-      "attributesCreateBtn": "Create new attribute",
-      "createAttributeDrawer": {
-        "title": {
-          "verified": "Create new verified attribute",
-          "declared": "Create new declared attribute"
-        },
-        "subtitle": "Once created, the attribute will be available in the list to be added to an e-service",
-        "nameField": {
-          "label": "Attribute name",
-          "infoLabel": "Min 5 characters, max 160 characters"
-        },
-        "descriptionField": {
-          "label": "Attribute description",
-          "infoLabel": "Min 10 characters, max 250 characters"
-        },
-        "submitBtnLabel": "Create attribute"
-      }
-    },
-    "stepTechnicalSpecs": {
-      "interface": {
-        "title": "Interface*",
-        "alert": "You can upload a file without contact data, terms and conditions, and server URLs, as these will be filled in by the implementer in the next phase.",
-        "description": {
-          "rest": "Upload a draft of the OpenAPI specification that describes the API.",
-          "soap": "Upload a draft of the WSDL specification that describes the API"
-        },
-        "prettyName": "API specification"
-      },
-      "voucher": {
-        "title": "Voucher",
-        "voucherLifespanField": {
-          "label": "Validity duration (in minutes)*",
-          "infoLabel": "Maximum value: 1440 minutes (24 hours)"
-        }
-      },
-      "nameField": {
-        "label": "Document name",
-        "infoLabel": "Min 5 characters, max 60 characters"
-      },
-      "uploadBtn": "Upload"
     }
   },
   "summary": {

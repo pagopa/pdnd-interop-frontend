@@ -96,10 +96,10 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
       <FormProvider {...formMethods}>
         <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
           <SectionContainer
-            title={t('step3.attributesTitle', {
+            title={t('step3.attributes.attributesTitle', {
               versionNumber: eserviceTemplateVersion?.version ?? 1,
             })}
-            description={t('step3.attributesDescription')}
+            description={t('step3.attributes.attributesDescription')}
           >
             <AddAttributesToForm attributeKey="certified" readOnly={false} />
             <Divider sx={{ my: 3 }} />
