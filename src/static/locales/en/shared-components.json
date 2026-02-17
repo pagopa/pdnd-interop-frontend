@@ -527,6 +527,8 @@
     "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS": "Template Details",
     "SUBSCRIBE_PURPOSE_TEMPLATE_EDIT": "Edit Purpose Template",
     "SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE": "Create Purpose from Template",
-    "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Edit Purpose from Template"
+    "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Edit Purpose from Template",
+    "SIMULATE_GET_VOUCHER_API": "Simulate getting a voucher",
+    "SIMULATE_GET_VOUCHER_CONSUMER": "Simulate getting a voucher"
   }
 }

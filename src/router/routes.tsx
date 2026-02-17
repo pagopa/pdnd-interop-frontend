@@ -67,6 +67,7 @@ import { ConsumerPurposeTemplateDetailsPage } from '@/pages/ConsumerPurposeTempl
 import ConsumerPurposeTemplateCatalogDetailsPage from '@/pages/ConsumerPurposeTemplateCatalogDetailsPage/ConsumerPurposeTemplateCatalogDetailsPage'
 import { ConsumerPurposeTemplateSummaryPage } from '@/pages/ConsumerPurposeTemplateSummaryPage'
 import { ConsumerPurposeTemplateEditPage } from '@/pages/ConsumerPurposeTemplateEditPage'
+import { ConsumerSimulateGetVoucherPage } from '@/pages/ConsumerSimulateGetVoucherPage'
 
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
   LangCode,
@@ -385,6 +386,22 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerDebugVoucherPage />,
     public: false,
     hideSideNav: false,
+    authLevels: ['admin', 'support', 'api', 'security'],
+  })
+  .addRoute({
+    key: 'SIMULATE_GET_VOUCHER_API',
+    path: '/tool-sviluppo/api-interop/simulazione-voucher',
+    element: <ConsumerSimulateGetVoucherPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'support', 'api', 'security'],
+  })
+  .addRoute({
+    key: 'SIMULATE_GET_VOUCHER_CONSUMER',
+    path: '/tool-sviluppo/api-e-service/simulazione-voucher',
+    element: <ConsumerSimulateGetVoucherPage />,
+    public: false,
+    hideSideNav: true,
     authLevels: ['admin', 'support', 'api', 'security'],
   })
   .addRoute({
