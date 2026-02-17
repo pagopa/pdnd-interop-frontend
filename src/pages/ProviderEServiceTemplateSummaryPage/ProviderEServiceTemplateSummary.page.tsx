@@ -54,7 +54,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
         eServiceTemplateId: eServiceTemplateId,
         eServiceTemplateVersionId: eServiceTemplateVersionId,
       },
-      state: { stepIndexDestination: 1 },
+      state: { stepIndexDestination: 0 },
     })
   }
 
