@@ -69,18 +69,16 @@ export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProp
       topSideActions={topSideActions}
     >
       {attributeGroups.length > 0 && (
-        <>
-          <Stack spacing={3}>
-            {attributeGroups.map((attributeGroup, index) => (
-              <AttributeGroup
-                key={index}
-                attributes={attributeGroup}
-                index={index}
-                attributeKey={attributeKey}
-              />
-            ))}
-          </Stack>
-        </>
+        <Stack spacing={3}>
+          {attributeGroups.map((attributeGroup, index) => (
+            <AttributeGroup
+              key={index}
+              attributes={attributeGroup}
+              index={index}
+              attributeKey={attributeKey}
+            />
+          ))}
+        </Stack>
       )}
       {attributeGroups.length === 0 && (
         <AttributeGroupContainer

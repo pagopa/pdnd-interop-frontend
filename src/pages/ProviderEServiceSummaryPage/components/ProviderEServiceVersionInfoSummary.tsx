@@ -33,34 +33,30 @@ export const ProviderEServiceVersionInfoSummary: React.FC = () => {
   const hasManualApproval = descriptor.agreementApprovalPolicy === 'MANUAL'
 
   return (
-    <>
-      <Stack spacing={3}>
+    <Stack spacing={3}>
+      <ProviderEServiceInformationContainer
+        label={t('description.label')}
+        content={descriptor.description}
+      />
+      {descriptor.docs.map((doc, index) => (
         <ProviderEServiceInformationContainer
-          label={t('description.label')}
-          content={descriptor.description}
+          key={doc.id}
+          label={index === 0 ? t('documentation') : ''}
+          content={
+            <IconLink
+              component="button"
+              startIcon={<AttachFileIcon fontSize="small" />}
+              onClick={handleDownloadDocument.bind(null, doc)}
+            >
+              {doc.prettyName}
+            </IconLink>
+          }
         />
-        {descriptor.docs.map((doc, index) => (
-          <ProviderEServiceInformationContainer
-            key={doc.id}
-            label={index === 0 ? t('documentation') : ''}
-            content={
-              descriptor.interface && (
-                <IconLink
-                  component="button"
-                  startIcon={<AttachFileIcon fontSize="small" />}
-                  onClick={handleDownloadDocument.bind(null, doc)}
-                >
-                  {doc.prettyName}
-                </IconLink>
-              )
-            }
-          />
-        ))}
-        <ProviderEServiceInformationContainer
-          label={t('manualApproval.label')}
-          content={t(`manualApproval.value.${hasManualApproval}`)}
-        />
-      </Stack>
-    </>
+      ))}
+      <ProviderEServiceInformationContainer
+        label={t('manualApproval.label')}
+        content={t(`manualApproval.value.${hasManualApproval}`)}
+      />
+    </Stack>
   )
 }

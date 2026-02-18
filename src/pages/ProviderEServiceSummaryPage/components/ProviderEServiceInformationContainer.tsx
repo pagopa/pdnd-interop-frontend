@@ -15,7 +15,7 @@ export const ProviderEServiceInformationContainer: React.FC<
 > = ({ label, content }) => {
   const { t } = useTranslation('eservice')
 
-  const hasContent = content !== null && content !== undefined
+  const hasContent = content !== null && content !== undefined && content !== ''
 
   return (
     <InformationContainer

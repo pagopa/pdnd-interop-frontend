@@ -318,7 +318,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
               title={t('summary.documentationSummary.title')}
-              showWarning={!isVersionInfoSectionValid}
+              showWarning={!isDocumentationSectionValid}
               warningLabel={t('summary.missingInformationsLabel')}
             >
               <ProviderEServiceDocumentationSummary />
@@ -328,7 +328,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '5' : '4'}
               title={t('summary.versionInfoSummary.title')}
-              showWarning={!isDocumentationSectionValid}
+              showWarning={!isVersionInfoSectionValid}
               warningLabel={t('summary.missingInformationsLabel')}
             >
               <ProviderEServiceVersionInfoSummary />

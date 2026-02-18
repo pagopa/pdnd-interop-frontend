@@ -35,33 +35,31 @@ export const ProviderEServiceDocumentationSummary: React.FC = () => {
   }
 
   return (
-    <>
-      <Stack spacing={2}>
-        <ProviderEServiceInformationContainer
-          label={t('interface.label')}
-          content={
-            descriptor.interface && (
-              <IconLink
-                component="button"
-                startIcon={<AttachFileIcon fontSize="small" />}
-                onClick={handleDownloadDocument.bind(null, descriptor.interface)}
-              >
-                {descriptor.interface.prettyName}
-              </IconLink>
-            )
-          }
-        />
-        <ProviderEServiceInformationContainer
-          label={t('audience.label')}
-          content={descriptor.audience[0]}
-        />
-        <ProviderEServiceInformationContainer
-          label={t('voucherLifespan.label')}
-          content={`${voucherLifespan} ${tCommon('time.minute', {
-            count: voucherLifespan,
-          })}`}
-        />
-      </Stack>
-    </>
+    <Stack spacing={2}>
+      <ProviderEServiceInformationContainer
+        label={t('interface.label')}
+        content={
+          descriptor.interface && (
+            <IconLink
+              component="button"
+              startIcon={<AttachFileIcon fontSize="small" />}
+              onClick={handleDownloadDocument.bind(null, descriptor.interface)}
+            >
+              {descriptor.interface.prettyName}
+            </IconLink>
+          )
+        }
+      />
+      <ProviderEServiceInformationContainer
+        label={t('audience.label')}
+        content={descriptor.audience[0]}
+      />
+      <ProviderEServiceInformationContainer
+        label={t('voucherLifespan.label')}
+        content={`${voucherLifespan} ${tCommon('time.minute', {
+          count: voucherLifespan,
+        })}`}
+      />
+    </Stack>
   )
 }
