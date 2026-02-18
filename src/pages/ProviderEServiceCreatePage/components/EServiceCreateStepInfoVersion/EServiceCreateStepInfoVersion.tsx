@@ -16,7 +16,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { useNavigate } from '@/router'
 import { UploadDoc } from './components/UploadDoc'
-import { EServiceCreateStepDocumentsDoc } from '../EServiceCreateStepDocuments/EServiceCreateStepDocumentsDoc'
 import { Stack } from '@mui/system'
 
 type EServiceCreateStepVersionFormValues = {
@@ -28,7 +27,7 @@ export const EServiceCreateStepInfoVersion: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const navigate = useNavigate()
 
-  const { descriptor, forward, back } = useEServiceCreateContext()
+  const { descriptor, back } = useEServiceCreateContext()
 
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
@@ -111,23 +110,17 @@ export const EServiceCreateStepInfoVersion: React.FC = () => {
         eserviceId: descriptor.eservice.id,
         descriptorId: descriptor.id,
       }
-      updateVersionDraft(
-        {
-          ...payload,
-          descriptorId: descriptor.id,
+      updateVersionDraft(payload, {
+        onSuccess: () => {
+          if (!descriptor) return
+          navigate('PROVIDE_ESERVICE_SUMMARY', {
+            params: {
+              eserviceId: descriptor.eservice.id,
+              descriptorId: descriptor.id,
+            },
+          })
         },
-        {
-          onSuccess: () => {
-            if (!descriptor) return
-            navigate('PROVIDE_ESERVICE_SUMMARY', {
-              params: {
-                eserviceId: descriptor.eservice.id,
-                descriptorId: descriptor.id,
-              },
-            })
-          },
-        }
-      )
+      })
     }
   }
   return (

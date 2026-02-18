@@ -145,12 +145,9 @@ export const UploadDoc: React.FC<UploadDocProps> = ({ readonly = false }) => {
             {isSelectedDocUploadable && (
               <Stack direction="row" justifyContent="flex-start" mt={3}>
                 <Button
-                  type="submit"
+                  type="button"
                   variant="contained"
-                  onClick={(e) => {
-                    e.preventDefault()
-                    formMethods.handleSubmit(onSubmit)()
-                  }}
+                  onClick={formMethods.handleSubmit(onSubmit)}
                 >
                   {t('create.step4.uploadBtn')}
                 </Button>
@@ -182,7 +179,6 @@ const UploadDocReadonly: React.FC<{
     <Stack key={doc.id} alignItems="start" mb={2}>
       <IconLink
         fontWeight={600}
-        key="test"
         component="button"
         onClick={() => handleDownloadDocument(doc)}
         endIcon={<DownloadIcon sx={{ ml: 1 }} fontSize="small" />}
