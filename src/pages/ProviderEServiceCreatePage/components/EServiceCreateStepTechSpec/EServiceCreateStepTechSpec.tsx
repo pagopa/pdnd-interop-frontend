@@ -117,10 +117,10 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
 
   return (
     <FormProvider {...formMethods}>
+      <SectionContainer title={t('step4.interface.title')} description={sectionDescription}>
+        <UploadInterface />
+      </SectionContainer>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer title={t('step4.interface.title')} description={sectionDescription}>
-          <UploadInterface />
-        </SectionContainer>
         <SectionContainer title={t('step2.voucherSection.title')} sx={{ mt: 3 }}>
           <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
             <RHFTextField
