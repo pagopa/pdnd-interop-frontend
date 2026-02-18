@@ -3,6 +3,7 @@
   "backToEServiceBtn": "Back to the e-service",
   "create": {
     "emptyTitle": "Create e-service",
+    "requiredLabel": "*Required fields.",
     "stepper": {
       "step1Label": "General",
       "step2Label": "Thresholds and attributes",
@@ -85,7 +86,10 @@
           "checkboxLabel": "I authorize delegates to associate their clients with the purposes they have created as delegates for use. Read the <1>documentation</1> for further information"
         }
       },
-      "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
+      "detailsSection": {
+        "title": "E-service details"
+      },
+      "firstVersionOnlyEditableInfo": "This data will no longer be editable after the first version of the e-service is published."
     },
     "stepPurpose": {
       "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",

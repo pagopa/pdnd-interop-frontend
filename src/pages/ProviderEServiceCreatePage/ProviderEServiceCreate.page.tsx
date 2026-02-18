@@ -37,6 +37,7 @@ import {
   EServiceCreateStepThresholds,
   EServiceCreateStepThresholdsSkeleton,
 } from './components/EServiceCreateStepThresholds'
+import { Typography } from '@mui/material'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -149,6 +150,15 @@ const ProviderEServiceCreatePage: React.FC = () => {
       }}
       isLoading={!isReady}
     >
+      <Typography
+        sx={{
+          fontSize: 16,
+          fontWeight: 700,
+          color: 'text.secondary',
+        }}
+      >
+        {t('create.requiredLabel')}
+      </Typography>
       <Stepper steps={steps} activeIndex={activeStep} />
       {isReady && (
         <EServiceCreateContextProvider
