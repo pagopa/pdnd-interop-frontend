@@ -91,48 +91,22 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
             />
             <Alert icon={false} color="info">
               <Stack>
-                <Typography
-                  sx={{
-                    fontSize: 14,
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  {t('limitAlert.title')}
-                </Typography>
+                <Typography variant="overline">{t('limitAlert.title')}</Typography>
                 <Stack
                   direction={'row'}
                   alignItems={'center'}
                   justifyContent={'space-between'}
                   gap={2}
                 >
-                  <Typography
-                    sx={{
-                      fontSize: 16,
-                    }}
-                  >
-                    {t('limitAlert.totalLimit')}
-                  </Typography>
+                  <Typography variant="caption">{t('limitAlert.totalLimit')}</Typography>
                   {dailyCallsTotal ? (
-                    <Typography
-                      sx={{
-                        fontSize: 16,
-                        fontWeight: 600,
-                      }}
-                    >
+                    <Typography variant="caption-semibold">
                       {t('limitAlert.label', { threshold: dailyCallsTotal })}
                     </Typography>
                   ) : (
                     <Stack direction={'row'} alignItems={'center'} spacing={1}>
                       <WarningAmber color="warning" />
-                      <Typography
-                        sx={{
-                          fontSize: 16,
-                          fontWeight: 600,
-                        }}
-                      >
-                        {t('limitAlert.toInsert')}
-                      </Typography>
+                      <Typography variant="caption-semibold">{t('limitAlert.toInsert')}</Typography>
                     </Stack>
                   )}
                 </Stack>
@@ -142,33 +116,15 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
                   justifyContent={'space-between'}
                   gap={2}
                 >
-                  <Typography
-                    sx={{
-                      fontSize: 16,
-                    }}
-                  >
-                    {t('limitAlert.consumerLimit')}
-                  </Typography>
+                  <Typography variant="caption">{t('limitAlert.consumerLimit')}</Typography>
                   {dailyCallsPerConsumer ? (
-                    <Typography
-                      sx={{
-                        fontSize: 16,
-                        fontWeight: 600,
-                      }}
-                    >
+                    <Typography variant="caption-semibold">
                       {t('limitAlert.label', { threshold: dailyCallsPerConsumer })}
                     </Typography>
                   ) : (
                     <Stack direction={'row'} alignItems={'center'} spacing={1}>
                       <WarningAmber color="warning" />
-                      <Typography
-                        sx={{
-                          fontSize: 16,
-                          fontWeight: 600,
-                        }}
-                      >
-                        {t('limitAlert.toInsert')}
-                      </Typography>
+                      <Typography variant="caption-semibold">{t('limitAlert.toInsert')}</Typography>
                     </Stack>
                   )}
                 </Stack>
