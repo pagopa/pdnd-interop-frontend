@@ -12,7 +12,7 @@ type EServiceTemplateCreateStepTechnicalSpecsInterfaceFormValues = {
   interfaceDoc: File | null
 }
 
-export function EServiceTemplateCreateStepTechnicalSpecsInterface() {
+export function EServiceTemplateCreateStepTechnicalSpecsInterface({ error }: { error?: string }) {
   const { t } = useTranslation('eserviceTemplate')
   const { eserviceTemplateVersion } = useEServiceTemplateCreateContext()
   const downloadDocument = EServiceTemplateDownloads.useDownloadVersionDocument()
@@ -21,7 +21,9 @@ export function EServiceTemplateCreateStepTechnicalSpecsInterface() {
 
   const actualInterface: EServiceDoc | null = eserviceTemplateVersion?.interface ?? null
 
-  const onSubmit = ({ interfaceDoc }: EServiceTemplateCreateStepTechnicalSpecsInterfaceFormValues) => {
+  const onSubmit = ({
+    interfaceDoc,
+  }: EServiceTemplateCreateStepTechnicalSpecsInterfaceFormValues) => {
     if (!interfaceDoc || !eserviceTemplateVersion) return
     const prettyName = t('create.stepTechnicalSpecs.interface.prettyName')
     uploadDocument({
@@ -65,5 +67,5 @@ export function EServiceTemplateCreateStepTechnicalSpecsInterface() {
     )
   }
 
-  return <UploadDocumentsInterface onSubmit={onSubmit} />
+  return <UploadDocumentsInterface onSubmit={onSubmit} error={error} />
 }

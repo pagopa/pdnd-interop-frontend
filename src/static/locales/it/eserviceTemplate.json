@@ -356,7 +356,8 @@
           "rest": "Carica una bozza del file OpenAPI che descrive l'API.",
           "soap": "Carica una bozza del file WSDL che descrive l'API"
         },
-        "prettyName": "Specifica API"
+        "prettyName": "Specifica API",
+        "requiredError": "Non hai caricato nessun file"
       },
       "voucher": {
         "title": "Voucher",

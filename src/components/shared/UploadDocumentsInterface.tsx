@@ -1,3 +1,4 @@
+import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFSingleFileInput } from './react-hook-form-inputs'
 import type { SxProps, Theme } from '@mui/material'
@@ -12,11 +13,13 @@ type UploadDocumentsInterfaceFormValues = {
 type UploadDocumentsInterfaceProps = {
   onSubmit: ({ interfaceDoc }: UploadDocumentsInterfaceFormValues) => void
   sxBox?: SxProps<Theme>
+  error?: string
 }
 
 export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> = ({
   onSubmit,
   sxBox,
+  error,
 }) => {
   const { t } = useTranslation('common')
   const defaultValues: UploadDocumentsInterfaceFormValues = {
@@ -28,6 +31,14 @@ export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> =
     shouldUnregister: true,
   })
   const selectedInterface = formMethods.watch('interfaceDoc')
+
+  React.useEffect(() => {
+    if (error) {
+      formMethods.setError('interfaceDoc', { message: error })
+    } else {
+      formMethods.clearErrors('interfaceDoc')
+    }
+  }, [error, formMethods])
   return (
     <FormProvider {...formMethods}>
       <Box sx={sxBox} bgcolor="common.white">

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
@@ -24,6 +24,8 @@ export const EServiceTemplateCreateStepTechnicalSpecs: React.FC<ActiveStepProps>
 
   const { eserviceTemplateVersion, forward, back } = useEServiceTemplateCreateContext()
 
+  const [interfaceError, setInterfaceError] = useState<string | undefined>()
+
   const { mutate: updateVersionDraft } = EServiceTemplateMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
@@ -36,8 +38,19 @@ export const EServiceTemplateCreateStepTechnicalSpecs: React.FC<ActiveStepProps>
 
   const formMethods = useForm({ defaultValues })
 
+  useEffect(() => {
+    if (eserviceTemplateVersion?.interface) {
+      setInterfaceError(undefined)
+    }
+  }, [eserviceTemplateVersion?.interface])
+
   const onSubmit = (values: EServiceTemplateCreateStepTechnicalSpecsFormValues) => {
     if (!eserviceTemplateVersion) return
+
+    if (!eserviceTemplateVersion.interface) {
+      setInterfaceError(t('create.stepTechnicalSpecs.interface.requiredError'))
+      return
+    }
 
     const payload: UpdateEServiceTemplateVersionSeed = {
       description: eserviceTemplateVersion.description,
@@ -76,7 +89,7 @@ export const EServiceTemplateCreateStepTechnicalSpecs: React.FC<ActiveStepProps>
         >
           <Stack spacing={3}>
             <Alert severity="info"> {t('create.stepTechnicalSpecs.interface.alert')}</Alert>
-            <EServiceTemplateCreateStepTechnicalSpecsInterface />
+            <EServiceTemplateCreateStepTechnicalSpecsInterface error={interfaceError} />
           </Stack>
         </SectionContainer>
         <SectionContainer title={t('create.stepTechnicalSpecs.voucher.title')}>

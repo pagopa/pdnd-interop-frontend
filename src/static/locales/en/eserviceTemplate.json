@@ -356,7 +356,8 @@
           "rest": "Upload a draft of the OpenAPI specification that describes the API.",
           "soap": "Upload a draft of the WSDL specification that describes the API"
         },
-        "prettyName": "API specification"
+        "prettyName": "API specification",
+        "requiredError": "No file has been uploaded"
       },
       "voucher": {
         "title": "Voucher",
