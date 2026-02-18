@@ -85,7 +85,6 @@ export const EServiceCreateStepInfoVersion: React.FC = () => {
         },
         {
           onSuccess: () => {
-            if (!descriptor) return
             navigate('PROVIDE_ESERVICE_SUMMARY', {
               params: {
                 eserviceId: descriptor.eservice.id,
@@ -112,7 +111,6 @@ export const EServiceCreateStepInfoVersion: React.FC = () => {
       }
       updateVersionDraft(payload, {
         onSuccess: () => {
-          if (!descriptor) return
           navigate('PROVIDE_ESERVICE_SUMMARY', {
             params: {
               eserviceId: descriptor.eservice.id,
@@ -123,6 +121,7 @@ export const EServiceCreateStepInfoVersion: React.FC = () => {
       })
     }
   }
+
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
