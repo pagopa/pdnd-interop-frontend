@@ -19,6 +19,7 @@ export type RHFRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
   name: string
   infoLabel?: string
   disabled?: boolean
+  required?: boolean
   rules?: ControllerProps['rules']
   onValueChange?: (value: string) => void
   isOptionValueAsBoolean?: boolean
@@ -31,6 +32,7 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
   options,
   infoLabel,
   disabled,
+  required,
   rules,
   onValueChange,
   isOptionValueAsBoolean = false,
@@ -49,7 +51,7 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
   return (
     <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
       {label && (
-        <FormLabel sx={{ fontWeight: 600, mb: props.row ? 1 : 0 }} id={labelId}>
+        <FormLabel sx={{ fontWeight: 600, mb: props.row ? 1 : 0 }} id={labelId} required={required}>
           {label}
         </FormLabel>
       )}

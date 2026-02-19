@@ -3,12 +3,13 @@
   "backToEServiceBtn": "Back to the e-service",
   "create": {
     "emptyTitle": "Create e-service",
+    "requiredLabel": "*Required fields.",
     "stepper": {
       "step1Label": "General",
-      "step2Label": "Version",
+      "step2Label": "Thresholds and attributes",
       "step2ReceiveLabel": "Purpose",
-      "step3Label": "Attributes",
-      "step4Label": "Documentation"
+      "step3Label": "Technical specifications",
+      "step4Label": "Additional info"
     },
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
@@ -85,7 +86,10 @@
           "checkboxLabel": "I authorize delegates to associate their clients with the purposes they have created as delegates for use. Read the <1>documentation</1> for further information"
         }
       },
-      "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
+      "detailsSection": {
+        "title": "E-service details"
+      },
+      "firstVersionOnlyEditableInfo": "This data will no longer be editable after the first version of the e-service is published."
     },
     "stepPurpose": {
       "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",
@@ -149,6 +153,32 @@
       "agreementApprovalPolicySection": {
         "title": "Do you want to manually activate all the fruition requests received?",
         "label": "Yes, I will activate them manually"
+      },
+      "attributes": {
+        "tabs": {
+          "ariaLabel": "Three different tabs to manage certified, verified and declared attributes",
+          "certified": "Certified attributes",
+          "verified": "Verified attributes",
+          "declared": "Declared attributes"
+        },
+        "customizeThresholdDrawer": {
+          "title": "Customize threshold",
+          "subtitle": "Set a custom threshold for the certified attribute {{name}}.",
+          "submitBtnLabel": "Customize threshold",
+          "field": {
+            "placeholder": "API calls/day per consumer",
+            "error": "The threshold per consumer cannot be higher than the total threshold.",
+            "info": "Please enter a number greater than or equal to 1."
+          },
+          "limitAlert": {
+            "title": "For this e-service you have already defined",
+            "totalLimit": "Total threshold",
+            "consumerLimit": "Threshold per consumer",
+            "toInsert": "To insert",
+            "label": "{{threshold}} API calls/day"
+          },
+          "alert": "If the consumer satisfies multiple attributes with different thresholds, the highest threshold is automatically applied."
+        }
       }
     },
     "step3": {

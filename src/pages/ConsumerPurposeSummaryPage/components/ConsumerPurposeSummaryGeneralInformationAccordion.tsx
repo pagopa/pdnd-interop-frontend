@@ -1,4 +1,4 @@
-import { Stack } from '@mui/material'
+import { Alert, Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { Link } from '@/router'
@@ -6,6 +6,7 @@ import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { PurposeQueries } from '@/api/purpose'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { useGetConsumerPurposeGeneralInfoAlertProps } from '../hooks/useGetConsumerPurposeGeneralInfoAlertProps'
 
 type ConsumerPurposeSummaryGeneralInformationAccordionProps = {
   purposeId: string
@@ -16,6 +17,7 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
 > = ({ purposeId }) => {
   const { data: purpose } = useSuspenseQuery(PurposeQueries.getSingle(purposeId))
   const { t } = useTranslation('purpose', { keyPrefix: 'summary.generalInformationSection' })
+  const generalInfoAlertProps = useGetConsumerPurposeGeneralInfoAlertProps(purpose)
 
   return (
     <Stack spacing={2}>
@@ -36,7 +38,6 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
           >
             {t('eservice.value', {
               name: purpose.eservice.name,
-              version: purpose.eservice.descriptor.version,
             })}
           </Link>
         }
@@ -71,6 +72,7 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
             direction="row"
             label={t('loadEstimationSection.dailyCallsTotal.label')}
           />
+          <Alert sx={{ mt: 3 }} {...generalInfoAlertProps} />
         </Stack>
       </SectionContainer>
     </Stack>

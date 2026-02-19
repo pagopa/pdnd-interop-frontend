@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useActiveStep } from '@/hooks/useActiveStep'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { Redirect, useParams } from '@/router'
+import { Typography } from '@mui/material'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceTemplateCreateContextProvider } from './components/ProviderEServiceTemplateContext'
 import {
@@ -18,9 +19,9 @@ import {
   EServiceTemplateCreateStepVersionSkeleton,
 } from './components/EServiceTemplateCreateStepVersion'
 import {
-  EServiceTemplateCreateStepAttributes,
-  EServiceTemplateCreateStepAttributesSkeleton,
-} from './components/EServiceTemplateCreateStepAttributes'
+  EServiceTemplateCreateStepThresholdsAndAttributes,
+  EServiceTemplateCreateStepThresholdsAndAttributesSkeleton,
+} from './components/EServiceTemplateCreateStepThresholdsAndAttributes'
 import {
   EServiceTemplateCreateStepPurpose,
   EServiceTemplateCreateStepPurposeSkeleton,
@@ -57,29 +58,54 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const steps: Array<StepperStep> =
     eserviceTemplateMode === 'DELIVER'
       ? [
-          { label: t('create.stepper.step1Label'), component: EServiceTemplateCreateStepGeneral },
-          { label: t('create.stepper.step2Label'), component: EServiceTemplateCreateStepVersion },
+          {
+            label: t('create.stepper.step1Label'),
+            component: EServiceTemplateCreateStepGeneral,
+            showRequiredLabel: true,
+          },
+          {
+            label: t('create.stepper.step2Label'),
+            component: EServiceTemplateCreateStepThresholdsAndAttributes,
+          },
           {
             label: t('create.stepper.step3Label'),
-            component: EServiceTemplateCreateStepAttributes,
+            component: EServiceTemplateCreateStepDocuments,
+            showRequiredLabel: true,
           },
-          { label: t('create.stepper.step4Label'), component: EServiceTemplateCreateStepDocuments },
+          {
+            label: t('create.stepper.step4Label'),
+            component: EServiceTemplateCreateStepVersion,
+            showRequiredLabel: true,
+          },
         ]
       : [
-          { label: t('create.stepper.step1Label'), component: EServiceTemplateCreateStepGeneral },
+          {
+            label: t('create.stepper.step1Label'),
+            component: EServiceTemplateCreateStepGeneral,
+            showRequiredLabel: true,
+          },
           {
             label: t('create.stepper.step2ReceiveLabel'),
             component: EServiceTemplateCreateStepPurpose,
+            showRequiredLabel: true,
           },
-          { label: t('create.stepper.step2Label'), component: EServiceTemplateCreateStepVersion },
+          {
+            label: t('create.stepper.step2Label'),
+            component: EServiceTemplateCreateStepThresholdsAndAttributes,
+          },
           {
             label: t('create.stepper.step3Label'),
-            component: EServiceTemplateCreateStepAttributes,
+            component: EServiceTemplateCreateStepDocuments,
+            showRequiredLabel: true,
           },
-          { label: t('create.stepper.step4Label'), component: EServiceTemplateCreateStepDocuments },
+          {
+            label: t('create.stepper.step4Label'),
+            component: EServiceTemplateCreateStepVersion,
+            showRequiredLabel: true,
+          },
         ]
 
-  const { component: Step } = steps[activeStep]
+  const { component: Step, showRequiredLabel } = steps[activeStep]
 
   // If this e-service is not in draft, you cannot edit it
   if (eserviceTemplate && eserviceTemplate.state !== 'DRAFT') {
@@ -100,16 +126,16 @@ const ProviderEServiceCreatePage: React.FC = () => {
     eserviceTemplateMode === 'DELIVER'
       ? [
           <EServiceTemplateCreateStepGeneralSkeleton key={1} />,
-          <EServiceTemplateCreateStepVersionSkeleton key={2} />,
-          <EServiceTemplateCreateStepAttributesSkeleton key={3} />,
-          <EServiceTemplateCreateStepDocumentsSkeleton key={4} />,
+          <EServiceTemplateCreateStepThresholdsAndAttributesSkeleton key={2} />,
+          <EServiceTemplateCreateStepDocumentsSkeleton key={3} />,
+          <EServiceTemplateCreateStepVersionSkeleton key={4} />,
         ]
       : [
           <EServiceTemplateCreateStepGeneralSkeleton key={1} />,
           <EServiceTemplateCreateStepPurposeSkeleton key={2} />,
-          <EServiceTemplateCreateStepVersionSkeleton key={3} />,
-          <EServiceTemplateCreateStepAttributesSkeleton key={4} />,
-          <EServiceTemplateCreateStepDocumentsSkeleton key={5} />,
+          <EServiceTemplateCreateStepThresholdsAndAttributesSkeleton key={3} />,
+          <EServiceTemplateCreateStepDocumentsSkeleton key={4} />,
+          <EServiceTemplateCreateStepVersionSkeleton key={5} />,
         ]
 
   const intro = isNewEServiceTemplate
@@ -128,6 +154,17 @@ const ProviderEServiceCreatePage: React.FC = () => {
       }}
       isLoading={!isReady}
     >
+      {showRequiredLabel && (
+        <Typography
+          sx={{
+            fontSize: 16,
+            fontWeight: 700,
+            color: 'text.secondary',
+          }}
+        >
+          {t('create.requiredLabel')}
+        </Typography>
+      )}
       <Stepper steps={steps} activeIndex={activeStep} />
       {isReady && (
         <EServiceTemplateCreateContextProvider

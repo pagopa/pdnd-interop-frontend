@@ -341,7 +341,10 @@
   "attributeContainer": {
     "attributeIdLabel": "Attribute ID (attributeId)",
     "idCopytooltipLabel": "ID copied successfully",
-    "removeAttributeAriaLabel": "Remove {{attributeName}} attribute"
+    "removeAttributeAriaLabel": "Remove {{attributeName}} attribute",
+    "thresholdLabel": "API calls/day per consumer",
+    "customizeBtn": "Customize threshold",
+    "changeBtn": "Change threshold"
   },
   "attributeGroupContainer": {
     "removeGroupAriaLabel": "Remove attribute group"
@@ -479,9 +482,9 @@
     "SUBSCRIBE_CATALOG_LIST": "E-service Catalog",
     "SUBSCRIBE_PURPOSE_CREATE": "Create Purpose",
     "SUBSCRIBE_PURPOSE_EDIT": "Edit Purpose",
-    "SUBSCRIBE_PURPOSE_SUMMARY": "Purpose Summary",
+    "SUBSCRIBE_PURPOSE_SUMMARY": "Create Purpose",
     "SUBSCRIBE_PURPOSE_DETAILS": "Manage Purpose",
-    "SUBSCRIBE_PURPOSE_LIST": "Submitted Purposes",
+    "SUBSCRIBE_PURPOSE_LIST": "Your Purposes",
     "SUBSCRIBE_CLIENT_OPERATOR_EDIT": "Manage E-service Client Operator",
     "SUBSCRIBE_CLIENT_KEY_EDIT": "Manage E-service Client Public Key",
     "SUBSCRIBE_CLIENT_CREATE": "Create E-service Client",
