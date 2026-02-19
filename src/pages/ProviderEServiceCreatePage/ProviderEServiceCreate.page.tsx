@@ -22,10 +22,6 @@ import { EServiceQueries } from '@/api/eservice'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceCreateContextProvider } from './components/EServiceCreateContext'
 import {
-  EServiceCreateStepAttributes,
-  EServiceCreateStepAttributesSkeleton,
-} from './components/EServiceCreateStepAttributes'
-import {
   EServiceCreateStepPurpose,
   EServiceCreateStepPurposeSkeleton,
 } from './components/EServiceCreateStepPurpose/EServiceCreateStepPurpose'

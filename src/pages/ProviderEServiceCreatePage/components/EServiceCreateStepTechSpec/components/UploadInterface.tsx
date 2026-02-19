@@ -1,4 +1,3 @@
-import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
