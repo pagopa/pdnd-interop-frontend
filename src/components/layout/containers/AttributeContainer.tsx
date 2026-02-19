@@ -91,28 +91,24 @@ export const AttributeContainer = <
             id={headerId}
           >
             <Stack>
-              <Typography fontWeight={600}>{attribute.name}</Typography>
-              {onCustomizeThreshold && (
-                <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                  {attribute.dailyCallsPerConsumer !== undefined && (
-                    <Stack direction={'row'} spacing={1}>
-                      <Typography
-                        sx={{
-                          fontSize: 16,
-                        }}
-                      >
-                        {t('thresholdLabel')}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          fontSize: 16,
-                          fontWeight: 700,
-                        }}
-                      >
-                        {attribute.dailyCallsPerConsumer}
-                      </Typography>
-                    </Stack>
-                  )}
+              <Typography fontWeight={600} sx={{ pb: onCustomizeThreshold === undefined ? 2 : 0 }}>
+                {attribute.name}
+              </Typography>
+              <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                {attribute.dailyCallsPerConsumer !== undefined && (
+                  <Stack direction={'row'} spacing={1}>
+                    <Typography sx={{ fontSize: 16 }}>{t('thresholdLabel')}</Typography>
+                    <Typography
+                      sx={{
+                        fontSize: 16,
+                        fontWeight: 700,
+                      }}
+                    >
+                      {attribute.dailyCallsPerConsumer}
+                    </Typography>
+                  </Stack>
+                )}
+                {onCustomizeThreshold && (
                   <Button
                     sx={{
                       justifyContent: 'start',
@@ -126,8 +122,8 @@ export const AttributeContainer = <
                   >
                     {attribute.dailyCallsPerConsumer ? t('changeBtn') : t('customizeBtn')}
                   </Button>
-                </Stack>
-              )}
+                )}
+              </Stack>
             </Stack>
           </AccordionSummary>
           <AccordionDetails>
