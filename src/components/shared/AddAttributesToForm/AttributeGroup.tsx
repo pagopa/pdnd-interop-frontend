@@ -41,11 +41,10 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
   }
 
   const handleDeleteAttributeFromGroup = (attributeId: string) => {
-    if (group.length === 1) {
-      onRemoveAttributesGroup(groupIndex)
-      return
-    }
     onRemoveAttributeFromGroup(attributeId, groupIndex)
+    if (group.length === 1) {
+      setIsAttributeAutocompleteShown(true)
+    }
   }
 
   const { watch, setValue } = useFormContext<{ attributes: DescriptorAttributes }>()
