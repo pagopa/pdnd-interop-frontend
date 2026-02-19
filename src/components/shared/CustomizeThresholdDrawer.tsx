@@ -99,7 +99,7 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
                   gap={2}
                 >
                   <Typography variant="caption">{t('limitAlert.totalLimit')}</Typography>
-                  {dailyCallsTotal ? (
+                  {dailyCallsTotal !== undefined ? (
                     <Typography variant="caption-semibold">
                       {t('limitAlert.label', { threshold: dailyCallsTotal })}
                     </Typography>
@@ -117,7 +117,7 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
                   gap={2}
                 >
                   <Typography variant="caption">{t('limitAlert.consumerLimit')}</Typography>
-                  {dailyCallsPerConsumer ? (
+                  {dailyCallsPerConsumer !== undefined ? (
                     <Typography variant="caption-semibold">
                       {t('limitAlert.label', { threshold: dailyCallsPerConsumer })}
                     </Typography>
