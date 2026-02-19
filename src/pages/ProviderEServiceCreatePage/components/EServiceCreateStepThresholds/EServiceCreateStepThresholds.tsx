@@ -2,8 +2,7 @@ import { type ActiveStepProps } from '@/hooks/useActiveStep'
 import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceMutations } from '@/api/eservice'
-import { type SubmitHandler, useForm } from 'react-hook-form'
-import { FormProvider } from 'react-hook-form'
+import { type SubmitHandler, useForm, FormProvider } from 'react-hook-form'
 import React from 'react'
 import { type AttributeKey } from '@/types/attribute.types'
 import {
@@ -126,8 +125,8 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
     } = {
       audience: descriptor.audience,
       voucherLifespan: descriptor.voucherLifespan,
-      dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
-      dailyCallsTotal: descriptor.dailyCallsTotal,
+      dailyCallsPerConsumer: values.dailyCallsPerConsumer ?? 1,
+      dailyCallsTotal: values.dailyCallsTotal ?? 1,
       agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
       description: descriptor.description,
       attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes),
