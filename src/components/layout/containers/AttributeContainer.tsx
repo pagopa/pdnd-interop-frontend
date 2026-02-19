@@ -11,7 +11,6 @@ import {
   Skeleton,
   Stack,
   Typography,
-  Button,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { ButtonNaked } from '@pagopa/mui-italia'
@@ -90,7 +89,7 @@ export const AttributeContainer = <
             aria-controls={panelContentId}
             id={headerId}
           >
-            <Stack>
+            <Stack spacing={1}>
               <Typography fontWeight={600}>{attribute.name}</Typography>
               {onCustomizeThreshold && (
                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
@@ -113,19 +112,16 @@ export const AttributeContainer = <
                       </Typography>
                     </Stack>
                   )}
-                  <Button
-                    sx={{
-                      justifyContent: 'start',
-                      px: 1,
-                      width: 'fit-content',
-                    }}
-                    onClick={(e) => {
+                  <ButtonNaked
+                    color="primary"
+                    sx={{ fontWeight: 700 }}
+                    onClick={(e: React.MouseEvent) => {
                       e.stopPropagation()
                       onCustomizeThreshold()
                     }}
                   >
                     {attribute.dailyCallsPerConsumer ? t('changeBtn') : t('customizeBtn')}
-                  </Button>
+                  </ButtonNaked>
                 </Stack>
               )}
             </Stack>

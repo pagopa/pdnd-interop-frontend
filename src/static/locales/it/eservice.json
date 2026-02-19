@@ -163,7 +163,7 @@
         },
         "customizeThresholdDrawer": {
           "title": "Personalizza soglia",
-          "subtitle": "Imposta una soglia personalizzata per l’attributo certificato {{name}}.",
+          "subtitle": "Imposta una soglia personalizzata per l'attributo certificato <1>{{name}}</1>.",
           "submitBtnLabel": "Personalizza soglia",
           "field": {
             "placeholder": "Chiamate API/giorno per fruitore",
@@ -182,9 +182,13 @@
       }
     },
     "step3": {
-      "attributesTitle": "Requisiti di accesso per la versione {{versionNumber}}",
-      "attributesDescription": "Di seguito indica tutti quegli attributi, certificati, verificati o dichiarati che il fruitore dovrà possedere per richiedere la fruizione dell’e-service",
-      "attributesAddBtn": "Aggiungi attributo",
+      "attributesTitle": "Requisiti di accesso",
+      "attributesDescription": "Definisci chi può accedere a questo e-service. Crea uno o più requisiti e associa a ciascuno gli attributi richiesti. Il fruitore dovrà soddisfare tutti i requisiti indicati e possedere almeno uno degli attributi in ogni requisito.",
+      "attributesLearnMoreLink": "Scopri di più sugli attributi",
+      "certifiedDescription": "Sono attributi certificati da una <1>fonte autoritativa riconosciuta.</1>",
+      "verifiedDescription": "Sono attributi verificati <1>da altre organizzazioni</1>, con la possibilità di richiedere una verifica dall'erogatore.",
+      "declaredDescription": "Sono attributi dichiarati dal fruitore stesso durante la richiesta di fruizione. Non è necessaria una verifica dell'erogatore.",
+      "attributesAddBtn": "Crea requisito",
       "attributesCreateBtn": "Crea nuovo attributo",
       "createAttributeDrawer": {
         "title": {

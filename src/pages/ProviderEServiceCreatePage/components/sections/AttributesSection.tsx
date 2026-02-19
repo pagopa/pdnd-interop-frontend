@@ -3,11 +3,12 @@ import { AddAttributesToForm } from '@/components/shared/AddAttributesToForm'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { type AttributeKey } from '@/types/attribute.types'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Tab } from '@mui/material'
-import { useTranslation } from 'react-i18next'
+import { Box, Link, Tab, Typography } from '@mui/material'
+import { Trans, useTranslation } from 'react-i18next'
+
+import { attributesHelpLink } from '@/config/constants'
 
 type AttributesSectionProps = {
-  title: string
   isEServiceCreatedFromTemplate: boolean
   handleOpenAttributeCreateDrawerFactory: (
     attributeKey: Exclude<AttributeKey, 'certified'>
@@ -15,7 +16,6 @@ type AttributesSectionProps = {
 }
 
 export const AttributesSection: React.FC<AttributesSectionProps> = ({
-  title,
   isEServiceCreatedFromTemplate,
   handleOpenAttributeCreateDrawerFactory,
 }) => {
@@ -24,31 +24,77 @@ export const AttributesSection: React.FC<AttributesSectionProps> = ({
   const { activeTab, updateActiveTab } = useActiveTab('certified')
 
   return (
-    <SectionContainer title={title} description={t('step3.attributesDescription')} sx={{ mt: 3 }}>
+    <SectionContainer
+      title={t('step3.attributesTitle')}
+      description={
+        <>
+          {t('step3.attributesDescription')}{' '}
+          <Link href={attributesHelpLink} target="_blank" underline="hover">
+            {t('step3.attributesLearnMoreLink')}
+          </Link>
+        </>
+      }
+      sx={{ mt: 3 }}
+    >
       <TabContext value={activeTab}>
-        <TabList onChange={updateActiveTab} aria-label={t('step2.attributes.tabs.ariaLabel')}>
-          <Tab label={t('step2.attributes.tabs.certified')} value="certified" />
-          <Tab label={t('step2.attributes.tabs.verified')} value="verified" />
-          <Tab label={t('step2.attributes.tabs.declared')} value="declared" />
-        </TabList>
-        <TabPanel value="certified">
+        <Box sx={{ borderBottom: 2, borderColor: 'divider', width: 'fit-content' }}>
+          <TabList
+            onChange={updateActiveTab}
+            aria-label={t('step2.attributes.tabs.ariaLabel')}
+            sx={{ mb: '-2px' }}
+          >
+            <Tab label={t('step2.attributes.tabs.certified')} value="certified" />
+            <Tab label={t('step2.attributes.tabs.verified')} value="verified" />
+            <Tab label={t('step2.attributes.tabs.declared')} value="declared" />
+          </TabList>
+        </Box>
+        <TabPanel value="certified" sx={{ px: 0, pb: 0 }}>
+          <Typography variant="body2" sx={{ mb: 3 }}>
+            <Trans
+              ns="eservice"
+              i18nKey="create.step3.certifiedDescription"
+              components={{
+                1: <Link underline="hover" href={attributesHelpLink} target="_blank" />,
+              }}
+            />
+          </Typography>
           <AddAttributesToForm
             attributeKey="certified"
             readOnly={isEServiceCreatedFromTemplate}
+            hideTitle
+            addGroupLabel={t('step3.attributesAddBtn')}
             withThreshold
           />
         </TabPanel>
-        <TabPanel value="verified">
+        <TabPanel value="verified" sx={{ px: 0, pb: 0 }}>
+          <Typography variant="body2" sx={{ mb: 3 }}>
+            <Trans
+              ns="eservice"
+              i18nKey="create.step3.verifiedDescription"
+              components={{
+                1: <Link underline="hover" href={attributesHelpLink} target="_blank" />,
+              }}
+            />
+          </Typography>
           <AddAttributesToForm
             attributeKey="verified"
             readOnly={isEServiceCreatedFromTemplate}
+            hideTitle
+            addGroupLabel={t('step3.attributesAddBtn')}
+            createAttributeLabel={t('step3.attributesCreateBtn')}
             openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('verified')}
           />
         </TabPanel>
-        <TabPanel value="declared">
+        <TabPanel value="declared" sx={{ px: 0, pb: 0 }}>
+          <Typography variant="body2" sx={{ mb: 3 }}>
+            {t('step3.declaredDescription')}
+          </Typography>
           <AddAttributesToForm
             attributeKey="declared"
             readOnly={isEServiceCreatedFromTemplate}
+            hideTitle
+            addGroupLabel={t('step3.attributesAddBtn')}
+            createAttributeLabel={t('step3.attributesCreateBtn')}
             openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('declared')}
           />
         </TabPanel>

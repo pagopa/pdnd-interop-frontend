@@ -201,21 +201,23 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
             sx={{ mt: 4 }}
           >
             <TabContext value={activeTab}>
-              <TabList onChange={updateActiveTab}>
-                <Tab
-                  label={t('stepThresholdsAndAttributes.accessRequirements.tabs.certified')}
-                  value="certified"
-                />
-                <Tab
-                  label={t('stepThresholdsAndAttributes.accessRequirements.tabs.verified')}
-                  value="verified"
-                />
-                <Tab
-                  label={t('stepThresholdsAndAttributes.accessRequirements.tabs.declared')}
-                  value="declared"
-                />
-              </TabList>
-              <TabPanel value="certified">
+              <Box sx={{ borderBottom: 2, borderColor: 'divider', width: 'fit-content' }}>
+                <TabList onChange={updateActiveTab} sx={{ mb: '-2px' }}>
+                  <Tab
+                    label={t('stepThresholdsAndAttributes.accessRequirements.tabs.certified')}
+                    value="certified"
+                  />
+                  <Tab
+                    label={t('stepThresholdsAndAttributes.accessRequirements.tabs.verified')}
+                    value="verified"
+                  />
+                  <Tab
+                    label={t('stepThresholdsAndAttributes.accessRequirements.tabs.declared')}
+                    value="declared"
+                  />
+                </TabList>
+              </Box>
+              <TabPanel value="certified" sx={{ px: 0, pb: 0 }}>
                 <Typography variant="body2" sx={{ mb: 1 }}>
                   <Trans
                     ns="eserviceTemplate"
@@ -234,7 +236,7 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
                   )}
                 />
               </TabPanel>
-              <TabPanel value="verified">
+              <TabPanel value="verified" sx={{ px: 0, pb: 0 }}>
                 <Typography variant="body2" sx={{ mb: 1 }}>
                   <Trans
                     ns="eserviceTemplate"
@@ -255,7 +257,7 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
                   openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('verified')}
                 />
               </TabPanel>
-              <TabPanel value="declared">
+              <TabPanel value="declared" sx={{ px: 0, pb: 0 }}>
                 <Typography variant="body2" sx={{ mb: 1 }}>
                   {t('stepThresholdsAndAttributes.accessRequirements.tabs.declaredDescription')}
                 </Typography>
