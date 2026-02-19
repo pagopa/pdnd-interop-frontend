@@ -153,6 +153,32 @@
       "agreementApprovalPolicySection": {
         "title": "Do you want to manually activate all the fruition requests received?",
         "label": "Yes, I will activate them manually"
+      },
+      "attributes": {
+        "tabs": {
+          "ariaLabel": "Three different tabs to manage certified, verified and declared attributes",
+          "certified": "Certified attributes",
+          "verified": "Verified attributes",
+          "declared": "Declared attributes"
+        },
+        "customizeThresholdDrawer": {
+          "title": "Customize threshold",
+          "subtitle": "Set a custom threshold for the certified attribute {{name}}.",
+          "submitBtnLabel": "Customize threshold",
+          "field": {
+            "placeholder": "API calls/day per consumer",
+            "error": "The threshold per consumer cannot be higher than the total threshold.",
+            "info": "Please enter a number greater than or equal to 1."
+          },
+          "limitAlert": {
+            "title": "For this e-service you have already defined",
+            "totalLimit": "Total threshold",
+            "consumerLimit": "Threshold per consumer",
+            "toInsert": "To insert",
+            "label": "{{threshold}} API calls/day"
+          },
+          "alert": "If the consumer satisfies multiple attributes with different thresholds, the highest threshold is automatically applied."
+        }
       }
     },
     "step3": {

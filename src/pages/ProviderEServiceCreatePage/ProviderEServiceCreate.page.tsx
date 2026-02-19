@@ -6,10 +6,6 @@ import {
   EServiceCreateStepGeneralSkeleton,
 } from './components/EServiceCreateStepGeneral'
 import {
-  EServiceCreateStepVersion,
-  EServiceCreateStepVersionSkeleton,
-} from './components/EServiceCreateStepVersion'
-import {
   EServiceCreateStepDocuments,
   EServiceCreateStepDocumentsSkeleton,
   EServiceCreateFromTemplateStepDocumentsSkeleton,
@@ -33,6 +29,10 @@ import {
   EServiceCreateStepTechSpec,
   EServiceCreateStepTechSpecSkeleton,
 } from './components/EServiceCreateStepTechSpec'
+import {
+  EServiceCreateStepThresholds,
+  EServiceCreateStepThresholdsSkeleton,
+} from './components/EServiceCreateStepThresholds'
 import { Typography } from '@mui/material'
 
 const ProviderEServiceCreatePage: React.FC = () => {
@@ -76,21 +76,21 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const steps: Array<StepperStep> =
     eserviceMode === 'DELIVER'
       ? [
-          { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
-          { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
-          { label: t('create.stepper.step3Label'), component: EServiceCreateStepTechSpec },
-          { label: t('create.stepper.step4Label'), component: CreateStepDocuments },
-        ]
+        { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
+        { label: t('create.stepper.step2Label'), component: EServiceCreateStepThresholds },
+        { label: t('create.stepper.step3Label'), component: EServiceCreateStepTechSpec },
+        { label: t('create.stepper.step4Label'), component: CreateStepDocuments },
+      ]
       : [
-          { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
-          {
-            label: t('create.stepper.step2ReceiveLabel'),
-            component: CreateStepPurpose,
-          },
-          { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
-          { label: t('create.stepper.step3Label'), component: EServiceCreateStepTechSpec },
-          { label: t('create.stepper.step4Label'), component: CreateStepDocuments },
-        ]
+        { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
+        {
+          label: t('create.stepper.step2ReceiveLabel'),
+          component: CreateStepPurpose,
+        },
+        { label: t('create.stepper.step2Label'), component: EServiceCreateStepThresholds },
+        { label: t('create.stepper.step3Label'), component: EServiceCreateStepTechSpec },
+        { label: t('create.stepper.step4Label'), component: CreateStepDocuments },
+      ]
 
   const { component: Step } = steps[activeStep]
 
@@ -117,25 +117,25 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const stepsLoadingSkeletons =
     eserviceMode === 'DELIVER'
       ? [
-          <EServiceCreateStepGeneralSkeleton key={1} />,
-          <EServiceCreateStepVersionSkeleton key={2} />,
-          <EServiceCreateStepTechSpecSkeleton key={3} />,
-          <CreateStepDocumentsSkeleton key={4} />,
-        ]
+        <EServiceCreateStepGeneralSkeleton key={1} />,
+        <EServiceCreateStepThresholdsSkeleton key={2} />,
+        <EServiceCreateStepTechSpecSkeleton key={3} />,
+        <CreateStepDocumentsSkeleton key={4} />,
+      ]
       : [
-          <EServiceCreateStepGeneralSkeleton key={1} />,
-          <CreateStepPurposeSkeleton key={2} />,
-          <EServiceCreateStepVersionSkeleton key={3} />,
-          <EServiceCreateStepTechSpecSkeleton key={4} />,
-          <CreateStepDocumentsSkeleton key={5} />,
-        ]
+        <EServiceCreateStepGeneralSkeleton key={1} />,
+        <CreateStepPurposeSkeleton key={2} />,
+        <EServiceCreateStepThresholdsSkeleton key={3} />,
+        <EServiceCreateStepTechSpecSkeleton key={4} />,
+        <CreateStepDocumentsSkeleton key={5} />,
+      ]
 
   const intro = isNewEService
     ? { title: t('create.emptyTitle') }
     : {
-        title: eservice?.name,
-        description: eservice?.description,
-      }
+      title: eservice?.name,
+      description: eservice?.description,
+    }
 
   return (
     <PageContainer
