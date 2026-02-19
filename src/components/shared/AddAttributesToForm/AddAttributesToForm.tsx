@@ -6,25 +6,32 @@ import { SectionContainer } from '@/components/layout/containers'
 import { Box, Button, Link, Stack } from '@mui/material'
 import { attributesHelpLink } from '@/config/constants'
 import { AttributeGroup } from './AttributeGroup'
-import { type CreateStepThresholdsFormValues } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepThresholds'
+import type { DescriptorAttributes } from '@/api/api.generatedTypes'
+import AddIcon from '@mui/icons-material/Add'
+import { ButtonNaked } from '@pagopa/mui-italia'
 
 export type AddAttributesToFormProps = {
   attributeKey: AttributeKey
   readOnly: boolean
+  addGroupLabel: string
+  hideTitle?: boolean
   withThreshold?: boolean
+  createAttributeLabel?: string
   openCreateAttributeDrawer?: VoidFunction
 }
 
 export const AddAttributesToForm: React.FC<AddAttributesToFormProps> = ({
   attributeKey,
   readOnly,
+  addGroupLabel,
+  hideTitle,
   withThreshold,
+  createAttributeLabel,
   openCreateAttributeDrawer,
 }) => {
-  const { t } = useTranslation('eservice', { keyPrefix: `create.step3` })
   const { t: tAttribute } = useTranslation('attribute')
 
-  const { watch, setValue } = useFormContext<CreateStepThresholdsFormValues>()
+  const { watch, setValue } = useFormContext<{ attributes: DescriptorAttributes }>()
 
   const attributeGroups = watch(`attributes.${attributeKey}`)
 
@@ -49,6 +56,54 @@ export const AddAttributesToForm: React.FC<AddAttributesToFormProps> = ({
     })
   }
 
+  const content = (
+    <>
+      {!readOnly && openCreateAttributeDrawer && createAttributeLabel && (
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
+          <ButtonNaked
+            color="primary"
+            type="button"
+            sx={{ fontWeight: 700 }}
+            startIcon={<AddIcon fontSize="small" />}
+            onClick={openCreateAttributeDrawer}
+          >
+            {createAttributeLabel}
+          </ButtonNaked>
+        </Box>
+      )}
+      <Stack spacing={3}>
+        {attributeGroups.map((group, i) => (
+          <AttributeGroup
+            key={i}
+            groupIndex={i}
+            group={group}
+            attributeKey={attributeKey}
+            readOnly={readOnly}
+            withThreshold={withThreshold}
+            onRemoveAttributesGroup={handleRemoveAttributesGroup}
+            onRemoveAttributeFromGroup={handleRemoveAttributeFromGroup}
+          />
+        ))}
+        {!readOnly && (
+          <Box>
+            <Button
+              sx={{ fontWeight: 700 }}
+              color="primary"
+              type="button"
+              variant="outlined"
+              disabled={attributeGroups.some((group) => group.length === 0)}
+              onClick={handleAddAttributesGroup}
+            >
+              {addGroupLabel}
+            </Button>
+          </Box>
+        )}
+      </Stack>
+    </>
+  )
+
+  if (hideTitle) return content
+
   return (
     <SectionContainer
       innerSection
@@ -61,49 +116,7 @@ export const AddAttributesToForm: React.FC<AddAttributesToFormProps> = ({
         </Trans>
       }
     >
-      <Box>
-        <Stack spacing={3}>
-          {attributeGroups.map((group, i) => (
-            <AttributeGroup
-              key={i}
-              groupIndex={i}
-              group={group}
-              attributeKey={attributeKey}
-              readOnly={readOnly}
-              withThreshold={withThreshold}
-              onRemoveAttributesGroup={handleRemoveAttributesGroup}
-              onRemoveAttributeFromGroup={handleRemoveAttributeFromGroup}
-            />
-          ))}
-        </Stack>
-      </Box>
-      <Stack spacing={3} sx={{ mt: 2 }}>
-        {!readOnly && (
-          <Stack direction="row" spacing={2}>
-            <Button
-              sx={{ fontWeight: 700 }}
-              color="primary"
-              type="button"
-              variant="outlined"
-              onClick={handleAddAttributesGroup}
-            >
-              {t('attributesAddBtn')}
-            </Button>
-
-            {attributeKey !== 'certified' && (
-              <Button
-                sx={{ fontWeight: 700 }}
-                color="primary"
-                type="button"
-                variant="outlined"
-                onClick={openCreateAttributeDrawer}
-              >
-                {t('attributesCreateBtn')}
-              </Button>
-            )}
-          </Stack>
-        )}
-      </Stack>
+      {content}
     </SectionContainer>
   )
 }

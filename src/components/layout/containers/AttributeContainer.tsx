@@ -175,7 +175,7 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
     <Stack sx={{ mt: 1 }} spacing={2}>
       <Typography variant="body2">{attribute.description}</Typography>
       <InformationContainer
-        direction="column"
+        direction="row"
         content={attributeId}
         copyToClipboard={{
           value: attributeId,
