@@ -20,9 +20,12 @@
     "provider": "Il tuo ente non richiede attributi {{attributeKey}}",
     "consumer": "L'erogatore non richiede attributi {{attributeKey}}"
   },
+  "attributeCardHeader": {
+    "label": "Requisito {{index}} | Attributi {{attributeKey}}"
+  },
   "group": {
     "read": {
-      "provider": "Il fruitore dovrà possedere almeno uno dei seguenti attributi",
+      "provider": "Il fruitore deve possedere almeno uno degli attributi di questo requisito.",
       "consumer": "Il tuo ente dovrà possedere almeno uno dei seguenti attributi"
     },
     "manage": {
@@ -49,10 +52,12 @@
       "revokedByOwnParty": "Attributo revocato dal tuo ente",
       "expirationDate": "Scadenza verifica: {{expirationDate}}"
     },
-    "addBtn": "Aggiungi requisito",
+    "addBtn": "Aggiungi un altro attributo",
     "autocompleteInput": {
-      "label": "Aggiungi attributo al gruppo",
+      "label": "Aggiungi attributo",
       "placeholder": "Inserisci nome attributo"
-    }
+    },
+    "or": "oppure",
+    "add": "Aggiungi"
   }
 }

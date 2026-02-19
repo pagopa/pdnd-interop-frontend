@@ -209,7 +209,7 @@
     "updateDescriptorAttributes": {
       "loading": "New attributes are being saved",
       "outcome": {
-        "success": "The {{attributeKind}} attributes have been modified successfully",
+        "success": "The {{attributeKind}} added attributes have been saved.",
         "error": "It was not possible to modify the {{attributeKind}} attributes. Please try again!"
       }
     },

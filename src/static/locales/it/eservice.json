@@ -686,8 +686,8 @@
         "noKeychainAlert": "Non ci sono portachiavi disponibili. <1>Crea il tuo primo portachiavi</1>."
       },
       "updateDescriptorAttributesDrawer": {
-        "title": "Modifica attributi {{attributeKind}}",
-        "subtitle": "I requisiti già inseriti non possono essere modificati"
+        "title": "Aggiungi attributi {{attributeKind}}",
+        "subtitle": "Puoi aggiungere attributi solo ai requisiti esistenti. Non puoi creare nuovi requisiti né eliminare gli attributi già presenti. Per farlo, dovrai creare una versione nuova dell’e-service."
       },
       "updateSignalHubDrawer": {
         "title": "Modifica adesione a Signal Hub",

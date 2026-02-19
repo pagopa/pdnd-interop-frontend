@@ -2,7 +2,7 @@ import { Drawer } from '@/components/shared/Drawer'
 import React from 'react'
 import type { AttributeKey } from '@/types/attribute.types'
 import type { DescriptorAttribute, DescriptorAttributes } from '@/api/api.generatedTypes'
-import { Box, Stack } from '@mui/material'
+import { Box, Divider, Stack, Typography } from '@mui/material'
 import { AttributeContainer, AttributeGroupContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { ButtonNaked } from '@pagopa/mui-italia'
@@ -134,40 +134,64 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
             sx={{ border: 'none' }}
             elevation={4}
             key={groupIdx}
-            title={tAttribute('group.read.provider')}
+            title={tAttribute('attributeCardHeader.label', {
+              index: groupIdx + 1,
+              attributeKey: tAttribute(`type.${attributeKey}_other`),
+            })}
           >
-            <Stack sx={{ listStyleType: 'none', pl: 0, mt: 1 }} component="ul" spacing={1.2}>
-              {group.map((attribute) => (
-                <Box component="li" key={attribute.id}>
-                  <AttributeContainer
-                    attribute={attribute}
-                    onRemove={
-                      canAttributeBeRemoved(groupIdx, attribute)
-                        ? (attribute) => handleRemoveAttributeFromGroup(groupIdx, attribute)
-                        : undefined
-                    }
+            <Typography sx={{ py: 1 }} variant="body2">
+              {tAttribute('group.read.provider')}
+            </Typography>
+            <Stack sx={{ listStyleType: 'none', pl: 0, mt: 1, mb: 0 }} component="ul" spacing={1.2}>
+              {group.map((attribute, attributeIndex) => (
+                <React.Fragment key={attribute.id}>
+                  <Box component="li">
+                    <AttributeContainer
+                      attribute={attribute}
+                      onRemove={
+                        canAttributeBeRemoved(groupIdx, attribute)
+                          ? (attribute) => handleRemoveAttributeFromGroup(groupIdx, attribute)
+                          : undefined
+                      }
+                    />
+                  </Box>
+                  {group.length > 1 && attributeIndex < group.length - 1 && (
+                    <Box component="li">
+                      <Divider sx={{ py: 1 }}>
+                        <Typography
+                          variant="caption"
+                          color="text.secondary"
+                          fontWeight={700}
+                          textTransform="uppercase"
+                        >
+                          {tAttribute('group.or')}
+                        </Typography>
+                      </Divider>
+                    </Box>
+                  )}
+                </React.Fragment>
+              ))}
+              {isAttributeAutocompleteShown ? (
+                <Box component="li" sx={{ pt: 1 }}>
+                  <AttributeAutocomplete
+                    attributeKey={attributeKey}
+                    alreadySelectedAttributeIds={alreadySelectedAttributeIds}
+                    onAddAttribute={(attribute) => handleAddAttributeToGroup(groupIdx, attribute)}
+                    direction="column"
                   />
                 </Box>
-              ))}
+              ) : (
+                <ButtonNaked
+                  color="primary"
+                  type="button"
+                  sx={{ fontWeight: 700, justifyContent: 'end', pb: 1, pt: 2 }}
+                  startIcon={<AddIcon fontSize="small" />}
+                  onClick={() => setIsAttributeAutocompleteShown(true)}
+                >
+                  {tAttribute('group.addBtn')}
+                </ButtonNaked>
+              )}
             </Stack>
-            {isAttributeAutocompleteShown ? (
-              <AttributeAutocomplete
-                attributeKey={attributeKey}
-                alreadySelectedAttributeIds={alreadySelectedAttributeIds}
-                onAddAttribute={(attribute) => handleAddAttributeToGroup(groupIdx, attribute)}
-                direction="column"
-              />
-            ) : (
-              <ButtonNaked
-                color="primary"
-                type="button"
-                sx={{ fontWeight: 700 }}
-                startIcon={<AddIcon fontSize="small" />}
-                onClick={() => setIsAttributeAutocompleteShown(true)}
-              >
-                {tAttribute('group.addBtn')}
-              </ButtonNaked>
-            )}
           </AttributeGroupContainer>
         ))}
       </Stack>

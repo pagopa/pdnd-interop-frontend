@@ -20,9 +20,12 @@
     "provider": "Your party does not require {{attributeKey}} attributes",
     "consumer": "The producer does not require {{attributeKey}} attributes"
   },
+  "attributeCardHeader": {
+    "label": "Requirement {{index}} | {{attributeKey}} attributes"
+  },
   "group": {
     "read": {
-      "provider": "The consumer must possess at least one of the following attributes",
+      "provider": "The consumer must possess at least one of the attributes of this requirement.",
       "consumer": "Your party must possess at least one of the following attributes"
     },
     "manage": {
@@ -49,10 +52,12 @@
       "revokedByOwnParty": "Attribute revoked by your party",
       "expirationDate": "Verification expiration: {{expirationDate}}"
     },
-    "addBtn": "Add requirement",
+    "addBtn": "Add another requirement",
     "autocompleteInput": {
-      "label": "Add attribute to group",
+      "label": "Add attribute",
       "placeholder": "Enter attribute name"
-    }
+    },
+    "or": "or",
+    "add": "Add"
   }
 }

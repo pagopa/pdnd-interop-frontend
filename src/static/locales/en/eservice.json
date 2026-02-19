@@ -686,8 +686,8 @@
         "noKeychainAlert": "There are no keychains available. <1>Create your first keychain</1>."
       },
       "updateDescriptorAttributesDrawer": {
-        "title": "Edit {{attributeKind}} attributes",
-        "subtitle": "The requirements already entered cannot be modified"
+        "title": "Add {{attributeKind}} attributes",
+        "subtitle": "You can only add attributes to existing requirements. You cannot create new requirements or delete existing attributes. To do so, you must create a new version of the e-service."
       },
       "updateSignalHubDrawer": {
         "title": "Edit subscription to Signal Hub",
