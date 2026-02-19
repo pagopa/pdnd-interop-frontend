@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { type DescriptorAttribute } from '@/api/api.generatedTypes'
 import { WarningAmber } from '@mui/icons-material'
 import { create } from 'zustand'
-import { isEmpty } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 
 export type CustomizeThresholdDrawerProps = {
   dailyCallsPerConsumer?: number
