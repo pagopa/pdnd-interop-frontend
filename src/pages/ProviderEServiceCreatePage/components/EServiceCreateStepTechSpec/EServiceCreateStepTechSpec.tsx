@@ -20,6 +20,7 @@ import LaunchIcon from '@mui/icons-material/Launch'
 import { openApiCheckerLink } from '@/config/constants'
 import { trackEvent } from '@/config/tracking'
 import { UploadInterface } from './components/UploadInterface'
+import { match } from 'ts-pattern'
 
 export type EServiceCreateStepTechSpecFormValues = {
   audience: string
@@ -62,37 +63,28 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
       return
     }
 
-    if (isEServiceCreatedFromTemplate) {
-      const payload: UpdateEServiceDescriptorTemplateInstanceSeed = {
-        agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
-        audience: newDescriptorData.audience,
-        dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer ?? 1,
-        dailyCallsTotal: descriptor.dailyCallsTotal ?? 1,
-      }
-
-      updateInstanceVersionDraft(
-        {
-          ...payload,
-          eserviceId: descriptor.eservice.id,
-          descriptorId: descriptor.id,
-        },
-        { onSuccess: forward }
-      )
-    } else {
-      updateVersionDraft(
-        {
-          eserviceId: descriptor.eservice.id,
-          audience: newDescriptorData.audience,
-          voucherLifespan: newDescriptorData.voucherLifespan,
-          descriptorId: descriptor.id,
-          agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
-          dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer ?? 1,
-          dailyCallsTotal: descriptor.dailyCallsTotal ?? 1,
-          attributes: remapDescriptorAttributesToDescriptorAttributesSeed(descriptor.attributes),
-        },
-        { onSuccess: forward }
-      )
+    const commonPayload = {
+      eserviceId: descriptor.eservice.id,
+      descriptorId: descriptor.id,
+      audience: newDescriptorData.audience,
+      agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
+      dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer ?? 1,
+      dailyCallsTotal: descriptor.dailyCallsTotal ?? 1,
     }
+
+    match(isEServiceCreatedFromTemplate)
+      .with(true, () => updateInstanceVersionDraft(commonPayload, { onSuccess: forward }))
+      .with(false, () =>
+        updateVersionDraft(
+          {
+            ...commonPayload,
+            voucherLifespan: newDescriptorData.voucherLifespan,
+            attributes: remapDescriptorAttributesToDescriptorAttributesSeed(descriptor.attributes),
+          },
+          { onSuccess: forward }
+        )
+      )
+      .exhaustive()
   }
 
   // if this field is true some textField should be disabled
