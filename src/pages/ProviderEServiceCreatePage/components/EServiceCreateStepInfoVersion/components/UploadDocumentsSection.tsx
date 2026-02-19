@@ -22,11 +22,13 @@ const defaultValues: UploadDocFormValues = {
   prettyName: '',
 }
 
-type UploadDocProps = {
+type UploadDocumentsSectionProps = {
   readonly?: boolean
 }
 
-export const UploadDoc: React.FC<UploadDocProps> = ({ readonly = false }) => {
+export const UploadDocumentsSection: React.FC<UploadDocumentsSectionProps> = ({
+  readonly = false,
+}) => {
   const { t } = useTranslation('eservice')
   const { t: tCommon } = useTranslation('common')
   const { descriptor } = useEServiceCreateContext()
@@ -167,11 +169,11 @@ export const UploadDoc: React.FC<UploadDocProps> = ({ readonly = false }) => {
       )}
     </Box>
   ) : (
-    <UploadDocReadonly docs={docs} handleDownloadDocument={handleDownloadDocument} />
+    <UploadDocumentsSectionReadonly docs={docs} handleDownloadDocument={handleDownloadDocument} />
   )
 }
 
-const UploadDocReadonly: React.FC<{
+const UploadDocumentsSectionReadonly: React.FC<{
   docs: EServiceDoc[]
   handleDownloadDocument: (document: EServiceDoc) => void
 }> = ({ docs, handleDownloadDocument }) =>

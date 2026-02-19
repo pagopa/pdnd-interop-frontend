@@ -15,7 +15,7 @@ import { StepActions } from '@/components/shared/StepActions'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { useNavigate } from '@/router'
-import { UploadDoc } from './components/UploadDoc'
+import { UploadDocumentsSection } from './components/UploadDocumentsSection'
 import { Stack } from '@mui/system'
 
 type EServiceCreateStepVersionFormValues = {
@@ -142,8 +142,8 @@ export const EServiceCreateStepInfoVersion: React.FC = () => {
               focusOnMount
               inputProps={{ maxLength: 250 }}
               rules={{ required: true, minLength: 10 }}
-              disabled={isEServiceCreatedFromTemplate}
               sx={{ my: 0, mt: 1 }}
+              infoLabel={t('step4.descriptionSection.field.infoLabel')}
             />
           )}
         </SectionContainer>
@@ -152,7 +152,7 @@ export const EServiceCreateStepInfoVersion: React.FC = () => {
           title={t('step4.documentationSection.title')}
           description={t('step4.documentationSection.subtitle')}
         >
-          <UploadDoc readonly={isEServiceCreatedFromTemplate} />
+          <UploadDocumentsSection readonly={isEServiceCreatedFromTemplate} />
         </SectionContainer>
 
         <SectionContainer title={t('step4.requestManagementSection.title')} sx={{ mt: 3 }}>

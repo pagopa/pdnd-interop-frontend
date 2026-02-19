@@ -257,7 +257,8 @@
         "title": "Descrizione della versione",
         "readOnlyLabel": "Descrizione versione",
         "field": {
-          "label": "Descrivi questa versione dell’e-service. Se è una nuova versione, indica cosa è cambiato rispetto alla precedente*"
+          "label": "Descrivi questa versione dell’e-service*",
+          "infoLabel": "Se è una nuova versione, indica cosa è cambiato rispetto alla precedente*"
         }
       },
       "documentationSection": {
