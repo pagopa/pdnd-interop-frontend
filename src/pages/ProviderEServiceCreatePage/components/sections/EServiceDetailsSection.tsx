@@ -2,11 +2,11 @@ import type { EServiceMode, EServiceTemplateDetails } from '@/api/api.generatedT
 import { SectionContainer } from '@/components/layout/containers'
 import { RHFRadioGroup } from '@/components/shared/react-hook-form-inputs'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
-import { Alert } from '@mui/material'
+import { Alert, Stack } from '@mui/material'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 
 type EServiceDetailsSectionProps = {
-  isEserviceFromTemplate: boolean
   areEServiceGeneralInfoEditable: boolean
   eserviceTemplate?: EServiceTemplateDetails
   eserviceMode: EServiceMode
@@ -14,30 +14,59 @@ type EServiceDetailsSectionProps = {
 }
 
 export const EServiceDetailsSection: React.FC<EServiceDetailsSectionProps> = ({
-  isEserviceFromTemplate,
   areEServiceGeneralInfoEditable,
   eserviceTemplate,
   eserviceMode,
   onEserviceModeChange,
 }) => {
-  const { t } = useTranslation('eservice')
+  const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.detailsSection' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'validation.mixed' })
+
+  if (eserviceTemplate) {
+    return (
+      <SectionContainer title={t('title')} description={t('description')}>
+        <Stack spacing={2}>
+          <InformationContainer
+            label={t('technologyField.readOnlyLabel')}
+            content={eserviceTemplate.technology}
+          />
+          <InformationContainer
+            label={t('modeField.label')}
+            content={t(`modeField.options.${eserviceTemplate.mode}`)}
+          />
+          {eserviceTemplate.personalData !== undefined ? (
+            <InformationContainer
+              label={t(`personalDataField.${eserviceTemplate.mode}.readOnlyLabel`)}
+              content={t(
+                `personalDataField.${eserviceTemplate.mode}.readOnlyOptions.${eserviceTemplate.personalData}`
+              )}
+            />
+          ) : (
+            <Alert severity="error" variant="outlined">
+              {t('personalDataField.alertMissingPersonalData', {
+                tenantName: eserviceTemplate?.creator.name,
+              })}
+            </Alert>
+          )}
+        </Stack>
+      </SectionContainer>
+    )
+  }
+
   return (
-    <SectionContainer title={t('create.step1.detailsSection.title')}>
-      {!isEserviceFromTemplate && (
-        <Alert severity="warning" sx={{ mb: 0, mt: 3 }}>
-          {t('create.step1.firstVersionOnlyEditableInfo')}
-        </Alert>
-      )}
+    <SectionContainer title={t('title')}>
+      <Alert severity="warning" sx={{ mb: 0, mt: 3 }}>
+        {t('firstVersionOnlyEditableInfo')}
+      </Alert>
       <RHFRadioGroup
         name="technology"
         row
-        label={t('create.step1.eserviceTechnologyField.label')}
+        label={t('technologyField.label')}
         options={[
           { label: 'REST', value: 'REST' },
           { label: 'SOAP', value: 'SOAP' },
         ]}
-        disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
+        disabled={!areEServiceGeneralInfoEditable}
         rules={{ required: true }}
         sx={{ mb: 0, mt: 3 }}
       />
@@ -45,18 +74,18 @@ export const EServiceDetailsSection: React.FC<EServiceDetailsSectionProps> = ({
       <RHFRadioGroup
         name="mode"
         row
-        label={t('create.step1.eserviceModeField.label')}
+        label={t('modeField.label')}
         options={[
           {
-            label: t('create.step1.eserviceModeField.options.DELIVER'),
+            label: t('modeField.options.DELIVER'),
             value: 'DELIVER',
           },
           {
-            label: t('create.step1.eserviceModeField.options.RECEIVE'),
+            label: t('modeField.options.RECEIVE'),
             value: 'RECEIVE',
           },
         ]}
-        disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
+        disabled={!areEServiceGeneralInfoEditable}
         rules={{ required: true }}
         sx={{ mb: 0, mt: 3 }}
         onValueChange={(mode) => onEserviceModeChange!(mode as EServiceMode)}
@@ -66,31 +95,24 @@ export const EServiceDetailsSection: React.FC<EServiceDetailsSectionProps> = ({
           <RHFRadioGroup
             name="personalData"
             row
-            label={t(`create.step1.eservicePersonalDataField.${eserviceMode}.label`)}
+            label={t(`personalDataField.${eserviceMode}.label`)}
             options={[
               {
-                label: t(`create.step1.eservicePersonalDataField.${eserviceMode}.options.true`),
+                label: t(`personalDataField.${eserviceMode}.options.true`),
                 value: true,
               },
               {
-                label: t(`create.step1.eservicePersonalDataField.${eserviceMode}.options.false`),
+                label: t(`personalDataField.${eserviceMode}.options.false`),
                 value: false,
               },
             ]}
-            disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
+            disabled={!areEServiceGeneralInfoEditable}
             rules={{
               validate: (value) => value === true || value === false || tCommon('required'),
             }}
             sx={{ mb: 3, mt: 3 }}
             isOptionValueAsBoolean
           />
-          {isEserviceFromTemplate && eserviceTemplate?.personalData === undefined && (
-            <Alert severity="error" variant="outlined">
-              {t('create.step1.eservicePersonalDataField.alertMissingPersonalData', {
-                tenantName: eserviceTemplate?.creator.name,
-              })}
-            </Alert>
-          )}
         </>
       )}
     </SectionContainer>

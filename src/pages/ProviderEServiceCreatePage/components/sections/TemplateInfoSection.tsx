@@ -13,7 +13,7 @@ export const TemplateInfoSection: React.FC<TemplateInfoSectionProps> = ({ eservi
 
   return (
     <SectionContainer title={t('title')} description={t('description')}>
-      <Stack>
+      <Stack spacing={2}>
         <InformationContainer label={t('nameLabel')} content={eserviceTemplate.name} />
         <InformationContainer
           label={t('addressedToLabel')}

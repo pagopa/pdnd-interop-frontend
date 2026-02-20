@@ -7,15 +7,15 @@ import { trackEvent } from '@/config/tracking'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 
 export const EServiceInfoSection: React.FC = () => {
-  const { t } = useTranslation('eservice')
+  const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.infoSection' })
 
   return (
     <SectionContainer
-      title={t('create.step1.detailsTitle')}
+      title={t('title')}
       description={
         <Trans
           ns="eservice"
-          i18nKey="create.step1.detailsDescription"
+          i18nKey="create.step1.infoSection.description"
           components={{
             1: (
               <IconLink
@@ -35,8 +35,8 @@ export const EServiceInfoSection: React.FC = () => {
       component="div"
     >
       <RHFTextField
-        label={t('create.step1.eserviceNameField.label')}
-        infoLabel={t('create.step1.eserviceNameField.infoLabel')}
+        label={t('nameField.label')}
+        infoLabel={t('nameField.infoLabel')}
         name="name"
         rules={{ required: true, minLength: 5 }}
         focusOnMount
@@ -47,8 +47,8 @@ export const EServiceInfoSection: React.FC = () => {
       />
 
       <RHFTextField
-        label={t('create.step1.eserviceDescriptionField.label')}
-        infoLabel={t('create.step1.eserviceDescriptionField.infoLabel')}
+        label={t('descriptionField.label')}
+        infoLabel={t('descriptionField.infoLabel')}
         name="description"
         multiline
         size="small"

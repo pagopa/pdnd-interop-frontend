@@ -16,56 +16,66 @@
     "forwardWithoutSaveBtn": "Prosegui",
     "goToSummary": "Vai al riepilogo",
     "step1": {
-      "detailsTitle": "Informazioni sull'e-service",
-      "detailsDescription": "Per scegliere nomi chiari e rendere gli e-service facili da trovare, consulta le <1>linee guida</1>",
-      "eserviceNameField": {
-        "label": "Nome dell'e-service",
-        "infoLabel": "Min 5 caratteri, max 60 caratteri"
-      },
-      "eserviceDescriptionField": {
-        "label": "Descrizione dell'e-service",
-        "infoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri"
-      },
-      "eserviceTechnologyField": {
-        "label": "Con quale tecnologia è costruita la tua API?"
-      },
-      "eserviceModeField": {
-        "label": "L’e-service eroga o riceve dati?",
-        "options": {
-          "DELIVER": "Eroga",
-          "RECEIVE": "Riceve"
+      "infoSection": {
+        "title": "Informazioni sull'e-service",
+        "description": "Per scegliere nomi chiari e rendere gli e-service facili da trovare, consulta le <1>linee guida</1>",
+        "nameField": {
+          "label": "Nome dell'e-service",
+          "infoLabel": "Min 5 caratteri, max 60 caratteri"
+        },
+        "descriptionField": {
+          "label": "Descrizione dell'e-service",
+          "infoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri"
         }
       },
-      "eservicePersonalDataField": {
-        "DELIVER": {
-          "label": "L’e-service eroga dati personali?",
+      "detailsSection": {
+        "title": "Dettagli dell'e-service",
+        "description": "Queste informazioni sono state precompilate da chi ha creato il template e non sono modificabili.",
+        "firstVersionOnlyEditableInfo": "Questi dati non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
+        "technologyField": {
+          "label": "Con quale tecnologia è costruita la tua API?",
+          "readOnlyLabel": "Tecnologia API"
+        },
+        "modeField": {
+          "label": "L’e-service eroga o riceve dati?",
           "options": {
-            "true": "Eroga dati personali",
-            "false": "Non eroga dati personali"
+            "DELIVER": "Eroga",
+            "RECEIVE": "Riceve"
           }
         },
-        "RECEIVE": {
-          "label": "L’e-service riceve dati personali?",
-          "options": {
-            "true": "Riceve dati personali",
-            "false": "Non riceve dati personali"
-          }
-        },
-        "alertMissingPersonalData": "Non puoi pubblicare questa bozza in quanto il creatore del template non ha indicato se l’e-service tratta dati personali. Contatta {{tenantName}} per richiedere la modifica di questo template."
+        "personalDataField": {
+          "DELIVER": {
+            "label": "L’e-service eroga dati personali?",
+            "readOnlyLabel": "Eroga dati personali",
+            "options": {
+              "true": "Eroga dati personali",
+              "false": "Non eroga dati personali"
+            },
+            "readOnlyOptions": {
+              "true": "SI",
+              "false": "NO"
+            }
+          },
+          "RECEIVE": {
+            "label": "L’e-service riceve dati personali?",
+            "readOnlyLabel": "Riceve dati personali",
+            "options": {
+              "true": "Riceve dati personali",
+              "false": "Non riceve dati personali"
+            },
+            "readOnlyOptions": {
+              "true": "SI",
+              "false": "NO"
+            }
+          },
+          "alertMissingPersonalData": "Non puoi pubblicare questa bozza in quanto il creatore del template non ha indicato se l’e-service tratta dati personali. Contatta {{tenantName}} per richiedere la modifica di questo template."
+        }
       },
-      "isSignalHubEnabled": {
+      "signalHubSection": {
         "title": "Signal Hub: servizio di notifica della variazione dei dati",
         "description": {
-          "firstParagraph": {
-            "before": "Signal Hub è una",
-            "linkLabel": "soluzione integrata",
-            "after": "che informa i fruitori quando i dati dell'e-service vengono modificati."
-          },
-          "secondParagraph": {
-            "before": "Attivando la funzionalità designi PagoPa S.p.A. responsabile del trattamento dei dati facendo proprio il",
-            "linkLabel": "documento di designazione di PagoPa S.p.A. come responsabile del trattamento dei dati personali ",
-            "after": "per \"Signal Hub\"."
-          }
+          "firstParagraph": "Signal Hub è una <1>soluzione integrata</1> che informa i fruitori quando i dati dell'e-service vengono modificati.",
+          "secondParagraph": "Attivando la funzionalità designi PagoPa S.p.A. responsabile del trattamento dei dati facendo proprio il <1>documento di designazione di PagoPa S.p.A. come responsabile del trattamento dei dati personali</1> per \"Signal Hub\"."
         },
         "switchLabel": "Notificherò su Signal Hub le variazioni dei dati",
         "alert": "Prima di procedere, assicurati che il documento di designazione sia visionato ed approvato da almeno un amministratore nel tuo ente."
@@ -82,10 +92,6 @@
           "checkboxLabel": "Autorizzo che i delegati possano associare i propri client alle finalità che hanno creato in qualità di delegati alla fruizione. Consulta la <1>documentazione</1> per approfondire"
         }
       },
-      "detailsSection": {
-        "title": "Dettagli dell'e-service"
-      },
-      "firstVersionOnlyEditableInfo": "Questi dati non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
       "templateInfoSection": {
         "title": "Informazioni sul template",
         "description": "Queste informazioni sono state precompilate da chi ha creato il template e non sono modificabili.",
