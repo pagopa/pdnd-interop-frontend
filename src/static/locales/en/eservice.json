@@ -183,8 +183,7 @@
     },
     "step3": {
       "attributesTitle": "Access requirements",
-      "attributesDescription": "Define who can access this e-service. Create one or more requirements and associate the required attributes to each. The consumer must meet all the indicated requirements and possess at least one of the attributes in each requirement.",
-      "attributesLearnMoreLink": "Learn more about attributes",
+      "attributesDescription": "Define who can access this e-service. Create one or more requirements and associate the required attributes to each. The consumer must meet all the indicated requirements and possess at least one of the attributes in each requirement. <1>Learn more about attributes</1>",
       "certifiedDescription": "These are attributes certified by a <1>recognized authoritative source.</1>",
       "verifiedDescription": "These are attributes verified <1>by other organizations</1>, with the possibility of requesting a verification from the provider.",
       "declaredDescription": "These are attributes declared by the consumer during the service request. No verification from the provider is required.",

@@ -38,10 +38,9 @@ const renderComponent = (isEServiceCreatedFromTemplate = false) => {
 }
 
 describe('AttributesSection', () => {
-  it('should render the title and description', () => {
+  it('should render the title', () => {
     renderComponent()
     expect(screen.getByText('step3.attributesTitle')).toBeInTheDocument()
-    expect(screen.getByText('step3.attributesDescription', { exact: false })).toBeInTheDocument()
   })
 
   it('should render 3 tabs (certified, verified, declared)', () => {

@@ -280,8 +280,7 @@
       "thresholdsInfoAlert": "Chi userà questo template potrà modificare le soglie suggerite e personalizzarle per gli attributi certificati.",
       "accessRequirements": {
         "title": "Requisiti di accesso",
-        "description": "Definisci chi può accedere a questo e-service. Crea uno o più requisiti e associa a ciascuno gli attributi richiesti. Il fruitore dovrà soddisfare tutti i requisiti indicati e possedere almeno uno degli attributi in ogni requisito.",
-        "learnMoreLink": "Scopri di più sugli attributi",
+        "description": "Definisci chi può accedere a questo e-service. Crea uno o più requisiti e associa a ciascuno gli attributi richiesti. Il fruitore dovrà soddisfare tutti i requisiti indicati e possedere almeno uno degli attributi in ogni requisito. <1>Scopri di più sugli attributi</1>",
         "createRequirementBtn": "Crea requisito",
         "placeholder": "Questa sezione sarà disponibile prossimamente.",
         "tabs": {

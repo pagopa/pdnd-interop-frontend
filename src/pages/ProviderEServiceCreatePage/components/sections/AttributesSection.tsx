@@ -27,12 +27,13 @@ export const AttributesSection: React.FC<AttributesSectionProps> = ({
     <SectionContainer
       title={t('step3.attributesTitle')}
       description={
-        <>
-          {t('step3.attributesDescription')}{' '}
-          <Link href={attributesHelpLink} target="_blank" underline="hover">
-            {t('step3.attributesLearnMoreLink')}
-          </Link>
-        </>
+        <Trans
+          ns="eservice"
+          i18nKey="create.step3.attributesDescription"
+          components={{
+            1: <Link underline="hover" href={attributesHelpLink} target="_blank" />,
+          }}
+        />
       }
       sx={{ mt: 3 }}
     >

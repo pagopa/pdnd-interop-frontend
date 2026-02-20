@@ -190,12 +190,13 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
           <SectionContainer
             title={t('stepThresholdsAndAttributes.accessRequirements.title')}
             description={
-              <>
-                {t('stepThresholdsAndAttributes.accessRequirements.description')}{' '}
-                <Link href={attributesHelpLink} target="_blank" underline="hover">
-                  {t('stepThresholdsAndAttributes.accessRequirements.learnMoreLink')}
-                </Link>
-              </>
+              <Trans
+                ns="eserviceTemplate"
+                i18nKey="create.stepThresholdsAndAttributes.accessRequirements.description"
+                components={{
+                  1: <Link underline="hover" href={attributesHelpLink} target="_blank" />,
+                }}
+              />
             }
             component="div"
             sx={{ mt: 4 }}
