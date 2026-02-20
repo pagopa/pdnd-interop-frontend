@@ -154,6 +154,13 @@
         "error": "Non è stato possibile aggiornare le informazioni richieste. Per favore, riprova!"
       }
     },
+    "updateThresholds": {
+      "loading": "Stiamo aggiornando le informazioni",
+      "outcome": {
+        "success": "Hai modificato le soglie di chiamate API.",
+        "error": "Non è stato possibile modificare le soglie di chiamate API. Controlla di aver inserito le informazioni corrette."
+      }
+    },
     "updateAgreementApprovalPolicy": {
       "loading": "Stiamo modificando l'accettazione delle richieste di fruizione",
       "outcome": {

@@ -1,71 +1,60 @@
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { Box, Stack, Typography } from '@mui/material'
+import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 
-type UpdateThresholdsFormValues = {
-  dailyCallsPerConsumer: number
-  dailyCallsTotal: number
+type UpdateVoucherFormValues = {
+  voucherLifespan: number
 }
 
-type UpdateThresholdsDrawerProps = {
+type UpdateVoucherDrawerProps = {
+  isEserviceFromTemplate?: boolean
   isOpen: boolean
   onClose: VoidFunction
   id: string
   subtitle: string
-  dailyCallsPerConsumerLabel: string
-  dailyCallsTotalLabel: string
-  dailyCallsPerConsumer: number | undefined
-  dailyCallsTotal: number | undefined
+  voucherLifespan: number
   /** @description  This field is used to represent the version of specific item: it could be for an EService (descriptorId) or
    *  for a EServiceTemplate (TemplateVersionId) */
   versionId?: string
-  onSubmit: (
-    id: string,
-    dailyCallsPerConsumer: number,
-    dailyCallsTotal: number,
-    versionId?: string
-  ) => void
+  onSubmit: (id: string, voucherLifespan: number, versionId?: string) => void
 }
 
-export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
+export const UpdateVoucherDrawer: React.FC<UpdateVoucherDrawerProps> = ({
   isOpen,
   onClose,
   id,
   subtitle,
-  dailyCallsPerConsumerLabel,
-  dailyCallsTotalLabel,
-  dailyCallsPerConsumer,
-  dailyCallsTotal,
+  voucherLifespan,
   versionId,
   onSubmit,
+  isEserviceFromTemplate,
 }) => {
   const { t } = useTranslation('eservice', {
-    keyPrefix: 'read.drawers.updateThresholdsDrawer',
+    keyPrefix: 'read.drawers.updateVoucherDrawer',
   })
   const { t: tCommon } = useTranslation('common')
 
   const defaultValues = {
-    dailyCallsPerConsumer: dailyCallsPerConsumer ?? 1,
-    dailyCallsTotal: dailyCallsTotal ?? 1,
+    voucherLifespan: voucherLifespan ? secondsToMinutes(voucherLifespan) : 1,
   }
 
-  const formMethods = useForm<UpdateThresholdsFormValues>({ defaultValues })
+  const formMethods = useForm<UpdateVoucherFormValues>({ defaultValues })
 
   React.useEffect(() => {
     formMethods.reset({
-      dailyCallsPerConsumer: dailyCallsPerConsumer ?? 1,
-      dailyCallsTotal: dailyCallsTotal ?? 1,
+      voucherLifespan: voucherLifespan ? secondsToMinutes(voucherLifespan) : 1,
     })
-  }, [versionId, id, formMethods, dailyCallsPerConsumer, dailyCallsTotal])
+  }, [versionId, id, formMethods, voucherLifespan])
 
-  const handleSubmit = (values: UpdateThresholdsFormValues) => {
+  const handleSubmit = (values: UpdateVoucherFormValues) => {
     if (versionId) {
-      onSubmit(id, values.dailyCallsPerConsumer, values.dailyCallsTotal, versionId)
+      onSubmit(id, minutesToSeconds(values.voucherLifespan), versionId)
     } else {
-      onSubmit(id, values.dailyCallsPerConsumer, values.dailyCallsTotal)
+      onSubmit(id, minutesToSeconds(values.voucherLifespan))
     }
   }
 
@@ -76,6 +65,8 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
   const handleTransitionExited = () => {
     formMethods.reset(defaultValues)
   }
+
+  const minutes = secondsToMinutes(voucherLifespan)
 
   return (
     <FormProvider {...formMethods}>
@@ -96,35 +87,29 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
               strong: <Typography component="span" variant="inherit" fontWeight={600} />,
             }}
           >
-            {t('summary', {
-              dailyCallsPerConsumer,
-              dailyCallsTotal,
-            })}
+            {minutes === 0
+              ? t('summary', {
+                  voucherLifespan: secondsToMinutes(voucherLifespan),
+                })
+              : t('summary_plural', {
+                  voucherLifespan: secondsToMinutes(voucherLifespan),
+                })}
           </Trans>
         </Typography>
         <Stack spacing={4}>
           <Box component="form" noValidate>
             <RHFTextField
               sx={{ mt: 4, mb: 0 }}
-              name="dailyCallsPerConsumer"
-              label={dailyCallsPerConsumerLabel}
-              infoLabel={t('dailyCallsPerConsumerField.infoLabel')}
+              focusOnMount
+              name="voucherLifespan"
+              label={t('voucherLifespanField.label')}
+              infoLabel={t('voucherLifespanField.infoLabel')}
               type="number"
               rules={{
                 required: true,
                 min: 1,
               }}
-            />
-            <RHFTextField
-              sx={{ mt: 5, mb: 0 }}
-              name="dailyCallsTotal"
-              label={dailyCallsTotalLabel}
-              infoLabel={t('dailyCallsTotalField.infoLabel')}
-              type="number"
-              rules={{
-                required: true,
-                min: 1,
-              }}
+              disabled={isEserviceFromTemplate}
             />
           </Box>
         </Stack>

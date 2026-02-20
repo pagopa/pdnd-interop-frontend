@@ -572,8 +572,19 @@
         }
       },
       "attributes": {
-        "title": "Attributi",
-        "description": "Di seguito sono indicati tutti gli attributi certificati, verificati o dichiarati che sono richiesti per la fruizione dell’E-service."
+        "title": "Soglie e attributi",
+        "description": "Qui trovi le soglie e gli attributi che sono richiesti per la fruizione di questo e-service.",
+        "addAttributes": "Aggiungi attributi",
+        "modify": "Modifica",
+        "thresholds": {
+          "title": "Soglie di chiamate API",
+          "dailyCallsPerConsumer": {
+            "label": "Soglia giornaliera per fruitore"
+          },
+          "dailyCallsTotal": {
+            "label": "Soglia giornaliera totale"
+          }
+        }
       },
       "linkedPurposeTemplates": {
         "title": "Compilazione agevolata della finalità",
@@ -623,7 +634,7 @@
           }
         }
       },
-      "updateThresholdsDrawer": {
+      "updateThresholdsVoucherDrawer": {
         "title": "Modifica durata voucher e soglie",
         "subtitle": "Da questo pannello puoi aggiornare i parametri della tua versione di e-service. Le modifiche apportate avranno effetto da subito.",
         "voucherLifespanField": {
@@ -637,6 +648,29 @@
         "dailyCallsTotalField": {
           "label": "Soglia totale",
           "infoLabel": "Chiamate API/giorno"
+        }
+      },
+      "updateThresholdsDrawer": {
+        "title": "Modifica soglie di chiamate API",
+        "subtitle": "Modifica il numero massimo di chiamate giornaliere, per fruitore e totali. Definisci una soglia totale che possa coprire tutte le finalità: una volta raggiunta, le nuove finalità richiederanno l’approvazione manuale.",
+        "summary": "La soglia attuale per fruitore è di <strong>{{dailyCallsPerConsumer}} chiamate API/giorno</strong>. La soglia attuale totale è di <strong>{{dailyCallsTotal}} chiamate API/giorno</strong>.",
+        "dailyCallsPerConsumerField": {
+          "label": "Chiamate API/giorno per fruitore",
+          "infoLabel": "Inserisci un numero superiore o uguale a 1"
+        },
+        "dailyCallsTotalField": {
+          "label": "Chiamate API/giorno totali",
+          "infoLabel": "Inserisci un numero superiore al precedente"
+        }
+      },
+      "updateVoucherDrawer": {
+        "title": "Modifica durata voucher",
+        "subtitle": "Le modifiche saranno applicate subito.",
+        "summary": "La durata attuale è di <strong>{{voucherLifespan}} minuto</strong>",
+        "summary_plural": "La durata attuale è di <strong>{{voucherLifespan}} minuti</strong>",
+        "voucherLifespanField": {
+          "label": "Durata validità (in minuti)",
+          "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
         }
       },
       "updateAgreementApprovalPolicyDrawer": {

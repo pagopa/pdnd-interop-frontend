@@ -177,8 +177,10 @@ function useReactivateVersion() {
   })
 }
 
-function useUpdateVersion() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
+function useUpdateVersion(isThresholdOnlyUpdate: boolean = false) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: isThresholdOnlyUpdate ? 'eservice.updateThresholds' : 'eservice.updateVersion',
+  })
   return useMutation({
     mutationFn: EServiceServices.updateVersion,
     meta: {
@@ -189,8 +191,10 @@ function useUpdateVersion() {
   })
 }
 
-function useUpdateInstanceVersion() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
+function useUpdateInstanceVersion(isThresholdOnlyUpdate: boolean = false) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: isThresholdOnlyUpdate ? 'eservice.updateThresholds' : 'eservice.updateVersion',
+  })
   return useMutation({
     mutationFn: EServiceServices.updateInstanceVersion,
     meta: {

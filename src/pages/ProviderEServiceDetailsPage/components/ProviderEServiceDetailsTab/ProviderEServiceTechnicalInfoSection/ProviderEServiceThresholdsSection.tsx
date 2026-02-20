@@ -5,12 +5,12 @@ import { useTranslation } from 'react-i18next'
 import EditIcon from '@mui/icons-material/Edit'
 import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
-import { formatThousands, secondsToMinutes } from '@/utils/format.utils'
+import { secondsToMinutes } from '@/utils/format.utils'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AuthHooks } from '@/api/auth'
 import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 import { EServiceMutations } from '@/api/eservice'
-import { UpdateThresholdsDrawer } from '@/components/shared/UpdateThresholdsDrawer'
+import { UpdateVoucherDrawer } from '@/components/shared/UpdateVoucherDrawer'
 
 type ProviderEServiceThresholdsSectionProps = {
   descriptor: ProducerEServiceDescriptor
@@ -24,7 +24,7 @@ export const ProviderEServiceThresholdsSection: React.FC<
   })
   const { t: tCommon } = useTranslation('common')
   const { t: tDrawer } = useTranslation('eservice', {
-    keyPrefix: 'read.drawers.updateThresholdsDrawer',
+    keyPrefix: 'read.drawers.updateVoucherDrawer',
   })
 
   const { jwt } = AuthHooks.useJwt()
@@ -46,20 +46,14 @@ export const ProviderEServiceThresholdsSection: React.FC<
   const { mutate: updateVersion } = EServiceMutations.useUpdateVersion()
   const { mutate: updateInstanceVersion } = EServiceMutations.useUpdateInstanceVersion()
 
-  const handleThresholdsUpdate = (
-    id: string,
-    voucherLifespan: number,
-    dailyCallsPerConsumer: number,
-    dailyCallsTotal: number,
-    descriptorId?: string
-  ) => {
+  const handleVoucherUpdate = (id: string, voucherLifespan: number, descriptorId?: string) => {
     if (isEserviceFromTemplate) {
       updateInstanceVersion(
         {
           eserviceId: id,
           descriptorId: descriptorId!,
-          dailyCallsPerConsumer: dailyCallsPerConsumer,
-          dailyCallsTotal: dailyCallsTotal,
+          dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
+          dailyCallsTotal: descriptor.dailyCallsTotal,
         },
         { onSuccess: closeDrawer }
       )
@@ -70,8 +64,8 @@ export const ProviderEServiceThresholdsSection: React.FC<
         eserviceId: id,
         descriptorId: descriptorId!,
         voucherLifespan: voucherLifespan,
-        dailyCallsPerConsumer: dailyCallsPerConsumer,
-        dailyCallsTotal: dailyCallsTotal,
+        dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
+        dailyCallsTotal: descriptor.dailyCallsTotal,
       },
       { onSuccess: closeDrawer }
     )
@@ -102,32 +96,16 @@ export const ProviderEServiceThresholdsSection: React.FC<
               count: voucherLifespan,
             })}`}
           />
-
-          <InformationContainer
-            label={t('thresholds.dailyCallsPerConsumer.label')}
-            labelDescription={t('thresholds.dailyCallsPerConsumer.labelDescription')}
-            content={`${formatThousands(descriptor.dailyCallsPerConsumer)}`}
-          />
-
-          <InformationContainer
-            label={t('thresholds.dailyCallsTotal.label')}
-            labelDescription={t('thresholds.dailyCallsTotal.labelDescription')}
-            content={`${formatThousands(descriptor.dailyCallsTotal)}`}
-          />
         </Stack>
       </SectionContainer>
-      <UpdateThresholdsDrawer
+      <UpdateVoucherDrawer
         isOpen={isOpen}
         onClose={closeDrawer}
         id={descriptor.eservice.id}
         versionId={descriptor.id}
         voucherLifespan={descriptor.voucherLifespan}
-        dailyCallsPerConsumer={descriptor.dailyCallsPerConsumer}
-        dailyCallsTotal={descriptor.dailyCallsTotal}
         subtitle={tDrawer('subtitle')}
-        dailyCallsPerConsumerLabel={tDrawer('dailyCallsPerConsumerField.label')}
-        dailyCallsTotalLabel={tDrawer('dailyCallsTotalField.label')}
-        onSubmit={handleThresholdsUpdate}
+        onSubmit={handleVoucherUpdate}
         isEserviceFromTemplate={isEserviceFromTemplate}
       />
     </>

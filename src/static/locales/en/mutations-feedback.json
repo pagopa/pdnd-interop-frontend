@@ -154,6 +154,13 @@
         "error": "The requested information could not be updated. Please try again!"
       }
     },
+    "updateThresholds": {
+      "loading": "Information is being updated",
+      "outcome": {
+        "success": "You have changed your API call thresholds.",
+        "error": "The API call thresholds could not be changed. Please check that you entered the correct information."
+      }
+    },
     "updateAgreementApprovalPolicy": {
       "loading": "Agreement approval policy is being updated",
       "outcome": {

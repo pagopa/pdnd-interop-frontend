@@ -572,8 +572,19 @@
         }
       },
       "attributes": {
-        "title": "Attributes",
-        "description": "Below are all the certified, verified or declared attributes that are required for the use of the E-service."
+        "title": "Thresholds and attributes",
+        "description": "Here you will find the thresholds and attributes required to use this e-service.",
+        "addAttributes": "Add attributes",
+        "modify": "Modify",
+        "thresholds": {
+          "title": "Thresholds",
+          "dailyCallsPerConsumer": {
+            "label": "Daily threshold for consumer"
+          },
+          "dailyCallsTotal": {
+            "label": "Total threshold for consumer"
+          }
+        }
       },
       "linkedPurposeTemplates": {
         "title": "Facilitated purpose templates",
@@ -623,7 +634,7 @@
           }
         }
       },
-      "updateThresholdsDrawer": {
+      "updateThresholdsVoucherDrawer": {
         "title": "Change voucher lifespan and thresholds",
         "subtitle": "From this panel you can update the parameters of your e-service version. The changes made will take effect immediately.",
         "voucherLifespanField": {
@@ -637,6 +648,29 @@
         "dailyCallsTotalField": {
           "label": "Total threshold",
           "infoLabel": "(API calls/day)"
+        }
+      },
+      "updateThresholdsDrawer": {
+        "title": "Change API call thresholds",
+        "subtitle": "Change the maximum number of daily calls, per consumer, and total. Set a total threshold that covers all purposes. Once reached, new purposes will require manual approval.",
+        "summary": "The current per-consumer threshold is <strong>{{dailyCallsPerConsumer}} API calls/day</strong>. The current total threshold is <strong>{{dailyCallsTotal}} API calls/day</strong>.",
+        "dailyCallsPerConsumerField": {
+          "label": "API calls/day per user",
+          "infoLabel": "Please enter a number greater than or equal to 1."
+        },
+        "dailyCallsTotalField": {
+          "label": "Total API calls/day",
+          "infoLabel": "Enter a number higher than the previous one"
+        }
+      },
+      "updateVoucherDrawer": {
+        "title": "Change voucher duration",
+        "subtitle": "The changes will take effect immediately.",
+        "summary": "The current duration is <strong>{{voucherLifespan}} minute</strong>",
+        "summary_plural": "The current duration is <strong>{{voucherLifespan}} minutes</strong>",
+        "voucherLifespanField": {
+          "label": "Validity period (in minutes)",
+          "infoLabel": "Maximum value: 1440 minutes (24 hours)"
         }
       },
       "updateAgreementApprovalPolicyDrawer": {
