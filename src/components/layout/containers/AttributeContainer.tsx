@@ -114,6 +114,7 @@ export const AttributeContainer = <
                   )}
                   <ButtonNaked
                     color="primary"
+                    type="button"
                     sx={{ fontWeight: 700 }}
                     onClick={(e: React.MouseEvent) => {
                       e.stopPropagation()
@@ -141,7 +142,12 @@ export const AttributeContainer = <
             <CardActions disableSpacing sx={{ p: 0 }}>
               <Stack direction="row" spacing={2}>
                 {actions?.map(({ action, label, color = 'primary' }, i) => (
-                  <ButtonNaked key={i} onClick={action.bind(null, attribute.id)} color={color}>
+                  <ButtonNaked
+                    key={i}
+                    type="button"
+                    onClick={action.bind(null, attribute.id)}
+                    color={color}
+                  >
                     {label}
                   </ButtonNaked>
                 ))}
