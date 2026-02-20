@@ -17,11 +17,7 @@
     "goToSummary": "Go to summary",
     "step1": {
       "detailsTitle": "E-service details",
-      "detailsDescription": {
-        "before": "Read the",
-        "linkLabel": "guidelines",
-        "after": "for naming: your e-services will be easier to find and clearer in their goals"
-      },
+      "detailsDescription": "To choose clear names and make e-services easy to find, see the <1>guidelines</1>",
       "eserviceNameField": {
         "label": "E-service name",
         "infoLabel": "Min 5 characters, max 60 characters"
@@ -89,7 +85,14 @@
       "detailsSection": {
         "title": "E-service details"
       },
-      "firstVersionOnlyEditableInfo": "This data will no longer be editable after the first version of the e-service is published."
+      "firstVersionOnlyEditableInfo": "This data will no longer be editable after the first version of the e-service is published.",
+      "templateInfoSection": {
+        "title": "About the template",
+        "description": "This information has been pre-populated by the template creator and cannot be edited.",
+        "nameLabel": "E-service template name",
+        "addressedToLabel": "Who is this template for?",
+        "allowWhatLabel": "What does this template allow you to do?"
+      }
     },
     "stepPurpose": {
       "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",
