@@ -298,13 +298,6 @@
       "versionDescriptionField": {
         "label": "Cosa è cambiato in questa versione?"
       },
-      "voucherSection": {
-        "title": "Voucher",
-        "voucherLifespanField": {
-          "label": "Durata validità (in minuti)",
-          "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
-        }
-      },
       "thresholdsSection": {
         "thresholdsSwitch": {
           "label": "Suggerisci all’implementatore valori di soglia API personalizzate"
@@ -354,19 +347,23 @@
         "submitBtnLabel": "Crea attributo"
       }
     },
-    "step4": {
+    "stepTechnicalSpecs": {
       "interface": {
-        "title": "Interfaccia",
-        "alert": "Puoi caricare un file privo dei dati di contatto, i Termini e Condizioni, e l’indirizzo dei server in quanto verranno compilati dall’implementatore in una fase successiva.",
+        "title": "Interfaccia*",
+        "alert": "Puoi caricare un file senza dati di contatto, Termini e Condizioni e indirizzi dei server: queste informazioni saranno inserite in una fase successiva da chi userà il template.",
         "description": {
-          "rest": "Carica una bozza del file OpenAPI che descrive l’API.",
+          "rest": "Carica una bozza del file OpenAPI che descrive l'API.",
           "soap": "Carica una bozza del file WSDL che descrive l'API"
         },
-        "prettyName": "Specifica API"
+        "prettyName": "Specifica API",
+        "requiredError": "Non hai caricato nessun file"
       },
-      "documentation": {
-        "title": "Documentazione",
-        "description": "Inserisci tutta la documentazione tecnica utile all’implementazione di un’integrazione con questo e-service"
+      "voucher": {
+        "title": "Voucher",
+        "voucherLifespanField": {
+          "label": "Durata validità (in minuti)*",
+          "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
+        }
       },
       "nameField": {
         "label": "Nome documento",

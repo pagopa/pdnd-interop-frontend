@@ -16,12 +16,12 @@ import { Pagination, usePagination } from '@pagopa/interop-fe-commons'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 
-type EServiceTemplateCreateStepDocumentsDocFormValues = {
+type EServiceTemplateUpdateDocumentationDocFormValues = {
   doc: File | null
   prettyName: string
 }
 
-const defaultValues: EServiceTemplateCreateStepDocumentsDocFormValues = {
+const defaultValues: EServiceTemplateUpdateDocumentationDocFormValues = {
   doc: null,
   prettyName: '',
 }
@@ -72,7 +72,7 @@ export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
     shouldUnregister: true,
   })
 
-  const onSubmit = ({ doc, prettyName }: EServiceTemplateCreateStepDocumentsDocFormValues) => {
+  const onSubmit = ({ doc, prettyName }: EServiceTemplateUpdateDocumentationDocFormValues) => {
     if (!doc) return
 
     // the current total page number (before uploading the new doc)
