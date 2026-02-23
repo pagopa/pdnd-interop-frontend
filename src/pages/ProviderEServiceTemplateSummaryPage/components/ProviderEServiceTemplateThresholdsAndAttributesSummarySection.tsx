@@ -15,7 +15,7 @@ import type { DescriptorAttribute, DescriptorAttributes } from '@/api/api.genera
 import type { AttributeKey } from '@/types/attribute.types'
 import { attributesHelpLink } from '@/config/constants'
 
-export const ProviderEServiceTemplateThresholdsAndAttributesSummary: React.FC = () => {
+export const ProviderEServiceTemplateThresholdsAndAttributesSummarySection: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'summary.thresholdsAndAttributesSummary',
   })
@@ -136,7 +136,6 @@ const TemplateSummaryAttributeGroup: React.FC<TemplateSummaryAttributeGroupProps
   attributes,
   index,
   attributeKey,
-  totalGroups,
 }) => {
   const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'summary.thresholdsAndAttributesSummary.attributes',

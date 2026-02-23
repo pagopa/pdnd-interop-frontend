@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { screen } from '@testing-library/react'
-import { ProviderEServiceTemplateGeneralInfoSummary } from '../components/ProviderEServiceTemplateGeneralInfoSummary'
+import { ProviderEServiceTemplateGeneralInfoSummarySection } from '../components/ProviderEServiceTemplateGeneralInfoSummarySection'
 import {
   mockUseJwt,
   mockUseParams,
@@ -36,12 +36,12 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
   }
 })
 
-describe('ProviderEServiceTemplateGeneralInfoSummary', () => {
+describe('ProviderEServiceTemplateGeneralInfoSummarySection', () => {
   it('renders template name', () => {
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
-    renderWithApplicationContext(<ProviderEServiceTemplateGeneralInfoSummary />, {
+    renderWithApplicationContext(<ProviderEServiceTemplateGeneralInfoSummarySection />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -54,7 +54,7 @@ describe('ProviderEServiceTemplateGeneralInfoSummary', () => {
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
-    renderWithApplicationContext(<ProviderEServiceTemplateGeneralInfoSummary />, {
+    renderWithApplicationContext(<ProviderEServiceTemplateGeneralInfoSummarySection />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -67,7 +67,7 @@ describe('ProviderEServiceTemplateGeneralInfoSummary', () => {
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
-    renderWithApplicationContext(<ProviderEServiceTemplateGeneralInfoSummary />, {
+    renderWithApplicationContext(<ProviderEServiceTemplateGeneralInfoSummarySection />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -80,7 +80,7 @@ describe('ProviderEServiceTemplateGeneralInfoSummary', () => {
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
-    renderWithApplicationContext(<ProviderEServiceTemplateGeneralInfoSummary />, {
+    renderWithApplicationContext(<ProviderEServiceTemplateGeneralInfoSummarySection />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -93,7 +93,7 @@ describe('ProviderEServiceTemplateGeneralInfoSummary', () => {
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
-    renderWithApplicationContext(<ProviderEServiceTemplateGeneralInfoSummary />, {
+    renderWithApplicationContext(<ProviderEServiceTemplateGeneralInfoSummarySection />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -107,7 +107,7 @@ describe('ProviderEServiceTemplateGeneralInfoSummary', () => {
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
-    renderWithApplicationContext(<ProviderEServiceTemplateGeneralInfoSummary />, {
+    renderWithApplicationContext(<ProviderEServiceTemplateGeneralInfoSummarySection />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -121,7 +121,7 @@ describe('ProviderEServiceTemplateGeneralInfoSummary', () => {
     const mockData = createMockEServiceTemplateVersionDetailsReceiveMode()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
-    renderWithApplicationContext(<ProviderEServiceTemplateGeneralInfoSummary />, {
+    renderWithApplicationContext(<ProviderEServiceTemplateGeneralInfoSummarySection />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })

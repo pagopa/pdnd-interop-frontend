@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { screen } from '@testing-library/react'
-import { ProviderEServiceTemplateThresholdsAndAttributesSummary } from '../components/ProviderEServiceTemplateThresholdsAndAttributesSummary'
+import { ProviderEServiceTemplateThresholdsAndAttributesSummarySection } from '../components/ProviderEServiceTemplateThresholdsAndAttributesSummarySection'
 import {
   mockUseJwt,
   mockUseParams,
@@ -37,15 +37,18 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
   }
 })
 
-describe('ProviderEServiceTemplateThresholdsAndAttributesSummary', () => {
+describe('ProviderEServiceTemplateThresholdsAndAttributesSummarySection', () => {
   it('renders thresholds title', () => {
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
-    renderWithApplicationContext(<ProviderEServiceTemplateThresholdsAndAttributesSummary />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <ProviderEServiceTemplateThresholdsAndAttributesSummarySection />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     expect(screen.getByText('thresholdsTitle')).toBeInTheDocument()
   })
@@ -54,10 +57,13 @@ describe('ProviderEServiceTemplateThresholdsAndAttributesSummary', () => {
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
-    renderWithApplicationContext(<ProviderEServiceTemplateThresholdsAndAttributesSummary />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <ProviderEServiceTemplateThresholdsAndAttributesSummarySection />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     expect(screen.getByText('dailyCallsPerConsumer.label')).toBeInTheDocument()
     expect(screen.getByText('dailyCallsPerConsumer.value')).toBeInTheDocument()
@@ -67,10 +73,13 @@ describe('ProviderEServiceTemplateThresholdsAndAttributesSummary', () => {
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
-    renderWithApplicationContext(<ProviderEServiceTemplateThresholdsAndAttributesSummary />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <ProviderEServiceTemplateThresholdsAndAttributesSummarySection />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     expect(screen.getByText('dailyCallsTotal.label')).toBeInTheDocument()
     expect(screen.getByText('dailyCallsTotal.value')).toBeInTheDocument()
@@ -83,10 +92,13 @@ describe('ProviderEServiceTemplateThresholdsAndAttributesSummary', () => {
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
-    renderWithApplicationContext(<ProviderEServiceTemplateThresholdsAndAttributesSummary />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <ProviderEServiceTemplateThresholdsAndAttributesSummarySection />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     expect(screen.getByText('certified.label')).toBeInTheDocument()
     expect(screen.getByText('verified.label')).toBeInTheDocument()
@@ -97,10 +109,13 @@ describe('ProviderEServiceTemplateThresholdsAndAttributesSummary', () => {
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
-    renderWithApplicationContext(<ProviderEServiceTemplateThresholdsAndAttributesSummary />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <ProviderEServiceTemplateThresholdsAndAttributesSummarySection />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     expect(screen.getByText('certified.noAttributesAlert')).toBeInTheDocument()
     expect(screen.getByText('verified.noAttributesAlert')).toBeInTheDocument()
@@ -111,10 +126,13 @@ describe('ProviderEServiceTemplateThresholdsAndAttributesSummary', () => {
     const mockData = createMockEServiceTemplateVersionDetailsWithAttributes()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
-    renderWithApplicationContext(<ProviderEServiceTemplateThresholdsAndAttributesSummary />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <ProviderEServiceTemplateThresholdsAndAttributesSummarySection />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     expect(screen.queryByText('certified.noAttributesAlert')).not.toBeInTheDocument()
     expect(screen.queryByText('verified.noAttributesAlert')).not.toBeInTheDocument()

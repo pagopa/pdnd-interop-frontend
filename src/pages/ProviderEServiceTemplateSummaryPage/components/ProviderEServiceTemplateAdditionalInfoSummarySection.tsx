@@ -11,7 +11,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 
-export const ProviderEServiceTemplateAdditionalInfoSummary: React.FC = () => {
+export const ProviderEServiceTemplateAdditionalInfoSummarySection: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'summary.additionalInfoSummary',
   })

@@ -19,14 +19,16 @@ const mockNavigate = vi.fn()
 vi.spyOn(router, 'useNavigate').mockReturnValue(mockNavigate)
 
 vi.mock('../components', () => ({
-  ProviderEServiceTemplateGeneralInfoSummary: () => <div data-testid="general-info-summary" />,
-  ProviderEServiceTemplateThresholdsAndAttributesSummary: () => (
+  ProviderEServiceTemplateGeneralInfoSummarySection: () => (
+    <div data-testid="general-info-summary" />
+  ),
+  ProviderEServiceTemplateThresholdsAndAttributesSummarySection: () => (
     <div data-testid="thresholds-attributes-summary" />
   ),
-  ProviderEServiceTemplateTechnicalSpecsSummary: () => (
+  ProviderEServiceTemplateTechnicalSpecsSummarySection: () => (
     <div data-testid="technical-specs-summary" />
   ),
-  ProviderEServiceTemplateAdditionalInfoSummary: () => (
+  ProviderEServiceTemplateAdditionalInfoSummarySection: () => (
     <div data-testid="additional-info-summary" />
   ),
 }))

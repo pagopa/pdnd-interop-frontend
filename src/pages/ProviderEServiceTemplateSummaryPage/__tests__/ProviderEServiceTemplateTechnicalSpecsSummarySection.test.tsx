@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { screen } from '@testing-library/react'
-import { ProviderEServiceTemplateTechnicalSpecsSummary } from '../components/ProviderEServiceTemplateTechnicalSpecsSummary'
+import { ProviderEServiceTemplateTechnicalSpecsSummarySection } from '../components/ProviderEServiceTemplateTechnicalSpecsSummarySection'
 import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import {
   createMockEServiceTemplateVersionDetails,
@@ -37,12 +37,12 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
   }
 })
 
-describe('ProviderEServiceTemplateTechnicalSpecsSummary', () => {
+describe('ProviderEServiceTemplateTechnicalSpecsSummarySection', () => {
   it('renders voucher lifespan', () => {
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
-    renderWithApplicationContext(<ProviderEServiceTemplateTechnicalSpecsSummary />, {
+    renderWithApplicationContext(<ProviderEServiceTemplateTechnicalSpecsSummarySection />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -54,7 +54,7 @@ describe('ProviderEServiceTemplateTechnicalSpecsSummary', () => {
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
-    renderWithApplicationContext(<ProviderEServiceTemplateTechnicalSpecsSummary />, {
+    renderWithApplicationContext(<ProviderEServiceTemplateTechnicalSpecsSummarySection />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -67,7 +67,7 @@ describe('ProviderEServiceTemplateTechnicalSpecsSummary', () => {
     const mockData = createMockEServiceTemplateVersionDetailsNoInterface()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
-    renderWithApplicationContext(<ProviderEServiceTemplateTechnicalSpecsSummary />, {
+    renderWithApplicationContext(<ProviderEServiceTemplateTechnicalSpecsSummarySection />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })

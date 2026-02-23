@@ -11,7 +11,7 @@ import { IconLink } from '@/components/shared/IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 
-export const ProviderEServiceTemplateTechnicalSpecsSummary: React.FC = () => {
+export const ProviderEServiceTemplateTechnicalSpecsSummarySection: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'summary.technicalSpecsSummary',
   })

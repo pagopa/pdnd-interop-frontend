@@ -10,10 +10,10 @@ import { SummaryAccordion, SummaryAccordionSkeleton } from '@/components/shared/
 import { useQuery } from '@tanstack/react-query'
 import { EServiceTemplateMutations, EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import {
-  ProviderEServiceTemplateGeneralInfoSummary,
-  ProviderEServiceTemplateThresholdsAndAttributesSummary,
-  ProviderEServiceTemplateTechnicalSpecsSummary,
-  ProviderEServiceTemplateAdditionalInfoSummary,
+  ProviderEServiceTemplateGeneralInfoSummarySection,
+  ProviderEServiceTemplateThresholdsAndAttributesSummarySection,
+  ProviderEServiceTemplateTechnicalSpecsSummarySection,
+  ProviderEServiceTemplateAdditionalInfoSummarySection,
 } from './components'
 import { ProviderEServiceTemplateRiskAnalysisSummaryList } from './components/ProviderEServiceTemplateRiskAnalysisSummaryList'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
@@ -129,7 +129,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
               title={t('summary.generalInfoSummary.title')}
               defaultExpanded={true}
             >
-              <ProviderEServiceTemplateGeneralInfoSummary />
+              <ProviderEServiceTemplateGeneralInfoSummarySection />
             </SummaryAccordion>
           </React.Suspense>
 
@@ -146,7 +146,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
               headline={isReceiveMode ? '3' : '2'}
               title={t('summary.thresholdsAndAttributesSummary.title')}
             >
-              <ProviderEServiceTemplateThresholdsAndAttributesSummary />
+              <ProviderEServiceTemplateThresholdsAndAttributesSummarySection />
             </SummaryAccordion>
           </React.Suspense>
 
@@ -155,7 +155,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
               headline={isReceiveMode ? '4' : '3'}
               title={t('summary.technicalSpecsSummary.title')}
             >
-              <ProviderEServiceTemplateTechnicalSpecsSummary />
+              <ProviderEServiceTemplateTechnicalSpecsSummarySection />
             </SummaryAccordion>
           </React.Suspense>
 
@@ -164,7 +164,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
               headline={isReceiveMode ? '5' : '4'}
               title={t('summary.additionalInfoSummary.title')}
             >
-              <ProviderEServiceTemplateAdditionalInfoSummary />
+              <ProviderEServiceTemplateAdditionalInfoSummarySection />
             </SummaryAccordion>
           </React.Suspense>
         </Stack>
