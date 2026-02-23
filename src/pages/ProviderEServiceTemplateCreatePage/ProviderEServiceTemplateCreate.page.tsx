@@ -27,9 +27,9 @@ import {
   EServiceTemplateCreateStepPurposeSkeleton,
 } from './components/EServiceTemplateCreateStepPurpose/EServiceTemplateCreateStepPurpose'
 import {
-  EServiceTemplateCreateStepDocuments,
-  EServiceTemplateCreateStepDocumentsSkeleton,
-} from './components/EServiceTemplateCreateStepDocuments/EServiceTemplateCreateStepDocuments'
+  EServiceTemplateCreateStepTechnicalSpecs,
+  EServiceTemplateCreateStepTechnicalSpecsSkeleton,
+} from './components/EServiceTemplateCreateStepTechnicalSpecs/EServiceTemplateCreateStepTechnicalSpecs'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate')
@@ -66,10 +66,11 @@ const ProviderEServiceCreatePage: React.FC = () => {
           {
             label: t('create.stepper.step2Label'),
             component: EServiceTemplateCreateStepThresholdsAndAttributes,
+            showRequiredLabel: true,
           },
           {
             label: t('create.stepper.step3Label'),
-            component: EServiceTemplateCreateStepDocuments,
+            component: EServiceTemplateCreateStepTechnicalSpecs,
             showRequiredLabel: true,
           },
           {
@@ -92,10 +93,11 @@ const ProviderEServiceCreatePage: React.FC = () => {
           {
             label: t('create.stepper.step2Label'),
             component: EServiceTemplateCreateStepThresholdsAndAttributes,
+            showRequiredLabel: true,
           },
           {
             label: t('create.stepper.step3Label'),
-            component: EServiceTemplateCreateStepDocuments,
+            component: EServiceTemplateCreateStepTechnicalSpecs,
             showRequiredLabel: true,
           },
           {
@@ -127,14 +129,14 @@ const ProviderEServiceCreatePage: React.FC = () => {
       ? [
           <EServiceTemplateCreateStepGeneralSkeleton key={1} />,
           <EServiceTemplateCreateStepThresholdsAndAttributesSkeleton key={2} />,
-          <EServiceTemplateCreateStepDocumentsSkeleton key={3} />,
+          <EServiceTemplateCreateStepTechnicalSpecsSkeleton key={3} />,
           <EServiceTemplateCreateStepVersionSkeleton key={4} />,
         ]
       : [
           <EServiceTemplateCreateStepGeneralSkeleton key={1} />,
           <EServiceTemplateCreateStepPurposeSkeleton key={2} />,
           <EServiceTemplateCreateStepThresholdsAndAttributesSkeleton key={3} />,
-          <EServiceTemplateCreateStepDocumentsSkeleton key={4} />,
+          <EServiceTemplateCreateStepTechnicalSpecsSkeleton key={4} />,
           <EServiceTemplateCreateStepVersionSkeleton key={5} />,
         ]
 

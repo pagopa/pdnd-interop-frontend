@@ -9,12 +9,12 @@ import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
 import { SummaryAccordion, SummaryAccordionSkeleton } from '@/components/shared/SummaryAccordion'
 import {
-  ProviderEServiceDocumentationSummary,
-  ProviderEServiceGeneralInfoSummary,
-  ProviderEServiceVersionInfoSummary,
+  ProviderEServiceDocumentationSummarySection,
+  ProviderEServiceGeneralInfoSummarySection,
+  ProviderEServiceAttributeVersionSummarySection,
+  ProviderEServiceRiskAnalysisSummaryListSection,
+  ProviderEServiceVersionInfoSummarySection,
 } from './components'
-import { ProviderEServiceAttributeVersionSummary } from './components/ProviderEServiceAttributeVersionSummary'
-import { ProviderEServiceRiskAnalysisSummaryList } from './components/ProviderEServiceRiskAnalysisSummaryList'
 import { useQuery } from '@tanstack/react-query'
 import { RejectReasonDrawer } from '@/components/shared/RejectReasonDrawer'
 import { useDrawerState } from '@/hooks/useDrawerState'
@@ -240,6 +240,18 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     }
   }
 
+  const isGeneralInfoSectionValid =
+    Boolean(descriptor?.eservice.description) &&
+    Boolean(descriptor?.eservice.technology) &&
+    (FEATURE_FLAG_ESERVICE_PERSONAL_DATA ? arePersonalDataSet : true)
+
+  const isVersionInfoSectionValid =
+    Boolean(descriptor?.description) &&
+    Boolean(descriptor?.audience?.length) &&
+    Boolean(descriptor?.voucherLifespan)
+
+  const isDocumentationSectionValid = Boolean(descriptor?.interface)
+
   return (
     <>
       <PageContainer
@@ -284,39 +296,42 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               headline="1"
               title={t('summary.generalInfoSummary.title')}
               defaultExpanded={true}
+              showWarning={!isGeneralInfoSectionValid}
+              warningLabel={t('summary.missingInformationsLabel')}
             >
-              <ProviderEServiceGeneralInfoSummary />
+              <ProviderEServiceGeneralInfoSummarySection />
+            </SummaryAccordion>
+          </React.Suspense>
+          <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+            <SummaryAccordion headline="2" title={t('summary.attributeVersionSummary.title')}>
+              <ProviderEServiceAttributeVersionSummarySection />
             </SummaryAccordion>
           </React.Suspense>
           {isReceiveMode && (
             <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-              <SummaryAccordion headline="2" title={t('summary.riskAnalysisSummaryList.title')}>
-                <ProviderEServiceRiskAnalysisSummaryList />
+              <SummaryAccordion headline="3" title={t('summary.riskAnalysisSummaryList.title')}>
+                <ProviderEServiceRiskAnalysisSummaryListSection />
               </SummaryAccordion>
             </React.Suspense>
           )}
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
             <SummaryAccordion
-              headline={isReceiveMode ? '3' : '2'}
-              title={t('summary.versionInfoSummary.title')}
-            >
-              <ProviderEServiceVersionInfoSummary />
-            </SummaryAccordion>
-          </React.Suspense>
-          <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-            <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
-              title={t('summary.attributeVersionSummary.title')}
+              title={t('summary.documentationSummary.title')}
+              showWarning={!isDocumentationSectionValid}
+              warningLabel={t('summary.missingInformationsLabel')}
             >
-              <ProviderEServiceAttributeVersionSummary />
+              <ProviderEServiceDocumentationSummarySection />
             </SummaryAccordion>
           </React.Suspense>
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
             <SummaryAccordion
               headline={isReceiveMode ? '5' : '4'}
-              title={t('summary.documentationSummary.title')}
+              title={t('summary.versionInfoSummary.title')}
+              showWarning={!isVersionInfoSectionValid}
+              warningLabel={t('summary.missingInformationsLabel')}
             >
-              <ProviderEServiceDocumentationSummary />
+              <ProviderEServiceVersionInfoSummarySection />
             </SummaryAccordion>
           </React.Suspense>
           {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
@@ -352,31 +367,38 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             )}
         </Stack>
         {!isDelegator && (
-          <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
-            <Button
-              startIcon={<DeleteOutlineIcon />}
-              variant="text"
-              color="error"
-              onClick={handleDeleteDraft}
-              disabled={isSupport}
-            >
-              {tCommon('deleteDraft')}
-            </Button>
-            <Button
-              startIcon={<CreateIcon />}
-              variant="text"
-              onClick={handleEditDraft}
-              disabled={isSupport}
-            >
-              {tCommon('editDraft')}
-            </Button>
-            <PublishButton
-              onClick={handlePublishDraft}
-              disabled={!canBePublished() || isSupport}
-              arePersonalDataSet={arePersonalDataSet}
-              isRulesetExpired={isRulesetExpired}
-            />
-          </Stack>
+          <>
+            {!canBePublished() && (
+              <Alert severity="warning" sx={{ mt: 3 }}>
+                {t('summary.publishWarningLabel')}
+              </Alert>
+            )}
+            <Stack spacing={1} sx={{ mt: 3 }} direction="row" justifyContent="end">
+              <Button
+                startIcon={<DeleteOutlineIcon />}
+                variant="text"
+                color="error"
+                onClick={handleDeleteDraft}
+                disabled={isSupport}
+              >
+                {tCommon('deleteDraft')}
+              </Button>
+              <Button
+                startIcon={<CreateIcon />}
+                variant="text"
+                onClick={handleEditDraft}
+                disabled={isSupport}
+              >
+                {tCommon('editDraft')}
+              </Button>
+              <PublishButton
+                onClick={handlePublishDraft}
+                disabled={!canBePublished() || isSupport}
+                arePersonalDataSet={arePersonalDataSet}
+                isRulesetExpired={isRulesetExpired}
+              />
+            </Stack>
+          </>
         )}
         {isDelegator && descriptor?.state === 'WAITING_FOR_APPROVAL' && (
           <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">

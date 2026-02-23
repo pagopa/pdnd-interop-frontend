@@ -43,6 +43,7 @@
     "insert": "Insert",
     "revoke": "Revoke",
     "upload": "Upload",
+    "saveDocument": "Save document",
     "import": "Import",
     "saveEdits": "Save edits",
     "accept": "Accept",

@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { EServiceRiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 
-export const ProviderEServiceRiskAnalysisSummaryList: React.FC = () => {
+export const ProviderEServiceRiskAnalysisSummaryListSection: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.riskAnalysisSummaryList' })
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
 
