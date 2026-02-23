@@ -21,6 +21,7 @@ import type {
   ProducerEServiceDescriptor,
 } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
+import { AxiosError } from 'axios'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { IconLink } from '@/components/shared/IconLink'
@@ -33,11 +34,15 @@ import {
 } from '@/config/constants'
 import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
-import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
+import {
+  EServiceTemplateMutations,
+  DUPLICATE_INSTANCE_LABEL_ERROR_CODE,
+} from '@/api/eserviceTemplate'
 import {
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA,
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL,
 } from '@/config/env'
+import { InstanceLabelSection } from './InstanceLabelSection'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -48,6 +53,7 @@ export type EServiceCreateStepGeneralFormValues = {
   isSignalHubEnabled: boolean
   isConsumerDelegable: boolean
   isClientAccessDelegable: boolean
+  instanceLabel: string | undefined
 }
 
 type SignalHubSectionProps = {
@@ -85,6 +91,34 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const defaultValues = evaluateFormDefaultValues(eserviceTemplate, descriptor, eserviceMode)
   const formMethods = useForm({ defaultValues })
 
+  /**
+   * Resolves the instanceLabel form value to the API payload value:
+   * - non-empty string → string (BE validates the label)
+   * - empty string or undefined → undefined (axios omits the key from JSON, BE validates the undefined value for the label)
+   */
+  const resolveInstanceLabel = (formValue: string | undefined): string | undefined => {
+    return !formValue ? undefined : formValue
+  }
+
+  /**
+   * TODO(BE-API-SPEC): Verificare con le specifiche API del BE pubblicate:
+   * - Confermare il codice errore (DUPLICATE_INSTANCE_LABEL_ERROR_CODE) e la struttura
+   *   della risposta (error.response.data.errors[0].code)
+   * - Verificare errori che richiedono messaggi diversi (es. label troppo lunga, caratteri non ammessi)
+   */
+  const handleInstanceLabelError = (error: unknown) => {
+    if (!(error instanceof AxiosError)) return
+    const errorCode = error.response?.data?.errors?.[0]?.code
+    if (errorCode === DUPLICATE_INSTANCE_LABEL_ERROR_CODE) {
+      const instanceLabelValue = formMethods.getValues('instanceLabel')
+      formMethods.setError('instanceLabel', {
+        message: instanceLabelValue
+          ? t('create.step1.instanceLabelField.validation.duplicate')
+          : t('create.step1.instanceLabelField.validation.emptyNotAvailable'),
+      })
+    }
+  }
+
   const onSubmit = (formValues: EServiceCreateStepGeneralFormValues & InstanceEServiceSeed) => {
     // If we are editing an existing e-service, we update the draft
     if (descriptor) {
@@ -99,8 +133,9 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 isClientAccessDelegable: formValues.isClientAccessDelegable,
                 isConsumerDelegable: formValues.isConsumerDelegable,
                 isSignalHubEnabled: formValues.isSignalHubEnabled,
+                instanceLabel: resolveInstanceLabel(formValues.instanceLabel),
               },
-              { onSuccess: forward }
+              { onSuccess: forward, onError: handleInstanceLabelError }
             )
           : updateDraft(
               { eserviceId: descriptor.eservice.id, ...formValues },
@@ -135,6 +170,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
         isClientAccessDelegable: formValues.isClientAccessDelegable,
         isConsumerDelegable: formValues.isConsumerDelegable,
         isSignalHubEnabled: formValues.isSignalHubEnabled,
+        instanceLabel: resolveInstanceLabel(formValues.instanceLabel),
       }
 
       createDraftFromTemplate(body, {
@@ -146,6 +182,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           })
           forward()
         },
+        onError: handleInstanceLabelError,
       })
     }
   }
@@ -271,6 +308,13 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             </>
           )}
         </SectionContainer>
+
+        {isEserviceFromTemplate && (
+          <InstanceLabelSection
+            templateName={eserviceTemplate?.name ?? descriptor?.templateRef?.templateName ?? ''}
+            instanceLabel={formMethods.watch('instanceLabel') ?? ''}
+          />
+        )}
 
         {/* Signalhub switch can be editable also if coming from a eservice eserviceTemplate */}
         <SignalHubSection isSignalHubActivationEditable={areEServiceGeneralInfoEditable} />
@@ -423,6 +467,7 @@ function evaluateFormDefaultValues(
       isSignalHubEnabled: descriptor?.eservice.isSignalHubEnabled ?? false,
       isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? true,
       isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? true,
+      instanceLabel: descriptor?.eservice.instanceLabel ?? '',
     }
 
   return {
@@ -434,5 +479,6 @@ function evaluateFormDefaultValues(
     isSignalHubEnabled: eserviceTemplate?.isSignalHubEnabled ?? false,
     isConsumerDelegable: true,
     isClientAccessDelegable: true,
+    instanceLabel: '',
   }
 }

@@ -131,6 +131,7 @@ export interface UpdateEServiceTemplateInstanceSeed {
   isSignalHubEnabled?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
+  instanceLabel?: string
 }
 
 export interface EServiceSeed {
@@ -497,6 +498,7 @@ export interface ProducerDescriptorEService {
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
   personalData?: boolean
+  instanceLabel?: string
 }
 
 export interface ProducerDescriptorEServiceProducer {
@@ -2122,6 +2124,7 @@ export interface InstanceEServiceSeed {
   isSignalHubEnabled?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
+  instanceLabel?: string
 }
 
 export interface VersionSeedForEServiceTemplateCreation {
