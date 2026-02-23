@@ -25,7 +25,7 @@ export function EServiceTemplateCreateStepTechnicalSpecsInterface({ error }: { e
     interfaceDoc,
   }: EServiceTemplateCreateStepTechnicalSpecsInterfaceFormValues) => {
     if (!interfaceDoc || !eserviceTemplateVersion) return
-    const prettyName = t('create.stepTechnicalSpecs.interface.prettyName')
+    const prettyName = t('create.step3.technicalSpecs.interface.prettyName')
     uploadDocument({
       eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
       eServiceTemplateVersionId: eserviceTemplateVersion.id,

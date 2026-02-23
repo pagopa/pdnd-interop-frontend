@@ -48,7 +48,7 @@ export const EServiceTemplateCreateStepTechnicalSpecs: React.FC<ActiveStepProps>
     if (!eserviceTemplateVersion) return
 
     if (!eserviceTemplateVersion.interface) {
-      setInterfaceError(t('create.stepTechnicalSpecs.interface.requiredError'))
+      setInterfaceError(t('create.step3.technicalSpecs.interface.requiredError'))
       return
     }
 
@@ -75,30 +75,30 @@ export const EServiceTemplateCreateStepTechnicalSpecs: React.FC<ActiveStepProps>
 
   const sectionDescription =
     eserviceTemplateVersion?.eserviceTemplate.technology === 'SOAP' ? (
-      t(`create.stepTechnicalSpecs.interface.description.soap`)
+      t(`create.step3.technicalSpecs.interface.description.soap`)
     ) : (
-      <>{t(`create.stepTechnicalSpecs.interface.description.rest`)} </>
+      <>{t(`create.step3.technicalSpecs.interface.description.rest`)} </>
     )
 
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer
-          title={t('create.stepTechnicalSpecs.interface.title')}
+          title={t('create.step3.technicalSpecs.interface.title')}
           description={sectionDescription}
         >
           <Stack spacing={3}>
-            <Alert severity="info"> {t('create.stepTechnicalSpecs.interface.alert')}</Alert>
+            <Alert severity="info"> {t('create.step3.technicalSpecs.interface.alert')}</Alert>
             <EServiceTemplateCreateStepTechnicalSpecsInterface error={interfaceError} />
           </Stack>
         </SectionContainer>
-        <SectionContainer title={t('create.stepTechnicalSpecs.voucher.title')}>
+        <SectionContainer title={t('create.step3.technicalSpecs.voucher.title')}>
           <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
             <RHFTextField
               size="small"
               name="voucherLifespan"
-              label={t('create.stepTechnicalSpecs.voucher.voucherLifespanField.label')}
-              infoLabel={t('create.stepTechnicalSpecs.voucher.voucherLifespanField.infoLabel')}
+              label={t('create.step3.technicalSpecs.voucher.voucherLifespanField.label')}
+              infoLabel={t('create.step3.technicalSpecs.voucher.voucherLifespanField.infoLabel')}
               type="number"
               inputProps={{ min: 1, max: 1440 }}
               rules={{ required: true, min: 1, max: 1440 }}

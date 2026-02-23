@@ -14,7 +14,7 @@ import { EServiceTemplateCreateStepAddRiskAnalysis } from './EServiceTemplateCre
 import type { EServiceTemplateRiskAnalysis, TenantKind } from '@/api/api.generatedTypes'
 
 export const EServiceTemplateCreateStepPurpose: FC = () => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'create' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'create' })
   const { eserviceTemplateVersion, forward, back } = useEServiceTemplateCreateContext()
 
   const [riskAnalysisFormState, setRiskAnalysisFormState] = useState<
@@ -76,8 +76,8 @@ export const EServiceTemplateCreateStepPurpose: FC = () => {
       ) : (
         <>
           <SectionContainer
-            title={t('stepPurpose.purposeTableSection.title')}
-            description={t('stepPurpose.purposeTableSection.description')}
+            title={t('step2.purpose.purposeTableSection.title')}
+            description={t('step2.purpose.purposeTableSection.description')}
           >
             <EServiceTemplateCreateStepPurposeAddPurposesTable
               onOpenEditRiskAnalysisForm={handleOpenEditRiskAnalysisForm}
@@ -98,7 +98,7 @@ export const EServiceTemplateCreateStepPurpose: FC = () => {
               endIcon: <ArrowForwardIcon />,
               disabled: isForwardButtonDisabled,
               tooltip: isForwardButtonDisabled
-                ? t('stepPurpose.purposeTableSection.noSelectedPurposesTooltip')
+                ? t('step2.purpose.purposeTableSection.noSelectedPurposesTooltip')
                 : undefined,
             }}
           />

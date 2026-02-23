@@ -77,8 +77,8 @@ describe('EServiceTemplateCreateStepPurpose', () => {
     renderWithApplicationContext(<EServiceTemplateCreateStepPurpose />, {
       withReactQueryContext: true,
     })
-    expect(screen.getByText('stepPurpose.purposeTableSection.title')).toBeInTheDocument()
-    expect(screen.getByText('stepPurpose.purposeTableSection.description')).toBeInTheDocument()
+    expect(screen.getByText('step2.purpose.purposeTableSection.title')).toBeInTheDocument()
+    expect(screen.getByText('step2.purpose.purposeTableSection.description')).toBeInTheDocument()
     expect(screen.getByText('backWithoutSaveBtn')).toBeInTheDocument()
     expect(screen.getByText('forwardWithoutSaveBtn')).toBeInTheDocument()
   })
