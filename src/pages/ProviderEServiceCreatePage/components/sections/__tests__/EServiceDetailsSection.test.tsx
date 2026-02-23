@@ -1,7 +1,5 @@
 import type { EServiceMode, EServiceTemplateDetails } from '@/api/api.generatedTypes'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
-import React from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { ReactHookFormWrapper, renderWithApplicationContext } from '@/utils/testing.utils'
 import { EServiceDetailsSection } from '../EServiceDetailsSection'
 import { screen } from '@testing-library/react'
 
@@ -24,18 +22,14 @@ const renderComponent = (
   eserviceMode: EServiceMode,
   eserviceTemplate?: EServiceTemplateDetails
 ) => {
-  const Wrapper = ({ children }: { children: React.ReactNode }) => {
-    const formMethods = useForm()
-    return <FormProvider {...formMethods}>{children}</FormProvider>
-  }
   return renderWithApplicationContext(
-    <Wrapper>
+    <ReactHookFormWrapper>
       <EServiceDetailsSection
         areEServiceGeneralInfoEditable={true}
         eserviceMode={eserviceMode}
         eserviceTemplate={eserviceTemplate}
       />
-    </Wrapper>,
+    </ReactHookFormWrapper>,
     {
       withRouterContext: false,
       withReactQueryContext: false,

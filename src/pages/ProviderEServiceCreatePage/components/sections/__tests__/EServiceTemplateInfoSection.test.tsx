@@ -1,5 +1,5 @@
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { TemplateInfoSection } from '../TemplateInfoSection'
+import { EServiceTemplateInfoSection } from '../EServiceTemplateInfoSection'
 import type { EServiceTemplateDetails } from '@/api/api.generatedTypes'
 import { screen } from '@testing-library/react'
 
@@ -20,7 +20,7 @@ const eserviceTemplate: EServiceTemplateDetails = {
 
 const renderComponent = () => {
   return renderWithApplicationContext(
-    <TemplateInfoSection eserviceTemplate={eserviceTemplate} />,
+    <EServiceTemplateInfoSection eserviceTemplate={eserviceTemplate} />,
     {}
   )
 }

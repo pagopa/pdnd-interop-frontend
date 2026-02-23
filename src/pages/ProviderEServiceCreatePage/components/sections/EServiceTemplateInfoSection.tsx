@@ -4,11 +4,13 @@ import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 
-type TemplateInfoSectionProps = {
+type EServiceTemplateInfoSectionProps = {
   eserviceTemplate: EServiceTemplateDetails
 }
 
-export const TemplateInfoSection: React.FC<TemplateInfoSectionProps> = ({ eserviceTemplate }) => {
+export const EServiceTemplateInfoSection: React.FC<EServiceTemplateInfoSectionProps> = ({
+  eserviceTemplate,
+}) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.templateInfoSection' })
 
   return (

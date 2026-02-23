@@ -21,7 +21,7 @@ import { AuthHooks } from '@/api/auth'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { EServiceInfoSection } from '../sections/EServiceInfoSection'
 import { EServiceDetailsSection } from '../sections/EServiceDetailsSection'
-import { TemplateInfoSection } from '../sections/TemplateInfoSection'
+import { EServiceTemplateInfoSection } from '../sections/EServiceTemplateInfoSection'
 import { DelegationSection } from '../sections/DelegationSection'
 import { SignalHubSection } from '../sections/SignalHubSection'
 
@@ -135,7 +135,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         {eserviceTemplate ? (
-          <TemplateInfoSection eserviceTemplate={eserviceTemplate} />
+          <EServiceTemplateInfoSection eserviceTemplate={eserviceTemplate} />
         ) : (
           <EServiceInfoSection />
         )}

@@ -1,19 +1,12 @@
-import React from 'react'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { ReactHookFormWrapper, renderWithApplicationContext } from '@/utils/testing.utils'
 import { EServiceInfoSection } from '../EServiceInfoSection'
 import { screen } from '@testing-library/react'
-import { FormProvider, useForm } from 'react-hook-form'
 
 const renderComponent = () => {
-  const Wrapper = ({ children }: { children: React.ReactNode }) => {
-    const formMethods = useForm()
-    return <FormProvider {...formMethods}>{children}</FormProvider>
-  }
-
   return renderWithApplicationContext(
-    <Wrapper>
+    <ReactHookFormWrapper>
       <EServiceInfoSection />
-    </Wrapper>,
+    </ReactHookFormWrapper>,
     {
       withReactQueryContext: false,
       withRouterContext: false,

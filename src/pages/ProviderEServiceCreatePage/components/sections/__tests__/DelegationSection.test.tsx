@@ -1,18 +1,12 @@
-import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { FormProvider, useForm } from 'react-hook-form'
+import { ReactHookFormWrapper, renderWithApplicationContext } from '@/utils/testing.utils'
 import { DelegationSection } from '../DelegationSection'
 import { screen } from '@testing-library/react'
 
 const renderComponent = () => {
-  const Wrapper = ({ children }: { children: React.ReactNode }) => {
-    const formMethods = useForm()
-    return <FormProvider {...formMethods}>{children}</FormProvider>
-  }
-
   return renderWithApplicationContext(
-    <Wrapper>
+    <ReactHookFormWrapper>
       <DelegationSection areEServiceGeneralInfoEditable isConsumerDelegable />
-    </Wrapper>,
+    </ReactHookFormWrapper>,
     {
       withReactQueryContext: false,
       withRouterContext: false,
