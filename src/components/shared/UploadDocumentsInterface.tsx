@@ -5,7 +5,7 @@ import { Box, Button, Stack } from '@mui/material'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import { useTranslation } from 'react-i18next'
 
-type UploadDocumentsInterfaceFormValues = {
+export type UploadDocumentsInterfaceFormValues = {
   interfaceDoc: File | null
 }
 

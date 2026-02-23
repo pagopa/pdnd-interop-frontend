@@ -2,7 +2,8 @@
   "backToListBtn": "Torna alle finalità",
   "create": {
     "emptyTitle": "Crea finalità",
-    "preliminaryInformationSectionTitle": "Informazioni preliminari",
+    "requiredLabel": "*Campi obbligatori.",
+    "preliminaryInformationSectionTitle": "Informazioni generali",
     "isTemplateField": {
       "label": "Usa un template precompilato"
     },
@@ -13,11 +14,11 @@
     },
     "consumerField": {
       "label": "Fruitore",
-      "infoLabel": "Tra gli aderenti, puoi selezionare solo il tuo ente o gli aderenti per i quali hai una delega in fruizione attiva"
+      "infoLabel": "Seleziona il tuo ente o l'ente per cui hai una delega attiva come fruitore"
     },
     "eserviceField": {
       "label": "E-service da associare",
-      "infoLabel": "Puoi selezionare solo gli e-service per i quali il fruitore selezionato ha una richiesta di fruizione attiva",
+      "infoLabel": "Qui trovi solo gli e-service per cui il fruitore ha una richiesta attiva",
       "alert": {
         "label": "Per l’e-service selezionato è possibile utilizzare la funzionalità di compilazione agevolata!"
       }
@@ -44,9 +45,9 @@
     "riskAnalysisPreviewTitle": "Analisi del rischio",
     "purposeTemplateField": {
       "title": "Compilazione agevolata della finalità",
-      "description": "La funzionalità di compilazione agevolata mette a disposizione annotazioni, documenti di supporto e alcune risposte precompilate per facilitare la formulazione dell’analisi del rischio. Il modello è reso disponibile per il riuso da altri enti aderenti e può essere utilizzato senza vincoli.",
+      "description": "Questa funzionalità ti guida durante l'analisi del rischio con annotazioni, documenti di supporto e alcune risposte precompilate. Il modello agevolato è reso disponibile per il riuso da altri enti e può essere usato senza vincoli.",
       "usePurposeTemplateSwitch": {
-        "label": "Utilizza la funzionalità di compilazione agevolata",
+        "label": "Usa la compilazione agevolata",
         "disabledTooltip": "Non è possibile utilizzare la funzionalità per \n l’e-service selezionato in quanto l’erogatore non ha indicato come verranno trattati i dati personali",
         "selectPurposeTemplate": {
           "title": "Scegli il modello di compilazione agevolata della finalità",
@@ -64,7 +65,7 @@
   "edit": {
     "emptyTitle": "Modifica finalità",
     "stepper": {
-      "stepGeneralLabel": "Generale",
+      "stepGeneralLabel": "Informazioni generali",
       "stepRiskAnalysisLabel": "Analisi del rischio"
     },
     "backWithoutSaveBtn": "Indietro",
@@ -74,26 +75,47 @@
     "stepGeneral": {
       "title": "Informazioni generali",
       "nameField": {
-        "label": "Nome della finalità (richiesto)",
+        "label": "Nome della finalità",
         "infoLabel": "Ti aiuterà a distinguerla dalle altre. Min 5 caratteri, max 60 caratteri"
       },
       "descriptionField": {
-        "label": "Descrizione della finalità (richiesto)",
+        "label": "Descrizione finalità",
         "infoLabel": "Min 10 caratteri, max 250 caratteri"
       },
       "isFreeOfChargeField": {
-        "label": "Indicare se l’accesso ai dati messi a disposizione con la fruizione del presente E-service è a titolo gratuito (richiesto)",
+        "label": "Come metterai a disposizione l'accesso ai dati di questo e-service?*",
         "options": {
-          "YES": "Sì",
-          "NO": "No"
+          "YES": "A titolo gratuito",
+          "NO": "A pagamento"
         }
       },
       "freeOfChargeReasonField": {
         "label": "Motivazione titolo gratuito (richiesto)",
-        "infoLabel": "Si richiede di specificare se la messa a disposizione dei dati è a titolo gratuito in forza di una esenzione/esclusione prevista dalla legge o altro. Min 10 caratteri, max 250 caratteri"
+        "infoLabel": "Spiega perché metterai questi dati a disposizione gratuitamente. Indica se lo fai in base a un’esenzione o a un’esclusione prevista dalla legge, oppure per un altro motivo. Min 10, max 250 caratteri"
+      }
+    },
+    "loadEstimationSection": {
+      "title": "Stima chiamate API",
+      "description": "Indica il numero di chiamate previste ogni giorno per questa finalità.",
+      "dailyCalls": {
+        "label": "Stima numero chiamate API/giorno",
+        "infoLabel": "Inserisci un numero superiore o uguale a 1"
       },
-      "dailyCallsField": {
-        "label": "Quante chiamate API/giorno stimi di effettuare?"
+      "providerThresholdsInfo": {
+        "label": "Soglie definite dall’erogatore",
+        "description": "Le chiamate residue possono variare se l'erogatore riceve altre finalità prima della tua pubblicazione.",
+        "dailyCallsPerConsumer": {
+          "label": "Soglia per fruitore",
+          "value": "{{min}} di {{max}} chiamate API/giorno"
+        },
+        "dailyCallsTotal": {
+          "label": "Soglia totale",
+          "value": "{{min}} di {{max}} chiamate API/giorno"
+        }
+      },
+      "alerts": {
+        "infoDailyCallsPerConsumerExceed": "Il numero che hai inserito supera la soglia prevista per fruitore. La finalità dovrà essere approvata dall’erogatore.",
+        "infoDailyCallsTotalExceed": "Il numero che hai inserito supera la soglia totale. La finalità dovrà essere approvata dall’erogatore."
       }
     },
     "stepRiskAnalysis": {
@@ -169,13 +191,16 @@
         "label": "Questa analisi del rischio utilizza una versione obsoleta che non puoi pubblicare.",
         "action": "Crea nuova finalità"
       },
-      "infoRulesetExpiration": "Questa analisi del rischio utilizza una versione che sarà obsoleta tra {{days}} giorni. Pubblicala entro {{date}} per non doverla ricompilare."
+      "infoRulesetExpiration": "Questa analisi del rischio utilizza una versione che sarà obsoleta tra <strong>{{days}} giorni</strong>. Pubblicala entro {{date}} per non doverla ricompilare.",
+      "infoApprovalMayBeRequired": "Se l’erogatore riceve altre finalità prima della tua pubblicazione, potrebbe essere necessaria l’approvazione.",
+      "infoDailyCallsPerConsumerExceed": "La stima di chiamate che hai indicato supera la soglia per fruitore. La finalità dovrà essere approvata dall’erogatore.",
+      "infoDailyCallsTotalExceed": "La stima di chiamate che hai indicato supera la soglia totale. La finalità dovrà essere approvata dall’erogatore."
     },
     "generalInformationSection": {
       "title": "Informazioni generali",
       "eservice": {
-        "label": "E-service di riferimento",
-        "value": "{{name}}, versione {{version}}"
+        "label": "E-service associato",
+        "value": "{{name}}"
       },
       "producer": {
         "label": "Erogatore"
@@ -184,17 +209,17 @@
         "label": "Descrizione"
       },
       "loadEstimationSection": {
-        "title": "Stima di carico",
+        "title": "Stima e soglie di chiamate API",
         "dailyCalls": {
-          "label": "Il tuo piano richiesto",
+          "label": "Stima richiesta dal fruitore",
           "value": "{{value}} chiamate API/giorno"
         },
         "dailyCallsPerConsumer": {
-          "label": "Soglia per fruitore imposta dall'erogatore",
+          "label": "Soglia per fruitore prevista dall'erogatore",
           "value": "{{value}} chiamate API/giorno"
         },
         "dailyCallsTotal": {
-          "label": "Soglia totale imposta dall'erogatore",
+          "label": "Soglia totale prevista dall'erogatore",
           "value": "{{value}} chiamate API/giorno"
         }
       }
