@@ -31,7 +31,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
 }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const { t: tAttribute } = useTranslation('attribute')
-  const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = React.useState(
+  const [isAttributeAutocompleteVisible, setIsAttributeAutocompleteVisible] = React.useState(
     group.length === 0
   )
   const { open } = useCustomizeThresholdDrawer()
@@ -43,7 +43,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
   const handleDeleteAttributeFromGroup = (attributeId: string) => {
     onRemoveAttributeFromGroup(attributeId, groupIndex)
     if (group.length === 1) {
-      setIsAttributeAutocompleteShown(true)
+      setIsAttributeAutocompleteVisible(true)
     }
   }
 
@@ -54,7 +54,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
     const newAttributeGroups = [...attributeGroups]
     newAttributeGroups[groupIndex].push(attribute)
     setValue(`attributes.${attributeKey}`, newAttributeGroups)
-    setIsAttributeAutocompleteShown(false)
+    setIsAttributeAutocompleteVisible(false)
   }
 
   return (
@@ -102,7 +102,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
       )}
       {!readOnly && (
         <>
-          {isAttributeAutocompleteShown ? (
+          {isAttributeAutocompleteVisible ? (
             <AttributeAutocomplete
               attributeKey={attributeKey}
               onAddAttribute={handleAddAttributeToGroup}
@@ -119,7 +119,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
                 sx={{ fontWeight: 700 }}
                 readOnly={readOnly}
                 startIcon={<AddIcon fontSize="small" />}
-                onClick={() => setIsAttributeAutocompleteShown(true)}
+                onClick={() => setIsAttributeAutocompleteVisible(true)}
               >
                 {t('addAnotherBtn')}
               </ButtonNaked>

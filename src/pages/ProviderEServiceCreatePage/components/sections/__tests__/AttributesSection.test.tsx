@@ -15,7 +15,7 @@ vi.mock('@/components/shared/AddAttributesToForm', () => ({
         {`attributeKey=${key}`}
         {` readOnly=${String(props.readOnly)}`}
         {props.withThreshold ? ' withThreshold' : ''}
-        {props.openCreateAttributeDrawer ? ' hasOpenCreateAttributeDrawer' : ''}
+        {props.createAttributeAction ? ' hasCreateAttributeAction' : ''}
       </div>
     )
   },
@@ -78,10 +78,10 @@ describe('AttributesSection', () => {
     expect(lastRenderedProps['certified']?.withThreshold).toBe(true)
   })
 
-  it('should not pass openCreateAttributeDrawer to certified', () => {
+  it('should not pass createAttributeAction to certified', () => {
     renderComponent()
     // Certified is the active tab, so lastRenderedProps captures its props
-    expect(lastRenderedProps['certified']?.openCreateAttributeDrawer).toBeUndefined()
+    expect(lastRenderedProps['certified']?.createAttributeAction).toBeUndefined()
   })
 
   it('should call handleOpenAttributeCreateDrawerFactory for verified and declared', () => {

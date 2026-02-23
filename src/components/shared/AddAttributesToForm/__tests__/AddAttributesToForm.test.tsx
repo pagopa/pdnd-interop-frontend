@@ -47,11 +47,9 @@ describe('AddAttributesToForm', () => {
     expect(screen.queryByRole('button', { name: 'addGroupLabel' })).not.toBeInTheDocument()
   })
 
-  it('should render the "createAttributeLabel" ButtonNaked when props are provided and not readOnly', () => {
-    const openCreateAttributeDrawer = vi.fn()
+  it('should render the "createAttributeLabel" ButtonNaked when createAttributeAction is provided and not readOnly', () => {
     renderComponent({
-      createAttributeLabel: 'createAttributeLabel',
-      openCreateAttributeDrawer,
+      createAttributeAction: { label: 'createAttributeLabel', openDrawer: vi.fn() },
     })
     expect(screen.getByText('createAttributeLabel')).toBeInTheDocument()
   })
@@ -59,8 +57,7 @@ describe('AddAttributesToForm', () => {
   it('should not render the "createAttributeLabel" when readOnly', () => {
     renderComponent({
       readOnly: true,
-      createAttributeLabel: 'createAttributeLabel',
-      openCreateAttributeDrawer: vi.fn(),
+      createAttributeAction: { label: 'createAttributeLabel', openDrawer: vi.fn() },
     })
     expect(screen.queryByText('createAttributeLabel')).not.toBeInTheDocument()
   })
@@ -78,14 +75,13 @@ describe('AddAttributesToForm', () => {
     expect(screen.getByRole('button', { name: 'addGroupLabel' })).toBeDisabled()
   })
 
-  it('should call openCreateAttributeDrawer on click of the ButtonNaked', () => {
-    const openCreateAttributeDrawer = vi.fn()
+  it('should call createAttributeAction.openDrawer on click of the ButtonNaked', () => {
+    const openDrawer = vi.fn()
     renderComponent({
-      createAttributeLabel: 'createAttributeLabel',
-      openCreateAttributeDrawer,
+      createAttributeAction: { label: 'createAttributeLabel', openDrawer },
     })
     fireEvent.click(screen.getByText('createAttributeLabel'))
-    expect(openCreateAttributeDrawer).toHaveBeenCalled()
+    expect(openDrawer).toHaveBeenCalled()
   })
 
   it('should render the SectionContainer with title when hideTitle is not true', () => {

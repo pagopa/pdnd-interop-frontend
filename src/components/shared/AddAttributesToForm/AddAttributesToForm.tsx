@@ -10,14 +10,18 @@ import type { DescriptorAttributes } from '@/api/api.generatedTypes'
 import AddIcon from '@mui/icons-material/Add'
 import { ButtonNaked } from '@pagopa/mui-italia'
 
+export type CreateAttributeAction = {
+  label: string
+  openDrawer: VoidFunction
+}
+
 export type AddAttributesToFormProps = {
   attributeKey: AttributeKey
   readOnly: boolean
   addGroupLabel: string
   hideTitle?: boolean
   withThreshold?: boolean
-  createAttributeLabel?: string
-  openCreateAttributeDrawer?: VoidFunction
+  createAttributeAction?: CreateAttributeAction
 }
 
 export const AddAttributesToForm: React.FC<AddAttributesToFormProps> = ({
@@ -26,8 +30,7 @@ export const AddAttributesToForm: React.FC<AddAttributesToFormProps> = ({
   addGroupLabel,
   hideTitle,
   withThreshold,
-  createAttributeLabel,
-  openCreateAttributeDrawer,
+  createAttributeAction,
 }) => {
   const { t: tAttribute } = useTranslation('attribute')
 
@@ -58,16 +61,16 @@ export const AddAttributesToForm: React.FC<AddAttributesToFormProps> = ({
 
   const content = (
     <>
-      {!readOnly && openCreateAttributeDrawer && createAttributeLabel && (
+      {!readOnly && createAttributeAction && (
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 3 }}>
           <ButtonNaked
             color="primary"
             type="button"
             sx={{ fontWeight: 700 }}
             startIcon={<AddIcon fontSize="small" />}
-            onClick={openCreateAttributeDrawer}
+            onClick={createAttributeAction.openDrawer}
           >
-            {createAttributeLabel}
+            {createAttributeAction.label}
           </ButtonNaked>
         </Box>
       )}

@@ -82,8 +82,10 @@ export const AttributesSection: React.FC<AttributesSectionProps> = ({
             readOnly={isEServiceCreatedFromTemplate}
             hideTitle
             addGroupLabel={t('step3.attributesAddBtn')}
-            createAttributeLabel={t('step3.attributesCreateBtn')}
-            openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('verified')}
+            createAttributeAction={{
+              label: t('step3.attributesCreateBtn'),
+              openDrawer: handleOpenAttributeCreateDrawerFactory('verified'),
+            }}
           />
         </TabPanel>
         <TabPanel value="declared" sx={{ px: 0, pb: 0 }}>
@@ -95,8 +97,10 @@ export const AttributesSection: React.FC<AttributesSectionProps> = ({
             readOnly={isEServiceCreatedFromTemplate}
             hideTitle
             addGroupLabel={t('step3.attributesAddBtn')}
-            createAttributeLabel={t('step3.attributesCreateBtn')}
-            openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('declared')}
+            createAttributeAction={{
+              label: t('step3.attributesCreateBtn'),
+              openDrawer: handleOpenAttributeCreateDrawerFactory('declared'),
+            }}
           />
         </TabPanel>
       </TabContext>

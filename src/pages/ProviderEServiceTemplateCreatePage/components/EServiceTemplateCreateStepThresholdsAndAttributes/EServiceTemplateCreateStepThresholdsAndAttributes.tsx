@@ -254,8 +254,10 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
                   addGroupLabel={t(
                     'stepThresholdsAndAttributes.accessRequirements.createRequirementBtn'
                   )}
-                  createAttributeLabel={t('step3.attributesCreateBtn')}
-                  openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('verified')}
+                  createAttributeAction={{
+                    label: t('step3.attributesCreateBtn'),
+                    openDrawer: handleOpenAttributeCreateDrawerFactory('verified'),
+                  }}
                 />
               </TabPanel>
               <TabPanel value="declared" sx={{ px: 0, pb: 0 }}>
@@ -269,8 +271,10 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
                   addGroupLabel={t(
                     'stepThresholdsAndAttributes.accessRequirements.createRequirementBtn'
                   )}
-                  createAttributeLabel={t('step3.attributesCreateBtn')}
-                  openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('declared')}
+                  createAttributeAction={{
+                    label: t('step3.attributesCreateBtn'),
+                    openDrawer: handleOpenAttributeCreateDrawerFactory('declared'),
+                  }}
                 />
               </TabPanel>
             </TabContext>
