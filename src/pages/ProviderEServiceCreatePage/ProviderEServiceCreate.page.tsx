@@ -6,10 +6,6 @@ import {
   EServiceCreateStepGeneralSkeleton,
 } from './components/EServiceCreateStepGeneral'
 import {
-  EServiceCreateStepVersion,
-  EServiceCreateStepVersionSkeleton,
-} from './components/EServiceCreateStepVersion'
-import {
   EServiceCreateStepDocuments,
   EServiceCreateStepDocumentsSkeleton,
   EServiceCreateFromTemplateStepDocumentsSkeleton,
@@ -33,6 +29,7 @@ import type { EServiceMode } from '@/api/api.generatedTypes'
 import { useQuery } from '@tanstack/react-query'
 import { EServiceCreateFromTemplateStepPurpose } from './components/EServiceCreateStepPurpose/EServiceCreateFromTemplateStepPurpose'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
+import { EServiceCreateStepInfoVersion } from './components/EServiceCreateStepInfoVersion'
 import {
   EServiceCreateStepThresholds,
   EServiceCreateStepThresholdsSkeleton,
@@ -83,7 +80,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
           { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
           { label: t('create.stepper.step2Label'), component: EServiceCreateStepThresholds },
           { label: t('create.stepper.step3Label'), component: EServiceCreateStepAttributes },
-          { label: t('create.stepper.step4Label'), component: CreateStepDocuments },
+          { label: t('create.stepper.step4Label'), component: EServiceCreateStepInfoVersion },
         ]
       : [
           { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
@@ -93,7 +90,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
           },
           { label: t('create.stepper.step2Label'), component: EServiceCreateStepThresholds },
           { label: t('create.stepper.step3Label'), component: EServiceCreateStepAttributes },
-          { label: t('create.stepper.step4Label'), component: CreateStepDocuments },
+          { label: t('create.stepper.step4Label'), component: EServiceCreateStepInfoVersion },
         ]
 
   const { component: Step } = steps[activeStep]
