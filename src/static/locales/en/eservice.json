@@ -163,7 +163,7 @@
         },
         "customizeThresholdDrawer": {
           "title": "Customize threshold",
-          "subtitle": "Set a custom threshold for the certified attribute {{name}}.",
+          "subtitle": "Set a custom threshold for the certified attribute <1>{{name}}</1>.",
           "submitBtnLabel": "Customize threshold",
           "field": {
             "placeholder": "API calls/day per consumer",
@@ -182,9 +182,12 @@
       }
     },
     "step3": {
-      "attributesTitle": "Access requirements for version {{versionNumber}}",
-      "attributesDescription": "Please indicate all the certified, verified, and declared attributes that the consumer must have in order to create an agreement for the e-service",
-      "attributesAddBtn": "Add attribute",
+      "attributesTitle": "Access requirements",
+      "attributesDescription": "Define who can access this e-service. Create one or more requirements and associate the required attributes to each. The consumer must meet all the indicated requirements and possess at least one of the attributes in each requirement. <1>Learn more about attributes</1>",
+      "certifiedDescription": "These are attributes certified by a <1>recognized authoritative source.</1>",
+      "verifiedDescription": "These are attributes verified <1>by other organizations</1>, with the possibility of requesting a verification from the provider.",
+      "declaredDescription": "These are attributes declared by the consumer during the service request. No verification from the provider is required.",
+      "attributesAddBtn": "Create requirement",
       "attributesCreateBtn": "Create new attribute",
       "createAttributeDrawer": {
         "title": {

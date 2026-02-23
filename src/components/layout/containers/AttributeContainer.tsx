@@ -11,7 +11,6 @@ import {
   Skeleton,
   Stack,
   Typography,
-  Button,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { ButtonNaked } from '@pagopa/mui-italia'
@@ -90,7 +89,7 @@ export const AttributeContainer = <
             aria-controls={panelContentId}
             id={headerId}
           >
-            <Stack>
+            <Stack spacing={1}>
               <Typography fontWeight={600}>{attribute.name}</Typography>
               {onCustomizeThreshold && (
                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
@@ -113,19 +112,17 @@ export const AttributeContainer = <
                       </Typography>
                     </Stack>
                   )}
-                  <Button
-                    sx={{
-                      justifyContent: 'start',
-                      px: 1,
-                      width: 'fit-content',
-                    }}
-                    onClick={(e) => {
+                  <ButtonNaked
+                    color="primary"
+                    type="button"
+                    sx={{ fontWeight: 700 }}
+                    onClick={(e: React.MouseEvent) => {
                       e.stopPropagation()
                       onCustomizeThreshold()
                     }}
                   >
                     {attribute.dailyCallsPerConsumer ? t('changeBtn') : t('customizeBtn')}
-                  </Button>
+                  </ButtonNaked>
                 </Stack>
               )}
             </Stack>
@@ -145,7 +142,12 @@ export const AttributeContainer = <
             <CardActions disableSpacing sx={{ p: 0 }}>
               <Stack direction="row" spacing={2}>
                 {actions?.map(({ action, label, color = 'primary' }, i) => (
-                  <ButtonNaked key={i} onClick={action.bind(null, attribute.id)} color={color}>
+                  <ButtonNaked
+                    key={i}
+                    type="button"
+                    onClick={action.bind(null, attribute.id)}
+                    color={color}
+                  >
                     {label}
                   </ButtonNaked>
                 ))}
@@ -175,7 +177,7 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
     <Stack sx={{ mt: 1 }} spacing={2}>
       <Typography variant="body2">{attribute.description}</Typography>
       <InformationContainer
-        direction="column"
+        direction="row"
         content={attributeId}
         copyToClipboard={{
           value: attributeId,

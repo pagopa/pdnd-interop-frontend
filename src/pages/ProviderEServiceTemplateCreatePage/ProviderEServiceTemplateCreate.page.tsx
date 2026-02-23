@@ -66,6 +66,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
           {
             label: t('create.stepper.step2Label'),
             component: EServiceTemplateCreateStepThresholdsAndAttributes,
+            showRequiredLabel: true,
           },
           {
             label: t('create.stepper.step3Label'),
@@ -92,6 +93,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
           {
             label: t('create.stepper.step2Label'),
             component: EServiceTemplateCreateStepThresholdsAndAttributes,
+            showRequiredLabel: true,
           },
           {
             label: t('create.stepper.step3Label'),
