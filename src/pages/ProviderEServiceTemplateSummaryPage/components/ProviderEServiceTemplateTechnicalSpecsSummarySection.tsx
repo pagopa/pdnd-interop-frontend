@@ -1,7 +1,8 @@
 import React from 'react'
-import { Stack } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
+import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import { secondsToMinutes } from '@/utils/format.utils'
 import { useParams } from '@/router'
 import { useSuspenseQuery } from '@tanstack/react-query'
@@ -15,6 +16,7 @@ export const ProviderEServiceTemplateTechnicalSpecsSummarySection: React.FC = ()
   const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'summary.technicalSpecsSummary',
   })
+  const { t: tSummary } = useTranslation('eserviceTemplate', { keyPrefix: 'summary' })
   const { t: tCommon } = useTranslation('common')
   const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
 
@@ -55,9 +57,18 @@ export const ProviderEServiceTemplateTechnicalSpecsSummarySection: React.FC = ()
       )}
       <InformationContainer
         label={t('voucherLifespan.label')}
-        content={`${voucherLifespan} ${tCommon('time.minute', {
-          count: voucherLifespan,
-        })}`}
+        content={
+          !eserviceTemplate.voucherLifespan ? (
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <WarningAmberIcon color="warning" fontSize="small" />
+              <Typography fontWeight={600}>{tSummary('missingField')}</Typography>
+            </Stack>
+          ) : (
+            `${voucherLifespan} ${tCommon('time.minute', {
+              count: voucherLifespan,
+            })}`
+          )
+        }
       />
     </Stack>
   )

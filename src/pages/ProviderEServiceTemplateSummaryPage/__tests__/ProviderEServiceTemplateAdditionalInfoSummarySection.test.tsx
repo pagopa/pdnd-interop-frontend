@@ -112,7 +112,7 @@ describe('ProviderEServiceTemplateAdditionalInfoSummarySection', () => {
     expect(screen.getByText('manualApproval.value.true')).toBeInTheDocument()
   })
 
-  it('renders n/a when version description is missing', () => {
+  it('renders missing field warning when version description is missing', () => {
     const mockData = createMockEServiceTemplateVersionDetails({ description: undefined })
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
@@ -121,6 +121,7 @@ describe('ProviderEServiceTemplateAdditionalInfoSummarySection', () => {
       withRouterContext: true,
     })
 
-    expect(screen.getByText('n/a')).toBeInTheDocument()
+    expect(screen.getByText('missingField')).toBeInTheDocument()
+    expect(screen.getByTestId('WarningAmberIcon')).toBeInTheDocument()
   })
 })

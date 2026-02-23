@@ -470,6 +470,10 @@
         }
       }
     },
+    "completeInfoChip": "Complete the required information",
+    "missingField": "To be filled in",
+    "missingFieldsBanner": "To publish, please fill in the missing information.",
+    "missingFieldsTooltip": "Some information is still missing. Complete the draft to publish.",
     "notPublishableTooltip": {
       "label": "One or more required fields have not been filled out. Please complete the draft."
     },

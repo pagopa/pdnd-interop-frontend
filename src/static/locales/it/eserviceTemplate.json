@@ -470,6 +470,10 @@
         }
       }
     },
+    "completeInfoChip": "Completa le informazioni richieste",
+    "missingField": "Da inserire",
+    "missingFieldsBanner": "Per poter pubblicare, inserisci le informazioni mancanti.",
+    "missingFieldsTooltip": "Mancano ancora alcune informazioni. Completa la bozza per poter pubblicare.",
     "notPublishableTooltip": {
       "label": "Uno o più campi richiesti non sono stati compilati. Completa la bozza"
     },

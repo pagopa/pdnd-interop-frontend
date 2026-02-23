@@ -79,9 +79,10 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   }
 
   const arePersonalDataSet = eserviceTemplate?.eserviceTemplate.personalData !== undefined
+  const hasMissingFields = !eserviceTemplate?.voucherLifespan || !eserviceTemplate?.description
 
   const canBePublished = () => {
-    return !!(eserviceTemplate?.interface && arePersonalDataSet)
+    return !!(eserviceTemplate?.interface && arePersonalDataSet && !hasMissingFields)
   }
 
   const isReceiveMode = eserviceTemplate?.eserviceTemplate.mode === 'RECEIVE'
@@ -154,6 +155,9 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
               title={t('summary.technicalSpecsSummary.title')}
+              warningChipLabel={
+                !eserviceTemplate?.voucherLifespan ? t('summary.completeInfoChip') : undefined
+              }
             >
               <ProviderEServiceTemplateTechnicalSpecsSummarySection />
             </SummaryAccordion>
@@ -163,6 +167,9 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '5' : '4'}
               title={t('summary.additionalInfoSummary.title')}
+              warningChipLabel={
+                !eserviceTemplate?.description ? t('summary.completeInfoChip') : undefined
+              }
             >
               <ProviderEServiceTemplateAdditionalInfoSummarySection />
             </SummaryAccordion>
@@ -185,6 +192,11 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             </Stack>
           </Alert>
         )}
+        {hasMissingFields && !isLoading && (
+          <Alert severity="warning" sx={{ mt: 3 }}>
+            {t('summary.missingFieldsBanner')}
+          </Alert>
+        )}
         <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
           <Button
             startIcon={<DeleteOutlineIcon />}
@@ -201,6 +213,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             onClick={handlePublishDraft}
             disabled={!canBePublished()}
             arePersonalDataSet={FEATURE_FLAG_ESERVICE_PERSONAL_DATA && arePersonalDataSet}
+            hasMissingFields={hasMissingFields}
           />
         </Stack>
       </PageContainer>
@@ -221,20 +234,27 @@ type PublishButtonProps = {
   disabled: boolean
   onClick: VoidFunction
   arePersonalDataSet: boolean
+  hasMissingFields: boolean
 }
 
-const PublishButton: React.FC<PublishButtonProps> = ({ disabled, onClick, arePersonalDataSet }) => {
+const PublishButton: React.FC<PublishButtonProps> = ({
+  disabled,
+  onClick,
+  arePersonalDataSet,
+  hasMissingFields,
+}) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'summary' })
 
+  const getTooltipTitle = () => {
+    if (hasMissingFields) return t('missingFieldsTooltip')
+    if (!arePersonalDataSet) return t('missingPersonalDataField')
+    return t('notPublishableTooltip.label')
+  }
+
   const Wrapper = disabled
     ? ({ children }: { children: React.ReactElement }) => (
-        <Tooltip
-          arrow
-          title={
-            arePersonalDataSet ? t('notPublishableTooltip.label') : t('missingPersonalDataField')
-          }
-        >
+        <Tooltip arrow title={getTooltipTitle()}>
           <span tabIndex={disabled ? 0 : undefined}>{children}</span>
         </Tooltip>
       )
