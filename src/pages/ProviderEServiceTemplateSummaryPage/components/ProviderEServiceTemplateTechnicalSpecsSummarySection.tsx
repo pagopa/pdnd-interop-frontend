@@ -41,10 +41,10 @@ export const ProviderEServiceTemplateTechnicalSpecsSummarySection: React.FC = ()
 
   return (
     <Stack spacing={2}>
-      {eserviceTemplate.interface && (
-        <InformationContainer
-          label={t('interface.label')}
-          content={
+      <InformationContainer
+        label={t('interface.label')}
+        content={
+          eserviceTemplate.interface ? (
             <IconLink
               component="button"
               startIcon={<AttachFileIcon fontSize="small" />}
@@ -52,9 +52,14 @@ export const ProviderEServiceTemplateTechnicalSpecsSummarySection: React.FC = ()
             >
               {eserviceTemplate.interface.prettyName}
             </IconLink>
-          }
-        />
-      )}
+          ) : (
+            <Stack direction="row" alignItems="center" spacing={1}>
+              <WarningAmberIcon color="warning" fontSize="small" />
+              <Typography fontWeight={600}>{tSummary('missingField')}</Typography>
+            </Stack>
+          )
+        }
+      />
       <InformationContainer
         label={t('voucherLifespan.label')}
         content={

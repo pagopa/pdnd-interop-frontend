@@ -155,7 +155,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
               title={t('summary.technicalSpecsSummary.title')}
-              showWarning={!eserviceTemplate?.voucherLifespan}
+              showWarning={!eserviceTemplate?.voucherLifespan || !eserviceTemplate?.interface}
               warningLabel={t('summary.completeInfoChip')}
             >
               <ProviderEServiceTemplateTechnicalSpecsSummarySection />

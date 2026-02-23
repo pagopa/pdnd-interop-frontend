@@ -63,7 +63,7 @@ describe('ProviderEServiceTemplateTechnicalSpecsSummarySection', () => {
     expect(screen.getByText(mockData.interface!.prettyName)).toBeInTheDocument()
   })
 
-  it('does not render interface section when interface is missing', () => {
+  it('renders missing field warning when interface is missing', () => {
     const mockData = createMockEServiceTemplateVersionDetailsNoInterface()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
@@ -72,6 +72,7 @@ describe('ProviderEServiceTemplateTechnicalSpecsSummarySection', () => {
       withRouterContext: true,
     })
 
-    expect(screen.queryByText('interface.label')).not.toBeInTheDocument()
+    expect(screen.getByText('interface.label')).toBeInTheDocument()
+    expect(screen.getByText('missingField')).toBeInTheDocument()
   })
 })
