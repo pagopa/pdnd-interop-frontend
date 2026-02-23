@@ -153,6 +153,7 @@ const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceD
     technology: 'REST',
     mode: 'DELIVER',
     riskAnalysis: [],
+    personalData: true,
   },
   id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
   interface: {
@@ -172,6 +173,199 @@ const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceD
   },
 })
 
+const createMockEServiceDescriptorProviderNoInterface =
+  createMockFactory<ProducerEServiceDescriptor>({
+    agreementApprovalPolicy: 'MANUAL',
+    audience: ['nikon'],
+    dailyCallsPerConsumer: 1,
+    dailyCallsTotal: 1,
+    description: 'kinoin',
+    docs: [],
+    eservice: {
+      description: 'Lorem ipsum',
+      descriptors: [
+        {
+          id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+          state: 'PUBLISHED',
+          version: '1',
+          audience: [],
+        },
+      ],
+      producer: {
+        id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+        tenantKind: 'PA',
+      },
+      id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+      name: '-- LUMACA -- test 20/10 [4]\t',
+      technology: 'REST',
+      mode: 'DELIVER',
+      riskAnalysis: [],
+    },
+    id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+    state: 'PUBLISHED',
+    version: '3',
+    voucherLifespan: 60,
+    attributes: {
+      certified: [],
+      declared: [],
+      verified: [],
+    },
+  })
+
+const createMockEServiceDescriptorProviderWithRiskAnalysis =
+  createMockFactory<ProducerEServiceDescriptor>({
+    agreementApprovalPolicy: 'MANUAL',
+    audience: ['nikon'],
+    dailyCallsPerConsumer: 1,
+    dailyCallsTotal: 1,
+    description: 'kinoin',
+    docs: [],
+    eservice: {
+      description: 'Lorem ipsum',
+      descriptors: [
+        {
+          id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+          state: 'PUBLISHED',
+          version: '1',
+          audience: [],
+        },
+      ],
+      producer: {
+        id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+        tenantKind: 'PA',
+      },
+      id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+      name: '-- LUMACA -- test 20/10 [4]\t',
+      technology: 'REST',
+      mode: 'DELIVER',
+      riskAnalysis: [
+        {
+          id: 'risk-analysis-id-001',
+          name: 'Risk Analysis 1',
+          riskAnalysisForm: {
+            riskAnalysisId: 'form-id-001',
+            version: 'version-001',
+            answers: 'answers-001',
+          },
+          createdAt: '',
+        },
+      ],
+    },
+    id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+    state: 'PUBLISHED',
+    version: '3',
+    voucherLifespan: 60,
+    attributes: {
+      certified: [],
+      declared: [],
+      verified: [],
+    },
+  })
+
+const createMockEServiceDescriptorProviderWithDocs = createMockFactory<ProducerEServiceDescriptor>({
+  agreementApprovalPolicy: 'MANUAL',
+  audience: ['nikon'],
+  dailyCallsPerConsumer: 1,
+  dailyCallsTotal: 1,
+  description: 'kinoin',
+  docs: [
+    {
+      id: 'doc-id-001',
+      name: 'document.pdf',
+      prettyName: 'Document PDF',
+      contentType: 'application/pdf',
+      checksum: 'checksum-doc-001',
+    },
+  ],
+  eservice: {
+    description: 'Lorem ipsum',
+    descriptors: [
+      {
+        id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+        state: 'PUBLISHED',
+        version: '1',
+        audience: [],
+      },
+    ],
+    producer: {
+      id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+      tenantKind: 'PA',
+    },
+    id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+    name: '-- LUMACA -- test 20/10 [4]\t',
+    technology: 'REST',
+    mode: 'DELIVER',
+    riskAnalysis: [],
+  },
+  id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+  state: 'PUBLISHED',
+  version: '3',
+  voucherLifespan: 60,
+  attributes: {
+    certified: [],
+    declared: [],
+    verified: [],
+  },
+})
+
+const createMockEServiceDescriptorReceive = createMockFactory<ProducerEServiceDescriptor>({
+  agreementApprovalPolicy: 'MANUAL',
+  audience: ['nikon'],
+  dailyCallsPerConsumer: 1,
+  dailyCallsTotal: 1,
+  description: 'kinoin',
+  docs: [],
+  eservice: {
+    description: 'Lorem ipsum',
+    descriptors: [
+      {
+        id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+        state: 'PUBLISHED',
+        version: '1',
+        audience: [],
+      },
+    ],
+    producer: {
+      id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+      tenantKind: 'PA',
+    },
+    id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+    name: '-- LUMACA -- test 20/10 [4]\t',
+    technology: 'REST',
+    mode: 'RECEIVE',
+    riskAnalysis: [
+      {
+        id: 'risk-analysis-id-001',
+        name: 'Risk Analysis 1',
+        riskAnalysisForm: {
+          riskAnalysisId: 'form-id-001',
+          version: 'version-001',
+          answers: 'answers-001',
+        },
+        createdAt: '',
+      },
+    ],
+  },
+  id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+  state: 'PUBLISHED',
+  version: '3',
+  voucherLifespan: 60,
+  attributes: {
+    certified: [
+      [
+        {
+          id: 'id-001',
+          name: 'name-001',
+          description: 'description-001',
+          explicitAttributeVerification: true,
+        },
+      ],
+    ],
+    declared: [],
+    verified: [],
+  },
+})
+
 export {
   createMockEServiceProvider,
   createMockEServiceCatalog,
@@ -179,4 +373,8 @@ export {
   createMockEServiceDescriptorCatalog,
   createMockCatalogDescriptorEService,
   createMockEServiceDescriptorProvider,
+  createMockEServiceDescriptorProviderNoInterface,
+  createMockEServiceDescriptorProviderWithRiskAnalysis,
+  createMockEServiceDescriptorProviderWithDocs,
+  createMockEServiceDescriptorReceive,
 }

@@ -91,27 +91,27 @@ export const AttributeContainer = <
           >
             <Stack spacing={1}>
               <Typography fontWeight={600}>{attribute.name}</Typography>
-              {onCustomizeThreshold && (
-                <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                  {attribute.dailyCallsPerConsumer !== undefined && (
-                    <Stack direction={'row'} spacing={1}>
-                      <Typography
-                        sx={{
-                          fontSize: 16,
-                        }}
-                      >
-                        {t('thresholdLabel')}
-                      </Typography>
-                      <Typography
-                        sx={{
-                          fontSize: 16,
-                          fontWeight: 700,
-                        }}
-                      >
-                        {attribute.dailyCallsPerConsumer}
-                      </Typography>
-                    </Stack>
-                  )}
+              <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                {attribute.dailyCallsPerConsumer !== undefined && (
+                  <Stack direction={'row'} spacing={1}>
+                    <Typography
+                      sx={{
+                        fontSize: 16,
+                      }}
+                    >
+                      {t('thresholdLabel')}
+                    </Typography>
+                    <Typography
+                      sx={{
+                        fontSize: 16,
+                        fontWeight: 700,
+                      }}
+                    >
+                      {attribute.dailyCallsPerConsumer}
+                    </Typography>
+                  </Stack>
+                )}
+                {onCustomizeThreshold && (
                   <ButtonNaked
                     color="primary"
                     type="button"
@@ -123,8 +123,8 @@ export const AttributeContainer = <
                   >
                     {attribute.dailyCallsPerConsumer ? t('changeBtn') : t('customizeBtn')}
                   </ButtonNaked>
-                </Stack>
-              )}
+                )}
+              </Stack>
             </Stack>
           </AccordionSummary>
           <AccordionDetails>

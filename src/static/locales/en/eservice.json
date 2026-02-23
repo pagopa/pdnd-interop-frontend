@@ -280,6 +280,8 @@
   },
   "summary": {
     "title": "{{eserviceName}}, version {{versionNumber}}",
+    "missingInformationsLabel": "Complete the requested information",
+    "publishWarningLabel": "To publish, please fill in the missing information.",
     "generalInfoSummary": {
       "title": "General information",
       "description": {
@@ -318,7 +320,7 @@
         }
       },
       "isClientAccessDelegable": {
-        "label": "Is access to delegated data authorized?",
+        "label": "Do I authorize access to data by proxy?",
         "value": {
           "true": "Yes",
           "false": "No",
@@ -335,20 +337,7 @@
       "description": {
         "label": "Description"
       },
-      "audience": {
-        "label": "Audience"
-      },
-      "voucherLifespan": {
-        "label": "Voucher lifespan"
-      },
-      "dailyCallsPerConsumer": {
-        "label": "Daily calls per consumer",
-        "value": "{{value}} API calls per day"
-      },
-      "dailyCallsTotal": {
-        "label": "Total daily calls",
-        "value": "{{value}} API calls per day"
-      },
+      "documentation": "Documentation",
       "manualApproval": {
         "label": "Manual approval requests",
         "value": {
@@ -358,13 +347,31 @@
       }
     },
     "attributeVersionSummary": {
-      "title": "Version access requirements"
+      "title": "Version access requirements",
+      "thresholds": {
+        "label": "API thresholds",
+        "dailyCallsPerConsumer": {
+          "label": "Per consumer",
+          "value": "{{value}} API calls/day"
+        },
+        "dailyCallsTotal": {
+          "label": "Total",
+          "value": "{{value}} API calls/day"
+        }
+      }
     },
     "documentationSummary": {
-      "title": "Version documentation",
+      "title": "Technical specifications",
       "interface": {
-        "label": "OpenAPI Interface"
+        "label": "Interface"
       },
+      "audience": {
+        "label": "Audience"
+      },
+      "voucherLifespan": {
+        "label": "Voucher lifespan"
+      },
+      "missingInfoLabel": "Information must be added",
       "emptyLabel": "No uploaded documents"
     },
     "notPublishableTooltip": {
