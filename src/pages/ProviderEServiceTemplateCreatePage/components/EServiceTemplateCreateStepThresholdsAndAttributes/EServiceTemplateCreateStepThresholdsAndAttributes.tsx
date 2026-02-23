@@ -255,7 +255,7 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
                     'step2.thresholdsAndAttributes.accessRequirements.createRequirementBtn'
                   )}
                   createAttributeAction={{
-                    label: t('step3.attributesCreateBtn'),
+                    label: t('step3.attributes.attributesCreateBtn'),
                     openDrawer: handleOpenAttributeCreateDrawerFactory('verified'),
                   }}
                 />
@@ -272,7 +272,7 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
                     'step2.thresholdsAndAttributes.accessRequirements.createRequirementBtn'
                   )}
                   createAttributeAction={{
-                    label: t('step3.attributesCreateBtn'),
+                    label: t('step3.attributes.attributesCreateBtn'),
                     openDrawer: handleOpenAttributeCreateDrawerFactory('declared'),
                   }}
                 />
