@@ -101,18 +101,30 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
             })}
             description={t('step3.attributes.attributesDescription')}
           >
-            <AddAttributesToForm attributeKey="certified" readOnly={false} />
+            <AddAttributesToForm
+              attributeKey="certified"
+              readOnly={false}
+              addGroupLabel={t('step3.attributesAddBtn')}
+            />
             <Divider sx={{ my: 3 }} />
             <AddAttributesToForm
               attributeKey="verified"
               readOnly={false}
-              openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('verified')}
+              addGroupLabel={t('step3.attributesAddBtn')}
+              createAttributeAction={{
+                label: t('step3.attributesCreateBtn'),
+                openDrawer: handleOpenAttributeCreateDrawerFactory('verified'),
+              }}
             />
             <Divider sx={{ my: 3 }} />
             <AddAttributesToForm
               attributeKey="declared"
               readOnly={false}
-              openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('declared')}
+              addGroupLabel={t('step3.attributesAddBtn')}
+              createAttributeAction={{
+                label: t('step3.attributesCreateBtn'),
+                openDrawer: handleOpenAttributeCreateDrawerFactory('declared'),
+              }}
             />
           </SectionContainer>
           <StepActions

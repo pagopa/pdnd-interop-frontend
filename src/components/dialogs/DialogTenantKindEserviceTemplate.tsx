@@ -22,7 +22,7 @@ export const DialogTenantKindEserviceTemplate: React.FC<DialogTenantKindEservice
 
   const { closeDialog } = useDialog()
   const { t: tTemplate } = useTranslation('eserviceTemplate', {
-    keyPrefix: 'create.step2.purpose.tenantKindDialog',
+    keyPrefix: 'create.step2.tenantKindDialog',
   })
   const { t } = useTranslation('shared-components', { keyPrefix: 'create.stepPurpose' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })

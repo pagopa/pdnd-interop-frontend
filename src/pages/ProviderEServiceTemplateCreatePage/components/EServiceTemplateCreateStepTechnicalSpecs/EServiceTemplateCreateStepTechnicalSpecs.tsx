@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { useTranslation } from 'react-i18next'
-import { EServiceTemplateCreateStepDocumentsInterface } from './EServiceTemplateCreateStepDocumentsInterface'
+import { EServiceTemplateCreateStepTechnicalSpecsInterface } from './EServiceTemplateCreateStepTechnicalSpecsInterface'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import SaveIcon from '@mui/icons-material/Save'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
@@ -15,20 +15,22 @@ import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import type { UpdateEServiceTemplateVersionSeed } from '@/api/api.generatedTypes'
 
-type EServiceTemplateCreateStepDocumentsFormValues = {
+type EServiceTemplateCreateStepTechnicalSpecsFormValues = {
   voucherLifespan: number
 }
 
-export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = () => {
+export const EServiceTemplateCreateStepTechnicalSpecs: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eserviceTemplate')
 
   const { eserviceTemplateVersion, forward, back } = useEServiceTemplateCreateContext()
+
+  const [interfaceError, setInterfaceError] = useState<string | undefined>()
 
   const { mutate: updateVersionDraft } = EServiceTemplateMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
 
-  const defaultValues: EServiceTemplateCreateStepDocumentsFormValues = {
+  const defaultValues: EServiceTemplateCreateStepTechnicalSpecsFormValues = {
     voucherLifespan: eserviceTemplateVersion
       ? secondsToMinutes(eserviceTemplateVersion.voucherLifespan)
       : 1,
@@ -36,8 +38,19 @@ export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = ()
 
   const formMethods = useForm({ defaultValues })
 
-  const onSubmit = (values: EServiceTemplateCreateStepDocumentsFormValues) => {
+  useEffect(() => {
+    if (eserviceTemplateVersion?.interface) {
+      setInterfaceError(undefined)
+    }
+  }, [eserviceTemplateVersion?.interface])
+
+  const onSubmit = (values: EServiceTemplateCreateStepTechnicalSpecsFormValues) => {
     if (!eserviceTemplateVersion) return
+
+    if (!eserviceTemplateVersion.interface) {
+      setInterfaceError(t('create.stepTechnicalSpecs.interface.requiredError'))
+      return
+    }
 
     const payload: UpdateEServiceTemplateVersionSeed = {
       description: eserviceTemplateVersion.description,
@@ -62,30 +75,30 @@ export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = ()
 
   const sectionDescription =
     eserviceTemplateVersion?.eserviceTemplate.technology === 'SOAP' ? (
-      t(`create.step3.technicalSpecs.interface.description.soap`)
+      t(`create.stepTechnicalSpecs.interface.description.soap`)
     ) : (
-      <>{t(`create.step3.technicalSpecs.interface.description.rest`)} </>
+      <>{t(`create.stepTechnicalSpecs.interface.description.rest`)} </>
     )
 
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer
-          title={t('create.step3.technicalSpecs.interface.title')}
+          title={t('create.stepTechnicalSpecs.interface.title')}
           description={sectionDescription}
         >
           <Stack spacing={3}>
-            <Alert severity="info"> {t('create.step3.technicalSpecs.interface.alert')}</Alert>
-            <EServiceTemplateCreateStepDocumentsInterface />
+            <Alert severity="info"> {t('create.stepTechnicalSpecs.interface.alert')}</Alert>
+            <EServiceTemplateCreateStepTechnicalSpecsInterface error={interfaceError} />
           </Stack>
         </SectionContainer>
-        <SectionContainer title={t('create.step3.technicalSpecs.voucher.title')}>
+        <SectionContainer title={t('create.stepTechnicalSpecs.voucher.title')}>
           <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
             <RHFTextField
               size="small"
               name="voucherLifespan"
-              label={t('create.step3.technicalSpecs.voucher.voucherLifespanField.label')}
-              infoLabel={t('create.step3.technicalSpecs.voucher.voucherLifespanField.infoLabel')}
+              label={t('create.stepTechnicalSpecs.voucher.voucherLifespanField.label')}
+              infoLabel={t('create.stepTechnicalSpecs.voucher.voucherLifespanField.infoLabel')}
               type="number"
               inputProps={{ min: 1, max: 1440 }}
               rules={{ required: true, min: 1, max: 1440 }}
@@ -111,7 +124,7 @@ export const EServiceTemplateCreateStepDocuments: React.FC<ActiveStepProps> = ()
   )
 }
 
-export const EServiceTemplateCreateStepDocumentsSkeleton: React.FC = () => {
+export const EServiceTemplateCreateStepTechnicalSpecsSkeleton: React.FC = () => {
   return (
     <>
       <SectionContainerSkeleton height={365} />

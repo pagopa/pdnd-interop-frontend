@@ -155,9 +155,8 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
               title={t('summary.technicalSpecsSummary.title')}
-              warningChipLabel={
-                !eserviceTemplate?.voucherLifespan ? t('summary.completeInfoChip') : undefined
-              }
+              showWarning={!eserviceTemplate?.voucherLifespan}
+              warningLabel={t('summary.completeInfoChip')}
             >
               <ProviderEServiceTemplateTechnicalSpecsSummarySection />
             </SummaryAccordion>
@@ -167,9 +166,8 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '5' : '4'}
               title={t('summary.additionalInfoSummary.title')}
-              warningChipLabel={
-                !eserviceTemplate?.description ? t('summary.completeInfoChip') : undefined
-              }
+              showWarning={!eserviceTemplate?.description}
+              warningLabel={t('summary.completeInfoChip')}
             >
               <ProviderEServiceTemplateAdditionalInfoSummarySection />
             </SummaryAccordion>

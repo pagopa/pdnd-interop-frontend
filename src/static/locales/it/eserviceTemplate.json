@@ -250,57 +250,80 @@
         }
       }
     },
-    "step2": {
-      "purpose": {
-        "firstVersionOnlyEditableInfoAlert": "I contenuti di questo passaggio non saranno più modificabili dopo la pubblicazione della prima versione dell'e-service.",
-        "purposeTableSection": {
-          "title": "Finalità",
-          "description": "Indica i casi d'uso per i quali intendi raccogliere dati. Per ogni finalità dovrai compilare un'analisi del rischio.",
-          "noSelectedPurposesTooltip": "È necessario indicare almeno una finalità per proseguire",
-          "purposeTable": {
-            "noDataLabel": "Nessuna finalità aggiunta"
-          }
-        },
-        "tenantKindDialog": {
-          "title": "Seleziona la destinazione dell'analisi del rischio",
-          "description": "Indica chi potrà utilizzare l'analisi del rischio che stai creando.",
-          "tenantKind": {
-            "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera \u201Ca\u201D del Codice dell'Amministrazione Digitale)",
-            "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere \u201Cb\u201D e \u201Cc\u201D) oppure Privati"
-          }
+    "stepPurpose": {
+      "firstVersionOnlyEditableInfoAlert": "I contenuti di questo passaggio non saranno più modificabili dopo la pubblicazione della prima versione dell'e-service.",
+      "purposeTableSection": {
+        "title": "Finalità",
+        "description": "Indica i casi d'uso per i quali intendi raccogliere dati. Per ogni finalità dovrai compilare un'analisi del rischio.",
+        "noSelectedPurposesTooltip": "È necessario indicare almeno una finalità per proseguire",
+        "purposeTable": {
+          "noDataLabel": "Nessuna finalità aggiunta"
+        }
+      }
+    },
+    "stepThresholdsAndAttributes": {
+      "thresholdsTitle": "Soglie di chiamate API",
+      "thresholdsSwitch": {
+        "label": "Suggerisci delle soglie di chiamate API/giorno a chi userà questo template"
+      },
+      "dailyCallsPerConsumerField": {
+        "label": "Chiamate API/giorno per fruitore",
+        "infoLabel": "Inserisci un numero superiore o uguale a 1"
+      },
+      "dailyCallsTotalField": {
+        "label": "Chiamate API/giorno totali",
+        "infoLabel": "Inserisci un numero superiore al precedente",
+        "validation": {
+          "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore"
         }
       },
-      "thresholdsAndAttributes": {
-        "thresholdsTitle": "Soglie di chiamate API",
+      "thresholdsInfoAlert": "Chi userà questo template potrà modificare le soglie suggerite e personalizzarle per gli attributi certificati.",
+      "accessRequirements": {
+        "title": "Requisiti di accesso",
+        "description": "Definisci chi può accedere a questo e-service. Crea uno o più requisiti e associa a ciascuno gli attributi richiesti. Il fruitore dovrà soddisfare tutti i requisiti indicati e possedere almeno uno degli attributi in ogni requisito. <1>Scopri di più sugli attributi</1>",
+        "createRequirementBtn": "Crea requisito",
+        "placeholder": "Questa sezione sarà disponibile prossimamente.",
+        "tabs": {
+          "certified": "Attributi Certificati",
+          "verified": "Attributi Verificati",
+          "declared": "Attributi Dichiarati",
+          "certifiedDescription": "Sono attributi certificati da una <1>fonte autoritativa riconosciuta.</1>",
+          "verifiedDescription": "Sono attributi verificati <1>da altre organizzazioni</1>, con la possibilità di richiedere una verifica dall'erogatore.",
+          "declaredDescription": "Sono attributi dichiarati dal fruitore stesso durante la richiesta di fruizione. Non è necessaria una verifica dell'erogatore."
+        }
+      }
+    },
+    "step4": {
+      "versionTitle": "Informazioni per la versione {{versionNumber}}",
+      "versionDescriptionTitle": "Descrizione della versione",
+      "versionDescriptionField": {
+        "label": "Descrivi questa versione dell'e-service*",
+        "infoLabel": "Se è una nuova versione, indica cosa è cambiato rispetto alla precedente"
+      },
+      "documentationSection": {
+        "title": "Documentazione",
+        "description": "Allega la documentazione tecnica utile ai fruitori degli e-service creati a partire da questo template.",
+        "saveDocumentBtn": "Salva documento"
+      },
+      "requestManagementSection": {
+        "title": "Gestione richieste"
+      },
+      "agreementApprovalPolicySection": {
+        "label": "Suggerisci a chi userà questo template l'approvazione manuale delle richieste di fruizione ricevute"
+      }
+    },
+    "step2": {
+      "thresholdsSection": {
         "thresholdsSwitch": {
-          "label": "Suggerisci delle soglie di chiamate API/giorno a chi userà questo template"
-        },
-        "dailyCallsPerConsumerField": {
-          "label": "Chiamate API/giorno per fruitore",
-          "infoLabel": "Inserisci un numero superiore o uguale a 1"
-        },
-        "dailyCallsTotalField": {
-          "label": "Chiamate API/giorno totali",
-          "infoLabel": "Inserisci un numero superiore al precedente",
-          "validation": {
-            "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore"
-          }
-        },
-        "thresholdsInfoAlert": "Chi userà questo template potrà modificare le soglie suggerite e personalizzarle per gli attributi certificati.",
-        "accessRequirements": {
-          "title": "Requisiti di accesso",
-          "description": "Definisci chi può accedere a questo e-service. Crea uno o più requisiti e associa a ciascuno gli attributi richiesti. Il fruitore dovrà soddisfare tutti i requisiti indicati e possedere almeno uno degli attributi in ogni requisito.",
-          "learnMoreLink": "Scopri di più sugli attributi",
-          "createRequirementBtn": "Crea requisito",
-          "placeholder": "Questa sezione sarà disponibile prossimamente.",
-          "tabs": {
-            "certified": "Attributi Certificati",
-            "verified": "Attributi Verificati",
-            "declared": "Attributi Dichiarati",
-            "certifiedDescription": "Sono attributi certificati da una fonte autoritativa riconosciuta.",
-            "verifiedDescription": "Sono attributi verificati dall'ente erogatore.",
-            "declaredDescription": "Sono attributi dichiarati dall'ente fruitore."
-          }
+          "label": "Suggerisci all'implementatore valori di soglia API personalizzate"
+        }
+      },
+      "tenantKindDialog": {
+        "title": "Seleziona la destinazione dell'analisi del rischio",
+        "description": "Indica chi potrà utilizzare l'analisi del rischio che stai creando.",
+        "tenantKind": {
+          "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera \u201Ca\u201D del Codice dell'Amministrazione Digitale)",
+          "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere \u201Cb\u201D e \u201Cc\u201D) oppure Privati"
         }
       }
     },
@@ -351,23 +374,23 @@
         "uploadBtn": "Carica"
       }
     },
-    "step4": {
-      "versionTitle": "Informazioni per la versione {{versionNumber}}",
-      "versionDescriptionTitle": "Descrizione della versione",
-      "versionDescriptionField": {
-        "label": "Descrivi questa versione dell'e-service*",
-        "infoLabel": "Se è una nuova versione, indica cosa è cambiato rispetto alla precedente"
+    "stepTechnicalSpecs": {
+      "interface": {
+        "title": "Interfaccia*",
+        "alert": "Puoi caricare un file senza dati di contatto, Termini e Condizioni e indirizzi dei server: queste informazioni saranno inserite in una fase successiva da chi userà il template.",
+        "description": {
+          "rest": "Carica una bozza del file OpenAPI che descrive l'API.",
+          "soap": "Carica una bozza del file WSDL che descrive l'API"
+        },
+        "prettyName": "Specifica API",
+        "requiredError": "Non hai caricato nessun file"
       },
-      "documentationSection": {
-        "title": "Documentazione",
-        "description": "Allega la documentazione tecnica utile ai fruitori degli e-service creati a partire da questo template.",
-        "saveDocumentBtn": "Salva documento"
-      },
-      "requestManagementSection": {
-        "title": "Gestione richieste"
-      },
-      "agreementApprovalPolicySection": {
-        "label": "Suggerisci a chi userà questo template l'approvazione manuale delle richieste di fruizione ricevute"
+      "voucher": {
+        "title": "Voucher",
+        "voucherLifespanField": {
+          "label": "Durata validità (in minuti)*",
+          "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
+        }
       }
     }
   },

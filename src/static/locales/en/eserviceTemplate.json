@@ -250,57 +250,80 @@
         }
       }
     },
-    "step2": {
-      "purpose": {
-        "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",
-        "purposeTableSection": {
-          "title": "Purpose",
-          "description": "Indicate the use cases for which you intend to collect data. For each purpose you will need to complete a risk analysis.",
-          "noSelectedPurposesTooltip": "You must indicate at least one purpose to continue",
-          "purposeTable": {
-            "noDataLabel": "No added purpose"
-          }
-        },
-        "tenantKindDialog": {
-          "title": "Indicate who will be able to use the following risk analysis.",
-          "description": "Indicate for whom the following risk analysis is filled.",
-          "tenantKind": {
-            "labelPA": "Public administration (Art. 2, comma 2, letter \u201Ca\u201D of Codice dell'Amministrazione Digitale)",
-            "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters \u201Cb\u201D e \u201Cc\u201D) or Private"
-          }
+    "stepPurpose": {
+      "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",
+      "purposeTableSection": {
+        "title": "Purpose",
+        "description": "Indicate the use cases for which you intend to collect data. For each purpose you will need to complete a risk analysis.",
+        "noSelectedPurposesTooltip": "You must indicate at least one purpose to continue",
+        "purposeTable": {
+          "noDataLabel": "No added purpose"
+        }
+      }
+    },
+    "stepThresholdsAndAttributes": {
+      "thresholdsTitle": "API call thresholds",
+      "thresholdsSwitch": {
+        "label": "Suggest API calls/day thresholds to those who will use this template"
+      },
+      "dailyCallsPerConsumerField": {
+        "label": "API calls/day per consumer",
+        "infoLabel": "Enter a number greater than or equal to 1"
+      },
+      "dailyCallsTotalField": {
+        "label": "Total API calls/day",
+        "infoLabel": "Enter a number greater than the previous one",
+        "validation": {
+          "min": "This value cannot be below the threshold set for the API calls/day for each consumer"
         }
       },
-      "thresholdsAndAttributes": {
-        "thresholdsTitle": "API call thresholds",
+      "thresholdsInfoAlert": "Those who use this template will be able to modify the suggested thresholds and customize them for certified attributes.",
+      "accessRequirements": {
+        "title": "Access requirements",
+        "description": "Define who can access this e-service. Create one or more requirements and associate the required attributes to each. The consumer must meet all the indicated requirements and possess at least one of the attributes in each requirement. <1>Learn more about attributes</1>",
+        "createRequirementBtn": "Create requirement",
+        "placeholder": "This section will be available soon.",
+        "tabs": {
+          "certified": "Certified Attributes",
+          "verified": "Verified Attributes",
+          "declared": "Declared Attributes",
+          "certifiedDescription": "These are attributes certified by a <1>recognized authoritative source.</1>",
+          "verifiedDescription": "These are attributes verified <1>by other organizations</1>, with the possibility of requesting a verification from the provider.",
+          "declaredDescription": "These are attributes declared by the consumer during the service request. No verification from the provider is required."
+        }
+      }
+    },
+    "step4": {
+      "versionTitle": "Information for version {{versionNumber}}",
+      "versionDescriptionTitle": "Version description",
+      "versionDescriptionField": {
+        "label": "Describe this e-service version*",
+        "infoLabel": "If it is a new version, indicate what has changed from the previous one"
+      },
+      "documentationSection": {
+        "title": "Documentation",
+        "description": "Attach the technical documentation useful to consumers of e-services created from this template.",
+        "saveDocumentBtn": "Save document"
+      },
+      "requestManagementSection": {
+        "title": "Request management"
+      },
+      "agreementApprovalPolicySection": {
+        "label": "Suggest to those who will use this template the manual approval of received usage requests"
+      }
+    },
+    "step2": {
+      "thresholdsSection": {
         "thresholdsSwitch": {
-          "label": "Suggest API calls/day thresholds to those who will use this template"
-        },
-        "dailyCallsPerConsumerField": {
-          "label": "API calls/day per consumer",
-          "infoLabel": "Enter a number greater than or equal to 1"
-        },
-        "dailyCallsTotalField": {
-          "label": "Total API calls/day",
-          "infoLabel": "Enter a number greater than the previous one",
-          "validation": {
-            "min": "This value cannot be below the threshold set for the API calls/day for each consumer"
-          }
-        },
-        "thresholdsInfoAlert": "Those who use this template will be able to modify the suggested thresholds and customize them for certified attributes.",
-        "accessRequirements": {
-          "title": "Access requirements",
-          "description": "Define who can access this e-service. Create one or more requirements and associate the required attributes to each. The consumer must meet all the indicated requirements and possess at least one of the attributes in each requirement.",
-          "learnMoreLink": "Learn more about attributes",
-          "createRequirementBtn": "Create requirement",
-          "placeholder": "This section will be available soon.",
-          "tabs": {
-            "certified": "Certified Attributes",
-            "verified": "Verified Attributes",
-            "declared": "Declared Attributes",
-            "certifiedDescription": "These are attributes certified by a recognized authoritative source.",
-            "verifiedDescription": "These are attributes verified by the providing entity.",
-            "declaredDescription": "These are attributes declared by the consuming entity."
-          }
+          "label": "Suggest custom API threshold values to the implementer"
+        }
+      },
+      "tenantKindDialog": {
+        "title": "Indicate who will be able to use the following risk analysis.",
+        "description": "Indicate for whom the following risk analysis is filled.",
+        "tenantKind": {
+          "labelPA": "Public administration (Art. 2, comma 2, letter \u201Ca\u201D of Codice dell'Amministrazione Digitale)",
+          "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters \u201Cb\u201D e \u201Cc\u201D) or Private"
         }
       }
     },
@@ -351,23 +374,23 @@
         "uploadBtn": "Upload"
       }
     },
-    "step4": {
-      "versionTitle": "Information for version {{versionNumber}}",
-      "versionDescriptionTitle": "Version description",
-      "versionDescriptionField": {
-        "label": "Describe this e-service version*",
-        "infoLabel": "If it is a new version, indicate what has changed from the previous one"
+    "stepTechnicalSpecs": {
+      "interface": {
+        "title": "Interface*",
+        "alert": "You can upload a file without contact data, terms and conditions, and server URLs, as these will be filled in by the implementer in the next phase.",
+        "description": {
+          "rest": "Upload a draft of the OpenAPI specification that describes the API.",
+          "soap": "Upload a draft of the WSDL specification that describes the API"
+        },
+        "prettyName": "API specification",
+        "requiredError": "No file has been uploaded"
       },
-      "documentationSection": {
-        "title": "Documentation",
-        "description": "Attach the technical documentation useful to consumers of e-services created from this template.",
-        "saveDocumentBtn": "Save document"
-      },
-      "requestManagementSection": {
-        "title": "Request management"
-      },
-      "agreementApprovalPolicySection": {
-        "label": "Suggest to those who will use this template the manual approval of received usage requests"
+      "voucher": {
+        "title": "Voucher",
+        "voucherLifespanField": {
+          "label": "Validity duration (in minutes)*",
+          "infoLabel": "Maximum value: 1440 minutes (24 hours)"
+        }
       }
     }
   },
