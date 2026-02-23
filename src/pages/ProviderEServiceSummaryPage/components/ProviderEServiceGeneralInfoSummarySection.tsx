@@ -6,9 +6,9 @@ import { useParams } from '@/router'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
-import { ProviderEServiceInformationContainer } from './ProviderEServiceInformationContainer'
+import { SummaryInformationContainer } from '@/components/shared/SummaryInformationContainer'
 
-export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
+export const ProviderEServiceGeneralInfoSummarySection: React.FC = () => {
   const { isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.generalInfoSummary' })
@@ -20,27 +20,27 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
 
   return (
     <Stack spacing={2}>
-      <ProviderEServiceInformationContainer
+      <SummaryInformationContainer
         label={t('description.label')}
         content={descriptor.eservice.description}
       />
-      <ProviderEServiceInformationContainer
+      <SummaryInformationContainer
         label={t('apiTechnology.label')}
         content={descriptor.eservice.technology}
       />
       {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
-        <ProviderEServiceInformationContainer
+        <SummaryInformationContainer
           label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
           content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
         />
       )}
       {isOrganizationAllowedToProduce && (
         <>
-          <ProviderEServiceInformationContainer
+          <SummaryInformationContainer
             label={t('isConsumerDelegable.label')}
             content={t(`isConsumerDelegable.value.${descriptor.eservice.isConsumerDelegable}`)}
           />
-          <ProviderEServiceInformationContainer
+          <SummaryInformationContainer
             label={t('isClientAccessDelegable.label')}
             content={t(
               `isClientAccessDelegable.value.${descriptor.eservice.isClientAccessDelegable}`
@@ -48,7 +48,7 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
           />
         </>
       )}
-      <ProviderEServiceInformationContainer
+      <SummaryInformationContainer
         label={t('isSignalHubEnabled.label')}
         content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
       />

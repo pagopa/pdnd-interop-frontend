@@ -8,7 +8,7 @@ import { Stack } from '@mui/system'
 import { ReadOnlyDescriptorAttributes } from '@/components/shared/ReadOnlyDescriptorAttributes'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 
-export const ProviderEServiceAttributeVersionSummary: React.FC = () => {
+export const ProviderEServiceAttributeVersionSummarySection: React.FC = () => {
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.attributeVersionSummary' })
 

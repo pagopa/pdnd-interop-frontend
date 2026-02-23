@@ -9,12 +9,12 @@ import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
 import { SummaryAccordion, SummaryAccordionSkeleton } from '@/components/shared/SummaryAccordion'
 import {
-  ProviderEServiceDocumentationSummary,
-  ProviderEServiceGeneralInfoSummary,
-  ProviderEServiceVersionInfoSummary,
+  ProviderEServiceDocumentationSummarySection,
+  ProviderEServiceGeneralInfoSummarySection,
+  ProviderEServiceAttributeVersionSummarySection,
+  ProviderEServiceRiskAnalysisSummaryListSection,
+  ProviderEServiceVersionInfoSummarySection,
 } from './components'
-import { ProviderEServiceAttributeVersionSummary } from './components/ProviderEServiceAttributeVersionSummary'
-import { ProviderEServiceRiskAnalysisSummaryList } from './components/ProviderEServiceRiskAnalysisSummaryList'
 import { useQuery } from '@tanstack/react-query'
 import { RejectReasonDrawer } from '@/components/shared/RejectReasonDrawer'
 import { useDrawerState } from '@/hooks/useDrawerState'
@@ -299,18 +299,18 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               showWarning={!isGeneralInfoSectionValid}
               warningLabel={t('summary.missingInformationsLabel')}
             >
-              <ProviderEServiceGeneralInfoSummary />
+              <ProviderEServiceGeneralInfoSummarySection />
             </SummaryAccordion>
           </React.Suspense>
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
             <SummaryAccordion headline="2" title={t('summary.attributeVersionSummary.title')}>
-              <ProviderEServiceAttributeVersionSummary />
+              <ProviderEServiceAttributeVersionSummarySection />
             </SummaryAccordion>
           </React.Suspense>
           {isReceiveMode && (
             <React.Suspense fallback={<SummaryAccordionSkeleton />}>
               <SummaryAccordion headline="3" title={t('summary.riskAnalysisSummaryList.title')}>
-                <ProviderEServiceRiskAnalysisSummaryList />
+                <ProviderEServiceRiskAnalysisSummaryListSection />
               </SummaryAccordion>
             </React.Suspense>
           )}
@@ -321,7 +321,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               showWarning={!isDocumentationSectionValid}
               warningLabel={t('summary.missingInformationsLabel')}
             >
-              <ProviderEServiceDocumentationSummary />
+              <ProviderEServiceDocumentationSummarySection />
             </SummaryAccordion>
           </React.Suspense>
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
@@ -331,7 +331,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               showWarning={!isVersionInfoSectionValid}
               warningLabel={t('summary.missingInformationsLabel')}
             >
-              <ProviderEServiceVersionInfoSummary />
+              <ProviderEServiceVersionInfoSummarySection />
             </SummaryAccordion>
           </React.Suspense>
           {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&

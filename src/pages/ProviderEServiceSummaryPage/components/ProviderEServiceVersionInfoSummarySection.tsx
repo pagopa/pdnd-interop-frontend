@@ -8,9 +8,9 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { IconLink } from '@/components/shared/IconLink'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
-import { ProviderEServiceInformationContainer } from './ProviderEServiceInformationContainer'
+import { SummaryInformationContainer } from '@/components/shared/SummaryInformationContainer'
 
-export const ProviderEServiceVersionInfoSummary: React.FC = () => {
+export const ProviderEServiceVersionInfoSummarySection: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.versionInfoSummary' })
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
@@ -34,12 +34,12 @@ export const ProviderEServiceVersionInfoSummary: React.FC = () => {
 
   return (
     <Stack spacing={3}>
-      <ProviderEServiceInformationContainer
+      <SummaryInformationContainer
         label={t('description.label')}
         content={descriptor.description}
       />
       {descriptor.docs.map((doc, index) => (
-        <ProviderEServiceInformationContainer
+        <SummaryInformationContainer
           key={doc.id}
           label={index === 0 ? t('documentation') : ''}
           content={
@@ -53,7 +53,7 @@ export const ProviderEServiceVersionInfoSummary: React.FC = () => {
           }
         />
       ))}
-      <ProviderEServiceInformationContainer
+      <SummaryInformationContainer
         label={t('manualApproval.label')}
         content={t(`manualApproval.value.${hasManualApproval}`)}
       />

@@ -5,17 +5,18 @@ import { Stack } from '@mui/system'
 import { Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-type ProviderEServiceInformationContainerProps = {
+type SummaryInformationContainerProps = {
   label: string
   content?: string | JSX.Element
 }
 
-export const ProviderEServiceInformationContainer: React.FC<
-  ProviderEServiceInformationContainerProps
-> = ({ label, content }) => {
+export const SummaryInformationContainer: React.FC<SummaryInformationContainerProps> = ({
+  label,
+  content,
+}) => {
   const { t } = useTranslation('eservice')
 
-  const hasContent = content !== null && content !== undefined && content !== ''
+  const hasContent = !!content
 
   return (
     <InformationContainer

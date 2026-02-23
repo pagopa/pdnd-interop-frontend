@@ -8,10 +8,10 @@ import { EServiceDownloads, EServiceQueries } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { useParams } from '@/router'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { ProviderEServiceInformationContainer } from './ProviderEServiceInformationContainer'
 import { secondsToMinutes } from '@/utils/format.utils'
+import { SummaryInformationContainer } from '@/components/shared/SummaryInformationContainer'
 
-export const ProviderEServiceDocumentationSummary: React.FC = () => {
+export const ProviderEServiceDocumentationSummarySection: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.documentationSummary' })
   const { t: tCommon } = useTranslation('common')
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
@@ -36,7 +36,7 @@ export const ProviderEServiceDocumentationSummary: React.FC = () => {
 
   return (
     <Stack spacing={2}>
-      <ProviderEServiceInformationContainer
+      <SummaryInformationContainer
         label={t('interface.label')}
         content={
           descriptor.interface && (
@@ -50,11 +50,8 @@ export const ProviderEServiceDocumentationSummary: React.FC = () => {
           )
         }
       />
-      <ProviderEServiceInformationContainer
-        label={t('audience.label')}
-        content={descriptor.audience[0]}
-      />
-      <ProviderEServiceInformationContainer
+      <SummaryInformationContainer label={t('audience.label')} content={descriptor.audience[0]} />
+      <SummaryInformationContainer
         label={t('voucherLifespan.label')}
         content={`${voucherLifespan} ${tCommon('time.minute', {
           count: voucherLifespan,
