@@ -135,7 +135,7 @@
         },
         "audienceField": {
           "label": "Audience",
-          "infoLabel": "Represents the recipient of the voucher, i.e. your target resource. Doubts? <1>Read the guide</1>"
+          "infoLabel": "The audience represents your target resource. For full information, <1>consult the guide</1>."
         }
       },
       "thresholdSection": {
@@ -239,13 +239,14 @@
         }
       },
       "interface": {
-        "title": "Interface (required)",
+        "title": "Interface",
         "description": {
-          "rest": "Upload the OpenAPI file that describes the API. You must ensure that your specification meets the requirements set in the ModI framework. To check, use",
+          "rest": "Upload the OpenAPI file that describes the API. Before uploading, verify that it meets the ModI requirements with",
           "restLinkLabel": "the OpenAPI Checker",
           "soap": "Upload the WSDL file that describes the API"
         },
-        "prettyName": "API specification"
+        "prettyName": "API specification",
+        "dropzoneLabel": "Drag the OpenAPI file here or click here to select it from your computer"
       },
       "documentation": {
         "title": "Documentation",

@@ -135,7 +135,7 @@
         },
         "audienceField": {
           "label": "Audience",
-          "infoLabel": "Rappresenta il destinatario del voucher, ossia la tua risorsa di destinazione. Dubbi? <1>Consulta la guida</1>"
+          "infoLabel": "L’audience rappresenta la tua risorsa di destinazione. Per tutte le informazioni, <1>consulta la guida</1>."
         }
       },
       "thresholdSection": {
@@ -239,13 +239,14 @@
         }
       },
       "interface": {
-        "title": "Interfaccia (richiesto)",
+        "title": "Interfaccia",
         "description": {
-          "rest": "Carica il file OpenAPI che descrive l'API. Devi assicurarti che la tua specifica rispetti quanto previsto dal ModI. Per verificare usa",
+          "rest": "Carica il file OpenAPI che descrive l'API. Prima di caricarlo, verifica che rispetti i requisiti del ModI con",
           "restLinkLabel": "l'OpenAPI Checker",
           "soap": "Carica il file WSDL che descrive l'API"
         },
-        "prettyName": "Specifica API"
+        "prettyName": "Specifica API",
+        "dropzoneLabel": "Trascina qui il file OpenAPI oppure clicca qui per selezionarlo dal computer"
       },
       "documentation": {
         "title": "Documentazione",
