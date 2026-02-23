@@ -7,12 +7,14 @@ import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { compareObjects } from '@/utils/common.utils'
-import SaveIcon from '@mui/icons-material/Save'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import type { UpdateEServiceTemplateVersionSeed } from '@/api/api.generatedTypes'
+import { useNavigate } from '@/router'
+import { EServiceTemplateCreateStepVersionDoc } from './EServiceTemplateCreateStepVersionDoc'
 
 export type EServiceTemplateCreateStepVersionFormValues = {
   description: string
@@ -22,7 +24,9 @@ export type EServiceTemplateCreateStepVersionFormValues = {
 export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'create' })
 
-  const { eserviceTemplateVersion, forward, back } = useEServiceTemplateCreateContext()
+  const { eserviceTemplateVersion, back } = useEServiceTemplateCreateContext()
+
+  const navigate = useNavigate()
 
   const { mutate: updateVersionDraft } = EServiceTemplateMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
@@ -36,6 +40,16 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
   }
 
   const formMethods = useForm({ defaultValues })
+
+  const navigateToSummary = () => {
+    if (!eserviceTemplateVersion) return
+    navigate('PROVIDE_ESERVICE_TEMPLATE_SUMMARY', {
+      params: {
+        eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
+        eServiceTemplateVersionId: eserviceTemplateVersion.id,
+      },
+    })
+  }
 
   const onSubmit = (values: EServiceTemplateCreateStepVersionFormValues) => {
     if (!eserviceTemplateVersion) return
@@ -53,7 +67,7 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
       eserviceTemplateVersion
     )
     if (areEServiceTemplatesEquals) {
-      forward()
+      navigateToSummary()
       return
     }
 
@@ -74,34 +88,39 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
         eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
         eServiceTemplateVersionId: eserviceTemplateVersion.id,
       },
-      { onSuccess: forward }
+      { onSuccess: navigateToSummary }
     )
   }
 
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer
-          title={t('step2.versionTitle', { versionNumber: eserviceTemplateVersion?.version ?? 1 })}
-          component="div"
-        >
+        <SectionContainer title={t('step4.versionDescriptionTitle')} component="div">
           <RHFTextField
             size="small"
             name="description"
-            label={t('step2.versionDescriptionField.label')}
+            label={t('step4.versionDescriptionField.label')}
+            infoLabel={t('step4.versionDescriptionField.infoLabel')}
             multiline
             focusOnMount
             inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
             sx={{ my: 0, mt: 1 }}
           />
-          <SectionContainer innerSection sx={{ mt: 3 }}>
-            <RHFSwitch
-              label={t('step2.agreementApprovalPolicySection.label')}
-              name="agreementApprovalPolicy"
-              sx={{ my: 0 }}
-            />
-          </SectionContainer>
+        </SectionContainer>
+        <SectionContainer
+          title={t('step4.documentationSection.title')}
+          description={t('step4.documentationSection.description')}
+          component="div"
+        >
+          <EServiceTemplateCreateStepVersionDoc />
+        </SectionContainer>
+        <SectionContainer title={t('step4.requestManagementSection.title')} component="div">
+          <RHFSwitch
+            label={t('step4.agreementApprovalPolicySection.label')}
+            name="agreementApprovalPolicy"
+            sx={{ my: 0, ml: 1 }}
+          />
         </SectionContainer>
         <StepActions
           back={{
@@ -110,7 +129,7 @@ export const EServiceTemplateCreateStepVersion: React.FC<ActiveStepProps> = () =
             onClick: back,
             startIcon: <ArrowBackIcon />,
           }}
-          forward={{ label: t('forwardWithSaveBtn'), type: 'submit', startIcon: <SaveIcon /> }}
+          forward={{ label: t('goToSummary'), type: 'submit', endIcon: <ArrowForwardIcon /> }}
         />
       </Box>
     </FormProvider>
