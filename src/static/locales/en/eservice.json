@@ -253,7 +253,26 @@
         "label": "Document name",
         "infoLabel": "Min 5 characters, max 60 characters"
       },
-      "uploadBtn": "Save document"
+      "uploadBtn": "Save document",
+      "descriptionSection": {
+        "title": "Version description",
+        "readOnlyLabel": "Version description",
+        "field": {
+          "label": "Describe this version of the e-service*",
+          "infoLabel": "If this is a new version, please indicate what has changed compared to the previous one*"
+        }
+      },
+      "documentationSection": {
+        "title": "Documentation",
+        "subtitle": "Please include the technical documentation needed to use this version."
+      },
+      "requestManagementSection": {
+        "title": "Request management",
+        "field": {
+          "title": "Do you want to manually approve all the access requests you receive?",
+          "label": "I prefer to approve them manually"
+        }
+      }
     }
   },
   "summary": {
