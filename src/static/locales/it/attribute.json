@@ -49,9 +49,13 @@
       "revokedByOwnParty": "Attributo revocato dal tuo ente",
       "expirationDate": "Scadenza verifica: {{expirationDate}}"
     },
-    "addBtn": "Aggiungi requisito",
+    "title": "Requisito {{number}} | {{attributeLabel}}",
+    "subtitle": "Il fruitore deve possedere almeno uno degli attributi di questo requisito.",
+    "orSeparator": "OPPURE",
+    "addBtn": "Aggiungi",
+    "addAnotherBtn": "Aggiungi un altro attributo",
     "autocompleteInput": {
-      "label": "Aggiungi attributo al gruppo",
+      "label": "Aggiungi attributo",
       "placeholder": "Inserisci nome attributo"
     }
   }

@@ -8,11 +8,11 @@ import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTempla
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { UploadDocumentsInterface } from '@/components/shared/UploadDocumentsInterface'
 
-type EServiceTemplateCreateStepDocumentsInterfaceFormValues = {
+type EServiceTemplateCreateStepTechnicalSpecsInterfaceFormValues = {
   interfaceDoc: File | null
 }
 
-export function EServiceTemplateCreateStepDocumentsInterface() {
+export function EServiceTemplateCreateStepTechnicalSpecsInterface({ error }: { error?: string }) {
   const { t } = useTranslation('eserviceTemplate')
   const { eserviceTemplateVersion } = useEServiceTemplateCreateContext()
   const downloadDocument = EServiceTemplateDownloads.useDownloadVersionDocument()
@@ -21,7 +21,9 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
 
   const actualInterface: EServiceDoc | null = eserviceTemplateVersion?.interface ?? null
 
-  const onSubmit = ({ interfaceDoc }: EServiceTemplateCreateStepDocumentsInterfaceFormValues) => {
+  const onSubmit = ({
+    interfaceDoc,
+  }: EServiceTemplateCreateStepTechnicalSpecsInterfaceFormValues) => {
     if (!interfaceDoc || !eserviceTemplateVersion) return
     const prettyName = t('create.stepTechnicalSpecs.interface.prettyName')
     uploadDocument({
@@ -65,5 +67,5 @@ export function EServiceTemplateCreateStepDocumentsInterface() {
     )
   }
 
-  return <UploadDocumentsInterface onSubmit={onSubmit} />
+  return <UploadDocumentsInterface onSubmit={onSubmit} error={error} />
 }

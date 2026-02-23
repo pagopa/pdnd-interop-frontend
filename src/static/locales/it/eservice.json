@@ -3,6 +3,7 @@
   "backToEServiceBtn": "Torna all'e-service",
   "create": {
     "emptyTitle": "Crea e-service",
+    "requiredLabel": "*Campi obbligatori.",
     "stepper": {
       "step1Label": "Generale",
       "step2Label": "Soglie e attributi",
@@ -85,7 +86,10 @@
           "checkboxLabel": "Autorizzo che i delegati possano associare i propri client alle finalità che hanno creato in qualità di delegati alla fruizione. Consulta la <1>documentazione</1> per approfondire"
         }
       },
-      "firstVersionOnlyEditableInfo": "I contenuti di questo passaggio, ad eccezione della descrizione, non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service."
+      "detailsSection": {
+        "title": "Dettagli dell'e-service"
+      },
+      "firstVersionOnlyEditableInfo": "Questi dati non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service."
     },
     "stepPurpose": {
       "firstVersionOnlyEditableInfoAlert": "I contenuti di questo passaggio non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
@@ -131,7 +135,7 @@
         },
         "audienceField": {
           "label": "Audience",
-          "infoLabel": "Rappresenta il destinatario del voucher, ossia la tua risorsa di destinazione. Dubbi? <1>Consulta la guida</1>"
+          "infoLabel": "L’audience rappresenta la tua risorsa di destinazione. Per tutte le informazioni, <1>consulta la guida</1>."
         }
       },
       "thresholdSection": {
@@ -149,12 +153,41 @@
       "agreementApprovalPolicySection": {
         "title": "Desideri attivare manualmente tutte le richieste di fruizione pervenute?",
         "label": "Sì, le attiverò io manualmente"
+      },
+      "attributes": {
+        "tabs": {
+          "ariaLabel": "tre tabs differenti per la gestione di attributi certificati, verificati e dichiarati",
+          "certified": "Attributi certificati",
+          "verified": "Attributi verificati",
+          "declared": "Attributi dichiarati"
+        },
+        "customizeThresholdDrawer": {
+          "title": "Personalizza soglia",
+          "subtitle": "Imposta una soglia personalizzata per l'attributo certificato <1>{{name}}</1>.",
+          "submitBtnLabel": "Personalizza soglia",
+          "field": {
+            "placeholder": "Chiamate API/giorno per fruitore",
+            "error": "La soglia per fruitore non può essere superiore alla soglia totale.",
+            "info": "Inserisci un numero superiore o uguale a 1"
+          },
+          "limitAlert": {
+            "title": "Per questo e-service hai già definito",
+            "totalLimit": "Soglia totale",
+            "consumerLimit": "Soglia per fruitore",
+            "toInsert": "Da inserire",
+            "label": "{{threshold}} chiamate API/giorno"
+          },
+          "alert": "Se il fruitore soddisfa più attributi con soglie diverse, si applica automaticamente la soglia più alta."
+        }
       }
     },
     "step3": {
-      "attributesTitle": "Requisiti di accesso per la versione {{versionNumber}}",
-      "attributesDescription": "Di seguito indica tutti quegli attributi, certificati, verificati o dichiarati che il fruitore dovrà possedere per richiedere la fruizione dell’e-service",
-      "attributesAddBtn": "Aggiungi attributo",
+      "attributesTitle": "Requisiti di accesso",
+      "attributesDescription": "Definisci chi può accedere a questo e-service. Crea uno o più requisiti e associa a ciascuno gli attributi richiesti. Il fruitore dovrà soddisfare tutti i requisiti indicati e possedere almeno uno degli attributi in ogni requisito. <1>Scopri di più sugli attributi</1>",
+      "certifiedDescription": "Sono attributi certificati da una <1>fonte autoritativa riconosciuta.</1>",
+      "verifiedDescription": "Sono attributi verificati <1>da altre organizzazioni</1>, con la possibilità di richiedere una verifica dall'erogatore.",
+      "declaredDescription": "Sono attributi dichiarati dal fruitore stesso durante la richiesta di fruizione. Non è necessaria una verifica dell'erogatore.",
+      "attributesAddBtn": "Crea requisito",
       "attributesCreateBtn": "Crea nuovo attributo",
       "createAttributeDrawer": {
         "title": {
@@ -206,13 +239,14 @@
         }
       },
       "interface": {
-        "title": "Interfaccia (richiesto)",
+        "title": "Interfaccia",
         "description": {
-          "rest": "Carica il file OpenAPI che descrive l'API. Devi assicurarti che la tua specifica rispetti quanto previsto dal ModI. Per verificare usa",
+          "rest": "Carica il file OpenAPI che descrive l'API. Prima di caricarlo, verifica che rispetti i requisiti del ModI con",
           "restLinkLabel": "l'OpenAPI Checker",
           "soap": "Carica il file WSDL che descrive l'API"
         },
-        "prettyName": "Specifica API"
+        "prettyName": "Specifica API",
+        "dropzoneLabel": "Trascina qui il file OpenAPI oppure clicca qui per selezionarlo dal computer"
       },
       "documentation": {
         "title": "Documentazione",
@@ -222,7 +256,26 @@
         "label": "Nome documento",
         "infoLabel": "Min 5 caratteri, max 60 caratteri"
       },
-      "uploadBtn": "Salva documento"
+      "uploadBtn": "Salva documento",
+      "descriptionSection": {
+        "title": "Descrizione della versione",
+        "readOnlyLabel": "Descrizione versione",
+        "field": {
+          "label": "Descrivi questa versione dell’e-service*",
+          "infoLabel": "Se è una nuova versione, indica cosa è cambiato rispetto alla precedente*"
+        }
+      },
+      "documentationSection": {
+        "title": "Documentazione",
+        "subtitle": "Inserisci la documentazione tecnica utile all’uso di questa versione."
+      },
+      "requestManagementSection": {
+        "title": "Gestione richieste",
+        "field": {
+          "title": "Vuoi approvare manualmente tutte le richieste di fruizione che riceverai?",
+          "label": "Preferisco approvarle manualmente"
+        }
+      }
     }
   },
   "summary": {

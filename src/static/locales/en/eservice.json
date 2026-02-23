@@ -3,6 +3,7 @@
   "backToEServiceBtn": "Back to the e-service",
   "create": {
     "emptyTitle": "Create e-service",
+    "requiredLabel": "*Required fields.",
     "stepper": {
       "step1Label": "General",
       "step2Label": "Thresholds and attributes",
@@ -85,7 +86,10 @@
           "checkboxLabel": "I authorize delegates to associate their clients with the purposes they have created as delegates for use. Read the <1>documentation</1> for further information"
         }
       },
-      "firstVersionOnlyEditableInfo": "The contents of this step will no longer be editable after the first version of this e-service is published"
+      "detailsSection": {
+        "title": "E-service details"
+      },
+      "firstVersionOnlyEditableInfo": "This data will no longer be editable after the first version of the e-service is published."
     },
     "stepPurpose": {
       "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",
@@ -131,7 +135,7 @@
         },
         "audienceField": {
           "label": "Audience",
-          "infoLabel": "Represents the recipient of the voucher, i.e. your target resource. Doubts? <1>Read the guide</1>"
+          "infoLabel": "The audience represents your target resource. For full information, <1>consult the guide</1>."
         }
       },
       "thresholdSection": {
@@ -149,12 +153,41 @@
       "agreementApprovalPolicySection": {
         "title": "Do you want to manually activate all the fruition requests received?",
         "label": "Yes, I will activate them manually"
+      },
+      "attributes": {
+        "tabs": {
+          "ariaLabel": "Three different tabs to manage certified, verified and declared attributes",
+          "certified": "Certified attributes",
+          "verified": "Verified attributes",
+          "declared": "Declared attributes"
+        },
+        "customizeThresholdDrawer": {
+          "title": "Customize threshold",
+          "subtitle": "Set a custom threshold for the certified attribute <1>{{name}}</1>.",
+          "submitBtnLabel": "Customize threshold",
+          "field": {
+            "placeholder": "API calls/day per consumer",
+            "error": "The threshold per consumer cannot be higher than the total threshold.",
+            "info": "Please enter a number greater than or equal to 1."
+          },
+          "limitAlert": {
+            "title": "For this e-service you have already defined",
+            "totalLimit": "Total threshold",
+            "consumerLimit": "Threshold per consumer",
+            "toInsert": "To insert",
+            "label": "{{threshold}} API calls/day"
+          },
+          "alert": "If the consumer satisfies multiple attributes with different thresholds, the highest threshold is automatically applied."
+        }
       }
     },
     "step3": {
-      "attributesTitle": "Access requirements for version {{versionNumber}}",
-      "attributesDescription": "Please indicate all the certified, verified, and declared attributes that the consumer must have in order to create an agreement for the e-service",
-      "attributesAddBtn": "Add attribute",
+      "attributesTitle": "Access requirements",
+      "attributesDescription": "Define who can access this e-service. Create one or more requirements and associate the required attributes to each. The consumer must meet all the indicated requirements and possess at least one of the attributes in each requirement. <1>Learn more about attributes</1>",
+      "certifiedDescription": "These are attributes certified by a <1>recognized authoritative source.</1>",
+      "verifiedDescription": "These are attributes verified <1>by other organizations</1>, with the possibility of requesting a verification from the provider.",
+      "declaredDescription": "These are attributes declared by the consumer during the service request. No verification from the provider is required.",
+      "attributesAddBtn": "Create requirement",
       "attributesCreateBtn": "Create new attribute",
       "createAttributeDrawer": {
         "title": {
@@ -206,13 +239,14 @@
         }
       },
       "interface": {
-        "title": "Interface (required)",
+        "title": "Interface",
         "description": {
-          "rest": "Upload the OpenAPI file that describes the API. You must ensure that your specification meets the requirements set in the ModI framework. To check, use",
+          "rest": "Upload the OpenAPI file that describes the API. Before uploading, verify that it meets the ModI requirements with",
           "restLinkLabel": "the OpenAPI Checker",
           "soap": "Upload the WSDL file that describes the API"
         },
-        "prettyName": "API specification"
+        "prettyName": "API specification",
+        "dropzoneLabel": "Drag the OpenAPI file here or click here to select it from your computer"
       },
       "documentation": {
         "title": "Documentation",
@@ -222,7 +256,26 @@
         "label": "Document name",
         "infoLabel": "Min 5 characters, max 60 characters"
       },
-      "uploadBtn": "Save document"
+      "uploadBtn": "Save document",
+      "descriptionSection": {
+        "title": "Version description",
+        "readOnlyLabel": "Version description",
+        "field": {
+          "label": "Describe this version of the e-service*",
+          "infoLabel": "If this is a new version, please indicate what has changed compared to the previous one*"
+        }
+      },
+      "documentationSection": {
+        "title": "Documentation",
+        "subtitle": "Please include the technical documentation needed to use this version."
+      },
+      "requestManagementSection": {
+        "title": "Request management",
+        "field": {
+          "title": "Do you want to manually approve all the access requests you receive?",
+          "label": "I prefer to approve them manually"
+        }
+      }
     }
   },
   "summary": {
