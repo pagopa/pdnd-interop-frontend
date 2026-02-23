@@ -280,17 +280,16 @@
       "thresholdsInfoAlert": "Those who use this template will be able to modify the suggested thresholds and customize them for certified attributes.",
       "accessRequirements": {
         "title": "Access requirements",
-        "description": "Define who can access this e-service. Create one or more requirements and associate the required attributes to each. The consumer must meet all the indicated requirements and possess at least one of the attributes in each requirement.",
-        "learnMoreLink": "Learn more about attributes",
+        "description": "Define who can access this e-service. Create one or more requirements and associate the required attributes to each. The consumer must meet all the indicated requirements and possess at least one of the attributes in each requirement. <1>Learn more about attributes</1>",
         "createRequirementBtn": "Create requirement",
         "placeholder": "This section will be available soon.",
         "tabs": {
           "certified": "Certified Attributes",
           "verified": "Verified Attributes",
           "declared": "Declared Attributes",
-          "certifiedDescription": "These are attributes certified by a recognized authoritative source.",
-          "verifiedDescription": "These are attributes verified by the providing entity.",
-          "declaredDescription": "These are attributes declared by the consuming entity."
+          "certifiedDescription": "These are attributes certified by a <1>recognized authoritative source.</1>",
+          "verifiedDescription": "These are attributes verified <1>by other organizations</1>, with the possibility of requesting a verification from the provider.",
+          "declaredDescription": "These are attributes declared by the consumer during the service request. No verification from the provider is required."
         }
       }
     },

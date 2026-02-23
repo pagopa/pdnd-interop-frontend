@@ -21,7 +21,8 @@ export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> =
   sxBox,
   error,
 }) => {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation('eservice')
+  const { t: tCommon } = useTranslation('common')
   const defaultValues: UploadDocumentsInterfaceFormValues = {
     interfaceDoc: null,
   }
@@ -47,6 +48,7 @@ export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> =
           name="interfaceDoc"
           rules={{ required: true }}
           data-testid="fileInput"
+          dropzoneLabel={t('create.step4.interface.dropzoneLabel')}
         />
 
         {selectedInterface && (
@@ -59,7 +61,7 @@ export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> =
               data-testid="submitButton"
               onClick={formMethods.handleSubmit(onSubmit)}
             >
-              {t('actions.saveDocument')}
+              {tCommon('actions.saveDocument')}
             </Button>
           </Stack>
         )}

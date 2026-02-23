@@ -1,8 +1,7 @@
-import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Box, Divider } from '@mui/material'
+import { SectionContainerSkeleton } from '@/components/layout/containers'
+import { Box } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
-import { AddAttributesToForm } from '../../../../components/shared/AddAttributesToForm'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceMutations } from '@/api/eservice'
 import { useTranslation } from 'react-i18next'
@@ -18,6 +17,7 @@ import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { CreateAttributeDrawer } from '../../../../components/shared/CreateAttributeDrawer'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
+import { AttributesSection } from '../sections/AttributesSection'
 
 export type CreateStepAttributesFormValues = {
   attributes: DescriptorAttributes
@@ -98,24 +98,10 @@ export const EServiceCreateStepAttributes: React.FC = () => {
     <>
       <FormProvider {...formMethods}>
         <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <SectionContainer
-            title={t('step3.attributesTitle', { versionNumber: descriptor?.version ?? '1' })}
-            description={t('step3.attributesDescription')}
-          >
-            <AddAttributesToForm attributeKey="certified" readOnly={isReadOnly} />
-            <Divider sx={{ my: 3 }} />
-            <AddAttributesToForm
-              attributeKey="verified"
-              readOnly={isReadOnly}
-              openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('verified')}
-            />
-            <Divider sx={{ my: 3 }} />
-            <AddAttributesToForm
-              attributeKey="declared"
-              readOnly={isReadOnly}
-              openCreateAttributeDrawer={handleOpenAttributeCreateDrawerFactory('declared')}
-            />
-          </SectionContainer>
+          <AttributesSection
+            isEServiceCreatedFromTemplate={isReadOnly}
+            handleOpenAttributeCreateDrawerFactory={handleOpenAttributeCreateDrawerFactory}
+          />
           <StepActions
             back={{
               label: t('backWithoutSaveBtn'),

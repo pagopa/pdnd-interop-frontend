@@ -21,7 +21,9 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 
-type AttributeContainerProps<TAttribute extends { id: string; name: string }> = {
+type AttributeContainerProps<
+  TAttribute extends { id: string; name: string; dailyCallsPerConsumer?: number },
+> = {
   attribute: TAttribute
   actions?: Array<{
     label: React.ReactNode
@@ -31,14 +33,18 @@ type AttributeContainerProps<TAttribute extends { id: string; name: string }> = 
   chipLabel?: string
   checked?: boolean
   onRemove?: (id: string, name: string) => void
+  onCustomizeThreshold?: VoidFunction
 }
 
-export const AttributeContainer = <TAttribute extends { id: string; name: string }>({
+export const AttributeContainer = <
+  TAttribute extends { id: string; name: string; dailyCallsPerConsumer?: number },
+>({
   attribute,
   actions,
   chipLabel,
   checked,
   onRemove,
+  onCustomizeThreshold,
 }: AttributeContainerProps<TAttribute>) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'attributeContainer' })
   const panelContentId = React.useId()
@@ -83,7 +89,43 @@ export const AttributeContainer = <TAttribute extends { id: string; name: string
             aria-controls={panelContentId}
             id={headerId}
           >
-            <Typography fontWeight={600}>{attribute.name}</Typography>
+            <Stack spacing={1}>
+              <Typography fontWeight={600}>{attribute.name}</Typography>
+              {onCustomizeThreshold && (
+                <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                  {attribute.dailyCallsPerConsumer !== undefined && (
+                    <Stack direction={'row'} spacing={1}>
+                      <Typography
+                        sx={{
+                          fontSize: 16,
+                        }}
+                      >
+                        {t('thresholdLabel')}
+                      </Typography>
+                      <Typography
+                        sx={{
+                          fontSize: 16,
+                          fontWeight: 700,
+                        }}
+                      >
+                        {attribute.dailyCallsPerConsumer}
+                      </Typography>
+                    </Stack>
+                  )}
+                  <ButtonNaked
+                    color="primary"
+                    type="button"
+                    sx={{ fontWeight: 700 }}
+                    onClick={(e: React.MouseEvent) => {
+                      e.stopPropagation()
+                      onCustomizeThreshold()
+                    }}
+                  >
+                    {attribute.dailyCallsPerConsumer ? t('changeBtn') : t('customizeBtn')}
+                  </ButtonNaked>
+                </Stack>
+              )}
+            </Stack>
           </AccordionSummary>
           <AccordionDetails>
             {hasExpandedOnce && <AttributeDetails attributeId={attribute.id} />}
@@ -100,7 +142,12 @@ export const AttributeContainer = <TAttribute extends { id: string; name: string
             <CardActions disableSpacing sx={{ p: 0 }}>
               <Stack direction="row" spacing={2}>
                 {actions?.map(({ action, label, color = 'primary' }, i) => (
-                  <ButtonNaked key={i} onClick={action.bind(null, attribute.id)} color={color}>
+                  <ButtonNaked
+                    key={i}
+                    type="button"
+                    onClick={action.bind(null, attribute.id)}
+                    color={color}
+                  >
                     {label}
                   </ButtonNaked>
                 ))}
@@ -130,7 +177,7 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
     <Stack sx={{ mt: 1 }} spacing={2}>
       <Typography variant="body2">{attribute.description}</Typography>
       <InformationContainer
-        direction="column"
+        direction="row"
         content={attributeId}
         copyToClipboard={{
           value: attributeId,

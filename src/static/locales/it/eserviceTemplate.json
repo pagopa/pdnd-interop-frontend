@@ -280,17 +280,16 @@
       "thresholdsInfoAlert": "Chi userà questo template potrà modificare le soglie suggerite e personalizzarle per gli attributi certificati.",
       "accessRequirements": {
         "title": "Requisiti di accesso",
-        "description": "Definisci chi può accedere a questo e-service. Crea uno o più requisiti e associa a ciascuno gli attributi richiesti. Il fruitore dovrà soddisfare tutti i requisiti indicati e possedere almeno uno degli attributi in ogni requisito.",
-        "learnMoreLink": "Scopri di più sugli attributi",
+        "description": "Definisci chi può accedere a questo e-service. Crea uno o più requisiti e associa a ciascuno gli attributi richiesti. Il fruitore dovrà soddisfare tutti i requisiti indicati e possedere almeno uno degli attributi in ogni requisito. <1>Scopri di più sugli attributi</1>",
         "createRequirementBtn": "Crea requisito",
         "placeholder": "Questa sezione sarà disponibile prossimamente.",
         "tabs": {
           "certified": "Attributi Certificati",
           "verified": "Attributi Verificati",
           "declared": "Attributi Dichiarati",
-          "certifiedDescription": "Sono attributi certificati da una fonte autoritativa riconosciuta.",
-          "verifiedDescription": "Sono attributi verificati dall'ente erogatore.",
-          "declaredDescription": "Sono attributi dichiarati dall'ente fruitore."
+          "certifiedDescription": "Sono attributi certificati da una <1>fonte autoritativa riconosciuta.</1>",
+          "verifiedDescription": "Sono attributi verificati <1>da altre organizzazioni</1>, con la possibilità di richiedere una verifica dall'erogatore.",
+          "declaredDescription": "Sono attributi dichiarati dal fruitore stesso durante la richiesta di fruizione. Non è necessaria una verifica dell'erogatore."
         }
       }
     },
