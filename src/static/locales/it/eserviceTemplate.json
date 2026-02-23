@@ -293,21 +293,29 @@
         }
       }
     },
-    "step2": {
+    "step4": {
       "versionTitle": "Informazioni per la versione {{versionNumber}}",
+      "versionDescriptionTitle": "Descrizione della versione",
       "versionDescriptionField": {
-        "label": "Cosa è cambiato in questa versione?"
+        "label": "Descrivi questa versione dell'e-service*",
+        "infoLabel": "Se è una nuova versione, indica cosa è cambiato rispetto alla precedente"
       },
-      "voucherSection": {
-        "title": "Voucher",
-        "voucherLifespanField": {
-          "label": "Durata validità (in minuti)",
-          "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
-        }
+      "documentationSection": {
+        "title": "Documentazione",
+        "description": "Allega la documentazione tecnica utile ai fruitori degli e-service creati a partire da questo template.",
+        "saveDocumentBtn": "Salva documento"
       },
+      "requestManagementSection": {
+        "title": "Gestione richieste"
+      },
+      "agreementApprovalPolicySection": {
+        "label": "Suggerisci a chi userà questo template l'approvazione manuale delle richieste di fruizione ricevute"
+      }
+    },
+    "step2": {
       "thresholdsSection": {
         "thresholdsSwitch": {
-          "label": "Suggerisci all’implementatore valori di soglia API personalizzate"
+          "label": "Suggerisci all'implementatore valori di soglia API personalizzate"
         },
         "title": "Soglia di chiamate previste per i fruitori",
         "dailyCallsPerConsumerField": {
@@ -320,15 +328,12 @@
           }
         }
       },
-      "agreementApprovalPolicySection": {
-        "label": "Suggerisci all’implementatore l’attivazione manuale delle richieste di fruizione pervenute"
-      },
       "tenantKindDialog": {
-        "title": "Seleziona la destinazione dell’analisi del rischio",
-        "description": "Indica chi potrà utilizzare l’analisi del rischio che stai creando.",
+        "title": "Seleziona la destinazione dell'analisi del rischio",
+        "description": "Indica chi potrà utilizzare l'analisi del rischio che stai creando.",
         "tenantKind": {
-          "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera “a” del Codice dell’Amministrazione Digitale)",
-          "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere “b” e “c”) oppure Privati"
+          "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera \u201Ca\u201D del Codice dell'Amministrazione Digitale)",
+          "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere \u201Cb\u201D e \u201Cc\u201D) oppure Privati"
         }
       }
     },
@@ -354,19 +359,23 @@
         "submitBtnLabel": "Crea attributo"
       }
     },
-    "step4": {
+    "stepTechnicalSpecs": {
       "interface": {
-        "title": "Interfaccia",
-        "alert": "Puoi caricare un file privo dei dati di contatto, i Termini e Condizioni, e l’indirizzo dei server in quanto verranno compilati dall’implementatore in una fase successiva.",
+        "title": "Interfaccia*",
+        "alert": "Puoi caricare un file senza dati di contatto, Termini e Condizioni e indirizzi dei server: queste informazioni saranno inserite in una fase successiva da chi userà il template.",
         "description": {
-          "rest": "Carica una bozza del file OpenAPI che descrive l’API.",
+          "rest": "Carica una bozza del file OpenAPI che descrive l'API.",
           "soap": "Carica una bozza del file WSDL che descrive l'API"
         },
-        "prettyName": "Specifica API"
+        "prettyName": "Specifica API",
+        "requiredError": "Non hai caricato nessun file"
       },
-      "documentation": {
-        "title": "Documentazione",
-        "description": "Inserisci tutta la documentazione tecnica utile all’implementazione di un’integrazione con questo e-service"
+      "voucher": {
+        "title": "Voucher",
+        "voucherLifespanField": {
+          "label": "Durata validità (in minuti)*",
+          "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
+        }
       },
       "nameField": {
         "label": "Nome documento",
