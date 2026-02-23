@@ -54,9 +54,13 @@
       "revokedByOwnParty": "Attribute revoked by your party",
       "expirationDate": "Verification expiration: {{expirationDate}}"
     },
-    "addBtn": "Add requirement",
+    "title": "Requirement {{number}} | {{attributeLabel}}",
+    "subtitle": "The consumer must possess at least one of the attributes in this requirement.",
+    "orSeparator": "OR",
+    "addBtn": "Add",
+    "addAnotherBtn": "Add another attribute",
     "autocompleteInput": {
-      "label": "Add attribute to group",
+      "label": "Add attribute",
       "placeholder": "Enter attribute name"
     }
   }

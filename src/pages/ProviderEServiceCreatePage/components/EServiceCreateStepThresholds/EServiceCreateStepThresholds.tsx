@@ -143,7 +143,6 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
         <Box component={'form'} noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
           <ThresholdSection />
           <AttributesSection
-            title={t('step3.attributesTitle', { versionNumber: descriptor?.version ?? '1' })}
             isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
             handleOpenAttributeCreateDrawerFactory={handleOpenAttributeCreateDrawerFactory}
           />

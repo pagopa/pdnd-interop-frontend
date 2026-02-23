@@ -3,7 +3,7 @@ import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
 import { Drawer } from '@/components/shared/Drawer'
 import { Alert, Stack, Button, Typography } from '@mui/material'
 import { RHFTextField } from './react-hook-form-inputs'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { type DescriptorAttribute } from '@/api/api.generatedTypes'
 import { WarningAmber } from '@mui/icons-material'
 import { create } from 'zustand'
@@ -65,7 +65,14 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
       <Drawer
         isOpen={isOpen}
         title={t('title')}
-        subtitle={t('subtitle', { name: attribute?.name })}
+        subtitle={
+          <Trans
+            ns="eservice"
+            i18nKey="create.step2.attributes.customizeThresholdDrawer.subtitle"
+            values={{ name: attribute?.name }}
+            components={{ 1: <strong /> }}
+          />
+        }
         onTransitionExited={formMethods.reset}
         onClose={close}
       >
@@ -87,29 +94,17 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
               rules={{
                 required: true,
                 min: 1,
+                ...(dailyCallsTotal !== undefined && {
+                  max: {
+                    value: dailyCallsTotal,
+                    message: t('field.error'),
+                  },
+                }),
               }}
             />
             <Alert icon={false} color="info">
               <Stack>
                 <Typography variant="overline">{t('limitAlert.title')}</Typography>
-                <Stack
-                  direction={'row'}
-                  alignItems={'center'}
-                  justifyContent={'space-between'}
-                  gap={2}
-                >
-                  <Typography variant="caption">{t('limitAlert.totalLimit')}</Typography>
-                  {dailyCallsTotal !== undefined ? (
-                    <Typography variant="caption-semibold">
-                      {t('limitAlert.label', { threshold: dailyCallsTotal })}
-                    </Typography>
-                  ) : (
-                    <Stack direction={'row'} alignItems={'center'} spacing={1}>
-                      <WarningAmber color="warning" />
-                      <Typography variant="caption-semibold">{t('limitAlert.toInsert')}</Typography>
-                    </Stack>
-                  )}
-                </Stack>
                 <Stack
                   direction={'row'}
                   alignItems={'center'}
@@ -128,6 +123,24 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
                     </Stack>
                   )}
                 </Stack>
+                <Stack
+                  direction={'row'}
+                  alignItems={'center'}
+                  justifyContent={'space-between'}
+                  gap={2}
+                >
+                  <Typography variant="caption">{t('limitAlert.totalLimit')}</Typography>
+                  {dailyCallsTotal !== undefined ? (
+                    <Typography variant="caption-semibold">
+                      {t('limitAlert.label', { threshold: dailyCallsTotal })}
+                    </Typography>
+                  ) : (
+                    <Stack direction={'row'} alignItems={'center'} spacing={1}>
+                      <WarningAmber color="warning" />
+                      <Typography variant="caption-semibold">{t('limitAlert.toInsert')}</Typography>
+                    </Stack>
+                  )}
+                </Stack>
               </Stack>
             </Alert>
           </Stack>
@@ -138,6 +151,7 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
               form="threshold-form"
               variant="contained"
               color={isEmpty(formMethods.formState.errors) ? 'primary' : 'error'}
+              sx={{ color: 'white' }}
             >
               {t('submitBtnLabel')}
             </Button>
