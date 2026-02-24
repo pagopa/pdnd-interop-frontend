@@ -289,8 +289,8 @@
           "title": "Indicate who will be able to use the following risk analysis.",
           "description": "Indicate for whom the following risk analysis is filled.",
           "tenantKind": {
-            "labelPA": "Public administration (Art. 2, comma 2, letter “a” of Codice dell'Amministrazione Digitale)",
-            "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters “b” e “c”) or Private"
+            "labelPA": "Public administration (Art. 2, comma 2, letter \u201Ca\u201D of Codice dell'Amministrazione Digitale)",
+            "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters \u201Cb\u201D e \u201Cc\u201D) or Private"
           }
         }
       },
