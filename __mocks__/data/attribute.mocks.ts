@@ -46,12 +46,7 @@ const createMockCompactAttribute = createMockFactory<CompactAttribute>({
   name: 'Attribute Name',
 })
 
-// TODO: Remove DescriptorAttributeWithThreshold when backend adds dailyCallsPerConsumer to DescriptorAttribute
-type DescriptorAttributeWithThreshold = DescriptorAttribute & {
-  dailyCallsPerConsumer?: number
-}
-
-const createMockDescriptorAttribute = createMockFactory<DescriptorAttributeWithThreshold>({
+const createMockDescriptorAttribute = createMockFactory<DescriptorAttribute>({
   id: 'id-party-attribute',
   name: 'Attribute Name',
   description: 'Attribute description',

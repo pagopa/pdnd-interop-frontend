@@ -9,11 +9,6 @@ import { WarningAmber } from '@mui/icons-material'
 import { create } from 'zustand'
 import isEmpty from 'lodash/isEmpty'
 
-// TODO: Remove when backend adds dailyCallsPerConsumer to DescriptorAttribute
-type DescriptorAttributeWithThreshold = DescriptorAttribute & {
-  dailyCallsPerConsumer?: number
-}
-
 export type CustomizeThresholdDrawerProps = {
   dailyCallsPerConsumer?: number
   dailyCallsTotal?: number
@@ -22,9 +17,9 @@ export type CustomizeThresholdDrawerProps = {
 
 type CustomizeThresholdDrawerStore = {
   isOpen: boolean
-  open: (attribute: DescriptorAttributeWithThreshold, attributeGroupIndex: number) => void
+  open: (attribute: DescriptorAttribute, attributeGroupIndex: number) => void
   close: VoidFunction
-  attribute?: DescriptorAttributeWithThreshold
+  attribute?: DescriptorAttribute
   attributeGroupIndex?: number
 }
 
