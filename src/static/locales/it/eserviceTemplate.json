@@ -270,6 +270,11 @@
       }
     },
     "step2": {
+      "thresholdsSection": {
+        "thresholdsSwitch": {
+          "label": "Suggerisci all'implementatore valori di soglia API personalizzate"
+        }
+      },
       "purpose": {
         "firstVersionOnlyEditableInfoAlert": "I contenuti di questo passaggio non saranno più modificabili dopo la pubblicazione della prima versione dell'e-service.",
         "purposeTableSection": {
@@ -284,8 +289,8 @@
           "title": "Seleziona la destinazione dell'analisi del rischio",
           "description": "Indica chi potrà utilizzare l'analisi del rischio che stai creando.",
           "tenantKind": {
-            "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera \u201Ca\u201D del Codice dell'Amministrazione Digitale)",
-            "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere \u201Cb\u201D e \u201Cc\u201D) oppure Privati"
+            "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera “a” del Codice dell'Amministrazione Digitale)",
+            "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere “b” e “c”) oppure Privati"
           }
         }
       },
@@ -323,6 +328,30 @@
       }
     },
     "step3": {
+      "technicalSpecs": {
+        "interface": {
+          "title": "Interfaccia*",
+          "alert": "Puoi caricare un file senza dati di contatto, Termini e Condizioni e indirizzi dei server: queste informazioni saranno inserite in una fase successiva da chi userà il template.",
+          "description": {
+            "rest": "Carica una bozza del file OpenAPI che descrive l'API.",
+            "soap": "Carica una bozza del file WSDL che descrive l'API"
+          },
+          "prettyName": "Specifica API",
+          "requiredError": "Non hai caricato nessun file"
+        },
+        "voucher": {
+          "title": "Voucher",
+          "voucherLifespanField": {
+            "label": "Durata validità (in minuti)*",
+            "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
+          }
+        },
+        "nameField": {
+          "label": "Nome documento",
+          "infoLabel": "Min 5 caratteri, max 60 caratteri"
+        },
+        "uploadBtn": "Carica"
+      },
       "attributes": {
         "attributesTitle": "Requisiti di accesso per la versione {{versionNumber}}",
         "attributesDescription": "Di seguito indica tutti quegli attributi, certificati, verificati o dichiarati che il fruitore dovrà possedere per richiedere la fruizione dell'e-service",
@@ -343,25 +372,6 @@
             "infoLabel": "Min 10 caratteri, max 250 caratteri"
           },
           "submitBtnLabel": "Crea attributo"
-        }
-      },
-      "technicalSpecs": {
-        "interface": {
-          "title": "Interfaccia*",
-          "alert": "Puoi caricare un file senza dati di contatto, Termini e Condizioni e indirizzi dei server: queste informazioni saranno inserite in una fase successiva da chi userà il template.",
-          "description": {
-            "rest": "Carica una bozza del file OpenAPI che descrive l'API.",
-            "soap": "Carica una bozza del file WSDL che descrive l'API"
-          },
-          "prettyName": "Specifica API",
-          "requiredError": "Non hai caricato nessun file"
-        },
-        "voucher": {
-          "title": "Voucher",
-          "voucherLifespanField": {
-            "label": "Durata validità (in minuti)*",
-            "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
-          }
         }
       }
     }
