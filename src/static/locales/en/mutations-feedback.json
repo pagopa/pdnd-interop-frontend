@@ -75,6 +75,13 @@
         "error": "The new e-service version draft could not be updated. Please ensure all required fields are filled in the original e-service and try again!"
       }
     },
+    "updateAttributeThreshold": {
+      "loading": "Certificate attribute API call threshold is being changed",
+      "outcome": {
+        "success": "You have changed the API call threshold for the certificate attribute.",
+        "error": "The API call threshold for this attribute could not be changed. Please make sure you entered the correct information."
+      }
+    },
     "publishVersionDraft": {
       "loading": "E-service version draft is being published",
       "outcome": {

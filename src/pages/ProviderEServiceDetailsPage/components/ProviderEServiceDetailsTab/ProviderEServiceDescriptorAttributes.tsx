@@ -3,10 +3,10 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { AttributeGroupsListSection } from '@/components/shared/ReadOnlyDescriptorAttributes'
 import { useParams } from '@/router'
 import type { ActionItemButton } from '@/types/common.types'
-import { Divider, Stack } from '@mui/material'
+import { Divider, Stack, Typography } from '@mui/material'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import AddIcon from '@mui/icons-material/Add'
 import EditIcon from '@mui/icons-material/Edit'
 import type { AttributeKey } from '@/types/attribute.types'
@@ -14,12 +14,22 @@ import { AuthHooks } from '@/api/auth'
 import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 import { UpdateAttributesDrawer } from '@/components/shared/UpdateAttributesDrawer'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
-import { UpdateThresholdsDrawer } from '@/components/shared/UpdateThresholdsDrawer'
+import { UpdateDailyCallsDrawer } from '@/components/shared/UpdateDailyCallsDrawer'
+import {
+  CustomizeThresholdDrawer,
+  useCustomizeThresholdDrawer,
+} from '@/components/shared/CustomizeThresholdDrawer'
+import cloneDeep from 'lodash/cloneDeep'
+import type { DescriptorAttributes, UpdateEServiceDescriptorSeed } from '@/api/api.generatedTypes'
+import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 
 export const ProviderEServiceDescriptorAttributes: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.sections.attributes' })
-  const { t: tThresholdDrawer } = useTranslation('eservice', {
-    keyPrefix: 'read.drawers.updateThresholdsDrawer',
+  const { t: tDailyCallsDrawer } = useTranslation('eservice', {
+    keyPrefix: 'read.drawers.updateDailyCallsDrawer',
+  })
+  const { t: tCustomizeThresholdDrawer } = useTranslation('eservice', {
+    keyPrefix: 'read.drawers.customizeThresholdDrawer',
   })
   const { jwt, isAdmin, isOperatorAPI } = AuthHooks.useJwt()
 
@@ -30,6 +40,8 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
   })
 
   const descriptorAttributes = descriptor.attributes
+
+  const { attribute, attributeGroupIndex } = useCustomizeThresholdDrawer()
 
   const isEserviceFromTemplate = Boolean(descriptor.templateRef)
 
@@ -43,7 +55,7 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
     isOpen: boolean
   }>({ isOpen: false, kind: 'certified' })
 
-  const [editThresholdsDrawerState, setEditThresholdsDrawerState] = useState<{
+  const [editDailyCallsDrawerState, setEditDailyCallsDrawerState] = useState<{
     isOpen: boolean
   }>({ isOpen: false })
 
@@ -68,7 +80,7 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
   const getThresholdSectionActions = (): Array<ActionItemButton> | undefined => {
     return [
       {
-        action: () => setEditThresholdsDrawerState({ isOpen: true }),
+        action: () => setEditDailyCallsDrawerState({ isOpen: true }),
         label: t('modify'),
         icon: EditIcon,
       },
@@ -77,8 +89,9 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
 
   const { mutate: updateVersion } = EServiceMutations.useUpdateVersion(true)
   const { mutate: updateInstanceVersion } = EServiceMutations.useUpdateInstanceVersion(true)
+  const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft()
 
-  const handleUpdateThresholds = (
+  const handleUpdateDailyCalls = (
     id: string,
     dailyCallsPerConsumer: number,
     dailyCallsTotal: number,
@@ -92,7 +105,7 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
           dailyCallsPerConsumer,
           dailyCallsTotal,
         },
-        { onSuccess: () => setEditThresholdsDrawerState({ isOpen: false }) }
+        { onSuccess: () => setEditDailyCallsDrawerState({ isOpen: false }) }
       )
       return
     }
@@ -104,9 +117,55 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
         dailyCallsPerConsumer,
         dailyCallsTotal,
       },
-      { onSuccess: () => setEditThresholdsDrawerState({ isOpen: false }) }
+      { onSuccess: () => setEditDailyCallsDrawerState({ isOpen: false }) }
     )
   }
+
+  const handleUpdateCertifiedAttributeThreshold = (threshold: number) => {
+    if (!attribute || attributeGroupIndex === undefined || !descriptor) return
+
+    const updatedAttributes: DescriptorAttributes = cloneDeep(descriptor.attributes)
+
+    updatedAttributes.certified[attributeGroupIndex] = updatedAttributes.certified[
+      attributeGroupIndex
+    ].map((att) => (att.id === attribute.id ? { ...att, dailyCallsPerConsumer: threshold } : att))
+
+    const payload: UpdateEServiceDescriptorSeed & { eserviceId: string; descriptorId: string } = {
+      audience: descriptor.audience,
+      voucherLifespan: descriptor.voucherLifespan,
+      dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
+      dailyCallsTotal: descriptor.dailyCallsTotal,
+      agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
+      description: descriptor.description,
+      attributes: remapDescriptorAttributesToDescriptorAttributesSeed(updatedAttributes),
+      eserviceId: descriptor.eservice.id,
+      descriptorId: descriptor.id,
+    }
+
+    updateVersionDraft(payload, {
+      onSuccess: () => useCustomizeThresholdDrawer.getState().close(),
+    })
+  }
+
+  const customizeThresholdDrawerSubtitle = (
+    <Trans
+      ns="eservice"
+      i18nKey="read.drawers.customizeThresholdDrawer.subtitle"
+      values={{ name: attribute?.name }}
+      components={{ 1: <strong /> }}
+    />
+  )
+
+  const currentConsumerThreshold = (
+    <Typography variant="body2" sx={{ mb: 4, mt: 0 }}>
+      <Trans
+        ns="eservice"
+        i18nKey="read.drawers.customizeThresholdDrawer.consumerThreshold"
+        values={{ dailyCallsPerConsumer: attribute?.dailyCallsPerConsumer }}
+        components={{ 1: <strong /> }}
+      />
+    </Typography>
+  )
 
   return (
     <>
@@ -133,6 +192,7 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
           attributeKey="certified"
           descriptorAttributes={descriptorAttributes}
           topSideActions={getAttributeSectionActions('certified')}
+          withThreshold
         />
         <Divider sx={{ my: 3 }} />
         <AttributeGroupsListSection
@@ -154,17 +214,27 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
         attributes={descriptorAttributes}
         kind="ESERVICE"
       />
-      <UpdateThresholdsDrawer
-        isOpen={editThresholdsDrawerState.isOpen}
-        onClose={() => setEditThresholdsDrawerState({ isOpen: false })}
+      <UpdateDailyCallsDrawer
+        isOpen={editDailyCallsDrawerState.isOpen}
+        onClose={() => setEditDailyCallsDrawerState({ isOpen: false })}
         id={eserviceId}
         dailyCallsPerConsumer={descriptor.dailyCallsPerConsumer}
         dailyCallsTotal={descriptor.dailyCallsTotal}
         versionId={descriptorId}
-        subtitle={tThresholdDrawer('subtitle')}
-        dailyCallsPerConsumerLabel={tThresholdDrawer('dailyCallsPerConsumerField.label')}
-        dailyCallsTotalLabel={tThresholdDrawer('dailyCallsTotalField.label')}
-        onSubmit={handleUpdateThresholds}
+        subtitle={tDailyCallsDrawer('subtitle')}
+        dailyCallsPerConsumerLabel={tDailyCallsDrawer('dailyCallsPerConsumerField.label')}
+        dailyCallsTotalLabel={tDailyCallsDrawer('dailyCallsTotalField.label')}
+        onSubmit={handleUpdateDailyCalls}
+      />
+      <CustomizeThresholdDrawer
+        dailyCallsTotal={descriptor.dailyCallsTotal}
+        dailyCallsPerConsumer={descriptor.dailyCallsPerConsumer}
+        onSubmit={(threshold) => handleUpdateCertifiedAttributeThreshold(threshold)}
+        title={tCustomizeThresholdDrawer('title')}
+        subtitle={customizeThresholdDrawerSubtitle}
+        alertLabel={tCustomizeThresholdDrawer('alert')}
+        submitButtonLabel={tCustomizeThresholdDrawer('submitBtnLabel')}
+        currentConsumerThreshold={currentConsumerThreshold}
       />
     </>
   )

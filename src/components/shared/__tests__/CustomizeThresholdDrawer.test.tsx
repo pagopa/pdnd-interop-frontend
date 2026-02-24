@@ -27,6 +27,10 @@ const renderComponent = (
     onSubmit: vi.fn(),
     dailyCallsPerConsumer: 100,
     dailyCallsTotal: 1000,
+    title: 'title',
+    subtitle: 'subtitle',
+    alertLabel: 'alertLabel',
+    submitButtonLabel: 'submitBtnLabel',
     ...props,
   }
 

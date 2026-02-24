@@ -5,12 +5,12 @@ import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 
-type UpdateThresholdsFormValues = {
+type UpdateDailyCallsFormValues = {
   dailyCallsPerConsumer: number
   dailyCallsTotal: number
 }
 
-type UpdateThresholdsDrawerProps = {
+type UpdateDailyCallsDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   id: string
@@ -30,7 +30,7 @@ type UpdateThresholdsDrawerProps = {
   ) => void
 }
 
-export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
+export const UpdateDailyCallsDrawer: React.FC<UpdateDailyCallsDrawerProps> = ({
   isOpen,
   onClose,
   id,
@@ -43,7 +43,7 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
   onSubmit,
 }) => {
   const { t } = useTranslation('eservice', {
-    keyPrefix: 'read.drawers.updateThresholdsDrawer',
+    keyPrefix: 'read.drawers.updateDailyCallsDrawer',
   })
   const { t: tCommon } = useTranslation('common')
 
@@ -52,7 +52,7 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
     dailyCallsTotal: dailyCallsTotal ?? 1,
   }
 
-  const formMethods = useForm<UpdateThresholdsFormValues>({ defaultValues })
+  const formMethods = useForm<UpdateDailyCallsFormValues>({ defaultValues })
 
   React.useEffect(() => {
     formMethods.reset({
@@ -61,7 +61,7 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
     })
   }, [versionId, id, formMethods, dailyCallsPerConsumer, dailyCallsTotal])
 
-  const handleSubmit = (values: UpdateThresholdsFormValues) => {
+  const handleSubmit = (values: UpdateDailyCallsFormValues) => {
     if (versionId) {
       onSubmit(id, values.dailyCallsPerConsumer, values.dailyCallsTotal, versionId)
     } else {
@@ -103,30 +103,35 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
           </Trans>
         </Typography>
         <Stack spacing={4}>
-          <Box component="form" noValidate>
-            <RHFTextField
-              sx={{ mt: 4, mb: 0 }}
-              name="dailyCallsPerConsumer"
-              label={dailyCallsPerConsumerLabel}
-              infoLabel={t('dailyCallsPerConsumerField.infoLabel')}
-              type="number"
-              rules={{
-                required: true,
-                min: 1,
-              }}
-            />
-            <RHFTextField
-              sx={{ mt: 5, mb: 0 }}
-              name="dailyCallsTotal"
-              label={dailyCallsTotalLabel}
-              infoLabel={t('dailyCallsTotalField.infoLabel')}
-              type="number"
-              rules={{
-                required: true,
-                min: 1,
-              }}
-            />
-          </Box>
+          <FormProvider {...formMethods}>
+            <Box component="form" noValidate>
+              <RHFTextField
+                sx={{ mt: 4, mb: 0 }}
+                name="dailyCallsPerConsumer"
+                label={dailyCallsPerConsumerLabel}
+                infoLabel={t('dailyCallsPerConsumerField.infoLabel')}
+                type="number"
+                rules={{
+                  required: true,
+                  min: 1,
+                }}
+              />
+              <RHFTextField
+                sx={{ mt: 5, mb: 0 }}
+                name="dailyCallsTotal"
+                label={dailyCallsTotalLabel}
+                infoLabel={t('dailyCallsTotalField.infoLabel')}
+                type="number"
+                rules={{
+                  required: true,
+                  validate: (value) => {
+                    const minValue = formMethods.getValues('dailyCallsPerConsumer') + 1
+                    return value >= minValue || t('dailyCallsTotalField.validation.min')
+                  },
+                }}
+              />
+            </Box>
+          </FormProvider>
         </Stack>
       </Drawer>
     </FormProvider>

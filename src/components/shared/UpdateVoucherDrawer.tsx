@@ -108,6 +108,12 @@ export const UpdateVoucherDrawer: React.FC<UpdateVoucherDrawerProps> = ({
               rules={{
                 required: true,
                 min: 1,
+                ...(voucherLifespan !== undefined && {
+                  max: {
+                    value: 1440,
+                    message: t('voucherLifespanField.error'),
+                  },
+                }),
               }}
               disabled={isEserviceFromTemplate}
             />

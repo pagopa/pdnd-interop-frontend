@@ -680,7 +680,7 @@
           "infoLabel": "Chiamate API/giorno"
         }
       },
-      "updateThresholdsDrawer": {
+      "updateDailyCallsDrawer": {
         "title": "Modifica soglie di chiamate API",
         "subtitle": "Modifica il numero massimo di chiamate giornaliere, per fruitore e totali. Definisci una soglia totale che possa coprire tutte le finalità: una volta raggiunta, le nuove finalità richiederanno l’approvazione manuale.",
         "summary": "La soglia attuale per fruitore è di <strong>{{dailyCallsPerConsumer}} chiamate API/giorno</strong>. La soglia attuale totale è di <strong>{{dailyCallsTotal}} chiamate API/giorno</strong>.",
@@ -690,8 +690,18 @@
         },
         "dailyCallsTotalField": {
           "label": "Chiamate API/giorno totali",
-          "infoLabel": "Inserisci un numero superiore al precedente"
+          "infoLabel": "Inserisci un numero superiore al precedente",
+          "validation": {
+            "min": "Il numero inserito è inferiore al precedente."
+          }
         }
+      },
+      "customizeThresholdDrawer": {
+        "title": "Modifica soglia personalizzata",
+        "subtitle": "Modifica la soglia personalizzata per l’attributo certificato <strong>{{name}}</strong>.",
+        "alert": "Se il fruitore soddisfa più attributi con soglie diverse, si applica automaticamente la soglia più alta. La soglia rimane invariata per i fruitori che stanno già usando l’e-service.",
+        "submitBtnLabel": "Salva modifiche",
+        "consumerThreshold": "La soglia attuale è di <strong>{{dailyCallsPerConsumer}} chiamate API/giorno</strong>."
       },
       "updateVoucherDrawer": {
         "title": "Modifica durata voucher",
@@ -700,7 +710,8 @@
         "summary_plural": "La durata attuale è di <strong>{{voucherLifespan}} minuti</strong>",
         "voucherLifespanField": {
           "label": "Durata validità (in minuti)",
-          "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
+          "infoLabel": "Valore massimo: 1440 minuti (24 ore)",
+          "error": "La durata del voucher non può essere superiore a 1440 minuti (24 ore)."
         }
       },
       "updateAgreementApprovalPolicyDrawer": {

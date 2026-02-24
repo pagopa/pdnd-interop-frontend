@@ -75,6 +75,13 @@
         "error": "Non è stato possibile aggiornare una bozza per la nuova versione dell'e-service. Assicurarsi di aver compilato tutti i campi e riprovare"
       }
     },
+    "updateAttributeThreshold": {
+      "loading": "La soglia di chiamate API dell'attributo certificato è in fase di modifica",
+      "outcome": {
+        "success": "Hai modificato la soglia di chiamate API dell’attributo certificato.",
+        "error": "Non è stato possibile modificare la soglia di chiamate API dell’attributo. Controlla di aver inserito le informazioni corrette."
+      }
+    },
     "publishVersionDraft": {
       "loading": "Stiamo pubblicando la versione in bozza",
       "outcome": {

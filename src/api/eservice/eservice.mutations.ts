@@ -89,9 +89,14 @@ function useCreateVersionDraft(
   })
 }
 
-function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
+function useUpdateVersionDraft(
+  config = { suppressSuccessToast: false },
+  isThresholdOnlyUpdate: boolean = false
+) {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.updateVersionDraft',
+    keyPrefix: isThresholdOnlyUpdate
+      ? 'eservice.updateAttributeThreshold'
+      : 'eservice.updateVersionDraft',
   })
   return useMutation({
     mutationFn: (

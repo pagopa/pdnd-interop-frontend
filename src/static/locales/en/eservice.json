@@ -680,7 +680,7 @@
           "infoLabel": "(API calls/day)"
         }
       },
-      "updateThresholdsDrawer": {
+      "updateDailyCallsDrawer": {
         "title": "Change API call thresholds",
         "subtitle": "Change the maximum number of daily calls, per consumer, and total. Set a total threshold that covers all purposes. Once reached, new purposes will require manual approval.",
         "summary": "The current per-consumer threshold is <strong>{{dailyCallsPerConsumer}} API calls/day</strong>. The current total threshold is <strong>{{dailyCallsTotal}} API calls/day</strong>.",
@@ -690,8 +690,18 @@
         },
         "dailyCallsTotalField": {
           "label": "Total API calls/day",
-          "infoLabel": "Enter a number higher than the previous one"
+          "infoLabel": "Enter a number higher than the previous one",
+          "validation": {
+            "min": "The number entered is lower than the previous one."
+          }
         }
+      },
+      "customizeThresholdDrawer": {
+        "title": "Edit custom threshold",
+        "subtitle": "Edit the custom threshold for the certificated attribute <strong>{{name}}</strong>.",
+        "alert": "If the consumer satisfies multiple attributes with different thresholds, the highest threshold is automatically applied. The threshold remains unchanged for consumers who are already using the e-service.",
+        "submitBtnLabel": "Save changes",
+        "consumerThreshold": "The current threshold is <strong>{{dailyCallsPerConsumer}} API calls/day</strong>."
       },
       "updateVoucherDrawer": {
         "title": "Change voucher duration",
@@ -700,7 +710,8 @@
         "summary_plural": "The current duration is <strong>{{voucherLifespan}} minutes</strong>",
         "voucherLifespanField": {
           "label": "Validity period (in minutes)",
-          "infoLabel": "Maximum value: 1440 minutes (24 hours)"
+          "infoLabel": "Maximum value: 1440 minutes (24 hours)",
+          "error": "The voucher lifespan cannot be higher than 1440 minutes (24 hours)."
         }
       },
       "updateAgreementApprovalPolicyDrawer": {
