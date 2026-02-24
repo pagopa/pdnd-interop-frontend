@@ -49,7 +49,7 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
     renderWithApplicationContext(<EServiceTemplateCreateStepTechnicalSpecs {...stepProps} />, {
       withReactQueryContext: true,
     })
-    expect(screen.getByText('create.stepTechnicalSpecs.interface.title')).toBeInTheDocument()
+    expect(screen.getByText('create.step3.technicalSpecs.interface.title')).toBeInTheDocument()
   })
 
   it('renders the info alert', () => {
@@ -57,7 +57,7 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
     renderWithApplicationContext(<EServiceTemplateCreateStepTechnicalSpecs {...stepProps} />, {
       withReactQueryContext: true,
     })
-    expect(screen.getByText('create.stepTechnicalSpecs.interface.alert')).toBeInTheDocument()
+    expect(screen.getByText('create.step3.technicalSpecs.interface.alert')).toBeInTheDocument()
   })
 
   it('renders the Voucher section title', () => {
@@ -65,7 +65,7 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
     renderWithApplicationContext(<EServiceTemplateCreateStepTechnicalSpecs {...stepProps} />, {
       withReactQueryContext: true,
     })
-    expect(screen.getByText('create.stepTechnicalSpecs.voucher.title')).toBeInTheDocument()
+    expect(screen.getByText('create.step3.technicalSpecs.voucher.title')).toBeInTheDocument()
   })
 
   it('renders the voucherLifespan field', () => {
@@ -74,7 +74,7 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
       withReactQueryContext: true,
     })
     expect(
-      screen.getByLabelText(/create.stepTechnicalSpecs.voucher.voucherLifespanField.label/)
+      screen.getByLabelText(/create.step3.technicalSpecs.voucher.voucherLifespanField.label/)
     ).toBeInTheDocument()
   })
 
@@ -102,7 +102,7 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
       withReactQueryContext: true,
     })
     expect(
-      screen.getByText('create.stepTechnicalSpecs.interface.description.rest')
+      screen.getByText('create.step3.technicalSpecs.interface.description.rest')
     ).toBeInTheDocument()
   })
 
@@ -137,7 +137,7 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
       withReactQueryContext: true,
     })
     expect(
-      screen.getByText('create.stepTechnicalSpecs.interface.description.soap')
+      screen.getByText('create.step3.technicalSpecs.interface.description.soap')
     ).toBeInTheDocument()
   })
 

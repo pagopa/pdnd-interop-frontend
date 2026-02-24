@@ -250,49 +250,6 @@
         }
       }
     },
-    "stepPurpose": {
-      "firstVersionOnlyEditableInfoAlert": "I contenuti di questo passaggio non saranno più modificabili dopo la pubblicazione della prima versione dell'e-service.",
-      "purposeTableSection": {
-        "title": "Finalità",
-        "description": "Indica i casi d'uso per i quali intendi raccogliere dati. Per ogni finalità dovrai compilare un'analisi del rischio.",
-        "noSelectedPurposesTooltip": "È necessario indicare almeno una finalità per proseguire",
-        "purposeTable": {
-          "noDataLabel": "Nessuna finalità aggiunta"
-        }
-      }
-    },
-    "stepThresholdsAndAttributes": {
-      "thresholdsTitle": "Soglie di chiamate API",
-      "thresholdsSwitch": {
-        "label": "Suggerisci delle soglie di chiamate API/giorno a chi userà questo template"
-      },
-      "dailyCallsPerConsumerField": {
-        "label": "Chiamate API/giorno per fruitore",
-        "infoLabel": "Inserisci un numero superiore o uguale a 1"
-      },
-      "dailyCallsTotalField": {
-        "label": "Chiamate API/giorno totali",
-        "infoLabel": "Inserisci un numero superiore al precedente",
-        "validation": {
-          "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore"
-        }
-      },
-      "thresholdsInfoAlert": "Chi userà questo template potrà modificare le soglie suggerite e personalizzarle per gli attributi certificati.",
-      "accessRequirements": {
-        "title": "Requisiti di accesso",
-        "description": "Definisci chi può accedere a questo e-service. Crea uno o più requisiti e associa a ciascuno gli attributi richiesti. Il fruitore dovrà soddisfare tutti i requisiti indicati e possedere almeno uno degli attributi in ogni requisito. <1>Scopri di più sugli attributi</1>",
-        "createRequirementBtn": "Crea requisito",
-        "placeholder": "Questa sezione sarà disponibile prossimamente.",
-        "tabs": {
-          "certified": "Attributi Certificati",
-          "verified": "Attributi Verificati",
-          "declared": "Attributi Dichiarati",
-          "certifiedDescription": "Sono attributi certificati da una <1>fonte autoritativa riconosciuta.</1>",
-          "verifiedDescription": "Sono attributi verificati <1>da altre organizzazioni</1>, con la possibilità di richiedere una verifica dall'erogatore.",
-          "declaredDescription": "Sono attributi dichiarati dal fruitore stesso durante la richiesta di fruizione. Non è necessaria una verifica dell'erogatore."
-        }
-      }
-    },
     "step4": {
       "versionTitle": "Informazioni per la versione {{versionNumber}}",
       "versionDescriptionTitle": "Descrizione della versione",
@@ -318,60 +275,105 @@
           "label": "Suggerisci all'implementatore valori di soglia API personalizzate"
         }
       },
-      "tenantKindDialog": {
-        "title": "Seleziona la destinazione dell'analisi del rischio",
-        "description": "Indica chi potrà utilizzare l'analisi del rischio che stai creando.",
-        "tenantKind": {
-          "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera “a” del Codice dell'Amministrazione Digitale)",
-          "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere “b” e “c”) oppure Privati"
+      "purpose": {
+        "firstVersionOnlyEditableInfoAlert": "I contenuti di questo passaggio non saranno più modificabili dopo la pubblicazione della prima versione dell'e-service.",
+        "purposeTableSection": {
+          "title": "Finalità",
+          "description": "Indica i casi d'uso per i quali intendi raccogliere dati. Per ogni finalità dovrai compilare un'analisi del rischio.",
+          "noSelectedPurposesTooltip": "È necessario indicare almeno una finalità per proseguire",
+          "purposeTable": {
+            "noDataLabel": "Nessuna finalità aggiunta"
+          }
+        },
+        "tenantKindDialog": {
+          "title": "Seleziona la destinazione dell'analisi del rischio",
+          "description": "Indica chi potrà utilizzare l'analisi del rischio che stai creando.",
+          "tenantKind": {
+            "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera \u201Ca\u201D del Codice dell'Amministrazione Digitale)",
+            "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere \u201Cb\u201D e \u201Cc\u201D) oppure Privati"
+          }
+        }
+      },
+      "thresholdsAndAttributes": {
+        "thresholdsTitle": "Soglie di chiamate API",
+        "thresholdsSwitch": {
+          "label": "Suggerisci delle soglie di chiamate API/giorno a chi userà questo template"
+        },
+        "dailyCallsPerConsumerField": {
+          "label": "Chiamate API/giorno per fruitore",
+          "infoLabel": "Inserisci un numero superiore o uguale a 1"
+        },
+        "dailyCallsTotalField": {
+          "label": "Chiamate API/giorno totali",
+          "infoLabel": "Inserisci un numero superiore al precedente",
+          "validation": {
+            "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore"
+          }
+        },
+        "thresholdsInfoAlert": "Chi userà questo template potrà modificare le soglie suggerite e personalizzarle per gli attributi certificati.",
+        "accessRequirements": {
+          "title": "Requisiti di accesso",
+          "description": "Definisci chi può accedere a questo e-service. Crea uno o più requisiti e associa a ciascuno gli attributi richiesti. Il fruitore dovrà soddisfare tutti i requisiti indicati e possedere almeno uno degli attributi in ogni requisito. <1>Scopri di più sugli attributi</1>",
+          "createRequirementBtn": "Crea requisito",
+          "placeholder": "Questa sezione sarà disponibile prossimamente.",
+          "tabs": {
+            "certified": "Attributi Certificati",
+            "verified": "Attributi Verificati",
+            "declared": "Attributi Dichiarati",
+            "certifiedDescription": "Sono attributi certificati da una <1>fonte autoritativa riconosciuta.</1>",
+            "verifiedDescription": "Sono attributi verificati <1>da altre organizzazioni</1>, con la possibilità di richiedere una verifica dall'erogatore.",
+            "declaredDescription": "Sono attributi dichiarati dal fruitore stesso durante la richiesta di fruizione. Non è necessaria una verifica dell'erogatore."
+          }
         }
       }
     },
     "step3": {
-      "attributesTitle": "Requisiti di accesso per la versione {{versionNumber}}",
-      "attributesDescription": "Di seguito indica tutti quegli attributi, certificati, verificati o dichiarati che il fruitore dovrà possedere per richiedere la fruizione dell'e-service",
-      "attributesAddBtn": "Aggiungi attributo",
-      "attributesCreateBtn": "Crea nuovo attributo",
-      "createAttributeDrawer": {
-        "title": {
-          "verified": "Crea nuovo attributo verificato",
-          "declared": "Crea nuovo attributo dichiarato"
+      "technicalSpecs": {
+        "interface": {
+          "title": "Interfaccia*",
+          "alert": "Puoi caricare un file senza dati di contatto, Termini e Condizioni e indirizzi dei server: queste informazioni saranno inserite in una fase successiva da chi userà il template.",
+          "description": {
+            "rest": "Carica una bozza del file OpenAPI che descrive l'API.",
+            "soap": "Carica una bozza del file WSDL che descrive l'API"
+          },
+          "prettyName": "Specifica API",
+          "requiredError": "Non hai caricato nessun file"
         },
-        "subtitle": "Una volta creato, troverai l'attributo nella lista tra quelli disponibili per essere aggiunti ad un e-service",
+        "voucher": {
+          "title": "Voucher",
+          "voucherLifespanField": {
+            "label": "Durata validità (in minuti)*",
+            "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
+          }
+        },
         "nameField": {
-          "label": "Nome dell'attributo",
-          "infoLabel": "Min 5 caratteri, max 160 caratteri"
+          "label": "Nome documento",
+          "infoLabel": "Min 5 caratteri, max 60 caratteri"
         },
-        "descriptionField": {
-          "label": "Descrizione dell'attributo",
-          "infoLabel": "Min 10 caratteri, max 250 caratteri"
-        },
-        "submitBtnLabel": "Crea attributo"
-      }
-    },
-    "stepTechnicalSpecs": {
-      "interface": {
-        "title": "Interfaccia*",
-        "alert": "Puoi caricare un file senza dati di contatto, Termini e Condizioni e indirizzi dei server: queste informazioni saranno inserite in una fase successiva da chi userà il template.",
-        "description": {
-          "rest": "Carica una bozza del file OpenAPI che descrive l'API.",
-          "soap": "Carica una bozza del file WSDL che descrive l'API"
-        },
-        "prettyName": "Specifica API",
-        "requiredError": "Non hai caricato nessun file"
+        "uploadBtn": "Carica"
       },
-      "voucher": {
-        "title": "Voucher",
-        "voucherLifespanField": {
-          "label": "Durata validità (in minuti)*",
-          "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
+      "attributes": {
+        "attributesTitle": "Requisiti di accesso per la versione {{versionNumber}}",
+        "attributesDescription": "Di seguito indica tutti quegli attributi, certificati, verificati o dichiarati che il fruitore dovrà possedere per richiedere la fruizione dell'e-service",
+        "attributesAddBtn": "Aggiungi attributo",
+        "attributesCreateBtn": "Crea nuovo attributo",
+        "createAttributeDrawer": {
+          "title": {
+            "verified": "Crea nuovo attributo verificato",
+            "declared": "Crea nuovo attributo dichiarato"
+          },
+          "subtitle": "Una volta creato, troverai l'attributo nella lista tra quelli disponibili per essere aggiunti ad un e-service",
+          "nameField": {
+            "label": "Nome dell'attributo",
+            "infoLabel": "Min 5 caratteri, max 160 caratteri"
+          },
+          "descriptionField": {
+            "label": "Descrizione dell'attributo",
+            "infoLabel": "Min 10 caratteri, max 250 caratteri"
+          },
+          "submitBtnLabel": "Crea attributo"
         }
-      },
-      "nameField": {
-        "label": "Nome documento",
-        "infoLabel": "Min 5 caratteri, max 60 caratteri"
-      },
-      "uploadBtn": "Carica"
+      }
     }
   },
   "summary": {

@@ -96,23 +96,23 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
       <FormProvider {...formMethods}>
         <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
           <SectionContainer
-            title={t('step3.attributesTitle', {
+            title={t('step3.attributes.attributesTitle', {
               versionNumber: eserviceTemplateVersion?.version ?? 1,
             })}
-            description={t('step3.attributesDescription')}
+            description={t('step3.attributes.attributesDescription')}
           >
             <AddAttributesToForm
               attributeKey="certified"
               readOnly={false}
-              addGroupLabel={t('step3.attributesAddBtn')}
+              addGroupLabel={t('step3.attributes.attributesAddBtn')}
             />
             <Divider sx={{ my: 3 }} />
             <AddAttributesToForm
               attributeKey="verified"
               readOnly={false}
-              addGroupLabel={t('step3.attributesAddBtn')}
+              addGroupLabel={t('step3.attributes.attributesAddBtn')}
               createAttributeAction={{
-                label: t('step3.attributesCreateBtn'),
+                label: t('step3.attributes.attributesCreateBtn'),
                 openDrawer: handleOpenAttributeCreateDrawerFactory('verified'),
               }}
             />
@@ -120,9 +120,9 @@ export const EServiceTemplateCreateStepAttributes: React.FC = () => {
             <AddAttributesToForm
               attributeKey="declared"
               readOnly={false}
-              addGroupLabel={t('step3.attributesAddBtn')}
+              addGroupLabel={t('step3.attributes.attributesAddBtn')}
               createAttributeAction={{
-                label: t('step3.attributesCreateBtn'),
+                label: t('step3.attributes.attributesCreateBtn'),
                 openDrawer: handleOpenAttributeCreateDrawerFactory('declared'),
               }}
             />
