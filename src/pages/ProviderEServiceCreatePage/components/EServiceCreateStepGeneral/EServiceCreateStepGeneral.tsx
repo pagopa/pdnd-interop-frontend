@@ -93,20 +93,19 @@ export const EServiceCreateStepGeneral: React.FC = () => {
 
   /**
    * Resolves the instanceLabel form value to the API payload value:
-   * - non-empty string → string (BE validates the label)
-   * - empty string → undefined (axios omits the key from JSON, BE validates the undefined value for the label)
+   * - non-empty string → trimmed string (BE validates the label)
+   * - empty string, whitespace-only string → undefined (axios omits the key from JSON, BE validates the undefined value for the label)
    */
-  const resolveInstanceLabel = (formValue: string): string | undefined => {
-    return formValue === '' ? undefined : formValue
+  const resolveInstanceLabel = (instanceLabelFormValue: string): string | undefined => {
+    const trimmed = instanceLabelFormValue.trim()
+    return trimmed === '' ? undefined : trimmed
   }
 
   /**
-   * TODO(BE-API-SPEC): Verify against the published BE API specs:
-   * - Confirm the error code (DUPLICATE_INSTANCE_LABEL_ERROR_CODE) and the response
-   *   structure (error.response.data.errors[0].code)
-   * - Check for errors requiring different messages (e.g. label too long, invalid characters)
+   * Handles duplicate instance label errors by showing an inline error on the field.
+   * Other errors are handled by the mutation's errorToastLabel (generic toast).
    */
-  const handleInstanceLabelError = (error: unknown) => {
+  const handleDuplicateInstanceLabelError = (error: unknown) => {
     if (!(error instanceof AxiosError)) return
     const errorCode = error.response?.data?.errors?.[0]?.code
     if (errorCode === DUPLICATE_INSTANCE_LABEL_ERROR_CODE) {
@@ -135,7 +134,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
                 isSignalHubEnabled: formValues.isSignalHubEnabled,
                 instanceLabel: resolveInstanceLabel(formValues.instanceLabel),
               },
-              { onSuccess: forward, onError: handleInstanceLabelError }
+              { onSuccess: forward, onError: handleDuplicateInstanceLabelError }
             )
           : updateDraft(
               { eserviceId: descriptor.eservice.id, ...formValues },
@@ -182,7 +181,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           })
           forward()
         },
-        onError: handleInstanceLabelError,
+        onError: handleDuplicateInstanceLabelError,
       })
     }
   }

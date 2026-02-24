@@ -32,7 +32,7 @@
         "infoLabel": "Max 12 characters",
         "catalogPreviewLabel": "How it will appear in the catalog",
         "validation": {
-          "duplicate": "You already created an e-service with this name, use another one.",
+          "duplicate": "You already created an e-service with this name. Use a different one.",
           "emptyNotAvailable": "Add a word to differentiate your e-service."
         }
       },

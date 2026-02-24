@@ -6,7 +6,9 @@ import { renderWithApplicationContext, mockUseJwt } from '@/utils/testing.utils'
 import * as ContextModule from '../../EServiceCreateContext'
 import * as EServiceModule from '@/api/eservice'
 import * as EServiceTemplateModule from '@/api/eserviceTemplate'
-import type { EServiceTemplateDetails, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
+import { DUPLICATE_INSTANCE_LABEL_ERROR_CODE } from '@/api/eserviceTemplate/eserviceTemplate.mutations'
+import type { EServiceTemplateDetails } from '@/api/api.generatedTypes'
+import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
 
 const mockForward = vi.fn()
 const mockCreateDraftFromTemplate = vi.fn()
@@ -43,25 +45,10 @@ const mockEServiceTemplate: EServiceTemplateDetails = {
   riskAnalysis: [],
 } as unknown as EServiceTemplateDetails
 
-const mockDescriptorFromTemplate: ProducerEServiceDescriptor = {
-  id: 'desc-id',
-  version: '1',
+const mockDescriptorFromTemplate = createMockEServiceDescriptorProvider({
   state: 'DRAFT',
-  audience: [],
-  voucherLifespan: 100,
-  dailyCallsPerConsumer: 1000,
-  dailyCallsTotal: 10000,
-  agreementApprovalPolicy: 'AUTOMATIC',
-  attributes: { certified: [], declared: [], verified: [] },
   eservice: {
-    id: 'eservice-id',
     name: 'Credenziale IT-Wallet - Patente',
-    description: 'Eservice description',
-    producer: { id: 'producer-id' },
-    technology: 'REST',
-    mode: 'DELIVER',
-    riskAnalysis: [],
-    descriptors: [],
     isSignalHubEnabled: false,
     isConsumerDelegable: true,
     isClientAccessDelegable: true,
@@ -72,7 +59,7 @@ const mockDescriptorFromTemplate: ProducerEServiceDescriptor = {
     templateId: 'template-id',
     templateName: 'Credenziale IT-Wallet',
   },
-} as unknown as ProducerEServiceDescriptor
+})
 
 vi.mock('@/router', () => ({
   useNavigate: () => vi.fn(),
@@ -248,7 +235,7 @@ describe('EServiceCreateStepGeneral - instanceLabel', () => {
       expect(mockUpdateDraftFromTemplate).toHaveBeenCalledWith(
         expect.objectContaining({
           instanceLabel: 'CIE',
-          eServiceId: 'eservice-id',
+          eServiceId: mockDescriptorFromTemplate.eservice.id,
         }),
         expect.anything()
       )
@@ -274,7 +261,7 @@ describe('EServiceCreateStepGeneral - instanceLabel', () => {
       expect(mockUpdateDraftFromTemplate).toHaveBeenCalledWith(
         expect.objectContaining({
           instanceLabel: undefined,
-          eServiceId: 'eservice-id',
+          eServiceId: mockDescriptorFromTemplate.eservice.id,
         }),
         expect.anything()
       )
@@ -290,7 +277,7 @@ describe('EServiceCreateStepGeneral - instanceLabel', () => {
       (_payload: unknown, options: { onError: (error: unknown) => void }) => {
         const error = new RealAxiosError('Duplicate')
         error.response = {
-          data: { errors: [{ code: 'eServiceNameDuplicateForProducer' }] },
+          data: { errors: [{ code: DUPLICATE_INSTANCE_LABEL_ERROR_CODE }] },
         } as never
         options.onError(error)
       }
@@ -324,7 +311,7 @@ describe('EServiceCreateStepGeneral - instanceLabel', () => {
       (_payload: unknown, options: { onError: (error: unknown) => void }) => {
         const error = new RealAxiosError('Duplicate')
         error.response = {
-          data: { errors: [{ code: 'eServiceNameDuplicateForProducer' }] },
+          data: { errors: [{ code: DUPLICATE_INSTANCE_LABEL_ERROR_CODE }] },
         } as never
         options.onError(error)
       }
