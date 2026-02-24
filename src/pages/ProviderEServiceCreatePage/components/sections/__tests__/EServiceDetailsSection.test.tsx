@@ -2,21 +2,9 @@ import type { EServiceMode, EServiceTemplateDetails } from '@/api/api.generatedT
 import { ReactHookFormWrapper, renderWithApplicationContext } from '@/utils/testing.utils'
 import { EServiceDetailsSection } from '../EServiceDetailsSection'
 import { screen } from '@testing-library/react'
+import { createMockEServiceTemplateDetails } from '@/../__mocks__/data/eserviceTemplate.mocks'
 
-const eserviceTemplate: EServiceTemplateDetails = {
-  id: 'template-id',
-  name: 'template-name',
-  description: 'template-description',
-  intendedTarget: 'template-intended-target',
-  technology: 'REST',
-  versions: [],
-  riskAnalysis: [],
-  mode: 'DELIVER',
-  creator: {
-    id: 'creator-id',
-    name: 'creator-name',
-  },
-}
+const eserviceTemplate: EServiceTemplateDetails = createMockEServiceTemplateDetails()
 
 const renderComponent = (
   eserviceMode: EServiceMode,

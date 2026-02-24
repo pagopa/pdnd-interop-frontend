@@ -2,21 +2,9 @@ import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { EServiceTemplateInfoSection } from '../EServiceTemplateInfoSection'
 import type { EServiceTemplateDetails } from '@/api/api.generatedTypes'
 import { screen } from '@testing-library/react'
+import { createMockEServiceTemplateDetails } from '@/../__mocks__/data/eserviceTemplate.mocks'
 
-const eserviceTemplate: EServiceTemplateDetails = {
-  id: 'template-id',
-  name: 'template-name',
-  description: 'template-description',
-  intendedTarget: 'template-intended-target',
-  technology: 'REST',
-  versions: [],
-  riskAnalysis: [],
-  mode: 'DELIVER',
-  creator: {
-    id: 'creator-id',
-    name: 'creator-name',
-  },
-}
+const eserviceTemplate: EServiceTemplateDetails = createMockEServiceTemplateDetails()
 
 const renderComponent = () => {
   return renderWithApplicationContext(
