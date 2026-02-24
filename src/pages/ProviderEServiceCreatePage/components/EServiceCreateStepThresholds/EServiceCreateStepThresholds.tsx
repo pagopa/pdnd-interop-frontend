@@ -34,7 +34,9 @@ export type CreateStepThresholdsFormValues = {
 
 export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
-  const { descriptor, forward, back } = useEServiceCreateContext()
+  const { descriptor, eserviceTemplate, forward, back } = useEServiceCreateContext()
+
+  const isEserviceFromTemplate = Boolean(descriptor?.templateRef) || !!eserviceTemplate
 
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
@@ -141,7 +143,16 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
     <>
       <FormProvider {...formMethods}>
         <Box component={'form'} noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <ThresholdSection />
+          <ThresholdSection
+            limitsSuggestions={
+              isEServiceCreatedFromTemplate
+                ? {
+                    dailyCallsTotal: descriptor?.dailyCallsTotal ?? 1,
+                    dailyCallsPerConsumer: descriptor?.dailyCallsPerConsumer ?? 1,
+                  }
+                : undefined
+            }
+          />
           <AttributesSection
             isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
             handleOpenAttributeCreateDrawerFactory={handleOpenAttributeCreateDrawerFactory}

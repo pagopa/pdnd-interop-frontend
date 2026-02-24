@@ -148,6 +148,12 @@
           "validation": {
             "min": "This value cannot be below the threshold set for the API calls/day for each consumer"
           }
+        },
+        "limitsSuggestionAlert": {
+          "title": "Suggested thresholds in the template",
+          "labelDailyCallsPerConsumer": "Threshold per consumer",
+          "labelDailyTotal": "Total threshold",
+          "labelForValue": "{{threshold}} API calls/day"
         }
       },
       "agreementApprovalPolicySection": {
