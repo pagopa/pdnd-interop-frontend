@@ -1493,6 +1493,11 @@ export interface DescriptorAttribute {
   name: string
   description: string
   explicitAttributeVerification: boolean
+  /**
+   * @format int32
+   * @min 1
+   */
+  dailyCallsPerConsumer?: number
 }
 
 export interface DescriptorAttributesSeed {
@@ -1505,6 +1510,11 @@ export interface DescriptorAttributeSeed {
   /** @format uuid */
   id: string
   explicitAttributeVerification: boolean
+  /**
+   * @format int32
+   * @min 1
+   */
+  dailyCallsPerConsumer?: number
 }
 
 /**
