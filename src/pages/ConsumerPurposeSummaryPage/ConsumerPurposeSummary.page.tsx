@@ -33,6 +33,8 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
 
+  const isEserviceDeliverMode = purpose?.eservice.mode === 'DELIVER'
+
   const expirationDate = purpose?.rulesetExpiration
 
   const isRulesetExpired = checkIsRulesetExpired(expirationDate)
@@ -56,7 +58,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
     (purpose?.riskAnalysisForm &&
       eservicePersonalData !== undefined &&
       checkIncompatibleAnswerValue()) ||
-    isRulesetExpired
+    (isEserviceDeliverMode && isRulesetExpired)
 
   const arePublishOrEditButtonsDisabled =
     purpose?.agreement.state === 'ARCHIVED' || purpose?.eservice.descriptor.state === 'ARCHIVED'
@@ -143,10 +145,12 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           </SummaryAccordion>
         </React.Suspense>
       </Stack>
-      <ConsumerPurposeSummaryRiskAnalysisAlertContainer
-        expirationDate={expirationDate}
-        isRulesetExpired={isRulesetExpired}
-      />
+      {isEserviceDeliverMode && (
+        <ConsumerPurposeSummaryRiskAnalysisAlertContainer
+          expirationDate={expirationDate}
+          isRulesetExpired={isRulesetExpired}
+        />
+      )}
       <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
         <Button
           startIcon={<DeleteOutlineIcon />}
