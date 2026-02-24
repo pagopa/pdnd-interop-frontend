@@ -17,7 +17,7 @@ import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { CreateAttributeDrawer } from '../../../../components/shared/CreateAttributeDrawer'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
-import { AttributesSection } from '../sections/AttributesSection'
+import { EServiceAttributesSection } from '../sections/EServiceAttributesSection'
 
 export type CreateStepAttributesFormValues = {
   attributes: DescriptorAttributes
@@ -98,7 +98,7 @@ export const EServiceCreateStepAttributes: React.FC = () => {
     <>
       <FormProvider {...formMethods}>
         <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <AttributesSection
+          <EServiceAttributesSection
             isEServiceCreatedFromTemplate={isReadOnly}
             handleOpenAttributeCreateDrawerFactory={handleOpenAttributeCreateDrawerFactory}
           />

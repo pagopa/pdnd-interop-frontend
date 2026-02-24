@@ -5,14 +5,16 @@ import { Grid, Stack, Typography } from '@mui/material'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-type ThresholdSectionProps = {
+type EServiceThresholdSectionProps = {
   limitsSuggestions?: {
     dailyCallsPerConsumer: number
     dailyCallsTotal: number
   }
 }
 
-export const ThresholdSection: React.FC<ThresholdSectionProps> = ({ limitsSuggestions }) => {
+export const EServiceThresholdSection: React.FC<EServiceThresholdSectionProps> = ({
+  limitsSuggestions,
+}) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step2.thresholdSection' })
   const { watch } = useFormContext()
 

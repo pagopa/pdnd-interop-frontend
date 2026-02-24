@@ -8,14 +8,14 @@ import { Trans, useTranslation } from 'react-i18next'
 
 import { attributesHelpLink } from '@/config/constants'
 
-type AttributesSectionProps = {
+type EServiceAttributesSectionProps = {
   isEServiceCreatedFromTemplate: boolean
   handleOpenAttributeCreateDrawerFactory: (
     attributeKey: Exclude<AttributeKey, 'certified'>
   ) => () => void
 }
 
-export const AttributesSection: React.FC<AttributesSectionProps> = ({
+export const EServiceAttributesSection: React.FC<EServiceAttributesSectionProps> = ({
   isEServiceCreatedFromTemplate,
   handleOpenAttributeCreateDrawerFactory,
 }) => {
