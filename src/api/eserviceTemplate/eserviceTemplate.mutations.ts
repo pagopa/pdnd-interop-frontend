@@ -1,11 +1,14 @@
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { AxiosError } from 'axios'
 import { EServiceTemplateServices } from './eserviceTemplate.services'
 import type {
   EServiceTemplateRiskAnalysisSeed,
   UpdateEServiceTemplateVersionSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
+
+export const DUPLICATE_INSTANCE_LABEL_ERROR_CODE = '007'
 
 function useUpdateEServiceTemplateName() {
   const { t } = useTranslation('mutations-feedback', {
@@ -332,7 +335,14 @@ function useCreateInstanceFromEServiceTemplate() {
   return useMutation({
     mutationFn: EServiceTemplateServices.createInstanceFromEServiceTemplate,
     meta: {
-      errorToastLabel: t('outcome.error'),
+      errorToastLabel: (error: unknown) => {
+        if (
+          error instanceof AxiosError &&
+          error.response?.data?.errors?.[0]?.code === DUPLICATE_INSTANCE_LABEL_ERROR_CODE
+        )
+          return ''
+        return t('outcome.error')
+      },
       loadingLabel: t('loading'),
     },
   })
@@ -343,7 +353,14 @@ function useUpdateInstanceFromEServiceTemplate() {
   return useMutation({
     mutationFn: EServiceTemplateServices.updateInstanceFromEServiceTemplate,
     meta: {
-      errorToastLabel: t('outcome.error'),
+      errorToastLabel: (error: unknown) => {
+        if (
+          error instanceof AxiosError &&
+          error.response?.data?.errors?.[0]?.code === DUPLICATE_INSTANCE_LABEL_ERROR_CODE
+        )
+          return ''
+        return t('outcome.error')
+      },
       loadingLabel: t('loading'),
     },
   })

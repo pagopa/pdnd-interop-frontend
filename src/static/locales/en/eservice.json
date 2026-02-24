@@ -25,6 +25,17 @@
         "label": "E-service name",
         "infoLabel": "Min 5 characters, max 60 characters"
       },
+      "instanceLabelField": {
+        "title": "E-service identifying word",
+        "description": "Add a word that helps identify your e-service from others created from the same template: it is useful to have a unique name and avoid duplicates.",
+        "label": "E-service identifying word",
+        "infoLabel": "Max 12 characters",
+        "catalogPreviewLabel": "How it will appear in the catalog",
+        "validation": {
+          "duplicate": "You already created an e-service with this name. Use a different one.",
+          "emptyNotAvailable": "Add a word to differentiate your e-service."
+        }
+      },
       "eserviceDescriptionField": {
         "label": "E-service description",
         "infoLabel": "Include input and output data in the description. Min 10 characters, max 250 characters"
