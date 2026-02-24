@@ -90,7 +90,7 @@ export function useGetProviderEServiceTemplateActions(
       onSuccess({ id: templateVersionId }) {
         navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {
           params: { eServiceTemplateId, eServiceTemplateVersionId: templateVersionId },
-          state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
+          state: { stepIndexDestination: 0 },
         })
       },
     })
