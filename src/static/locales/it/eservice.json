@@ -607,13 +607,13 @@
       },
       "linkedPurposeTemplates": {
         "title": "Compilazione agevolata della finalità",
-        "description": "La funzionalità di compilazione agevolata mette a disposizione annotazioni, documenti di supporto e alcune risposte precompilate per facilitare la formulazione dell’analisi del rischio. Il modello è reso disponibile per il riuso da altri enti aderenti e può essere utilizzato senza vincoli.",
+        "description": "Questa funzionalità ti guida durante l'analisi del rischio con annotazioni, documenti di supporto e alcune risposte precompilate. Il modello agevolato è reso disponibile per il riuso da altri enti e può essere usato senza vincoli.",
         "linkedPurposeTabLink": "Visualizza i template collegati"
       }
     },
     "linkedPurposeTemplatesTab": {
       "title": "Template di compilazione agevolata delle finalità collegati",
-      "description": "La funzionalità di compilazione agevolata mette a disposizione annotazioni, documenti di supporto e alcune \n risposte precompilate per facilitare la formulazione dell’analisi del rischio. Il modello è reso disponibile per il riuso \n da altri enti aderenti e può essere utilizzato senza vincoli.",
+      "description": "Questa funzionalità ti guida durante l'analisi del rischio con annotazioni, documenti di supporto e alcune \n risposte precompilate. Il modello agevolato è reso disponibile per il riuso da altri enti e può essere usato senza vincoli.",
       "filters": {
         "purposeTemplateNameField": {
           "label": "Nome template"
