@@ -4,6 +4,10 @@ import { Alert, Button, Divider, Stack, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { EServiceDownloads, EServiceMutations, EServiceQueries } from '@/api/eservice'
+import {
+  EServiceTemplateMutations,
+  DUPLICATE_INSTANCE_LABEL_ERROR_CODE,
+} from '@/api/eserviceTemplate/eserviceTemplate.mutations'
 import { useNavigate, useParams } from '@/router'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import DownloadIcon from '@mui/icons-material/Download'
@@ -15,11 +19,15 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 import { AuthHooks } from '@/api/auth'
 import { trackEvent } from '@/config/tracking'
-import { isAxiosError } from 'axios'
+import { AxiosError, isAxiosError } from 'axios'
 import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
 import { Link } from '@/router'
 import { UpdatePersonalDataDrawer } from '@/components/shared/UpdatePersonalDataDrawer'
+import {
+  UpdateInstanceLabelDrawer,
+  type UpdateInstanceLabelDrawerRef,
+} from '@/components/shared/UpdateInstanceLabelDrawer'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
@@ -77,6 +85,35 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     openDrawer: openUpdatePersonalDataDrawer,
     closeDrawer: closeEServiceUpdatePersonalDataDrawer,
   } = useDrawerState()
+
+  const {
+    isOpen: isUpdateInstanceLabelDrawerOpen,
+    openDrawer: openUpdateInstanceLabelDrawer,
+    closeDrawer: closeUpdateInstanceLabelDrawer,
+  } = useDrawerState()
+
+  const updateInstanceLabelDrawerRef = React.useRef<UpdateInstanceLabelDrawerRef>(null)
+  const { mutate: updateInstanceLabel } =
+    EServiceTemplateMutations.useUpdateInstanceLabelAfterPublication()
+
+  const handleInstanceLabelUpdate = (eServiceId: string, instanceLabel: string) => {
+    updateInstanceLabel(
+      { eServiceId, instanceLabel },
+      {
+        onSuccess: closeUpdateInstanceLabelDrawer,
+        onError: (error) => {
+          if (
+            error instanceof AxiosError &&
+            error.response?.data?.errors?.[0]?.code === DUPLICATE_INSTANCE_LABEL_ERROR_CODE
+          ) {
+            updateInstanceLabelDrawerRef.current?.setFieldError(
+              tDrawer('updateInstanceLabelDrawer.instanceLabelField.validation.duplicate')
+            )
+          }
+        },
+      }
+    )
+  }
 
   const handleDownloadConsumerList = () => {
     downloadConsumerList({ eserviceId })
@@ -226,6 +263,25 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
                   </Link>
                 }
               />
+              <Divider />
+              <SectionContainer
+                innerSection
+                title={t('instanceLabel.label')}
+                titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
+                topSideActions={
+                  isDelegator
+                    ? []
+                    : [
+                        {
+                          action: openUpdateInstanceLabelDrawer,
+                          label: tCommon('actions.edit'),
+                          icon: EditIcon,
+                        },
+                      ]
+                }
+              >
+                <Typography variant="body2">{descriptor.eservice.instanceLabel ?? ''}</Typography>
+              </SectionContainer>
             </>
           ) : (
             <>
@@ -318,6 +374,15 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         onSubmit={handleEServicePersonalDataUpdate}
         eserviceMode={descriptor.eservice.mode}
         where="e-service"
+      />
+      <UpdateInstanceLabelDrawer
+        ref={updateInstanceLabelDrawerRef}
+        isOpen={isUpdateInstanceLabelDrawerOpen}
+        onClose={closeUpdateInstanceLabelDrawer}
+        eServiceId={descriptor.eservice.id}
+        currentInstanceLabel={descriptor.eservice.instanceLabel ?? ''}
+        templateName={descriptor.templateRef?.templateName ?? ''}
+        onSubmit={handleInstanceLabelUpdate}
       />
     </>
   )

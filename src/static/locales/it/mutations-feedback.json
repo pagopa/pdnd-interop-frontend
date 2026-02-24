@@ -967,6 +967,13 @@
         "title": "Conferma riattivazione versione",
         "description": "Cliccando \"conferma\" questa versione del template di e-service sarà riattivata. Tutti i fruitori che hanno una richiesta di fruizione attiva per questa versione del template di e-service potranno nuovamente usufruirne"
       }
+    },
+    "updateInstanceLabel": {
+      "loading": "Stiamo aggiornando la parola identificativa dell'e-service",
+      "outcome": {
+        "error": "Non è stato possibile aggiornare la parola identificativa. Riprova.",
+        "success": "Parola identificativa aggiornata correttamente"
+      }
     }
   },
   "purposeTemplate": {

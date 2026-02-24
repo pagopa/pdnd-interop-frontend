@@ -418,6 +418,9 @@
         "version": {
           "label": "You are watching version number"
         },
+        "instanceLabel": {
+          "label": "Word that identifies the e-service"
+        },
         "eserviceTemplateName": {
           "label": "Template reference"
         },
@@ -582,6 +585,19 @@
       }
     },
     "drawers": {
+      "updateInstanceLabelDrawer": {
+        "title": "Edit the word that identifies the e-service",
+        "subtitle": "Add a word that helps identify your e-service from others created from the same template: it is useful to have a unique name and avoid duplicates.",
+        "instanceLabelField": {
+          "label": "E-service identifying word",
+          "infoLabel": "Max 12 characters",
+          "catalogPreviewLabel": "How it will appear in the catalog",
+          "validation": {
+            "duplicate": "You already created an e-service with this name. Use a different one.",
+            "required": "The identifying word is required."
+          }
+        }
+      },
       "updateEServiceNameDrawer": {
         "title": "Edit e-service name",
         "subtitle": "From this panel you can update the name of the e-service. The changes made will take effect immediately.",

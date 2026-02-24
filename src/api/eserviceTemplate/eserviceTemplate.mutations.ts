@@ -366,6 +366,27 @@ function useUpdateInstanceFromEServiceTemplate() {
   })
 }
 
+function useUpdateInstanceLabelAfterPublication() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eserviceTemplate.updateInstanceLabel',
+  })
+  return useMutation({
+    mutationFn: EServiceTemplateServices.updateInstanceLabelAfterPublication,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: (error: unknown) => {
+        if (
+          error instanceof AxiosError &&
+          error.response?.data?.errors?.[0]?.code === DUPLICATE_INSTANCE_LABEL_ERROR_CODE
+        )
+          return ''
+        return t('outcome.error')
+      },
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 function useUpdateEServiceTemplatePersonalDataFlagAfterPublication() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.updateEServiceTemplatePersonalDataFlagAfterPublication',
@@ -402,5 +423,6 @@ export const EServiceTemplateMutations = {
   useReactivateVersion,
   useCreateInstanceFromEServiceTemplate,
   useUpdateInstanceFromEServiceTemplate,
+  useUpdateInstanceLabelAfterPublication,
   useUpdateEServiceTemplatePersonalDataFlagAfterPublication,
 }
