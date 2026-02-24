@@ -322,56 +322,31 @@
         "title": "Indicate who will be able to use the following risk analysis.",
         "description": "Indicate for whom the following risk analysis is filled.",
         "tenantKind": {
-          "labelPA": "Public administration (Art. 2, comma 2, letter \u201Ca\u201D of Codice dell'Amministrazione Digitale)",
-          "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters \u201Cb\u201D e \u201Cc\u201D) or Private"
+          "labelPA": "Public administration (Art. 2, comma 2, letter “a” of Codice dell'Amministrazione Digitale)",
+          "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters “b” e “c”) or Private"
         }
       }
     },
     "step3": {
-      "attributes": {
-        "attributesTitle": "Access requirements for version {{versionNumber}}",
-        "attributesDescription": "Please indicate all the certified, verified, and declared attributes that the consumer must have in order to create an agreement for the e-service",
-        "attributesAddBtn": "Add attribute",
-        "attributesCreateBtn": "Create new attribute",
-        "createAttributeDrawer": {
-          "title": {
-            "verified": "Create new verified attribute",
-            "declared": "Create new declared attribute"
-          },
-          "subtitle": "Once created, the attribute will be available in the list to be added to an e-service",
-          "nameField": {
-            "label": "Attribute name",
-            "infoLabel": "Min 5 characters, max 160 characters"
-          },
-          "descriptionField": {
-            "label": "Attribute description",
-            "infoLabel": "Min 10 characters, max 250 characters"
-          },
-          "submitBtnLabel": "Create attribute"
-        }
-      },
-      "technicalSpecs": {
-        "interface": {
-          "title": "Interface*",
-          "alert": "You can upload a file without contact data, terms and conditions, and server URLs, as these will be filled in by the implementer in the next phase.",
-          "description": {
-            "rest": "Upload a draft of the OpenAPI specification that describes the API.",
-            "soap": "Upload a draft of the WSDL specification that describes the API"
-          },
-          "prettyName": "API specification"
+      "attributesTitle": "Access requirements for version {{versionNumber}}",
+      "attributesDescription": "Please indicate all the certified, verified, and declared attributes that the consumer must have in order to create an agreement for the e-service",
+      "attributesAddBtn": "Add attribute",
+      "attributesCreateBtn": "Create new attribute",
+      "createAttributeDrawer": {
+        "title": {
+          "verified": "Create new verified attribute",
+          "declared": "Create new declared attribute"
         },
-        "voucher": {
-          "title": "Voucher",
-          "voucherLifespanField": {
-            "label": "Validity duration (in minutes)*",
-            "infoLabel": "Maximum value: 1440 minutes (24 hours)"
-          }
-        },
+        "subtitle": "Once created, the attribute will be available in the list to be added to an e-service",
         "nameField": {
-          "label": "Document name",
-          "infoLabel": "Min 5 characters, max 60 characters"
+          "label": "Attribute name",
+          "infoLabel": "Min 5 characters, max 160 characters"
         },
-        "uploadBtn": "Upload"
+        "descriptionField": {
+          "label": "Attribute description",
+          "infoLabel": "Min 10 characters, max 250 characters"
+        },
+        "submitBtnLabel": "Create attribute"
       }
     },
     "stepTechnicalSpecs": {
@@ -391,7 +366,12 @@
           "label": "Validity duration (in minutes)*",
           "infoLabel": "Maximum value: 1440 minutes (24 hours)"
         }
-      }
+      },
+      "nameField": {
+        "label": "Document name",
+        "infoLabel": "Min 5 characters, max 60 characters"
+      },
+      "uploadBtn": "Upload"
     }
   },
   "summary": {
