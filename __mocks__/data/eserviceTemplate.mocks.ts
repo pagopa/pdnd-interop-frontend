@@ -133,5 +133,5 @@ export {
   createMockEServiceTemplateVersionDetailsNoPersonalData,
   createMockEServiceTemplateVersionDetailsManualApproval,
   createMockEServiceTemplateVersionDetailsWithAttributes,
-  createMockEServiceTemplateDetails
+  createMockEServiceTemplateDetails,
 }
