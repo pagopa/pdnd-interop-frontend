@@ -607,13 +607,13 @@
       },
       "linkedPurposeTemplates": {
         "title": "Facilitated purpose templates",
-        "description": "The simplified compilation feature provides annotations, supporting documents, and some pre-filled responses to facilitate the formulation of the risk analysis. The template is made available for reuse by other participating entities and can be used without restrictions.",
+        "description": "This feature guides you through the risk analysis with annotations, supporting documents, and some pre-filled responses. The facilitated template is made available for reuse by other entities and can be used without restrictions.",
         "linkedPurposeTabLink": "View linked purpose templates"
       }
     },
     "linkedPurposeTemplatesTab": {
       "title": "Linked facilitated purpose templates",
-      "description": "The simplified compilation feature provides annotations, supporting documents, and some pre-filled responses to facilitate the formulation of the risk analysis. The template is made available for reuse by other participating entities and can be used without restrictions.",
+      "description": "This feature guides you through the risk analysis with annotations, supporting documents, and some pre-filled responses. The facilitated template is made available for reuse by other entities and can be used without restrictions.",
       "filters": {
         "purposeTemplateNameField": {
           "label": "Template name"
