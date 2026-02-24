@@ -218,8 +218,8 @@
         "label": "Con quale tecnologia è costruita la tua API?"
       },
       "eserviceTemplateModeField": {
-        "label": "L’e-service eroga o riceve dati?",
-        "tooltipReceiveMode": "Al momento l’utilizzo dei template è limitato all’erogazione di dati",
+        "label": "L'e-service eroga o riceve dati?",
+        "tooltipReceiveMode": "Al momento l'utilizzo dei template è limitato all'erogazione di dati",
         "options": {
           "DELIVER": "Eroga",
           "RECEIVE": "Riceve"
@@ -235,14 +235,14 @@
       },
       "eservicePersonalDataField": {
         "DELIVER": {
-          "label": "L’e-service eroga dati personali?",
+          "label": "L'e-service eroga dati personali?",
           "options": {
             "true": "Eroga dati personali",
             "false": "Non eroga dati personali"
           }
         },
         "RECEIVE": {
-          "label": "L’e-service riceve dati personali?",
+          "label": "L'e-service riceve dati personali?",
           "options": {
             "true": "Riceve dati personali",
             "false": "Non riceve dati personali"
@@ -251,10 +251,10 @@
       }
     },
     "stepPurpose": {
-      "firstVersionOnlyEditableInfoAlert": "I contenuti di questo passaggio non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
+      "firstVersionOnlyEditableInfoAlert": "I contenuti di questo passaggio non saranno più modificabili dopo la pubblicazione della prima versione dell'e-service.",
       "purposeTableSection": {
         "title": "Finalità",
-        "description": "Indica i casi d’uso per i quali intendi raccogliere dati. Per ogni finalità dovrai compilare un’analisi del rischio.",
+        "description": "Indica i casi d'uso per i quali intendi raccogliere dati. Per ogni finalità dovrai compilare un'analisi del rischio.",
         "noSelectedPurposesTooltip": "È necessario indicare almeno una finalità per proseguire",
         "purposeTable": {
           "noDataLabel": "Nessuna finalità aggiunta"
@@ -316,30 +316,20 @@
       "thresholdsSection": {
         "thresholdsSwitch": {
           "label": "Suggerisci all'implementatore valori di soglia API personalizzate"
-        },
-        "title": "Soglia di chiamate previste per i fruitori",
-        "dailyCallsPerConsumerField": {
-          "label": "Chiamate API/giorno per fruitore"
-        },
-        "dailyCallsTotalField": {
-          "label": "Chiamate API/giorno totali",
-          "validation": {
-            "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore"
-          }
         }
       },
       "tenantKindDialog": {
         "title": "Seleziona la destinazione dell'analisi del rischio",
         "description": "Indica chi potrà utilizzare l'analisi del rischio che stai creando.",
         "tenantKind": {
-          "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera \u201Ca\u201D del Codice dell'Amministrazione Digitale)",
-          "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere \u201Cb\u201D e \u201Cc\u201D) oppure Privati"
+          "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera “a” del Codice dell'Amministrazione Digitale)",
+          "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere “b” e “c”) oppure Privati"
         }
       }
     },
     "step3": {
       "attributesTitle": "Requisiti di accesso per la versione {{versionNumber}}",
-      "attributesDescription": "Di seguito indica tutti quegli attributi, certificati, verificati o dichiarati che il fruitore dovrà possedere per richiedere la fruizione dell’e-service",
+      "attributesDescription": "Di seguito indica tutti quegli attributi, certificati, verificati o dichiarati che il fruitore dovrà possedere per richiedere la fruizione dell'e-service",
       "attributesAddBtn": "Aggiungi attributo",
       "attributesCreateBtn": "Crea nuovo attributo",
       "createAttributeDrawer": {
@@ -347,7 +337,7 @@
           "verified": "Crea nuovo attributo verificato",
           "declared": "Crea nuovo attributo dichiarato"
         },
-        "subtitle": "Una volta creato, troverai l’attributo nella lista tra quelli disponibili per essere aggiunti ad un e-service",
+        "subtitle": "Una volta creato, troverai l'attributo nella lista tra quelli disponibili per essere aggiunti ad un e-service",
         "nameField": {
           "label": "Nome dell'attributo",
           "infoLabel": "Min 5 caratteri, max 160 caratteri"
@@ -388,8 +378,14 @@
     "title": "{{eserviceTemplateName}}, versione {{versionEserviceTemplateNumber}}",
     "generalInfoSummary": {
       "title": "Informazioni generali",
-      "description": {
-        "label": "Descrizione"
+      "templateName": {
+        "label": "Nome del template di e-service"
+      },
+      "intendedTarget": {
+        "label": "A chi è rivolto questo template?"
+      },
+      "templateDescription": {
+        "label": "Cosa permette di fare questo template?"
       },
       "apiTechnology": {
         "label": "Tecnologia API"
@@ -408,7 +404,7 @@
         }
       },
       "isSignalHubEnabled": {
-        "label": "Viene suggerito di utilizzare il servizio di aggiornamento dati (Signal Hub)?",
+        "label": "Hai suggerito l'uso di Signal Hub?",
         "value": {
           "true": "Sì",
           "false": "No",
@@ -420,43 +416,67 @@
       "title": "Finalità",
       "riskAnalysisTitle": "{{riskAnalysisIndex}}/{{totalRiskAnalysis}} - {{riskAnalysisName}}"
     },
-    "versionInfoSummary": {
-      "title": "Informazioni di versione",
-      "description": {
-        "label": "Descrizione eservice"
-      },
-      "audience": {
-        "label": "Descrizione audience"
-      },
-      "voucherLifespan": {
-        "label": "Durata del voucher"
-      },
+    "thresholdsAndAttributesSummary": {
+      "title": "Soglie e attributi",
+      "thresholdsTitle": "Soglie suggerite di chiamate API",
       "dailyCallsPerConsumer": {
-        "label": "Soglia giornaliera suggerita chiamate API per fruitore",
+        "label": "Per fruitore",
         "value": "{{value}} chiamate API/giorno"
       },
       "dailyCallsTotal": {
-        "label": "Soglia giornaliera totale suggerita chiamate API",
+        "label": "Totale",
         "value": "{{value}} chiamate API/giorno"
       },
+      "attributes": {
+        "certified": {
+          "label": "Attributi Certificati",
+          "description": "Sono attributi certificati da una <1>fonte autoritativa riconosciuta.</1>",
+          "noAttributesAlert": "Questo e-service non richiede attributi certificati"
+        },
+        "verified": {
+          "label": "Attributi verificati",
+          "description": "Sono attributi verificati <1>da altre organizzazioni</1>, con la possibilità di richiedere una verifica dall'erogatore.",
+          "noAttributesAlert": "Questo e-service non richiede attributi verificati"
+        },
+        "declared": {
+          "label": "Attributi dichiarati",
+          "description": "Sono attributi dichiarati dal fruitore stesso durante la richiesta di fruizione. Non è necessaria una verifica dell'erogatore.",
+          "noAttributesAlert": "Questo e-service non richiede attributi dichiarati"
+        },
+        "requirementTitle": "Requisito {{index}} | {{attributeType}}",
+        "requirementDescription": "Il fruitore deve possedere almeno uno degli attributi di questo requisito."
+      }
+    },
+    "technicalSpecsSummary": {
+      "title": "Specifiche tecniche",
+      "interface": {
+        "label": "Interfaccia"
+      },
+      "voucherLifespan": {
+        "label": "Durata del voucher"
+      }
+    },
+    "additionalInfoSummary": {
+      "title": "Informazioni aggiuntive",
+      "versionDescription": {
+        "label": "Descrizione versione"
+      },
+      "documentation": {
+        "label": "Documentazione"
+      },
+      "emptyDocumentation": "Nessun documento caricato",
       "manualApproval": {
-        "label": "Attivazione manuale richieste di fruizione",
+        "label": "Hai suggerito di approvare manualmente le richieste di fruizione?",
         "value": {
-          "true": "Sì, è suggerita",
-          "false": "No, non è suggerita"
+          "true": "Sì",
+          "false": "No"
         }
       }
     },
-    "attributeVersionSummary": {
-      "title": "Requisiti di accesso di versione"
-    },
-    "documentationSummary": {
-      "title": "Documentazione di versione",
-      "interface": {
-        "label": "Interfaccia OpenAPI"
-      },
-      "emptyLabel": "Nessun documento caricato"
-    },
+    "completeInfoChip": "Completa le informazioni richieste",
+    "missingField": "Da inserire",
+    "missingFieldsBanner": "Per poter pubblicare, inserisci le informazioni mancanti.",
+    "missingFieldsTooltip": "Mancano ancora alcune informazioni. Completa la bozza per poter pubblicare.",
     "notPublishableTooltip": {
       "label": "Uno o più campi richiesti non sono stati compilati. Completa la bozza"
     },

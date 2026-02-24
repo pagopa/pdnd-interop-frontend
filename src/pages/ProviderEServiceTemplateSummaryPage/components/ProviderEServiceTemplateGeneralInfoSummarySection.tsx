@@ -7,7 +7,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
-export const ProviderEServiceTemplateGeneralInfoSummary: React.FC = () => {
+export const ProviderEServiceTemplateGeneralInfoSummarySection: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'summary.generalInfoSummary' })
   const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
 
@@ -18,7 +18,15 @@ export const ProviderEServiceTemplateGeneralInfoSummary: React.FC = () => {
   return (
     <Stack spacing={2}>
       <InformationContainer
-        label={t('description.label')}
+        label={t('templateName.label')}
+        content={eserviceTemplate.eserviceTemplate.name}
+      />
+      <InformationContainer
+        label={t('intendedTarget.label')}
+        content={eserviceTemplate.eserviceTemplate.intendedTarget}
+      />
+      <InformationContainer
+        label={t('templateDescription.label')}
         content={eserviceTemplate.eserviceTemplate.description}
       />
       <InformationContainer

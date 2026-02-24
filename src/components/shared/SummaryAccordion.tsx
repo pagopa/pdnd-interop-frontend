@@ -3,15 +3,15 @@ import {
   Accordion as MUIAccordion,
   AccordionDetails,
   AccordionSummary,
+  Chip,
   Paper,
   Typography,
   Box,
   Skeleton,
   Divider,
+  Stack,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Stack } from '@mui/material'
-import { Chip } from '@mui/material'
 
 type SummaryAccordionProps = {
   headline: string
