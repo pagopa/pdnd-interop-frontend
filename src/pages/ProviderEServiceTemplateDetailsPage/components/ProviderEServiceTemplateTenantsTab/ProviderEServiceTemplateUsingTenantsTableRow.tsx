@@ -29,7 +29,7 @@ export const ProviderEServiceTemplateUsingTenantsTableRow: React.FC<
       key={instance.latestDescriptor?.id}
       cellData={[
         `${instance.producerName}`,
-        instance.instanceLabel || '-',
+        instance.instanceLabel ?? '-',
         `${
           getStateByTemplateVersion(
             instance.latestDescriptor?.templateVersionId as string,
@@ -64,7 +64,16 @@ export const ProviderEServiceTemplateUsingTenantsTableRow: React.FC<
 }
 
 export const ProviderEServiceTemplateUsingTenantsTableRowSkeleton: React.FC = () => {
-  return <TableRow cellData={[<Skeleton key={0} width={120} />]}></TableRow>
+  return (
+    <TableRow
+      cellData={[
+        <Skeleton key={0} width={120} />,
+        <Skeleton key={1} width={80} />,
+        <Skeleton key={2} width={60} />,
+        <Skeleton key={3} width={80} />,
+      ]}
+    />
+  )
 }
 
 const getStateByTemplateVersion = (

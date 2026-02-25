@@ -1,16 +1,11 @@
 import React from 'react'
-import { vi } from 'vitest'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
-import * as router from '@/router'
 import userEvent from '@testing-library/user-event'
 import { ProviderEServiceTemplateUsingTenantsTableRow } from '../ProviderEServiceTemplateUsingTenantsTableRow'
 import type {
   CompactEServiceTemplateVersion,
   EServiceTemplateInstance,
 } from '@/api/api.generatedTypes'
-
-const navigateRouterFn = vi.fn()
-vi.spyOn(router, 'useNavigate').mockReturnValue(navigateRouterFn)
 
 const eserviceTemplateVersions: CompactEServiceTemplateVersion[] = [
   { id: 'template-version-1', version: 1, state: 'PUBLISHED' },
@@ -30,10 +25,6 @@ const baseInstance: EServiceTemplateInstance = {
   },
   descriptors: [],
 }
-
-afterEach(() => {
-  navigateRouterFn.mockReset()
-})
 
 describe('ProviderEServiceTemplateUsingTenantsTableRow', () => {
   it('should render the instanceLabel when present', () => {
