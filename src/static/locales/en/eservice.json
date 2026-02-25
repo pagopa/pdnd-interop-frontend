@@ -422,7 +422,7 @@
           "label": "You are watching version number"
         },
         "instanceLabel": {
-          "label": "Word that identifies the e-service"
+          "label": "E-service distinctive name"
         },
         "eserviceTemplateName": {
           "label": "Template reference"
