@@ -88,19 +88,22 @@ export const UpdateInstanceLabelDrawer = React.forwardRef<
             size="small"
             inputProps={{ maxLength: 12 }}
             rules={{
-              required: tDrawer('instanceLabelField.validation.required'),
-              validate: (value) =>
-                value.trim() !== currentInstanceLabel ||
-                tDrawer('instanceLabelField.validation.sameValue'),
+              validate: {
+                required: (value) =>
+                  value.trim().length > 0 || tDrawer('instanceLabelField.validation.required'),
+                notSame: (value) =>
+                  value.trim() !== currentInstanceLabel ||
+                  tDrawer('instanceLabelField.validation.sameValue'),
+              },
             }}
           />
-          {watchedInstanceLabel && (
+          {watchedInstanceLabel?.trim() && (
             <Box sx={{ mt: 2 }}>
               <Typography variant="body2" color="text.secondary">
                 {tDrawer('instanceLabelField.catalogPreviewLabel')}
               </Typography>
               <Typography variant="body2" fontWeight={700}>
-                {templateName} - {watchedInstanceLabel}
+                {templateName} - {watchedInstanceLabel.trim()}
               </Typography>
             </Box>
           )}

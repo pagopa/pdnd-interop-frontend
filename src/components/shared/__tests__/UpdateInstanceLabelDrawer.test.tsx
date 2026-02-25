@@ -164,6 +164,25 @@ describe('UpdateInstanceLabelDrawer', () => {
     expect(defaultProps.onSubmit).not.toHaveBeenCalled()
   })
 
+  it('shows validation error when submitting with whitespace-only value', async () => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(<UpdateInstanceLabelDrawer {...defaultProps} />, {
+      withReactQueryContext: true,
+    })
+
+    const input = screen.getByRole('textbox', { name: 'instanceLabelField.label' })
+    await user.clear(input)
+    await user.type(input, '   ')
+
+    const submitButton = screen.getByRole('button', { name: 'actions.upgrade' })
+    await user.click(submitButton)
+
+    await waitFor(() => {
+      expect(screen.getByText('instanceLabelField.validation.required')).toBeInTheDocument()
+    })
+    expect(defaultProps.onSubmit).not.toHaveBeenCalled()
+  })
+
   it('allows setting a field error via ref (for duplicate label)', async () => {
     const ref = React.createRef<UpdateInstanceLabelDrawerRef>()
     renderWithApplicationContext(<UpdateInstanceLabelDrawer ref={ref} {...defaultProps} />, {
