@@ -57,11 +57,13 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
     return incompatible
   }
 
+  const isEserviceModeDeliver = purpose?.eservice.mode === 'DELIVER'
+
   const isPublishButtonDisabled =
     (purpose?.riskAnalysisForm &&
       eservicePersonalData !== undefined &&
       checkIncompatibleAnswerValue()) ||
-    isRulesetExpired
+    (isEserviceModeDeliver && isRulesetExpired)
 
   const arePublishOrEditButtonsDisabled =
     purpose?.agreement.state === 'ARCHIVED' || purpose?.eservice.descriptor.state === 'ARCHIVED'
@@ -148,7 +150,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           </SummaryAccordion>
         </React.Suspense>
       </Stack>
-      {expirationDate && !isRulesetExpired && (
+      {isEserviceModeDeliver && expirationDate && !isRulesetExpired && (
         <Alert sx={{ mt: 3 }} severity="info">
           {t('summary.alerts.infoRulesetExpiration', {
             days: daysToExpiration,
@@ -156,7 +158,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           })}
         </Alert>
       )}
-      {isRulesetExpired && (
+      {isEserviceModeDeliver && isRulesetExpired && (
         <Alert severity="error" sx={{ alignItems: 'center', mt: 3 }} variant="outlined">
           <Stack spacing={13} direction="row" alignItems="center">
             {' '}
