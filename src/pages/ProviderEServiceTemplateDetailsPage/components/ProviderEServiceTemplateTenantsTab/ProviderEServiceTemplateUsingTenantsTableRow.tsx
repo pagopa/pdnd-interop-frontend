@@ -29,7 +29,7 @@ export const ProviderEServiceTemplateUsingTenantsTableRow: React.FC<
       key={instance.latestDescriptor?.id}
       cellData={[
         `${instance.producerName}`,
-        instance.instanceLabel ?? '-',
+        instance.instanceLabel || '-',
         `${
           getStateByTemplateVersion(
             instance.latestDescriptor?.templateVersionId as string,
