@@ -280,7 +280,12 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
                       ]
                 }
               >
-                <Typography variant="body2">{descriptor.eservice.instanceLabel ?? ''}</Typography>
+                <Typography
+                  variant="body2"
+                  color={descriptor.eservice.instanceLabel ? 'text.primary' : 'text.secondary'}
+                >
+                  {descriptor.eservice.instanceLabel || '-'}
+                </Typography>
               </SectionContainer>
             </>
           ) : (

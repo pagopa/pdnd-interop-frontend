@@ -92,7 +92,7 @@ export const UpdateInstanceLabelDrawer = React.forwardRef<
             }}
           />
           {watchedInstanceLabel && (
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
+            <Box sx={{ mt: 2 }}>
               <Typography variant="body2" color="text.secondary">
                 {tDrawer('instanceLabelField.catalogPreviewLabel')}
               </Typography>

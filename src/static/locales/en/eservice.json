@@ -256,6 +256,9 @@
           "undefined": "Not specified"
         }
       },
+      "instanceLabel": {
+        "label": "E-service distinctive name"
+      },
       "apiTechnology": {
         "label": "API Technology"
       },
