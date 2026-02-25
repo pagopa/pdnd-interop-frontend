@@ -6,6 +6,7 @@ import type {
 import { AuthHooks } from '@/api/auth'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { Link } from '@/router'
+import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
@@ -72,7 +73,9 @@ export const ProviderEServiceTemplateUsingTenantsTableRowSkeleton: React.FC = ()
         <Skeleton key={2} width={60} />,
         <Skeleton key={3} width={80} />,
       ]}
-    />
+    >
+      <ButtonSkeleton size="small" width={100} />
+    </TableRow>
   )
 }
 
