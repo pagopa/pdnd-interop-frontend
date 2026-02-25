@@ -1,7 +1,10 @@
 import React from 'react'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import userEvent from '@testing-library/user-event'
-import { ProviderEServiceTemplateUsingTenantsTableRow } from '../ProviderEServiceTemplateUsingTenantsTableRow'
+import {
+  ProviderEServiceTemplateUsingTenantsTableRow,
+  ProviderEServiceTemplateUsingTenantsTableRowSkeleton,
+} from '../ProviderEServiceTemplateUsingTenantsTableRow'
 import type {
   CompactEServiceTemplateVersion,
   EServiceTemplateInstance,
@@ -111,5 +114,90 @@ describe('ProviderEServiceTemplateUsingTenantsTableRow', () => {
     await user.click(getByRole('link', { name: 'actions.inspect' }))
 
     expect(history.location.pathname).toBe('/it/catalogo-e-service/eservice-1/descriptor-1')
+  })
+
+  it('should render "-" when instanceLabel is an empty string', () => {
+    mockUseJwt()
+    const instance: EServiceTemplateInstance = {
+      ...baseInstance,
+      instanceLabel: '',
+    }
+
+    const { getAllByText } = renderWithApplicationContext(
+      <table>
+        <tbody>
+          <ProviderEServiceTemplateUsingTenantsTableRow
+            instance={instance}
+            eserviceTemplateVersions={eserviceTemplateVersions}
+          />
+        </tbody>
+      </table>,
+      { withRouterContext: true, withReactQueryContext: true }
+    )
+
+    expect(getAllByText('-').length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('should render without latestDescriptor', () => {
+    mockUseJwt()
+    const instance: EServiceTemplateInstance = {
+      ...baseInstance,
+      latestDescriptor: undefined,
+    }
+
+    const { getByText } = renderWithApplicationContext(
+      <table>
+        <tbody>
+          <ProviderEServiceTemplateUsingTenantsTableRow
+            instance={instance}
+            eserviceTemplateVersions={eserviceTemplateVersions}
+          />
+        </tbody>
+      </table>,
+      { withRouterContext: true, withReactQueryContext: true }
+    )
+
+    expect(getByText('Producer Name')).toBeInTheDocument()
+  })
+
+  it('should render "-" when templateVersionId does not match any version', () => {
+    mockUseJwt()
+    const instance: EServiceTemplateInstance = {
+      ...baseInstance,
+      latestDescriptor: {
+        ...baseInstance.latestDescriptor!,
+        templateVersionId: 'non-existent-version',
+      },
+    }
+
+    const { getAllByText } = renderWithApplicationContext(
+      <table>
+        <tbody>
+          <ProviderEServiceTemplateUsingTenantsTableRow
+            instance={instance}
+            eserviceTemplateVersions={eserviceTemplateVersions}
+          />
+        </tbody>
+      </table>,
+      { withRouterContext: true, withReactQueryContext: true }
+    )
+
+    expect(getAllByText('-').length).toBeGreaterThanOrEqual(1)
+  })
+})
+
+describe('ProviderEServiceTemplateUsingTenantsTableRowSkeleton', () => {
+  it('should render skeleton cells', () => {
+    const { container } = renderWithApplicationContext(
+      <table>
+        <tbody>
+          <ProviderEServiceTemplateUsingTenantsTableRowSkeleton />
+        </tbody>
+      </table>,
+      { withRouterContext: true, withReactQueryContext: true }
+    )
+
+    const skeletons = container.querySelectorAll('.MuiSkeleton-root')
+    expect(skeletons.length).toBeGreaterThanOrEqual(4)
   })
 })

@@ -48,18 +48,20 @@ export const ProviderEServiceTemplateUsingTenantsTableRow: React.FC<
         ),
       ]}
     >
-      <Link
-        as="button"
-        variant="outlined"
-        size="small"
-        to={isOwn ? 'PROVIDE_ESERVICE_MANAGE' : 'SUBSCRIBE_CATALOG_VIEW'}
-        params={{
-          eserviceId: instance.id,
-          descriptorId: instance.latestDescriptor?.id ?? '',
-        }}
-      >
-        {tCommon('actions.inspect')}
-      </Link>
+      {instance.latestDescriptor && (
+        <Link
+          as="button"
+          variant="outlined"
+          size="small"
+          to={isOwn ? 'PROVIDE_ESERVICE_MANAGE' : 'SUBSCRIBE_CATALOG_VIEW'}
+          params={{
+            eserviceId: instance.id,
+            descriptorId: instance.latestDescriptor.id,
+          }}
+        >
+          {tCommon('actions.inspect')}
+        </Link>
+      )}
     </TableRow>
   )
 }
