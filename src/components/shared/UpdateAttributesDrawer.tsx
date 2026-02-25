@@ -48,7 +48,9 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
     EServiceTemplateMutations.useUpdateAttributes()
 
   const attributeGroups = selectedAttributes[attributeKey]
-  const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = React.useState(false)
+  const [autocompleteShownForGroup, setAutocompleteShownForGroup] = React.useState<
+    Record<number, boolean>
+  >({})
 
   const alreadySelectedAttributeIds = React.useMemo(
     () =>
@@ -68,7 +70,7 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
         [attributeKey]: newAttributeGroups,
       }
     })
-    setIsAttributeAutocompleteShown(false)
+    setAutocompleteShownForGroup((prev) => ({ ...prev, [groupdIdx]: false }))
   }
 
   const handleRemoveAttributeFromGroup = (groupIdx: number, attributeId: string) => {
@@ -171,7 +173,7 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
                   )}
                 </React.Fragment>
               ))}
-              {isAttributeAutocompleteShown ? (
+              {autocompleteShownForGroup[groupIdx] ? (
                 <Box component="li" sx={{ pt: 1 }}>
                   <AttributeAutocomplete
                     attributeKey={attributeKey}
@@ -186,7 +188,9 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
                   type="button"
                   sx={{ fontWeight: 700, justifyContent: 'end', pb: 1, pt: 2 }}
                   startIcon={<AddIcon fontSize="small" />}
-                  onClick={() => setIsAttributeAutocompleteShown(true)}
+                  onClick={() =>
+                    setAutocompleteShownForGroup((prev) => ({ ...prev, [groupIdx]: true }))
+                  }
                 >
                   {tAttribute('group.addBtn')}
                 </ButtonNaked>

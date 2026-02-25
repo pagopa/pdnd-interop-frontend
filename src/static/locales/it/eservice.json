@@ -692,7 +692,7 @@
           "label": "Chiamate API/giorno totali",
           "infoLabel": "Inserisci un numero superiore al precedente",
           "validation": {
-            "min": "Il numero inserito è inferiore al precedente."
+            "min": "Il numero inserito è inferiore o uguale al precedente."
           }
         }
       },

@@ -692,7 +692,7 @@
           "label": "Total API calls/day",
           "infoLabel": "Enter a number higher than the previous one",
           "validation": {
-            "min": "The number entered is lower than the previous one."
+            "min": "The number entered is lower or equal than the previous one."
           }
         }
       },

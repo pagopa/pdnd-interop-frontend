@@ -87,7 +87,7 @@ export const UpdateVoucherDrawer: React.FC<UpdateVoucherDrawerProps> = ({
               strong: <Typography component="span" variant="inherit" fontWeight={600} />,
             }}
           >
-            {minutes === 0
+            {minutes === 1
               ? t('summary', {
                   voucherLifespan: secondsToMinutes(voucherLifespan),
                 })

@@ -89,7 +89,10 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
 
   const { mutate: updateVersion } = EServiceMutations.useUpdateVersion(true)
   const { mutate: updateInstanceVersion } = EServiceMutations.useUpdateInstanceVersion(true)
-  const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft()
+  const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft(
+    { suppressSuccessToast: false },
+    true
+  )
 
   const handleUpdateDailyCalls = (
     id: string,
