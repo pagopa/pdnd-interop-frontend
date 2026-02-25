@@ -486,5 +486,10 @@
     "alertUpdatePersonalData": {
       "label": "Specificare se questo template e-service tratta dati personali."
     }
+  },
+  "publishThankYou": {
+    "title": "Hai pubblicato una nuova versione del template e-service",
+    "description": "Ora è disponibile nel catalogo template e-service. Chi sta usando la versione precedente del template, riceverà una notifica e dovrà aggiornare alla nuova versione.",
+    "action": "Chiudi"
   }
 }

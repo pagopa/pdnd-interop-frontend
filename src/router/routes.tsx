@@ -53,6 +53,7 @@ import {
   RiskAnalysisEServiceAssociatedPage,
   DeveloperToolsPage,
   RiskAnalysisExporterToolPage,
+  ProviderEServiceTemplatePublishThankYouPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -498,6 +499,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: false,
     authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU',
+    path: '/erogazione/template-eservice/:eServiceTemplateId/:eServiceTemplateVersionId/pubblicato',
+    element: <ProviderEServiceTemplatePublishThankYouPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_TEMPLATE_DETAILS',
