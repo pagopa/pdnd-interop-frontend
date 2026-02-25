@@ -155,7 +155,7 @@
       "eserviceTemplateProviderField": {
         "label": "Cerca per creatore template"
       },
-      "tenantField": "Cerca per nome",
+      "tenantField": "Cerca per erogatore",
       "statusField": {
         "label": "Stato istanza",
         "optionLabels": {

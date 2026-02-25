@@ -155,7 +155,7 @@
       "eserviceTemplateProviderField": {
         "label": "Find by producer's template"
       },
-      "tenantField": "Find by party name",
+      "tenantField": "Find by producer",
       "statusField": {
         "label": "Instance status",
         "optionLabels": {

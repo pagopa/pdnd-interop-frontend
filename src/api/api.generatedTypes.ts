@@ -2168,6 +2168,7 @@ export interface EServiceTemplateInstance {
   /** @format uuid */
   producerId: string
   producerName: string
+  instanceLabel?: string
   latestDescriptor?: CompactDescriptor
   descriptors: CompactDescriptor[]
 }
