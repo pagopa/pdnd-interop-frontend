@@ -5,8 +5,7 @@ import { ProviderEServiceGeneralInfoSection } from '../ProviderEServiceGeneralIn
 import { renderWithApplicationContext, mockUseJwt } from '@/utils/testing.utils'
 import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
 import * as EServiceModule from '@/api/eservice'
-import * as EServiceTemplateModule from '@/api/eserviceTemplate'
-import { DUPLICATE_INSTANCE_LABEL_ERROR_CODE } from '@/api/eserviceTemplate/eserviceTemplate.mutations'
+import * as EServiceTemplateMutationsModule from '@/api/eserviceTemplate/eserviceTemplate.mutations'
 import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 
 const mockUpdateInstanceLabel = vi.fn()
@@ -16,15 +15,12 @@ const mockUpdatePersonalData = vi.fn()
 const mockDownloadConsumerList = vi.fn()
 const mockExportVersion = vi.fn()
 
-vi.mock('@/router', async () => {
-  const actual = await vi.importActual<typeof import('@/router')>('@/router')
-  return {
-    ...actual,
-    useNavigate: () => vi.fn(),
-    useParams: () => ({ eserviceId: 'eservice-id', descriptorId: 'descriptor-id' }),
-    Link: ({ children }: { children: React.ReactNode }) => <span>{children}</span>,
-  }
-})
+vi.mock('@/router', () => ({
+  useNavigate: () => vi.fn(),
+  useParams: () => ({ eserviceId: 'eservice-id', descriptorId: 'descriptor-id' }),
+  useCurrentRoute: () => ({ mode: 'provider' }),
+  Link: ({ children }: { children: React.ReactNode }) => <span>{children}</span>,
+}))
 
 vi.mock('@/config/tracking', () => ({
   trackEvent: vi.fn(),
@@ -32,15 +28,33 @@ vi.mock('@/config/tracking', () => ({
 
 let mockDescriptorData: ProducerEServiceDescriptor
 
-vi.mock('@tanstack/react-query', async () => {
-  const actual =
-    await vi.importActual<typeof import('@tanstack/react-query')>('@tanstack/react-query')
-  return {
-    ...actual,
-    useSuspenseQuery: () => ({ data: mockDescriptorData }),
-    useQuery: () => ({ data: [] }),
-  }
-})
+vi.mock('@/api/eservice', () => ({
+  EServiceQueries: {
+    getDescriptorProvider: vi.fn(),
+  },
+  EServiceMutations: {
+    useUpdateEServiceDescription: vi.fn(),
+    useUpdateEServiceName: vi.fn(),
+    useUpdateEServicePersonalDataFlagAfterPublication: vi.fn(),
+  },
+  EServiceDownloads: {
+    useDownloadConsumerList: vi.fn(),
+    useExportVersion: vi.fn(),
+  },
+}))
+
+vi.mock('@/api/eserviceTemplate/eserviceTemplate.mutations', () => ({
+  EServiceTemplateMutations: {
+    useUpdateInstanceLabelAfterPublication: vi.fn(),
+  },
+  DUPLICATE_INSTANCE_LABEL_ERROR_CODE: '007',
+}))
+
+vi.mock('@tanstack/react-query', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  useSuspenseQuery: () => ({ data: mockDescriptorData }),
+  useQuery: () => ({ data: [] }),
+}))
 
 vi.mock('@/hooks/useGetProducerDelegationUserRole', () => ({
   useGetProducerDelegationUserRole: () => ({
@@ -66,27 +80,25 @@ const baseTemplateDescriptor = createMockEServiceDescriptorProvider({
 beforeEach(() => {
   mockUseJwt()
 
-  vi.spyOn(EServiceModule.EServiceMutations, 'useUpdateEServiceDescription').mockReturnValue({
+  vi.mocked(EServiceModule.EServiceMutations.useUpdateEServiceDescription).mockReturnValue({
     mutate: mockUpdateDescription,
   } as never)
-  vi.spyOn(EServiceModule.EServiceMutations, 'useUpdateEServiceName').mockReturnValue({
+  vi.mocked(EServiceModule.EServiceMutations.useUpdateEServiceName).mockReturnValue({
     mutate: mockUpdateName,
   } as never)
-  vi.spyOn(
-    EServiceModule.EServiceMutations,
-    'useUpdateEServicePersonalDataFlagAfterPublication'
+  vi.mocked(
+    EServiceModule.EServiceMutations.useUpdateEServicePersonalDataFlagAfterPublication
   ).mockReturnValue({
     mutate: mockUpdatePersonalData,
   } as never)
-  vi.spyOn(EServiceModule.EServiceDownloads, 'useDownloadConsumerList').mockReturnValue(
+  vi.mocked(EServiceModule.EServiceDownloads.useDownloadConsumerList).mockReturnValue(
     mockDownloadConsumerList as never
   )
-  vi.spyOn(EServiceModule.EServiceDownloads, 'useExportVersion').mockReturnValue(
+  vi.mocked(EServiceModule.EServiceDownloads.useExportVersion).mockReturnValue(
     mockExportVersion as never
   )
-  vi.spyOn(
-    EServiceTemplateModule.EServiceTemplateMutations,
-    'useUpdateInstanceLabelAfterPublication'
+  vi.mocked(
+    EServiceTemplateMutationsModule.EServiceTemplateMutations.useUpdateInstanceLabelAfterPublication
   ).mockReturnValue({ mutate: mockUpdateInstanceLabel } as never)
 })
 
@@ -146,7 +158,7 @@ describe('ProviderEServiceGeneralInfoSection - instanceLabel (published e-servic
     await user.click(editButton)
 
     await waitFor(() => {
-      expect(screen.getByText('updateInstanceLabelDrawer.title')).toBeInTheDocument()
+      expect(screen.getByRole('heading', { level: 6, name: 'title' })).toBeInTheDocument()
     })
   })
 
@@ -195,7 +207,9 @@ describe('ProviderEServiceGeneralInfoSection - instanceLabel (published e-servic
       (_payload: unknown, options: { onError: (error: unknown) => void }) => {
         const error = new RealAxiosError('Duplicate')
         error.response = {
-          data: { errors: [{ code: DUPLICATE_INSTANCE_LABEL_ERROR_CODE }] },
+          data: {
+            errors: [{ code: EServiceTemplateMutationsModule.DUPLICATE_INSTANCE_LABEL_ERROR_CODE }],
+          },
         } as never
         options.onError(error)
       }
@@ -218,7 +232,9 @@ describe('ProviderEServiceGeneralInfoSection - instanceLabel (published e-servic
     await user.click(submitButton)
 
     await waitFor(() => {
-      expect(screen.getByText('instanceLabelField.validation.duplicate')).toBeInTheDocument()
+      expect(
+        screen.getByText('updateInstanceLabelDrawer.instanceLabelField.validation.duplicate')
+      ).toBeInTheDocument()
     })
   })
 

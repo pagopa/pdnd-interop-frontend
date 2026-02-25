@@ -597,7 +597,8 @@
           "catalogPreviewLabel": "Come comparirà nel catalogo",
           "validation": {
             "duplicate": "Hai già creato un e-service con questo nome, usane un altro.",
-            "required": "La parola identificativa è obbligatoria."
+            "required": "La parola identificativa è obbligatoria.",
+            "sameValue": "La parola identificativa è uguale a quella attuale."
           }
         }
       },

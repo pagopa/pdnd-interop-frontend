@@ -53,7 +53,7 @@ export const UpdateInstanceLabelDrawer = React.forwardRef<
   }, [currentInstanceLabel, formMethods])
 
   const handleSubmit = (values: UpdateInstanceLabelFormValues) => {
-    onSubmit(eServiceId, values.instanceLabel)
+    onSubmit(eServiceId, values.instanceLabel.trim())
   }
 
   const handleCloseDrawer = () => {
@@ -89,6 +89,9 @@ export const UpdateInstanceLabelDrawer = React.forwardRef<
             inputProps={{ maxLength: 12 }}
             rules={{
               required: tDrawer('instanceLabelField.validation.required'),
+              validate: (value) =>
+                value.trim() !== currentInstanceLabel ||
+                tDrawer('instanceLabelField.validation.sameValue'),
             }}
           />
           {watchedInstanceLabel && (

@@ -5,24 +5,22 @@ import { renderWithApplicationContext, mockUseJwt } from '@/utils/testing.utils'
 import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
 import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 
-vi.mock('@/router', async () => {
-  const actual = await vi.importActual<typeof import('@/router')>('@/router')
-  return {
-    ...actual,
-    useParams: () => ({ eserviceId: 'eservice-id', descriptorId: 'descriptor-id' }),
-  }
-})
+vi.mock('@/router', () => ({
+  useParams: () => ({ eserviceId: 'eservice-id', descriptorId: 'descriptor-id' }),
+}))
 
 let mockDescriptorData: ProducerEServiceDescriptor
 
-vi.mock('@tanstack/react-query', async () => {
-  const actual =
-    await vi.importActual<typeof import('@tanstack/react-query')>('@tanstack/react-query')
-  return {
-    ...actual,
-    useSuspenseQuery: () => ({ data: mockDescriptorData }),
-  }
-})
+vi.mock('@/api/eservice', () => ({
+  EServiceQueries: {
+    getDescriptorProvider: vi.fn(),
+  },
+}))
+
+vi.mock('@tanstack/react-query', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  useSuspenseQuery: () => ({ data: mockDescriptorData }),
+}))
 
 beforeEach(() => {
   mockUseJwt()

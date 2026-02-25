@@ -76,9 +76,7 @@ describe('UpdateInstanceLabelDrawer', () => {
     await user.clear(input)
 
     await waitFor(() => {
-      expect(
-        screen.queryByText('instanceLabelField.catalogPreviewLabel')
-      ).not.toBeInTheDocument()
+      expect(screen.queryByText('instanceLabelField.catalogPreviewLabel')).not.toBeInTheDocument()
     })
   })
 
@@ -115,6 +113,39 @@ describe('UpdateInstanceLabelDrawer', () => {
     })
   })
 
+  it('trims whitespace from the instanceLabel before submitting', async () => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(
+      <UpdateInstanceLabelDrawer {...defaultProps} currentInstanceLabel="" />,
+      { withReactQueryContext: true }
+    )
+
+    const input = screen.getByRole('textbox', { name: 'instanceLabelField.label' })
+    await user.type(input, '  CIE  ')
+
+    const submitButton = screen.getByRole('button', { name: 'actions.upgrade' })
+    await user.click(submitButton)
+
+    await waitFor(() => {
+      expect(defaultProps.onSubmit).toHaveBeenCalledWith('eservice-id', 'CIE')
+    })
+  })
+
+  it('shows validation error when submitting the same value as current', async () => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(<UpdateInstanceLabelDrawer {...defaultProps} />, {
+      withReactQueryContext: true,
+    })
+
+    const submitButton = screen.getByRole('button', { name: 'actions.upgrade' })
+    await user.click(submitButton)
+
+    await waitFor(() => {
+      expect(screen.getByText('instanceLabelField.validation.sameValue')).toBeInTheDocument()
+    })
+    expect(defaultProps.onSubmit).not.toHaveBeenCalled()
+  })
+
   it('shows validation error when submitting with empty field', async () => {
     const user = userEvent.setup()
     renderWithApplicationContext(<UpdateInstanceLabelDrawer {...defaultProps} />, {
@@ -128,9 +159,7 @@ describe('UpdateInstanceLabelDrawer', () => {
     await user.click(submitButton)
 
     await waitFor(() => {
-      expect(
-        screen.getByText('instanceLabelField.validation.required')
-      ).toBeInTheDocument()
+      expect(screen.getByText('instanceLabelField.validation.required')).toBeInTheDocument()
     })
     expect(defaultProps.onSubmit).not.toHaveBeenCalled()
   })

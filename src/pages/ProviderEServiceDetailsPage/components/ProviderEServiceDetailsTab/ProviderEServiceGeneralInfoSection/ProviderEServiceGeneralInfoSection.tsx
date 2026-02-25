@@ -380,15 +380,17 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         eserviceMode={descriptor.eservice.mode}
         where="e-service"
       />
-      <UpdateInstanceLabelDrawer
-        ref={updateInstanceLabelDrawerRef}
-        isOpen={isUpdateInstanceLabelDrawerOpen}
-        onClose={closeUpdateInstanceLabelDrawer}
-        eServiceId={descriptor.eservice.id}
-        currentInstanceLabel={descriptor.eservice.instanceLabel ?? ''}
-        templateName={descriptor.templateRef?.templateName ?? ''}
-        onSubmit={handleInstanceLabelUpdate}
-      />
+      {isEserviceFromTemplate && (
+        <UpdateInstanceLabelDrawer
+          ref={updateInstanceLabelDrawerRef}
+          isOpen={isUpdateInstanceLabelDrawerOpen}
+          onClose={closeUpdateInstanceLabelDrawer}
+          eServiceId={descriptor.eservice.id}
+          currentInstanceLabel={descriptor.eservice.instanceLabel ?? ''}
+          templateName={descriptor.templateRef?.templateName ?? ''}
+          onSubmit={handleInstanceLabelUpdate}
+        />
+      )}
     </>
   )
 }
