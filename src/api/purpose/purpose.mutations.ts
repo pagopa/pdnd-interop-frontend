@@ -17,8 +17,8 @@ function useUpdateDraft() {
   return useMutation({
     mutationFn: PurposeServices.updateDraft,
     meta: {
-      errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
+      errorToastLabel: t('outcome.error'),
     },
   })
 }
