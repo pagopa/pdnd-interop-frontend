@@ -1,45 +1,4 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "useDefineForClassFields": true,
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
-    "allowJs": false,
-    "skipLibCheck": true,
-    "esModuleInterop": false,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "src/*"
-      ]
-    },
-    "types": [
-      "vitest/globals"
-    ]
-  },
-  "include": [
-    "src",
-    "./setupTests.ts"
-  ],
-  "exclude": [
-    "./src/**/__tests__/**",
-    "./src/react-i18next.d.ts",
-    "__mocks__"
-  ],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ]
+  "extends": "./tsconfig.json",
+  "exclude": ["./src/react-i18next.d.ts", "__mocks__"]
 }

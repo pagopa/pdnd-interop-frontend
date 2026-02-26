@@ -21,9 +21,5 @@
     "types": ["vitest/globals"],
   },
   "include": ["src", "./setupTests.ts"],
-  "exclude": [
-    "./src/**/__tests__/**",
-    "__mocks__",
-  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

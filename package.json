@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -p tsconfig.app.json && vite build",
-    "build-dev": "tsc && vite build --mode development",
+    "build-dev": "tsc -p tsconfig.app.json && vite build --mode development",
     "preview": "vite build --mode development && vite preview --mode development",
     "test": "vitest run",
     "coverage": "vitest run --coverage",
