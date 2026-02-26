@@ -34,11 +34,9 @@ export const UpdateInstanceLabelDrawer = React.forwardRef<
     keyPrefix: 'read.drawers.updateInstanceLabelDrawer',
   })
 
-  const defaultValues = {
-    instanceLabel: currentInstanceLabel,
-  }
-
-  const formMethods = useForm<UpdateInstanceLabelFormValues>({ defaultValues })
+  const formMethods = useForm<UpdateInstanceLabelFormValues>({
+    defaultValues: { instanceLabel: currentInstanceLabel },
+  })
 
   const watchedInstanceLabel = formMethods.watch('instanceLabel')
 
@@ -61,7 +59,7 @@ export const UpdateInstanceLabelDrawer = React.forwardRef<
   }
 
   const handleTransitionExited = () => {
-    formMethods.reset(defaultValues)
+    formMethods.reset()
   }
 
   return (
