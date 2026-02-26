@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc -p tsconfig.app.json && vite build",
     "build-dev": "tsc && vite build --mode development",
     "preview": "vite build --mode development && vite preview --mode development",
     "test": "vitest run",
