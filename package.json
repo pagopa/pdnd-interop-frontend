@@ -2,6 +2,7 @@
   "name": "interop-dashboard-frontend",
   "version": "1.6.3",
   "type": "module",
+  "packageManager": "pnpm@9.15.9",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -88,7 +89,5 @@
   "validate-branch-name": {
     "pattern": "^(feature|release|hotfix|bugfix|refactor|performance|docs|build|ci|chore)/[A-Z]+-[0-9]+_.+$",
     "errorMsg": "You need to follow this branching name rule: <type>/<JIRA_KEY>_<description>"
-  },
-    "packageManager": "pnpm@9.15.9"
-
+  }
 }
