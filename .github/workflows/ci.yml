@@ -25,7 +25,6 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
         with:
-          version: 9
 
       - name: Install node
         uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
