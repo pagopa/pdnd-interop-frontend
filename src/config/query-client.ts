@@ -5,29 +5,10 @@ import { NotFoundError } from '@/utils/errors.utils'
 import {
   type Mutation,
   type QueryClientConfig,
-  type MutationMeta,
+  MutationMeta,
   QueryClient,
 } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
-
-declare module '@tanstack/react-query' {
-  interface MutationMeta<
-    TData = unknown,
-    TError = unknown,
-    TVariables = unknown,
-    TContext = unknown,
-  > {
-    loadingLabel?: string | ((variables: TVariables) => string)
-    successToastLabel?: string | ((data: TData, variables: TVariables, context: TContext) => string)
-    errorToastLabel?: string | ((error: TError, variables: TVariables, context: TContext) => string)
-    confirmationDialog?: {
-      title: string | ((variables: TVariables) => string)
-      description?: string | ((variables: TVariables) => string)
-      proceedLabel?: string
-      checkbox?: string
-    }
-  }
-}
 
 // 1000, 2000, 4000, 8000, 16000, with a maximum of 30 seconds
 const exponentialBackoffRetry = (attemptIndex: number) => {
