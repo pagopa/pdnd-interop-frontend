@@ -50,6 +50,7 @@ export const IconLink = <D extends React.ElementType = 'a'>({
             cursor: 'pointer',
             textDecoration: 'inherit',
             display: 'inline-flex',
+            fontWeight: 700,
           }}
         >
           {startIcon} <span>{children}</span>

@@ -308,43 +308,43 @@
         }
       },
       "loadEstimate": {
-        "title": "Load estimate",
-        "description": "The number of API calls/day that the consumer estimates to make to the API of your e-service",
+        "title": "API call estimation",
+        "description": "The number of calls expected each day to the e-service",
         "rejectedUpdatePlanAlert": "The plan change was rejected. <1>Read the reject reasons here</1>.",
         "planCard": {
           "title": {
-            "activePlan": "Consumer active plan",
+            "activePlan": "Current consumer estimate",
             "waitingForApprovalPlan": {
-              "changePlan": "The plan change requested by the Consumer",
-              "newPurpose": "The plan requested by the Consumer"
+              "changePlan": "Change of estimate requested by the consumer",
+              "newPurpose": "The plan requested by the consumer"
             },
             "rejectedPlan": "The plan requested by the Consumer"
           },
           "subtitle": "(API calls/day)",
           "activateVersionButtonLabel": {
-            "label": "Activate now"
+            "label": "Approve"
           },
           "rejectVersionButtonLabel": {
             "label": "Reject"
           },
           "currentPlan": {
-            "label": "Current plan"
+            "label": "Current consumer estimate"
           },
           "waitingForApprovalPlan": {
             "label": {
-              "changePlan": "New required plan",
+              "changePlan": "New estimate required",
               "newPurpose": "Required plan"
             }
           }
         },
         "thresholdsCard": {
-          "title": "Thresholds set by you",
+          "title": "Defined thresholds",
           "subtitle": "(API calls/day)",
           "dailyCallsPerConsumerField": {
-            "label": "Per Consumer"
+            "label": "per Consumer"
           },
           "dailyCallsTotalsField": {
-            "label": "Total"
+            "label": "total"
           }
         }
       }
@@ -357,7 +357,7 @@
     "archivedPurposeClientsAlert": "This purpose has been archived. All clients were removed and new clients can no longer be associated",
     "rejectedPurposeAlert": "This purpose has been rejected. <2>Read here the reject reason</2>.",
     "rejectedUpdatePlanInfoAlert": "A change of plan for this purpose was rejected. Check the “Load Estimate” section in <1>Purpose Details</1>.",
-    "noClientsAlert": "This purpose is active but has no associated clients. <1>Pair your first client</1> to use the e-service",
+    "noClientsAlert": "This purpose is active but has no associated clients. <1>Pair your first client</1> to access e-service data.",
     "noClientsAlertForDelegateWithoutClientPermissions": "This intent is active but has no associated clients. Wait for {{delegatorName}} to connect its clients for the request to complete.",
     "cloneDisabledDueToExpiredRuleset": "It is not possible to clone the purpose because the risk analysis model has been updated and is no longer compatible",
     "addClientToPurposeDisableTooltip": {
@@ -401,26 +401,26 @@
         }
       },
       "loadEstimate": {
-        "title": "Load estimate",
-        "description": "The number of API calls/day that the Consumer estimates to make to the API of your e-service",
+        "title": "API call estimation",
+        "description": "The number of calls expected each day to the e-service",
         "rejectedUpdatePlanAlert": "The plan change was rejected. <1>Read the reject reasons here</1>.",
         "planCard": {
           "title": {
-            "activePlan": "Consumer active plan",
-            "waitingForApprovalPlan": "Consumer requested plan",
+            "activePlan": "Current estimate",
+            "waitingForApprovalPlan": "Current estimate",
             "rejectedPlan": "Consumer requested plan"
           },
           "subtitle": "(API calls/day)",
           "changePlanRequestLink": {
-            "label": "Request a change of plan"
+            "label": "Request a change of estimate"
           }
         },
         "updatePlanCard": {
-          "title": "The plan change you requested",
+          "title": "New estimate required",
           "subtitle": "(API calls/day)",
           "expectApprovalDateInfo": "You estimated to activate this update on the day <strong>{{date}}</strong>",
           "removeChangePlanRequestLink": {
-            "label": "Delete request"
+            "label": "Cancel request"
           }
         },
         "drawer": {
@@ -443,13 +443,13 @@
           }
         },
         "thresholdsCard": {
-          "title": "Thresholds set by Producer",
+          "title": "Thresholds defined by the producer",
           "subtitle": "(API calls/day)",
           "dailyCallsPerConsumerField": {
-            "label": "Per Consumer"
+            "label": "per consumer"
           },
           "dailyCallsTotalsField": {
-            "label": "Total"
+            "label": "total"
           }
         },
         "alertExceedingThreshold": {

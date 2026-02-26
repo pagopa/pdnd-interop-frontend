@@ -2,7 +2,7 @@ import type { Purpose } from '@/api/api.generatedTypes'
 import { IconLink } from '@/components/shared/IconLink'
 import { Card, CardContent, CardHeader, Divider, Stack, Typography } from '@mui/material'
 import React from 'react'
-import PlusOneIcon from '@mui/icons-material/PlusOne'
+import AddIcon from '@mui/icons-material/Add'
 import { AuthHooks } from '@/api/auth'
 import { useTranslation } from 'react-i18next'
 import { ConsumerPurposeDetailsDailyCallsUpdateDrawer } from './ConsumerPurposeDetailsDailyCallsUpdateDrawer'
@@ -75,11 +75,11 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
           sx={{ px: 3, pt: 3, pb: 1 }}
           titleTypographyProps={{ variant: 'sidenav' }}
           title={title}
-          subheaderTypographyProps={{ variant: 'body2', color: 'text.secondary' }}
+          subheaderTypographyProps={{ variant: 'body2', color: 'text.secondary', mt: 1 }}
           subheader={t('subtitle')}
         />
         <CardContent sx={{ px: 3, pt: 1, display: 'flex', flexGrow: 1 }}>
-          <Stack direction="column" spacing={2} flexGrow={1}>
+          <Stack direction="column" flexGrow={1}>
             <Box flexGrow={1}>
               <Typography variant="h4">{formatThousands(dailyCalls)}</Typography>
             </Box>
@@ -91,17 +91,17 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
               // if the purpose was created by the delegate and I am the delegator and the delegation is still active
               purpose.delegation?.delegator.id === jwt?.organizationId
             ) && (
-              <>
+              <Stack gap={2}>
                 <Divider />
                 <IconLink
                   onClick={handleRequestPlanChange}
                   component="button"
-                  startIcon={<PlusOneIcon />}
+                  startIcon={<AddIcon />}
                   alignSelf="start"
                 >
                   {t('changePlanRequestLink.label')}
                 </IconLink>
-              </>
+              </Stack>
             )}
           </Stack>
         </CardContent>

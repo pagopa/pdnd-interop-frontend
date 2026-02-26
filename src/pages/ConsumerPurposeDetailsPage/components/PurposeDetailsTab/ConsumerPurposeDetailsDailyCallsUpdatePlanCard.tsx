@@ -45,7 +45,7 @@ export const ConsumerPurposeDetailsDailyCallsUpdatePlanCard: React.FC<
         sx={{ px: 3, pt: 3, pb: 1 }}
         titleTypographyProps={{ variant: 'sidenav' }}
         title={t('title')}
-        subheaderTypographyProps={{ variant: 'body2', color: 'text.secondary' }}
+        subheaderTypographyProps={{ variant: 'body2', color: 'text.secondary', mt: 1 }}
         subheader={t('subtitle')}
       />
       <CardContent sx={{ px: 3, pt: 1, display: 'flex', flexGrow: 1 }}>
@@ -58,7 +58,7 @@ export const ConsumerPurposeDetailsDailyCallsUpdatePlanCard: React.FC<
           {
             // if the purpose was created by the delegate and I am the delegator and the delegation is still active
             purpose.delegation?.delegator.id === jwt?.organizationId && (
-              <>
+              <Stack gap={2}>
                 <Divider />
                 <IconLink
                   onClick={handleDeleteDailyCallsUpdate}
@@ -70,7 +70,7 @@ export const ConsumerPurposeDetailsDailyCallsUpdatePlanCard: React.FC<
                 >
                   {t('removeChangePlanRequestLink.label')}
                 </IconLink>
-              </>
+              </Stack>
             )
           }
         </Stack>

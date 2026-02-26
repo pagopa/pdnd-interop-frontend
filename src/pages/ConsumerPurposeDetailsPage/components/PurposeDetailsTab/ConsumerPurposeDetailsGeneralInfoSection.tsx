@@ -104,12 +104,17 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
           label={t('providerField.label')}
           content={purpose.eservice.producer.name}
         />
-        <InformationContainer label={t('consumerField.label')} content={purpose.consumer.name} />
         {purpose.delegation && (
-          <InformationContainer
-            label={t('delegatedConsumerField.label')}
-            content={purpose.delegation.delegate.name}
-          />
+          <>
+            <InformationContainer
+              label={t('consumerField.label')}
+              content={purpose.consumer.name}
+            />
+            <InformationContainer
+              label={t('delegatedConsumerField.label')}
+              content={purpose.delegation.delegate.name}
+            />
+          </>
         )}
         {isFromPurposeTemplate && (
           <InformationContainer

@@ -269,7 +269,7 @@
       "generalInformations": {
         "title": "Informazioni generali",
         "eServiceField": {
-          "label": "E-service di riferimento",
+          "label": "E-service associato",
           "value": "{{name}}, versione {{version}}"
         },
         "purposeTemplateField": {
@@ -308,43 +308,43 @@
         }
       },
       "loadEstimate": {
-        "title": "Stima di carico",
-        "description": "Il numero di chiamate API/giorno che il fruitore stima di fare verso l’API del tuo e-service",
+        "title": "Stima di chiamate API",
+        "description": "Il numero di chiamate previste ogni giorno verso l'e-service",
         "rejectedUpdatePlanAlert": "Il cambio piano è stato rifiutato. <1>Leggi qui i motivi del rifiuto</1>.",
         "planCard": {
           "title": {
-            "activePlan": "Il piano attivo del fruitore",
+            "activePlan": "Stima attuale del fruitore",
             "waitingForApprovalPlan": {
-              "changePlan": "Il cambio piano richiesto dal fruitore",
+              "changePlan": "Cambio stima richiesto del fruitore",
               "newPurpose": "Il piano richiesto dal fruitore"
             },
             "rejectedPlan": "Il piano richiesto dal fruitore"
           },
           "subtitle": "Chiamate API/giorno",
           "activateVersionButtonLabel": {
-            "label": "Attiva ora"
+            "label": "Approva"
           },
           "rejectVersionButtonLabel": {
             "label": "Rifiuta"
           },
           "currentPlan": {
-            "label": "Piano attuale"
+            "label": "Stima attuale del fruitore"
           },
           "waitingForApprovalPlan": {
             "label": {
-              "changePlan": "Nuovo piano richiesto",
+              "changePlan": "Nuova stima richiesta",
               "newPurpose": "Piano richiesto"
             }
           }
         },
         "thresholdsCard": {
-          "title": "Soglie da te previste",
+          "title": "Soglie definite",
           "subtitle": "Chiamate API/giorno",
           "dailyCallsPerConsumerField": {
-            "label": "Per singolo fruitore"
+            "label": "per fruitore"
           },
           "dailyCallsTotalsField": {
-            "label": "Totali"
+            "label": "totali"
           }
         }
       }
@@ -357,7 +357,7 @@
     "archivedPurposeClientsAlert": "Questa finalità è stata archiviata. Tutti i client sono stati rimossi all'atto dell'archiviazione e non è più possibile associarne di nuovi",
     "rejectedPurposeAlert": "Questa finalità è stata rifiutata. <2>Leggi qui i motivi del rifiuto</2>.",
     "rejectedUpdatePlanInfoAlert": "Un cambio piano su questa finalità è stato rifiutato. Controlla la sezione “Stima di carico” in <1>Dettagli finalità</1>.",
-    "noClientsAlert": "Questa finalità è attiva ma non ha client associati. <1>Associa il tuo primo client</1> per fruire dell’e-service",
+    "noClientsAlert": "Questa finalità è attiva ma non ha client associati. <1>Associa il tuo primo client</1> per accedere ai dati dell’e-service.",
     "noClientsAlertForDelegateWithoutClientPermissions": "Questa finalità è attiva ma non ha client associati. Attendi che {{delegatorName}} colleghi i propri client affinché la richiesta sia ultimata.",
     "cloneDisabledDueToExpiredRuleset": "Non è possibile clonare la finalità in quanto il modello dell’analisi del rischio è stato aggiornato e non è più compatibile",
     "addClientToPurposeDisableTooltip": {
@@ -372,7 +372,7 @@
       "generalInformations": {
         "title": "Informazioni generali",
         "eServiceField": {
-          "label": "E-service di riferimento",
+          "label": "E-service associato",
           "value": "{{name}}, versione {{version}}"
         },
         "providerField": {
@@ -401,26 +401,26 @@
         }
       },
       "loadEstimate": {
-        "title": "Stima di carico",
-        "description": "Il numero di chiamate API/giorno che il fruitore stima di fare verso l’API del tuo e-service",
+        "title": "Stima di chiamate API",
+        "description": "Il numero di chiamate previste ogni giorno verso l'e-service",
         "rejectedUpdatePlanAlert": "Il cambio piano è stato rifiutato. <1>Leggi qui i motivi del rifiuto</1>.",
         "planCard": {
           "title": {
-            "activePlan": "Il piano attivo del fruitore",
-            "waitingForApprovalPlan": "Il piano richiesto dal fruitore",
+            "activePlan": "Stima attuale",
+            "waitingForApprovalPlan": "Stima attuale",
             "rejectedPlan": "Il piano richiesto dal fruitore"
           },
           "subtitle": "Chiamate API/giorno",
           "changePlanRequestLink": {
-            "label": "Richiedi cambio di piano"
+            "label": "Richiedi cambio stima"
           }
         },
         "updatePlanCard": {
-          "title": "Il cambio di piano che hai richiesto",
+          "title": "Nuova stima richiesta",
           "subtitle": "Chiamate API/giorno",
           "expectApprovalDateInfo": "Hai stimato di attivare questo adeguamento il giorno <strong>{{date}}</strong>",
           "removeChangePlanRequestLink": {
-            "label": "Elimina richiesta"
+            "label": "Annulla richiesta"
           }
         },
         "drawer": {
@@ -443,13 +443,13 @@
           }
         },
         "thresholdsCard": {
-          "title": "Soglie previste dall'erogatore",
+          "title": "Soglie definite dall’erogatore",
           "subtitle": "Chiamate API/giorno",
           "dailyCallsPerConsumerField": {
-            "label": "Per singolo fruitore"
+            "label": "per fruitore"
           },
           "dailyCallsTotalsField": {
-            "label": "Totali"
+            "label": "totali"
           }
         },
         "alertExceedingThreshold": {
