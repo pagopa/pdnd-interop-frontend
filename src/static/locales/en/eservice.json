@@ -46,7 +46,7 @@
         "personalDataField": {
           "DELIVER": {
             "label": "Does the e-service deliver personal data?",
-            "readOnlyLabel": "Deliver personal data",
+            "readOnlyLabel": "Delivers personal data",
             "options": {
               "true": "Delivers personal data",
               "false": "Does not deliver personal data"
