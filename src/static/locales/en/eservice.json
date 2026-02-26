@@ -16,60 +16,66 @@
     "forwardWithoutSaveBtn": "Next",
     "goToSummary": "Go to summary",
     "step1": {
-      "detailsTitle": "E-service details",
-      "detailsDescription": {
-        "before": "Read the",
-        "linkLabel": "guidelines",
-        "after": "for naming: your e-services will be easier to find and clearer in their goals"
-      },
-      "eserviceNameField": {
-        "label": "E-service name",
-        "infoLabel": "Min 5 characters, max 60 characters"
-      },
-      "eserviceDescriptionField": {
-        "label": "E-service description",
-        "infoLabel": "Include input and output data in the description. Min 10 characters, max 250 characters"
-      },
-      "eserviceTechnologyField": {
-        "label": "What technology is your API built with?"
-      },
-      "eserviceModeField": {
-        "label": "Does the e-service deliver or receive data?",
-        "options": {
-          "DELIVER": "Deliver",
-          "RECEIVE": "Receive"
+      "infoSection": {
+        "title": "E-service details",
+        "description": "To choose clear names and make e-services easy to find, see the <1>guidelines</1>",
+        "nameField": {
+          "label": "E-service name",
+          "infoLabel": "Min 5 characters, max 60 characters"
+        },
+        "descriptionField": {
+          "label": "E-service description",
+          "infoLabel": "Include input and output data in the description. Min 10 characters, max 250 characters"
         }
       },
-      "eservicePersonalDataField": {
-        "DELIVER": {
-          "label": "Does the e-service deliver personal data?",
+      "detailsSection": {
+        "title": "E-service details",
+        "description": "This information has been pre-populated by the template creator and cannot be edited.",
+        "firstVersionOnlyEditableInfo": "This data will no longer be editable after the first version of the e-service is published.",
+        "technologyField": {
+          "label": "What technology is your API built with?",
+          "readOnlyLabel": "API Technology"
+        },
+        "modeField": {
+          "label": "Does the e-service deliver or receive data?",
           "options": {
-            "true": "Delivers personal data",
-            "false": "Does not deliver personal data"
+            "DELIVER": "Deliver",
+            "RECEIVE": "Receive"
           }
         },
-        "RECEIVE": {
-          "label": "Does the e-service receive personal data?",
-          "options": {
-            "true": "Receives personal data",
-            "false": "Does not receive personal data"
-          }
-        },
-        "alertMissingPersonalData": "You cannot publish this draft because the template creator did not indicate whether the e-service processes personal data. Contact {{tenantName}} to request a modification of this template."
+        "personalDataField": {
+          "DELIVER": {
+            "label": "Does the e-service deliver personal data?",
+            "readOnlyLabel": "Delivers personal data",
+            "options": {
+              "true": "Delivers personal data",
+              "false": "Does not deliver personal data"
+            },
+            "readOnlyOptions": {
+              "true": "YES",
+              "false": "NO"
+            }
+          },
+          "RECEIVE": {
+            "label": "Does the e-service receive personal data?",
+            "readOnlyLabel": "Receives personal data",
+            "options": {
+              "true": "Receives personal data",
+              "false": "Does not receive personal data"
+            },
+            "readOnlyOptions": {
+              "true": "YES",
+              "false": "NO"
+            }
+          },
+          "alertMissingPersonalData": "You cannot publish this draft because the template creator did not indicate whether the e-service processes personal data. Contact {{tenantName}} to request a modification of this template."
+        }
       },
-      "isSignalHubEnabled": {
+      "signalHubSection": {
         "title": "Signal Hub: service for notification of data changes",
         "description": {
-          "firstParagraph": {
-            "before": "Signal Hub is an",
-            "linkLabel": "integrated solution",
-            "after": "that informs consumers via push notification when the data of the e-service is changed."
-          },
-          "secondParagraph": {
-            "before": "By enabling the feature, you designate PagoPa S.p.A. as the data processor by adopting the",
-            "linkLabel": "document appointing PagoPa S.p.A. as the data processor for personal data",
-            "after": "for \"Signal Hub\"."
-          }
+          "firstParagraph": "Signal Hub is an <1>integrated solution</1> that informs consumers via push notification when the data of the e-service is changed.",
+          "secondParagraph": "By enabling the feature, you designate PagoPa S.p.A. as the data processor by adopting the <1>document appointing PagoPa S.p.A. as the data processor for personal data</1> for \"Signal Hub\"."
         },
         "switchLabel": "I will report any data changes on Signal Hub.",
         "alert": "Before proceeding, make sure that the designation document has been reviewed and approved by at least one administrator in your organization."
@@ -86,10 +92,13 @@
           "checkboxLabel": "I authorize delegates to associate their clients with the purposes they have created as delegates for use. Read the <1>documentation</1> for further information"
         }
       },
-      "detailsSection": {
-        "title": "E-service details"
-      },
-      "firstVersionOnlyEditableInfo": "This data will no longer be editable after the first version of the e-service is published."
+      "templateInfoSection": {
+        "title": "About the template",
+        "description": "This information has been pre-populated by the template creator and cannot be edited.",
+        "nameLabel": "E-service template name",
+        "addressedToLabel": "Who is this template for?",
+        "allowWhatLabel": "What does this template allow you to do?"
+      }
     },
     "stepPurpose": {
       "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",

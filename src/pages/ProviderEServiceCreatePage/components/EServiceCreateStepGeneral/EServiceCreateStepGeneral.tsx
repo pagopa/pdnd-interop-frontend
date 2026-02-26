@@ -1,15 +1,9 @@
 import React from 'react'
-import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Alert, Box, Link, Stack, Typography } from '@mui/material'
+import { SectionContainerSkeleton } from '@/components/layout/containers'
+import { Box } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
-import {
-  RHFCheckbox,
-  RHFRadioGroup,
-  RHFSwitch,
-  RHFTextField,
-} from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate, useParams } from '@/router'
 import { EServiceMutations } from '@/api/eservice'
@@ -23,21 +17,13 @@ import type {
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import { IconLink } from '@/components/shared/IconLink'
-import LaunchIcon from '@mui/icons-material/Launch'
-import {
-  delegationEServiceGuideLink,
-  delegationGuideLink,
-  eserviceNamingBestPracticeLink,
-  SIGNALHUB_GUIDE_URL,
-} from '@/config/constants'
-import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
-import {
-  FEATURE_FLAG_ESERVICE_PERSONAL_DATA,
-  SIGNALHUB_PERSONAL_DATA_PROCESS_URL,
-} from '@/config/env'
+import { EServiceInfoSection } from '../sections/EServiceInfoSection'
+import { EServiceDetailsSection } from '../sections/EServiceDetailsSection'
+import { EServiceTemplateInfoSection } from '../sections/EServiceTemplateInfoSection'
+import { DelegationSection } from '../sections/DelegationSection'
+import { SignalHubSection } from '../sections/SignalHubSection'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -50,15 +36,10 @@ export type EServiceCreateStepGeneralFormValues = {
   isClientAccessDelegable: boolean
 }
 
-type SignalHubSectionProps = {
-  isSignalHubActivationEditable: boolean
-}
-
 export const EServiceCreateStepGeneral: React.FC = () => {
   const { isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   const { t } = useTranslation('eservice')
-  const { t: tCommon } = useTranslation('common', { keyPrefix: 'validation.mixed' })
   const navigate = useNavigate()
 
   const { eServiceTemplateId } = useParams<'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE'>()
@@ -153,186 +134,27 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer
-          title={t('create.step1.detailsTitle')}
-          description={
-            <>
-              {t('create.step1.detailsDescription.before')}{' '}
-              <IconLink
-                href={eserviceNamingBestPracticeLink}
-                target="_blank"
-                endIcon={<LaunchIcon fontSize="small" />}
-                onClick={() =>
-                  trackEvent('INTEROP_EXT_LINK_DTD_ESERVICE_GUIDE', {
-                    src: 'CREATE_ESERVICE',
-                  })
-                }
-              >
-                {t('create.step1.detailsDescription.linkLabel')}
-              </IconLink>{' '}
-              {t('create.step1.detailsDescription.after')}
-            </>
-          }
-          component="div"
-        >
-          <RHFTextField
-            label={t('create.step1.eserviceNameField.label')}
-            infoLabel={t('create.step1.eserviceNameField.infoLabel')}
-            name="name"
-            disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
-            rules={{ required: true, minLength: 5 }}
-            focusOnMount
-            inputProps={{ maxLength: 60 }}
-            size="small"
-            sx={{ width: '49%', my: 0, mt: 1 }}
-            required
-          />
+        {eserviceTemplate ? (
+          <EServiceTemplateInfoSection eserviceTemplate={eserviceTemplate} />
+        ) : (
+          <EServiceInfoSection />
+        )}
+        <EServiceDetailsSection
+          areEServiceGeneralInfoEditable={areEServiceGeneralInfoEditable}
+          eserviceTemplate={eserviceTemplate}
+          eserviceMode={eserviceMode}
+          onEserviceModeChange={onEserviceModeChange}
+        />
 
-          <RHFTextField
-            label={t('create.step1.eserviceDescriptionField.label')}
-            infoLabel={t('create.step1.eserviceDescriptionField.infoLabel')}
-            name="description"
-            multiline
-            disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
-            size="small"
-            inputProps={{ maxLength: 250 }}
-            rules={!eserviceTemplate ? { required: true, minLength: 10 } : undefined}
-            sx={{ mb: 0, mt: 3 }}
-            required
+        {isOrganizationAllowedToProduce && (
+          <DelegationSection
+            areEServiceGeneralInfoEditable={areEServiceGeneralInfoEditable}
+            isConsumerDelegable={formMethods.watch('isConsumerDelegable')}
           />
-        </SectionContainer>
-        <SectionContainer title={t('create.step1.detailsSection.title')}>
-          {!isEserviceFromTemplate && (
-            <Alert severity="warning" sx={{ mb: 0, mt: 3 }}>
-              {t('create.step1.firstVersionOnlyEditableInfo')}
-            </Alert>
-          )}
-          <RHFRadioGroup
-            name="technology"
-            row
-            label={t('create.step1.eserviceTechnologyField.label')}
-            options={[
-              { label: 'REST', value: 'REST' },
-              { label: 'SOAP', value: 'SOAP' },
-            ]}
-            disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
-            rules={{ required: true }}
-            sx={{ mb: 0, mt: 3 }}
-          />
-
-          <RHFRadioGroup
-            name="mode"
-            row
-            label={t('create.step1.eserviceModeField.label')}
-            options={[
-              {
-                label: t('create.step1.eserviceModeField.options.DELIVER'),
-                value: 'DELIVER',
-              },
-              {
-                label: t('create.step1.eserviceModeField.options.RECEIVE'),
-                value: 'RECEIVE',
-              },
-            ]}
-            disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
-            rules={{ required: true }}
-            sx={{ mb: 0, mt: 3 }}
-            onValueChange={(mode) => onEserviceModeChange!(mode as EServiceMode)}
-          />
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
-            <>
-              <RHFRadioGroup
-                name="personalData"
-                row
-                label={t(`create.step1.eservicePersonalDataField.${eserviceMode}.label`)}
-                options={[
-                  {
-                    label: t(`create.step1.eservicePersonalDataField.${eserviceMode}.options.true`),
-                    value: true,
-                  },
-                  {
-                    label: t(
-                      `create.step1.eservicePersonalDataField.${eserviceMode}.options.false`
-                    ),
-                    value: false,
-                  },
-                ]}
-                disabled={!areEServiceGeneralInfoEditable || isEserviceFromTemplate}
-                rules={{
-                  validate: (value) => value === true || value === false || tCommon('required'),
-                }}
-                sx={{ mb: 3, mt: 3 }}
-                isOptionValueAsBoolean
-              />
-              {isEserviceFromTemplate && eserviceTemplate?.personalData === undefined && (
-                <Alert severity="error" variant="outlined">
-                  {t('create.step1.eservicePersonalDataField.alertMissingPersonalData', {
-                    tenantName: eserviceTemplate?.creator.name,
-                  })}
-                </Alert>
-              )}
-            </>
-          )}
-        </SectionContainer>
+        )}
 
         {/* Signalhub switch can be editable also if coming from a eservice eserviceTemplate */}
         <SignalHubSection isSignalHubActivationEditable={areEServiceGeneralInfoEditable} />
-
-        {isOrganizationAllowedToProduce && (
-          <SectionContainer
-            title={t('create.step1.delegationSection.title')}
-            description={
-              <Trans
-                components={{
-                  1: <Link underline="hover" href={delegationGuideLink} target="_blank" />,
-                }}
-              >
-                {t('create.step1.delegationSection.description')}
-              </Trans>
-            }
-            component="div"
-          >
-            <SectionContainer
-              innerSection
-              title={t('create.step1.delegationSection.delegationField.label')}
-              sx={{ mt: 3 }}
-            >
-              <RHFSwitch
-                label={t('create.step1.delegationSection.delegationField.switchLabel')}
-                name="isConsumerDelegable"
-                disabled={!areEServiceGeneralInfoEditable}
-                sx={{ my: 0, ml: 1 }}
-              />
-            </SectionContainer>
-
-            {formMethods.watch('isConsumerDelegable') && (
-              <SectionContainer
-                innerSection
-                title={t('create.step1.delegationSection.clientAccessDelegableField.label')}
-                sx={{ mt: 3 }}
-              >
-                <RHFCheckbox
-                  name="isClientAccessDelegable"
-                  label={
-                    <Trans
-                      components={{
-                        1: (
-                          <Link
-                            underline="hover"
-                            href={delegationEServiceGuideLink}
-                            target="_blank"
-                          />
-                        ),
-                      }}
-                    >
-                      {t('create.step1.delegationSection.clientAccessDelegableField.checkboxLabel')}
-                    </Trans>
-                  }
-                />
-              </SectionContainer>
-            )}
-          </SectionContainer>
-        )}
 
         <StepActions
           forward={
@@ -356,58 +178,6 @@ export const EServiceCreateStepGeneralSkeleton: React.FC = () => {
     <>
       <SectionContainerSkeleton height={354} />
     </>
-  )
-}
-
-const SignalHubSectionDescription: React.FC = () => {
-  const { t } = useTranslation('eservice')
-  return (
-    <>
-      <Stack spacing={1}>
-        <Typography color="text.secondary" variant="body2">
-          {t('create.step1.isSignalHubEnabled.description.firstParagraph.before')}{' '}
-          <IconLink
-            href={SIGNALHUB_GUIDE_URL}
-            target="_blank"
-            endIcon={<LaunchIcon fontSize="small" />}
-          >
-            {' '}
-            {t('create.step1.isSignalHubEnabled.description.firstParagraph.linkLabel')}
-          </IconLink>{' '}
-          {t('create.step1.isSignalHubEnabled.description.firstParagraph.after')}
-        </Typography>
-        <Typography color="text.secondary" variant="body2">
-          {t('create.step1.isSignalHubEnabled.description.secondParagraph.before')}{' '}
-          <Link href={SIGNALHUB_PERSONAL_DATA_PROCESS_URL} target="_blank" underline="none">
-            {t('create.step1.isSignalHubEnabled.description.secondParagraph.linkLabel')}
-          </Link>{' '}
-          {t('create.step1.isSignalHubEnabled.description.secondParagraph.after')}
-        </Typography>
-      </Stack>
-    </>
-  )
-}
-
-const SignalHubSection: React.FC<SignalHubSectionProps> = ({ isSignalHubActivationEditable }) => {
-  const isAdmin = AuthHooks.useJwt().isAdmin
-  const { t } = useTranslation('eservice')
-
-  return (
-    <SectionContainer
-      title={t('create.step1.isSignalHubEnabled.title')}
-      description={<SignalHubSectionDescription />}
-      component="div"
-    >
-      {!isAdmin && <Alert severity="warning">{t('create.step1.isSignalHubEnabled.alert')}</Alert>}
-      <SectionContainer innerSection sx={{ mt: 3 }}>
-        <RHFSwitch
-          label={t('create.step1.isSignalHubEnabled.switchLabel')}
-          name="isSignalHubEnabled"
-          disabled={!isSignalHubActivationEditable}
-          sx={{ my: 0, ml: 1 }}
-        />
-      </SectionContainer>
-    </SectionContainer>
   )
 }
 
