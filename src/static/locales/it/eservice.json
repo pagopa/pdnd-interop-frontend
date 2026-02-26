@@ -256,6 +256,9 @@
           "undefined": "Non indicato"
         }
       },
+      "instanceLabel": {
+        "label": "Parola che identifica l'e-service"
+      },
       "apiTechnology": {
         "label": "Tecnologia API"
       },
@@ -417,6 +420,9 @@
         },
         "version": {
           "label": "Stai vedendo la versione"
+        },
+        "instanceLabel": {
+          "label": "Parola che identifica l'e-service"
         },
         "eserviceTemplateName": {
           "label": "Riferimento template"
@@ -582,6 +588,20 @@
       }
     },
     "drawers": {
+      "updateInstanceLabelDrawer": {
+        "title": "Modifica la parola che identifica l'e-service",
+        "subtitle": "Aggiungi una parola che aiuta a identificare il tuo e-service dagli altri creati dallo stesso template: è utile per avere un nome unico ed evitare duplicati.",
+        "instanceLabelField": {
+          "label": "Parola identificativa dell'e-service",
+          "infoLabel": "Max 12 caratteri",
+          "catalogPreviewLabel": "Come comparirà nel catalogo",
+          "validation": {
+            "duplicate": "Hai già creato un e-service con questo nome, usane un altro.",
+            "required": "La parola identificativa è obbligatoria.",
+            "sameValue": "La parola identificativa è uguale a quella attuale."
+          }
+        }
+      },
       "updateEServiceNameDrawer": {
         "title": "Modifica nome e-service",
         "subtitle": "Da questo pannello puoi aggiornare il nome dell’e-service. Le modifiche apportate avranno effetto da subito.",

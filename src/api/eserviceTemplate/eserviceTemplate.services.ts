@@ -373,6 +373,20 @@ async function getSingleByEServiceTemplateId(eserviceTemplateId: string) {
   return response.data
 }
 
+async function updateInstanceLabelAfterPublication({
+  eServiceId,
+  ...payload
+}: {
+  eServiceId: string
+  instanceLabel: string
+}) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eServiceId}/instanceLabel/update`,
+    payload
+  )
+  return response.data
+}
+
 async function updateEServiceTemplatePersonalDataFlagAfterPublication({
   eserviceTemplateId,
   ...payload
@@ -416,5 +430,6 @@ export const EServiceTemplateServices = {
   getProviderEServiceTemplatesCatalogList,
   getProducersEServiceTemplateList,
   updateInstanceFromEServiceTemplate,
+  updateInstanceLabelAfterPublication,
   updateEServiceTemplatePersonalDataFlagAfterPublication,
 }

@@ -967,6 +967,13 @@
         "title": "Confirm Version Reactivation",
         "description": "By clicking \"confirm\", this e-service template version will be reactivated. All **Consumers** that have an active fruition request for this e-service template version will be able to access it"
       }
+    },
+    "updateInstanceLabel": {
+      "loading": "E-service identifying word is being updated",
+      "outcome": {
+        "error": "The identifying word could not be updated. Please try again.",
+        "success": "Identifying word updated successfully"
+      }
     }
   },
   "purposeTemplate": {
