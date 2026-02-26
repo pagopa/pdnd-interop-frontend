@@ -1,6 +1,6 @@
 import React from 'react'
 import { screen } from '@testing-library/react'
-import { AttributesSection } from '../AttributesSection'
+import { EServiceAttributesSection } from '../EServiceAttributesSection'
 import { vi, describe, it, expect } from 'vitest'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 
@@ -28,7 +28,7 @@ const renderComponent = (isEServiceCreatedFromTemplate = false) => {
   return {
     handleOpenAttributeCreateDrawerFactory,
     ...renderWithApplicationContext(
-      <AttributesSection
+      <EServiceAttributesSection
         isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
         handleOpenAttributeCreateDrawerFactory={handleOpenAttributeCreateDrawerFactory}
       />,

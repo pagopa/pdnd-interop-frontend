@@ -148,6 +148,12 @@
           "validation": {
             "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore"
           }
+        },
+        "limitsSuggestionAlert": {
+          "title": "Soglie suggerite nel template",
+          "labelDailyCallsPerConsumer": "Soglia per fruitore",
+          "labelDailyTotal": "Soglia totale",
+          "labelForValue": "{{threshold}} chiamate API/giorno"
         }
       },
       "agreementApprovalPolicySection": {
