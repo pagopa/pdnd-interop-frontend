@@ -120,7 +120,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
             disabled={!areEServiceTemplateGeneralInfoEditable}
             rules={{ required: true, minLength: 5 }}
             focusOnMount
-            inputProps={{ maxLength: 60 }}
+            inputProps={{ maxLength: 45 }}
             size="small"
             sx={{ width: '50%', my: 0, mt: 1 }}
           />

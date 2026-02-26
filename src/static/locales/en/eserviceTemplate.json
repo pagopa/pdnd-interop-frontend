@@ -96,7 +96,7 @@
         "subtitle": "From this panel you can update the name of the template e-service. The changes made will take effect immediately",
         "templateNameField": {
           "label": "Template e-service name",
-          "infoLabel": "Min 5 characters, max 60 characters",
+          "infoLabel": "Min 5 characters, max 45 characters",
           "validation": {
             "sameValue": "The template e-service name must be different from the current one"
           }
@@ -202,7 +202,7 @@
       "detailsDescription": "The information in this section will not be modifiable by the implementers of the instances.",
       "eserviceTemplateNameField": {
         "label": "E-service template name",
-        "infoLabel": "Min 5 characters, max 60 characters"
+        "infoLabel": "Min 5 characters, max 45 characters"
       },
       "intendedTargetField": {
         "label": "Who is the template intended for?",

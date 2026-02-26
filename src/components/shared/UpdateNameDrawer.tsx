@@ -19,6 +19,7 @@ type UpdateNameDrawerProps = {
   label: string
   infoLabel: string
   validateLabel: string
+  maxLength?: number
   onSubmit: (id: string, newName: string) => void
 }
 
@@ -32,6 +33,7 @@ export const UpdateNameDrawer: React.FC<UpdateNameDrawerProps> = ({
   label,
   infoLabel,
   validateLabel,
+  maxLength = 60,
   onSubmit,
 }) => {
   const { t: tCommon } = useTranslation('common')
@@ -80,7 +82,7 @@ export const UpdateNameDrawer: React.FC<UpdateNameDrawerProps> = ({
             infoLabel={infoLabel}
             type="text"
             size="small"
-            inputProps={{ maxLength: 60 }}
+            inputProps={{ maxLength }}
             rules={{
               required: true,
               minLength: 5,

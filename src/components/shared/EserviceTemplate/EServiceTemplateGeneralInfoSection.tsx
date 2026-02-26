@@ -299,6 +299,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                 subtitle={tDrawer('updateEServiceTemplateNameDrawer.subtitle')}
                 label={tDrawer('updateEServiceTemplateNameDrawer.templateNameField.label')}
                 infoLabel={tDrawer('updateEServiceTemplateNameDrawer.templateNameField.infoLabel')}
+                maxLength={45}
                 validateLabel={tDrawer(
                   'updateEServiceTemplateNameDrawer.templateNameField.validation.sameValue'
                 )}
