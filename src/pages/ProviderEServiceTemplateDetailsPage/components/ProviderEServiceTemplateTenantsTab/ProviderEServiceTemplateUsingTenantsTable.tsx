@@ -96,8 +96,10 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
 
   const headLabels = [
     tCommon('eserviceTemplateUsingTenant'),
+    tCommon('eserviceTemplateInstanceLabel'),
     tCommon('eserviceTemplateInstanceVersion'),
     tCommon('eserviceTemplateInstanceState'),
+    '',
   ]
   const isEmpty = templateInstances.results.length === 0
 
@@ -127,7 +129,13 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
 export const ProviderEServiceTemplateUsingTenantsTableSkeleton: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
 
-  const headLabels = [tCommon('table.headData.eserviceTemplateUsingTenant'), '']
+  const headLabels = [
+    tCommon('table.headData.eserviceTemplateUsingTenant'),
+    tCommon('table.headData.eserviceTemplateInstanceLabel'),
+    tCommon('table.headData.eserviceTemplateInstanceVersion'),
+    tCommon('table.headData.eserviceTemplateInstanceState'),
+    '',
+  ]
   return (
     <Table headLabels={headLabels}>
       <ProviderEServiceTemplateUsingTenantsTableRowSkeleton />
