@@ -88,7 +88,7 @@ export const EServiceDetailsSection: React.FC<EServiceDetailsSectionProps> = ({
         disabled={!areEServiceGeneralInfoEditable}
         rules={{ required: true }}
         sx={{ mb: 0, mt: 3 }}
-        onValueChange={(mode) => onEserviceModeChange!(mode as EServiceMode)}
+        onValueChange={(mode) => onEserviceModeChange?.(mode as EServiceMode)}
       />
       {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
         <>
