@@ -22,19 +22,24 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
+        with:
+          version: 9
+
       - name: Install node
         uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
         with:
           node-version: ${{ matrix.node }}
 
       - name: Installing
-        run: npm install
+        run: pnpm install
 
       - name: Building
         run: npm run build
 
       - name: Testing
-        run: npm run test
+        run: pnpm run test
 
   publish:
     name: Publish Artifacts
