@@ -2,13 +2,9 @@ import { useDialogStore, useLoadingOverlayStore, useToastNotificationStore } fro
 import { useErrorDataStore } from '@/stores/error-data.store'
 import { clearExponentialInterval, setExponentialInterval } from '@/utils/common.utils'
 import { NotFoundError } from '@/utils/errors.utils'
-import {
-  type Mutation,
-  type QueryClientConfig,
-  type MutationMeta,
-  QueryClient,
-} from '@tanstack/react-query'
+import { type Mutation, type QueryClientConfig, QueryClient } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
+import { MutationMeta } from '../types/react-query'
 
 // 1000, 2000, 4000, 8000, 16000, with a maximum of 30 seconds
 const exponentialBackoffRetry = (attemptIndex: number) => {
