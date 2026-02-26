@@ -1,26 +1,24 @@
 import { EServiceMutations } from '@/api/eservice'
-import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { SectionContainerSkeleton } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
-import { Box, Link, Stack } from '@mui/material'
+import { Box } from '@mui/material'
 import React from 'react'
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { payloadVerificationGuideLink } from '@/config/constants'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
-import type { UpdateEServiceDescriptorTemplateInstanceSeed } from '@/api/api.generatedTypes'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { openApiCheckerLink } from '@/config/constants'
 import { trackEvent } from '@/config/tracking'
-import { UploadInterface } from './components/UploadInterface'
 import { match } from 'ts-pattern'
+import { EServiceInterfaceSection } from '../sections/EServiceInterfaceSection'
+import { EServiceVoucherSection } from '../sections/EServiceVoucherSection'
 
 export type EServiceCreateStepTechSpecFormValues = {
   audience: string
@@ -109,41 +107,12 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
 
   return (
     <FormProvider {...formMethods}>
-      <SectionContainer title={t('step4.interface.title')} description={sectionDescription}>
-        <UploadInterface />
-      </SectionContainer>
+      <EServiceInterfaceSection
+        description={sectionDescription}
+        isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
+      />
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer title={t('step2.voucherSection.title')} sx={{ mt: 3 }}>
-          <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
-            <RHFTextField
-              size="small"
-              name="voucherLifespan"
-              label={t('step2.voucherSection.voucherLifespanField.label')}
-              infoLabel={t('step2.voucherSection.voucherLifespanField.infoLabel')}
-              type="number"
-              inputProps={{ min: 1, max: 1440 }}
-              rules={{ required: true, min: 1, max: 1440 }}
-              sx={{ flex: 1, my: 0 }}
-              disabled={isEServiceCreatedFromTemplate}
-            />
-
-            <RHFTextField
-              size="small"
-              name="audience"
-              label={t('step2.voucherSection.audienceField.label')}
-              infoLabel={
-                <Trans
-                  components={{ 1: <Link href={payloadVerificationGuideLink} target="_blank" /> }}
-                >
-                  {t('step2.voucherSection.audienceField.infoLabel')}
-                </Trans>
-              }
-              inputProps={{ maxLength: 250 }}
-              rules={{ required: true, minLength: 1 }}
-              sx={{ flex: 1, my: 0 }}
-            />
-          </Stack>
-        </SectionContainer>
+        <EServiceVoucherSection isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate} />
         <StepActions
           back={{
             label: t('backWithoutSaveBtn'),

@@ -5,8 +5,8 @@ import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { UploadDocumentsInterface } from '@/components/shared/UploadDocumentsInterface'
-import { useEServiceCreateContext } from '../../EServiceCreateContext'
 import { type SubmitHandler } from 'react-hook-form'
+import { useEServiceCreateContext } from '../EServiceCreateContext'
 
 type UploadInterfaceFormValues = {
   interfaceDoc: File | null
