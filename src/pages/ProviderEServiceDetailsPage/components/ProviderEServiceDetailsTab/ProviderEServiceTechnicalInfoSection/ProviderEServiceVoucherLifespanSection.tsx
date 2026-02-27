@@ -12,12 +12,12 @@ import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegati
 import { EServiceMutations } from '@/api/eservice'
 import { UpdateVoucherDrawer } from '@/components/shared/UpdateVoucherDrawer'
 
-type ProviderEServiceThresholdsSectionProps = {
+type ProviderEServiceVoucherLifespanSectionProps = {
   descriptor: ProducerEServiceDescriptor
 }
 
-export const ProviderEServiceThresholdsSection: React.FC<
-  ProviderEServiceThresholdsSectionProps
+export const ProviderEServiceVoucherLifespanSection: React.FC<
+  ProviderEServiceVoucherLifespanSectionProps
 > = ({ descriptor }) => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.sections.technicalInformations',

@@ -103,35 +103,33 @@ export const UpdateDailyCallsDrawer: React.FC<UpdateDailyCallsDrawerProps> = ({
           </Trans>
         </Typography>
         <Stack spacing={4}>
-          <FormProvider {...formMethods}>
-            <Box component="form" noValidate>
-              <RHFTextField
-                sx={{ mt: 4, mb: 0 }}
-                name="dailyCallsPerConsumer"
-                label={dailyCallsPerConsumerLabel}
-                infoLabel={t('dailyCallsPerConsumerField.infoLabel')}
-                type="number"
-                rules={{
-                  required: true,
-                  min: 1,
-                }}
-              />
-              <RHFTextField
-                sx={{ mt: 5, mb: 0 }}
-                name="dailyCallsTotal"
-                label={dailyCallsTotalLabel}
-                infoLabel={t('dailyCallsTotalField.infoLabel')}
-                type="number"
-                rules={{
-                  required: true,
-                  validate: (value) => {
-                    const minValue = formMethods.getValues('dailyCallsPerConsumer') + 1
-                    return value >= minValue || t('dailyCallsTotalField.validation.min')
-                  },
-                }}
-              />
-            </Box>
-          </FormProvider>
+          <Box component="form" noValidate>
+            <RHFTextField
+              sx={{ mt: 4, mb: 0 }}
+              name="dailyCallsPerConsumer"
+              label={dailyCallsPerConsumerLabel}
+              infoLabel={t('dailyCallsPerConsumerField.infoLabel')}
+              type="number"
+              rules={{
+                required: true,
+                min: 1,
+              }}
+            />
+            <RHFTextField
+              sx={{ mt: 5, mb: 0 }}
+              name="dailyCallsTotal"
+              label={dailyCallsTotalLabel}
+              infoLabel={t('dailyCallsTotalField.infoLabel')}
+              type="number"
+              rules={{
+                required: true,
+                validate: (value) => {
+                  const minValue = formMethods.getValues('dailyCallsPerConsumer') + 1
+                  return value >= minValue || t('dailyCallsTotalField.validation.min')
+                },
+              }}
+            />
+          </Box>
         </Stack>
       </Drawer>
     </FormProvider>

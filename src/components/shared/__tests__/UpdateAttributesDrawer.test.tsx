@@ -126,7 +126,7 @@ describe('UpdateAttributesDrawer', () => {
 
   it('shows the add attribute button and opens autocomplete', () => {
     render(<UpdateAttributesDrawer {...defaultProps} />)
-    const addButton = screen.getAllByText('group.addBtn')
+    const addButton = screen.getAllByText('group.addAnotherBtn')
     expect(addButton[0]).toBeInTheDocument()
 
     fireEvent.click(addButton[0])

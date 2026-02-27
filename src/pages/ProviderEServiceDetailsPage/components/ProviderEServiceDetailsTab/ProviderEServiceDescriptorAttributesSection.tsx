@@ -23,7 +23,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import type { DescriptorAttributes, UpdateEServiceDescriptorSeed } from '@/api/api.generatedTypes'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 
-export const ProviderEServiceDescriptorAttributes: React.FC = () => {
+export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.sections.attributes' })
   const { t: tDailyCallsDrawer } = useTranslation('eservice', {
     keyPrefix: 'read.drawers.updateDailyCallsDrawer',
@@ -41,7 +41,7 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
 
   const descriptorAttributes = descriptor.attributes
 
-  const { attribute, attributeGroupIndex } = useCustomizeThresholdDrawer()
+  const { attribute, attributeGroupIndex, close } = useCustomizeThresholdDrawer()
 
   const isEserviceFromTemplate = Boolean(descriptor.templateRef)
 
@@ -87,11 +87,15 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
     ]
   }
 
-  const { mutate: updateVersion } = EServiceMutations.useUpdateVersion(true)
-  const { mutate: updateInstanceVersion } = EServiceMutations.useUpdateInstanceVersion(true)
+  const { mutate: updateVersion } = EServiceMutations.useUpdateVersion({
+    isThresholdOnlyUpdate: true,
+  })
+  const { mutate: updateInstanceVersion } = EServiceMutations.useUpdateInstanceVersion({
+    isThresholdOnlyUpdate: true,
+  })
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft(
     { suppressSuccessToast: false },
-    true
+    { isThresholdOnlyUpdate: true }
   )
 
   const handleUpdateDailyCalls = (
@@ -146,7 +150,7 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
     }
 
     updateVersionDraft(payload, {
-      onSuccess: () => useCustomizeThresholdDrawer.getState().close(),
+      onSuccess: () => close(),
     })
   }
 
@@ -243,6 +247,6 @@ export const ProviderEServiceDescriptorAttributes: React.FC = () => {
   )
 }
 
-export const ProviderEServiceDescriptorAttributesSkeleton: React.FC = () => {
+export const ProviderEServiceDescriptorAttributesSectionSkeleton: React.FC = () => {
   return <SectionContainerSkeleton height={1000} />
 }

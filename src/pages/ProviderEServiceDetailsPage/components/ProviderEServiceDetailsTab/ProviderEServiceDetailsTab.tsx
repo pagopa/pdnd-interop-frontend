@@ -10,9 +10,9 @@ import {
   ProviderEServiceTechnicalInfoSectionSkeleton,
 } from './ProviderEServiceTechnicalInfoSection'
 import {
-  ProviderEServiceDescriptorAttributes,
-  ProviderEServiceDescriptorAttributesSkeleton,
-} from './ProviderEServiceDescriptorAttributes'
+  ProviderEServiceDescriptorAttributesSection,
+  ProviderEServiceDescriptorAttributesSectionSkeleton,
+} from './ProviderEServiceDescriptorAttributesSection'
 import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
 import { useQuery } from '@tanstack/react-query'
@@ -42,8 +42,8 @@ export const ProviderEserviceDetailsTab: React.FC = () => {
           <React.Suspense fallback={<ProviderEServiceSignalHubSectionSkeleton />}>
             <ProviderEServiceSignalHubSection />
           </React.Suspense>
-          <React.Suspense fallback={<ProviderEServiceDescriptorAttributesSkeleton />}>
-            <ProviderEServiceDescriptorAttributes />
+          <React.Suspense fallback={<ProviderEServiceDescriptorAttributesSectionSkeleton />}>
+            <ProviderEServiceDescriptorAttributesSection />
           </React.Suspense>
         </Grid>
       </Grid>

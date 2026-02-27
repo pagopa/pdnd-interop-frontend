@@ -61,16 +61,16 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
     [attributeGroups]
   )
 
-  const handleAddAttributeToGroup = (groupdIdx: number, attribute: DescriptorAttribute) => {
+  const handleAddAttributeToGroup = (groupIdx: number, attribute: DescriptorAttribute) => {
     setSelectedAttributes((prev) => {
       const newAttributeGroups = [...prev[attributeKey]]
-      newAttributeGroups[groupdIdx].push(attribute)
+      newAttributeGroups[groupIdx].push(attribute)
       return {
         ...prev,
         [attributeKey]: newAttributeGroups,
       }
     })
-    setAutocompleteShownForGroup((prev) => ({ ...prev, [groupdIdx]: false }))
+    setAutocompleteShownForGroup((prev) => ({ ...prev, [groupIdx]: false }))
   }
 
   const handleRemoveAttributeFromGroup = (groupIdx: number, attributeId: string) => {
@@ -192,7 +192,7 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
                     setAutocompleteShownForGroup((prev) => ({ ...prev, [groupIdx]: true }))
                   }
                 >
-                  {tAttribute('group.addBtn')}
+                  {tAttribute('group.addAnotherBtn')}
                 </ButtonNaked>
               )}
             </Stack>

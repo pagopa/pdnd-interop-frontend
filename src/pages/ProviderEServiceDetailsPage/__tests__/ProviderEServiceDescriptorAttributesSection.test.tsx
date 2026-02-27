@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { ProviderEServiceDescriptorAttributes } from '../components/ProviderEServiceDetailsTab/ProviderEServiceDescriptorAttributes'
+import { ProviderEServiceDescriptorAttributesSection } from '../components/ProviderEServiceDetailsTab/ProviderEServiceDescriptorAttributesSection'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 
 mockUseJwt({ currentRoles: ['admin'], isAdmin: true })
@@ -75,13 +75,13 @@ vi.mock('../components', () => ({
   AttributeGroupsListSection: () => <div data-testid="attribute-groups-list-section" />,
 }))
 
-describe('ProviderEServiceDescriptorAttributes', () => {
+describe('ProviderEServiceDescriptorAttributesSection', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
   it('renders thresholds correctly', () => {
-    renderWithApplicationContext(<ProviderEServiceDescriptorAttributes />, {
+    renderWithApplicationContext(<ProviderEServiceDescriptorAttributesSection />, {
       withReactQueryContext: true,
     })
     expect(screen.getByText('thresholds.dailyCallsPerConsumer.label')).toBeInTheDocument()

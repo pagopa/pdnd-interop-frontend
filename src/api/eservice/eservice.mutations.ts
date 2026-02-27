@@ -91,7 +91,7 @@ function useCreateVersionDraft(
 
 function useUpdateVersionDraft(
   config = { suppressSuccessToast: false },
-  isThresholdOnlyUpdate: boolean = false
+  { isThresholdOnlyUpdate }: { isThresholdOnlyUpdate?: boolean } = {}
 ) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: isThresholdOnlyUpdate
@@ -182,7 +182,7 @@ function useReactivateVersion() {
   })
 }
 
-function useUpdateVersion(isThresholdOnlyUpdate: boolean = false) {
+function useUpdateVersion({ isThresholdOnlyUpdate }: { isThresholdOnlyUpdate?: boolean } = {}) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: isThresholdOnlyUpdate ? 'eservice.updateThresholds' : 'eservice.updateVersion',
   })
@@ -196,7 +196,9 @@ function useUpdateVersion(isThresholdOnlyUpdate: boolean = false) {
   })
 }
 
-function useUpdateInstanceVersion(isThresholdOnlyUpdate: boolean = false) {
+function useUpdateInstanceVersion({
+  isThresholdOnlyUpdate,
+}: { isThresholdOnlyUpdate?: boolean } = {}) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: isThresholdOnlyUpdate ? 'eservice.updateThresholds' : 'eservice.updateVersion',
   })

@@ -121,12 +121,12 @@ const AttributeGroup: React.FC<AttributeGroup> = ({
       <Typography>{t(mode as ProviderOrConsumer)}</Typography>
       <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
         {attributes.map((attribute, _index) => (
-          <>
+          <React.Fragment key={attribute.id}>
             <Box key={attribute.id} component="li">
               <AttributeContainer
                 attribute={attribute}
                 onCustomizeThreshold={
-                  withThreshold && attribute.dailyCallsPerConsumer
+                  withThreshold && attribute.dailyCallsPerConsumer !== undefined
                     ? () => open(attribute, index)
                     : undefined
                 }
@@ -139,7 +139,7 @@ const AttributeGroup: React.FC<AttributeGroup> = ({
                 </Typography>
               </Divider>
             )}
-          </>
+          </React.Fragment>
         ))}
       </Stack>
     </AttributeGroupContainer>
