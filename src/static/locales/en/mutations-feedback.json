@@ -75,6 +75,13 @@
         "error": "The new e-service version draft could not be updated. Please ensure all required fields are filled in the original e-service and try again!"
       }
     },
+    "updateAttributeThreshold": {
+      "loading": "Certificate attribute API call threshold is being changed",
+      "outcome": {
+        "success": "You have changed the API call threshold for the certificate attribute.",
+        "error": "The API call threshold for this attribute could not be changed. Please make sure you entered the correct information."
+      }
+    },
     "publishVersionDraft": {
       "loading": "E-service version draft is being published",
       "outcome": {
@@ -154,6 +161,13 @@
         "error": "The requested information could not be updated. Please try again!"
       }
     },
+    "updateThresholds": {
+      "loading": "Information is being updated",
+      "outcome": {
+        "success": "You have changed your API call thresholds.",
+        "error": "The API call thresholds could not be changed. Please check that you entered the correct information."
+      }
+    },
     "updateAgreementApprovalPolicy": {
       "loading": "Agreement approval policy is being updated",
       "outcome": {
@@ -209,7 +223,7 @@
     "updateDescriptorAttributes": {
       "loading": "New attributes are being saved",
       "outcome": {
-        "success": "The {{attributeKind}} attributes have been modified successfully",
+        "success": "The {{attributeKind}} added attributes have been saved.",
         "error": "It was not possible to modify the {{attributeKind}} attributes. Please try again!"
       }
     },

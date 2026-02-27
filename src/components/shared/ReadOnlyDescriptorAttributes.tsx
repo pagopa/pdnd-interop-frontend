@@ -12,6 +12,7 @@ import { useCurrentRoute } from '@/router'
 import type { ActionItemButton, ProviderOrConsumer } from '@/types/common.types'
 import { attributesHelpLink } from '@/config/constants'
 import { Typography } from '@mui/material'
+import { useCustomizeThresholdDrawer } from './CustomizeThresholdDrawer'
 
 type ReadOnlyDescriptorAttributesProps = {
   descriptorAttributes: DescriptorAttributes
@@ -44,12 +45,14 @@ type AttributeGroupsListSectionProps = {
   descriptorAttributes: DescriptorAttributes
   attributeKey: AttributeKey
   topSideActions?: Array<ActionItemButton>
+  withThreshold?: boolean
 }
 
 export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProps> = ({
   descriptorAttributes,
   attributeKey,
   topSideActions,
+  withThreshold,
 }) => {
   const { t: tAttribute } = useTranslation('attribute')
 
@@ -76,6 +79,7 @@ export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProp
               attributes={attributeGroup}
               index={index}
               attributeKey={attributeKey}
+              withThreshold={withThreshold}
             />
           ))}
         </Stack>
@@ -96,9 +100,16 @@ type AttributeGroup = {
   attributes: Array<DescriptorAttribute>
   index: number
   attributeKey: AttributeKey
+  withThreshold?: boolean
 }
 
-const AttributeGroup: React.FC<AttributeGroup> = ({ attributes, index, attributeKey }) => {
+const AttributeGroup: React.FC<AttributeGroup> = ({
+  attributes,
+  index,
+  attributeKey,
+  withThreshold,
+}) => {
+  const { open } = useCustomizeThresholdDrawer()
   const { t } = useTranslation('attribute', { keyPrefix: 'group.read' })
   const { t: tAttribute } = useTranslation('attribute')
   const { mode } = useCurrentRoute()
@@ -110,9 +121,16 @@ const AttributeGroup: React.FC<AttributeGroup> = ({ attributes, index, attribute
       <Typography>{t(mode as ProviderOrConsumer)}</Typography>
       <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
         {attributes.map((attribute, _index) => (
-          <>
+          <React.Fragment key={attribute.id}>
             <Box key={attribute.id} component="li">
-              <AttributeContainer attribute={attribute} />
+              <AttributeContainer
+                attribute={attribute}
+                onCustomizeThreshold={
+                  withThreshold && attribute.dailyCallsPerConsumer !== undefined
+                    ? () => open(attribute, index)
+                    : undefined
+                }
+              />
             </Box>
             {attributes.length > 1 && _index < attributes.length - 1 && (
               <Divider sx={{ py: 1 }}>
@@ -121,7 +139,7 @@ const AttributeGroup: React.FC<AttributeGroup> = ({ attributes, index, attribute
                 </Typography>
               </Divider>
             )}
-          </>
+          </React.Fragment>
         ))}
       </Stack>
     </AttributeGroupContainer>

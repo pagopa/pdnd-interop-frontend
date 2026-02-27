@@ -3,16 +3,22 @@ import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
 import { Drawer } from '@/components/shared/Drawer'
 import { Alert, Stack, Button, Typography } from '@mui/material'
 import { RHFTextField } from './react-hook-form-inputs'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { type DescriptorAttribute } from '@/api/api.generatedTypes'
 import { WarningAmber } from '@mui/icons-material'
 import { create } from 'zustand'
 import isEmpty from 'lodash/isEmpty'
+import { GreyAlert } from './GreyAlert'
 
 export type CustomizeThresholdDrawerProps = {
   dailyCallsPerConsumer?: number
   dailyCallsTotal?: number
   onSubmit: (threshold: number) => void
+  title: string
+  subtitle: React.ReactNode
+  alertLabel: string
+  submitButtonLabel: string
+  currentConsumerThreshold?: React.ReactNode
 }
 
 type CustomizeThresholdDrawerStore = {
@@ -37,6 +43,11 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
   onSubmit,
   dailyCallsPerConsumer,
   dailyCallsTotal,
+  title,
+  subtitle,
+  alertLabel,
+  submitButtonLabel,
+  currentConsumerThreshold,
 }) => {
   const { isOpen, close, attribute } = useCustomizeThresholdDrawer()
   const { t } = useTranslation('eservice', {
@@ -64,15 +75,8 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
     <FormProvider {...formMethods}>
       <Drawer
         isOpen={isOpen}
-        title={t('title')}
-        subtitle={
-          <Trans
-            ns="eservice"
-            i18nKey="create.step2.attributes.customizeThresholdDrawer.subtitle"
-            values={{ name: attribute?.name }}
-            components={{ 1: <strong /> }}
-          />
-        }
+        title={title}
+        subtitle={subtitle}
         onTransitionExited={formMethods.reset}
         onClose={close}
       >
@@ -85,6 +89,7 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
           id="threshold-form"
         >
           <Stack spacing={5}>
+            {currentConsumerThreshold}
             <RHFTextField
               sx={{ mt: 2, mb: 0 }}
               name="threshold"
@@ -102,9 +107,11 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
                 }),
               }}
             />
-            <Alert icon={false} color="info">
-              <Stack>
-                <Typography variant="overline">{t('limitAlert.title')}</Typography>
+            <GreyAlert>
+              <Stack spacing={0.5}>
+                <Typography variant="overline" sx={{ whiteSpace: 'nowrap' }}>
+                  {t('limitAlert.title')}
+                </Typography>
                 <Stack
                   direction={'row'}
                   alignItems={'center'}
@@ -142,10 +149,10 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
                   )}
                 </Stack>
               </Stack>
-            </Alert>
+            </GreyAlert>
           </Stack>
           <Stack spacing={5}>
-            <Alert severity="info">{t('alert')}</Alert>
+            <Alert severity="info">{alertLabel}</Alert>
             <Button
               type={'submit'}
               form="threshold-form"
@@ -153,7 +160,7 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
               color={isEmpty(formMethods.formState.errors) ? 'primary' : 'error'}
               sx={{ color: 'white' }}
             >
-              {t('submitBtnLabel')}
+              {submitButtonLabel}
             </Button>
           </Stack>
         </Stack>

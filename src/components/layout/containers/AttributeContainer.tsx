@@ -91,8 +91,8 @@ export const AttributeContainer = <
           >
             <Stack spacing={1}>
               <Typography fontWeight={600}>{attribute.name}</Typography>
-              <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                {attribute.dailyCallsPerConsumer !== undefined && (
+              {(attribute.dailyCallsPerConsumer !== undefined || onCustomizeThreshold) && (
+                <Stack direction={'row'} spacing={2} alignItems={'center'}>
                   <Stack direction={'row'} spacing={1}>
                     <Typography
                       sx={{
@@ -110,21 +110,21 @@ export const AttributeContainer = <
                       {attribute.dailyCallsPerConsumer}
                     </Typography>
                   </Stack>
-                )}
-                {onCustomizeThreshold && (
-                  <ButtonNaked
-                    color="primary"
-                    type="button"
-                    sx={{ fontWeight: 700 }}
-                    onClick={(e: React.MouseEvent) => {
-                      e.stopPropagation()
-                      onCustomizeThreshold()
-                    }}
-                  >
-                    {attribute.dailyCallsPerConsumer ? t('changeBtn') : t('customizeBtn')}
-                  </ButtonNaked>
-                )}
-              </Stack>
+                  {onCustomizeThreshold && (
+                    <ButtonNaked
+                      color="primary"
+                      type="button"
+                      sx={{ fontWeight: 700 }}
+                      onClick={(e: React.MouseEvent) => {
+                        e.stopPropagation()
+                        onCustomizeThreshold()
+                      }}
+                    >
+                      {attribute.dailyCallsPerConsumer ? t('changeBtn') : t('customizeBtn')}
+                    </ButtonNaked>
+                  )}
+                </Stack>
+              )}
             </Stack>
           </AccordionSummary>
           <AccordionDetails>
