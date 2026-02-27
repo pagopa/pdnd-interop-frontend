@@ -1,6 +1,6 @@
 import { ErrorBoundary } from '@/components/shared/ErrorBoundary'
 import { NotFoundError, TokenExchangeError, ForbiddenError } from '@/utils/errors.utils'
-import { createMemoryHistory } from '@remix-run/router'
+import { createMemoryHistory } from 'history'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { render, waitFor } from '@testing-library/react'
 import React from 'react'

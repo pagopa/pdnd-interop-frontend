@@ -22,8 +22,8 @@ import {
   CustomizeThresholdDrawer,
   useCustomizeThresholdDrawer,
 } from '@/components/shared/CustomizeThresholdDrawer'
-import { ThresholdSection } from '../sections/ThresholdSection'
-import { AttributesSection } from '../sections/AttributesSection'
+import { EServiceThresholdSection } from '../sections/EServiceThresholdSection'
+import { EServiceAttributesSection } from '../sections/EServiceAttributesSection'
 import { SectionContainerSkeleton } from '@/components/layout/containers'
 
 export type CreateStepThresholdsFormValues = {
@@ -141,8 +141,17 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
     <>
       <FormProvider {...formMethods}>
         <Box component={'form'} noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-          <ThresholdSection />
-          <AttributesSection
+          <EServiceThresholdSection
+            limitsSuggestions={
+              isEServiceCreatedFromTemplate
+                ? {
+                    dailyCallsTotal: descriptor?.dailyCallsTotal ?? 1,
+                    dailyCallsPerConsumer: descriptor?.dailyCallsPerConsumer ?? 1,
+                  }
+                : undefined
+            }
+          />
+          <EServiceAttributesSection
             isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
             handleOpenAttributeCreateDrawerFactory={handleOpenAttributeCreateDrawerFactory}
           />

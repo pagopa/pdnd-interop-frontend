@@ -32,6 +32,7 @@ export type RHFAutocompleteBaseProps<
   labelType?: 'external' | 'shrink'
   infoLabel?: string
   focusOnMount?: boolean
+  placeholder?: TextFieldProps['placeholder']
   getOptionValue?: (option: AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>) => unknown
   variant?: TextFieldProps['variant']
   rules?: ControllerProps['rules']
