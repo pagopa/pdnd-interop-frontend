@@ -8,11 +8,11 @@ import { UploadDocumentsInterface } from '@/components/shared/UploadDocumentsInt
 import { type SubmitHandler } from 'react-hook-form'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 
-type UploadInterfaceFormValues = {
+type UploadInterfaceDocFormValues = {
   interfaceDoc: File | null
 }
 
-export function UploadInterface() {
+export const UploadInterfaceDoc: React.FC = () => {
   const { t } = useTranslation('eservice')
   const { descriptor } = useEServiceCreateContext()
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
@@ -21,7 +21,7 @@ export function UploadInterface() {
   const { jwt } = AuthHooks.useJwt()
   const actualInterface: EServiceDoc | null = descriptor?.interface ?? null
 
-  const onSubmit: SubmitHandler<UploadInterfaceFormValues> = ({ interfaceDoc }) => {
+  const onSubmit: SubmitHandler<UploadInterfaceDocFormValues> = ({ interfaceDoc }) => {
     if (!interfaceDoc || !descriptor) return
 
     const prettyName = t('create.step4.interface.prettyName')

@@ -1,5 +1,5 @@
 import { SectionContainer } from '@/components/layout/containers'
-import { UploadInterface } from '../components/UploadInterfaceDoc'
+import { UploadInterfaceDoc } from '../components/UploadInterfaceDoc'
 import { useTranslation } from 'react-i18next'
 import { GenerateInterfaceForm } from '../components/GenerateInterfaceForm'
 
@@ -16,7 +16,7 @@ export const EServiceInterfaceSection: React.FC<EServiceInterfaceSectionProps> =
 
   return (
     <SectionContainer title={t('title')} description={description}>
-      {isEServiceCreatedFromTemplate ? <GenerateInterfaceForm /> : <UploadInterface />}
+      {isEServiceCreatedFromTemplate ? <GenerateInterfaceForm /> : <UploadInterfaceDoc />}
     </SectionContainer>
   )
 }
