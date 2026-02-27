@@ -1,3 +1,4 @@
+import React from 'react'
 import { mockEnvironmentParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockPurpose } from '../../../../../__mocks__/data/purpose.mocks'
 import { ConsumerPurposeDetailsGeneralInfoSection } from '../PurposeDetailsTab/ConsumerPurposeDetailsGeneralInfoSection'
@@ -195,6 +196,79 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
 
       fireEvent.click(downloadButton)
       expect(downloadRiskAnalysis).toHaveBeenCalledOnce()
+    })
+    it('should display consumer and delegated consumer when delegation exists', () => {
+      const purposeWithDelegation: Purpose = createMockPurpose({
+        delegation: {
+          id: 'delegation-id',
+          delegate: { id: 'delegate-id', name: 'Delegated Consumer Name' },
+        },
+        consumer: { id: 'consumer-id', name: 'Consumer Name' },
+      })
+
+      const screen = renderWithApplicationContext(
+        <ConsumerPurposeDetailsGeneralInfoSection purpose={purposeWithDelegation} />,
+        { withReactQueryContext: true, withRouterContext: true }
+      )
+
+      expect(
+        screen.getByText('purpose.consumerView.sections.generalInformations.consumerField.label')
+      ).toBeInTheDocument()
+      expect(screen.getByText('Consumer Name')).toBeInTheDocument()
+      expect(
+        screen.getByText(
+          'purpose.consumerView.sections.generalInformations.delegatedConsumerField.label'
+        )
+      ).toBeInTheDocument()
+      expect(screen.getByText('Delegated Consumer Name')).toBeInTheDocument()
+    })
+    it('should not display delegation fields when delegation is missing', () => {
+      const purposeWithoutDelegation: Purpose = createMockPurpose({ delegation: undefined })
+
+      const screen = renderWithApplicationContext(
+        <ConsumerPurposeDetailsGeneralInfoSection purpose={purposeWithoutDelegation} />,
+        { withReactQueryContext: true, withRouterContext: true }
+      )
+
+      expect(
+        screen.queryByText('purpose.consumerView.sections.generalInformations.consumerField.label')
+      ).not.toBeInTheDocument()
+      expect(
+        screen.queryByText(
+          'purpose.consumerView.sections.generalInformations.delegatedConsumerField.label'
+        )
+      ).not.toBeInTheDocument()
+    })
+    it('should display purpose template information when purposeTemplate exists', () => {
+      const purposeWithTemplate: Purpose = createMockPurpose({
+        purposeTemplate: { id: 'template-id', purposeTitle: 'Purpose Template Title' },
+      })
+
+      const screen = renderWithApplicationContext(
+        <ConsumerPurposeDetailsGeneralInfoSection purpose={purposeWithTemplate} />,
+        { withReactQueryContext: true, withRouterContext: true }
+      )
+
+      expect(
+        screen.getByText(
+          'purpose.consumerView.sections.generalInformations.purposeTemplateField.label'
+        )
+      ).toBeInTheDocument()
+      expect(screen.getByText('Purpose Template Title')).toBeInTheDocument()
+    })
+    it('should not display purpose template information when purposeTemplate is missing', () => {
+      const purposeWithoutTemplate: Purpose = createMockPurpose({ purposeTemplate: undefined })
+
+      const screen = renderWithApplicationContext(
+        <ConsumerPurposeDetailsGeneralInfoSection purpose={purposeWithoutTemplate} />,
+        { withReactQueryContext: true, withRouterContext: true }
+      )
+
+      expect(
+        screen.queryByText(
+          'purpose.consumerView.sections.generalInformations.purposeTemplateField.label'
+        )
+      ).not.toBeInTheDocument()
     })
   })
 })
