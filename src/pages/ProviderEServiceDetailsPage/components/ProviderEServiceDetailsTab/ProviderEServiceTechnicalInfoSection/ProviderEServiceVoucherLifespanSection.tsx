@@ -77,15 +77,15 @@ export const ProviderEServiceVoucherLifespanSection: React.FC<
         innerSection
         title={t('thresholds.title')}
         topSideActions={
-          isDelegator
-            ? []
-            : [
+          !isDelegator && !isEserviceFromTemplate
+            ? [
                 {
                   action: onEdit,
                   label: tCommon('actions.edit'),
                   icon: EditIcon,
                 },
               ]
+            : []
         }
       >
         <Stack spacing={2}>
