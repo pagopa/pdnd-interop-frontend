@@ -7,7 +7,7 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { formatThousands, secondsToMinutes } from '@/utils/format.utils'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
-import { UpdateThresholdsDrawer } from '@/components/shared/UpdateThresholdsDrawer'
+import { UpdateThresholdsVoucherDrawer } from '@/components/shared/UpdateThresholdsVoucherDrawer'
 import type { EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
 import { useParams } from '@/router'
 
@@ -38,7 +38,7 @@ export const EServiceTemplateThresholdsSection: React.FC<
 
   const { mutate: updateEserviceTemplateQuotas } = EServiceTemplateMutations.useUpdateQuotas()
 
-  const handleThresholdsUpdate = (
+  const handleThresholdsVoucherUpdate = (
     id: string,
     voucherLifespan: number,
     dailyCallsPerConsumer: number,
@@ -104,7 +104,7 @@ export const EServiceTemplateThresholdsSection: React.FC<
           />
         </Stack>
       </SectionContainer>
-      <UpdateThresholdsDrawer
+      <UpdateThresholdsVoucherDrawer
         isOpen={isOpen}
         onClose={closeDrawer}
         id={eserviceTemplate.eserviceTemplate.id}
@@ -115,7 +115,7 @@ export const EServiceTemplateThresholdsSection: React.FC<
         subtitle={tDrawer('subtitle')}
         dailyCallsPerConsumerLabel={tDrawer('dailyCallsPerConsumerLabel')}
         dailyCallsTotalLabel={tDrawer('dailyCallsTotalLabel')}
-        onSubmit={handleThresholdsUpdate}
+        onSubmit={handleThresholdsVoucherUpdate}
       />
     </>
   )

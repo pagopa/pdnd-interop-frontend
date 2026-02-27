@@ -25,6 +25,9 @@
     "consumer": "L'erogatore non richiede attributi {{attributeKey}}"
   },
   "noGenericAttributesRequiredAlert": "Questo e-service non richiede attributi {{attributeKey}}",
+  "attributeCardHeader": {
+    "label": "Requisito {{index}} | Attributi {{attributeKey}}"
+  },
   "group": {
     "read": {
       "provider": "Il fruitore deve possedere almeno uno degli attributi di questo requisito.",
@@ -62,6 +65,8 @@
     "autocompleteInput": {
       "label": "Aggiungi attributo",
       "placeholder": "Inserisci nome attributo"
-    }
+    },
+    "or": "oppure",
+    "add": "Aggiungi"
   }
 }

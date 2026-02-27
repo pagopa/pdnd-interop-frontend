@@ -1,5 +1,5 @@
 import { type ActiveStepProps } from '@/hooks/useActiveStep'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceMutations } from '@/api/eservice'
 import { type SubmitHandler, useForm, FormProvider } from 'react-hook-form'
@@ -175,6 +175,17 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
         dailyCallsTotal={dailyCallsTotal}
         dailyCallsPerConsumer={dailyCallsPerConsumer}
         onSubmit={handleSubmitCustomizeThresholdDrawer}
+        title={t('step2.attributes.customizeThresholdDrawer.title')}
+        subtitle={
+          <Trans
+            ns="eservice"
+            i18nKey="create.step2.attributes.customizeThresholdDrawer.subtitle"
+            values={{ name: attribute?.name }}
+            components={{ 1: <strong /> }}
+          />
+        }
+        alertLabel={t('step2.attributes.customizeThresholdDrawer.alert')}
+        submitButtonLabel={t('step2.attributes.customizeThresholdDrawer.submitBtnLabel')}
       />
     </>
   )

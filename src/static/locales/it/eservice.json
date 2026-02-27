@@ -617,8 +617,19 @@
         }
       },
       "attributes": {
-        "title": "Attributi",
-        "description": "Di seguito sono indicati tutti gli attributi certificati, verificati o dichiarati che sono richiesti per la fruizione dell’E-service."
+        "title": "Soglie e attributi",
+        "description": "Qui trovi le soglie e gli attributi che sono richiesti per la fruizione di questo e-service.",
+        "addAttributes": "Aggiungi attributi",
+        "modify": "Modifica",
+        "thresholds": {
+          "title": "Soglie di chiamate API",
+          "dailyCallsPerConsumer": {
+            "label": "Soglia giornaliera per fruitore"
+          },
+          "dailyCallsTotal": {
+            "label": "Soglia giornaliera totale"
+          }
+        }
       },
       "linkedPurposeTemplates": {
         "title": "Compilazione agevolata della finalità",
@@ -668,7 +679,7 @@
           }
         }
       },
-      "updateThresholdsDrawer": {
+      "updateThresholdsVoucherDrawer": {
         "title": "Modifica durata voucher e soglie",
         "subtitle": "Da questo pannello puoi aggiornare i parametri della tua versione di e-service. Le modifiche apportate avranno effetto da subito.",
         "voucherLifespanField": {
@@ -682,6 +693,40 @@
         "dailyCallsTotalField": {
           "label": "Soglia totale",
           "infoLabel": "Chiamate API/giorno"
+        }
+      },
+      "updateDailyCallsDrawer": {
+        "title": "Modifica soglie di chiamate API",
+        "subtitle": "Modifica il numero massimo di chiamate giornaliere, per fruitore e totali. Definisci una soglia totale che possa coprire tutte le finalità: una volta raggiunta, le nuove finalità richiederanno l’approvazione manuale.",
+        "summary": "La soglia attuale per fruitore è di <strong>{{dailyCallsPerConsumer}} chiamate API/giorno</strong>. La soglia attuale totale è di <strong>{{dailyCallsTotal}} chiamate API/giorno</strong>.",
+        "dailyCallsPerConsumerField": {
+          "label": "Chiamate API/giorno per fruitore",
+          "infoLabel": "Inserisci un numero superiore o uguale a 1"
+        },
+        "dailyCallsTotalField": {
+          "label": "Chiamate API/giorno totali",
+          "infoLabel": "Inserisci un numero superiore al precedente",
+          "validation": {
+            "min": "Il numero inserito è inferiore o uguale al precedente."
+          }
+        }
+      },
+      "customizeThresholdDrawer": {
+        "title": "Modifica soglia personalizzata",
+        "subtitle": "Modifica la soglia personalizzata per l’attributo certificato <strong>{{name}}</strong>.",
+        "alert": "Se il fruitore soddisfa più attributi con soglie diverse, si applica automaticamente la soglia più alta. La soglia rimane invariata per i fruitori che stanno già usando l’e-service.",
+        "submitBtnLabel": "Salva modifiche",
+        "consumerThreshold": "La soglia attuale è di <strong>{{dailyCallsPerConsumer}} chiamate API/giorno</strong>."
+      },
+      "updateVoucherDrawer": {
+        "title": "Modifica durata voucher",
+        "subtitle": "Le modifiche saranno applicate subito.",
+        "summary": "La durata attuale è di <strong>{{voucherLifespan}} minuto</strong>",
+        "summary_plural": "La durata attuale è di <strong>{{voucherLifespan}} minuti</strong>",
+        "voucherLifespanField": {
+          "label": "Durata validità (in minuti)",
+          "infoLabel": "Valore massimo: 1440 minuti (24 ore)",
+          "error": "La durata del voucher non può essere superiore a 1440 minuti (24 ore)."
         }
       },
       "updateAgreementApprovalPolicyDrawer": {
@@ -757,8 +802,8 @@
         "noKeychainAlert": "Non ci sono portachiavi disponibili. <1>Crea il tuo primo portachiavi</1>."
       },
       "updateDescriptorAttributesDrawer": {
-        "title": "Modifica attributi {{attributeKind}}",
-        "subtitle": "I requisiti già inseriti non possono essere modificati"
+        "title": "Aggiungi attributi {{attributeKind}}",
+        "subtitle": "Puoi aggiungere attributi solo ai requisiti esistenti. Non puoi creare nuovi requisiti né eliminare gli attributi già presenti. Per farlo, dovrai creare una versione nuova dell’e-service."
       },
       "updateSignalHubDrawer": {
         "title": "Modifica adesione a Signal Hub",

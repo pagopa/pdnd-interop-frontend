@@ -24,10 +24,13 @@
     "provider": "Your party does not require {{attributeKey}} attributes",
     "consumer": "The producer does not require {{attributeKey}} attributes"
   },
+  "attributeCardHeader": {
+    "label": "Requirement {{index}} | {{attributeKey}} attributes"
+  },
   "noGenericAttributesRequiredAlert": "This e-service does not require {{attributeKey}} attributes",
   "group": {
     "read": {
-      "provider": "The consumer must possess at least one of the following attributes",
+      "provider": "The consumer must possess at least one of the attributes of this requirement.",
       "consumer": "Your party must possess at least one of the following attributes"
     },
     "manage": {
@@ -62,6 +65,8 @@
     "autocompleteInput": {
       "label": "Add attribute",
       "placeholder": "Enter attribute name"
-    }
+    },
+    "or": "or",
+    "add": "Add"
   }
 }

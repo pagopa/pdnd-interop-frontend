@@ -6,13 +6,13 @@ import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-type UpdateThresholdsFormValues = {
+type UpdateThresholdsVoucherFormValues = {
   voucherLifespan: number
   dailyCallsPerConsumer: number
   dailyCallsTotal: number
 }
 
-type UpdateThresholdsDrawerProps = {
+type UpdateThresholdsVoucherDrawerProps = {
   isEserviceFromTemplate?: boolean
   isOpen: boolean
   onClose: VoidFunction
@@ -35,7 +35,7 @@ type UpdateThresholdsDrawerProps = {
   ) => void
 }
 
-export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
+export const UpdateThresholdsVoucherDrawer: React.FC<UpdateThresholdsVoucherDrawerProps> = ({
   isOpen,
   onClose,
   id,
@@ -49,7 +49,9 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
   onSubmit,
   isEserviceFromTemplate,
 }) => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'read.drawers.updateThresholdsDrawer' })
+  const { t } = useTranslation('eservice', {
+    keyPrefix: 'read.drawers.updateThresholdsVoucherDrawer',
+  })
   const { t: tCommon } = useTranslation('common')
 
   const defaultValues = {
@@ -58,7 +60,7 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
     dailyCallsTotal: dailyCallsTotal ?? 1,
   }
 
-  const formMethods = useForm<UpdateThresholdsFormValues>({ defaultValues })
+  const formMethods = useForm<UpdateThresholdsVoucherFormValues>({ defaultValues })
 
   React.useEffect(() => {
     formMethods.reset({
@@ -68,7 +70,7 @@ export const UpdateThresholdsDrawer: React.FC<UpdateThresholdsDrawerProps> = ({
     })
   }, [versionId, id, formMethods])
 
-  const handleSubmit = (values: UpdateThresholdsFormValues) => {
+  const handleSubmit = (values: UpdateThresholdsVoucherFormValues) => {
     if (versionId) {
       onSubmit(
         id,

@@ -617,8 +617,19 @@
         }
       },
       "attributes": {
-        "title": "Attributes",
-        "description": "Below are all the certified, verified or declared attributes that are required for the use of the E-service."
+        "title": "Thresholds and attributes",
+        "description": "Here you will find the thresholds and attributes required to use this e-service.",
+        "addAttributes": "Add attributes",
+        "modify": "Modify",
+        "thresholds": {
+          "title": "Thresholds",
+          "dailyCallsPerConsumer": {
+            "label": "Daily threshold for consumer"
+          },
+          "dailyCallsTotal": {
+            "label": "Total threshold for consumer"
+          }
+        }
       },
       "linkedPurposeTemplates": {
         "title": "Facilitated purpose templates",
@@ -668,7 +679,7 @@
           }
         }
       },
-      "updateThresholdsDrawer": {
+      "updateThresholdsVoucherDrawer": {
         "title": "Change voucher lifespan and thresholds",
         "subtitle": "From this panel you can update the parameters of your e-service version. The changes made will take effect immediately.",
         "voucherLifespanField": {
@@ -682,6 +693,40 @@
         "dailyCallsTotalField": {
           "label": "Total threshold",
           "infoLabel": "(API calls/day)"
+        }
+      },
+      "updateDailyCallsDrawer": {
+        "title": "Change API call thresholds",
+        "subtitle": "Change the maximum number of daily calls, per consumer, and total. Set a total threshold that covers all purposes. Once reached, new purposes will require manual approval.",
+        "summary": "The current per-consumer threshold is <strong>{{dailyCallsPerConsumer}} API calls/day</strong>. The current total threshold is <strong>{{dailyCallsTotal}} API calls/day</strong>.",
+        "dailyCallsPerConsumerField": {
+          "label": "API calls/day per user",
+          "infoLabel": "Please enter a number greater than or equal to 1."
+        },
+        "dailyCallsTotalField": {
+          "label": "Total API calls/day",
+          "infoLabel": "Enter a number higher than the previous one",
+          "validation": {
+            "min": "The number entered is lower or equal than the previous one."
+          }
+        }
+      },
+      "customizeThresholdDrawer": {
+        "title": "Edit custom threshold",
+        "subtitle": "Edit the custom threshold for the certificated attribute <strong>{{name}}</strong>.",
+        "alert": "If the consumer satisfies multiple attributes with different thresholds, the highest threshold is automatically applied. The threshold remains unchanged for consumers who are already using the e-service.",
+        "submitBtnLabel": "Save changes",
+        "consumerThreshold": "The current threshold is <strong>{{dailyCallsPerConsumer}} API calls/day</strong>."
+      },
+      "updateVoucherDrawer": {
+        "title": "Change voucher duration",
+        "subtitle": "The changes will take effect immediately.",
+        "summary": "The current duration is <strong>{{voucherLifespan}} minute</strong>",
+        "summary_plural": "The current duration is <strong>{{voucherLifespan}} minutes</strong>",
+        "voucherLifespanField": {
+          "label": "Validity period (in minutes)",
+          "infoLabel": "Maximum value: 1440 minutes (24 hours)",
+          "error": "The voucher lifespan cannot be higher than 1440 minutes (24 hours)."
         }
       },
       "updateAgreementApprovalPolicyDrawer": {
@@ -757,8 +802,8 @@
         "noKeychainAlert": "There are no keychains available. <1>Create your first keychain</1>."
       },
       "updateDescriptorAttributesDrawer": {
-        "title": "Edit {{attributeKind}} attributes",
-        "subtitle": "The requirements already entered cannot be modified"
+        "title": "Add {{attributeKind}} attributes",
+        "subtitle": "You can only add attributes to existing requirements. You cannot create new requirements or delete existing attributes. To do so, you must create a new version of the e-service."
       },
       "updateSignalHubDrawer": {
         "title": "Edit subscription to Signal Hub",

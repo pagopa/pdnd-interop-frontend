@@ -89,9 +89,14 @@ function useCreateVersionDraft(
   })
 }
 
-function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
+function useUpdateVersionDraft(
+  config = { suppressSuccessToast: false },
+  { isThresholdOnlyUpdate }: { isThresholdOnlyUpdate?: boolean } = {}
+) {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.updateVersionDraft',
+    keyPrefix: isThresholdOnlyUpdate
+      ? 'eservice.updateAttributeThreshold'
+      : 'eservice.updateVersionDraft',
   })
   return useMutation({
     mutationFn: (
@@ -177,8 +182,10 @@ function useReactivateVersion() {
   })
 }
 
-function useUpdateVersion() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
+function useUpdateVersion({ isThresholdOnlyUpdate }: { isThresholdOnlyUpdate?: boolean } = {}) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: isThresholdOnlyUpdate ? 'eservice.updateThresholds' : 'eservice.updateVersion',
+  })
   return useMutation({
     mutationFn: EServiceServices.updateVersion,
     meta: {
@@ -189,8 +196,12 @@ function useUpdateVersion() {
   })
 }
 
-function useUpdateInstanceVersion() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
+function useUpdateInstanceVersion({
+  isThresholdOnlyUpdate,
+}: { isThresholdOnlyUpdate?: boolean } = {}) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: isThresholdOnlyUpdate ? 'eservice.updateThresholds' : 'eservice.updateVersion',
+  })
   return useMutation({
     mutationFn: EServiceServices.updateInstanceVersion,
     meta: {

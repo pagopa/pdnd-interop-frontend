@@ -75,6 +75,13 @@
         "error": "Non è stato possibile aggiornare una bozza per la nuova versione dell'e-service. Assicurarsi di aver compilato tutti i campi e riprovare"
       }
     },
+    "updateAttributeThreshold": {
+      "loading": "La soglia di chiamate API dell'attributo certificato è in fase di modifica",
+      "outcome": {
+        "success": "Hai modificato la soglia di chiamate API dell’attributo certificato.",
+        "error": "Non è stato possibile modificare la soglia di chiamate API dell’attributo. Controlla di aver inserito le informazioni corrette."
+      }
+    },
     "publishVersionDraft": {
       "loading": "Stiamo pubblicando la versione in bozza",
       "outcome": {
@@ -154,6 +161,13 @@
         "error": "Non è stato possibile aggiornare le informazioni richieste. Per favore, riprova!"
       }
     },
+    "updateThresholds": {
+      "loading": "Stiamo aggiornando le informazioni",
+      "outcome": {
+        "success": "Hai modificato le soglie di chiamate API.",
+        "error": "Non è stato possibile modificare le soglie di chiamate API. Controlla di aver inserito le informazioni corrette."
+      }
+    },
     "updateAgreementApprovalPolicy": {
       "loading": "Stiamo modificando l'accettazione delle richieste di fruizione",
       "outcome": {
@@ -209,7 +223,7 @@
     "updateDescriptorAttributes": {
       "loading": "Stiamo aggiornando gli attributi",
       "outcome": {
-        "success": "Gli attributi {{attributeKind}} sono stati modificati correttamente!",
+        "success": "Gli attributi {{attributeKind}} che hai aggiunto sono stati salvati.",
         "error": "Non è stato possibile modificare gli attributi {{attributeKind}}. Per favore, riprova!"
       }
     },
