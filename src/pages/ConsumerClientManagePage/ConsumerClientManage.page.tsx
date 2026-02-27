@@ -65,14 +65,6 @@ const ConsumerClientManagePage: React.FC = () => {
         to: clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M' : 'SUBSCRIBE_CLIENT_LIST',
       }}
     >
-      <Alert severity="info">
-        <Stack direction="row" spacing={3}>
-          <Typography>{t('alertApiV2.description')}</Typography>
-          <Link variant="button" underline="none" href={apiV2GuideLink} target="_blank">
-            {t('alertApiV2.linkLabel')}
-          </Link>
-        </Stack>
-      </Alert>
       {clientKind === 'API' && (
         <Grid container>
           <Grid item xs={8}>
