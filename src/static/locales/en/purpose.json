@@ -424,22 +424,38 @@
           }
         },
         "drawer": {
-          "title": "Request update",
-          "subtitle": "Your current estimate is <strong>{{dailyCalls}} API calls/day</strong>. If the new value exceeds at least one of the thresholds imposed by the producer, it must be approved before becoming active. Do you have any doubts? <1>Read the guide</1>.",
+          "title": "Request a change of estimate",
+          "subtitle": "Indicates a new number of calls expected each day for this purpose. For full information, <1>see the guide</1>.",
+          "currentDailyCalls": "The current estimate is <strong>{{dailyCalls}} API calls/day</strong>.",
           "dailyCallsFormField": {
             "label": "New load estimate",
-            "infoLable": "Estimated number of API calls/day",
+            "infoLabel": "Enter a number greater than or equal to 1",
             "validation": {
               "sameValue": "The number of API calls/day requested must be different than the current one"
             }
           },
+          "providerThresholdsInfo": {
+            "label": "Thresholds defined by the provider",
+            "description": "Residual calls may vary if the provider receives other purposes before your publication.",
+            "dailyCallsPerConsumer": {
+              "label": "Threshold per user",
+              "value": "{{min}} of {{max}} API calls/day"
+            },
+            "dailyCallsTotal": {
+              "label": "Total threshold",
+              "value": "{{min}} of {{max}} API calls/day"
+            }
+          },
           "riskAnalysisSection": {
             "title": "Risk analysis",
-            "description": "You can update the estimate only if the risk analysis linked to this purpose is still valid.",
+            "description": "You can update the estimate only if the risk analysis for this purpose remains unchanged",
             "checkbox": {
               "label": "The risk analysis is unchanged",
               "requiredValidation": "To request the update, confirm that the risk analysis has remained unchanged"
             }
+          },
+          "submitButton": {
+            "label": "Request change"
           }
         },
         "thresholdsCard": {

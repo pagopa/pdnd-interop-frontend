@@ -73,7 +73,7 @@ export const Drawer: React.FC<DrawerProps> = ({
     >
       <HeaderDrawer onDrawerClose={onClose} />
       <Stack width={375} px={3} pt={2} flexGrow={1}>
-        <Stack spacing={1} pb={5}>
+        <Stack spacing={1} pb={2}>
           <Typography variant="h6" fontWeight={600}>
             {title}
           </Typography>
