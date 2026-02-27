@@ -1,10 +1,13 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Breadcrumbs as _Breadcrumbs, useCurrentRoute } from '@/router'
+import type sharedComponentsNs from '@/static/locales/en/shared-components.json'
 
 export function Breadcrumbs() {
   const { t } = useTranslation('shared-components')
-  const routeLabels = t('routeLabels', { returnObjects: true })
+  const routeLabels = t('routeLabels', {
+    returnObjects: true,
+  }) as typeof sharedComponentsNs.routeLabels
   const { routeKey } = useCurrentRoute()
 
   return (
