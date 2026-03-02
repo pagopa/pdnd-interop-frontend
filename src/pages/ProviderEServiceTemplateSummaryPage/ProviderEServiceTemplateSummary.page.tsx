@@ -68,7 +68,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
       },
       {
         onSuccess: () =>
-          navigate('PROVIDE_ESERVICE_TEMPLATE_DETAILS', {
+          navigate('PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU', {
             params: {
               eServiceTemplateId: eServiceTemplateId,
               eServiceTemplateVersionId: eServiceTemplateVersionId,
