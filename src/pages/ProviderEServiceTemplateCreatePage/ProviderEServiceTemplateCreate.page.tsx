@@ -55,13 +55,18 @@ const ProviderEServiceCreatePage: React.FC = () => {
     eserviceTemplate?.eserviceTemplate.mode || // The mode of the e-service
     'DELIVER' // Default mode
 
+  const areGeneralInfoEditable =
+    isNewEServiceTemplate ||
+    (eserviceTemplate && eserviceTemplate.version === 1 && eserviceTemplate.state === 'DRAFT') ||
+    false
+
   const steps: Array<StepperStep> =
     eserviceTemplateMode === 'DELIVER'
       ? [
           {
             label: t('create.stepper.step1Label'),
             component: EServiceTemplateCreateStepGeneral,
-            showRequiredLabel: true,
+            showRequiredLabel: areGeneralInfoEditable,
           },
           {
             label: t('create.stepper.step2Label'),
@@ -83,7 +88,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
           {
             label: t('create.stepper.step1Label'),
             component: EServiceTemplateCreateStepGeneral,
-            showRequiredLabel: true,
+            showRequiredLabel: areGeneralInfoEditable,
           },
           {
             label: t('create.stepper.step2ReceiveLabel'),

@@ -200,8 +200,29 @@
     "goToSummary": "Vai al riepilogo",
     "step1": {
       "templateInfoTitle": "Informazioni sul template",
+      "readOnlyTemplateInfoTitle": "Caratterizzazione template di e-service",
       "instanceDetailsTitle": "Dettagli dell'istanza di e-service",
+      "readOnlyInstanceDetailsTitle": "Dettagli dell'e-service",
+      "readOnlyDescription": "Queste informazioni non sono modificabili.",
       "signalHubTitle": "Signal Hub",
+      "readOnlyNameLabel": "Nome del template di e-service",
+      "readOnlyIntendedTargetLabel": "A chi è rivolto questo template?",
+      "readOnlyDescriptionLabel": "Cosa permette di fare questo template?",
+      "readOnlyTechnologyLabel": "Tecnologia API",
+      "readOnlyModeLabel": "L'e-service eroga o riceve dati?",
+      "readOnlyModeValue": {
+        "DELIVER": "Eroga",
+        "RECEIVE": "Riceve"
+      },
+      "readOnlyPersonalDataLabel": {
+        "DELIVER": "Eroga dati personali",
+        "RECEIVE": "Riceve dati personali"
+      },
+      "readOnlyPersonalDataValue": {
+        "true": "Sì",
+        "false": "No",
+        "undefined": "Non indicato"
+      },
       "eserviceTemplateNameField": {
         "label": "Nome del template",
         "infoLabel": "È il nome che comparirà nel catalogo template e-service e che diventerà il nome di base di tutti gli e-service creati a partire da questo template."
