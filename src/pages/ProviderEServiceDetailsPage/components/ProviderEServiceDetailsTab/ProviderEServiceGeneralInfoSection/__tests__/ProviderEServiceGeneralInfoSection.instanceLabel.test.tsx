@@ -68,12 +68,12 @@ const baseTemplateDescriptor = createMockEServiceDescriptorProvider({
   state: 'PUBLISHED',
   eservice: {
     name: 'Credenziale IT-Wallet - Patente',
-    instanceLabel: 'Patente',
   },
   templateRef: {
     templateId: 'template-id',
     templateVersionId: 'template-version-id',
     templateName: 'Credenziale IT-Wallet',
+    instanceLabel: 'Patente',
   },
 })
 
@@ -122,12 +122,12 @@ describe('ProviderEServiceGeneralInfoSection - instanceLabel (published e-servic
       state: 'PUBLISHED',
       eservice: {
         name: 'Credenziale IT-Wallet',
-        instanceLabel: undefined,
       },
       templateRef: {
         templateId: 'template-id',
         templateVersionId: 'template-version-id',
         templateName: 'Credenziale IT-Wallet',
+        instanceLabel: undefined,
       },
     })
     renderWithApplicationContext(<ProviderEServiceGeneralInfoSection />, {

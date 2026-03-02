@@ -516,6 +516,7 @@ export interface EServiceTemplateRef {
   templateInterface?: EServiceDoc
   interfaceMetadata?: TemplateInstanceInterfaceMetadata
   isNewTemplateVersionAvailable?: boolean
+  instanceLabel?: string
 }
 
 export interface EServiceDoc {

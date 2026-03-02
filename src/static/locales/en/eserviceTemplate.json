@@ -174,7 +174,6 @@
   },
   "actions": {
     "createNewEServiceInstance": "Use template",
-    "createNewEServiceInstanceDisabled": "You have already created an instance from this template.",
     "createInstanceDisabledTenantKind": "It is not possible to use the template because the producer has not created a purpose for your type of entity.",
     "createInstanceDisabledPersonalData": "It is not possible to use the template because the producer has not indicated whether personal data is processed."
   },

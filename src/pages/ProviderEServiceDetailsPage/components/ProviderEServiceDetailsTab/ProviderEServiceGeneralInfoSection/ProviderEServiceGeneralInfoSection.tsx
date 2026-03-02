@@ -282,9 +282,9 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
               >
                 <Typography
                   variant="body2"
-                  color={descriptor.eservice.instanceLabel ? 'text.primary' : 'text.secondary'}
+                  color={descriptor.templateRef?.instanceLabel ? 'text.primary' : 'text.secondary'}
                 >
-                  {descriptor.eservice.instanceLabel || '-'}
+                  {descriptor.templateRef?.instanceLabel || '-'}
                 </Typography>
               </SectionContainer>
             </>
@@ -386,7 +386,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
           isOpen={isUpdateInstanceLabelDrawerOpen}
           onClose={closeUpdateInstanceLabelDrawer}
           eServiceId={descriptor.eservice.id}
-          currentInstanceLabel={descriptor.eservice.instanceLabel ?? ''}
+          currentInstanceLabel={descriptor.templateRef?.instanceLabel ?? ''}
           templateName={descriptor.templateRef?.templateName ?? ''}
           onSubmit={handleInstanceLabelUpdate}
         />
