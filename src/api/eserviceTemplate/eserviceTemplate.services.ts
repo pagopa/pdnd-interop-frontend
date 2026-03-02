@@ -333,6 +333,21 @@ async function getProviderEServiceTemplateInstancesList({
   return response.data
 }
 
+async function getMyEServiceTemplateInstancesList({
+  eServiceTemplateId,
+  ...params
+}: {
+  eServiceTemplateId: string
+  offset: number
+  limit: number
+}) {
+  const response = await axiosInstance.get<EServiceTemplateInstances>(
+    `${BACKEND_FOR_FRONTEND_URL}/templates/${eServiceTemplateId}/myInstances`,
+    { params }
+  )
+  return response.data
+}
+
 async function createInstanceFromEServiceTemplate({
   eServiceTemplateId,
   ...payload
@@ -425,6 +440,7 @@ export const EServiceTemplateServices = {
   suspendVersion,
   reactivateVersion,
   getProviderEServiceTemplateInstancesList,
+  getMyEServiceTemplateInstancesList,
   createInstanceFromEServiceTemplate,
   getSingleByEServiceTemplateId,
   getProviderEServiceTemplatesCatalogList,
