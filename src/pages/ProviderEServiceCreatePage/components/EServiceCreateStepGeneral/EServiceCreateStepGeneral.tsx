@@ -86,6 +86,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     EServiceTemplateMutations.useUpdateInstanceFromEServiceTemplate()
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef) || !!eserviceTemplate
+  const isInstanceLabelReadonly = Boolean(descriptor && descriptor.version !== '1')
 
   // If Template ID is present we are inheriting an e-service fields from a eserviceTemplate
   const defaultValues = evaluateFormDefaultValues(eserviceTemplate, descriptor, eserviceMode)
@@ -312,7 +313,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           <InstanceLabelSection
             templateName={eserviceTemplate?.name ?? descriptor?.templateRef?.templateName ?? ''}
             instanceLabel={formMethods.watch('instanceLabel')}
-            disabled={Boolean(descriptor && descriptor.version !== '1')}
+            disabled={isInstanceLabelReadonly}
           />
         )}
 
