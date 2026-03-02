@@ -9,7 +9,7 @@ import {
 } from '@/api/api.generatedTypes'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import { Box, Typography } from '@mui/material'
-import { SectionContainer } from '@/components/layout/containers'
+import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
@@ -187,5 +187,14 @@ export const EServiceCreateStepInfoVersion: React.FC = () => {
         />
       </Box>
     </FormProvider>
+  )
+}
+
+export const EServiceCreateStepInfoVersionSkeleton: React.FC = () => {
+  return (
+    <>
+      <SectionContainerSkeleton height={365} />
+      <SectionContainerSkeleton height={178} />
+    </>
   )
 }
