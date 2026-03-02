@@ -11,12 +11,12 @@
   },
   "verified": {
     "label": "Attributi Verificati",
-    "description": "Ovvero attributi verificati <1>da altre organizzazioni per lo stesso fruitore</1> con la possibilità di richiedere una verifica dall’erogatore. Per ogni attributo verifica o revoca...",
+    "description": "Sono attributi verificati <1>da altre organizzazioni</1>, con la possibilità di richiedere una verifica dall’erogatore.",
     "requirement": "Requisito {{index}} | Attributi Verificati"
   },
   "declared": {
     "label": "Attributi Dichiarati",
-    "description": "Ovvero attributi dichiarati dal fruitore sotto propria responsabilità durante la richiesta di fruizione. Non è necessaria una verifica dell’erogatore.",
+    "description": "Sono attributi dichiarati dal fruitore stesso durante la richiesta di fruizione. Non è necessaria una verifica dell’erogatore.",
     "requirement": "Requisito {{index}} | Attributi Dichiarati"
   },
   "or": "Oppure",

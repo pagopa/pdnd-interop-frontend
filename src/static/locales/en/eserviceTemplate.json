@@ -88,6 +88,19 @@
           "updateEserviceInstance": "How can I update an e-service instance?",
           "wellKnown": "URL .well-known"
         }
+      },
+      "thresholdsAndAttributes": {
+        "title": "Thresholds and attributes",
+        "description": "Here you can find the thresholds and attributes required to use this e-service.",
+        "thresholds": {
+          "title": "API call thresholds",
+          "dailyCallsPerConsumer": {
+            "label": "Daily threshold per consumer"
+          },
+          "dailyCallsTotal": {
+            "label": "Daily total threshold"
+          }
+        }
       }
     },
     "drawers": {

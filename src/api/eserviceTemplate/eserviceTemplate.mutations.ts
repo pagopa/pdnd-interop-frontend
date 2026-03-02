@@ -51,7 +51,7 @@ function useUpdateEServiceTemplateDescription() {
 
 function useUpdateQuotas() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eserviceTemplate.updateVersion',
+    keyPrefix: 'eserviceTemplate.updateQuotas',
   })
   return useMutation({
     mutationFn: EServiceTemplateServices.updateEServiceTemplateQuotas,

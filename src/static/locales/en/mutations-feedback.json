@@ -945,7 +945,7 @@
     "updateDescriptorAttributes": {
       "loading": "New attributes are being saved",
       "outcome": {
-        "success": "The {{attributeKind}} attributes have been modified successfully",
+        "success": "The {{attributeKind}} attributes you added have been saved.",
         "error": "It was not possible to modify the {{attributeKind}} attributes. Please try again!"
       }
     },
@@ -980,6 +980,13 @@
       "confirmDialog": {
         "title": "Confirm Version Reactivation",
         "description": "By clicking \"confirm\", this e-service template version will be reactivated. All **Consumers** that have an active fruition request for this e-service template version will be able to access it"
+      }
+    },
+    "updateQuotas": {
+      "loading": "Updating API call thresholds",
+      "outcome": {
+        "success": "API call thresholds have been updated.",
+        "error": "Could not update API call thresholds. Please check the information entered."
       }
     }
   },

@@ -9,22 +9,27 @@ import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { EServiceTemplateThresholdsSection } from './EServiceTemplateThresholdsSection'
 import { EServiceTemplateDocumentationSection } from './EServiceTemplateDocumentationSection'
 import { EServiceTemplateUsefulLinksSection } from './EServiceTemplateUsefulLinksSection'
+import { secondsToMinutes } from '@/utils/format.utils'
 
 type EServiceTemplateTechnicalInfoSectionProps = {
   readonly: boolean
   routeKey: 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS' | 'PROVIDE_ESERVICE_TEMPLATE_DETAILS'
+  hideThresholds?: boolean
 }
 export const EServiceTemplateTechnicalInfoSection: React.FC<
   EServiceTemplateTechnicalInfoSectionProps
-> = ({ readonly, routeKey }) => {
+> = ({ readonly, routeKey, hideThresholds = false }) => {
   const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'read.sections.technicalInformations',
   })
+  const { t: tCommon } = useTranslation('common')
 
   const { eServiceTemplateId, eServiceTemplateVersionId } = useParams<typeof routeKey>()
   const { data: eserviceTemplate } = useSuspenseQuery(
     EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
+
+  const voucherLifespan = secondsToMinutes(eserviceTemplate.voucherLifespan)
 
   return (
     <SectionContainer title={t('title')} description={t('description')}>
@@ -41,13 +46,25 @@ export const EServiceTemplateTechnicalInfoSection: React.FC<
               labelDescription={t('mode.labelDescription')}
               content={t(`mode.value.${eserviceTemplate.eserviceTemplate.mode}`)}
             />
+
+            <InformationContainer
+              label={t('thresholds.voucherLifespan.label')}
+              labelDescription={t('thresholds.voucherLifespan.labelDescription')}
+              content={`${voucherLifespan} ${tCommon('time.minute', {
+                count: voucherLifespan,
+              })}`}
+            />
           </Stack>
         </SectionContainer>
-        <Divider />
-        <EServiceTemplateThresholdsSection
-          readonly={readonly}
-          eserviceTemplate={eserviceTemplate}
-        />
+        {!hideThresholds && (
+          <>
+            <Divider />
+            <EServiceTemplateThresholdsSection
+              readonly={readonly}
+              eserviceTemplate={eserviceTemplate}
+            />
+          </>
+        )}
         <Divider />
         <EServiceTemplateDocumentationSection
           readonly={readonly}
