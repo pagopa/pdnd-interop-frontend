@@ -98,6 +98,7 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
                   component="button"
                   startIcon={<AddIcon />}
                   alignSelf="start"
+                  sx={{ fontWeight: '700' }}
                 >
                   {t('changePlanRequestLink.label')}
                 </IconLink>
