@@ -3,9 +3,7 @@ import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
 import type { DelegationKind } from '@/api/api.generatedTypes'
-import { DUPLICATE_INSTANCE_LABEL_ERROR_CODE } from '@/api/eserviceTemplate/eserviceTemplate.mutations'
 import { SectionContainer } from '@/components/layout/containers'
 import { useDialog } from '@/stores'
 import { DelegationMutations, DelegationQueries } from '@/api/delegation'
@@ -127,16 +125,6 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
         {
           onSuccess: () => {
             navigate('DELEGATIONS')
-          },
-          onError: (error) => {
-            if (
-              error instanceof AxiosError &&
-              error.response?.data?.errors?.[0]?.code === DUPLICATE_INSTANCE_LABEL_ERROR_CODE
-            ) {
-              formMethods.setError('eserviceName', {
-                message: t('delegations.create.eserviceField.validation.duplicateName'),
-              })
-            }
           },
         }
       )

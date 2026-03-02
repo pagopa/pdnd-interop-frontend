@@ -102,14 +102,7 @@ function useCreateProducerDelegationAndEservice() {
     mutationFn: DelegationServices.createProducerDelegationAndEservice,
     meta: {
       successToastLabel: t('outcome.success'),
-      errorToastLabel: (error: unknown) => {
-        if (
-          error instanceof AxiosError &&
-          error.response?.data?.errors?.[0]?.code === DUPLICATE_INSTANCE_LABEL_ERROR_CODE
-        )
-          return ''
-        return t('outcome.error')
-      },
+      errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
     },
   })
