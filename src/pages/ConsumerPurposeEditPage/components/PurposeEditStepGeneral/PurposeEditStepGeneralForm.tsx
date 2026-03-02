@@ -10,8 +10,8 @@ import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import type { Purpose, PurposeUpdateContent } from '@/api/api.generatedTypes'
 import SaveIcon from '@mui/icons-material/Save'
 import { useNavigate } from '@/router'
-import { useGetConsumerPurposeEditPageInfoAlertProps } from '../../hooks/useGetConsumerPurposeEditPageInfoAlertProps'
 import { GreyAlert } from '@/components/shared/GreyAlert'
+import { useGetConsumerPurposeEditPageInfoAlertProps } from '../../hooks/useGetConsumerPurposeEditPageInfoAlertProps'
 
 export type PurposeEditStepGeneralFormValues = Omit<
   PurposeUpdateContent,

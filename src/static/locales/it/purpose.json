@@ -424,22 +424,45 @@
           }
         },
         "drawer": {
-          "title": "Richiedi adeguamento",
-          "subtitle": "La tua stima attuale è di <strong>{{dailyCalls}} chiamate API/giorno</strong>. Se il nuovo valore supera almeno una delle soglie imposte dall’erogatore, dovrà essere approvata prima di divenire attiva. Hai dubbi? <1>Consulta la guida</1>.",
+          "title": "Richiedi cambio stima",
+          "subtitle": "Indica un numero nuovo di chiamate previste ogni giorno per questa finalità. Per tutte le informazioni, <1>consulta la guida</1>.",
+          "currentDailyCalls": "La stima attuale è di <strong>{{dailyCalls}} chiamate API/giorno</strong>.",
           "dailyCallsFormField": {
             "label": "Nuova stima di carico",
-            "infoLable": "Numero di chiamate API/giorno stimate",
+            "infoLabel": "Inserisci un numero superiore o uguale a 1",
             "validation": {
               "sameValue": "Il numero di chiamate API/giorno richiesto deve essere diverso da quello attuale"
             }
           },
+          "providerThresholdsInfo": {
+            "label": "Soglie definite dall’erogatore",
+            "description": "Le chiamate residue possono variare se l'erogatore riceve altre finalità prima della tua pubblicazione.",
+            "dailyCallsPerConsumer": {
+              "label": "Soglia per fruitore",
+              "value": "{{min}} di {{max}} chiamate API/giorno"
+            },
+            "dailyCallsTotal": {
+              "label": "Soglia totale",
+              "value": "{{min}} di {{max}} chiamate API/giorno"
+            }
+          },
           "riskAnalysisSection": {
             "title": "Analisi del rischio",
-            "description": "Puoi aggiornare la stima solo se l’analisi del rischio collegata a questa finalità è ancora valida.",
+            "description": "Puoi aggiornare la stima solo se l’analisi del rischio di questa finalità rimane invariata",
             "checkbox": {
               "label": "L’analisi del rischio è invariata",
               "requiredValidation": "Per richiedere l’adeguamento, conferma che l’analisi del rischio è rimasta invariata"
             }
+          },
+          "alerts": {
+            "infoDailyCallsPerConsumerExceed": "La nuova stima di chiamate che hai richiesto supera la soglia per fruitore e dovrà essere approvata dall'erogatore.",
+            "infoDailyCallsTotalExceed": "La nuova stima di chiamate che hai richiesto supera la soglia totale e dovrà essere approvata dall'erogatore.",
+            "infoDailyCallsPerConsumerResidualExceed": "La nuova stima di chiamate che hai richiesto supera la soglia residua per fruitore e dovrà essere approvata dall'erogatore.",
+            "infoDailyCallsTotalResidualExceed": "La nuova stima di chiamate che hai richiesto supera la soglia residua totale e dovrà essere approvata dall'erogatore.",
+            "infoDailyCallsMaximumReached": "L'erogatore ha già ricevuto il numero massimo di chiamate API/giorno. La nuova stima di chiamate dovrà essere approvata dall'erogatore."
+          },
+          "submitButton": {
+            "label": "Richiedi cambio"
           }
         },
         "thresholdsCard": {
