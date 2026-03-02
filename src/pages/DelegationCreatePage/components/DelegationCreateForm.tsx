@@ -17,6 +17,7 @@ import { DelegationCreateEServiceAutocomplete } from './DelegationCreateEService
 import { DelegationCreateTenantAutocomplete } from './DelegationCreateTenantAutocomplete'
 import { DelegationCreateFormCreateEservice } from './DelegationCreateFormCreateEservice'
 import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
+import { InstanceLabelSection } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepGeneral'
 
 export type DelegationCreateFormValues = {
   eserviceId: string
@@ -25,6 +26,7 @@ export type DelegationCreateFormValues = {
   delegateId: string
   isEserviceToBeCreated: boolean
   isEserviceFromTemplate?: boolean
+  instanceLabel?: string
 }
 
 type DelegationCreateFormProps = {
@@ -39,6 +41,7 @@ const defaultValues: DelegationCreateFormValues = {
   delegateId: '',
   isEserviceToBeCreated: false,
   isEserviceFromTemplate: false,
+  instanceLabel: '',
 }
 
 export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
@@ -137,6 +140,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
         {
           delegateId: formValues.delegateId,
           eServiceTemplateId: formValues.eserviceId,
+          instanceLabel: formValues.instanceLabel || undefined,
         },
         {
           onSuccess: () => {
@@ -176,7 +180,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
       ? t('delegations.create.providerDelegationTitle')
       : t('delegations.create.consumerDelegationTitle')
 
-  const [, setEserviceTemplateName] = useState('')
+  const [eserviceTemplateName, setEserviceTemplateName] = useState('')
 
   const handleTemplateNameAutocompleteChange = (eserviceTemplateName: string) => {
     setEserviceTemplateName(eserviceTemplateName)
@@ -211,6 +215,12 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
             )}
           </Stack>
         </SectionContainer>
+        {isEserviceFromTemplate && eserviceTemplateName && (
+          <InstanceLabelSection
+            templateName={eserviceTemplateName}
+            instanceLabel={formMethods.watch('instanceLabel') ?? ''}
+          />
+        )}
       </FormProvider>
       <StepActions
         back={{
