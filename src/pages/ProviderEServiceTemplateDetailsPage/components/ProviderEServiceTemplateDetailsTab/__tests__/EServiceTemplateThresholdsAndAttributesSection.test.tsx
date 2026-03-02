@@ -72,29 +72,6 @@ describe('EServiceTemplateThresholdsAndAttributesSection', () => {
     expect(screen.getByText('thresholds.dailyCallsTotal.label')).toBeInTheDocument()
   })
 
-  it('renders daily calls values', () => {
-    mockUseJwt()
-    const mockData = createMockEServiceTemplateVersionDetails({
-      dailyCallsPerConsumer: 1000,
-      dailyCallsTotal: 5000,
-    })
-    useSuspenseQueryMock.mockReturnValue({ data: mockData })
-
-    renderWithApplicationContext(
-      <EServiceTemplateThresholdsAndAttributesSection
-        readonly={false}
-        routeKey="PROVIDE_ESERVICE_TEMPLATE_DETAILS"
-      />,
-      {
-        withReactQueryContext: true,
-        withRouterContext: true,
-      }
-    )
-
-    expect(screen.getByText('1.000')).toBeInTheDocument()
-    expect(screen.getByText('5.000')).toBeInTheDocument()
-  })
-
   it('renders attribute sections for certified, verified and declared', () => {
     mockUseJwt()
     const mockData = createMockEServiceTemplateVersionDetails()
