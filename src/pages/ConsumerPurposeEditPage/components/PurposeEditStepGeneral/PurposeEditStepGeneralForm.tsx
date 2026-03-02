@@ -11,7 +11,7 @@ import type { Purpose, PurposeUpdateContent } from '@/api/api.generatedTypes'
 import SaveIcon from '@mui/icons-material/Save'
 import { useNavigate } from '@/router'
 import { GreyAlert } from '@/components/shared/GreyAlert'
-import { useGetPurposeInfoAlertProps } from '@/hooks/useGetPurposeInfoAlertProps'
+import { useGetConsumerPurposeEditPageInfoAlertProps } from '../../hooks/useGetConsumerPurposeEditPageInfoAlertProps'
 
 export type PurposeEditStepGeneralFormValues = Omit<
   PurposeUpdateContent,
@@ -83,7 +83,7 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
 
   const dailyCallsTotal = purpose.dailyCallsTotal
 
-  const alertProps = useGetPurposeInfoAlertProps(
+  const alertProps = useGetConsumerPurposeEditPageInfoAlertProps(
     dailyCallsFormValue,
     dailyCallsPerConsumer,
     dailyCallsTotal

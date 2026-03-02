@@ -2,12 +2,14 @@ import type { AlertProps } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { match } from 'ts-pattern'
 
-export function useGetPurposeInfoAlertProps(
+export function useGetConsumerPurposeDetailsPageInfoAlertProps(
   dailyCalls: number,
   dailyCallsPerConsumer: number,
   dailyCallsTotal: number
 ): AlertProps | undefined {
-  const { t } = useTranslation('purpose', { keyPrefix: 'edit.loadEstimationSection.alerts' })
+  const { t } = useTranslation('purpose', {
+    keyPrefix: 'consumerView.sections.loadEstimate.drawer.alerts',
+  })
 
   return match({
     isDailyCallsPerConsumerExceed: dailyCalls > dailyCallsPerConsumer,

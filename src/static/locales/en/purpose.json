@@ -454,6 +454,13 @@
               "requiredValidation": "To request the update, confirm that the risk analysis has remained unchanged"
             }
           },
+          "alerts": {
+            "infoDailyCallsPerConsumerExceed": "The new call estimate you requested exceeds the per-consumer threshold and will need to be approved by the provider.",
+            "infoDailyCallsTotalExceed": "The new call estimate you requested exceeds the total threshold and will need to be approved by the provider.",
+            "infoDailyCallsPerConsumerResidualExceed": "The new call estimate you requested exceeds the remaining threshold per consumer and will need to be approved by the provider.",
+            "infoDailyCallsTotalResidualExceed": "The new call estimate you requested exceeds your total remaining threshold and will need to be approved by your provider.",
+            "infoDailyCallsMaximumReached": "The provider has already received the maximum number of API calls per day. The new call estimate will need to be approved by the provider."
+          },
           "submitButton": {
             "label": "Request change"
           }

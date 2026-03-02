@@ -454,6 +454,13 @@
               "requiredValidation": "Per richiedere l’adeguamento, conferma che l’analisi del rischio è rimasta invariata"
             }
           },
+          "alerts": {
+            "infoDailyCallsPerConsumerExceed": "La nuova stima di chiamate che hai richiesto supera la soglia per fruitore e dovrà essere approvata dall'erogatore.",
+            "infoDailyCallsTotalExceed": "La nuova stima di chiamate che hai richiesto supera la soglia totale e dovrà essere approvata dall'erogatore.",
+            "infoDailyCallsPerConsumerResidualExceed": "La nuova stima di chiamate che hai richiesto supera la soglia residua per fruitore e dovrà essere approvata dall'erogatore.",
+            "infoDailyCallsTotalResidualExceed": "La nuova stima di chiamate che hai richiesto supera la soglia residua totale e dovrà essere approvata dall'erogatore.",
+            "infoDailyCallsMaximumReached": "L'erogatore ha già ricevuto il numero massimo di chiamate API/giorno. La nuova stima di chiamate dovrà essere approvata dall'erogatore."
+          },
           "submitButton": {
             "label": "Richiedi cambio"
           }
