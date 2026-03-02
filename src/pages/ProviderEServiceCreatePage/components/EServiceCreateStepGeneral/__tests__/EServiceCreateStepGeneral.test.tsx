@@ -46,6 +46,7 @@ const mockEServiceTemplate: EServiceTemplateDetails = {
 } as unknown as EServiceTemplateDetails
 
 const mockDescriptorFromTemplate = createMockEServiceDescriptorProvider({
+  version: '1',
   state: 'DRAFT',
   eservice: {
     name: 'Credenziale IT-Wallet - Patente',
@@ -300,6 +301,74 @@ describe('EServiceCreateStepGeneral - instanceLabel', () => {
         screen.getByText('create.step1.instanceLabelField.validation.duplicate')
       ).toBeInTheDocument()
     })
+  })
+
+  it('disables instanceLabel input when editing a version > 1', () => {
+    const descriptorV2 = createMockEServiceDescriptorProvider({
+      version: '2',
+      state: 'DRAFT',
+      eservice: {
+        name: 'Credenziale IT-Wallet - Patente',
+        isSignalHubEnabled: false,
+        isConsumerDelegable: true,
+        isClientAccessDelegable: true,
+        personalData: true,
+        instanceLabel: 'Patente',
+      },
+      templateRef: {
+        templateId: 'template-id',
+        templateName: 'Credenziale IT-Wallet',
+      },
+    })
+    mockContext({ descriptor: descriptorV2 })
+    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+      withReactQueryContext: true,
+    })
+
+    const instanceLabelInput = screen.getByRole('textbox', {
+      name: 'create.step1.instanceLabelField.label',
+    })
+    expect(instanceLabelInput).toBeDisabled()
+  })
+
+  it('keeps instanceLabel input enabled when editing version 1', () => {
+    const descriptorV1 = createMockEServiceDescriptorProvider({
+      version: '1',
+      state: 'DRAFT',
+      eservice: {
+        name: 'Credenziale IT-Wallet - Patente',
+        isSignalHubEnabled: false,
+        isConsumerDelegable: true,
+        isClientAccessDelegable: true,
+        personalData: true,
+        instanceLabel: 'Patente',
+      },
+      templateRef: {
+        templateId: 'template-id',
+        templateName: 'Credenziale IT-Wallet',
+      },
+    })
+    mockContext({ descriptor: descriptorV1 })
+    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+      withReactQueryContext: true,
+    })
+
+    const instanceLabelInput = screen.getByRole('textbox', {
+      name: 'create.step1.instanceLabelField.label',
+    })
+    expect(instanceLabelInput).not.toBeDisabled()
+  })
+
+  it('keeps instanceLabel input enabled when creating a new e-service from template (no descriptor)', () => {
+    mockContext({ eserviceTemplate: mockEServiceTemplate })
+    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+      withReactQueryContext: true,
+    })
+
+    const instanceLabelInput = screen.getByRole('textbox', {
+      name: 'create.step1.instanceLabelField.label',
+    })
+    expect(instanceLabelInput).not.toBeDisabled()
   })
 
   it('shows inline empty-not-available error when create fails with duplicate error and field is empty', async () => {
