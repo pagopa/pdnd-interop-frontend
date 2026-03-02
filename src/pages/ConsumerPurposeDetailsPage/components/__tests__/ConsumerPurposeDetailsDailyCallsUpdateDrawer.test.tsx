@@ -21,7 +21,7 @@ describe('ConsumerPurposeDetailsDailyCallsUpdateDrawer', () => {
     vi.clearAllMocks()
   })
 
-  it('renders page titlex', () => {
+  it('renders page title', () => {
     const screen = renderWithApplicationContext(
       <ConsumerPurposeDetailsDailyCallsUpdateDrawer
         purpose={purpose}
