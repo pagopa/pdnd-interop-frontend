@@ -3,19 +3,14 @@ import { CatalogCard } from '../CatalogCard'
 import { createMockEServiceCatalog } from '@/../__mocks__/data/eservice.mocks'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import userEvent from '@testing-library/user-event'
+import { AVATAR_BASEPATH } from '@/config/env'
 
 mockUseJwt()
 
 describe('Checks CatalogCard button', () => {
   it('navigate correctly when click on button inspect', async () => {
     const user = userEvent.setup()
-    const eserviceMock = createMockEServiceCatalog({
-      agreement: {
-        id: 'test',
-        state: 'ACTIVE',
-        canBeUpgraded: false,
-      },
-    })
+    const eserviceMock = createMockEServiceCatalog()
     const { history, ...screen } = renderWithApplicationContext(
       <CatalogCard
         to="SUBSCRIBE_CATALOG_VIEW"
@@ -23,6 +18,7 @@ describe('Checks CatalogCard button', () => {
         producerName={eserviceMock.producer.name}
         prefetchFn={() => {}}
         title={eserviceMock.name}
+        avatarURL={`${AVATAR_BASEPATH}/institutions/${eserviceMock.producer.selfcareId}/logo.png`}
         params={{
           eserviceId: eserviceMock.id,
           descriptorId: eserviceMock.activeDescriptor?.id as string,

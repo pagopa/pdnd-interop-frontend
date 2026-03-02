@@ -74,7 +74,7 @@ export const PurposeTemplateDocumentationSection: React.FC<
           label={t('documentsLabel')}
           content={
             documentation && documentation.length > 0 ? (
-              <Stack spacing={2} direction="column">
+              <Stack spacing={2} direction="column" alignItems="flex-start">
                 {documentation.map((doc) => (
                   <IconLink
                     key={doc.id}

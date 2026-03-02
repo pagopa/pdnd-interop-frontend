@@ -48,7 +48,7 @@
     "accept": "Accetta",
     "approve": "Approva",
     "createNewDraftFromEserviceTemplate": "Crea bozza da template",
-    "updateIstance": "Aggiorna istanza",
+    "updateInstance": "Aggiorna istanza",
     "select": "Seleziona",
     "selectAdmin": "Seleziona admin",
     "substituteAdmin": "Sostituisci admin",
@@ -56,7 +56,8 @@
     "markAsRead": "Segna come letto",
     "marsAsNotRead": "Segna da leggere",
     "specifyProcessing": "Indica trattamento",
-    "save": "Salva"
+    "save": "Salva",
+    "simulateVoucher": "Simula l'ottenimento del voucher"
   },
   "table": {
     "headData": {

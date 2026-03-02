@@ -87,13 +87,13 @@ const getTrackingDefaultProps = () => {
   return {}
 }
 
-export const { trackEvent, useTrackPageViewEvent, setMixpanelIdentifier } =
-  initTracking<MixPanelEvent>({
-    enabled: isTrackingEnabled,
-    oneTrustScriptUrl:
-      INTEROP_RESOURCES_BASE_URL + `/onetrust/oneTrust_production/scripttemplates/otSDKStub.js`,
-    domainScriptUrl: ONETRUST_DOMAIN_SCRIPT_ID,
-    mixpanelToken: MIXPANEL_PROJECT_ID,
-    getDefaultProps: getTrackingDefaultProps,
-    nonce: (window as unknown as ExtendedWindow).nonce,
-  })
+export const { trackEvent, useTrackPageViewEvent } = initTracking<MixPanelEvent>({
+  // TO RESTORE
+  enabled: true,
+  oneTrustScriptUrl:
+    INTEROP_RESOURCES_BASE_URL + `/onetrust/oneTrust_production/scripttemplates/otSDKStub.js`,
+  domainScriptUrl: ONETRUST_DOMAIN_SCRIPT_ID,
+  mixpanelToken: MIXPANEL_PROJECT_ID,
+  getDefaultProps: getTrackingDefaultProps,
+  nonce: (window as unknown as ExtendedWindow).nonce,
+})

@@ -2,7 +2,13 @@ import React from 'react'
 import { useNavigate } from '@/router'
 import { assistanceLink, pagoPaLink } from '@/config/constants'
 import { HeaderAccount, HeaderProduct, type ProductSwitchItem } from '@pagopa/mui-italia'
-import { DOCUMENTATION_URL, FE_LOGIN_URL, SELFCARE_BASE_URL, STAGE } from '@/config/env'
+import {
+  FE_LOGIN_URL,
+  SELFCARE_BASE_URL,
+  STAGE,
+  AVATAR_BASEPATH,
+  DOCUMENTATION_URL,
+} from '@/config/env'
 import type { PartySwitchItem } from '@pagopa/mui-italia/dist/components/PartySwitch'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
@@ -26,6 +32,7 @@ export const getPartyList = (
   const generatePartyItem = (party: SelfcareInstitution) => ({
     id: party.id,
     name: party.description,
+    logoUrl: `${AVATAR_BASEPATH}/institutions/${party.id}/logo.png`,
     productRole: (party.userProductRoles as Array<UserProductRole>)
       .map((role) => t(`userProductRole.${role}`))
       .join(', '),

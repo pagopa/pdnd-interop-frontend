@@ -16,7 +16,6 @@ const mockCatalogPurposeTemplates: CatalogPurposeTemplates = {
       creator: {
         id: 'org-123',
         name: 'Example Organization 1',
-        kind: 'PA',
       },
     },
     {
@@ -27,7 +26,6 @@ const mockCatalogPurposeTemplates: CatalogPurposeTemplates = {
       creator: {
         id: 'org-456',
         name: 'Example Organization 2',
-        kind: 'PRIVATE',
       },
     },
   ],

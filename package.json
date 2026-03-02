@@ -1,6 +1,6 @@
 {
   "name": "interop-dashboard-frontend",
-  "version": "1.6.0",
+  "version": "1.7.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,7 +10,8 @@
     "test": "vitest run",
     "coverage": "vitest run --coverage",
     "generate-types": "node scripts/open-api-type-generator.js",
-    "crawling-guide-links": "node scripts/guide-crawl/index.js"
+    "crawling-guide-links": "node scripts/guide-crawl/index.js",
+    "prepare": "husky"
   },
   "dependencies": {
     "@date-io/date-fns": "^2.17.0",
@@ -22,7 +23,7 @@
     "@mui/material": "^5.16.14",
     "@mui/system": "^5.14.9",
     "@mui/x-date-pickers": "^6.13.0",
-    "@pagopa/interop-fe-commons": "^1.4.6",
+    "@pagopa/interop-fe-commons": "^1.5.4-RC1",
     "@pagopa/mui-italia": "^1.8.0",
     "@tanstack/react-query": "^5.51.4",
     "@tanstack/react-query-devtools": "^5.51.4",
@@ -44,6 +45,8 @@
     "zustand": "^4.4.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "@testing-library/jest-dom": "^6.1.3",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
@@ -67,6 +70,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "history": "^5.3.0",
+    "husky": "^9.1.7",
     "jsdom": "^22.1.0",
     "marked": "^9.0.0",
     "msw": "^1.3.1",
@@ -76,7 +80,12 @@
     "rollup-plugin-visualizer": "^5.9.2",
     "swagger-typescript-api": "^13.0.3",
     "typescript": "^5.2.2",
+    "validate-branch-name": "^1.3.2",
     "vite": "^5.0.0",
     "vitest": "^0.34.4"
+  },
+  "validate-branch-name": {
+    "pattern": "^(feature|release|hotfix|bugfix|refactor|performance|docs|build|ci|chore)/[A-Z]+-[0-9]+_.+$",
+    "errorMsg": "You need to follow this branching name rule: <type>/<JIRA_KEY>_<description>"
   }
 }

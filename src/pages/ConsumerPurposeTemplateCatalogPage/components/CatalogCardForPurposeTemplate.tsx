@@ -25,6 +25,7 @@ interface CatalogCardForPurposeTemplateProps<TRouteKey extends CatalogRoutesKeys
   description: string
   creatorName: string
   targetTenantKind: TenantKind
+  avatarURL?: string
   prefetchFn: () => void
   to: TRouteKey
   params: CatalogCardForPurposeTemplateRouteParams<TRouteKey>
@@ -35,6 +36,7 @@ export function CatalogCardForPurposeTemplate<TRouteKey extends CatalogRoutesKey
   description,
   creatorName,
   targetTenantKind,
+  avatarURL,
   prefetchFn,
   to,
   params,
@@ -83,7 +85,7 @@ export function CatalogCardForPurposeTemplate<TRouteKey extends CatalogRoutesKey
         sx={{ display: 'flex', justifyContent: 'space-between', flex: 1, alignItems: 'end' }}
       >
         <Stack direction="row" spacing={1} alignItems="center" sx={{ flexGrow: 1 }}>
-          <Avatar sx={{ bgcolor: 'background.default' }}>
+          <Avatar src={avatarURL} alt={creatorName} sx={{ bgcolor: 'background.default' }}>
             <AccountBalanceIcon sx={{ color: '#bdbdbd' }} fontSize="small" />
           </Avatar>
           <Stack direction="column">

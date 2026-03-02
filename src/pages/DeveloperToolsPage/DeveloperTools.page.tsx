@@ -61,6 +61,26 @@ const DeveloperToolsPage: React.FC = () => {
             </Stack>
           </SectionContainer>
         </Grid>
+        <Grid item xs={7}>
+          <SectionContainer
+            title={t('sectionVoucherSimulation.title')}
+            description={t('sectionVoucherSimulation.description')}
+          >
+            <Stack direction="row" spacing={2}>
+              <Link
+                as="button"
+                variant="contained"
+                size="medium"
+                to="SIMULATE_GET_VOUCHER_CONSUMER"
+              >
+                {t('sectionVoucherSimulation.firstButton')}
+              </Link>
+              <Link as="button" variant="outlined" size="medium" to="SIMULATE_GET_VOUCHER_API">
+                {t('sectionVoucherSimulation.secondButton')}
+              </Link>
+            </Stack>
+          </SectionContainer>
+        </Grid>
       </Grid>
     </PageContainer>
   )

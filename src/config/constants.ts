@@ -41,6 +41,9 @@ export const keychainGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/utili
 export const keychainSetupGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/e-service/portachiavi`
 export const implementAndManageEServiceTemplateLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/template-e-service/operazioni-e-ciclo-di-vita`
 export const updateEserviceInstanceLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/template-e-service/relazione-tra-template-e-istanza`
+export const notificationGuideLink = `https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/riferimenti-tecnici/notifiche`
+export const notificationMailChangeLink =
+  'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/tutorial/tutorial-generali/come-modificare-la-mail-associata-allutenza'
 
 export const SH_ESERVICES_TO_HIDE_TEMP: Partial<Record<InteropFEConfigs['STAGE'], Array<string>>> =
   {

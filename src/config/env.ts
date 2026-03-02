@@ -18,6 +18,7 @@ const GeneralConfigs = z.object({
   ERROR_DATA_DURATION_TIME: z.string().default('60000'),
   DELEGATIONS_ALLOWED_ORIGINS: z.string(),
   NOTIFICATION_COUNT_REFRESH_INTERVAL: z.coerce.number().default(30000),
+  AVATAR_BASEPATH: z.url().default('https://selfcare.pagopa.it'),
 })
 
 const FeatureFlagConfigs = z.object({
@@ -43,7 +44,11 @@ const EndpointConfigs = z.object({
   BACKEND_FOR_FRONTEND_URL: z.url(),
   INTEROP_RESOURCES_BASE_URL: z.url(),
   SELFCARE_BASE_URL: z.url(),
-  DOCUMENTATION_URL: z.url().default('https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0')
+  DOCUMENTATION_URL: z
+    .url()
+    .default(
+      'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0'
+    ),
 })
 
 const FEConfigs = z.object({
@@ -118,6 +123,7 @@ export const {
   FEATURE_FLAG_USE_SIGNED_DOCUMENT,
   DELEGATIONS_ALLOWED_ORIGINS,
   DOCUMENTATION_URL,
+  AVATAR_BASEPATH,
 } = parseConfigs()
 
 export const APP_MODE = parseAppMode()

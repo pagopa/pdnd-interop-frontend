@@ -10,6 +10,7 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useVoucherInstructionsContext } from './VoucherInstructionsContext'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import { useSearchParams } from 'react-router-dom'
 
 const CLIENT_ASSERTION_TYP = 'JWT'
 const CLIENT_ASSERTION_ALG = 'RS256'
@@ -17,9 +18,13 @@ const CLIENT_ASSERTION_ALG = 'RS256'
 export const VoucherInstructionsStep2: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
+  const [searchParams] = useSearchParams()
 
-  const { selectedPurposeId, selectedKeyId, clientId, goToNextStep, goToPreviousStep } =
-    useVoucherInstructionsContext()
+  const { goToNextStep, goToPreviousStep } = useVoucherInstructionsContext()
+
+  const clientId = searchParams.get('clientId') || ''
+  const purposeId = searchParams.get('purposeId') || ''
+  const keyId = searchParams.get('keyId') || ''
 
   const filename =
     clientKind === 'CONSUMER' ? 'create_client_assertion.py' : 'create_m2m_client_assertion.py'
@@ -49,9 +54,9 @@ export const VoucherInstructionsStep2: React.FC = () => {
             <InformationContainer
               label={t('step2.assertionHeader.kidField.label')}
               labelDescription={t('step2.assertionHeader.kidField.description')}
-              content={selectedKeyId!}
+              content={keyId}
               copyToClipboard={{
-                value: selectedKeyId!,
+                value: keyId,
                 tooltipTitle: t('step2.assertionHeader.kidField.copySuccessFeedbackText'),
               }}
             />
@@ -107,13 +112,13 @@ export const VoucherInstructionsStep2: React.FC = () => {
                 tooltipTitle: t('step2.assertionPayload.audField.copySuccessFeedbackText'),
               }}
             />
-            {clientKind === 'CONSUMER' && selectedPurposeId && (
+            {clientKind === 'CONSUMER' && Boolean(purposeId) && (
               <InformationContainer
                 label={t('step2.assertionPayload.purposeIdField.label')}
                 labelDescription={t('step2.assertionPayload.purposeIdField.description')}
-                content={selectedPurposeId}
+                content={purposeId}
                 copyToClipboard={{
-                  value: selectedPurposeId,
+                  value: purposeId,
                   tooltipTitle: t('step2.assertionPayload.purposeIdField.copySuccessFeedbackText'),
                 }}
               />
@@ -170,13 +175,13 @@ export const VoucherInstructionsStep2: React.FC = () => {
             },
           ]}
           scriptSubstitutionValues={{
-            INSERISCI_VALORE_KID: selectedKeyId!,
+            INSERISCI_VALORE_KID: keyId,
             INSERISCI_VALORE_ALG: CLIENT_ASSERTION_ALG,
             INSERISCI_VALORE_TYP: CLIENT_ASSERTION_TYP,
-            INSERISCI_VALORE_ISS: clientId,
-            INSERISCI_VALORE_SUB: clientId,
+            INSERISCI_VALORE_ISS: clientId!,
+            INSERISCI_VALORE_SUB: clientId!,
             INSERISCI_VALORE_AUD: CLIENT_ASSERTION_JWT_AUDIENCE,
-            INSERISCI_VALORE_PUR: selectedPurposeId ?? '',
+            INSERISCI_VALORE_PUR: purposeId,
           }}
         />
         <Typography sx={{ mt: 2 }} variant="body2">
