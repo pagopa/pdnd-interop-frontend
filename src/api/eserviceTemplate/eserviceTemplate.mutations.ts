@@ -8,7 +8,7 @@ import type {
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 
-export const DUPLICATE_INSTANCE_LABEL_ERROR_CODE = '007'
+export const DUPLICATE_INSTANCE_LABEL_ERROR_CODE = '001-007'
 
 function useUpdateEServiceTemplateName() {
   const { t } = useTranslation('mutations-feedback', {
