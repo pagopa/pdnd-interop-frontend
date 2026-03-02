@@ -58,7 +58,7 @@ export const GenerateInterfaceForm: React.FC = () => {
 
   const { mutate: deleteAndUpdateEServiceRESTInterfaceInfo } =
     EServiceMutations.useDeleteAndUpdateEServiceInterfaceRESTInfo()
-  const { mutate: deleteAndupdateEServiceSOAPInterfaceInfo } =
+  const { mutate: deleteAndUpdateEServiceSOAPInterfaceInfo } =
     EServiceMutations.useDeleteAndUpdateEServiceInterfaceSOAPInfo()
 
   const formMethods = useForm({ defaultValues })
@@ -114,7 +114,7 @@ export const GenerateInterfaceForm: React.FC = () => {
     const payload: TemplateInstanceInterfaceSOAPSeed = {
       serverUrls,
     }
-    deleteAndupdateEServiceSOAPInterfaceInfo({
+    deleteAndUpdateEServiceSOAPInterfaceInfo({
       ...payload,
       eserviceId,
       descriptorId,
