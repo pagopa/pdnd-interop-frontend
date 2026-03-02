@@ -5,7 +5,7 @@ import {
   ConsumerEServiceTemplateInstancesTable,
   ConsumerEServiceTemplateInstancesTableSkeleton,
 } from '../ConsumerEServiceTemplateInstancesTable'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import type {
   CompactEServiceTemplateVersion,
   EServiceTemplateInstances,
@@ -43,6 +43,7 @@ vi.mock('@tanstack/react-query', async (importOriginal) => ({
 
 describe('ConsumerEServiceTemplateInstancesTable', () => {
   it('renders the table with instances', () => {
+    mockUseJwt()
     mockQueryData = {
       results: [
         {
@@ -73,7 +74,7 @@ describe('ConsumerEServiceTemplateInstancesTable', () => {
     )
 
     expect(screen.getByText('label-1')).toBeInTheDocument()
-    expect(screen.getByText('actions.inspect')).toBeInTheDocument()
+    expect(screen.getByTestId('ChevronRightIcon')).toBeInTheDocument()
   })
 
   it('renders an info alert when there are no instances', () => {
