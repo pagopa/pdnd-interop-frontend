@@ -1,3 +1,4 @@
+import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
 import {
@@ -115,7 +116,7 @@ describe('EServiceTemplateCreateStepGeneral', () => {
     expect(screen.getByRole('button', { name: /create.forwardWithSaveBtn/ })).toBeInTheDocument()
   })
 
-  it('renders the forward button without save when not editable', () => {
+  it('renders the forward button with save also when not editable', () => {
     mockUseEServiceTemplateCreateContext({
       areEServiceTemplateGeneralInfoEditable: false,
     })
@@ -123,7 +124,7 @@ describe('EServiceTemplateCreateStepGeneral', () => {
       withReactQueryContext: true,
       withRouterContext: true,
     })
-    expect(screen.getByRole('button', { name: /create.forwardWithoutSaveBtn/ })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: /create.forwardWithSaveBtn/ })).toBeInTheDocument()
   })
 })
 
