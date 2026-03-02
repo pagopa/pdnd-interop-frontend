@@ -4,7 +4,6 @@ import { vi } from 'vitest'
 import { renderWithApplicationContext, mockUseJwt } from '@/utils/testing.utils'
 import { DelegationCreateForm } from '../DelegationCreateForm'
 import * as DelegationModule from '@/api/delegation'
-import type { UserEvent } from '@testing-library/user-event'
 
 const MOCK_TEMPLATE_NAME = 'Credenziale IT-Wallet'
 
@@ -157,7 +156,7 @@ describe('DelegationCreateForm - instanceLabel', () => {
   })
 })
 
-async function toggleTemplateFlow(user: UserEvent) {
+async function toggleTemplateFlow(user: ReturnType<typeof userEvent.setup>) {
   // Toggle "create eservice" switch
   await user.click(
     screen.getByRole('checkbox', {
