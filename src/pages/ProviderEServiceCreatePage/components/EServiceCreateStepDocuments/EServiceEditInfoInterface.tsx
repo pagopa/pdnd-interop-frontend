@@ -14,7 +14,7 @@ import type {
 import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
-import type { ExtendedTemplateInstanceInterfaceMetadata } from './EServiceCreateFromTemplateStepDocuments'
+import type { ExtendedTemplateInstanceInterfaceMetadata } from '../components/GenerateInterfaceForm'
 
 type EServiceEditInfoInterfaceProps = {
   fieldsArray: UseFieldArrayReturn<ExtendedTemplateInstanceInterfaceMetadata, 'serverUrls', 'id'>
