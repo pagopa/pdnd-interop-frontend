@@ -3,7 +3,7 @@
     "tabs": {
       "eserviceTemplateDetails": "Dettagli template",
       "eserviceTemplateTenants": "Enti aderenti",
-      "eserviceTemplateInstances": "Le mie istanze",
+      "eserviceTemplateInstances": "Istanze generate",
       "ariaLabel": "Due tab diverse: una per i dettagli del template dell'e-service e l'altra per gli enti aderenti"
     },
     "actions": {

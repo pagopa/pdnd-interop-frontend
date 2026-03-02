@@ -65,6 +65,7 @@ const ConsumerEServiceTemplateInstancesTableWrapper: React.FC<{
   )
 
   const headLabels = [
+    tCommon('eserviceTemplateUsingTenant'),
     tCommon('eserviceTemplateInstanceLabel'),
     tCommon('eserviceTemplateInstanceVersion'),
     tCommon('eserviceTemplateInstanceState'),
@@ -95,6 +96,7 @@ export const ConsumerEServiceTemplateInstancesTableSkeleton: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
 
   const headLabels = [
+    tCommon('table.headData.eserviceTemplateUsingTenant'),
     tCommon('table.headData.eserviceTemplateInstanceLabel'),
     tCommon('table.headData.eserviceTemplateInstanceVersion'),
     tCommon('table.headData.eserviceTemplateInstanceState'),

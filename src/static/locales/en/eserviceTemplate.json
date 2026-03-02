@@ -3,7 +3,7 @@
     "tabs": {
       "eserviceTemplateDetails": "Template details",
       "eserviceTemplateTenants": "Using Parties",
-      "eserviceTemplateInstances": "My instances",
+      "eserviceTemplateInstances": "Generated instances",
       "ariaLabel": "Two separate tabs: one for the template e-service details and another for using parties."
     },
     "actions": {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import userEvent from '@testing-library/user-event'
 import {
   ConsumerEServiceTemplateInstancesTableRow,
@@ -31,6 +31,7 @@ const baseInstance: EServiceTemplateInstance = {
 
 describe('ConsumerEServiceTemplateInstancesTableRow', () => {
   it('should render the instanceLabel when present', () => {
+    mockUseJwt()
     const instance: EServiceTemplateInstance = {
       ...baseInstance,
       instanceLabel: 'my-label',
@@ -52,6 +53,7 @@ describe('ConsumerEServiceTemplateInstancesTableRow', () => {
   })
 
   it('should render "-" when instanceLabel is not present', () => {
+    mockUseJwt()
     const instance: EServiceTemplateInstance = {
       ...baseInstance,
       instanceLabel: undefined,
@@ -73,6 +75,7 @@ describe('ConsumerEServiceTemplateInstancesTableRow', () => {
   })
 
   it('should render "-" when instanceLabel is an empty string', () => {
+    mockUseJwt()
     const instance: EServiceTemplateInstance = {
       ...baseInstance,
       instanceLabel: '',
@@ -93,7 +96,9 @@ describe('ConsumerEServiceTemplateInstancesTableRow', () => {
     expect(getAllByText('-').length).toBeGreaterThanOrEqual(1)
   })
 
-  it('should navigate to PROVIDE_ESERVICE_MANAGE', async () => {
+  it('should navigate to PROVIDE_ESERVICE_MANAGE when instance is owned', async () => {
+    mockUseJwt({ jwt: { organizationId: 'producer-1' } })
+
     const { getByRole, history } = renderWithApplicationContext(
       <table>
         <tbody>
@@ -107,12 +112,70 @@ describe('ConsumerEServiceTemplateInstancesTableRow', () => {
     )
 
     const user = userEvent.setup()
-    await user.click(getByRole('link', { name: 'actions.inspect' }))
+    await user.click(getByRole('link'))
 
     expect(history.location.pathname).toBe('/it/erogazione/e-service/eservice-1/descriptor-1')
   })
 
+  it('should navigate to SUBSCRIBE_CATALOG_VIEW when instance is not owned', async () => {
+    mockUseJwt({ jwt: { organizationId: 'other-org' } })
+
+    const { getByRole, history } = renderWithApplicationContext(
+      <table>
+        <tbody>
+          <ConsumerEServiceTemplateInstancesTableRow
+            instance={baseInstance}
+            eserviceTemplateVersions={eserviceTemplateVersions}
+          />
+        </tbody>
+      </table>,
+      { withRouterContext: true, withReactQueryContext: true }
+    )
+
+    const user = userEvent.setup()
+    await user.click(getByRole('link'))
+
+    expect(history.location.pathname).toBe('/it/catalogo-e-service/eservice-1/descriptor-1')
+  })
+
+  it('should show ByDelegationChip when instance is not owned', () => {
+    mockUseJwt({ jwt: { organizationId: 'other-org' } })
+
+    const { getByText } = renderWithApplicationContext(
+      <table>
+        <tbody>
+          <ConsumerEServiceTemplateInstancesTableRow
+            instance={baseInstance}
+            eserviceTemplateVersions={eserviceTemplateVersions}
+          />
+        </tbody>
+      </table>,
+      { withRouterContext: true, withReactQueryContext: true }
+    )
+
+    expect(getByText('label.default')).toBeInTheDocument()
+  })
+
+  it('should not show ByDelegationChip when instance is owned', () => {
+    mockUseJwt({ jwt: { organizationId: 'producer-1' } })
+
+    const { queryByText } = renderWithApplicationContext(
+      <table>
+        <tbody>
+          <ConsumerEServiceTemplateInstancesTableRow
+            instance={baseInstance}
+            eserviceTemplateVersions={eserviceTemplateVersions}
+          />
+        </tbody>
+      </table>,
+      { withRouterContext: true, withReactQueryContext: true }
+    )
+
+    expect(queryByText('label.default')).not.toBeInTheDocument()
+  })
+
   it('should render without latestDescriptor', () => {
+    mockUseJwt()
     const instance: EServiceTemplateInstance = {
       ...baseInstance,
       latestDescriptor: undefined,
@@ -130,10 +193,11 @@ describe('ConsumerEServiceTemplateInstancesTableRow', () => {
       { withRouterContext: true, withReactQueryContext: true }
     )
 
-    expect(queryByRole('link', { name: 'actions.inspect' })).not.toBeInTheDocument()
+    expect(queryByRole('link')).not.toBeInTheDocument()
   })
 
   it('should render "-" when templateVersionId does not match any version', () => {
+    mockUseJwt()
     const instance: EServiceTemplateInstance = {
       ...baseInstance,
       latestDescriptor: {
@@ -170,6 +234,6 @@ describe('ConsumerEServiceTemplateInstancesTableRowSkeleton', () => {
     )
 
     const skeletons = container.querySelectorAll('.MuiSkeleton-root')
-    expect(skeletons.length).toBeGreaterThanOrEqual(3)
+    expect(skeletons.length).toBeGreaterThanOrEqual(4)
   })
 })
