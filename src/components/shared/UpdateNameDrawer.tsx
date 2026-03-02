@@ -86,6 +86,7 @@ export const UpdateNameDrawer: React.FC<UpdateNameDrawerProps> = ({
             rules={{
               required: true,
               minLength: 5,
+              maxLength,
               validate: (value) => value !== name || validateLabel,
             }}
           />
