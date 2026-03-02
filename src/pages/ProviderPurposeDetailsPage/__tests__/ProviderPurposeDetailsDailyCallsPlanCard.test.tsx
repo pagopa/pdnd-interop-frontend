@@ -2,7 +2,9 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { screen, fireEvent } from '@testing-library/react'
 import { renderWithApplicationContext, mockUseJwt } from '@/utils/testing.utils'
 import { ProviderPurposeDetailsDailyCallsPlanCard } from '../components/ProviderPurposeDetailsDailyCallsPlanCard'
-import React from 'react'
+import { createMockPurpose } from '../../../../__mocks__/data/purpose.mocks'
+
+mockUseJwt()
 
 const activateVersionMock = vi.fn()
 const openDialogMock = vi.fn()
@@ -91,102 +93,122 @@ vi.mock('@/utils/format.utils', () => ({
   formatThousands: (v: number) => String(v),
 }))
 
-const defaultPurpose = {
-  id: 'purpose-1',
-  eservice: { id: 'eservice-1' },
-  currentVersion: {
-    id: 'v1',
-    state: 'ACTIVE',
-    dailyCalls: 100,
-  },
-  waitingForApprovalVersion: undefined,
-  rejectedVersion: undefined,
-}
+const defaultPurpose = createMockPurpose()
 
 const purposeWithWaitingForApproval = {
   ...defaultPurpose,
-  waitingForApprovalVersion: { id: 'v2', dailyCalls: 200 },
+  waitingForApprovalVersion: {
+    id: 'v2',
+    dailyCalls: 200,
+    state: 'WAITING_FOR_APPROVAL' as const,
+    createdAt: '2024-01-01T00:00:00.000Z',
+  },
 }
 
 const purposeWithRejected = {
   ...defaultPurpose,
   currentVersion: undefined,
-  rejectedVersion: { id: 'v3', dailyCalls: 300 },
+  rejectedVersion: {
+    id: 'v3',
+    dailyCalls: 300,
+    state: 'REJECTED' as const,
+    createdAt: '2024-01-01T00:00:00.000Z',
+  },
 }
 
 const purposeWithSuspended = {
   ...defaultPurpose,
-  currentVersion: { id: 'v1', state: 'SUSPENDED', dailyCalls: 100 },
-  waitingForApprovalVersion: { id: 'v2', dailyCalls: 200 },
+  currentVersion: {
+    ...defaultPurpose.currentVersion!,
+    state: 'SUSPENDED' as const,
+  },
+  waitingForApprovalVersion: {
+    id: 'v2',
+    dailyCalls: 200,
+    state: 'SUSPENDED' as const,
+    createdAt: '2024-01-01T00:00:00.000Z',
+  },
 }
 
 describe('ProviderPurposeDetailsDailyCallsPlanCard', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    mockUseJwt({ isAdmin: true, organizationId: 'org-1' })
     useQueryMock.mockReturnValue({ data: [] })
   })
 
   it('renders active plan when no waiting or rejected', () => {
     renderWithApplicationContext(
       <ProviderPurposeDetailsDailyCallsPlanCard purpose={defaultPurpose} />,
-      {
-        withReactQueryContext: true,
-      }
+      { withReactQueryContext: true }
     )
 
     expect(screen.getByText('title.activePlan')).toBeInTheDocument()
-    expect(screen.getByText('100')).toBeInTheDocument()
+    expect(screen.getByText(String(defaultPurpose.currentVersion!.dailyCalls))).toBeInTheDocument()
   })
 
   it('renders change plan with buttons', () => {
     renderWithApplicationContext(
       <ProviderPurposeDetailsDailyCallsPlanCard purpose={purposeWithWaitingForApproval} />,
-      {
-        withReactQueryContext: true,
-      }
+      { withReactQueryContext: true }
     )
 
     expect(screen.getByText('title.waitingForApprovalPlan.changePlan')).toBeInTheDocument()
 
-    expect(screen.getByText('100')).toBeInTheDocument()
-    expect(screen.getByText('200')).toBeInTheDocument()
+    expect(
+      screen.getByText(String(purposeWithWaitingForApproval.currentVersion!.dailyCalls))
+    ).toBeInTheDocument()
 
-    expect(screen.getByText('rejectVersionButtonLabel.label')).toBeInTheDocument()
+    expect(
+      screen.getByText(String(purposeWithWaitingForApproval.waitingForApprovalVersion!.dailyCalls))
+    ).toBeInTheDocument()
 
-    expect(screen.getByText('activateVersionButtonLabel.label')).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', {
+        name: 'rejectVersionButtonLabel.label',
+      })
+    ).toBeInTheDocument()
+
+    expect(
+      screen.getByRole('button', {
+        name: 'activateVersionButtonLabel.label',
+      })
+    ).toBeInTheDocument()
   })
 
   it('calls activateVersion on confirm click', () => {
     renderWithApplicationContext(
       <ProviderPurposeDetailsDailyCallsPlanCard purpose={purposeWithWaitingForApproval} />,
-      {
-        withReactQueryContext: true,
-      }
+      { withReactQueryContext: true }
     )
 
-    fireEvent.click(screen.getByText('activateVersionButtonLabel.label'))
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: 'activateVersionButtonLabel.label',
+      })
+    )
 
     expect(activateVersionMock).toHaveBeenCalledWith({
-      purposeId: 'purpose-1',
-      versionId: 'v2',
+      purposeId: purposeWithWaitingForApproval.id,
+      versionId: purposeWithWaitingForApproval.waitingForApprovalVersion!.id,
     })
   })
 
   it('opens dialog on reject click', () => {
     renderWithApplicationContext(
       <ProviderPurposeDetailsDailyCallsPlanCard purpose={purposeWithWaitingForApproval} />,
-      {
-        withReactQueryContext: true,
-      }
+      { withReactQueryContext: true }
     )
 
-    fireEvent.click(screen.getByText('rejectVersionButtonLabel.label'))
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: 'rejectVersionButtonLabel.label',
+      })
+    )
 
     expect(openDialogMock).toHaveBeenCalledWith({
       type: 'rejectPurposeVersion',
-      purposeId: 'purpose-1',
-      versionId: 'v2',
+      purposeId: purposeWithWaitingForApproval.id,
+      versionId: purposeWithWaitingForApproval.waitingForApprovalVersion!.id,
       isChangePlanRequest: true,
     })
   })
@@ -201,11 +223,15 @@ describe('ProviderPurposeDetailsDailyCallsPlanCard', () => {
       { withReactQueryContext: true }
     )
 
-    fireEvent.click(screen.getByText('activateVersionButtonLabel.label'))
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: 'activateVersionButtonLabel.label',
+      })
+    )
 
     expect(activateVersionMock).toHaveBeenCalledWith({
-      purposeId: 'purpose-1',
-      versionId: 'v2',
+      purposeId: purposeWithWaitingForApproval.id,
+      versionId: purposeWithWaitingForApproval.waitingForApprovalVersion!.id,
       delegationId: 'delegation-1',
     })
   })
@@ -217,7 +243,10 @@ describe('ProviderPurposeDetailsDailyCallsPlanCard', () => {
     )
 
     expect(screen.getByText('title.rejectedPlan')).toBeInTheDocument()
-    expect(screen.getByText('300')).toBeInTheDocument()
+
+    expect(
+      screen.getByText(String(purposeWithRejected.rejectedVersion!.dailyCalls))
+    ).toBeInTheDocument()
   })
 
   it('disables buttons if suspended', () => {
@@ -226,7 +255,9 @@ describe('ProviderPurposeDetailsDailyCallsPlanCard', () => {
       { withReactQueryContext: true }
     )
 
-    const activateBtn = screen.getByText('activateVersionButtonLabel.label')
+    const activateBtn = screen.getByRole('button', {
+      name: 'activateVersionButtonLabel.label',
+    })
 
     expect(activateBtn).toBeDisabled()
   })
