@@ -3,6 +3,7 @@ import { SectionContainer } from '@/components/layout/containers'
 import { Box, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { INSTANCE_LABEL_MAX_LENGTH } from '@/config/constants'
 
 type InstanceLabelSectionProps = {
   templateName: string
@@ -27,19 +28,19 @@ export const InstanceLabelSection: React.FC<InstanceLabelSectionProps> = ({
         label={t('create.step1.instanceLabelField.label')}
         infoLabel={t('create.step1.instanceLabelField.infoLabel')}
         name="instanceLabel"
-        rules={{ maxLength: 12 }}
-        inputProps={{ maxLength: 12 }}
+        rules={{ maxLength: INSTANCE_LABEL_MAX_LENGTH }}
+        inputProps={{ maxLength: INSTANCE_LABEL_MAX_LENGTH }}
         size="small"
         disabled={disabled}
         sx={{ my: 0, mt: 1 }}
       />
-      {instanceLabel && (
+      {instanceLabel?.trim() && (
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
           <Typography variant="body2" color="text.secondary">
             {t('create.step1.instanceLabelField.catalogPreviewLabel')}
           </Typography>
           <Typography variant="body2" fontWeight={700}>
-            {templateName} - {instanceLabel}
+            {templateName} - {instanceLabel.trim()}
           </Typography>
         </Box>
       )}

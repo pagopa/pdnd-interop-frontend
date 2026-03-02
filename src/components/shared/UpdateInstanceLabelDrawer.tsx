@@ -1,5 +1,6 @@
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { INSTANCE_LABEL_MAX_LENGTH } from '@/config/constants'
 import { Box, Typography } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -54,10 +55,6 @@ export const UpdateInstanceLabelDrawer = React.forwardRef<
     onSubmit(eServiceId, values.instanceLabel.trim())
   }
 
-  const handleCloseDrawer = () => {
-    onClose()
-  }
-
   const handleTransitionExited = () => {
     formMethods.reset()
   }
@@ -67,7 +64,7 @@ export const UpdateInstanceLabelDrawer = React.forwardRef<
       <Drawer
         isOpen={isOpen}
         onTransitionExited={handleTransitionExited}
-        onClose={handleCloseDrawer}
+        onClose={onClose}
         title={tDrawer('title')}
         subtitle={tDrawer('subtitle')}
         buttonAction={{
@@ -84,8 +81,9 @@ export const UpdateInstanceLabelDrawer = React.forwardRef<
             infoLabel={tDrawer('instanceLabelField.infoLabel')}
             type="text"
             size="small"
-            inputProps={{ maxLength: 12 }}
+            inputProps={{ maxLength: INSTANCE_LABEL_MAX_LENGTH }}
             rules={{
+              maxLength: INSTANCE_LABEL_MAX_LENGTH,
               validate: {
                 required: (value) =>
                   value.trim().length > 0 || tDrawer('instanceLabelField.validation.required'),

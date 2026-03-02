@@ -7,7 +7,7 @@ import { EServiceDownloads, EServiceMutations, EServiceQueries } from '@/api/ese
 import {
   EServiceTemplateMutations,
   DUPLICATE_INSTANCE_LABEL_ERROR_CODE,
-} from '@/api/eserviceTemplate/eserviceTemplate.mutations'
+} from '@/api/eserviceTemplate'
 import { useNavigate, useParams } from '@/router'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import DownloadIcon from '@mui/icons-material/Download'

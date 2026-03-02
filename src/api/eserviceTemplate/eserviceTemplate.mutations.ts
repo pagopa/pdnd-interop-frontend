@@ -349,7 +349,7 @@ function useCreateInstanceFromEServiceTemplate() {
 }
 
 function useUpdateInstanceFromEServiceTemplate() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eserviceTemplate.createDraft' })
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eserviceTemplate.updateInstance' })
   return useMutation({
     mutationFn: EServiceTemplateServices.updateInstanceFromEServiceTemplate,
     meta: {

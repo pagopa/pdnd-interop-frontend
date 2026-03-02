@@ -75,3 +75,4 @@ export const apiSignalhubPullLink =
   'https://developer.pagopa.it/pdnd-interoperabilita/api/signal-hub-pull-v1/'
 
 export const ESERVICE_TEMPLATE_NAME_MAX_LENGTH = 45
+export const INSTANCE_LABEL_MAX_LENGTH = 12

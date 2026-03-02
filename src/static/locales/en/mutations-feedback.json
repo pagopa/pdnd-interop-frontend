@@ -968,6 +968,12 @@
         "description": "By clicking \"confirm\", this e-service template version will be reactivated. All **Consumers** that have an active fruition request for this e-service template version will be able to access it"
       }
     },
+    "updateInstance": {
+      "loading": "E-service instance is being updated",
+      "outcome": {
+        "error": "Instance could not be updated. Please ensure all required fields are filled in and try again!"
+      }
+    },
     "updateInstanceLabel": {
       "loading": "E-service identifying word is being updated",
       "outcome": {
