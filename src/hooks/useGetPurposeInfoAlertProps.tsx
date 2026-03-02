@@ -2,7 +2,7 @@ import type { AlertProps } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { match } from 'ts-pattern'
 
-export function useGetConsumerPurposeEditPageInfoAlertProps(
+export function useGetPurposeInfoAlertProps(
   dailyCalls: number,
   dailyCallsPerConsumer: number,
   dailyCallsTotal: number

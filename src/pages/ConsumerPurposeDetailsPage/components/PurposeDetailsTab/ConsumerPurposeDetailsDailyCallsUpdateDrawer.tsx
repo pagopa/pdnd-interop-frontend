@@ -5,7 +5,7 @@ import { Drawer } from '@/components/shared/Drawer'
 import { GreyAlert } from '@/components/shared/GreyAlert'
 import { RHFCheckbox, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { purposeUpgradeGuideLink } from '@/config/constants'
-import { useGetConsumerPurposeEditPageInfoAlertProps } from '@/pages/ConsumerPurposeEditPage/hooks/useGetConsumerPurposeEditPageInfoAlertProps'
+import { useGetPurposeInfoAlertProps } from '@/hooks/useGetPurposeInfoAlertProps'
 import { Alert, AlertTitle, Link, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -46,7 +46,7 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
 
   const dailyCalls = formMethods.watch('dailyCalls')
 
-  const alertProps = useGetConsumerPurposeEditPageInfoAlertProps(
+  const alertProps = useGetPurposeInfoAlertProps(
     dailyCalls,
     purpose.dailyCallsPerConsumer,
     purpose.dailyCallsTotal
