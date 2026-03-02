@@ -136,7 +136,7 @@ export const GenerateInterfaceForm: React.FC = () => {
           </Button>
         </Stack>
 
-        {eServiceTechnology === 'REST' && <EditRESTInfoIntefaceFields />}
+        {eServiceTechnology === 'REST' && <EditRESTInfoInterfaceFields />}
 
         <Stack direction="column">
           <RHFTextField
@@ -183,7 +183,7 @@ export const GenerateInterfaceForm: React.FC = () => {
   )
 }
 
-export const EditRESTInfoIntefaceFields: React.FC = () => {
+export const EditRESTInfoInterfaceFields: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step4.eserviceTemplate.interface' })
   const { t: tCommon } = useTranslation('common')
 
@@ -206,7 +206,6 @@ export const EditRESTInfoIntefaceFields: React.FC = () => {
           name="contactEmail"
           label={t('contactSection.emailField')}
           rules={{
-            required: false,
             pattern: {
               value: emailRegex,
               message: tCommon('validation.string.email'),
@@ -219,7 +218,6 @@ export const EditRESTInfoIntefaceFields: React.FC = () => {
           name="contactUrl"
           label={t('contactSection.urlField')}
           rules={{
-            required: undefined,
             pattern: {
               value: urlRegex,
               message: tCommon('validation.string.url'),
@@ -236,7 +234,6 @@ export const EditRESTInfoIntefaceFields: React.FC = () => {
         name="termsAndConditionsUrl"
         label={t('termsAndConditions.label')}
         rules={{
-          required: undefined,
           pattern: {
             value: urlRegex,
             message: tCommon('validation.string.url'),

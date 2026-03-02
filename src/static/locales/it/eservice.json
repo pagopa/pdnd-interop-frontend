@@ -140,7 +140,7 @@
         "title": "Voucher",
         "voucherLifespanField": {
           "label": "Durata validità (in minuti)",
-          "readOnlylabel": "Durata validità voucher",
+          "readOnlyLabel": "Durata validità voucher",
           "infoLabel": "Valore massimo: 1440 minuti (24 ore)",
           "valueLabel_one": "{{count}} minuto",
           "valueLabel_other": "{{count}} minuti"

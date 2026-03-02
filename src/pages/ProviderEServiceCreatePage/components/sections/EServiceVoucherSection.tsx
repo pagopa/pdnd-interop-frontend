@@ -5,6 +5,7 @@ import { Link, Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { Trans, useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
+import { secondsToMinutes } from '@/utils/format.utils'
 
 type EServiceVoucherSectionProps = {
   isEServiceCreatedFromTemplate: boolean
@@ -27,7 +28,9 @@ export const EServiceVoucherSection: React.FC<EServiceVoucherSectionProps> = ({
         {isEServiceCreatedFromTemplate ? (
           <InformationContainer
             label={t('voucherLifespanField.readOnlyLabel')}
-            content={t('voucherLifespanField.valueLabel', { count: descriptor?.voucherLifespan })}
+            content={t('voucherLifespanField.valueLabel', {
+              count: descriptor ? secondsToMinutes(descriptor?.voucherLifespan) : 1,
+            })}
           />
         ) : (
           <RHFTextField
