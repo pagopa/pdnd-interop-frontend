@@ -88,6 +88,19 @@
           "updateEserviceInstance": "Come faccio ad aggiornare una istanza di e-service?",
           "wellKnown": "URL .well-known"
         }
+      },
+      "thresholdsAndAttributes": {
+        "title": "Soglie e attributi",
+        "description": "Qui trovi le soglie e gli attributi che sono richiesti per la fruizione di questo e-service.",
+        "thresholds": {
+          "title": "Soglie di chiamate API",
+          "dailyCallsPerConsumer": {
+            "label": "Soglia giornaliera per fruitore"
+          },
+          "dailyCallsTotal": {
+            "label": "Soglia giornaliera totale"
+          }
+        }
       }
     },
     "drawers": {

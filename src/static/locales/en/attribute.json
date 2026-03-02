@@ -11,12 +11,12 @@
   },
   "verified": {
     "label": "Verified attributes",
-    "description": "That is, attributes verified <1>by other organizations for the same consumer</1> with the possibility of requesting a verification from the producer. For each attribute verify or revoke...",
+    "description": "These are attributes verified <1>by other organizations</1>, with the possibility of requesting a verification from the provider.",
     "requirement": "Requirement {{index}} | Verified Attributes"
   },
   "declared": {
     "label": "Declared attributes",
-    "description": "That is, attributes declared by the consumer under their own responsibility during the service request. No verification from the producer is required.",
+    "description": "These are attributes declared by the consumer during the service request. No verification from the provider is required.",
     "requirement": "Requirement {{index}} | Declared Attributes"
   },
   "or": "Or",
