@@ -1,5 +1,4 @@
-import { getCurrentSelfCareProductId } from '@/utils/common.utils'
-import type { InteropFEConfigs } from './env'
+import { SELFCARE_PRODUCT_ID, type InteropFEConfigs } from './env'
 
 export const DEFAULT_LANG = 'it'
 export const STORAGE_KEY_SESSION_TOKEN = 'token'
@@ -18,7 +17,7 @@ export const pagoPaLink = {
   title: 'Vai al sito di PagoPA S.p.A.',
 }
 export const documentationLink = 'https://docs.pagopa.it/interoperabilita-1'
-export const assistanceLink = `https://selfcare.pagopa.it/assistenza?productId=${getCurrentSelfCareProductId()}`
+export const assistanceLink = `https://selfcare.pagopa.it/assistenza?productId=${SELFCARE_PRODUCT_ID}`
 export const attributesHelpLink = `${documentationLink}/manuale-operativo/attributi`
 export const verifyVoucherGuideLink = `https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/riferimenti-tecnici/utilizzare-i-voucher`
 export const manageEServiceGuideLink = `${documentationLink}/manuale-operativo/e-service`
