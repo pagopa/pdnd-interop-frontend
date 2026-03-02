@@ -140,11 +140,14 @@
         "title": "Voucher",
         "voucherLifespanField": {
           "label": "Durata validità (in minuti)",
-          "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
+          "readOnlylabel": "Durata validità voucher",
+          "infoLabel": "Valore massimo: 1440 minuti (24 ore)",
+          "valueLabel_one": "{{count}} minuto",
+          "valueLabel_other": "{{count}} minuti"
         },
         "audienceField": {
           "label": "Audience",
-          "infoLabel": "L’audience rappresenta la tua risorsa di destinazione. Per tutte le informazioni, <1>consulta la guida</1>."
+          "infoLabel": "L’audience rappresenta la tua risorsa di destinazione. Per tutte le informazioni, <1>consulta la guida</1>"
         }
       },
       "thresholdSection": {
