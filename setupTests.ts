@@ -2,6 +2,7 @@ import { afterEach, vi } from 'vitest'
 import { cleanup } from '@testing-library/react'
 // extends Vitest's expect method with methods from react-testing-library
 import '@testing-library/jest-dom/vitest'
+import { SELFCARE_PRODUCT_ID } from '@/config/env'
 
 const localhost = 'http://localhost:3000/0.0'
 export const testConfigs = {
@@ -28,6 +29,7 @@ export const testConfigs = {
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA: 'true',
   FEATURE_FLAG_USE_SIGNED_DOCUMENT: 'true',
   AVATAR_BASEPATH: 'http://selc-u-checkout-cdn-endpoint.azureedge.net',
+  SELFCARE_PRODUCT_ID: 'prod-interop',
 }
 
 // runs a cleanup after each test case (e.g. clearing jsdom)
