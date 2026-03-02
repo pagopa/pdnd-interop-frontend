@@ -6,6 +6,7 @@ import type {
 import { AuthHooks } from '@/api/auth'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { Link } from '@/router'
+import { getTemplateVersionNumber } from '@/components/shared/EserviceTemplate/eserviceTemplate.utils'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
@@ -32,7 +33,7 @@ export const ProviderEServiceTemplateUsingTenantsTableRow: React.FC<
         `${instance.producerName}`,
         instance.instanceLabel || '-',
         `${
-          getStateByTemplateVersion(
+          getTemplateVersionNumber(
             instance.latestDescriptor?.templateVersionId as string,
             eserviceTemplateVersions
           ) ?? '-'
@@ -81,12 +82,3 @@ export const ProviderEServiceTemplateUsingTenantsTableRowSkeleton: React.FC = ()
   )
 }
 
-const getStateByTemplateVersion = (
-  templateVersionId: string,
-  eserviceTemplateVersions: CompactEServiceTemplateVersion[]
-) => {
-  const templateVersion = eserviceTemplateVersions.find(
-    (templateVersion) => templateVersion.id === templateVersionId
-  )
-  return templateVersion?.version
-}

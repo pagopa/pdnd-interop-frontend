@@ -7,6 +7,7 @@ import { AuthHooks } from '@/api/auth'
 import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { Link } from '@/router'
+import { getTemplateVersionNumber } from '@/components/shared/EserviceTemplate/eserviceTemplate.utils'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { Skeleton, Stack } from '@mui/material'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
@@ -41,7 +42,7 @@ export const ConsumerEServiceTemplateInstancesTableRow: React.FC<
         ),
         instance.instanceLabel || '-',
         `${
-          getStateByTemplateVersion(
+          getTemplateVersionNumber(
             instance.latestDescriptor?.templateVersionId as string,
             eserviceTemplateVersions
           ) ?? '-'
@@ -90,12 +91,3 @@ export const ConsumerEServiceTemplateInstancesTableRowSkeleton: React.FC = () =>
   )
 }
 
-const getStateByTemplateVersion = (
-  templateVersionId: string,
-  eserviceTemplateVersions: CompactEServiceTemplateVersion[]
-) => {
-  const templateVersion = eserviceTemplateVersions.find(
-    (templateVersion) => templateVersion.id === templateVersionId
-  )
-  return templateVersion?.version
-}
