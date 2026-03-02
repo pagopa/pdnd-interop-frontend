@@ -312,6 +312,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           <InstanceLabelSection
             templateName={eserviceTemplate?.name ?? descriptor?.templateRef?.templateName ?? ''}
             instanceLabel={formMethods.watch('instanceLabel')}
+            disabled={Boolean(descriptor && descriptor.version !== '1')}
           />
         )}
 
