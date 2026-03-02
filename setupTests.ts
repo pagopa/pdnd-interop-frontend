@@ -2,7 +2,6 @@ import { afterEach, vi } from 'vitest'
 import { cleanup } from '@testing-library/react'
 // extends Vitest's expect method with methods from react-testing-library
 import '@testing-library/jest-dom/vitest'
-import { SELFCARE_PRODUCT_ID } from '@/config/env'
 
 const localhost = 'http://localhost:3000/0.0'
 export const testConfigs = {
