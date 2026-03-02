@@ -7,11 +7,13 @@ import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 type InstanceLabelSectionProps = {
   templateName: string
   instanceLabel: string
+  disabled?: boolean
 }
 
 export const InstanceLabelSection: React.FC<InstanceLabelSectionProps> = ({
   templateName,
   instanceLabel,
+  disabled,
 }) => {
   const { t } = useTranslation('eservice')
 
@@ -28,6 +30,7 @@ export const InstanceLabelSection: React.FC<InstanceLabelSectionProps> = ({
         rules={{ maxLength: 12 }}
         inputProps={{ maxLength: 12 }}
         size="small"
+        disabled={disabled}
         sx={{ my: 0, mt: 1 }}
       />
       {instanceLabel && (
