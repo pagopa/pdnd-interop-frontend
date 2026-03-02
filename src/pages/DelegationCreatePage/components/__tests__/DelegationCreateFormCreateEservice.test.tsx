@@ -1,10 +1,7 @@
-import React from 'react'
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { FormProvider, useForm } from 'react-hook-form'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { renderWithApplicationContext, ReactHookFormWrapper } from '@/utils/testing.utils'
 import { DelegationCreateFormCreateEservice } from '../DelegationCreateFormCreateEservice'
-import type { DelegationCreateFormValues } from '../DelegationCreateForm'
 import { vi } from 'vitest'
 
 vi.mock('../DelegationCreateEServiceFromTemplateAutocomplete', () => ({
@@ -13,34 +10,25 @@ vi.mock('../DelegationCreateEServiceFromTemplateAutocomplete', () => ({
   ),
 }))
 
-const Wrapper: React.FC<{
-  defaultValues?: Partial<DelegationCreateFormValues>
-  children: React.ReactNode
-}> = ({ defaultValues, children }) => {
-  const methods = useForm<DelegationCreateFormValues>({
-    defaultValues: {
-      eserviceId: '',
-      eserviceName: '',
-      eserviceDescription: '',
-      delegateId: '',
-      isEserviceToBeCreated: false,
-      isEserviceFromTemplate: false,
-      instanceLabel: '',
-      ...defaultValues,
-    },
-  })
-  return <FormProvider {...methods}>{children}</FormProvider>
+const defaultValues = {
+  eserviceId: '',
+  eserviceName: '',
+  eserviceDescription: '',
+  delegateId: '',
+  isEserviceToBeCreated: false,
+  isEserviceFromTemplate: false,
+  instanceLabel: '',
 }
 
 describe('DelegationCreateFormCreateEservice', () => {
   it('should show name and description fields when isEserviceFromTemplate is off', () => {
     renderWithApplicationContext(
-      <Wrapper>
+      <ReactHookFormWrapper defaultValues={defaultValues}>
         <DelegationCreateFormCreateEservice
           delegationKind="DELEGATED_PRODUCER"
           handleTemplateNameAutocompleteChange={vi.fn()}
         />
-      </Wrapper>,
+      </ReactHookFormWrapper>,
       { withRouterContext: true, withReactQueryContext: true }
     )
 
@@ -52,12 +40,12 @@ describe('DelegationCreateFormCreateEservice', () => {
     const user = userEvent.setup()
 
     renderWithApplicationContext(
-      <Wrapper>
+      <ReactHookFormWrapper defaultValues={defaultValues}>
         <DelegationCreateFormCreateEservice
           delegationKind="DELEGATED_PRODUCER"
           handleTemplateNameAutocompleteChange={vi.fn()}
         />
-      </Wrapper>,
+      </ReactHookFormWrapper>,
       { withRouterContext: true, withReactQueryContext: true }
     )
 
@@ -75,12 +63,12 @@ describe('DelegationCreateFormCreateEservice', () => {
     const user = userEvent.setup()
 
     renderWithApplicationContext(
-      <Wrapper>
+      <ReactHookFormWrapper defaultValues={defaultValues}>
         <DelegationCreateFormCreateEservice
           delegationKind="DELEGATED_PRODUCER"
           handleTemplateNameAutocompleteChange={vi.fn()}
         />
-      </Wrapper>,
+      </ReactHookFormWrapper>,
       { withRouterContext: true, withReactQueryContext: true }
     )
 
