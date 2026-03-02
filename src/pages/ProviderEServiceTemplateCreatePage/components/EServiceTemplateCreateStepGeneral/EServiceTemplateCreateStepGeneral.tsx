@@ -1,6 +1,7 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { Box, Stack, Typography } from '@mui/material'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RHFRadioGroup, RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
@@ -10,8 +11,8 @@ import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import { IconLink } from '@/components/shared/IconLink'
-import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
+import { EServiceDetailsSection } from '@/pages/ProviderEServiceCreatePage/components/sections/EServiceDetailsSection'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { SIGNALHUB_GUIDE_URL } from '@/config/constants'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
@@ -128,34 +129,11 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
             </Stack>
           </SectionContainer>
 
-          <SectionContainer
-            title={t('create.step1.readOnlyInstanceDetailsTitle')}
-            description={t('create.step1.readOnlyDescription')}
-            component="div"
-          >
-            <Stack spacing={2}>
-              <InformationContainer
-                label={t('create.step1.readOnlyTechnologyLabel')}
-                content={eserviceTemplateVersion.eserviceTemplate.technology}
-              />
-              <InformationContainer
-                label={t('create.step1.readOnlyModeLabel')}
-                content={t(
-                  `create.step1.readOnlyModeValue.${eserviceTemplateVersion.eserviceTemplate.mode}`
-                )}
-              />
-              {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
-                <InformationContainer
-                  label={t(
-                    `create.step1.readOnlyPersonalDataLabel.${eserviceTemplateVersion.eserviceTemplate.mode}`
-                  )}
-                  content={t(
-                    `create.step1.readOnlyPersonalDataValue.${eserviceTemplateVersion.eserviceTemplate.personalData}`
-                  )}
-                />
-              )}
-            </Stack>
-          </SectionContainer>
+          <EServiceDetailsSection
+            areEServiceGeneralInfoEditable={false}
+            eserviceTemplate={eserviceTemplateVersion.eserviceTemplate}
+            eserviceMode={eserviceTemplateVersion.eserviceTemplate.mode}
+          />
 
           <SectionContainer title={t('create.step1.signalHubTitle')} component="div">
             <RHFSwitch name="isSignalHubEnabled" label={signalHubLabel} />
