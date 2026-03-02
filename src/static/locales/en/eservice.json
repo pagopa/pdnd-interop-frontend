@@ -140,11 +140,14 @@
         "title": "Voucher",
         "voucherLifespanField": {
           "label": "Validity duration (minutes)",
-          "infoLabel": "Max value: 1440 minutes (24 hours)"
+          "readOnlyLabel": "Validity duration period",
+          "infoLabel": "Max value: 1440 minutes (24 hours)",
+          "valueLabel_one": "{{count}} minute",
+          "valueLabel_other": "{{count}} minutes"
         },
         "audienceField": {
           "label": "Audience",
-          "infoLabel": "The audience represents your target resource. For full information, <1>consult the guide</1>."
+          "infoLabel": "Your audience is your target resource. For all the information, <1>consult the guide</1>"
         }
       },
       "thresholdSection": {

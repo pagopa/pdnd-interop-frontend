@@ -26,8 +26,8 @@ export const EServiceVoucherSection: React.FC<EServiceVoucherSectionProps> = ({
       >
         {isEServiceCreatedFromTemplate ? (
           <InformationContainer
-            label={t('voucherLifespanField.label')}
-            content={descriptor?.voucherLifespan?.toString() ?? ''}
+            label={t('voucherLifespanField.readOnlyLabel')}
+            content={t('voucherLifespanField.valueLabel', { count: descriptor?.voucherLifespan })}
           />
         ) : (
           <RHFTextField
@@ -54,7 +54,7 @@ export const EServiceVoucherSection: React.FC<EServiceVoucherSectionProps> = ({
           inputProps={{ maxLength: 250 }}
           rules={{ required: true, minLength: 1 }}
           required
-          sx={{ flex: 1, my: 0 }}
+          sx={{ flex: 1, my: 0, width: '50%' }}
         />
       </Stack>
     </SectionContainer>
