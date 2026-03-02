@@ -26,13 +26,13 @@ import { EServiceThresholdSection } from '../sections/EServiceThresholdSection'
 import { EServiceAttributesSection } from '../sections/EServiceAttributesSection'
 import { SectionContainerSkeleton } from '@/components/layout/containers'
 
-export type CreateStepThresholdsFormValues = {
+export type CreateStepTwoFormValues = {
   dailyCallsPerConsumer?: number
   dailyCallsTotal?: number
   attributes: DescriptorAttributes
 }
 
-export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
+export const EServiceCreateStepTwo: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const { descriptor, forward, back } = useEServiceCreateContext()
 
@@ -93,7 +93,7 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
   const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
   const dailyCallsTotal = formMethods.watch('dailyCallsTotal')
 
-  const onSubmit: SubmitHandler<CreateStepThresholdsFormValues> = (values) => {
+  const onSubmit: SubmitHandler<CreateStepTwoFormValues> = (values) => {
     if (!descriptor) return
 
     const removeEmptyAttributeGroups = (attributes: Array<Array<DescriptorAttribute>>) => {
@@ -191,6 +191,6 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
   )
 }
 
-export const EServiceCreateStepThresholdsSkeleton: React.FC = () => {
+export const EServiceCreateStepTwoSkeleton: React.FC = () => {
   return <SectionContainerSkeleton height={354} />
 }

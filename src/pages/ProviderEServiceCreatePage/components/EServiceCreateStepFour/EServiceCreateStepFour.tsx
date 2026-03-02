@@ -9,7 +9,7 @@ import {
 } from '@/api/api.generatedTypes'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import { Box, Typography } from '@mui/material'
-import { SectionContainer } from '@/components/layout/containers'
+import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
@@ -18,12 +18,12 @@ import { useNavigate } from '@/router'
 import { UploadDocumentsSection } from './components/UploadDocumentsSection'
 import { Stack } from '@mui/system'
 
-type EServiceCreateStepVersionFormValues = {
+type EServiceCreateStepFourFormValues = {
   description: string
   agreementApprovalPolicy: boolean
 }
 
-export const EServiceCreateStepInfoVersion: React.FC = () => {
+export const EServiceCreateStepFour: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const navigate = useNavigate()
 
@@ -37,7 +37,7 @@ export const EServiceCreateStepInfoVersion: React.FC = () => {
     suppressSuccessToast: true,
   })
 
-  const formMethods = useForm<EServiceCreateStepVersionFormValues>({
+  const formMethods = useForm<EServiceCreateStepFourFormValues>({
     defaultValues: {
       description: descriptor?.description ?? '',
       agreementApprovalPolicy: descriptor ? descriptor.agreementApprovalPolicy === 'MANUAL' : false,
@@ -46,7 +46,7 @@ export const EServiceCreateStepInfoVersion: React.FC = () => {
 
   const isEServiceCreatedFromTemplate = Boolean(descriptor?.templateRef?.templateVersionId)
 
-  const onSubmit: SubmitHandler<EServiceCreateStepVersionFormValues> = (values) => {
+  const onSubmit: SubmitHandler<EServiceCreateStepFourFormValues> = (values) => {
     if (!descriptor) return
 
     const newDescriptorData = {
@@ -187,5 +187,14 @@ export const EServiceCreateStepInfoVersion: React.FC = () => {
         />
       </Box>
     </FormProvider>
+  )
+}
+
+export const EServiceCreateStepFourSkeleton: React.FC = () => {
+  return (
+    <>
+      <SectionContainerSkeleton height={365} />
+      <SectionContainerSkeleton height={178} />
+    </>
   )
 }

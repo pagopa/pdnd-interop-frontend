@@ -2,13 +2,10 @@ import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
 import type { StepperStep } from '@/types/common.types'
 import {
-  EServiceCreateStepGeneral,
-  EServiceCreateStepGeneralSkeleton,
-} from './components/EServiceCreateStepGeneral'
-import {
-  EServiceCreateStepDocumentsSkeleton,
-  EServiceCreateFromTemplateStepDocumentsSkeleton
-} from './components/EServiceCreateStepDocuments'
+  EServiceCreateStepOne,
+  EServiceCreateStepOneSkeleton,
+} from './components/EServiceCreateStepOne'
+import { EServiceCreateFromTemplateStepDocumentsSkeleton } from './components/EServiceCreateStepDocuments'
 import { useTranslation } from 'react-i18next'
 import { useActiveStep } from '@/hooks/useActiveStep'
 import { Redirect, useParams } from '@/router'
@@ -23,15 +20,18 @@ import type { EServiceMode } from '@/api/api.generatedTypes'
 import { useQuery } from '@tanstack/react-query'
 import { EServiceCreateFromTemplateStepPurpose } from './components/EServiceCreateStepPurpose/EServiceCreateFromTemplateStepPurpose'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
-import { EServiceCreateStepInfoVersion } from './components/EServiceCreateStepInfoVersion'
 import {
-  EServiceCreateStepTechSpec,
-  EServiceCreateStepTechSpecSkeleton,
-} from './components/EServiceCreateStepTechSpec'
+  EServiceCreateStepFour,
+  EServiceCreateStepFourSkeleton,
+} from './components/EServiceCreateStepFour'
 import {
-  EServiceCreateStepThresholds,
-  EServiceCreateStepThresholdsSkeleton,
-} from './components/EServiceCreateStepThresholds'
+  EServiceCreateStepThree,
+  EServiceCreateStepThreeSkeleton,
+} from './components/EServiceCreateStepThree'
+import {
+  EServiceCreateStepTwo,
+  EServiceCreateStepTwoSkeleton,
+} from './components/EServiceCreateStepTwo'
 import { Typography } from '@mui/material'
 
 const ProviderEServiceCreatePage: React.FC = () => {
@@ -71,21 +71,21 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const steps: Array<StepperStep> =
     eserviceMode === 'DELIVER'
       ? [
-        { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
-        { label: t('create.stepper.step2Label'), component: EServiceCreateStepThresholds },
-        { label: t('create.stepper.step3Label'), component: EServiceCreateStepTechSpec },
-        { label: t('create.stepper.step4Label'), component: EServiceCreateStepInfoVersion },
-      ]
+          { label: t('create.stepper.step1Label'), component: EServiceCreateStepOne },
+          { label: t('create.stepper.step2Label'), component: EServiceCreateStepTwo },
+          { label: t('create.stepper.step3Label'), component: EServiceCreateStepThree },
+          { label: t('create.stepper.step4Label'), component: EServiceCreateStepFour },
+        ]
       : [
-        { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
-        {
-          label: t('create.stepper.step2ReceiveLabel'),
-          component: CreateStepPurpose,
-        },
-        { label: t('create.stepper.step2Label'), component: EServiceCreateStepThresholds },
-        { label: t('create.stepper.step3Label'), component: EServiceCreateStepTechSpec },
-        { label: t('create.stepper.step4Label'), component: EServiceCreateStepInfoVersion },
-      ]
+          { label: t('create.stepper.step1Label'), component: EServiceCreateStepOne },
+          {
+            label: t('create.stepper.step2ReceiveLabel'),
+            component: CreateStepPurpose,
+          },
+          { label: t('create.stepper.step2Label'), component: EServiceCreateStepTwo },
+          { label: t('create.stepper.step3Label'), component: EServiceCreateStepThree },
+          { label: t('create.stepper.step4Label'), component: EServiceCreateStepFour },
+        ]
 
   const { component: Step } = steps[activeStep]
 
@@ -103,7 +103,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
 
   const CreateStepDocumentsSkeleton = isEserviceFromTemplate
     ? EServiceCreateFromTemplateStepDocumentsSkeleton
-    : EServiceCreateStepDocumentsSkeleton
+    : EServiceCreateStepFourSkeleton
 
   const CreateStepPurposeSkeleton = isEserviceFromTemplate
     ? EServiceCreateFromTemplateStepDocumentsSkeleton
@@ -112,25 +112,25 @@ const ProviderEServiceCreatePage: React.FC = () => {
   const stepsLoadingSkeletons =
     eserviceMode === 'DELIVER'
       ? [
-        <EServiceCreateStepGeneralSkeleton key={1} />,
-        <EServiceCreateStepThresholdsSkeleton key={2} />,
-        <EServiceCreateStepTechSpecSkeleton key={3} />,
-        <CreateStepDocumentsSkeleton key={4} />,
-      ]
+          <EServiceCreateStepOneSkeleton key={1} />,
+          <EServiceCreateStepTwoSkeleton key={2} />,
+          <EServiceCreateStepThreeSkeleton key={3} />,
+          <CreateStepDocumentsSkeleton key={4} />,
+        ]
       : [
-        <EServiceCreateStepGeneralSkeleton key={1} />,
-        <CreateStepPurposeSkeleton key={2} />,
-        <EServiceCreateStepThresholdsSkeleton key={3} />,
-        <EServiceCreateStepTechSpecSkeleton key={4} />,
-        <CreateStepDocumentsSkeleton key={5} />,
-      ]
+          <EServiceCreateStepOneSkeleton key={1} />,
+          <CreateStepPurposeSkeleton key={2} />,
+          <EServiceCreateStepTwoSkeleton key={3} />,
+          <EServiceCreateStepThreeSkeleton key={4} />,
+          <CreateStepDocumentsSkeleton key={5} />,
+        ]
 
   const intro = isNewEService
     ? { title: t('create.emptyTitle') }
     : {
-      title: eservice?.name,
-      description: eservice?.description,
-    }
+        title: eservice?.name,
+        description: eservice?.description,
+      }
 
   return (
     <PageContainer

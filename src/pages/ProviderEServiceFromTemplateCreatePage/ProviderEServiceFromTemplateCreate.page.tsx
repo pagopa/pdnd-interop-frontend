@@ -6,30 +6,28 @@ import { useParams, useGeneratePath } from '@/router'
 import { Link } from '@mui/material'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import type { StepperStep } from '@/types/common.types'
+import { EServiceFromTemplateCreateStepDocuments } from '../ProviderEServiceCreatePage/components/EServiceCreateStepDocuments'
 import {
-  EServiceFromTemplateCreateStepDocuments,
-  EServiceCreateStepDocumentsSkeleton,
-} from '../ProviderEServiceCreatePage/components/EServiceCreateStepDocuments'
-import {
-  EServiceCreateStepGeneral,
-  EServiceCreateStepGeneralSkeleton,
-} from '../ProviderEServiceCreatePage/components/EServiceCreateStepGeneral'
+  EServiceCreateStepOne,
+  EServiceCreateStepOneSkeleton,
+} from '../ProviderEServiceCreatePage/components/EServiceCreateStepOne'
 import {
   EServiceCreateStepPurpose,
   EServiceCreateStepPurposeSkeleton,
 } from '../ProviderEServiceCreatePage/components/EServiceCreateStepPurpose/EServiceCreateStepPurpose'
-import {
-  EServiceCreateStepVersion,
-  EServiceCreateStepVersionSkeleton,
-} from '../ProviderEServiceCreatePage/components/EServiceCreateStepVersion'
 import { PageContainer } from '@/components/layout/containers'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceCreateContextProvider } from '../ProviderEServiceCreatePage/components/EServiceCreateContext'
 import type { EServiceMode } from '@/api/api.generatedTypes'
 import {
-  EServiceCreateStepTechSpec,
-  EServiceCreateStepTechSpecSkeleton,
-} from '../ProviderEServiceCreatePage/components/EServiceCreateStepTechSpec'
+  EServiceCreateStepThree,
+  EServiceCreateStepThreeSkeleton,
+} from '../ProviderEServiceCreatePage/components/EServiceCreateStepThree'
+import {
+  EServiceCreateStepTwo,
+  EServiceCreateStepTwoSkeleton,
+} from '../ProviderEServiceCreatePage/components/EServiceCreateStepTwo'
+import { EServiceCreateStepFourSkeleton } from '../ProviderEServiceCreatePage/components/EServiceCreateStepFour'
 
 const ProviderEServiceFromTemplateCreate: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -45,19 +43,19 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
   const steps: Array<StepperStep> =
     eserviceTemplate?.mode === 'DELIVER'
       ? [
-          { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
-          { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
-          { label: t('create.stepper.step3Label'), component: EServiceCreateStepTechSpec },
+          { label: t('create.stepper.step1Label'), component: EServiceCreateStepOne },
+          { label: t('create.stepper.step2Label'), component: EServiceCreateStepTwo },
+          { label: t('create.stepper.step3Label'), component: EServiceCreateStepThree },
           {
             label: t('create.stepper.step4Label'),
             component: EServiceFromTemplateCreateStepDocuments,
           },
         ]
       : [
-          { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
+          { label: t('create.stepper.step1Label'), component: EServiceCreateStepOne },
           { label: t('create.stepper.step2ReceiveLabel'), component: EServiceCreateStepPurpose },
-          { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
-          { label: t('create.stepper.step3Label'), component: EServiceCreateStepTechSpec },
+          { label: t('create.stepper.step2Label'), component: EServiceCreateStepTwo },
+          { label: t('create.stepper.step3Label'), component: EServiceCreateStepThree },
           {
             label: t('create.stepper.step4Label'),
             component: EServiceFromTemplateCreateStepDocuments,
@@ -74,17 +72,17 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
   const stepsLoadingSkeletons =
     eserviceTemplate?.mode === 'DELIVER'
       ? [
-          <EServiceCreateStepGeneralSkeleton key={1} />,
-          <EServiceCreateStepVersionSkeleton key={2} />,
-          <EServiceCreateStepTechSpecSkeleton key={3} />,
-          <EServiceCreateStepDocumentsSkeleton key={4} />,
+          <EServiceCreateStepOneSkeleton key={1} />,
+          <EServiceCreateStepTwoSkeleton key={2} />,
+          <EServiceCreateStepThreeSkeleton key={3} />,
+          <EServiceCreateStepFourSkeleton key={4} />,
         ]
       : [
-          <EServiceCreateStepGeneralSkeleton key={1} />,
+          <EServiceCreateStepOneSkeleton key={1} />,
           <EServiceCreateStepPurposeSkeleton key={2} />,
-          <EServiceCreateStepVersionSkeleton key={3} />,
-          <EServiceCreateStepTechSpecSkeleton key={4} />,
-          <EServiceCreateStepDocumentsSkeleton key={5} />,
+          <EServiceCreateStepTwoSkeleton key={3} />,
+          <EServiceCreateStepThreeSkeleton key={4} />,
+          <EServiceCreateStepFourSkeleton key={5} />,
         ]
 
   return (

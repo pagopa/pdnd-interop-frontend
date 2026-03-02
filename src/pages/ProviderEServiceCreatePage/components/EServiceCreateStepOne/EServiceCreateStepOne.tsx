@@ -25,7 +25,7 @@ import { EServiceTemplateInfoSection } from '../sections/EServiceTemplateInfoSec
 import { DelegationSection } from '../sections/DelegationSection'
 import { SignalHubSection } from '../sections/SignalHubSection'
 
-export type EServiceCreateStepGeneralFormValues = {
+export type EServiceCreateStepOneFormValues = {
   name: string
   description: string
   technology: EServiceTechnology
@@ -36,7 +36,7 @@ export type EServiceCreateStepGeneralFormValues = {
   isClientAccessDelegable: boolean
 }
 
-export const EServiceCreateStepGeneral: React.FC = () => {
+export const EServiceCreateStepOne: React.FC = () => {
   const { isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   const { t } = useTranslation('eservice')
@@ -66,7 +66,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const defaultValues = evaluateFormDefaultValues(eserviceTemplate, descriptor, eserviceMode)
   const formMethods = useForm({ defaultValues })
 
-  const onSubmit = (formValues: EServiceCreateStepGeneralFormValues & InstanceEServiceSeed) => {
+  const onSubmit = (formValues: EServiceCreateStepOneFormValues & InstanceEServiceSeed) => {
     // If we are editing an existing e-service, we update the draft
     if (descriptor) {
       // If nothing has changed skip the update call
@@ -95,9 +95,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     onCreateDraft(formValues)
   }
 
-  const onCreateDraft = (
-    formValues: EServiceCreateStepGeneralFormValues & InstanceEServiceSeed
-  ) => {
+  const onCreateDraft = (formValues: EServiceCreateStepOneFormValues & InstanceEServiceSeed) => {
     // If we are creating a new e-service we need to understand if we are creating it from a eserviceTemplate or not
     if (!eserviceTemplate) {
       createDraft(formValues, {
@@ -173,7 +171,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   )
 }
 
-export const EServiceCreateStepGeneralSkeleton: React.FC = () => {
+export const EServiceCreateStepOneSkeleton: React.FC = () => {
   return (
     <>
       <SectionContainerSkeleton height={354} />
@@ -185,7 +183,7 @@ function evaluateFormDefaultValues(
   eserviceTemplate: EServiceTemplateDetails | undefined,
   descriptor: ProducerEServiceDescriptor | undefined,
   eserviceMode: EServiceMode
-): EServiceCreateStepGeneralFormValues {
+): EServiceCreateStepOneFormValues {
   if (!eserviceTemplate)
     return {
       name: descriptor?.eservice.name ?? '',

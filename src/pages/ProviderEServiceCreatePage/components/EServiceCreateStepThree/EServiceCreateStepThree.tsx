@@ -14,7 +14,6 @@ import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { payloadVerificationGuideLink } from '@/config/constants'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
-import type { UpdateEServiceDescriptorTemplateInstanceSeed } from '@/api/api.generatedTypes'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { openApiCheckerLink } from '@/config/constants'
@@ -22,12 +21,12 @@ import { trackEvent } from '@/config/tracking'
 import { UploadInterface } from './components/UploadInterface'
 import { match } from 'ts-pattern'
 
-export type EServiceCreateStepTechSpecFormValues = {
+export type EServiceCreateStepThreeFormValues = {
   audience: string
   voucherLifespan: number
 }
 
-export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
+export const EServiceCreateStepThree: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
 
   const { descriptor, forward, back } = useEServiceCreateContext()
@@ -40,14 +39,14 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
     suppressSuccessToast: true,
   })
 
-  const defaultValues: EServiceCreateStepTechSpecFormValues = {
+  const defaultValues: EServiceCreateStepThreeFormValues = {
     audience: descriptor?.audience?.[0] ?? '',
     voucherLifespan: descriptor ? secondsToMinutes(descriptor.voucherLifespan) : 1,
   }
 
   const formMethods = useForm({ defaultValues })
 
-  const onSubmit: SubmitHandler<EServiceCreateStepTechSpecFormValues> = (values) => {
+  const onSubmit: SubmitHandler<EServiceCreateStepThreeFormValues> = (values) => {
     if (!descriptor) return
 
     const newDescriptorData = {
@@ -158,6 +157,6 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
   )
 }
 
-export const EServiceCreateStepTechSpecSkeleton: React.FC = () => {
+export const EServiceCreateStepThreeSkeleton: React.FC = () => {
   return <SectionContainerSkeleton height={550} />
 }
