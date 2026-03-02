@@ -945,7 +945,7 @@
     "updateDescriptorAttributes": {
       "loading": "Stiamo aggiornando gli attributi",
       "outcome": {
-        "success": "Gli attributi {{attributeKind}} sono stati modificati correttamente!",
+        "success": "Gli attributi {{attributeKind}} che hai aggiunto sono stati salvati.",
         "error": "Non è stato possibile modificare gli attributi {{attributeKind}}. Per favore, riprova!"
       }
     },
@@ -980,6 +980,13 @@
       "confirmDialog": {
         "title": "Conferma riattivazione versione",
         "description": "Cliccando \"conferma\" questa versione del template di e-service sarà riattivata. Tutti i fruitori che hanno una richiesta di fruizione attiva per questa versione del template di e-service potranno nuovamente usufruirne"
+      }
+    },
+    "updateQuotas": {
+      "loading": "Stiamo modificando le soglie di chiamate API",
+      "outcome": {
+        "success": "Hai modificato le soglie di chiamate API.",
+        "error": "Non è stato possibile modificare le soglie di chiamate API. Controlla di aver inserito le informazioni corrette."
       }
     }
   },
