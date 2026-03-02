@@ -91,8 +91,8 @@ describe('EServiceTemplateThresholdsAndAttributesSection', () => {
       }
     )
 
-    expect(screen.getByText('1000')).toBeInTheDocument()
-    expect(screen.getByText('5000')).toBeInTheDocument()
+    expect(screen.getByText('1.000')).toBeInTheDocument()
+    expect(screen.getByText('5.000')).toBeInTheDocument()
   })
 
   it('renders attribute sections for certified, verified and declared', () => {
