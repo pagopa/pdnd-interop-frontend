@@ -66,7 +66,7 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
       }}
     >
       {alertProps && (
-        <Alert severity={alertProps.severity} sx={{ mb: 3 }} variant={alertProps.variant}>
+        <Alert severity={alertProps.severity} sx={{ my: 3 }} variant={alertProps.variant}>
           <Trans
             components={{
               1: alertProps.link ? (
