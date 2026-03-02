@@ -502,7 +502,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU',
-    path: '/erogazione/template-eservice/:eServiceTemplateId/:eServiceTemplateVersionId/pubblicato',
+    path: '/erogazione/template-eservice/:eServiceTemplateId/:eServiceTemplateVersionId/feedback',
     element: <ProviderEServiceTemplatePublishThankYouPage />,
     public: false,
     hideSideNav: true,
