@@ -537,6 +537,7 @@
     "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS": "Dettaglio template",
     "SUBSCRIBE_PURPOSE_TEMPLATE_EDIT": "Modifica template finalità",
     "SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE": "Crea finalità da template",
-    "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Modifica finalità da template"
+    "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Modifica finalità da template",
+    "PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU": "Pubblicazione completata"
   }
 }
