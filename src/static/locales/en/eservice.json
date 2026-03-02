@@ -508,6 +508,25 @@
           "verifyVoucher": "How do I verify a consumer's voucher?",
           "wellKnown": "URL .well-known",
           "interfaceChecksum": "How to calculate the interface file checksum yourself?"
+        },
+        "delegationSection": {
+          "title": "Fruition via delegation",
+          "isConsumerDelegable": {
+            "label": "Authorization",
+            "value": {
+              "true": "Yes",
+              "false": "No",
+              "undefined": "Not specified"
+            }
+          },
+          "isClientAccessDelegable": {
+            "label": "Authorization for client association",
+            "value": {
+              "true": "Yes",
+              "false": "No",
+              "undefined": "Not specified"
+            }
+          }
         }
       },
       "signalHub": {
@@ -701,6 +720,19 @@
         },
         "switchLabel": "I will report any data changes on Signal Hub.",
         "alert": "Before proceeding, make sure that the designation document has been reviewed and approved by at least one administrator in your organization."
+      },
+      "updateDelegationsDrawer": {
+        "title": "Edit delegation preferences",
+        "subtitle": "Read the <1>documentation</1> relating to how delegations work",
+        "isConsumerDelegableField": {
+          "label": "Can the e-service be accessed through delegation?",
+          "switchLabel": "I authorize users of the e-service to delegate other entities to register on their behalf"
+        },
+        "isClientAccessDelegableField": {
+          "label": "I authorize access to data through delegation",
+          "checkboxLabel": "I authorize delegates to associate their clients with the purposes they have created as delegates for access. See the <1>documentation</1> for more details"
+        },
+        "alert": "Before proceeding, make sure that the preference has been approved by at least one administrator in your organization."
       }
     }
   },

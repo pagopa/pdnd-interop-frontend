@@ -272,6 +272,13 @@
         "error": "Personal data processing could not be updated. Please try again!",
         "success": "Personal data processing has been updated successfully!"
       }
+    },
+    "updateEServiceDelegationFlagsAfterPublication": {
+      "loading": "Updating delegation preference for e-service",
+      "outcome": {
+        "error": "It was not possible to modify the delegation preference for e-service. Please try again!",
+        "success": "The delegation preference for e-service has been modified successfully!"
+      }
     }
   },
   "attribute": {

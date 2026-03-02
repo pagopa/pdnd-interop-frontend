@@ -272,6 +272,13 @@
         "error": "Non è stato possibile modificare il trattamento dei dati personali. Per favore, riprova!",
         "success": "Il trattamento dei dati personali è stato modificato correttamente!"
       }
+    },
+    "updateEServiceDelegationFlagsAfterPublication": {
+      "loading": "Stiamo aggiornando la preferenza sulla fruizione tramite delega",
+      "outcome": {
+        "error": "Non è stato possibile modificare la preferenza sulla fruizione tramite delega. Per favore, riprova!",
+        "success": "La preferenza sulla fruizione tramite delega è stata modificata correttamente!"
+      }
     }
   },
   "attribute": {
