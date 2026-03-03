@@ -37,6 +37,10 @@ const FeatureFlagConfigs = z.object({
     .default('false')
     .default('false')
     .transform((value) => value === 'true'),
+  FEATURE_FLAG_UPDATE_DELEGATION_FLAGS: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform((value) => value === 'true'),
 })
 
 const EndpointConfigs = z.object({
@@ -116,6 +120,7 @@ export const {
   NOTIFICATION_COUNT_REFRESH_INTERVAL,
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA,
   FEATURE_FLAG_USE_SIGNED_DOCUMENT,
+  FEATURE_FLAG_UPDATE_DELEGATION_FLAGS,
   DELEGATIONS_ALLOWED_ORIGINS,
   AVATAR_BASEPATH,
 } = parseConfigs()
