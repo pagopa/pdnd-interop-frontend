@@ -83,6 +83,7 @@
       "delegatorName": "Delega richiesta da",
       "delegateName": "Delega conferita a",
       "eserviceTemplateUsingTenant": "Ente",
+      "eserviceTemplateInstanceLabel": "Parola identificativa",
       "eserviceTemplateInstanceVersion": "Versione template",
       "eserviceTemplateInstanceState": "Stato istanza",
       "eserviceTemplateName": "Template",

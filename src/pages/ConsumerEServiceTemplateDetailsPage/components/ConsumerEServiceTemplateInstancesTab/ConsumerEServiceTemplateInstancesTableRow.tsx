@@ -4,33 +4,55 @@ import type {
   EServiceTemplateInstance,
 } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
+import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { Link } from '@/router'
 import { getTemplateVersionNumber } from '@/components/shared/EserviceTemplate/eserviceTemplate.utils'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
-import { Skeleton } from '@mui/material'
+import { Skeleton, Stack } from '@mui/material'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
-import { useTranslation } from 'react-i18next'
 
-type ProviderEServiceTemplateUsingTenantsTableRowProps = {
+type ConsumerEServiceTemplateInstancesTableRowProps = {
   eserviceTemplateVersions: CompactEServiceTemplateVersion[]
   instance: EServiceTemplateInstance
 }
 
-export const ProviderEServiceTemplateUsingTenantsTableRow: React.FC<
-  ProviderEServiceTemplateUsingTenantsTableRowProps
+export const ConsumerEServiceTemplateInstancesTableRow: React.FC<
+  ConsumerEServiceTemplateInstancesTableRowProps
 > = ({ instance, eserviceTemplateVersions }) => {
-  const { t: tCommon } = useTranslation('common')
   const { jwt } = AuthHooks.useJwt()
 
+  // An instance is delegated when its producer differs from the logged-in
+  // organization, meaning it was created on behalf of another party.
   const isOwn = instance.producerId === jwt?.organizationId
+
+  const getNavigationLink = () => {
+    if (!isOwn) {
+      return 'SUBSCRIBE_CATALOG_VIEW'
+    }
+
+    // If the instance is in DRAFT state, it means the producer is still working on it and the consumer should be redirected to the edit page. In all other states, the consumer should be redirected to the manage page.
+    if (instance.latestDescriptor?.state === 'DRAFT') {
+      return 'PROVIDE_ESERVICE_EDIT'
+    }
+
+    return 'PROVIDE_ESERVICE_MANAGE'
+  }
 
   return (
     <TableRow
       key={instance.latestDescriptor?.id}
       cellData={[
-        `${instance.producerName}`,
+        isOwn ? (
+          `${instance.producerName}`
+        ) : (
+          <Stack direction="row" spacing={1} alignItems="center">
+            {instance.producerName}
+            <ByDelegationChip />
+          </Stack>
+        ),
         instance.instanceLabel || '-',
         `${
           getTemplateVersionNumber(
@@ -52,22 +74,22 @@ export const ProviderEServiceTemplateUsingTenantsTableRow: React.FC<
       {instance.latestDescriptor && (
         <Link
           as="button"
-          variant="outlined"
+          variant="naked"
           size="small"
-          to={isOwn ? 'PROVIDE_ESERVICE_MANAGE' : 'SUBSCRIBE_CATALOG_VIEW'}
+          to={getNavigationLink()}
           params={{
             eserviceId: instance.id,
             descriptorId: instance.latestDescriptor.id,
           }}
         >
-          {tCommon('actions.inspect')}
+          <ChevronRightIcon />
         </Link>
       )}
     </TableRow>
   )
 }
 
-export const ProviderEServiceTemplateUsingTenantsTableRowSkeleton: React.FC = () => {
+export const ConsumerEServiceTemplateInstancesTableRowSkeleton: React.FC = () => {
   return (
     <TableRow
       cellData={[
@@ -81,4 +103,3 @@ export const ProviderEServiceTemplateUsingTenantsTableRowSkeleton: React.FC = ()
     </TableRow>
   )
 }
-
