@@ -211,6 +211,7 @@ export const EditRESTInfoInterfaceFields: React.FC = () => {
           required
           label={t('contactSection.emailField')}
           rules={{
+            required: true,
             pattern: {
               value: emailRegex,
               message: tCommon('validation.string.email'),
