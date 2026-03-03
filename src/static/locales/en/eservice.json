@@ -257,7 +257,7 @@
         }
       },
       "interface": {
-        "title": "Interface",
+        "title": "Interface*",
         "description": {
           "rest": "Upload the OpenAPI file that describes the API. Before uploading, verify that it meets the ModI requirements with",
           "restLinkLabel": "the OpenAPI Checker",

@@ -18,8 +18,10 @@ import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { EServiceMutations } from '@/api/eservice'
 import SaveIcon from '@mui/icons-material/Save'
 
-export interface ExtendedTemplateInstanceInterfaceMetadata
-  extends Omit<TemplateInstanceInterfaceMetadata, 'serverUrls'> {
+export interface ExtendedTemplateInstanceInterfaceMetadata extends Omit<
+  TemplateInstanceInterfaceMetadata,
+  'serverUrls'
+> {
   serverUrls: { url: string }[]
 }
 
@@ -146,6 +148,7 @@ export const GenerateInterfaceForm: React.FC = () => {
             indexFieldArray={0}
             fieldArrayKeyName="url"
             label={t('serverSection.label')}
+            required
             rules={{
               required: true,
             }}
@@ -197,6 +200,7 @@ export const EditRESTInfoInterfaceFields: React.FC = () => {
           size="small"
           sx={{ flex: '1 1 50%' }}
           name="contactName"
+          required
           label={t('contactSection.contactNameField')}
           rules={{ required: true }}
         />
@@ -204,6 +208,7 @@ export const EditRESTInfoInterfaceFields: React.FC = () => {
           size="small"
           sx={{ flex: '1 1 50%', pl: 1 }}
           name="contactEmail"
+          required
           label={t('contactSection.emailField')}
           rules={{
             pattern: {
