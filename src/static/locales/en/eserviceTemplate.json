@@ -3,6 +3,7 @@
     "tabs": {
       "eserviceTemplateDetails": "Template details",
       "eserviceTemplateTenants": "Using Parties",
+      "eserviceTemplateInstances": "Generated instances",
       "ariaLabel": "Two separate tabs: one for the template e-service details and another for using parties."
     },
     "actions": {
@@ -170,6 +171,9 @@
     "usingTenantTable": {
       "noDataLabel": "This template has not yet been used by any party.",
       "noResultsLabel": "Your current search returned no results"
+    },
+    "myInstancesTable": {
+      "noDataLabel": "You have not yet created instances from this template."
     }
   },
   "actions": {
