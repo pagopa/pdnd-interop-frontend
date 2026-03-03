@@ -154,7 +154,8 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   ) => {
     // If we are creating a new e-service we need to understand if we are creating it from a eserviceTemplate or not
     if (!eserviceTemplate) {
-      createDraft(formValues, {
+      const { instanceLabel: _, ...eserviceData } = formValues
+      createDraft(eserviceData, {
         onSuccess({ id, descriptorId }) {
           navigate('PROVIDE_ESERVICE_EDIT', {
             params: { eserviceId: id, descriptorId },

@@ -28,6 +28,19 @@ export const ConsumerEServiceTemplateInstancesTableRow: React.FC<
   // organization, meaning it was created on behalf of another party.
   const isOwn = instance.producerId === jwt?.organizationId
 
+  const getNavigationLink = () => {
+    if (!isOwn) {
+      return 'SUBSCRIBE_CATALOG_VIEW'
+    }
+
+    // If the instance is in DRAFT state, it means the producer is still working on it and the consumer should be redirected to the edit page. In all other states, the consumer should be redirected to the manage page.
+    if (instance.latestDescriptor?.state === 'DRAFT') {
+      return 'PROVIDE_ESERVICE_EDIT'
+    }
+
+    return 'PROVIDE_ESERVICE_MANAGE'
+  }
+
   return (
     <TableRow
       key={instance.latestDescriptor?.id}
@@ -63,7 +76,7 @@ export const ConsumerEServiceTemplateInstancesTableRow: React.FC<
           as="button"
           variant="naked"
           size="small"
-          to={isOwn ? 'PROVIDE_ESERVICE_MANAGE' : 'SUBSCRIBE_CATALOG_VIEW'}
+          to={getNavigationLink()}
           params={{
             eserviceId: instance.id,
             descriptorId: instance.latestDescriptor.id,
@@ -90,4 +103,3 @@ export const ConsumerEServiceTemplateInstancesTableRowSkeleton: React.FC = () =>
     </TableRow>
   )
 }
-
