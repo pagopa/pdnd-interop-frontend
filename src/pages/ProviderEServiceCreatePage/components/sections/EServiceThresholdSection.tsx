@@ -30,6 +30,7 @@ export const EServiceThresholdSection: React.FC<EServiceThresholdSectionProps> =
             label={t('dailyCallsPerConsumerField.label')}
             type="number"
             inputProps={{ min: '1' }}
+            required
             rules={{ required: true, min: 1 }}
             sx={{ my: 0, flex: 1 }}
           />
@@ -40,6 +41,7 @@ export const EServiceThresholdSection: React.FC<EServiceThresholdSectionProps> =
             type="number"
             inputProps={{ min: '1' }}
             sx={{ my: 0, flex: 1 }}
+            required
             rules={{
               required: true,
               min: {
