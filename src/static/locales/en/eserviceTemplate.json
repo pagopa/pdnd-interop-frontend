@@ -63,6 +63,9 @@
             "RECEIVE": "Receive"
           }
         },
+        "voucher": {
+          "title": "Voucher"
+        },
         "thresholds": {
           "title": "Thresholds",
           "voucherLifespan": {
@@ -141,6 +144,9 @@
         "subtitle": "From this panel, you can update the quotas of the template e-service. The changes made will take effect immediately",
         "dailyCallsPerConsumerLabel": "Per consumer suggested threshold",
         "dailyCallsTotalLabel": "Total suggested threshold"
+      },
+      "updateVoucherDrawer": {
+        "subtitle": "From this panel, you can update the voucher lifespan of the template e-service. The changes made will take effect immediately."
       },
       "updateDocumentationDrawer": {
         "title": "Edit documentation",

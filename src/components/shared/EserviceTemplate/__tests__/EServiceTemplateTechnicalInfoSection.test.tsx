@@ -127,6 +127,44 @@ describe('EServiceTemplateTechnicalInfoSection', () => {
     expect(screen.queryByTestId('thresholds-section')).not.toBeInTheDocument()
   })
 
+  it('renders voucher section with title and edit button when not readonly', () => {
+    const mockData = createMockEServiceTemplateVersionDetails()
+    useSuspenseQueryMock.mockReturnValue({ data: mockData })
+
+    renderWithApplicationContext(
+      <EServiceTemplateTechnicalInfoSection
+        readonly={false}
+        routeKey="PROVIDE_ESERVICE_TEMPLATE_DETAILS"
+      />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    expect(screen.getByText('voucher.title')).toBeInTheDocument()
+    expect(screen.getByText('actions.edit')).toBeInTheDocument()
+  })
+
+  it('does not render edit button for voucher section when readonly', () => {
+    const mockData = createMockEServiceTemplateVersionDetails()
+    useSuspenseQueryMock.mockReturnValue({ data: mockData })
+
+    renderWithApplicationContext(
+      <EServiceTemplateTechnicalInfoSection
+        readonly={true}
+        routeKey="PROVIDE_ESERVICE_TEMPLATE_DETAILS"
+      />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    expect(screen.getByText('voucher.title')).toBeInTheDocument()
+    expect(screen.queryByText('actions.edit')).not.toBeInTheDocument()
+  })
+
   it('renders documentation and useful links sections', () => {
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })

@@ -6,10 +6,14 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { EServiceTemplateThresholdsSection } from './EServiceTemplateThresholdsSection'
 import { EServiceTemplateDocumentationSection } from './EServiceTemplateDocumentationSection'
 import { EServiceTemplateUsefulLinksSection } from './EServiceTemplateUsefulLinksSection'
+import { UpdateVoucherDrawer } from '@/components/shared/UpdateVoucherDrawer'
 import { secondsToMinutes } from '@/utils/format.utils'
+import { useDrawerState } from '@/hooks/useDrawerState'
+import EditIcon from '@mui/icons-material/Edit'
 
 type EServiceTemplateTechnicalInfoSectionProps = {
   readonly: boolean
@@ -23,6 +27,9 @@ export const EServiceTemplateTechnicalInfoSection: React.FC<
     keyPrefix: 'read.sections.technicalInformations',
   })
   const { t: tCommon } = useTranslation('common')
+  const { t: tDrawer } = useTranslation('eserviceTemplate', {
+    keyPrefix: 'read.drawers.updateVoucherDrawer',
+  })
 
   const { eServiceTemplateId, eServiceTemplateVersionId } = useParams<typeof routeKey>()
   const { data: eserviceTemplate } = useSuspenseQuery(
@@ -30,6 +37,23 @@ export const EServiceTemplateTechnicalInfoSection: React.FC<
   )
 
   const voucherLifespan = secondsToMinutes(eserviceTemplate.voucherLifespan)
+
+  const { isOpen, openDrawer, closeDrawer } = useDrawerState()
+
+  const { mutate: updateEserviceTemplateQuotas } = EServiceTemplateMutations.useUpdateQuotas()
+
+  const handleVoucherUpdate = (id: string, newVoucherLifespan: number, versionId?: string) => {
+    updateEserviceTemplateQuotas(
+      {
+        eServiceTemplateId: id,
+        eServiceTemplateVersionId: versionId!,
+        voucherLifespan: newVoucherLifespan,
+        dailyCallsPerConsumer: eserviceTemplate.dailyCallsPerConsumer,
+        dailyCallsTotal: eserviceTemplate.dailyCallsTotal,
+      },
+      { onSuccess: closeDrawer }
+    )
+  }
 
   return (
     <SectionContainer title={t('title')} description={t('description')}>
@@ -46,15 +70,29 @@ export const EServiceTemplateTechnicalInfoSection: React.FC<
               labelDescription={t('mode.labelDescription')}
               content={t(`mode.value.${eserviceTemplate.eserviceTemplate.mode}`)}
             />
-
-            <InformationContainer
-              label={t('thresholds.voucherLifespan.label')}
-              labelDescription={t('thresholds.voucherLifespan.labelDescription')}
-              content={`${voucherLifespan} ${tCommon('time.minute', {
-                count: voucherLifespan,
-              })}`}
-            />
           </Stack>
+        </SectionContainer>
+        <Divider />
+        <SectionContainer
+          innerSection
+          title={t('voucher.title')}
+          topSideActions={
+            readonly
+              ? undefined
+              : [
+                  {
+                    action: openDrawer,
+                    label: tCommon('actions.edit'),
+                    icon: EditIcon,
+                  },
+                ]
+          }
+        >
+          <InformationContainer
+            label={t('thresholds.voucherLifespan.label')}
+            labelDescription={t('thresholds.voucherLifespan.labelDescription')}
+            content={`${voucherLifespan}`}
+          />
         </SectionContainer>
         {!hideThresholds && (
           <>
@@ -73,6 +111,15 @@ export const EServiceTemplateTechnicalInfoSection: React.FC<
         <Divider />
         <EServiceTemplateUsefulLinksSection />
       </Stack>
+      <UpdateVoucherDrawer
+        isOpen={isOpen}
+        onClose={closeDrawer}
+        id={eserviceTemplate.eserviceTemplate.id}
+        voucherLifespan={eserviceTemplate.voucherLifespan}
+        versionId={eServiceTemplateVersionId}
+        subtitle={tDrawer('subtitle')}
+        onSubmit={handleVoucherUpdate}
+      />
     </SectionContainer>
   )
 }
