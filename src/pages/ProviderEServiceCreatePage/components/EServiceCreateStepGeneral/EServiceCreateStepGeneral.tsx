@@ -126,6 +126,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
       const isEServiceTheSame = compareObjects(formValues, descriptor?.eservice)
 
       if (!isEServiceTheSame) {
+        const { instanceLabel: _, ...eserviceData } = formValues
         isEserviceFromTemplate
           ? updateDraftFromTemplate(
               {
@@ -138,7 +139,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
               { onSuccess: forward, onError: handleDuplicateInstanceLabelError }
             )
           : updateDraft(
-              { eserviceId: descriptor.eservice.id, ...formValues },
+              { eserviceId: descriptor.eservice.id, ...eserviceData },
               { onSuccess: forward }
             )
       } else forward()
