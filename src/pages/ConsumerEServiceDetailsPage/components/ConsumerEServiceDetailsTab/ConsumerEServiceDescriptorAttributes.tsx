@@ -10,6 +10,9 @@ import { useParams } from '@/router'
 import { useSuspenseQueries, useSuspenseQuery } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
+import { Divider, Stack } from '@mui/material'
+import { formatThousands } from '@/utils/format.utils'
 
 export const ConsumerEServiceDescriptorAttributes: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.sections.attributes' })
@@ -41,6 +44,27 @@ export const ConsumerEServiceDescriptorAttributes: React.FC = () => {
 
   return (
     <SectionContainer title={t('title')} description={t('description')}>
+      <SectionContainer innerSection title={t('thresholds.title')}>
+        <Stack spacing={2}>
+          <InformationContainer
+            label={t('thresholds.dailyCallsPerConsumer.label')}
+            content={
+              descriptor.dailyCallsPerConsumer
+                ? `${formatThousands(descriptor.dailyCallsPerConsumer)}`
+                : ''
+            }
+          />
+          <InformationContainer
+            label={t('thresholds.dailyCallsTotal.label')}
+            content={
+              descriptor.dailyCallsTotal
+                ? `${formatThousands(descriptor.dailyCallsTotal)}`
+                : ''
+            }
+          />
+        </Stack>
+      </SectionContainer>
+      <Divider sx={{ my: 3 }} />
       <ReadOnlyDescriptorAttributes
         descriptorAttributes={descriptor.attributes}
         ownershipData={ownershipData}
