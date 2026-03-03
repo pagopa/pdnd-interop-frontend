@@ -60,6 +60,8 @@ const declaredAttr = createMockDescriptorAttribute({ id: 'decl-attr-1', name: 'D
 const baseDescriptor = {
   id: 'descriptor-id-001',
   state: 'PUBLISHED',
+  dailyCallsPerConsumer: 1000,
+  dailyCallsTotal: 5000,
   eservice: {
     id: 'eservice-id-001',
     name: 'Test E-Service',
@@ -165,5 +167,14 @@ describe('ConsumerEServiceDescriptorAttributes', () => {
     expect(screen.getByText('certified.label')).toBeInTheDocument()
     expect(screen.getByText('verified.label')).toBeInTheDocument()
     expect(screen.getByText('declared.label')).toBeInTheDocument()
+  })
+
+  it('should show thresholds section with daily calls labels', () => {
+    setupMocks()
+    renderComponent()
+
+    expect(screen.getByText('thresholds.title')).toBeInTheDocument()
+    expect(screen.getByText('thresholds.dailyCallsPerConsumer.label')).toBeInTheDocument()
+    expect(screen.getByText('thresholds.dailyCallsTotal.label')).toBeInTheDocument()
   })
 })
