@@ -4,9 +4,9 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
-import { AuthHooks } from '@/api/auth/auth.hooks'
 import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
 import { ProviderEServiceDelegationsSection } from '../components/ProviderEServiceDetailsTab/ProviderEServiceTechnicalInfoSection/ProviderEServiceDelegationsSection'
+import { AuthHooks } from '@/api/auth'
 
 vi.mock('@/hooks/useGetProducerDelegationUserRole')
 vi.mock('@/api/auth/auth.hooks', () => ({

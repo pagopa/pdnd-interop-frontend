@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import EditIcon from '@mui/icons-material/Edit'
 import { ProviderEServiceUpdateDelegationFlagsDrawer } from './ProviderEServiceUpdateDelegationFlagsDrawer'
 import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
-import { AuthHooks } from '@/api/auth/auth.hooks'
+import { AuthHooks } from '@/api/auth'
 
 type ProviderEServiceDelegationsSectionProps = {
   descriptor: ProducerEServiceDescriptor

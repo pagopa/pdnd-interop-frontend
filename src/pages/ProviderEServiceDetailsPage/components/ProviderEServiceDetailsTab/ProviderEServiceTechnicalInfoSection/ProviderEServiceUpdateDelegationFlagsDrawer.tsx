@@ -31,40 +31,33 @@ export const ProviderEServiceUpdateDelegationFlagsDrawer: React.FC<
   const { mutate: updateDelegationFlags } =
     EServiceMutations.useUpdateEServiceDelegationFlagsAfterPublication()
 
-  const defaultValues = {
-    isConsumerDelegable: descriptor.eservice.isConsumerDelegable,
-    isClientAccessDelegable: descriptor.eservice.isClientAccessDelegable,
-  }
+  const defaultValues = React.useMemo(
+    () => ({
+      isConsumerDelegable: descriptor.eservice.isConsumerDelegable ?? false,
+      isClientAccessDelegable: descriptor.eservice.isClientAccessDelegable ?? false,
+    }),
+    [descriptor]
+  )
 
   const { isAdmin } = AuthHooks.useJwt()
 
   const formMethods = useForm<UpdateDelegationFlagsFormValues>({ defaultValues })
+  const isConsumerDelegableValue = formMethods.watch('isConsumerDelegable')
 
   React.useEffect(() => {
-    formMethods.reset({
-      isConsumerDelegable: descriptor.eservice.isConsumerDelegable ?? false,
-      isClientAccessDelegable: descriptor.eservice.isClientAccessDelegable ?? false,
-    })
-  }, [descriptor, formMethods])
+    formMethods.reset(defaultValues)
+  }, [defaultValues, formMethods])
 
   const onSubmit = (values: UpdateDelegationFlagsFormValues) => {
-    if (values.isConsumerDelegable === false && values.isClientAccessDelegable === true) {
-      // This case should not happen because the checkbox for isClientAccessDelegable is only shown if isConsumerDelegable is true, but we put this check just in case the user set true for isClientAccessDelegable and then set false for isConsumerDelegable before submitting the form
-      updateDelegationFlags(
-        {
-          eserviceId: descriptor.eservice.id,
-          isConsumerDelegable: values.isConsumerDelegable,
-          isClientAccessDelegable: false,
-        },
-        { onSuccess: onClose }
-      )
-      return
-    }
+    //we put this check just in case the user set true for isClientAccessDelegable and then set false for isConsumerDelegable before submitting the form
+    const normalizedIsClientAccessDelegable = values.isConsumerDelegable
+      ? values.isClientAccessDelegable
+      : false
     updateDelegationFlags(
       {
         eserviceId: descriptor.eservice.id,
         isConsumerDelegable: values.isConsumerDelegable,
-        isClientAccessDelegable: values.isClientAccessDelegable,
+        isClientAccessDelegable: normalizedIsClientAccessDelegable,
       },
       { onSuccess: onClose }
     )
@@ -78,8 +71,6 @@ export const ProviderEServiceUpdateDelegationFlagsDrawer: React.FC<
     formMethods.reset(defaultValues)
   }
 
-  const isConsumerDelegableValue = formMethods.watch('isConsumerDelegable')
-
   return (
     <FormProvider {...formMethods}>
       <Drawer
@@ -89,7 +80,14 @@ export const ProviderEServiceUpdateDelegationFlagsDrawer: React.FC<
         subtitle={
           <Trans
             components={{
-              1: <Link underline="hover" href={delegationGuideLink} target="_blank" />,
+              1: (
+                <Link
+                  underline="hover"
+                  href={delegationGuideLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+              ),
             }}
           >
             {t('subtitle')}
@@ -130,6 +128,7 @@ export const ProviderEServiceUpdateDelegationFlagsDrawer: React.FC<
                           underline="hover"
                           href={delegationEServiceGuideLink}
                           target="_blank"
+                          rel="noopener noreferrer"
                         />
                       ),
                     }}
