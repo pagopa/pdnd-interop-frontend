@@ -261,6 +261,7 @@
         "description": {
           "rest": "Carica il file OpenAPI che descrive l'API. Prima di caricarlo, verifica che rispetti i requisiti del ModI con",
           "restLinkLabel": "l'OpenAPI Checker",
+          "restForm": "Compila questi campi per generare automaticamente il file OpenAPI.",
           "soap": "Carica il file WSDL che descrive l'API"
         },
         "prettyName": "Specifica API",

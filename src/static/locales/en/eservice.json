@@ -261,6 +261,7 @@
         "description": {
           "rest": "Upload the OpenAPI file that describes the API. Before uploading, verify that it meets the ModI requirements with",
           "restLinkLabel": "the OpenAPI Checker",
+          "restForm": "Fill in these fields to automatically generate the OpenAPI file.",
           "soap": "Upload the WSDL file that describes the API"
         },
         "prettyName": "API specification",

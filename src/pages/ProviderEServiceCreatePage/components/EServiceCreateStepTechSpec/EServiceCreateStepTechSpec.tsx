@@ -91,6 +91,8 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
   const sectionDescription =
     descriptor?.eservice.technology === 'SOAP' ? (
       t(`step4.interface.description.soap`)
+    ) : isEServiceCreatedFromTemplate ? (
+      t('step4.interface.description.restForm')
     ) : (
       <>
         {t(`step4.interface.description.rest`)}{' '}
