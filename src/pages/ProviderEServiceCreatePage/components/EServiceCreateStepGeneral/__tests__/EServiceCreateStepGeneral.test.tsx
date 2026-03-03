@@ -54,11 +54,11 @@ const mockDescriptorFromTemplate = createMockEServiceDescriptorProvider({
     isConsumerDelegable: true,
     isClientAccessDelegable: true,
     personalData: true,
+    instanceLabel: 'Patente',
   },
   templateRef: {
     templateId: 'template-id',
     templateName: 'Credenziale IT-Wallet',
-    instanceLabel: 'Patente',
   },
 })
 

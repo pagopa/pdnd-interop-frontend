@@ -35,12 +35,12 @@ describe('ProviderEServiceGeneralInfoSummary - instanceLabel', () => {
     mockDescriptorData = createMockEServiceDescriptorProvider({
       eservice: {
         name: 'Credenziale IT-Wallet - Patente',
+        instanceLabel: 'Patente',
       },
       templateRef: {
         templateId: 'template-id',
         templateVersionId: 'template-version-id',
         templateName: 'Credenziale IT-Wallet',
-        instanceLabel: 'Patente',
       },
     })
 
@@ -56,12 +56,12 @@ describe('ProviderEServiceGeneralInfoSummary - instanceLabel', () => {
     mockDescriptorData = createMockEServiceDescriptorProvider({
       eservice: {
         name: 'Credenziale IT-Wallet',
+        instanceLabel: undefined,
       },
       templateRef: {
         templateId: 'template-id',
         templateVersionId: 'template-version-id',
         templateName: 'Credenziale IT-Wallet',
-        instanceLabel: undefined,
       },
     })
 
