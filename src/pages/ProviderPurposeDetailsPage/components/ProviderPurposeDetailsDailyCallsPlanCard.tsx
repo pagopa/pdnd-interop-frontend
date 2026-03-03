@@ -92,7 +92,7 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
         <CardHeader
           titleTypographyProps={{ variant: 'sidenav' }}
           title={title}
-          subheaderTypographyProps={{ variant: 'body2', color: 'text.secondary' }}
+          subheaderTypographyProps={{ variant: 'body2', color: 'text.secondary', mt: 1 }}
           subheader={t('subtitle')}
           action={
             isChangePlanRequest && (
@@ -127,6 +127,15 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
         <CardContent sx={{ px: 3, pt: 1 }}>
           {waitingForApprovalVersion && (
             <Stack direction="row" alignItems="space-between">
+              {purpose.currentVersion && (
+                <Box flex={1}>
+                  <Typography variant="h4">
+                    {formatThousands(purpose.currentVersion?.dailyCalls)}
+                  </Typography>
+                  <Typography variant="body2">{t('currentPlan.label')}</Typography>
+                </Box>
+              )}
+
               <Box flex={1}>
                 <Typography variant="h4">
                   {formatThousands(waitingForApprovalVersion.dailyCalls)}
@@ -139,17 +148,6 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
                   )}
                 </Typography>
               </Box>
-
-              {purpose.currentVersion && (
-                <Box flex={1}>
-                  <Typography variant="h4" color="text.secondary" fontWeight={400}>
-                    {formatThousands(purpose.currentVersion?.dailyCalls)}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {t('currentPlan.label')}
-                  </Typography>
-                </Box>
-              )}
             </Stack>
           )}
           {isNewPurposeRejected && (

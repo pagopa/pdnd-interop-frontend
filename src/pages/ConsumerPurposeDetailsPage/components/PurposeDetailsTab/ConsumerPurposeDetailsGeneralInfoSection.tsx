@@ -56,6 +56,7 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
     label: t('riskAnalysis.link.label'),
     component: 'button',
     type: 'button',
+    sx: { fontWeight: '700' },
     disabled: purpose.isDocumentReady === false,
     tooltip: purpose.isDocumentReady === false ? tShared('notAvailableYet') : undefined,
     onClick: FEATURE_FLAG_USE_SIGNED_DOCUMENT
@@ -76,6 +77,7 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
         {
           startIcon: <LinkIcon fontSize="small" />,
           label: t('agreementLink.label'),
+          sx: { fontWeight: '700' },
           href:
             '/ui' + generatePath('SUBSCRIBE_AGREEMENT_READ', { agreementId: purpose.agreement.id }),
           target: '_blank',
@@ -104,12 +106,17 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
           label={t('providerField.label')}
           content={purpose.eservice.producer.name}
         />
-        <InformationContainer label={t('consumerField.label')} content={purpose.consumer.name} />
         {purpose.delegation && (
-          <InformationContainer
-            label={t('delegatedConsumerField.label')}
-            content={purpose.delegation.delegate.name}
-          />
+          <>
+            <InformationContainer
+              label={t('consumerField.label')}
+              content={purpose.consumer.name}
+            />
+            <InformationContainer
+              label={t('delegatedConsumerField.label')}
+              content={purpose.delegation.delegate.name}
+            />
+          </>
         )}
         {isFromPurposeTemplate && (
           <InformationContainer

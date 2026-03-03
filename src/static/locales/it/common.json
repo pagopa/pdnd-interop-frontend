@@ -123,11 +123,11 @@
     },
     "purpose": {
       "DRAFT": "in bozza",
-      "ACTIVE": "attiva",
-      "SUSPENDED": "sospesa",
+      "ACTIVE": "attivo",
+      "SUSPENDED": "sospeso",
       "WAITING_FOR_APPROVAL": "in attesa di approvazione",
-      "ARCHIVED": "archiviata",
-      "REJECTED": "rifiutata"
+      "ARCHIVED": "archiviato",
+      "REJECTED": "rifiutato"
     },
     "delegation": {
       "ACTIVE": "attiva",
