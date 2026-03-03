@@ -36,7 +36,7 @@
     "manage": {
       "success": {
         "provider": "The consumer possesses at least one of the following attributes",
-        "consumer": "Your party possesses at least one of the following attributes"
+        "consumer": "You possess at least one of these attributes."
       },
       "warning": {
         "verified": {
@@ -50,7 +50,7 @@
       },
       "error": {
         "provider": "The consumer does not possess any of the following attributes",
-        "consumer": "Your party does not possess any of the following attributes"
+        "consumer": "You do not currently meet the indicated requirements."
       },
       "revokedByCertifier": "Attribute revoked by the certifying authority",
       "revokedByProducer": "Attribute revoked by a producer",

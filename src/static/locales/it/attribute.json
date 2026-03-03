@@ -36,7 +36,7 @@
     "manage": {
       "success": {
         "provider": "Il fruitore possiede almeno uno dei seguenti attributi",
-        "consumer": "Il tuo ente possiede almeno uno dei seguenti attributi"
+        "consumer": "Possiedi almeno uno di questi attributi."
       },
       "warning": {
         "verified": {
@@ -50,7 +50,7 @@
       },
       "error": {
         "provider": "Il fruitore non possiede nessuno dei seguenti attributi",
-        "consumer": "Il tuo ente non possiede nessuno dei seguenti attributi"
+        "consumer": "Per ora non soddisfi i requisiti indicati."
       },
       "revokedByCertifier": "Attributo revocato dal certificatore",
       "revokedByProducer": "Attributo revocato da un erogatore",
