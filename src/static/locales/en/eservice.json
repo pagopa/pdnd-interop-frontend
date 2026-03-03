@@ -140,11 +140,14 @@
         "title": "Voucher",
         "voucherLifespanField": {
           "label": "Validity duration (minutes)",
-          "infoLabel": "Max value: 1440 minutes (24 hours)"
+          "readOnlyLabel": "Validity duration period",
+          "infoLabel": "Max value: 1440 minutes (24 hours)",
+          "valueLabel_one": "{{count}} minute",
+          "valueLabel_other": "{{count}} minutes"
         },
         "audienceField": {
           "label": "Audience",
-          "infoLabel": "The audience represents your target resource. For full information, <1>consult the guide</1>."
+          "infoLabel": "Your audience is your target resource. For all the information, <1>consult the guide</1>"
         }
       },
       "thresholdSection": {
@@ -254,10 +257,11 @@
         }
       },
       "interface": {
-        "title": "Interface",
+        "title": "Interface*",
         "description": {
           "rest": "Upload the OpenAPI file that describes the API. Before uploading, verify that it meets the ModI requirements with",
           "restLinkLabel": "the OpenAPI Checker",
+          "restForm": "Fill in these fields to automatically generate the OpenAPI file.",
           "soap": "Upload the WSDL file that describes the API"
         },
         "prettyName": "API specification",

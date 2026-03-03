@@ -7,10 +7,6 @@ import { Link } from '@mui/material'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import type { StepperStep } from '@/types/common.types'
 import {
-  EServiceFromTemplateCreateStepDocuments,
-  EServiceCreateStepDocumentsSkeleton,
-} from '../ProviderEServiceCreatePage/components/EServiceCreateStepDocuments'
-import {
   EServiceCreateStepGeneral,
   EServiceCreateStepGeneralSkeleton,
 } from '../ProviderEServiceCreatePage/components/EServiceCreateStepGeneral'
@@ -30,6 +26,10 @@ import {
   EServiceCreateStepTechSpec,
   EServiceCreateStepTechSpecSkeleton,
 } from '../ProviderEServiceCreatePage/components/EServiceCreateStepTechSpec'
+import {
+  EServiceCreateStepInfoVersion,
+  EServiceCreateStepInfoVersionSkeleton,
+} from '../ProviderEServiceCreatePage/components/EServiceCreateStepInfoVersion'
 
 const ProviderEServiceFromTemplateCreate: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -50,7 +50,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
           { label: t('create.stepper.step3Label'), component: EServiceCreateStepTechSpec },
           {
             label: t('create.stepper.step4Label'),
-            component: EServiceFromTemplateCreateStepDocuments,
+            component: EServiceCreateStepInfoVersion,
           },
         ]
       : [
@@ -60,7 +60,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
           { label: t('create.stepper.step3Label'), component: EServiceCreateStepTechSpec },
           {
             label: t('create.stepper.step4Label'),
-            component: EServiceFromTemplateCreateStepDocuments,
+            component: EServiceCreateStepInfoVersion,
           },
         ]
 
@@ -77,14 +77,14 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
           <EServiceCreateStepGeneralSkeleton key={1} />,
           <EServiceCreateStepVersionSkeleton key={2} />,
           <EServiceCreateStepTechSpecSkeleton key={3} />,
-          <EServiceCreateStepDocumentsSkeleton key={4} />,
+          <EServiceCreateStepInfoVersionSkeleton key={4} />,
         ]
       : [
           <EServiceCreateStepGeneralSkeleton key={1} />,
           <EServiceCreateStepPurposeSkeleton key={2} />,
           <EServiceCreateStepVersionSkeleton key={3} />,
           <EServiceCreateStepTechSpecSkeleton key={4} />,
-          <EServiceCreateStepDocumentsSkeleton key={5} />,
+          <EServiceCreateStepInfoVersionSkeleton key={5} />,
         ]
 
   return (

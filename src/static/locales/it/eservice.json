@@ -140,11 +140,14 @@
         "title": "Voucher",
         "voucherLifespanField": {
           "label": "Durata validità (in minuti)",
-          "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
+          "readOnlyLabel": "Durata validità voucher",
+          "infoLabel": "Valore massimo: 1440 minuti (24 ore)",
+          "valueLabel_one": "{{count}} minuto",
+          "valueLabel_other": "{{count}} minuti"
         },
         "audienceField": {
           "label": "Audience",
-          "infoLabel": "L’audience rappresenta la tua risorsa di destinazione. Per tutte le informazioni, <1>consulta la guida</1>."
+          "infoLabel": "L’audience rappresenta la tua risorsa di destinazione. Per tutte le informazioni, <1>consulta la guida</1>"
         }
       },
       "thresholdSection": {
@@ -254,10 +257,11 @@
         }
       },
       "interface": {
-        "title": "Interfaccia",
+        "title": "Interfaccia*",
         "description": {
           "rest": "Carica il file OpenAPI che descrive l'API. Prima di caricarlo, verifica che rispetti i requisiti del ModI con",
           "restLinkLabel": "l'OpenAPI Checker",
+          "restForm": "Compila questi campi per generare automaticamente il file OpenAPI.",
           "soap": "Carica il file WSDL che descrive l'API"
         },
         "prettyName": "Specifica API",
