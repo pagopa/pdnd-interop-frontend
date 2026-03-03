@@ -93,16 +93,14 @@ export const UpdateInstanceLabelDrawer = React.forwardRef<
               },
             }}
           />
-          {watchedInstanceLabel?.trim() && (
-            <Box sx={{ mt: 2 }}>
-              <Typography variant="body2" color="text.secondary">
-                {tDrawer('instanceLabelField.catalogPreviewLabel')}
-              </Typography>
-              <Typography variant="body2" fontWeight={700}>
-                {templateName} - {watchedInstanceLabel.trim()}
-              </Typography>
-            </Box>
-          )}
+          <Box sx={{ mt: 2 }}>
+            <Typography variant="body2" color="text.secondary">
+              {tDrawer('instanceLabelField.catalogPreviewLabel')}
+            </Typography>
+            <Typography variant="body2" fontWeight={700}>
+              {templateName} {watchedInstanceLabel ? `- ${watchedInstanceLabel.trim()}` : ''}
+            </Typography>
+          </Box>
         </Box>
       </Drawer>
     </FormProvider>

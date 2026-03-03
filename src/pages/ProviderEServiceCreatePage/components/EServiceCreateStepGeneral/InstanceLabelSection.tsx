@@ -34,16 +34,14 @@ export const InstanceLabelSection: React.FC<InstanceLabelSectionProps> = ({
         disabled={disabled}
         sx={{ my: 0, mt: 1 }}
       />
-      {instanceLabel?.trim() && (
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
-          <Typography variant="body2" color="text.secondary">
-            {t('create.step1.instanceLabelField.catalogPreviewLabel')}
-          </Typography>
-          <Typography variant="body2" fontWeight={700}>
-            {templateName} - {instanceLabel.trim()}
-          </Typography>
-        </Box>
-      )}
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 2 }}>
+        <Typography variant="body2" color="text.secondary">
+          {t('create.step1.instanceLabelField.catalogPreviewLabel')}
+        </Typography>
+        <Typography variant="body2" fontWeight={700} marginLeft={6}>
+          {templateName} {instanceLabel ? `- ${instanceLabel.trim()}` : ''}
+        </Typography>
+      </Box>
     </SectionContainer>
   )
 }

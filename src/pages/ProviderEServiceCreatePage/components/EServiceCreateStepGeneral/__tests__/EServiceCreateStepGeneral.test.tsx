@@ -152,7 +152,7 @@ describe('EServiceCreateStepGeneral - instanceLabel', () => {
     })
   })
 
-  it('does not show the catalog preview when instanceLabel is empty', () => {
+  it('shows the catalog preview with only e-service name when instanceLabel is empty', () => {
     mockContext({ eserviceTemplate: mockEServiceTemplate })
     renderWithApplicationContext(<EServiceCreateStepGeneral />, {
       withReactQueryContext: true,
@@ -160,243 +160,243 @@ describe('EServiceCreateStepGeneral - instanceLabel', () => {
 
     expect(
       screen.queryByText('create.step1.instanceLabelField.catalogPreviewLabel')
-    ).not.toBeInTheDocument()
+    ).toBeInTheDocument()
+  })
+})
+
+it('enforces maxLength of 12 characters on the instanceLabel input', () => {
+  mockContext({ eserviceTemplate: mockEServiceTemplate })
+  renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+    withReactQueryContext: true,
   })
 
-  it('enforces maxLength of 12 characters on the instanceLabel input', () => {
-    mockContext({ eserviceTemplate: mockEServiceTemplate })
-    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
-      withReactQueryContext: true,
-    })
+  const instanceLabelInput = screen.getByRole('textbox', {
+    name: 'create.step1.instanceLabelField.label',
+  })
+  expect(instanceLabelInput).toHaveAttribute('maxlength', '12')
+})
 
-    const instanceLabelInput = screen.getByRole('textbox', {
-      name: 'create.step1.instanceLabelField.label',
-    })
-    expect(instanceLabelInput).toHaveAttribute('maxlength', '12')
+it('sends instanceLabel as undefined in the create payload when field is empty (BE assigns default)', async () => {
+  const user = userEvent.setup()
+  mockContext({ eserviceTemplate: mockEServiceTemplate })
+  renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+    withReactQueryContext: true,
   })
 
-  it('sends instanceLabel as undefined in the create payload when field is empty (BE assigns default)', async () => {
-    const user = userEvent.setup()
-    mockContext({ eserviceTemplate: mockEServiceTemplate })
-    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
-      withReactQueryContext: true,
-    })
+  const submitButton = screen.getByRole('button', { name: 'create.forwardWithSaveBtn' })
+  await user.click(submitButton)
 
-    const submitButton = screen.getByRole('button', { name: 'create.forwardWithSaveBtn' })
-    await user.click(submitButton)
-
-    await waitFor(() => {
-      expect(mockCreateDraftFromTemplate).toHaveBeenCalledWith(
-        expect.objectContaining({ instanceLabel: undefined }),
-        expect.anything()
-      )
-    })
-  })
-
-  it('sends instanceLabel as string in the create payload when user types a value', async () => {
-    const user = userEvent.setup()
-    mockContext({ eserviceTemplate: mockEServiceTemplate })
-    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
-      withReactQueryContext: true,
-    })
-
-    const instanceLabelInput = screen.getByRole('textbox', {
-      name: 'create.step1.instanceLabelField.label',
-    })
-    await user.type(instanceLabelInput, 'Patente')
-
-    const submitButton = screen.getByRole('button', { name: 'create.forwardWithSaveBtn' })
-    await user.click(submitButton)
-
-    await waitFor(() => {
-      expect(mockCreateDraftFromTemplate).toHaveBeenCalledWith(
-        expect.objectContaining({ instanceLabel: 'Patente' }),
-        expect.anything()
-      )
-    })
-  })
-
-  it('sends instanceLabel as string in the update payload when user types a value', async () => {
-    const user = userEvent.setup()
-    mockContext({ descriptor: mockDescriptorFromTemplate })
-    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
-      withReactQueryContext: true,
-    })
-
-    const instanceLabelInput = screen.getByRole('textbox', {
-      name: 'create.step1.instanceLabelField.label',
-    })
-    await user.clear(instanceLabelInput)
-    await user.type(instanceLabelInput, 'CIE')
-
-    const submitButton = screen.getByRole('button', { name: 'create.forwardWithSaveBtn' })
-    await user.click(submitButton)
-
-    await waitFor(() => {
-      expect(mockUpdateDraftFromTemplate).toHaveBeenCalledWith(
-        expect.objectContaining({
-          instanceLabel: 'CIE',
-          eServiceId: mockDescriptorFromTemplate.eservice.id,
-        }),
-        expect.anything()
-      )
-    })
-  })
-
-  it('sends instanceLabel as undefined in the update payload when field is cleared', async () => {
-    const user = userEvent.setup()
-    mockContext({ descriptor: mockDescriptorFromTemplate })
-    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
-      withReactQueryContext: true,
-    })
-
-    const instanceLabelInput = screen.getByRole('textbox', {
-      name: 'create.step1.instanceLabelField.label',
-    })
-    await user.clear(instanceLabelInput)
-
-    const submitButton = screen.getByRole('button', { name: 'create.forwardWithSaveBtn' })
-    await user.click(submitButton)
-
-    await waitFor(() => {
-      expect(mockUpdateDraftFromTemplate).toHaveBeenCalledWith(
-        expect.objectContaining({
-          instanceLabel: undefined,
-          eServiceId: mockDescriptorFromTemplate.eservice.id,
-        }),
-        expect.anything()
-      )
-    })
-  })
-
-  it('shows inline duplicate error when create fails with duplicate label error code', async () => {
-    const { AxiosError: RealAxiosError } = await import('axios')
-    const user = userEvent.setup()
-    mockContext({ eserviceTemplate: mockEServiceTemplate })
-
-    mockCreateDraftFromTemplate.mockImplementation(
-      (_payload: unknown, options: { onError: (error: unknown) => void }) => {
-        const error = new RealAxiosError('Duplicate')
-        error.response = {
-          data: { errors: [{ code: DUPLICATE_INSTANCE_LABEL_ERROR_CODE }] },
-        } as never
-        options.onError(error)
-      }
+  await waitFor(() => {
+    expect(mockCreateDraftFromTemplate).toHaveBeenCalledWith(
+      expect.objectContaining({ instanceLabel: undefined }),
+      expect.anything()
     )
+  })
+})
 
-    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
-      withReactQueryContext: true,
-    })
-
-    const instanceLabelInput = screen.getByRole('textbox', {
-      name: 'create.step1.instanceLabelField.label',
-    })
-    await user.type(instanceLabelInput, 'Patente')
-
-    const submitButton = screen.getByRole('button', { name: 'create.forwardWithSaveBtn' })
-    await user.click(submitButton)
-
-    await waitFor(() => {
-      expect(
-        screen.getByText('create.step1.instanceLabelField.validation.duplicate')
-      ).toBeInTheDocument()
-    })
+it('sends instanceLabel as string in the create payload when user types a value', async () => {
+  const user = userEvent.setup()
+  mockContext({ eserviceTemplate: mockEServiceTemplate })
+  renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+    withReactQueryContext: true,
   })
 
-  it('disables instanceLabel input when editing a version > 1', () => {
-    const descriptorV2 = createMockEServiceDescriptorProvider({
-      version: '2',
-      state: 'DRAFT',
-      eservice: {
-        name: 'Credenziale IT-Wallet - Patente',
-        isSignalHubEnabled: false,
-        isConsumerDelegable: true,
-        isClientAccessDelegable: true,
-        personalData: true,
-        instanceLabel: 'Patente',
-      },
-      templateRef: {
-        templateId: 'template-id',
-        templateName: 'Credenziale IT-Wallet',
-      },
-    })
-    mockContext({ descriptor: descriptorV2 })
-    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
-      withReactQueryContext: true,
-    })
-
-    const instanceLabelInput = screen.getByRole('textbox', {
-      name: 'create.step1.instanceLabelField.label',
-    })
-    expect(instanceLabelInput).toBeDisabled()
+  const instanceLabelInput = screen.getByRole('textbox', {
+    name: 'create.step1.instanceLabelField.label',
   })
+  await user.type(instanceLabelInput, 'Patente')
 
-  it('keeps instanceLabel input enabled when editing version 1', () => {
-    const descriptorV1 = createMockEServiceDescriptorProvider({
-      version: '1',
-      state: 'DRAFT',
-      eservice: {
-        name: 'Credenziale IT-Wallet - Patente',
-        isSignalHubEnabled: false,
-        isConsumerDelegable: true,
-        isClientAccessDelegable: true,
-        personalData: true,
-        instanceLabel: 'Patente',
-      },
-      templateRef: {
-        templateId: 'template-id',
-        templateName: 'Credenziale IT-Wallet',
-      },
-    })
-    mockContext({ descriptor: descriptorV1 })
-    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
-      withReactQueryContext: true,
-    })
+  const submitButton = screen.getByRole('button', { name: 'create.forwardWithSaveBtn' })
+  await user.click(submitButton)
 
-    const instanceLabelInput = screen.getByRole('textbox', {
-      name: 'create.step1.instanceLabelField.label',
-    })
-    expect(instanceLabelInput).not.toBeDisabled()
-  })
-
-  it('keeps instanceLabel input enabled when creating a new e-service from template (no descriptor)', () => {
-    mockContext({ eserviceTemplate: mockEServiceTemplate })
-    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
-      withReactQueryContext: true,
-    })
-
-    const instanceLabelInput = screen.getByRole('textbox', {
-      name: 'create.step1.instanceLabelField.label',
-    })
-    expect(instanceLabelInput).not.toBeDisabled()
-  })
-
-  it('shows inline empty-not-available error when create fails with duplicate error and field is empty', async () => {
-    const { AxiosError: RealAxiosError } = await import('axios')
-    const user = userEvent.setup()
-    mockContext({ eserviceTemplate: mockEServiceTemplate })
-
-    mockCreateDraftFromTemplate.mockImplementation(
-      (_payload: unknown, options: { onError: (error: unknown) => void }) => {
-        const error = new RealAxiosError('Duplicate')
-        error.response = {
-          data: { errors: [{ code: DUPLICATE_INSTANCE_LABEL_ERROR_CODE }] },
-        } as never
-        options.onError(error)
-      }
+  await waitFor(() => {
+    expect(mockCreateDraftFromTemplate).toHaveBeenCalledWith(
+      expect.objectContaining({ instanceLabel: 'Patente' }),
+      expect.anything()
     )
+  })
+})
 
-    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
-      withReactQueryContext: true,
-    })
+it('sends instanceLabel as string in the update payload when user types a value', async () => {
+  const user = userEvent.setup()
+  mockContext({ descriptor: mockDescriptorFromTemplate })
+  renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+    withReactQueryContext: true,
+  })
 
-    const submitButton = screen.getByRole('button', { name: 'create.forwardWithSaveBtn' })
-    await user.click(submitButton)
+  const instanceLabelInput = screen.getByRole('textbox', {
+    name: 'create.step1.instanceLabelField.label',
+  })
+  await user.clear(instanceLabelInput)
+  await user.type(instanceLabelInput, 'CIE')
 
-    await waitFor(() => {
-      expect(
-        screen.getByText('create.step1.instanceLabelField.validation.emptyNotAvailable')
-      ).toBeInTheDocument()
-    })
+  const submitButton = screen.getByRole('button', { name: 'create.forwardWithSaveBtn' })
+  await user.click(submitButton)
+
+  await waitFor(() => {
+    expect(mockUpdateDraftFromTemplate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        instanceLabel: 'CIE',
+        eServiceId: mockDescriptorFromTemplate.eservice.id,
+      }),
+      expect.anything()
+    )
+  })
+})
+
+it('sends instanceLabel as undefined in the update payload when field is cleared', async () => {
+  const user = userEvent.setup()
+  mockContext({ descriptor: mockDescriptorFromTemplate })
+  renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+    withReactQueryContext: true,
+  })
+
+  const instanceLabelInput = screen.getByRole('textbox', {
+    name: 'create.step1.instanceLabelField.label',
+  })
+  await user.clear(instanceLabelInput)
+
+  const submitButton = screen.getByRole('button', { name: 'create.forwardWithSaveBtn' })
+  await user.click(submitButton)
+
+  await waitFor(() => {
+    expect(mockUpdateDraftFromTemplate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        instanceLabel: undefined,
+        eServiceId: mockDescriptorFromTemplate.eservice.id,
+      }),
+      expect.anything()
+    )
+  })
+})
+
+it('shows inline duplicate error when create fails with duplicate label error code', async () => {
+  const { AxiosError: RealAxiosError } = await import('axios')
+  const user = userEvent.setup()
+  mockContext({ eserviceTemplate: mockEServiceTemplate })
+
+  mockCreateDraftFromTemplate.mockImplementation(
+    (_payload: unknown, options: { onError: (error: unknown) => void }) => {
+      const error = new RealAxiosError('Duplicate')
+      error.response = {
+        data: { errors: [{ code: DUPLICATE_INSTANCE_LABEL_ERROR_CODE }] },
+      } as never
+      options.onError(error)
+    }
+  )
+
+  renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+    withReactQueryContext: true,
+  })
+
+  const instanceLabelInput = screen.getByRole('textbox', {
+    name: 'create.step1.instanceLabelField.label',
+  })
+  await user.type(instanceLabelInput, 'Patente')
+
+  const submitButton = screen.getByRole('button', { name: 'create.forwardWithSaveBtn' })
+  await user.click(submitButton)
+
+  await waitFor(() => {
+    expect(
+      screen.getByText('create.step1.instanceLabelField.validation.duplicate')
+    ).toBeInTheDocument()
+  })
+})
+
+it('disables instanceLabel input when editing a version > 1', () => {
+  const descriptorV2 = createMockEServiceDescriptorProvider({
+    version: '2',
+    state: 'DRAFT',
+    eservice: {
+      name: 'Credenziale IT-Wallet - Patente',
+      isSignalHubEnabled: false,
+      isConsumerDelegable: true,
+      isClientAccessDelegable: true,
+      personalData: true,
+      instanceLabel: 'Patente',
+    },
+    templateRef: {
+      templateId: 'template-id',
+      templateName: 'Credenziale IT-Wallet',
+    },
+  })
+  mockContext({ descriptor: descriptorV2 })
+  renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+    withReactQueryContext: true,
+  })
+
+  const instanceLabelInput = screen.getByRole('textbox', {
+    name: 'create.step1.instanceLabelField.label',
+  })
+  expect(instanceLabelInput).toBeDisabled()
+})
+
+it('keeps instanceLabel input enabled when editing version 1', () => {
+  const descriptorV1 = createMockEServiceDescriptorProvider({
+    version: '1',
+    state: 'DRAFT',
+    eservice: {
+      name: 'Credenziale IT-Wallet - Patente',
+      isSignalHubEnabled: false,
+      isConsumerDelegable: true,
+      isClientAccessDelegable: true,
+      personalData: true,
+      instanceLabel: 'Patente',
+    },
+    templateRef: {
+      templateId: 'template-id',
+      templateName: 'Credenziale IT-Wallet',
+    },
+  })
+  mockContext({ descriptor: descriptorV1 })
+  renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+    withReactQueryContext: true,
+  })
+
+  const instanceLabelInput = screen.getByRole('textbox', {
+    name: 'create.step1.instanceLabelField.label',
+  })
+  expect(instanceLabelInput).not.toBeDisabled()
+})
+
+it('keeps instanceLabel input enabled when creating a new e-service from template (no descriptor)', () => {
+  mockContext({ eserviceTemplate: mockEServiceTemplate })
+  renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+    withReactQueryContext: true,
+  })
+
+  const instanceLabelInput = screen.getByRole('textbox', {
+    name: 'create.step1.instanceLabelField.label',
+  })
+  expect(instanceLabelInput).not.toBeDisabled()
+})
+
+it('shows inline empty-not-available error when create fails with duplicate error and field is empty', async () => {
+  const { AxiosError: RealAxiosError } = await import('axios')
+  const user = userEvent.setup()
+  mockContext({ eserviceTemplate: mockEServiceTemplate })
+
+  mockCreateDraftFromTemplate.mockImplementation(
+    (_payload: unknown, options: { onError: (error: unknown) => void }) => {
+      const error = new RealAxiosError('Duplicate')
+      error.response = {
+        data: { errors: [{ code: DUPLICATE_INSTANCE_LABEL_ERROR_CODE }] },
+      } as never
+      options.onError(error)
+    }
+  )
+
+  renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+    withReactQueryContext: true,
+  })
+
+  const submitButton = screen.getByRole('button', { name: 'create.forwardWithSaveBtn' })
+  await user.click(submitButton)
+
+  await waitFor(() => {
+    expect(
+      screen.getByText('create.step1.instanceLabelField.validation.emptyNotAvailable')
+    ).toBeInTheDocument()
   })
 })

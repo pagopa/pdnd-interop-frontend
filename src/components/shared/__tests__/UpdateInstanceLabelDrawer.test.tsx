@@ -66,20 +66,6 @@ describe('UpdateInstanceLabelDrawer', () => {
     expect(previewValue).toBeInTheDocument()
   })
 
-  it('hides the catalog preview when input is empty', async () => {
-    const user = userEvent.setup()
-    renderWithApplicationContext(<UpdateInstanceLabelDrawer {...defaultProps} />, {
-      withReactQueryContext: true,
-    })
-
-    const input = screen.getByRole('textbox', { name: 'instanceLabelField.label' })
-    await user.clear(input)
-
-    await waitFor(() => {
-      expect(screen.queryByText('instanceLabelField.catalogPreviewLabel')).not.toBeInTheDocument()
-    })
-  })
-
   it('updates the catalog preview when user types', async () => {
     const user = userEvent.setup()
     renderWithApplicationContext(
