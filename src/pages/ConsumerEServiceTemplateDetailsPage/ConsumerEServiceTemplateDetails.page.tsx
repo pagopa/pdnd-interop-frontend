@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { PageContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { useParams } from '@/router'
 import { Grid, Tab } from '@mui/material'
@@ -9,7 +9,6 @@ import { useActiveTab } from '@/hooks/useActiveTab'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { ConsumerEServiceTemplateDetails, ConsumerEServiceTemplateInstancesTab } from './components'
 import { useGetConsumerEServiceTemplateActions } from './hooks/useGetConsumerEServiceTemplateActions'
-import { ConsumerEServiceGeneralInfoSectionSkeleton } from '../ConsumerEServiceDetailsPage/components/ConsumerEServiceDetailsTab/ConsumerEServiceGeneralInfoSection'
 
 const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'read' })
@@ -22,7 +21,7 @@ const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
     EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
-  const { data: templateInstancesCount, isLoading: isLoadingTemplateInstancesCount } = useQuery({
+  const { data: templateInstancesCount } = useQuery({
     ...EServiceTemplateQueries.getMyEServiceTemplateInstancesList({
       limit: 1,
       offset: 0,
@@ -41,6 +40,13 @@ const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
     eserviceTemplate?.state,
     hasPersonalDataValue
   )
+
+  useEffect(() => {
+    if (activeTab === 'eserviceTemplateInstances' && !isAvailableAtLeastOneInstance) {
+      updateActiveTab(null, 'eserviceTemplateDetails')
+    }
+  }, [activeTab, isAvailableAtLeastOneInstance, updateActiveTab])
+
   return (
     <PageContainer
       title={eserviceTemplate?.eserviceTemplate.name || ''}
@@ -68,7 +74,6 @@ const ConsumerEServiceTemplateDetailsPage: React.FC = () => {
               variant="fullWidth"
             >
               <Tab label={t('tabs.eserviceTemplateDetails')} value="eserviceTemplateDetails" />
-
               <Tab label={t('tabs.eserviceTemplateInstances')} value="eserviceTemplateInstances" />
             </TabList>
           )}
@@ -93,10 +98,10 @@ export const ConsumerEServiceTemplateDetailsSkeleton = () => {
   return (
     <>
       <Grid container sx={{ mt: 10 }}>
-        <Grid xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>
           <SectionContainerSkeleton sx={{ mt: 4, mr: 2 }} height={25} />
         </Grid>
-        <Grid xs={12} sm={6}>
+        <Grid item xs={12} sm={6}>
           <SectionContainerSkeleton sx={{ mt: 4 }} height={25} />
         </Grid>
       </Grid>

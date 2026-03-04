@@ -124,7 +124,7 @@ describe('EServiceCreateStepGeneral - instanceLabel', () => {
   })
 
   it('pre-fills instanceLabel when editing an existing draft from template', () => {
-    mockContext({ descriptor: mockDescriptorFromTemplate })
+    mockContext({ descriptor: mockDescriptorFromTemplate, eserviceTemplate: mockEServiceTemplate })
     renderWithApplicationContext(<EServiceCreateStepGeneral />, {
       withReactQueryContext: true,
     })
