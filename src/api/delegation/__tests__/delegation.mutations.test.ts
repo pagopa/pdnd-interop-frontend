@@ -1,6 +1,6 @@
 import { vi } from 'vitest'
 import { AxiosError } from 'axios'
-import { DUPLICATE_INSTANCE_LABEL_ERROR_CODE } from '../../eserviceTemplate/eserviceTemplate.mutations'
+import { DUPLICATE_ESERVICENAME_ERROR_CODE } from '../../eserviceTemplate/eserviceTemplate.mutations'
 
 const capturedMutationOptions: Array<Record<string, unknown>> = []
 
@@ -50,7 +50,7 @@ function makeDuplicateError() {
   return new AxiosError('test', undefined, undefined, undefined, {
     status: 400,
     statusText: 'Bad Request',
-    data: { errors: [{ code: DUPLICATE_INSTANCE_LABEL_ERROR_CODE }] },
+    data: { errors: [{ code: DUPLICATE_ESERVICENAME_ERROR_CODE }] },
     headers: {},
     config: {} as never,
   })

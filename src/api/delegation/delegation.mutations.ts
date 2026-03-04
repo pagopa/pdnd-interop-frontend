@@ -3,7 +3,7 @@ import { AxiosError } from 'axios'
 import { DelegationServices } from './delegation.services'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { DelegationQueries } from './delegation.queries'
-import { DUPLICATE_INSTANCE_LABEL_ERROR_CODE } from '../eserviceTemplate/eserviceTemplate.mutations'
+import { DUPLICATE_ESERVICENAME_ERROR_CODE } from '../eserviceTemplate/eserviceTemplate.mutations'
 
 function useCreateProducerDelegation() {
   const { t } = useTranslation('mutations-feedback', {
@@ -105,7 +105,7 @@ function useCreateProducerDelegationAndEservice() {
       errorToastLabel: (error: unknown) => {
         if (
           error instanceof AxiosError &&
-          error.response?.data?.errors?.[0]?.code === DUPLICATE_INSTANCE_LABEL_ERROR_CODE
+          error.response?.data?.errors?.[0]?.code === DUPLICATE_ESERVICENAME_ERROR_CODE
         )
           return ''
         return t('outcome.error')
@@ -159,7 +159,7 @@ function useCreateProducerDelegationAndEserviceFromTemplate() {
       errorToastLabel: (error: unknown) => {
         if (
           error instanceof AxiosError &&
-          error.response?.data?.errors?.[0]?.code === DUPLICATE_INSTANCE_LABEL_ERROR_CODE
+          error.response?.data?.errors?.[0]?.code === DUPLICATE_ESERVICENAME_ERROR_CODE
         )
           return ''
         return t('outcome.error')

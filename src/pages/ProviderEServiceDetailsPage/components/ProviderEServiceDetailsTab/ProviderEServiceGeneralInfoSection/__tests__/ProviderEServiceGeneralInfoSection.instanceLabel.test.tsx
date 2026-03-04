@@ -208,7 +208,7 @@ describe('ProviderEServiceGeneralInfoSection - instanceLabel (published e-servic
         const error = new RealAxiosError('Duplicate')
         error.response = {
           data: {
-            errors: [{ code: EServiceTemplateMutationsModule.DUPLICATE_INSTANCE_LABEL_ERROR_CODE }],
+            errors: [{ code: EServiceTemplateMutationsModule.DUPLICATE_ESERVICENAME_ERROR_CODE }],
           },
         } as never
         options.onError(error)

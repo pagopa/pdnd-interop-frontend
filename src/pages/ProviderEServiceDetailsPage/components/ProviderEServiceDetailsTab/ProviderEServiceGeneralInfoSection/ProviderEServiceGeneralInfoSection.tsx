@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { EServiceDownloads, EServiceMutations, EServiceQueries } from '@/api/eservice'
 import {
   EServiceTemplateMutations,
-  DUPLICATE_INSTANCE_LABEL_ERROR_CODE,
+  DUPLICATE_ESERVICENAME_ERROR_CODE,
 } from '@/api/eserviceTemplate'
 import { useNavigate, useParams } from '@/router'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
@@ -104,7 +104,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         onError: (error) => {
           if (
             error instanceof AxiosError &&
-            error.response?.data?.errors?.[0]?.code === DUPLICATE_INSTANCE_LABEL_ERROR_CODE
+            error.response?.data?.errors?.[0]?.code === DUPLICATE_ESERVICENAME_ERROR_CODE
           ) {
             updateInstanceLabelDrawerRef.current?.setFieldError(
               tDrawer('updateInstanceLabelDrawer.instanceLabelField.validation.duplicate')

@@ -8,7 +8,7 @@ import type {
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 
-export const DUPLICATE_INSTANCE_LABEL_ERROR_CODE = '001-007'
+export const DUPLICATE_ESERVICENAME_ERROR_CODE = '001-007'
 
 function useUpdateEServiceTemplateName() {
   const { t } = useTranslation('mutations-feedback', {
@@ -338,7 +338,7 @@ function useCreateInstanceFromEServiceTemplate() {
       errorToastLabel: (error: unknown) => {
         if (
           error instanceof AxiosError &&
-          error.response?.data?.errors?.[0]?.code === DUPLICATE_INSTANCE_LABEL_ERROR_CODE
+          error.response?.data?.errors?.[0]?.code === DUPLICATE_ESERVICENAME_ERROR_CODE
         )
           return ''
         return t('outcome.error')
@@ -349,14 +349,16 @@ function useCreateInstanceFromEServiceTemplate() {
 }
 
 function useUpdateInstanceFromEServiceTemplate() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eserviceTemplate.updateInstance' })
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eserviceTemplate.updateInstance',
+  })
   return useMutation({
     mutationFn: EServiceTemplateServices.updateInstanceFromEServiceTemplate,
     meta: {
       errorToastLabel: (error: unknown) => {
         if (
           error instanceof AxiosError &&
-          error.response?.data?.errors?.[0]?.code === DUPLICATE_INSTANCE_LABEL_ERROR_CODE
+          error.response?.data?.errors?.[0]?.code === DUPLICATE_ESERVICENAME_ERROR_CODE
         )
           return ''
         return t('outcome.error')
@@ -377,7 +379,7 @@ function useUpdateInstanceLabelAfterPublication() {
       errorToastLabel: (error: unknown) => {
         if (
           error instanceof AxiosError &&
-          error.response?.data?.errors?.[0]?.code === DUPLICATE_INSTANCE_LABEL_ERROR_CODE
+          error.response?.data?.errors?.[0]?.code === DUPLICATE_ESERVICENAME_ERROR_CODE
         )
           return ''
         return t('outcome.error')

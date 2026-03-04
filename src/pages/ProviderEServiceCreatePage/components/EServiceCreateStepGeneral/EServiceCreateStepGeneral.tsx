@@ -36,7 +36,7 @@ import { trackEvent } from '@/config/tracking'
 import { AuthHooks } from '@/api/auth'
 import {
   EServiceTemplateMutations,
-  DUPLICATE_INSTANCE_LABEL_ERROR_CODE,
+  DUPLICATE_ESERVICENAME_ERROR_CODE,
 } from '@/api/eserviceTemplate'
 import {
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA,
@@ -109,7 +109,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   const handleDuplicateInstanceLabelError = (error: unknown) => {
     if (!(error instanceof AxiosError)) return
     const errorCode = error.response?.data?.errors?.[0]?.code
-    if (errorCode === DUPLICATE_INSTANCE_LABEL_ERROR_CODE) {
+    if (errorCode === DUPLICATE_ESERVICENAME_ERROR_CODE) {
       const instanceLabelValue = formMethods.getValues('instanceLabel')
       formMethods.setError('instanceLabel', {
         message: instanceLabelValue

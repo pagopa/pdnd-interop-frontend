@@ -21,7 +21,7 @@ vi.mock('../DelegationCreateTenantAutocomplete', () => ({
 }))
 
 vi.mock('@/api/eserviceTemplate/eserviceTemplate.mutations', () => ({
-  DUPLICATE_INSTANCE_LABEL_ERROR_CODE: '001-007',
+  DUPLICATE_ESERVICENAME_ERROR_CODE: '001-007',
 }))
 
 let mockCreateAndEservice: ReturnType<typeof vi.fn>
