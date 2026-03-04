@@ -94,7 +94,7 @@ it('hides the edit button when the user is a delegator', () => {
 
   renderWithClient(<ProviderEServiceDelegationsSection descriptor={descriptorMock} />)
 
-  expect(screen.queryByText('actions.edit')).not.toBeInTheDocument()
+  expect(screen.queryByText('common.actions.edit')).not.toBeInTheDocument()
 })
 
 it('shows the edit button and opens the drawer when the user is not a delegator', () => {

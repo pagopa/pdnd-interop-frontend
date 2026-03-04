@@ -35,7 +35,6 @@ const FeatureFlagConfigs = z.object({
   FEATURE_FLAG_USE_SIGNED_DOCUMENT: z
     .enum(['true', 'false'])
     .default('false')
-    .default('false')
     .transform((value) => value === 'true'),
   FEATURE_FLAG_UPDATE_DELEGATION_FLAGS: z
     .enum(['true', 'false'])
