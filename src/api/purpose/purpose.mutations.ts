@@ -119,6 +119,7 @@ function useActivateVersion() {
       confirmationDialog: {
         title: t('confirmDialog.title'),
         description: t('confirmDialog.description'),
+        proceedLabel: t('confirmDialog.proceedLabel'),
       },
     },
   })

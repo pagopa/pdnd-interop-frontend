@@ -51,3 +51,4 @@ export { RiskAnalysisEServiceAssociatedPage } from './RiskAnalysisEserviceAssoci
 export { DeveloperToolsPage } from './DeveloperToolsPage'
 export { RiskAnalysisExporterToolPage } from './RiskAnalysisExporterToolPage'
 export { PublishThankYouPage } from './PublishThankYouPage'
+export { ConsumerPurposePublishThankYouPage } from './ConsumerPurposePublishThankYouPage'

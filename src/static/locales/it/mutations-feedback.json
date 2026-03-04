@@ -89,8 +89,10 @@
         "error": "Non è stato possibile pubblicare la nuova versione dell'e-service. Verificare di aver caricato il documento di interfaccia e riprovare!"
       },
       "confirmDialog": {
-        "title": "Conferma pubblicazione bozza",
-        "description": "Una volta pubblicata, una versione dell'e-service non è più cancellabile e diventa disponibile nel catalogo degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile."
+        "title": "Pubblica e-service",
+        "titleNewVersion": "Pubblica nuova versione e-service",
+        "description": "Una volta pubblicata, questa versione sarà disponibile nel catalogo degli e-service e non potrà più essere cancellata. Potrai comunque sospenderla o renderla obsoleta quando pubblicherai una nuova versione.",
+        "proceedLabel": "Pubblica"
       }
     },
     "publishDelegatedVersionDraft": {
@@ -545,8 +547,9 @@
         "error": "Non è stato possibile pubblicare la finalità. Assicurati di aver inserito le informazioni corrette e riprova."
       },
       "confirmDialog": {
-        "title": "Conferma attivazione finalità",
-        "description": "Cliccando \"conferma\" questa finalità verrà attivata. Tutti i client associati dal fruitore avranno accesso all'e-service dell'erogatore con il numero di chiamate stabilito"
+        "title": "Pubblica finalità",
+        "description": "Una volta pubblicata, tutti i client associati dal fruitore avranno accesso all'e-service in base al numero di chiamate definito.",
+        "proceedLabel": "Pubblica"
       }
     },
     "archiveVersion": {
@@ -956,8 +959,9 @@
         "error": "Non è stato possibile pubblicare la nuova versione del template dell'e-service."
       },
       "confirmDialog": {
-        "title": "Conferma pubblicazione bozza",
-        "description": "Una volta pubblicata, una versione del template dell'e-service non è più cancellabile e diventa disponibile nel catalogo dei template degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile."
+        "title": "Pubblica template e-service",
+        "titleNewVersion": "Pubblica nuova versione template e-service",
+        "description": "Una volta pubblicata, questa versione sarà disponibile nel catalogo dei template degli e-service e non potrà più essere cancellata. Potrai comunque sospenderla o renderla obsoleta quando pubblicherai una nuova versione."
       }
     },
     "deleteVersionDraft": {

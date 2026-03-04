@@ -89,8 +89,10 @@
         "error": "The new e-service version could not be published. Please ensure the API document has been uploaded and try again!"
       },
       "confirmDialog": {
-        "title": "Confirm Draft Publication",
-        "description": "An e-service version cannot be deleted after it is published. It will also become available in the e-service catalog. It will always be possible to suspend it or mark it as deprecated when a new version is published"
+        "title": "Publish e-service",
+        "titleNewVersion": "Publish new e-service version",
+        "description": "Once published, this version will be available in the e-service catalog and can no longer be deleted. You can still suspend it or mark it as deprecated when you publish a new version.",
+        "proceedLabel": "Publish"
       }
     },
     "publishDelegatedVersionDraft": {
@@ -545,8 +547,9 @@
         "error": "The purpose could not be published. Please ensure all required fields are filled in and try again!"
       },
       "confirmDialog": {
-        "title": "Confirm Purpose Activation",
-        "description": "By clicking \"confirm\", this purpose will be activated. All clients associated with it will be able to access the **Producer's** e-service by honoring the number of API calls/day established in the purpose itself"
+        "title": "Publish purpose",
+        "description": "Once published, all clients associated by the consumer will have access to the e-service based on the defined number of calls.",
+        "proceedLabel": "Publish"
       }
     },
     "archiveVersion": {
@@ -956,8 +959,9 @@
         "error": "The new e-service template version could not be published."
       },
       "confirmDialog": {
-        "title": "Confirm Draft Publication",
-        "description": "An e-service template version cannot be deleted after it is published. It will also become available in the e-service catalog. It will always be possible to suspend it or mark it as deprecated when a new version is published"
+        "title": "Publish e-service template",
+        "titleNewVersion": "Publish new e-service template version",
+        "description": "Once published, this version will be available in the e-service template catalog and can no longer be deleted. You can still suspend it or mark it as deprecated when you publish a new version."
       }
     },
     "deleteVersionDraft": {

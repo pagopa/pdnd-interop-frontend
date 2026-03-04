@@ -1,7 +1,9 @@
 import React from 'react'
 import { Box, Stack, Typography } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+import { useNavigate } from '@/router'
+import type { RouteKey } from '@/router'
 import { ThankYouPage } from '@/components/shared/ThankYouPage'
 
 export type PublishThankYouState = {
@@ -10,7 +12,8 @@ export type PublishThankYouState = {
   subtitle?: string
   bulletPoints?: string[]
   buttonLabel: string
-  closePath: string
+  closeRouteKey: RouteKey
+  closeRouteParams: Record<string, string>
 }
 
 const PublishThankYouPage: React.FC = () => {
@@ -18,21 +21,23 @@ const PublishThankYouPage: React.FC = () => {
   const navigate = useNavigate()
 
   if (!state) {
-    navigate('/', { replace: true })
+    ;(navigate as Function)('SUBSCRIBE_CATALOG_LIST')
     return null
   }
 
   const handleClose = () => {
-    navigate(state.closePath)
+    ;(navigate as Function)(state.closeRouteKey, { params: state.closeRouteParams })
   }
 
   const description = state.bulletPoints ? (
     <Stack spacing={1}>
       <Typography variant="body1">{state.subtitle}</Typography>
-      <Box component="ul" sx={{ m: 0, pl: 2 }}>
+      <Box component="ul" sx={{ m: 0, p: 0, listStyleType: 'square', listStylePosition: 'inside' }}>
         {state.bulletPoints.map((point, i) => (
           <li key={i}>
-            <Typography variant="body1">{point}</Typography>
+            <Typography variant="body1" component="span">
+              {point}
+            </Typography>
           </li>
         ))}
       </Box>

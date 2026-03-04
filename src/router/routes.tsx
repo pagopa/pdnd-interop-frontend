@@ -54,6 +54,7 @@ import {
   DeveloperToolsPage,
   RiskAnalysisExporterToolPage,
   PublishThankYouPage,
+  ConsumerPurposePublishThankYouPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -223,7 +224,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_PUBLISH_THANK_YOU',
     path: '/fruizione/finalita/:purposeId/feedback',
-    element: <PublishThankYouPage />,
+    element: <ConsumerPurposePublishThankYouPage />,
     public: false,
     hideSideNav: true,
     authLevels: ['admin'],
