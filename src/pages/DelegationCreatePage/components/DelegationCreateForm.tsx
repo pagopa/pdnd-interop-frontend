@@ -110,8 +110,6 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   const navigate = useNavigate()
 
   function onConfirm(formValues: DelegationCreateFormValues) {
-    console.log('ON CONFIRM', isEserviceToBeCreated, delegationKind, isEserviceFromTemplate)
-
     if (
       isEserviceToBeCreated &&
       delegationKind === 'DELEGATED_PRODUCER' &&
