@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { StepActions } from '@/components/shared/StepActions'
 import type {
   DescriptorAttribute,
+  DescriptorAttributes,
   UpdateEServiceTemplateVersionSeed,
 } from '@/api/api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
@@ -16,8 +17,11 @@ import { CreateAttributeDrawer } from '../../../../components/shared/CreateAttri
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
-import type { CreateStepAttributesFormValues } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
 import { AddAttributesToForm } from '@/components/shared/AddAttributesToForm'
+
+export type CreateStepAttributesFormValues = {
+  attributes: DescriptorAttributes
+}
 
 export const EServiceTemplateCreateStepAttributes: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'create' })
