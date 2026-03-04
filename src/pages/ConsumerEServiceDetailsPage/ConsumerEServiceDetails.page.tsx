@@ -53,12 +53,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
 
   const isDelegator = delegations.length > 0
 
-  const { actions } = useGetEServiceConsumerActions(
-    descriptor?.eservice,
-    descriptor,
-    delegators,
-    isDelegator
-  )
+  const { actions } = useGetEServiceConsumerActions(descriptor, delegators, isDelegator)
 
   useTrackPageViewEvent('INTEROP_CATALOG_READ', {
     eserviceId: descriptor?.eservice.id,

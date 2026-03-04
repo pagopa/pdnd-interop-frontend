@@ -21,11 +21,11 @@ import type {
   DialogDeleteProducerKeychainKeyProps,
   DialogAcceptDelegationProps,
   DialogRejectDelegationProps,
-  DialogCreateAgreementDraftProps,
   DialogRejectDelegatedVersionDraftProps,
   DialogRevokeDelegationProps,
   DialogTenantKindEserviceTemplateProps,
   DialogTenantKindPurposeTemplateProps,
+  DialogSelectAgreementConsumerProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -44,9 +44,9 @@ import { DialogAcceptDelegation } from './DialogAcceptDelegation'
 import { DialogRejectDelegation } from './DialogRejectDelegation'
 import { DialogRevokeDelegation } from './DialogRevokeDelegation'
 import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersionDraft'
-import { DialogCreateAgreementDraft } from './DialogCreateAgreementDraft/DialogCreateAgreementDraft'
 import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemplate'
 import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTemplate'
+import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/DialogSelectAgreementConsumer'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -65,11 +65,11 @@ function match<T>(
   onDeleteProducerKeychainKey: (props: DialogDeleteProducerKeychainKeyProps) => T,
   onAcceptDelegation: (props: DialogAcceptDelegationProps) => T,
   onRejectDelegation: (props: DialogRejectDelegationProps) => T,
-  onCreateAgreementDraft: (props: DialogCreateAgreementDraftProps) => T,
   onRevokeDelegation: (props: DialogRevokeDelegationProps) => T,
   onRejectDelegatedVersionDraft: (props: DialogRejectDelegatedVersionDraftProps) => T,
   onDialogTenantKindEserviceTemplate: (props: DialogTenantKindEserviceTemplateProps) => T,
-  onDialogTenantKindPurposeTemplate: (props: DialogTenantKindPurposeTemplateProps) => T
+  onDialogTenantKindPurposeTemplate: (props: DialogTenantKindPurposeTemplateProps) => T,
+  onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -109,12 +109,12 @@ function match<T>(
         return onRevokeDelegation(props)
       case 'rejectDelegatedVersionDraft':
         return onRejectDelegatedVersionDraft(props)
-      case 'createAgreementDraft':
-        return onCreateAgreementDraft(props)
       case 'tenantKindEServiceTemplate':
         return onDialogTenantKindEserviceTemplate(props)
       case 'tenantKindPurposeTemplate':
         return onDialogTenantKindPurposeTemplate(props)
+      case 'selectAgreementConsumer':
+        return onSelectAgreementConsumer(props)
     }
   }
 }
@@ -136,11 +136,11 @@ const _Dialog = match(
   (props) => <DialogDeleteProducerKeychainKey {...props} />,
   (props) => <DialogAcceptDelegation {...props} />,
   (props) => <DialogRejectDelegation {...props} />,
-  (props) => <DialogCreateAgreementDraft {...props} />,
   (props) => <DialogRevokeDelegation {...props} />,
   (props) => <DialogRejectDelegatedVersionDraft {...props} />,
   (props) => <DialogTenantKindEserviceTemplate {...props} />,
-  (props) => <DialogTenantKindPurposeTemplate {...props} />
+  (props) => <DialogTenantKindPurposeTemplate {...props} />,
+  (props) => <DialogSelectAgreementConsumer {...props} />
 )
 
 export const Dialog: React.FC = () => {

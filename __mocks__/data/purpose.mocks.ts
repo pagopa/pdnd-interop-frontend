@@ -2,7 +2,12 @@ import type { Purpose, RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
 import { createMockFactory } from '../../src/utils/testing.utils'
 
 const createMockPurpose = createMockFactory<Purpose>({
-  agreement: { id: '3ec3875a-cf24-450a-b94b-550ca2ec5e86', state: 'ACTIVE', canBeUpgraded: false },
+  agreement: {
+    id: '3ec3875a-cf24-450a-b94b-550ca2ec5e86',
+    state: 'ACTIVE',
+    canBeUpgraded: false,
+    consumerId: '6b16be70-9230-4209-bd1f-7e5ae0eed289',
+  },
   clients: [],
   consumer: { id: '6b16be70-9230-4209-bd1f-7e5ae0eed289', name: 'PagoPa S.p.A.' },
   description: 'Lorem ipsum dolor sit amet...',
@@ -133,7 +138,12 @@ const createMockPurposeUsesPersonalDataAnswerNo = createMockFactory<Purpose>({
       audience: ['test'],
     },
   },
-  agreement: { id: 'agreement-id', state: 'ACTIVE', canBeUpgraded: false },
+  agreement: {
+    id: 'agreement-id',
+    state: 'ACTIVE',
+    canBeUpgraded: false,
+    consumerId: 'consumer-id',
+  },
   riskAnalysisForm: {
     answers: { usesPersonalData: ['NO'] },
     version: '3.1',
@@ -166,7 +176,12 @@ const createMockPurposeUsesPersonalDataAnswerYes = createMockFactory<Purpose>({
       audience: ['test'],
     },
   },
-  agreement: { id: 'agreement-id', state: 'ACTIVE', canBeUpgraded: false },
+  agreement: {
+    id: 'agreement-id',
+    state: 'ACTIVE',
+    canBeUpgraded: false,
+    consumerId: 'consumer-id',
+  },
   riskAnalysisForm: {
     answers: { usesPersonalData: ['YES'] },
     version: '3.1',

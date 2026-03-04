@@ -1,28 +1,8 @@
 import type {
   Agreement,
-  AgreementState,
   CatalogDescriptorEService,
-  CatalogEService,
   CatalogEServiceDescriptor,
 } from '@/api/api.generatedTypes'
-
-/**
- * Checks if the user has already an active agreement for the given e-service.
- * An agreement is considered active if the eservice object owns the `agreement` property and its state is not one of the following:
- * - REJECTED
- * - DRAFT
- * - ARCHIVED
- * @param eservice The e-service to check
- * @returns `true` if the user has already an active agreement for the given e-service, `false` otherwise
- */
-export const checkIfAlreadySubscribed = (
-  eservice: CatalogEService | CatalogDescriptorEService | undefined
-) => {
-  if (!eservice?.agreement) return false
-  const notSubscribedStates: Array<AgreementState> = ['REJECTED', 'DRAFT', 'ARCHIVED']
-
-  return !notSubscribedStates.includes(eservice.agreement.state)
-}
 
 /**
  * Checks if the user has already an agreement draft for the given e-service.
@@ -30,21 +10,22 @@ export const checkIfAlreadySubscribed = (
  * @returns `true` if the user has already an agreement draft for the given e-service, `false` otherwise
  */
 export const checkIfhasAlreadyAgreementDraft = (
-  eservice: CatalogEService | CatalogDescriptorEService | undefined
+  eservice: CatalogDescriptorEService | undefined
 ) => {
-  return !!(eservice?.agreement && eservice.agreement.state === 'DRAFT')
+  return eservice?.agreements.some((agreement) => agreement.state === 'DRAFT') ?? false
 }
 /**
  * Checks if the user can create an agreement draft for the given e-service.
+ * @param tenantId The tenant id of the user to check
  * @param eservice The e-service to check
  * @param descriptor the actual viewing descriptor
  * @returns `true` if the user can create an agreement draft for the given e-service, `false` otherwise
  */
 export const checkIfcanCreateAgreementDraft = (
-  eservice: CatalogEService | CatalogDescriptorEService | undefined,
+  tenantId: string | undefined,
   descriptor?: CatalogEServiceDescriptor
 ) => {
-  if (!eservice || !descriptor) return false
+  if (!descriptor || !tenantId) return false
 
   let result = false
 
@@ -53,12 +34,21 @@ export const checkIfcanCreateAgreementDraft = (
    * ... I own all the certified attributes...
    * ...or if the subscriber is the owner of the eservice...
    * */
-  if (descriptor.eservice.hasCertifiedAttributes || eservice.isMine) {
+  if (descriptor.eservice.hasCertifiedAttributes || descriptor.eservice.isMine) {
     result = true
   }
 
-  const isSubscribed = checkIfAlreadySubscribed(eservice)
-  const hasAgreementDraft = checkIfhasAlreadyAgreementDraft(eservice)
+  const subscribedAgreements = descriptor.eservice.agreements.filter(
+    (agreement) =>
+      agreement.state === 'ACTIVE' ||
+      agreement.state === 'SUSPENDED' ||
+      agreement.state === 'PENDING'
+  )
+  const isSubscribed = subscribedAgreements.some((agreement) => agreement.consumerId === tenantId)
+
+  const hasAgreementDraft = descriptor.eservice.agreements.some(
+    (agreement) => agreement.state === 'DRAFT' && agreement.consumerId === tenantId
+  )
 
   /**
    * ... but only if I'm not subscribed to it yet...
