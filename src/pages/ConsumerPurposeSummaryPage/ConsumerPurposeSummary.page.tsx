@@ -16,7 +16,7 @@ import {
   ConsumerPurposeSummaryRiskAnalysisAccordion,
 } from './components'
 import { useGetConsumerPurposeAlertProps } from './hooks/useGetConsumerPurposeAlertProps'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
 import { checkIsRulesetExpired } from '@/utils/purpose.utils'
 import { ConsumerPurposeSummaryRiskAnalysisAlertContainer } from './components/ConsumerPurposeSummaryRiskAnalysisAlertContainer'
@@ -30,6 +30,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   const { jwt } = AuthHooks.useJwt()
 
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
 
@@ -107,10 +108,25 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
         ...(isDelegationMine && { delegationId: purpose.delegation?.id }),
       },
       {
-        onSuccess() {
-          navigate('SUBSCRIBE_PURPOSE_DETAILS', {
+        async onSuccess() {
+          await queryClient.invalidateQueries({
+            queryKey: PurposeQueries.getSingle(purposeId).queryKey,
+          })
+          const updatedPurpose = await queryClient.fetchQuery(PurposeQueries.getSingle(purposeId))
+          const isActive = updatedPurpose?.currentVersion?.state === 'ACTIVE'
+          navigate('SUBSCRIBE_PURPOSE_PUBLISH_THANK_YOU', {
             params: {
               purposeId,
+            },
+            state: {
+              title: isActive
+                ? t('publishThankYou.active.title')
+                : t('publishThankYou.waitingForApproval.title'),
+              description: isActive
+                ? t('publishThankYou.active.description')
+                : t('publishThankYou.waitingForApproval.description'),
+              buttonLabel: t('publishThankYou.action'),
+              closePath: `/fruizione/finalita/${purposeId}`,
             },
           })
         },

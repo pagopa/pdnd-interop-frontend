@@ -73,6 +73,12 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
               eServiceTemplateId: eServiceTemplateId,
               eServiceTemplateVersionId: eServiceTemplateVersionId,
             },
+            state: {
+              title: t('publishThankYou.title'),
+              description: t('publishThankYou.description'),
+              buttonLabel: t('publishThankYou.action'),
+              closePath: `/erogazione/template-eservice/${eServiceTemplateId}/${eServiceTemplateVersionId}`,
+            },
           }),
       }
     )

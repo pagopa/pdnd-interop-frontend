@@ -838,5 +838,21 @@
   "watchRiskyAnalysisAssociated": {
     "title": "Analisi del rischio",
     "description": "Seleziona l'analisi del rischio da visualizzare"
+  },
+  "publishThankYou": {
+    "firstVersion": {
+      "title": "Hai pubblicato l'e-service",
+      "description": "Ora l'e-service è disponibile nel catalogo e potrai ricevere richieste di fruizione."
+    },
+    "newVersion": {
+      "title": "Hai pubblicato una nuova versione dell'e-service",
+      "subtitle": "Cosa succede ora:",
+      "bulletPoints": [
+        "la nuova versione è disponibile nel catalogo;",
+        "i fruitori ricevono una notifica di aggiornamento;",
+        "la versione precedente diventa obsoleta ma attiva fino a quando ci sono fruitori."
+      ]
+    },
+    "action": "Chiudi"
   }
 }

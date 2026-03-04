@@ -480,5 +480,16 @@
         }
       }
     }
+  },
+  "publishThankYou": {
+    "active": {
+      "title": "You have published a purpose",
+      "description": "The purpose is active. Associate your first client to access the e-service data."
+    },
+    "waitingForApproval": {
+      "title": "Your purpose has been forwarded to the provider for approval",
+      "description": "Until its activation by the provider, you will not be able to access data made available through the API and you will not be able to associate clients. You will receive a notification when the provider approves your purpose"
+    },
+    "action": "Close"
   }
 }

@@ -108,13 +108,30 @@ const ProviderEServiceSummaryPage: React.FC = () => {
         eserviceName: delegation?.eservice?.name,
       },
       {
-        onSuccess: () =>
-          navigate('PROVIDE_ESERVICE_MANAGE', {
+        onSuccess: () => {
+          const isFirstVersion = descriptor.version === '1'
+          navigate('PROVIDE_ESERVICE_PUBLISH_THANK_YOU', {
             params: {
               eserviceId: descriptor.eservice.id,
               descriptorId: descriptor.id,
             },
-          }),
+            state: {
+              title: isFirstVersion
+                ? t('publishThankYou.firstVersion.title')
+                : t('publishThankYou.newVersion.title'),
+              ...(isFirstVersion
+                ? { description: t('publishThankYou.firstVersion.description') }
+                : {
+                    subtitle: t('publishThankYou.newVersion.subtitle'),
+                    bulletPoints: t('publishThankYou.newVersion.bulletPoints', {
+                      returnObjects: true,
+                    }),
+                  }),
+              buttonLabel: t('publishThankYou.action'),
+              closePath: `/erogazione/e-service/${descriptor.eservice.id}/${descriptor.id}`,
+            },
+          })
+        },
       }
     )
   }

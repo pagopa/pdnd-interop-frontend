@@ -69,6 +69,8 @@ export function Breadcrumbs() {
         DEFAULT: false,
         ASSISTENCE_PARTY_SELECTION: false,
         PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU: false,
+        PROVIDE_ESERVICE_PUBLISH_THANK_YOU: false,
+        SUBSCRIBE_PURPOSE_PUBLISH_THANK_YOU: false,
       }}
     />
   )
