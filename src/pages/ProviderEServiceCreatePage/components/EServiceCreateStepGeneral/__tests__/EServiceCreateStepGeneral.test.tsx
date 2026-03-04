@@ -6,7 +6,7 @@ import { renderWithApplicationContext, mockUseJwt } from '@/utils/testing.utils'
 import * as ContextModule from '../../EServiceCreateContext'
 import * as EServiceModule from '@/api/eservice'
 import * as EServiceTemplateModule from '@/api/eserviceTemplate'
-import { DUPLICATE_INSTANCE_LABEL_ERROR_CODE } from '@/api/eserviceTemplate/eserviceTemplate.mutations'
+import { DUPLICATE_ESERVICENAME_ERROR_CODE } from '@/api/eserviceTemplate/eserviceTemplate.mutations'
 import type { EServiceTemplateDetails } from '@/api/api.generatedTypes'
 import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
 
@@ -124,7 +124,7 @@ describe('EServiceCreateStepGeneral - instanceLabel', () => {
   })
 
   it('pre-fills instanceLabel when editing an existing draft from template', () => {
-    mockContext({ descriptor: mockDescriptorFromTemplate })
+    mockContext({ descriptor: mockDescriptorFromTemplate, eserviceTemplate: mockEServiceTemplate })
     renderWithApplicationContext(<EServiceCreateStepGeneral />, {
       withReactQueryContext: true,
     })
@@ -279,7 +279,7 @@ it('shows inline duplicate error when create fails with duplicate label error co
     (_payload: unknown, options: { onError: (error: unknown) => void }) => {
       const error = new RealAxiosError('Duplicate')
       error.response = {
-        data: { errors: [{ code: DUPLICATE_INSTANCE_LABEL_ERROR_CODE }] },
+        data: { errors: [{ code: DUPLICATE_ESERVICENAME_ERROR_CODE }] },
       } as never
       options.onError(error)
     }
@@ -381,7 +381,7 @@ it('shows inline empty-not-available error when create fails with duplicate erro
     (_payload: unknown, options: { onError: (error: unknown) => void }) => {
       const error = new RealAxiosError('Duplicate')
       error.response = {
-        data: { errors: [{ code: DUPLICATE_INSTANCE_LABEL_ERROR_CODE }] },
+        data: { errors: [{ code: DUPLICATE_ESERVICENAME_ERROR_CODE }] },
       } as never
       options.onError(error)
     }
