@@ -98,7 +98,8 @@ export const UpdateInstanceLabelDrawer = React.forwardRef<
               {tDrawer('instanceLabelField.catalogPreviewLabel')}
             </Typography>
             <Typography variant="body2" fontWeight={700}>
-              {templateName} {watchedInstanceLabel ? `- ${watchedInstanceLabel.trim()}` : ''}
+              {templateName}
+              {watchedInstanceLabel ? ` - ${watchedInstanceLabel.trim()}` : ''}
             </Typography>
           </Box>
         </Box>
