@@ -5,8 +5,8 @@ import { Link } from '@/router'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { PurposeQueries } from '@/api/purpose'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { useGetConsumerPurposeGeneralInfoAlertProps } from '../hooks/useGetConsumerPurposeGeneralInfoAlertProps'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useGetPurposeInfoAlert } from '@/hooks/useGetPurposeInfoAlert'
 
 type ConsumerPurposeSummaryGeneralInformationAccordionProps = {
   purposeId: string
@@ -16,8 +16,20 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
   ConsumerPurposeSummaryGeneralInformationAccordionProps
 > = ({ purposeId }) => {
   const { data: purpose } = useSuspenseQuery(PurposeQueries.getSingle(purposeId))
+
+  const { data: updatedDailyCalls } = useQuery(PurposeQueries.getUpdatedDailyCalls({ purposeId }))
+
   const { t } = useTranslation('purpose', { keyPrefix: 'summary.generalInformationSection' })
-  const generalInfoAlertProps = useGetConsumerPurposeGeneralInfoAlertProps(purpose)
+
+  const generalInfoAlertProps = useGetPurposeInfoAlert({
+    dailyCalls: purpose.currentVersion!.dailyCalls,
+    dailyCallsPerConsumer: purpose.dailyCallsPerConsumer,
+    dailyCallsTotal: purpose.dailyCallsTotal,
+    updatedDailyCallsPerConsumer: updatedDailyCalls?.updatedDailyCallsPerConsumer,
+    updatedDailyCallsTotal: updatedDailyCalls?.updatedDailyCallsTotal,
+    keyPrefix: 'summary.alerts',
+    showFallback: true,
+  })
 
   return (
     <Stack spacing={2}>
@@ -72,7 +84,7 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
             direction="row"
             label={t('loadEstimationSection.dailyCallsTotal.label')}
           />
-          <Alert sx={{ mt: 3 }} {...generalInfoAlertProps} />
+          {generalInfoAlertProps && <Alert sx={{ mt: 3 }} {...generalInfoAlertProps} />}
         </Stack>
       </SectionContainer>
     </Stack>

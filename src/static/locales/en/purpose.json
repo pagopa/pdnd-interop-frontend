@@ -115,7 +115,10 @@
       },
       "alerts": {
         "infoDailyCallsPerConsumerExceed": "The number you entered exceeds the user limit. The purpose must be approved by the provider.",
-        "infoDailyCallsTotalExceed": "The number you entered exceeds the total threshold. The purpose must be approved by the provider."
+        "infoDailyCallsTotalExceed": "The number you entered exceeds the total threshold. The purpose must be approved by the provider.",
+        "infoDailyCallsPerConsumerResidualExceed": "The number you entered exceeds the remaining per-consumer threshold. The purpose must be approved by the provider.",
+        "infoDailyCallsTotalResidualExceed": "The number you entered exceeds the total remaining threshold. The purpose must be approved by the provider.",
+        "infoDailyCallsMaximumReached": "The provider has already received the maximum number of API calls per day. The purpose must be approved by the provider."
       }
     },
     "stepRiskAnalysis": {
@@ -193,8 +196,11 @@
       },
       "infoRulesetExpiration": "This risk analysis uses a version that will become obsolete in <strong>{{days}} days</strong>. Publish it by {{date}} to avoid having to recompile it.",
       "infoApprovalMayBeRequired": "If the producer receives other purposes before your publication, approval may be required.",
-      "infoDailyCallsPerConsumerExceed": "The estimated number of calls you indicated exceeds the per-user threshold. The purpose must be approved by the producer.",
-      "infoDailyCallsTotalExceed": "The estimated number of calls you indicated exceeds the total threshold. The purpose will need to be approved by the producer."
+      "infoDailyCallsPerConsumerExceed": "The estimated number of calls you indicated exceeds the per-consumer threshold. The purpose must be approved by the producer.",
+      "infoDailyCallsTotalExceed": "The estimated number of calls you indicated exceeds the total threshold. The purpose will need to be approved by the producer.",
+      "infoDailyCallsPerConsumerResidualExceed": "The estimated number of calls you indicated exceeds the remaining threshold per consumer. The purpose must be approved by the provider.",
+      "infoDailyCallsTotalResidualExceed": "The estimated number of calls you indicated exceeds the total remaining threshold. The purpose will need to be approved by the provider.",
+      "infoDailyCallsMaximumReached": "The provider has already received the maximum number of API calls per day. The purpose must be approved by the provider."
     },
     "generalInformationSection": {
       "title": "General information",
