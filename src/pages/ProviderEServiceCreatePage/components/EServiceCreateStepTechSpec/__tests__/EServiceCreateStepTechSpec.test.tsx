@@ -1,18 +1,18 @@
 import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
 import * as ContextModule from '../../EServiceCreateContext'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { EServiceCreateStepThresholds } from '../EServiceCreateStepThresholds'
 import { screen } from '@testing-library/react'
+import { EServiceCreateStepTechSpec } from '../EServiceCreateStepTechSpec'
 
-vi.mock('../../sections/EServiceThresholdSection', () => ({
-  EServiceThresholdSection: () => {
-    return <div>EServiceThresholdSection</div>
+vi.mock('../../sections/EServiceInterfaceSection', () => ({
+  EServiceInterfaceSection: () => {
+    return <div>EServiceInterfaceSection</div>
   },
 }))
 
-vi.mock('../../sections/EServiceAttributesSection', () => ({
-  EServiceAttributesSection: () => {
-    return <div>EServiceAttributesSection</div>
+vi.mock('../../sections/EServiceVoucherSection', () => ({
+  EServiceVoucherSection: () => {
+    return <div>EServiceVoucherSection</div>
   },
 }))
 
@@ -40,30 +40,33 @@ function mockUseEServiceCreateContext(
 vi.mock('@/api/eservice', () => ({
   EServiceMutations: {
     useUpdateVersionDraft: () => ({ mutate: vi.fn() }),
+    useUpdateInstanceVersionDraft: () => ({ mutate: vi.fn() }),
   },
 }))
 
+afterEach(() => {
+  vi.clearAllMocks()
+})
+
 const stepProps = { back: vi.fn(), forward: vi.fn(), activeStep: 2 }
 
-describe('EServiceCreateStepThresholds', () => {
+describe('EServiceCreateStepGeneral', () => {
   it('should render two sections', () => {
     mockUseEServiceCreateContext()
-    renderWithApplicationContext(<EServiceCreateStepThresholds {...stepProps} />, {
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
-
-    expect(screen.getByText('EServiceThresholdSection')).toBeInTheDocument()
-    expect(screen.getByText('EServiceAttributesSection')).toBeInTheDocument()
+    expect(screen.getByText('EServiceInterfaceSection')).toBeInTheDocument()
+    expect(screen.getByText('EServiceVoucherSection')).toBeInTheDocument()
   })
 
   it('should render step actions', () => {
     mockUseEServiceCreateContext()
-    renderWithApplicationContext(<EServiceCreateStepThresholds {...stepProps} />, {
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
-
     expect(screen.getByText('backWithoutSaveBtn')).toBeInTheDocument()
     expect(screen.getByText('forwardWithSaveBtn')).toBeInTheDocument()
   })

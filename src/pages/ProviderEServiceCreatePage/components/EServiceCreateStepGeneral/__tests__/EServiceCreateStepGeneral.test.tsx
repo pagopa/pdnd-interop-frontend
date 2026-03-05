@@ -104,4 +104,24 @@ describe('EServiceCreateStepGeneral', () => {
     expect(screen.getByText('DelegationSection')).toBeInTheDocument()
     expect(screen.getByText('SignalHubSection')).toBeInTheDocument()
   })
+
+  it('should render step actions with editable info', () => {
+    mockUseEServiceCreateContext()
+    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    expect(screen.getByText('create.forwardWithSaveBtn')).toBeInTheDocument()
+  })
+
+  it('should render step actions w/o editable info', () => {
+    mockUseEServiceCreateContext({
+      areEServiceGeneralInfoEditable: false,
+    })
+    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    expect(screen.getByText('create.forwardWithoutSaveBtn')).toBeInTheDocument()
+  })
 })
