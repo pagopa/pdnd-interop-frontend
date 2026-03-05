@@ -26,7 +26,7 @@ describe('RiskAnalysisForm', () => {
 
     expect(
       screen.getByRole('textbox', {
-        name: 'Question 2 (riskAnalysis.formComponents.validation.required)',
+        name: 'Question 2*',
       })
     ).toBeInTheDocument()
   })
@@ -52,7 +52,7 @@ describe('RiskAnalysisForm', () => {
 
     await user.type(
       screen.getByRole('textbox', {
-        name: 'Question 2 (riskAnalysis.formComponents.validation.required)',
+        name: 'Question 2*',
       }),
       'Some text'
     )
