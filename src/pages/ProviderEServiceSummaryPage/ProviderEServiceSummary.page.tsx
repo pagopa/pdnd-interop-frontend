@@ -24,6 +24,7 @@ import { useDialog } from '@/stores'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 import { UpdatePersonalDataDrawer } from '@/components/shared/UpdatePersonalDataDrawer'
 import type { EServiceMode } from '@/api/api.generatedTypes'
+import { match } from 'ts-pattern'
 
 const ProviderEServiceSummaryPage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -118,17 +119,19 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               descriptorId: descriptor.id,
             },
             state: {
-              title: isFirstVersion
-                ? t('publishThankYou.firstVersion.title')
-                : t('publishThankYou.newVersion.title'),
-              ...(isFirstVersion
-                ? { description: t('publishThankYou.firstVersion.description') }
-                : {
-                    subtitle: t('publishThankYou.newVersion.subtitle'),
-                    bulletPoints: t('publishThankYou.newVersion.bulletPoints', {
-                      returnObjects: true,
-                    }),
+              ...match(isFirstVersion)
+                .with(true, () => ({
+                  title: t('publishThankYou.firstVersion.title'),
+                  description: t('publishThankYou.firstVersion.description'),
+                }))
+                .with(false, () => ({
+                  title: t('publishThankYou.newVersion.title'),
+                  subtitle: t('publishThankYou.newVersion.subtitle'),
+                  bulletPoints: t('publishThankYou.newVersion.bulletPoints', {
+                    returnObjects: true,
                   }),
+                }))
+                .exhaustive(),
               buttonLabel: t('publishThankYou.action'),
               closeRouteKey: 'PROVIDE_ESERVICE_MANAGE',
               closeRouteParams: { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
