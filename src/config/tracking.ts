@@ -88,8 +88,7 @@ const getTrackingDefaultProps = () => {
 }
 
 export const { trackEvent, useTrackPageViewEvent } = initTracking<MixPanelEvent>({
-  // TO RESTORE
-  enabled: true,
+  enabled: isTrackingEnabled,
   oneTrustScriptUrl:
     INTEROP_RESOURCES_BASE_URL + `/onetrust/oneTrust_production/scripttemplates/otSDKStub.js`,
   domainScriptUrl: ONETRUST_DOMAIN_SCRIPT_ID,
