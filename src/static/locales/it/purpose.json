@@ -64,6 +64,7 @@
   },
   "edit": {
     "emptyTitle": "Modifica finalità",
+    "requiredLabel": "*Campi obbligatori.",
     "stepper": {
       "stepGeneralLabel": "Informazioni generali",
       "stepRiskAnalysisLabel": "Analisi del rischio"

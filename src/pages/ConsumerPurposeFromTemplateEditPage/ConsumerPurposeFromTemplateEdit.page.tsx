@@ -51,7 +51,7 @@ const ConsumerPurposeFromTemplateEditPage: React.FC = () => {
             color: 'text.secondary',
           }}
         >
-          {t('create.requiredLabel')}
+          {t('edit.requiredLabel')}
         </Typography>
         <Stepper steps={steps} activeIndex={activeStep} />
         <Step {...stepProps} />
