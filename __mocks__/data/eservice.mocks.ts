@@ -356,7 +356,7 @@ const createMockEServiceDescriptorProviderWithTemplateRef =
     templateRef: {
       templateId: 'template-id',
       templateName: 'template-name',
-      templateVersionId: 'template-version-it',
+      templateVersionId: 'template-version-id',
     },
   })
 

@@ -45,7 +45,7 @@ afterEach(() => {
   vi.clearAllMocks()
 })
 
-describe('EServiceCreateStepGeneral', () => {
+describe('EServiceCreateStepInfoVersion', () => {
   it('should render three sections', () => {
     mockUseEServiceCreateContext()
     renderWithApplicationContext(<EServiceCreateStepInfoVersion />, {
