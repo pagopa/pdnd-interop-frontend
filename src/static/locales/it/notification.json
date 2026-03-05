@@ -66,7 +66,6 @@
       "description": "Gestisci le tue impostazioni di notifica in app e via email personale. Hai dubbi su come configurare le notifiche? <1>Consulta il manuale</1>",
       "inAppTabTitle": "Notifiche in-app",
       "emailTabTitle": "Email",
-      "infoAlert": "Le notifiche selezionate potrebbero non arrivare subito, in quanto programmiamo un rilascio graduale. Dopo la tua configurazione delle preferenze non ti sarà richiesta alcuna azione.",
       "inApp": {
         "title": "Configurazione delle preferenze di notifica in piattaforma",
         "manualLinkLabel": "Dubbi? Vai sul manuale",
