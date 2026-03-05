@@ -166,7 +166,7 @@ describe('ProviderEServiceCreatePage', () => {
     expect(screen.getByText('create.stepper.step4Label')).toBeInTheDocument()
   })
 
-  it('should render step purpos - EServiceCreateStepPurpose(RECEIVER)', () => {
+  it('should render step purpose - EServiceCreateStepPurpose(RECEIVER)', () => {
     ;(useActiveStepModule.useActiveStep as Mock).mockReturnValue({
       activeStep: 1,
       forward: vi.fn(),

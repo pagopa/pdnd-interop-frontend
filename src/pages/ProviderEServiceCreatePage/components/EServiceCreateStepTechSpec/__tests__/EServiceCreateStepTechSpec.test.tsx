@@ -50,7 +50,7 @@ afterEach(() => {
 
 const stepProps = { back: vi.fn(), forward: vi.fn(), activeStep: 2 }
 
-describe('EServiceCreateStepGeneral', () => {
+describe('EServiceCreateStepTechSpec', () => {
   it('should render two sections', () => {
     mockUseEServiceCreateContext()
     renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
