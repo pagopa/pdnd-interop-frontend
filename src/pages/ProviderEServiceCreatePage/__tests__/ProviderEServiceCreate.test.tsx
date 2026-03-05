@@ -1,8 +1,10 @@
 import { mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
-import { screen } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
 import ProviderEServiceCreatePage from '../ProviderEServiceCreate.page'
 import type { Mock } from 'vitest'
 import * as useActiveStepModule from '@/hooks/useActiveStep'
+import { queryOptions } from '@tanstack/react-query'
+import type { EServiceCreateContextProviderProps } from '../components/EServiceCreateContext'
 
 vi.mock('@/hooks/useActiveStep', () => ({
   useActiveStep: vi.fn(() => ({
@@ -10,6 +12,20 @@ vi.mock('@/hooks/useActiveStep', () => ({
     forward: vi.fn(),
     back: vi.fn(),
   })),
+}))
+
+vi.mock('../components/EServiceCreateContext', () => ({
+  EServiceCreateContextProvider: (props: EServiceCreateContextProviderProps) => {
+    return (
+      <div>
+        {props.children}
+        <button
+          data-testid="receiver-button"
+          onClick={() => props.onEserviceModeChange?.('RECEIVE')}
+        ></button>
+      </div>
+    )
+  },
 }))
 
 vi.mock('../components/EServiceCreateStepGeneral', () => ({
@@ -44,6 +60,17 @@ vi.mock('../components/EServiceCreateStepPurpose/EServiceCreateFromTemplateStepP
   ),
 }))
 
+vi.mock('@/api/eserviceTemplate', () => ({
+  EServiceTemplateQueries: {
+    getSingleByEServiceTemplateId: vi.fn((eserviceTemplateId: string) =>
+      queryOptions({
+        queryKey: ['EServiceTemplateGetSingleByEServiceTemplateId', eserviceTemplateId],
+        queryFn: vi.fn(),
+      })
+    ),
+  },
+}))
+
 mockUseParams({})
 
 afterEach(() => {
@@ -51,7 +78,7 @@ afterEach(() => {
 })
 
 describe('ProviderEServiceCreatePage', () => {
-  it('should render page with stepper', () => {
+  it('should render page with stepper(DELIVER)', () => {
     ;(useActiveStepModule.useActiveStep as Mock).mockReturnValue({
       activeStep: 0,
       forward: vi.fn(),
@@ -118,5 +145,39 @@ describe('ProviderEServiceCreatePage', () => {
       withRouterContext: true,
     })
     expect(screen.getByText('EServiceCreateStepInfoVersion')).toBeInTheDocument()
+  })
+
+  it('should render page with stepper(RECEIVER)', () => {
+    ;(useActiveStepModule.useActiveStep as Mock).mockReturnValue({
+      activeStep: 0,
+      forward: vi.fn(),
+      back: vi.fn(),
+    })
+    renderWithApplicationContext(<ProviderEServiceCreatePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    fireEvent.click(screen.getByTestId('receiver-button'))
+    expect(screen.getByText('create.stepper.step1Label')).toBeInTheDocument()
+    expect(screen.getByText('create.stepper.step2ReceiveLabel')).toBeInTheDocument()
+    expect(screen.getByText('create.stepper.step2Label')).toBeInTheDocument()
+    expect(screen.getByText('create.stepper.step3Label')).toBeInTheDocument()
+    expect(screen.getByText('create.stepper.step4Label')).toBeInTheDocument()
+  })
+
+  it('should render step purpos - EServiceCreateStepPurpose(RECEIVER)', () => {
+    ;(useActiveStepModule.useActiveStep as Mock).mockReturnValue({
+      activeStep: 1,
+      forward: vi.fn(),
+      back: vi.fn(),
+    })
+    renderWithApplicationContext(<ProviderEServiceCreatePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    fireEvent.click(screen.getByTestId('receiver-button'))
+    expect(screen.getByText('EServiceCreateStepPurpose')).toBeInTheDocument()
   })
 })
