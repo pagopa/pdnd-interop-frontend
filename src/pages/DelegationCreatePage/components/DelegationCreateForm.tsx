@@ -163,8 +163,11 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
               error instanceof AxiosError &&
               error.response?.data?.errors?.[0]?.code === DUPLICATE_ESERVICENAME_ERROR_CODE
             ) {
+              const instanceLabelValue = formMethods.getValues('instanceLabel')?.trim()
               formMethods.setError('instanceLabel', {
-                message: t('delegations.create.eserviceField.validation.duplicateName'),
+                message: instanceLabelValue
+                  ? t('delegations.create.eserviceField.validation.duplicateName')
+                  : t('delegations.create.eserviceField.validation.emptyNotAvailable'),
               })
             }
           },
@@ -237,7 +240,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
             )}
           </Stack>
         </SectionContainer>
-        {isEserviceFromTemplate && eserviceTemplateName && (
+        {isEserviceToBeCreated && isEserviceFromTemplate && eserviceTemplateName && (
           <InstanceLabelSection
             templateName={eserviceTemplateName}
             instanceLabel={formMethods.watch('instanceLabel') ?? ''}

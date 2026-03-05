@@ -111,11 +111,15 @@ export const EServiceCreateStepGeneral: React.FC = () => {
     const errorCode = error.response?.data?.errors?.[0]?.code
     if (errorCode === DUPLICATE_ESERVICENAME_ERROR_CODE) {
       const instanceLabelValue = formMethods.getValues('instanceLabel')
-      formMethods.setError('instanceLabel', {
-        message: instanceLabelValue
-          ? t('create.step1.instanceLabelField.validation.duplicate')
-          : t('create.step1.instanceLabelField.validation.emptyNotAvailable'),
-      })
+      formMethods.setError(
+        'instanceLabel',
+        {
+          message: instanceLabelValue
+            ? t('create.step1.instanceLabelField.validation.duplicate')
+            : t('create.step1.instanceLabelField.validation.emptyNotAvailable'),
+        },
+        { shouldFocus: true }
+      )
     }
   }
 

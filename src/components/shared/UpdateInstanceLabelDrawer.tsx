@@ -16,7 +16,7 @@ type UpdateInstanceLabelDrawerProps = {
   eServiceId: string
   currentInstanceLabel: string
   templateName: string
-  onSubmit: (eServiceId: string, instanceLabel: string) => void
+  onSubmit: (eServiceId: string, instanceLabel: string | undefined) => void
 }
 
 export type UpdateInstanceLabelDrawerRef = {
@@ -52,7 +52,8 @@ export const UpdateInstanceLabelDrawer = React.forwardRef<
   }, [currentInstanceLabel, formMethods])
 
   const handleSubmit = (values: UpdateInstanceLabelFormValues) => {
-    onSubmit(eServiceId, values.instanceLabel.trim())
+    const trimmed = values.instanceLabel.trim()
+    onSubmit(eServiceId, trimmed || undefined)
   }
 
   const handleTransitionExited = () => {
@@ -85,8 +86,6 @@ export const UpdateInstanceLabelDrawer = React.forwardRef<
             rules={{
               maxLength: INSTANCE_LABEL_MAX_LENGTH,
               validate: {
-                required: (value) =>
-                  value.trim().length > 0 || tDrawer('instanceLabelField.validation.required'),
                 notSame: (value) =>
                   value.trim() !== currentInstanceLabel ||
                   tDrawer('instanceLabelField.validation.sameValue'),
