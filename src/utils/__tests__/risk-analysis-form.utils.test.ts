@@ -193,7 +193,7 @@ describe('Risk analysis form utils', () => {
 
       const result = formatRiskAnalysisInputLabel(question, 'it', tSharedComponentsMock)
 
-      expect(result).toContain('riskAnalysis.formComponents.validation.required')
+      expect(result).toContain('*')
     })
 
     it('should contain the multiple choice label if the question is of multiple choices', () => {
@@ -221,9 +221,8 @@ describe('Risk analysis form utils', () => {
         ((str: string) => str) as TFunction<'shared-components'>
       )
 
-      expect(result).toContain(
-        'riskAnalysis.formComponents.validation.required, riskAnalysis.formComponents.validation.multipleChoice'
-      )
+      expect(result).toContain('*')
+      expect(result).toContain('riskAnalysis.formComponents.validation.multipleChoice')
     })
   })
 
