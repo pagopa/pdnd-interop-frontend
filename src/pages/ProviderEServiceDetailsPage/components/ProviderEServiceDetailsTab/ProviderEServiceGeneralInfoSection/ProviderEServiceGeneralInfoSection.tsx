@@ -96,7 +96,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { mutate: updateInstanceLabel } =
     EServiceTemplateMutations.useUpdateInstanceLabelAfterPublication()
 
-  const handleInstanceLabelUpdate = (eServiceId: string, instanceLabel: string) => {
+  const handleInstanceLabelUpdate = (eServiceId: string, instanceLabel: string | undefined) => {
     updateInstanceLabel(
       { eServiceId, instanceLabel },
       {
@@ -106,9 +106,10 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
             error instanceof AxiosError &&
             error.response?.data?.errors?.[0]?.code === DUPLICATE_ESERVICENAME_ERROR_CODE
           ) {
-            updateInstanceLabelDrawerRef.current?.setFieldError(
-              tDrawer('updateInstanceLabelDrawer.instanceLabelField.validation.duplicate')
-            )
+            const message = instanceLabel
+              ? tDrawer('updateInstanceLabelDrawer.instanceLabelField.validation.duplicate')
+              : tDrawer('updateInstanceLabelDrawer.instanceLabelField.validation.emptyNotAvailable')
+            updateInstanceLabelDrawerRef.current?.setFieldError(message)
           }
         },
       }

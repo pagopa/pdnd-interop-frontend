@@ -132,7 +132,7 @@ describe('UpdateInstanceLabelDrawer', () => {
     expect(defaultProps.onSubmit).not.toHaveBeenCalled()
   })
 
-  it('shows validation error when submitting with empty field', async () => {
+  it('submits with empty instanceLabel when clearing the field', async () => {
     const user = userEvent.setup()
     renderWithApplicationContext(<UpdateInstanceLabelDrawer {...defaultProps} />, {
       withReactQueryContext: true,
@@ -145,12 +145,11 @@ describe('UpdateInstanceLabelDrawer', () => {
     await user.click(submitButton)
 
     await waitFor(() => {
-      expect(screen.getByText('instanceLabelField.validation.required')).toBeInTheDocument()
+      expect(defaultProps.onSubmit).toHaveBeenCalledWith('eservice-id', undefined)
     })
-    expect(defaultProps.onSubmit).not.toHaveBeenCalled()
   })
 
-  it('shows validation error when submitting with whitespace-only value', async () => {
+  it('submits with undefined instanceLabel when field contains only whitespace', async () => {
     const user = userEvent.setup()
     renderWithApplicationContext(<UpdateInstanceLabelDrawer {...defaultProps} />, {
       withReactQueryContext: true,
@@ -164,7 +163,22 @@ describe('UpdateInstanceLabelDrawer', () => {
     await user.click(submitButton)
 
     await waitFor(() => {
-      expect(screen.getByText('instanceLabelField.validation.required')).toBeInTheDocument()
+      expect(defaultProps.onSubmit).toHaveBeenCalledWith('eservice-id', undefined)
+    })
+  })
+
+  it('shows sameValue error when currentInstanceLabel is empty and field is submitted empty', async () => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(
+      <UpdateInstanceLabelDrawer {...defaultProps} currentInstanceLabel="" />,
+      { withReactQueryContext: true }
+    )
+
+    const submitButton = screen.getByRole('button', { name: 'actions.upgrade' })
+    await user.click(submitButton)
+
+    await waitFor(() => {
+      expect(screen.getByText('instanceLabelField.validation.sameValue')).toBeInTheDocument()
     })
     expect(defaultProps.onSubmit).not.toHaveBeenCalled()
   })

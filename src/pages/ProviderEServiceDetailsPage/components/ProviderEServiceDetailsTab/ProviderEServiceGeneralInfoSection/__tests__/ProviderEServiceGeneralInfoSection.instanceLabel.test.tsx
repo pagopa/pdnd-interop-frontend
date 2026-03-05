@@ -238,6 +238,48 @@ describe('ProviderEServiceGeneralInfoSection - instanceLabel (published e-servic
     })
   })
 
+  it('shows emptyNotAvailable error when update fails with empty instanceLabel', async () => {
+    const { AxiosError: RealAxiosError } = await import('axios')
+    const user = userEvent.setup()
+    mockDescriptorData = baseTemplateDescriptor
+
+    mockUpdateInstanceLabel.mockImplementation(
+      (_payload: unknown, options: { onError: (error: unknown) => void }) => {
+        const error = new RealAxiosError('Duplicate')
+        error.response = {
+          data: {
+            errors: [{ code: EServiceTemplateMutationsModule.DUPLICATE_ESERVICENAME_ERROR_CODE }],
+          },
+        } as never
+        options.onError(error)
+      }
+    )
+
+    renderWithApplicationContext(<ProviderEServiceGeneralInfoSection />, {
+      withReactQueryContext: true,
+    })
+
+    const editButton = screen.getByText('actions.edit')
+    await user.click(editButton)
+
+    // Clear the field to submit with empty instanceLabel
+    const input = screen.getByRole('textbox', {
+      name: 'instanceLabelField.label',
+    })
+    await user.clear(input)
+
+    const submitButton = screen.getByRole('button', { name: 'actions.upgrade' })
+    await user.click(submitButton)
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          'updateInstanceLabelDrawer.instanceLabelField.validation.emptyNotAvailable'
+        )
+      ).toBeInTheDocument()
+    })
+  })
+
   it('does NOT show instanceLabel section for non-template e-services', () => {
     mockDescriptorData = createMockEServiceDescriptorProvider({
       state: 'PUBLISHED',

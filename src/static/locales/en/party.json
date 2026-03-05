@@ -159,7 +159,8 @@
         "descriptionInfoLabel": "Include input and output data in the text. Min 10 characters, max 250 characters",
         "eserviceNameLabel": "Produced by",
         "validation": {
-          "duplicateName": "Your organization already created an e-service with this name. Choose a different one."
+          "duplicateName": "You already created an e-service with this name. Use a different one.",
+          "emptyNotAvailable": "Add a word to differentiate your e-service."
         }
       },
       "delegateField": {

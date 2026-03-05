@@ -597,8 +597,9 @@
           "catalogPreviewLabel": "How it will appear in the catalog",
           "validation": {
             "duplicate": "You already created an e-service with this name. Use a different one.",
+            "emptyNotAvailable": "Add a word to differentiate your e-service.",
             "required": "The identifying word is required.",
-            "sameValue": "The identifying word is the same as the current one."
+            "sameValue": "The identifying word must be different from the current one."
           }
         }
       },

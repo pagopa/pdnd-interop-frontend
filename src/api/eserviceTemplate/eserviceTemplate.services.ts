@@ -393,7 +393,7 @@ async function updateInstanceLabelAfterPublication({
   ...payload
 }: {
   eServiceId: string
-  instanceLabel: string
+  instanceLabel: string | undefined
 }) {
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/templates/eservices/${eServiceId}/instanceLabel/update`,
