@@ -5,9 +5,33 @@ import { Trans, useTranslation } from 'react-i18next'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { trackEvent } from '@/config/tracking'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { Stack } from '@mui/material'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
+import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 
-export const EServiceInfoSection: React.FC = () => {
+type EServiceInfoSectionProps = {
+  areEServiceGeneralInfoEditable: boolean
+  descriptor?: ProducerEServiceDescriptor
+}
+
+export const EServiceInfoSection: React.FC<EServiceInfoSectionProps> = ({
+  areEServiceGeneralInfoEditable,
+  descriptor,
+}) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.infoSection' })
+
+  if (!areEServiceGeneralInfoEditable && descriptor)
+    return (
+      <SectionContainer title={t('title')} description={t('readOnlyDescription')}>
+        <Stack spacing={2}>
+          <InformationContainer label={t('nameField.label')} content={descriptor?.eservice.name} />
+          <InformationContainer
+            label={t('descriptionField.label')}
+            content={descriptor?.eservice.description}
+          />
+        </Stack>
+      </SectionContainer>
+    )
 
   return (
     <SectionContainer

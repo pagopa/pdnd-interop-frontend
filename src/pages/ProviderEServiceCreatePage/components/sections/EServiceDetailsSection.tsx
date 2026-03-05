@@ -1,4 +1,4 @@
-import type { EServiceMode, EServiceTemplateDetails } from '@/api/api.generatedTypes'
+import type { EServiceMode, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { SectionContainer } from '@/components/layout/containers'
 import { RHFRadioGroup } from '@/components/shared/react-hook-form-inputs'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
@@ -8,50 +8,43 @@ import { useTranslation } from 'react-i18next'
 
 type EServiceDetailsSectionProps = {
   areEServiceGeneralInfoEditable: boolean
-  eserviceTemplate?: EServiceTemplateDetails
   eserviceMode: EServiceMode
+  descriptor?: ProducerEServiceDescriptor
   onEserviceModeChange?: (value: EServiceMode) => void
 }
 
 export const EServiceDetailsSection: React.FC<EServiceDetailsSectionProps> = ({
   areEServiceGeneralInfoEditable,
-  eserviceTemplate,
   eserviceMode,
+  descriptor,
   onEserviceModeChange,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.detailsSection' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'validation.mixed' })
 
-  if (eserviceTemplate) {
+  if (!areEServiceGeneralInfoEditable && descriptor)
     return (
-      <SectionContainer title={t('title')} description={t('description')}>
+      <SectionContainer title={t('title')} description={t('readOnlyDescription')}>
         <Stack spacing={2}>
           <InformationContainer
             label={t('technologyField.readOnlyLabel')}
-            content={eserviceTemplate.technology}
+            content={descriptor?.eservice.technology}
           />
           <InformationContainer
             label={t('modeField.label')}
-            content={t(`modeField.options.${eserviceTemplate.mode}`)}
+            content={t(`modeField.options.${eserviceMode}`)}
           />
-          {eserviceTemplate.personalData !== undefined ? (
+          {descriptor.eservice.personalData !== undefined && (
             <InformationContainer
-              label={t(`personalDataField.${eserviceTemplate.mode}.readOnlyLabel`)}
+              label={t(`personalDataField.${eserviceMode}.readOnlyLabel`)}
               content={t(
-                `personalDataField.${eserviceTemplate.mode}.readOnlyOptions.${eserviceTemplate.personalData}`
+                `personalDataField.${eserviceMode}.readOnlyOptions.${descriptor.eservice.personalData}`
               )}
             />
-          ) : (
-            <Alert severity="error" variant="outlined">
-              {t('personalDataField.alertMissingPersonalData', {
-                tenantName: eserviceTemplate?.creator.name,
-              })}
-            </Alert>
           )}
         </Stack>
       </SectionContainer>
     )
-  }
 
   return (
     <SectionContainer title={t('title')}>

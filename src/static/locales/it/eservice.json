@@ -19,6 +19,7 @@
       "infoSection": {
         "title": "Informazioni sull'e-service",
         "description": "Per scegliere nomi chiari e rendere gli e-service facili da trovare, consulta le <1>linee guida</1>",
+        "readOnlyDescription": "Le seguenti informazioni non sono più modificabili.",
         "nameField": {
           "label": "Nome dell'e-service",
           "infoLabel": "Min 5 caratteri, max 60 caratteri"
@@ -31,6 +32,7 @@
       "detailsSection": {
         "title": "Dettagli dell'e-service",
         "description": "Queste informazioni sono state precompilate da chi ha creato il template e non sono modificabili.",
+        "readOnlyDescription": "Le seguenti informazioni non sono più modificabili.",
         "firstVersionOnlyEditableInfo": "Questi dati non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
         "technologyField": {
           "label": "Con quale tecnologia è costruita la tua API?",
