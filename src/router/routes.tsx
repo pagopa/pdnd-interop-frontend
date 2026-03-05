@@ -53,7 +53,8 @@ import {
   RiskAnalysisEServiceAssociatedPage,
   DeveloperToolsPage,
   RiskAnalysisExporterToolPage,
-  ProviderEServiceTemplatePublishThankYouPage,
+  PublishThankYouPage,
+  ConsumerPurposePublishThankYouPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -120,6 +121,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'PROVIDE_ESERVICE_SUMMARY',
     path: '/erogazione/e-service/:eserviceId/:descriptorId/modifica/riepilogo',
     element: <ProviderEServiceSummaryPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'PROVIDE_ESERVICE_PUBLISH_THANK_YOU',
+    path: '/erogazione/e-service/:eserviceId/:descriptorId/feedback',
+    element: <PublishThankYouPage />,
     public: false,
     hideSideNav: true,
     authLevels: ['admin', 'api', 'support'],
@@ -208,6 +217,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     key: 'SUBSCRIBE_PURPOSE_SUMMARY',
     path: '/fruizione/finalita/:purposeId/riepilogo',
     element: <ConsumerPurposeSummaryPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_PURPOSE_PUBLISH_THANK_YOU',
+    path: '/fruizione/finalita/:purposeId/feedback',
+    element: <ConsumerPurposePublishThankYouPage />,
     public: false,
     hideSideNav: true,
     authLevels: ['admin'],
@@ -503,7 +520,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   .addRoute({
     key: 'PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU',
     path: '/erogazione/template-eservice/:eServiceTemplateId/:eServiceTemplateVersionId/feedback',
-    element: <ProviderEServiceTemplatePublishThankYouPage />,
+    element: <PublishThankYouPage />,
     public: false,
     hideSideNav: true,
     authLevels: ['admin', 'api'],

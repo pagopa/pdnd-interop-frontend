@@ -108,11 +108,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       },
       {
         onSuccess() {
-          navigate('SUBSCRIBE_PURPOSE_DETAILS', {
-            params: {
-              purposeId,
-            },
-          })
+          navigate('SUBSCRIBE_PURPOSE_PUBLISH_THANK_YOU', { params: { purposeId } })
         },
       }
     )

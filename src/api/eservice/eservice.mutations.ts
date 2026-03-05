@@ -128,13 +128,17 @@ function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }
       eserviceName?: string
       eserviceId: string
       descriptorId: string
+      isFirstVersion?: boolean
     }) => EServiceServices.publishVersionDraft({ eserviceId, descriptorId }),
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {
-        title: t('confirmDialog.title'),
+        title: (variables: unknown) =>
+          (variables as { isFirstVersion?: boolean }).isFirstVersion
+            ? t('confirmDialog.title')
+            : t('confirmDialog.titleNewVersion'),
         description: isByDelegation
           ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (variables: any) => {
@@ -144,7 +148,9 @@ function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }
               })
             }
           : () => t('confirmDialog.description'),
-        proceedLabel: isByDelegation ? t('confirmDialog.actions.proceed') : undefined,
+        proceedLabel: isByDelegation
+          ? t('confirmDialog.actions.proceed')
+          : t('confirmDialog.proceedLabel'),
       },
     },
   })

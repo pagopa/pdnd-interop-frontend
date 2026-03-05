@@ -24,6 +24,7 @@ import { useDialog } from '@/stores'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 import { UpdatePersonalDataDrawer } from '@/components/shared/UpdatePersonalDataDrawer'
 import type { EServiceMode } from '@/api/api.generatedTypes'
+import { match } from 'ts-pattern'
 
 const ProviderEServiceSummaryPage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -100,21 +101,43 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const handlePublishDraft = () => {
     if (!descriptor) return
 
+    const isFirstVersion = descriptor.version === '1'
+
     publishVersion(
       {
         eserviceId: descriptor.eservice.id,
         descriptorId: descriptor.id,
         delegatorName: delegation?.delegator.name,
         eserviceName: delegation?.eservice?.name,
+        isFirstVersion,
       },
       {
-        onSuccess: () =>
-          navigate('PROVIDE_ESERVICE_MANAGE', {
+        onSuccess: () => {
+          navigate('PROVIDE_ESERVICE_PUBLISH_THANK_YOU', {
             params: {
               eserviceId: descriptor.eservice.id,
               descriptorId: descriptor.id,
             },
-          }),
+            state: {
+              ...match(isFirstVersion)
+                .with(true, () => ({
+                  title: t('publishThankYou.firstVersion.title'),
+                  description: t('publishThankYou.firstVersion.description'),
+                }))
+                .with(false, () => ({
+                  title: t('publishThankYou.newVersion.title'),
+                  subtitle: t('publishThankYou.newVersion.subtitle'),
+                  bulletPoints: t('publishThankYou.newVersion.bulletPoints', {
+                    returnObjects: true,
+                  }),
+                }))
+                .exhaustive(),
+              buttonLabel: t('publishThankYou.action'),
+              closeRouteKey: 'PROVIDE_ESERVICE_MANAGE',
+              closeRouteParams: { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
+            },
+          })
+        },
       }
     )
   }

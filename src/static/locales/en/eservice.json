@@ -838,5 +838,21 @@
   "watchRiskyAnalysisAssociated": {
     "title": "Risk analysis",
     "description": "Select which risk analysis you want to show"
+  },
+  "publishThankYou": {
+    "firstVersion": {
+      "title": "You have published the e-service",
+      "description": "The e-service is now available in the catalog and you will be able to receive subscription requests."
+    },
+    "newVersion": {
+      "title": "You have published a new version of the e-service",
+      "subtitle": "What happens now:",
+      "bulletPoints": [
+        "the new version is available in the catalog;",
+        "subscribers receive an update notification;",
+        "the previous version becomes obsolete but remains active as long as there are subscribers."
+      ]
+    },
+    "action": "Close"
   }
 }

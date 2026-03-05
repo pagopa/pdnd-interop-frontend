@@ -255,6 +255,7 @@ function usePublishVersionDraft() {
     }: {
       eServiceTemplateId: string
       eServiceTemplateVersionId: string
+      isFirstVersion?: boolean
     }) =>
       EServiceTemplateServices.publishVersionDraft({
         eServiceTemplateId,
@@ -265,7 +266,10 @@ function usePublishVersionDraft() {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {
-        title: t('confirmDialog.title'),
+        title: (variables: unknown) =>
+          (variables as { isFirstVersion?: boolean }).isFirstVersion
+            ? t('confirmDialog.title')
+            : t('confirmDialog.titleNewVersion'),
         description: t('confirmDialog.description'),
         proceedLabel: undefined,
       },

@@ -480,5 +480,16 @@
         }
       }
     }
+  },
+  "publishThankYou": {
+    "active": {
+      "title": "Hai pubblicato una finalità",
+      "description": "La finalità è attiva. Associa il tuo primo client per accedere ai dati dell'e-service."
+    },
+    "waitingForApproval": {
+      "title": "La tua finalità è stata inoltrata all'erogatore per l'approvazione",
+      "description": "Fino alla sua attivazione da parte dell'erogatore non potrai accedere ai dati resi disponibili attraverso l'API e non potrai associare client. Riceverai una notifica quando l'erogatore approverà la tua finalità"
+    },
+    "action": "Chiudi"
   }
 }

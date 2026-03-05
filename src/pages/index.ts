@@ -50,4 +50,5 @@ export { ProviderEServiceFromTemplateCreatePage } from './ProviderEServiceFromTe
 export { RiskAnalysisEServiceAssociatedPage } from './RiskAnalysisEserviceAssociatedPage'
 export { DeveloperToolsPage } from './DeveloperToolsPage'
 export { RiskAnalysisExporterToolPage } from './RiskAnalysisExporterToolPage'
-export { ProviderEServiceTemplatePublishThankYouPage } from './ProviderEServiceTemplatePublishThankYouPage'
+export { PublishThankYouPage } from './PublishThankYouPage'
+export { ConsumerPurposePublishThankYouPage } from './ConsumerPurposePublishThankYouPage'

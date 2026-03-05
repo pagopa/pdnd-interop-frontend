@@ -61,10 +61,13 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   const handlePublishDraft = () => {
     if (!eserviceTemplate) return
 
+    const isFirstVersion = eserviceTemplate.version === 1
+
     publishVersion(
       {
         eServiceTemplateId: eServiceTemplateId,
         eServiceTemplateVersionId: eServiceTemplateVersionId,
+        isFirstVersion,
       },
       {
         onSuccess: () =>
@@ -72,6 +75,17 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             params: {
               eServiceTemplateId: eServiceTemplateId,
               eServiceTemplateVersionId: eServiceTemplateVersionId,
+            },
+            state: {
+              title: isFirstVersion
+                ? t('publishThankYou.firstVersion.title')
+                : t('publishThankYou.newVersion.title'),
+              description: isFirstVersion
+                ? t('publishThankYou.firstVersion.description')
+                : t('publishThankYou.newVersion.description'),
+              buttonLabel: t('publishThankYou.action'),
+              closeRouteKey: 'PROVIDE_ESERVICE_TEMPLATE_DETAILS',
+              closeRouteParams: { eServiceTemplateId, eServiceTemplateVersionId },
             },
           }),
       }

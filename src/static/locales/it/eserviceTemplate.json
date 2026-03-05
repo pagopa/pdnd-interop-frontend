@@ -528,8 +528,14 @@
     }
   },
   "publishThankYou": {
-    "title": "Hai pubblicato una nuova versione del template e-service",
-    "description": "Ora è disponibile nel catalogo template e-service. Chi sta usando la versione precedente del template, riceverà una notifica e dovrà aggiornare alla nuova versione.",
+    "firstVersion": {
+      "title": "Hai pubblicato un template e-service",
+      "description": "Ora è disponibile nel catalogo template e-service e potrà essere usato dagli altri enti per creare i propri e-service."
+    },
+    "newVersion": {
+      "title": "Hai pubblicato una nuova versione del template e-service",
+      "description": "Ora è disponibile nel catalogo template e-service. Chi sta usando la versione precedente del template, riceverà una notifica e dovrà aggiornare alla nuova versione."
+    },
     "action": "Chiudi"
   }
 }
