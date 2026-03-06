@@ -9,10 +9,7 @@ import { ProviderEServiceThresholdsSection } from './ProviderEServiceThresholdsS
 import { ProviderEServiceUsefulLinksSection } from './ProviderEServiceUsefulLinksSection'
 import { ProviderEServiceDocumentationSection } from './ProviderEServiceDocumentationSection'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import {
-  FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE,
-  FEATURE_FLAG_UPDATE_DELEGATION_FLAGS,
-} from '@/config/env'
+import { FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
 import { formatDateString } from '@/utils/format.utils'
 import { ProviderEServiceAgreementApprovalPolicySection } from './ProviderEServiceAgreementApprovalPolicySection'
@@ -106,12 +103,8 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
             <Divider />
           </>
         )}
-        {FEATURE_FLAG_UPDATE_DELEGATION_FLAGS && (
-          <>
-            <ProviderEServiceDelegationsSection descriptor={descriptor} />
-            <Divider />
-          </>
-        )}
+        <ProviderEServiceDelegationsSection descriptor={descriptor} />
+        <Divider />
         <ProviderEServiceDocumentationSection descriptor={descriptor} />
         <Divider />
         <ProviderEServiceUsefulLinksSection />

@@ -23,5 +23,4 @@ window.pagopa_env = {
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA: 'true',
   FEATURE_FLAG_USE_SIGNED_DOCUMENT: 'true',
   AVATAR_BASEPATH: 'https://selc-u-checkout-cdn-endpoint.azureedge.net',
-  FEATURE_FLAG_UPDATE_DELEGATION_FLAGS: 'false',
 }
