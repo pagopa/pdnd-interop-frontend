@@ -4,6 +4,7 @@ import { PurposeServices } from './purpose.services'
 import type {
   GetConsumerPurposesParams,
   GetProducerPurposesParams,
+  GetUpdatedDailyCallsParams,
   RetrieveLatestRiskAnalysisConfigurationParams,
   RetrieveRiskAnalysisConfigurationByVersionParams,
 } from '../api.generatedTypes'
@@ -50,6 +51,13 @@ function getRiskAnalyisLatestOrSpecificVersion(params: RiskAnlysisVersionConfig)
   })
 }
 
+function getUpdatedDailyCalls(params: GetUpdatedDailyCallsParams) {
+  return queryOptions({
+    queryKey: ['GetUpdatedDailyCalls', params],
+    queryFn: () => PurposeServices.getUpdatedDailyCalls(params),
+  })
+}
+
 export const PurposeQueries = {
   getProducersList,
   getConsumersList,
@@ -57,4 +65,5 @@ export const PurposeQueries = {
   getRiskAnalysisLatest,
   getRiskAnalysisVersion,
   getRiskAnalyisLatestOrSpecificVersion,
+  getUpdatedDailyCalls,
 }

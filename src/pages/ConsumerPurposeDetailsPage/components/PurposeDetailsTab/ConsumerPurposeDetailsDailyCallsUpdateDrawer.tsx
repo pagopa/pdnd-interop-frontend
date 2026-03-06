@@ -1,12 +1,13 @@
 import type { Purpose } from '@/api/api.generatedTypes'
-import { PurposeMutations } from '@/api/purpose'
+import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { SectionContainer } from '@/components/layout/containers'
 import { Drawer } from '@/components/shared/Drawer'
 import { GreyAlert } from '@/components/shared/GreyAlert'
 import { RHFCheckbox, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { purposeUpgradeGuideLink } from '@/config/constants'
-import { useGetConsumerPurposeEditPageInfoAlertProps } from '@/pages/ConsumerPurposeEditPage/hooks/useGetConsumerPurposeEditPageInfoAlertProps'
+import { useGetPurposeInfoAlert } from '@/hooks/useGetPurposeInfoAlert'
 import { Alert, AlertTitle, Link, Stack, Typography } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
@@ -44,13 +45,21 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
     formMethods.reset(defaultValues)
   }
 
+  const { data: updatedDailyCalls } = useQuery(
+    PurposeQueries.getUpdatedDailyCalls({ purposeId: purpose.id })
+  )
+
   const dailyCalls = formMethods.watch('dailyCalls')
 
-  const alertProps = useGetConsumerPurposeEditPageInfoAlertProps(
+  const alertProps = useGetPurposeInfoAlert({
     dailyCalls,
-    purpose.dailyCallsPerConsumer,
-    purpose.dailyCallsTotal
-  )
+    dailyCallsPerConsumer: purpose.dailyCallsPerConsumer,
+    dailyCallsTotal: purpose.dailyCallsTotal,
+    updatedDailyCallsPerConsumer: updatedDailyCalls?.updatedDailyCallsPerConsumer,
+    updatedDailyCallsTotal: updatedDailyCalls?.updatedDailyCallsTotal,
+    keyPrefix: 'consumerView.sections.loadEstimate.drawer.alerts',
+    showFallback: false,
+  })
 
   return (
     <FormProvider {...formMethods}>
@@ -111,7 +120,7 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
                 </Typography>
                 <Typography variant="caption" fontWeight={600}>
                   {t('providerThresholdsInfo.dailyCallsPerConsumer.value', {
-                    min: '#' /* @TODO - add residual threshold */,
+                    min: updatedDailyCalls?.updatedDailyCallsPerConsumer ?? 'n/a',
                     max: purpose.dailyCallsPerConsumer,
                   })}
                 </Typography>
@@ -122,7 +131,7 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
                 </Typography>
                 <Typography variant="caption" fontWeight={600}>
                   {t('providerThresholdsInfo.dailyCallsTotal.value', {
-                    min: '#' /* @TODO - add residual threshold */,
+                    min: updatedDailyCalls?.updatedDailyCallsTotal ?? 'n/a',
                     max: purpose.dailyCallsTotal,
                   })}
                 </Typography>
