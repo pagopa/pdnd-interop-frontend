@@ -90,7 +90,7 @@ describe('ProviderEServiceTemplateUsingTenantsTableRow', () => {
     )
 
     const user = userEvent.setup()
-    await user.click(getByRole('link', { name: 'actions.inspect' }))
+    await user.click(getByRole('link'))
 
     expect(history.location.pathname).toBe('/it/erogazione/e-service/eservice-1/descriptor-1')
   })
@@ -111,7 +111,7 @@ describe('ProviderEServiceTemplateUsingTenantsTableRow', () => {
     )
 
     const user = userEvent.setup()
-    await user.click(getByRole('link', { name: 'actions.inspect' }))
+    await user.click(getByRole('link'))
 
     expect(history.location.pathname).toBe('/it/catalogo-e-service/eservice-1/descriptor-1')
   })
