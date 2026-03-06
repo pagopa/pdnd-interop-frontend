@@ -81,6 +81,7 @@ const ConsumerEServiceTemplateInstancesTableWrapper: React.FC<{
         <Table headLabels={headLabels} isEmpty={isEmpty} noDataLabel={t('noDataLabel')}>
           {templateInstances?.results.map((instance) => (
             <ConsumerEServiceTemplateInstancesTableRow
+              type="consumer"
               key={instance.id}
               instance={instance}
               eserviceTemplateVersions={eserviceTemplateVersions}

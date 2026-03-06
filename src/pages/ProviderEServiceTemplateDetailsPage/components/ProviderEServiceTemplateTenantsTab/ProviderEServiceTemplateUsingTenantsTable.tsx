@@ -115,6 +115,7 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
         >
           {templateInstances?.results.map((instance) => (
             <ProviderEServiceTemplateUsingTenantsTableRow
+              type="provider"
               key={instance.id}
               instance={instance}
               eserviceTemplateVersions={eserviceTemplateVersions}

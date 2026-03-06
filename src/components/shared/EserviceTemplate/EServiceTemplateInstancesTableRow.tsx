@@ -17,11 +17,12 @@ import React from 'react'
 type EServiceTemplateInstancesTableRowProps = {
   eserviceTemplateVersions: CompactEServiceTemplateVersion[]
   instance: EServiceTemplateInstance
+  type: 'provider' | 'consumer'
 }
 
 export const EServiceTemplateInstancesTableRow: React.FC<
   EServiceTemplateInstancesTableRowProps
-> = ({ instance, eserviceTemplateVersions }) => {
+> = ({ instance, eserviceTemplateVersions, type }) => {
   const { jwt } = AuthHooks.useJwt()
 
   const isOwn = instance.producerId === jwt?.organizationId
@@ -39,7 +40,7 @@ export const EServiceTemplateInstancesTableRow: React.FC<
     <TableRow
       key={instance.latestDescriptor?.id}
       cellData={[
-        isOwn ? (
+        isOwn || type === 'provider' ? (
           `${instance.producerName}`
         ) : (
           <Stack direction="row" spacing={1} alignItems="center">
