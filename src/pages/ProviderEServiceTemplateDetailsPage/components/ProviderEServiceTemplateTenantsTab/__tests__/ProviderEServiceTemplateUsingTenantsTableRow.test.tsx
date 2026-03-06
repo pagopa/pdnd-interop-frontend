@@ -41,6 +41,7 @@ describe('ProviderEServiceTemplateUsingTenantsTableRow', () => {
       <table>
         <tbody>
           <ProviderEServiceTemplateUsingTenantsTableRow
+            type="provider"
             instance={instance}
             eserviceTemplateVersions={eserviceTemplateVersions}
           />
@@ -63,6 +64,7 @@ describe('ProviderEServiceTemplateUsingTenantsTableRow', () => {
       <table>
         <tbody>
           <ProviderEServiceTemplateUsingTenantsTableRow
+            type="provider"
             instance={instance}
             eserviceTemplateVersions={eserviceTemplateVersions}
           />
@@ -81,6 +83,7 @@ describe('ProviderEServiceTemplateUsingTenantsTableRow', () => {
       <table>
         <tbody>
           <ProviderEServiceTemplateUsingTenantsTableRow
+            type="provider"
             instance={baseInstance}
             eserviceTemplateVersions={eserviceTemplateVersions}
           />
@@ -102,6 +105,7 @@ describe('ProviderEServiceTemplateUsingTenantsTableRow', () => {
       <table>
         <tbody>
           <ProviderEServiceTemplateUsingTenantsTableRow
+            type="provider"
             instance={baseInstance}
             eserviceTemplateVersions={eserviceTemplateVersions}
           />
@@ -127,6 +131,7 @@ describe('ProviderEServiceTemplateUsingTenantsTableRow', () => {
       <table>
         <tbody>
           <ProviderEServiceTemplateUsingTenantsTableRow
+            type="provider"
             instance={instance}
             eserviceTemplateVersions={eserviceTemplateVersions}
           />
@@ -149,6 +154,7 @@ describe('ProviderEServiceTemplateUsingTenantsTableRow', () => {
       <table>
         <tbody>
           <ProviderEServiceTemplateUsingTenantsTableRow
+            type="provider"
             instance={instance}
             eserviceTemplateVersions={eserviceTemplateVersions}
           />
@@ -174,6 +180,7 @@ describe('ProviderEServiceTemplateUsingTenantsTableRow', () => {
       <table>
         <tbody>
           <ProviderEServiceTemplateUsingTenantsTableRow
+            type="provider"
             instance={instance}
             eserviceTemplateVersions={eserviceTemplateVersions}
           />
