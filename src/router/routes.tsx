@@ -69,12 +69,17 @@ import { ConsumerPurposeTemplateSummaryPage } from '@/pages/ConsumerPurposeTempl
 import { ConsumerPurposeTemplateEditPage } from '@/pages/ConsumerPurposeTemplateEditPage'
 import { ConsumerSimulateGetVoucherPage } from '@/pages/ConsumerSimulateGetVoucherPage'
 
+import z from 'zod'
+
+const languages = ['it', 'en'] as const
+export const AllowedLanguage = z.enum(languages)
+
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
   LangCode,
   UserProductRole,
   { hideSideNav: boolean }
 >({
-  languages: ['it', 'en'],
+  languages,
 })
   .addRoute({
     key: 'LOGOUT',

@@ -15,7 +15,6 @@ import { MaintenanceBanner } from './components/shared/banners/MaintenanceBanner
 import { FirstLoadingSpinner } from './components/shared/FirstLoadingSpinner'
 import { queryClient } from './config/query-client'
 import type { EnvironmentBannerProps } from '@pagopa/mui-italia'
-
 import { AuthQueries } from './api/auth'
 import i18n from './config/react-i18next'
 
@@ -31,7 +30,6 @@ if (redirectUrl) {
 } else {
   queryClient.prefetchQuery(AuthQueries.getSessionToken())
 }
-
 // end init ---
 
 function App() {

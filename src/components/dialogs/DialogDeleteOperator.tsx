@@ -1,4 +1,5 @@
 import { SELFCARE_BASE_URL } from '@/config/env'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import { useDialog } from '@/stores'
 import type { DialogDeleteOperatorProps } from '@/types/dialog.types'
 import {
@@ -19,10 +20,11 @@ export const DialogDeleteOperator: React.FC<DialogDeleteOperatorProps> = ({
   const ariaLabelId = React.useId()
   const ariaDescriptionId = React.useId()
   const { closeDialog } = useDialog()
+  const lang = useCurrentLanguage()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('shared-components', { keyPrefix: 'dialogDeleteOperator' })
 
-  const selfcareUserPageUrl = `${SELFCARE_BASE_URL}/dashboard/${selfcareId}/users/${userId}`
+  const selfcareUserPageUrl = `${SELFCARE_BASE_URL}/dashboard/${selfcareId}/users/${userId}?lang=${lang}`
 
   const handleCancel = () => {
     closeDialog()
