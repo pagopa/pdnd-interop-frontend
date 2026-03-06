@@ -3,7 +3,9 @@ import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import type { DelegationKind } from '@/api/api.generatedTypes'
+import { DUPLICATE_ESERVICENAME_ERROR_CODE } from '@/api/eserviceTemplate/eserviceTemplate.mutations'
 import { SectionContainer } from '@/components/layout/containers'
 import { useDialog } from '@/stores'
 import { DelegationMutations, DelegationQueries } from '@/api/delegation'
@@ -17,6 +19,7 @@ import { DelegationCreateEServiceAutocomplete } from './DelegationCreateEService
 import { DelegationCreateTenantAutocomplete } from './DelegationCreateTenantAutocomplete'
 import { DelegationCreateFormCreateEservice } from './DelegationCreateFormCreateEservice'
 import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
+import { InstanceLabelSection } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepGeneral'
 
 export type DelegationCreateFormValues = {
   eserviceId: string
@@ -25,6 +28,7 @@ export type DelegationCreateFormValues = {
   delegateId: string
   isEserviceToBeCreated: boolean
   isEserviceFromTemplate?: boolean
+  instanceLabel?: string
 }
 
 type DelegationCreateFormProps = {
@@ -39,6 +43,7 @@ const defaultValues: DelegationCreateFormValues = {
   delegateId: '',
   isEserviceToBeCreated: false,
   isEserviceFromTemplate: false,
+  instanceLabel: '',
 }
 
 export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
@@ -123,6 +128,16 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
           onSuccess: () => {
             navigate('DELEGATIONS')
           },
+          onError: (error) => {
+            if (
+              error instanceof AxiosError &&
+              error.response?.data?.errors?.[0]?.code === DUPLICATE_ESERVICENAME_ERROR_CODE
+            ) {
+              formMethods.setError('eserviceName', {
+                message: t('delegations.create.eserviceField.validation.duplicateName'),
+              })
+            }
+          },
         }
       )
       return
@@ -137,10 +152,24 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
         {
           delegateId: formValues.delegateId,
           eServiceTemplateId: formValues.eserviceId,
+          instanceLabel: formValues.instanceLabel || undefined,
         },
         {
           onSuccess: () => {
             navigate('DELEGATIONS')
+          },
+          onError: (error) => {
+            if (
+              error instanceof AxiosError &&
+              error.response?.data?.errors?.[0]?.code === DUPLICATE_ESERVICENAME_ERROR_CODE
+            ) {
+              const instanceLabelValue = formMethods.getValues('instanceLabel')?.trim()
+              formMethods.setError('instanceLabel', {
+                message: instanceLabelValue
+                  ? t('delegations.create.eserviceField.validation.duplicateName')
+                  : t('delegations.create.eserviceField.validation.emptyNotAvailable'),
+              })
+            }
           },
         }
       )
@@ -176,7 +205,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
       ? t('delegations.create.providerDelegationTitle')
       : t('delegations.create.consumerDelegationTitle')
 
-  const [, setEserviceTemplateName] = useState('')
+  const [eserviceTemplateName, setEserviceTemplateName] = useState('')
 
   const handleTemplateNameAutocompleteChange = (eserviceTemplateName: string) => {
     setEserviceTemplateName(eserviceTemplateName)
@@ -211,6 +240,12 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
             )}
           </Stack>
         </SectionContainer>
+        {isEserviceToBeCreated && isEserviceFromTemplate && eserviceTemplateName && (
+          <InstanceLabelSection
+            templateName={eserviceTemplateName}
+            instanceLabel={formMethods.watch('instanceLabel') ?? ''}
+          />
+        )}
       </FormProvider>
       <StepActions
         back={{
