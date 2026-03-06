@@ -22,7 +22,7 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
   const { t } = useTranslation('purpose', { keyPrefix: 'summary.generalInformationSection' })
 
   const generalInfoAlertProps = useGetPurposeInfoAlert({
-    dailyCalls: purpose.currentVersion!.dailyCalls,
+    dailyCalls: purpose.currentVersion?.dailyCalls,
     dailyCallsPerConsumer: purpose.dailyCallsPerConsumer,
     dailyCallsTotal: purpose.dailyCallsTotal,
     updatedDailyCallsPerConsumer: updatedDailyCalls?.updatedDailyCallsPerConsumer,

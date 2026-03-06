@@ -57,7 +57,7 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
     dailyCallsTotal: purpose.dailyCallsTotal,
     updatedDailyCallsPerConsumer: updatedDailyCalls?.updatedDailyCallsPerConsumer,
     updatedDailyCallsTotal: updatedDailyCalls?.updatedDailyCallsTotal,
-    keyPrefix: 'edit.loadEstimationSection.alerts',
+    keyPrefix: 'consumerView.sections.loadEstimate.drawer.alerts',
     showFallback: false,
   })
 

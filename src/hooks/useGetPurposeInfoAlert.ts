@@ -12,7 +12,7 @@ export function useGetPurposeInfoAlert({
   keyPrefix,
   showFallback,
 }: {
-  dailyCalls: number
+  dailyCalls: number | undefined
   dailyCallsPerConsumer: number
   dailyCallsTotal: number
   updatedDailyCallsPerConsumer: number | undefined
@@ -21,6 +21,15 @@ export function useGetPurposeInfoAlert({
   showFallback?: boolean
 }): AlertProps | undefined {
   const { t } = useTranslation('purpose', { keyPrefix })
+
+  if (dailyCalls === undefined) {
+    return showFallback === true
+      ? {
+          severity: 'info',
+          children: t('infoApprovalMayBeRequired'),
+        }
+      : undefined
+  }
 
   const isDailyCallsMaximumReached =
     updatedDailyCallsPerConsumer === 0 || updatedDailyCallsTotal === 0
