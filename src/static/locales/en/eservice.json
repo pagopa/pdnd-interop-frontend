@@ -265,7 +265,8 @@
           "soap": "Upload the WSDL file that describes the API"
         },
         "prettyName": "API specification",
-        "dropzoneLabel": "Drag the OpenAPI file here or click here to select it from your computer"
+        "dropzoneLabel": "Drag the OpenAPI file here or click here to select it from your computer",
+        "requiredError": "No file has been uploaded"
       },
       "documentation": {
         "title": "Documentation",
