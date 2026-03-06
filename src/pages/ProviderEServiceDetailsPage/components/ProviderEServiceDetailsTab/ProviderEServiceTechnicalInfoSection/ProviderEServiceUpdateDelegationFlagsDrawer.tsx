@@ -63,10 +63,6 @@ export const ProviderEServiceUpdateDelegationFlagsDrawer: React.FC<
     )
   }
 
-  const handleCloseDrawer = () => {
-    onClose()
-  }
-
   const handleTransitionExited = () => {
     formMethods.reset(defaultValues)
   }
@@ -75,7 +71,7 @@ export const ProviderEServiceUpdateDelegationFlagsDrawer: React.FC<
     <FormProvider {...formMethods}>
       <Drawer
         isOpen={isOpen}
-        onClose={handleCloseDrawer}
+        onClose={onClose}
         title={t('title')}
         subtitle={
           <Trans

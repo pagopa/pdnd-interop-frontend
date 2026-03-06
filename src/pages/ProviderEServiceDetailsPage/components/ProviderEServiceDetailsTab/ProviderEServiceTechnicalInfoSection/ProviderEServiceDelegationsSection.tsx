@@ -24,10 +24,6 @@ export const ProviderEServiceDelegationsSection: React.FC<
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
-  const onEdit = () => {
-    openDrawer()
-  }
-
   const { jwt } = AuthHooks.useJwt()
 
   const isConsumerDelegable = descriptor.eservice.isConsumerDelegable
@@ -48,7 +44,7 @@ export const ProviderEServiceDelegationsSection: React.FC<
             ? []
             : [
                 {
-                  action: onEdit,
+                  action: openDrawer,
                   label: tCommon('actions.edit'),
                   icon: EditIcon,
                 },
