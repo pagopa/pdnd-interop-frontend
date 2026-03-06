@@ -265,7 +265,8 @@
           "soap": "Carica il file WSDL che descrive l'API"
         },
         "prettyName": "Specifica API",
-        "dropzoneLabel": "Trascina qui il file OpenAPI oppure clicca qui per selezionarlo dal computer"
+        "dropzoneLabel": "Trascina qui il file OpenAPI oppure clicca qui per selezionarlo dal computer",
+        "requiredError": "Non hai caricato nessun file"
       },
       "documentation": {
         "title": "Documentazione",
