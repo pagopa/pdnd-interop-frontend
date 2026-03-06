@@ -12,10 +12,10 @@ import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import { IconLink } from '@/components/shared/IconLink'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { EServiceDetailsSection } from '@/pages/ProviderEServiceCreatePage/components/sections/EServiceDetailsSection'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { SIGNALHUB_GUIDE_URL } from '@/config/constants'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
+import { EServiceTemplateDetailsSection } from '@/pages/ProviderEServiceCreatePage/components/sections/EServiceTemplateDetailsSection'
 
 export type EServiceTemplateCreateStepGeneralFormValues = {
   name: string
@@ -129,10 +129,8 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
             </Stack>
           </SectionContainer>
 
-          <EServiceDetailsSection
-            areEServiceGeneralInfoEditable={false}
+          <EServiceTemplateDetailsSection
             eserviceTemplate={eserviceTemplateVersion.eserviceTemplate}
-            eserviceMode={eserviceTemplateVersion.eserviceTemplate.mode}
           />
 
           <SectionContainer title={t('create.step1.signalHubTitle')} component="div">
