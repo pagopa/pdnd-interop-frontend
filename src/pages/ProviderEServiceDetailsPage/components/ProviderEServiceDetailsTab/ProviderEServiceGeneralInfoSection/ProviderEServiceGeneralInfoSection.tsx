@@ -253,7 +253,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
                 label={t('eserviceTemplateName.label')}
                 content={
                   <Link
-                    to="PROVIDE_ESERVICE_TEMPLATE_DETAILS"
+                    to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
                     params={{
                       eServiceTemplateId: descriptor.templateRef?.templateId as string,
                       eServiceTemplateVersionId: descriptor.templateRef
