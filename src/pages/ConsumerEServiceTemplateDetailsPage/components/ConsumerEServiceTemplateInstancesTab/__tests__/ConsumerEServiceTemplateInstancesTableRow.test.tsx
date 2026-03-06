@@ -41,6 +41,7 @@ describe('ConsumerEServiceTemplateInstancesTableRow', () => {
       <table>
         <tbody>
           <ConsumerEServiceTemplateInstancesTableRow
+            type="consumer"
             instance={instance}
             eserviceTemplateVersions={eserviceTemplateVersions}
           />
@@ -63,6 +64,7 @@ describe('ConsumerEServiceTemplateInstancesTableRow', () => {
       <table>
         <tbody>
           <ConsumerEServiceTemplateInstancesTableRow
+            type="consumer"
             instance={instance}
             eserviceTemplateVersions={eserviceTemplateVersions}
           />
@@ -85,6 +87,7 @@ describe('ConsumerEServiceTemplateInstancesTableRow', () => {
       <table>
         <tbody>
           <ConsumerEServiceTemplateInstancesTableRow
+            type="consumer"
             instance={instance}
             eserviceTemplateVersions={eserviceTemplateVersions}
           />
@@ -103,6 +106,7 @@ describe('ConsumerEServiceTemplateInstancesTableRow', () => {
       <table>
         <tbody>
           <ConsumerEServiceTemplateInstancesTableRow
+            type="consumer"
             instance={baseInstance}
             eserviceTemplateVersions={eserviceTemplateVersions}
           />
@@ -124,6 +128,7 @@ describe('ConsumerEServiceTemplateInstancesTableRow', () => {
       <table>
         <tbody>
           <ConsumerEServiceTemplateInstancesTableRow
+            type="consumer"
             instance={baseInstance}
             eserviceTemplateVersions={eserviceTemplateVersions}
           />
@@ -145,6 +150,7 @@ describe('ConsumerEServiceTemplateInstancesTableRow', () => {
       <table>
         <tbody>
           <ConsumerEServiceTemplateInstancesTableRow
+            type="consumer"
             instance={baseInstance}
             eserviceTemplateVersions={eserviceTemplateVersions}
           />
@@ -163,6 +169,7 @@ describe('ConsumerEServiceTemplateInstancesTableRow', () => {
       <table>
         <tbody>
           <ConsumerEServiceTemplateInstancesTableRow
+            type="consumer"
             instance={baseInstance}
             eserviceTemplateVersions={eserviceTemplateVersions}
           />
@@ -185,6 +192,7 @@ describe('ConsumerEServiceTemplateInstancesTableRow', () => {
       <table>
         <tbody>
           <ConsumerEServiceTemplateInstancesTableRow
+            type="consumer"
             instance={instance}
             eserviceTemplateVersions={eserviceTemplateVersions}
           />
@@ -210,6 +218,7 @@ describe('ConsumerEServiceTemplateInstancesTableRow', () => {
       <table>
         <tbody>
           <ConsumerEServiceTemplateInstancesTableRow
+            type="consumer"
             instance={instance}
             eserviceTemplateVersions={eserviceTemplateVersions}
           />
