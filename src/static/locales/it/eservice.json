@@ -525,6 +525,25 @@
           "verifyVoucher": "Come faccio a verificare il voucher di un fruitore?",
           "wellKnown": "URL .well-known",
           "interfaceChecksum": "Come calcolo autonomamente il checksum del file di interfaccia?"
+        },
+        "delegationSection": {
+          "title": "Fruizione tramite delega",
+          "isConsumerDelegable": {
+            "label": "Autorizzazione",
+            "value": {
+              "true": "Sì",
+              "false": "No",
+              "undefined": "Non specificato"
+            }
+          },
+          "isClientAccessDelegable": {
+            "label": "Autorizzazione all’associazione dei client",
+            "value": {
+              "true": "Sì",
+              "false": "No",
+              "undefined": "Non specificato"
+            }
+          }
         }
       },
       "signalHub": {
@@ -733,6 +752,19 @@
         },
         "switchLabel": "Notificherò su Signal Hub le variazioni dei dati",
         "alert": "Prima di procedere, assicurati che il documento di designazione sia visionato ed approvato da almeno un amministratore nel tuo ente."
+      },
+      "updateDelegationsDrawer": {
+        "title": "Modifica preferenze di fruizione tramite delega",
+        "subtitle": "Consulta la <1>documentazione</1> relativa al funzionamento delle deleghe",
+        "isConsumerDelegableField": {
+          "label": "L’e-service può essere fruito tramite delega?",
+          "switchLabel": "Autorizzo che i fruitori dell’e-service possano delegare altri enti ad iscriversi per conto proprio"
+        },
+        "isClientAccessDelegableField": {
+          "label": "Autorizzo l’accesso ai dati in delega",
+          "checkboxLabel": "Autorizzo che i delegati possano associare i propri client alle finalità che hanno creato in qualità di delegati alla fruizione. Consulta la <1>documentazione</1> per approfondire"
+        },
+        "alert": "Prima di procedere, assicurati che la preferenza sia approvata da almeno un amministratore nel tuo ente."
       }
     }
   },
