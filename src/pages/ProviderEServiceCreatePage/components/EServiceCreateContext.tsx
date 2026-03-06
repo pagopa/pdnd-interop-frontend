@@ -44,7 +44,7 @@ const { useContext, Provider } = createContext<EServiceCreateContextType>(
   initialState
 )
 
-type EServiceCreateContextProviderProps = {
+export type EServiceCreateContextProviderProps = {
   children: React.ReactNode
   descriptor: ProducerEServiceDescriptor | undefined
   eserviceTemplate?: EServiceTemplateDetails
@@ -89,8 +89,8 @@ const EServiceCreateContextProvider: React.FC<EServiceCreateContextProviderProps
     const areEServiceGeneralInfoEditable = Boolean(
       // case 1: new e-service
       !descriptor ||
-        // case 3: already existing service and version, but version is 1 and still a draft
-        (descriptor && descriptor.version === '1' && descriptor.state === 'DRAFT')
+      // case 3: already existing service and version, but version is 1 and still a draft
+      (descriptor && descriptor.version === '1' && descriptor.state === 'DRAFT')
     )
 
     return {
