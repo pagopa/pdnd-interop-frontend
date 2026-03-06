@@ -3,13 +3,16 @@ import { Divider } from '@mui/material'
 import { SidebarItemGroup } from './components/SidebarItemGroup'
 import { useState } from 'react'
 import { type RouteKey, useCurrentRoute, useGeneratePath } from '@/router'
-import { getCurrentSelfCareProductId } from '@/utils/common.utils'
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded'
 import PeopleIcon from '@mui/icons-material/People'
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle'
 import { useTranslation } from 'react-i18next'
 import type { SidebarRoute, SidebarRoutes } from './sidebar.types'
-import { NOTIFICATION_COUNT_REFRESH_INTERVAL, SELFCARE_BASE_URL } from '@/config/env'
+import {
+  NOTIFICATION_COUNT_REFRESH_INTERVAL,
+  SELFCARE_BASE_URL,
+  SELFCARE_PRODUCT_ID,
+} from '@/config/env'
 import { Link } from 'react-router-dom'
 import { useIsRouteInCurrentSubtree } from './hooks/useIsRouteInCurrentSubtree'
 import { AuthHooks } from '@/api/auth'
@@ -33,7 +36,7 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
   const { jwt, isAdmin, isSupport } = AuthHooks.useJwt()
 
   const selfcareUsersPageUrl =
-    jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#${getCurrentSelfCareProductId()}`
+    jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#${SELFCARE_PRODUCT_ID}`
   const selfcareGroupsPageUrl = jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/groups`
 
   const [parentExpandedItem, setParentExpandedItem] = useState<string | undefined>(

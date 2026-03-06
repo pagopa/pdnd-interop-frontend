@@ -21,6 +21,7 @@ export type PagoPAEnvVars = {
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA: string
   DELEGATIONS_ALLOWED_ORIGINS: string
   AVATAR_BASEPATH: string
+  SELFCARE_PRODUCT_ID: string
 }
 
 export type ExtendedWindow = Window & {
