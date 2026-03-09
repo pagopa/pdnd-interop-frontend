@@ -1,7 +1,10 @@
-import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
 import { createMockEServiceTemplateDetails } from '@/../__mocks__/data/eserviceTemplate.mocks'
-import * as ContextModule from '../../EServiceCreateContext'
-import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
+import {
+  mockUseJwt,
+  mockUseParams,
+  renderWithApplicationContext,
+  mockUseEServiceCreateContext,
+} from '@/utils/testing.utils'
 import { EServiceCreateStepGeneral } from '../EServiceCreateStepGeneral'
 import { screen } from '@testing-library/react'
 
@@ -40,27 +43,6 @@ mockUseParams({
 })
 
 mockUseJwt()
-
-function mockUseEServiceCreateContext(
-  overwrites: Partial<ReturnType<typeof ContextModule.useEServiceCreateContext>> = {}
-) {
-  vi.spyOn(ContextModule, 'useEServiceCreateContext').mockReturnValue({
-    descriptor: createMockEServiceDescriptorProvider(),
-    areEServiceGeneralInfoEditable: true,
-    forward: vi.fn(),
-    back: vi.fn(),
-    eserviceMode: 'DELIVER',
-    onEserviceModeChange: vi.fn(),
-    eserviceTemplate: undefined,
-    riskAnalysisFormState: {
-      isOpen: false,
-      riskAnalysisId: undefined,
-    },
-    openRiskAnalysisForm: vi.fn(),
-    closeRiskAnalysisForm: vi.fn(),
-    ...overwrites,
-  })
-}
 
 vi.mock('@/api/eservice', () => ({
   EServiceMutations: {

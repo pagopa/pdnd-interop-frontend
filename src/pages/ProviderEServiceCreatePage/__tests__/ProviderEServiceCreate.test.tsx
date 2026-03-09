@@ -1,18 +1,14 @@
-import { mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
+import {
+  mockUseParams,
+  renderWithApplicationContext,
+  mockUseActiveStep,
+} from '@/utils/testing.utils'
 import { fireEvent, screen } from '@testing-library/react'
 import ProviderEServiceCreatePage from '../ProviderEServiceCreate.page'
 import type { Mock } from 'vitest'
 import * as useActiveStepModule from '@/hooks/useActiveStep'
 import { queryOptions } from '@tanstack/react-query'
 import type { EServiceCreateContextProviderProps } from '../components/EServiceCreateContext'
-
-vi.mock('@/hooks/useActiveStep', () => ({
-  useActiveStep: vi.fn(() => ({
-    activeStep: 0,
-    forward: vi.fn(),
-    back: vi.fn(),
-  })),
-}))
 
 vi.mock('../components/EServiceCreateContext', () => ({
   EServiceCreateContextProvider: (props: EServiceCreateContextProviderProps) => {
@@ -73,17 +69,9 @@ vi.mock('@/api/eserviceTemplate', () => ({
 
 mockUseParams({})
 
-afterEach(() => {
-  vi.clearAllMocks()
-})
-
 describe('ProviderEServiceCreatePage', () => {
   it('should render page with stepper(DELIVER)', () => {
-    ;(useActiveStepModule.useActiveStep as Mock).mockReturnValue({
-      activeStep: 0,
-      forward: vi.fn(),
-      back: vi.fn(),
-    })
+    mockUseActiveStep()
     renderWithApplicationContext(<ProviderEServiceCreatePage />, {
       withReactQueryContext: true,
       withRouterContext: true,
@@ -96,11 +84,7 @@ describe('ProviderEServiceCreatePage', () => {
   })
 
   it('should render step 0 - EServiceCreateStepGeneral(DELIVER)', () => {
-    ;(useActiveStepModule.useActiveStep as Mock).mockReturnValue({
-      activeStep: 0,
-      forward: vi.fn(),
-      back: vi.fn(),
-    })
+    mockUseActiveStep()
     renderWithApplicationContext(<ProviderEServiceCreatePage />, {
       withReactQueryContext: true,
       withRouterContext: true,
@@ -109,11 +93,7 @@ describe('ProviderEServiceCreatePage', () => {
   })
 
   it('should render step 1 - EServiceCreateStepThresholds(DELIVER)', () => {
-    ;(useActiveStepModule.useActiveStep as Mock).mockReturnValue({
-      activeStep: 1,
-      forward: vi.fn(),
-      back: vi.fn(),
-    })
+    mockUseActiveStep({ activeStep: 1 })
     renderWithApplicationContext(<ProviderEServiceCreatePage />, {
       withReactQueryContext: true,
       withRouterContext: true,
@@ -122,11 +102,7 @@ describe('ProviderEServiceCreatePage', () => {
   })
 
   it('should render step 2 - EServiceCreateStepTechSpec(DELIVER)', () => {
-    ;(useActiveStepModule.useActiveStep as Mock).mockReturnValue({
-      activeStep: 2,
-      forward: vi.fn(),
-      back: vi.fn(),
-    })
+    mockUseActiveStep({ activeStep: 2 })
     renderWithApplicationContext(<ProviderEServiceCreatePage />, {
       withReactQueryContext: true,
       withRouterContext: true,
@@ -135,11 +111,7 @@ describe('ProviderEServiceCreatePage', () => {
   })
 
   it('should render step 3 - EServiceCreateStepInfoVersion(DELIVER)', () => {
-    ;(useActiveStepModule.useActiveStep as Mock).mockReturnValue({
-      activeStep: 3,
-      forward: vi.fn(),
-      back: vi.fn(),
-    })
+    mockUseActiveStep({ activeStep: 3 })
     renderWithApplicationContext(<ProviderEServiceCreatePage />, {
       withReactQueryContext: true,
       withRouterContext: true,
@@ -148,11 +120,7 @@ describe('ProviderEServiceCreatePage', () => {
   })
 
   it('should render page with stepper(RECEIVER)', () => {
-    ;(useActiveStepModule.useActiveStep as Mock).mockReturnValue({
-      activeStep: 0,
-      forward: vi.fn(),
-      back: vi.fn(),
-    })
+    mockUseActiveStep()
     renderWithApplicationContext(<ProviderEServiceCreatePage />, {
       withReactQueryContext: true,
       withRouterContext: true,
@@ -167,11 +135,7 @@ describe('ProviderEServiceCreatePage', () => {
   })
 
   it('should render step purpose - EServiceCreateStepPurpose(RECEIVER)', () => {
-    ;(useActiveStepModule.useActiveStep as Mock).mockReturnValue({
-      activeStep: 1,
-      forward: vi.fn(),
-      back: vi.fn(),
-    })
+    mockUseActiveStep({ activeStep: 1 })
     renderWithApplicationContext(<ProviderEServiceCreatePage />, {
       withReactQueryContext: true,
       withRouterContext: true,
