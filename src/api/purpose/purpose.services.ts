@@ -283,10 +283,12 @@ async function createDraftFromPurposeTemplate({
 }
 
 async function getUpdatedDailyCalls({ purposeId }: GetUpdatedDailyCallsParams) {
-  const response = await axiosInstance.get<UpdatedDailyCallsResponse>(
+  /* @TODO - remove this mock */
+  /* const response = await axiosInstance.get<UpdatedDailyCallsResponse>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/updatedDailyCalls`
   )
-  return response.data
+  return response.data */
+  return { updatedDailyCallsPerConsumer: 100, updatedDailyCallsTotal: 500 }
 }
 
 export const PurposeServices = {
