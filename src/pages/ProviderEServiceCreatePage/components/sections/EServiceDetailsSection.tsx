@@ -61,6 +61,7 @@ export const EServiceDetailsSection: React.FC<EServiceDetailsSectionProps> = ({
       <RHFRadioGroup
         name="technology"
         row
+        required
         label={t('technologyField.label')}
         options={[
           { label: 'REST', value: 'REST' },
@@ -74,6 +75,7 @@ export const EServiceDetailsSection: React.FC<EServiceDetailsSectionProps> = ({
       <RHFRadioGroup
         name="mode"
         row
+        required
         label={t('modeField.label')}
         options={[
           {
@@ -95,6 +97,7 @@ export const EServiceDetailsSection: React.FC<EServiceDetailsSectionProps> = ({
           <RHFRadioGroup
             name="personalData"
             row
+            required
             label={t(`personalDataField.${eserviceMode}.label`)}
             options={[
               {
