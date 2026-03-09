@@ -370,14 +370,13 @@
     "step3": {
       "technicalSpecs": {
         "interface": {
-          "title": "Interfaccia*",
+          "title": "Interfaccia",
           "alert": "Puoi caricare un file senza dati di contatto, Termini e Condizioni e indirizzi dei server: queste informazioni saranno inserite in una fase successiva da chi userà il template.",
           "description": {
             "rest": "Carica una bozza del file OpenAPI che descrive l'API.",
             "soap": "Carica una bozza del file WSDL che descrive l'API"
           },
-          "prettyName": "Specifica API",
-          "requiredError": "Non hai caricato nessun file"
+          "prettyName": "Specifica API"
         },
         "voucher": {
           "title": "Voucher",

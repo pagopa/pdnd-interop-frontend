@@ -13,13 +13,11 @@ type UploadDocumentsInterfaceFormValues = {
 type UploadDocumentsInterfaceProps = {
   onSubmit: ({ interfaceDoc }: UploadDocumentsInterfaceFormValues) => void
   sxBox?: SxProps<Theme>
-  error?: string
 }
 
 export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> = ({
   onSubmit,
   sxBox,
-  error,
 }) => {
   const { t } = useTranslation('eservice')
   const { t: tCommon } = useTranslation('common')
@@ -33,20 +31,12 @@ export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> =
   })
   const selectedInterface = formMethods.watch('interfaceDoc')
 
-  React.useEffect(() => {
-    if (error) {
-      formMethods.setError('interfaceDoc', { message: error })
-    } else {
-      formMethods.clearErrors('interfaceDoc')
-    }
-  }, [error, formMethods])
   return (
     <FormProvider {...formMethods}>
       <Box sx={sxBox} bgcolor="common.white">
         <RHFSingleFileInput
           sx={{ my: 0 }}
           name="interfaceDoc"
-          rules={{ required: true }}
           data-testid="fileInput"
           dropzoneLabel={t('create.step4.interface.dropzoneLabel')}
         />
