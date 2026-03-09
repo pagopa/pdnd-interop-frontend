@@ -25,7 +25,7 @@
         },
         "descriptionField": {
           "label": "Descrizione dell'e-service",
-          "infoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri"
+          "infoLabel": "Descrivi quali dati il fruitore deve fornire e quali dati l'e-service restituisce. Min 10 caratteri, max 250 caratteri"
         }
       },
       "detailsSection": {
