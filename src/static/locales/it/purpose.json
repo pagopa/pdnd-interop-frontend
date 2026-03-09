@@ -64,6 +64,7 @@
   },
   "edit": {
     "emptyTitle": "Modifica finalità",
+    "requiredLabel": "*Campi obbligatori.",
     "stepper": {
       "stepGeneralLabel": "Informazioni generali",
       "stepRiskAnalysisLabel": "Analisi del rischio"
@@ -90,7 +91,7 @@
         }
       },
       "freeOfChargeReasonField": {
-        "label": "Motivazione titolo gratuito (richiesto)",
+        "label": "Motivazione titolo gratuito*",
         "infoLabel": "Spiega perché metterai questi dati a disposizione gratuitamente. Indica se lo fai in base a un’esenzione o a un’esclusione prevista dalla legge, oppure per un altro motivo. Min 10, max 250 caratteri"
       }
     },
