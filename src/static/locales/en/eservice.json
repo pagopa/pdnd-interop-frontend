@@ -256,8 +256,8 @@
           "undefined": "Not specified"
         }
       },
-      "instanceLabel": {
-        "label": "E-service distinctive name"
+      "catalogName": {
+        "label": "How it will appear in the catalog"
       },
       "apiTechnology": {
         "label": "API Technology"
