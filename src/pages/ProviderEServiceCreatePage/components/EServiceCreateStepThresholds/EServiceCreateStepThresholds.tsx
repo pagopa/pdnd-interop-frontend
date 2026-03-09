@@ -11,7 +11,7 @@ import {
   type DescriptorAttributes,
   type UpdateEServiceDescriptorSeed,
 } from '@/api/api.generatedTypes'
-import { Box } from '@mui/material'
+import { Alert, Box } from '@mui/material'
 import { StepActions } from '@/components/shared/StepActions'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import SaveIcon from '@mui/icons-material/Save'
@@ -33,7 +33,7 @@ export type CreateStepThresholdsFormValues = {
 }
 
 export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'create' })
+  const { t, i18n } = useTranslation('eservice', { keyPrefix: 'create' })
   const { descriptor, forward, back } = useEServiceCreateContext()
 
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
@@ -94,6 +94,24 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
   const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
   const dailyCallsTotal = formMethods.watch('dailyCallsTotal')
   const certifiedAttributes = formMethods.watch('attributes.certified')
+  const verifiedAttributes = formMethods.watch('attributes.verified')
+  const declaredAttributes = formMethods.watch('attributes.declared')
+
+  const totalRequirements =
+    certifiedAttributes.filter((g: DescriptorAttribute[]) => g.length > 0).length +
+    verifiedAttributes.filter((g: DescriptorAttribute[]) => g.length > 0).length +
+    declaredAttributes.filter((g: DescriptorAttribute[]) => g.length > 0).length
+
+  const attributeTypesWithRequirements = React.useMemo(() => {
+    const types: string[] = []
+    if (certifiedAttributes.some((g: DescriptorAttribute[]) => g.length > 0))
+      types.push(t('requirementsSummaryAlertAttributeTypes.certified'))
+    if (verifiedAttributes.some((g: DescriptorAttribute[]) => g.length > 0))
+      types.push(t('requirementsSummaryAlertAttributeTypes.verified'))
+    if (declaredAttributes.some((g: DescriptorAttribute[]) => g.length > 0))
+      types.push(t('requirementsSummaryAlertAttributeTypes.declared'))
+    return types
+  }, [certifiedAttributes, verifiedAttributes, declaredAttributes, t])
 
   const maxCustomThreshold = React.useMemo(() => {
     return certifiedAttributes
@@ -168,6 +186,19 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
             isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
             handleOpenAttributeCreateDrawerFactory={handleOpenAttributeCreateDrawerFactory}
           />
+          {totalRequirements > 1 && (
+            <Alert severity="info" sx={{ mt: 3 }}>
+              <Trans
+                ns="eservice"
+                i18nKey="create.requirementsSummaryAlert"
+                values={{
+                  count: totalRequirements,
+                  attributeTypes: new Intl.ListFormat(i18n.language, { type: 'conjunction' }).format(attributeTypesWithRequirements),
+                }}
+                components={{ 1: <strong />, 3: <strong /> }}
+              />
+            </Alert>
+          )}
           <StepActions
             back={{
               label: t('backWithoutSaveBtn'),

@@ -201,6 +201,12 @@
         }
       }
     },
+    "requirementsSummaryAlert": "The consumer must satisfy <1>{{count}} requirements</1> with <3>{{attributeTypes}}</3> attributes",
+    "requirementsSummaryAlertAttributeTypes": {
+      "certified": "certified",
+      "verified": "verified",
+      "declared": "declared"
+    },
     "step3": {
       "attributesTitle": "Access requirements",
       "attributesDescription": "Define who can access this e-service. Create one or more requirements and associate the required attributes to each. The consumer must meet all the indicated requirements and possess at least one of the attributes in each requirement. <1>Learn more about attributes</1>",

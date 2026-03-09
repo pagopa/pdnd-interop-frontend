@@ -201,6 +201,12 @@
         }
       }
     },
+    "requirementsSummaryAlert": "Il fruitore deve soddisfare <1>{{count}} requisiti</1> con attributi <3>{{attributeTypes}}</3>",
+    "requirementsSummaryAlertAttributeTypes": {
+      "certified": "certificati",
+      "verified": "verificati",
+      "declared": "dichiarati"
+    },
     "step3": {
       "attributesTitle": "Requisiti di accesso",
       "attributesDescription": "Definisci chi può accedere a questo e-service. Crea uno o più requisiti e associa a ciascuno gli attributi richiesti. Il fruitore dovrà soddisfare tutti i requisiti indicati e possedere almeno uno degli attributi in ogni requisito. <1>Scopri di più sugli attributi</1>",
