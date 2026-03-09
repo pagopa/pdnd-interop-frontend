@@ -34,7 +34,7 @@ export const EServiceTemplateDetailsSection: React.FC<EServiceTemplateDetailsSec
         ) : (
           <Alert severity="error" variant="outlined">
             {t('personalDataField.alertMissingPersonalData', {
-              tenantName: eserviceTemplate?.creator.name,
+              tenantName: eserviceTemplate.creator.name,
             })}
           </Alert>
         )}

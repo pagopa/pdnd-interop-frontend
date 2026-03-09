@@ -24,10 +24,10 @@ export const EServiceInfoSection: React.FC<EServiceInfoSectionProps> = ({
     return (
       <SectionContainer title={t('title')} description={t('readOnlyDescription')}>
         <Stack spacing={2}>
-          <InformationContainer label={t('nameField.label')} content={descriptor?.eservice.name} />
+          <InformationContainer label={t('nameField.label')} content={descriptor.eservice.name} />
           <InformationContainer
             label={t('descriptionField.label')}
-            content={descriptor?.eservice.description}
+            content={descriptor.eservice.description}
           />
         </Stack>
       </SectionContainer>

@@ -28,7 +28,7 @@ export const EServiceDetailsSection: React.FC<EServiceDetailsSectionProps> = ({
         <Stack spacing={2}>
           <InformationContainer
             label={t('technologyField.readOnlyLabel')}
-            content={descriptor?.eservice.technology}
+            content={descriptor.eservice.technology}
           />
           <InformationContainer
             label={t('modeField.label')}
