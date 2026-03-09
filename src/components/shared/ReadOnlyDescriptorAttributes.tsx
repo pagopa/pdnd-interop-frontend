@@ -37,6 +37,28 @@ export const ReadOnlyDescriptorAttributes: React.FC<ReadOnlyDescriptorAttributes
   descriptorAttributes,
   ownershipData,
 }) => {
+  const { t: tAttribute } = useTranslation('attribute')
+
+  const hasNoAttributes =
+    descriptorAttributes.certified.length === 0 &&
+    descriptorAttributes.verified.length === 0 &&
+    descriptorAttributes.declared.length === 0
+
+  if (hasNoAttributes) {
+    return (
+      <SectionContainer
+        innerSection
+        title={tAttribute('attributesGenericLabel')}
+        description={tAttribute('attributesGenericDescription')}
+      >
+        <AttributeGroupContainer
+          title={tAttribute('noAttributesRequiredGenericAlert')}
+          color="gray"
+        />
+      </SectionContainer>
+    )
+  }
+
   return (
     <>
       <AttributeGroupsListSection
