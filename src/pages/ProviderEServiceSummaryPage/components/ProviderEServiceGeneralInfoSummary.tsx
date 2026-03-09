@@ -25,10 +25,7 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
         content={descriptor.eservice.description}
       />
       {descriptor.templateRef && (
-        <InformationContainer
-          label={t('instanceLabel.label')}
-          content={descriptor.eservice?.instanceLabel || '-'}
-        />
+        <InformationContainer label={t('catalogName.label')} content={descriptor.eservice.name} />
       )}
       <InformationContainer
         label={t('apiTechnology.label')}
