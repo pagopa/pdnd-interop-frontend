@@ -200,6 +200,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     return (
       !!(
         descriptor &&
+        descriptor.interface &&
         descriptor.description &&
         descriptor.audience[0] &&
         descriptor.voucherLifespan &&
@@ -272,6 +273,8 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     Boolean(descriptor?.audience?.length) &&
     Boolean(descriptor?.voucherLifespan)
 
+  const isDocumentationSectionValid = Boolean(descriptor?.interface)
+
   return (
     <>
       <PageContainer
@@ -338,6 +341,8 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
               title={t('summary.documentationSummary.title')}
+              showWarning={!isDocumentationSectionValid}
+              warningLabel={t('summary.missingInformationsLabel')}
             >
               <ProviderEServiceDocumentationSummarySection />
             </SummaryAccordion>
