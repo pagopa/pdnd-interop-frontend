@@ -10,10 +10,12 @@ type EServiceThresholdSectionProps = {
     dailyCallsPerConsumer: number
     dailyCallsTotal: number
   }
+  maxCustomThreshold?: number
 }
 
 export const EServiceThresholdSection: React.FC<EServiceThresholdSectionProps> = ({
   limitsSuggestions,
+  maxCustomThreshold,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step2.thresholdSection' })
   const { watch } = useFormContext()
@@ -47,6 +49,12 @@ export const EServiceThresholdSection: React.FC<EServiceThresholdSectionProps> =
               min: {
                 value: dailyCallsPerConsumer ?? 1,
                 message: t('dailyCallsTotalField.validation.min'),
+              },
+              validate: (value) => {
+                if (maxCustomThreshold && Number(value) < maxCustomThreshold) {
+                  return t('dailyCallsTotalField.validation.minCustomThreshold')
+                }
+                return true
               },
             }}
           />

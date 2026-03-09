@@ -159,7 +159,8 @@
         "dailyCallsTotalField": {
           "label": "Chiamate API/giorno totali",
           "validation": {
-            "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore"
+            "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore",
+            "minCustomThreshold": "La soglia totale non può essere inferiore a quelle personalizzate"
           }
         },
         "limitsSuggestionAlert": {

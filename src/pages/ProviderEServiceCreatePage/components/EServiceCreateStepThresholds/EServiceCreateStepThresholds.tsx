@@ -87,11 +87,23 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
     formMethods.setValue(`attributes.certified`, groups, {
       shouldValidate: false,
     })
+    formMethods.trigger('dailyCallsTotal')
     closeCustomizeThresholdDrawer()
   }
 
   const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
   const dailyCallsTotal = formMethods.watch('dailyCallsTotal')
+  const certifiedAttributes = formMethods.watch('attributes.certified')
+
+  const maxCustomThreshold = React.useMemo(() => {
+    return certifiedAttributes
+      .flat()
+      .reduce(
+        (max, attr) =>
+          attr.dailyCallsPerConsumer !== undefined ? Math.max(max, attr.dailyCallsPerConsumer) : max,
+        0
+      )
+  }, [certifiedAttributes])
 
   const onSubmit: SubmitHandler<CreateStepThresholdsFormValues> = (values) => {
     if (!descriptor) return
@@ -150,6 +162,7 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
                   }
                 : undefined
             }
+            maxCustomThreshold={maxCustomThreshold || undefined}
           />
           <EServiceAttributesSection
             isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
