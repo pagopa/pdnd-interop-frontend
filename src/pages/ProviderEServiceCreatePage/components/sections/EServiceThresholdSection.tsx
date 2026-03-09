@@ -30,6 +30,7 @@ export const EServiceThresholdSection: React.FC<EServiceThresholdSectionProps> =
             size="small"
             name="dailyCallsPerConsumer"
             label={t('dailyCallsPerConsumerField.label')}
+            infoLabel={t('dailyCallsPerConsumerField.infoLabel')}
             type="number"
             inputProps={{ min: '1' }}
             required
@@ -40,6 +41,7 @@ export const EServiceThresholdSection: React.FC<EServiceThresholdSectionProps> =
             size="small"
             name="dailyCallsTotal"
             label={t('dailyCallsTotalField.label')}
+            infoLabel={t('dailyCallsTotalField.infoLabel')}
             type="number"
             inputProps={{ min: '1' }}
             sx={{ my: 0, flex: 1 }}
