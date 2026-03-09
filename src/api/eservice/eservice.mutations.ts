@@ -131,7 +131,6 @@ function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }
       isFirstVersion?: boolean
     }) => EServiceServices.publishVersionDraft({ eserviceId, descriptorId }),
     meta: {
-      successToastLabel: undefined,
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {

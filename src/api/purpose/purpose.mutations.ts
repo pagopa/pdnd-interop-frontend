@@ -113,7 +113,6 @@ function useActivateVersion() {
   return useMutation({
     mutationFn: PurposeServices.activateVersion,
     meta: {
-      successToastLabel: undefined,
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {
