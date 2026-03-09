@@ -91,7 +91,7 @@ export const AttributeContainer = <
           >
             <Stack spacing={1}>
               <Typography fontWeight={600}>{attribute.name}</Typography>
-              {(attribute.dailyCallsPerConsumer !== undefined || onCustomizeThreshold) && (
+              {onCustomizeThreshold && (
                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
                   <Stack direction={'row'} spacing={1}>
                     <Typography
@@ -107,7 +107,7 @@ export const AttributeContainer = <
                         fontWeight: 700,
                       }}
                     >
-                      {attribute.dailyCallsPerConsumer}
+                      {attribute.dailyCallsPerConsumer ?? 'n/a'}
                     </Typography>
                   </Stack>
                   {onCustomizeThreshold && (

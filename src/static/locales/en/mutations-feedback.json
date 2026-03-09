@@ -64,8 +64,8 @@
         "error": "A new e-service version draft could not be created. Please ensure all required fields are filled in the original e-service and try again!"
       },
       "confirmDialog": {
-        "title": "Confirm E-service Version Draft Creation",
-        "description": "A new draft version of the selected e-service will be created"
+        "title": "Create new version",
+        "description": "You are about to create a draft of a new version of this e-service"
       }
     },
     "updateVersionDraft": {
