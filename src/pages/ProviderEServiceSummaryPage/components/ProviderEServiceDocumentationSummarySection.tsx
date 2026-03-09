@@ -36,10 +36,10 @@ export const ProviderEServiceDocumentationSummarySection: React.FC = () => {
 
   return (
     <Stack spacing={2}>
-      <SummaryInformationContainer
-        label={t('interface.label')}
-        content={
-          descriptor.interface && (
+      {descriptor.interface && (
+        <SummaryInformationContainer
+          label={t('interface.label')}
+          content={
             <IconLink
               component="button"
               startIcon={<AttachFileIcon fontSize="small" />}
@@ -47,9 +47,9 @@ export const ProviderEServiceDocumentationSummarySection: React.FC = () => {
             >
               {descriptor.interface.prettyName}
             </IconLink>
-          )
-        }
-      />
+          }
+        />
+      )}
       <SummaryInformationContainer label={t('audience.label')} content={descriptor.audience[0]} />
       <SummaryInformationContainer
         label={t('voucherLifespan.label')}

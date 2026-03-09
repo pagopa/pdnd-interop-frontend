@@ -259,7 +259,7 @@
         }
       },
       "interface": {
-        "title": "Interface*",
+        "title": "Interface",
         "description": {
           "rest": "Upload the OpenAPI file that describes the API. Before uploading, verify that it meets the ModI requirements with",
           "restLinkLabel": "the OpenAPI Checker",
@@ -341,7 +341,7 @@
         }
       },
       "isClientAccessDelegable": {
-        "label": "Do I authorize access to data by proxy?",
+        "label": "Do I allow access to data by proxy?",
         "value": {
           "true": "Yes",
           "false": "No",
@@ -354,9 +354,9 @@
       "riskAnalysisTitle": "{{riskAnalysisIndex}}/{{totalRiskAnalysis}} - {{riskAnalysisName}}"
     },
     "versionInfoSummary": {
-      "title": "Version information",
+      "title": "Additional information",
       "description": {
-        "label": "Description"
+        "label": "Version description"
       },
       "documentation": "Documentation",
       "manualApproval": {

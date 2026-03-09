@@ -9,7 +9,7 @@
       "step2Label": "Soglie e attributi",
       "step2ReceiveLabel": "Finalità",
       "step3Label": "Specifiche tecniche",
-      "step4Label": "Info aggiuntive"
+      "step4Label": "Informazioni aggiuntive"
     },
     "backWithoutSaveBtn": "Indietro",
     "forwardWithSaveBtn": "Salva bozza e prosegui",
@@ -259,7 +259,7 @@
         }
       },
       "interface": {
-        "title": "Interfaccia*",
+        "title": "Interfaccia",
         "description": {
           "rest": "Carica il file OpenAPI che descrive l'API. Prima di caricarlo, verifica che rispetti i requisiti del ModI con",
           "restLinkLabel": "l'OpenAPI Checker",
@@ -341,7 +341,7 @@
         }
       },
       "isClientAccessDelegable": {
-        "label": "Autorizzo l’accesso ai dati in delega?",
+        "label": "Consento l’accesso ai dati in delega?",
         "value": {
           "true": "Sì",
           "false": "No",
@@ -354,9 +354,9 @@
       "riskAnalysisTitle": "{{riskAnalysisIndex}}/{{totalRiskAnalysis}} - {{riskAnalysisName}}"
     },
     "versionInfoSummary": {
-      "title": "Informazioni di versione",
+      "title": "Informazioni aggiuntive",
       "description": {
-        "label": "Descrizione"
+        "label": "Descrizione versione"
       },
       "documentation": "Documentazione",
       "manualApproval": {
