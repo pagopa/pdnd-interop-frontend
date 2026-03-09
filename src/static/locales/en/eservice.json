@@ -151,7 +151,8 @@
         }
       },
       "thresholdSection": {
-        "title": "Threshold of calls expected for consumers",
+        "title": "API call thresholds",
+        "description": "Set the maximum number of daily calls, per consumer and total. Define a total threshold that can cover all purposes: once reached, new purposes will require manual approval. You can customize thresholds in certified attributes.",
         "dailyCallsPerConsumerField": {
           "label": "API calls/day per consumer"
         },

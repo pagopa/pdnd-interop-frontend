@@ -21,7 +21,7 @@ export const EServiceThresholdSection: React.FC<EServiceThresholdSectionProps> =
   const dailyCallsPerConsumer = watch('dailyCallsPerConsumer')
 
   return (
-    <SectionContainer title={t('title')} sx={{ mt: 3 }}>
+    <SectionContainer title={t('title')} description={t('description')} sx={{ mt: 3 }}>
       <Stack spacing={4} sx={{ mt: 3 }}>
         <Stack direction="row" spacing={2}>
           <RHFTextField
