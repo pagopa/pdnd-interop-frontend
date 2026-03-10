@@ -31,6 +31,12 @@ vi.mock('../../sections/EServiceTemplateInfoSection', () => ({
   },
 }))
 
+vi.mock('../../sections/EServiceTemplateDetailsSection', () => ({
+  EServiceTemplateDetailsSection: () => {
+    return <div>EServiceTemplateDetailsSection</div>
+  },
+}))
+
 vi.mock('../../sections/DelegationSection', () => ({
   DelegationSection: () => {
     return <div>DelegationSection</div>
@@ -93,7 +99,7 @@ describe('EServiceCreateStepGeneral', () => {
       withRouterContext: true,
     })
     expect(screen.getByText('EServiceTemplateInfoSection')).toBeInTheDocument()
-    expect(screen.getByText('EServiceDetailsSection')).toBeInTheDocument()
+    expect(screen.getByText('EServiceTemplateDetailsSection')).toBeInTheDocument()
     expect(screen.getByText('DelegationSection')).toBeInTheDocument()
     expect(screen.getByText('SignalHubSection')).toBeInTheDocument()
   })
