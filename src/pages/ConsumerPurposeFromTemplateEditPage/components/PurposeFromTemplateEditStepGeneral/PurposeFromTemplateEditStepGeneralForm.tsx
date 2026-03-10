@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from '@mui/material'
+import { Alert, AlertTitle, Box, Stack, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
@@ -14,7 +14,8 @@ import type {
 import SaveIcon from '@mui/icons-material/Save'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { PurposeMutations } from '@/api/purpose'
-import { Stack } from '@mui/system'
+import { GreyAlert } from '@/components/shared/GreyAlert'
+import { useGetConsumerPurposeEditPageInfoAlertProps } from '@/pages/ConsumerPurposeEditPage/hooks/useGetConsumerPurposeEditPageInfoAlertProps'
 
 export type PurposeFromTemplateEditStepGeneralFormValues = Omit<
   PurposeUpdateContent,
@@ -41,7 +42,7 @@ const PurposeFromTemplateEditStepGeneralForm: React.FC<PurposeEditStepGeneralFor
   const { t } = useTranslation('purpose', {
     keyPrefix: 'edit.purposeFromTemplate',
   })
-  const { t: tPurposeActions } = useTranslation('purpose')
+  const { t: tPurpose } = useTranslation('purpose')
   const { mutate: updateDraftFromPurposeTemplate } =
     PurposeMutations.useUpdateDraftFromPurposeTemplate()
 
@@ -62,6 +63,16 @@ const PurposeFromTemplateEditStepGeneralForm: React.FC<PurposeEditStepGeneralFor
       { onSuccess: forward }
     )
   }
+
+  const dailyCallsFormValue = formMethods.watch('dailyCalls')
+  const dailyCallsPerConsumer = purpose.dailyCallsPerConsumer
+  const dailyCallsTotal = purpose.dailyCallsTotal
+
+  const alertProps = useGetConsumerPurposeEditPageInfoAlertProps(
+    dailyCallsFormValue,
+    dailyCallsPerConsumer,
+    dailyCallsTotal
+  )
 
   return (
     <FormProvider {...formMethods}>
@@ -114,23 +125,72 @@ const PurposeFromTemplateEditStepGeneralForm: React.FC<PurposeEditStepGeneralFor
             inputProps={{ maxLength: 60 }}
             rules={{ required: true, minLength: 5 }}
           />
+        </SectionContainer>
+        <SectionContainer
+          title={tPurpose('edit.loadEstimationSection.title')}
+          description={tPurpose('edit.loadEstimationSection.description')}
+        >
           <RHFTextField
-            type="number"
             name="dailyCalls"
-            label={t('technicalInformationsSection.dailyCallsField.label')}
-            fullWidth
-            rules={{ required: true, min: 1 }}
+            label={tPurpose('edit.loadEstimationSection.dailyCalls.label')}
+            infoLabel={tPurpose('edit.loadEstimationSection.dailyCalls.infoLabel')}
+            type="number"
             inputProps={{ min: '1' }}
+            rules={{ required: true, min: 1 }}
+            required
           />
+          {alertProps && <Alert {...alertProps} sx={{ mt: 1, mb: 3 }} />}
+          <GreyAlert>
+            <AlertTitle sx={{ textTransform: 'uppercase', fontWeight: 700 }}>
+              {tPurpose('edit.loadEstimationSection.providerThresholdsInfo.label')}
+            </AlertTitle>
+            <Stack direction="row" spacing={6} sx={{ mt: 0.5, mb: 1 }}>
+              <Stack direction="row" spacing={2} alignItems="center">
+                <Typography>
+                  {tPurpose(
+                    'edit.loadEstimationSection.providerThresholdsInfo.dailyCallsPerConsumer.label'
+                  )}
+                </Typography>
+                <Typography fontWeight={600}>
+                  {tPurpose(
+                    'edit.loadEstimationSection.providerThresholdsInfo.dailyCallsPerConsumer.value',
+                    {
+                      min: '#' /* @TODO - add residual threshold */,
+                      max: dailyCallsPerConsumer,
+                    }
+                  )}
+                </Typography>
+              </Stack>
+              <Stack direction="row" spacing={2} alignItems="center">
+                <Typography>
+                  {tPurpose(
+                    'edit.loadEstimationSection.providerThresholdsInfo.dailyCallsTotal.label'
+                  )}
+                </Typography>
+                <Typography fontWeight={600}>
+                  {tPurpose(
+                    'edit.loadEstimationSection.providerThresholdsInfo.dailyCallsTotal.value',
+                    {
+                      min: '#' /* @TODO - add residual threshold */,
+                      max: dailyCallsTotal,
+                    }
+                  )}
+                </Typography>
+              </Stack>
+            </Stack>
+            <Typography variant="caption" color="text.secondary">
+              {tPurpose('edit.loadEstimationSection.providerThresholdsInfo.description')}
+            </Typography>
+          </GreyAlert>
         </SectionContainer>
         <StepActions
           back={{
             to: 'SUBSCRIBE_PURPOSE_LIST',
-            label: tPurposeActions('backToListBtn'),
+            label: tPurpose('backToListBtn'),
             type: 'link',
           }}
           forward={{
-            label: tPurposeActions('edit.forwardWithSaveBtn'),
+            label: tPurpose('edit.forwardWithSaveBtn'),
             type: 'submit',
             startIcon: <SaveIcon />,
           }}
