@@ -229,7 +229,8 @@
       "title": "Risk analysis",
       "providerRiskAnalysisAlert": "The e-service selected for this purpose requires data to be sent from the consumer to the producer. The risk analysis was therefore compiled by the producer."
     },
-    "publishBtnDisabled": "Your declaration on personal data processing in the risk analysis prevents publication"
+    "publishBtnDisabled": "Your declaration on personal data processing in the risk analysis prevents publication",
+    "publishBtn": "Publish draft"
   },
   "list": {
     "cantCreatePurposeTooltip": "You cannot create purposes because you have no associable e-service",

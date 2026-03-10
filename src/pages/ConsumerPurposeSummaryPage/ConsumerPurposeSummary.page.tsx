@@ -173,7 +173,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
               variant="contained"
               onClick={handlePublishDraft}
             >
-              {tCommon('publish')}
+              {t('summary.publishBtn')}
             </Button>
           </span>
         </Tooltip>
