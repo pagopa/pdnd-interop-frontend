@@ -323,9 +323,6 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           />
         )}
 
-        {/* Signalhub switch can be editable also if coming from a eservice eserviceTemplate */}
-        <SignalHubSection isSignalHubActivationEditable={areEServiceGeneralInfoEditable} />
-
         {isOrganizationAllowedToProduce && (
           <SectionContainer
             title={t('create.step1.delegationSection.title')}
@@ -381,6 +378,9 @@ export const EServiceCreateStepGeneral: React.FC = () => {
             )}
           </SectionContainer>
         )}
+
+        {/* Signalhub switch can be editable also if coming from a eservice eserviceTemplate */}
+        <SignalHubSection isSignalHubActivationEditable={areEServiceGeneralInfoEditable} />
 
         <StepActions
           forward={
