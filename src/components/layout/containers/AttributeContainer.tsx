@@ -107,7 +107,7 @@ export const AttributeContainer = <
                         fontWeight: 700,
                       }}
                     >
-                      {attribute.dailyCallsPerConsumer ?? 'n/a'}
+                      {attribute.dailyCallsPerConsumer ?? t('na')}
                     </Typography>
                   </Stack>
                   {onCustomizeThreshold && (

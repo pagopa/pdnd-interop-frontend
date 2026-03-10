@@ -344,7 +344,8 @@
     "removeAttributeAriaLabel": "Rimuovi attributo {{attributeName}}",
     "thresholdLabel": "Chiamate API/giorno per fruitore",
     "customizeBtn": "Personalizza soglia",
-    "changeBtn": "Modifica soglia"
+    "changeBtn": "Modifica soglia",
+    "na": "n/a"
   },
   "attributeGroupContainer": {
     "removeGroupAriaLabel": "Rimuovi gruppo di attributi"
