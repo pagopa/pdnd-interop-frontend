@@ -645,7 +645,8 @@
           },
           "dailyCallsTotal": {
             "label": "Soglia giornaliera totale"
-          }
+          },
+          "noThresholdTemplate": "Questo template di e-service non ha soglie suggerite"
         }
       },
       "linkedPurposeTemplates": {

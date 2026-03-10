@@ -645,7 +645,8 @@
           },
           "dailyCallsTotal": {
             "label": "Total threshold for consumer"
-          }
+          },
+          "noThresholdTemplate": "This e-service template has no suggested thresholds"
         }
       },
       "linkedPurposeTemplates": {

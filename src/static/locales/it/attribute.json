@@ -25,6 +25,10 @@
     "consumer": "L'erogatore non richiede attributi {{attributeKey}}"
   },
   "noGenericAttributesRequiredAlert": "Questo e-service non richiede attributi {{attributeKey}}",
+  "noAttributesRequiredTemplate": {
+    "title": "Attributi",
+    "alert": "Questo template di e-service non richiede attributi"
+  },
   "attributeCardHeader": {
     "label": "Requisito {{index}} | Attributi {{attributeKey}}"
   },
