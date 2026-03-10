@@ -6,17 +6,23 @@ import { GenerateInterfaceForm } from '../components/GenerateInterfaceForm'
 type EServiceInterfaceSectionProps = {
   isEServiceCreatedFromTemplate: boolean
   description: string | JSX.Element
+  error?: string
 }
 
 export const EServiceInterfaceSection: React.FC<EServiceInterfaceSectionProps> = ({
   description,
   isEServiceCreatedFromTemplate,
+  error,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step4.interface' })
 
   return (
     <SectionContainer title={t('title')} description={description}>
-      {isEServiceCreatedFromTemplate ? <GenerateInterfaceForm /> : <UploadInterfaceDoc />}
+      {isEServiceCreatedFromTemplate ? (
+        <GenerateInterfaceForm />
+      ) : (
+        <UploadInterfaceDoc error={error} />
+      )}
     </SectionContainer>
   )
 }

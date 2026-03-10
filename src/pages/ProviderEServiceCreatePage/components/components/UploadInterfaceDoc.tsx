@@ -12,7 +12,11 @@ type UploadInterfaceDocFormValues = {
   interfaceDoc: File | null
 }
 
-export const UploadInterfaceDoc: React.FC = () => {
+type UploadInterfaceDocProps = {
+  error?: string
+}
+
+export const UploadInterfaceDoc: React.FC<UploadInterfaceDocProps> = ({ error }) => {
   const { t } = useTranslation('eservice')
   const { descriptor } = useEServiceCreateContext()
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
@@ -68,5 +72,5 @@ export const UploadInterfaceDoc: React.FC = () => {
     )
   }
 
-  return <UploadDocumentsInterface onSubmit={onSubmit} sxBox={{ py: 2 }} />
+  return <UploadDocumentsInterface onSubmit={onSubmit} sxBox={{ py: 2 }} error={error} />
 }
