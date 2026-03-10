@@ -107,7 +107,7 @@ describe('ConsumerPurposeSummaryPage', () => {
     })
 
     const publishButton = screen.getByRole('button', {
-      name: 'publish',
+      name: 'summary.publishBtn',
     })
 
     expect(publishButton).toBeDisabled()
@@ -125,7 +125,7 @@ describe('ConsumerPurposeSummaryPage', () => {
     })
 
     const publishButton = screen.getByRole('button', {
-      name: 'publish',
+      name: 'summary.publishBtn',
     })
 
     expect(publishButton).toBeDisabled()
@@ -143,7 +143,7 @@ describe('ConsumerPurposeSummaryPage', () => {
     })
 
     const publishButton = screen.getByRole('button', {
-      name: 'publish',
+      name: 'summary.publishBtn',
     })
 
     expect(publishButton).toBeEnabled()
@@ -161,7 +161,7 @@ describe('ConsumerPurposeSummaryPage', () => {
     })
 
     const publishButton = screen.getByRole('button', {
-      name: 'publish',
+      name: 'summary.publishBtn',
     })
 
     expect(publishButton).toBeEnabled()
