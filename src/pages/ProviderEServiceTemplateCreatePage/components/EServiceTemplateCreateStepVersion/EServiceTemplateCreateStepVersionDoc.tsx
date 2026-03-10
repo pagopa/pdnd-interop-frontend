@@ -65,7 +65,7 @@ export function EServiceTemplateCreateStepVersionDoc() {
     )
   }
 
-  const handleUpdateDescription = (documentId: string, prettyName: string) => {
+  const handleUpdateDocumentName = (documentId: string, prettyName: string) => {
     if (!eserviceTemplateVersion) return
     updateDocumentName({
       eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
@@ -106,7 +106,7 @@ export function EServiceTemplateCreateStepVersionDoc() {
             </Typography>
             <DocumentContainer
               doc={doc}
-              onUpdateDescription={handleUpdateDescription.bind(null, doc.id)}
+              onUpdateDescription={handleUpdateDocumentName.bind(null, doc.id)}
               onDelete={handleDeleteDocument}
               onDownload={handleDownloadDocument}
             />
