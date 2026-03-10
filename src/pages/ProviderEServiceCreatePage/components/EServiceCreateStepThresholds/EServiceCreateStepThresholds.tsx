@@ -11,6 +11,7 @@ import {
   type DescriptorAttributes,
   type UpdateEServiceDescriptorSeed,
 } from '@/api/api.generatedTypes'
+import { useAttributesCountersAlert } from './useAttributesCountersAlert'
 import { Alert, Box } from '@mui/material'
 import { StepActions } from '@/components/shared/StepActions'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
@@ -94,31 +95,21 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
   const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
   const dailyCallsTotal = formMethods.watch('dailyCallsTotal')
   const certifiedAttributes = formMethods.watch('attributes.certified')
-  const verifiedAttributes = formMethods.watch('attributes.verified')
-  const declaredAttributes = formMethods.watch('attributes.declared')
+  const watchedAttributes = formMethods.watch('attributes')
 
-  const totalRequirements =
-    certifiedAttributes.filter((g: DescriptorAttribute[]) => g.length > 0).length +
-    verifiedAttributes.filter((g: DescriptorAttribute[]) => g.length > 0).length +
-    declaredAttributes.filter((g: DescriptorAttribute[]) => g.length > 0).length
-
-  const attributeTypesWithRequirements = React.useMemo(() => {
-    const types: string[] = []
-    if (certifiedAttributes.some((g: DescriptorAttribute[]) => g.length > 0))
-      types.push(t('requirementsSummaryAlertAttributeTypes.certified'))
-    if (verifiedAttributes.some((g: DescriptorAttribute[]) => g.length > 0))
-      types.push(t('requirementsSummaryAlertAttributeTypes.verified'))
-    if (declaredAttributes.some((g: DescriptorAttribute[]) => g.length > 0))
-      types.push(t('requirementsSummaryAlertAttributeTypes.declared'))
-    return types
-  }, [certifiedAttributes, verifiedAttributes, declaredAttributes, t])
+  const { totalRequirements, attributeTypesWithRequirements } = useAttributesCountersAlert({
+    attributes: watchedAttributes,
+    t,
+  })
 
   const maxCustomThreshold = React.useMemo(() => {
     return certifiedAttributes
       .flat()
       .reduce(
         (max, attr) =>
-          attr.dailyCallsPerConsumer !== undefined ? Math.max(max, attr.dailyCallsPerConsumer) : max,
+          attr.dailyCallsPerConsumer !== undefined
+            ? Math.max(max, attr.dailyCallsPerConsumer)
+            : max,
         0
       )
   }, [certifiedAttributes])
@@ -193,7 +184,9 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
                 i18nKey="create.requirementsSummaryAlert"
                 values={{
                   count: totalRequirements,
-                  attributeTypes: new Intl.ListFormat(i18n.language, { type: 'conjunction' }).format(attributeTypesWithRequirements),
+                  attributeTypes: new Intl.ListFormat(i18n.language, {
+                    type: 'conjunction',
+                  }).format(attributeTypesWithRequirements),
                 }}
                 components={{ 1: <strong />, 3: <strong /> }}
               />
