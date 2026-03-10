@@ -3,7 +3,7 @@
   "create": {
     "emptyTitle": "Crea finalità",
     "requiredLabel": "*Campi obbligatori.",
-    "preliminaryInformationSectionTitle": "Informazioni generali",
+    "preliminaryInformationSectionTitle": "Informazioni sulla finalità",
     "isTemplateField": {
       "label": "Usa un template precompilato"
     },
@@ -74,7 +74,7 @@
     "endWithSaveBtn": "Vai al riepilogo",
     "eserviceProvider": "erogato da",
     "stepGeneral": {
-      "title": "Informazioni generali",
+      "title": "Informazioni sulla finalità",
       "nameField": {
         "label": "Nome della finalità",
         "infoLabel": "Ti aiuterà a distinguerla dalle altre. Min 5 caratteri, max 60 caratteri"
@@ -148,8 +148,8 @@
     },
     "purposeFromTemplate": {
       "generalInformationSection": {
-        "title": "Informazioni generali",
-        "subtitle": "Le seguenti informazioni sono state precompilate dal creatore del template di finalità agevolata e non sono modificabili.",
+        "title": "Informazioni sulla finalità",
+        "subtitle": "Queste informazioni sono state precompilate da chi ha creato il template di finalità agevolata e non sono modificabili.",
         "descriptionSection": {
           "title": "Descrizione",
           "nameField": {
