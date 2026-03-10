@@ -104,6 +104,7 @@
       "providerThresholdsInfo": {
         "label": "Thresholds defined by the provider",
         "description": "Residual calls may vary if the provider receives other purposes before your publication.",
+        "na": "n/a",
         "dailyCallsPerConsumer": {
           "label": "Threshold per user",
           "value": "{{min}} of {{max}} API calls/day"
@@ -433,6 +434,7 @@
           "title": "Request a change of estimate",
           "subtitle": "Indicates a new number of calls expected each day for this purpose. For full information, <1>see the guide</1>.",
           "currentDailyCalls": "The current estimate is <strong>{{dailyCalls}} API calls/day</strong>.",
+          "na": "n/a",
           "dailyCallsFormField": {
             "label": "New load estimate",
             "infoLabel": "Enter a number greater than or equal to 1",

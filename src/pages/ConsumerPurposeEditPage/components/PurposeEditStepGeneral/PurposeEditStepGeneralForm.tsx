@@ -170,7 +170,9 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
                   {t(
                     'edit.loadEstimationSection.providerThresholdsInfo.dailyCallsPerConsumer.value',
                     {
-                      min: updatedDailyCalls?.updatedDailyCallsPerConsumer ?? 'n/a',
+                      min:
+                        updatedDailyCalls?.updatedDailyCallsPerConsumer ??
+                        t('edit.loadEstimationSection.providerThresholdsInfo.na'),
                       max: dailyCallsPerConsumer,
                     }
                   )}
@@ -182,7 +184,9 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
                 </Typography>
                 <Typography fontWeight={600}>
                   {t('edit.loadEstimationSection.providerThresholdsInfo.dailyCallsTotal.value', {
-                    min: updatedDailyCalls?.updatedDailyCallsTotal ?? 'n/a',
+                    min:
+                      updatedDailyCalls?.updatedDailyCallsTotal ??
+                      t('edit.loadEstimationSection.providerThresholdsInfo.na'),
                     max: dailyCallsTotal,
                   })}
                 </Typography>

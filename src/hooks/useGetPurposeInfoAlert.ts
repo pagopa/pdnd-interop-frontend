@@ -22,13 +22,12 @@ export function useGetPurposeInfoAlert({
 }): AlertProps | undefined {
   const { t } = useTranslation('purpose', { keyPrefix })
 
+  const fallbackAlert: AlertProps | undefined = showFallback
+    ? { severity: 'info', children: t('infoApprovalMayBeRequired') }
+    : undefined
+
   if (dailyCalls === undefined) {
-    return showFallback === true
-      ? {
-          severity: 'info',
-          children: t('infoApprovalMayBeRequired'),
-        }
-      : undefined
+    return fallbackAlert
   }
 
   const isDailyCallsMaximumReached =
@@ -49,7 +48,6 @@ export function useGetPurposeInfoAlert({
     isDailyCallsPerConsumerResidualExceed,
     isDailyCallsTotalExceed,
     isDailyCallsPerConsumerExceed,
-    showFallback,
   })
     .returnType<AlertProps | undefined>()
     .with({ isDailyCallsMaximumReached: true }, () => ({
@@ -72,9 +70,5 @@ export function useGetPurposeInfoAlert({
       severity: 'info',
       children: t('infoDailyCallsPerConsumerExceed'),
     }))
-    .with({ showFallback: true }, () => ({
-      severity: 'info',
-      children: t('infoApprovalMayBeRequired'),
-    }))
-    .otherwise(() => undefined)
+    .otherwise(() => fallbackAlert)
 }

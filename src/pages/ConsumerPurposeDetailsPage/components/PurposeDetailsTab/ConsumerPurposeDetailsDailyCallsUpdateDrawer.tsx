@@ -120,7 +120,7 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
                 </Typography>
                 <Typography variant="caption" fontWeight={600}>
                   {t('providerThresholdsInfo.dailyCallsPerConsumer.value', {
-                    min: updatedDailyCalls?.updatedDailyCallsPerConsumer ?? 'n/a',
+                    min: updatedDailyCalls?.updatedDailyCallsPerConsumer ?? t('na'),
                     max: purpose.dailyCallsPerConsumer,
                   })}
                 </Typography>
@@ -131,7 +131,7 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
                 </Typography>
                 <Typography variant="caption" fontWeight={600}>
                   {t('providerThresholdsInfo.dailyCallsTotal.value', {
-                    min: updatedDailyCalls?.updatedDailyCallsTotal ?? 'n/a',
+                    min: updatedDailyCalls?.updatedDailyCallsTotal ?? t('na'),
                     max: purpose.dailyCallsTotal,
                   })}
                 </Typography>
