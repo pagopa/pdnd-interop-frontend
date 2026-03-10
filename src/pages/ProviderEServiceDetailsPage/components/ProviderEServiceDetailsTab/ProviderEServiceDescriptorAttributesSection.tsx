@@ -169,7 +169,8 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
         ns="eservice"
         i18nKey="read.drawers.customizeThresholdDrawer.consumerThreshold"
         values={{
-          dailyCallsPerConsumer: attribute?.dailyCallsPerConsumer ?? 'n/a',
+          dailyCallsPerConsumer:
+            attribute?.dailyCallsPerConsumer ?? tCustomizeThresholdDrawer('na'),
         }}
         components={{ 1: <strong /> }}
       />
