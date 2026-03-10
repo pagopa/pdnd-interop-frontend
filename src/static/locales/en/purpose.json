@@ -429,7 +429,7 @@
           "subtitle": "Indicates a new number of calls expected each day for this purpose. For full information, <1>see the guide</1>.",
           "currentDailyCalls": "The current estimate is <strong>{{dailyCalls}} API calls/day</strong>.",
           "dailyCallsFormField": {
-            "label": "New load estimate",
+            "label": "New estimate of API calls/day",
             "infoLabel": "Enter a number greater than or equal to 1",
             "validation": {
               "sameValue": "The number of API calls/day requested must be different than the current one"
