@@ -241,51 +241,7 @@ export function mockUseEServiceCreateContext(
   overwrites: Partial<ReturnType<typeof EserviceCreateContextModule.useEServiceCreateContext>> = {}
 ) {
   vi.spyOn(EserviceCreateContextModule, 'useEServiceCreateContext').mockReturnValue({
-    descriptor: {
-      agreementApprovalPolicy: 'MANUAL',
-      audience: ['nikon'],
-      dailyCallsPerConsumer: 1,
-      dailyCallsTotal: 1,
-      description: 'kinoin',
-      docs: [],
-      eservice: {
-        description: 'Lorem ipsum',
-        descriptors: [
-          {
-            id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
-            state: 'PUBLISHED',
-            version: '1',
-            audience: [],
-          },
-        ],
-        producer: {
-          id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
-          tenantKind: 'PA',
-        },
-        id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
-        name: '-- LUMACA -- test 20/10 [4]\t',
-        technology: 'REST',
-        mode: 'DELIVER',
-        riskAnalysis: [],
-        personalData: true,
-      },
-      id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
-      interface: {
-        checksum: 'checksum',
-        contentType: 'application/octet-stream',
-        id: '7b92cd7e-c485-4660-9344-608242ba0786',
-        name: 'VerificaCodiceFiscale.yaml',
-        prettyName: 'Specifica API',
-      },
-      state: 'PUBLISHED',
-      version: '3',
-      voucherLifespan: 60,
-      attributes: {
-        certified: [],
-        declared: [],
-        verified: [],
-      },
-    },
+    descriptor: undefined,
     areEServiceGeneralInfoEditable: true,
     forward: vi.fn(),
     back: vi.fn(),

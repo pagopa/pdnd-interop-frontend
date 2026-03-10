@@ -1,5 +1,9 @@
 import { createMockEServiceTemplateDetails } from '@/../__mocks__/data/eserviceTemplate.mocks'
 import {
+  createMockEServiceDescriptorProvider,
+  createMockEServiceDescriptorProviderWithTemplateRef,
+} from '@/../__mocks__/data/eservice.mocks'
+import {
   mockUseJwt,
   mockUseParams,
   renderWithApplicationContext,
@@ -7,6 +11,7 @@ import {
 } from '@/utils/testing.utils'
 import { EServiceCreateStepGeneral } from '../EServiceCreateStepGeneral'
 import { screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 vi.mock('../../sections/EServiceInfoSection', () => ({
   EServiceInfoSection: () => {
@@ -44,17 +49,23 @@ mockUseParams({
 
 mockUseJwt()
 
+const updateDraft = vi.fn()
+const createDraft = vi.fn()
+
 vi.mock('@/api/eservice', () => ({
   EServiceMutations: {
-    useUpdateDraft: () => ({ mutate: vi.fn() }),
-    useCreateDraft: () => ({ mutate: vi.fn() }),
+    useUpdateDraft: () => ({ mutate: updateDraft }),
+    useCreateDraft: () => ({ mutate: createDraft }),
   },
 }))
 
+const createDraftFromTemplate = vi.fn()
+const updateDraftFromTemplate = vi.fn()
+
 vi.mock('@/api/eserviceTemplate', () => ({
   EServiceTemplateMutations: {
-    useCreateInstanceFromEServiceTemplate: () => ({ mutate: vi.fn() }),
-    useUpdateInstanceFromEServiceTemplate: () => ({ mutate: vi.fn() }),
+    useCreateInstanceFromEServiceTemplate: () => ({ mutate: createDraftFromTemplate }),
+    useUpdateInstanceFromEServiceTemplate: () => ({ mutate: updateDraftFromTemplate }),
   },
 }))
 
@@ -105,5 +116,63 @@ describe('EServiceCreateStepGeneral', () => {
       withRouterContext: true,
     })
     expect(screen.getByText('create.forwardWithoutSaveBtn')).toBeInTheDocument()
+  })
+
+  it('should call createDraft on submit', async () => {
+    mockUseEServiceCreateContext()
+    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    await userEvent.click(screen.getByText('create.forwardWithSaveBtn'))
+
+    expect(createDraft).toHaveBeenCalled()
+    expect(updateDraft).not.toHaveBeenCalled()
+    expect(createDraftFromTemplate).not.toHaveBeenCalled()
+    expect(updateDraftFromTemplate).not.toHaveBeenCalled()
+  })
+
+  it('should call updateDraft on submit', async () => {
+    mockUseEServiceCreateContext({ descriptor: createMockEServiceDescriptorProvider() })
+    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    await userEvent.click(screen.getByText('create.forwardWithSaveBtn'))
+
+    expect(createDraft).not.toHaveBeenCalled()
+    expect(updateDraft).toHaveBeenCalled()
+    expect(createDraftFromTemplate).not.toHaveBeenCalled()
+    expect(updateDraftFromTemplate).not.toHaveBeenCalled()
+  })
+
+  it('should call createDraftFromTemplate on submit', async () => {
+    mockUseEServiceCreateContext({ eserviceTemplate: createMockEServiceTemplateDetails() })
+    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    await userEvent.click(screen.getByText('create.forwardWithSaveBtn'))
+
+    expect(createDraft).not.toHaveBeenCalled()
+    expect(updateDraft).not.toHaveBeenCalled()
+    expect(createDraftFromTemplate).toHaveBeenCalled()
+    expect(updateDraftFromTemplate).not.toHaveBeenCalled()
+  })
+
+  it('should call updateDraftFromTemplate on submit', async () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderWithTemplateRef(),
+    })
+    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    await userEvent.click(screen.getByText('create.forwardWithSaveBtn'))
+
+    expect(createDraft).not.toHaveBeenCalled()
+    expect(updateDraft).not.toHaveBeenCalled()
+    expect(createDraftFromTemplate).not.toHaveBeenCalled()
+    expect(updateDraftFromTemplate).toHaveBeenCalled()
   })
 })
