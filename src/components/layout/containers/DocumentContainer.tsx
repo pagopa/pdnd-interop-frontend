@@ -78,7 +78,7 @@ export function DocumentContainer({
       <Stack
         direction="row"
         alignItems="start"
-        sx={isDrawerStyle ? undefined : { flexShrink: 0, ml: 1, alignItems: 'center' }}
+        sx={isDrawerStyle ? undefined : { flexShrink: 0, ml: 1 }}
         spacing={1}
         justifyContent={isDrawerStyle ? 'end' : undefined}
       >
