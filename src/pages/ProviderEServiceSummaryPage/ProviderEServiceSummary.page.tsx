@@ -296,8 +296,9 @@ const ProviderEServiceSummaryPage: React.FC = () => {
                     href={
                       '/ui' +
                       generatePath('SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS', {
-                        eServiceTemplateId: descriptor?.templateRef?.templateId,
-                        eServiceTemplateVersionId: descriptor?.templateRef?.templateVersionId,
+                        eServiceTemplateId: descriptor?.templateRef?.templateId as string,
+                        eServiceTemplateVersionId: descriptor?.templateRef
+                          ?.templateVersionId as string,
                       })
                     }
                     target="_blank"
