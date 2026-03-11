@@ -300,7 +300,13 @@
       "documentationSection": {
         "title": "Documentation",
         "description": "Attach the technical documentation useful to consumers of e-services created from this template.",
-        "saveDocumentBtn": "Save document"
+        "documentLabel": "Document {{number}}",
+        "nameField": {
+          "label": "Document name",
+          "infoLabel": "Min 5 characters, max 60 characters"
+        },
+        "saveDocumentBtn": "Save document",
+        "addAnotherFileBtn": "Add another file"
       },
       "requestManagementSection": {
         "title": "Request management"
