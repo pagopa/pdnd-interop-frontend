@@ -1,8 +1,9 @@
 import {
   createMockEServiceDescriptorProviderWithTemplateRef,
   createMockEServiceDescriptorProvider,
+  mockUseEServiceCreateContext,
 } from '@/../__mocks__/data/eservice.mocks'
-import { mockUseEServiceCreateContext, renderWithApplicationContext } from '@/utils/testing.utils'
+import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { screen } from '@testing-library/react'
 import { EServiceCreateStepInfoVersion } from '../EServiceCreateStepInfoVersion'
 import userEvent from '@testing-library/user-event'
@@ -124,7 +125,7 @@ describe('EServiceCreateStepInfoVersion', () => {
     expect(screen.getByText('goToSummary')).toBeInTheDocument()
   })
 
-  it('should not cause any mutation on form submit', async () => {
+  it('should not call API when form data has not changed', async () => {
     mockUseEServiceCreateContext({ descriptor: createMockEServiceDescriptorProvider() })
     renderWithApplicationContext(<EServiceCreateStepInfoVersion />, {
       withReactQueryContext: true,
@@ -136,7 +137,7 @@ describe('EServiceCreateStepInfoVersion', () => {
     expect(updateInstanceVersionDraft).not.toHaveBeenCalled()
   })
 
-  it('should call updateVersionDraft on form submit', async () => {
+  it('should call updateVersionDraft API when form data has been changed', async () => {
     mockUseEServiceCreateContext({ descriptor: createMockEServiceDescriptorProvider() })
     renderWithApplicationContext(<EServiceCreateStepInfoVersion />, {
       withReactQueryContext: true,
@@ -149,7 +150,7 @@ describe('EServiceCreateStepInfoVersion', () => {
     expect(updateInstanceVersionDraft).not.toHaveBeenCalled()
   })
 
-  it('should call updateInstanceVersionDraft on form submit', async () => {
+  it('should call updateInstanceVersionDraft API when form data has been changed (e- service created from template)', async () => {
     mockUseEServiceCreateContext({
       descriptor: createMockEServiceDescriptorProviderWithTemplateRef(),
     })

@@ -1,8 +1,11 @@
-import { renderWithApplicationContext, mockUseEServiceCreateContext } from '@/utils/testing.utils'
+import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { EServiceCreateStepThresholds } from '../EServiceCreateStepThresholds'
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
+import {
+  createMockEServiceDescriptorProvider,
+  mockUseEServiceCreateContext,
+} from '@/../__mocks__/data/eservice.mocks'
 import { useFormContext } from 'react-hook-form'
 
 vi.mock('../../sections/EServiceThresholdSection', () => ({
@@ -56,7 +59,7 @@ describe('EServiceCreateStepThresholds', () => {
     expect(screen.getByText('forwardWithSaveBtn')).toBeInTheDocument()
   })
 
-  it('should not cause mutation on form submit', async () => {
+  it('should not call API when form data has not changed', async () => {
     mockUseEServiceCreateContext()
     renderWithApplicationContext(<EServiceCreateStepThresholds {...stepProps} />, {
       withReactQueryContext: true,
@@ -67,7 +70,7 @@ describe('EServiceCreateStepThresholds', () => {
     expect(updateVersionDraft).not.toHaveBeenCalled()
   })
 
-  it('should call updateVersionDraft on form submit', async () => {
+  it('should call updateVersionDraft API when form data has been changed', async () => {
     mockUseEServiceCreateContext({ descriptor: createMockEServiceDescriptorProvider() })
     renderWithApplicationContext(<EServiceCreateStepThresholds {...stepProps} />, {
       withReactQueryContext: true,

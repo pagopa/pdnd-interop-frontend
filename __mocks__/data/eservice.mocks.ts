@@ -7,6 +7,7 @@ import type {
   ProducerEServiceDetails,
 } from '@/api/api.generatedTypes'
 import { createMockFactory } from '../../src/utils/testing.utils'
+import * as EserviceCreateContextModule from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateContext'
 
 const createMockEServiceRead = createMockFactory<ProducerEServiceDetails>({
   id: 'ad474d35-7939-4bee-bde9-4e469cca1030',
@@ -418,6 +419,27 @@ const createMockEServiceDescriptorReceive = createMockFactory<ProducerEServiceDe
   },
 })
 
+function mockUseEServiceCreateContext(
+  overwrites: Partial<ReturnType<typeof EserviceCreateContextModule.useEServiceCreateContext>> = {}
+) {
+  vi.spyOn(EserviceCreateContextModule, 'useEServiceCreateContext').mockReturnValue({
+    descriptor: undefined,
+    areEServiceGeneralInfoEditable: true,
+    forward: vi.fn(),
+    back: vi.fn(),
+    eserviceMode: 'DELIVER',
+    onEserviceModeChange: vi.fn(),
+    eserviceTemplate: undefined,
+    riskAnalysisFormState: {
+      isOpen: false,
+      riskAnalysisId: undefined,
+    },
+    openRiskAnalysisForm: vi.fn(),
+    closeRiskAnalysisForm: vi.fn(),
+    ...overwrites,
+  })
+}
+
 export {
   createMockEServiceProvider,
   createMockEServiceCatalog,
@@ -430,4 +452,5 @@ export {
   createMockEServiceDescriptorProviderWithDocs,
   createMockEServiceDescriptorProviderWithTemplateRef,
   createMockEServiceDescriptorReceive,
+  mockUseEServiceCreateContext,
 }

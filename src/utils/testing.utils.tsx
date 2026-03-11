@@ -20,7 +20,6 @@ import { theme } from '@pagopa/interop-fe-commons'
 import { FieldValues, FormProvider, useForm } from 'react-hook-form'
 import * as envs from '@/config/env'
 import * as useActiveStepModule from '@/hooks/useActiveStep'
-import * as EserviceCreateContextModule from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateContext'
 
 type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>
@@ -235,25 +234,4 @@ export const mockUseActiveStep = (
   const useActiveStep = vi.spyOn(useActiveStepModule, 'useActiveStep')
   useActiveStep.mockReturnValue(defaultValues)
   return useActiveStep
-}
-
-export function mockUseEServiceCreateContext(
-  overwrites: Partial<ReturnType<typeof EserviceCreateContextModule.useEServiceCreateContext>> = {}
-) {
-  vi.spyOn(EserviceCreateContextModule, 'useEServiceCreateContext').mockReturnValue({
-    descriptor: undefined,
-    areEServiceGeneralInfoEditable: true,
-    forward: vi.fn(),
-    back: vi.fn(),
-    eserviceMode: 'DELIVER',
-    onEserviceModeChange: vi.fn(),
-    eserviceTemplate: undefined,
-    riskAnalysisFormState: {
-      isOpen: false,
-      riskAnalysisId: undefined,
-    },
-    openRiskAnalysisForm: vi.fn(),
-    closeRiskAnalysisForm: vi.fn(),
-    ...overwrites,
-  })
 }

@@ -2,13 +2,9 @@ import { createMockEServiceTemplateDetails } from '@/../__mocks__/data/eserviceT
 import {
   createMockEServiceDescriptorProvider,
   createMockEServiceDescriptorProviderWithTemplateRef,
-} from '@/../__mocks__/data/eservice.mocks'
-import {
-  mockUseJwt,
-  mockUseParams,
-  renderWithApplicationContext,
   mockUseEServiceCreateContext,
-} from '@/utils/testing.utils'
+} from '@/../__mocks__/data/eservice.mocks'
+import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import { EServiceCreateStepGeneral } from '../EServiceCreateStepGeneral'
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -124,7 +120,7 @@ describe('EServiceCreateStepGeneral', () => {
     expect(screen.getByText('create.forwardWithoutSaveBtn')).toBeInTheDocument()
   })
 
-  it('should call createDraft on submit', async () => {
+  it('should call createDraft on submit when user is creating e-service not coming from e-service template', async () => {
     mockUseEServiceCreateContext()
     renderWithApplicationContext(<EServiceCreateStepGeneral />, {
       withReactQueryContext: true,
@@ -138,7 +134,7 @@ describe('EServiceCreateStepGeneral', () => {
     expect(updateDraftFromTemplate).not.toHaveBeenCalled()
   })
 
-  it('should call updateDraft on submit', async () => {
+  it('should call updateDraft on submit when e-service already exist', async () => {
     mockUseEServiceCreateContext({ descriptor: createMockEServiceDescriptorProvider() })
     renderWithApplicationContext(<EServiceCreateStepGeneral />, {
       withReactQueryContext: true,
@@ -152,7 +148,7 @@ describe('EServiceCreateStepGeneral', () => {
     expect(updateDraftFromTemplate).not.toHaveBeenCalled()
   })
 
-  it('should call createDraftFromTemplate on submit', async () => {
+  it('should call createDraftFromTemplate on submit when e-service coming from e-service template', async () => {
     mockUseEServiceCreateContext({ eserviceTemplate: createMockEServiceTemplateDetails() })
     renderWithApplicationContext(<EServiceCreateStepGeneral />, {
       withReactQueryContext: true,
@@ -166,7 +162,7 @@ describe('EServiceCreateStepGeneral', () => {
     expect(updateDraftFromTemplate).not.toHaveBeenCalled()
   })
 
-  it('should call updateDraftFromTemplate on submit', async () => {
+  it('should call updateDraftFromTemplate  when e-service already exist (coming from e-service template)', async () => {
     mockUseEServiceCreateContext({
       descriptor: createMockEServiceDescriptorProviderWithTemplateRef(),
     })
