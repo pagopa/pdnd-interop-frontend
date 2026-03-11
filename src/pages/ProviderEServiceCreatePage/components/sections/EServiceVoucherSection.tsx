@@ -40,6 +40,7 @@ export const EServiceVoucherSection: React.FC<EServiceVoucherSectionProps> = ({
             infoLabel={t('voucherLifespanField.infoLabel')}
             type="number"
             inputProps={{ min: 1, max: 1440 }}
+            required
             rules={{ required: true, min: 1, max: 1440 }}
             sx={{ flex: 1, my: 0 }}
           />

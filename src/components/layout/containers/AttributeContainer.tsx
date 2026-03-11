@@ -16,6 +16,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import EditIcon from '@mui/icons-material/Edit'
 import { AttributeQueries } from '@/api/attribute'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
@@ -91,38 +92,28 @@ export const AttributeContainer = <
           >
             <Stack spacing={1}>
               <Typography fontWeight={600}>{attribute.name}</Typography>
-              {(attribute.dailyCallsPerConsumer !== undefined || onCustomizeThreshold) && (
+              {onCustomizeThreshold && (
                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                  <Stack direction={'row'} spacing={1}>
-                    <Typography
-                      sx={{
-                        fontSize: 16,
-                      }}
-                    >
-                      {t('thresholdLabel')}
-                    </Typography>
-                    <Typography
-                      sx={{
-                        fontSize: 16,
-                        fontWeight: 700,
-                      }}
-                    >
-                      {attribute.dailyCallsPerConsumer ?? t('na')}
-                    </Typography>
-                  </Stack>
-                  {onCustomizeThreshold && (
-                    <ButtonNaked
-                      color="primary"
-                      type="button"
-                      sx={{ fontWeight: 700 }}
-                      onClick={(e: React.MouseEvent) => {
-                        e.stopPropagation()
-                        onCustomizeThreshold()
-                      }}
-                    >
-                      {attribute.dailyCallsPerConsumer ? t('changeBtn') : t('customizeBtn')}
-                    </ButtonNaked>
+                  {attribute.dailyCallsPerConsumer !== undefined && (
+                    <Stack direction={'row'} spacing={1}>
+                      <Typography sx={{ fontSize: 16 }}>{t('thresholdLabel')}</Typography>
+                      <Typography sx={{ fontSize: 16, fontWeight: 700 }}>
+                        {attribute.dailyCallsPerConsumer}
+                      </Typography>
+                    </Stack>
                   )}
+                  <ButtonNaked
+                    color="primary"
+                    type="button"
+                    sx={{ fontWeight: 700 }}
+                    startIcon={attribute.dailyCallsPerConsumer ? <EditIcon /> : undefined}
+                    onClick={(e: React.MouseEvent) => {
+                      e.stopPropagation()
+                      onCustomizeThreshold()
+                    }}
+                  >
+                    {attribute.dailyCallsPerConsumer ? t('changeBtn') : t('customizeBtn')}
+                  </ButtonNaked>
                 </Stack>
               )}
             </Stack>

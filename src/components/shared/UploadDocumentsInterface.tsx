@@ -40,6 +40,7 @@ export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> =
       formMethods.clearErrors('interfaceDoc')
     }
   }, [error, formMethods])
+
   return (
     <FormProvider {...formMethods}>
       <Box sx={sxBox} bgcolor="common.white">

@@ -9,7 +9,7 @@
       "step2Label": "Soglie e attributi",
       "step2ReceiveLabel": "Finalità",
       "step3Label": "Specifiche tecniche",
-      "step4Label": "Info aggiuntive"
+      "step4Label": "Informazioni aggiuntive"
     },
     "backWithoutSaveBtn": "Indietro",
     "forwardWithSaveBtn": "Salva bozza e prosegui",
@@ -26,7 +26,7 @@
         },
         "descriptionField": {
           "label": "Descrizione dell'e-service",
-          "infoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri"
+          "infoLabel": "Descrivi quali dati il fruitore deve fornire e quali dati l'e-service restituisce. Min 10 caratteri, max 250 caratteri"
         }
       },
       "detailsSection": {
@@ -153,14 +153,18 @@
         }
       },
       "thresholdSection": {
-        "title": "Soglia di chiamate previste per i fruitori",
+        "title": "Soglie di chiamate API",
+        "description": "Indica il numero massimo di chiamate giornaliere, per fruitore e totali. Definisci una soglia totale che possa coprire tutte le finalità: una volta raggiunta, le nuove finalità richiederanno l'approvazione manuale. Potrai personalizzare le soglie negli attributi certificati.",
         "dailyCallsPerConsumerField": {
-          "label": "Chiamate API/giorno per fruitore"
+          "label": "Chiamate API/giorno per fruitore",
+          "infoLabel": "Inserisci un numero superiore o uguale a 1"
         },
         "dailyCallsTotalField": {
           "label": "Chiamate API/giorno totali",
+          "infoLabel": "Inserisci un numero superiore al precedente",
           "validation": {
-            "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore"
+            "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore",
+            "minCustomThreshold": "La soglia totale non può essere inferiore a quelle personalizzate"
           }
         },
         "limitsSuggestionAlert": {
@@ -200,6 +204,12 @@
           "alert": "Se il fruitore soddisfa più attributi con soglie diverse, si applica automaticamente la soglia più alta."
         }
       }
+    },
+    "requirementsSummaryAlert": "Il fruitore deve soddisfare <1>{{count}} requisiti</1> con attributi <3>{{attributeTypes}}</3>",
+    "requirementsSummaryAlertAttributeTypes": {
+      "certified": "certificati",
+      "verified": "verificati",
+      "declared": "dichiarati"
     },
     "step3": {
       "attributesTitle": "Requisiti di accesso",
@@ -259,7 +269,7 @@
         }
       },
       "interface": {
-        "title": "Interfaccia*",
+        "title": "Interfaccia",
         "description": {
           "rest": "Carica il file OpenAPI che descrive l'API. Prima di caricarlo, verifica che rispetti i requisiti del ModI con",
           "restLinkLabel": "l'OpenAPI Checker",
@@ -342,7 +352,7 @@
         }
       },
       "isClientAccessDelegable": {
-        "label": "Autorizzo l’accesso ai dati in delega?",
+        "label": "Consento l’accesso ai dati in delega?",
         "value": {
           "true": "Sì",
           "false": "No",
@@ -355,9 +365,9 @@
       "riskAnalysisTitle": "{{riskAnalysisIndex}}/{{totalRiskAnalysis}} - {{riskAnalysisName}}"
     },
     "versionInfoSummary": {
-      "title": "Informazioni di versione",
+      "title": "Informazioni aggiuntive",
       "description": {
-        "label": "Descrizione"
+        "label": "Descrizione versione"
       },
       "documentation": "Documentazione",
       "manualApproval": {

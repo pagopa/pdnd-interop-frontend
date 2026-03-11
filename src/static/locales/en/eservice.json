@@ -26,7 +26,7 @@
         },
         "descriptionField": {
           "label": "E-service description",
-          "infoLabel": "Include input and output data in the description. Min 10 characters, max 250 characters"
+          "infoLabel": "Describe what data the consumer must provide and what data the e-service returns. Min 10 characters, max 250 characters"
         }
       },
       "detailsSection": {
@@ -153,14 +153,18 @@
         }
       },
       "thresholdSection": {
-        "title": "Threshold of calls expected for consumers",
+        "title": "API call thresholds",
+        "description": "Set the maximum number of daily calls, per consumer and total. Define a total threshold that can cover all purposes: once reached, new purposes will require manual approval. You can customize thresholds in certified attributes.",
         "dailyCallsPerConsumerField": {
-          "label": "API calls/day per consumer"
+          "label": "API calls/day per consumer",
+          "infoLabel": "Enter a number greater than or equal to 1"
         },
         "dailyCallsTotalField": {
           "label": "Total API calls/day",
+          "infoLabel": "Enter a number greater than the previous one",
           "validation": {
-            "min": "This value cannot be below the threshold set for the API calls/day for each consumer"
+            "min": "This value cannot be below the threshold set for the API calls/day for each consumer",
+            "minCustomThreshold": "The total threshold cannot be lower than customized thresholds"
           }
         },
         "limitsSuggestionAlert": {
@@ -200,6 +204,12 @@
           "alert": "If the consumer satisfies multiple attributes with different thresholds, the highest threshold is automatically applied."
         }
       }
+    },
+    "requirementsSummaryAlert": "The consumer must satisfy <1>{{count}} requirements</1> with <3>{{attributeTypes}}</3> attributes",
+    "requirementsSummaryAlertAttributeTypes": {
+      "certified": "certified",
+      "verified": "verified",
+      "declared": "declared"
     },
     "step3": {
       "attributesTitle": "Access requirements",
@@ -259,7 +269,7 @@
         }
       },
       "interface": {
-        "title": "Interface*",
+        "title": "Interface",
         "description": {
           "rest": "Upload the OpenAPI file that describes the API. Before uploading, verify that it meets the ModI requirements with",
           "restLinkLabel": "the OpenAPI Checker",
@@ -342,7 +352,7 @@
         }
       },
       "isClientAccessDelegable": {
-        "label": "Do I authorize access to data by proxy?",
+        "label": "Do I allow access to data by proxy?",
         "value": {
           "true": "Yes",
           "false": "No",
@@ -355,9 +365,9 @@
       "riskAnalysisTitle": "{{riskAnalysisIndex}}/{{totalRiskAnalysis}} - {{riskAnalysisName}}"
     },
     "versionInfoSummary": {
-      "title": "Version information",
+      "title": "Additional information",
       "description": {
-        "label": "Description"
+        "label": "Version description"
       },
       "documentation": "Documentation",
       "manualApproval": {

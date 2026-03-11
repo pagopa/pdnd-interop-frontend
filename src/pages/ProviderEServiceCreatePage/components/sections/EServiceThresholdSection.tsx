@@ -10,10 +10,12 @@ type EServiceThresholdSectionProps = {
     dailyCallsPerConsumer: number
     dailyCallsTotal: number
   }
+  maxCustomThreshold?: number
 }
 
 export const EServiceThresholdSection: React.FC<EServiceThresholdSectionProps> = ({
   limitsSuggestions,
+  maxCustomThreshold,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step2.thresholdSection' })
   const { watch } = useFormContext()
@@ -21,13 +23,14 @@ export const EServiceThresholdSection: React.FC<EServiceThresholdSectionProps> =
   const dailyCallsPerConsumer = watch('dailyCallsPerConsumer')
 
   return (
-    <SectionContainer title={t('title')} sx={{ mt: 3 }}>
+    <SectionContainer title={t('title')} description={t('description')} sx={{ mt: 3 }}>
       <Stack spacing={4} sx={{ mt: 3 }}>
         <Stack direction="row" spacing={2}>
           <RHFTextField
             size="small"
             name="dailyCallsPerConsumer"
             label={t('dailyCallsPerConsumerField.label')}
+            infoLabel={t('dailyCallsPerConsumerField.infoLabel')}
             type="number"
             inputProps={{ min: '1' }}
             required
@@ -38,6 +41,7 @@ export const EServiceThresholdSection: React.FC<EServiceThresholdSectionProps> =
             size="small"
             name="dailyCallsTotal"
             label={t('dailyCallsTotalField.label')}
+            infoLabel={t('dailyCallsTotalField.infoLabel')}
             type="number"
             inputProps={{ min: '1' }}
             sx={{ my: 0, flex: 1 }}
@@ -47,6 +51,12 @@ export const EServiceThresholdSection: React.FC<EServiceThresholdSectionProps> =
               min: {
                 value: dailyCallsPerConsumer ?? 1,
                 message: t('dailyCallsTotalField.validation.min'),
+              },
+              validate: (value) => {
+                if (maxCustomThreshold && Number(value) < maxCustomThreshold) {
+                  return t('dailyCallsTotalField.validation.minCustomThreshold')
+                }
+                return true
               },
             }}
           />

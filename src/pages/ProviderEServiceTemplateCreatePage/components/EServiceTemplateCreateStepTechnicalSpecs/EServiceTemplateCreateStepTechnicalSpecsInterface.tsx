@@ -12,7 +12,7 @@ type EServiceTemplateCreateStepTechnicalSpecsInterfaceFormValues = {
   interfaceDoc: File | null
 }
 
-export function EServiceTemplateCreateStepTechnicalSpecsInterface({ error }: { error?: string }) {
+export function EServiceTemplateCreateStepTechnicalSpecsInterface() {
   const { t } = useTranslation('eserviceTemplate')
   const { eserviceTemplateVersion } = useEServiceTemplateCreateContext()
   const downloadDocument = EServiceTemplateDownloads.useDownloadVersionDocument()
@@ -67,5 +67,5 @@ export function EServiceTemplateCreateStepTechnicalSpecsInterface({ error }: { e
     )
   }
 
-  return <UploadDocumentsInterface onSubmit={onSubmit} error={error} />
+  return <UploadDocumentsInterface onSubmit={onSubmit} />
 }
