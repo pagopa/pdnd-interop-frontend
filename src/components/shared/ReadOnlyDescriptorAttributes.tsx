@@ -245,11 +245,7 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
                     ? getAttributeChecked(attributeKey, attribute.id, ownershipData)
                     : undefined
                 }
-                onCustomizeThreshold={
-                  withThreshold && attribute.dailyCallsPerConsumer !== undefined
-                    ? () => open(attribute, index)
-                    : undefined
-                }
+                onCustomizeThreshold={withThreshold ? () => open(attribute, index) : undefined}
               />
             </Box>
             {attributes.length > 1 && _index < attributes.length - 1 && (

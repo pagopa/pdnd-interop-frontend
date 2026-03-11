@@ -344,7 +344,8 @@
     "removeAttributeAriaLabel": "Remove {{attributeName}} attribute",
     "thresholdLabel": "API calls/day per consumer",
     "customizeBtn": "Customize threshold",
-    "changeBtn": "Change threshold"
+    "changeBtn": "Change threshold",
+    "na": "n/a"
   },
   "attributeGroupContainer": {
     "removeGroupAriaLabel": "Remove attribute group"

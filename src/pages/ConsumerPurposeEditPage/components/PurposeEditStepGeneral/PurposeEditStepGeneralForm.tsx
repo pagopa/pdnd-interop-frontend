@@ -5,13 +5,14 @@ import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form
 import { useTranslation } from 'react-i18next'
 import { StepActions } from '@/components/shared/StepActions'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { PurposeMutations } from '@/api/purpose'
+import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import type { Purpose, PurposeUpdateContent } from '@/api/api.generatedTypes'
 import SaveIcon from '@mui/icons-material/Save'
 import { useNavigate } from '@/router'
 import { ProviderThresholdsInfoAlert } from '@/components/shared/ProviderThresholdsInfoAlert'
-import { useGetConsumerPurposeEditPageInfoAlertProps } from '../../hooks/useGetConsumerPurposeEditPageInfoAlertProps'
+import { useGetPurposeInfoAlert } from '@/hooks/useGetPurposeInfoAlert'
+import { useQuery } from '@tanstack/react-query'
 
 export type PurposeEditStepGeneralFormValues = Omit<
   PurposeUpdateContent,
@@ -83,11 +84,19 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
 
   const dailyCallsTotal = purpose.dailyCallsTotal
 
-  const alertProps = useGetConsumerPurposeEditPageInfoAlertProps(
-    dailyCallsFormValue,
-    dailyCallsPerConsumer,
-    dailyCallsTotal
+  const { data: updatedDailyCalls } = useQuery(
+    PurposeQueries.getUpdatedDailyCalls({ purposeId: purpose.id })
   )
+
+  const alertProps = useGetPurposeInfoAlert({
+    dailyCalls: dailyCallsFormValue,
+    dailyCallsPerConsumer,
+    dailyCallsTotal,
+    updatedDailyCallsPerConsumer: updatedDailyCalls?.updatedDailyCallsPerConsumer,
+    updatedDailyCallsTotal: updatedDailyCalls?.updatedDailyCallsTotal,
+    keyPrefix: 'edit.loadEstimationSection.alerts',
+    showFallback: false,
+  })
 
   return (
     <FormProvider {...formMethods}>
@@ -149,6 +158,8 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
           <ProviderThresholdsInfoAlert
             dailyCallsPerConsumer={dailyCallsPerConsumer}
             dailyCallsTotal={dailyCallsTotal}
+            updatedDailyCallsPerConsumer={updatedDailyCalls?.updatedDailyCallsPerConsumer}
+            updatedDailyCallsTotal={updatedDailyCalls?.updatedDailyCallsTotal}
           />
         </SectionContainer>
         <StepActions
