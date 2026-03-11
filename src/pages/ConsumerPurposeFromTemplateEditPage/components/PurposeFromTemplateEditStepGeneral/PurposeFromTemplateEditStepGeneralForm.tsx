@@ -13,9 +13,10 @@ import type {
 } from '@/api/api.generatedTypes'
 import SaveIcon from '@mui/icons-material/Save'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
-import { PurposeMutations } from '@/api/purpose'
+import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { ProviderThresholdsInfoAlert } from '@/components/shared/ProviderThresholdsInfoAlert'
-import { useGetConsumerPurposeEditPageInfoAlertProps } from '@/pages/ConsumerPurposeEditPage/hooks/useGetConsumerPurposeEditPageInfoAlertProps'
+import { useGetPurposeInfoAlert } from '@/hooks/useGetPurposeInfoAlert'
+import { useQuery } from '@tanstack/react-query'
 
 export type PurposeFromTemplateEditStepGeneralFormValues = Omit<
   PurposeUpdateContent,
@@ -68,11 +69,19 @@ const PurposeFromTemplateEditStepGeneralForm: React.FC<PurposeEditStepGeneralFor
   const dailyCallsPerConsumer = purpose.dailyCallsPerConsumer
   const dailyCallsTotal = purpose.dailyCallsTotal
 
-  const alertProps = useGetConsumerPurposeEditPageInfoAlertProps(
-    dailyCallsFormValue,
-    dailyCallsPerConsumer,
-    dailyCallsTotal
+  const { data: updatedDailyCalls } = useQuery(
+    PurposeQueries.getUpdatedDailyCalls({ purposeId: purpose.id })
   )
+
+  const alertProps = useGetPurposeInfoAlert({
+    dailyCalls: dailyCallsFormValue,
+    dailyCallsPerConsumer,
+    dailyCallsTotal,
+    updatedDailyCallsPerConsumer: updatedDailyCalls?.updatedDailyCallsPerConsumer,
+    updatedDailyCallsTotal: updatedDailyCalls?.updatedDailyCallsTotal,
+    keyPrefix: 'edit.loadEstimationSection.alerts',
+    showFallback: false,
+  })
 
   return (
     <FormProvider {...formMethods}>
@@ -143,6 +152,8 @@ const PurposeFromTemplateEditStepGeneralForm: React.FC<PurposeEditStepGeneralFor
           <ProviderThresholdsInfoAlert
             dailyCallsPerConsumer={dailyCallsPerConsumer}
             dailyCallsTotal={dailyCallsTotal}
+            updatedDailyCallsPerConsumer={updatedDailyCalls?.updatedDailyCallsPerConsumer}
+            updatedDailyCallsTotal={updatedDailyCalls?.updatedDailyCallsTotal}
           />
         </SectionContainer>
         <StepActions
