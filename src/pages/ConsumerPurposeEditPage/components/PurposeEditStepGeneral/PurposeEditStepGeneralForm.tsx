@@ -1,18 +1,16 @@
 import React from 'react'
-import { Alert, Box } from '@mui/material'
+import { Box } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
 import { StepActions } from '@/components/shared/StepActions'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { PurposeMutations, PurposeQueries } from '@/api/purpose'
+import { PurposeMutations } from '@/api/purpose'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import type { Purpose, PurposeUpdateContent } from '@/api/api.generatedTypes'
 import SaveIcon from '@mui/icons-material/Save'
 import { useNavigate } from '@/router'
-import { ProviderThresholdsInfoAlert } from '@/components/shared/ProviderThresholdsInfoAlert'
-import { useGetPurposeInfoAlert } from '@/hooks/useGetPurposeInfoAlert'
-import { useQuery } from '@tanstack/react-query'
+import { PurposeLoadEstimationSection } from '@/components/shared/PurposeLoadEstimationSection'
 
 export type PurposeEditStepGeneralFormValues = Omit<
   PurposeUpdateContent,
@@ -78,26 +76,6 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
 
   const isFreeOfCharge = formMethods.watch('isFreeOfCharge')
 
-  const dailyCallsFormValue = formMethods.watch('dailyCalls')
-
-  const dailyCallsPerConsumer = purpose.dailyCallsPerConsumer
-
-  const dailyCallsTotal = purpose.dailyCallsTotal
-
-  const { data: updatedDailyCalls } = useQuery(
-    PurposeQueries.getUpdatedDailyCalls({ purposeId: purpose.id })
-  )
-
-  const alertProps = useGetPurposeInfoAlert({
-    dailyCalls: dailyCallsFormValue,
-    dailyCallsPerConsumer,
-    dailyCallsTotal,
-    updatedDailyCallsPerConsumer: updatedDailyCalls?.updatedDailyCallsPerConsumer,
-    updatedDailyCallsTotal: updatedDailyCalls?.updatedDailyCallsTotal,
-    keyPrefix: 'edit.loadEstimationSection.alerts',
-    showFallback: false,
-  })
-
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
@@ -142,26 +120,11 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
             />
           )}
         </SectionContainer>
-        <SectionContainer
-          title={t('edit.loadEstimationSection.title')}
-          description={t('edit.loadEstimationSection.description')}
-        >
-          <RHFTextField
-            name="dailyCalls"
-            label={t('edit.loadEstimationSection.dailyCalls.label')}
-            infoLabel={t('edit.loadEstimationSection.dailyCalls.infoLabel')}
-            type="number"
-            inputProps={{ min: '1' }}
-            rules={{ required: true, min: 1 }}
-          />
-          {alertProps && <Alert {...alertProps} sx={{ mt: 1, mb: 3 }} />}
-          <ProviderThresholdsInfoAlert
-            dailyCallsPerConsumer={dailyCallsPerConsumer}
-            dailyCallsTotal={dailyCallsTotal}
-            updatedDailyCallsPerConsumer={updatedDailyCalls?.updatedDailyCallsPerConsumer}
-            updatedDailyCallsTotal={updatedDailyCalls?.updatedDailyCallsTotal}
-          />
-        </SectionContainer>
+        <PurposeLoadEstimationSection
+          purposeId={purpose.id}
+          dailyCallsPerConsumer={purpose.dailyCallsPerConsumer}
+          dailyCallsTotal={purpose.dailyCallsTotal}
+        />
         <StepActions
           back={{ to: 'SUBSCRIBE_PURPOSE_LIST', label: t('backToListBtn'), type: 'link' }}
           forward={{

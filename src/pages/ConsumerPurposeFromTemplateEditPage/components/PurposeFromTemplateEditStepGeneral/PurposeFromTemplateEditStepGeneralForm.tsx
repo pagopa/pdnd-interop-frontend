@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, Box, Stack } from '@mui/material'
+import { Box, Stack } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
@@ -13,10 +13,8 @@ import type {
 } from '@/api/api.generatedTypes'
 import SaveIcon from '@mui/icons-material/Save'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
-import { PurposeMutations, PurposeQueries } from '@/api/purpose'
-import { ProviderThresholdsInfoAlert } from '@/components/shared/ProviderThresholdsInfoAlert'
-import { useGetPurposeInfoAlert } from '@/hooks/useGetPurposeInfoAlert'
-import { useQuery } from '@tanstack/react-query'
+import { PurposeMutations } from '@/api/purpose'
+import { PurposeLoadEstimationSection } from '@/components/shared/PurposeLoadEstimationSection'
 
 export type PurposeFromTemplateEditStepGeneralFormValues = Omit<
   PurposeUpdateContent,
@@ -64,24 +62,6 @@ const PurposeFromTemplateEditStepGeneralForm: React.FC<PurposeEditStepGeneralFor
       { onSuccess: forward }
     )
   }
-
-  const dailyCallsFormValue = formMethods.watch('dailyCalls')
-  const dailyCallsPerConsumer = purpose.dailyCallsPerConsumer
-  const dailyCallsTotal = purpose.dailyCallsTotal
-
-  const { data: updatedDailyCalls } = useQuery(
-    PurposeQueries.getUpdatedDailyCalls({ purposeId: purpose.id })
-  )
-
-  const alertProps = useGetPurposeInfoAlert({
-    dailyCalls: dailyCallsFormValue,
-    dailyCallsPerConsumer,
-    dailyCallsTotal,
-    updatedDailyCallsPerConsumer: updatedDailyCalls?.updatedDailyCallsPerConsumer,
-    updatedDailyCallsTotal: updatedDailyCalls?.updatedDailyCallsTotal,
-    keyPrefix: 'edit.loadEstimationSection.alerts',
-    showFallback: false,
-  })
 
   return (
     <FormProvider {...formMethods}>
@@ -135,27 +115,11 @@ const PurposeFromTemplateEditStepGeneralForm: React.FC<PurposeEditStepGeneralFor
             rules={{ required: true, minLength: 5 }}
           />
         </SectionContainer>
-        <SectionContainer
-          title={tPurpose('edit.loadEstimationSection.title')}
-          description={tPurpose('edit.loadEstimationSection.description')}
-        >
-          <RHFTextField
-            name="dailyCalls"
-            label={tPurpose('edit.loadEstimationSection.dailyCalls.label')}
-            infoLabel={tPurpose('edit.loadEstimationSection.dailyCalls.infoLabel')}
-            type="number"
-            inputProps={{ min: '1' }}
-            rules={{ required: true, min: 1 }}
-            required
-          />
-          {alertProps && <Alert {...alertProps} sx={{ mt: 1, mb: 3 }} />}
-          <ProviderThresholdsInfoAlert
-            dailyCallsPerConsumer={dailyCallsPerConsumer}
-            dailyCallsTotal={dailyCallsTotal}
-            updatedDailyCallsPerConsumer={updatedDailyCalls?.updatedDailyCallsPerConsumer}
-            updatedDailyCallsTotal={updatedDailyCalls?.updatedDailyCallsTotal}
-          />
-        </SectionContainer>
+        <PurposeLoadEstimationSection
+          purposeId={purpose.id}
+          dailyCallsPerConsumer={purpose.dailyCallsPerConsumer}
+          dailyCallsTotal={purpose.dailyCallsTotal}
+        />
         <StepActions
           back={{
             to: 'SUBSCRIBE_PURPOSE_LIST',
