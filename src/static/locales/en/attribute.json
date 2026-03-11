@@ -30,7 +30,6 @@
   "noGenericAttributesRequiredAlert": "This e-service does not require {{attributeKey}} attributes",
   "noAttributesRequiredGenericAlert": "This e-service does not require attributes",
   "attributesGenericLabel": "Attributes",
-  "attributesGenericDescription": "These are attributes declared by the consumer during the service request. No verification from the provider is required.",
   "group": {
     "read": {
       "provider": "The consumer must possess at least one of the attributes of this requirement.",

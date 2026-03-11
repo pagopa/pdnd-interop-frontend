@@ -27,7 +27,6 @@
   "noGenericAttributesRequiredAlert": "Questo e-service non richiede attributi {{attributeKey}}",
   "noAttributesRequiredGenericAlert": "Questo e-service non richiede attributi",
   "attributesGenericLabel": "Attributi",
-  "attributesGenericDescription": "Sono attributi dichiarati dal fruitore stesso durante la richiesta di fruizione. Non è necessaria una verifica dell'erogatore.",
   "attributeCardHeader": {
     "label": "Requisito {{index}} | Attributi {{attributeKey}}"
   },

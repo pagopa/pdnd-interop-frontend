@@ -49,7 +49,6 @@ export const ReadOnlyDescriptorAttributes: React.FC<ReadOnlyDescriptorAttributes
       <SectionContainer
         innerSection
         title={tAttribute('attributesGenericLabel')}
-        description={tAttribute('attributesGenericDescription')}
       >
         <AttributeGroupContainer
           title={tAttribute('noAttributesRequiredGenericAlert')}
