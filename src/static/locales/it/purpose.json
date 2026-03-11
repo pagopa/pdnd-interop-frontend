@@ -429,7 +429,7 @@
           "subtitle": "Indica un numero nuovo di chiamate previste ogni giorno per questa finalità. Per tutte le informazioni, <1>consulta la guida</1>.",
           "currentDailyCalls": "La stima attuale è di <strong>{{dailyCalls}} chiamate API/giorno</strong>.",
           "dailyCallsFormField": {
-            "label": "Nuova stima di carico",
+            "label": "Nuova stima di chiamate API/giorno",
             "infoLabel": "Inserisci un numero superiore o uguale a 1",
             "validation": {
               "sameValue": "Il numero di chiamate API/giorno richiesto deve essere diverso da quello attuale"
