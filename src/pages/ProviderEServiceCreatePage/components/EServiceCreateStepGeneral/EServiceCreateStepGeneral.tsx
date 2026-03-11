@@ -24,6 +24,7 @@ import { EServiceDetailsSection } from '../sections/EServiceDetailsSection'
 import { EServiceTemplateInfoSection } from '../sections/EServiceTemplateInfoSection'
 import { DelegationSection } from '../sections/DelegationSection'
 import { SignalHubSection } from '../sections/SignalHubSection'
+import { EServiceTemplateDetailsSection } from '../sections/EServiceTemplateDetailsSection'
 
 export type EServiceCreateStepGeneralFormValues = {
   name: string
@@ -137,14 +138,21 @@ export const EServiceCreateStepGeneral: React.FC = () => {
         {eserviceTemplate ? (
           <EServiceTemplateInfoSection eserviceTemplate={eserviceTemplate} />
         ) : (
-          <EServiceInfoSection />
+          <EServiceInfoSection
+            descriptor={descriptor}
+            areEServiceGeneralInfoEditable={areEServiceGeneralInfoEditable}
+          />
         )}
-        <EServiceDetailsSection
-          areEServiceGeneralInfoEditable={areEServiceGeneralInfoEditable}
-          eserviceTemplate={eserviceTemplate}
-          eserviceMode={eserviceMode}
-          onEserviceModeChange={onEserviceModeChange}
-        />
+        {eserviceTemplate ? (
+          <EServiceTemplateDetailsSection eserviceTemplate={eserviceTemplate} />
+        ) : (
+          <EServiceDetailsSection
+            areEServiceGeneralInfoEditable={areEServiceGeneralInfoEditable}
+            eserviceMode={eserviceMode}
+            descriptor={descriptor}
+            onEserviceModeChange={onEserviceModeChange}
+          />
+        )}
 
         {isOrganizationAllowedToProduce && (
           <DelegationSection

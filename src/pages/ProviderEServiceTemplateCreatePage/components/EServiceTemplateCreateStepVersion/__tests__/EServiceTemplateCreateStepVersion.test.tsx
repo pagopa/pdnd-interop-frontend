@@ -28,6 +28,7 @@ vi.mock('@/api/eserviceTemplate', () => ({
     useUpdateVersionDraft: () => ({ mutate: mockUpdateVersionDraft }),
     useDeleteVersionDraftDocument: () => ({ mutate: vi.fn() }),
     usePostVersionDraftDocument: () => ({ mutate: vi.fn() }),
+    useUpdateVersionDraftDocumentDescription: () => ({ mutate: vi.fn() }),
   },
 }))
 

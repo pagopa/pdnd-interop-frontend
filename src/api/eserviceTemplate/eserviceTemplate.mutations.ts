@@ -262,7 +262,6 @@ function usePublishVersionDraft() {
         eServiceTemplateVersionId,
       }),
     meta: {
-      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {

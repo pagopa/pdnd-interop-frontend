@@ -19,6 +19,7 @@
       "infoSection": {
         "title": "Informazioni sull'e-service",
         "description": "Per scegliere nomi chiari e rendere gli e-service facili da trovare, consulta le <1>linee guida</1>",
+        "readOnlyDescription": "Le seguenti informazioni non sono più modificabili.",
         "nameField": {
           "label": "Nome dell'e-service",
           "infoLabel": "Min 5 caratteri, max 60 caratteri"
@@ -31,6 +32,7 @@
       "detailsSection": {
         "title": "Dettagli dell'e-service",
         "description": "Queste informazioni sono state precompilate da chi ha creato il template e non sono modificabili.",
+        "readOnlyDescription": "Le seguenti informazioni non sono più modificabili.",
         "firstVersionOnlyEditableInfo": "Questi dati non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
         "technologyField": {
           "label": "Con quale tecnologia è costruita la tua API?",
@@ -275,7 +277,8 @@
           "soap": "Carica il file WSDL che descrive l'API"
         },
         "prettyName": "Specifica API",
-        "dropzoneLabel": "Trascina qui il file OpenAPI oppure clicca qui per selezionarlo dal computer"
+        "dropzoneLabel": "Trascina qui il file OpenAPI oppure clicca qui per selezionarlo dal computer",
+        "requiredError": "Non hai caricato nessun file"
       },
       "documentation": {
         "title": "Documentazione",
@@ -730,7 +733,8 @@
         "subtitle": "Modifica la soglia personalizzata per l’attributo certificato <strong>{{name}}</strong>.",
         "alert": "Se il fruitore soddisfa più attributi con soglie diverse, si applica automaticamente la soglia più alta. La soglia rimane invariata per i fruitori che stanno già usando l’e-service.",
         "submitBtnLabel": "Salva modifiche",
-        "consumerThreshold": "La soglia attuale è di <strong>{{dailyCallsPerConsumer}} chiamate API/giorno</strong>."
+        "consumerThreshold": "La soglia attuale è di <strong>{{dailyCallsPerConsumer}} chiamate API/giorno</strong>.",
+        "na": "n/a"
       },
       "updateVoucherDrawer": {
         "title": "Modifica durata voucher",

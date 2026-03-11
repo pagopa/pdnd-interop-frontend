@@ -1,21 +1,22 @@
-import type { EServiceMode, EServiceTemplateDetails } from '@/api/api.generatedTypes'
+import type { EServiceMode, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { ReactHookFormWrapper, renderWithApplicationContext } from '@/utils/testing.utils'
 import { EServiceDetailsSection } from '../EServiceDetailsSection'
 import { screen } from '@testing-library/react'
-import { createMockEServiceTemplateDetails } from '@/../__mocks__/data/eserviceTemplate.mocks'
+import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
 
-const eserviceTemplate: EServiceTemplateDetails = createMockEServiceTemplateDetails()
+const descriptor: ProducerEServiceDescriptor = createMockEServiceDescriptorProvider()
 
 const renderComponent = (
   eserviceMode: EServiceMode,
-  eserviceTemplate?: EServiceTemplateDetails
+  areEServiceGeneralInfoEditable: boolean = true,
+  descriptor?: ProducerEServiceDescriptor
 ) => {
   return renderWithApplicationContext(
     <ReactHookFormWrapper>
       <EServiceDetailsSection
-        areEServiceGeneralInfoEditable={true}
+        areEServiceGeneralInfoEditable={areEServiceGeneralInfoEditable}
         eserviceMode={eserviceMode}
-        eserviceTemplate={eserviceTemplate}
+        descriptor={descriptor}
       />
     </ReactHookFormWrapper>,
     {
@@ -42,20 +43,16 @@ describe('EServiceDetailsSection', () => {
     expect(screen.getByText('modeField.label')).toBeInTheDocument()
   })
 
-  it('should render the title with eserviceTemplate', () => {
-    renderComponent('DELIVER', eserviceTemplate)
+  it('should render the title and readOnlyDescription when not editable', () => {
+    renderComponent('DELIVER', false, descriptor)
     expect(screen.getByText('title')).toBeInTheDocument()
+    expect(screen.getByText('readOnlyDescription')).toBeInTheDocument()
   })
 
-  it('should render 3 information containers (technology, mode, personalData) with eserviceTemplate', () => {
-    renderComponent('DELIVER', { ...eserviceTemplate, personalData: true })
+  it('should render 3 information containers (technology, mode, personalData) when not editable', () => {
+    renderComponent('DELIVER', false, descriptor)
     expect(screen.getByText('technologyField.readOnlyLabel')).toBeInTheDocument()
     expect(screen.getByText('modeField.label')).toBeInTheDocument()
     expect(screen.getByText('personalDataField.DELIVER.readOnlyLabel')).toBeInTheDocument()
-  })
-
-  it('should render personalData alert', () => {
-    renderComponent('DELIVER', eserviceTemplate)
-    expect(screen.getByText('personalDataField.alertMissingPersonalData')).toBeInTheDocument()
   })
 })

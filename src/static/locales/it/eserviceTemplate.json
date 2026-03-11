@@ -300,7 +300,13 @@
       "documentationSection": {
         "title": "Documentazione",
         "description": "Allega la documentazione tecnica utile ai fruitori degli e-service creati a partire da questo template.",
-        "saveDocumentBtn": "Salva documento"
+        "documentLabel": "Documento {{number}}",
+        "nameField": {
+          "label": "Nome documento",
+          "infoLabel": "Min 5 caratteri, max 60 caratteri"
+        },
+        "saveDocumentBtn": "Salva documento",
+        "addAnotherFileBtn": "Aggiungi un altro file"
       },
       "requestManagementSection": {
         "title": "Gestione richieste"

@@ -19,6 +19,7 @@
       "infoSection": {
         "title": "E-service details",
         "description": "To choose clear names and make e-services easy to find, see the <1>guidelines</1>",
+        "readOnlyDescription": "The following information is no longer editable.",
         "nameField": {
           "label": "E-service name",
           "infoLabel": "Min 5 characters, max 60 characters"
@@ -31,6 +32,7 @@
       "detailsSection": {
         "title": "E-service details",
         "description": "This information has been pre-populated by the template creator and cannot be edited.",
+        "readOnlyDescription": "The following information is no longer editable.",
         "firstVersionOnlyEditableInfo": "This data will no longer be editable after the first version of the e-service is published.",
         "technologyField": {
           "label": "What technology is your API built with?",
@@ -275,7 +277,8 @@
           "soap": "Upload the WSDL file that describes the API"
         },
         "prettyName": "API specification",
-        "dropzoneLabel": "Drag the OpenAPI file here or click here to select it from your computer"
+        "dropzoneLabel": "Drag the OpenAPI file here or click here to select it from your computer",
+        "requiredError": "No file has been uploaded"
       },
       "documentation": {
         "title": "Documentation",
@@ -730,7 +733,8 @@
         "subtitle": "Edit the custom threshold for the certificated attribute <strong>{{name}}</strong>.",
         "alert": "If the consumer satisfies multiple attributes with different thresholds, the highest threshold is automatically applied. The threshold remains unchanged for consumers who are already using the e-service.",
         "submitBtnLabel": "Save changes",
-        "consumerThreshold": "The current threshold is <strong>{{dailyCallsPerConsumer}} API calls/day</strong>."
+        "consumerThreshold": "The current threshold is <strong>{{dailyCallsPerConsumer}} API calls/day</strong>.",
+        "na": "n/a"
       },
       "updateVoucherDrawer": {
         "title": "Change voucher duration",
