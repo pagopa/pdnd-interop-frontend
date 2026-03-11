@@ -135,6 +135,37 @@ describe('DelegationCreateForm - instanceLabel', () => {
     })
   })
 
+  it('passes undefined instanceLabel when the field contains only whitespace', async () => {
+    const user = userEvent.setup()
+
+    renderWithApplicationContext(
+      <DelegationCreateForm delegationKind="DELEGATED_PRODUCER" setActiveStep={vi.fn()} />,
+      { withRouterContext: true, withReactQueryContext: true }
+    )
+
+    await toggleTemplateFlow(user)
+
+    // Type whitespace-only instanceLabel
+    const instanceLabelInput = screen.getByRole('textbox', {
+      name: 'create.step1.instanceLabelField.label',
+    })
+    await user.type(instanceLabelInput, '   ')
+
+    // Submit form
+    await user.click(screen.getByRole('button', { name: /submitBtn/i }))
+
+    const checkbox = screen.getByRole('checkbox', { name: /checkboxLabel/i })
+    await user.click(checkbox)
+    await user.click(screen.getByRole('button', { name: /proceedLabel/i }))
+
+    await waitFor(() => {
+      expect(mockCreateFromTemplate).toHaveBeenCalledWith(
+        expect.objectContaining({ instanceLabel: undefined }),
+        expect.anything()
+      )
+    })
+  })
+
   it('hides InstanceLabelSection when "create eservice" toggle is turned off', async () => {
     const user = userEvent.setup()
 
