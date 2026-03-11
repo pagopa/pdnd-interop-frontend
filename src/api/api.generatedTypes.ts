@@ -1,5 +1,6 @@
 /* eslint-disable */
 /* tslint:disable */
+// @ts-nocheck
 /*
  * ---------------------------------------------------------------
  * ## THIS FILE WAS GENERATED VIA SWAGGER-TYPESCRIPT-API        ##
@@ -9,141 +10,235 @@
  * ---------------------------------------------------------------
  */
 
+/** Filter e-services by personal data */
+export type PersonalDataFilter = "TRUE" | "FALSE" | "DEFINED";
+
+/** EService Descriptor State */
+export type EServiceTemplateVersionState =
+  | "DRAFT"
+  | "PUBLISHED"
+  | "DEPRECATED"
+  | "SUSPENDED";
+
+/** Delegation State */
+export type DelegationState =
+  | "WAITING_FOR_APPROVAL"
+  | "ACTIVE"
+  | "REJECTED"
+  | "REVOKED";
+
+/** Delegation State */
+export type DelegationKind = "DELEGATED_PRODUCER" | "DELEGATED_CONSUMER";
+
+/** Token Generation Validation Step RESULT */
+export type TokenGenerationValidationStepResult =
+  | "PASSED"
+  | "SKIPPED"
+  | "FAILED";
+
+export type TenantUnitType = "AOO" | "UO";
+
+export type TenantFeatureType =
+  | "PERSISTENT_CERTIFIER"
+  | "DELEGATED_PRODUCER"
+  | "DELEGATED_CONSUMER";
+
+export type MailKind = "CONTACT_EMAIL" | "DIGITAL_ADDRESS";
+
+export type AttributeKind = "CERTIFIED" | "DECLARED" | "VERIFIED";
+
+/** EService Descriptor State */
+export type EServiceTechnology = "REST" | "SOAP";
+
+/** EService Descriptor State */
+export type EServiceDescriptorState =
+  | "DRAFT"
+  | "PUBLISHED"
+  | "DEPRECATED"
+  | "SUSPENDED"
+  | "ARCHIVED"
+  | "WAITING_FOR_APPROVAL";
+
+/** Purpose State */
+export type PurposeVersionState =
+  | "ACTIVE"
+  | "DRAFT"
+  | "SUSPENDED"
+  | "REJECTED"
+  | "WAITING_FOR_APPROVAL"
+  | "ARCHIVED";
+
+/** Represents the Use field of key */
+export type KeyUse = "SIG" | "ENC";
+
+/** Purpose Template State */
+export type PurposeTemplateState =
+  | "PUBLISHED"
+  | "DRAFT"
+  | "SUSPENDED"
+  | "ARCHIVED";
+
+/** Agreement State */
+export type AgreementState =
+  | "DRAFT"
+  | "ACTIVE"
+  | "ARCHIVED"
+  | "PENDING"
+  | "SUSPENDED"
+  | "MISSING_CERTIFIED_ATTRIBUTES"
+  | "REJECTED";
+
+export type TargetTenantKind = "PA" | "PRIVATE";
+
+export type TenantKind = "PA" | "PRIVATE" | "GSP" | "SCP";
+
+export type ClientKind = "API" | "CONSUMER";
+
+/**
+ * EService Descriptor policy for new Agreements approval.
+ * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
+ * MANUAL - the Producer must approve every agreement for this Descriptor.
+ */
+export type AgreementApprovalPolicy = "AUTOMATIC" | "MANUAL";
+
+/** Risk Analysis Mode */
+export type EServiceMode = "RECEIVE" | "DELIVER";
+
+/** Data Type Question */
+export type DataType = "SINGLE" | "MULTI" | "FREETEXT";
+
+/** Consent Type */
+export type ConsentType = "PP" | "TOS";
+
 /** models the reject payload for this purpose version. */
 export interface RejectPurposeVersionPayload {
-  rejectionReason: string
+  rejectionReason: string;
 }
 
 export interface GoogleSAMLPayload {
   /** SAML response */
-  SAMLResponse: string
-  RelayState?: string | null
+  SAMLResponse: string;
+  RelayState?: string | null;
 }
 
 export interface SAMLTokenRequest {
   /** SAML */
-  saml2: string
+  saml2: string;
   /**
    * tenant id
    * @format uuid
    */
-  tenantId: string
+  tenantId: string;
 }
 
 export interface AccessTokenRequest {
   /** @example "e58035ce-c753-4f72-b613-46f8a17b71cc" */
-  client_id?: string
+  client_id?: string;
   /** @format jws */
-  client_assertion: string
-  client_assertion_type: string
-  grant_type: string
+  client_assertion: string;
+  client_assertion_type: string;
+  grant_type: string;
 }
 
 export interface PrivacyNotice {
   /** @format uuid */
-  id: string
+  id: string;
   /** @format uuid */
-  userId: string
+  userId: string;
   /** Consent Type */
-  consentType: ConsentType
-  firstAccept: boolean
-  isUpdated: boolean
+  consentType: ConsentType;
+  firstAccept: boolean;
+  isUpdated: boolean;
   /** @format uuid */
-  latestVersionId: string
+  latestVersionId: string;
 }
-
-/** Consent Type */
-export type ConsentType = 'PP' | 'TOS'
 
 export interface PrivacyNoticeSeed {
   /** @format uuid */
-  latestVersionId: string
+  latestVersionId: string;
 }
 
 export interface RiskAnalysisFormConfig {
-  version: string
-  questions: FormConfigQuestion[]
+  version: string;
+  questions: FormConfigQuestion[];
   /** @format date-time */
-  expiration?: string
+  expiration?: string;
 }
 
 export interface FormConfigQuestion {
-  id: string
-  label: LocalizedText
-  infoLabel?: LocalizedText
+  id: string;
+  label: LocalizedText;
+  infoLabel?: LocalizedText;
   /** Data Type Question */
-  dataType: DataType
-  required: boolean
-  dependencies: Dependency[]
-  visualType: string
-  defaultValue: string[]
-  hideOption?: Record<string, HideOption[]>
-  validation?: ValidationOption
-  options?: LabeledValue[]
+  dataType: DataType;
+  required: boolean;
+  dependencies: Dependency[];
+  visualType: string;
+  defaultValue: string[];
+  hideOption?: Record<string, HideOption[]>;
+  validation?: ValidationOption;
+  options?: LabeledValue[];
 }
 
 export interface ValidationOption {
   /** @format int32 */
-  maxLength?: number
+  maxLength?: number;
 }
 
 export interface HasCertifiedAttributes {
-  hasCertifiedAttributes: boolean
+  hasCertifiedAttributes: boolean;
 }
 
 export interface HideOption {
-  id: string
-  value: string
+  id: string;
+  value: string;
 }
 
 export interface LabeledValue {
-  label: LocalizedText
-  value: string
+  label: LocalizedText;
+  value: string;
 }
 
 export interface LocalizedText {
-  it: string
-  en: string
+  it: string;
+  en: string;
 }
 
-/** Data Type Question */
-export type DataType = 'SINGLE' | 'MULTI' | 'FREETEXT'
-
 export interface Dependency {
-  id: string
-  value: string
+  id: string;
+  value: string;
 }
 
 export interface UpdateEServiceSeed {
-  name: string
-  description: string
+  name: string;
+  description: string;
   /** EService Descriptor State */
-  technology: EServiceTechnology
+  technology: EServiceTechnology;
   /** Risk Analysis Mode */
-  mode: EServiceMode
-  isSignalHubEnabled?: boolean
-  isConsumerDelegable?: boolean
-  isClientAccessDelegable?: boolean
-  personalData?: boolean
+  mode: EServiceMode;
+  isSignalHubEnabled?: boolean;
+  isConsumerDelegable?: boolean;
+  isClientAccessDelegable?: boolean;
+  personalData?: boolean;
 }
 
 export interface UpdateEServiceTemplateInstanceSeed {
-  isSignalHubEnabled?: boolean
-  isConsumerDelegable?: boolean
-  isClientAccessDelegable?: boolean
+  isSignalHubEnabled?: boolean;
+  isConsumerDelegable?: boolean;
+  isClientAccessDelegable?: boolean;
 }
 
 export interface EServiceSeed {
-  name: string
-  description: string
+  name: string;
+  description: string;
   /** EService Descriptor State */
-  technology: EServiceTechnology
+  technology: EServiceTechnology;
   /** Risk Analysis Mode */
-  mode: EServiceMode
-  isSignalHubEnabled?: boolean
-  isConsumerDelegable?: boolean
-  isClientAccessDelegable?: boolean
-  personalData?: boolean
+  mode: EServiceMode;
+  isSignalHubEnabled?: boolean;
+  isConsumerDelegable?: boolean;
+  isClientAccessDelegable?: boolean;
+  personalData?: boolean;
 }
 
 export interface UpdateEServiceDescriptorQuotas {
@@ -152,21 +247,21 @@ export interface UpdateEServiceDescriptorQuotas {
    * @min 60
    * @max 86400
    */
-  voucherLifespan: number
+  voucherLifespan: number;
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsPerConsumer: number
+  dailyCallsPerConsumer: number;
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsTotal: number
+  dailyCallsTotal: number;
 }
 
 export interface UpdateEServiceTemplateInstanceDescriptorQuotas {
@@ -176,14 +271,14 @@ export interface UpdateEServiceTemplateInstanceDescriptorQuotas {
    * @min 1
    * @max 1000000000
    */
-  dailyCallsPerConsumer: number
+  dailyCallsPerConsumer: number;
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsTotal: number
+  dailyCallsTotal: number;
 }
 
 export interface UpdateEServiceDescriptorAgreementApprovalPolicySeed {
@@ -192,550 +287,538 @@ export interface UpdateEServiceDescriptorAgreementApprovalPolicySeed {
    * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
    * MANUAL - the Producer must approve every agreement for this Descriptor.
    */
-  agreementApprovalPolicy: AgreementApprovalPolicy
+  agreementApprovalPolicy: AgreementApprovalPolicy;
 }
 
 export interface UpdateEServiceDescriptorSeed {
-  description?: string
-  audience: string[]
+  description?: string;
+  audience: string[];
   /** @format int32 */
-  voucherLifespan: number
+  voucherLifespan: number;
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsPerConsumer: number
+  dailyCallsPerConsumer: number;
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsTotal: number
+  dailyCallsTotal: number;
   /**
    * EService Descriptor policy for new Agreements approval.
    * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
    * MANUAL - the Producer must approve every agreement for this Descriptor.
    */
-  agreementApprovalPolicy: AgreementApprovalPolicy
-  attributes: DescriptorAttributesSeed
+  agreementApprovalPolicy: AgreementApprovalPolicy;
+  attributes: DescriptorAttributesSeed;
 }
 
 export interface UpdateEServiceDescriptorTemplateInstanceSeed {
-  audience: string[]
+  audience: string[];
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsPerConsumer: number
+  dailyCallsPerConsumer: number;
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsTotal: number
+  dailyCallsTotal: number;
   /**
    * EService Descriptor policy for new Agreements approval.
    * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
    * MANUAL - the Producer must approve every agreement for this Descriptor.
    */
-  agreementApprovalPolicy: AgreementApprovalPolicy
+  agreementApprovalPolicy: AgreementApprovalPolicy;
 }
 
 export interface Mail {
-  address: string
-  description?: string
+  address: string;
+  description?: string;
 }
 
 export interface EServiceDescriptionUpdateSeed {
-  description: string
+  description: string;
 }
 
 export interface EServiceDelegationFlagsUpdateSeed {
-  isConsumerDelegable: boolean
-  isClientAccessDelegable: boolean
+  isConsumerDelegable: boolean;
+  isClientAccessDelegable: boolean;
 }
 
 export interface EServiceNameUpdateSeed {
-  name: string
+  name: string;
 }
 
 export interface EServiceSignalHubUpdateSeed {
-  isSignalHubEnabled: boolean
+  isSignalHubEnabled: boolean;
 }
 
 export interface EServicePersonalDataFlagUpdateSeed {
-  personalData: boolean
+  personalData: boolean;
 }
 
 export interface RejectDelegatedEServiceDescriptorSeed {
-  rejectionReason: string
+  rejectionReason: string;
 }
 
 export interface CatalogEServiceDescriptor {
   /** @format uuid */
-  id: string
-  version: string
-  description?: string
-  interface?: EServiceDoc
-  docs: EServiceDoc[]
-  attributes: DescriptorAttributes
+  id: string;
+  version: string;
+  description?: string;
+  interface?: EServiceDoc;
+  docs: EServiceDoc[];
+  attributes: DescriptorAttributes;
   /** EService Descriptor State */
-  state: EServiceDescriptorState
-  audience: string[]
+  state: EServiceDescriptorState;
+  audience: string[];
   /** @format int32 */
-  voucherLifespan: number
+  voucherLifespan: number;
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsPerConsumer: number
+  dailyCallsPerConsumer: number;
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsTotal: number
+  dailyCallsTotal: number;
   /**
    * EService Descriptor policy for new Agreements approval.
    * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
    * MANUAL - the Producer must approve every agreement for this Descriptor.
    */
-  agreementApprovalPolicy: AgreementApprovalPolicy
-  eservice: CatalogDescriptorEService
+  agreementApprovalPolicy: AgreementApprovalPolicy;
+  eservice: CatalogDescriptorEService;
   /** @format date-time */
-  publishedAt?: string
+  publishedAt?: string;
   /** @format date-time */
-  suspendedAt?: string
+  suspendedAt?: string;
   /** @format date-time */
-  deprecatedAt?: string
+  deprecatedAt?: string;
   /** @format date-time */
-  archivedAt?: string
+  archivedAt?: string;
 }
 
 /** Models Client details */
 export interface Client {
   /** @format uuid */
-  id: string
+  id: string;
   /** @format date-time */
-  createdAt: string
-  consumer: CompactOrganization
+  createdAt: string;
+  consumer: CompactOrganization;
   /** Contains some details about user */
-  admin?: CompactUser
-  name: string
-  purposes: ClientPurpose[]
-  description?: string
-  kind: ClientKind
+  admin?: CompactUser;
+  name: string;
+  purposes: ClientPurpose[];
+  description?: string;
+  kind: ClientKind;
 }
 
 export interface ClientPurpose {
   /** @format uuid */
-  purposeId: string
-  title: string
-  eservice: CompactEService
+  purposeId: string;
+  title: string;
+  eservice: CompactEService;
 }
 
 export interface PurposeCloneSeed {
   /** @format uuid */
-  eserviceId: string
+  eserviceId: string;
 }
 
 export interface CatalogDescriptorEService {
   /** @format uuid */
-  id: string
-  name: string
-  producer: CompactOrganization
-  description: string
+  id: string;
+  name: string;
+  producer: CompactOrganization;
+  description: string;
   /** EService Descriptor State */
-  technology: EServiceTechnology
+  technology: EServiceTechnology;
   /** Risk Analysis Mode */
-  mode: EServiceMode
-  riskAnalysis: EServiceRiskAnalysis[]
-  descriptors: CompactDescriptor[]
-  agreements: CompactAgreement[]
-  isMine: boolean
+  mode: EServiceMode;
+  riskAnalysis: EServiceRiskAnalysis[];
+  descriptors: CompactDescriptor[];
+  agreements: CompactAgreement[];
+  isMine: boolean;
   /**
    * True in case:
    *   - the requester has the certified attributes required to consume the eservice, or
    *   - the requester is the delegated consumer for the eservice and
    *     the delegator has the certified attributes required to consume the eservice
    */
-  hasCertifiedAttributes: boolean
-  isSubscribed: boolean
-  activeDescriptor?: CompactDescriptor
-  mail?: Mail
-  isSignalHubEnabled?: boolean
-  isConsumerDelegable?: boolean
-  isClientAccessDelegable?: boolean
-  personalData?: boolean
+  hasCertifiedAttributes: boolean;
+  isSubscribed: boolean;
+  activeDescriptor?: CompactDescriptor;
+  mail?: Mail;
+  isSignalHubEnabled?: boolean;
+  isConsumerDelegable?: boolean;
+  isClientAccessDelegable?: boolean;
+  personalData?: boolean;
 }
 
 export interface ProducerEServiceDetails {
   /** @format uuid */
-  id: string
-  name: string
-  description: string
+  id: string;
+  name: string;
+  description: string;
   /** EService Descriptor State */
-  technology: EServiceTechnology
+  technology: EServiceTechnology;
   /** Risk Analysis Mode */
-  mode: EServiceMode
-  riskAnalysis: EServiceRiskAnalysis[]
-  isSignalHubEnabled?: boolean
-  isConsumerDelegable?: boolean
-  isClientAccessDelegable?: boolean
-  personalData?: boolean
+  mode: EServiceMode;
+  riskAnalysis: EServiceRiskAnalysis[];
+  isSignalHubEnabled?: boolean;
+  isConsumerDelegable?: boolean;
+  isClientAccessDelegable?: boolean;
+  personalData?: boolean;
 }
 
-/** Risk Analysis Mode */
-export type EServiceMode = 'RECEIVE' | 'DELIVER'
-
 export interface EServiceRiskAnalysisSeed {
-  name: string
-  riskAnalysisForm: RiskAnalysisFormSeed
+  name: string;
+  riskAnalysisForm: RiskAnalysisFormSeed;
 }
 
 export interface EServiceTemplateRiskAnalysisSeed {
-  name: string
-  riskAnalysisForm: RiskAnalysisFormSeed
-  tenantKind: TenantKind
+  name: string;
+  riskAnalysisForm: RiskAnalysisFormSeed;
+  tenantKind: TenantKind;
 }
 
 export interface EServiceRiskAnalysis {
   /** @format uuid */
-  id: string
-  name: string
-  riskAnalysisForm: RiskAnalysisForm
+  id: string;
+  name: string;
+  riskAnalysisForm: RiskAnalysisForm;
   /** @format date-time */
-  createdAt: string
+  createdAt: string;
   /** @format date-time */
-  rulesetExpiration?: string
+  rulesetExpiration?: string;
 }
 
 export interface EServiceTemplateRiskAnalysis {
   /** @format uuid */
-  id: string
-  name: string
-  riskAnalysisForm: RiskAnalysisForm
-  tenantKind: TenantKind
+  id: string;
+  name: string;
+  riskAnalysisForm: RiskAnalysisForm;
+  tenantKind: TenantKind;
   /** @format date-time */
-  createdAt: string
+  createdAt: string;
   /** @format date-time */
-  rulesetExpiration?: string
+  rulesetExpiration?: string;
 }
 
 export interface ProducerEServiceDescriptor {
   /** @format uuid */
-  id: string
-  version: string
-  description?: string
-  interface?: EServiceDoc
-  docs: EServiceDoc[]
+  id: string;
+  version: string;
+  description?: string;
+  interface?: EServiceDoc;
+  docs: EServiceDoc[];
   /** EService Descriptor State */
-  state: EServiceDescriptorState
-  audience: string[]
+  state: EServiceDescriptorState;
+  audience: string[];
   /** @format int32 */
-  voucherLifespan: number
+  voucherLifespan: number;
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsPerConsumer: number
+  dailyCallsPerConsumer: number;
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsTotal: number
+  dailyCallsTotal: number;
   /**
    * EService Descriptor policy for new Agreements approval.
    * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
    * MANUAL - the Producer must approve every agreement for this Descriptor.
    */
-  agreementApprovalPolicy: AgreementApprovalPolicy
-  eservice: ProducerDescriptorEService
-  attributes: DescriptorAttributes
+  agreementApprovalPolicy: AgreementApprovalPolicy;
+  eservice: ProducerDescriptorEService;
+  attributes: DescriptorAttributes;
   /** @format date-time */
-  publishedAt?: string
+  publishedAt?: string;
   /** @format date-time */
-  deprecatedAt?: string
+  deprecatedAt?: string;
   /** @format date-time */
-  archivedAt?: string
+  archivedAt?: string;
   /** @format date-time */
-  suspendedAt?: string
-  rejectionReasons?: DescriptorRejectionReason[]
-  serverUrls?: string[]
-  templateRef?: EServiceTemplateRef
-  delegation?: DelegationWithCompactTenants
+  suspendedAt?: string;
+  rejectionReasons?: DescriptorRejectionReason[];
+  serverUrls?: string[];
+  templateRef?: EServiceTemplateRef;
+  delegation?: DelegationWithCompactTenants;
 }
 
 export interface ProducerDescriptorEService {
   /** @format uuid */
-  id: string
-  name: string
-  description: string
-  producer: ProducerDescriptorEServiceProducer
+  id: string;
+  name: string;
+  description: string;
+  producer: ProducerDescriptorEServiceProducer;
   /** EService Descriptor State */
-  technology: EServiceTechnology
+  technology: EServiceTechnology;
   /** Risk Analysis Mode */
-  mode: EServiceMode
-  riskAnalysis: EServiceRiskAnalysis[]
-  descriptors: CompactDescriptor[]
-  draftDescriptor?: CompactDescriptor
-  mail?: Mail
-  isSignalHubEnabled?: boolean
-  isConsumerDelegable?: boolean
-  isClientAccessDelegable?: boolean
-  personalData?: boolean
+  mode: EServiceMode;
+  riskAnalysis: EServiceRiskAnalysis[];
+  descriptors: CompactDescriptor[];
+  draftDescriptor?: CompactDescriptor;
+  mail?: Mail;
+  isSignalHubEnabled?: boolean;
+  isConsumerDelegable?: boolean;
+  isClientAccessDelegable?: boolean;
+  personalData?: boolean;
 }
 
 export interface ProducerDescriptorEServiceProducer {
   /** @format uuid */
-  id: string
-  tenantKind?: TenantKind
+  id: string;
+  tenantKind?: TenantKind;
 }
 
 export interface EServiceTemplateRef {
   /** @format uuid */
-  templateId: string
+  templateId: string;
   /** @format uuid */
-  templateVersionId?: string
-  templateName: string
-  templateInterface?: EServiceDoc
-  interfaceMetadata?: TemplateInstanceInterfaceMetadata
-  isNewTemplateVersionAvailable?: boolean
+  templateVersionId?: string;
+  templateName: string;
+  templateInterface?: EServiceDoc;
+  interfaceMetadata?: TemplateInstanceInterfaceMetadata;
+  isNewTemplateVersionAvailable?: boolean;
 }
 
 export interface EServiceDoc {
   /** @format uuid */
-  id: string
-  name: string
-  contentType: string
-  prettyName: string
-  checksum: string
+  id: string;
+  name: string;
+  contentType: string;
+  prettyName: string;
+  checksum: string;
 }
 
 export interface UpdateEServiceDescriptorDocumentSeed {
-  prettyName: string
+  prettyName: string;
 }
 
 export interface UpdateRiskAnalysisTemplateAnswerAnnotationDocumentSeed {
-  prettyName: string
+  prettyName: string;
 }
 
 export interface DescriptorRejectionReason {
-  rejectionReason: string
+  rejectionReason: string;
   /** @format date-time */
-  rejectedAt: string
+  rejectedAt: string;
 }
-
-/**
- * EService Descriptor policy for new Agreements approval.
- * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
- * MANUAL - the Producer must approve every agreement for this Descriptor.
- */
-export type AgreementApprovalPolicy = 'AUTOMATIC' | 'MANUAL'
 
 export interface Agreement {
   /** @format uuid */
-  id: string
+  id: string;
   /** @format uuid */
-  descriptorId: string
+  descriptorId: string;
   delegation?: {
     /** @format uuid */
-    id: string
-    delegate: CompactOrganization
-  }
-  producer: CompactOrganization
-  consumer: Tenant
-  eservice: AgreementsEService
+    id: string;
+    delegate: CompactOrganization;
+  };
+  producer: CompactOrganization;
+  consumer: Tenant;
+  eservice: AgreementsEService;
   /** Agreement State */
-  state: AgreementState
+  state: AgreementState;
   /** set of the verified attributes belonging to this agreement, if any. */
-  verifiedAttributes: VerifiedAttribute[]
+  verifiedAttributes: VerifiedAttribute[];
   /** set of the certified attributes belonging to this agreement, if any. */
-  certifiedAttributes: CertifiedAttribute[]
+  certifiedAttributes: CertifiedAttribute[];
   /** set of the declared attributes belonging to this agreement, if any. */
-  declaredAttributes: DeclaredAttribute[]
-  suspendedByConsumer?: boolean
-  suspendedByProducer?: boolean
-  suspendedByPlatform?: boolean
-  isContractPresent: boolean
-  consumerNotes?: string
-  rejectionReason?: string
-  consumerDocuments: Document[]
+  declaredAttributes: DeclaredAttribute[];
+  suspendedByConsumer?: boolean;
+  suspendedByProducer?: boolean;
+  suspendedByPlatform?: boolean;
+  isContractPresent: boolean;
+  consumerNotes?: string;
+  rejectionReason?: string;
+  consumerDocuments: Document[];
   /** @format date-time */
-  createdAt: string
+  createdAt: string;
   /** @format date-time */
-  updatedAt?: string
+  updatedAt?: string;
   /** @format date-time */
-  suspendedAt?: string
-  isDocumentReady: boolean
+  suspendedAt?: string;
+  isDocumentReady: boolean;
 }
 
 export interface Agreements {
-  results: AgreementListEntry[]
-  pagination: Pagination
+  results: AgreementListEntry[];
+  pagination: Pagination;
 }
 
 /** contains the information for agreement creation. */
 export interface AgreementPayload {
   /** @format uuid */
-  eserviceId: string
+  eserviceId: string;
   /** @format uuid */
-  descriptorId: string
+  descriptorId: string;
   /** @format uuid */
-  delegationId?: string
+  delegationId?: string;
 }
 
 /** contains the information for agreement update. */
 export interface AgreementUpdatePayload {
-  consumerNotes: string
+  consumerNotes: string;
 }
 
 /** contains the information for agreement creation. */
 export interface AgreementSubmissionPayload {
-  consumerNotes?: string
+  consumerNotes?: string;
 }
 
 /** contains the information for agreement rejection. */
 export interface AgreementRejectionPayload {
-  reason: string
+  reason: string;
 }
 
 export interface CatalogEServices {
-  results: CatalogEService[]
-  pagination: Pagination
+  results: CatalogEService[];
+  pagination: Pagination;
 }
 
 export interface CatalogEService {
   /** @format uuid */
-  id: string
-  name: string
-  description: string
-  producer: CatalogTenant
-  isMine: boolean
-  activeDescriptor?: CompactDescriptor
+  id: string;
+  name: string;
+  description: string;
+  producer: CatalogTenant;
+  isMine: boolean;
+  activeDescriptor?: CompactDescriptor;
   /** Indicates if there are unread notifications for this e-service */
-  hasUnreadNotifications?: boolean
-  personalData?: boolean
+  hasUnreadNotifications?: boolean;
+  personalData?: boolean;
 }
 
-export type ClientKind = 'API' | 'CONSUMER'
-
 export interface CompactClients {
-  results: CompactClient[]
-  pagination: Pagination
+  results: CompactClient[];
+  pagination: Pagination;
 }
 
 export interface AgreementListEntry {
   /** @format uuid */
-  id: string
-  consumer: CompactOrganization
-  eservice: CompactEService
+  id: string;
+  consumer: CompactOrganization;
+  eservice: CompactEService;
   /** Agreement State */
-  state: AgreementState
-  canBeUpgraded: boolean
-  suspendedByConsumer?: boolean
-  suspendedByProducer?: boolean
-  suspendedByPlatform?: boolean
-  descriptor: CompactDescriptor
-  delegation?: DelegationWithCompactTenants
+  state: AgreementState;
+  canBeUpgraded: boolean;
+  suspendedByConsumer?: boolean;
+  suspendedByProducer?: boolean;
+  suspendedByPlatform?: boolean;
+  descriptor: CompactDescriptor;
+  delegation?: DelegationWithCompactTenants;
   /** Indicates if there are unread notifications for this agreement */
-  hasUnreadNotifications: boolean
+  hasUnreadNotifications: boolean;
 }
 
 export interface CompactAttribute {
   /** @format uuid */
-  id: string
-  name: string
+  id: string;
+  name: string;
 }
 
 export interface CompactAgreement {
   /** @format uuid */
-  id: string
+  id: string;
   /** Agreement State */
-  state: AgreementState
-  canBeUpgraded: boolean
+  state: AgreementState;
+  canBeUpgraded: boolean;
   /** @format uuid */
-  consumerId: string
+  consumerId: string;
 }
 
 export interface CompactDescriptor {
   /** @format uuid */
-  id: string
+  id: string;
   /** EService Descriptor State */
-  state: EServiceDescriptorState
-  version: string
-  audience: string[]
+  state: EServiceDescriptorState;
+  version: string;
+  audience: string[];
   /** @format uuid */
-  templateVersionId?: string
+  templateVersionId?: string;
 }
 
 export interface TemplateInstanceInterfaceRESTSeed {
-  contactName: string
+  contactName: string;
   /** @format email */
-  contactEmail: string
+  contactEmail: string;
   /** @format uri */
-  contactUrl?: string
+  contactUrl?: string;
   /** @format uri */
-  termsAndConditionsUrl?: string
-  serverUrls: string[]
+  termsAndConditionsUrl?: string;
+  serverUrls: string[];
 }
 
 export interface TemplateInstanceInterfaceSOAPSeed {
-  serverUrls: string[]
+  serverUrls: string[];
 }
 
 export interface TemplateInstanceInterfaceMetadata {
-  contactName?: string
+  contactName?: string;
   /** @format email */
-  contactEmail?: string
+  contactEmail?: string;
   /** @format uri */
-  contactUrl?: string
+  contactUrl?: string;
   /** @format uri */
-  termsAndConditionsUrl?: string
+  termsAndConditionsUrl?: string;
 }
 
 export interface CompactEService {
   /** @format uuid */
-  id: string
-  name: string
-  producer: CompactOrganization
+  id: string;
+  name: string;
+  producer: CompactOrganization;
 }
 
 export interface CompactEServices {
-  results: CompactEService[]
-  pagination: Pagination
+  results: CompactEService[];
+  pagination: Pagination;
 }
 
 export interface CompactPurposeEService {
   /** @format uuid */
-  id: string
-  name: string
-  producer: CompactOrganization
-  descriptor: CompactDescriptor
+  id: string;
+  name: string;
+  producer: CompactOrganization;
+  descriptor: CompactDescriptor;
   /** Risk Analysis Mode */
-  mode: EServiceMode
-  personalData?: boolean
+  mode: EServiceMode;
+  personalData?: boolean;
 }
 
 export interface CompactPurposeTemplateEService {
   /** @format uuid */
-  id: string
-  name: string
-  producer: CompactOrganization
-  description?: string
+  id: string;
+  name: string;
+  producer: CompactOrganization;
+  description?: string;
 }
 
 /** contains the expected payload for purpose version creation. */
@@ -746,184 +829,170 @@ export interface PurposeVersionSeed {
    * @min 1
    * @max 1000000000
    */
-  dailyCalls: number
+  dailyCalls: number;
 }
 
 /** contains the expected payload for purpose creation. */
 export interface PurposeSeed {
   /** @format uuid */
-  eserviceId: string
+  eserviceId: string;
   /** @format uuid */
-  consumerId: string
-  riskAnalysisForm?: RiskAnalysisFormSeed
-  title: string
-  description: string
-  isFreeOfCharge: boolean
-  freeOfChargeReason?: string
+  consumerId: string;
+  riskAnalysisForm?: RiskAnalysisFormSeed;
+  title: string;
+  description: string;
+  isFreeOfCharge: boolean;
+  freeOfChargeReason?: string;
   /**
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCalls: number
+  dailyCalls: number;
 }
 
 /** contains the expected payload for purpose creation from a purpose template */
 export interface PurposeFromTemplateSeed {
   /** @format uuid */
-  eserviceId: string
+  eserviceId: string;
   /** @format uuid */
-  consumerId: string
-  riskAnalysisForm?: RiskAnalysisFormSeed
-  title: string
+  consumerId: string;
+  riskAnalysisForm?: RiskAnalysisFormSeed;
+  title: string;
   /**
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCalls: number
+  dailyCalls: number;
 }
 
 /** Contains the expected payload for purpose update from template */
 export interface PatchPurposeUpdateFromTemplateContent {
-  title?: string
-  riskAnalysisForm?: RiskAnalysisFormSeed
+  title?: string;
+  riskAnalysisForm?: RiskAnalysisFormSeed;
   /**
    * Maximum number of daily calls that this version can perform
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCalls?: number
+  dailyCalls?: number;
 }
 
 /** contains the expected payload for purpose creation. */
 export interface PurposeEServiceSeed {
   /** @format uuid */
-  eserviceId: string
+  eserviceId: string;
   /** @format uuid */
-  consumerId: string
+  consumerId: string;
   /** @format uuid */
-  riskAnalysisId: string
-  title: string
-  description: string
-  isFreeOfCharge: boolean
-  freeOfChargeReason?: string
+  riskAnalysisId: string;
+  title: string;
+  description: string;
+  isFreeOfCharge: boolean;
+  freeOfChargeReason?: string;
   /**
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCalls: number
+  dailyCalls: number;
 }
 
 export interface CompactOrganization {
   /** @format uuid */
-  id: string
-  name: string
-  kind?: TenantKind
-  contactMail?: Mail
+  id: string;
+  name: string;
+  kind?: TenantKind;
+  contactMail?: Mail;
   /** Indicates if there are unread notifications for this organization */
-  hasUnreadNotifications?: boolean
+  hasUnreadNotifications?: boolean;
 }
 
 export interface CatalogTenant {
   /** @format uuid */
-  id: string
-  name: string
+  id: string;
+  name: string;
   /** Indicates if there are unread notifications for this organization */
-  hasUnreadNotifications?: boolean
+  hasUnreadNotifications?: boolean;
   /** @format uuid */
-  selfcareId?: string
+  selfcareId?: string;
 }
 
-export type TenantKind = 'PA' | 'PRIVATE' | 'GSP' | 'SCP'
-
-export type TargetTenantKind = 'PA' | 'PRIVATE'
-
 export interface CompactOrganizations {
-  results: CompactOrganization[]
-  pagination: Pagination
+  results: CompactOrganization[];
+  pagination: Pagination;
 }
 
 export interface CompactEServiceLight {
   /** @format uuid */
-  id: string
-  name: string
+  id: string;
+  name: string;
 }
 
 export interface CompactEServicesLight {
-  results: CompactEServiceLight[]
-  pagination: Pagination
+  results: CompactEServiceLight[];
+  pagination: Pagination;
 }
-
-/** Agreement State */
-export type AgreementState =
-  | 'DRAFT'
-  | 'ACTIVE'
-  | 'ARCHIVED'
-  | 'PENDING'
-  | 'SUSPENDED'
-  | 'MISSING_CERTIFIED_ATTRIBUTES'
-  | 'REJECTED'
 
 export interface IdentityToken {
   /** @format jws */
-  identity_token: string
+  identity_token: string;
 }
 
 export interface SessionToken {
   /** @format jws */
-  session_token: string
+  session_token: string;
 }
 
 export interface Pagination {
   /** @format int32 */
-  offset: number
+  offset: number;
   /** @format int32 */
-  limit: number
+  limit: number;
   /** @format int32 */
-  totalCount: number
+  totalCount: number;
 }
 
 export interface PresignedUrl {
   /** @format uri */
-  url: string
+  url: string;
 }
 
 export interface CompactProducerDescriptor {
   /** @format uuid */
-  id: string
+  id: string;
   /** EService Descriptor State */
-  state: EServiceDescriptorState
-  version: string
-  audience: string[]
-  requireCorrections?: boolean
+  state: EServiceDescriptorState;
+  version: string;
+  audience: string[];
+  requireCorrections?: boolean;
 }
 
 export interface ProducerEService {
   /** @format uuid */
-  id: string
-  name: string
+  id: string;
+  name: string;
   /** Risk Analysis Mode */
-  mode: EServiceMode
-  activeDescriptor?: CompactProducerDescriptor
-  draftDescriptor?: CompactProducerDescriptor
-  delegation?: DelegationWithCompactTenants
-  isTemplateInstance: boolean
-  isNewTemplateVersionAvailable?: boolean
+  mode: EServiceMode;
+  activeDescriptor?: CompactProducerDescriptor;
+  draftDescriptor?: CompactProducerDescriptor;
+  delegation?: DelegationWithCompactTenants;
+  isTemplateInstance: boolean;
+  isNewTemplateVersionAvailable?: boolean;
   /** Indicates if there are unread notifications for this e-service */
-  hasUnreadNotifications?: boolean
+  hasUnreadNotifications?: boolean;
 }
 
 export interface ProducerEServices {
-  results: ProducerEService[]
-  pagination: Pagination
+  results: ProducerEService[];
+  pagination: Pagination;
 }
 
 export interface SelfcareProduct {
-  id: string
-  name: string
+  id: string;
+  name: string;
 }
 
 export interface SelfcareInstitution {
@@ -931,129 +1000,126 @@ export interface SelfcareInstitution {
    * Institution's unique internal Id
    * @format uuid
    */
-  id: string
+  id: string;
   /** Institution's legal name */
-  description: string
+  description: string;
   /** User's roles on product */
-  userProductRoles: string[]
+  userProductRoles: string[];
   /** The name of the root parent */
-  parent?: string
+  parent?: string;
 }
 
 export interface Purpose {
   /** @format uuid */
-  id: string
-  title: string
-  description: string
-  consumer: CompactOrganization
-  riskAnalysisForm?: RiskAnalysisForm
-  eservice: CompactPurposeEService
-  agreement: CompactAgreement
+  id: string;
+  title: string;
+  description: string;
+  consumer: CompactOrganization;
+  riskAnalysisForm?: RiskAnalysisForm;
+  eservice: CompactPurposeEService;
+  agreement: CompactAgreement;
   /** business representation of a purpose version */
-  currentVersion?: PurposeVersion
-  versions: PurposeVersion[]
-  clients: CompactClient[]
+  currentVersion?: PurposeVersion;
+  versions: PurposeVersion[];
+  clients: CompactClient[];
   /** business representation of a purpose version */
-  waitingForApprovalVersion?: PurposeVersion
+  waitingForApprovalVersion?: PurposeVersion;
   /** business representation of a purpose version */
-  rejectedVersion?: PurposeVersion
-  suspendedByConsumer?: boolean
-  suspendedByProducer?: boolean
-  isFreeOfCharge: boolean
-  freeOfChargeReason?: string
+  rejectedVersion?: PurposeVersion;
+  suspendedByConsumer?: boolean;
+  suspendedByProducer?: boolean;
+  isFreeOfCharge: boolean;
+  freeOfChargeReason?: string;
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsPerConsumer: number
+  dailyCallsPerConsumer: number;
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsTotal: number
-  delegation?: DelegationWithCompactTenants
+  dailyCallsTotal: number;
+  delegation?: DelegationWithCompactTenants;
   /** Indicates if there are unread notifications for this purpose */
-  hasUnreadNotifications: boolean
+  hasUnreadNotifications: boolean;
   /** Contains some information about the purpose template */
-  purposeTemplate?: CompactPurposeTemplate
-  isDocumentReady: boolean
+  purposeTemplate?: CompactPurposeTemplate;
+  isDocumentReady: boolean;
   /** @format date-time */
-  rulesetExpiration?: string
+  rulesetExpiration?: string;
 }
 
 export interface PurposeAdditionDetailsSeed {
   /** @format uuid */
-  purposeId: string
+  purposeId: string;
 }
 
 /** Contains some information about the purpose template */
 export interface CompactPurposeTemplate {
   /** @format uuid */
-  id: string
-  purposeTitle: string
+  id: string;
+  purposeTitle: string;
 }
 
 /** Business representation of a purpose template */
 export interface PurposeTemplate {
   /** @format uuid */
-  id: string
-  targetDescription: string
-  targetTenantKind: TargetTenantKind
+  id: string;
+  targetDescription: string;
+  targetTenantKind: TargetTenantKind;
   /** @format uuid */
-  creatorId: string
+  creatorId: string;
   /** Purpose Template State */
-  state: PurposeTemplateState
+  state: PurposeTemplateState;
   /** @format date-time */
-  createdAt: string
+  createdAt: string;
   /** @format date-time */
-  updatedAt?: string
-  purposeTitle: string
-  purposeDescription: string
-  purposeRiskAnalysisForm?: RiskAnalysisFormTemplate
-  purposeIsFreeOfCharge: boolean
-  purposeFreeOfChargeReason?: string
+  updatedAt?: string;
+  purposeTitle: string;
+  purposeDescription: string;
+  purposeRiskAnalysisForm?: RiskAnalysisFormTemplate;
+  purposeIsFreeOfCharge: boolean;
+  purposeFreeOfChargeReason?: string;
   /**
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  purposeDailyCalls?: number
-  handlesPersonalData: boolean
+  purposeDailyCalls?: number;
+  handlesPersonalData: boolean;
 }
-
-/** Purpose Template State */
-export type PurposeTemplateState = 'PUBLISHED' | 'DRAFT' | 'SUSPENDED' | 'ARCHIVED'
 
 /** a purpose template with its creator and a list for the answer annotation documents */
 export interface PurposeTemplateWithCompactCreator {
   /** @format uuid */
-  id: string
-  targetDescription: string
-  targetTenantKind: TargetTenantKind
-  creator: CompactOrganization
+  id: string;
+  targetDescription: string;
+  targetTenantKind: TargetTenantKind;
+  creator: CompactOrganization;
   /** Purpose Template State */
-  state: PurposeTemplateState
+  state: PurposeTemplateState;
   /** @format date-time */
-  createdAt: string
+  createdAt: string;
   /** @format date-time */
-  updatedAt?: string
-  purposeTitle: string
-  purposeDescription: string
-  purposeRiskAnalysisForm?: RiskAnalysisFormTemplate
-  purposeIsFreeOfCharge: boolean
-  purposeFreeOfChargeReason?: string
+  updatedAt?: string;
+  purposeTitle: string;
+  purposeDescription: string;
+  purposeRiskAnalysisForm?: RiskAnalysisFormTemplate;
+  purposeIsFreeOfCharge: boolean;
+  purposeFreeOfChargeReason?: string;
   /**
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  purposeDailyCalls?: number
-  annotationDocuments?: RiskAnalysisTemplateAnswerAnnotationDocument[]
-  handlesPersonalData: boolean
+  purposeDailyCalls?: number;
+  annotationDocuments?: RiskAnalysisTemplateAnswerAnnotationDocument[];
+  handlesPersonalData: boolean;
 }
 
 export interface PurposeTemplateSeed {
@@ -1061,28 +1127,28 @@ export interface PurposeTemplateSeed {
    * @minLength 10
    * @maxLength 250
    */
-  targetDescription: string
-  targetTenantKind: TargetTenantKind
+  targetDescription: string;
+  targetTenantKind: TargetTenantKind;
   /**
    * @minLength 5
    * @maxLength 60
    */
-  purposeTitle: string
+  purposeTitle: string;
   /**
    * @minLength 10
    * @maxLength 250
    */
-  purposeDescription: string
-  purposeRiskAnalysisForm?: RiskAnalysisFormTemplateSeed
-  purposeIsFreeOfCharge: boolean
-  purposeFreeOfChargeReason?: string
+  purposeDescription: string;
+  purposeRiskAnalysisForm?: RiskAnalysisFormTemplateSeed;
+  purposeIsFreeOfCharge: boolean;
+  purposeFreeOfChargeReason?: string;
   /**
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  purposeDailyCalls?: number
-  handlesPersonalData: boolean
+  purposeDailyCalls?: number;
+  handlesPersonalData: boolean;
 }
 
 export interface RiskAnalysisFormTemplate {
@@ -1090,8 +1156,8 @@ export interface RiskAnalysisFormTemplate {
    * @minLength 1
    * @maxLength 250
    */
-  version: string
-  answers: any
+  version: string;
+  answers: any;
 }
 
 export interface RiskAnalysisFormTemplateSeed {
@@ -1099,38 +1165,38 @@ export interface RiskAnalysisFormTemplateSeed {
    * @minLength 1
    * @maxLength 250
    */
-  version: string
-  answers: any
+  version: string;
+  answers: any;
 }
 
 export interface RiskAnalysisTemplateAnswer {
   /** @format uuid */
-  id: string
-  values: string[]
-  editable: boolean
-  annotation?: RiskAnalysisTemplateAnswerAnnotation
-  suggestedValues: string[]
+  id: string;
+  values: string[];
+  editable: boolean;
+  annotation?: RiskAnalysisTemplateAnswerAnnotation;
+  suggestedValues: string[];
 }
 
 /** A single risk analysis answer with explicit key and data */
 export interface RiskAnalysisTemplateAnswerRequest {
   /** The identifier of the risk analysis answer */
-  answerKey: string
-  answerData: RiskAnalysisTemplateAnswerSeed
+  answerKey: string;
+  answerData: RiskAnalysisTemplateAnswerSeed;
 }
 
 export interface RiskAnalysisTemplateAnswerSeed {
-  values: string[]
-  editable: boolean
-  annotation?: RiskAnalysisTemplateAnswerAnnotationSeed
-  suggestedValues: string[]
+  values: string[];
+  editable: boolean;
+  annotation?: RiskAnalysisTemplateAnswerAnnotationSeed;
+  suggestedValues: string[];
 }
 
 export interface RiskAnalysisTemplateAnswerAnnotation {
   /** @format uuid */
-  id: string
-  text: string
-  docs: RiskAnalysisTemplateAnswerAnnotationDocument[]
+  id: string;
+  text: string;
+  docs: RiskAnalysisTemplateAnswerAnnotationDocument[];
 }
 
 export interface RiskAnalysisTemplateAnswerAnnotationSeed {
@@ -1138,111 +1204,108 @@ export interface RiskAnalysisTemplateAnswerAnnotationSeed {
    * @minLength 1
    * @maxLength 2000
    */
-  text: string
+  text: string;
 }
 
 export interface EServiceDescriptorPurposeTemplate {
   /** @format uuid */
-  purposeTemplateId: string
+  purposeTemplateId: string;
   /** @format uuid */
-  eserviceId: string
+  eserviceId: string;
   /** @format uuid */
-  descriptorId: string
+  descriptorId: string;
   /** @format date-time */
-  createdAt: string
+  createdAt: string;
 }
 
 export interface CreatorPurposeTemplate {
   /** @format uuid */
-  id: string
-  targetTenantKind: TargetTenantKind
-  purposeTitle: string
+  id: string;
+  targetTenantKind: TargetTenantKind;
+  purposeTitle: string;
   /** Purpose Template State */
-  state: PurposeTemplateState
+  state: PurposeTemplateState;
 }
 
 export interface CreatorPurposeTemplates {
-  results: CreatorPurposeTemplate[]
-  pagination: Pagination
+  results: CreatorPurposeTemplate[];
+  pagination: Pagination;
 }
 
 export interface CatalogPurposeTemplate {
   /** @format uuid */
-  id: string
-  targetTenantKind: TargetTenantKind
-  purposeTitle: string
-  purposeDescription: string
-  creator: CatalogTenant
+  id: string;
+  targetTenantKind: TargetTenantKind;
+  purposeTitle: string;
+  purposeDescription: string;
+  creator: CatalogTenant;
 }
 
 export interface CatalogPurposeTemplates {
-  results: CatalogPurposeTemplate[]
-  pagination: Pagination
+  results: CatalogPurposeTemplate[];
+  pagination: Pagination;
 }
 
 export interface RiskAnalysisTemplateAnswerResponse {
   /** @format uuid */
-  id: string
-  values: string[]
-  editable: boolean
-  annotation?: RiskAnalysisTemplateAnswerAnnotation
-  suggestedValues: string[]
+  id: string;
+  values: string[];
+  editable: boolean;
+  annotation?: RiskAnalysisTemplateAnswerAnnotation;
+  suggestedValues: string[];
 }
 
 export interface RiskAnalysisTemplateAnswerAnnotationDocument {
   /** @format uuid */
-  id: string
-  name: string
-  contentType: string
-  prettyName: string
-  path: string
+  id: string;
+  name: string;
+  contentType: string;
+  prettyName: string;
+  path: string;
   /** @format date-time */
-  createdAt: string
-  checksum: string
+  createdAt: string;
+  checksum: string;
 }
 
-export type CompactUsers = CompactUser[]
+export type CompactUsers = CompactUser[];
 
 /** Models the seed for a public key to be persisted */
 export interface KeySeed {
   /** Base64 UTF-8 encoding of a public key in PEM format */
-  key: string
+  key: string;
   /** Represents the Use field of key */
-  use: KeyUse
+  use: KeyUse;
   /** The algorithm type of the key. */
-  alg: string
+  alg: string;
   /**
    * Name given to the current key.
    * @minLength 5
    * @maxLength 60
    */
-  name: string
+  name: string;
 }
-
-/** Represents the Use field of key */
-export type KeyUse = 'SIG' | 'ENC'
 
 export interface EncodedClientKey {
   /** base64 encoded key */
-  key: string
+  key: string;
 }
 
 /** Client creation request body */
 export interface ClientSeed {
-  name: string
-  description?: string
-  members: string[]
+  name: string;
+  description?: string;
+  members: string[];
 }
 
 export interface CompactClient {
   /** @format uuid */
-  id: string
-  name: string
-  hasKeys: boolean
+  id: string;
+  name: string;
+  hasKeys: boolean;
   /** Contains some details about user */
-  admin?: CompactUser
+  admin?: CompactUser;
   /** Indicates if there are unread notifications for this client */
-  hasUnreadNotifications?: boolean
+  hasUnreadNotifications?: boolean;
 }
 
 /** Producer keychain creation request body */
@@ -1251,270 +1314,262 @@ export interface ProducerKeychainSeed {
    * @minLength 5
    * @maxLength 60
    */
-  name: string
+  name: string;
   /**
    * @minLength 10
    * @maxLength 250
    */
-  description: string
-  members: string[]
+  description: string;
+  members: string[];
 }
 
 export interface CompactProducerKeychain {
   /** @format uuid */
-  id: string
-  name: string
-  hasKeys: boolean
+  id: string;
+  name: string;
+  hasKeys: boolean;
   /** Indicates if there are unread notifications for this keychain */
-  hasUnreadNotifications?: boolean
+  hasUnreadNotifications?: boolean;
 }
 
 export interface CompactProducerKeychains {
-  results: CompactProducerKeychain[]
-  pagination: Pagination
+  results: CompactProducerKeychain[];
+  pagination: Pagination;
 }
 
 /** Models Producer keychain details */
 export interface ProducerKeychain {
   /** @format uuid */
-  id: string
+  id: string;
   /** @format date-time */
-  createdAt: string
-  producer: CompactOrganization
-  name: string
-  eservices: CompactEService[]
-  description: string
+  createdAt: string;
+  producer: CompactOrganization;
+  name: string;
+  eservices: CompactEService[];
+  description: string;
 }
 
 export interface EServiceAdditionDetailsSeed {
   /** @format uuid */
-  eserviceId: string
+  eserviceId: string;
 }
 
 /** contains the expected payload for purpose update. */
 export interface PurposeUpdateContent {
-  title: string
-  description: string
-  isFreeOfCharge: boolean
-  freeOfChargeReason?: string
-  riskAnalysisForm?: RiskAnalysisFormSeed
+  title: string;
+  description: string;
+  isFreeOfCharge: boolean;
+  freeOfChargeReason?: string;
+  riskAnalysisForm?: RiskAnalysisFormSeed;
   /**
    * maximum number of daily calls that this version can perform.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCalls: number
+  dailyCalls: number;
 }
 
 /** contains the expected payload for purpose update. */
 export interface ReversePurposeUpdateContent {
-  title: string
-  description: string
-  isFreeOfCharge: boolean
-  freeOfChargeReason?: string
+  title: string;
+  description: string;
+  isFreeOfCharge: boolean;
+  freeOfChargeReason?: string;
   /**
    * maximum number of daily calls that this version can perform.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCalls: number
+  dailyCalls: number;
 }
 
 export interface Purposes {
-  results: Purpose[]
-  pagination: Pagination
+  results: Purpose[];
+  pagination: Pagination;
+}
+
+export interface UpdatedDailyCallsResponse {
+  /**
+   * @format int32
+   * @min 0
+   */
+  updatedDailyCallsPerConsumer: number;
+  /**
+   * @format int32
+   * @min 0
+   */
+  updatedDailyCallsTotal: number;
 }
 
 export interface DelegationWithCompactTenants {
   /** @format uuid */
-  id: string
-  delegate: CompactOrganization
-  delegator: CompactOrganization
+  id: string;
+  delegate: CompactOrganization;
+  delegator: CompactOrganization;
 }
 
 /** business representation of a purpose version */
 export interface PurposeVersion {
   /** @format uuid */
-  id: string
+  id: string;
   /** Purpose State */
-  state: PurposeVersionState
+  state: PurposeVersionState;
   /** @format date-time */
-  createdAt: string
+  createdAt: string;
   /** @format date-time */
-  suspendedAt?: string
+  suspendedAt?: string;
   /** @format date-time */
-  updatedAt?: string
+  updatedAt?: string;
   /** @format date-time */
-  firstActivationAt?: string
+  firstActivationAt?: string;
   /**
    * maximum number of daily calls that this version can perform.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCalls: number
-  riskAnalysisDocument?: PurposeVersionDocument
-  rejectionReason?: string
-  signedContract?: PurposeVersionSignedDocument
+  dailyCalls: number;
+  riskAnalysisDocument?: PurposeVersionDocument;
+  rejectionReason?: string;
+  signedContract?: PurposeVersionSignedDocument;
 }
 
 export interface PurposeVersionDocument {
   /** @format uuid */
-  id: string
-  contentType: string
+  id: string;
+  contentType: string;
   /** @format date-time */
-  createdAt: string
+  createdAt: string;
 }
 
 /** contains the purposeId and the versionId of the created resource */
 export interface PurposeVersionResource {
   /** @format uuid */
-  purposeId: string
+  purposeId: string;
   /** @format uuid */
-  versionId: string
+  versionId: string;
 }
-
-/** Purpose State */
-export type PurposeVersionState =
-  | 'ACTIVE'
-  | 'DRAFT'
-  | 'SUSPENDED'
-  | 'REJECTED'
-  | 'WAITING_FOR_APPROVAL'
-  | 'ARCHIVED'
 
 export interface PurposeVersionSignedDocument {
   /** @format uuid */
-  id: string
-  contentType: string
+  id: string;
+  contentType: string;
   /** @format date-time */
-  createdAt: string
+  createdAt: string;
   /** @format date-time */
-  signedAt?: string
+  signedAt?: string;
 }
 
 export interface User {
   /** @format uuid */
-  userId: string
+  userId: string;
   /** @format uuid */
-  tenantId: string
-  name: string
-  familyName: string
-  roles: string[]
+  tenantId: string;
+  name: string;
+  familyName: string;
+  roles: string[];
 }
 
-export type Users = User[]
+export type Users = User[];
 
 export interface RiskAnalysisForm {
-  version: string
-  answers: any
+  version: string;
+  answers: any;
   /** @format uuid */
-  riskAnalysisId?: string
+  riskAnalysisId?: string;
 }
 
 export interface RiskAnalysisFormSeed {
-  version: string
-  answers: any
+  version: string;
+  answers: any;
 }
 
 /** contains the id of the created resource */
 export interface CreatedResource {
   /** @format uuid */
-  id: string
+  id: string;
 }
 
 /** sets the delegation ID in order to operate as a delegate for a specific active delegation */
 export interface DelegationRef {
   /** @format uuid */
-  delegationId?: string
+  delegationId?: string;
 }
 
 /** contains the id of the created resource with the descriptorId */
 export interface CreatedEServiceDescriptor {
   /** @format uuid */
-  id: string
+  id: string;
   /** @format uuid */
-  descriptorId: string
+  descriptorId: string;
 }
 
 export interface Document {
   /** @format uuid */
-  id: string
-  name: string
-  prettyName: string
-  contentType: string
+  id: string;
+  name: string;
+  prettyName: string;
+  contentType: string;
   /** @format date-time */
-  createdAt: string
+  createdAt: string;
 }
 
 export interface SignedDocument {
   /** @format uuid */
-  id: string
-  name: string
-  prettyName: string
-  contentType: string
+  id: string;
+  name: string;
+  prettyName: string;
+  contentType: string;
   /** @format date-time */
-  createdAt: string
+  createdAt: string;
   /** @format date-time */
-  signedAt?: string
+  signedAt?: string;
 }
 
 export interface AgreementsEService {
   /** @format uuid */
-  id: string
-  name: string
-  version: string
-  activeDescriptor?: CompactDescriptor
+  id: string;
+  name: string;
+  version: string;
+  activeDescriptor?: CompactDescriptor;
 }
 
-/** EService Descriptor State */
-export type EServiceDescriptorState =
-  | 'DRAFT'
-  | 'PUBLISHED'
-  | 'DEPRECATED'
-  | 'SUSPENDED'
-  | 'ARCHIVED'
-  | 'WAITING_FOR_APPROVAL'
-
-/** EService Descriptor State */
-export type EServiceTechnology = 'REST' | 'SOAP'
-
 export interface DescriptorAttributes {
-  certified: DescriptorAttribute[][]
-  declared: DescriptorAttribute[][]
-  verified: DescriptorAttribute[][]
+  certified: DescriptorAttribute[][];
+  declared: DescriptorAttribute[][];
+  verified: DescriptorAttribute[][];
 }
 
 export interface DescriptorAttribute {
   /** @format uuid */
-  id: string
-  name: string
-  description: string
-  explicitAttributeVerification: boolean
+  id: string;
+  name: string;
+  description: string;
+  explicitAttributeVerification: boolean;
   /**
    * @format int32
    * @min 1
    */
-  dailyCallsPerConsumer?: number
+  dailyCallsPerConsumer?: number;
 }
 
 export interface DescriptorAttributesSeed {
-  certified: DescriptorAttributeSeed[][]
-  declared: DescriptorAttributeSeed[][]
-  verified: DescriptorAttributeSeed[][]
+  certified: DescriptorAttributeSeed[][];
+  declared: DescriptorAttributeSeed[][];
+  verified: DescriptorAttributeSeed[][];
 }
 
 export interface DescriptorAttributeSeed {
   /** @format uuid */
-  id: string
-  explicitAttributeVerification: boolean
+  id: string;
+  explicitAttributeVerification: boolean;
   /**
    * @format int32
    * @min 1
    */
-  dailyCallsPerConsumer?: number
+  dailyCallsPerConsumer?: number;
 }
 
 /**
@@ -1522,8 +1577,8 @@ export interface DescriptorAttributeSeed {
  * Models the attribute registry entry as payload response
  */
 export interface CertifiedAttributeSeed {
-  description: string
-  name: string
+  description: string;
+  name: string;
 }
 
 /**
@@ -1531,8 +1586,8 @@ export interface CertifiedAttributeSeed {
  * Models the attribute registry entry as payload response
  */
 export interface AttributeSeed {
-  description: string
-  name: string
+  description: string;
+  name: string;
 }
 
 /**
@@ -1544,16 +1599,16 @@ export interface Attribute {
    * uniquely identifies the attribute on the registry
    * @format uuid
    */
-  id: string
+  id: string;
   /** identifies the unique code of this attribute on the origin registry */
-  code?: string
-  kind: AttributeKind
-  description: string
+  code?: string;
+  kind: AttributeKind;
+  description: string;
   /** represents the origin of this attribute (e.g.: IPA, Normattiva, etc.) */
-  origin?: string
-  name: string
+  origin?: string;
+  name: string;
   /** @format date-time */
-  creationTime: string
+  creationTime: string;
 }
 
 /**
@@ -1565,11 +1620,11 @@ export interface VerifiedAttribute {
    * uniquely identifies the attribute on the registry
    * @format uuid
    */
-  id: string
-  description: string
-  name: string
+  id: string;
+  description: string;
+  name: string;
   /** @format date-time */
-  creationTime: string
+  creationTime: string;
 }
 
 /**
@@ -1581,25 +1636,25 @@ export interface DeclaredAttribute {
    * uniquely identifies the attribute on the registry
    * @format uuid
    */
-  id: string
-  description: string
-  name: string
+  id: string;
+  description: string;
+  name: string;
   /** @format date-time */
-  creationTime: string
+  creationTime: string;
 }
 
 export interface RequesterCertifiedAttribute {
   /** @format uuid */
-  tenantId: string
-  tenantName: string
+  tenantId: string;
+  tenantName: string;
   /** @format uuid */
-  attributeId: string
-  attributeName: string
+  attributeId: string;
+  attributeName: string;
 }
 
 export interface RequesterCertifiedAttributes {
-  results: RequesterCertifiedAttribute[]
-  pagination: Pagination
+  results: RequesterCertifiedAttribute[];
+  pagination: Pagination;
 }
 
 /**
@@ -1611,443 +1666,423 @@ export interface CertifiedAttribute {
    * uniquely identifies the attribute on the registry
    * @format uuid
    */
-  id: string
-  description: string
-  name: string
+  id: string;
+  description: string;
+  name: string;
   /** @format date-time */
-  creationTime: string
+  creationTime: string;
 }
 
 /** CertifiedAttributesResponse */
 export interface CertifiedAttributesResponse {
-  attributes: CertifiedTenantAttribute[]
+  attributes: CertifiedTenantAttribute[];
 }
 
 /** DeclaredAttributesResponse */
 export interface DeclaredAttributesResponse {
-  attributes: DeclaredTenantAttribute[]
+  attributes: DeclaredTenantAttribute[];
 }
 
 /** VerifiedAttributesResponse */
 export interface VerifiedAttributesResponse {
-  attributes: VerifiedTenantAttribute[]
+  attributes: VerifiedTenantAttribute[];
 }
-
-export type AttributeKind = 'CERTIFIED' | 'DECLARED' | 'VERIFIED'
 
 /** Attributes */
 export interface Attributes {
-  pagination: Pagination
-  results: CompactAttribute[]
+  pagination: Pagination;
+  results: CompactAttribute[];
 }
 
 export interface ExternalId {
-  origin: string
-  value: string
+  origin: string;
+  value: string;
 }
 
 export interface FileResource {
-  filename: string
+  filename: string;
   /** @format uri */
-  url: string
+  url: string;
 }
-
-export type MailKind = 'CONTACT_EMAIL' | 'DIGITAL_ADDRESS'
 
 /** A specific kind of mail */
 export interface MailSeed {
-  kind: MailKind
-  address: string
-  description?: string
+  kind: MailKind;
+  address: string;
+  description?: string;
 }
 
 /** Tenants */
 export interface Tenants {
-  results: CompactTenant[]
-  pagination: Pagination
+  results: CompactTenant[];
+  pagination: Pagination;
 }
-
-export type TenantFeatureType = 'PERSISTENT_CERTIFIER' | 'DELEGATED_PRODUCER' | 'DELEGATED_CONSUMER'
 
 export type TenantFeature =
   | {
       /** Certifier Tenant Feature */
-      certifier?: Certifier
+      certifier?: Certifier;
     }
   | {
       /** Delegated producer Tenant Feature */
-      delegatedProducer?: DelegatedProducer
+      delegatedProducer?: DelegatedProducer;
     }
   | {
       /** Delegated consumer Tenant Feature */
-      delegatedConsumer?: DelegatedConsumer
-    }
+      delegatedConsumer?: DelegatedConsumer;
+    };
 
 /** Certifier Tenant Feature */
 export interface Certifier {
-  certifierId: string
+  certifierId: string;
 }
 
 /** Delegated producer Tenant Feature */
 export interface DelegatedProducer {
   /** @format date-time */
-  availabilityTimestamp: string
+  availabilityTimestamp: string;
 }
 
 /** Delegated consumer Tenant Feature */
 export interface DelegatedConsumer {
   /** @format date-time */
-  availabilityTimestamp: string
+  availabilityTimestamp: string;
 }
 
 export interface CompactTenant {
   /** @format uuid */
-  id: string
-  selfcareId?: string
-  name: string
-  logoUrl?: string
+  id: string;
+  selfcareId?: string;
+  name: string;
+  logoUrl?: string;
 }
 
 export interface Tenant {
   /** @format uuid */
-  id: string
+  id: string;
   /** @format uuid */
-  selfcareId?: string
-  kind?: TenantKind
-  externalId: ExternalId
-  features: TenantFeature[]
+  selfcareId?: string;
+  kind?: TenantKind;
+  externalId: ExternalId;
+  features: TenantFeature[];
   /** @format date-time */
-  createdAt: string
+  createdAt: string;
   /** @format date-time */
-  updatedAt?: string
-  name: string
-  attributes: TenantAttributes
-  contactMail?: Mail
+  updatedAt?: string;
+  name: string;
+  attributes: TenantAttributes;
+  contactMail?: Mail;
   /** @format date-time */
-  onboardedAt?: string
-  subUnitType?: TenantUnitType
+  onboardedAt?: string;
+  subUnitType?: TenantUnitType;
 }
 
-export type TenantUnitType = 'AOO' | 'UO'
-
 export interface TenantAttributes {
-  declared: DeclaredTenantAttribute[]
-  certified: CertifiedTenantAttribute[]
-  verified: VerifiedTenantAttribute[]
+  declared: DeclaredTenantAttribute[];
+  certified: CertifiedTenantAttribute[];
+  verified: VerifiedTenantAttribute[];
 }
 
 export interface DeclaredTenantAttribute {
   /** @format uuid */
-  id: string
-  name: string
-  description: string
+  id: string;
+  name: string;
+  description: string;
   /** @format date-time */
-  assignmentTimestamp: string
+  assignmentTimestamp: string;
   /** @format date-time */
-  revocationTimestamp?: string
+  revocationTimestamp?: string;
   /** @format uuid */
-  delegationId?: string
+  delegationId?: string;
 }
 
 export interface DeclaredTenantAttributeSeed {
   /** @format uuid */
-  id: string
+  id: string;
   /** @format uuid */
-  delegationId?: string
+  delegationId?: string;
 }
 
 export interface UpdateVerifiedTenantAttributeSeed {
   /** @format date-time */
-  expirationDate?: string
+  expirationDate?: string;
 }
 
 export interface VerifiedTenantAttributeSeed {
   /** @format uuid */
-  id: string
+  id: string;
   /** @format uuid */
-  agreementId: string
+  agreementId: string;
   /** @format date-time */
-  expirationDate?: string
+  expirationDate?: string;
 }
 
 export interface TenantDelegatedFeaturesFlagsUpdateSeed {
-  isDelegatedConsumerFeatureEnabled: boolean
-  isDelegatedProducerFeatureEnabled: boolean
+  isDelegatedConsumerFeatureEnabled: boolean;
+  isDelegatedProducerFeatureEnabled: boolean;
 }
 
 export interface CertifiedTenantAttribute {
   /** @format uuid */
-  id: string
-  name: string
-  description: string
+  id: string;
+  name: string;
+  description: string;
   /** @format date-time */
-  assignmentTimestamp: string
+  assignmentTimestamp: string;
   /** @format date-time */
-  revocationTimestamp?: string
+  revocationTimestamp?: string;
 }
 
 export interface VerifiedTenantAttribute {
   /** @format uuid */
-  id: string
-  name: string
-  description: string
+  id: string;
+  name: string;
+  description: string;
   /** @format date-time */
-  assignmentTimestamp: string
-  verifiedBy: TenantVerifier[]
-  revokedBy: TenantRevoker[]
+  assignmentTimestamp: string;
+  verifiedBy: TenantVerifier[];
+  revokedBy: TenantRevoker[];
 }
 
 export interface TenantVerifier {
   /** @format uuid */
-  id: string
+  id: string;
   /** @format date-time */
-  verificationDate: string
+  verificationDate: string;
   /** @format date-time */
-  expirationDate?: string
+  expirationDate?: string;
   /** @format date-time */
-  extensionDate?: string
+  extensionDate?: string;
   /** @format uuid */
-  delegationId?: string
+  delegationId?: string;
 }
 
 export interface TenantRevoker {
   /** @format uuid */
-  id: string
+  id: string;
   /** @format date-time */
-  verificationDate: string
+  verificationDate: string;
   /** @format date-time */
-  expirationDate?: string
+  expirationDate?: string;
   /** @format date-time */
-  extensionDate?: string
+  extensionDate?: string;
   /** @format date-time */
-  revocationDate: string
+  revocationDate: string;
   /** @format uuid */
-  delegationId?: string
+  delegationId?: string;
 }
 
 export interface TokenGenerationValidationResult {
-  clientKind?: ClientKind
-  steps: TokenGenerationValidationSteps
-  eservice?: TokenGenerationValidationEService
+  clientKind?: ClientKind;
+  steps: TokenGenerationValidationSteps;
+  eservice?: TokenGenerationValidationEService;
 }
 
 export interface TokenGenerationValidationSteps {
-  clientAssertionValidation: TokenGenerationValidationEntry
-  publicKeyRetrieve: TokenGenerationValidationEntry
-  clientAssertionSignatureVerification: TokenGenerationValidationEntry
-  platformStatesVerification: TokenGenerationValidationEntry
+  clientAssertionValidation: TokenGenerationValidationEntry;
+  publicKeyRetrieve: TokenGenerationValidationEntry;
+  clientAssertionSignatureVerification: TokenGenerationValidationEntry;
+  platformStatesVerification: TokenGenerationValidationEntry;
 }
 
 export interface TokenGenerationValidationEntry {
   /** Token Generation Validation Step RESULT */
-  result: TokenGenerationValidationStepResult
-  failures: TokenGenerationValidationStepFailure[]
+  result: TokenGenerationValidationStepResult;
+  failures: TokenGenerationValidationStepFailure[];
 }
 
-/** Token Generation Validation Step RESULT */
-export type TokenGenerationValidationStepResult = 'PASSED' | 'SKIPPED' | 'FAILED'
-
 export interface TokenGenerationValidationStepFailure {
-  code: string
-  reason: string
+  code: string;
+  reason: string;
 }
 
 export interface TokenGenerationValidationEService {
   /** @format uuid */
-  id: string
+  id: string;
   /** @format uuid */
-  descriptorId: string
-  version: string
-  name: string
+  descriptorId: string;
+  version: string;
+  name: string;
 }
 
 export interface PublicKey {
-  keyId: string
-  name: string
+  keyId: string;
+  name: string;
   /** Contains some details about user */
-  user: CompactUser
+  user: CompactUser;
   /** @format date-time */
-  createdAt: string
-  isOrphan: boolean
+  createdAt: string;
+  isOrphan: boolean;
 }
 
 /** Contains some details about user */
 export interface CompactUser {
   /** @format uuid */
-  userId: string
-  name: string
-  familyName: string
+  userId: string;
+  name: string;
+  familyName: string;
 }
 
 export interface PublicKeys {
-  keys: PublicKey[]
-  pagination: Pagination
+  keys: PublicKey[];
+  pagination: Pagination;
 }
 
 export interface CertifiedTenantAttributeSeed {
   /** @format uuid */
-  id: string
+  id: string;
 }
-
-/** Delegation State */
-export type DelegationKind = 'DELEGATED_PRODUCER' | 'DELEGATED_CONSUMER'
-
-/** Delegation State */
-export type DelegationState = 'WAITING_FOR_APPROVAL' | 'ACTIVE' | 'REJECTED' | 'REVOKED'
 
 export interface DelegationTenant {
   /** @format uuid */
-  id: string
-  name: string
+  id: string;
+  name: string;
 }
 
 export interface DelegationTenants {
-  results: DelegationTenant[]
-  pagination: Pagination
+  results: DelegationTenant[];
+  pagination: Pagination;
 }
 
 export interface DelegationEService {
   /** @format uuid */
-  id: string
-  name: string
-  description?: string
+  id: string;
+  name: string;
+  description?: string;
   /** @format uuid */
-  producerId: string
-  producerName: string
-  descriptors: CompactDescriptor[]
+  producerId: string;
+  producerName: string;
+  descriptors: CompactDescriptor[];
 }
 
 export interface Delegation {
   /** @format uuid */
-  id: string
-  eservice?: DelegationEService
-  delegate: DelegationTenant
-  delegator: DelegationTenant
-  activationContract?: Document
-  revocationContract?: Document
+  id: string;
+  eservice?: DelegationEService;
+  delegate: DelegationTenant;
+  delegator: DelegationTenant;
+  activationContract?: Document;
+  revocationContract?: Document;
   /** @format date-time */
-  createdAt: string
+  createdAt: string;
   /** @format date-time */
-  updatedAt?: string
-  rejectionReason?: string
+  updatedAt?: string;
+  rejectionReason?: string;
   /** Delegation State */
-  state: DelegationState
+  state: DelegationState;
   /** Delegation State */
-  kind: DelegationKind
-  activationSignedContract?: SignedDocument
-  revocationSignedContract?: SignedDocument
-  isDocumentReady: boolean
+  kind: DelegationKind;
+  activationSignedContract?: SignedDocument;
+  revocationSignedContract?: SignedDocument;
+  isDocumentReady: boolean;
 }
 
 export interface CompactDelegation {
   /** @format uuid */
-  id: string
-  eservice?: CompactEServiceLight
-  delegate: DelegationTenant
-  delegator: DelegationTenant
+  id: string;
+  eservice?: CompactEServiceLight;
+  delegate: DelegationTenant;
+  delegator: DelegationTenant;
   /** Delegation State */
-  state: DelegationState
+  state: DelegationState;
   /** Delegation State */
-  kind: DelegationKind
+  kind: DelegationKind;
   /** Indicates if there are unread notifications for this delegation */
-  hasUnreadNotifications?: boolean
+  hasUnreadNotifications?: boolean;
 }
 
 export interface CompactDelegations {
-  results: CompactDelegation[]
-  pagination: Pagination
+  results: CompactDelegation[];
+  pagination: Pagination;
 }
 
 export interface DelegationSeed {
   /** @format uuid */
-  eserviceId: string
+  eserviceId: string;
   /** @format uuid */
-  delegateId: string
+  delegateId: string;
 }
 
 export interface RejectDelegationPayload {
-  rejectionReason: string
+  rejectionReason: string;
 }
 
 export interface EServiceTemplateNameUpdateSeed {
-  name: string
+  name: string;
 }
 
 export interface EServiceTemplateDescriptionUpdateSeed {
-  description: string
+  description: string;
 }
 
 export interface EServiceTemplateIntendedTargetUpdateSeed {
-  intendedTarget: string
+  intendedTarget: string;
 }
-
-/** EService Descriptor State */
-export type EServiceTemplateVersionState = 'DRAFT' | 'PUBLISHED' | 'DEPRECATED' | 'SUSPENDED'
 
 export interface CompactEServiceTemplateVersion {
   /** @format uuid */
-  id: string
+  id: string;
   /** @format int32 */
-  version: number
+  version: number;
   /** EService Descriptor State */
-  state: EServiceTemplateVersionState
+  state: EServiceTemplateVersionState;
 }
 
 export interface EServiceTemplateDetails {
   /** @format uuid */
-  id: string
-  creator: CompactOrganization
-  name: string
-  intendedTarget: string
-  description: string
+  id: string;
+  creator: CompactOrganization;
+  name: string;
+  intendedTarget: string;
+  description: string;
   /** EService Descriptor State */
-  technology: EServiceTechnology
-  versions: CompactEServiceTemplateVersion[]
-  riskAnalysis: EServiceTemplateRiskAnalysis[]
+  technology: EServiceTechnology;
+  versions: CompactEServiceTemplateVersion[];
+  riskAnalysis: EServiceTemplateRiskAnalysis[];
   /** Risk Analysis Mode */
-  mode: EServiceMode
-  isSignalHubEnabled?: boolean
-  personalData?: boolean
-  draftVersion?: CompactEServiceTemplateVersion
+  mode: EServiceMode;
+  isSignalHubEnabled?: boolean;
+  personalData?: boolean;
+  draftVersion?: CompactEServiceTemplateVersion;
 }
 
 export interface EServiceTemplateVersionDetails {
   /** @format uuid */
-  id: string
+  id: string;
   /** @format int32 */
-  version: number
-  description?: string
+  version: number;
+  description?: string;
   /** @format int32 */
-  voucherLifespan: number
+  voucherLifespan: number;
   /**
    * maximum number of daily calls that this descriptor can afford per consumer.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsPerConsumer?: number
+  dailyCallsPerConsumer?: number;
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsTotal?: number
-  interface?: EServiceDoc
-  docs: EServiceDoc[]
+  dailyCallsTotal?: number;
+  interface?: EServiceDoc;
+  docs: EServiceDoc[];
   /** EService Descriptor State */
-  state: EServiceTemplateVersionState
+  state: EServiceTemplateVersionState;
   /**
    * EService Descriptor policy for new Agreements approval.
    * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
    * MANUAL - the Producer must approve every agreement for this Descriptor.
    */
-  agreementApprovalPolicy?: AgreementApprovalPolicy
-  attributes: DescriptorAttributes
-  eserviceTemplate: EServiceTemplateDetails
-  isAlreadyInstantiated: boolean
-  hasRequesterRiskAnalysis?: boolean
-  personalData?: boolean
+  agreementApprovalPolicy?: AgreementApprovalPolicy;
+  attributes: DescriptorAttributes;
+  eserviceTemplate: EServiceTemplateDetails;
+  isAlreadyInstantiated: boolean;
+  hasRequesterRiskAnalysis?: boolean;
+  personalData?: boolean;
 }
 
 export interface EServiceTemplateVersionQuotasUpdateSeed {
@@ -2056,27 +2091,27 @@ export interface EServiceTemplateVersionQuotasUpdateSeed {
    * @min 60
    * @max 86400
    */
-  voucherLifespan: number
+  voucherLifespan: number;
   /**
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsPerConsumer?: number
+  dailyCallsPerConsumer?: number;
   /**
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsTotal?: number
+  dailyCallsTotal?: number;
 }
 
 /** contains the id of the created resource with the versionId */
 export interface CreatedEServiceTemplateVersion {
   /** @format uuid */
-  id: string
+  id: string;
   /** @format uuid */
-  versionId: string
+  versionId: string;
 }
 
 export interface UpdateEServiceTemplateSeed {
@@ -2084,23 +2119,23 @@ export interface UpdateEServiceTemplateSeed {
    * @minLength 5
    * @maxLength 60
    */
-  name: string
+  name: string;
   /**
    * @minLength 10
    * @maxLength 250
    */
-  intendedTarget: string
+  intendedTarget: string;
   /**
    * @minLength 10
    * @maxLength 250
    */
-  description: string
+  description: string;
   /** EService Descriptor State */
-  technology: EServiceTechnology
+  technology: EServiceTechnology;
   /** Risk Analysis Mode */
-  mode: EServiceMode
-  isSignalHubEnabled?: boolean
-  personalData?: boolean
+  mode: EServiceMode;
+  isSignalHubEnabled?: boolean;
+  personalData?: boolean;
 }
 
 export interface EServiceTemplateSeed {
@@ -2108,30 +2143,30 @@ export interface EServiceTemplateSeed {
    * @minLength 5
    * @maxLength 60
    */
-  name: string
+  name: string;
   /**
    * @minLength 10
    * @maxLength 250
    */
-  intendedTarget: string
+  intendedTarget: string;
   /**
    * @minLength 10
    * @maxLength 250
    */
-  description: string
+  description: string;
   /** EService Descriptor State */
-  technology: EServiceTechnology
+  technology: EServiceTechnology;
   /** Risk Analysis Mode */
-  mode: EServiceMode
-  version?: VersionSeedForEServiceTemplateCreation
-  isSignalHubEnabled?: boolean
-  personalData?: boolean
+  mode: EServiceMode;
+  version?: VersionSeedForEServiceTemplateCreation;
+  isSignalHubEnabled?: boolean;
+  personalData?: boolean;
 }
 
 export interface InstanceEServiceSeed {
-  isSignalHubEnabled?: boolean
-  isConsumerDelegable?: boolean
-  isClientAccessDelegable?: boolean
+  isSignalHubEnabled?: boolean;
+  isConsumerDelegable?: boolean;
+  isClientAccessDelegable?: boolean;
 }
 
 export interface VersionSeedForEServiceTemplateCreation {
@@ -2139,85 +2174,85 @@ export interface VersionSeedForEServiceTemplateCreation {
    * @minLength 10
    * @maxLength 250
    */
-  description?: string
+  description?: string;
   /**
    * @format int32
    * @min 60
    * @max 86400
    */
-  voucherLifespan: number
+  voucherLifespan: number;
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsPerConsumer?: number
+  dailyCallsPerConsumer?: number;
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsTotal?: number
+  dailyCallsTotal?: number;
   /**
    * EService Descriptor policy for new Agreements approval.
    * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
    * MANUAL - the Producer must approve every agreement for this Descriptor.
    */
-  agreementApprovalPolicy?: AgreementApprovalPolicy
+  agreementApprovalPolicy?: AgreementApprovalPolicy;
 }
 
 export interface EServiceTemplateInstance {
   /** @format uuid */
-  id: string
-  name: string
+  id: string;
+  name: string;
   /** @format uuid */
-  producerId: string
-  producerName: string
-  latestDescriptor?: CompactDescriptor
-  descriptors: CompactDescriptor[]
+  producerId: string;
+  producerName: string;
+  latestDescriptor?: CompactDescriptor;
+  descriptors: CompactDescriptor[];
 }
 
 export interface EServiceTemplateInstances {
-  results: EServiceTemplateInstance[]
-  pagination: Pagination
+  results: EServiceTemplateInstance[];
+  pagination: Pagination;
 }
 
 export interface CatalogEServiceTemplate {
   /** @format uuid */
-  id: string
-  name: string
-  description: string
-  creator: CatalogTenant
-  publishedVersion: CompactEServiceTemplateVersion
+  id: string;
+  name: string;
+  description: string;
+  creator: CatalogTenant;
+  publishedVersion: CompactEServiceTemplateVersion;
 }
 
 export interface ProducerEServiceTemplate {
   /** @format uuid */
-  id: string
-  name: string
+  id: string;
+  name: string;
   /** Risk Analysis Mode */
-  mode: EServiceMode
-  activeVersion?: CompactEServiceTemplateVersion
-  draftVersion?: CompactEServiceTemplateVersion
+  mode: EServiceMode;
+  activeVersion?: CompactEServiceTemplateVersion;
+  draftVersion?: CompactEServiceTemplateVersion;
   /** Indicates if there are unread notifications for this e-service template */
-  hasUnreadNotifications: boolean
+  hasUnreadNotifications: boolean;
 }
 
 export interface CatalogEServiceTemplates {
-  results: CatalogEServiceTemplate[]
-  pagination: Pagination
+  results: CatalogEServiceTemplate[];
+  pagination: Pagination;
 }
 
 export interface ProducerEServiceTemplates {
-  results: ProducerEServiceTemplate[]
-  pagination: Pagination
+  results: ProducerEServiceTemplate[];
+  pagination: Pagination;
 }
 
 export interface Problem {
   /** URI reference of type definition */
-  type: string
+  type: string;
   /**
    * The HTTP status code generated by the origin server for this occurrence of the problem.
    * @format int32
@@ -2226,29 +2261,29 @@ export interface Problem {
    * @exclusiveMax true
    * @example 503
    */
-  status: number
+  status: number;
   /**
    * A short, summary of the problem type. Written in english and readable
    * @maxLength 64
    * @pattern ^[ -~]{0,64}$
    * @example "Service Unavailable"
    */
-  title: string
+  title: string;
   /**
    * Unique identifier of the request
    * @maxLength 64
    * @example "53af4f2d-0c87-41ef-a645-b726a821852b"
    */
-  correlationId?: string
+  correlationId?: string;
   /**
    * A human readable explanation of the problem.
    * @maxLength 4096
    * @pattern ^.{0,1024}$
    * @example "Request took too long to complete."
    */
-  detail?: string
+  detail?: string;
   /** @minItems 1 */
-  errors?: ProblemError[]
+  errors?: ProblemError[];
 }
 
 export interface UpdateEServiceTemplateVersionSeed {
@@ -2256,50 +2291,50 @@ export interface UpdateEServiceTemplateVersionSeed {
    * @minLength 10
    * @maxLength 250
    */
-  description?: string
+  description?: string;
   /**
    * @format int32
    * @min 60
    * @max 86400
    */
-  voucherLifespan: number
+  voucherLifespan: number;
   /**
    * maximum number of daily calls that this descriptor can afford.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsPerConsumer?: number
+  dailyCallsPerConsumer?: number;
   /**
    * total daily calls available for this e-service.
    * @format int32
    * @min 1
    * @max 1000000000
    */
-  dailyCallsTotal?: number
+  dailyCallsTotal?: number;
   /**
    * EService Descriptor policy for new Agreements approval.
    * AUTOMATIC - the agreement will be automatically approved if Consumer attributes are met
    * MANUAL - the Producer must approve every agreement for this Descriptor.
    */
-  agreementApprovalPolicy?: AgreementApprovalPolicy
-  attributes: EServiceTemplateAttributesSeed
+  agreementApprovalPolicy?: AgreementApprovalPolicy;
+  attributes: EServiceTemplateAttributesSeed;
 }
 
 export interface EServiceTemplateAttributesSeed {
-  certified: EServiceTemplateVersionAttributeSeed[][]
-  declared: EServiceTemplateVersionAttributeSeed[][]
-  verified: EServiceTemplateVersionAttributeSeed[][]
+  certified: EServiceTemplateVersionAttributeSeed[][];
+  declared: EServiceTemplateVersionAttributeSeed[][];
+  verified: EServiceTemplateVersionAttributeSeed[][];
 }
 
 export interface EServiceTemplateVersionAttributeSeed {
   /** @format uuid */
-  id: string
-  explicitAttributeVerification: boolean
+  id: string;
+  explicitAttributeVerification: boolean;
 }
 
 export interface EServiceTemplatePersonalDataFlagUpdateSeed {
-  personalData: boolean
+  personalData: boolean;
 }
 
 export interface UpdateEServiceTemplateVersionDocumentSeed {
@@ -2307,12 +2342,12 @@ export interface UpdateEServiceTemplateVersionDocumentSeed {
    * @minLength 5
    * @maxLength 60
    */
-  prettyName: string
+  prettyName: string;
 }
 
 export interface Notifications {
-  results: Notification[]
-  pagination: Pagination
+  results: Notification[];
+  pagination: Pagination;
 }
 
 export interface Notification {
@@ -2320,146 +2355,143 @@ export interface Notification {
    * Unique identifier of the notification
    * @format uuid
    */
-  id: string
+  id: string;
   /**
    * ID of the user
    * @format uuid
    */
-  userId: string
+  userId: string;
   /**
    * ID of the tenant
    * @format uuid
    */
-  tenantId: string
+  tenantId: string;
   /** Content of the notification */
-  body: string
+  body: string;
   /** Deep link to the notification */
-  deepLink: string
+  deepLink: string;
   /** Category of the notification */
-  category: string
+  category: string;
   /**
    * Timestamp when the notification was read
    * @format date-time
    */
-  readAt?: string | null
+  readAt?: string | null;
   /**
    * Timestamp when the notification was created
    * @format date-time
    */
-  createdAt: string
+  createdAt: string;
 }
 
 export interface NotificationConfig {
-  agreementSuspendedUnsuspendedToProducer: boolean
-  agreementManagementToProducer: boolean
-  clientAddedRemovedToProducer: boolean
-  purposeStatusChangedToProducer: boolean
-  templateStatusChangedToProducer: boolean
-  agreementSuspendedUnsuspendedToConsumer: boolean
-  eserviceStateChangedToConsumer: boolean
-  agreementActivatedRejectedToConsumer: boolean
-  purposeActivatedRejectedToConsumer: boolean
-  purposeSuspendedUnsuspendedToConsumer: boolean
-  newEserviceTemplateVersionToInstantiator: boolean
-  eserviceTemplateNameChangedToInstantiator: boolean
-  eserviceTemplateStatusChangedToInstantiator: boolean
-  delegationApprovedRejectedToDelegator: boolean
-  eserviceNewVersionSubmittedToDelegator: boolean
-  eserviceNewVersionApprovedRejectedToDelegate: boolean
-  delegationSubmittedRevokedToDelegate: boolean
-  certifiedVerifiedAttributeAssignedRevokedToAssignee: boolean
-  clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: boolean
-  purposeQuotaAdjustmentRequestToProducer: boolean
-  purposeOverQuotaStateToConsumer: boolean
+  agreementSuspendedUnsuspendedToProducer: boolean;
+  agreementManagementToProducer: boolean;
+  clientAddedRemovedToProducer: boolean;
+  purposeStatusChangedToProducer: boolean;
+  templateStatusChangedToProducer: boolean;
+  agreementSuspendedUnsuspendedToConsumer: boolean;
+  eserviceStateChangedToConsumer: boolean;
+  agreementActivatedRejectedToConsumer: boolean;
+  purposeActivatedRejectedToConsumer: boolean;
+  purposeSuspendedUnsuspendedToConsumer: boolean;
+  newEserviceTemplateVersionToInstantiator: boolean;
+  eserviceTemplateNameChangedToInstantiator: boolean;
+  eserviceTemplateStatusChangedToInstantiator: boolean;
+  delegationApprovedRejectedToDelegator: boolean;
+  eserviceNewVersionSubmittedToDelegator: boolean;
+  eserviceNewVersionApprovedRejectedToDelegate: boolean;
+  delegationSubmittedRevokedToDelegate: boolean;
+  certifiedVerifiedAttributeAssignedRevokedToAssignee: boolean;
+  clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: boolean;
+  purposeQuotaAdjustmentRequestToProducer: boolean;
+  purposeOverQuotaStateToConsumer: boolean;
 }
 
 export interface TenantNotificationConfig {
-  enabled: boolean
+  enabled: boolean;
 }
 
 export interface UserNotificationConfig {
-  inAppNotificationPreference: boolean
-  emailNotificationPreference: boolean
-  emailDigestPreference: boolean
-  inAppConfig: NotificationConfig
-  emailConfig: NotificationConfig
+  inAppNotificationPreference: boolean;
+  emailNotificationPreference: boolean;
+  emailDigestPreference: boolean;
+  inAppConfig: NotificationConfig;
+  emailConfig: NotificationConfig;
 }
 
 export interface TenantNotificationConfigUpdateSeed {
-  enabled: boolean
+  enabled: boolean;
 }
 
 export interface UserNotificationConfigUpdateSeed {
-  inAppNotificationPreference: boolean
-  emailNotificationPreference: boolean
-  emailDigestPreference: boolean
-  inAppConfig: NotificationConfig
-  emailConfig: NotificationConfig
+  inAppNotificationPreference: boolean;
+  emailNotificationPreference: boolean;
+  emailDigestPreference: boolean;
+  inAppConfig: NotificationConfig;
+  emailConfig: NotificationConfig;
 }
 
 export interface EServiceDescriptorsPurposeTemplate {
-  results: EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescriptor[]
-  pagination: Pagination
+  results: EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescriptor[];
+  pagination: Pagination;
 }
 
 export interface EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescriptor {
   /** @format uuid */
-  purposeTemplateId: string
-  eservice: CompactPurposeTemplateEService
-  descriptor: CompactDescriptor
+  purposeTemplateId: string;
+  eservice: CompactPurposeTemplateEService;
+  descriptor: CompactDescriptor;
   /** @format date-time */
-  createdAt: string
+  createdAt: string;
 }
 
 export interface NotificationsCountBySection {
   erogazione: {
     /** @format int32 */
-    richieste: number
+    richieste: number;
     /** @format int32 */
-    finalita: number
+    finalita: number;
     /** @format int32 */
-    'template-eservice': number
+    "template-eservice": number;
     /** @format int32 */
-    'e-service': number
+    "e-service": number;
     /** @format int32 */
-    portachiavi: number
+    portachiavi: number;
     /** @format int32 */
-    totalCount: number
-  }
+    totalCount: number;
+  };
   fruizione: {
     /** @format int32 */
-    richieste: number
+    richieste: number;
     /** @format int32 */
-    finalita: number
+    finalita: number;
     /** @format int32 */
-    totalCount: number
-  }
-  'catalogo-e-service': {
+    totalCount: number;
+  };
+  "catalogo-e-service": {
     /** @format int32 */
-    totalCount: number
-  }
+    totalCount: number;
+  };
   aderente: {
     /** @format int32 */
-    deleghe: number
+    deleghe: number;
     /** @format int32 */
-    anagrafica: number
+    anagrafica: number;
     /** @format int32 */
-    totalCount: number
-  }
-  'gestione-client': {
+    totalCount: number;
+  };
+  "gestione-client": {
     /** @format int32 */
-    'api-e-service': number
+    "api-e-service": number;
     /** @format int32 */
-    totalCount: number
-  }
+    totalCount: number;
+  };
   notifiche: {
     /** @format int32 */
-    totalCount: number
-  }
+    totalCount: number;
+  };
 }
-
-/** Filter e-services by personal data */
-export type PersonalDataFilter = 'TRUE' | 'FALSE' | 'DEFINED'
 
 export interface ProblemError {
   /**
@@ -2469,14 +2501,14 @@ export interface ProblemError {
    * @pattern ^[0-9]{3}-[0-9]{4}$
    * @example "123-4567"
    */
-  code: string
+  code: string;
   /**
    * A human readable explanation specific to this occurrence of the problem.
    * @maxLength 4096
    * @pattern ^.{0,1024}$
    * @example "Parameter not valid"
    */
-  detail: string
+  detail: string;
 }
 
 export interface GetConsumerAgreementsParams {
@@ -2484,30 +2516,30 @@ export interface GetConsumerAgreementsParams {
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
   /**
    * comma separated sequence of eservices IDs
    * @default []
    */
-  eservicesIds?: string[]
+  eservicesIds?: string[];
   /**
    * comma separated sequence of producers IDs
    * @default []
    */
-  producersIds?: string[]
+  producersIds?: string[];
   /**
    * comma separated sequence of agreement states to filter the response with
    * @default []
    */
-  states?: AgreementState[]
+  states?: AgreementState[];
   /** @default false */
-  showOnlyUpgradeable?: boolean
+  showOnlyUpgradeable?: boolean;
 }
 
 export interface GetProducerAgreementsParams {
@@ -2515,271 +2547,860 @@ export interface GetProducerAgreementsParams {
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
   /**
    * comma separated sequence of eservices IDs
    * @default []
    */
-  eservicesIds?: string[]
+  eservicesIds?: string[];
   /**
    * comma separated sequence of consumers IDs
    * @default []
    */
-  consumersIds?: string[]
+  consumersIds?: string[];
   /**
    * comma separated sequence of agreement states to filter the response with
    * @default []
    */
-  states?: AgreementState[]
+  states?: AgreementState[];
   /** @default false */
-  showOnlyUpgradeable?: boolean
+  showOnlyUpgradeable?: boolean;
 }
 
 export interface GetAgreementsProducersParams {
   /** Query to filter Producers by name */
-  q?: string
+  q?: string;
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
 export interface GetAgreementsConsumersParams {
   /** Query to filter Consumers by name */
-  q?: string
+  q?: string;
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
+export interface GetAgreementByIdParams {
+  /**
+   * The identifier of the agreement
+   * @format uuid
+   */
+  agreementId: string;
+}
+
+export interface DeleteAgreementParams {
+  /**
+   * The identifier of the agreement
+   * @format uuid
+   */
+  agreementId: string;
+}
+
+export interface ActivateAgreementParams {
+  /**
+   * The identifier of the agreement
+   * @format uuid
+   */
+  agreementId: string;
+}
+
+export interface CloneAgreementParams {
+  /**
+   * The identifier of the agreement
+   * @format uuid
+   */
+  agreementId: string;
+}
+
+/** E-Service document */
 export interface AddAgreementConsumerDocumentPayload {
-  name: string
-  prettyName: string
+  name: string;
+  prettyName: string;
   /** @format binary */
-  doc: File
+  doc: File;
+}
+
+export interface AddAgreementConsumerDocumentParams {
+  /** @format uuid */
+  agreementId: string;
+}
+
+export interface GetAgreementConsumerDocumentParams {
+  /** @format uuid */
+  agreementId: string;
+  /** @format uuid */
+  documentId: string;
+}
+
+export interface RemoveAgreementConsumerDocumentParams {
+  /** @format uuid */
+  agreementId: string;
+  /** @format uuid */
+  documentId: string;
+}
+
+export interface GetAgreementContractParams {
+  /**
+   * The identifier of the agreement
+   * @format uuid
+   */
+  agreementId: string;
+}
+
+export interface SubmitAgreementParams {
+  /**
+   * The identifier of the agreement
+   * @format uuid
+   */
+  agreementId: string;
+}
+
+export interface SuspendAgreementParams {
+  /**
+   * The identifier of the agreement
+   * @format uuid
+   */
+  agreementId: string;
+}
+
+export interface RejectAgreementParams {
+  /**
+   * The identifier of the agreement
+   * @format uuid
+   */
+  agreementId: string;
+}
+
+export interface ArchiveAgreementParams {
+  /**
+   * The identifier of the agreement
+   * @format uuid
+   */
+  agreementId: string;
+}
+
+export interface UpdateAgreementParams {
+  /**
+   * The identifier of the agreement to update
+   * @format uuid
+   */
+  agreementId: string;
+}
+
+export interface UpgradeAgreementParams {
+  /**
+   * The identifier of the agreement
+   * @format uuid
+   */
+  agreementId: string;
+}
+
+export interface GetSignedAgreementContractParams {
+  /**
+   * The identifier of the agreement
+   * @format uuid
+   */
+  agreementId: string;
+}
+
+export interface VerifyTenantCertifiedAttributesParams {
+  /**
+   * The identifier of the tenant
+   * @format uuid
+   */
+  tenantId: string;
+  /**
+   * The identifier of the e-service
+   * @format uuid
+   */
+  eserviceId: string;
+  /**
+   * The identifier of the e-service descriptor
+   * @format uuid
+   */
+  descriptorId: string;
 }
 
 export interface GetEServicesCatalogParams {
   /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
-  personalData?: PersonalDataFilter
+  personalData?: PersonalDataFilter;
   /** Query to filter EServices by name */
-  q?: string
+  q?: string;
   /**
    * comma separated sequence of producers IDs
    * @default []
    */
-  producersIds?: string[]
+  producersIds?: string[];
   /**
    * comma separated sequence of attribute IDs
    * @default []
    */
-  attributesIds?: string[]
+  attributesIds?: string[];
   /**
    * comma separated sequence of states
    * @default []
    */
-  states?: EServiceDescriptorState[]
+  states?: EServiceDescriptorState[];
   /**
    * comma separated sequence of agreement states to filter the response with
    * @default []
    */
-  agreementStates?: AgreementState[]
+  agreementStates?: AgreementState[];
   /** EService Mode filter */
-  mode?: EServiceMode
+  mode?: EServiceMode;
   /** EService isConsumerDelegable filter */
-  isConsumerDelegable?: boolean
+  isConsumerDelegable?: boolean;
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 200
    */
-  limit: number
+  limit: number;
 }
 
 export interface GetConsumerDelegatorsParams {
-  q?: string
+  q?: string;
   /**
    * comma separated sequence of EService IDs
    * @default []
    */
-  eserviceIds?: string[]
+  eserviceIds?: string[];
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
 export interface GetConsumerDelegatorsWithAgreementsParams {
-  q?: string
+  q?: string;
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
 export interface GetConsumersParams {
-  q?: string
+  q?: string;
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
+export interface GetEServiceConsumersParams {
+  /**
+   * The E-Service id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface DeleteDraftParams {
+  /**
+   * The E-Service Id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * The Descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface UpdateDraftDescriptorParams {
+  /**
+   * The E-Service id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * The Descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface UpdateDraftDescriptorTemplateInstanceParams {
+  /**
+   * The E-Service id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * The Descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface CreateDescriptorParams {
+  /**
+   * The E-Service id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface ActivateDescriptorParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface UpdateDescriptorParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface UpdateTemplateInstanceDescriptorParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface UpdateAgreementApprovalPolicyParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface PublishDescriptorParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface SuspendDescriptorParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface AddEServiceTemplateInstanceInterfaceRestParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the eservice descriptor id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface AddEServiceTemplateInstanceInterfaceSoapParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the eservice descriptor id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+/** E-Service document */
 export interface CreateEServiceDocumentPayload {
   /** Document Type */
-  kind: 'INTERFACE' | 'DOCUMENT'
-  prettyName: string
+  kind: "INTERFACE" | "DOCUMENT";
+  prettyName: string;
   /** @format binary */
-  doc: File
+  doc: File;
+}
+
+export interface CreateEServiceDocumentParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface DeleteEServiceDocumentByIdParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+  /**
+   * the document id
+   * @format uuid
+   */
+  documentId: string;
+}
+
+export interface GetEServiceDocumentByIdParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+  /**
+   * the document id
+   * @format uuid
+   */
+  documentId: string;
+}
+
+export interface CloneEServiceByDescriptorParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface UpdateEServiceDocumentByIdParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+  /**
+   * the document id
+   * @format uuid
+   */
+  documentId: string;
+}
+
+export interface DeleteEServiceParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface UpdateEServiceByIdParams {
+  /**
+   * The E-Service id to update
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface UpdateEServiceTemplateInstanceByIdParams {
+  /**
+   * The E-Service id to update
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface AddRiskAnalysisToEServiceParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface GetEServiceRiskAnalysisParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the risk analysis id
+   * @format uuid
+   */
+  riskAnalysisId: string;
+}
+
+export interface UpdateEServiceRiskAnalysisParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the risk analysis id
+   * @format uuid
+   */
+  riskAnalysisId: string;
+}
+
+export interface DeleteEServiceRiskAnalysisParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the risk analysis id
+   * @format uuid
+   */
+  riskAnalysisId: string;
+}
+
+export interface UpdateEServiceDescriptionParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface UpdateEServiceDelegationFlagsParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface UpdateEServiceNameParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface UpdateEServiceSignalHubFlagParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface UpdateEServicePersonalDataFlagAfterPublicationParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface UpdateDescriptorAttributesParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface ApproveDelegatedEServiceDescriptorParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface RejectDelegatedEServiceDescriptorParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface ExportEServiceDescriptorParams {
+  /** @format uuid */
+  eserviceId: string;
+  /** @format uuid */
+  descriptorId: string;
 }
 
 export interface GetImportEservicePresignedUrlParams {
-  fileName: string
+  fileName: string;
+}
+
+export interface UpgradeEServiceInstanceParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
 }
 
 export interface GetEServiceTemplateInstancesParams {
   /** Query to filter by producer name */
-  producerName?: string
+  producerName?: string;
   /**
    * comma separated sequence of instance states
    * @default []
    */
-  states?: EServiceDescriptorState[]
+  states?: EServiceDescriptorState[];
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
   /**
    * the eservice template id
    * @format uuid
    */
-  templateId: string
+  templateId: string;
+}
+
+export interface CreateEServiceInstanceFromTemplateParams {
+  /**
+   * The template id to create the e-service from
+   * @format uuid
+   */
+  templateId: string;
 }
 
 export interface GetProducersParams {
-  q?: string
+  q?: string;
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
 export interface GetProducerEServicesParams {
   /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
-  personalData?: PersonalDataFilter
+  personalData?: PersonalDataFilter;
   /** Query to filter EServices by name */
-  q?: string
+  q?: string;
   /**
    * comma separated sequence of consumers IDs
    * @default []
    */
-  consumersIds?: string[]
+  consumersIds?: string[];
   /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
-  delegated?: boolean
+  delegated?: boolean;
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
 export interface GetAgreementsProducerEServicesParams {
   /** Query to filter EServices by name */
-  q?: string
+  q?: string;
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
 export interface GetAgreementsConsumerEServicesParams {
   /** Query to filter EServices by name */
-  q?: string
+  q?: string;
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
+}
+
+export interface GetProducerEServiceDetailsParams {
+  /**
+   * The internal identifier of the eservice
+   * @format uuid
+   */
+  eserviceId: string;
+}
+
+export interface GetProducerEServiceDescriptorParams {
+  /**
+   * The internal identifier of the eservice
+   * @format uuid
+   */
+  eserviceId: string;
+  /**
+   * the descriptor id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface UpdateReversePurposeParams {
+  /**
+   * the purpose id
+   * @format uuid
+   */
+  purposeId: string;
+}
+
+export interface GetCatalogEServiceDescriptorParams {
+  /**
+   * The internal identifier of the eservice
+   * @format uuid
+   */
+  eserviceId: string;
+  /**
+   * the descriptor id
+   * @format uuid
+   */
+  descriptorId: string;
 }
 
 export interface GetInstitutionUsersParams {
@@ -2787,19 +3408,27 @@ export interface GetInstitutionUsersParams {
    * the person identifier
    * @format uuid
    */
-  personId?: string
+  personId?: string;
   /**
    * comma separated sequence of role to filter the response with
    * @default []
    */
-  roles?: string[]
+  roles?: string[];
   /** filter applied to name/surname */
-  query?: string
+  query?: string;
   /**
    * The internal identifier of the tenant
    * @format uuid
    */
-  tenantId: string
+  tenantId: string;
+}
+
+export interface GetUserParams {
+  /**
+   * The identifier of the user
+   * @format uuid
+   */
+  userId: string;
 }
 
 export interface GetRequesterCertifiedAttributesParams {
@@ -2807,99 +3436,247 @@ export interface GetRequesterCertifiedAttributesParams {
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
+}
+
+export interface GetCertifiedAttributesParams {
+  /**
+   * The internal identifier of the tenant
+   * @format uuid
+   */
+  tenantId: string;
+}
+
+export interface AddCertifiedAttributeParams {
+  /**
+   * The internal identifier of the tenant
+   * @format uuid
+   */
+  tenantId: string;
 }
 
 export interface GetProducerPurposesParams {
-  q?: string
+  q?: string;
   /**
    * comma separated sequence of EService IDs
    * @default []
    */
-  eservicesIds?: string[]
+  eservicesIds?: string[];
   /**
    * comma separated sequence of consumers IDs
    * @default []
    */
-  consumersIds?: string[]
+  consumersIds?: string[];
   /**
    * comma separated sequence of states
    * @default []
    */
-  states?: PurposeVersionState[]
+  states?: PurposeVersionState[];
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
 export interface GetConsumerPurposesParams {
-  q?: string
+  q?: string;
   /**
    * comma separated sequence of EService IDs
    * @default []
    */
-  eservicesIds?: string[]
+  eservicesIds?: string[];
   /**
    * comma separated sequence of producers IDs
    * @default []
    */
-  producersIds?: string[]
+  producersIds?: string[];
   /**
    * comma separated sequence of states
    * @default []
    */
-  states?: PurposeVersionState[]
+  states?: PurposeVersionState[];
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
+}
+
+export interface ClonePurposeParams {
+  /** @format uuid */
+  purposeId: string;
+}
+
+export interface CreatePurposeVersionParams {
+  /**
+   * the purpose id
+   * @format uuid
+   */
+  purposeId: string;
+}
+
+export interface GetRiskAnalysisDocumentParams {
+  /**
+   * the purpose id
+   * @format uuid
+   */
+  purposeId: string;
+  /**
+   * the version Id
+   * @format uuid
+   */
+  versionId: string;
+  /**
+   * the document id
+   * @format uuid
+   */
+  documentId: string;
+}
+
+export interface GetSignedDocumentParams {
+  /**
+   * the purpose id
+   * @format uuid
+   */
+  purposeId: string;
+  /**
+   * the version Id
+   * @format uuid
+   */
+  versionId: string;
+  /**
+   * the document id
+   * @format uuid
+   */
+  documentId: string;
+}
+
+export interface RejectPurposeVersionParams {
+  /** @format uuid */
+  purposeId: string;
+  /** @format uuid */
+  versionId: string;
+}
+
+export interface ArchivePurposeVersionParams {
+  /** @format uuid */
+  purposeId: string;
+  /** @format uuid */
+  versionId: string;
+}
+
+export interface SuspendPurposeVersionParams {
+  /** @format uuid */
+  purposeId: string;
+  /** @format uuid */
+  versionId: string;
+}
+
+export interface ActivatePurposeVersionParams {
+  /** @format uuid */
+  purposeId: string;
+  /** @format uuid */
+  versionId: string;
+}
+
+export interface RevokeDeclaredAttributeParams {
+  /**
+   * The internal identifier of the attribute
+   * @format uuid
+   */
+  attributeId: string;
+}
+
+export interface GetPurposeParams {
+  /**
+   * the purpose id
+   * @format uuid
+   */
+  purposeId: string;
+}
+
+export interface DeletePurposeParams {
+  /**
+   * the purpose id
+   * @format uuid
+   */
+  purposeId: string;
+}
+
+export interface UpdatePurposeParams {
+  /**
+   * the purpose id
+   * @format uuid
+   */
+  purposeId: string;
+}
+
+export interface DeletePurposeVersionParams {
+  /** @format uuid */
+  purposeId: string;
+  /** @format uuid */
+  versionId: string;
 }
 
 export interface GetPublishedPurposeTemplateCreatorsParams {
   /** Query to filter creators by name */
-  q?: string
+  q?: string;
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
 export interface LinkEServiceToPurposeTemplatePayload {
   /** @format uuid */
-  eserviceId: string
+  eserviceId: string;
+}
+
+export interface LinkEServiceToPurposeTemplateParams {
+  /**
+   * the purpose template id
+   * @format uuid
+   */
+  purposeTemplateId: string;
 }
 
 export interface UnlinkEServiceToPurposeTemplatePayload {
   /** @format uuid */
-  eserviceId: string
+  eserviceId: string;
+}
+
+export interface UnlinkEServiceToPurposeTemplateParams {
+  /**
+   * the purpose template id
+   * @format uuid
+   */
+  purposeTemplateId: string;
 }
 
 export interface GetPurposeTemplateEServicesParams {
@@ -2907,158 +3684,543 @@ export interface GetPurposeTemplateEServicesParams {
    * comma separated sequence of e-service producer IDs
    * @default []
    */
-  producerIds?: string[]
+  producerIds?: string[];
   /** filter linked e-services by name */
-  eserviceName?: string
+  eserviceName?: string;
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
   /** @format uuid */
-  purposeTemplateId: string
+  purposeTemplateId: string;
+}
+
+export interface CreatePurposeFromTemplateParams {
+  /**
+   * the purpose template id
+   * @format uuid
+   */
+  purposeTemplateId: string;
+}
+
+export interface PatchUpdatePurposeFromTemplateParams {
+  /**
+   * the purpose template id
+   * @format uuid
+   */
+  purposeTemplateId: string;
+  /**
+   * the purpose id
+   * @format uuid
+   */
+  purposeId: string;
 }
 
 export interface GetCreatorPurposeTemplatesParams {
   /** filter by purpose template title */
-  q?: string
+  q?: string;
   /**
    * comma separated sequence of e-service IDs
    * @default []
    */
-  eserviceIds?: string[]
+  eserviceIds?: string[];
   /**
    * comma separated sequence of purpose template states
    * @default []
    */
-  states?: PurposeTemplateState[]
+  states?: PurposeTemplateState[];
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
 export interface GetCatalogPurposeTemplatesParams {
   /** filter by purpose template title */
-  q?: string
+  q?: string;
   /**
    * comma separated sequence of creators IDs
    * @default []
    */
-  creatorIds?: string[]
+  creatorIds?: string[];
   /**
    * comma separated sequence of e-service IDs
    * @default []
    */
-  eserviceIds?: string[]
+  eserviceIds?: string[];
   /** filter by target tenant kind */
-  targetTenantKind?: TargetTenantKind
+  targetTenantKind?: TargetTenantKind;
   /**
    * exclude purpose templates with expired risk analysis
    * @default true
    */
-  excludeExpiredRiskAnalysis?: boolean
+  excludeExpiredRiskAnalysis?: boolean;
   /** show purpose templates that handle personal data */
-  handlesPersonalData?: boolean
+  handlesPersonalData?: boolean;
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
+}
+
+export interface GetPurposeTemplateParams {
+  /**
+   * the purpose template id
+   * @format uuid
+   */
+  purposeTemplateId: string;
+}
+
+export interface UpdatePurposeTemplateParams {
+  /**
+   * the purpose template id
+   * @format uuid
+   */
+  purposeTemplateId: string;
+}
+
+export interface DeletePurposeTemplateParams {
+  /**
+   * the purpose template id
+   * @format uuid
+   */
+  purposeTemplateId: string;
+}
+
+export interface GetRiskAnalysisTemplateDocumentParams {
+  /**
+   * The identifier of the Purpose Template
+   * @format uuid
+   */
+  purposeTemplateId: string;
+}
+
+export interface GetRiskAnalysisTemplateSignedDocumentParams {
+  /**
+   * The identifier of the Purpose Template
+   * @format uuid
+   */
+  purposeTemplateId: string;
+}
+
+export interface AddPurposeTemplateRiskAnalysisAnswerParams {
+  /**
+   * Purpose Template unique identifier
+   * @format uuid
+   */
+  purposeTemplateId: string;
 }
 
 export interface AddRiskAnalysisTemplateAnswerAnnotationDocumentPayload {
-  prettyName: string
+  prettyName: string;
   /** @format binary */
-  doc: File
+  doc: File;
+}
+
+export interface AddRiskAnalysisTemplateAnswerAnnotationDocumentParams {
+  /** @format uuid */
+  purposeTemplateId: string;
+  /** @format uuid */
+  answerId: string;
+}
+
+export interface GetRiskAnalysisTemplateAnswerAnnotationDocumentParams {
+  /**
+   * the purpose template id
+   * @format uuid
+   */
+  purposeTemplateId: string;
+  /**
+   * the risk analysis template answer id
+   * @format uuid
+   */
+  answerId: string;
+  /**
+   * the risk analysis template answer annotation document id
+   * @format uuid
+   */
+  documentId: string;
+}
+
+export interface DeleteRiskAnalysisTemplateAnswerAnnotationDocumentParams {
+  /**
+   * the purpose template id
+   * @format uuid
+   */
+  purposeTemplateId: string;
+  /**
+   * the risk analysis template answer id
+   * @format uuid
+   */
+  answerId: string;
+  /**
+   * the risk analysis template answer annotation document id
+   * @format uuid
+   */
+  documentId: string;
+}
+
+export interface UpdateRiskAnalysisTemplateAnswerAnnotationDocumentParams {
+  /**
+   * the purpose template id
+   * @format uuid
+   */
+  purposeTemplateId: string;
+  /**
+   * the risk analysis template answer id
+   * @format uuid
+   */
+  answerId: string;
+  /**
+   * the risk analysis template answer annotation document id
+   * @format uuid
+   */
+  documentId: string;
+}
+
+export interface AddPurposeTemplateRiskAnalysisAnswerAnnotationParams {
+  /** @format uuid */
+  purposeTemplateId: string;
+  /** @format uuid */
+  answerId: string;
+}
+
+export interface DeleteRiskAnalysisTemplateAnswerAnnotationParams {
+  /** @format uuid */
+  purposeTemplateId: string;
+  /** @format uuid */
+  answerId: string;
+}
+
+export interface PublishPurposeTemplateParams {
+  /** @format uuid */
+  purposeTemplateId: string;
+}
+
+export interface UnsuspendPurposeTemplateParams {
+  /** @format uuid */
+  purposeTemplateId: string;
+}
+
+export interface SuspendPurposeTemplateParams {
+  /** @format uuid */
+  purposeTemplateId: string;
+}
+
+export interface ArchivePurposeTemplateParams {
+  /** @format uuid */
+  purposeTemplateId: string;
+}
+
+export interface GetDeclaredAttributesParams {
+  /**
+   * The internal identifier of the tenant
+   * @format uuid
+   */
+  tenantId: string;
+}
+
+export interface GetVerifiedAttributesParams {
+  /**
+   * The internal identifier of the tenant
+   * @format uuid
+   */
+  tenantId: string;
+}
+
+export interface VerifyVerifiedAttributeParams {
+  /**
+   * The internal identifier of the tenant
+   * @format uuid
+   */
+  tenantId: string;
+}
+
+export interface RevokeCertifiedAttributeParams {
+  /**
+   * Tenant id which attribute needs to be verified
+   * @format uuid
+   */
+  tenantId: string;
+  /**
+   * Attribute id to be revoked
+   * @format uuid
+   */
+  attributeId: string;
+}
+
+export interface UpdateVerifiedAttributeParams {
+  /**
+   * Tenant id which attribute needs to be verified
+   * @format uuid
+   */
+  tenantId: string;
+  /**
+   * Attribute id to be revoked
+   * @format uuid
+   */
+  attributeId: string;
 }
 
 export interface RevokeVerifiedAttributePayload {
   /** @format uuid */
-  agreementId: string
+  agreementId: string;
+}
+
+export interface RevokeVerifiedAttributeParams {
+  /**
+   * Tenant id which attribute needs to be verified
+   * @format uuid
+   */
+  tenantId: string;
+  /**
+   * Attribute id to be revoked
+   * @format uuid
+   */
+  attributeId: string;
 }
 
 export interface GetAttributesParams {
   /** Query to filter Attributes by name */
-  q?: string
+  q?: string;
   /** Query to filter Attributes by origin */
-  origin?: string
+  origin?: string;
   /** @format int32 */
-  limit: number
+  limit: number;
   /** @format int32 */
-  offset: number
+  offset: number;
   /** Array of kinds */
-  kinds: AttributeKind[]
+  kinds: AttributeKind[];
+}
+
+export interface GetAttributeByIdParams {
+  /**
+   * Attribute ID
+   * @format uuid
+   */
+  attributeId: string;
+}
+
+export interface GetAttributeByOriginAndCodeParams {
+  /** origin of the attribute to lookup (e.g.: IPA). */
+  origin: string;
+  /** code of the attribute to lookup (e.g.: unique identifier of IPA). */
+  code: string;
+}
+
+export interface GetTenantParams {
+  /**
+   * the tenant id
+   * @format uuid
+   */
+  tenantId: string;
+}
+
+export interface AddTenantMailParams {
+  /**
+   * the tenant id
+   * @format uuid
+   */
+  tenantId: string;
+}
+
+export interface DeleteTenantMailParams {
+  /**
+   * the tenant id
+   * @format uuid
+   */
+  tenantId: string;
+  /** the mail id */
+  mailId: string;
 }
 
 export interface GetTenantsParams {
-  name?: string
+  name?: string;
   /**
    * comma separated feature types to filter the teanants with
    * @default []
    */
-  features?: TenantFeatureType[]
+  features?: TenantFeatureType[];
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
 export interface GetClientsParams {
   /** Query to filter Clients by name */
-  q?: string
+  q?: string;
   /**
    * comma separated sequence of user IDs
    * @default []
    */
-  userIds?: string[]
+  userIds?: string[];
   /** type of Client to be retrieved */
-  kind?: ClientKind
+  kind?: ClientKind;
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
+export interface GetClientParams {
+  /**
+   * The Client id
+   * @format uuid
+   */
+  clientId: string;
+}
+
+export interface DeleteClientParams {
+  /**
+   * The Client id
+   * @format uuid
+   */
+  clientId: string;
+}
+
+/** AdminId to be added to the Client */
 export interface SetAdminToClientPayload {
   /**
    * UserId to be added as admin
    * @format uuid
    */
-  adminId: string
+  adminId: string;
 }
 
+export interface SetAdminToClientParams {
+  /**
+   * ID of Client the users belong to
+   * @format uuid
+   */
+  clientId: string;
+}
+
+export interface RemoveClientAdminParams {
+  /**
+   * ID of Client
+   * @format uuid
+   */
+  clientId: string;
+  /**
+   * ID of Admin
+   * @format uuid
+   */
+  adminId: string;
+}
+
+export interface RemoveClientPurposeParams {
+  /**
+   * ID of Client
+   * @format uuid
+   */
+  clientId: string;
+  /**
+   * ID of Purpose
+   * @format uuid
+   */
+  purposeId: string;
+}
+
+export interface GetClientKeyByIdParams {
+  /**
+   * ID of the client to look up
+   * @format uuid
+   */
+  clientId: string;
+  /** the unique identifier of the key (kid) to lookup */
+  keyId: string;
+}
+
+export interface DeleteClientKeyByIdParams {
+  /**
+   * ID of the client holding the key
+   * @format uuid
+   */
+  clientId: string;
+  /** the unique identifier of the key (kid) to delete */
+  keyId: string;
+}
+
+export interface RemoveUserFromClientParams {
+  /**
+   * The Client id
+   * @format uuid
+   */
+  clientId: string;
+  /**
+   * The identifier of the user between the security user and the consumer
+   * @format uuid
+   */
+  userId: string;
+}
+
+export interface AddClientPurposeParams {
+  /**
+   * ID of Client
+   * @format uuid
+   */
+  clientId: string;
+}
+
+export interface GetClientUsersParams {
+  /**
+   * ID of Client the users belong to
+   * @format uuid
+   */
+  clientId: string;
+}
+
+/** List of users ids to bind */
 export interface AddUsersToClientPayload {
   /** @minItems 1 */
-  userIds: string[]
+  userIds: string[];
+}
+
+export interface AddUsersToClientParams {
+  /**
+   * ID of Client the users belong to
+   * @format uuid
+   */
+  clientId: string;
+}
+
+export interface CreateKeyParams {
+  /**
+   * ID of client that the added keys MUST belong to
+   * @format uuid
+   */
+  clientId: string;
 }
 
 export interface GetClientKeysParams {
@@ -3066,64 +4228,151 @@ export interface GetClientKeysParams {
    * comma separated sequence of user IDs
    * @default []
    */
-  userIds?: string[]
+  userIds?: string[];
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
   /**
    * ID of Client
    * @format uuid
    */
-  clientId: string
+  clientId: string;
+}
+
+export interface GetEncodedClientKeyByIdParams {
+  /**
+   * ID of the client to look up
+   * @format uuid
+   */
+  clientId: string;
+  /** the unique identifier of the key (kid) to lookup */
+  keyId: string;
 }
 
 export interface RetrieveLatestRiskAnalysisConfigurationParams {
-  tenantKind?: TenantKind
+  tenantKind?: TenantKind;
 }
 
 export interface RetrieveRiskAnalysisConfigurationByVersionParams {
   /** @format uuid */
-  eserviceId: string
-  riskAnalysisVersion: string
+  eserviceId: string;
+  riskAnalysisVersion: string;
+}
+
+export interface GetUpdatedDailyCallsParams {
+  /**
+   * the purpose id
+   * @format uuid
+   */
+  purposeId: string;
+}
+
+export interface GetPrivacyNoticeParams {
+  /** Consent Type */
+  consentType: ConsentType;
+}
+
+export interface AcceptPrivacyNoticeParams {
+  /** Consent Type */
+  consentType: ConsentType;
+}
+
+export interface GetPrivacyNoticeContentParams {
+  /** Consent Type */
+  consentType: ConsentType;
 }
 
 export interface GetProducerKeychainsParams {
   /** Filter for the producer keychain name */
-  q?: string
+  q?: string;
   /**
    * comma separated sequence of user IDs
    * @default []
    */
-  userIds?: string[]
+  userIds?: string[];
   /**
    * ID of e-service that MUST be related to the Producer Keychain
    * @format uuid
    */
-  eserviceId?: string
+  eserviceId?: string;
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
+export interface GetProducerKeychainParams {
+  /**
+   * The Producer Keychain id
+   * @format uuid
+   */
+  producerKeychainId: string;
+}
+
+export interface DeleteProducerKeychainParams {
+  /**
+   * The Producer Keychain id
+   * @format uuid
+   */
+  producerKeychainId: string;
+}
+
+export interface GetProducerKeychainUsersParams {
+  /**
+   * ID of Producer Keychain the users belong to
+   * @format uuid
+   */
+  producerKeychainId: string;
+}
+
+/** List of users ids to add */
 export interface AddProducerKeychainUsersPayload {
   /** @minItems 1 */
-  userIds: string[]
+  userIds: string[];
+}
+
+export interface AddProducerKeychainUsersParams {
+  /**
+   * ID of Producer Keychain the users belong to
+   * @format uuid
+   */
+  producerKeychainId: string;
+}
+
+export interface RemoveProducerKeychainUserParams {
+  /**
+   * The Producer Keychain id
+   * @format uuid
+   */
+  producerKeychainId: string;
+  /**
+   * The identifier of the user between the security user and the consumer
+   * @format uuid
+   */
+  userId: string;
+}
+
+export interface CreateProducerKeyParams {
+  /**
+   * ID of producer keychain that the added key MUST belong to
+   * @format uuid
+   */
+  producerKeychainId: string;
 }
 
 export interface GetProducerKeysParams {
@@ -3131,23 +4380,74 @@ export interface GetProducerKeysParams {
    * comma separated sequence of user IDs
    * @default []
    */
-  userIds?: string[]
+  userIds?: string[];
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
   /**
    * ID of the producer keychain to look up
    * @format uuid
    */
-  producerKeychainId: string
+  producerKeychainId: string;
+}
+
+export interface GetProducerKeyByIdParams {
+  /**
+   * ID of the producer keychain to look up
+   * @format uuid
+   */
+  producerKeychainId: string;
+  /** the unique identifier of the key (kid) to lookup */
+  keyId: string;
+}
+
+export interface DeleteProducerKeyByIdParams {
+  /**
+   * ID of the producer keychain holding the key
+   * @format uuid
+   */
+  producerKeychainId: string;
+  /** the unique identifier of the key (kid) to delete */
+  keyId: string;
+}
+
+export interface AddProducerKeychainEServiceParams {
+  /**
+   * ID of Producer Keychain
+   * @format uuid
+   */
+  producerKeychainId: string;
+}
+
+export interface RemoveProducerKeychainEServiceParams {
+  /**
+   * ID of Producer Keychain
+   * @format uuid
+   */
+  producerKeychainId: string;
+  /**
+   * ID of EService
+   * @format uuid
+   */
+  eserviceId: string;
+}
+
+export interface GetEncodedProducerKeychainKeyByIdParams {
+  /**
+   * ID of the producer keychain to look up
+   * @format uuid
+   */
+  producerKeychainId: string;
+  /** the unique identifier of the key (kid) to lookup */
+  keyId: string;
 }
 
 export interface GetDelegationsParams {
@@ -3155,150 +4455,507 @@ export interface GetDelegationsParams {
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
   /**
    * comma separated sequence of delegation states to filter the results with
    * @default []
    */
-  states?: DelegationState[]
+  states?: DelegationState[];
   /**
    * The delegator ids to filter by
    * @default []
    */
-  delegatorIds?: string[]
+  delegatorIds?: string[];
   /**
    * The delegated ids to filter by
    * @default []
    */
-  delegateIds?: string[]
+  delegateIds?: string[];
   /** The delegation kind to filter by */
-  kind?: DelegationKind
+  kind?: DelegationKind;
   /** @default [] */
-  eserviceIds?: string[]
+  eserviceIds?: string[];
+}
+
+export interface ApproveProducerDelegationParams {
+  /**
+   * The identifier of the delegation
+   * @format uuid
+   */
+  delegationId: string;
+}
+
+export interface RejectProducerDelegationParams {
+  /**
+   * The identifier of the delegation
+   * @format uuid
+   */
+  delegationId: string;
 }
 
 export interface GetConsumerDelegatedEservicesParams {
   /** @format uuid */
-  delegatorId: string
-  q?: string
+  delegatorId: string;
+  q?: string;
   /** @format int32 */
-  offset: number
+  offset: number;
   /** @format int32 */
-  limit: number
+  limit: number;
+}
+
+export interface ApproveConsumerDelegationParams {
+  /**
+   * The identifier of the delegation
+   * @format uuid
+   */
+  delegationId: string;
+}
+
+export interface RejectConsumerDelegationParams {
+  /**
+   * The identifier of the delegation
+   * @format uuid
+   */
+  delegationId: string;
+}
+
+export interface GetDelegationParams {
+  /**
+   * The delegation id
+   * @format uuid
+   */
+  delegationId: string;
+}
+
+export interface RevokeProducerDelegationParams {
+  /**
+   * The delegation id
+   * @format uuid
+   */
+  delegationId: string;
+}
+
+export interface RevokeConsumerDelegationParams {
+  /**
+   * The delegation id
+   * @format uuid
+   */
+  delegationId: string;
+}
+
+export interface GetDelegationContractParams {
+  /** @format uuid */
+  delegationId: string;
+  /** @format uuid */
+  contractId: string;
+}
+
+export interface GetDelegationSignedContractParams {
+  /**
+   * The identifier of the delegation
+   * @format uuid
+   */
+  delegationId: string;
+  /**
+   * The identifier of the the signedContract
+   * @format uuid
+   */
+  contractId: string;
+}
+
+export interface UpdateEServiceTemplateParams {
+  /**
+   * The E-Service id to retrieve
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+}
+
+export interface GetEServiceTemplateParams {
+  /**
+   * The E-Service id to retrieve
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+}
+
+export interface SuspendEServiceTemplateVersionParams {
+  /**
+   * the eservice template id
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+  /**
+   * the eservice template version id
+   * @format uuid
+   */
+  eServiceTemplateVersionId: string;
+}
+
+export interface PublishEServiceTemplateVersionParams {
+  /**
+   * the eservice template id
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+  /**
+   * the eservice template version id
+   * @format uuid
+   */
+  eServiceTemplateVersionId: string;
+}
+
+export interface ActivateEServiceTemplateVersionParams {
+  /**
+   * the eservice template id
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+  /**
+   * the eservice template version id
+   * @format uuid
+   */
+  eServiceTemplateVersionId: string;
+}
+
+export interface UpdateEServiceTemplateNameParams {
+  /**
+   * the eservice template id
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+}
+
+export interface UpdateEServiceTemplateIntendedTargetParams {
+  /**
+   * the eservice template id
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+}
+
+export interface UpdateEServiceTemplateDescriptionParams {
+  /**
+   * the eservice template id
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+}
+
+export interface GetEServiceTemplateVersionParams {
+  /**
+   * The internal identifier of the eservice template
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+  /**
+   * the eservice template version id
+   * @format uuid
+   */
+  eServiceTemplateVersionId: string;
+}
+
+export interface UpdateDraftTemplateVersionParams {
+  /**
+   * The internal identifier of the eservice template
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+  /**
+   * the eservice template version id
+   * @format uuid
+   */
+  eServiceTemplateVersionId: string;
+}
+
+export interface DeleteDraftTemplateVersionParams {
+  /**
+   * The internal identifier of the eservice template
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+  /**
+   * the eservice template version id
+   * @format uuid
+   */
+  eServiceTemplateVersionId: string;
+}
+
+export interface UpdateTemplateVersionQuotasParams {
+  /**
+   * the eservice template id
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+  /**
+   * the template version Id
+   * @format uuid
+   */
+  eServiceTemplateVersionId: string;
+}
+
+export interface CreateEServiceTemplateRiskAnalysisParams {
+  /**
+   * the eservice template id
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+}
+
+export interface UpdateEServiceTemplateRiskAnalysisParams {
+  /**
+   * the eservice template id
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+  /**
+   * the eservice template id
+   * @format uuid
+   */
+  riskAnalysisId: string;
+}
+
+export interface DeleteEServiceTemplateRiskAnalysisParams {
+  /**
+   * the eservice template id
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+  /**
+   * the eservice template id
+   * @format uuid
+   */
+  riskAnalysisId: string;
+}
+
+export interface UpdateEServiceTemplateVersionAttributesParams {
+  /**
+   * the eservice template id
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+  /**
+   * the eservice template version id
+   * @format uuid
+   */
+  eServiceTemplateVersionId: string;
 }
 
 export interface GetEServiceTemplatesCatalogParams {
   /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned, if "defined" all e-service templates with a defined personal data flag will be returned */
-  personalData?: PersonalDataFilter
+  personalData?: PersonalDataFilter;
   /** Query to filter EService template by name */
-  q?: string
+  q?: string;
   /**
    * comma separated sequence of creators IDs
    * @default []
    */
-  creatorsIds?: string[]
+  creatorsIds?: string[];
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
 export interface GetCreatorEServiceTemplatesParams {
   /** Query to filter EServices templates by name */
-  q?: string
+  q?: string;
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
 export interface GetEServiceTemplateCreatorsParams {
   /** Query to filter creators by name */
-  q?: string
+  q?: string;
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
+export interface CreateEServiceTemplateVersionParams {
+  /**
+   * The E-Service template id
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+}
+
+/** E-Service template document */
 export interface CreateEServiceTemplateDocumentPayload {
   /** Document Type */
-  kind: 'INTERFACE' | 'DOCUMENT'
-  prettyName: string
+  kind: "INTERFACE" | "DOCUMENT";
+  prettyName: string;
   /** @format binary */
-  doc: File
+  doc: File;
+}
+
+export interface CreateEServiceTemplateDocumentParams {
+  /**
+   * the eservice template id
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+  /**
+   * the version Id
+   * @format uuid
+   */
+  eServiceTemplateVersionId: string;
+}
+
+export interface GetEServiceTemplateDocumentByIdParams {
+  /**
+   * the eService template id
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+  /**
+   * the template version Id
+   * @format uuid
+   */
+  eServiceTemplateVersionId: string;
+  /**
+   * the document id
+   * @format uuid
+   */
+  documentId: string;
+}
+
+export interface DeleteEServiceTemplateDocumentByIdParams {
+  /**
+   * the eService template id
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+  /**
+   * the template version Id
+   * @format uuid
+   */
+  eServiceTemplateVersionId: string;
+  /**
+   * the document id
+   * @format uuid
+   */
+  documentId: string;
+}
+
+export interface UpdateEServiceTemplateDocumentByIdParams {
+  /**
+   * the eservice template id
+   * @format uuid
+   */
+  eServiceTemplateId: string;
+  /**
+   * the version Id
+   * @format uuid
+   */
+  eServiceTemplateVersionId: string;
+  /**
+   * the document id
+   * @format uuid
+   */
+  documentId: string;
+}
+
+export interface UpdateEServiceTemplatePersonalDataFlagAfterPublicationParams {
+  /**
+   * the eservice template id
+   * @format uuid
+   */
+  eServiceTemplateId: string;
 }
 
 export interface IsEServiceNameAvailableParams {
   /** the e-service name to check for */
-  name: string
+  name: string;
 }
 
 export interface GetNotificationsParams {
   /** Query to filter notifications */
-  q?: string
-  unread?: boolean
+  q?: string;
+  unread?: boolean;
   /** Category to filter notifications */
-  category?: 'Subscribers' | 'Providers' | 'Delegations' | 'AttributesAndKeys'
+  category?: "Subscribers" | "Providers" | "Delegations" | "AttributesAndKeys";
   /**
    * @format int32
    * @min 0
    */
-  offset: number
+  offset: number;
   /**
    * @format int32
    * @min 1
    * @max 50
    */
-  limit: number
+  limit: number;
 }
 
 export interface DeleteNotificationsPayload {
-  ids: string[]
+  ids: string[];
 }
 
 export interface MarkNotificationsAsReadPayload {
-  ids: string[]
+  ids: string[];
+}
+
+export interface MarkNotificationAsReadParams {
+  /** @format uuid */
+  notificationId: string;
+}
+
+export interface MarkNotificationAsUnreadParams {
+  /** @format uuid */
+  notificationId: string;
 }
 
 export interface MarkNotificationsAsUnreadPayload {
-  ids: string[]
+  ids: string[];
+}
+
+export interface MarkNotificationsAsReadByEntityIdParams {
+  entityId: string;
+}
+
+export interface DeleteNotificationParams {
+  /** @format uuid */
+  notificationId: string;
 }
 
 export interface GetNotificationDeeplinkParams {
   /** The selfcare ID for the institution (optional, falls back to generic URL if not provided) */
-  selfcareId?: string
+  selfcareId?: string;
   /** The type of the notification */
-  notificationType: string
+  notificationType: string;
   /** The id of the entity */
-  entityId: string
+  entityId: string;
 }
 
 export namespace Consumers {
@@ -3311,41 +4968,42 @@ export namespace Consumers {
    * @secure
    */
   export namespace GetConsumerAgreements {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
+      limit: number;
       /**
        * comma separated sequence of eservices IDs
        * @default []
        */
-      eservicesIds?: string[]
+      eservicesIds?: string[];
       /**
        * comma separated sequence of producers IDs
        * @default []
        */
-      producersIds?: string[]
+      producersIds?: string[];
       /**
        * comma separated sequence of agreement states to filter the response with
        * @default []
        */
-      states?: AgreementState[]
+      states?: AgreementState[];
       /** @default false */
-      showOnlyUpgradeable?: boolean
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = Agreements
+      showOnlyUpgradeable?: boolean;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Agreements;
   }
+
   /**
    * @description Retrieve requester's delegators
    * @tags consumerDelegations
@@ -3354,30 +5012,31 @@ export namespace Consumers {
    * @secure
    */
   export namespace GetConsumerDelegators {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
-      q?: string
+      q?: string;
       /**
        * comma separated sequence of EService IDs
        * @default []
        */
-      eserviceIds?: string[]
+      eserviceIds?: string[];
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = DelegationTenants
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = DelegationTenants;
   }
+
   /**
    * @description Retrieve requester's delegators with active agreements
    * @tags consumerDelegations
@@ -3386,25 +5045,26 @@ export namespace Consumers {
    * @secure
    */
   export namespace GetConsumerDelegatorsWithAgreements {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
-      q?: string
+      q?: string;
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = DelegationTenants
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = DelegationTenants;
   }
+
   /**
    * @description Retrieve Tenants that are subscribed to at least one EService
    * @tags tenants
@@ -3413,25 +5073,26 @@ export namespace Consumers {
    * @secure
    */
   export namespace GetConsumers {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
-      q?: string
+      q?: string;
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CompactOrganizations
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CompactOrganizations;
   }
+
   /**
    * @description Retrieves eservices for consumers in agreements
    * @tags agreements
@@ -3441,26 +5102,27 @@ export namespace Consumers {
    * @secure
    */
   export namespace GetAgreementsConsumerEServices {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** Query to filter EServices by name */
-      q?: string
+      q?: string;
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CompactEServicesLight
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CompactEServicesLight;
   }
+
   /**
    * @description Retrieve Purposes from the consumer perspective
    * @tags purposes
@@ -3469,40 +5131,41 @@ export namespace Consumers {
    * @secure
    */
   export namespace GetConsumerPurposes {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
-      q?: string
+      q?: string;
       /**
        * comma separated sequence of EService IDs
        * @default []
        */
-      eservicesIds?: string[]
+      eservicesIds?: string[];
       /**
        * comma separated sequence of producers IDs
        * @default []
        */
-      producersIds?: string[]
+      producersIds?: string[];
       /**
        * comma separated sequence of states
        * @default []
        */
-      states?: PurposeVersionState[]
+      states?: PurposeVersionState[];
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = Purposes
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Purposes;
   }
+
   /**
    * @description Retrieve requester's delegated eservices
    * @tags consumerDelegations
@@ -3511,20 +5174,21 @@ export namespace Consumers {
    * @secure
    */
   export namespace GetConsumerDelegatedEservices {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** @format uuid */
-      delegatorId: string
-      q?: string
+      delegatorId: string;
+      q?: string;
       /** @format int32 */
-      offset: number
+      offset: number;
       /** @format int32 */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CompactEServices
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CompactEServices;
   }
+
   /**
    * @description creates a consumer delegation
    * @tags consumerDelegations
@@ -3534,12 +5198,13 @@ export namespace Consumers {
    * @secure
    */
   export namespace CreateConsumerDelegation {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = DelegationSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = DelegationSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Approves a consumer delegation
    * @tags consumerDelegations
@@ -3554,13 +5219,14 @@ export namespace Consumers {
        * The identifier of the delegation
        * @format uuid
        */
-      delegationId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      delegationId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Rejects a consumer delegation
    * @tags consumerDelegations
@@ -3575,13 +5241,14 @@ export namespace Consumers {
        * The identifier of the delegation
        * @format uuid
        */
-      delegationId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = RejectDelegationPayload
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      delegationId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RejectDelegationPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Revokes a consumer delegation
    * @tags consumerDelegations
@@ -3596,12 +5263,12 @@ export namespace Consumers {
        * The delegation id
        * @format uuid
        */
-      delegationId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      delegationId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
 }
 
@@ -3615,41 +5282,42 @@ export namespace Producers {
    * @secure
    */
   export namespace GetProducerAgreements {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
+      limit: number;
       /**
        * comma separated sequence of eservices IDs
        * @default []
        */
-      eservicesIds?: string[]
+      eservicesIds?: string[];
       /**
        * comma separated sequence of consumers IDs
        * @default []
        */
-      consumersIds?: string[]
+      consumersIds?: string[];
       /**
        * comma separated sequence of agreement states to filter the response with
        * @default []
        */
-      states?: AgreementState[]
+      states?: AgreementState[];
       /** @default false */
-      showOnlyUpgradeable?: boolean
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = Agreements
+      showOnlyUpgradeable?: boolean;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Agreements;
   }
+
   /**
    * @description Retrieve Tenants that have published an EService
    * @tags tenants
@@ -3658,25 +5326,26 @@ export namespace Producers {
    * @secure
    */
   export namespace GetProducers {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
-      q?: string
+      q?: string;
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CompactOrganizations
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CompactOrganizations;
   }
+
   /**
    * @description Retrieves Producer EServices
    * @tags eservices
@@ -3686,35 +5355,36 @@ export namespace Producers {
    * @secure
    */
   export namespace GetProducerEServices {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
-      personalData?: PersonalDataFilter
+      personalData?: PersonalDataFilter;
       /** Query to filter EServices by name */
-      q?: string
+      q?: string;
       /**
        * comma separated sequence of consumers IDs
        * @default []
        */
-      consumersIds?: string[]
+      consumersIds?: string[];
       /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
-      delegated?: boolean
+      delegated?: boolean;
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = ProducerEServices
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = ProducerEServices;
   }
+
   /**
    * @description Retrieves eservices for producers in agreements
    * @tags agreements
@@ -3724,26 +5394,27 @@ export namespace Producers {
    * @secure
    */
   export namespace GetAgreementsProducerEServices {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** Query to filter EServices by name */
-      q?: string
+      q?: string;
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CompactEServicesLight
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CompactEServicesLight;
   }
+
   /**
    * @description Retrieves a producer eservice corresponding to the id
    * @tags eservices
@@ -3758,13 +5429,14 @@ export namespace Producers {
        * The internal identifier of the eservice
        * @format uuid
        */
-      eserviceId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = ProducerEServiceDetails
+      eserviceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = ProducerEServiceDetails;
   }
+
   /**
    * @description Retrieves a producer eservice descriptor corresponding to the id
    * @tags eservices
@@ -3779,18 +5451,19 @@ export namespace Producers {
        * The internal identifier of the eservice
        * @format uuid
        */
-      eserviceId: string
+      eserviceId: string;
       /**
        * the descriptor id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = ProducerEServiceDescriptor
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = ProducerEServiceDescriptor;
   }
+
   /**
    * @description Retrieve Purposes from the producer perspective
    * @tags purposes
@@ -3799,40 +5472,41 @@ export namespace Producers {
    * @secure
    */
   export namespace GetProducerPurposes {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
-      q?: string
+      q?: string;
       /**
        * comma separated sequence of EService IDs
        * @default []
        */
-      eservicesIds?: string[]
+      eservicesIds?: string[];
       /**
        * comma separated sequence of consumers IDs
        * @default []
        */
-      consumersIds?: string[]
+      consumersIds?: string[];
       /**
        * comma separated sequence of states
        * @default []
        */
-      states?: PurposeVersionState[]
+      states?: PurposeVersionState[];
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = Purposes
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Purposes;
   }
+
   /**
    * @description creates a producer delegation
    * @tags producerDelegations
@@ -3842,12 +5516,13 @@ export namespace Producers {
    * @secure
    */
   export namespace CreateProducerDelegation {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = DelegationSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = DelegationSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Approves a producer delegation
    * @tags producerDelegations
@@ -3862,13 +5537,14 @@ export namespace Producers {
        * The identifier of the delegation
        * @format uuid
        */
-      delegationId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      delegationId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Rejects a producer delegation
    * @tags producerDelegations
@@ -3883,13 +5559,14 @@ export namespace Producers {
        * The identifier of the delegation
        * @format uuid
        */
-      delegationId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = RejectDelegationPayload
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      delegationId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RejectDelegationPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Revokes a producer delegation
    * @tags producerDelegations
@@ -3904,12 +5581,12 @@ export namespace Producers {
        * The delegation id
        * @format uuid
        */
-      delegationId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      delegationId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
 }
 
@@ -3923,12 +5600,13 @@ export namespace Agreements {
    * @secure
    */
   export namespace CreateAgreement {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = AgreementPayload
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = AgreementPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Retrieves Tenants that are producers with existing Agreements
    * @tags agreements
@@ -3938,26 +5616,27 @@ export namespace Agreements {
    * @secure
    */
   export namespace GetAgreementsProducers {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** Query to filter Producers by name */
-      q?: string
+      q?: string;
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CompactOrganizations
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CompactOrganizations;
   }
+
   /**
    * @description Retrieves Tenants that are consumers with existing Agreements
    * @tags agreements
@@ -3967,26 +5646,27 @@ export namespace Agreements {
    * @secure
    */
   export namespace GetAgreementsConsumers {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** Query to filter Consumers by name */
-      q?: string
+      q?: string;
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CompactOrganizations
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CompactOrganizations;
   }
+
   /**
    * @description returns an agreement for a given agreementId
    * @tags agreements
@@ -4001,13 +5681,14 @@ export namespace Agreements {
        * The identifier of the agreement
        * @format uuid
        */
-      agreementId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = Agreement
+      agreementId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Agreement;
   }
+
   /**
    * @description Delete an agreement
    * @tags agreements
@@ -4022,13 +5703,14 @@ export namespace Agreements {
        * The identifier of the agreement
        * @format uuid
        */
-      agreementId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      agreementId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description returns the updated agreement
    * @tags agreements
@@ -4043,13 +5725,14 @@ export namespace Agreements {
        * The identifier of the agreement
        * @format uuid
        */
-      agreementId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = DelegationRef
-    export type RequestHeaders = {}
-    export type ResponseBody = Agreement
+      agreementId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = DelegationRef;
+    export type RequestHeaders = {};
+    export type ResponseBody = Agreement;
   }
+
   /**
    * @description returns the created agreement
    * @tags agreements
@@ -4064,13 +5747,14 @@ export namespace Agreements {
        * The identifier of the agreement
        * @format uuid
        */
-      agreementId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      agreementId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Add a consumer Document to an Agreement
    * @tags agreements
@@ -4082,13 +5766,14 @@ export namespace Agreements {
   export namespace AddAgreementConsumerDocument {
     export type RequestParams = {
       /** @format uuid */
-      agreementId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = AddAgreementConsumerDocumentPayload
-    export type RequestHeaders = {}
-    export type ResponseBody = File
+      agreementId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = AddAgreementConsumerDocumentPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = File;
   }
+
   /**
    * @description Retrieve a consumer Document of an Agreement
    * @tags agreements
@@ -4100,15 +5785,16 @@ export namespace Agreements {
   export namespace GetAgreementConsumerDocument {
     export type RequestParams = {
       /** @format uuid */
-      agreementId: string
+      agreementId: string;
       /** @format uuid */
-      documentId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = File
+      documentId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = File;
   }
+
   /**
    * @description Remove a consumer Document from an Agreement
    * @tags agreements
@@ -4120,15 +5806,16 @@ export namespace Agreements {
   export namespace RemoveAgreementConsumerDocument {
     export type RequestParams = {
       /** @format uuid */
-      agreementId: string
+      agreementId: string;
       /** @format uuid */
-      documentId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      documentId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description returns the agreement contract for a given agreementId
    * @tags agreements
@@ -4143,13 +5830,14 @@ export namespace Agreements {
        * The identifier of the agreement
        * @format uuid
        */
-      agreementId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = File
+      agreementId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = File;
   }
+
   /**
    * @description returns the updated agreement
    * @tags agreements
@@ -4164,13 +5852,14 @@ export namespace Agreements {
        * The identifier of the agreement
        * @format uuid
        */
-      agreementId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = AgreementSubmissionPayload
-    export type RequestHeaders = {}
-    export type ResponseBody = Agreement
+      agreementId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = AgreementSubmissionPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = Agreement;
   }
+
   /**
    * @description returns the updated agreement
    * @tags agreements
@@ -4185,13 +5874,14 @@ export namespace Agreements {
        * The identifier of the agreement
        * @format uuid
        */
-      agreementId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = DelegationRef
-    export type RequestHeaders = {}
-    export type ResponseBody = Agreement
+      agreementId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = DelegationRef;
+    export type RequestHeaders = {};
+    export type ResponseBody = Agreement;
   }
+
   /**
    * @description returns the updated agreement
    * @tags agreements
@@ -4206,13 +5896,14 @@ export namespace Agreements {
        * The identifier of the agreement
        * @format uuid
        */
-      agreementId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = AgreementRejectionPayload
-    export type RequestHeaders = {}
-    export type ResponseBody = Agreement
+      agreementId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = AgreementRejectionPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = Agreement;
   }
+
   /**
    * @description returns the updated agreement
    * @tags agreements
@@ -4227,13 +5918,14 @@ export namespace Agreements {
        * The identifier of the agreement
        * @format uuid
        */
-      agreementId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      agreementId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description update agreement fields.
    * @tags agreements
@@ -4248,13 +5940,14 @@ export namespace Agreements {
        * The identifier of the agreement to update
        * @format uuid
        */
-      agreementId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = AgreementUpdatePayload
-    export type RequestHeaders = {}
-    export type ResponseBody = Agreement
+      agreementId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = AgreementUpdatePayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = Agreement;
   }
+
   /**
    * @description returns the updated agreement
    * @tags agreements
@@ -4269,13 +5962,14 @@ export namespace Agreements {
        * The identifier of the agreement
        * @format uuid
        */
-      agreementId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = Agreement
+      agreementId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Agreement;
   }
+
   /**
    * @description Returns the signed agreement contract file for a given agreementId
    * @tags agreements
@@ -4290,12 +5984,12 @@ export namespace Agreements {
        * The identifier of the agreement
        * @format uuid
        */
-      agreementId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = File
+      agreementId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = File;
   }
 }
 
@@ -4314,23 +6008,24 @@ export namespace Tenants {
        * The identifier of the tenant
        * @format uuid
        */
-      tenantId: string
+      tenantId: string;
       /**
        * The identifier of the e-service
        * @format uuid
        */
-      eserviceId: string
+      eserviceId: string;
       /**
        * The identifier of the e-service descriptor
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = HasCertifiedAttributes
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = HasCertifiedAttributes;
   }
+
   /**
    * @description Return ok
    * @tags selfcare
@@ -4345,26 +6040,27 @@ export namespace Tenants {
        * The internal identifier of the tenant
        * @format uuid
        */
-      tenantId: string
-    }
+      tenantId: string;
+    };
     export type RequestQuery = {
       /**
        * the person identifier
        * @format uuid
        */
-      personId?: string
+      personId?: string;
       /**
        * comma separated sequence of role to filter the response with
        * @default []
        */
-      roles?: string[]
+      roles?: string[];
       /** filter applied to name/surname */
-      query?: string
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = Users
+      query?: string;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Users;
   }
+
   /**
    * @description Retrieve the certified attributes
    * @tags tenants
@@ -4374,24 +6070,25 @@ export namespace Tenants {
    * @secure
    */
   export namespace GetRequesterCertifiedAttributes {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = RequesterCertifiedAttributes
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = RequesterCertifiedAttributes;
   }
+
   /**
    * @description Gets certified attributes for institution using internal institution id
    * @tags tenants
@@ -4406,13 +6103,14 @@ export namespace Tenants {
        * The internal identifier of the tenant
        * @format uuid
        */
-      tenantId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CertifiedAttributesResponse
+      tenantId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CertifiedAttributesResponse;
   }
+
   /**
    * @description Add a certified attribute to a Tenant by the requester Tenant
    * @tags tenants
@@ -4426,13 +6124,14 @@ export namespace Tenants {
        * The internal identifier of the tenant
        * @format uuid
        */
-      tenantId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = CertifiedTenantAttributeSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      tenantId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = CertifiedTenantAttributeSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Adds the declared attribute to the Institution
    * @tags tenants
@@ -4442,12 +6141,13 @@ export namespace Tenants {
    * @secure
    */
   export namespace AddDeclaredAttribute {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = DeclaredTenantAttributeSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = DeclaredTenantAttributeSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Revokes the declared attribute to the Institution
    * @tags tenants
@@ -4462,13 +6162,14 @@ export namespace Tenants {
        * The internal identifier of the attribute
        * @format uuid
        */
-      attributeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      attributeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Gets declared attributes for institution using internal institution id
    * @tags tenants
@@ -4483,13 +6184,14 @@ export namespace Tenants {
        * The internal identifier of the tenant
        * @format uuid
        */
-      tenantId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = DeclaredAttributesResponse
+      tenantId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = DeclaredAttributesResponse;
   }
+
   /**
    * @description Gets verified attributes for institution using internal institution id
    * @tags tenants
@@ -4504,13 +6206,14 @@ export namespace Tenants {
        * The internal identifier of the tenant
        * @format uuid
        */
-      tenantId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = VerifiedAttributesResponse
+      tenantId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = VerifiedAttributesResponse;
   }
+
   /**
    * @description Adds the verified attribute to the Institution
    * @tags tenants
@@ -4525,13 +6228,14 @@ export namespace Tenants {
        * The internal identifier of the tenant
        * @format uuid
        */
-      tenantId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = VerifiedTenantAttributeSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      tenantId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = VerifiedTenantAttributeSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Revoke a certified attribute to a Tenant by the requester Tenant
    * @tags tenants
@@ -4545,18 +6249,19 @@ export namespace Tenants {
        * Tenant id which attribute needs to be verified
        * @format uuid
        */
-      tenantId: string
+      tenantId: string;
       /**
        * Attribute id to be revoked
        * @format uuid
        */
-      attributeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      attributeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Update expirationDate for Verified Attribute of Tenant
    * @tags tenants
@@ -4571,18 +6276,19 @@ export namespace Tenants {
        * Tenant id which attribute needs to be verified
        * @format uuid
        */
-      tenantId: string
+      tenantId: string;
       /**
        * Attribute id to be revoked
        * @format uuid
        */
-      attributeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = UpdateVerifiedTenantAttributeSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      attributeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = UpdateVerifiedTenantAttributeSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Revoke a Verified attribute to a Tenant by the requester Tenant
    * @tags tenants
@@ -4596,18 +6302,19 @@ export namespace Tenants {
        * Tenant id which attribute needs to be verified
        * @format uuid
        */
-      tenantId: string
+      tenantId: string;
       /**
        * Attribute id to be revoked
        * @format uuid
        */
-      attributeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = RevokeVerifiedAttributePayload
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      attributeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RevokeVerifiedAttributePayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Gets institution using internal institution id
    * @tags tenants
@@ -4622,13 +6329,14 @@ export namespace Tenants {
        * the tenant id
        * @format uuid
        */
-      tenantId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = Tenant
+      tenantId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Tenant;
   }
+
   /**
    * @description Add a tenant mail
    * @tags tenants
@@ -4643,13 +6351,14 @@ export namespace Tenants {
        * the tenant id
        * @format uuid
        */
-      tenantId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = MailSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      tenantId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = MailSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Delete a tenant mail
    * @tags tenants
@@ -4664,15 +6373,16 @@ export namespace Tenants {
        * the tenant id
        * @format uuid
        */
-      tenantId: string
+      tenantId: string;
       /** the mail id */
-      mailId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      mailId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Retrieve Tenants by name
    * @tags tenants
@@ -4681,25 +6391,26 @@ export namespace Tenants {
    * @secure
    */
   export namespace GetTenants {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
-      name?: string
+      name?: string;
       /**
        * comma separated feature types to filter the teanants with
        * @default []
        */
-      features?: TenantFeatureType[]
+      features?: TenantFeatureType[];
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = Tenants
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Tenants;
   }
+
   /**
    * @description Update delegated producer and consumer feature to tenant caller
    * @tags tenants
@@ -4709,11 +6420,11 @@ export namespace Tenants {
    * @secure
    */
   export namespace UpdateTenantDelegatedFeatures {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = TenantDelegatedFeaturesFlagsUpdateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = TenantDelegatedFeaturesFlagsUpdateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
 }
 
@@ -4727,52 +6438,53 @@ export namespace Catalog {
    * @secure
    */
   export namespace GetEServicesCatalog {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** if "TRUE" only e-services that handle personal data will be returned, if "FALSE" only non-personal data e-services will be returned, if not present all e-services will be returned, if "DEFINED" all e-services with a defined personal data flag will be returned */
-      personalData?: PersonalDataFilter
+      personalData?: PersonalDataFilter;
       /** Query to filter EServices by name */
-      q?: string
+      q?: string;
       /**
        * comma separated sequence of producers IDs
        * @default []
        */
-      producersIds?: string[]
+      producersIds?: string[];
       /**
        * comma separated sequence of attribute IDs
        * @default []
        */
-      attributesIds?: string[]
+      attributesIds?: string[];
       /**
        * comma separated sequence of states
        * @default []
        */
-      states?: EServiceDescriptorState[]
+      states?: EServiceDescriptorState[];
       /**
        * comma separated sequence of agreement states to filter the response with
        * @default []
        */
-      agreementStates?: AgreementState[]
+      agreementStates?: AgreementState[];
       /** EService Mode filter */
-      mode?: EServiceMode
+      mode?: EServiceMode;
       /** EService isConsumerDelegable filter */
-      isConsumerDelegable?: boolean
+      isConsumerDelegable?: boolean;
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 200
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CatalogEServices
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CatalogEServices;
   }
+
   /**
    * @description Retrieves the catalog eservice descriptor corresponding to the id
    * @tags eservices
@@ -4787,18 +6499,19 @@ export namespace Catalog {
        * The internal identifier of the eservice
        * @format uuid
        */
-      eserviceId: string
+      eserviceId: string;
       /**
        * the descriptor id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CatalogEServiceDescriptor
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CatalogEServiceDescriptor;
   }
+
   /**
    * @description Retrieve Catalog Purpose Templates
    * @tags purposeTemplates
@@ -4808,45 +6521,46 @@ export namespace Catalog {
    * @secure
    */
   export namespace GetCatalogPurposeTemplates {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** filter by purpose template title */
-      q?: string
+      q?: string;
       /**
        * comma separated sequence of creators IDs
        * @default []
        */
-      creatorIds?: string[]
+      creatorIds?: string[];
       /**
        * comma separated sequence of e-service IDs
        * @default []
        */
-      eserviceIds?: string[]
+      eserviceIds?: string[];
       /** filter by target tenant kind */
-      targetTenantKind?: TargetTenantKind
+      targetTenantKind?: TargetTenantKind;
       /**
        * exclude purpose templates with expired risk analysis
        * @default true
        */
-      excludeExpiredRiskAnalysis?: boolean
+      excludeExpiredRiskAnalysis?: boolean;
       /** show purpose templates that handle personal data */
-      handlesPersonalData?: boolean
+      handlesPersonalData?: boolean;
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CatalogPurposeTemplates
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CatalogPurposeTemplates;
   }
+
   /**
    * @description Retrieves EService templates catalog
    * @tags eserviceTemplates
@@ -4856,32 +6570,32 @@ export namespace Catalog {
    * @secure
    */
   export namespace GetEServiceTemplatesCatalog {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** if true only e-service templates that handle personal data will be returned, if false only non-personal data e-service templates will be returned, if not present all e-service templates will be returned, if "defined" all e-service templates with a defined personal data flag will be returned */
-      personalData?: PersonalDataFilter
+      personalData?: PersonalDataFilter;
       /** Query to filter EService template by name */
-      q?: string
+      q?: string;
       /**
        * comma separated sequence of creators IDs
        * @default []
        */
-      creatorsIds?: string[]
+      creatorsIds?: string[];
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CatalogEServiceTemplates
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CatalogEServiceTemplates;
   }
 }
 
@@ -4895,12 +6609,13 @@ export namespace Eservices {
    * @secure
    */
   export namespace CreateEService {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = EServiceSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedEServiceDescriptor
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = EServiceSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedEServiceDescriptor;
   }
+
   /**
    * @description Retrieve Consumers for an EService
    * @tags eservices
@@ -4915,13 +6630,14 @@ export namespace Eservices {
        * The E-Service id
        * @format uuid
        */
-      eServiceId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = File
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = File;
   }
+
   /**
    * @description Deletes a draft descriptor or an eservice if empty
    * @tags eservices
@@ -4936,18 +6652,19 @@ export namespace Eservices {
        * The E-Service Id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * The Descriptor Id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Updates a draft descriptor
    * @tags eservices
@@ -4962,18 +6679,19 @@ export namespace Eservices {
        * The E-Service id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * The Descriptor Id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = UpdateEServiceDescriptorSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = UpdateEServiceDescriptorSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Adds a descriptor to the specified e-service
    * @tags eservices
@@ -4988,13 +6706,14 @@ export namespace Eservices {
        * The E-Service id
        * @format uuid
        */
-      eServiceId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Activate the selected descriptor
    * @tags eservices
@@ -5009,18 +6728,19 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the descriptor Id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Publish the selected descriptor
    * @tags eservices
@@ -5035,18 +6755,19 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the descriptor Id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = UpdateEServiceDescriptorQuotas
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = UpdateEServiceDescriptorQuotas;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Update agreement approval policy of published descriptor
    * @tags eservices
@@ -5061,18 +6782,20 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the descriptor Id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = UpdateEServiceDescriptorAgreementApprovalPolicySeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody =
+      UpdateEServiceDescriptorAgreementApprovalPolicySeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Publish the selected descriptor
    * @tags eservices
@@ -5087,18 +6810,19 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the descriptor Id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Suspend the selected descriptor
    * @tags eservices
@@ -5113,18 +6837,19 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the descriptor Id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Add new e-service document
    * @tags eservices
@@ -5139,18 +6864,19 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the descriptor Id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = CreateEServiceDocumentPayload
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = CreateEServiceDocumentPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Deletes an e-service document
    * @tags eservices
@@ -5165,23 +6891,24 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the descriptor Id
        * @format uuid
        */
-      descriptorId: string
+      descriptorId: string;
       /**
        * the document id
        * @format uuid
        */
-      documentId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      documentId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Get an e-service document
    * @tags eservices
@@ -5196,23 +6923,24 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the descriptor Id
        * @format uuid
        */
-      descriptorId: string
+      descriptorId: string;
       /**
        * the document id
        * @format uuid
        */
-      documentId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = File
+      documentId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = File;
   }
+
   /**
    * @description Clones the selected descriptor
    * @tags eservices
@@ -5227,18 +6955,19 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the descriptor Id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedEServiceDescriptor
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedEServiceDescriptor;
   }
+
   /**
    * @description Updates an e-service document
    * @tags eservices
@@ -5253,23 +6982,24 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the descriptor Id
        * @format uuid
        */
-      descriptorId: string
+      descriptorId: string;
       /**
        * the document id
        * @format uuid
        */
-      documentId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = UpdateEServiceDescriptorDocumentSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = EServiceDoc
+      documentId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = UpdateEServiceDescriptorDocumentSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = EServiceDoc;
   }
+
   /**
    * @description Deletes an e-service
    * @tags eservices
@@ -5284,13 +7014,14 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Updates EService general information
    * @tags eservices
@@ -5305,13 +7036,14 @@ export namespace Eservices {
        * The E-Service id to update
        * @format uuid
        */
-      eServiceId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = UpdateEServiceSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = UpdateEServiceSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Add a risk analysis to an EService
    * @tags eservices
@@ -5326,13 +7058,14 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EServiceRiskAnalysisSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceRiskAnalysisSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Get EService risk analysis
    * @tags eservices
@@ -5347,18 +7080,19 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the risk analysis id
        * @format uuid
        */
-      riskAnalysisId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = EServiceRiskAnalysis
+      riskAnalysisId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = EServiceRiskAnalysis;
   }
+
   /**
    * @description Update EService risk analysis
    * @tags eservices
@@ -5373,18 +7107,19 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the risk analysis id
        * @format uuid
        */
-      riskAnalysisId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EServiceRiskAnalysisSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      riskAnalysisId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceRiskAnalysisSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Delete EService risk analysis
    * @tags eservices
@@ -5399,18 +7134,19 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the risk analysis id
        * @format uuid
        */
-      riskAnalysisId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      riskAnalysisId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Update an e-service description
    * @tags eservices
@@ -5425,13 +7161,14 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EServiceDescriptionUpdateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceDescriptionUpdateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Update an e-service delegation flags
    * @tags eservices
@@ -5446,13 +7183,14 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EServiceDelegationFlagsUpdateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceDelegationFlagsUpdateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Update an e-service name
    * @tags eservices
@@ -5467,13 +7205,14 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EServiceNameUpdateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceNameUpdateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Enable or disable SignalHub for an e-service
    * @tags eservices
@@ -5488,13 +7227,14 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EServiceSignalHubUpdateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceSignalHubUpdateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Set personalData flag for an eservice after publication
    * @tags eservices
@@ -5509,13 +7249,14 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EServicePersonalDataFlagUpdateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServicePersonalDataFlagUpdateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Update e-service published descriptor attributes
    * @tags eservices
@@ -5530,18 +7271,19 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the descriptor id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = DescriptorAttributesSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = DescriptorAttributesSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Approve a delegated new e-service version
    * @tags eservices
@@ -5556,18 +7298,19 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the descriptor id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Reject a delegated new e-service version
    * @tags eservices
@@ -5582,18 +7325,19 @@ export namespace Eservices {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the descriptor id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = RejectDelegatedEServiceDescriptorSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RejectDelegatedEServiceDescriptorSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Create a new e-service template
    * @tags eserviceTemplates
@@ -5603,12 +7347,13 @@ export namespace Eservices {
    * @secure
    */
   export namespace CreateEServiceTemplate {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = EServiceTemplateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedEServiceTemplateVersion
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = EServiceTemplateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedEServiceTemplateVersion;
   }
+
   /**
    * @description Updates a draft e-service template general information
    * @tags eserviceTemplates
@@ -5623,13 +7368,14 @@ export namespace Eservices {
        * The E-Service id to retrieve
        * @format uuid
        */
-      eServiceTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = UpdateEServiceTemplateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = UpdateEServiceTemplateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Retrieve e-service template
    * @tags eserviceTemplates
@@ -5644,13 +7390,14 @@ export namespace Eservices {
        * The E-Service id to retrieve
        * @format uuid
        */
-      eServiceTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = EServiceTemplateDetails
+      eServiceTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = EServiceTemplateDetails;
   }
+
   /**
    * @description Suspend the selected eservice template version
    * @tags eserviceTemplates
@@ -5665,18 +7412,19 @@ export namespace Eservices {
        * the eservice template id
        * @format uuid
        */
-      eServiceTemplateId: string
+      eServiceTemplateId: string;
       /**
        * the eservice template version id
        * @format uuid
        */
-      eServiceTemplateVersionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceTemplateVersionId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Publish the selected eservice template version
    * @tags eserviceTemplates
@@ -5691,18 +7439,19 @@ export namespace Eservices {
        * the eservice template id
        * @format uuid
        */
-      eServiceTemplateId: string
+      eServiceTemplateId: string;
       /**
        * the eservice template version id
        * @format uuid
        */
-      eServiceTemplateVersionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceTemplateVersionId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Activate the selected eservice template version
    * @tags eserviceTemplates
@@ -5717,18 +7466,19 @@ export namespace Eservices {
        * the eservice template id
        * @format uuid
        */
-      eServiceTemplateId: string
+      eServiceTemplateId: string;
       /**
        * the eservice template version id
        * @format uuid
        */
-      eServiceTemplateVersionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceTemplateVersionId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Update an e-service template name
    * @tags eserviceTemplates
@@ -5743,13 +7493,14 @@ export namespace Eservices {
        * the eservice template id
        * @format uuid
        */
-      eServiceTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EServiceTemplateNameUpdateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceTemplateNameUpdateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Update an e-service template intended target description
    * @tags eserviceTemplates
@@ -5764,13 +7515,14 @@ export namespace Eservices {
        * the eservice template id
        * @format uuid
        */
-      eServiceTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EServiceTemplateIntendedTargetUpdateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceTemplateIntendedTargetUpdateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Update an e-service template e-service description
    * @tags eserviceTemplates
@@ -5785,13 +7537,14 @@ export namespace Eservices {
        * the eservice template id
        * @format uuid
        */
-      eServiceTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EServiceTemplateDescriptionUpdateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceTemplateDescriptionUpdateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Retrieves a eservice template version corresponding to the id
    * @tags eserviceTemplates
@@ -5806,18 +7559,19 @@ export namespace Eservices {
        * The internal identifier of the eservice template
        * @format uuid
        */
-      eServiceTemplateId: string
+      eServiceTemplateId: string;
       /**
        * the eservice template version id
        * @format uuid
        */
-      eServiceTemplateVersionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = EServiceTemplateVersionDetails
+      eServiceTemplateVersionId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = EServiceTemplateVersionDetails;
   }
+
   /**
    * @description Updates a draft template version
    * @tags eserviceTemplates
@@ -5832,18 +7586,19 @@ export namespace Eservices {
        * The internal identifier of the eservice template
        * @format uuid
        */
-      eServiceTemplateId: string
+      eServiceTemplateId: string;
       /**
        * the eservice template version id
        * @format uuid
        */
-      eServiceTemplateVersionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = UpdateEServiceTemplateVersionSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceTemplateVersionId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = UpdateEServiceTemplateVersionSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Delete a draft template version
    * @tags eserviceTemplates
@@ -5858,18 +7613,19 @@ export namespace Eservices {
        * The internal identifier of the eservice template
        * @format uuid
        */
-      eServiceTemplateId: string
+      eServiceTemplateId: string;
       /**
        * the eservice template version id
        * @format uuid
        */
-      eServiceTemplateVersionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceTemplateVersionId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Update the quotas of the selected template version
    * @tags eserviceTemplates
@@ -5884,18 +7640,19 @@ export namespace Eservices {
        * the eservice template id
        * @format uuid
        */
-      eServiceTemplateId: string
+      eServiceTemplateId: string;
       /**
        * the template version Id
        * @format uuid
        */
-      eServiceTemplateVersionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EServiceTemplateVersionQuotasUpdateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceTemplateVersionId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceTemplateVersionQuotasUpdateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Create an e-service template risk analysis
    * @tags eserviceTemplates
@@ -5910,13 +7667,14 @@ export namespace Eservices {
        * the eservice template id
        * @format uuid
        */
-      eServiceTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EServiceTemplateRiskAnalysisSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceTemplateRiskAnalysisSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Update an e-service template risk analysis
    * @tags eserviceTemplates
@@ -5931,18 +7689,19 @@ export namespace Eservices {
        * the eservice template id
        * @format uuid
        */
-      eServiceTemplateId: string
+      eServiceTemplateId: string;
       /**
        * the eservice template id
        * @format uuid
        */
-      riskAnalysisId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EServiceTemplateRiskAnalysisSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      riskAnalysisId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceTemplateRiskAnalysisSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Delete an e-service template risk analysis
    * @tags eserviceTemplates
@@ -5957,18 +7716,19 @@ export namespace Eservices {
        * the eservice template id
        * @format uuid
        */
-      eServiceTemplateId: string
+      eServiceTemplateId: string;
       /**
        * the eservice template id
        * @format uuid
        */
-      riskAnalysisId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      riskAnalysisId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Update e-service template published version attributes
    * @tags eserviceTemplates
@@ -5983,18 +7743,19 @@ export namespace Eservices {
        * the eservice template id
        * @format uuid
        */
-      eServiceTemplateId: string
+      eServiceTemplateId: string;
       /**
        * the eservice template version id
        * @format uuid
        */
-      eServiceTemplateVersionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = DescriptorAttributesSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceTemplateVersionId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = DescriptorAttributesSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Retrieves Tenants that are producers of published e-service templates
    * @tags eserviceTemplates
@@ -6004,26 +7765,27 @@ export namespace Eservices {
    * @secure
    */
   export namespace GetEServiceTemplateCreators {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** Query to filter creators by name */
-      q?: string
+      q?: string;
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CompactOrganizations
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CompactOrganizations;
   }
+
   /**
    * @description Adds a new version to the specified e-service template
    * @tags eserviceTemplates
@@ -6038,13 +7800,14 @@ export namespace Eservices {
        * The E-Service template id
        * @format uuid
        */
-      eServiceTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      eServiceTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Add new e-service template document
    * @tags eserviceTemplates
@@ -6059,18 +7822,19 @@ export namespace Eservices {
        * the eservice template id
        * @format uuid
        */
-      eServiceTemplateId: string
+      eServiceTemplateId: string;
       /**
        * the version Id
        * @format uuid
        */
-      eServiceTemplateVersionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = CreateEServiceTemplateDocumentPayload
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      eServiceTemplateVersionId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = CreateEServiceTemplateDocumentPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Get an e-service template document
    * @tags eserviceTemplates
@@ -6085,23 +7849,24 @@ export namespace Eservices {
        * the eService template id
        * @format uuid
        */
-      eServiceTemplateId: string
+      eServiceTemplateId: string;
       /**
        * the template version Id
        * @format uuid
        */
-      eServiceTemplateVersionId: string
+      eServiceTemplateVersionId: string;
       /**
        * the document id
        * @format uuid
        */
-      documentId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = File
+      documentId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = File;
   }
+
   /**
    * @description Deletes an e-service template document
    * @tags eserviceTemplates
@@ -6116,23 +7881,24 @@ export namespace Eservices {
        * the eService template id
        * @format uuid
        */
-      eServiceTemplateId: string
+      eServiceTemplateId: string;
       /**
        * the template version Id
        * @format uuid
        */
-      eServiceTemplateVersionId: string
+      eServiceTemplateVersionId: string;
       /**
        * the document id
        * @format uuid
        */
-      documentId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      documentId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Updates an e-service template document
    * @tags eserviceTemplates
@@ -6147,23 +7913,24 @@ export namespace Eservices {
        * the eservice template id
        * @format uuid
        */
-      eServiceTemplateId: string
+      eServiceTemplateId: string;
       /**
        * the version Id
        * @format uuid
        */
-      eServiceTemplateVersionId: string
+      eServiceTemplateVersionId: string;
       /**
        * the document id
        * @format uuid
        */
-      documentId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = UpdateEServiceTemplateVersionDocumentSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      documentId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = UpdateEServiceTemplateVersionDocumentSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Set personalData flag for published EService templates
    * @tags eserviceTemplates
@@ -6178,13 +7945,14 @@ export namespace Eservices {
        * the eservice template id
        * @format uuid
        */
-      eServiceTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EServiceTemplatePersonalDataFlagUpdateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eServiceTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceTemplatePersonalDataFlagUpdateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Check if the e-service name is available
    * @tags eservices
@@ -6194,14 +7962,14 @@ export namespace Eservices {
    * @secure
    */
   export namespace IsEServiceNameAvailable {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** the e-service name to check for */
-      name: string
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = boolean
+      name: string;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = boolean;
   }
 }
 
@@ -6220,18 +7988,19 @@ export namespace Templates {
        * The E-Service id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * The Descriptor Id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = UpdateEServiceDescriptorTemplateInstanceSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = UpdateEServiceDescriptorTemplateInstanceSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Update the selected template instance descriptor
    * @tags eservices
@@ -6246,18 +8015,19 @@ export namespace Templates {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the descriptor Id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = UpdateEServiceTemplateInstanceDescriptorQuotas
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = UpdateEServiceTemplateInstanceDescriptorQuotas;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Add EService template instance interface for REST protocol
    * @tags eservices
@@ -6272,18 +8042,19 @@ export namespace Templates {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the eservice descriptor id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = TemplateInstanceInterfaceRESTSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = TemplateInstanceInterfaceRESTSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Add EService template instance interface for SOAP protocol
    * @tags eservices
@@ -6298,18 +8069,19 @@ export namespace Templates {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
+      eServiceId: string;
       /**
        * the eservice descriptor id
        * @format uuid
        */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = TemplateInstanceInterfaceSOAPSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = TemplateInstanceInterfaceSOAPSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Updates EService template instance general information
    * @tags eservices
@@ -6324,13 +8096,14 @@ export namespace Templates {
        * The E-Service id to update
        * @format uuid
        */
-      eServiceId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = UpdateEServiceTemplateInstanceSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = UpdateEServiceTemplateInstanceSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Upgrade an instance of a template
    * @tags eservices
@@ -6345,13 +8118,14 @@ export namespace Templates {
        * the eservice id
        * @format uuid
        */
-      eServiceId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Retrieves EService template instances
    * @tags eservices
@@ -6366,32 +8140,33 @@ export namespace Templates {
        * the eservice template id
        * @format uuid
        */
-      templateId: string
-    }
+      templateId: string;
+    };
     export type RequestQuery = {
       /** Query to filter by producer name */
-      producerName?: string
+      producerName?: string;
       /**
        * comma separated sequence of instance states
        * @default []
        */
-      states?: EServiceDescriptorState[]
+      states?: EServiceDescriptorState[];
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = EServiceTemplateInstances
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = EServiceTemplateInstances;
   }
+
   /**
    * @description Create a new e-service instance from a template
    * @tags eservices
@@ -6406,12 +8181,12 @@ export namespace Templates {
        * The template id to create the e-service from
        * @format uuid
        */
-      templateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = InstanceEServiceSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      templateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = InstanceEServiceSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
 }
 
@@ -6427,14 +8202,14 @@ export namespace Export {
   export namespace ExportEServiceDescriptor {
     export type RequestParams = {
       /** @format uuid */
-      eserviceId: string
+      eserviceId: string;
       /** @format uuid */
-      descriptorId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = FileResource
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = FileResource;
   }
 }
 
@@ -6448,14 +8223,15 @@ export namespace Import {
    * @secure
    */
   export namespace GetImportEservicePresignedUrl {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
-      fileName: string
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = PresignedUrl
+      fileName: string;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = PresignedUrl;
   }
+
   /**
    * @description Import EService
    * @tags eservices
@@ -6465,11 +8241,11 @@ export namespace Import {
    * @secure
    */
   export namespace ImportEService {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = FileResource
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedEServiceDescriptor
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = FileResource;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedEServiceDescriptor;
   }
 }
 
@@ -6483,12 +8259,13 @@ export namespace Reverse {
    * @secure
    */
   export namespace CreatePurposeForReceiveEservice {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = PurposeEServiceSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = PurposeEServiceSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Updates a reverse Purpose
    * @tags purposes
@@ -6502,12 +8279,12 @@ export namespace Reverse {
        * the purpose id
        * @format uuid
        */
-      purposeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = ReversePurposeUpdateContent
-    export type RequestHeaders = {}
-    export type ResponseBody = PurposeVersionResource
+      purposeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = ReversePurposeUpdateContent;
+    export type RequestHeaders = {};
+    export type ResponseBody = PurposeVersionResource;
   }
 }
 
@@ -6520,12 +8297,13 @@ export namespace Session {
    * @secure
    */
   export namespace GetSessionToken {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = IdentityToken
-    export type RequestHeaders = {}
-    export type ResponseBody = SessionToken
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = IdentityToken;
+    export type RequestHeaders = {};
+    export type ResponseBody = SessionToken;
   }
+
   /**
    * @description Returns the generated token
    * @tags support
@@ -6535,11 +8313,11 @@ export namespace Session {
    * @secure
    */
   export namespace GetSaml2Token {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = SAMLTokenRequest
-    export type RequestHeaders = {}
-    export type ResponseBody = SessionToken
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = SAMLTokenRequest;
+    export type RequestHeaders = {};
+    export type ResponseBody = SessionToken;
   }
 }
 
@@ -6553,11 +8331,11 @@ export namespace Tools {
    * @secure
    */
   export namespace ValidateTokenGeneration {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = AccessTokenRequest
-    export type RequestHeaders = {}
-    export type ResponseBody = TokenGenerationValidationResult
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = AccessTokenRequest;
+    export type RequestHeaders = {};
+    export type ResponseBody = TokenGenerationValidationResult;
   }
 }
 
@@ -6576,12 +8354,12 @@ export namespace Users {
        * The identifier of the user
        * @format uuid
        */
-      userId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = User
+      userId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = User;
   }
 }
 
@@ -6594,12 +8372,13 @@ export namespace Purposes {
    * @secure
    */
   export namespace CreatePurpose {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = PurposeSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = PurposeSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description clone purpose
    * @tags purposes
@@ -6611,13 +8390,14 @@ export namespace Purposes {
   export namespace ClonePurpose {
     export type RequestParams = {
       /** @format uuid */
-      purposeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = PurposeCloneSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = PurposeVersionResource
+      purposeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = PurposeCloneSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = PurposeVersionResource;
   }
+
   /**
    * @description Creates a draft Purpose Version
    * @tags purposes
@@ -6631,13 +8411,14 @@ export namespace Purposes {
        * the purpose id
        * @format uuid
        */
-      purposeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = PurposeVersionSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = PurposeVersionResource
+      purposeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = PurposeVersionSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = PurposeVersionResource;
   }
+
   /**
    * @description Get a Risk Analysis document
    * @tags purposes
@@ -6652,23 +8433,24 @@ export namespace Purposes {
        * the purpose id
        * @format uuid
        */
-      purposeId: string
+      purposeId: string;
       /**
        * the version Id
        * @format uuid
        */
-      versionId: string
+      versionId: string;
       /**
        * the document id
        * @format uuid
        */
-      documentId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = File
+      documentId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = File;
   }
+
   /**
    * @description Get a signed document
    * @tags purposes
@@ -6683,23 +8465,24 @@ export namespace Purposes {
        * the purpose id
        * @format uuid
        */
-      purposeId: string
+      purposeId: string;
       /**
        * the version Id
        * @format uuid
        */
-      versionId: string
+      versionId: string;
       /**
        * the document id
        * @format uuid
        */
-      documentId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = File
+      documentId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = File;
   }
+
   /**
    * @description reject the purpose version by id
    * @tags purposes
@@ -6711,15 +8494,16 @@ export namespace Purposes {
   export namespace RejectPurposeVersion {
     export type RequestParams = {
       /** @format uuid */
-      purposeId: string
+      purposeId: string;
       /** @format uuid */
-      versionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = RejectPurposeVersionPayload
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      versionId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RejectPurposeVersionPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description archives the purpose version by id
    * @tags purposes
@@ -6731,15 +8515,16 @@ export namespace Purposes {
   export namespace ArchivePurposeVersion {
     export type RequestParams = {
       /** @format uuid */
-      purposeId: string
+      purposeId: string;
       /** @format uuid */
-      versionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = PurposeVersionResource
+      versionId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = PurposeVersionResource;
   }
+
   /**
    * @description suspends the purpose version by id
    * @tags purposes
@@ -6751,15 +8536,16 @@ export namespace Purposes {
   export namespace SuspendPurposeVersion {
     export type RequestParams = {
       /** @format uuid */
-      purposeId: string
+      purposeId: string;
       /** @format uuid */
-      versionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = DelegationRef
-    export type RequestHeaders = {}
-    export type ResponseBody = PurposeVersionResource
+      versionId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = DelegationRef;
+    export type RequestHeaders = {};
+    export type ResponseBody = PurposeVersionResource;
   }
+
   /**
    * @description activates the purpose version by id
    * @tags purposes
@@ -6771,15 +8557,16 @@ export namespace Purposes {
   export namespace ActivatePurposeVersion {
     export type RequestParams = {
       /** @format uuid */
-      purposeId: string
+      purposeId: string;
       /** @format uuid */
-      versionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = DelegationRef
-    export type RequestHeaders = {}
-    export type ResponseBody = PurposeVersionResource
+      versionId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = DelegationRef;
+    export type RequestHeaders = {};
+    export type ResponseBody = PurposeVersionResource;
   }
+
   /**
    * @description Retrieve the Purpose
    * @tags purposes
@@ -6793,13 +8580,14 @@ export namespace Purposes {
        * the purpose id
        * @format uuid
        */
-      purposeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = Purpose
+      purposeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Purpose;
   }
+
   /**
    * @description Deletes a specific purpose if there are no version and just a draft version or a waiting for approval version
    * @tags purposes
@@ -6813,13 +8601,14 @@ export namespace Purposes {
        * the purpose id
        * @format uuid
        */
-      purposeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      purposeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Updates a Purpose if not yet activated
    * @tags purposes
@@ -6833,13 +8622,14 @@ export namespace Purposes {
        * the purpose id
        * @format uuid
        */
-      purposeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = PurposeUpdateContent
-    export type RequestHeaders = {}
-    export type ResponseBody = PurposeVersionResource
+      purposeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = PurposeUpdateContent;
+    export type RequestHeaders = {};
+    export type ResponseBody = PurposeVersionResource;
   }
+
   /**
    * @description deletes the purpose version by id
    * @tags purposes
@@ -6851,15 +8641,16 @@ export namespace Purposes {
   export namespace DeletePurposeVersion {
     export type RequestParams = {
       /** @format uuid */
-      purposeId: string
+      purposeId: string;
       /** @format uuid */
-      versionId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      versionId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Retrieve latest risk analysis configuration
    * @tags purposes
@@ -6868,14 +8659,15 @@ export namespace Purposes {
    * @secure
    */
   export namespace RetrieveLatestRiskAnalysisConfiguration {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
-      tenantKind?: TenantKind
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = RiskAnalysisFormConfig
+      tenantKind?: TenantKind;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = RiskAnalysisFormConfig;
   }
+
   /**
    * @description Retrieve a specified version of risk analysis configuration
    * @tags purposes
@@ -6885,15 +8677,36 @@ export namespace Purposes {
    */
   export namespace RetrieveRiskAnalysisConfigurationByVersion {
     export type RequestParams = {
-      riskAnalysisVersion: string
-    }
+      riskAnalysisVersion: string;
+    };
     export type RequestQuery = {
       /** @format uuid */
-      eserviceId: string
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = RiskAnalysisFormConfig
+      eserviceId: string;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = RiskAnalysisFormConfig;
+  }
+
+  /**
+   * @description Retrieve updated available daily calls for a purpose
+   * @tags purposes
+   * @name GetUpdatedDailyCalls
+   * @request GET:/purposes/{purposeId}/updatedDailyCalls
+   * @secure
+   */
+  export namespace GetUpdatedDailyCalls {
+    export type RequestParams = {
+      /**
+       * the purpose id
+       * @format uuid
+       */
+      purposeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = UpdatedDailyCallsResponse;
   }
 }
 
@@ -6907,12 +8720,13 @@ export namespace PurposeTemplates {
    * @secure
    */
   export namespace CreatePurposeTemplate {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = PurposeTemplateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = PurposeTemplateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Retrieve Tenants that have published a purposeTemplate
    * @tags purposeTemplates
@@ -6921,26 +8735,27 @@ export namespace PurposeTemplates {
    * @secure
    */
   export namespace GetPublishedPurposeTemplateCreators {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** Query to filter creators by name */
-      q?: string
+      q?: string;
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CompactOrganizations
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CompactOrganizations;
   }
+
   /**
    * @description Link one Eservice to Purpose Template (Draft or Active state)
    * @tags purposeTemplates
@@ -6955,13 +8770,14 @@ export namespace PurposeTemplates {
        * the purpose template id
        * @format uuid
        */
-      purposeTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = LinkEServiceToPurposeTemplatePayload
-    export type RequestHeaders = {}
-    export type ResponseBody = EServiceDescriptorPurposeTemplate
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = LinkEServiceToPurposeTemplatePayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = EServiceDescriptorPurposeTemplate;
   }
+
   /**
    * @description Unlink one Eservice from Purpose Template (Draft or Active state)
    * @tags purposeTemplates
@@ -6976,13 +8792,14 @@ export namespace PurposeTemplates {
        * the purpose template id
        * @format uuid
        */
-      purposeTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = UnlinkEServiceToPurposeTemplatePayload
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = UnlinkEServiceToPurposeTemplatePayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Retrieve e-services linked to a purpose template
    * @tags purposeTemplates
@@ -6994,32 +8811,33 @@ export namespace PurposeTemplates {
   export namespace GetPurposeTemplateEServices {
     export type RequestParams = {
       /** @format uuid */
-      purposeTemplateId: string
-    }
+      purposeTemplateId: string;
+    };
     export type RequestQuery = {
       /**
        * comma separated sequence of e-service producer IDs
        * @default []
        */
-      producerIds?: string[]
+      producerIds?: string[];
       /** filter linked e-services by name */
-      eserviceName?: string
+      eserviceName?: string;
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = EServiceDescriptorsPurposeTemplate
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = EServiceDescriptorsPurposeTemplate;
   }
+
   /**
    * @description Creates the Purpose from a Purpose Template
    * @tags purposes
@@ -7033,13 +8851,14 @@ export namespace PurposeTemplates {
        * the purpose template id
        * @format uuid
        */
-      purposeTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = PurposeFromTemplateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = PurposeFromTemplateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Partially update a Purpose from a Purpose Template
    * @tags purposes
@@ -7053,18 +8872,19 @@ export namespace PurposeTemplates {
        * the purpose template id
        * @format uuid
        */
-      purposeTemplateId: string
+      purposeTemplateId: string;
       /**
        * the purpose id
        * @format uuid
        */
-      purposeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = PatchPurposeUpdateFromTemplateContent
-    export type RequestHeaders = {}
-    export type ResponseBody = PurposeVersionResource
+      purposeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = PatchPurposeUpdateFromTemplateContent;
+    export type RequestHeaders = {};
+    export type ResponseBody = PurposeVersionResource;
   }
+
   /**
    * @description Retrieve a Purpose Template by its ID
    * @tags purposeTemplates
@@ -7079,13 +8899,14 @@ export namespace PurposeTemplates {
        * the purpose template id
        * @format uuid
        */
-      purposeTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplateWithCompactCreator
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = PurposeTemplateWithCompactCreator;
   }
+
   /**
    * @description Updates a Purpose Template (Draft state)
    * @tags purposeTemplates
@@ -7100,13 +8921,14 @@ export namespace PurposeTemplates {
        * the purpose template id
        * @format uuid
        */
-      purposeTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = PurposeTemplateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = PurposeTemplate
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = PurposeTemplateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = PurposeTemplate;
   }
+
   /**
    * @description Deletes a specific purpose template if it is in Draft state
    * @tags purposeTemplates
@@ -7121,13 +8943,14 @@ export namespace PurposeTemplates {
        * the purpose template id
        * @format uuid
        */
-      purposeTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Returns the unsigned Risk Analysis Template document file for a given purposeTemplateId
    * @tags purposeTemplates
@@ -7142,13 +8965,14 @@ export namespace PurposeTemplates {
        * The identifier of the Purpose Template
        * @format uuid
        */
-      purposeTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = File
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = File;
   }
+
   /**
    * @description Returns the signed Risk Analysis Template document file for a given purposeTemplateId
    * @tags purposeTemplates
@@ -7163,13 +8987,14 @@ export namespace PurposeTemplates {
        * The identifier of the Purpose Template
        * @format uuid
        */
-      purposeTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = File
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = File;
   }
+
   /**
    * @description Add valid new risk analysis answer for the specified purpose template risk analysis.
    * @tags purposeTemplates
@@ -7184,13 +9009,14 @@ export namespace PurposeTemplates {
        * Purpose Template unique identifier
        * @format uuid
        */
-      purposeTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = RiskAnalysisTemplateAnswerRequest
-    export type RequestHeaders = {}
-    export type ResponseBody = RiskAnalysisTemplateAnswerResponse
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RiskAnalysisTemplateAnswerRequest;
+    export type RequestHeaders = {};
+    export type ResponseBody = RiskAnalysisTemplateAnswerResponse;
   }
+
   /**
    * @description Add Answer Annotation Document to Risk Analysis of Purpose Template
    * @tags purposeTemplates
@@ -7202,15 +9028,17 @@ export namespace PurposeTemplates {
   export namespace AddRiskAnalysisTemplateAnswerAnnotationDocument {
     export type RequestParams = {
       /** @format uuid */
-      purposeTemplateId: string
+      purposeTemplateId: string;
       /** @format uuid */
-      answerId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = AddRiskAnalysisTemplateAnswerAnnotationDocumentPayload
-    export type RequestHeaders = {}
-    export type ResponseBody = RiskAnalysisTemplateAnswerAnnotationDocument
+      answerId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody =
+      AddRiskAnalysisTemplateAnswerAnnotationDocumentPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = RiskAnalysisTemplateAnswerAnnotationDocument;
   }
+
   /**
    * @description Retrieve risk analysis form template answer annotation document
    * @tags purposeTemplates
@@ -7225,23 +9053,24 @@ export namespace PurposeTemplates {
        * the purpose template id
        * @format uuid
        */
-      purposeTemplateId: string
+      purposeTemplateId: string;
       /**
        * the risk analysis template answer id
        * @format uuid
        */
-      answerId: string
+      answerId: string;
       /**
        * the risk analysis template answer annotation document id
        * @format uuid
        */
-      documentId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = File
+      documentId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = File;
   }
+
   /**
    * @description Delete a risk analysis form template answer annotation document
    * @tags purposeTemplates
@@ -7256,23 +9085,24 @@ export namespace PurposeTemplates {
        * the purpose template id
        * @format uuid
        */
-      purposeTemplateId: string
+      purposeTemplateId: string;
       /**
        * the risk analysis template answer id
        * @format uuid
        */
-      answerId: string
+      answerId: string;
       /**
        * the risk analysis template answer annotation document id
        * @format uuid
        */
-      documentId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      documentId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Update Answer Annotation Document in Risk Analysis of Purpose Template
    * @tags purposeTemplates
@@ -7287,23 +9117,25 @@ export namespace PurposeTemplates {
        * the purpose template id
        * @format uuid
        */
-      purposeTemplateId: string
+      purposeTemplateId: string;
       /**
        * the risk analysis template answer id
        * @format uuid
        */
-      answerId: string
+      answerId: string;
       /**
        * the risk analysis template answer annotation document id
        * @format uuid
        */
-      documentId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = UpdateRiskAnalysisTemplateAnswerAnnotationDocumentSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = RiskAnalysisTemplateAnswerAnnotationDocument
+      documentId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody =
+      UpdateRiskAnalysisTemplateAnswerAnnotationDocumentSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = RiskAnalysisTemplateAnswerAnnotationDocument;
   }
+
   /**
    * @description Add a risk analysis answer annotation for the specified purpose template risk analysis.
    * @tags purposeTemplates
@@ -7315,15 +9147,16 @@ export namespace PurposeTemplates {
   export namespace AddPurposeTemplateRiskAnalysisAnswerAnnotation {
     export type RequestParams = {
       /** @format uuid */
-      purposeTemplateId: string
+      purposeTemplateId: string;
       /** @format uuid */
-      answerId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = RiskAnalysisTemplateAnswerAnnotationSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = RiskAnalysisTemplateAnswerAnnotation
+      answerId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RiskAnalysisTemplateAnswerAnnotationSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = RiskAnalysisTemplateAnswerAnnotation;
   }
+
   /**
    * @description Delete a risk analysis form template answer annotation and the related files
    * @tags purposeTemplates
@@ -7335,15 +9168,16 @@ export namespace PurposeTemplates {
   export namespace DeleteRiskAnalysisTemplateAnswerAnnotation {
     export type RequestParams = {
       /** @format uuid */
-      purposeTemplateId: string
+      purposeTemplateId: string;
       /** @format uuid */
-      answerId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      answerId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Publishes a purpose template by id (from Draft State to Active State)
    * @tags purposeTemplates
@@ -7355,13 +9189,14 @@ export namespace PurposeTemplates {
   export namespace PublishPurposeTemplate {
     export type RequestParams = {
       /** @format uuid */
-      purposeTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Unsuspends a purpose template by id (from Suspended State to Active State)
    * @tags purposeTemplates
@@ -7373,13 +9208,14 @@ export namespace PurposeTemplates {
   export namespace UnsuspendPurposeTemplate {
     export type RequestParams = {
       /** @format uuid */
-      purposeTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Suspends a purpose template by id (from Active State to Suspended State)
    * @tags purposeTemplates
@@ -7391,13 +9227,14 @@ export namespace PurposeTemplates {
   export namespace SuspendPurposeTemplate {
     export type RequestParams = {
       /** @format uuid */
-      purposeTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Archives a purpose template by id (from Suspended State to Archived State)
    * @tags purposeTemplates
@@ -7409,12 +9246,12 @@ export namespace PurposeTemplates {
   export namespace ArchivePurposeTemplate {
     export type RequestParams = {
       /** @format uuid */
-      purposeTemplateId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
 }
 
@@ -7428,36 +9265,37 @@ export namespace Creators {
    * @secure
    */
   export namespace GetCreatorPurposeTemplates {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** filter by purpose template title */
-      q?: string
+      q?: string;
       /**
        * comma separated sequence of e-service IDs
        * @default []
        */
-      eserviceIds?: string[]
+      eserviceIds?: string[];
       /**
        * comma separated sequence of purpose template states
        * @default []
        */
-      states?: PurposeTemplateState[]
+      states?: PurposeTemplateState[];
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatorPurposeTemplates
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatorPurposeTemplates;
   }
+
   /**
    * @description Retrieves Creator EService templates
    * @tags eserviceTemplates
@@ -7467,25 +9305,25 @@ export namespace Creators {
    * @secure
    */
   export namespace GetCreatorEServiceTemplates {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** Query to filter EServices templates by name */
-      q?: string
+      q?: string;
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = ProducerEServiceTemplates
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = ProducerEServiceTemplates;
   }
 }
 
@@ -7499,11 +9337,11 @@ export namespace CertifiedAttributes {
    * @secure
    */
   export namespace CreateCertifiedAttribute {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = CertifiedAttributeSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = Attribute
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = CertifiedAttributeSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = Attribute;
   }
 }
 
@@ -7517,11 +9355,11 @@ export namespace VerifiedAttributes {
    * @secure
    */
   export namespace CreateVerifiedAttribute {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = AttributeSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = Attribute
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = AttributeSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = Attribute;
   }
 }
 
@@ -7535,11 +9373,11 @@ export namespace DeclaredAttributes {
    * @secure
    */
   export namespace CreateDeclaredAttribute {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = AttributeSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = Attribute
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = AttributeSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = Attribute;
   }
 }
 
@@ -7553,23 +9391,24 @@ export namespace Attributes {
    * @secure
    */
   export namespace GetAttributes {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** Query to filter Attributes by name */
-      q?: string
+      q?: string;
       /** Query to filter Attributes by origin */
-      origin?: string
+      origin?: string;
       /** @format int32 */
-      limit: number
+      limit: number;
       /** @format int32 */
-      offset: number
+      offset: number;
       /** Array of kinds */
-      kinds: AttributeKind[]
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = Attributes
+      kinds: AttributeKind[];
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Attributes;
   }
+
   /**
    * @description returns the attribute with given ID, if any.
    * @tags attributes
@@ -7584,13 +9423,14 @@ export namespace Attributes {
        * Attribute ID
        * @format uuid
        */
-      attributeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = Attribute
+      attributeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Attribute;
   }
+
   /**
    * @description returns the attribute in the registry corresponding to origin and code, if any.
    * @tags attributes
@@ -7602,14 +9442,14 @@ export namespace Attributes {
   export namespace GetAttributeByOriginAndCode {
     export type RequestParams = {
       /** origin of the attribute to lookup (e.g.: IPA). */
-      origin: string
+      origin: string;
       /** code of the attribute to lookup (e.g.: unique identifier of IPA). */
-      code: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = Attribute
+      code: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Attribute;
   }
 }
 
@@ -7623,33 +9463,34 @@ export namespace Clients {
    * @secure
    */
   export namespace GetClients {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** Query to filter Clients by name */
-      q?: string
+      q?: string;
       /**
        * comma separated sequence of user IDs
        * @default []
        */
-      userIds?: string[]
+      userIds?: string[];
       /** type of Client to be retrieved */
-      kind?: ClientKind
+      kind?: ClientKind;
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CompactClients
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CompactClients;
   }
+
   /**
    * @description Retrieves a Client
    * @tags clients
@@ -7664,13 +9505,14 @@ export namespace Clients {
        * The Client id
        * @format uuid
        */
-      clientId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = Client
+      clientId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Client;
   }
+
   /**
    * @description Deletes a Client
    * @tags clients
@@ -7685,13 +9527,14 @@ export namespace Clients {
        * The Client id
        * @format uuid
        */
-      clientId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      clientId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Sets an Admin to a Client
    * @tags clients
@@ -7706,13 +9549,14 @@ export namespace Clients {
        * ID of Client the users belong to
        * @format uuid
        */
-      clientId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = SetAdminToClientPayload
-    export type RequestHeaders = {}
-    export type ResponseBody = Client
+      clientId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = SetAdminToClientPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = Client;
   }
+
   /**
    * @description Removes an admin from a client
    * @tags clients
@@ -7727,18 +9571,19 @@ export namespace Clients {
        * ID of Client
        * @format uuid
        */
-      clientId: string
+      clientId: string;
       /**
        * ID of Admin
        * @format uuid
        */
-      adminId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      adminId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Removes a purpose from a client
    * @tags clients
@@ -7753,18 +9598,19 @@ export namespace Clients {
        * ID of Client
        * @format uuid
        */
-      clientId: string
+      clientId: string;
       /**
        * ID of Purpose
        * @format uuid
        */
-      purposeId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      purposeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Given a client and key identifiers it returns the corresponding key, if any
    * @tags clients
@@ -7779,15 +9625,16 @@ export namespace Clients {
        * ID of the client to look up
        * @format uuid
        */
-      clientId: string
+      clientId: string;
       /** the unique identifier of the key (kid) to lookup */
-      keyId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = PublicKey
+      keyId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = PublicKey;
   }
+
   /**
    * @description Given a client and key identifiers it deletes the corresponding key, if any
    * @tags clients
@@ -7802,15 +9649,16 @@ export namespace Clients {
        * ID of the client holding the key
        * @format uuid
        */
-      clientId: string
+      clientId: string;
       /** the unique identifier of the key (kid) to delete */
-      keyId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      keyId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Removes an user from a Client
    * @tags clients
@@ -7825,18 +9673,19 @@ export namespace Clients {
        * The Client id
        * @format uuid
        */
-      clientId: string
+      clientId: string;
       /**
        * The identifier of the user between the security user and the consumer
        * @format uuid
        */
-      userId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      userId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Adds a purpose to a client
    * @tags clients
@@ -7851,13 +9700,14 @@ export namespace Clients {
        * ID of Client
        * @format uuid
        */
-      clientId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = PurposeAdditionDetailsSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      clientId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = PurposeAdditionDetailsSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description List client users
    * @tags clients
@@ -7872,13 +9722,14 @@ export namespace Clients {
        * ID of Client the users belong to
        * @format uuid
        */
-      clientId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CompactUsers
+      clientId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CompactUsers;
   }
+
   /**
    * @description Binds a security user belonging to a consumer to a Client
    * @tags clients
@@ -7893,13 +9744,14 @@ export namespace Clients {
        * ID of Client the users belong to
        * @format uuid
        */
-      clientId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = AddUsersToClientPayload
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+      clientId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = AddUsersToClientPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description Creates one or more keys for the corresponding client.
    * @tags clients
@@ -7914,13 +9766,14 @@ export namespace Clients {
        * ID of client that the added keys MUST belong to
        * @format uuid
        */
-      clientId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = KeySeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      clientId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = KeySeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Given a client identifier it returns its corresponding set of keys, if any
    * @tags clients
@@ -7935,30 +9788,31 @@ export namespace Clients {
        * ID of Client
        * @format uuid
        */
-      clientId: string
-    }
+      clientId: string;
+    };
     export type RequestQuery = {
       /**
        * comma separated sequence of user IDs
        * @default []
        */
-      userIds?: string[]
+      userIds?: string[];
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = PublicKeys
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = PublicKeys;
   }
+
   /**
    * @description Given a client and key identifiers it returns the corresponding encoded key, if any
    * @tags clients
@@ -7973,14 +9827,14 @@ export namespace Clients {
        * ID of the client to look up
        * @format uuid
        */
-      clientId: string
+      clientId: string;
       /** the unique identifier of the key (kid) to lookup */
-      keyId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = EncodedClientKey
+      keyId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = EncodedClientKey;
   }
 }
 
@@ -7994,12 +9848,13 @@ export namespace Selfcare {
    * @secure
    */
   export namespace GetInstitutionUserProducts {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = SelfcareProduct[]
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = SelfcareProduct[];
   }
+
   /**
    * @description The service retrieves all the onboarded institutions related to the provided user
    * @tags selfcare
@@ -8009,11 +9864,11 @@ export namespace Selfcare {
    * @secure
    */
   export namespace GetInstitutions {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = SelfcareInstitution[]
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = SelfcareInstitution[];
   }
 }
 
@@ -8027,11 +9882,11 @@ export namespace ClientsConsumer {
    * @secure
    */
   export namespace CreateConsumerClient {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = ClientSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = ClientSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
 }
 
@@ -8045,11 +9900,11 @@ export namespace ClientsApi {
    * @secure
    */
   export namespace CreateApiClient {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = ClientSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = ClientSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
 }
 
@@ -8064,13 +9919,14 @@ export namespace User {
   export namespace GetPrivacyNotice {
     export type RequestParams = {
       /** Consent Type */
-      consentType: ConsentType
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = PrivacyNotice
+      consentType: ConsentType;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = PrivacyNotice;
   }
+
   /**
    * @description User approve a privacy notice
    * @tags privacyNotices
@@ -8081,12 +9937,12 @@ export namespace User {
   export namespace AcceptPrivacyNotice {
     export type RequestParams = {
       /** Consent Type */
-      consentType: ConsentType
-    }
-    export type RequestQuery = {}
-    export type RequestBody = PrivacyNoticeSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      consentType: ConsentType;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = PrivacyNoticeSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
 }
 
@@ -8101,12 +9957,12 @@ export namespace PrivacyNotices {
   export namespace GetPrivacyNoticeContent {
     export type RequestParams = {
       /** Consent Type */
-      consentType: ConsentType
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = File
+      consentType: ConsentType;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = File;
   }
 }
 
@@ -8118,11 +9974,11 @@ export namespace Support {
    * @request POST:/support
    */
   export namespace SamlLoginCallback {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = GoogleSAMLPayload
-    export type RequestHeaders = {}
-    export type ResponseBody = any
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = GoogleSAMLPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = any;
   }
 }
 
@@ -8136,12 +9992,13 @@ export namespace ProducerKeychains {
    * @secure
    */
   export namespace CreateProducerKeychain {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = ProducerKeychainSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = CreatedResource
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = ProducerKeychainSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = CreatedResource;
   }
+
   /**
    * @description List producer keychains
    * @tags producerKeychain
@@ -8151,36 +10008,37 @@ export namespace ProducerKeychains {
    * @secure
    */
   export namespace GetProducerKeychains {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** Filter for the producer keychain name */
-      q?: string
+      q?: string;
       /**
        * comma separated sequence of user IDs
        * @default []
        */
-      userIds?: string[]
+      userIds?: string[];
       /**
        * ID of e-service that MUST be related to the Producer Keychain
        * @format uuid
        */
-      eserviceId?: string
+      eserviceId?: string;
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CompactProducerKeychains
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CompactProducerKeychains;
   }
+
   /**
    * @description Retrieves a Producer Keychain
    * @tags producerKeychain
@@ -8195,13 +10053,14 @@ export namespace ProducerKeychains {
        * The Producer Keychain id
        * @format uuid
        */
-      producerKeychainId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = ProducerKeychain
+      producerKeychainId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = ProducerKeychain;
   }
+
   /**
    * @description Deletes a Producer Keychain
    * @tags producerKeychain
@@ -8216,13 +10075,14 @@ export namespace ProducerKeychains {
        * The Producer Keychain id
        * @format uuid
        */
-      producerKeychainId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      producerKeychainId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description List Producer Keychain users
    * @tags producerKeychain
@@ -8237,13 +10097,14 @@ export namespace ProducerKeychains {
        * ID of Producer Keychain the users belong to
        * @format uuid
        */
-      producerKeychainId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CompactUsers
+      producerKeychainId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CompactUsers;
   }
+
   /**
    * @description Add users to a Producer Keychain
    * @tags producerKeychain
@@ -8258,13 +10119,14 @@ export namespace ProducerKeychains {
        * ID of Producer Keychain the users belong to
        * @format uuid
        */
-      producerKeychainId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = AddProducerKeychainUsersPayload
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      producerKeychainId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = AddProducerKeychainUsersPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Removes a user from a Producer Keychain
    * @tags producerKeychain
@@ -8279,18 +10141,19 @@ export namespace ProducerKeychains {
        * The Producer Keychain id
        * @format uuid
        */
-      producerKeychainId: string
+      producerKeychainId: string;
       /**
        * The identifier of the user between the security user and the consumer
        * @format uuid
        */
-      userId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      userId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Creates a key for the corresponding producer keychain.
    * @tags producerKeychain
@@ -8305,13 +10168,14 @@ export namespace ProducerKeychains {
        * ID of producer keychain that the added key MUST belong to
        * @format uuid
        */
-      producerKeychainId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = KeySeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      producerKeychainId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = KeySeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Given a producer keychain identifier it returns its corresponding set of keys, if any
    * @tags producerKeychain
@@ -8326,30 +10190,31 @@ export namespace ProducerKeychains {
        * ID of the producer keychain to look up
        * @format uuid
        */
-      producerKeychainId: string
-    }
+      producerKeychainId: string;
+    };
     export type RequestQuery = {
       /**
        * comma separated sequence of user IDs
        * @default []
        */
-      userIds?: string[]
+      userIds?: string[];
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = PublicKeys
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = PublicKeys;
   }
+
   /**
    * @description Given a producer keychain and key identifiers it returns the corresponding key, if any
    * @tags producerKeychain
@@ -8364,15 +10229,16 @@ export namespace ProducerKeychains {
        * ID of the producer keychain to look up
        * @format uuid
        */
-      producerKeychainId: string
+      producerKeychainId: string;
       /** the unique identifier of the key (kid) to lookup */
-      keyId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = PublicKey
+      keyId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = PublicKey;
   }
+
   /**
    * @description Given a producer keychain and key identifiers it deletes the corresponding key, if any
    * @tags producerKeychain
@@ -8387,15 +10253,16 @@ export namespace ProducerKeychains {
        * ID of the producer keychain holding the key
        * @format uuid
        */
-      producerKeychainId: string
+      producerKeychainId: string;
       /** the unique identifier of the key (kid) to delete */
-      keyId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      keyId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Adds an eservice to a producer keychain
    * @tags producerKeychain
@@ -8410,13 +10277,14 @@ export namespace ProducerKeychains {
        * ID of Producer Keychain
        * @format uuid
        */
-      producerKeychainId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = EServiceAdditionDetailsSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      producerKeychainId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceAdditionDetailsSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Removes an eservice from a producer keychain
    * @tags producerKeychain
@@ -8431,18 +10299,19 @@ export namespace ProducerKeychains {
        * ID of Producer Keychain
        * @format uuid
        */
-      producerKeychainId: string
+      producerKeychainId: string;
       /**
        * ID of EService
        * @format uuid
        */
-      eserviceId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      eserviceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Given a producer keychain id and key identifiers it returns the corresponding encoded key, if any
    * @tags producerKeychain
@@ -8457,14 +10326,14 @@ export namespace ProducerKeychains {
        * ID of the producer keychain to look up
        * @format uuid
        */
-      producerKeychainId: string
+      producerKeychainId: string;
       /** the unique identifier of the key (kid) to lookup */
-      keyId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = EncodedClientKey
+      keyId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = EncodedClientKey;
   }
 }
 
@@ -8478,43 +10347,44 @@ export namespace Delegations {
    * @secure
    */
   export namespace GetDelegations {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
+      limit: number;
       /**
        * comma separated sequence of delegation states to filter the results with
        * @default []
        */
-      states?: DelegationState[]
+      states?: DelegationState[];
       /**
        * The delegator ids to filter by
        * @default []
        */
-      delegatorIds?: string[]
+      delegatorIds?: string[];
       /**
        * The delegated ids to filter by
        * @default []
        */
-      delegateIds?: string[]
+      delegateIds?: string[];
       /** The delegation kind to filter by */
-      kind?: DelegationKind
+      kind?: DelegationKind;
       /** @default [] */
-      eserviceIds?: string[]
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = CompactDelegations
+      eserviceIds?: string[];
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = CompactDelegations;
   }
+
   /**
    * @description Retrieves delegation
    * @tags delegations
@@ -8529,13 +10399,14 @@ export namespace Delegations {
        * The delegation id
        * @format uuid
        */
-      delegationId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = Delegation
+      delegationId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Delegation;
   }
+
   /**
    * @description Retrieve a contract of a delegation
    * @tags delegations
@@ -8547,15 +10418,16 @@ export namespace Delegations {
   export namespace GetDelegationContract {
     export type RequestParams = {
       /** @format uuid */
-      delegationId: string
+      delegationId: string;
       /** @format uuid */
-      contractId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = File
+      contractId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = File;
   }
+
   /**
    * @description Retrieve the signed contract file for a given delegationId
    * @tags delegations
@@ -8570,17 +10442,17 @@ export namespace Delegations {
        * The identifier of the delegation
        * @format uuid
        */
-      delegationId: string
+      delegationId: string;
       /**
        * The identifier of the the signedContract
        * @format uuid
        */
-      contractId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = File
+      contractId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = File;
   }
 }
 
@@ -8594,29 +10466,34 @@ export namespace InAppNotifications {
    * @secure
    */
   export namespace GetNotifications {
-    export type RequestParams = {}
+    export type RequestParams = {};
     export type RequestQuery = {
       /** Query to filter notifications */
-      q?: string
-      unread?: boolean
+      q?: string;
+      unread?: boolean;
       /** Category to filter notifications */
-      category?: 'Subscribers' | 'Providers' | 'Delegations' | 'AttributesAndKeys'
+      category?:
+        | "Subscribers"
+        | "Providers"
+        | "Delegations"
+        | "AttributesAndKeys";
       /**
        * @format int32
        * @min 0
        */
-      offset: number
+      offset: number;
       /**
        * @format int32
        * @min 1
        * @max 50
        */
-      limit: number
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = Notifications
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Notifications;
   }
+
   /**
    * @description Delete bulk notifications
    * @tags inAppNotifications
@@ -8626,12 +10503,13 @@ export namespace InAppNotifications {
    * @secure
    */
   export namespace DeleteNotifications {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = DeleteNotificationsPayload
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = DeleteNotificationsPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Mark a list of notifications as read
    * @tags inAppNotifications
@@ -8641,12 +10519,13 @@ export namespace InAppNotifications {
    * @secure
    */
   export namespace MarkNotificationsAsRead {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = MarkNotificationsAsReadPayload
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = MarkNotificationsAsReadPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Mark a notification as read
    * @tags inAppNotifications
@@ -8658,13 +10537,14 @@ export namespace InAppNotifications {
   export namespace MarkNotificationAsRead {
     export type RequestParams = {
       /** @format uuid */
-      notificationId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      notificationId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Mark a notification as unread
    * @tags inAppNotifications
@@ -8676,13 +10556,14 @@ export namespace InAppNotifications {
   export namespace MarkNotificationAsUnread {
     export type RequestParams = {
       /** @format uuid */
-      notificationId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      notificationId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Mark a list of notifications as unread
    * @tags inAppNotifications
@@ -8692,12 +10573,13 @@ export namespace InAppNotifications {
    * @secure
    */
   export namespace MarkNotificationsAsUnread {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = MarkNotificationsAsUnreadPayload
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = MarkNotificationsAsUnreadPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Mark all notifications with the given entity ID as read
    * @tags inAppNotifications
@@ -8708,13 +10590,14 @@ export namespace InAppNotifications {
    */
   export namespace MarkNotificationsAsReadByEntityId {
     export type RequestParams = {
-      entityId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      entityId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Delete a notification
    * @tags inAppNotifications
@@ -8726,13 +10609,14 @@ export namespace InAppNotifications {
   export namespace DeleteNotification {
     export type RequestParams = {
       /** @format uuid */
-      notificationId: string
-    }
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+      notificationId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
+
   /**
    * @description Retrieve the count of notifications grouped by section and subsection
    * @tags inAppNotifications
@@ -8742,11 +10626,11 @@ export namespace InAppNotifications {
    * @secure
    */
   export namespace GetNotificationsCountBySection {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = NotificationsCountBySection
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = NotificationsCountBySection;
   }
 }
 
@@ -8760,12 +10644,13 @@ export namespace TenantNotificationConfigs {
    * @secure
    */
   export namespace GetTenantNotificationConfig {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = TenantNotificationConfig
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = TenantNotificationConfig;
   }
+
   /**
    * @description Update the tenant's notification configuration
    * @tags notificationConfigs
@@ -8775,11 +10660,11 @@ export namespace TenantNotificationConfigs {
    * @secure
    */
   export namespace UpdateTenantNotificationConfig {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = TenantNotificationConfigUpdateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = TenantNotificationConfigUpdateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
 }
 
@@ -8793,12 +10678,13 @@ export namespace UserNotificationConfigs {
    * @secure
    */
   export namespace GetUserNotificationConfig {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = UserNotificationConfig
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = UserNotificationConfig;
   }
+
   /**
    * @description Update the user's notification configuration
    * @tags notificationConfigs
@@ -8808,11 +10694,11 @@ export namespace UserNotificationConfigs {
    * @secure
    */
   export namespace UpdateUserNotificationConfig {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = UserNotificationConfigUpdateSeed
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = UserNotificationConfigUpdateSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
 }
 
@@ -8828,17 +10714,17 @@ export namespace EmailDeepLink {
   export namespace GetNotificationDeeplink {
     export type RequestParams = {
       /** The type of the notification */
-      notificationType: string
+      notificationType: string;
       /** The id of the entity */
-      entityId: string
-    }
+      entityId: string;
+    };
     export type RequestQuery = {
       /** The selfcare ID for the institution (optional, falls back to generic URL if not provided) */
-      selfcareId?: string
-    }
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = any
+      selfcareId?: string;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = any;
   }
 }
 
@@ -8851,11 +10737,11 @@ export namespace ApiDocs {
    * @request GET:/apiDocs
    */
   export namespace GetDocs {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = void
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
 }
 
@@ -8868,10 +10754,10 @@ export namespace Status {
    * @request GET:/status
    */
   export namespace GetStatus {
-    export type RequestParams = {}
-    export type RequestQuery = {}
-    export type RequestBody = never
-    export type RequestHeaders = {}
-    export type ResponseBody = Problem
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Problem;
   }
 }

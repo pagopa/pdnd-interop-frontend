@@ -14,6 +14,21 @@ vi.mock('@/api/purpose', () => ({
       mutate: updateDailyCallsMock,
     }),
   },
+  PurposeQueries: {
+    getUpdatedDailyCalls: vi.fn(() => ({
+      queryKey: ['purposeId', purpose.id],
+      queryFn: vi.fn().mockResolvedValue({
+        updatedDailyCallsPerConsumer: 5,
+        updatedDailyCallsTotal: 100,
+      }),
+    })),
+  },
+}))
+
+vi.mock('@/api/attribute', () => ({
+  AttributeQueries: {
+    getSingle: vi.fn((id: string) => ({ queryKey: ['attribute', id], queryFn: vi.fn() })),
+  },
 }))
 
 describe('ConsumerPurposeDetailsDailyCallsUpdateDrawer', () => {

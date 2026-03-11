@@ -21,6 +21,8 @@ import type {
   RetrieveRiskAnalysisConfigurationByVersionParams,
   ReversePurposeUpdateContent,
   RiskAnalysisFormConfig,
+  GetUpdatedDailyCallsParams,
+  UpdatedDailyCallsResponse,
 } from '../api.generatedTypes'
 
 /**
@@ -280,6 +282,15 @@ async function createDraftFromPurposeTemplate({
   return response.data
 }
 
+async function getUpdatedDailyCalls({ purposeId }: GetUpdatedDailyCallsParams) {
+  /* @TODO - remove this mock */
+  /* const response = await axiosInstance.get<UpdatedDailyCallsResponse>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/updatedDailyCalls`
+  )
+  return response.data */
+  return { updatedDailyCallsPerConsumer: 100, updatedDailyCallsTotal: 500 }
+}
+
 export const PurposeServices = {
   getProducersList,
   getConsumersList,
@@ -305,4 +316,5 @@ export const PurposeServices = {
   removeClient,
   createDraftFromPurposeTemplate,
   downloadRiskAnalysis,
+  getUpdatedDailyCalls,
 }

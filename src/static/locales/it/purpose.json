@@ -105,6 +105,7 @@
       "providerThresholdsInfo": {
         "label": "Soglie definite dall’erogatore",
         "description": "Le chiamate residue possono variare se l'erogatore riceve altre finalità prima della tua pubblicazione.",
+        "na": "n/a",
         "dailyCallsPerConsumer": {
           "label": "Soglia per fruitore",
           "value": "{{min}} di {{max}} chiamate API/giorno"
@@ -116,7 +117,10 @@
       },
       "alerts": {
         "infoDailyCallsPerConsumerExceed": "Il numero che hai inserito supera la soglia prevista per fruitore. La finalità dovrà essere approvata dall’erogatore.",
-        "infoDailyCallsTotalExceed": "Il numero che hai inserito supera la soglia totale. La finalità dovrà essere approvata dall’erogatore."
+        "infoDailyCallsTotalExceed": "Il numero che hai inserito supera la soglia totale. La finalità dovrà essere approvata dall’erogatore.",
+        "infoDailyCallsPerConsumerResidualExceed": "Il numero che hai inserito supera la soglia residua per fruitore. La finalità dovrà essere approvata dall’erogatore.",
+        "infoDailyCallsTotalResidualExceed": "Il numero che hai inserito supera la soglia residua totale. La finalità dovrà essere approvata dall’erogatore.",
+        "infoDailyCallsMaximumReached": "L’erogatore ha già ricevuto il numero massimo di chiamate API/giorno. La finalità dovrà essere approvata dall’erogatore."
       }
     },
     "stepRiskAnalysis": {
@@ -195,7 +199,10 @@
       "infoRulesetExpiration": "Questa analisi del rischio utilizza una versione che sarà obsoleta tra <strong>{{days}} giorni</strong>. Pubblicala entro {{date}} per non doverla ricompilare.",
       "infoApprovalMayBeRequired": "Se l’erogatore riceve altre finalità prima della tua pubblicazione, potrebbe essere necessaria l’approvazione.",
       "infoDailyCallsPerConsumerExceed": "La stima di chiamate che hai indicato supera la soglia per fruitore. La finalità dovrà essere approvata dall’erogatore.",
-      "infoDailyCallsTotalExceed": "La stima di chiamate che hai indicato supera la soglia totale. La finalità dovrà essere approvata dall’erogatore."
+      "infoDailyCallsTotalExceed": "La stima di chiamate che hai indicato supera la soglia totale. La finalità dovrà essere approvata dall’erogatore.",
+      "infoDailyCallsPerConsumerResidualExceed": "La stima di chiamate che hai indicato supera la soglia residua per fruitore. La finalità dovrà essere approvata dall’erogatore.",
+      "infoDailyCallsTotalResidualExceed": "La stima di chiamate che hai indicato supera la soglia residua totale. La finalità dovrà essere approvata dall’erogatore.",
+      "infoDailyCallsMaximumReached": "L’erogatore ha già ricevuto il numero massimo di chiamate API/giorno. La finalità dovrà essere approvata dall’erogatore."
     },
     "generalInformationSection": {
       "title": "Informazioni generali",
@@ -428,6 +435,7 @@
           "title": "Richiedi cambio stima",
           "subtitle": "Indica un numero nuovo di chiamate previste ogni giorno per questa finalità. Per tutte le informazioni, <1>consulta la guida</1>.",
           "currentDailyCalls": "La stima attuale è di <strong>{{dailyCalls}} chiamate API/giorno</strong>.",
+          "na": "n/a",
           "dailyCallsFormField": {
             "label": "Nuova stima di chiamate API/giorno",
             "infoLabel": "Inserisci un numero superiore o uguale a 1",
