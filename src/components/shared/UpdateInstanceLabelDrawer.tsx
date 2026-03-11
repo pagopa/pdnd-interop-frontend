@@ -98,7 +98,7 @@ export const UpdateInstanceLabelDrawer = React.forwardRef<
             </Typography>
             <Typography variant="body2" fontWeight={700}>
               {templateName}
-              {watchedInstanceLabel ? ` - ${watchedInstanceLabel.trim()}` : ''}
+              {watchedInstanceLabel.trim() ? ` - ${watchedInstanceLabel.trim()}` : ''}
             </Typography>
           </Box>
         </Box>

@@ -152,6 +152,24 @@ describe('EServiceCreateStepGeneral - instanceLabel', () => {
     })
   })
 
+  it('does not show the dash separator in catalog preview when instanceLabel is only whitespace', async () => {
+    const user = userEvent.setup()
+    mockContext({ eserviceTemplate: mockEServiceTemplate })
+    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+      withReactQueryContext: true,
+    })
+
+    const instanceLabelInput = screen.getByRole('textbox', {
+      name: 'create.step1.instanceLabelField.label',
+    })
+    await user.type(instanceLabelInput, '   ')
+
+    await waitFor(() => {
+      const previewText = screen.getByText('Credenziale IT-Wallet')
+      expect(previewText.textContent).toBe('Credenziale IT-Wallet ')
+    })
+  })
+
   it('shows the catalog preview with only e-service name when instanceLabel is empty', () => {
     mockContext({ eserviceTemplate: mockEServiceTemplate })
     renderWithApplicationContext(<EServiceCreateStepGeneral />, {
