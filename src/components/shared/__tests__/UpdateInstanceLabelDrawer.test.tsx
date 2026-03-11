@@ -81,6 +81,22 @@ describe('UpdateInstanceLabelDrawer', () => {
     })
   })
 
+  it('does not show the dash separator in catalog preview when instanceLabel is only whitespace', async () => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(
+      <UpdateInstanceLabelDrawer {...defaultProps} currentInstanceLabel="" />,
+      { withReactQueryContext: true }
+    )
+
+    const input = screen.getByRole('textbox', { name: 'instanceLabelField.label' })
+    await user.type(input, '   ')
+
+    await waitFor(() => {
+      const previewValue = screen.getByText('Credenziale IT-Wallet')
+      expect(previewValue.textContent).toBe('Credenziale IT-Wallet')
+    })
+  })
+
   it('calls onSubmit with eServiceId and new instanceLabel value', async () => {
     const user = userEvent.setup()
     renderWithApplicationContext(<UpdateInstanceLabelDrawer {...defaultProps} />, {

@@ -39,7 +39,7 @@ export const InstanceLabelSection: React.FC<InstanceLabelSectionProps> = ({
           {t('create.step1.instanceLabelField.catalogPreviewLabel')}
         </Typography>
         <Typography variant="body2" fontWeight={700} marginLeft={6}>
-          {templateName} {instanceLabel ? `- ${instanceLabel.trim()}` : ''}
+          {templateName} {instanceLabel.trim() ? `- ${instanceLabel.trim()}` : ''}
         </Typography>
       </Box>
     </SectionContainer>
