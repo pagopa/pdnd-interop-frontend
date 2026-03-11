@@ -152,7 +152,7 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
         {
           delegateId: formValues.delegateId,
           eServiceTemplateId: formValues.eserviceId,
-          instanceLabel: formValues.instanceLabel || undefined,
+          instanceLabel: formValues.instanceLabel?.trim() || undefined,
         },
         {
           onSuccess: () => {
