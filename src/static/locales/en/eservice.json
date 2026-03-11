@@ -723,7 +723,8 @@
         "subtitle": "Edit the custom threshold for the certificated attribute <strong>{{name}}</strong>.",
         "alert": "If the consumer satisfies multiple attributes with different thresholds, the highest threshold is automatically applied. The threshold remains unchanged for consumers who are already using the e-service.",
         "submitBtnLabel": "Save changes",
-        "consumerThreshold": "The current threshold is <strong>{{dailyCallsPerConsumer}} API calls/day</strong>."
+        "consumerThreshold": "The current threshold is <strong>{{dailyCallsPerConsumer}} API calls/day</strong>.",
+        "na": "n/a"
       },
       "updateVoucherDrawer": {
         "title": "Change voucher duration",
