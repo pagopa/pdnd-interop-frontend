@@ -9,7 +9,7 @@
       "step2Label": "Thresholds and attributes",
       "step2ReceiveLabel": "Purpose",
       "step3Label": "Technical specifications",
-      "step4Label": "Additional info"
+      "step4Label": "Additional information"
     },
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
@@ -214,6 +214,7 @@
     "step3": {
       "attributesTitle": "Access requirements",
       "attributesDescription": "Define who can access this e-service. Create one or more requirements and associate the required attributes to each. The consumer must meet all the indicated requirements and possess at least one of the attributes in each requirement. <1>Learn more about attributes</1>",
+      "attributesDescriptionFromTemplate": "You cannot create or delete requirements or add new attributes. The consumer must meet all the indicated requirements and possess at least one of the attributes in each requirement. <1>Learn more about attributes</1>",
       "certifiedDescription": "These are attributes certified by a <1>recognized authoritative source.</1>",
       "verifiedDescription": "These are attributes verified <1>by other organizations</1>, with the possibility of requesting a verification from the provider.",
       "declaredDescription": "These are attributes declared by the consumer during the service request. No verification from the provider is required.",
@@ -299,7 +300,8 @@
       },
       "documentationSection": {
         "title": "Documentation",
-        "subtitle": "Please include the technical documentation needed to use this version."
+        "subtitle": "Please include the technical documentation needed to use this version.",
+        "subtitleFromTemplate": "Check the technical documentation useful to users of the e-service you are creating starting from this template."
       },
       "requestManagementSection": {
         "title": "Request management",
@@ -316,8 +318,29 @@
     "publishWarningLabel": "To publish, please fill in the missing information.",
     "generalInfoSummary": {
       "title": "General information",
+      "templateInfo": {
+        "name": {
+          "label": "E-service template name"
+        },
+        "appearAs": {
+          "label": "How it will appear in the catalog"
+        },
+        "addressedTo": {
+          "label": "Who is this template for?"
+        },
+        "allowWhat": {
+          "label": "What does this template allow you to do?"
+        }
+      },
       "description": {
         "label": "Description"
+      },
+      "mode": {
+        "label": "Does the e-service provide or receive data?",
+        "value": {
+          "DELIVER": "Delivers",
+          "RECEIVE": "Receives"
+        }
       },
       "personalDataField": {
         "DELIVER": {

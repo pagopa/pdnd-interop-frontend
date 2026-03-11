@@ -7,7 +7,7 @@ import {
 } from './components/EServiceCreateStepGeneral'
 import { Trans, useTranslation } from 'react-i18next'
 import { useActiveStep } from '@/hooks/useActiveStep'
-import { Redirect, useParams } from '@/router'
+import { Redirect, useGeneratePath, useParams } from '@/router'
 import { EServiceQueries } from '@/api/eservice'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceCreateContextProvider } from './components/EServiceCreateContext'
@@ -35,13 +35,13 @@ import {
   EServiceCreateStepThresholdsSkeleton,
 } from './components/EServiceCreateStepThresholds'
 import { Link, Typography } from '@mui/material'
-import { generatePath } from 'react-router-dom'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice')
   const { t: tTemplate } = useTranslation('eserviceTemplate')
   const params = useParams<'PROVIDE_ESERVICE_CREATE' | 'PROVIDE_ESERVICE_EDIT'>()
   const { activeStep, ...stepProps } = useActiveStep()
+  const generatePath = useGeneratePath()
 
   const isNewEService = !params?.descriptorId || !params?.eserviceId
 

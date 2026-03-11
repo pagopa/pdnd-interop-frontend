@@ -214,6 +214,7 @@
     "step3": {
       "attributesTitle": "Requisiti di accesso",
       "attributesDescription": "Definisci chi può accedere a questo e-service. Crea uno o più requisiti e associa a ciascuno gli attributi richiesti. Il fruitore dovrà soddisfare tutti i requisiti indicati e possedere almeno uno degli attributi in ogni requisito. <1>Scopri di più sugli attributi</1>",
+      "attributesDescriptionFromTemplate": "Non puoi creare o eliminare i requisiti né aggiungere altri attributi. Il fruitore dovrà soddisfare tutti i requisiti indicati e possedere almeno uno degli attributi in ogni requisito. <1>Scopri di più sugli attributi</1>",
       "certifiedDescription": "Sono attributi certificati da una <1>fonte autoritativa riconosciuta.</1>",
       "verifiedDescription": "Sono attributi verificati <1>da altre organizzazioni</1>, con la possibilità di richiedere una verifica dall'erogatore.",
       "declaredDescription": "Sono attributi dichiarati dal fruitore stesso durante la richiesta di fruizione. Non è necessaria una verifica dell'erogatore.",
@@ -299,7 +300,8 @@
       },
       "documentationSection": {
         "title": "Documentazione",
-        "subtitle": "Inserisci la documentazione tecnica utile all’uso di questa versione."
+        "subtitle": "Inserisci la documentazione tecnica utile all’uso di questa versione.",
+        "subtitleFromTemplate": "Verifica la documentazione tecnica utile ai fruitori dell’e-service che stai creando a partire da questo template."
       },
       "requestManagementSection": {
         "title": "Gestione richieste",
@@ -316,8 +318,29 @@
     "publishWarningLabel": "Per poter pubblicare, inserisci le informazioni mancanti.",
     "generalInfoSummary": {
       "title": "Informazioni generali",
+      "templateInfo": {
+        "name": {
+          "label": "Nome del template di e-service"
+        },
+        "appearAs": {
+          "label": "Come apparirà nel catalogo"
+        },
+        "addressedTo": {
+          "label": "A chi è rivolto questo template?"
+        },
+        "allowWhat": {
+          "label": "Cosa permette di fare questo template?"
+        }
+      },
       "description": {
         "label": "Descrizione"
+      },
+      "mode": {
+        "label": "L'e-service eroga o riceve dati?",
+        "value": {
+          "DELIVER": "Eroga",
+          "RECEIVE": "Riceve"
+        }
       },
       "personalDataField": {
         "DELIVER": {

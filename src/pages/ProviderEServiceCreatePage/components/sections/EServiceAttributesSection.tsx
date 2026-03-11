@@ -29,7 +29,11 @@ export const EServiceAttributesSection: React.FC<EServiceAttributesSectionProps>
       description={
         <Trans
           ns="eservice"
-          i18nKey="create.step3.attributesDescription"
+          i18nKey={
+            isEServiceCreatedFromTemplate
+              ? 'create.step3.attributesDescriptionFromTemplate'
+              : 'create.step3.attributesDescription'
+          }
           components={{
             1: <Link underline="hover" href={attributesHelpLink} target="_blank" />,
           }}

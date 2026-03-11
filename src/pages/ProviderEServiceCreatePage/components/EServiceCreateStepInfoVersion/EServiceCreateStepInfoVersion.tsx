@@ -150,7 +150,11 @@ export const EServiceCreateStepInfoVersion: React.FC = () => {
 
         <SectionContainer
           title={t('step4.documentationSection.title')}
-          description={t('step4.documentationSection.subtitle')}
+          description={
+            isEServiceCreatedFromTemplate
+              ? t('step4.documentationSection.subtitleFromTemplate')
+              : t('step4.documentationSection.subtitle')
+          }
         >
           <UploadDocumentsSection readonly={isEServiceCreatedFromTemplate} />
         </SectionContainer>
