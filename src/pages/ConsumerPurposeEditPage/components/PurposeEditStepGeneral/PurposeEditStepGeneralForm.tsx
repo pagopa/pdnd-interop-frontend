@@ -84,16 +84,16 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
 
   const dailyCallsTotal = purpose.dailyCallsTotal
 
-  const { data: updatedDailyCalls } = useQuery(
-    PurposeQueries.getUpdatedDailyCalls({ purposeId: purpose.id })
+  const { data: remainingDailyCalls } = useQuery(
+    PurposeQueries.getRemainingDailyCalls({ purposeId: purpose.id })
   )
 
   const alertProps = useGetPurposeInfoAlert({
     dailyCalls: dailyCallsFormValue,
     dailyCallsPerConsumer,
     dailyCallsTotal,
-    updatedDailyCallsPerConsumer: updatedDailyCalls?.updatedDailyCallsPerConsumer,
-    updatedDailyCallsTotal: updatedDailyCalls?.updatedDailyCallsTotal,
+    remainingDailyCallsPerConsumer: remainingDailyCalls?.remainingDailyCallsPerConsumer,
+    remainingDailyCallsTotal: remainingDailyCalls?.remainingDailyCallsTotal,
     keyPrefix: 'edit.loadEstimationSection.alerts',
     showFallback: false,
   })
@@ -171,7 +171,7 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
                     'edit.loadEstimationSection.providerThresholdsInfo.dailyCallsPerConsumer.value',
                     {
                       min:
-                        updatedDailyCalls?.updatedDailyCallsPerConsumer ??
+                        remainingDailyCalls?.remainingDailyCallsPerConsumer ??
                         t('edit.loadEstimationSection.providerThresholdsInfo.na'),
                       max: dailyCallsPerConsumer,
                     }
@@ -185,7 +185,7 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
                 <Typography fontWeight={600}>
                   {t('edit.loadEstimationSection.providerThresholdsInfo.dailyCallsTotal.value', {
                     min:
-                      updatedDailyCalls?.updatedDailyCallsTotal ??
+                      remainingDailyCalls?.remainingDailyCallsTotal ??
                       t('edit.loadEstimationSection.providerThresholdsInfo.na'),
                     max: dailyCallsTotal,
                   })}
