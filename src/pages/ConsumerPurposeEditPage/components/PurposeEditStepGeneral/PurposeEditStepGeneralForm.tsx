@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, AlertTitle, Box, Stack, Typography } from '@mui/material'
+import { Alert, Box } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +10,7 @@ import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import type { Purpose, PurposeUpdateContent } from '@/api/api.generatedTypes'
 import SaveIcon from '@mui/icons-material/Save'
 import { useNavigate } from '@/router'
-import { GreyAlert } from '@/components/shared/GreyAlert'
+import { ProviderThresholdsInfoAlert } from '@/components/shared/ProviderThresholdsInfoAlert'
 import { useGetConsumerPurposeEditPageInfoAlertProps } from '../../hooks/useGetConsumerPurposeEditPageInfoAlertProps'
 
 export type PurposeEditStepGeneralFormValues = Omit<
@@ -146,43 +146,10 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
             rules={{ required: true, min: 1 }}
           />
           {alertProps && <Alert {...alertProps} sx={{ mt: 1, mb: 3 }} />}
-          <GreyAlert>
-            <AlertTitle sx={{ textTransform: 'uppercase', fontWeight: 700 }}>
-              {t('edit.loadEstimationSection.providerThresholdsInfo.label')}
-            </AlertTitle>
-            <Stack direction="row" spacing={6} sx={{ mt: 0.5, mb: 1 }}>
-              <Stack direction="row" spacing={2} alignItems="center">
-                <Typography>
-                  {t(
-                    'edit.loadEstimationSection.providerThresholdsInfo.dailyCallsPerConsumer.label'
-                  )}
-                </Typography>
-                <Typography fontWeight={600}>
-                  {t(
-                    'edit.loadEstimationSection.providerThresholdsInfo.dailyCallsPerConsumer.value',
-                    {
-                      min: '#' /* @TODO - add residual threshold */,
-                      max: dailyCallsPerConsumer,
-                    }
-                  )}
-                </Typography>
-              </Stack>
-              <Stack direction="row" spacing={2} alignItems="center">
-                <Typography>
-                  {t('edit.loadEstimationSection.providerThresholdsInfo.dailyCallsTotal.label')}
-                </Typography>
-                <Typography fontWeight={600}>
-                  {t('edit.loadEstimationSection.providerThresholdsInfo.dailyCallsTotal.value', {
-                    min: '#' /* @TODO - add residual threshold */,
-                    max: dailyCallsTotal,
-                  })}
-                </Typography>
-              </Stack>
-            </Stack>
-            <Typography variant="caption" color="text.secondary">
-              {t('edit.loadEstimationSection.providerThresholdsInfo.description')}
-            </Typography>
-          </GreyAlert>
+          <ProviderThresholdsInfoAlert
+            dailyCallsPerConsumer={dailyCallsPerConsumer}
+            dailyCallsTotal={dailyCallsTotal}
+          />
         </SectionContainer>
         <StepActions
           back={{ to: 'SUBSCRIBE_PURPOSE_LIST', label: t('backToListBtn'), type: 'link' }}
