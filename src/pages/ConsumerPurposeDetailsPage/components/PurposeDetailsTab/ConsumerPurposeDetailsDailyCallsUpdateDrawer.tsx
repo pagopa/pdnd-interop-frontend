@@ -45,8 +45,8 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
     formMethods.reset(defaultValues)
   }
 
-  const { data: updatedDailyCalls } = useQuery(
-    PurposeQueries.getUpdatedDailyCalls({ purposeId: purpose.id })
+  const { data: remainingDailyCalls } = useQuery(
+    PurposeQueries.getRemainingDailyCalls({ purposeId: purpose.id })
   )
 
   const dailyCalls = formMethods.watch('dailyCalls')
@@ -55,8 +55,8 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
     dailyCalls,
     dailyCallsPerConsumer: purpose.dailyCallsPerConsumer,
     dailyCallsTotal: purpose.dailyCallsTotal,
-    updatedDailyCallsPerConsumer: updatedDailyCalls?.updatedDailyCallsPerConsumer,
-    updatedDailyCallsTotal: updatedDailyCalls?.updatedDailyCallsTotal,
+    remainingDailyCallsPerConsumer: remainingDailyCalls?.remainingDailyCallsPerConsumer,
+    remainingDailyCallsTotal: remainingDailyCalls?.remainingDailyCallsTotal,
     keyPrefix: 'consumerView.sections.loadEstimate.drawer.alerts',
     showFallback: false,
   })
@@ -120,7 +120,7 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
                 </Typography>
                 <Typography variant="caption" fontWeight={600}>
                   {t('providerThresholdsInfo.dailyCallsPerConsumer.value', {
-                    min: updatedDailyCalls?.updatedDailyCallsPerConsumer ?? t('na'),
+                    min: remainingDailyCalls?.remainingDailyCallsPerConsumer ?? t('na'),
                     max: purpose.dailyCallsPerConsumer,
                   })}
                 </Typography>
@@ -131,7 +131,7 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
                 </Typography>
                 <Typography variant="caption" fontWeight={600}>
                   {t('providerThresholdsInfo.dailyCallsTotal.value', {
-                    min: updatedDailyCalls?.updatedDailyCallsTotal ?? t('na'),
+                    min: remainingDailyCalls?.remainingDailyCallsTotal ?? t('na'),
                     max: purpose.dailyCallsTotal,
                   })}
                 </Typography>

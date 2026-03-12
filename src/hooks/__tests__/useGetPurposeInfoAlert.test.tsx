@@ -6,8 +6,8 @@ const defaultMockData = {
   dailyCalls: 5,
   dailyCallsPerConsumer: 10,
   dailyCallsTotal: 15,
-  updatedDailyCallsPerConsumer: 10,
-  updatedDailyCallsTotal: 15,
+  remainingDailyCallsPerConsumer: 10,
+  remainingDailyCallsTotal: 15,
   keyPrefix: 'test' as KeyPrefix<'purpose'>,
   showFallback: false,
 }
@@ -17,8 +17,8 @@ describe('useGetPurposeInfoAlert', () => {
     const { result } = renderHook(() => {
       const mockData = {
         ...defaultMockData,
-        updatedDailyCallsPerConsumer: 0,
-        updatedDailyCallsTotal: 0,
+        remainingDailyCallsPerConsumer: 0,
+        remainingDailyCallsTotal: 0,
       }
       return useGetPurposeInfoAlert(mockData)
     })
@@ -28,13 +28,13 @@ describe('useGetPurposeInfoAlert', () => {
     })
   })
 
-  it('should return infoDailyCallsTotalResidualExceed if dailyCalls > updatedDailyCallsTotal', () => {
+  it('should return infoDailyCallsTotalResidualExceed if dailyCalls > remainingDailyCallsTotal', () => {
     const { result } = renderHook(() => {
       const mockData = {
         ...defaultMockData,
         dailyCalls: 2,
-        updatedDailyCallsPerConsumer: 100,
-        updatedDailyCallsTotal: 1,
+        remainingDailyCallsPerConsumer: 100,
+        remainingDailyCallsTotal: 1,
       }
       return useGetPurposeInfoAlert(mockData)
     })
@@ -44,13 +44,13 @@ describe('useGetPurposeInfoAlert', () => {
     })
   })
 
-  it('should return infoDailyCallsPerConsumerResidualExceed if dailyCalls > updatedDailyCallsPerConsumer', () => {
+  it('should return infoDailyCallsPerConsumerResidualExceed if dailyCalls > remainingDailyCallsPerConsumer', () => {
     const { result } = renderHook(() => {
       const mockData = {
         ...defaultMockData,
         dailyCalls: 2,
-        updatedDailyCallsPerConsumer: 1,
-        updatedDailyCallsTotal: 100,
+        remainingDailyCallsPerConsumer: 1,
+        remainingDailyCallsTotal: 100,
       }
       return useGetPurposeInfoAlert(mockData)
     })
@@ -66,8 +66,8 @@ describe('useGetPurposeInfoAlert', () => {
         ...defaultMockData,
         dailyCalls: 20,
         dailyCallsTotal: 15,
-        updatedDailyCallsPerConsumer: undefined,
-        updatedDailyCallsTotal: undefined,
+        remainingDailyCallsPerConsumer: undefined,
+        remainingDailyCallsTotal: undefined,
       }
       return useGetPurposeInfoAlert(mockData)
     })
@@ -84,8 +84,8 @@ describe('useGetPurposeInfoAlert', () => {
         dailyCalls: 12,
         dailyCallsPerConsumer: 10,
         dailyCallsTotal: 100,
-        updatedDailyCallsPerConsumer: undefined,
-        updatedDailyCallsTotal: undefined,
+        remainingDailyCallsPerConsumer: undefined,
+        remainingDailyCallsTotal: undefined,
       }
       return useGetPurposeInfoAlert(mockData)
     })
@@ -100,8 +100,8 @@ describe('useGetPurposeInfoAlert', () => {
       const mockData = {
         ...defaultMockData,
         showFallback: true,
-        updatedDailyCallsPerConsumer: undefined,
-        updatedDailyCallsTotal: undefined,
+        remainingDailyCallsPerConsumer: undefined,
+        remainingDailyCallsTotal: undefined,
         dailyCalls: 5,
         dailyCallsPerConsumer: 10,
         dailyCallsTotal: 100,

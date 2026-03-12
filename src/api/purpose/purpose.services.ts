@@ -5,6 +5,7 @@ import type {
   DelegationRef,
   GetConsumerPurposesParams,
   GetProducerPurposesParams,
+  GetRemainingDailyCallsParams,
   PatchPurposeUpdateFromTemplateContent,
   Purpose,
   PurposeAdditionDetailsSeed,
@@ -17,12 +18,11 @@ import type {
   PurposeVersionResource,
   PurposeVersionSeed,
   RejectPurposeVersionPayload,
+  RemainingDailyCallsResponse,
   RetrieveLatestRiskAnalysisConfigurationParams,
   RetrieveRiskAnalysisConfigurationByVersionParams,
   ReversePurposeUpdateContent,
   RiskAnalysisFormConfig,
-  GetUpdatedDailyCallsParams,
-  UpdatedDailyCallsResponse,
 } from '../api.generatedTypes'
 
 /**
@@ -282,13 +282,13 @@ async function createDraftFromPurposeTemplate({
   return response.data
 }
 
-async function getUpdatedDailyCalls({ purposeId }: GetUpdatedDailyCallsParams) {
-  /* @TODO - remove this mock */
-  /* const response = await axiosInstance.get<UpdatedDailyCallsResponse>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/updatedDailyCalls`
+async function getRemainingDailyCalls({ purposeId }: GetRemainingDailyCallsParams) {
+  /* @TODO - remove this mock when the endpoint will be available on dev */
+  /* const response = await axiosInstance.get<RemainingDailyCallsResponse>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/remainingDailyCalls`
   )
   return response.data */
-  return { updatedDailyCallsPerConsumer: 100, updatedDailyCallsTotal: 500 }
+  return { remainingDailyCallsPerConsumer: 100, remainingDailyCallsTotal: 500 }
 }
 
 export const PurposeServices = {
@@ -316,5 +316,5 @@ export const PurposeServices = {
   removeClient,
   createDraftFromPurposeTemplate,
   downloadRiskAnalysis,
-  getUpdatedDailyCalls,
+  getRemainingDailyCalls,
 }
