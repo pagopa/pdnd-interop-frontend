@@ -24,16 +24,16 @@ export function PurposeLoadEstimationSection({
 
   const dailyCallsFormValue = watch('dailyCalls')
 
-  const { data: updatedDailyCalls } = useQuery(
-    PurposeQueries.getUpdatedDailyCalls({ purposeId })
+  const { data: remainingDailyCalls } = useQuery(
+    PurposeQueries.getRemainingDailyCalls({ purposeId })
   )
 
   const alertProps = useGetPurposeInfoAlert({
     dailyCalls: dailyCallsFormValue,
     dailyCallsPerConsumer,
     dailyCallsTotal,
-    updatedDailyCallsPerConsumer: updatedDailyCalls?.updatedDailyCallsPerConsumer,
-    updatedDailyCallsTotal: updatedDailyCalls?.updatedDailyCallsTotal,
+    remainingDailyCallsPerConsumer: remainingDailyCalls?.remainingDailyCallsPerConsumer,
+    remainingDailyCallsTotal: remainingDailyCalls?.remainingDailyCallsTotal,
     keyPrefix: 'edit.loadEstimationSection.alerts',
     showFallback: false,
   })
@@ -55,8 +55,8 @@ export function PurposeLoadEstimationSection({
       <ProviderThresholdsInfoAlert
         dailyCallsPerConsumer={dailyCallsPerConsumer}
         dailyCallsTotal={dailyCallsTotal}
-        updatedDailyCallsPerConsumer={updatedDailyCalls?.updatedDailyCallsPerConsumer}
-        updatedDailyCallsTotal={updatedDailyCalls?.updatedDailyCallsTotal}
+        remainingDailyCallsPerConsumer={remainingDailyCalls?.remainingDailyCallsPerConsumer}
+        remainingDailyCallsTotal={remainingDailyCalls?.remainingDailyCallsTotal}
       />
     </SectionContainer>
   )

@@ -5,15 +5,15 @@ import { GreyAlert } from '@/components/shared/GreyAlert'
 type ProviderThresholdsInfoAlertProps = {
   dailyCallsPerConsumer: number
   dailyCallsTotal: number
-  updatedDailyCallsPerConsumer?: number
-  updatedDailyCallsTotal?: number
+  remainingDailyCallsPerConsumer?: number
+  remainingDailyCallsTotal?: number
 }
 
 export function ProviderThresholdsInfoAlert({
   dailyCallsPerConsumer,
   dailyCallsTotal,
-  updatedDailyCallsPerConsumer,
-  updatedDailyCallsTotal,
+  remainingDailyCallsPerConsumer,
+  remainingDailyCallsTotal,
 }: ProviderThresholdsInfoAlertProps) {
   const { t } = useTranslation('purpose', {
     keyPrefix: 'edit.loadEstimationSection.providerThresholdsInfo',
@@ -27,7 +27,7 @@ export function ProviderThresholdsInfoAlert({
           <Typography>{t('dailyCallsPerConsumer.label')}</Typography>
           <Typography fontWeight={600}>
             {t('dailyCallsPerConsumer.value', {
-              min: updatedDailyCallsPerConsumer ?? t('na'),
+              min: remainingDailyCallsPerConsumer ?? t('na'),
               max: dailyCallsPerConsumer,
             })}
           </Typography>
@@ -36,7 +36,7 @@ export function ProviderThresholdsInfoAlert({
           <Typography>{t('dailyCallsTotal.label')}</Typography>
           <Typography fontWeight={600}>
             {t('dailyCallsTotal.value', {
-              min: updatedDailyCallsTotal ?? t('na'),
+              min: remainingDailyCallsTotal ?? t('na'),
               max: dailyCallsTotal,
             })}
           </Typography>
