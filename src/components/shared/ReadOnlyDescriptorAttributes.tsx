@@ -14,8 +14,7 @@ import type {
   DescriptorAttributes,
   VerifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
-import { useCurrentRoute } from '@/router'
-import type { ActionItemButton, ProviderOrConsumer } from '@/types/common.types'
+import type { ActionItemButton } from '@/types/common.types'
 import { attributesHelpLink } from '@/config/constants'
 import { Typography } from '@mui/material'
 import { useCustomizeThresholdDrawer } from './CustomizeThresholdDrawer'
@@ -43,7 +42,11 @@ export const ReadOnlyDescriptorAttributes: React.FC<ReadOnlyDescriptorAttributes
 }) => {
   const hasBlockingAttribute =
     !!ownershipData &&
-    !hasAllDescriptorAttributes('certified', ownershipData.certified, descriptorAttributes.certified)
+    !hasAllDescriptorAttributes(
+      'certified',
+      ownershipData.certified,
+      descriptorAttributes.certified
+    )
 
   return (
     <>
@@ -212,9 +215,7 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
   hasBlockingAttribute = false,
 }) => {
   const { open } = useCustomizeThresholdDrawer()
-  const { t } = useTranslation('attribute', { keyPrefix: 'group.read' })
   const { t: tAttribute } = useTranslation('attribute')
-  const { mode } = useCurrentRoute()
 
   const rawGroupColorAndText = ownershipData
     ? getGroupColorAndText(attributeKey, attributes, ownershipData)
@@ -241,9 +242,9 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
       })()}
       color={groupColorAndText?.color ?? 'gray'}
     >
-      <Typography>
-        {groupColorAndText ? tAttribute(groupColorAndText.textKey) : t(mode as ProviderOrConsumer)}
-      </Typography>
+      {groupColorAndText && (
+        <Typography>{tAttribute(groupColorAndText.textKey)}</Typography>
+      )}
       <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
         {attributes.map((attribute, _index) => (
           <React.Fragment key={attribute.id}>

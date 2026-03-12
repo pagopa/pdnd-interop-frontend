@@ -139,9 +139,8 @@ describe('ReadOnlyDescriptorAttributes', () => {
       // The certified group should still show the error text
       expect(screen.getByText('group.manage.error.consumer')).toBeInTheDocument()
 
-      // Verified and declared groups should hide fulfillment status (showing read mode text instead of success)
-      const readModeTexts = screen.getAllByText('consumer')
-      expect(readModeTexts.length).toBe(2) // verified + declared suppressed to read mode
+      // Verified and declared groups should hide fulfillment status (no subtitle shown)
+      expect(screen.queryByText('consumer')).not.toBeInTheDocument()
 
       // Success text should NOT appear (verified is fulfilled but hidden due to blocking attribute)
       expect(screen.queryByText('group.manage.success.consumer')).not.toBeInTheDocument()
