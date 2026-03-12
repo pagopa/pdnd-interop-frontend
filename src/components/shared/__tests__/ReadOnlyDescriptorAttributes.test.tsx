@@ -59,20 +59,7 @@ function renderComponent(
 
 describe('ReadOnlyDescriptorAttributes', () => {
   describe('color assignment', () => {
-    it('should show error (red) for unfulfilled verified attributes', () => {
-      const descriptorAttributes = createDescriptorAttributes({
-        verified: [[createMockDescriptorAttribute({ id: 'attr-1' })]],
-      })
-      const ownershipData = createOwnershipData({
-        verified: [],
-      })
-
-      renderComponent(descriptorAttributes, ownershipData)
-
-      expect(screen.getByText('group.manage.error.consumer')).toBeInTheDocument()
-    })
-
-    it('should show warning (yellow) for unfulfilled certified attributes', () => {
+    it('should show error (red) for unfulfilled certified attributes', () => {
       const descriptorAttributes = createDescriptorAttributes({
         certified: [[createMockDescriptorAttribute({ id: 'attr-1' })]],
       })
@@ -82,7 +69,20 @@ describe('ReadOnlyDescriptorAttributes', () => {
 
       renderComponent(descriptorAttributes, ownershipData)
 
-      expect(screen.getByText('group.manage.warning.certified.consumer')).toBeInTheDocument()
+      expect(screen.getByText('group.manage.error.consumer')).toBeInTheDocument()
+    })
+
+    it('should show warning (yellow) for unfulfilled verified attributes', () => {
+      const descriptorAttributes = createDescriptorAttributes({
+        verified: [[createMockDescriptorAttribute({ id: 'attr-1' })]],
+      })
+      const ownershipData = createOwnershipData({
+        verified: [],
+      })
+
+      renderComponent(descriptorAttributes, ownershipData)
+
+      expect(screen.getByText('group.manage.warning.verified.consumer')).toBeInTheDocument()
     })
 
     it('should show warning (yellow) for unfulfilled declared attributes', () => {
@@ -115,17 +115,20 @@ describe('ReadOnlyDescriptorAttributes', () => {
   })
 
   describe('fulfillment status hidden when there is a blocking attribute', () => {
-    it('should hide fulfillment status for non-blocking groups when a verified group is unfulfilled', () => {
+    it('should hide fulfillment status for non-blocking groups when a certified group is unfulfilled', () => {
       const descriptorAttributes = createDescriptorAttributes({
         certified: [[createMockDescriptorAttribute({ id: 'cert-attr-1' })]],
         verified: [[createMockDescriptorAttribute({ id: 'ver-attr-1' })]],
         declared: [[createMockDescriptorAttribute({ id: 'decl-attr-1' })]],
       })
       const ownershipData = createOwnershipData({
-        certified: [
-          createCertifiedTenantAttribute({ id: 'cert-attr-1', revocationTimestamp: undefined }),
+        certified: [], // unfulfilled → error (blocking)
+        verified: [
+          createVerifiedTenantAttribute({
+            id: 'ver-attr-1',
+            verifiedBy: [{ id: PRODUCER_ID }],
+          }),
         ],
-        verified: [], // unfulfilled → error
         declared: [
           createDeclaredTenantAttribute({ id: 'decl-attr-1', revocationTimestamp: undefined }),
         ],
@@ -133,18 +136,18 @@ describe('ReadOnlyDescriptorAttributes', () => {
 
       renderComponent(descriptorAttributes, ownershipData)
 
-      // The verified group should still show the error text
+      // The certified group should still show the error text
       expect(screen.getByText('group.manage.error.consumer')).toBeInTheDocument()
 
-      // Certified and declared groups should hide fulfillment status (showing read mode text instead of success)
+      // Verified and declared groups should hide fulfillment status (showing read mode text instead of success)
       const readModeTexts = screen.getAllByText('consumer')
-      expect(readModeTexts.length).toBe(2) // certified + declared suppressed to read mode
+      expect(readModeTexts.length).toBe(2) // verified + declared suppressed to read mode
 
-      // Success text should NOT appear (certified is fulfilled but hidden due to blocking attribute)
+      // Success text should NOT appear (verified is fulfilled but hidden due to blocking attribute)
       expect(screen.queryByText('group.manage.success.consumer')).not.toBeInTheDocument()
     })
 
-    it('should show fulfillment status when all verified groups are fulfilled', () => {
+    it('should show fulfillment status when all certified groups are fulfilled', () => {
       const descriptorAttributes = createDescriptorAttributes({
         certified: [[createMockDescriptorAttribute({ id: 'cert-attr-1' })]],
         verified: [[createMockDescriptorAttribute({ id: 'ver-attr-1' })]],
@@ -174,33 +177,36 @@ describe('ReadOnlyDescriptorAttributes', () => {
         verified: [[createMockDescriptorAttribute({ id: 'ver-attr-1' })]],
       })
       const ownershipData = createOwnershipData({
-        certified: [
-          createCertifiedTenantAttribute({ id: 'cert-attr-1', revocationTimestamp: undefined }),
+        certified: [], // unfulfilled → blocking attribute
+        verified: [
+          createVerifiedTenantAttribute({
+            id: 'ver-attr-1',
+            verifiedBy: [{ id: PRODUCER_ID }],
+          }),
         ],
-        verified: [], // unfulfilled → blocking attribute
       })
 
       renderComponent(descriptorAttributes, ownershipData)
 
-      // The certified attribute is owned but its fulfillment status is hidden,
+      // The verified attribute is owned but its fulfillment status is hidden,
       // so no checkmark should be rendered for it
       const checkIcons = screen.queryAllByTestId('CheckIcon')
       expect(checkIcons.length).toBe(0)
     })
   })
 
-  describe('certified attributes can never be red', () => {
-    it('should show warning, not error, for unfulfilled certified attributes', () => {
+  describe('verified attributes can never be red', () => {
+    it('should show warning, not error, for unfulfilled verified attributes', () => {
       const descriptorAttributes = createDescriptorAttributes({
-        certified: [[createMockDescriptorAttribute({ id: 'attr-1' })]],
+        verified: [[createMockDescriptorAttribute({ id: 'attr-1' })]],
       })
       const ownershipData = createOwnershipData({
-        certified: [],
+        verified: [],
       })
 
       renderComponent(descriptorAttributes, ownershipData)
 
-      expect(screen.getByText('group.manage.warning.certified.consumer')).toBeInTheDocument()
+      expect(screen.getByText('group.manage.warning.verified.consumer')).toBeInTheDocument()
       expect(screen.queryByText('group.manage.error.consumer')).not.toBeInTheDocument()
     })
   })

@@ -43,12 +43,7 @@ export const ReadOnlyDescriptorAttributes: React.FC<ReadOnlyDescriptorAttributes
 }) => {
   const hasBlockingAttribute =
     !!ownershipData &&
-    !hasAllDescriptorAttributes(
-      'verified',
-      ownershipData.verified,
-      descriptorAttributes.verified,
-      ownershipData.producerId
-    )
+    !hasAllDescriptorAttributes('certified', ownershipData.certified, descriptorAttributes.certified)
 
   return (
     <>
@@ -171,14 +166,14 @@ function getGroupColorAndText(
     return { color: 'success' as const, textKey: 'group.manage.success.consumer' as const }
   }
 
-  if (attributeKey === 'verified') {
+  if (attributeKey === 'certified') {
     return { color: 'error' as const, textKey: 'group.manage.error.consumer' as const }
   }
 
-  if (attributeKey === 'certified') {
+  if (attributeKey === 'verified') {
     return {
       color: 'warning' as const,
-      textKey: 'group.manage.warning.certified.consumer' as const,
+      textKey: 'group.manage.warning.verified.consumer' as const,
     }
   }
 
@@ -240,7 +235,7 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
       <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
         {attributes.map((attribute, _index) => (
           <React.Fragment key={attribute.id}>
-            <Box key={attribute.id} component="li">
+            <Box component="li">
               <AttributeContainer
                 attribute={attribute}
                 checked={
