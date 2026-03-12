@@ -83,6 +83,7 @@
       "delegatorName": "Delegation requested by",
       "delegateName": "Delegation granted to",
       "eserviceTemplateUsingTenant": "Party",
+      "eserviceTemplateInstanceLabel": "Instance label",
       "eserviceTemplateInstanceVersion": "Template version",
       "eserviceTemplateInstanceState": "Instance status",
       "eserviceTemplateName": "Template",
