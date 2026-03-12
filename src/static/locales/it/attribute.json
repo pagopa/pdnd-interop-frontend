@@ -39,6 +39,10 @@
         "consumer": "Possiedi almeno uno di questi attributi."
       },
       "warning": {
+        "certified": {
+          "provider": "Il fruitore deve possedere almeno uno dei seguenti attributi",
+          "consumer": "Il tuo ente deve possedere almeno uno dei seguenti attributi certificati"
+        },
         "verified": {
           "provider": "Il fruitore deve possedere almeno uno dei seguenti attributi",
           "consumer": "L'erogatore deve verificare se possiedi almeno uno dei seguenti attributi"
@@ -50,7 +54,7 @@
       },
       "error": {
         "provider": "Il fruitore non possiede nessuno dei seguenti attributi",
-        "consumer": "Per ora non soddisfi i requisiti indicati."
+        "consumer": "Per ora non possiedi nessuno di questi attributi."
       },
       "revokedByCertifier": "Attributo revocato dal certificatore",
       "revokedByProducer": "Attributo revocato da un erogatore",

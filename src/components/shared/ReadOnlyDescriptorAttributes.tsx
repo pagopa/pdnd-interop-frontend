@@ -19,7 +19,11 @@ import type { ActionItemButton, ProviderOrConsumer } from '@/types/common.types'
 import { attributesHelpLink } from '@/config/constants'
 import { Typography } from '@mui/material'
 import { useCustomizeThresholdDrawer } from './CustomizeThresholdDrawer'
-import { isAttributeGroupFullfilled, isAttributeOwned } from '@/utils/attribute.utils'
+import {
+  hasAllDescriptorAttributes,
+  isAttributeGroupFullfilled,
+  isAttributeOwned,
+} from '@/utils/attribute.utils'
 
 export type AttributeOwnershipData = {
   certified: CertifiedTenantAttribute[]
@@ -37,24 +41,36 @@ export const ReadOnlyDescriptorAttributes: React.FC<ReadOnlyDescriptorAttributes
   descriptorAttributes,
   ownershipData,
 }) => {
+  const hasBlockingAttribute =
+    !!ownershipData &&
+    !hasAllDescriptorAttributes(
+      'verified',
+      ownershipData.verified,
+      descriptorAttributes.verified,
+      ownershipData.producerId
+    )
+
   return (
     <>
       <AttributeGroupsListSection
         descriptorAttributes={descriptorAttributes}
         attributeKey="certified"
         ownershipData={ownershipData}
+        hasBlockingAttribute={hasBlockingAttribute}
       />
       <Divider sx={{ my: 3 }} />
       <AttributeGroupsListSection
         descriptorAttributes={descriptorAttributes}
         attributeKey="verified"
         ownershipData={ownershipData}
+        hasBlockingAttribute={hasBlockingAttribute}
       />
       <Divider sx={{ my: 3 }} />
       <AttributeGroupsListSection
         descriptorAttributes={descriptorAttributes}
         attributeKey="declared"
         ownershipData={ownershipData}
+        hasBlockingAttribute={hasBlockingAttribute}
       />
     </>
   )
@@ -66,6 +82,7 @@ type AttributeGroupsListSectionProps = {
   topSideActions?: Array<ActionItemButton>
   withThreshold?: boolean
   ownershipData?: AttributeOwnershipData
+  hasBlockingAttribute?: boolean
 }
 
 export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProps> = ({
@@ -74,6 +91,7 @@ export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProp
   topSideActions,
   withThreshold,
   ownershipData,
+  hasBlockingAttribute = false,
 }) => {
   const { t: tAttribute } = useTranslation('attribute')
 
@@ -102,6 +120,7 @@ export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProp
               attributeKey={attributeKey}
               withThreshold={withThreshold}
               ownershipData={ownershipData}
+              hasBlockingAttribute={hasBlockingAttribute}
             />
           ))}
         </Stack>
@@ -124,6 +143,7 @@ type AttributeGroupProps = {
   attributeKey: AttributeKey
   withThreshold?: boolean
   ownershipData?: AttributeOwnershipData
+  hasBlockingAttribute?: boolean
 }
 
 function getGroupColorAndText(
@@ -151,14 +171,14 @@ function getGroupColorAndText(
     return { color: 'success' as const, textKey: 'group.manage.success.consumer' as const }
   }
 
-  if (attributeKey === 'certified') {
+  if (attributeKey === 'verified') {
     return { color: 'error' as const, textKey: 'group.manage.error.consumer' as const }
   }
 
-  if (attributeKey === 'verified') {
+  if (attributeKey === 'certified') {
     return {
       color: 'warning' as const,
-      textKey: 'group.manage.warning.verified.consumer' as const,
+      textKey: 'group.manage.warning.certified.consumer' as const,
     }
   }
 
@@ -194,15 +214,20 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
   attributeKey,
   withThreshold,
   ownershipData,
+  hasBlockingAttribute = false,
 }) => {
   const { open } = useCustomizeThresholdDrawer()
   const { t } = useTranslation('attribute', { keyPrefix: 'group.read' })
   const { t: tAttribute } = useTranslation('attribute')
   const { mode } = useCurrentRoute()
 
-  const groupColorAndText = ownershipData
+  const rawGroupColorAndText = ownershipData
     ? getGroupColorAndText(attributeKey, attributes, ownershipData)
     : undefined
+
+  const shouldHideFulfillmentStatus =
+    hasBlockingAttribute && rawGroupColorAndText?.color !== 'error'
+  const groupColorAndText = shouldHideFulfillmentStatus ? undefined : rawGroupColorAndText
 
   return (
     <AttributeGroupContainer
@@ -219,7 +244,7 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
               <AttributeContainer
                 attribute={attribute}
                 checked={
-                  ownershipData
+                  ownershipData && !shouldHideFulfillmentStatus
                     ? getAttributeChecked(attributeKey, attribute.id, ownershipData)
                     : undefined
                 }
