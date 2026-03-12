@@ -389,40 +389,41 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               </Alert>
             )}
         </Stack>
-        {!isDelegator && (
-          <>
-            {!canBePublished() && (
-              <Alert severity="warning" sx={{ mt: 3 }}>
-                {t('summary.publishWarningLabel')}
-              </Alert>
-            )}
-            <Stack spacing={1} sx={{ mt: 3 }} direction="row" justifyContent="end">
-              <Button
-                startIcon={<DeleteOutlineIcon />}
-                variant="text"
-                color="error"
-                onClick={handleDeleteDraft}
-                disabled={isSupport}
-              >
-                {tCommon('deleteDraft')}
-              </Button>
-              <Button
-                startIcon={<CreateIcon />}
-                variant="text"
-                onClick={handleEditDraft}
-                disabled={isSupport}
-              >
-                {tCommon('editDraft')}
-              </Button>
-              <PublishButton
-                onClick={handlePublishDraft}
-                disabled={!canBePublished() || isSupport}
-                arePersonalDataSet={arePersonalDataSet}
-                isRulesetExpired={isRulesetExpired}
-              />
-            </Stack>
-          </>
-        )}
+        {!isDelegator &&
+          !(isEServiceFromTemplate && descriptor?.state === 'WAITING_FOR_APPROVAL') && (
+            <>
+              {!canBePublished() && (
+                <Alert severity="warning" sx={{ mt: 3 }}>
+                  {t('summary.publishWarningLabel')}
+                </Alert>
+              )}
+              <Stack spacing={1} sx={{ mt: 3 }} direction="row" justifyContent="end">
+                <Button
+                  startIcon={<DeleteOutlineIcon />}
+                  variant="text"
+                  color="error"
+                  onClick={handleDeleteDraft}
+                  disabled={isSupport}
+                >
+                  {tCommon('deleteDraft')}
+                </Button>
+                <Button
+                  startIcon={<CreateIcon />}
+                  variant="text"
+                  onClick={handleEditDraft}
+                  disabled={isSupport}
+                >
+                  {tCommon('editDraft')}
+                </Button>
+                <PublishButton
+                  onClick={handlePublishDraft}
+                  disabled={!canBePublished() || isSupport}
+                  arePersonalDataSet={arePersonalDataSet}
+                  isRulesetExpired={isRulesetExpired}
+                />
+              </Stack>
+            </>
+          )}
         {isDelegator && descriptor?.state === 'WAITING_FOR_APPROVAL' && (
           <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
             <Button
