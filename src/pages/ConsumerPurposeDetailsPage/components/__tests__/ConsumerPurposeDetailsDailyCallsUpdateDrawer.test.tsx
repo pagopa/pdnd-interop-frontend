@@ -15,11 +15,11 @@ vi.mock('@/api/purpose', () => ({
     }),
   },
   PurposeQueries: {
-    getUpdatedDailyCalls: vi.fn(() => ({
+    getRemainingDailyCalls: vi.fn(() => ({
       queryKey: ['purposeId', purpose.id],
       queryFn: vi.fn().mockResolvedValue({
-        updatedDailyCallsPerConsumer: 5,
-        updatedDailyCallsTotal: 100,
+        remainingDailyCallsPerConsumer: 5,
+        remainingDailyCallsTotal: 100,
       }),
     })),
   },

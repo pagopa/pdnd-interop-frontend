@@ -7,16 +7,16 @@ export function useGetPurposeInfoAlert({
   dailyCalls,
   dailyCallsPerConsumer,
   dailyCallsTotal,
-  updatedDailyCallsPerConsumer,
-  updatedDailyCallsTotal,
+  remainingDailyCallsPerConsumer,
+  remainingDailyCallsTotal,
   keyPrefix,
   showFallback,
 }: {
   dailyCalls: number | undefined
   dailyCallsPerConsumer: number
   dailyCallsTotal: number
-  updatedDailyCallsPerConsumer: number | undefined
-  updatedDailyCallsTotal: number | undefined
+  remainingDailyCallsPerConsumer: number | undefined
+  remainingDailyCallsTotal: number | undefined
   keyPrefix: KeyPrefix<'purpose'>
   showFallback?: boolean
 }): AlertProps | undefined {
@@ -31,13 +31,13 @@ export function useGetPurposeInfoAlert({
   }
 
   const isDailyCallsMaximumReached =
-    updatedDailyCallsPerConsumer === 0 || updatedDailyCallsTotal === 0
+    remainingDailyCallsPerConsumer === 0 || remainingDailyCallsTotal === 0
 
   const isDailyCallsTotalResidualExceed =
-    updatedDailyCallsTotal !== undefined && dailyCalls > updatedDailyCallsTotal
+    remainingDailyCallsTotal !== undefined && dailyCalls > remainingDailyCallsTotal
 
   const isDailyCallsPerConsumerResidualExceed =
-    updatedDailyCallsPerConsumer !== undefined && dailyCalls > updatedDailyCallsPerConsumer
+    remainingDailyCallsPerConsumer !== undefined && dailyCalls > remainingDailyCallsPerConsumer
 
   const isDailyCallsTotalExceed = dailyCalls > dailyCallsTotal
   const isDailyCallsPerConsumerExceed = dailyCalls > dailyCallsPerConsumer

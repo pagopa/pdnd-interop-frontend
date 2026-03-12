@@ -17,7 +17,9 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
 > = ({ purposeId }) => {
   const { data: purpose } = useSuspenseQuery(PurposeQueries.getSingle(purposeId))
 
-  const { data: updatedDailyCalls } = useQuery(PurposeQueries.getUpdatedDailyCalls({ purposeId }))
+  const { data: remainingDailyCalls } = useQuery(
+    PurposeQueries.getRemainingDailyCalls({ purposeId })
+  )
 
   const { t } = useTranslation('purpose', { keyPrefix: 'summary.generalInformationSection' })
 
@@ -25,8 +27,8 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
     dailyCalls: purpose.currentVersion?.dailyCalls,
     dailyCallsPerConsumer: purpose.dailyCallsPerConsumer,
     dailyCallsTotal: purpose.dailyCallsTotal,
-    updatedDailyCallsPerConsumer: updatedDailyCalls?.updatedDailyCallsPerConsumer,
-    updatedDailyCallsTotal: updatedDailyCalls?.updatedDailyCallsTotal,
+    remainingDailyCallsPerConsumer: remainingDailyCalls?.remainingDailyCallsPerConsumer,
+    remainingDailyCallsTotal: remainingDailyCalls?.remainingDailyCallsTotal,
     keyPrefix: 'summary.alerts',
     showFallback: true,
   })

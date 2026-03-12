@@ -11,7 +11,8 @@ import {
   type DescriptorAttributes,
   type UpdateEServiceDescriptorSeed,
 } from '@/api/api.generatedTypes'
-import { Box } from '@mui/material'
+import { useAttributesCountersAlert } from './useAttributesCountersAlert'
+import { Alert, Box } from '@mui/material'
 import { StepActions } from '@/components/shared/StepActions'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import SaveIcon from '@mui/icons-material/Save'
@@ -33,7 +34,7 @@ export type CreateStepThresholdsFormValues = {
 }
 
 export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'create' })
+  const { t, i18n } = useTranslation('eservice', { keyPrefix: 'create' })
   const { descriptor, forward, back } = useEServiceCreateContext()
 
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
@@ -87,11 +88,31 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
     formMethods.setValue(`attributes.certified`, groups, {
       shouldValidate: false,
     })
+    formMethods.trigger('dailyCallsTotal')
     closeCustomizeThresholdDrawer()
   }
 
   const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
   const dailyCallsTotal = formMethods.watch('dailyCallsTotal')
+  const certifiedAttributes = formMethods.watch('attributes.certified')
+  const watchedAttributes = formMethods.watch('attributes')
+
+  const { totalRequirements, attributeTypesWithRequirements } = useAttributesCountersAlert({
+    attributes: watchedAttributes,
+    t,
+  })
+
+  const maxCustomThreshold = React.useMemo(() => {
+    return certifiedAttributes
+      .flat()
+      .reduce(
+        (max, attr) =>
+          attr.dailyCallsPerConsumer !== undefined
+            ? Math.max(max, attr.dailyCallsPerConsumer)
+            : max,
+        0
+      )
+  }, [certifiedAttributes])
 
   const onSubmit: SubmitHandler<CreateStepThresholdsFormValues> = (values) => {
     if (!descriptor) return
@@ -150,11 +171,27 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
                   }
                 : undefined
             }
+            maxCustomThreshold={maxCustomThreshold || undefined}
           />
           <EServiceAttributesSection
             isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
             handleOpenAttributeCreateDrawerFactory={handleOpenAttributeCreateDrawerFactory}
           />
+          {totalRequirements > 1 && (
+            <Alert severity="info" sx={{ mt: 3 }}>
+              <Trans
+                ns="eservice"
+                i18nKey="create.requirementsSummaryAlert"
+                values={{
+                  count: totalRequirements,
+                  attributeTypes: new Intl.ListFormat(i18n.language, {
+                    type: 'conjunction',
+                  }).format(attributeTypesWithRequirements),
+                }}
+                components={{ 1: <strong />, 3: <strong /> }}
+              />
+            </Alert>
+          )}
           <StepActions
             back={{
               label: t('backWithoutSaveBtn'),

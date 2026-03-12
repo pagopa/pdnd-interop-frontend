@@ -606,6 +606,18 @@ export interface EServiceTemplateRef {
   templateInterface?: EServiceDoc;
   interfaceMetadata?: TemplateInstanceInterfaceMetadata;
   isNewTemplateVersionAvailable?: boolean;
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  templateDailyCallsPerConsumer?: number;
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  templateDailyCallsTotal?: number;
 }
 
 export interface EServiceDoc {
@@ -1390,17 +1402,17 @@ export interface Purposes {
   pagination: Pagination;
 }
 
-export interface UpdatedDailyCallsResponse {
+export interface RemainingDailyCallsResponse {
   /**
    * @format int32
    * @min 0
    */
-  updatedDailyCallsPerConsumer: number;
+  remainingDailyCallsPerConsumer: number;
   /**
    * @format int32
    * @min 0
    */
-  updatedDailyCallsTotal: number;
+  remainingDailyCallsTotal: number;
 }
 
 export interface DelegationWithCompactTenants {
@@ -4267,7 +4279,7 @@ export interface RetrieveRiskAnalysisConfigurationByVersionParams {
   riskAnalysisVersion: string;
 }
 
-export interface GetUpdatedDailyCallsParams {
+export interface GetRemainingDailyCallsParams {
   /**
    * the purpose id
    * @format uuid
@@ -8689,13 +8701,13 @@ export namespace Purposes {
   }
 
   /**
-   * @description Retrieve updated available daily calls for a purpose
+   * @description Retrieve remaining daily calls for a purpose
    * @tags purposes
-   * @name GetUpdatedDailyCalls
-   * @request GET:/purposes/{purposeId}/updatedDailyCalls
+   * @name GetRemainingDailyCalls
+   * @request GET:/purposes/{purposeId}/remainingDailyCalls
    * @secure
    */
-  export namespace GetUpdatedDailyCalls {
+  export namespace GetRemainingDailyCalls {
     export type RequestParams = {
       /**
        * the purpose id
@@ -8706,7 +8718,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = UpdatedDailyCallsResponse;
+    export type ResponseBody = RemainingDailyCallsResponse;
   }
 }
 
