@@ -256,8 +256,8 @@
           "undefined": "Non indicato"
         }
       },
-      "instanceLabel": {
-        "label": "Parola che identifica l'e-service"
+      "catalogName": {
+        "label": "Come comparirà nel catalogo"
       },
       "apiTechnology": {
         "label": "Tecnologia API"

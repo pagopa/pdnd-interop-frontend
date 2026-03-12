@@ -30,8 +30,8 @@ afterEach(() => {
   vi.clearAllMocks()
 })
 
-describe('ProviderEServiceGeneralInfoSummary - instanceLabel', () => {
-  it('shows the instanceLabel when the e-service is from a template', () => {
+describe('ProviderEServiceGeneralInfoSummary - catalogName', () => {
+  it('shows the catalog name when the e-service is from a template', () => {
     mockDescriptorData = createMockEServiceDescriptorProvider({
       eservice: {
         name: 'Credenziale IT-Wallet - Patente',
@@ -48,11 +48,11 @@ describe('ProviderEServiceGeneralInfoSummary - instanceLabel', () => {
       withReactQueryContext: true,
     })
 
-    expect(screen.getByText('instanceLabel.label')).toBeInTheDocument()
-    expect(screen.getByText('Patente')).toBeInTheDocument()
+    expect(screen.getByText('catalogName.label')).toBeInTheDocument()
+    expect(screen.getByText('Credenziale IT-Wallet - Patente')).toBeInTheDocument()
   })
 
-  it('shows "-" when instanceLabel is undefined but e-service is from a template', () => {
+  it('shows the catalog name even when instanceLabel is undefined', () => {
     mockDescriptorData = createMockEServiceDescriptorProvider({
       eservice: {
         name: 'Credenziale IT-Wallet',
@@ -69,11 +69,11 @@ describe('ProviderEServiceGeneralInfoSummary - instanceLabel', () => {
       withReactQueryContext: true,
     })
 
-    expect(screen.getByText('instanceLabel.label')).toBeInTheDocument()
-    expect(screen.getByText('-')).toBeInTheDocument()
+    expect(screen.getByText('catalogName.label')).toBeInTheDocument()
+    expect(screen.getByText('Credenziale IT-Wallet')).toBeInTheDocument()
   })
 
-  it('does NOT show instanceLabel for non-template e-services', () => {
+  it('does NOT show catalog name for non-template e-services', () => {
     mockDescriptorData = createMockEServiceDescriptorProvider({
       eservice: {
         name: 'Regular E-Service',
@@ -84,6 +84,6 @@ describe('ProviderEServiceGeneralInfoSummary - instanceLabel', () => {
       withReactQueryContext: true,
     })
 
-    expect(screen.queryByText('instanceLabel.label')).not.toBeInTheDocument()
+    expect(screen.queryByText('catalogName.label')).not.toBeInTheDocument()
   })
 })

@@ -25,10 +25,7 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
         content={descriptor.eservice.description}
       />
       {descriptor.templateRef && (
-        <InformationContainer
-          label={t('instanceLabel.label')}
-          content={descriptor.eservice?.instanceLabel || '-'}
-        />
+        <InformationContainer label={t('catalogName.label')} content={descriptor.eservice.name} />
       )}
       <InformationContainer
         label={t('apiTechnology.label')}
@@ -40,10 +37,6 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
           content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
         />
       )}
-      <InformationContainer
-        label={t('isSignalHubEnabled.label')}
-        content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
-      />
       {isOrganizationAllowedToProduce && (
         <>
           <InformationContainer
@@ -58,6 +51,10 @@ export const ProviderEServiceGeneralInfoSummary: React.FC = () => {
           />
         </>
       )}
+      <InformationContainer
+        label={t('isSignalHubEnabled.label')}
+        content={t(`isSignalHubEnabled.value.${descriptor.eservice.isSignalHubEnabled}`)}
+      />
     </Stack>
   )
 }
