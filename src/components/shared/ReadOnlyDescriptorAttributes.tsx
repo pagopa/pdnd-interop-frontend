@@ -226,7 +226,19 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
 
   return (
     <AttributeGroupContainer
-      title={tAttribute(`${attributeKey}.requirement`, { index: index + 1 })}
+      title={(() => {
+        const text = tAttribute(`${attributeKey}.requirement`, { index: index + 1 })
+        const [boldPart, ...rest] = text.split(' | ')
+        const normalPart = rest.join(' | ')
+        return normalPart ? (
+          <>
+            {boldPart}
+            <span style={{ fontWeight: 400 }}>{` | ${normalPart}`}</span>
+          </>
+        ) : (
+          text
+        )
+      })()}
       color={groupColorAndText?.color ?? 'gray'}
     >
       <Typography>

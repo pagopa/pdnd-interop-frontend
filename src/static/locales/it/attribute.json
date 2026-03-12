@@ -45,11 +45,11 @@
         },
         "verified": {
           "provider": "Il fruitore deve possedere almeno uno dei seguenti attributi",
-          "consumer": "L'erogatore deve verificare se possiedi almeno uno dei seguenti attributi"
+          "consumer": "L'erogatore deve verificare se possiedi almeno uno di questi attributi."
         },
         "declared": {
           "provider": "Il fruitore deve possedere almeno uno dei seguenti attributi",
-          "consumer": "Il tuo ente deve possedere almeno uno dei seguenti attributi"
+          "consumer": "Dovrai dichiarare di possedere almeno uno dei seguenti attributi."
         }
       },
       "error": {
