@@ -15,7 +15,7 @@ import type { AttributeKey } from '@/types/attribute.types'
 import { AuthHooks } from '@/api/auth'
 import { AttributeGroupsListSection } from '@/components/shared/ReadOnlyDescriptorAttributes'
 import { UpdateAttributesDrawer } from '../UpdateAttributesDrawer'
-import { InformationContainer, theme } from '@pagopa/interop-fe-commons'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
 
 type EServiceTemplateAttributesProps = {
   readonly: boolean
@@ -59,7 +59,7 @@ export const EServiceTemplateAttributes: React.FC<EServiceTemplateAttributesProp
     eserviceTemplate.attributes.verified.length === 0
 
   const noThresholds =
-    eserviceTemplate.dailyCallsTotal === undefined &&
+    eserviceTemplate.dailyCallsTotal === undefined ||
     eserviceTemplate.dailyCallsPerConsumer === undefined
 
   return (
