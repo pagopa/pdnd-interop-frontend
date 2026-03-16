@@ -24,6 +24,10 @@
     "provider": "Your party does not require {{attributeKey}} attributes",
     "consumer": "The producer does not require {{attributeKey}} attributes"
   },
+  "noAttributesRequiredTemplate": {
+    "title": "Attributes",
+    "alert": "This e-service template does not require any attributes."
+  },
   "attributeCardHeader": {
     "label": "Requirement {{index}} | {{attributeKey}} attributes"
   },

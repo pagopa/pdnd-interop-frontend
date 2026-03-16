@@ -5,9 +5,9 @@ import {
   EServiceCreateStepGeneral,
   EServiceCreateStepGeneralSkeleton,
 } from './components/EServiceCreateStepGeneral'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { useActiveStep } from '@/hooks/useActiveStep'
-import { Redirect, useParams } from '@/router'
+import { Redirect, useGeneratePath, useParams } from '@/router'
 import { EServiceQueries } from '@/api/eservice'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceCreateContextProvider } from './components/EServiceCreateContext'
@@ -34,12 +34,15 @@ import {
   EServiceCreateStepThresholds,
   EServiceCreateStepThresholdsSkeleton,
 } from './components/EServiceCreateStepThresholds'
-import { Typography } from '@mui/material'
+import { Link, Typography } from '@mui/material'
+import { PUBLIC_URL } from '@/config/env'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice')
+  const { t: tTemplate } = useTranslation('eserviceTemplate')
   const params = useParams<'PROVIDE_ESERVICE_CREATE' | 'PROVIDE_ESERVICE_EDIT'>()
   const { activeStep, ...stepProps } = useActiveStep()
+  const generatePath = useGeneratePath()
 
   const isNewEService = !params?.descriptorId || !params?.eserviceId
 
@@ -123,11 +126,41 @@ const ProviderEServiceCreatePage: React.FC = () => {
           <EServiceCreateStepInfoVersionSkeleton key={5} />,
         ]
 
+  const templateId = eserviceTemplate?.id
+  const activeTemplateVersionId = eserviceTemplate?.versions.find(
+    (v) => v.state === 'PUBLISHED'
+  )?.id
+
   const intro = isNewEService
     ? { title: t('create.emptyTitle') }
     : {
         title: eservice?.name,
-        description: eservice?.description,
+        description:
+          templateId && activeTemplateVersionId ? (
+            <Trans
+              components={{
+                1: (
+                  <Link
+                    underline="hover"
+                    href={
+                      PUBLIC_URL +
+                      generatePath('SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS', {
+                        eServiceTemplateId: templateId,
+                        eServiceTemplateVersionId: activeTemplateVersionId,
+                      })
+                    }
+                    target="_blank"
+                  />
+                ),
+              }}
+            >
+              {tTemplate('createInstance.eserviceTemplateDescriptionLink', {
+                templateName: eserviceTemplate?.name,
+              })}
+            </Trans>
+          ) : (
+            eservice?.description
+          ),
       }
 
   return (
