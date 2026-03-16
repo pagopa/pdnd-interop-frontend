@@ -118,14 +118,22 @@ describe('ConsumerEServiceDescriptorAttributes', () => {
   })
 
   it('should show warning text for unfulfilled verified attributes', () => {
-    setupMocks()
+    setupMocks({
+      ownedCertified: [
+        createCertifiedTenantAttribute({ id: 'cert-attr-1', revocationTimestamp: undefined }),
+      ],
+    })
     renderComponent()
 
     expect(screen.getByText('group.manage.warning.verified.consumer')).toBeInTheDocument()
   })
 
   it('should show warning text for unfulfilled declared attributes', () => {
-    setupMocks()
+    setupMocks({
+      ownedCertified: [
+        createCertifiedTenantAttribute({ id: 'cert-attr-1', revocationTimestamp: undefined }),
+      ],
+    })
     renderComponent()
 
     expect(screen.getByText('group.manage.warning.declared.consumer')).toBeInTheDocument()
@@ -133,6 +141,9 @@ describe('ConsumerEServiceDescriptorAttributes', () => {
 
   it('should show success text when verified attribute is owned', () => {
     setupMocks({
+      ownedCertified: [
+        createCertifiedTenantAttribute({ id: 'cert-attr-1', revocationTimestamp: undefined }),
+      ],
       ownedVerified: [
         createVerifiedTenantAttribute({
           id: 'ver-attr-1',
@@ -148,6 +159,9 @@ describe('ConsumerEServiceDescriptorAttributes', () => {
 
   it('should show success text when declared attribute is owned', () => {
     setupMocks({
+      ownedCertified: [
+        createCertifiedTenantAttribute({ id: 'cert-attr-1', revocationTimestamp: undefined }),
+      ],
       ownedDeclared: [
         createDeclaredTenantAttribute({
           id: 'decl-attr-1',
