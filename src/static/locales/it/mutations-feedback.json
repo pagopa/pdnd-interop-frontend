@@ -992,6 +992,19 @@
         "success": "Hai modificato le soglie di chiamate API.",
         "error": "Non è stato possibile modificare le soglie di chiamate API. Controlla di aver inserito le informazioni corrette."
       }
+    },
+    "updateInstance": {
+      "loading": "Stiamo aggiornando l'istanza dell'e-service",
+      "outcome": {
+        "error": "Non è stato possibile aggiornare l'istanza. Verifica di aver compilato i campi richiesti e riprova!"
+      }
+    },
+    "updateInstanceLabel": {
+      "loading": "Stiamo aggiornando la parola identificativa dell'e-service",
+      "outcome": {
+        "error": "Non è stato possibile aggiornare la parola identificativa. Riprova.",
+        "success": "Parola identificativa aggiornata correttamente"
+      }
     }
   },
   "purposeTemplate": {

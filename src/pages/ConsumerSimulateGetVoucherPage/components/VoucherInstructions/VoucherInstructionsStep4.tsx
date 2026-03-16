@@ -17,15 +17,19 @@ import {
   apiSignalhubPushLink,
   apiSignalhubPullLink,
 } from '@/config/constants'
+import { useSearchParams } from 'react-router-dom'
 
 export const VoucherInstructionsStep4: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
-  const { selectedPurposeId, goToPreviousStep } = useVoucherInstructionsContext()
+  const { goToPreviousStep } = useVoucherInstructionsContext()
+  const [searchParams] = useSearchParams()
+
+  const purposeId = searchParams.get('purposeId') || ''
 
   const { data: purpose } = useQuery({
-    ...PurposeQueries.getSingle(selectedPurposeId!),
-    enabled: Boolean(selectedPurposeId),
+    ...PurposeQueries.getSingle(purposeId),
+    enabled: Boolean(purposeId),
   })
 
   const eserviceName = purpose ? purpose.eservice.name : ''

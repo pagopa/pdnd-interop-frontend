@@ -1,4 +1,3 @@
-/* eslint-disable react/react-in-jsx-scope */
 import type { EServiceTemplateVersionState } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
@@ -9,7 +8,6 @@ import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 export function useGetConsumerEServiceTemplateActions(
   eServiceTemplateId: string,
-  isAlreadyInstantiated: boolean,
   hasRequesterRiskAnalysis: boolean,
   activeVersionState?: EServiceTemplateVersionState | undefined,
   hasPersonalDataValue?: boolean
@@ -20,15 +18,6 @@ export function useGetConsumerEServiceTemplateActions(
   const navigate = useNavigate()
 
   const state = activeVersionState ?? 'DRAFT'
-
-  const tooltipLabel = t('createNewEServiceInstanceDisabled')
-    .split('\n')
-    .map((line, idx) => (
-      <span key={idx}>
-        {line}
-        <br />
-      </span>
-    ))
 
   // Only admin and operatorAPI can see actions
   if (!isAdmin && !isOperatorAPI) return { actions: [] }
@@ -43,9 +32,6 @@ export function useGetConsumerEServiceTemplateActions(
     if (!hasPersonalDataValue && FEATURE_FLAG_ESERVICE_PERSONAL_DATA) {
       return t('createInstanceDisabledPersonalData')
     }
-    if (isAlreadyInstantiated) {
-      return tooltipLabel as unknown as string
-    }
 
     if (!hasRequesterRiskAnalysis) {
       return t('createInstanceDisabledTenantKind')
@@ -56,10 +42,7 @@ export function useGetConsumerEServiceTemplateActions(
     action: handleCreateEServiceFromTemplate,
     label: t('createNewEServiceInstance'),
     icon: FiberNewIcon,
-    disabled:
-      isAlreadyInstantiated ||
-      !hasRequesterRiskAnalysis ||
-      (!hasPersonalDataValue && FEATURE_FLAG_ESERVICE_PERSONAL_DATA),
+    disabled: !hasRequesterRiskAnalysis || (!hasPersonalDataValue && FEATURE_FLAG_ESERVICE_PERSONAL_DATA),
     tooltip: tooltipToShow,
   }
 

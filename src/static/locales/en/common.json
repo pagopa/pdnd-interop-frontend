@@ -57,7 +57,8 @@
     "markAsRead": "Mark as read",
     "marsAsNotRead": "Mark as not read",
     "specifyProcessing": "Specify processing",
-    "save": "Save"
+    "save": "Save",
+    "simulateVoucher": "Simulate obtaining the voucher"
   },
   "table": {
     "headData": {
@@ -83,6 +84,7 @@
       "delegatorName": "Delegation requested by",
       "delegateName": "Delegation granted to",
       "eserviceTemplateUsingTenant": "Party",
+      "eserviceTemplateInstanceLabel": "Instance label",
       "eserviceTemplateInstanceVersion": "Template version",
       "eserviceTemplateInstanceState": "Instance status",
       "eserviceTemplateName": "Template",

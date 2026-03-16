@@ -65,7 +65,6 @@
       "description": "Manage your notification settings in app and via personal email. Not sure how to set up notifications? <1>See the manual</1>",
       "inAppTabTitle": "In-App Notifications",
       "emailTabTitle": "Email",
-      "infoAlert": "Selected notifications may not arrive immediately, as we are planning a gradual rollout. No further action will be required after setting your preferences.",
       "inApp": {
         "title": "Platform Notification Preferences Configuration",
         "manualLinkLabel": "Doubts? See the manual",

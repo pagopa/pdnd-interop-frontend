@@ -13,7 +13,7 @@ import SaveIcon from '@mui/icons-material/Save'
 import { IconLink } from '@/components/shared/IconLink'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
-import { SIGNALHUB_GUIDE_URL } from '@/config/constants'
+import { ESERVICE_TEMPLATE_NAME_MAX_LENGTH, SIGNALHUB_GUIDE_URL } from '@/config/constants'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 import { EServiceTemplateDetailsSection } from '@/pages/ProviderEServiceCreatePage/components/sections/EServiceTemplateDetailsSection'
 
@@ -158,9 +158,10 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
             infoLabel={t('create.step1.eserviceTemplateNameField.infoLabel')}
             name="name"
             required
-            rules={{ required: true, minLength: 5 }}
+            disabled={!areEServiceTemplateGeneralInfoEditable}
+            rules={{ required: true, minLength: 5, maxLength: ESERVICE_TEMPLATE_NAME_MAX_LENGTH }}
             focusOnMount
-            inputProps={{ maxLength: 60 }}
+            inputProps={{ maxLength: ESERVICE_TEMPLATE_NAME_MAX_LENGTH }}
             size="small"
             sx={{ my: 0, mt: 1 }}
           />

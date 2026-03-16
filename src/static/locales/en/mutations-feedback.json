@@ -992,6 +992,19 @@
         "success": "API call thresholds have been updated.",
         "error": "Could not update API call thresholds. Please check the information entered."
       }
+    },
+    "updateInstance": {
+      "loading": "E-service instance is being updated",
+      "outcome": {
+        "error": "Instance could not be updated. Please ensure all required fields are filled in and try again!"
+      }
+    },
+    "updateInstanceLabel": {
+      "loading": "E-service identifying word is being updated",
+      "outcome": {
+        "error": "The identifying word could not be updated. Please try again.",
+        "success": "Identifying word updated successfully"
+      }
     }
   },
   "purposeTemplate": {
