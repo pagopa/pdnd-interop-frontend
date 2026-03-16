@@ -36,16 +36,16 @@ importers:
         specifier: ^6.13.0
         version: 6.20.2(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@mui/material@5.18.0(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mui/system@5.18.0(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(date-fns@2.30.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@pagopa/interop-fe-commons':
-        specifier: 1.5.2
-        version: 1.5.2(d5q4pcgmzyb6nt37utp6h35fje)
+        specifier: ^1.5.3
+        version: 1.5.3(d5q4pcgmzyb6nt37utp6h35fje)
       '@pagopa/mui-italia':
-        specifier: 1.8.0
+        specifier: ^1.8.0
         version: 1.8.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@tanstack/react-query':
-        specifier: 5.51.4
+        specifier: ^5.51.4
         version: 5.51.4(react@18.3.1)
       '@tanstack/react-query-devtools':
-        specifier: 5.51.4
+        specifier: ^5.51.4
         version: 5.51.4(@tanstack/react-query@5.51.4(react@18.3.1))(react@18.3.1)
       autosuggest-highlight:
         specifier: ^3.3.4
@@ -929,8 +929,8 @@ packages:
   '@open-draft/until@1.0.3':
     resolution: {integrity: sha512-Aq58f5HiWdyDlFffbbSjAlv596h/cOnt2DO1w3DOC7OJ5EHs0hd/nycJfiu9RJbT6Yk6F1knnRRXNSpxoIVZ9Q==}
 
-  '@pagopa/interop-fe-commons@1.5.2':
-    resolution: {integrity: sha512-Enox13h4exxfXKRzGxipNbDO/VGbE2fF7biZRexXw4jZpflRXiBF+T1bpiWDJwpmjOB3LZkcgnzDGiGNj7oXSA==}
+  '@pagopa/interop-fe-commons@1.5.3':
+    resolution: {integrity: sha512-CcP4rUqF13QaZ0vc69wQG+lru8NttJNhFvJ0rOMarC5CSgalaKrZbMoYbXwmWTbE+kkvv5nRNhzoNgStai3IbA==}
     peerDependencies:
       '@emotion/react': ^11.11.1
       '@emotion/styled': ^11.11.0
@@ -4424,7 +4424,7 @@ snapshots:
 
   '@open-draft/until@1.0.3': {}
 
-  '@pagopa/interop-fe-commons@1.5.2(d5q4pcgmzyb6nt37utp6h35fje)':
+  '@pagopa/interop-fe-commons@1.5.3(d5q4pcgmzyb6nt37utp6h35fje)':
     dependencies:
       '@emotion/react': 11.14.0(@types/react@18.3.28)(react@18.3.1)
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1)
