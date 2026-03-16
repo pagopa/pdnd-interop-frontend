@@ -11,6 +11,7 @@ import AddIcon from '@mui/icons-material/Add'
 import { IconLink } from '@/components/shared/IconLink'
 import DownloadIcon from '@mui/icons-material/Download'
 import { useEServiceCreateContext } from '../../EServiceCreateContext'
+import { EmptySectionTextCard } from '@/components/shared/EmptySectionTextCard'
 
 type UploadDocFormValues = {
   doc: File | null
@@ -103,8 +104,8 @@ export const UploadDocumentsSection: React.FC<UploadDocumentsSectionProps> = ({
 
   const isSelectedDocUploadable = Boolean(
     formMethods.watch('doc') &&
-      formMethods.watch('prettyName') &&
-      formMethods.watch('prettyName') !== ''
+    formMethods.watch('prettyName') &&
+    formMethods.watch('prettyName') !== ''
   )
 
   return !readonly ? (
@@ -176,8 +177,13 @@ export const UploadDocumentsSection: React.FC<UploadDocumentsSectionProps> = ({
 const UploadDocumentsSectionReadonly: React.FC<{
   docs: EServiceDoc[]
   handleDownloadDocument: (document: EServiceDoc) => void
-}> = ({ docs, handleDownloadDocument }) =>
-  docs.map((doc) => (
+}> = ({ docs, handleDownloadDocument }) => {
+  const { t } = useTranslation('eservice')
+
+  if (!docs.length)
+    return <EmptySectionTextCard text={t('create.step4.documentation.noDocumentation')} />
+
+  return docs.map((doc) => (
     <Stack key={doc.id} alignItems="start" mb={2}>
       <IconLink
         fontWeight={600}
@@ -189,3 +195,4 @@ const UploadDocumentsSectionReadonly: React.FC<{
       </IconLink>
     </Stack>
   ))
+}

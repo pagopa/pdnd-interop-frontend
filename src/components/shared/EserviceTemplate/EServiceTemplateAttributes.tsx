@@ -6,7 +6,7 @@ import {
 } from '@/components/layout/containers'
 import { useParams } from '@/router'
 import type { ActionItemButton } from '@/types/common.types'
-import { Card, CardHeader, Divider, Stack } from '@mui/material'
+import { Divider, Stack } from '@mui/material'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -16,6 +16,7 @@ import { AuthHooks } from '@/api/auth'
 import { AttributeGroupsListSection } from '@/components/shared/ReadOnlyDescriptorAttributes'
 import { UpdateAttributesDrawer } from '../UpdateAttributesDrawer'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
+import { EmptySectionTextCard } from '../EmptySectionTextCard'
 
 type EServiceTemplateAttributesProps = {
   readonly: boolean
@@ -67,19 +68,7 @@ export const EServiceTemplateAttributes: React.FC<EServiceTemplateAttributesProp
       <SectionContainer title={t('title')} description={t('description')}>
         <SectionContainer title={t('thresholds.title')} innerSection sx={{ p: 0 }}>
           {noThresholds ? (
-            <Card>
-              <CardHeader
-                titleTypographyProps={{
-                  variant: 'body1',
-                  fontWeight: 600,
-                }}
-                title={t('thresholds.noThresholdTemplate')}
-                sx={{
-                  py: 1,
-                  bgcolor: 'grey.200',
-                }}
-              />
-            </Card>
+            <EmptySectionTextCard text={t('thresholds.noThresholdTemplate')} />
           ) : (
             <Stack spacing={1} mt={1} mb={3}>
               <InformationContainer

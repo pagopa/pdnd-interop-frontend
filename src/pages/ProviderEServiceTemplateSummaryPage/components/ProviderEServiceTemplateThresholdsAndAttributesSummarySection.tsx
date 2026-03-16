@@ -14,6 +14,7 @@ import {
 import type { DescriptorAttribute, DescriptorAttributes } from '@/api/api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 import { attributesHelpLink } from '@/config/constants'
+import { EmptySectionTextCard } from '@/components/shared/EmptySectionTextCard'
 
 export const ProviderEServiceTemplateThresholdsAndAttributesSummarySection: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', {
@@ -25,27 +26,37 @@ export const ProviderEServiceTemplateThresholdsAndAttributesSummarySection: Reac
     EServiceTemplateQueries.getSingle(params.eServiceTemplateId, params.eServiceTemplateVersionId)
   )
 
+  const noThresholds =
+    eserviceTemplate.dailyCallsTotal === undefined ||
+    eserviceTemplate.dailyCallsPerConsumer === undefined
+
   return (
     <Stack spacing={2}>
       <Typography variant="body2" fontWeight={600}>
         {t('thresholdsTitle')}
       </Typography>
-      <InformationContainer
-        label={t('dailyCallsPerConsumer.label')}
-        content={t('dailyCallsPerConsumer.value', {
-          value: eserviceTemplate.dailyCallsPerConsumer
-            ? formatThousands(eserviceTemplate.dailyCallsPerConsumer)
-            : 'n/a',
-        })}
-      />
-      <InformationContainer
-        label={t('dailyCallsTotal.label')}
-        content={t('dailyCallsTotal.value', {
-          value: eserviceTemplate.dailyCallsTotal
-            ? formatThousands(eserviceTemplate.dailyCallsTotal)
-            : 'n/a',
-        })}
-      />
+      {noThresholds ? (
+        <EmptySectionTextCard text={t('noThresholds')} />
+      ) : (
+        <>
+          <InformationContainer
+            label={t('dailyCallsPerConsumer.label')}
+            content={t('dailyCallsPerConsumer.value', {
+              value: eserviceTemplate.dailyCallsPerConsumer
+                ? formatThousands(eserviceTemplate.dailyCallsPerConsumer)
+                : 'n/a',
+            })}
+          />
+          <InformationContainer
+            label={t('dailyCallsTotal.label')}
+            content={t('dailyCallsTotal.value', {
+              value: eserviceTemplate.dailyCallsTotal
+                ? formatThousands(eserviceTemplate.dailyCallsTotal)
+                : 'n/a',
+            })}
+          />
+        </>
+      )}
       <TemplateSummaryAttributes descriptorAttributes={eserviceTemplate.attributes} />
     </Stack>
   )

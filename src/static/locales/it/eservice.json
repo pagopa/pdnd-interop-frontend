@@ -294,7 +294,8 @@
       },
       "documentation": {
         "title": "Documentazione",
-        "description": "Inserisci la documentazione tecnica utile all’utilizzo di questo e-service"
+        "description": "Inserisci la documentazione tecnica utile all’utilizzo di questo e-service",
+        "noDocumentation": "Questo template non ha nessuna documentazione"
       },
       "nameField": {
         "label": "Nome documento",
