@@ -204,6 +204,8 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           />
         )}
 
+        <SignalHubSection isSignalHubActivationEditable={areEServiceGeneralInfoEditable} />
+
         {isEserviceFromTemplate && (
           <InstanceLabelSection
             templateName={eserviceTemplate?.name ?? descriptor?.templateRef?.templateName ?? ''}

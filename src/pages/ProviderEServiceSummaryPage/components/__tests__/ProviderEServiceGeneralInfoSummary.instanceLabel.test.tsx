@@ -10,6 +10,7 @@ vi.mock('@/router', () => ({
 }))
 
 let mockDescriptorData: ProducerEServiceDescriptor
+let mockTemplateData: unknown = undefined
 
 vi.mock('@/api/eservice', () => ({
   EServiceQueries: {
@@ -31,12 +32,13 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
   return {
     ...actual,
     useSuspenseQuery: () => ({ data: mockDescriptorData }),
-    useQuery: () => ({ data: undefined }),
+    useQuery: () => ({ data: mockTemplateData }),
   }
 })
 
 beforeEach(() => {
   mockUseJwt()
+  mockTemplateData = undefined
 })
 
 afterEach(() => {
@@ -56,6 +58,12 @@ describe('ProviderEServiceGeneralInfoSummarySection - template e-service name', 
         templateName: 'Credenziale IT-Wallet',
       },
     })
+    mockTemplateData = {
+      id: 'template-id',
+      name: 'Credenziale IT-Wallet',
+      intendedTarget: 'Test target',
+      description: 'Template description',
+    }
 
     renderWithApplicationContext(<ProviderEServiceGeneralInfoSummarySection />, {
       withReactQueryContext: true,
