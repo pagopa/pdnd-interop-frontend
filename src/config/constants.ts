@@ -17,7 +17,7 @@ export const pagoPaLink = {
   ariaLabel: 'Vai al sito di PagoPA S.p.A.',
   title: 'Vai al sito di PagoPA S.p.A.',
 }
-export const assistanceLink = `https://selfcare.pagopa.it/assistenza?productId=${getCurrentSelfCareProductId()}`
+export const assistanceLink = `https://selfcare.pagopa.it/assistenza?productId=${SELFCARE_PRODUCT_ID}`
 export const attributesHelpLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/attributi`
 export const verifyVoucherGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/utilizzare-i-voucher`
 export const manageEServiceGuideLink = `${DOCUMENTATION_URL}/tutorial/tutorial-per-lerogatore/come-integrare-unapi`
