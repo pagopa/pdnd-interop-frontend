@@ -120,7 +120,7 @@ describe('EServiceCreateStepGeneral', () => {
       withReactQueryContext: true,
       withRouterContext: true,
     })
-    expect(screen.getByText('create.forwardWithoutSaveBtn')).toBeInTheDocument()
+    expect(screen.getByText('create.forwardWithSaveBtn')).toBeInTheDocument()
   })
 
   it('should call createDraft on submit when user is creating e-service not coming from e-service template', async () => {
