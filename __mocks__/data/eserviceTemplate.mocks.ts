@@ -50,7 +50,6 @@ const createMockEServiceTemplateVersionDetails = createMockFactory<EServiceTempl
     isSignalHubEnabled: true,
     personalData: true,
   },
-  isAlreadyInstantiated: false,
 })
 
 const createMockEServiceTemplateVersionDetailsReceiveMode =

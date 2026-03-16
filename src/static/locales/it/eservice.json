@@ -17,16 +17,27 @@
     "goToSummary": "Vai al riepilogo",
     "step1": {
       "infoSection": {
-        "title": "Informazioni sull'e-service",
+        "title": "Informazioni sull’e-service",
         "description": "Per scegliere nomi chiari e rendere gli e-service facili da trovare, consulta le <1>linee guida</1>",
         "readOnlyDescription": "Le seguenti informazioni non sono più modificabili.",
         "nameField": {
-          "label": "Nome dell'e-service",
+          "label": "Nome dell’e-service",
           "infoLabel": "Min 5 caratteri, max 60 caratteri"
         },
         "descriptionField": {
-          "label": "Descrizione dell'e-service",
-          "infoLabel": "Descrivi quali dati il fruitore deve fornire e quali dati l'e-service restituisce. Min 10 caratteri, max 250 caratteri"
+          "label": "Descrizione dell’e-service",
+          "infoLabel": "Descrivi quali dati il fruitore deve fornire e quali dati l’e-service restituisce. Min 10 caratteri, max 250 caratteri"
+        }
+      },
+      "instanceLabelField": {
+        "title": "Parola che identifica l’e-service",
+        "description": "Aggiungi una parola che aiuta a identificare il tuo e-service dagli altri creati dallo stesso template: è utile per avere un nome unico ed evitare duplicati.",
+        "label": "Parola identificativa dell’e-service",
+        "infoLabel": "Max 12 caratteri",
+        "catalogPreviewLabel": "Come comparirà nel catalogo",
+        "validation": {
+          "duplicate": "Hai già creato un e-service con questo nome, usane un altro.",
+          "emptyNotAvailable": "Aggiungi una parola per differenziare il tuo e-service."
         }
       },
       "detailsSection": {
@@ -355,6 +366,9 @@
           "undefined": "Non indicato"
         }
       },
+      "catalogName": {
+        "label": "Come comparirà nel catalogo"
+      },
       "apiTechnology": {
         "label": "Tecnologia API"
       },
@@ -521,6 +535,9 @@
         },
         "version": {
           "label": "Stai vedendo la versione"
+        },
+        "instanceLabel": {
+          "label": "Parola che identifica l'e-service"
         },
         "eserviceTemplateName": {
           "label": "Riferimento template"
@@ -698,6 +715,21 @@
       }
     },
     "drawers": {
+      "updateInstanceLabelDrawer": {
+        "title": "Modifica la parola che identifica l'e-service",
+        "subtitle": "Aggiungi una parola che aiuta a identificare il tuo e-service dagli altri creati dallo stesso template: è utile per avere un nome unico ed evitare duplicati.",
+        "instanceLabelField": {
+          "label": "Parola identificativa dell'e-service",
+          "infoLabel": "Max 12 caratteri",
+          "catalogPreviewLabel": "Come comparirà nel catalogo",
+          "validation": {
+            "duplicate": "Hai già creato un e-service con questo nome, usane un altro.",
+            "emptyNotAvailable": "Aggiungi una parola per differenziare il tuo e-service.",
+            "required": "La parola identificativa è obbligatoria.",
+            "sameValue": "La parola identificativa deve essere diversa da quella attuale."
+          }
+        }
+      },
       "updateEServiceNameDrawer": {
         "title": "Modifica nome e-service",
         "subtitle": "Da questo pannello puoi aggiornare il nome dell’e-service. Le modifiche apportate avranno effetto da subito.",

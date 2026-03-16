@@ -5,7 +5,6 @@ import type { SAMLTokenRequest, SessionToken } from '../api.generatedTypes'
 import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import { TokenExchangeError } from '@/utils/errors.utils'
 import { parseJwt } from './auth.utils'
-import { setMixpanelIdentifier } from '@/config/tracking'
 import { hasSessionExpired } from '@/utils/common.utils'
 
 async function swapTokens(identity_token: string) {
@@ -25,7 +24,6 @@ async function getSessionToken(): Promise<string | null> {
       return null
     }
     window.localStorage.setItem(STORAGE_KEY_SESSION_TOKEN, sessionToken)
-    if (parsedJwt.jwt?.uid) setMixpanelIdentifier(parsedJwt.jwt?.uid)
     return sessionToken
   }
 

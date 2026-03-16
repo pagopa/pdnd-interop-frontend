@@ -130,7 +130,6 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
         agreementApprovalPolicy: 'AUTOMATIC',
         attributes: { certified: [], declared: [], verified: [] },
         docs: [],
-        isAlreadyInstantiated: false,
       },
     })
     renderWithApplicationContext(<EServiceTemplateCreateStepTechnicalSpecs {...stepProps} />, {

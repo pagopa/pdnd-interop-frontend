@@ -15,6 +15,7 @@ import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
 import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import { EServiceTemplateVersionSelectorDrawer } from '@/components/shared/EserviceTemplate'
 import { UpdatePersonalDataDrawer } from '../UpdatePersonalDataDrawer'
+import { ESERVICE_TEMPLATE_NAME_MAX_LENGTH } from '@/config/constants'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
 
@@ -299,6 +300,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                 subtitle={tDrawer('updateEServiceTemplateNameDrawer.subtitle')}
                 label={tDrawer('updateEServiceTemplateNameDrawer.templateNameField.label')}
                 infoLabel={tDrawer('updateEServiceTemplateNameDrawer.templateNameField.infoLabel')}
+                maxLength={ESERVICE_TEMPLATE_NAME_MAX_LENGTH}
                 validateLabel={tDrawer(
                   'updateEServiceTemplateNameDrawer.templateNameField.validation.sameValue'
                 )}
