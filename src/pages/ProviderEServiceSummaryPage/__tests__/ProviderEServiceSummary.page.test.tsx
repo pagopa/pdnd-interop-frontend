@@ -6,6 +6,7 @@ import * as router from '@/router'
 import {
   createMockEServiceDescriptorReceive,
   createMockEServiceDescriptorProvider,
+  createMockEServiceDescriptorProviderWithTemplateRef,
 } from '@/../__mocks__/data/eservice.mocks'
 
 mockUseParams({
@@ -77,12 +78,14 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
   }
 })
 
+const mockDelegationRole = vi.fn().mockReturnValue({
+  isDelegator: false,
+  isDelegate: false,
+  producerDelegations: [],
+})
+
 vi.mock('@/hooks/useGetProducerDelegationUserRole', () => ({
-  useGetProducerDelegationUserRole: () => ({
-    isDelegator: false,
-    isDelegate: false,
-    producerDelegations: [],
-  }),
+  useGetProducerDelegationUserRole: (...args: unknown[]) => mockDelegationRole(...args),
 }))
 
 describe('ProviderEServiceSummaryPage', () => {
@@ -210,5 +213,29 @@ describe('ProviderEServiceSummaryPage', () => {
     })
 
     expect(screen.queryByTestId('DeleteOutlineIcon')).toBeInTheDocument()
+  })
+
+  it('should not render CTA buttons for delegate viewing a template eservice in WAITING_FOR_APPROVAL state', () => {
+    mockDelegationRole.mockReturnValue({
+      isDelegator: false,
+      isDelegate: true,
+      producerDelegations: [],
+    })
+
+    useQueryMock.mockReturnValue({
+      data: createMockEServiceDescriptorProviderWithTemplateRef({
+        state: 'WAITING_FOR_APPROVAL',
+      }),
+      isLoading: false,
+    })
+
+    renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.queryByRole('button', { name: 'publish' })).not.toBeInTheDocument()
+    expect(screen.queryByTestId('DeleteOutlineIcon')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('CreateIcon')).not.toBeInTheDocument()
   })
 })

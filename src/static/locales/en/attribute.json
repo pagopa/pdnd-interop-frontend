@@ -24,6 +24,10 @@
     "provider": "Your party does not require {{attributeKey}} attributes",
     "consumer": "The producer does not require {{attributeKey}} attributes"
   },
+  "noAttributesRequiredTemplate": {
+    "title": "Attributes",
+    "alert": "This e-service template does not require any attributes."
+  },
   "attributeCardHeader": {
     "label": "Requirement {{index}} | {{attributeKey}} attributes"
   },
@@ -41,6 +45,10 @@
         "consumer": "You possess at least one of these attributes."
       },
       "warning": {
+        "certified": {
+          "provider": "The consumer must possess at least one of the following attributes",
+          "consumer": "Your party must possess at least one of the following certified attributes"
+        },
         "verified": {
           "provider": "The consumer must possess at least one of the following attributes",
           "consumer": "The producer must verify if you possess at least one of the following attributes"
@@ -52,7 +60,7 @@
       },
       "error": {
         "provider": "The consumer does not possess any of the following attributes",
-        "consumer": "You do not currently meet the indicated requirements."
+        "consumer": "You do not currently possess any of these attributes."
       },
       "revokedByCertifier": "Attribute revoked by the certifying authority",
       "revokedByProducer": "Attribute revoked by a producer",

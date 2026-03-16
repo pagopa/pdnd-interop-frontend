@@ -5,8 +5,8 @@ import { Card, CardContent, CardHeader, IconButton, alpha } from '@mui/material'
 import { theme } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 
-type AttributeGroupContainerProps = CardProps & {
-  title: string
+type AttributeGroupContainerProps = Omit<CardProps, 'title'> & {
+  title: React.ReactNode
   onRemove?: () => void
   subheader?: React.ReactNode
   children?: React.ReactNode

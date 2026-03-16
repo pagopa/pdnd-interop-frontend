@@ -1,7 +1,7 @@
 import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
 import { Trans, useTranslation } from 'react-i18next'
-import { useNavigate, useParams } from '@/router'
+import { useGeneratePath, useNavigate, useParams } from '@/router'
 import { EServiceMutations, EServiceQueries } from '@/api/eservice'
 import { Alert, Button, Link, Stack, Tooltip, Typography } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
@@ -32,11 +32,13 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const { t: tDialogApproveDelegatedVersionDraft } = useTranslation('shared-components', {
     keyPrefix: 'dialogApproveDelegatedVersionDraft',
   })
+  const { t: tTemplate } = useTranslation('eserviceTemplate')
   const { jwt } = AuthHooks.useJwt()
   const { isSupport } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
   const navigate = useNavigate()
+  const generatePath = useGeneratePath()
   const { openDialog, closeDialog } = useDialog()
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
@@ -61,6 +63,8 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const { data: descriptor, isLoading } = useQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
+
+  const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 
   const { mutate: updateEservicePersonalData } =
     EServiceMutations.useUpdateEServicePersonalDataFlagAfterPublication()
@@ -282,6 +286,32 @@ const ProviderEServiceSummaryPage: React.FC = () => {
           eserviceName: descriptor?.eservice.name,
           versionNumber: descriptor?.version ?? '1',
         })}
+        description={
+          isEserviceFromTemplate ? (
+            <Trans
+              components={{
+                1: (
+                  <Link
+                    underline="hover"
+                    href={
+                      '/ui' +
+                      generatePath('SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS', {
+                        eServiceTemplateId: descriptor?.templateRef?.templateId as string,
+                        eServiceTemplateVersionId: descriptor?.templateRef
+                          ?.templateVersionId as string,
+                      })
+                    }
+                    target="_blank"
+                  />
+                ),
+              }}
+            >
+              {tTemplate('createInstance.eserviceTemplateDescriptionLink', {
+                templateName: descriptor?.templateRef?.templateName,
+              })}
+            </Trans>
+          ) : undefined
+        }
         backToAction={{
           label: t('backToListBtn'),
           to: 'PROVIDE_ESERVICE_LIST',
@@ -389,40 +419,41 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               </Alert>
             )}
         </Stack>
-        {!isDelegator && (
-          <>
-            {!canBePublished() && (
-              <Alert severity="warning" sx={{ mt: 3 }}>
-                {t('summary.publishWarningLabel')}
-              </Alert>
-            )}
-            <Stack spacing={1} sx={{ mt: 3 }} direction="row" justifyContent="end">
-              <Button
-                startIcon={<DeleteOutlineIcon />}
-                variant="text"
-                color="error"
-                onClick={handleDeleteDraft}
-                disabled={isSupport}
-              >
-                {tCommon('deleteDraft')}
-              </Button>
-              <Button
-                startIcon={<CreateIcon />}
-                variant="text"
-                onClick={handleEditDraft}
-                disabled={isSupport}
-              >
-                {tCommon('editDraft')}
-              </Button>
-              <PublishButton
-                onClick={handlePublishDraft}
-                disabled={!canBePublished() || isSupport}
-                arePersonalDataSet={arePersonalDataSet}
-                isRulesetExpired={isRulesetExpired}
-              />
-            </Stack>
-          </>
-        )}
+        {!isDelegator &&
+          !(isEServiceFromTemplate && descriptor?.state === 'WAITING_FOR_APPROVAL') && (
+            <>
+              {!canBePublished() && (
+                <Alert severity="warning" sx={{ mt: 3 }}>
+                  {t('summary.publishWarningLabel')}
+                </Alert>
+              )}
+              <Stack spacing={1} sx={{ mt: 3 }} direction="row" justifyContent="end">
+                <Button
+                  startIcon={<DeleteOutlineIcon />}
+                  variant="text"
+                  color="error"
+                  onClick={handleDeleteDraft}
+                  disabled={isSupport}
+                >
+                  {tCommon('deleteDraft')}
+                </Button>
+                <Button
+                  startIcon={<CreateIcon />}
+                  variant="text"
+                  onClick={handleEditDraft}
+                  disabled={isSupport}
+                >
+                  {tCommon('editDraft')}
+                </Button>
+                <PublishButton
+                  onClick={handlePublishDraft}
+                  disabled={!canBePublished() || isSupport}
+                  arePersonalDataSet={arePersonalDataSet}
+                  isRulesetExpired={isRulesetExpired}
+                />
+              </Stack>
+            </>
+          )}
         {isDelegator && descriptor?.state === 'WAITING_FOR_APPROVAL' && (
           <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
             <Button

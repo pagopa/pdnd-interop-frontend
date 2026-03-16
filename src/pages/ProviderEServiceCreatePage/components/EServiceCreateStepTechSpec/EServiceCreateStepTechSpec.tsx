@@ -4,7 +4,7 @@ import { StepActions } from '@/components/shared/StepActions'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
 import { Box } from '@mui/material'
-import React, { useRef } from 'react'
+import React from 'react'
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
@@ -27,11 +27,8 @@ export type EServiceCreateStepTechSpecFormValues = {
 
 export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
-  const hasSubmitted = useRef(false)
   const { descriptor, forward, back } = useEServiceCreateContext()
 
-  const interfaceError =
-    hasSubmitted.current && !descriptor?.interface ? t('step4.interface.requiredError') : undefined
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
   })
@@ -49,8 +46,6 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
 
   const onSubmit: SubmitHandler<EServiceCreateStepTechSpecFormValues> = (values) => {
     if (!descriptor) return
-    hasSubmitted.current = true
-    if (!descriptor.interface) return
 
     const newDescriptorData = {
       ...values,
@@ -116,7 +111,6 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
       <EServiceInterfaceSection
         description={sectionDescription}
         isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
-        error={interfaceError}
       />
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <EServiceVoucherSection isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate} />

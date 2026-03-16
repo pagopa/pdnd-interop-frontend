@@ -30,6 +30,7 @@ import {
   EServiceCreateStepThresholds,
   EServiceCreateStepThresholdsSkeleton,
 } from '../ProviderEServiceCreatePage/components/EServiceCreateStepThresholds'
+import { PUBLIC_URL } from '@/config/env'
 
 const ProviderEServiceFromTemplateCreate: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -101,7 +102,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
                 <Link
                   underline="hover"
                   href={
-                    '/ui' +
+                    PUBLIC_URL +
                     generatePath('SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS', {
                       eServiceTemplateId: eserviceTemplate?.id as string,
                       eServiceTemplateVersionId: activeTemplateversionId,
