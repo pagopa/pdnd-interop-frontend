@@ -157,7 +157,11 @@
         },
         "descriptionLabel": "Descrizione dell'e-service",
         "descriptionInfoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri",
-        "eserviceNameLabel": "Erogato da"
+        "eserviceNameLabel": "Erogato da",
+        "validation": {
+          "duplicateName": "Hai già creato un e-service con questo nome, usane un altro.",
+          "emptyNotAvailable": "Aggiungi una parola per differenziare il tuo e-service."
+        }
       },
       "delegateField": {
         "consumer": {

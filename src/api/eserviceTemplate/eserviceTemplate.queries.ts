@@ -49,6 +49,30 @@ function getProviderEServiceTemplateInstancesList({
   })
 }
 
+function getMyEServiceTemplateInstancesList({
+  eserviceTemplateId,
+  ...params
+}: {
+  eserviceTemplateId: string
+  offset: number
+  limit: number
+}) {
+  return queryOptions({
+    queryKey: [
+      'EServiceTemplatesGetMyTemplateInstancesList',
+      {
+        eserviceTemplateId,
+        ...params,
+      },
+    ],
+    queryFn: () =>
+      EServiceTemplateServices.getMyEServiceTemplateInstancesList({
+        eServiceTemplateId: eserviceTemplateId,
+        ...params,
+      }),
+  })
+}
+
 function getProviderEServiceTemplatesCatalogList(params: GetEServiceTemplatesCatalogParams) {
   return queryOptions({
     queryKey: ['EServiceProviderTempaltesCatalogList', params],
@@ -69,5 +93,6 @@ export const EServiceTemplateQueries = {
   getSingle,
   getProducersEServiceTemplateList,
   getProviderEServiceTemplateInstancesList,
+  getMyEServiceTemplateInstancesList,
   getSingleByEServiceTemplateId,
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { FormProvider } from 'react-hook-form'
 import { SectionContainer } from '@/components/layout/containers'
-import { Box, Stack, Typography, Alert, Link } from '@mui/material'
+import { Box, Stack, Typography, Link } from '@mui/material'
 import { RHFSwitch, SwitchLabelDescription } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
 import { useGetNotificationConfigSchema } from '../hooks/useGetNotificationConfigSchema'
@@ -29,9 +29,6 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
   handleUpdateNotificationConfigs,
   type,
 }) => {
-  const { t: tConfiguration } = useTranslation('notification', {
-    keyPrefix: 'notifications.configurationPage',
-  })
   const { t } = useTranslation('notification', {
     keyPrefix: `notifications.configurationPage.${type}`,
   })
@@ -69,13 +66,6 @@ export const NotificationConfigUserTab: React.FC<NotificationConfigUserTabProps>
     <FormProvider {...formMethods}>
       <SectionContainer sx={{ px: 4, pt: 4 }} title={t('title')} description={t('description')}>
         {type === 'email' ? <EmailConfigHeader userEmail={userEmail} /> : <InAppConfigHeader />}
-        {/* {inAppNotificationPreference !== 'DIGEST' && ( */}
-        {isEnabledShowPreferencesSwitch && (
-          <Alert sx={{ mt: 2 }} severity="info">
-            {tConfiguration('infoAlert')}
-          </Alert>
-        )}
-        {/* )} */}
         <Box sx={{ ml: 2, mt: 2 }}>
           {isEnabledShowPreferencesSwitch &&
             Object.keys(notificationSchema).map((sectionName) => {
