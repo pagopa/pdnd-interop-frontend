@@ -5,7 +5,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { Stack } from '@mui/system'
-import { ReadOnlyDescriptorAttributes } from '@/components/shared/ReadOnlyDescriptorAttributes'
+import { AttributeGroupsListSection } from '@/components/shared/ReadOnlyDescriptorAttributes'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 
 export const ProviderEServiceAttributeVersionSummarySection: React.FC = () => {
@@ -33,7 +33,18 @@ export const ProviderEServiceAttributeVersionSummarySection: React.FC = () => {
           content={t('thresholds.dailyCallsTotal.value', { value: descriptor.dailyCallsTotal })}
         />
       </Stack>
-      <ReadOnlyDescriptorAttributes descriptorAttributes={descriptor.attributes} />
+      <AttributeGroupsListSection
+        descriptorAttributes={descriptor.attributes}
+        attributeKey="certified"
+      />
+      <AttributeGroupsListSection
+        descriptorAttributes={descriptor.attributes}
+        attributeKey="verified"
+      />
+      <AttributeGroupsListSection
+        descriptorAttributes={descriptor.attributes}
+        attributeKey="declared"
+      />
     </>
   )
 }

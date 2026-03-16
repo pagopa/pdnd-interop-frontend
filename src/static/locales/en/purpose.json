@@ -3,7 +3,7 @@
   "create": {
     "emptyTitle": "Create purpose",
     "requiredLabel": "*Required fields.",
-    "preliminaryInformationSectionTitle": "General informations",
+    "preliminaryInformationSectionTitle": "Purpose information",
     "isTemplateField": {
       "label": "Clone from template"
     },
@@ -74,7 +74,7 @@
     "endWithSaveBtn": "Go to summary",
     "eserviceProvider": "provided by",
     "stepGeneral": {
-      "title": "General information",
+      "title": "Purpose information",
       "nameField": {
         "label": "Purpose name",
         "infoLabel": "It will help you tell them apart. Min 5 characters, max 60 characters"
@@ -152,8 +152,8 @@
     },
     "purposeFromTemplate": {
       "generalInformationSection": {
-        "title": "General information",
-        "subtitle": "The following information was pre-filled by the creator of the facilitated purpose template and can't be modified.",
+        "title": "Purpose information",
+        "subtitle": "This information was pre-filled by the creator of the facilitated purpose template and cannot be modified.",
         "descriptionSection": {
           "title": "Description",
           "nameField": {
@@ -236,7 +236,8 @@
       "title": "Risk analysis",
       "providerRiskAnalysisAlert": "The e-service selected for this purpose requires data to be sent from the consumer to the producer. The risk analysis was therefore compiled by the producer."
     },
-    "publishBtnDisabled": "Your declaration on personal data processing in the risk analysis prevents publication"
+    "publishBtnDisabled": "Your declaration on personal data processing in the risk analysis prevents publication",
+    "publishBtn": "Publish draft"
   },
   "list": {
     "cantCreatePurposeTooltip": "You cannot create purposes because you have no associable e-service",

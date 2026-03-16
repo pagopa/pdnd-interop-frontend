@@ -40,6 +40,24 @@ export const ReadOnlyDescriptorAttributes: React.FC<ReadOnlyDescriptorAttributes
   descriptorAttributes,
   ownershipData,
 }) => {
+  const { t: tAttribute } = useTranslation('attribute')
+
+  const hasNoAttributes =
+    descriptorAttributes.certified.length === 0 &&
+    descriptorAttributes.verified.length === 0 &&
+    descriptorAttributes.declared.length === 0
+
+  if (hasNoAttributes) {
+    return (
+      <SectionContainer innerSection title={tAttribute('attributesGenericLabel')}>
+        <AttributeGroupContainer
+          title={tAttribute('noAttributesRequiredGenericAlert')}
+          color="gray"
+        />
+      </SectionContainer>
+    )
+  }
+
   const hasBlockingAttribute =
     !!ownershipData &&
     !hasAllDescriptorAttributes(
@@ -242,9 +260,7 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
       })()}
       color={groupColorAndText?.color ?? 'gray'}
     >
-      {groupColorAndText && (
-        <Typography>{tAttribute(groupColorAndText.textKey)}</Typography>
-      )}
+      {groupColorAndText && <Typography>{tAttribute(groupColorAndText.textKey)}</Typography>}
       <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
         {attributes.map((attribute, _index) => (
           <React.Fragment key={attribute.id}>

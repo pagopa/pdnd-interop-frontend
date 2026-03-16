@@ -1,6 +1,6 @@
 import React from 'react'
 import { describe, it, expect, vi } from 'vitest'
-import { screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { ReadOnlyDescriptorAttributes } from '../ReadOnlyDescriptorAttributes'
 import type { AttributeOwnershipData } from '../ReadOnlyDescriptorAttributes'
 import type { DescriptorAttributes } from '@/api/api.generatedTypes'
@@ -57,7 +57,28 @@ function renderComponent(
   )
 }
 
+const emptyAttributes: DescriptorAttributes = {
+  certified: [],
+  verified: [],
+  declared: [],
+}
+
 describe('ReadOnlyDescriptorAttributes', () => {
+  it('should show a single generic banner when there are no attributes', () => {
+    render(<ReadOnlyDescriptorAttributes descriptorAttributes={emptyAttributes} />)
+
+    expect(screen.getByText('attributesGenericLabel')).toBeInTheDocument()
+    expect(screen.getByText('noAttributesRequiredGenericAlert')).toBeInTheDocument()
+  })
+
+  it('should not show the three attribute sections when there are no attributes', () => {
+    render(<ReadOnlyDescriptorAttributes descriptorAttributes={emptyAttributes} />)
+
+    expect(screen.queryByText('certified.label')).not.toBeInTheDocument()
+    expect(screen.queryByText('verified.label')).not.toBeInTheDocument()
+    expect(screen.queryByText('declared.label')).not.toBeInTheDocument()
+  })
+
   describe('color assignment', () => {
     it('should show error (red) for unfulfilled certified attributes', () => {
       const descriptorAttributes = createDescriptorAttributes({
