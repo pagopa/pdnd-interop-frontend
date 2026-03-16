@@ -261,7 +261,7 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
             </Box>
             {attributes.length > 1 && _index < attributes.length - 1 && (
               <Divider sx={{ py: 1 }}>
-                <Typography color="text.secondary" fontWeight={700} textTransform={'uppercase'}>
+                <Typography color="text.primary" fontWeight={700} textTransform={'uppercase'}>
                   {tAttribute('or')}
                 </Typography>
               </Divider>

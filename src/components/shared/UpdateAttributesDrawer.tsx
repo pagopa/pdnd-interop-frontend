@@ -162,7 +162,7 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
                       <Divider sx={{ py: 1 }}>
                         <Typography
                           variant="caption"
-                          color="text.secondary"
+                          color="text.primary"
                           fontWeight={700}
                           textTransform="uppercase"
                         >
