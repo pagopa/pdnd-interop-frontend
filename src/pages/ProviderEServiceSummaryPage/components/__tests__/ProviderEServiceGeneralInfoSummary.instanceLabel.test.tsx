@@ -19,15 +19,21 @@ vi.mock('@/api/eservice', () => ({
 
 vi.mock('@/api/eserviceTemplate', () => ({
   EServiceTemplateQueries: {
-    getSingleByEServiceTemplateId: vi.fn().mockReturnValue({ queryKey: ['template'], queryFn: () => null }),
+    getSingleByEServiceTemplateId: vi
+      .fn()
+      .mockReturnValue({ queryKey: ['template'], queryFn: () => null }),
   },
 }))
 
-vi.mock('@tanstack/react-query', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
-  useSuspenseQuery: () => ({ data: mockDescriptorData }),
-  useQuery: () => ({ data: undefined }),
-}))
+vi.mock('@tanstack/react-query', async (importOriginal) => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+  const actual = await importOriginal<typeof import('@tanstack/react-query')>()
+  return {
+    ...actual,
+    useSuspenseQuery: () => ({ data: mockDescriptorData }),
+    useQuery: () => ({ data: undefined }),
+  }
+})
 
 beforeEach(() => {
   mockUseJwt()
