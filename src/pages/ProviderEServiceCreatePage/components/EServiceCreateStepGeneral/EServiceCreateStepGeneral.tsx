@@ -124,21 +124,25 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   }
 
   const onSubmit = (formValues: EServiceCreateStepGeneralFormValues & InstanceEServiceSeed) => {
+    const normalizedFormValues = formValues.isConsumerDelegable
+      ? formValues
+      : { ...formValues, isClientAccessDelegable: false }
+
     // If we are editing an existing e-service, we update the draft
     if (descriptor) {
       // If nothing has changed skip the update call
-      const isEServiceTheSame = compareObjects(formValues, descriptor?.eservice)
+      const isEServiceTheSame = compareObjects(normalizedFormValues, descriptor?.eservice)
 
       if (!isEServiceTheSame) {
-        const { instanceLabel: _, ...eserviceData } = formValues
+        const { instanceLabel: _, ...eserviceData } = normalizedFormValues
         isEserviceFromTemplate
           ? updateDraftFromTemplate(
               {
                 eServiceId: descriptor.eservice.id,
-                isClientAccessDelegable: formValues.isClientAccessDelegable,
-                isConsumerDelegable: formValues.isConsumerDelegable,
-                isSignalHubEnabled: formValues.isSignalHubEnabled,
-                instanceLabel: resolveInstanceLabel(formValues.instanceLabel),
+                isClientAccessDelegable: normalizedFormValues.isClientAccessDelegable,
+                isConsumerDelegable: normalizedFormValues.isConsumerDelegable,
+                isSignalHubEnabled: normalizedFormValues.isSignalHubEnabled,
+                instanceLabel: resolveInstanceLabel(normalizedFormValues.instanceLabel),
               },
               { onSuccess: forward, onError: handleDuplicateInstanceLabelError }
             )
@@ -151,7 +155,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
       return
     }
 
-    onCreateDraft(formValues)
+    onCreateDraft(normalizedFormValues)
   }
 
   const onCreateDraft = (
