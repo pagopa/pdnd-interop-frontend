@@ -6,22 +6,10 @@ import {
   EServiceTemplateCreateStepThresholdsAndAttributesSkeleton,
 } from '../EServiceTemplateCreateStepThresholdsAndAttributes'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import * as ContextModule from '../../ProviderEServiceTemplateContext'
-import { createMockEServiceTemplateVersionDetails } from '@/../__mocks__/data/eserviceTemplate.mocks'
-
-function mockUseEServiceTemplateCreateContext(
-  overwrites: Partial<ReturnType<typeof ContextModule.useEServiceTemplateCreateContext>> = {}
-) {
-  vi.spyOn(ContextModule, 'useEServiceTemplateCreateContext').mockReturnValue({
-    eserviceTemplateVersion: undefined,
-    areEServiceTemplateGeneralInfoEditable: true,
-    forward: vi.fn(),
-    back: vi.fn(),
-    eserviceTemplateMode: 'DELIVER',
-    onEserviceTemplateModeChange: vi.fn(),
-    ...overwrites,
-  })
-}
+import {
+  createMockEServiceTemplateVersionDetails,
+  mockUseEServiceTemplateCreateContext,
+} from '@/../__mocks__/data/eserviceTemplate.mocks'
 
 vi.mock('@/components/shared/AddAttributesToForm', () => ({
   AddAttributesToForm: ({ attributeKey }: { attributeKey: string }) => {
