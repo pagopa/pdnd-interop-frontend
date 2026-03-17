@@ -64,7 +64,7 @@ export const AttributeContainer = <
   return (
     <Stack direction="row" alignItems="center">
       <Stack direction="row" alignItems="center" spacing={2}>
-        {checked && <CheckCircleIcon sx={{ color: 'success.main' }} />}
+        {checked && <CheckCircleIcon sx={{ color: 'success.dark' }} />}
         {onRemove && (
           <IconButton
             aria-label={t('removeAttributeAriaLabel', { name: attribute.name })}
