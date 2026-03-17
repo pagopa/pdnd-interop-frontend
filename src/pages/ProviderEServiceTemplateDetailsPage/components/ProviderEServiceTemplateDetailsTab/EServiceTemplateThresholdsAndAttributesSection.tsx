@@ -1,4 +1,4 @@
-import { AttributeGroupContainer, SectionContainer } from '@/components/layout/containers'
+import { SectionContainer } from '@/components/layout/containers'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import EditIcon from '@mui/icons-material/Edit'
@@ -14,9 +14,9 @@ import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import type { AttributeKey } from '@/types/attribute.types'
 import type { ActionItemButton } from '@/types/common.types'
 import { AuthHooks } from '@/api/auth'
-import { AttributeGroupsListSection } from '@/components/shared/ReadOnlyDescriptorAttributes'
 import { UpdateAttributesDrawer } from '@/components/shared/UpdateAttributesDrawer'
-import { EServiceTemplateThresholds } from '@/components/shared/EServiceTemplateThresholds'
+import { EServiceTemplateThresholds } from '@/components/shared/EserviceTemplate/EServiceTemplateThresholds'
+import { EServiceTemplateAttributes } from '@/components/shared/EserviceTemplate/EServiceTemplateAttributes'
 
 type EServiceTemplateThresholdsAndAttributesSectionProps = {
   readonly: boolean
@@ -33,7 +33,6 @@ export const EServiceTemplateThresholdsAndAttributesSection: React.FC<
     keyPrefix: 'read.sections.attributes',
   })
 
-  const { t: tAttribute } = useTranslation('attribute')
   const { t: tDrawer } = useTranslation('eservice', {
     keyPrefix: 'read.drawers.updateDailyCallsDrawer',
   })
@@ -84,11 +83,6 @@ export const EServiceTemplateThresholdsAndAttributesSection: React.FC<
     ]
   }
 
-  const noAttributes =
-    eserviceTemplate.attributes.declared.length === 0 &&
-    eserviceTemplate.attributes.certified.length === 0 &&
-    eserviceTemplate.attributes.verified.length === 0
-
   return (
     <>
       <SectionContainer title={t('title')} description={t('description')}>
@@ -126,38 +120,11 @@ export const EServiceTemplateThresholdsAndAttributesSection: React.FC<
           </Stack>
         </SectionContainer>
         <Divider sx={{ my: 3 }} />
-        {noAttributes ? (
-          <SectionContainer
-            title={tAttribute('noAttributesRequiredTemplate.title')}
-            innerSection
-            sx={{ p: 0 }}
-          >
-            <AttributeGroupContainer
-              title={tAttribute('noAttributesRequiredTemplate.alert')}
-              color="gray"
-            />
-          </SectionContainer>
-        ) : (
-          <>
-            <AttributeGroupsListSection
-              attributeKey="certified"
-              descriptorAttributes={eserviceTemplate.attributes}
-              topSideActions={readonly ? undefined : getAttributeSectionActions('certified')}
-            />
-            <Divider sx={{ my: 3 }} />
-            <AttributeGroupsListSection
-              attributeKey="verified"
-              descriptorAttributes={eserviceTemplate.attributes}
-              topSideActions={readonly ? undefined : getAttributeSectionActions('verified')}
-            />
-            <Divider sx={{ my: 3 }} />
-            <AttributeGroupsListSection
-              attributeKey="declared"
-              descriptorAttributes={eserviceTemplate.attributes}
-              topSideActions={readonly ? undefined : getAttributeSectionActions('declared')}
-            />
-          </>
-        )}
+        <EServiceTemplateAttributes
+          attributes={eserviceTemplate.attributes}
+          readonly={readonly}
+          getAttributeSectionActions={getAttributeSectionActions}
+        />
       </SectionContainer>
       <UpdateDailyCallsDrawer
         isOpen={isOpen}

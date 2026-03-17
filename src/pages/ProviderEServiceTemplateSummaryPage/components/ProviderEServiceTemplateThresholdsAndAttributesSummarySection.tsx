@@ -13,7 +13,7 @@ import {
 import type { DescriptorAttribute, DescriptorAttributes } from '@/api/api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 import { attributesHelpLink } from '@/config/constants'
-import { EServiceTemplateThresholds } from '@/components/shared/EServiceTemplateThresholds'
+import { EServiceTemplateThresholds } from '@/components/shared/EserviceTemplate/EServiceTemplateThresholds'
 
 export const ProviderEServiceTemplateThresholdsAndAttributesSummarySection: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', {

@@ -1,5 +1,5 @@
-import { EmptySectionTextCard } from './EmptySectionTextCard'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
+import { EmptySectionTextCard } from '../EmptySectionTextCard'
 
 type EServiceTemplateThresholdsProps = {
   dailyCallsTotal?: string
