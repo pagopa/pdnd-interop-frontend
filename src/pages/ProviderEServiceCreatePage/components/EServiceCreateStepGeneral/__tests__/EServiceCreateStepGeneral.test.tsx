@@ -426,7 +426,7 @@ describe('EServiceCreateStepGeneral Normalization', () => {
     vi.clearAllMocks()
   })
 
-  it.only('sets isClientAccessDelegable to false when isConsumerDelegable is switched to false', async () => {
+  it('sets isClientAccessDelegable to false when isConsumerDelegable is switched to false', async () => {
     const user = userEvent.setup()
     mockContext({ eserviceTemplate: mockEServiceTemplate })
 
