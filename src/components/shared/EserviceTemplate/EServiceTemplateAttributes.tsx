@@ -6,7 +6,7 @@ import {
 } from '@/components/layout/containers'
 import { useParams } from '@/router'
 import type { ActionItemButton } from '@/types/common.types'
-import { Divider, Stack } from '@mui/material'
+import { Divider } from '@mui/material'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,8 +15,8 @@ import type { AttributeKey } from '@/types/attribute.types'
 import { AuthHooks } from '@/api/auth'
 import { AttributeGroupsListSection } from '@/components/shared/ReadOnlyDescriptorAttributes'
 import { UpdateAttributesDrawer } from '../UpdateAttributesDrawer'
-import { InformationContainer } from '@pagopa/interop-fe-commons'
-import { EmptySectionTextCard } from '../EmptySectionTextCard'
+import { formatThousands } from '@/utils/format.utils'
+import { EServiceTemplateThresholds } from '../EServiceTemplateThresholds'
 
 type EServiceTemplateAttributesProps = {
   readonly: boolean
@@ -59,28 +59,25 @@ export const EServiceTemplateAttributes: React.FC<EServiceTemplateAttributesProp
     eserviceTemplate.attributes.certified.length === 0 &&
     eserviceTemplate.attributes.verified.length === 0
 
-  const noThresholds =
-    eserviceTemplate.dailyCallsTotal === undefined ||
-    eserviceTemplate.dailyCallsPerConsumer === undefined
-
   return (
     <>
       <SectionContainer title={t('title')} description={t('description')}>
         <SectionContainer title={t('thresholds.title')} innerSection sx={{ p: 0 }}>
-          {noThresholds ? (
-            <EmptySectionTextCard text={t('thresholds.noThresholdTemplate')} />
-          ) : (
-            <Stack spacing={1} mt={1} mb={3}>
-              <InformationContainer
-                label={t('thresholds.dailyCallsPerConsumer.label')}
-                content={`${eserviceTemplate.dailyCallsPerConsumer}`}
-              />
-              <InformationContainer
-                label={t('thresholds.dailyCallsTotal.label')}
-                content={`${eserviceTemplate.dailyCallsTotal}`}
-              />
-            </Stack>
-          )}
+          <EServiceTemplateThresholds
+            dailyCallsTotal={
+              eserviceTemplate.dailyCallsTotal
+                ? `${formatThousands(eserviceTemplate.dailyCallsTotal)}`
+                : undefined
+            }
+            dailyCallsPerConsumer={
+              eserviceTemplate.dailyCallsPerConsumer
+                ? `${eserviceTemplate.dailyCallsPerConsumer}`
+                : undefined
+            }
+            emptyMessage={t('thresholds.noThresholdTemplate')}
+            dailyCallsTotalLabel={t('thresholds.dailyCallsTotal.label')}
+            dailyCallsPerConsumerLabel={t('thresholds.dailyCallsPerConsumer.label')}
+          />
         </SectionContainer>
         <Divider sx={{ my: 3 }} />
         {noAttributes ? (
