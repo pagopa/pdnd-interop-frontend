@@ -124,6 +124,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
   }
 
   const onSubmit = (formValues: EServiceCreateStepGeneralFormValues & InstanceEServiceSeed) => {
+    //we normalize form values just in case the user set true for isClientAccessDelegable and then set false for isConsumerDelegable before submitting the form
     const normalizedFormValues = formValues.isConsumerDelegable
       ? formValues
       : { ...formValues, isClientAccessDelegable: false }
