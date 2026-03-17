@@ -31,6 +31,8 @@ vi.mock('@/api/eserviceTemplate', () => ({
   },
 }))
 
+const stepProps = { back: vi.fn(), forward: vi.fn(), activeStep: 2 }
+
 afterEach(() => {
   vi.clearAllMocks()
 })
@@ -38,7 +40,7 @@ afterEach(() => {
 describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
   it('should render the thresholds section title', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -48,7 +50,7 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
 
   it('should render the access requirements section title', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -60,7 +62,7 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
 
   it('should render step actions with back and forward buttons', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -71,7 +73,7 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
 
   it('should render the thresholds switch', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -83,7 +85,7 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
 
   it('should not show threshold fields when switch is off', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -97,7 +99,7 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
     mockUseEServiceTemplateCreateContext({
       eserviceTemplateVersion: createMockEServiceTemplateVersionDetails(),
     })
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -112,7 +114,7 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
 
   it('should render attribute tabs (certified, verified, declared)', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -131,7 +133,7 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
   it('should call back when back button is clicked', async () => {
     const back = vi.fn()
     mockUseEServiceTemplateCreateContext({ back })
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -146,7 +148,7 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
       forward,
       eserviceTemplateVersion: createMockEServiceTemplateVersionDetails(),
     })
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -160,7 +162,7 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
 
   it('should not call updateVersionDraft when eserviceTemplateVersion is undefined', async () => {
     mockUseEServiceTemplateCreateContext({ eserviceTemplateVersion: undefined })
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
@@ -175,7 +177,7 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
     mockUseEServiceTemplateCreateContext({
       eserviceTemplateVersion: createMockEServiceTemplateVersionDetails(),
     })
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes />, {
+    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
