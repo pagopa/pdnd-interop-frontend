@@ -607,7 +607,7 @@
           }
         },
         "thresholds": {
-          "title": "Durata voucher e soglie",
+          "title": "Voucher",
           "voucherLifespan": {
             "label": "Durata del voucher",
             "labelDescription": "in minuti"

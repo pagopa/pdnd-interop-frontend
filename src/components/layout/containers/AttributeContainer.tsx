@@ -67,7 +67,7 @@ export const AttributeContainer = <
         {checked && <CheckCircleIcon sx={{ color: 'success.dark' }} />}
         {onRemove && (
           <IconButton
-            aria-label={t('removeAttributeAriaLabel', { name: attribute.name })}
+            aria-label={t('removeAttributeAriaLabel', { attributeName: attribute.name })}
             onClick={onRemove.bind(null, attribute.id, attribute.name)}
             color={'error' as unknown as 'primary'}
           >

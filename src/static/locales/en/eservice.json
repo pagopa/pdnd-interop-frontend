@@ -607,7 +607,7 @@
           }
         },
         "thresholds": {
-          "title": "Voucher lifespan and thresholds",
+          "title": "Voucher",
           "voucherLifespan": {
             "label": "Voucher lifespan",
             "labelDescription": "(in minutes)"
