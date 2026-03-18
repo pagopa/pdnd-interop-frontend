@@ -15,11 +15,7 @@ export const ConsumerEServiceTemplateDetails: React.FC = () => {
       <Grid container>
         <Grid item xs={8}>
           <EServiceTemplateGeneralInfoSection readonly={readyonly} routeKey={routeKey} />
-          <EServiceTemplateTechnicalInfoSection
-            readonly={readyonly}
-            routeKey={routeKey}
-            hideThresholds
-          />
+          <EServiceTemplateTechnicalInfoSection readonly={readyonly} routeKey={routeKey} />
           <EServiceTemplateAttributes readonly={readyonly} routeKey={routeKey} />
         </Grid>
       </Grid>

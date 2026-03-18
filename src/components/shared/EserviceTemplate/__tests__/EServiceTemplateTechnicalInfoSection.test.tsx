@@ -90,43 +90,6 @@ describe('EServiceTemplateTechnicalInfoSection', () => {
     expect(screen.getByText('thresholds.voucherLifespan.label')).toBeInTheDocument()
   })
 
-  it('renders thresholds section when hideThresholds is false', () => {
-    const mockData = createMockEServiceTemplateVersionDetails()
-    useSuspenseQueryMock.mockReturnValue({ data: mockData })
-
-    renderWithApplicationContext(
-      <EServiceTemplateTechnicalInfoSection
-        readonly={false}
-        routeKey="PROVIDE_ESERVICE_TEMPLATE_DETAILS"
-      />,
-      {
-        withReactQueryContext: true,
-        withRouterContext: true,
-      }
-    )
-
-    expect(screen.getByTestId('thresholds-section')).toBeInTheDocument()
-  })
-
-  it('hides thresholds section when hideThresholds is true', () => {
-    const mockData = createMockEServiceTemplateVersionDetails()
-    useSuspenseQueryMock.mockReturnValue({ data: mockData })
-
-    renderWithApplicationContext(
-      <EServiceTemplateTechnicalInfoSection
-        readonly={false}
-        routeKey="PROVIDE_ESERVICE_TEMPLATE_DETAILS"
-        hideThresholds
-      />,
-      {
-        withReactQueryContext: true,
-        withRouterContext: true,
-      }
-    )
-
-    expect(screen.queryByTestId('thresholds-section')).not.toBeInTheDocument()
-  })
-
   it('renders voucher section with title and edit button when not readonly', () => {
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })

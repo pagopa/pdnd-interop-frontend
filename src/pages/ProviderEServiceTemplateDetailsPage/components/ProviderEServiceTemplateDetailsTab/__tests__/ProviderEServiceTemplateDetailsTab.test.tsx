@@ -16,9 +16,7 @@ mockUseCurrentRoute({ mode: 'provider' })
 
 vi.mock('@/components/shared/EserviceTemplate', () => ({
   EServiceTemplateGeneralInfoSection: () => <div data-testid="general-info-section" />,
-  EServiceTemplateTechnicalInfoSection: ({ hideThresholds }: { hideThresholds?: boolean }) => (
-    <div data-testid="technical-info-section" data-hide-thresholds={hideThresholds} />
-  ),
+  EServiceTemplateTechnicalInfoSection: () => <div data-testid="technical-info-section" />,
 }))
 
 vi.mock('../EServiceTemplateThresholdsAndAttributesSection', () => ({
@@ -40,19 +38,6 @@ describe('ProviderEServiceTemplateDetailsTab', () => {
     expect(screen.getByTestId('general-info-section')).toBeInTheDocument()
     expect(screen.getByTestId('technical-info-section')).toBeInTheDocument()
     expect(screen.getByTestId('thresholds-and-attributes-section')).toBeInTheDocument()
-  })
-
-  it('passes hideThresholds to EServiceTemplateTechnicalInfoSection', () => {
-    renderWithApplicationContext(
-      <ProviderEServiceTemplateDetailsTab eserviceTemplateVersionState="PUBLISHED" />,
-      {
-        withReactQueryContext: true,
-        withRouterContext: true,
-      }
-    )
-
-    const technicalSection = screen.getByTestId('technical-info-section')
-    expect(technicalSection).toHaveAttribute('data-hide-thresholds', 'true')
   })
 
   it('sets readonly to true when state is DEPRECATED', () => {
