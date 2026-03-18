@@ -25,4 +25,5 @@ window.pagopa_env = {
   DOCUMENTATION_URL:
     'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0',
   AVATAR_BASEPATH: 'https://selc-u-checkout-cdn-endpoint.azureedge.net',
+  SELFCARE_PRODUCT_ID: 'prod-interop'
 }

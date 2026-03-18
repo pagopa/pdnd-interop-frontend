@@ -22,6 +22,7 @@ export type PagoPAEnvVars = {
   DELEGATIONS_ALLOWED_ORIGINS: string
   DOCUMENTATION_URL: string
   AVATAR_BASEPATH: string
+  SELFCARE_PRODUCT_ID: string
 }
 
 export type ExtendedWindow = Window & {

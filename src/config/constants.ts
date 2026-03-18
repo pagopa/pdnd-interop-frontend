@@ -1,5 +1,4 @@
-import { getCurrentSelfCareProductId } from '@/utils/common.utils'
-import type { InteropFEConfigs } from './env'
+import { SELFCARE_PRODUCT_ID, type InteropFEConfigs } from './env'
 import { DOCUMENTATION_URL } from '@/config/env'
 
 export const DEFAULT_LANG = 'it'
@@ -18,7 +17,7 @@ export const pagoPaLink = {
   ariaLabel: 'Vai al sito di PagoPA S.p.A.',
   title: 'Vai al sito di PagoPA S.p.A.',
 }
-export const assistanceLink = `https://selfcare.pagopa.it/assistenza?productId=${getCurrentSelfCareProductId()}`
+export const assistanceLink = `https://selfcare.pagopa.it/assistenza?productId=${SELFCARE_PRODUCT_ID}`
 export const attributesHelpLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/attributi`
 export const verifyVoucherGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/utilizzare-i-voucher`
 export const manageEServiceGuideLink = `${DOCUMENTATION_URL}/tutorial/tutorial-per-lerogatore/come-integrare-unapi`
