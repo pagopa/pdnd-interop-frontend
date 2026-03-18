@@ -41,6 +41,8 @@ const mockEServiceTemplate: EServiceTemplateDetails = {
   versions: [{ id: 'v1', state: 'PUBLISHED', createdAt: '2024-01-01T00:00:00Z' }],
   creator: { id: 'creator-id', name: 'Creator' },
   isSignalHubEnabled: false,
+  isConsumerDelegable: true,
+  isClientAccessDelegable: true,
   personalData: true,
   riskAnalysis: [],
 } as unknown as EServiceTemplateDetails
@@ -416,5 +418,38 @@ it('shows inline empty-not-available error when create fails with duplicate erro
     expect(
       screen.getByText('create.step1.instanceLabelField.validation.emptyNotAvailable')
     ).toBeInTheDocument()
+  })
+})
+
+describe('EServiceCreateStepGeneral Normalization', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it('sets isClientAccessDelegable to false when isConsumerDelegable is switched to false', async () => {
+    const user = userEvent.setup()
+    mockContext({ eserviceTemplate: mockEServiceTemplate })
+
+    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+      withReactQueryContext: true,
+    })
+
+    const delegationSwitch = screen.getByRole('checkbox', {
+      name: 'create.step1.delegationSection.delegationField.switchLabel',
+    })
+    await user.click(delegationSwitch)
+
+    const submitButton = screen.getByRole('button', { name: 'create.forwardWithSaveBtn' })
+    await user.click(submitButton)
+
+    await waitFor(() => {
+      expect(mockCreateDraftFromTemplate).toHaveBeenCalledWith(
+        expect.objectContaining({
+          isConsumerDelegable: false,
+          isClientAccessDelegable: false,
+        }),
+        expect.anything()
+      )
+    })
   })
 })
