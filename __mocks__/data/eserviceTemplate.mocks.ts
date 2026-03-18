@@ -3,6 +3,8 @@ import type {
   EServiceTemplateVersionDetails,
 } from '@/api/api.generatedTypes'
 import { createMockFactory } from '../../src/utils/testing.utils'
+import { vi } from 'vitest'
+import * as EServiceTemplateCreateContextModule from '@/pages/ProviderEServiceTemplateCreatePage/components/ProviderEServiceTemplateContext'
 
 const createMockEServiceTemplateVersionDetails = createMockFactory<EServiceTemplateVersionDetails>({
   id: 'version-id-001',
@@ -125,6 +127,24 @@ const createMockEServiceTemplateDetails = createMockFactory<EServiceTemplateDeta
   },
 })
 
+function mockUseEServiceTemplateCreateContext(
+  overwrites: Partial<
+    ReturnType<typeof EServiceTemplateCreateContextModule.useEServiceTemplateCreateContext>
+  > = {}
+) {
+  vi.spyOn(EServiceTemplateCreateContextModule, 'useEServiceTemplateCreateContext').mockReturnValue(
+    {
+      eserviceTemplateVersion: undefined,
+      areEServiceTemplateGeneralInfoEditable: true,
+      forward: vi.fn(),
+      back: vi.fn(),
+      eserviceTemplateMode: 'DELIVER',
+      onEserviceTemplateModeChange: vi.fn(),
+      ...overwrites,
+    }
+  )
+}
+
 export {
   createMockEServiceTemplateVersionDetails,
   createMockEServiceTemplateVersionDetailsReceiveMode,
@@ -133,4 +153,5 @@ export {
   createMockEServiceTemplateVersionDetailsManualApproval,
   createMockEServiceTemplateVersionDetailsWithAttributes,
   createMockEServiceTemplateDetails,
+  mockUseEServiceTemplateCreateContext,
 }

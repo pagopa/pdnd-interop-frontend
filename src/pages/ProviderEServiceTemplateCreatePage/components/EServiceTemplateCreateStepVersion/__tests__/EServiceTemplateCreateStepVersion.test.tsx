@@ -5,21 +5,7 @@ import {
   EServiceTemplateCreateStepVersionSkeleton,
 } from '../EServiceTemplateCreateStepVersion'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import * as ContextModule from '../../ProviderEServiceTemplateContext'
-
-function mockUseEServiceTemplateCreateContext(
-  overwrites: Partial<ReturnType<typeof ContextModule.useEServiceTemplateCreateContext>> = {}
-) {
-  vi.spyOn(ContextModule, 'useEServiceTemplateCreateContext').mockReturnValue({
-    eserviceTemplateVersion: undefined,
-    areEServiceTemplateGeneralInfoEditable: true,
-    forward: vi.fn(),
-    back: vi.fn(),
-    eserviceTemplateMode: 'DELIVER',
-    onEserviceTemplateModeChange: vi.fn(),
-    ...overwrites,
-  })
-}
+import { mockUseEServiceTemplateCreateContext } from '@/../__mocks__/data/eserviceTemplate.mocks'
 
 const mockUpdateVersionDraft = vi.fn()
 
