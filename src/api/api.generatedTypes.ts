@@ -131,6 +131,11 @@ export interface UpdateEServiceTemplateInstanceSeed {
   isSignalHubEnabled?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
+  /**
+   * @minLength 1
+   * @maxLength 12
+   */
+  instanceLabel?: string
 }
 
 export interface EServiceSeed {
@@ -263,6 +268,14 @@ export interface EServiceDelegationFlagsUpdateSeed {
 
 export interface EServiceNameUpdateSeed {
   name: string
+}
+
+export interface EServiceInstanceLabelUpdateSeed {
+  /**
+   * @minLength 1
+   * @maxLength 12
+   */
+  instanceLabel?: string
 }
 
 export interface EServiceSignalHubUpdateSeed {
@@ -497,6 +510,7 @@ export interface ProducerDescriptorEService {
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
   personalData?: boolean
+  instanceLabel?: string
 }
 
 export interface ProducerDescriptorEServiceProducer {
@@ -2035,7 +2049,6 @@ export interface EServiceTemplateVersionDetails {
   agreementApprovalPolicy?: AgreementApprovalPolicy
   attributes: DescriptorAttributes
   eserviceTemplate: EServiceTemplateDetails
-  isAlreadyInstantiated: boolean
   hasRequesterRiskAnalysis?: boolean
   personalData?: boolean
 }
@@ -2072,7 +2085,7 @@ export interface CreatedEServiceTemplateVersion {
 export interface UpdateEServiceTemplateSeed {
   /**
    * @minLength 5
-   * @maxLength 60
+   * @maxLength 45
    */
   name: string
   /**
@@ -2096,7 +2109,7 @@ export interface UpdateEServiceTemplateSeed {
 export interface EServiceTemplateSeed {
   /**
    * @minLength 5
-   * @maxLength 60
+   * @maxLength 45
    */
   name: string
   /**
@@ -2122,6 +2135,11 @@ export interface InstanceEServiceSeed {
   isSignalHubEnabled?: boolean
   isConsumerDelegable?: boolean
   isClientAccessDelegable?: boolean
+  /**
+   * @minLength 1
+   * @maxLength 12
+   */
+  instanceLabel?: string
 }
 
 export interface VersionSeedForEServiceTemplateCreation {
@@ -2167,6 +2185,7 @@ export interface EServiceTemplateInstance {
   producerName: string
   latestDescriptor?: CompactDescriptor
   descriptors: CompactDescriptor[]
+  instanceLabel?: string
 }
 
 export interface EServiceTemplateInstances {
@@ -2684,6 +2703,25 @@ export interface GetEServiceTemplateInstancesParams {
    * @default []
    */
   states?: EServiceDescriptorState[]
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number
+  /**
+   * the eservice template id
+   * @format uuid
+   */
+  templateId: string
+}
+
+export interface GetMyEServiceTemplateInstancesParams {
   /**
    * @format int32
    * @min 0
@@ -6333,6 +6371,27 @@ export namespace Templates {
     export type ResponseBody = CreatedResource
   }
   /**
+   * @description Update instanceLabel of an eservice template instance after publication
+   * @tags eservices
+   * @name UpdateEServiceInstanceLabelAfterPublication
+   * @summary Update eservice instanceLabel
+   * @request POST:/templates/eservices/{eServiceId}/instanceLabel/update
+   * @secure
+   */
+  export namespace UpdateEServiceInstanceLabelAfterPublication {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string
+    }
+    export type RequestQuery = {}
+    export type RequestBody = EServiceInstanceLabelUpdateSeed
+    export type RequestHeaders = {}
+    export type ResponseBody = CreatedResource
+  }
+  /**
    * @description Upgrade an instance of a template
    * @tags eservices
    * @name UpgradeEServiceInstance
@@ -6354,7 +6413,7 @@ export namespace Templates {
     export type ResponseBody = CreatedResource
   }
   /**
-   * @description Retrieves EService template instances
+   * @description Retrieves EService template instances, from the template creator side
    * @tags eservices
    * @name GetEServiceTemplateInstances
    * @summary Retrieves EService template instances
@@ -6413,6 +6472,39 @@ export namespace Templates {
     export type RequestBody = InstanceEServiceSeed
     export type RequestHeaders = {}
     export type ResponseBody = CreatedResource
+  }
+  /**
+   * @description Retrieves EService template instances by the current producer (or delegated producer)
+   * @tags eservices
+   * @name GetMyEServiceTemplateInstances
+   * @summary Retrieves my EService template instances
+   * @request GET:/templates/{templateId}/myInstances
+   * @secure
+   */
+  export namespace GetMyEServiceTemplateInstances {
+    export type RequestParams = {
+      /**
+       * the eservice template id
+       * @format uuid
+       */
+      templateId: string
+    }
+    export type RequestQuery = {
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number
+    }
+    export type RequestBody = never
+    export type RequestHeaders = {}
+    export type ResponseBody = EServiceTemplateInstances
   }
 }
 

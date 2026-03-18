@@ -20,7 +20,9 @@ export type PagoPAEnvVars = {
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: string
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA: string
   DELEGATIONS_ALLOWED_ORIGINS: string
+  DOCUMENTATION_URL: string
   AVATAR_BASEPATH: string
+  SELFCARE_PRODUCT_ID: string
 }
 
 export type ExtendedWindow = Window & {

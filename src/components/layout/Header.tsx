@@ -1,14 +1,20 @@
 import React from 'react'
 import { useNavigate } from '@/router'
-import { assistanceLink, documentationLink, pagoPaLink } from '@/config/constants'
+import { assistanceLink, pagoPaLink } from '@/config/constants'
 import { HeaderAccount, HeaderProduct, type ProductSwitchItem } from '@pagopa/mui-italia'
-import { FE_LOGIN_URL, SELFCARE_BASE_URL, STAGE, AVATAR_BASEPATH } from '@/config/env'
+import {
+  FE_LOGIN_URL,
+  SELFCARE_BASE_URL,
+  STAGE,
+  AVATAR_BASEPATH,
+  SELFCARE_PRODUCT_ID,
+  DOCUMENTATION_URL,
+} from '@/config/env'
 import type { PartySwitchItem } from '@pagopa/mui-italia/dist/components/PartySwitch'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
 import type { SelfcareInstitution } from '@/api/api.generatedTypes'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
-import { getCurrentSelfCareProductId } from '@/utils/common.utils'
 import { useQuery } from '@tanstack/react-query'
 import { SelfcareQueries } from '@/api/selfcare'
 import { useErrorData } from '@/stores/error-data.store'
@@ -85,7 +91,7 @@ export const getProductList = (
   }
 
   const interopProduct: ProductSwitchItem = {
-    id: getCurrentSelfCareProductId(),
+    id: SELFCARE_PRODUCT_ID,
     title: `Interoperabilità${STAGE === 'UAT' ? ' Collaudo' : ''}`,
     productUrl: '',
     linkType: 'internal',
@@ -144,9 +150,7 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
 
   const handleSelectParty = (party: PartySwitchItem) => {
     window.location.assign(
-      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${
-        party.id
-      }&productId=${getCurrentSelfCareProductId()}&lang=${lang}`
+      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${party.id}&productId=${SELFCARE_PRODUCT_ID}&lang=${lang}`
     )
   }
 
@@ -180,7 +184,7 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
         }}
         onAssistanceClick={goToAssistance}
         onDocumentationClick={() => {
-          window.open(documentationLink, '_blank')
+          window.open(DOCUMENTATION_URL, '_blank')
         }}
         // enableAssistanceButton={STAGE === 'UAT' || STAGE === 'PROD'}
       />
@@ -192,7 +196,7 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
         onSelectedParty={handleSelectParty}
         onSelectedProduct={handleSelectProduct}
         partyId={selfcareId}
-        productId={getCurrentSelfCareProductId()}
+        productId={SELFCARE_PRODUCT_ID}
         productsList={productList}
         partyList={partyList}
         {...headerChipProps}
