@@ -7,16 +7,16 @@ import {
 } from '@/components/shared/EserviceTemplate'
 
 export const ConsumerEServiceTemplateDetails: React.FC = () => {
-  const readyonly = true
+  const readonly = true
   const routeKey = 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS'
 
   return (
     <>
       <Grid container>
         <Grid item xs={8}>
-          <EServiceTemplateGeneralInfoSection readonly={readyonly} routeKey={routeKey} />
-          <EServiceTemplateTechnicalInfoSection readonly={readyonly} routeKey={routeKey} />
-          <EServiceTemplateAttributes readonly={readyonly} routeKey={routeKey} />
+          <EServiceTemplateGeneralInfoSection readonly={readonly} routeKey={routeKey} />
+          <EServiceTemplateTechnicalInfoSection readonly={readonly} routeKey={routeKey} />
+          <EServiceTemplateAttributes readonly={readonly} routeKey={routeKey} />
         </Grid>
       </Grid>
     </>
