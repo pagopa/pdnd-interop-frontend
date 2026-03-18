@@ -150,7 +150,7 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
 
   const handleSelectParty = (party: PartySwitchItem) => {
     window.location.assign(
-      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${party.id}&productId=${SELFCARE_PRODUCT_ID}`
+      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${party.id}&productId=${SELFCARE_PRODUCT_ID}&lang=${lang}`
     )
   }
 
@@ -160,12 +160,12 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
     if (!selfcareId) return
 
     if (product.id === 'selfcare') {
-      window.location.assign(`${SELFCARE_BASE_URL}/dashboard/${selfcareId}`)
+      window.location.assign(`${SELFCARE_BASE_URL}/dashboard/${selfcareId}?lang=${lang}`)
       return
     }
 
     window.location.assign(
-      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${selfcareId}&productId=${product.id}`
+      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${selfcareId}&productId=${product.id}&lang=${lang}`
     )
   }
 
