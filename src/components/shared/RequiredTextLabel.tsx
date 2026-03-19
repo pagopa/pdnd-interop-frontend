@@ -3,7 +3,7 @@ import { theme } from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
 
 export const RequiredTextLabel: React.FC = () => {
-  const { t } = useTranslation('eservice')
+  const { t } = useTranslation('shared-components')
   return (
     <Typography
       sx={{
@@ -12,7 +12,7 @@ export const RequiredTextLabel: React.FC = () => {
         color: theme.palette.error.dark,
       }}
     >
-      {t('create.requiredLabel')}
+      {t('requiredLabel')}
     </Typography>
   )
 }

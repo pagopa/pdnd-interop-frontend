@@ -209,7 +209,6 @@
   "backToListBtn": "Torna ai template",
   "create": {
     "emptyTitle": "Crea template di e-service",
-    "requiredLabel": "*Campi obbligatori",
     "stepper": {
       "step1Label": "Informazioni generali",
       "step2Label": "Soglie e attributi",
