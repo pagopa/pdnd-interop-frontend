@@ -294,7 +294,8 @@
       },
       "documentation": {
         "title": "Documentation",
-        "description": "Upload the technical documents that can help implement the use of this e-service"
+        "description": "Upload the technical documents that can help implement the use of this e-service",
+        "noDocumentation": "This template has no documentation"
       },
       "nameField": {
         "label": "Document name",

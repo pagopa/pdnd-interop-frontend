@@ -1,4 +1,4 @@
-export * from './EServiceTemplateAttributes'
+export * from './EServiceTemplateThresholdsAndAttributes'
 export * from './EServiceTemplateGeneralInfoSection'
 export * from './EServiceTemplateTechnicalInfoSection'
 export * from './EServiceTemplateDocumentationSection'

@@ -92,7 +92,7 @@ export const AttributeContainer = <
           >
             <Stack spacing={1}>
               <Typography fontWeight={600}>{attribute.name}</Typography>
-              {onCustomizeThreshold && (
+              {(attribute.dailyCallsPerConsumer !== undefined || onCustomizeThreshold) && (
                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
                   {attribute.dailyCallsPerConsumer !== undefined && (
                     <Stack direction={'row'} spacing={1}>
@@ -102,18 +102,20 @@ export const AttributeContainer = <
                       </Typography>
                     </Stack>
                   )}
-                  <ButtonNaked
-                    color="primary"
-                    type="button"
-                    sx={{ fontWeight: 700 }}
-                    startIcon={attribute.dailyCallsPerConsumer ? <EditIcon /> : undefined}
-                    onClick={(e: React.MouseEvent) => {
-                      e.stopPropagation()
-                      onCustomizeThreshold()
-                    }}
-                  >
-                    {attribute.dailyCallsPerConsumer ? t('changeBtn') : t('customizeBtn')}
-                  </ButtonNaked>
+                  {onCustomizeThreshold && (
+                    <ButtonNaked
+                      color="primary"
+                      type="button"
+                      sx={{ fontWeight: 700 }}
+                      startIcon={attribute.dailyCallsPerConsumer ? <EditIcon /> : undefined}
+                      onClick={(e: React.MouseEvent) => {
+                        e.stopPropagation()
+                        onCustomizeThreshold()
+                      }}
+                    >
+                      {attribute.dailyCallsPerConsumer ? t('changeBtn') : t('customizeBtn')}
+                    </ButtonNaked>
+                  )}
                 </Stack>
               )}
             </Stack>
