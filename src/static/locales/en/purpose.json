@@ -2,7 +2,6 @@
   "backToListBtn": "Back to purposes",
   "create": {
     "emptyTitle": "Create purpose",
-    "requiredLabel": "*Required fields.",
     "preliminaryInformationSectionTitle": "Purpose information",
     "isTemplateField": {
       "label": "Clone from template"
@@ -64,7 +63,6 @@
   },
   "edit": {
     "emptyTitle": "Edit purpose",
-    "requiredLabel": "*Required fields.",
     "stepper": {
       "stepGeneralLabel": "General",
       "stepRiskAnalysisLabel": "Risk assessment"

@@ -29,6 +29,6 @@ describe('ConsumerPurposeCreatePage', () => {
       withRouterContext: true,
     })
 
-    expect(screen.getByText('create.requiredLabel')).toBeInTheDocument()
+    expect(screen.getByText('requiredLabel')).toBeInTheDocument()
   })
 })

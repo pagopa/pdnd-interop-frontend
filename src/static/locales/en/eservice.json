@@ -3,7 +3,6 @@
   "backToEServiceBtn": "Back to the e-service",
   "create": {
     "emptyTitle": "Create e-service",
-    "requiredLabel": "*Required fields.",
     "stepper": {
       "step1Label": "General",
       "step2Label": "Thresholds and attributes",

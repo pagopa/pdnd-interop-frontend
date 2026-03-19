@@ -1,5 +1,6 @@
 import React from 'react'
 import { TextField as MUITextField, type TextFieldProps as MUITextFieldProps } from '@mui/material'
+import { theme } from '@pagopa/mui-italia'
 import { InputWrapper } from '../InputWrapper'
 import type { FieldErrors, FieldValues } from 'react-hook-form'
 import { useFormContext, Controller } from 'react-hook-form'
@@ -72,6 +73,11 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
             multiline={multiline}
             rows={multiline && !rows ? 2.5 : rows}
             error={!!error}
+            sx={{
+              '& .MuiFormLabel-asterisk': {
+                color: props.required ? theme.palette.error.dark : 'inherit',
+              },
+            }}
             InputLabelProps={
               labelType === 'external'
                 ? {

@@ -30,6 +30,7 @@ import {
   EServiceTemplateCreateStepTechnicalSpecs,
   EServiceTemplateCreateStepTechnicalSpecsSkeleton,
 } from './components/EServiceTemplateCreateStepTechnicalSpecs/EServiceTemplateCreateStepTechnicalSpecs'
+import { RequiredTextLabel } from '@/components/shared/RequiredTextLabel'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate')
@@ -161,17 +162,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
       }}
       isLoading={!isReady}
     >
-      {showRequiredLabel && (
-        <Typography
-          sx={{
-            fontSize: 16,
-            fontWeight: 700,
-            color: 'text.secondary',
-          }}
-        >
-          {t('create.requiredLabel')}
-        </Typography>
-      )}
+      {showRequiredLabel && <RequiredTextLabel />}
       <Stepper steps={steps} activeIndex={activeStep} />
       {isReady && (
         <EServiceTemplateCreateContextProvider
