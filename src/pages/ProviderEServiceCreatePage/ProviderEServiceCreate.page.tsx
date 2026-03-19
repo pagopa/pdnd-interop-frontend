@@ -34,8 +34,9 @@ import {
   EServiceCreateStepThresholds,
   EServiceCreateStepThresholdsSkeleton,
 } from './components/EServiceCreateStepThresholds'
-import { Link, Typography } from '@mui/material'
+import { Link } from '@mui/material'
 import { PUBLIC_URL } from '@/config/env'
+import { RequiredTextLabel } from '@/components/shared/RequiredTextLabel'
 
 const ProviderEServiceCreatePage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -127,9 +128,8 @@ const ProviderEServiceCreatePage: React.FC = () => {
         ]
 
   const templateId = eserviceTemplate?.id
-  const activeTemplateVersionId = eserviceTemplate?.versions.find(
-    (v) => v.state === 'PUBLISHED'
-  )?.id
+  const activeTemplateVersionId = eserviceTemplate?.versions.find((v) => v.state === 'PUBLISHED')
+    ?.id
 
   const intro = isNewEService
     ? { title: t('create.emptyTitle') }
@@ -172,15 +172,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
       }}
       isLoading={!isReady}
     >
-      <Typography
-        sx={{
-          fontSize: 16,
-          fontWeight: 700,
-          color: 'text.secondary',
-        }}
-      >
-        {t('create.requiredLabel')}
-      </Typography>
+      <RequiredTextLabel />
       <Stepper steps={steps} activeIndex={activeStep} />
       {isReady && (
         <EServiceCreateContextProvider

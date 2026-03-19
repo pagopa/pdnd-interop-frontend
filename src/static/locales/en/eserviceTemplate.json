@@ -209,7 +209,6 @@
   "backToListBtn": "Back to templates",
   "create": {
     "emptyTitle": "Create e-service template",
-    "requiredLabel": "*Required fields",
     "stepper": {
       "step1Label": "General information",
       "step2Label": "Thresholds and attributes",

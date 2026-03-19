@@ -2,7 +2,6 @@
   "backToListBtn": "Torna alle finalità",
   "create": {
     "emptyTitle": "Crea finalità",
-    "requiredLabel": "*Campi obbligatori.",
     "preliminaryInformationSectionTitle": "Informazioni sulla finalità",
     "isTemplateField": {
       "label": "Usa un template precompilato"
@@ -64,7 +63,6 @@
   },
   "edit": {
     "emptyTitle": "Modifica finalità",
-    "requiredLabel": "*Campi obbligatori.",
     "stepper": {
       "stepGeneralLabel": "Informazioni generali",
       "stepRiskAnalysisLabel": "Analisi del rischio"

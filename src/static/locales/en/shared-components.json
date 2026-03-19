@@ -465,6 +465,8 @@
   "documents": {
     "notAvailableYet": "The document will be available soon"
   },
+
+  "requiredLabel": "*Required fields.",
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Terms of Service",
