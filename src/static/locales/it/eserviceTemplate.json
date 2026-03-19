@@ -344,6 +344,9 @@
         }
       },
       "thresholdsAndAttributes": {
+        "validation": {
+          "integer": "Il valore di soglia deve essere intero"
+        },
         "thresholdsTitle": "Soglie di chiamate API",
         "thresholdsSwitch": {
           "label": "Suggerisci delle soglie di chiamate API/giorno a chi userà questo template"

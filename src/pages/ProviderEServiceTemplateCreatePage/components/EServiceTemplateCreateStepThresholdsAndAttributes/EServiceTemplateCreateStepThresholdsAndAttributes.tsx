@@ -156,7 +156,13 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
                     )}
                     type="number"
                     inputProps={{ min: '1' }}
-                    rules={{ required: true, min: 1 }}
+                    rules={{
+                      required: true,
+                      min: 1,
+                      validate: (value) =>
+                        Number.isInteger(Number(value)) ||
+                        t('step2.thresholdsAndAttributes.validation.integer'),
+                    }}
                     sx={{ my: 0, flex: 1 }}
                     required
                   />
@@ -176,6 +182,9 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
                           'step2.thresholdsAndAttributes.dailyCallsTotalField.validation.min'
                         ),
                       },
+                      validate: (value) =>
+                        Number.isInteger(Number(value)) ||
+                        t('step2.thresholdsAndAttributes.validation.integer'),
                     }}
                     required
                   />
