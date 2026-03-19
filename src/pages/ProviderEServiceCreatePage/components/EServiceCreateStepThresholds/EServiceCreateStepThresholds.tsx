@@ -2,7 +2,7 @@ import { type ActiveStepProps } from '@/hooks/useActiveStep'
 import { Trans, useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceMutations } from '@/api/eservice'
-import { type SubmitHandler, useForm, FormProvider } from 'react-hook-form'
+import { type SubmitHandler, useForm, FormProvider, useWatch } from 'react-hook-form'
 import React from 'react'
 import { type AttributeKey } from '@/types/attribute.types'
 import {
@@ -94,7 +94,10 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
 
   const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
   const dailyCallsTotal = formMethods.watch('dailyCallsTotal')
-  const certifiedAttributes = formMethods.watch('attributes.certified')
+  const certifiedAttributes = useWatch({
+    control: formMethods.control,
+    name: 'attributes.certified',
+  })
   const watchedAttributes = formMethods.watch('attributes')
 
   const { totalRequirements, attributeTypesWithRequirements } = useAttributesCountersAlert({
@@ -102,17 +105,13 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
     t,
   })
 
-  const maxCustomThreshold = React.useMemo(() => {
-    return certifiedAttributes
-      .flat()
-      .reduce(
-        (max, attr) =>
-          attr.dailyCallsPerConsumer !== undefined
-            ? Math.max(max, attr.dailyCallsPerConsumer)
-            : max,
-        0
-      )
-  }, [certifiedAttributes])
+  const maxCustomThreshold = certifiedAttributes
+    .flat()
+    .reduce(
+      (max, attr) =>
+        attr.dailyCallsPerConsumer !== undefined ? Math.max(max, attr.dailyCallsPerConsumer) : max,
+      0
+    )
 
   const onSubmit: SubmitHandler<CreateStepThresholdsFormValues> = (values) => {
     if (!descriptor) return

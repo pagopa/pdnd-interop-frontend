@@ -34,7 +34,11 @@ export const EServiceThresholdSection: React.FC<EServiceThresholdSectionProps> =
             type="number"
             inputProps={{ min: '1' }}
             required
-            rules={{ required: true, min: 1 }}
+            rules={{
+              required: true,
+              min: 1,
+              validate: (value) => Number.isInteger(Number(value)) || t('validation.integer'),
+            }}
             sx={{ my: 0, flex: 1 }}
           />
           <RHFTextField
@@ -53,9 +57,14 @@ export const EServiceThresholdSection: React.FC<EServiceThresholdSectionProps> =
                 message: t('dailyCallsTotalField.validation.min'),
               },
               validate: (value) => {
+                if (!Number.isInteger(Number(value))) {
+                  t('validation.integer')
+                }
+
                 if (maxCustomThreshold && Number(value) < maxCustomThreshold) {
                   return t('dailyCallsTotalField.validation.minCustomThreshold')
                 }
+
                 return true
               },
             }}

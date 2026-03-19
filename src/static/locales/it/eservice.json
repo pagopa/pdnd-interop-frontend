@@ -166,6 +166,9 @@
       "thresholdSection": {
         "title": "Soglie di chiamate API",
         "description": "Indica il numero massimo di chiamate giornaliere, per fruitore e totali. Definisci una soglia totale che possa coprire tutte le finalità: una volta raggiunta, le nuove finalità richiederanno l'approvazione manuale. Potrai personalizzare le soglie negli attributi certificati.",
+        "validation": {
+          "integer": "Il valore di soglia deve essere intero"
+        },
         "dailyCallsPerConsumerField": {
           "label": "Chiamate API/giorno per fruitore",
           "infoLabel": "Inserisci un numero superiore o uguale a 1"

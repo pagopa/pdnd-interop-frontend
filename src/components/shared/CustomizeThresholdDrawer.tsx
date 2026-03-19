@@ -53,6 +53,9 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
   const { t } = useTranslation('eservice', {
     keyPrefix: 'create.step2.attributes.customizeThresholdDrawer',
   })
+  const { t: tThreshold } = useTranslation('eservice', {
+    keyPrefix: 'create.step2.thresholdSection',
+  })
   const formMethods = useForm<CustomizeThresholdFormValues>({
     defaultValues: {
       threshold: attribute?.dailyCallsPerConsumer,
@@ -105,6 +108,8 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
                     message: t('field.error'),
                   },
                 }),
+                validate: (value) =>
+                  Number.isInteger(Number(value)) || tThreshold('validation.integer'),
               }}
             />
             <GreyAlert>

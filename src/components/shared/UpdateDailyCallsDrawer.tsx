@@ -45,6 +45,10 @@ export const UpdateDailyCallsDrawer: React.FC<UpdateDailyCallsDrawerProps> = ({
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.drawers.updateDailyCallsDrawer',
   })
+
+  const { t: tThreshold } = useTranslation('eservice', {
+    keyPrefix: 'create.step2.thresholdSection',
+  })
   const { t: tCommon } = useTranslation('common')
 
   const defaultValues = {
@@ -113,6 +117,8 @@ export const UpdateDailyCallsDrawer: React.FC<UpdateDailyCallsDrawerProps> = ({
               rules={{
                 required: true,
                 min: 1,
+                validate: (value) =>
+                  Number.isInteger(Number(value)) || tThreshold('validation.integer'),
               }}
             />
             <RHFTextField
@@ -124,6 +130,7 @@ export const UpdateDailyCallsDrawer: React.FC<UpdateDailyCallsDrawerProps> = ({
               rules={{
                 required: true,
                 validate: (value) => {
+                  if (!Number.isInteger(Number(value))) return tThreshold('validation.integer')
                   const minValue = formMethods.getValues('dailyCallsPerConsumer') + 1
                   return value >= minValue || t('dailyCallsTotalField.validation.min')
                 },
