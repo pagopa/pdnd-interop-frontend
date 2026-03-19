@@ -96,6 +96,7 @@
       "thresholdsAndAttributes": {
         "title": "Soglie e attributi",
         "description": "Qui trovi le soglie e gli attributi che sono richiesti per la fruizione di questo e-service.",
+        "noThresholds": "Questo template di e-service non ha soglie suggerite",
         "thresholds": {
           "title": "Soglie di chiamate API",
           "dailyCallsPerConsumer": {
@@ -338,8 +339,8 @@
           "title": "Seleziona la destinazione dell'analisi del rischio",
           "description": "Indica chi potrà utilizzare l'analisi del rischio che stai creando.",
           "tenantKind": {
-            "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera \u201Ca\u201D del Codice dell'Amministrazione Digitale)",
-            "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere \u201Cb\u201D e \u201Cc\u201D) oppure Privati"
+            "labelPA": "Pubbliche Amministrazioni (Art. 2, comma 2, lettera “a” del Codice dell'Amministrazione Digitale)",
+            "labelNotPA": "Gestori di pubblici servizi, Società a controllo pubblico (Art. 2, comma 2, lettere “b” e “c”) oppure Privati"
           }
         }
       },
@@ -469,6 +470,7 @@
     "thresholdsAndAttributesSummary": {
       "title": "Soglie e attributi",
       "thresholdsTitle": "Soglie suggerite di chiamate API",
+      "noThresholds": "Questo template di e-service non ha soglie suggerite",
       "dailyCallsPerConsumer": {
         "label": "Per fruitore",
         "value": "{{value}} chiamate API/giorno"

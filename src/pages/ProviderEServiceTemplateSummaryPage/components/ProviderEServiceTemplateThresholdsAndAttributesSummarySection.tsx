@@ -1,7 +1,6 @@
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Stack, Box, Divider, Link, Typography } from '@mui/material'
-import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { formatThousands } from '@/utils/format.utils'
 import { useParams } from '@/router'
 import { useSuspenseQuery } from '@tanstack/react-query'
@@ -14,6 +13,7 @@ import {
 import type { DescriptorAttribute, DescriptorAttributes } from '@/api/api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 import { attributesHelpLink } from '@/config/constants'
+import { EServiceTemplateThresholds } from '@/components/shared/EserviceTemplate/EServiceTemplateThresholds'
 
 export const ProviderEServiceTemplateThresholdsAndAttributesSummarySection: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', {
@@ -30,21 +30,24 @@ export const ProviderEServiceTemplateThresholdsAndAttributesSummarySection: Reac
       <Typography variant="body2" fontWeight={600}>
         {t('thresholdsTitle')}
       </Typography>
-      <InformationContainer
-        label={t('dailyCallsPerConsumer.label')}
-        content={t('dailyCallsPerConsumer.value', {
-          value: eserviceTemplate.dailyCallsPerConsumer
-            ? formatThousands(eserviceTemplate.dailyCallsPerConsumer)
-            : 'n/a',
-        })}
-      />
-      <InformationContainer
-        label={t('dailyCallsTotal.label')}
-        content={t('dailyCallsTotal.value', {
-          value: eserviceTemplate.dailyCallsTotal
-            ? formatThousands(eserviceTemplate.dailyCallsTotal)
-            : 'n/a',
-        })}
+      <EServiceTemplateThresholds
+        dailyCallsPerConsumer={
+          eserviceTemplate.dailyCallsPerConsumer
+            ? t('dailyCallsPerConsumer.value', {
+                value: formatThousands(eserviceTemplate.dailyCallsPerConsumer),
+              })
+            : undefined
+        }
+        dailyCallsTotal={
+          eserviceTemplate.dailyCallsTotal
+            ? t('dailyCallsTotal.value', {
+                value: formatThousands(eserviceTemplate.dailyCallsTotal),
+              })
+            : undefined
+        }
+        emptyMessage={t('noThresholds')}
+        dailyCallsTotalLabel={t('dailyCallsTotal.label')}
+        dailyCallsPerConsumerLabel={t('dailyCallsPerConsumer.label')}
       />
       <TemplateSummaryAttributes descriptorAttributes={eserviceTemplate.attributes} />
     </Stack>

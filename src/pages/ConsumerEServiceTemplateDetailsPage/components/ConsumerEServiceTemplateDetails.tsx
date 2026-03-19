@@ -2,7 +2,7 @@ import React from 'react'
 import { Grid } from '@mui/material'
 import {
   EServiceTemplateGeneralInfoSection,
-  EServiceTemplateAttributes,
+  EServiceTemplateThresholdsAndAttributes,
   EServiceTemplateTechnicalInfoSection,
 } from '@/components/shared/EserviceTemplate'
 
@@ -20,7 +20,7 @@ export const ConsumerEServiceTemplateDetails: React.FC = () => {
             routeKey={routeKey}
             hideThresholds
           />
-          <EServiceTemplateAttributes readonly={readyonly} routeKey={routeKey} />
+          <EServiceTemplateThresholdsAndAttributes readonly={readyonly} routeKey={routeKey} />
         </Grid>
       </Grid>
     </>

@@ -96,6 +96,7 @@
       "thresholdsAndAttributes": {
         "title": "Thresholds and attributes",
         "description": "Here you can find the thresholds and attributes required to use this e-service.",
+        "noThresholds": "This e-service template has no suggested thresholds",
         "thresholds": {
           "title": "API call thresholds",
           "dailyCallsPerConsumer": {
@@ -338,8 +339,8 @@
           "title": "Indicate who will be able to use the following risk analysis.",
           "description": "Indicate for whom the following risk analysis is filled.",
           "tenantKind": {
-            "labelPA": "Public administration (Art. 2, comma 2, letter \u201Ca\u201D of Codice dell'Amministrazione Digitale)",
-            "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters \u201Cb\u201D e \u201Cc\u201D) or Private"
+            "labelPA": "Public administration (Art. 2, comma 2, letter “a” of Codice dell'Amministrazione Digitale)",
+            "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters “b” e “c”) or Private"
           }
         }
       },
@@ -469,6 +470,7 @@
     "thresholdsAndAttributesSummary": {
       "title": "Thresholds and attributes",
       "thresholdsTitle": "Suggested API call thresholds",
+      "noThresholds": "This e-service template has no suggested thresholds",
       "dailyCallsPerConsumer": {
         "label": "Per consumer",
         "value": "{{value}} API calls/day"

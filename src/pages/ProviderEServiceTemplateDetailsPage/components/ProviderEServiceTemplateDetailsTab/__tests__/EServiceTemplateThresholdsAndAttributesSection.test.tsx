@@ -7,7 +7,10 @@ import {
   mockUseCurrentRoute,
   renderWithApplicationContext,
 } from '@/utils/testing.utils'
-import { createMockEServiceTemplateVersionDetails } from '@/../__mocks__/data/eserviceTemplate.mocks'
+import {
+  createMockEServiceTemplateVersionDetails,
+  createMockEServiceTemplateVersionDetailsWithAttributes,
+} from '@/../__mocks__/data/eserviceTemplate.mocks'
 
 mockUseParams({
   eServiceTemplateId: 'template-id-001',
@@ -74,7 +77,7 @@ describe('EServiceTemplateThresholdsAndAttributesSection', () => {
 
   it('renders attribute sections for certified, verified and declared', () => {
     mockUseJwt()
-    const mockData = createMockEServiceTemplateVersionDetails()
+    const mockData = createMockEServiceTemplateVersionDetailsWithAttributes()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
     renderWithApplicationContext(

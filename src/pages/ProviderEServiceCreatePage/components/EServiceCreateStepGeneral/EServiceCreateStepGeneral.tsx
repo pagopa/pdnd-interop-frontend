@@ -218,7 +218,7 @@ export const EServiceCreateStepGeneral: React.FC = () => {
           forward={
             !areEServiceGeneralInfoEditable
               ? {
-                  label: t('create.forwardWithoutSaveBtn'),
+                  label: t('create.forwardWithSaveBtn'),
                   endIcon: <ArrowForwardIcon />,
                   onClick: forward,
                   type: 'button',
