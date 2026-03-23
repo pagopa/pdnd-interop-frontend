@@ -299,7 +299,7 @@ const createMockPurposeCallsTotalExceed = createMockFactory<Purpose>({
     dailyCalls: 2,
   },
   dailyCallsPerConsumer: 10,
-  dailyCallsTotal: 1,
+  dailyCallsTotal: 11,
 })
 
 const createMockPurposeCallsWithoutExceed = createMockFactory<Purpose>({

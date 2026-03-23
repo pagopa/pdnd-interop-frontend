@@ -28,8 +28,8 @@ import { EServiceAttributesSection } from '../sections/EServiceAttributesSection
 import { SectionContainerSkeleton } from '@/components/layout/containers'
 
 export type CreateStepThresholdsFormValues = {
-  dailyCallsPerConsumer?: number
-  dailyCallsTotal?: number
+  dailyCallsPerConsumer: number
+  dailyCallsTotal: number
   attributes: DescriptorAttributes
 }
 
@@ -128,8 +128,8 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
 
     const newDescriptorData: ProducerEServiceDescriptor = {
       ...descriptor,
-      dailyCallsPerConsumer: values.dailyCallsPerConsumer ?? 1,
-      dailyCallsTotal: values.dailyCallsTotal ?? 1,
+      dailyCallsPerConsumer: values.dailyCallsPerConsumer,
+      dailyCallsTotal: values.dailyCallsTotal,
       attributes,
     }
 
@@ -145,8 +145,8 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
     } = {
       audience: descriptor.audience,
       voucherLifespan: descriptor.voucherLifespan,
-      dailyCallsPerConsumer: values.dailyCallsPerConsumer ?? 1,
-      dailyCallsTotal: values.dailyCallsTotal ?? 1,
+      dailyCallsPerConsumer: values.dailyCallsPerConsumer,
+      dailyCallsTotal: values.dailyCallsTotal,
       agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
       description: descriptor.description,
       attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes),

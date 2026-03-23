@@ -112,7 +112,7 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
         state: 'DRAFT',
         voucherLifespan: 60,
         dailyCallsPerConsumer: 1,
-        dailyCallsTotal: 1,
+        dailyCallsTotal: 2,
         agreementApprovalPolicy: 'AUTOMATIC',
         attributes: { certified: [], declared: [], verified: [] },
         docs: [],

@@ -53,7 +53,7 @@ export const EServiceThresholdSection: React.FC<EServiceThresholdSectionProps> =
             rules={{
               required: true,
               min: {
-                value: dailyCallsPerConsumer ?? 1,
+                value: (dailyCallsPerConsumer ?? 1) + 1,
                 message: t('dailyCallsTotalField.validation.min'),
               },
               validate: (value) => {
