@@ -43,8 +43,8 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
 
   const formMethods = useForm({
     defaultValues: {
-      dailyCallsPerConsumer: descriptor?.dailyCallsPerConsumer,
-      dailyCallsTotal: descriptor?.dailyCallsTotal,
+      dailyCallsPerConsumer: descriptor!.dailyCallsPerConsumer,
+      dailyCallsTotal: descriptor!.dailyCallsTotal,
       attributes: descriptor?.attributes ?? { certified: [], verified: [], declared: [] },
     },
   })

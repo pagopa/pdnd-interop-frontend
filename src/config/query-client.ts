@@ -5,7 +5,7 @@ import { NotFoundError } from '@/utils/errors.utils'
 import {
   type Mutation,
   type QueryClientConfig,
-  MutationMeta,
+  type MutationMeta,
   QueryClient,
 } from '@tanstack/react-query'
 import { AxiosError } from 'axios'

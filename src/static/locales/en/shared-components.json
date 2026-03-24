@@ -377,9 +377,9 @@
   },
   "delegationTooltip": {
     "label": {
-      "default": "By Delegation",
+      "default": "By delegation",
       "delegator": "Delegated to {{delegate}}",
-      "delegate": "Received by Delegation by {{delegator}}"
+      "delegate": "Received by delegation from {{delegator}}"
     }
   },
   "riskAnalysis": {
@@ -465,7 +465,6 @@
   "documents": {
     "notAvailableYet": "The document will be available soon"
   },
-
   "requiredLabel": "*Required fields.",
   "routeLabels": {
     "LOGOUT": "Logout",

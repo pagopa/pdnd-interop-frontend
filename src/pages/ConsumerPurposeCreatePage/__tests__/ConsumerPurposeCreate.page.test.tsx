@@ -4,14 +4,12 @@ import ConsumerPurposeCreatePage from '../ConsumerPurposeCreate.page'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 
 mockUseJwt()
-const useQueryMock = vi.fn()
+vi.mock('./../components/PurposeCreateForm', () => ({
+  PurposeCreateForm: () => <div>PurposeCreateForm</div>,
+}))
 
 describe('ConsumerPurposeCreatePage', () => {
   it('renders page title', () => {
-    useQueryMock.mockReturnValue({
-      isLoading: false,
-    })
-
     renderWithApplicationContext(<ConsumerPurposeCreatePage />, {
       withReactQueryContext: true,
       withRouterContext: true,
@@ -20,10 +18,6 @@ describe('ConsumerPurposeCreatePage', () => {
     expect(screen.getByText('create.emptyTitle')).toBeInTheDocument()
   })
   it('renders required label', () => {
-    useQueryMock.mockReturnValue({
-      isLoading: false,
-    })
-
     renderWithApplicationContext(<ConsumerPurposeCreatePage />, {
       withReactQueryContext: true,
       withRouterContext: true,
