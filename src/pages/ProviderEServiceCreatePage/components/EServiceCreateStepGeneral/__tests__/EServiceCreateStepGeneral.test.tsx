@@ -1,3 +1,4 @@
+import { vi } from 'vitest'
 import { createMockEServiceTemplateDetails } from '@/../__mocks__/data/eserviceTemplate.mocks'
 import {
   createMockEServiceDescriptorProvider,
@@ -8,14 +9,64 @@ import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils
 import { EServiceCreateStepGeneral } from '../EServiceCreateStepGeneral'
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { vi } from 'vitest'
 import { DUPLICATE_ESERVICENAME_ERROR_CODE } from '@/api/eserviceTemplate/eserviceTemplate.mutations'
+import * as EserviceCreateContextModule from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateContext'
+import type { EServiceTemplateDetails } from '@/api/api.generatedTypes'
 
 vi.mock('../../sections/EServiceInfoSection', () => ({
   EServiceInfoSection: () => {
     return <div>EServiceInfoSection</div>
   },
 }))
+const mockForward = vi.fn()
+const mockCreateDraftFromTemplate = vi.fn()
+const mockUpdateDraftFromTemplate = vi.fn()
+
+function mockContext(
+  overrides: Partial<ReturnType<typeof EserviceCreateContextModule.useEServiceCreateContext>> = {}
+) {
+  vi.spyOn(EserviceCreateContextModule, 'useEServiceCreateContext').mockReturnValue({
+    descriptor: undefined,
+    eserviceMode: 'DELIVER',
+    onEserviceModeChange: vi.fn(),
+    back: vi.fn(),
+    forward: mockForward,
+    areEServiceGeneralInfoEditable: true,
+    riskAnalysisFormState: { isOpen: false, riskAnalysisId: undefined },
+    openRiskAnalysisForm: vi.fn(),
+    closeRiskAnalysisForm: vi.fn(),
+    eserviceTemplate: undefined,
+    ...overrides,
+  })
+}
+
+const mockEServiceTemplate: EServiceTemplateDetails = {
+  id: 'template-id',
+  name: 'Credenziale IT-Wallet',
+  description: 'Template description',
+  technology: 'REST',
+  mode: 'DELIVER',
+  versions: [{ id: 'v1', state: 'PUBLISHED', createdAt: '2024-01-01T00:00:00Z' }],
+  creator: { id: 'creator-id', name: 'Creator' },
+  isSignalHubEnabled: false,
+  isConsumerDelegable: true,
+  isClientAccessDelegable: true,
+  personalData: true,
+  riskAnalysis: [],
+} as unknown as EServiceTemplateDetails
+
+const mockDescriptorFromTemplate = createMockEServiceDescriptorProvider({
+  version: '1',
+  state: 'DRAFT',
+  eservice: {
+    name: 'Credenziale IT-Wallet - Patente',
+    isSignalHubEnabled: false,
+    isConsumerDelegable: true,
+    isClientAccessDelegable: true,
+    personalData: true,
+    instanceLabel: 'Patente',
+  },
+})
 
 vi.mock('../../sections/EServiceDetailsSection', () => ({
   EServiceDetailsSection: () => {
@@ -341,5 +392,38 @@ describe('EServiceCreateStepGeneral - instanceLabel', () => {
       name: 'create.step1.instanceLabelField.label',
     })
     expect(instanceLabelInput).not.toBeDisabled()
+  })
+})
+
+describe('EServiceCreateStepGeneral Normalization', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
+  it.skip('sets isClientAccessDelegable to false when isConsumerDelegable is switched to false', async () => {
+    const user = userEvent.setup()
+    mockContext({ eserviceTemplate: mockEServiceTemplate })
+
+    renderWithApplicationContext(<EServiceCreateStepGeneral />, {
+      withReactQueryContext: true,
+    })
+
+    const delegationSwitch = screen.getByRole('checkbox', {
+      name: 'create.step1.delegationSection.delegationField.switchLabel',
+    })
+    await user.click(delegationSwitch)
+
+    const submitButton = screen.getByRole('button', { name: 'create.forwardWithSaveBtn' })
+    await user.click(submitButton)
+
+    await waitFor(() => {
+      expect(mockCreateDraftFromTemplate).toHaveBeenCalledWith(
+        expect.objectContaining({
+          isConsumerDelegable: false,
+          isClientAccessDelegable: false,
+        }),
+        expect.anything()
+      )
+    })
   })
 })

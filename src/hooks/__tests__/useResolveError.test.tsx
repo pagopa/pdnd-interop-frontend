@@ -91,6 +91,41 @@ describe('', () => {
     expect(screen.getByRole('button', { name: 'actions.retry' })).toBeInTheDocument()
   })
 
+  it('should not crash when AxiosError response has no errors array (e.g. 503)', () => {
+    const error = new AxiosError('Service Unavailable', '503', undefined, undefined, {
+      status: 503,
+      statusText: 'Service Unavailable',
+      headers: {},
+      config: {} as never,
+      data: { correlationId: 'test-id' },
+    })
+
+    const screen = render(<ThrowErrorComponent error={error} />, {
+      wrapper: ErrorBoundaryTest,
+    })
+
+    expect(screen.getByText('axiosError.title')).toBeInTheDocument()
+    expect(screen.getByText('axiosError.description')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'actions.retry' })).toBeInTheDocument()
+  })
+
+  it('should not crash when AxiosError response data is undefined', () => {
+    const error = new AxiosError('Server Error', '500', undefined, undefined, {
+      status: 500,
+      statusText: 'Internal Server Error',
+      headers: {},
+      config: {} as never,
+      data: undefined,
+    })
+
+    const screen = render(<ThrowErrorComponent error={error} />, {
+      wrapper: ErrorBoundaryTest,
+    })
+
+    expect(screen.getByText('axiosError.title')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'actions.retry' })).toBeInTheDocument()
+  })
+
   it('should correctly resolve the TokenExchangeError throw', () => {
     const screen = render(<ThrowErrorComponent error={new TokenExchangeError()} />, {
       wrapper: ErrorBoundaryTest,

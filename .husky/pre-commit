@@ -2,4 +2,9 @@
 . "$(dirname "$0")/_/husky.sh"
 
 echo "Validate branch name before commit..."
-npx --no-install validate-branch-name
+
+if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "win32" ]; then
+	npx.cmd --no-install validate-branch-name
+else
+	npx --no-install validate-branch-name
+fi

@@ -35,8 +35,8 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
 
   let title, description: string | undefined
   let content: JSX.Element | null = null
-  const correlationId = error.response?.data.correlationId
-  const errorCode = error.response?.data.errors[0].code
+  const correlationId = error.response?.data?.correlationId
+  const errorCode = error.response?.data?.errors?.[0]?.code
 
   const { setErrorData } = useErrorData()
 
