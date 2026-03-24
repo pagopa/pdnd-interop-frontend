@@ -58,7 +58,7 @@ export const EServiceThresholdSection: React.FC<EServiceThresholdSectionProps> =
               },
               validate: (value) => {
                 if (!Number.isInteger(Number(value))) {
-                  t('validation.integer')
+                  return t('validation.integer')
                 }
 
                 if (maxCustomThreshold && Number(value) < maxCustomThreshold) {
