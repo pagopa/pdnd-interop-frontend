@@ -43,7 +43,12 @@ export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> =
 
   return (
     <FormProvider {...formMethods}>
-      <Box sx={sxBox} bgcolor="common.white">
+      <Box
+        component={'form'}
+        onSubmit={formMethods.handleSubmit(onSubmit)}
+        sx={sxBox}
+        bgcolor="common.white"
+      >
         <RHFSingleFileInput
           sx={{ my: 0 }}
           name="interfaceDoc"
@@ -56,11 +61,11 @@ export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> =
           <Stack direction="row">
             <Button
               name="uploadInterfaceDocBtn"
+              type="submit"
               variant="contained"
               startIcon={<SaveIcon fontSize="small" />}
               sx={{ mt: 2 }}
               data-testid="submitButton"
-              onClick={formMethods.handleSubmit(onSubmit)}
             >
               {tCommon('actions.saveDocument')}
             </Button>

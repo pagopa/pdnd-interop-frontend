@@ -1,7 +1,7 @@
 import { type DelegationWithCompactTenants } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { AltRoute } from '@mui/icons-material'
-import { Tooltip } from '@mui/material'
+import { Stack, Tooltip } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -23,14 +23,16 @@ export const DelegationTooltip: React.FC<DelegationTooltipProps> = ({ delegation
 
   return (
     <Tooltip title={label}>
-      <AltRoute
-        color="primary"
-        sx={{
-          rotate: '90deg',
-          height: 18,
-          width: 18,
-        }}
-      />
+      <Stack component={'span'} tabIndex={0} aria-label={label}>
+        <AltRoute
+          color="primary"
+          sx={{
+            rotate: '90deg',
+            height: 18,
+            width: 18,
+          }}
+        />
+      </Stack>
     </Tooltip>
   )
 }

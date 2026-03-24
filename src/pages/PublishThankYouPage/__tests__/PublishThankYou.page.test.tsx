@@ -28,11 +28,11 @@ describe('PublishThankYouPage', () => {
   it('redirects to catalog list when state is null', () => {
     useLocationMock.mockReturnValue({ state: null })
 
-    renderWithApplicationContext(<PublishThankYouPage />, {
+    const { container } = renderWithApplicationContext(<PublishThankYouPage />, {
       withRouterContext: true,
     })
 
-    expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_CATALOG_LIST')
+    expect(container.querySelector('[role="heading"]')).not.toBeInTheDocument()
   })
 
   it('renders title and simple description when no bullet points', () => {

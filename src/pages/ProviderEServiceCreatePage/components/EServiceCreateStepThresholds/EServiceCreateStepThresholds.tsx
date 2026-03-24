@@ -2,7 +2,7 @@ import { type ActiveStepProps } from '@/hooks/useActiveStep'
 import { Trans, useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceMutations } from '@/api/eservice'
-import { type SubmitHandler, useForm, FormProvider } from 'react-hook-form'
+import { type SubmitHandler, useForm, FormProvider, useWatch } from 'react-hook-form'
 import React from 'react'
 import { type AttributeKey } from '@/types/attribute.types'
 import {
@@ -28,8 +28,8 @@ import { EServiceAttributesSection } from '../sections/EServiceAttributesSection
 import { SectionContainerSkeleton } from '@/components/layout/containers'
 
 export type CreateStepThresholdsFormValues = {
-  dailyCallsPerConsumer?: number
-  dailyCallsTotal?: number
+  dailyCallsPerConsumer: number
+  dailyCallsTotal: number
   attributes: DescriptorAttributes
 }
 
@@ -43,8 +43,8 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
 
   const formMethods = useForm({
     defaultValues: {
-      dailyCallsPerConsumer: descriptor?.dailyCallsPerConsumer,
-      dailyCallsTotal: descriptor?.dailyCallsTotal,
+      dailyCallsPerConsumer: descriptor?.dailyCallsPerConsumer ?? 1,
+      dailyCallsTotal: descriptor?.dailyCallsTotal ?? 2,
       attributes: descriptor?.attributes ?? { certified: [], verified: [], declared: [] },
     },
   })
@@ -94,7 +94,10 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
 
   const dailyCallsPerConsumer = formMethods.watch('dailyCallsPerConsumer')
   const dailyCallsTotal = formMethods.watch('dailyCallsTotal')
-  const certifiedAttributes = formMethods.watch('attributes.certified')
+  const certifiedAttributes = useWatch({
+    control: formMethods.control,
+    name: 'attributes.certified',
+  })
   const watchedAttributes = formMethods.watch('attributes')
 
   const { totalRequirements, attributeTypesWithRequirements } = useAttributesCountersAlert({
@@ -102,17 +105,13 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
     t,
   })
 
-  const maxCustomThreshold = React.useMemo(() => {
-    return certifiedAttributes
-      .flat()
-      .reduce(
-        (max, attr) =>
-          attr.dailyCallsPerConsumer !== undefined
-            ? Math.max(max, attr.dailyCallsPerConsumer)
-            : max,
-        0
-      )
-  }, [certifiedAttributes])
+  const maxCustomThreshold = certifiedAttributes
+    .flat()
+    .reduce(
+      (max, attr) =>
+        attr.dailyCallsPerConsumer !== undefined ? Math.max(max, attr.dailyCallsPerConsumer) : max,
+      0
+    )
 
   const onSubmit: SubmitHandler<CreateStepThresholdsFormValues> = (values) => {
     if (!descriptor) return
@@ -129,8 +128,8 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
 
     const newDescriptorData: ProducerEServiceDescriptor = {
       ...descriptor,
-      dailyCallsPerConsumer: values.dailyCallsPerConsumer ?? 1,
-      dailyCallsTotal: values.dailyCallsTotal ?? 1,
+      dailyCallsPerConsumer: values.dailyCallsPerConsumer,
+      dailyCallsTotal: values.dailyCallsTotal,
       attributes,
     }
 
@@ -146,8 +145,8 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
     } = {
       audience: descriptor.audience,
       voucherLifespan: descriptor.voucherLifespan,
-      dailyCallsPerConsumer: values.dailyCallsPerConsumer ?? 1,
-      dailyCallsTotal: values.dailyCallsTotal ?? 1,
+      dailyCallsPerConsumer: values.dailyCallsPerConsumer,
+      dailyCallsTotal: values.dailyCallsTotal,
       agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
       description: descriptor.description,
       attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes),

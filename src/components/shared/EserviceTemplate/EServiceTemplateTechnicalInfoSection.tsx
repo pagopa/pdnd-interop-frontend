@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
-import { EServiceTemplateThresholdsSection } from './EServiceTemplateThresholdsSection'
 import { EServiceTemplateDocumentationSection } from './EServiceTemplateDocumentationSection'
 import { EServiceTemplateUsefulLinksSection } from './EServiceTemplateUsefulLinksSection'
 import { UpdateVoucherDrawer } from '@/components/shared/UpdateVoucherDrawer'
@@ -18,11 +17,10 @@ import EditIcon from '@mui/icons-material/Edit'
 type EServiceTemplateTechnicalInfoSectionProps = {
   readonly: boolean
   routeKey: 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS' | 'PROVIDE_ESERVICE_TEMPLATE_DETAILS'
-  hideThresholds?: boolean
 }
 export const EServiceTemplateTechnicalInfoSection: React.FC<
   EServiceTemplateTechnicalInfoSectionProps
-> = ({ readonly, routeKey, hideThresholds = false }) => {
+> = ({ readonly, routeKey }) => {
   const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'read.sections.technicalInformations',
   })
@@ -94,15 +92,6 @@ export const EServiceTemplateTechnicalInfoSection: React.FC<
             content={`${voucherLifespan}`}
           />
         </SectionContainer>
-        {!hideThresholds && (
-          <>
-            <Divider />
-            <EServiceTemplateThresholdsSection
-              readonly={readonly}
-              eserviceTemplate={eserviceTemplate}
-            />
-          </>
-        )}
         <Divider />
         <EServiceTemplateDocumentationSection
           readonly={readonly}

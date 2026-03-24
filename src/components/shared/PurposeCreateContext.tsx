@@ -9,7 +9,7 @@ type PurposeCreateContextType = {
 
 const { useContext, Provider } = createContext<PurposeCreateContextType>('PurposeCreateContext', {})
 
-type PurposeCreateContextProviderProps = {
+export type PurposeCreateContextProviderProps = {
   children: React.ReactNode
   type?: PurposeType
   isFromPurposeTemplate?: boolean

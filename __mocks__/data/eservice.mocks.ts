@@ -46,7 +46,7 @@ const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDes
   agreementApprovalPolicy: 'MANUAL',
   audience: ['Lorem'],
   dailyCallsPerConsumer: 1,
-  dailyCallsTotal: 1,
+  dailyCallsTotal: 2,
   description: 'Lorem',
   docs: [],
   eservice: {
@@ -132,7 +132,7 @@ const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceD
   agreementApprovalPolicy: 'MANUAL',
   audience: ['nikon'],
   dailyCallsPerConsumer: 1,
-  dailyCallsTotal: 1,
+  dailyCallsTotal: 2,
   description: 'kinoin',
   docs: [],
   eservice: {
@@ -179,7 +179,7 @@ const createMockEServiceDescriptorProviderNoInterface =
     agreementApprovalPolicy: 'MANUAL',
     audience: ['nikon'],
     dailyCallsPerConsumer: 1,
-    dailyCallsTotal: 1,
+    dailyCallsTotal: 2,
     description: 'kinoin',
     docs: [],
     eservice: {
@@ -218,7 +218,7 @@ const createMockEServiceDescriptorProviderWithRiskAnalysis =
     agreementApprovalPolicy: 'MANUAL',
     audience: ['nikon'],
     dailyCallsPerConsumer: 1,
-    dailyCallsTotal: 1,
+    dailyCallsTotal: 2,
     description: 'kinoin',
     docs: [],
     eservice: {
@@ -267,7 +267,7 @@ const createMockEServiceDescriptorProviderWithDocs = createMockFactory<ProducerE
   agreementApprovalPolicy: 'MANUAL',
   audience: ['nikon'],
   dailyCallsPerConsumer: 1,
-  dailyCallsTotal: 1,
+  dailyCallsTotal: 2,
   description: 'kinoin',
   docs: [
     {
@@ -314,7 +314,7 @@ const createMockEServiceDescriptorProviderWithTemplateRef =
     agreementApprovalPolicy: 'MANUAL',
     audience: ['nikon'],
     dailyCallsPerConsumer: 1,
-    dailyCallsTotal: 1,
+    dailyCallsTotal: 2,
     description: 'kinoin',
     docs: [],
     eservice: {
@@ -365,7 +365,7 @@ const createMockEServiceDescriptorReceive = createMockFactory<ProducerEServiceDe
   agreementApprovalPolicy: 'MANUAL',
   audience: ['nikon'],
   dailyCallsPerConsumer: 1,
-  dailyCallsTotal: 1,
+  dailyCallsTotal: 2,
   description: 'kinoin',
   docs: [],
   eservice: {

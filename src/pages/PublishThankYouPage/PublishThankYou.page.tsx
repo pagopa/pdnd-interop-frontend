@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Stack, Typography } from '@mui/material'
 import CheckIcon from '@mui/icons-material/Check'
 import { useLocation } from 'react-router-dom'
-import { useNavigate } from '@/router'
+import { Redirect, useNavigate } from '@/router'
 import type { RouteKey } from '@/router'
 import { ThankYouPage } from '@/components/shared/ThankYouPage'
 
@@ -21,8 +21,7 @@ const PublishThankYouPage: React.FC = () => {
   const navigate = useNavigate()
 
   if (!state) {
-    ;(navigate as Function)('SUBSCRIBE_CATALOG_LIST')
-    return null
+    return <Redirect to={'SUBSCRIBE_CATALOG_LIST'} />
   }
 
   const handleClose = () => {

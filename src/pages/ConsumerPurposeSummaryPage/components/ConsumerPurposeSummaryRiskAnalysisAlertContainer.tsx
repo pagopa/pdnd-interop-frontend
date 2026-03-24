@@ -36,9 +36,7 @@ export const ConsumerPurposeSummaryRiskAnalysisAlertContainer: React.FC<
       )}
       {isRulesetExpired && (
         <Alert severity="error" sx={{ alignItems: 'center', mt: 3 }} variant="outlined">
-          <Stack spacing={13} direction="row" alignItems="center">
-            {' '}
-            {/**TODO FIX SPACING */}
+          <Stack justifyContent={'space-between'} direction="row" alignItems="center">
             <Typography>{t('summary.alerts.rulesetExpired.label')}</Typography>
             <Button
               variant="naked"

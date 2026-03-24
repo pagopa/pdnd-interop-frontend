@@ -20,11 +20,7 @@ export const ProviderEServiceTemplateDetailsTab: React.FC<ProviderEServiceDetail
       <Grid container>
         <Grid item xs={8}>
           <EServiceTemplateGeneralInfoSection readonly={readonly} routeKey={routeKey} />
-          <EServiceTemplateTechnicalInfoSection
-            readonly={readonly}
-            routeKey={routeKey}
-            hideThresholds
-          />
+          <EServiceTemplateTechnicalInfoSection readonly={readonly} routeKey={routeKey} />
           <EServiceTemplateThresholdsAndAttributesSection readonly={readonly} routeKey={routeKey} />
         </Grid>
       </Grid>

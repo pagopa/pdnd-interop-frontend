@@ -344,6 +344,9 @@
         }
       },
       "thresholdsAndAttributes": {
+        "validation": {
+          "integer": "Threshold value must be an integer"
+        },
         "thresholdsTitle": "API call thresholds",
         "thresholdsSwitch": {
           "label": "Suggest API calls/day thresholds to those who will use this template"

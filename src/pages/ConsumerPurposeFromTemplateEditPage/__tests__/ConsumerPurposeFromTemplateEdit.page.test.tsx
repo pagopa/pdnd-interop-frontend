@@ -2,16 +2,38 @@ import { describe, it, expect, vi } from 'vitest'
 import { screen } from '@testing-library/react'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import ConsumerPurposeFromTemplateEditPage from '../ConsumerPurposeFromTemplateEdit.page'
-
+import type { PurposeCreateContextProviderProps } from '@/components/shared/PurposeCreateContext'
 mockUseJwt()
-const useQueryMock = vi.fn()
+
+vi.mock('@tanstack/react-query', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  useQuery: vi.fn(() => ({ isLoading: false })),
+}))
+
+vi.mock('@/components/shared/PurposeCreateContext', () => ({
+  PurposeCreateContextProvider: (props: PurposeCreateContextProviderProps) => (
+    <div>{props.children}</div>
+  ),
+}))
+
+vi.mock(
+  './../components/PurposeFromTemplateEditStepGeneral/PurposeFromTemplateEditStepGeneral',
+  () => ({
+    PurposeFromTemplateEditStepGeneral: () => <div>PurposeFromTemplateEditStepGeneral</div>,
+  })
+)
+
+vi.mock(
+  './../components/PurposeFromTemplateEditStepRiskAnalysis/PurposeFromTemplateEditStepRiskAnalysis',
+  () => ({
+    PurposeFromTemplateEditStepRiskAnalysis: () => (
+      <div>PurposeFromTemplateEditStepRiskAnalysis</div>
+    ),
+  })
+)
 
 describe('ConsumerPurposeFromTemplateEditPage', () => {
   it('renders back to list button', () => {
-    useQueryMock.mockReturnValue({
-      isLoading: false,
-    })
-
     renderWithApplicationContext(<ConsumerPurposeFromTemplateEditPage />, {
       withReactQueryContext: true,
       withRouterContext: true,
@@ -20,15 +42,11 @@ describe('ConsumerPurposeFromTemplateEditPage', () => {
     expect(screen.getByText('backToListBtn')).toBeInTheDocument()
   })
   it('renders required label', () => {
-    useQueryMock.mockReturnValue({
-      isLoading: false,
-    })
-
     renderWithApplicationContext(<ConsumerPurposeFromTemplateEditPage />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
 
-    expect(screen.getByText('edit.requiredLabel')).toBeInTheDocument()
+    expect(screen.getByText('requiredLabel')).toBeInTheDocument()
   })
 })
