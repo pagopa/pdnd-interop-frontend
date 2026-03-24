@@ -283,12 +283,10 @@ async function createDraftFromPurposeTemplate({
 }
 
 async function getRemainingDailyCalls({ purposeId }: GetRemainingDailyCallsParams) {
-  /* @TODO - remove this mock when the endpoint will be available on dev */
-  /* const response = await axiosInstance.get<RemainingDailyCallsResponse>(
+  const response = await axiosInstance.get<RemainingDailyCallsResponse>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/remainingDailyCalls`
   )
-  return response.data */
-  return { remainingDailyCallsPerConsumer: 100, remainingDailyCallsTotal: 500 }
+  return response.data
 }
 
 export const PurposeServices = {
