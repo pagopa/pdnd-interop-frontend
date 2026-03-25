@@ -96,12 +96,12 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
             onKeyDown={
               props.type === 'number'
                 ? (e) => {
-                  // e.key.length === 1 targets only printable characters;
-                  // control keys (Backspace, Tab, Arrow*, etc.) have longer key names and pass through
-                  if (e.key.length === 1 && !/[\d.\-]/.test(e.key) && !e.ctrlKey && !e.metaKey) {
-                    e.preventDefault()
+                    // e.key.length === 1 targets only printable characters;
+                    // control keys (Backspace, Tab, Arrow*, etc.) have longer key names and pass through
+                    if (e.key.length === 1 && !/[\d.\-]/.test(e.key) && !e.ctrlKey && !e.metaKey) {
+                      e.preventDefault()
+                    }
                   }
-                }
                 : undefined
             }
             onChange={(e) => {
