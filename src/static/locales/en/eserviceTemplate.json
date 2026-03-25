@@ -64,6 +64,9 @@
             "RECEIVE": "Receive"
           }
         },
+        "voucher": {
+          "title": "Voucher"
+        },
         "thresholds": {
           "title": "Thresholds",
           "voucherLifespan": {
@@ -88,6 +91,20 @@
           "implementAndManageEServiceTemplate": "How do I implement and manage an e-service template?",
           "updateEserviceInstance": "How can I update an e-service instance?",
           "wellKnown": "URL .well-known"
+        }
+      },
+      "thresholdsAndAttributes": {
+        "title": "Thresholds and attributes",
+        "description": "Here you can find the thresholds and attributes required to use this e-service.",
+        "noThresholds": "This e-service template has no suggested thresholds",
+        "thresholds": {
+          "title": "API call thresholds",
+          "dailyCallsPerConsumer": {
+            "label": "Daily threshold per consumer"
+          },
+          "dailyCallsTotal": {
+            "label": "Daily total threshold"
+          }
         }
       }
     },
@@ -129,6 +146,9 @@
         "subtitle": "From this panel, you can update the quotas of the template e-service. The changes made will take effect immediately",
         "dailyCallsPerConsumerLabel": "Per consumer suggested threshold",
         "dailyCallsTotalLabel": "Total suggested threshold"
+      },
+      "updateVoucherDrawer": {
+        "subtitle": "From this panel, you can update the voucher lifespan of the template e-service. The changes made will take effect immediately."
       },
       "updateDocumentationDrawer": {
         "title": "Edit documentation",
@@ -190,22 +210,44 @@
   "create": {
     "emptyTitle": "Create e-service template",
     "stepper": {
-      "step1Label": "General",
-      "step2Label": "Version",
+      "step1Label": "General information",
+      "step2Label": "Thresholds and attributes",
       "step2ReceiveLabel": "Purpose",
-      "step3Label": "Attributes",
-      "step4Label": "Documentation"
+      "step3Label": "Technical specifications",
+      "step4Label": "Version information"
     },
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
     "forwardWithoutSaveBtn": "Proceed",
     "goToSummary": "Go to summary",
     "step1": {
-      "detailsTitle": "E-service template details",
-      "detailsDescription": "The information in this section will not be modifiable by the implementers of the instances.",
+      "templateInfoTitle": "Template information",
+      "readOnlyTemplateInfoTitle": "E-service template characterization",
+      "instanceDetailsTitle": "E-service instance details",
+      "readOnlyInstanceDetailsTitle": "E-service details",
+      "readOnlyDescription": "This information cannot be modified.",
+      "signalHubTitle": "Signal Hub",
+      "readOnlyNameLabel": "E-service template name",
+      "readOnlyIntendedTargetLabel": "Who is this template intended for?",
+      "readOnlyDescriptionLabel": "What does this template allow you to do?",
+      "readOnlyTechnologyLabel": "API Technology",
+      "readOnlyModeLabel": "Does the e-service deliver or receive data?",
+      "readOnlyModeValue": {
+        "DELIVER": "Deliver",
+        "RECEIVE": "Receive"
+      },
+      "readOnlyPersonalDataLabel": {
+        "DELIVER": "Delivers personal data",
+        "RECEIVE": "Receives personal data"
+      },
+      "readOnlyPersonalDataValue": {
+        "true": "Yes",
+        "false": "No",
+        "undefined": "Not specified"
+      },
       "eserviceTemplateNameField": {
-        "label": "E-service template name",
-        "infoLabel": "Min 5 characters, max 45 characters"
+        "label": "Template name",
+        "infoLabel": "This is the name that will appear in the e-service template catalog and will become the base name of all e-services created from this template. Min 5 characters, max 45 characters."
       },
       "intendedTargetField": {
         "label": "Who is the template intended for?",
@@ -226,11 +268,11 @@
           "RECEIVE": "Receive"
         },
         "isSignalHubEnabled": {
-          "label": "I suggest the implementer to report any data changes on Signal Hub.",
+          "label": "Suggest to those who will use this template to report data changes with Signal Hub",
           "infoLabel": {
-            "before": "Signal Hub uses the",
-            "linkLabel": "push service",
-            "after": "to generate notifications related to data changes regarding the e-service."
+            "before": "Signal Hub sends",
+            "linkLabel": "push notifications",
+            "after": "when there are changes to the e-service data."
           }
         }
       },
@@ -251,105 +293,152 @@
         }
       }
     },
-    "stepPurpose": {
-      "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",
-      "purposeTableSection": {
-        "title": "Purpose",
-        "description": "Indicate the use cases for which you intend to collect data. For each purpose you will need to complete a risk analysis.",
-        "noSelectedPurposesTooltip": "You must indicate at least one purpose to continue",
-        "purposeTable": {
-          "noDataLabel": "No added purpose"
-        }
+    "step4": {
+      "versionTitle": "Information for version {{versionNumber}}",
+      "versionDescriptionTitle": "Version description",
+      "versionDescriptionField": {
+        "label": "Describe this e-service version*",
+        "infoLabel": "If it is a new version, indicate what has changed from the previous one"
+      },
+      "documentationSection": {
+        "title": "Documentation",
+        "description": "Attach the technical documentation useful to consumers of e-services created from this template.",
+        "documentLabel": "Document {{number}}",
+        "nameField": {
+          "label": "Document name",
+          "infoLabel": "Min 5 characters, max 60 characters"
+        },
+        "saveDocumentBtn": "Save document",
+        "addAnotherFileBtn": "Add another file"
+      },
+      "requestManagementSection": {
+        "title": "Request management"
+      },
+      "agreementApprovalPolicySection": {
+        "label": "Suggest to those who will use this template the manual approval of received usage requests"
       }
     },
     "step2": {
-      "versionTitle": "Information for version {{versionNumber}}",
-      "versionDescriptionField": {
-        "label": "What changed in this version?"
-      },
-      "voucherSection": {
-        "title": "Voucher",
-        "voucherLifespanField": {
-          "label": "Validity duration (minutes)",
-          "infoLabel": "Max value: 1440 minutes (24 hours)"
-        }
-      },
       "thresholdsSection": {
         "thresholdsSwitch": {
           "label": "Suggest custom API threshold values to the implementer"
+        }
+      },
+      "purpose": {
+        "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",
+        "purposeTableSection": {
+          "title": "Purpose",
+          "description": "Indicate the use cases for which you intend to collect data. For each purpose you will need to complete a risk analysis.",
+          "noSelectedPurposesTooltip": "You must indicate at least one purpose to continue",
+          "purposeTable": {
+            "noDataLabel": "No added purpose"
+          }
         },
-        "title": "Expected call threshold for users",
-        "dailyCallsPerConsumerField": {
-          "label": "API calls/day per consumer"
-        },
-        "dailyCallsTotalField": {
-          "label": "Total API calls/day",
-          "validation": {
-            "min": "This value cannot be below the threshold set for the API calls/day for each consumer"
+        "tenantKindDialog": {
+          "title": "Indicate who will be able to use the following risk analysis.",
+          "description": "Indicate for whom the following risk analysis is filled.",
+          "tenantKind": {
+            "labelPA": "Public administration (Art. 2, comma 2, letter “a” of Codice dell'Amministrazione Digitale)",
+            "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters “b” e “c”) or Private"
           }
         }
       },
-      "agreementApprovalPolicySection": {
-        "label": "Suggest to the implementer the manual activation of the received fruition requests."
-      },
-      "tenantKindDialog": {
-        "title": "Indicate who will be able to use the following risk analysis.",
-        "description": "Indicate for whom the following risk analysis is filled.",
-        "tenantKind": {
-          "labelPA": "Public administration (Art. 2, comma 2, letter “a” of Codice dell’Amministrazione Digitale)",
-          "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters “b” e “c”) or Private"
+      "thresholdsAndAttributes": {
+        "validation": {
+          "integer": "Threshold value must be an integer"
+        },
+        "thresholdsTitle": "API call thresholds",
+        "thresholdsSwitch": {
+          "label": "Suggest API calls/day thresholds to those who will use this template"
+        },
+        "dailyCallsPerConsumerField": {
+          "label": "API calls/day per consumer",
+          "infoLabel": "Enter a number greater than or equal to 1"
+        },
+        "dailyCallsTotalField": {
+          "label": "Total API calls/day",
+          "infoLabel": "Enter a number greater than the previous one",
+          "validation": {
+            "min": "This value cannot be below the threshold set for the API calls/day for each consumer"
+          }
+        },
+        "thresholdsInfoAlert": "Those who use this template will be able to modify the suggested thresholds and customize them for certified attributes.",
+        "accessRequirements": {
+          "title": "Access requirements",
+          "description": "Define who can access this e-service. Create one or more requirements and associate the required attributes to each. The consumer must meet all the indicated requirements and possess at least one of the attributes in each requirement. <1>Learn more about attributes</1>",
+          "createRequirementBtn": "Create requirement",
+          "placeholder": "This section will be available soon.",
+          "tabs": {
+            "certified": "Certified Attributes",
+            "verified": "Verified Attributes",
+            "declared": "Declared Attributes",
+            "certifiedDescription": "These are attributes certified by a <1>recognized authoritative source.</1>",
+            "verifiedDescription": "These are attributes verified <1>by other organizations</1>, with the possibility of requesting a verification from the provider.",
+            "declaredDescription": "These are attributes declared by the consumer during the service request. No verification from the provider is required."
+          }
         }
       }
     },
     "step3": {
-      "attributesTitle": "Access requirements for version {{versionNumber}}",
-      "attributesDescription": "Please indicate all the certified, verified, and declared attributes that the consumer must have in order to create an agreement for the e-service",
-      "attributesAddBtn": "Add attribute",
-      "attributesCreateBtn": "Create new attribute",
-      "createAttributeDrawer": {
-        "title": {
-          "verified": "Create new verified attribute",
-          "declared": "Create new declared attribute"
+      "technicalSpecs": {
+        "interface": {
+          "title": "Interface",
+          "alert": "You can upload a file without contact data, terms and conditions, and server URLs, as these will be filled in by the implementer in the next phase.",
+          "description": {
+            "rest": "Upload a draft of the OpenAPI specification that describes the API.",
+            "soap": "Upload a draft of the WSDL specification that describes the API"
+          },
+          "prettyName": "API specification"
         },
-        "subtitle": "Once created, the attribute will be available in the list to be added to an e-service",
+        "voucher": {
+          "title": "Voucher",
+          "voucherLifespanField": {
+            "label": "Validity duration (in minutes)*",
+            "infoLabel": "Maximum value: 1440 minutes (24 hours)"
+          }
+        },
         "nameField": {
-          "label": "Attribute name",
-          "infoLabel": "Min 5 characters, max 160 characters"
+          "label": "Document name",
+          "infoLabel": "Min 5 characters, max 60 characters"
         },
-        "descriptionField": {
-          "label": "Attribute description",
-          "infoLabel": "Min 10 characters, max 250 characters"
-        },
-        "submitBtnLabel": "Create attribute"
+        "uploadBtn": "Upload"
+      },
+      "attributes": {
+        "attributesTitle": "Access requirements for version {{versionNumber}}",
+        "attributesDescription": "Please indicate all the certified, verified, and declared attributes that the consumer must have in order to create an agreement for the e-service",
+        "attributesAddBtn": "Add attribute",
+        "attributesCreateBtn": "Create new attribute",
+        "createAttributeDrawer": {
+          "title": {
+            "verified": "Create new verified attribute",
+            "declared": "Create new declared attribute"
+          },
+          "subtitle": "Once created, the attribute will be available in the list to be added to an e-service",
+          "nameField": {
+            "label": "Attribute name",
+            "infoLabel": "Min 5 characters, max 160 characters"
+          },
+          "descriptionField": {
+            "label": "Attribute description",
+            "infoLabel": "Min 10 characters, max 250 characters"
+          },
+          "submitBtnLabel": "Create attribute"
+        }
       }
-    },
-    "step4": {
-      "interface": {
-        "title": "Interface",
-        "alert": "You can upload a file without contact data, terms and conditions, and server URLs, as these will be filled in by the implementer in the next phase.",
-        "description": {
-          "rest": "Upload a draft of the OpenAPI specification that describes the API.",
-          "soap": "Upload a draft of the WSDL specification that describes the API"
-        },
-        "prettyName": "API specification"
-      },
-      "documentation": {
-        "title": "Documentation",
-        "description": "Upload all the technical documentation useful for the implementation of an integration with this e-service."
-      },
-      "nameField": {
-        "label": "Document name",
-        "infoLabel": "Min 5 characters, max 60 characters"
-      },
-      "uploadBtn": "Upload"
     }
   },
   "summary": {
     "title": "{{eserviceTemplateName}}, version {{versionEserviceTemplateNumber}}",
     "generalInfoSummary": {
       "title": "General information",
-      "description": {
-        "label": "Description"
+      "templateName": {
+        "label": "E-service template name"
+      },
+      "intendedTarget": {
+        "label": "Who is this template intended for?"
+      },
+      "templateDescription": {
+        "label": "What does this template allow you to do?"
       },
       "apiTechnology": {
         "label": "API Technology"
@@ -368,7 +457,7 @@
         }
       },
       "isSignalHubEnabled": {
-        "label": "Is the data update system (Signal Hub) suggested?",
+        "label": "Did you suggest using Signal Hub?",
         "value": {
           "true": "Yes",
           "false": "No",
@@ -380,43 +469,68 @@
       "title": "Purpose",
       "riskAnalysisTitle": "{{riskAnalysisIndex}}/{{totalRiskAnalysis}} - {{riskAnalysisName}}"
     },
-    "versionInfoSummary": {
-      "title": "Version information",
-      "description": {
-        "label": "E-service description"
+    "thresholdsAndAttributesSummary": {
+      "title": "Thresholds and attributes",
+      "thresholdsTitle": "Suggested API call thresholds",
+      "noThresholds": "This e-service template has no suggested thresholds",
+      "dailyCallsPerConsumer": {
+        "label": "Per consumer",
+        "value": "{{value}} API calls/day"
       },
-      "audience": {
-        "label": "Audience description"
+      "dailyCallsTotal": {
+        "label": "Total",
+        "value": "{{value}} API calls/day"
+      },
+      "attributes": {
+        "certified": {
+          "label": "Certified Attributes",
+          "description": "These are attributes certified by a <1>recognized authoritative source.</1>",
+          "noAttributesAlert": "This e-service does not require certified attributes"
+        },
+        "verified": {
+          "label": "Verified Attributes",
+          "description": "These are attributes verified <1>by other organizations</1>, with the possibility of requesting a verification from the producer.",
+          "noAttributesAlert": "This e-service does not require verified attributes"
+        },
+        "declared": {
+          "label": "Declared Attributes",
+          "description": "These are attributes declared by the consumer during the usage request. No verification from the producer is required.",
+          "noAttributesAlert": "This e-service does not require declared attributes"
+        },
+        "requirementTitle": "Requirement {{index}} | {{attributeType}}",
+        "requirementDescription": "The consumer must possess at least one of the attributes in this requirement."
+      }
+    },
+    "technicalSpecsSummary": {
+      "title": "Technical specifications",
+      "interface": {
+        "label": "Interface"
       },
       "voucherLifespan": {
         "label": "Voucher lifespan"
+      }
+    },
+    "additionalInfoSummary": {
+      "title": "Additional information",
+      "versionDescription": {
+        "label": "Version description"
       },
-      "dailyCallsPerConsumer": {
-        "label": "Daily calls per consumer suggested",
-        "value": "{{value}} API calls per day"
+      "documentation": {
+        "label": "Documentation"
       },
-      "dailyCallsTotal": {
-        "label": "Total daily calls suggested",
-        "value": "{{value}} API calls per day"
-      },
+      "emptyDocumentation": "No uploaded documents",
       "manualApproval": {
-        "label": "Manual approval requests",
+        "label": "Did you suggest manually approving usage requests?",
         "value": {
-          "true": "Yes, it is suggested",
-          "false": "No, it is not suggested"
+          "true": "Yes",
+          "false": "No"
         }
       }
     },
-    "attributeVersionSummary": {
-      "title": "Version access requirements"
-    },
-    "documentationSummary": {
-      "title": "Version documentation",
-      "interface": {
-        "label": "OpenAPI Interface"
-      },
-      "emptyLabel": "No uploaded documents"
-    },
+    "completeInfoChip": "Complete the required information",
+    "missingField": "To be filled in",
+    "missingFieldsBanner": "To publish, please fill in the missing information.",
+    "missingFieldsTooltip": "Some information is still missing. Complete the draft to publish.",
     "notPublishableTooltip": {
       "label": "One or more required fields have not been filled out. Please complete the draft."
     },
@@ -424,5 +538,16 @@
     "alertUpdatePersonalData": {
       "label": "Specify whether this e-service template handles personal data."
     }
+  },
+  "publishThankYou": {
+    "firstVersion": {
+      "title": "You have published an e-service template",
+      "description": "It is now available in the e-service template catalog and can be used by other organizations to create their own e-services."
+    },
+    "newVersion": {
+      "title": "You have published a new version of the e-service template",
+      "description": "It is now available in the e-service template catalog. Those using the previous version of the template will receive a notification and will need to update to the new version."
+    },
+    "action": "Close"
   }
 }

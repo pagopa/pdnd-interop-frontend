@@ -1,10 +1,13 @@
 import type { Purpose } from '@/api/api.generatedTypes'
-import { PurposeMutations } from '@/api/purpose'
+import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { SectionContainer } from '@/components/layout/containers'
 import { Drawer } from '@/components/shared/Drawer'
+import { GreyAlert } from '@/components/shared/GreyAlert'
 import { RHFCheckbox, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { purposeUpgradeGuideLink } from '@/config/constants'
-import { Link, Typography } from '@mui/material'
+import { useGetPurposeInfoAlert } from '@/hooks/useGetPurposeInfoAlert'
+import { Alert, AlertTitle, Link, Stack, Typography } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
@@ -22,9 +25,6 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
 > = ({ purpose, isOpen, onClose }) => {
   const { t } = useTranslation('purpose', {
     keyPrefix: 'consumerView.sections.loadEstimate.drawer',
-  })
-  const { t: tCommon } = useTranslation('common', {
-    keyPrefix: 'actions',
   })
 
   const { mutate: updateDailyCalls } = PurposeMutations.useUpdateDailyCalls()
@@ -45,6 +45,22 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
     formMethods.reset(defaultValues)
   }
 
+  const { data: remainingDailyCalls } = useQuery(
+    PurposeQueries.getRemainingDailyCalls({ purposeId: purpose.id })
+  )
+
+  const dailyCalls = formMethods.watch('dailyCalls')
+
+  const alertProps = useGetPurposeInfoAlert({
+    dailyCalls,
+    dailyCallsPerConsumer: purpose.dailyCallsPerConsumer,
+    dailyCallsTotal: purpose.dailyCallsTotal,
+    remainingDailyCallsPerConsumer: remainingDailyCalls?.remainingDailyCallsPerConsumer,
+    remainingDailyCallsTotal: remainingDailyCalls?.remainingDailyCallsTotal,
+    keyPrefix: 'consumerView.sections.loadEstimate.drawer.alerts',
+    showFallback: false,
+  })
+
   return (
     <FormProvider {...formMethods}>
       <Drawer
@@ -58,22 +74,29 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
               strong: <Typography component="span" variant="inherit" fontWeight={700} />,
             }}
           >
-            {t('subtitle', {
-              dailyCalls: purpose.currentVersion?.dailyCalls,
-            })}
+            {t('subtitle')}
           </Trans>
         }
         buttonAction={{
-          label: tCommon('upgrade'),
+          label: t('submitButton.label'),
           action: formMethods.handleSubmit(onSubmit),
         }}
         onTransitionExited={handleTransitionExited}
       >
+        <Typography variant="body2" sx={{ mb: 2 }}>
+          <Trans
+            components={{
+              strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+            }}
+          >
+            {t('currentDailyCalls', { dailyCalls: purpose.currentVersion?.dailyCalls })}
+          </Trans>
+        </Typography>
         <RHFTextField
           type="number"
           name="dailyCalls"
           label={t('dailyCallsFormField.label')}
-          infoLabel={t('dailyCallsFormField.infoLable')}
+          infoLabel={t('dailyCallsFormField.infoLabel')}
           focusOnMount={true}
           inputProps={{ min: '1' }}
           rules={{
@@ -84,23 +107,58 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
               t('dailyCallsFormField.validation.sameValue'),
           }}
         />
-        <SectionContainer
-          innerSection
-          title={t('riskAnalysisSection.title')}
-          description={t('riskAnalysisSection.description')}
-        >
-          <RHFCheckbox
-            name="riskAnalysisUnchanged"
-            label={t('riskAnalysisSection.checkbox.label')}
-            rules={{
-              validate: (value) =>
-                value === true || t('riskAnalysisSection.checkbox.requiredValidation'),
-            }}
-            sx={{
-              mt: 0,
-            }}
-          />
-        </SectionContainer>
+        {alertProps && <Alert {...alertProps} sx={{ mb: 4 }} />}
+        <Stack direction="column" gap={3} sx={{ mt: 2 }}>
+          <GreyAlert>
+            <Stack direction="column" gap={1}>
+              <AlertTitle sx={{ textTransform: 'uppercase', fontWeight: 700 }}>
+                {t('providerThresholdsInfo.label')}
+              </AlertTitle>
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <Typography variant="caption">
+                  {t('providerThresholdsInfo.dailyCallsPerConsumer.label')}
+                </Typography>
+                <Typography variant="caption" fontWeight={600}>
+                  {t('providerThresholdsInfo.dailyCallsPerConsumer.value', {
+                    min: remainingDailyCalls?.remainingDailyCallsPerConsumer ?? t('na'),
+                    max: purpose.dailyCallsPerConsumer,
+                  })}
+                </Typography>
+              </Stack>
+              <Stack direction="row" alignItems="center" spacing={2}>
+                <Typography variant="caption">
+                  {t('providerThresholdsInfo.dailyCallsTotal.label')}
+                </Typography>
+                <Typography variant="caption" fontWeight={600}>
+                  {t('providerThresholdsInfo.dailyCallsTotal.value', {
+                    min: remainingDailyCalls?.remainingDailyCallsTotal ?? t('na'),
+                    max: purpose.dailyCallsTotal,
+                  })}
+                </Typography>
+              </Stack>
+              <Typography variant="caption" color="text.secondary" sx={{ fontSize: 12 }}>
+                {t('providerThresholdsInfo.description')}
+              </Typography>
+            </Stack>
+          </GreyAlert>
+          <SectionContainer
+            innerSection
+            title={t('riskAnalysisSection.title')}
+            description={t('riskAnalysisSection.description')}
+          >
+            <RHFCheckbox
+              name="riskAnalysisUnchanged"
+              label={t('riskAnalysisSection.checkbox.label')}
+              rules={{
+                validate: (value) =>
+                  value === true || t('riskAnalysisSection.checkbox.requiredValidation'),
+              }}
+              sx={{
+                mt: 0,
+              }}
+            />
+          </SectionContainer>
+        </Stack>
       </Drawer>
     </FormProvider>
   )

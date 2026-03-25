@@ -2,7 +2,7 @@
   "backToListBtn": "Torna alle finalità",
   "create": {
     "emptyTitle": "Crea finalità",
-    "preliminaryInformationSectionTitle": "Informazioni preliminari",
+    "preliminaryInformationSectionTitle": "Informazioni sulla finalità",
     "isTemplateField": {
       "label": "Usa un template precompilato"
     },
@@ -13,11 +13,11 @@
     },
     "consumerField": {
       "label": "Fruitore",
-      "infoLabel": "Tra gli aderenti, puoi selezionare solo il tuo ente o gli aderenti per i quali hai una delega in fruizione attiva"
+      "infoLabel": "Seleziona il tuo ente o l'ente per cui hai una delega attiva come fruitore"
     },
     "eserviceField": {
       "label": "E-service da associare",
-      "infoLabel": "Puoi selezionare solo gli e-service per i quali il fruitore selezionato ha una richiesta di fruizione attiva",
+      "infoLabel": "Qui trovi solo gli e-service per cui il fruitore ha una richiesta attiva",
       "alert": {
         "label": "Per l’e-service selezionato è possibile utilizzare la funzionalità di compilazione agevolata!"
       }
@@ -44,9 +44,9 @@
     "riskAnalysisPreviewTitle": "Analisi del rischio",
     "purposeTemplateField": {
       "title": "Compilazione agevolata della finalità",
-      "description": "La funzionalità di compilazione agevolata mette a disposizione annotazioni, documenti di supporto e alcune risposte precompilate per facilitare la formulazione dell’analisi del rischio. Il modello è reso disponibile per il riuso da altri enti aderenti e può essere utilizzato senza vincoli.",
+      "description": "Questa funzionalità ti guida durante l'analisi del rischio con annotazioni, documenti di supporto e alcune risposte precompilate. Il modello agevolato è reso disponibile per il riuso da altri enti e può essere usato senza vincoli.",
       "usePurposeTemplateSwitch": {
-        "label": "Utilizza la funzionalità di compilazione agevolata",
+        "label": "Usa la compilazione agevolata",
         "disabledTooltip": "Non è possibile utilizzare la funzionalità per \n l’e-service selezionato in quanto l’erogatore non ha indicato come verranno trattati i dati personali",
         "selectPurposeTemplate": {
           "title": "Scegli il modello di compilazione agevolata della finalità",
@@ -64,7 +64,7 @@
   "edit": {
     "emptyTitle": "Modifica finalità",
     "stepper": {
-      "stepGeneralLabel": "Generale",
+      "stepGeneralLabel": "Informazioni generali",
       "stepRiskAnalysisLabel": "Analisi del rischio"
     },
     "backWithoutSaveBtn": "Indietro",
@@ -72,28 +72,53 @@
     "endWithSaveBtn": "Vai al riepilogo",
     "eserviceProvider": "erogato da",
     "stepGeneral": {
-      "title": "Informazioni generali",
+      "title": "Informazioni sulla finalità",
       "nameField": {
-        "label": "Nome della finalità (richiesto)",
+        "label": "Nome della finalità",
         "infoLabel": "Ti aiuterà a distinguerla dalle altre. Min 5 caratteri, max 60 caratteri"
       },
       "descriptionField": {
-        "label": "Descrizione della finalità (richiesto)",
+        "label": "Descrizione finalità",
         "infoLabel": "Min 10 caratteri, max 250 caratteri"
       },
       "isFreeOfChargeField": {
-        "label": "Indicare se l’accesso ai dati messi a disposizione con la fruizione del presente E-service è a titolo gratuito (richiesto)",
+        "label": "Come metterai a disposizione l'accesso ai dati di questo e-service?*",
         "options": {
-          "YES": "Sì",
-          "NO": "No"
+          "YES": "A titolo gratuito",
+          "NO": "A pagamento"
         }
       },
       "freeOfChargeReasonField": {
-        "label": "Motivazione titolo gratuito (richiesto)",
-        "infoLabel": "Si richiede di specificare se la messa a disposizione dei dati è a titolo gratuito in forza di una esenzione/esclusione prevista dalla legge o altro. Min 10 caratteri, max 250 caratteri"
+        "label": "Motivazione titolo gratuito*",
+        "infoLabel": "Spiega perché metterai questi dati a disposizione gratuitamente. Indica se lo fai in base a un’esenzione o a un’esclusione prevista dalla legge, oppure per un altro motivo. Min 10, max 250 caratteri"
+      }
+    },
+    "loadEstimationSection": {
+      "title": "Stima chiamate API",
+      "description": "Indica il numero di chiamate previste ogni giorno per questa finalità.",
+      "dailyCalls": {
+        "label": "Stima numero chiamate API/giorno",
+        "infoLabel": "Inserisci un numero superiore o uguale a 1"
       },
-      "dailyCallsField": {
-        "label": "Quante chiamate API/giorno stimi di effettuare?"
+      "providerThresholdsInfo": {
+        "label": "Soglie definite dall’erogatore",
+        "description": "Le chiamate residue possono variare se l'erogatore riceve altre finalità prima della tua pubblicazione.",
+        "na": "n/a",
+        "dailyCallsPerConsumer": {
+          "label": "Soglia per fruitore",
+          "value": "{{min}} di {{max}} chiamate API/giorno"
+        },
+        "dailyCallsTotal": {
+          "label": "Soglia totale",
+          "value": "{{min}} di {{max}} chiamate API/giorno"
+        }
+      },
+      "alerts": {
+        "infoDailyCallsPerConsumerExceed": "Il numero che hai inserito supera la soglia prevista per fruitore. La finalità dovrà essere approvata dall’erogatore.",
+        "infoDailyCallsTotalExceed": "Il numero che hai inserito supera la soglia totale. La finalità dovrà essere approvata dall’erogatore.",
+        "infoDailyCallsPerConsumerResidualExceed": "Il numero che hai inserito supera la soglia residua per fruitore. La finalità dovrà essere approvata dall’erogatore.",
+        "infoDailyCallsTotalResidualExceed": "Il numero che hai inserito supera la soglia residua totale. La finalità dovrà essere approvata dall’erogatore.",
+        "infoDailyCallsMaximumReached": "L’erogatore ha già ricevuto il numero massimo di chiamate API/giorno. La finalità dovrà essere approvata dall’erogatore."
       }
     },
     "stepRiskAnalysis": {
@@ -125,8 +150,8 @@
     },
     "purposeFromTemplate": {
       "generalInformationSection": {
-        "title": "Informazioni generali",
-        "subtitle": "Le seguenti informazioni sono state precompilate dal creatore del template di finalità agevolata e non sono modificabili.",
+        "title": "Informazioni sulla finalità",
+        "subtitle": "Queste informazioni sono state precompilate da chi ha creato il template di finalità agevolata e non sono modificabili.",
         "descriptionSection": {
           "title": "Descrizione",
           "nameField": {
@@ -169,13 +194,19 @@
         "label": "Questa analisi del rischio utilizza una versione obsoleta che non puoi pubblicare.",
         "action": "Crea nuova finalità"
       },
-      "infoRulesetExpiration": "Questa analisi del rischio utilizza una versione che sarà obsoleta tra {{days}} giorni. Pubblicala entro {{date}} per non doverla ricompilare."
+      "infoRulesetExpiration": "Questa analisi del rischio utilizza una versione che sarà obsoleta tra <strong>{{days}} giorni</strong>. Pubblicala entro {{date}} per non doverla ricompilare.",
+      "infoApprovalMayBeRequired": "Se l’erogatore riceve altre finalità prima della tua pubblicazione, potrebbe essere necessaria l’approvazione.",
+      "infoDailyCallsPerConsumerExceed": "La stima di chiamate che hai indicato supera la soglia per fruitore. La finalità dovrà essere approvata dall’erogatore.",
+      "infoDailyCallsTotalExceed": "La stima di chiamate che hai indicato supera la soglia totale. La finalità dovrà essere approvata dall’erogatore.",
+      "infoDailyCallsPerConsumerResidualExceed": "La stima di chiamate che hai indicato supera la soglia residua per fruitore. La finalità dovrà essere approvata dall’erogatore.",
+      "infoDailyCallsTotalResidualExceed": "La stima di chiamate che hai indicato supera la soglia residua totale. La finalità dovrà essere approvata dall’erogatore.",
+      "infoDailyCallsMaximumReached": "L’erogatore ha già ricevuto il numero massimo di chiamate API/giorno. La finalità dovrà essere approvata dall’erogatore."
     },
     "generalInformationSection": {
       "title": "Informazioni generali",
       "eservice": {
-        "label": "E-service di riferimento",
-        "value": "{{name}}, versione {{version}}"
+        "label": "E-service associato",
+        "value": "{{name}}"
       },
       "producer": {
         "label": "Erogatore"
@@ -184,17 +215,17 @@
         "label": "Descrizione"
       },
       "loadEstimationSection": {
-        "title": "Stima di carico",
+        "title": "Stima e soglie di chiamate API",
         "dailyCalls": {
-          "label": "Il tuo piano richiesto",
+          "label": "Stima richiesta dal fruitore",
           "value": "{{value}} chiamate API/giorno"
         },
         "dailyCallsPerConsumer": {
-          "label": "Soglia per fruitore imposta dall'erogatore",
+          "label": "Soglia per fruitore prevista dall'erogatore",
           "value": "{{value}} chiamate API/giorno"
         },
         "dailyCallsTotal": {
-          "label": "Soglia totale imposta dall'erogatore",
+          "label": "Soglia totale prevista dall'erogatore",
           "value": "{{value}} chiamate API/giorno"
         }
       }
@@ -203,7 +234,8 @@
       "title": "Analisi del rischio",
       "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
     },
-    "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione"
+    "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione",
+    "publishBtn": "Pubblica bozza"
   },
   "list": {
     "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare",
@@ -244,7 +276,7 @@
       "generalInformations": {
         "title": "Informazioni generali",
         "eServiceField": {
-          "label": "E-service di riferimento",
+          "label": "E-service associato",
           "value": "{{name}}, versione {{version}}"
         },
         "purposeTemplateField": {
@@ -283,43 +315,43 @@
         }
       },
       "loadEstimate": {
-        "title": "Stima di carico",
-        "description": "Il numero di chiamate API/giorno che il fruitore stima di fare verso l’API del tuo e-service",
+        "title": "Stima di chiamate API",
+        "description": "Il numero di chiamate previste ogni giorno verso l'e-service",
         "rejectedUpdatePlanAlert": "Il cambio piano è stato rifiutato. <1>Leggi qui i motivi del rifiuto</1>.",
         "planCard": {
           "title": {
-            "activePlan": "Il piano attivo del fruitore",
+            "activePlan": "Stima attuale del fruitore",
             "waitingForApprovalPlan": {
-              "changePlan": "Il cambio piano richiesto dal fruitore",
+              "changePlan": "Cambio stima richiesto del fruitore",
               "newPurpose": "Il piano richiesto dal fruitore"
             },
             "rejectedPlan": "Il piano richiesto dal fruitore"
           },
           "subtitle": "Chiamate API/giorno",
           "activateVersionButtonLabel": {
-            "label": "Attiva ora"
+            "label": "Approva"
           },
           "rejectVersionButtonLabel": {
             "label": "Rifiuta"
           },
           "currentPlan": {
-            "label": "Piano attuale"
+            "label": "Stima attuale del fruitore"
           },
           "waitingForApprovalPlan": {
             "label": {
-              "changePlan": "Nuovo piano richiesto",
+              "changePlan": "Nuova stima richiesta",
               "newPurpose": "Piano richiesto"
             }
           }
         },
         "thresholdsCard": {
-          "title": "Soglie da te previste",
+          "title": "Soglie definite",
           "subtitle": "Chiamate API/giorno",
           "dailyCallsPerConsumerField": {
-            "label": "Per singolo fruitore"
+            "label": "per fruitore"
           },
           "dailyCallsTotalsField": {
-            "label": "Totali"
+            "label": "totali"
           }
         }
       }
@@ -332,7 +364,7 @@
     "archivedPurposeClientsAlert": "Questa finalità è stata archiviata. Tutti i client sono stati rimossi all'atto dell'archiviazione e non è più possibile associarne di nuovi",
     "rejectedPurposeAlert": "Questa finalità è stata rifiutata. <2>Leggi qui i motivi del rifiuto</2>.",
     "rejectedUpdatePlanInfoAlert": "Un cambio piano su questa finalità è stato rifiutato. Controlla la sezione “Stima di carico” in <1>Dettagli finalità</1>.",
-    "noClientsAlert": "Questa finalità è attiva ma non ha client associati. <1>Associa il tuo primo client</1> per fruire dell’e-service",
+    "noClientsAlert": "Questa finalità è attiva ma non ha client associati. <1>Associa il tuo primo client</1> per accedere ai dati dell’e-service.",
     "noClientsAlertForDelegateWithoutClientPermissions": "Questa finalità è attiva ma non ha client associati. Attendi che {{delegatorName}} colleghi i propri client affinché la richiesta sia ultimata.",
     "cloneDisabledDueToExpiredRuleset": "Non è possibile clonare la finalità in quanto il modello dell’analisi del rischio è stato aggiornato e non è più compatibile",
     "addClientToPurposeDisableTooltip": {
@@ -347,7 +379,7 @@
       "generalInformations": {
         "title": "Informazioni generali",
         "eServiceField": {
-          "label": "E-service di riferimento",
+          "label": "E-service associato",
           "value": "{{name}}, versione {{version}}"
         },
         "providerField": {
@@ -376,55 +408,79 @@
         }
       },
       "loadEstimate": {
-        "title": "Stima di carico",
-        "description": "Il numero di chiamate API/giorno che il fruitore stima di fare verso l’API del tuo e-service",
+        "title": "Stima di chiamate API",
+        "description": "Il numero di chiamate previste ogni giorno verso l'e-service",
         "rejectedUpdatePlanAlert": "Il cambio piano è stato rifiutato. <1>Leggi qui i motivi del rifiuto</1>.",
         "planCard": {
           "title": {
-            "activePlan": "Il piano attivo del fruitore",
-            "waitingForApprovalPlan": "Il piano richiesto dal fruitore",
+            "activePlan": "Stima attuale",
+            "waitingForApprovalPlan": "Stima attuale",
             "rejectedPlan": "Il piano richiesto dal fruitore"
           },
           "subtitle": "Chiamate API/giorno",
           "changePlanRequestLink": {
-            "label": "Richiedi cambio di piano"
+            "label": "Richiedi cambio stima"
           }
         },
         "updatePlanCard": {
-          "title": "Il cambio di piano che hai richiesto",
+          "title": "Nuova stima richiesta",
           "subtitle": "Chiamate API/giorno",
           "expectApprovalDateInfo": "Hai stimato di attivare questo adeguamento il giorno <strong>{{date}}</strong>",
           "removeChangePlanRequestLink": {
-            "label": "Elimina richiesta"
+            "label": "Annulla richiesta"
           }
         },
         "drawer": {
-          "title": "Richiedi adeguamento",
-          "subtitle": "La tua stima attuale è di <strong>{{dailyCalls}} chiamate API/giorno</strong>. Se il nuovo valore supera almeno una delle soglie imposte dall’erogatore, dovrà essere approvata prima di divenire attiva. Hai dubbi? <1>Consulta la guida</1>.",
+          "title": "Richiedi cambio stima",
+          "subtitle": "Indica un numero nuovo di chiamate previste ogni giorno per questa finalità. Per tutte le informazioni, <1>consulta la guida</1>.",
+          "currentDailyCalls": "La stima attuale è di <strong>{{dailyCalls}} chiamate API/giorno</strong>.",
+          "na": "n/a",
           "dailyCallsFormField": {
-            "label": "Nuova stima di carico",
-            "infoLable": "Numero di chiamate API/giorno stimate",
+            "label": "Nuova stima di chiamate API/giorno",
+            "infoLabel": "Inserisci un numero superiore o uguale a 1",
             "validation": {
               "sameValue": "Il numero di chiamate API/giorno richiesto deve essere diverso da quello attuale"
             }
           },
+          "providerThresholdsInfo": {
+            "label": "Soglie definite dall’erogatore",
+            "description": "Le chiamate residue possono variare se l'erogatore riceve altre finalità prima della tua pubblicazione.",
+            "dailyCallsPerConsumer": {
+              "label": "Soglia per fruitore",
+              "value": "{{min}} di {{max}} chiamate API/giorno"
+            },
+            "dailyCallsTotal": {
+              "label": "Soglia totale",
+              "value": "{{min}} di {{max}} chiamate API/giorno"
+            }
+          },
           "riskAnalysisSection": {
             "title": "Analisi del rischio",
-            "description": "Puoi aggiornare la stima solo se l’analisi del rischio collegata a questa finalità è ancora valida.",
+            "description": "Puoi aggiornare la stima solo se l’analisi del rischio di questa finalità rimane invariata",
             "checkbox": {
               "label": "L’analisi del rischio è invariata",
               "requiredValidation": "Per richiedere l’adeguamento, conferma che l’analisi del rischio è rimasta invariata"
             }
+          },
+          "alerts": {
+            "infoDailyCallsPerConsumerExceed": "La nuova stima di chiamate che hai richiesto supera la soglia per fruitore e dovrà essere approvata dall'erogatore.",
+            "infoDailyCallsTotalExceed": "La nuova stima di chiamate che hai richiesto supera la soglia totale e dovrà essere approvata dall'erogatore.",
+            "infoDailyCallsPerConsumerResidualExceed": "La nuova stima di chiamate che hai richiesto supera la soglia residua per fruitore e dovrà essere approvata dall'erogatore.",
+            "infoDailyCallsTotalResidualExceed": "La nuova stima di chiamate che hai richiesto supera la soglia residua totale e dovrà essere approvata dall'erogatore.",
+            "infoDailyCallsMaximumReached": "L'erogatore ha già ricevuto il numero massimo di chiamate API/giorno. La nuova stima di chiamate dovrà essere approvata dall'erogatore."
+          },
+          "submitButton": {
+            "label": "Richiedi cambio"
           }
         },
         "thresholdsCard": {
-          "title": "Soglie previste dall'erogatore",
+          "title": "Soglie definite dall’erogatore",
           "subtitle": "Chiamate API/giorno",
           "dailyCallsPerConsumerField": {
-            "label": "Per singolo fruitore"
+            "label": "per fruitore"
           },
           "dailyCallsTotalsField": {
-            "label": "Totali"
+            "label": "totali"
           }
         },
         "alertExceedingThreshold": {
@@ -432,5 +488,16 @@
         }
       }
     }
+  },
+  "publishThankYou": {
+    "active": {
+      "title": "Hai pubblicato una finalità",
+      "description": "La finalità è attiva. Associa il tuo primo client per accedere ai dati dell'e-service."
+    },
+    "waitingForApproval": {
+      "title": "La tua finalità è stata inoltrata all'erogatore per l'approvazione",
+      "description": "Fino alla sua attivazione da parte dell'erogatore non potrai accedere ai dati resi disponibili attraverso l'API e non potrai associare client. Riceverai una notifica quando l'erogatore approverà la tua finalità"
+    },
+    "action": "Chiudi"
   }
 }

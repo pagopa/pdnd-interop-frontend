@@ -5,8 +5,8 @@ import { Card, CardContent, CardHeader, IconButton, alpha } from '@mui/material'
 import { theme } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 
-type AttributeGroupContainerProps = CardProps & {
-  title: string
+type AttributeGroupContainerProps = Omit<CardProps, 'title'> & {
+  title: React.ReactNode
   onRemove?: () => void
   subheader?: React.ReactNode
   children?: React.ReactNode
@@ -22,28 +22,28 @@ const containerColors = {
     bodyColor: 'white',
   },
   success: {
-    textColor: theme.palette.text.primary,
+    textColor: '#212121',
     headerColor: theme.palette.success.extraLight,
     borderColor: theme.palette.success.extraLight,
     bodyColor: alpha(theme.palette.success.main, 0.08),
   },
   error: {
-    textColor: theme.palette.text.primary,
+    textColor: '#212121',
     headerColor: theme.palette.error.extraLight,
     borderColor: theme.palette.error.extraLight,
     bodyColor: alpha(theme.palette.error.main, 0.08),
   },
   warning: {
-    textColor: theme.palette.text.primary,
+    textColor: '#212121',
     headerColor: theme.palette.warning.extraLight,
     borderColor: theme.palette.warning.extraLight,
     bodyColor: alpha(theme.palette.warning.main, 0.08),
   },
   gray: {
-    textColor: theme.palette.text.primary,
-    headerColor: '#F5F5F5',
-    borderColor: '#F5F5F5',
-    bodyColor: 'white',
+    textColor: '#212121',
+    headerColor: 'grey.200',
+    borderColor: 'grey.200',
+    bodyColor: 'grey.50',
   },
 }
 

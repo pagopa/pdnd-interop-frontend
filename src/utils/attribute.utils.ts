@@ -234,7 +234,11 @@ export const remapDescriptorAttributesToDescriptorAttributesSeed = (
 ): DescriptorAttributesSeed => {
   const remapAttribute = (attr: DescriptorAttribute[][]): DescriptorAttributeSeed[][] => {
     return attr.map((attrGroup) => {
-      return attrGroup.map((a) => ({ id: a.id, explicitAttributeVerification: true }))
+      return attrGroup.map((a) => ({
+        id: a.id,
+        explicitAttributeVerification: true,
+        dailyCallsPerConsumer: a?.dailyCallsPerConsumer,
+      }))
     })
   }
 

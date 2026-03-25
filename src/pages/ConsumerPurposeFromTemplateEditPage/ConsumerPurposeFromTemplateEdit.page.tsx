@@ -9,8 +9,9 @@ import { useQuery } from '@tanstack/react-query'
 
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { PurposeFromTemplateEditStepGeneral } from './components/PurposeFromTemplateEditStepGeneral/PurposeFromTemplateEditStepGeneral'
-import PurposeFromTemplateEditStepRiskAnalysis from './components/PurposeFromTemplateEditStepRiskAnalysis/PurposeFromTemplateEditStepRiskAnalysis'
+import { PurposeFromTemplateEditStepRiskAnalysis } from './components/PurposeFromTemplateEditStepRiskAnalysis/PurposeFromTemplateEditStepRiskAnalysis'
 import { PurposeCreateContextProvider } from '@/components/shared/PurposeCreateContext'
+import { RequiredTextLabel } from '@/components/shared/RequiredTextLabel'
 
 const ConsumerPurposeFromTemplateEditPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -43,6 +44,7 @@ const ConsumerPurposeFromTemplateEditPage: React.FC = () => {
           to: 'SUBSCRIBE_PURPOSE_LIST',
         }}
       >
+        <RequiredTextLabel />
         <Stepper steps={steps} activeIndex={activeStep} />
         <Step {...stepProps} />
       </PageContainer>

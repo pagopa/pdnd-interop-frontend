@@ -5,6 +5,7 @@ import type {
   DelegationRef,
   GetConsumerPurposesParams,
   GetProducerPurposesParams,
+  GetRemainingDailyCallsParams,
   PatchPurposeUpdateFromTemplateContent,
   Purpose,
   PurposeAdditionDetailsSeed,
@@ -17,6 +18,7 @@ import type {
   PurposeVersionResource,
   PurposeVersionSeed,
   RejectPurposeVersionPayload,
+  RemainingDailyCallsResponse,
   RetrieveLatestRiskAnalysisConfigurationParams,
   RetrieveRiskAnalysisConfigurationByVersionParams,
   ReversePurposeUpdateContent,
@@ -280,6 +282,13 @@ async function createDraftFromPurposeTemplate({
   return response.data
 }
 
+async function getRemainingDailyCalls({ purposeId }: GetRemainingDailyCallsParams) {
+  const response = await axiosInstance.get<RemainingDailyCallsResponse>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/remainingDailyCalls`
+  )
+  return response.data
+}
+
 export const PurposeServices = {
   getProducersList,
   getConsumersList,
@@ -305,4 +314,5 @@ export const PurposeServices = {
   removeClient,
   createDraftFromPurposeTemplate,
   downloadRiskAnalysis,
+  getRemainingDailyCalls,
 }

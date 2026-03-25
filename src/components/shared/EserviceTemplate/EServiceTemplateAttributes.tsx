@@ -1,84 +1,62 @@
-import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
-import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { useParams } from '@/router'
-import type { ActionItemButton } from '@/types/common.types'
-import { Divider } from '@mui/material'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import React, { useState } from 'react'
-import { useTranslation } from 'react-i18next'
-import EditIcon from '@mui/icons-material/Edit'
+import type { DescriptorAttributes } from '@/api/api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
-import { AuthHooks } from '@/api/auth'
-import { AttributeGroupsListSection } from '@/components/shared/ReadOnlyDescriptorAttributes'
-import { UpdateAttributesDrawer } from '../UpdateAttributesDrawer'
+import type { ActionItemButton } from '@/types/common.types'
+import { AttributeGroupContainer, SectionContainer } from '@/components/layout/containers'
+import { useTranslation } from 'react-i18next'
+import { AttributeGroupsListSection } from '../ReadOnlyDescriptorAttributes'
+import { Divider } from '@mui/material'
 
 type EServiceTemplateAttributesProps = {
+  attributes: DescriptorAttributes
   readonly: boolean
-  routeKey: 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS' | 'PROVIDE_ESERVICE_TEMPLATE_DETAILS'
+  getAttributeSectionActions: (kind: AttributeKey) => Array<ActionItemButton> | undefined
 }
+
 export const EServiceTemplateAttributes: React.FC<EServiceTemplateAttributesProps> = ({
-  routeKey,
+  attributes,
   readonly,
+  getAttributeSectionActions,
 }) => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'read.sections.attributes' })
-  const { t: tCommon } = useTranslation('common')
-  const { isAdmin } = AuthHooks.useJwt()
+  const { t: tAttribute } = useTranslation('attribute')
 
-  const { eServiceTemplateId, eServiceTemplateVersionId } = useParams<typeof routeKey>()
+  const noAttributes =
+    attributes.declared.length === 0 &&
+    attributes.certified.length === 0 &&
+    attributes.verified.length === 0
 
-  const { data: eserviceTemplateAttributes } = useSuspenseQuery({
-    ...EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId),
-    select: (d) => d.attributes,
-  })
-
-  const [editAttributeDrawerState, setEditAttributeDrawerState] = useState<{
-    kind: AttributeKey
-    isOpen: boolean
-  }>({ isOpen: false, kind: 'certified' })
-
-  const getAttributeSectionActions = (kind: AttributeKey): Array<ActionItemButton> | undefined => {
-    if (eserviceTemplateAttributes[kind].length === 0 || !isAdmin) return
-
-    return [
-      {
-        action: () => setEditAttributeDrawerState({ kind, isOpen: true }),
-        label: tCommon('actions.edit'),
-        icon: EditIcon,
-      },
-    ]
-  }
-  return (
-    <>
-      <SectionContainer title={t('title')} description={t('description')}>
-        <AttributeGroupsListSection
-          attributeKey="certified"
-          descriptorAttributes={eserviceTemplateAttributes}
-          topSideActions={readonly ? undefined : getAttributeSectionActions('certified')}
-        />
-        <Divider sx={{ my: 3 }} />
-        <AttributeGroupsListSection
-          attributeKey="verified"
-          descriptorAttributes={eserviceTemplateAttributes}
-          topSideActions={readonly ? undefined : getAttributeSectionActions('verified')}
-        />
-        <Divider sx={{ my: 3 }} />
-        <AttributeGroupsListSection
-          attributeKey="declared"
-          descriptorAttributes={eserviceTemplateAttributes}
-          topSideActions={readonly ? undefined : getAttributeSectionActions('declared')}
+  if (noAttributes)
+    return (
+      <SectionContainer
+        title={tAttribute('noAttributesRequiredTemplate.title')}
+        innerSection
+        sx={{ p: 0 }}
+      >
+        <AttributeGroupContainer
+          title={tAttribute('noAttributesRequiredTemplate.alert')}
+          color="gray"
         />
       </SectionContainer>
-      <UpdateAttributesDrawer
-        isOpen={editAttributeDrawerState.isOpen}
-        onClose={() => setEditAttributeDrawerState({ ...editAttributeDrawerState, isOpen: false })}
-        attributeKey={editAttributeDrawerState.kind}
-        attributes={eserviceTemplateAttributes}
-        kind="ESERVICE_TEMPLATE"
+    )
+
+  return (
+    <>
+      <AttributeGroupsListSection
+        attributeKey="certified"
+        descriptorAttributes={attributes}
+        topSideActions={readonly ? undefined : getAttributeSectionActions('certified')}
+      />
+      <Divider sx={{ my: 3 }} />
+      <AttributeGroupsListSection
+        attributeKey="verified"
+        descriptorAttributes={attributes}
+        topSideActions={readonly ? undefined : getAttributeSectionActions('verified')}
+      />
+      <Divider sx={{ my: 3 }} />
+      <AttributeGroupsListSection
+        attributeKey="declared"
+        descriptorAttributes={attributes}
+        topSideActions={readonly ? undefined : getAttributeSectionActions('declared')}
       />
     </>
   )
-}
-
-export const EServiceTemplateAttributesSkeleton: React.FC = () => {
-  return <SectionContainerSkeleton height={1000} />
 }

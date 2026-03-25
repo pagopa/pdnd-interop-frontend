@@ -16,12 +16,15 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import EditIcon from '@mui/icons-material/Edit'
 import { AttributeQueries } from '@/api/attribute'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 
-type AttributeContainerProps<TAttribute extends { id: string; name: string }> = {
+type AttributeContainerProps<
+  TAttribute extends { id: string; name: string; dailyCallsPerConsumer?: number },
+> = {
   attribute: TAttribute
   actions?: Array<{
     label: React.ReactNode
@@ -31,14 +34,18 @@ type AttributeContainerProps<TAttribute extends { id: string; name: string }> = 
   chipLabel?: string
   checked?: boolean
   onRemove?: (id: string, name: string) => void
+  onCustomizeThreshold?: VoidFunction
 }
 
-export const AttributeContainer = <TAttribute extends { id: string; name: string }>({
+export const AttributeContainer = <
+  TAttribute extends { id: string; name: string; dailyCallsPerConsumer?: number },
+>({
   attribute,
   actions,
   chipLabel,
   checked,
   onRemove,
+  onCustomizeThreshold,
 }: AttributeContainerProps<TAttribute>) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'attributeContainer' })
   const panelContentId = React.useId()
@@ -57,10 +64,10 @@ export const AttributeContainer = <TAttribute extends { id: string; name: string
   return (
     <Stack direction="row" alignItems="center">
       <Stack direction="row" alignItems="center" spacing={2}>
-        {checked && <CheckCircleIcon sx={{ color: 'success.main' }} />}
+        {checked && <CheckCircleIcon sx={{ color: 'success.dark' }} />}
         {onRemove && (
           <IconButton
-            aria-label={t('removeAttributeAriaLabel', { name: attribute.name })}
+            aria-label={t('removeAttributeAriaLabel', { attributeName: attribute.name })}
             onClick={onRemove.bind(null, attribute.id, attribute.name)}
             color={'error' as unknown as 'primary'}
           >
@@ -83,7 +90,35 @@ export const AttributeContainer = <TAttribute extends { id: string; name: string
             aria-controls={panelContentId}
             id={headerId}
           >
-            <Typography fontWeight={600}>{attribute.name}</Typography>
+            <Stack spacing={1}>
+              <Typography fontWeight={600}>{attribute.name}</Typography>
+              {(attribute.dailyCallsPerConsumer !== undefined || onCustomizeThreshold) && (
+                <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                  {attribute.dailyCallsPerConsumer !== undefined && (
+                    <Stack direction={'row'} spacing={1}>
+                      <Typography sx={{ fontSize: 16 }}>{t('thresholdLabel')}</Typography>
+                      <Typography sx={{ fontSize: 16, fontWeight: 700 }}>
+                        {attribute.dailyCallsPerConsumer}
+                      </Typography>
+                    </Stack>
+                  )}
+                  {onCustomizeThreshold && (
+                    <ButtonNaked
+                      color="primary"
+                      type="button"
+                      sx={{ fontWeight: 700 }}
+                      startIcon={attribute.dailyCallsPerConsumer ? <EditIcon /> : undefined}
+                      onClick={(e: React.MouseEvent) => {
+                        e.stopPropagation()
+                        onCustomizeThreshold()
+                      }}
+                    >
+                      {attribute.dailyCallsPerConsumer ? t('changeBtn') : t('customizeBtn')}
+                    </ButtonNaked>
+                  )}
+                </Stack>
+              )}
+            </Stack>
           </AccordionSummary>
           <AccordionDetails>
             {hasExpandedOnce && <AttributeDetails attributeId={attribute.id} />}
@@ -100,7 +135,12 @@ export const AttributeContainer = <TAttribute extends { id: string; name: string
             <CardActions disableSpacing sx={{ p: 0 }}>
               <Stack direction="row" spacing={2}>
                 {actions?.map(({ action, label, color = 'primary' }, i) => (
-                  <ButtonNaked key={i} onClick={action.bind(null, attribute.id)} color={color}>
+                  <ButtonNaked
+                    key={i}
+                    type="button"
+                    onClick={action.bind(null, attribute.id)}
+                    color={color}
+                  >
                     {label}
                   </ButtonNaked>
                 ))}
@@ -130,7 +170,7 @@ const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) =>
     <Stack sx={{ mt: 1 }} spacing={2}>
       <Typography variant="body2">{attribute.description}</Typography>
       <InformationContainer
-        direction="column"
+        direction="row"
         content={attributeId}
         copyToClipboard={{
           value: attributeId,

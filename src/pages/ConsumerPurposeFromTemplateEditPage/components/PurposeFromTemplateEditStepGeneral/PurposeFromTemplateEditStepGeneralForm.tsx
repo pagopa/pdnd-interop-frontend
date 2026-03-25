@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from '@mui/material'
+import { Box, Stack } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
@@ -14,7 +14,7 @@ import type {
 import SaveIcon from '@mui/icons-material/Save'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { PurposeMutations } from '@/api/purpose'
-import { Stack } from '@mui/system'
+import { PurposeLoadEstimationSection } from '@/components/shared/PurposeLoadEstimationSection'
 
 export type PurposeFromTemplateEditStepGeneralFormValues = Omit<
   PurposeUpdateContent,
@@ -41,7 +41,7 @@ const PurposeFromTemplateEditStepGeneralForm: React.FC<PurposeEditStepGeneralFor
   const { t } = useTranslation('purpose', {
     keyPrefix: 'edit.purposeFromTemplate',
   })
-  const { t: tPurposeActions } = useTranslation('purpose')
+  const { t: tPurpose } = useTranslation('purpose')
   const { mutate: updateDraftFromPurposeTemplate } =
     PurposeMutations.useUpdateDraftFromPurposeTemplate()
 
@@ -114,23 +114,20 @@ const PurposeFromTemplateEditStepGeneralForm: React.FC<PurposeEditStepGeneralFor
             inputProps={{ maxLength: 60 }}
             rules={{ required: true, minLength: 5 }}
           />
-          <RHFTextField
-            type="number"
-            name="dailyCalls"
-            label={t('technicalInformationsSection.dailyCallsField.label')}
-            fullWidth
-            rules={{ required: true, min: 1 }}
-            inputProps={{ min: '1' }}
-          />
         </SectionContainer>
+        <PurposeLoadEstimationSection
+          purposeId={purpose.id}
+          dailyCallsPerConsumer={purpose.dailyCallsPerConsumer}
+          dailyCallsTotal={purpose.dailyCallsTotal}
+        />
         <StepActions
           back={{
             to: 'SUBSCRIBE_PURPOSE_LIST',
-            label: tPurposeActions('backToListBtn'),
+            label: tPurpose('backToListBtn'),
             type: 'link',
           }}
           forward={{
-            label: tPurposeActions('edit.forwardWithSaveBtn'),
+            label: tPurpose('edit.forwardWithSaveBtn'),
             type: 'submit',
             startIcon: <SaveIcon />,
           }}

@@ -341,7 +341,11 @@
   "attributeContainer": {
     "attributeIdLabel": "ID dell'attributo (attributeId)",
     "idCopytooltipLabel": "ID copiato correttamente",
-    "removeAttributeAriaLabel": "Rimuovi attributo {{attributeName}}"
+    "removeAttributeAriaLabel": "Rimuovi attributo {{attributeName}}",
+    "thresholdLabel": "Chiamate API/giorno per fruitore",
+    "customizeBtn": "Personalizza soglia",
+    "changeBtn": "Modifica soglia",
+    "na": "n/a"
   },
   "attributeGroupContainer": {
     "removeGroupAriaLabel": "Rimuovi gruppo di attributi"
@@ -369,6 +373,13 @@
       "default": "In delega",
       "delegator": "Delegato",
       "delegate": "Ricevuto in delega"
+    }
+  },
+  "delegationTooltip": {
+    "label": {
+      "default": "In delega",
+      "delegator": "Delegato a {{delegate}}",
+      "delegate": "Ricevuto in delega da {{delegator}}"
     }
   },
   "riskAnalysis": {
@@ -454,6 +465,9 @@
   "documents": {
     "notAvailableYet": "Il documento sarà disponibile a breve"
   },
+
+  "requiredLabel": "*Campi obbligatori",
+
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Termini di servizio",
@@ -472,7 +486,7 @@
     "SUBSCRIBE_CATALOG_LIST": "Catalogo e-service",
     "SUBSCRIBE_PURPOSE_CREATE": "Crea finalità",
     "SUBSCRIBE_PURPOSE_EDIT": "Modifica finalità",
-    "SUBSCRIBE_PURPOSE_SUMMARY": "Riepilogo finalità",
+    "SUBSCRIBE_PURPOSE_SUMMARY": "Crea finalità",
     "SUBSCRIBE_PURPOSE_DETAILS": "Gestisci singola finalità",
     "SUBSCRIBE_PURPOSE_LIST": "Finalità inoltrate",
     "SUBSCRIBE_CLIENT_OPERATOR_EDIT": "Gestisci operatore del client e-service",
@@ -529,6 +543,7 @@
     "SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS": "Dettaglio template",
     "SUBSCRIBE_PURPOSE_TEMPLATE_EDIT": "Modifica template finalità",
     "SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE": "Crea finalità da template",
-    "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Modifica finalità da template"
+    "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Modifica finalità da template",
+    "PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU": "Pubblicazione completata"
   }
 }
