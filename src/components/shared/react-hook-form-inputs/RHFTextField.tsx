@@ -96,7 +96,7 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
               let value: string | number = e.target.value
               if (props.type === 'number') {
                 const valueAsNumber = Number(e.target.value)
-                value = isNaN(valueAsNumber) ? '' : valueAsNumber
+                value = e.target.value === '' ? '' : isNaN(valueAsNumber) ? '' : valueAsNumber
               }
               _onChange(value)
               if (onValueChange) onValueChange(value as never)
