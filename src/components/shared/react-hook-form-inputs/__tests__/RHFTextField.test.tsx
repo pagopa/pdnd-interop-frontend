@@ -104,6 +104,26 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     })
   })
 
+  it('should prevent non-numeric characters from being entered in number inputs', async () => {
+    const user = userEvent.setup()
+    const formContext = renderHook(() => useFormContext(), {
+      wrapper: ({ children }) => (
+        <TestInputWrapper>
+          {children}
+          <RHFTextField label={'label'} name={'testNumber'} type="number" />
+        </TestInputWrapper>
+      ),
+    })
+
+    const input = screen.getByRole('spinbutton')
+    await user.type(input, '12abc34')
+    await waitFor(() => {
+      expect(input).toHaveValue(1234)
+      const value = formContext.result.current.watch('testNumber')
+      expect(value).toBe(1234)
+    })
+  })
+
   it('should be able to show errors when are present in case of indexFieldArray and fieldArrayKeyName are populated', async () => {
     const FieldArrayErrorTestWrapper = () => {
       const formMethods = useForm({
