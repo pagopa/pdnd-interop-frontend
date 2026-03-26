@@ -490,6 +490,7 @@
     }
   },
   "publishThankYou": {
+    "loading": "Publishing in progress",
     "active": {
       "title": "You have published a purpose",
       "description": "The purpose is active. Associate your first client to access the e-service data."
