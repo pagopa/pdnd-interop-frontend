@@ -29,25 +29,25 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
 
   const { mutate: updateDailyCalls } = PurposeMutations.useUpdateDailyCalls()
 
-  const defaultValues: UpdateDailyCallsFormValues = {
-    dailyCalls: purpose.currentVersion?.dailyCalls ?? 1,
-  }
-
-  const formMethods = useForm<UpdateDailyCallsFormValues>({
-    defaultValues,
-  })
+  const formMethods = useForm<UpdateDailyCallsFormValues>()
 
   const onSubmit = ({ dailyCalls }: UpdateDailyCallsFormValues) => {
     updateDailyCalls({ purposeId: purpose.id, dailyCalls }, { onSuccess: onClose })
   }
 
-  const handleTransitionExited = () => {
-    formMethods.reset(defaultValues)
-  }
-
   const { data: remainingDailyCalls } = useQuery(
     PurposeQueries.getRemainingDailyCalls({ purposeId: purpose.id })
   )
+
+  const currentDailyCalls = purpose.currentVersion?.dailyCalls
+
+  React.useEffect(() => {
+    if (!isOpen) return
+
+    formMethods.reset({
+      dailyCalls: currentDailyCalls ?? 1,
+    })
+  }, [formMethods, isOpen, currentDailyCalls])
 
   const dailyCalls = formMethods.watch('dailyCalls')
 
@@ -81,7 +81,6 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
           label: t('submitButton.label'),
           action: formMethods.handleSubmit(onSubmit),
         }}
-        onTransitionExited={handleTransitionExited}
       >
         <Typography variant="body2" sx={{ mb: 2 }}>
           <Trans
@@ -89,7 +88,7 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
               strong: <Typography component="span" variant="inherit" fontWeight={600} />,
             }}
           >
-            {t('currentDailyCalls', { dailyCalls: purpose.currentVersion?.dailyCalls })}
+            {t('currentDailyCalls', { dailyCalls: currentDailyCalls })}
           </Trans>
         </Typography>
         <RHFTextField
@@ -103,8 +102,7 @@ export const ConsumerPurposeDetailsDailyCallsUpdateDrawer: React.FC<
             required: true,
             min: 1,
             validate: (value) =>
-              value !== purpose.currentVersion?.dailyCalls ||
-              t('dailyCallsFormField.validation.sameValue'),
+              value !== currentDailyCalls || t('dailyCallsFormField.validation.sameValue'),
           }}
         />
         {alertProps && <Alert {...alertProps} sx={{ mb: 4 }} />}
