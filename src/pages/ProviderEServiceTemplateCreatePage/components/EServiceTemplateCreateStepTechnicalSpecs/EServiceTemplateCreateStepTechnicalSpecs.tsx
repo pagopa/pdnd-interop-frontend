@@ -69,16 +69,16 @@ export const EServiceTemplateCreateStepTechnicalSpecs: React.FC<ActiveStepProps>
 
   return (
     <FormProvider {...formMethods}>
+      <SectionContainer
+        title={t('create.step3.technicalSpecs.interface.title')}
+        description={sectionDescription}
+      >
+        <Stack spacing={3}>
+          <Alert severity="info"> {t('create.step3.technicalSpecs.interface.alert')}</Alert>
+          <EServiceTemplateCreateStepTechnicalSpecsInterface />
+        </Stack>
+      </SectionContainer>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer
-          title={t('create.step3.technicalSpecs.interface.title')}
-          description={sectionDescription}
-        >
-          <Stack spacing={3}>
-            <Alert severity="info"> {t('create.step3.technicalSpecs.interface.alert')}</Alert>
-            <EServiceTemplateCreateStepTechnicalSpecsInterface />
-          </Stack>
-        </SectionContainer>
         <SectionContainer title={t('create.step3.technicalSpecs.voucher.title')}>
           <Stack direction="row" spacing={2} sx={{ mt: 3 }}>
             <RHFTextField
