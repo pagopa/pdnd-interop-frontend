@@ -234,6 +234,11 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
 }) => {
   const { open } = useCustomizeThresholdDrawer()
   const { t: tAttribute } = useTranslation('attribute')
+  /* PIN-9567 - sort attributes by name */
+  const sortedAttributes = React.useMemo(
+    () => [...attributes].sort((a, b) => a.name.localeCompare(b.name)),
+    [attributes]
+  )
 
   const rawGroupColorAndText = ownershipData
     ? getGroupColorAndText(attributeKey, attributes, ownershipData)
@@ -262,7 +267,7 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
     >
       {groupColorAndText && <Typography>{tAttribute(groupColorAndText.textKey)}</Typography>}
       <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
-        {attributes.map((attribute, _index) => (
+        {sortedAttributes.map((attribute, _index) => (
           <React.Fragment key={attribute.id}>
             <Box component="li">
               <AttributeContainer
@@ -275,7 +280,7 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
                 onCustomizeThreshold={withThreshold ? () => open(attribute, index) : undefined}
               />
             </Box>
-            {attributes.length > 1 && _index < attributes.length - 1 && (
+            {sortedAttributes.length > 1 && _index < sortedAttributes.length - 1 && (
               <Divider sx={{ py: 1 }}>
                 <Typography color="text.primary" fontWeight={700} textTransform={'uppercase'}>
                   {tAttribute('or')}
