@@ -43,6 +43,7 @@ export const RHFCheckbox: React.FC<RHFCheckboxProps> = ({
         render={({ field: { value, ref, ...fieldProps } }) => (
           <FormControlLabel
             label={label}
+            disabled={disabled}
             control={
               <MUICheckbox
                 {...fieldProps}
