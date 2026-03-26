@@ -41,6 +41,14 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
 
   const descriptorAttributes = descriptor.attributes
 
+  const maxCustomThreshold = descriptorAttributes.certified
+    .flat()
+    .reduce(
+      (max, attr) =>
+        attr.dailyCallsPerConsumer !== undefined ? Math.max(max, attr.dailyCallsPerConsumer) : max,
+      0
+    )
+
   const { attribute, attributeGroupIndex, close } = useCustomizeThresholdDrawer()
 
   const isEserviceFromTemplate = Boolean(descriptor.templateRef)
@@ -230,6 +238,7 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
         id={eserviceId}
         dailyCallsPerConsumer={descriptor.dailyCallsPerConsumer}
         dailyCallsTotal={descriptor.dailyCallsTotal}
+        maxCustomThreshold={maxCustomThreshold || undefined}
         versionId={descriptorId}
         subtitle={tDailyCallsDrawer('subtitle')}
         dailyCallsPerConsumerLabel={tDailyCallsDrawer('dailyCallsPerConsumerField.label')}
