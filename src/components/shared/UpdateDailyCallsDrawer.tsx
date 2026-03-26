@@ -132,10 +132,18 @@ export const UpdateDailyCallsDrawer: React.FC<UpdateDailyCallsDrawerProps> = ({
               rules={{
                 required: true,
                 validate: (value) => {
-                  if (!Number.isInteger(Number(value))) return tThreshold('validation.integer')
+                  const dailyCallsTotalField = Number(value)
+
+                  if (!Number.isInteger(dailyCallsTotalField)) {
+                    return tThreshold('validation.integer')
+                  }
+
                   const minValue = formMethods.getValues('dailyCallsPerConsumer') + 1
-                  if (value < minValue) return t('dailyCallsTotalField.validation.min')
-                  if (maxCustomThreshold && Number(value) < maxCustomThreshold) {
+                  if (dailyCallsTotalField < minValue) {
+                    return t('dailyCallsTotalField.validation.min')
+                  }
+
+                  if (maxCustomThreshold && dailyCallsTotalField < maxCustomThreshold) {
                     return tThreshold('dailyCallsTotalField.validation.minCustomThreshold')
                   }
                   return true
