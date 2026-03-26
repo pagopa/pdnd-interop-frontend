@@ -234,6 +234,7 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
 }) => {
   const { open } = useCustomizeThresholdDrawer()
   const { t: tAttribute } = useTranslation('attribute')
+  /* PIN-9567 - sort attributes by name */
   const sortedAttributes = React.useMemo(
     () => [...attributes].sort((a, b) => a.name.localeCompare(b.name)),
     [attributes]
