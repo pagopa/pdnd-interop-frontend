@@ -92,13 +92,15 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
                   }
                 : undefined
             }
-            // this onKeyDown function is to prevent the user to insert characters that are not numbers
+            // Block non-numeric keys and leading zeros for number inputs.
+            // e.key.length === 1 targets printable characters only;
+            // control keys (Backspace, Tab, Arrow*, etc.) have longer names and pass through.
             onKeyDown={
               props.type === 'number'
                 ? (e) => {
-                    // e.key.length === 1 targets only printable characters;
-                    // control keys (Backspace, Tab, Arrow*, etc.) have longer key names and pass through
-                    if (e.key.length === 1 && !/[\d.\-]/.test(e.key) && !e.ctrlKey && !e.metaKey) {
+                    if (e.key.length !== 1 || e.ctrlKey || e.metaKey) return
+                    const isEmpty = (e.target as HTMLInputElement).value === ''
+                    if (!/[1-9.\-]/.test(e.key) && !(e.key === '0' && !isEmpty)) {
                       e.preventDefault()
                     }
                   }
