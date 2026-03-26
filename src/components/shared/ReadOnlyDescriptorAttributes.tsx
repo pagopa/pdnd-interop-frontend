@@ -234,10 +234,13 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
 }) => {
   const { open } = useCustomizeThresholdDrawer()
   const { t: tAttribute } = useTranslation('attribute')
-  const sortedAttributes = [...attributes].sort((a, b) => a.name.localeCompare(b.name))
+  const sortedAttributes = React.useMemo(
+    () => [...attributes].sort((a, b) => a.name.localeCompare(b.name)),
+    [attributes]
+  )
 
   const rawGroupColorAndText = ownershipData
-    ? getGroupColorAndText(attributeKey, sortedAttributes, ownershipData)
+    ? getGroupColorAndText(attributeKey, attributes, ownershipData)
     : undefined
 
   const shouldHideFulfillmentStatus =
