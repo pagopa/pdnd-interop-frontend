@@ -92,11 +92,25 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
                   }
                 : undefined
             }
+            // Block non-numeric keys and leading zeros for number inputs.
+            // e.key.length === 1 targets printable characters only;
+            // control keys (Backspace, Tab, Arrow*, etc.) have longer names and pass through.
+            onKeyDown={
+              props.type === 'number'
+                ? (e) => {
+                    if (e.key.length !== 1 || e.ctrlKey || e.metaKey) return
+                    const isEmpty = (e.target as HTMLInputElement).value === ''
+                    if (!/[1-9.\-]/.test(e.key) && !(e.key === '0' && !isEmpty)) {
+                      e.preventDefault()
+                    }
+                  }
+                : undefined
+            }
             onChange={(e) => {
               let value: string | number = e.target.value
               if (props.type === 'number') {
                 const valueAsNumber = Number(e.target.value)
-                value = isNaN(valueAsNumber) ? '' : valueAsNumber
+                value = e.target.value === '' ? '' : isNaN(valueAsNumber) ? '' : valueAsNumber
               }
               _onChange(value)
               if (onValueChange) onValueChange(value as never)
