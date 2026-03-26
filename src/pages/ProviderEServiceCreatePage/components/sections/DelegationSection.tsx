@@ -41,6 +41,7 @@ export const DelegationSection: React.FC<DelegationSectionProps> = ({
         <SectionContainer innerSection title={t('clientAccessDelegableField.label')} sx={{ mt: 3 }}>
           <RHFCheckbox
             name="isClientAccessDelegable"
+            disabled={!areEServiceGeneralInfoEditable}
             label={
               <Trans
                 components={{

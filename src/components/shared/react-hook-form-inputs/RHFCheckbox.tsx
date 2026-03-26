@@ -16,7 +16,14 @@ type RHFCheckboxProps = Omit<MUICheckboxProps, 'checked' | 'onChange'> & {
   rules?: ControllerProps['rules']
 }
 
-export const RHFCheckbox: React.FC<RHFCheckboxProps> = ({ name, label, infoLabel, rules, sx }) => {
+export const RHFCheckbox: React.FC<RHFCheckboxProps> = ({
+  name,
+  label,
+  infoLabel,
+  rules,
+  sx,
+  disabled,
+}) => {
   const { formState } = useFormContext()
   const { t } = useTranslation()
 
@@ -42,6 +49,7 @@ export const RHFCheckbox: React.FC<RHFCheckboxProps> = ({ name, label, infoLabel
                 inputProps={{ ...accessibilityProps }}
                 inputRef={ref}
                 checked={value}
+                disabled={disabled}
               />
             }
           />
