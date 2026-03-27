@@ -19,6 +19,7 @@ type UpdateDailyCallsDrawerProps = {
   dailyCallsTotalLabel: string
   dailyCallsPerConsumer: number | undefined
   dailyCallsTotal: number | undefined
+  maxCustomThreshold?: number
   /** @description  This field is used to represent the version of specific item: it could be for an EService (descriptorId) or
    *  for a EServiceTemplate (TemplateVersionId) */
   versionId?: string
@@ -39,6 +40,7 @@ export const UpdateDailyCallsDrawer: React.FC<UpdateDailyCallsDrawerProps> = ({
   dailyCallsTotalLabel,
   dailyCallsPerConsumer,
   dailyCallsTotal,
+  maxCustomThreshold,
   versionId,
   onSubmit,
 }) => {
@@ -130,9 +132,21 @@ export const UpdateDailyCallsDrawer: React.FC<UpdateDailyCallsDrawerProps> = ({
               rules={{
                 required: true,
                 validate: (value) => {
-                  if (!Number.isInteger(Number(value))) return tThreshold('validation.integer')
+                  const dailyCallsTotalField = Number(value)
+
+                  if (!Number.isInteger(dailyCallsTotalField)) {
+                    return tThreshold('validation.integer')
+                  }
+
                   const minValue = formMethods.getValues('dailyCallsPerConsumer') + 1
-                  return value >= minValue || t('dailyCallsTotalField.validation.min')
+                  if (dailyCallsTotalField < minValue) {
+                    return t('dailyCallsTotalField.validation.min')
+                  }
+
+                  if (maxCustomThreshold && dailyCallsTotalField < maxCustomThreshold) {
+                    return tThreshold('dailyCallsTotalField.validation.minCustomThreshold')
+                  }
+                  return true
                 },
               }}
             />
