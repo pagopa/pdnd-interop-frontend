@@ -20,7 +20,7 @@ import {
   useCustomizeThresholdDrawer,
 } from '@/components/shared/CustomizeThresholdDrawer'
 import cloneDeep from 'lodash/cloneDeep'
-import type { DescriptorAttributes, UpdateEServiceDescriptorSeed } from '@/api/api.generatedTypes'
+import type { DescriptorAttributes } from '@/api/api.generatedTypes'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 
 export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
@@ -101,10 +101,6 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
   const { mutate: updateInstanceVersion } = EServiceMutations.useUpdateInstanceVersion({
     isThresholdOnlyUpdate: true,
   })
-  const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft(
-    { suppressSuccessToast: false },
-    { isThresholdOnlyUpdate: true }
-  )
 
   const handleUpdateDailyCalls = (
     id: string,
@@ -145,21 +141,17 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
       attributeGroupIndex
     ].map((att) => (att.id === attribute.id ? { ...att, dailyCallsPerConsumer: threshold } : att))
 
-    const payload: UpdateEServiceDescriptorSeed & { eserviceId: string; descriptorId: string } = {
-      audience: descriptor.audience,
-      voucherLifespan: descriptor.voucherLifespan,
-      dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
-      dailyCallsTotal: descriptor.dailyCallsTotal,
-      agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
-      description: descriptor.description,
-      attributes: remapDescriptorAttributesToDescriptorAttributesSeed(updatedAttributes),
-      eserviceId: descriptor.eservice.id,
-      descriptorId: descriptor.id,
-    }
-
-    updateVersionDraft(payload, {
-      onSuccess: () => close(),
-    })
+    updateVersion(
+      {
+        eserviceId: descriptor.eservice.id,
+        descriptorId: descriptor.id,
+        voucherLifespan: descriptor.voucherLifespan,
+        dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
+        dailyCallsTotal: descriptor.dailyCallsTotal,
+        attributes: remapDescriptorAttributesToDescriptorAttributesSeed(updatedAttributes),
+      },
+      { onSuccess: () => close() }
+    )
   }
 
   const customizeThresholdDrawerSubtitle = (
