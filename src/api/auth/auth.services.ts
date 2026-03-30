@@ -31,9 +31,9 @@ async function getSessionToken(): Promise<string | null> {
   if (APP_MODE === 'development' && MOCK_TOKEN) return resolveToken(MOCK_TOKEN)
 
   // 2. See if we are coming from Self Care and have a new token
-  const hasSelfCareIdentityToken = window.location.hash.includes('#id=')
-  if (hasSelfCareIdentityToken) {
-    const selfCareIdentityToken = window.location.hash.replace('#id=', '')
+  const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''))
+  const selfCareIdentityToken = hashParams.get('id')
+  if (selfCareIdentityToken) {
     // Remove token from hash
     history.replaceState({}, document.title, window.location.href.split('#')[0])
     try {
