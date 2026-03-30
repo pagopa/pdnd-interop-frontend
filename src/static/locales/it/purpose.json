@@ -490,6 +490,7 @@
     }
   },
   "publishThankYou": {
+    "loading": "Pubblicazione in corso",
     "active": {
       "title": "Hai pubblicato una finalità",
       "description": "La finalità è attiva. Associa il tuo primo client per accedere ai dati dell'e-service."
