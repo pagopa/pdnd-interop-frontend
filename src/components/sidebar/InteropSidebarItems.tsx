@@ -3,13 +3,16 @@ import { Divider } from '@mui/material'
 import { SidebarItemGroup } from './components/SidebarItemGroup'
 import { useState } from 'react'
 import { type RouteKey, useCurrentRoute, useGeneratePath } from '@/router'
-import { getCurrentSelfCareProductId } from '@/utils/common.utils'
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded'
 import PeopleIcon from '@mui/icons-material/People'
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle'
 import { useTranslation } from 'react-i18next'
 import type { SidebarRoute, SidebarRoutes } from './sidebar.types'
-import { NOTIFICATION_COUNT_REFRESH_INTERVAL, SELFCARE_BASE_URL } from '@/config/env'
+import {
+  NOTIFICATION_COUNT_REFRESH_INTERVAL,
+  SELFCARE_BASE_URL,
+  SELFCARE_PRODUCT_ID,
+} from '@/config/env'
 import { Link } from 'react-router-dom'
 import { useIsRouteInCurrentSubtree } from './hooks/useIsRouteInCurrentSubtree'
 import { AuthHooks } from '@/api/auth'
@@ -19,6 +22,7 @@ import { NotificationQueries } from '@/api/notification'
 import { match } from 'ts-pattern'
 import { routes as routesDefinitions } from '@/router/routes'
 import { get } from 'lodash'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 type InteropSidebarItems = {
   routes: SidebarRoutes
@@ -28,13 +32,16 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
   const generatePath = useGeneratePath()
   const isRouteInCurrentSubtree = useIsRouteInCurrentSubtree()
   const { t } = useTranslation('sidebar')
+  const lang = useCurrentLanguage()
 
   const pathname = useCurrentRoute().routeKey
   const { jwt, isAdmin, isSupport } = AuthHooks.useJwt()
 
   const selfcareUsersPageUrl =
-    jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users#${getCurrentSelfCareProductId()}`
-  const selfcareGroupsPageUrl = jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/groups`
+    jwt &&
+    `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users?lang=${lang}#${SELFCARE_PRODUCT_ID}`
+  const selfcareGroupsPageUrl =
+    jwt && `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/groups?lang=${lang}`
 
   const [parentExpandedItem, setParentExpandedItem] = useState<string | undefined>(
     routes.find(
