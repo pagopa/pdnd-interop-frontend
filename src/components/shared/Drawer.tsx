@@ -70,9 +70,24 @@ export const Drawer: React.FC<DrawerProps> = ({
       onClose={onClose}
       sx={{ zIndex: 100 }}
       ModalProps={{ onTransitionExited: onTransitionExited }}
+      PaperProps={{
+        sx: {
+          width: { xs: '100%', sm: 375 },
+          maxWidth: '100%',
+          overflowX: 'hidden',
+        },
+      }}
     >
       <HeaderDrawer onDrawerClose={onClose} />
-      <Stack width={375} px={3} pt={2} flexGrow={1}>
+      <Stack
+        px={3}
+        pt={2}
+        flexGrow={1}
+        sx={{
+          overflowY: 'auto',
+          overflowX: 'hidden',
+        }}
+      >
         <Stack spacing={1} pb={5}>
           <Typography variant="h6" fontWeight={600}>
             {title}
@@ -80,10 +95,15 @@ export const Drawer: React.FC<DrawerProps> = ({
           {subtitle && <Typography variant="body2">{subtitle}</Typography>}
         </Stack>
 
-        <Box sx={{ flexGrow: 1, mt: 2 }}>{children}</Box>
+        <Box sx={{ flexGrow: 1, mt: 2, maxWidth: '100%' }}>{children}</Box>
 
         {buttonAction && (
-          <Box sx={{ pb: 4, mt: 0.5 }} width={327} display="flex" alignItems="flex-end">
+          <Box
+            sx={{ pb: 4, mt: 0.5, maxWidth: '100%' }}
+            width={327}
+            display="flex"
+            alignItems="flex-end"
+          >
             <Tooltip arrow title={buttonAction.disabled ? buttonAction.disabledTooltip : undefined}>
               <span tabIndex={buttonAction.disabled ? 0 : undefined} style={{ width: '100%' }}>
                 <Button
