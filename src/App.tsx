@@ -24,9 +24,11 @@ const urlParams = new URLSearchParams(window.location.search)
 const redirectUrl = urlParams.get('redirectUrl')
 
 if (redirectUrl) {
-  const hashes = window.location.hash.replace('#', '').split('&')
-  const selfCareIdentityToken = hashes.find((hash) => hash.includes('id='))?.split('=')[1] ?? ''
-  const lang = hashes.find((hash) => hash.includes('lang='))?.split('=')[1] ?? i18n.language
+  const fragments = window.location.hash.replace('#', '').split('&')
+  const selfCareIdentityToken =
+    fragments.find((fragment) => fragment.includes('id='))?.split('=')[1] ?? ''
+  const lang =
+    fragments.find((fragment) => fragment.includes('lang='))?.split('=')[1] ?? i18n.language
   const url = `/ui/${lang}${redirectUrl}#id=${selfCareIdentityToken}`
   window.location.replace(url)
 } else {
