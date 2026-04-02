@@ -4,7 +4,7 @@ import { Link, Stack, Tooltip, type LinkProps } from '@mui/material'
 type IconLinkProps<D extends React.ElementType = 'a'> = {
   startIcon?: React.ReactNode
   endIcon?: React.ReactNode
-  children: React.ReactNode
+  children?: React.ReactNode
   tooltip?: React.ReactNode
   component?: D
 } & LinkProps<D>

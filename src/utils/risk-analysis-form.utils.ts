@@ -192,11 +192,11 @@ export function formatRiskAnalysisInputLabel(
 
   let label = question.label[lang]
 
-  const labelValidation: Array<string> = []
-
   if (isRequired) {
-    labelValidation.push(t('riskAnalysis.formComponents.validation.required'))
+    label += '*'
   }
+
+  const labelValidation: Array<string> = []
 
   if (isMultipleChoice) {
     labelValidation.push(t('riskAnalysis.formComponents.validation.multipleChoice'))

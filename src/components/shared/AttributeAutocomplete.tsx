@@ -95,7 +95,7 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
           type="button"
           variant="contained"
         >
-          {t('addBtn')}
+          {t('add')}
         </Button>
       </Stack>
     </FormProvider>

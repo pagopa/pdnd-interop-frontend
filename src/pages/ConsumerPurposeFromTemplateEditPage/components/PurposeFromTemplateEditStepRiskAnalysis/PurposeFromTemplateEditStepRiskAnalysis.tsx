@@ -69,7 +69,7 @@ function mergeTemplateAndPurposeAnswers(
   return { mergedAnswers, suggestedValueConsumer }
 }
 
-const PurposeFromTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back }) => {
+export const PurposeFromTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back }) => {
   const { purposeTemplateId, purposeId } = useParams<'SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT'>()
   const navigate = useNavigate()
   const { mutate: updatePurposeFromTemplate } = PurposeMutations.useUpdateDraftFromPurposeTemplate()
@@ -139,4 +139,3 @@ const PurposeFromTemplateEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ ba
   )
 }
 
-export default PurposeFromTemplateEditStepRiskAnalysis

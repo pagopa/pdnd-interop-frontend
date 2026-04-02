@@ -15,10 +15,6 @@ import {
   ConsumerEServiceGeneralInfoSection,
 } from './ConsumerEServiceGeneralInfoSection'
 import {
-  ConsumerEServiceSignalHubSectionSkeleton,
-  ConsumerEServiceSignalHubSection,
-} from './ConsumerEServiceSignalHubSection'
-import {
   ConsumerLinkedPurposeTemplatesSection,
   ConsumerLinkedPurposeTemplatesSectionSkeleton,
 } from './ConsumerEServicePurposeTemplateSection'
@@ -46,10 +42,7 @@ const ConsumerEServiceDetailsTab: React.FC = () => {
           <React.Suspense fallback={<ConsumerLinkedPurposeTemplatesSectionSkeleton />}>
             <ConsumerLinkedPurposeTemplatesSection />
           </React.Suspense>
-          <React.Suspense fallback={<ConsumerEServiceSignalHubSectionSkeleton />}>
-            <ConsumerEServiceSignalHubSection />
-          </React.Suspense>
-          <React.Suspense fallback={<ConsumerEServiceDescriptorAttributesSkeleton />}>
+<React.Suspense fallback={<ConsumerEServiceDescriptorAttributesSkeleton />}>
             <ConsumerEServiceDescriptorAttributes />
           </React.Suspense>
         </Grid>

@@ -42,9 +42,6 @@ export const ConsumerPurposeDetailsLoadEstimateSection: React.FC<
             </Trans>
           </Alert>
         )}
-        <Alert severity="info" variant="outlined" sx={{ flex: 1 }}>
-          {t('alertExceedingThreshold.label')}
-        </Alert>
         <Stack direction="row" spacing={3}>
           <ConsumerPurposeDetailsDailyCallsPlanCard purpose={purpose} />
           <ConsumerPurposeDetailsDailyCallsUpdatePlanCard purpose={purpose} />

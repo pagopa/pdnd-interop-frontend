@@ -9,6 +9,7 @@ import { PurposeEditStepRiskAnalysis } from './components/PurposeEditStepRiskAna
 import { useParams, useNavigate } from '@/router'
 import { PurposeQueries } from '@/api/purpose'
 import { useQuery } from '@tanstack/react-query'
+import { RequiredTextLabel } from '@/components/shared/RequiredTextLabel'
 
 const ConsumerPurposeEditPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -60,6 +61,7 @@ const ConsumerPurposeEditPage: React.FC = () => {
         to: 'SUBSCRIBE_PURPOSE_LIST',
       }}
     >
+      <RequiredTextLabel />
       {!isReceive && <Stepper steps={steps} activeIndex={activeStep} />}
       <Step {...stepProps} />
     </PageContainer>

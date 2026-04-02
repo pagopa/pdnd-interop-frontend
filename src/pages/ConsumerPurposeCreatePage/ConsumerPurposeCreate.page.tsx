@@ -3,6 +3,7 @@ import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { PurposeCreateForm } from './components/PurposeCreateForm'
 import { useParams } from '@/router'
+import { RequiredTextLabel } from '@/components/shared/RequiredTextLabel'
 
 const ConsumerPurposeCreatePage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -16,6 +17,7 @@ const ConsumerPurposeCreatePage: React.FC = () => {
         to: 'SUBSCRIBE_PURPOSE_LIST',
       }}
     >
+      <RequiredTextLabel />
       <PurposeCreateForm purposeTemplateId={purposeTemplateId} />
     </PageContainer>
   )
