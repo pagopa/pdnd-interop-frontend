@@ -1,12 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { screen } from '@testing-library/react'
 import { ProviderEServiceTemplateGeneralInfoSummarySection } from '../components/ProviderEServiceTemplateGeneralInfoSummarySection'
-import {
-  mockUseJwt,
-  mockUseParams,
-  mockEnvironmentParams,
-  renderWithApplicationContext,
-} from '@/utils/testing.utils'
+import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import {
   createMockEServiceTemplateVersionDetails,
   createMockEServiceTemplateVersionDetailsReceiveMode,
@@ -103,7 +98,6 @@ describe('ProviderEServiceTemplateGeneralInfoSummarySection', () => {
   })
 
   it('renders personal data field when feature flag is enabled', () => {
-    mockEnvironmentParams('FEATURE_FLAG_ESERVICE_PERSONAL_DATA', true)
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
@@ -117,7 +111,6 @@ describe('ProviderEServiceTemplateGeneralInfoSummarySection', () => {
   })
 
   it('renders personal data field for RECEIVE mode', () => {
-    mockEnvironmentParams('FEATURE_FLAG_ESERVICE_PERSONAL_DATA', true)
     const mockData = createMockEServiceTemplateVersionDetailsReceiveMode()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
