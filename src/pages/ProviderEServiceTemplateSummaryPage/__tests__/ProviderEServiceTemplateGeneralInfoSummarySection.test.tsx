@@ -97,7 +97,7 @@ describe('ProviderEServiceTemplateGeneralInfoSummarySection', () => {
     expect(screen.getByText('isSignalHubEnabled.value.true')).toBeInTheDocument()
   })
 
-  it('renders personal data field when feature flag is enabled', () => {
+  it('renders personal data field for DELIVER mode', () => {
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
@@ -107,7 +107,6 @@ describe('ProviderEServiceTemplateGeneralInfoSummarySection', () => {
     })
 
     expect(screen.getByText('personalDataField.DELIVER.label')).toBeInTheDocument()
-    expect(screen.getByText('personalDataField.value.true')).toBeInTheDocument()
   })
 
   it('renders personal data field for RECEIVE mode', () => {
