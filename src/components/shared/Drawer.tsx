@@ -38,10 +38,10 @@ const HeaderDrawer: React.FC<HeaderDrawerProps> = ({ onDrawerClose }) => {
   return (
     <Box
       display="flex"
-      justifyContent="end"
-      alignItems="end"
+      justifyContent="flex-end"
+      alignItems="flex-end"
       height={64}
-      width={375}
+      width="100%"
       pr={1}
       pb={1}
       flexShrink={0}
@@ -74,7 +74,6 @@ export const Drawer: React.FC<DrawerProps> = ({
         sx: {
           width: { xs: '100%', sm: 375 },
           maxWidth: '100%',
-          overflowX: 'hidden',
         },
       }}
     >
@@ -85,7 +84,6 @@ export const Drawer: React.FC<DrawerProps> = ({
         flexGrow={1}
         sx={{
           overflowY: 'auto',
-          overflowX: 'hidden',
         }}
       >
         <Stack spacing={1} pb={5}>
@@ -100,7 +98,7 @@ export const Drawer: React.FC<DrawerProps> = ({
         {buttonAction && (
           <Box
             sx={{ pb: 4, mt: 0.5, maxWidth: '100%' }}
-            width={327}
+            width="100%"
             display="flex"
             alignItems="flex-end"
           >
