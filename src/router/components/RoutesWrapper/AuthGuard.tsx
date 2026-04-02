@@ -71,20 +71,12 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
     return isOrganizationAllowedToDelegations || !delegationsRoutes.includes(routeKey)
   }
 
-  function isUserAllowedToAccessNotificationPage() {
-    const notificationsRoute: Array<RouteKey> = ['NOTIFICATIONS', 'NOTIFICATIONS_CONFIG']
-
-    // return
-    return !notificationsRoute.includes(routeKey)
-  }
-
   // JWT will be undefined just in case route is public.
   if (
     jwt &&
     (!isUserAllowedToAccessRoute() ||
       !isUserAllowedToAccessCertifierRoutes() ||
-      !isUserAllowedToAccessDelegationsRoutes() ||
-      !isUserAllowedToAccessNotificationPage())
+      !isUserAllowedToAccessDelegationsRoutes())
   ) {
     throw new ForbiddenError()
   }
