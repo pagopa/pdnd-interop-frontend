@@ -9,7 +9,6 @@ import EditIcon from '@mui/icons-material/Edit'
 import { TenantHooks } from '@/api/tenant'
 import { NotificationQueries } from '@/api/notification'
 import { useQuery } from '@tanstack/react-query'
-import { FEATURE_FLAG_NOTIFICATION_CONFIG } from '@/config/env'
 
 export const PartyContactsSection: React.FC = () => {
   const { t } = useTranslation('party', { keyPrefix: 'contacts' })
@@ -18,7 +17,7 @@ export const PartyContactsSection: React.FC = () => {
 
   const { isAdmin } = AuthHooks.useJwt()
 
-  const isUserEnabledToShowNotificationConfig = FEATURE_FLAG_NOTIFICATION_CONFIG && isAdmin
+  const isUserEnabledToShowNotificationConfig = isAdmin
 
   const { data: user } = TenantHooks.useGetActiveUserParty()
   const { data: tenantEmailNotificationConfigs } = useQuery({

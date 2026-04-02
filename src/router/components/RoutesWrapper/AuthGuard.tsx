@@ -1,6 +1,5 @@
 import { AuthQueries } from '@/api/auth'
 import { TenantHooks } from '@/api/tenant'
-import { FEATURE_FLAG_NOTIFICATION_CONFIG } from '@/config/env'
 import type { RouteKey } from '@/router'
 import { useAuthGuard, useCurrentRoute } from '@/router'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
@@ -76,7 +75,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
     const notificationsRoute: Array<RouteKey> = ['NOTIFICATIONS', 'NOTIFICATIONS_CONFIG']
 
     // return
-    return !notificationsRoute.includes(routeKey) || FEATURE_FLAG_NOTIFICATION_CONFIG
+    return !notificationsRoute.includes(routeKey)
   }
 
   // JWT will be undefined just in case route is public.
