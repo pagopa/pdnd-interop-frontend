@@ -71,7 +71,7 @@ import { ConsumerPurposeTemplateSummaryPage } from '@/pages/ConsumerPurposeTempl
 import { ConsumerPurposeTemplateEditPage } from '@/pages/ConsumerPurposeTemplateEditPage'
 import { ConsumerSimulateGetVoucherPage } from '@/pages/ConsumerSimulateGetVoucherPage'
 
-import z from 'zod'
+import { z } from 'zod'
 
 const languages = ['it', 'en'] as const
 export const AllowedLanguage = z.enum(languages)

@@ -31,7 +31,7 @@ const _RoutesWrapper: React.FC = () => {
       if (language.success) {
         switchLang(language.data)
       } else {
-        console.warn('Language URL params is not valid')
+        console.warn(`Language URL param is not valid: "${langParam}"`)
       }
     }
   }, [searchParams, switchLang])

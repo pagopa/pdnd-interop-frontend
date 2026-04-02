@@ -2,7 +2,6 @@ import { SectionContainer } from '@/components/layout/containers'
 import { IconLink } from '@/components/shared/IconLink'
 import {
   implementAndManageEServiceGuideLink,
-  interfaceVerificationGuideLink,
   voucherVerificationGuideLink,
 } from '@/config/constants'
 import { WELL_KNOWN_URLS } from '@/config/env'
