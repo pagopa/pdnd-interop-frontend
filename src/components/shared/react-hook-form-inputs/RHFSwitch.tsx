@@ -53,7 +53,7 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
                 disabled={disabled}
                 inputProps={{ ...props.inputProps, ...accessibilityProps }}
                 checked={value}
-                inputRef={inputRef || ref}
+                inputRef={mergeRefs(ref, inputRef)}
                 sx={{ marginRight: 1 }}
               />
             }
@@ -63,4 +63,17 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
       />
     </InputWrapper>
   )
+}
+
+export function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined>) {
+  //Merging the refs so that both the RHF ref and the consumer's inputRef receive the underlying DOM node when it mounts.
+  return (value: T | null) => {
+    refs.forEach((ref) => {
+      if (typeof ref === 'function') {
+        ref(value)
+      } else if (ref != null) {
+        ;(ref as React.MutableRefObject<T | null>).current = value
+      }
+    })
+  }
 }
