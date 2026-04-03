@@ -15,6 +15,7 @@ export type RHFSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   infoLabel?: string
   name: string
   rules?: ControllerProps['rules']
+  inputRef?: React.Ref<HTMLInputElement>
 }
 
 export const RHFSwitch: React.FC<RHFSwitchProps> = ({
@@ -24,6 +25,7 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
   sx,
   rules,
   disabled,
+  inputRef,
   ...props
 }) => {
   const { formState } = useFormContext()
@@ -51,7 +53,7 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
                 disabled={disabled}
                 inputProps={{ ...props.inputProps, ...accessibilityProps }}
                 checked={value}
-                inputRef={ref}
+                inputRef={inputRef || ref}
                 sx={{ marginRight: 1 }}
               />
             }
