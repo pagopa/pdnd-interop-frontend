@@ -26,9 +26,17 @@ const redirectUrl = urlParams.get('redirectUrl')
 if (redirectUrl) {
   const fragments = window.location.hash.replace('#', '').split('&')
   const selfCareIdentityToken =
-    fragments.find((fragment) => fragment.includes('id='))?.split('=')[1] ?? ''
+    fragments
+      .find((fragment) => fragment.startsWith('id='))
+      ?.split('=')
+      .slice(1)
+      .join('=') ?? ''
   const lang =
-    fragments.find((fragment) => fragment.includes('lang='))?.split('=')[1] ?? i18n.language
+    fragments
+      .find((fragment) => fragment.startsWith('lang='))
+      ?.split('=')
+      .slice(1)
+      .join('=') ?? i18n.language
   const url = `/ui/${lang}${redirectUrl}#id=${selfCareIdentityToken}`
   window.location.replace(url)
 } else {
