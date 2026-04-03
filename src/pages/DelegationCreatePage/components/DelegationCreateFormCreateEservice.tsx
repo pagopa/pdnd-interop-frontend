@@ -1,11 +1,10 @@
-import React, { useEffect, useRef } from 'react'
-import { Alert } from '@mui/material'
+import React from 'react'
+import { Alert, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { RHFTextField, RHFSwitch } from '@/components/shared/react-hook-form-inputs'
 import { useFormContext, useWatch } from 'react-hook-form'
 import type { DelegationKind } from '@/api/api.generatedTypes'
 import { DelegationCreateEServiceFromTemplateAutocomplete } from './DelegationCreateEServiceFromTemplateAutocomplete'
-import { Stack } from '@mui/system'
 
 type DelegationCreateFormCreateEserviceProps = {
   delegationKind: DelegationKind
@@ -26,41 +25,25 @@ export const DelegationCreateFormCreateEservice: React.FC<
     defaultValue: false,
   })
 
-  const childSwitchRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    // Focus the switch when the component mounts to improve accessibility
-    const timeoutId = setTimeout(() => {
-      if (childSwitchRef.current) {
-        childSwitchRef.current.focus()
-      }
-    }, 0)
-
-    return () => clearTimeout(timeoutId)
-  }, [])
-
   return (
     <>
       <RHFSwitch
         name="isEserviceFromTemplate"
         label={t('delegateField.provider.switchEserviceFromTemplate')}
-        inputRef={childSwitchRef}
+        autoFocus
       />
 
       {isEserviceFromTemplate ? (
-        <>
-          <Stack spacing={3}>
-            <Alert severity="info">{t('delegateField.provider.alertEserviceFromTemplate')}</Alert>
-            <DelegationCreateEServiceFromTemplateAutocomplete
-              delegationKind={delegationKind}
-              handleTemplateNameAutocompleteChange={handleTemplateNameAutocompleteChange}
-            />
-          </Stack>
-        </>
+        <Stack spacing={3} sx={{ mt: 2 }}>
+          <Alert severity="info">{t('delegateField.provider.alertEserviceFromTemplate')}</Alert>
+          <DelegationCreateEServiceFromTemplateAutocomplete
+            delegationKind={delegationKind}
+            handleTemplateNameAutocompleteChange={handleTemplateNameAutocompleteChange}
+          />
+        </Stack>
       ) : (
         <>
           <RHFTextField
-            focusOnMount={true}
             name="eserviceName"
             label={t('eserviceField.label')}
             infoLabel={t('eserviceField.infoLabel')}

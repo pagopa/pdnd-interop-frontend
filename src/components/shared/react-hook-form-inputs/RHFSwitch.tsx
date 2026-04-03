@@ -15,7 +15,6 @@ export type RHFSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   infoLabel?: string
   name: string
   rules?: ControllerProps['rules']
-  inputRef?: React.Ref<HTMLInputElement>
 }
 
 export const RHFSwitch: React.FC<RHFSwitchProps> = ({
@@ -25,7 +24,6 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
   sx,
   rules,
   disabled,
-  inputRef,
   ...props
 }) => {
   const { formState } = useFormContext()
@@ -53,7 +51,7 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
                 disabled={disabled}
                 inputProps={{ ...props.inputProps, ...accessibilityProps }}
                 checked={value}
-                inputRef={mergeRefs(ref, inputRef)}
+                inputRef={ref}
                 sx={{ marginRight: 1 }}
               />
             }
@@ -63,17 +61,4 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
       />
     </InputWrapper>
   )
-}
-
-export function mergeRefs<T>(...refs: Array<React.Ref<T> | undefined>) {
-  //Merging the refs so that both the RHF ref and the consumer's inputRef receive the underlying DOM node when it mounts.
-  return (value: T | null) => {
-    refs.forEach((ref) => {
-      if (typeof ref === 'function') {
-        ref(value)
-      } else if (ref != null) {
-        ;(ref as React.MutableRefObject<T | null>).current = value
-      }
-    })
-  }
 }
