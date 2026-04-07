@@ -27,10 +27,12 @@ vi.mock('../../sections/EServiceAttributesSection', () => ({
 }))
 
 const updateVersionDraft = vi.fn()
+const updateInstanceVersionDraft = vi.fn()
 
 vi.mock('@/api/eservice', () => ({
   EServiceMutations: {
     useUpdateVersionDraft: () => ({ mutate: updateVersionDraft }),
+    useUpdateInstanceVersionDraft: () => ({ mutate: updateInstanceVersionDraft }),
   },
 }))
 
