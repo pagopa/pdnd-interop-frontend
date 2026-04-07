@@ -4,12 +4,12 @@ import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { EServiceMutations } from '@/api/eservice'
 import { type SubmitHandler, useForm, FormProvider, useWatch } from 'react-hook-form'
 import React from 'react'
+import { match } from 'ts-pattern'
 import { type AttributeKey } from '@/types/attribute.types'
 import {
   type ProducerEServiceDescriptor,
   type DescriptorAttribute,
   type DescriptorAttributes,
-  type UpdateEServiceDescriptorSeed,
 } from '@/api/api.generatedTypes'
 import { useAttributesCountersAlert } from './useAttributesCountersAlert'
 import { Alert, Box } from '@mui/material'
@@ -38,6 +38,10 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
   const { descriptor, forward, back } = useEServiceCreateContext()
 
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
+    suppressSuccessToast: true,
+  })
+
+  const { mutate: updateInstanceVersionDraft } = EServiceMutations.useUpdateInstanceVersionDraft({
     suppressSuccessToast: true,
   })
 
@@ -139,22 +143,37 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
       return
     }
 
-    const payload: UpdateEServiceDescriptorSeed & {
-      eserviceId: string
-      descriptorId: string
-    } = {
-      audience: descriptor.audience,
-      voucherLifespan: descriptor.voucherLifespan,
-      dailyCallsPerConsumer: values.dailyCallsPerConsumer,
-      dailyCallsTotal: values.dailyCallsTotal,
-      agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
-      description: descriptor.description,
-      attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes),
-      eserviceId: descriptor.eservice.id,
-      descriptorId: descriptor.id,
-    }
-
-    updateVersionDraft(payload, { onSuccess: forward })
+    match(isEServiceCreatedFromTemplate)
+      .with(true, () =>
+        updateInstanceVersionDraft(
+          {
+            eserviceId: descriptor.eservice.id,
+            descriptorId: descriptor.id,
+            audience: descriptor.audience,
+            dailyCallsPerConsumer: values.dailyCallsPerConsumer,
+            dailyCallsTotal: values.dailyCallsTotal,
+            agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
+          },
+          { onSuccess: forward }
+        )
+      )
+      .with(false, () =>
+        updateVersionDraft(
+          {
+            eserviceId: descriptor.eservice.id,
+            descriptorId: descriptor.id,
+            audience: descriptor.audience,
+            voucherLifespan: descriptor.voucherLifespan,
+            dailyCallsPerConsumer: values.dailyCallsPerConsumer,
+            dailyCallsTotal: values.dailyCallsTotal,
+            agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
+            description: descriptor.description,
+            attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes),
+          },
+          { onSuccess: forward }
+        )
+      )
+      .exhaustive()
   }
 
   return (
