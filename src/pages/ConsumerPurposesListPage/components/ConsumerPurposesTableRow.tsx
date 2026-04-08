@@ -56,6 +56,8 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
     </>
   )
 
+  // Include the tooltip text in the aria-label when the agreement can be
+  // upgraded so screen reader users are informed about that option.
   const computedAriaLabel = hasWaitingForApprovalVersion
     ? `${tCommon(`actions.${isPurposeEditable ? 'edit' : 'inspect'}`)}. ${t(
         'list.waitingForApprovalVersionTooltip'
