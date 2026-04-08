@@ -43,6 +43,12 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
     cloneDeep(attributes)
   )
 
+  React.useEffect(() => {
+    if (isOpen) {
+      setSelectedAttributes(cloneDeep(attributes))
+    }
+  }, [isOpen, attributes])
+
   const { mutate: updateEserviceAttributes } = EServiceMutations.useUpdateDescriptorAttributes()
   const { mutate: updateEserviceTemplateAttributes } =
     EServiceTemplateMutations.useUpdateAttributes()
