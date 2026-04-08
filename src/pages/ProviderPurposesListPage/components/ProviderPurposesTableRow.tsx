@@ -38,6 +38,10 @@ export const ProviderPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
     </Stack>
   )
 
+  const computedAriaLabel = hasWaitingForApprovalVersion
+    ? `${tCommon(`actions.inspect`)}. ${t('newVersionAvailableTooltip')}`
+    : tCommon(`actions.inspect`)
+
   return (
     <TableRow
       cellData={[
@@ -59,6 +63,7 @@ export const ProviderPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
           to="PROVIDE_PURPOSE_DETAILS"
           params={{ purposeId: purpose.id }}
           endIcon={hasWaitingForApprovalVersion ? <ErrorIcon /> : undefined}
+          aria-label={computedAriaLabel}
         >
           {tCommon('actions.inspect')}
         </Link>

@@ -55,6 +55,9 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
     </Stack>
   )
 
+  const computedAriaLabel = canBeUpgraded //compute the aria-label based on the action and if the agreement is upgradable for screen readers, if the agreement is upgradable we want to add the tooltip text to the aria-label to make sure that screen reader users are aware of the upgrade possibility
+    ? `${tCommon(isAgreementEditable ? 'edit' : 'inspect')}. ${t('upgradableAgreementTooltip')}`
+    : tCommon(isAgreementEditable ? 'edit' : 'inspect')
   return (
     <TableRow
       cellData={[
@@ -73,6 +76,7 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
           to={isAgreementEditable ? 'SUBSCRIBE_AGREEMENT_EDIT' : 'SUBSCRIBE_AGREEMENT_READ'}
           params={{ agreementId: agreement.id }}
           endIcon={canBeUpgraded ? <UpdateIcon /> : undefined}
+          aria-label={computedAriaLabel}
         >
           {tCommon(isAgreementEditable ? 'edit' : 'inspect')}
         </Link>

@@ -56,6 +56,12 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
     </>
   )
 
+  const computedAriaLabel = hasWaitingForApprovalVersion
+    ? `${tCommon(`actions.${isPurposeEditable ? 'edit' : 'inspect'}`)}. ${t(
+        'list.waitingForApprovalVersionTooltip'
+      )}`
+    : tCommon(`actions.${isPurposeEditable ? 'edit' : 'inspect'}`)
+
   return (
     <TableRow
       cellData={[
@@ -69,20 +75,19 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
         open={hasWaitingForApprovalVersion ? undefined : false}
         title={t('list.waitingForApprovalVersionTooltip')}
       >
-        <span tabIndex={hasWaitingForApprovalVersion ? 0 : undefined}>
-          <Link
-            as="button"
-            onPointerEnter={handlePrefetch}
-            onFocusVisible={handlePrefetch}
-            variant="outlined"
-            size="small"
-            to={isPurposeEditable ? 'SUBSCRIBE_PURPOSE_SUMMARY' : 'SUBSCRIBE_PURPOSE_DETAILS'}
-            endIcon={hasWaitingForApprovalVersion ? <PendingActionsIcon /> : undefined}
-            params={{ purposeId: purpose.id }}
-          >
-            {tCommon(`actions.${isPurposeEditable ? 'edit' : 'inspect'}`)}
-          </Link>
-        </span>
+        <Link
+          as="button"
+          onPointerEnter={handlePrefetch}
+          onFocusVisible={handlePrefetch}
+          variant="outlined"
+          size="small"
+          to={isPurposeEditable ? 'SUBSCRIBE_PURPOSE_SUMMARY' : 'SUBSCRIBE_PURPOSE_DETAILS'}
+          endIcon={hasWaitingForApprovalVersion ? <PendingActionsIcon /> : undefined}
+          params={{ purposeId: purpose.id }}
+          aria-label={computedAriaLabel}
+        >
+          {tCommon(`actions.${isPurposeEditable ? 'edit' : 'inspect'}`)}
+        </Link>
       </Tooltip>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
