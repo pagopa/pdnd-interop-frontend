@@ -1,7 +1,7 @@
 import React from 'react'
 import type { DelegationKind } from '@/api/api.generatedTypes'
 import type { SxProps } from '@mui/material'
-import { Button, Typography } from '@mui/material'
+import { Button, Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 type DelegationCreateCardsProps = {
@@ -16,7 +16,13 @@ export const DelegationCreateCards: React.FC<DelegationCreateCardsProps> = ({
   const { t } = useTranslation('party')
 
   return (
-    <>
+    <Stack
+      direction="row"
+      spacing={2}
+      sx={{ width: '100%' }}
+      role="radiogroup"
+      aria-label={t('delegations.create.kindSectionAriaLabel')}
+    >
       <DelegationKindButton
         selected={selectedDelegationKind === 'DELEGATED_CONSUMER'}
         onClick={() => changeDelegationKind('DELEGATED_CONSUMER')}
@@ -28,7 +34,7 @@ export const DelegationCreateCards: React.FC<DelegationCreateCardsProps> = ({
         onClick={() => changeDelegationKind('DELEGATED_PRODUCER')}
         label={t('delegations.create.cards.provider')}
       />
-    </>
+    </Stack>
   )
 }
 
@@ -91,7 +97,14 @@ const DelegationKindButton: React.FC<{
   const { t } = useTranslation('party')
 
   return (
-    <Button onClick={onClick} sx={sx} variant="outlined" disableRipple aria-pressed={selected}>
+    <Button
+      onClick={onClick}
+      sx={sx}
+      variant="outlined"
+      disableRipple
+      role="radio"
+      aria-checked={selected}
+    >
       {svgCardIcon}
       <div>
         <Typography variant="body1">{t('delegations.create.cards.common')}</Typography>
