@@ -28,10 +28,6 @@ const FeatureFlagConfigs = z.object({
   FEATURE_FLAG_NOTIFICATION_CONFIG: z
     .enum(['true', 'false'])
     .transform((value) => value === 'true'),
-  FEATURE_FLAG_ESERVICE_PERSONAL_DATA: z
-    .enum(['true', 'false'])
-    .default('false')
-    .transform((value) => value === 'true'),
 
   FEATURE_FLAG_USE_SIGNED_DOCUMENT: z
     .enum(['true', 'false'])
@@ -119,7 +115,6 @@ export const {
   ERROR_DATA_DURATION_TIME,
   FEATURE_FLAG_NOTIFICATION_CONFIG,
   NOTIFICATION_COUNT_REFRESH_INTERVAL,
-  FEATURE_FLAG_ESERVICE_PERSONAL_DATA,
   FEATURE_FLAG_USE_SIGNED_DOCUMENT,
   DELEGATIONS_ALLOWED_ORIGINS,
   DOCUMENTATION_URL,

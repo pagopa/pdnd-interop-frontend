@@ -25,7 +25,6 @@ export const testConfigs = {
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: 'true',
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: 'http://localhost',
   FEATURE_FLAG_NOTIFICATION_CONFIG: 'true',
-  FEATURE_FLAG_ESERVICE_PERSONAL_DATA: 'true',
   FEATURE_FLAG_USE_SIGNED_DOCUMENT: 'true',
   DOCUMENTATION_URL:
     'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0',
