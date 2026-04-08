@@ -33,7 +33,7 @@ export const DelegationCreateCards: React.FC<DelegationCreateCardsProps> = ({
 }
 
 const svgCardIcon = (
-  <svg width="60" height="81" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="60" height="81" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <path
       d="M26.83 60.73h-8.02c-.596 0-1.082.481-1.082 1.07 0 .59.486 1.071 1.082 1.071h8.02c.596 0 1.082-.48 1.082-1.07 0-.59-.486-1.07-1.083-1.07ZM26.83 64.459h-8.02c-.596 0-1.082.48-1.082 1.07 0 .59.486 1.07 1.082 1.07h8.02c.596 0 1.082-.48 1.082-1.07 0-.59-.486-1.07-1.083-1.07Z"
       fill="#0073E6"
@@ -91,7 +91,7 @@ const DelegationKindButton: React.FC<{
   const { t } = useTranslation('party')
 
   return (
-    <Button onClick={onClick} sx={sx} variant="outlined" disableRipple>
+    <Button onClick={onClick} sx={sx} variant="outlined" disableRipple aria-pressed={selected}>
       {svgCardIcon}
       <div>
         <Typography variant="body1">{t('delegations.create.cards.common')}</Typography>
