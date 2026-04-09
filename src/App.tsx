@@ -23,23 +23,32 @@ import i18n from './config/react-i18next'
 const urlParams = new URLSearchParams(window.location.search)
 const redirectUrl = urlParams.get('redirectUrl')
 
+const fragments = window.location.hash.replace('#', '').split('&')
+const selfCareIdentityToken =
+  fragments
+    .find((fragment) => fragment.startsWith('id='))
+    ?.split('=')
+    .slice(1)
+    .join('=') ?? ''
+const lang =
+  fragments
+    .find((fragment) => fragment.startsWith('lang='))
+    ?.split('=')
+    .slice(1)
+    .join('=') ?? ''
+
+if (lang) {
+  i18n.changeLanguage(lang)
+}
+
 if (redirectUrl) {
-  const fragments = window.location.hash.replace('#', '').split('&')
-  const selfCareIdentityToken =
-    fragments
-      .find((fragment) => fragment.startsWith('id='))
-      ?.split('=')
-      .slice(1)
-      .join('=') ?? ''
-  const lang =
-    fragments
-      .find((fragment) => fragment.startsWith('lang='))
-      ?.split('=')
-      .slice(1)
-      .join('=') ?? i18n.language
-  const url = `/ui/${lang}${redirectUrl}#id=${selfCareIdentityToken}`
+  const url = `/ui/${i18n.language}${redirectUrl === '/' ? '/catalogo-e-service' : redirectUrl}#id=${selfCareIdentityToken}`
+  window.location.replace(url)
+} else if (lang) {
+  const url = `/ui/${i18n.language}/catalogo-e-service#${fragments.filter((fragment) => !fragment.startsWith('lang=')).join('&')}`
   window.location.replace(url)
 } else {
+  console.log('STARTUP: ', window.location.href)
   queryClient.prefetchQuery(AuthQueries.getSessionToken())
 }
 // end init ---

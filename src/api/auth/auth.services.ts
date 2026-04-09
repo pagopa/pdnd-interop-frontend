@@ -28,14 +28,24 @@ async function getSessionToken(): Promise<string | null> {
   }
 
   // 1. Check if there is a mock token: only used for dev purposes
-  if (APP_MODE === 'development' && MOCK_TOKEN) return resolveToken(MOCK_TOKEN)
+  // if (APP_MODE === 'development' && MOCK_TOKEN) return resolveToken(MOCK_TOKEN)
+
+  const fragments = window.location.hash.replace('#', '').split('&')
 
   // 2. See if we are coming from Self Care and have a new token
-  const hasSelfCareIdentityToken = window.location.hash.includes('#id=')
-  if (hasSelfCareIdentityToken) {
-    const selfCareIdentityToken = window.location.hash.replace('#id=', '')
+  const selfCareIdentityToken =
+    fragments
+      .find((fragment) => fragment.startsWith('id='))
+      ?.split('=')
+      .slice(1)
+      .join('=') ?? ''
+  if (selfCareIdentityToken) {
     // Remove token from hash
-    history.replaceState({}, document.title, window.location.href.split('#')[0])
+    // The setTimeout actually allow the browser to change is href
+    console.log('HREF: ', window.location.href)
+    setTimeout(() => {
+      history.replaceState({}, document.title, window.location.href.split('#')[0])
+    }, 0)
     try {
       const result = await swapTokens(selfCareIdentityToken)
       return resolveToken(result.session_token)
@@ -46,10 +56,21 @@ async function getSessionToken(): Promise<string | null> {
 
   // 3. See if we are trying to login as support operator
   // If the url has contains saml2 and jwt, we are trying to login as support operator
-  const hasSupportOperatorToken =
-    window.location.hash.includes('#saml2=') && window.location.hash.includes('jwt=')
+  const saml2 =
+    fragments
+      .find((fragment) => fragment.startsWith('saml2='))
+      ?.split('=')
+      .slice(1)
+      .join('=') ?? ''
+
+  const supportOperatorToken =
+    fragments
+      .find((fragment) => fragment.startsWith('jwt='))
+      ?.split('=')
+      .slice(1)
+      .join('=') ?? ''
+  const hasSupportOperatorToken = saml2 && supportOperatorToken
   if (hasSupportOperatorToken) {
-    const supportOperatorToken = window.location.hash.split('jwt=')[1]
     return resolveToken(supportOperatorToken)
   }
 
