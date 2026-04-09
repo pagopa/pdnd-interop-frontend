@@ -69,9 +69,8 @@ export const AttributeContainer = <
           <IconButton
             aria-label={t('removeAttributeAriaLabel', { attributeName: attribute.name })}
             onClick={onRemove.bind(null, attribute.id, attribute.name)}
-            color={'error' as unknown as 'primary'}
           >
-            <RemoveCircleOutlineIcon />
+            <RemoveCircleOutlineIcon color="error" />
           </IconButton>
         )}
       </Stack>
