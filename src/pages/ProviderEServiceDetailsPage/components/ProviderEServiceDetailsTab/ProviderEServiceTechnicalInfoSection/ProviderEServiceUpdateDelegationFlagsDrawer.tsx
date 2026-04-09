@@ -90,7 +90,7 @@ export const ProviderEServiceUpdateDelegationFlagsDrawer: React.FC<
           </Trans>
         }
         buttonAction={{
-          label: tCommon('actions.saveEdits'),
+          label: tCommon('actions.upgrade'),
           action: formMethods.handleSubmit(onSubmit),
         }}
         onTransitionExited={handleTransitionExited}
