@@ -48,7 +48,6 @@ if (redirectUrl) {
   const url = `/ui/${i18n.language}/catalogo-e-service#${fragments.filter((fragment) => !fragment.startsWith('lang=')).join('&')}`
   window.location.replace(url)
 } else {
-  console.log('STARTUP: ', window.location.href)
   queryClient.prefetchQuery(AuthQueries.getSessionToken())
 }
 // end init ---

@@ -28,7 +28,7 @@ async function getSessionToken(): Promise<string | null> {
   }
 
   // 1. Check if there is a mock token: only used for dev purposes
-  // if (APP_MODE === 'development' && MOCK_TOKEN) return resolveToken(MOCK_TOKEN)
+  if (APP_MODE === 'development' && MOCK_TOKEN) return resolveToken(MOCK_TOKEN)
 
   const fragments = window.location.hash.replace('#', '').split('&')
 
@@ -42,7 +42,6 @@ async function getSessionToken(): Promise<string | null> {
   if (selfCareIdentityToken) {
     // Remove token from hash
     // The setTimeout actually allow the browser to change is href
-    console.log('HREF: ', window.location.href)
     setTimeout(() => {
       history.replaceState({}, document.title, window.location.href.split('#')[0])
     }, 0)
