@@ -4,7 +4,7 @@
   "create": {
     "emptyTitle": "Crea e-service",
     "stepper": {
-      "step1Label": "Generale",
+      "step1Label": "Informazioni generali",
       "step2Label": "Soglie e attributi",
       "step2ReceiveLabel": "Finalità",
       "step3Label": "Specifiche tecniche",
