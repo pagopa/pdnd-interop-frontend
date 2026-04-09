@@ -39,7 +39,7 @@ export const DelegationCreatePage: React.FC = () => {
             />
           </SectionContainer>
         )}
-        {activeStep === 'FORM' && delegationKind != null && (
+        {activeStep === 'FORM' && delegationKind !== undefined && (
           <DelegationCreateForm delegationKind={delegationKind} setActiveStep={setActiveStep} />
         )}
       </Stack>
@@ -55,8 +55,9 @@ export const DelegationCreatePage: React.FC = () => {
             type: 'button',
             endIcon: <ArrowForwardIcon />,
             onClick: () => {
-              delegationKind != null && setActiveStep('FORM')
+              setActiveStep('FORM')
             },
+            disabled: delegationKind === undefined,
           }}
         />
       )}
