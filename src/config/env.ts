@@ -25,9 +25,6 @@ const GeneralConfigs = z.object({
 const FeatureFlagConfigs = z.object({
   FEATURE_FLAG_ADMIN_CLIENT: z.enum(['true', 'false']),
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: z.enum(['true', 'false']),
-  FEATURE_FLAG_NOTIFICATION_CONFIG: z
-    .enum(['true', 'false'])
-    .transform((value) => value === 'true'),
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA: z
     .enum(['true', 'false'])
     .default('false')
@@ -117,7 +114,6 @@ export const {
   FEATURE_FLAG_ADMIN_CLIENT,
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL,
   ERROR_DATA_DURATION_TIME,
-  FEATURE_FLAG_NOTIFICATION_CONFIG,
   NOTIFICATION_COUNT_REFRESH_INTERVAL,
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA,
   FEATURE_FLAG_USE_SIGNED_DOCUMENT,
