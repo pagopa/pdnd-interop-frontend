@@ -5,7 +5,8 @@ import { DebugVoucherForm } from './components/DebugVoucherForm'
 import { DebugVoucherResults } from './components/DebugVoucherResults'
 import { DebugVoucherContextProvider } from './DebugVoucherContext'
 import type { AccessTokenRequest, TokenGenerationValidationResult } from '@/api/api.generatedTypes'
-import { Grid } from '@mui/material'
+import { Box, Grid } from '@mui/material'
+import { RequiredTextLabel } from '@/components/shared/RequiredTextLabel'
 
 const ConsumerDebugVoucherPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerDebugVoucher' })
@@ -21,6 +22,9 @@ const ConsumerDebugVoucherPage: React.FC = () => {
 
   return (
     <PageContainer title={t('title')} description={t('description')}>
+      <Box sx={{ mt: 2, mb: 1 }}>
+        <RequiredTextLabel />
+      </Box>
       <Grid container>
         <Grid item xs={8}>
           {!debugVoucherValues ? (

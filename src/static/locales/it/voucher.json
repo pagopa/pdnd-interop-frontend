@@ -207,10 +207,19 @@
   "consumerDebugVoucher": {
     "edit": {
       "title": "Dati della richiesta al server",
-      "clientAssertionLabel": "Inserisci la tua client assertion (richiesto)",
-      "clientIdLabel": "Inserisci il client id",
-      "description": "La richiesta sarà inoltrata all’endpoint del server autorizzativo: <strong>{{ authServer }}</strong>",
-      "submitBtn": "Inoltra richiesta"
+      "description": "Copia in questi campi le informazioni che hai inviato al server autorizzativo di PDND e che hanno generato l’errore.",
+      "clientAssertionLabel": "Client assertion",
+      "clientAssertionInfoLabel": "La client assertion è un token JWT composto da una stringa che inizia per \"ey\". Copiala senza aggiungere spazi.",
+      "dPopProofLabel": "DPoP Proof",
+      "dPopProofInfoLabel": "Se hai generato un token DPoP, dovrai inserire anche la DPoP Proof in questo campo.",
+      "clientIdLabel": "client_id o producer_id",
+      "clientIdInfoLabel": "Inserisci lo stesso client_id o producer_id usati per formulare la richiesta verso PDND.",
+      "interactionModelLabel": "Modello di interazione",
+      "interactionModelSync": "Sincrono (standard)",
+      "interactionModelAsync": "Asincrono (differito)",
+      "alert": "La richiesta sarà inoltrata all’endpoint del server autorizzativo: <strong>{{ authServer }}</strong>",
+      "submitBtn": "Inoltra richiesta",
+      "goBackBtn": "Indietro"
     },
     "result": {
       "newRequestBtn": "Effettua nuova verifica",
