@@ -822,14 +822,20 @@
         "voucherLifespanField": {
           "label": "Validity period (in minutes)",
           "infoLabel": "Maximum value: 1440 minutes (24 hours)",
-          "error": "The voucher lifespan cannot be higher than 1440 minutes (24 hours)."
+          "error": "The voucher lifespan cannot be higher than 1440 minutes (24 hours).",
+          "validation": {
+            "sameValue": "The e-service voucher lifespan must be different from the current one"
+          }
         }
       },
       "updateAgreementApprovalPolicyDrawer": {
         "title": "Agreements approval",
         "subtitle": "From this panel you can establish how the agreements that the institutions will formulate towards this e-service are managed.",
         "agreementApprovalPolicyField": {
-          "label": "Manual approval"
+          "label": "Manual approval",
+          "validation": {
+            "sameValue": "The e-service agreements approval policy must be different from the current one"
+          }
         }
       },
       "technicalInfoDrawer": {

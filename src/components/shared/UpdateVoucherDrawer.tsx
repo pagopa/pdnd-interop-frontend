@@ -114,6 +114,9 @@ export const UpdateVoucherDrawer: React.FC<UpdateVoucherDrawerProps> = ({
                     message: t('voucherLifespanField.error'),
                   },
                 }),
+                validate: (value) =>
+                  value !== secondsToMinutes(voucherLifespan) ||
+                  t('voucherLifespanField.validation.sameValue'),
               }}
               disabled={isEserviceFromTemplate}
             />
