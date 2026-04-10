@@ -19,7 +19,6 @@ export const testConfigs = {
   WELL_KNOWN_URLS: 'https://dev.interop.pagopa.it/.well-known/jwks.json',
   PRODUCER_ALLOWED_ORIGINS:
     'IPA,ANAC,IVASS,INFOCAMERE,SELC,SELC-PT,PDND_INFOCAMERE-SCP,PDND_INFOCAMERE-PRV,PDND_INFOCAMERE-PT,INFOCAMERE-PT',
-  DELEGATIONS_ALLOWED_ORIGINS: 'IPA',
   PUBLIC_URL: '/ui',
   FEATURE_FLAG_ADMIN_CLIENT: 'true',
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: 'true',
@@ -30,6 +29,7 @@ export const testConfigs = {
     'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0',
   AVATAR_BASEPATH: 'http://selc-u-checkout-cdn-endpoint.azureedge.net',
   SELFCARE_PRODUCT_ID: 'prod-interop',
+  FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP: 'true',
 }
 
 // runs a cleanup after each test case (e.g. clearing jsdom)
