@@ -100,7 +100,6 @@ export const UpdateVoucherDrawer: React.FC<UpdateVoucherDrawerProps> = ({
           <Box component="form" noValidate>
             <RHFTextField
               sx={{ mt: 4, mb: 0 }}
-              focusOnMount
               name="voucherLifespan"
               label={t('voucherLifespanField.label')}
               infoLabel={t('voucherLifespanField.infoLabel')}
