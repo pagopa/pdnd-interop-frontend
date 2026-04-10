@@ -166,7 +166,7 @@
     "updateThresholds": {
       "loading": "Stiamo aggiornando le informazioni",
       "outcome": {
-        "success": "Hai modificato le soglie di chiamate API.",
+        "success": "Hai modificato le soglie di chiamate API dell'attributo certificato",
         "error": "Non è stato possibile modificare le soglie di chiamate API. Controlla di aver inserito le informazioni corrette."
       }
     },
