@@ -71,10 +71,14 @@ describe('UpdateVoucherDrawer', () => {
 
     renderComponent({ onSubmit, versionId: 'version-1' })
 
+    const input = screen.getByRole('spinbutton', { name: 'voucherLifespanField.label' })
+    await user.clear(input)
+    await user.type(input, '20')
+
     const saveButton = screen.getByText('actions.saveEdits')
     await user.click(saveButton)
 
-    expect(onSubmit).toHaveBeenCalledWith('eservice-1', 600, 'version-1')
+    expect(onSubmit).toHaveBeenCalledWith('eservice-1', 1200, 'version-1')
   })
 
   it('should disable the input when isEserviceFromTemplate is true', () => {

@@ -166,7 +166,7 @@
     "updateThresholds": {
       "loading": "Information is being updated",
       "outcome": {
-        "success": "You have changed your API call thresholds.",
+        "success": "You have changed the API call thresholds of the certified attribute",
         "error": "The API call thresholds could not be changed. Please check that you entered the correct information."
       }
     },
