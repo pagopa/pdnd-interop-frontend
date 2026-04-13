@@ -11,8 +11,8 @@ import isEmpty from 'lodash/isEmpty'
 import { GreyAlert } from './GreyAlert'
 
 export type CustomizeThresholdDrawerProps = {
-  dailyCallsPerConsumer?: number | string
-  dailyCallsTotal?: number | string
+  dailyCallsPerConsumer?: number | ''
+  dailyCallsTotal?: number | ''
   onSubmit: (threshold: number) => void
   title: string
   subtitle: React.ReactNode

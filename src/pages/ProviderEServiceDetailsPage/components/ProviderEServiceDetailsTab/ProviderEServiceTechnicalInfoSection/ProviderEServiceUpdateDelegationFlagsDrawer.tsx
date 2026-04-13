@@ -57,8 +57,10 @@ export const ProviderEServiceUpdateDelegationFlagsDrawer: React.FC<
     if (
       values.isConsumerDelegable === descriptor.eservice.isConsumerDelegable &&
       normalizedIsClientAccessDelegable === descriptor.eservice.isClientAccessDelegable
-    )
+    ) {
+      onClose()
       return
+    }
     updateDelegationFlags(
       {
         eserviceId: descriptor.eservice.id,
