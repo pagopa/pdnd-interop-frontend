@@ -207,10 +207,19 @@
   "consumerDebugVoucher": {
     "edit": {
       "title": "Request data to the server",
-      "clientAssertionLabel": "Enter your client assertion (required)",
-      "clientIdLabel": "Enter the client ID",
-      "description": "The request will be sent to the authorization server endpoint: <strong>{{ authServer }}</strong>",
-      "submitBtn": "Send request"
+      "description": "Copy the information you sent to the PDND authorization server that generated the error into these fields.",
+      "clientAssertionLabel": "Client assertion",
+      "clientAssertionInfoLabel": "The client assertion is a JWT token consisting of a string starting with \"ey.\" Copy it without adding spaces.",
+      "dPopProofLabel": "DPoP Proof",
+      "dPopProofInfoLabel": "If you generated a DPoP token, you will also need to enter the DPoP Proof in this field.",
+      "clientIdLabel": "client_id or producer_id",
+      "clientIdInfoLabel": "Please enter the same client_id or producer_id used to make the request to PDND.",
+      "interactionModelLabel": "Interaction model",
+      "interactionModelSync": "Synchronous (standard)",
+      "interactionModelAsync": "Asynchronous (deferred)",
+      "alert": "The request will be sent to the authorization server endpoint: <strong>{{ authServer }}</strong>",
+      "submitBtn": "Send request",
+      "goBackBtn": "Back"
     },
     "result": {
       "newRequestBtn": "Perform new check",

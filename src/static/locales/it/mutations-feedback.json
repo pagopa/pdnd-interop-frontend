@@ -722,6 +722,12 @@
       "outcome": {
         "error": "C’è stato un errore nell’elaborazione della richiesta. Per favore, riprova in seguito!"
       }
+    },
+    "dPoPProofVerification": {
+      "loading": "Stiamo effettuando la verifica. Attendere, prego",
+      "outcome": {
+        "error": "C’è stato un errrore nell’elaborazione della richiesta. Per favore, riprova in seguito!"
+      }
     }
   },
   "keychain": {
