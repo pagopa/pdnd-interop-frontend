@@ -11,6 +11,7 @@ import {
   createMockDebugVoucherResultPassed,
 } from '@/../__mocks__/data/voucher.mocks'
 import type { TokenGenerationValidationResult } from '@/api/api.generatedTypes'
+import { VoucherMutations } from '@/api/voucher'
 
 const response = createMockDebugVoucherResultPassed()
 
@@ -31,10 +32,13 @@ describe('DebugVoucherForm testing', () => {
       <DebugVoucherForm setDebugVoucherValues={setDebugVoucherValuesMockFn} />,
       {
         withReactQueryContext: true,
+        withRouterContext: true,
       }
     )
 
-    const clientAssertionInput = screen.getByLabelText('clientAssertionLabel')
+    const clientAssertionInput = screen.getByRole('textbox', {
+      name: 'clientAssertionLabel',
+    })
     const clientIdInput = screen.getByLabelText('clientIdLabel')
     const submitButton = screen.getByRole('button', { name: 'submitBtn' })
 
@@ -61,10 +65,13 @@ describe('DebugVoucherForm testing', () => {
       <DebugVoucherForm setDebugVoucherValues={setDebugVoucherValuesMockFn} />,
       {
         withReactQueryContext: true,
+        withRouterContext: true,
       }
     )
 
-    const clientAssertionInput = screen.getByLabelText('clientAssertionLabel')
+    const clientAssertionInput = screen.getByRole('textbox', {
+      name: 'clientAssertionLabel',
+    })
     const submitButton = screen.getByRole('button', { name: 'submitBtn' })
 
     fireEvent.change(clientAssertionInput, { target: { value: 'test client assertion' } })
@@ -81,5 +88,69 @@ describe('DebugVoucherForm testing', () => {
         response: response,
       })
     )
+  })
+
+  it('should call both APIs and merge responses when dPopProof is provided', async () => {
+    const setDebugVoucherValuesMockFn = vi.fn()
+
+    const tokenResponse = createMockDebugVoucherResultPassed()
+
+    const dpopResponse = createMockDebugVoucherResultPassed()
+
+    const validateVoucherMock = vi.fn().mockResolvedValue(tokenResponse)
+    const validateDPoPMock = vi.fn().mockResolvedValue(dpopResponse)
+
+    vi.spyOn(VoucherMutations, 'useValidateTokenGeneration').mockReturnValue({
+      mutateAsync: validateVoucherMock,
+    } as never)
+
+    vi.spyOn(VoucherMutations, 'useValidateDPoPProof').mockReturnValue({
+      mutateAsync: validateDPoPMock,
+    } as never)
+
+    const screen = renderWithApplicationContext(
+      <DebugVoucherForm setDebugVoucherValues={setDebugVoucherValuesMockFn} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    const clientAssertionInput = await screen.findByRole('textbox', {
+      name: 'clientAssertionLabel',
+    })
+
+    const dpopInput = await screen.findByRole('textbox', {
+      name: 'dPopProofLabel',
+    })
+
+    const submitButton = screen.getByRole('button', { name: 'submitBtn' })
+
+    fireEvent.change(clientAssertionInput, {
+      target: { value: 'test client assertion' },
+    })
+
+    fireEvent.change(dpopInput, {
+      target: { value: 'test dpop proof' },
+    })
+
+    fireEvent.click(submitButton)
+
+    await waitFor(() => {
+      expect(validateVoucherMock).toHaveBeenCalledTimes(1)
+      expect(validateDPoPMock).toHaveBeenCalledTimes(1)
+    })
+
+    expect(setDebugVoucherValuesMockFn).toHaveBeenCalledWith({
+      request: expect.objectContaining({
+        client_assertion: 'test client assertion',
+      }),
+      response: {
+        steps: {
+          ...tokenResponse.steps,
+          ...dpopResponse.steps,
+        },
+      },
+    })
   })
 })

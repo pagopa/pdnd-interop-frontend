@@ -58,7 +58,7 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
       grant_type: 'client_credentials',
     }
 
-    if (!formValues.dPopProof) {
+    if (!formValues.dPopProof || formValues.dPopProof === '') {
       const response = await validateVoucherAsync(payloadValidateVoucher)
 
       setDebugVoucherValues({
@@ -116,7 +116,7 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
               infoLabel={t('clientIdInfoLabel')}
             />
 
-            {/* --- Probably not needed, waiting for an update on the Figma */}
+            {/* The input will be disabled for this release: https://www.figma.com/design/CpRV3kPvFEWLXGtJUgWeZW?node-id=4078-14921#1712917799 */}
             <RHFRadioGroup
               disabled
               name="interactionType"
