@@ -22,9 +22,11 @@ const ConsumerDebugVoucherPage: React.FC = () => {
 
   return (
     <PageContainer title={t('title')} description={t('description')}>
-      <Box sx={{ mt: 2, mb: 1 }}>
-        <RequiredTextLabel />
-      </Box>
+      {!debugVoucherValues && (
+        <Box sx={{ mt: 2, mb: 1 }}>
+          <RequiredTextLabel />
+        </Box>
+      )}
       <Grid container>
         <Grid item xs={8}>
           {!debugVoucherValues ? (
