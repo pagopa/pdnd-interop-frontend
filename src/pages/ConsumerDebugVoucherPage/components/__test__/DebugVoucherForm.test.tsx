@@ -116,11 +116,11 @@ describe('DebugVoucherForm testing', () => {
       }
     )
 
-    const clientAssertionInput = await screen.findByRole('textbox', {
+    const clientAssertionInput = screen.getByRole('textbox', {
       name: 'clientAssertionLabel',
     })
 
-    const dpopInput = await screen.findByRole('textbox', {
+    const dpopInput = screen.getByRole('textbox', {
       name: 'dPopProofLabel',
     })
 

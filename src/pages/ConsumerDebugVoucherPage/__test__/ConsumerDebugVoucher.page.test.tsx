@@ -45,7 +45,9 @@ describe('ConsumerDebugVoucherPage testing', () => {
       withRouterContext: true,
     })
 
-    const clientAssertionInput = screen.getByLabelText('clientAssertionLabel')
+    const clientAssertionInput = screen.getByRole('textbox', {
+      name: 'clientAssertionLabel',
+    })
     const clientIdInput = screen.getByLabelText('clientIdLabel')
     const submitButton = screen.getByRole('button', { name: 'submitBtn' })
 
@@ -64,7 +66,9 @@ describe('ConsumerDebugVoucherPage testing', () => {
       withRouterContext: true,
     })
 
-    const clientAssertionInput = screen.getByLabelText('clientAssertionLabel')
+    const clientAssertionInput = screen.getByRole('textbox', {
+      name: 'clientAssertionLabel',
+    })
     const clientIdInput = screen.getByLabelText('clientIdLabel')
     const submitButton = screen.getByRole('button', { name: 'submitBtn' })
 
