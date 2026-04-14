@@ -15,6 +15,8 @@ import { routes, useCurrentRoute, useSwitchPathLang } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import { Stack } from '@mui/system'
 import { AllowedLanguage } from '@/router/routes'
+import { TenantHooks } from '@/api/tenant'
+import { useIsOrganizationAllowedToDelegations } from '@/api/hooks'
 
 function EmptyWrapper({ children }: { children: React.ReactNode }) {
   return <>{children}</>
@@ -37,13 +39,11 @@ const _RoutesWrapper: React.FC = () => {
   }, [searchParams, switchLang])
 
   const { isPublic, routeKey } = useCurrentRoute()
-  const {
-    jwt,
-    isSupport,
-    currentRoles,
-    isOrganizationAllowedToProduce,
-    isOrganizationAllowedToDelegations,
-  } = AuthHooks.useJwt()
+  const { jwt, isSupport, currentRoles, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
+  const { data: tenant } = TenantHooks.useGetActiveUserParty()
+  const isOrganizationAllowedToDelegations = useIsOrganizationAllowedToDelegations(
+    tenant.id
+  ).isAllowed
 
   useScrollTopOnLocationChange()
 
@@ -64,7 +64,7 @@ const _RoutesWrapper: React.FC = () => {
                 <_AuthGuard
                   jwt={jwt}
                   isOrganizationAllowedToProduce={isOrganizationAllowedToProduce}
-                  isOrganizationAllowedToDelegations={isOrganizationAllowedToDelegations}
+                  isOrganizationAllowedToDelegations={isOrganizationAllowedToDelegations ?? false}
                   isSupport={isSupport}
                   currentRoles={currentRoles}
                 >

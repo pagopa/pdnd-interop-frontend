@@ -1,7 +1,7 @@
 import React from 'react'
 import { DebugVoucherForm } from '../DebugVoucherForm'
 import { vi } from 'vitest'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseGetActiveUserParty, renderWithApplicationContext } from '@/utils/testing.utils'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { rest } from 'msw'

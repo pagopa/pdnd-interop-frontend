@@ -11,17 +11,15 @@ import { ConsumerIcon, ProviderIcon, CatalogIcon, DeveloperToolIcon, MyTenantIco
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import { useTranslation } from 'react-i18next'
 import { FEATURE_FLAG_NOTIFICATION_CONFIG } from '@/config/env'
+import { useIsOrganizationAllowedToDelegations } from '@/api/hooks'
 
 export function useGetSidebarItems(): SidebarRoutes {
   const { t } = useTranslation('sidebar', { keyPrefix: 'menuItem' })
-  const {
-    currentRoles,
-    isSupport,
-    isOrganizationAllowedToProduce,
-    isOrganizationAllowedToDelegations,
-  } = AuthHooks.useJwt()
+  const { currentRoles, isSupport, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
+  const isOrganizationAllowedToDelegations =
+    useIsOrganizationAllowedToDelegations(tenant.id)?.isAllowed ?? false
 
   return React.useMemo(() => {
     const interopRoutes: SidebarRoutes = [

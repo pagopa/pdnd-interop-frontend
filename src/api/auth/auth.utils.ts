@@ -1,8 +1,7 @@
-import { FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP, PRODUCER_ALLOWED_ORIGINS } from '@/config/env'
+import { PRODUCER_ALLOWED_ORIGINS } from '@/config/env'
 import type { JwtUser } from '@/types/party.types'
 import memoize from 'lodash/memoize'
 import { jwtDecode } from 'jwt-decode'
-import { TenantQueries } from '../tenant'
 
 export type ParsedJwt = ReturnType<typeof parseJwt>
 
@@ -22,14 +21,6 @@ export const parseJwt = memoize((token: string | null | undefined) => {
     jwt?.externalId && PRODUCER_ALLOWED_ORIGINS.includes(jwt.externalId.origin)
   )
 
-  const isOrganizationAllowedToDelegations = (tenantId: string) => {
-    if (FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP === true) {
-      return true
-    }
-    const isPA = TenantQueries.getIsTenantAllowedToDelegation(tenantId)
-    return isPA
-  }
-
   const userEmail = jwt?.email
 
   return {
@@ -40,7 +31,6 @@ export const parseJwt = memoize((token: string | null | undefined) => {
     isOperatorSecurity,
     isSupport,
     isOrganizationAllowedToProduce,
-    isOrganizationAllowedToDelegations,
     userEmail,
   }
 })

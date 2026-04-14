@@ -2,10 +2,15 @@ import { renderHook } from '@testing-library/react'
 import { useGetSidebarItems } from '../useGetSidebarItems'
 import { mockUseGetActiveUserParty, mockUseJwt } from '@/utils/testing.utils'
 
+vi.mock('@/api/hooks', () => ({
+  useIsOrganizationAllowedToDelegations: vi.fn(() => ({ isAllowed: true, isLoading: false })),
+}))
+
 describe('useGetSidebarItems', () => {
   it('should return empty navigation list if jwt not contain roles', () => {
     mockUseJwt({ currentRoles: [] })
     mockUseGetActiveUserParty()
+
     const { result } = renderHook(() => useGetSidebarItems())
     expect(result.current).toEqual([])
   })

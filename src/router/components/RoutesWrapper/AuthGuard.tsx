@@ -1,4 +1,6 @@
+import { IsTenantAllowedToDelegation } from '@/api/api.generatedTypes'
 import { AuthQueries } from '@/api/auth'
+import { useIsOrganizationAllowedToDelegations } from '@/api/hooks'
 import { TenantHooks } from '@/api/tenant'
 import { FEATURE_FLAG_NOTIFICATION_CONFIG } from '@/config/env'
 import type { RouteKey } from '@/router'
@@ -14,7 +16,7 @@ export interface AuthGuardProps {
   jwt?: JwtUser
   currentRoles: UserProductRole[]
   isOrganizationAllowedToProduce: boolean
-  isOrganizationAllowedToDelegations: boolean
+  isOrganizationAllowedToDelegations: boolean | IsTenantAllowedToDelegation
   isSupport: boolean
 }
 
@@ -32,13 +34,15 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   jwt,
   currentRoles,
   isOrganizationAllowedToProduce,
-  isOrganizationAllowedToDelegations,
   isSupport,
 }) => {
   const { isUserAuthorized } = useAuthGuard()
   const { mode, routeKey } = useCurrentRoute()
   const { data: blacklist } = useQuery(AuthQueries.getBlacklist())
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
+  const isOrganizationAllowedToDelegations = useIsOrganizationAllowedToDelegations(
+    tenant.id
+  ).isAllowed
 
   const isInBlacklist = jwt?.organizationId && blacklist?.includes(jwt.organizationId)
 
