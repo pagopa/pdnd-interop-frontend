@@ -1,4 +1,3 @@
-import { IsTenantAllowedToDelegation } from '@/api/api.generatedTypes'
 import { AuthQueries } from '@/api/auth'
 import { useIsOrganizationAllowedToDelegations } from '@/api/hooks'
 import { TenantHooks } from '@/api/tenant'
