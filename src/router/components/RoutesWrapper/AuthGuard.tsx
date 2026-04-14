@@ -39,7 +39,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   const { data: blacklist } = useQuery(AuthQueries.getBlacklist())
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
   const { isAllowed: isOrganizationAllowedToDelegations, isLoading: isDelegationsLoading } =
-    useIsOrganizationAllowedToDelegations(tenant?.id as string)
+    useIsOrganizationAllowedToDelegations(tenant.id)
 
   const isInBlacklist = jwt?.organizationId && blacklist?.includes(jwt.organizationId)
 
