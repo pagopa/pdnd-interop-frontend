@@ -16,7 +16,7 @@ export interface AuthGuardProps {
   jwt?: JwtUser
   currentRoles: UserProductRole[]
   isOrganizationAllowedToProduce: boolean
-  isOrganizationAllowedToDelegations: boolean | IsTenantAllowedToDelegation
+  isOrganizationAllowedToDelegations: boolean
   isSupport: boolean
 }
 
@@ -40,11 +40,14 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   const { mode, routeKey } = useCurrentRoute()
   const { data: blacklist } = useQuery(AuthQueries.getBlacklist())
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
-  const isOrganizationAllowedToDelegations = useIsOrganizationAllowedToDelegations(
-    tenant.id
-  ).isAllowed
+  const { isAllowed: isOrganizationAllowedToDelegations, isLoading: isDelegationsLoading } =
+    useIsOrganizationAllowedToDelegations(tenant?.id as string)
 
   const isInBlacklist = jwt?.organizationId && blacklist?.includes(jwt.organizationId)
+
+  if (isDelegationsLoading) {
+    return null // Renders nothing while loading
+  }
 
   function isUserAllowedToAccessCertifierRoutes() {
     const isCertifier = isTenantCertifier(tenant)

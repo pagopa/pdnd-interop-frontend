@@ -41,9 +41,8 @@ const _RoutesWrapper: React.FC = () => {
   const { isPublic, routeKey } = useCurrentRoute()
   const { jwt, isSupport, currentRoles, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
-  const isOrganizationAllowedToDelegations = useIsOrganizationAllowedToDelegations(
-    tenant.id
-  ).isAllowed
+  const { isAllowed: isOrganizationAllowedToDelegations, isLoading: isDelegationsLoading } =
+    useIsOrganizationAllowedToDelegations(tenant?.id as string)
 
   useScrollTopOnLocationChange()
 
@@ -64,7 +63,9 @@ const _RoutesWrapper: React.FC = () => {
                 <_AuthGuard
                   jwt={jwt}
                   isOrganizationAllowedToProduce={isOrganizationAllowedToProduce}
-                  isOrganizationAllowedToDelegations={isOrganizationAllowedToDelegations ?? false}
+                  isOrganizationAllowedToDelegations={
+                    isDelegationsLoading ? false : isOrganizationAllowedToDelegations
+                  }
                   isSupport={isSupport}
                   currentRoles={currentRoles}
                 >
