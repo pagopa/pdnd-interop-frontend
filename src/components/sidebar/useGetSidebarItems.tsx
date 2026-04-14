@@ -128,6 +128,7 @@ export function useGetSidebarItems(): SidebarRoutes {
     currentRoles,
     isOrganizationAllowedToProduce,
     isOrganizationAllowedToDelegations,
+    isOrganizationAllowedToDelegationsLoading,
     isSupport,
     t,
     tenant,

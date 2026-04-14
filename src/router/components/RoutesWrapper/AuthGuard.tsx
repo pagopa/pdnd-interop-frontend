@@ -43,6 +43,16 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
 
   const isInBlacklist = jwt?.organizationId && blacklist?.includes(jwt.organizationId)
 
+  const delegationsRoutes: Array<RouteKey> = [
+    'DELEGATIONS',
+    'DELEGATION_DETAILS',
+    'CREATE_DELEGATION',
+  ]
+
+  if (delegationsRoutes.includes(routeKey) && isDelegationsLoading) {
+    return null
+  }
+
   function isUserAllowedToAccessCertifierRoutes() {
     const isCertifier = isTenantCertifier(tenant)
     const certifierRoutes: Array<RouteKey> = [
@@ -65,15 +75,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   }
 
   function isUserAllowedToAccessDelegationsRoutes() {
-    const delegationsRoutes: Array<RouteKey> = [
-      'DELEGATIONS',
-      'DELEGATION_DETAILS',
-      'CREATE_DELEGATION',
-    ]
-    return (
-      (isOrganizationAllowedToDelegations && !isDelegationsLoading) ||
-      !delegationsRoutes.includes(routeKey)
-    )
+    return isOrganizationAllowedToDelegations || !delegationsRoutes.includes(routeKey)
   }
 
   function isUserAllowedToAccessNotificationPage() {
