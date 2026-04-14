@@ -42,7 +42,7 @@
     "manage": {
       "success": {
         "provider": "Il fruitore possiede almeno uno dei seguenti attributi",
-        "consumer": "Possiedi almeno uno di questi attributi."
+        "consumer": "Possiedi almeno uno dei seguenti attributi"
       },
       "warning": {
         "certified": {
