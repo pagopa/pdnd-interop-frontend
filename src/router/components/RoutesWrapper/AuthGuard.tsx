@@ -16,7 +16,6 @@ export interface AuthGuardProps {
   jwt?: JwtUser
   currentRoles: UserProductRole[]
   isOrganizationAllowedToProduce: boolean
-  isOrganizationAllowedToDelegations: boolean
   isSupport: boolean
 }
 
