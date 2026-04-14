@@ -60,7 +60,7 @@
       },
       "error": {
         "provider": "Il fruitore non possiede nessuno dei seguenti attributi",
-        "consumer": "Per ora non possiedi nessuno di questi attributi."
+        "consumer": "Per ora non possiedi nessuno degli attributi indicati"
       },
       "revokedByCertifier": "Attributo revocato dal certificatore",
       "revokedByProducer": "Attributo revocato da un erogatore",
