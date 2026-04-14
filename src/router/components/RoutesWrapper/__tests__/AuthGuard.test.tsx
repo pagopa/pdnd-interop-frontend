@@ -9,8 +9,15 @@ import { AuthGuard } from '../AuthGuard'
 import { createMockJwtUser } from '@/../__mocks__/data/user.mocks'
 import { ErrorBoundary } from 'react-error-boundary'
 import * as router from '@/router'
+import { useIsOrganizationAllowedToDelegations } from '@/api/hooks'
 
 const useAuthGuardSpy = vi.spyOn(router, 'useAuthGuard')
+
+vi.mock('@/api/hooks', () => ({
+  useIsOrganizationAllowedToDelegations: vi.fn(() => ({ isAllowed: true, isLoading: false })),
+}))
+
+const useIsOrganizationAllowedToDelegationsMock = vi.mocked(useIsOrganizationAllowedToDelegations)
 
 mockUseCurrentRoute({
   routeKey: 'DEFAULT',
@@ -129,7 +136,7 @@ describe('AuthGuard', () => {
   })
 
   it.each(['DELEGATIONS', 'DELEGATION_DETAILS', 'CREATE_DELEGATION'] as const)(
-    'Should able to access when user try to access on %s route and he is a PA',
+    'Should able to access when user try to access on %s route and he is a PA and he is authorized to access',
     (routeKey) => {
       const props: AuthGuardTestProps = {
         ...defaultProps,
@@ -144,10 +151,11 @@ describe('AuthGuard', () => {
       mockUseCurrentRoute({
         routeKey,
       })
-      mockUseGetActiveUserParty({
-        data: {
-          externalId: { origin: 'IPA' },
-        },
+
+      mockUseGetActiveUserParty()
+      useIsOrganizationAllowedToDelegationsMock.mockReturnValue({
+        isAllowed: true,
+        isLoading: false,
       })
 
       const { getByText } = renderAuthGuard(props)
@@ -171,10 +179,10 @@ describe('AuthGuard', () => {
       mockUseCurrentRoute({
         routeKey,
       })
-      mockUseGetActiveUserParty({
-        data: {
-          externalId: { origin: '' },
-        },
+      mockUseGetActiveUserParty()
+      useIsOrganizationAllowedToDelegationsMock.mockReturnValue({
+        isAllowed: false,
+        isLoading: false,
       })
 
       const { getByText } = renderAuthGuard(props)
