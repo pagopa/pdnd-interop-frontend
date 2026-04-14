@@ -38,16 +38,21 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   const { mode, routeKey } = useCurrentRoute()
   const { data: blacklist } = useQuery(AuthQueries.getBlacklist())
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
-  const { isAllowed: isOrganizationAllowedToDelegations, isLoading: isDelegationsLoading } =
-    useIsOrganizationAllowedToDelegations(tenant.id)
-
-  const isInBlacklist = jwt?.organizationId && blacklist?.includes(jwt.organizationId)
 
   const delegationsRoutes: Array<RouteKey> = [
     'DELEGATIONS',
     'DELEGATION_DETAILS',
     'CREATE_DELEGATION',
   ]
+
+  const shouldCheckDelegationsPermission =
+    delegationsRoutes.includes(routeKey) &&
+    (isSupport || currentRoles.includes('admin' as UserProductRole))
+
+  const { isAllowed: isOrganizationAllowedToDelegations, isLoading: isDelegationsLoading } =
+    useIsOrganizationAllowedToDelegations(tenant.id, shouldCheckDelegationsPermission)
+
+  const isInBlacklist = jwt?.organizationId && blacklist?.includes(jwt.organizationId)
 
   if (delegationsRoutes.includes(routeKey) && isDelegationsLoading) {
     return null
