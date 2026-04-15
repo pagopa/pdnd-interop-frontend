@@ -47,7 +47,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
 
   const shouldCheckDelegationsPermission =
     delegationsRoutes.includes(routeKey) &&
-    (isSupport || currentRoles.includes('admin' as UserProductRole))
+    (isSupport || currentRoles.includes('admin'))
 
   const { isAllowed: isOrganizationAllowedToDelegations, isLoading: isDelegationsLoading } =
     useIsOrganizationAllowedToDelegations(tenant.id, shouldCheckDelegationsPermission)
