@@ -23,7 +23,7 @@ export const EServiceTemplateCatalogGrid: React.FC<EServiceTemplateCatalogGridPr
   return (
     <Grid container spacing={3}>
       {eservicesTemplateList?.map((eserviceTemplate) => (
-        <Grid item key={eserviceTemplate.id} xs={4}>
+        <Grid item key={eserviceTemplate.id} xs={12} sm={4}>
           <EServiceTemplateCatalogCard eserviceTemplate={eserviceTemplate} />
         </Grid>
       ))}
@@ -69,7 +69,7 @@ export const EServiceTemplateCatalogGridSkeletron: React.FC = () => {
   return (
     <Grid container spacing={3}>
       {new Array(9).fill('').map((_, i) => (
-        <Grid key={i} xs={4} item>
+        <Grid key={i} xs={12} sm={4} item>
           <CatalogCardSkeleton />
         </Grid>
       ))}

@@ -3,10 +3,10 @@ import type { RouteKey, useParams } from '@/router'
 import { Link } from '@/router'
 import {
   Avatar,
+  Box,
   Card,
   CardActions,
   CardContent,
-  CardHeader,
   Skeleton,
   Stack,
   Tooltip,
@@ -52,25 +52,32 @@ export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        minHeight: 410,
+        minHeight: { xs: 'auto', sm: 410 },
         opacity: disabled ? 0.5 : 1,
       }}
     >
-      <CardHeader
-        sx={{ p: 3, pb: 0 }}
-        disableTypography={true}
-        title={
-          <Stack direction="row" spacing={1} alignItems="center">
-            <Avatar src={avatarURL} alt={producerName} sx={{ bgcolor: 'background.default' }}>
-              <AccountBalanceIcon sx={{ color: '#bdbdbd' }} fontSize="small" />
-            </Avatar>
-            <Typography variant="caption" color="text.secondary">
-              {producerName}
-            </Typography>
-          </Stack>
-        }
-      />
-      <CardContent sx={{ alignItems: 'start' }}>
+      <Box
+        sx={{
+          p: { xs: 1, sm: 3 },
+          pb: { xs: 1, sm: 0 },
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1,
+        }}
+      >
+        <Avatar
+          src={avatarURL}
+          alt={producerName}
+          sx={{ bgcolor: 'background.default', flexShrink: 0 }}
+        >
+          <AccountBalanceIcon sx={{ color: '#bdbdbd' }} fontSize="small" />
+        </Avatar>
+        <Typography variant="caption" color="text.secondary" sx={{ wordBreak: 'break-word' }}>
+          {producerName}
+        </Typography>
+      </Box>
+
+      <CardContent sx={{ alignItems: 'start', flexGrow: 1, p: { xs: 2, sm: 3 } }}>
         <Typography variant="h6" color="text.primary" sx={{ marginBottom: 1 }}>
           {title}
         </Typography>
@@ -88,10 +95,21 @@ export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
         </Typography>
       </CardContent>
 
-      <CardActions sx={{ justifyContent: 'end', alignItems: 'end', flex: 1 }}>
-        <Stack direction="row" spacing={2}>
+      <CardActions
+        sx={{
+          justifyContent: { xs: 'flex-start', sm: 'flex-end' },
+          alignItems: 'center',
+          p: { xs: 2, sm: 3 },
+          pt: 0,
+        }}
+      >
+        <Stack
+          direction="row"
+          spacing={2}
+          sx={{ maxWidth: '100%', width: { xs: '100%', sm: 'auto' } }}
+        >
           <Tooltip open={disabled ? undefined : false} title={t('list.disabledTooltip')} arrow>
-            <span>
+            <span style={{ display: 'block', width: '100%' }}>
               <Link
                 as="button"
                 size="small"
@@ -101,6 +119,13 @@ export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
                 onFocusVisible={prefetchFn}
                 color="primary"
                 disabled={disabled}
+                sx={{
+                  width: '100%',
+                  whiteSpace: 'normal',
+                  wordBreak: 'break-word',
+                  textAlign: 'center',
+                  padding: { xs: 0.5, sm: 2.5 },
+                }}
               >
                 {tCommon('actions.inspect')}
               </Link>
@@ -113,5 +138,14 @@ export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
 }
 
 export const CatalogCardSkeleton = () => {
-  return <Skeleton sx={{ borderRadius: 2 }} variant="rectangular" height={410} />
+  return (
+    <Skeleton
+      sx={{
+        borderRadius: 2,
+        height: '100%',
+        minHeight: { xs: 200, sm: 410 },
+      }}
+      variant="rectangular"
+    />
+  )
 }

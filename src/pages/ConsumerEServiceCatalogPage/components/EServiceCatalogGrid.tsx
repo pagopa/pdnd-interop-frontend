@@ -20,7 +20,7 @@ export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ eservi
   return (
     <Grid container spacing={3}>
       {eservices?.map((eservice) => (
-        <Grid item key={eservice.id} xs={4}>
+        <Grid item key={eservice.id} xs={12} sm={4}>
           <EServiceCatalogCard
             key={eservice.activeDescriptor?.id}
             eservice={eservice}
@@ -67,7 +67,7 @@ export const EServiceCatalogGridSkeleton: React.FC = () => {
   return (
     <Grid container spacing={3}>
       {new Array(9).fill('').map((_, i) => (
-        <Grid key={i} xs={4} item>
+        <Grid key={i} xs={12} sm={4} item>
           <CatalogCardSkeleton />
         </Grid>
       ))}
