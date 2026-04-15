@@ -13,7 +13,9 @@ export const DebugVoucherResultsRequestSection: React.FC = () => {
 
   return (
     <SectionContainer title={t('title')} description={t('description')}>
-      <Stack spacing={4}>
+      <Stack spacing={4} mt={4}>
+        {/* @TODO: change content when backend field will be available */}
+        <InformationContainer label={t('voucherType.label')} content={''} />
         {request.client_id && (
           <InformationContainer label={t('clientId.label')} content={request.client_id} />
         )}

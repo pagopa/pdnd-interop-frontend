@@ -40,7 +40,9 @@ const DebugVoucherResultsAlert: React.FC = () => {
             eserviceName: response.eservice?.name,
             eserviceVersion: response.eservice?.version,
           })
-        : t('alert.description.apiSuccess')
+        : t(
+            'alert.description.apiSuccess'
+          ) /* @TODO: add condition to show 'alert.description.apiV3Success' if dPopProof is entered */
     resultAlert.type = 'success'
   }
 

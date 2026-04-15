@@ -227,6 +227,7 @@
         "title": "Result of your request",
         "description": {
           "apiSuccess": "This request is valid; it is possible to obtain a voucher for the <strong>PDND APIs</strong>",
+          "apiV3Success": "This request is valid; it is possible to obtain a voucher for the <strong>PDND APIs v3</strong>",
           "consumerSuccess": "This request is valid; it is possible to obtain a voucher for the e-service <1>{{eserviceName}}, {{eserviceVersion}}</1>",
           "failed": "It is not possible to obtain a voucher for this request"
         }
@@ -238,7 +239,7 @@
             "clientAssertionValidation": "1. Client assertion validation",
             "publicKeyRetrieve": "2. Retrieval of the public key stored on PDND",
             "clientAssertionSignatureVerification": "3. Verification of the client assertion signature",
-            "platformStatesVerification": "4. Verification of the component states on PDND"
+            "platformStatesVerification": "4. States verification"
           }
         }
       },
@@ -247,6 +248,9 @@
         "description": "Below is the body (payload) of the request that was sent to the PDND authorization server",
         "clientId": {
           "label": "Client_id"
+        },
+        "voucherType": {
+          "label": "Voucher type"
         },
         "clientAssertion": {
           "label": "Client_assertion"
@@ -265,7 +269,7 @@
           "clientAssertionValidation": "1. Client assertion validation",
           "publicKeyRetrieve": "2. Retrieval of the public key stored on PDND",
           "clientAssertionSignatureVerification": "3. Verification of the client assertion signature",
-          "platformStatesVerification": "4. Verification of the component states on PDND"
+          "platformStatesVerification": "4. States verification"
         },
         "description": {
           "clientAssertionValidation": "It is verified that the client assertion is well structured. All required fields must be present and correctly filled.",

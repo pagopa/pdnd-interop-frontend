@@ -40,11 +40,22 @@ export const DebugVoucherResultsStep: React.FC<ResultStepProps> = ({ step, stepK
       }}
       onClick={handleClick}
     >
-      <Typography component={'span'} variant="body1" fontWeight={600}>
+      <Typography component={'span'} variant="body1" fontWeight={600} textAlign={'left'}>
         {t(`label.${stepKey}`)}
       </Typography>
       <Stack direction="row" justifyContent="end" spacing={2}>
-        {chipProps && <Chip size="small" label={chipProps.label} color={chipProps.color} />}
+        {chipProps && (
+          <Chip
+            size="small"
+            label={chipProps.label}
+            color={chipProps.color}
+            sx={{
+              '& .MuiChip-label': {
+                whiteSpace: 'pre',
+              },
+            }}
+          />
+        )}
         <RightArrowIcon />
       </Stack>
     </Button>

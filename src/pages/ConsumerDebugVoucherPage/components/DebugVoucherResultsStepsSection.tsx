@@ -31,6 +31,14 @@ export const DebugVoucherResultsStepsSection: React.FC = () => {
             stepKey="platformStatesVerification"
           />
         )}
+        {/* 
+          @TODO: Uncomment when dPopProofVerification step is implemented in the backend and included in the response
+          
+          <DebugVoucherResultsStep
+            step={response.steps.dpopProofVerification}
+            stepKey="dPopProofVerification"
+          /> 
+        */}
       </Stack>
     </SectionContainer>
   )
