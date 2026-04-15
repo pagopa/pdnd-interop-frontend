@@ -3,6 +3,7 @@ import { useGetSidebarItems } from '../useGetSidebarItems'
 import { mockUseGetActiveUserParty, mockUseJwt } from '@/utils/testing.utils'
 import { vi } from 'vitest'
 import { useIsOrganizationAllowedToDelegations } from '@/api/hooks'
+import type { SidebarRoutes, SidebarChildRoutes } from '../sidebar.types'
 
 vi.mock('@/api/hooks', () => ({
   useIsOrganizationAllowedToDelegations: vi.fn(() => ({ isAllowed: true, isLoading: false })),
@@ -12,9 +13,9 @@ const useIsOrganizationAllowedToDelegationsMock = vi.mocked(useIsOrganizationAll
 
 describe('useGetSidebarItems', () => {
   // Helper function to easily extract the delegations item from the generated sidebar
-  const getDelegationsChild = (sidebarItems: any[]) => {
+  const getDelegationsChild = (sidebarItems: SidebarRoutes): SidebarChildRoutes[number] | undefined => {
     const tenantItem = sidebarItems.find((item) => item.rootRouteKey === 'PARTY_REGISTRY')
-    return tenantItem?.children?.find((child: any) => child.to === 'DELEGATIONS')
+    return tenantItem?.children?.find((child) => child.to === 'DELEGATIONS')
   }
 
   it('should return empty navigation list if jwt not contain roles', () => {
