@@ -203,7 +203,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             </Stack>
           </Alert>
         )}
-        {hasMissingFields && !isLoading && (
+        {!canBePublished() && !isLoading && (
           <Alert severity="warning" sx={{ mt: 3 }}>
             {t('summary.missingFieldsBanner')}
           </Alert>
