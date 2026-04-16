@@ -18,10 +18,11 @@ export function useGetSidebarItems(): SidebarRoutes {
   const { currentRoles, isSupport, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
+  const shouldCheckDelegationsPermission = isSupport || currentRoles.includes('admin')
   const {
     isAllowed: isOrganizationAllowedToDelegations,
     isLoading: isOrganizationAllowedToDelegationsLoading,
-  } = useIsOrganizationAllowedToDelegations(tenant.id)
+  } = useIsOrganizationAllowedToDelegations(tenant.id, shouldCheckDelegationsPermission)
 
   return React.useMemo(() => {
     const interopRoutes: SidebarRoutes = [

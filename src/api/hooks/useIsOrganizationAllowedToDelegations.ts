@@ -6,16 +6,23 @@ export const useIsOrganizationAllowedToDelegations = (
   tenantId: string,
   shouldCheckDelegationsPermission?: boolean
 ) => {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     ...TenantQueries.getIsTenantAllowedToDelegation(tenantId),
-    enabled: !FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP && shouldCheckDelegationsPermission !== false,
+    enabled:
+      !FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP &&
+      shouldCheckDelegationsPermission !== false &&
+      !!tenantId,
+    retry: false,
+    throwOnError: false,
   })
 
   if (FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP) {
     return { isAllowed: true, isLoading: false }
   }
 
-  const isAllowed = data?.isAllowed ?? false
+  if (isError) {
+    return { isAllowed: false, isLoading: false }
+  }
 
-  return { isAllowed, isLoading }
+  return { isAllowed: data?.isAllowed ?? false, isLoading }
 }
