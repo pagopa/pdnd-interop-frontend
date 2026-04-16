@@ -22,8 +22,9 @@ window.pagopa_env = {
   FEATURE_FLAG_NOTIFICATION_CONFIG: 'true',
   FEATURE_FLAG_ESERVICE_PERSONAL_DATA: 'true',
   FEATURE_FLAG_USE_SIGNED_DOCUMENT: 'true',
+  FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER: 'true',
   DOCUMENTATION_URL:
     'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0',
   AVATAR_BASEPATH: 'https://selc-u-checkout-cdn-endpoint.azureedge.net',
-  SELFCARE_PRODUCT_ID: 'prod-interop'
+  SELFCARE_PRODUCT_ID: 'prod-interop',
 }
