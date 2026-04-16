@@ -6,7 +6,6 @@ function useValidateTokenGeneration() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'voucher.tokenVerification' })
   return useMutation({
     mutationFn: VoucherServices.validateTokenGeneration,
-    retry: true,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
