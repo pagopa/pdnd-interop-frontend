@@ -138,6 +138,11 @@ export interface AccessTokenRequest {
   client_assertion: string;
   client_assertion_type: string;
   grant_type: string;
+  /**
+   * Optional DPoP proof JWT. It is validated only when `FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER` is enabled; otherwise the request fails
+   * @format jws
+   */
+  dpop_proof?: string;
 }
 
 export interface PrivacyNotice {
@@ -1913,6 +1918,9 @@ export interface TokenGenerationValidationSteps {
   publicKeyRetrieve: TokenGenerationValidationEntry;
   clientAssertionSignatureVerification: TokenGenerationValidationEntry;
   platformStatesVerification: TokenGenerationValidationEntry;
+  dpopProofValidation?: TokenGenerationValidationEntry;
+  dpopMatchValidation?: TokenGenerationValidationEntry;
+  dpopSignatureVerification?: TokenGenerationValidationEntry;
 }
 
 export interface TokenGenerationValidationEntry {
@@ -8452,7 +8460,7 @@ export namespace Session {
 
 export namespace Tools {
   /**
-   * @description Provides additional details about token generation request failure
+   * @description Provides additional details about token generation request failure, including optional DPoP proof validation when `FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER` is enabled. If `dpop_proof` is provided while the feature flag is disabled, the request fails
    * @tags tools
    * @name ValidateTokenGeneration
    * @summary Validate token generation request

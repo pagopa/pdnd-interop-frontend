@@ -16,8 +16,8 @@ import { useNavigate } from '@/router'
 
 export type DebugVoucherFormValues = {
   clientAssertion: string
-  dPopProof: string
   clientId: string
+  dPopProof: string | undefined
   interactionType: string // mocked form field
 }
 
@@ -34,12 +34,11 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
   const navigate = useNavigate()
 
   const { mutateAsync: validateVoucherAsync } = VoucherMutations.useValidateTokenGeneration()
-  const { mutateAsync: validateDPoPProofAsync } = VoucherMutations.useValidateDPoPProof() // mocked mutation
 
   const defaultValues: DebugVoucherFormValues = {
     clientAssertion: '',
-    dPopProof: '',
     clientId: '',
+    dPopProof: undefined,
     interactionType: 'sync', // mocked interaction type default value
   }
 
@@ -59,32 +58,14 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
       client_assertion: formValues.clientAssertion,
       client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
       grant_type: 'client_credentials',
+      dpop_proof: formValues.dPopProof || undefined,
     }
 
-    if (!formValues.dPopProof || formValues.dPopProof === '') {
-      const response = await validateVoucherAsync(payloadValidateVoucher)
-
-      setDebugVoucherValues({
-        request: payloadValidateVoucher,
-        response,
-      })
-
-      return
-    }
-
-    const [tokenResponse, dpopResponse] = await Promise.all([
-      validateVoucherAsync(payloadValidateVoucher),
-      validateDPoPProofAsync(payloadValidateVoucher), // mocked DPoP proof validation payload
-    ])
+    const response = await validateVoucherAsync(payloadValidateVoucher)
 
     setDebugVoucherValues({
       request: payloadValidateVoucher,
-      response: {
-        steps: {
-          ...tokenResponse.steps,
-          ...dpopResponse.steps,
-        },
-      },
+      response,
     })
   }
 

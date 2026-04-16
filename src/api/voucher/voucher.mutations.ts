@@ -14,19 +14,6 @@ function useValidateTokenGeneration() {
   })
 }
 
-function useValidateDPoPProof() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'voucher.dPoPProofVerification' })
-  return useMutation({
-    mutationFn: VoucherServices.validateDPoPProof,
-    retry: false,
-    meta: {
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
-    },
-  })
-}
-
 export const VoucherMutations = {
   useValidateTokenGeneration,
-  useValidateDPoPProof,
 }
