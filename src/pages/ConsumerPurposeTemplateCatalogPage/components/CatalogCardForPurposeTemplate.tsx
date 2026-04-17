@@ -54,7 +54,6 @@ export function CatalogCardForPurposeTemplate<TRouteKey extends CatalogRoutesKey
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        maxHeight: 294,
         maxWidth: 620,
       }}
     >
@@ -82,7 +81,14 @@ export function CatalogCardForPurposeTemplate<TRouteKey extends CatalogRoutesKey
       </CardContent>
 
       <CardActions
-        sx={{ display: 'flex', justifyContent: 'space-between', flex: 1, alignItems: 'end' }}
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          flex: 1,
+          alignItems: { xs: 'start', sm: 'flex-end' },
+          flexDirection: { xs: 'column', sm: 'row' },
+          gap: { xs: 2, sm: 0 },
+        }}
       >
         <Stack direction="row" spacing={1} alignItems="center" sx={{ flexGrow: 1 }}>
           <Avatar src={avatarURL} alt={creatorName} sx={{ bgcolor: 'background.default' }}>
