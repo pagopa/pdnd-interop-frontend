@@ -65,7 +65,7 @@ export const EServiceTemplateCatalogCard: React.FC<{
   )
 }
 
-export const EServiceTemplateCatalogGridSkeletron: React.FC = () => {
+export const EServiceTemplateCatalogGridSkeleton: React.FC = () => {
   return (
     <Grid container spacing={3}>
       {new Array(9).fill('').map((_, i) => (

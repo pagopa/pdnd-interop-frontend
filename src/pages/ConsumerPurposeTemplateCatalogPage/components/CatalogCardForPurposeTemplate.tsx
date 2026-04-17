@@ -117,5 +117,5 @@ export function CatalogCardForPurposeTemplate<TRouteKey extends CatalogRoutesKey
 }
 
 export const CatalogCardForPurposeTemplateSkeleton = () => {
-  return <Skeleton sx={{ borderRadius: 2 }} variant="rectangular" height={294} />
+  return <Skeleton sx={{ borderRadius: 2, height: '100%', minHeight: 294 }} variant="rectangular" />
 }
