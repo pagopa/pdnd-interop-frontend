@@ -30,14 +30,17 @@ export function useGetPurposeInfoAlert({
     return fallbackAlert
   }
 
-  const isDailyCallsMaximumReached =
-    remainingDailyCallsPerConsumer === 0 || remainingDailyCallsTotal === 0
+  const isDailyCallsMaximumReached = remainingDailyCallsTotal === 0
 
   const isDailyCallsTotalResidualExceed =
-    remainingDailyCallsTotal !== undefined && dailyCalls > remainingDailyCallsTotal
+    remainingDailyCallsTotal !== undefined &&
+    dailyCalls > remainingDailyCallsTotal &&
+    dailyCalls < dailyCallsTotal
 
   const isDailyCallsPerConsumerResidualExceed =
-    remainingDailyCallsPerConsumer !== undefined && dailyCalls > remainingDailyCallsPerConsumer
+    remainingDailyCallsPerConsumer !== undefined &&
+    dailyCalls > remainingDailyCallsPerConsumer &&
+    dailyCalls < dailyCallsPerConsumer
 
   const isDailyCallsTotalExceed = dailyCalls > dailyCallsTotal
   const isDailyCallsPerConsumerExceed = dailyCalls > dailyCallsPerConsumer
