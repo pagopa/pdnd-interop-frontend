@@ -72,7 +72,7 @@ export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
         >
           <AccountBalanceIcon sx={{ color: '#bdbdbd' }} fontSize="small" />
         </Avatar>
-        <Typography variant="caption" color="text.secondary" sx={{ wordBreak: 'break-word' }}>
+        <Typography variant="caption" color="text.secondary">
           {producerName}
         </Typography>
       </Box>
@@ -121,10 +121,6 @@ export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
                 disabled={disabled}
                 sx={{
                   width: '100%',
-                  whiteSpace: 'normal',
-                  wordBreak: 'break-word',
-                  textAlign: 'center',
-                  padding: { xs: 0.5, sm: 2.5 },
                 }}
               >
                 {tCommon('actions.inspect')}
