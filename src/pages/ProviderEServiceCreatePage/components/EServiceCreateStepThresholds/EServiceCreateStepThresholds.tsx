@@ -182,11 +182,12 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
         <Box component={'form'} noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
           <EServiceThresholdSection
             limitsSuggestions={
-              isEServiceCreatedFromTemplate
+              isEServiceCreatedFromTemplate &&
+              descriptor?.templateRef?.templateDailyCallsTotal &&
+              descriptor?.templateRef?.templateDailyCallsPerConsumer
                 ? {
-                    dailyCallsTotal: descriptor?.templateRef?.templateDailyCallsTotal ?? 1,
-                    dailyCallsPerConsumer:
-                      descriptor?.templateRef?.templateDailyCallsPerConsumer ?? 1,
+                    dailyCallsTotal: descriptor.templateRef.templateDailyCallsTotal,
+                    dailyCallsPerConsumer: descriptor.templateRef.templateDailyCallsPerConsumer,
                   }
                 : undefined
             }
