@@ -824,7 +824,8 @@
           "infoLabel": "Maximum value: 1440 minutes (24 hours)",
           "error": "The voucher lifespan cannot be higher than 1440 minutes (24 hours).",
           "validation": {
-            "sameValue": "The e-service voucher lifespan must be different from the current one"
+            "sameValue": "The e-service voucher lifespan must be different from the current one",
+            "integer": "The e-service voucher lifespan must be an integer value"
           }
         }
       },
