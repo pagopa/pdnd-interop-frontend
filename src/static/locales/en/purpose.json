@@ -72,7 +72,7 @@
     "endWithSaveBtn": "Go to summary",
     "eserviceProvider": "provided by",
     "stepGeneral": {
-      "title": "Purpose information",
+      "title": "General information",
       "nameField": {
         "label": "Purpose name",
         "infoLabel": "It will help you tell them apart. Min 5 characters, max 60 characters"
@@ -82,14 +82,14 @@
         "infoLabel": "Min 10 characters, max 250 characters"
       },
       "isFreeOfChargeField": {
-        "label": "How will you provide access to data from this e-service?*",
+        "label": "How will you make the data you receive from this e-service available?",
         "options": {
           "YES": "Free of charge",
           "NO": "For a fee"
         }
       },
       "freeOfChargeReasonField": {
-        "label": "Free of charge reason*",
+        "label": "Free of charge reason",
         "infoLabel": "Explain why you will make this data available free of charge. Indicate whether you are doing so under a statutory exemption or exclusion, or for another reason. Minimum 10 characters, maximum 250 characters."
       }
     },
@@ -98,7 +98,10 @@
       "description": "Indicates the number of calls expected each day for this purpose.",
       "dailyCalls": {
         "label": "Estimated number of API calls/day",
-        "infoLabel": "Please enter a number greater than or equal to 1."
+        "infoLabel": "Please enter a number greater than or equal to 1.",
+        "validation": {
+          "integer": "Threshold value must be an integer"
+        }
       },
       "providerThresholdsInfo": {
         "label": "Thresholds defined by the provider",
