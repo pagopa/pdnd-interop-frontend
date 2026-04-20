@@ -2,7 +2,7 @@ import { Grid, Alert } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CatalogEServiceTemplate } from '@/api/api.generatedTypes'
-import { CatalogCard, CatalogCardSkeleton } from '@/components/shared/CatalogCard'
+import { CatalogCard } from '@/components/shared/CatalogCard'
 import { useQueryClient } from '@tanstack/react-query'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { AVATAR_BASEPATH } from '@/config/env'
@@ -62,17 +62,5 @@ export const EServiceTemplateCatalogCard: React.FC<{
         eServiceTemplateId: eserviceTemplate.id,
       }}
     />
-  )
-}
-
-export const EServiceTemplateCatalogGridSkeleton: React.FC = () => {
-  return (
-    <Grid container spacing={3}>
-      {new Array(9).fill('').map((_, i) => (
-        <Grid key={i} xs={12} sm={4} item>
-          <CatalogCardSkeleton />
-        </Grid>
-      ))}
-    </Grid>
   )
 }

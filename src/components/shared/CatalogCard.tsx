@@ -73,7 +73,18 @@ export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
           <AccountBalanceIcon sx={{ color: '#bdbdbd' }} fontSize="small" />
         </Avatar>
         <Typography variant="caption" color="text.secondary">
-          {producerName}
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ligula sapien, congue eu odio
+          vel, condimentum efficitur neque. Suspendisse interdum metus eget ligula mattis, eu
+          finibus urna viverra. Nulla rutrum sem sem, ac egestas nisi rutrum eu. Mauris ultricies at
+          erat vel efficitur. Ut venenatis tellus eget sapien rhoncus bibendum non luctus urna.
+          Curabitur fermentum suscipit dolor sagittis vulputate. Maecenas ante metus, finibus ut
+          ipsum cursus, consectetur euismod velit. Nulla vel eleifend nibh. In vel justo quis leo
+          consequat mattis. Cras ac iaculis lorem, sed malesuada odio. Vivamus sem massa, rutrum
+          eget ullamcorper a, ullamcorper eu sapien. Duis iaculis magna non neque tincidunt gravida.
+          Mauris in ligula nulla. Vivamus ac dapibus massa. Donec id felis nec nunc semper congue.
+          Mauris eu dolor quis neque imperdiet sollicitudin et congue ante. Integer cursus porta
+          sem. Nullam iaculis rhoncus erat sit amet semper. Morbi vulputate venenatis ipsum, luctus
+          finibus orci ultricies vitae.
         </Typography>
       </Box>
 
@@ -109,7 +120,7 @@ export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
           sx={{ maxWidth: '100%', width: { xs: '100%', sm: 'auto' } }}
         >
           <Tooltip open={disabled ? undefined : false} title={t('list.disabledTooltip')} arrow>
-            <span style={{ display: 'block', width: '100%' }}>
+            <span style={{ display: 'block' }}>
               <Link
                 as="button"
                 size="small"
