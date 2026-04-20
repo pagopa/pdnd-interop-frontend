@@ -127,7 +127,7 @@
       "exampleLabel": "Esempio di utilizzo"
     }
   },
-  "step3": {
+  "accessTokenStep": {
     "stepperLabel": "Voucher",
     "title": "Richiesta voucher",
     "consumerDescription": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di voucher verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un voucher spendibile presso l'e-service dell’erogatore",

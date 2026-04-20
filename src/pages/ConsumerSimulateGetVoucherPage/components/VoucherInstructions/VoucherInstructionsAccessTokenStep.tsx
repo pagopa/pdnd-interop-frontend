@@ -16,7 +16,7 @@ import { useSearchParams } from 'react-router-dom'
 const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
 const GRANT_TYPE = 'client_credentials'
 
-export const VoucherInstructionsStep3: React.FC = () => {
+export const VoucherInstructionsAccessTokenStep: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
   const [searchParams] = useSearchParams()
@@ -28,73 +28,79 @@ export const VoucherInstructionsStep3: React.FC = () => {
   return (
     <>
       <SectionContainer
-        title={t('step3.title')}
+        title={t('accessTokenStep.title')}
         description={t(
-          `step3.${clientKind === 'CONSUMER' ? 'consumerDescription' : 'apiDescription'}`
+          `accessTokenStep.${clientKind === 'CONSUMER' ? 'consumerDescription' : 'apiDescription'}`
         )}
       >
-        <SectionContainer innerSection title={t('step3.authEndpoint.label')}>
+        <SectionContainer innerSection title={t('accessTokenStep.authEndpoint.label')}>
           <InformationContainer
             label="URL"
             content={AUTHORIZATION_SERVER_TOKEN_CREATION_URL}
             copyToClipboard={{
               value: AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
-              tooltipTitle: t('step3.authEndpoint.copySuccessFeedbackText'),
+              tooltipTitle: t('accessTokenStep.authEndpoint.copySuccessFeedbackText'),
             }}
           />
         </SectionContainer>
         <Divider sx={{ my: 1 }} />
-        <SectionContainer innerSection title={t('step3.requestBody.title')}>
+        <SectionContainer innerSection title={t('accessTokenStep.requestBody.title')}>
           <Stack spacing={2}>
             <InformationContainer
-              label={t('step3.requestBody.clientIdField.label')}
+              label={t('accessTokenStep.requestBody.clientIdField.label')}
               content={clientId}
               copyToClipboard={{
                 value: clientId,
-                tooltipTitle: t('step3.requestBody.clientIdField.copySuccessFeedbackText'),
-              }}
-            />
-            <InformationContainer
-              label={t('step3.requestBody.clientAssertionField.label')}
-              content={t('step3.requestBody.clientAssertionField.suggestionLabel')}
-            />
-
-            <InformationContainer
-              label={t('step3.requestBody.clientAssertionTypeField.label')}
-              labelDescription={t('step3.requestBody.clientAssertionTypeField.description')}
-              content={CLIENT_ASSERTION_TYPE}
-              copyToClipboard={{
-                value: CLIENT_ASSERTION_TYPE,
                 tooltipTitle: t(
-                  'step3.requestBody.clientAssertionTypeField.copySuccessFeedbackText'
+                  'accessTokenStep.requestBody.clientIdField.copySuccessFeedbackText'
                 ),
               }}
             />
             <InformationContainer
-              label={t('step3.requestBody.grantTypeField.label')}
+              label={t('accessTokenStep.requestBody.clientAssertionField.label')}
+              content={t('accessTokenStep.requestBody.clientAssertionField.suggestionLabel')}
+            />
+
+            <InformationContainer
+              label={t('accessTokenStep.requestBody.clientAssertionTypeField.label')}
+              labelDescription={t(
+                'accessTokenStep.requestBody.clientAssertionTypeField.description'
+              )}
+              content={CLIENT_ASSERTION_TYPE}
+              copyToClipboard={{
+                value: CLIENT_ASSERTION_TYPE,
+                tooltipTitle: t(
+                  'accessTokenStep.requestBody.clientAssertionTypeField.copySuccessFeedbackText'
+                ),
+              }}
+            />
+            <InformationContainer
+              label={t('accessTokenStep.requestBody.grantTypeField.label')}
               content={GRANT_TYPE}
               copyToClipboard={{
                 value: GRANT_TYPE,
-                tooltipTitle: t('step3.requestBody.grantTypeField.copySuccessFeedbackText'),
+                tooltipTitle: t(
+                  'accessTokenStep.requestBody.grantTypeField.copySuccessFeedbackText'
+                ),
               }}
             />
           </Stack>
         </SectionContainer>
       </SectionContainer>
 
-      <SectionContainer title={t('step3.voucherScript.title')}>
+      <SectionContainer title={t('accessTokenStep.voucherScript.title')}>
         <Typography>
           <Trans
             components={{
               1: <MUILink href="https://formulae.brew.sh/formula/curl" target="_blank" />,
             }}
           >
-            {t('step3.voucherScript.guide')}
+            {t('accessTokenStep.voucherScript.guide')}
           </Trans>
         </Typography>
         <CodeSnippetPreview
           sx={{ mt: 2 }}
-          title={t('step3.voucherScript.exampleLabel')}
+          title={t('accessTokenStep.voucherScript.exampleLabel')}
           activeLang="curl"
           entries={[{ url: `${FE_URL}/data/it/session_token_curl.txt`, value: 'curl' }]}
           scriptSubstitutionValues={{
@@ -106,8 +112,10 @@ export const VoucherInstructionsStep3: React.FC = () => {
         />
 
         <Alert severity="info" sx={{ mt: 4 }}>
-          {t('step3.debugVoucherAlert.description')}{' '}
-          <Link to={'SUBSCRIBE_DEBUG_VOUCHER'}>{t('step3.debugVoucherAlert.link.label')}</Link>
+          {t('accessTokenStep.debugVoucherAlert.description')}{' '}
+          <Link to={'SUBSCRIBE_DEBUG_VOUCHER'}>
+            {t('accessTokenStep.debugVoucherAlert.link.label')}
+          </Link>
         </Alert>
       </SectionContainer>
       <StepActions

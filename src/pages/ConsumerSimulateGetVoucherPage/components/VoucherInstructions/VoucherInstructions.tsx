@@ -8,7 +8,7 @@ import { VoucherInstructionsContextProvider } from './VoucherInstructionsContext
 
 import { VoucherInstructionsGeneralForm } from './VoucherInstructionsGeneralForm'
 import { VoucherInstructionsClientAssertionStep } from './VoucherInstructionsClientAssertionStep'
-import { VoucherInstructionsStep3 } from './VoucherInstructionsStep3'
+import { VoucherInstructionsAccessTokenStep } from './VoucherInstructionsAccessTokenStep'
 import { VoucherInstructionsStep4 } from './VoucherInstructionsStep4'
 
 export const VoucherInstructions: React.FC = () => {
@@ -22,7 +22,7 @@ export const VoucherInstructions: React.FC = () => {
       label: t('clientAssertionStep.stepperLabel'),
       component: VoucherInstructionsClientAssertionStep,
     },
-    { label: t('step3.stepperLabel'), component: VoucherInstructionsStep3 },
+    { label: t('accessTokenStep.stepperLabel'), component: VoucherInstructionsAccessTokenStep },
     {
       label:
         clientKind === 'CONSUMER' ? t('step4.consumerStepperLabel') : t('step4.apiStepperLabel'),

@@ -127,7 +127,7 @@
       "exampleLabel": "Example usage"
     }
   },
-  "step3": {
+  "accessTokenStep": {
     "stepperLabel": "Voucher",
     "title": "Voucher request",
     "consumerDescription": "Once the JWS has been signed with your private key, it must be used to make a voucher request to the PDND authorization server. If successful, a voucher usable at the producer’s e-service will be returned",
