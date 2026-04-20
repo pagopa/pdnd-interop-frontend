@@ -183,7 +183,9 @@ const ProviderEServiceSummaryPage: React.FC = () => {
       return true
     }
 
-    return !!descriptor.templateRef?.interfaceMetadata
+    return (
+      !!descriptor.templateRef?.interfaceMetadata || !!descriptor.templateRef?.templateInterface
+    )
   }
 
   const isReceiveMode = descriptor?.eservice.mode === 'RECEIVE'
