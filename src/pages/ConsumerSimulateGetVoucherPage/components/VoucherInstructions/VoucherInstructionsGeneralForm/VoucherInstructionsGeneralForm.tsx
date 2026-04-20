@@ -7,7 +7,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import ApiIcon from '@mui/icons-material/Api'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { verifyVoucherGuideLink } from '@/config/constants'
-import { VoucherInstructionsStep1CurrentIdsDrawer } from './VoucherInstructionsStep1CurrentIdsDrawer'
+import { VoucherInstructionsGeneralFormCurrentIdsDrawer } from './VoucherInstructionsGeneralFormCurrentIdsDrawer'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { StepActions } from '@/components/shared/StepActions'
 import { useClientKind } from '@/hooks/useClientKind'
@@ -18,19 +18,19 @@ import { RHFAutocompleteSingle, RHFSelect } from '@/components/shared/react-hook
 import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
 import { useSearchParams } from 'react-router-dom'
 
-interface VoucherInstructionsStep1Form {
+interface VoucherInstructionsGeneralForm {
   clientId: string | null
   purposeId: string | null
   keyId: string | null
 }
 
-export const VoucherInstructionsStep1: React.FC = () => {
+export const VoucherInstructionsGeneralForm: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
   const { goToNextStep } = useVoucherInstructionsContext()
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const formMethods = useForm<VoucherInstructionsStep1Form>({
+  const formMethods = useForm<VoucherInstructionsGeneralForm>({
     defaultValues: {
       clientId: searchParams.get('clientId'),
       purposeId: searchParams.get('purposeId'),
@@ -78,7 +78,7 @@ export const VoucherInstructionsStep1: React.FC = () => {
     }))
   }, [clients])
 
-  const onSubmit: SubmitHandler<VoucherInstructionsStep1Form> = (values) => {
+  const onSubmit: SubmitHandler<VoucherInstructionsGeneralForm> = (values) => {
     if (clientKind === 'CONSUMER' && !Boolean(values.keyId && values.purposeId)) return
 
     if (clientKind === 'API' && !Boolean(values.keyId)) return
@@ -111,18 +111,18 @@ export const VoucherInstructionsStep1: React.FC = () => {
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
         <SectionContainer
-          title={t(`step1.title.${clientKind}`)}
-          description={t('step1.description')}
+          title={t(`generalForm.title.${clientKind}`)}
+          description={t('generalForm.description')}
           bottomActions={[
             {
               startIcon: <OpenInNewIcon fontSize="small" />,
-              label: t('step1.goToTechnicalDocsLabel'),
+              label: t('generalForm.goToTechnicalDocsLabel'),
               href: verifyVoucherGuideLink,
               target: '_blank',
             },
             {
               startIcon: <ApiIcon fontSize="small" />,
-              label: t('step1.showCurrentSelectionIds'),
+              label: t('generalForm.showCurrentSelectionIds'),
               component: 'button',
               type: 'button',
               onClick: openDrawer,
@@ -133,7 +133,7 @@ export const VoucherInstructionsStep1: React.FC = () => {
             <RHFAutocompleteSingle
               name="clientId"
               rules={{ required: true }}
-              label={t('step1.clientSelectInput.label')}
+              label={t('generalForm.clientSelectInput.label')}
               onInputChange={(_, value) => setClientSearch(value)}
               options={options}
               loading={isFetchingClients}
@@ -144,7 +144,7 @@ export const VoucherInstructionsStep1: React.FC = () => {
               <FormControl fullWidth sx={{ mt: 2 }}>
                 <RHFSelect
                   name="purposeId"
-                  label={t('step1.purposeSelectInput.label')}
+                  label={t('generalForm.purposeSelectInput.label')}
                   options={(purposes ?? []).map((purpose) => ({
                     label: `${purpose.title} per ${purpose.eservice.name}`,
                     value: purpose.purposeId,
@@ -163,7 +163,7 @@ export const VoucherInstructionsStep1: React.FC = () => {
             <FormControl fullWidth sx={{ mt: 2 }}>
               <RHFSelect
                 name="keyId"
-                label={t('step1.keySelectInput.label')}
+                label={t('generalForm.keySelectInput.label')}
                 options={(clientKeys ?? []).map((key) => ({ label: key.name, value: key.keyId }))}
                 rules={{ required: true }}
                 disabled={!clientKeys || isFetchingClients || isFetchingKeys || isFetchingClient}
@@ -184,7 +184,7 @@ export const VoucherInstructionsStep1: React.FC = () => {
           }}
         />
       </Box>
-      <VoucherInstructionsStep1CurrentIdsDrawer
+      <VoucherInstructionsGeneralFormCurrentIdsDrawer
         isOpen={isOpen}
         onClose={closeDrawer}
         clientId={clientId}

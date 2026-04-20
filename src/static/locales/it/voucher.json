@@ -12,7 +12,7 @@
   },
   "title": "Simula l’ottenimento di un voucher",
   "description": "Attraverso questa funzionalità potrai simulare l’ottenimento di un voucher. Una volta selezionati i parametri, potrai effettuare una client assertion, richiedere un voucher e verificare che sia compatibile.",
-  "step1": {
+  "generalForm": {
     "stepperLabel": "Selezione parametri",
     "title": {
       "API": "Seleziona chiave pubblica",

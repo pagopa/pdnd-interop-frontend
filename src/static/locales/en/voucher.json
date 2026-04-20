@@ -12,7 +12,7 @@
   },
   "title": "Simulate voucher acquisition",
   "description": "Through this feature, you can simulate obtaining a voucher. Once the parameters are selected, you can perform a client assertion, request a voucher, and check that it is compatible.",
-  "step1": {
+  "generalForm": {
     "stepperLabel": "Parameter selection",
     "title": {
       "API": "Select public key",

@@ -6,7 +6,7 @@ import { useClientKind } from '@/hooks/useClientKind'
 import { SectionContainerSkeleton } from '@/components/layout/containers'
 import { VoucherInstructionsContextProvider } from './VoucherInstructionsContext'
 
-import { VoucherInstructionsStep1 } from './VoucherInstructionsStep1'
+import { VoucherInstructionsGeneralForm } from './VoucherInstructionsGeneralForm'
 import { VoucherInstructionsStep2 } from './VoucherInstructionsStep2'
 import { VoucherInstructionsStep3 } from './VoucherInstructionsStep3'
 import { VoucherInstructionsStep4 } from './VoucherInstructionsStep4'
@@ -17,7 +17,7 @@ export const VoucherInstructions: React.FC = () => {
   const { activeStep, forward, back } = useActiveStep()
 
   const steps = [
-    { label: t('step1.stepperLabel'), component: VoucherInstructionsStep1 },
+    { label: t('generalForm.stepperLabel'), component: VoucherInstructionsGeneralForm },
     { label: t('step2.stepperLabel'), component: VoucherInstructionsStep2 },
     { label: t('step3.stepperLabel'), component: VoucherInstructionsStep3 },
     {
