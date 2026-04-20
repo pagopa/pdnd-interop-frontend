@@ -36,7 +36,7 @@
     "description": "Lo strumento di debug ti consente di evidenziare eventuali anomalie contenute nella tua client assertion necessaria per l’ottenimento dell’access token."
   },
   "consumerSimulateGetVoucher": {
-    "title": "Simula l’ottenimento di un voucher",
+    "title": "Simula l’ottenimento di un voucher {{voucherType}}",
     "description": "Attraverso questa funzionalità potrai simulare l’ottenimento di un voucher. Una volta selezionati i parametri, potrai effettuare una client assertion, richiedere un voucher e verificare che sia compatibile."
   },
   "tenantCertifier": {

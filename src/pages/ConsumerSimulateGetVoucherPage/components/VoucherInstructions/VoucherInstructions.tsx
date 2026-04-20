@@ -15,9 +15,9 @@ export const VoucherInstructions: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
   const { activeStep, forward, back } = useActiveStep()
+  const [showStepper, setShowStepper] = React.useState(false)
 
   const steps = [
-    { label: t('generalForm.stepperLabel'), component: VoucherInstructionsGeneralForm },
     {
       label: t('clientAssertionStep.stepperLabel'),
       component: VoucherInstructionsClientAssertionStep,
@@ -34,20 +34,35 @@ export const VoucherInstructions: React.FC = () => {
 
   const { component: Step } = steps[activeStep]
 
+  const handleBack = () => {
+    if (activeStep === 0) {
+      setShowStepper(false)
+    } else {
+      back()
+    }
+  }
+
   const contextProps = {
-    goToPreviousStep: back,
+    goToPreviousStep: handleBack,
     goToNextStep: forward,
+    startStepper: () => setShowStepper(true),
   }
 
   return (
     <>
       <VoucherInstructionsContextProvider {...contextProps}>
-        <Stepper steps={steps} activeIndex={activeStep} />
-        <React.Suspense
-          fallback={<SectionContainerSkeleton height={clientKind === 'CONSUMER' ? 356 : 297} />}
-        >
-          <Step />
-        </React.Suspense>
+        {!showStepper ? (
+          <VoucherInstructionsGeneralForm />
+        ) : (
+          <>
+            <Stepper steps={steps} activeIndex={activeStep} />
+            <React.Suspense
+              fallback={<SectionContainerSkeleton height={clientKind === 'CONSUMER' ? 356 : 297} />}
+            >
+              <Step />
+            </React.Suspense>
+          </>
+        )}
       </VoucherInstructionsContextProvider>
     </>
   )

@@ -27,7 +27,7 @@ interface VoucherInstructionsGeneralForm {
 export const VoucherInstructionsGeneralForm: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
-  const { goToNextStep } = useVoucherInstructionsContext()
+  const { startStepper } = useVoucherInstructionsContext()
   const [searchParams, setSearchParams] = useSearchParams()
 
   const formMethods = useForm<VoucherInstructionsGeneralForm>({
@@ -89,7 +89,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
       if (values.keyId) prev.set('keyId', values.keyId)
       return prev
     })
-    goToNextStep()
+    startStepper()
   }
 
   /**
