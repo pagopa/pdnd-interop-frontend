@@ -16,19 +16,55 @@
   "pdnd": "PDND",
   "generalForm": {
     "stepperLabel": "Parameter selection",
-    "title": {
-      "API": "Select public key",
-      "CONSUMER": "Select purpose and public key"
+    "technicalDetails": {
+      "title": "Technical details",
+      "description": "Select the voucher and interaction model for a complete simulation."
     },
-    "description": "Used to show you the correct parameters to populate the client assertion",
+    "simulationSetup": {
+      "title": "Simulation setup",
+      "description": "It serves to show you the correct parameters to enhance the client assertion."
+    },
+    "voucherType": {
+      "label": "Voucher type",
+      "options": {
+        "bearer": {
+          "label": "Bearer <br> ",
+          "description": "Standard access token. The sender is authenticated only by possession of the token itself."
+        },
+        "dpop": {
+          "label": "DPoP",
+          "description": "Binds the token to a client cryptographic key, preventing the voucher from being reused by unauthorized parties."
+        }
+      }
+    },
+    "interationType": {
+      "label": "Interaction type",
+      "options": {
+        "sync": "Synchronous (standard)",
+        "async": "Asynchronous (deferred)"
+      }
+    },
+    "memberType": {
+      "label": "Member type",
+      "options": {
+        "consumer": "E-service consumer",
+        "producer": "E-service producer"
+      }
+    },
+    "asyncExchangeStep": {
+      "label": "Asynchronous exchange step",
+      "startInteraction": "Start interaction (start_interaction)",
+      "getResource": "Obtaining the resource (get_resource)",
+      "confirmation": "Confirmation of receipt (confirmation)"
+    },
     "clientSelectInput": {
-      "label": "Choose the client to use"
+      "label": "Client to use"
     },
     "purposeSelectInput": {
-      "label": "Choose the purpose to use"
+      "label": "Purpose"
     },
     "keySelectInput": {
-      "label": "Choose the public key to use"
+      "label": "Public key"
     },
     "goToTechnicalDocsLabel": "Go to technical documentation",
     "showCurrentSelectionIds": "View IDs for current selection",

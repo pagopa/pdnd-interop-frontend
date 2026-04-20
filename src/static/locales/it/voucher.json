@@ -16,19 +16,55 @@
   "pdnd": "PDND",
   "generalForm": {
     "stepperLabel": "Selezione parametri",
-    "title": {
-      "API": "Seleziona chiave pubblica",
-      "CONSUMER": "Seleziona finalità e chiave pubblica"
+    "technicalDetails": {
+      "title": "Dettagli tecnici",
+      "description": "Seleziona il voucher e il modello di interazione per una simulazione completa."
     },
-    "description": "Serve a mostrarti i parametri corretti per valorizzare la client assertion",
+    "simulationSetup": {
+      "title": "Configura la simulazione",
+      "description": "Serve a mostrarti i parametri corretti per valorizzare la client assertion."
+    },
+   "voucherType": {
+      "label": "Tipologia voucher",
+      "options": {
+        "bearer": {
+          "label": "Bearer",
+          "description": "Token di accesso standard. Il mittente è autenticato solo tramite il possesso del token stesso."
+        },
+        "dpop": {
+          "label": "DPoP",
+          "description": "Vincola il token a una chiave crittografica del client, impedendo il riutilizzo del voucher da parte di soggetti non autorizzati."
+        }
+      }
+    },
+    "interationType": {
+      "label": "Modello di interazione",
+      "options": {
+        "sync": "Sincrono (standard)",
+        "async": "Asincrono (differito)"
+      }
+    },
+    "memberType": {
+      "label": "Tipologia di aderente",
+      "options": {
+        "consumer": "Fruitore dell’e-service",
+        "producer": "Erogatore dell’e-service"
+      }
+    },
+    "asyncExchangeStep": {
+      "label": "Step dello scambio asincrono",
+      "startInteraction": "Inizio dell’interazione (start_interaction)",
+      "getResource": "Ottenimento della risorsa (get_resource)",
+      "confirmation": "Conferma di ricezione (confirmation)"
+    },
     "clientSelectInput": {
-      "label": "Scegli un client da utilizzare"
+      "label": "Client da utilizzare"
     },
     "purposeSelectInput": {
-      "label": "Scegli la finalità da utilizzare"
+      "label": "Finalità"
     },
     "keySelectInput": {
-      "label": "Scegli la chiave pubblica da utilizzare"
+      "label": "Chiave pubblica"
     },
     "goToTechnicalDocsLabel": "Vai alla documentazione tecnica",
     "showCurrentSelectionIds": "Visualizza id per la selezione corrente",

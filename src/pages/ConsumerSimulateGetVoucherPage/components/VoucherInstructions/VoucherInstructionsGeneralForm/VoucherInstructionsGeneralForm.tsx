@@ -14,14 +14,23 @@ import { useClientKind } from '@/hooks/useClientKind'
 import { useQuery } from '@tanstack/react-query'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { useForm, FormProvider, type SubmitHandler } from 'react-hook-form'
-import { RHFAutocompleteSingle, RHFSelect } from '@/components/shared/react-hook-form-inputs'
+import {
+  RHFAutocompleteSingle,
+  RHFRadioGroup,
+  RHFSelect,
+} from '@/components/shared/react-hook-form-inputs'
 import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
 import { useSearchParams } from 'react-router-dom'
+import { IconLink } from '@/components/shared/IconLink'
 
 interface VoucherInstructionsGeneralForm {
   clientId: string | null
   purposeId: string | null
   keyId: string | null
+  voucherType: string
+  interationType: string
+  memberType: string | null
+  asyncExchangeStep: string | null
 }
 
 export const VoucherInstructionsGeneralForm: React.FC = () => {
@@ -35,6 +44,9 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
       clientId: searchParams.get('clientId'),
       purposeId: searchParams.get('purposeId'),
       keyId: searchParams.get('keyId'),
+      voucherType: 'BEARER',
+      interationType: 'SYNC',
+      memberType: 'CONSUMER',
     },
   })
 
@@ -43,6 +55,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
   const clientId = watch('clientId') || ''
   const purposeId = watch('purposeId') || ''
   const keyId = watch('keyId')
+  const interationType = watch('interationType')
 
   const [clientSearch, setClientSearch] = useAutocompleteTextInput('')
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
@@ -111,15 +124,54 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={handleSubmit(onSubmit)}>
         <SectionContainer
-          title={t(`generalForm.title.${clientKind}`)}
-          description={t('generalForm.description')}
+          title={t('generalForm.technicalDetails.title')}
+          description={t('generalForm.technicalDetails.description')}
+        >
+          <IconLink
+            href={verifyVoucherGuideLink}
+            target="_blank"
+            startIcon={<OpenInNewIcon fontSize="small" />}
+          >
+            {t('generalForm.goToTechnicalDocsLabel')}
+          </IconLink>
+          <RHFRadioGroup
+            name="voucherType"
+            label={t('generalForm.voucherType.label')}
+            required
+            options={[
+              {
+                value: 'BEARER',
+                label: t(`generalForm.voucherType.options.bearer.label`),
+              },
+              { value: 'DPOP', label: t(`generalForm.voucherType.options.dpop.label`) },
+            ]}
+          />
+          <RHFRadioGroup
+            name="interationType"
+            label={t('generalForm.interationType.label')}
+            required
+            options={[
+              { value: 'SYNC', label: t(`generalForm.interationType.options.sync`) },
+              { value: 'ASYNC', label: t(`generalForm.interationType.options.async`) },
+            ]}
+          />
+          {interationType === 'ASYNC' && (
+            <RHFRadioGroup
+              name="memberType"
+              label={t('generalForm.memberType.label')}
+              required
+              options={[
+                { value: 'CONSUMER', label: t(`generalForm.memberType.options.consumer`) },
+                { value: 'PRODUCER', label: t(`generalForm.memberType.options.producer`) },
+              ]}
+            />
+          )}
+        </SectionContainer>
+
+        <SectionContainer
+          title={t('generalForm.simulationSetup.title')}
+          description={t('generalForm.simulationSetup.description')}
           bottomActions={[
-            {
-              startIcon: <OpenInNewIcon fontSize="small" />,
-              label: t('generalForm.goToTechnicalDocsLabel'),
-              href: verifyVoucherGuideLink,
-              target: '_blank',
-            },
             {
               startIcon: <ApiIcon fontSize="small" />,
               label: t('generalForm.showCurrentSelectionIds'),
@@ -173,6 +225,32 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
             <Alert sx={{ mt: 2 }} severity="info">
               {t('noKeysLabel')}
             </Alert>
+          )}
+          {interationType === 'ASYNC' && (
+            <>
+              <FormControl fullWidth sx={{ mt: 2 }}>
+                <RHFSelect
+                  required
+                  name="asyncExchangeStep"
+                  label={t('generalForm.asyncExchangeStep.label')}
+                  options={[
+                    {
+                      label: t('generalForm.asyncExchangeStep.startInteraction'),
+                      value: 'start_interaction',
+                    },
+                    {
+                      label: t('generalForm.asyncExchangeStep.getResource'),
+                      value: 'get_resource',
+                    },
+                    {
+                      label: t('generalForm.asyncExchangeStep.confirmation'),
+                      value: 'confirmation',
+                    },
+                  ]}
+                  rules={{ required: true }}
+                />
+              </FormControl>
+            </>
           )}
         </SectionContainer>
         <StepActions
