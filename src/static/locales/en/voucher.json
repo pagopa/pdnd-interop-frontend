@@ -168,7 +168,7 @@
       }
     }
   },
-  "step4": {
+  "dataAccessStep": {
     "consumerStepperLabel": "E-service access",
     "apiStepperLabel": "API Interop access",
     "actionLabel": "Consult",

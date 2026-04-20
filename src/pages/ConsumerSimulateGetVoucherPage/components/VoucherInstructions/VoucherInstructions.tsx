@@ -9,7 +9,7 @@ import { VoucherInstructionsContextProvider } from './VoucherInstructionsContext
 import { VoucherInstructionsGeneralForm } from './VoucherInstructionsGeneralForm'
 import { VoucherInstructionsClientAssertionStep } from './VoucherInstructionsClientAssertionStep'
 import { VoucherInstructionsAccessTokenStep } from './VoucherInstructionsAccessTokenStep'
-import { VoucherInstructionsStep4 } from './VoucherInstructionsStep4'
+import { VoucherInstructionsDataAccessStep } from './VoucherInstructionsDataAccessStep'
 
 export const VoucherInstructions: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -25,8 +25,10 @@ export const VoucherInstructions: React.FC = () => {
     { label: t('accessTokenStep.stepperLabel'), component: VoucherInstructionsAccessTokenStep },
     {
       label:
-        clientKind === 'CONSUMER' ? t('step4.consumerStepperLabel') : t('step4.apiStepperLabel'),
-      component: VoucherInstructionsStep4,
+        clientKind === 'CONSUMER'
+          ? t('dataAccessStep.consumerStepperLabel')
+          : t('dataAccessStep.apiStepperLabel'),
+      component: VoucherInstructionsDataAccessStep,
     },
   ]
 
