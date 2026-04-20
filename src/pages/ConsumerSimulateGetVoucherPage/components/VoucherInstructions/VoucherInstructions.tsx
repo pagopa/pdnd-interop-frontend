@@ -7,9 +7,9 @@ import { SectionContainerSkeleton } from '@/components/layout/containers'
 import { VoucherInstructionsContextProvider } from './VoucherInstructionsContext'
 
 import { VoucherInstructionsGeneralForm } from './VoucherInstructionsGeneralForm'
-import { VoucherInstructionsClientAssertionStep } from './VoucherInstructionsClientAssertionStep'
-import { VoucherInstructionsAccessTokenStep } from './VoucherInstructionsAccessTokenStep'
-import { VoucherInstructionsDataAccessStep } from './VoucherInstructionsDataAccessStep'
+import { VoucherInstructionsClientAssertionStep } from './steps/VoucherInstructionsClientAssertionStep'
+import { VoucherInstructionsAccessTokenStep } from './steps/VoucherInstructionsAccessTokenStep'
+import { VoucherInstructionsDataAccessStep } from './steps/VoucherInstructionsDataAccessStep'
 
 export const VoucherInstructions: React.FC = () => {
   const { t } = useTranslation('voucher')

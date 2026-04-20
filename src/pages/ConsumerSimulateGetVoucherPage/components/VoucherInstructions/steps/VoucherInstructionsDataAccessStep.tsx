@@ -1,7 +1,7 @@
 import React from 'react'
 import { StepActions } from '@/components/shared/StepActions'
 import { Trans, useTranslation } from 'react-i18next'
-import { useVoucherInstructionsContext } from './VoucherInstructionsContext'
+import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
 import { Alert, AlertTitle, Stack, Typography } from '@mui/material'
 import { useClientKind } from '@/hooks/useClientKind'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
