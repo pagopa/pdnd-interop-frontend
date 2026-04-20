@@ -77,7 +77,7 @@ export function CatalogCard<TRouteKey extends CatalogRoutesKeys>({
         </Typography>
       </Box>
 
-      <CardContent sx={{ alignItems: 'start', flexGrow: 1, p: { xs: 2, sm: 3 } }}>
+      <CardContent sx={{ flexGrow: 1, p: { xs: 2, sm: 3 } }}>
         <Typography variant="h6" color="text.primary" sx={{ marginBottom: 1 }}>
           {title}
         </Typography>

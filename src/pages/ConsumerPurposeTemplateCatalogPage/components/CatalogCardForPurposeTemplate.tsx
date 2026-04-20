@@ -85,7 +85,7 @@ export function CatalogCardForPurposeTemplate<TRouteKey extends CatalogRoutesKey
           display: 'flex',
           justifyContent: 'space-between',
           flex: 1,
-          alignItems: { xs: 'start', sm: 'flex-end' },
+          alignItems: { xs: 'flex-start', sm: 'flex-end' },
           flexDirection: { xs: 'column', sm: 'row' },
           gap: { xs: 2, sm: 0 },
         }}
