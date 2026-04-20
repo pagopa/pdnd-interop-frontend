@@ -7,7 +7,7 @@ import { SectionContainerSkeleton } from '@/components/layout/containers'
 import { VoucherInstructionsContextProvider } from './VoucherInstructionsContext'
 
 import { VoucherInstructionsGeneralForm } from './VoucherInstructionsGeneralForm'
-import { VoucherInstructionsStep2 } from './VoucherInstructionsStep2'
+import { VoucherInstructionsClientAssertionStep } from './VoucherInstructionsClientAssertionStep'
 import { VoucherInstructionsStep3 } from './VoucherInstructionsStep3'
 import { VoucherInstructionsStep4 } from './VoucherInstructionsStep4'
 
@@ -18,7 +18,10 @@ export const VoucherInstructions: React.FC = () => {
 
   const steps = [
     { label: t('generalForm.stepperLabel'), component: VoucherInstructionsGeneralForm },
-    { label: t('step2.stepperLabel'), component: VoucherInstructionsStep2 },
+    {
+      label: t('clientAssertionStep.stepperLabel'),
+      component: VoucherInstructionsClientAssertionStep,
+    },
     { label: t('step3.stepperLabel'), component: VoucherInstructionsStep3 },
     {
       label:

@@ -15,7 +15,7 @@ import { useSearchParams } from 'react-router-dom'
 const CLIENT_ASSERTION_TYP = 'JWT'
 const CLIENT_ASSERTION_ALG = 'RS256'
 
-export const VoucherInstructionsStep2: React.FC = () => {
+export const VoucherInstructionsClientAssertionStep: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
   const [searchParams] = useSearchParams()
@@ -34,137 +34,153 @@ export const VoucherInstructionsStep2: React.FC = () => {
   return (
     <>
       <SectionContainer
-        title={t('step2.title')}
+        title={t('clientAssertionStep.title')}
         description={
           <>
-            {t('step2.description.label')}{' '}
+            {t('clientAssertionStep.description.label')}{' '}
             <Link
               href="https://datatracker.ietf.org/doc/html/rfc7521"
               target="_blank"
               rel="noreferrer"
-              title={t('step2.description.link.title')}
+              title={t('clientAssertionStep.description.link.title')}
             >
-              {t('step2.description.link.label')}
+              {t('clientAssertionStep.description.link.label')}
             </Link>
           </>
         }
       >
-        <SectionContainer innerSection title={t('step2.assertionHeader.title')}>
+        <SectionContainer innerSection title={t('clientAssertionStep.assertionHeader.title')}>
           <Stack spacing={4}>
             <InformationContainer
-              label={t('step2.assertionHeader.kidField.label')}
-              labelDescription={t('step2.assertionHeader.kidField.description')}
+              label={t('clientAssertionStep.assertionHeader.kidField.label')}
+              labelDescription={t('clientAssertionStep.assertionHeader.kidField.description')}
               content={keyId}
               copyToClipboard={{
                 value: keyId,
-                tooltipTitle: t('step2.assertionHeader.kidField.copySuccessFeedbackText'),
+                tooltipTitle: t(
+                  'clientAssertionStep.assertionHeader.kidField.copySuccessFeedbackText'
+                ),
               }}
             />
 
             <InformationContainer
-              label={t('step2.assertionHeader.algField.label')}
-              labelDescription={t('step2.assertionHeader.algField.description')}
+              label={t('clientAssertionStep.assertionHeader.algField.label')}
+              labelDescription={t('clientAssertionStep.assertionHeader.algField.description')}
               content={CLIENT_ASSERTION_ALG}
               copyToClipboard={{
                 value: CLIENT_ASSERTION_ALG,
-                tooltipTitle: t('step2.assertionHeader.algField.copySuccessFeedbackText'),
+                tooltipTitle: t(
+                  'clientAssertionStep.assertionHeader.algField.copySuccessFeedbackText'
+                ),
               }}
             />
 
             <InformationContainer
-              label={t('step2.assertionHeader.typField.label')}
-              labelDescription={t('step2.assertionHeader.typField.description')}
+              label={t('clientAssertionStep.assertionHeader.typField.label')}
+              labelDescription={t('clientAssertionStep.assertionHeader.typField.description')}
               content={CLIENT_ASSERTION_TYP}
               copyToClipboard={{
                 value: CLIENT_ASSERTION_TYP,
-                tooltipTitle: t('step2.assertionHeader.typField.copySuccessFeedbackText'),
+                tooltipTitle: t(
+                  'clientAssertionStep.assertionHeader.typField.copySuccessFeedbackText'
+                ),
               }}
             />
           </Stack>
         </SectionContainer>
-        <SectionContainer innerSection title={t('step2.assertionPayload.title')}>
+        <SectionContainer innerSection title={t('clientAssertionStep.assertionPayload.title')}>
           <Stack spacing={4}>
             <InformationContainer
-              label={t('step2.assertionPayload.issField.label')}
-              labelDescription={t('step2.assertionPayload.issField.description')}
+              label={t('clientAssertionStep.assertionPayload.issField.label')}
+              labelDescription={t('clientAssertionStep.assertionPayload.issField.description')}
               content={clientId}
               copyToClipboard={{
                 value: clientId,
-                tooltipTitle: t('step2.assertionPayload.issField.copySuccessFeedbackText'),
+                tooltipTitle: t(
+                  'clientAssertionStep.assertionPayload.issField.copySuccessFeedbackText'
+                ),
               }}
             />
 
             <InformationContainer
-              label={t('step2.assertionPayload.subField.label')}
-              labelDescription={t('step2.assertionPayload.subField.description')}
+              label={t('clientAssertionStep.assertionPayload.subField.label')}
+              labelDescription={t('clientAssertionStep.assertionPayload.subField.description')}
               content={clientId}
               copyToClipboard={{
                 value: clientId,
-                tooltipTitle: t('step2.assertionPayload.subField.copySuccessFeedbackText'),
+                tooltipTitle: t(
+                  'clientAssertionStep.assertionPayload.subField.copySuccessFeedbackText'
+                ),
               }}
             />
             <InformationContainer
-              label={t('step2.assertionPayload.audField.label')}
-              labelDescription={t('step2.assertionPayload.audField.description')}
+              label={t('clientAssertionStep.assertionPayload.audField.label')}
+              labelDescription={t('clientAssertionStep.assertionPayload.audField.description')}
               content={CLIENT_ASSERTION_JWT_AUDIENCE}
               copyToClipboard={{
                 value: CLIENT_ASSERTION_JWT_AUDIENCE,
-                tooltipTitle: t('step2.assertionPayload.audField.copySuccessFeedbackText'),
+                tooltipTitle: t(
+                  'clientAssertionStep.assertionPayload.audField.copySuccessFeedbackText'
+                ),
               }}
             />
             {clientKind === 'CONSUMER' && Boolean(purposeId) && (
               <InformationContainer
-                label={t('step2.assertionPayload.purposeIdField.label')}
-                labelDescription={t('step2.assertionPayload.purposeIdField.description')}
+                label={t('clientAssertionStep.assertionPayload.purposeIdField.label')}
+                labelDescription={t(
+                  'clientAssertionStep.assertionPayload.purposeIdField.description'
+                )}
                 content={purposeId}
                 copyToClipboard={{
                   value: purposeId,
-                  tooltipTitle: t('step2.assertionPayload.purposeIdField.copySuccessFeedbackText'),
+                  tooltipTitle: t(
+                    'clientAssertionStep.assertionPayload.purposeIdField.copySuccessFeedbackText'
+                  ),
                 }}
               />
             )}
             <InformationContainer
-              label={t('step2.assertionPayload.jtiField.label')}
-              labelDescription={t('step2.assertionPayload.jtiField.description')}
-              content={t('step2.assertionPayload.jtiField.suggestionLabel')}
+              label={t('clientAssertionStep.assertionPayload.jtiField.label')}
+              labelDescription={t('clientAssertionStep.assertionPayload.jtiField.description')}
+              content={t('clientAssertionStep.assertionPayload.jtiField.suggestionLabel')}
             />
             <InformationContainer
-              label={t('step2.assertionPayload.iatField.label')}
-              labelDescription={t('step2.assertionPayload.iatField.description')}
-              content={t('step2.assertionPayload.iatField.suggestionLabel')}
+              label={t('clientAssertionStep.assertionPayload.iatField.label')}
+              labelDescription={t('clientAssertionStep.assertionPayload.iatField.description')}
+              content={t('clientAssertionStep.assertionPayload.iatField.suggestionLabel')}
             />
             <InformationContainer
-              label={t('step2.assertionPayload.expField.label')}
-              labelDescription={t('step2.assertionPayload.expField.description')}
-              content={t('step2.assertionPayload.expField.suggestionLabel')}
+              label={t('clientAssertionStep.assertionPayload.expField.label')}
+              labelDescription={t('clientAssertionStep.assertionPayload.expField.description')}
+              content={t('clientAssertionStep.assertionPayload.expField.suggestionLabel')}
             />
           </Stack>
         </SectionContainer>
       </SectionContainer>
-      <SectionContainer title={t('step2.assertionScript.title')}>
+      <SectionContainer title={t('clientAssertionStep.assertionScript.title')}>
         <Box sx={{ pl: 2 }} component="ol">
           <Typography component="li" variant="body2">
-            {t('step2.assertionScript.steps.1')}
+            {t('clientAssertionStep.assertionScript.steps.1')}
           </Typography>
           <Typography component="li" variant="body2">
             <Trans components={{ 1: <Link download href={downloadUrl} /> }}>
-              {t('step2.assertionScript.steps.2', { filename })}
+              {t('clientAssertionStep.assertionScript.steps.2', { filename })}
             </Trans>
           </Typography>
           <Typography component="li" variant="body2">
-            {t('step2.assertionScript.steps.3')}
+            {t('clientAssertionStep.assertionScript.steps.3')}
           </Typography>
           <Typography component="li" variant="body2">
-            {t('step2.assertionScript.steps.4')}
+            {t('clientAssertionStep.assertionScript.steps.4')}
           </Typography>
           <Typography component="li" variant="body2">
-            {t('step2.assertionScript.steps.5')}
+            {t('clientAssertionStep.assertionScript.steps.5')}
           </Typography>
         </Box>
 
         <CodeSnippetPreview
           sx={{ mt: 2 }}
-          title={t('step2.assertionScript.exampleLabel')}
+          title={t('clientAssertionStep.assertionScript.exampleLabel')}
           activeLang={'python'}
           entries={[
             {
@@ -185,7 +201,7 @@ export const VoucherInstructionsStep2: React.FC = () => {
           }}
         />
         <Typography sx={{ mt: 2 }} variant="body2">
-          {t('step2.assertionScript.steps.result')}
+          {t('clientAssertionStep.assertionScript.steps.result')}
         </Typography>
       </SectionContainer>
       <StepActions
