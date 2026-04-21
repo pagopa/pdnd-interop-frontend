@@ -5,9 +5,9 @@ import { useQuery } from '@tanstack/react-query'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { RHFAutocompleteSingle, RHFSelect } from '@/components/shared/react-hook-form-inputs'
 import { ClientQueries } from '@/api/client'
-import { VoucherInstructionsGeneralFormAlertConsumer } from '../alerts/VoucherInstructionsGeneralFormAlertConsumer'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
+import { VoucherInstructionsGeneralFormAlertConsumer } from './VoucherInstructionsGeneralFormAlertConsumer'
 
 interface VoucherConsumerSimulationSectionForm {
   clientId: string | null
