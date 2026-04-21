@@ -5,6 +5,7 @@ import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
 import { Alert, AlertTitle, Stack, Typography } from '@mui/material'
 import { useClientKind } from '@/hooks/useClientKind'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { SectionContainer } from '@/components/layout/containers'
 import { PurposeQueries } from '@/api/purpose'
 import { useQuery } from '@tanstack/react-query'
@@ -22,10 +23,11 @@ import { useSearchParams } from 'react-router-dom'
 export const VoucherInstructionsDataAccessStep: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
-  const { goToPreviousStep } = useVoucherInstructionsContext()
+  const { goToPreviousStep, goToNextStep } = useVoucherInstructionsContext()
   const [searchParams] = useSearchParams()
 
   const purposeId = searchParams.get('purposeId') || ''
+  const voucherType = searchParams.get('voucherType') || ''
 
   const { data: purpose } = useQuery({
     ...PurposeQueries.getSingle(purposeId),
@@ -170,6 +172,16 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
           onClick: goToPreviousStep,
           startIcon: <ArrowBackIcon />,
         }}
+        forward={
+          voucherType === 'DPOP'
+            ? {
+                label: t('proceedBtn'),
+                type: 'button',
+                onClick: goToNextStep,
+                endIcon: <ArrowForwardIcon />,
+              }
+            : undefined
+        }
       />
     </>
   )
