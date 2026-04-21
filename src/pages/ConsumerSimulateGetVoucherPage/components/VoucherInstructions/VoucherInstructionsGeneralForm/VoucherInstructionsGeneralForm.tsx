@@ -15,10 +15,10 @@ import { RHFRadioGroup, RHFSelect } from '@/components/shared/react-hook-form-in
 import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
 import { useSearchParams } from 'react-router-dom'
 import { IconLink } from '@/components/shared/IconLink'
-import { VoucherConsumerSimulationSection } from './VoucherConsumerSimulationSection'
-import { VoucherProducerSimulationSection } from './VoucherProducerSimulationSection'
+import { VoucherConsumerSimulationSection } from './SimulationSections/VoucherConsumerSimulationSection'
+import { VoucherProducerSimulationSection } from './SimulationSections/VoucherProducerSimulationSection'
 
-interface VoucherInstructionsGeneralForm {
+export interface VoucherInstructionsGeneralFormValues {
   clientId: string | null
   purposeId: string | null
   keyId: string | null
@@ -38,7 +38,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams()
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
-  const formMethods = useForm<VoucherInstructionsGeneralForm>({
+  const formMethods = useForm<VoucherInstructionsGeneralFormValues>({
     defaultValues: {
       clientId: searchParams.get('clientId'),
       purposeId: searchParams.get('purposeId'),
@@ -59,6 +59,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
   const memberType = watch('memberType')
   const values = watch()
 
+  /* Reset selects on client or keychain value change */
   useEffect(() => {
     const subscription = watch((_, { name }) => {
       if (name === 'clientId') {
@@ -100,18 +101,23 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
     return false
   }
 
-  const onSubmit: SubmitHandler<VoucherInstructionsGeneralForm> = (values) => {
-    if (clientKind === 'CONSUMER' && !Boolean(values.keyId && values.purposeId)) return
-
-    if (clientKind === 'API' && !Boolean(values.keyId)) return
-
-    setSearchParams((prev) => {
-      if (values.clientId) prev.set('clientId', values.clientId)
-      if (values.purposeId) prev.set('purposeId', values.purposeId)
-      if (values.keyId) prev.set('keyId', values.keyId)
-      return prev
-    })
-    startStepper()
+  const onSubmit: SubmitHandler<VoucherInstructionsGeneralFormValues> = (values) => {
+    if (clientKind === 'CONSUMER') {
+      setSearchParams((prev) => {
+        if (values.clientId) prev.set('clientId', values.clientId)
+        if (values.purposeId) prev.set('purposeId', values.purposeId)
+        if (values.keyId) prev.set('keyId', values.keyId)
+        return prev
+      })
+    } else if (clientKind === 'API') {
+      setSearchParams((prev) => {
+        if (values.producerKeychainId) prev.set('producerKeychainId', values.producerKeychainId)
+        if (values.eserviceId) prev.set('eserviceId', values.eserviceId)
+        if (values.publicKeyId) prev.set('publicKeyId', values.publicKeyId)
+        return prev
+      })
+    }
+    startStepper(values)
   }
 
   const handleInterationTypeChanged = (interationType: string) => {

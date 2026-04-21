@@ -2,7 +2,6 @@ import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { VoucherInstructions } from './components/VoucherInstructions'
 import { useClientKind } from '@/hooks/useClientKind'
-import { RequiredTextLabel } from '@/components/shared/RequiredTextLabel'
 
 const ConsumerDebugVoucherPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerSimulateGetVoucher' })
@@ -16,7 +15,6 @@ const ConsumerDebugVoucherPage: React.FC = () => {
       })}
       description={t('description')}
     >
-      <RequiredTextLabel />
       <VoucherInstructions />
     </PageContainer>
   )

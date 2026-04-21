@@ -6,7 +6,7 @@ import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { RHFAutocompleteSingle, RHFSelect } from '@/components/shared/react-hook-form-inputs'
 import { KeychainQueries } from '@/api/keychain'
 import { useTranslation } from 'react-i18next'
-import { VoucherInstructionsGeneralFormAlertProducer } from './VoucherInstructionsGeneralFormAlertProducer'
+import { VoucherInstructionsGeneralFormAlertProducer } from '../Alerts/VoucherInstructionsGeneralFormAlertProducer'
 
 interface VoucherProducerSimulationSectionForm {
   producerKeychainId: string | null

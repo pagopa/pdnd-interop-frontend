@@ -6,10 +6,12 @@ import { useClientKind } from '@/hooks/useClientKind'
 import { SectionContainerSkeleton } from '@/components/layout/containers'
 import { VoucherInstructionsContextProvider } from './VoucherInstructionsContext'
 
+import type { VoucherInstructionsGeneralFormValues } from './VoucherInstructionsGeneralForm'
 import { VoucherInstructionsGeneralForm } from './VoucherInstructionsGeneralForm'
 import { VoucherInstructionsClientAssertionStep } from './steps/VoucherInstructionsClientAssertionStep'
 import { VoucherInstructionsAccessTokenStep } from './steps/VoucherInstructionsAccessTokenStep'
 import { VoucherInstructionsDataAccessStep } from './steps/VoucherInstructionsDataAccessStep'
+import { RequiredTextLabel } from '@/components/shared/RequiredTextLabel'
 
 export const VoucherInstructions: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -45,14 +47,21 @@ export const VoucherInstructions: React.FC = () => {
   const contextProps = {
     goToPreviousStep: handleBack,
     goToNextStep: forward,
-    startStepper: () => setShowStepper(true),
+    startStepper: (values: VoucherInstructionsGeneralFormValues) => generateStepper(values),
+  }
+
+  const generateStepper = (values: VoucherInstructionsGeneralFormValues) => {
+    setShowStepper(true)
   }
 
   return (
     <>
       <VoucherInstructionsContextProvider {...contextProps}>
         {!showStepper ? (
-          <VoucherInstructionsGeneralForm />
+          <>
+            <RequiredTextLabel />
+            <VoucherInstructionsGeneralForm />
+          </>
         ) : (
           <>
             <Stepper steps={steps} activeIndex={activeStep} />
