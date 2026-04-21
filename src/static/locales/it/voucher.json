@@ -1,8 +1,40 @@
 {
   "backBtn": "Indietro",
   "proceedBtn": "Avanti",
-  "noPurposesLabel": "Questo client non è associato a nessuna finalità",
-  "noKeysLabel": "Questo client non contiene chiavi pubbliche",
+  "noPurposesLabelAdmin": {
+    "title": "Il client selezionato non è associato ad alcuna finalità",
+    "description": "Per procedere, accedi alla finalità e collega il client {{clientName}}.",
+    "actionLabel": "Finalità inoltrate"
+  },
+  "noPurposesLabelSecurity": {
+    "title": "Il client selezionato non è associato ad alcuna finalità",
+    "description": "Per procedere, chiedi al tuo responsabile di collegare alla finalità di interesse questo client."
+  },
+  "noKeysLabel": {
+    "title": "Il client selezionato non contiene chiavi pubbliche",
+    "description": "Per procedere, accedi al client e aggiungi almeno una chiave pubblica.",
+    "actionLabel": "Accedi al client"
+  },
+  "noPurposesAndKeysLabel": {
+    "title": "Il client selezionato non è collegato ad alcuna finalità e non contiene chiavi pubbliche.",
+    "description": "Per procedere, associa il client ad una finalità ed aggiungi almeno una chiave pubblica al client.",
+    "actionLabel": "Accedi al client"
+  },
+  "noEServicesLabel": {
+    "title": "Il portachiavi erogatore selezionato non è associato ad alcun e-service",
+    "description": "Per procedere, accedi all’e-service e collega il portachiavi {{keychainName}}.",
+    "actionLabel": "I miei e-service"
+  },
+  "noPublicKeysLabel": {
+    "title": "Il portachiavi erogatore selezionato non contiene chiavi pubbliche",
+    "description": "Per procedere, accedi al portachiavi e aggiungi almeno una chiave pubblica.",
+    "actionLabel": "Accedi al portachiavi"
+  },
+  "noEServicesAndPublicKeysLabel": {
+    "title": "Il portachiavi selezionato non è collegato ad alcun e-service e non contiene chiavi pubbliche.",
+    "description": "Per procedere, associa il portachiavi ad un e-service ed aggiungi almeno una chiave pubblica.",
+    "actionLabel": "Accedi al portachiavi"
+  },
   "choosePurposeLabel": "Scegli la finalità da utilizzare",
   "purposeFailureMessage": "Attenzione! Non sarà possibile ottenere un voucher per questa finalità. In una o più componenti della pipeline è stato sospeso il servizio. Le componenti sospese sono:",
   "purposeFailureReason": {
@@ -65,6 +97,12 @@
     },
     "keySelectInput": {
       "label": "Chiave pubblica"
+    },
+    "producerKeychain": {
+      "label": "Portachiavi erogatore"
+    },
+    "eservice": {
+      "label": "E-service"
     },
     "goToTechnicalDocsLabel": "Vai alla documentazione tecnica",
     "showCurrentSelectionIds": "Visualizza id per la selezione corrente",

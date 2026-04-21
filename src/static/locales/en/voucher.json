@@ -1,8 +1,40 @@
 {
   "backBtn": "Back",
   "proceedBtn": "Next",
-  "noPurposesLabel": "This client is not associated with any purpose",
-  "noKeysLabel": "This client does not contain public keys",
+  "noPurposesLabelAdmin": {
+    "title": "The selected client is not associated with any purpose",
+    "description": "To proceed, access the purpose and connect the {{clientName}} client.",
+    "actionLabel": "Purposes forwarded"
+  },
+  "noPurposesLabelSecurity": {
+    "title": "The selected client is not associated with any purpose",
+    "description": "To proceed, ask your manager to connect it to the purpose of interest of this customer."
+  },
+  "noKeysLabel": {
+    "title": "The selected client does not contain public keys",
+    "description": "To proceed, go to the client and add at least one public key.",
+    "actionLabel": "Accedi al client"
+  },
+  "noPurposesAndKeysLabel": {
+    "title": "The selected client is not linked to any purpose and contains no public keys.",
+    "description": "To proceed, associate the client with an purpose and add at least one public key to the client.",
+    "actionLabel": "Go to client"
+  },
+  "noEServicesLabel": {
+    "title": "The selected producer keychain is not associated with any e-service",
+    "description": "To proceed, log in to the e-service and connect the {{keychainName}} keychain.",
+    "actionLabel": "My e-services"
+  },
+  "noPublicKeysLabel": {
+    "title": "The selected producer keychain does not contain any public keys",
+    "description": "To proceed, access your keychain and add at least one public key.",
+    "actionLabel": "Go to keychain"
+  },
+  "noEServicesAndPublicKeysLabel": {
+    "title": "The selected keychain is not linked to any e-service and does not contain any public keys.",
+    "description": "To proceed, associate the keychain with an e-service and add at least one public key.",
+    "actionLabel": "Go to keychain"
+  },
   "choosePurposeLabel": "Choose the purpose to use",
   "purposeFailureMessage": "Warning! It will not be possible to obtain a voucher for this purpose. Service has been suspended in one or more components of the pipeline. The suspended components are:",
   "purposeFailureReason": {
@@ -65,6 +97,12 @@
     },
     "keySelectInput": {
       "label": "Public key"
+    },
+    "producerKeychain": {
+      "label": "Producer keychain"
+    },
+    "eservice": {
+      "label": "E-service"
     },
     "goToTechnicalDocsLabel": "Go to technical documentation",
     "showCurrentSelectionIds": "View IDs for current selection",

@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
-import { Alert, Box, FormControl } from '@mui/material'
-import { ClientQueries } from '@/api/client'
+import { Box, FormControl } from '@mui/material'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import ApiIcon from '@mui/icons-material/Api'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
@@ -11,26 +10,25 @@ import { VoucherInstructionsGeneralFormCurrentIdsDrawer } from './VoucherInstruc
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { StepActions } from '@/components/shared/StepActions'
 import { useClientKind } from '@/hooks/useClientKind'
-import { useQuery } from '@tanstack/react-query'
-import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { useForm, FormProvider, type SubmitHandler } from 'react-hook-form'
-import {
-  RHFAutocompleteSingle,
-  RHFRadioGroup,
-  RHFSelect,
-} from '@/components/shared/react-hook-form-inputs'
+import { RHFRadioGroup, RHFSelect } from '@/components/shared/react-hook-form-inputs'
 import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
 import { useSearchParams } from 'react-router-dom'
 import { IconLink } from '@/components/shared/IconLink'
+import { VoucherConsumerSimulationSection } from './VoucherConsumerSimulationSection'
+import { VoucherProducerSimulationSection } from './VoucherProducerSimulationSection'
 
 interface VoucherInstructionsGeneralForm {
   clientId: string | null
   purposeId: string | null
   keyId: string | null
   voucherType: string
-  interationType: string
+  interationType: string | null
   memberType: string | null
   asyncExchangeStep: string | null
+  producerKeychainId: string | null
+  eserviceId: string | null
+  publicKeyId: string | null
 }
 
 export const VoucherInstructionsGeneralForm: React.FC = () => {
@@ -38,6 +36,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
   const clientKind = useClientKind()
   const { startStepper } = useVoucherInstructionsContext()
   const [searchParams, setSearchParams] = useSearchParams()
+  const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
   const formMethods = useForm<VoucherInstructionsGeneralForm>({
     defaultValues: {
@@ -47,49 +46,32 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
       voucherType: 'BEARER',
       interationType: 'SYNC',
       memberType: 'CONSUMER',
+      producerKeychainId: searchParams.get('producerKeychainId'),
+      eserviceId: searchParams.get('eserviceId'),
+      publicKeyId: searchParams.get('publicKeyId'),
+      asyncExchangeStep: null,
     },
   })
 
-  const { watch, handleSubmit, setValue } = formMethods
+  const { watch, handleSubmit, reset } = formMethods
 
-  const clientId = watch('clientId') || ''
-  const purposeId = watch('purposeId') || ''
-  const keyId = watch('keyId')
   const interationType = watch('interationType')
+  const memberType = watch('memberType')
+  const values = watch()
 
-  const [clientSearch, setClientSearch] = useAutocompleteTextInput('')
-  const { isOpen, openDrawer, closeDrawer } = useDrawerState()
+  const canGoToNextStep = () => {
+    if (memberType === 'CONSUMER') {
+      return clientKind === 'CONSUMER'
+        ? Boolean(values.keyId && values.purposeId)
+        : Boolean(values.keyId)
+    }
 
-  const { data: clients, isFetching: isFetchingClients } = useQuery({
-    ...ClientQueries.getList({
-      kind: clientKind,
-      q: clientSearch,
-      offset: 0,
-      limit: 50,
-    }),
-  })
+    if (memberType === 'PRODUCER') {
+      return Boolean(values.producerKeychainId && values.eserviceId && values.publicKeyId)
+    }
 
-  const { data: clientKeys, isFetching: isFetchingKeys } = useQuery({
-    ...ClientQueries.getAllKeysList({ clientId }),
-    enabled: Boolean(clientId),
-  })
-
-  const { data: client, isFetching: isFetchingClient } = useQuery({
-    ...ClientQueries.getSingle(clientId),
-    enabled: Boolean(clientId),
-  })
-
-  const purposes = client?.purposes
-
-  const canGoToNextStep = clientKind === 'CONSUMER' ? Boolean(keyId && purposeId) : Boolean(keyId)
-
-  const options = React.useMemo(() => {
-    const results = clients?.results ?? []
-    return results.map((att) => ({
-      label: att.name,
-      value: att.id,
-    }))
-  }, [clients])
+    return false
+  }
 
   const onSubmit: SubmitHandler<VoucherInstructionsGeneralForm> = (values) => {
     if (clientKind === 'CONSUMER' && !Boolean(values.keyId && values.purposeId)) return
@@ -105,20 +87,44 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
     startStepper()
   }
 
-  /**
-   * Subscribes to the form values changes
-   * and updates the actual visible questions on values change.
-   */
-  useEffect(() => {
-    const subscription = watch((_, { name }) => {
-      if (name === 'clientId') {
-        setValue('purposeId', null)
-        setValue('keyId', null)
-        setSearchParams({})
-      }
+  const handleInterationTypeChanged = (interationType: string) => {
+    reset({
+      voucherType: values.voucherType,
+      interationType,
+      memberType: 'CONSUMER',
+      asyncExchangeStep: null,
+      clientId: null,
+      purposeId: null,
+      keyId: null,
+      producerKeychainId: null,
+      eserviceId: null,
+      publicKeyId: null,
     })
-    return () => subscription.unsubscribe()
-  }, [watch, setValue, setSearchParams])
+  }
+
+  const handleMemberTypeChanged = (memberType: string) => {
+    if (memberType === 'CONSUMER') {
+      reset({
+        ...values,
+        memberType,
+        asyncExchangeStep: null,
+        producerKeychainId: null,
+        eserviceId: null,
+        publicKeyId: null,
+      })
+    }
+
+    if (memberType === 'PRODUCER') {
+      reset({
+        ...values,
+        memberType: memberType,
+        asyncExchangeStep: null,
+        clientId: null,
+        purposeId: null,
+        keyId: null,
+      })
+    }
+  }
 
   return (
     <FormProvider {...formMethods}>
@@ -139,11 +145,8 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
             label={t('generalForm.voucherType.label')}
             required
             options={[
-              {
-                value: 'BEARER',
-                label: t(`generalForm.voucherType.options.bearer.label`),
-              },
-              { value: 'DPOP', label: t(`generalForm.voucherType.options.dpop.label`) },
+              { value: 'BEARER', label: t('generalForm.voucherType.options.bearer.label') },
+              { value: 'DPOP', label: t('generalForm.voucherType.options.dpop.label') },
             ]}
           />
           <RHFRadioGroup
@@ -151,9 +154,10 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
             label={t('generalForm.interationType.label')}
             required
             options={[
-              { value: 'SYNC', label: t(`generalForm.interationType.options.sync`) },
-              { value: 'ASYNC', label: t(`generalForm.interationType.options.async`) },
+              { value: 'SYNC', label: t('generalForm.interationType.options.sync') },
+              { value: 'ASYNC', label: t('generalForm.interationType.options.async') },
             ]}
+            onValueChange={(interationType) => handleInterationTypeChanged(interationType)}
           />
           {interationType === 'ASYNC' && (
             <RHFRadioGroup
@@ -161,9 +165,10 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
               label={t('generalForm.memberType.label')}
               required
               options={[
-                { value: 'CONSUMER', label: t(`generalForm.memberType.options.consumer`) },
-                { value: 'PRODUCER', label: t(`generalForm.memberType.options.producer`) },
+                { value: 'CONSUMER', label: t('generalForm.memberType.options.consumer') },
+                { value: 'PRODUCER', label: t('generalForm.memberType.options.producer') },
               ]}
+              onValueChange={(memberType) => handleMemberTypeChanged(memberType)}
             />
           )}
         </SectionContainer>
@@ -181,83 +186,37 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
             },
           ]}
         >
-          <FormControl fullWidth>
-            <RHFAutocompleteSingle
-              name="clientId"
-              rules={{ required: true }}
-              label={t('generalForm.clientSelectInput.label')}
-              onInputChange={(_, value) => setClientSearch(value)}
-              options={options}
-              loading={isFetchingClients}
-            />
-          </FormControl>
-          {clientKind === 'CONSUMER' ? (
-            !clientId || purposes?.length || isFetchingClient ? (
-              <FormControl fullWidth sx={{ mt: 2 }}>
-                <RHFSelect
-                  name="purposeId"
-                  label={t('generalForm.purposeSelectInput.label')}
-                  options={(purposes ?? []).map((purpose) => ({
-                    label: `${purpose.title} per ${purpose.eservice.name}`,
-                    value: purpose.purposeId,
-                  }))}
-                  rules={{ required: true }}
-                  disabled={!clientId || isFetchingClient}
-                />
-              </FormControl>
-            ) : (
-              <Alert sx={{ mt: 2 }} severity="info">
-                {t('noPurposesLabel')}
-              </Alert>
-            )
-          ) : null}
-          {!Boolean(clientId) || clientKeys?.length || isFetchingClient || isFetchingKeys ? (
+          {memberType === 'CONSUMER' && (
+            <VoucherConsumerSimulationSection key={`consumer-${interationType}-${memberType}`} />
+          )}
+
+          {memberType === 'PRODUCER' && (
+            <VoucherProducerSimulationSection key={`producer-${interationType}-${memberType}`} />
+          )}
+
+          {interationType === 'ASYNC' && (
             <FormControl fullWidth sx={{ mt: 2 }}>
               <RHFSelect
-                name="keyId"
-                label={t('generalForm.keySelectInput.label')}
-                options={(clientKeys ?? []).map((key) => ({ label: key.name, value: key.keyId }))}
-                rules={{ required: true }}
-                disabled={!clientKeys || isFetchingClients || isFetchingKeys || isFetchingClient}
+                required
+                name="asyncExchangeStep"
+                label={t('generalForm.asyncExchangeStep.label')}
+                options={[
+                  {
+                    label: t('generalForm.asyncExchangeStep.startInteraction'),
+                    value: 'start_interaction',
+                  },
+                  { label: t('generalForm.asyncExchangeStep.getResource'), value: 'get_resource' },
+                  { label: t('generalForm.asyncExchangeStep.confirmation'), value: 'confirmation' },
+                ]}
               />
             </FormControl>
-          ) : (
-            <Alert sx={{ mt: 2 }} severity="info">
-              {t('noKeysLabel')}
-            </Alert>
-          )}
-          {interationType === 'ASYNC' && (
-            <>
-              <FormControl fullWidth sx={{ mt: 2 }}>
-                <RHFSelect
-                  required
-                  name="asyncExchangeStep"
-                  label={t('generalForm.asyncExchangeStep.label')}
-                  options={[
-                    {
-                      label: t('generalForm.asyncExchangeStep.startInteraction'),
-                      value: 'start_interaction',
-                    },
-                    {
-                      label: t('generalForm.asyncExchangeStep.getResource'),
-                      value: 'get_resource',
-                    },
-                    {
-                      label: t('generalForm.asyncExchangeStep.confirmation'),
-                      value: 'confirmation',
-                    },
-                  ]}
-                  rules={{ required: true }}
-                />
-              </FormControl>
-            </>
           )}
         </SectionContainer>
         <StepActions
           forward={{
             label: t('proceedBtn'),
             type: 'submit',
-            disabled: !canGoToNextStep,
+            disabled: !canGoToNextStep(),
             endIcon: <ArrowForwardIcon />,
           }}
         />
@@ -265,8 +224,8 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
       <VoucherInstructionsGeneralFormCurrentIdsDrawer
         isOpen={isOpen}
         onClose={closeDrawer}
-        clientId={clientId}
-        purposeId={purposeId}
+        clientId={values.clientId || ''}
+        purposeId={values.purposeId || ''}
       />
     </FormProvider>
   )
