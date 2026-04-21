@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
-import { Box, FormControl } from '@mui/material'
+import { Box, FormControl, Typography } from '@mui/material'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import ApiIcon from '@mui/icons-material/Api'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
@@ -182,8 +182,28 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
             label={t('generalForm.voucherType.label')}
             required
             options={[
-              { value: 'BEARER', label: t('generalForm.voucherType.options.bearer.label') },
-              { value: 'DPOP', label: t('generalForm.voucherType.options.dpop.label') },
+              {
+                value: 'BEARER',
+                label: (
+                  <Box sx={{ display: 'flex', flexDirection: 'column', py: 1 }}>
+                    <Typography>{t('generalForm.voucherType.options.bearer.label')}</Typography>
+                    <Typography variant="caption" color={'text.secondary'}>
+                      {t('generalForm.voucherType.options.bearer.description')}
+                    </Typography>
+                  </Box>
+                ),
+              },
+              {
+                value: 'DPOP',
+                label: (
+                  <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <Typography>{t('generalForm.voucherType.options.dpop.label')}</Typography>
+                    <Typography variant="caption" color={'text.secondary'}>
+                      {t('generalForm.voucherType.options.dpop.description')}
+                    </Typography>
+                  </Box>
+                ),
+              },
             ]}
           />
           {clientKind === 'CONSUMER' && (
@@ -254,7 +274,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
         </SectionContainer>
         <StepActions
           forward={{
-            label: t('proceedBtn'),
+            label: t('beginSimulation'),
             type: 'submit',
             disabled: !canGoToNextStep(),
             endIcon: <ArrowForwardIcon />,

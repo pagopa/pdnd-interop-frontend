@@ -1,6 +1,7 @@
 {
   "backBtn": "Indietro",
   "proceedBtn": "Avanti",
+  "beginSimulation": "Inizia simulazione",
   "noPurposesLabelAdmin": {
     "title": "Il client selezionato non è associato ad alcuna finalità",
     "description": "Per procedere, accedi alla finalità e collega il client {{clientName}}.",
