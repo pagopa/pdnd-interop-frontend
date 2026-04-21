@@ -7,7 +7,7 @@ import { RHFAutocompleteSingle, RHFSelect } from '@/components/shared/react-hook
 import { ClientQueries } from '@/api/client'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
-import { VoucherInstructionsGeneralFormAlertConsumer } from './VoucherInstructionsGeneralFormAlertConsumer'
+import { VoucherInstructionsGeneralFormAlertConsumer } from '../alerts/VoucherInstructionsGeneralFormAlertConsumer'
 
 interface VoucherConsumerSimulationSectionForm {
   clientId: string | null

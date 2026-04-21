@@ -15,8 +15,8 @@ import { RHFRadioGroup, RHFSelect } from '@/components/shared/react-hook-form-in
 import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
 import { useSearchParams } from 'react-router-dom'
 import { IconLink } from '@/components/shared/IconLink'
-import { VoucherConsumerSimulationSection } from './VoucherConsumerSimulationSection'
-import { VoucherProducerSimulationSection } from './VoucherProducerSimulationSection'
+import { VoucherConsumerSimulationSection } from '../simulationSections/VoucherConsumerSimulationSection'
+import { VoucherProducerSimulationSection } from '../simulationSections/VoucherProducerSimulationSection'
 
 export interface VoucherInstructionsGeneralFormValues {
   clientId: string | null
