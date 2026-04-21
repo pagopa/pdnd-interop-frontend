@@ -60,11 +60,11 @@
       "label": "Voucher type",
       "options": {
         "bearer": {
-          "label": "Bearer <br> ",
+          "label": "Bearer (v2)",
           "description": "Standard access token. The sender is authenticated only by possession of the token itself."
         },
         "dpop": {
-          "label": "DPoP",
+          "label": "DPoP (v3)",
           "description": "Binds the token to a client cryptographic key, preventing the voucher from being reused by unauthorized parties."
         }
       }

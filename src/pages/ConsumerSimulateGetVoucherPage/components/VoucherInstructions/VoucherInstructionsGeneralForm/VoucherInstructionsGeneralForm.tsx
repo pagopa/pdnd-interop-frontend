@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { Box, FormControl } from '@mui/material'
@@ -53,21 +53,48 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
     },
   })
 
-  const { watch, handleSubmit, reset } = formMethods
+  const { watch, handleSubmit, reset, setValue } = formMethods
 
   const interationType = watch('interationType')
   const memberType = watch('memberType')
   const values = watch()
 
-  const canGoToNextStep = () => {
-    if (memberType === 'CONSUMER') {
-      return clientKind === 'CONSUMER'
-        ? Boolean(values.keyId && values.purposeId)
-        : Boolean(values.keyId)
-    }
+  useEffect(() => {
+    const subscription = watch((_, { name }) => {
+      if (name === 'clientId') {
+        setValue('purposeId', null)
+        setValue('keyId', null)
+        setSearchParams({})
+      }
+      if (name === 'producerKeychainId') {
+        setValue('eserviceId', null)
+        setValue('publicKeyId', null)
+        setSearchParams({})
+      }
+    })
+    return () => subscription.unsubscribe()
+  }, [watch, setValue, setSearchParams])
 
-    if (memberType === 'PRODUCER') {
-      return Boolean(values.producerKeychainId && values.eserviceId && values.publicKeyId)
+  const canGoToNextStep = () => {
+    if (clientKind === 'CONSUMER') {
+      if (interationType === 'SYNC') {
+        return Boolean(values.clientId && values.purposeId && values.keyId)
+      } else if (interationType === 'ASYNC') {
+        if (memberType === 'CONSUMER') {
+          return Boolean(
+            values.clientId && values.purposeId && values.keyId && values.asyncExchangeStep
+          )
+        } else if (memberType === 'PRODUCER') {
+          return Boolean(
+            values.producerKeychainId &&
+            values.eserviceId &&
+            values.publicKeyId &&
+            values.asyncExchangeStep
+          )
+        }
+      }
+    } else if (clientKind === 'API') {
+      return Boolean(values.clientId) && Boolean(values.keyId)
     }
 
     return false
@@ -107,7 +134,6 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
       reset({
         ...values,
         memberType,
-        asyncExchangeStep: null,
         producerKeychainId: null,
         eserviceId: null,
         publicKeyId: null,
@@ -118,7 +144,6 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
       reset({
         ...values,
         memberType: memberType,
-        asyncExchangeStep: null,
         clientId: null,
         purposeId: null,
         keyId: null,
@@ -149,16 +174,18 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
               { value: 'DPOP', label: t('generalForm.voucherType.options.dpop.label') },
             ]}
           />
-          <RHFRadioGroup
-            name="interationType"
-            label={t('generalForm.interationType.label')}
-            required
-            options={[
-              { value: 'SYNC', label: t('generalForm.interationType.options.sync') },
-              { value: 'ASYNC', label: t('generalForm.interationType.options.async') },
-            ]}
-            onValueChange={(interationType) => handleInterationTypeChanged(interationType)}
-          />
+          {clientKind === 'CONSUMER' && (
+            <RHFRadioGroup
+              name="interationType"
+              label={t('generalForm.interationType.label')}
+              required
+              options={[
+                { value: 'SYNC', label: t('generalForm.interationType.options.sync') },
+                { value: 'ASYNC', label: t('generalForm.interationType.options.async') },
+              ]}
+              onValueChange={(interationType) => handleInterationTypeChanged(interationType)}
+            />
+          )}
           {interationType === 'ASYNC' && (
             <RHFRadioGroup
               name="memberType"
@@ -198,6 +225,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
             <FormControl fullWidth sx={{ mt: 2 }}>
               <RHFSelect
                 required
+                rules={{ required: true }}
                 name="asyncExchangeStep"
                 label={t('generalForm.asyncExchangeStep.label')}
                 options={[

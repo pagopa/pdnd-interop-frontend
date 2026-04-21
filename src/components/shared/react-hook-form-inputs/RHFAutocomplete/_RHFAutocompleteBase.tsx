@@ -150,6 +150,11 @@ export function _RHFAutocompleteBase<
                   }}
                   label={label}
                   inputRef={ref}
+                  sx={{
+                    '& .MuiFormLabel-asterisk': {
+                      color: 'error.main',
+                    },
+                  }}
                 />
               )
             }}

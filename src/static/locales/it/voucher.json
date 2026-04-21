@@ -60,11 +60,11 @@
       "label": "Tipologia voucher",
       "options": {
         "bearer": {
-          "label": "Bearer",
+          "label": "Bearer (v2)",
           "description": "Token di accesso standard. Il mittente è autenticato solo tramite il possesso del token stesso."
         },
         "dpop": {
-          "label": "DPoP",
+          "label": "DPoP (v3)",
           "description": "Vincola il token a una chiave crittografica del client, impedendo il riutilizzo del voucher da parte di soggetti non autorizzati."
         }
       }
