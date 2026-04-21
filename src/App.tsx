@@ -31,7 +31,6 @@ if (lang) {
   i18n.changeLanguage(lang)
 }
 
-console.log('LANG', lang)
 if (redirectUrl) {
   const url = `/ui/${i18n.language}${redirectUrl}#id=${selfCareIdentityToken}`
 
@@ -40,7 +39,6 @@ if (redirectUrl) {
   fragmentParams.delete('lang')
   const url = `/ui/${i18n.language}/catalogo-e-service#${fragmentParams.toString()}`
 
-  console.log('URL', url)
   window.location.replace(url)
 } else {
   queryClient.prefetchQuery(AuthQueries.getSessionToken())
