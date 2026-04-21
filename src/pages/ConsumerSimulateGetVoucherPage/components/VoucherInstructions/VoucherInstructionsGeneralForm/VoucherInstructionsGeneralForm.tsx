@@ -45,7 +45,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
       keyId: searchParams.get('keyId'),
       voucherType: searchParams.get('voucherType') || 'BEARER',
       interationType: searchParams.get('interationType') || 'SYNC',
-      memberType: searchParams.get('producerKeychainId') ? 'PRODUCER' : 'CONSUMER',
+      memberType: searchParams.get('memberType') || 'CONSUMER',
       producerKeychainId: searchParams.get('producerKeychainId'),
       eserviceId: searchParams.get('eserviceId'),
       publicKeyId: searchParams.get('publicKeyId'),
@@ -110,6 +110,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
       if (values.voucherType) prev.set('voucherType', values.voucherType)
       if (values.interationType) prev.set('interationType', values.interationType)
       if (values.asyncExchangeStep) prev.set('asyncExchangeStep', values.asyncExchangeStep)
+      if (values.memberType) prev.set('memberType', values.memberType)
       /* Voucher simulation memberType consumer */
       if (values.clientId) prev.set('clientId', values.clientId)
       if (clientKind === 'CONSUMER' && values.purposeId) prev.set('purposeId', values.purposeId)
@@ -124,6 +125,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
   }
 
   const handleInterationTypeChanged = (interationType: string) => {
+    setSearchParams({})
     reset({
       voucherType: values.voucherType,
       interationType,
@@ -139,6 +141,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
   }
 
   const handleMemberTypeChanged = (memberType: string) => {
+    setSearchParams({})
     if (memberType === 'CONSUMER') {
       reset({
         ...values,
