@@ -77,25 +77,28 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
   }, [watch, setValue, setSearchParams])
 
   const canGoToNextStep = () => {
+    if (clientKind === 'API') {
+      return !!values.clientId && !!values.keyId
+    }
+
     if (clientKind === 'CONSUMER') {
       if (interationType === 'SYNC') {
-        return Boolean(values.clientId && values.purposeId && values.keyId)
-      } else if (interationType === 'ASYNC') {
+        return !!values.clientId && !!values.purposeId && !!values.keyId
+      }
+
+      if (interationType === 'ASYNC') {
+        const common = !!values.asyncExchangeStep
+
         if (memberType === 'CONSUMER') {
-          return Boolean(
-            values.clientId && values.purposeId && values.keyId && values.asyncExchangeStep
-          )
-        } else if (memberType === 'PRODUCER') {
-          return Boolean(
-            values.producerKeychainId &&
-            values.eserviceId &&
-            values.publicKeyId &&
-            values.asyncExchangeStep
+          return common && !!values.clientId && !!values.purposeId && !!values.keyId
+        }
+
+        if (memberType === 'PRODUCER') {
+          return (
+            common && !!values.producerKeychainId && !!values.eserviceId && !!values.publicKeyId
           )
         }
       }
-    } else if (clientKind === 'API') {
-      return Boolean(values.clientId) && Boolean(values.keyId)
     }
 
     return false

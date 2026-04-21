@@ -16,7 +16,7 @@ interface VoucherProducerSimulationSectionForm {
 
 export const VoucherProducerSimulationSection: React.FC = () => {
   const { t } = useTranslation('voucher')
-  const { watch } = useFormContext<VoucherProducerSimulationSectionForm>()
+  const { watch, setValue } = useFormContext<VoucherProducerSimulationSectionForm>()
 
   const producerKeychainId = watch('producerKeychainId') || ''
 
@@ -48,6 +48,12 @@ export const VoucherProducerSimulationSection: React.FC = () => {
     label: k.name,
     value: k.id,
   }))
+
+  useEffect(() => {
+    if (producerKeychainId && keys?.keys && keys.keys.length === 1) {
+      setValue('publicKeyId', keys.keys[0].keyId)
+    }
+  }, [keys?.keys, producerKeychainId, setValue])
 
   useEffect(() => {
     if (!producerKeychainId) {
