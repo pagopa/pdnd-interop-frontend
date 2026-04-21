@@ -289,6 +289,7 @@ export interface UpdateEServiceTemplateInstanceDescriptorQuotas {
    * @max 1000000000
    */
   dailyCallsTotal: number;
+  attributes?: DescriptorAttributesSeed;
 }
 
 export interface UpdateEServiceDescriptorAgreementApprovalPolicySeed {
@@ -350,6 +351,7 @@ export interface UpdateEServiceDescriptorTemplateInstanceSeed {
    * MANUAL - the Producer must approve every agreement for this Descriptor.
    */
   agreementApprovalPolicy: AgreementApprovalPolicy;
+  attributes?: DescriptorAttributesSeed;
 }
 
 export interface Mail {
