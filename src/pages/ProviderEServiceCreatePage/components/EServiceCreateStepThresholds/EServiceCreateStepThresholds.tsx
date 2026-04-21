@@ -153,6 +153,7 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
             dailyCallsPerConsumer: values.dailyCallsPerConsumer,
             dailyCallsTotal: values.dailyCallsTotal,
             agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
+            attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes),
           },
           { onSuccess: forward }
         )
