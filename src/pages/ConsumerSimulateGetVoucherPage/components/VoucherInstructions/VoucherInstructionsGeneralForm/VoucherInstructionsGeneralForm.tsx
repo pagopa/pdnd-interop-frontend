@@ -22,7 +22,7 @@ export interface VoucherInstructionsGeneralFormValues {
   clientId: string | null
   purposeId: string | null
   keyId: string | null
-  voucherType: string
+  voucherType: string | null
   interationType: string | null
   memberType: string | null
   asyncExchangeStep: string | null
@@ -43,13 +43,13 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
       clientId: searchParams.get('clientId'),
       purposeId: searchParams.get('purposeId'),
       keyId: searchParams.get('keyId'),
-      voucherType: 'BEARER',
-      interationType: 'SYNC',
-      memberType: 'CONSUMER',
+      voucherType: searchParams.get('voucherType') || 'BEARER',
+      interationType: searchParams.get('interationType') || 'SYNC',
+      memberType: searchParams.get('producerKeychainId') ? 'PRODUCER' : 'CONSUMER',
       producerKeychainId: searchParams.get('producerKeychainId'),
       eserviceId: searchParams.get('eserviceId'),
       publicKeyId: searchParams.get('publicKeyId'),
-      asyncExchangeStep: null,
+      asyncExchangeStep: searchParams.get('asyncExchangeStep'),
     },
   })
 
@@ -102,21 +102,21 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
   }
 
   const onSubmit: SubmitHandler<VoucherInstructionsGeneralFormValues> = (values) => {
-    if (clientKind === 'CONSUMER') {
-      setSearchParams((prev) => {
-        if (values.clientId) prev.set('clientId', values.clientId)
-        if (values.purposeId) prev.set('purposeId', values.purposeId)
-        if (values.keyId) prev.set('keyId', values.keyId)
-        return prev
-      })
-    } else if (clientKind === 'API') {
-      setSearchParams((prev) => {
-        if (values.producerKeychainId) prev.set('producerKeychainId', values.producerKeychainId)
-        if (values.eserviceId) prev.set('eserviceId', values.eserviceId)
-        if (values.publicKeyId) prev.set('publicKeyId', values.publicKeyId)
-        return prev
-      })
-    }
+    setSearchParams((prev) => {
+      /* Voucher simulation general info */
+      if (values.voucherType) prev.set('voucherType', values.voucherType)
+      if (values.interationType) prev.set('interationType', values.interationType)
+      if (values.asyncExchangeStep) prev.set('asyncExchangeStep', values.asyncExchangeStep)
+      /* Voucher simulation memberType consumer */
+      if (values.clientId) prev.set('clientId', values.clientId)
+      if (clientKind === 'CONSUMER' && values.purposeId) prev.set('purposeId', values.purposeId)
+      if (values.keyId) prev.set('keyId', values.keyId)
+      /* Voucher simulation memberType producer */
+      if (values.producerKeychainId) prev.set('producerKeychainId', values.producerKeychainId)
+      if (values.eserviceId) prev.set('eserviceId', values.eserviceId)
+      if (values.publicKeyId) prev.set('publicKeyId', values.publicKeyId)
+      return prev
+    })
     startStepper(values)
   }
 

@@ -124,9 +124,19 @@
       }
     }
   },
+  "firstDPoPProofStep": {
+    "stepperLabel": "Prima DPoP Proof",
+    "title": "DPoP Proof",
+    "description": "Ora è necessario generare la DPoP Proof (un JWT firmato) per legare in modo sicuro la sessione alle tue chiavi crittografiche e procedere con il riscatto del voucher. La coppia di chiavi utilizzate è diversa da quelle utilizzate per la client assertion."
+  },
+  "secondDPoPProofStep": {
+    "stepperLabel": "Seconda DPoP",
+    "title": "Genera la seconda DPoP",
+    "description": "Ora che il server autorizzativo di PDND ti ha rilasciato un token, generane l’hash ed inseriscilo nella seconda DPoP."
+  },
   "clientAssertionStep": {
-    "stepperLabel": "Client assertion",
-    "title": "Client assertion",
+    "stepperLabel": "Genera client assertion",
+    "title": "Genera la client assertion",
     "description": {
       "label": "Il primo passaggio è creare un’asserzione firmata dal tuo ente con la chiave privata corrispondente a una delle chiavi pubbliche che hai caricato in questo client. Di seguito i dettagli per creare il JWS secondo la specifica",
       "link": {
@@ -204,8 +214,8 @@
     }
   },
   "accessTokenStep": {
-    "stepperLabel": "Voucher",
-    "title": "Richiesta voucher",
+    "stepperLabel": "Ottieni token di accesso",
+    "title": "Ottieni il token di accesso",
     "consumerDescription": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di voucher verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un voucher spendibile presso l'e-service dell’erogatore",
     "apiDescription": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di voucher verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un voucher spendibile presso l’API gateway di Interoperabilità",
     "authEndpoint": {
@@ -245,8 +255,8 @@
     }
   },
   "dataAccessStep": {
-    "consumerStepperLabel": "Accesso e-service",
-    "apiStepperLabel": "Accesso API Interop",
+    "stepperLabelBearer": "Accesso ai dati",
+    "stepperLabelDPoP": "Risposta PDND",
     "actionLabel": "Consulta",
     "CONSUMER": {
       "title": "Congratulazioni!",

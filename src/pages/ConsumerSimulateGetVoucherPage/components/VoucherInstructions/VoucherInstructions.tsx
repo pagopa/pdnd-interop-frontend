@@ -12,29 +12,17 @@ import { VoucherInstructionsClientAssertionStep } from './steps/VoucherInstructi
 import { VoucherInstructionsAccessTokenStep } from './steps/VoucherInstructionsAccessTokenStep'
 import { VoucherInstructionsDataAccessStep } from './steps/VoucherInstructionsDataAccessStep'
 import { RequiredTextLabel } from '@/components/shared/RequiredTextLabel'
+import { VoucherInstructionsFirstDPoPProofStep } from './steps/VoucherInstructionsFirstDPoPProofStep'
+import { VoucherInstructionsSecondDPoPProofStep } from './steps/VoucherInstructionsSecondDPoPProofStep'
 
 export const VoucherInstructions: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
   const { activeStep, forward, back } = useActiveStep()
   const [showStepper, setShowStepper] = React.useState(false)
+  const [steps, setSteps] = React.useState<{ label: string; component: React.FC<{}> }[]>([])
 
-  const steps = [
-    {
-      label: t('clientAssertionStep.stepperLabel'),
-      component: VoucherInstructionsClientAssertionStep,
-    },
-    { label: t('accessTokenStep.stepperLabel'), component: VoucherInstructionsAccessTokenStep },
-    {
-      label:
-        clientKind === 'CONSUMER'
-          ? t('dataAccessStep.consumerStepperLabel')
-          : t('dataAccessStep.apiStepperLabel'),
-      component: VoucherInstructionsDataAccessStep,
-    },
-  ]
-
-  const { component: Step } = steps[activeStep]
+  const Step = steps?.[activeStep]?.component
 
   const handleBack = () => {
     if (activeStep === 0) {
@@ -47,10 +35,52 @@ export const VoucherInstructions: React.FC = () => {
   const contextProps = {
     goToPreviousStep: handleBack,
     goToNextStep: forward,
-    startStepper: (values: VoucherInstructionsGeneralFormValues) => generateStepper(values),
+    startStepper: (values: VoucherInstructionsGeneralFormValues) => generateSteps(values),
   }
 
-  const generateStepper = (values: VoucherInstructionsGeneralFormValues) => {
+  const bearerFlowSteps = [
+    {
+      label: t('clientAssertionStep.stepperLabel'),
+      component: VoucherInstructionsClientAssertionStep,
+    },
+    {
+      label: t('accessTokenStep.stepperLabel'),
+      component: VoucherInstructionsAccessTokenStep,
+    },
+    {
+      label: t('dataAccessStep.stepperLabelBearer'),
+      component: VoucherInstructionsDataAccessStep,
+    },
+  ]
+
+  const dPoPFlowSteps = [
+    {
+      label: t('clientAssertionStep.stepperLabel'),
+      component: VoucherInstructionsClientAssertionStep,
+    },
+    {
+      label: t('firstDPoPProofStep.stepperLabel'),
+      component: VoucherInstructionsFirstDPoPProofStep,
+    },
+    {
+      label: t('accessTokenStep.stepperLabel'),
+      component: VoucherInstructionsAccessTokenStep,
+    },
+    {
+      label: t('dataAccessStep.stepperLabelDPoP'),
+      component: VoucherInstructionsDataAccessStep,
+    },
+    {
+      label: t('secondDPoPProofStep.stepperLabel'),
+      component: VoucherInstructionsSecondDPoPProofStep,
+    },
+  ]
+
+  const generateSteps = (values: VoucherInstructionsGeneralFormValues) => {
+    const newSteps: { label: string; component: React.FC<{}> }[] =
+      values.voucherType === 'BEARER' ? bearerFlowSteps : dPoPFlowSteps
+
+    setSteps(newSteps)
     setShowStepper(true)
   }
 
@@ -68,7 +98,7 @@ export const VoucherInstructions: React.FC = () => {
             <React.Suspense
               fallback={<SectionContainerSkeleton height={clientKind === 'CONSUMER' ? 356 : 297} />}
             >
-              <Step />
+              {Step ? <Step /> : null}
             </React.Suspense>
           </>
         )}
