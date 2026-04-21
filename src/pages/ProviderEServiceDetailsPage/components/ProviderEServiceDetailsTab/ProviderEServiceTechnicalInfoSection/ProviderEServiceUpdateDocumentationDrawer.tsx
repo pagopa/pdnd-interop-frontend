@@ -254,14 +254,14 @@ const InterfaceDocumentContainer: React.FC<InterfaceDocumentContainerProps> = ({
       <Stack direction="row" alignItems="center" spacing={1}>
         <Typography variant="body2">{doc.prettyName}</Typography>
         <Tooltip title={t('interfaceInfoTooltip')}>
-          <InfoIcon
-            fontSize="small"
-            sx={{ color: 'text.secondary' }}
+          <Stack
+            component="span"
             tabIndex={0}
-            role="button"
-            aria-disabled={true} //we just want to make it focusable for accessibility reasons, so we set aria-disabled to true to communicate that it's not interactive
             aria-label={t('interfaceInfoTooltip')}
-          />
+            sx={{ display: 'inline-flex', alignItems: 'center' }}
+          >
+            <InfoIcon fontSize="small" sx={{ color: 'text.secondary' }} aria-hidden={true} />
+          </Stack>
         </Tooltip>
       </Stack>
       {onDownload && (
