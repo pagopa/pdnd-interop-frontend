@@ -18,14 +18,28 @@ import { IconLink } from '@/components/shared/IconLink'
 import { VoucherConsumerSimulationSection } from '../simulationSections/VoucherConsumerSimulationSection'
 import { VoucherProducerSimulationSection } from '../simulationSections/VoucherProducerSimulationSection'
 
+export const VOUCHER_TYPE = { BEARER: 'BEARER', DPOP: 'DPOP' } as const
+export const INTERATION_TYPE = { SYNC: 'SYNC', ASYNC: 'ASYNC' } as const
+export const MEMBER_TYPE = { CONSUMER: 'CONSUMER', PRODUCER: 'PRODUCER' } as const
+export const ASYNC_EXCHANGE_STEP = {
+  START_INTERACTION: 'start_interaction',
+  GET_RESOURCE: 'get_resource',
+  CONFIRMATION: 'confirmation',
+} as const
+
+export type VoucherType = (typeof VOUCHER_TYPE)[keyof typeof VOUCHER_TYPE]
+export type InterationType = (typeof INTERATION_TYPE)[keyof typeof INTERATION_TYPE]
+export type MemberType = (typeof MEMBER_TYPE)[keyof typeof MEMBER_TYPE]
+export type AsyncExchangeStep = (typeof ASYNC_EXCHANGE_STEP)[keyof typeof ASYNC_EXCHANGE_STEP]
+
 export interface VoucherInstructionsGeneralFormValues {
   clientId: string | null
   purposeId: string | null
   keyId: string | null
-  voucherType: string | null
-  interationType: string | null
-  memberType: string | null
-  asyncExchangeStep: string | null
+  voucherType: VoucherType
+  interationType: InterationType
+  memberType: MemberType
+  asyncExchangeStep: AsyncExchangeStep | null
   producerKeychainId: string | null
   eserviceId: string | null
   publicKeyId: string | null
@@ -43,13 +57,14 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
       clientId: searchParams.get('clientId'),
       purposeId: searchParams.get('purposeId'),
       keyId: searchParams.get('keyId'),
-      voucherType: searchParams.get('voucherType') || 'BEARER',
-      interationType: searchParams.get('interationType') || 'SYNC',
-      memberType: searchParams.get('memberType') || 'CONSUMER',
+      voucherType: (searchParams.get('voucherType') as VoucherType) ?? VOUCHER_TYPE.BEARER,
+      interationType:
+        (searchParams.get('interationType') as InterationType) ?? INTERATION_TYPE.SYNC,
+      memberType: (searchParams.get('memberType') as MemberType) ?? MEMBER_TYPE.CONSUMER,
       producerKeychainId: searchParams.get('producerKeychainId'),
       eserviceId: searchParams.get('eserviceId'),
       publicKeyId: searchParams.get('publicKeyId'),
-      asyncExchangeStep: searchParams.get('asyncExchangeStep'),
+      asyncExchangeStep: (searchParams.get('asyncExchangeStep') as AsyncExchangeStep) ?? null,
     },
   })
 
@@ -72,6 +87,9 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
         setValue('publicKeyId', null)
         setSearchParams({})
       }
+      if (name === 'asyncExchangeStep' || 'interationType' || 'memberType') {
+        setSearchParams({})
+      }
     })
     return () => subscription.unsubscribe()
   }, [watch, setValue, setSearchParams])
@@ -82,18 +100,18 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
     }
 
     if (clientKind === 'CONSUMER') {
-      if (interationType === 'SYNC') {
+      if (interationType === INTERATION_TYPE.SYNC) {
         return !!values.clientId && !!values.purposeId && !!values.keyId
       }
 
-      if (interationType === 'ASYNC') {
+      if (interationType === INTERATION_TYPE.ASYNC) {
         const common = !!values.asyncExchangeStep
 
-        if (memberType === 'CONSUMER') {
+        if (memberType === MEMBER_TYPE.CONSUMER) {
           return common && !!values.clientId && !!values.purposeId && !!values.keyId
         }
 
-        if (memberType === 'PRODUCER') {
+        if (memberType === MEMBER_TYPE.PRODUCER) {
           return (
             common && !!values.producerKeychainId && !!values.eserviceId && !!values.publicKeyId
           )
@@ -106,16 +124,13 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
 
   const onSubmit: SubmitHandler<VoucherInstructionsGeneralFormValues> = (values) => {
     setSearchParams((prev) => {
-      /* Voucher simulation general info */
       if (values.voucherType) prev.set('voucherType', values.voucherType)
       if (values.interationType) prev.set('interationType', values.interationType)
       if (values.asyncExchangeStep) prev.set('asyncExchangeStep', values.asyncExchangeStep)
       if (values.memberType) prev.set('memberType', values.memberType)
-      /* Voucher simulation memberType consumer */
       if (values.clientId) prev.set('clientId', values.clientId)
       if (clientKind === 'CONSUMER' && values.purposeId) prev.set('purposeId', values.purposeId)
       if (values.keyId) prev.set('keyId', values.keyId)
-      /* Voucher simulation memberType producer */
       if (values.producerKeychainId) prev.set('producerKeychainId', values.producerKeychainId)
       if (values.eserviceId) prev.set('eserviceId', values.eserviceId)
       if (values.publicKeyId) prev.set('publicKeyId', values.publicKeyId)
@@ -124,12 +139,11 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
     startStepper(values)
   }
 
-  const handleInterationTypeChanged = (interationType: string) => {
-    setSearchParams({})
+  const handleInterationTypeChanged = (interationType: InterationType) => {
     reset({
       voucherType: values.voucherType,
       interationType,
-      memberType: 'CONSUMER',
+      memberType: MEMBER_TYPE.CONSUMER,
       asyncExchangeStep: null,
       clientId: null,
       purposeId: null,
@@ -140,9 +154,8 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
     })
   }
 
-  const handleMemberTypeChanged = (memberType: string) => {
-    setSearchParams({})
-    if (memberType === 'CONSUMER') {
+  const handleMemberTypeChanged = (memberType: MemberType) => {
+    if (memberType === MEMBER_TYPE.CONSUMER) {
       reset({
         ...values,
         memberType,
@@ -152,7 +165,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
       })
     }
 
-    if (memberType === 'PRODUCER') {
+    if (memberType === MEMBER_TYPE.PRODUCER) {
       reset({
         ...values,
         memberType: memberType,
@@ -183,7 +196,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
             required
             options={[
               {
-                value: 'BEARER',
+                value: VOUCHER_TYPE.BEARER,
                 label: (
                   <Box sx={{ display: 'flex', flexDirection: 'column', py: 1 }}>
                     <Typography>{t('generalForm.voucherType.options.bearer.label')}</Typography>
@@ -194,7 +207,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
                 ),
               },
               {
-                value: 'DPOP',
+                value: VOUCHER_TYPE.DPOP,
                 label: (
                   <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <Typography>{t('generalForm.voucherType.options.dpop.label')}</Typography>
@@ -212,22 +225,36 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
               label={t('generalForm.interationType.label')}
               required
               options={[
-                { value: 'SYNC', label: t('generalForm.interationType.options.sync') },
-                { value: 'ASYNC', label: t('generalForm.interationType.options.async') },
+                {
+                  value: INTERATION_TYPE.SYNC,
+                  label: t('generalForm.interationType.options.sync'),
+                },
+                {
+                  value: INTERATION_TYPE.ASYNC,
+                  label: t('generalForm.interationType.options.async'),
+                },
               ]}
-              onValueChange={(interationType) => handleInterationTypeChanged(interationType)}
+              onValueChange={(interationType) =>
+                handleInterationTypeChanged(interationType as InterationType)
+              }
             />
           )}
-          {interationType === 'ASYNC' && (
+          {interationType === INTERATION_TYPE.ASYNC && (
             <RHFRadioGroup
               name="memberType"
               label={t('generalForm.memberType.label')}
               required
               options={[
-                { value: 'CONSUMER', label: t('generalForm.memberType.options.consumer') },
-                { value: 'PRODUCER', label: t('generalForm.memberType.options.producer') },
+                {
+                  value: MEMBER_TYPE.CONSUMER,
+                  label: t('generalForm.memberType.options.consumer'),
+                },
+                {
+                  value: MEMBER_TYPE.PRODUCER,
+                  label: t('generalForm.memberType.options.producer'),
+                },
               ]}
-              onValueChange={(memberType) => handleMemberTypeChanged(memberType)}
+              onValueChange={(memberType) => handleMemberTypeChanged(memberType as MemberType)}
             />
           )}
         </SectionContainer>
@@ -245,15 +272,15 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
             },
           ]}
         >
-          {memberType === 'CONSUMER' && (
+          {memberType === MEMBER_TYPE.CONSUMER && (
             <VoucherConsumerSimulationSection key={`consumer-${interationType}-${memberType}`} />
           )}
 
-          {memberType === 'PRODUCER' && (
+          {memberType === MEMBER_TYPE.PRODUCER && (
             <VoucherProducerSimulationSection key={`producer-${interationType}-${memberType}`} />
           )}
 
-          {interationType === 'ASYNC' && (
+          {interationType === INTERATION_TYPE.ASYNC && (
             <FormControl fullWidth sx={{ mt: 2 }}>
               <RHFSelect
                 required
@@ -263,10 +290,16 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
                 options={[
                   {
                     label: t('generalForm.asyncExchangeStep.startInteraction'),
-                    value: 'start_interaction',
+                    value: ASYNC_EXCHANGE_STEP.START_INTERACTION,
                   },
-                  { label: t('generalForm.asyncExchangeStep.getResource'), value: 'get_resource' },
-                  { label: t('generalForm.asyncExchangeStep.confirmation'), value: 'confirmation' },
+                  {
+                    label: t('generalForm.asyncExchangeStep.getResource'),
+                    value: ASYNC_EXCHANGE_STEP.GET_RESOURCE,
+                  },
+                  {
+                    label: t('generalForm.asyncExchangeStep.confirmation'),
+                    value: ASYNC_EXCHANGE_STEP.CONFIRMATION,
+                  },
                 ]}
               />
             </FormControl>

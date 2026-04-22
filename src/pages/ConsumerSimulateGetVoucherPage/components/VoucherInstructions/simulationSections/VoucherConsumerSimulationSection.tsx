@@ -8,12 +8,12 @@ import { ClientQueries } from '@/api/client'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
 import { VoucherInstructionsGeneralFormAlertConsumer } from '../alerts/VoucherInstructionsGeneralFormAlertConsumer'
+import type { VoucherInstructionsGeneralFormValues } from '../VoucherInstructionsGeneralForm'
 
-interface VoucherConsumerSimulationSectionForm {
-  clientId: string | null
-  purposeId: string | null
-  keyId: string | null
-}
+type VoucherConsumerSimulationSectionForm = Pick<
+  VoucherInstructionsGeneralFormValues,
+  'clientId' | 'purposeId' | 'keyId'
+>
 
 export const VoucherConsumerSimulationSection: React.FC = () => {
   const { t } = useTranslation('voucher')

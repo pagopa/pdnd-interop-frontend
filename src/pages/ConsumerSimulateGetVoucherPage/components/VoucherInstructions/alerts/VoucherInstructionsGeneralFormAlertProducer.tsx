@@ -10,7 +10,7 @@ type VoucherInstructionsGeneralFormAlertProducerProps = {
   isFetchingPublicKey: boolean
   isFetchingEservices: boolean
   eservices: CompactEService[] | undefined
-  keys: PublicKey[] | undefined
+  publicKeys: PublicKey[] | undefined
 }
 
 type ProducerAlertModel = {
@@ -30,7 +30,7 @@ export const VoucherInstructionsGeneralFormAlertProducer: React.FC<
   isFetchingPublicKey,
   isFetchingEservices,
   eservices,
-  keys,
+  publicKeys,
 }) => {
   const { t } = useTranslation('voucher')
   const navigate = useNavigate()
@@ -38,7 +38,7 @@ export const VoucherInstructionsGeneralFormAlertProducer: React.FC<
   const noEServices = producerKeychainId && !isFetchingEservices && !eservices?.length
 
   const noPublicKeys =
-    producerKeychainId && !isFetchingEservices && !isFetchingPublicKey && !keys?.length
+    producerKeychainId && !isFetchingEservices && !isFetchingPublicKey && !publicKeys?.length
 
   const alertModel: ProducerAlertModel = React.useMemo(() => {
     if (!producerKeychainId) return null

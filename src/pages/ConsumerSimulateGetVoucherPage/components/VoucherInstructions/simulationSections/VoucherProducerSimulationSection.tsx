@@ -7,12 +7,12 @@ import { RHFAutocompleteSingle, RHFSelect } from '@/components/shared/react-hook
 import { KeychainQueries } from '@/api/keychain'
 import { useTranslation } from 'react-i18next'
 import { VoucherInstructionsGeneralFormAlertProducer } from '../alerts/VoucherInstructionsGeneralFormAlertProducer'
+import type { VoucherInstructionsGeneralFormValues } from '../VoucherInstructionsGeneralForm'
 
-interface VoucherProducerSimulationSectionForm {
-  producerKeychainId: string | null
-  eserviceId: string | null
-  publicKeyId: string | null
-}
+type VoucherProducerSimulationSectionForm = Pick<
+  VoucherInstructionsGeneralFormValues,
+  'producerKeychainId' | 'eserviceId' | 'publicKeyId'
+>
 
 export const VoucherProducerSimulationSection: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -35,7 +35,7 @@ export const VoucherProducerSimulationSection: React.FC = () => {
     enabled: Boolean(producerKeychainId),
   })
 
-  const { data: keys, isFetching: isFetchingPublicKey } = useQuery({
+  const { data: publicKeys, isFetching: isFetchingPublicKey } = useQuery({
     ...KeychainQueries.getProducerKeychainKeysList({
       producerKeychainId,
       offset: 0,
@@ -50,10 +50,10 @@ export const VoucherProducerSimulationSection: React.FC = () => {
   }))
 
   useEffect(() => {
-    if (producerKeychainId && keys?.keys && keys.keys.length === 1) {
-      setValue('publicKeyId', keys.keys[0].keyId)
+    if (producerKeychainId && publicKeys?.keys && publicKeys.keys.length === 1) {
+      setValue('publicKeyId', publicKeys.keys[0].keyId)
     }
-  }, [keys?.keys, producerKeychainId, setValue])
+  }, [publicKeys?.keys, producerKeychainId, setValue])
 
   useEffect(() => {
     if (!producerKeychainId) {
@@ -91,7 +91,7 @@ export const VoucherProducerSimulationSection: React.FC = () => {
         <RHFSelect
           name="publicKeyId"
           label={t('generalForm.keySelectInput.label')}
-          options={(keys?.keys ?? []).map((k) => ({
+          options={(publicKeys?.keys ?? []).map((k) => ({
             label: k.name,
             value: k.keyId,
           }))}
@@ -107,7 +107,7 @@ export const VoucherProducerSimulationSection: React.FC = () => {
         producerKeychainId={producerKeychainId}
         isFetchingPublicKey={isFetchingPublicKey}
         isFetchingEservices={isFetchingEservices}
-        keys={keys?.keys}
+        publicKeys={publicKeys?.keys}
         eservices={eservices?.eservices}
       />
     </>
