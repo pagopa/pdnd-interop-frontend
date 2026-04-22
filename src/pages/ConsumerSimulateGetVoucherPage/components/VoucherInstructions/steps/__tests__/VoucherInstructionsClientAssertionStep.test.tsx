@@ -1,12 +1,13 @@
+vi.mock('../CodeSnippetPreview', () => ({
+  CodeSnippetPreview: () => null,
+  default: () => null,
+}))
+
 import { screen } from '@testing-library/react'
 import { vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { VoucherInstructionsClientAssertionStep } from '../VoucherInstructionsClientAssertionStep'
-
-vi.mock('../CodeSnippetPreview', () => ({
-  CodeSnippetPreview: () => <div data-testid="code-snippet" />,
-}))
 
 const goToPreviousStepMock = vi.fn()
 const goToNextStepMock = vi.fn()
