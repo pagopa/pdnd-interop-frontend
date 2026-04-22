@@ -1,9 +1,8 @@
-import React from 'react'
-import { fireEvent, screen } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 import { vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { VoucherInstructionsClientAssertionStep } from '../steps/VoucherInstructionsClientAssertionStep'
+import { VoucherInstructionsClientAssertionStep } from '../VoucherInstructionsClientAssertionStep'
 
 const goToPreviousStepMock = vi.fn()
 const goToNextStepMock = vi.fn()
