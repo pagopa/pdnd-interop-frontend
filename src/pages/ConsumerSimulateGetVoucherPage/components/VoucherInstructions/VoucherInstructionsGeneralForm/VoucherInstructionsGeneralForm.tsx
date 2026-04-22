@@ -10,7 +10,7 @@ import { VoucherInstructionsGeneralFormCurrentIdsDrawer } from './VoucherInstruc
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { StepActions } from '@/components/shared/StepActions'
 import { useClientKind } from '@/hooks/useClientKind'
-import { useForm, FormProvider, type SubmitHandler } from 'react-hook-form'
+import { useForm, FormProvider } from 'react-hook-form'
 import { RHFRadioGroup, RHFSelect } from '@/components/shared/react-hook-form-inputs'
 import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
 import { useSearchParams } from 'react-router-dom'
@@ -68,31 +68,8 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
     },
   })
 
-  const { watch, handleSubmit, reset, setValue } = formMethods
-
-  const interationType = watch('interationType')
-  const memberType = watch('memberType')
+  const { watch, handleSubmit, setValue, reset } = formMethods
   const values = watch()
-
-  /* Reset selects on client or keychain value change */
-  useEffect(() => {
-    const subscription = watch((_, { name }) => {
-      if (name === 'clientId') {
-        setValue('purposeId', null)
-        setValue('keyId', null)
-        setSearchParams({})
-      }
-      if (name === 'producerKeychainId') {
-        setValue('eserviceId', null)
-        setValue('publicKeyId', null)
-        setSearchParams({})
-      }
-      if (name === 'asyncExchangeStep' || 'interationType' || 'memberType') {
-        setSearchParams({})
-      }
-    })
-    return () => subscription.unsubscribe()
-  }, [watch, setValue, setSearchParams])
 
   const canGoToNextStep = () => {
     if (clientKind === 'API') {
@@ -100,18 +77,18 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
     }
 
     if (clientKind === 'CONSUMER') {
-      if (interationType === INTERATION_TYPE.SYNC) {
+      if (values.interationType === INTERATION_TYPE.SYNC) {
         return !!values.clientId && !!values.purposeId && !!values.keyId
       }
 
-      if (interationType === INTERATION_TYPE.ASYNC) {
+      if (values.interationType === INTERATION_TYPE.ASYNC) {
         const common = !!values.asyncExchangeStep
 
-        if (memberType === MEMBER_TYPE.CONSUMER) {
+        if (values.memberType === MEMBER_TYPE.CONSUMER) {
           return common && !!values.clientId && !!values.purposeId && !!values.keyId
         }
 
-        if (memberType === MEMBER_TYPE.PRODUCER) {
+        if (values.memberType === MEMBER_TYPE.PRODUCER) {
           return (
             common && !!values.producerKeychainId && !!values.eserviceId && !!values.publicKeyId
           )
@@ -122,26 +99,23 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
     return false
   }
 
-  const onSubmit: SubmitHandler<VoucherInstructionsGeneralFormValues> = (values) => {
-    setSearchParams((prev) => {
-      if (values.voucherType) prev.set('voucherType', values.voucherType)
-      if (values.interationType) prev.set('interationType', values.interationType)
-      if (values.asyncExchangeStep) prev.set('asyncExchangeStep', values.asyncExchangeStep)
-      if (values.memberType) prev.set('memberType', values.memberType)
-      if (values.clientId) prev.set('clientId', values.clientId)
-      if (clientKind === 'CONSUMER' && values.purposeId) prev.set('purposeId', values.purposeId)
-      if (values.keyId) prev.set('keyId', values.keyId)
-      if (values.producerKeychainId) prev.set('producerKeychainId', values.producerKeychainId)
-      if (values.eserviceId) prev.set('eserviceId', values.eserviceId)
-      if (values.publicKeyId) prev.set('publicKeyId', values.publicKeyId)
-      return prev
+  useEffect(() => {
+    const subscription = watch((_, { name }) => {
+      if (name === 'clientId') {
+        setValue('purposeId', null)
+        setValue('keyId', null)
+      }
+      if (name === 'producerKeychainId') {
+        setValue('eserviceId', null)
+        setValue('publicKeyId', null)
+      }
     })
-    startStepper(values)
-  }
+    return () => subscription.unsubscribe()
+  }, [setValue, watch])
 
   const handleInterationTypeChanged = (interationType: InterationType) => {
     reset({
-      voucherType: values.voucherType,
+      ...values,
       interationType,
       memberType: MEMBER_TYPE.CONSUMER,
       asyncExchangeStep: null,
@@ -169,13 +143,49 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
     if (memberType === MEMBER_TYPE.PRODUCER) {
       reset({
         ...values,
-        memberType: memberType,
+        memberType,
         clientId: null,
         purposeId: null,
         keyId: null,
         asyncExchangeStep: null,
       })
     }
+  }
+
+  const onSubmit = (values: VoucherInstructionsGeneralFormValues) => {
+    const params = new URLSearchParams()
+
+    params.set('voucherType', values.voucherType)
+    params.set('interationType', values.interationType)
+
+    if (values.interationType === INTERATION_TYPE.SYNC) {
+      if (values.clientId) params.set('clientId', values.clientId)
+      if (values.purposeId) params.set('purposeId', values.purposeId)
+      if (values.keyId) params.set('keyId', values.keyId)
+    }
+
+    if (values.interationType === INTERATION_TYPE.ASYNC) {
+      params.set('memberType', values.memberType)
+
+      if (values.asyncExchangeStep) {
+        params.set('asyncExchangeStep', values.asyncExchangeStep)
+      }
+
+      if (values.memberType === MEMBER_TYPE.CONSUMER) {
+        if (values.clientId) params.set('clientId', values.clientId)
+        if (values.purposeId) params.set('purposeId', values.purposeId)
+        if (values.keyId) params.set('keyId', values.keyId)
+      }
+
+      if (values.memberType === MEMBER_TYPE.PRODUCER) {
+        if (values.producerKeychainId) params.set('producerKeychainId', values.producerKeychainId)
+        if (values.eserviceId) params.set('eserviceId', values.eserviceId)
+        if (values.publicKeyId) params.set('publicKeyId', values.publicKeyId)
+      }
+    }
+
+    setSearchParams(params)
+    startStepper(values)
   }
 
   return (
@@ -241,7 +251,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
               }
             />
           )}
-          {interationType === INTERATION_TYPE.ASYNC && (
+          {values.interationType === INTERATION_TYPE.ASYNC && (
             <RHFRadioGroup
               name="memberType"
               label={t('generalForm.memberType.label')}
@@ -274,15 +284,19 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
             },
           ]}
         >
-          {memberType === MEMBER_TYPE.CONSUMER && (
-            <VoucherConsumerSimulationSection key={`consumer-${interationType}-${memberType}`} />
+          {values.memberType === MEMBER_TYPE.CONSUMER && (
+            <VoucherConsumerSimulationSection
+              key={`consumer-${values.interationType}-${values.memberType}`}
+            />
           )}
 
-          {memberType === MEMBER_TYPE.PRODUCER && (
-            <VoucherProducerSimulationSection key={`producer-${interationType}-${memberType}`} />
+          {values.memberType === MEMBER_TYPE.PRODUCER && (
+            <VoucherProducerSimulationSection
+              key={`producer-${values.interationType}-${values.memberType}`}
+            />
           )}
 
-          {interationType === INTERATION_TYPE.ASYNC && (
+          {values.interationType === INTERATION_TYPE.ASYNC && (
             <FormControl fullWidth sx={{ mt: 2 }}>
               <RHFSelect
                 required
