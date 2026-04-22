@@ -1,21 +1,41 @@
+import { vi } from 'vitest'
+export const mockAxiosGet = vi.fn()
+export const mockAxiosCreate = vi.fn()
+
+vi.mock('axios', () => ({
+  default: {
+    get: vi.fn((url: string) =>
+      Promise.resolve({
+        data: '',
+        config: { url },
+      })
+    ),
+
+    create: vi.fn(() => ({
+      get: vi.fn((url: string) =>
+        Promise.resolve({
+          data: '',
+          config: { url },
+        })
+      ),
+
+      interceptors: {
+        request: { use: vi.fn() },
+        response: { use: vi.fn() },
+      },
+    })),
+  },
+}))
+
 vi.mock('../CodeSnippetPreview', () => ({
   CodeSnippetPreview: () => null,
   default: () => null,
 }))
 
-import { screen } from '@testing-library/react'
-import { vi } from 'vitest'
-import { MemoryRouter } from 'react-router-dom'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { VoucherInstructionsAccessTokenStep } from '../VoucherInstructionsAccessTokenStep'
-
-const goToPreviousStepMock = vi.fn()
-const goToNextStepMock = vi.fn()
-
 vi.mock('../VoucherInstructionsContext', () => ({
   useVoucherInstructionsContext: () => ({
-    goToPreviousStep: goToPreviousStepMock,
-    goToNextStep: goToNextStepMock,
+    goToPreviousStep: vi.fn(),
+    goToNextStep: vi.fn(),
   }),
 }))
 
@@ -37,6 +57,11 @@ vi.mock('react-router-dom', async () => {
     ],
   }
 })
+
+import { screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
+import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { VoucherInstructionsAccessTokenStep } from '../VoucherInstructionsAccessTokenStep'
 
 describe('VoucherInstructionsAccessTokenStep', () => {
   it('renders base sections', async () => {
