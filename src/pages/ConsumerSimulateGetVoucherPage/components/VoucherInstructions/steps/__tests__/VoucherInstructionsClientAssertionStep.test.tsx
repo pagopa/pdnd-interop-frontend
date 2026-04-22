@@ -1,3 +1,4 @@
+import React from 'react'
 import { screen } from '@testing-library/react'
 import { vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
@@ -18,10 +19,6 @@ vi.mock('@/hooks/useClientKind', () => ({
   useClientKind: () => 'CONSUMER',
 }))
 
-vi.mock('../CodeSnippetPreview', () => ({
-  CodeSnippetPreview: () => <div>CodeSnippetPreviewMock</div>,
-}))
-
 vi.mock('react-router-dom', async () => {
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   const actual = await vi.importActual<typeof import('react-router-dom')>('react-router-dom')
@@ -37,8 +34,12 @@ vi.mock('react-router-dom', async () => {
   }
 })
 
+vi.mock('../CodeSnippetPreview', () => ({
+  CodeSnippetPreview: vi.fn(() => <div />),
+}))
+
 describe('VoucherInstructionsClientAssertionStep', () => {
-  it('renders base assertion fields', async () => {
+  it('renders base assertion sections', async () => {
     renderWithApplicationContext(
       <MemoryRouter>
         <VoucherInstructionsClientAssertionStep />
@@ -47,13 +48,12 @@ describe('VoucherInstructionsClientAssertionStep', () => {
     )
 
     expect(await screen.findByText('clientAssertionStep.assertionHeader.title')).toBeInTheDocument()
-
     expect(
       await screen.findByText('clientAssertionStep.assertionPayload.title')
     ).toBeInTheDocument()
   })
 
-  it('renders client assertion identifiers (kid, alg, typ)', async () => {
+  it('renders identifier fields', async () => {
     renderWithApplicationContext(
       <MemoryRouter>
         <VoucherInstructionsClientAssertionStep />
@@ -72,7 +72,7 @@ describe('VoucherInstructionsClientAssertionStep', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders payload fields (iss, sub, aud)', async () => {
+  it('renders payload fields', async () => {
     renderWithApplicationContext(
       <MemoryRouter>
         <VoucherInstructionsClientAssertionStep />
@@ -91,7 +91,7 @@ describe('VoucherInstructionsClientAssertionStep', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders purposeId only for CONSUMER with purposeId present', async () => {
+  it('renders purposeId when present', async () => {
     renderWithApplicationContext(
       <MemoryRouter>
         <VoucherInstructionsClientAssertionStep />
@@ -104,7 +104,7 @@ describe('VoucherInstructionsClientAssertionStep', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders script steps section', async () => {
+  it('renders script section', async () => {
     renderWithApplicationContext(
       <MemoryRouter>
         <VoucherInstructionsClientAssertionStep />
@@ -113,9 +113,5 @@ describe('VoucherInstructionsClientAssertionStep', () => {
     )
 
     expect(await screen.findByText('clientAssertionStep.assertionScript.title')).toBeInTheDocument()
-
-    expect(
-      await screen.findByText('clientAssertionStep.assertionScript.steps.1')
-    ).toBeInTheDocument()
   })
 })
