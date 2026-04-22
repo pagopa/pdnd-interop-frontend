@@ -1,9 +1,12 @@
-import React from 'react'
 import { screen } from '@testing-library/react'
 import { vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { VoucherInstructionsClientAssertionStep } from '../VoucherInstructionsClientAssertionStep'
+
+vi.mock('../CodeSnippetPreview', () => ({
+  CodeSnippetPreview: () => <div data-testid="code-snippet" />,
+}))
 
 const goToPreviousStepMock = vi.fn()
 const goToNextStepMock = vi.fn()
@@ -33,10 +36,6 @@ vi.mock('react-router-dom', async () => {
     ],
   }
 })
-
-vi.mock('../CodeSnippetPreview', () => ({
-  CodeSnippetPreview: vi.fn(() => <div />),
-}))
 
 describe('VoucherInstructionsClientAssertionStep', () => {
   it('renders base assertion sections', async () => {

@@ -4,6 +4,10 @@ import { MemoryRouter } from 'react-router-dom'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { VoucherInstructionsAccessTokenStep } from '../VoucherInstructionsAccessTokenStep'
 
+vi.mock('../CodeSnippetPreview', () => ({
+  CodeSnippetPreview: () => <div data-testid="code-snippet" />,
+}))
+
 const goToPreviousStepMock = vi.fn()
 const goToNextStepMock = vi.fn()
 
@@ -16,10 +20,6 @@ vi.mock('../VoucherInstructionsContext', () => ({
 
 vi.mock('@/hooks/useClientKind', () => ({
   useClientKind: () => 'CONSUMER',
-}))
-
-vi.mock('../CodeSnippetPreview', () => ({
-  CodeSnippetPreview: () => <div data-testid="code-snippet" />,
 }))
 
 vi.mock('react-router-dom', async () => {
