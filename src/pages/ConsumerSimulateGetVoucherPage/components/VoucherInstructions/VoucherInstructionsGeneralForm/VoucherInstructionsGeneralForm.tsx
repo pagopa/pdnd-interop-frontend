@@ -162,6 +162,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
         producerKeychainId: null,
         eserviceId: null,
         publicKeyId: null,
+        asyncExchangeStep: null,
       })
     }
 
@@ -172,6 +173,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
         clientId: null,
         purposeId: null,
         keyId: null,
+        asyncExchangeStep: null,
       })
     }
   }
