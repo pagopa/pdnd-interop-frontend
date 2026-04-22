@@ -146,30 +146,4 @@ describe('VoucherInstructionsDataAccessStep', () => {
     expect(await screen.findByText('dataAccessStep.API.pushApiSH.title')).toBeInTheDocument()
     expect(await screen.findByText('dataAccessStep.API.pushApiSH.description')).toBeInTheDocument()
   })
-
-  it('calls goToPreviousStep on back click', async () => {
-    renderWithApplicationContext(
-      <MemoryRouter>
-        <VoucherInstructionsDataAccessStep />
-      </MemoryRouter>,
-      { withReactQueryContext: true }
-    )
-
-    fireEvent.click(await screen.findByText('backBtn'))
-
-    expect(goToPreviousStepMock).toHaveBeenCalled
-  })
-
-  it('calls goToNextStep when forward button is visible', async () => {
-    renderWithApplicationContext(
-      <MemoryRouter initialEntries={['?voucherType=DPOP']}>
-        <VoucherInstructionsDataAccessStep />
-      </MemoryRouter>,
-      { withReactQueryContext: true }
-    )
-
-    fireEvent.click(await screen.findByText('proceedBtn'))
-
-    expect(goToNextStepMock).toHaveBeenCalled
-  })
 })

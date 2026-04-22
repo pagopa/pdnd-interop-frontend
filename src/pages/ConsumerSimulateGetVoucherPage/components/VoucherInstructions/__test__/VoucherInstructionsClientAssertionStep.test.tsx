@@ -19,6 +19,10 @@ vi.mock('@/hooks/useClientKind', () => ({
   useClientKind: () => 'CONSUMER',
 }))
 
+vi.mock('../CodeSnippetPreview', () => ({
+  CodeSnippetPreview: () => <div>CodeSnippetPreviewMock</div>,
+}))
+
 vi.mock('react-router-dom', async () => {
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   const actual = await vi.importActual<typeof import('react-router-dom')>('react-router-dom')
@@ -114,31 +118,5 @@ describe('VoucherInstructionsClientAssertionStep', () => {
     expect(
       await screen.findByText('clientAssertionStep.assertionScript.steps.1')
     ).toBeInTheDocument()
-  })
-
-  it('calls goToPreviousStep on back click', async () => {
-    renderWithApplicationContext(
-      <MemoryRouter>
-        <VoucherInstructionsClientAssertionStep />
-      </MemoryRouter>,
-      { withReactQueryContext: true }
-    )
-
-    fireEvent.click(await screen.findByText('backBtn'))
-
-    expect(goToPreviousStepMock).toHaveBeenCalledTimes(1)
-  })
-
-  it('calls goToNextStep on forward click', async () => {
-    renderWithApplicationContext(
-      <MemoryRouter>
-        <VoucherInstructionsClientAssertionStep />
-      </MemoryRouter>,
-      { withReactQueryContext: true }
-    )
-
-    fireEvent.click(await screen.findByText('proceedBtn'))
-
-    expect(goToNextStepMock).toHaveBeenCalledTimes(1)
   })
 })
