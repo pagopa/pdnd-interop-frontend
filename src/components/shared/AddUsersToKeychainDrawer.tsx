@@ -87,7 +87,7 @@ export const AddUsersToKeychainDrawer: React.FC<AddUsersToKeychainDrawerProps> =
             options={options}
             loading={isLoadingAllPartyUsers}
           />
-          <Alert severity="info" role="alert" aria-live="polite">
+          <Alert severity="info" aria-live="polite">
             {t('adminAlert')}
           </Alert>
         </Stack>
