@@ -25,7 +25,7 @@ export const PurposeTemplateCatalogGrid: React.FC<PurposeTemplateGridProps> = ({
     <Box sx={{ mt: 3, px: 1.5 }}>
       <Grid container spacing={3}>
         {purposeTemplates?.map((purposeTemplate) => (
-          <Grid item key={purposeTemplate.id} xs={6} md={6}>
+          <Grid item key={purposeTemplate.id} xs={12} md={6}>
             <PurposeTemplateCatalogCard
               key={purposeTemplate.id}
               purposeTemplate={purposeTemplate}
@@ -72,7 +72,7 @@ export const PurposeTemplateCatalogGridSkeleton: React.FC = () => {
     <Box sx={{ mt: 3, px: 1.5 }}>
       <Grid container spacing={3}>
         {new Array(9).fill('').map((_, i) => (
-          <Grid key={i} xs={6} md={6} item>
+          <Grid key={i} xs={12} md={6} item>
             <CatalogCardForPurposeTemplateSkeleton />
           </Grid>
         ))}
