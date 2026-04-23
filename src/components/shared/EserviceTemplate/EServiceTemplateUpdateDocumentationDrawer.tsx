@@ -171,7 +171,7 @@ export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
           if (!doc) return null
           if (index === 0 && paginationParams.offset === 0)
             return (
-              <Stack spacing={1}>
+              <Stack spacing={1} key={doc.id}>
                 <InterfaceDocumentContainer doc={doc} onDownload={handleDownloadDocument} />
                 <Divider />
               </Stack>
@@ -260,7 +260,14 @@ const InterfaceDocumentContainer: React.FC<InterfaceDocumentContainerProps> = ({
       <Stack direction="row" alignItems="center" spacing={1}>
         <Typography variant="body2">{doc.prettyName}</Typography>
         <Tooltip title={t('interfaceInfoTooltip')}>
-          <InfoIcon fontSize="small" sx={{ color: 'text.secondary' }} />
+          <Stack
+            component="span"
+            tabIndex={0}
+            aria-label={t('interfaceInfoTooltip')}
+            sx={{ display: 'inline-flex', alignItems: 'center' }}
+          >
+            <InfoIcon fontSize="small" sx={{ color: 'text.secondary' }} aria-hidden={true} />
+          </Stack>
         </Tooltip>
       </Stack>
       {onDownload && (
