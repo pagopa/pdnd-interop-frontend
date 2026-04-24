@@ -133,6 +133,7 @@
       "title": "Crea delega",
       "kindSectionTitle": "Tipologie di delega",
       "kindSectionAriaLabel": "Seleziona il tipo di delega che vuoi creare",
+      "kindSectionErrorMessage": "Per proseguire, seleziona se vuoi creare una delega alla fruizione o all'erogazione.",
       "consumerDelegationTitle": "Delega alla fruizione",
       "providerDelegationTitle": "Delega all'erogazione",
       "cancelBtn": "Annulla",
