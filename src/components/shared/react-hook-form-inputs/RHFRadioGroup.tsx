@@ -62,6 +62,7 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
           }}
           id={labelId}
           required={required}
+          component="div" /* Use div due to accessibility reasons, otherwise label tag is rendered without for attribute */
         >
           {label}
         </FormLabel>
