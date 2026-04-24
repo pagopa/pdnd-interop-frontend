@@ -10,6 +10,7 @@ import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import type { Purpose, PurposeUpdateContent } from '@/api/api.generatedTypes'
 import SaveIcon from '@mui/icons-material/Save'
 import { useNavigate } from '@/router'
+import { PurposeLoadEstimationSection } from '@/components/shared/PurposeLoadEstimationSection'
 
 export type PurposeEditStepGeneralFormValues = Omit<
   PurposeUpdateContent,
@@ -86,6 +87,7 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
             focusOnMount
             inputProps={{ maxLength: 60 }}
             rules={{ required: true, minLength: 5 }}
+            required
           />
 
           <RHFTextField
@@ -95,6 +97,7 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
             multiline
             inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
+            required
           />
 
           <RHFRadioGroup
@@ -104,6 +107,7 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
               { label: t('edit.stepGeneral.isFreeOfChargeField.options.YES'), value: 'YES' },
               { label: t('edit.stepGeneral.isFreeOfChargeField.options.NO'), value: 'NO' },
             ]}
+            required
           />
 
           {isFreeOfCharge === 'YES' && (
@@ -114,18 +118,15 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
               multiline
               inputProps={{ maxLength: 250 }}
               rules={{ required: true, minLength: 10 }}
+              required
             />
           )}
-
-          <RHFTextField
-            name="dailyCalls"
-            label={t('edit.stepGeneral.dailyCallsField.label')}
-            type="number"
-            inputProps={{ min: '1' }}
-            sx={{ mb: 0 }}
-            rules={{ required: true, min: 1 }}
-          />
         </SectionContainer>
+        <PurposeLoadEstimationSection
+          purposeId={purpose.id}
+          dailyCallsPerConsumer={purpose.dailyCallsPerConsumer}
+          dailyCallsTotal={purpose.dailyCallsTotal}
+        />
         <StepActions
           back={{ to: 'SUBSCRIBE_PURPOSE_LIST', label: t('backToListBtn'), type: 'link' }}
           forward={{

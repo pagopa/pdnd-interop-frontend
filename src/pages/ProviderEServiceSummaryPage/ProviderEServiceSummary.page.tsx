@@ -1,7 +1,7 @@
 import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
 import { Trans, useTranslation } from 'react-i18next'
-import { useNavigate, useParams } from '@/router'
+import { useGeneratePath, useNavigate, useParams } from '@/router'
 import { EServiceMutations, EServiceQueries } from '@/api/eservice'
 import { Alert, Button, Link, Stack, Tooltip, Typography } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
@@ -9,21 +9,21 @@ import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
 import { SummaryAccordion, SummaryAccordionSkeleton } from '@/components/shared/SummaryAccordion'
 import {
-  ProviderEServiceDocumentationSummary,
-  ProviderEServiceGeneralInfoSummary,
-  ProviderEServiceVersionInfoSummary,
+  ProviderEServiceDocumentationSummarySection,
+  ProviderEServiceGeneralInfoSummarySection,
+  ProviderEServiceAttributeVersionSummarySection,
+  ProviderEServiceRiskAnalysisSummaryListSection,
+  ProviderEServiceVersionInfoSummarySection,
 } from './components'
-import { ProviderEServiceAttributeVersionSummary } from './components/ProviderEServiceAttributeVersionSummary'
-import { ProviderEServiceRiskAnalysisSummaryList } from './components/ProviderEServiceRiskAnalysisSummaryList'
 import { useQuery } from '@tanstack/react-query'
 import { RejectReasonDrawer } from '@/components/shared/RejectReasonDrawer'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AuthHooks } from '@/api/auth'
 import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 import { useDialog } from '@/stores'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 import { UpdatePersonalDataDrawer } from '@/components/shared/UpdatePersonalDataDrawer'
 import type { EServiceMode } from '@/api/api.generatedTypes'
+import { match } from 'ts-pattern'
 
 const ProviderEServiceSummaryPage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -31,11 +31,13 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const { t: tDialogApproveDelegatedVersionDraft } = useTranslation('shared-components', {
     keyPrefix: 'dialogApproveDelegatedVersionDraft',
   })
+  const { t: tTemplate } = useTranslation('eserviceTemplate')
   const { jwt } = AuthHooks.useJwt()
   const { isSupport } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
   const navigate = useNavigate()
+  const generatePath = useGeneratePath()
   const { openDialog, closeDialog } = useDialog()
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
@@ -60,6 +62,8 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const { data: descriptor, isLoading } = useQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
+
+  const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 
   const { mutate: updateEservicePersonalData } =
     EServiceMutations.useUpdateEServicePersonalDataFlagAfterPublication()
@@ -100,21 +104,43 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const handlePublishDraft = () => {
     if (!descriptor) return
 
+    const isFirstVersion = descriptor.version === '1'
+
     publishVersion(
       {
         eserviceId: descriptor.eservice.id,
         descriptorId: descriptor.id,
         delegatorName: delegation?.delegator.name,
         eserviceName: delegation?.eservice?.name,
+        isFirstVersion,
       },
       {
-        onSuccess: () =>
-          navigate('PROVIDE_ESERVICE_MANAGE', {
+        onSuccess: () => {
+          navigate('PROVIDE_ESERVICE_PUBLISH_THANK_YOU', {
             params: {
               eserviceId: descriptor.eservice.id,
               descriptorId: descriptor.id,
             },
-          }),
+            state: {
+              ...match(isFirstVersion)
+                .with(true, () => ({
+                  title: t('publishThankYou.firstVersion.title'),
+                  description: t('publishThankYou.firstVersion.description'),
+                }))
+                .with(false, () => ({
+                  title: t('publishThankYou.newVersion.title'),
+                  subtitle: t('publishThankYou.newVersion.subtitle'),
+                  bulletPoints: t('publishThankYou.newVersion.bulletPoints', {
+                    returnObjects: true,
+                  }),
+                }))
+                .exhaustive(),
+              buttonLabel: t('publishThankYou.action'),
+              closeRouteKey: 'PROVIDE_ESERVICE_MANAGE',
+              closeRouteParams: { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
+            },
+          })
+        },
       }
     )
   }
@@ -157,7 +183,9 @@ const ProviderEServiceSummaryPage: React.FC = () => {
       return true
     }
 
-    return !!descriptor.templateRef?.interfaceMetadata
+    return (
+      !!descriptor.templateRef?.interfaceMetadata || !!descriptor.templateRef?.templateInterface
+    )
   }
 
   const isReceiveMode = descriptor?.eservice.mode === 'RECEIVE'
@@ -183,7 +211,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
         descriptor.voucherLifespan &&
         descriptor.dailyCallsPerConsumer &&
         descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer &&
-        (FEATURE_FLAG_ESERVICE_PERSONAL_DATA ? arePersonalDataSet : true) &&
+        arePersonalDataSet &&
         !isRulesetExpired
       ) && checklistEServiceFromTemplate()
     )
@@ -240,6 +268,18 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     }
   }
 
+  const isGeneralInfoSectionValid =
+    Boolean(descriptor?.eservice.description) &&
+    Boolean(descriptor?.eservice.technology) &&
+    arePersonalDataSet
+
+  const isVersionInfoSectionValid =
+    Boolean(descriptor?.description) &&
+    Boolean(descriptor?.audience?.length) &&
+    Boolean(descriptor?.voucherLifespan)
+
+  const isDocumentationSectionValid = Boolean(descriptor?.interface)
+
   return (
     <>
       <PageContainer
@@ -247,6 +287,32 @@ const ProviderEServiceSummaryPage: React.FC = () => {
           eserviceName: descriptor?.eservice.name,
           versionNumber: descriptor?.version ?? '1',
         })}
+        description={
+          isEserviceFromTemplate ? (
+            <Trans
+              components={{
+                1: (
+                  <Link
+                    underline="hover"
+                    href={
+                      '/ui' +
+                      generatePath('SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS', {
+                        eServiceTemplateId: descriptor?.templateRef?.templateId as string,
+                        eServiceTemplateVersionId: descriptor?.templateRef
+                          ?.templateVersionId as string,
+                      })
+                    }
+                    target="_blank"
+                  />
+                ),
+              }}
+            >
+              {tTemplate('createInstance.eserviceTemplateDescriptionLink', {
+                templateName: descriptor?.templateRef?.templateName,
+              })}
+            </Trans>
+          ) : undefined
+        }
         backToAction={{
           label: t('backToListBtn'),
           to: 'PROVIDE_ESERVICE_LIST',
@@ -284,100 +350,104 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               headline="1"
               title={t('summary.generalInfoSummary.title')}
               defaultExpanded={true}
+              showWarning={!isGeneralInfoSectionValid}
+              warningLabel={t('summary.missingInformationsLabel')}
             >
-              <ProviderEServiceGeneralInfoSummary />
+              <ProviderEServiceGeneralInfoSummarySection />
+            </SummaryAccordion>
+          </React.Suspense>
+          <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+            <SummaryAccordion headline="2" title={t('summary.attributeVersionSummary.title')}>
+              <ProviderEServiceAttributeVersionSummarySection />
             </SummaryAccordion>
           </React.Suspense>
           {isReceiveMode && (
             <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-              <SummaryAccordion headline="2" title={t('summary.riskAnalysisSummaryList.title')}>
-                <ProviderEServiceRiskAnalysisSummaryList />
+              <SummaryAccordion headline="3" title={t('summary.riskAnalysisSummaryList.title')}>
+                <ProviderEServiceRiskAnalysisSummaryListSection />
               </SummaryAccordion>
             </React.Suspense>
           )}
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
             <SummaryAccordion
-              headline={isReceiveMode ? '3' : '2'}
-              title={t('summary.versionInfoSummary.title')}
-            >
-              <ProviderEServiceVersionInfoSummary />
-            </SummaryAccordion>
-          </React.Suspense>
-          <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-            <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
-              title={t('summary.attributeVersionSummary.title')}
+              title={t('summary.documentationSummary.title')}
+              showWarning={!isDocumentationSectionValid}
+              warningLabel={t('summary.missingInformationsLabel')}
             >
-              <ProviderEServiceAttributeVersionSummary />
+              <ProviderEServiceDocumentationSummarySection />
             </SummaryAccordion>
           </React.Suspense>
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
             <SummaryAccordion
               headline={isReceiveMode ? '5' : '4'}
-              title={t('summary.documentationSummary.title')}
+              title={t('summary.versionInfoSummary.title')}
+              showWarning={!isVersionInfoSectionValid}
+              warningLabel={t('summary.missingInformationsLabel')}
             >
-              <ProviderEServiceDocumentationSummary />
+              <ProviderEServiceVersionInfoSummarySection />
             </SummaryAccordion>
           </React.Suspense>
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
-            !arePersonalDataSet &&
-            isDelegator &&
-            descriptor?.state === 'WAITING_FOR_APPROVAL' && (
-              <Alert severity="error">
-                {isEServiceFromTemplate
-                  ? t('summary.alertMissingPersonalData.eserviceTemplateLabel')
-                  : eserviceLabel}
-              </Alert>
-            )}
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
-            !arePersonalDataSet &&
-            !isLoading &&
-            !isDelegator &&
-            !isEServiceFromTemplate && (
-              <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
-                <Stack spacing={35} direction="row" alignItems="center">
-                  {' '}
-                  {/**TODO FIX SPACING */}
-                  <Typography>{t('summary.alertUpdatePersonalData.label')}</Typography>
-                  <Button
-                    variant="naked"
-                    size="medium"
-                    sx={{ fontWeight: 700, mr: 1, alignSelf: 'flex-end' }}
-                    onClick={openUpdatePersonalDataDrawer}
-                  >
-                    {tCommon('specifyProcessing')}
-                  </Button>
-                </Stack>
-              </Alert>
-            )}
+          {!arePersonalDataSet && isDelegator && descriptor?.state === 'WAITING_FOR_APPROVAL' && (
+            <Alert severity="error">
+              {isEServiceFromTemplate
+                ? t('summary.alertMissingPersonalData.eserviceTemplateLabel')
+                : eserviceLabel}
+            </Alert>
+          )}
+          {!arePersonalDataSet && !isLoading && !isDelegator && !isEServiceFromTemplate && (
+            <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
+              <Stack spacing={35} direction="row" alignItems="center">
+                {' '}
+                {/**TODO FIX SPACING */}
+                <Typography>{t('summary.alertUpdatePersonalData.label')}</Typography>
+                <Button
+                  variant="naked"
+                  size="medium"
+                  sx={{ fontWeight: 700, mr: 1, alignSelf: 'flex-end' }}
+                  onClick={openUpdatePersonalDataDrawer}
+                >
+                  {tCommon('specifyProcessing')}
+                </Button>
+              </Stack>
+            </Alert>
+          )}
         </Stack>
-        {!isDelegator && (
-          <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
-            <Button
-              startIcon={<DeleteOutlineIcon />}
-              variant="text"
-              color="error"
-              onClick={handleDeleteDraft}
-              disabled={isSupport}
-            >
-              {tCommon('deleteDraft')}
-            </Button>
-            <Button
-              startIcon={<CreateIcon />}
-              variant="text"
-              onClick={handleEditDraft}
-              disabled={isSupport}
-            >
-              {tCommon('editDraft')}
-            </Button>
-            <PublishButton
-              onClick={handlePublishDraft}
-              disabled={!canBePublished() || isSupport}
-              arePersonalDataSet={arePersonalDataSet}
-              isRulesetExpired={isRulesetExpired}
-            />
-          </Stack>
-        )}
+        {!isDelegator &&
+          !(isEServiceFromTemplate && descriptor?.state === 'WAITING_FOR_APPROVAL') && (
+            <>
+              {!canBePublished() && (
+                <Alert severity="warning" sx={{ mt: 3 }}>
+                  {t('summary.publishWarningLabel')}
+                </Alert>
+              )}
+              <Stack spacing={1} sx={{ mt: 3 }} direction="row" justifyContent="end">
+                <Button
+                  startIcon={<DeleteOutlineIcon />}
+                  variant="text"
+                  color="error"
+                  onClick={handleDeleteDraft}
+                  disabled={isSupport}
+                >
+                  {tCommon('deleteDraft')}
+                </Button>
+                <Button
+                  startIcon={<CreateIcon />}
+                  variant="text"
+                  onClick={handleEditDraft}
+                  disabled={isSupport}
+                >
+                  {tCommon('editDraft')}
+                </Button>
+                <PublishButton
+                  onClick={handlePublishDraft}
+                  disabled={!canBePublished() || isSupport}
+                  arePersonalDataSet={arePersonalDataSet}
+                  isRulesetExpired={isRulesetExpired}
+                />
+              </Stack>
+            </>
+          )}
         {isDelegator && descriptor?.state === 'WAITING_FOR_APPROVAL' && (
           <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
             <Button
@@ -441,7 +511,7 @@ const PublishButton: React.FC<PublishButtonProps> = ({
   const { t } = useTranslation('eservice', { keyPrefix: 'summary' })
   let tooltipToShow = t('notPublishableTooltip.label')
 
-  if (!arePersonalDataSet && FEATURE_FLAG_ESERVICE_PERSONAL_DATA) {
+  if (!arePersonalDataSet) {
     tooltipToShow = t('missingPersonalDataField')
   } else if (isRulesetExpired) {
     tooltipToShow = t('rulesetExpiredTooltip.label')

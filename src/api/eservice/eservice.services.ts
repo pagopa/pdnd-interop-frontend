@@ -35,6 +35,7 @@ import type {
   TemplateInstanceInterfaceSOAPSeed,
   EServiceSignalHubUpdateSeed,
   EServicePersonalDataFlagUpdateSeed,
+  EServiceDelegationFlagsUpdateSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 import { getAllFromPaginated, waitFor } from '@/utils/common.utils'
@@ -611,6 +612,19 @@ async function updateEServicePersonalDataFlagAfterPublication({
   return response.data
 }
 
+async function updateEServiceDelegationFlagsAfterPublication({
+  eserviceId,
+  ...payload
+}: {
+  eserviceId: string
+} & EServiceDelegationFlagsUpdateSeed) {
+  const response = await axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/delegationFlags/update`,
+    payload
+  )
+  return response.data
+}
+
 export const EServiceServices = {
   getCatalogList,
   getAllCatalogEServices,
@@ -657,4 +671,5 @@ export const EServiceServices = {
   getIsEServiceNameAvailable,
   updateEServiceSignalHub,
   updateEServicePersonalDataFlagAfterPublication,
+  updateEServiceDelegationFlagsAfterPublication,
 }

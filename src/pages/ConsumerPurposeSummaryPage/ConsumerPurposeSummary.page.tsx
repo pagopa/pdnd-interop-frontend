@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from '@/router'
-import { Alert, Button, Stack, Tooltip, Typography } from '@mui/material'
+import { Alert, Button, Stack, Tooltip } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
@@ -18,11 +18,8 @@ import {
 import { useGetConsumerPurposeAlertProps } from './hooks/useGetConsumerPurposeAlertProps'
 import { useQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
-import {
-  checkIsRulesetExpired,
-  getDaysToExpiration,
-  getFormattedExpirationDate,
-} from '@/utils/purpose.utils'
+import { checkIsRulesetExpired } from '@/utils/purpose.utils'
+import { ConsumerPurposeSummaryRiskAnalysisAlertContainer } from './components/ConsumerPurposeSummaryRiskAnalysisAlertContainer'
 
 const ConsumerPurposeSummaryPage: React.FC = () => {
   const { t } = useTranslation('purpose')
@@ -36,9 +33,9 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
 
-  const expirationDate = purpose?.rulesetExpiration
+  const isEserviceDeliverMode = purpose?.eservice.mode === 'DELIVER'
 
-  const daysToExpiration = getDaysToExpiration(expirationDate)
+  const expirationDate = purpose?.rulesetExpiration
 
   const isRulesetExpired = checkIsRulesetExpired(expirationDate)
 
@@ -57,13 +54,11 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
     return incompatible
   }
 
-  const isEserviceModeDeliver = purpose?.eservice.mode === 'DELIVER'
-
   const isPublishButtonDisabled =
     (purpose?.riskAnalysisForm &&
       eservicePersonalData !== undefined &&
       checkIncompatibleAnswerValue()) ||
-    (isEserviceModeDeliver && isRulesetExpired)
+    (isEserviceDeliverMode && isRulesetExpired)
 
   const arePublishOrEditButtonsDisabled =
     purpose?.agreement.state === 'ARCHIVED' || purpose?.eservice.descriptor.state === 'ARCHIVED'
@@ -113,11 +108,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       },
       {
         onSuccess() {
-          navigate('SUBSCRIBE_PURPOSE_DETAILS', {
-            params: {
-              purposeId,
-            },
-          })
+          navigate('SUBSCRIBE_PURPOSE_PUBLISH_THANK_YOU', { params: { purposeId } })
         },
       }
     )
@@ -125,7 +116,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   return (
     <PageContainer
-      title={purpose?.title}
+      title={t('summary.title')}
       isLoading={isLoading}
       backToAction={{
         label: t('backToListBtn'),
@@ -150,30 +141,11 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           </SummaryAccordion>
         </React.Suspense>
       </Stack>
-      {isEserviceModeDeliver && expirationDate && !isRulesetExpired && (
-        <Alert sx={{ mt: 3 }} severity="info">
-          {t('summary.alerts.infoRulesetExpiration', {
-            days: daysToExpiration,
-            date: getFormattedExpirationDate(expirationDate),
-          })}
-        </Alert>
-      )}
-      {isEserviceModeDeliver && isRulesetExpired && (
-        <Alert severity="error" sx={{ alignItems: 'center', mt: 3 }} variant="outlined">
-          <Stack spacing={13} direction="row" alignItems="center">
-            {' '}
-            {/**TODO FIX SPACING */}
-            <Typography>{t('summary.alerts.rulesetExpired.label')}</Typography>
-            <Button
-              variant="naked"
-              size="medium"
-              sx={{ fontWeight: 700, mr: 1 }}
-              onClick={() => navigate('SUBSCRIBE_PURPOSE_CREATE')}
-            >
-              {t('summary.alerts.rulesetExpired.action')}
-            </Button>
-          </Stack>
-        </Alert>
+      {isEserviceDeliverMode && (
+        <ConsumerPurposeSummaryRiskAnalysisAlertContainer
+          expirationDate={expirationDate}
+          isRulesetExpired={isRulesetExpired}
+        />
       )}
       <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
         <Button
@@ -201,7 +173,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
               variant="contained"
               onClick={handlePublishDraft}
             >
-              {tCommon('publishDraft')}
+              {t('summary.publishBtn')}
             </Button>
           </span>
         </Tooltip>

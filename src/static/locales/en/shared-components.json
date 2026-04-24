@@ -341,7 +341,11 @@
   "attributeContainer": {
     "attributeIdLabel": "Attribute ID (attributeId)",
     "idCopytooltipLabel": "ID copied successfully",
-    "removeAttributeAriaLabel": "Remove {{attributeName}} attribute"
+    "removeAttributeAriaLabel": "Remove {{attributeName}} attribute",
+    "thresholdLabel": "API calls/day per consumer",
+    "customizeBtn": "Customize threshold",
+    "changeBtn": "Change threshold",
+    "na": "n/a"
   },
   "attributeGroupContainer": {
     "removeGroupAriaLabel": "Remove attribute group"
@@ -369,6 +373,13 @@
       "default": "By Delegation",
       "delegator": "Delegated",
       "delegate": "Received by Delegation"
+    }
+  },
+  "delegationTooltip": {
+    "label": {
+      "default": "By delegation",
+      "delegator": "Delegated to {{delegate}}",
+      "delegate": "Received by delegation from {{delegator}}"
     }
   },
   "riskAnalysis": {
@@ -454,6 +465,7 @@
   "documents": {
     "notAvailableYet": "The document will be available soon"
   },
+  "requiredLabel": "*Required fields.",
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Terms of Service",
@@ -472,7 +484,7 @@
     "SUBSCRIBE_CATALOG_LIST": "E-service Catalog",
     "SUBSCRIBE_PURPOSE_CREATE": "Create Purpose",
     "SUBSCRIBE_PURPOSE_EDIT": "Edit Purpose",
-    "SUBSCRIBE_PURPOSE_SUMMARY": "Purpose Summary",
+    "SUBSCRIBE_PURPOSE_SUMMARY": "Create Purpose",
     "SUBSCRIBE_PURPOSE_DETAILS": "Manage Purpose",
     "SUBSCRIBE_PURPOSE_LIST": "Submitted Purposes",
     "SUBSCRIBE_CLIENT_OPERATOR_EDIT": "Manage E-service Client Operator",
@@ -528,6 +540,7 @@
     "SUBSCRIBE_PURPOSE_TEMPLATE_EDIT": "Edit Purpose Template",
     "SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE": "Create Purpose from Template",
     "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Edit Purpose from Template",
+    "PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU": "Publication completed",
     "SIMULATE_GET_VOUCHER_API": "Simulate getting a voucher",
     "SIMULATE_GET_VOUCHER_CONSUMER": "Simulate getting a voucher"
   }

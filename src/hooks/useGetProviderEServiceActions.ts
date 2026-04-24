@@ -138,7 +138,6 @@ export function useGetProviderEServiceActions(
         onSuccess({ id }) {
           navigate('PROVIDE_ESERVICE_EDIT', {
             params: { eserviceId, descriptorId: id },
-            state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
           })
         },
       }
@@ -942,8 +941,8 @@ export function useGetProviderEServiceActions(
       isDelegator && where !== 'tableRow'
         ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
         : isDelegator && where === 'tableRow' && !hasPersonalData
-        ? [rejectDelegatedVersionDraftAction]
-        : [],
+          ? [rejectDelegatedVersionDraftAction]
+          : [],
   }
 
   const EServiceFromTemplateOperatorAPIActions: Record<
@@ -959,8 +958,8 @@ export function useGetProviderEServiceActions(
       isDelegator && where !== 'tableRow'
         ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
         : isDelegator && where === 'tableRow' && !hasPersonalData
-        ? [rejectDelegatedVersionDraftAction]
-        : [],
+          ? [rejectDelegatedVersionDraftAction]
+          : [],
   }
 
   const adminActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
@@ -973,8 +972,8 @@ export function useGetProviderEServiceActions(
       isDelegator && where !== 'tableRow'
         ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
         : isDelegator && where === 'tableRow' && !hasPersonalData
-        ? [rejectDelegatedVersionDraftAction]
-        : [],
+          ? [rejectDelegatedVersionDraftAction]
+          : [],
   }
 
   const operatorAPIActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
@@ -987,8 +986,8 @@ export function useGetProviderEServiceActions(
       isDelegator && where !== 'tableRow'
         ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
         : isDelegator && where === 'tableRow' && !hasPersonalData
-        ? [rejectDelegatedVersionDraftAction]
-        : [],
+          ? [rejectDelegatedVersionDraftAction]
+          : [],
   }
 
   const availableClassicEServiceAction = isAdmin ? adminActions[state] : operatorAPIActions[state]

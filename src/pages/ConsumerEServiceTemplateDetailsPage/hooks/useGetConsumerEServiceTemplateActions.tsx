@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
 import { AuthHooks } from '@/api/auth'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 export function useGetConsumerEServiceTemplateActions(
   eServiceTemplateId: string,
@@ -29,7 +28,7 @@ export function useGetConsumerEServiceTemplateActions(
   }
 
   const tooltipToShow = (() => {
-    if (!hasPersonalDataValue && FEATURE_FLAG_ESERVICE_PERSONAL_DATA) {
+    if (!hasPersonalDataValue) {
       return t('createInstanceDisabledPersonalData')
     }
 
@@ -42,7 +41,7 @@ export function useGetConsumerEServiceTemplateActions(
     action: handleCreateEServiceFromTemplate,
     label: t('createNewEServiceInstance'),
     icon: FiberNewIcon,
-    disabled: !hasRequesterRiskAnalysis || (!hasPersonalDataValue && FEATURE_FLAG_ESERVICE_PERSONAL_DATA),
+    disabled: !hasRequesterRiskAnalysis || !hasPersonalDataValue,
     tooltip: tooltipToShow,
   }
 

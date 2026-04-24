@@ -22,6 +22,7 @@ export type RHFSingleFileInputProps = Omit<
   rules?: ControllerProps['rules']
   onValueChange?: (value: File | null) => void
   drawerStyle?: boolean
+  dropzoneLabel?: string
 }
 
 export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
@@ -31,6 +32,7 @@ export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
   rules,
   onValueChange,
   drawerStyle = false,
+  dropzoneLabel,
   ...props
 }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'singleFileInput' })
@@ -70,7 +72,7 @@ export const RHFSingleFileInput: React.FC<RHFSingleFileInputProps> = ({
                 if (onValueChange) onValueChange(null)
               }}
               error={!!error}
-              dropzoneLabel={t('dropzone.label')}
+              dropzoneLabel={dropzoneLabel ?? t('dropzone.label')}
               loadingLabel={t('loadingLabel')}
               {...props}
             />

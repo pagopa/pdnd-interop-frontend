@@ -4,6 +4,7 @@ import type {
   GetInstitutionUsersParams,
   GetTenantsParams,
   HasCertifiedAttributes,
+  IsTenantAllowedToDelegation,
   MailSeed,
   Tenant,
   TenantDelegatedFeaturesFlagsUpdateSeed,
@@ -63,6 +64,13 @@ async function verifyTenantCertifiedAttributes({
   return response.data
 }
 
+export async function getIsTenantAllowedToDelegation(tenantId: string) {
+  const response = await axiosInstance.get<IsTenantAllowedToDelegation>(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/delegations/allowed`
+  )
+  return response.data
+}
+
 export const TenantServices = {
   getParty,
   getPartyUsersList,
@@ -70,4 +78,5 @@ export const TenantServices = {
   updateMail,
   UpdateTenantDelegatedFeatures,
   verifyTenantCertifiedAttributes,
+  getIsTenantAllowedToDelegation,
 }

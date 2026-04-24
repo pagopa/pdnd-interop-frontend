@@ -89,9 +89,14 @@ function useCreateVersionDraft(
   })
 }
 
-function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
+function useUpdateVersionDraft(
+  config = { suppressSuccessToast: false },
+  { isThresholdOnlyUpdate }: { isThresholdOnlyUpdate?: boolean } = {}
+) {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.updateVersionDraft',
+    keyPrefix: isThresholdOnlyUpdate
+      ? 'eservice.updateAttributeThreshold'
+      : 'eservice.updateVersionDraft',
   })
   return useMutation({
     mutationFn: (
@@ -123,13 +128,16 @@ function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }
       eserviceName?: string
       eserviceId: string
       descriptorId: string
+      isFirstVersion?: boolean
     }) => EServiceServices.publishVersionDraft({ eserviceId, descriptorId }),
     meta: {
-      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {
-        title: t('confirmDialog.title'),
+        title: (variables: unknown) =>
+          (variables as { isFirstVersion?: boolean }).isFirstVersion
+            ? t('confirmDialog.title')
+            : t('confirmDialog.titleNewVersion'),
         description: isByDelegation
           ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (variables: any) => {
@@ -139,7 +147,9 @@ function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }
               })
             }
           : () => t('confirmDialog.description'),
-        proceedLabel: isByDelegation ? t('confirmDialog.actions.proceed') : undefined,
+        proceedLabel: isByDelegation
+          ? t('confirmDialog.actions.proceed')
+          : t('confirmDialog.proceedLabel'),
       },
     },
   })
@@ -177,8 +187,10 @@ function useReactivateVersion() {
   })
 }
 
-function useUpdateVersion() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
+function useUpdateVersion({ isThresholdOnlyUpdate }: { isThresholdOnlyUpdate?: boolean } = {}) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: isThresholdOnlyUpdate ? 'eservice.updateThresholds' : 'eservice.updateVersion',
+  })
   return useMutation({
     mutationFn: EServiceServices.updateVersion,
     meta: {
@@ -189,8 +201,12 @@ function useUpdateVersion() {
   })
 }
 
-function useUpdateInstanceVersion() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
+function useUpdateInstanceVersion({
+  isThresholdOnlyUpdate,
+}: { isThresholdOnlyUpdate?: boolean } = {}) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: isThresholdOnlyUpdate ? 'eservice.updateThresholds' : 'eservice.updateVersion',
+  })
   return useMutation({
     mutationFn: EServiceServices.updateInstanceVersion,
     meta: {
@@ -521,6 +537,20 @@ function useUpdateEServicePersonalDataFlagAfterPublication() {
   })
 }
 
+function useUpdateEServiceDelegationFlagsAfterPublication() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateEServiceDelegationFlagsAfterPublication',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.updateEServiceDelegationFlagsAfterPublication,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const EServiceMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -554,4 +584,5 @@ export const EServiceMutations = {
   useUpdateAgreementApprovalPolicy,
   useUpdateEServiceSignalHub,
   useUpdateEServicePersonalDataFlagAfterPublication,
+  useUpdateEServiceDelegationFlagsAfterPublication,
 }

@@ -19,6 +19,7 @@ import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/interop-fe-commons'
 import { FieldValues, FormProvider, useForm } from 'react-hook-form'
 import * as envs from '@/config/env'
+import * as useActiveStepModule from '@/hooks/useActiveStep'
 
 type RecursivePartial<T> = {
   [P in keyof T]?: RecursivePartial<T[P]>
@@ -68,7 +69,6 @@ export function mockUseJwt(overwrites: RecursivePartial<ReturnType<typeof AuthHo
       isSupport: false,
       currentRoles: [],
       isOrganizationAllowedToProduce: true,
-      isOrganizationAllowedToDelegations: true,
       userEmail: 'user@example.com',
     }),
     overwrites
@@ -218,4 +218,19 @@ export function ReactHookFormWrapper({
     defaultValues: defaultValues,
   })
   return <FormProvider {...methods}>{children}</FormProvider>
+}
+
+export const mockUseActiveStep = (
+  overrides: Partial<ReturnType<typeof useActiveStepModule.useActiveStep>> = {}
+) => {
+  const defaultValues = {
+    activeStep: 0,
+    forward: vi.fn(),
+    back: vi.fn(),
+    ...overrides,
+  }
+
+  const useActiveStep = vi.spyOn(useActiveStepModule, 'useActiveStep')
+  useActiveStep.mockReturnValue(defaultValues)
+  return useActiveStep
 }

@@ -5,7 +5,7 @@ import { Divider, Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ProviderEServiceThresholdsSection } from './ProviderEServiceThresholdsSection'
+import { ProviderEServiceVoucherLifespanSection } from './ProviderEServiceVoucherLifespanSection'
 import { ProviderEServiceUsefulLinksSection } from './ProviderEServiceUsefulLinksSection'
 import { ProviderEServiceDocumentationSection } from './ProviderEServiceDocumentationSection'
 import { useSuspenseQuery } from '@tanstack/react-query'
@@ -13,6 +13,7 @@ import { FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
 import { formatDateString } from '@/utils/format.utils'
 import { ProviderEServiceAgreementApprovalPolicySection } from './ProviderEServiceAgreementApprovalPolicySection'
+import { ProviderEServiceDelegationsSection } from './ProviderEServiceDelegationsSection'
 
 export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
   const producerId = AuthHooks.useJwt().jwt?.organizationId as string
@@ -94,7 +95,7 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
           </Stack>
         </SectionContainer>
         <Divider />
-        <ProviderEServiceThresholdsSection descriptor={descriptor} />
+        <ProviderEServiceVoucherLifespanSection descriptor={descriptor} />
         <Divider />
         {FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE && (
           <>
@@ -102,6 +103,8 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
             <Divider />
           </>
         )}
+        <ProviderEServiceDelegationsSection descriptor={descriptor} />
+        <Divider />
         <ProviderEServiceDocumentationSection descriptor={descriptor} />
         <Divider />
         <ProviderEServiceUsefulLinksSection />

@@ -1,11 +1,12 @@
-import { Stack } from '@mui/material'
+import { Alert, Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { Link } from '@/router'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { PurposeQueries } from '@/api/purpose'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useGetPurposeInfoAlert } from '@/hooks/useGetPurposeInfoAlert'
 
 type ConsumerPurposeSummaryGeneralInformationAccordionProps = {
   purposeId: string
@@ -15,7 +16,22 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
   ConsumerPurposeSummaryGeneralInformationAccordionProps
 > = ({ purposeId }) => {
   const { data: purpose } = useSuspenseQuery(PurposeQueries.getSingle(purposeId))
+
+  const { data: remainingDailyCalls } = useQuery(
+    PurposeQueries.getRemainingDailyCalls({ purposeId })
+  )
+
   const { t } = useTranslation('purpose', { keyPrefix: 'summary.generalInformationSection' })
+
+  const generalInfoAlertProps = useGetPurposeInfoAlert({
+    dailyCalls: purpose.currentVersion?.dailyCalls,
+    dailyCallsPerConsumer: purpose.dailyCallsPerConsumer,
+    dailyCallsTotal: purpose.dailyCallsTotal,
+    remainingDailyCallsPerConsumer: remainingDailyCalls?.remainingDailyCallsPerConsumer,
+    remainingDailyCallsTotal: remainingDailyCalls?.remainingDailyCallsTotal,
+    keyPrefix: 'summary.alerts',
+    showFallback: false,
+  })
 
   return (
     <Stack spacing={2}>
@@ -36,7 +52,6 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
           >
             {t('eservice.value', {
               name: purpose.eservice.name,
-              version: purpose.eservice.descriptor.version,
             })}
           </Link>
         }
@@ -71,6 +86,7 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
             direction="row"
             label={t('loadEstimationSection.dailyCallsTotal.label')}
           />
+          {generalInfoAlertProps && <Alert sx={{ mt: 3 }} {...generalInfoAlertProps} />}
         </Stack>
       </SectionContainer>
     </Stack>
