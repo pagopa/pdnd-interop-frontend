@@ -23,7 +23,7 @@ const ConsumerDebugVoucherPage: React.FC = () => {
   return (
     <PageContainer title={t('title')} description={t('description')}>
       {!debugVoucherValues && (
-        <Box sx={{ mt: 3 }}>
+        <Box sx={{ pt: 2, pb: 1 }}>
           <RequiredTextLabel />
         </Box>
       )}

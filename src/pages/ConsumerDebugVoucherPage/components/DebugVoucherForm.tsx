@@ -6,15 +6,18 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { VoucherMutations } from '@/api/voucher'
 import type { AccessTokenRequest, TokenGenerationValidationResult } from '@/api/api.generatedTypes'
-import { AUTHORIZATION_SERVER_TOKEN_CREATION_URL } from '@/config/env'
+import {
+  AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
+  FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER,
+} from '@/config/env'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import InfoOutlined from '@mui/icons-material/InfoOutlined'
 import { useNavigate } from '@/router'
 
 export type DebugVoucherFormValues = {
   clientAssertion: string
-  dPopProof: string
   clientId: string
+  dPopProof: string | undefined
   interactionType: string // mocked form field
 }
 
@@ -31,12 +34,11 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
   const navigate = useNavigate()
 
   const { mutateAsync: validateVoucherAsync } = VoucherMutations.useValidateTokenGeneration()
-  const { mutateAsync: validateDPoPProofAsync } = VoucherMutations.useValidateDPoPProof() // mocked mutation
 
   const defaultValues: DebugVoucherFormValues = {
     clientAssertion: '',
-    dPopProof: '',
     clientId: '',
+    dPopProof: undefined,
     interactionType: 'sync', // mocked interaction type default value
   }
 
@@ -56,32 +58,14 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
       client_assertion: formValues.clientAssertion,
       client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
       grant_type: 'client_credentials',
+      dpop_proof: formValues.dPopProof || undefined,
     }
 
-    if (!formValues.dPopProof || formValues.dPopProof === '') {
-      const response = await validateVoucherAsync(payloadValidateVoucher)
-
-      setDebugVoucherValues({
-        request: payloadValidateVoucher,
-        response,
-      })
-
-      return
-    }
-
-    const [tokenResponse, dpopResponse] = await Promise.all([
-      validateVoucherAsync(payloadValidateVoucher),
-      validateDPoPProofAsync(payloadValidateVoucher), // mocked DPoP proof validation payload
-    ])
+    const response = await validateVoucherAsync(payloadValidateVoucher)
 
     setDebugVoucherValues({
       request: payloadValidateVoucher,
-      response: {
-        steps: {
-          ...tokenResponse.steps,
-          ...dpopResponse.steps,
-        },
-      },
+      response,
     })
   }
 
@@ -101,13 +85,15 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
               infoLabel={t('clientAssertionInfoLabel')}
             />
 
-            <RHFTextField
-              name="dPopProof"
-              multiline
-              size="medium"
-              label={t('dPopProofLabel')}
-              infoLabel={t('dPopProofInfoLabel')}
-            />
+            {FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER && (
+              <RHFTextField
+                name="dPopProof"
+                multiline
+                size="medium"
+                label={t('dPopProofLabel')}
+                infoLabel={t('dPopProofInfoLabel')}
+              />
+            )}
 
             <RHFTextField
               sx={{ mt: 1 }}
