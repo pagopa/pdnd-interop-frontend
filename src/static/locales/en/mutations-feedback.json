@@ -722,12 +722,6 @@
       "outcome": {
         "error": "There was an error processing your request. Please try again later!"
       }
-    },
-    "dPoPProofVerification": {
-      "loading": "Verification is being performed. Please wait",
-      "outcome": {
-        "error": "There was an error processing your request. Please try again later!"
-      }
     }
   },
   "keychain": {
