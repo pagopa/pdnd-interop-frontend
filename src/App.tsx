@@ -17,6 +17,7 @@ import { queryClient } from './config/query-client'
 import type { EnvironmentBannerProps } from '@pagopa/mui-italia'
 import { AuthQueries } from './api/auth'
 import i18n from './config/react-i18next'
+import { DEFAULT_LANG, LANGUAGES } from './config/constants'
 
 // --- Init application ----
 
@@ -25,9 +26,11 @@ const redirectUrl = urlParams.get('redirectUrl')
 
 const fragmentParams = new URLSearchParams(window.location.hash.replace('#', ''))
 const selfCareIdentityToken = fragmentParams.get('id') ?? ''
-const lang = fragmentParams.get('lang') ?? ''
+const requestedLang = fragmentParams.get('lang')?.toLowerCase() ?? ''
+const isSupportedLang = requestedLang in LANGUAGES
+const lang = isSupportedLang ? requestedLang : DEFAULT_LANG
 
-if (lang) {
+if (requestedLang) {
   i18n.changeLanguage(lang)
 }
 
@@ -35,7 +38,7 @@ if (redirectUrl) {
   const url = `/ui/${i18n.language}${redirectUrl}#id=${selfCareIdentityToken}`
 
   window.location.replace(url)
-} else if (lang) {
+} else if (requestedLang) {
   fragmentParams.delete('lang')
   const url = `/ui/${i18n.language}/catalogo-e-service#${fragmentParams.toString()}`
 
