@@ -36,7 +36,6 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
     infoLabel,
     error,
   })
-  console.log('accessibilityProps', accessibilityProps, 'ids', ids)
 
   return (
     <InputWrapper error={error} sx={sx} infoLabel={infoLabel} {...ids}>
