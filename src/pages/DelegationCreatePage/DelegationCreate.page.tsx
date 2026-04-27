@@ -33,12 +33,10 @@ export const DelegationCreatePage: React.FC = () => {
       <Stack spacing={2}>
         {activeStep === 'KIND' && (
           <SectionContainer title={t('delegations.create.kindSectionTitle')}>
-            <Stack spacing={2} direction="row" sx={{ width: '100%' }}>
-              <DelegationCreateCards
-                selectedDelegationKind={delegationKind}
-                changeDelegationKind={changeDelegationKind}
-              />
-            </Stack>
+            <DelegationCreateCards
+              selectedDelegationKind={delegationKind}
+              changeDelegationKind={changeDelegationKind}
+            />
           </SectionContainer>
         )}
         {activeStep === 'FORM' && delegationKind != null && (

@@ -1,11 +1,6 @@
 import axiosInstance from '@/config/axios'
 import axios from 'axios'
-import {
-  APP_MODE,
-  BACKEND_FOR_FRONTEND_URL,
-  FEATURE_FLAG_NOTIFICATION_CONFIG,
-  INTEROP_RESOURCES_BASE_URL,
-} from '@/config/env'
+import { APP_MODE, BACKEND_FOR_FRONTEND_URL, INTEROP_RESOURCES_BASE_URL } from '@/config/env'
 import type {
   GetNotificationsParams,
   Notifications,
@@ -90,54 +85,17 @@ async function getNotificationsBannerConfigJson() {
 }
 
 async function markNotificationsAsReadByEntityId({ entityId }: { entityId: string }) {
-  if (FEATURE_FLAG_NOTIFICATION_CONFIG) {
-    const response = await axiosInstance.post<void>(
-      `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications/markAsReadByEntityId/${entityId}`
-    )
-    return response.data
-  } else {
-    return Promise.resolve()
-  }
+  const response = await axiosInstance.post<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications/markAsReadByEntityId/${entityId}`
+  )
+  return response.data
 }
 
 async function getInAppNotificationsCount() {
-  if (FEATURE_FLAG_NOTIFICATION_CONFIG) {
-    const response = await axiosInstance.get<NotificationsCountBySection>(
-      `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications/count`
-    )
-    return response.data
-  } else {
-    return Promise.resolve({
-      erogazione: {
-        richieste: 0,
-        finalita: 0,
-        'template-eservice': 0,
-        'e-service': 0,
-        portachiavi: 0,
-        totalCount: 0,
-      },
-      fruizione: {
-        richieste: 0,
-        finalita: 0,
-        totalCount: 0,
-      },
-      'catalogo-e-service': {
-        totalCount: 0,
-      },
-      aderente: {
-        deleghe: 0,
-        anagrafica: 0,
-        totalCount: 0,
-      },
-      'gestione-client': {
-        'api-e-service': 0,
-        totalCount: 0,
-      },
-      notifiche: {
-        totalCount: 0,
-      },
-    })
-  }
+  const response = await axiosInstance.get<NotificationsCountBySection>(
+    `${BACKEND_FOR_FRONTEND_URL}/inAppNotifications/count`
+  )
+  return response.data
 }
 
 async function updateUserNotificationConfigs(payload: UserNotificationConfigUpdateSeed) {
