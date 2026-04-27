@@ -107,6 +107,7 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
               { label: t('edit.stepGeneral.isFreeOfChargeField.options.YES'), value: 'YES' },
               { label: t('edit.stepGeneral.isFreeOfChargeField.options.NO'), value: 'NO' },
             ]}
+            required
           />
 
           {isFreeOfCharge === 'YES' && (
@@ -117,6 +118,7 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
               multiline
               inputProps={{ maxLength: 250 }}
               rules={{ required: true, minLength: 10 }}
+              required
             />
           )}
         </SectionContainer>

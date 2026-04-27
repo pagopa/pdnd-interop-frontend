@@ -139,7 +139,6 @@ export const EServiceCreateStepInfoVersion: React.FC = () => {
               name="description"
               label={t('step4.descriptionSection.field.label')}
               multiline
-              focusOnMount
               inputProps={{ maxLength: 250 }}
               rules={{ required: true, minLength: 10 }}
               sx={{ my: 0, mt: 1 }}

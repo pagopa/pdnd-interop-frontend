@@ -35,6 +35,7 @@ type AttributeContainerProps<
   checked?: boolean
   onRemove?: (id: string, name: string) => void
   onCustomizeThreshold?: VoidFunction
+  hideThreshold?: boolean
 }
 
 export const AttributeContainer = <
@@ -46,6 +47,7 @@ export const AttributeContainer = <
   checked,
   onRemove,
   onCustomizeThreshold,
+  hideThreshold,
 }: AttributeContainerProps<TAttribute>) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'attributeContainer' })
   const panelContentId = React.useId()
@@ -69,9 +71,8 @@ export const AttributeContainer = <
           <IconButton
             aria-label={t('removeAttributeAriaLabel', { attributeName: attribute.name })}
             onClick={onRemove.bind(null, attribute.id, attribute.name)}
-            color={'error' as unknown as 'primary'}
           >
-            <RemoveCircleOutlineIcon />
+            <RemoveCircleOutlineIcon color="error" />
           </IconButton>
         )}
       </Stack>
@@ -94,7 +95,7 @@ export const AttributeContainer = <
               <Typography fontWeight={600}>{attribute.name}</Typography>
               {(attribute.dailyCallsPerConsumer !== undefined || onCustomizeThreshold) && (
                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                  {attribute.dailyCallsPerConsumer !== undefined && (
+                  {attribute.dailyCallsPerConsumer !== undefined && !hideThreshold && (
                     <Stack direction={'row'} spacing={1}>
                       <Typography sx={{ fontSize: 16 }}>{t('thresholdLabel')}</Typography>
                       <Typography sx={{ fontSize: 16, fontWeight: 700 }}>

@@ -107,7 +107,7 @@ describe('ProviderEServiceUpdateDelegationFlagsDrawer', () => {
       })
       await user.click(clientAccessCheckbox)
 
-      const saveButton = screen.getByRole('button', { name: 'common.actions.saveEdits' })
+      const saveButton = screen.getByRole('button', { name: 'common.actions.upgrade' })
       await user.click(saveButton)
 
       await waitFor(() => {
@@ -143,7 +143,7 @@ describe('ProviderEServiceUpdateDelegationFlagsDrawer', () => {
         { withReactQueryContext: true }
       )
 
-      const saveButton = screen.getByRole('button', { name: 'common.actions.saveEdits' })
+      const saveButton = screen.getByRole('button', { name: 'common.actions.upgrade' })
       await user.click(saveButton)
 
       await waitFor(() => {

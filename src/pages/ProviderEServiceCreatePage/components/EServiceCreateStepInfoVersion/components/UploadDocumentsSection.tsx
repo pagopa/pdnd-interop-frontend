@@ -102,12 +102,6 @@ export const UploadDocumentsSection: React.FC<UploadDocumentsSectionProps> = ({
 
   const isDocSelected = Boolean(formMethods.watch('doc'))
 
-  const isSelectedDocUploadable = Boolean(
-    formMethods.watch('doc') &&
-    formMethods.watch('prettyName') &&
-    formMethods.watch('prettyName') !== ''
-  )
-
   return !readonly ? (
     <Box>
       <Stack spacing={2} sx={{ mt: docs.length > 0 ? 3 : 0, mb: docs.length > 0 ? 2 : 0 }}>
@@ -145,7 +139,7 @@ export const UploadDocumentsSection: React.FC<UploadDocumentsSectionProps> = ({
               />
             )}
 
-            {isSelectedDocUploadable && (
+            {isDocSelected && (
               <Stack direction="row" justifyContent="flex-start" mt={3}>
                 <Button
                   type="button"

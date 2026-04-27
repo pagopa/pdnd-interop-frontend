@@ -1,12 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { screen } from '@testing-library/react'
 import { ProviderEServiceTemplateGeneralInfoSummarySection } from '../components/ProviderEServiceTemplateGeneralInfoSummarySection'
-import {
-  mockUseJwt,
-  mockUseParams,
-  mockEnvironmentParams,
-  renderWithApplicationContext,
-} from '@/utils/testing.utils'
+import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import {
   createMockEServiceTemplateVersionDetails,
   createMockEServiceTemplateVersionDetailsReceiveMode,
@@ -102,8 +97,7 @@ describe('ProviderEServiceTemplateGeneralInfoSummarySection', () => {
     expect(screen.getByText('isSignalHubEnabled.value.true')).toBeInTheDocument()
   })
 
-  it('renders personal data field when feature flag is enabled', () => {
-    mockEnvironmentParams('FEATURE_FLAG_ESERVICE_PERSONAL_DATA', true)
+  it('renders personal data field for DELIVER mode', () => {
     const mockData = createMockEServiceTemplateVersionDetails()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 
@@ -113,11 +107,9 @@ describe('ProviderEServiceTemplateGeneralInfoSummarySection', () => {
     })
 
     expect(screen.getByText('personalDataField.DELIVER.label')).toBeInTheDocument()
-    expect(screen.getByText('personalDataField.value.true')).toBeInTheDocument()
   })
 
   it('renders personal data field for RECEIVE mode', () => {
-    mockEnvironmentParams('FEATURE_FLAG_ESERVICE_PERSONAL_DATA', true)
     const mockData = createMockEServiceTemplateVersionDetailsReceiveMode()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 

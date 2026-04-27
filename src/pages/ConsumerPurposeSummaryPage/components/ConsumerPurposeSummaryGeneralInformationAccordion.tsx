@@ -30,7 +30,7 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
     remainingDailyCallsPerConsumer: remainingDailyCalls?.remainingDailyCallsPerConsumer,
     remainingDailyCallsTotal: remainingDailyCalls?.remainingDailyCallsTotal,
     keyPrefix: 'summary.alerts',
-    showFallback: true,
+    showFallback: false,
   })
 
   return (

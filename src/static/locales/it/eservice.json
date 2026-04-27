@@ -4,7 +4,7 @@
   "create": {
     "emptyTitle": "Crea e-service",
     "stepper": {
-      "step1Label": "Generale",
+      "step1Label": "Informazioni generali",
       "step2Label": "Soglie e attributi",
       "step2ReceiveLabel": "Finalità",
       "step3Label": "Specifiche tecniche",
@@ -309,7 +309,7 @@
         "readOnlyLabel": "Descrizione versione",
         "field": {
           "label": "Descrivi questa versione dell’e-service*",
-          "infoLabel": "Se è una nuova versione, indica cosa è cambiato rispetto alla precedente*"
+          "infoLabel": "Se è una nuova versione, indica cosa è cambiato rispetto alla precedente"
         }
       },
       "documentationSection": {
@@ -822,14 +822,21 @@
         "voucherLifespanField": {
           "label": "Durata validità (in minuti)",
           "infoLabel": "Valore massimo: 1440 minuti (24 ore)",
-          "error": "La durata del voucher non può essere superiore a 1440 minuti (24 ore)."
+          "error": "La durata del voucher non può essere superiore a 1440 minuti (24 ore).",
+          "validation": {
+            "sameValue": "La durata del voucher dell'e-service deve essere diversa da quella attuale",
+            "integer": "La durata del voucher dell'e-service deve essere un valore intero"
+          }
         }
       },
       "updateAgreementApprovalPolicyDrawer": {
         "title": "Accettazione richieste di fruizione",
         "subtitle": "Da questo pannello puoi stabilire come vengono gestite le richieste di fruizione che gli enti formuleranno verso questo e-service.",
         "agreementApprovalPolicyField": {
-          "label": "Attivazione manuale"
+          "label": "Attivazione manuale",
+          "validation": {
+            "sameValue": "La modalità di gestione di richieste di fruizione dell'e-service deve essere diversa da quella attuale"
+          }
         }
       },
       "technicalInfoDrawer": {

@@ -150,6 +150,7 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
                   <Box component="li">
                     <AttributeContainer
                       attribute={attribute}
+                      hideThreshold
                       onRemove={
                         canAttributeBeRemoved(groupIdx, attribute)
                           ? (attribute) => handleRemoveAttributeFromGroup(groupIdx, attribute)

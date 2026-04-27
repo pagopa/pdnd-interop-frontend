@@ -5,7 +5,6 @@ import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
 import { useSuspenseQuery, useQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 import { SummaryInformationContainer } from '@/components/shared/SummaryInformationContainer'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 
@@ -63,12 +62,10 @@ export const ProviderEServiceGeneralInfoSummarySection: React.FC = () => {
           content={t(`mode.value.${descriptor.eservice.mode}`)}
         />
       )}
-      {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
-        <SummaryInformationContainer
-          label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
-          content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
-        />
-      )}
+      <SummaryInformationContainer
+        label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
+        content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
+      />
       {isOrganizationAllowedToProduce && (
         <>
           <SummaryInformationContainer
