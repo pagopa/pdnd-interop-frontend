@@ -65,9 +65,13 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
           <Stack spacing={1} sx={{ mb: 4 }}>
             <Box display="flex" justifyContent="space-between" alignItems="flex-start" gap={2}>
               <Box sx={{ flex: 1, minWidth: 0 }}>
-                <FormLabel htmlFor={name} component="legend" id={labelId} sx={{ fontWeight: 600 }}>
-                  {' '}
-                  {/* Use legend due to accessibility reasons, otherwise label tag is rendered without for attribute */}
+                <FormLabel
+                  htmlFor={name}
+                  component={isInputGroup ? 'legend' : name ? 'label' : 'div'}
+                  id={labelId}
+                  sx={{ fontWeight: 600 }}
+                >
+                  {/* we render a div if name is not provided to avoid accessibility issues */}
                   {label}
                 </FormLabel>
               </Box>
