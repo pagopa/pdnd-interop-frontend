@@ -55,7 +55,7 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
   })
 
   return (
-    <InputWrapper error={error} sx={sx} infoLabel={infoLabel} {...ids}>
+    <InputWrapper error={error} sx={sx} infoLabel={infoLabel} {...ids} component="fieldset">
       {label && (
         <FormLabel
           sx={{
@@ -67,7 +67,7 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
           }}
           id={labelId}
           required={required}
-          component="div" /* Use div due to accessibility reasons, otherwise label tag is rendered without for attribute */
+          component="legend"
         >
           {label}
         </FormLabel>
@@ -77,7 +77,7 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
         rules={mapValidationErrorMessages(rules, t)}
         render={({ field: { onChange, ...fieldProps } }) => (
           <MUIRadioGroup
-            aria-labelledby={labelId}
+            aria-labelledby={label ? labelId : undefined}
             {...props}
             {...fieldProps}
             {...accessibilityProps}
