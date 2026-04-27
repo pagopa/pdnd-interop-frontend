@@ -18,7 +18,7 @@ export type DebugVoucherFormValues = {
   clientAssertion: string
   clientId: string
   dPopProof: string | undefined
-  interactionType: string // mocked form field
+  interactionType: string
 }
 
 export type DebugVoucherFormProps = {
@@ -39,10 +39,9 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
     clientAssertion: '',
     clientId: '',
     dPopProof: undefined,
-    interactionType: 'sync', // mocked interaction type default value
+    interactionType: 'sync',
   }
 
-  // mocked interaction type options
   const interactionTypeOptions: Array<{ label: string; value: string }> = [
     { label: t('interactionModelSync'), value: 'sync' },
     { label: t('interactionModelAsync'), value: 'async' },

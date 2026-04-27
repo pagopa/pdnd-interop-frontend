@@ -236,10 +236,11 @@
         "title": "Esito del debug",
         "step": {
           "label": {
-            "clientAssertionValidation": "1. Validazione della client assertion",
-            "publicKeyRetrieve": "2. Recupero della chiave pubblica depositata su PDND Interoperabilità",
-            "clientAssertionSignatureVerification": "3. Verifica della firma della client assertion",
-            "platformStatesVerification": "4. Verifica degli stati"
+            "clientAssertionValidation": "{{index}}. Validazione della client assertion",
+            "publicKeyRetrieve": "{{index}}. Recupero della chiave pubblica depositata su PDND Interoperabilità",
+            "clientAssertionSignatureVerification": "{{index}}. Verifica della firma della client assertion",
+            "platformStatesVerification": "{{index}}. Verifica degli stati",
+            "dpopValidation": "{{index}}. Validazione DPoP proof"
           }
         }
       },
@@ -255,6 +256,9 @@
         "clientAssertion": {
           "label": "Client_assertion"
         },
+        "dpopProof": {
+          "label": "DPoP proof"
+        },
         "clientAssertionType": {
           "label": "Client_assertion_type",
           "description": "Il formato della client assertion, come indicato in RFC"
@@ -262,20 +266,24 @@
         "grantType": {
           "label": "Grant_type",
           "description": "La tipologia di flusso utilizzato, come indicato in RFC"
-        }
+        },
+        "dpop": "DPoP",
+        "bearer": "Bearer"
       },
       "stepDrawer": {
         "title": {
-          "clientAssertionValidation": "1. Validazione della client assertion",
-          "publicKeyRetrieve": "2. Recupero della chiave pubblica depositata su PDND Interoperabilità",
-          "clientAssertionSignatureVerification": "3. Verifica della firma della client assertion",
-          "platformStatesVerification": "4. Verifica degli stati"
+          "clientAssertionValidation": "{{index}}. Validazione della client assertion",
+          "publicKeyRetrieve": "{{index}}. Recupero della chiave pubblica depositata su PDND Interoperabilità",
+          "clientAssertionSignatureVerification": "{{index}}. Verifica della firma della client assertion",
+          "platformStatesVerification": "{{index}}. Verifica degli stati",
+          "dpopValidation": "{{index}}. Validazione della DPoP proof"
         },
         "description": {
           "clientAssertionValidation": "Si verifica che la client assertion sia ben strutturata. Tutti i campi richiesti devono essere presenti e compilati correttamente.",
           "publicKeyRetrieve": "Si verifica che la chiave pubblica corrispondente al kid inserito nella client assertion sia presente su PDND Interoperabilità e che questa sia recuperabile.",
           "clientAssertionSignatureVerification": "Si verifica che ci sia corrispondenza tra la chiave privata con la quale è stata firmata la client assertion e quella pubblica identificata con il kid e recuperata al passaggio 2.",
-          "platformStatesVerification": "Si verifica che tutte le componenti amministrative e tecniche del flusso previsto da PDND Interoperabilità siano attive"
+          "platformStatesVerification": "Si verifica che tutte le componenti amministrative e tecniche del flusso previsto da PDND Interoperabilità siano attive",
+          "dpopValidation": "...."
         },
         "stepResultLabel": "Risultato della verifica:",
         "nextStepBtn": "Vai al prossimo passaggio"

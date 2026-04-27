@@ -24,6 +24,7 @@ type DebugVoucherContextType = {
   >
   goToNextStep: VoidFunction
   handleMakeNewRequest: VoidFunction
+  stepOrder: readonly (keyof TokenGenerationValidationSteps)[]
 }
 
 const { useContext, Provider } = createContext<DebugVoucherContextType>(
@@ -78,8 +79,20 @@ const DebugVoucherContextProvider: React.FC<DebugVoucherContextProviderProps> = 
                 response.steps.platformStatesVerification,
               ],
             }
+          } else if (response.clientKind === 'API' && response.steps.dpopValidation) {
+            return {
+              ...prev,
+              selectedStep: ['dpopValidation', response.steps.dpopValidation],
+            }
           }
         case 'platformStatesVerification':
+          if (response.steps.dpopValidation) {
+            return {
+              ...prev,
+              selectedStep: ['dpopValidation', response.steps.dpopValidation],
+            }
+          }
+        case 'dpopValidation':
         default:
           return prev
       }
@@ -87,6 +100,7 @@ const DebugVoucherContextProvider: React.FC<DebugVoucherContextProviderProps> = 
   }, [
     response.clientKind,
     response.steps.clientAssertionSignatureVerification,
+    response.steps.dpopValidation,
     response.steps.platformStatesVerification,
     response.steps.publicKeyRetrieve,
   ])
@@ -95,16 +109,27 @@ const DebugVoucherContextProvider: React.FC<DebugVoucherContextProviderProps> = 
     onResetDebugVoucherValues()
   }, [onResetDebugVoucherValues])
 
+  const stepOrder = React.useMemo(() => {
+    return [
+      'clientAssertionValidation',
+      'publicKeyRetrieve',
+      'clientAssertionSignatureVerification',
+      ...(response.clientKind === 'CONSUMER' ? (['platformStatesVerification'] as const) : []),
+      ...(response.steps.dpopValidation ? (['dpopValidation'] as const) : []),
+    ] as const
+  }, [response.clientKind, response.steps.dpopValidation])
+
   const providerValue = React.useMemo(() => {
     return {
       request,
       response,
       debugVoucherStepDrawer,
+      stepOrder,
       setDebugVoucherStepDrawer,
       goToNextStep,
       handleMakeNewRequest,
     }
-  }, [debugVoucherStepDrawer, goToNextStep, handleMakeNewRequest, request, response])
+  }, [debugVoucherStepDrawer, goToNextStep, handleMakeNewRequest, request, response, stepOrder])
 
   return <Provider value={providerValue}>{children}</Provider>
 }

@@ -4,7 +4,6 @@ import { Alert, AlertTitle, Typography } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useDebugVoucherContext } from '../DebugVoucherContext'
-import type { TokenGenerationValidationSteps } from '@/api/api.generatedTypes'
 
 const DebugVoucherResultsAlert: React.FC = () => {
   const { t } = useTranslation('voucher', { keyPrefix: 'consumerDebugVoucher.result' })
@@ -28,21 +27,22 @@ const DebugVoucherResultsAlert: React.FC = () => {
     return (
       step?.result === 'PASSED' ||
       (response.clientKind === 'API' &&
-        (key as keyof TokenGenerationValidationSteps) === 'platformStatesVerification' &&
+        (key === 'platformStatesVerification' || key === 'dpopValidation') &&
         step.result === 'SKIPPED')
     )
   })
 
   if (isDebugVoucherPassed) {
-    resultAlert.text =
-      response.clientKind === 'CONSUMER'
-        ? t('alert.description.consumerSuccess', {
-            eserviceName: response.eservice?.name,
-            eserviceVersion: response.eservice?.version,
-          })
-        : t(
-            'alert.description.apiSuccess'
-          ) /* @TODO: add condition to show 'alert.description.apiV3Success' if dPopProof is entered */
+    if (response.clientKind === 'CONSUMER') {
+      resultAlert.text = t('alert.description.consumerSuccess', {
+        eserviceName: response.eservice?.name,
+        eserviceVersion: response.eservice?.version,
+      })
+    } else {
+      resultAlert.text = response.steps.dpopValidation
+        ? t('alert.description.apiV3Success')
+        : t('alert.description.apiSuccess')
+    }
     resultAlert.type = 'success'
   }
 

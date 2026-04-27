@@ -7,7 +7,7 @@ import { Drawer } from '@/components/shared/Drawer'
 
 const DebugVoucherStepDrawer: React.FC = () => {
   const { t } = useTranslation('voucher', { keyPrefix: 'consumerDebugVoucher.result' })
-  const { debugVoucherStepDrawer, response, goToNextStep, setDebugVoucherStepDrawer } =
+  const { debugVoucherStepDrawer, stepOrder, goToNextStep, setDebugVoucherStepDrawer } =
     useDebugVoucherContext()
 
   const selectedStep = debugVoucherStepDrawer.selectedStep
@@ -18,24 +18,24 @@ const DebugVoucherStepDrawer: React.FC = () => {
     setDebugVoucherStepDrawer((prev) => ({ ...prev, isOpen: false }))
   }
 
-  const isNotLastStep =
-    (response.clientKind === 'CONSUMER' &&
-      debugVoucherStepDrawer.selectedStep?.[0] !== 'platformStatesVerification') ||
-    (response.clientKind !== 'CONSUMER' &&
-      debugVoucherStepDrawer.selectedStep?.[0] !== 'clientAssertionSignatureVerification')
+  const currentStep = debugVoucherStepDrawer.selectedStep?.[0]
+  const stepIndex = currentStep ? stepOrder.indexOf(currentStep) : -1
+
+  const isLastStep = stepIndex !== -1 && stepIndex === stepOrder.length - 1
 
   return (
     <Drawer
       isOpen={debugVoucherStepDrawer.isOpen}
       onClose={handleDrawerClose}
       title={t(
-        `stepDrawer.title.${debugVoucherStepDrawer.selectedStep?.[0]}` as unknown as TemplateStringsArray
+        `stepDrawer.title.${debugVoucherStepDrawer.selectedStep?.[0]}` as unknown as TemplateStringsArray,
+        { index: stepIndex + 1 }
       )}
       subtitle={t(
         `stepDrawer.description.${debugVoucherStepDrawer.selectedStep?.[0]}` as unknown as TemplateStringsArray
       )}
       buttonAction={
-        isNotLastStep ? { label: t('stepDrawer.nextStepBtn'), action: goToNextStep } : undefined
+        isLastStep ? undefined : { label: t('stepDrawer.nextStepBtn'), action: goToNextStep }
       }
     >
       <Stack spacing={2}>

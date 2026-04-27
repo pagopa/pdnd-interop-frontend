@@ -236,10 +236,11 @@
         "title": "Debug result",
         "step": {
           "label": {
-            "clientAssertionValidation": "1. Client assertion validation",
-            "publicKeyRetrieve": "2. Retrieval of the public key stored on PDND",
-            "clientAssertionSignatureVerification": "3. Verification of the client assertion signature",
-            "platformStatesVerification": "4. States verification"
+            "clientAssertionValidation": "{{index}}. Client assertion validation",
+            "publicKeyRetrieve": "{{index}}. Retrieval of the public key stored on PDND",
+            "clientAssertionSignatureVerification": "{{index}}. Verification of the client assertion signature",
+            "platformStatesVerification": "{{index}}. States verification",
+            "dpopValidation": "{{index}}. DPoP proof validation"
           }
         }
       },
@@ -255,6 +256,9 @@
         "clientAssertion": {
           "label": "Client_assertion"
         },
+        "dpopProof": {
+          "label": "DPoP proof"
+        },
         "clientAssertionType": {
           "label": "Client_assertion_type",
           "description": "The format of the client assertion, as specified in RFC"
@@ -262,20 +266,24 @@
         "grantType": {
           "label": "Grant_type",
           "description": "The type of flow used, as specified in RFC"
-        }
+        },
+        "dpop": "DPoP",
+        "bearer": "Bearer"
       },
       "stepDrawer": {
         "title": {
-          "clientAssertionValidation": "1. Client assertion validation",
-          "publicKeyRetrieve": "2. Retrieval of the public key stored on PDND",
-          "clientAssertionSignatureVerification": "3. Verification of the client assertion signature",
-          "platformStatesVerification": "4. States verification"
+          "clientAssertionValidation": "{{index}}. Client assertion validation",
+          "publicKeyRetrieve": "{{index}}. Retrieval of the public key stored on PDND",
+          "clientAssertionSignatureVerification": "{{index}}. Verification of the client assertion signature",
+          "platformStatesVerification": "{{index}}. States verification",
+          "dpopValidation": "{{index}}. DPoP proof validation"
         },
         "description": {
           "clientAssertionValidation": "It is verified that the client assertion is well structured. All required fields must be present and correctly filled.",
           "publicKeyRetrieve": "It is verified that the public key corresponding to the kid in the client assertion is present on PDND and can be retrieved.",
           "clientAssertionSignatureVerification": "It is verified that the private key used to sign the client assertion matches the public key identified by the kid and retrieved in step 2.",
-          "platformStatesVerification": "It is verified that all administrative and technical components required by PDND are active"
+          "platformStatesVerification": "It is verified that all administrative and technical components required by PDND are active",
+          "dpopValidation": "...."
         },
         "stepResultLabel": "Verification result:",
         "nextStepBtn": "Go to next step"

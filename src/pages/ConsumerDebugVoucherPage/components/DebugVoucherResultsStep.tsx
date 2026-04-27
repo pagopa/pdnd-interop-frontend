@@ -21,11 +21,13 @@ export const DebugVoucherResultsStep: React.FC<ResultStepProps> = ({ step, stepK
 
   const chipProps = useGetDebugVoucherResultChipProps(step)
 
-  const { setDebugVoucherStepDrawer } = useDebugVoucherContext()
+  const { setDebugVoucherStepDrawer, stepOrder } = useDebugVoucherContext()
 
   const handleClick = () => {
     setDebugVoucherStepDrawer({ isOpen: true, selectedStep: [stepKey, step] })
   }
+
+  const index = stepOrder.indexOf(stepKey) + 1
 
   return (
     <Button
@@ -41,7 +43,7 @@ export const DebugVoucherResultsStep: React.FC<ResultStepProps> = ({ step, stepK
       onClick={handleClick}
     >
       <Typography component={'span'} variant="body1" fontWeight={600} textAlign={'left'}>
-        {t(`label.${stepKey}`)}
+        {t(`label.${stepKey}`, { index })}
       </Typography>
       <Stack direction="row" justifyContent="end" spacing={2}>
         {chipProps && (
