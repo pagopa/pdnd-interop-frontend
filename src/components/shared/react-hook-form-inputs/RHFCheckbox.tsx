@@ -42,7 +42,10 @@ export const RHFCheckbox: React.FC<RHFCheckboxProps> = ({
         rules={mapValidationErrorMessages(rules, t)}
         render={({ field: { value, ref, ...fieldProps } }) => (
           <FormControlLabel
-            label={label}
+            label={
+              <span id={ids.labelId}>{label}</span>
+            } /* This span is needed to properly associate the label with the checkbox for accessibility purposes;
+             ** there was a conflict between the getAriaAccessibilityInputProps function and the default behavior of the MUI FormControlLabel component */
             disabled={disabled}
             control={
               <MUICheckbox
