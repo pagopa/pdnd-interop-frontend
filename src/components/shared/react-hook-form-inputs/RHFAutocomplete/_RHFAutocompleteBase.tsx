@@ -18,6 +18,7 @@ import identity from 'lodash/identity'
 import isEqual from 'lodash/isEqual'
 import type { ControllerProps } from 'react-hook-form/dist/types/controller'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
+import { theme } from '@pagopa/interop-fe-commons'
 
 export type RHFAutocompleteInput<T> = { label: string; value: T }
 
@@ -123,6 +124,11 @@ export function _RHFAutocompleteBase<
                   placeholder={placeholder ?? '...'}
                   {...params}
                   autoFocus={focusOnMount}
+                  sx={{
+                    '& .MuiFormLabel-asterisk': {
+                      color: rules?.required ? theme.palette.error.dark : 'inherit',
+                    },
+                  }}
                   InputLabelProps={{
                     ...(labelType === 'external'
                       ? {
