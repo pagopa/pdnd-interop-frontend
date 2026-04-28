@@ -67,7 +67,7 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
     if (!clientId) {
       setClientSearch('')
     }
-  }, [clientId, clientSearch, setClientSearch])
+  }, [clientId, setClientSearch])
 
   const hasPurposes = Boolean(purposes?.length)
   const hasClientKeys = Boolean(clientKeys?.length)

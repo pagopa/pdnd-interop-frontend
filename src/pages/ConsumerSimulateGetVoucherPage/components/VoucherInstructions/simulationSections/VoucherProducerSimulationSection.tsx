@@ -64,7 +64,7 @@ export const VoucherProducerSimulationSection: React.FC = () => {
     if (!producerKeychainId) {
       setSearch('')
     }
-  }, [producerKeychainId, search, setSearch])
+  }, [producerKeychainId, setSearch])
 
   const hasEservices = Boolean(eservices?.eservices?.length)
   const hasPublicKeys = Boolean(publicKeys?.keys?.length)
