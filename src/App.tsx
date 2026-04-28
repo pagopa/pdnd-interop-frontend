@@ -25,7 +25,6 @@ const urlParams = new URLSearchParams(window.location.search)
 const redirectUrl = urlParams.get('redirectUrl')
 
 const fragmentParams = new URLSearchParams(window.location.hash.replace('#', ''))
-const selfCareIdentityToken = fragmentParams.get('id') ?? ''
 const requestedLang = fragmentParams.get('lang')?.toLowerCase() ?? ''
 const isSupportedLang = requestedLang in LANGUAGES
 const lang = isSupportedLang ? requestedLang : DEFAULT_LANG
@@ -35,12 +34,13 @@ if (requestedLang) {
 }
 
 if (redirectUrl) {
-  const url = `/ui/${i18n.language}${redirectUrl}#id=${selfCareIdentityToken}`
+  const selfCareIdentityToken = fragmentParams.get('id') ?? ''
+  const url = `/ui/${lang}${redirectUrl}#id=${selfCareIdentityToken}`
 
   window.location.replace(url)
 } else if (requestedLang) {
   fragmentParams.delete('lang')
-  const url = `/ui/${i18n.language}/catalogo-e-service#${fragmentParams.toString()}`
+  const url = `/ui/${lang}/catalogo-e-service#${fragmentParams.toString()}`
 
   window.location.replace(url)
 } else {

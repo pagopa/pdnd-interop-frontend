@@ -89,7 +89,7 @@ describe('AuthServices.getSessionToken', () => {
   })
 
   describe('fragment parsing without lang parameter', () => {
-    it('should only  the id token when hash contains only #id=<token>', async () => {
+    it('should only extract the id token when hash contains only #id=<token>', async () => {
       const expectedToken = 'token-without-lang'
       const mockSessionToken = 'mock-session-token'
 

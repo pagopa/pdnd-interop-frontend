@@ -28,7 +28,7 @@ async function getSessionToken(): Promise<string | null> {
   }
 
   // 1. Check if there is a mock token: only used for dev purposes
-  if (APP_MODE === 'development' && MOCK_TOKEN) return resolveToken(MOCK_TOKEN)
+  // if (APP_MODE === 'development' && MOCK_TOKEN) return resolveToken(MOCK_TOKEN)
 
   const fragmentParams = new URLSearchParams(window.location.hash.replace('#', ''))
 
@@ -45,7 +45,7 @@ async function getSessionToken(): Promise<string | null> {
   }
 
   // 3. See if we are trying to login as support operator
-  // If the url has contains saml2 and jwt, we are trying to login as support operator
+  // If the url contains saml2 and jwt, we are trying to login as support operator
   const saml2 = fragmentParams.get('saml2') ?? ''
   const supportOperatorToken = fragmentParams.get('jwt') ?? ''
 
