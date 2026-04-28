@@ -3,6 +3,7 @@ import { useNavigate } from '@/router'
 import { Alert, AlertTitle, Button } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { match, P } from 'ts-pattern'
 
 type VoucherInstructionsGeneralFormAlertProducerProps = {
   producerKeychain: ProducerKeychain | undefined
@@ -35,55 +36,73 @@ export const VoucherInstructionsGeneralFormAlertProducer: React.FC<
   const { t } = useTranslation('voucher')
   const navigate = useNavigate()
 
-  const noEServices = producerKeychainId && !isFetchingEservices && !eservices?.length
-
+  const noEServices = Boolean(producerKeychainId) && !isFetchingEservices && !eservices?.length
   const noPublicKeys =
-    producerKeychainId && !isFetchingEservices && !isFetchingPublicKey && !publicKeys?.length
+    Boolean(producerKeychainId) &&
+    !isFetchingEservices &&
+    !isFetchingPublicKey &&
+    !publicKeys?.length
 
-  const alertProps: ProducerAlertProps = React.useMemo(() => {
-    if (!producerKeychainId) return null
-
-    if (!noEServices && !noPublicKeys) return null
-
-    if (noEServices && noPublicKeys) {
-      return {
-        title: t('noEServicesAndPublicKeysLabel.title'),
-        description: t('noEServicesAndPublicKeysLabel.description'),
-        action: {
-          label: t('noEServicesAndPublicKeysLabel.actionLabel'),
-          onClick: () =>
-            navigate('PROVIDE_KEYCHAIN_DETAILS', { params: { keychainId: producerKeychainId } }),
-        },
-      }
-    }
-
-    if (noEServices) {
-      return {
-        title: t('noEServicesLabel.title'),
-        description: t('noEServicesLabel.description', {
-          keychainName: producerKeychain?.name ?? '',
-        }),
-        action: {
-          label: t('noEServicesLabel.actionLabel'),
-          onClick: () => navigate('PROVIDE_ESERVICE_LIST'),
-        },
-      }
-    }
-
-    if (noPublicKeys) {
-      return {
-        title: t('noPublicKeysLabel.title'),
-        description: t('noPublicKeysLabel.description'),
-        action: {
-          label: t('noPublicKeysLabel.actionLabel'),
-          onClick: () =>
-            navigate('PROVIDE_KEYCHAIN_DETAILS', { params: { keychainId: producerKeychainId } }),
-        },
-      }
-    }
-
-    return null
-  }, [navigate, noEServices, noPublicKeys, producerKeychain?.name, producerKeychainId, t])
+  const alertProps: ProducerAlertProps = React.useMemo(
+    () =>
+      match({
+        producerKeychainId,
+        noEServices,
+        noPublicKeys,
+      })
+        .with({ producerKeychainId: P.nullish }, () => null)
+        .with(
+          {
+            producerKeychainId: P.string,
+            noEServices: true,
+            noPublicKeys: true,
+          },
+          ({ producerKeychainId }) => ({
+            title: t('noEServicesAndPublicKeysLabel.title'),
+            description: t('noEServicesAndPublicKeysLabel.description'),
+            action: {
+              label: t('noEServicesAndPublicKeysLabel.actionLabel'),
+              onClick: () =>
+                navigate('PROVIDE_KEYCHAIN_DETAILS', {
+                  params: { keychainId: producerKeychainId },
+                }),
+            },
+          })
+        )
+        .with(
+          {
+            noEServices: true,
+          },
+          () => ({
+            title: t('noEServicesLabel.title'),
+            description: t('noEServicesLabel.description', {
+              keychainName: producerKeychain?.name ?? '',
+            }),
+            action: {
+              label: t('noEServicesLabel.actionLabel'),
+              onClick: () => navigate('PROVIDE_ESERVICE_LIST'),
+            },
+          })
+        )
+        .with(
+          {
+            noPublicKeys: true,
+          },
+          ({ producerKeychainId }) => ({
+            title: t('noPublicKeysLabel.title'),
+            description: t('noPublicKeysLabel.description'),
+            action: {
+              label: t('noPublicKeysLabel.actionLabel'),
+              onClick: () =>
+                navigate('PROVIDE_KEYCHAIN_DETAILS', {
+                  params: { keychainId: producerKeychainId! },
+                }),
+            },
+          })
+        )
+        .otherwise(() => null),
+    [producerKeychainId, noEServices, noPublicKeys, producerKeychain?.name, navigate, t]
+  )
 
   if (!alertProps) return null
 
