@@ -7,8 +7,7 @@ import { VoucherInstructionsDataAccessStep } from '../VoucherInstructionsDataAcc
 const goToPreviousStepMock = vi.fn()
 const goToNextStepMock = vi.fn()
 const useClientKindMock = vi.fn()
-const useLocationMock = vi.fn()
-const useSuspenseQueryMock = vi.fn()
+const useQueryMock = vi.fn()
 
 vi.mock('../VoucherInstructionsContext', () => ({
   useVoucherInstructionsContext: () => ({
@@ -34,16 +33,7 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@tanstack/react-query')>()
   return {
     ...actual,
-    useSuspenseQuery: () => useSuspenseQueryMock(),
-  }
-})
-
-vi.mock('react-router-dom', async (importOriginal) => {
-  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-  const actual = await importOriginal<typeof import('react-router-dom')>()
-  return {
-    ...actual,
-    useLocation: () => useLocationMock(),
+    useQuery: () => useQueryMock(),
   }
 })
 
@@ -54,12 +44,7 @@ describe('VoucherInstructionsDataAccessStep', () => {
 
   it('renders base content without purpose', async () => {
     useClientKindMock.mockReturnValue('CONSUMER')
-    useLocationMock.mockReturnValue({
-      state: {
-        clientKind: 'CONSUMER',
-        purpose: undefined,
-      },
-    })
+    useQueryMock.mockReturnValue({ data: undefined })
 
     renderWithApplicationContext(
       <MemoryRouter>
@@ -72,45 +57,29 @@ describe('VoucherInstructionsDataAccessStep', () => {
     expect(await screen.findByText('dataAccessStep.CONSUMER.actionTitle')).toBeInTheDocument()
   })
 
-  it('renders consumer action label when purpose exists', async () => {
+  it('does not render consumer link when purpose is missing', async () => {
     useClientKindMock.mockReturnValue('CONSUMER')
-    useLocationMock.mockReturnValue({
-      state: {
-        clientKind: 'CONSUMER',
-        purpose: {
-          eservice: {
-            id: '1',
-            name: 'ServiceName',
-            producer: { name: 'ProducerName' },
-            descriptor: { id: 'd1' },
-          },
-        },
-      },
-    })
+    useQueryMock.mockReturnValue({ data: undefined })
 
     renderWithApplicationContext(
-      <MemoryRouter initialEntries={['?purposeId=123']}>
+      <MemoryRouter>
         <VoucherInstructionsDataAccessStep />
       </MemoryRouter>,
       { withReactQueryContext: true }
     )
 
-    const link = await screen.findByRole('button')
-    expect(link).toBeInTheDocument()
+    expect(screen.queryByText('dataAccessStep.CONSUMER.actionLabel')).not.toBeInTheDocument()
   })
 
   it('renders consumer link when purpose exists', async () => {
     useClientKindMock.mockReturnValue('CONSUMER')
-    useLocationMock.mockReturnValue({
-      state: {
-        clientKind: 'CONSUMER',
-        purpose: {
-          eservice: {
-            id: '1',
-            name: 'ServiceName',
-            producer: { name: 'ProducerName' },
-            descriptor: { id: 'd1' },
-          },
+    useQueryMock.mockReturnValue({
+      data: {
+        eservice: {
+          id: '1',
+          name: 'ServiceName',
+          producer: { name: 'ProducerName' },
+          descriptor: { id: 'd1' },
         },
       },
     })
@@ -128,7 +97,7 @@ describe('VoucherInstructionsDataAccessStep', () => {
 
   it('renders API sections when clientKind is API', async () => {
     useClientKindMock.mockReturnValue('API')
-    useLocationMock.mockReturnValue({ state: {} })
+    useQueryMock.mockReturnValue({ data: undefined })
 
     renderWithApplicationContext(
       <MemoryRouter>
@@ -145,7 +114,7 @@ describe('VoucherInstructionsDataAccessStep', () => {
 
   it('renders SignalHub section for API', async () => {
     useClientKindMock.mockReturnValue('API')
-    useLocationMock.mockReturnValue({ state: {} })
+    useQueryMock.mockReturnValue({ data: undefined })
 
     renderWithApplicationContext(
       <MemoryRouter>
