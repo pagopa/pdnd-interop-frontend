@@ -53,8 +53,8 @@ describe('VoucherInstructionsGeneralForm', () => {
     expect(
       await screen.findByText('generalForm.voucherType.options.dpop.label')
     ).toBeInTheDocument()
-    expect(await screen.findByText('generalForm.interationType.options.sync')).toBeInTheDocument()
-    expect(await screen.findByText('generalForm.interationType.options.async')).toBeInTheDocument()
+    expect(await screen.findByText('generalForm.interactionType.options.sync')).toBeInTheDocument()
+    expect(await screen.findByText('generalForm.interactionType.options.async')).toBeInTheDocument()
   })
 
   it('shows async options when ASYNC is selected', async () => {
@@ -69,7 +69,7 @@ describe('VoucherInstructionsGeneralForm', () => {
       }
     )
 
-    fireEvent.click(await screen.findByText('generalForm.interationType.options.async'))
+    fireEvent.click(await screen.findByText('generalForm.interactionType.options.async'))
 
     expect(await screen.findByText('generalForm.memberType.options.consumer')).toBeInTheDocument()
     expect(await screen.findByText('generalForm.memberType.options.producer')).toBeInTheDocument()
@@ -87,7 +87,7 @@ describe('VoucherInstructionsGeneralForm', () => {
       }
     )
 
-    fireEvent.click(await screen.findByText('generalForm.interationType.options.async'))
+    fireEvent.click(await screen.findByText('generalForm.interactionType.options.async'))
     fireEvent.click(await screen.findByText('generalForm.memberType.options.producer'))
 
     expect(await screen.findByText('generalForm.producerKeychain.label')).toBeInTheDocument()
@@ -115,7 +115,7 @@ describe('VoucherInstructionsGeneralForm', () => {
     renderWithApplicationContext(
       <MemoryRouter
         initialEntries={[
-          '?voucherType=BEARER&interationType=SYNC&clientId=b9d1e7af-1173-40eb-9c09-97adc397ddc9&keyId=NNthr0vUM4W55BD0xnhS9Ht4o1e1bfu-DEjmLHAQ5EQ',
+          '?voucherType=BEARER&interactionType=SYNC&clientId=b9d1e7af-1173-40eb-9c09-97adc397ddc9&keyId=NNthr0vUM4W55BD0xnhS9Ht4o1e1bfu-DEjmLHAQ5EQ',
         ]}
       >
         <VoucherInstructionsGeneralForm />

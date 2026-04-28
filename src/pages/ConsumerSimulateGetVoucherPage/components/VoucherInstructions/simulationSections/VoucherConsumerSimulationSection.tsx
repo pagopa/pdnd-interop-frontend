@@ -9,14 +9,14 @@ import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
 import { VoucherInstructionsGeneralFormAlertConsumer } from '../alerts/VoucherInstructionsGeneralFormAlertConsumer'
 import {
-  INTERATION_TYPE,
+  INTERACTION_TYPE,
   type VoucherInstructionsGeneralFormValues,
 } from '../VoucherInstructionsGeneralForm'
 import { VoucherInstructionsAsyncExchangeSelect } from '../VoucherInstructionsGeneralForm/VoucherInstructionsAsyncExchangeSelect'
 
 type VoucherConsumerSimulationSectionForm = Pick<
   VoucherInstructionsGeneralFormValues,
-  'clientId' | 'purposeId' | 'keyId' | 'interationType'
+  'clientId' | 'purposeId' | 'keyId' | 'interactionType'
 >
 
 export const VoucherConsumerSimulationSection: React.FC = () => {
@@ -25,7 +25,7 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
   const clientKind = useClientKind()
 
   const clientId = watch('clientId') || ''
-  const interationType = watch('interationType')
+  const interactionType = watch('interactionType')
 
   const [clientSearch, setClientSearch] = useAutocompleteTextInput('')
 
@@ -115,7 +115,7 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
         />
       </FormControl>
 
-      {interationType === INTERATION_TYPE.ASYNC && <VoucherInstructionsAsyncExchangeSelect />}
+      {interactionType === INTERACTION_TYPE.ASYNC && <VoucherInstructionsAsyncExchangeSelect />}
 
       <VoucherInstructionsGeneralFormAlertConsumer
         client={client}

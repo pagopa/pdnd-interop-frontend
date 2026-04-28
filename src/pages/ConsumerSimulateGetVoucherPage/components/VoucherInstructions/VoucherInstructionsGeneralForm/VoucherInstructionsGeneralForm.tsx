@@ -20,7 +20,7 @@ import { VoucherProducerSimulationSection } from '../simulationSections/VoucherP
 import { match } from 'ts-pattern'
 
 export const VOUCHER_TYPE = { BEARER: 'BEARER', DPOP: 'DPOP' } as const
-export const INTERATION_TYPE = { SYNC: 'SYNC', ASYNC: 'ASYNC' } as const
+export const INTERACTION_TYPE = { SYNC: 'SYNC', ASYNC: 'ASYNC' } as const
 export const MEMBER_TYPE = { CONSUMER: 'CONSUMER', PRODUCER: 'PRODUCER' } as const
 export const ASYNC_EXCHANGE_STEP = {
   START_INTERACTION: 'start_interaction',
@@ -30,7 +30,7 @@ export const ASYNC_EXCHANGE_STEP = {
 } as const
 
 export type VoucherType = (typeof VOUCHER_TYPE)[keyof typeof VOUCHER_TYPE]
-export type InterationType = (typeof INTERATION_TYPE)[keyof typeof INTERATION_TYPE]
+export type InteractionType = (typeof INTERACTION_TYPE)[keyof typeof INTERACTION_TYPE]
 export type MemberType = (typeof MEMBER_TYPE)[keyof typeof MEMBER_TYPE]
 export type AsyncExchangeStep = (typeof ASYNC_EXCHANGE_STEP)[keyof typeof ASYNC_EXCHANGE_STEP]
 
@@ -39,7 +39,7 @@ export interface VoucherInstructionsGeneralFormValues {
   purposeId: string | null
   keyId: string | null
   voucherType: VoucherType
-  interationType: InterationType
+  interactionType: InteractionType
   memberType: MemberType
   asyncExchangeStep: AsyncExchangeStep | null
   producerKeychainId: string | null
@@ -60,8 +60,8 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
       purposeId: searchParams.get('purposeId'),
       keyId: searchParams.get('keyId'),
       voucherType: (searchParams.get('voucherType') as VoucherType) ?? VOUCHER_TYPE.BEARER,
-      interationType:
-        (searchParams.get('interationType') as InterationType) ?? INTERATION_TYPE.SYNC,
+      interactionType:
+        (searchParams.get('interactionType') as InteractionType) ?? INTERACTION_TYPE.SYNC,
       memberType: (searchParams.get('memberType') as MemberType) ?? MEMBER_TYPE.CONSUMER,
       producerKeychainId: searchParams.get('producerKeychainId'),
       eserviceId: searchParams.get('eserviceId'),
@@ -76,16 +76,24 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
   const canGoToNextStep = match({ clientKind, ...values })
     .with({ clientKind: 'API' }, ({ clientId, keyId }) => !!clientId && !!keyId)
     .with(
-      { clientKind: 'CONSUMER', interationType: 'SYNC' },
+      { clientKind: 'CONSUMER', interactionType: INTERACTION_TYPE.SYNC },
       ({ clientId, purposeId, keyId }) => !!clientId && !!purposeId && !!keyId
     )
     .with(
-      { clientKind: 'CONSUMER', interationType: 'ASYNC', memberType: 'CONSUMER' },
+      {
+        clientKind: 'CONSUMER',
+        interactionType: INTERACTION_TYPE.ASYNC,
+        memberType: MEMBER_TYPE.CONSUMER,
+      },
       ({ asyncExchangeStep, clientId, purposeId, keyId }) =>
         !!asyncExchangeStep && !!clientId && !!purposeId && !!keyId
     )
     .with(
-      { clientKind: 'CONSUMER', interationType: 'ASYNC', memberType: 'PRODUCER' },
+      {
+        clientKind: 'CONSUMER',
+        interactionType: INTERACTION_TYPE.ASYNC,
+        memberType: MEMBER_TYPE.PRODUCER,
+      },
       ({ asyncExchangeStep, producerKeychainId, eserviceId, publicKeyId }) =>
         !!asyncExchangeStep && !!producerKeychainId && !!eserviceId && !!publicKeyId
     )
@@ -105,10 +113,10 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
     return () => subscription.unsubscribe()
   }, [setValue, watch])
 
-  const handleInterationTypeChanged = (interationType: InterationType) => {
+  const handleInteractionTypeChanged = (interactionType: InteractionType) => {
     reset({
       ...values,
-      interationType,
+      interactionType,
       memberType: MEMBER_TYPE.CONSUMER,
       asyncExchangeStep: null,
       clientId: null,
@@ -148,15 +156,15 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
     const params = new URLSearchParams()
 
     params.set('voucherType', values.voucherType)
-    params.set('interationType', values.interationType)
+    params.set('interactionType', values.interactionType)
 
-    if (values.interationType === INTERATION_TYPE.SYNC) {
+    if (values.interactionType === INTERACTION_TYPE.SYNC) {
       if (values.clientId) params.set('clientId', values.clientId)
       if (values.purposeId) params.set('purposeId', values.purposeId)
       if (values.keyId) params.set('keyId', values.keyId)
     }
 
-    if (values.interationType === INTERATION_TYPE.ASYNC) {
+    if (values.interactionType === INTERACTION_TYPE.ASYNC) {
       params.set('memberType', values.memberType)
 
       if (values.asyncExchangeStep) {
@@ -225,25 +233,25 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
           />
           {clientKind === 'CONSUMER' && (
             <RHFRadioGroup
-              name="interationType"
-              label={t('generalForm.interationType.label')}
+              name="interactionType"
+              label={t('generalForm.interactionType.label')}
               required
               options={[
                 {
-                  value: INTERATION_TYPE.SYNC,
-                  label: t('generalForm.interationType.options.sync'),
+                  value: INTERACTION_TYPE.SYNC,
+                  label: t('generalForm.interactionType.options.sync'),
                 },
                 {
-                  value: INTERATION_TYPE.ASYNC,
-                  label: t('generalForm.interationType.options.async'),
+                  value: INTERACTION_TYPE.ASYNC,
+                  label: t('generalForm.interactionType.options.async'),
                 },
               ]}
-              onValueChange={(interationType) =>
-                handleInterationTypeChanged(interationType as InterationType)
+              onValueChange={(interactionType) =>
+                handleInteractionTypeChanged(interactionType as InteractionType)
               }
             />
           )}
-          {values.interationType === INTERATION_TYPE.ASYNC && (
+          {values.interactionType === INTERACTION_TYPE.ASYNC && (
             <RHFRadioGroup
               name="memberType"
               label={t('generalForm.memberType.label')}
@@ -278,13 +286,13 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
         >
           {values.memberType === MEMBER_TYPE.CONSUMER && (
             <VoucherConsumerSimulationSection
-              key={`consumer-${values.interationType}-${values.memberType}`}
+              key={`consumer-${values.interactionType}-${values.memberType}`}
             />
           )}
 
           {values.memberType === MEMBER_TYPE.PRODUCER && (
             <VoucherProducerSimulationSection
-              key={`producer-${values.interationType}-${values.memberType}`}
+              key={`producer-${values.interactionType}-${values.memberType}`}
             />
           )}
         </SectionContainer>

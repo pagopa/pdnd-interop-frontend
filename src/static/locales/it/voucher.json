@@ -70,7 +70,7 @@
         }
       }
     },
-    "interationType": {
+    "interactionType": {
       "label": "Modello di interazione",
       "options": {
         "sync": "Sincrono (standard)",
