@@ -25,6 +25,7 @@ export const ASYNC_EXCHANGE_STEP = {
   START_INTERACTION: 'start_interaction',
   GET_RESOURCE: 'get_resource',
   CONFIRMATION: 'confirmation',
+  CALLBACK_INVOCATION: 'callback_invocation',
 } as const
 
 export type VoucherType = (typeof VOUCHER_TYPE)[keyof typeof VOUCHER_TYPE]

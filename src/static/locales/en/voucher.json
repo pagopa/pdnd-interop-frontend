@@ -88,7 +88,8 @@
       "label": "Asynchronous exchange step",
       "startInteraction": "Start interaction (start_interaction)",
       "getResource": "Obtaining the resource (get_resource)",
-      "confirmation": "Confirmation of receipt (confirmation)"
+      "confirmation": "Confirmation of receipt (confirmation)",
+      "callbackInvocation": "Callback invocation (callback_invocation)"
     },
     "clientSelectInput": {
       "label": "Client to use"

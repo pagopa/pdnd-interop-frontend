@@ -7,12 +7,15 @@ import { RHFAutocompleteSingle, RHFSelect } from '@/components/shared/react-hook
 import { KeychainQueries } from '@/api/keychain'
 import { useTranslation } from 'react-i18next'
 import { VoucherInstructionsGeneralFormAlertProducer } from '../alerts/VoucherInstructionsGeneralFormAlertProducer'
-import { type VoucherInstructionsGeneralFormValues } from '../VoucherInstructionsGeneralForm'
+import {
+  INTERATION_TYPE,
+  type VoucherInstructionsGeneralFormValues,
+} from '../VoucherInstructionsGeneralForm'
 import { VoucherInstructionsAsyncExchangeSelect } from '../VoucherInstructionsGeneralForm/VoucherInstructionsAsyncExchangeSelect'
 
 type VoucherProducerSimulationSectionForm = Pick<
   VoucherInstructionsGeneralFormValues,
-  'producerKeychainId' | 'eserviceId' | 'publicKeyId'
+  'producerKeychainId' | 'eserviceId' | 'publicKeyId' | 'interationType'
 >
 
 export const VoucherProducerSimulationSection: React.FC = () => {
@@ -20,6 +23,7 @@ export const VoucherProducerSimulationSection: React.FC = () => {
   const { watch, setValue } = useFormContext<VoucherProducerSimulationSectionForm>()
 
   const producerKeychainId = watch('producerKeychainId') || ''
+  const interationType = watch('interationType')
 
   const [search, setSearch] = useAutocompleteTextInput('')
 
@@ -110,7 +114,7 @@ export const VoucherProducerSimulationSection: React.FC = () => {
         />
       </FormControl>
 
-      <VoucherInstructionsAsyncExchangeSelect />
+      {interationType === INTERATION_TYPE.ASYNC && <VoucherInstructionsAsyncExchangeSelect />}
 
       <VoucherInstructionsGeneralFormAlertProducer
         producerKeychain={eservices}

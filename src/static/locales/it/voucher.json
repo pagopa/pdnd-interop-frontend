@@ -88,7 +88,8 @@
       "label": "Step dello scambio asincrono",
       "startInteraction": "Inizio dell’interazione (start_interaction)",
       "getResource": "Ottenimento della risorsa (get_resource)",
-      "confirmation": "Conferma di ricezione (confirmation)"
+      "confirmation": "Conferma di ricezione (confirmation)",
+      "callbackInvocation": "Invocazione della callback (callback_invocation)"
     },
     "clientSelectInput": {
       "label": "Client da utilizzare"
