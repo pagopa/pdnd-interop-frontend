@@ -14,7 +14,7 @@
   "noKeysLabel": {
     "title": "The selected client does not contain public keys",
     "description": "To proceed, go to the client and add at least one public key.",
-    "actionLabel": "Accedi al client"
+    "actionLabel": "Go to client"
   },
   "noPurposesAndKeysLabel": {
     "title": "The selected client is not linked to any purpose and contains no public keys.",
