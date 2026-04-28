@@ -96,6 +96,7 @@ function useGetProviderPurposesActions(purpose?: Purpose) {
           }),
         label: t('reject'),
         color: 'error',
+        variant: 'outlined',
         icon: CloseIcon,
       },
       {
@@ -105,8 +106,9 @@ function useGetProviderPurposesActions(purpose?: Purpose) {
             versionId: waitingForApprovalVersion.id,
             ...(isThereProducerDelegation && { delegationId: producerDelegation[0].id }),
           }),
-        label: t('activate'),
+        label: t('approve'),
         color: 'primary',
+        variant: 'contained',
         icon: PlayCircleOutlineIcon,
       }
     )

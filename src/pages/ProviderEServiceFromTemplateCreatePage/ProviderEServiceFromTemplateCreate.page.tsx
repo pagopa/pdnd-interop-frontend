@@ -7,14 +7,6 @@ import { Link } from '@mui/material'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import type { StepperStep } from '@/types/common.types'
 import {
-  EServiceCreateStepAttributes,
-  EServiceCreateStepAttributesSkeleton,
-} from '../ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
-import {
-  EServiceFromTemplateCreateStepDocuments,
-  EServiceCreateStepDocumentsSkeleton,
-} from '../ProviderEServiceCreatePage/components/EServiceCreateStepDocuments'
-import {
   EServiceCreateStepGeneral,
   EServiceCreateStepGeneralSkeleton,
 } from '../ProviderEServiceCreatePage/components/EServiceCreateStepGeneral'
@@ -22,14 +14,23 @@ import {
   EServiceCreateStepPurpose,
   EServiceCreateStepPurposeSkeleton,
 } from '../ProviderEServiceCreatePage/components/EServiceCreateStepPurpose/EServiceCreateStepPurpose'
-import {
-  EServiceCreateStepVersion,
-  EServiceCreateStepVersionSkeleton,
-} from '../ProviderEServiceCreatePage/components/EServiceCreateStepVersion'
 import { PageContainer } from '@/components/layout/containers'
 import { Stepper } from '@/components/shared/Stepper'
 import { EServiceCreateContextProvider } from '../ProviderEServiceCreatePage/components/EServiceCreateContext'
 import type { EServiceMode } from '@/api/api.generatedTypes'
+import {
+  EServiceCreateStepTechSpec,
+  EServiceCreateStepTechSpecSkeleton,
+} from '../ProviderEServiceCreatePage/components/EServiceCreateStepTechSpec'
+import {
+  EServiceCreateStepInfoVersion,
+  EServiceCreateStepInfoVersionSkeleton,
+} from '../ProviderEServiceCreatePage/components/EServiceCreateStepInfoVersion'
+import {
+  EServiceCreateStepThresholds,
+  EServiceCreateStepThresholdsSkeleton,
+} from '../ProviderEServiceCreatePage/components/EServiceCreateStepThresholds'
+import { PUBLIC_URL } from '@/config/env'
 
 const ProviderEServiceFromTemplateCreate: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -46,21 +47,21 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
     eserviceTemplate?.mode === 'DELIVER'
       ? [
           { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
-          { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
-          { label: t('create.stepper.step3Label'), component: EServiceCreateStepAttributes },
+          { label: t('create.stepper.step2Label'), component: EServiceCreateStepThresholds },
+          { label: t('create.stepper.step3Label'), component: EServiceCreateStepTechSpec },
           {
             label: t('create.stepper.step4Label'),
-            component: EServiceFromTemplateCreateStepDocuments,
+            component: EServiceCreateStepInfoVersion,
           },
         ]
       : [
           { label: t('create.stepper.step1Label'), component: EServiceCreateStepGeneral },
           { label: t('create.stepper.step2ReceiveLabel'), component: EServiceCreateStepPurpose },
-          { label: t('create.stepper.step2Label'), component: EServiceCreateStepVersion },
-          { label: t('create.stepper.step3Label'), component: EServiceCreateStepAttributes },
+          { label: t('create.stepper.step2Label'), component: EServiceCreateStepThresholds },
+          { label: t('create.stepper.step3Label'), component: EServiceCreateStepTechSpec },
           {
             label: t('create.stepper.step4Label'),
-            component: EServiceFromTemplateCreateStepDocuments,
+            component: EServiceCreateStepInfoVersion,
           },
         ]
 
@@ -75,16 +76,16 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
     eserviceTemplate?.mode === 'DELIVER'
       ? [
           <EServiceCreateStepGeneralSkeleton key={1} />,
-          <EServiceCreateStepVersionSkeleton key={2} />,
-          <EServiceCreateStepAttributesSkeleton key={3} />,
-          <EServiceCreateStepDocumentsSkeleton key={4} />,
+          <EServiceCreateStepThresholdsSkeleton key={2} />,
+          <EServiceCreateStepTechSpecSkeleton key={3} />,
+          <EServiceCreateStepInfoVersionSkeleton key={4} />,
         ]
       : [
           <EServiceCreateStepGeneralSkeleton key={1} />,
           <EServiceCreateStepPurposeSkeleton key={2} />,
-          <EServiceCreateStepVersionSkeleton key={3} />,
-          <EServiceCreateStepAttributesSkeleton key={4} />,
-          <EServiceCreateStepDocumentsSkeleton key={5} />,
+          <EServiceCreateStepThresholdsSkeleton key={3} />,
+          <EServiceCreateStepTechSpecSkeleton key={4} />,
+          <EServiceCreateStepInfoVersionSkeleton key={5} />,
         ]
 
   return (
@@ -101,7 +102,7 @@ const ProviderEServiceFromTemplateCreate: React.FC = () => {
                 <Link
                   underline="hover"
                   href={
-                    '/ui' +
+                    PUBLIC_URL +
                     generatePath('SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS', {
                       eServiceTemplateId: eserviceTemplate?.id as string,
                       eServiceTemplateVersionId: activeTemplateversionId,

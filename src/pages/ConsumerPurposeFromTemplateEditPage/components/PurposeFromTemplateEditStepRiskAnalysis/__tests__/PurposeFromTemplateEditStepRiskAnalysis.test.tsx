@@ -4,7 +4,7 @@ import type { Mock } from 'vitest'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useQuery } from '@tanstack/react-query'
 import { PurposeMutations } from '@/api/purpose/purpose.mutations'
-import PurposeFromTemplateEditStepRiskAnalysis from '../PurposeFromTemplateEditStepRiskAnalysis'
+import { PurposeFromTemplateEditStepRiskAnalysis } from '../PurposeFromTemplateEditStepRiskAnalysis'
 import { RiskAnalysisFormFromTemplate } from '../RiskAnalysisForm/RiskAnalysisFormFromTemplate'
 import {
   createMockPurpose,

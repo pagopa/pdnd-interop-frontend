@@ -116,9 +116,9 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
               <>
                 <IconLink
                   startIcon={<RuleIcon />}
+                  component="button"
                   sx={{ alignSelf: 'start' }}
                   onClick={handleOpenCertifiedAttributesDrawer}
-                  style={{ alignSelf: 'start' }}
                 >
                   {t('certifiedAttributeLink.label')}
                 </IconLink>
@@ -128,7 +128,8 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
               <IconLink
                 onClick={handleOpenContactDrawer}
                 startIcon={<ContactMailIcon />}
-                style={{ alignSelf: 'start' }}
+                component="button"
+                sx={{ alignSelf: 'start' }}
               >
                 {t('providerDetailsLink.label')}
               </IconLink>

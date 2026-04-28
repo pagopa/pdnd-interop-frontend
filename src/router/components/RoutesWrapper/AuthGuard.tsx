@@ -1,6 +1,6 @@
 import { AuthQueries } from '@/api/auth'
+import { useIsOrganizationAllowedToDelegations } from '@/api/hooks'
 import { TenantHooks } from '@/api/tenant'
-import { FEATURE_FLAG_NOTIFICATION_CONFIG } from '@/config/env'
 import type { RouteKey } from '@/router'
 import { useAuthGuard, useCurrentRoute } from '@/router'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
@@ -14,7 +14,6 @@ export interface AuthGuardProps {
   jwt?: JwtUser
   currentRoles: UserProductRole[]
   isOrganizationAllowedToProduce: boolean
-  isOrganizationAllowedToDelegations: boolean
   isSupport: boolean
 }
 
@@ -32,7 +31,6 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   jwt,
   currentRoles,
   isOrganizationAllowedToProduce,
-  isOrganizationAllowedToDelegations,
   isSupport,
 }) => {
   const { isUserAuthorized } = useAuthGuard()
@@ -40,7 +38,24 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   const { data: blacklist } = useQuery(AuthQueries.getBlacklist())
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
 
+  const delegationsRoutes: Array<RouteKey> = [
+    'DELEGATIONS',
+    'DELEGATION_DETAILS',
+    'CREATE_DELEGATION',
+  ]
+
+  const shouldCheckDelegationsPermission =
+    delegationsRoutes.includes(routeKey) &&
+    (isSupport || currentRoles.includes('admin'))
+
+  const { isAllowed: isOrganizationAllowedToDelegations, isLoading: isDelegationsLoading } =
+    useIsOrganizationAllowedToDelegations(tenant.id, shouldCheckDelegationsPermission)
+
   const isInBlacklist = jwt?.organizationId && blacklist?.includes(jwt.organizationId)
+
+  if (delegationsRoutes.includes(routeKey) && isDelegationsLoading) {
+    return null
+  }
 
   function isUserAllowedToAccessCertifierRoutes() {
     const isCertifier = isTenantCertifier(tenant)
@@ -64,19 +79,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
   }
 
   function isUserAllowedToAccessDelegationsRoutes() {
-    const delegationsRoutes: Array<RouteKey> = [
-      'DELEGATIONS',
-      'DELEGATION_DETAILS',
-      'CREATE_DELEGATION',
-    ]
     return isOrganizationAllowedToDelegations || !delegationsRoutes.includes(routeKey)
-  }
-
-  function isUserAllowedToAccessNotificationPage() {
-    const notificationsRoute: Array<RouteKey> = ['NOTIFICATIONS', 'NOTIFICATIONS_CONFIG']
-
-    // return
-    return !notificationsRoute.includes(routeKey) || FEATURE_FLAG_NOTIFICATION_CONFIG
   }
 
   // JWT will be undefined just in case route is public.
@@ -84,8 +87,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({
     jwt &&
     (!isUserAllowedToAccessRoute() ||
       !isUserAllowedToAccessCertifierRoutes() ||
-      !isUserAllowedToAccessDelegationsRoutes() ||
-      !isUserAllowedToAccessNotificationPage())
+      !isUserAllowedToAccessDelegationsRoutes())
   ) {
     throw new ForbiddenError()
   }

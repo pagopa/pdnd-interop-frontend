@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, renderHook, screen, waitFor } from '@testing-library/react'
 import { TestInputWrapper } from './test-utils'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
@@ -76,6 +75,71 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     user.type(input, testValues.first)
     await waitFor(() => {
       expect(onValueChange).toHaveBeenCalledWith(testValues.first)
+    })
+  })
+
+  it('should allow clearing a number input without forcing 0', async () => {
+    const user = userEvent.setup()
+    const formContext = renderHook(() => useFormContext(), {
+      wrapper: ({ children }) => (
+        <TestInputWrapper>
+          {children}
+          <RHFTextField label={'label'} name={'testNumber'} type="number" />
+        </TestInputWrapper>
+      ),
+    })
+
+    const input = screen.getByRole('spinbutton')
+    await user.type(input, '42')
+    await waitFor(() => {
+      expect(input).toHaveValue(42)
+    })
+
+    await user.clear(input)
+    await waitFor(() => {
+      expect(input).not.toHaveValue(0)
+      const value = formContext.result.current.watch('testNumber')
+      expect(value).toBe('')
+    })
+  })
+
+  it('should prevent non-numeric characters from being entered in number inputs', async () => {
+    const user = userEvent.setup()
+    const formContext = renderHook(() => useFormContext(), {
+      wrapper: ({ children }) => (
+        <TestInputWrapper>
+          {children}
+          <RHFTextField label={'label'} name={'testNumber'} type="number" />
+        </TestInputWrapper>
+      ),
+    })
+
+    const input = screen.getByRole('spinbutton')
+    await user.type(input, '12abc34')
+    await waitFor(() => {
+      expect(input).toHaveValue(1234)
+      const value = formContext.result.current.watch('testNumber')
+      expect(value).toBe(1234)
+    })
+  })
+
+  it('should prevent leading zero in number inputs', async () => {
+    const user = userEvent.setup()
+    const formContext = renderHook(() => useFormContext(), {
+      wrapper: ({ children }) => (
+        <TestInputWrapper>
+          {children}
+          <RHFTextField label={'label'} name={'testNumber'} type="number" />
+        </TestInputWrapper>
+      ),
+    })
+
+    const input = screen.getByRole('spinbutton')
+    await user.type(input, '0123')
+    await waitFor(() => {
+      expect(input).toHaveValue(123)
+      const value = formContext.result.current.watch('testNumber')
+      expect(value).toBe(123)
     })
   })
 

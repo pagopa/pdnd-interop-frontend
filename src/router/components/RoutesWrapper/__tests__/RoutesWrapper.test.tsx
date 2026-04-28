@@ -5,6 +5,7 @@ import { vi } from 'vitest'
 import * as useTOSAgreement from '../../../hooks/useTOSAgreement'
 import {
   mockUseCurrentRoute,
+  mockUseGetActiveUserParty,
   mockUseJwt,
   renderWithApplicationContext,
 } from '@/utils/testing.utils'
@@ -18,6 +19,11 @@ useTOSAgreementSpy.mockReturnValue({
 })
 
 mockUseJwt()
+mockUseGetActiveUserParty()
+
+vi.mock('@/api/hooks', () => ({
+  useIsOrganizationAllowedToDelegations: vi.fn(() => ({ isAllowed: true, isLoading: false })),
+}))
 
 const mockRouter = createBrowserRouter([
   {

@@ -9,14 +9,13 @@ import PublishIcon from '@mui/icons-material/Publish'
 import { SummaryAccordion, SummaryAccordionSkeleton } from '@/components/shared/SummaryAccordion'
 import { useQuery } from '@tanstack/react-query'
 import { EServiceTemplateMutations, EServiceTemplateQueries } from '@/api/eserviceTemplate'
-import { ProviderEServiceTemplateGeneralInfoSummary } from './components/ProviderEServiceTemplateGeneralInfoSummary'
 import {
-  ProviderEServiceTemplateAttributeVersionSummary,
-  ProviderEServiceTemplateDocumentationSummary,
-  ProviderEServiceTemplateVersionInfoSummary,
+  ProviderEServiceTemplateGeneralInfoSummarySection,
+  ProviderEServiceTemplateThresholdsAndAttributesSummarySection,
+  ProviderEServiceTemplateTechnicalSpecsSummarySection,
+  ProviderEServiceTemplateAdditionalInfoSummarySection,
 } from './components'
 import { ProviderEServiceTemplateRiskAnalysisSummaryList } from './components/ProviderEServiceTemplateRiskAnalysisSummaryList'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { UpdatePersonalDataDrawer } from '@/components/shared/UpdatePersonalDataDrawer'
 import type { EServiceMode } from '@/api/api.generatedTypes'
@@ -54,24 +53,38 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
         eServiceTemplateId: eServiceTemplateId,
         eServiceTemplateVersionId: eServiceTemplateVersionId,
       },
-      state: { stepIndexDestination: 1 },
+      state: { stepIndexDestination: 0 },
     })
   }
 
   const handlePublishDraft = () => {
     if (!eserviceTemplate) return
 
+    const isFirstVersion = eserviceTemplate.version === 1
+
     publishVersion(
       {
         eServiceTemplateId: eServiceTemplateId,
         eServiceTemplateVersionId: eServiceTemplateVersionId,
+        isFirstVersion,
       },
       {
         onSuccess: () =>
-          navigate('PROVIDE_ESERVICE_TEMPLATE_DETAILS', {
+          navigate('PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU', {
             params: {
               eServiceTemplateId: eServiceTemplateId,
               eServiceTemplateVersionId: eServiceTemplateVersionId,
+            },
+            state: {
+              title: isFirstVersion
+                ? t('publishThankYou.firstVersion.title')
+                : t('publishThankYou.newVersion.title'),
+              description: isFirstVersion
+                ? t('publishThankYou.firstVersion.description')
+                : t('publishThankYou.newVersion.description'),
+              buttonLabel: t('publishThankYou.action'),
+              closeRouteKey: 'PROVIDE_ESERVICE_TEMPLATE_DETAILS',
+              closeRouteParams: { eServiceTemplateId, eServiceTemplateVersionId },
             },
           }),
       }
@@ -79,9 +92,10 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   }
 
   const arePersonalDataSet = eserviceTemplate?.eserviceTemplate.personalData !== undefined
+  const hasMissingFields = !eserviceTemplate?.voucherLifespan || !eserviceTemplate?.description
 
   const canBePublished = () => {
-    return !!(eserviceTemplate?.interface && arePersonalDataSet)
+    return !!(eserviceTemplate?.interface && arePersonalDataSet && !hasMissingFields)
   }
 
   const isReceiveMode = eserviceTemplate?.eserviceTemplate.mode === 'RECEIVE'
@@ -129,7 +143,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
               title={t('summary.generalInfoSummary.title')}
               defaultExpanded={true}
             >
-              <ProviderEServiceTemplateGeneralInfoSummary />
+              <ProviderEServiceTemplateGeneralInfoSummarySection />
             </SummaryAccordion>
           </React.Suspense>
 
@@ -144,31 +158,35 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
             <SummaryAccordion
               headline={isReceiveMode ? '3' : '2'}
-              title={t('summary.versionInfoSummary.title')}
+              title={t('summary.thresholdsAndAttributesSummary.title')}
             >
-              <ProviderEServiceTemplateVersionInfoSummary />
+              <ProviderEServiceTemplateThresholdsAndAttributesSummarySection />
             </SummaryAccordion>
           </React.Suspense>
 
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
             <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
-              title={t('summary.attributeVersionSummary.title')}
+              title={t('summary.technicalSpecsSummary.title')}
+              showWarning={!eserviceTemplate?.voucherLifespan || !eserviceTemplate?.interface}
+              warningLabel={t('summary.completeInfoChip')}
             >
-              <ProviderEServiceTemplateAttributeVersionSummary />
+              <ProviderEServiceTemplateTechnicalSpecsSummarySection />
             </SummaryAccordion>
           </React.Suspense>
 
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
             <SummaryAccordion
               headline={isReceiveMode ? '5' : '4'}
-              title={t('summary.documentationSummary.title')}
+              title={t('summary.additionalInfoSummary.title')}
+              showWarning={!eserviceTemplate?.description}
+              warningLabel={t('summary.completeInfoChip')}
             >
-              <ProviderEServiceTemplateDocumentationSummary />
+              <ProviderEServiceTemplateAdditionalInfoSummarySection />
             </SummaryAccordion>
           </React.Suspense>
         </Stack>
-        {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && !arePersonalDataSet && !isLoading && (
+        {!arePersonalDataSet && !isLoading && (
           <Alert severity="warning" sx={{ alignItems: 'center', mt: 3 }} variant="outlined">
             <Stack spacing={30} direction="row" alignItems="center">
               {' '}
@@ -183,6 +201,11 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
                 {tCommon('specifyProcessing')}
               </Button>
             </Stack>
+          </Alert>
+        )}
+        {hasMissingFields && !isLoading && (
+          <Alert severity="warning" sx={{ mt: 3 }}>
+            {t('summary.missingFieldsBanner')}
           </Alert>
         )}
         <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
@@ -200,7 +223,8 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
           <PublishButton
             onClick={handlePublishDraft}
             disabled={!canBePublished()}
-            arePersonalDataSet={FEATURE_FLAG_ESERVICE_PERSONAL_DATA && arePersonalDataSet}
+            arePersonalDataSet={arePersonalDataSet}
+            hasMissingFields={hasMissingFields}
           />
         </Stack>
       </PageContainer>
@@ -221,20 +245,27 @@ type PublishButtonProps = {
   disabled: boolean
   onClick: VoidFunction
   arePersonalDataSet: boolean
+  hasMissingFields: boolean
 }
 
-const PublishButton: React.FC<PublishButtonProps> = ({ disabled, onClick, arePersonalDataSet }) => {
+const PublishButton: React.FC<PublishButtonProps> = ({
+  disabled,
+  onClick,
+  arePersonalDataSet,
+  hasMissingFields,
+}) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'summary' })
 
+  const getTooltipTitle = () => {
+    if (hasMissingFields) return t('missingFieldsTooltip')
+    if (!arePersonalDataSet) return t('missingPersonalDataField')
+    return t('notPublishableTooltip.label')
+  }
+
   const Wrapper = disabled
     ? ({ children }: { children: React.ReactElement }) => (
-        <Tooltip
-          arrow
-          title={
-            arePersonalDataSet ? t('notPublishableTooltip.label') : t('missingPersonalDataField')
-          }
-        >
+        <Tooltip arrow title={getTooltipTitle()}>
           <span tabIndex={disabled ? 0 : undefined}>{children}</span>
         </Tooltip>
       )

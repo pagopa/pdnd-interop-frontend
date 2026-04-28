@@ -1,6 +1,7 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Box, Typography } from '@mui/material'
+import { Box, Stack, Typography } from '@mui/material'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RHFRadioGroup, RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
@@ -9,13 +10,11 @@ import { useNavigate } from '@/router'
 import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
 import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { IconLink } from '@/components/shared/IconLink'
-import LaunchIcon from '@mui/icons-material/Launch'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { ESERVICE_TEMPLATE_NAME_MAX_LENGTH, SIGNALHUB_GUIDE_URL } from '@/config/constants'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
+import { EServiceTemplateDetailsSection } from '@/pages/ProviderEServiceCreatePage/components/sections/EServiceTemplateDetailsSection'
 
 export type EServiceTemplateCreateStepGeneralFormValues = {
   name: string
@@ -93,11 +92,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
       <span> {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.label')} </span>
       <Typography variant="body2" color="textSecondary" sx={{ marginTop: 0.5 }}>
         {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.before')}{' '}
-        <IconLink
-          href={SIGNALHUB_GUIDE_URL}
-          target="_blank"
-          endIcon={<LaunchIcon fontSize="small" />}
-        >
+        <IconLink href={SIGNALHUB_GUIDE_URL} target="_blank">
           {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.linkLabel')}
         </IconLink>{' '}
         {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.after')}
@@ -105,32 +100,81 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
     </>
   ) as unknown as string
 
+  if (!areEServiceTemplateGeneralInfoEditable && eserviceTemplateVersion) {
+    return (
+      <FormProvider {...formMethods}>
+        <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
+          <SectionContainer
+            title={t('create.step1.readOnlyTemplateInfoTitle')}
+            description={t('create.step1.readOnlyDescription')}
+            component="div"
+          >
+            <Stack spacing={2}>
+              <InformationContainer
+                sx={{ '& > :first-of-type': { maxWidth: 340 } }}
+                label={t('create.step1.readOnlyNameLabel')}
+                content={eserviceTemplateVersion.eserviceTemplate.name}
+              />
+              <InformationContainer
+                sx={{ '& > :first-of-type': { maxWidth: 340 } }}
+                label={t('create.step1.readOnlyIntendedTargetLabel')}
+                content={eserviceTemplateVersion.eserviceTemplate.intendedTarget}
+              />
+              <InformationContainer
+                sx={{ '& > :first-of-type': { maxWidth: 340 } }}
+                label={t('create.step1.readOnlyDescriptionLabel')}
+                content={eserviceTemplateVersion.eserviceTemplate.description}
+              />
+            </Stack>
+          </SectionContainer>
+
+          <EServiceTemplateDetailsSection
+            eserviceTemplate={eserviceTemplateVersion.eserviceTemplate}
+          />
+
+          <SectionContainer title={t('create.step1.signalHubTitle')} component="div">
+            <RHFSwitch
+              name="isSignalHubEnabled"
+              label={signalHubLabel}
+              disabled={!areEServiceTemplateGeneralInfoEditable}
+            />
+          </SectionContainer>
+
+          <StepActions
+            forward={{
+              label: t('create.forwardWithSaveBtn'),
+              type: 'submit',
+              startIcon: <SaveIcon />,
+            }}
+          />
+        </Box>
+      </FormProvider>
+    )
+  }
+
   return (
     <FormProvider {...formMethods}>
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer
-          title={t('create.step1.detailsTitle')}
-          description={t('create.step1.detailsDescription')}
-          component="div"
-        >
+        <SectionContainer title={t('create.step1.templateInfoTitle')} component="div">
           <RHFTextField
             label={t('create.step1.eserviceTemplateNameField.label')}
             infoLabel={t('create.step1.eserviceTemplateNameField.infoLabel')}
             name="name"
+            required
             disabled={!areEServiceTemplateGeneralInfoEditable}
             rules={{ required: true, minLength: 5, maxLength: ESERVICE_TEMPLATE_NAME_MAX_LENGTH }}
             focusOnMount
             inputProps={{ maxLength: ESERVICE_TEMPLATE_NAME_MAX_LENGTH }}
             size="small"
-            sx={{ width: '50%', my: 0, mt: 1 }}
+            sx={{ my: 0, mt: 1 }}
           />
 
           <RHFTextField
             label={t('create.step1.intendedTargetField.label')}
             infoLabel={t('create.step1.intendedTargetField.infoLabel')}
             name="intendedTarget"
+            required
             multiline
-            disabled={!areEServiceTemplateGeneralInfoEditable}
             size="small"
             inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
@@ -141,29 +185,32 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
             label={t('create.step1.eserviceDescriptionField.label')}
             infoLabel={t('create.step1.eserviceDescriptionField.infoLabel')}
             name="description"
+            required
             multiline
-            disabled={!areEServiceTemplateGeneralInfoEditable}
             size="small"
             inputProps={{ maxLength: 250 }}
             rules={{ required: true, minLength: 10 }}
             sx={{ mb: 0, mt: 3 }}
           />
+        </SectionContainer>
 
+        <SectionContainer title={t('create.step1.instanceDetailsTitle')} component="div">
           <RHFRadioGroup
             name="technology"
             row
+            required
             label={t('create.step1.eserviceTemplateTechnologyField.label')}
             options={[
               { label: 'REST', value: 'REST' },
               { label: 'SOAP', value: 'SOAP' },
             ]}
-            disabled={!areEServiceTemplateGeneralInfoEditable}
             rules={{ required: true }}
-            sx={{ mb: 0, mt: 3 }}
+            sx={{ mb: 0, mt: 1 }}
           />
           <RHFRadioGroup
             name="mode"
             row
+            required
             label={t('create.step1.eserviceTemplateModeField.label')}
             options={[
               {
@@ -175,61 +222,47 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
                 value: 'RECEIVE',
               },
             ]}
-            disabled={!areEServiceTemplateGeneralInfoEditable}
             rules={{ required: true }}
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceTemplateModeChange(mode as EServiceMode)}
           />
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
-            <RHFRadioGroup
-              name="personalData"
-              row
-              label={t(`create.step1.eservicePersonalDataField.${eserviceTemplateMode}.label`)}
-              options={[
-                {
-                  label: t(
-                    `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.true`
-                  ),
-                  value: true,
-                },
-                {
-                  label: t(
-                    `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.false`
-                  ),
-                  value: false,
-                },
-              ]}
-              disabled={!areEServiceTemplateGeneralInfoEditable}
-              rules={{
-                validate: (value) => value === true || value === false || tCommon('required'),
-              }}
-              sx={{ mb: 0, mt: 3 }}
-              isOptionValueAsBoolean
-            />
-          )}
+          <RHFRadioGroup
+            name="personalData"
+            row
+            required
+            label={t(`create.step1.eservicePersonalDataField.${eserviceTemplateMode}.label`)}
+            options={[
+              {
+                label: t(
+                  `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.true`
+                ),
+                value: true,
+              },
+              {
+                label: t(
+                  `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.false`
+                ),
+                value: false,
+              },
+            ]}
+            rules={{
+              validate: (value) => value === true || value === false || tCommon('required'),
+            }}
+            sx={{ mb: 0, mt: 3 }}
+            isOptionValueAsBoolean
+          />
+        </SectionContainer>
 
-          <SectionContainer innerSection sx={{ mt: 3 }}>
-            <SectionContainer innerSection sx={{ mt: 3, ml: 1 }}>
-              <RHFSwitch
-                disabled={!areEServiceTemplateGeneralInfoEditable}
-                name="isSignalHubEnabled"
-                label={signalHubLabel}
-              />
-            </SectionContainer>
-          </SectionContainer>
+        <SectionContainer title={t('create.step1.signalHubTitle')} component="div">
+          <RHFSwitch name="isSignalHubEnabled" label={signalHubLabel} />
         </SectionContainer>
 
         <StepActions
-          forward={
-            !areEServiceTemplateGeneralInfoEditable
-              ? {
-                  label: t('create.forwardWithoutSaveBtn'),
-                  endIcon: <ArrowForwardIcon />,
-                  onClick: forward,
-                  type: 'button',
-                }
-              : { label: t('create.forwardWithSaveBtn'), type: 'submit', startIcon: <SaveIcon /> }
-          }
+          forward={{
+            label: t('create.forwardWithSaveBtn'),
+            type: 'submit',
+            startIcon: <SaveIcon />,
+          }}
         />
       </Box>
     </FormProvider>

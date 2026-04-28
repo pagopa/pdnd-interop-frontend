@@ -1,10 +1,13 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Breadcrumbs as _Breadcrumbs, useCurrentRoute } from '@/router'
+import type sharedComponentsNs from '@/static/locales/en/shared-components.json'
 
 export function Breadcrumbs() {
   const { t } = useTranslation('shared-components')
-  const routeLabels = t('routeLabels', { returnObjects: true })
+  const routeLabels = t('routeLabels', {
+    returnObjects: true,
+  }) as typeof sharedComponentsNs.routeLabels
   const { routeKey } = useCurrentRoute()
 
   return (
@@ -65,6 +68,9 @@ export function Breadcrumbs() {
 
         DEFAULT: false,
         ASSISTENCE_PARTY_SELECTION: false,
+        PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU: false,
+        PROVIDE_ESERVICE_PUBLISH_THANK_YOU: false,
+        SUBSCRIBE_PURPOSE_PUBLISH_THANK_YOU: false,
       }}
     />
   )

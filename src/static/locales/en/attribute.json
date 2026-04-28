@@ -6,31 +6,49 @@
   },
   "certified": {
     "label": "Certified attributes",
-    "description": "That is, attributes certified by a <1>recognized authoritative source.</1>"
+    "description": "That is, attributes certified by a <1>recognized authoritative source.</1>",
+    "requirement": "Requirement {{index}} | Certified Attributes"
   },
   "verified": {
     "label": "Verified attributes",
-    "description": "That is, attributes verified <1>by other organizations for the same consumer</1> with the possibility of requesting a verification from the producer. For each attribute verify or revoke..."
+    "description": "These are attributes verified <1>by other organizations</1>, with the possibility of requesting a verification from the provider.",
+    "requirement": "Requirement {{index}} | Verified Attributes"
   },
   "declared": {
     "label": "Declared attributes",
-    "description": "That is, attributes declared by the consumer under their own responsibility during the service request. No verification from the producer is required."
+    "description": "These are attributes declared by the consumer during the service request. No verification from the provider is required.",
+    "requirement": "Requirement {{index}} | Declared Attributes"
   },
+  "or": "Or",
   "noAttributesRequiredAlert": {
     "provider": "Your party does not require {{attributeKey}} attributes",
     "consumer": "The producer does not require {{attributeKey}} attributes"
   },
+  "noAttributesRequiredTemplate": {
+    "title": "Attributes",
+    "alert": "This e-service template does not require any attributes."
+  },
+  "attributeCardHeader": {
+    "label": "Requirement {{index}} | {{attributeKey}} attributes"
+  },
+  "noGenericAttributesRequiredAlert": "This e-service does not require {{attributeKey}} attributes",
+  "noAttributesRequiredGenericAlert": "This e-service does not require attributes",
+  "attributesGenericLabel": "Attributes",
   "group": {
     "read": {
-      "provider": "The consumer must possess at least one of the following attributes",
+      "provider": "The consumer must possess at least one of the attributes of this requirement.",
       "consumer": "Your party must possess at least one of the following attributes"
     },
     "manage": {
       "success": {
         "provider": "The consumer possesses at least one of the following attributes",
-        "consumer": "Your party possesses at least one of the following attributes"
+        "consumer": "You possess at least one of these attributes."
       },
       "warning": {
+        "certified": {
+          "provider": "The consumer must possess at least one of the following attributes",
+          "consumer": "Your party must possess at least one of the following certified attributes"
+        },
         "verified": {
           "provider": "The consumer must possess at least one of the following attributes",
           "consumer": "The producer must verify if you possess at least one of the following attributes"
@@ -42,17 +60,23 @@
       },
       "error": {
         "provider": "The consumer does not possess any of the following attributes",
-        "consumer": "Your party does not possess any of the following attributes"
+        "consumer": "You do not currently possess any of these attributes."
       },
       "revokedByCertifier": "Attribute revoked by the certifying authority",
       "revokedByProducer": "Attribute revoked by a producer",
       "revokedByOwnParty": "Attribute revoked by your party",
       "expirationDate": "Verification expiration: {{expirationDate}}"
     },
-    "addBtn": "Add requirement",
+    "title": "Requirement {{number}} | {{attributeLabel}}",
+    "subtitle": "The consumer must possess at least one of the attributes in this requirement.",
+    "orSeparator": "OR",
+    "addBtn": "Add",
+    "addAnotherBtn": "Add another attribute",
     "autocompleteInput": {
-      "label": "Add attribute to group",
+      "label": "Add attribute",
       "placeholder": "Enter attribute name"
-    }
+    },
+    "or": "or",
+    "add": "Add"
   }
 }

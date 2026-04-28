@@ -38,6 +38,12 @@ export const ProviderPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
     </Stack>
   )
 
+  // Include the tooltip text in the aria-label when the purpose has
+  // a waiting for approval version so screen reader users are informed about that option.
+  const computedAriaLabel = hasWaitingForApprovalVersion
+    ? `${tCommon(`actions.inspect`)}. ${t('newVersionAvailableTooltip')}`
+    : tCommon(`actions.inspect`)
+
   return (
     <TableRow
       cellData={[
@@ -59,6 +65,7 @@ export const ProviderPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
           to="PROVIDE_PURPOSE_DETAILS"
           params={{ purposeId: purpose.id }}
           endIcon={hasWaitingForApprovalVersion ? <ErrorIcon /> : undefined}
+          aria-label={computedAriaLabel}
         >
           {tCommon('actions.inspect')}
         </Link>

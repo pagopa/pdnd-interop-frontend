@@ -1,7 +1,7 @@
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { ProviderPurposeDetailsGeneralInfoSection } from '../components/ProviderPurposeDetailsGeneralInfoSection'
 import { createMockPurpose } from '../../../../__mocks__/data/purpose.mocks'
-import { Purpose } from '@/api/api.generatedTypes'
+import type { Purpose } from '@/api/api.generatedTypes'
 
 const purpose = createMockPurpose()
 

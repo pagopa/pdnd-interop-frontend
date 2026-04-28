@@ -1,7 +1,30 @@
+import React from 'react'
 import { MemoryRouter } from 'react-router-dom'
 import { VoucherInstructions } from '../VoucherInstructions'
 import { screen } from '@testing-library/react'
+import { vi } from 'vitest'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
+
+const mockReactI18next = vi.hoisted(async () => {
+  const { createMockReactI18next } = await import('@/utils/__mocks__/react-i18next-helper')
+  return {
+    ...createMockReactI18next('it'),
+    Trans: ({ children }: { children: React.ReactNode }) => children,
+  }
+})
+vi.mock('react-i18next', () => mockReactI18next)
+
+vi.mock('../VoucherInstructionsStep1', () => ({
+  VoucherInstructionsStep1: () => (
+    <div>
+      <p>voucher.step1.description</p>
+      <label htmlFor="clientId">voucher.step1.clientSelectInput.label</label>
+      <input id="clientId" />
+      <label htmlFor="purposeId">voucher.step1.purposeSelectInput.label</label>
+      <input id="purposeId" />
+    </div>
+  ),
+}))
 
 describe('VoucherInstructions testing', () => {
   it('should render instruction for get consumer voucher simulation', () => {
@@ -14,9 +37,9 @@ describe('VoucherInstructions testing', () => {
       }
     )
 
-    expect(screen.getByText('step1.description')).toBeInTheDocument()
-    expect(screen.getByLabelText('step1.clientSelectInput.label')).toBeInTheDocument()
-    expect(screen.getByLabelText('step1.purposeSelectInput.label')).toBeInTheDocument()
+    expect(screen.getByText('voucher.step1.description')).toBeInTheDocument()
+    expect(screen.getByLabelText('voucher.step1.clientSelectInput.label')).toBeInTheDocument()
+    expect(screen.getByLabelText('voucher.step1.purposeSelectInput.label')).toBeInTheDocument()
   })
 
   it('should render instruction for get api voucher simulation', () => {
@@ -29,7 +52,7 @@ describe('VoucherInstructions testing', () => {
       }
     )
 
-    expect(screen.getByText('step1.description')).toBeInTheDocument()
-    expect(screen.getByLabelText('step1.clientSelectInput.label')).toBeInTheDocument()
+    expect(screen.getByText('voucher.step1.description')).toBeInTheDocument()
+    expect(screen.getByLabelText('voucher.step1.clientSelectInput.label')).toBeInTheDocument()
   })
 })

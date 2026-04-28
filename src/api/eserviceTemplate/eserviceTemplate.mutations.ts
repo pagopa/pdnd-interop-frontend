@@ -54,7 +54,7 @@ function useUpdateEServiceTemplateDescription() {
 
 function useUpdateQuotas() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eserviceTemplate.updateVersion',
+    keyPrefix: 'eserviceTemplate.updateQuotas',
   })
   return useMutation({
     mutationFn: EServiceTemplateServices.updateEServiceTemplateQuotas,
@@ -258,17 +258,20 @@ function usePublishVersionDraft() {
     }: {
       eServiceTemplateId: string
       eServiceTemplateVersionId: string
+      isFirstVersion?: boolean
     }) =>
       EServiceTemplateServices.publishVersionDraft({
         eServiceTemplateId,
         eServiceTemplateVersionId,
       }),
     meta: {
-      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {
-        title: t('confirmDialog.title'),
+        title: (variables: unknown) =>
+          (variables as { isFirstVersion?: boolean }).isFirstVersion
+            ? t('confirmDialog.title')
+            : t('confirmDialog.titleNewVersion'),
         description: t('confirmDialog.description'),
         proceedLabel: undefined,
       },

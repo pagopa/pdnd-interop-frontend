@@ -3,11 +3,13 @@ import {
   Accordion as MUIAccordion,
   AccordionDetails,
   AccordionSummary,
+  Chip,
   Paper,
   Typography,
   Box,
   Skeleton,
   Divider,
+  Stack,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
@@ -16,18 +18,30 @@ type SummaryAccordionProps = {
   title: string
   children: React.ReactNode
   defaultExpanded?: boolean
+  showWarning?: boolean
+  warningLabel?: string
 }
 export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
   headline,
   title,
   children,
   defaultExpanded,
+  showWarning,
+  warningLabel,
 }) => {
   const id = React.useId()
 
   return (
     <Paper elevation={8} sx={{ borderRadius: 4, overflow: 'hidden' }}>
-      <MUIAccordion disableGutters defaultExpanded={defaultExpanded}>
+      <MUIAccordion
+        disableGutters
+        defaultExpanded={defaultExpanded}
+        sx={{
+          '.MuiAccordionSummary-root': {
+            alignItems: 'center',
+          },
+        }}
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon color="primary" />}
           aria-controls={`panel-content-${id}`}
@@ -36,16 +50,25 @@ export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
             px: 4,
             alignItems: 'end',
             py: 1.5,
-            '& .MuiAccordionSummary-expandIconWrapper': {
-              mb: 1,
-            },
           }}
         >
-          <Box>
-            <Typography variant="subtitle2">{headline}</Typography>
-            <Typography sx={{ mt: 2 }} variant="h6">
-              {title}
-            </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              width: '100%',
+            }}
+          >
+            <Stack direction="row" alignItems="center">
+              <Typography variant="subtitle2">{headline}</Typography>
+              <Typography sx={{ ml: 1 }} variant="h6">
+                {title}
+              </Typography>
+            </Stack>
+            {showWarning && warningLabel && (
+              <Chip label={warningLabel} color="warning" size="small" sx={{ mr: 3 }} />
+            )}
           </Box>
         </AccordionSummary>
         <AccordionDetails sx={{ px: 4, pb: 3 }}>
