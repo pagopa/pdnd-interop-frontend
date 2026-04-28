@@ -24,64 +24,72 @@ export const VoucherInstructions: React.FC = () => {
 
   const Step = steps?.[activeStep]?.component
 
-  const handleBack = () => {
+  const handleBack = React.useCallback(() => {
     if (activeStep === 0) {
       setShowStepper(false)
     } else {
       back()
     }
-  }
+  }, [activeStep, back])
+
+  const bearerFlowSteps = React.useMemo(
+    () => [
+      {
+        label: t('clientAssertionStep.stepperLabel'),
+        component: VoucherInstructionsClientAssertionStep,
+      },
+      {
+        label: t('accessTokenStep.stepperLabel'),
+        component: VoucherInstructionsAccessTokenStep,
+      },
+      {
+        label: t('dataAccessStep.stepperLabelBearer'),
+        component: VoucherInstructionsDataAccessStep,
+      },
+    ],
+    [t]
+  )
+
+  const dPoPFlowSteps = React.useMemo(
+    () => [
+      {
+        label: t('clientAssertionStep.stepperLabel'),
+        component: VoucherInstructionsClientAssertionStep,
+      },
+      {
+        label: t('firstDPoPProofStep.stepperLabel'),
+        component: VoucherInstructionsFirstDPoPProofStep,
+      },
+      {
+        label: t('accessTokenStep.stepperLabel'),
+        component: VoucherInstructionsAccessTokenStep,
+      },
+      {
+        label: t('dataAccessStep.stepperLabelDPoP'),
+        component: VoucherInstructionsDataAccessStep,
+      },
+      {
+        label: t('secondDPoPProofStep.stepperLabel'),
+        component: VoucherInstructionsSecondDPoPProofStep,
+      },
+    ],
+    [t]
+  )
+
+  const generateSteps = React.useCallback(
+    (values: VoucherInstructionsGeneralFormValues) => {
+      const newSteps = values.voucherType === 'BEARER' ? bearerFlowSteps : dPoPFlowSteps
+
+      setSteps(newSteps)
+      setShowStepper(true)
+    },
+    [bearerFlowSteps, dPoPFlowSteps]
+  )
 
   const contextProps = {
     goToPreviousStep: handleBack,
     goToNextStep: forward,
-    startStepper: (values: VoucherInstructionsGeneralFormValues) => generateSteps(values),
-  }
-
-  const bearerFlowSteps = [
-    {
-      label: t('clientAssertionStep.stepperLabel'),
-      component: VoucherInstructionsClientAssertionStep,
-    },
-    {
-      label: t('accessTokenStep.stepperLabel'),
-      component: VoucherInstructionsAccessTokenStep,
-    },
-    {
-      label: t('dataAccessStep.stepperLabelBearer'),
-      component: VoucherInstructionsDataAccessStep,
-    },
-  ]
-
-  const dPoPFlowSteps = [
-    {
-      label: t('clientAssertionStep.stepperLabel'),
-      component: VoucherInstructionsClientAssertionStep,
-    },
-    {
-      label: t('firstDPoPProofStep.stepperLabel'),
-      component: VoucherInstructionsFirstDPoPProofStep,
-    },
-    {
-      label: t('accessTokenStep.stepperLabel'),
-      component: VoucherInstructionsAccessTokenStep,
-    },
-    {
-      label: t('dataAccessStep.stepperLabelDPoP'),
-      component: VoucherInstructionsDataAccessStep,
-    },
-    {
-      label: t('secondDPoPProofStep.stepperLabel'),
-      component: VoucherInstructionsSecondDPoPProofStep,
-    },
-  ]
-
-  const generateSteps = (values: VoucherInstructionsGeneralFormValues) => {
-    const newSteps: { label: string; component: React.FC<{}> }[] =
-      values.voucherType === 'BEARER' ? bearerFlowSteps : dPoPFlowSteps
-
-    setSteps(newSteps)
-    setShowStepper(true)
+    startStepper: generateSteps,
   }
 
   return (
