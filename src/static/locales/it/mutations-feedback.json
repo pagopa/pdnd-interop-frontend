@@ -90,8 +90,9 @@
       },
       "confirmDialog": {
         "title": "Pubblica e-service",
-        "titleNewVersion": "Pubblica nuova versione e-service",
+        "titleNewVersion": "Pubblica nuova versione",
         "description": "Una volta pubblicata, questa versione sarà disponibile nel catalogo degli e-service e non potrà più essere cancellata. Potrai comunque sospenderla o renderla obsoleta quando pubblicherai una nuova versione.",
+        "descriptionNewVersion": "<p>Quando una nuova versione dell'e-service viene pubblicata, è subito disponibile nel catalogo e non può più essere cancellata.</p><p>La versione precedente diventa obsoleta oppure, se non ha fruitori attivi, sarà archiviata automaticamente.</p><p>Potrai sospendere la nuova versione o renderla obsoleta quando pubblicherai una versione successiva.</p>",
         "proceedLabel": "Pubblica"
       }
     },
