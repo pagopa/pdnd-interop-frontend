@@ -24,9 +24,6 @@ const GeneralConfigs = z.object({
 const FeatureFlagConfigs = z.object({
   FEATURE_FLAG_ADMIN_CLIENT: z.enum(['true', 'false']),
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: z.enum(['true', 'false']),
-  FEATURE_FLAG_NOTIFICATION_CONFIG: z
-    .enum(['true', 'false'])
-    .transform((value) => value === 'true'),
   FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP: z
     .enum(['true', 'false'])
     .default('false')
