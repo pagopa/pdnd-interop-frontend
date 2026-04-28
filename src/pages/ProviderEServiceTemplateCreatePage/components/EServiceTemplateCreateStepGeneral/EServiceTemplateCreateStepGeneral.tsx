@@ -133,7 +133,11 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
           />
 
           <SectionContainer title={t('create.step1.signalHubTitle')} component="div">
-            <RHFSwitch name="isSignalHubEnabled" label={signalHubLabel} />
+            <RHFSwitch
+              name="isSignalHubEnabled"
+              label={signalHubLabel}
+              disabled={!areEServiceTemplateGeneralInfoEditable}
+            />
           </SectionContainer>
 
           <StepActions
