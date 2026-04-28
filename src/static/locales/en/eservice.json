@@ -580,6 +580,31 @@
           "watchRiskyAnalysisAssociated": "Consult risk analysis associated with this e-service"
         }
       },
+      "versionInformations": {
+        "title": "Version information",
+        "details": {
+          "title": "Details",
+          "descriptorDescription": {
+            "label": "Version description"
+          }
+        },
+        "agreementApprovalPolicy": {
+          "title": "Agreements",
+          "label": "Requests approval",
+          "content": {
+            "AUTOMATIC": "Automatic",
+            "MANUAL": "Manual"
+          }
+        },
+        "lifeCycle": {
+          "title": "Lifecycle",
+          "lastVersionDate": "Last version date",
+          "archivedDate": "Archive date",
+          "suspendedDate": "Suspension date",
+          "deprecatedDate": "Deprecation date",
+          "publishedDate": "Publish date"
+        }
+      },
       "technicalInformations": {
         "title": "E-service technical specifications",
         "description": "In this section you can check the specifications of the e-service and make changes.",
@@ -597,10 +622,6 @@
           "label": "Producer ID",
           "copySuccessFeedbackText": "Producer ID copied successfully"
         },
-        "publishedAt": "Last version date",
-        "suspendedAt": "Last suspended date",
-        "deprecatedAt": "Deprecated version date",
-        "archivedAt": "Archived version date",
         "mode": {
           "label": "E-service mode",
           "labelDescription": "Receive / Deliver",
@@ -622,14 +643,6 @@
           "dailyCallsTotal": {
             "label": "Total threshold",
             "labelDescription": "(API calls/day)"
-          }
-        },
-        "agreementApprovalPolicy": {
-          "title": "Agreements",
-          "label": "Requests acceptance",
-          "content": {
-            "AUTOMATIC": "Automatic",
-            "MANUAL": "Manual"
           }
         },
         "documentation": {

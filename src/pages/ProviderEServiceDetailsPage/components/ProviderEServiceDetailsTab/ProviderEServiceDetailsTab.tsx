@@ -6,6 +6,10 @@ import {
   ProviderEServiceGeneralInfoSectionSkeleton,
 } from './ProviderEServiceGeneralInfoSection'
 import {
+  ProviderEServiceVersionInfoSection,
+  ProviderEServiceVersionInfoSectionSkeleton,
+} from './ProviderEServiceVersionInfoSection'
+import {
   ProviderEServiceTechnicalInfoSection,
   ProviderEServiceTechnicalInfoSectionSkeleton,
 } from './ProviderEServiceTechnicalInfoSection'
@@ -35,6 +39,9 @@ export const ProviderEserviceDetailsTab: React.FC = () => {
         <Grid item xs={8}>
           <React.Suspense fallback={<ProviderEServiceGeneralInfoSectionSkeleton />}>
             <ProviderEServiceGeneralInfoSection />
+          </React.Suspense>
+          <React.Suspense fallback={<ProviderEServiceVersionInfoSectionSkeleton />}>
+            <ProviderEServiceVersionInfoSection />
           </React.Suspense>
           <React.Suspense fallback={<ProviderEServiceTechnicalInfoSectionSkeleton />}>
             <ProviderEServiceTechnicalInfoSection />
