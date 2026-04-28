@@ -17,6 +17,7 @@ import { useSearchParams } from 'react-router-dom'
 import { IconLink } from '@/components/shared/IconLink'
 import { VoucherConsumerSimulationSection } from '../simulationSections/VoucherConsumerSimulationSection'
 import { VoucherProducerSimulationSection } from '../simulationSections/VoucherProducerSimulationSection'
+import { match } from 'ts-pattern'
 
 export const VOUCHER_TYPE = { BEARER: 'BEARER', DPOP: 'DPOP' } as const
 export const INTERATION_TYPE = { SYNC: 'SYNC', ASYNC: 'ASYNC' } as const
@@ -72,33 +73,23 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
   const { watch, handleSubmit, setValue, reset } = formMethods
   const values = watch()
 
-  const canGoToNextStep = () => {
-    if (clientKind === 'API') {
-      return !!values.clientId && !!values.keyId
-    }
-
-    if (clientKind === 'CONSUMER') {
-      if (values.interationType === INTERATION_TYPE.SYNC) {
-        return !!values.clientId && !!values.purposeId && !!values.keyId
-      }
-
-      if (values.interationType === INTERATION_TYPE.ASYNC) {
-        const common = !!values.asyncExchangeStep
-
-        if (values.memberType === MEMBER_TYPE.CONSUMER) {
-          return common && !!values.clientId && !!values.purposeId && !!values.keyId
-        }
-
-        if (values.memberType === MEMBER_TYPE.PRODUCER) {
-          return (
-            common && !!values.producerKeychainId && !!values.eserviceId && !!values.publicKeyId
-          )
-        }
-      }
-    }
-
-    return false
-  }
+  const canGoToNextStep = match({ clientKind, ...values })
+    .with({ clientKind: 'API' }, ({ clientId, keyId }) => !!clientId && !!keyId)
+    .with(
+      { clientKind: 'CONSUMER', interationType: 'SYNC' },
+      ({ clientId, purposeId, keyId }) => !!clientId && !!purposeId && !!keyId
+    )
+    .with(
+      { clientKind: 'CONSUMER', interationType: 'ASYNC', memberType: 'CONSUMER' },
+      ({ asyncExchangeStep, clientId, purposeId, keyId }) =>
+        !!asyncExchangeStep && !!clientId && !!purposeId && !!keyId
+    )
+    .with(
+      { clientKind: 'CONSUMER', interationType: 'ASYNC', memberType: 'PRODUCER' },
+      ({ asyncExchangeStep, producerKeychainId, eserviceId, publicKeyId }) =>
+        !!asyncExchangeStep && !!producerKeychainId && !!eserviceId && !!publicKeyId
+    )
+    .otherwise(() => false)
 
   useEffect(() => {
     const subscription = watch((_, { name }) => {
@@ -301,7 +292,7 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
           forward={{
             label: t('beginSimulation'),
             type: 'submit',
-            disabled: !canGoToNextStep(),
+            disabled: !canGoToNextStep,
             endIcon: <ArrowForwardIcon />,
           }}
         />
