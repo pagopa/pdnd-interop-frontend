@@ -8,7 +8,8 @@ import { ClientQueries } from '@/api/client'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
 import { VoucherInstructionsGeneralFormAlertConsumer } from '../alerts/VoucherInstructionsGeneralFormAlertConsumer'
-import type { VoucherInstructionsGeneralFormValues } from '../VoucherInstructionsGeneralForm'
+import { type VoucherInstructionsGeneralFormValues } from '../VoucherInstructionsGeneralForm'
+import { VoucherInstructionsAsyncExchangeSelect } from '../VoucherInstructionsGeneralForm/VoucherInstructionsAsyncExchangeSelect'
 
 type VoucherConsumerSimulationSectionForm = Pick<
   VoucherInstructionsGeneralFormValues,
@@ -104,6 +105,8 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
           disabled={!clientKeys || isFetchingClients || isFetchingKeys || isFetchingClient}
         />
       </FormControl>
+
+      <VoucherInstructionsAsyncExchangeSelect />
 
       <VoucherInstructionsGeneralFormAlertConsumer
         client={client}

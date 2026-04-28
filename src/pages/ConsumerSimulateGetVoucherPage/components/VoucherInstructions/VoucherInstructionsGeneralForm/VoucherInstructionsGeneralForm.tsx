@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
-import { Box, FormControl, Typography } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import ApiIcon from '@mui/icons-material/Api'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
@@ -11,7 +11,7 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { StepActions } from '@/components/shared/StepActions'
 import { useClientKind } from '@/hooks/useClientKind'
 import { useForm, FormProvider } from 'react-hook-form'
-import { RHFRadioGroup, RHFSelect } from '@/components/shared/react-hook-form-inputs'
+import { RHFRadioGroup } from '@/components/shared/react-hook-form-inputs'
 import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
 import { useSearchParams } from 'react-router-dom'
 import { IconLink } from '@/components/shared/IconLink'
@@ -294,31 +294,6 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
             <VoucherProducerSimulationSection
               key={`producer-${values.interationType}-${values.memberType}`}
             />
-          )}
-
-          {values.interationType === INTERATION_TYPE.ASYNC && (
-            <FormControl fullWidth sx={{ mt: 2 }}>
-              <RHFSelect
-                required
-                rules={{ required: true }}
-                name="asyncExchangeStep"
-                label={t('generalForm.asyncExchangeStep.label')}
-                options={[
-                  {
-                    label: t('generalForm.asyncExchangeStep.startInteraction'),
-                    value: ASYNC_EXCHANGE_STEP.START_INTERACTION,
-                  },
-                  {
-                    label: t('generalForm.asyncExchangeStep.getResource'),
-                    value: ASYNC_EXCHANGE_STEP.GET_RESOURCE,
-                  },
-                  {
-                    label: t('generalForm.asyncExchangeStep.confirmation'),
-                    value: ASYNC_EXCHANGE_STEP.CONFIRMATION,
-                  },
-                ]}
-              />
-            </FormControl>
           )}
         </SectionContainer>
         <StepActions

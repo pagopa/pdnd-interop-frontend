@@ -7,7 +7,8 @@ import { RHFAutocompleteSingle, RHFSelect } from '@/components/shared/react-hook
 import { KeychainQueries } from '@/api/keychain'
 import { useTranslation } from 'react-i18next'
 import { VoucherInstructionsGeneralFormAlertProducer } from '../alerts/VoucherInstructionsGeneralFormAlertProducer'
-import type { VoucherInstructionsGeneralFormValues } from '../VoucherInstructionsGeneralForm'
+import { type VoucherInstructionsGeneralFormValues } from '../VoucherInstructionsGeneralForm'
+import { VoucherInstructionsAsyncExchangeSelect } from '../VoucherInstructionsGeneralForm/VoucherInstructionsAsyncExchangeSelect'
 
 type VoucherProducerSimulationSectionForm = Pick<
   VoucherInstructionsGeneralFormValues,
@@ -101,6 +102,8 @@ export const VoucherProducerSimulationSection: React.FC = () => {
           }
         />
       </FormControl>
+
+      <VoucherInstructionsAsyncExchangeSelect />
 
       <VoucherInstructionsGeneralFormAlertProducer
         producerKeychain={eservices}
