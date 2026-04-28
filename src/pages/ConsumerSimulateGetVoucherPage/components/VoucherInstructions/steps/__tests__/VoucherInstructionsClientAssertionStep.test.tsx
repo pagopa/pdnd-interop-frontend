@@ -27,12 +27,12 @@ vi.mock('axios', () => ({
   },
 }))
 
-vi.mock('../CodeSnippetPreview', () => ({
+vi.mock('../../CodeSnippetPreview', () => ({
   CodeSnippetPreview: () => null,
   default: () => null,
 }))
 
-vi.mock('../VoucherInstructionsContext', () => ({
+vi.mock('../../VoucherInstructionsContext', () => ({
   useVoucherInstructionsContext: () => ({
     goToPreviousStep: vi.fn(),
     goToNextStep: vi.fn(),
