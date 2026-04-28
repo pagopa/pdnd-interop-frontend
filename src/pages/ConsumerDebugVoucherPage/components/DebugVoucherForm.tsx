@@ -31,9 +31,8 @@ export type DebugVoucherFormProps = {
 
 export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVoucherValues }) => {
   const { t } = useTranslation('voucher', { keyPrefix: 'consumerDebugVoucher.edit' })
+  const { mutate: validateVoucher } = VoucherMutations.useValidateTokenGeneration()
   const navigate = useNavigate()
-
-  const { mutateAsync: validateVoucherAsync } = VoucherMutations.useValidateTokenGeneration()
 
   const defaultValues: DebugVoucherFormValues = {
     clientAssertion: '',
@@ -51,20 +50,20 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
     defaultValues,
   })
 
-  const onSubmit = async (formValues: DebugVoucherFormValues) => {
+  const onSubmit = (formValues: DebugVoucherFormValues) => {
     const payloadValidateVoucher: AccessTokenRequest = {
       client_id: formValues.clientId || undefined,
       client_assertion: formValues.clientAssertion,
       client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
       grant_type: 'client_credentials',
       dpop_proof: formValues.dPopProof || undefined,
+      // interactionType: formValues.interactionType, This value will be disabled for this release: https://www.figma.com/design/CpRV3kPvFEWLXGtJUgWeZW?node-id=4078-14921#1712917799
     }
 
-    const response = await validateVoucherAsync(payloadValidateVoucher)
-
-    setDebugVoucherValues({
-      request: payloadValidateVoucher,
-      response,
+    validateVoucher(payloadValidateVoucher, {
+      onSuccess(data) {
+        setDebugVoucherValues({ request: payloadValidateVoucher, response: data })
+      },
     })
   }
 
