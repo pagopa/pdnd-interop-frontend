@@ -15,7 +15,7 @@ type VoucherInstructionsGeneralFormAlertConsumerProps = {
   clientKeys: PublicKey[] | undefined
 }
 
-type ConsumerAlertModel = {
+type ConsumerAlertProps = {
   title: string
   description: string
   action?: {
@@ -36,7 +36,7 @@ export const VoucherInstructionsGeneralFormAlertConsumer: React.FC<
 
   const noKeys = clientId && !isFetchingClient && !isFetchingKeys && !clientKeys?.length
 
-  const alertModel: ConsumerAlertModel = React.useMemo(() => {
+  const alertProps: ConsumerAlertProps = React.useMemo(() => {
     if (!clientId) return null
 
     if (!noPurposes && !noKeys) return null
@@ -84,7 +84,7 @@ export const VoucherInstructionsGeneralFormAlertConsumer: React.FC<
     return null
   }, [clientId, noPurposes, noKeys, t, navigate, isAdmin, client?.name])
 
-  if (!alertModel) return null
+  if (!alertProps) return null
 
   return (
     <Alert
@@ -92,15 +92,15 @@ export const VoucherInstructionsGeneralFormAlertConsumer: React.FC<
       severity="warning"
       variant="outlined"
       action={
-        alertModel.action ? (
-          <Button sx={{ whiteSpace: 'nowrap' }} color="primary" onClick={alertModel.action.onClick}>
-            {alertModel.action.label}
+        alertProps.action ? (
+          <Button sx={{ whiteSpace: 'nowrap' }} color="primary" onClick={alertProps.action.onClick}>
+            {alertProps.action.label}
           </Button>
         ) : undefined
       }
     >
-      <AlertTitle>{alertModel.title}</AlertTitle>
-      {alertModel.description}
+      <AlertTitle>{alertProps.title}</AlertTitle>
+      {alertProps.description}
     </Alert>
   )
 }

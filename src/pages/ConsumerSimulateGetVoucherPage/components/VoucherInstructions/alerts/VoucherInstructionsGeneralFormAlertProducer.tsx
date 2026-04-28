@@ -13,7 +13,7 @@ type VoucherInstructionsGeneralFormAlertProducerProps = {
   publicKeys: PublicKey[] | undefined
 }
 
-type ProducerAlertModel = {
+type ProducerAlertProps = {
   title: string
   description: string
   action?: {
@@ -40,7 +40,7 @@ export const VoucherInstructionsGeneralFormAlertProducer: React.FC<
   const noPublicKeys =
     producerKeychainId && !isFetchingEservices && !isFetchingPublicKey && !publicKeys?.length
 
-  const alertModel: ProducerAlertModel = React.useMemo(() => {
+  const alertProps: ProducerAlertProps = React.useMemo(() => {
     if (!producerKeychainId) return null
 
     if (!noEServices && !noPublicKeys) return null
@@ -85,7 +85,7 @@ export const VoucherInstructionsGeneralFormAlertProducer: React.FC<
     return null
   }, [navigate, noEServices, noPublicKeys, producerKeychain?.name, producerKeychainId, t])
 
-  if (!alertModel) return null
+  if (!alertProps) return null
 
   return (
     <Alert
@@ -93,15 +93,15 @@ export const VoucherInstructionsGeneralFormAlertProducer: React.FC<
       severity="warning"
       variant="outlined"
       action={
-        alertModel.action ? (
-          <Button sx={{ whiteSpace: 'nowrap' }} color="primary" onClick={alertModel.action.onClick}>
-            {alertModel.action.label}
+        alertProps.action ? (
+          <Button sx={{ whiteSpace: 'nowrap' }} color="primary" onClick={alertProps.action.onClick}>
+            {alertProps.action.label}
           </Button>
         ) : undefined
       }
     >
-      <AlertTitle>{alertModel.title}</AlertTitle>
-      {alertModel.description}
+      <AlertTitle>{alertProps.title}</AlertTitle>
+      {alertProps.description}
     </Alert>
   )
 }
