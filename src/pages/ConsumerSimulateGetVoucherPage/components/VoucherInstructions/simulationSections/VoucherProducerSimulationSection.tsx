@@ -62,6 +62,15 @@ export const VoucherProducerSimulationSection: React.FC = () => {
     }
   }, [producerKeychainId, search, setSearch])
 
+  const hasEservices = Boolean(eservices?.eservices?.length)
+  const hasPublicKeys = Boolean(publicKeys?.keys?.length)
+
+  const isEservicesDisabled =
+    !producerKeychainId || isFetchingProducerKeychains || isFetchingEservices || !hasEservices
+
+  const isPublicKeysDisabled =
+    !producerKeychainId || isFetchingProducerKeychains || isFetchingPublicKey || !hasPublicKeys
+
   return (
     <>
       <FormControl fullWidth>
@@ -84,7 +93,7 @@ export const VoucherProducerSimulationSection: React.FC = () => {
             value: e.id,
           }))}
           rules={{ required: true }}
-          disabled={!producerKeychainId || isFetchingProducerKeychains}
+          disabled={isEservicesDisabled}
         />
       </FormControl>
 
@@ -97,9 +106,7 @@ export const VoucherProducerSimulationSection: React.FC = () => {
             value: k.keyId,
           }))}
           rules={{ required: true }}
-          disabled={
-            !eservices || isFetchingProducerKeychains || isFetchingEservices || isFetchingPublicKey
-          }
+          disabled={isPublicKeysDisabled}
         />
       </FormControl>
 

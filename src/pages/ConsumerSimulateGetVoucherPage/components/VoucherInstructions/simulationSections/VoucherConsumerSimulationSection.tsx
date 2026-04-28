@@ -34,13 +34,13 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
     }),
   })
 
-  const { data: clientKeys, isFetching: isFetchingKeys } = useQuery({
-    ...ClientQueries.getAllKeysList({ clientId }),
+  const { data: client, isFetching: isFetchingClient } = useQuery({
+    ...ClientQueries.getSingle(clientId),
     enabled: Boolean(clientId),
   })
 
-  const { data: client, isFetching: isFetchingClient } = useQuery({
-    ...ClientQueries.getSingle(clientId),
+  const { data: clientKeys, isFetching: isFetchingKeys } = useQuery({
+    ...ClientQueries.getAllKeysList({ clientId }),
     enabled: Boolean(clientId),
   })
 
@@ -65,6 +65,11 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
     }
   }, [clientId, clientSearch, setClientSearch])
 
+  const hasPurposes = Boolean(purposes?.length)
+  const hasClientKeys = Boolean(clientKeys?.length)
+  const isPurposeDisabled = !clientId || isFetchingClients || isFetchingClient || !hasPurposes
+  const isClientKeysDisabled = !clientId || isFetchingClients || isFetchingKeys || !hasClientKeys
+
   return (
     <>
       <FormControl fullWidth>
@@ -88,7 +93,7 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
               value: p.purposeId,
             }))}
             rules={{ required: true }}
-            disabled={!clientId || isFetchingClient}
+            disabled={isPurposeDisabled}
           />
         </FormControl>
       )}
@@ -102,7 +107,7 @@ export const VoucherConsumerSimulationSection: React.FC = () => {
             value: k.keyId,
           }))}
           rules={{ required: true }}
-          disabled={!clientKeys || isFetchingClients || isFetchingKeys || isFetchingClient}
+          disabled={isClientKeysDisabled}
         />
       </FormControl>
 
