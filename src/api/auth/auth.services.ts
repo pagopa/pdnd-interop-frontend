@@ -28,7 +28,7 @@ async function getSessionToken(): Promise<string | null> {
   }
 
   // 1. Check if there is a mock token: only used for dev purposes
-  // if (APP_MODE === 'development' && MOCK_TOKEN) return resolveToken(MOCK_TOKEN)
+  if (APP_MODE === 'development' && MOCK_TOKEN) return resolveToken(MOCK_TOKEN)
 
   const fragmentParams = new URLSearchParams(window.location.hash.replace('#', ''))
 
