@@ -10,7 +10,7 @@ import { VoucherInstructionsGeneralFormCurrentIdsDrawer } from './VoucherInstruc
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { StepActions } from '@/components/shared/StepActions'
 import { useClientKind } from '@/hooks/useClientKind'
-import { useForm, FormProvider } from 'react-hook-form'
+import { useForm, FormProvider, useWatch } from 'react-hook-form'
 import { RHFRadioGroup } from '@/components/shared/react-hook-form-inputs'
 import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
 import { useSearchParams } from 'react-router-dom'
@@ -71,7 +71,9 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
   })
 
   const { watch, handleSubmit, setValue, reset } = formMethods
-  const values = watch()
+  const values = useWatch({
+    control: formMethods.control,
+  })
 
   const canGoToNextStep = match({ clientKind, ...values })
     .with({ clientKind: 'API' }, ({ clientId, keyId }) => !!clientId && !!keyId)
