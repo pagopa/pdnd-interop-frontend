@@ -129,7 +129,7 @@
   "firstDPoPProofStep": {
     "stepperLabel": "First DPoP Proof",
     "title": "DPoP Proof",
-    "description": "Now you need to generate the DPoP Proof (a signed JWT) to securely bind the session to your cryptographic keys and proceed with the voucher redemption. The key pair used is different from the one used for customer assertion."
+    "description": "Now you need to generate the DPoP Proof (a signed JWT) to securely bind the session to your cryptographic keys and proceed with the voucher redemption. The key pair used is different from the one used for client assertion."
   },
   "secondDPoPProofStep": {
     "stepperLabel": "Second DPoP",
