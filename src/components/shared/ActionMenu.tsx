@@ -75,7 +75,7 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({ actions, iconColor = 'pr
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
-          {actions.map(({ label, action, fontColor }) => (
+          {actions.map(({ label, action, fontColor, icon: Icon }) => (
             <MenuItem
               sx={{ color: fontColor ?? 'inherit' }}
               key={label}
@@ -84,6 +84,7 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({ actions, iconColor = 'pr
                 handleClose(e)
               }}
             >
+              {Icon && <Icon sx={{ marginRight: 1 }} />}
               {label}
             </MenuItem>
           ))}
