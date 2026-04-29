@@ -30,11 +30,11 @@ async function getSessionToken(): Promise<string | null> {
   // 1. Check if there is a mock token: only used for dev purposes
   if (APP_MODE === 'development' && MOCK_TOKEN) return resolveToken(MOCK_TOKEN)
 
+  const fragmentParams = new URLSearchParams(window.location.hash.replace('#', ''))
+
   // 2. See if we are coming from Self Care and have a new token
-  const hasSelfCareIdentityToken = window.location.hash.includes('#id=')
-  if (hasSelfCareIdentityToken) {
-    const selfCareIdentityToken = window.location.hash.replace('#id=', '')
-    // Remove token from hash
+  const selfCareIdentityToken = fragmentParams.get('id') ?? ''
+  if (selfCareIdentityToken) {
     history.replaceState({}, document.title, window.location.href.split('#')[0])
     try {
       const result = await swapTokens(selfCareIdentityToken)
@@ -45,11 +45,12 @@ async function getSessionToken(): Promise<string | null> {
   }
 
   // 3. See if we are trying to login as support operator
-  // If the url has contains saml2 and jwt, we are trying to login as support operator
-  const hasSupportOperatorToken =
-    window.location.hash.includes('#saml2=') && window.location.hash.includes('jwt=')
+  // If the url contains saml2 and jwt, we are trying to login as support operator
+  const saml2 = fragmentParams.get('saml2') ?? ''
+  const supportOperatorToken = fragmentParams.get('jwt') ?? ''
+
+  const hasSupportOperatorToken = saml2 && supportOperatorToken
   if (hasSupportOperatorToken) {
-    const supportOperatorToken = window.location.hash.split('jwt=')[1]
     return resolveToken(supportOperatorToken)
   }
 

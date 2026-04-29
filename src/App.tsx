@@ -17,15 +17,31 @@ import { queryClient } from './config/query-client'
 import type { EnvironmentBannerProps } from '@pagopa/mui-italia'
 import { AuthQueries } from './api/auth'
 import i18n from './config/react-i18next'
+import { DEFAULT_LANG, LANGUAGES } from './config/constants'
 
 // --- Init application ----
 
 const urlParams = new URLSearchParams(window.location.search)
 const redirectUrl = urlParams.get('redirectUrl')
 
+const fragmentParams = new URLSearchParams(window.location.hash.replace('#', ''))
+const requestedLang = fragmentParams.get('lang')?.toLowerCase() ?? ''
+const isSupportedLang = requestedLang in LANGUAGES
+const lang = isSupportedLang ? requestedLang : DEFAULT_LANG
+
+if (requestedLang) {
+  i18n.changeLanguage(lang)
+}
+
 if (redirectUrl) {
-  const selfCareIdentityToken = window.location.hash.replace('#id=', '')
-  const url = `/ui/${i18n.language}${redirectUrl}#id=${selfCareIdentityToken}`
+  const selfCareIdentityToken = fragmentParams.get('id') ?? ''
+  const url = `/ui/${lang}${redirectUrl}#id=${selfCareIdentityToken}`
+
+  window.location.replace(url)
+} else if (requestedLang) {
+  fragmentParams.delete('lang')
+  const url = `/ui/${lang}/catalogo-e-service#${fragmentParams.toString()}`
+
   window.location.replace(url)
 } else {
   queryClient.prefetchQuery(AuthQueries.getSessionToken())
