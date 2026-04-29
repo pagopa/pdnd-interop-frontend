@@ -50,74 +50,31 @@ const DebugVoucherContextProvider: React.FC<DebugVoucherContextProviderProps> = 
     selectedStep?: [keyof TokenGenerationValidationSteps, TokenGenerationValidationEntry]
   }>({ isOpen: false, selectedStep: undefined })
 
-  /**
-   * Based on the current selectedStep key we know which is the subsequent step key
-   * and when we change the debugVoucherStepDrawer selectedStep value we use the steps value from response
-   */
-  const goToNextStep = useCallback(() => {
-    setDebugVoucherStepDrawer((prev) => {
-      switch (prev.selectedStep?.[0]) {
-        case 'clientAssertionValidation':
-          return {
-            ...prev,
-            selectedStep: ['publicKeyRetrieve', response?.steps.publicKeyRetrieve],
-          }
-        case 'publicKeyRetrieve':
-          return {
-            ...prev,
-            selectedStep: [
-              'clientAssertionSignatureVerification',
-              response?.steps.clientAssertionSignatureVerification,
-            ],
-          }
-        case 'clientAssertionSignatureVerification':
-          if (response.clientKind === 'CONSUMER') {
-            return {
-              ...prev,
-              selectedStep: [
-                'platformStatesVerification',
-                response.steps.platformStatesVerification,
-              ],
-            }
-          } else if (response.clientKind === 'API' && response.steps.dpopValidation) {
-            return {
-              ...prev,
-              selectedStep: ['dpopValidation', response.steps.dpopValidation],
-            }
-          }
-        case 'platformStatesVerification':
-          if (response.steps.dpopValidation) {
-            return {
-              ...prev,
-              selectedStep: ['dpopValidation', response.steps.dpopValidation],
-            }
-          }
-        case 'dpopValidation':
-        default:
-          return prev
-      }
-    })
-  }, [
-    response.clientKind,
-    response.steps.clientAssertionSignatureVerification,
-    response.steps.dpopValidation,
-    response.steps.platformStatesVerification,
-    response.steps.publicKeyRetrieve,
-  ])
-
   const handleMakeNewRequest = useCallback(() => {
     onResetDebugVoucherValues()
   }, [onResetDebugVoucherValues])
 
-  const stepOrder = React.useMemo(() => {
+  const stepOrder: readonly (keyof TokenGenerationValidationSteps)[] = React.useMemo(() => {
     return [
       'clientAssertionValidation',
       'publicKeyRetrieve',
       'clientAssertionSignatureVerification',
       ...(response.clientKind === 'CONSUMER' ? (['platformStatesVerification'] as const) : []),
       ...(response.steps.dpopValidation ? (['dpopValidation'] as const) : []),
-    ] as const
+    ]
   }, [response.clientKind, response.steps.dpopValidation])
+
+  const goToNextStep = useCallback(() => {
+    setDebugVoucherStepDrawer((prev) => {
+      const current = prev.selectedStep?.[0]
+      if (!current) return prev
+      const idx = stepOrder.indexOf(current)
+      if (idx < 0 || idx >= stepOrder.length - 1) return prev
+      const nextKey = stepOrder[idx + 1]
+      const nextStep = response.steps[nextKey]
+      return nextStep ? { ...prev, selectedStep: [nextKey, nextStep] } : prev
+    })
+  }, [stepOrder, response.steps])
 
   const providerValue = React.useMemo(() => {
     return {
