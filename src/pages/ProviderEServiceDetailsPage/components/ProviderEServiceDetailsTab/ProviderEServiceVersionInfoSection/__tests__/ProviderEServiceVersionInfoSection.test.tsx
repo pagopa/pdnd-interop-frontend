@@ -16,10 +16,14 @@ vi.mock('@/router', () => ({
 }))
 
 let mockDescriptorData: ProducerEServiceDescriptor
+let mockLatestDescriptorData: ProducerEServiceDescriptor | undefined
 
 vi.mock('@/api/eservice', () => ({
   EServiceQueries: {
-    getDescriptorProvider: vi.fn(),
+    getDescriptorProvider: (_eserviceId: string, descriptorId: string) => ({
+      queryKey: ['EServiceGetDescriptorProvider', _eserviceId, descriptorId],
+      descriptorId,
+    }),
   },
   EServiceMutations: {
     useUpdateAgreementApprovalPolicy: vi.fn(),
@@ -28,11 +32,17 @@ vi.mock('@/api/eservice', () => ({
 
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
   ...(await importOriginal<typeof import('@tanstack/react-query')>()),
-  useSuspenseQuery: () => ({ data: mockDescriptorData }),
+  useSuspenseQuery: ({ descriptorId }: { descriptorId: string }) => ({
+    data:
+      mockLatestDescriptorData && descriptorId !== mockDescriptorData.id
+        ? mockLatestDescriptorData
+        : mockDescriptorData,
+  }),
 }))
 
 beforeEach(() => {
   mockUseJwt()
+  mockLatestDescriptorData = undefined
 
   vi.mocked(EServiceModule.EServiceMutations.useUpdateAgreementApprovalPolicy).mockReturnValue({
     mutate: vi.fn(),
@@ -109,9 +119,46 @@ describe('ProviderEServiceVersionInfoSection', () => {
   })
 
   describe('Ciclo di vita', () => {
-    it('renders both lastVersionDate and publishedDate when publishedAt is set', () => {
+    it('renders publishedDate but NOT lastVersionDate when viewing the latest version', () => {
       mockDescriptorData = createMockEServiceDescriptorProvider({
+        id: 'descriptor-latest',
+        version: '2',
         publishedAt: '2025-12-12T10:00:00Z',
+        state: 'PUBLISHED',
+        eservice: {
+          descriptors: [
+            { id: 'descriptor-old', state: 'DEPRECATED', version: '1', audience: [] },
+            { id: 'descriptor-latest', state: 'PUBLISHED', version: '2', audience: [] },
+          ],
+        },
+      })
+
+      renderWithApplicationContext(<ProviderEServiceVersionInfoSection />, {
+        withReactQueryContext: true,
+      })
+
+      expect(screen.queryByText('lifeCycle.lastVersionDate')).not.toBeInTheDocument()
+      expect(screen.getByText('lifeCycle.publishedDate')).toBeInTheDocument()
+    })
+
+    it('renders lastVersionDate with the latest descriptor publishedAt when viewing a non-latest version', () => {
+      mockDescriptorData = createMockEServiceDescriptorProvider({
+        id: 'descriptor-old',
+        version: '1',
+        publishedAt: '2025-01-01T10:00:00Z',
+        state: 'DEPRECATED',
+        eservice: {
+          descriptors: [
+            { id: 'descriptor-old', state: 'DEPRECATED', version: '1', audience: [] },
+            { id: 'descriptor-latest', state: 'PUBLISHED', version: '2', audience: [] },
+          ],
+        },
+      })
+      mockLatestDescriptorData = createMockEServiceDescriptorProvider({
+        id: 'descriptor-latest',
+        version: '2',
+        publishedAt: '2025-04-01T10:00:00Z',
+        state: 'PUBLISHED',
       })
 
       renderWithApplicationContext(<ProviderEServiceVersionInfoSection />, {
@@ -122,7 +169,7 @@ describe('ProviderEServiceVersionInfoSection', () => {
       expect(screen.getByText('lifeCycle.publishedDate')).toBeInTheDocument()
     })
 
-    it('does NOT render publication-related rows when publishedAt is undefined', () => {
+    it('does NOT render publishedDate when descriptor publishedAt is undefined', () => {
       mockDescriptorData = createMockEServiceDescriptorProvider({
         publishedAt: undefined,
       })
@@ -131,7 +178,6 @@ describe('ProviderEServiceVersionInfoSection', () => {
         withReactQueryContext: true,
       })
 
-      expect(screen.queryByText('lifeCycle.lastVersionDate')).not.toBeInTheDocument()
       expect(screen.queryByText('lifeCycle.publishedDate')).not.toBeInTheDocument()
     })
 

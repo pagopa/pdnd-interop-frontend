@@ -9,6 +9,7 @@ import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/
 import { useParams } from '@/router'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { formatDateString } from '@/utils/format.utils'
+import { getLastDescriptor } from '@/utils/eservice.utils'
 import { FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE } from '@/config/env'
 import { ProviderEServiceUpdateAgreementApprovalPolicyDrawer } from './ProviderEServiceUpdateAgreementApprovalPolicyDrawer'
 
@@ -21,6 +22,19 @@ export const ProviderEServiceVersionInfoSection: React.FC = () => {
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
   const { data: descriptor } = useSuspenseQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
+  )
+
+  const latestPublishedDescriptor = getLastDescriptor(
+    descriptor.eservice.descriptors.filter(
+      (d) => d.state !== 'DRAFT' && d.state !== 'WAITING_FOR_APPROVAL'
+    )
+  )
+
+  const isViewingLatestVersion =
+    latestPublishedDescriptor === undefined || latestPublishedDescriptor.id === descriptor.id
+
+  const { data: latestDescriptor } = useSuspenseQuery(
+    EServiceQueries.getDescriptorProvider(eserviceId, latestPublishedDescriptor?.id ?? descriptorId)
   )
 
   const {
@@ -78,10 +92,10 @@ export const ProviderEServiceVersionInfoSection: React.FC = () => {
             titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
           >
             <Stack spacing={2}>
-              {descriptor.publishedAt && (
+              {!isViewingLatestVersion && latestDescriptor.publishedAt && (
                 <InformationContainer
                   label={t('lifeCycle.lastVersionDate')}
-                  content={formatDateString(descriptor.publishedAt)}
+                  content={formatDateString(latestDescriptor.publishedAt)}
                 />
               )}
               {descriptor.archivedAt && (
