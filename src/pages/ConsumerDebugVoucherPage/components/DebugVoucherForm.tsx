@@ -17,7 +17,7 @@ import { useNavigate } from '@/router'
 export type DebugVoucherFormValues = {
   clientAssertion: string
   clientId: string
-  dPopProof: string | undefined
+  dpopProof: string | undefined
   interactionType: string
 }
 
@@ -37,7 +37,7 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
   const defaultValues: DebugVoucherFormValues = {
     clientAssertion: '',
     clientId: '',
-    dPopProof: undefined,
+    dpopProof: undefined,
     interactionType: 'sync',
   }
 
@@ -56,7 +56,7 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
       client_assertion: formValues.clientAssertion,
       client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
       grant_type: 'client_credentials',
-      dpop_proof: formValues.dPopProof || undefined,
+      dpop_proof: formValues.dpopProof || undefined,
       // interactionType: formValues.interactionType, This value will be disabled for this release: https://www.figma.com/design/CpRV3kPvFEWLXGtJUgWeZW?node-id=4078-14921#1712917799
     }
 
@@ -85,11 +85,11 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
 
             {FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER && (
               <RHFTextField
-                name="dPopProof"
+                name="dpopProof"
                 multiline
                 size="medium"
-                label={t('dPopProofLabel')}
-                infoLabel={t('dPopProofInfoLabel')}
+                label={t('dpopProofLabel')}
+                infoLabel={t('dpopProofInfoLabel')}
               />
             )}
 
