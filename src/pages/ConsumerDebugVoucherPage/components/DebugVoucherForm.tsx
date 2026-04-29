@@ -17,7 +17,7 @@ import { useNavigate } from '@/router'
 export type DebugVoucherFormValues = {
   clientAssertion: string
   clientId: string
-  dpopProof: string | undefined
+  dpopProof: string
   interactionType: string
 }
 
@@ -37,7 +37,7 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
   const defaultValues: DebugVoucherFormValues = {
     clientAssertion: '',
     clientId: '',
-    dpopProof: undefined,
+    dpopProof: '',
     interactionType: 'sync',
   }
 
