@@ -40,7 +40,7 @@ const FeatureFlagConfigs = z.object({
 
   FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER: z
     .enum(['true', 'false'])
-    .default('true')
+    .default('false')
     .transform((value) => value === 'true'),
 })
 
