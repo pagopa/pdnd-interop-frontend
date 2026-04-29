@@ -48,10 +48,15 @@ export type Provider = 'provider'
 export type Consumer = 'consumer'
 export type ProviderOrConsumer = Provider | Consumer
 
-export type ActionItem = { action: VoidFunction; label: string; fontColor?: string }
+export type ActionItem = {
+  action: VoidFunction
+  label: string
+  fontColor?: string
+  icon?: SvgIconComponent
+  hierarchy?: 'primary' | 'secondary'
+}
 export type ActionItemButton = ActionItem & {
   color?: ButtonProps['color']
-  icon?: SvgIconComponent
   tooltip?: string
   disabled?: boolean
   variant?: ButtonProps['variant']
