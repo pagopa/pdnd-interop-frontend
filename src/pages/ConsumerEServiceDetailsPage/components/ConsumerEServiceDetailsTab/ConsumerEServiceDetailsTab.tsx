@@ -1,4 +1,3 @@
-import { AuthHooks } from '@/api/auth'
 import { EServiceQueries } from '@/api/eservice'
 import { useTrackPageViewEvent } from '@/config/tracking'
 import { Grid } from '@mui/material'
@@ -18,6 +17,10 @@ import {
   ConsumerLinkedPurposeTemplatesSection,
   ConsumerLinkedPurposeTemplatesSectionSkeleton,
 } from './ConsumerEServicePurposeTemplateSection'
+import {
+  ConsumerEServiceSignalHubSection,
+  ConsumerEServiceSignalHubSectionSkeleton,
+} from './ConsumerEServiceSignalHubSection'
 
 const ConsumerEServiceDetailsTab: React.FC = () => {
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
@@ -42,7 +45,10 @@ const ConsumerEServiceDetailsTab: React.FC = () => {
           <React.Suspense fallback={<ConsumerLinkedPurposeTemplatesSectionSkeleton />}>
             <ConsumerLinkedPurposeTemplatesSection />
           </React.Suspense>
-<React.Suspense fallback={<ConsumerEServiceDescriptorAttributesSkeleton />}>
+          <React.Suspense fallback={<ConsumerEServiceSignalHubSectionSkeleton />}>
+            <ConsumerEServiceSignalHubSection />
+          </React.Suspense>
+          <React.Suspense fallback={<ConsumerEServiceDescriptorAttributesSkeleton />}>
             <ConsumerEServiceDescriptorAttributes />
           </React.Suspense>
         </Grid>
