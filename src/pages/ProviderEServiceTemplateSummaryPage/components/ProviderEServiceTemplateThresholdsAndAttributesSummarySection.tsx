@@ -167,7 +167,7 @@ const TemplateSummaryAttributeGroup: React.FC<TemplateSummaryAttributeGroupProps
             </Box>
             {index < attributes.length - 1 && (
               <Divider sx={{ py: 1 }}>
-                <Typography color="text.primary" fontWeight={700} textTransform={'uppercase'}>
+                <Typography color="text.primary" fontWeight={700} textTransform="uppercase">
                   {tAttribute('or')}
                 </Typography>
               </Divider>
