@@ -161,9 +161,8 @@
         "downloadDocumentTooltip": "Download document"
       },
       "versionSelectorDrawer": {
-        "title": "Navigate to another e-service template version",
+        "title": "View another e-service template version",
         "label": "Select version",
-        "currentVersion": "{{ versionNum }} - current version",
         "goToSelectedVersion": "Go to the selected version"
       }
     }
