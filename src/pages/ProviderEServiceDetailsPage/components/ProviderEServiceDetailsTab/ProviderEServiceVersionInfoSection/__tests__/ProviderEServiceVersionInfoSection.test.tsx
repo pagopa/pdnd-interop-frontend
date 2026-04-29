@@ -8,8 +8,6 @@ import * as EServiceModule from '@/api/eservice'
 import * as EnvModule from '@/config/env'
 import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 
-const mockUpdateAgreementApprovalPolicy = vi.fn()
-
 vi.mock('@/router', () => ({
   useNavigate: () => vi.fn(),
   useParams: () => ({ eserviceId: 'eservice-id', descriptorId: 'descriptor-id' }),
@@ -37,7 +35,7 @@ beforeEach(() => {
   mockUseJwt()
 
   vi.mocked(EServiceModule.EServiceMutations.useUpdateAgreementApprovalPolicy).mockReturnValue({
-    mutate: mockUpdateAgreementApprovalPolicy,
+    mutate: vi.fn(),
   } as never)
 
   vi.spyOn(EnvModule, 'FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE', 'get').mockReturnValue(true)
