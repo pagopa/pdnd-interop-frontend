@@ -165,7 +165,7 @@ const TemplateSummaryAttributeGroup: React.FC<TemplateSummaryAttributeGroupProps
             <Box key={attribute.id} component="li">
               <AttributeContainer attribute={attribute} />
             </Box>
-            {attributes.length > 1 && index < attributes.length - 1 && (
+            {index < attributes.length - 1 && (
               <Divider sx={{ py: 1 }}>
                 <Typography color="text.primary" fontWeight={700} textTransform={'uppercase'}>
                   {tAttribute('or')}
