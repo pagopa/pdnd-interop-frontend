@@ -42,7 +42,7 @@ export const DebugVoucherResultsStep: React.FC<ResultStepProps> = ({ step, stepK
       }}
       onClick={handleClick}
     >
-      <Typography component={'span'} variant="body1" fontWeight={600} textAlign={'left'}>
+      <Typography component={'span'} variant="body1" fontWeight={600} textAlign="left">
         {t(`label.${stepKey}`, { index })}
       </Typography>
       <Stack direction="row" justifyContent="end" spacing={2}>
