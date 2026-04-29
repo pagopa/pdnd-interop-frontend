@@ -1,7 +1,7 @@
 import React from 'react'
 import type { SxProps } from '@mui/material'
 import { Box, Button, Skeleton, Stack, Typography } from '@mui/material'
-import type { ActionItem, ActionItemButton } from '@/types/common.types'
+import type { ActionItemButton } from '@/types/common.types'
 import { Breadcrumbs } from '../Breadcrumbs'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { Link, type RouteKey } from '@/router'
