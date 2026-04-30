@@ -14,6 +14,7 @@ import { useActiveTab } from '@/hooks/useActiveTab'
 import ConsumerEServiceDetailsTab from './components/ConsumerEServiceDetailsTab/ConsumerEServiceDetailsTab'
 import ConsumerLinkedPurposeTemplatesTab from './components/ConsumerLinkedPurposeTemplatesTab.tsx/ConsumerLinkedPurposeTemplatesTab'
 import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
+import type { StatusChip } from '@/components/shared/StatusChip'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -60,16 +61,52 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
     descriptorId: descriptor?.id,
   })
 
+  const getStatusChips = () => {
+    let eserviceChip: React.ComponentProps<typeof StatusChip> | undefined
+    let versionChip: React.ComponentProps<typeof StatusChip> | undefined
+
+    if (descriptor && descriptor.eservice.activeDescriptor) {
+      eserviceChip = {
+        for: 'eservice',
+        state: descriptor.eservice.activeDescriptor.state,
+      }
+
+      if (
+        descriptor.id !== descriptor.eservice.activeDescriptor.id &&
+        descriptor.state !== descriptor.eservice.activeDescriptor.state
+      ) {
+        versionChip = { for: 'eservice', state: descriptor.state }
+      }
+    }
+
+    return {
+      eserviceChip,
+      versionChip,
+    }
+  }
+
+  const statusChips = getStatusChips()
+
   return (
     <PageContainer
       title={descriptor?.eservice.name || ''}
       topSideActions={actions}
       isLoading={!descriptor}
-      statusChip={descriptor ? { for: 'eservice', state: descriptor?.state } : undefined}
+      statusChip={statusChips.eserviceChip}
       backToAction={{
         label: t('actions.backToCatalogLabel'),
         to: 'SUBSCRIBE_CATALOG_LIST',
       }}
+      secondaryIntro={
+        descriptor
+          ? {
+              label: t('versionHeaderLabel'),
+              link: { label: descriptor.version, onClink: () => {} }, // TODO navigation function
+              actions: [], // TODO actions for secondHeader
+              statusChip: statusChips.versionChip,
+            }
+          : undefined
+      }
     >
       <TabContext value={activeTab}>
         <TabList
