@@ -1,6 +1,6 @@
 import React from 'react'
 import type { SxProps } from '@mui/material'
-import { Box, Button, Skeleton, Stack, Typography } from '@mui/material'
+import { Box, Button, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
 import type { ActionItemButton } from '@/types/common.types'
 import { Breadcrumbs } from '../Breadcrumbs'
 import { StatusChip } from '@/components/shared/StatusChip'
@@ -151,6 +151,16 @@ const PageContainerActions: React.FC<PageContainerActionsProps> = ({
   )
   const menuActions = topSideActions?.filter((action) => action.hierarchy === undefined)
 
+  const getButtonWrapper = (tooltip?: string, disabled?: boolean) => {
+    return tooltip
+      ? ({ children }: { children: React.ReactElement }) => (
+          <Tooltip arrow title={tooltip}>
+            <span tabIndex={disabled ? 0 : undefined}>{children}</span>
+          </Tooltip>
+        )
+      : React.Fragment
+  }
+
   return (
     <Stack
       sx={{ minHeight: 40 }}
@@ -162,35 +172,39 @@ const PageContainerActions: React.FC<PageContainerActionsProps> = ({
       <Box>{statusChip && <StatusChip {...statusChip} />}</Box>
       <Stack direction="row" spacing={2}>
         {secondaryActions &&
-          secondaryActions.map(({ action, label, color, icon: Icon, ...props }, index) => {
+          secondaryActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, index) => {
+            const Wrapper = getButtonWrapper(tooltip, props.disabled)
             return (
-              <Button
-                key={index}
-                onClick={action}
-                variant="outlined"
-                size="small"
-                color={color}
-                startIcon={Icon && <Icon />}
-                {...props}
-              >
-                {label}
-              </Button>
+              <Wrapper key={index}>
+                <Button
+                  onClick={action}
+                  variant="outlined"
+                  size="small"
+                  color={color}
+                  startIcon={Icon && <Icon />}
+                  {...props}
+                >
+                  {label}
+                </Button>
+              </Wrapper>
             )
           })}
         {primaryActions &&
-          primaryActions.map(({ action, label, color, icon: Icon, ...props }, index) => {
+          primaryActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, index) => {
+            const Wrapper = getButtonWrapper(tooltip, props.disabled)
             return (
-              <Button
-                key={index}
-                onClick={action}
-                variant="contained"
-                size="small"
-                color={color}
-                startIcon={Icon && <Icon />}
-                {...props}
-              >
-                {label}
-              </Button>
+              <Wrapper key={index}>
+                <Button
+                  onClick={action}
+                  variant="contained"
+                  size="small"
+                  color={color}
+                  startIcon={Icon && <Icon />}
+                  {...props}
+                >
+                  {label}
+                </Button>
+              </Wrapper>
             )
           })}
         {menuActions ? <ActionMenu actions={menuActions} /> : <ActionMenuSkeleton />}
