@@ -508,6 +508,7 @@
     "disabledTooltip": "E-service di test archiviato dal catalogo e non utilizzabile"
   },
   "read": {
+    "versionHeaderLabel": "Versione",
     "tabs": {
       "ariaLabel": "Due tab diverse per i dettagli dell'e-service e i portachiavi associati",
       "eserviceDetails": "Dettagli e-service",

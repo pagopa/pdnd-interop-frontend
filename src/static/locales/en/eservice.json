@@ -508,6 +508,7 @@
     "disabledTooltip": "Test e-service archived from the catalog and not usable."
   },
   "read": {
+    "versionHeaderLabel": "Version",
     "tabs": {
       "ariaLabel": "Two different tabs for e-service details and associated keychains",
       "eserviceDetails": "E-service details",
