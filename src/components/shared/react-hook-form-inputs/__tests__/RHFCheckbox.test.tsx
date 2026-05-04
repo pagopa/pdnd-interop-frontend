@@ -4,7 +4,6 @@ import userEvent from '@testing-library/user-event'
 
 import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
 import { RHFCheckbox } from '@/components/shared/react-hook-form-inputs'
-import { ReactHookFormWrapper } from '@/utils/testing.utils'
 
 const checkbox = {
   standard: {
@@ -38,9 +37,9 @@ describe('RHFCheckbox Accessibility', () => {
     const testLabel = 'Accessibility Test Label'
 
     render(
-      <ReactHookFormWrapper>
+      <TestInputWrapper>
         <RHFCheckbox name="testAccessibilityCheckbox" label={testLabel} />
-      </ReactHookFormWrapper>
+      </TestInputWrapper>
     )
 
     const checkboxInput = screen.getByRole('checkbox')

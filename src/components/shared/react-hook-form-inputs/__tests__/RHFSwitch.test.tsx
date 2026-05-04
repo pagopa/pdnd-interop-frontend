@@ -4,7 +4,6 @@ import userEvent from '@testing-library/user-event'
 
 import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
 import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
-import { ReactHookFormWrapper } from '@/utils/testing.utils'
 
 const switchProps = {
   standard: {
@@ -38,9 +37,9 @@ describe('RHFSwitch Accessibility', () => {
     const testLabel = 'Accessibility Test Label'
 
     render(
-      <ReactHookFormWrapper>
+      <TestInputWrapper>
         <RHFSwitch name="testAccessibilitySwitch" label={testLabel} />
-      </ReactHookFormWrapper>
+      </TestInputWrapper>
     )
 
     // MUI Switch renders an <input type="checkbox" role="checkbox" /> under the hood
