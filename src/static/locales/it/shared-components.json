@@ -271,6 +271,21 @@
       }
     }
   },
+  "dialogCancelVersionArchiving": {
+    "title": "Annulla archiviazione versione",
+    "description": "Questa versione non sarà più in fase di archiviazione.",
+    "actions": {
+      "keepArchiving": "Mantieni in archiviazione",
+      "cancelArchiving": "Annulla archiviazione"
+    }
+  },
+  "dialogArchiveVersion": {
+    "title": "Archivia versione",
+    "content": {
+      "description": "Con l’archiviazione, inizierà un <strong>periodo di preavviso di {{days}} giorni</strong>. Durante questo periodo la versione sarà in fase di archiviazione, ma risulterà ancora attiva. Potrai annullare l’archiviazione solo durante il periodo di preavviso e non sarà più possibile farlo dopo. Alla fine del periodo di preavviso, <strong>la versione sarà archiviata definitivamente</strong>.",
+      "alert": "L’archiviazione di questa versione sarà programmata per il giorno {{date}}. L’effettiva archiviazione potrebbe richiedere un tempo aggiuntivo. Consulta la <1>documentazione</1> per avere altri dettagli."
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"
