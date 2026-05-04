@@ -969,7 +969,7 @@
         "title": "Pubblica template e-service",
         "titleNewVersion": "Pubblica nuova versione template e-service",
         "description": "Una volta pubblicata, questa versione sarà disponibile nel catalogo dei template degli e-service e non potrà più essere cancellata. Potrai comunque sospenderla o renderla obsoleta quando pubblicherai una nuova versione.",
-        "button": "Pubblica"
+        "proceedLabel": "Pubblica"
       }
     },
     "deleteVersionDraft": {

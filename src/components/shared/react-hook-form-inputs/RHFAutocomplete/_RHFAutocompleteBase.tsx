@@ -18,7 +18,7 @@ import identity from 'lodash/identity'
 import isEqual from 'lodash/isEqual'
 import type { ControllerProps } from 'react-hook-form/dist/types/controller'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
-import { theme } from '@pagopa/interop-fe-commons'
+import { theme } from '@pagopa/mui-italia'
 
 export type RHFAutocompleteInput<T> = { label: string; value: T }
 
