@@ -148,7 +148,7 @@
         "dailyCallsTotalLabel": "Soglia suggerita totale"
       },
       "updateVoucherDrawer": {
-        "subtitle": "Da questo pannello puoi aggiornare la durata del voucher del template di e-service. Le modifiche apportate avranno effetto da subito."
+        "subtitle": "Le modifiche saranno apportate subito"
       },
       "updateDocumentationDrawer": {
         "title": "Modifica documentazione",

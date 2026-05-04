@@ -968,7 +968,8 @@
       "confirmDialog": {
         "title": "Publish e-service template",
         "titleNewVersion": "Publish new e-service template version",
-        "description": "Once published, this version will be available in the e-service template catalog and can no longer be deleted. You can still suspend it or mark it as deprecated when you publish a new version."
+        "description": "Once published, this version will be available in the e-service template catalog and can no longer be deleted. You can still suspend it or mark it as deprecated when you publish a new version.",
+        "proceedLabel": "Publish"
       }
     },
     "deleteVersionDraft": {
