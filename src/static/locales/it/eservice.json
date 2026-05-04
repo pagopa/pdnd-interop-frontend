@@ -521,6 +521,15 @@
       "suspended": "Questa versione di e-service è sospesa. Fino alla sua riattivazione nessun fruitore potrà accedere ai dati erogati attraverso l’API.",
       "deprecated": "Questa versione di e-service è obsoleta ma ancora attiva. Verrà dismessa automaticamente da PDND Interoperabilità quando l’ultima richiesta di fruizione presente su questa versione sarà archiviata."
     },
+    "dialogSuspendArchivingDescriptor": {
+      "title": "Sospendi versione in fase di archiviazione",
+      "intro": "Cosa succede con la sospensione:",
+      "bullets": {
+        "suspended": "la versione non potrà essere utilizzata e resterà sospesa fino a un’eventuale riattivazione;",
+        "archivingNotAffected": "la sospensione <strong>non modifica</strong> l’archiviazione già avviata per questa versione e <strong>non interrompe</strong> il periodo di preavviso;",
+        "archivedAfterNotice": "dopo il periodo di preavviso, la versione sarà archiviata definitivamente."
+      }
+    },
     "actions": {
       "backToListLabel": "Torna agli e-service",
       "backToCatalogLabel": "Torna al catalogo"
