@@ -1,10 +1,10 @@
 import { queryOptions } from '@tanstack/react-query'
 import { ThresholdsServices } from './thresholds.services'
 
-function getThresholdsJson() {
+function getThresholdsBannerJson() {
   return queryOptions({
-    queryKey: ['GetThresholdsJson'],
-    queryFn: ThresholdsServices.getThresholdsJson,
+    queryKey: ['GetThresholdsBannerJson'],
+    queryFn: ThresholdsServices.getThresholdsBannerJson,
     throwOnError: false,
     retry: false,
     staleTime: Infinity,
@@ -13,5 +13,5 @@ function getThresholdsJson() {
 }
 
 export const ThresholdsQueries = {
-  getThresholdsJson,
+  getThresholdsBannerJson,
 }

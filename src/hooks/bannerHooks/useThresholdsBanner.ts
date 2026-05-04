@@ -7,7 +7,7 @@ const STORAGE_KEY = 'thresholdsBannerDismissedUntil'
 
 export function useThresholdsBanner() {
   const { t } = useTranslation('shared-components', { keyPrefix: 'thresholdsBanner' })
-  const { data } = useQuery(ThresholdsQueries.getThresholdsJson())
+  const { data } = useQuery(ThresholdsQueries.getThresholdsBannerJson())
 
   const { isOpen, closeBanner } = useBaseBanner({
     data,

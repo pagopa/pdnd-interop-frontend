@@ -2,7 +2,7 @@ import { INTEROP_RESOURCES_BASE_URL, APP_MODE } from '@/config/env'
 import type { BannerData } from '@/hooks/bannerHooks/utils'
 import axios from 'axios'
 
-async function getThresholdsJson() {
+async function getThresholdsBannerJson() {
   // Mock data in development to avoid CORS issues with S3
   if (APP_MODE === 'development') {
     return {
@@ -23,5 +23,5 @@ async function getThresholdsJson() {
   return response.data
 }
 export const ThresholdsServices = {
-  getThresholdsJson,
+  getThresholdsBannerJson,
 }
