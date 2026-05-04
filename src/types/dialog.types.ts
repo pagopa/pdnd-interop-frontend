@@ -7,6 +7,8 @@ import type {
   TargetTenantKind,
   CompactAgreement,
 } from '@/api/api.generatedTypes'
+import type { CompactDescriptorWithArchivingSchedule } from '@/types/eservice.types'
+import type { RouteKey } from '@/router'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
 export type DialogContent = {
@@ -40,6 +42,7 @@ export type DialogProps =
   | DialogTenantKindEserviceTemplateProps
   | DialogTenantKindPurposeTemplateProps
   | DialogSelectAgreementConsumerProps
+  | DialogShowVersionsListProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -178,4 +181,12 @@ export type DialogTenantKindEserviceTemplateProps = {
 export type DialogTenantKindPurposeTemplateProps = {
   type: 'tenantKindPurposeTemplate'
   onConfirm: (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => void
+}
+
+export type DialogShowVersionsListProps = {
+  type: 'showVersionsList'
+  eserviceId: string
+  eserviceName: string
+  descriptors: CompactDescriptorWithArchivingSchedule[]
+  routeKey: Extract<RouteKey, 'SUBSCRIBE_CATALOG_VIEW' | 'PROVIDE_ESERVICE_MANAGE'>
 }

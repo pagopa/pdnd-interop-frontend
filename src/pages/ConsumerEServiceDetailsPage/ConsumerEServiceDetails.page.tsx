@@ -14,6 +14,7 @@ import ConsumerEServiceDetailsTab from './components/ConsumerEServiceDetailsTab/
 import ConsumerLinkedPurposeTemplatesTab from './components/ConsumerLinkedPurposeTemplatesTab.tsx/ConsumerLinkedPurposeTemplatesTab'
 import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { NewPageContainer } from '@/components/layout/containers/NewPageContainer'
+import { useDialog } from '@/stores'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -21,6 +22,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
   const { jwt } = AuthHooks.useJwt()
 
   const { activeTab, updateActiveTab } = useActiveTab('eserviceDetail')
+  const { openDialog } = useDialog()
 
   const { data: descriptor } = useQuery(
     EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
@@ -76,7 +78,18 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
         descriptor
           ? {
               label: t('versionHeaderLabel'),
-              shortcut: { type: 'button', label: descriptor.version, onClick: () => {} }, // TODO navigation function
+              shortcut: {
+                type: 'button',
+                label: descriptor.version,
+                onClick: () =>
+                  openDialog({
+                    type: 'showVersionsList',
+                    eserviceId,
+                    eserviceName: descriptor.eservice.name,
+                    descriptors: descriptor.eservice.descriptors,
+                    routeKey: 'SUBSCRIBE_CATALOG_VIEW',
+                  }),
+              },
               actions: headerInfoActions,
               statusChip: { for: 'eservice', state: descriptor.state },
             }

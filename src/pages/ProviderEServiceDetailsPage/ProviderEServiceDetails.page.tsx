@@ -11,12 +11,14 @@ import { useActiveTab } from '@/hooks/useActiveTab'
 import { ProviderEserviceDetailsTab } from './components/ProviderEServiceDetailsTab/ProviderEServiceDetailsTab'
 import { ProviderEserviceKeychainsTab } from './components/ProviderEServiceKeychainsTab/ProviderEServiceKeychainsTab'
 import { NewPageContainer } from '@/components/layout/containers/NewPageContainer'
+import { useDialog } from '@/stores'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
 
   const { activeTab, updateActiveTab } = useActiveTab('eserviceDetails')
+  const { openDialog } = useDialog()
 
   const { data: descriptor } = useQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
@@ -55,7 +57,18 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         descriptor
           ? {
               label: t('versionHeaderLabel'),
-              shortcut: { type: 'button', label: descriptor.version, onClick: () => {} }, // TODO navigation function
+              shortcut: {
+                type: 'button',
+                label: descriptor.version,
+                onClick: () =>
+                  openDialog({
+                    type: 'showVersionsList',
+                    eserviceId,
+                    eserviceName: descriptor.eservice.name,
+                    descriptors: descriptor.eservice.descriptors,
+                    routeKey: 'PROVIDE_ESERVICE_MANAGE',
+                  }),
+              },
               actions: headerInfoActions,
               statusChip: { for: 'eservice', state: descriptor.state },
             }
