@@ -886,9 +886,8 @@
         "notes": "Notes"
       },
       "versionSelectorDrawer": {
-        "title": "Navigate to another e-service version",
+        "title": "View another e-service version",
         "label": "Select version",
-        "currentVersion": "{{ versionNum }} - current version",
         "goToSelectedVersion": "Go to the selected version"
       },
       "updateDocumentationDrawer": {
