@@ -10,8 +10,11 @@ import {
   Skeleton,
   Divider,
   Stack,
+  Button,
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import EditIcon from '@mui/icons-material/Edit'
+import { useTranslation } from 'react-i18next'
 
 type SummaryAccordionProps = {
   headline: string
@@ -20,6 +23,7 @@ type SummaryAccordionProps = {
   defaultExpanded?: boolean
   showWarning?: boolean
   warningLabel?: string
+  onEditStep?: VoidFunction
 }
 export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
   headline,
@@ -28,8 +32,10 @@ export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
   defaultExpanded,
   showWarning,
   warningLabel,
+  onEditStep,
 }) => {
   const id = React.useId()
+  const { t } = useTranslation('common', { keyPrefix: 'actions' })
 
   return (
     <Paper elevation={8} sx={{ borderRadius: 4, overflow: 'hidden' }}>
@@ -74,6 +80,18 @@ export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
         <AccordionDetails sx={{ px: 4, pb: 3 }}>
           <Divider sx={{ mb: 3, mt: -1 }} />
           {children}
+          {onEditStep && (
+            <Button
+              sx={{
+                pl: 0,
+                mt: 1,
+              }}
+              startIcon={<EditIcon />}
+              onClick={onEditStep}
+            >
+              {t('edit')}
+            </Button>
+          )}
         </AccordionDetails>
       </MUIAccordion>
     </Paper>

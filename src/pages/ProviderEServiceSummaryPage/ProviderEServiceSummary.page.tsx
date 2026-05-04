@@ -90,14 +90,14 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     )
   }
 
-  const handleEditDraft = () => {
+  const handleEditDraft = (step?: number) => {
     if (!descriptor) return
     navigate('PROVIDE_ESERVICE_EDIT', {
       params: {
         eserviceId: descriptor.eservice.id,
         descriptorId: descriptor.id,
       },
-      state: { stepIndexDestination: 1 },
+      state: { stepIndexDestination: step ?? 1 },
     })
   }
 
@@ -352,12 +352,17 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               defaultExpanded={true}
               showWarning={!isGeneralInfoSectionValid}
               warningLabel={t('summary.missingInformationsLabel')}
+              onEditStep={() => handleEditDraft(0)}
             >
               <ProviderEServiceGeneralInfoSummarySection />
             </SummaryAccordion>
           </React.Suspense>
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-            <SummaryAccordion headline="2" title={t('summary.attributeVersionSummary.title')}>
+            <SummaryAccordion
+              headline="2"
+              title={t('summary.attributeVersionSummary.title')}
+              onEditStep={() => handleEditDraft(1)}
+            >
               <ProviderEServiceAttributeVersionSummarySection />
             </SummaryAccordion>
           </React.Suspense>
@@ -374,6 +379,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               title={t('summary.documentationSummary.title')}
               showWarning={!isDocumentationSectionValid}
               warningLabel={t('summary.missingInformationsLabel')}
+              onEditStep={() => handleEditDraft(2)}
             >
               <ProviderEServiceDocumentationSummarySection />
             </SummaryAccordion>
@@ -384,6 +390,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               title={t('summary.versionInfoSummary.title')}
               showWarning={!isVersionInfoSectionValid}
               warningLabel={t('summary.missingInformationsLabel')}
+              onEditStep={() => handleEditDraft(3)}
             >
               <ProviderEServiceVersionInfoSummarySection />
             </SummaryAccordion>
@@ -434,7 +441,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
                 <Button
                   startIcon={<CreateIcon />}
                   variant="text"
-                  onClick={handleEditDraft}
+                  onClick={() => handleEditDraft()}
                   disabled={isSupport}
                 >
                   {tCommon('editDraft')}
