@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useBaseBanner } from './useBaseBanner'
 import { useTranslation } from 'react-i18next'
-import { ThresholdsQueries } from '@/api/thresholds/thresholds.queries'
+import { ThresholdsQueries } from '@/api/thresholds'
 
 const STORAGE_KEY = 'thresholdsBannerDismissedUntil'
 
