@@ -12,6 +12,15 @@ export function formatDateString(dateString: string) {
   return dateFormatter.format(new Date(dateString))
 }
 
+const dateFormatterAllDigit = new Intl.DateTimeFormat('it', {
+  day: '2-digit',
+  month: '2-digit',
+  year: 'numeric',
+})
+export function formatDateStringAllDigit(dateString: string) {
+  return dateFormatterAllDigit.format(new Date(dateString))
+}
+
 export function secondsToHoursMinutes(totalSeconds: number) {
   const totalMinutes = totalSeconds / 60
   const hours = Math.floor(totalMinutes / 60)
