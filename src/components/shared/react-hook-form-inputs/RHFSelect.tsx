@@ -45,8 +45,23 @@ export const RHFSelect: React.FC<RHFSelectProps> = ({
       name={name}
       rules={conditionalRules}
       render={({ field: { ref, onChange, value, ...fieldProps } }) => (
-        <FormControl fullWidth error={!!error} size={size} disabled={disabled}>
-          <InputLabel id={labelId}>{label}</InputLabel>
+        <FormControl
+          fullWidth
+          error={!!error}
+          size={size}
+          disabled={disabled}
+          required={Boolean(rules?.required)}
+        >
+          <InputLabel
+            id={labelId}
+            sx={{
+              '& .MuiFormLabel-asterisk': {
+                color: 'error.main',
+              },
+            }}
+          >
+            {label}
+          </InputLabel>
           <MUISelect
             {...props}
             {...fieldProps}
