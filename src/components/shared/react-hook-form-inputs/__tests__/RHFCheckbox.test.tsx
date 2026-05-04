@@ -38,7 +38,7 @@ describe('RHFCheckbox Accessibility', () => {
 
     render(
       <TestInputWrapper>
-        <RHFCheckbox name="testAccessibilityCheckbox" label={testLabel} />
+        <RHFCheckbox name={checkbox.standard.name} label={testLabel} />
       </TestInputWrapper>
     )
 

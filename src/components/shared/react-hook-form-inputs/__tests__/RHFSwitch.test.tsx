@@ -38,7 +38,7 @@ describe('RHFSwitch Accessibility', () => {
 
     render(
       <TestInputWrapper>
-        <RHFSwitch name="testAccessibilitySwitch" label={testLabel} />
+        <RHFSwitch name={switchProps.standard.name} label={testLabel} />
       </TestInputWrapper>
     )
 
