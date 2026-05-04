@@ -5,7 +5,7 @@ import { vi } from 'vitest'
 import * as useThresholdsBannerModule from '@/hooks/bannerHooks/useThresholdsBanner'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 
-const mockNotificationBanner = {
+const mockThresholdsBanner = {
   title: 'This is a threshold message',
   text: 'This is the threshold context',
   isOpen: true,
@@ -16,19 +16,17 @@ describe('Checks thresholds banner alert', () => {
   it('renders thresholds banner with message and closes on button click', async () => {
     const user = userEvent.setup()
 
-    vi.spyOn(useThresholdsBannerModule, 'useThresholdsBanner').mockReturnValue(
-      mockNotificationBanner
-    )
+    vi.spyOn(useThresholdsBannerModule, 'useThresholdsBanner').mockReturnValue(mockThresholdsBanner)
 
     const { getByText, getByTestId } = renderWithApplicationContext(<ThresholdsBanner />, {
       withRouterContext: true,
     })
 
-    expect(getByText(mockNotificationBanner.title)).toBeInTheDocument()
-    expect(getByText(mockNotificationBanner.text)).toBeInTheDocument()
+    expect(getByText(mockThresholdsBanner.title)).toBeInTheDocument()
+    expect(getByText(mockThresholdsBanner.text)).toBeInTheDocument()
 
     const closeButton = getByTestId('CloseIcon')
     await user.click(closeButton)
-    expect(mockNotificationBanner.closeBanner).toHaveBeenCalled()
+    expect(mockThresholdsBanner.closeBanner).toHaveBeenCalled()
   })
 })
