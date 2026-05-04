@@ -45,6 +45,7 @@ export type DialogProps =
   | DialogShowEserviceVersionsListProps
   | DialogSuspendArchivingEserviceProps
   | DialogReactivateArchivingEserviceProps
+  | DialogSuspendArchivingDescriptorProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -202,6 +203,12 @@ export type DialogSuspendArchivingEserviceProps = {
 
 export type DialogReactivateArchivingEserviceProps = {
   type: 'reactivateArchivingEservice'
+  eserviceId: string
+  descriptorId: string
+}
+
+export type DialogSuspendArchivingDescriptorProps = {
+  type: 'suspendArchivingDescriptor'
   eserviceId: string
   descriptorId: string
 }

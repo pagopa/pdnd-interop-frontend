@@ -548,6 +548,15 @@
       },
       "proceedLabel": "Riattiva"
     },
+    "dialogSuspendArchivingDescriptor": {
+      "title": "Sospendi versione in fase di archiviazione",
+      "intro": "Cosa succede con la sospensione:",
+      "bullets": {
+        "suspended": "la versione non potrà essere utilizzata e resterà sospesa fino a un’eventuale riattivazione;",
+        "archivingNotAffected": "la sospensione <strong>non modifica</strong> l’archiviazione già avviata per questa versione e <strong>non interrompe</strong> il periodo di preavviso;",
+        "archivedAfterNotice": "dopo il periodo di preavviso, la versione sarà archiviata definitivamente."
+      }
+    },
     "actions": {
       "backToListLabel": "Torna agli e-service",
       "backToCatalogLabel": "Torna al catalogo",
