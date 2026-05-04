@@ -331,14 +331,6 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
           >
             <Typography variant="body2">{descriptor.eservice.description}</Typography>
           </SectionContainer>
-          <Divider />
-          <SectionContainer
-            innerSection
-            title={t('descriptorDescription.label')}
-            titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
-          >
-            <Typography variant="body2">{descriptor.description ?? ''}</Typography>
-          </SectionContainer>
         </Stack>
       </SectionContainer>
       <EServiceVersionSelectorDrawer

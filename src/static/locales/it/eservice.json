@@ -580,6 +580,31 @@
           "watchRiskyAnalysisAssociated": "Consulta l'analisi del rischio di questo e-service"
         }
       },
+      "versionInformations": {
+        "title": "Informazioni versione",
+        "details": {
+          "title": "Dettagli",
+          "descriptorDescription": {
+            "label": "Descrizione della versione"
+          }
+        },
+        "agreementApprovalPolicy": {
+          "title": "Richieste di fruizione",
+          "label": "Approvazione richieste",
+          "content": {
+            "AUTOMATIC": "Automatica",
+            "MANUAL": "Manuale"
+          }
+        },
+        "lifeCycle": {
+          "title": "Ciclo di vita",
+          "lastVersionDate": "Data ultima versione",
+          "archivedDate": "Data archiviazione",
+          "suspendedDate": "Data sospensione",
+          "deprecatedDate": "Data deprecazione",
+          "publishedDate": "Data pubblicazione"
+        }
+      },
       "technicalInformations": {
         "title": "Specifiche tecniche e-service",
         "description": "In questa sezione potrai verificare le specifiche dell’e-service ed apportare modifiche.",
@@ -597,10 +622,6 @@
           "label": "ID erogatore",
           "copySuccessFeedbackText": "ID copiato correttamente"
         },
-        "publishedAt": "Data ultima versione",
-        "suspendedAt": "Data ultima sospensione",
-        "deprecatedAt": "Data deprecazione versione",
-        "archivedAt": "Data archiviazione versione",
         "mode": {
           "label": "Tipologia e-service",
           "labelDescription": "Riceve / Eroga",
@@ -622,14 +643,6 @@
           "dailyCallsTotal": {
             "label": "Soglia totale",
             "labelDescription": "chiamate API/giorno"
-          }
-        },
-        "agreementApprovalPolicy": {
-          "title": "Richieste di fruizione",
-          "label": "Accettazione richieste",
-          "content": {
-            "AUTOMATIC": "Automatica",
-            "MANUAL": "Manuale"
           }
         },
         "documentation": {
