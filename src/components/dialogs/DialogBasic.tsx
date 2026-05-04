@@ -62,6 +62,13 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
           <Trans
             components={{
               strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+              p: (
+                <Typography
+                  component="p"
+                  variant="inherit"
+                  sx={{ '&:not(:last-of-type)': { mb: 2 } }}
+                />
+              ),
             }}
           >
             {description}

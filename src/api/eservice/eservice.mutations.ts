@@ -146,7 +146,10 @@ function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }
                 eserviceName: variables.eserviceName,
               })
             }
-          : () => t('confirmDialog.description'),
+          : (variables: unknown) =>
+              (variables as { isFirstVersion?: boolean }).isFirstVersion
+                ? t('confirmDialog.description')
+                : t('confirmDialog.descriptionNewVersion'),
         proceedLabel: isByDelegation
           ? t('confirmDialog.actions.proceed')
           : t('confirmDialog.proceedLabel'),
