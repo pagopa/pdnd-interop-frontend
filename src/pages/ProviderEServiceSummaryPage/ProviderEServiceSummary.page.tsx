@@ -72,6 +72,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 
   const isEServiceFromTemplate = descriptor?.templateRef
 
+  // In this case "draft" version is the actual version that user is creating, so if the e-service has only one draft it means that it has never been published before.
   const hasOnlyOneDraft = descriptor?.eservice.descriptors.length === 0
 
   const handleDeleteDraft = () => {
@@ -196,8 +197,8 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 
   const isRulesetExpired =
     // check if the e-service had already been published. In this case we have to skip ruleset expiration check (https://pagopa.atlassian.net/browse/PIN-9966)
-    descriptor?.eservice.descriptors.length === 0 &&
-    eserviceRiskAnalyses &&
+    hasOnlyOneDraft
+  eserviceRiskAnalyses &&
     eserviceRiskAnalyses.some(
       (riskAnalysis) =>
         riskAnalysis.rulesetExpiration && new Date(riskAnalysis.rulesetExpiration) < new Date()

@@ -275,6 +275,14 @@ describe('ProviderEServiceSummaryPage', () => {
       useQueryMock.mockReturnValue({
         data: createMockEServiceDescriptorProvider({
           eservice: {
+            descriptors: [
+              {
+                id: 'descriptor-id-001',
+                state: 'PUBLISHED',
+                version: '1',
+                audience: [],
+              },
+            ],
             riskAnalysis: [
               {
                 id: 'risk-analysis-id-001',
