@@ -46,23 +46,23 @@ const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
       <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
       <DialogContent>
-        <Typography>
+        <Typography variant="body2">
           <Trans
             components={{
               strong: <Typography component="span" variant="inherit" fontWeight={600} />,
             }}
           >
-            {(t('content.description'), { days: gracePeriod })}
+            {t('content.description', { days: gracePeriod })}
           </Trans>
         </Typography>
 
-        <Alert severity="info">
+        <Alert severity="info" sx={{ mt: 4 }}>
           <Trans
             components={{
               1: <Link underline="hover" href={DOCUMENTATION_URL} target="_blank" />, // TODO documentation link
             }}
           >
-            {(t('content.alert'), { date: formattedArchiveDate })}
+            {t('content.alert', { date: formattedArchiveDate })}
           </Trans>
         </Alert>
       </DialogContent>

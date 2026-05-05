@@ -37,7 +37,7 @@ const DialogCancelVersionArchiving: React.FC<DialogCancelVersionArchivingProps> 
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
       <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
       <DialogContent>
-        <Typography>{t('description')}</Typography>
+        <Typography variant="body2">{t('description')}</Typography>
       </DialogContent>
 
       <DialogActions>
