@@ -80,6 +80,7 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
               label={t('clientAssertionLabel')}
               rules={{ required: true }}
               size="medium"
+              rows={5}
               infoLabel={t('clientAssertionInfoLabel')}
             />
 
@@ -90,6 +91,7 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
                 size="medium"
                 label={t('dpopProofLabel')}
                 infoLabel={t('dpopProofInfoLabel')}
+                rows={5}
               />
             )}
 
