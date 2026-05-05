@@ -26,6 +26,8 @@ import type {
   DialogTenantKindEserviceTemplateProps,
   DialogTenantKindPurposeTemplateProps,
   DialogSelectAgreementConsumerProps,
+  DialogArchiveEserviceProps,
+  DialogCancelEserviceArchivingProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -47,6 +49,8 @@ import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersio
 import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemplate'
 import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTemplate'
 import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/DialogSelectAgreementConsumer'
+import DialogCancelEserviceArchiving from './DialogCancelEserviceArchiving'
+import DialogArchiveEservice from './DialogArchiveEservice'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -69,7 +73,9 @@ function match<T>(
   onRejectDelegatedVersionDraft: (props: DialogRejectDelegatedVersionDraftProps) => T,
   onDialogTenantKindEserviceTemplate: (props: DialogTenantKindEserviceTemplateProps) => T,
   onDialogTenantKindPurposeTemplate: (props: DialogTenantKindPurposeTemplateProps) => T,
-  onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T
+  onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T,
+  onArchiveEservice: (props: DialogArchiveEserviceProps) => T,
+  onCancelEserviceArchiving: (props: DialogCancelEserviceArchivingProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -115,6 +121,10 @@ function match<T>(
         return onDialogTenantKindPurposeTemplate(props)
       case 'selectAgreementConsumer':
         return onSelectAgreementConsumer(props)
+      case 'archiveEservice':
+        return onArchiveEservice(props)
+      case 'cancelEserviceArchiving':
+        return onCancelEserviceArchiving(props)
     }
   }
 }
@@ -140,7 +150,9 @@ const _Dialog = match(
   (props) => <DialogRejectDelegatedVersionDraft {...props} />,
   (props) => <DialogTenantKindEserviceTemplate {...props} />,
   (props) => <DialogTenantKindPurposeTemplate {...props} />,
-  (props) => <DialogSelectAgreementConsumer {...props} />
+  (props) => <DialogSelectAgreementConsumer {...props} />,
+  (props) => <DialogArchiveEservice {...props} />,
+  (props) => <DialogCancelEserviceArchiving {...props} />
 )
 
 export const Dialog: React.FC = () => {

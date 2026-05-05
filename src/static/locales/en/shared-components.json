@@ -271,6 +271,33 @@
       }
     }
   },
+  "dialogCancelEserviceArchiving": {
+    "title": "Cancel e-service archiving",
+    "description": "This e-service will no longer be archived.",
+    "actions": {
+      "cancelArchiving": "Cancel archiving"
+    }
+  },
+  "dialogArchiveEservice": {
+    "title": "Archive e-service",
+    "content": {
+      "advice": {
+        "description": "Con l’archiviazione dell’e-service, tutte le sue versioni saranno archiviate e quelle in bozza eliminate. Se confermi questa scelta, inizierà un <strong>periodo di preavviso di {{days}} giorni</strong>. Durante questo periodo l’e-service sarà in fase di archiviazione, ma risulterà ancora attivo. Potrai annullare l’archiviazione solo durante il periodo di preavviso e non sarà più possibile farlo dopo. Alla fine del periodo di preavviso, l’<strong>e-service sarà archiviato definitivamente</strong>."
+      },
+      "confirm": {
+        "description": "Tutti i fruitori saranno informati sul periodo di preavviso e sul motivo dell’archiviazione.",
+        "form": {
+          "label": "Motivo archiviazione",
+          "infoLabel": "Spiega perché hai scelto di archiviare l’e-service. Se vuoi, suggerisci un e-service alternativo. Entrambe le informazioni saranno condivise con i fruitori. Min 10 caratteri, max 250 caratteri"
+        }
+      },
+      "alert": "L’archiviazione dell’e-service è programmata per il giorno {{date}}. L’effettiva archiviazione potrebbe richiedere un tempo aggiuntivo. Consulta la <1>documentazione</1> per avere altri dettagli."
+    },
+    "actions": {
+      "back": "Back",
+      "forward": "Forward"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"
