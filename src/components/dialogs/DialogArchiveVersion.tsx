@@ -1,3 +1,4 @@
+import { DOCUMENTATION_URL } from '@/config/env'
 import { useDialog } from '@/stores'
 import type { DialogArchiveVersionProps } from '@/types/dialog.types'
 import { formatDateStringAllDigit } from '@/utils/format.utils'
@@ -58,7 +59,7 @@ const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
         <Alert severity="info">
           <Trans
             components={{
-              1: <Link underline="hover" href={clientKeyGuideLink} target="_blank" />, // TODO documentation link
+              1: <Link underline="hover" href={DOCUMENTATION_URL} target="_blank" />, // TODO documentation link
             }}
           >
             {(t('content.alert'), { date: formattedArchiveDate })}
