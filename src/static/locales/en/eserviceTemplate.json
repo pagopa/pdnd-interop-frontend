@@ -148,7 +148,7 @@
         "dailyCallsTotalLabel": "Total suggested threshold"
       },
       "updateVoucherDrawer": {
-        "subtitle": "From this panel, you can update the voucher lifespan of the template e-service. The changes made will take effect immediately."
+        "subtitle": "The changes will take effect immediately"
       },
       "updateDocumentationDrawer": {
         "title": "Edit documentation",
@@ -214,7 +214,7 @@
       "step2Label": "Thresholds and attributes",
       "step2ReceiveLabel": "Purpose",
       "step3Label": "Technical specifications",
-      "step4Label": "Version information"
+      "step4Label": "Additional information"
     },
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",

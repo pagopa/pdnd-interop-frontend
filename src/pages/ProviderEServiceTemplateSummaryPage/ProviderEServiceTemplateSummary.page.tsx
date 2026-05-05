@@ -16,7 +16,6 @@ import {
   ProviderEServiceTemplateAdditionalInfoSummarySection,
 } from './components'
 import { ProviderEServiceTemplateRiskAnalysisSummaryList } from './components/ProviderEServiceTemplateRiskAnalysisSummaryList'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { UpdatePersonalDataDrawer } from '@/components/shared/UpdatePersonalDataDrawer'
 import type { EServiceMode } from '@/api/api.generatedTypes'
@@ -187,7 +186,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             </SummaryAccordion>
           </React.Suspense>
         </Stack>
-        {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && !arePersonalDataSet && !isLoading && (
+        {!arePersonalDataSet && !isLoading && (
           <Alert severity="warning" sx={{ alignItems: 'center', mt: 3 }} variant="outlined">
             <Stack spacing={30} direction="row" alignItems="center">
               {' '}
@@ -204,7 +203,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             </Stack>
           </Alert>
         )}
-        {hasMissingFields && !isLoading && (
+        {!canBePublished() && !isLoading && (
           <Alert severity="warning" sx={{ mt: 3 }}>
             {t('summary.missingFieldsBanner')}
           </Alert>
@@ -224,7 +223,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
           <PublishButton
             onClick={handlePublishDraft}
             disabled={!canBePublished()}
-            arePersonalDataSet={FEATURE_FLAG_ESERVICE_PERSONAL_DATA && arePersonalDataSet}
+            arePersonalDataSet={arePersonalDataSet}
             hasMissingFields={hasMissingFields}
           />
         </Stack>

@@ -128,8 +128,9 @@ const ProviderEServiceCreatePage: React.FC = () => {
         ]
 
   const templateId = eserviceTemplate?.id
-  const activeTemplateVersionId = eserviceTemplate?.versions.find((v) => v.state === 'PUBLISHED')
-    ?.id
+  const activeTemplateVersionId = eserviceTemplate?.versions.find(
+    (v) => v.state === 'PUBLISHED'
+  )?.id
 
   const intro = isNewEService
     ? { title: t('create.emptyTitle') }
@@ -163,6 +164,8 @@ const ProviderEServiceCreatePage: React.FC = () => {
           ),
       }
 
+  const hideRequiredTextLabel = activeStep === 0 && descriptor && descriptor.version !== '1'
+
   return (
     <PageContainer
       {...intro}
@@ -172,7 +175,7 @@ const ProviderEServiceCreatePage: React.FC = () => {
       }}
       isLoading={!isReady}
     >
-      <RequiredTextLabel />
+      {!hideRequiredTextLabel && <RequiredTextLabel />}
       <Stepper steps={steps} activeIndex={activeStep} />
       {isReady && (
         <EServiceCreateContextProvider

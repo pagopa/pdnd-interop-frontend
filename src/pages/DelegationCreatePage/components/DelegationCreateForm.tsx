@@ -220,16 +220,22 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
               <RHFSwitch
                 name="isEserviceToBeCreated"
                 label={t('delegations.create.delegateField.provider.switch')}
+                inputProps={{
+                  'aria-expanded': isEserviceToBeCreated,
+                  'aria-controls': 'eservice-creation-section',
+                }}
               />
             )}
-            {!isEserviceToBeCreated || delegationKind === 'DELEGATED_CONSUMER' ? (
-              <DelegationCreateEServiceAutocomplete delegationKind={delegationKind} />
-            ) : (
-              <DelegationCreateFormCreateEservice
-                delegationKind={delegationKind}
-                handleTemplateNameAutocompleteChange={handleTemplateNameAutocompleteChange}
-              />
-            )}
+            <Box id="eservice-creation-section" aria-live="polite">
+              {!isEserviceToBeCreated || delegationKind === 'DELEGATED_CONSUMER' ? (
+                <DelegationCreateEServiceAutocomplete delegationKind={delegationKind} />
+              ) : (
+                <DelegationCreateFormCreateEservice
+                  delegationKind={delegationKind}
+                  handleTemplateNameAutocompleteChange={handleTemplateNameAutocompleteChange}
+                />
+              )}
+            </Box>
             <DelegationCreateTenantAutocomplete delegationKind={delegationKind} />
             {delegationKind === 'DELEGATED_CONSUMER' && (hasAgreement || isDelegated) && (
               <Alert severity="warning">

@@ -273,7 +273,7 @@ function usePublishVersionDraft() {
             ? t('confirmDialog.title')
             : t('confirmDialog.titleNewVersion'),
         description: t('confirmDialog.description'),
-        proceedLabel: undefined,
+        proceedLabel: t('confirmDialog.proceedLabel'),
       },
     },
   })

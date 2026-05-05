@@ -100,7 +100,6 @@ export const UpdateVoucherDrawer: React.FC<UpdateVoucherDrawerProps> = ({
           <Box component="form" noValidate>
             <RHFTextField
               sx={{ mt: 4, mb: 0 }}
-              focusOnMount
               name="voucherLifespan"
               label={t('voucherLifespanField.label')}
               infoLabel={t('voucherLifespanField.infoLabel')}
@@ -114,6 +113,17 @@ export const UpdateVoucherDrawer: React.FC<UpdateVoucherDrawerProps> = ({
                     message: t('voucherLifespanField.error'),
                   },
                 }),
+                validate: (value) => {
+                  if (!Number.isInteger(Number(value))) {
+                    return t('voucherLifespanField.validation.integer')
+                  }
+
+                  if (value === secondsToMinutes(voucherLifespan)) {
+                    return t('voucherLifespanField.validation.sameValue')
+                  }
+
+                  return true
+                },
               }}
               disabled={isEserviceFromTemplate}
             />

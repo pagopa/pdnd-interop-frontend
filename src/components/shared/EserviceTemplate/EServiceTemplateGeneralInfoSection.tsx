@@ -16,7 +16,6 @@ import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTempla
 import { EServiceTemplateVersionSelectorDrawer } from '@/components/shared/EserviceTemplate'
 import { UpdatePersonalDataDrawer } from '../UpdatePersonalDataDrawer'
 import { ESERVICE_TEMPLATE_NAME_MAX_LENGTH } from '@/config/constants'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
 
 type EServiceTemplateGeneralInfoSectionProps = {
@@ -172,20 +171,17 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
             label={t('version.label')}
             content={eserviceTemplateVersion?.version.toString() || '1'}
           />
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
-            <InformationContainer
-              label={
-                eserviceTemplateVersion
-                  ? t(`personalDataField.${eserviceTemplateVersion?.eserviceTemplate.mode}.label`)
-                  : ''
-              }
-              content={t(
-                `personalDataField.value.${eserviceTemplateVersion?.eserviceTemplate.personalData}`
-              )}
-            />
-          )}
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
-            (isAdmin || isOperatorAPI) &&
+          <InformationContainer
+            label={
+              eserviceTemplateVersion
+                ? t(`personalDataField.${eserviceTemplateVersion?.eserviceTemplate.mode}.label`)
+                : ''
+            }
+            content={t(
+              `personalDataField.value.${eserviceTemplateVersion?.eserviceTemplate.personalData}`
+            )}
+          />
+          {(isAdmin || isOperatorAPI) &&
             routeKey === 'PROVIDE_ESERVICE_TEMPLATE_DETAILS' &&
             eserviceTemplateVersion?.eserviceTemplate.personalData === undefined && (
               <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">

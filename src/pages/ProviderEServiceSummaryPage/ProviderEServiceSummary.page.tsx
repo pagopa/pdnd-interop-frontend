@@ -21,7 +21,6 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { AuthHooks } from '@/api/auth'
 import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 import { useDialog } from '@/stores'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 import { UpdatePersonalDataDrawer } from '@/components/shared/UpdatePersonalDataDrawer'
 import type { EServiceMode } from '@/api/api.generatedTypes'
 import { match } from 'ts-pattern'
@@ -73,6 +72,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 
   const isEServiceFromTemplate = descriptor?.templateRef
 
+  // In this case "draft" version is the actual version that user is creating, so if the e-service has only one draft it means that it has never been published before.
   const hasOnlyOneDraft = descriptor?.eservice.descriptors.length === 0
 
   const handleDeleteDraft = () => {
@@ -184,7 +184,9 @@ const ProviderEServiceSummaryPage: React.FC = () => {
       return true
     }
 
-    return !!descriptor.templateRef?.interfaceMetadata
+    return (
+      !!descriptor.templateRef?.interfaceMetadata || !!descriptor.templateRef?.templateInterface
+    )
   }
 
   const isReceiveMode = descriptor?.eservice.mode === 'RECEIVE'
@@ -194,7 +196,9 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const eserviceRiskAnalyses = descriptor?.eservice.riskAnalysis
 
   const isRulesetExpired =
-    eserviceRiskAnalyses &&
+    // check if the e-service had already been published. In this case we have to skip ruleset expiration check (https://pagopa.atlassian.net/browse/PIN-9966)
+    hasOnlyOneDraft
+  eserviceRiskAnalyses &&
     eserviceRiskAnalyses.some(
       (riskAnalysis) =>
         riskAnalysis.rulesetExpiration && new Date(riskAnalysis.rulesetExpiration) < new Date()
@@ -210,7 +214,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
         descriptor.voucherLifespan &&
         descriptor.dailyCallsPerConsumer &&
         descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer &&
-        (FEATURE_FLAG_ESERVICE_PERSONAL_DATA ? arePersonalDataSet : true) &&
+        arePersonalDataSet &&
         !isRulesetExpired
       ) && checklistEServiceFromTemplate()
     )
@@ -270,7 +274,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const isGeneralInfoSectionValid =
     Boolean(descriptor?.eservice.description) &&
     Boolean(descriptor?.eservice.technology) &&
-    (FEATURE_FLAG_ESERVICE_PERSONAL_DATA ? arePersonalDataSet : true)
+    arePersonalDataSet
 
   const isVersionInfoSectionValid =
     Boolean(descriptor?.description) &&
@@ -387,37 +391,30 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               <ProviderEServiceVersionInfoSummarySection />
             </SummaryAccordion>
           </React.Suspense>
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
-            !arePersonalDataSet &&
-            isDelegator &&
-            descriptor?.state === 'WAITING_FOR_APPROVAL' && (
-              <Alert severity="error">
-                {isEServiceFromTemplate
-                  ? t('summary.alertMissingPersonalData.eserviceTemplateLabel')
-                  : eserviceLabel}
-              </Alert>
-            )}
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
-            !arePersonalDataSet &&
-            !isLoading &&
-            !isDelegator &&
-            !isEServiceFromTemplate && (
-              <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
-                <Stack spacing={35} direction="row" alignItems="center">
-                  {' '}
-                  {/**TODO FIX SPACING */}
-                  <Typography>{t('summary.alertUpdatePersonalData.label')}</Typography>
-                  <Button
-                    variant="naked"
-                    size="medium"
-                    sx={{ fontWeight: 700, mr: 1, alignSelf: 'flex-end' }}
-                    onClick={openUpdatePersonalDataDrawer}
-                  >
-                    {tCommon('specifyProcessing')}
-                  </Button>
-                </Stack>
-              </Alert>
-            )}
+          {!arePersonalDataSet && isDelegator && descriptor?.state === 'WAITING_FOR_APPROVAL' && (
+            <Alert severity="error">
+              {isEServiceFromTemplate
+                ? t('summary.alertMissingPersonalData.eserviceTemplateLabel')
+                : eserviceLabel}
+            </Alert>
+          )}
+          {!arePersonalDataSet && !isLoading && !isDelegator && !isEServiceFromTemplate && (
+            <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
+              <Stack spacing={35} direction="row" alignItems="center">
+                {' '}
+                {/**TODO FIX SPACING */}
+                <Typography>{t('summary.alertUpdatePersonalData.label')}</Typography>
+                <Button
+                  variant="naked"
+                  size="medium"
+                  sx={{ fontWeight: 700, mr: 1, alignSelf: 'flex-end' }}
+                  onClick={openUpdatePersonalDataDrawer}
+                >
+                  {tCommon('specifyProcessing')}
+                </Button>
+              </Stack>
+            </Alert>
+          )}
         </Stack>
         {!isDelegator &&
           !(isEServiceFromTemplate && descriptor?.state === 'WAITING_FOR_APPROVAL') && (
@@ -517,7 +514,7 @@ const PublishButton: React.FC<PublishButtonProps> = ({
   const { t } = useTranslation('eservice', { keyPrefix: 'summary' })
   let tooltipToShow = t('notPublishableTooltip.label')
 
-  if (!arePersonalDataSet && FEATURE_FLAG_ESERVICE_PERSONAL_DATA) {
+  if (!arePersonalDataSet) {
     tooltipToShow = t('missingPersonalDataField')
   } else if (isRulesetExpired) {
     tooltipToShow = t('rulesetExpiredTooltip.label')

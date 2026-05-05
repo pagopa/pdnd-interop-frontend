@@ -13,7 +13,6 @@ import { AgreementDownloads } from '@/api/agreement'
 import { ConsumerAgreementDetailsContactDrawer } from './ConsumerAgreementDetailsContactDrawer'
 import { ConsumerAgreementDetailsCertifiedAttributesDrawer } from './ConsumerAgreementDetailsCertifiedAttributesDrawer'
 import { IconLink } from '@/components/shared/IconLink'
-import { FEATURE_FLAG_USE_SIGNED_DOCUMENT } from '@/config/env'
 
 export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('agreement', {
@@ -24,7 +23,6 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
   const { agreement } = useConsumerAgreementDetailsContext()
 
   const downloadSignedAgreementDocument = AgreementDownloads.useDownloadSignedContract()
-  const downloadAgreementDocument = AgreementDownloads.useDownloadContract()
 
   const isDelegated = Boolean(agreement.delegation)
 
@@ -51,15 +49,6 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
   const handleDownloadSignedAgreementDocument = () => {
     downloadSignedAgreementDocument(
       { agreementId: agreement.id },
-      `${t('documentation.fileName')}.pdf`
-    )
-  }
-
-  const handleDownloadAgreementDocument = () => {
-    downloadAgreementDocument(
-      {
-        agreementId: agreement.id,
-      },
       `${t('documentation.fileName')}.pdf`
     )
   }
@@ -116,11 +105,7 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
                   disabled={!agreement.isDocumentReady}
                   startIcon={<DownloadIcon />}
                   sx={{ alignSelf: 'start' }}
-                  onClick={
-                    FEATURE_FLAG_USE_SIGNED_DOCUMENT
-                      ? handleDownloadSignedAgreementDocument
-                      : handleDownloadAgreementDocument
-                  }
+                  onClick={handleDownloadSignedAgreementDocument}
                   tooltip={!agreement.isDocumentReady ? tShared('notAvailableYet') : undefined}
                 >
                   {t('documentation.link.label')}
@@ -131,9 +116,9 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
               <>
                 <IconLink
                   startIcon={<RuleIcon />}
+                  component="button"
                   sx={{ alignSelf: 'start' }}
                   onClick={handleOpenCertifiedAttributesDrawer}
-                  style={{ alignSelf: 'start' }}
                 >
                   {t('certifiedAttributeLink.label')}
                 </IconLink>
@@ -143,7 +128,8 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
               <IconLink
                 onClick={handleOpenContactDrawer}
                 startIcon={<ContactMailIcon />}
-                style={{ alignSelf: 'start' }}
+                component="button"
+                sx={{ alignSelf: 'start' }}
               >
                 {t('providerDetailsLink.label')}
               </IconLink>

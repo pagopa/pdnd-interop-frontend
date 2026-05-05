@@ -10,7 +10,6 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { RiskAnalysisFormComponents } from '@/components/shared/RiskAnalysisFormComponents'
 import { useRiskAnalysisForm } from '@/hooks/useRiskAnalysisForm'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 type RiskAnalysisFormProps = {
   defaultAnswers: Record<string, string[]>
@@ -70,12 +69,10 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
           description={t('stepRiskAnalysis.description')}
           sx={{ mb: 2 }}
         >
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
-            <InformationContainer
-              label={t('stepRiskAnalysis.personalDataFlag.label')}
-              content={t(`stepRiskAnalysis.personalDataFlag.content.${personalData}`)}
-            />
-          )}
+          <InformationContainer
+            label={t('stepRiskAnalysis.personalDataFlag.label')}
+            content={t(`stepRiskAnalysis.personalDataFlag.content.${personalData}`)}
+          />
         </SectionContainer>
         <Stack spacing={2}>
           <Alert sx={{ mt: 4, mb: 2 }} severity="warning">

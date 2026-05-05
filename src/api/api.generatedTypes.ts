@@ -194,6 +194,10 @@ export interface HasCertifiedAttributes {
   hasCertifiedAttributes: boolean;
 }
 
+export interface IsTenantAllowedToDelegation {
+  isAllowed: boolean;
+}
+
 export interface HideOption {
   id: string;
   value: string;
@@ -290,6 +294,7 @@ export interface UpdateEServiceTemplateInstanceDescriptorQuotas {
    * @max 1000000000
    */
   dailyCallsTotal: number;
+  attributes?: DescriptorAttributesSeed;
 }
 
 export interface UpdateEServiceDescriptorAgreementApprovalPolicySeed {
@@ -351,6 +356,7 @@ export interface UpdateEServiceDescriptorTemplateInstanceSeed {
    * MANUAL - the Producer must approve every agreement for this Descriptor.
    */
   agreementApprovalPolicy: AgreementApprovalPolicy;
+  attributes?: DescriptorAttributesSeed;
 }
 
 export interface Mail {
@@ -4140,6 +4146,14 @@ export interface GetTenantsParams {
   limit: number;
 }
 
+export interface IsTenantAllowedToDelegationParams {
+  /**
+   * The identifier of the tenant
+   * @format uuid
+   */
+  tenantId: string;
+}
+
 export interface GetClientsParams {
   /** Query to filter Clients by name */
   q?: string;
@@ -6488,6 +6502,28 @@ export namespace Tenants {
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = Tenants;
+  }
+
+  /**
+   * @description Check if a tenant is allowed to use delegations based on certified attributes
+   * @tags tenants
+   * @name IsTenantAllowedToDelegation
+   * @summary Check if a tenant is allowed to use delegations
+   * @request GET:/tenants/{tenantId}/delegations/allowed
+   * @secure
+   */
+  export namespace IsTenantAllowedToDelegation {
+    export type RequestParams = {
+      /**
+       * The identifier of the tenant
+       * @format uuid
+       */
+      tenantId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = IsTenantAllowedToDelegation;
   }
 
   /**

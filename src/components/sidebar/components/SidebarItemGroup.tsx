@@ -47,6 +47,7 @@ export const SidebarItemGroup: React.FC<SidebarItemGroupProps> = ({
           data-testid="sidebar-item-group-button"
           selected={isSelected}
           onClick={handleExpandParent}
+          aria-expanded={isExpanded}
           sx={
             !open && isSelected
               ? {

@@ -238,4 +238,75 @@ describe('ProviderEServiceSummaryPage', () => {
     expect(screen.queryByTestId('DeleteOutlineIcon')).not.toBeInTheDocument()
     expect(screen.queryByTestId('CreateIcon')).not.toBeInTheDocument()
   })
+
+  describe('isRulesetExpired', () => {
+    it('should be true when there are no other descriptors and riskAnalysis rulesetExpiration is expired', () => {
+      const mock = createMockEServiceDescriptorProvider()
+      mock.eservice.descriptors = []
+      mock.eservice.riskAnalysis = [
+        {
+          id: 'risk-analysis-id-001',
+          name: 'Risk Analysis 1',
+          riskAnalysisForm: {
+            riskAnalysisId: 'form-id-001',
+            version: 'version-001',
+            answers: 'answers-001',
+          },
+          createdAt: '',
+          rulesetExpiration: '2020-01-01T00:00:00Z',
+        },
+      ]
+
+      useQueryMock.mockReturnValue({
+        data: mock,
+        isLoading: false,
+      })
+
+      renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      })
+
+      const publishButton = screen.getByRole('button', { name: 'publish' })
+      expect(publishButton).toBeDisabled()
+    })
+
+    it('should be false when there are other descriptors even if riskAnalysis rulesetExpiration is expired', () => {
+      useQueryMock.mockReturnValue({
+        data: createMockEServiceDescriptorProvider({
+          eservice: {
+            descriptors: [
+              {
+                id: 'descriptor-id-001',
+                state: 'PUBLISHED',
+                version: '1',
+                audience: [],
+              },
+            ],
+            riskAnalysis: [
+              {
+                id: 'risk-analysis-id-001',
+                name: 'Risk Analysis 1',
+                riskAnalysisForm: {
+                  riskAnalysisId: 'form-id-001',
+                  version: 'version-001',
+                },
+                createdAt: '',
+                rulesetExpiration: '2020-01-01T00:00:00Z',
+              },
+            ],
+          },
+        }),
+        isLoading: false,
+      })
+
+      renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      })
+
+      const publishButton = screen.getByRole('button', { name: 'publish' })
+      expect(publishButton).toBeEnabled()
+    })
+  })
 })

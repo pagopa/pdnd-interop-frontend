@@ -205,7 +205,7 @@
         },
         "linkedEservices": {
           "title": "Linked e-services",
-          "description": "The entity has defined a list of e-services for which the facilitated purpose is suggested. The user may also use this template for e-services not included in the list.",
+          "description": "Here's a list of suggested e-services for this simplified purpose. The template can also be used for other e-services not listed.",
           "linkedEservicesLink": "View linked e-services"
         },
         "documentation": {
