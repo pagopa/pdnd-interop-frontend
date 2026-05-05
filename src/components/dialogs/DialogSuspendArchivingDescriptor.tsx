@@ -61,7 +61,12 @@ export const DialogSuspendArchivingDescriptor: React.FC<DialogSuspendArchivingDe
         <Button variant="outlined" onClick={closeDialog}>
           {tCommon('cancel')}
         </Button>
-        <Button variant="contained" color="error" onClick={handleProceed}>
+        <Button
+          variant="contained"
+          color="error"
+          onClick={handleProceed}
+          sx={{ color: 'common.white' }}
+        >
           {tCommon('suspend')}
         </Button>
       </DialogActions>
