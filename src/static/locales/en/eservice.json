@@ -530,6 +530,16 @@
         "archivedAfterNotice": "once the notice period elapses, the version will be permanently archived."
       }
     },
+    "dialogReactivateArchivingDescriptor": {
+      "title": "Reactivate version under archival",
+      "intro": "What reactivation does:",
+      "bullets": {
+        "usableAgain": "the version becomes usable again, while remaining under archival;",
+        "archivingNotAffected": "reactivation <strong>does not change</strong> the ongoing archival of this version and <strong>does not interrupt</strong> the notice period;",
+        "archivedAfterNotice": "once the notice period elapses, the version will be permanently archived."
+      },
+      "proceedLabel": "Reactivate"
+    },
     "actions": {
       "backToListLabel": "Back to the e-services",
       "backToCatalogLabel": "Back to the catalog"

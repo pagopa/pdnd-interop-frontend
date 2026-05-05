@@ -530,6 +530,16 @@
         "archivedAfterNotice": "dopo il periodo di preavviso, la versione sarà archiviata definitivamente."
       }
     },
+    "dialogReactivateArchivingDescriptor": {
+      "title": "Riattiva versione in fase di archiviazione",
+      "intro": "Cosa succede con la riattivazione:",
+      "bullets": {
+        "usableAgain": "la versione torna a essere utilizzabile, pur restando in fase di archiviazione;",
+        "archivingNotAffected": "la riattivazione <strong>non modifica</strong> l’archiviazione già avviata per questa versione e <strong>non interrompe</strong> il periodo di preavviso;",
+        "archivedAfterNotice": "dopo il periodo di preavviso, la versione sarà archiviata definitivamente."
+      },
+      "proceedLabel": "Riattiva"
+    },
     "actions": {
       "backToListLabel": "Torna agli e-service",
       "backToCatalogLabel": "Torna al catalogo"

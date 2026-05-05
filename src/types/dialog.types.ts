@@ -41,6 +41,7 @@ export type DialogProps =
   | DialogTenantKindPurposeTemplateProps
   | DialogSelectAgreementConsumerProps
   | DialogSuspendArchivingDescriptorProps
+  | DialogReactivateArchivingDescriptorProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -183,6 +184,12 @@ export type DialogTenantKindPurposeTemplateProps = {
 
 export type DialogSuspendArchivingDescriptorProps = {
   type: 'suspendArchivingDescriptor'
+  eserviceId: string
+  descriptorId: string
+}
+
+export type DialogReactivateArchivingDescriptorProps = {
+  type: 'reactivateArchivingDescriptor'
   eserviceId: string
   descriptorId: string
 }
