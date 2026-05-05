@@ -1,6 +1,5 @@
 import React from 'react'
 import { EServiceQueries } from '@/api/eservice'
-import { PageContainer } from '@/components/layout/containers'
 import { useParams } from '@/router'
 import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { Tab } from '@mui/material'
@@ -11,8 +10,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { ProviderEserviceDetailsTab } from './components/ProviderEServiceDetailsTab/ProviderEServiceDetailsTab'
 import { ProviderEserviceKeychainsTab } from './components/ProviderEServiceKeychainsTab/ProviderEServiceKeychainsTab'
-import type { StatusChip } from '@/components/shared/StatusChip'
-import type { CompactDescriptor } from '@/api/api.generatedTypes'
+import { NewPageContainer } from '@/components/layout/containers/NewPageContainer'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -42,51 +40,11 @@ const ProviderEServiceDetailsPage: React.FC = () => {
     descriptor?.delegation
   )
 
-  const getStatusChips = () => {
-    let eserviceChip: React.ComponentProps<typeof StatusChip> | undefined
-    let versionChip: React.ComponentProps<typeof StatusChip> | undefined
-
-    if (descriptor) {
-      const lastActiveDescriptor = descriptor.eservice.descriptors.reduce<
-        CompactDescriptor | undefined
-      >((acc, curr) => {
-        if (curr.state !== 'DRAFT') {
-          if (!acc || curr.version > acc.version) {
-            return curr
-          }
-        }
-        return acc
-      }, undefined)
-
-      eserviceChip = lastActiveDescriptor
-        ? {
-            for: 'eservice',
-            state: lastActiveDescriptor?.state,
-          }
-        : undefined
-
-      if (
-        descriptor.id !== lastActiveDescriptor?.id &&
-        descriptor.state !== lastActiveDescriptor?.state
-      ) {
-        versionChip = { for: 'eservice', state: descriptor.state }
-      }
-    }
-
-    return {
-      eserviceChip,
-      versionChip,
-    }
-  }
-
-  const statusChips = getStatusChips()
-
   return (
-    <PageContainer
+    <NewPageContainer
       title={descriptor?.eservice.name || ''}
       topSideActions={actions}
       isLoading={!descriptor}
-      statusChip={statusChips.eserviceChip}
       backToAction={{
         label: t('actions.backToListLabel'),
         to: 'PROVIDE_ESERVICE_LIST',
@@ -97,7 +55,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
               label: t('versionHeaderLabel'),
               link: { label: descriptor.version, onClink: () => {} }, // TODO navigation function
               actions: [], // TODO actions for secondHeader
-              statusChip: statusChips.versionChip,
+              statusChip: { for: 'eservice', state: descriptor.state },
             }
           : undefined
       }
@@ -116,7 +74,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
           <ProviderEserviceKeychainsTab />
         </TabPanel>
       </TabContext>
-    </PageContainer>
+    </NewPageContainer>
   )
 }
 
