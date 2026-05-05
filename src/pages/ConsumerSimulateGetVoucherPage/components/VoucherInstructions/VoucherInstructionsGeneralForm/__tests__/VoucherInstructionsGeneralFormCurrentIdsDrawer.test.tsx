@@ -10,7 +10,7 @@ vi.mock('@/api/purpose', () => ({
       queryFn: async () => ({
         id: 'purpose-1',
         eservice: {
-          id: 'eservice-1',
+          id: 'purpose-eservice-1',
           descriptor: {
             id: 'descriptor-1',
           },
@@ -32,12 +32,28 @@ vi.mock('@/api/purpose', () => ({
   },
 }))
 
+vi.mock('@/api/keychain', () => ({
+  KeychainQueries: {
+    getSingle: vi.fn(() => ({
+      queryKey: ['keychain', 'keychain-1'],
+      queryFn: async () => ({
+        id: 'keychain-1',
+        producer: {
+          id: 'keychain-producer-1',
+        },
+      }),
+    })),
+  },
+}))
+
 describe('VoucherInstructionsGeneralFormCurrentIdsDrawer', () => {
   const defaultProps = {
     isOpen: true,
     onClose: vi.fn(),
     clientId: 'client-1',
     purposeId: 'purpose-1',
+    eserviceId: 'eservice-1',
+    producerKeychainId: 'keychain-1',
   }
 
   it('renders title and subtitle', async () => {
@@ -67,5 +83,19 @@ describe('VoucherInstructionsGeneralFormCurrentIdsDrawer', () => {
     expect(await screen.findByText('agreement-1')).toBeInTheDocument()
     expect(await screen.findByText('producer-1')).toBeInTheDocument()
     expect(await screen.findByText('consumer-1')).toBeInTheDocument()
+  })
+
+  it('renders clientId, keychain and eserviceId props', async () => {
+    const props = {
+      ...defaultProps,
+    }
+
+    renderWithApplicationContext(<VoucherInstructionsGeneralFormCurrentIdsDrawer {...props} />, {
+      withReactQueryContext: true,
+    })
+
+    expect(await screen.findByText('keychain-1')).toBeInTheDocument()
+    expect(await screen.findByText('eservice-1')).toBeInTheDocument()
+    expect(await screen.findByText('keychain-producer-1')).toBeInTheDocument()
   })
 })

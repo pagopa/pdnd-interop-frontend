@@ -312,6 +312,8 @@ export const VoucherInstructionsGeneralForm: React.FC = () => {
         onClose={closeDrawer}
         clientId={values.clientId || ''}
         purposeId={values.purposeId || ''}
+        eserviceId={values.eserviceId || ''}
+        producerKeychainId={values.producerKeychainId || ''}
       />
     </FormProvider>
   )

@@ -123,7 +123,10 @@
       "consumerOrganizationId": {
         "label": "organizationId (consumer)",
         "description": "The ID of your party"
-      }
+      },
+      "eserviceId": "The ID of the selected e-service",
+      "producerKeychainId": "The ID of the selected producer keychain",
+      "producerId": "The ID of the producer"
     }
   },
   "firstDPoPProofStep": {

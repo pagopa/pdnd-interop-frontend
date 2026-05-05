@@ -123,7 +123,10 @@
       "consumerOrganizationId": {
         "label": "organizationId (fruitore)",
         "description": "L’id del tuo ente"
-      }
+      },
+      "eserviceId": "L'id dell'e-service selezionato",
+      "producerKeychainId": "L'id del portachiavi erogatore selezionato",
+      "producerId": "L'id dell'erogatore selezionato"
     }
   },
   "firstDPoPProofStep": {
