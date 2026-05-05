@@ -104,15 +104,13 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({
           )}
 
           <Alert severity="info" sx={{ mt: 4 }}>
-            <Typography variant="body2">
-              <Trans
-                components={{
-                  1: <Link underline="hover" href={DOCUMENTATION_URL} target="_blank" />, // TODO documentation link
-                }}
-              >
-                {t('content.alert', { date: formattedArchiveDate })}
-              </Trans>
-            </Typography>
+            <Trans
+              components={{
+                1: <Link underline="hover" href={DOCUMENTATION_URL} target="_blank" />, // TODO documentation link
+              }}
+            >
+              {t('content.alert', { date: formattedArchiveDate })}
+            </Trans>
           </Alert>
         </DialogContent>
 
