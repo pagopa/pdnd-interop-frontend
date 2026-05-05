@@ -186,13 +186,13 @@
       "actionDescription": "L’API che permette agli aderenti di interagire con PDND Interoperabilità in modalità machine to machine",
       "titleSignalHub": "Signal Hub",
       "actionLabel": "Consulta",
-      "apiV1": {
-        "title": "API v.1 (in dismissione)",
-        "description": "La versione API attualmente utilizzata e in dismissione."
-      },
       "apiV2": {
-        "title": "API v.2 (consigliato)",
-        "description": "La versione API più recente come nuovo standard per le comunicazioni machine to machine verso Interoperabilità."
+        "title": "Api v2",
+        "description": "API che permette di automatizzare le operazioni di lettura e scrittura relative a PDND Interoperabilità, basate su access token Bearer."
+      },
+      "apiV3": {
+        "title": "Api v3",
+        "description": "API che permette di automatizzare le operazioni di lettura e scrittura relative a PDND Interoperabilità con elevato livello di sicurezza."
       },
       "pushApiSH": {
         "title": "Deposito segnali (Push API)",
