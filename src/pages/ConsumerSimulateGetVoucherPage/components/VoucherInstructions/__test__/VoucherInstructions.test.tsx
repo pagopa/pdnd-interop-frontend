@@ -14,13 +14,13 @@ const mockReactI18next = vi.hoisted(async () => {
 })
 vi.mock('react-i18next', () => mockReactI18next)
 
-vi.mock('../VoucherInstructionsStep1', () => ({
-  VoucherInstructionsStep1: () => (
+vi.mock('../VoucherInstructionsGeneralForm', () => ({
+  VoucherInstructionsGeneralForm: () => (
     <div>
-      <p>voucher.step1.description</p>
-      <label htmlFor="clientId">voucher.step1.clientSelectInput.label</label>
+      <p>voucher.generalForm.description</p>
+      <label htmlFor="clientId">voucher.generalForm.clientSelectInput.label</label>
       <input id="clientId" />
-      <label htmlFor="purposeId">voucher.step1.purposeSelectInput.label</label>
+      <label htmlFor="purposeId">voucher.generalForm.purposeSelectInput.label</label>
       <input id="purposeId" />
     </div>
   ),
@@ -37,9 +37,11 @@ describe('VoucherInstructions testing', () => {
       }
     )
 
-    expect(screen.getByText('voucher.step1.description')).toBeInTheDocument()
-    expect(screen.getByLabelText('voucher.step1.clientSelectInput.label')).toBeInTheDocument()
-    expect(screen.getByLabelText('voucher.step1.purposeSelectInput.label')).toBeInTheDocument()
+    expect(screen.getByText('voucher.generalForm.description')).toBeInTheDocument()
+    expect(screen.getByLabelText('voucher.generalForm.clientSelectInput.label')).toBeInTheDocument()
+    expect(
+      screen.getByLabelText('voucher.generalForm.purposeSelectInput.label')
+    ).toBeInTheDocument()
   })
 
   it('should render instruction for get api voucher simulation', () => {
@@ -52,7 +54,7 @@ describe('VoucherInstructions testing', () => {
       }
     )
 
-    expect(screen.getByText('voucher.step1.description')).toBeInTheDocument()
-    expect(screen.getByLabelText('voucher.step1.clientSelectInput.label')).toBeInTheDocument()
+    expect(screen.getByText('voucher.generalForm.description')).toBeInTheDocument()
+    expect(screen.getByLabelText('voucher.generalForm.clientSelectInput.label')).toBeInTheDocument()
   })
 })

@@ -7,17 +7,17 @@ import { Link, Stack } from '@mui/material'
 import { apiGuideLink } from '@/config/constants'
 import { useQuery } from '@tanstack/react-query'
 
-type VoucherInstructionsStep1CurrentIdsDrawerProps = {
+type VoucherInstructionsGeneralFormCurrentIdsDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   clientId: string
   purposeId: string
 }
 
-export const VoucherInstructionsStep1CurrentIdsDrawer: React.FC<
-  VoucherInstructionsStep1CurrentIdsDrawerProps
+export const VoucherInstructionsGeneralFormCurrentIdsDrawer: React.FC<
+  VoucherInstructionsGeneralFormCurrentIdsDrawerProps
 > = ({ isOpen, onClose, clientId, purposeId }) => {
-  const { t } = useTranslation('voucher', { keyPrefix: 'step1.currentIdsDrawer' })
+  const { t } = useTranslation('voucher', { keyPrefix: 'generalForm.currentIdsDrawer' })
 
   const { data: purpose } = useQuery({
     ...PurposeQueries.getSingle(purposeId || ''),

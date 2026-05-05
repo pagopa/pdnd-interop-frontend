@@ -121,7 +121,7 @@ export function _RHFAutocompleteBase<
                   variant={variant}
                   error={!!error}
                   required={Boolean(rules?.required)}
-                  placeholder={placeholder ?? '...'}
+                  placeholder={placeholder}
                   {...params}
                   autoFocus={focusOnMount}
                   sx={{
@@ -141,7 +141,7 @@ export function _RHFAutocompleteBase<
                             pointerEvents: 'auto',
                           },
                         }
-                      : { shrink: true }),
+                      : {}),
                     ...params.InputLabelProps,
                   }}
                   InputProps={{
@@ -156,6 +156,11 @@ export function _RHFAutocompleteBase<
                   }}
                   label={label}
                   inputRef={ref}
+                  sx={{
+                    '& .MuiFormLabel-asterisk': {
+                      color: 'error.main',
+                    },
+                  }}
                 />
               )
             }}

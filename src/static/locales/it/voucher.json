@@ -1,8 +1,41 @@
 {
   "backBtn": "Indietro",
   "proceedBtn": "Avanti",
-  "noPurposesLabel": "Questo client non è associato a nessuna finalità",
-  "noKeysLabel": "Questo client non contiene chiavi pubbliche",
+  "beginSimulation": "Inizia simulazione",
+  "noPurposesLabelAdmin": {
+    "title": "Il client selezionato non è associato ad alcuna finalità",
+    "description": "Per procedere, accedi alla finalità e collega il client {{clientName}}.",
+    "actionLabel": "Finalità inoltrate"
+  },
+  "noPurposesLabelSecurity": {
+    "title": "Il client selezionato non è associato ad alcuna finalità",
+    "description": "Per procedere, chiedi al tuo responsabile di collegare alla finalità di interesse questo client."
+  },
+  "noKeysLabel": {
+    "title": "Il client selezionato non contiene chiavi pubbliche",
+    "description": "Per procedere, accedi al client e aggiungi almeno una chiave pubblica.",
+    "actionLabel": "Accedi al client"
+  },
+  "noPurposesAndKeysLabel": {
+    "title": "Il client selezionato non è collegato ad alcuna finalità e non contiene chiavi pubbliche.",
+    "description": "Per procedere, associa il client ad una finalità ed aggiungi almeno una chiave pubblica al client.",
+    "actionLabel": "Accedi al client"
+  },
+  "noEServicesLabel": {
+    "title": "Il portachiavi erogatore selezionato non è associato ad alcun e-service",
+    "description": "Per procedere, accedi all’e-service e collega il portachiavi {{keychainName}}.",
+    "actionLabel": "I miei e-service"
+  },
+  "noPublicKeysLabel": {
+    "title": "Il portachiavi erogatore selezionato non contiene chiavi pubbliche",
+    "description": "Per procedere, accedi al portachiavi e aggiungi almeno una chiave pubblica.",
+    "actionLabel": "Accedi al portachiavi"
+  },
+  "noEServicesAndPublicKeysLabel": {
+    "title": "Il portachiavi selezionato non è collegato ad alcun e-service e non contiene chiavi pubbliche.",
+    "description": "Per procedere, associa il portachiavi ad un e-service ed aggiungi almeno una chiave pubblica.",
+    "actionLabel": "Accedi al portachiavi"
+  },
   "choosePurposeLabel": "Scegli la finalità da utilizzare",
   "purposeFailureMessage": "Attenzione! Non sarà possibile ottenere un voucher per questa finalità. In una o più componenti della pipeline è stato sospeso il servizio. Le componenti sospese sono:",
   "purposeFailureReason": {
@@ -12,21 +45,66 @@
   },
   "title": "Simula l’ottenimento di un voucher",
   "description": "Attraverso questa funzionalità potrai simulare l’ottenimento di un voucher. Una volta selezionati i parametri, potrai effettuare una client assertion, richiedere un voucher e verificare che sia compatibile.",
-  "step1": {
+  "eservice": "e-service",
+  "pdnd": "PDND",
+  "generalForm": {
     "stepperLabel": "Selezione parametri",
-    "title": {
-      "API": "Seleziona chiave pubblica",
-      "CONSUMER": "Seleziona finalità e chiave pubblica"
+    "technicalDetails": {
+      "title": "Dettagli tecnici",
+      "description": "Seleziona il voucher e il modello di interazione per una simulazione completa."
     },
-    "description": "Serve a mostrarti i parametri corretti per valorizzare la client assertion",
+    "simulationSetup": {
+      "title": "Configura la simulazione",
+      "description": "Serve a mostrarti i parametri corretti per valorizzare la client assertion."
+    },
+   "voucherType": {
+      "label": "Tipologia voucher",
+      "options": {
+        "bearer": {
+          "label": "Bearer (v2)",
+          "description": "Token di accesso standard. Il mittente è autenticato solo tramite il possesso del token stesso."
+        },
+        "dpop": {
+          "label": "DPoP (v3)",
+          "description": "Vincola il token a una chiave crittografica del client, impedendo il riutilizzo del voucher da parte di soggetti non autorizzati."
+        }
+      }
+    },
+    "interactionType": {
+      "label": "Modello di interazione",
+      "options": {
+        "sync": "Sincrono (standard)",
+        "async": "Asincrono (differito)"
+      }
+    },
+    "memberType": {
+      "label": "Tipologia di aderente",
+      "options": {
+        "consumer": "Fruitore dell’e-service",
+        "producer": "Erogatore dell’e-service"
+      }
+    },
+    "asyncExchangeStep": {
+      "label": "Step dello scambio asincrono",
+      "startInteraction": "Inizio dell’interazione (start_interaction)",
+      "getResource": "Ottenimento della risorsa (get_resource)",
+      "confirmation": "Conferma di ricezione (confirmation)",
+      "callbackInvocation": "Invocazione della callback (callback_invocation)"
+    },
     "clientSelectInput": {
-      "label": "Scegli un client da utilizzare"
+      "label": "Client da utilizzare"
     },
     "purposeSelectInput": {
-      "label": "Scegli la finalità da utilizzare"
+      "label": "Finalità"
     },
     "keySelectInput": {
-      "label": "Scegli la chiave pubblica da utilizzare"
+      "label": "Chiave pubblica"
+    },
+    "producerKeychain": {
+      "label": "Portachiavi erogatore"
+    },
+    "eservice": {
+      "label": "E-service"
     },
     "goToTechnicalDocsLabel": "Vai alla documentazione tecnica",
     "showCurrentSelectionIds": "Visualizza id per la selezione corrente",
@@ -48,9 +126,19 @@
       }
     }
   },
-  "step2": {
-    "stepperLabel": "Client assertion",
-    "title": "Client assertion",
+  "firstDPoPProofStep": {
+    "stepperLabel": "Prima DPoP Proof",
+    "title": "DPoP Proof",
+    "description": "Ora è necessario generare la DPoP Proof (un JWT firmato) per legare in modo sicuro la sessione alle tue chiavi crittografiche e procedere con il riscatto del voucher. La coppia di chiavi utilizzate è diversa da quelle utilizzate per la client assertion."
+  },
+  "secondDPoPProofStep": {
+    "stepperLabel": "Seconda DPoP",
+    "title": "Genera la seconda DPoP",
+    "description": "Ora che il server autorizzativo di PDND ti ha rilasciato un token, generane l’hash ed inseriscilo nella seconda DPoP."
+  },
+  "clientAssertionStep": {
+    "stepperLabel": "Genera client assertion",
+    "title": "Genera la client assertion",
     "description": {
       "label": "Il primo passaggio è creare un’asserzione firmata dal tuo ente con la chiave privata corrispondente a una delle chiavi pubbliche che hai caricato in questo client. Di seguito i dettagli per creare il JWS secondo la specifica",
       "link": {
@@ -127,9 +215,9 @@
       "exampleLabel": "Esempio di utilizzo"
     }
   },
-  "step3": {
-    "stepperLabel": "Voucher",
-    "title": "Richiesta voucher",
+  "accessTokenStep": {
+    "stepperLabel": "Ottieni token di accesso",
+    "title": "Ottieni il token di accesso",
     "consumerDescription": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di voucher verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un voucher spendibile presso l'e-service dell’erogatore",
     "apiDescription": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di voucher verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un voucher spendibile presso l’API gateway di Interoperabilità",
     "authEndpoint": {
@@ -168,9 +256,9 @@
       }
     }
   },
-  "step4": {
-    "consumerStepperLabel": "Accesso e-service",
-    "apiStepperLabel": "Accesso API Interop",
+  "dataAccessStep": {
+    "stepperLabelBearer": "Accesso ai dati",
+    "stepperLabelDPoP": "Risposta PDND",
     "actionLabel": "Consulta",
     "CONSUMER": {
       "title": "Congratulazioni!",
