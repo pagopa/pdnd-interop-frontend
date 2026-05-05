@@ -40,6 +40,8 @@ export type DialogProps =
   | DialogTenantKindEserviceTemplateProps
   | DialogTenantKindPurposeTemplateProps
   | DialogSelectAgreementConsumerProps
+  | DialogSuspendArchivingDescriptorProps
+  | DialogReactivateArchivingDescriptorProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -178,4 +180,16 @@ export type DialogTenantKindEserviceTemplateProps = {
 export type DialogTenantKindPurposeTemplateProps = {
   type: 'tenantKindPurposeTemplate'
   onConfirm: (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => void
+}
+
+export type DialogSuspendArchivingDescriptorProps = {
+  type: 'suspendArchivingDescriptor'
+  eserviceId: string
+  descriptorId: string
+}
+
+export type DialogReactivateArchivingDescriptorProps = {
+  type: 'reactivateArchivingDescriptor'
+  eserviceId: string
+  descriptorId: string
 }
