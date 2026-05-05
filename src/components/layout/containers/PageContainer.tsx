@@ -6,7 +6,6 @@ import { Breadcrumbs } from '../Breadcrumbs'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { Link, type RouteKey } from '@/router'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 
 export type PageBackToAction = {
   label: string
@@ -24,27 +23,17 @@ type PageContainerBreadcrumbsProps = {
   backToAction?: PageBackToAction
 }
 
-type PageContainerSecondaryIntroProps = {
-  label: string
-  link: {
-    label: string
-    onClink: () => void
-  }
-  actions: Array<ActionItemButton>
-  statusChip?: React.ComponentProps<typeof StatusChip>
-}
-
 type PageContainerIntroProps = {
   title?: string
   description?: string | React.ReactNode
-  secondaryIntro?: PageContainerSecondaryIntroProps
-} & PageContainerActionsProps
+}
 
 type PageContainerProps = {
   isLoading?: boolean
   sx?: SxProps
   children: React.ReactNode
-} & PageContainerBreadcrumbsProps &
+} & PageContainerActionsProps &
+  PageContainerBreadcrumbsProps &
   PageContainerIntroProps
 
 type PageContainerSkeletonProps = {
@@ -54,12 +43,12 @@ type PageContainerSkeletonProps = {
 
 export const PageContainer: React.FC<PageContainerProps> = ({ children, isLoading, ...props }) => {
   return (
-    <Stack direction={'column'} spacing={3}>
+    <Box>
       <PageContainerBreadcrumbs {...props} />
       {isLoading ? <PageContainerIntroSkeleton /> : <PageContainerIntro {...props} />}
-      {/* {!isLoading && <PageContainerActions {...props} />} */}
-      <Box>{children}</Box>
-    </Stack>
+      {!isLoading && <PageContainerActions {...props} />}
+      <Box sx={{ mt: 1 }}>{children}</Box>
+    </Box>
   )
 }
 
@@ -76,25 +65,19 @@ export const PageContainerSkeleton: React.FC<PageContainerSkeletonProps> = ({
   )
 }
 
-const PageContainerIntro: React.FC<PageContainerIntroProps> = ({
-  title,
-  description,
-  statusChip,
-  topSideActions,
-  secondaryIntro,
-}) => {
+const PageContainerIntro: React.FC<PageContainerIntroProps> = ({ title, description }) => {
   return (
-    <Box sx={{ flex: 1 }}>
-      <Stack direction="row" spacing={2}>
-        {title && (
-          <Typography component="h1" variant="h4">
-            {title}
-          </Typography>
-        )}
-        {<PageContainerActions statusChip={statusChip} topSideActions={topSideActions} />}
+    <Box>
+      <Stack direction="row" alignItems="end" spacing={2}>
+        <Box sx={{ flex: 1 }}>
+          {title && (
+            <Typography component="h1" variant="h4">
+              {title}
+            </Typography>
+          )}
+          {description && <PageContainerSubtitle description={description} />}
+        </Box>
       </Stack>
-      {description && <PageContainerSubtitle description={description} />}
-      {secondaryIntro && <PageContainerSecondaryIntro {...secondaryIntro} />}
     </Box>
   )
 }
@@ -143,42 +126,30 @@ const PageContainerActions: React.FC<PageContainerActionsProps> = ({
 }) => {
   if (!statusChip && !topSideActions) return null
 
-  const primaryActions = topSideActions?.filter(
-    (action) => action.hierarchy && action.hierarchy === 'primary'
-  )
-  const secondaryActions = topSideActions?.filter(
-    (action) => action.hierarchy && action.hierarchy === 'secondary'
-  )
-  const menuActions = topSideActions?.filter((action) => action.hierarchy === undefined)
-
-  const getButtonWrapper = (tooltip?: string, disabled?: boolean) => {
-    return tooltip
-      ? ({ children }: { children: React.ReactElement }) => (
-          <Tooltip arrow title={tooltip}>
-            <span tabIndex={disabled ? 0 : undefined}>{children}</span>
-          </Tooltip>
-        )
-      : React.Fragment
-  }
-
   return (
     <Stack
-      sx={{ minHeight: 40 }}
+      sx={{ mt: 1, minHeight: 40 }}
       direction="row"
       alignItems="center"
       justifyContent="space-between"
-      flex={1}
     >
       <Box>{statusChip && <StatusChip {...statusChip} />}</Box>
-      <Stack direction="row" spacing={2}>
-        {secondaryActions &&
-          secondaryActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, index) => {
-            const Wrapper = getButtonWrapper(tooltip, props.disabled)
+      <Stack direction="row" spacing={1}>
+        {topSideActions &&
+          topSideActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, i) => {
+            const Wrapper = tooltip
+              ? ({ children }: { children: React.ReactElement }) => (
+                  <Tooltip arrow title={tooltip}>
+                    <span tabIndex={props.disabled ? 0 : undefined}>{children}</span>
+                  </Tooltip>
+                )
+              : React.Fragment
+
             return (
-              <Wrapper key={index}>
+              <Wrapper key={i}>
                 <Button
                   onClick={action}
-                  variant="outlined"
+                  variant="text"
                   size="small"
                   color={color}
                   startIcon={Icon && <Icon />}
@@ -189,73 +160,8 @@ const PageContainerActions: React.FC<PageContainerActionsProps> = ({
               </Wrapper>
             )
           })}
-        {primaryActions &&
-          primaryActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, index) => {
-            const Wrapper = getButtonWrapper(tooltip, props.disabled)
-            return (
-              <Wrapper key={index}>
-                <Button
-                  onClick={action}
-                  variant="contained"
-                  size="small"
-                  color={color}
-                  startIcon={Icon && <Icon />}
-                  {...props}
-                >
-                  {label}
-                </Button>
-              </Wrapper>
-            )
-          })}
-        {menuActions ? <ActionMenu actions={menuActions} /> : <ActionMenuSkeleton />}
       </Stack>
     </Stack>
-  )
-}
-
-export const PageContainerSecondaryIntro: React.FC<PageContainerSecondaryIntroProps> = ({
-  label,
-  link,
-  statusChip,
-  actions,
-}) => {
-  return (
-    <Box bgcolor="ThreeDFace" py={2} px={2} borderRadius={1} mt={3}>
-      <Stack direction="row" alignItems="center" justifyContent="space-between">
-        <Stack direction="row" spacing={4} alignItems="center">
-          <Typography component="h2" variant="body2" textTransform="uppercase">
-            {label}
-          </Typography>
-          <Button
-            component="a"
-            type="button"
-            variant="naked"
-            sx={{ textDecoration: 'underline' }}
-            onClick={link.onClink}
-          >
-            {link.label}
-          </Button>
-          {statusChip && <StatusChip {...statusChip} />}
-        </Stack>
-        <Stack direction="row" spacing={3}>
-          {actions.map(({ action, label, color, icon: Icon, ...props }, index) => {
-            return (
-              <Button
-                key={index}
-                onClick={action}
-                variant="text"
-                size="small"
-                color={color}
-                startIcon={Icon && <Icon />}
-                {...props}
-              >
-                {label}
-              </Button>
-            )
-          })}
-        </Stack>
-      </Stack>
-    </Box>
   )
 }
 
