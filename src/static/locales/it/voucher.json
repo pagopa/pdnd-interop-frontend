@@ -283,7 +283,7 @@
           "publicKeyRetrieve": "Si verifica che la chiave pubblica corrispondente al kid inserito nella client assertion sia presente su PDND Interoperabilità e che questa sia recuperabile.",
           "clientAssertionSignatureVerification": "Si verifica che ci sia corrispondenza tra la chiave privata con la quale è stata firmata la client assertion e quella pubblica identificata con il kid e recuperata al passaggio 2.",
           "platformStatesVerification": "Si verifica che tutte le componenti amministrative e tecniche del flusso previsto da PDND Interoperabilità siano attive",
-          "dpopValidation": "...."
+          "dpopValidation": "Si verifica che le informazioni contenute nella client assertion siano compatibili con lo stato dell'interazione definito tra le parti."
         },
         "stepResultLabel": "Risultato della verifica:",
         "nextStepBtn": "Vai al prossimo passaggio"

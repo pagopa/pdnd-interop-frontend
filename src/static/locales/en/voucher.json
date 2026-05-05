@@ -283,7 +283,7 @@
           "publicKeyRetrieve": "It is verified that the public key corresponding to the kid in the client assertion is present on PDND and can be retrieved.",
           "clientAssertionSignatureVerification": "It is verified that the private key used to sign the client assertion matches the public key identified by the kid and retrieved in step 2.",
           "platformStatesVerification": "It is verified that all administrative and technical components required by PDND are active",
-          "dpopValidation": "...."
+          "dpopValidation": "It is verified that the information contained in the client assertion is compatible with the interaction state defined between the parties."
         },
         "stepResultLabel": "Verification result:",
         "nextStepBtn": "Go to next step"
