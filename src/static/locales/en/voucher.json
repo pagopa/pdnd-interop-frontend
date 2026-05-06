@@ -187,11 +187,11 @@
       "titleSignalHub": "Signal Hub",
       "actionLabel": "Consult",
       "apiV2": {
-        "title": "Api v2 (deprecated)",
+        "title": "API v2 (deprecated)",
         "description": "API that allows you to automate read and write operations related to PDND Interoperability, based on Bearer access tokens."
       },
       "apiV3": {
-        "title": "Api v3",
+        "title": "API v3",
         "description": "API that allows you to automate read and write operations related to PDND. Interoperability with a high level of security."
       },
       "pushApiSH": {

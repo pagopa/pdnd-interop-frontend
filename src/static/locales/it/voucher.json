@@ -187,11 +187,11 @@
       "titleSignalHub": "Signal Hub",
       "actionLabel": "Consulta",
       "apiV2": {
-        "title": "Api v2 (deprecato)",
+        "title": "API v2 (deprecato)",
         "description": "API che permette di automatizzare le operazioni di lettura e scrittura relative a PDND Interoperabilità, basate su access token Bearer."
       },
       "apiV3": {
-        "title": "Api v3",
+        "title": "API v3",
         "description": "API che permette di automatizzare le operazioni di lettura e scrittura relative a PDND Interoperabilità con elevato livello di sicurezza."
       },
       "pushApiSH": {
