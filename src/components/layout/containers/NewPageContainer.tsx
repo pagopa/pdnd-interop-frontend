@@ -27,7 +27,7 @@ type PageContainerSecondaryIntroProps = {
   label: string
   link: {
     label: string
-    onClink: () => void
+    onClick: () => void
   }
   actions: Array<ActionItemButton>
   statusChip?: React.ComponentProps<typeof StatusChip>

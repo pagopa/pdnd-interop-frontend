@@ -73,8 +73,8 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
         descriptor
           ? {
               label: t('versionHeaderLabel'),
-              link: { label: descriptor.version, onClink: () => {} }, // TODO navigation function
               actions: [], // TODO actions for secondHeader
+              link: { label: descriptor.version, onClick: () => {} }, // TODO navigation function,
               statusChip: { for: 'eservice', state: descriptor.state },
             }
           : undefined
