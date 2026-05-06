@@ -186,13 +186,13 @@
       "actionDescription": "The API that allows parties to interact with PDND in machine-to-machine mode",
       "titleSignalHub": "Signal Hub",
       "actionLabel": "Consult",
-      "apiV1": {
-        "title": "API v.1 (deprecated)",
-        "description": "The API version currently in use and being deprecated."
-      },
       "apiV2": {
-        "title": "API v.2 (recommended)",
-        "description": "The most recent API version as the new standard for machine-to-machine communications to Interoperability."
+        "title": "API v2 (deprecated)",
+        "description": "API that allows you to automate read and write operations related to PDND Interoperability, based on Bearer access tokens."
+      },
+      "apiV3": {
+        "title": "API v3",
+        "description": "API that allows you to automate read and write operations related to PDND. Interoperability with a high level of security."
       },
       "pushApiSH": {
         "title": "Signal submission (Push API)",
