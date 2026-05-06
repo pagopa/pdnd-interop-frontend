@@ -40,11 +40,11 @@ export const VerticalInformationContainer: React.FC<VerticalInformationContainer
             borderRadius: 1,
             bgcolor: 'grey.50',
             pl: 1.5,
-            py: 0.5,
-            pr: 0.5,
+            py: copyToClipboard ? 0.5 : 1.5,
+            pr: copyToClipboard ? 0.5 : 1.5,
           }}
         >
-          <Typography variant="body2" fontWeight={600}>
+          <Typography variant="body2" fontWeight={600} sx={{ whiteSpace: 'break-spaces' }}>
             {content}
           </Typography>
 

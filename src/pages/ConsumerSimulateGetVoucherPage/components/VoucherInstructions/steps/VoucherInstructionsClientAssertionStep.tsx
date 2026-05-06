@@ -187,7 +187,7 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
               {t('clientAssertionStep.assertionScript.steps.2', { filename })}
             </Trans>
           </Typography>
-          <Typography component="li" variant="body2">
+          <Typography component="li" variant="body2" sx={{ whiteSpace: 'break-spaces' }}>
             {t('clientAssertionStep.assertionScript.steps.3')}
           </Typography>
           <Typography component="li" variant="body2">
