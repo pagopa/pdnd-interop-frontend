@@ -77,6 +77,23 @@ export const VoucherInstructionsStep4: React.FC = () => {
           {clientKind === 'API' && (
             <>
               <Typography variant="body2" fontWeight={600}>
+                {t(`step4.API.apiV3.title`)}
+              </Typography>
+              <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
+                <Typography variant="body2">{t(`step4.API.apiV3.description`)}</Typography>
+                <IconLink
+                  endIcon={<OpenInNewIcon fontSize="small" />}
+                  href={apiV3DocLink}
+                  target="_blank"
+                  sx={{
+                    fontWeight: 600,
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {t(`step4.${clientKind}.actionLabel`)}
+                </IconLink>
+              </Stack>
+              <Typography variant="body2" fontWeight={600}>
                 {t(`step4.API.apiV2.title`)}
               </Typography>
               <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
@@ -94,23 +111,6 @@ export const VoucherInstructionsStep4: React.FC = () => {
                     {t(`step4.${clientKind}.actionLabel`)}
                   </IconLink>
                 )}
-              </Stack>
-              <Typography variant="body2" fontWeight={600}>
-                {t(`step4.API.apiV3.title`)}
-              </Typography>
-              <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
-                <Typography variant="body2">{t(`step4.API.apiV3.description`)}</Typography>
-                <IconLink
-                  endIcon={<OpenInNewIcon fontSize="small" />}
-                  href={apiV3DocLink}
-                  target="_blank"
-                  sx={{
-                    fontWeight: 600,
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {t(`step4.${clientKind}.actionLabel`)}
-                </IconLink>
               </Stack>
             </>
           )}
