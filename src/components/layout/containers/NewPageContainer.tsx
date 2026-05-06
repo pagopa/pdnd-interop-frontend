@@ -29,7 +29,7 @@ type PageContainerSecondaryIntroProps = {
     label: string
     onClick: () => void
   }
-  actions: Array<ActionItemButton>
+  actions?: Array<ActionItemButton>
   statusChip?: React.ComponentProps<typeof StatusChip>
 }
 
@@ -57,10 +57,9 @@ export const NewPageContainer: React.FC<PageContainerProps> = ({
   ...props
 }) => {
   return (
-    <Stack direction={'column'} spacing={3}>
+    <Stack direction="column" spacing={3}>
       <PageContainerBreadcrumbs {...props} />
       {isLoading ? <PageContainerIntroSkeleton /> : <PageContainerIntro {...props} />}
-      {/* {!isLoading && <PageContainerActions {...props} />} */}
       <Box>{children}</Box>
     </Stack>
   )
@@ -142,12 +141,8 @@ const PageContainerBreadcrumbs: React.FC<PageContainerBreadcrumbsProps> = ({ bac
 const PageContainerActions: React.FC<PageContainerActionsProps> = ({ topSideActions }) => {
   if (!topSideActions) return null
 
-  const primaryActions = topSideActions?.filter(
-    (action) => action.hierarchy && action.hierarchy === 'primary'
-  )
-  const secondaryActions = topSideActions?.filter(
-    (action) => action.hierarchy && action.hierarchy === 'secondary'
-  )
+  const primaryActions = topSideActions?.filter((action) => action.hierarchy === 'primary')
+  const secondaryActions = topSideActions?.filter((action) => action.hierarchy === 'secondary')
   const menuActions = topSideActions?.filter((action) => action.hierarchy === undefined)
 
   const getButtonWrapper = (tooltip?: string, disabled?: boolean) => {
@@ -215,7 +210,7 @@ export const PageContainerSecondaryIntro: React.FC<PageContainerSecondaryIntroPr
   label,
   link,
   statusChip,
-  actions,
+  actions = [],
 }) => {
   return (
     <Box bgcolor="ThreeDFace" py={2} px={2} borderRadius={1} mt={3}>
@@ -229,7 +224,7 @@ export const PageContainerSecondaryIntro: React.FC<PageContainerSecondaryIntroPr
             type="button"
             variant="naked"
             sx={{ textDecoration: 'underline' }}
-            onClick={link.onClink}
+            onClick={link.onClick}
           >
             {link.label}
           </Button>

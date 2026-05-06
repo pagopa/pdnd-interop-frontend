@@ -54,7 +54,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
           ? {
               label: t('versionHeaderLabel'),
               link: { label: descriptor.version, onClick: () => {} }, // TODO navigation function
-              actions: [], // TODO actions for secondHeader
+              // TODO actions for secondHeader
               statusChip: { for: 'eservice', state: descriptor.state },
             }
           : undefined
