@@ -197,8 +197,8 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 
   const isRulesetExpired =
     // check if the e-service had already been published. In this case we have to skip ruleset expiration check (https://pagopa.atlassian.net/browse/PIN-9966)
-    hasOnlyOneDraft
-  eserviceRiskAnalyses &&
+    hasOnlyOneDraft &&
+    eserviceRiskAnalyses &&
     eserviceRiskAnalyses.some(
       (riskAnalysis) =>
         riskAnalysis.rulesetExpiration && new Date(riskAnalysis.rulesetExpiration) < new Date()
