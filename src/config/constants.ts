@@ -65,10 +65,9 @@ export const apiV2GuideLink =
 export const SIGNALHUB_GUIDE_URL =
   'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-signal-hub'
 
-export const apiV1DocLink =
-  'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/riferimenti-tecnici/utilizzare-i-voucher'
-
 export const apiV2DocLink = 'https://developer.pagopa.it/pdnd-interoperabilita/api/pdnd-core-v2/'
+
+export const apiV3DocLink = 'https://developer.pagopa.it/it/pdnd-interoperabilita/api/PDND-core-v3'
 
 export const apiSignalhubPushLink =
   'https://developer.pagopa.it/pdnd-interoperabilita/api/signal-hub-push-v1/'

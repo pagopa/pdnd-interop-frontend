@@ -28,6 +28,11 @@ const FeatureFlagConfigs = z.object({
     .enum(['true', 'false'])
     .default('false')
     .transform((value) => value === 'true'),
+
+  FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform((value) => value === 'true'),
 })
 
 const EndpointConfigs = z.object({
@@ -106,6 +111,7 @@ export const {
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL,
   ERROR_DATA_DURATION_TIME,
   NOTIFICATION_COUNT_REFRESH_INTERVAL,
+  FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER,
   FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP,
   DOCUMENTATION_URL,
   AVATAR_BASEPATH,

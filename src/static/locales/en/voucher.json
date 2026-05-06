@@ -186,13 +186,13 @@
       "actionDescription": "The API that allows parties to interact with PDND in machine-to-machine mode",
       "titleSignalHub": "Signal Hub",
       "actionLabel": "Consult",
-      "apiV1": {
-        "title": "API v.1 (deprecated)",
-        "description": "The API version currently in use and being deprecated."
-      },
       "apiV2": {
-        "title": "API v.2 (recommended)",
-        "description": "The most recent API version as the new standard for machine-to-machine communications to Interoperability."
+        "title": "API v2 (deprecated)",
+        "description": "API that allows you to automate read and write operations related to PDND Interoperability, based on Bearer access tokens."
+      },
+      "apiV3": {
+        "title": "API v3",
+        "description": "API that allows you to automate read and write operations related to PDND. Interoperability with a high level of security."
       },
       "pushApiSH": {
         "title": "Signal submission (Push API)",
@@ -207,10 +207,19 @@
   "consumerDebugVoucher": {
     "edit": {
       "title": "Request data to the server",
-      "clientAssertionLabel": "Enter your client assertion (required)",
-      "clientIdLabel": "Enter the client ID",
-      "description": "The request will be sent to the authorization server endpoint: <strong>{{ authServer }}</strong>",
-      "submitBtn": "Send request"
+      "description": "Copy the information you sent to the PDND authorization server that generated the error into these fields.",
+      "clientAssertionLabel": "Client assertion",
+      "clientAssertionInfoLabel": "The client assertion is a JWT token consisting of a string starting with \"ey.\" Copy it without adding spaces.",
+      "dpopProofLabel": "DPoP Proof",
+      "dpopProofInfoLabel": "If you generated a DPoP token, you will also need to enter the DPoP Proof in this field.",
+      "clientIdLabel": "client_id or producer_id",
+      "clientIdInfoLabel": "Please enter the same client_id or producer_id used to make the request to PDND.",
+      "interactionModelLabel": "Interaction model",
+      "interactionModelSync": "Synchronous (standard)",
+      "interactionModelAsync": "Asynchronous (deferred)",
+      "alert": "The request will be sent to the authorization server endpoint: <strong>{{ authServer }}</strong>",
+      "submitBtn": "Send request",
+      "goBackBtn": "Back"
     },
     "result": {
       "newRequestBtn": "Perform new check",
@@ -218,6 +227,7 @@
         "title": "Result of your request",
         "description": {
           "apiSuccess": "This request is valid; it is possible to obtain a voucher for the <strong>PDND APIs</strong>",
+          "apiV3Success": "This request is valid; it is possible to obtain a voucher for the <strong>PDND APIs v3</strong>",
           "consumerSuccess": "This request is valid; it is possible to obtain a voucher for the e-service <1>{{eserviceName}}, {{eserviceVersion}}</1>",
           "failed": "It is not possible to obtain a voucher for this request"
         }
@@ -226,10 +236,11 @@
         "title": "Debug result",
         "step": {
           "label": {
-            "clientAssertionValidation": "1. Client assertion validation",
-            "publicKeyRetrieve": "2. Retrieval of the public key stored on PDND",
-            "clientAssertionSignatureVerification": "3. Verification of the client assertion signature",
-            "platformStatesVerification": "4. Verification of the component states on PDND"
+            "clientAssertionValidation": "{{index}}. Client assertion validation",
+            "publicKeyRetrieve": "{{index}}. Retrieval of the public key stored on PDND",
+            "clientAssertionSignatureVerification": "{{index}}. Verification of the client assertion signature",
+            "platformStatesVerification": "{{index}}. States verification",
+            "dpopValidation": "{{index}}. DPoP proof validation"
           }
         }
       },
@@ -239,8 +250,14 @@
         "clientId": {
           "label": "Client_id"
         },
+        "voucherType": {
+          "label": "Voucher type"
+        },
         "clientAssertion": {
           "label": "Client_assertion"
+        },
+        "dpopProof": {
+          "label": "DPoP proof"
         },
         "clientAssertionType": {
           "label": "Client_assertion_type",
@@ -249,20 +266,24 @@
         "grantType": {
           "label": "Grant_type",
           "description": "The type of flow used, as specified in RFC"
-        }
+        },
+        "dpop": "DPoP",
+        "bearer": "Bearer"
       },
       "stepDrawer": {
         "title": {
-          "clientAssertionValidation": "1. Client assertion validation",
-          "publicKeyRetrieve": "2. Retrieval of the public key stored on PDND",
-          "clientAssertionSignatureVerification": "3. Verification of the client assertion signature",
-          "platformStatesVerification": "4. Verification of the component states on PDND"
+          "clientAssertionValidation": "{{index}}. Client assertion validation",
+          "publicKeyRetrieve": "{{index}}. Retrieval of the public key stored on PDND",
+          "clientAssertionSignatureVerification": "{{index}}. Verification of the client assertion signature",
+          "platformStatesVerification": "{{index}}. States verification",
+          "dpopValidation": "{{index}}. DPoP proof validation"
         },
         "description": {
           "clientAssertionValidation": "It is verified that the client assertion is well structured. All required fields must be present and correctly filled.",
           "publicKeyRetrieve": "It is verified that the public key corresponding to the kid in the client assertion is present on PDND and can be retrieved.",
           "clientAssertionSignatureVerification": "It is verified that the private key used to sign the client assertion matches the public key identified by the kid and retrieved in step 2.",
-          "platformStatesVerification": "It is verified that all administrative and technical components required by PDND are active"
+          "platformStatesVerification": "It is verified that all administrative and technical components required by PDND are active",
+          "dpopValidation": "It is verified that the information contained in the client assertion is compatible with the interaction state defined between the parties."
         },
         "stepResultLabel": "Verification result:",
         "nextStepBtn": "Go to next step"
