@@ -177,7 +177,7 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
                     rules={{
                       required: true,
                       min: {
-                        value: (dailyCallsPerConsumer ?? 1) + 1,
+                        value: dailyCallsPerConsumer ?? 1,
                         message: t(
                           'step2.thresholdsAndAttributes.dailyCallsTotalField.validation.min'
                         ),
