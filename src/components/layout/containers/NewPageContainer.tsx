@@ -7,6 +7,7 @@ import { StatusChip } from '@/components/shared/StatusChip'
 import { Link, type RouteKey } from '@/router'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
+import { match } from 'ts-pattern'
 
 export type PageBackToAction = {
   label: string
@@ -148,18 +149,45 @@ const BreadcrumbsSection: React.FC<BreadcrumbsSectionProps> = ({ backToAction })
 const ActionsSection: React.FC<ActionsSectionProps> = ({ topSideActions }) => {
   if (!topSideActions) return null
 
-  const primaryActions = topSideActions?.filter((action) => action.hierarchy === 'primary')
-  const secondaryActions = topSideActions?.filter((action) => action.hierarchy === 'secondary')
-  const menuActions = topSideActions?.filter((action) => action.hierarchy === undefined)
+  const primaryActions: Array<ActionItemButton> = []
+  const secondaryActions: Array<ActionItemButton> = []
+  const menuActions: Array<ActionItemButton> = []
 
-  const getButtonWrapper = (tooltip?: string, disabled?: boolean) => {
-    return tooltip
+  topSideActions.forEach((action) => {
+    match(action.variant)
+      .with('contained', () => {
+        primaryActions.push(action)
+      })
+      .with('outlined', () => secondaryActions.push(action))
+      .otherwise(() => menuActions.push(action))
+  })
+
+  const renderActionButton = (
+    { action, label, color, icon: Icon, tooltip, disabled, variant, ...props }: ActionItemButton,
+    index: number
+  ) => {
+    const Wrapper = tooltip
       ? ({ children }: { children: React.ReactElement }) => (
           <Tooltip arrow title={tooltip}>
             <span tabIndex={disabled ? 0 : undefined}>{children}</span>
           </Tooltip>
         )
       : React.Fragment
+
+    return (
+      <Wrapper key={index}>
+        <Button
+          onClick={action}
+          variant={variant}
+          size="small"
+          color={color}
+          startIcon={Icon && <Icon />}
+          {...props}
+        >
+          {label}
+        </Button>
+      </Wrapper>
+    )
   }
 
   return (
@@ -171,42 +199,8 @@ const ActionsSection: React.FC<ActionsSectionProps> = ({ topSideActions }) => {
       flex={1}
     >
       <Stack direction="row" spacing={2}>
-        {secondaryActions &&
-          secondaryActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, index) => {
-            const Wrapper = getButtonWrapper(tooltip, props.disabled)
-            return (
-              <Wrapper key={index}>
-                <Button
-                  onClick={action}
-                  variant="outlined"
-                  size="small"
-                  color={color}
-                  startIcon={Icon && <Icon />}
-                  {...props}
-                >
-                  {label}
-                </Button>
-              </Wrapper>
-            )
-          })}
-        {primaryActions &&
-          primaryActions.map(({ action, label, color, icon: Icon, tooltip, ...props }, index) => {
-            const Wrapper = getButtonWrapper(tooltip, props.disabled)
-            return (
-              <Wrapper key={index}>
-                <Button
-                  onClick={action}
-                  variant="contained"
-                  size="small"
-                  color={color}
-                  startIcon={Icon && <Icon />}
-                  {...props}
-                >
-                  {label}
-                </Button>
-              </Wrapper>
-            )
-          })}
+        {secondaryActions.map(renderActionButton)}
+        {primaryActions.map(renderActionButton)}
         {menuActions ? <ActionMenu actions={menuActions} /> : <ActionMenuSkeleton />}
       </Stack>
     </Stack>

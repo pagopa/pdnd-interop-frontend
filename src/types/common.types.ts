@@ -53,7 +53,6 @@ export type ActionItem = {
   label: string
   fontColor?: string
   icon?: SvgIconComponent
-  hierarchy?: 'primary' | 'secondary'
 }
 export type ActionItemButton = ActionItem & {
   color?: ButtonProps['color']
