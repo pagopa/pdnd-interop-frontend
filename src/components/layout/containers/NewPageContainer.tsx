@@ -15,15 +15,15 @@ export type PageBackToAction = {
   urlParams?: Record<string, string>
 }
 
-type PageContainerActionsProps = {
+type ActionsSectionProps = {
   topSideActions?: Array<ActionItemButton>
 }
 
-type PageContainerBreadcrumbsProps = {
+type BreadcrumbsSectionProps = {
   backToAction?: PageBackToAction
 }
 
-type PageContainerSecondaryIntroProps = {
+type HeaderInfoSectionProps = {
   label: string
   link: {
     label: string
@@ -33,22 +33,26 @@ type PageContainerSecondaryIntroProps = {
   statusChip?: React.ComponentProps<typeof StatusChip>
 }
 
-type PageContainerIntroProps = {
+type IntroProps = {
   title?: string
   description?: string | React.ReactNode
-  secondaryIntro?: PageContainerSecondaryIntroProps
-} & PageContainerActionsProps
+  infoSection?: HeaderInfoSectionProps
+} & ActionsSectionProps
 
 type PageContainerProps = {
   isLoading?: boolean
   sx?: SxProps
   children: React.ReactNode
-} & PageContainerBreadcrumbsProps &
-  PageContainerIntroProps
+} & BreadcrumbsSectionProps &
+  IntroProps
 
 type PageContainerSkeletonProps = {
   children?: React.ReactNode
   backToAction?: PageBackToAction
+}
+
+type SubtitleProps = {
+  description: string | React.ReactNode
 }
 
 export const NewPageContainer: React.FC<PageContainerProps> = ({
@@ -58,8 +62,8 @@ export const NewPageContainer: React.FC<PageContainerProps> = ({
 }) => {
   return (
     <Stack direction="column" spacing={3}>
-      <PageContainerBreadcrumbs {...props} />
-      {isLoading ? <PageContainerIntroSkeleton /> : <PageContainerIntro {...props} />}
+      <BreadcrumbsSection {...props} />
+      {isLoading ? <IntroSkeleton /> : <Intro {...props} />}
       <Box>{children}</Box>
     </Stack>
   )
@@ -71,18 +75,18 @@ export const PageContainerSkeleton: React.FC<PageContainerSkeletonProps> = ({
 }) => {
   return (
     <Box>
-      <PageContainerBreadcrumbs backToAction={backToAction} />
-      <PageContainerIntroSkeleton />
+      <BreadcrumbsSection backToAction={backToAction} />
+      <IntroSkeleton />
       <Box sx={{ mt: 1 }}>{children}</Box>
     </Box>
   )
 }
 
-const PageContainerIntro: React.FC<PageContainerIntroProps> = ({
+const Intro: React.FC<IntroProps> = ({
   title,
   description,
   topSideActions,
-  secondaryIntro,
+  infoSection,
 }) => {
   return (
     <Box sx={{ flex: 1 }}>
@@ -94,17 +98,13 @@ const PageContainerIntro: React.FC<PageContainerIntroProps> = ({
         )}
         {<PageContainerActions topSideActions={topSideActions} />}
       </Stack>
-      {description && <PageContainerSubtitle description={description} />}
-      {secondaryIntro && <PageContainerSecondaryIntro {...secondaryIntro} />}
+      {description && <Subtitle description={description} />}
+      {infoSection && <HeaderInfoSection {...infoSection} />}
     </Box>
   )
 }
 
-type PageContainerSubtitle = {
-  description: string | React.ReactNode
-}
-
-const PageContainerSubtitle: React.FC<PageContainerSubtitle> = ({ description }) => {
+const Subtitle: React.FC<SubtitleProps> = ({ description }) => {
   return typeof description === 'string' ? (
     <Typography component="p" variant="body1" sx={{ mt: 1, mb: 0 }}>
       {description}
@@ -113,7 +113,7 @@ const PageContainerSubtitle: React.FC<PageContainerSubtitle> = ({ description })
     description
   )
 }
-const PageContainerBreadcrumbs: React.FC<PageContainerBreadcrumbsProps> = ({ backToAction }) => {
+const BreadcrumbsSection: React.FC<BreadcrumbsSectionProps> = ({ backToAction }) => {
   return (
     <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 1 }}>
       {backToAction && (
@@ -138,7 +138,7 @@ const PageContainerBreadcrumbs: React.FC<PageContainerBreadcrumbsProps> = ({ bac
   )
 }
 
-const PageContainerActions: React.FC<PageContainerActionsProps> = ({ topSideActions }) => {
+const ActionsSection: React.FC<ActionsSectionProps> = ({ topSideActions }) => {
   if (!topSideActions) return null
 
   const primaryActions = topSideActions?.filter((action) => action.hierarchy === 'primary')
@@ -206,7 +206,7 @@ const PageContainerActions: React.FC<PageContainerActionsProps> = ({ topSideActi
   )
 }
 
-export const PageContainerSecondaryIntro: React.FC<PageContainerSecondaryIntroProps> = ({
+export const HeaderInfoSection: React.FC<HeaderInfoSectionProps> = ({
   label,
   link,
   statusChip,
@@ -252,7 +252,7 @@ export const PageContainerSecondaryIntro: React.FC<PageContainerSecondaryIntroPr
   )
 }
 
-export const PageContainerIntroSkeleton: React.FC = () => {
+export const IntroSkeleton: React.FC = () => {
   return (
     <Stack direction="row" alignItems="end" spacing={2}>
       <Box sx={{ flex: 1 }}>

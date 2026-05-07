@@ -49,7 +49,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         label: t('actions.backToListLabel'),
         to: 'PROVIDE_ESERVICE_LIST',
       }}
-      secondaryIntro={
+      infoSection={
         descriptor
           ? {
               label: t('versionHeaderLabel'),

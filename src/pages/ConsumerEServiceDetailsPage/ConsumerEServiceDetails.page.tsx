@@ -69,7 +69,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
         label: t('actions.backToCatalogLabel'),
         to: 'SUBSCRIBE_CATALOG_LIST',
       }}
-      secondaryIntro={
+      infoSection={
         descriptor
           ? {
               label: t('versionHeaderLabel'),
