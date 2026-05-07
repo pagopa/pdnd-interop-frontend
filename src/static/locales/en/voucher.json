@@ -200,10 +200,27 @@
         "label": "EXP (Expiration)",
         "description": "Expiration, the timestamp reporting the date and time of expiration of the token, expressed in UNIX epoch (numeric value, not string)",
         "suggestionLabel": "Generate this parameter yourself.\nExample: 1651659340"
+      },
+      "scope": {
+        "label": "Scope",
+        "description": "Reference to the phase of interaction between the parties.",
+        "copySuccessFeedbackText": "String successfully copied"
+      },
+      "urlCallbackField": {
+        "label": "urlCallback",
+        "description": "The URL that the provider will need to contact to answer the call."
+      },
+      "interactionIDField": {
+        "label": "interactionID",
+        "description": "The unique ID that identifies the interaction between the parties."
+      },
+      "entityNumberField": {
+        "label": "EntityNumber",
+        "description": "The number of entities present in the response."
       }
     },
     "assertionScript": {
-      "title": "Example for generating a client assertion",
+      "title": "Terminal generation example",
       "steps": {
         "1": "Create a folder and name it “client_assertion_test”",
         "2": "Place the script <1>{{ filename }}</1> in the folder (Python 3.8 required)",

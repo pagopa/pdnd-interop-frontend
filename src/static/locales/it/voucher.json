@@ -200,10 +200,27 @@
         "label": "EXP (Expiration)",
         "description": "Expiration, il timestamp riportante data e ora di scadenza del token, espresso in UNIX epoch (valore numerico, non stringa)",
         "suggestionLabel": "Genera tu questo parametro.\nEsempio: 1651659340"
+      },
+      "scope": {
+        "label": "Scope",
+        "description": "Riferimento alla fase dell'interazione tra le parti.",
+        "copySuccessFeedbackText": "Stringa copiata correttamente"
+      },
+      "urlCallbackField": {
+        "label": "urlCallback",
+        "description": "L’URL che l’erogatore dovrà contattare per rispondere alla chiamata."
+      },
+      "interactionIDField": {
+        "label": "interactionID",
+        "description": "L'id unico che identifica l'interazione tra le parti."
+      },
+      "entityNumberField": {
+        "label": "EntityNumber",
+        "description": "Il numero di entità presenti nella risposta."
       }
     },
     "assertionScript": {
-      "title": "Esempio per generare una client assertion",
+      "title": "Esempio di generazione da terminale",
       "steps": {
         "1": "Crea una cartella e nominala “client_assertion_test”",
         "2": "Inserisci nella cartella lo script <1>{{ filename }}</1> (è richiesto Python 3.8)",

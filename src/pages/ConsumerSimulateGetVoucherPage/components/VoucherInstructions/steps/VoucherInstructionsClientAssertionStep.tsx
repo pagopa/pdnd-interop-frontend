@@ -1,5 +1,5 @@
-import React from 'react'
-import { Box, Grid, Link, Typography } from '@mui/material'
+import React, { useState } from 'react'
+import { Box, Grid, Link, TextField, Typography } from '@mui/material'
 import { SectionContainer } from '@/components/layout/containers'
 import { Trans, useTranslation } from 'react-i18next'
 import { CLIENT_ASSERTION_JWT_AUDIENCE, FE_URL } from '@/config/env'
@@ -11,25 +11,119 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useSearchParams } from 'react-router-dom'
 import { VerticalInformationContainer } from '@/components/shared/VerticalInformationContainer'
+import {
+  ASYNC_EXCHANGE_STEP,
+  INTERACTION_TYPE,
+  MEMBER_TYPE,
+} from '../VoucherInstructionsGeneralForm'
 
 const CLIENT_ASSERTION_TYP = 'JWT'
 const CLIENT_ASSERTION_ALG = 'RS256'
+
+type AsyncParamKey = 'urlCallback' | 'interactionID' | 'entityNumber'
 
 export const VoucherInstructionsClientAssertionStep: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
   const [searchParams] = useSearchParams()
 
+  const [asyncParams, setAsyncParams] = useState<Partial<Record<AsyncParamKey, string>>>({})
+
   const { goToNextStep, goToPreviousStep } = useVoucherInstructionsContext()
 
-  const clientId = searchParams.get('clientId') || ''
   const purposeId = searchParams.get('purposeId') || ''
-  const keyId = searchParams.get('keyId') || ''
+  const memberType = searchParams.get('memberType') || ''
+  const interactionType = searchParams.get('interactionType') || ''
+  const asyncExchangeStep = searchParams.get('asyncExchangeStep') || ''
 
-  const filename =
-    clientKind === 'CONSUMER' ? 'create_client_assertion.py' : 'create_m2m_client_assertion.py'
+  const clientId =
+    searchParams.get(
+      interactionType === INTERACTION_TYPE.SYNC || memberType === MEMBER_TYPE.CONSUMER
+        ? 'clientId'
+        : 'eserviceId'
+    ) || ''
+  const keyId =
+    searchParams.get(
+      interactionType === INTERACTION_TYPE.SYNC || memberType === MEMBER_TYPE.CONSUMER
+        ? 'keyId'
+        : 'publicKeyId'
+    ) || ''
 
-  const downloadUrl = `${FE_URL}/data/it/${filename}`
+  const showPurposeId =
+    interactionType === INTERACTION_TYPE.SYNC ||
+    (interactionType === INTERACTION_TYPE.ASYNC &&
+      asyncExchangeStep === ASYNC_EXCHANGE_STEP.START_INTERACTION)
+
+  const asyncFieldConfig =
+    asyncExchangeStep === ASYNC_EXCHANGE_STEP.START_INTERACTION
+      ? {
+          key: 'urlCallback' as const,
+          label: t('clientAssertionStep.assertionPayload.urlCallbackField.label'),
+          description: t('clientAssertionStep.assertionPayload.urlCallbackField.description'),
+        }
+      : {
+          key: 'interactionID' as const,
+          label: t('clientAssertionStep.assertionPayload.interactionIDField.label'),
+          description: t('clientAssertionStep.assertionPayload.interactionIDField.description'),
+        }
+
+  const handleAsyncParamChanged = (key: AsyncParamKey, value: string) => {
+    setAsyncParams((prev) => ({
+      ...prev,
+      [key]: value,
+    }))
+  }
+
+  const JtiField = () => (
+    <Grid item xs={12} md={6}>
+      <VerticalInformationContainer
+        label={t('clientAssertionStep.assertionPayload.jtiField.label')}
+        labelDescription={t('clientAssertionStep.assertionPayload.jtiField.description')}
+        content={t('clientAssertionStep.assertionPayload.jtiField.suggestionLabel')}
+      />
+    </Grid>
+  )
+
+  const asyncScriptSubstitutionValues = {
+    ...(asyncParams.urlCallback && {
+      INSERISCI_VALORE_URL_CALLBACK: asyncParams.urlCallback,
+    }),
+    ...(asyncParams.interactionID && {
+      INSERISCI_VALORE_INTERACTION_ID: asyncParams.interactionID,
+    }),
+    ...(asyncParams.entityNumber && {
+      INSERISCI_VALORE_ENTITY_NUMBER: asyncParams.entityNumber,
+    }),
+  }
+
+  const getFileName = () => {
+    if (interactionType === INTERACTION_TYPE.SYNC) {
+      return clientKind === 'CONSUMER' ? 'create_client_assertion' : 'create_m2m_client_assertion'
+    }
+    if (interactionType === INTERACTION_TYPE.ASYNC) {
+      return `create_async_client_assertion_${asyncExchangeStep}`
+    }
+    return ''
+  }
+
+  const getFilePath = (type: 'script' | 'preview') => {
+    const base = `${FE_URL}/data/it`
+    const file = getFileName()
+
+    if (!file) return ''
+
+    const ext = type === 'script' ? 'py' : 'txt'
+
+    if (interactionType === INTERACTION_TYPE.SYNC) {
+      return `${base}/sync/${type}/${file}.${ext}`
+    }
+
+    if (interactionType === INTERACTION_TYPE.ASYNC) {
+      return `${base}/async/${type}/${file}.${ext}`
+    }
+
+    return ''
+  }
 
   return (
     <>
@@ -64,7 +158,7 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <VerticalInformationContainer
                 label={t('clientAssertionStep.assertionHeader.algField.label')}
                 labelDescription={t('clientAssertionStep.assertionHeader.algField.description')}
@@ -77,7 +171,7 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <VerticalInformationContainer
                 label={t('clientAssertionStep.assertionHeader.typField.label')}
                 labelDescription={t('clientAssertionStep.assertionHeader.typField.description')}
@@ -97,7 +191,7 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
           title={t('clientAssertionStep.assertionPayload.title')}
         >
           <Grid container spacing={4.5}>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <VerticalInformationContainer
                 label={t('clientAssertionStep.assertionPayload.issField.label')}
                 labelDescription={t('clientAssertionStep.assertionPayload.issField.description')}
@@ -110,7 +204,7 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <VerticalInformationContainer
                 label={t('clientAssertionStep.assertionPayload.subField.label')}
                 labelDescription={t('clientAssertionStep.assertionPayload.subField.description')}
@@ -123,7 +217,7 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <VerticalInformationContainer
                 label={t('clientAssertionStep.assertionPayload.audField.label')}
                 labelDescription={t('clientAssertionStep.assertionPayload.audField.description')}
@@ -136,8 +230,8 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
                 }}
               />
             </Grid>
-            {clientKind === 'CONSUMER' && Boolean(purposeId) && (
-              <Grid item xs={6}>
+            {clientKind === 'CONSUMER' && Boolean(purposeId) && showPurposeId && (
+              <Grid item xs={12} md={6}>
                 <VerticalInformationContainer
                   label={t('clientAssertionStep.assertionPayload.purposeIdField.label')}
                   labelDescription={t(
@@ -153,21 +247,62 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
                 />
               </Grid>
             )}
-            <Grid item xs={6}>
-              <VerticalInformationContainer
-                label={t('clientAssertionStep.assertionPayload.jtiField.label')}
-                labelDescription={t('clientAssertionStep.assertionPayload.jtiField.description')}
-                content={t('clientAssertionStep.assertionPayload.jtiField.suggestionLabel')}
-              />
-            </Grid>
-            <Grid item xs={6}>
+            {asyncExchangeStep !== ASYNC_EXCHANGE_STEP.START_INTERACTION && <JtiField />}
+            {interactionType === INTERACTION_TYPE.ASYNC && (
+              <>
+                <Grid
+                  item
+                  xs={asyncExchangeStep === ASYNC_EXCHANGE_STEP.CALLBACK_INVOCATION ? 12 : 6}
+                >
+                  <VerticalInformationContainer
+                    label={t('clientAssertionStep.assertionPayload.scope.label')}
+                    labelDescription={t('clientAssertionStep.assertionPayload.scope.description')}
+                    content={asyncExchangeStep}
+                    copyToClipboard={{
+                      value: asyncExchangeStep,
+                      tooltipTitle: t(
+                        'clientAssertionStep.assertionPayload.purposeIdField.copySuccessFeedbackText'
+                      ),
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={6} sx={{ display: 'flex', alignItems: 'center' }}>
+                  <TextField
+                    sx={{ my: 0, width: '100%', flexShrink: 1 }}
+                    size="small"
+                    name={asyncFieldConfig.key}
+                    label={asyncFieldConfig.label}
+                    helperText={asyncFieldConfig.description}
+                    value={asyncParams[asyncFieldConfig.key] ?? ''}
+                    onChange={(e) => handleAsyncParamChanged(asyncFieldConfig.key, e.target.value)}
+                  />
+                </Grid>
+                {asyncExchangeStep === ASYNC_EXCHANGE_STEP.CALLBACK_INVOCATION && (
+                  <Grid item xs={12} md={6} sx={{ display: 'flex', alignItems: 'center' }}>
+                    <TextField
+                      sx={{ my: 0, width: '100%', flexShrink: 1 }}
+                      size="small"
+                      name="entityNumber"
+                      label={t('clientAssertionStep.assertionPayload.entityNumberField.label')}
+                      helperText={t(
+                        'clientAssertionStep.assertionPayload.entityNumberField.description'
+                      )}
+                      value={asyncParams.entityNumber ?? ''}
+                      onChange={(e) => handleAsyncParamChanged('entityNumber', e.target.value)}
+                    />
+                  </Grid>
+                )}
+              </>
+            )}
+            {asyncExchangeStep === ASYNC_EXCHANGE_STEP.START_INTERACTION && <JtiField />}
+            <Grid item xs={12} md={6}>
               <VerticalInformationContainer
                 label={t('clientAssertionStep.assertionPayload.iatField.label')}
                 labelDescription={t('clientAssertionStep.assertionPayload.iatField.description')}
                 content={t('clientAssertionStep.assertionPayload.iatField.suggestionLabel')}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12} md={6}>
               <VerticalInformationContainer
                 label={t('clientAssertionStep.assertionPayload.expField.label')}
                 labelDescription={t('clientAssertionStep.assertionPayload.expField.description')}
@@ -183,8 +318,10 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
             {t('clientAssertionStep.assertionScript.steps.1')}
           </Typography>
           <Typography component="li" variant="body2">
-            <Trans components={{ 1: <Link download href={downloadUrl} /> }}>
-              {t('clientAssertionStep.assertionScript.steps.2', { filename })}
+            <Trans components={{ 1: <Link download href={getFilePath('script')} /> }}>
+              {t('clientAssertionStep.assertionScript.steps.2', {
+                filename: `${getFileName()}.py`,
+              })}
             </Trans>
           </Typography>
           <Typography component="li" variant="body2" sx={{ whiteSpace: 'break-spaces' }}>
@@ -204,9 +341,7 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
           activeLang={'python'}
           entries={[
             {
-              url: `${FE_URL}/data/it/${
-                clientKind === 'CONSUMER' ? 'voucher-python-invoke' : 'voucher-python-m2m-invoke'
-              }.txt`,
+              url: getFilePath('preview'),
               value: 'python',
             },
           ]}
@@ -218,6 +353,7 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
             INSERISCI_VALORE_SUB: clientId!,
             INSERISCI_VALORE_AUD: CLIENT_ASSERTION_JWT_AUDIENCE,
             INSERISCI_VALORE_PUR: purposeId,
+            ...asyncScriptSubstitutionValues,
           }}
         />
         <Typography sx={{ mt: 2 }} variant="body2">
