@@ -36,6 +36,7 @@ type HeaderInfoSectionProps = {
 type IntroProps = {
   title?: string
   description?: string | React.ReactNode
+  statusChip?: React.ComponentProps<typeof StatusChip>
   infoSection?: HeaderInfoSectionProps
 } & ActionsSectionProps
 
@@ -85,18 +86,24 @@ export const PageContainerSkeleton: React.FC<PageContainerSkeletonProps> = ({
 const Intro: React.FC<IntroProps> = ({
   title,
   description,
+  statusChip,
   topSideActions,
   infoSection,
 }) => {
   return (
     <Box sx={{ flex: 1 }}>
-      <Stack direction="row" spacing={2}>
+      <Stack direction="row" alignItems="center" spacing={2}>
         {title && (
           <Typography component="h1" variant="h4">
             {title}
           </Typography>
         )}
-        {<PageContainerActions topSideActions={topSideActions} />}
+        {statusChip && (
+          <Box>
+            <StatusChip {...statusChip} />
+          </Box>
+        )}
+        <ActionsSection topSideActions={topSideActions} />
       </Stack>
       {description && <Subtitle description={description} />}
       {infoSection && <HeaderInfoSection {...infoSection} />}
