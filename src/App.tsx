@@ -6,10 +6,8 @@ import { LoadingOverlay, ToastNotification } from '@/components/layout'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { theme } from '@pagopa/interop-fe-commons'
-import { EnvironmentBanner } from '@pagopa/mui-italia'
+import { MIAlert } from '@pagopa/mui-italia'
 import { STAGE } from './config/env'
-import WarningAmberIcon from '@mui/icons-material/WarningAmber'
-import PrivacyTipIcon from '@mui/icons-material/PrivacyTip'
 import { useTranslation } from 'react-i18next'
 import { MaintenanceBanner } from './components/shared/banners/MaintenanceBanner'
 import { FirstLoadingSpinner } from './components/shared/FirstLoadingSpinner'
@@ -56,7 +54,6 @@ function App() {
     envBannerProps = {
       bgColor: 'warning',
       message: t('environmentBanner.content.uat'),
-      icon: <WarningAmberIcon fontSize="small" />,
     }
   }
 
@@ -64,13 +61,18 @@ function App() {
     envBannerProps = {
       bgColor: 'info',
       message: t('environmentBanner.content.att'),
-      icon: <PrivacyTipIcon fontSize="small" />,
     }
   }
 
   return (
     <ThemeProvider theme={theme}>
-      {envBannerProps && <EnvironmentBanner {...envBannerProps} />}
+      {envBannerProps && envBannerProps.message && (
+        <MIAlert
+          variant="header"
+          severity={envBannerProps.bgColor}
+          description={envBannerProps.message}
+        />
+      )}
       <React.Suspense fallback={<FirstLoadingSpinner />}>
         <QueryClientProvider client={queryClient}>
           <CssBaseline />
