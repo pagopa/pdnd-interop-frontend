@@ -57,7 +57,9 @@ export type EServiceDescriptorState =
   | "DEPRECATED"
   | "SUSPENDED"
   | "ARCHIVED"
-  | "WAITING_FOR_APPROVAL";
+  | "WAITING_FOR_APPROVAL"
+  | "ARCHIVING"
+  | "ARCHIVING_SUSPENDED";
 
 /** Purpose State */
 export type PurposeVersionState =
@@ -103,6 +105,9 @@ export type AgreementApprovalPolicy = "AUTOMATIC" | "MANUAL";
 
 /** Risk Analysis Mode */
 export type EServiceMode = "RECEIVE" | "DELIVER";
+
+/** Archiving Scope */
+export type ArchivingScope = "ESERVICE" | "DESCRIPTOR";
 
 /** Data Type Question */
 export type DataType = "SINGLE" | "MULTI" | "FREETEXT";
@@ -428,6 +433,7 @@ export interface CatalogEServiceDescriptor {
   deprecatedAt?: string;
   /** @format date-time */
   archivedAt?: string;
+  archivingSchedule?: ArchivingSchedule;
 }
 
 /** Models Client details */
@@ -485,6 +491,7 @@ export interface CatalogDescriptorEService {
   isConsumerDelegable?: boolean;
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
+  archivingReason?: string;
 }
 
 export interface ProducerEServiceDetails {
@@ -501,6 +508,15 @@ export interface ProducerEServiceDetails {
   isConsumerDelegable?: boolean;
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
+}
+
+export interface ArchivingSchedule {
+  /** @format date-time */
+  archivableOn?: string;
+  /** @format date-time */
+  startedAt?: string;
+  /** Archiving Scope */
+  scope?: ArchivingScope;
 }
 
 export interface EServiceRiskAnalysisSeed {
