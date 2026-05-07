@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next'
 import { MaintenanceBanner } from './components/shared/banners/MaintenanceBanner'
 import { FirstLoadingSpinner } from './components/shared/FirstLoadingSpinner'
 import { queryClient } from './config/query-client'
-import type { EnvironmentBannerProps } from '@pagopa/mui-italia'
+import type { MIAlertProps } from '@pagopa/mui-italia'
 import { AuthQueries } from './api/auth'
 import i18n from './config/react-i18next'
 import { DEFAULT_LANG, LANGUAGES } from './config/constants'
@@ -48,29 +48,29 @@ if (redirectUrl) {
 
 function App() {
   const { t } = useTranslation('shared-components')
-  let envBannerProps: EnvironmentBannerProps | undefined = undefined
+  let envBannerProps: MIAlertProps | undefined = undefined
 
   if (STAGE === 'UAT') {
     envBannerProps = {
-      bgColor: 'warning',
-      message: t('environmentBanner.content.uat'),
+      severity: 'warning',
+      description: t('environmentBanner.content.uat'),
     }
   }
 
   if (STAGE === 'ATT') {
     envBannerProps = {
-      bgColor: 'info',
-      message: t('environmentBanner.content.att'),
+      severity: 'info',
+      description: t('environmentBanner.content.att'),
     }
   }
 
   return (
     <ThemeProvider theme={theme}>
-      {envBannerProps && envBannerProps.message && (
+      {envBannerProps && (
         <MIAlert
           variant="header"
-          severity={envBannerProps.bgColor}
-          description={envBannerProps.message}
+          severity={envBannerProps.severity}
+          description={envBannerProps.description}
         />
       )}
       <React.Suspense fallback={<FirstLoadingSpinner />}>
