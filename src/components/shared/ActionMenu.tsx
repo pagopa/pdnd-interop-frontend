@@ -52,14 +52,18 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({ actions, iconColor = 'pr
       <IconButton
         ref={anchorRef}
         id={compositionButtonId}
-        sx={{ visibility: actions.length > 0 ? 'visible' : 'hidden' }}
+        sx={{
+          visibility: actions.length > 0 ? 'visible' : 'hidden',
+          border: 2,
+          borderRadius: 1,
+        }}
         aria-controls={open ? compositionMenuId : undefined}
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
         aria-label={t('iconButtonAriaLabel')}
       >
-        <MoreVertIcon color={iconColor} fontSize="small" />
+        <MoreVertIcon color={iconColor} fontSize="small" sx={{ marginX: 0.5 }} />
       </IconButton>
       <ClickAwayListener onClickAway={handleClose}>
         <Menu
