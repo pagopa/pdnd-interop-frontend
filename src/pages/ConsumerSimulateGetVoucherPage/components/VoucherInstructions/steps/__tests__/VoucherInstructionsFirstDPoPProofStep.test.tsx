@@ -5,7 +5,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { VoucherInstructionsFirstDPoPProofStep } from '../VoucherInstructionsFirstDPoPProofStep'
 
-vi.mock('../CodeSnippetPreview', () => ({
+vi.mock('../../CodeSnippetPreview', () => ({
   CodeSnippetPreview: () => null,
   default: () => null,
 }))
