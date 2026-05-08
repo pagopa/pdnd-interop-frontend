@@ -13,7 +13,11 @@ import SaveIcon from '@mui/icons-material/Save'
 import { IconLink } from '@/components/shared/IconLink'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
-import { ESERVICE_TEMPLATE_NAME_MAX_LENGTH, SIGNALHUB_GUIDE_URL } from '@/config/constants'
+import {
+  ESERVICE_DESCRIPTION_MAX_LENGTH,
+  ESERVICE_TEMPLATE_NAME_MAX_LENGTH,
+  SIGNALHUB_GUIDE_URL,
+} from '@/config/constants'
 import { EServiceTemplateDetailsSection } from '@/pages/ProviderEServiceCreatePage/components/sections/EServiceTemplateDetailsSection'
 
 export type EServiceTemplateCreateStepGeneralFormValues = {
@@ -183,13 +187,15 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
 
           <RHFTextField
             label={t('create.step1.eserviceDescriptionField.label')}
-            infoLabel={t('create.step1.eserviceDescriptionField.infoLabel')}
+            infoLabel={t('create.step1.eserviceDescriptionField.infoLabel', {
+              ESERVICE_DESCRIPTION_MAX_LENGTH: ESERVICE_DESCRIPTION_MAX_LENGTH,
+            })}
             name="description"
             required
             multiline
             size="small"
-            inputProps={{ maxLength: 400 }}
-            rules={{ required: true, minLength: 10, maxLength: 400 }}
+            inputProps={{ maxLength: ESERVICE_DESCRIPTION_MAX_LENGTH }}
+            rules={{ required: true, minLength: 10, maxLength: ESERVICE_DESCRIPTION_MAX_LENGTH }}
             sx={{ mb: 0, mt: 3 }}
           />
         </SectionContainer>

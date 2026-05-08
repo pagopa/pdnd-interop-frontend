@@ -1,6 +1,6 @@
 import { SectionContainer } from '@/components/layout/containers'
 import { IconLink } from '@/components/shared/IconLink'
-import { eserviceNamingBestPracticeLink } from '@/config/constants'
+import { ESERVICE_DESCRIPTION_MAX_LENGTH, eserviceNamingBestPracticeLink } from '@/config/constants'
 import { Trans, useTranslation } from 'react-i18next'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { trackEvent } from '@/config/tracking'
@@ -72,12 +72,14 @@ export const EServiceInfoSection: React.FC<EServiceInfoSectionProps> = ({
 
       <RHFTextField
         label={t('descriptionField.label')}
-        infoLabel={t('descriptionField.infoLabel')}
+        infoLabel={t('descriptionField.infoLabel', {
+          ESERVICE_DESCRIPTION_MAX_LENGTH: ESERVICE_DESCRIPTION_MAX_LENGTH,
+        })}
         name="description"
         multiline
         size="small"
-        inputProps={{ maxLength: 400 }}
-        rules={{ required: true, minLength: 10, maxLength: 400 }}
+        inputProps={{ maxLength: ESERVICE_DESCRIPTION_MAX_LENGTH }}
+        rules={{ required: true, minLength: 10, maxLength: ESERVICE_DESCRIPTION_MAX_LENGTH }}
         sx={{ mb: 0, mt: 3 }}
         required
       />

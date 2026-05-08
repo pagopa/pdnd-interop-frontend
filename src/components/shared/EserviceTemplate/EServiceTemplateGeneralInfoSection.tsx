@@ -15,7 +15,10 @@ import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
 import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import { EServiceTemplateVersionSelectorDrawer } from '@/components/shared/EserviceTemplate'
 import { UpdatePersonalDataDrawer } from '../UpdatePersonalDataDrawer'
-import { ESERVICE_TEMPLATE_NAME_MAX_LENGTH } from '@/config/constants'
+import {
+  ESERVICE_DESCRIPTION_MAX_LENGTH,
+  ESERVICE_TEMPLATE_NAME_MAX_LENGTH,
+} from '@/config/constants'
 import { AuthHooks } from '@/api/auth'
 
 type EServiceTemplateGeneralInfoSectionProps = {
@@ -295,7 +298,9 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                 title={tDrawer('updateEServiceTemplateNameDrawer.title')}
                 subtitle={tDrawer('updateEServiceTemplateNameDrawer.subtitle')}
                 label={tDrawer('updateEServiceTemplateNameDrawer.templateNameField.label')}
-                infoLabel={tDrawer('updateEServiceTemplateNameDrawer.templateNameField.infoLabel')}
+                infoLabel={tDrawer('updateEServiceTemplateNameDrawer.templateNameField.infoLabel', {
+                  ESERVICE_TEMPLATE_NAME_MAX_LENGTH: ESERVICE_TEMPLATE_NAME_MAX_LENGTH,
+                })}
                 maxLength={ESERVICE_TEMPLATE_NAME_MAX_LENGTH}
                 validateLabel={tDrawer(
                   'updateEServiceTemplateNameDrawer.templateNameField.validation.sameValue'
@@ -313,12 +318,13 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                   'updateEServiceTemplateDescriptionDrawer.eserviceTemplateDescriptionField.label'
                 )}
                 infoLabel={tDrawer(
-                  'updateEServiceTemplateDescriptionDrawer.eserviceTemplateDescriptionField.infoLabel'
+                  'updateEServiceTemplateDescriptionDrawer.eserviceTemplateDescriptionField.infoLabel',
+                  { ESERVICE_DESCRIPTION_MAX_LENGTH: ESERVICE_DESCRIPTION_MAX_LENGTH }
                 )}
                 validateLabel={tDrawer(
                   'updateEServiceTemplateDescriptionDrawer.eserviceTemplateDescriptionField.validation.sameValue'
                 )}
-                maxDescriptionLength={400}
+                maxDescriptionLength={ESERVICE_DESCRIPTION_MAX_LENGTH}
               />
               <UpdateDescriptionDrawer
                 isOpen={isEServiceTemplateUpdateAudienceDrawerOpen}

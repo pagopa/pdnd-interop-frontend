@@ -19,6 +19,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 import { AuthHooks } from '@/api/auth'
 import { trackEvent } from '@/config/tracking'
+import { ESERVICE_DESCRIPTION_MAX_LENGTH } from '@/config/constants'
 import { AxiosError, isAxiosError } from 'axios'
 import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
@@ -350,12 +351,14 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         title={tDrawer('updateEServiceDescriptionDrawer.title')}
         subtitle={tDrawer('updateEServiceDescriptionDrawer.subtitle')}
         label={tDrawer('updateEServiceDescriptionDrawer.eserviceDescriptionField.label')}
-        infoLabel={tDrawer('updateEServiceDescriptionDrawer.eserviceDescriptionField.infoLabel')}
+        infoLabel={tDrawer('updateEServiceDescriptionDrawer.eserviceDescriptionField.infoLabel', {
+          ESERVICE_DESCRIPTION_MAX_LENGTH,
+        })}
         validateLabel={tDrawer(
           'updateEServiceDescriptionDrawer.eserviceDescriptionField.validation.sameValue'
         )}
         onSubmit={handleDescriptionUpdate}
-        maxDescriptionLength={400}
+        maxDescriptionLength={ESERVICE_DESCRIPTION_MAX_LENGTH}
       />
       <UpdateNameDrawer
         isOpen={isEServiceUpdateNameDrawerOpen}
