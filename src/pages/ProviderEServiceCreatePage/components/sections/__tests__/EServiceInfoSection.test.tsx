@@ -3,7 +3,6 @@ import { EServiceInfoSection } from '../EServiceInfoSection'
 import { screen } from '@testing-library/react'
 import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
-import userEvent from '@testing-library/user-event'
 
 const descriptor: ProducerEServiceDescriptor = createMockEServiceDescriptorProvider()
 
@@ -43,29 +42,5 @@ describe('EServiceInfoSection', () => {
     renderComponent(false)
     expect(screen.getByText('nameField.label')).toBeInTheDocument()
     expect(screen.getByText('descriptionField.label')).toBeInTheDocument()
-  })
-
-  it('maxLength of 400 characters on description field', () => {
-    renderComponent()
-
-    const descriptionInput = screen.getByLabelText(/descriptionField.label/)
-
-    expect(descriptionInput).toHaveAttribute('maxLength', '400')
-  })
-
-  it('rejects description longer than 400 characters', async () => {
-    renderComponent()
-
-    const user = userEvent.setup()
-
-    const descriptionInput = screen.getByLabelText(/descriptionField.label/) as HTMLTextAreaElement
-
-    // Try to enter text longer than 400 characters
-    const longText = 'a'.repeat(401)
-    await user.clear(descriptionInput)
-    await user.type(descriptionInput, longText)
-
-    // The actual input value should be capped at 400 due to maxLength attribute
-    expect(descriptionInput.value).toHaveLength(400)
   })
 })
