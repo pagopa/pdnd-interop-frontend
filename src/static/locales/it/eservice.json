@@ -25,7 +25,7 @@
         },
         "descriptionField": {
           "label": "Descrizione dell’e-service",
-          "infoLabel": "Descrivi quali dati il fruitore deve fornire e quali dati l’e-service restituisce. Min 10 caratteri, max 250 caratteri"
+          "infoLabel": "Descrivi quali dati il fruitore deve fornire e quali dati l’e-service restituisce. Min 10 caratteri, max 400 caratteri"
         }
       },
       "instanceLabelField": {
@@ -768,7 +768,7 @@
         "subtitle": "Da questo pannello puoi aggiornare la descrizione dell’e-service. Le modifiche apportate avranno effetto da subito.",
         "eserviceDescriptionField": {
           "label": "Descrizione e-service",
-          "infoLabel": "Min 10 caratteri, max 250 caratteri",
+          "infoLabel": "Min 10 caratteri, max 400 caratteri",
           "validation": {
             "sameValue": "La descrizione dell'e-service deve essere diversa da quella attuale"
           }

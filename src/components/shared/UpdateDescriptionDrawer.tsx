@@ -82,11 +82,11 @@ export const UpdateDescriptionDrawer: React.FC<UpdateDescriptionDrawerProps> = (
             multiline
             size="small"
             rows={10}
-            inputProps={{ maxLength: 250 }}
+            inputProps={{ maxLength: 400 }}
             rules={{
               required: true,
               minLength: 10,
-              maxLength: 250,
+              maxLength: 400,
               validate: (value) => value !== description || validateLabel,
             }}
           />
