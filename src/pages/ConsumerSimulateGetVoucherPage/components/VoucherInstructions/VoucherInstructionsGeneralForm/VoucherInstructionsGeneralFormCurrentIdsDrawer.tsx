@@ -132,7 +132,7 @@ export const VoucherInstructionsGeneralFormCurrentIdsDrawer: React.FC<
             />
           </>
         )}
-        {eserviceId && (
+        {eserviceId && !purposeId && (
           <>
             <InformationContainer
               direction="column"
