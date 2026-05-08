@@ -7,7 +7,6 @@ import {
 } from '../EServiceTemplateCreateStepGeneral'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { mockUseEServiceTemplateCreateContext } from '@/../__mocks__/data/eserviceTemplate.mocks'
-import userEvent from '@testing-library/user-event'
 
 vi.mock('@/api/eserviceTemplate', () => ({
   EServiceTemplateMutations: {
