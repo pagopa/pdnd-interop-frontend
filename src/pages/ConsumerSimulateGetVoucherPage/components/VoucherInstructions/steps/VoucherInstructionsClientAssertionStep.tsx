@@ -40,7 +40,7 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
     searchParams.get(
       interactionType === INTERACTION_TYPE.SYNC || memberType === MEMBER_TYPE.CONSUMER
         ? 'clientId'
-        : 'eserviceId'
+        : 'producerKeychainId'
     ) || ''
   const keyId =
     searchParams.get(
