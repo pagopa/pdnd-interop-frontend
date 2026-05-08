@@ -111,8 +111,8 @@ export const VoucherInstructionsGeneralFormCurrentIdsDrawer: React.FC<
         {producerKeychainId && (
           <InformationContainer
             direction="column"
-            label="producerKeychainId"
-            labelDescription={t('producerKeychainId')}
+            label={t('producerKeychainId.label')}
+            labelDescription={t('producerKeychainId.description')}
             copyToClipboard={{ value: producerKeychainId }}
             content={producerKeychainId}
           />
@@ -120,8 +120,8 @@ export const VoucherInstructionsGeneralFormCurrentIdsDrawer: React.FC<
         {keychain && (
           <InformationContainer
             direction="column"
-            label={'producerId'}
-            labelDescription={t('producerId')}
+            label={t('producerId.label')}
+            labelDescription={t('producerId.description')}
             copyToClipboard={{ value: keychain.producer.id }}
             content={keychain.producer.id}
           />
@@ -129,8 +129,8 @@ export const VoucherInstructionsGeneralFormCurrentIdsDrawer: React.FC<
         {eserviceId && !purposeId && (
           <InformationContainer
             direction="column"
-            label="eserviceId"
-            labelDescription={t('eserviceId')}
+            label={t('eserviceId.label')}
+            labelDescription={t('eserviceId.description')}
             copyToClipboard={{ value: eserviceId }}
             content={eserviceId}
           />

@@ -124,9 +124,18 @@
         "label": "organizationId (fruitore)",
         "description": "L’id del tuo ente"
       },
-      "eserviceId": "L'id dell'e-service selezionato",
-      "producerKeychainId": "L'id del portachiavi erogatore selezionato",
-      "producerId": "L'id dell'erogatore selezionato"
+      "eserviceId": {
+        "label": "eserviceId",
+        "description": "L'id dell'e-service selezionato"
+      },
+      "producerKeychainId": {
+        "label": "producerKeychainId",
+        "description": "L'id del portachiavi erogatore selezionato"
+      },
+      "producerId": {
+        "label": "producerId",
+        "description": "L'id dell'erogatore selezionato"
+      }
     }
   },
   "firstDPoPProofStep": {
