@@ -7,6 +7,7 @@ import {
 } from '../EServiceTemplateCreateStepGeneral'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { mockUseEServiceTemplateCreateContext } from '@/../__mocks__/data/eserviceTemplate.mocks'
+import userEvent from '@testing-library/user-event'
 
 vi.mock('@/api/eserviceTemplate', () => ({
   EServiceTemplateMutations: {
@@ -111,6 +112,40 @@ describe('EServiceTemplateCreateStepGeneral', () => {
       withRouterContext: true,
     })
     expect(screen.getByRole('button', { name: /create.forwardWithSaveBtn/ })).toBeInTheDocument()
+  })
+
+  it('maxLength of 400 characters on description field', () => {
+    mockUseEServiceTemplateCreateContext()
+    renderWithApplicationContext(<EServiceTemplateCreateStepGeneral />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    const descriptionInput = screen.getByLabelText(/create.step1.eserviceDescriptionField.label/)
+
+    expect(descriptionInput).toHaveAttribute('maxLength', '400')
+  })
+
+  it('rejects description longer than 400 characters', async () => {
+    mockUseEServiceTemplateCreateContext()
+    renderWithApplicationContext(<EServiceTemplateCreateStepGeneral />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    const user = userEvent.setup()
+
+    const descriptionInput = screen.getByLabelText(
+      /create.step1.eserviceDescriptionField.label/
+    ) as HTMLTextAreaElement
+
+    // Try to enter text longer than 400 characters
+    const longText = 'a'.repeat(401)
+    await user.clear(descriptionInput)
+    await user.type(descriptionInput, longText)
+
+    // The actual input value should be capped at 400 due to maxLength attribute
+    expect(descriptionInput.value).toHaveLength(400)
   })
 })
 
