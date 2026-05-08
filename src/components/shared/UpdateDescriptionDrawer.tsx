@@ -20,6 +20,7 @@ type UpdateDescriptionDrawerProps = {
   infoLabel: string
   validateLabel: string
   onSubmit: (id: string, newDescription: string) => void
+  maxDescriptionLength?: number
 }
 
 export const UpdateDescriptionDrawer: React.FC<UpdateDescriptionDrawerProps> = ({
@@ -33,6 +34,7 @@ export const UpdateDescriptionDrawer: React.FC<UpdateDescriptionDrawerProps> = (
   infoLabel,
   validateLabel,
   onSubmit,
+  maxDescriptionLength = 250,
 }) => {
   const { t: tCommon } = useTranslation('common')
 
@@ -82,11 +84,11 @@ export const UpdateDescriptionDrawer: React.FC<UpdateDescriptionDrawerProps> = (
             multiline
             size="small"
             rows={10}
-            inputProps={{ maxLength: 400 }}
+            inputProps={{ maxLength: maxDescriptionLength }}
             rules={{
               required: true,
               minLength: 10,
-              maxLength: 400,
+              maxLength: maxDescriptionLength,
               validate: (value) => value !== description || validateLabel,
             }}
           />

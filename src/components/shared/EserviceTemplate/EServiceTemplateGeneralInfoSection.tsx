@@ -318,6 +318,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                 validateLabel={tDrawer(
                   'updateEServiceTemplateDescriptionDrawer.eserviceTemplateDescriptionField.validation.sameValue'
                 )}
+                maxDescriptionLength={400}
               />
               <UpdateDescriptionDrawer
                 isOpen={isEServiceTemplateUpdateAudienceDrawerOpen}

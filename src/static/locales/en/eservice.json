@@ -768,7 +768,7 @@
         "subtitle": "From this panel you can update the description of the e-service. The changes made will take effect immediately.",
         "eserviceDescriptionField": {
           "label": "E-service description",
-          "infoLabel": "Min 10 characters, max 250 characters",
+          "infoLabel": "Min 10 characters, max 400 characters",
           "validation": {
             "sameValue": "The e-service description must be different from the current one"
           }

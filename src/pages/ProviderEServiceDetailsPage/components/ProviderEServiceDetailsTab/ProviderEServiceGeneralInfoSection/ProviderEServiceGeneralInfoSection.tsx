@@ -355,6 +355,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
           'updateEServiceDescriptionDrawer.eserviceDescriptionField.validation.sameValue'
         )}
         onSubmit={handleDescriptionUpdate}
+        maxDescriptionLength={400}
       />
       <UpdateNameDrawer
         isOpen={isEServiceUpdateNameDrawerOpen}
