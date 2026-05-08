@@ -75,13 +75,18 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
   }
 
   const JtiField = () => (
-    <Grid item xs={12} md={6}>
-      <VerticalInformationContainer
-        label={t('clientAssertionStep.assertionPayload.jtiField.label')}
-        labelDescription={t('clientAssertionStep.assertionPayload.jtiField.description')}
-        content={t('clientAssertionStep.assertionPayload.jtiField.suggestionLabel')}
-      />
-    </Grid>
+    <>
+      <Grid item xs={12} md={6}>
+        <VerticalInformationContainer
+          label={t('clientAssertionStep.assertionPayload.jtiField.label')}
+          labelDescription={t('clientAssertionStep.assertionPayload.jtiField.description')}
+          content={t('clientAssertionStep.assertionPayload.jtiField.suggestionLabel')}
+        />
+      </Grid>
+      {asyncExchangeStep === ASYNC_EXCHANGE_STEP.START_INTERACTION && (
+        <Grid item xs={12} md={6}></Grid>
+      )}
+    </>
   )
 
   const asyncScriptSubstitutionValues = {
