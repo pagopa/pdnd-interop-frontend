@@ -80,15 +80,13 @@ export const VoucherInstructionsGeneralFormCurrentIdsDrawer: React.FC<
           </>
         )}
         {clientId && (
-          <>
-            <InformationContainer
-              direction="column"
-              label="clientId"
-              labelDescription={t('clientIdDescription')}
-              copyToClipboard={{ value: clientId }}
-              content={clientId}
-            />
-          </>
+          <InformationContainer
+            direction="column"
+            label="clientId"
+            labelDescription={t('clientIdDescription')}
+            copyToClipboard={{ value: clientId }}
+            content={clientId}
+          />
         )}
 
         {purpose && (
@@ -111,37 +109,31 @@ export const VoucherInstructionsGeneralFormCurrentIdsDrawer: React.FC<
           </>
         )}
         {producerKeychainId && (
-          <>
-            <InformationContainer
-              direction="column"
-              label="producerKeychainId"
-              labelDescription={t('producerKeychainId')}
-              copyToClipboard={{ value: producerKeychainId }}
-              content={producerKeychainId}
-            />
-          </>
+          <InformationContainer
+            direction="column"
+            label="producerKeychainId"
+            labelDescription={t('producerKeychainId')}
+            copyToClipboard={{ value: producerKeychainId }}
+            content={producerKeychainId}
+          />
         )}
         {keychain && (
-          <>
-            <InformationContainer
-              direction="column"
-              label={'producerId'}
-              labelDescription={t('producerId')}
-              copyToClipboard={{ value: keychain.producer.id }}
-              content={keychain.producer.id}
-            />
-          </>
+          <InformationContainer
+            direction="column"
+            label={'producerId'}
+            labelDescription={t('producerId')}
+            copyToClipboard={{ value: keychain.producer.id }}
+            content={keychain.producer.id}
+          />
         )}
         {eserviceId && !purposeId && (
-          <>
-            <InformationContainer
-              direction="column"
-              label="eserviceId"
-              labelDescription={t('eserviceId')}
-              copyToClipboard={{ value: eserviceId }}
-              content={eserviceId}
-            />
-          </>
+          <InformationContainer
+            direction="column"
+            label="eserviceId"
+            labelDescription={t('eserviceId')}
+            copyToClipboard={{ value: eserviceId }}
+            content={eserviceId}
+          />
         )}
       </Stack>
     </Drawer>
