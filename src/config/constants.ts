@@ -76,3 +76,4 @@ export const apiSignalhubPullLink =
 
 export const ESERVICE_TEMPLATE_NAME_MAX_LENGTH = 45
 export const INSTANCE_LABEL_MAX_LENGTH = 12
+export const ESERVICE_DESCRIPTION_MAX_LENGTH = 400
