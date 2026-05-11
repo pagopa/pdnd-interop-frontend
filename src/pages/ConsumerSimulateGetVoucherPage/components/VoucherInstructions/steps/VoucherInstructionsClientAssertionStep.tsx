@@ -261,7 +261,7 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
                     copyToClipboard={{
                       value: asyncExchangeStep,
                       tooltipTitle: t(
-                        'clientAssertionStep.assertionPayload.purposeIdField.copySuccessFeedbackText'
+                        'clientAssertionStep.assertionPayload.scope.copySuccessFeedbackText'
                       ),
                     }}
                   />
