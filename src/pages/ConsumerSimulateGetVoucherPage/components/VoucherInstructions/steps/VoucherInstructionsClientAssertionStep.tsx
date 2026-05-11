@@ -36,12 +36,12 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
   const interactionType = searchParams.get('interactionType') || ''
   const asyncExchangeStep = searchParams.get('asyncExchangeStep') || ''
 
-  const isConsumerOrInterationTypeSync =
+  const isConsumerOrInteractionTypeSync =
     interactionType === INTERACTION_TYPE.SYNC || memberType === MEMBER_TYPE.CONSUMER
 
   const clientId =
-    searchParams.get(isConsumerOrInterationTypeSync ? 'clientId' : 'producerKeychainId') || ''
-  const keyId = searchParams.get(isConsumerOrInterationTypeSync ? 'keyId' : 'publicKeyId') || ''
+    searchParams.get(isConsumerOrInteractionTypeSync ? 'clientId' : 'producerKeychainId') || ''
+  const keyId = searchParams.get(isConsumerOrInteractionTypeSync ? 'keyId' : 'publicKeyId') || ''
 
   const showPurposeId =
     interactionType === INTERACTION_TYPE.SYNC ||
