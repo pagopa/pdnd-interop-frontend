@@ -7,7 +7,11 @@ import { MemoryRouter } from 'react-router-dom'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 
 import { VoucherInstructionsClientAssertionStep } from '../VoucherInstructionsClientAssertionStep'
-import { ASYNC_EXCHANGE_STEP, INTERACTION_TYPE } from '../../VoucherInstructionsGeneralForm'
+import {
+  ASYNC_EXCHANGE_STEP,
+  INTERACTION_TYPE,
+  MEMBER_TYPE,
+} from '../../VoucherInstructionsGeneralForm'
 
 export const mockAxiosGet = vi.fn()
 export const mockAxiosCreate = vi.fn()
@@ -214,11 +218,45 @@ describe('VoucherInstructionsClientAssertionStep', () => {
     )
 
     expect(
-      await screen.findByLabelText('clientAssertionStep.assertionPayload.interactionIDField.label')
+      await screen.findByLabelText('clientAssertionStep.assertionPayload.interactionIdField.label')
     ).toBeInTheDocument()
 
     expect(
       screen.getByLabelText('clientAssertionStep.assertionPayload.entityNumberField.label')
     ).toBeInTheDocument()
+  })
+
+  it('uses producerKeychainId and publicKeyId when interactionType is ASYNC and memberType is PRODUCER', () => {
+    useSearchParamsMock.mockReturnValue([
+      new URLSearchParams({
+        producerKeychainId: 'producer-1',
+        publicKeyId: 'pubkey-1',
+        interactionType: INTERACTION_TYPE.ASYNC,
+        asyncExchangeStep: ASYNC_EXCHANGE_STEP.START_INTERACTION,
+        memberType: MEMBER_TYPE.PRODUCER,
+      }),
+      vi.fn(),
+    ])
+
+    renderWithApplicationContext(
+      <MemoryRouter>
+        <VoucherInstructionsClientAssertionStep />
+      </MemoryRouter>,
+      { withReactQueryContext: true }
+    )
+
+    expect(screen.getAllByText('producer-1')).toHaveLength(2)
+    expect(screen.getByText('pubkey-1')).toBeInTheDocument()
+  })
+
+  it('renders script section', async () => {
+    renderWithApplicationContext(
+      <MemoryRouter>
+        <VoucherInstructionsClientAssertionStep />
+      </MemoryRouter>,
+      { withReactQueryContext: true }
+    )
+
+    expect(await screen.findByText('clientAssertionStep.assertionScript.title')).toBeInTheDocument()
   })
 })

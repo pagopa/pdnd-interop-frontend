@@ -255,7 +255,7 @@
       "expField": {
         "label": "EXP (Expiration)",
         "description": "Expiration, the timestamp reporting the date and time of expiration of the token, expressed in UNIX epoch (numeric value, not string)",
-        "suggestionLabel": "Generate this parameter yourself.\nExample: 1651659340"
+        "suggestionLabel": "Generate this parameter yourself.\nExample: 1651738540"
       },
       "scope": {
         "label": "Scope",
@@ -266,7 +266,7 @@
         "label": "urlCallback",
         "description": "The URL that the provider will need to contact to answer the call."
       },
-      "interactionIDField": {
+      "interactionIdField": {
         "label": "interactionID",
         "description": "The unique ID that identifies the interaction between the parties."
       },

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Grid, Link, TextField } from '@mui/material'
+import { match } from 'ts-pattern'
 import { SectionContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { CLIENT_ASSERTION_JWT_AUDIENCE, FE_URL } from '@/config/env'
@@ -10,6 +11,11 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useSearchParams } from 'react-router-dom'
 import { VerticalInformationContainer } from '@/components/shared/VerticalInformationContainer'
+import type {
+  AsyncExchangeStep,
+  InteractionType,
+  MemberType,
+} from '../VoucherInstructionsGeneralForm'
 import {
   ASYNC_EXCHANGE_STEP,
   INTERACTION_TYPE,
@@ -20,7 +26,7 @@ import { VoucherScriptPreviewSection } from '../VoucherScriptPreviewSection'
 const CLIENT_ASSERTION_TYP = 'JWT'
 const CLIENT_ASSERTION_ALG = 'RS256'
 
-type AsyncParamKey = 'urlCallback' | 'interactionID' | 'entityNumber'
+type AsyncParamKey = 'urlCallback' | 'interactionId' | 'entityNumber'
 
 export const VoucherInstructionsClientAssertionStep: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -32,22 +38,16 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
   const { goToNextStep, goToPreviousStep } = useVoucherInstructionsContext()
 
   const purposeId = searchParams.get('purposeId') || ''
-  const memberType = searchParams.get('memberType') || ''
-  const interactionType = searchParams.get('interactionType') || ''
-  const asyncExchangeStep = searchParams.get('asyncExchangeStep') || ''
+  const memberType = (searchParams.get('memberType') as MemberType) || ''
+  const interactionType = (searchParams.get('interactionType') as InteractionType) || ''
+  const asyncExchangeStep = (searchParams.get('asyncExchangeStep') as AsyncExchangeStep) || ''
+
+  const isConsumerOrInteractionTypeSync =
+    interactionType === INTERACTION_TYPE.SYNC || memberType === MEMBER_TYPE.CONSUMER
 
   const clientId =
-    searchParams.get(
-      interactionType === INTERACTION_TYPE.SYNC || memberType === MEMBER_TYPE.CONSUMER
-        ? 'clientId'
-        : 'producerKeychainId'
-    ) || ''
-  const keyId =
-    searchParams.get(
-      interactionType === INTERACTION_TYPE.SYNC || memberType === MEMBER_TYPE.CONSUMER
-        ? 'keyId'
-        : 'publicKeyId'
-    ) || ''
+    searchParams.get(isConsumerOrInteractionTypeSync ? 'clientId' : 'producerKeychainId') || ''
+  const keyId = searchParams.get(isConsumerOrInteractionTypeSync ? 'keyId' : 'publicKeyId') || ''
 
   const showPurposeId =
     interactionType === INTERACTION_TYPE.SYNC ||
@@ -62,9 +62,9 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
           description: t('clientAssertionStep.assertionPayload.urlCallbackField.description'),
         }
       : {
-          key: 'interactionID' as const,
-          label: t('clientAssertionStep.assertionPayload.interactionIDField.label'),
-          description: t('clientAssertionStep.assertionPayload.interactionIDField.description'),
+          key: 'interactionId' as const,
+          label: t('clientAssertionStep.assertionPayload.interactionIdField.label'),
+          description: t('clientAssertionStep.assertionPayload.interactionIdField.description'),
         }
 
   const handleAsyncParamChanged = (key: AsyncParamKey, value: string) => {
@@ -81,6 +81,7 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
         labelDescription={t('clientAssertionStep.assertionPayload.jtiField.description')}
         content={t('clientAssertionStep.assertionPayload.jtiField.suggestionLabel')}
       />
+      {/* Empty Grid item for this case: https://www.figma.com/design/CpRV3kPvFEWLXGtJUgWeZW/Interop-%E2%80%94-Delivery-FE---QA?node-id=4078-16065&t=RqfS1AkOeuYRe9id-4 */}
       {asyncExchangeStep === ASYNC_EXCHANGE_STEP.START_INTERACTION && (
         <Grid item xs={12} md={6}></Grid>
       )}
@@ -91,23 +92,21 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
     ...(asyncParams.urlCallback && {
       INSERISCI_VALORE_URL_CALLBACK: asyncParams.urlCallback,
     }),
-    ...(asyncParams.interactionID && {
-      INSERISCI_VALORE_INTERACTION_ID: asyncParams.interactionID,
+    ...(asyncParams.interactionId && {
+      INSERISCI_VALORE_INTERACTION_ID: asyncParams.interactionId,
     }),
     ...(asyncParams.entityNumber && {
       INSERISCI_VALORE_ENTITY_NUMBER: asyncParams.entityNumber,
     }),
   }
 
-  const getFileName = () => {
-    if (interactionType === INTERACTION_TYPE.SYNC) {
-      return clientKind === 'CONSUMER' ? 'create_client_assertion' : 'create_m2m_client_assertion'
-    }
-    if (interactionType === INTERACTION_TYPE.ASYNC) {
-      return `create_async_client_assertion_${asyncExchangeStep}`
-    }
-    return ''
-  }
+  const getFileName = () =>
+    match(interactionType)
+      .with(INTERACTION_TYPE.SYNC, () =>
+        clientKind === 'CONSUMER' ? 'create_client_assertion' : 'create_m2m_client_assertion'
+      )
+      .with(INTERACTION_TYPE.ASYNC, () => `create_async_client_assertion_${asyncExchangeStep}`)
+      .otherwise(() => '')
 
   const getFilePath = (type: 'script' | 'preview') => {
     const base = `${FE_URL}/data/it`
@@ -117,15 +116,10 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
 
     const ext = type === 'script' ? 'py' : 'txt'
 
-    if (interactionType === INTERACTION_TYPE.SYNC) {
-      return `${base}/sync/${type}/${file}.${ext}`
-    }
-
-    if (interactionType === INTERACTION_TYPE.ASYNC) {
-      return `${base}/async/${type}/${file}.${ext}`
-    }
-
-    return ''
+    return match(interactionType)
+      .with(INTERACTION_TYPE.SYNC, () => `${base}/sync/${type}/${file}.${ext}`)
+      .with(INTERACTION_TYPE.ASYNC, () => `${base}/async/${type}/${file}.${ext}`)
+      .otherwise(() => '')
   }
 
   return (
@@ -237,7 +231,7 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
                 }}
               />
             )}
-            {asyncExchangeStep !== ASYNC_EXCHANGE_STEP.START_INTERACTION && <JtiField />}
+            {asyncExchangeStep !== ASYNC_EXCHANGE_STEP.START_INTERACTION && JtiField()}
             {interactionType === INTERACTION_TYPE.ASYNC && (
               <>
                 <VerticalInformationContainer
@@ -247,7 +241,7 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
                   copyToClipboard={{
                     value: asyncExchangeStep,
                     tooltipTitle: t(
-                      'clientAssertionStep.assertionPayload.purposeIdField.copySuccessFeedbackText'
+                      'clientAssertionStep.assertionPayload.scope.copySuccessFeedbackText'
                     ),
                   }}
                   gridProps={{
@@ -282,7 +276,7 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
                 )}
               </>
             )}
-            {asyncExchangeStep === ASYNC_EXCHANGE_STEP.START_INTERACTION && <JtiField />}
+            {asyncExchangeStep === ASYNC_EXCHANGE_STEP.START_INTERACTION && JtiField()}
             <VerticalInformationContainer
               label={t('clientAssertionStep.assertionPayload.iatField.label')}
               labelDescription={t('clientAssertionStep.assertionPayload.iatField.description')}
