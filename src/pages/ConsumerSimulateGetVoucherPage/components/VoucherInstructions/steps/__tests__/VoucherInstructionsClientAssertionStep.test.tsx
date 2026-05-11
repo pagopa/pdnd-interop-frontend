@@ -218,7 +218,7 @@ describe('VoucherInstructionsClientAssertionStep', () => {
     )
 
     expect(
-      await screen.findByLabelText('clientAssertionStep.assertionPayload.interactionIDField.label')
+      await screen.findByLabelText('clientAssertionStep.assertionPayload.interactionIdField.label')
     ).toBeInTheDocument()
 
     expect(

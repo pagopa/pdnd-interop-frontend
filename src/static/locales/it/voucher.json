@@ -210,7 +210,7 @@
         "label": "urlCallback",
         "description": "L’URL che l’erogatore dovrà contattare per rispondere alla chiamata."
       },
-      "interactionIDField": {
+      "interactionIdField": {
         "label": "interactionID",
         "description": "L'id unico che identifica l'interazione tra le parti."
       },

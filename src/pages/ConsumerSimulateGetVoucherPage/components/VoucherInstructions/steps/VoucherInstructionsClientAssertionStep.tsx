@@ -20,7 +20,7 @@ import {
 const CLIENT_ASSERTION_TYP = 'JWT'
 const CLIENT_ASSERTION_ALG = 'RS256'
 
-type AsyncParamKey = 'urlCallback' | 'interactionID' | 'entityNumber'
+type AsyncParamKey = 'urlCallback' | 'interactionId' | 'entityNumber'
 
 export const VoucherInstructionsClientAssertionStep: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -56,9 +56,9 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
           description: t('clientAssertionStep.assertionPayload.urlCallbackField.description'),
         }
       : {
-          key: 'interactionID' as const,
-          label: t('clientAssertionStep.assertionPayload.interactionIDField.label'),
-          description: t('clientAssertionStep.assertionPayload.interactionIDField.description'),
+          key: 'interactionId' as const,
+          label: t('clientAssertionStep.assertionPayload.interactionIdField.label'),
+          description: t('clientAssertionStep.assertionPayload.interactionIdField.description'),
         }
 
   const handleAsyncParamChanged = (key: AsyncParamKey, value: string) => {
@@ -88,8 +88,8 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
     ...(asyncParams.urlCallback && {
       INSERISCI_VALORE_URL_CALLBACK: asyncParams.urlCallback,
     }),
-    ...(asyncParams.interactionID && {
-      INSERISCI_VALORE_INTERACTION_ID: asyncParams.interactionID,
+    ...(asyncParams.interactionId && {
+      INSERISCI_VALORE_INTERACTION_ID: asyncParams.interactionId,
     }),
     ...(asyncParams.entityNumber && {
       INSERISCI_VALORE_ENTITY_NUMBER: asyncParams.entityNumber,
