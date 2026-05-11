@@ -16,6 +16,7 @@ const createMockEServiceRead = createMockFactory<ProducerEServiceDetails>({
   technology: 'REST',
   mode: 'DELIVER',
   riskAnalysis: [],
+  asyncExchange: false,
 })
 
 const createMockEServiceProvider = createMockFactory<ProducerEService>({
@@ -40,6 +41,7 @@ const createMockEServiceCatalog = createMockFactory<CatalogEService>({
     id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
     name: "Agenzia per L'Italia Digitale",
   },
+  asyncExchange: false,
 })
 
 const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDescriptor>({
@@ -78,6 +80,7 @@ const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDes
     mode: 'DELIVER',
     riskAnalysis: [],
     agreements: [],
+    asyncExchange: false,
   },
   id: 'ec94e366-cbb2-4203-ac07-95acf5289a31',
   interface: {
@@ -94,6 +97,28 @@ const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDes
     certified: [],
     declared: [],
     verified: [],
+  },
+})
+
+const createMockEServiceDescriptorCatalogAsync = createMockFactory<CatalogEServiceDescriptor>({
+  ...createMockEServiceDescriptorCatalog(),
+  eservice: {
+    ...createMockEServiceDescriptorCatalog().eservice,
+    asyncExchange: true,
+  },
+  asyncExchangeProperties: {
+    responseTime: 1000,
+    resourceAvailableTime: 2000,
+    confirmation: true,
+    bulk: true,
+    maxResultSet: 100,
+  },
+  asyncExchangeCallbackInterface: {
+    contentType: 'application/octet-stream',
+    id: 'callback-interface-doc-001',
+    name: 'callback_open_api.yml',
+    prettyName: 'Specifica callback',
+    checksum: 'callback-checksum',
   },
 })
 
@@ -126,6 +151,12 @@ const createMockCatalogDescriptorEService = createMockFactory<CatalogDescriptorE
   mode: 'DELIVER',
   riskAnalysis: [],
   agreements: [],
+  asyncExchange: false,
+})
+
+const createMockCatalogDescriptorEServiceAsync = createMockFactory<CatalogDescriptorEService>({
+  ...createMockCatalogDescriptorEService(),
+  asyncExchange: true,
 })
 
 const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceDescriptor>({
@@ -155,6 +186,7 @@ const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceD
     mode: 'DELIVER',
     riskAnalysis: [],
     personalData: true,
+    asyncExchange: false,
   },
   id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
   interface: {
@@ -171,6 +203,28 @@ const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceD
     certified: [],
     declared: [],
     verified: [],
+  },
+})
+
+const createMockEServiceDescriptorProviderAsync = createMockFactory<ProducerEServiceDescriptor>({
+  ...createMockEServiceDescriptorProvider(),
+  eservice: {
+    ...createMockEServiceDescriptorProvider().eservice,
+    asyncExchange: true,
+  },
+  asyncExchangeProperties: {
+    responseTime: 1000,
+    resourceAvailableTime: 2000,
+    confirmation: true,
+    bulk: true,
+    maxResultSet: 100,
+  },
+  asyncExchangeCallbackInterface: {
+    checksum: 'callback-checksum',
+    contentType: 'application/octet-stream',
+    id: 'callback-interface-doc-001',
+    name: 'callback_open_api.yml',
+    prettyName: 'Specifica callback',
   },
 })
 
@@ -201,6 +255,7 @@ const createMockEServiceDescriptorProviderNoInterface =
       technology: 'REST',
       mode: 'DELIVER',
       riskAnalysis: [],
+      asyncExchange: false,
     },
     id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
     state: 'PUBLISHED',
@@ -251,6 +306,7 @@ const createMockEServiceDescriptorProviderWithRiskAnalysis =
           createdAt: '',
         },
       ],
+      asyncExchange: false,
     },
     id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
     state: 'PUBLISHED',
@@ -297,6 +353,7 @@ const createMockEServiceDescriptorProviderWithDocs = createMockFactory<ProducerE
     technology: 'REST',
     mode: 'DELIVER',
     riskAnalysis: [],
+    asyncExchange: false,
   },
   id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
   state: 'PUBLISHED',
@@ -337,6 +394,7 @@ const createMockEServiceDescriptorProviderWithTemplateRef =
       mode: 'DELIVER',
       riskAnalysis: [],
       personalData: true,
+      asyncExchange: false,
     },
     id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
     interface: {
@@ -398,6 +456,7 @@ const createMockEServiceDescriptorReceive = createMockFactory<ProducerEServiceDe
         createdAt: '',
       },
     ],
+    asyncExchange: false,
   },
   id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
   state: 'PUBLISHED',
@@ -445,8 +504,11 @@ export {
   createMockEServiceCatalog,
   createMockEServiceRead,
   createMockEServiceDescriptorCatalog,
+  createMockEServiceDescriptorCatalogAsync,
   createMockCatalogDescriptorEService,
+  createMockCatalogDescriptorEServiceAsync,
   createMockEServiceDescriptorProvider,
+  createMockEServiceDescriptorProviderAsync,
   createMockEServiceDescriptorProviderNoInterface,
   createMockEServiceDescriptorProviderWithRiskAnalysis,
   createMockEServiceDescriptorProviderWithDocs,

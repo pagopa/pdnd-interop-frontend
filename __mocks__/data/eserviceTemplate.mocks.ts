@@ -51,8 +51,32 @@ const createMockEServiceTemplateVersionDetails = createMockFactory<EServiceTempl
     mode: 'DELIVER',
     isSignalHubEnabled: true,
     personalData: true,
+    asyncExchange: false,
   },
 })
+
+const createMockEServiceTemplateVersionDetailsAsync =
+  createMockFactory<EServiceTemplateVersionDetails>({
+    ...createMockEServiceTemplateVersionDetails(),
+    eserviceTemplate: {
+      ...createMockEServiceTemplateVersionDetails().eserviceTemplate,
+      asyncExchange: true,
+    },
+    asyncExchangeProperties: {
+      responseTime: 1000,
+      resourceAvailableTime: 2000,
+      confirmation: true,
+      bulk: true,
+      maxResultSet: 100,
+    },
+    asyncExchangeCallbackInterface: {
+      id: 'callback-interface-doc-001',
+      name: 'callback_open_api.yml',
+      prettyName: 'Specifica callback',
+      contentType: 'application/octet-stream',
+      checksum: 'callback-checksum',
+    },
+  })
 
 const createMockEServiceTemplateVersionDetailsReceiveMode =
   createMockFactory<EServiceTemplateVersionDetails>({
@@ -121,10 +145,16 @@ const createMockEServiceTemplateDetails = createMockFactory<EServiceTemplateDeta
   versions: [],
   riskAnalysis: [],
   mode: 'DELIVER',
+  asyncExchange: false,
   creator: {
     id: 'creator-id',
     name: 'creator-name',
   },
+})
+
+const createMockEServiceTemplateDetailsAsync = createMockFactory<EServiceTemplateDetails>({
+  ...createMockEServiceTemplateDetails(),
+  asyncExchange: true,
 })
 
 function mockUseEServiceTemplateCreateContext(
@@ -147,11 +177,13 @@ function mockUseEServiceTemplateCreateContext(
 
 export {
   createMockEServiceTemplateVersionDetails,
+  createMockEServiceTemplateVersionDetailsAsync,
   createMockEServiceTemplateVersionDetailsReceiveMode,
   createMockEServiceTemplateVersionDetailsNoInterface,
   createMockEServiceTemplateVersionDetailsNoPersonalData,
   createMockEServiceTemplateVersionDetailsManualApproval,
   createMockEServiceTemplateVersionDetailsWithAttributes,
   createMockEServiceTemplateDetails,
+  createMockEServiceTemplateDetailsAsync,
   mockUseEServiceTemplateCreateContext,
 }
