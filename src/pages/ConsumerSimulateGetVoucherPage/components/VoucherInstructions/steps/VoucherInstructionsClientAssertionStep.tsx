@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { match } from 'ts-pattern'
 import { Box, Grid, Link, TextField, Typography } from '@mui/material'
 import { SectionContainer } from '@/components/layout/containers'
 import { Trans, useTranslation } from 'react-i18next'
@@ -11,6 +12,11 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { useSearchParams } from 'react-router-dom'
 import { VerticalInformationContainer } from '@/components/shared/VerticalInformationContainer'
+import type {
+  AsyncExchangeStep,
+  InteractionType,
+  MemberType,
+} from '../VoucherInstructionsGeneralForm'
 import {
   ASYNC_EXCHANGE_STEP,
   INTERACTION_TYPE,
@@ -32,9 +38,9 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
   const { goToNextStep, goToPreviousStep } = useVoucherInstructionsContext()
 
   const purposeId = searchParams.get('purposeId') || ''
-  const memberType = searchParams.get('memberType') || ''
-  const interactionType = searchParams.get('interactionType') || ''
-  const asyncExchangeStep = searchParams.get('asyncExchangeStep') || ''
+  const memberType = (searchParams.get('memberType') as MemberType) || ''
+  const interactionType = (searchParams.get('interactionType') as InteractionType) || ''
+  const asyncExchangeStep = (searchParams.get('asyncExchangeStep') as AsyncExchangeStep) || ''
 
   const isConsumerOrInteractionTypeSync =
     interactionType === INTERACTION_TYPE.SYNC || memberType === MEMBER_TYPE.CONSUMER
@@ -96,15 +102,13 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
     }),
   }
 
-  const getFileName = () => {
-    if (interactionType === INTERACTION_TYPE.SYNC) {
-      return clientKind === 'CONSUMER' ? 'create_client_assertion' : 'create_m2m_client_assertion'
-    }
-    if (interactionType === INTERACTION_TYPE.ASYNC) {
-      return `create_async_client_assertion_${asyncExchangeStep}`
-    }
-    return ''
-  }
+  const getFileName = () =>
+    match(interactionType)
+      .with(INTERACTION_TYPE.SYNC, () =>
+        clientKind === 'CONSUMER' ? 'create_client_assertion' : 'create_m2m_client_assertion'
+      )
+      .with(INTERACTION_TYPE.ASYNC, () => `create_async_client_assertion_${asyncExchangeStep}`)
+      .otherwise(() => '')
 
   const getFilePath = (type: 'script' | 'preview') => {
     const base = `${FE_URL}/data/it`
@@ -114,15 +118,10 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
 
     const ext = type === 'script' ? 'py' : 'txt'
 
-    if (interactionType === INTERACTION_TYPE.SYNC) {
-      return `${base}/sync/${type}/${file}.${ext}`
-    }
-
-    if (interactionType === INTERACTION_TYPE.ASYNC) {
-      return `${base}/async/${type}/${file}.${ext}`
-    }
-
-    return ''
+    return match(interactionType)
+      .with(INTERACTION_TYPE.SYNC, () => `${base}/sync/${type}/${file}.${ext}`)
+      .with(INTERACTION_TYPE.ASYNC, () => `${base}/async/${type}/${file}.${ext}`)
+      .otherwise(() => '')
   }
 
   return (
