@@ -2972,6 +2972,19 @@ export interface UpdateDescriptorParams {
   descriptorId: string;
 }
 
+export interface ScheduleArchiveEserviceDescriptorParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
 export interface UpdateTemplateInstanceDescriptorParams {
   /**
    * the eservice id
@@ -6855,6 +6868,33 @@ export namespace Eservices {
     export type RequestBody = UpdateEServiceDescriptorQuotas;
     export type RequestHeaders = {};
     export type ResponseBody = CreatedResource;
+  }
+
+  /**
+   * @description Schedule the archiving process for an E-Service Descriptor
+   * @tags eservices
+   * @name ScheduleArchiveEserviceDescriptor
+   * @summary Schedule the archiving process for an E-Service Descriptor
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/scheduleArchive
+   * @secure
+   */
+  export namespace ScheduleArchiveEserviceDescriptor {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
   }
 
   /**
