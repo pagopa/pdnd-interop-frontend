@@ -1,14 +1,14 @@
 import React from 'react'
 import { StepActions } from '@/components/shared/StepActions'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { SectionContainer } from '@/components/layout/containers'
-import { Box, Grid, Link, Typography } from '@mui/material'
+import { Grid } from '@mui/material'
 import { VerticalInformationContainer } from '@/components/shared/VerticalInformationContainer'
-import { CodeSnippetPreview } from '../CodeSnippetPreview'
 import { FE_URL } from '@/config/env'
+import { VoucherScriptPreviewSection } from '../VoucherScriptPreviewSection'
 
 const CLIENT_ASSERTION_TYP = 'dpop+jwt'
 const CLIENT_ASSERTION_ALG = 'RS256'
@@ -114,50 +114,17 @@ export const VoucherInstructionsFirstDPoPProofStep: React.FC = () => {
           </Grid>
         </Grid>
       </SectionContainer>
-      <SectionContainer title={t('firstDPoPProofStep.assertionScript.title')}>
-        <Box sx={{ pl: 2 }} component="ol">
-          <Typography component="li" variant="body2">
-            {t('firstDPoPProofStep.assertionScript.steps.1')}
-          </Typography>
-          <Typography component="li" variant="body2">
-            <Trans components={{ 1: <Link download href={getFilePath('script')} /> }}>
-              {t('firstDPoPProofStep.assertionScript.steps.2', {
-                filename: `${FILENAME}.py`,
-              })}
-            </Trans>
-          </Typography>
-          <Typography component="li" variant="body2" sx={{ whiteSpace: 'break-spaces' }}>
-            {t('firstDPoPProofStep.assertionScript.steps.3')}
-          </Typography>
-          <Typography component="li" variant="body2">
-            {t('firstDPoPProofStep.assertionScript.steps.4')}
-          </Typography>
-          <Typography component="li" variant="body2">
-            {t('firstDPoPProofStep.assertionScript.steps.5')}
-          </Typography>
-        </Box>
-
-        <CodeSnippetPreview
-          sx={{ mt: 2 }}
-          title={t('firstDPoPProofStep.assertionScript.exampleLabel')}
-          activeLang={'python'}
-          entries={[
-            {
-              url: getFilePath('preview'),
-              value: 'python',
-            },
-          ]}
-          scriptSubstitutionValues={{
-            INSERISCI_VALORE_ALG: CLIENT_ASSERTION_ALG,
-            INSERISCI_VALORE_TYP: CLIENT_ASSERTION_TYP,
-            INSERISCI_VALORE_HTM: CLIENT_ASSERTION_HTM,
-            INSERISCI_VALORE_HTU: CLIENT_ASSERTION_HTU,
-          }}
-        />
-        <Typography sx={{ mt: 2 }} variant="body2">
-          {t('firstDPoPProofStep.assertionScript.steps.result')}
-        </Typography>
-      </SectionContainer>
+      <VoucherScriptPreviewSection
+        fileUrl={getFilePath('script')}
+        previewUrl={getFilePath('preview')}
+        fileName={FILENAME}
+        substitutions={{
+          INSERISCI_VALORE_ALG: CLIENT_ASSERTION_ALG,
+          INSERISCI_VALORE_TYP: CLIENT_ASSERTION_TYP,
+          INSERISCI_VALORE_HTM: CLIENT_ASSERTION_HTM,
+          INSERISCI_VALORE_HTU: CLIENT_ASSERTION_HTU,
+        }}
+      />
       <StepActions
         back={{
           label: t('backBtn'),

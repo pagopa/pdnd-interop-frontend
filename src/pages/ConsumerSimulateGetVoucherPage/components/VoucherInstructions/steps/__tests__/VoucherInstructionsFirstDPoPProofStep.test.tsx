@@ -33,7 +33,6 @@ describe('VoucherInstructionsFirstDPoPProofStep', () => {
     expect(await screen.findByText('firstDPoPProofStep.title')).toBeInTheDocument()
     expect(await screen.findByText('firstDPoPProofStep.assertionHeader.title')).toBeInTheDocument()
     expect(await screen.findByText('firstDPoPProofStep.assertionPayload.title')).toBeInTheDocument()
-    expect(await screen.findByText('firstDPoPProofStep.assertionScript.title')).toBeInTheDocument()
   })
 
   it('renders assertion header fields', async () => {

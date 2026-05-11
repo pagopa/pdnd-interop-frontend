@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import { Box, Grid, Link, TextField, Typography } from '@mui/material'
+import { Grid, Link, TextField } from '@mui/material'
 import { SectionContainer } from '@/components/layout/containers'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { CLIENT_ASSERTION_JWT_AUDIENCE, FE_URL } from '@/config/env'
 import { useClientKind } from '@/hooks/useClientKind'
-import { CodeSnippetPreview } from '../CodeSnippetPreview'
 import { StepActions } from '@/components/shared/StepActions'
 import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
@@ -16,6 +15,7 @@ import {
   INTERACTION_TYPE,
   MEMBER_TYPE,
 } from '../VoucherInstructionsGeneralForm'
+import { VoucherScriptPreviewSection } from '../VoucherScriptPreviewSection'
 
 const CLIENT_ASSERTION_TYP = 'JWT'
 const CLIENT_ASSERTION_ALG = 'RS256'
@@ -317,54 +317,21 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
           </Grid>
         </SectionContainer>
       </SectionContainer>
-      <SectionContainer title={t('clientAssertionStep.assertionScript.title')}>
-        <Box sx={{ pl: 2 }} component="ol">
-          <Typography component="li" variant="body2">
-            {t('clientAssertionStep.assertionScript.steps.1')}
-          </Typography>
-          <Typography component="li" variant="body2">
-            <Trans components={{ 1: <Link download href={getFilePath('script')} /> }}>
-              {t('clientAssertionStep.assertionScript.steps.2', {
-                filename: `${getFileName()}.py`,
-              })}
-            </Trans>
-          </Typography>
-          <Typography component="li" variant="body2" sx={{ whiteSpace: 'break-spaces' }}>
-            {t('clientAssertionStep.assertionScript.steps.3')}
-          </Typography>
-          <Typography component="li" variant="body2">
-            {t('clientAssertionStep.assertionScript.steps.4')}
-          </Typography>
-          <Typography component="li" variant="body2">
-            {t('clientAssertionStep.assertionScript.steps.5')}
-          </Typography>
-        </Box>
-
-        <CodeSnippetPreview
-          sx={{ mt: 2 }}
-          title={t('clientAssertionStep.assertionScript.exampleLabel')}
-          activeLang={'python'}
-          entries={[
-            {
-              url: getFilePath('preview'),
-              value: 'python',
-            },
-          ]}
-          scriptSubstitutionValues={{
-            INSERISCI_VALORE_KID: keyId,
-            INSERISCI_VALORE_ALG: CLIENT_ASSERTION_ALG,
-            INSERISCI_VALORE_TYP: CLIENT_ASSERTION_TYP,
-            INSERISCI_VALORE_ISS: clientId!,
-            INSERISCI_VALORE_SUB: clientId!,
-            INSERISCI_VALORE_AUD: CLIENT_ASSERTION_JWT_AUDIENCE,
-            INSERISCI_VALORE_PUR: purposeId,
-            ...asyncScriptSubstitutionValues,
-          }}
-        />
-        <Typography sx={{ mt: 2 }} variant="body2">
-          {t('clientAssertionStep.assertionScript.steps.result')}
-        </Typography>
-      </SectionContainer>
+      <VoucherScriptPreviewSection
+        fileUrl={getFilePath('script')}
+        previewUrl={getFilePath('preview')}
+        fileName={getFileName()}
+        substitutions={{
+          INSERISCI_VALORE_KID: keyId,
+          INSERISCI_VALORE_ALG: CLIENT_ASSERTION_ALG,
+          INSERISCI_VALORE_TYP: CLIENT_ASSERTION_TYP,
+          INSERISCI_VALORE_ISS: clientId!,
+          INSERISCI_VALORE_SUB: clientId!,
+          INSERISCI_VALORE_AUD: CLIENT_ASSERTION_JWT_AUDIENCE,
+          INSERISCI_VALORE_PUR: purposeId,
+          ...asyncScriptSubstitutionValues,
+        }}
+      />
       <StepActions
         back={{
           label: t('backBtn'),

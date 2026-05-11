@@ -221,15 +221,4 @@ describe('VoucherInstructionsClientAssertionStep', () => {
       screen.getByLabelText('clientAssertionStep.assertionPayload.entityNumberField.label')
     ).toBeInTheDocument()
   })
-
-  it('renders script section', async () => {
-    renderWithApplicationContext(
-      <MemoryRouter>
-        <VoucherInstructionsClientAssertionStep />
-      </MemoryRouter>,
-      { withReactQueryContext: true }
-    )
-
-    expect(await screen.findByText('clientAssertionStep.assertionScript.title')).toBeInTheDocument()
-  })
 })

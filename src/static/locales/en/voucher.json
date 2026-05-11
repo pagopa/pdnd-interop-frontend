@@ -126,6 +126,18 @@
       }
     }
   },
+  "assertionScript": {
+    "title": "Terminal generation example",
+    "steps": {
+      "1": "Create a folder and name it “client_assertion_test”",
+      "2": "Place the script <1>{{ filename }}</1> in the folder (Python 3.8 required)",
+      "3": "Create a “keys” folder and place the private key inside, naming it “client-test-keypair.rsa.priv”.\nMake sure the private key matches the public key you selected in the previous step.",
+      "4": "Open the terminal and navigate to the client_assertion_test folder",
+      "5": "Paste the command below and press enter",
+      "result": "6. You'll receive a client assertion signed with your private key. Save this data for the next step.."
+    },
+    "exampleLabel": "Example usage"
+  },
   "firstDPoPProofStep": {
     "stepperLabel": "First DPoP Proof",
     "title": "DPoP Proof",
@@ -170,18 +182,6 @@
         "description": "Issued at, the timestamp reporting the date and time the token was created, expressed in UNIX epoch (numeric value, not string)",
         "suggestionLabel": "Generate this parameter yourself.\nExample: 1651659340"
       }
-    },
-    "assertionScript": {
-      "title": "Terminal generation example",
-      "steps": {
-        "1": "Create a folder and name it “client_assertion_test”",
-        "2": "Place the script <1>{{ filename }}</1> in the folder (Python 3.8 required)",
-        "3": "Create a “keys” folder and place the private key inside, naming it “client-test-keypair.rsa.priv”.\nMake sure the private key matches the public key you selected in the previous step.",
-        "4": "Open the terminal and navigate to the client_assertion_test folder",
-        "5": "Paste the command below and press enter",
-        "result": "6. You'll receive a client assertion signed with your private key. Save this data for the next step.."
-      },
-      "exampleLabel": "Example usage"
     },
     "navigateToDebugButton": {
       "label": "Debug"
@@ -274,18 +274,6 @@
         "label": "EntityNumber",
         "description": "The number of entities present in the response."
       }
-    },
-    "assertionScript": {
-      "title": "Terminal generation example",
-      "steps": {
-        "1": "Create a folder and name it “client_assertion_test”",
-        "2": "Place the script <1>{{ filename }}</1> in the folder (Python 3.8 required)",
-        "3": "Create a “keys” folder and place the private key inside, naming it “client-test-keypair.rsa.priv”.\nMake sure the private key matches the public key you selected in the previous step.",
-        "4": "Open the terminal and navigate to the client_assertion_test folder",
-        "5": "Paste the command below and press enter",
-        "result": "6. You'll receive a client assertion signed with your private key. Save this data for the next step.."
-      },
-      "exampleLabel": "Example usage"
     }
   },
   "accessTokenStep": {
