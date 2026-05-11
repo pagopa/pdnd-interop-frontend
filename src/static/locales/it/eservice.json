@@ -174,7 +174,7 @@
         },
         "dailyCallsTotalField": {
           "label": "Chiamate API/giorno totali",
-          "infoLabel": "Inserisci un numero superiore al precedente",
+          "infoLabel": "Inserisci un numero superiore alla soglia per fruitore",
           "validation": {
             "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore",
             "minCustomThreshold": "La soglia totale non può essere inferiore a quelle personalizzate"

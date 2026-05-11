@@ -174,7 +174,7 @@
         },
         "dailyCallsTotalField": {
           "label": "Total API calls/day",
-          "infoLabel": "Enter a number greater than the previous one",
+          "infoLabel": "Enter a number higher than the user threshold",
           "validation": {
             "min": "This value cannot be below the threshold set for the API calls/day for each consumer",
             "minCustomThreshold": "The total threshold cannot be lower than customized thresholds"
