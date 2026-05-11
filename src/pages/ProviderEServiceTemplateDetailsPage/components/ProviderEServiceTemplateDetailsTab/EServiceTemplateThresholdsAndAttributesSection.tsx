@@ -46,7 +46,9 @@ export const EServiceTemplateThresholdsAndAttributesSection: React.FC<
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
-  const { mutate: updateEserviceTemplateQuotas } = EServiceTemplateMutations.useUpdateQuotas()
+  const { mutate: updateEserviceTemplateQuotas } = EServiceTemplateMutations.useUpdateQuotas({
+    isThresholdOnlyUpdate: true,
+  })
 
   const handleDailyCallsUpdate = (
     id: string,
