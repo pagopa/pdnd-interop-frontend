@@ -35,83 +35,69 @@ export const VoucherInstructionsFirstDPoPProofStep: React.FC = () => {
     >
       <SectionContainer variant="outlined" title={t('firstDPoPProofStep.assertionHeader.title')}>
         <Grid container columnSpacing={4.5} rowSpacing={3}>
-          <Grid item xs={12} md={6}>
-            <VerticalInformationContainer
-              label={t('firstDPoPProofStep.assertionHeader.typField.label')}
-              labelDescription={t('firstDPoPProofStep.assertionHeader.typField.description')}
-              content={CLIENT_ASSERTION_TYP}
-              copyToClipboard={{
-                value: CLIENT_ASSERTION_TYP,
-                tooltipTitle: t(
-                  'firstDPoPProofStep.assertionHeader.typField.copySuccessFeedbackText'
-                ),
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <VerticalInformationContainer
-              label={t('firstDPoPProofStep.assertionHeader.algField.label')}
-              labelDescription={t('firstDPoPProofStep.assertionHeader.algField.description')}
-              content={CLIENT_ASSERTION_ALG}
-              copyToClipboard={{
-                value: CLIENT_ASSERTION_ALG,
-                tooltipTitle: t(
-                  'firstDPoPProofStep.assertionHeader.algField.copySuccessFeedbackText'
-                ),
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <VerticalInformationContainer
-              label={t('firstDPoPProofStep.assertionHeader.jwkField.label')}
-              labelDescription={t('firstDPoPProofStep.assertionHeader.jwkField.description')}
-              content={t('firstDPoPProofStep.assertionHeader.jwkField.suggestionLabel')}
-            />
-          </Grid>
+          <VerticalInformationContainer
+            label={t('firstDPoPProofStep.assertionHeader.typField.label')}
+            labelDescription={t('firstDPoPProofStep.assertionHeader.typField.description')}
+            content={CLIENT_ASSERTION_TYP}
+            copyToClipboard={{
+              value: CLIENT_ASSERTION_TYP,
+              tooltipTitle: t(
+                'firstDPoPProofStep.assertionHeader.typField.copySuccessFeedbackText'
+              ),
+            }}
+          />
+          <VerticalInformationContainer
+            label={t('firstDPoPProofStep.assertionHeader.algField.label')}
+            labelDescription={t('firstDPoPProofStep.assertionHeader.algField.description')}
+            content={CLIENT_ASSERTION_ALG}
+            copyToClipboard={{
+              value: CLIENT_ASSERTION_ALG,
+              tooltipTitle: t(
+                'firstDPoPProofStep.assertionHeader.algField.copySuccessFeedbackText'
+              ),
+            }}
+          />
+          <VerticalInformationContainer
+            label={t('firstDPoPProofStep.assertionHeader.jwkField.label')}
+            labelDescription={t('firstDPoPProofStep.assertionHeader.jwkField.description')}
+            content={t('firstDPoPProofStep.assertionHeader.jwkField.suggestionLabel')}
+          />
         </Grid>
       </SectionContainer>
       <SectionContainer variant="outlined" title={t('firstDPoPProofStep.assertionPayload.title')}>
         <Grid container columnSpacing={4.5} rowSpacing={3}>
-          <Grid item xs={12} md={6}>
-            <VerticalInformationContainer
-              label={t('firstDPoPProofStep.assertionPayload.htmField.label')}
-              labelDescription={t('firstDPoPProofStep.assertionPayload.htmField.description')}
-              content={CLIENT_ASSERTION_HTM}
-              copyToClipboard={{
-                value: CLIENT_ASSERTION_HTM,
-                tooltipTitle: t(
-                  'firstDPoPProofStep.assertionPayload.htmField.copySuccessFeedbackText'
-                ),
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <VerticalInformationContainer
-              label={t('firstDPoPProofStep.assertionPayload.htuField.label')}
-              labelDescription={t('firstDPoPProofStep.assertionPayload.htuField.description')}
-              content={CLIENT_ASSERTION_HTU}
-              copyToClipboard={{
-                value: CLIENT_ASSERTION_HTU,
-                tooltipTitle: t(
-                  'firstDPoPProofStep.assertionPayload.htuField.copySuccessFeedbackText'
-                ),
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <VerticalInformationContainer
-              label={t('firstDPoPProofStep.assertionPayload.jtiField.label')}
-              labelDescription={t('firstDPoPProofStep.assertionPayload.jtiField.description')}
-              content={t('firstDPoPProofStep.assertionPayload.jtiField.suggestionLabel')}
-            />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <VerticalInformationContainer
-              label={t('firstDPoPProofStep.assertionPayload.iatField.label')}
-              labelDescription={t('firstDPoPProofStep.assertionPayload.iatField.description')}
-              content={t('firstDPoPProofStep.assertionPayload.iatField.suggestionLabel')}
-            />
-          </Grid>
+          <VerticalInformationContainer
+            label={t('firstDPoPProofStep.assertionPayload.htmField.label')}
+            labelDescription={t('firstDPoPProofStep.assertionPayload.htmField.description')}
+            content={CLIENT_ASSERTION_HTM}
+            copyToClipboard={{
+              value: CLIENT_ASSERTION_HTM,
+              tooltipTitle: t(
+                'firstDPoPProofStep.assertionPayload.htmField.copySuccessFeedbackText'
+              ),
+            }}
+          />
+          <VerticalInformationContainer
+            label={t('firstDPoPProofStep.assertionPayload.htuField.label')}
+            labelDescription={t('firstDPoPProofStep.assertionPayload.htuField.description')}
+            content={CLIENT_ASSERTION_HTU}
+            copyToClipboard={{
+              value: CLIENT_ASSERTION_HTU,
+              tooltipTitle: t(
+                'firstDPoPProofStep.assertionPayload.htuField.copySuccessFeedbackText'
+              ),
+            }}
+          />
+          <VerticalInformationContainer
+            label={t('firstDPoPProofStep.assertionPayload.jtiField.label')}
+            labelDescription={t('firstDPoPProofStep.assertionPayload.jtiField.description')}
+            content={t('firstDPoPProofStep.assertionPayload.jtiField.suggestionLabel')}
+          />
+          <VerticalInformationContainer
+            label={t('firstDPoPProofStep.assertionPayload.iatField.label')}
+            labelDescription={t('firstDPoPProofStep.assertionPayload.iatField.description')}
+            content={t('firstDPoPProofStep.assertionPayload.iatField.suggestionLabel')}
+          />
         </Grid>
       </SectionContainer>
       <VoucherScriptPreviewSection

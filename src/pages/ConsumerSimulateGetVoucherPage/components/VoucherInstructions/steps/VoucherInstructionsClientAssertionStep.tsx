@@ -76,13 +76,11 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
 
   const JtiField = () => (
     <>
-      <Grid item xs={12} md={6}>
-        <VerticalInformationContainer
-          label={t('clientAssertionStep.assertionPayload.jtiField.label')}
-          labelDescription={t('clientAssertionStep.assertionPayload.jtiField.description')}
-          content={t('clientAssertionStep.assertionPayload.jtiField.suggestionLabel')}
-        />
-      </Grid>
+      <VerticalInformationContainer
+        label={t('clientAssertionStep.assertionPayload.jtiField.label')}
+        labelDescription={t('clientAssertionStep.assertionPayload.jtiField.description')}
+        content={t('clientAssertionStep.assertionPayload.jtiField.suggestionLabel')}
+      />
       {asyncExchangeStep === ASYNC_EXCHANGE_STEP.START_INTERACTION && (
         <Grid item xs={12} md={6}></Grid>
       )}
@@ -150,45 +148,40 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
       >
         <SectionContainer variant="outlined" title={t('clientAssertionStep.assertionHeader.title')}>
           <Grid container columnSpacing={4.5} rowSpacing={3}>
-            <Grid item xs={12}>
-              <VerticalInformationContainer
-                label={t('clientAssertionStep.assertionHeader.kidField.label')}
-                labelDescription={t('clientAssertionStep.assertionHeader.kidField.description')}
-                content={keyId}
-                copyToClipboard={{
-                  value: keyId,
-                  tooltipTitle: t(
-                    'clientAssertionStep.assertionHeader.kidField.copySuccessFeedbackText'
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <VerticalInformationContainer
-                label={t('clientAssertionStep.assertionHeader.algField.label')}
-                labelDescription={t('clientAssertionStep.assertionHeader.algField.description')}
-                content={CLIENT_ASSERTION_ALG}
-                copyToClipboard={{
-                  value: CLIENT_ASSERTION_ALG,
-                  tooltipTitle: t(
-                    'clientAssertionStep.assertionHeader.algField.copySuccessFeedbackText'
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <VerticalInformationContainer
-                label={t('clientAssertionStep.assertionHeader.typField.label')}
-                labelDescription={t('clientAssertionStep.assertionHeader.typField.description')}
-                content={CLIENT_ASSERTION_TYP}
-                copyToClipboard={{
-                  value: CLIENT_ASSERTION_TYP,
-                  tooltipTitle: t(
-                    'clientAssertionStep.assertionHeader.typField.copySuccessFeedbackText'
-                  ),
-                }}
-              />
-            </Grid>
+            <VerticalInformationContainer
+              label={t('clientAssertionStep.assertionHeader.kidField.label')}
+              labelDescription={t('clientAssertionStep.assertionHeader.kidField.description')}
+              content={keyId}
+              copyToClipboard={{
+                value: keyId,
+                tooltipTitle: t(
+                  'clientAssertionStep.assertionHeader.kidField.copySuccessFeedbackText'
+                ),
+              }}
+              gridProps={{ md: 12 }}
+            />
+            <VerticalInformationContainer
+              label={t('clientAssertionStep.assertionHeader.algField.label')}
+              labelDescription={t('clientAssertionStep.assertionHeader.algField.description')}
+              content={CLIENT_ASSERTION_ALG}
+              copyToClipboard={{
+                value: CLIENT_ASSERTION_ALG,
+                tooltipTitle: t(
+                  'clientAssertionStep.assertionHeader.algField.copySuccessFeedbackText'
+                ),
+              }}
+            />
+            <VerticalInformationContainer
+              label={t('clientAssertionStep.assertionHeader.typField.label')}
+              labelDescription={t('clientAssertionStep.assertionHeader.typField.description')}
+              content={CLIENT_ASSERTION_TYP}
+              copyToClipboard={{
+                value: CLIENT_ASSERTION_TYP,
+                tooltipTitle: t(
+                  'clientAssertionStep.assertionHeader.typField.copySuccessFeedbackText'
+                ),
+              }}
+            />
           </Grid>
         </SectionContainer>
         <SectionContainer
@@ -196,81 +189,71 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
           title={t('clientAssertionStep.assertionPayload.title')}
         >
           <Grid container spacing={4.5}>
-            <Grid item xs={12} md={6}>
-              <VerticalInformationContainer
-                label={t('clientAssertionStep.assertionPayload.issField.label')}
-                labelDescription={t('clientAssertionStep.assertionPayload.issField.description')}
-                content={clientId}
-                copyToClipboard={{
-                  value: clientId,
-                  tooltipTitle: t(
-                    'clientAssertionStep.assertionPayload.issField.copySuccessFeedbackText'
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <VerticalInformationContainer
-                label={t('clientAssertionStep.assertionPayload.subField.label')}
-                labelDescription={t('clientAssertionStep.assertionPayload.subField.description')}
-                content={clientId}
-                copyToClipboard={{
-                  value: clientId,
-                  tooltipTitle: t(
-                    'clientAssertionStep.assertionPayload.subField.copySuccessFeedbackText'
-                  ),
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <VerticalInformationContainer
-                label={t('clientAssertionStep.assertionPayload.audField.label')}
-                labelDescription={t('clientAssertionStep.assertionPayload.audField.description')}
-                content={CLIENT_ASSERTION_JWT_AUDIENCE}
-                copyToClipboard={{
-                  value: CLIENT_ASSERTION_JWT_AUDIENCE,
-                  tooltipTitle: t(
-                    'clientAssertionStep.assertionPayload.audField.copySuccessFeedbackText'
-                  ),
-                }}
-              />
-            </Grid>
+            <VerticalInformationContainer
+              label={t('clientAssertionStep.assertionPayload.issField.label')}
+              labelDescription={t('clientAssertionStep.assertionPayload.issField.description')}
+              content={clientId}
+              copyToClipboard={{
+                value: clientId,
+                tooltipTitle: t(
+                  'clientAssertionStep.assertionPayload.issField.copySuccessFeedbackText'
+                ),
+              }}
+            />
+            <VerticalInformationContainer
+              label={t('clientAssertionStep.assertionPayload.subField.label')}
+              labelDescription={t('clientAssertionStep.assertionPayload.subField.description')}
+              content={clientId}
+              copyToClipboard={{
+                value: clientId,
+                tooltipTitle: t(
+                  'clientAssertionStep.assertionPayload.subField.copySuccessFeedbackText'
+                ),
+              }}
+            />
+            <VerticalInformationContainer
+              label={t('clientAssertionStep.assertionPayload.audField.label')}
+              labelDescription={t('clientAssertionStep.assertionPayload.audField.description')}
+              content={CLIENT_ASSERTION_JWT_AUDIENCE}
+              copyToClipboard={{
+                value: CLIENT_ASSERTION_JWT_AUDIENCE,
+                tooltipTitle: t(
+                  'clientAssertionStep.assertionPayload.audField.copySuccessFeedbackText'
+                ),
+              }}
+            />
             {clientKind === 'CONSUMER' && Boolean(purposeId) && showPurposeId && (
-              <Grid item xs={12} md={6}>
-                <VerticalInformationContainer
-                  label={t('clientAssertionStep.assertionPayload.purposeIdField.label')}
-                  labelDescription={t(
-                    'clientAssertionStep.assertionPayload.purposeIdField.description'
-                  )}
-                  content={purposeId}
-                  copyToClipboard={{
-                    value: purposeId,
-                    tooltipTitle: t(
-                      'clientAssertionStep.assertionPayload.purposeIdField.copySuccessFeedbackText'
-                    ),
-                  }}
-                />
-              </Grid>
+              <VerticalInformationContainer
+                label={t('clientAssertionStep.assertionPayload.purposeIdField.label')}
+                labelDescription={t(
+                  'clientAssertionStep.assertionPayload.purposeIdField.description'
+                )}
+                content={purposeId}
+                copyToClipboard={{
+                  value: purposeId,
+                  tooltipTitle: t(
+                    'clientAssertionStep.assertionPayload.purposeIdField.copySuccessFeedbackText'
+                  ),
+                }}
+              />
             )}
             {asyncExchangeStep !== ASYNC_EXCHANGE_STEP.START_INTERACTION && <JtiField />}
             {interactionType === INTERACTION_TYPE.ASYNC && (
               <>
-                <Grid
-                  item
-                  xs={asyncExchangeStep === ASYNC_EXCHANGE_STEP.CALLBACK_INVOCATION ? 12 : 6}
-                >
-                  <VerticalInformationContainer
-                    label={t('clientAssertionStep.assertionPayload.scope.label')}
-                    labelDescription={t('clientAssertionStep.assertionPayload.scope.description')}
-                    content={asyncExchangeStep}
-                    copyToClipboard={{
-                      value: asyncExchangeStep,
-                      tooltipTitle: t(
-                        'clientAssertionStep.assertionPayload.purposeIdField.copySuccessFeedbackText'
-                      ),
-                    }}
-                  />
-                </Grid>
+                <VerticalInformationContainer
+                  label={t('clientAssertionStep.assertionPayload.scope.label')}
+                  labelDescription={t('clientAssertionStep.assertionPayload.scope.description')}
+                  content={asyncExchangeStep}
+                  copyToClipboard={{
+                    value: asyncExchangeStep,
+                    tooltipTitle: t(
+                      'clientAssertionStep.assertionPayload.purposeIdField.copySuccessFeedbackText'
+                    ),
+                  }}
+                  gridProps={{
+                    xs: asyncExchangeStep === ASYNC_EXCHANGE_STEP.CALLBACK_INVOCATION ? 12 : 6,
+                  }}
+                />
                 <Grid item xs={12} md={6} sx={{ display: 'flex', alignItems: 'center' }}>
                   <TextField
                     sx={{ my: 0, width: '100%', flexShrink: 1 }}
@@ -300,20 +283,16 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
               </>
             )}
             {asyncExchangeStep === ASYNC_EXCHANGE_STEP.START_INTERACTION && <JtiField />}
-            <Grid item xs={12} md={6}>
-              <VerticalInformationContainer
-                label={t('clientAssertionStep.assertionPayload.iatField.label')}
-                labelDescription={t('clientAssertionStep.assertionPayload.iatField.description')}
-                content={t('clientAssertionStep.assertionPayload.iatField.suggestionLabel')}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <VerticalInformationContainer
-                label={t('clientAssertionStep.assertionPayload.expField.label')}
-                labelDescription={t('clientAssertionStep.assertionPayload.expField.description')}
-                content={t('clientAssertionStep.assertionPayload.expField.suggestionLabel')}
-              />
-            </Grid>
+            <VerticalInformationContainer
+              label={t('clientAssertionStep.assertionPayload.iatField.label')}
+              labelDescription={t('clientAssertionStep.assertionPayload.iatField.description')}
+              content={t('clientAssertionStep.assertionPayload.iatField.suggestionLabel')}
+            />
+            <VerticalInformationContainer
+              label={t('clientAssertionStep.assertionPayload.expField.label')}
+              labelDescription={t('clientAssertionStep.assertionPayload.expField.description')}
+              content={t('clientAssertionStep.assertionPayload.expField.suggestionLabel')}
+            />
           </Grid>
         </SectionContainer>
       </SectionContainer>
