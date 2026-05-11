@@ -56,7 +56,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         descriptor
           ? {
               label: t('versionHeaderLabel'),
-              link: { label: descriptor.version, onClick: () => {} }, // TODO navigation function
+              shortcut: { type: 'button', label: descriptor.version, onClick: () => {} }, // TODO navigation function
               actions: headerInfoActions,
               statusChip: { for: 'eservice', state: descriptor.state },
             }

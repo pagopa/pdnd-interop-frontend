@@ -25,12 +25,25 @@ type BreadcrumbsSectionProps = {
   backToAction?: PageBackToAction
 }
 
+type ShortCutProps =
+  | {
+      [K in RouteKey]: {
+        type: 'link'
+        label: string
+        to: K // the specified route
+        params?: RouteParams<K> // params corresponding to that route
+        urlParams?: Record<string, string>
+      }
+    }[RouteKey]
+  | {
+      type: 'button'
+      label: string
+      onClick: () => void
+    }
+
 type HeaderInfoSectionProps = {
   label: string
-  link: {
-    label: string
-    onClick: () => void
-  }
+  shortcut: ShortCutProps
   actions?: Array<ActionItemButton>
   statusChip?: React.ComponentProps<typeof StatusChip>
 }
@@ -213,7 +226,7 @@ const ActionsSection: React.FC<ActionsSectionProps> = ({
 
 export const HeaderInfoSection: React.FC<HeaderInfoSectionProps> = ({
   label,
-  link,
+  shortcut,
   statusChip,
   actions = [],
 }) => {
@@ -224,15 +237,28 @@ export const HeaderInfoSection: React.FC<HeaderInfoSectionProps> = ({
           <Typography component="h2" variant="body2" textTransform="uppercase">
             {label}
           </Typography>
-          <Button
-            component="a"
-            type="button"
-            variant="naked"
-            sx={{ textDecoration: 'underline' }}
-            onClick={link.onClick}
-          >
-            {link.label}
-          </Button>
+          {shortcut.type === 'button' && (
+            <Button
+              type="button"
+              variant="naked"
+              sx={{ textDecoration: 'underline' }}
+              onClick={shortcut.onClick}
+            >
+              {shortcut.label}
+            </Button>
+          )}
+          {shortcut.type === 'link' && (
+            <Link
+              to={shortcut.to}
+              params={shortcut.params}
+              options={shortcut.urlParams ? { urlParams: shortcut.urlParams } : undefined}
+              as="button"
+              variant="naked"
+              sx={{ textDecoration: 'underline' }}
+            >
+              {shortcut.label}
+            </Link>
+          )}
           {statusChip && <StatusChip {...statusChip} />}
         </Stack>
         <Stack direction="row" spacing={3}>

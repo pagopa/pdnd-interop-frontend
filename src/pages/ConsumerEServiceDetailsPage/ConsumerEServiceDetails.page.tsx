@@ -65,18 +65,8 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
     <NewPageContainer
       title={descriptor?.eservice.name || ''}
       statusChip={descriptor && { for: 'eservice', state: descriptor.state }}
-      primaryAction={{
-        action: () => {},
-        label: 'test button primary',
-        color: 'primary',
-        variant: 'contained',
-      }} // TODO remove for variable
-      secondaryAction={{
-        action: () => {},
-        label: 'test button secondary',
-        color: 'primary',
-        variant: 'outlined',
-      }} // TODO remove for variable
+      primaryAction={primaryAction}
+      secondaryAction={secondaryAction}
       menuActions={menuActions}
       isLoading={!descriptor}
       backToAction={{
@@ -87,7 +77,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
         descriptor
           ? {
               label: t('versionHeaderLabel'),
-              link: { label: descriptor.version, onClick: () => {} }, // TODO navigation function,
+              shortcut: { type: 'button', label: descriptor.version, onClick: () => {} }, // TODO navigation function
               actions: headerInfoActions,
               statusChip: { for: 'eservice', state: descriptor.state },
             }
