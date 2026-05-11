@@ -247,7 +247,7 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
                 />
               </Grid>
             )}
-            {asyncExchangeStep !== ASYNC_EXCHANGE_STEP.START_INTERACTION && <JtiField />}
+            {asyncExchangeStep !== ASYNC_EXCHANGE_STEP.START_INTERACTION && JtiField()}
             {interactionType === INTERACTION_TYPE.ASYNC && (
               <>
                 <Grid
@@ -294,7 +294,7 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
                 )}
               </>
             )}
-            {asyncExchangeStep === ASYNC_EXCHANGE_STEP.START_INTERACTION && <JtiField />}
+            {asyncExchangeStep === ASYNC_EXCHANGE_STEP.START_INTERACTION && JtiField()}
             <Grid item xs={12} md={6}>
               <VerticalInformationContainer
                 label={t('clientAssertionStep.assertionPayload.iatField.label')}
