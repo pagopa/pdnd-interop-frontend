@@ -53,7 +53,8 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
 
   const isDelegator = delegations.length > 0
 
-  const { actions } = useGetEServiceConsumerActions(descriptor, delegators, isDelegator)
+  const { primaryAction, secondaryAction, menuActions, headerInfoActions } =
+    useGetEServiceConsumerActions(descriptor, delegators, isDelegator)
 
   useTrackPageViewEvent('INTEROP_CATALOG_READ', {
     eserviceId: descriptor?.eservice.id,
@@ -63,7 +64,20 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
   return (
     <NewPageContainer
       title={descriptor?.eservice.name || ''}
-      topSideActions={actions}
+      statusChip={descriptor && { for: 'eservice', state: descriptor.state }}
+      primaryAction={{
+        action: () => {},
+        label: 'test button primary',
+        color: 'primary',
+        variant: 'contained',
+      }} // TODO remove for variable
+      secondaryAction={{
+        action: () => {},
+        label: 'test button secondary',
+        color: 'primary',
+        variant: 'outlined',
+      }} // TODO remove for variable
+      menuActions={menuActions}
       isLoading={!descriptor}
       backToAction={{
         label: t('actions.backToCatalogLabel'),
@@ -74,7 +88,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
           ? {
               label: t('versionHeaderLabel'),
               link: { label: descriptor.version, onClick: () => {} }, // TODO navigation function,
-              // // TODO actions for secondHeader
+              actions: headerInfoActions,
               statusChip: { for: 'eservice', state: descriptor.state },
             }
           : undefined

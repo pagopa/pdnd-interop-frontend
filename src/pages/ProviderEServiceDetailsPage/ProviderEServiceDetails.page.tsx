@@ -27,23 +27,26 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 
   descriptor?.delegation
-  const { actions } = useGetProviderEServiceActions(
-    eserviceId,
-    descriptor?.state,
-    descriptor?.eservice.draftDescriptor?.state,
-    descriptorId,
-    descriptor?.eservice.draftDescriptor?.id,
-    descriptor?.eservice.mode,
-    descriptor?.eservice.name,
-    descriptor?.templateRef?.isNewTemplateVersionAvailable ?? false,
-    isEserviceFromTemplate,
-    descriptor?.delegation
-  )
+  const { primaryAction, secondaryAction, menuActions, headerInfoActions } =
+    useGetProviderEServiceActions(
+      eserviceId,
+      descriptor?.state,
+      descriptor?.eservice.draftDescriptor?.state,
+      descriptorId,
+      descriptor?.eservice.draftDescriptor?.id,
+      descriptor?.eservice.mode,
+      descriptor?.eservice.name,
+      descriptor?.templateRef?.isNewTemplateVersionAvailable ?? false,
+      isEserviceFromTemplate,
+      descriptor?.delegation
+    )
 
   return (
     <NewPageContainer
       title={descriptor?.eservice.name || ''}
-      topSideActions={actions}
+      primaryAction={primaryAction}
+      secondaryAction={secondaryAction}
+      menuActions={menuActions}
       isLoading={!descriptor}
       backToAction={{
         label: t('actions.backToListLabel'),
@@ -54,7 +57,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
           ? {
               label: t('versionHeaderLabel'),
               link: { label: descriptor.version, onClick: () => {} }, // TODO navigation function
-              // TODO actions for secondHeader
+              actions: headerInfoActions,
               statusChip: { for: 'eservice', state: descriptor.state },
             }
           : undefined

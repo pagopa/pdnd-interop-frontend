@@ -7,7 +7,6 @@ import { StatusChip } from '@/components/shared/StatusChip'
 import { Link, type RouteKey } from '@/router'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
-import { match } from 'ts-pattern'
 
 export type PageBackToAction = {
   label: string
@@ -17,7 +16,9 @@ export type PageBackToAction = {
 }
 
 type ActionsSectionProps = {
-  topSideActions?: Array<ActionItemButton>
+  primaryAction?: ActionItemButton
+  secondaryAction?: ActionItemButton
+  menuActions?: Array<ActionItemButton>
 }
 
 type BreadcrumbsSectionProps = {
@@ -88,7 +89,9 @@ const Intro: React.FC<IntroProps> = ({
   title,
   description,
   statusChip,
-  topSideActions,
+  primaryAction,
+  secondaryAction,
+  menuActions,
   infoSection,
 }) => {
   return (
@@ -104,7 +107,11 @@ const Intro: React.FC<IntroProps> = ({
             <StatusChip {...statusChip} />
           </Box>
         )}
-        <ActionsSection topSideActions={topSideActions} />
+        <ActionsSection
+          primaryAction={primaryAction}
+          secondaryAction={secondaryAction}
+          menuActions={menuActions}
+        />
       </Stack>
       {description && <Subtitle description={description} />}
       {infoSection && <HeaderInfoSection {...infoSection} />}
@@ -146,26 +153,23 @@ const BreadcrumbsSection: React.FC<BreadcrumbsSectionProps> = ({ backToAction })
   )
 }
 
-const ActionsSection: React.FC<ActionsSectionProps> = ({ topSideActions }) => {
-  if (!topSideActions) return null
+const ActionsSection: React.FC<ActionsSectionProps> = ({
+  primaryAction,
+  secondaryAction,
+  menuActions,
+}) => {
+  if (!menuActions && !primaryAction) return null
 
-  const primaryActions: Array<ActionItemButton> = []
-  const secondaryActions: Array<ActionItemButton> = []
-  const menuActions: Array<ActionItemButton> = []
-
-  topSideActions.forEach((action) => {
-    match(action.variant)
-      .with('contained', () => {
-        primaryActions.push(action)
-      })
-      .with('outlined', () => secondaryActions.push(action))
-      .otherwise(() => menuActions.push(action))
-  })
-
-  const renderActionButton = (
-    { action, label, color, icon: Icon, tooltip, disabled, variant, ...props }: ActionItemButton,
-    index: number
-  ) => {
+  const renderActionButton = ({
+    action,
+    label,
+    color,
+    icon: Icon,
+    tooltip,
+    disabled,
+    variant,
+    ...props
+  }: ActionItemButton) => {
     const Wrapper = tooltip
       ? ({ children }: { children: React.ReactElement }) => (
           <Tooltip arrow title={tooltip}>
@@ -175,7 +179,7 @@ const ActionsSection: React.FC<ActionsSectionProps> = ({ topSideActions }) => {
       : React.Fragment
 
     return (
-      <Wrapper key={index}>
+      <Wrapper key={label}>
         <Button
           onClick={action}
           variant={variant}
@@ -199,8 +203,8 @@ const ActionsSection: React.FC<ActionsSectionProps> = ({ topSideActions }) => {
       flex={1}
     >
       <Stack direction="row" spacing={2}>
-        {secondaryActions.map(renderActionButton)}
-        {primaryActions.map(renderActionButton)}
+        {secondaryAction && renderActionButton(secondaryAction)}
+        {primaryAction && renderActionButton(primaryAction)}
         {menuActions ? <ActionMenu actions={menuActions} /> : <ActionMenuSkeleton />}
       </Stack>
     </Stack>
