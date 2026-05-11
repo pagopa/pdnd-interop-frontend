@@ -17,6 +17,12 @@ import type {
   PurposeVersionState,
 } from '@/api/api.generatedTypes'
 
+// PIN-9939: temporary placeholder for the new ARCHIVING / ARCHIVING_SUSPENDED states.
+// REMOVE this constant (and the entries below that reference it) when PIN-9939 lands
+// and provides the real chip color mapping for these states. Deleting the constant
+// will surface a TS error at the call sites that need to be cleaned up.
+const PIN_9939_PLACEHOLDER_CHIP_COLOR: MUIColor = 'info'
+
 const CHIP_COLORS_E_SERVICE: Record<EServiceDescriptorState, MUIColor> = {
   PUBLISHED: 'success',
   DRAFT: 'info',
@@ -24,6 +30,8 @@ const CHIP_COLORS_E_SERVICE: Record<EServiceDescriptorState, MUIColor> = {
   ARCHIVED: 'info',
   DEPRECATED: 'warning',
   WAITING_FOR_APPROVAL: 'warning',
+  ARCHIVING: PIN_9939_PLACEHOLDER_CHIP_COLOR,
+  ARCHIVING_SUSPENDED: PIN_9939_PLACEHOLDER_CHIP_COLOR,
 }
 
 const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {

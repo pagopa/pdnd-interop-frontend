@@ -928,6 +928,12 @@ export function useGetProviderEServiceActions(
     )
     .otherwise(() => [])
 
+  // PIN-9939: temporary placeholder for the new ARCHIVING / ARCHIVING_SUSPENDED states.
+  // REMOVE this constant (and the entries below that reference it) when PIN-9939 lands
+  // and provides the real action menu mapping for these states. Deleting the constant
+  // will surface a TS error at the call sites that need to be cleaned up.
+  const PIN_9939_PLACEHOLDER_ACTIONS: Array<ActionItemButton> = []
+
   const EServiceFromTemplateAdminActions: Record<
     EServiceDescriptorState,
     Array<ActionItemButton>
@@ -943,6 +949,8 @@ export function useGetProviderEServiceActions(
         : isDelegator && where === 'tableRow' && !hasPersonalData
           ? [rejectDelegatedVersionDraftAction]
           : [],
+    ARCHIVING: PIN_9939_PLACEHOLDER_ACTIONS,
+    ARCHIVING_SUSPENDED: PIN_9939_PLACEHOLDER_ACTIONS,
   }
 
   const EServiceFromTemplateOperatorAPIActions: Record<
@@ -960,6 +968,8 @@ export function useGetProviderEServiceActions(
         : isDelegator && where === 'tableRow' && !hasPersonalData
           ? [rejectDelegatedVersionDraftAction]
           : [],
+    ARCHIVING: PIN_9939_PLACEHOLDER_ACTIONS,
+    ARCHIVING_SUSPENDED: PIN_9939_PLACEHOLDER_ACTIONS,
   }
 
   const adminActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
@@ -974,6 +984,8 @@ export function useGetProviderEServiceActions(
         : isDelegator && where === 'tableRow' && !hasPersonalData
           ? [rejectDelegatedVersionDraftAction]
           : [],
+    ARCHIVING: PIN_9939_PLACEHOLDER_ACTIONS,
+    ARCHIVING_SUSPENDED: PIN_9939_PLACEHOLDER_ACTIONS,
   }
 
   const operatorAPIActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
@@ -988,6 +1000,8 @@ export function useGetProviderEServiceActions(
         : isDelegator && where === 'tableRow' && !hasPersonalData
           ? [rejectDelegatedVersionDraftAction]
           : [],
+    ARCHIVING: PIN_9939_PLACEHOLDER_ACTIONS,
+    ARCHIVING_SUSPENDED: PIN_9939_PLACEHOLDER_ACTIONS,
   }
 
   const availableClassicEServiceAction = isAdmin ? adminActions[state] : operatorAPIActions[state]
