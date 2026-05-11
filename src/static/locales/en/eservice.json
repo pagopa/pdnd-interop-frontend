@@ -520,6 +520,25 @@
       "suspended": "This e-service version is discontinued. Until its reactivation, no consumer will be able to access the data provided through the API.",
       "deprecated": "This e-service version is obsolete but still active. It will be automatically discontinued by PDND Interoperabilità when the last agreement on this version is archived."
     },
+    "dialogSuspendArchivingEservice": {
+      "title": "Suspend version of e-service being archived",
+      "intro": "What happens with the suspension:",
+      "bullets": {
+        "suspended": "the version will not be usable and will remain inactive until any reactivation;",
+        "archivingNotAffected": "the suspension <strong>does not modify</strong> the archiving already started for the e-service and <strong>does not interrupt</strong> the notice period;",
+        "archivedAfterNotice": "after the notice period, the e-service and all its versions will be permanently archived."
+      }
+    },
+    "dialogReactivateArchivingEservice": {
+      "title": "Reactivate version of e-service being archived",
+      "intro": "What happens with the reactivation:",
+      "bullets": {
+        "usableAgain": "the version becomes usable again, but the e-service remains in the archiving phase;",
+        "archivingNotAffected": "the reactivation <strong>does not modify</strong> the archiving already started for the e-service and <strong>does not interrupt</strong> the notice period;",
+        "archivedAfterNotice": "after the notice period, the e-service and all its versions will be permanently archived."
+      },
+      "proceedLabel": "Reactivate"
+    },
     "actions": {
       "backToListLabel": "Back to the e-services",
       "backToCatalogLabel": "Back to the catalog"

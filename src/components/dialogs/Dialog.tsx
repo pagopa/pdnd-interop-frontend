@@ -26,6 +26,8 @@ import type {
   DialogTenantKindEserviceTemplateProps,
   DialogTenantKindPurposeTemplateProps,
   DialogSelectAgreementConsumerProps,
+  DialogSuspendArchivingEserviceProps,
+  DialogReactivateArchivingEserviceProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -47,6 +49,8 @@ import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersio
 import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemplate'
 import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTemplate'
 import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/DialogSelectAgreementConsumer'
+import { DialogSuspendArchivingEservice } from './DialogSuspendArchivingEservice'
+import { DialogReactivateArchivingEservice } from './DialogReactivateArchivingEservice'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -69,7 +73,9 @@ function match<T>(
   onRejectDelegatedVersionDraft: (props: DialogRejectDelegatedVersionDraftProps) => T,
   onDialogTenantKindEserviceTemplate: (props: DialogTenantKindEserviceTemplateProps) => T,
   onDialogTenantKindPurposeTemplate: (props: DialogTenantKindPurposeTemplateProps) => T,
-  onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T
+  onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T,
+  onSuspendArchivingEservice: (props: DialogSuspendArchivingEserviceProps) => T,
+  onReactivateArchivingEservice: (props: DialogReactivateArchivingEserviceProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -115,6 +121,10 @@ function match<T>(
         return onDialogTenantKindPurposeTemplate(props)
       case 'selectAgreementConsumer':
         return onSelectAgreementConsumer(props)
+      case 'suspendArchivingEservice':
+        return onSuspendArchivingEservice(props)
+      case 'reactivateArchivingEservice':
+        return onReactivateArchivingEservice(props)
     }
   }
 }
@@ -140,7 +150,9 @@ const _Dialog = match(
   (props) => <DialogRejectDelegatedVersionDraft {...props} />,
   (props) => <DialogTenantKindEserviceTemplate {...props} />,
   (props) => <DialogTenantKindPurposeTemplate {...props} />,
-  (props) => <DialogSelectAgreementConsumer {...props} />
+  (props) => <DialogSelectAgreementConsumer {...props} />,
+  (props) => <DialogSuspendArchivingEservice {...props} />,
+  (props) => <DialogReactivateArchivingEservice {...props} />
 )
 
 export const Dialog: React.FC = () => {
