@@ -43,6 +43,8 @@ export type DialogProps =
   | DialogTenantKindPurposeTemplateProps
   | DialogSelectAgreementConsumerProps
   | DialogShowEserviceVersionsListProps
+  | DialogSuspendArchivingEserviceProps
+  | DialogReactivateArchivingEserviceProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -190,4 +192,16 @@ export type DialogShowEserviceVersionsListProps = {
   descriptors: CompactDescriptor[]
   activeDescriptor?: CompactDescriptor
   routeKey: Extract<RouteKey, 'SUBSCRIBE_CATALOG_VIEW' | 'PROVIDE_ESERVICE_MANAGE'>
+}
+
+export type DialogSuspendArchivingEserviceProps = {
+  type: 'suspendArchivingEservice'
+  eserviceId: string
+  descriptorId: string
+}
+
+export type DialogReactivateArchivingEserviceProps = {
+  type: 'reactivateArchivingEservice'
+  eserviceId: string
+  descriptorId: string
 }
