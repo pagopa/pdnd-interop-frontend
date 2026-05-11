@@ -4,16 +4,21 @@ import { Box, Button, Skeleton, Stack, Tooltip, Typography } from '@mui/material
 import type { ActionItemButton } from '@/types/common.types'
 import { Breadcrumbs } from '../Breadcrumbs'
 import { StatusChip } from '@/components/shared/StatusChip'
+import type { useParams } from '@/router'
 import { Link, type RouteKey } from '@/router'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 
+type RouteParams<TRouteKey extends RouteKey> = ReturnType<typeof useParams<TRouteKey>>
+
 export type PageBackToAction = {
-  label: string
-  to: RouteKey
-  params?: Record<string, string>
-  urlParams?: Record<string, string>
-}
+  [K in RouteKey]: {
+    label: string
+    to: K // the specified route
+    params?: RouteParams<K> // params corresponding to that route
+    urlParams?: Record<string, string>
+  }
+}[RouteKey]
 
 type ActionsSectionProps = {
   primaryAction?: ActionItemButton
@@ -145,12 +150,8 @@ const BreadcrumbsSection: React.FC<BreadcrumbsSectionProps> = ({ backToAction })
   return (
     <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 1 }}>
       {backToAction && (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         <Link
           to={backToAction.to}
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
           params={backToAction.params}
           options={backToAction.urlParams ? { urlParams: backToAction.urlParams } : undefined}
           as="button"
