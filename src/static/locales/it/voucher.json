@@ -199,7 +199,7 @@
       "expField": {
         "label": "EXP (Expiration)",
         "description": "Expiration, il timestamp riportante data e ora di scadenza del token, espresso in UNIX epoch (valore numerico, non stringa)",
-        "suggestionLabel": "Genera tu questo parametro.\nEsempio: 1651659340"
+        "suggestionLabel": "Genera tu questo parametro.\nEsempio: 1651738540"
       },
       "scope": {
         "label": "Scope",
