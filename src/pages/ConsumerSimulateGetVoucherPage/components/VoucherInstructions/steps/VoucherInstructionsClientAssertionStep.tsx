@@ -36,18 +36,12 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
   const interactionType = searchParams.get('interactionType') || ''
   const asyncExchangeStep = searchParams.get('asyncExchangeStep') || ''
 
+  const isConsumerOrInterationTypeSync =
+    INTERACTION_TYPE.SYNC || memberType === MEMBER_TYPE.CONSUMER
+
   const clientId =
-    searchParams.get(
-      interactionType === INTERACTION_TYPE.SYNC || memberType === MEMBER_TYPE.CONSUMER
-        ? 'clientId'
-        : 'producerKeychainId'
-    ) || ''
-  const keyId =
-    searchParams.get(
-      interactionType === INTERACTION_TYPE.SYNC || memberType === MEMBER_TYPE.CONSUMER
-        ? 'keyId'
-        : 'publicKeyId'
-    ) || ''
+    searchParams.get(isConsumerOrInterationTypeSync ? 'clientId' : 'producerKeychainId') || ''
+  const keyId = searchParams.get(isConsumerOrInterationTypeSync ? 'keyId' : 'publicKeyId') || ''
 
   const showPurposeId =
     interactionType === INTERACTION_TYPE.SYNC ||
@@ -83,6 +77,7 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
           content={t('clientAssertionStep.assertionPayload.jtiField.suggestionLabel')}
         />
       </Grid>
+      {/* Empty Grid item for this case: https://www.figma.com/design/CpRV3kPvFEWLXGtJUgWeZW/Interop-%E2%80%94-Delivery-FE---QA?node-id=4078-16065&t=RqfS1AkOeuYRe9id-4 */}
       {asyncExchangeStep === ASYNC_EXCHANGE_STEP.START_INTERACTION && (
         <Grid item xs={12} md={6}></Grid>
       )}
