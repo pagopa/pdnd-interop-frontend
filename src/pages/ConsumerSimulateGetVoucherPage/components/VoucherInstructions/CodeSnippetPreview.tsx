@@ -62,13 +62,13 @@ export const CodeSnippetPreview = ({
   return (
     <Box sx={{ my: 1, ...sx }}>
       {title && (
-        <Typography sx={{ bgcolor: 'background.default', px: 0.5, py: 0.5 }} variant="caption">
+        <Typography variant="body1" fontWeight={600} sx={{ pb: 2 }}>
           {title}
         </Typography>
       )}
-      <Box sx={{ position: 'relative' }}>
+      <Box sx={{ position: 'relative', bgcolor: 'grey.50', borderRadius: '4px', p: 1.5 }}>
         <Box sx={{ position: 'absolute', right: 2, top: 2, zIndex: 1 }}>
-          <Box sx={{ mt: 1, bgcolor: 'common.white' }}>
+          <Box sx={{ mt: 1 }}>
             {activeLang && codeEntries[activeLang] && (
               <CopyToClipboardButton
                 value={remapCodeWithSubstitutions(codeEntries[activeLang])}
@@ -82,8 +82,6 @@ export const CodeSnippetPreview = ({
             maxHeight: 300,
             height: '100%',
             overflow: 'auto',
-            border: 2,
-            borderColor: 'background.default',
             px: 1,
           }}
         >

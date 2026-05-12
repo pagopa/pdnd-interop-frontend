@@ -176,68 +176,85 @@
     "assertionHeader": {
       "title": "Header dell'asserzione",
       "kidField": {
-        "label": "KID",
-        "description": "L’ID della chiave selezionata nel passaggio precedente",
+        "label": "KID (Key ID)",
+        "description": "L'identificativo della chiave pubblica selezionata allo step precedente, caricata su PDND e utilizzata per firmare l'asserzione.",
         "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "algField": {
-        "label": "ALG",
-        "description": "L’algoritmo usato per firmare questo JWT. In questo momento si può firmare solo con RS256",
+        "label": "ALG (Algorithm)",
+        "description": "L’algoritmo usato per firmare questo JWT. Si può firmare solo con RS256",
         "copySuccessFeedbackText": "Testo copiato correttamente"
       },
       "typField": {
-        "label": "TYP",
-        "description": "Il tipo di oggetto che si sta inviando, in questo caso “JWT”",
+        "label": "TYP (Type)",
+        "description": "Definisce il tipo di token. Per le Client Assertion PDND il valore è sempre JWT.",
         "copySuccessFeedbackText": "Testo copiato correttamente"
       }
     },
     "assertionPayload": {
       "title": "Payload dell'asserzione",
       "issField": {
-        "label": "ISS",
-        "description": "L’issuer della richiesta; in questo caso l’ID di questo client",
+        "label": "ISS (Issuer)",
+        "description": "Il Client ID dell'applicazione che emette la richiesta.",
         "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "subField": {
-        "label": "SUB",
-        "description": "Il subject della richiesta, in questo caso sempre l'ID del client",
+        "label": "SUB (Subject)",
+        "description": "Il soggetto dell'asserzione. In PDND coincide sempre con il Client ID.",
         "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "audField": {
-        "label": "AUD",
+        "label": "AUD (Audience)",
         "description": "L’audience di destinazione; in questo caso una risorsa di PDND Interoperabilità",
         "copySuccessFeedbackText": "Stringa copiata correttamente"
       },
       "purposeIdField": {
-        "label": "PurposeId",
-        "description": "L’ID della finalità selezionata nel passaggio precedente",
+        "label": "PurposeId (ID finalità)",
+        "description": "L'identificativo della finalità (UUID) selezionata nello step precedente e associata alla fruizione dell'e-service.",
         "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "jtiField": {
-        "label": "JTI",
+        "label": "JTI (Identificativo univoco)",
         "description": "Un id unico (UUID) random generato da chi vuole creare il token. Serve per identificare il token stesso",
-        "suggestionLabel": "Questo parametro devi generarlo tu. Valore esempio: 261cd445-3da6-421b-9ef4-7ba556efda5f"
+        "suggestionLabel": "Genera tu questo parametro.\nEsempio: 261cd445-3da6-421b-9ef4-7ba556efda5f"
       },
       "iatField": {
-        "label": "IAT",
+        "label": "IAT (Data e ora di creazione)",
         "description": "Issued at, il timestamp riportante data e ora in cui viene creato il token, espresso in UNIX epoch (valore numerico, non stringa)",
-        "suggestionLabel": "Questo parametro devi generarlo tu. Valore esempio: 1651659340"
+        "suggestionLabel": "Genera tu questo parametro.\nEsempio: 1651659340"
       },
       "expField": {
-        "label": "EXP",
+        "label": "EXP (Expiration)",
         "description": "Expiration, il timestamp riportante data e ora di scadenza del token, espresso in UNIX epoch (valore numerico, non stringa)",
-        "suggestionLabel": "Questo parametro devi generarlo tu. Valore esempio: 1651738540"
+        "suggestionLabel": "Genera tu questo parametro.\nEsempio: 1651738540"
+      },
+      "scope": {
+        "label": "Scope",
+        "description": "Riferimento alla fase dell'interazione tra le parti.",
+        "copySuccessFeedbackText": "Stringa copiata correttamente"
+      },
+      "urlCallbackField": {
+        "label": "urlCallback",
+        "description": "L’URL che l’erogatore dovrà contattare per rispondere alla chiamata."
+      },
+      "interactionIdField": {
+        "label": "interactionID",
+        "description": "L'id unico che identifica l'interazione tra le parti."
+      },
+      "entityNumberField": {
+        "label": "EntityNumber",
+        "description": "Il numero di entità presenti nella risposta."
       }
     },
     "assertionScript": {
-      "title": "Esempio per generare una client assertion",
+      "title": "Esempio di generazione da terminale",
       "steps": {
         "1": "Crea una cartella e nominala “client_assertion_test”",
         "2": "Inserisci nella cartella lo script <1>{{ filename }}</1> (è richiesto Python 3.8)",
-        "3": "Crea una cartella “keys” e inserisci al suo interno la chiave privata, nominandola “client-test-keypair.rsa.priv”",
+        "3": "Crea una cartella “keys” e inserisci al suo interno la chiave privata, nominandola “client-test-keypair.rsa.priv”.\nAssicurati che la chiave privata corrisponda alla pubblica che hai selezionato nel passaggio precedente.",
         "4": "Apri il terminale e naviga fino alla cartella client_assertion_test",
         "5": "Incolla il comando sotto e premi invio",
-        "result": "Ottieni così una client assertion firmata con la tua chiave privata. Attenzione: la chiave privata deve corrispondere alla pubblica che hai selezionato nel passaggio precedente."
+        "result": "6. Otterrai una client assertion firmata con la tua chiave privata. Salva questo dato per lo step successivo."
       },
       "exampleLabel": "Esempio di utilizzo"
     }
