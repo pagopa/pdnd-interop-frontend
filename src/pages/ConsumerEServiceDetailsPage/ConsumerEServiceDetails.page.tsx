@@ -64,7 +64,6 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
   return (
     <NewPageContainer
       title={descriptor?.eservice.name || ''}
-      statusChip={descriptor && { for: 'eservice', state: descriptor.state }}
       primaryAction={primaryAction}
       secondaryAction={secondaryAction}
       menuActions={menuActions}

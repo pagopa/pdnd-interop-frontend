@@ -26,7 +26,6 @@ const ProviderEServiceDetailsPage: React.FC = () => {
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 
-  descriptor?.delegation
   const { primaryAction, secondaryAction, menuActions, headerInfoActions } =
     useGetProviderEServiceActions(
       eserviceId,

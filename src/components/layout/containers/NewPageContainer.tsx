@@ -7,7 +7,7 @@ import { StatusChip } from '@/components/shared/StatusChip'
 import type { useParams } from '@/router'
 import { Link, type RouteKey } from '@/router'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
+import { ActionMenu } from '@/components/shared/ActionMenu'
 
 type RouteParams<TRouteKey extends RouteKey> = ReturnType<typeof useParams<TRouteKey>>
 
@@ -23,7 +23,7 @@ export type PageBackToAction = {
 type ActionsSectionProps = {
   primaryAction?: ActionItemButton
   secondaryAction?: ActionItemButton
-  menuActions?: Array<ActionItemButton>
+  menuActions: Array<ActionItemButton>
 }
 
 type BreadcrumbsSectionProps = {
@@ -49,7 +49,7 @@ type ShortCutProps =
 type HeaderInfoSectionProps = {
   label: string
   shortcut: ShortCutProps
-  actions?: Array<ActionItemButton>
+  actions: Array<ActionItemButton>
   statusChip?: React.ComponentProps<typeof StatusChip>
 }
 
@@ -172,7 +172,7 @@ const ActionsSection: React.FC<ActionsSectionProps> = ({
   secondaryAction,
   menuActions,
 }) => {
-  if (!menuActions && !primaryAction) return null
+  if (menuActions.length === 0 && !primaryAction) return null
 
   const renderActionButton = ({
     action,
@@ -219,7 +219,7 @@ const ActionsSection: React.FC<ActionsSectionProps> = ({
       <Stack direction="row" spacing={2}>
         {secondaryAction && renderActionButton(secondaryAction)}
         {primaryAction && renderActionButton(primaryAction)}
-        {menuActions ? <ActionMenu actions={menuActions} /> : <ActionMenuSkeleton />}
+        {menuActions.length !== 0 && <ActionMenu actions={menuActions} />}
       </Stack>
     </Stack>
   )
