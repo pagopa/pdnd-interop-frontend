@@ -1,0 +1,35 @@
+#!/usr/bin/env sh
+
+set -e
+
+baseline_diff="$(mktemp)"
+after_lint_diff="$(mktemp)"
+lint_output="$(mktemp)"
+trap 'rm -f "$baseline_diff" "$after_lint_diff" "$lint_output"' EXIT
+
+log() {
+  echo "[pre-push] $1"
+}
+
+log "Running ESLint autofix..."
+git diff --binary > "$baseline_diff"
+
+set +e
+pnpm run lint:fix > "$lint_output" 2>&1
+lint_exit_code=$?
+set -e
+sed 's/^/[pre-push] /' "$lint_output"
+
+git diff --binary > "$after_lint_diff"
+
+if ! cmp -s "$baseline_diff" "$after_lint_diff"; then
+  log "ESLint fixed some files. Push aborted; review and commit the fixes."
+  exit 1
+fi
+
+if [ "$lint_exit_code" -ne 0 ]; then
+  log "ESLint failed. Push aborted."
+  exit "$lint_exit_code"
+fi
+
+log "Checks passed."
