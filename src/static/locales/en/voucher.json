@@ -111,11 +111,26 @@
     "currentIdsDrawer": {
       "title": "View current selection IDs",
       "subtitle": "Useful parameters to obtain information through PDND APIs. Have questions? <1>Check the guide</1>.",
-      "eserviceIdDescription": "The ID of the e-service linked to the selected purpose",
-      "descriptorIdDescription": "The ID of the e-service version linked to the selected purpose",
-      "agreementIdDescription": "The ID of the service request linked to the selected purpose",
-      "purposeIdDescription": "The ID of the selected purpose",
-      "clientIdDescription": "The ID of this client",
+      "purposeEserviceId": {
+        "label": "eserviceId",
+        "description": "The ID of the e-service linked to the selected purpose"
+      },
+      "descriptorId": {
+        "label": "descriptorId",
+        "description": "The ID of the e-service version linked to the selected purpose"
+      },
+      "agreementId": {
+        "label": "agreementId",
+        "description": "The ID of the service request linked to the selected purpose"
+      },
+      "purposeId": {
+        "label": "purposeId",
+        "description": "The ID of the selected purpose"
+      },
+      "clientId": {
+        "label": "clientId",
+        "description": "The ID of this client"
+      },
       "producerOrganizationId": {
         "label": "organizationId (producer)",
         "description": "The ID of the producing party"
@@ -123,6 +138,18 @@
       "consumerOrganizationId": {
         "label": "organizationId (consumer)",
         "description": "The ID of your party"
+      },
+      "eserviceId": {
+        "label": "eserviceId",
+        "description": "The ID of the selected e-service"
+      },
+      "producerKeychainId": {
+        "label": "producerKeychainId",
+        "description": "The ID of the selected producer keychain"
+      },
+      "producerId": {
+        "label": "producerId",
+        "description": "The ID of the producer"
       }
     }
   },

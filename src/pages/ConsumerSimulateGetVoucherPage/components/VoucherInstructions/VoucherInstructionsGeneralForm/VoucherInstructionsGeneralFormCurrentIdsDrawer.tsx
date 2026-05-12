@@ -6,22 +6,30 @@ import { Trans, useTranslation } from 'react-i18next'
 import { Link, Stack } from '@mui/material'
 import { apiGuideLink } from '@/config/constants'
 import { useQuery } from '@tanstack/react-query'
+import { KeychainQueries } from '@/api/keychain'
 
 type VoucherInstructionsGeneralFormCurrentIdsDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   clientId: string
   purposeId: string
+  eserviceId: string
+  producerKeychainId: string
 }
 
 export const VoucherInstructionsGeneralFormCurrentIdsDrawer: React.FC<
   VoucherInstructionsGeneralFormCurrentIdsDrawerProps
-> = ({ isOpen, onClose, clientId, purposeId }) => {
+> = ({ isOpen, onClose, clientId, purposeId, eserviceId, producerKeychainId }) => {
   const { t } = useTranslation('voucher', { keyPrefix: 'generalForm.currentIdsDrawer' })
 
   const { data: purpose } = useQuery({
     ...PurposeQueries.getSingle(purposeId || ''),
     enabled: Boolean(purposeId),
+  })
+
+  const { data: keychain } = useQuery({
+    ...KeychainQueries.getSingle(producerKeychainId),
+    enabled: Boolean(producerKeychainId),
   })
 
   return (
@@ -40,45 +48,46 @@ export const VoucherInstructionsGeneralFormCurrentIdsDrawer: React.FC<
           <>
             <InformationContainer
               direction="column"
-              label="eserviceId"
-              labelDescription={t('eserviceIdDescription')}
+              label={t('purposeEserviceId.label')}
+              labelDescription={t('purposeEserviceId.description')}
               copyToClipboard={{ value: purpose.eservice.id }}
               content={purpose.eservice.id}
             />
 
             <InformationContainer
               direction="column"
-              label="descriptorId"
-              labelDescription={t('descriptorIdDescription')}
+              label={t('descriptorId.label')}
+              labelDescription={t('descriptorId.description')}
               copyToClipboard={{ value: purpose.eservice.descriptor.id }}
               content={purpose.eservice.descriptor.id}
             />
 
             <InformationContainer
               direction="column"
-              label="agreementId"
-              labelDescription={t('agreementIdDescription')}
+              label={t('agreementId.label')}
+              labelDescription={t('agreementId.description')}
               copyToClipboard={{ value: purpose.agreement.id }}
               content={purpose.agreement.id}
             />
 
             <InformationContainer
               direction="column"
-              label="purposeId"
-              labelDescription={t('purposeIdDescription')}
+              label={t('purposeId.label')}
+              labelDescription={t('purposeId.description')}
               copyToClipboard={{ value: purpose.id }}
               content={purpose.id}
             />
           </>
         )}
-
-        <InformationContainer
-          direction="column"
-          label="clientId"
-          labelDescription={t('clientIdDescription')}
-          copyToClipboard={{ value: clientId }}
-          content={clientId}
-        />
+        {clientId && (
+          <InformationContainer
+            direction="column"
+            label={t('clientId.label')}
+            labelDescription={t('clientId.description')}
+            copyToClipboard={{ value: clientId }}
+            content={clientId}
+          />
+        )}
 
         {purpose && (
           <>
@@ -98,6 +107,33 @@ export const VoucherInstructionsGeneralFormCurrentIdsDrawer: React.FC<
               content={purpose.consumer.id}
             />
           </>
+        )}
+        {producerKeychainId && (
+          <InformationContainer
+            direction="column"
+            label={t('producerKeychainId.label')}
+            labelDescription={t('producerKeychainId.description')}
+            copyToClipboard={{ value: producerKeychainId }}
+            content={producerKeychainId}
+          />
+        )}
+        {keychain?.producer?.id && (
+          <InformationContainer
+            direction="column"
+            label={t('producerId.label')}
+            labelDescription={t('producerId.description')}
+            copyToClipboard={{ value: keychain.producer.id }}
+            content={keychain.producer.id}
+          />
+        )}
+        {eserviceId && !purposeId && (
+          <InformationContainer
+            direction="column"
+            label={t('eserviceId.label')}
+            labelDescription={t('eserviceId.description')}
+            copyToClipboard={{ value: eserviceId }}
+            content={eserviceId}
+          />
         )}
       </Stack>
     </Drawer>
