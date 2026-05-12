@@ -76,6 +76,17 @@ describe('EServiceDetailsSection', () => {
     expect(screen.getByText('personalDataField.DELIVER.readOnlyLabel')).toBeInTheDocument()
   })
 
+  it('should disable mode radios and force DELIVER on mount when asyncExchange is already true with mode=RECEIVE', async () => {
+    renderComponent('RECEIVE', true, undefined, { asyncExchange: true, mode: 'RECEIVE' })
+
+    const deliverRadio = screen.getByRole('radio', { name: 'modeField.options.DELIVER' })
+    const receiveRadio = screen.getByRole('radio', { name: 'modeField.options.RECEIVE' })
+
+    expect(deliverRadio).toBeDisabled()
+    expect(receiveRadio).toBeDisabled()
+    expect(await screen.findByRole('radio', { name: 'modeField.options.DELIVER' })).toBeChecked()
+  })
+
   it('should disable mode radios and force DELIVER when asyncExchange is selected', async () => {
     const user = userEvent.setup()
     renderComponent('RECEIVE', true, undefined, { mode: 'RECEIVE' })

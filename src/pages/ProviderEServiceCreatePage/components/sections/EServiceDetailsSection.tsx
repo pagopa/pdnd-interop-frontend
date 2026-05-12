@@ -4,6 +4,7 @@ import { SectionContainer } from '@/components/layout/containers'
 import { RHFRadioGroup } from '@/components/shared/react-hook-form-inputs'
 import { Alert, Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
+import { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { EServiceCreateStepGeneralFormValues } from '../EServiceCreateStepGeneral/EServiceCreateStepGeneral'
@@ -28,6 +29,14 @@ export const EServiceDetailsSection: React.FC<EServiceDetailsSectionProps> = ({
 
   const asyncExchange = watch('asyncExchange')
   const technology = watch('technology')
+  const mode = watch('mode')
+
+  useEffect(() => {
+    if (asyncExchange && mode !== 'DELIVER') {
+      setValue('mode', 'DELIVER', { shouldDirty: true, shouldValidate: true })
+      onEserviceModeChange?.('DELIVER')
+    }
+  }, [asyncExchange, mode, setValue, onEserviceModeChange])
 
   if (!areEServiceGeneralInfoEditable && descriptor)
     return (
@@ -79,12 +88,6 @@ export const EServiceDetailsSection: React.FC<EServiceDetailsSectionProps> = ({
         }}
         sx={{ mb: 0, mt: 3 }}
         isOptionValueAsBoolean
-        onValueChange={(value) => {
-          if (value === 'true') {
-            setValue('mode', 'DELIVER')
-            onEserviceModeChange?.('DELIVER')
-          }
-        }}
       />
       {asyncExchange && isOperatorAPI && (
         <Alert severity="warning" sx={{ mb: 0, mt: 3 }}>
