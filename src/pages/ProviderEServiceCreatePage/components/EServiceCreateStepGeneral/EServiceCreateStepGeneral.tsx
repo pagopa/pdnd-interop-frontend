@@ -36,6 +36,7 @@ export type EServiceCreateStepGeneralFormValues = {
   description: string
   technology: EServiceTechnology
   mode: EServiceMode
+  asyncExchange: boolean
   personalData: boolean | undefined
   isSignalHubEnabled: boolean
   isConsumerDelegable: boolean
@@ -255,6 +256,7 @@ function evaluateFormDefaultValues(
       description: descriptor?.eservice.description ?? '',
       technology: descriptor?.eservice.technology ?? 'REST',
       mode: eserviceMode,
+      asyncExchange: descriptor?.eservice.asyncExchange ?? false,
       personalData: descriptor?.eservice.personalData,
       isSignalHubEnabled: descriptor?.eservice.isSignalHubEnabled ?? false,
       isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? true,
@@ -267,6 +269,7 @@ function evaluateFormDefaultValues(
     description: eserviceTemplate?.description,
     technology: eserviceTemplate?.technology,
     mode: eserviceTemplate?.mode,
+    asyncExchange: eserviceTemplate?.asyncExchange ?? false,
     personalData: eserviceTemplate?.personalData,
     isSignalHubEnabled: eserviceTemplate?.isSignalHubEnabled ?? false,
     isConsumerDelegable: true,

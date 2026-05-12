@@ -1,9 +1,12 @@
 import type { EServiceMode, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 import { SectionContainer } from '@/components/layout/containers'
 import { RHFRadioGroup } from '@/components/shared/react-hook-form-inputs'
 import { Alert, Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
+import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import type { EServiceCreateStepGeneralFormValues } from '../EServiceCreateStepGeneral/EServiceCreateStepGeneral'
 
 type EServiceDetailsSectionProps = {
   areEServiceGeneralInfoEditable: boolean
@@ -20,11 +23,22 @@ export const EServiceDetailsSection: React.FC<EServiceDetailsSectionProps> = ({
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step1.detailsSection' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'validation.mixed' })
+  const { isOperatorAPI } = AuthHooks.useJwt()
+  const { watch, setValue } = useFormContext<EServiceCreateStepGeneralFormValues>()
+
+  const asyncExchange = watch('asyncExchange')
+  const technology = watch('technology')
 
   if (!areEServiceGeneralInfoEditable && descriptor)
     return (
       <SectionContainer title={t('title')} description={t('readOnlyDescription')}>
         <Stack spacing={2}>
+          <InformationContainer
+            label={t('asyncExchangeField.readOnlyLabel')}
+            content={t(
+              `asyncExchangeField.readOnlyOptions.${Boolean(descriptor.eservice.asyncExchange)}`
+            )}
+          />
           <InformationContainer
             label={t('technologyField.readOnlyLabel')}
             content={descriptor.eservice.technology}
@@ -51,6 +65,33 @@ export const EServiceDetailsSection: React.FC<EServiceDetailsSectionProps> = ({
         {t('firstVersionOnlyEditableInfo')}
       </Alert>
       <RHFRadioGroup
+        name="asyncExchange"
+        row
+        required
+        label={t('asyncExchangeField.label')}
+        options={[
+          { label: t('asyncExchangeField.options.false'), value: false },
+          { label: t('asyncExchangeField.options.true'), value: true },
+        ]}
+        disabled={!areEServiceGeneralInfoEditable}
+        rules={{
+          validate: (value) => value === true || value === false || tCommon('required'),
+        }}
+        sx={{ mb: 0, mt: 3 }}
+        isOptionValueAsBoolean
+        onValueChange={(value) => {
+          if (value === 'true') {
+            setValue('mode', 'DELIVER')
+            onEserviceModeChange?.('DELIVER')
+          }
+        }}
+      />
+      {asyncExchange && isOperatorAPI && (
+        <Alert severity="warning" sx={{ mb: 0, mt: 3 }}>
+          {t('asyncExchangeField.operatorApiWarning')}
+        </Alert>
+      )}
+      <RHFRadioGroup
         name="technology"
         row
         required
@@ -63,7 +104,11 @@ export const EServiceDetailsSection: React.FC<EServiceDetailsSectionProps> = ({
         rules={{ required: true }}
         sx={{ mb: 0, mt: 3 }}
       />
-
+      {asyncExchange && technology === 'SOAP' && (
+        <Alert severity="warning" sx={{ mb: 0, mt: 3 }}>
+          {t('asyncExchangeField.soapWarning')}
+        </Alert>
+      )}
       <RHFRadioGroup
         name="mode"
         row
@@ -79,7 +124,7 @@ export const EServiceDetailsSection: React.FC<EServiceDetailsSectionProps> = ({
             value: 'RECEIVE',
           },
         ]}
-        disabled={!areEServiceGeneralInfoEditable}
+        disabled={!areEServiceGeneralInfoEditable || asyncExchange}
         rules={{ required: true }}
         sx={{ mb: 0, mt: 3 }}
         onValueChange={(mode) => onEserviceModeChange?.(mode as EServiceMode)}

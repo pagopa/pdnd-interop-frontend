@@ -44,6 +44,20 @@
         "description": "This information has been pre-populated by the template creator and cannot be edited.",
         "readOnlyDescription": "The following information is no longer editable.",
         "firstVersionOnlyEditableInfo": "This data will no longer be editable after the first version of the e-service is published.",
+        "asyncExchangeField": {
+          "label": "How do you want to exchange the e-service data?",
+          "readOnlyLabel": "Data exchange type",
+          "options": {
+            "false": "Synchronous (standard)",
+            "true": "Asynchronous / bulk (deferred)"
+          },
+          "readOnlyOptions": {
+            "false": "Synchronous",
+            "true": "Asynchronous"
+          },
+          "soapWarning": "SOAP technology does not allow enabling bulk download during asynchronous data exchange.",
+          "operatorApiWarning": "For asynchronous exchanges, a keychain must be linked to the e-service. Only those with the administrator role can do this: ask to link it before or after publication to enable data exchange."
+        },
         "technologyField": {
           "label": "What technology is your API built with?",
           "readOnlyLabel": "API Technology"
