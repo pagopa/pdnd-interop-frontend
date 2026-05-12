@@ -37,8 +37,7 @@ export const UploadCallbackInterfaceDoc: React.FC<UploadCallbackInterfaceDocProp
       descriptorId: descriptor.id,
       doc: interfaceDoc,
       prettyName: `${prettyName}_${descriptor.eservice.name}_${jwt?.organization.name}_v${descriptor.version}`,
-      // TODO: rimuovere il cast quando l'OpenAPI esporrà il kind ASYNC_EXCHANGE_CALLBACK_INTERFACE
-      kind: 'ASYNC_EXCHANGE_CALLBACK_INTERFACE' as CreateEServiceDocumentPayload['kind'],
+      kind: 'ASYNC_EXCHANGE_CALLBACK_INTERFACE',
     })
   }
 
