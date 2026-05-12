@@ -25,9 +25,9 @@ export type EServiceCreateStepTechSpecFormValues = {
   audience: string
   voucherLifespan: number
   asyncExchangeProperties: {
-    responseTime: number
-    resourceAvailableTime: number
-    maxResultSet: number
+    responseTime: number | ''
+    resourceAvailableTime: number | ''
+    maxResultSet: number | ''
     confirmation: boolean
     bulk: boolean
   }
@@ -49,9 +49,9 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
     audience: descriptor?.audience?.[0] ?? '',
     voucherLifespan: descriptor ? secondsToMinutes(descriptor.voucherLifespan) : 1,
     asyncExchangeProperties: {
-      responseTime: descriptor?.asyncExchangeProperties?.responseTime ?? 1,
-      resourceAvailableTime: descriptor?.asyncExchangeProperties?.resourceAvailableTime ?? 1,
-      maxResultSet: descriptor?.asyncExchangeProperties?.maxResultSet ?? 1,
+      responseTime: descriptor?.asyncExchangeProperties?.responseTime ?? '',
+      resourceAvailableTime: descriptor?.asyncExchangeProperties?.resourceAvailableTime ?? '',
+      maxResultSet: descriptor?.asyncExchangeProperties?.maxResultSet ?? '',
       confirmation: descriptor?.asyncExchangeProperties?.confirmation ?? false,
       bulk: descriptor?.asyncExchangeProperties?.bulk ?? false,
     },
