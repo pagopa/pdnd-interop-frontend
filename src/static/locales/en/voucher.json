@@ -306,29 +306,46 @@
   "accessTokenStep": {
     "stepperLabel": "Get access token",
     "title": "Get the access token",
-    "consumerDescription": "Once the JWS has been signed with your private key, it must be used to make a voucher request to the PDND authorization server. If successful, a voucher usable at the producer’s e-service will be returned",
-    "apiDescription": "Once the JWS has been signed with your private key, it must be used to make a voucher request to the PDND authorization server. If successful, a voucher usable at the PDND API gateway will be returned",
+    "description": "Once you've created the JWS signed with your private key, you can use it to make a request to the PDND Interoperability authorization server. If successful, you'll receive a voucher that can be used at the provider's e-service.",
     "authEndpoint": {
-      "label": "Authorization server endpoint",
-      "copySuccessFeedbackText": "URL successfully copied"
+      "title": "Authorization server endpoint",
+      "url": {
+        "label": "URL",
+        "description": "The ID of the key selected in the previous step",
+        "copySuccessFeedbackText": "URL successfully copied"
+      }
+    },
+    "requestDPoPHeader": {
+      "title": "DPoP request header",
+      "dPoP": {
+        "label": "DPoP",
+        "description": "The DPoP generated in the previous step",
+        "suggestionLabel": "Enter the DPoP you created in the previous step. The code starts with \"ey\""
+      }
     },
     "requestBody": {
-      "title": "Request body",
+      "title": {
+        "bearer": "POST Body request",
+        "dpop": "Body request"
+      },
       "clientIdField": {
-        "label": "client_id",
+        "label": "Client_id",
+        "description": "The client reference from which the call is made",
         "copySuccessFeedbackText": "ID successfully copied"
       },
       "clientAssertionField": {
-        "label": "client_assertion",
-        "suggestionLabel": "The JWS obtained from the previous step (starts with “ey”)"
+        "label": "Client_assertion",
+        "description": "The complete JWT token encoded in Base64Url.",
+        "suggestionLabel": "Enter the client assertion you created in the previous step. The code begins with \"ey.\""
       },
       "clientAssertionTypeField": {
-        "label": "client_assertion_type",
-        "description": "The target audience; in this case, a PDND resource",
+        "label": "Client_assertion_type",
+        "description": "Specifies the type of assertion being sent.",
         "copySuccessFeedbackText": "String successfully copied"
       },
       "grantTypeField": {
-        "label": "grant_type",
+        "label": "Grant_type",
+        "description": "Defines the authorization method, client_credentials",
         "copySuccessFeedbackText": "String successfully copied"
       }
     },
@@ -337,12 +354,7 @@
       "guide": "Open the terminal, replace the placeholder YOUR_CLIENT_ASSERTION with the assertion you obtained in the previous step, and run the cURL. If you don’t have cURL, <1>you can install it</1> via Brew.",
       "exampleLabel": "Example cURL"
     },
-    "debugVoucherAlert": {
-      "description": "Unable to obtain a valid voucher? Try the",
-      "link": {
-        "label": "debug feature"
-      }
-    }
+    "debugVoucherLink": "Can't get a valid voucher? Debug it."
   },
   "dataAccessStep": {
     "stepperLabelBearer": "Data access",

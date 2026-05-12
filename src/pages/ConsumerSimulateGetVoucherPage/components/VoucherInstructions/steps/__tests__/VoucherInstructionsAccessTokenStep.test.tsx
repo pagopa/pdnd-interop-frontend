@@ -1,6 +1,13 @@
-import { vi } from 'vitest'
-export const mockAxiosGet = vi.fn()
-export const mockAxiosCreate = vi.fn()
+import { vi, beforeEach, describe, expect, it } from 'vitest'
+import { screen } from '@testing-library/react'
+import { MemoryRouter, useSearchParams } from 'react-router-dom'
+import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { VoucherInstructionsAccessTokenStep } from '../VoucherInstructionsAccessTokenStep'
+import { VOUCHER_TYPE } from '../../VoucherInstructionsGeneralForm'
+
+const { mockUseSearchParams } = vi.hoisted(() => ({
+  mockUseSearchParams: vi.fn(),
+}))
 
 vi.mock('axios', () => ({
   default: {
@@ -50,21 +57,30 @@ vi.mock('react-router-dom', async () => {
 
   return {
     ...actual,
-    useSearchParams: () => [
-      new URLSearchParams({
-        clientId: 'client-123',
-      }),
-    ],
+    useSearchParams: mockUseSearchParams,
   }
 })
 
-import { screen } from '@testing-library/react'
-import { MemoryRouter } from 'react-router-dom'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { VoucherInstructionsAccessTokenStep } from '../VoucherInstructionsAccessTokenStep'
-
 describe('VoucherInstructionsAccessTokenStep', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+
+    mockUseSearchParams.mockReturnValue([
+      new URLSearchParams({
+        clientId: 'client-123',
+      }),
+      vi.fn(),
+    ])
+  })
+
   it('renders base sections', async () => {
+    vi.mocked(useSearchParams).mockReturnValue([
+      new URLSearchParams({
+        voucherType: VOUCHER_TYPE.BEARER,
+      }),
+      vi.fn(),
+    ])
+
     renderWithApplicationContext(
       <MemoryRouter>
         <VoucherInstructionsAccessTokenStep />
@@ -72,9 +88,13 @@ describe('VoucherInstructionsAccessTokenStep', () => {
       { withReactQueryContext: true }
     )
 
-    expect(await screen.findByText('accessTokenStep.authEndpoint.label')).toBeInTheDocument()
+    expect(await screen.findByText('accessTokenStep.authEndpoint.title')).toBeInTheDocument()
 
-    expect(await screen.findByText('accessTokenStep.requestBody.title')).toBeInTheDocument()
+    expect(await screen.findByText('accessTokenStep.requestBody.title.bearer')).toBeInTheDocument()
+
+    expect(screen.queryByText('accessTokenStep.requestBody.title.dpop')).not.toBeInTheDocument()
+
+    expect(screen.queryByText('accessTokenStep.requestDPoPHeader.title')).not.toBeInTheDocument()
   })
 
   it('renders request body fields', async () => {
@@ -100,6 +120,12 @@ describe('VoucherInstructionsAccessTokenStep', () => {
     expect(
       await screen.findByText('accessTokenStep.requestBody.grantTypeField.label')
     ).toBeInTheDocument()
+
+    expect(screen.queryByText('accessTokenStep.requestDPoPHeader.title')).not.toBeInTheDocument()
+
+    expect(
+      screen.queryByText('accessTokenStep.requestDPoPHeader.dPoP.label')
+    ).not.toBeInTheDocument()
   })
 
   it('renders clientId value from query params', async () => {
@@ -123,7 +149,7 @@ describe('VoucherInstructionsAccessTokenStep', () => {
     expect(await screen.findByText('accessTokenStep.voucherScript.title')).toBeInTheDocument()
   })
 
-  it('renders debug alert link', async () => {
+  it('renders debug link', async () => {
     renderWithApplicationContext(
       <MemoryRouter>
         <VoucherInstructionsAccessTokenStep />
@@ -131,8 +157,31 @@ describe('VoucherInstructionsAccessTokenStep', () => {
       { withReactQueryContext: true }
     )
 
+    expect(await screen.findByText('accessTokenStep.debugVoucherLink')).toBeInTheDocument()
+  })
+
+  it('renders DPoP header section when voucherType is DPOP', async () => {
+    vi.mocked(useSearchParams).mockReturnValue([
+      new URLSearchParams({
+        clientId: 'client-123',
+        voucherType: VOUCHER_TYPE.DPOP,
+      }),
+      vi.fn(),
+    ])
+
+    renderWithApplicationContext(
+      <MemoryRouter>
+        <VoucherInstructionsAccessTokenStep />
+      </MemoryRouter>,
+      { withReactQueryContext: true }
+    )
+
+    expect(await screen.findByText('accessTokenStep.requestDPoPHeader.title')).toBeInTheDocument()
+
     expect(
-      await screen.findByText('accessTokenStep.debugVoucherAlert.description')
+      await screen.findByText('accessTokenStep.requestDPoPHeader.dPoP.label')
     ).toBeInTheDocument()
+
+    expect(screen.queryByText('accessTokenStep.requestBody.title.bearer')).not.toBeInTheDocument()
   })
 })

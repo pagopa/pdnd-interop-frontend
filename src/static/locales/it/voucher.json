@@ -306,29 +306,46 @@
   "accessTokenStep": {
     "stepperLabel": "Ottieni token di accesso",
     "title": "Ottieni il token di accesso",
-    "consumerDescription": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di voucher verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un voucher spendibile presso l'e-service dell’erogatore",
-    "apiDescription": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di voucher verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un voucher spendibile presso l’API gateway di Interoperabilità",
+    "description": "Una volta creato il JWS firmato con la propria chiave privata, puoi utilizzarlo per fare una richiesta verso l’authorization server di PDND Interoperabilità. Se va a buon fine, ti verrà restituito un voucher spendibile presso l'e-service dell’erogatore.",
     "authEndpoint": {
-      "label": "Endpoint authorization server",
-      "copySuccessFeedbackText": "URL copiata correttamente"
+      "title": "Endpoint del server autorizzativo (authorization server)",
+      "url": {
+        "label": "URL",
+        "description": "L’id della chiave selezionata nel passaggio precedente",
+        "copySuccessFeedbackText": "URL copiata correttamente"
+      }
+    },
+    "requestDPoPHeader": {
+      "title": "Header DPoP della richiesta",
+      "dPoP": {
+        "label": "DPoP",
+        "description": "La DPoP generata nello step precedente",
+        "suggestionLabel": "Inserisci la DPoP che hai creato nello step precedente. Il codice inizia per \"ey\""
+      }
     },
     "requestBody": {
-      "title": "Body della richiesta",
+      "title": {
+        "bearer": "Body della richiesta POST",
+        "dpop": "Body della richiesta"
+      },
       "clientIdField": {
-        "label": "client_id",
+        "label": "Client_id",
+        "description": "Il riferimento del client da cui viene effettuata la chiamata",
         "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "clientAssertionField": {
-        "label": "client_assertion",
-        "suggestionLabel": "Il JWS ottenuto dallo step precedente (comincia per “ey”)"
+        "label": "Client_assertion",
+        "description": "ll token JWT completo codificato in Base64Url.",
+        "suggestionLabel": "Inserisci la client assertion che hai creato nello step precedente. Il codice inizia per “ey”"
       },
       "clientAssertionTypeField": {
-        "label": "client_assertion_type",
-        "description": "L’audience di destinazione; in questo caso una risorsa di PDND Interoperabilità",
+        "label": "Client_assertion_type",
+        "description": "Specifica il tipo di asserzione inviata.",
         "copySuccessFeedbackText": "Stringa copiata correttamente"
       },
       "grantTypeField": {
-        "label": "grant_type",
+        "label": "Grant_type",
+        "description": "Definisce il metodo di autorizzazione, client_credentials",
         "copySuccessFeedbackText": "Stringa copiata correttamente"
       }
     },
@@ -337,12 +354,7 @@
       "guide": "Apri il terminale, sostituisci il segnaposto LA_TUA_CLIENT_ASSERTION con l’asserzione che hai ottenuto allo step precedente e lancia la cURL. Se non hai cURL, <1>puoi installarlo</1> da Brew.",
       "exampleLabel": "cURL di esempio"
     },
-    "debugVoucherAlert": {
-      "description": "Non riesci ad ottenere un voucher valido? Prova la",
-      "link": {
-        "label": "funzionalità di debug"
-      }
-    }
+    "debugVoucherLink": "Non riesci ad ottenere un voucher valido? Effettua il debug"
   },
   "dataAccessStep": {
     "stepperLabelBearer": "Accesso ai dati",
