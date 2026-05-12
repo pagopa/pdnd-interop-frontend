@@ -60,7 +60,7 @@ type IntroProps = {
   infoSection?: HeaderInfoSectionProps
 } & ActionsSectionProps
 
-type PageContainerProps = {
+export type PageContainerProps = {
   isLoading?: boolean
   sx?: SxProps
   children: React.ReactNode
