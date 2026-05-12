@@ -23,7 +23,7 @@ export type PageBackToAction = {
 type ActionsSectionProps = {
   primaryAction?: ActionItemButton
   secondaryAction?: ActionItemButton
-  menuActions: Array<ActionItemButton>
+  menuActions?: Array<ActionItemButton>
 }
 
 type BreadcrumbsSectionProps = {
@@ -49,7 +49,7 @@ type ShortCutProps =
 type HeaderInfoSectionProps = {
   label: string
   shortcut: ShortCutProps
-  actions: Array<ActionItemButton>
+  actions?: Array<ActionItemButton>
   statusChip?: React.ComponentProps<typeof StatusChip>
 }
 
@@ -170,7 +170,7 @@ const BreadcrumbsSection: React.FC<BreadcrumbsSectionProps> = ({ backToAction })
 const ActionsSection: React.FC<ActionsSectionProps> = ({
   primaryAction,
   secondaryAction,
-  menuActions,
+  menuActions = [],
 }) => {
   if (menuActions.length === 0 && !primaryAction) return null
 
