@@ -3084,7 +3084,7 @@ export interface AddEServiceTemplateInstanceInterfaceSoapParams {
 /** E-Service document */
 export interface CreateEServiceDocumentPayload {
   /** Document Type */
-  kind: "INTERFACE" | "DOCUMENT";
+  kind: "INTERFACE" | "DOCUMENT" | "ASYNC_EXCHANGE_CALLBACK_INTERFACE";
   prettyName: string;
   /** @format binary */
   doc: File;
@@ -4932,7 +4932,7 @@ export interface CreateEServiceTemplateVersionParams {
 /** E-Service template document */
 export interface CreateEServiceTemplateDocumentPayload {
   /** Document Type */
-  kind: "INTERFACE" | "DOCUMENT";
+  kind: "INTERFACE" | "DOCUMENT" | "ASYNC_EXCHANGE_CALLBACK_INTERFACE";
   prettyName: string;
   /** @format binary */
   doc: File;
