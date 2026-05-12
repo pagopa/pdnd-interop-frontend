@@ -117,7 +117,7 @@ export const VoucherInstructionsGeneralFormCurrentIdsDrawer: React.FC<
             content={producerKeychainId}
           />
         )}
-        {keychain && (
+        {keychain?.producer?.id && (
           <InformationContainer
             direction="column"
             label={t('producerId.label')}
