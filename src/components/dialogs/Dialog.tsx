@@ -49,8 +49,8 @@ import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersio
 import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemplate'
 import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTemplate'
 import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/DialogSelectAgreementConsumer'
-import DialogArchiveVersion from './DialogArchiveVersion'
-import DialogCancelVersionArchiving from './DialogCancelVersionArchiving'
+import { DialogArchiveVersion } from './DialogArchiveVersion'
+import { DialogCancelVersionArchiving } from './DialogCancelVersionArchiving'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -123,7 +123,7 @@ function match<T>(
         return onSelectAgreementConsumer(props)
       case 'archiveVersion':
         return onArchiveVersion(props)
-      case 'cancelArchiveVersion':
+      case 'cancelVersionArchiving':
         return onCancelVersionArchiving(props)
     }
   }

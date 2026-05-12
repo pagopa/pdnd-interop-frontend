@@ -11,7 +11,7 @@ import {
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-const DialogCancelVersionArchiving: React.FC<DialogCancelVersionArchivingProps> = ({
+export const DialogCancelVersionArchiving: React.FC<DialogCancelVersionArchivingProps> = ({
   eserviceId,
   descriptorId,
 }) => {
@@ -51,5 +51,3 @@ const DialogCancelVersionArchiving: React.FC<DialogCancelVersionArchivingProps> 
     </Dialog>
   )
 }
-
-export default DialogCancelVersionArchiving
