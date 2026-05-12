@@ -1,6 +1,7 @@
 import { EServiceMutations } from '@/api/eservice'
 import { SectionContainerSkeleton } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
+import type { AsyncExchangeProperties } from '@/api/api.generatedTypes'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
 import { Box } from '@mui/material'
@@ -63,18 +64,18 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
 
   const onSubmit: SubmitHandler<EServiceCreateStepTechSpecFormValues> = (values) => {
     if (!descriptor) return
-
+    const { asyncExchangeProperties, ...restValues } = values
     const newDescriptorData = {
-      ...values,
+      ...restValues,
       voucherLifespan: minutesToSeconds(values.voucherLifespan),
       audience: [values.audience],
       ...(isAsyncExchange
         ? {
             asyncExchangeProperties: {
-              ...values.asyncExchangeProperties,
-              responseTime: Number(values.asyncExchangeProperties.responseTime),
-              resourceAvailableTime: Number(values.asyncExchangeProperties.resourceAvailableTime),
-              maxResultSet: Number(values.asyncExchangeProperties.maxResultSet),
+              ...asyncExchangeProperties,
+              responseTime: Number(asyncExchangeProperties.responseTime),
+              resourceAvailableTime: Number(asyncExchangeProperties.resourceAvailableTime),
+              maxResultSet: Number(asyncExchangeProperties.maxResultSet),
             },
           }
         : {}),
