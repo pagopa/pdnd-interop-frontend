@@ -67,12 +67,13 @@ describe('VoucherInstructionsGeneralFormCurrentIdsDrawer', () => {
       <VoucherInstructionsGeneralFormCurrentIdsDrawer {...defaultProps} />,
       { withReactQueryContext: true }
     )
-
+    expect(await screen.findByText('purpose-eservice-1')).toBeInTheDocument()
     expect(await screen.findByText('client-1')).toBeInTheDocument()
     expect(await screen.findByText('purpose-1')).toBeInTheDocument()
     expect(await screen.findByText('agreement-1')).toBeInTheDocument()
     expect(await screen.findByText('producer-1')).toBeInTheDocument()
     expect(await screen.findByText('consumer-1')).toBeInTheDocument()
+    expect(screen.queryByText('eservice-1')).not.toBeInTheDocument()
   })
 
   it('renders eserviceId, keychainId and producer keychain id props', async () => {
