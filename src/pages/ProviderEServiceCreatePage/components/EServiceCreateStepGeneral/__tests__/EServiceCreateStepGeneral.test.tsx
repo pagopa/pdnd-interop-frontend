@@ -20,7 +20,6 @@ vi.mock('../../sections/EServiceInfoSection', () => ({
 }))
 const mockForward = vi.fn()
 const mockCreateDraftFromTemplate = vi.fn()
-const mockUpdateDraftFromTemplate = vi.fn()
 
 function mockContext(
   overrides: Partial<ReturnType<typeof EserviceCreateContextModule.useEServiceCreateContext>> = {}
@@ -54,19 +53,6 @@ const mockEServiceTemplate: EServiceTemplateDetails = {
   personalData: true,
   riskAnalysis: [],
 } as unknown as EServiceTemplateDetails
-
-const mockDescriptorFromTemplate = createMockEServiceDescriptorProvider({
-  version: '1',
-  state: 'DRAFT',
-  eservice: {
-    name: 'Credenziale IT-Wallet - Patente',
-    isSignalHubEnabled: false,
-    isConsumerDelegable: true,
-    isClientAccessDelegable: true,
-    personalData: true,
-    instanceLabel: 'Patente',
-  },
-})
 
 vi.mock('../../sections/EServiceDetailsSection', () => ({
   EServiceDetailsSection: () => {

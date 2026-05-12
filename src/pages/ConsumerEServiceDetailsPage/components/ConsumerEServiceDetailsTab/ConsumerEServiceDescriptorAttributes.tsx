@@ -57,9 +57,7 @@ export const ConsumerEServiceDescriptorAttributes: React.FC = () => {
           <InformationContainer
             label={t('thresholds.dailyCallsTotal.label')}
             content={
-              descriptor.dailyCallsTotal
-                ? `${formatThousands(descriptor.dailyCallsTotal)}`
-                : ''
+              descriptor.dailyCallsTotal ? `${formatThousands(descriptor.dailyCallsTotal)}` : ''
             }
           />
         </Stack>

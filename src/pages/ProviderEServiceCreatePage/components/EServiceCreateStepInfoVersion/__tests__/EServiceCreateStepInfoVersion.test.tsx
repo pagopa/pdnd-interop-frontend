@@ -8,9 +8,10 @@ import { screen } from '@testing-library/react'
 import { EServiceCreateStepInfoVersion } from '../EServiceCreateStepInfoVersion'
 import userEvent from '@testing-library/user-event'
 import { useFormContext } from 'react-hook-form'
+import type * as ReactHookFormInputs from '@/components/shared/react-hook-form-inputs'
 
 vi.mock('@/components/shared/react-hook-form-inputs', async () => {
-  const actual = await vi.importActual<typeof import('@/components/shared/react-hook-form-inputs')>(
+  const actual = await vi.importActual<typeof ReactHookFormInputs>(
     '@/components/shared/react-hook-form-inputs'
   )
   return {

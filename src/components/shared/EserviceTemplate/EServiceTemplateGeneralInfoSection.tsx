@@ -7,12 +7,10 @@ import { useParams } from '@/router'
 import { useQuery } from '@tanstack/react-query'
 import { EServiceTemplateMutations, EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
-import DownloadIcon from '@mui/icons-material/Download'
 import EditIcon from '@mui/icons-material/Edit'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
-import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import { EServiceTemplateVersionSelectorDrawer } from '@/components/shared/EserviceTemplate'
 import { UpdatePersonalDataDrawer } from '../UpdatePersonalDataDrawer'
 import { ESERVICE_TEMPLATE_NAME_MAX_LENGTH } from '@/config/constants'
@@ -40,9 +38,6 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
   const { data: eserviceTemplateVersion } = useQuery(
     EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
-
-  const downloadTemplateConsumerList =
-    EServiceTemplateDownloads.useDownloadEServiceTemplateConsumerList()
 
   const { mutate: updateEserviceTemplateDescription } =
     EServiceTemplateMutations.useUpdateEServiceTemplateDescription()
@@ -80,16 +75,6 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
     closeDrawer: closeEServiceTemplateUpdateDescriptionDrawer,
   } = useDrawerState()
 
-  const handleDownloadTemplateConsumerList = () => {
-    downloadTemplateConsumerList(
-      { eServiceTemplateId },
-      t('consumerListFileName', {
-        timestamp: new Date().toISOString(),
-        eserviceTemplateName: eserviceTemplateVersion?.eserviceTemplate.name,
-      })
-    )
-  }
-
   const hasSingleVersion =
     eserviceTemplateVersion && eserviceTemplateVersion.eserviceTemplate.versions.length <= 1
 
@@ -98,13 +83,6 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
     component: 'button',
     onClick: openVersionSelectorDrawer,
     label: t('bottomActions.navigateTemplateVersions'),
-  }
-
-  const downloadUsingTenantsListAction = {
-    startIcon: <DownloadIcon fontSize="small" />,
-    component: 'button',
-    onClick: handleDownloadTemplateConsumerList,
-    label: t('bottomActions.downloadUsingTenantsList'),
   }
 
   const handleNameUpdate = (templateId: string, name: string) => {
@@ -163,7 +141,6 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
         bottomActions={[
           ...(!hasSingleVersion ? [navigateTemplateVersionsAction] : []),
           //TODO: THE API is not ready yet
-          // downloadUsingTenantsListAction,
         ]}
       >
         <Stack spacing={2}>
