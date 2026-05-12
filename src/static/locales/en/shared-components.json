@@ -279,7 +279,7 @@
       "cancelArchiving": "Cancel archiving"
     }
   },
-    "dialogArchiveVersion": {
+  "dialogArchiveVersion": {
     "title": "Archive version",
     "content": {
       "description": "Archiving will begin a <strong>notice period of {{days}} days</strong>. During this time, the version will be archiving but will still be active. You can only cancel archiving during the notice period and will no longer be able to do so afterward. At the end of the notice period, <strong>the version will be permanently archived</strong>.",

@@ -51,8 +51,8 @@ import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemp
 import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTemplate'
 import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/DialogSelectAgreementConsumer'
 import { DialogShowEserviceVersionsList } from './DialogShowEserviceVersionsList/DialogShowEserviceVersionsList'
-import DialogArchiveVersion from './DialogArchiveVersion'
-import DialogCancelVersionArchiving from './DialogCancelVersionArchiving'
+import { DialogArchiveVersion } from './DialogArchiveVersion'
+import { DialogCancelVersionArchiving } from './DialogCancelVersionArchiving'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -128,7 +128,7 @@ function match<T>(
         return onShowEserviceVersionsList(props)
       case 'archiveVersion':
         return onArchiveVersion(props)
-      case 'cancelArchiveVersion':
+      case 'cancelVersionArchiving':
         return onCancelVersionArchiving(props)
     }
   }

@@ -202,7 +202,7 @@ export type DialogArchiveVersionProps = {
 }
 
 export type DialogCancelVersionArchivingProps = {
-  type: 'cancelArchiveVersion'
+  type: 'cancelVersionArchiving'
   eserviceId: string
   descriptorId: string
 }

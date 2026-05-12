@@ -1,7 +1,7 @@
 import { DOCUMENTATION_URL } from '@/config/env'
 import { useDialog } from '@/stores'
 import type { DialogArchiveVersionProps } from '@/types/dialog.types'
-import { formatDateStringAllDigit } from '@/utils/format.utils'
+import { formatDateStringNumeric } from '@/utils/format.utils'
 import {
   Alert,
   Button,
@@ -15,7 +15,7 @@ import {
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
-const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
+export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
   archiveDate,
   eserviceId,
   descriptorId,
@@ -40,7 +40,7 @@ const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
   }
 
   const gracePeriod = 30 // TODO get period
-  const formattedArchiveDate = '04/05/2026' // formatDateStringAllDigit(archiveDate) // TODO get date
+  const formattedArchiveDate = formatDateStringNumeric(archiveDate)
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
@@ -78,5 +78,3 @@ const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
     </Dialog>
   )
 }
-
-export default DialogArchiveVersion
