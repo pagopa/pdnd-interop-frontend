@@ -20,7 +20,7 @@
         "title": "Token obtaining simulator",
         "description": "After creating and selecting a client, you can simulate obtaining a voucher through this tool.",
         "firstButton": "Simulate for e-service",
-        "secondButton": "Simulater for Interop"
+        "secondButton": "Simulate for Interop"
       }
     }
   },
