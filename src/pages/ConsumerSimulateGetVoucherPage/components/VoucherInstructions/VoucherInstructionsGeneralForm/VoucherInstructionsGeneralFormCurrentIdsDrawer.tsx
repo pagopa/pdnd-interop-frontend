@@ -48,32 +48,32 @@ export const VoucherInstructionsGeneralFormCurrentIdsDrawer: React.FC<
           <>
             <InformationContainer
               direction="column"
-              label="eserviceId"
-              labelDescription={t('eserviceIdDescription')}
+              label={t('purposeEserviceId.label')}
+              labelDescription={t('purposeEserviceId.description')}
               copyToClipboard={{ value: purpose.eservice.id }}
               content={purpose.eservice.id}
             />
 
             <InformationContainer
               direction="column"
-              label="descriptorId"
-              labelDescription={t('descriptorIdDescription')}
+              label={t('descriptorId.label')}
+              labelDescription={t('descriptorId.description')}
               copyToClipboard={{ value: purpose.eservice.descriptor.id }}
               content={purpose.eservice.descriptor.id}
             />
 
             <InformationContainer
               direction="column"
-              label="agreementId"
-              labelDescription={t('agreementIdDescription')}
+              label={t('agreementId.label')}
+              labelDescription={t('agreementId.description')}
               copyToClipboard={{ value: purpose.agreement.id }}
               content={purpose.agreement.id}
             />
 
             <InformationContainer
               direction="column"
-              label="purposeId"
-              labelDescription={t('purposeIdDescription')}
+              label={t('purposeId.label')}
+              labelDescription={t('purposeId.description')}
               copyToClipboard={{ value: purpose.id }}
               content={purpose.id}
             />
@@ -82,8 +82,8 @@ export const VoucherInstructionsGeneralFormCurrentIdsDrawer: React.FC<
         {clientId && (
           <InformationContainer
             direction="column"
-            label="clientId"
-            labelDescription={t('clientIdDescription')}
+            label={t('clientId.label')}
+            labelDescription={t('clientId.description')}
             copyToClipboard={{ value: clientId }}
             content={clientId}
           />

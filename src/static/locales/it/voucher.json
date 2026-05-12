@@ -111,11 +111,26 @@
     "currentIdsDrawer": {
       "title": "Visualizza id selezione corrente",
       "subtitle": "Parametri utili per ottenere informazioni attraverso le API di PDND Interoperabilità. Hai dubbi? <1>Consulta la guida</1>.",
-      "eserviceIdDescription": "L’id dell’e-service collegato alla finalità selezionata",
-      "descriptorIdDescription": "L’id della versione dell’e-service collegata alla finalità selezionata",
-      "agreementIdDescription": "L’id della richiesta di fruizione collegata alla finalità selezionata",
-      "purposeIdDescription": "L’id della finalità selezionata",
-      "clientIdDescription": "L’id di questo client",
+      "purposeEserviceId": {
+        "label": "eserviceId",
+        "description": "L’id dell’e-service collegato alla finalità selezionata"
+      },
+      "descriptorId": {
+        "label": "descriptorId",
+        "description": "L’id della versione dell’e-service collegata alla finalità selezionata"
+      },
+      "agreementId": {
+        "label": "agreementId",
+        "description": "L’id della richiesta di fruizione collegata alla finalità selezionata"
+      },
+      "purposeId": {
+        "label": "purposeId",
+        "description": "L’id della finalità selezionata"
+      },
+      "clientId": {
+        "label": "clientId",
+        "description": "L’id di questo client"
+      },
       "producerOrganizationId": {
         "label": "organizationId (erogatore)",
         "description": "L’id dell’ente erogatore"
