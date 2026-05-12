@@ -19,15 +19,23 @@ import { trackEvent } from '@/config/tracking'
 import { match } from 'ts-pattern'
 import { EServiceInterfaceSection } from '../sections/EServiceInterfaceSection'
 import { EServiceVoucherSection } from '../sections/EServiceVoucherSection'
+import { EServiceAsyncExchangeSection } from '../sections/EServiceAsyncExchangeSection'
 
 export type EServiceCreateStepTechSpecFormValues = {
   audience: string
   voucherLifespan: number
+  asyncExchangeProperties: {
+    responseTime: number
+    resourceAvailableTime: number
+    maxResultSet: number
+    confirmation: boolean
+    bulk: boolean
+  }
 }
 
 export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
-  const { descriptor, forward, back } = useEServiceCreateContext()
+  const { descriptor, forward, back, areEServiceGeneralInfoEditable } = useEServiceCreateContext()
 
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
@@ -40,9 +48,18 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
   const defaultValues: EServiceCreateStepTechSpecFormValues = {
     audience: descriptor?.audience?.[0] ?? '',
     voucherLifespan: descriptor ? secondsToMinutes(descriptor.voucherLifespan) : 1,
+    asyncExchangeProperties: {
+      responseTime: descriptor?.asyncExchangeProperties?.responseTime ?? 1,
+      resourceAvailableTime: descriptor?.asyncExchangeProperties?.resourceAvailableTime ?? 1,
+      maxResultSet: descriptor?.asyncExchangeProperties?.maxResultSet ?? 1,
+      confirmation: descriptor?.asyncExchangeProperties?.confirmation ?? false,
+      bulk: descriptor?.asyncExchangeProperties?.bulk ?? false,
+    },
   }
 
   const formMethods = useForm({ defaultValues })
+
+  const isAsyncExchange = descriptor?.eservice.asyncExchange === true || true
 
   const onSubmit: SubmitHandler<EServiceCreateStepTechSpecFormValues> = (values) => {
     if (!descriptor) return
@@ -51,6 +68,16 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
       ...values,
       voucherLifespan: minutesToSeconds(values.voucherLifespan),
       audience: [values.audience],
+      ...(isAsyncExchange
+        ? {
+            asyncExchangeProperties: {
+              ...values.asyncExchangeProperties,
+              responseTime: Number(values.asyncExchangeProperties.responseTime),
+              resourceAvailableTime: Number(values.asyncExchangeProperties.resourceAvailableTime),
+              maxResultSet: Number(values.asyncExchangeProperties.maxResultSet),
+            },
+          }
+        : {}),
     }
 
     // If nothing has changed skip the update call
@@ -77,6 +104,9 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
             ...commonPayload,
             voucherLifespan: newDescriptorData.voucherLifespan,
             attributes: remapDescriptorAttributesToDescriptorAttributesSeed(descriptor.attributes),
+            ...(isAsyncExchange
+              ? { asyncExchangeProperties: newDescriptorData.asyncExchangeProperties }
+              : {}),
           },
           { onSuccess: forward }
         )
@@ -114,6 +144,11 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
       />
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <EServiceVoucherSection isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate} />
+        {isAsyncExchange && (
+          <EServiceAsyncExchangeSection
+            areEServiceGeneralInfoEditable={areEServiceGeneralInfoEditable}
+          />
+        )}
         <StepActions
           back={{
             label: t('backWithoutSaveBtn'),

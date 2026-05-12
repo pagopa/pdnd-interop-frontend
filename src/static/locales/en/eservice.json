@@ -323,6 +323,42 @@
           "title": "Do you want to manually approve all the access requests you receive?",
           "label": "I prefer to approve them manually"
         }
+      },
+      "asyncExchangeSection": {
+        "title": "Asynchronous and bulk exchanges",
+        "description": "Asynchronous and bulk exchanges require a callback interface that consumers will have to implement to receive your responses. Upload the OpenAPI file with the API description. <1>Learn more about asynchronous and bulk exchanges</1>.",
+        "editableInfoAlert": "These fields will no longer be editable after the publication of the first version of the e-service.",
+        "callbackInterface": {
+          "readOnlyLabel": "Callback interface",
+          "prettyName": "Callback interface",
+          "dropzoneLabel": "Drag the callback interface here or click here to select it from your computer"
+        },
+        "configSubsection": {
+          "title": "Exchange configuration"
+        },
+        "advancedSubsection": {
+          "title": "Advanced options"
+        },
+        "responseTimeField": {
+          "label": "Maximum response time (in seconds)",
+          "infoLabel": "Indicates how long your e-service takes to return a response after a call from consumers."
+        },
+        "maxResultSetField": {
+          "label": "Maximum number of results per response",
+          "infoLabel": "Indicates the maximum number of elements that each response can contain."
+        },
+        "resourceAvailableTimeField": {
+          "label": "Data availability duration (in seconds)",
+          "infoLabel": "Indicates how long the data is downloadable before being deleted."
+        },
+        "confirmationField": {
+          "label": "Require receipt confirmation",
+          "infoLabel": "The consumer will have to send a notification after downloading the file."
+        },
+        "bulkField": {
+          "label": "Allow chunked download",
+          "infoLabel": "The consumer can download large files in separate parts."
+        }
       }
     }
   },

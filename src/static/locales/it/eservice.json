@@ -323,6 +323,42 @@
           "title": "Vuoi approvare manualmente tutte le richieste di fruizione che riceverai?",
           "label": "Preferisco approvarle manualmente"
         }
+      },
+      "asyncExchangeSection": {
+        "title": "Scambi asincroni e massivi",
+        "description": "Gli scambi asincroni e massivi richiedono un’interfaccia di callback che i fruitori dovranno implementare per ricevere le tue risposte. Carica il file OpenAPI con la descrizione dell’API. <1>Scopri di più sugli scambi asincroni e massivi</1>.",
+        "editableInfoAlert": "Questi campi non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
+        "callbackInterface": {
+          "readOnlyLabel": "Interfaccia di callback",
+          "prettyName": "Interfaccia callback",
+          "dropzoneLabel": "Trascina qui l’interfaccia di callback oppure clicca qui per selezionarla dal computer"
+        },
+        "configSubsection": {
+          "title": "Configurazione dello scambio"
+        },
+        "advancedSubsection": {
+          "title": "Opzioni avanzate"
+        },
+        "responseTimeField": {
+          "label": "Tempo massimo di risposta (in secondi)",
+          "infoLabel": "Indica in quanto tempo il tuo e-service restituisce una risposta dopo la chiamata dei fruitori."
+        },
+        "maxResultSetField": {
+          "label": "Numero massimo di risultati per risposta",
+          "infoLabel": "Indica quanti elementi può contenere al massimo ogni risposta."
+        },
+        "resourceAvailableTimeField": {
+          "label": "Durata di disponibilità del dato (in secondi)",
+          "infoLabel": "Indica per quanto tempo il dato è scaricabile prima di essere cancellato."
+        },
+        "confirmationField": {
+          "label": "Richiedi conferma di ricezione",
+          "infoLabel": "Il fruitore dovrà inviare una notifica dopo aver scaricato il file."
+        },
+        "bulkField": {
+          "label": "Consenti download a blocchi",
+          "infoLabel": "Il fruitore può scaricare file di grandi dimensioni in parti separate."
+        }
       }
     }
   },
