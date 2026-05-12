@@ -49,7 +49,7 @@ describe('UploadCallbackInterfaceDoc', () => {
       withRouterContext: true,
     })
 
-    expect(screen.getByTestId('callbackFileInput')).toBeInTheDocument()
+    expect(screen.getByTestId('fileInput')).toBeInTheDocument()
   })
 
   it('calls uploadDocument with kind ASYNC_EXCHANGE_CALLBACK_INTERFACE on submit', async () => {
@@ -65,11 +65,11 @@ describe('UploadCallbackInterfaceDoc', () => {
 
     const file = new File(['hello'], 'callback.yaml', { type: 'application/yaml' })
     const input = screen
-      .getByTestId('callbackFileInput')
+      .getByTestId('fileInput')
       .querySelector('input[type="file"]') as HTMLInputElement
     await userEvent.upload(input, file)
 
-    await userEvent.click(screen.getByTestId('submitCallbackButton'))
+    await userEvent.click(screen.getByTestId('submitButton'))
 
     await waitFor(() => {
       expect(uploadDocument).toHaveBeenCalledWith(

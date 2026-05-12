@@ -4,15 +4,12 @@ import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { CreateEServiceDocumentPayload, EServiceDoc } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
-import { type SubmitHandler, useForm, FormProvider } from 'react-hook-form'
-import { Box, Button, Stack } from '@mui/material'
-import SaveIcon from '@mui/icons-material/Save'
-import React from 'react'
+import { UploadDocumentsInterface } from '@/components/shared/UploadDocumentsInterface'
+import { type SubmitHandler } from 'react-hook-form'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
-import { RHFSingleFileInput } from '@/components/shared/react-hook-form-inputs'
 
 type UploadCallbackInterfaceDocFormValues = {
-  callbackInterfaceDoc: File | null
+  interfaceDoc: File | null
 }
 
 type UploadCallbackInterfaceDocProps = {
@@ -23,40 +20,25 @@ export const UploadCallbackInterfaceDoc: React.FC<UploadCallbackInterfaceDocProp
   error,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step4.asyncExchangeSection' })
-  const { t: tCommon } = useTranslation('common')
   const { descriptor } = useEServiceCreateContext()
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
   const { mutate: deleteDocument } = EServiceMutations.useDeleteVersionDraftDocument()
   const { mutate: uploadDocument } = EServiceMutations.usePostVersionDraftDocument()
   const { jwt } = AuthHooks.useJwt()
-
-  const defaultValues: UploadCallbackInterfaceDocFormValues = { callbackInterfaceDoc: null }
-  const formMethods = useForm({ defaultValues, shouldUnregister: true })
-  const selectedInterface = formMethods.watch('callbackInterfaceDoc')
-
-  React.useEffect(() => {
-    if (error) {
-      formMethods.setError('callbackInterfaceDoc', { message: error })
-    } else {
-      formMethods.clearErrors('callbackInterfaceDoc')
-    }
-  }, [error, formMethods])
-
   const actualInterface: EServiceDoc | null = descriptor?.asyncExchangeCallbackInterface ?? null
 
-  const onSubmit: SubmitHandler<UploadCallbackInterfaceDocFormValues> = ({
-    callbackInterfaceDoc,
-  }) => {
-    if (!callbackInterfaceDoc || !descriptor) return
+  const onSubmit: SubmitHandler<UploadCallbackInterfaceDocFormValues> = ({ interfaceDoc }) => {
+    if (!interfaceDoc || !descriptor) return
 
     const prettyName = t('callbackInterface.prettyName')
 
     uploadDocument({
       eserviceId: descriptor.eservice.id,
       descriptorId: descriptor.id,
-      doc: callbackInterfaceDoc,
+      doc: interfaceDoc,
       prettyName: `${prettyName}_${descriptor.eservice.name}_${jwt?.organization.name}_v${descriptor.version}`,
-      kind: 'ASYNC_EXCHANGE_CALLBACK_INTERFACE',
+      // TODO: rimuovere il cast quando l'OpenAPI esporrà il kind ASYNC_EXCHANGE_CALLBACK_INTERFACE
+      kind: 'ASYNC_EXCHANGE_CALLBACK_INTERFACE' as CreateEServiceDocumentPayload['kind'],
     })
   }
 
@@ -84,7 +66,7 @@ export const UploadCallbackInterfaceDoc: React.FC<UploadCallbackInterfaceDocProp
   if (actualInterface) {
     return (
       <DocumentContainer
-        sx={{ mt: 2 }}
+        sx={{ mt: 4 }}
         doc={actualInterface}
         onDelete={handleDeleteInterface}
         onDownload={handleDownloadInterface}
@@ -94,36 +76,11 @@ export const UploadCallbackInterfaceDoc: React.FC<UploadCallbackInterfaceDocProp
   }
 
   return (
-    <FormProvider {...formMethods}>
-      <Box
-        component="form"
-        onSubmit={formMethods.handleSubmit(onSubmit)}
-        sx={{ py: 2 }}
-        bgcolor="common.white"
-      >
-        <RHFSingleFileInput
-          sx={{ my: 0 }}
-          name="callbackInterfaceDoc"
-          rules={{ required: true }}
-          data-testid="callbackFileInput"
-          dropzoneLabel={t('callbackInterface.dropzoneLabel')}
-        />
-
-        {selectedInterface && (
-          <Stack direction="row">
-            <Button
-              name="uploadCallbackInterfaceDocBtn"
-              type="submit"
-              variant="contained"
-              startIcon={<SaveIcon fontSize="small" />}
-              sx={{ mt: 2 }}
-              data-testid="submitCallbackButton"
-            >
-              {tCommon('actions.saveDocument')}
-            </Button>
-          </Stack>
-        )}
-      </Box>
-    </FormProvider>
+    <UploadDocumentsInterface
+      onSubmit={onSubmit}
+      sxBox={{ py: 2 }}
+      error={error}
+      dropzoneLabel={t('callbackInterface.dropzoneLabel')}
+    />
   )
 }
