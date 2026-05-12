@@ -59,7 +59,7 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
 
   const formMethods = useForm({ defaultValues })
 
-  const isAsyncExchange = descriptor?.eservice.asyncExchange === true || true
+  const isAsyncExchange = descriptor?.eservice.asyncExchange === true
 
   const onSubmit: SubmitHandler<EServiceCreateStepTechSpecFormValues> = (values) => {
     if (!descriptor) return
