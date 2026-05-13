@@ -358,6 +358,10 @@
         "bulkField": {
           "label": "Allow chunked download",
           "infoLabel": "The consumer can download large files in separate parts."
+        },
+        "readOnlyOptions": {
+          "true": "Yes",
+          "false": "No"
         }
       }
     }

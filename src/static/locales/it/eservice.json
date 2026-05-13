@@ -358,6 +358,10 @@
         "bulkField": {
           "label": "Consenti download a blocchi",
           "infoLabel": "Il fruitore può scaricare file di grandi dimensioni in parti separate."
+        },
+        "readOnlyOptions": {
+          "true": "Sì",
+          "false": "No"
         }
       }
     }

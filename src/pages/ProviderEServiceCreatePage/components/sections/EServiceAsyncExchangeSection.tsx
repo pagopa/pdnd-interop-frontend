@@ -98,9 +98,12 @@ export const EServiceAsyncExchangeSection: React.FC<EServiceAsyncExchangeSection
           </Typography>
           <InformationContainer
             label={t('confirmationField.label')}
-            content={props?.confirmation ? 'Sì' : 'No'}
+            content={t(`readOnlyOptions.${Boolean(props?.confirmation)}`)}
           />
-          <InformationContainer label={t('bulkField.label')} content={props?.bulk ? 'Sì' : 'No'} />
+          <InformationContainer
+            label={t('bulkField.label')}
+            content={t(`readOnlyOptions.${Boolean(props?.bulk)}`)}
+          />
         </Stack>
       </SectionContainer>
     )
