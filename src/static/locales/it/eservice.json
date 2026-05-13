@@ -389,6 +389,13 @@
       "apiTechnology": {
         "label": "Tecnologia API"
       },
+      "exchangeType": {
+        "label": "Tipologia scambio",
+        "value": {
+          "sync": "Sincrono",
+          "async": "Asincrono"
+        }
+      },
       "isSignalHubEnabled": {
         "label": "È attivo il servizio di notifiche sulla variazione dati (Signal Hub)?",
         "value": {
@@ -451,11 +458,38 @@
       "interface": {
         "label": "Interfaccia"
       },
+      "callbackInterface": {
+        "label": "Interfaccia di callback"
+      },
       "audience": {
         "label": "Audience"
       },
       "voucherLifespan": {
         "label": "Durata del voucher"
+      },
+      "asyncExchange": {
+        "responseTime": {
+          "label": "Tempo massimo di risposta"
+        },
+        "resourceAvailableTime": {
+          "label": "Tempo massimo di disponibilità della risorsa"
+        },
+        "confirmation": {
+          "label": "Conferma di ricezione"
+        },
+        "bulk": {
+          "label": "Risposta massiva"
+        },
+        "maxResultSet": {
+          "label": "Numero massimo di risultati"
+        },
+        "booleanValue": {
+          "true": "Sì",
+          "false": "No"
+        }
+      },
+      "producerKeychains": {
+        "label": "Portachiavi erogatore"
       },
       "missingInfoLabel": "Da inserire",
       "emptyLabel": "Nessun documento caricato"

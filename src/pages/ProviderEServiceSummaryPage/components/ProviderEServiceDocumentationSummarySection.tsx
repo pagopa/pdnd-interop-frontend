@@ -5,9 +5,10 @@ import { useTranslation } from 'react-i18next'
 import { IconLink } from '@/components/shared/IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { EServiceDownloads, EServiceQueries } from '@/api/eservice'
+import { KeychainQueries } from '@/api/keychain'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { useParams } from '@/router'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { secondsToMinutes } from '@/utils/format.utils'
 import { SummaryInformationContainer } from '@/components/shared/SummaryInformationContainer'
 
@@ -22,6 +23,16 @@ export const ProviderEServiceDocumentationSummarySection: React.FC = () => {
 
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
   const voucherLifespan = secondsToMinutes(descriptor.voucherLifespan)
+  const isAsyncExchange = descriptor.eservice.asyncExchange
+
+  const { data: associatedKeychains } = useQuery({
+    ...KeychainQueries.getKeychainsList({
+      eserviceId: descriptor.eservice.id,
+      offset: 0,
+      limit: 50,
+    }),
+    enabled: isAsyncExchange,
+  })
 
   const handleDownloadDocument = (document: EServiceDoc) => {
     downloadDocument(
@@ -33,6 +44,24 @@ export const ProviderEServiceDocumentationSummarySection: React.FC = () => {
       getDownloadDocumentName(document)
     )
   }
+
+  const asyncExchangeProperties = descriptor.asyncExchangeProperties
+
+  const formatAsyncNumber = (value: number | undefined) => {
+    return typeof value === 'number' ? String(value) : undefined
+  }
+
+  const formatAsyncBoolean = (value: boolean | undefined) => {
+    return typeof value === 'boolean' ? t(`asyncExchange.booleanValue.${value}`) : undefined
+  }
+
+  const keychainsContent = associatedKeychains?.results.length ? (
+    <Stack spacing={1}>
+      {associatedKeychains.results.map((keychain) => (
+        <span key={keychain.id}>{keychain.name}</span>
+      ))}
+    </Stack>
+  ) : undefined
 
   return (
     <Stack spacing={2}>
@@ -57,6 +86,51 @@ export const ProviderEServiceDocumentationSummarySection: React.FC = () => {
           count: voucherLifespan,
         })}`}
       />
+      {isAsyncExchange && (
+        <>
+          <SummaryInformationContainer
+            label={t('callbackInterface.label')}
+            content={
+              descriptor.asyncExchangeCallbackInterface ? (
+                <IconLink
+                  component="button"
+                  startIcon={<AttachFileIcon fontSize="small" />}
+                  onClick={handleDownloadDocument.bind(
+                    null,
+                    descriptor.asyncExchangeCallbackInterface
+                  )}
+                >
+                  {descriptor.asyncExchangeCallbackInterface.prettyName}
+                </IconLink>
+              ) : undefined
+            }
+          />
+          <SummaryInformationContainer
+            label={t('asyncExchange.responseTime.label')}
+            content={formatAsyncNumber(asyncExchangeProperties?.responseTime)}
+          />
+          <SummaryInformationContainer
+            label={t('asyncExchange.resourceAvailableTime.label')}
+            content={formatAsyncNumber(asyncExchangeProperties?.resourceAvailableTime)}
+          />
+          <SummaryInformationContainer
+            label={t('asyncExchange.confirmation.label')}
+            content={formatAsyncBoolean(asyncExchangeProperties?.confirmation)}
+          />
+          <SummaryInformationContainer
+            label={t('asyncExchange.bulk.label')}
+            content={formatAsyncBoolean(asyncExchangeProperties?.bulk)}
+          />
+          <SummaryInformationContainer
+            label={t('asyncExchange.maxResultSet.label')}
+            content={formatAsyncNumber(asyncExchangeProperties?.maxResultSet)}
+          />
+          <SummaryInformationContainer
+            label={t('producerKeychains.label')}
+            content={keychainsContent}
+          />
+        </>
+      )}
     </Stack>
   )
 }

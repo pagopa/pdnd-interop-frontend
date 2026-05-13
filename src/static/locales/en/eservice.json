@@ -389,6 +389,13 @@
       "apiTechnology": {
         "label": "API Technology"
       },
+      "exchangeType": {
+        "label": "Exchange type",
+        "value": {
+          "sync": "Synchronous",
+          "async": "Asynchronous"
+        }
+      },
       "isSignalHubEnabled": {
         "label": "Is the data update system (Signal Hub) available?",
         "value": {
@@ -451,11 +458,38 @@
       "interface": {
         "label": "Interface"
       },
+      "callbackInterface": {
+        "label": "Callback interface"
+      },
       "audience": {
         "label": "Audience"
       },
       "voucherLifespan": {
         "label": "Voucher lifespan"
+      },
+      "asyncExchange": {
+        "responseTime": {
+          "label": "Maximum response time"
+        },
+        "resourceAvailableTime": {
+          "label": "Maximum resource availability time"
+        },
+        "confirmation": {
+          "label": "Acknowledgement required"
+        },
+        "bulk": {
+          "label": "Bulk response"
+        },
+        "maxResultSet": {
+          "label": "Maximum number of results"
+        },
+        "booleanValue": {
+          "true": "Yes",
+          "false": "No"
+        }
+      },
+      "producerKeychains": {
+        "label": "Producer keychain"
       },
       "missingInfoLabel": "Information must be added",
       "emptyLabel": "No uploaded documents"

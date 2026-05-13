@@ -3,6 +3,7 @@ import { PageContainer } from '@/components/layout/containers'
 import { Trans, useTranslation } from 'react-i18next'
 import { useGeneratePath, useNavigate, useParams } from '@/router'
 import { EServiceMutations, EServiceQueries } from '@/api/eservice'
+import { KeychainQueries } from '@/api/keychain'
 import { Alert, Button, Link, Stack, Tooltip, Typography } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
@@ -62,6 +63,15 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const { data: descriptor, isLoading } = useQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
+
+  const { data: associatedKeychains } = useQuery({
+    ...KeychainQueries.getKeychainsList({
+      eserviceId,
+      offset: 0,
+      limit: 1,
+    }),
+    enabled: Boolean(descriptor?.eservice.asyncExchange),
+  })
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 
@@ -204,6 +214,23 @@ const ProviderEServiceSummaryPage: React.FC = () => {
         riskAnalysis.rulesetExpiration && new Date(riskAnalysis.rulesetExpiration) < new Date()
     )
 
+  const hasAsyncExchangeNumber = (value: number | undefined): boolean => {
+    return typeof value === 'number'
+  }
+
+  const areAsyncExchangeFieldsSet =
+    !descriptor?.eservice.asyncExchange ||
+    Boolean(
+      descriptor.asyncExchangeCallbackInterface &&
+      descriptor.asyncExchangeProperties &&
+      hasAsyncExchangeNumber(descriptor.asyncExchangeProperties.responseTime) &&
+      hasAsyncExchangeNumber(descriptor.asyncExchangeProperties.resourceAvailableTime) &&
+      typeof descriptor.asyncExchangeProperties.confirmation === 'boolean' &&
+      typeof descriptor.asyncExchangeProperties.bulk === 'boolean' &&
+      hasAsyncExchangeNumber(descriptor.asyncExchangeProperties.maxResultSet) &&
+      (associatedKeychains?.pagination?.totalCount ?? associatedKeychains?.results?.length ?? 0) > 0
+    )
+
   const canBePublished = () => {
     return (
       !!(
@@ -215,6 +242,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
         descriptor.dailyCallsPerConsumer &&
         descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer &&
         arePersonalDataSet &&
+        areAsyncExchangeFieldsSet &&
         !isRulesetExpired
       ) && checklistEServiceFromTemplate()
     )
@@ -281,7 +309,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     Boolean(descriptor?.audience?.length) &&
     Boolean(descriptor?.voucherLifespan)
 
-  const isDocumentationSectionValid = Boolean(descriptor?.interface)
+  const isDocumentationSectionValid = Boolean(descriptor?.interface) && areAsyncExchangeFieldsSet
 
   return (
     <>
