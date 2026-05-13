@@ -21,6 +21,12 @@ vi.mock('@/api/eservice', () => ({
   },
 }))
 
+vi.mock('@/api/auth', () => ({
+  AuthHooks: {
+    useJwt: () => ({ jwt: { organization: { name: 'Test Org' } } }),
+  },
+}))
+
 afterEach(() => {
   vi.clearAllMocks()
 })
@@ -35,7 +41,7 @@ describe('UploadCallbackInterfaceDoc', () => {
       withRouterContext: true,
     })
 
-    expect(screen.getByText('callback_open_api.yml')).toBeInTheDocument()
+    expect(screen.getByDisplayValue('Specifica callback')).toBeInTheDocument()
   })
 
   it('shows the upload dropzone when no callback interface is present', () => {

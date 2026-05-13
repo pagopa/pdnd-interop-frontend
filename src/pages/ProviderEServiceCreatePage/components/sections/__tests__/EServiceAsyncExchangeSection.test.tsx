@@ -56,8 +56,8 @@ describe('EServiceAsyncExchangeSection', () => {
     expect(screen.getByLabelText(/responseTimeField.label/)).toBeInTheDocument()
     expect(screen.getByLabelText(/maxResultSetField.label/)).toBeInTheDocument()
     expect(screen.getByLabelText(/resourceAvailableTimeField.label/)).toBeInTheDocument()
-    expect(screen.getByLabelText(/confirmationField.label/)).toBeInTheDocument()
-    expect(screen.getByLabelText(/bulkField.label/)).toBeInTheDocument()
+    expect(screen.getByRole('checkbox', { name: /confirmationField.label/ })).toBeInTheDocument()
+    expect(screen.getByRole('checkbox', { name: /bulkField.label/ })).toBeInTheDocument()
   })
 
   it('should disable the bulk checkbox when technology is SOAP', () => {
@@ -68,13 +68,17 @@ describe('EServiceAsyncExchangeSection', () => {
       },
     })
 
-    const bulkCheckbox = screen.getByLabelText(/bulkField.label/) as HTMLInputElement
+    const bulkCheckbox = screen.getByRole('checkbox', {
+      name: /bulkField.label/,
+    }) as HTMLInputElement
     expect(bulkCheckbox).toBeDisabled()
   })
 
   it('should not disable the bulk checkbox when technology is REST', () => {
     renderComponent(true)
-    const bulkCheckbox = screen.getByLabelText(/bulkField.label/) as HTMLInputElement
+    const bulkCheckbox = screen.getByRole('checkbox', {
+      name: /bulkField.label/,
+    }) as HTMLInputElement
     expect(bulkCheckbox).not.toBeDisabled()
   })
 
