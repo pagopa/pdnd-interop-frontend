@@ -64,11 +64,18 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
   const onSubmit: SubmitHandler<EServiceCreateStepTechSpecFormValues> = (values) => {
     if (!descriptor) return
     const { asyncExchangeProperties, ...restValues } = values
+
+    const hasValidAsyncProps =
+      isAsyncExchange &&
+      asyncExchangeProperties.responseTime !== '' &&
+      asyncExchangeProperties.resourceAvailableTime !== '' &&
+      asyncExchangeProperties.maxResultSet !== ''
+
     const newDescriptorData = {
       ...restValues,
       voucherLifespan: minutesToSeconds(values.voucherLifespan),
       audience: [values.audience],
-      ...(isAsyncExchange
+      ...(hasValidAsyncProps
         ? {
             asyncExchangeProperties: {
               ...asyncExchangeProperties,
@@ -104,7 +111,7 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
             ...commonPayload,
             voucherLifespan: newDescriptorData.voucherLifespan,
             attributes: remapDescriptorAttributesToDescriptorAttributesSeed(descriptor.attributes),
-            ...(isAsyncExchange
+            ...(hasValidAsyncProps
               ? { asyncExchangeProperties: newDescriptorData.asyncExchangeProperties }
               : {}),
           },
@@ -144,7 +151,7 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
       />
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <EServiceVoucherSection isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate} />
-        {isAsyncExchange && (
+        {isAsyncExchange && !isEServiceCreatedFromTemplate && (
           <EServiceAsyncExchangeSection
             areEServiceGeneralInfoEditable={areEServiceGeneralInfoEditable}
           />

@@ -131,6 +131,41 @@ describe('EServiceCreateStepTechSpec', () => {
     expect(screen.getByText('EServiceAsyncExchangeSection')).toBeInTheDocument()
   })
 
+  it('should not render the async exchange section for template instances (even with asyncExchange true)', () => {
+    mockUseEServiceCreateContext({
+      descriptor: {
+        ...createMockEServiceDescriptorProviderAsync(),
+        templateRef: createMockEServiceDescriptorProviderWithTemplateRef().templateRef,
+      },
+    })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    expect(screen.queryByText('EServiceAsyncExchangeSection')).not.toBeInTheDocument()
+  })
+
+  it('should not include asyncExchangeProperties in payload when numeric fields are empty', async () => {
+    mockUseEServiceCreateContext({
+      descriptor: {
+        ...createMockEServiceDescriptorProviderAsync(),
+        asyncExchangeProperties: undefined,
+      },
+    })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await userEvent.type(screen.getByTestId('voucher-lifespan'), '2')
+    await userEvent.click(screen.getByText('forwardWithSaveBtn'))
+
+    expect(updateVersionDraft).toHaveBeenCalledWith(
+      expect.not.objectContaining({ asyncExchangeProperties: expect.anything() }),
+      expect.any(Object)
+    )
+  })
+
   it('should include asyncExchangeProperties in payload when asyncExchange is true', async () => {
     mockUseEServiceCreateContext({ descriptor: createMockEServiceDescriptorProviderAsync() })
     renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
