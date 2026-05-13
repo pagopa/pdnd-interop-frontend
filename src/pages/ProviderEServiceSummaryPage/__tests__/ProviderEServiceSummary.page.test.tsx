@@ -100,6 +100,11 @@ vi.mock('@/hooks/useGetProducerDelegationUserRole', () => ({
 describe('ProviderEServiceSummaryPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    mockDelegationRole.mockReturnValue({
+      isDelegator: false,
+      isDelegate: false,
+      producerDelegations: [],
+    })
   })
 
   it('renders the page title', () => {
@@ -223,6 +228,29 @@ describe('ProviderEServiceSummaryPage', () => {
 
     const publishButton = screen.getByRole('button', { name: 'publish' })
     expect(publishButton).toBeDisabled()
+  })
+
+  it('disables delegated approval when asynchronous mandatory fields are missing', () => {
+    mockDelegationRole.mockReturnValue({
+      isDelegator: true,
+      isDelegate: false,
+      producerDelegations: [],
+    })
+    mockUseQueryWithDescriptor(
+      createMockEServiceDescriptorProviderAsync({
+        state: 'WAITING_FOR_APPROVAL',
+        asyncExchangeProperties: undefined,
+        asyncExchangeCallbackInterface: undefined,
+      })
+    )
+
+    renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    const approveButton = screen.getByRole('button', { name: 'publish' })
+    expect(approveButton).toBeDisabled()
   })
 
   it('renders edit button', () => {

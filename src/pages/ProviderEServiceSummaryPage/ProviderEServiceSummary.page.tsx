@@ -490,13 +490,22 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             >
               {tCommon('reject')}
             </Button>
-            <Tooltip title={arePersonalDataSet ? '' : t('summary.missingPersonalDataField')} arrow>
+            <Tooltip
+              title={
+                canBePublished()
+                  ? ''
+                  : arePersonalDataSet
+                    ? t('summary.notPublishableTooltip.label')
+                    : t('summary.missingPersonalDataField')
+              }
+              arrow
+            >
               <span>
                 <Button
                   startIcon={<PublishIcon />}
                   variant="contained"
                   onClick={handleApproveDelegatedVersionDraft}
-                  disabled={isSupport || !arePersonalDataSet}
+                  disabled={isSupport || !canBePublished()}
                 >
                   {tCommon('publish')}
                 </Button>
