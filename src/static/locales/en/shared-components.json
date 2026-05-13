@@ -282,8 +282,8 @@
   "dialogArchiveVersion": {
     "title": "Archive version",
     "content": {
-      "description": "Archiving will begin a <strong>notice period of {{days}} days</strong>. During this time, the version will be archiving but will still be active. You can only cancel archiving during the notice period and will no longer be able to do so afterward. At the end of the notice period, <strong>the version will be permanently archived</strong>.",
-      "alert": "This version will be scheduled for archiving on {{date}}. Actual archiving may take additional time. See the <1>documentation</1> for more details."
+      "description": "Archiving will occur on <strong>{{date}}</strong>. Before this date, the version will remain active to allow users to adapt. You can only cancel archiving before this date.",
+      "alert": "Actual archiving may require some time as users continue to exchange data. See the <1>documentation</1> for further details."
     }
   },
   "copyToClipboardButton": {
