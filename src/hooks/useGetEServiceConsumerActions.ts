@@ -23,7 +23,12 @@ function useGetEServiceConsumerActions(
   descriptor?: CatalogEServiceDescriptor,
   delegators?: Array<DelegationTenant>,
   isDelegator?: boolean
-) {
+): {
+  primaryAction: ActionItemButton | undefined
+  secondaryAction: ActionItemButton | undefined
+  menuActions: Array<ActionItemButton>
+  headerInfoActions: Array<ActionItemButton>
+} {
   const { t } = useTranslation('eservice')
   const { jwt, isAdmin } = AuthHooks.useJwt()
 
@@ -36,7 +41,13 @@ function useGetEServiceConsumerActions(
 
   const actions: Array<ActionItemButton> = []
 
-  if (!descriptor || !isAdmin) return { actions: [] satisfies Array<ActionItemButton> }
+  if (!descriptor || !isAdmin)
+    return {
+      primaryAction: undefined,
+      secondaryAction: undefined,
+      menuActions: [],
+      headerInfoActions: [],
+    }
 
   const isMine = Boolean(descriptor.eservice.isMine)
   const isSubscribed = descriptor.eservice.isSubscribed
@@ -202,7 +213,7 @@ function useGetEServiceConsumerActions(
 
   const tenants: DelegationTenant[] = jwt
     ? [{ id: jwt.organizationId as string, name: jwt.organization.name }, ...(delegators ?? [])]
-    : delegators ?? []
+    : (delegators ?? [])
 
   const tenantsWithoutAgreement = tenants.filter(
     (tenant) => !existingAgreements.some((agreement) => agreement.consumerId === tenant.id)
@@ -261,7 +272,12 @@ function useGetEServiceConsumerActions(
     })
   }
 
-  return { actions }
+  return {
+    primaryAction: undefined,
+    secondaryAction: undefined,
+    menuActions: actions,
+    headerInfoActions: [],
+  }
 }
 
 export default useGetEServiceConsumerActions

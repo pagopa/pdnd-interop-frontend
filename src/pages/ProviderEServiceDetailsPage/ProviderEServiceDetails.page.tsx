@@ -1,6 +1,5 @@
 import React from 'react'
 import { EServiceQueries } from '@/api/eservice'
-import { PageContainer } from '@/components/layout/containers'
 import { useParams } from '@/router'
 import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { Tab } from '@mui/material'
@@ -11,6 +10,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { ProviderEserviceDetailsTab } from './components/ProviderEServiceDetailsTab/ProviderEServiceDetailsTab'
 import { ProviderEserviceKeychainsTab } from './components/ProviderEServiceKeychainsTab/ProviderEServiceKeychainsTab'
+import { NewPageContainer } from '@/components/layout/containers/NewPageContainer'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -26,37 +26,41 @@ const ProviderEServiceDetailsPage: React.FC = () => {
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 
-  descriptor?.delegation
-  const { actions } = useGetProviderEServiceActions(
-    eserviceId,
-    descriptor?.state,
-    descriptor?.eservice.draftDescriptor?.state,
-    descriptorId,
-    descriptor?.eservice.draftDescriptor?.id,
-    descriptor?.eservice.mode,
-    descriptor?.eservice.name,
-    descriptor?.templateRef?.isNewTemplateVersionAvailable ?? false,
-    isEserviceFromTemplate,
-    descriptor?.delegation
-  )
+  const { primaryAction, secondaryAction, menuActions, headerInfoActions } =
+    useGetProviderEServiceActions(
+      eserviceId,
+      descriptor?.state,
+      descriptor?.eservice.draftDescriptor?.state,
+      descriptorId,
+      descriptor?.eservice.draftDescriptor?.id,
+      descriptor?.eservice.mode,
+      descriptor?.eservice.name,
+      descriptor?.templateRef?.isNewTemplateVersionAvailable ?? false,
+      isEserviceFromTemplate,
+      descriptor?.delegation
+    )
 
   return (
-    <PageContainer
+    <NewPageContainer
       title={descriptor?.eservice.name || ''}
-      topSideActions={actions}
+      primaryAction={primaryAction}
+      secondaryAction={secondaryAction}
+      menuActions={menuActions}
       isLoading={!descriptor}
-      statusChip={
-        descriptor
-          ? {
-              for: 'eservice',
-              state: descriptor?.state,
-            }
-          : undefined
-      }
       backToAction={{
         label: t('actions.backToListLabel'),
         to: 'PROVIDE_ESERVICE_LIST',
       }}
+      infoSection={
+        descriptor
+          ? {
+              label: t('versionHeaderLabel'),
+              shortcut: { type: 'button', label: descriptor.version, onClick: () => {} }, // TODO navigation function
+              actions: headerInfoActions,
+              statusChip: { for: 'eservice', state: descriptor.state },
+            }
+          : undefined
+      }
     >
       <TabContext value={activeTab}>
         <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
@@ -72,7 +76,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
           <ProviderEserviceKeychainsTab />
         </TabPanel>
       </TabContext>
-    </PageContainer>
+    </NewPageContainer>
   )
 }
 

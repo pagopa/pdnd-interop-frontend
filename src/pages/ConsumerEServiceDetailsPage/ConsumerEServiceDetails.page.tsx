@@ -1,6 +1,5 @@
 import React from 'react'
 import { EServiceQueries } from '@/api/eservice'
-import { PageContainer } from '@/components/layout/containers'
 import useGetEServiceConsumerActions from '@/hooks/useGetEServiceConsumerActions'
 import { useParams } from '@/router'
 import { useTranslation } from 'react-i18next'
@@ -14,6 +13,7 @@ import { useActiveTab } from '@/hooks/useActiveTab'
 import ConsumerEServiceDetailsTab from './components/ConsumerEServiceDetailsTab/ConsumerEServiceDetailsTab'
 import ConsumerLinkedPurposeTemplatesTab from './components/ConsumerLinkedPurposeTemplatesTab.tsx/ConsumerLinkedPurposeTemplatesTab'
 import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
+import { NewPageContainer } from '@/components/layout/containers/NewPageContainer'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -53,7 +53,8 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
 
   const isDelegator = delegations.length > 0
 
-  const { actions } = useGetEServiceConsumerActions(descriptor, delegators, isDelegator)
+  const { primaryAction, secondaryAction, menuActions, headerInfoActions } =
+    useGetEServiceConsumerActions(descriptor, delegators, isDelegator)
 
   useTrackPageViewEvent('INTEROP_CATALOG_READ', {
     eserviceId: descriptor?.eservice.id,
@@ -61,15 +62,26 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
   })
 
   return (
-    <PageContainer
+    <NewPageContainer
       title={descriptor?.eservice.name || ''}
-      topSideActions={actions}
+      primaryAction={primaryAction}
+      secondaryAction={secondaryAction}
+      menuActions={menuActions}
       isLoading={!descriptor}
-      statusChip={descriptor ? { for: 'eservice', state: descriptor?.state } : undefined}
       backToAction={{
         label: t('actions.backToCatalogLabel'),
         to: 'SUBSCRIBE_CATALOG_LIST',
       }}
+      infoSection={
+        descriptor
+          ? {
+              label: t('versionHeaderLabel'),
+              shortcut: { type: 'button', label: descriptor.version, onClick: () => {} }, // TODO navigation function
+              actions: headerInfoActions,
+              statusChip: { for: 'eservice', state: descriptor.state },
+            }
+          : undefined
+      }
     >
       <TabContext value={activeTab}>
         <TabList
@@ -89,7 +101,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
           <ConsumerLinkedPurposeTemplatesTab />
         </TabPanel>
       </TabContext>
-    </PageContainer>
+    </NewPageContainer>
   )
 }
 

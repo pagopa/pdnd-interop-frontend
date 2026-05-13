@@ -31,7 +31,12 @@ export function useGetProviderEServiceActions(
   delegation?: DelegationWithCompactTenants,
   hasPersonalData?: boolean,
   where?: 'tableRow' | 'detailsPage'
-): { actions: Array<ActionItemButton> } {
+): {
+  primaryAction: ActionItemButton | undefined
+  secondaryAction: ActionItemButton | undefined
+  menuActions: Array<ActionItemButton>
+  headerInfoActions: Array<ActionItemButton>
+} {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
   const { t: tDialogApproveDelegatedVersionDraft } = useTranslation('shared-components', {
     keyPrefix: 'dialogApproveDelegatedVersionDraft',
@@ -67,7 +72,13 @@ export function useGetProviderEServiceActions(
   const isDraftWaitingForApproval = draftDescriptorState === 'WAITING_FOR_APPROVAL'
 
   // Only admin and operatorAPI can see actions
-  if (!isAdmin && !isOperatorAPI) return { actions: [] }
+  if (!isAdmin && !isOperatorAPI)
+    return {
+      primaryAction: undefined,
+      secondaryAction: undefined,
+      menuActions: [],
+      headerInfoActions: [],
+    }
 
   const deleteDraftAction: ActionItemButton = {
     action: deleteDraft.bind(null, { eserviceId }),
@@ -1013,5 +1024,10 @@ export function useGetProviderEServiceActions(
     ? availableFromTemplateEserviceAction
     : availableClassicEServiceAction
 
-  return { actions: availableAction }
+  return {
+    primaryAction: undefined,
+    secondaryAction: undefined,
+    menuActions: availableAction,
+    headerInfoActions: [],
+  }
 }

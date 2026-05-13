@@ -57,7 +57,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
   it('should return no actions if no descriptor is passed', () => {
     mockUseJwt({ isAdmin: true })
     const { result } = renderUseGetEServiceConsumerActionsHook(undefined)
-    expect(result.current.actions).toHaveLength(0)
+    expect(result.current.menuActions).toHaveLength(0)
   })
 
   it('should return inspect agreement action if the user has just an agreement with state ACTIVE, SUSPENDED or PENDING', async () => {
@@ -78,8 +78,8 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(1)
-    const goToAgreementAction = result.current.actions[0]!
+    expect(result.current.menuActions).toHaveLength(1)
+    const goToAgreementAction = result.current.menuActions[0]!
     expect(goToAgreementAction.label).toBe('tableEServiceCatalog.inspect')
 
     goToAgreementAction.action()
@@ -117,8 +117,8 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
       false
     )
 
-    expect(result.current.actions).toHaveLength(1)
-    const goToAgreementAction = result.current.actions[0]!
+    expect(result.current.menuActions).toHaveLength(1)
+    const goToAgreementAction = result.current.menuActions[0]!
     expect(goToAgreementAction.label).toBe('tableEServiceCatalog.inspect')
 
     act(() => {
@@ -147,8 +147,8 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(1)
-    const goToAgreementAction = result.current.actions[0]!
+    expect(result.current.menuActions).toHaveLength(1)
+    const goToAgreementAction = result.current.menuActions[0]!
     expect(goToAgreementAction.label).toBe('tableEServiceCatalog.editDraft')
 
     goToAgreementAction.action()
@@ -180,8 +180,8 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(1)
-    const goToAgreementEditAction = result.current.actions[0]!
+    expect(result.current.menuActions).toHaveLength(1)
+    const goToAgreementEditAction = result.current.menuActions[0]!
     expect(goToAgreementEditAction.label).toBe('tableEServiceCatalog.editDraft')
 
     act(() => {
@@ -210,7 +210,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(0)
+    expect(result.current.menuActions).toHaveLength(0)
   })
 
   it("should return the create agreement draft action if the user doesn't have agreements", async () => {
@@ -225,8 +225,8 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(1)
-    const createAgreementDraftAction = result.current.actions[0]!
+    expect(result.current.menuActions).toHaveLength(1)
+    const createAgreementDraftAction = result.current.menuActions[0]!
     expect(createAgreementDraftAction.label).toBe('tableEServiceCatalog.subscribe')
 
     act(() => {
@@ -265,8 +265,8 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(1)
-    const createAgreementDraftAction = result.current.actions[0]!
+    expect(result.current.menuActions).toHaveLength(1)
+    const createAgreementDraftAction = result.current.menuActions[0]!
     expect(createAgreementDraftAction.label).toBe('tableEServiceCatalog.subscribe')
 
     act(() => {
@@ -305,8 +305,8 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(1)
-    const createAgreementDraftAction = result.current.actions[0]!
+    expect(result.current.menuActions).toHaveLength(1)
+    const createAgreementDraftAction = result.current.menuActions[0]!
     expect(createAgreementDraftAction.label).toBe('tableEServiceCatalog.subscribe')
 
     act(() => {
@@ -341,8 +341,8 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
       [{ id: 'delegator-id', name: 'Delegator Name' }],
       false
     )
-    expect(result.current.actions).toHaveLength(1)
-    const createAgreementDraftAction = result.current.actions[0]!
+    expect(result.current.menuActions).toHaveLength(1)
+    const createAgreementDraftAction = result.current.menuActions[0]!
     expect(createAgreementDraftAction.label).toBe('tableEServiceCatalog.subscribe')
 
     act(() => {
@@ -365,8 +365,8 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(1)
-    const createAgreementDraftAction = result.current.actions[0]!
+    expect(result.current.menuActions).toHaveLength(1)
+    const createAgreementDraftAction = result.current.menuActions[0]!
     expect(createAgreementDraftAction.label).toBe('tableEServiceCatalog.subscribe')
 
     act(() => {
@@ -399,7 +399,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(0)
+    expect(result.current.menuActions).toHaveLength(0)
   })
 
   it('should return the inspect agreement action and the edit agreement action if the user has an agreement with state ACTIVE and another agreement with state DRAFT', async () => {
@@ -428,9 +428,9 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
       [{ id: 'delegator-id', name: 'Delegator Name' }],
       false
     )
-    expect(result.current.actions).toHaveLength(2)
-    const goToAgreementAction = result.current.actions[0]!
-    const goToEditAgreementAction = result.current.actions[1]!
+    expect(result.current.menuActions).toHaveLength(2)
+    const goToAgreementAction = result.current.menuActions[0]!
+    const goToEditAgreementAction = result.current.menuActions[1]!
     expect(goToAgreementAction.label).toBe('tableEServiceCatalog.inspect')
     expect(goToEditAgreementAction.label).toBe('tableEServiceCatalog.editDraft')
   })
@@ -466,10 +466,10 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
       false
     )
 
-    expect(result.current.actions).toHaveLength(3)
-    const goToAgreementAction = result.current.actions[0]!
-    const goToEditAgreementAction = result.current.actions[1]!
-    const goToCreateAgreementAction = result.current.actions[2]!
+    expect(result.current.menuActions).toHaveLength(3)
+    const goToAgreementAction = result.current.menuActions[0]!
+    const goToEditAgreementAction = result.current.menuActions[1]!
+    const goToCreateAgreementAction = result.current.menuActions[2]!
     expect(goToAgreementAction.label).toBe('tableEServiceCatalog.inspect')
     expect(goToEditAgreementAction.label).toBe('tableEServiceCatalog.editDraft')
     expect(goToCreateAgreementAction.label).toBe('tableEServiceCatalog.subscribe')
