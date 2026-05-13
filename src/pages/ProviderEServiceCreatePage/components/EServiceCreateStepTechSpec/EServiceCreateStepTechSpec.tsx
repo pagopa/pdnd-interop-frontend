@@ -1,7 +1,6 @@
 import { EServiceMutations } from '@/api/eservice'
 import { SectionContainerSkeleton } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
-import type { AsyncExchangeProperties } from '@/api/api.generatedTypes'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
 import { Box } from '@mui/material'
