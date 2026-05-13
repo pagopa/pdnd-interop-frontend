@@ -128,11 +128,11 @@ describe('ProviderEServiceDocumentationSummarySection', () => {
     ).toBeInTheDocument()
     expect(screen.getByText('asyncExchange.responseTime.label')).toBeInTheDocument()
     expect(
-      screen.getByText(String(mockData.asyncExchangeProperties!.responseTime))
+      screen.getByText(`${mockData.asyncExchangeProperties!.responseTime} time.second`)
     ).toBeInTheDocument()
     expect(screen.getByText('asyncExchange.resourceAvailableTime.label')).toBeInTheDocument()
     expect(
-      screen.getByText(String(mockData.asyncExchangeProperties!.resourceAvailableTime))
+      screen.getByText(`${mockData.asyncExchangeProperties!.resourceAvailableTime} time.second`)
     ).toBeInTheDocument()
     expect(screen.getByText('asyncExchange.confirmation.label')).toBeInTheDocument()
     expect(screen.getAllByText('asyncExchange.booleanValue.true').length).toBeGreaterThan(0)

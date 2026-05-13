@@ -51,6 +51,12 @@ export const ProviderEServiceDocumentationSummarySection: React.FC = () => {
     return typeof value === 'number' ? String(value) : undefined
   }
 
+  const formatAsyncSeconds = (value: number | undefined) => {
+    return typeof value === 'number'
+      ? `${value} ${tCommon('time.second', { count: value })}`
+      : undefined
+  }
+
   const formatAsyncBoolean = (value: boolean | undefined) => {
     return typeof value === 'boolean' ? t(`asyncExchange.booleanValue.${value}`) : undefined
   }
@@ -107,11 +113,11 @@ export const ProviderEServiceDocumentationSummarySection: React.FC = () => {
           />
           <SummaryInformationContainer
             label={t('asyncExchange.responseTime.label')}
-            content={formatAsyncNumber(asyncExchangeProperties?.responseTime)}
+            content={formatAsyncSeconds(asyncExchangeProperties?.responseTime)}
           />
           <SummaryInformationContainer
             label={t('asyncExchange.resourceAvailableTime.label')}
-            content={formatAsyncNumber(asyncExchangeProperties?.resourceAvailableTime)}
+            content={formatAsyncSeconds(asyncExchangeProperties?.resourceAvailableTime)}
           />
           <SummaryInformationContainer
             label={t('asyncExchange.confirmation.label')}

@@ -469,19 +469,19 @@
       },
       "asyncExchange": {
         "responseTime": {
-          "label": "Tempo massimo di risposta"
+          "label": "Tempo massimo di callback"
         },
         "resourceAvailableTime": {
-          "label": "Tempo massimo di disponibilità della risorsa"
+          "label": "Tempo disponibilità risorsa"
         },
         "confirmation": {
-          "label": "Conferma di ricezione"
+          "label": "Richiedi conferma di ricezione"
         },
         "bulk": {
-          "label": "Risposta massiva"
+          "label": "Abilita download a blocchi"
         },
         "maxResultSet": {
-          "label": "Numero massimo di risultati"
+          "label": "Limite massimo di entità per risposta"
         },
         "booleanValue": {
           "true": "Sì",
@@ -489,7 +489,7 @@
         }
       },
       "producerKeychains": {
-        "label": "Portachiavi erogatore"
+        "label": "Portachiavi associati"
       },
       "missingInfoLabel": "Da inserire",
       "emptyLabel": "Nessun documento caricato"

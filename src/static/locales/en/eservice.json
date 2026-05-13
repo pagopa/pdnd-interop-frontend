@@ -469,19 +469,19 @@
       },
       "asyncExchange": {
         "responseTime": {
-          "label": "Maximum response time"
+          "label": "Maximum callback time"
         },
         "resourceAvailableTime": {
-          "label": "Maximum resource availability time"
+          "label": "Resource availability time"
         },
         "confirmation": {
-          "label": "Acknowledgement required"
+          "label": "Require receipt acknowledgement"
         },
         "bulk": {
-          "label": "Bulk response"
+          "label": "Enable bulk download"
         },
         "maxResultSet": {
-          "label": "Maximum number of results"
+          "label": "Maximum entities per response"
         },
         "booleanValue": {
           "true": "Yes",
@@ -489,7 +489,7 @@
         }
       },
       "producerKeychains": {
-        "label": "Producer keychain"
+        "label": "Associated keychains"
       },
       "missingInfoLabel": "Information must be added",
       "emptyLabel": "No uploaded documents"
