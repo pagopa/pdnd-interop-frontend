@@ -59,15 +59,14 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({
     closeDialog()
   }
 
-  const gracePeriod = 30 // TODO get period
-  const formattedArchiveDate = '04/05/2026' // formatDateStringAllDigit(archiveDate) // TODO get date
+  const formattedArchiveDate = formatDateStringNumeric(archiveDate) // TODO get date and utils function from pr pin 9943
 
   const formMethods = useForm<ArchiveReasonFormValue>({
     defaultValues: { reason: '' },
   })
 
   return (
-    <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth maxWidth="md">
+    <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
       <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
       <FormProvider {...formMethods}>
         <DialogContent>
@@ -78,7 +77,7 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({
                   strong: <Typography component="span" variant="inherit" fontWeight={600} />,
                 }}
               >
-                {t('content.advice.description', { days: gracePeriod })}
+                {t('content.advice.description', { date: formattedArchiveDate })}
               </Trans>
             </Typography>
           )}
@@ -109,7 +108,7 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({
                 1: <Link underline="hover" href={DOCUMENTATION_URL} target="_blank" />, // TODO documentation link
               }}
             >
-              {t('content.alert', { date: formattedArchiveDate })}
+              {t('content.alert')}
             </Trans>
           </Alert>
         </DialogContent>

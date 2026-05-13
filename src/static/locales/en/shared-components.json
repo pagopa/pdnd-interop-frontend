@@ -282,7 +282,7 @@
     "title": "Archive e-service",
     "content": {
       "advice": {
-        "description": "By archiving the e-service, all versions of it will be archived and draft versions will be deleted. If you confirm this choice, a <strong>{{days}} notice period</strong> will begin. During this period, the e-service will be archived but will still be active. You can cancel the archiving only during the notice period and will no longer be able to do so afterward. At the end of the notice period, the <strong>e-service will be permanently archived</strong>."
+        "description": "By archiving the e-service, all versions will be archived and draft versions will be deleted. If you confirm this choice, archiving will occur on <strong>{{date}}</strong>. Before this date, the e-service will remain active to allow users to adapt. You can cancel archiving only before this date."
       },
       "confirm": {
         "description": "All users will be informed of the notice period and the reason for the archiving.",
@@ -291,7 +291,7 @@
           "infoLabel": "Explain why you chose to archive the e-service. If you wish, suggest an alternative e-service. Both information will be shared with users. Minimum 10 characters, maximum 250 characters."
         }
       },
-      "alert": "The e-service is scheduled for archiving on {{date}}. The actual archiving may take additional time. See <1>documentation</1> for more details."
+      "alert": "Actual archiving may require some technical time as users continue to exchange data. See <1>documentation</1> for further details."
     },
     "actions": {
       "back": "Back",
