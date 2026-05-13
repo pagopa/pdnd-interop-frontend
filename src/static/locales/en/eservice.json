@@ -599,6 +599,13 @@
         "description": "In this section you can check the specifications of the e-service and make changes.",
         "technology": "Technology",
         "audience": "Audience",
+        "exchangeType": {
+          "label": "Exchange type",
+          "value": {
+            "sync": "Synchronous",
+            "async": "Asynchronous"
+          }
+        },
         "eserviceId": {
           "label": "E-service ID",
           "copySuccessFeedbackText": "E-service ID copied successfully"
@@ -650,6 +657,30 @@
           "title": "Documentation",
           "label": "Documents list",
           "interfaceChecksum": "Interface file checksum"
+        },
+        "callbackInterface": {
+          "label": "Callback interface"
+        },
+        "asyncExchange": {
+          "responseTime": {
+            "label": "Maximum callback time"
+          },
+          "resourceAvailableTime": {
+            "label": "Resource availability time"
+          },
+          "confirmation": {
+            "label": "Require receipt acknowledgement"
+          },
+          "bulk": {
+            "label": "Enable bulk download"
+          },
+          "maxResultSet": {
+            "label": "Maximum entities per response"
+          },
+          "booleanValue": {
+            "true": "Yes",
+            "false": "No"
+          }
         },
         "usefulLinks": {
           "title": "Useful links",
