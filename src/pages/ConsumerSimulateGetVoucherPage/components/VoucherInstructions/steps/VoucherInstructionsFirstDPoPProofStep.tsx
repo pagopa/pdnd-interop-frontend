@@ -7,14 +7,14 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { SectionContainer } from '@/components/layout/containers'
 import { Grid } from '@mui/material'
 import { VerticalInformationContainer } from '@/components/shared/VerticalInformationContainer'
-import { FE_URL } from '@/config/env'
+import { AUTHORIZATION_SERVER_TOKEN_CREATION_URL, FE_URL } from '@/config/env'
 import { VoucherScriptPreviewSection } from '../VoucherScriptPreviewSection'
-
-const CLIENT_ASSERTION_TYP = 'dpop+jwt'
-const CLIENT_ASSERTION_ALG = 'RS256'
-const CLIENT_ASSERTION_HTM = 'POST'
-const CLIENT_ASSERTION_HTU = 'https://auth.dev.interop.PagoPA.it/token.oauth2'
-const FILENAME = 'create_dpop_proof_auth_server'
+import {
+  CLIENT_ASSERTION_ALG,
+  CLIENT_ASSERTION_HTM,
+  CLIENT_ASSERTION_TYP,
+  VOUCHER_FIRST_DPOP_FILENAME,
+} from '@/config/constants'
 
 export const VoucherInstructionsFirstDPoPProofStep: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -25,7 +25,7 @@ export const VoucherInstructionsFirstDPoPProofStep: React.FC = () => {
 
     const ext = type === 'script' ? 'py' : 'txt'
 
-    return `${base}/dpop/${type}/${FILENAME}.${ext}`
+    return `${base}/dpop/${type}/${VOUCHER_FIRST_DPOP_FILENAME}.${ext}`
   }
 
   return (
@@ -80,9 +80,9 @@ export const VoucherInstructionsFirstDPoPProofStep: React.FC = () => {
           <VerticalInformationContainer
             label={t('firstDPoPProofStep.assertionPayload.htuField.label')}
             labelDescription={t('firstDPoPProofStep.assertionPayload.htuField.description')}
-            content={CLIENT_ASSERTION_HTU}
+            content={AUTHORIZATION_SERVER_TOKEN_CREATION_URL}
             copyToClipboard={{
-              value: CLIENT_ASSERTION_HTU,
+              value: AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
               tooltipTitle: t(
                 'firstDPoPProofStep.assertionPayload.htuField.copySuccessFeedbackText'
               ),
@@ -103,12 +103,12 @@ export const VoucherInstructionsFirstDPoPProofStep: React.FC = () => {
       <VoucherScriptPreviewSection
         fileUrl={getFilePath('script')}
         previewUrl={getFilePath('preview')}
-        fileName={FILENAME}
+        fileName={VOUCHER_FIRST_DPOP_FILENAME}
         substitutions={{
           INSERISCI_VALORE_ALG: CLIENT_ASSERTION_ALG,
           INSERISCI_VALORE_TYP: CLIENT_ASSERTION_TYP,
           INSERISCI_VALORE_HTM: CLIENT_ASSERTION_HTM,
-          INSERISCI_VALORE_HTU: CLIENT_ASSERTION_HTU,
+          INSERISCI_VALORE_HTU: AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
         }}
       />
       <StepActions
