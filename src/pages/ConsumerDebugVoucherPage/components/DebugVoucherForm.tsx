@@ -100,6 +100,7 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
               name="clientId"
               label={t('clientIdLabel')}
               infoLabel={t('clientIdInfoLabel')}
+              inputProps={{ maxLength: 36 }}
             />
 
             {/* The input will be disabled for this release: https://www.figma.com/design/CpRV3kPvFEWLXGtJUgWeZW?node-id=4078-14921#1712917799 */}
