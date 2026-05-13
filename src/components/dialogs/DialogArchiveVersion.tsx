@@ -39,7 +39,6 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
     // TODO call mutation with descriptorId and eventually eserviceId
   }
 
-  const gracePeriod = 30 // TODO get period
   const formattedArchiveDate = formatDateStringNumeric(archiveDate)
 
   return (
@@ -52,7 +51,7 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
               strong: <Typography component="span" variant="inherit" fontWeight={600} />,
             }}
           >
-            {t('content.description', { days: gracePeriod })}
+            {t('content.description', { date: formattedArchiveDate })}
           </Trans>
         </Typography>
 
@@ -62,7 +61,7 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
               1: <Link underline="hover" href={DOCUMENTATION_URL} target="_blank" />, // TODO documentation link
             }}
           >
-            {t('content.alert', { date: formattedArchiveDate })}
+            {t('content.alert')}
           </Trans>
         </Alert>
       </DialogContent>
