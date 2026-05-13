@@ -27,9 +27,7 @@ export const EServiceDetailsSection: React.FC<EServiceDetailsSectionProps> = ({
   const { isOperatorAPI } = AuthHooks.useJwt()
   const { watch, setValue } = useFormContext<EServiceCreateStepGeneralFormValues>()
 
-  const asyncExchange = watch('asyncExchange')
-  const technology = watch('technology')
-  const mode = watch('mode')
+  const [asyncExchange, technology, mode] = watch(['asyncExchange', 'technology', 'mode'])
 
   useEffect(() => {
     if (asyncExchange && mode !== 'DELIVER') {
