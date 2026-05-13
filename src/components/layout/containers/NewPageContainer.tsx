@@ -172,7 +172,7 @@ const ActionsSection: React.FC<ActionsSectionProps> = ({
   secondaryAction,
   menuActions = [],
 }) => {
-  if (menuActions.length === 0 && !primaryAction) return null
+  if (menuActions.length === 0 && !primaryAction && !secondaryAction) return null
 
   const renderActionButton = ({
     action,
