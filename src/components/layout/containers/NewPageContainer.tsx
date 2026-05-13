@@ -219,7 +219,7 @@ const ActionsSection: React.FC<ActionsSectionProps> = ({
       <Stack direction="row" spacing={2}>
         {secondaryAction && renderActionButton(secondaryAction)}
         {primaryAction && renderActionButton(primaryAction)}
-        {menuActions.length !== 0 && <ActionMenu actions={menuActions} />}
+        {menuActions.length !== 0 && <ActionMenu actions={menuActions} hasIconBorder={true} />}
       </Stack>
     </Stack>
   )

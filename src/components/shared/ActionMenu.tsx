@@ -7,9 +7,14 @@ import { useTranslation } from 'react-i18next'
 type ActionMenuProps = {
   actions: Array<ActionItem>
   iconColor?: ExtendedMUIColor
+  hasIconBorder?: boolean
 }
 
-export const ActionMenu: React.FC<ActionMenuProps> = ({ actions, iconColor = 'primary' }) => {
+export const ActionMenu: React.FC<ActionMenuProps> = ({
+  actions,
+  iconColor = 'primary',
+  hasIconBorder = false,
+}) => {
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef<HTMLButtonElement>(null)
   const compositionButtonId = useId() + '-composition-button'
@@ -54,8 +59,8 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({ actions, iconColor = 'pr
         id={compositionButtonId}
         sx={{
           visibility: actions.length > 0 ? 'visible' : 'hidden',
-          border: 2,
-          borderRadius: 1,
+          border: hasIconBorder ? 2 : undefined,
+          borderRadius: hasIconBorder ? 1 : undefined,
         }}
         aria-controls={open ? compositionMenuId : undefined}
         aria-expanded={open ? 'true' : undefined}
@@ -63,7 +68,11 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({ actions, iconColor = 'pr
         onClick={handleToggle}
         aria-label={t('iconButtonAriaLabel')}
       >
-        <MoreVertIcon color={iconColor} fontSize="small" sx={{ marginX: 0.5 }} />
+        <MoreVertIcon
+          color={iconColor}
+          fontSize="small"
+          sx={{ marginX: hasIconBorder ? 0.5 : 0 }}
+        />
       </IconButton>
       <ClickAwayListener onClickAway={handleClose}>
         <Menu
