@@ -1,7 +1,11 @@
 import React from 'react'
 import { SectionContainer } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
-import { AUTHORIZATION_SERVER_TOKEN_CREATION_URL, FE_URL } from '@/config/env'
+import {
+  AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
+  AUTHORIZATION_SERVER_TOKEN_CREATION_ASYNC_URL,
+  FE_URL,
+} from '@/config/env'
 import { Typography, Link as MUILink, Grid } from '@mui/material'
 import { Trans, useTranslation } from 'react-i18next'
 import { CodeSnippetPreview } from '../CodeSnippetPreview'
@@ -12,7 +16,11 @@ import { useSearchParams } from 'react-router-dom'
 import { VerticalInformationContainer } from '@/components/shared/VerticalInformationContainer'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { IconLink } from '@/components/shared/IconLink'
-import { VOUCHER_TYPE, type VoucherType } from '../VoucherInstructionsGeneralForm'
+import {
+  type InteractionType,
+  VOUCHER_TYPE,
+  type VoucherType,
+} from '../VoucherInstructionsGeneralForm'
 
 const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
 const GRANT_TYPE = 'client_credentials'
@@ -25,6 +33,15 @@ export const VoucherInstructionsAccessTokenStep: React.FC = () => {
 
   const clientId = searchParams.get('clientId') || ''
   const voucherType = (searchParams.get('voucherType') as VoucherType) || ''
+  const interactionType = (searchParams.get('interactionType') as InteractionType) || ''
+
+  const getFilePath = () => {
+    if (!interactionType || !voucherType) return ''
+
+    const base = `${FE_URL}/data/it`
+
+    return `${base}/session-token/session_token_curl_${interactionType.toLowerCase()}_${voucherType.toLowerCase()}.txt`
+  }
 
   return (
     <>
@@ -115,16 +132,19 @@ export const VoucherInstructionsAccessTokenStep: React.FC = () => {
               1: <MUILink href="https://formulae.brew.sh/formula/curl" target="_blank" />,
             }}
           >
-            {t('accessTokenStep.voucherScript.guide')}
+            {voucherType === VOUCHER_TYPE.BEARER
+              ? t('accessTokenStep.voucherScript.guide.bearer')
+              : t('accessTokenStep.voucherScript.guide.dpop')}
           </Trans>
         </Typography>
         <CodeSnippetPreview
           sx={{ mt: 2 }}
           title={t('accessTokenStep.voucherScript.exampleLabel')}
           activeLang="curl"
-          entries={[{ url: `${FE_URL}/data/it/session_token_curl.txt`, value: 'curl' }]}
+          entries={[{ url: getFilePath(), value: 'curl' }]}
           scriptSubstitutionValues={{
             AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
+            AUTHORIZATION_SERVER_TOKEN_CREATION_ASYNC_URL,
             CLIENT_ID: clientId,
             CLIENT_ASSERTION_TYPE: CLIENT_ASSERTION_TYPE,
             GRANT_TYPE: GRANT_TYPE,

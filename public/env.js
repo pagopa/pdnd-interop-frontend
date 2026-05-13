@@ -3,6 +3,8 @@ window.pagopa_env = {
   NODE_ENV: 'development',
   STAGE: 'DEV',
   AUTHORIZATION_SERVER_TOKEN_CREATION_URL: 'https://auth.dev.interop.pagopa.it/token.oauth2',
+  AUTHORIZATION_SERVER_TOKEN_CREATION_ASYNC_URL:
+    'https://auth.dev.interop.pagopa.it/token.oauth2.async',
   SELFCARE_LOGIN_URL: 'https://uat.selfcare.pagopa.it/',
   SELFCARE_BASE_URL: 'https://uat.selfcare.pagopa.it',
   INTEROP_RESOURCES_BASE_URL: 'https://interop-public-assets-dev.s3.eu-south-1.amazonaws.com',
@@ -25,5 +27,5 @@ window.pagopa_env = {
   DOCUMENTATION_URL:
     'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0',
   AVATAR_BASEPATH: 'https://selc-u-checkout-cdn-endpoint.azureedge.net',
-  SELFCARE_PRODUCT_ID: 'prod-interop'
+  SELFCARE_PRODUCT_ID: 'prod-interop',
 }

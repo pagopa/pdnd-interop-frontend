@@ -350,8 +350,11 @@
       }
     },
     "voucherScript": {
-      "title": "Esempio di cURL",
-      "guide": "Apri il terminale, sostituisci il segnaposto LA_TUA_CLIENT_ASSERTION con l’asserzione che hai ottenuto allo step precedente e lancia la cURL. Se non hai cURL, <1>puoi installarlo</1> da Brew.",
+      "title": "Esempio di richiesta di cURL",
+      "guide": {
+        "bearer": "Apri il terminale, sostituisci il segnaposto LA_TUA_CLIENT_ASSERTION con l’asserzione che hai ottenuto allo step precedente e lancia la cURL. Se non hai cURL, <1>puoi installarlo</1> da Brew.",
+        "dpop": "Apri il terminale, sostituisci il segnaposto LA_TUA_CLIENT_ASSERTION con l’asserzione che hai ottenuto nel primo step e IL_DPOP_GENERATO con il testo che hai ottenuto nello step precedente. Una volta personalizzata l’istruzione al terminale, lancia la cURL. Se non hai cURL, <1>puoi installarlo</1> da Brew."
+      },
       "exampleLabel": "cURL di esempio"
     },
     "debugVoucherLink": "Non riesci ad ottenere un voucher valido? Effettua il debug"
