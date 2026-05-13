@@ -44,6 +44,20 @@
         "description": "Queste informazioni sono state precompilate da chi ha creato il template e non sono modificabili.",
         "readOnlyDescription": "Le seguenti informazioni non sono più modificabili.",
         "firstVersionOnlyEditableInfo": "Questi dati non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
+        "asyncExchangeField": {
+          "label": "In che modo vuoi scambiare i dati dell’e-service?",
+          "readOnlyLabel": "Tipologia di scambio dati",
+          "options": {
+            "false": "Sincrono (standard)",
+            "true": "Asincrono / massivo (in differita)"
+          },
+          "readOnlyOptions": {
+            "false": "Sincrono",
+            "true": "Asincrono"
+          },
+          "soapWarning": "La tecnologia SOAP non permette di abilitare il download a blocchi durante lo scambio asincrono dei dati.",
+          "operatorApiWarning": "Per gli scambi asincroni è necessario collegare un portachiavi all’e-service. Solo chi ha il ruolo di amministratore può farlo: chiedi di collegarlo prima o dopo la pubblicazione per abilitare lo scambio dei dati."
+        },
         "technologyField": {
           "label": "Con quale tecnologia è costruita la tua API?",
           "readOnlyLabel": "Tecnologia API"
