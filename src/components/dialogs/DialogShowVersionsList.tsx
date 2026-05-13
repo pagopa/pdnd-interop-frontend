@@ -18,16 +18,17 @@ import { useDialog } from '@/stores'
 import { Link } from '@/router'
 import { StatusChip } from '@/components/shared/StatusChip'
 import type { EServiceDescriptorState } from '@/api/api.generatedTypes'
-import type { EServiceDescriptorStateExtended } from '@/types/eservice.types'
 import { formatDateString } from '@/utils/format.utils'
 
 const MAX_VISIBLE_ROWS = 6
 const ROW_HEIGHT = 56
 
-// TODO: finalize chip mapping for the new ARCHIVING state once UX is confirmed with the team. Currently it falls back to PUBLISHED (no badge).
-const mapToChipState = (state: EServiceDescriptorStateExtended): EServiceDescriptorState => {
+const mapToChipState = (
+  state: EServiceDescriptorState,
+  isLatest: boolean
+): EServiceDescriptorState => {
+  if (state === 'ARCHIVING') return isLatest ? 'PUBLISHED' : 'DEPRECATED'
   if (state === 'ARCHIVING_SUSPENDED') return 'SUSPENDED'
-  if (state === 'ARCHIVING') return 'PUBLISHED'
   return state
 }
 
@@ -47,6 +48,8 @@ export const DialogShowVersionsList: React.FC<DialogShowVersionsListProps> = ({
     .filter((d) => d.state !== 'DRAFT' && d.state !== 'WAITING_FOR_APPROVAL')
     .sort((a, b) => Number(a.version) - Number(b.version))
 
+  const latestDescriptorId = visibleDescriptors[visibleDescriptors.length - 1]?.id
+
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth maxWidth="xs">
       <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
@@ -57,11 +60,16 @@ export const DialogShowVersionsList: React.FC<DialogShowVersionsListProps> = ({
         <Box sx={{ maxHeight: ROW_HEIGHT * MAX_VISIBLE_ROWS, overflowY: 'auto' }}>
           <Stack divider={<Divider flexItem />}>
             {visibleDescriptors.map((descriptor) => {
-              const chipState = mapToChipState(descriptor.state)
+              const isLatest = descriptor.id === latestDescriptorId
+              const chipState = mapToChipState(descriptor.state, isLatest)
               const archivingSchedule =
-                descriptor.state === 'ARCHIVING_SUSPENDED'
+                descriptor.state === 'ARCHIVING' || descriptor.state === 'ARCHIVING_SUSPENDED'
                   ? descriptor.archivingSchedule
                   : undefined
+              const tooltipKey =
+                archivingSchedule?.scope === 'EService'
+                  ? 'scheduledArchivalTooltipEservice'
+                  : 'scheduledArchivalTooltipDescriptor'
               return (
                 <Stack
                   key={descriptor.id}
@@ -82,7 +90,7 @@ export const DialogShowVersionsList: React.FC<DialogShowVersionsListProps> = ({
                     <StatusChip for="eservice" state={chipState} size="small" />
                     {archivingSchedule && (
                       <Tooltip
-                        title={t('scheduledArchivalTooltip', {
+                        title={t(tooltipKey, {
                           date: formatDateString(archivingSchedule.archivableOn),
                         })}
                         arrow

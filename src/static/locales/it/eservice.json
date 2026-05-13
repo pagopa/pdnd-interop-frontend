@@ -512,7 +512,8 @@
     "versionListModal": {
       "title": "Stato versioni",
       "versionRowLabel": "Versione {{ version }}",
-      "scheduledArchivalTooltip": "Versione in archiviazione il {{ date }}"
+      "scheduledArchivalTooltipDescriptor": "Versione in archiviazione il {{ date }}",
+      "scheduledArchivalTooltipEservice": "E-service in archiviazione il {{ date }}"
     },
     "tabs": {
       "ariaLabel": "Due tab diverse per i dettagli dell'e-service e i portachiavi associati",
