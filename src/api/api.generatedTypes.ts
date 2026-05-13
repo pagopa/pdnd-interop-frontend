@@ -623,6 +623,8 @@ export interface ProducerDescriptorEService {
   mode: EServiceMode;
   riskAnalysis: EServiceRiskAnalysis[];
   descriptors: CompactDescriptor[];
+  hasProducerKeychain: boolean;
+  hasProducerKeychainKeys: boolean;
   draftDescriptor?: CompactDescriptor;
   mail?: Mail;
   isSignalHubEnabled?: boolean;
