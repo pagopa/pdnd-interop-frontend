@@ -40,6 +40,8 @@ export type DialogProps =
   | DialogTenantKindEserviceTemplateProps
   | DialogTenantKindPurposeTemplateProps
   | DialogSelectAgreementConsumerProps
+  | DialogArchiveEserviceProps
+  | DialogCancelEserviceArchivingProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -178,4 +180,14 @@ export type DialogTenantKindEserviceTemplateProps = {
 export type DialogTenantKindPurposeTemplateProps = {
   type: 'tenantKindPurposeTemplate'
   onConfirm: (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => void
+}
+
+export type DialogArchiveEserviceProps = {
+  type: 'archiveEservice'
+  eserviceId: string
+}
+
+export type DialogCancelEserviceArchivingProps = {
+  type: 'cancelEserviceArchiving'
+  eserviceId: string
 }
