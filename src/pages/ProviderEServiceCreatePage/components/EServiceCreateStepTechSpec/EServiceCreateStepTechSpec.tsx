@@ -54,7 +54,6 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
   const isEServiceAsync = Boolean(descriptor?.eservice.asyncExchange)
   const isProducerKeychainSectionVisible =
     isEServiceAsync && !eserviceTemplate && !isEServiceCreatedFromTemplate
-  console.log({ isEServiceAsync, isProducerKeychainSectionVisible })
 
   const { data: initialAssociatedKeychains = [] } = useQuery({
     ...KeychainQueries.getKeychainsList({
