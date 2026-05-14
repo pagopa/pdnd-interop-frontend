@@ -17,8 +17,9 @@ const dateFormatterNumeric = new Intl.DateTimeFormat('it', {
   month: '2-digit',
   year: 'numeric',
 })
-export function formatDateStringNumeric(dateString: string) {
-  return dateFormatterNumeric.format(new Date(dateString))
+export function formatDateStringNumeric(date: Date | string) {
+  const dateObj = date instanceof Date ? date : new Date(date)
+  return dateFormatterNumeric.format(dateObj)
 }
 
 export function secondsToHoursMinutes(totalSeconds: number) {
