@@ -1,6 +1,6 @@
 curl --location --request POST AUTHORIZATION_SERVER_TOKEN_CREATION_ASYNC_URL \
   --header 'Content-Type: application/x-www-form-urlencoded' \
-  --header 'DPoP: IL_DPOP_GENERATO` \
+  --header 'DPoP: IL_DPOP_GENERATO' \
   --data-urlencode 'client_id=CLIENT_ID' \
   --data-urlencode 'client_assertion=LA_TUA_CLIENT_ASSERTION' \
   --data-urlencode 'client_assertion_type=CLIENT_ASSERTION_TYPE' \
