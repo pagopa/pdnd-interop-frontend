@@ -337,6 +337,17 @@
           "title": "Vuoi approvare manualmente tutte le richieste di fruizione che riceverai?",
           "label": "Preferisco approvarle manualmente"
         }
+      },
+      "producerKeychainSection": {
+        "title": "Portachiavi erogatore",
+        "subtitle": "Per gli scambi asincroni è necessario collegare un portachiavi all'e-service. Solo un portachiavi con una chiave associata permette di autenticarsi su PDND e completare lo scambio dei dati.",
+        "keychainField": {
+          "label": "Seleziona tra i portachiavi disponibili"
+        },
+        "addKeychainBtn": "Aggiungi portachiavi",
+        "removeRowTooltip": "Rimuovi",
+        "noKeychainAlert": "Non hai ancora creato un portachiavi. Ti consigliamo di farlo dopo aver pubblicato l'e-service.",
+        "apiRoleAlert": "Per gli scambi asincroni è necessario collegare un portachiavi all'e-service. Solo chi ha il ruolo di amministratore può farlo: chiedi di collegarlo prima o dopo la pubblicazione per abilitare lo scambio dei dati."
       }
     }
   },
