@@ -1,4 +1,4 @@
-import { DOCUMENTATION_URL } from '@/config/env'
+import { DOCUMENTATION_URL, GRACE_PERIOD_ARCHIVING_ESERVICE } from '@/config/env'
 import { useDialog } from '@/stores'
 import type { DialogArchiveVersionProps } from '@/types/dialog.types'
 import { formatDateStringNumeric } from '@/utils/format.utils'
@@ -12,11 +12,11 @@ import {
   Link,
   Typography,
 } from '@mui/material'
+import addDays from 'date-fns/addDays'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
-  archiveDate,
   eserviceId,
   descriptorId,
 }) => {
@@ -39,6 +39,8 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
     // TODO call mutation with descriptorId and eventually eserviceId
   }
 
+  const now = new Date()
+  const archiveDate = addDays(now, GRACE_PERIOD_ARCHIVING_ESERVICE)
   const formattedArchiveDate = formatDateStringNumeric(archiveDate)
 
   return (
