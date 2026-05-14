@@ -8,7 +8,7 @@ type VerticalInformationContainerProps = {
   labelDescription?: string
   content?: string
   copyToClipboard?: { value: string; tooltipTitle: string }
-  gridProps?: GridProps
+  gridProps?: Pick<GridProps, 'xs' | 'sm' | 'md' | 'lg' | 'xl'>
 }
 
 export const VerticalInformationContainer: React.FC<VerticalInformationContainerProps> = ({

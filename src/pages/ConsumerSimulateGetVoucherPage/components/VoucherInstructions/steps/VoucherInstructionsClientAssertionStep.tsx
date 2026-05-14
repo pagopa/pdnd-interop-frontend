@@ -74,20 +74,6 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
     }))
   }
 
-  const JtiField = () => (
-    <>
-      <VerticalInformationContainer
-        label={t('clientAssertionStep.assertionPayload.jtiField.label')}
-        labelDescription={t('clientAssertionStep.assertionPayload.jtiField.description')}
-        content={t('clientAssertionStep.assertionPayload.jtiField.suggestionLabel')}
-      />
-      {/* Empty Grid item for this case: https://www.figma.com/design/CpRV3kPvFEWLXGtJUgWeZW/Interop-%E2%80%94-Delivery-FE---QA?node-id=4078-16065&t=RqfS1AkOeuYRe9id-4 */}
-      {asyncExchangeStep === ASYNC_EXCHANGE_STEP.START_INTERACTION && (
-        <Grid item xs={12} md={6}></Grid>
-      )}
-    </>
-  )
-
   const asyncScriptSubstitutionValues = {
     ...(asyncParams.urlCallback && {
       INSERISCI_VALORE_URL_CALLBACK: asyncParams.urlCallback,
@@ -231,7 +217,13 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
                 }}
               />
             )}
-            {asyncExchangeStep !== ASYNC_EXCHANGE_STEP.START_INTERACTION && JtiField()}
+            {asyncExchangeStep !== ASYNC_EXCHANGE_STEP.START_INTERACTION && (
+              <VerticalInformationContainer
+                label={t('clientAssertionStep.assertionPayload.jtiField.label')}
+                labelDescription={t('clientAssertionStep.assertionPayload.jtiField.description')}
+                content={t('clientAssertionStep.assertionPayload.jtiField.suggestionLabel')}
+              />
+            )}
             {interactionType === INTERACTION_TYPE.ASYNC && (
               <>
                 <VerticalInformationContainer
@@ -276,7 +268,17 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
                 )}
               </>
             )}
-            {asyncExchangeStep === ASYNC_EXCHANGE_STEP.START_INTERACTION && JtiField()}
+            {asyncExchangeStep === ASYNC_EXCHANGE_STEP.START_INTERACTION && (
+              <>
+                <VerticalInformationContainer
+                  label={t('clientAssertionStep.assertionPayload.jtiField.label')}
+                  labelDescription={t('clientAssertionStep.assertionPayload.jtiField.description')}
+                  content={t('clientAssertionStep.assertionPayload.jtiField.suggestionLabel')}
+                />
+                {/* Empty Grid item for this case: https://www.figma.com/design/CpRV3kPvFEWLXGtJUgWeZW/Interop-%E2%80%94-Delivery-FE---QA?node-id=4078-16065&t=RqfS1AkOeuYRe9id-4 */}
+                <Grid item xs={12} md={6}></Grid>
+              </>
+            )}
             <VerticalInformationContainer
               label={t('clientAssertionStep.assertionPayload.iatField.label')}
               labelDescription={t('clientAssertionStep.assertionPayload.iatField.description')}
