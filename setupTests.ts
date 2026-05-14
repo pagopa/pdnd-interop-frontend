@@ -30,6 +30,7 @@ export const testConfigs = {
     'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0',
   AVATAR_BASEPATH: 'http://selc-u-checkout-cdn-endpoint.azureedge.net',
   SELFCARE_PRODUCT_ID: 'prod-interop',
+  GRACE_PERIOD_ARCHIVING_ESERVICE: 90,
 }
 
 // runs a cleanup after each test case (e.g. clearing jsdom)
