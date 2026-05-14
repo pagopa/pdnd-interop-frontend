@@ -17,6 +17,7 @@ import { VerticalInformationContainer } from '@/components/shared/VerticalInform
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { IconLink } from '@/components/shared/IconLink'
 import {
+  INTERACTION_TYPE,
   type InteractionType,
   VOUCHER_TYPE,
   type VoucherType,
@@ -34,6 +35,11 @@ export const VoucherInstructionsAccessTokenStep: React.FC = () => {
   const clientId = searchParams.get('clientId') || ''
   const voucherType = (searchParams.get('voucherType') as VoucherType) || ''
   const interactionType = (searchParams.get('interactionType') as InteractionType) || ''
+
+  const authEndpointUrl =
+    interactionType === INTERACTION_TYPE.SYNC
+      ? AUTHORIZATION_SERVER_TOKEN_CREATION_URL
+      : AUTHORIZATION_SERVER_TOKEN_CREATION_ASYNC_URL
 
   const getFilePath = () => {
     if (!interactionType || !voucherType) return ''
@@ -54,9 +60,9 @@ export const VoucherInstructionsAccessTokenStep: React.FC = () => {
             <VerticalInformationContainer
               label={t('accessTokenStep.authEndpoint.url.label')}
               labelDescription={t('accessTokenStep.authEndpoint.url.description')}
-              content={AUTHORIZATION_SERVER_TOKEN_CREATION_URL}
+              content={authEndpointUrl}
               copyToClipboard={{
-                value: AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
+                value: authEndpointUrl,
                 tooltipTitle: t('accessTokenStep.authEndpoint.url.copySuccessFeedbackText'),
               }}
             />
