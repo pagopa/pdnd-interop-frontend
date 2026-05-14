@@ -5,6 +5,7 @@ import {
   AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
   AUTHORIZATION_SERVER_TOKEN_CREATION_ASYNC_URL,
   FE_URL,
+  PUBLIC_URL,
 } from '@/config/env'
 import { Typography, Link as MUILink, Grid } from '@mui/material'
 import { Trans, useTranslation } from 'react-i18next'
@@ -22,6 +23,7 @@ import {
   VOUCHER_TYPE,
   type VoucherType,
 } from '../VoucherInstructionsGeneralForm'
+import { useGeneratePath } from '@/router'
 
 const CLIENT_ASSERTION_TYPE = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
 const GRANT_TYPE = 'client_credentials'
@@ -29,6 +31,7 @@ const GRANT_TYPE = 'client_credentials'
 export const VoucherInstructionsAccessTokenStep: React.FC = () => {
   const { t } = useTranslation('voucher')
   const [searchParams] = useSearchParams()
+  const generatePath = useGeneratePath()
 
   const { goToPreviousStep, goToNextStep } = useVoucherInstructionsContext()
 
@@ -48,6 +51,8 @@ export const VoucherInstructionsAccessTokenStep: React.FC = () => {
 
     return `${base}/session-token/session_token_curl_${interactionType.toLowerCase()}_${voucherType.toLowerCase()}.txt`
   }
+
+  const subscribeDebugVoucherPath = generatePath('SUBSCRIBE_DEBUG_VOUCHER')
 
   return (
     <>
@@ -158,7 +163,7 @@ export const VoucherInstructionsAccessTokenStep: React.FC = () => {
         />
         <IconLink
           endIcon={<OpenInNewIcon fontSize="small" />}
-          href={'SUBSCRIBE_DEBUG_VOUCHER'}
+          href={PUBLIC_URL + subscribeDebugVoucherPath}
           target="_blank"
           sx={{
             fontWeight: 600,
