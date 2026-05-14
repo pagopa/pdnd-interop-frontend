@@ -23,6 +23,7 @@ import { EServiceInterfaceSection } from '../sections/EServiceInterfaceSection'
 import { EServiceVoucherSection } from '../sections/EServiceVoucherSection'
 import { EServiceProducerKeychainSection } from '../sections/EServiceProducerKeychainSection'
 import { useQuery } from '@tanstack/react-query'
+import { useDialog } from '@/stores'
 
 type KeychainFieldArrayItem = { value: CompactProducerKeychain | null }
 
@@ -35,6 +36,7 @@ export type EServiceCreateStepTechSpecFormValues = {
 export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const { descriptor, eserviceTemplate, forward, back } = useEServiceCreateContext()
+  const { openDialog } = useDialog()
 
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
@@ -46,7 +48,7 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
 
   const { mutateAsync: addKeychainToEService } = KeychainMutations.useAddKeychainToEService()
   const { mutateAsync: removeKeychainFromEService } =
-    KeychainMutations.useRemoveKeychainFromEService()
+    KeychainMutations.useRemoveKeychainFromEService(false)
 
   // if this field is true some textField should be disabled
   const isEServiceCreatedFromTemplate = Boolean(descriptor?.templateRef?.templateVersionId)
@@ -97,6 +99,26 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
 
       const addedIds = finalIds.filter((id) => !initialIds.includes(id))
       const removedIds = initialIds.filter((id) => !finalIds.includes(id))
+
+      if (removedIds.length > 0) {
+        const hasConfirmed = await new Promise((resolve) => {
+          openDialog({
+            type: 'basic',
+            title: t('step4.producerKeychainSection.confirmationDialog.title'),
+            description: t('step4.producerKeychainSection.confirmationDialog.description'),
+            onProceed: () => {
+              resolve(true)
+            },
+            onCancel: () => {
+              resolve(false)
+            },
+          })
+        })
+
+        if (!hasConfirmed) {
+          return
+        }
+      }
 
       try {
         await Promise.all([
