@@ -19,6 +19,7 @@ const GeneralConfigs = z.object({
   NOTIFICATION_COUNT_REFRESH_INTERVAL: z.coerce.number().default(30000),
   AVATAR_BASEPATH: z.url().default('https://selfcare.pagopa.it'),
   SELFCARE_PRODUCT_ID: z.string().default('prod-interop'),
+  GRACE_PERIOD_ARCHIVING_ESERVICE: z.coerce.number().int().positive(),
 })
 
 const FeatureFlagConfigs = z.object({
@@ -123,6 +124,7 @@ export const {
   DOCUMENTATION_URL,
   AVATAR_BASEPATH,
   SELFCARE_PRODUCT_ID,
+  GRACE_PERIOD_ARCHIVING_ESERVICE,
 } = parseConfigs()
 
 export const APP_MODE = parseAppMode()
