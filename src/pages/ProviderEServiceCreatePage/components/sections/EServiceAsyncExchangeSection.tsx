@@ -130,7 +130,11 @@ export const EServiceAsyncExchangeSection: React.FC<EServiceAsyncExchangeSection
             type="number"
             inputProps={{ min: 1 }}
             required
-            rules={{ required: true, min: 1 }}
+            rules={{ 
+              required: true, 
+              min: 1,                         
+              validate: (value) => Number.isInteger(Number(value)) || t('validation.integer'),
+            }}
             sx={{ flex: 1, my: 0 }}
           />
         </Grid>
@@ -143,7 +147,11 @@ export const EServiceAsyncExchangeSection: React.FC<EServiceAsyncExchangeSection
             type="number"
             inputProps={{ min: 1 }}
             required
-            rules={{ required: true, min: 1 }}
+            rules={{ 
+              required: true, 
+              min: 1,                         
+              validate: (value) => Number.isInteger(Number(value)) || t('validation.integer'),
+            }}
             sx={{ flex: 1, my: 0 }}
           />
         </Grid>
@@ -156,7 +164,11 @@ export const EServiceAsyncExchangeSection: React.FC<EServiceAsyncExchangeSection
             type="number"
             inputProps={{ min: 1 }}
             required
-            rules={{ required: true, min: 1 }}
+            rules={{ 
+              required: true, 
+              min: 1,                         
+              validate: (value) => Number.isInteger(Number(value)) || t('validation.integer'),
+            }}
             sx={{ my: 0 }}
           />
         </Grid>

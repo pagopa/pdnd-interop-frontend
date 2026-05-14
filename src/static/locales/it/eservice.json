@@ -362,6 +362,9 @@
         "readOnlyOptions": {
           "true": "Sì",
           "false": "No"
+        },
+        "validation": {
+          "integer": "Il valore deve essere un numero intero"
         }
       }
     }
