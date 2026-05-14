@@ -115,7 +115,7 @@ describe('EServiceProducerKeychainSection', () => {
 
     expect(screen.getAllByRole('combobox').length).toBe(2)
     const removeButtons = screen.getAllByRole('button', { name: 'removeRowTooltip' })
-    expect(removeButtons.length).toBe(2)
+    expect(removeButtons.length).toBe(1)
     await userEvent.click(removeButtons[0])
     expect(screen.getAllByRole('combobox').length).toBe(1)
   })
