@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import ArchiveIcon from '@mui/icons-material/Archive'
 import { useTranslation } from 'react-i18next'
-import type { DialogShowVersionsListProps } from '@/types/dialog.types'
+import type { DialogShowEserviceVersionsListProps } from '@/types/dialog.types'
 import { useDialog } from '@/stores'
 import { Link } from '@/router'
 import { StatusChip } from '@/components/shared/StatusChip'
@@ -32,7 +32,7 @@ const mapToChipState = (
   return state
 }
 
-export const DialogShowVersionsList: React.FC<DialogShowVersionsListProps> = ({
+export const DialogShowEserviceVersionsList: React.FC<DialogShowEserviceVersionsListProps> = ({
   eserviceId,
   eserviceName,
   descriptors,

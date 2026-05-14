@@ -26,7 +26,7 @@ import type {
   DialogTenantKindEserviceTemplateProps,
   DialogTenantKindPurposeTemplateProps,
   DialogSelectAgreementConsumerProps,
-  DialogShowVersionsListProps,
+  DialogShowEserviceVersionsListProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -48,7 +48,7 @@ import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersio
 import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemplate'
 import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTemplate'
 import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/DialogSelectAgreementConsumer'
-import { DialogShowVersionsList } from './DialogShowVersionsList'
+import { DialogShowEserviceVersionsList } from './DialogShowEserviceVersionsList'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -72,7 +72,7 @@ function match<T>(
   onDialogTenantKindEserviceTemplate: (props: DialogTenantKindEserviceTemplateProps) => T,
   onDialogTenantKindPurposeTemplate: (props: DialogTenantKindPurposeTemplateProps) => T,
   onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T,
-  onShowVersionsList: (props: DialogShowVersionsListProps) => T
+  onShowEserviceVersionsList: (props: DialogShowEserviceVersionsListProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -118,8 +118,8 @@ function match<T>(
         return onDialogTenantKindPurposeTemplate(props)
       case 'selectAgreementConsumer':
         return onSelectAgreementConsumer(props)
-      case 'showVersionsList':
-        return onShowVersionsList(props)
+      case 'showEserviceVersionsList':
+        return onShowEserviceVersionsList(props)
     }
   }
 }
@@ -146,7 +146,7 @@ const _Dialog = match(
   (props) => <DialogTenantKindEserviceTemplate {...props} />,
   (props) => <DialogTenantKindPurposeTemplate {...props} />,
   (props) => <DialogSelectAgreementConsumer {...props} />,
-  (props) => <DialogShowVersionsList {...props} />
+  (props) => <DialogShowEserviceVersionsList {...props} />
 )
 
 export const Dialog: React.FC = () => {

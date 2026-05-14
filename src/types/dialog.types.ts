@@ -42,7 +42,7 @@ export type DialogProps =
   | DialogTenantKindEserviceTemplateProps
   | DialogTenantKindPurposeTemplateProps
   | DialogSelectAgreementConsumerProps
-  | DialogShowVersionsListProps
+  | DialogShowEserviceVersionsListProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -183,8 +183,8 @@ export type DialogTenantKindPurposeTemplateProps = {
   onConfirm: (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => void
 }
 
-export type DialogShowVersionsListProps = {
-  type: 'showVersionsList'
+export type DialogShowEserviceVersionsListProps = {
+  type: 'showEserviceVersionsList'
   eserviceId: string
   eserviceName: string
   descriptors: CompactDescriptorWithArchivingSchedule[]

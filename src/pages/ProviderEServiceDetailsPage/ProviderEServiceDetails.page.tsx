@@ -62,7 +62,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
                 label: descriptor.version,
                 onClick: () =>
                   openDialog({
-                    type: 'showVersionsList',
+                    type: 'showEserviceVersionsList',
                     eserviceId,
                     eserviceName: descriptor.eservice.name,
                     descriptors: descriptor.eservice.descriptors,
