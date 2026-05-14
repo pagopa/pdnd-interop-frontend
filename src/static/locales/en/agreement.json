@@ -131,6 +131,24 @@
     },
     "missingCertifiedAttributesAlert": "This draft cannot be activated at the moment. One or more requirements are not met. Delete it and create a new one.",
     "noPurposeAlert": "To access the data <1>create your first purpose</1>.",
+    "versionAlert": {
+      "deprecatedActive": "This e-service version is obsolete but still active. A new version is available.",
+      "deprecatedActiveShort": "This e-service version is obsolete but still active.",
+      "archivingDescriptor": "This e-service version will be archived on {{date}}. After that date, you will only be able to use the new version to exchange data with the e-service.",
+      "archivingSuspendedDescriptor": "This e-service version will be archived on {{date}}. It is currently suspended and cannot be used. A new version is available.",
+      "suspendedLast": "This e-service version is currently suspended and cannot be used.",
+      "suspendedLastNoNewVersion": "This e-service version is currently suspended and cannot be used. No new version is available.",
+      "archivedDescriptor": "This e-service version was archived on {{date}} and can no longer be used. To continue exchanging data with the e-service, switch to the new version. The agreement linked to this version can be archived.",
+      "archivedEService": "This e-service was archived on {{date}} and can no longer be used. The agreement linked to this version can be archived.",
+      "archivingEService": "This e-service will be archived on {{date}}. After that date, you will no longer be able to exchange data with the e-service.",
+      "seeDetails": "See details"
+    },
+    "archivingDetailsDrawer": {
+      "title": "Archiving details",
+      "subtitle": "The producer shared the following information when the archiving process for this e-service and all its versions was started.",
+      "reasonLabel": "Archiving reason",
+      "reasonPlaceholder": "No reason provided."
+    },
     "noCertifiedAttributesForUpgradeTooltip": "An update is available but your party does not have the minimum requirements to perform it.",
     "sections": {
       "generalInformations": {
