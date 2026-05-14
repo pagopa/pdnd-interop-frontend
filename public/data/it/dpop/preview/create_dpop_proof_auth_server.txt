@@ -1,0 +1,6 @@
+python create_dpop_proof_auth_server.py \
+  --alg=INSERISCI_VALORE_ALG \
+  --typ=INSERISCI_VALORE_TYP \
+  --htm=INSERISCI_VALORE_HTM \
+  --htu=INSERISCI_VALORE_HTU \
+  --keyPath=PATH_CHIAVE_PRIVATA

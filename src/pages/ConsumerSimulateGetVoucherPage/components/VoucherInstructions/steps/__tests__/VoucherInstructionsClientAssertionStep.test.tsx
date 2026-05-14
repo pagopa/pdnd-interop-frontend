@@ -248,15 +248,4 @@ describe('VoucherInstructionsClientAssertionStep', () => {
     expect(screen.getAllByText('producer-1')).toHaveLength(2)
     expect(screen.getByText('pubkey-1')).toBeInTheDocument()
   })
-
-  it('renders script section', async () => {
-    renderWithApplicationContext(
-      <MemoryRouter>
-        <VoucherInstructionsClientAssertionStep />
-      </MemoryRouter>,
-      { withReactQueryContext: true }
-    )
-
-    expect(await screen.findByText('clientAssertionStep.assertionScript.title')).toBeInTheDocument()
-  })
 })

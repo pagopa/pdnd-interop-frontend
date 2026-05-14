@@ -1,0 +1,7 @@
+python create_dpop_proof_resource_server.py \
+  --alg=INSERISCI_VALORE_ALG \
+  --typ=INSERISCI_VALORE_TYP \
+  --htm=INSERISCI_VALORE_HTM \
+  --htu=INSERISCI_VALORE_HTU \
+  --accessToken=INSERISCI_VALORE_ACCESS_TOKEN \
+  --keyPath=PATH_CHIAVE_PRIVATA

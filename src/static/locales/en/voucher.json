@@ -153,10 +153,66 @@
       }
     }
   },
+  "assertionScript": {
+    "title": "Terminal generation example",
+    "steps": {
+      "1": "Create a folder and name it “client_assertion_test”",
+      "2": "Place the script <1>{{ filename }}</1> in the folder (Python 3.8 required)",
+      "3": "Create a “keys” folder and place the private key inside, naming it “client-test-keypair.rsa.priv”.\nMake sure the private key matches the public key you selected in the previous step.",
+      "4": "Open the terminal and navigate to the client_assertion_test folder",
+      "5": "Paste the command below and press enter",
+      "result": "6. You'll receive a client assertion signed with your private key. Save this data for the next step.."
+    },
+    "exampleLabel": "Example usage"
+  },
   "firstDPoPProofStep": {
     "stepperLabel": "First DPoP Proof",
     "title": "DPoP Proof",
-    "description": "Now you need to generate the DPoP Proof (a signed JWT) to securely bind the session to your cryptographic keys and proceed with the voucher redemption. The key pair used is different from the one used for client assertion."
+    "description": "Now you need to generate the DPoP Proof (a signed JWT) to securely bind the session to your cryptographic keys and proceed with the voucher redemption. The key pair used is different from the one used for client assertion.",
+    "assertionHeader": {
+      "title": "Header",
+      "typField": {
+        "label": "TYP (Type)",
+        "description": "The type of object you are sending, in this case, a JWT.",
+        "copySuccessFeedbackText": "String successfully copied"
+      },
+      "algField": {
+        "label": "ALG (Algorithm)",
+        "description": "The algorithm used to sign this JWT. It can only be signed with RS256",
+        "copySuccessFeedbackText": "String successfully copied"
+      },
+      "jwkField": {
+        "label": "JWK (public key)",
+        "description": "The public key in JWK format corresponding to the private key used to sign the DPoP.",
+        "suggestionLabel": "Generate this parameter yourself.\nThe code starts with \"ey\""
+      }
+    },
+    "assertionPayload": {
+      "title": "Payload",
+      "htmField": {
+        "label": "HTM",
+        "description": "Indicates the HTTP method being invoked; in this case POST",
+        "copySuccessFeedbackText": "String successfully copied"
+      },
+      "htuField": {
+        "label": "HTU",
+        "description": "The URL being invoked; in this case a PDND Interoperability resource",
+        "copySuccessFeedbackText": "String successfully copied"
+      },
+      "jtiField": {
+        "label": "JTI (Unique Identifier)",
+        "description": "A unique identifier (UUID) for the DPoP. This is used to identify the token itself.",
+        "suggestionLabel": "Generate this parameter yourself.\nExample: 261cd445-3da6-421b-9ef4-7ba556efda5f"
+      },
+      "iatField": {
+        "label": "IAT (Creation Date and Time)",
+        "description": "Issued at, the timestamp reporting the date and time the token was created, expressed in UNIX epoch (numeric value, not string)",
+        "suggestionLabel": "Generate this parameter yourself.\nExample: 1651659340"
+      }
+    },
+    "navigateToDebugButton": {
+      "label": "Debug"
+    }
   },
   "secondDPoPProofStep": {
     "stepperLabel": "Second DPoP",
@@ -245,18 +301,6 @@
         "label": "EntityNumber",
         "description": "The number of entities present in the response."
       }
-    },
-    "assertionScript": {
-      "title": "Terminal generation example",
-      "steps": {
-        "1": "Create a folder and name it “client_assertion_test”",
-        "2": "Place the script <1>{{ filename }}</1> in the folder (Python 3.8 required)",
-        "3": "Create a “keys” folder and place the private key inside, naming it “client-test-keypair.rsa.priv”.\nMake sure the private key matches the public key you selected in the previous step.",
-        "4": "Open the terminal and navigate to the client_assertion_test folder",
-        "5": "Paste the command below and press enter",
-        "result": "6. You'll receive a client assertion signed with your private key. Save this data for the next step.."
-      },
-      "exampleLabel": "Example usage"
     }
   },
   "accessTokenStep": {
