@@ -2,7 +2,7 @@ import { SectionContainer } from '@/components/layout/containers'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { RHFCheckbox, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { asyncExchangeGuideLink } from '@/config/constants'
-import { Alert, Link, Stack, Typography } from '@mui/material'
+import { Alert, Grid, Link, Stack, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
@@ -120,42 +120,47 @@ export const EServiceAsyncExchangeSection: React.FC<EServiceAsyncExchangeSection
       <Typography variant="subtitle1" sx={{ mt: 3 }}>
         {t('configSubsection.title')}
       </Typography>
-      <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mt: 2 }}>
-        <RHFTextField
-          size="small"
-          name="asyncExchangeProperties.responseTime"
-          label={t('responseTimeField.label')}
-          infoLabel={t('responseTimeField.infoLabel')}
-          type="number"
-          inputProps={{ min: 1 }}
-          required
-          rules={{ required: true, min: 1 }}
-          sx={{ flex: 1, my: 0 }}
-        />
-        <RHFTextField
-          size="small"
-          name="asyncExchangeProperties.maxResultSet"
-          label={t('maxResultSetField.label')}
-          infoLabel={t('maxResultSetField.infoLabel')}
-          type="number"
-          inputProps={{ min: 1 }}
-          required
-          rules={{ required: true, min: 1 }}
-          sx={{ flex: 1, my: 0 }}
-        />
-      </Stack>
-      <RHFTextField
-        size="small"
-        name="asyncExchangeProperties.resourceAvailableTime"
-        label={t('resourceAvailableTimeField.label')}
-        infoLabel={t('resourceAvailableTimeField.infoLabel')}
-        type="number"
-        inputProps={{ min: 1 }}
-        required
-        rules={{ required: true, min: 1 }}
-        sx={{ mt: 2, my: 0 }}
-      />
-
+      <Grid container spacing={2} sx={{ mt: 1 }}>
+        <Grid item xs={12} sm={6}>
+          <RHFTextField
+            size="small"
+            name="asyncExchangeProperties.responseTime"
+            label={t('responseTimeField.label')}
+            infoLabel={t('responseTimeField.infoLabel')}
+            type="number"
+            inputProps={{ min: 1 }}
+            required
+            rules={{ required: true, min: 1 }}
+            sx={{ flex: 1, my: 0 }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <RHFTextField
+            size="small"
+            name="asyncExchangeProperties.maxResultSet"
+            label={t('maxResultSetField.label')}
+            infoLabel={t('maxResultSetField.infoLabel')}
+            type="number"
+            inputProps={{ min: 1 }}
+            required
+            rules={{ required: true, min: 1 }}
+            sx={{ flex: 1, my: 0 }}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <RHFTextField
+            size="small"
+            name="asyncExchangeProperties.resourceAvailableTime"
+            label={t('resourceAvailableTimeField.label')}
+            infoLabel={t('resourceAvailableTimeField.infoLabel')}
+            type="number"
+            inputProps={{ min: 1 }}
+            required
+            rules={{ required: true, min: 1 }}
+            sx={{ my: 0 }}
+          />
+        </Grid>
+      </Grid>
       <Typography variant="subtitle1" sx={{ mt: 3 }}>
         {t('advancedSubsection.title')}
       </Typography>
