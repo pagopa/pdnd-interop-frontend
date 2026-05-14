@@ -1,5 +1,5 @@
 import { ReactHookFormWrapper, renderWithApplicationContext } from '@/utils/testing.utils'
-import { screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import { EServiceAsyncExchangeSection } from '../EServiceAsyncExchangeSection'
 import {
   createMockEServiceDescriptorProviderAsync,
@@ -28,14 +28,15 @@ const defaultFormValues = {
 
 const renderComponent = (
   areEServiceGeneralInfoEditable = true,
-  descriptorOverrides: Parameters<typeof createMockEServiceDescriptorProviderAsync>[0] = {}
+  descriptorOverrides: Parameters<typeof createMockEServiceDescriptorProviderAsync>[0] = {},
+  formValues: typeof defaultFormValues = defaultFormValues
 ) => {
   mockUseEServiceCreateContext({
     descriptor: createMockEServiceDescriptorProviderAsync(descriptorOverrides),
     areEServiceGeneralInfoEditable,
   })
   return renderWithApplicationContext(
-    <ReactHookFormWrapper defaultValues={defaultFormValues}>
+    <ReactHookFormWrapper defaultValues={formValues}>
       <EServiceAsyncExchangeSection
         areEServiceGeneralInfoEditable={areEServiceGeneralInfoEditable}
       />
@@ -72,6 +73,32 @@ describe('EServiceAsyncExchangeSection', () => {
       name: /bulkField.label/,
     }) as HTMLInputElement
     expect(bulkCheckbox).toBeDisabled()
+  })
+
+  it('should force bulk to false when technology is SOAP, even if it starts as true', async () => {
+    renderComponent(
+      true,
+      {
+        eservice: {
+          ...createMockEServiceDescriptorProviderAsync().eservice,
+          technology: 'SOAP',
+        },
+      },
+      {
+        asyncExchangeProperties: {
+          ...defaultFormValues.asyncExchangeProperties,
+          bulk: true,
+        },
+      }
+    )
+
+    const bulkCheckbox = screen.getByRole('checkbox', {
+      name: /bulkField.label/,
+    }) as HTMLInputElement
+
+    await waitFor(() => {
+      expect(bulkCheckbox.checked).toBe(false)
+    })
   })
 
   it('should not disable the bulk checkbox when technology is REST', () => {
