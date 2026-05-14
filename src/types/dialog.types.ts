@@ -184,7 +184,6 @@ export type DialogTenantKindPurposeTemplateProps = {
 
 export type DialogArchiveVersionProps = {
   type: 'archiveVersion'
-  archiveDate: string
   eserviceId: string
   descriptorId: string
 }
