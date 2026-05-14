@@ -38,7 +38,7 @@ export const EServiceAsyncExchangeSection: React.FC<EServiceAsyncExchangeSection
   const description = (
     <Trans
       components={{
-        1: <Link underline="hover" href={asyncExchangeGuideLink} target="_blank" />,
+        1: <Link underline="hover" href={asyncExchangeGuideLink} target="_blank" rel="noopener noreferrer"/>,
       }}
     >
       {t('description')}
