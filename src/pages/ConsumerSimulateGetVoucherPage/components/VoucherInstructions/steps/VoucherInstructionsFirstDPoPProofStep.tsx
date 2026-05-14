@@ -7,7 +7,11 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import { SectionContainer } from '@/components/layout/containers'
 import { Grid } from '@mui/material'
 import { VerticalInformationContainer } from '@/components/shared/VerticalInformationContainer'
-import { AUTHORIZATION_SERVER_TOKEN_CREATION_URL, FE_URL } from '@/config/env'
+import {
+  AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
+  AUTHORIZATION_SERVER_TOKEN_CREATION_ASYNC_URL,
+  FE_URL,
+} from '@/config/env'
 import { VoucherScriptPreviewSection } from '../VoucherScriptPreviewSection'
 import {
   CLIENT_ASSERTION_ALG,
@@ -15,10 +19,16 @@ import {
   CLIENT_ASSERTION_TYP,
   VOUCHER_FIRST_DPOP_FILENAME,
 } from '@/config/constants'
+import { useSearchParams } from 'react-router-dom'
+import type { InteractionType } from '../VoucherInstructionsGeneralForm'
+import { INTERACTION_TYPE } from '../VoucherInstructionsGeneralForm'
 
 export const VoucherInstructionsFirstDPoPProofStep: React.FC = () => {
   const { t } = useTranslation('voucher')
+  const [searchParams] = useSearchParams()
   const { goToPreviousStep, goToNextStep } = useVoucherInstructionsContext()
+
+  const interactionType = (searchParams.get('interactionType') as InteractionType) || ''
 
   const getFilePath = (type: 'script' | 'preview') => {
     const base = `${FE_URL}/data/it`
@@ -27,6 +37,11 @@ export const VoucherInstructionsFirstDPoPProofStep: React.FC = () => {
 
     return `${base}/dpop/${type}/${VOUCHER_FIRST_DPOP_FILENAME}.${ext}`
   }
+
+  const authEndpointUrl =
+    interactionType === INTERACTION_TYPE.SYNC
+      ? AUTHORIZATION_SERVER_TOKEN_CREATION_URL
+      : AUTHORIZATION_SERVER_TOKEN_CREATION_ASYNC_URL
 
   return (
     <SectionContainer
@@ -80,9 +95,9 @@ export const VoucherInstructionsFirstDPoPProofStep: React.FC = () => {
           <VerticalInformationContainer
             label={t('firstDPoPProofStep.assertionPayload.htuField.label')}
             labelDescription={t('firstDPoPProofStep.assertionPayload.htuField.description')}
-            content={AUTHORIZATION_SERVER_TOKEN_CREATION_URL}
+            content={authEndpointUrl}
             copyToClipboard={{
-              value: AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
+              value: authEndpointUrl,
               tooltipTitle: t(
                 'firstDPoPProofStep.assertionPayload.htuField.copySuccessFeedbackText'
               ),
@@ -108,7 +123,7 @@ export const VoucherInstructionsFirstDPoPProofStep: React.FC = () => {
           INSERISCI_VALORE_ALG: CLIENT_ASSERTION_ALG,
           INSERISCI_VALORE_TYP: CLIENT_ASSERTION_TYP,
           INSERISCI_VALORE_HTM: CLIENT_ASSERTION_HTM,
-          INSERISCI_VALORE_HTU: AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
+          INSERISCI_VALORE_HTU: authEndpointUrl,
         }}
       />
       <StepActions
