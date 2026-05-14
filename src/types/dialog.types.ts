@@ -185,7 +185,6 @@ export type DialogTenantKindPurposeTemplateProps = {
 export type DialogArchiveEserviceProps = {
   type: 'archiveEservice'
   eserviceId: string
-  archiveDate: string
 }
 
 export type DialogCancelEserviceArchivingProps = {

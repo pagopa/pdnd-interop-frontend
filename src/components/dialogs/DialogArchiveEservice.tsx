@@ -18,15 +18,13 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { RequiredTextLabel } from '../shared/RequiredTextLabel'
+import addDays from 'date-fns/addDays'
 
 type ArchiveReasonFormValue = {
   reason: string
 }
 
-const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({
-  eserviceId,
-  archiveDate,
-}) => {
+const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceId }) => {
   const ariaLabelId = React.useId()
 
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
@@ -59,6 +57,7 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({
     closeDialog()
   }
 
+  const archiveDate = addDays(new Date(), GRACE_PERIOD_ARCHIVING_ESERVICE)
   const formattedArchiveDate = formatDateStringNumeric(archiveDate) // TODO get date and utils function from pr pin 9943
 
   const formMethods = useForm<ArchiveReasonFormValue>({
