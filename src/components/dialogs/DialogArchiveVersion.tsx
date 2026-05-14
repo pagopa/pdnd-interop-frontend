@@ -39,8 +39,7 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
     // TODO call mutation with descriptorId and eventually eserviceId
   }
 
-  const now = new Date()
-  const archiveDate = addDays(now, GRACE_PERIOD_ARCHIVING_ESERVICE)
+  const archiveDate = addDays(new Date(), GRACE_PERIOD_ARCHIVING_ESERVICE)
   const formattedArchiveDate = formatDateStringNumeric(archiveDate)
 
   return (
