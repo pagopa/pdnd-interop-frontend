@@ -56,7 +56,7 @@ export const VerticalInformationContainer: React.FC<VerticalInformationContainer
               <CopyToClipboardButton
                 value={copyToClipboard.value}
                 tooltipTitle={copyToClipboard.tooltipTitle}
-                sx={{ m: 0 }}
+                sx={{ m: 0, alignSelf: 'flex-start' }}
               />
             )}
           </Box>
