@@ -509,6 +509,12 @@
   },
   "read": {
     "versionHeaderLabel": "Version",
+    "versionListModal": {
+      "title": "Version statuses",
+      "versionRowLabel": "Version {{ version }}",
+      "scheduledArchivalTooltipDescriptor": "Version scheduled for archival on {{ date }}",
+      "scheduledArchivalTooltipEservice": "E-service scheduled for archival on {{ date }}"
+    },
     "tabs": {
       "ariaLabel": "Two different tabs for e-service details and associated keychains",
       "eserviceDetails": "E-service details",
