@@ -112,7 +112,7 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
           </Stack>
         </Alert>
       </SectionContainer>
-      {clientKind === 'API' && interactionType === INTERACTION_TYPE.SYNC && (
+      {clientKind === 'API' && voucherType === VOUCHER_TYPE.BEARER && (
         <>
           <SectionContainer
             title={t('dataAccessStep.pdndInteroperability.title')}
