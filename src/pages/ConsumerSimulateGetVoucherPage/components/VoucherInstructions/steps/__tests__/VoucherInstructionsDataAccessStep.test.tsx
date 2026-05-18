@@ -45,6 +45,11 @@ vi.mock('@/api/eservice', () => ({
   },
 }))
 
+vi.mock('../../CodeSnippetPreview', () => ({
+  CodeSnippetPreview: () => null,
+  default: () => null,
+}))
+
 vi.mock('@tanstack/react-query', async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   const actual = await importOriginal<typeof import('@tanstack/react-query')>()
