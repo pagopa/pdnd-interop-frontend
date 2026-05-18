@@ -218,7 +218,84 @@
   "secondDPoPProofStep": {
     "stepperLabel": "Second DPoP",
     "title": "Generate the second DPoP",
-    "description": "Now that the PDND authorization server has issued you a token, generate its hash and insert it into the second DPoP."
+    "description": "Now that the PDND authorization server has issued you a token, generate its hash and insert it into the second DPoP.",
+    "assertionHeader": {
+      "title": "Header",
+      "typField": {
+        "label": "TYP (Type)",
+        "description": "The type of object being sent, in this case, a JWT.",
+        "copySuccessFeedbackText": "String successfully copied"
+      },
+      "algField": {
+        "label": "ALG (Algorithm)",
+        "description": "The algorithm used to sign this JWT. It can only be signed with RS256",
+        "copySuccessFeedbackText": "String successfully copied"
+      },
+      "jwkField": {
+        "label": "JWK (public key)",
+        "description": "The public key in JWK format corresponding to the private key used to sign the DPoP.",
+        "suggestionLabel": "Generate this parameter yourself.\nThe code starts with \"ey\""
+      }
+    },
+    "assertionPayload": {
+      "title": "Payload",
+      "htmField": {
+        "label": "HTM",
+        "description": "Indicates the HTTP method you want to invoke against the resource"
+      },
+      "htuField": {
+        "label": "HTU",
+        "description": "The URL of the resource you want to invoke"
+      },
+      "alert": "You can find information about the HTM and HTU parameters within the e-service's OpenAPI interface.",
+      "athField": {
+        "label": "ATH",
+        "description": "The hash of the voucher released by PDND in the previous step.",
+        "suggestionLabel": "Generate this parameter by calculating the hash of the voucher received from PDND in the previous step.\nExample: 5ubMEMN4EjM0z2SnZRhCKzxJZFlcsrEhz1bVRTzfkZU="
+      },
+      "jtiField": {
+        "label": "JTI (Unique Identifier)",
+        "description": "A unique identifier (UUID) for the DPoP. This is used to identify the token itself.",
+        "suggestionLabel": "Generate this parameter yourself. \nExample: 261cd445-3da6-421b-9ef4-7ba556efda5f"
+      },
+      "iatField": {
+        "label": "IAT (Creation Date and Time)",
+        "description": "Issued at, the timestamp reporting the date and time the token was created, expressed in UNIX epoch (numeric value, not string)",
+        "suggestionLabel": "Generate this parameter yourself.\nExample: 1651659340"
+      }
+    },
+    "assertionScript": {
+      "title": "Terminal generation example",
+      "steps": {
+        "1": "n the previously created \"client_assertion_test\" folder, paste the script <1>{{ filename }}</1> (Python 3.8 is required)",
+        "2": "Reopen the terminal and paste the command below.",
+        "3": "Replace the ACCESS_TOKEN value with the JWT returned by the PDND authorization server in the previous step. This will be used to calculate the ATH parameter, which will be inserted into the second DPoP Proof.",
+        "4": "Use the same path and private key used for the first DPoP Proof. The HTM and HTU paths are pre-populated based on the data entered previously.",
+        "5": "Send the command.",
+        "result": "6. You'll receive a client assertion signed with your private key. Save this data for the next step."
+      },
+      "exampleLabel": "Example of use"
+    },
+    "exampleRequest": {
+      "title": {
+        "eservice": "Example of request to the producer",
+        "pdnd": "Example of a request to PDND"
+      },
+      "description": "If the token is valid, use it against the producer's API before it expires.",
+      "alert": {
+        "title": "Sample script. The producer may require additional parameters in the request. Before proceeding, check your producer's documentation.",
+        "actionLabel": "View e-service"
+      }
+    },
+    "pdndInteroperability": {
+      "title": "PDND",
+      "description": "The API that allows parties to interact with PDND in machine-to-machine mode",
+      "actionLabel": "Consult",
+      "apiV3": {
+        "title": "API v3",
+        "description": "API that allows you to automate read and write operations related to PDND. Interoperability with a high level of security."
+      }
+    }
   },
   "clientAssertionStep": {
     "stepperLabel": "Generate client assertion",

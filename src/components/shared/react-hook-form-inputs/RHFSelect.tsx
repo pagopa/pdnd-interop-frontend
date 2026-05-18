@@ -1,6 +1,7 @@
 import React, { useId } from 'react'
 import {
   FormControl,
+  FormHelperText,
   InputLabel,
   MenuItem,
   Select as MUISelect,
@@ -20,6 +21,7 @@ export type RHFSelectProps = Omit<MUISelectProps, 'onChange' | 'label' | 'value'
   rules?: ControllerProps['rules']
   onValueChange?: (value: string | number) => void
   emptyLabel?: string
+  infoLabel?: string
 }
 
 export const RHFSelect: React.FC<RHFSelectProps> = ({
@@ -31,6 +33,7 @@ export const RHFSelect: React.FC<RHFSelectProps> = ({
   emptyLabel,
   disabled,
   size = 'small',
+  infoLabel,
   ...props
 }) => {
   const { formState } = useFormContext()
@@ -91,6 +94,11 @@ export const RHFSelect: React.FC<RHFSelectProps> = ({
               <MenuItem value="">{emptyLabel ?? ''}</MenuItem>
             )}
           </MUISelect>
+          {infoLabel && (
+            <FormHelperText component="span" error={false} sx={{ fontWeight: 400 }}>
+              {infoLabel}
+            </FormHelperText>
+          )}
         </FormControl>
       )}
     />
