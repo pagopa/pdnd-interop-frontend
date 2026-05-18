@@ -67,11 +67,14 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
     enabled: isProducerKeychainSectionVisible && Boolean(descriptor?.eservice.id),
   })
 
-  const defaultValues: EServiceCreateStepTechSpecFormValues = {
-    audience: descriptor?.audience?.[0] ?? '',
-    voucherLifespan: descriptor ? secondsToMinutes(descriptor.voucherLifespan) : 1,
-    keychains: [{ value: null }],
-  }
+  const defaultValues = React.useMemo<EServiceCreateStepTechSpecFormValues>(
+    () => ({
+      audience: descriptor?.audience?.[0] ?? '',
+      voucherLifespan: descriptor ? secondsToMinutes(descriptor.voucherLifespan) : 1,
+      keychains: [{ value: null }],
+    }),
+    [descriptor]
+  )
 
   const formMethods = useForm({ defaultValues })
 
@@ -82,11 +85,14 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
     if (initialAssociatedKeychains.length === 0) return
 
     hasInitializedKeychainsRef.current = true
-    formMethods.setValue(
-      'keychains',
-      initialAssociatedKeychains.map((k) => ({ value: k }))
+    formMethods.reset(
+      {
+        ...defaultValues,
+        keychains: initialAssociatedKeychains.map((k) => ({ value: k })),
+      },
+      { keepDirtyValues: true }
     )
-  }, [initialAssociatedKeychains, isProducerKeychainSectionVisible, formMethods])
+  }, [initialAssociatedKeychains, isProducerKeychainSectionVisible, formMethods, defaultValues])
 
   const onSubmit: SubmitHandler<EServiceCreateStepTechSpecFormValues> = async (values) => {
     if (!descriptor) return
