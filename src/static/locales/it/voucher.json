@@ -1,6 +1,7 @@
 {
   "backBtn": "Indietro",
   "proceedBtn": "Avanti",
+  "newSimulationBtn": "Nuova simulazione",
   "beginSimulation": "Inizia simulazione",
   "noPurposesLabelAdmin": {
     "title": "Il client selezionato non è associato ad alcuna finalità",
@@ -363,35 +364,54 @@
     "stepperLabelBearer": "Accesso ai dati",
     "stepperLabelDPoP": "Risposta PDND",
     "actionLabel": "Consulta",
-    "CONSUMER": {
-      "title": "Congratulazioni!",
-      "description": "Ora puoi accedere all’API dell’e-service <strong>{{ eserviceName }}</strong> erogato da <strong>{{ producerName }}</strong> ",
-      "actionTitle": "Scheda e-service",
-      "actionDescription": "Puoi accedere ai dati messi a disposizione dall’erogatore",
-      "actionLabel": "Vai alla scheda e-service"
+    "pdndAccessToken": {
+      "title": "Hai ricevuto il token di accesso da PDND?",
+      "description": "Una volta formulata la richiesta al server autorizzativo di PDND, puoi avere due risultati. Se la richiesta è andata a buon fine ti verrà restituito un token da spendere verso l’erogatore. Se qualcosa è andato storto usa lo strumento di debug a disposizione.",
+      "successAlert": {
+        "title": "Sì, ho ricevuto una risposta contenente un token di accesso",
+        "description": "Congratulazioni, il token è stato generato correttamente da PDND."
+      },
+      "failureAlert": {
+        "title": "No, non ho ricevuto una risposta contenente un token di accesso",
+        "description": "Qualcosa è andato storto. Utilizza lo strumento di debug per capire cosa è successo.",
+        "debugButton": "Effettua debug"
+      }
     },
-    "API": {
-      "title": "Congratulazioni!",
-      "description": "Ora puoi accedere alle API di PDND Interoperabilità",
-      "actionTitle": "PDND Interoperabilità",
-      "actionDescription": "L’API che permette agli aderenti di interagire con PDND Interoperabilità in modalità machine to machine",
-      "titleSignalHub": "Signal Hub",
+    "pdndInteroperability": {
+      "title": "PDND Interoperabilità",
+      "description": "L’API che permette agli aderenti di interagire con PDND Interoperabilità in modalità machine to machine",
       "actionLabel": "Consulta",
-      "apiV1": {
-        "title": "API v.1 (in dismissione)",
-        "description": "La versione API attualmente utilizzata e in dismissione."
-      },
       "apiV2": {
-        "title": "API v.2 (consigliato)",
-        "description": "La versione API più recente come nuovo standard per le comunicazioni machine to machine verso Interoperabilità."
+        "title": "API v2 (deprecato)",
+        "description": "API che permette di automatizzare le operazioni di lettura e scrittura relative a PDND Interoperabilità, basate su access token Bearer."
       },
+      "apiV3": {
+        "title": "API v3",
+        "description": "API che permette di automatizzare le operazioni di lettura e scrittura relative a PDND Interoperabilità con elevato livello di sicurezza."
+      }
+    },
+    "signalHub": {
+      "title": "Signal Hub",
+      "description": "Il servizio che informa i fruitori quando i dati dell'e-service vengono modificati.",
+      "actionLabel": "Consulta",
       "pushApiSH": {
-        "title": "Deposito segnali (Push API)",
+        "title": "Push API",
         "description": "L’API che permette agli erogatori di inviare i segnali di variazione sui dati"
       },
       "pullApiSH": {
-        "title": "Recupero segnali (Pull API)",
+        "title": "Pull API",
         "description": "L’API che permette ai fruitori di recuperare i segnali di variazione sui dati"
+      }
+    },
+    "exampleRequest": {
+      "title": {
+        "eservice": "Esempio di richiesta verso l'erogatore",
+        "pdnd": "Esempio di richiesta verso PDND"
+      },
+      "description": "Se il token è valido, utilizzalo verso l’API dell’erogatore prima che scada.",
+      "alert": {
+        "title": "Script di esempio. L’erogatore potrebbe necessitare di altri parametri nella richiesta. Prima di procedere, controlla la documentazione dell’erogatore.",
+        "actionLabel": "Visualizza e-service"
       }
     }
   },

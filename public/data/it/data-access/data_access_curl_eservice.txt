@@ -1,0 +1,2 @@
+curl -X HTTP_METHOD "LA_TUA_RISORSA" \
+    -H "Authorization: Bearer [VOUCHER_OTTENUTO]"

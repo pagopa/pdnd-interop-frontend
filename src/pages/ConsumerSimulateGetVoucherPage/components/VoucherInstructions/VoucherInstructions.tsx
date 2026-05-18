@@ -14,13 +14,15 @@ import { VoucherInstructionsDataAccessStep } from './steps/VoucherInstructionsDa
 import { RequiredTextLabel } from '@/components/shared/RequiredTextLabel'
 import { VoucherInstructionsFirstDPoPProofStep } from './steps/VoucherInstructionsFirstDPoPProofStep'
 import { VoucherInstructionsSecondDPoPProofStep } from './steps/VoucherInstructionsSecondDPoPProofStep'
+import { useSearchParams } from 'react-router-dom'
 
 export const VoucherInstructions: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
-  const { activeStep, forward, back } = useActiveStep()
+  const { activeStep, forward, back, reset } = useActiveStep()
   const [showStepper, setShowStepper] = React.useState(false)
   const [steps, setSteps] = React.useState<{ label: string; component: React.FC<{}> }[]>([])
+  const [_, setSearchParams] = useSearchParams()
 
   const Step = steps?.[activeStep]?.component
 
@@ -86,10 +88,18 @@ export const VoucherInstructions: React.FC = () => {
     [bearerFlowSteps, dPoPFlowSteps]
   )
 
+  const handleReset = React.useCallback(() => {
+    reset?.()
+    setShowStepper(false)
+    setSteps([])
+    setSearchParams({}, { replace: true })
+  }, [reset, setSearchParams])
+
   const contextProps = {
     goToPreviousStep: handleBack,
     goToNextStep: forward,
     startStepper: generateSteps,
+    resetStepper: handleReset,
   }
 
   return (

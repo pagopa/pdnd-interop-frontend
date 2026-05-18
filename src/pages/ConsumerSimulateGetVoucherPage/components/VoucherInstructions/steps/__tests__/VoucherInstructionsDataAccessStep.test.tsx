@@ -3,21 +3,30 @@ import { vi } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { VoucherInstructionsDataAccessStep } from '../VoucherInstructionsDataAccessStep'
+import { INTERACTION_TYPE, VOUCHER_TYPE } from '../../VoucherInstructionsGeneralForm'
 
 const goToPreviousStepMock = vi.fn()
 const goToNextStepMock = vi.fn()
+const resetStepperMock = vi.fn()
+
 const useClientKindMock = vi.fn()
 const useQueryMock = vi.fn()
+const navigateMock = vi.fn()
 
 vi.mock('../VoucherInstructionsContext', () => ({
   useVoucherInstructionsContext: () => ({
     goToPreviousStep: goToPreviousStepMock,
     goToNextStep: goToNextStepMock,
+    resetStepper: resetStepperMock,
   }),
 }))
 
 vi.mock('@/hooks/useClientKind', () => ({
   useClientKind: () => useClientKindMock(),
+}))
+
+vi.mock('@/router', () => ({
+  useNavigate: () => navigateMock,
 }))
 
 vi.mock('@/api/purpose', () => ({
@@ -28,76 +37,81 @@ vi.mock('@/api/purpose', () => ({
   },
 }))
 
+vi.mock('@/api/eservice', () => ({
+  EServiceQueries: {
+    getSingle: (id: string) => ({
+      queryKey: ['EServiceGetSingle', id],
+    }),
+  },
+}))
+
 vi.mock('@tanstack/react-query', async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   const actual = await importOriginal<typeof import('@tanstack/react-query')>()
+
   return {
     ...actual,
     useQuery: () => useQueryMock(),
   }
 })
 
+const useSearchParamsMock = vi.fn()
+
+vi.mock('react-router-dom', async () => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+  const actual = await vi.importActual<typeof import('react-router-dom')>('react-router-dom')
+
+  return {
+    ...actual,
+    useSearchParams: () => useSearchParamsMock(),
+  }
+})
+
 describe('VoucherInstructionsDataAccessStep', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+
+    useSearchParamsMock.mockReturnValue([new URLSearchParams(), vi.fn()])
   })
 
-  it('renders base content without purpose', async () => {
+  it('renders PDND access token section', async () => {
     useClientKindMock.mockReturnValue('CONSUMER')
-    useQueryMock.mockReturnValue({ data: undefined })
 
-    renderWithApplicationContext(
-      <MemoryRouter>
-        <VoucherInstructionsDataAccessStep />
-      </MemoryRouter>,
-      { withReactQueryContext: true }
-    )
-
-    expect(await screen.findByText('dataAccessStep.CONSUMER.title')).toBeInTheDocument()
-    expect(await screen.findByText('dataAccessStep.CONSUMER.actionTitle')).toBeInTheDocument()
-  })
-
-  it('does not render consumer link when purpose is missing', async () => {
-    useClientKindMock.mockReturnValue('CONSUMER')
-    useQueryMock.mockReturnValue({ data: undefined })
-
-    renderWithApplicationContext(
-      <MemoryRouter>
-        <VoucherInstructionsDataAccessStep />
-      </MemoryRouter>,
-      { withReactQueryContext: true }
-    )
-
-    expect(screen.queryByText('dataAccessStep.CONSUMER.actionLabel')).not.toBeInTheDocument()
-  })
-
-  it('renders consumer link when purpose exists', async () => {
-    useClientKindMock.mockReturnValue('CONSUMER')
     useQueryMock.mockReturnValue({
-      data: {
-        eservice: {
-          id: '1',
-          name: 'ServiceName',
-          producer: { name: 'ProducerName' },
-          descriptor: { id: 'd1' },
-        },
-      },
+      data: undefined,
     })
 
     renderWithApplicationContext(
-      <MemoryRouter initialEntries={['?purposeId=123']}>
+      <MemoryRouter>
         <VoucherInstructionsDataAccessStep />
       </MemoryRouter>,
       { withReactQueryContext: true }
     )
 
-    const link = await screen.findByRole('button')
-    expect(link).toBeInTheDocument()
+    expect(await screen.findByText('dataAccessStep.pdndAccessToken.title')).toBeInTheDocument()
+
+    expect(
+      screen.getByText('dataAccessStep.pdndAccessToken.successAlert.title')
+    ).toBeInTheDocument()
+
+    expect(
+      screen.getByText('dataAccessStep.pdndAccessToken.failureAlert.title')
+    ).toBeInTheDocument()
   })
 
-  it('renders API sections when clientKind is API', async () => {
+  it('renders interoperability sections for API sync flow', async () => {
     useClientKindMock.mockReturnValue('API')
-    useQueryMock.mockReturnValue({ data: undefined })
+
+    useSearchParamsMock.mockReturnValue([
+      new URLSearchParams({
+        interactionType: INTERACTION_TYPE.SYNC,
+      }),
+      vi.fn(),
+    ])
+
+    useQueryMock.mockReturnValue({
+      data: undefined,
+    })
 
     renderWithApplicationContext(
       <MemoryRouter>
@@ -106,15 +120,26 @@ describe('VoucherInstructionsDataAccessStep', () => {
       { withReactQueryContext: true }
     )
 
-    expect(await screen.findByText('dataAccessStep.API.apiV1.title')).toBeInTheDocument()
-    expect(await screen.findByText('dataAccessStep.API.apiV1.description')).toBeInTheDocument()
-    expect(await screen.findByText('dataAccessStep.API.apiV2.title')).toBeInTheDocument()
-    expect(await screen.findByText('dataAccessStep.API.apiV2.description')).toBeInTheDocument()
+    expect(await screen.findByText('dataAccessStep.pdndInteroperability.title')).toBeInTheDocument()
+
+    expect(screen.getByText('dataAccessStep.pdndInteroperability.apiV2.title')).toBeInTheDocument()
+
+    expect(screen.getByText('dataAccessStep.pdndInteroperability.apiV3.title')).toBeInTheDocument()
   })
 
-  it('renders SignalHub section for API', async () => {
+  it('renders SignalHub section for API sync flow', async () => {
     useClientKindMock.mockReturnValue('API')
-    useQueryMock.mockReturnValue({ data: undefined })
+
+    useSearchParamsMock.mockReturnValue([
+      new URLSearchParams({
+        interactionType: INTERACTION_TYPE.SYNC,
+      }),
+      vi.fn(),
+    ])
+
+    useQueryMock.mockReturnValue({
+      data: undefined,
+    })
 
     renderWithApplicationContext(
       <MemoryRouter>
@@ -123,8 +148,86 @@ describe('VoucherInstructionsDataAccessStep', () => {
       { withReactQueryContext: true }
     )
 
-    expect(await screen.findByText('dataAccessStep.API.titleSignalHub')).toBeInTheDocument()
-    expect(await screen.findByText('dataAccessStep.API.pushApiSH.title')).toBeInTheDocument()
-    expect(await screen.findByText('dataAccessStep.API.pushApiSH.description')).toBeInTheDocument()
+    expect(await screen.findByText('dataAccessStep.signalHub.title')).toBeInTheDocument()
+
+    expect(screen.getByText('dataAccessStep.signalHub.pushApiSH.title')).toBeInTheDocument()
+
+    expect(screen.getByText('dataAccessStep.signalHub.pullApiSH.title')).toBeInTheDocument()
+  })
+
+  it('renders example request section for consumer bearer flow', async () => {
+    useClientKindMock.mockReturnValue('CONSUMER')
+
+    useSearchParamsMock.mockReturnValue([
+      new URLSearchParams({
+        voucherType: VOUCHER_TYPE.BEARER,
+      }),
+      vi.fn(),
+    ])
+
+    useQueryMock.mockReturnValue({
+      data: undefined,
+    })
+
+    renderWithApplicationContext(
+      <MemoryRouter>
+        <VoucherInstructionsDataAccessStep />
+      </MemoryRouter>,
+      { withReactQueryContext: true }
+    )
+
+    expect(
+      await screen.findByText('dataAccessStep.exampleRequest.title.eservice')
+    ).toBeInTheDocument()
+
+    expect(screen.getByText('dataAccessStep.exampleRequest.description')).toBeInTheDocument()
+  })
+
+  it('renders proceed button for DPOP flow', async () => {
+    useClientKindMock.mockReturnValue('CONSUMER')
+
+    useSearchParamsMock.mockReturnValue([
+      new URLSearchParams({
+        voucherType: VOUCHER_TYPE.DPOP,
+      }),
+      vi.fn(),
+    ])
+
+    useQueryMock.mockReturnValue({
+      data: undefined,
+    })
+
+    renderWithApplicationContext(
+      <MemoryRouter>
+        <VoucherInstructionsDataAccessStep />
+      </MemoryRouter>,
+      { withReactQueryContext: true }
+    )
+
+    expect(await screen.findByText('proceedBtn')).toBeInTheDocument()
+  })
+
+  it('renders reset button for non DPOP flow', async () => {
+    useClientKindMock.mockReturnValue('CONSUMER')
+
+    useSearchParamsMock.mockReturnValue([
+      new URLSearchParams({
+        voucherType: VOUCHER_TYPE.BEARER,
+      }),
+      vi.fn(),
+    ])
+
+    useQueryMock.mockReturnValue({
+      data: undefined,
+    })
+
+    renderWithApplicationContext(
+      <MemoryRouter>
+        <VoucherInstructionsDataAccessStep />
+      </MemoryRouter>,
+      { withReactQueryContext: true }
+    )
+
+    expect(await screen.findByText('newSimulationBtn')).toBeInTheDocument()
   })
 })
