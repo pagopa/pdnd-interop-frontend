@@ -25,6 +25,7 @@ import { FE_URL } from '@/config/env'
 import { useNavigate } from '@/router'
 import { RestartAlt } from '@mui/icons-material'
 import { EServiceQueries } from '@/api/eservice'
+import { theme } from '@pagopa/interop-fe-commons'
 
 export const VoucherInstructionsDataAccessStep: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -76,9 +77,8 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
           severity="success"
           variant="outlined"
           sx={{
-            borderLeft: 0,
             boxShadow: 'unset',
-            border: '1px solid #E3E7EB',
+            border: `1px solid ${theme.palette.divider}`,
             borderRadius: 2,
             mb: 2,
           }}
@@ -92,9 +92,8 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
           severity="error"
           variant="outlined"
           sx={{
-            borderLeft: 0,
             boxShadow: 'unset',
-            border: '1px solid #E3E7EB',
+            border: `1px solid ${theme.palette.divider}`,
             borderRadius: 2,
             '& .MuiAlert-message': { width: '100%' },
           }}
