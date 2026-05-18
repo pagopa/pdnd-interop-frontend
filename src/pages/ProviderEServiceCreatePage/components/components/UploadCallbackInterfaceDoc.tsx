@@ -1,12 +1,10 @@
 import { useTranslation } from 'react-i18next'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
-import { EServiceDownloads, EServiceMutations } from '@/api/eservice'
-import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
-import { AuthHooks } from '@/api/auth'
 import { UploadDocumentsInterface } from '@/components/shared/UploadDocumentsInterface'
 import { type SubmitHandler } from 'react-hook-form'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
+import { useInterfaceDocActions } from './useInterfaceDocActions'
 
 type UploadCallbackInterfaceDocFormValues = {
   interfaceDoc: File | null
@@ -23,45 +21,17 @@ export const UploadCallbackInterfaceDoc: React.FC<UploadCallbackInterfaceDocProp
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step4.asyncExchangeSection' })
   const { descriptor } = useEServiceCreateContext()
-  const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
-  const { mutate: deleteDocument } = EServiceMutations.useDeleteVersionDraftDocument()
-  const { mutate: uploadDocument } = EServiceMutations.usePostVersionDraftDocument()
-  const { jwt } = AuthHooks.useJwt()
   const actualInterface: EServiceDoc | null = descriptor?.asyncExchangeCallbackInterface ?? null
 
+  const { onUpload, onDelete, onDownload } = useInterfaceDocActions({
+    doc: actualInterface,
+    kind: 'ASYNC_EXCHANGE_CALLBACK_INTERFACE',
+    prettyName: t('callbackInterface.prettyName'),
+  })
+
   const onSubmit: SubmitHandler<UploadCallbackInterfaceDocFormValues> = ({ interfaceDoc }) => {
-    if (!interfaceDoc || !descriptor) return
-
-    const prettyName = t('callbackInterface.prettyName')
-
-    uploadDocument({
-      eserviceId: descriptor.eservice.id,
-      descriptorId: descriptor.id,
-      doc: interfaceDoc,
-      prettyName: `${prettyName}_${descriptor.eservice.name}_${jwt?.organization.name}_v${descriptor.version}`,
-      kind: 'ASYNC_EXCHANGE_CALLBACK_INTERFACE',
-    })
-  }
-
-  const handleDeleteInterface = () => {
-    if (!actualInterface || !descriptor) return
-    deleteDocument({
-      eserviceId: descriptor.eservice.id,
-      descriptorId: descriptor.id,
-      documentId: actualInterface.id,
-    })
-  }
-
-  const handleDownloadInterface = () => {
-    if (!actualInterface || !descriptor) return
-    downloadDocument(
-      {
-        eserviceId: descriptor.eservice.id,
-        descriptorId: descriptor.id,
-        documentId: actualInterface.id,
-      },
-      getDownloadDocumentName(actualInterface)
-    )
+    if (!interfaceDoc) return
+    onUpload(interfaceDoc)
   }
 
   if (readOnly) {
@@ -69,7 +39,7 @@ export const UploadCallbackInterfaceDoc: React.FC<UploadCallbackInterfaceDocProp
     return (
       <DocumentContainer
         doc={actualInterface}
-        onDownload={handleDownloadInterface}
+        onDownload={onDownload}
         size="small"
       />
     )
@@ -80,8 +50,8 @@ export const UploadCallbackInterfaceDoc: React.FC<UploadCallbackInterfaceDocProp
       <DocumentContainer
         sx={{ mt: 4 }}
         doc={actualInterface}
-        onDelete={handleDeleteInterface}
-        onDownload={handleDownloadInterface}
+        onDelete={onDelete}
+        onDownload={onDownload}
         size="small"
       />
     )
