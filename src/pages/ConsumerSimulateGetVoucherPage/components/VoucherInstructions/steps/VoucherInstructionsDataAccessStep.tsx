@@ -18,8 +18,8 @@ import {
   apiSignalhubPullLink,
 } from '@/config/constants'
 import { useSearchParams } from 'react-router-dom'
-import type { InteractionType, VoucherType } from '../VoucherInstructionsGeneralForm'
-import { INTERACTION_TYPE, VOUCHER_TYPE } from '../VoucherInstructionsGeneralForm'
+import type { InteractionType, MemberType, VoucherType } from '../VoucherInstructionsGeneralForm'
+import { INTERACTION_TYPE, MEMBER_TYPE, VOUCHER_TYPE } from '../VoucherInstructionsGeneralForm'
 import { CodeSnippetPreview } from '../CodeSnippetPreview'
 import { FE_URL } from '@/config/env'
 import { useNavigate } from '@/router'
@@ -35,6 +35,7 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
 
   const purposeId = searchParams.get('purposeId') || ''
   const voucherType = (searchParams.get('voucherType') as VoucherType) || ''
+  const memberType = (searchParams.get('memberType') as MemberType) || ''
   const eserviceId = searchParams.get('eserviceId') || ''
 
   const { data: purpose } = useQuery({
@@ -42,6 +43,7 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
     enabled: Boolean(purposeId),
   })
 
+  /* @TODO - use this for the redirect when the bff will return the descriptorId (https://pagopa.atlassian.net/browse/PIN-10116) */
   const { data: eservice } = useQuery({
     ...EServiceQueries.getSingle(eserviceId),
     enabled: Boolean(eserviceId),
@@ -55,7 +57,7 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
     return `${base}/data-access/data_access_curl_${clientKind === 'CONSUMER' ? 'eservice' : 'pdnd'}.txt`
   }
 
-  /* @TODO - add condition if async + producer */
+  /* @TODO - add condition if async + producer (waiting for bff to return the descriptorId) (https://pagopa.atlassian.net/browse/PIN-10116) */
   const handleNavigateToEservice = () => {
     if (purpose) {
       navigate('PROVIDE_ESERVICE_MANAGE', {
@@ -236,9 +238,12 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
               <Typography variant="body2">
                 {t('dataAccessStep.exampleRequest.alert.title')}
               </Typography>
-              <Button sx={{ whiteSpace: 'nowrap' }} onClick={() => handleNavigateToEservice()}>
-                {t('dataAccessStep.exampleRequest.alert.actionLabel')}
-              </Button>
+              {/* @TODO remove this condition when the bff will return the descriptorId for the redirect (https://pagopa.atlassian.net/browse/PIN-10116) */}
+              {memberType === MEMBER_TYPE.CONSUMER && (
+                <Button sx={{ whiteSpace: 'nowrap' }} onClick={() => handleNavigateToEservice()}>
+                  {t('dataAccessStep.exampleRequest.alert.actionLabel')}
+                </Button>
+              )}
             </Stack>
           </Alert>
         </SectionContainer>
