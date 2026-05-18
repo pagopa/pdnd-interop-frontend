@@ -5,21 +5,100 @@ set -e
 baseline_diff="$(mktemp)"
 after_lint_diff="$(mktemp)"
 lint_output="$(mktemp)"
-trap 'rm -f "$baseline_diff" "$after_lint_diff" "$lint_output"' EXIT
+changed_files="$(mktemp)"
+trap 'rm -f "$baseline_diff" "$after_lint_diff" "$lint_output" "$changed_files"' EXIT
+
+empty_sha="0000000000000000000000000000000000000000"
 
 log() {
   echo "[pre-push] $1"
 }
 
-log "Running ESLint autofix..."
+get_default_remote_ref() {
+  remote_name="$1"
+
+  if default_ref="$(git symbolic-ref --quiet --short "refs/remotes/$remote_name/HEAD")"; then
+    echo "$default_ref"
+  elif git show-ref --verify --quiet "refs/remotes/$remote_name/dev"; then
+    echo "$remote_name/dev"
+  elif git show-ref --verify --quiet "refs/remotes/$remote_name/main"; then
+    echo "$remote_name/main"
+  fi
+}
+
+get_base_ref() {
+  local_ref="$1"
+  local_sha="$2"
+  remote_sha="$3"
+
+  if [ "$remote_sha" != "$empty_sha" ]; then
+    echo "$remote_sha"
+    return
+  fi
+
+  if upstream_ref="$(git rev-parse --abbrev-ref "$local_ref@{upstream}" 2>/dev/null)"; then
+    git merge-base "$local_sha" "$upstream_ref"
+    return
+  fi
+
+  if default_remote_ref="$(get_default_remote_ref "$remote")"; then
+    git merge-base "$local_sha" "$default_remote_ref"
+  fi
+}
+
+remote="$1"
+
+if [ -t 0 ]; then
+  log "No refs received on stdin. This hook is meant to run during git push."
+  log "To test it manually, pipe a pre-push ref line into .husky/pre-push."
+  exit 0
+fi
+
+log "Collecting changed TypeScript files..."
+
+while read -r local_ref local_sha _ remote_sha; do
+  case "$local_ref" in
+    refs/heads/*) ;;
+    *) continue ;;
+  esac
+
+  if [ "$local_sha" = "$empty_sha" ]; then
+    log "Skipping deleted ref $local_ref."
+    continue
+  fi
+
+  log "Checking $local_ref..."
+  base_ref="$(get_base_ref "$local_ref" "$local_sha" "$remote_sha")"
+
+  if [ -z "$base_ref" ]; then
+    log "Unable to find a base ref for $local_ref; skipping scoped ESLint."
+    continue
+  fi
+
+  log "Comparing against $base_ref."
+  git diff --name-only --diff-filter=ACMR "$base_ref" "$local_sha" -- '*.ts' '*.tsx' >> "$changed_files"
+done
+
+sort -u "$changed_files" -o "$changed_files"
+changed_files_count="$(wc -l < "$changed_files" | tr -d ' ')"
+
+if [ ! -s "$changed_files" ]; then
+  log "No changed TypeScript files to lint."
+  exit 0
+fi
+
+log "Found $changed_files_count changed TypeScript file(s)."
+log "Saving current working tree diff..."
 git diff --binary > "$baseline_diff"
 
+log "Running ESLint autofix on changed TypeScript files..."
 set +e
-pnpm run lint:fix > "$lint_output" 2>&1
+xargs pnpm exec eslint --fix < "$changed_files" > "$lint_output" 2>&1
 lint_exit_code=$?
 set -e
 sed 's/^/[pre-push] /' "$lint_output"
 
+log "Checking whether ESLint changed the working tree..."
 git diff --binary > "$after_lint_diff"
 
 if ! cmp -s "$baseline_diff" "$after_lint_diff"; then
