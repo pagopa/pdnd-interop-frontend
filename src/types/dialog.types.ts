@@ -54,6 +54,9 @@ export type DialogBasicProps = DialogDefaultProps & {
   type: 'basic'
   title: string
   description?: string
+  descriptionLink?: {
+    href: string
+  }
   proceedLabel?: string
   onProceed: VoidFunction
   onCancel?: VoidFunction
