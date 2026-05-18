@@ -14,10 +14,12 @@ type UploadCallbackInterfaceDocFormValues = {
 
 type UploadCallbackInterfaceDocProps = {
   error?: string
+  readOnly?: boolean
 }
 
 export const UploadCallbackInterfaceDoc: React.FC<UploadCallbackInterfaceDocProps> = ({
   error,
+  readOnly = false,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step4.asyncExchangeSection' })
   const { descriptor } = useEServiceCreateContext()
@@ -59,6 +61,17 @@ export const UploadCallbackInterfaceDoc: React.FC<UploadCallbackInterfaceDocProp
         documentId: actualInterface.id,
       },
       getDownloadDocumentName(actualInterface)
+    )
+  }
+
+  if (readOnly) {
+    if (!actualInterface) return <>-</>
+    return (
+      <DocumentContainer
+        doc={actualInterface}
+        onDownload={handleDownloadInterface}
+        size="small"
+      />
     )
   }
 

@@ -1,5 +1,4 @@
 import { SectionContainer } from '@/components/layout/containers'
-import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import { RHFCheckbox, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { asyncExchangeGuideLink } from '@/config/constants'
 import { Alert, Grid, Link, Stack, Typography } from '@mui/material'
@@ -7,8 +6,6 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
-import { EServiceDownloads } from '@/api/eservice'
-import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { UploadCallbackInterfaceDoc } from '../components/UploadCallbackInterfaceDoc'
 
@@ -25,7 +22,6 @@ export const EServiceAsyncExchangeSection: React.FC<EServiceAsyncExchangeSection
 
   const { descriptor } = useEServiceCreateContext()
   const { setValue } = useFormContext()
-  const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
 
   const isSoap = descriptor?.eservice.technology === 'SOAP'
 
@@ -46,37 +42,14 @@ export const EServiceAsyncExchangeSection: React.FC<EServiceAsyncExchangeSection
   )
 
   if (!areEServiceGeneralInfoEditable && descriptor) {
-    const callback = descriptor.asyncExchangeCallbackInterface
     const props = descriptor.asyncExchangeProperties
-
-    const handleDownloadCallback = () => {
-      if (!callback) return
-      downloadDocument(
-        {
-          eserviceId: descriptor.eservice.id,
-          descriptorId: descriptor.id,
-          documentId: callback.id,
-        },
-        getDownloadDocumentName(callback)
-      )
-    }
 
     return (
       <SectionContainer title={t('title')} description={description} sx={{ mt: 3 }}>
         <Stack spacing={2} sx={{ mt: 2 }}>
           <InformationContainer
             label={t('callbackInterface.readOnlyLabel')}
-            content={
-              callback ? (
-                <DocumentContainer
-                  doc={callback}
-                  onDownload={handleDownloadCallback}
-                  size="small"
-                />
-              ) : (
-                '-'
-              )
-            }
+            content={<UploadCallbackInterfaceDoc readOnly />}
           />
           <Typography variant="subtitle1" sx={{ mt: 2 }}>
             {t('configSubsection.title')}
