@@ -7,7 +7,9 @@ import {
 } from '@/../__mocks__/data/eservice.mocks'
 
 vi.mock('../../components/UploadCallbackInterfaceDoc', () => ({
-  UploadCallbackInterfaceDoc: () => <div>UploadCallbackInterfaceDoc</div>,
+  UploadCallbackInterfaceDoc: ({ readOnly }: { readOnly?: boolean }) => (
+    <div>{readOnly ? 'UploadCallbackInterfaceDoc-readOnly' : 'UploadCallbackInterfaceDoc'}</div>
+  ),
 }))
 
 vi.mock('@/api/eservice', () => ({
@@ -114,6 +116,7 @@ describe('EServiceAsyncExchangeSection', () => {
 
     expect(screen.queryByText('editableInfoAlert')).not.toBeInTheDocument()
     expect(screen.queryByText('UploadCallbackInterfaceDoc')).not.toBeInTheDocument()
+    expect(screen.getByText('UploadCallbackInterfaceDoc-readOnly')).toBeInTheDocument()
     expect(screen.queryByLabelText(/responseTimeField.label/)).not.toBeInTheDocument()
     expect(screen.getByText('callbackInterface.readOnlyLabel')).toBeInTheDocument()
   })
