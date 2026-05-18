@@ -11,7 +11,6 @@ const resetStepperMock = vi.fn()
 
 const useClientKindMock = vi.fn()
 const useQueryMock = vi.fn()
-const navigateMock = vi.fn()
 
 vi.mock('../VoucherInstructionsContext', () => ({
   useVoucherInstructionsContext: () => ({
@@ -26,7 +25,8 @@ vi.mock('@/hooks/useClientKind', () => ({
 }))
 
 vi.mock('@/router', () => ({
-  useNavigate: () => navigateMock,
+  useNavigate: vi.fn(() => vi.fn()),
+  Link: vi.fn(({ children, ...props }: React.PropsWithChildren) => <a {...props}>{children}</a>),
 }))
 
 vi.mock('@/api/purpose', () => ({
@@ -110,6 +110,7 @@ describe('VoucherInstructionsDataAccessStep', () => {
     useSearchParamsMock.mockReturnValue([
       new URLSearchParams({
         interactionType: INTERACTION_TYPE.SYNC,
+        voucherType: VOUCHER_TYPE.BEARER,
       }),
       vi.fn(),
     ])
@@ -138,6 +139,7 @@ describe('VoucherInstructionsDataAccessStep', () => {
     useSearchParamsMock.mockReturnValue([
       new URLSearchParams({
         interactionType: INTERACTION_TYPE.SYNC,
+        voucherType: VOUCHER_TYPE.BEARER,
       }),
       vi.fn(),
     ])
@@ -234,5 +236,32 @@ describe('VoucherInstructionsDataAccessStep', () => {
     )
 
     expect(await screen.findByText('newSimulationBtn')).toBeInTheDocument()
+  })
+
+  it('renders debug button for DPOP sync flow', async () => {
+    useClientKindMock.mockReturnValue('CONSUMER')
+
+    useSearchParamsMock.mockReturnValue([
+      new URLSearchParams({
+        voucherType: VOUCHER_TYPE.DPOP,
+        interactionType: INTERACTION_TYPE.SYNC,
+      }),
+      vi.fn(),
+    ])
+
+    useQueryMock.mockReturnValue({
+      data: undefined,
+    })
+
+    renderWithApplicationContext(
+      <MemoryRouter>
+        <VoucherInstructionsDataAccessStep />
+      </MemoryRouter>,
+      { withReactQueryContext: true }
+    )
+
+    expect(
+      await screen.findByText('firstDPoPProofStep.navigateToDebugButton.label')
+    ).toBeInTheDocument()
   })
 })
