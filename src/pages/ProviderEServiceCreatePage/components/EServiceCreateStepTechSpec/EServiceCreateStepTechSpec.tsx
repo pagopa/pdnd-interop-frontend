@@ -71,17 +71,24 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
       asyncExchangeProperties.resourceAvailableTime !== '' &&
       asyncExchangeProperties.maxResultSet !== ''
 
+    const asyncExchangeNumericPayload = hasValidAsyncProps
+      ? {
+          responseTime: Number(asyncExchangeProperties.responseTime),
+          resourceAvailableTime: Number(asyncExchangeProperties.resourceAvailableTime),
+          maxResultSet: Number(asyncExchangeProperties.maxResultSet),
+        }
+      : null
+
     const newDescriptorData = {
       ...restValues,
       voucherLifespan: minutesToSeconds(values.voucherLifespan),
       audience: [values.audience],
-      ...(hasValidAsyncProps
+      ...(asyncExchangeNumericPayload
         ? {
             asyncExchangeProperties: {
-              ...asyncExchangeProperties,
-              responseTime: Number(asyncExchangeProperties.responseTime),
-              resourceAvailableTime: Number(asyncExchangeProperties.resourceAvailableTime),
-              maxResultSet: Number(asyncExchangeProperties.maxResultSet),
+              ...asyncExchangeNumericPayload,
+              confirmation: asyncExchangeProperties.confirmation,
+              bulk: asyncExchangeProperties.bulk,
             },
           }
         : {}),
@@ -104,14 +111,24 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
     }
 
     match(isEServiceCreatedFromTemplate)
-      .with(true, () => updateInstanceVersionDraft(commonPayload, { onSuccess: forward }))
+      .with(true, () =>
+        updateInstanceVersionDraft(
+          {
+            ...commonPayload,
+            ...(asyncExchangeNumericPayload
+              ? { asyncExchangeProperties: asyncExchangeNumericPayload }
+              : {}),
+          },
+          { onSuccess: forward }
+        )
+      )
       .with(false, () =>
         updateVersionDraft(
           {
             ...commonPayload,
             voucherLifespan: newDescriptorData.voucherLifespan,
             attributes: remapDescriptorAttributesToDescriptorAttributesSeed(descriptor.attributes),
-            ...(hasValidAsyncProps
+            ...(newDescriptorData.asyncExchangeProperties
               ? { asyncExchangeProperties: newDescriptorData.asyncExchangeProperties }
               : {}),
           },
@@ -151,9 +168,10 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
       />
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <EServiceVoucherSection isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate} />
-        {isAsyncExchange && !isEServiceCreatedFromTemplate && (
+        {isAsyncExchange && (
           <EServiceAsyncExchangeSection
             areEServiceGeneralInfoEditable={areEServiceGeneralInfoEditable}
+            isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
           />
         )}
         <StepActions
