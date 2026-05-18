@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { match, P } from 'ts-pattern'
 import { DocumentContainer } from '@/components/layout/containers/DocumentContainer'
 import type { EServiceDoc } from '@/api/api.generatedTypes'
 import { UploadDocumentsInterface } from '@/components/shared/UploadDocumentsInterface'
@@ -34,19 +35,20 @@ export const UploadCallbackInterfaceDoc: React.FC<UploadCallbackInterfaceDocProp
     onUpload(interfaceDoc)
   }
 
-  if (readOnly) {
-    if (!actualInterface) return <>-</>
-    return (
-      <DocumentContainer
-        doc={actualInterface}
-        onDownload={onDownload}
-        size="small"
+  return match({ readOnly, actualInterface })
+    .with({ readOnly: true, actualInterface: null }, () => <>-</>)
+    .with({ readOnly: true, actualInterface: P.not(null) }, ({ actualInterface }) => (
+      <DocumentContainer doc={actualInterface} onDownload={onDownload} size="small" />
+    ))
+    .with({ readOnly: false, actualInterface: null }, () => (
+      <UploadDocumentsInterface
+        onSubmit={onSubmit}
+        sxBox={{ py: 2 }}
+        error={error}
+        dropzoneLabel={t('callbackInterface.dropzoneLabel')}
       />
-    )
-  }
-
-  if (actualInterface) {
-    return (
+    ))
+    .with({ readOnly: false, actualInterface: P.not(null) }, ({ actualInterface }) => (
       <DocumentContainer
         sx={{ mt: 4 }}
         doc={actualInterface}
@@ -54,15 +56,6 @@ export const UploadCallbackInterfaceDoc: React.FC<UploadCallbackInterfaceDocProp
         onDownload={onDownload}
         size="small"
       />
-    )
-  }
-
-  return (
-    <UploadDocumentsInterface
-      onSubmit={onSubmit}
-      sxBox={{ py: 2 }}
-      error={error}
-      dropzoneLabel={t('callbackInterface.dropzoneLabel')}
-    />
-  )
+    ))
+    .exhaustive()
 }
