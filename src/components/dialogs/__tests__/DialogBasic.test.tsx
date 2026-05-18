@@ -20,6 +20,35 @@ describe('DialogBasic', () => {
     expect(screen.getByRole('link', { name: 'guide' })).toHaveAttribute('href', apiGuideLink)
   })
 
+  it('should render strong description text', () => {
+    renderWithApplicationContext(
+      <DialogBasic
+        type="basic"
+        title="Dialog title"
+        description="Dialog description with <strong>important text</strong>."
+        onProceed={vi.fn()}
+      />,
+      {}
+    )
+
+    expect(screen.getByText('important text')).toBeVisible()
+  })
+
+  it('should render placeholder tags as plain text when no link is provided', () => {
+    renderWithApplicationContext(
+      <DialogBasic
+        type="basic"
+        title="Dialog title"
+        description="Dialog description with <1>guide</1>."
+        onProceed={vi.fn()}
+      />,
+      {}
+    )
+
+    expect(screen.getByText('Dialog description with guide.')).toBeVisible()
+    expect(screen.queryByRole('link', { name: 'guide' })).not.toBeInTheDocument()
+  })
+
   it('should require checking the confirmation checkbox before proceeding', async () => {
     const user = userEvent.setup()
     const onProceed = vi.fn()
