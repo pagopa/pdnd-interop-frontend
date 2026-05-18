@@ -519,7 +519,12 @@
     },
     "alert": {
       "suspended": "Questa versione di e-service è sospesa. Fino alla sua riattivazione nessun fruitore potrà accedere ai dati erogati attraverso l’API.",
-      "deprecated": "Questa versione di e-service è obsoleta ma ancora attiva. Verrà dismessa automaticamente da PDND Interoperabilità quando l’ultima richiesta di fruizione presente su questa versione sarà archiviata."
+      "deprecated": "Questa versione di e-service è obsoleta ma è ancora attiva. Sarà archiviata automaticamente quando non avrà più richieste di fruizione.",
+      "archivingDescriptor": "Questa versione dell’e-service è in fase di archiviazione, ma è ancora attiva. Sarà archiviata automaticamente il giorno {{date}}.",
+      "archivingSuspendedDescriptor": "Questa versione dell’e-service è in fase di archiviazione ed è al momento sospesa. Sarà archiviata automaticamente il giorno {{date}}.",
+      "archivedDescriptor": "Questa versione dell’e-service è stata archiviata il giorno {{date}}.",
+      "archivingSuspendedEService": "Questa versione è al momento sospesa. L’e-service è in fase di archiviazione e sarà archiviato automaticamente il giorno {{date}}.",
+      "archivedEService": "Questo e-service è stato archiviato definitivamente il giorno {{date}}."
     },
     "actions": {
       "backToListLabel": "Torna agli e-service",
