@@ -547,7 +547,9 @@
     },
     "alert": {
       "suspended": "This e-service version is discontinued. Until its reactivation, no consumer will be able to access the data provided through the API.",
-      "deprecated": "This e-service version is obsolete but still active. It will be automatically discontinued by PDND Interoperabilità when the last agreement on this version is archived."
+      "deprecated": "This e-service version is obsolete but still active. It will be automatically discontinued by PDND Interoperabilità when the last agreement on this version is archived.",
+      "missingProducerKeychain": "Associate a keychain with this e-service to enable data exchange.",
+      "missingProducerKeychainKeys": "Add at least one key to the keychain linked to this e-service to enable data exchange."
     },
     "actions": {
       "backToListLabel": "Back to the e-services",

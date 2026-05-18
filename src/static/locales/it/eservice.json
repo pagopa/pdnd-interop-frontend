@@ -547,7 +547,9 @@
     },
     "alert": {
       "suspended": "Questa versione di e-service è sospesa. Fino alla sua riattivazione nessun fruitore potrà accedere ai dati erogati attraverso l’API.",
-      "deprecated": "Questa versione di e-service è obsoleta ma ancora attiva. Verrà dismessa automaticamente da PDND Interoperabilità quando l’ultima richiesta di fruizione presente su questa versione sarà archiviata."
+      "deprecated": "Questa versione di e-service è obsoleta ma ancora attiva. Verrà dismessa automaticamente da PDND Interoperabilità quando l’ultima richiesta di fruizione presente su questa versione sarà archiviata.",
+      "missingProducerKeychain": "Associa un portachiavi a questo e-service per abilitare lo scambio dati.",
+      "missingProducerKeychainKeys": "Associa almeno una chiave al portachiavi collegato a questo e-service per abilitare lo scambio dati."
     },
     "actions": {
       "backToListLabel": "Torna agli e-service",
