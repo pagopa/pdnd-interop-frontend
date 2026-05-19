@@ -972,6 +972,10 @@
       "title": "You have published the e-service",
       "description": "The e-service is now available in the catalog and you will be able to receive subscription requests."
     },
+    "firstVersionAsync": {
+      "title": "You have published the async e-service",
+      "description": "The e-service is now available in the catalog and you will be able to receive subscription requests. Make sure you have linked a keychain to the e-service to enable data exchange."
+    },
     "newVersion": {
       "title": "You have published a new version of the e-service",
       "subtitle": "What happens now:",
@@ -981,6 +985,16 @@
         "the previous version becomes obsolete but remains active as long as there are subscribers."
       ]
     },
-    "action": "Close"
+    "newVersionAsync": {
+      "title": "You have published a new version of the e-service",
+      "subtitle": "What happens now:",
+      "bulletPoints": [
+        "the new version is available in the catalog;",
+        "subscribers receive an update notification;",
+        "the previous version becomes obsolete but remains active as long as there are subscribers."
+      ]
+    },
+    "action": "Close",
+    "asyncAction": "Go to the e-service"
   }
 }
