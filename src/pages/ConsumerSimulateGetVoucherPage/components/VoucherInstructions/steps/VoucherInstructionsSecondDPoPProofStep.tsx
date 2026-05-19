@@ -58,8 +58,8 @@ export const VoucherInstructionsSecondDPoPProofStep: React.FC = () => {
   const htmOptions = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'PATCH', 'TRACE']
   const formMethods = useForm<SecondDpopStepFormValues>({
     defaultValues: {
-      htm: undefined,
-      htu: undefined,
+      htm: '',
+      htu: '',
     },
   })
 
