@@ -136,7 +136,7 @@
         "subtitle": "Da questo pannello puoi aggiornare la descrizione del template dell’e-service. Le modifiche apportate avranno effetto da subito.",
         "eserviceTemplateDescriptionField": {
           "label": "Descrizione del template eservice",
-          "infoLabel": "Min 10 caratteri, max 250 caratteri",
+          "infoLabel": "Min 10 caratteri, max {{ESERVICE_DESCRIPTION_MAX_LENGTH}} caratteri",
           "validation": {
             "sameValue": "La descrizione del template dell'e-service deve essere diverso da quella attuale"
           }
@@ -148,7 +148,7 @@
         "dailyCallsTotalLabel": "Soglia suggerita totale"
       },
       "updateVoucherDrawer": {
-        "subtitle": "Da questo pannello puoi aggiornare la durata del voucher del template di e-service. Le modifiche apportate avranno effetto da subito."
+        "subtitle": "Le modifiche saranno apportate subito"
       },
       "updateDocumentationDrawer": {
         "title": "Modifica documentazione",
@@ -214,7 +214,7 @@
       "step2Label": "Soglie e attributi",
       "step2ReceiveLabel": "Finalità",
       "step3Label": "Specifiche tecniche",
-      "step4Label": "Informazioni versione"
+      "step4Label": "Informazioni aggiuntive"
     },
     "backWithoutSaveBtn": "Indietro",
     "forwardWithSaveBtn": "Salva bozza e prosegui",
@@ -255,7 +255,7 @@
       },
       "eserviceDescriptionField": {
         "label": "Cosa permette di fare questo e-service?",
-        "infoLabel": "Min 10 caratteri, max 250 caratteri"
+        "infoLabel": "Min 10 caratteri, max {{ESERVICE_DESCRIPTION_MAX_LENGTH}} caratteri"
       },
       "eserviceTemplateTechnologyField": {
         "label": "Con quale tecnologia è costruita la tua API?"
@@ -488,12 +488,12 @@
           "noAttributesAlert": "Questo e-service non richiede attributi certificati"
         },
         "verified": {
-          "label": "Attributi verificati",
+          "label": "Attributi Verificati",
           "description": "Sono attributi verificati <1>da altre organizzazioni</1>, con la possibilità di richiedere una verifica dall'erogatore.",
           "noAttributesAlert": "Questo e-service non richiede attributi verificati"
         },
         "declared": {
-          "label": "Attributi dichiarati",
+          "label": "Attributi Dichiarati",
           "description": "Sono attributi dichiarati dal fruitore stesso durante la richiesta di fruizione. Non è necessaria una verifica dell'erogatore.",
           "noAttributesAlert": "Questo e-service non richiede attributi dichiarati"
         },

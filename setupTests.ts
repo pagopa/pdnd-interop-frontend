@@ -23,8 +23,7 @@ export const testConfigs = {
   FEATURE_FLAG_ADMIN_CLIENT: 'true',
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: 'true',
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: 'http://localhost',
-  FEATURE_FLAG_NOTIFICATION_CONFIG: 'true',
-  FEATURE_FLAG_USE_SIGNED_DOCUMENT: 'true',
+  FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER: 'true',
   DOCUMENTATION_URL:
     'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0',
   AVATAR_BASEPATH: 'http://selc-u-checkout-cdn-endpoint.azureedge.net',

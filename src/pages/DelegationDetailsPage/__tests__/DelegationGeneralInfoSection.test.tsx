@@ -4,7 +4,6 @@ import { setupServer } from 'msw/node'
 import { rest } from 'msw'
 import { createMockDelegation } from '../../../../__mocks__/data/delegation.mocks'
 import {
-  mockEnvironmentParams,
   mockUseGetActiveUserParty,
   mockUseJwt,
   renderWithApplicationContext,
@@ -60,7 +59,7 @@ vi.mock('@pagopa/interop-fe-commons', async () => {
 })
 
 const mockDownloadSignedContract = vi.fn()
-const mockDownloadContract = vi.fn()
+const mockDownloadDelegationContract = vi.fn()
 
 vi.mock('@/api/delegation', async () => {
   const actual = await vi.importActual<typeof import('@/api/delegation')>('@/api/delegation')
@@ -68,7 +67,7 @@ vi.mock('@/api/delegation', async () => {
   return {
     ...actual,
     DelegationDownloads: {
-      useDownloadDelegationContract: () => mockDownloadContract,
+      useDownloadDelegationContract: () => mockDownloadDelegationContract,
       useDownloadSignedDelegationContract: () => mockDownloadSignedContract,
     },
   }
@@ -116,42 +115,21 @@ describe('DelegationGeneralInfoSection', () => {
     })
   })
 
-  describe('FEATURE_FLAG_USE_SIGNED_DOCUMENT', () => {
-    it('should able to download delegation signed document when feature flag is enabled', async () => {
-      const screen = renderWithApplicationContext(
-        <DelegationGeneralInfoSection delegationId={delegationId} />,
-        {
-          withReactQueryContext: true,
-          withRouterContext: true,
-        }
-      )
+  it('should download signed delegation document when clicking download button', async () => {
+    const screen = renderWithApplicationContext(
+      <DelegationGeneralInfoSection delegationId={delegationId} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
-      await waitFor(() => {
-        const button = screen.getByRole('button', {
-          name: /party.delegations.details.generalInfoSection.downloadContractAction.label/i,
-        })
-        fireEvent.click(button)
-        expect(mockDownloadSignedContract).toHaveBeenCalled()
+    await waitFor(() => {
+      const button = screen.getByRole('button', {
+        name: /party.delegations.details.generalInfoSection.downloadContractAction.label/i,
       })
-    })
-
-    it('should able to download normal delegation document when feature flag is disabled', async () => {
-      mockEnvironmentParams('FEATURE_FLAG_USE_SIGNED_DOCUMENT', false)
-      const screen = renderWithApplicationContext(
-        <DelegationGeneralInfoSection delegationId={delegationId} />,
-        {
-          withReactQueryContext: true,
-          withRouterContext: true,
-        }
-      )
-
-      await waitFor(() => {
-        const button = screen.getByRole('button', {
-          name: /party.delegations.details.generalInfoSection.downloadContractAction.label/i,
-        })
-        fireEvent.click(button)
-        expect(mockDownloadContract).toHaveBeenCalled()
-      })
+      fireEvent.click(button)
+      expect(mockDownloadSignedContract).toHaveBeenCalled()
     })
   })
 })

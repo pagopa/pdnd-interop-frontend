@@ -136,7 +136,7 @@
         "subtitle": "From this panel, you can update the description of the template. The changes made will take effect immediately.",
         "eserviceTemplateDescriptionField": {
           "label": "Template e-service description",
-          "infoLabel": "Min 10 characters, max 250 characters",
+          "infoLabel": "Min 10 characters, max {{ESERVICE_DESCRIPTION_MAX_LENGTH}} characters",
           "validation": {
             "sameValue": "The template e-service description must be different from the current one"
           }
@@ -148,7 +148,7 @@
         "dailyCallsTotalLabel": "Total suggested threshold"
       },
       "updateVoucherDrawer": {
-        "subtitle": "From this panel, you can update the voucher lifespan of the template e-service. The changes made will take effect immediately."
+        "subtitle": "The changes will take effect immediately"
       },
       "updateDocumentationDrawer": {
         "title": "Edit documentation",
@@ -214,7 +214,7 @@
       "step2Label": "Thresholds and attributes",
       "step2ReceiveLabel": "Purpose",
       "step3Label": "Technical specifications",
-      "step4Label": "Version information"
+      "step4Label": "Additional information"
     },
     "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed",
@@ -255,7 +255,7 @@
       },
       "eserviceDescriptionField": {
         "label": "What does this e-service allow you to do?",
-        "infoLabel": "Min 10 characters, max 250 characters"
+        "infoLabel": "Min 10 characters, max {{ESERVICE_DESCRIPTION_MAX_LENGTH}} characters"
       },
       "eserviceTemplateTechnologyField": {
         "label": "What technology is your API built with?"

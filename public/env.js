@@ -18,11 +18,10 @@ window.pagopa_env = {
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: 'true',
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: 'http://localhost',
   ERROR_DATA_DURATION_TIME: '90000',
-  FEATURE_FLAG_NOTIFICATION_CONFIG: 'true',
-  FEATURE_FLAG_USE_SIGNED_DOCUMENT: 'true',
   DOCUMENTATION_URL:
     'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0',
   AVATAR_BASEPATH: 'https://selc-u-checkout-cdn-endpoint.azureedge.net',
   SELFCARE_PRODUCT_ID: 'prod-interop',
+  FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER: 'true',
   FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP: 'false',
 }

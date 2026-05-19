@@ -10,7 +10,6 @@ import DnsIcon from '@mui/icons-material/Dns'
 import { ConsumerIcon, ProviderIcon, CatalogIcon, DeveloperToolIcon, MyTenantIcon } from '@/icons'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import { useTranslation } from 'react-i18next'
-import { FEATURE_FLAG_NOTIFICATION_CONFIG } from '@/config/env'
 import { useIsOrganizationAllowedToDelegations } from '@/api/hooks'
 
 export function useGetSidebarItems(): SidebarRoutes {
@@ -38,7 +37,6 @@ export function useGetSidebarItems(): SidebarRoutes {
         label: t('notifications'),
         children: [],
         divider: true,
-        hide: !FEATURE_FLAG_NOTIFICATION_CONFIG,
       },
       {
         icon: ConsumerIcon,
