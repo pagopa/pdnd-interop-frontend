@@ -34,8 +34,49 @@ export type EServiceCreateStepTechSpecFormValues = {
 }
 
 export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
+  const { descriptor, eserviceTemplate } = useEServiceCreateContext()
+
+  const isEServiceCreatedFromTemplate = Boolean(descriptor?.templateRef?.templateVersionId)
+  const isEServiceAsync = Boolean(descriptor?.eservice.asyncExchange)
+  const isProducerKeychainSectionVisible =
+    isEServiceAsync && !eserviceTemplate && !isEServiceCreatedFromTemplate
+
+  const { data: initialAssociatedKeychains, isPending } = useQuery({
+    ...KeychainQueries.getKeychainsList({
+      eserviceId: descriptor?.eservice.id ?? '',
+      limit: 50,
+      offset: 0,
+    }),
+    select: (d) => d.results,
+    enabled: isProducerKeychainSectionVisible && Boolean(descriptor?.eservice.id),
+  })
+
+  if (isProducerKeychainSectionVisible && isPending) {
+    return <EServiceCreateStepTechSpecSkeleton />
+  }
+
+  return (
+    <EServiceCreateStepTechSpecForm
+      isProducerKeychainSectionVisible={isProducerKeychainSectionVisible}
+      isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
+      initialAssociatedKeychains={initialAssociatedKeychains ?? []}
+    />
+  )
+}
+
+type EServiceCreateStepTechSpecFormProps = {
+  isProducerKeychainSectionVisible: boolean
+  isEServiceCreatedFromTemplate: boolean
+  initialAssociatedKeychains: CompactProducerKeychain[]
+}
+
+const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormProps> = ({
+  isProducerKeychainSectionVisible,
+  isEServiceCreatedFromTemplate,
+  initialAssociatedKeychains,
+}) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
-  const { descriptor, eserviceTemplate, forward, back } = useEServiceCreateContext()
+  const { descriptor, forward, back } = useEServiceCreateContext()
   const { openDialog } = useDialog()
   const queryClient = useQueryClient()
 
@@ -51,49 +92,16 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
   const { mutateAsync: removeKeychainFromEService } =
     KeychainMutations.useRemoveKeychainFromEService(false)
 
-  // if this field is true some textField should be disabled
-  const isEServiceCreatedFromTemplate = Boolean(descriptor?.templateRef?.templateVersionId)
-
-  const isEServiceAsync = Boolean(descriptor?.eservice.asyncExchange)
-  const isProducerKeychainSectionVisible =
-    isEServiceAsync && !eserviceTemplate && !isEServiceCreatedFromTemplate
-
-  const { data: initialAssociatedKeychains = [] } = useQuery({
-    ...KeychainQueries.getKeychainsList({
-      eserviceId: descriptor?.eservice.id ?? '',
-      limit: 50,
-      offset: 0,
-    }),
-    select: (d) => d.results,
-    enabled: isProducerKeychainSectionVisible && Boolean(descriptor?.eservice.id),
-  })
-
-  const defaultValues = React.useMemo<EServiceCreateStepTechSpecFormValues>(
-    () => ({
-      audience: descriptor?.audience?.[0] ?? '',
-      voucherLifespan: descriptor ? secondsToMinutes(descriptor.voucherLifespan) : 1,
-      keychains: [{ value: null }],
-    }),
-    [descriptor]
-  )
+  const defaultValues: EServiceCreateStepTechSpecFormValues = {
+    audience: descriptor?.audience?.[0] ?? '',
+    voucherLifespan: descriptor ? secondsToMinutes(descriptor.voucherLifespan) : 1,
+    keychains:
+      initialAssociatedKeychains.length > 0
+        ? initialAssociatedKeychains.map((k) => ({ value: k }))
+        : [{ value: null }],
+  }
 
   const formMethods = useForm({ defaultValues })
-
-  const hasInitializedKeychainsRef = React.useRef(false)
-  React.useEffect(() => {
-    if (hasInitializedKeychainsRef.current) return
-    if (!isProducerKeychainSectionVisible) return
-    if (initialAssociatedKeychains.length === 0) return
-
-    hasInitializedKeychainsRef.current = true
-    formMethods.reset(
-      {
-        ...defaultValues,
-        keychains: initialAssociatedKeychains.map((k) => ({ value: k })),
-      },
-      { keepDirtyValues: true }
-    )
-  }, [initialAssociatedKeychains, isProducerKeychainSectionVisible, formMethods, defaultValues])
 
   const onSubmit: SubmitHandler<EServiceCreateStepTechSpecFormValues> = async (values) => {
     if (!descriptor) return
