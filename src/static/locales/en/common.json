@@ -158,7 +158,9 @@
   },
   "time": {
     "minute_one": "minute",
-    "minute_other": "minutes"
+    "minute_other": "minutes",
+    "second_one": "second",
+    "second_other": "seconds"
   },
   "tos": {
     "title": "Terms of service"

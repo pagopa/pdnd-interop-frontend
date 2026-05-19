@@ -6,6 +6,7 @@ import * as router from '@/router'
 import {
   createMockEServiceDescriptorReceive,
   createMockEServiceDescriptorProvider,
+  createMockEServiceDescriptorProviderAsync,
   createMockEServiceDescriptorProviderWithTemplateRef,
 } from '@/../__mocks__/data/eservice.mocks'
 
@@ -67,6 +68,14 @@ vi.mock('@/api/eservice', () => ({
   },
 }))
 
+vi.mock('@/api/keychain', () => ({
+  KeychainQueries: {
+    getKeychainsList: (params: unknown) => ({
+      queryKey: ['KeychainGetList', params],
+    }),
+  },
+}))
+
 const useQueryMock = vi.fn()
 
 vi.mock('@tanstack/react-query', async (importOriginal) => {
@@ -74,7 +83,7 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@tanstack/react-query')>()
   return {
     ...actual,
-    useQuery: () => useQueryMock(),
+    useQuery: (queryOptions: unknown) => useQueryMock(queryOptions),
   }
 })
 
@@ -91,6 +100,11 @@ vi.mock('@/hooks/useGetProducerDelegationUserRole', () => ({
 describe('ProviderEServiceSummaryPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    mockDelegationRole.mockReturnValue({
+      isDelegator: false,
+      isDelegate: false,
+      producerDelegations: [],
+    })
   })
 
   it('renders the page title', () => {
@@ -185,6 +199,58 @@ describe('ProviderEServiceSummaryPage', () => {
 
     const publishButton = screen.getByRole('button', { name: 'publish' })
     expect(publishButton).toBeEnabled()
+  })
+
+  it('enables publish button for complete asynchronous e-services', () => {
+    mockUseQueryWithDescriptor(createMockEServiceDescriptorProviderAsync())
+
+    renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    const publishButton = screen.getByRole('button', { name: 'publish' })
+    expect(publishButton).toBeEnabled()
+  })
+
+  it('disables publish button when asynchronous mandatory fields are missing', () => {
+    mockUseQueryWithDescriptor(
+      createMockEServiceDescriptorProviderAsync({
+        asyncExchangeProperties: undefined,
+        asyncExchangeCallbackInterface: undefined,
+      })
+    )
+
+    renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    const publishButton = screen.getByRole('button', { name: 'publish' })
+    expect(publishButton).toBeDisabled()
+  })
+
+  it('disables delegated approval when asynchronous mandatory fields are missing', () => {
+    mockDelegationRole.mockReturnValue({
+      isDelegator: true,
+      isDelegate: false,
+      producerDelegations: [],
+    })
+    mockUseQueryWithDescriptor(
+      createMockEServiceDescriptorProviderAsync({
+        state: 'WAITING_FOR_APPROVAL',
+        asyncExchangeProperties: undefined,
+        asyncExchangeCallbackInterface: undefined,
+      })
+    )
+
+    renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    const approveButton = screen.getByRole('button', { name: 'publish' })
+    expect(approveButton).toBeDisabled()
   })
 
   it('renders edit button', () => {
@@ -310,3 +376,24 @@ describe('ProviderEServiceSummaryPage', () => {
     })
   })
 })
+
+function mockUseQueryWithDescriptor(
+  descriptor: ReturnType<typeof createMockEServiceDescriptorProvider>
+) {
+  useQueryMock.mockImplementation((queryOptions) => {
+    if (queryOptions?.queryKey?.[0] === 'KeychainGetList') {
+      return {
+        data: {
+          results: [{ id: 'keychain-id-001', name: 'Keychain 1', hasKeys: true }],
+          pagination: { totalCount: 1 },
+        },
+        isLoading: false,
+      }
+    }
+
+    return {
+      data: descriptor,
+      isLoading: false,
+    }
+  })
+}
