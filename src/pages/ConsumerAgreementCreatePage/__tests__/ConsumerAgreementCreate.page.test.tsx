@@ -5,7 +5,7 @@ const useQueryMock = vi.fn()
 const useSubmitDraftMock = vi.fn()
 const submitAgreementDraftMock = vi.fn()
 const navigateMock = vi.fn()
-const getDescriptorCatalogMock = vi.fn()
+const getDescriptorCatalogQueryFnMock = vi.fn()
 
 vi.mock('@tanstack/react-query', async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports
@@ -24,7 +24,10 @@ vi.mock('@/api/auth', () => ({
 
 vi.mock('@/api/agreement', () => ({
   AgreementQueries: {
-    getSingle: (agreementId: string) => ['AgreementGetSingle', agreementId],
+    getSingle: (agreementId: string) => ({
+      queryKey: ['AgreementGetSingle', agreementId],
+      queryFn: vi.fn(),
+    }),
   },
   AgreementMutations: {
     useSubmitDraft: (isDelegated: boolean, isAsyncExchange: boolean) =>
@@ -35,8 +38,11 @@ vi.mock('@/api/agreement', () => ({
 }))
 
 vi.mock('@/api/eservice', () => ({
-  EServiceServices: {
-    getDescriptorCatalog: getDescriptorCatalogMock,
+  EServiceQueries: {
+    getDescriptorCatalog: (eserviceId: string, descriptorId: string) => ({
+      queryKey: ['EServiceGetDescriptorCatalog', eserviceId, descriptorId],
+      queryFn: () => getDescriptorCatalogQueryFnMock(eserviceId, descriptorId),
+    }),
   },
 }))
 
@@ -83,8 +89,8 @@ describe('ConsumerAgreementCreatePage', () => {
     submitAgreementDraftMock.mockReset()
     useSubmitDraftMock.mockReset()
     useSubmitDraftMock.mockReturnValue({ mutate: submitAgreementDraftMock })
-    getDescriptorCatalogMock.mockReset()
-    getDescriptorCatalogMock.mockResolvedValue({ eservice: { asyncExchange: true } })
+    getDescriptorCatalogQueryFnMock.mockReset()
+    getDescriptorCatalogQueryFnMock.mockResolvedValue({ eservice: { asyncExchange: true } })
 
     const agreement = {
       id: 'agreement-id',
@@ -104,7 +110,13 @@ describe('ConsumerAgreementCreatePage', () => {
 
     useQueryMock.mockReset()
     useQueryMock.mockImplementation((options: unknown) => {
-      if (Array.isArray(options) && options[0] === 'AgreementGetSingle') {
+      if (
+        typeof options === 'object' &&
+        options !== null &&
+        'queryKey' in options &&
+        Array.isArray(options.queryKey) &&
+        options.queryKey[0] === 'AgreementGetSingle'
+      ) {
         return { data: agreement }
       }
 
@@ -142,16 +154,27 @@ describe('ConsumerAgreementCreatePage', () => {
     expect(
       typeof descriptorQueryOptions === 'object' &&
         descriptorQueryOptions !== null &&
+        'queryKey' in descriptorQueryOptions &&
+        Array.isArray(descriptorQueryOptions.queryKey) &&
+        descriptorQueryOptions.queryKey[0] === 'EServiceGetDescriptorCatalog' &&
+        descriptorQueryOptions.queryKey[1] === 'eservice-id' &&
+        descriptorQueryOptions.queryKey[2] === 'descriptor-id' &&
         'queryFn' in descriptorQueryOptions &&
         typeof descriptorQueryOptions.queryFn === 'function' &&
         (await descriptorQueryOptions.queryFn())
     ).toEqual({ eservice: { asyncExchange: true } })
-    expect(getDescriptorCatalogMock).toHaveBeenCalledWith('eservice-id', 'descriptor-id')
+    expect(getDescriptorCatalogQueryFnMock).toHaveBeenCalledWith('eservice-id', 'descriptor-id')
   })
 
   it('should not fetch the descriptor catalog without an agreement', async () => {
     useQueryMock.mockImplementation((options: unknown) => {
-      if (Array.isArray(options) && options[0] === 'AgreementGetSingle') {
+      if (
+        typeof options === 'object' &&
+        options !== null &&
+        'queryKey' in options &&
+        Array.isArray(options.queryKey) &&
+        options.queryKey[0] === 'AgreementGetSingle'
+      ) {
         return { data: undefined }
       }
 
@@ -163,15 +186,11 @@ describe('ConsumerAgreementCreatePage', () => {
 
     const descriptorQueryOptions = useQueryMock.mock.calls[1]?.[0]
 
-    expect(() => {
-      if (
-        typeof descriptorQueryOptions === 'object' &&
+    expect(
+      typeof descriptorQueryOptions === 'object' &&
         descriptorQueryOptions !== null &&
-        'queryFn' in descriptorQueryOptions &&
-        typeof descriptorQueryOptions.queryFn === 'function'
-      ) {
-        descriptorQueryOptions.queryFn()
-      }
-    }).toThrow('Agreement is required to fetch descriptor')
+        'enabled' in descriptorQueryOptions &&
+        descriptorQueryOptions.enabled
+    ).toBe(false)
   })
 })

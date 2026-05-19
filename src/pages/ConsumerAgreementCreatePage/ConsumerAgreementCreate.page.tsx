@@ -16,7 +16,7 @@ import { useGetConsumerAgreementCreateAlertProps } from './hooks/useGetConsumerA
 import { isNewEServiceVersionAvailable } from '@/utils/agreement.utils'
 import { useQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
-import { EServiceServices } from '@/api/eservice'
+import { EServiceQueries } from '@/api/eservice'
 
 const ConsumerAgreementCreatePage: React.FC = () => {
   const { t } = useTranslation('agreement')
@@ -27,14 +27,10 @@ const ConsumerAgreementCreatePage: React.FC = () => {
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_EDIT'>()
   const { data: agreement } = useQuery(AgreementQueries.getSingle(agreementId))
   const { data: descriptor } = useQuery({
-    queryKey: ['EServiceGetDescriptorCatalog', agreement?.eservice.id, agreement?.descriptorId],
-    queryFn: () => {
-      if (!agreement) {
-        throw new Error('Agreement is required to fetch descriptor')
-      }
-
-      return EServiceServices.getDescriptorCatalog(agreement.eservice.id, agreement.descriptorId)
-    },
+    ...EServiceQueries.getDescriptorCatalog(
+      agreement?.eservice.id as string,
+      agreement?.descriptorId as string
+    ),
     enabled: Boolean(agreement),
   })
 
