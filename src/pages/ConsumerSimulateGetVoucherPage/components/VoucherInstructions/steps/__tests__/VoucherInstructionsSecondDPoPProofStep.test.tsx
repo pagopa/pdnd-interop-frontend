@@ -15,6 +15,14 @@ vi.mock('../../CodeSnippetPreview', () => ({
   default: () => null,
 }))
 
+const apiVersionSummaryMock = vi.fn()
+vi.mock('../../ApiVersionSummary', () => ({
+  ApiVersionSummary: (props: unknown) => {
+    apiVersionSummaryMock(props)
+    return <div data-testid="api-version-summary" />
+  },
+}))
+
 vi.mock('../../VoucherScriptPreviewSection', () => ({
   VoucherScriptPreviewSection: () => null,
   default: () => null,
@@ -95,13 +103,14 @@ describe('VoucherInstructionsSecondDPoPProofStep', () => {
       { withReactQueryContext: true }
     )
 
-    expect(
-      await screen.findByText('secondDPoPProofStep.pdndInteroperability.title')
-    ).toBeInTheDocument()
+    expect(await screen.findByTestId('api-version-summary')).toBeInTheDocument()
 
-    expect(
-      await screen.findByText('secondDPoPProofStep.pdndInteroperability.actionLabel')
-    ).toBeInTheDocument()
+    expect(apiVersionSummaryMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        keyPrefix: 'secondDPoPProofStep',
+        hideV2: true,
+      })
+    )
   })
 
   it('renders example request section', async () => {

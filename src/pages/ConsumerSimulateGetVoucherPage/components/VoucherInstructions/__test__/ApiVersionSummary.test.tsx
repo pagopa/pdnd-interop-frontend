@@ -9,11 +9,6 @@ vi.mock('@/hooks/useClientKind', () => ({
   useClientKind: () => useClientKindMock(),
 }))
 
-vi.mock('../CodeSnippetPreview', () => ({
-  CodeSnippetPreview: () => null,
-  default: () => null,
-}))
-
 describe('ApiVersionSummary.test', () => {
   it('renders api version fields', async () => {
     renderWithApplicationContext(
@@ -36,7 +31,7 @@ describe('ApiVersionSummary.test', () => {
   it('does not render v2 api fields', async () => {
     renderWithApplicationContext(
       <MemoryRouter>
-        <ApiVersionSummary keyPrefix="secondDPoPProofStep" hideV2 />
+        <ApiVersionSummary keyPrefix="secondDPoPProofStep" hideV2={true} />
       </MemoryRouter>,
       { withReactQueryContext: true }
     )
@@ -47,9 +42,7 @@ describe('ApiVersionSummary.test', () => {
     expect(await screen.findByText('pdndInteroperability.apiV3.title')).toBeInTheDocument()
     expect(await screen.findByText('pdndInteroperability.apiV3.description')).toBeInTheDocument()
 
-    expect(await screen.findByText('pdndInteroperability.apiV2.title')).not.toBeInTheDocument()
-    expect(
-      await screen.findByText('pdndInteroperability.apiV2.description')
-    ).not.toBeInTheDocument()
+    expect(screen.queryByText('pdndInteroperability.apiV2.title')).not.toBeInTheDocument()
+    expect(screen.queryByText('pdndInteroperability.apiV2.description')).not.toBeInTheDocument()
   })
 })

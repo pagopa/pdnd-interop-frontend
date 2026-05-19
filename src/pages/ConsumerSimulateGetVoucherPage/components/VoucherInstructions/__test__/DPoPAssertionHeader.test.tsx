@@ -9,11 +9,6 @@ vi.mock('@/hooks/useClientKind', () => ({
   useClientKind: () => useClientKindMock(),
 }))
 
-vi.mock('../CodeSnippetPreview', () => ({
-  CodeSnippetPreview: () => null,
-  default: () => null,
-}))
-
 describe('DPoPAssertionHeader', () => {
   it('renders assertion header fields', async () => {
     renderWithApplicationContext(
