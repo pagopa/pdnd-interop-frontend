@@ -73,11 +73,11 @@ describe('VoucherInstructionsSecondDPoPProofStep', () => {
     )
 
     expect(
-      await screen.getAllByText('secondDPoPProofStep.assertionPayload.htmField.label')[0]
+      screen.getAllByText('secondDPoPProofStep.assertionPayload.htmField.label')[0]
     ).toBeInTheDocument()
 
     expect(
-      await screen.getAllByText('secondDPoPProofStep.assertionPayload.htuField.label')[0]
+      screen.getAllByText('secondDPoPProofStep.assertionPayload.htuField.label')[0]
     ).toBeInTheDocument()
 
     expect(
