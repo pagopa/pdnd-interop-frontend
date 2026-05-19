@@ -142,15 +142,15 @@
       },
       "eserviceId": {
         "label": "eserviceId",
-        "description": "L'id dell'e-service selezionato"
+        "description": "L’id dell’e-service selezionato"
       },
       "producerKeychainId": {
         "label": "producerKeychainId",
-        "description": "L'id del portachiavi erogatore selezionato"
+        "description": "L’id del portachiavi erogatore selezionato"
       },
       "producerId": {
         "label": "producerId",
-        "description": "L'id dell'erogatore selezionato"
+        "description": "L’id dell’erogatore selezionato"
       }
     }
   },
@@ -197,7 +197,7 @@
       },
       "htuField": {
         "label": "HTU",
-        "description": "L'URL che si sta invocando; in questo caso una risorsa di PDND Interoperabilità",
+        "description": "L’URL che si sta invocando; in questo caso una risorsa di PDND Interoperabilità",
         "copySuccessFeedbackText": "Testo copiato correttamente"
       },
       "jtiField": {
@@ -307,10 +307,10 @@
       }
     },
     "assertionHeader": {
-      "title": "Header dell'asserzione",
+      "title": "Header dell’asserzione",
       "kidField": {
         "label": "KID (Key ID)",
-        "description": "L'identificativo della chiave pubblica selezionata allo step precedente, caricata su PDND e utilizzata per firmare l'asserzione.",
+        "description": "L’identificativo della chiave pubblica selezionata allo step precedente, caricata su PDND e utilizzata per firmare l’asserzione.",
         "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "algField": {
@@ -325,15 +325,15 @@
       }
     },
     "assertionPayload": {
-      "title": "Payload dell'asserzione",
+      "title": "Payload dell’asserzione",
       "issField": {
         "label": "ISS (Issuer)",
-        "description": "Il Client ID dell'applicazione che emette la richiesta.",
+        "description": "Il Client ID dell’applicazione che emette la richiesta.",
         "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "subField": {
         "label": "SUB (Subject)",
-        "description": "Il soggetto dell'asserzione. In PDND coincide sempre con il Client ID.",
+        "description": "Il soggetto dell’asserzione. In PDND coincide sempre con il Client ID.",
         "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "audField": {
@@ -343,7 +343,7 @@
       },
       "purposeIdField": {
         "label": "PurposeId (ID finalità)",
-        "description": "L'identificativo della finalità (UUID) selezionata nello step precedente e associata alla fruizione dell'e-service.",
+        "description": "L’identificativo della finalità (UUID) selezionata nello step precedente e associata alla fruizione dell’e-service.",
         "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "jtiField": {
@@ -363,7 +363,7 @@
       },
       "scope": {
         "label": "Scope",
-        "description": "Riferimento alla fase dell'interazione tra le parti.",
+        "description": "Riferimento alla fase dell’interazione tra le parti.",
         "copySuccessFeedbackText": "Stringa copiata correttamente"
       },
       "urlCallbackField": {
@@ -372,7 +372,7 @@
       },
       "interactionIdField": {
         "label": "interactionID",
-        "description": "L'id unico che identifica l'interazione tra le parti."
+        "description": "L’id unico che identifica l’interazione tra le parti."
       },
       "entityNumberField": {
         "label": "EntityNumber",
@@ -383,7 +383,7 @@
   "accessTokenStep": {
     "stepperLabel": "Ottieni token di accesso",
     "title": "Ottieni il token di accesso",
-    "description": "Una volta creato il JWS firmato con la propria chiave privata, puoi utilizzarlo per fare una richiesta verso l’authorization server di PDND Interoperabilità. Se va a buon fine, ti verrà restituito un voucher spendibile presso l'e-service dell’erogatore.",
+    "description": "Una volta creato il JWS firmato con la propria chiave privata, puoi utilizzarlo per fare una richiesta verso l’authorization server di PDND Interoperabilità. Se va a buon fine, ti verrà restituito un voucher spendibile presso l’e-service dell’erogatore.",
     "authEndpoint": {
       "title": "Endpoint del server autorizzativo (authorization server)",
       "url": {
@@ -468,7 +468,7 @@
     },
     "signalHub": {
       "title": "Signal Hub",
-      "description": "Il servizio che informa i fruitori quando i dati dell'e-service vengono modificati.",
+      "description": "Il servizio che informa i fruitori quando i dati dell’e-service vengono modificati.",
       "actionLabel": "Consulta",
       "pushApiSH": {
         "title": "Push API",
@@ -481,7 +481,7 @@
     },
     "exampleRequest": {
       "title": {
-        "eservice": "Esempio di richiesta verso l'erogatore",
+        "eservice": "Esempio di richiesta verso l’erogatore",
         "pdnd": "Esempio di richiesta verso PDND"
       },
       "description": "Se il token è valido, utilizzalo verso l’API dell’erogatore prima che scada.",
@@ -561,32 +561,32 @@
         "failed_other": "{{count}} errori"
       },
       "errors": {
-        "8001": "La stringa inserita come client_id non è uno uuid. Trovi il valore corretto all'interno della pagina del tuo client",
+        "8001": "La stringa inserita come client_id non è uno uuid. Trovi il valore corretto all’interno della pagina del tuo client",
         "8002": "La stringa inserita come grant_type è errata. Deve essere client_credentials",
         "8003": "La stringa inserita come client_assertion_type è errata. Deve essere urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
-        "8006": "Il claim SUB (subject) della client assertion non è uno uuid valido. Il valore del subject è il client id, che trovi all'interno della pagina del tuo client",
-        "8007": "Nella client assertion manca il claim SUB (subject). Il valore del subject è il client id, che trovi all'interno della pagina del tuo client",
-        "8008": "Il claim SUB (subject) della client assertion non corrisponde al client_id inserito nella chiamata all'authorization server",
-        "8009": "La stringa inserita come purposeId non è uno uuid. Trovi il valore corretto all'interno della pagina del tuo client, selezionando la finalità di tuo interesse",
-        "8010": "Il claim AUD (audience) non contiene l'audience corretta",
-        "8011": "L'hash inserito all'interno del campo value nel digest non ha la lunghezza prevista dall'algoritmo di hashing SHA256",
-        "8012": "L'hashing del campo value nel digest deve avvenire con SHA256",
-        "8013": "Nell'header della client assertion manca il campo KID",
+        "8006": "Il claim SUB (subject) della client assertion non è uno uuid valido. Il valore del subject è il client id, che trovi all’interno della pagina del tuo client",
+        "8007": "Nella client assertion manca il claim SUB (subject). Il valore del subject è il client id, che trovi all’interno della pagina del tuo client",
+        "8008": "Il claim SUB (subject) della client assertion non corrisponde al client_id inserito nella chiamata all’authorization server",
+        "8009": "La stringa inserita come purposeId non è uno uuid. Trovi il valore corretto all’interno della pagina del tuo client, selezionando la finalità di tuo interesse",
+        "8010": "Il claim AUD (audience) non contiene l’audience corretta",
+        "8011": "L’hash inserito all’interno del campo value nel digest non ha la lunghezza prevista dall’algoritmo di hashing SHA256",
+        "8012": "L’hashing del campo value nel digest deve avvenire con SHA256",
+        "8013": "Nell’header della client assertion manca il campo KID",
         "8014": "Nel payload della client assertion manca il campo ALG",
         "8015": "Nel payload della client assertion manca il campo JTI",
         "8016": "Nel payload della client assertion manca il campo IAT",
         "8017": "Nel payload della client assertion manca il campo ISS",
         "8018": "Nel payload della client assertion manca il campo EXP",
-        "8019": "Il campo digest all'interno del payload della client assertion deve contenere due campi: alg e value",
-        "8020": "Il campo digest all'interno del payload della client assertion deve contenere due campi: alg e value",
-        "8023": "La firma della client assertion non è valida. Assicurati che la chiave privata con la quale hai firmato l'asserzione corrisponda alla chiave pubblica depositata su PDND Interoperabilità della quale hai indicato il kid",
+        "8019": "Il campo digest all’interno del payload della client assertion deve contenere due campi: alg e value",
+        "8020": "Il campo digest all’interno del payload della client assertion deve contenere due campi: alg e value",
+        "8023": "La firma della client assertion non è valida. Assicurati che la chiave privata con la quale hai firmato l’asserzione corrisponda alla chiave pubblica depositata su PDND Interoperabilità della quale hai indicato il kid",
         "8024": "Nel payload della client assertion manca il campo purposeId",
-        "8025": "L'id della finalità che hai indicato (purposeId) non corrisponde a nessuna finalità associata al client id che hai indicato",
+        "8025": "L’id della finalità che hai indicato (purposeId) non corrisponde a nessuna finalità associata al client id che hai indicato",
         "8026": "La client assertion è valida ma la finalità per la quale stai richiedendo il voucher non è attiva",
         "8027": "La client assertion è valida ma la versione di e-service per la quale stai richiedendo il voucher non è attiva",
         "8028": "La client assertion è valida ma la richiesta di fruizione per la quale stai richiedendo il voucher non è attiva",
         "8033": "Il campo kid non è correttamente compilato. Il kid può essere costituito solo da caratteri alfanumerici, trattini e underscore. Quello inviato contiene caratteri speciali non riconosciuti",
-        "8099": "L'id della chiave che hai indicato (kid) non fa parte del client che hai indicato come client id"
+        "8099": "L’id della chiave che hai indicato (kid) non fa parte del client che hai indicato come client id"
       }
     }
   }

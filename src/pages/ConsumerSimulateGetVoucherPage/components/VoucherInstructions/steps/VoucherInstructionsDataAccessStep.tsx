@@ -25,6 +25,7 @@ import { FE_URL } from '@/config/env'
 import { useNavigate } from '@/router'
 import { RestartAlt } from '@mui/icons-material'
 import { EServiceQueries } from '@/api/eservice'
+import { theme } from '@pagopa/interop-fe-commons'
 
 export const VoucherInstructionsDataAccessStep: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -60,7 +61,7 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
   /* @TODO - add condition if async + producer (waiting for bff to return the descriptorId) (https://pagopa.atlassian.net/browse/PIN-10116) */
   const handleNavigateToEservice = () => {
     if (purpose) {
-      navigate('PROVIDE_ESERVICE_MANAGE', {
+      navigate('SUBSCRIBE_CATALOG_VIEW', {
         params: { eserviceId: purpose.eservice.id, descriptorId: purpose.eservice.descriptor.id },
       })
     }
@@ -76,9 +77,8 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
           severity="success"
           variant="outlined"
           sx={{
-            borderLeft: 0,
             boxShadow: 'unset',
-            border: '1px solid #E3E7EB',
+            border: `1px solid ${theme.palette.divider}`,
             borderRadius: 2,
             mb: 2,
           }}
@@ -92,9 +92,8 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
           severity="error"
           variant="outlined"
           sx={{
-            borderLeft: 0,
             boxShadow: 'unset',
-            border: '1px solid #E3E7EB',
+            border: `1px solid ${theme.palette.divider}`,
             borderRadius: 2,
             '& .MuiAlert-message': { width: '100%' },
           }}
@@ -112,7 +111,7 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
           </Stack>
         </Alert>
       </SectionContainer>
-      {clientKind === 'API' && interactionType === INTERACTION_TYPE.SYNC && (
+      {clientKind === 'API' && voucherType === VOUCHER_TYPE.BEARER && (
         <>
           <SectionContainer
             title={t('dataAccessStep.pdndInteroperability.title')}
