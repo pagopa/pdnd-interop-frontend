@@ -109,7 +109,7 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
       </SectionContainer>
       {clientKind === 'API' && voucherType === VOUCHER_TYPE.BEARER && (
         <>
-          <ApiVersionSummary keyPrefix={'dataAccessStep'} />
+          <ApiVersionSummary keyPrefix="dataAccessStep" />
           <SectionContainer
             title={t('dataAccessStep.signalHub.title')}
             description={t('dataAccessStep.signalHub.description')}

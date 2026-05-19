@@ -149,9 +149,7 @@ export const VoucherInstructionsSecondDPoPProofStep: React.FC = () => {
         keyPrefix="secondDPoPProofStep"
         substitutions={substitutions}
       />
-      {clientKind === 'API' && (
-        <ApiVersionSummary keyPrefix={'secondDPoPProofStep'} hideV2={true} />
-      )}
+      {clientKind === 'API' && <ApiVersionSummary keyPrefix="secondDPoPProofStep" hideV2 />}
       <SectionContainer
         title={
           clientKind === 'CONSUMER'
