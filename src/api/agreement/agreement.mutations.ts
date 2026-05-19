@@ -99,7 +99,7 @@ function useSubmitDraft(isDelegated = false, isAsyncExchange = false) {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog,
+      confirmationDialog: confirmationDialog.length > 0 ? confirmationDialog : undefined,
     },
   })
 }

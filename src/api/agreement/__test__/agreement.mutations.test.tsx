@@ -166,7 +166,7 @@ describe('AgreementMutations', () => {
 
       result.current.mutate({ agreementId: 'agreement-id', delegatorName: undefined })
 
-      expect(queryClient.getMutationCache().getAll()[0]?.meta?.confirmationDialog).toEqual([])
+      expect(queryClient.getMutationCache().getAll()[0]?.meta?.confirmationDialog).toBeUndefined()
     })
 
     it('should resolve the delegated confirmation description with the delegator name', () => {
