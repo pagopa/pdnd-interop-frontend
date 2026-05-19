@@ -96,7 +96,7 @@ describe('VoucherInstructionsSecondDPoPProofStep', () => {
   it('renders interoperability section for API clients only', async () => {
     useClientKindMock.mockReturnValue('API')
 
-    renderWithApplicationContext(
+    const { rerender } = renderWithApplicationContext(
       <MemoryRouter>
         <VoucherInstructionsSecondDPoPProofStep />
       </MemoryRouter>,
@@ -111,6 +111,16 @@ describe('VoucherInstructionsSecondDPoPProofStep', () => {
         hideV2: true,
       })
     )
+
+    useClientKindMock.mockReturnValue('CONSUMER')
+
+    rerender(
+      <MemoryRouter>
+        <VoucherInstructionsSecondDPoPProofStep />
+      </MemoryRouter>
+    )
+
+    expect(screen.queryByTestId('api-version-summary')).not.toBeInTheDocument()
   })
 
   it('renders example request section', async () => {
