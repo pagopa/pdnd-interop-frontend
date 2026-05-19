@@ -6,7 +6,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 type DPoPAssertionHeaderProps = {
-  keyPrefix: string
+  keyPrefix: 'firstDPoPProofStep' | 'secondDPoPProofStep'
 }
 
 export const DPoPAssertionHeader: React.FC<DPoPAssertionHeaderProps> = ({ keyPrefix }) => {

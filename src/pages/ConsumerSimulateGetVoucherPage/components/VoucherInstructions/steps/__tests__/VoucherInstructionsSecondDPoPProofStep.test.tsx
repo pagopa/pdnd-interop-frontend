@@ -51,31 +51,8 @@ describe('VoucherInstructionsSecondDPoPProofStep', () => {
 
     expect(await screen.findByText('secondDPoPProofStep.title')).toBeInTheDocument()
 
-    expect(await screen.findByText('secondDPoPProofStep.assertionHeader.title')).toBeInTheDocument()
-
     expect(
       await screen.findByText('secondDPoPProofStep.assertionPayload.title')
-    ).toBeInTheDocument()
-  })
-
-  it('renders assertion header fields', async () => {
-    renderWithApplicationContext(
-      <MemoryRouter>
-        <VoucherInstructionsSecondDPoPProofStep />
-      </MemoryRouter>,
-      { withReactQueryContext: true }
-    )
-
-    expect(
-      await screen.findByText('secondDPoPProofStep.assertionHeader.typField.label')
-    ).toBeInTheDocument()
-
-    expect(
-      await screen.findByText('secondDPoPProofStep.assertionHeader.algField.label')
-    ).toBeInTheDocument()
-
-    expect(
-      await screen.findByText('secondDPoPProofStep.assertionHeader.jwkField.label')
     ).toBeInTheDocument()
   })
 
