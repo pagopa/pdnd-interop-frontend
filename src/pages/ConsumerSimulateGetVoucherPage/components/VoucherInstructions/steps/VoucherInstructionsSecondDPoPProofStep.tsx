@@ -31,6 +31,8 @@ type SecondDpopStepFormValues = {
   htu: string
 }
 
+const HTM_OPTIONS = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'PATCH', 'TRACE']
+
 export const VoucherInstructionsSecondDPoPProofStep: React.FC = () => {
   const { t } = useTranslation('voucher')
   const { goToPreviousStep, resetStepper } = useVoucherInstructionsContext()
@@ -55,7 +57,6 @@ export const VoucherInstructionsSecondDPoPProofStep: React.FC = () => {
     }
   }
 
-  const htmOptions = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'HEAD', 'PATCH', 'TRACE']
   const formMethods = useForm<SecondDpopStepFormValues>({
     defaultValues: {
       htm: '',
@@ -104,7 +105,7 @@ export const VoucherInstructionsSecondDPoPProofStep: React.FC = () => {
                     name="htm"
                     label={t('secondDPoPProofStep.assertionPayload.htmField.label')}
                     infoLabel={t('secondDPoPProofStep.assertionPayload.htmField.description')}
-                    options={htmOptions.map((value) => ({ label: value, value }))}
+                    options={HTM_OPTIONS.map((value) => ({ label: value, value }))}
                   />
                 </FormControl>
               </Grid>
