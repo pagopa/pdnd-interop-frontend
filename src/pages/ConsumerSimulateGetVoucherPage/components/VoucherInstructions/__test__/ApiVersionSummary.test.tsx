@@ -3,8 +3,8 @@ import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { MemoryRouter } from 'react-router-dom'
 import { ApiVersionSummary } from '../ApiVersionSummary'
 
-describe('ApiVersionSummary.test', () => {
-  it('renders api version fields', async () => {
+describe('ApiVersionSummary', () => {
+  it('should able to see api V2 and api V3 fields', async () => {
     renderWithApplicationContext(
       <MemoryRouter>
         <ApiVersionSummary keyPrefix="secondDPoPProofStep" />
@@ -22,7 +22,7 @@ describe('ApiVersionSummary.test', () => {
     expect(await screen.findByText('pdndInteroperability.apiV2.description')).toBeInTheDocument()
   })
 
-  it('does not render v2 api fields', async () => {
+  it('should not render v2 api fields if we need to hide this section', async () => {
     renderWithApplicationContext(
       <MemoryRouter>
         <ApiVersionSummary keyPrefix="secondDPoPProofStep" hideV2={true} />

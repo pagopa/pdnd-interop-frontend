@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom'
 import { DPoPAssertionHeader } from '../DPoPAssertionHeader'
 
 describe('DPoPAssertionHeader', () => {
-  it('renders assertion header fields', async () => {
+  it('should render assertion header fields', async () => {
     renderWithApplicationContext(
       <MemoryRouter>
         <DPoPAssertionHeader keyPrefix="firstDPoPProofStep" />
