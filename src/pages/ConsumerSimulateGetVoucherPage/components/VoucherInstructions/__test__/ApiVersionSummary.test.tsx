@@ -1,13 +1,7 @@
-import { vi } from 'vitest'
 import { screen } from '@testing-library/react'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { MemoryRouter } from 'react-router-dom'
 import { ApiVersionSummary } from '../ApiVersionSummary'
-
-const useClientKindMock = vi.fn()
-vi.mock('@/hooks/useClientKind', () => ({
-  useClientKind: () => useClientKindMock(),
-}))
 
 describe('ApiVersionSummary.test', () => {
   it('renders api version fields', async () => {
