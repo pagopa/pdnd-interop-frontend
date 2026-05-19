@@ -50,7 +50,7 @@ export const VoucherInstructionsSecondDPoPProofStep: React.FC = () => {
   /* @TODO - add condition if async + producer (waiting for bff to return the descriptorId) (https://pagopa.atlassian.net/browse/PIN-10116) */
   const handleNavigateToEservice = () => {
     if (purpose) {
-      navigate('PROVIDE_ESERVICE_MANAGE', {
+      navigate('SUBSCRIBE_CATALOG_VIEW', {
         params: { eserviceId: purpose.eservice.id, descriptorId: purpose.eservice.descriptor.id },
       })
     }
