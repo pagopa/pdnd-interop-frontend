@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import ProviderEServiceSummaryPage from '../ProviderEServiceSummary.page'
 import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import * as router from '@/router'
@@ -237,6 +238,87 @@ describe('ProviderEServiceSummaryPage', () => {
     expect(screen.queryByRole('button', { name: 'publish' })).not.toBeInTheDocument()
     expect(screen.queryByTestId('DeleteOutlineIcon')).not.toBeInTheDocument()
     expect(screen.queryByTestId('CreateIcon')).not.toBeInTheDocument()
+  })
+
+  describe('handlePublishDraft navigation state', () => {
+    const setupAndPublish = async (
+      descriptor: ReturnType<typeof createMockEServiceDescriptorProvider>
+    ) => {
+      const user = userEvent.setup()
+      useQueryMock.mockReturnValue({ data: descriptor, isLoading: false })
+      usePublishVersionDraftMock.mockImplementationOnce(
+        (_params: unknown, { onSuccess }: { onSuccess: () => void }) => {
+          onSuccess()
+        }
+      )
+
+      renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      })
+
+      await user.click(screen.getByRole('button', { name: 'publish' }))
+    }
+
+    it('navigates with firstVersion state when publishing sync first version', async () => {
+      await setupAndPublish(createMockEServiceDescriptorProvider({ version: '1' }))
+
+      expect(mockNavigate).toHaveBeenCalledWith(
+        'PROVIDE_ESERVICE_PUBLISH_THANK_YOU',
+        expect.objectContaining({
+          state: expect.objectContaining({
+            title: 'publishThankYou.firstVersion.title',
+            description: 'publishThankYou.firstVersion.description',
+          }),
+        })
+      )
+    })
+
+    it('navigates with firstVersionAsync state when publishing async first version (PIN-10031)', async () => {
+      await setupAndPublish(
+        createMockEServiceDescriptorProvider({ version: '1', eservice: { asyncExchange: true } })
+      )
+
+      expect(mockNavigate).toHaveBeenCalledWith(
+        'PROVIDE_ESERVICE_PUBLISH_THANK_YOU',
+        expect.objectContaining({
+          state: expect.objectContaining({
+            title: 'publishThankYou.firstVersionAsync.title',
+            description: 'publishThankYou.firstVersionAsync.description',
+          }),
+        })
+      )
+    })
+
+    it('navigates with newVersion state when publishing sync new version', async () => {
+      await setupAndPublish(createMockEServiceDescriptorProvider())
+
+      expect(mockNavigate).toHaveBeenCalledWith(
+        'PROVIDE_ESERVICE_PUBLISH_THANK_YOU',
+        expect.objectContaining({
+          state: expect.objectContaining({
+            title: 'publishThankYou.newVersion.title',
+            subtitle: 'publishThankYou.newVersion.subtitle',
+          }),
+        })
+      )
+    })
+
+    it('navigates with newVersionAsync state when publishing async new version (PIN-10035)', async () => {
+      await setupAndPublish(
+        createMockEServiceDescriptorProvider({ eservice: { asyncExchange: true } })
+      )
+
+      expect(mockNavigate).toHaveBeenCalledWith(
+        'PROVIDE_ESERVICE_PUBLISH_THANK_YOU',
+        expect.objectContaining({
+          state: expect.objectContaining({
+            title: 'publishThankYou.newVersionAsync.title',
+            subtitle: 'publishThankYou.newVersionAsync.subtitle',
+          }),
+        })
+      )
+    })
   })
 
   describe('isRulesetExpired', () => {
