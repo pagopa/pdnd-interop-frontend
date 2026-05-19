@@ -176,6 +176,22 @@ describe('EServiceCreateStepTechSpec', () => {
     expect(screen.queryByText('EServiceProducerKeychainSection')).not.toBeInTheDocument()
   })
 
+  it('should NOT call keychain mutations on submit when e-service is not editable (version > 1)', async () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderAsync(),
+      areEServiceGeneralInfoEditable: false,
+    })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await userEvent.click(await screen.findByText('forwardWithSaveBtn'))
+
+    expect(addKeychainToEService).not.toHaveBeenCalled()
+    expect(removeKeychainFromEService).not.toHaveBeenCalled()
+  })
+
   it('should NOT render the producer keychain section in template instance flow even if async', () => {
     const baseAsync = createMockEServiceDescriptorProviderAsync()
     const withTemplate = createMockEServiceDescriptorProviderWithTemplateRef()

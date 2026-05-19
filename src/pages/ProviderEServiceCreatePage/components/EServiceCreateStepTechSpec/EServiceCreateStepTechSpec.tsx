@@ -76,7 +76,7 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
   initialAssociatedKeychains,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
-  const { descriptor, forward, back } = useEServiceCreateContext()
+  const { descriptor, forward, back, areEServiceGeneralInfoEditable } = useEServiceCreateContext()
   const { openDialog } = useDialog()
   const queryClient = useQueryClient()
 
@@ -106,7 +106,7 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
   const onSubmit: SubmitHandler<EServiceCreateStepTechSpecFormValues> = async (values) => {
     if (!descriptor) return
 
-    if (isProducerKeychainSectionVisible) {
+    if (isProducerKeychainSectionVisible && areEServiceGeneralInfoEditable) {
       const initialIds = initialAssociatedKeychains.map((k) => k.id)
       const finalIds = values.keychains
         .map((row) => row.value?.id)

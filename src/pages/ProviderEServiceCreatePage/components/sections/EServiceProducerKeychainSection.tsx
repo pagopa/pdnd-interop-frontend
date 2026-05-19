@@ -5,11 +5,13 @@ import { SectionContainer } from '@/components/layout/containers'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import AddIcon from '@mui/icons-material/Add'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
-import { Alert, Box, Button, IconButton, Stack, Tooltip } from '@mui/material'
+import { Alert, Box, Button, IconButton, Stack, Tooltip, Typography } from '@mui/material'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { useEServiceCreateContext } from '../EServiceCreateContext'
 
 export type ProducerKeychainFieldArrayItem = {
   value: CompactProducerKeychain | null
@@ -24,6 +26,7 @@ export const EServiceProducerKeychainSection: React.FC = () => {
     keyPrefix: 'create.step4.producerKeychainSection',
   })
   const { isOperatorAPI } = AuthHooks.useJwt()
+  const { areEServiceGeneralInfoEditable } = useEServiceCreateContext()
 
   const { control } = useFormContext<FormValues>()
   const { fields, append, remove } = useFieldArray<FormValues>({
@@ -35,10 +38,37 @@ export const EServiceProducerKeychainSection: React.FC = () => {
   const { data: allKeychains = [], isPending } = useQuery({
     ...KeychainQueries.getKeychainsList({ limit: 50, offset: 0 }),
     select: (d) => d.results,
-    enabled: !isOperatorAPI,
+    enabled: !isOperatorAPI && areEServiceGeneralInfoEditable,
   })
 
   const isEmptyList = !isPending && allKeychains.length === 0
+
+  if (!areEServiceGeneralInfoEditable) {
+    const associatedNames = (watchedKeychains ?? [])
+      .map((row) => row?.value?.name)
+      .filter((name): name is string => Boolean(name))
+
+    return (
+      <SectionContainer title={t('title')} description={t('subtitle')} sx={{ mt: 3 }}>
+        <InformationContainer
+          label={t('readOnlyLabel')}
+          content={
+            associatedNames.length > 0 ? (
+              <Stack spacing={0.5}>
+                {associatedNames.map((name) => (
+                  <Typography key={name} variant="body2">
+                    {name}
+                  </Typography>
+                ))}
+              </Stack>
+            ) : (
+              '-'
+            )
+          }
+        />
+      </SectionContainer>
+    )
+  }
 
   return (
     <SectionContainer title={t('title')} description={t('subtitle')} sx={{ mt: 3 }}>

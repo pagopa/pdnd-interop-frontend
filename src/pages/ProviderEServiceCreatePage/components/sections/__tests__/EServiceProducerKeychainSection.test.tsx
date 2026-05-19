@@ -5,6 +5,7 @@ import type { Mock } from 'vitest'
 import { useQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
 import { EServiceProducerKeychainSection } from '../EServiceProducerKeychainSection'
+import { mockUseEServiceCreateContext } from '@/../__mocks__/data/eservice.mocks'
 
 vi.mock('@tanstack/react-query', async () => {
   const actual =
@@ -40,6 +41,10 @@ const renderComponent = (
     </ReactHookFormWrapper>,
     { withReactQueryContext: false, withRouterContext: false }
   )
+
+beforeEach(() => {
+  mockUseEServiceCreateContext({ areEServiceGeneralInfoEditable: true })
+})
 
 afterEach(() => {
   vi.clearAllMocks()
@@ -118,5 +123,53 @@ describe('EServiceProducerKeychainSection', () => {
     expect(removeButtons.length).toBe(1)
     await userEvent.click(removeButtons[0])
     expect(screen.getAllByRole('combobox').length).toBe(1)
+  })
+
+  it('renders the read-only list of associated keychains when not editable', () => {
+    mockUseEServiceCreateContext({ areEServiceGeneralInfoEditable: false })
+    useJwtSpy.mockReturnValue(makeJwt())
+    ;(useQuery as Mock).mockReturnValue({ data: [], isPending: false })
+
+    renderComponent({
+      keychains: [
+        { value: makeKeychain('k1', 'Keychain 1') },
+        { value: makeKeychain('k2', 'Keychain 2') },
+      ],
+    })
+
+    expect(screen.getByText('title')).toBeInTheDocument()
+    expect(screen.getByText('subtitle')).toBeInTheDocument()
+    expect(screen.getByText('readOnlyLabel')).toBeInTheDocument()
+    expect(screen.getByText('Keychain 1')).toBeInTheDocument()
+    expect(screen.getByText('Keychain 2')).toBeInTheDocument()
+    expect(screen.queryByRole('combobox')).not.toBeInTheDocument()
+    expect(screen.queryByText('addKeychainBtn')).not.toBeInTheDocument()
+  })
+
+  it('renders "-" in read-only mode when no keychains are associated', () => {
+    mockUseEServiceCreateContext({ areEServiceGeneralInfoEditable: false })
+    useJwtSpy.mockReturnValue(makeJwt())
+    ;(useQuery as Mock).mockReturnValue({ data: [], isPending: false })
+
+    renderComponent({ keychains: [{ value: null }] })
+
+    expect(screen.getByText('readOnlyLabel')).toBeInTheDocument()
+    expect(screen.getByText('-')).toBeInTheDocument()
+    expect(screen.queryByRole('combobox')).not.toBeInTheDocument()
+    expect(screen.queryByText('addKeychainBtn')).not.toBeInTheDocument()
+  })
+
+  it('shows the read-only list to isOperatorAPI when not editable (no api role alert)', () => {
+    mockUseEServiceCreateContext({ areEServiceGeneralInfoEditable: false })
+    useJwtSpy.mockReturnValue(makeJwt({ isAdmin: false, isOperatorAPI: true }))
+    ;(useQuery as Mock).mockReturnValue({ data: [], isPending: false })
+
+    renderComponent({
+      keychains: [{ value: makeKeychain('k1', 'Keychain 1') }],
+    })
+
+    expect(screen.getByText('readOnlyLabel')).toBeInTheDocument()
+    expect(screen.getByText('Keychain 1')).toBeInTheDocument()
+    expect(screen.queryByText('apiRoleAlert')).not.toBeInTheDocument()
   })
 })
