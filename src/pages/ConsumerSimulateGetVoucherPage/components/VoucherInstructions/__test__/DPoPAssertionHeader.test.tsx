@@ -2,11 +2,16 @@ import { vi } from 'vitest'
 import { screen } from '@testing-library/react'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { MemoryRouter } from 'react-router-dom'
-import { VoucherInstructionsSecondDPoPProofStep } from '../../steps/VoucherInstructionsSecondDPoPProofStep'
+import { VoucherInstructionsSecondDPoPProofStep } from '../steps/VoucherInstructionsSecondDPoPProofStep'
 
 const useClientKindMock = vi.fn()
 vi.mock('@/hooks/useClientKind', () => ({
   useClientKind: () => useClientKindMock(),
+}))
+
+vi.mock('../CodeSnippetPreview', () => ({
+  CodeSnippetPreview: () => null,
+  default: () => null,
 }))
 
 describe('DPoPAssertionHeader', () => {
