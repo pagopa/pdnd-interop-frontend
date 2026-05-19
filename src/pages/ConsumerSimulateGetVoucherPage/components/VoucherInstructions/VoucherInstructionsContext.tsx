@@ -7,12 +7,14 @@ type VoucherInstructionsContextType = {
   goToNextStep: VoidFunction
   goToPreviousStep: VoidFunction
   startStepper: (values: VoucherInstructionsGeneralFormValues) => void
+  resetStepper: VoidFunction
 }
 
 const initialState: VoucherInstructionsContextType = {
   goToNextStep: noop,
   goToPreviousStep: noop,
   startStepper: () => {},
+  resetStepper: noop,
 }
 
 const { useContext, Provider } = createContext<VoucherInstructionsContextType>(
@@ -25,6 +27,7 @@ type VoucherInstructionsContextProviderProps = {
   goToNextStep: VoidFunction
   goToPreviousStep: VoidFunction
   startStepper: (values: VoucherInstructionsGeneralFormValues) => void
+  resetStepper: VoidFunction
 }
 
 const VoucherInstructionsContextProvider: React.FC<VoucherInstructionsContextProviderProps> = ({
@@ -32,14 +35,16 @@ const VoucherInstructionsContextProvider: React.FC<VoucherInstructionsContextPro
   goToNextStep,
   goToPreviousStep,
   startStepper,
+  resetStepper,
 }) => {
   const providerValue = React.useMemo(
     () => ({
       goToNextStep,
       goToPreviousStep,
       startStepper,
+      resetStepper,
     }),
-    [goToNextStep, goToPreviousStep, startStepper]
+    [goToNextStep, goToPreviousStep, startStepper, resetStepper]
   )
 
   return <Provider value={providerValue}>{children}</Provider>

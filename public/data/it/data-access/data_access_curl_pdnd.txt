@@ -1,0 +1,2 @@
+curl -X POST "[HTU]" \
+    -H "Authorization: [VOUCHER_OTTENUTO]"

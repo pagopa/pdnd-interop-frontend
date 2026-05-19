@@ -1,8 +1,8 @@
 import React from 'react'
 import { StepActions } from '@/components/shared/StepActions'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { useVoucherInstructionsContext } from '../VoucherInstructionsContext'
-import { Alert, AlertTitle, Stack, Typography } from '@mui/material'
+import { Alert, AlertTitle, Box, Button, Stack, Typography } from '@mui/material'
 import { useClientKind } from '@/hooks/useClientKind'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
@@ -10,127 +10,174 @@ import { SectionContainer } from '@/components/layout/containers'
 import { PurposeQueries } from '@/api/purpose'
 import { useQuery } from '@tanstack/react-query'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
-import { Link } from '@/router'
 import { IconLink } from '@/components/shared/IconLink'
 import {
-  apiV1DocLink,
   apiV2DocLink,
+  apiV3DocLink,
   apiSignalhubPushLink,
   apiSignalhubPullLink,
 } from '@/config/constants'
 import { useSearchParams } from 'react-router-dom'
+import type { InteractionType, MemberType, VoucherType } from '../VoucherInstructionsGeneralForm'
+import { INTERACTION_TYPE, MEMBER_TYPE, VOUCHER_TYPE } from '../VoucherInstructionsGeneralForm'
+import { CodeSnippetPreview } from '../CodeSnippetPreview'
+import { FE_URL } from '@/config/env'
+import { useNavigate } from '@/router'
+import { RestartAlt } from '@mui/icons-material'
+import { EServiceQueries } from '@/api/eservice'
+import { theme } from '@pagopa/interop-fe-commons'
 
 export const VoucherInstructionsDataAccessStep: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
-  const { goToPreviousStep, goToNextStep } = useVoucherInstructionsContext()
+  const { goToPreviousStep, goToNextStep, resetStepper } = useVoucherInstructionsContext()
   const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
 
   const purposeId = searchParams.get('purposeId') || ''
-  const voucherType = searchParams.get('voucherType') || ''
+  const voucherType = (searchParams.get('voucherType') as VoucherType) || ''
+  const memberType = (searchParams.get('memberType') as MemberType) || ''
+  const eserviceId = searchParams.get('eserviceId') || ''
 
   const { data: purpose } = useQuery({
     ...PurposeQueries.getSingle(purposeId),
     enabled: Boolean(purposeId),
   })
 
-  const eserviceName = purpose ? purpose.eservice.name : ''
-  const producer = purpose ? purpose.eservice.producer.name : ''
+  /* @TODO - use this for the redirect when the bff will return the descriptorId (https://pagopa.atlassian.net/browse/PIN-10116) */
+  const { data: eservice } = useQuery({
+    ...EServiceQueries.getSingle(eserviceId),
+    enabled: Boolean(eserviceId),
+  })
+
+  const interactionType = (searchParams.get('interactionType') as InteractionType) || ''
+
+  const getFilePath = () => {
+    const base = `${FE_URL}/data/it`
+
+    return `${base}/data-access/data_access_curl_${clientKind === 'CONSUMER' ? 'eservice' : 'pdnd'}.txt`
+  }
+
+  /* @TODO - add condition if async + producer (waiting for bff to return the descriptorId) (https://pagopa.atlassian.net/browse/PIN-10116) */
+  const handleNavigateToEservice = () => {
+    if (purpose) {
+      navigate('SUBSCRIBE_CATALOG_VIEW', {
+        params: { eserviceId: purpose.eservice.id, descriptorId: purpose.eservice.descriptor.id },
+      })
+    }
+  }
 
   return (
     <>
-      <Alert severity="success" variant="outlined">
-        <AlertTitle>{t(`dataAccessStep.${clientKind}.title`)}</AlertTitle>
-        <Trans>
-          {clientKind === 'CONSUMER' && purpose
-            ? t(`dataAccessStep.${clientKind}.description`, {
-                eserviceName: eserviceName,
-                producerName: producer,
-              })
-            : t(`dataAccessStep.${clientKind}.description`)}
-        </Trans>
-      </Alert>
-      <SectionContainer>
-        <Stack spacing={2}>
-          <Typography variant="h6" component="h2">
-            {t(`dataAccessStep.${clientKind}.actionTitle`)}
-          </Typography>
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography> {t(`dataAccessStep.${clientKind}.actionDescription`)}</Typography>
-            {purpose && clientKind === 'CONSUMER' && (
-              <Link
-                as="button"
-                to={'SUBSCRIBE_CATALOG_VIEW'}
-                params={{
-                  eserviceId: purpose.eservice.id,
-                  descriptorId: purpose.eservice.descriptor.id,
-                }}
-                sx={{
-                  '&:hover': {
-                    backgroundColor: 'white',
-                  },
-                }}
-                disableRipple
-              >
-                {t(`dataAccessStep.${clientKind}.actionLabel`)}
-              </Link>
-            )}
+      <SectionContainer
+        title={t('dataAccessStep.pdndAccessToken.title')}
+        description={t('dataAccessStep.pdndAccessToken.description')}
+      >
+        <Alert
+          severity="success"
+          variant="outlined"
+          sx={{
+            boxShadow: 'unset',
+            border: `1px solid ${theme.palette.divider}`,
+            borderRadius: 2,
+            mb: 2,
+          }}
+        >
+          <AlertTitle sx={{ pb: 1 }}>
+            {t(`dataAccessStep.pdndAccessToken.successAlert.title`)}
+          </AlertTitle>
+          {t('dataAccessStep.pdndAccessToken.successAlert.description')}
+        </Alert>
+        <Alert
+          severity="error"
+          variant="outlined"
+          sx={{
+            boxShadow: 'unset',
+            border: `1px solid ${theme.palette.divider}`,
+            borderRadius: 2,
+            '& .MuiAlert-message': { width: '100%' },
+          }}
+        >
+          <Stack direction="row" sx={{ justifyContent: 'space-between' }} alignItems="center">
+            <Box>
+              <AlertTitle sx={{ pb: 1 }}>
+                {t(`dataAccessStep.pdndAccessToken.failureAlert.title`)}
+              </AlertTitle>
+              {t('dataAccessStep.pdndAccessToken.failureAlert.description')}
+            </Box>
+            <Button variant="outlined" onClick={() => navigate('SUBSCRIBE_DEBUG_VOUCHER')}>
+              {t('dataAccessStep.pdndAccessToken.failureAlert.debugButton')}
+            </Button>
           </Stack>
-          {clientKind === 'API' && (
-            <>
-              <Typography variant="body2" fontWeight={600}>
-                {t(`dataAccessStep.API.apiV1.title`)}
-              </Typography>
-              <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
-                <Typography variant="body2">{t(`dataAccessStep.API.apiV1.description`)}</Typography>
-                {clientKind === 'API' && (
-                  <IconLink
-                    endIcon={<OpenInNewIcon fontSize="small" />}
-                    href={apiV1DocLink}
-                    target="_blank"
-                    sx={{
-                      fontWeight: 600,
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {t(`dataAccessStep.${clientKind}.actionLabel`)}
-                  </IconLink>
-                )}
-              </Stack>
-              <Typography variant="body2" fontWeight={600}>
-                {t(`dataAccessStep.API.apiV2.title`)}
-              </Typography>
-              <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
-                <Typography variant="body2">{t(`dataAccessStep.API.apiV2.description`)}</Typography>
-                <IconLink
-                  endIcon={<OpenInNewIcon fontSize="small" />}
-                  href={apiV2DocLink}
-                  target="_blank"
-                  sx={{
-                    fontWeight: 600,
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {t(`dataAccessStep.${clientKind}.actionLabel`)}
-                </IconLink>
-              </Stack>
-            </>
-          )}
-        </Stack>
+        </Alert>
       </SectionContainer>
-      {clientKind === 'API' && (
-        <SectionContainer>
-          <Stack spacing={2}>
-            <Typography variant="h6" component="h2">
-              {t(`dataAccessStep.API.titleSignalHub`)}
-            </Typography>
-            <Typography variant="body2" fontWeight={600}>
-              {t(`dataAccessStep.API.pushApiSH.title`)}
-            </Typography>
-            <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
-              <Typography variant="body2">
-                {t(`dataAccessStep.API.pushApiSH.description`)}
-              </Typography>
+      {clientKind === 'API' && voucherType === VOUCHER_TYPE.BEARER && (
+        <>
+          <SectionContainer
+            title={t('dataAccessStep.pdndInteroperability.title')}
+            description={t('dataAccessStep.pdndInteroperability.description')}
+          >
+            <Stack direction="row" sx={{ pt: 1, pb: 3 }} alignItems="center">
+              <Stack direction="column" justifyContent="space-between" gap={1} sx={{ mr: 3 }}>
+                <Typography variant="body2" fontWeight={600}>
+                  {t('dataAccessStep.pdndInteroperability.apiV3.title')}
+                </Typography>
+                <Typography variant="body2">
+                  {t('dataAccessStep.pdndInteroperability.apiV3.description')}
+                </Typography>
+              </Stack>
+              <IconLink
+                endIcon={<OpenInNewIcon fontSize="small" />}
+                href={apiV3DocLink}
+                target="_blank"
+                sx={{
+                  fontWeight: 600,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {t('dataAccessStep.pdndInteroperability.actionLabel')}
+              </IconLink>
+            </Stack>
+            <Stack direction="row" alignItems="center">
+              <Stack direction="column" justifyContent="space-between" gap={1} sx={{ mr: 3 }}>
+                <Typography variant="body2" fontWeight={600}>
+                  {t('dataAccessStep.pdndInteroperability.apiV2.title')}
+                </Typography>
+                <Typography variant="body2">
+                  {t('dataAccessStep.pdndInteroperability.apiV2.description')}
+                </Typography>
+              </Stack>
+              <IconLink
+                endIcon={<OpenInNewIcon fontSize="small" />}
+                href={apiV2DocLink}
+                target="_blank"
+                sx={{
+                  fontWeight: 600,
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {t('dataAccessStep.pdndInteroperability.actionLabel')}
+              </IconLink>
+            </Stack>
+          </SectionContainer>
+          <SectionContainer
+            title={t('dataAccessStep.signalHub.title')}
+            description={t('dataAccessStep.signalHub.description')}
+          >
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+              sx={{ pt: 1, pb: 3 }}
+            >
+              <Stack direction="column" gap={1} sx={{ mr: 3 }}>
+                <Typography variant="body2" fontWeight={600}>
+                  {t('dataAccessStep.signalHub.pushApiSH.title')}
+                </Typography>
+                <Typography variant="body2">
+                  {t('dataAccessStep.signalHub.pushApiSH.description')}
+                </Typography>
+              </Stack>
               <IconLink
                 endIcon={<OpenInNewIcon fontSize="small" />}
                 href={apiSignalhubPushLink}
@@ -140,16 +187,18 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
                   whiteSpace: 'nowrap',
                 }}
               >
-                {t(`dataAccessStep.${clientKind}.actionLabel`)}
+                {t('dataAccessStep.signalHub.actionLabel')}
               </IconLink>
             </Stack>
-            <Typography variant="body2" fontWeight={600}>
-              {t(`dataAccessStep.API.pullApiSH.title`)}
-            </Typography>
-            <Stack direction="row" spacing={1} alignItems="center" justifyContent="space-between">
-              <Typography variant="body2">
-                {t(`dataAccessStep.API.pullApiSH.description`)}
-              </Typography>
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Stack direction="column" gap={1} sx={{ mr: 3 }}>
+                <Typography variant="body2" fontWeight={600}>
+                  {t('dataAccessStep.signalHub.pullApiSH.title')}
+                </Typography>
+                <Typography variant="body2">
+                  {t('dataAccessStep.signalHub.pullApiSH.description')}
+                </Typography>
+              </Stack>
               <IconLink
                 endIcon={<OpenInNewIcon fontSize="small" />}
                 href={apiSignalhubPullLink}
@@ -159,10 +208,43 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
                   whiteSpace: 'nowrap',
                 }}
               >
-                {t(`dataAccessStep.${clientKind}.actionLabel`)}
+                {t('dataAccessStep.signalHub.actionLabel')}
               </IconLink>
             </Stack>
-          </Stack>
+          </SectionContainer>
+          <SectionContainer title={t('dataAccessStep.exampleRequest.title.pdnd')}>
+            <Typography variant="body2">
+              {t('dataAccessStep.exampleRequest.description')}
+            </Typography>
+            <CodeSnippetPreview
+              sx={{ mt: 2 }}
+              activeLang="curl"
+              entries={[{ url: getFilePath(), value: 'curl' }]}
+            />
+          </SectionContainer>
+        </>
+      )}
+      {clientKind === 'CONSUMER' && voucherType === VOUCHER_TYPE.BEARER && (
+        <SectionContainer title={t('dataAccessStep.exampleRequest.title.eservice')}>
+          <Typography variant="body2">{t('dataAccessStep.exampleRequest.description')}</Typography>
+          <CodeSnippetPreview
+            sx={{ mt: 2 }}
+            activeLang="curl"
+            entries={[{ url: getFilePath(), value: 'curl' }]}
+          />
+          <Alert variant="outlined" severity="warning" sx={{ mt: 2 }}>
+            <Stack direction="row">
+              <Typography variant="body2">
+                {t('dataAccessStep.exampleRequest.alert.title')}
+              </Typography>
+              {/* @TODO remove this condition when the bff will return the descriptorId for the redirect (https://pagopa.atlassian.net/browse/PIN-10116) */}
+              {memberType === MEMBER_TYPE.CONSUMER && (
+                <Button sx={{ whiteSpace: 'nowrap' }} onClick={() => handleNavigateToEservice()}>
+                  {t('dataAccessStep.exampleRequest.alert.actionLabel')}
+                </Button>
+              )}
+            </Stack>
+          </Alert>
         </SectionContainer>
       )}
       <StepActions
@@ -172,15 +254,29 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
           onClick: goToPreviousStep,
           startIcon: <ArrowBackIcon />,
         }}
+        secondaryAction={
+          voucherType === VOUCHER_TYPE.DPOP && interactionType === INTERACTION_TYPE.SYNC
+            ? {
+                label: t('firstDPoPProofStep.navigateToDebugButton.label'),
+                type: 'link',
+                to: 'SUBSCRIBE_DEBUG_VOUCHER',
+              }
+            : undefined
+        }
         forward={
-          voucherType === 'DPOP'
+          voucherType === VOUCHER_TYPE.DPOP
             ? {
                 label: t('proceedBtn'),
                 type: 'button',
                 onClick: goToNextStep,
                 endIcon: <ArrowForwardIcon />,
               }
-            : undefined
+            : {
+                label: t('newSimulationBtn'),
+                type: 'button',
+                onClick: resetStepper,
+                endIcon: <RestartAlt />,
+              }
         }
       />
     </>
