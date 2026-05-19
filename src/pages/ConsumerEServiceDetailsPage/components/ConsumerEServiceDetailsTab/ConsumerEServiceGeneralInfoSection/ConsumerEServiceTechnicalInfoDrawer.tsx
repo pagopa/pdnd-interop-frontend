@@ -90,6 +90,44 @@ export const ConsumerEServiceTechnicalInfoDrawer: React.FC<
           content={t(`mode.value.${descriptor.eservice.mode}`)}
           direction="column"
         />
+        {descriptor.eservice.asyncExchange && (
+          <>
+            <InformationContainer
+              label={t('asyncExchange.label')}
+              content={t(`asyncExchange.value.${descriptor.eservice.asyncExchange}`)}
+              direction="column"
+            />
+            {descriptor.asyncExchangeCallbackInterface && (
+              <InformationContainer
+                label={t('asyncExchangeCallbackInterface')}
+                content={
+                  <Stack spacing={1} mt={1} alignItems="start">
+                    <IconLink
+                      component="button"
+                      onClick={handleDownloadDocument.bind(
+                        null,
+                        descriptor.asyncExchangeCallbackInterface
+                      )}
+                      startIcon={<AttachFileIcon fontSize="small" />}
+                    >
+                      {descriptor.asyncExchangeCallbackInterface.prettyName}
+                    </IconLink>
+                  </Stack>
+                }
+                direction="column"
+              />
+            )}
+            {descriptor.asyncExchangeCallbackInterface?.checksum && (
+              <InformationContainer
+                label={t('asyncExchangeCallbackInterfaceChecksum')}
+                content={descriptor.asyncExchangeCallbackInterface.checksum}
+                copyToClipboard={{
+                  value: descriptor.asyncExchangeCallbackInterface.checksum,
+                }}
+              />
+            )}
+          </>
+        )}
         {isSignalHubFlagEnabled && (
           <InformationContainer
             label={t('isSignalHubEnabled.label')}
