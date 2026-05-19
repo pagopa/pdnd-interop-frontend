@@ -26,6 +26,7 @@ import { IconLink } from '@/components/shared/IconLink'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { RestartAlt } from '@mui/icons-material'
 import { useClientKind } from '@/hooks/useClientKind'
+import { DPoPAssertionHeader } from '../DPoPAssertionHeader'
 
 type SecondDpopStepFormValues = {
   htm: string
@@ -92,37 +93,7 @@ export const VoucherInstructionsSecondDPoPProofStep: React.FC = () => {
         title={t('secondDPoPProofStep.title')}
         description={<>{t('secondDPoPProofStep.description')}</>}
       >
-        <SectionContainer variant="outlined" title={t('secondDPoPProofStep.assertionHeader.title')}>
-          <Grid container columnSpacing={4.5} rowSpacing={3}>
-            <VerticalInformationContainer
-              label={t('secondDPoPProofStep.assertionHeader.typField.label')}
-              labelDescription={t('secondDPoPProofStep.assertionHeader.typField.description')}
-              content={CLIENT_ASSERTION_TYP}
-              copyToClipboard={{
-                value: CLIENT_ASSERTION_TYP,
-                tooltipTitle: t(
-                  'secondDPoPProofStep.assertionHeader.typField.copySuccessFeedbackText'
-                ),
-              }}
-            />
-            <VerticalInformationContainer
-              label={t('secondDPoPProofStep.assertionHeader.algField.label')}
-              labelDescription={t('secondDPoPProofStep.assertionHeader.algField.description')}
-              content={CLIENT_ASSERTION_ALG}
-              copyToClipboard={{
-                value: CLIENT_ASSERTION_ALG,
-                tooltipTitle: t(
-                  'secondDPoPProofStep.assertionHeader.algField.copySuccessFeedbackText'
-                ),
-              }}
-            />
-            <VerticalInformationContainer
-              label={t('secondDPoPProofStep.assertionHeader.jwkField.label')}
-              labelDescription={t('secondDPoPProofStep.assertionHeader.jwkField.description')}
-              content={t('secondDPoPProofStep.assertionHeader.jwkField.suggestionLabel')}
-            />
-          </Grid>
-        </SectionContainer>
+        <DPoPAssertionHeader keyPrefix="secondDPoPProofStep" />
         <SectionContainer
           variant="outlined"
           title={t('secondDPoPProofStep.assertionPayload.title')}
