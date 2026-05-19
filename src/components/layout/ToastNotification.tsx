@@ -5,6 +5,11 @@ import { useTranslation } from 'react-i18next'
 import { CopyToClipboardButton } from '@pagopa/mui-italia'
 
 const _ToastNotification: React.FC = () => {
+  if (typeof useToastNotificationStore !== 'function') return null
+  return <_ToastNotificationInner />
+}
+
+const _ToastNotificationInner: React.FC = () => {
   const { hideToast } = useToastNotification()
   const isShown = useToastNotificationStore((state) => state.isShown)
   const message = useToastNotificationStore((state) => state.message)

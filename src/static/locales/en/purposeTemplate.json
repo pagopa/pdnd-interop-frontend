@@ -237,6 +237,26 @@
         }
       }
     },
+    "linkedResourcesTab": {
+      "title": "Suggested e-services and e-service templates",
+      "description": "Here you find the list of e-services and e-service templates suggested for this facilitated purpose. The template can be used for other e-services not in the list.",
+      "editButtonTooltip": "Cannot modify the list while the template is suspended or archived",
+      "linkedResourceName": "E-service or e-service template",
+      "linkedResourceKind": "Type",
+      "linkedResourceProviderName": "Producer name",
+      "kind": {
+        "eservice": "E-service",
+        "eserviceTemplate": "E-service template"
+      },
+      "filters": {
+        "resourceField": {
+          "label": "E-service name"
+        },
+        "providerField": {
+          "label": "Filter by producer"
+        }
+      }
+    },
     "riskAnalysisTab": {
       "titlePA": "Risk analysis (Public Administrations)",
       "titleNotPA": "Risk analysis (Public service managers, Publicly controlled companies, Private entities)"

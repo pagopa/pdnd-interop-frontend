@@ -7,8 +7,12 @@ import type {
   EServiceDescriptorPurposeTemplate,
   EServiceDescriptorsPurposeTemplate,
   GetCatalogPurposeTemplatesParams,
+  GetLinkableResourcesParams,
   GetPurposeTemplateEServicesParams,
   LinkEServiceToPurposeTemplatePayload,
+  LinkableResourceRequest,
+  LinkableResources,
+  LinkedResource,
   PurposeTemplate,
   PurposeTemplateSeed,
   PurposeTemplateWithCompactCreator,
@@ -120,6 +124,38 @@ async function unlinkEserviceFromPurposeTemplate({
 }: { purposeTemplateId: string } & UnlinkEServiceToPurposeTemplatePayload) {
   return await axiosInstance.post<void>(
     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/unlinkEservice`,
+    payload
+  )
+}
+
+async function getLinkableResources(
+  purposeTemplateId: string,
+  params: Omit<GetLinkableResourcesParams, 'purposeTemplateId'>
+) {
+  const response = await axiosInstance.get<LinkableResources>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/linkableResources`,
+    { params }
+  )
+  return response.data
+}
+
+async function linkResourceToPurposeTemplate({
+  purposeTemplateId,
+  ...payload
+}: { purposeTemplateId: string } & LinkableResourceRequest) {
+  const response = await axiosInstance.post<LinkedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/linkResource`,
+    payload
+  )
+  return response.data
+}
+
+async function unlinkResourceFromPurposeTemplate({
+  purposeTemplateId,
+  ...payload
+}: { purposeTemplateId: string } & LinkableResourceRequest) {
+  return await axiosInstance.post<void>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/unlinkResource`,
     payload
   )
 }
@@ -305,11 +341,14 @@ async function downloadSignedRiskAnalysis({ purposeTemplateId }: { purposeTempla
 export const PurposeTemplateServices = {
   getConsumerPurposeTemplatesList,
   getEservicesLinkedToPurposeTemplatesList,
+  getLinkableResources,
   getSingle,
   getAnswerDocuments,
   updateDraft,
   linkEserviceToPurposeTemplate,
   unlinkEserviceFromPurposeTemplate,
+  linkResourceToPurposeTemplate,
+  unlinkResourceFromPurposeTemplate,
   addRiskAnalysisAnswer,
   updateRiskAnalysisAnswerAnnotation,
   deleteRiskAnalysisAnswerAnnotation,

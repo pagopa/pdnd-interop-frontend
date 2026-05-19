@@ -3,6 +3,7 @@ import { PurposeTemplateServices } from './purposeTemplate.services'
 import type {
   GetCatalogPurposeTemplatesParams,
   GetCreatorPurposeTemplatesParams,
+  GetLinkableResourcesParams,
   GetPurposeTemplateEServicesParams,
 } from '../api.generatedTypes'
 
@@ -25,6 +26,14 @@ function getEservicesLinkedToPurposeTemplatesList(params: GetPurposeTemplateESer
         params.purposeTemplateId,
         params
       ),
+  })
+}
+
+function getLinkableResources(params: GetLinkableResourcesParams) {
+  return queryOptions({
+    queryKey: ['PurposeTemplateGetLinkableResources', params.purposeTemplateId, params],
+    queryFn: () =>
+      PurposeTemplateServices.getLinkableResources(params.purposeTemplateId as string, params),
   })
 }
 
@@ -63,6 +72,7 @@ function getPublishedPurposeTemplateCreators(params: {
 export const PurposeTemplateQueries = {
   getConsumerPurposeTemplatesList,
   getEservicesLinkedToPurposeTemplatesList,
+  getLinkableResources,
   getSingle,
   getCatalogPurposeTemplates,
   getAnswerDocuments,

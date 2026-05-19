@@ -237,6 +237,26 @@
         }
       }
     },
+    "linkedResourcesTab": {
+      "title": "E-service e template e-service suggeriti",
+      "description": "Qui trovi l'elenco degli e-service e dei template e-service suggeriti per questa finalità agevolata. Il template può essere usato per altri e-service non presenti nell'elenco.",
+      "editButtonTooltip": "Non è possibile modificare l'elenco se il template è sospeso o archiviato",
+      "linkedResourceName": "E-service o template e-service",
+      "linkedResourceKind": "Tipo",
+      "linkedResourceProviderName": "Nome erogatore",
+      "kind": {
+        "eservice": "E-service",
+        "eserviceTemplate": "Template e-service"
+      },
+      "filters": {
+        "resourceField": {
+          "label": "Nome e-service"
+        },
+        "providerField": {
+          "label": "Cerca per erogatore"
+        }
+      }
+    },
     "riskAnalysisTab": {
       "titlePA": "Analisi del rischio (Pubbliche Amministrazioni)",
       "titleNotPA": "Analisi del rischio (Gestori di pubblici servizi, Società a controllo pubblico, Privati)"

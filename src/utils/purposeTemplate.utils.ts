@@ -1,10 +1,37 @@
 import type {
+  CatalogEService,
+  CatalogEServiceTemplate,
   EServiceDoc,
   RiskAnalysisFormTemplate,
   RiskAnalysisFormTemplateSeed,
   RiskAnalysisTemplateAnswer,
   RiskAnalysisTemplateAnswerSeed,
 } from '@/api/api.generatedTypes'
+
+export type LinkableCandidate =
+  | { resourceKind: 'ESERVICE'; value: CatalogEService }
+  | { resourceKind: 'ESERVICE_TEMPLATE'; value: CatalogEServiceTemplate }
+
+export function mergeLinkableCandidates(
+  eservices: CatalogEService[],
+  templates: CatalogEServiceTemplate[]
+): LinkableCandidate[] {
+  const activeTemplateVersionIds = new Set(templates.map((t) => t.publishedVersion.id))
+
+  const filteredEServices = eservices.filter((e) => {
+    const tplVersionId = e.activeDescriptor?.templateVersionId
+    return tplVersionId === undefined || !activeTemplateVersionIds.has(tplVersionId)
+  })
+
+  const candidates: LinkableCandidate[] = [
+    ...templates.map((t) => ({ resourceKind: 'ESERVICE_TEMPLATE' as const, value: t })),
+    ...filteredEServices.map((e) => ({ resourceKind: 'ESERVICE' as const, value: e })),
+  ]
+
+  return candidates.sort((a, b) =>
+    a.value.name.localeCompare(b.value.name, undefined, { sensitivity: 'base' })
+  )
+}
 
 export function getDownloadDocumentName(document: EServiceDoc) {
   const filename: string = document.name

@@ -8,7 +8,7 @@ import { ConsumerPurposeTemplateDetailsTab } from './components/ConsumerPurposeT
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Tab } from '@mui/material'
 import { useActiveTab } from '@/hooks/useActiveTab'
-import { ConsumerPurposeTemplateLinkedEServiceTab } from './components/ConsumerPurposeTemplateLinkedEServiceTab'
+import { ConsumerPurposeTemplateLinkedResourceTab } from './components/ConsumerPurposeTemplateLinkedResourceTab'
 import { PurposeTemplateRiskAnalysisTab } from '@/components/shared/PurposeTemplate/PurposeTemplateRiskAnalysisTab'
 import { TenantHooks } from '@/api/tenant/tenant.hooks'
 
@@ -60,7 +60,7 @@ const ConsumerPurposeTemplateDetailsPage: React.FC = () => {
         </TabPanel>
 
         <TabPanel value="linkedEservices">
-          <ConsumerPurposeTemplateLinkedEServiceTab purposeTemplate={purposeTemplate} />
+          <ConsumerPurposeTemplateLinkedResourceTab purposeTemplate={purposeTemplate} />
         </TabPanel>
 
         <TabPanel value="riskAnalysis">

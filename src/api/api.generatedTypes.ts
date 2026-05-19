@@ -3755,6 +3755,106 @@ export interface UnlinkEServiceToPurposeTemplateParams {
   purposeTemplateId: string;
 }
 
+/**
+ * Unified resource discriminator for purpose-template links.
+ * PIN-8621: types are hand-written ahead of BFF merge.
+ */
+export type ResourceKind = "ESERVICE" | "ESERVICE_TEMPLATE";
+
+export interface CompactPurposeTemplateEServiceTemplate {
+  /** @format uuid */
+  id: string;
+  name: string;
+  creator: CompactOrganization;
+  description?: string;
+}
+
+export interface LinkableEService {
+  resourceKind: "ESERVICE";
+  /** @format uuid */
+  purposeTemplateId: string;
+  eservice: CompactPurposeTemplateEService;
+  descriptor: CompactDescriptor;
+  /** @format date-time */
+  createdAt: string;
+}
+
+export interface LinkableEServiceTemplate {
+  resourceKind: "ESERVICE_TEMPLATE";
+  /** @format uuid */
+  purposeTemplateId: string;
+  eserviceTemplate: CompactPurposeTemplateEServiceTemplate;
+  eserviceTemplateVersion: CompactEServiceTemplateVersion;
+  /** @format date-time */
+  createdAt: string;
+}
+
+export type LinkableResource = LinkableEService | LinkableEServiceTemplate;
+
+export interface LinkableResources {
+  results: LinkableResource[];
+  pagination: Pagination | Record<string, never>;
+}
+
+export type LinkableResourceRequest =
+  | {
+      resourceKind: "ESERVICE";
+      /** @format uuid */
+      eserviceId: string;
+    }
+  | {
+      resourceKind: "ESERVICE_TEMPLATE";
+      /** @format uuid */
+      eserviceTemplateId: string;
+    };
+
+export type LinkedResource =
+  | {
+      resourceKind: "ESERVICE";
+      /** @format uuid */
+      purposeTemplateId: string;
+      /** @format uuid */
+      eserviceId: string;
+      /** @format uuid */
+      descriptorId: string;
+      /** @format date-time */
+      createdAt: string;
+    }
+  | {
+      resourceKind: "ESERVICE_TEMPLATE";
+      /** @format uuid */
+      purposeTemplateId: string;
+      /** @format uuid */
+      eserviceTemplateId: string;
+      /** @format uuid */
+      eserviceTemplateVersionId: string;
+      /** @format date-time */
+      createdAt: string;
+    };
+
+export interface GetLinkableResourcesParams {
+  /** the purpose template id */
+  purposeTemplateId?: string;
+  /** filter by name (fuzzy match on e-service name or template name) */
+  q?: string;
+  /**
+   * comma separated sequence of publisher tenant IDs
+   * @default []
+   */
+  publisherIds?: string[];
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number;
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number;
+}
+
 export interface GetPurposeTemplateEServicesParams {
   /**
    * comma separated sequence of e-service producer IDs

@@ -50,6 +50,34 @@ function useUnlinkEserviceFromPurposeTemplate() {
   })
 }
 
+function useLinkResourceToPurposeTemplate() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purposeTemplate.linkResource',
+  })
+  return useMutation({
+    mutationFn: PurposeTemplateServices.linkResourceToPurposeTemplate,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      successToastLabel: t('outcome.success'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useUnlinkResourceFromPurposeTemplate() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purposeTemplate.unlinkResource',
+  })
+  return useMutation({
+    mutationFn: PurposeTemplateServices.unlinkResourceFromPurposeTemplate,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      successToastLabel: t('outcome.success'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 function usePublishDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purposeTemplate.publishDraft' })
   return useMutation({
@@ -224,6 +252,8 @@ export const PurposeTemplateMutations = {
   useUpdateDraft,
   useLinkEserviceToPurposeTemplate,
   useUnlinkEserviceFromPurposeTemplate,
+  useLinkResourceToPurposeTemplate,
+  useUnlinkResourceFromPurposeTemplate,
   useCreateDraft,
   usePublishDraft,
   useDeleteDraft,

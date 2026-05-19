@@ -19,21 +19,26 @@ vi.mock('@tanstack/react-query', async () => {
   }
 })
 
-const mockedGetCatalogList = vi.fn(() => ({ queryKey: ['eservice-catalog'], queryFn: vi.fn() }))
-const mockedGetTemplatesCatalog = vi.fn(() => ({
-  queryKey: ['eservice-template-catalog'],
-  queryFn: vi.fn(),
+const { mockedGetCatalogList, mockedGetTemplatesCatalog } = vi.hoisted(() => ({
+  mockedGetCatalogList: vi.fn((_params?: unknown) => ({
+    queryKey: ['eservice-catalog'],
+    queryFn: vi.fn(),
+  })),
+  mockedGetTemplatesCatalog: vi.fn((_params?: unknown) => ({
+    queryKey: ['eservice-template-catalog'],
+    queryFn: vi.fn(),
+  })),
 }))
 
 vi.mock('@/api/eservice', () => ({
   EServiceQueries: {
-    getCatalogList: (params: unknown) => mockedGetCatalogList(params),
+    getCatalogList: mockedGetCatalogList,
   },
 }))
 
 vi.mock('@/api/eserviceTemplate', () => ({
   EServiceTemplateQueries: {
-    getProviderEServiceTemplatesCatalogList: (params: unknown) => mockedGetTemplatesCatalog(params),
+    getProviderEServiceTemplatesCatalogList: mockedGetTemplatesCatalog,
   },
 }))
 
