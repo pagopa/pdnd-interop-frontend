@@ -30,7 +30,16 @@ vi.mock('../../sections/EServiceVoucherSection', () => ({
 }))
 
 vi.mock('../../sections/EServiceAsyncExchangeSection', () => ({
-  EServiceAsyncExchangeSection: () => <div>EServiceAsyncExchangeSection</div>,
+  EServiceAsyncExchangeSection: ({
+    isEServiceCreatedFromTemplate,
+  }: {
+    isEServiceCreatedFromTemplate?: boolean
+  }) => (
+    <div>
+      EServiceAsyncExchangeSection
+      {isEServiceCreatedFromTemplate ? '-template' : ''}
+    </div>
+  ),
 }))
 
 const updateVersionDraft = vi.fn()
@@ -131,7 +140,7 @@ describe('EServiceCreateStepTechSpec', () => {
     expect(screen.getByText('EServiceAsyncExchangeSection')).toBeInTheDocument()
   })
 
-  it('should not render the async exchange section for template instances (even with asyncExchange true)', () => {
+  it('should render the async exchange section in template-instance mode when asyncExchange is true and the descriptor comes from a template', () => {
     mockUseEServiceCreateContext({
       descriptor: {
         ...createMockEServiceDescriptorProviderAsync(),
@@ -142,7 +151,7 @@ describe('EServiceCreateStepTechSpec', () => {
       withReactQueryContext: true,
       withRouterContext: true,
     })
-    expect(screen.queryByText('EServiceAsyncExchangeSection')).not.toBeInTheDocument()
+    expect(screen.getByText(/EServiceAsyncExchangeSection-template/)).toBeInTheDocument()
   })
 
   it('should not include asyncExchangeProperties in payload when numeric fields are empty', async () => {
