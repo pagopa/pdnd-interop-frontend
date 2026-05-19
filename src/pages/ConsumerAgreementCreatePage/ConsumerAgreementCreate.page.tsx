@@ -16,6 +16,7 @@ import { useGetConsumerAgreementCreateAlertProps } from './hooks/useGetConsumerA
 import { isNewEServiceVersionAvailable } from '@/utils/agreement.utils'
 import { useQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
+import { EServiceServices } from '@/api/eservice'
 
 const ConsumerAgreementCreatePage: React.FC = () => {
   const { t } = useTranslation('agreement')
@@ -25,12 +26,27 @@ const ConsumerAgreementCreatePage: React.FC = () => {
 
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_EDIT'>()
   const { data: agreement } = useQuery(AgreementQueries.getSingle(agreementId))
+  const { data: descriptor } = useQuery({
+    queryKey: ['EServiceGetDescriptorCatalog', agreement?.eservice.id, agreement?.descriptorId],
+    queryFn: () => {
+      if (!agreement) {
+        throw new Error('Agreement is required to fetch descriptor')
+      }
+
+      return EServiceServices.getDescriptorCatalog(agreement.eservice.id, agreement.descriptorId)
+    },
+    enabled: Boolean(agreement),
+  })
 
   const isDelegated = Boolean(agreement && agreement.delegation)
+  const isAsyncExchange = Boolean(descriptor?.eservice.asyncExchange)
 
   const [consumerNotes, setConsumerNotes] = React.useState(agreement?.consumerNotes ?? '')
 
-  const { mutate: submitAgreementDraft } = AgreementMutations.useSubmitDraft(isDelegated)
+  const { mutate: submitAgreementDraft } = AgreementMutations.useSubmitDraft(
+    isDelegated,
+    isAsyncExchange
+  )
   const { mutate: updateAgreementDraft } = AgreementMutations.useUpdateDraft()
   const { mutate: deleteAgreementDraft } = AgreementMutations.useDeleteDraft()
 
