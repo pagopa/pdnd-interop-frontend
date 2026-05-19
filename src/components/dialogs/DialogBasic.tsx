@@ -10,7 +10,7 @@ import {
   Link,
   Typography,
 } from '@mui/material'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import type { DialogBasicProps } from '@/types/dialog.types'
 import { useDialog } from '@/stores'
 
@@ -48,44 +48,6 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
     })
   }
 
-  const renderDescription = (text: string): React.ReactNode[] => {
-    const nodes: React.ReactNode[] = []
-    const tagRegex = /<(strong|1)>(.*?)<\/\1>/g
-    let lastIndex = 0
-
-    for (const match of text.matchAll(tagRegex)) {
-      const [matchedText, tag, content] = match
-
-      if (match.index > lastIndex) {
-        nodes.push(text.slice(lastIndex, match.index))
-      }
-
-      if (tag === 'strong') {
-        nodes.push(
-          <Typography component="span" variant="inherit" fontWeight={600} key={match.index}>
-            {renderDescription(content)}
-          </Typography>
-        )
-      } else if (descriptionLink) {
-        nodes.push(
-          <Link href={descriptionLink.href} target="_blank" rel="noreferrer" key={match.index}>
-            {renderDescription(content)}
-          </Link>
-        )
-      } else {
-        nodes.push(<React.Fragment key={match.index}>{renderDescription(content)}</React.Fragment>)
-      }
-
-      lastIndex = match.index + matchedText.length
-    }
-
-    if (lastIndex < text.length) {
-      nodes.push(text.slice(lastIndex))
-    }
-
-    return nodes
-  }
-
   return (
     <Dialog
       open
@@ -98,7 +60,20 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
       <DialogTitle id={ariaLabelId}>{title}</DialogTitle>
 
       {description && (
-        <DialogContent id={ariaDescriptionId}>{renderDescription(description)}</DialogContent>
+        <DialogContent id={ariaDescriptionId}>
+          <Trans
+            components={{
+              strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+              1: descriptionLink ? (
+                <Link href={descriptionLink.href} target="_blank" rel="noreferrer" />
+              ) : (
+                <React.Fragment />
+              ),
+            }}
+          >
+            {description}
+          </Trans>
+        </DialogContent>
       )}
       {checkbox && (
         <FormControlLabel
