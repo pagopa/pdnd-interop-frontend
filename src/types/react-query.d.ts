@@ -1,12 +1,11 @@
 import '@tanstack/react-query'
+import type { DialogDescriptionLink } from '@/types/dialog.types'
 
 declare module '@tanstack/react-query' {
   interface ConfirmationDialogMeta {
     title: string | ((variables: unknown) => string)
     description?: string | ((variables: unknown) => string)
-    descriptionLink?: {
-      href: string
-    }
+    descriptionLink?: DialogDescriptionLink
     proceedLabel?: string
     checkbox?: string
   }

@@ -10,6 +10,7 @@ import {
   QueryClient,
 } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
+import type { DialogDescriptionLink } from '@/types/dialog.types'
 
 // 1000, 2000, 4000, 8000, 16000, with a maximum of 30 seconds
 const exponentialBackoffRetry = (attemptIndex: number) => {
@@ -83,9 +84,7 @@ const resolveMeta = (query: {
 const waitForUserConfirmation = (confirmationDialog: {
   title: string
   description?: string
-  descriptionLink?: {
-    href: string
-  }
+  descriptionLink?: DialogDescriptionLink
   proceedLabel?: string
   checkbox?: string
 }) => {
