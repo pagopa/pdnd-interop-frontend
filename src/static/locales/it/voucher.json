@@ -228,7 +228,8 @@
       },
       "algField": {
         "label": "ALG (Algorithm)",
-        "description": "L’algoritmo usato per firmare questo JWT. Si può firmare solo con RS256"
+        "description": "L’algoritmo usato per firmare questo JWT. Si può firmare solo con RS256",
+        "copySuccessFeedbackText": "Testo copiato correttamente"
       },
       "jwkField": {
         "label": "JWK (chiave pubblica)",

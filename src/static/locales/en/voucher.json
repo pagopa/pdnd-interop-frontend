@@ -267,7 +267,7 @@
     "assertionScript": {
       "title": "Terminal generation example",
       "steps": {
-        "1": "n the previously created \"client_assertion_test\" folder, paste the script <1>{{ filename }}</1> (Python 3.8 is required)",
+        "1": "In the previously created \"client_assertion_test\" folder, paste the script <1>{{ filename }}</1> (Python 3.8 is required)",
         "2": "Reopen the terminal and paste the command below.",
         "3": "Replace the ACCESS_TOKEN value with the JWT returned by the PDND authorization server in the previous step. This will be used to calculate the ATH parameter, which will be inserted into the second DPoP Proof.",
         "4": "Use the same path and private key used for the first DPoP Proof. The HTM and HTU paths are pre-populated based on the data entered previously.",
