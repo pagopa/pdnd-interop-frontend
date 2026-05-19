@@ -22,7 +22,7 @@ import { match } from 'ts-pattern'
 import { EServiceInterfaceSection } from '../sections/EServiceInterfaceSection'
 import { EServiceVoucherSection } from '../sections/EServiceVoucherSection'
 import { EServiceProducerKeychainSection } from '../sections/EServiceProducerKeychainSection'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useDialog } from '@/stores'
 
 type KeychainFieldArrayItem = { value: CompactProducerKeychain | null }
@@ -37,6 +37,7 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const { descriptor, eserviceTemplate, forward, back } = useEServiceCreateContext()
   const { openDialog } = useDialog()
+  const queryClient = useQueryClient()
 
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
     suppressSuccessToast: true,
@@ -126,17 +127,35 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
         }
       }
 
-      try {
-        await Promise.all([
-          ...addedIds.map((keychainId) =>
-            addKeychainToEService({ keychainId, eserviceId: descriptor.eservice.id })
-          ),
-          ...removedIds.map((keychainId) =>
-            removeKeychainFromEService({ keychainId, eserviceId: descriptor.eservice.id })
-          ),
-        ])
-      } catch {
-        // toast already shown by mutation meta; abort step submission
+      const results = await Promise.allSettled([
+        ...addedIds.map((keychainId) =>
+          addKeychainToEService({ keychainId, eserviceId: descriptor.eservice.id })
+        ),
+        ...removedIds.map((keychainId) =>
+          removeKeychainFromEService({ keychainId, eserviceId: descriptor.eservice.id })
+        ),
+      ])
+
+      const hasFailures = results.some((r) => r.status === 'rejected')
+      if (hasFailures) {
+        const refetched = await queryClient.fetchQuery({
+          ...KeychainQueries.getKeychainsList({
+            eserviceId: descriptor.eservice.id,
+            limit: 50,
+            offset: 0,
+          }),
+        })
+        const refreshedKeychains = refetched.results
+        formMethods.reset(
+          {
+            ...formMethods.getValues(),
+            keychains:
+              refreshedKeychains.length > 0
+                ? refreshedKeychains.map((k) => ({ value: k }))
+                : [{ value: null }],
+          },
+          { keepDirtyValues: false }
+        )
         return
       }
     }
