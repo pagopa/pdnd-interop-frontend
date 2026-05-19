@@ -11,12 +11,7 @@ import { PurposeQueries } from '@/api/purpose'
 import { useQuery } from '@tanstack/react-query'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { IconLink } from '@/components/shared/IconLink'
-import {
-  apiV2DocLink,
-  apiV3DocLink,
-  apiSignalhubPushLink,
-  apiSignalhubPullLink,
-} from '@/config/constants'
+import { apiSignalhubPushLink, apiSignalhubPullLink } from '@/config/constants'
 import { useSearchParams } from 'react-router-dom'
 import type { InteractionType, MemberType, VoucherType } from '../VoucherInstructionsGeneralForm'
 import { INTERACTION_TYPE, MEMBER_TYPE, VOUCHER_TYPE } from '../VoucherInstructionsGeneralForm'
@@ -26,6 +21,7 @@ import { useNavigate } from '@/router'
 import { RestartAlt } from '@mui/icons-material'
 import { EServiceQueries } from '@/api/eservice'
 import { theme } from '@pagopa/interop-fe-commons'
+import { ApiVersionSummary } from '../ApiVersionSummary'
 
 export const VoucherInstructionsDataAccessStep: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -113,53 +109,7 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
       </SectionContainer>
       {clientKind === 'API' && voucherType === VOUCHER_TYPE.BEARER && (
         <>
-          <SectionContainer
-            title={t('dataAccessStep.pdndInteroperability.title')}
-            description={t('dataAccessStep.pdndInteroperability.description')}
-          >
-            <Stack direction="row" sx={{ pt: 1, pb: 3 }} alignItems="center">
-              <Stack direction="column" justifyContent="space-between" gap={1} sx={{ mr: 3 }}>
-                <Typography variant="body2" fontWeight={600}>
-                  {t('dataAccessStep.pdndInteroperability.apiV3.title')}
-                </Typography>
-                <Typography variant="body2">
-                  {t('dataAccessStep.pdndInteroperability.apiV3.description')}
-                </Typography>
-              </Stack>
-              <IconLink
-                endIcon={<OpenInNewIcon fontSize="small" />}
-                href={apiV3DocLink}
-                target="_blank"
-                sx={{
-                  fontWeight: 600,
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {t('dataAccessStep.pdndInteroperability.actionLabel')}
-              </IconLink>
-            </Stack>
-            <Stack direction="row" alignItems="center">
-              <Stack direction="column" justifyContent="space-between" gap={1} sx={{ mr: 3 }}>
-                <Typography variant="body2" fontWeight={600}>
-                  {t('dataAccessStep.pdndInteroperability.apiV2.title')}
-                </Typography>
-                <Typography variant="body2">
-                  {t('dataAccessStep.pdndInteroperability.apiV2.description')}
-                </Typography>
-              </Stack>
-              <IconLink
-                endIcon={<OpenInNewIcon fontSize="small" />}
-                href={apiV2DocLink}
-                target="_blank"
-                sx={{
-                  fontWeight: 600,
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                {t('dataAccessStep.pdndInteroperability.actionLabel')}
-              </IconLink>
-            </Stack>
-          </SectionContainer>
+          <ApiVersionSummary keyPrefix={'dataAccessStep'} />
           <SectionContainer
             title={t('dataAccessStep.signalHub.title')}
             description={t('dataAccessStep.signalHub.description')}

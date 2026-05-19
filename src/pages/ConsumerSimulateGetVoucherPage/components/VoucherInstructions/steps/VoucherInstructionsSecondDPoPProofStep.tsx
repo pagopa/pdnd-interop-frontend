@@ -7,7 +7,6 @@ import { SectionContainer } from '@/components/layout/containers'
 import { Grid, FormControl, Alert, Typography, Stack, Button } from '@mui/material'
 import { VerticalInformationContainer } from '@/components/shared/VerticalInformationContainer'
 import {
-  apiV3DocLink,
   CLIENT_ASSERTION_ALG,
   CLIENT_ASSERTION_TYP,
   VOUCHER_SECOND_DPOP_FILENAME,
@@ -22,11 +21,10 @@ import { PurposeQueries } from '@/api/purpose'
 import { useSearchParams } from 'react-router-dom'
 import { useNavigate } from '@/router'
 import { MEMBER_TYPE, type MemberType } from '../VoucherInstructionsGeneralForm'
-import { IconLink } from '@/components/shared/IconLink'
-import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { RestartAlt } from '@mui/icons-material'
 import { useClientKind } from '@/hooks/useClientKind'
 import { DPoPAssertionHeader } from '../DPoPAssertionHeader'
+import { ApiVersionSummary } from '../ApiVersionSummary'
 
 type SecondDpopStepFormValues = {
   htm: string
@@ -152,32 +150,7 @@ export const VoucherInstructionsSecondDPoPProofStep: React.FC = () => {
         substitutions={substitutions}
       />
       {clientKind === 'API' && (
-        <SectionContainer
-          title={t('secondDPoPProofStep.pdndInteroperability.title')}
-          description={t('secondDPoPProofStep.pdndInteroperability.description')}
-        >
-          <Stack direction="row" sx={{ pt: 1, pb: 3 }} alignItems="center">
-            <Stack direction="column" justifyContent="space-between" gap={1} sx={{ mr: 3 }}>
-              <Typography variant="body2" fontWeight={600}>
-                {t('secondDPoPProofStep.pdndInteroperability.apiV3.title')}
-              </Typography>
-              <Typography variant="body2">
-                {t('secondDPoPProofStep.pdndInteroperability.apiV3.description')}
-              </Typography>
-            </Stack>
-            <IconLink
-              endIcon={<OpenInNewIcon fontSize="small" />}
-              href={apiV3DocLink}
-              target="_blank"
-              sx={{
-                fontWeight: 600,
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {t('secondDPoPProofStep.pdndInteroperability.actionLabel')}
-            </IconLink>
-          </Stack>
-        </SectionContainer>
+        <ApiVersionSummary keyPrefix={'secondDPoPProofStep'} hideV2={true} />
       )}
       <SectionContainer
         title={

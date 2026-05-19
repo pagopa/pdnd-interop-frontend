@@ -2,7 +2,7 @@ import { vi } from 'vitest'
 import { screen } from '@testing-library/react'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { MemoryRouter } from 'react-router-dom'
-import { VoucherInstructionsSecondDPoPProofStep } from '../steps/VoucherInstructionsSecondDPoPProofStep'
+import { DPoPAssertionHeader } from '../DPoPAssertionHeader'
 
 const useClientKindMock = vi.fn()
 vi.mock('@/hooks/useClientKind', () => ({
@@ -18,7 +18,7 @@ describe('DPoPAssertionHeader', () => {
   it('renders assertion header fields', async () => {
     renderWithApplicationContext(
       <MemoryRouter>
-        <VoucherInstructionsSecondDPoPProofStep />
+        <DPoPAssertionHeader keyPrefix="firstDPoPProofStep" />
       </MemoryRouter>,
       { withReactQueryContext: true }
     )
