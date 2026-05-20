@@ -17,12 +17,6 @@ import type {
   PurposeVersionState,
 } from '@/api/api.generatedTypes'
 
-// PIN-9939: temporary placeholder for the new ARCHIVING / ARCHIVING_SUSPENDED states.
-// REMOVE this constant (and the entries below that reference it) when PIN-9939 lands
-// and provides the real chip color mapping for these states. Deleting the constant
-// will surface a TS error at the call sites that need to be cleaned up.
-const PIN_9939_PLACEHOLDER_CHIP_COLOR: MUIColor = 'info'
-
 const CHIP_COLORS_E_SERVICE: Record<EServiceDescriptorState, MUIColor> = {
   PUBLISHED: 'success',
   DRAFT: 'info',
@@ -30,8 +24,19 @@ const CHIP_COLORS_E_SERVICE: Record<EServiceDescriptorState, MUIColor> = {
   ARCHIVED: 'info',
   DEPRECATED: 'warning',
   WAITING_FOR_APPROVAL: 'warning',
-  ARCHIVING: PIN_9939_PLACEHOLDER_CHIP_COLOR,
-  ARCHIVING_SUSPENDED: PIN_9939_PLACEHOLDER_CHIP_COLOR,
+  ARCHIVING: 'warning',
+  ARCHIVING_SUSPENDED: 'error',
+}
+
+const CHIP_COLORS_DESCRIPTOR: Record<EServiceDescriptorState, MUIColor> = {
+  PUBLISHED: 'success',
+  DRAFT: 'info',
+  SUSPENDED: 'error',
+  ARCHIVED: undefined,
+  DEPRECATED: 'warning',
+  WAITING_FOR_APPROVAL: 'warning',
+  ARCHIVING: 'warning',
+  ARCHIVING_SUSPENDED: 'error',
 }
 
 const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {
@@ -76,6 +81,7 @@ const CHIP_COLORS_PURPOSE_TEMPLATE: Record<PurposeTemplateState, MUIColor> = {
 
 const chipColors = {
   eservice: CHIP_COLORS_E_SERVICE,
+  descriptor: CHIP_COLORS_DESCRIPTOR,
   agreement: CHIP_COLORS_AGREEMENT,
   purpose: CHIP_COLORS_PURPOSE,
   delegation: CHIP_COLORS_DELEGATION,
@@ -89,6 +95,10 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
         for: 'eservice'
         state: EServiceDescriptorState
         isDraftToCorrect?: boolean
+      }
+    | {
+        for: 'descriptor'
+        state: EServiceDescriptorState
       }
     | {
         for: 'agreement'
@@ -155,6 +165,11 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
     label = props.isDraftToCorrect
       ? t('status.eservice.DRAFT_TO_CORRECT')
       : t(`status.eservice.${props.state}`)
+  }
+
+  if (props.for === 'descriptor') {
+    color = chipColors['descriptor'][props.state]
+    label = t(`status.descriptor.${props.state}`)
   }
 
   if (props.for === 'agreement') {
