@@ -93,8 +93,8 @@ export const VoucherInstructionsFirstDPoPProofStep: React.FC = () => {
         substitutions={{
           INSERISCI_VALORE_ALG: CLIENT_ASSERTION_ALG,
           INSERISCI_VALORE_TYP: CLIENT_ASSERTION_TYP,
-          INSERISCI_VALORE_HTM: CLIENT_ASSERTION_HTM,
-          INSERISCI_VALORE_HTU: authEndpointUrl,
+          METHOD_API_INVOCATA: CLIENT_ASSERTION_HTM,
+          PATH_API_INVOCATA: authEndpointUrl,
         }}
       />
       <StepActions

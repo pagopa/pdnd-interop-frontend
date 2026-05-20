@@ -188,7 +188,7 @@ export const VoucherInstructionsDataAccessStep: React.FC = () => {
                 {t('dataAccessStep.exampleRequest.alert.title')}
               </Typography>
               {/* @TODO remove this condition when the bff will return the descriptorId for the redirect (https://pagopa.atlassian.net/browse/PIN-10116) */}
-              {memberType === MEMBER_TYPE.CONSUMER && (
+              {memberType !== MEMBER_TYPE.PRODUCER && (
                 <Button sx={{ whiteSpace: 'nowrap' }} onClick={() => handleNavigateToEservice()}>
                   {t('dataAccessStep.exampleRequest.alert.actionLabel')}
                 </Button>

@@ -71,10 +71,10 @@ export const VoucherInstructionsSecondDPoPProofStep: React.FC = () => {
     INSERISCI_VALORE_ALG: CLIENT_ASSERTION_ALG,
     INSERISCI_VALORE_TYP: CLIENT_ASSERTION_TYP,
     ...(htmValue && {
-      INSERISCI_VALORE_HTM: htmValue,
+      METHOD_API_INVOCATA: htmValue,
     }),
     ...(htuValue && {
-      INSERISCI_VALORE_HTU: htuValue,
+      PATH_API_INVOCATA: htuValue,
     }),
   }
 
