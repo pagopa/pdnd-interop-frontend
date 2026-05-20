@@ -4,6 +4,7 @@ import { EServiceCreateStepTechSpec } from '../EServiceCreateStepTechSpec'
 import { useFormContext } from 'react-hook-form'
 import userEvent from '@testing-library/user-event'
 import {
+  createMockEServiceDescriptorProviderAsync,
   createMockEServiceDescriptorProviderWithTemplateRef,
   createMockEServiceDescriptorProvider,
   mockUseEServiceCreateContext,
@@ -26,6 +27,19 @@ vi.mock('../../sections/EServiceVoucherSection', () => ({
       </div>
     )
   },
+}))
+
+vi.mock('../../sections/EServiceAsyncExchangeSection', () => ({
+  EServiceAsyncExchangeSection: ({
+    isEServiceCreatedFromTemplate,
+  }: {
+    isEServiceCreatedFromTemplate?: boolean
+  }) => (
+    <div>
+      EServiceAsyncExchangeSection
+      {isEServiceCreatedFromTemplate ? '-template' : ''}
+    </div>
+  ),
 }))
 
 const updateVersionDraft = vi.fn()
@@ -106,5 +120,82 @@ describe('EServiceCreateStepTechSpec', () => {
 
     expect(updateVersionDraft).not.toHaveBeenCalled()
     expect(updateInstanceVersionDraft).toHaveBeenCalled()
+  })
+
+  it('should not render the async exchange section when asyncExchange is false', () => {
+    mockUseEServiceCreateContext({ descriptor: createMockEServiceDescriptorProvider() })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    expect(screen.queryByText('EServiceAsyncExchangeSection')).not.toBeInTheDocument()
+  })
+
+  it('should render the async exchange section when asyncExchange is true', () => {
+    mockUseEServiceCreateContext({ descriptor: createMockEServiceDescriptorProviderAsync() })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    expect(screen.getByText('EServiceAsyncExchangeSection')).toBeInTheDocument()
+  })
+
+  it('should render the async exchange section in template-instance mode when asyncExchange is true and the descriptor comes from a template', () => {
+    mockUseEServiceCreateContext({
+      descriptor: {
+        ...createMockEServiceDescriptorProviderAsync(),
+        templateRef: createMockEServiceDescriptorProviderWithTemplateRef().templateRef,
+      },
+    })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    expect(screen.getByText(/EServiceAsyncExchangeSection-template/)).toBeInTheDocument()
+  })
+
+  it('should not include asyncExchangeProperties in payload when numeric fields are empty', async () => {
+    mockUseEServiceCreateContext({
+      descriptor: {
+        ...createMockEServiceDescriptorProviderAsync(),
+        asyncExchangeProperties: undefined,
+      },
+    })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await userEvent.type(screen.getByTestId('voucher-lifespan'), '2')
+    await userEvent.click(screen.getByText('forwardWithSaveBtn'))
+
+    expect(updateVersionDraft).toHaveBeenCalledWith(
+      expect.not.objectContaining({ asyncExchangeProperties: expect.anything() }),
+      expect.any(Object)
+    )
+  })
+
+  it('should include asyncExchangeProperties in payload when asyncExchange is true', async () => {
+    mockUseEServiceCreateContext({ descriptor: createMockEServiceDescriptorProviderAsync() })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await userEvent.type(screen.getByTestId('voucher-lifespan'), '2')
+    await userEvent.click(screen.getByText('forwardWithSaveBtn'))
+
+    expect(updateVersionDraft).toHaveBeenCalledWith(
+      expect.objectContaining({
+        asyncExchangeProperties: expect.objectContaining({
+          responseTime: expect.any(Number),
+          resourceAvailableTime: expect.any(Number),
+          maxResultSet: expect.any(Number),
+          confirmation: expect.any(Boolean),
+          bulk: expect.any(Boolean),
+        }),
+      }),
+      expect.any(Object)
+    )
   })
 })
