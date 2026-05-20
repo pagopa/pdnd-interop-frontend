@@ -12,11 +12,7 @@ type UseInterfaceDocActionsParams = {
   prettyName: string
 }
 
-export const useInterfaceDocActions = ({
-  doc,
-  kind,
-  prettyName,
-}: UseInterfaceDocActionsParams) => {
+export const useInterfaceDocActions = ({ doc, kind, prettyName }: UseInterfaceDocActionsParams) => {
   const { descriptor } = useEServiceCreateContext()
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
   const { mutate: deleteDocument } = EServiceMutations.useDeleteVersionDraftDocument()
