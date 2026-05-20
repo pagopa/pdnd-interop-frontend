@@ -13,3 +13,13 @@ export function getLastDescriptor(descriptors: Array<CompactDescriptor> | undefi
   )
   return descriptor
 }
+
+export function getViewLatestVersionTargetId(
+  descriptors: Array<CompactDescriptor> | undefined,
+  currentDescriptorId: string | undefined
+) {
+  const latestId = getLastDescriptor(
+    descriptors?.filter((d) => d.state !== 'DRAFT' && d.state !== 'WAITING_FOR_APPROVAL')
+  )?.id
+  return latestId && latestId !== currentDescriptorId ? latestId : undefined
+}
