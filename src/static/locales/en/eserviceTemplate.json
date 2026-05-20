@@ -443,6 +443,13 @@
       "apiTechnology": {
         "label": "API Technology"
       },
+      "exchangeType": {
+        "label": "Exchange type",
+        "value": {
+          "sync": "Synchronous",
+          "async": "Asynchronous"
+        }
+      },
       "personalDataField": {
         "DELIVER": {
           "label": "Delivers personal data"
@@ -505,6 +512,30 @@
       "title": "Technical specifications",
       "interface": {
         "label": "Interface"
+      },
+      "callbackInterface": {
+        "label": "Callback interface"
+      },
+      "asyncExchange": {
+        "responseTime": {
+          "label": "Maximum callback time"
+        },
+        "resourceAvailableTime": {
+          "label": "Resource availability time"
+        },
+        "confirmation": {
+          "label": "Require receipt acknowledgement"
+        },
+        "bulk": {
+          "label": "Enable bulk download"
+        },
+        "maxResultSet": {
+          "label": "Maximum entities per response"
+        },
+        "booleanValue": {
+          "true": "Yes",
+          "false": "No"
+        }
       },
       "voucherLifespan": {
         "label": "Voucher lifespan"
