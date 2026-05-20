@@ -529,7 +529,16 @@
     },
     "actions": {
       "backToListLabel": "Torna agli e-service",
-      "backToCatalogLabel": "Torna al catalogo"
+      "backToCatalogLabel": "Torna al catalogo",
+      "suspendVersion": "Sospendi versione",
+      "reactivateVersion": "Riattiva versione",
+      "createNewVersion": "Crea nuova versione",
+      "archiveVersion": "Archivia versione",
+      "archiveEservice": "Archivia e-service",
+      "cancelArchivingVersion": "Annulla archiviazione versione",
+      "cancelArchivingEservice": "Annulla archiviazione e-service",
+      "viewLatestVersion": "Vedi ultima versione",
+      "viewAllVersions": "Vedi tutte le versioni"
     },
     "keychain": {
       "actionReservedToAdminTooltip": "Quest’azione è riservata agli utenti con permessi da amministratore",

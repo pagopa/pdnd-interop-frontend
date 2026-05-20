@@ -107,7 +107,19 @@
       "ARCHIVED": "archived",
       "DEPRECATED": "deprecated",
       "WAITING_FOR_APPROVAL": "waiting for approval",
-      "DRAFT_TO_CORRECT": "to be corrected"
+      "DRAFT_TO_CORRECT": "to be corrected",
+      "ARCHIVING": "deprecated",
+      "ARCHIVING_SUSPENDED": "suspended"
+    },
+    "descriptor": {
+      "PUBLISHED": "active",
+      "DRAFT": "draft",
+      "SUSPENDED": "suspended",
+      "ARCHIVED": "archived",
+      "DEPRECATED": "obsolete",
+      "WAITING_FOR_APPROVAL": "waiting for approval",
+      "ARCHIVING": "obsolete",
+      "ARCHIVING_SUSPENDED": "suspended"
     },
     "agreement": {
       "ACTIVE": "active",
