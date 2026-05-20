@@ -7,7 +7,7 @@ import { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 
-type EServiceDetails = {
+export type EServiceDetails = {
   asyncExchange?: boolean
   technology: EServiceTechnology
   mode: EServiceMode
