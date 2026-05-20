@@ -33,25 +33,14 @@ importers:
         specifier: 5.18.0
         version: 5.18.0(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1)
       '@mui/x-date-pickers':
-<<<<<<< HEAD
-        specifier: ^6.20.2
-        version: 6.20.2(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@mui/material@5.18.0(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mui/system@5.18.0(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(date-fns@2.30.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@pagopa/interop-fe-commons':
-        specifier: ^1.5.3
-        version: 1.5.3(cfq64afxmlcqdz2h2tugzlyxcm)
-      '@pagopa/mui-italia':
-        specifier: 2.4.0
-        version: 2.4.0(ty73var2komseepf2ek5x3hwfu)
-=======
         specifier: 6.20.2
         version: 6.20.2(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@mui/material@5.18.0(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mui/system@5.18.0(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(date-fns@2.30.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@pagopa/interop-fe-commons':
         specifier: 1.5.3
-        version: 1.5.3(d5q4pcgmzyb6nt37utp6h35fje)
+        version: 1.5.3(cfq64afxmlcqdz2h2tugzlyxcm)
       '@pagopa/mui-italia':
-        specifier: 1.8.0
-        version: 1.8.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
->>>>>>> dev
+        specifier: 2.4.0
+        version: 2.4.0(ty73var2komseepf2ek5x3hwfu)
       '@tanstack/react-query':
         specifier: 5.51.4
         version: 5.51.4(react@18.3.1)
@@ -80,17 +69,10 @@ importers:
         specifier: 2.75.0
         version: 2.75.0(@mixpanel/rrweb-utils@2.0.0-alpha.18.3)
       react:
-<<<<<<< HEAD
-        specifier: ^18.3.1
-        version: 18.3.1
-      react-dom:
-        specifier: ^18.3.1
-=======
         specifier: 18.3.1
         version: 18.3.1
       react-dom:
         specifier: 18.3.1
->>>>>>> dev
         version: 18.3.1(react@18.3.1)
       react-error-boundary:
         specifier: 4.1.2
@@ -148,17 +130,10 @@ importers:
         specifier: 6.14.0
         version: 6.14.0
       '@types/react':
-<<<<<<< HEAD
-        specifier: ^18.3.28
-        version: 18.3.28
-      '@types/react-dom':
-        specifier: ^18.3.7
-=======
         specifier: 18.3.28
         version: 18.3.28
       '@types/react-dom':
         specifier: 18.3.7
->>>>>>> dev
         version: 18.3.7(@types/react@18.3.28)
       '@types/react-test-renderer':
         specifier: 18.3.1
