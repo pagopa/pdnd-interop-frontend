@@ -601,6 +601,13 @@
         "description": "In questa sezione potrai verificare le specifiche dell’e-service ed apportare modifiche.",
         "technology": "Tecnologia",
         "audience": "Audience",
+        "exchangeType": {
+          "label": "Tipologia scambio",
+          "value": {
+            "sync": "Sincrono",
+            "async": "Asincrono"
+          }
+        },
         "eserviceId": {
           "label": "ID e-service",
           "copySuccessFeedbackText": "ID copiato correttamente"
@@ -652,6 +659,30 @@
           "title": "Documentazione",
           "label": "Elenco documenti",
           "interfaceChecksum": "Checksum file di interfaccia"
+        },
+        "callbackInterface": {
+          "label": "Interfaccia di callback"
+        },
+        "asyncExchange": {
+          "responseTime": {
+            "label": "Tempo massimo di callback"
+          },
+          "resourceAvailableTime": {
+            "label": "Tempo disponibilità risorsa"
+          },
+          "confirmation": {
+            "label": "Richiedi conferma di ricezione"
+          },
+          "bulk": {
+            "label": "Abilita download a blocchi"
+          },
+          "maxResultSet": {
+            "label": "Limite massimo di entità per risposta"
+          },
+          "booleanValue": {
+            "true": "Sì",
+            "false": "No"
+          }
         },
         "usefulLinks": {
           "title": "Link utili",
