@@ -18,8 +18,8 @@ describe('ProviderEServiceDetailsAlerts', () => {
 
     renderWithApplicationContext(<ProviderEServiceDetailsAlerts descriptor={descriptor} />, {})
 
-    expect(screen.getByText('missingProducerKeychain')).toBeInTheDocument()
-    expect(screen.queryByText('missingProducerKeychainKeys')).not.toBeInTheDocument()
+    expect(screen.getByText('providerMissingProducerKeychain')).toBeInTheDocument()
+    expect(screen.queryByText('providerMissingProducerKeychainKeys')).not.toBeInTheDocument()
   })
 
   it('shows a warning when an async eservice has an associated producer keychain without keys', () => {
@@ -32,8 +32,8 @@ describe('ProviderEServiceDetailsAlerts', () => {
 
     renderWithApplicationContext(<ProviderEServiceDetailsAlerts descriptor={descriptor} />, {})
 
-    expect(screen.getByText('missingProducerKeychainKeys')).toBeInTheDocument()
-    expect(screen.queryByText('missingProducerKeychain')).not.toBeInTheDocument()
+    expect(screen.getByText('providerMissingProducerKeychainKeys')).toBeInTheDocument()
+    expect(screen.queryByText('providerMissingProducerKeychain')).not.toBeInTheDocument()
   })
 
   it('does not show producer keychain warnings when an async eservice has a keychain with keys', () => {
@@ -46,8 +46,8 @@ describe('ProviderEServiceDetailsAlerts', () => {
 
     renderWithApplicationContext(<ProviderEServiceDetailsAlerts descriptor={descriptor} />, {})
 
-    expect(screen.queryByText('missingProducerKeychain')).not.toBeInTheDocument()
-    expect(screen.queryByText('missingProducerKeychainKeys')).not.toBeInTheDocument()
+    expect(screen.queryByText('providerMissingProducerKeychain')).not.toBeInTheDocument()
+    expect(screen.queryByText('providerMissingProducerKeychainKeys')).not.toBeInTheDocument()
   })
 
   it('does not show producer keychain warnings for sync eservices', () => {
@@ -61,7 +61,7 @@ describe('ProviderEServiceDetailsAlerts', () => {
 
     renderWithApplicationContext(<ProviderEServiceDetailsAlerts descriptor={descriptor} />, {})
 
-    expect(screen.queryByText('missingProducerKeychain')).not.toBeInTheDocument()
-    expect(screen.queryByText('missingProducerKeychainKeys')).not.toBeInTheDocument()
+    expect(screen.queryByText('providerMissingProducerKeychain')).not.toBeInTheDocument()
+    expect(screen.queryByText('providerMissingProducerKeychainKeys')).not.toBeInTheDocument()
   })
 })
