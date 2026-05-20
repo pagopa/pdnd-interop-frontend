@@ -232,7 +232,7 @@ export const HeaderInfoSection: React.FC<HeaderInfoSectionProps> = ({
   actions = [],
 }) => {
   return (
-    <Box bgcolor="grey.100" py={2} px={2} borderRadius={1} mt={3}>
+    <Box bgcolor="grey.100" py={2} pl={3} pr={0} borderRadius={1} mt={3}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Stack direction="row" spacing={4} alignItems="center">
           <Typography component="h2" variant="body2" textTransform="uppercase">
@@ -262,7 +262,7 @@ export const HeaderInfoSection: React.FC<HeaderInfoSectionProps> = ({
           )}
           {statusChip && <StatusChip {...statusChip} />}
         </Stack>
-        <Stack direction="row" spacing={3}>
+        <Stack direction="row" spacing={1}>
           {actions.map(({ action, label, color, icon: Icon, ...props }, index) => {
             return (
               <Button
