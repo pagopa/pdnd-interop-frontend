@@ -229,6 +229,7 @@ export interface UpdateEServiceSeed {
   isConsumerDelegable?: boolean;
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
 }
 
 export interface UpdateEServiceTemplateInstanceSeed {
@@ -253,6 +254,7 @@ export interface EServiceSeed {
   isConsumerDelegable?: boolean;
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
 }
 
 export interface UpdateEServiceDescriptorQuotas {
@@ -332,6 +334,7 @@ export interface UpdateEServiceDescriptorSeed {
    */
   agreementApprovalPolicy: AgreementApprovalPolicy;
   attributes: DescriptorAttributesSeed;
+  asyncExchangeProperties?: AsyncExchangeProperties;
 }
 
 export interface UpdateEServiceDescriptorTemplateInstanceSeed {
@@ -357,6 +360,7 @@ export interface UpdateEServiceDescriptorTemplateInstanceSeed {
    */
   agreementApprovalPolicy: AgreementApprovalPolicy;
   attributes?: DescriptorAttributesSeed;
+  asyncExchangeProperties?: AsyncExchangePropertiesInstanceSeed;
 }
 
 export interface Mail {
@@ -439,6 +443,8 @@ export interface CatalogEServiceDescriptor {
   deprecatedAt?: string;
   /** @format date-time */
   archivedAt?: string;
+  asyncExchangeProperties?: AsyncExchangeProperties;
+  asyncExchangeCallbackInterface?: EServiceDoc;
 }
 
 /** Models Client details */
@@ -496,6 +502,7 @@ export interface CatalogDescriptorEService {
   isConsumerDelegable?: boolean;
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
 }
 
 export interface ProducerEServiceDetails {
@@ -512,6 +519,7 @@ export interface ProducerEServiceDetails {
   isConsumerDelegable?: boolean;
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
 }
 
 export interface EServiceRiskAnalysisSeed {
@@ -594,6 +602,8 @@ export interface ProducerEServiceDescriptor {
   serverUrls?: string[];
   templateRef?: EServiceTemplateRef;
   delegation?: DelegationWithCompactTenants;
+  asyncExchangeProperties?: AsyncExchangeProperties;
+  asyncExchangeCallbackInterface?: EServiceDoc;
 }
 
 export interface ProducerDescriptorEService {
@@ -608,6 +618,8 @@ export interface ProducerDescriptorEService {
   mode: EServiceMode;
   riskAnalysis: EServiceRiskAnalysis[];
   descriptors: CompactDescriptor[];
+  hasProducerKeychain: boolean;
+  hasProducerKeychainKeys: boolean;
   draftDescriptor?: CompactDescriptor;
   mail?: Mail;
   isSignalHubEnabled?: boolean;
@@ -615,6 +627,7 @@ export interface ProducerDescriptorEService {
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
   instanceLabel?: string;
+  asyncExchange?: boolean;
 }
 
 export interface ProducerDescriptorEServiceProducer {
@@ -752,6 +765,7 @@ export interface CatalogEService {
   /** Indicates if there are unread notifications for this e-service */
   hasUnreadNotifications?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
 }
 
 export interface CompactClients {
@@ -849,6 +863,7 @@ export interface CompactPurposeEService {
   /** Risk Analysis Mode */
   mode: EServiceMode;
   personalData?: boolean;
+  asyncExchange?: boolean;
 }
 
 export interface CompactPurposeTemplateEService {
@@ -1574,6 +1589,26 @@ export interface AgreementsEService {
   activeDescriptor?: CompactDescriptor;
 }
 
+export interface AsyncExchangeProperties {
+  /** @format int32 */
+  responseTime: number;
+  /** @format int32 */
+  resourceAvailableTime: number;
+  confirmation: boolean;
+  bulk: boolean;
+  /** @format int32 */
+  maxResultSet: number;
+}
+
+export interface AsyncExchangePropertiesInstanceSeed {
+  /** @format int32 */
+  responseTime?: number;
+  /** @format int32 */
+  resourceAvailableTime?: number;
+  /** @format int32 */
+  maxResultSet?: number;
+}
+
 export interface DescriptorAttributes {
   certified: DescriptorAttribute[][];
   declared: DescriptorAttribute[][];
@@ -2085,6 +2120,7 @@ export interface EServiceTemplateDetails {
   mode: EServiceMode;
   isSignalHubEnabled?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
   draftVersion?: CompactEServiceTemplateVersion;
 }
 
@@ -2122,6 +2158,8 @@ export interface EServiceTemplateVersionDetails {
   agreementApprovalPolicy?: AgreementApprovalPolicy;
   attributes: DescriptorAttributes;
   eserviceTemplate: EServiceTemplateDetails;
+  asyncExchangeProperties?: AsyncExchangeProperties;
+  asyncExchangeCallbackInterface?: EServiceDoc;
   hasRequesterRiskAnalysis?: boolean;
   personalData?: boolean;
 }
@@ -2168,7 +2206,7 @@ export interface UpdateEServiceTemplateSeed {
   intendedTarget: string;
   /**
    * @minLength 10
-   * @maxLength 250
+   * @maxLength 400
    */
   description: string;
   /** EService Descriptor State */
@@ -2177,6 +2215,7 @@ export interface UpdateEServiceTemplateSeed {
   mode: EServiceMode;
   isSignalHubEnabled?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
 }
 
 export interface EServiceTemplateSeed {
@@ -2192,7 +2231,7 @@ export interface EServiceTemplateSeed {
   intendedTarget: string;
   /**
    * @minLength 10
-   * @maxLength 250
+   * @maxLength 400
    */
   description: string;
   /** EService Descriptor State */
@@ -2202,6 +2241,7 @@ export interface EServiceTemplateSeed {
   version?: VersionSeedForEServiceTemplateCreation;
   isSignalHubEnabled?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
 }
 
 export interface InstanceEServiceSeed {
@@ -2366,6 +2406,7 @@ export interface UpdateEServiceTemplateVersionSeed {
    */
   agreementApprovalPolicy?: AgreementApprovalPolicy;
   attributes: EServiceTemplateAttributesSeed;
+  asyncExchangeProperties?: AsyncExchangeProperties;
 }
 
 export interface EServiceTemplateAttributesSeed {
@@ -3049,7 +3090,7 @@ export interface AddEServiceTemplateInstanceInterfaceSoapParams {
 /** E-Service document */
 export interface CreateEServiceDocumentPayload {
   /** Document Type */
-  kind: "INTERFACE" | "DOCUMENT";
+  kind: "INTERFACE" | "DOCUMENT" | "ASYNC_EXCHANGE_CALLBACK_INTERFACE";
   prettyName: string;
   /** @format binary */
   doc: File;
@@ -4897,7 +4938,7 @@ export interface CreateEServiceTemplateVersionParams {
 /** E-Service template document */
 export interface CreateEServiceTemplateDocumentPayload {
   /** Document Type */
-  kind: "INTERFACE" | "DOCUMENT";
+  kind: "INTERFACE" | "DOCUMENT" | "ASYNC_EXCHANGE_CALLBACK_INTERFACE";
   prettyName: string;
   /** @format binary */
   doc: File;
