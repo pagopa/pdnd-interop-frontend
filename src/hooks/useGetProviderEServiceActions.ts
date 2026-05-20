@@ -1,4 +1,5 @@
 import type {
+  ArchivingSchedule,
   DelegationWithCompactTenants,
   EServiceDescriptorState,
   EServiceMode,
@@ -15,8 +16,12 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import PublishIcon from '@mui/icons-material/Publish'
+import ArchiveIcon from '@mui/icons-material/Archive'
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
+import ReplayCircleFilledIcon from '@mui/icons-material/ReplayCircleFilled'
+import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion'
 import { useDialog } from '@/stores'
-import { match } from 'ts-pattern'
+import { match, P } from 'ts-pattern'
 
 export function useGetProviderEServiceActions(
   eserviceId: string,
@@ -30,7 +35,10 @@ export function useGetProviderEServiceActions(
   isTemplateInstance: boolean,
   delegation?: DelegationWithCompactTenants,
   hasPersonalData?: boolean,
-  where?: 'tableRow' | 'detailsPage'
+  where?: 'tableRow' | 'detailsPage',
+  archivingSchedule?: ArchivingSchedule,
+  latestDescriptorId?: string,
+  onViewAllVersions?: () => void
 ): {
   primaryAction: ActionItemButton | undefined
   secondaryAction: ActionItemButton | undefined
@@ -38,6 +46,7 @@ export function useGetProviderEServiceActions(
   headerInfoActions: Array<ActionItemButton>
 } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
+  const { t: tEserviceActions } = useTranslation('eservice', { keyPrefix: 'read.actions' })
   const { t: tDialogApproveDelegatedVersionDraft } = useTranslation('shared-components', {
     keyPrefix: 'dialogApproveDelegatedVersionDraft',
   })
@@ -104,9 +113,8 @@ export function useGetProviderEServiceActions(
 
   const suspendAction: ActionItemButton = {
     action: handleSuspend,
-    label: t('suspend'),
+    label: tEserviceActions('suspendVersion'),
     icon: PauseCircleOutlineIcon,
-    color: 'error',
   }
 
   const handleReactivate = () => {
@@ -115,7 +123,7 @@ export function useGetProviderEServiceActions(
 
   const reactivateAction: ActionItemButton = {
     action: handleReactivate,
-    label: t('activate'),
+    label: tEserviceActions('reactivateVersion'),
     icon: PlayCircleOutlineIcon,
   }
 
@@ -157,8 +165,57 @@ export function useGetProviderEServiceActions(
 
   const createNewDraftAction: ActionItemButton = {
     action: handleCreateNewDraft,
-    label: t('createNewDraft'),
+    label: tEserviceActions('createNewVersion'),
     icon: FiberNewIcon,
+  }
+
+  const noopArchivingAction = () => {
+    /* TODO wired by PIN-9943 / PIN-9945 */
+  }
+
+  const archiveDescriptorAction: ActionItemButton = {
+    action: noopArchivingAction,
+    label: tEserviceActions('archiveVersion'),
+    icon: ArchiveIcon,
+  }
+
+  const cancelArchivingDescriptorAction: ActionItemButton = {
+    action: noopArchivingAction,
+    label: tEserviceActions('cancelArchivingVersion'),
+    icon: CancelOutlinedIcon,
+  }
+
+  const cancelArchivingEserviceAction: ActionItemButton = {
+    action: noopArchivingAction,
+    label: tEserviceActions('cancelArchivingEservice'),
+    icon: CancelOutlinedIcon,
+    variant: 'contained',
+  }
+
+  const handleViewLatestVersion = () => {
+    if (latestDescriptorId) {
+      navigate('PROVIDE_ESERVICE_MANAGE', {
+        params: { eserviceId, descriptorId: latestDescriptorId },
+      })
+    }
+  }
+
+  const viewLatestVersionAction: ActionItemButton = {
+    action: handleViewLatestVersion,
+    label: tEserviceActions('viewLatestVersion'),
+    icon: ReplayCircleFilledIcon,
+  }
+
+  const archiveEserviceAction: ActionItemButton = {
+    action: noopArchivingAction,
+    label: tEserviceActions('archiveEservice'),
+    icon: ArchiveIcon,
+  }
+
+  const viewAllVersionsAction: ActionItemButton = {
+    action: () => onViewAllVersions?.(),
+    label: tEserviceActions('viewAllVersions'),
+    icon: AutoAwesomeMotionIcon,
   }
 
   const handleEditDraft = () => {
@@ -939,12 +996,6 @@ export function useGetProviderEServiceActions(
     )
     .otherwise(() => [])
 
-  // PIN-9939: temporary placeholder for the new ARCHIVING / ARCHIVING_SUSPENDED states.
-  // REMOVE this constant (and the entries below that reference it) when PIN-9939 lands
-  // and provides the real action menu mapping for these states. Deleting the constant
-  // will surface a TS error at the call sites that need to be cleaned up.
-  const PIN_9939_PLACEHOLDER_ACTIONS: Array<ActionItemButton> = []
-
   const EServiceFromTemplateAdminActions: Record<
     EServiceDescriptorState,
     Array<ActionItemButton>
@@ -960,8 +1011,8 @@ export function useGetProviderEServiceActions(
         : isDelegator && where === 'tableRow' && !hasPersonalData
           ? [rejectDelegatedVersionDraftAction]
           : [],
-    ARCHIVING: PIN_9939_PLACEHOLDER_ACTIONS,
-    ARCHIVING_SUSPENDED: PIN_9939_PLACEHOLDER_ACTIONS,
+    ARCHIVING: [],
+    ARCHIVING_SUSPENDED: [],
   }
 
   const EServiceFromTemplateOperatorAPIActions: Record<
@@ -979,8 +1030,8 @@ export function useGetProviderEServiceActions(
         : isDelegator && where === 'tableRow' && !hasPersonalData
           ? [rejectDelegatedVersionDraftAction]
           : [],
-    ARCHIVING: PIN_9939_PLACEHOLDER_ACTIONS,
-    ARCHIVING_SUSPENDED: PIN_9939_PLACEHOLDER_ACTIONS,
+    ARCHIVING: [],
+    ARCHIVING_SUSPENDED: [],
   }
 
   const adminActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
@@ -995,8 +1046,8 @@ export function useGetProviderEServiceActions(
         : isDelegator && where === 'tableRow' && !hasPersonalData
           ? [rejectDelegatedVersionDraftAction]
           : [],
-    ARCHIVING: PIN_9939_PLACEHOLDER_ACTIONS,
-    ARCHIVING_SUSPENDED: PIN_9939_PLACEHOLDER_ACTIONS,
+    ARCHIVING: isDelegator ? [] : [suspendAction, cloneAction],
+    ARCHIVING_SUSPENDED: isDelegator ? [] : [reactivateAction, cloneAction],
   }
 
   const operatorAPIActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
@@ -1011,8 +1062,8 @@ export function useGetProviderEServiceActions(
         : isDelegator && where === 'tableRow' && !hasPersonalData
           ? [rejectDelegatedVersionDraftAction]
           : [],
-    ARCHIVING: PIN_9939_PLACEHOLDER_ACTIONS,
-    ARCHIVING_SUSPENDED: PIN_9939_PLACEHOLDER_ACTIONS,
+    ARCHIVING: [],
+    ARCHIVING_SUSPENDED: [],
   }
 
   const availableClassicEServiceAction = isAdmin ? adminActions[state] : operatorAPIActions[state]
@@ -1024,10 +1075,108 @@ export function useGetProviderEServiceActions(
     ? availableFromTemplateEserviceAction
     : availableClassicEServiceAction
 
+  const isHappyPathDetailsPage =
+    where === 'detailsPage' &&
+    (isAdmin || isOperatorAPI) &&
+    !isDelegator &&
+    !isDelegate &&
+    !hasVersionDraft &&
+    !isTemplateInstance
+
+  if (!isHappyPathDetailsPage) {
+    return {
+      primaryAction: undefined,
+      secondaryAction: undefined,
+      menuActions:
+        where === 'detailsPage' ? [...availableAction, viewAllVersionsAction] : availableAction,
+      headerInfoActions: [],
+    }
+  }
+
+  const archivingScope = archivingSchedule?.scope
+
+  type Slots = {
+    primary: ActionItemButton | undefined
+    header: Array<ActionItemButton>
+    menu: Array<ActionItemButton>
+  }
+
+  const menuClassic = [cloneAction, archiveEserviceAction, viewAllVersionsAction]
+  const menuWithNewVersion = [
+    createNewDraftAction,
+    cloneAction,
+    archiveEserviceAction,
+    viewAllVersionsAction,
+  ]
+  const menuEserviceArchiving = [cloneAction, viewAllVersionsAction]
+
+  const slots: Slots = match({ state, archivingScope })
+    .with({ state: 'PUBLISHED', archivingScope: 'ESERVICE' }, () => ({
+      primary: cancelArchivingEserviceAction,
+      header: [suspendAction],
+      menu: menuEserviceArchiving,
+    }))
+    .with({ state: 'PUBLISHED' }, () => ({
+      primary: undefined,
+      header: [suspendAction, createNewDraftAction],
+      menu: menuClassic,
+    }))
+    .with({ state: 'DEPRECATED', archivingScope: 'ESERVICE' }, () => ({
+      primary: cancelArchivingEserviceAction,
+      header: [suspendAction],
+      menu: menuEserviceArchiving,
+    }))
+    .with({ state: 'DEPRECATED' }, () => ({
+      primary: undefined,
+      header: [suspendAction, archiveDescriptorAction],
+      menu: menuWithNewVersion,
+    }))
+    .with({ state: 'SUSPENDED', archivingScope: 'ESERVICE' }, () => ({
+      primary: cancelArchivingEserviceAction,
+      header: [reactivateAction],
+      menu: menuEserviceArchiving,
+    }))
+    .with({ state: 'SUSPENDED' }, () => ({
+      primary: undefined,
+      header: [reactivateAction, archiveDescriptorAction],
+      menu: [cloneAction, createNewDraftAction, viewAllVersionsAction],
+    }))
+    .with({ state: 'ARCHIVED' }, () => ({
+      primary: undefined,
+      header: latestDescriptorId ? [viewLatestVersionAction] : [],
+      menu: [cloneAction, archiveEserviceAction, viewAllVersionsAction],
+    }))
+    .with({ state: 'ARCHIVING', archivingScope: 'ESERVICE' }, () => ({
+      primary: cancelArchivingEserviceAction,
+      header: [suspendAction],
+      menu: menuEserviceArchiving,
+    }))
+    .with({ state: 'ARCHIVING' }, () => ({
+      primary: undefined,
+      header: [suspendAction, cancelArchivingDescriptorAction],
+      menu: menuWithNewVersion,
+    }))
+    .with({ state: 'ARCHIVING_SUSPENDED', archivingScope: 'ESERVICE' }, () => ({
+      primary: cancelArchivingEserviceAction,
+      header: [reactivateAction],
+      menu: menuEserviceArchiving,
+    }))
+    .with({ state: 'ARCHIVING_SUSPENDED' }, () => ({
+      primary: undefined,
+      header: [reactivateAction, cancelArchivingDescriptorAction],
+      menu: menuWithNewVersion,
+    }))
+    .with({ state: P.union('DRAFT', 'WAITING_FOR_APPROVAL') }, () => ({
+      primary: undefined,
+      header: [],
+      menu: [],
+    }))
+    .exhaustive()
+
   return {
-    primaryAction: undefined,
+    primaryAction: slots.primary,
     secondaryAction: undefined,
-    menuActions: availableAction,
-    headerInfoActions: [],
+    menuActions: slots.menu,
+    headerInfoActions: slots.header,
   }
 }
