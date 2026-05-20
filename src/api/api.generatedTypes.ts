@@ -496,6 +496,8 @@ export interface CatalogDescriptorEService {
    */
   hasCertifiedAttributes: boolean;
   isSubscribed: boolean;
+  hasProducerKeychain: boolean;
+  hasProducerKeychainKeys: boolean;
   activeDescriptor?: CompactDescriptor;
   mail?: Mail;
   isSignalHubEnabled?: boolean;
