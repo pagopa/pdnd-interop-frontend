@@ -15,7 +15,7 @@ import userEvent from '@testing-library/user-event'
 import { assistanceLink } from '@/config/constants'
 import { SELFCARE_BASE_URL, AVATAR_BASEPATH } from '@/config/env'
 import type { Mock } from 'vitest'
-import type { PartySwitchItem } from '@pagopa/mui-italia/dist/components/PartySwitch'
+import type { PartySwitchItem } from '@pagopa/mui-italia/components/PartySwitch'
 import type * as ReactQuery from '@tanstack/react-query'
 
 // Functions and component mocks
