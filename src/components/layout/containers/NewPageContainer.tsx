@@ -200,6 +200,7 @@ const ActionsSection: React.FC<ActionsSectionProps> = ({
           size="small"
           color={color}
           startIcon={Icon && <Icon />}
+          disabled={disabled}
           {...props}
         >
           {label}
