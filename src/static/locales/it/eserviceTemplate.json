@@ -223,28 +223,11 @@
     "step1": {
       "templateInfoTitle": "Informazioni sul template",
       "readOnlyTemplateInfoTitle": "Caratterizzazione template di e-service",
-      "instanceDetailsTitle": "Dettagli dell'istanza di e-service",
-      "readOnlyInstanceDetailsTitle": "Dettagli dell'e-service",
       "readOnlyDescription": "Queste informazioni non sono modificabili.",
       "signalHubTitle": "Signal Hub",
       "readOnlyNameLabel": "Nome del template di e-service",
       "readOnlyIntendedTargetLabel": "A chi è rivolto questo template?",
       "readOnlyDescriptionLabel": "Cosa permette di fare questo template?",
-      "readOnlyTechnologyLabel": "Tecnologia API",
-      "readOnlyModeLabel": "L'e-service eroga o riceve dati?",
-      "readOnlyModeValue": {
-        "DELIVER": "Eroga",
-        "RECEIVE": "Riceve"
-      },
-      "readOnlyPersonalDataLabel": {
-        "DELIVER": "Eroga dati personali",
-        "RECEIVE": "Riceve dati personali"
-      },
-      "readOnlyPersonalDataValue": {
-        "true": "Sì",
-        "false": "No",
-        "undefined": "Non indicato"
-      },
       "eserviceTemplateNameField": {
         "label": "Nome del template",
         "infoLabel": "È il nome che comparirà nel catalogo template e-service e che diventerà il nome di base di tutti gli e-service creati a partire da questo template. Min 5 caratteri, max 45 caratteri."
@@ -257,38 +240,13 @@
         "label": "Cosa permette di fare questo e-service?",
         "infoLabel": "Min 10 caratteri, max 250 caratteri"
       },
-      "eserviceTemplateTechnologyField": {
-        "label": "Con quale tecnologia è costruita la tua API?"
-      },
       "eserviceTemplateModeField": {
-        "label": "L'e-service eroga o riceve dati?",
-        "tooltipReceiveMode": "Al momento l'utilizzo dei template è limitato all'erogazione di dati",
-        "options": {
-          "DELIVER": "Eroga",
-          "RECEIVE": "Riceve"
-        },
         "isSignalHubEnabled": {
           "label": "Suggerisci a chi userà questo template di segnalare le variazioni dei dati con Signal Hub",
           "infoLabel": {
             "before": "Signal Hub invia",
             "linkLabel": "notifiche push",
             "after": "in caso di variazioni dei dati dell'e-service."
-          }
-        }
-      },
-      "eservicePersonalDataField": {
-        "DELIVER": {
-          "label": "L'e-service eroga dati personali?",
-          "options": {
-            "true": "Eroga dati personali",
-            "false": "Non eroga dati personali"
-          }
-        },
-        "RECEIVE": {
-          "label": "L'e-service riceve dati personali?",
-          "options": {
-            "true": "Riceve dati personali",
-            "false": "Non riceve dati personali"
           }
         }
       }
