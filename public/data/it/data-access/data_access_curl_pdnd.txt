@@ -1,2 +1,2 @@
-curl -X POST "[HTU]" \
+curl -X METHOD_API_INVOCATA "PATH_API_INVOCATA" \
     -H "Authorization: [VOUCHER_OTTENUTO]"

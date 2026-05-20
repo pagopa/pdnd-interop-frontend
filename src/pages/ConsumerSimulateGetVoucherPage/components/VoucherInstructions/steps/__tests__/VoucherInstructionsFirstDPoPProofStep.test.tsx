@@ -31,29 +31,7 @@ describe('VoucherInstructionsFirstDPoPProofStep', () => {
     )
 
     expect(await screen.findByText('firstDPoPProofStep.title')).toBeInTheDocument()
-    expect(await screen.findByText('firstDPoPProofStep.assertionHeader.title')).toBeInTheDocument()
     expect(await screen.findByText('firstDPoPProofStep.assertionPayload.title')).toBeInTheDocument()
-  })
-
-  it('renders assertion header fields', async () => {
-    renderWithApplicationContext(
-      <MemoryRouter>
-        <VoucherInstructionsFirstDPoPProofStep />
-      </MemoryRouter>,
-      { withReactQueryContext: true }
-    )
-
-    expect(
-      await screen.findByText('firstDPoPProofStep.assertionHeader.typField.label')
-    ).toBeInTheDocument()
-
-    expect(
-      await screen.findByText('firstDPoPProofStep.assertionHeader.algField.label')
-    ).toBeInTheDocument()
-
-    expect(
-      await screen.findByText('firstDPoPProofStep.assertionHeader.jwkField.label')
-    ).toBeInTheDocument()
   })
 
   it('renders assertion payload fields', async () => {

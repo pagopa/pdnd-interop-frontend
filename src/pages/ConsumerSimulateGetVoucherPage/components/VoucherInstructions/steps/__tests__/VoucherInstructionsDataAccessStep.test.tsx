@@ -50,6 +50,14 @@ vi.mock('../../CodeSnippetPreview', () => ({
   default: () => null,
 }))
 
+const apiVersionSummaryMock = vi.fn()
+vi.mock('../../ApiVersionSummary', () => ({
+  ApiVersionSummary: (props: unknown) => {
+    apiVersionSummaryMock(props)
+    return <div data-testid="api-version-summary" />
+  },
+}))
+
 vi.mock('@tanstack/react-query', async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   const actual = await importOriginal<typeof import('@tanstack/react-query')>()
@@ -126,11 +134,15 @@ describe('VoucherInstructionsDataAccessStep', () => {
       { withReactQueryContext: true }
     )
 
-    expect(await screen.findByText('dataAccessStep.pdndInteroperability.title')).toBeInTheDocument()
+    const el = await screen.findByTestId('api-version-summary')
 
-    expect(screen.getByText('dataAccessStep.pdndInteroperability.apiV2.title')).toBeInTheDocument()
+    expect(el).toBeInTheDocument()
 
-    expect(screen.getByText('dataAccessStep.pdndInteroperability.apiV3.title')).toBeInTheDocument()
+    expect(apiVersionSummaryMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        keyPrefix: 'dataAccessStep',
+      })
+    )
   })
 
   it('renders SignalHub section for API sync flow', async () => {
