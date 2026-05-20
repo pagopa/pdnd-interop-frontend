@@ -11,6 +11,7 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { interfaceVerificationGuideLink, manageEServiceGuideLink } from '@/config/constants'
 import { formatDateString, secondsToMinutes } from '@/utils/format.utils'
+import { ConsumerEServiceAsyncExchangeCallbackInterfaceInfo } from './ConsumerEServiceAsyncExchangeCallbackInterfaceInfo'
 
 type ConsumerEServiceTechnicalInfoDrawerProps = {
   isOpen: boolean
@@ -97,35 +98,12 @@ export const ConsumerEServiceTechnicalInfoDrawer: React.FC<
               content={t(`asyncExchange.value.${descriptor.eservice.asyncExchange}`)}
               direction="column"
             />
-            {descriptor.asyncExchangeCallbackInterface && (
-              <InformationContainer
-                label={t('asyncExchangeCallbackInterface')}
-                content={
-                  <Stack spacing={1} mt={1} alignItems="start">
-                    <IconLink
-                      component="button"
-                      onClick={handleDownloadDocument.bind(
-                        null,
-                        descriptor.asyncExchangeCallbackInterface
-                      )}
-                      startIcon={<AttachFileIcon fontSize="small" />}
-                    >
-                      {descriptor.asyncExchangeCallbackInterface.prettyName}
-                    </IconLink>
-                  </Stack>
-                }
-                direction="column"
-              />
-            )}
-            {descriptor.asyncExchangeCallbackInterface?.checksum && (
-              <InformationContainer
-                label={t('asyncExchangeCallbackInterfaceChecksum')}
-                content={descriptor.asyncExchangeCallbackInterface.checksum}
-                copyToClipboard={{
-                  value: descriptor.asyncExchangeCallbackInterface.checksum,
-                }}
-              />
-            )}
+            <ConsumerEServiceAsyncExchangeCallbackInterfaceInfo
+              callbackInterface={descriptor.asyncExchangeCallbackInterface}
+              callbackInterfaceLabel={t('asyncExchangeCallbackInterface')}
+              callbackInterfaceChecksumLabel={t('asyncExchangeCallbackInterfaceChecksum')}
+              onDownloadDocument={handleDownloadDocument}
+            />
           </>
         )}
         {isSignalHubFlagEnabled && (
