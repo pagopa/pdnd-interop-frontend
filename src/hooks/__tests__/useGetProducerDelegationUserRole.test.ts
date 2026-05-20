@@ -1,10 +1,11 @@
 import type { Mock } from 'vitest'
 import type { CompactDelegation } from '@/api/api.generatedTypes'
+import type * as ReactQuery from '@tanstack/react-query'
 
 mockUseJwt({ isAdmin: true })
 
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  ...(await importOriginal<typeof ReactQuery>()),
   useQuery: vi.fn(),
   useQueries: vi.fn(),
 }))

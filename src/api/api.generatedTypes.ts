@@ -138,6 +138,11 @@ export interface AccessTokenRequest {
   client_assertion: string;
   client_assertion_type: string;
   grant_type: string;
+  /**
+   * Optional DPoP proof JWT used to validate token generation
+   * @format jws
+   */
+  dpop_proof?: string;
 }
 
 export interface PrivacyNotice {
@@ -1919,6 +1924,7 @@ export interface TokenGenerationValidationSteps {
   publicKeyRetrieve: TokenGenerationValidationEntry;
   clientAssertionSignatureVerification: TokenGenerationValidationEntry;
   platformStatesVerification: TokenGenerationValidationEntry;
+  dpopValidation?: TokenGenerationValidationEntry;
 }
 
 export interface TokenGenerationValidationEntry {
@@ -8488,7 +8494,7 @@ export namespace Session {
 
 export namespace Tools {
   /**
-   * @description Provides additional details about token generation request failure
+   * @description Provides additional details about token generation request failure, including optional DPoP proof validation
    * @tags tools
    * @name ValidateTokenGeneration
    * @summary Validate token generation request

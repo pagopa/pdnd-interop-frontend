@@ -13,7 +13,9 @@ const useIsOrganizationAllowedToDelegationsMock = vi.mocked(useIsOrganizationAll
 
 describe('useGetSidebarItems', () => {
   // Helper function to easily extract the delegations item from the generated sidebar
-  const getDelegationsChild = (sidebarItems: SidebarRoutes): SidebarChildRoutes[number] | undefined => {
+  const getDelegationsChild = (
+    sidebarItems: SidebarRoutes
+  ): SidebarChildRoutes[number] | undefined => {
     const tenantItem = sidebarItems.find((item) => item.rootRouteKey === 'PARTY_REGISTRY')
     return tenantItem?.children?.find((child) => child.to === 'DELEGATIONS')
   }

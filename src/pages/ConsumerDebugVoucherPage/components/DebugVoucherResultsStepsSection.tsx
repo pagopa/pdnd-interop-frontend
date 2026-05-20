@@ -31,6 +31,9 @@ export const DebugVoucherResultsStepsSection: React.FC = () => {
             stepKey="platformStatesVerification"
           />
         )}
+        {response.steps.dpopValidation && (
+          <DebugVoucherResultsStep step={response.steps.dpopValidation} stepKey="dpopValidation" />
+        )}
       </Stack>
     </SectionContainer>
   )

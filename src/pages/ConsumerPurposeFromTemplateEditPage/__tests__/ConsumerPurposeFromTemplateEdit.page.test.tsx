@@ -3,10 +3,11 @@ import { screen } from '@testing-library/react'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import ConsumerPurposeFromTemplateEditPage from '../ConsumerPurposeFromTemplateEdit.page'
 import type { PurposeCreateContextProviderProps } from '@/components/shared/PurposeCreateContext'
+import type * as ReactQuery from '@tanstack/react-query'
 mockUseJwt()
 
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  ...(await importOriginal<typeof ReactQuery>()),
   useQuery: vi.fn(() => ({ isLoading: false })),
 }))
 

@@ -5,9 +5,10 @@ import { createMockAgreement } from '../../../../../__mocks__/data/agreement.moc
 import { waitFor } from '@testing-library/react'
 import type { Mock } from 'vitest'
 import { createMockPurpose } from '../../../../../__mocks__/data/purpose.mocks'
+import type * as ReactQuery from '@tanstack/react-query'
 
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  ...(await importOriginal<typeof ReactQuery>()),
   useQuery: vi.fn(),
   useQueries: vi.fn(),
 }))

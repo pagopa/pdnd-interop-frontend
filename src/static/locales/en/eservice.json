@@ -25,7 +25,7 @@
         },
         "descriptionField": {
           "label": "E-service description",
-          "infoLabel": "Describe what data the consumer must provide and what data the e-service returns. Min 10 characters, max 250 characters"
+          "infoLabel": "Describe what data the consumer must provide and what data the e-service returns. Min 10 characters, max {{ESERVICE_DESCRIPTION_MAX_LENGTH}} characters"
         }
       },
       "instanceLabelField": {
@@ -174,7 +174,7 @@
         },
         "dailyCallsTotalField": {
           "label": "Total API calls/day",
-          "infoLabel": "Enter a number greater than the previous one",
+          "infoLabel": "Enter a number higher than the user threshold",
           "validation": {
             "min": "This value cannot be below the threshold set for the API calls/day for each consumer",
             "minCustomThreshold": "The total threshold cannot be lower than customized thresholds"
@@ -768,7 +768,7 @@
         "subtitle": "From this panel you can update the description of the e-service. The changes made will take effect immediately.",
         "eserviceDescriptionField": {
           "label": "E-service description",
-          "infoLabel": "Min 10 characters, max 250 characters",
+          "infoLabel": "Min 10 characters, max {{ESERVICE_DESCRIPTION_MAX_LENGTH}} characters",
           "validation": {
             "sameValue": "The e-service description must be different from the current one"
           }
