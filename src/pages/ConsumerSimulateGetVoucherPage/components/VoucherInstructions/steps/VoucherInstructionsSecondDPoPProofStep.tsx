@@ -48,7 +48,6 @@ export const VoucherInstructionsSecondDPoPProofStep: React.FC = () => {
     enabled: Boolean(purposeId),
   })
 
-  /* @TODO - add condition if async + producer (waiting for bff to return the descriptorId) (https://pagopa.atlassian.net/browse/PIN-10116) */
   const handleNavigateToEservice = () => {
     if (purpose) {
       navigate('SUBSCRIBE_CATALOG_VIEW', {
@@ -166,18 +165,15 @@ export const VoucherInstructionsSecondDPoPProofStep: React.FC = () => {
           activeLang="curl"
           entries={[{ url: getFilePath('curl'), value: 'curl' }]}
         />
-        {clientKind === 'CONSUMER' && (
+        {clientKind === 'CONSUMER' && memberType !== MEMBER_TYPE.PRODUCER && (
           <Alert variant="outlined" severity="warning" sx={{ mt: 2 }}>
             <Stack direction="row">
               <Typography variant="body2">
                 {t('secondDPoPProofStep.exampleRequest.alert.title')}
               </Typography>
-              {/* @TODO remove this condition when the bff will return the descriptorId for the redirect (https://pagopa.atlassian.net/browse/PIN-10116) */}
-              {memberType !== MEMBER_TYPE.PRODUCER && (
-                <Button sx={{ whiteSpace: 'nowrap' }} onClick={() => handleNavigateToEservice()}>
-                  {t('secondDPoPProofStep.exampleRequest.alert.actionLabel')}
-                </Button>
-              )}
+              <Button sx={{ whiteSpace: 'nowrap' }} onClick={() => handleNavigateToEservice()}>
+                {t('secondDPoPProofStep.exampleRequest.alert.actionLabel')}
+              </Button>
             </Stack>
           </Alert>
         )}
