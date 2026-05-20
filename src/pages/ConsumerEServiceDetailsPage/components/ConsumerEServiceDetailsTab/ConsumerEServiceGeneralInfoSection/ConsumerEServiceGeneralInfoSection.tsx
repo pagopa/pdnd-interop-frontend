@@ -5,13 +5,11 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
-import FileCopyIcon from '@mui/icons-material/FileCopy'
 import EngineeringIcon from '@mui/icons-material/Engineering'
 import ContactMailIcon from '@mui/icons-material/ContactMail'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { ConsumerEServiceTechnicalInfoDrawer } from './ConsumerEServiceTechnicalInfoDrawer'
 import { ConsumerEServiceProducerContactsDrawer } from './ConsumerEServiceProducerContactsDrawer'
-import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
@@ -37,23 +35,7 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
     closeDrawer: closeProducerContactsDrawer,
   } = useDrawerState()
 
-  const {
-    isOpen: isVersionSelectorDrawerOpen,
-    openDrawer: openVersionSelectorDrawer,
-    closeDrawer: closeVersionSelectorDrawer,
-  } = useDrawerState()
-
-  const hasSingleVersion =
-    descriptor.eservice.descriptors.filter((d) => d.state !== 'DRAFT').length <= 1
-
   const hasContactInformations = !!descriptor.eservice.mail
-
-  const navigateVersionsAction = {
-    startIcon: <FileCopyIcon fontSize="small" />,
-    component: 'button',
-    onClick: openVersionSelectorDrawer,
-    label: t('bottomActions.navigateVersions'),
-  }
 
   const showTechnicalDetailsAction = {
     startIcon: <EngineeringIcon fontSize="small" />,
@@ -74,7 +56,6 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
       <SectionContainer
         title={t('title')}
         bottomActions={[
-          ...(!hasSingleVersion ? [navigateVersionsAction] : []),
           showTechnicalDetailsAction,
           ...(hasContactInformations ? [showProducerContactsAction] : []),
         ]}
@@ -111,11 +92,6 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
       <ConsumerEServiceProducerContactsDrawer
         isOpen={isProducerContactsDrawerOpen}
         onClose={closeProducerContactsDrawer}
-        descriptor={descriptor}
-      />
-      <EServiceVersionSelectorDrawer
-        isOpen={isVersionSelectorDrawerOpen}
-        onClose={closeVersionSelectorDrawer}
         descriptor={descriptor}
       />
     </>
