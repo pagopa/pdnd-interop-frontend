@@ -66,18 +66,18 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
     const { asyncExchangeProperties, ...restValues } = values
 
     const hasValidAsyncProps =
-      isAsyncExchange &&
       asyncExchangeProperties.responseTime !== '' &&
       asyncExchangeProperties.resourceAvailableTime !== '' &&
       asyncExchangeProperties.maxResultSet !== ''
 
-    const asyncExchangeNumericPayload = hasValidAsyncProps
-      ? {
-          responseTime: Number(asyncExchangeProperties.responseTime),
-          resourceAvailableTime: Number(asyncExchangeProperties.resourceAvailableTime),
-          maxResultSet: Number(asyncExchangeProperties.maxResultSet),
-        }
-      : null
+    const asyncExchangeNumericPayload =
+      isAsyncExchange && hasValidAsyncProps
+        ? {
+            responseTime: Number(asyncExchangeProperties.responseTime),
+            resourceAvailableTime: Number(asyncExchangeProperties.resourceAvailableTime),
+            maxResultSet: Number(asyncExchangeProperties.maxResultSet),
+          }
+        : null
 
     const newDescriptorData = {
       ...restValues,
