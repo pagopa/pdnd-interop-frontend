@@ -46,7 +46,7 @@
         "firstVersionOnlyEditableInfo": "Questi dati non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
         "asyncExchangeField": {
           "label": "In che modo vuoi scambiare i dati dell’e-service?",
-          "readOnlyLabel": "Tipologia di scambio dati",
+          "readOnlyLabel": "Scambio dati",
           "options": {
             "false": "Sincrono (standard)",
             "true": "Asincrono / massivo (in differita)"
