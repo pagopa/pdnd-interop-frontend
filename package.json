@@ -10,6 +10,8 @@
     "preview": "vite build --mode development && vite preview --mode development",
     "test": "vitest run",
     "coverage": "vitest run --coverage",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "generate-types": "node scripts/open-api-type-generator.js",
     "crawling-guide-links": "node scripts/guide-crawl/index.js",
     "prepare": "husky"

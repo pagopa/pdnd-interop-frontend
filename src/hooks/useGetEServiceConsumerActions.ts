@@ -202,7 +202,7 @@ function useGetEServiceConsumerActions(
 
   const tenants: DelegationTenant[] = jwt
     ? [{ id: jwt.organizationId as string, name: jwt.organization.name }, ...(delegators ?? [])]
-    : delegators ?? []
+    : (delegators ?? [])
 
   const tenantsWithoutAgreement = tenants.filter(
     (tenant) => !existingAgreements.some((agreement) => agreement.consumerId === tenant.id)

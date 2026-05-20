@@ -10,6 +10,7 @@ import {
 } from '@/utils/testing.utils'
 import { DelegationGeneralInfoSection } from '../components/DelegationGeneralInfoSection'
 import { fireEvent, waitFor } from '@testing-library/react'
+import type * as DelegationApi from '@/api/delegation'
 const delegationId = 'delegation-id-123'
 
 mockUseGetActiveUserParty()
@@ -62,7 +63,7 @@ const mockDownloadSignedContract = vi.fn()
 const mockDownloadDelegationContract = vi.fn()
 
 vi.mock('@/api/delegation', async () => {
-  const actual = await vi.importActual<typeof import('@/api/delegation')>('@/api/delegation')
+  const actual = await vi.importActual<typeof DelegationApi>('@/api/delegation')
 
   return {
     ...actual,

@@ -144,9 +144,8 @@ describe('AddEServiceToForm', () => {
   })
 
   it('handles remove eservice from group', async () => {
-    const { PurposeTemplateMutations } = await import(
-      '@/api/purposeTemplate/purposeTemplate.mutations'
-    )
+    const { PurposeTemplateMutations } =
+      await import('@/api/purposeTemplate/purposeTemplate.mutations')
     const mockMutate = vi.fn()
     ;(PurposeTemplateMutations.useUnlinkEserviceFromPurposeTemplate as Mock).mockReturnValue({
       mutate: mockMutate,
