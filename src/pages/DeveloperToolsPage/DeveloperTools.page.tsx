@@ -51,18 +51,6 @@ const DeveloperToolsPage: React.FC = () => {
         </Grid>
         <Grid item xs={7}>
           <SectionContainer
-            title={t('sectionDebugClientAssertion.title')}
-            description={t('sectionDebugClientAssertion.description')}
-          >
-            <Stack direction="row" spacing={2}>
-              <Link as="button" variant="outlined" size="medium" to="SUBSCRIBE_DEBUG_VOUCHER">
-                {t('sectionDebugClientAssertion.button')}
-              </Link>
-            </Stack>
-          </SectionContainer>
-        </Grid>
-        <Grid item xs={7}>
-          <SectionContainer
             title={t('sectionVoucherSimulation.title')}
             description={t('sectionVoucherSimulation.description')}
           >
@@ -77,6 +65,18 @@ const DeveloperToolsPage: React.FC = () => {
               </Link>
               <Link as="button" variant="outlined" size="medium" to="SIMULATE_GET_VOUCHER_API">
                 {t('sectionVoucherSimulation.secondButton')}
+              </Link>
+            </Stack>
+          </SectionContainer>
+        </Grid>
+        <Grid item xs={7}>
+          <SectionContainer
+            title={t('sectionDebugClientAssertion.title')}
+            description={t('sectionDebugClientAssertion.description')}
+          >
+            <Stack direction="row" spacing={2}>
+              <Link as="button" variant="outlined" size="medium" to="SUBSCRIBE_DEBUG_VOUCHER">
+                {t('sectionDebugClientAssertion.button')}
               </Link>
             </Stack>
           </SectionContainer>
