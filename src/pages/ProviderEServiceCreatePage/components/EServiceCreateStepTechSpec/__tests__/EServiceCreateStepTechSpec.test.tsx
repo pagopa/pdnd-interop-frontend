@@ -3,9 +3,13 @@ import { screen } from '@testing-library/react'
 import { EServiceCreateStepTechSpec } from '../EServiceCreateStepTechSpec'
 import { useFormContext } from 'react-hook-form'
 import userEvent from '@testing-library/user-event'
+import type { Mock } from 'vitest'
+import { KeychainQueries } from '@/api/keychain'
+import { queryClient } from '@/config/query-client'
 import {
   createMockEServiceDescriptorProviderWithTemplateRef,
   createMockEServiceDescriptorProvider,
+  createMockEServiceDescriptorProviderAsync,
   mockUseEServiceCreateContext,
 } from '@/../__mocks__/data/eservice.mocks'
 
@@ -28,8 +32,14 @@ vi.mock('../../sections/EServiceVoucherSection', () => ({
   },
 }))
 
+vi.mock('../../sections/EServiceProducerKeychainSection', () => ({
+  EServiceProducerKeychainSection: () => <div>EServiceProducerKeychainSection</div>,
+}))
+
 const updateVersionDraft = vi.fn()
 const updateInstanceVersionDraft = vi.fn()
+const addKeychainToEService = vi.fn().mockResolvedValue(undefined)
+const removeKeychainFromEService = vi.fn().mockResolvedValue(undefined)
 
 vi.mock('@/api/eservice', () => ({
   EServiceMutations: {
@@ -38,8 +48,26 @@ vi.mock('@/api/eservice', () => ({
   },
 }))
 
+vi.mock('@/api/keychain', () => ({
+  KeychainQueries: {
+    getKeychainsList: vi.fn((params: { eserviceId?: string }) => ({
+      queryKey: ['KeychainGetList', params],
+      queryFn: () =>
+        Promise.resolve({
+          results: [],
+          pagination: { offset: 0, limit: 50, totalCount: 0 },
+        }),
+    })),
+  },
+  KeychainMutations: {
+    useAddKeychainToEService: () => ({ mutateAsync: addKeychainToEService }),
+    useRemoveKeychainFromEService: () => ({ mutateAsync: removeKeychainFromEService }),
+  },
+}))
+
 afterEach(() => {
   vi.clearAllMocks()
+  queryClient.clear()
 })
 
 const stepProps = { back: vi.fn(), forward: vi.fn(), activeStep: 2 }
@@ -106,5 +134,77 @@ describe('EServiceCreateStepTechSpec', () => {
 
     expect(updateVersionDraft).not.toHaveBeenCalled()
     expect(updateInstanceVersionDraft).toHaveBeenCalled()
+  })
+
+  it('should render the skeleton while the associated keychains query is pending (async e-service)', () => {
+    ;(KeychainQueries.getKeychainsList as Mock).mockImplementationOnce(
+      (params: { eserviceId?: string }) => ({
+        queryKey: ['KeychainGetList', params],
+        queryFn: () => new Promise(() => {}),
+      })
+    )
+
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderAsync(),
+    })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.queryByText('EServiceInterfaceSection')).not.toBeInTheDocument()
+    expect(screen.queryByText('EServiceProducerKeychainSection')).not.toBeInTheDocument()
+  })
+
+  it('should render the producer keychain section when e-service is async', async () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderAsync(),
+    })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    expect(await screen.findByText('EServiceProducerKeychainSection')).toBeInTheDocument()
+  })
+
+  it('should NOT render the producer keychain section when e-service is not async', () => {
+    mockUseEServiceCreateContext({ descriptor: createMockEServiceDescriptorProvider() })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    expect(screen.queryByText('EServiceProducerKeychainSection')).not.toBeInTheDocument()
+  })
+
+  it('should NOT call keychain mutations on submit when e-service is not editable (version > 1)', async () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderAsync(),
+      areEServiceGeneralInfoEditable: false,
+    })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await userEvent.click(await screen.findByText('forwardWithSaveBtn'))
+
+    expect(addKeychainToEService).not.toHaveBeenCalled()
+    expect(removeKeychainFromEService).not.toHaveBeenCalled()
+  })
+
+  it('should NOT render the producer keychain section in template instance flow even if async', () => {
+    const baseAsync = createMockEServiceDescriptorProviderAsync()
+    const withTemplate = createMockEServiceDescriptorProviderWithTemplateRef()
+    mockUseEServiceCreateContext({
+      descriptor: {
+        ...baseAsync,
+        templateRef: withTemplate.templateRef,
+      },
+    })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    expect(screen.queryByText('EServiceProducerKeychainSection')).not.toBeInTheDocument()
   })
 })

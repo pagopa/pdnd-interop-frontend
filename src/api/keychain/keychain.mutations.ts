@@ -30,7 +30,7 @@ function useCreateKeychain() {
   })
 }
 
-function useRemoveKeychainFromEService() {
+function useRemoveKeychainFromEService(hasConfirmationDialog = true) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'keychain.removeKeychainFromEService',
   })
@@ -40,10 +40,12 @@ function useRemoveKeychainFromEService() {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
+      confirmationDialog: hasConfirmationDialog
+        ? {
+            title: t('confirmDialog.title'),
+            description: t('confirmDialog.description'),
+          }
+        : undefined,
     },
   })
 }

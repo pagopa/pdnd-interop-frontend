@@ -337,6 +337,22 @@
           "title": "Do you want to manually approve all the access requests you receive?",
           "label": "I prefer to approve them manually"
         }
+      },
+      "producerKeychainSection": {
+        "title": "Provider keychain",
+        "subtitle": "Asynchronous exchanges require linking a keychain to the e-service. Only a keychain with an associated key can authenticate on PDND and complete the data exchange.",
+        "keychainField": {
+          "label": "Select from available keychains"
+        },
+        "addKeychainBtn": "Add keychain",
+        "removeRowTooltip": "Remove",
+        "readOnlyLabel": "Associated keychains",
+        "noKeychainAlert": "You haven't created a keychain yet. We recommend doing so after publishing the e-service.",
+        "apiRoleAlert": "Asynchronous exchanges require linking a keychain to the e-service. Only users with the administrator role can do this: ask to link one before or after publication to enable data exchange.",
+        "confirmationDialog": {
+          "title": "Confirm Keychain Removal from E-service",
+          "description": "The keys uploaded to this keychain can no longer be used to exchange data for this e-service."
+        }
       }
     }
   },
