@@ -1,2 +1,2 @@
-curl -X HTTP_METHOD "LA_TUA_RISORSA" \
+curl -X METHOD_API_INVOCATA "PATH_API_INVOCATA" \
     -H "Authorization: Bearer [VOUCHER_OTTENUTO]"

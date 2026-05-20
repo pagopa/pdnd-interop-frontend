@@ -164,6 +164,7 @@ export const VoucherInstructionsSecondDPoPProofStep: React.FC = () => {
           sx={{ mt: 2 }}
           activeLang="curl"
           entries={[{ url: getFilePath('curl'), value: 'curl' }]}
+          scriptSubstitutionValues={substitutions}
         />
         {clientKind === 'CONSUMER' && memberType !== MEMBER_TYPE.PRODUCER && (
           <Alert variant="outlined" severity="warning" sx={{ mt: 2 }}>

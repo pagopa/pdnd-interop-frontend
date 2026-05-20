@@ -1,3 +1,3 @@
-curl -X POST "[HTU]" \
+curl -X METHOD_API_INVOCATA "PATH_API_INVOCATA" \
      -H "Authorization: DPoP [VOUCHER_OTTENUTO]" \
      -H "DPoP: [NUOVA_DPOP_PROOF_CON_ATH]"
