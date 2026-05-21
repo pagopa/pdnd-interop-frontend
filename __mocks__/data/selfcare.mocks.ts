@@ -1,7 +1,7 @@
 import { createMockFactory } from '../../src/utils/testing.utils'
 import type { SelfcareInstitution } from '../../src/api/api.generatedTypes'
 import type { ProductSwitchItem } from '@pagopa/mui-italia'
-import type { PartySwitchItem } from '@pagopa/mui-italia/dist/components/PartySwitch'
+import type { PartySwitchItem } from '@pagopa/mui-italia/components/PartySwitch'
 
 const createMockSelfcareInsitution = createMockFactory<SelfcareInstitution>({
   id: 'test-id',

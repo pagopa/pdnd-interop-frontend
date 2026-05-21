@@ -5,8 +5,6 @@ import {
 } from '@/utils/testing.utils'
 import { fireEvent, screen } from '@testing-library/react'
 import ProviderEServiceCreatePage from '../ProviderEServiceCreate.page'
-import type { Mock } from 'vitest'
-import * as useActiveStepModule from '@/hooks/useActiveStep'
 import { queryOptions } from '@tanstack/react-query'
 import type { EServiceCreateContextProviderProps } from '../components/EServiceCreateContext'
 

@@ -29,9 +29,13 @@ vi.mock('@pagopa/interop-fe-commons', async () => {
   }
 })
 
-vi.mock('@mui/system', () => ({
-  Stack: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
-}))
+vi.mock('@mui/system', async () => {
+  const actual = await vi.importActual('@mui/system')
+  return {
+    ...(actual as Record<string, unknown>),
+    Stack: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
+  }
+})
 
 vi.mock('@pagopa/mui-italia', async () => {
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports

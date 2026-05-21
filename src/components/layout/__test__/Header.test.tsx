@@ -13,9 +13,10 @@ import { renderWithApplicationContext } from '@/utils/testing.utils'
 import * as useErrorData from '@/stores/error-data.store'
 import userEvent from '@testing-library/user-event'
 import { assistanceLink } from '@/config/constants'
-import { FE_LOGIN_URL, SELFCARE_BASE_URL, AVATAR_BASEPATH } from '@/config/env'
+import { SELFCARE_BASE_URL, AVATAR_BASEPATH } from '@/config/env'
 import type { Mock } from 'vitest'
-import type { PartySwitchItem } from '@pagopa/mui-italia/dist/components/PartySwitch'
+import type { PartySwitchItem } from '@pagopa/mui-italia/components/PartySwitch'
+import type * as ReactQuery from '@tanstack/react-query'
 
 // Functions and component mocks
 const mockTFunction = (key: string) => key
@@ -73,7 +74,7 @@ const mockHeaderProduct = (
 
 // useQuery mock
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  ...(await importOriginal<typeof ReactQuery>()),
   useQuery: vi.fn(),
 }))
 
