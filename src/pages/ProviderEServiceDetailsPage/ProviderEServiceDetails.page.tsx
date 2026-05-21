@@ -53,9 +53,9 @@ const ProviderEServiceDetailsPage: React.FC = () => {
       descriptor?.templateRef?.isNewTemplateVersionAvailable ?? false,
       isEserviceFromTemplate,
       descriptor?.delegation,
-      undefined,
+      descriptor?.eservice.personalData,
       'detailsPage',
-      undefined,
+      descriptor?.archivingSchedule,
       viewLatestVersionTargetId,
       openVersionSelectorDrawer
     )
