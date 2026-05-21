@@ -105,6 +105,7 @@ describe('ConsumerAgreementCreatePage', () => {
       eservice: {
         id: 'eservice-id',
         activeDescriptor: { state: 'PUBLISHED' },
+        asyncExchange: true,
       },
     }
 
@@ -144,53 +145,4 @@ describe('ConsumerAgreementCreatePage', () => {
     )
   })
 
-  it('should fetch the descriptor catalog with the agreement e-service and descriptor ids', async () => {
-    const { default: ConsumerAgreementCreatePage } = await import('../ConsumerAgreementCreate.page')
-
-    render(<ConsumerAgreementCreatePage />)
-
-    const descriptorQueryOptions = useQueryMock.mock.calls[1]?.[0]
-
-    expect(
-      typeof descriptorQueryOptions === 'object' &&
-        descriptorQueryOptions !== null &&
-        'queryKey' in descriptorQueryOptions &&
-        Array.isArray(descriptorQueryOptions.queryKey) &&
-        descriptorQueryOptions.queryKey[0] === 'EServiceGetDescriptorCatalog' &&
-        descriptorQueryOptions.queryKey[1] === 'eservice-id' &&
-        descriptorQueryOptions.queryKey[2] === 'descriptor-id' &&
-        'queryFn' in descriptorQueryOptions &&
-        typeof descriptorQueryOptions.queryFn === 'function' &&
-        (await descriptorQueryOptions.queryFn())
-    ).toEqual({ eservice: { asyncExchange: true } })
-    expect(getDescriptorCatalogQueryFnMock).toHaveBeenCalledWith('eservice-id', 'descriptor-id')
-  })
-
-  it('should not fetch the descriptor catalog without an agreement', async () => {
-    useQueryMock.mockImplementation((options: unknown) => {
-      if (
-        typeof options === 'object' &&
-        options !== null &&
-        'queryKey' in options &&
-        Array.isArray(options.queryKey) &&
-        options.queryKey[0] === 'AgreementGetSingle'
-      ) {
-        return { data: undefined }
-      }
-
-      return { data: undefined }
-    })
-    const { default: ConsumerAgreementCreatePage } = await import('../ConsumerAgreementCreate.page')
-
-    render(<ConsumerAgreementCreatePage />)
-
-    const descriptorQueryOptions = useQueryMock.mock.calls[1]?.[0]
-
-    expect(
-      typeof descriptorQueryOptions === 'object' &&
-        descriptorQueryOptions !== null &&
-        'enabled' in descriptorQueryOptions &&
-        descriptorQueryOptions.enabled
-    ).toBe(false)
-  })
 })
