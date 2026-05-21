@@ -23,6 +23,7 @@ import { EServiceInterfaceSection } from '../sections/EServiceInterfaceSection'
 import { EServiceVoucherSection } from '../sections/EServiceVoucherSection'
 import { EServiceProducerKeychainSection } from '../sections/EServiceProducerKeychainSection'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { EServiceAsyncExchangeSection } from '../sections/EServiceAsyncExchangeSection'
 
 type KeychainFieldArrayItem = { value: CompactProducerKeychain | null }
 
@@ -30,6 +31,13 @@ export type EServiceCreateStepTechSpecFormValues = {
   audience: string
   voucherLifespan: number
   keychains: KeychainFieldArrayItem[]
+  asyncExchangeProperties: {
+    responseTime: number | ''
+    resourceAvailableTime: number | ''
+    maxResultSet: number | ''
+    confirmation: boolean
+    bulk: boolean
+  }
 }
 
 export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
@@ -97,12 +105,35 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
       initialAssociatedKeychains.length > 0
         ? initialAssociatedKeychains.map((k) => ({ value: k }))
         : [{ value: null }],
+    asyncExchangeProperties: {
+      responseTime: descriptor?.asyncExchangeProperties?.responseTime ?? '',
+      resourceAvailableTime: descriptor?.asyncExchangeProperties?.resourceAvailableTime ?? '',
+      maxResultSet: descriptor?.asyncExchangeProperties?.maxResultSet ?? '',
+      confirmation: descriptor?.asyncExchangeProperties?.confirmation ?? false,
+      bulk: descriptor?.asyncExchangeProperties?.bulk ?? false,
+    },
   }
 
   const formMethods = useForm({ defaultValues })
+  const isAsyncExchange = descriptor?.eservice.asyncExchange === true
 
   const onSubmit: SubmitHandler<EServiceCreateStepTechSpecFormValues> = async (values) => {
     if (!descriptor) return
+    const { asyncExchangeProperties, ...restValues } = values
+
+    const hasValidAsyncProps =
+      asyncExchangeProperties.responseTime !== '' &&
+      asyncExchangeProperties.resourceAvailableTime !== '' &&
+      asyncExchangeProperties.maxResultSet !== ''
+
+    const asyncExchangeNumericPayload =
+      isAsyncExchange && hasValidAsyncProps
+        ? {
+            responseTime: Number(asyncExchangeProperties.responseTime),
+            resourceAvailableTime: Number(asyncExchangeProperties.resourceAvailableTime),
+            maxResultSet: Number(asyncExchangeProperties.maxResultSet),
+          }
+        : null
 
     if (isProducerKeychainSectionVisible && areEServiceGeneralInfoEditable) {
       const initialIds = initialAssociatedKeychains.map((k) => k.id)
@@ -147,9 +178,18 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
     }
 
     const newDescriptorData = {
-      ...values,
+      ...restValues,
       voucherLifespan: minutesToSeconds(values.voucherLifespan),
       audience: [values.audience],
+      ...(asyncExchangeNumericPayload
+        ? {
+            asyncExchangeProperties: {
+              ...asyncExchangeNumericPayload,
+              confirmation: asyncExchangeProperties.confirmation,
+              bulk: asyncExchangeProperties.bulk,
+            },
+          }
+        : {}),
     }
 
     // If nothing has changed skip the update call
@@ -170,13 +210,26 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
     }
 
     match(isEServiceCreatedFromTemplate)
-      .with(true, () => updateInstanceVersionDraft(commonPayload, { onSuccess: forward }))
+      .with(true, () =>
+        updateInstanceVersionDraft(
+          {
+            ...commonPayload,
+            ...(asyncExchangeNumericPayload
+              ? { asyncExchangeProperties: asyncExchangeNumericPayload }
+              : {}),
+          },
+          { onSuccess: forward }
+        )
+      )
       .with(false, () =>
         updateVersionDraft(
           {
             ...commonPayload,
             voucherLifespan: newDescriptorData.voucherLifespan,
             attributes: remapDescriptorAttributesToDescriptorAttributesSeed(descriptor.attributes),
+            ...(newDescriptorData.asyncExchangeProperties
+              ? { asyncExchangeProperties: newDescriptorData.asyncExchangeProperties }
+              : {}),
           },
           { onSuccess: forward }
         )
@@ -212,6 +265,12 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <EServiceVoucherSection isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate} />
         {isProducerKeychainSectionVisible && <EServiceProducerKeychainSection />}
+        {isAsyncExchange && (
+          <EServiceAsyncExchangeSection
+            areEServiceGeneralInfoEditable={areEServiceGeneralInfoEditable}
+            isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
+          />
+        )}
         <StepActions
           back={{
             label: t('backWithoutSaveBtn'),

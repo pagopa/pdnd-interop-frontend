@@ -349,6 +349,49 @@
         "readOnlyLabel": "Associated keychains",
         "noKeychainAlert": "You haven't created a keychain yet. We recommend doing so after publishing the e-service.",
         "apiRoleAlert": "Asynchronous exchanges require linking a keychain to the e-service. Only users with the administrator role can do this: ask to link one before or after publication to enable data exchange."
+      },
+      "asyncExchangeSection": {
+        "title": "Asynchronous and bulk exchanges",
+        "description": "Asynchronous and bulk exchanges require a callback interface that consumers will have to implement to receive your responses. Upload the OpenAPI file with the API description. <1>Learn more about asynchronous and bulk exchanges</1>.",
+        "editableInfoAlert": "These fields will no longer be editable after the publication of the first version of the e-service.",
+        "callbackInterface": {
+          "readOnlyLabel": "Callback interface",
+          "prettyName": "Callback interface",
+          "dropzoneLabel": "Drag the callback interface here or click here to select it from your computer"
+        },
+        "configSubsection": {
+          "title": "Exchange configuration"
+        },
+        "advancedSubsection": {
+          "title": "Advanced options"
+        },
+        "responseTimeField": {
+          "label": "Maximum response time (in seconds)",
+          "infoLabel": "Indicates how long your e-service takes to return a response after a call from consumers."
+        },
+        "maxResultSetField": {
+          "label": "Maximum number of results per response",
+          "infoLabel": "Indicates the maximum number of elements that each response can contain."
+        },
+        "resourceAvailableTimeField": {
+          "label": "Data availability duration (in seconds)",
+          "infoLabel": "Indicates how long the data is downloadable before being deleted."
+        },
+        "confirmationField": {
+          "label": "Require receipt confirmation",
+          "infoLabel": "The consumer will have to send a notification after downloading the file."
+        },
+        "bulkField": {
+          "label": "Allow chunked download",
+          "infoLabel": "The consumer can download large files in separate parts."
+        },
+        "readOnlyOptions": {
+          "true": "Yes",
+          "false": "No"
+        },
+        "validation": {
+          "integer": "This value must be an integer"
+        }
       }
     }
   },
@@ -545,8 +588,10 @@
     "alert": {
       "suspended": "This e-service version is discontinued. Until its reactivation, no consumer will be able to access the data provided through the API.",
       "deprecated": "This e-service version is obsolete but still active. It will be automatically discontinued by PDND Interoperabilità when the last agreement on this version is archived.",
-      "missingProducerKeychain": "Associate a keychain with this e-service to enable data exchange.",
-      "missingProducerKeychainKeys": "Add at least one key to the keychain linked to this e-service to enable data exchange."
+      "missingProducerKeychain": "The producer has not linked the keychain to this async e-service yet. Data exchange is currently unavailable.",
+      "missingProducerKeychainKeys": "The producer has not linked any keys to this async e-service keychain yet. Data exchange is currently unavailable.",
+      "providerMissingProducerKeychain": "Associate a keychain with this e-service to enable data exchange.",
+      "providerMissingProducerKeychainKeys": "Add at least one key to the keychain linked to this e-service to enable data exchange."
     },
     "actions": {
       "backToListLabel": "Back to the e-services",
@@ -613,6 +658,13 @@
         "description": "In this section you can check the specifications of the e-service and make changes.",
         "technology": "Technology",
         "audience": "Audience",
+        "exchangeType": {
+          "label": "Exchange type",
+          "value": {
+            "sync": "Synchronous",
+            "async": "Asynchronous"
+          }
+        },
         "eserviceId": {
           "label": "E-service ID",
           "copySuccessFeedbackText": "E-service ID copied successfully"
@@ -664,6 +716,30 @@
           "title": "Documentation",
           "label": "Documents list",
           "interfaceChecksum": "Interface file checksum"
+        },
+        "callbackInterface": {
+          "label": "Callback interface"
+        },
+        "asyncExchange": {
+          "responseTime": {
+            "label": "Maximum callback time"
+          },
+          "resourceAvailableTime": {
+            "label": "Resource availability time"
+          },
+          "confirmation": {
+            "label": "Require receipt acknowledgement"
+          },
+          "bulk": {
+            "label": "Enable bulk download"
+          },
+          "maxResultSet": {
+            "label": "Maximum entities per response"
+          },
+          "booleanValue": {
+            "true": "Yes",
+            "false": "No"
+          }
         },
         "usefulLinks": {
           "title": "Useful links",

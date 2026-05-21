@@ -65,6 +65,19 @@ vi.mock('../../sections/EServiceProducerKeychainSection', () => ({
   },
 }))
 
+vi.mock('../../sections/EServiceAsyncExchangeSection', () => ({
+  EServiceAsyncExchangeSection: ({
+    isEServiceCreatedFromTemplate,
+  }: {
+    isEServiceCreatedFromTemplate?: boolean
+  }) => (
+    <div>
+      EServiceAsyncExchangeSection
+      {isEServiceCreatedFromTemplate ? '-template' : ''}
+    </div>
+  ),
+}))
+
 const updateVersionDraft = vi.fn()
 const updateInstanceVersionDraft = vi.fn()
 const addKeychainToEService = vi.fn().mockResolvedValue(undefined)
@@ -196,13 +209,23 @@ describe('EServiceCreateStepTechSpec', () => {
     expect(await screen.findByText('EServiceProducerKeychainSection')).toBeInTheDocument()
   })
 
-  it('should NOT render the producer keychain section when e-service is not async', () => {
+  it('should render neither the producer keychain section nor the async exchange section when asyncExchange is false', () => {
     mockUseEServiceCreateContext({ descriptor: createMockEServiceDescriptorProvider() })
     renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
     expect(screen.queryByText('EServiceProducerKeychainSection')).not.toBeInTheDocument()
+    expect(screen.queryByText('EServiceAsyncExchangeSection')).not.toBeInTheDocument()
+  })
+
+  it('should render the async exchange section when asyncExchange is true', async () => {
+    mockUseEServiceCreateContext({ descriptor: createMockEServiceDescriptorProviderAsync() })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+    expect(await screen.findByText('EServiceAsyncExchangeSection')).toBeInTheDocument()
   })
 
   it('should NOT call keychain mutations on submit when e-service is not editable (version > 1)', async () => {
@@ -297,7 +320,6 @@ describe('EServiceCreateStepTechSpec', () => {
 
     await screen.findByTestId('keychain-row-k1')
 
-    // Add k3 (no removals → no confirmation dialog needed).
     await userEvent.click(screen.getByRole('button', { name: 'add-k3' }))
     await userEvent.click(screen.getByText('forwardWithSaveBtn'))
 
@@ -309,13 +331,11 @@ describe('EServiceCreateStepTechSpec', () => {
     expect(forward).not.toHaveBeenCalled()
   })
 
-  it('should NOT render the producer keychain section in template instance flow even if async', () => {
-    const baseAsync = createMockEServiceDescriptorProviderAsync()
-    const withTemplate = createMockEServiceDescriptorProviderWithTemplateRef()
+  it('template-instance flow with asyncExchange should render the async exchange section but NOT the producer keychain section', () => {
     mockUseEServiceCreateContext({
       descriptor: {
-        ...baseAsync,
-        templateRef: withTemplate.templateRef,
+        ...createMockEServiceDescriptorProviderAsync(),
+        templateRef: createMockEServiceDescriptorProviderWithTemplateRef().templateRef,
       },
     })
     renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
@@ -323,5 +343,51 @@ describe('EServiceCreateStepTechSpec', () => {
       withRouterContext: true,
     })
     expect(screen.queryByText('EServiceProducerKeychainSection')).not.toBeInTheDocument()
+    expect(screen.getByText(/EServiceAsyncExchangeSection-template/)).toBeInTheDocument()
+  })
+
+  it('should not include asyncExchangeProperties in payload when numeric fields are empty', async () => {
+    mockUseEServiceCreateContext({
+      descriptor: {
+        ...createMockEServiceDescriptorProviderAsync(),
+        asyncExchangeProperties: undefined,
+      },
+    })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await userEvent.type(await screen.findByTestId('voucher-lifespan'), '2')
+    await userEvent.click(screen.getByText('forwardWithSaveBtn'))
+
+    expect(updateVersionDraft).toHaveBeenCalledWith(
+      expect.not.objectContaining({ asyncExchangeProperties: expect.anything() }),
+      expect.any(Object)
+    )
+  })
+
+  it('should include asyncExchangeProperties in payload when asyncExchange is true', async () => {
+    mockUseEServiceCreateContext({ descriptor: createMockEServiceDescriptorProviderAsync() })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await userEvent.type(await screen.findByTestId('voucher-lifespan'), '2')
+    await userEvent.click(screen.getByText('forwardWithSaveBtn'))
+
+    expect(updateVersionDraft).toHaveBeenCalledWith(
+      expect.objectContaining({
+        asyncExchangeProperties: expect.objectContaining({
+          responseTime: expect.any(Number),
+          resourceAvailableTime: expect.any(Number),
+          maxResultSet: expect.any(Number),
+          confirmation: expect.any(Boolean),
+          bulk: expect.any(Boolean),
+        }),
+      }),
+      expect.any(Object)
+    )
   })
 })

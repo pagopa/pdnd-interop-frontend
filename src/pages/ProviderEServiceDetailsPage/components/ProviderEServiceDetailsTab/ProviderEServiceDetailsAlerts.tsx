@@ -28,10 +28,10 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
       {isSuspended && <Alert severity="error">{t('suspended')}</Alert>}
       {isDeprecated && <Alert severity="info">{t('deprecated')}</Alert>}
       {shouldShowMissingKeychainAlert && (
-        <Alert severity="warning">{t('missingProducerKeychain')}</Alert>
+        <Alert severity="warning">{t('providerMissingProducerKeychain')}</Alert>
       )}
       {shouldShowMissingKeychainKeysAlert && (
-        <Alert severity="warning">{t('missingProducerKeychainKeys')}</Alert>
+        <Alert severity="warning">{t('providerMissingProducerKeychainKeys')}</Alert>
       )}
     </Stack>
   )
