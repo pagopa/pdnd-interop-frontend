@@ -22,6 +22,7 @@ import {
 import { useSearchParams } from 'react-router-dom'
 import type { InteractionType } from '../VoucherInstructionsGeneralForm'
 import { INTERACTION_TYPE } from '../VoucherInstructionsGeneralForm'
+import { DPoPAssertionHeader } from '../DPoPAssertionHeader'
 
 export const VoucherInstructionsFirstDPoPProofStep: React.FC = () => {
   const { t } = useTranslation('voucher')
@@ -48,37 +49,7 @@ export const VoucherInstructionsFirstDPoPProofStep: React.FC = () => {
       title={t('firstDPoPProofStep.title')}
       description={<>{t('firstDPoPProofStep.description')}</>}
     >
-      <SectionContainer variant="outlined" title={t('firstDPoPProofStep.assertionHeader.title')}>
-        <Grid container columnSpacing={4.5} rowSpacing={3}>
-          <VerticalInformationContainer
-            label={t('firstDPoPProofStep.assertionHeader.typField.label')}
-            labelDescription={t('firstDPoPProofStep.assertionHeader.typField.description')}
-            content={CLIENT_ASSERTION_TYP}
-            copyToClipboard={{
-              value: CLIENT_ASSERTION_TYP,
-              tooltipTitle: t(
-                'firstDPoPProofStep.assertionHeader.typField.copySuccessFeedbackText'
-              ),
-            }}
-          />
-          <VerticalInformationContainer
-            label={t('firstDPoPProofStep.assertionHeader.algField.label')}
-            labelDescription={t('firstDPoPProofStep.assertionHeader.algField.description')}
-            content={CLIENT_ASSERTION_ALG}
-            copyToClipboard={{
-              value: CLIENT_ASSERTION_ALG,
-              tooltipTitle: t(
-                'firstDPoPProofStep.assertionHeader.algField.copySuccessFeedbackText'
-              ),
-            }}
-          />
-          <VerticalInformationContainer
-            label={t('firstDPoPProofStep.assertionHeader.jwkField.label')}
-            labelDescription={t('firstDPoPProofStep.assertionHeader.jwkField.description')}
-            content={t('firstDPoPProofStep.assertionHeader.jwkField.suggestionLabel')}
-          />
-        </Grid>
-      </SectionContainer>
+      <DPoPAssertionHeader keyPrefix="firstDPoPProofStep" />
       <SectionContainer variant="outlined" title={t('firstDPoPProofStep.assertionPayload.title')}>
         <Grid container columnSpacing={4.5} rowSpacing={3}>
           <VerticalInformationContainer
@@ -122,8 +93,8 @@ export const VoucherInstructionsFirstDPoPProofStep: React.FC = () => {
         substitutions={{
           INSERISCI_VALORE_ALG: CLIENT_ASSERTION_ALG,
           INSERISCI_VALORE_TYP: CLIENT_ASSERTION_TYP,
-          INSERISCI_VALORE_HTM: CLIENT_ASSERTION_HTM,
-          INSERISCI_VALORE_HTU: authEndpointUrl,
+          METHOD_API_INVOCATA: CLIENT_ASSERTION_HTM,
+          PATH_API_INVOCATA: authEndpointUrl,
         }}
       />
       <StepActions

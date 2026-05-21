@@ -218,7 +218,84 @@
   "secondDPoPProofStep": {
     "stepperLabel": "Seconda DPoP",
     "title": "Genera la seconda DPoP",
-    "description": "Ora che il server autorizzativo di PDND ti ha rilasciato un token, generane l’hash ed inseriscilo nella seconda DPoP."
+    "description": "Ora che il server autorizzativo di PDND ti ha rilasciato un token, generane l’hash ed inseriscilo nella seconda DPoP.",
+    "assertionHeader": {
+      "title": "Header",
+      "typField": {
+        "label": "TYP (Type)",
+        "description": "Il tipo di oggetto che si sta inviando, in questo caso, un JWT.",
+        "copySuccessFeedbackText": "Testo copiato correttamente"
+      },
+      "algField": {
+        "label": "ALG (Algorithm)",
+        "description": "L’algoritmo usato per firmare questo JWT. Si può firmare solo con RS256",
+        "copySuccessFeedbackText": "Testo copiato correttamente"
+      },
+      "jwkField": {
+        "label": "JWK (chiave pubblica)",
+        "description": "La chiave pubblica in formato JWK corrispondente alla chiave privata utilizzata per firmare la DPoP",
+        "suggestionLabel": "Genera tu questo parametro.\nIl codice inizia per \"ey\""
+      }
+    },
+    "assertionPayload": {
+      "title": "Payload",
+      "htmField": {
+        "label": "HTM",
+        "description": "Indica il metodo HTTP che si vuole invocare verso la risorsa"
+      },
+      "htuField": {
+        "label": "HTU",
+        "description": "L'URL della risorsa che si vuole invocare"
+      },
+      "alert": "Trovi le informazioni sui parametri HTM e HTU all’interno dell’interfaccia OpenAPI dell’e-service.",
+      "athField": {
+        "label": "ATH",
+        "description": "L’hash del voucher rilasciato da PDND nello step precedente.",
+        "suggestionLabel": "Genera tu questo parametro calcolando l’hash del voucher ricevuto da PDND nello step precedente.\nEsempio: 5ubMEMN4EjM0z2SnZRhCKzxJZFlcsrEhz1bVRTzfkZU="
+      },
+      "jtiField": {
+        "label": "JTI (Identificativo univoco)",
+        "description": "Un id unico (UUID) della DPoP. Serve per identificare il token stesso",
+        "suggestionLabel": "Genera tu questo parametro. \nEsempio: 261cd445-3da6-421b-9ef4-7ba556efda5f"
+      },
+      "iatField": {
+        "label": "IAT (Data e ora di creazione)",
+        "description": "Issued at, il timestamp riportante data e ora in cui viene creato il token, espresso in UNIX epoch (valore numerico, non stringa)",
+        "suggestionLabel": "Genera tu questo parametro.\nEsempio: 1651659340"
+      }
+    },
+    "assertionScript": {
+      "title": "Esempio di generazione da terminale",
+      "steps": {
+        "1": "Nella cartella \"client_assertion_test\" precedentemente creata incolla lo script <1>{{ filename }}</1> (è richiesto Python 3.8)",
+        "2": "Riapri il terminale ed incolla il comando presente sotto.",
+        "3": "Sostituisci il valore ACCESS_TOKEN con il JWT che il server autorizzativo di PDND ti ha restituito nello step precedente. Servirà per calcolarne il parametro ATH che verrà inserito nella seconda DPoP Proof.",
+        "4": "Utilizza lo stesso path e la stessa chiave privata utilizzata per la prima DPoP Proof. I path HTM e HTU sono precompilati sulla base dei dati inseriti in precedenza.",
+        "5": "Invia il comando.",
+        "result": "6. Otterrai una client assertion firmata con la tua chiave privata. Salva questo dato per lo step successivo."
+      },
+      "exampleLabel": "Esempio di utilizzo"
+    },
+    "exampleRequest": {
+      "title": {
+        "eservice": "Esempio di richiesta verso l'erogatore",
+        "pdnd": "Esempio di richiesta verso PDND"
+      },
+      "description": "Se il token è valido, utilizzalo verso l’API dell’erogatore prima che scada.",
+      "alert": {
+        "title": "Script di esempio. L’erogatore potrebbe necessitare di altri parametri nella richiesta. Prima di procedere, controlla la documentazione dell’erogatore.",
+        "actionLabel": "Visualizza e-service"
+      }
+    },
+    "pdndInteroperability": {
+      "title": "PDND Interoperabilità",
+      "description": "L’API che permette agli aderenti di interagire con PDND Interoperabilità in modalità machine to machine",
+      "actionLabel": "Consulta",
+      "apiV3": {
+        "title": "API v3",
+        "description": "API che permette di automatizzare le operazioni di lettura e scrittura relative a PDND Interoperabilità con elevato livello di sicurezza."
+      }
+    }
   },
   "clientAssertionStep": {
     "stepperLabel": "Genera client assertion",
