@@ -274,7 +274,7 @@ describe('ProviderEServiceSummaryPage', () => {
       )
     })
 
-    it('navigates with firstVersionAsync state when publishing async first version (PIN-10031)', async () => {
+    it('navigates with firstVersionAsync state when publishing async first version', async () => {
       await setupAndPublish(
         createMockEServiceDescriptorProvider({ version: '1', eservice: { asyncExchange: true } })
       )
@@ -304,7 +304,7 @@ describe('ProviderEServiceSummaryPage', () => {
       )
     })
 
-    it('navigates with newVersionAsync state when publishing async new version (PIN-10035)', async () => {
+    it('navigates with newVersionAsync state when publishing async new version', async () => {
       await setupAndPublish(
         createMockEServiceDescriptorProvider({ eservice: { asyncExchange: true } })
       )
