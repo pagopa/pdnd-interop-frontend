@@ -77,18 +77,29 @@
       }
     },
     "step2": {
-      "detailsTitle": "E-service suggeriti per questo template",
-      "detailsDescription": "Ci sono e-service per cui pensi che questo template sia particolarmente adatto? Selezionali qui. Potrai associare gli e-service anche dopo la pubblicazione.",
-      "addBtn": "Aggiungi e-service",
+      "detailsTitle": "E-service e template e-service suggeriti per questo template",
+      "detailsDescription": "Ci sono e-service o template e-service per cui pensi che questo template sia particolarmente adatto? Selezionali qui. Potrai associarli anche dopo la pubblicazione.",
+      "addBtn": "Aggiungi elemento",
       "editLinkedEservices": "Aggiorna elenco",
+      "editLinkedResources": "Aggiorna elenco",
       "saveBtn": "Salva",
       "eserviceSelectionSubtitle": "Puoi inserire e-service che hanno un trattamento dei dati personali analogo a quanto hai indicato.",
+      "removeResourceAriaLabel": "Rimuovi {{name}}",
       "autocompleteInput": {
-        "label": "E-service da associare"
+        "label": "E-service o template e-service da associare"
+      },
+      "options": {
+        "eservice": "{{name}} (e-service di {{publisher}})",
+        "eserviceTemplate": "{{name}} (template di {{publisher}})"
+      },
+      "warning": {
+        "invalidResource": "Almeno uno degli elementi collegati non è più disponibile per essere associato."
       },
       "notifications": {
         "eserviceLinkError": "Non è stato possibile salvare questo e-service. Per favore riprova!",
-        "eserviceLinkSuccess": "L'e-service è stato salvato correttamente."
+        "eserviceLinkSuccess": "L'e-service è stato salvato correttamente.",
+        "resourceLinkError": "Non è stato possibile collegare l'elemento. Per favore riprova!",
+        "resourceLinkSuccess": "L'elemento è stato collegato correttamente."
       }
     },
     "step3": {
@@ -164,6 +175,15 @@
         "subtitle": "E-service collegati",
         "providedBy": "erogato da",
         "noLinkedEservices": "Non hai indicato e-service associati a questo template."
+      },
+      "suggestedResourcesSection": {
+        "title": "E-service e template e-service suggeriti",
+        "subtitle": "E-service e template e-service collegati",
+        "providedBy": {
+          "eservice": "(e-service erogato da {{publisher}})",
+          "eserviceTemplate": "(template e-service realizzato da {{publisher}})"
+        },
+        "noLinkedResources": "Non hai indicato e-service o template e-service associati a questo template."
       },
       "riskAnalysisSection": {
         "title": "Analisi del rischio"

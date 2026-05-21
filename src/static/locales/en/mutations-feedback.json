@@ -1151,6 +1151,20 @@
         "error": "It was not possible to unassociate this e-service. Please try again!"
       }
     },
+    "linkResource": {
+      "loading": "Linking the item to the template",
+      "outcome": {
+        "success": "The item has been linked successfully.",
+        "error": "It was not possible to link this item. Please try again!"
+      }
+    },
+    "unlinkResource": {
+      "loading": "Unlinking the item from the template",
+      "outcome": {
+        "success": "The item has been unlinked successfully.",
+        "error": "It was not possible to unlink this item. Please try again!"
+      }
+    },
     "downloadRiskAnalysis": {
       "loading": "Risk analysis document is being downloaded",
       "outcome": {

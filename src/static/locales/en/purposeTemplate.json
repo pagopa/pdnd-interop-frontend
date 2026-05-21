@@ -77,18 +77,29 @@
       }
     },
     "step2": {
-      "detailsTitle": "Suggested e-services for this purpose template",
-      "detailsDescription": "Are there any e-services that you think this template is particularly suitable for? Select them here. You can also associate e-services after publication.",
-      "addBtn": "Add e-service",
+      "detailsTitle": "Suggested e-services and e-service templates for this purpose template",
+      "detailsDescription": "Are there any e-services or e-service templates that you think this template is particularly suitable for? Select them here. You can also associate them after publication.",
+      "addBtn": "Add item",
       "editLinkedEservices": "Update list",
+      "editLinkedResources": "Update list",
       "saveBtn": "Save",
       "eserviceSelectionSubtitle": "You can insert e-services that have personal data processing similar to what you indicated.",
+      "removeResourceAriaLabel": "Remove {{name}}",
       "autocompleteInput": {
-        "label": "E-service to associate"
+        "label": "E-service or e-service template to associate"
+      },
+      "options": {
+        "eservice": "{{name}} (e-service by {{publisher}})",
+        "eserviceTemplate": "{{name}} (template by {{publisher}})"
+      },
+      "warning": {
+        "invalidResource": "At least one of the linked items is no longer available to be associated."
       },
       "notifications": {
         "eserviceLinkError": "It was not possible to save this e-service. Please try again!",
-        "eserviceLinkSuccess": "The e-service was saved successfully."
+        "eserviceLinkSuccess": "The e-service was saved successfully.",
+        "resourceLinkError": "It was not possible to link this item. Please try again!",
+        "resourceLinkSuccess": "The item was linked successfully."
       }
     },
     "step3": {
@@ -164,6 +175,15 @@
         "subtitle": "Linked e-services",
         "providedBy": "Provided by",
         "noLinkedEservices": "You have not specified e-services associated with this template."
+      },
+      "suggestedResourcesSection": {
+        "title": "Suggested e-services and e-service templates",
+        "subtitle": "Linked e-services and e-service templates",
+        "providedBy": {
+          "eservice": "(e-service provided by {{publisher}})",
+          "eserviceTemplate": "(e-service template created by {{publisher}})"
+        },
+        "noLinkedResources": "You have not linked any e-services or e-service templates to this template."
       },
       "riskAnalysisSection": {
         "title": "Risk analysis"

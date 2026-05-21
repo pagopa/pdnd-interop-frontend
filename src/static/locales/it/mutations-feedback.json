@@ -1151,6 +1151,20 @@
         "error": "Non è stato possibile rimuovere questo e-service. Per favore riprova!"
       }
     },
+    "linkResource": {
+      "loading": "Stiamo collegando l'elemento al template",
+      "outcome": {
+        "success": "L'elemento è stato collegato correttamente.",
+        "error": "Non è stato possibile collegare l'elemento. Per favore, riprova!"
+      }
+    },
+    "unlinkResource": {
+      "loading": "Stiamo scollegando l'elemento dal template",
+      "outcome": {
+        "success": "L'elemento è stato scollegato correttamente.",
+        "error": "Non è stato possibile scollegare l'elemento. Per favore, riprova!"
+      }
+    },
     "downloadRiskAnalysis": {
       "loading": "Stiamo scaricando il documento dell'analisi del rischio",
       "outcome": {
