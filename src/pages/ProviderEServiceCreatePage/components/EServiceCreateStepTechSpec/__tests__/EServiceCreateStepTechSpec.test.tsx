@@ -1,7 +1,7 @@
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { screen } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import { EServiceCreateStepTechSpec } from '../EServiceCreateStepTechSpec'
-import { useFormContext } from 'react-hook-form'
+import { useFieldArray, useFormContext } from 'react-hook-form'
 import userEvent from '@testing-library/user-event'
 import type { Mock } from 'vitest'
 import { KeychainQueries } from '@/api/keychain'
@@ -33,7 +33,36 @@ vi.mock('../../sections/EServiceVoucherSection', () => ({
 }))
 
 vi.mock('../../sections/EServiceProducerKeychainSection', () => ({
-  EServiceProducerKeychainSection: () => <div>EServiceProducerKeychainSection</div>,
+  EServiceProducerKeychainSection: () => {
+    const { control } = useFormContext()
+    const { fields, append, remove } = useFieldArray({ control, name: 'keychains' })
+
+    return (
+      <div>
+        <div>EServiceProducerKeychainSection</div>
+        <ul data-testid="keychain-list">
+          {fields.map((field, index) => {
+            const value = (field as unknown as { value: { id: string; name: string } | null })
+              .value
+            return (
+              <li key={field.id} data-testid={`keychain-row-${value?.id ?? 'empty'}`}>
+                <span>{value?.name ?? 'empty'}</span>
+                <button type="button" onClick={() => remove(index)}>
+                  remove-{value?.id ?? 'empty'}
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+        <button
+          type="button"
+          onClick={() => append({ value: { id: 'k3', name: 'Keychain 3', hasKeys: false } })}
+        >
+          add-k3
+        </button>
+      </div>
+    )
+  },
 }))
 
 const updateVersionDraft = vi.fn()
@@ -190,6 +219,94 @@ describe('EServiceCreateStepTechSpec', () => {
 
     expect(addKeychainToEService).not.toHaveBeenCalled()
     expect(removeKeychainFromEService).not.toHaveBeenCalled()
+  })
+
+  it('should call add/remove keychain mutations for the diff and then forward on success', async () => {
+    ;(KeychainQueries.getKeychainsList as Mock).mockImplementationOnce(
+      (params: { eserviceId?: string }) => ({
+        queryKey: ['KeychainGetList', params],
+        queryFn: () =>
+          Promise.resolve({
+            results: [
+              { id: 'k1', name: 'Keychain 1', hasKeys: false },
+              { id: 'k2', name: 'Keychain 2', hasKeys: false },
+            ],
+            pagination: { offset: 0, limit: 50, totalCount: 2 },
+          }),
+      })
+    )
+
+    const forward = vi.fn()
+    const descriptor = createMockEServiceDescriptorProviderAsync()
+    mockUseEServiceCreateContext({ descriptor, forward })
+
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    // Wait for the initial associated keychains to load and the form to render.
+    await screen.findByTestId('keychain-row-k1')
+    await screen.findByTestId('keychain-row-k2')
+
+    // Remove k2 and add k3.
+    await userEvent.click(screen.getByRole('button', { name: 'remove-k2' }))
+    await userEvent.click(screen.getByRole('button', { name: 'add-k3' }))
+
+    await userEvent.click(screen.getByText('forwardWithSaveBtn'))
+
+    await waitFor(() => {
+      expect(addKeychainToEService).toHaveBeenCalledWith({
+        keychainId: 'k3',
+        eserviceId: descriptor.eservice.id,
+      })
+    })
+    expect(removeKeychainFromEService).toHaveBeenCalledWith({
+      keychainId: 'k2',
+      eserviceId: descriptor.eservice.id,
+    })
+    // No leftover unintended add calls.
+    expect(addKeychainToEService).toHaveBeenCalledTimes(1)
+    expect(removeKeychainFromEService).toHaveBeenCalledTimes(1)
+    // After a successful diff, the descriptor update is attempted (here no other field changed,
+    // so forward fires directly).
+    await waitFor(() => expect(forward).toHaveBeenCalled())
+  })
+
+  it('should NOT navigate forward when any keychain mutation rejects', async () => {
+    ;(KeychainQueries.getKeychainsList as Mock).mockImplementationOnce(
+      (params: { eserviceId?: string }) => ({
+        queryKey: ['KeychainGetList', params],
+        queryFn: () =>
+          Promise.resolve({
+            results: [{ id: 'k1', name: 'Keychain 1', hasKeys: false }],
+            pagination: { offset: 0, limit: 50, totalCount: 1 },
+          }),
+      })
+    )
+    addKeychainToEService.mockRejectedValueOnce(new Error('boom'))
+
+    const forward = vi.fn()
+    const descriptor = createMockEServiceDescriptorProviderAsync()
+    mockUseEServiceCreateContext({ descriptor, forward })
+
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await screen.findByTestId('keychain-row-k1')
+
+    // Add k3 (no removals → no confirmation dialog needed).
+    await userEvent.click(screen.getByRole('button', { name: 'add-k3' }))
+    await userEvent.click(screen.getByText('forwardWithSaveBtn'))
+
+    await waitFor(() => expect(addKeychainToEService).toHaveBeenCalled())
+
+    // Submission must short-circuit: descriptor update and forward are not invoked.
+    expect(updateVersionDraft).not.toHaveBeenCalled()
+    expect(updateInstanceVersionDraft).not.toHaveBeenCalled()
+    expect(forward).not.toHaveBeenCalled()
   })
 
   it('should NOT render the producer keychain section in template instance flow even if async', () => {
