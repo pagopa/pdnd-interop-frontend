@@ -51,6 +51,7 @@ const createMockDescriptorAttribute = createMockFactory<DescriptorAttribute>({
   name: 'Attribute Name',
   description: 'Attribute description',
   explicitAttributeVerification: true,
+  kind: 'CERTIFIED',
 })
 
 export {

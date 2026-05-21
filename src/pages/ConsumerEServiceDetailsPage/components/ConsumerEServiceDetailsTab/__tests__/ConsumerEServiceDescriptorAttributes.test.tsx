@@ -54,8 +54,16 @@ vi.mock('@/api/attribute', () => ({
 }))
 
 const certifiedAttr = createMockDescriptorAttribute({ id: 'cert-attr-1', name: 'Cert Attr' })
-const verifiedAttr = createMockDescriptorAttribute({ id: 'ver-attr-1', name: 'Ver Attr' })
-const declaredAttr = createMockDescriptorAttribute({ id: 'decl-attr-1', name: 'Decl Attr' })
+const verifiedAttr = createMockDescriptorAttribute({
+  id: 'ver-attr-1',
+  name: 'Ver Attr',
+  kind: 'VERIFIED',
+})
+const declaredAttr = createMockDescriptorAttribute({
+  id: 'decl-attr-1',
+  name: 'Decl Attr',
+  kind: 'DECLARED',
+})
 
 const baseDescriptor = {
   id: 'descriptor-id-001',

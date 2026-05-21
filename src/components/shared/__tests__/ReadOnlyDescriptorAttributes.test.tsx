@@ -95,7 +95,7 @@ describe('ReadOnlyDescriptorAttributes', () => {
 
     it('should show warning (yellow) for unfulfilled verified attributes', () => {
       const descriptorAttributes = createDescriptorAttributes({
-        verified: [[createMockDescriptorAttribute({ id: 'attr-1' })]],
+        verified: [[createMockDescriptorAttribute({ id: 'attr-1', kind: 'VERIFIED' })]],
       })
       const ownershipData = createOwnershipData({
         verified: [],
@@ -108,7 +108,7 @@ describe('ReadOnlyDescriptorAttributes', () => {
 
     it('should show warning (yellow) for unfulfilled declared attributes', () => {
       const descriptorAttributes = createDescriptorAttributes({
-        declared: [[createMockDescriptorAttribute({ id: 'attr-1' })]],
+        declared: [[createMockDescriptorAttribute({ id: 'attr-1', kind: 'DECLARED' })]],
       })
       const ownershipData = createOwnershipData({
         declared: [],
@@ -139,8 +139,8 @@ describe('ReadOnlyDescriptorAttributes', () => {
     it('should hide fulfillment status for non-blocking groups when a certified group is unfulfilled', () => {
       const descriptorAttributes = createDescriptorAttributes({
         certified: [[createMockDescriptorAttribute({ id: 'cert-attr-1' })]],
-        verified: [[createMockDescriptorAttribute({ id: 'ver-attr-1' })]],
-        declared: [[createMockDescriptorAttribute({ id: 'decl-attr-1' })]],
+        verified: [[createMockDescriptorAttribute({ id: 'ver-attr-1', kind: 'VERIFIED' })]],
+        declared: [[createMockDescriptorAttribute({ id: 'decl-attr-1', kind: 'DECLARED' })]],
       })
       const ownershipData = createOwnershipData({
         certified: [], // unfulfilled → error (blocking)
@@ -170,7 +170,7 @@ describe('ReadOnlyDescriptorAttributes', () => {
     it('should show fulfillment status when all certified groups are fulfilled', () => {
       const descriptorAttributes = createDescriptorAttributes({
         certified: [[createMockDescriptorAttribute({ id: 'cert-attr-1' })]],
-        verified: [[createMockDescriptorAttribute({ id: 'ver-attr-1' })]],
+        verified: [[createMockDescriptorAttribute({ id: 'ver-attr-1', kind: 'VERIFIED' })]],
       })
       const ownershipData = createOwnershipData({
         certified: [
@@ -194,7 +194,7 @@ describe('ReadOnlyDescriptorAttributes', () => {
     it('should hide checkmarks for non-blocking groups when there is a blocking attribute', () => {
       const descriptorAttributes = createDescriptorAttributes({
         certified: [[createMockDescriptorAttribute({ id: 'cert-attr-1' })]],
-        verified: [[createMockDescriptorAttribute({ id: 'ver-attr-1' })]],
+        verified: [[createMockDescriptorAttribute({ id: 'ver-attr-1', kind: 'VERIFIED' })]],
       })
       const ownershipData = createOwnershipData({
         certified: [], // unfulfilled → blocking attribute
@@ -218,7 +218,7 @@ describe('ReadOnlyDescriptorAttributes', () => {
   describe('verified attributes can never be red', () => {
     it('should show warning, not error, for unfulfilled verified attributes', () => {
       const descriptorAttributes = createDescriptorAttributes({
-        verified: [[createMockDescriptorAttribute({ id: 'attr-1' })]],
+        verified: [[createMockDescriptorAttribute({ id: 'attr-1', kind: 'VERIFIED' })]],
       })
       const ownershipData = createOwnershipData({
         verified: [],
@@ -234,7 +234,7 @@ describe('ReadOnlyDescriptorAttributes', () => {
   describe('declared attributes can never be red', () => {
     it('should show warning, not error, for unfulfilled declared attributes', () => {
       const descriptorAttributes = createDescriptorAttributes({
-        declared: [[createMockDescriptorAttribute({ id: 'attr-1' })]],
+        declared: [[createMockDescriptorAttribute({ id: 'attr-1', kind: 'DECLARED' })]],
       })
       const ownershipData = createOwnershipData({
         declared: [],

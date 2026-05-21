@@ -168,6 +168,7 @@ const createMockAgreement = createMockFactory<Agreement>({
           ],
         },
       ],
+      certifiedDiscrete: [],
     },
     contactMail: { address: 'ciao3@test.com' },
     createdAt: '2022-10-20T08:47:23.69Z',
@@ -253,6 +254,7 @@ const createMockAgreement = createMockFactory<Agreement>({
   ],
   isContractPresent: true,
   isDocumentReady: false,
+  certifiedDiscreteAttributes: [],
 })
 
 const createMockAgreementListingItem = createMockFactory<AgreementListEntry>({
