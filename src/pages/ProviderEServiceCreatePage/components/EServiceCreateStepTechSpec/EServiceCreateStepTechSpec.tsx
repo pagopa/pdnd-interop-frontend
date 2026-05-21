@@ -136,7 +136,18 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
         : null
 
     if (isProducerKeychainSectionVisible && areEServiceGeneralInfoEditable) {
-      const initialIds = initialAssociatedKeychains.map((k) => k.id)
+      const keychainsListQuery = KeychainQueries.getKeychainsList({
+        eserviceId: descriptor.eservice.id,
+        limit: 50,
+        offset: 0,
+      })
+
+      const currentAssociatedKeychains =
+        queryClient.getQueryData<{ results: CompactProducerKeychain[] }>(
+          keychainsListQuery.queryKey
+        )?.results ?? initialAssociatedKeychains
+
+      const initialIds = currentAssociatedKeychains.map((k) => k.id)
       const finalIds = values.keychains
         .map((row) => row.value?.id)
         .filter((id): id is string => Boolean(id))
@@ -155,13 +166,7 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
 
       const hasFailures = results.some((r) => r.status === 'rejected')
       if (hasFailures) {
-        const refetched = await queryClient.fetchQuery({
-          ...KeychainQueries.getKeychainsList({
-            eserviceId: descriptor.eservice.id,
-            limit: 50,
-            offset: 0,
-          }),
-        })
+        const refetched = await queryClient.fetchQuery(keychainsListQuery)
         const refreshedKeychains = refetched.results
         formMethods.reset(
           {
