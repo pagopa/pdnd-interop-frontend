@@ -21,16 +21,15 @@ import { trackEvent } from '@/config/tracking'
 import { match } from 'ts-pattern'
 import { EServiceInterfaceSection } from '../sections/EServiceInterfaceSection'
 import { EServiceVoucherSection } from '../sections/EServiceVoucherSection'
-import { EServiceProducerKeychainSection } from '../sections/EServiceProducerKeychainSection'
+import { EServiceProducerKeychainSection, ProducerKeychainFieldArrayItem } from '../sections/EServiceProducerKeychainSection'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { EServiceAsyncExchangeSection } from '../sections/EServiceAsyncExchangeSection'
 
-type KeychainFieldArrayItem = { value: CompactProducerKeychain | null }
 
 export type EServiceCreateStepTechSpecFormValues = {
   audience: string
   voucherLifespan: number
-  keychains: KeychainFieldArrayItem[]
+  keychains: ProducerKeychainFieldArrayItem[]
   asyncExchangeProperties: {
     responseTime: number | ''
     resourceAvailableTime: number | ''
@@ -114,7 +113,7 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
     },
   }
 
-  const formMethods = useForm({ defaultValues })
+  const formMethods = useForm<EServiceCreateStepTechSpecFormValues>({ defaultValues })
   const isAsyncExchange = descriptor?.eservice.asyncExchange === true
 
   const onSubmit: SubmitHandler<EServiceCreateStepTechSpecFormValues> = async (values) => {
