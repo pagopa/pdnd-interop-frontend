@@ -489,7 +489,8 @@
         }
       },
       "producerKeychains": {
-        "label": "Associated keychains"
+        "label": "Associated keychains",
+        "moreLabel": "+{{count}} more"
       },
       "missingInfoLabel": "Information must be added",
       "emptyLabel": "No uploaded documents"

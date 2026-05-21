@@ -146,6 +146,29 @@ describe('ProviderEServiceDocumentationSummarySection', () => {
     expect(screen.getByText('Keychain 1')).toBeInTheDocument()
   })
 
+  it('renders the hidden keychains count when not all associated keychains are fetched', () => {
+    const mockData = createMockEServiceDescriptorProviderAsync()
+    useSuspenseQueryMock.mockReturnValue({ data: mockData })
+    const associatedKeychains = {
+      results: Array.from({ length: 50 }, (_, index) => ({
+        id: `keychain-id-${index}`,
+        name: `Keychain ${index}`,
+        hasKeys: true,
+      })),
+      pagination: { offset: 0, limit: 50, totalCount: 52 },
+    }
+
+    renderWithApplicationContext(
+      <ProviderEServiceDocumentationSummarySection associatedKeychains={associatedKeychains} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    expect(screen.getByText('producerKeychains.moreLabel')).toBeInTheDocument()
+  })
+
   it('renders missing async fields for incomplete asynchronous e-services', () => {
     const mockData = createMockEServiceDescriptorProviderAsync({
       asyncExchangeProperties: undefined,

@@ -489,7 +489,8 @@
         }
       },
       "producerKeychains": {
-        "label": "Portachiavi associati"
+        "label": "Portachiavi associati",
+        "moreLabel": "+{{count}} altri"
       },
       "missingInfoLabel": "Da inserire",
       "emptyLabel": "Nessun documento caricato"

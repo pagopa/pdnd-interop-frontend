@@ -1,6 +1,6 @@
 import React from 'react'
 import type { CompactProducerKeychains, EServiceDoc } from '@/api/api.generatedTypes'
-import { Stack } from '@mui/material'
+import { Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { IconLink } from '@/components/shared/IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
@@ -57,11 +57,20 @@ export const ProviderEServiceDocumentationSummarySection: React.FC<
     return typeof value === 'boolean' ? t(`asyncExchange.booleanValue.${value}`) : undefined
   }
 
+  const hiddenKeychainsCount = associatedKeychains
+    ? associatedKeychains.pagination.totalCount - associatedKeychains.results.length
+    : 0
+
   const keychainsContent = associatedKeychains?.results.length ? (
     <Stack spacing={1}>
       {associatedKeychains.results.map((keychain) => (
         <span key={keychain.id}>{keychain.name}</span>
       ))}
+      {hiddenKeychainsCount > 0 && (
+        <Typography component="span" variant="body2">
+          {t('producerKeychains.moreLabel', { count: hiddenKeychainsCount })}
+        </Typography>
+      )}
     </Stack>
   ) : undefined
 
