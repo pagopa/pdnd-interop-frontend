@@ -24,6 +24,25 @@ vi.mock('@/api/purposeTemplate/purposeTemplate.mutations', () => ({
 
 vi.mock('@/stores/toast-notification.store', () => ({
   useToastNotification: () => ({ showToast: mockShowToast }),
+  useToastNotificationStore: Object.assign(
+    vi.fn((selector) => {
+      const state = {
+        isShown: false,
+        message: '',
+        severity: 'info' as const,
+        correlationId: undefined,
+        showToast: vi.fn(),
+        hideToast: vi.fn(),
+      }
+      return selector ? selector(state) : state
+    }),
+    {
+      getState: () => ({
+        showToast: vi.fn(),
+        hideToast: vi.fn(),
+      }),
+    }
+  ),
 }))
 
 vi.mock('react-i18next', () => ({
