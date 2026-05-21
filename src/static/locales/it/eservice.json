@@ -1072,6 +1072,10 @@
       "title": "Hai pubblicato l'e-service",
       "description": "Ora l'e-service è disponibile nel catalogo e potrai ricevere richieste di fruizione."
     },
+    "firstVersionAsync": {
+      "title": "Hai pubblicato l'e-service asincrono",
+      "description": "Ora l'e-service è disponibile nel catalogo e potrai ricevere richieste di fruizione. Assicurati di aver collegato un portachiavi all'e-service per rendere possibile lo scambio dei dati."
+    },
     "newVersion": {
       "title": "Hai pubblicato una nuova versione dell'e-service",
       "subtitle": "Cosa succede ora:",
@@ -1081,6 +1085,16 @@
         "la versione precedente diventa obsoleta ma attiva fino a quando ci sono fruitori."
       ]
     },
-    "action": "Chiudi"
+    "newVersionAsync": {
+      "title": "Hai pubblicato una nuova versione dell'e-service",
+      "subtitle": "Cosa succede ora:",
+      "bulletPoints": [
+        "la nuova versione è disponibile nel catalogo;",
+        "i fruitori ricevono una notifica di aggiornamento;",
+        "la versione precedente diventa obsoleta ma attiva fino a quando ci sono fruitori."
+      ]
+    },
+    "action": "Chiudi",
+    "asyncAction": "Vai all'e-service"
   }
 }
