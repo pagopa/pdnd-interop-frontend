@@ -1012,7 +1012,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     ])
   })
 
-  it('SUSPENDED: reactivate and archiveVersion in header, clone+createNewVersion+viewAllVersions in menu', () => {
+  it('SUSPENDED: reactivate and archiveVersion in header, createNewVersion+clone+archiveEservice+viewAllVersions in menu', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       delegation: undefined,
@@ -1024,38 +1024,31 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
       'archiveVersion',
     ])
     expect(result.current.menuActions.map((a) => a.label)).toEqual([
-      'clone',
       'createNewVersion',
+      'clone',
+      'archiveEservice',
       'viewAllVersions',
     ])
   })
 
-  it('ARCHIVED with a newer descriptor: viewLatestVersion in header, clone+archiveEservice+viewAllVersions in menu', () => {
+  it('ARCHIVED with a newer descriptor: viewLatestVersion in header, only clone in menu', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },
       delegation: undefined,
     })
     const { result } = renderDetailsPageHook(descriptorMock, { latestDescriptorId: 'newer-id' })
     expect(result.current.headerInfoActions.map((a) => a.label)).toEqual(['viewLatestVersion'])
-    expect(result.current.menuActions.map((a) => a.label)).toEqual([
-      'clone',
-      'archiveEservice',
-      'viewAllVersions',
-    ])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual(['clone'])
   })
 
-  it('ARCHIVED with no newer descriptor: no header actions, clone+archiveEservice+viewAllVersions in menu', () => {
+  it('ARCHIVED with no newer descriptor: no header actions, only clone in menu', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },
       delegation: undefined,
     })
     const { result } = renderDetailsPageHook(descriptorMock)
     expect(result.current.headerInfoActions).toHaveLength(0)
-    expect(result.current.menuActions.map((a) => a.label)).toEqual([
-      'clone',
-      'archiveEservice',
-      'viewAllVersions',
-    ])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual(['clone'])
   })
 
   it('ARCHIVING with DESCRIPTOR scope: suspend and cancelArchivingVersion in header, no primary', () => {

@@ -1109,6 +1109,7 @@ export function useGetProviderEServiceActions(
     viewAllVersionsAction,
   ]
   const menuEserviceArchiving = [cloneAction, viewAllVersionsAction]
+  const menuArchived = [cloneAction]
 
   const slots: Slots = match({ state, archivingScope })
     .with({ state: 'PUBLISHED', archivingScope: 'ESERVICE' }, () => ({
@@ -1139,12 +1140,12 @@ export function useGetProviderEServiceActions(
     .with({ state: 'SUSPENDED' }, () => ({
       primary: undefined,
       header: [reactivateAction, archiveDescriptorAction],
-      menu: [cloneAction, createNewDraftAction, viewAllVersionsAction],
+      menu: menuWithNewVersion,
     }))
     .with({ state: 'ARCHIVED' }, () => ({
       primary: undefined,
       header: latestDescriptorId ? [viewLatestVersionAction] : [],
-      menu: [cloneAction, archiveEserviceAction, viewAllVersionsAction],
+      menu: menuArchived,
     }))
     .with({ state: 'ARCHIVING', archivingScope: 'ESERVICE' }, () => ({
       primary: cancelArchivingEserviceAction,
