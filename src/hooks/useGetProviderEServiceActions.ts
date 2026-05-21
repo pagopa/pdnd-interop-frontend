@@ -146,7 +146,7 @@ export function useGetProviderEServiceActions(
 
   const cloneAction: ActionItemButton = {
     action: handleClone,
-    label: t('clone'),
+    label: tEserviceActions('cloneEservice'),
     icon: ContentCopyIcon,
   }
 

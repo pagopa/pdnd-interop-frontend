@@ -222,7 +222,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.menuActions).toHaveLength(3)
-    expect(result.current.menuActions[0].label).toBe('clone')
+    expect(result.current.menuActions[0].label).toBe('cloneEservice')
     expect(result.current.menuActions[1].label).toBe('createNewVersion')
     expect(result.current.menuActions[2].label).toBe('suspendVersion')
   })
@@ -235,7 +235,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.menuActions).toHaveLength(4)
-    expect(result.current.menuActions[0].label).toBe('clone')
+    expect(result.current.menuActions[0].label).toBe('cloneEservice')
     expect(result.current.menuActions[1].label).toBe('manageDraft')
     expect(result.current.menuActions[2].label).toBe('deleteDraft')
     expect(result.current.menuActions[3].label).toBe('suspendVersion')
@@ -345,7 +345,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.menuActions).toHaveLength(3)
     expect(result.current.menuActions[0].label).toBe('reactivateVersion')
-    expect(result.current.menuActions[1].label).toBe('clone')
+    expect(result.current.menuActions[1].label).toBe('cloneEservice')
     expect(result.current.menuActions[2].label).toBe('createNewVersion')
   })
 
@@ -358,7 +358,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.menuActions).toHaveLength(4)
     expect(result.current.menuActions[0].label).toBe('reactivateVersion')
-    expect(result.current.menuActions[1].label).toBe('clone')
+    expect(result.current.menuActions[1].label).toBe('cloneEservice')
     expect(result.current.menuActions[2].label).toBe('manageDraft')
     expect(result.current.menuActions[3].label).toBe('deleteDraft')
   })
@@ -629,7 +629,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.menuActions).toHaveLength(2)
-    expect(result.current.menuActions[0].label).toBe('clone')
+    expect(result.current.menuActions[0].label).toBe('cloneEservice')
     expect(result.current.menuActions[1].label).toBe('createNewVersion')
   })
 
@@ -642,7 +642,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.menuActions).toHaveLength(3)
-    expect(result.current.menuActions[0].label).toBe('clone')
+    expect(result.current.menuActions[0].label).toBe('cloneEservice')
     expect(result.current.menuActions[1].label).toBe('manageDraft')
     expect(result.current.menuActions[2].label).toBe('deleteDraft')
   })
@@ -754,7 +754,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.menuActions).toHaveLength(2)
-    expect(result.current.menuActions[0].label).toBe('clone')
+    expect(result.current.menuActions[0].label).toBe('cloneEservice')
     expect(result.current.menuActions[1].label).toBe('createNewVersion')
   })
 
@@ -767,7 +767,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
     expect(result.current.menuActions).toHaveLength(3)
-    expect(result.current.menuActions[0].label).toBe('clone')
+    expect(result.current.menuActions[0].label).toBe('cloneEservice')
     expect(result.current.menuActions[1].label).toBe('manageDraft')
     expect(result.current.menuActions[2].label).toBe('deleteDraft')
   })
@@ -881,7 +881,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
     const cloneAction = result.current.menuActions[1]
 
-    expect(cloneAction.label).toBe('clone')
+    expect(cloneAction.label).toBe('cloneEservice')
 
     act(() => {
       cloneAction.action()
@@ -987,7 +987,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
       'createNewVersion',
     ])
     expect(result.current.menuActions.map((a) => a.label)).toEqual([
-      'clone',
+      'cloneEservice',
       'archiveEservice',
       'viewAllVersions',
     ])
@@ -1006,7 +1006,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     ])
     expect(result.current.menuActions.map((a) => a.label)).toEqual([
       'createNewVersion',
-      'clone',
+      'cloneEservice',
       'archiveEservice',
       'viewAllVersions',
     ])
@@ -1025,7 +1025,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     ])
     expect(result.current.menuActions.map((a) => a.label)).toEqual([
       'createNewVersion',
-      'clone',
+      'cloneEservice',
       'archiveEservice',
       'viewAllVersions',
     ])
@@ -1038,7 +1038,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     })
     const { result } = renderDetailsPageHook(descriptorMock, { latestDescriptorId: 'newer-id' })
     expect(result.current.headerInfoActions.map((a) => a.label)).toEqual(['viewLatestVersion'])
-    expect(result.current.menuActions.map((a) => a.label)).toEqual(['clone'])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual(['cloneEservice'])
   })
 
   it('ARCHIVED with no newer descriptor: no header actions, only clone in menu', () => {
@@ -1048,7 +1048,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     })
     const { result } = renderDetailsPageHook(descriptorMock)
     expect(result.current.headerInfoActions).toHaveLength(0)
-    expect(result.current.menuActions.map((a) => a.label)).toEqual(['clone'])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual(['cloneEservice'])
   })
 
   it('ARCHIVING with DESCRIPTOR scope: suspend and cancelArchivingVersion in header, no primary', () => {
@@ -1115,7 +1115,10 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     })
     expect(result.current.primaryAction?.label).toBe('cancelArchivingEservice')
     expect(result.current.headerInfoActions.map((a) => a.label)).toEqual(['suspendVersion'])
-    expect(result.current.menuActions.map((a) => a.label)).toEqual(['clone', 'viewAllVersions'])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual([
+      'cloneEservice',
+      'viewAllVersions',
+    ])
   })
 
   it('SUSPENDED with ESERVICE archiving overlay: cancelArchivingEservice primary, reactivate in header, clone+viewAllVersions in menu', () => {
@@ -1128,7 +1131,10 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     })
     expect(result.current.primaryAction?.label).toBe('cancelArchivingEservice')
     expect(result.current.headerInfoActions.map((a) => a.label)).toEqual(['reactivateVersion'])
-    expect(result.current.menuActions.map((a) => a.label)).toEqual(['clone', 'viewAllVersions'])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual([
+      'cloneEservice',
+      'viewAllVersions',
+    ])
   })
 
   it('ARCHIVING DESCRIPTOR: header has suspend+cancelArchivingVersion, menu has createNewVersion+clone+archiveEservice+viewAllVersions', () => {
@@ -1141,7 +1147,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     })
     expect(result.current.menuActions.map((a) => a.label)).toEqual([
       'createNewVersion',
-      'clone',
+      'cloneEservice',
       'archiveEservice',
       'viewAllVersions',
     ])
@@ -1157,7 +1163,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     })
     expect(result.current.menuActions.map((a) => a.label)).toEqual([
       'createNewVersion',
-      'clone',
+      'cloneEservice',
       'archiveEservice',
       'viewAllVersions',
     ])
@@ -1192,7 +1198,7 @@ describe('useGetProviderEServiceActions slot split bypass (preserve legacy behav
     expect(result.current.primaryAction).toBeUndefined()
     expect(result.current.headerInfoActions).toHaveLength(0)
     expect(result.current.menuActions.map((a) => a.label)).toEqual([
-      'clone',
+      'cloneEservice',
       'manageDraft',
       'deleteDraft',
       'suspendVersion',

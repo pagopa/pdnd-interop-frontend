@@ -534,6 +534,7 @@
       "reactivateVersion": "Reactivate version",
       "createNewVersion": "Create new version",
       "archiveVersion": "Archive version",
+      "cloneEservice": "Duplicate e-service",
       "archiveEservice": "Archive e-service",
       "cancelArchivingVersion": "Cancel version archiving",
       "cancelArchivingEservice": "Cancel e-service archiving",
