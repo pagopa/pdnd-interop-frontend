@@ -199,6 +199,7 @@
       "ariaLabel": "Three separate tabs for purpose template details, linked e-services, and risk analysis",
       "details": "Template details",
       "linkedEservices": "Linked e-services",
+      "linkedResources": "Suggested e-services and e-service templates",
       "riskAnalysis": "Risk analysis"
     },
     "detailsTab": {
@@ -227,6 +228,11 @@
           "title": "Linked e-services",
           "description": "Here's a list of suggested e-services for this simplified purpose. The template can also be used for other e-services not listed.",
           "linkedEservicesLink": "View linked e-services"
+        },
+        "linkedResources": {
+          "title": "Suggested e-services and e-service templates",
+          "description": "Here's a list of suggested e-services and e-service templates for this simplified purpose. The template can also be used for other e-services not listed.",
+          "link": "View linked e-services and templates"
         },
         "documentation": {
           "title": "Documentation",

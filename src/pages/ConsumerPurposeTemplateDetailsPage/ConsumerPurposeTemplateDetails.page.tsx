@@ -51,7 +51,7 @@ const ConsumerPurposeTemplateDetailsPage: React.FC = () => {
           variant="fullWidth"
         >
           <Tab label={t('read.tabs.details')} value="details" />
-          <Tab label={t('read.tabs.linkedEservices')} value="linkedEservices" />
+          <Tab label={t('read.tabs.linkedResources')} value="linkedResources" />
           <Tab label={t('read.tabs.riskAnalysis')} value="riskAnalysis" />
         </TabList>
 
@@ -59,7 +59,7 @@ const ConsumerPurposeTemplateDetailsPage: React.FC = () => {
           <ConsumerPurposeTemplateDetailsTab purposeTemplate={purposeTemplate} />
         </TabPanel>
 
-        <TabPanel value="linkedEservices">
+        <TabPanel value="linkedResources">
           <ConsumerPurposeTemplateLinkedResourceTab purposeTemplate={purposeTemplate} />
         </TabPanel>
 

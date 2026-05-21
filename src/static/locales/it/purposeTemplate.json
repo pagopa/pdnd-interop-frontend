@@ -199,6 +199,7 @@
       "ariaLabel": "Tre tab diverse per i dettagli del template della finalità, gli e-service collegati e l'analisi del rischio",
       "details": "Dettaglio template",
       "linkedEservices": "E-service collegati",
+      "linkedResources": "E-service e template e-service suggeriti",
       "riskAnalysis": "Analisi del rischio"
     },
     "detailsTab": {
@@ -227,6 +228,11 @@
           "title": "E-service collegati",
           "description": "Qui trovi l’elenco degli e-service suggeriti per questa finalità agevolata. Il template può essere usato anche per altri e-service non presenti nell’elenco.",
           "linkedEservicesLink": "Visualizza gli e-service collegati"
+        },
+        "linkedResources": {
+          "title": "E-service e template e-service suggeriti",
+          "description": "Qui trovi l’elenco degli e-service e dei template e-service suggeriti per questa finalità agevolata. Il template può essere usato anche per altri e-service non presenti nell’elenco.",
+          "link": "Visualizza gli e-service e i template collegati"
         },
         "documentation": {
           "title": "Documentazione",
