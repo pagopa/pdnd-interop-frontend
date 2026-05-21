@@ -222,11 +222,6 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     Boolean(
       descriptor.asyncExchangeCallbackInterface &&
       descriptor.asyncExchangeProperties &&
-      typeof descriptor.asyncExchangeProperties.responseTime === 'number' &&
-      typeof descriptor.asyncExchangeProperties.resourceAvailableTime === 'number' &&
-      typeof descriptor.asyncExchangeProperties.confirmation === 'boolean' &&
-      typeof descriptor.asyncExchangeProperties.bulk === 'boolean' &&
-      typeof descriptor.asyncExchangeProperties.maxResultSet === 'number' &&
       (associatedKeychains?.pagination?.totalCount ?? associatedKeychains?.results?.length ?? 0) > 0
     )
 
