@@ -16,7 +16,6 @@ import { useGetConsumerAgreementCreateAlertProps } from './hooks/useGetConsumerA
 import { isNewEServiceVersionAvailable } from '@/utils/agreement.utils'
 import { useQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
-import { EServiceQueries } from '@/api/eservice'
 
 const ConsumerAgreementCreatePage: React.FC = () => {
   const { t } = useTranslation('agreement')
@@ -26,16 +25,9 @@ const ConsumerAgreementCreatePage: React.FC = () => {
 
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_EDIT'>()
   const { data: agreement } = useQuery(AgreementQueries.getSingle(agreementId))
-  const { data: descriptor } = useQuery({
-    ...EServiceQueries.getDescriptorCatalog(
-      agreement?.eservice.id as string,
-      agreement?.descriptorId as string
-    ),
-    enabled: Boolean(agreement),
-  })
 
   const isDelegated = Boolean(agreement && agreement.delegation)
-  const isAsyncExchange = Boolean(descriptor?.eservice.asyncExchange)
+  const isAsyncExchange = Boolean(agreement?.eservice.asyncExchange)
 
   const [consumerNotes, setConsumerNotes] = React.useState(agreement?.consumerNotes ?? '')
 
