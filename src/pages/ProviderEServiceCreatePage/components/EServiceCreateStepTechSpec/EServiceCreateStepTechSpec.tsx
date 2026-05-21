@@ -23,7 +23,6 @@ import { EServiceInterfaceSection } from '../sections/EServiceInterfaceSection'
 import { EServiceVoucherSection } from '../sections/EServiceVoucherSection'
 import { EServiceProducerKeychainSection } from '../sections/EServiceProducerKeychainSection'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useDialog } from '@/stores'
 
 type KeychainFieldArrayItem = { value: CompactProducerKeychain | null }
 
@@ -77,7 +76,6 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create' })
   const { descriptor, forward, back, areEServiceGeneralInfoEditable } = useEServiceCreateContext()
-  const { openDialog } = useDialog()
   const queryClient = useQueryClient()
 
   const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
@@ -114,26 +112,6 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
 
       const addedIds = finalIds.filter((id) => !initialIds.includes(id))
       const removedIds = initialIds.filter((id) => !finalIds.includes(id))
-
-      if (removedIds.length > 0) {
-        const hasConfirmed = await new Promise((resolve) => {
-          openDialog({
-            type: 'basic',
-            title: t('step4.producerKeychainSection.confirmationDialog.title'),
-            description: t('step4.producerKeychainSection.confirmationDialog.description'),
-            onProceed: () => {
-              resolve(true)
-            },
-            onCancel: () => {
-              resolve(false)
-            },
-          })
-        })
-
-        if (!hasConfirmed) {
-          return
-        }
-      }
 
       const results = await Promise.allSettled([
         ...addedIds.map((keychainId) =>

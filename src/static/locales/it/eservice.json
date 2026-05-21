@@ -348,11 +348,7 @@
         "removeRowTooltip": "Rimuovi",
         "readOnlyLabel": "Portachiavi associati",
         "noKeychainAlert": "Non hai ancora creato un portachiavi. Ti consigliamo di farlo dopo aver pubblicato l'e-service.",
-        "apiRoleAlert": "Per gli scambi asincroni è necessario collegare un portachiavi all'e-service. Solo chi ha il ruolo di amministratore può farlo: chiedi di collegarlo prima o dopo la pubblicazione per abilitare lo scambio dei dati.",
-        "confirmationDialog": {
-          "title": "Conferma rimozione portachiavi dall'e-service",
-          "description": "Le chiavi caricate su questo portachiavi non potranno più essere utilizzate per scambiare dati per questo e-service."
-        }
+        "apiRoleAlert": "Per gli scambi asincroni è necessario collegare un portachiavi all'e-service. Solo chi ha il ruolo di amministratore può farlo: chiedi di collegarlo prima o dopo la pubblicazione per abilitare lo scambio dei dati."
       }
     }
   },

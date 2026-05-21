@@ -348,11 +348,7 @@
         "removeRowTooltip": "Remove",
         "readOnlyLabel": "Associated keychains",
         "noKeychainAlert": "You haven't created a keychain yet. We recommend doing so after publishing the e-service.",
-        "apiRoleAlert": "Asynchronous exchanges require linking a keychain to the e-service. Only users with the administrator role can do this: ask to link one before or after publication to enable data exchange.",
-        "confirmationDialog": {
-          "title": "Confirm Keychain Removal from E-service",
-          "description": "The keys uploaded to this keychain can no longer be used to exchange data for this e-service."
-        }
+        "apiRoleAlert": "Asynchronous exchanges require linking a keychain to the e-service. Only users with the administrator role can do this: ask to link one before or after publication to enable data exchange."
       }
     }
   },
