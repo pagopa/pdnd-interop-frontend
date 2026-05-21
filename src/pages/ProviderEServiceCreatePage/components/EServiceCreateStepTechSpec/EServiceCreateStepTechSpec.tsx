@@ -21,7 +21,10 @@ import { trackEvent } from '@/config/tracking'
 import { match } from 'ts-pattern'
 import { EServiceInterfaceSection } from '../sections/EServiceInterfaceSection'
 import { EServiceVoucherSection } from '../sections/EServiceVoucherSection'
-import { EServiceProducerKeychainSection, ProducerKeychainFieldArrayItem } from '../sections/EServiceProducerKeychainSection'
+import {
+  EServiceProducerKeychainSection,
+  type ProducerKeychainFieldArrayItem,
+} from '../sections/EServiceProducerKeychainSection'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { EServiceAsyncExchangeSection } from '../sections/EServiceAsyncExchangeSection'
 
@@ -168,16 +171,13 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
         try {
           const refetched = await queryClient.fetchQuery(keychainsListQuery)
           const refreshedKeychains = refetched.results
-          formMethods.reset(
-            {
-              ...formMethods.getValues(),
-              keychains:
-                refreshedKeychains.length > 0
-                  ? refreshedKeychains.map((k) => ({ value: k }))
-                  : [{ value: null }],
-            },
-            { keepDirtyValues: false }
-          )
+          formMethods.reset({
+            ...formMethods.getValues(),
+            keychains:
+              refreshedKeychains.length > 0
+                ? refreshedKeychains.map((k) => ({ value: k }))
+                : [{ value: null }],
+          })
         } catch {
           // Refetch failed: keep the user on the step with the current form state so they can retry.
         }
