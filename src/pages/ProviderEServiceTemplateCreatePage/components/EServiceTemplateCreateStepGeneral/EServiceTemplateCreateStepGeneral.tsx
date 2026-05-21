@@ -188,7 +188,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
             required
             multiline
             size="small"
-            inputProps={{ maxLength: 250 }}
+            inputProps={{ maxLength: 400 }}
             rules={{ required: true, minLength: 10 }}
             sx={{ mb: 0, mt: 3 }}
           />
