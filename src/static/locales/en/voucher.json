@@ -19,7 +19,7 @@
   },
   "noPurposesAndKeysLabel": {
     "title": "The selected client is not linked to any purpose and contains no public keys.",
-    "description": "To proceed, associate the client with an purpose and add at least one public key to the client.",
+    "description": "To proceed, associate the client with a purpose and add at least one public key to the client.",
     "actionLabel": "Go to client"
   },
   "noEServicesLabel": {
@@ -162,7 +162,7 @@
       "3": "Create a “keys” folder and place the private key inside, naming it “client-test-keypair.rsa.priv”.\nMake sure the private key matches the public key you selected in the previous step.",
       "4": "Open the terminal and navigate to the client_assertion_test folder",
       "5": "Paste the command below and press enter",
-      "result": "6. You’ll receive a client assertion signed with your private key. Save this data for the next step.."
+      "result": "6. You’ll receive a client assertion signed with your private key. Save this data for the next step."
     },
     "exampleLabel": "Example usage"
   },

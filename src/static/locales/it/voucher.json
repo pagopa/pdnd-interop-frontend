@@ -413,7 +413,7 @@
       },
       "clientAssertionField": {
         "label": "Client_assertion",
-        "description": "ll token JWT completo codificato in Base64Url.",
+        "description": "Il token JWT completo codificato in Base64Url.",
         "suggestionLabel": "Inserisci la client assertion che hai creato nello step precedente. Il codice inizia per “ey”"
       },
       "clientAssertionTypeField": {
