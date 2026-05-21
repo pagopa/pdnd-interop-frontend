@@ -27,10 +27,22 @@ vi.mock('@/router', () => ({
 
 vi.mock('@/api/purposeTemplate/purposeTemplate.queries', () => ({
   PurposeTemplateQueries: {
-    getSingle: vi.fn(),
-    getLinkableResources: vi.fn(() => ({ queryKey: ['mocked'], queryFn: vi.fn() })),
+    getSingle: vi.fn(() => ({ queryKey: ['getSingle'], queryFn: vi.fn() })),
+    getLinkableResources: vi.fn(() => ({
+      queryKey: ['getLinkableResources'],
+      queryFn: vi.fn(),
+    })),
   },
 }))
+
+function setupQueries(pT?: unknown, lR?: unknown) {
+  vi.mocked(useQuery).mockImplementation((opts) => {
+    const key = (opts as { queryKey?: unknown[] } | undefined)?.queryKey?.[0]
+    if (key === 'getSingle') return { data: pT } as ReturnType<typeof useQuery>
+    if (key === 'getLinkableResources') return { data: lR } as ReturnType<typeof useQuery>
+    return { data: undefined } as ReturnType<typeof useQuery>
+  })
+}
 
 vi.mock('../AddResourceToForm', () => ({
   AddResourceToForm: ({
@@ -93,13 +105,11 @@ describe('PurposeTemplateEditLinkedResource', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.mocked(useQuery).mockReturnValue({ data: undefined } as ReturnType<typeof useQuery>)
+    setupQueries()
   })
 
   it('renders null while purposeTemplate is loading', () => {
-    vi.mocked(useQuery)
-      .mockReturnValueOnce({ data: undefined } as ReturnType<typeof useQuery>)
-      .mockReturnValueOnce({ data: undefined } as ReturnType<typeof useQuery>)
+    setupQueries()
 
     const { container } = renderWithApplicationContext(
       <PurposeTemplateEditLinkedResource forward={mockForward} back={vi.fn()} activeStep={1} />,
@@ -138,9 +148,7 @@ describe('PurposeTemplateEditLinkedResource', () => {
       pagination: { offset: 0, limit: 50, totalCount: 2 },
     }
 
-    vi.mocked(useQuery)
-      .mockReturnValueOnce({ data: mockPurposeTemplate } as ReturnType<typeof useQuery>)
-      .mockReturnValueOnce({ data: linkableResources } as ReturnType<typeof useQuery>)
+    setupQueries(mockPurposeTemplate, linkableResources)
 
     renderWithApplicationContext(
       <PurposeTemplateEditLinkedResource forward={mockForward} back={vi.fn()} activeStep={1} />,
@@ -166,9 +174,7 @@ describe('PurposeTemplateEditLinkedResource', () => {
       pagination: { offset: 0, limit: 50, totalCount: 1 },
     }
 
-    vi.mocked(useQuery)
-      .mockReturnValueOnce({ data: mockPurposeTemplate } as ReturnType<typeof useQuery>)
-      .mockReturnValueOnce({ data: linkableResources } as ReturnType<typeof useQuery>)
+    setupQueries(mockPurposeTemplate, linkableResources)
 
     renderWithApplicationContext(
       <PurposeTemplateEditLinkedResource forward={mockForward} back={vi.fn()} activeStep={1} />,
@@ -194,9 +200,7 @@ describe('PurposeTemplateEditLinkedResource', () => {
       pagination: { offset: 0, limit: 50, totalCount: 1 },
     }
 
-    vi.mocked(useQuery)
-      .mockReturnValueOnce({ data: mockPurposeTemplate } as ReturnType<typeof useQuery>)
-      .mockReturnValueOnce({ data: linkableResources } as ReturnType<typeof useQuery>)
+    setupQueries(mockPurposeTemplate, linkableResources)
 
     renderWithApplicationContext(
       <PurposeTemplateEditLinkedResource forward={mockForward} back={vi.fn()} activeStep={1} />,
@@ -229,9 +233,7 @@ describe('PurposeTemplateEditLinkedResource', () => {
       pagination: { offset: 0, limit: 50, totalCount: 1 },
     }
 
-    vi.mocked(useQuery)
-      .mockReturnValueOnce({ data: mockPurposeTemplate } as ReturnType<typeof useQuery>)
-      .mockReturnValueOnce({ data: linkableResources } as ReturnType<typeof useQuery>)
+    setupQueries(mockPurposeTemplate, linkableResources)
 
     renderWithApplicationContext(
       <PurposeTemplateEditLinkedResource forward={mockForward} back={vi.fn()} activeStep={1} />,

@@ -115,25 +115,25 @@ describe('PurposeTemplateQueries', () => {
   })
 
   describe('getLinkableResources', () => {
+    const purposeTemplateId = 'test-template-id'
+
     it('should return queryOptions with correct queryKey', () => {
-      const params: GetLinkableResourcesParams = {
-        purposeTemplateId: 'test-template-id',
+      const params: Omit<GetLinkableResourcesParams, 'purposeTemplateId'> = {
         offset: 0,
         limit: 10,
       }
 
-      const result = PurposeTemplateQueries.getLinkableResources(params)
+      const result = PurposeTemplateQueries.getLinkableResources(purposeTemplateId, params)
 
       expect(result.queryKey).toEqual([
         'PurposeTemplateGetLinkableResources',
-        params.purposeTemplateId,
+        purposeTemplateId,
         params,
       ])
     })
 
     it('should call getLinkableResources service when queryFn is executed', async () => {
-      const params: GetLinkableResourcesParams = {
-        purposeTemplateId: 'test-template-id',
+      const params: Omit<GetLinkableResourcesParams, 'purposeTemplateId'> = {
         offset: 0,
         limit: 10,
         q: 'foo',
@@ -144,13 +144,13 @@ describe('PurposeTemplateQueries', () => {
       }
       vi.mocked(PurposeTemplateServices.getLinkableResources).mockResolvedValue(mockData)
 
-      const result = PurposeTemplateQueries.getLinkableResources(params)
+      const result = PurposeTemplateQueries.getLinkableResources(purposeTemplateId, params)
 
       expect(result.queryFn).toBeDefined()
       const data = await (result.queryFn as () => Promise<unknown>)()
 
       expect(PurposeTemplateServices.getLinkableResources).toHaveBeenCalledWith(
-        params.purposeTemplateId,
+        purposeTemplateId,
         params
       )
       expect(data).toEqual(mockData)

@@ -29,11 +29,13 @@ function getEservicesLinkedToPurposeTemplatesList(params: GetPurposeTemplateESer
   })
 }
 
-function getLinkableResources(params: GetLinkableResourcesParams) {
+function getLinkableResources(
+  purposeTemplateId: string,
+  params: Omit<GetLinkableResourcesParams, 'purposeTemplateId'>
+) {
   return queryOptions({
-    queryKey: ['PurposeTemplateGetLinkableResources', params.purposeTemplateId, params],
-    queryFn: () =>
-      PurposeTemplateServices.getLinkableResources(params.purposeTemplateId as string, params),
+    queryKey: ['PurposeTemplateGetLinkableResources', purposeTemplateId, params],
+    queryFn: () => PurposeTemplateServices.getLinkableResources(purposeTemplateId, params),
   })
 }
 

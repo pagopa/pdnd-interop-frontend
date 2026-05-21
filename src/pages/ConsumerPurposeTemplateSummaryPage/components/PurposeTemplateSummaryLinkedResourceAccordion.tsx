@@ -19,11 +19,7 @@ export const PurposeTemplateSummaryLinkedResourceAccordion: React.FC<
   })
 
   const { data: linkableResources } = useQuery({
-    ...PurposeTemplateQueries.getLinkableResources({
-      purposeTemplateId,
-      offset: 0,
-      limit: 50,
-    }),
+    ...PurposeTemplateQueries.getLinkableResources(purposeTemplateId, { offset: 0, limit: 50 }),
     enabled: Boolean(purposeTemplateId),
   })
 

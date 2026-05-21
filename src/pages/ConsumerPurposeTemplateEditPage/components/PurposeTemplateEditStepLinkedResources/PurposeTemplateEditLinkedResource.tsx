@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Box } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -73,26 +73,12 @@ export const PurposeTemplateEditLinkedResource: React.FC<ActiveStepProps> = ({
     PurposeTemplateQueries.getSingle(purposeTemplateId)
   )
   const { data: linkableResourcesData } = useQuery({
-    ...PurposeTemplateQueries.getLinkableResources({
-      purposeTemplateId,
-      offset: 0,
-      limit: 50,
-    }),
+    ...PurposeTemplateQueries.getLinkableResources(purposeTemplateId, { offset: 0, limit: 50 }),
     enabled: Boolean(purposeTemplateId),
   })
 
-  const [purposeTemplate, setPurposeTemplate] = useState(purposeTemplateFromQuery)
-  const [rawResources, setRawResources] = useState<LinkableResource[]>(
-    linkableResourcesData?.results ?? []
-  )
-
-  useEffect(() => {
-    if (purposeTemplateFromQuery) setPurposeTemplate(purposeTemplateFromQuery)
-  }, [purposeTemplateFromQuery])
-
-  useEffect(() => {
-    if (linkableResourcesData?.results) setRawResources(linkableResourcesData.results)
-  }, [linkableResourcesData])
+  const purposeTemplate = purposeTemplateFromQuery
+  const rawResources = linkableResourcesData?.results ?? []
 
   const linkedResources: LinkableCandidate[] = rawResources.map(normalizeLinkableResource)
 
