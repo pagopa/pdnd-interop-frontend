@@ -36,28 +36,33 @@ export const EServiceProducerKeychainSection: React.FC = () => {
   const watchedKeychains = useWatch({ control, name: 'keychains' })
 
   const { data: allKeychains = [], isPending } = useQuery({
-    ...KeychainQueries.getKeychainsList({ limit: 50, offset: 0 }),
+    ...KeychainQueries.getKeychainsList({ limit: 100, offset: 0 }),
     select: (d) => d.results,
     enabled: !isOperatorAPI && areEServiceGeneralInfoEditable,
   })
 
   const isEmptyList = !isPending && allKeychains.length === 0
 
+  const selectedIds = (watchedKeychains ?? [])
+    .map((row) => row?.value?.id)
+    .filter((id): id is string => Boolean(id))
+  const hasAvailableKeychains = allKeychains.some((k) => !selectedIds.includes(k.id))
+
   if (!areEServiceGeneralInfoEditable) {
-    const associatedNames = (watchedKeychains ?? [])
-      .map((row) => row?.value?.name)
-      .filter((name): name is string => Boolean(name))
+    const associatedKeychains = (watchedKeychains ?? [])
+      .map((row) => row?.value)
+      .filter((k): k is CompactProducerKeychain => Boolean(k?.id))
 
     return (
       <SectionContainer title={t('title')} description={t('subtitle')} sx={{ mt: 3 }}>
         <InformationContainer
           label={t('readOnlyLabel')}
           content={
-            associatedNames.length > 0 ? (
+            associatedKeychains.length > 0 ? (
               <Stack spacing={0.5}>
-                {associatedNames.map((name) => (
-                  <Typography key={name} variant="body2">
-                    {name}
+                {associatedKeychains.map((keychain) => (
+                  <Typography key={keychain.id} variant="body2">
+                    {keychain.name}
                   </Typography>
                 ))}
               </Stack>
@@ -121,6 +126,7 @@ export const EServiceProducerKeychainSection: React.FC = () => {
               variant="naked"
               startIcon={<AddIcon fontSize="small" />}
               onClick={() => append({ value: null })}
+              disabled={!hasAvailableKeychains}
             >
               {t('addKeychainBtn')}
             </Button>

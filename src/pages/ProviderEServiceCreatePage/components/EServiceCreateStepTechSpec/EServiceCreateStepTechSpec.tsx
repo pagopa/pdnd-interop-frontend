@@ -51,7 +51,7 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
   const { data: initialAssociatedKeychains, isPending } = useQuery({
     ...KeychainQueries.getKeychainsList({
       eserviceId: descriptor?.eservice.id ?? '',
-      limit: 50,
+      limit: 100,
       offset: 0,
     }),
     select: (d) => d.results,
@@ -138,7 +138,7 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
     if (isProducerKeychainSectionVisible && areEServiceGeneralInfoEditable) {
       const keychainsListQuery = KeychainQueries.getKeychainsList({
         eserviceId: descriptor.eservice.id,
-        limit: 50,
+        limit: 100,
         offset: 0,
       })
 
@@ -166,18 +166,22 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
 
       const hasFailures = results.some((r) => r.status === 'rejected')
       if (hasFailures) {
-        const refetched = await queryClient.fetchQuery(keychainsListQuery)
-        const refreshedKeychains = refetched.results
-        formMethods.reset(
-          {
-            ...formMethods.getValues(),
-            keychains:
-              refreshedKeychains.length > 0
-                ? refreshedKeychains.map((k) => ({ value: k }))
-                : [{ value: null }],
-          },
-          { keepDirtyValues: false }
-        )
+        try {
+          const refetched = await queryClient.fetchQuery(keychainsListQuery)
+          const refreshedKeychains = refetched.results
+          formMethods.reset(
+            {
+              ...formMethods.getValues(),
+              keychains:
+                refreshedKeychains.length > 0
+                  ? refreshedKeychains.map((k) => ({ value: k }))
+                  : [{ value: null }],
+            },
+            { keepDirtyValues: false }
+          )
+        } catch {
+          // Refetch failed: keep the user on the step with the current form state so they can retry.
+        }
         return
       }
     }
