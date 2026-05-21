@@ -45,7 +45,19 @@ export type TenantFeatureType =
 
 export type MailKind = "CONTACT_EMAIL" | "DIGITAL_ADDRESS";
 
-export type AttributeKind = "CERTIFIED" | "DECLARED" | "VERIFIED";
+export type AttributeKind =
+  | "CERTIFIED"
+  | "DECLARED"
+  | "VERIFIED"
+  | "CERTIFIED_DISCRETE";
+
+export type AttributeCertifiedDiscreteComparator =
+  | "GT"
+  | "LT"
+  | "EQ"
+  | "GTE"
+  | "LTE"
+  | "NE";
 
 /** EService Descriptor State */
 export type EServiceTechnology = "REST" | "SOAP";
@@ -688,6 +700,8 @@ export interface Agreement {
   verifiedAttributes: VerifiedAttribute[];
   /** set of the certified attributes belonging to this agreement, if any. */
   certifiedAttributes: CertifiedAttribute[];
+  /** set of the certified discrete attributes belonging to this agreement, if any. */
+  certifiedDiscreteAttributes: CertifiedDiscreteAttribute[];
   /** set of the declared attributes belonging to this agreement, if any. */
   declaredAttributes: DeclaredAttribute[];
   suspendedByConsumer?: boolean;
@@ -1586,12 +1600,14 @@ export interface DescriptorAttribute {
   name: string;
   description: string;
   explicitAttributeVerification: boolean;
+  kind: AttributeKind;
   /**
    * @format int32
    * @min 1
    * @max 1000000000
    */
   dailyCallsPerConsumer?: number;
+  discreteConfig?: EServiceAttributeCertifiedDiscreteConfig;
 }
 
 export interface DescriptorAttributesSeed {
@@ -1610,6 +1626,17 @@ export interface DescriptorAttributeSeed {
    * @max 1000000000
    */
   dailyCallsPerConsumer?: number;
+  discreteConfig?: EServiceAttributeCertifiedDiscreteConfig;
+}
+
+export interface EServiceAttributeCertifiedDiscreteConfig {
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  threshold: number;
+  comparator: AttributeCertifiedDiscreteComparator;
 }
 
 /**
@@ -1702,6 +1729,22 @@ export interface RequesterCertifiedAttributes {
  * Models a certified attribute registry entry as payload response
  */
 export interface CertifiedAttribute {
+  /**
+   * uniquely identifies the attribute on the registry
+   * @format uuid
+   */
+  id: string;
+  description: string;
+  name: string;
+  /** @format date-time */
+  creationTime: string;
+}
+
+/**
+ * CertifiedDiscreteAttribute
+ * Models a certified discrete attribute registry entry as payload response
+ */
+export interface CertifiedDiscreteAttribute {
   /**
    * uniquely identifies the attribute on the registry
    * @format uuid
@@ -1816,12 +1859,14 @@ export interface Tenant {
   onboardedAt?: string;
   subUnitType?: TenantUnitType;
   selfcareInstitutionType?: string;
+  remoteIds?: TenantRemoteId[];
 }
 
 export interface TenantAttributes {
   declared: DeclaredTenantAttribute[];
   certified: CertifiedTenantAttribute[];
   verified: VerifiedTenantAttribute[];
+  certifiedDiscrete: CertifiedDiscreteTenantAttribute[];
 }
 
 export interface DeclaredTenantAttribute {
@@ -1872,6 +1917,30 @@ export interface CertifiedTenantAttribute {
   assignmentTimestamp: string;
   /** @format date-time */
   revocationTimestamp?: string;
+}
+
+export interface CertifiedDiscreteTenantAttribute {
+  /** @format uuid */
+  id: string;
+  name: string;
+  description: string;
+  /** @format date-time */
+  assignmentTimestamp: string;
+  /** @format date-time */
+  revocationTimestamp?: string;
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  discreteValue: number;
+}
+
+export interface TenantRemoteId {
+  origin: string;
+  value: string;
+  /** @format date-time */
+  assignmentTimestamp: string;
 }
 
 export interface VerifiedTenantAttribute {
@@ -2168,7 +2237,7 @@ export interface UpdateEServiceTemplateSeed {
   intendedTarget: string;
   /**
    * @minLength 10
-   * @maxLength 250
+   * @maxLength 400
    */
   description: string;
   /** EService Descriptor State */
@@ -2192,7 +2261,7 @@ export interface EServiceTemplateSeed {
   intendedTarget: string;
   /**
    * @minLength 10
-   * @maxLength 250
+   * @maxLength 400
    */
   description: string;
   /** EService Descriptor State */
@@ -2378,6 +2447,7 @@ export interface EServiceTemplateVersionAttributeSeed {
   /** @format uuid */
   id: string;
   explicitAttributeVerification: boolean;
+  discreteConfig?: EServiceAttributeCertifiedDiscreteConfig;
 }
 
 export interface EServiceTemplatePersonalDataFlagUpdateSeed {
