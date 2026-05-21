@@ -46,7 +46,7 @@
         "firstVersionOnlyEditableInfo": "This data will no longer be editable after the first version of the e-service is published.",
         "asyncExchangeField": {
           "label": "How do you want to exchange the e-service data?",
-          "readOnlyLabel": "Data exchange type",
+          "readOnlyLabel": "Data exchange",
           "options": {
             "false": "Synchronous (standard)",
             "true": "Asynchronous / bulk (deferred)"
