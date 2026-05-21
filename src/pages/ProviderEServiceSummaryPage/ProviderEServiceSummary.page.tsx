@@ -214,20 +214,16 @@ const ProviderEServiceSummaryPage: React.FC = () => {
         riskAnalysis.rulesetExpiration && new Date(riskAnalysis.rulesetExpiration) < new Date()
     )
 
-  const hasAsyncExchangeNumber = (value: number | undefined): boolean => {
-    return typeof value === 'number'
-  }
-
   const areAsyncExchangeFieldsSet =
     !descriptor?.eservice.asyncExchange ||
     Boolean(
       descriptor.asyncExchangeCallbackInterface &&
       descriptor.asyncExchangeProperties &&
-      hasAsyncExchangeNumber(descriptor.asyncExchangeProperties.responseTime) &&
-      hasAsyncExchangeNumber(descriptor.asyncExchangeProperties.resourceAvailableTime) &&
+      typeof descriptor.asyncExchangeProperties.responseTime === 'number' &&
+      typeof descriptor.asyncExchangeProperties.resourceAvailableTime === 'number' &&
       typeof descriptor.asyncExchangeProperties.confirmation === 'boolean' &&
       typeof descriptor.asyncExchangeProperties.bulk === 'boolean' &&
-      hasAsyncExchangeNumber(descriptor.asyncExchangeProperties.maxResultSet) &&
+      typeof descriptor.asyncExchangeProperties.maxResultSet === 'number' &&
       (associatedKeychains?.pagination?.totalCount ?? associatedKeychains?.results?.length ?? 0) > 0
     )
 
