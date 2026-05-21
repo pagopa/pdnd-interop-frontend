@@ -635,6 +635,7 @@
         "bottomActions": {
           "navigateVersions": "Navigate to another e-service version",
           "showTechnicalDetails": "Show e-service technical details",
+          "showAsyncExchangeDetails": "Show asynchronous exchange details",
           "downloadConsumerList": "Download consumer list",
           "showProducerContacts": "Show producer contacts",
           "exportVersion": "Download this e-service version",
@@ -947,6 +948,14 @@
             "RECEIVE": "Receive"
           }
         },
+        "asyncExchange": {
+          "label": "Data exchange type",
+          "value": {
+            "true": "Asynchronous"
+          }
+        },
+        "asyncExchangeCallbackInterface": "Callback interface",
+        "asyncExchangeCallbackInterfaceChecksum": "Callback interface checksum",
         "isSignalHubEnabled": {
           "label": "Is the data update system (Signal Hub) available?",
           "value": {
@@ -964,6 +973,21 @@
           "verifyVoucher": "How do I verify a consumer's voucher?",
           "wellKnown": "URL .well-known",
           "interfaceChecksum": "How to calculate the interface file checksum yourself?"
+        }
+      },
+      "asyncExchangeDetailsDrawer": {
+        "title": "Asynchronous exchange details",
+        "responseTime": "Maximum response time",
+        "resourceAvailableTime": "Maximum result availability time",
+        "confirmation": "Receipt confirmation",
+        "bulk": "Bulk download",
+        "maxResultSet": "Maximum number of results",
+        "callbackInterface": "Callback interface",
+        "callbackInterfaceChecksum": "Callback interface checksum",
+        "seconds": "seconds",
+        "booleanValue": {
+          "true": "Yes",
+          "false": "No"
         }
       },
       "producerContactsInfoDrawer": {

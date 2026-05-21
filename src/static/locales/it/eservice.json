@@ -635,6 +635,7 @@
         "bottomActions": {
           "navigateVersions": "Naviga a un’altra versione dell’e-service",
           "showTechnicalDetails": "Vedi i dettagli tecnici dell’e-service",
+          "showAsyncExchangeDetails": "Vedi i dettagli sullo scambio asincrono",
           "downloadConsumerList": "Scarica l'elenco dei fruitori",
           "showProducerContacts": "Visualizza i contatti dell’erogatore",
           "exportVersion": "Scarica questa versione dell’e-service",
@@ -947,6 +948,14 @@
             "RECEIVE": "Riceve"
           }
         },
+        "asyncExchange": {
+          "label": "Tipologia di scambio dati",
+          "value": {
+            "true": "Asincrono"
+          }
+        },
+        "asyncExchangeCallbackInterface": "Interfaccia di callback",
+        "asyncExchangeCallbackInterfaceChecksum": "Checksum interfaccia di callback",
         "isSignalHubEnabled": {
           "label": "È disponibile il servizio di aggiornamento dati (Signal Hub)?",
           "value": {
@@ -964,6 +973,21 @@
           "verifyVoucher": "Come faccio a verificare il voucher di un fruitore?",
           "wellKnown": "URL .well-known",
           "interfaceChecksum": "Come calcolo autonomamente il checksum del file di interfaccia?"
+        }
+      },
+      "asyncExchangeDetailsDrawer": {
+        "title": "Dettagli scambio asincrono",
+        "responseTime": "Tempo massimo di risposta",
+        "resourceAvailableTime": "Tempo massimo di disponibilità del risultato",
+        "confirmation": "Conferma di ricezione",
+        "bulk": "Download a blocchi",
+        "maxResultSet": "Numero massimo di risultati",
+        "callbackInterface": "Interfaccia di callback",
+        "callbackInterfaceChecksum": "Checksum interfaccia di callback",
+        "seconds": "secondi",
+        "booleanValue": {
+          "true": "Sì",
+          "false": "No"
         }
       },
       "producerContactsInfoDrawer": {
