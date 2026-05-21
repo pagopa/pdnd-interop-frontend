@@ -22,11 +22,53 @@ type FormValues = {
 }
 
 export const EServiceProducerKeychainSection: React.FC = () => {
+  const { areEServiceGeneralInfoEditable } = useEServiceCreateContext()
+
+  return areEServiceGeneralInfoEditable ? (
+    <EditableProducerKeychainSection />
+  ) : (
+    <ReadOnlyProducerKeychainSection />
+  )
+}
+
+const ReadOnlyProducerKeychainSection: React.FC = () => {
+  const { t } = useTranslation('eservice', {
+    keyPrefix: 'create.step4.producerKeychainSection',
+  })
+  const { control } = useFormContext<FormValues>()
+  const watchedKeychains = useWatch({ control, name: 'keychains' })
+
+  const associatedKeychains = (watchedKeychains ?? [])
+    .map((row) => row?.value)
+    .filter((k): k is CompactProducerKeychain => Boolean(k?.id))
+
+  return (
+    <SectionContainer title={t('title')} description={t('subtitle')} sx={{ mt: 3 }}>
+      <InformationContainer
+        label={t('readOnlyLabel')}
+        content={
+          associatedKeychains.length > 0 ? (
+            <Stack spacing={0.5}>
+              {associatedKeychains.map((keychain) => (
+                <Typography key={keychain.id} variant="body2">
+                  {keychain.name}
+                </Typography>
+              ))}
+            </Stack>
+          ) : (
+            '-'
+          )
+        }
+      />
+    </SectionContainer>
+  )
+}
+
+const EditableProducerKeychainSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'create.step4.producerKeychainSection',
   })
   const { isOperatorAPI } = AuthHooks.useJwt()
-  const { areEServiceGeneralInfoEditable } = useEServiceCreateContext()
 
   const { control } = useFormContext<FormValues>()
   const { fields, append, remove } = useFieldArray<FormValues>({
@@ -38,7 +80,7 @@ export const EServiceProducerKeychainSection: React.FC = () => {
   const { data: allKeychains = [], isPending } = useQuery({
     ...KeychainQueries.getKeychainsList({ limit: 100, offset: 0 }),
     select: (d) => d.results,
-    enabled: !isOperatorAPI && areEServiceGeneralInfoEditable,
+    enabled: !isOperatorAPI,
   })
 
   const isEmptyList = !isPending && allKeychains.length === 0
@@ -47,33 +89,6 @@ export const EServiceProducerKeychainSection: React.FC = () => {
     .map((row) => row?.value?.id)
     .filter((id): id is string => Boolean(id))
   const hasAvailableKeychains = allKeychains.some((k) => !selectedIds.includes(k.id))
-
-  if (!areEServiceGeneralInfoEditable) {
-    const associatedKeychains = (watchedKeychains ?? [])
-      .map((row) => row?.value)
-      .filter((k): k is CompactProducerKeychain => Boolean(k?.id))
-
-    return (
-      <SectionContainer title={t('title')} description={t('subtitle')} sx={{ mt: 3 }}>
-        <InformationContainer
-          label={t('readOnlyLabel')}
-          content={
-            associatedKeychains.length > 0 ? (
-              <Stack spacing={0.5}>
-                {associatedKeychains.map((keychain) => (
-                  <Typography key={keychain.id} variant="body2">
-                    {keychain.name}
-                  </Typography>
-                ))}
-              </Stack>
-            ) : (
-              '-'
-            )
-          }
-        />
-      </SectionContainer>
-    )
-  }
 
   return (
     <SectionContainer title={t('title')} description={t('subtitle')} sx={{ mt: 3 }}>
