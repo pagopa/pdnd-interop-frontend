@@ -33,6 +33,11 @@ const FeatureFlagConfigs = z.object({
     .enum(['true', 'false'])
     .default('false')
     .transform((value) => value === 'true'),
+
+  FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform((value) => value === 'true'),
 })
 
 const EndpointConfigs = z.object({
@@ -113,6 +118,7 @@ export const {
   NOTIFICATION_COUNT_REFRESH_INTERVAL,
   FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER,
   FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP,
+  FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE,
   DOCUMENTATION_URL,
   AVATAR_BASEPATH,
   SELFCARE_PRODUCT_ID,

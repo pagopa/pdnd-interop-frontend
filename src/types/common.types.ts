@@ -24,6 +24,7 @@ export type PagoPAEnvVars = {
   DOCUMENTATION_URL: string
   AVATAR_BASEPATH: string
   SELFCARE_PRODUCT_ID: string
+  FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE: string
 }
 
 export type ExtendedWindow = Window & {
