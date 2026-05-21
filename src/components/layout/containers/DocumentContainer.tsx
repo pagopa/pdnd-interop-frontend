@@ -7,7 +7,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { useTranslation } from 'react-i18next'
 import { InputWrapper } from '@/components/shared/InputWrapper'
-import type { Document, EServiceDoc } from '@/api/api.generatedTypes'
+import type { EServiceDoc } from '@/api/api.generatedTypes'
 
 type DocumentContainerProps = {
   doc: EServiceDoc

@@ -1,12 +1,12 @@
 import { vi } from 'vitest'
 import { AxiosError } from 'axios'
 import { DUPLICATE_ESERVICENAME_ERROR_CODE } from '../../eserviceTemplate/eserviceTemplate.mutations'
+import type * as ReactQuery from '@tanstack/react-query'
 
 const capturedMutationOptions: Array<Record<string, unknown>> = []
 
 vi.mock('@tanstack/react-query', async () => {
-  const actual =
-    await vi.importActual<typeof import('@tanstack/react-query')>('@tanstack/react-query')
+  const actual = await vi.importActual<typeof ReactQuery>('@tanstack/react-query')
   return {
     ...actual,
     useMutation: (options: Record<string, unknown>) => {

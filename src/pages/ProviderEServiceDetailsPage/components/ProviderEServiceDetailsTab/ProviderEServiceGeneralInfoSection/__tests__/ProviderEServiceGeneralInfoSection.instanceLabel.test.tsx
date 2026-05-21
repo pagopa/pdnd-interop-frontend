@@ -7,6 +7,7 @@ import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservi
 import * as EServiceModule from '@/api/eservice'
 import * as EServiceTemplateMutationsModule from '@/api/eserviceTemplate/eserviceTemplate.mutations'
 import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
+import type * as ReactQuery from '@tanstack/react-query'
 
 const mockUpdateInstanceLabel = vi.fn()
 const mockUpdateDescription = vi.fn()
@@ -51,7 +52,7 @@ vi.mock('@/api/eserviceTemplate/eserviceTemplate.mutations', () => ({
 }))
 
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  ...(await importOriginal<typeof ReactQuery>()),
   useSuspenseQuery: () => ({ data: mockDescriptorData }),
   useQuery: () => ({ data: [] }),
 }))

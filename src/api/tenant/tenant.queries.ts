@@ -39,9 +39,17 @@ function getHasTenantCertifiedAttributes({
   })
 }
 
+function getIsTenantAllowedToDelegation(tenantId: string) {
+  return queryOptions({
+    queryKey: ['PartyGetIsTenantAllowedToDelegation', tenantId],
+    queryFn: () => TenantServices.getIsTenantAllowedToDelegation(tenantId),
+  })
+}
+
 export const TenantQueries = {
   getParty,
   getTenants,
   getPartyUsersList,
   getHasTenantCertifiedAttributes,
+  getIsTenantAllowedToDelegation,
 }

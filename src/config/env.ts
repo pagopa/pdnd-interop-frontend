@@ -16,7 +16,6 @@ const GeneralConfigs = z.object({
   SELFCARE_LOGIN_URL: z.url(),
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: z.url(),
   ERROR_DATA_DURATION_TIME: z.string().default('60000'),
-  DELEGATIONS_ALLOWED_ORIGINS: z.string(),
   NOTIFICATION_COUNT_REFRESH_INTERVAL: z.coerce.number().default(30000),
   AVATAR_BASEPATH: z.url().default('https://selfcare.pagopa.it'),
   SELFCARE_PRODUCT_ID: z.string().default('prod-interop'),
@@ -32,8 +31,12 @@ const FeatureFlagConfigs = z.object({
     .enum(['true', 'false'])
     .default('false')
     .transform((value) => value === 'true'),
+  FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform((value) => value === 'true'),
 
-  FEATURE_FLAG_USE_SIGNED_DOCUMENT: z
+  FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER: z
     .enum(['true', 'false'])
     .default('false')
     .transform((value) => value === 'true'),
@@ -66,9 +69,6 @@ const transformedFEConfigs = FEConfigs.transform((c) => ({
   WELL_KNOWN_URLS: parseCommaSeparatedToArray(c.WELL_KNOWN_URLS),
   TEMP_USER_BLACKLIST_URL: c.INTEROP_RESOURCES_BASE_URL + '/blacklist.json',
   ERROR_DATA_DURATION_TIME: z.coerce.number().parse(c.ERROR_DATA_DURATION_TIME),
-  DELEGATIONS_ALLOWED_ORIGINS: c.DELEGATIONS_ALLOWED_ORIGINS
-    ? parseCommaSeparatedToArray(c.DELEGATIONS_ALLOWED_ORIGINS)
-    : ['IPA'],
 }))
 
 export type InteropFEConfigs = z.infer<typeof transformedFEConfigs>
@@ -118,9 +118,8 @@ export const {
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL,
   ERROR_DATA_DURATION_TIME,
   NOTIFICATION_COUNT_REFRESH_INTERVAL,
-  FEATURE_FLAG_ESERVICE_PERSONAL_DATA,
-  FEATURE_FLAG_USE_SIGNED_DOCUMENT,
-  DELEGATIONS_ALLOWED_ORIGINS,
+  FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER,
+  FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP,
   DOCUMENTATION_URL,
   AVATAR_BASEPATH,
   SELFCARE_PRODUCT_ID,

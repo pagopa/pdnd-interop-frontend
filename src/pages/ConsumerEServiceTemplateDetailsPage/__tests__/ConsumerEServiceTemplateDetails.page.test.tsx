@@ -3,6 +3,7 @@ import { screen, waitFor } from '@testing-library/react'
 import { vi } from 'vitest'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import ConsumerEServiceTemplateDetailsPage from '../ConsumerEServiceTemplateDetails.page'
+import type * as ReactQuery from '@tanstack/react-query'
 
 const { mockedUseQuery, mockedGetSingle, mockedGetInstances, mockedUpdateActiveTab, state } =
   vi.hoisted(() => ({
@@ -59,7 +60,7 @@ vi.mock('@/api/eserviceTemplate', () => ({
 }))
 
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  ...(await importOriginal<typeof ReactQuery>()),
   useQuery: mockedUseQuery,
 }))
 

@@ -144,6 +144,8 @@ const TemplateSummaryAttributeGroup: React.FC<TemplateSummaryAttributeGroupProps
     keyPrefix: 'summary.thresholdsAndAttributesSummary.attributes',
   })
 
+  const { t: tAttribute } = useTranslation('attribute')
+
   return (
     <AttributeGroupContainer
       title={t('requirementTitle', {
@@ -158,10 +160,19 @@ const TemplateSummaryAttributeGroup: React.FC<TemplateSummaryAttributeGroupProps
       color="gray"
     >
       <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
-        {attributes.map((attribute) => (
-          <Box key={attribute.id} component="li">
-            <AttributeContainer attribute={attribute} />
-          </Box>
+        {attributes.map((attribute, index) => (
+          <React.Fragment key={attribute.id}>
+            <Box key={attribute.id} component="li">
+              <AttributeContainer attribute={attribute} />
+            </Box>
+            {index < attributes.length - 1 && (
+              <Divider sx={{ py: 1 }}>
+                <Typography color="text.primary" fontWeight={700} textTransform="uppercase">
+                  {tAttribute('or')}
+                </Typography>
+              </Divider>
+            )}
+          </React.Fragment>
         ))}
       </Stack>
     </AttributeGroupContainer>

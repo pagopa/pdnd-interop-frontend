@@ -1,12 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { screen } from '@testing-library/react'
 import { ProviderEServiceGeneralInfoSummarySection } from '../components/ProviderEServiceGeneralInfoSummarySection'
-import {
-  mockUseJwt,
-  mockUseParams,
-  mockEnvironmentParams,
-  renderWithApplicationContext,
-} from '@/utils/testing.utils'
+import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
 
 mockUseParams({
@@ -61,7 +56,6 @@ describe('ProviderEServiceGeneralInfoSummarySection', () => {
   })
 
   it('renders personal data field', () => {
-    mockEnvironmentParams('FEATURE_FLAG_ESERVICE_PERSONAL_DATA', true)
     const mockData = createMockEServiceDescriptorProvider()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 

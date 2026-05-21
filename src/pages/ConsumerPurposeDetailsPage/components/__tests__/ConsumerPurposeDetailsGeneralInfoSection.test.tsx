@@ -1,20 +1,16 @@
-import React from 'react'
-import { mockEnvironmentParams, renderWithApplicationContext } from '@/utils/testing.utils'
+import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockPurpose } from '../../../../../__mocks__/data/purpose.mocks'
 import { ConsumerPurposeDetailsGeneralInfoSection } from '../PurposeDetailsTab/ConsumerPurposeDetailsGeneralInfoSection'
 import { fireEvent } from '@testing-library/react'
 import { type Purpose } from '@/api/api.generatedTypes'
-import * as envs from '@/config/env'
 
 const purpose = createMockPurpose()
 
 const downloadSignedRiskAnalysisMock = vi.fn()
-const downloadRiskAnalysis = vi.fn()
 
 vi.mock('@/api/purpose', () => ({
   PurposeDownloads: {
     useDownloadSignedRiskAnalysis: () => downloadSignedRiskAnalysisMock,
-    useDownloadRiskAnalysis: () => downloadRiskAnalysis,
   },
 }))
 
@@ -145,130 +141,107 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
     )
   })
 
-  describe('FEATURE_FLAG_USE_SIGNED_DOCUMENT', () => {
-    it('should download signed riskAnalysis document when feature flag is enabled', () => {
-      const mockPurposeWithDocumentReady: Purpose = {
-        ...purpose,
-        isDocumentReady: true,
-        currentVersion: {
-          ...purpose.currentVersion!,
-          signedContract: {
-            id: 'signed-contract-id',
-            contentType: 'application/pdf',
-            createdAt: '2021-01-01T00:00:00Z',
-            signedAt: '2021-01-01T00:00:00Z',
-          },
+  it('should download signed riskAnalysis document when clicking download button', () => {
+    const mockPurposeWithDocumentReady: Purpose = {
+      ...purpose,
+      isDocumentReady: true,
+      currentVersion: {
+        ...purpose.currentVersion!,
+        signedContract: {
+          id: 'signed-contract-id',
+          contentType: 'application/pdf',
+          createdAt: '2021-01-01T00:00:00Z',
+          signedAt: '2021-01-01T00:00:00Z',
         },
+      },
+    }
+    const screen = renderWithApplicationContext(
+      <ConsumerPurposeDetailsGeneralInfoSection purpose={mockPurposeWithDocumentReady} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
       }
-      const screen = renderWithApplicationContext(
-        <ConsumerPurposeDetailsGeneralInfoSection purpose={mockPurposeWithDocumentReady} />,
-        {
-          withReactQueryContext: true,
-          withRouterContext: true,
-        }
-      )
+    )
 
-      const downloadButton = screen.getByRole('button', {
-        name: 'purpose.consumerView.sections.generalInformations.riskAnalysis.link.label',
-      })
-
-      fireEvent.click(downloadButton)
-      expect(downloadSignedRiskAnalysisMock).toHaveBeenCalledOnce()
+    const downloadButton = screen.getByRole('button', {
+      name: 'purpose.consumerView.sections.generalInformations.riskAnalysis.link.label',
     })
-    it('should download "classic" riskAnalysis document when feature flag is disabled', () => {
-      mockEnvironmentParams('FEATURE_FLAG_USE_SIGNED_DOCUMENT', false)
 
-      const mockPurposeWithDocumentReady: Purpose = {
-        ...purpose,
-        isDocumentReady: true,
-      }
-      const screen = renderWithApplicationContext(
-        <ConsumerPurposeDetailsGeneralInfoSection purpose={mockPurposeWithDocumentReady} />,
-        {
-          withReactQueryContext: true,
-          withRouterContext: true,
-        }
-      )
+    fireEvent.click(downloadButton)
+    expect(downloadSignedRiskAnalysisMock).toHaveBeenCalledOnce()
+  })
 
-      const downloadButton = screen.getByRole('button', {
-        name: 'purpose.consumerView.sections.generalInformations.riskAnalysis.link.label',
-      })
-
-      fireEvent.click(downloadButton)
-      expect(downloadRiskAnalysis).toHaveBeenCalledOnce()
+  it('should display consumer and delegated consumer when delegation exists', () => {
+    const purposeWithDelegation: Purpose = createMockPurpose({
+      delegation: {
+        id: 'delegation-id',
+        delegate: { id: 'delegate-id', name: 'Delegated Consumer Name' },
+      },
+      consumer: { id: 'consumer-id', name: 'Consumer Name' },
     })
-    it('should display consumer and delegated consumer when delegation exists', () => {
-      const purposeWithDelegation: Purpose = createMockPurpose({
-        delegation: {
-          id: 'delegation-id',
-          delegate: { id: 'delegate-id', name: 'Delegated Consumer Name' },
-        },
-        consumer: { id: 'consumer-id', name: 'Consumer Name' },
-      })
 
-      const screen = renderWithApplicationContext(
-        <ConsumerPurposeDetailsGeneralInfoSection purpose={purposeWithDelegation} />,
-        { withReactQueryContext: true, withRouterContext: true }
+    const screen = renderWithApplicationContext(
+      <ConsumerPurposeDetailsGeneralInfoSection purpose={purposeWithDelegation} />,
+      { withReactQueryContext: true, withRouterContext: true }
+    )
+
+    expect(
+      screen.getByText('purpose.consumerView.sections.generalInformations.consumerField.label')
+    ).toBeInTheDocument()
+    expect(screen.getByText('Consumer Name')).toBeInTheDocument()
+    expect(
+      screen.getByText(
+        'purpose.consumerView.sections.generalInformations.delegatedConsumerField.label'
       )
+    ).toBeInTheDocument()
+    expect(screen.getByText('Delegated Consumer Name')).toBeInTheDocument()
+  })
+  it('should not display delegation fields when delegation is missing', () => {
+    const purposeWithoutDelegation: Purpose = createMockPurpose({ delegation: undefined })
 
-      expect(
-        screen.getByText('purpose.consumerView.sections.generalInformations.consumerField.label')
-      ).toBeInTheDocument()
-      expect(screen.getByText('Consumer Name')).toBeInTheDocument()
-      expect(
-        screen.getByText(
-          'purpose.consumerView.sections.generalInformations.delegatedConsumerField.label'
-        )
-      ).toBeInTheDocument()
-      expect(screen.getByText('Delegated Consumer Name')).toBeInTheDocument()
-    })
-    it('should not display delegation fields when delegation is missing', () => {
-      const purposeWithoutDelegation: Purpose = createMockPurpose({ delegation: undefined })
+    const screen = renderWithApplicationContext(
+      <ConsumerPurposeDetailsGeneralInfoSection purpose={purposeWithoutDelegation} />,
+      { withReactQueryContext: true, withRouterContext: true }
+    )
 
-      const screen = renderWithApplicationContext(
-        <ConsumerPurposeDetailsGeneralInfoSection purpose={purposeWithoutDelegation} />,
-        { withReactQueryContext: true, withRouterContext: true }
+    expect(
+      screen.queryByText('purpose.consumerView.sections.generalInformations.consumerField.label')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByText(
+        'purpose.consumerView.sections.generalInformations.delegatedConsumerField.label'
       )
-
-      expect(
-        screen.queryByText('purpose.consumerView.sections.generalInformations.consumerField.label')
-      ).not.toBeInTheDocument()
-      expect(
-        screen.queryByText(
-          'purpose.consumerView.sections.generalInformations.delegatedConsumerField.label'
-        )
-      ).not.toBeInTheDocument()
+    ).not.toBeInTheDocument()
+  })
+  it('should display purpose template information when purposeTemplate exists', () => {
+    const purposeWithTemplate: Purpose = createMockPurpose({
+      purposeTemplate: { id: 'template-id', purposeTitle: 'Purpose Template Title' },
     })
-    it('should display purpose template information when purposeTemplate exists', () => {
-      const purposeWithTemplate: Purpose = createMockPurpose({
-        purposeTemplate: { id: 'template-id', purposeTitle: 'Purpose Template Title' },
-      })
 
-      const screen = renderWithApplicationContext(
-        <ConsumerPurposeDetailsGeneralInfoSection purpose={purposeWithTemplate} />,
-        { withReactQueryContext: true, withRouterContext: true }
+    const screen = renderWithApplicationContext(
+      <ConsumerPurposeDetailsGeneralInfoSection purpose={purposeWithTemplate} />,
+      { withReactQueryContext: true, withRouterContext: true }
+    )
+
+    expect(
+      screen.getByText(
+        'purpose.consumerView.sections.generalInformations.purposeTemplateField.label'
       )
+    ).toBeInTheDocument()
+    expect(screen.getByText('Purpose Template Title')).toBeInTheDocument()
+  })
+  it('should not display purpose template information when purposeTemplate is missing', () => {
+    const purposeWithoutTemplate: Purpose = createMockPurpose({ purposeTemplate: undefined })
 
-      expect(
-        screen.getByText(
-          'purpose.consumerView.sections.generalInformations.purposeTemplateField.label'
-        )
-      ).toBeInTheDocument()
-      expect(screen.getByText('Purpose Template Title')).toBeInTheDocument()
-    })
-    it('should not display purpose template information when purposeTemplate is missing', () => {
-      const purposeWithoutTemplate: Purpose = createMockPurpose({ purposeTemplate: undefined })
+    const screen = renderWithApplicationContext(
+      <ConsumerPurposeDetailsGeneralInfoSection purpose={purposeWithoutTemplate} />,
+      { withReactQueryContext: true, withRouterContext: true }
+    )
 
-      const screen = renderWithApplicationContext(
-        <ConsumerPurposeDetailsGeneralInfoSection purpose={purposeWithoutTemplate} />,
-        { withReactQueryContext: true, withRouterContext: true }
+    expect(
+      screen.queryByText(
+        'purpose.consumerView.sections.generalInformations.purposeTemplateField.label'
       )
-
-      expect(
-        screen.queryByText(
-          'purpose.consumerView.sections.generalInformations.purposeTemplateField.label'
-        )
-      ).not.toBeInTheDocument()
-    })
+    ).not.toBeInTheDocument()
   })
 })

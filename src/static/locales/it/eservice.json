@@ -4,7 +4,7 @@
   "create": {
     "emptyTitle": "Crea e-service",
     "stepper": {
-      "step1Label": "Generale",
+      "step1Label": "Informazioni generali",
       "step2Label": "Soglie e attributi",
       "step2ReceiveLabel": "Finalità",
       "step3Label": "Specifiche tecniche",
@@ -25,7 +25,7 @@
         },
         "descriptionField": {
           "label": "Descrizione dell’e-service",
-          "infoLabel": "Descrivi quali dati il fruitore deve fornire e quali dati l’e-service restituisce. Min 10 caratteri, max 250 caratteri"
+          "infoLabel": "Descrivi quali dati il fruitore deve fornire e quali dati l’e-service restituisce. Min 10 caratteri, max {{ESERVICE_DESCRIPTION_MAX_LENGTH}} caratteri"
         }
       },
       "instanceLabelField": {
@@ -174,7 +174,7 @@
         },
         "dailyCallsTotalField": {
           "label": "Chiamate API/giorno totali",
-          "infoLabel": "Inserisci un numero superiore al precedente",
+          "infoLabel": "Inserisci un numero superiore alla soglia per fruitore",
           "validation": {
             "min": "Il valore non può essere inferiore alla soglia chiamate API/giorno per fruitore",
             "minCustomThreshold": "La soglia totale non può essere inferiore a quelle personalizzate"
@@ -309,7 +309,7 @@
         "readOnlyLabel": "Descrizione versione",
         "field": {
           "label": "Descrivi questa versione dell’e-service*",
-          "infoLabel": "Se è una nuova versione, indica cosa è cambiato rispetto alla precedente*"
+          "infoLabel": "Se è una nuova versione, indica cosa è cambiato rispetto alla precedente"
         }
       },
       "documentationSection": {
@@ -797,7 +797,7 @@
         "subtitle": "Da questo pannello puoi aggiornare la descrizione dell’e-service. Le modifiche apportate avranno effetto da subito.",
         "eserviceDescriptionField": {
           "label": "Descrizione e-service",
-          "infoLabel": "Min 10 caratteri, max 250 caratteri",
+          "infoLabel": "Min 10 caratteri, max {{ESERVICE_DESCRIPTION_MAX_LENGTH}} caratteri",
           "validation": {
             "sameValue": "La descrizione dell'e-service deve essere diversa da quella attuale"
           }
@@ -851,14 +851,21 @@
         "voucherLifespanField": {
           "label": "Durata validità (in minuti)",
           "infoLabel": "Valore massimo: 1440 minuti (24 ore)",
-          "error": "La durata del voucher non può essere superiore a 1440 minuti (24 ore)."
+          "error": "La durata del voucher non può essere superiore a 1440 minuti (24 ore).",
+          "validation": {
+            "sameValue": "La durata del voucher dell'e-service deve essere diversa da quella attuale",
+            "integer": "La durata del voucher dell'e-service deve essere un valore intero"
+          }
         }
       },
       "updateAgreementApprovalPolicyDrawer": {
         "title": "Accettazione richieste di fruizione",
         "subtitle": "Da questo pannello puoi stabilire come vengono gestite le richieste di fruizione che gli enti formuleranno verso questo e-service.",
         "agreementApprovalPolicyField": {
-          "label": "Attivazione manuale"
+          "label": "Attivazione manuale",
+          "validation": {
+            "sameValue": "La modalità di gestione di richieste di fruizione dell'e-service deve essere diversa da quella attuale"
+          }
         }
       },
       "technicalInfoDrawer": {

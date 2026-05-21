@@ -60,7 +60,7 @@
       },
       "error": {
         "provider": "The consumer does not possess any of the following attributes",
-        "consumer": "You do not currently possess any of these attributes."
+        "consumer": "You do not currently possess any of the following attributes"
       },
       "revokedByCertifier": "Attribute revoked by the certifying authority",
       "revokedByProducer": "Attribute revoked by a producer",

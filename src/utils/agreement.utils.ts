@@ -98,6 +98,6 @@ export const isNewEServiceVersionAvailable = (agreement: Agreement | undefined) 
   const eserviceActiveDescriptor = agreement?.eservice.activeDescriptor
   return Boolean(
     eserviceActiveDescriptor &&
-      parseInt(eserviceActiveDescriptor.version, 10) > parseInt(agreement.eservice.version, 10)
+    parseInt(eserviceActiveDescriptor.version, 10) > parseInt(agreement.eservice.version, 10)
   )
 }

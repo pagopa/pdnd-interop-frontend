@@ -7,16 +7,16 @@ import { useParams } from '@/router'
 import { useQuery } from '@tanstack/react-query'
 import { EServiceTemplateMutations, EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
-import DownloadIcon from '@mui/icons-material/Download'
 import EditIcon from '@mui/icons-material/Edit'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
-import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import { EServiceTemplateVersionSelectorDrawer } from '@/components/shared/EserviceTemplate'
 import { UpdatePersonalDataDrawer } from '../UpdatePersonalDataDrawer'
-import { ESERVICE_TEMPLATE_NAME_MAX_LENGTH } from '@/config/constants'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
+import {
+  ESERVICE_DESCRIPTION_MAX_LENGTH,
+  ESERVICE_TEMPLATE_NAME_MAX_LENGTH,
+} from '@/config/constants'
 import { AuthHooks } from '@/api/auth'
 
 type EServiceTemplateGeneralInfoSectionProps = {
@@ -41,9 +41,6 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
   const { data: eserviceTemplateVersion } = useQuery(
     EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
-
-  const downloadTemplateConsumerList =
-    EServiceTemplateDownloads.useDownloadEServiceTemplateConsumerList()
 
   const { mutate: updateEserviceTemplateDescription } =
     EServiceTemplateMutations.useUpdateEServiceTemplateDescription()
@@ -81,16 +78,6 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
     closeDrawer: closeEServiceTemplateUpdateDescriptionDrawer,
   } = useDrawerState()
 
-  const handleDownloadTemplateConsumerList = () => {
-    downloadTemplateConsumerList(
-      { eServiceTemplateId },
-      t('consumerListFileName', {
-        timestamp: new Date().toISOString(),
-        eserviceTemplateName: eserviceTemplateVersion?.eserviceTemplate.name,
-      })
-    )
-  }
-
   const hasSingleVersion =
     eserviceTemplateVersion && eserviceTemplateVersion.eserviceTemplate.versions.length <= 1
 
@@ -99,13 +86,6 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
     component: 'button',
     onClick: openVersionSelectorDrawer,
     label: t('bottomActions.navigateTemplateVersions'),
-  }
-
-  const downloadUsingTenantsListAction = {
-    startIcon: <DownloadIcon fontSize="small" />,
-    component: 'button',
-    onClick: handleDownloadTemplateConsumerList,
-    label: t('bottomActions.downloadUsingTenantsList'),
   }
 
   const handleNameUpdate = (templateId: string, name: string) => {
@@ -164,7 +144,6 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
         bottomActions={[
           ...(!hasSingleVersion ? [navigateTemplateVersionsAction] : []),
           //TODO: THE API is not ready yet
-          // downloadUsingTenantsListAction,
         ]}
       >
         <Stack spacing={2}>
@@ -172,20 +151,17 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
             label={t('version.label')}
             content={eserviceTemplateVersion?.version.toString() || '1'}
           />
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
-            <InformationContainer
-              label={
-                eserviceTemplateVersion
-                  ? t(`personalDataField.${eserviceTemplateVersion?.eserviceTemplate.mode}.label`)
-                  : ''
-              }
-              content={t(
-                `personalDataField.value.${eserviceTemplateVersion?.eserviceTemplate.personalData}`
-              )}
-            />
-          )}
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
-            (isAdmin || isOperatorAPI) &&
+          <InformationContainer
+            label={
+              eserviceTemplateVersion
+                ? t(`personalDataField.${eserviceTemplateVersion?.eserviceTemplate.mode}.label`)
+                : ''
+            }
+            content={t(
+              `personalDataField.value.${eserviceTemplateVersion?.eserviceTemplate.personalData}`
+            )}
+          />
+          {(isAdmin || isOperatorAPI) &&
             routeKey === 'PROVIDE_ESERVICE_TEMPLATE_DETAILS' &&
             eserviceTemplateVersion?.eserviceTemplate.personalData === undefined && (
               <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
@@ -299,7 +275,9 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                 title={tDrawer('updateEServiceTemplateNameDrawer.title')}
                 subtitle={tDrawer('updateEServiceTemplateNameDrawer.subtitle')}
                 label={tDrawer('updateEServiceTemplateNameDrawer.templateNameField.label')}
-                infoLabel={tDrawer('updateEServiceTemplateNameDrawer.templateNameField.infoLabel')}
+                infoLabel={tDrawer('updateEServiceTemplateNameDrawer.templateNameField.infoLabel', {
+                  ESERVICE_TEMPLATE_NAME_MAX_LENGTH: ESERVICE_TEMPLATE_NAME_MAX_LENGTH,
+                })}
                 maxLength={ESERVICE_TEMPLATE_NAME_MAX_LENGTH}
                 validateLabel={tDrawer(
                   'updateEServiceTemplateNameDrawer.templateNameField.validation.sameValue'
@@ -317,11 +295,13 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
                   'updateEServiceTemplateDescriptionDrawer.eserviceTemplateDescriptionField.label'
                 )}
                 infoLabel={tDrawer(
-                  'updateEServiceTemplateDescriptionDrawer.eserviceTemplateDescriptionField.infoLabel'
+                  'updateEServiceTemplateDescriptionDrawer.eserviceTemplateDescriptionField.infoLabel',
+                  { ESERVICE_DESCRIPTION_MAX_LENGTH: ESERVICE_DESCRIPTION_MAX_LENGTH }
                 )}
                 validateLabel={tDrawer(
                   'updateEServiceTemplateDescriptionDrawer.eserviceTemplateDescriptionField.validation.sameValue'
                 )}
+                maxDescriptionLength={ESERVICE_DESCRIPTION_MAX_LENGTH}
               />
               <UpdateDescriptionDrawer
                 isOpen={isEServiceTemplateUpdateAudienceDrawerOpen}

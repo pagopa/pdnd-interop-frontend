@@ -113,6 +113,7 @@ const PurposeFromTemplateEditStepGeneralForm: React.FC<PurposeEditStepGeneralFor
             fullWidth
             inputProps={{ maxLength: 60 }}
             rules={{ required: true, minLength: 5 }}
+            required
           />
         </SectionContainer>
         <PurposeLoadEstimationSection
