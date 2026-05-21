@@ -41,9 +41,6 @@ export function useGetProviderEServiceActions(
   const { t: tDialogApproveDelegatedVersionDraft } = useTranslation('shared-components', {
     keyPrefix: 'dialogApproveDelegatedVersionDraft',
   })
-  const { t: tConfirmationDialog } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.deleteDraft.confirmDialog',
-  })
   const { isAdmin, isOperatorAPI, jwt } = AuthHooks.useJwt()
   const navigate = useNavigate()
   const { openDialog, closeDialog } = useDialog()
@@ -51,9 +48,6 @@ export function useGetProviderEServiceActions(
   const isDelegator = delegation?.delegator.id === jwt?.organizationId
   const isDelegate = delegation?.delegate.id === jwt?.organizationId
 
-  const { mutate: publishDraft } = EServiceMutations.usePublishVersionDraft({
-    isByDelegation: isDelegate,
-  })
   const { mutate: deleteDraft } = EServiceMutations.useDeleteDraft()
   const { mutate: deleteVersionDraft } = EServiceMutations.useDeleteVersionDraft()
   const { mutate: suspend } = EServiceMutations.useSuspendVersion()

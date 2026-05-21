@@ -143,6 +143,11 @@ export interface AccessTokenRequest {
   client_assertion: string;
   client_assertion_type: string;
   grant_type: string;
+  /**
+   * Optional DPoP proof JWT used to validate token generation
+   * @format jws
+   */
+  dpop_proof?: string;
 }
 
 export interface PrivacyNotice {
@@ -192,6 +197,10 @@ export interface ValidationOption {
 
 export interface HasCertifiedAttributes {
   hasCertifiedAttributes: boolean;
+}
+
+export interface IsTenantAllowedToDelegation {
+  isAllowed: boolean;
 }
 
 export interface HideOption {
@@ -290,6 +299,7 @@ export interface UpdateEServiceTemplateInstanceDescriptorQuotas {
    * @max 1000000000
    */
   dailyCallsTotal: number;
+  attributes?: DescriptorAttributesSeed;
 }
 
 export interface UpdateEServiceDescriptorAgreementApprovalPolicySeed {
@@ -351,6 +361,7 @@ export interface UpdateEServiceDescriptorTemplateInstanceSeed {
    * MANUAL - the Producer must approve every agreement for this Descriptor.
    */
   agreementApprovalPolicy: AgreementApprovalPolicy;
+  attributes?: DescriptorAttributesSeed;
 }
 
 export interface Mail {
@@ -1929,6 +1940,7 @@ export interface TokenGenerationValidationSteps {
   publicKeyRetrieve: TokenGenerationValidationEntry;
   clientAssertionSignatureVerification: TokenGenerationValidationEntry;
   platformStatesVerification: TokenGenerationValidationEntry;
+  dpopValidation?: TokenGenerationValidationEntry;
 }
 
 export interface TokenGenerationValidationEntry {
@@ -4161,6 +4173,14 @@ export interface GetTenantsParams {
    * @max 50
    */
   limit: number;
+}
+
+export interface IsTenantAllowedToDelegationParams {
+  /**
+   * The identifier of the tenant
+   * @format uuid
+   */
+  tenantId: string;
 }
 
 export interface GetClientsParams {
@@ -6514,6 +6534,28 @@ export namespace Tenants {
   }
 
   /**
+   * @description Check if a tenant is allowed to use delegations based on certified attributes
+   * @tags tenants
+   * @name IsTenantAllowedToDelegation
+   * @summary Check if a tenant is allowed to use delegations
+   * @request GET:/tenants/{tenantId}/delegations/allowed
+   * @secure
+   */
+  export namespace IsTenantAllowedToDelegation {
+    export type RequestParams = {
+      /**
+       * The identifier of the tenant
+       * @format uuid
+       */
+      tenantId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = IsTenantAllowedToDelegation;
+  }
+
+  /**
    * @description Update delegated producer and consumer feature to tenant caller
    * @tags tenants
    * @name UpdateTenantDelegatedFeatures
@@ -8508,7 +8550,7 @@ export namespace Session {
 
 export namespace Tools {
   /**
-   * @description Provides additional details about token generation request failure
+   * @description Provides additional details about token generation request failure, including optional DPoP proof validation
    * @tags tools
    * @name ValidateTokenGeneration
    * @summary Validate token generation request

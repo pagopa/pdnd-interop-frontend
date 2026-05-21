@@ -55,6 +55,7 @@ function getRemainingDailyCalls(params: GetRemainingDailyCallsParams) {
   return queryOptions({
     queryKey: ['getRemainingDailyCalls', params],
     queryFn: () => PurposeServices.getRemainingDailyCalls(params),
+    throwOnError: false,
   })
 }
 

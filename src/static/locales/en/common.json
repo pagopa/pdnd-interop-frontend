@@ -28,13 +28,13 @@
     "delete": "Delete",
     "inspect": "View",
     "edit": "Edit",
-    "clone": "Clone",
+    "clone": "Duplicate",
     "publish": "Publish",
     "download": "Download",
     "archive": "Archive",
     "cancel": "Cancel",
     "confirm": "Confirm",
-    "createNewDraft": "Create draft",
+    "createNewDraft": "Create new version",
     "saveDraft": "Save draft",
     "manageDraft": "Manage draft",
     "deleteDraft": "Delete draft",
@@ -107,7 +107,9 @@
       "ARCHIVED": "archived",
       "DEPRECATED": "deprecated",
       "WAITING_FOR_APPROVAL": "waiting for approval",
-      "DRAFT_TO_CORRECT": "to be corrected"
+      "DRAFT_TO_CORRECT": "to be corrected",
+      "ARCHIVING": "deprecated",
+      "ARCHIVING_SUSPENDED": "suspended"
     },
     "agreement": {
       "ACTIVE": "active",

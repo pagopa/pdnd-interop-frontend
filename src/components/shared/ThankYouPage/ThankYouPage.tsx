@@ -19,12 +19,7 @@ export const ThankYouPage: React.FC<ThankYouPageProps> = ({
 }) => {
   return (
     <Stack justifyContent="center" alignItems="center" sx={{ height: '100%', py: 16 }}>
-      <Stack
-        spacing={2}
-        alignItems="center"
-        textAlign="center"
-        sx={{ maxWidth: 560, mx: 'auto' }}
-      >
+      <Stack spacing={2} alignItems="center" textAlign="center" sx={{ maxWidth: 560, mx: 'auto' }}>
         <Box
           sx={{
             width: 64,

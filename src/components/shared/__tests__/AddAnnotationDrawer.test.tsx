@@ -230,7 +230,9 @@ describe('AddAnnotationDrawer', () => {
       fireEvent.click(addButton)
 
       await waitFor(() => {
-        expect(screen.getByText('purposeTemplate.validation.textRequiredWithDocs')).toBeInTheDocument()
+        expect(
+          screen.getByText('purposeTemplate.validation.textRequiredWithDocs')
+        ).toBeInTheDocument()
       })
 
       expect(defaultProps.onSubmit).not.toHaveBeenCalled()

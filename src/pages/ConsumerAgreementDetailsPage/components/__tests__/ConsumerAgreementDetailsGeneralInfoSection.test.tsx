@@ -1,4 +1,4 @@
-import { mockEnvironmentParams, renderWithApplicationContext } from '@/utils/testing.utils'
+import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { ConsumerAgreementDetailsGeneralInfoSection } from '../ConsumerAgreementDetailsGeneralInfoSection/ConsumerAgreementDetailsGeneralInfoSection'
 import { createMockAgreement } from '../../../../../__mocks__/data/agreement.mocks'
 import * as ConsumerAgreementContext from '../ConsumerAgreementDetailsContext'
@@ -50,12 +50,10 @@ vi.mock('@pagopa/interop-fe-commons', async () => {
 })
 
 const mockDownloadSignedContract = vi.fn()
-const mockDownloadContract = vi.fn()
 
 vi.mock('@/api/agreement', () => ({
   AgreementDownloads: {
     useDownloadSignedContract: () => mockDownloadSignedContract,
-    useDownloadContract: () => mockDownloadContract,
   },
 }))
 function mockUseConsumerAgreementDetailsContext() {
@@ -155,58 +153,27 @@ describe('ConsumerPurposeDetailsGeneralInfoSection', () => {
     expect(downloadButton).toBeEnabled()
   })
 
-  describe('FEATURE_FLAG_USE_SIGNED_DOCUMENT', () => {
-    it('should able to download signedDocument when feature flag is enabled', async () => {
-      const agreementWithDocumentReady = {
-        ...agreementMock,
-        isDocumentReady: true,
-      }
-      vi.spyOn(ConsumerAgreementContext, 'useConsumerAgreementDetailsContext').mockReturnValue({
-        agreement: agreementWithDocumentReady,
-        descriptorAttributes: {
-          certified: [],
-          declared: [],
-          verified: [],
-        },
-      })
-      const screen = renderWithApplicationContext(<ConsumerAgreementDetailsGeneralInfoSection />, {
-        withReactQueryContext: true,
-        withRouterContext: true,
-      })
-
-      const downloadButton = screen.getByTestId('download-agreement-document-button')
-
-      screen.debug(downloadButton)
-
-      fireEvent.click(downloadButton)
-      expect(mockDownloadSignedContract).toHaveBeenCalledOnce()
+  it('should download signed document when clicking download button', async () => {
+    const agreementWithDocumentReady = {
+      ...agreementMock,
+      isDocumentReady: true,
+    }
+    vi.spyOn(ConsumerAgreementContext, 'useConsumerAgreementDetailsContext').mockReturnValue({
+      agreement: agreementWithDocumentReady,
+      descriptorAttributes: {
+        certified: [],
+        declared: [],
+        verified: [],
+      },
+    })
+    const screen = renderWithApplicationContext(<ConsumerAgreementDetailsGeneralInfoSection />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
     })
 
-    it('should able to download "classic" document when feature flag is disabled', () => {
-      mockEnvironmentParams('FEATURE_FLAG_USE_SIGNED_DOCUMENT', false)
-      const agreementWithDocumentReady = {
-        ...agreementMock,
-        isDocumentReady: true,
-      }
-      vi.spyOn(ConsumerAgreementContext, 'useConsumerAgreementDetailsContext').mockReturnValue({
-        agreement: agreementWithDocumentReady,
-        descriptorAttributes: {
-          certified: [],
-          declared: [],
-          verified: [],
-        },
-      })
-      const screen = renderWithApplicationContext(<ConsumerAgreementDetailsGeneralInfoSection />, {
-        withReactQueryContext: true,
-        withRouterContext: true,
-      })
+    const downloadButton = screen.getByTestId('download-agreement-document-button')
 
-      const downloadButton = screen.getByTestId('download-agreement-document-button')
-
-      screen.debug(downloadButton)
-
-      fireEvent.click(downloadButton)
-      expect(mockDownloadContract).toHaveBeenCalledOnce()
-    })
+    fireEvent.click(downloadButton)
+    expect(mockDownloadSignedContract).toHaveBeenCalledOnce()
   })
 })

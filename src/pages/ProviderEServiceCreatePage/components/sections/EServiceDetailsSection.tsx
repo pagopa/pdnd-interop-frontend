@@ -1,7 +1,6 @@
 import type { EServiceMode, ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { SectionContainer } from '@/components/layout/containers'
 import { RHFRadioGroup } from '@/components/shared/react-hook-form-inputs'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 import { Alert, Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
@@ -85,32 +84,28 @@ export const EServiceDetailsSection: React.FC<EServiceDetailsSectionProps> = ({
         sx={{ mb: 0, mt: 3 }}
         onValueChange={(mode) => onEserviceModeChange?.(mode as EServiceMode)}
       />
-      {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
-        <>
-          <RHFRadioGroup
-            name="personalData"
-            row
-            required
-            label={t(`personalDataField.${eserviceMode}.label`)}
-            options={[
-              {
-                label: t(`personalDataField.${eserviceMode}.options.true`),
-                value: true,
-              },
-              {
-                label: t(`personalDataField.${eserviceMode}.options.false`),
-                value: false,
-              },
-            ]}
-            disabled={!areEServiceGeneralInfoEditable}
-            rules={{
-              validate: (value) => value === true || value === false || tCommon('required'),
-            }}
-            sx={{ mb: 3, mt: 3 }}
-            isOptionValueAsBoolean
-          />
-        </>
-      )}
+      <RHFRadioGroup
+        name="personalData"
+        row
+        required
+        label={t(`personalDataField.${eserviceMode}.label`)}
+        options={[
+          {
+            label: t(`personalDataField.${eserviceMode}.options.true`),
+            value: true,
+          },
+          {
+            label: t(`personalDataField.${eserviceMode}.options.false`),
+            value: false,
+          },
+        ]}
+        disabled={!areEServiceGeneralInfoEditable}
+        rules={{
+          validate: (value) => value === true || value === false || tCommon('required'),
+        }}
+        sx={{ mb: 3, mt: 3 }}
+        isOptionValueAsBoolean
+      />
     </SectionContainer>
   )
 }

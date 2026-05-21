@@ -11,7 +11,6 @@ import { useTranslation } from 'react-i18next'
 import { RiskAnalysisFormComponents } from '@/components/shared/RiskAnalysisFormComponents'
 import { useRiskAnalysisForm } from '@/hooks/useRiskAnalysisForm'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 type CreateStepPurposeRiskAnalysisFormProps = {
   defaultName?: string | undefined
@@ -80,12 +79,10 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
           title={t('riskAnalysis.riskAnalysisSection.title')}
           description={t('riskAnalysis.riskAnalysisSection.description')}
         >
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
-            <InformationContainer
-              label={t('riskAnalysis.riskAnalysisSection.personalDataFlag.label')}
-              content={t(`riskAnalysis.riskAnalysisSection.personalDataFlag.${personalData}`)}
-            />
-          )}
+          <InformationContainer
+            label={t('riskAnalysis.riskAnalysisSection.personalDataFlag.label')}
+            content={t(`riskAnalysis.riskAnalysisSection.personalDataFlag.${personalData}`)}
+          />
         </SectionContainer>
         <Alert sx={{ mt: 2, mb: 2 }} severity="warning">
           {t('riskAnalysis.riskAnalysisSection.personalDataAlert')}
@@ -93,7 +90,7 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
         <Stack spacing={2}>
           <RiskAnalysisFormComponents questions={riskAnalysisForm.questions} />
         </Stack>
-        {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && incompatibleAnswerValue && (
+        {incompatibleAnswerValue && (
           <Alert sx={{ mt: 2 }} severity="warning">
             {t(
               'riskAnalysis.riskAnalysisSection.personalDataValuesAlert.alertForIncompatibleAnswer'

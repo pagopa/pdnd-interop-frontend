@@ -47,6 +47,7 @@ export const ProviderEServiceVoucherLifespanSection: React.FC<
   const { mutate: updateInstanceVersion } = EServiceMutations.useUpdateInstanceVersion()
 
   const handleVoucherUpdate = (id: string, voucherLifespan: number, descriptorId?: string) => {
+    if (voucherLifespan === descriptor.voucherLifespan) return
     if (isEserviceFromTemplate) {
       updateInstanceVersion(
         {

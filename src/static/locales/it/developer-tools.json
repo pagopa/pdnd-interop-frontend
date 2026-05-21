@@ -3,7 +3,7 @@
   "developerTools": {
     "page": {
       "title": "Tool per lo sviluppo",
-      "description": "Una sezione che contiene alcuni strumenti utili a supporto dello sviluppo.",
+      "description": "Una sezione che contiene alcuni strumenti utili a supporto dello sviluppo",
       "sectionRiskAnalysisExport": {
         "title": "Export analisi del rischio",
         "description": "Esporta e importa in formato .json formattato l’analisi del rischio che compili, pronta per essere utilizzata nelle chiamate di creazione di una finalità nei flussi machine to machine.",
@@ -13,14 +13,14 @@
       },
       "sectionDebugClientAssertion": {
         "title": "Debug Client Assertion",
-        "description": "Strumento per generare, visualizzare e validare client assertion JWT, utile per il debug e l’integrazione con flussi OAuth 2.0.",
+        "description": "Lo strumento di debug ti consente di evidenziare eventuali anomalie contenute nella tua client assertion necessaria per l’ottenimento dell’access token.",
         "button": "Effettua il debug"
       },
       "sectionVoucherSimulation": {
-        "title": "Simula l’ottenimento di un voucher",
-        "description": "Attraverso questa funzionalità potrai simulare l’ottenimento di un voucher. Una volta selezionati i parametri, potrai effettuare una client assertion, richiedere un voucher e verificare che sia compatibile.",
-        "firstButton": "Simulazione per e-service",
-        "secondButton": "Simulazione per interoperabilità"
+        "title": "Simulatore ottenimento token",
+        "description": "Dopo aver creato e selezionato un client, puoi simulare l’ottenimento di un voucher attraverso questo strumento.",
+        "firstButton": "Simula per e-service",
+        "secondButton": "Simula per Interoperabilità"
       }
     }
   },

@@ -167,7 +167,7 @@
     "updateThresholds": {
       "loading": "Stiamo aggiornando le informazioni",
       "outcome": {
-        "success": "Hai modificato le soglie di chiamate API.",
+        "success": "Hai modificato le soglie di chiamate API dell'attributo certificato",
         "error": "Non è stato possibile modificare le soglie di chiamate API. Controlla di aver inserito le informazioni corrette."
       }
     },
@@ -969,7 +969,8 @@
       "confirmDialog": {
         "title": "Pubblica template e-service",
         "titleNewVersion": "Pubblica nuova versione template e-service",
-        "description": "Una volta pubblicata, questa versione sarà disponibile nel catalogo dei template degli e-service e non potrà più essere cancellata. Potrai comunque sospenderla o renderla obsoleta quando pubblicherai una nuova versione."
+        "description": "Una volta pubblicata, questa versione sarà disponibile nel catalogo dei template degli e-service e non potrà più essere cancellata. Potrai comunque sospenderla o renderla obsoleta quando pubblicherai una nuova versione.",
+        "proceedLabel": "Pubblica"
       }
     },
     "deleteVersionDraft": {
@@ -994,11 +995,18 @@
         "description": "Cliccando \"conferma\" questa versione del template di e-service sarà riattivata. Tutti i fruitori che hanno una richiesta di fruizione attiva per questa versione del template di e-service potranno nuovamente usufruirne"
       }
     },
-    "updateQuotas": {
+    "updateThresholds": {
       "loading": "Stiamo modificando le soglie di chiamate API",
       "outcome": {
         "success": "Hai modificato le soglie di chiamate API.",
         "error": "Non è stato possibile modificare le soglie di chiamate API. Controlla di aver inserito le informazioni corrette."
+      }
+    },
+    "updateVoucherLifespan": {
+      "loading": "Stiamo modificando le informazioni richieste",
+      "outcome": {
+        "success": "Le informazioni richieste sono state aggiornate correttamente.",
+        "error": "Non è stato possibile modificare le informazioni richieste. Controlla di aver inserito le informazioni corrette."
       }
     },
     "updateInstance": {

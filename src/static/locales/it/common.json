@@ -28,13 +28,13 @@
     "delete": "Elimina",
     "inspect": "Visualizza",
     "edit": "Modifica",
-    "clone": "Clona",
+    "clone": "Duplica",
     "publish": "Pubblica",
     "download": "Scarica",
     "archive": "Archivia",
     "cancel": "Annulla",
     "confirm": "Conferma",
-    "createNewDraft": "Crea bozza",
+    "createNewDraft": "Crea nuova versione",
     "saveDraft": "Salva bozza",
     "manageDraft": "Gestisci bozza",
     "deleteDraft": "Elimina bozza",
@@ -107,7 +107,9 @@
       "ARCHIVED": "archiviato",
       "DEPRECATED": "deprecato",
       "WAITING_FOR_APPROVAL": "in attesa di approvazione",
-      "DRAFT_TO_CORRECT": "da correggere"
+      "DRAFT_TO_CORRECT": "da correggere",
+      "ARCHIVING": "obsoleto",
+      "ARCHIVING_SUSPENDED": "sospeso"
     },
     "agreement": {
       "ACTIVE": "attivo",

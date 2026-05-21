@@ -64,7 +64,7 @@
   "edit": {
     "emptyTitle": "Modifica finalità",
     "stepper": {
-      "stepGeneralLabel": "Informazioni generali",
+      "stepGeneralLabel": "Generale",
       "stepRiskAnalysisLabel": "Analisi del rischio"
     },
     "backWithoutSaveBtn": "Indietro",
@@ -72,7 +72,7 @@
     "endWithSaveBtn": "Vai al riepilogo",
     "eserviceProvider": "erogato da",
     "stepGeneral": {
-      "title": "Informazioni sulla finalità",
+      "title": "Informazioni generali",
       "nameField": {
         "label": "Nome della finalità",
         "infoLabel": "Ti aiuterà a distinguerla dalle altre. Min 5 caratteri, max 60 caratteri"
@@ -82,14 +82,14 @@
         "infoLabel": "Min 10 caratteri, max 250 caratteri"
       },
       "isFreeOfChargeField": {
-        "label": "Come metterai a disposizione l'accesso ai dati di questo e-service?*",
+        "label": "Come metterai a disposizione i dati che riceverai da questo e-service?",
         "options": {
           "YES": "A titolo gratuito",
           "NO": "A pagamento"
         }
       },
       "freeOfChargeReasonField": {
-        "label": "Motivazione titolo gratuito*",
+        "label": "Motivazione titolo gratuito",
         "infoLabel": "Spiega perché metterai questi dati a disposizione gratuitamente. Indica se lo fai in base a un’esenzione o a un’esclusione prevista dalla legge, oppure per un altro motivo. Min 10, max 250 caratteri"
       }
     },
@@ -98,7 +98,10 @@
       "description": "Indica il numero di chiamate previste ogni giorno per questa finalità.",
       "dailyCalls": {
         "label": "Stima numero chiamate API/giorno",
-        "infoLabel": "Inserisci un numero superiore o uguale a 1"
+        "infoLabel": "Inserisci un numero superiore o uguale a 1",
+        "validation": {
+          "integer": "Il valore di soglia deve essere intero"
+        }
       },
       "providerThresholdsInfo": {
         "label": "Soglie definite dall’erogatore",
@@ -235,7 +238,7 @@
       "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
     },
     "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione",
-    "publishBtn": "Pubblica bozza"
+    "publishBtn": "Pubblica"
   },
   "list": {
     "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare",
