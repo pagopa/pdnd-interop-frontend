@@ -64,7 +64,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
 
-  const { data: associatedKeychains } = useQuery({
+  const { data: associatedKeychains, isLoading: isAssociatedKeychainsLoading } = useQuery({
     ...KeychainQueries.getKeychainsList({
       eserviceId,
       offset: 0,
@@ -213,6 +213,9 @@ const ProviderEServiceSummaryPage: React.FC = () => {
       (riskAnalysis) =>
         riskAnalysis.rulesetExpiration && new Date(riskAnalysis.rulesetExpiration) < new Date()
     )
+
+  const isAsyncExchangeValidationLoading =
+    Boolean(descriptor?.eservice.asyncExchange) && isAssociatedKeychainsLoading
 
   const areAsyncExchangeFieldsSet =
     !descriptor?.eservice.asyncExchange ||
@@ -399,7 +402,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
               title={t('summary.documentationSummary.title')}
-              showWarning={!isDocumentationSectionValid}
+              showWarning={!isAsyncExchangeValidationLoading && !isDocumentationSectionValid}
               warningLabel={t('summary.missingInformationsLabel')}
             >
               <ProviderEServiceDocumentationSummarySection
@@ -445,7 +448,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
         {!isDelegator &&
           !(isEServiceFromTemplate && descriptor?.state === 'WAITING_FOR_APPROVAL') && (
             <>
-              {!canBePublished() && (
+              {!isAsyncExchangeValidationLoading && !canBePublished() && (
                 <Alert severity="warning" sx={{ mt: 3 }}>
                   {t('summary.publishWarningLabel')}
                 </Alert>
@@ -470,9 +473,10 @@ const ProviderEServiceSummaryPage: React.FC = () => {
                 </Button>
                 <PublishButton
                   onClick={handlePublishDraft}
-                  disabled={!canBePublished() || isSupport}
+                  disabled={isAsyncExchangeValidationLoading || !canBePublished() || isSupport}
                   arePersonalDataSet={arePersonalDataSet}
                   isRulesetExpired={isRulesetExpired}
+                  isValidationLoading={isAsyncExchangeValidationLoading}
                 />
               </Stack>
             </>
@@ -492,9 +496,11 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               title={
                 canBePublished()
                   ? ''
-                  : arePersonalDataSet
-                    ? t('summary.notPublishableTooltip.label')
-                    : t('summary.missingPersonalDataField')
+                  : isAsyncExchangeValidationLoading
+                    ? ''
+                    : arePersonalDataSet
+                      ? t('summary.notPublishableTooltip.label')
+                      : t('summary.missingPersonalDataField')
               }
               arrow
             >
@@ -503,7 +509,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
                   startIcon={<PublishIcon />}
                   variant="contained"
                   onClick={handleApproveDelegatedVersionDraft}
-                  disabled={isSupport || !canBePublished()}
+                  disabled={isSupport || isAsyncExchangeValidationLoading || !canBePublished()}
                 >
                   {tCommon('publish')}
                 </Button>
@@ -537,6 +543,7 @@ type PublishButtonProps = {
   onClick: VoidFunction
   arePersonalDataSet?: boolean
   isRulesetExpired?: boolean
+  isValidationLoading?: boolean
 }
 
 const PublishButton: React.FC<PublishButtonProps> = ({
@@ -544,12 +551,15 @@ const PublishButton: React.FC<PublishButtonProps> = ({
   onClick,
   arePersonalDataSet,
   isRulesetExpired,
+  isValidationLoading,
 }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('eservice', { keyPrefix: 'summary' })
   let tooltipToShow = t('notPublishableTooltip.label')
 
-  if (!arePersonalDataSet) {
+  if (isValidationLoading) {
+    tooltipToShow = ''
+  } else if (!arePersonalDataSet) {
     tooltipToShow = t('missingPersonalDataField')
   } else if (isRulesetExpired) {
     tooltipToShow = t('rulesetExpiredTooltip.label')

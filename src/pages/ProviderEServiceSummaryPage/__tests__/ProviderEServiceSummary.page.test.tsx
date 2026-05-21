@@ -213,6 +213,19 @@ describe('ProviderEServiceSummaryPage', () => {
     expect(publishButton).toBeEnabled()
   })
 
+  it('does not show the publish warning while asynchronous keychains are loading', () => {
+    mockUseQueryWithDescriptor(createMockEServiceDescriptorProviderAsync(), {
+      isKeychainsLoading: true,
+    })
+
+    renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.queryByText('summary.publishWarningLabel')).not.toBeInTheDocument()
+  })
+
   it('disables publish button when asynchronous mandatory fields are missing', () => {
     mockUseQueryWithDescriptor(
       createMockEServiceDescriptorProviderAsync({
@@ -378,16 +391,19 @@ describe('ProviderEServiceSummaryPage', () => {
 })
 
 function mockUseQueryWithDescriptor(
-  descriptor: ReturnType<typeof createMockEServiceDescriptorProvider>
+  descriptor: ReturnType<typeof createMockEServiceDescriptorProvider>,
+  { isKeychainsLoading = false }: { isKeychainsLoading?: boolean } = {}
 ) {
   useQueryMock.mockImplementation((queryOptions) => {
     if (queryOptions?.queryKey?.[0] === 'KeychainGetList') {
       return {
-        data: {
-          results: [{ id: 'keychain-id-001', name: 'Keychain 1', hasKeys: true }],
-          pagination: { totalCount: 1 },
-        },
-        isLoading: false,
+        data: isKeychainsLoading
+          ? undefined
+          : {
+              results: [{ id: 'keychain-id-001', name: 'Keychain 1', hasKeys: true }],
+              pagination: { totalCount: 1 },
+            },
+        isLoading: isKeychainsLoading,
       }
     }
 
