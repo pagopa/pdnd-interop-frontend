@@ -1,11 +1,9 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import EditIcon from '@mui/icons-material/Edit'
-import { generatePath, useNavigate } from 'react-router-dom'
 import { SectionContainer } from '@/components/layout/containers'
 import type { ActionItemButton } from '@/types/common.types'
-import { useCurrentRoute } from '@/router'
-import { routes } from '@/router/routes'
+import { useCurrentRoute, useNavigate } from '@/router'
 import { AuthHooks } from '@/api/auth'
 import type { PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
 import {
@@ -34,12 +32,13 @@ export const ConsumerPurposeTemplateLinkedResourceTab: React.FC<
     routeKey === 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS' && isAdmin
       ? [
           {
-            action: () => {
-              const path = generatePath(routes.SUBSCRIBE_PURPOSE_TEMPLATE_EDIT.path, {
-                purposeTemplateId: purposeTemplate.id,
-              })
-              navigate(path, { state: { stepIndexDestination: 1 } })
-            },
+            action: () =>
+              navigate('SUBSCRIBE_PURPOSE_TEMPLATE_EDIT', {
+                params: {
+                  purposeTemplateId: purposeTemplate.id,
+                },
+                state: { stepIndexDestination: 1 },
+              }),
             label: tCommon('actions.edit'),
             variant: 'contained',
             icon: EditIcon,
