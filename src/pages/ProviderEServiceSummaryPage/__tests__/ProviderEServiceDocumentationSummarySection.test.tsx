@@ -110,17 +110,18 @@ describe('ProviderEServiceDocumentationSummarySection', () => {
   it('renders async fields for complete asynchronous e-services', () => {
     const mockData = createMockEServiceDescriptorProviderAsync()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
-    useQueryMock.mockReturnValue({
-      data: {
-        results: [{ id: 'keychain-id-001', name: 'Keychain 1', hasKeys: true }],
-        pagination: { totalCount: 1 },
-      },
-    })
+    const associatedKeychains = {
+      results: [{ id: 'keychain-id-001', name: 'Keychain 1', hasKeys: true }],
+      pagination: { offset: 0, limit: 50, totalCount: 1 },
+    }
 
-    renderWithApplicationContext(<ProviderEServiceDocumentationSummarySection />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <ProviderEServiceDocumentationSummarySection associatedKeychains={associatedKeychains} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     expect(screen.getByText('callbackInterface.label')).toBeInTheDocument()
     expect(

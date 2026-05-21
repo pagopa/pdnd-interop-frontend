@@ -68,7 +68,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     ...KeychainQueries.getKeychainsList({
       eserviceId,
       offset: 0,
-      limit: 1,
+      limit: 50,
     }),
     enabled: Boolean(descriptor?.eservice.asyncExchange),
   })
@@ -402,7 +402,9 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               showWarning={!isDocumentationSectionValid}
               warningLabel={t('summary.missingInformationsLabel')}
             >
-              <ProviderEServiceDocumentationSummarySection />
+              <ProviderEServiceDocumentationSummarySection
+                associatedKeychains={associatedKeychains}
+              />
             </SummaryAccordion>
           </React.Suspense>
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>

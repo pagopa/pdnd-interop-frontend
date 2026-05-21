@@ -1,18 +1,23 @@
 import React from 'react'
-import type { EServiceDoc } from '@/api/api.generatedTypes'
+import type { CompactProducerKeychains, EServiceDoc } from '@/api/api.generatedTypes'
 import { Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { IconLink } from '@/components/shared/IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { EServiceDownloads, EServiceQueries } from '@/api/eservice'
-import { KeychainQueries } from '@/api/keychain'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { useParams } from '@/router'
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { secondsToMinutes } from '@/utils/format.utils'
 import { SummaryInformationContainer } from '@/components/shared/SummaryInformationContainer'
 
-export const ProviderEServiceDocumentationSummarySection: React.FC = () => {
+type ProviderEServiceDocumentationSummarySectionProps = {
+  associatedKeychains?: CompactProducerKeychains
+}
+
+export const ProviderEServiceDocumentationSummarySection: React.FC<
+  ProviderEServiceDocumentationSummarySectionProps
+> = ({ associatedKeychains }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.documentationSummary' })
   const { t: tCommon } = useTranslation('common')
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
@@ -24,15 +29,6 @@ export const ProviderEServiceDocumentationSummarySection: React.FC = () => {
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
   const voucherLifespan = secondsToMinutes(descriptor.voucherLifespan)
   const isAsyncExchange = descriptor.eservice.asyncExchange
-
-  const { data: associatedKeychains } = useQuery({
-    ...KeychainQueries.getKeychainsList({
-      eserviceId: descriptor.eservice.id,
-      offset: 0,
-      limit: 50,
-    }),
-    enabled: isAsyncExchange,
-  })
 
   const handleDownloadDocument = (document: EServiceDoc) => {
     downloadDocument(
