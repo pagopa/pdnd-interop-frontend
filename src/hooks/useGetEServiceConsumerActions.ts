@@ -297,12 +297,18 @@ function useGetEServiceConsumerActions(
       }
     : undefined
 
-  const primaryAction =
+  const primaryAction: ActionItemButton | undefined =
     inspectAction ?? editDraftAction ?? subscribeAction ?? subscribeDisabledMissingAttributesAction
+
+  const hasPrimaryAgreementAction = Boolean(inspectAction ?? editDraftAction)
+  const secondaryAction: ActionItemButton | undefined =
+    hasPrimaryAgreementAction && subscribeAction
+      ? { ...subscribeAction, variant: 'outlined' }
+      : undefined
 
   return {
     primaryAction,
-    secondaryAction: undefined,
+    secondaryAction,
     menuActions: [],
     headerInfoActions: viewLatestVersionAction ? [viewLatestVersionAction] : [],
   }
