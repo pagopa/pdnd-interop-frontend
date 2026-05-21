@@ -4,7 +4,7 @@
   "create": {
     "emptyTitle": "Create e-service",
     "stepper": {
-      "step1Label": "General",
+      "step1Label": "General information",
       "step2Label": "Thresholds and attributes",
       "step2ReceiveLabel": "Purpose",
       "step3Label": "Technical specifications",
@@ -174,7 +174,7 @@
         },
         "dailyCallsTotalField": {
           "label": "Total API calls/day",
-          "infoLabel": "Enter a number greater than the previous one",
+          "infoLabel": "Enter a number higher than the user threshold",
           "validation": {
             "min": "This value cannot be below the threshold set for the API calls/day for each consumer",
             "minCustomThreshold": "The total threshold cannot be lower than customized thresholds"
@@ -309,7 +309,7 @@
         "readOnlyLabel": "Version description",
         "field": {
           "label": "Describe this version of the e-service*",
-          "infoLabel": "If this is a new version, please indicate what has changed compared to the previous one*"
+          "infoLabel": "If this is a new version, please indicate what has changed compared to the previous one"
         }
       },
       "documentationSection": {
@@ -822,14 +822,21 @@
         "voucherLifespanField": {
           "label": "Validity period (in minutes)",
           "infoLabel": "Maximum value: 1440 minutes (24 hours)",
-          "error": "The voucher lifespan cannot be higher than 1440 minutes (24 hours)."
+          "error": "The voucher lifespan cannot be higher than 1440 minutes (24 hours).",
+          "validation": {
+            "sameValue": "The e-service voucher lifespan must be different from the current one",
+            "integer": "The e-service voucher lifespan must be an integer value"
+          }
         }
       },
       "updateAgreementApprovalPolicyDrawer": {
         "title": "Agreements approval",
         "subtitle": "From this panel you can establish how the agreements that the institutions will formulate towards this e-service are managed.",
         "agreementApprovalPolicyField": {
-          "label": "Manual approval"
+          "label": "Manual approval",
+          "validation": {
+            "sameValue": "The e-service agreements approval policy must be different from the current one"
+          }
         }
       },
       "technicalInfoDrawer": {

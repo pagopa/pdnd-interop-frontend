@@ -495,10 +495,19 @@
   "consumerDebugVoucher": {
     "edit": {
       "title": "Dati della richiesta al server",
-      "clientAssertionLabel": "Inserisci la tua client assertion (richiesto)",
-      "clientIdLabel": "Inserisci il client id",
-      "description": "La richiesta sarà inoltrata all’endpoint del server autorizzativo: <strong>{{ authServer }}</strong>",
-      "submitBtn": "Inoltra richiesta"
+      "description": "Copia in questi campi le informazioni che hai inviato al server autorizzativo di PDND e che hanno generato l’errore.",
+      "clientAssertionLabel": "Client assertion",
+      "clientAssertionInfoLabel": "La client assertion è un token JWT composto da una stringa che inizia per \"ey\". Copiala senza aggiungere spazi.",
+      "dpopProofLabel": "DPoP Proof",
+      "dpopProofInfoLabel": "Se hai generato un token DPoP, dovrai inserire anche la DPoP Proof in questo campo.",
+      "clientIdLabel": "client_id o producer_id",
+      "clientIdInfoLabel": "Inserisci lo stesso client_id o producer_id usati per formulare la richiesta verso PDND.",
+      "interactionModelLabel": "Modello di interazione",
+      "interactionModelSync": "Sincrono (standard)",
+      "interactionModelAsync": "Asincrono (differito)",
+      "alert": "La richiesta sarà inoltrata all’endpoint del server autorizzativo: <strong>{{ authServer }}</strong>",
+      "submitBtn": "Inoltra richiesta",
+      "goBackBtn": "Indietro"
     },
     "result": {
       "newRequestBtn": "Effettua nuova verifica",
@@ -506,6 +515,7 @@
         "title": "Esito della tua richiesta",
         "description": {
           "apiSuccess": "Questa richiesta è valida, è possibile ottenere un voucher per le <strong>API di PDND Interoperabilità</strong>",
+          "apiV3Success": "Questa richiesta è valida, è possibile ottenere un voucher per le <strong>API di PDND Interoperabilità v3</strong>",
           "consumerSuccess": "Questa richiesta è valida, è possibile ottenere un voucher per l’e-service <1>{{eserviceName}}, {{eserviceVersion}}</1>",
           "failed": "Non è possibile ottenere un voucher per questa richiesta"
         }
@@ -514,10 +524,11 @@
         "title": "Esito del debug",
         "step": {
           "label": {
-            "clientAssertionValidation": "1. Validazione della client assertion",
-            "publicKeyRetrieve": "2. Recupero della chiave pubblica depositata su PDND Interoperabilità",
-            "clientAssertionSignatureVerification": "3. Verifica della firma della client assertion",
-            "platformStatesVerification": "4. Verifica degli stati delle componenti su PDND Interoperabilità"
+            "clientAssertionValidation": "{{index}}. Validazione della client assertion",
+            "publicKeyRetrieve": "{{index}}. Recupero della chiave pubblica depositata su PDND Interoperabilità",
+            "clientAssertionSignatureVerification": "{{index}}. Verifica della firma della client assertion",
+            "platformStatesVerification": "{{index}}. Verifica degli stati",
+            "dpopValidation": "{{index}}. Validazione DPoP proof"
           }
         }
       },
@@ -527,8 +538,14 @@
         "clientId": {
           "label": "Client_id"
         },
+        "voucherType": {
+          "label": "Voucher rilevato"
+        },
         "clientAssertion": {
           "label": "Client_assertion"
+        },
+        "dpopProof": {
+          "label": "DPoP proof"
         },
         "clientAssertionType": {
           "label": "Client_assertion_type",
@@ -537,20 +554,24 @@
         "grantType": {
           "label": "Grant_type",
           "description": "La tipologia di flusso utilizzato, come indicato in RFC"
-        }
+        },
+        "dpop": "DPoP",
+        "bearer": "Bearer"
       },
       "stepDrawer": {
         "title": {
-          "clientAssertionValidation": "1. Validazione della client assertion",
-          "publicKeyRetrieve": "2. Recupero della chiave pubblica depositata su PDND Interoperabilità",
-          "clientAssertionSignatureVerification": "3. Verifica della firma della client assertion",
-          "platformStatesVerification": "4. Verifica degli stati delle componenti su PDND Interoperabilità"
+          "clientAssertionValidation": "{{index}}. Validazione della client assertion",
+          "publicKeyRetrieve": "{{index}}. Recupero della chiave pubblica depositata su PDND Interoperabilità",
+          "clientAssertionSignatureVerification": "{{index}}. Verifica della firma della client assertion",
+          "platformStatesVerification": "{{index}}. Verifica degli stati",
+          "dpopValidation": "{{index}}. Validazione della DPoP proof"
         },
         "description": {
           "clientAssertionValidation": "Si verifica che la client assertion sia ben strutturata. Tutti i campi richiesti devono essere presenti e compilati correttamente.",
           "publicKeyRetrieve": "Si verifica che la chiave pubblica corrispondente al kid inserito nella client assertion sia presente su PDND Interoperabilità e che questa sia recuperabile.",
           "clientAssertionSignatureVerification": "Si verifica che ci sia corrispondenza tra la chiave privata con la quale è stata firmata la client assertion e quella pubblica identificata con il kid e recuperata al passaggio 2.",
-          "platformStatesVerification": "Si verifica che tutte le componenti amministrative e tecniche del flusso previsto da PDND Interoperabilità siano attive"
+          "platformStatesVerification": "Si verifica che tutte le componenti amministrative e tecniche del flusso previsto da PDND Interoperabilità siano attive",
+          "dpopValidation": "Si verifica che le informazioni contenute nella client assertion siano compatibili con lo stato dell'interazione definito tra le parti."
         },
         "stepResultLabel": "Risultato della verifica:",
         "nextStepBtn": "Vai al prossimo passaggio"

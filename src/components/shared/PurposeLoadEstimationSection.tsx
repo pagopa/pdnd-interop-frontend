@@ -49,7 +49,14 @@ export function PurposeLoadEstimationSection({
         infoLabel={t('edit.loadEstimationSection.dailyCalls.infoLabel')}
         type="number"
         inputProps={{ min: '1' }}
-        rules={{ required: true, min: 1 }}
+        rules={{
+          required: true,
+          min: 1,
+          validate: (value) =>
+            Number.isInteger(Number(value)) ||
+            t('edit.loadEstimationSection.dailyCalls.validation.integer'),
+        }}
+        required
       />
       {alertProps && <Alert {...alertProps} sx={{ mt: 1, mb: 3 }} />}
       <ProviderThresholdsInfoAlert

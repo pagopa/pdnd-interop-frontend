@@ -12,7 +12,6 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
 import DownloadIcon from '@mui/icons-material/Download'
-import { FEATURE_FLAG_USE_SIGNED_DOCUMENT } from '@/config/env'
 
 type DelegationGeneralInfoSectionProps = {
   delegationId: string
@@ -45,17 +44,6 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
   const downloadDelegationContract = DelegationDownloads.useDownloadDelegationContract()
   const downloadSignedDelegationContract = DelegationDownloads.useDownloadSignedDelegationContract()
 
-  const handleDownloadDelegationDocument = () => {
-    if (!delegation.activationContract) return
-    downloadDelegationContract(
-      {
-        delegationId: delegationId,
-        contractId: delegation.activationContract?.id,
-      },
-      `${delegation.activationContract.prettyName}.pdf`
-    )
-  }
-
   const handleDownloadSignedDelegationDocument = () => {
     if (!delegation.activationSignedContract) return
 
@@ -65,17 +53,6 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
         contractId: delegation.activationSignedContract?.id,
       },
       `${delegation.activationSignedContract.prettyName}.pdf`
-    )
-  }
-
-  const handleDownloadRevokeDelegationDocument = () => {
-    if (!delegation.revocationContract) return
-    downloadDelegationContract(
-      {
-        delegationId: delegationId,
-        contractId: delegation.revocationContract?.id,
-      },
-      `${delegation.revocationContract.prettyName}.pdf`
     )
   }
 
@@ -97,9 +74,7 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
     type: 'button',
     disabled: delegation.isDocumentReady === false,
     tooltip: delegation.isDocumentReady === false ? tShared('notAvailableYet') : undefined,
-    onClick: FEATURE_FLAG_USE_SIGNED_DOCUMENT
-      ? handleDownloadSignedDelegationDocument
-      : handleDownloadDelegationDocument,
+    onClick: handleDownloadSignedDelegationDocument,
   }
 
   const downloadRevokeDelegationContractAction = {
@@ -109,9 +84,7 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
     type: 'button',
     disabled: delegation.isDocumentReady === false,
     tooltip: delegation.isDocumentReady === false ? tShared('notAvailableYet') : undefined,
-    onClick: FEATURE_FLAG_USE_SIGNED_DOCUMENT
-      ? handleDownloadRevokeSignedDelegationDocument
-      : handleDownloadRevokeDelegationDocument,
+    onClick: handleDownloadRevokeSignedDelegationDocument,
   }
 
   const downloadContractActions = match(delegation.state)

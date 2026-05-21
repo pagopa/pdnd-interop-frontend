@@ -141,6 +141,20 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
       attributeGroupIndex
     ].map((att) => (att.id === attribute.id ? { ...att, dailyCallsPerConsumer: threshold } : att))
 
+    if (isEserviceFromTemplate) {
+      updateInstanceVersion(
+        {
+          eserviceId: descriptor.eservice.id,
+          descriptorId: descriptor.id,
+          dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
+          dailyCallsTotal: descriptor.dailyCallsTotal,
+          attributes: remapDescriptorAttributesToDescriptorAttributesSeed(updatedAttributes),
+        },
+        { onSuccess: () => setEditDailyCallsDrawerState({ isOpen: false }) }
+      )
+      return
+    }
+
     updateVersion(
       {
         eserviceId: descriptor.eservice.id,

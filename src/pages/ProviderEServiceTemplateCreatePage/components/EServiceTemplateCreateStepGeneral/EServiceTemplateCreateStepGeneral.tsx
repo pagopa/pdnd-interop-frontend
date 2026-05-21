@@ -14,7 +14,6 @@ import { IconLink } from '@/components/shared/IconLink'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { ESERVICE_TEMPLATE_NAME_MAX_LENGTH, SIGNALHUB_GUIDE_URL } from '@/config/constants'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 import { EServiceTemplateDetailsSection } from '@/pages/ProviderEServiceCreatePage/components/sections/EServiceTemplateDetailsSection'
 
 export type EServiceTemplateCreateStepGeneralFormValues = {
@@ -134,7 +133,11 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
           />
 
           <SectionContainer title={t('create.step1.signalHubTitle')} component="div">
-            <RHFSwitch name="isSignalHubEnabled" label={signalHubLabel} />
+            <RHFSwitch
+              name="isSignalHubEnabled"
+              label={signalHubLabel}
+              disabled={!areEServiceTemplateGeneralInfoEditable}
+            />
           </SectionContainer>
 
           <StepActions
@@ -223,33 +226,31 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
             sx={{ mb: 0, mt: 3 }}
             onValueChange={(mode) => onEserviceTemplateModeChange(mode as EServiceMode)}
           />
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
-            <RHFRadioGroup
-              name="personalData"
-              row
-              required
-              label={t(`create.step1.eservicePersonalDataField.${eserviceTemplateMode}.label`)}
-              options={[
-                {
-                  label: t(
-                    `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.true`
-                  ),
-                  value: true,
-                },
-                {
-                  label: t(
-                    `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.false`
-                  ),
-                  value: false,
-                },
-              ]}
-              rules={{
-                validate: (value) => value === true || value === false || tCommon('required'),
-              }}
-              sx={{ mb: 0, mt: 3 }}
-              isOptionValueAsBoolean
-            />
-          )}
+          <RHFRadioGroup
+            name="personalData"
+            row
+            required
+            label={t(`create.step1.eservicePersonalDataField.${eserviceTemplateMode}.label`)}
+            options={[
+              {
+                label: t(
+                  `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.true`
+                ),
+                value: true,
+              },
+              {
+                label: t(
+                  `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.false`
+                ),
+                value: false,
+              },
+            ]}
+            rules={{
+              validate: (value) => value === true || value === false || tCommon('required'),
+            }}
+            sx={{ mb: 0, mt: 3 }}
+            isOptionValueAsBoolean
+          />
         </SectionContainer>
 
         <SectionContainer title={t('create.step1.signalHubTitle')} component="div">

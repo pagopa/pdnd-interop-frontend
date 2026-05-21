@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert } from '@mui/material'
+import { Alert, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { RHFTextField, RHFSwitch } from '@/components/shared/react-hook-form-inputs'
 import { useFormContext, useWatch } from 'react-hook-form'
@@ -30,20 +30,20 @@ export const DelegationCreateFormCreateEservice: React.FC<
       <RHFSwitch
         name="isEserviceFromTemplate"
         label={t('delegateField.provider.switchEserviceFromTemplate')}
+        autoFocus
       />
 
       {isEserviceFromTemplate ? (
-        <>
+        <Stack spacing={3} sx={{ mt: 2 }}>
           <Alert severity="info">{t('delegateField.provider.alertEserviceFromTemplate')}</Alert>
           <DelegationCreateEServiceFromTemplateAutocomplete
             delegationKind={delegationKind}
             handleTemplateNameAutocompleteChange={handleTemplateNameAutocompleteChange}
           />
-        </>
+        </Stack>
       ) : (
         <>
           <RHFTextField
-            focusOnMount={true}
             name="eserviceName"
             label={t('eserviceField.label')}
             infoLabel={t('eserviceField.infoLabel')}

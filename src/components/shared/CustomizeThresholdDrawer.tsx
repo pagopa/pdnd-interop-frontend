@@ -11,8 +11,8 @@ import isEmpty from 'lodash/isEmpty'
 import { GreyAlert } from './GreyAlert'
 
 export type CustomizeThresholdDrawerProps = {
-  dailyCallsPerConsumer?: number
-  dailyCallsTotal?: number
+  dailyCallsPerConsumer?: number | ''
+  dailyCallsTotal?: number | ''
   onSubmit: (threshold: number) => void
   title: string
   subtitle: React.ReactNode
@@ -124,7 +124,7 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
                   gap={2}
                 >
                   <Typography variant="caption">{t('limitAlert.consumerLimit')}</Typography>
-                  {dailyCallsPerConsumer !== undefined ? (
+                  {dailyCallsPerConsumer !== undefined && dailyCallsPerConsumer !== '' ? (
                     <Typography variant="caption-semibold">
                       {t('limitAlert.label', { threshold: dailyCallsPerConsumer })}
                     </Typography>
@@ -142,7 +142,7 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
                   gap={2}
                 >
                   <Typography variant="caption">{t('limitAlert.totalLimit')}</Typography>
-                  {dailyCallsTotal !== undefined ? (
+                  {dailyCallsTotal !== undefined && dailyCallsTotal !== '' ? (
                     <Typography variant="caption-semibold">
                       {t('limitAlert.label', { threshold: dailyCallsTotal })}
                     </Typography>

@@ -14,14 +14,14 @@ export const DebugVoucherResults: React.FC = () => {
 
   return (
     <>
-      <Stack spacing={4}>
+      <Stack spacing={3}>
         <DebugVoucherResultsAlert />
         <DebugVoucherResultsStepsSection />
         <DebugVoucherResultsRequestSection />
         <DebugVoucherStepDrawer />
       </Stack>
 
-      <Box sx={{ display: 'flex', justifyContent: 'end', pt: 4 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'end', pt: 3 }}>
         <Button variant="contained" onClick={handleMakeNewRequest}>
           {t('newRequestBtn')}
         </Button>

@@ -53,6 +53,14 @@ export const ProviderEServiceUpdateDelegationFlagsDrawer: React.FC<
     const normalizedIsClientAccessDelegable = values.isConsumerDelegable
       ? values.isClientAccessDelegable
       : false
+
+    if (
+      values.isConsumerDelegable === descriptor.eservice.isConsumerDelegable &&
+      normalizedIsClientAccessDelegable === descriptor.eservice.isClientAccessDelegable
+    ) {
+      onClose()
+      return
+    }
     updateDelegationFlags(
       {
         eserviceId: descriptor.eservice.id,
@@ -90,7 +98,7 @@ export const ProviderEServiceUpdateDelegationFlagsDrawer: React.FC<
           </Trans>
         }
         buttonAction={{
-          label: tCommon('actions.saveEdits'),
+          label: tCommon('actions.upgrade'),
           action: formMethods.handleSubmit(onSubmit),
         }}
         onTransitionExited={handleTransitionExited}

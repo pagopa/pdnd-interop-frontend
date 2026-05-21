@@ -80,7 +80,11 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
                   component="li"
                   sx={{ my: 1.5, '&::before, &::after': { borderColor: 'divider' } }}
                 >
-                  <Typography variant="caption" color="text.primary" sx={{ px: 2 }}>
+                  <Typography
+                    variant="subtitle2"
+                    color="text.primary"
+                    sx={{ px: 2, fontWeight: 700 }}
+                  >
                     {t('orSeparator')}
                   </Typography>
                 </Divider>
