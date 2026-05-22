@@ -20,6 +20,7 @@ import { match } from 'ts-pattern'
 import { EServiceInterfaceSection } from '../sections/EServiceInterfaceSection'
 import { EServiceVoucherSection } from '../sections/EServiceVoucherSection'
 import { EServiceAsyncExchangeSection } from '../sections/EServiceAsyncExchangeSection'
+import { getAsyncExchangePropertiesWithDefaults } from '@/utils/eservice.utils'
 
 type AsyncExchangePropertiesFormValues = {
   responseTime: number | ''
@@ -33,14 +34,6 @@ export type EServiceCreateStepTechSpecFormValues = {
   audience: string
   voucherLifespan: number
   asyncExchangeProperties: AsyncExchangePropertiesFormValues
-}
-
-const defaultAsyncExchangeProperties: AsyncExchangePropertiesFormValues = {
-  responseTime: 60,
-  resourceAvailableTime: 60,
-  maxResultSet: 1,
-  confirmation: false,
-  bulk: true,
 }
 
 export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
@@ -58,21 +51,9 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
   const defaultValues: EServiceCreateStepTechSpecFormValues = {
     audience: descriptor?.audience?.[0] ?? '',
     voucherLifespan: descriptor ? secondsToMinutes(descriptor.voucherLifespan) : 1,
-    asyncExchangeProperties: {
-      responseTime:
-        descriptor?.asyncExchangeProperties?.responseTime ??
-        defaultAsyncExchangeProperties.responseTime,
-      resourceAvailableTime:
-        descriptor?.asyncExchangeProperties?.resourceAvailableTime ??
-        defaultAsyncExchangeProperties.resourceAvailableTime,
-      maxResultSet:
-        descriptor?.asyncExchangeProperties?.maxResultSet ??
-        defaultAsyncExchangeProperties.maxResultSet,
-      confirmation:
-        descriptor?.asyncExchangeProperties?.confirmation ??
-        defaultAsyncExchangeProperties.confirmation,
-      bulk: descriptor?.asyncExchangeProperties?.bulk ?? defaultAsyncExchangeProperties.bulk,
-    },
+    asyncExchangeProperties: getAsyncExchangePropertiesWithDefaults(
+      descriptor?.asyncExchangeProperties
+    ),
   }
 
   const formMethods = useForm({ defaultValues })
