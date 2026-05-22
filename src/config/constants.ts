@@ -76,4 +76,10 @@ export const apiSignalhubPullLink =
 
 export const ESERVICE_TEMPLATE_NAME_MAX_LENGTH = 45
 export const INSTANCE_LABEL_MAX_LENGTH = 12
+
+export const CLIENT_ASSERTION_TYP = 'dpop+jwt'
+export const CLIENT_ASSERTION_ALG = 'RS256'
+export const CLIENT_ASSERTION_HTM = 'POST'
+export const VOUCHER_FIRST_DPOP_FILENAME = 'create_dpop_proof_auth_server'
+export const VOUCHER_SECOND_DPOP_FILENAME = 'create_dpop_proof_resource_server'
 export const ESERVICE_DESCRIPTION_MAX_LENGTH = 400
