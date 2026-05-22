@@ -1,17 +1,9 @@
 import React from 'react'
 import { Box, Stack } from '@mui/material'
-import { useFormContext } from 'react-hook-form'
 import { ResourceGroup } from './ResourceGroup'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import type { PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
-import {
-  toLinkableResourceRequest,
-  type LinkableCandidate,
-} from '@/utils/purposeTemplate.utils'
-
-export type EditStepLinkedResourcesForm = {
-  resources: LinkableCandidate[]
-}
+import { toLinkableResourceRequest, type LinkableCandidate } from '@/utils/purposeTemplate.utils'
 
 export type AddResourceToFormProps = {
   readOnly: boolean
@@ -26,11 +18,7 @@ export const AddResourceToForm: React.FC<AddResourceToFormProps> = ({
   linkedResources,
   showWarning,
 }) => {
-  const { watch } = useFormContext<EditStepLinkedResourcesForm>()
   const { mutate: unlinkResource } = PurposeTemplateMutations.useUnlinkResourceFromPurposeTemplate()
-
-  const formResources = watch('resources') ?? []
-  const mergedResources: LinkableCandidate[] = [...formResources, ...linkedResources]
 
   const handleRemove = (item: { resourceKind: 'ESERVICE' | 'ESERVICE_TEMPLATE'; id: string }) => {
     unlinkResource({
@@ -43,7 +31,7 @@ export const AddResourceToForm: React.FC<AddResourceToFormProps> = ({
     <Box>
       <Stack spacing={3}>
         <ResourceGroup
-          group={mergedResources}
+          group={linkedResources}
           readOnly={readOnly}
           onRemove={handleRemove}
           purposeTemplate={purposeTemplate}
