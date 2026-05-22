@@ -57,7 +57,10 @@ describe('PurposeTemplateSummaryLinkedResourceAccordion', () => {
 
   it('renders accordion with renamed title for the unified resources section', () => {
     vi.mocked(useQuery).mockReturnValue({
-      data: { results: [], pagination: {} } as LinkableResources,
+      data: {
+        results: [],
+        pagination: { offset: 0, limit: 50, totalCount: 0 },
+      } as LinkableResources,
     } as ReturnType<typeof useQuery>)
 
     renderWithApplicationContext(

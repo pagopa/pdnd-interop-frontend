@@ -7,7 +7,7 @@ import type {
   EServiceDescriptorPurposeTemplate,
   EServiceDescriptorsPurposeTemplate,
   GetCatalogPurposeTemplatesParams,
-  GetLinkableResourcesParams,
+  GetPurposeTemplateLinkableResourcesParams,
   GetPurposeTemplateEServicesParams,
   LinkEServiceToPurposeTemplatePayload,
   LinkableResourceRequest,
@@ -130,7 +130,7 @@ async function unlinkEserviceFromPurposeTemplate({
 
 async function getLinkableResources(
   purposeTemplateId: string,
-  params: Omit<GetLinkableResourcesParams, 'purposeTemplateId'>
+  params: Omit<GetPurposeTemplateLinkableResourcesParams, 'purposeTemplateId'>
 ) {
   const response = await axiosInstance.get<LinkableResources>(
     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/linkableResources`,

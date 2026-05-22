@@ -110,6 +110,30 @@ export type DataType = "SINGLE" | "MULTI" | "FREETEXT";
 /** Consent Type */
 export type ConsentType = "PP" | "TOS";
 
+export type LinkableResource =
+  | ({
+      resourceKind: "ESERVICE";
+    } & LinkableEService)
+  | ({
+      resourceKind: "ESERVICE_TEMPLATE";
+    } & LinkableEServiceTemplate);
+
+export type LinkedResource =
+  | ({
+      resourceKind: "ESERVICE";
+    } & LinkedEService)
+  | ({
+      resourceKind: "ESERVICE_TEMPLATE";
+    } & LinkedEServiceTemplate);
+
+export type LinkableResourceRequest =
+  | ({
+      resourceKind: "ESERVICE";
+    } & LinkableEServiceRequest)
+  | ({
+      resourceKind: "ESERVICE_TEMPLATE";
+    } & LinkableEServiceTemplateRequest);
+
 /** models the reject payload for this purpose version. */
 export interface RejectPurposeVersionPayload {
   rejectionReason: string;
@@ -1252,6 +1276,42 @@ export interface EServiceDescriptorPurposeTemplate {
   eserviceId: string;
   /** @format uuid */
   descriptorId: string;
+  /** @format date-time */
+  createdAt: string;
+}
+
+export interface LinkableEServiceRequest {
+  resourceKind: "ESERVICE";
+  /** @format uuid */
+  eserviceId: string;
+}
+
+export interface LinkableEServiceTemplateRequest {
+  resourceKind: "ESERVICE_TEMPLATE";
+  /** @format uuid */
+  eserviceTemplateId: string;
+}
+
+export interface LinkedEService {
+  resourceKind: "ESERVICE";
+  /** @format uuid */
+  purposeTemplateId: string;
+  /** @format uuid */
+  eserviceId: string;
+  /** @format uuid */
+  descriptorId: string;
+  /** @format date-time */
+  createdAt: string;
+}
+
+export interface LinkedEServiceTemplate {
+  resourceKind: "ESERVICE_TEMPLATE";
+  /** @format uuid */
+  purposeTemplateId: string;
+  /** @format uuid */
+  eserviceTemplateId: string;
+  /** @format uuid */
+  eserviceTemplateVersionId: string;
   /** @format date-time */
   createdAt: string;
 }
@@ -2493,6 +2553,39 @@ export interface EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescript
   createdAt: string;
 }
 
+export interface CompactPurposeTemplateEServiceTemplate {
+  /** @format uuid */
+  id: string;
+  name: string;
+  creator: CompactOrganization;
+  description?: string;
+}
+
+export interface LinkableEService {
+  resourceKind: "ESERVICE";
+  /** @format uuid */
+  purposeTemplateId: string;
+  eservice: CompactPurposeTemplateEService;
+  descriptor: CompactDescriptor;
+  /** @format date-time */
+  createdAt: string;
+}
+
+export interface LinkableEServiceTemplate {
+  resourceKind: "ESERVICE_TEMPLATE";
+  /** @format uuid */
+  purposeTemplateId: string;
+  eserviceTemplate: CompactPurposeTemplateEServiceTemplate;
+  eserviceTemplateVersion: CompactEServiceTemplateVersion;
+  /** @format date-time */
+  createdAt: string;
+}
+
+export interface LinkableResources {
+  results: LinkableResource[];
+  pagination: Pagination;
+}
+
 export interface NotificationsCountBySection {
   erogazione: {
     /** @format int32 */
@@ -3729,6 +3822,22 @@ export interface GetPublishedPurposeTemplateCreatorsParams {
   limit: number;
 }
 
+export interface LinkResourceToPurposeTemplateParams {
+  /**
+   * the purpose template id
+   * @format uuid
+   */
+  purposeTemplateId: string;
+}
+
+export interface UnlinkResourceFromPurposeTemplateParams {
+  /**
+   * the purpose template id
+   * @format uuid
+   */
+  purposeTemplateId: string;
+}
+
 export interface LinkEServiceToPurposeTemplatePayload {
   /** @format uuid */
   eserviceId: string;
@@ -3755,90 +3864,16 @@ export interface UnlinkEServiceToPurposeTemplateParams {
   purposeTemplateId: string;
 }
 
-/**
- * Unified resource discriminator for purpose-template links.
- * PIN-8621: types are hand-written ahead of BFF merge.
- */
-export type ResourceKind = "ESERVICE" | "ESERVICE_TEMPLATE";
-
-export interface CompactPurposeTemplateEServiceTemplate {
-  /** @format uuid */
-  id: string;
-  name: string;
-  creator: CompactOrganization;
-  description?: string;
-}
-
-export interface LinkableEService {
-  resourceKind: "ESERVICE";
-  /** @format uuid */
-  purposeTemplateId: string;
-  eservice: CompactPurposeTemplateEService;
-  descriptor: CompactDescriptor;
-  /** @format date-time */
-  createdAt: string;
-}
-
-export interface LinkableEServiceTemplate {
-  resourceKind: "ESERVICE_TEMPLATE";
-  /** @format uuid */
-  purposeTemplateId: string;
-  eserviceTemplate: CompactPurposeTemplateEServiceTemplate;
-  eserviceTemplateVersion: CompactEServiceTemplateVersion;
-  /** @format date-time */
-  createdAt: string;
-}
-
-export type LinkableResource = LinkableEService | LinkableEServiceTemplate;
-
-export interface LinkableResources {
-  results: LinkableResource[];
-  pagination: Pagination | Record<string, never>;
-}
-
-export type LinkableResourceRequest =
-  | {
-      resourceKind: "ESERVICE";
-      /** @format uuid */
-      eserviceId: string;
-    }
-  | {
-      resourceKind: "ESERVICE_TEMPLATE";
-      /** @format uuid */
-      eserviceTemplateId: string;
-    };
-
-export type LinkedResource =
-  | {
-      resourceKind: "ESERVICE";
-      /** @format uuid */
-      purposeTemplateId: string;
-      /** @format uuid */
-      eserviceId: string;
-      /** @format uuid */
-      descriptorId: string;
-      /** @format date-time */
-      createdAt: string;
-    }
-  | {
-      resourceKind: "ESERVICE_TEMPLATE";
-      /** @format uuid */
-      purposeTemplateId: string;
-      /** @format uuid */
-      eserviceTemplateId: string;
-      /** @format uuid */
-      eserviceTemplateVersionId: string;
-      /** @format date-time */
-      createdAt: string;
-    };
-
-export interface GetLinkableResourcesParams {
-  /** the purpose template id */
-  purposeTemplateId?: string;
-  /** filter by name (fuzzy match on e-service name or template name) */
+export interface GetPurposeTemplateLinkableResourcesParams {
+  /**
+   * Fuzzy match on resource name (e-service name for concrete entries,
+   * e-service template name for template entries). If not provided,
+   * linkable resources match any name.
+   */
   q?: string;
   /**
-   * comma separated sequence of publisher tenant IDs
+   * Filter by tenant ID. Matches the publisher of each linkable resource:
+   * the producer of a concrete e-service, or the creator of an e-service template.
    * @default []
    */
   publisherIds?: string[];
@@ -3853,6 +3888,8 @@ export interface GetLinkableResourcesParams {
    * @max 50
    */
   limit: number;
+  /** @format uuid */
+  purposeTemplateId: string;
 }
 
 export interface GetPurposeTemplateEServicesParams {
@@ -9028,6 +9065,50 @@ export namespace PurposeTemplates {
   }
 
   /**
+   * @description Link a single resource (concrete e-service or e-service template) to a purpose template. The kind of resource is specified by the `resourceKind` discriminator in the request body. Symmetric to the unified retrieval endpoint `/linkableResources`. Returns the created link with its `resourceKind` discriminator (raw link, no enrichment).
+   * @tags purposeTemplates
+   * @name LinkResourceToPurposeTemplate
+   * @summary Link a resource to a purpose template
+   * @request POST:/purposeTemplates/{purposeTemplateId}/linkResource
+   * @secure
+   */
+  export namespace LinkResourceToPurposeTemplate {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = LinkableResourceRequest;
+    export type RequestHeaders = {};
+    export type ResponseBody = LinkedResource;
+  }
+
+  /**
+   * @description Unlink a single resource (concrete e-service or e-service template) from a purpose template. The kind of resource is specified by the `resourceKind` discriminator in the request body.
+   * @tags purposeTemplates
+   * @name UnlinkResourceFromPurposeTemplate
+   * @summary Unlink a resource from a purpose template
+   * @request POST:/purposeTemplates/{purposeTemplateId}/unlinkResource
+   * @secure
+   */
+  export namespace UnlinkResourceFromPurposeTemplate {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = LinkableResourceRequest;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
    * @description Link one Eservice to Purpose Template (Draft or Active state)
    * @tags purposeTemplates
    * @name LinkEServiceToPurposeTemplate
@@ -9069,6 +9150,49 @@ export namespace PurposeTemplates {
     export type RequestBody = UnlinkEServiceToPurposeTemplatePayload;
     export type RequestHeaders = {};
     export type ResponseBody = void;
+  }
+
+  /**
+   * @description Retrieve the unified list of resources linkable to a purpose template, currently associated with it. Each entry is either a concrete e-service (`resourceKind=ESERVICE`) or an e-service template (`resourceKind=ESERVICE_TEMPLATE`). Results are sorted by `createdAt` DESC (most recent links first), unified across both kinds. `totalCount` reflects the real total of linkable entries (concrete + templates). Behavior on missing referenced resources is fail-fast: if any link points to a removed e-service, descriptor, e-service template, version or tenant, the request returns 404.
+   * @tags purposeTemplates
+   * @name GetPurposeTemplateLinkableResources
+   * @summary Get Purpose Template Linkable Resources
+   * @request GET:/purposeTemplates/{purposeTemplateId}/linkableResources
+   * @secure
+   */
+  export namespace GetPurposeTemplateLinkableResources {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {
+      /**
+       * Fuzzy match on resource name (e-service name for concrete entries,
+       * e-service template name for template entries). If not provided,
+       * linkable resources match any name.
+       */
+      q?: string;
+      /**
+       * Filter by tenant ID. Matches the publisher of each linkable resource:
+       * the producer of a concrete e-service, or the creator of an e-service template.
+       * @default []
+       */
+      publisherIds?: string[];
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number;
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = LinkableResources;
   }
 
   /**

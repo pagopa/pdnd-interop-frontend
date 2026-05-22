@@ -5,7 +5,7 @@ import type {
   Document as ApiDocument,
   GetCatalogPurposeTemplatesParams,
   GetCreatorPurposeTemplatesParams,
-  GetLinkableResourcesParams,
+  GetPurposeTemplateLinkableResourcesParams,
   GetPurposeTemplateEServicesParams,
 } from '../../api.generatedTypes'
 import { mockPurposeTemplateResponse } from '@/../__mocks__/data/purposeTemplate.mocks'
@@ -118,7 +118,7 @@ describe('PurposeTemplateQueries', () => {
     const purposeTemplateId = 'test-template-id'
 
     it('should return queryOptions with correct queryKey', () => {
-      const params: Omit<GetLinkableResourcesParams, 'purposeTemplateId'> = {
+      const params: Omit<GetPurposeTemplateLinkableResourcesParams, 'purposeTemplateId'> = {
         offset: 0,
         limit: 10,
       }
@@ -133,7 +133,7 @@ describe('PurposeTemplateQueries', () => {
     })
 
     it('should call getLinkableResources service when queryFn is executed', async () => {
-      const params: Omit<GetLinkableResourcesParams, 'purposeTemplateId'> = {
+      const params: Omit<GetPurposeTemplateLinkableResourcesParams, 'purposeTemplateId'> = {
         offset: 0,
         limit: 10,
         q: 'foo',

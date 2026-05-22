@@ -4,7 +4,7 @@ import { NotFoundError } from '@/utils/errors.utils'
 import type {
   GetCatalogPurposeTemplatesParams,
   GetCreatorPurposeTemplatesParams,
-  GetLinkableResourcesParams,
+  GetPurposeTemplateLinkableResourcesParams,
   GetPurposeTemplateEServicesParams,
 } from '../api.generatedTypes'
 
@@ -32,7 +32,7 @@ function getEservicesLinkedToPurposeTemplatesList(params: GetPurposeTemplateESer
 
 function getLinkableResources(
   purposeTemplateId: string,
-  params: Omit<GetLinkableResourcesParams, 'purposeTemplateId'>
+  params: Omit<GetPurposeTemplateLinkableResourcesParams, 'purposeTemplateId'>
 ) {
   return queryOptions({
     queryKey: ['PurposeTemplateGetLinkableResources', purposeTemplateId, params],

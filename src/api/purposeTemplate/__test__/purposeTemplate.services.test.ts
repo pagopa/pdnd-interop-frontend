@@ -1,7 +1,7 @@
 import { PurposeTemplateServices } from '../purposeTemplate.services'
 import type {
   GetCatalogPurposeTemplatesParams,
-  GetLinkableResourcesParams,
+  GetPurposeTemplateLinkableResourcesParams,
   LinkEServiceToPurposeTemplatePayload,
   LinkableResourceRequest,
   UnlinkEServiceToPurposeTemplatePayload,
@@ -219,7 +219,7 @@ describe('PurposeTemplateServices', () => {
 
   describe('getLinkableResources', () => {
     it('should make GET call to linkableResources with params', async () => {
-      const params: GetLinkableResourcesParams = {
+      const params: Omit<GetPurposeTemplateLinkableResourcesParams, 'purposeTemplateId'> = {
         offset: 0,
         limit: 10,
         q: 'foo',

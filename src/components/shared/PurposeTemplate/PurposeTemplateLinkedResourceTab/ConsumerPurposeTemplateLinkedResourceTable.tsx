@@ -18,7 +18,7 @@ import { Link } from '@/router'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { NotFoundError } from '@/utils/errors.utils'
 import type {
-  GetLinkableResourcesParams,
+  GetPurposeTemplateLinkableResourcesParams,
   LinkableResource,
   PurposeTemplateWithCompactCreator,
 } from '@/api/api.generatedTypes'
@@ -48,7 +48,7 @@ export const ConsumerPurposeTemplateLinkedResourceTable: React.FC<
     usePagination()
 
   const { filtersParams, ...filtersHandlers } = useFilters<
-    Omit<GetLinkableResourcesParams, 'limit' | 'offset' | 'purposeTemplateId'>
+    Omit<GetPurposeTemplateLinkableResourcesParams, 'limit' | 'offset' | 'purposeTemplateId'>
   >([
     { name: 'q', label: t('filters.resourceField.label'), type: 'freetext' },
     {
