@@ -28,7 +28,6 @@ import {
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { EServiceAsyncExchangeSection } from '../sections/EServiceAsyncExchangeSection'
 
-
 export type EServiceCreateStepTechSpecFormValues = {
   audience: string
   voucherLifespan: number
@@ -51,12 +50,9 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
     isEServiceAsync && !eserviceTemplate && !isEServiceCreatedFromTemplate
 
   const { data: initialAssociatedKeychains, isPending } = useQuery({
-    ...KeychainQueries.getKeychainsList({
+    ...KeychainQueries.getAllKeychainsList({
       eserviceId: descriptor?.eservice.id ?? '',
-      limit: 100,
-      offset: 0,
     }),
-    select: (d) => d.results,
     enabled: isProducerKeychainSectionVisible && Boolean(descriptor?.eservice.id),
   })
 
@@ -138,16 +134,13 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
         : null
 
     if (isProducerKeychainSectionVisible && areEServiceGeneralInfoEditable) {
-      const keychainsListQuery = KeychainQueries.getKeychainsList({
+      const allKeychainsListQuery = KeychainQueries.getAllKeychainsList({
         eserviceId: descriptor.eservice.id,
-        limit: 100,
-        offset: 0,
       })
 
       const currentAssociatedKeychains =
-        queryClient.getQueryData<{ results: CompactProducerKeychain[] }>(
-          keychainsListQuery.queryKey
-        )?.results ?? initialAssociatedKeychains
+        queryClient.getQueryData<CompactProducerKeychain[]>(allKeychainsListQuery.queryKey) ??
+        initialAssociatedKeychains
 
       const initialIds = currentAssociatedKeychains.map((k) => k.id)
       const finalIds = values.keychains
@@ -169,8 +162,7 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
       const hasFailures = results.some((r) => r.status === 'rejected')
       if (hasFailures) {
         try {
-          const refetched = await queryClient.fetchQuery(keychainsListQuery)
-          const refreshedKeychains = refetched.results
+          const refreshedKeychains = await queryClient.fetchQuery(allKeychainsListQuery)
           formMethods.reset({
             ...formMethods.getValues(),
             keychains:

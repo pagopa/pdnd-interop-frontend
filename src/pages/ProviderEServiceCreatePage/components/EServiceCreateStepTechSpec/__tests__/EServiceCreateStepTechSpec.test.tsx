@@ -42,8 +42,7 @@ vi.mock('../../sections/EServiceProducerKeychainSection', () => ({
         <div>EServiceProducerKeychainSection</div>
         <ul data-testid="keychain-list">
           {fields.map((field, index) => {
-            const value = (field as unknown as { value: { id: string; name: string } | null })
-              .value
+            const value = (field as unknown as { value: { id: string; name: string } | null }).value
             return (
               <li key={field.id} data-testid={`keychain-row-${value?.id ?? 'empty'}`}>
                 <span>{value?.name ?? 'empty'}</span>
@@ -92,13 +91,9 @@ vi.mock('@/api/eservice', () => ({
 
 vi.mock('@/api/keychain', () => ({
   KeychainQueries: {
-    getKeychainsList: vi.fn((params: { eserviceId?: string }) => ({
-      queryKey: ['KeychainGetList', params],
-      queryFn: () =>
-        Promise.resolve({
-          results: [],
-          pagination: { offset: 0, limit: 50, totalCount: 0 },
-        }),
+    getAllKeychainsList: vi.fn((params: { eserviceId?: string }) => ({
+      queryKey: ['KeychainGetAllList', params],
+      queryFn: () => Promise.resolve([]),
     })),
   },
   KeychainMutations: {
@@ -179,9 +174,9 @@ describe('EServiceCreateStepTechSpec', () => {
   })
 
   it('should render the skeleton while the associated keychains query is pending (async e-service)', () => {
-    ;(KeychainQueries.getKeychainsList as Mock).mockImplementationOnce(
+    ;(KeychainQueries.getAllKeychainsList as Mock).mockImplementationOnce(
       (params: { eserviceId?: string }) => ({
-        queryKey: ['KeychainGetList', params],
+        queryKey: ['KeychainGetAllList', params],
         queryFn: () => new Promise(() => {}),
       })
     )
@@ -245,17 +240,14 @@ describe('EServiceCreateStepTechSpec', () => {
   })
 
   it('should call add/remove keychain mutations for the diff and then forward on success', async () => {
-    ;(KeychainQueries.getKeychainsList as Mock).mockImplementationOnce(
+    ;(KeychainQueries.getAllKeychainsList as Mock).mockImplementationOnce(
       (params: { eserviceId?: string }) => ({
-        queryKey: ['KeychainGetList', params],
+        queryKey: ['KeychainGetAllList', params],
         queryFn: () =>
-          Promise.resolve({
-            results: [
-              { id: 'k1', name: 'Keychain 1', hasKeys: false },
-              { id: 'k2', name: 'Keychain 2', hasKeys: false },
-            ],
-            pagination: { offset: 0, limit: 50, totalCount: 2 },
-          }),
+          Promise.resolve([
+            { id: 'k1', name: 'Keychain 1', hasKeys: false },
+            { id: 'k2', name: 'Keychain 2', hasKeys: false },
+          ]),
       })
     )
 
@@ -297,14 +289,10 @@ describe('EServiceCreateStepTechSpec', () => {
   })
 
   it('should NOT navigate forward when any keychain mutation rejects', async () => {
-    ;(KeychainQueries.getKeychainsList as Mock).mockImplementationOnce(
+    ;(KeychainQueries.getAllKeychainsList as Mock).mockImplementationOnce(
       (params: { eserviceId?: string }) => ({
-        queryKey: ['KeychainGetList', params],
-        queryFn: () =>
-          Promise.resolve({
-            results: [{ id: 'k1', name: 'Keychain 1', hasKeys: false }],
-            pagination: { offset: 0, limit: 50, totalCount: 1 },
-          }),
+        queryKey: ['KeychainGetAllList', params],
+        queryFn: () => Promise.resolve([{ id: 'k1', name: 'Keychain 1', hasKeys: false }]),
       })
     )
     addKeychainToEService.mockRejectedValueOnce(new Error('boom'))
