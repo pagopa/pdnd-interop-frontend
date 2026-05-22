@@ -422,6 +422,11 @@
         "description": "Il riferimento del client da cui viene effettuata la chiamata",
         "copySuccessFeedbackText": "ID copiato correttamente"
       },
+      "producerKeychainId": {
+        "label": "Producer Keychain ID",
+        "description": "L’id del portachiavi erogatore collegato",
+        "copySuccessFeedbackText": "ID copiato correttamente"
+      },
       "clientAssertionField": {
         "label": "Client_assertion",
         "description": "Il token JWT completo codificato in Base64Url.",

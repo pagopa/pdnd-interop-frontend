@@ -422,6 +422,11 @@
         "description": "The client reference from which the call is made",
         "copySuccessFeedbackText": "ID successfully copied"
       },
+      "producerKeychainId": {
+        "label": "Producer Keychain ID",
+        "description": "The ID of the selected producer keychain",
+        "copySuccessFeedbackText": "ID successfully copied"
+      },
       "clientAssertionField": {
         "label": "Client_assertion",
         "description": "The complete JWT token encoded in Base64Url.",

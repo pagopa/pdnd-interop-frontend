@@ -17,9 +17,11 @@ import { useSearchParams } from 'react-router-dom'
 import { VerticalInformationContainer } from '@/components/shared/VerticalInformationContainer'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import { IconLink } from '@/components/shared/IconLink'
+import type { MemberType } from '../VoucherInstructionsGeneralForm'
 import {
   INTERACTION_TYPE,
   type InteractionType,
+  MEMBER_TYPE,
   VOUCHER_TYPE,
   type VoucherType,
 } from '../VoucherInstructionsGeneralForm'
@@ -36,8 +38,10 @@ export const VoucherInstructionsAccessTokenStep: React.FC = () => {
   const { goToPreviousStep, goToNextStep } = useVoucherInstructionsContext()
 
   const clientId = searchParams.get('clientId') || ''
+  const producerKeychainId = searchParams.get('producerKeychainId') || ''
   const voucherType = (searchParams.get('voucherType') as VoucherType) || ''
   const interactionType = (searchParams.get('interactionType') as InteractionType) || ''
+  const memberType = (searchParams.get('memberType') as MemberType) || ''
 
   const authEndpointUrl =
     interactionType === INTERACTION_TYPE.SYNC
@@ -93,17 +97,32 @@ export const VoucherInstructionsAccessTokenStep: React.FC = () => {
           }
         >
           <Grid container columnSpacing={4.5} rowSpacing={3}>
-            <VerticalInformationContainer
-              label={t('accessTokenStep.requestBody.clientIdField.label')}
-              labelDescription={t('accessTokenStep.requestBody.clientIdField.description')}
-              content={clientId}
-              copyToClipboard={{
-                value: clientId,
-                tooltipTitle: t(
-                  'accessTokenStep.requestBody.clientIdField.copySuccessFeedbackText'
-                ),
-              }}
-            />
+            {memberType !== MEMBER_TYPE.PRODUCER && (
+              <VerticalInformationContainer
+                label={t('accessTokenStep.requestBody.clientIdField.label')}
+                labelDescription={t('accessTokenStep.requestBody.clientIdField.description')}
+                content={clientId}
+                copyToClipboard={{
+                  value: clientId,
+                  tooltipTitle: t(
+                    'accessTokenStep.requestBody.clientIdField.copySuccessFeedbackText'
+                  ),
+                }}
+              />
+            )}
+            {memberType === MEMBER_TYPE.PRODUCER && (
+              <VerticalInformationContainer
+                label={t('accessTokenStep.requestBody.producerKeychainId.label')}
+                labelDescription={t('accessTokenStep.requestBody.producerKeychainId.description')}
+                content={producerKeychainId}
+                copyToClipboard={{
+                  value: producerKeychainId,
+                  tooltipTitle: t(
+                    'accessTokenStep.requestBody.producerKeychainId.copySuccessFeedbackText'
+                  ),
+                }}
+              />
+            )}
             <VerticalInformationContainer
               label={t('accessTokenStep.requestBody.clientAssertionTypeField.label')}
               labelDescription={t(
