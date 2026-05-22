@@ -276,7 +276,7 @@
       },
       "filters": {
         "resourceField": {
-          "label": "Nome e-service"
+          "label": "Nome e-service o template"
         },
         "providerField": {
           "label": "Cerca per erogatore"

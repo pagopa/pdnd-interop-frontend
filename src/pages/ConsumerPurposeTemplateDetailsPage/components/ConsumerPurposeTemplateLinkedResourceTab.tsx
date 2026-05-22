@@ -1,4 +1,5 @@
 import React from 'react'
+import { Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import EditIcon from '@mui/icons-material/Edit'
 import { SectionContainer } from '@/components/layout/containers'
@@ -48,19 +49,10 @@ export const ConsumerPurposeTemplateLinkedResourceTab: React.FC<
         ]
       : []
 
-  const descriptionLabel = t('description')
-    .split('\n')
-    .map((line, idx) => (
-      <span key={idx}>
-        {line}
-        <br />
-      </span>
-    ))
-
   return (
     <SectionContainer
       title={t('title')}
-      description={descriptionLabel}
+      description={<Typography sx={{ whiteSpace: 'pre-line' }}>{t('description')}</Typography>}
       topSideActions={topSideActions}
       sx={{ backgroundColor: 'transparent' }}
     >

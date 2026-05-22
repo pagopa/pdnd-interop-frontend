@@ -24,8 +24,7 @@ export const PurposeTemplateSummaryLinkedResourceAccordion: React.FC<
     enabled: Boolean(purposeTemplateId),
   })
 
-  const hasResults =
-    linkableResources && linkableResources.results && linkableResources.results.length > 0
+  const results = linkableResources?.results ?? []
 
   return (
     <Stack spacing={2}>
@@ -33,11 +32,11 @@ export const PurposeTemplateSummaryLinkedResourceAccordion: React.FC<
         <Stack spacing={2}>
           {error instanceof NotFoundError ? (
             <Alert severity="warning">{t('orphanLinkedResources')}</Alert>
-          ) : hasResults ? (
-            linkableResources!.results.map((resource, idx) =>
+          ) : results.length > 0 ? (
+            results.map((resource) =>
               match(resource)
                 .with({ resourceKind: 'ESERVICE' }, (r) => (
-                  <Typography key={`ESERVICE:${r.eservice.id}:${idx}`} sx={{ fontWeight: 600 }}>
+                  <Typography key={`ESERVICE:${r.eservice.id}`} sx={{ fontWeight: 600 }}>
                     <Link
                       underline="none"
                       to="SUBSCRIBE_CATALOG_VIEW"
@@ -53,7 +52,7 @@ export const PurposeTemplateSummaryLinkedResourceAccordion: React.FC<
                 ))
                 .with({ resourceKind: 'ESERVICE_TEMPLATE' }, (r) => (
                   <Typography
-                    key={`ESERVICE_TEMPLATE:${r.eserviceTemplate.id}:${idx}`}
+                    key={`ESERVICE_TEMPLATE:${r.eserviceTemplate.id}`}
                     sx={{ fontWeight: 600 }}
                   >
                     <Link

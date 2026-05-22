@@ -46,16 +46,14 @@ export const ResourceAutoComplete: React.FC<ResourceAutoCompleteProps> = ({
   const personalDataFilter: 'TRUE' | 'FALSE' =
     purposeTemplate.handlesPersonalData === true ? 'TRUE' : 'FALSE'
 
-  function getQ() {
-    if (selectedResource && searchParam === selectedResource.value.name) {
-      return ''
-    }
-    return searchParam
-  }
+  // Once a resource is selected, the autocomplete input mirrors its name — don't
+  // re-query for it as the user's "search" term.
+  const q =
+    selectedResource && searchParam === selectedResource.value.name ? '' : searchParam
 
   const { data: eservicesData } = useQuery(
     EServiceQueries.getCatalogList({
-      q: getQ(),
+      q,
       states: ['PUBLISHED'],
       limit: 50,
       offset: 0,
@@ -65,7 +63,7 @@ export const ResourceAutoComplete: React.FC<ResourceAutoCompleteProps> = ({
 
   const { data: templatesData } = useQuery(
     EServiceTemplateQueries.getProviderEServiceTemplatesCatalogList({
-      q: getQ(),
+      q,
       limit: 50,
       offset: 0,
       personalData: personalDataFilter,

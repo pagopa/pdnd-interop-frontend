@@ -67,7 +67,7 @@ export const PurposeTemplateEditLinkedResource: React.FC<ActiveStepProps> = ({
   const { t } = useTranslation('purposeTemplate')
   const { t: tCommon } = useTranslation('common')
 
-  const [isWarningShown, setIsWarningShown] = useState(false)
+  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false)
 
   const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'>()
   const { data: purposeTemplateFromQuery } = useQuery(
@@ -83,6 +83,8 @@ export const PurposeTemplateEditLinkedResource: React.FC<ActiveStepProps> = ({
   const hasOrphanResources = linkableResourcesError instanceof NotFoundError
 
   const linkedResources: LinkableCandidate[] = rawResources.map(normalizeLinkableResource)
+  const hasInvalid = rawResources.some(hasInvalidLinkableResource)
+  const showInvalidWarning = hasAttemptedSubmit && hasInvalid
 
   const reactRouterNavigate = useReactRouterNavigate()
   const generatePath = useGeneratePath()
@@ -104,11 +106,8 @@ export const PurposeTemplateEditLinkedResource: React.FC<ActiveStepProps> = ({
   const formMethods = useForm<EditStepLinkedResourcesForm>({ defaultValues })
 
   const onSubmit = () => {
-    const hasInvalid = rawResources.some(hasInvalidLinkableResource)
-    if (hasInvalid) {
-      setIsWarningShown(true)
-      return
-    }
+    setHasAttemptedSubmit(true)
+    if (hasInvalid) return
     if (isInDraftState) {
       forward()
     } else {
@@ -137,7 +136,7 @@ export const PurposeTemplateEditLinkedResource: React.FC<ActiveStepProps> = ({
             readOnly={false}
             purposeTemplate={purposeTemplate}
             linkedResources={linkedResources}
-            showWarning={isWarningShown}
+            showWarning={showInvalidWarning}
           />
           <StepActions
             back={{

@@ -276,7 +276,7 @@
       },
       "filters": {
         "resourceField": {
-          "label": "E-service name"
+          "label": "E-service or template name"
         },
         "providerField": {
           "label": "Filter by producer"

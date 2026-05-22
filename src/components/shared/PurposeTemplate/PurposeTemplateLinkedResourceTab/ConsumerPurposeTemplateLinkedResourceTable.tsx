@@ -90,9 +90,9 @@ export const ConsumerPurposeTemplateLinkedResourceTable: React.FC<
     <>
       <Filters {...filtersHandlers} />
       <Table headLabels={headLabels} isEmpty={isEmpty}>
-        {linkableResources!.results.map((resource, idx) => (
+        {linkableResources!.results.map((resource) => (
           <ConsumerPurposeTemplateLinkedResourceTableRow
-            key={`${resource.resourceKind}:${getResourceId(resource)}:${idx}`}
+            key={`${resource.resourceKind}:${getResourceId(resource)}`}
             resource={resource}
           />
         ))}
@@ -172,15 +172,11 @@ export const ConsumerPurposeTemplateLinkedResourceTableSkeleton: React.FC = () =
   ]
   return (
     <Table headLabels={headLabels}>
-      <TableRow cellData={[<Skeleton key={0} width={120} />]}>
-        <ButtonSkeleton size="small" width={103} />
-      </TableRow>
-      <TableRow cellData={[<Skeleton key={0} width={120} />]}>
-        <ButtonSkeleton size="small" width={103} />
-      </TableRow>
-      <TableRow cellData={[<Skeleton key={0} width={120} />]}>
-        <ButtonSkeleton size="small" width={103} />
-      </TableRow>
+      {Array.from({ length: 3 }).map((_, idx) => (
+        <TableRow key={idx} cellData={[<Skeleton key={0} width={120} />]}>
+          <ButtonSkeleton size="small" width={103} />
+        </TableRow>
+      ))}
     </Table>
   )
 }

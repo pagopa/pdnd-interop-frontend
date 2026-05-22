@@ -107,7 +107,7 @@ export const ResourceGroup: React.FC<ResourceGroupProps> = ({
                   <Typography fontWeight={600}>{candidate.value.name}</Typography>
                 </Stack>
                 {showWarning && invalid && (
-                  <Alert severity="error" sx={{ mt: 1 }}>
+                  <Alert severity="warning" sx={{ mt: 1 }}>
                     {t('warning.invalidResource')}
                   </Alert>
                 )}
