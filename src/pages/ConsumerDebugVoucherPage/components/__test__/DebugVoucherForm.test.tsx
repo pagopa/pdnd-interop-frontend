@@ -3,10 +3,7 @@ import { DebugVoucherForm } from '../DebugVoucherForm'
 import { vi } from 'vitest'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { setupServer } from 'msw/node'
-import {
-  AUTHORIZATION_SERVER_TOKEN_CREATION_ASYNC_URL,
-  BACKEND_FOR_FRONTEND_URL,
-} from '@/config/env'
+import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { rest } from 'msw'
 import { fireEvent, waitFor } from '@testing-library/react'
 import {
@@ -51,7 +48,7 @@ describe('DebugVoucherForm testing', () => {
     const request = createMockDebugVoucherRequest({
       client_id: 'test client Id',
       client_assertion: 'test client assertion',
-      is_async: false,
+      is_async: 'false',
     })
 
     await waitFor(() =>
@@ -83,7 +80,7 @@ describe('DebugVoucherForm testing', () => {
     const request = createMockDebugVoucherRequest({
       client_id: undefined,
       client_assertion: 'test client assertion',
-      is_async: false,
+      is_async: 'false',
     })
 
     await waitFor(() =>
@@ -129,7 +126,7 @@ describe('DebugVoucherForm testing', () => {
       client_id: undefined,
       dpop_proof: 'test dpop proof',
       client_assertion: 'test client assertion',
-      is_async: false,
+      is_async: 'false',
     })
 
     await waitFor(() =>
@@ -166,7 +163,7 @@ describe('DebugVoucherForm testing', () => {
     const request = createMockDebugVoucherRequest({
       client_assertion: 'test client assertion',
       client_id: undefined,
-      is_async: false,
+      is_async: 'false',
     })
 
     await waitFor(() =>
@@ -209,7 +206,7 @@ describe('DebugVoucherForm testing', () => {
     const request = createMockDebugVoucherRequest({
       client_assertion: 'test client assertion',
       client_id: undefined,
-      is_async: true,
+      is_async: 'true',
     })
 
     await waitFor(() =>
