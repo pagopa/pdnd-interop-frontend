@@ -65,7 +65,11 @@ export const ConsumerPurposeTemplateLinkedResourceTable: React.FC<
     ...filtersParams,
   }
 
-  const { data: linkableResources, error, isFetching } = useQuery({
+  const {
+    data: linkableResources,
+    error,
+    isFetching,
+  } = useQuery({
     ...PurposeTemplateQueries.getLinkableResources(purposeTemplate.id, queryParams),
     placeholderData: keepPreviousData,
   })

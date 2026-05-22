@@ -47,15 +47,22 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
     defaultValue: false,
   })
 
+  const formatAutocompleteOptionLabel = React.useCallback(
+    (purposeTemplate: Pick<CatalogPurposeTemplate, 'purposeTitle' | 'creator'>) =>
+      `${purposeTemplate.purposeTitle} - ${purposeTemplate.creator.name}`,
+    []
+  )
+
   /**
-   * TEMP: This is a workaround to avoid the "q" param in the query to be equal to the selected eservice name.
+   * TEMP: This is a workaround to avoid the "q" param in the query to be equal to the selected purpose template label.
    */
   function getQ() {
     let result = purposeTemplateAutocompleteTextInput
 
     if (
       selectedPurposeTemplateRef.current &&
-      purposeTemplateAutocompleteTextInput === selectedPurposeTemplateRef.current.purposeTitle
+      purposeTemplateAutocompleteTextInput ===
+        formatAutocompleteOptionLabel(selectedPurposeTemplateRef.current)
     ) {
       result = ''
     }
@@ -77,7 +84,7 @@ export const PurposeCreatePurposeTemplateAutocomplete: React.FC<
   })
 
   const autocompleteOptions = purposeTemplates.map((purposeTemplate) => ({
-    label: `${purposeTemplate.purposeTitle} - ${purposeTemplate.creator.name}`,
+    label: formatAutocompleteOptionLabel(purposeTemplate),
     value: purposeTemplate.id,
   }))
 

@@ -60,10 +60,7 @@ function hasInvalidLinkableResource(resource: LinkableResource): boolean {
     .exhaustive()
 }
 
-export const PurposeTemplateEditLinkedResource: React.FC<ActiveStepProps> = ({
-  forward,
-  back,
-}) => {
+export const PurposeTemplateEditLinkedResource: React.FC<ActiveStepProps> = ({ forward, back }) => {
   const { t } = useTranslation('purposeTemplate')
   const { t: tCommon } = useTranslation('common')
 

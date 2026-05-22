@@ -241,10 +241,10 @@ describe('PurposeTemplateServices', () => {
       }
       vi.mocked(axiosInstance.get).mockResolvedValueOnce({ data: fakeResponse })
 
-      const result = await PurposeTemplateServices.getLinkableResources(
-        TEST_PURPOSE_TEMPLATE_ID,
-        { offset: 0, limit: 10 }
-      )
+      const result = await PurposeTemplateServices.getLinkableResources(TEST_PURPOSE_TEMPLATE_ID, {
+        offset: 0,
+        limit: 10,
+      })
 
       expect(result).toEqual(fakeResponse)
     })

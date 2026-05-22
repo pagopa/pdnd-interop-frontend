@@ -65,7 +65,9 @@ export const PurposeTemplateSummaryLinkedResourceAccordion: React.FC<
                     >
                       {r.eserviceTemplate.name}
                     </Link>{' '}
-                    {t('providedBy.eserviceTemplate', { publisher: r.eserviceTemplate.creator.name })}
+                    {t('providedBy.eserviceTemplate', {
+                      publisher: r.eserviceTemplate.creator.name,
+                    })}
                   </Typography>
                 ))
                 .exhaustive()

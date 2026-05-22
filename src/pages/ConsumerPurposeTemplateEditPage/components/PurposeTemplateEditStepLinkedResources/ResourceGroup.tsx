@@ -34,9 +34,7 @@ function isCandidateInvalid(candidate: LinkableCandidate): boolean {
     .exhaustive()
 }
 
-function buildLinkPayload(
-  candidate: LinkableCandidate
-): LinkableResourceRequest {
+function buildLinkPayload(candidate: LinkableCandidate): LinkableResourceRequest {
   return match(candidate)
     .with({ resourceKind: 'ESERVICE' }, (c) => ({
       resourceKind: 'ESERVICE' as const,
@@ -78,18 +76,11 @@ export const ResourceGroup: React.FC<ResourceGroupProps> = ({
   return (
     <>
       {group.length > 0 && (
-        <Stack
-          component="ul"
-          spacing={1.2}
-          sx={{ listStyleType: 'none', pl: 0, mt: 1, mb: 4 }}
-        >
+        <Stack component="ul" spacing={1.2} sx={{ listStyleType: 'none', pl: 0, mt: 1, mb: 4 }}>
           {group.map((candidate) => {
             const invalid = isCandidateInvalid(candidate)
             return (
-              <Box
-                component="li"
-                key={`${candidate.resourceKind}:${candidate.value.id}`}
-              >
+              <Box component="li" key={`${candidate.resourceKind}:${candidate.value.id}`}>
                 <Stack direction="row" alignItems="center" spacing={2}>
                   {!readOnly && (
                     <IconButton

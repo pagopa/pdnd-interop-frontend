@@ -44,8 +44,7 @@ export const AddResourceToForm: React.FC<AddResourceToFormProps> = ({
   showWarning,
 }) => {
   const { watch } = useFormContext<EditStepLinkedResourcesForm>()
-  const { mutate: unlinkResource } =
-    PurposeTemplateMutations.useUnlinkResourceFromPurposeTemplate()
+  const { mutate: unlinkResource } = PurposeTemplateMutations.useUnlinkResourceFromPurposeTemplate()
 
   const formResources = watch('resources') ?? []
   const mergedResources: LinkableCandidate[] = [...formResources, ...linkedResources]

@@ -8,10 +8,7 @@ import { EServiceQueries } from '@/api/eservice'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import type { PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
-import {
-  mergeLinkableCandidates,
-  type LinkableCandidate,
-} from '@/utils/purposeTemplate.utils'
+import { mergeLinkableCandidates, type LinkableCandidate } from '@/utils/purposeTemplate.utils'
 
 export type AlreadySelectedResourceId = {
   resourceKind: 'ESERVICE' | 'ESERVICE_TEMPLATE'
@@ -48,8 +45,7 @@ export const ResourceAutoComplete: React.FC<ResourceAutoCompleteProps> = ({
 
   // Once a resource is selected, the autocomplete input mirrors its name — don't
   // re-query for it as the user's "search" term.
-  const q =
-    selectedResource && searchParam === selectedResource.value.name ? '' : searchParam
+  const q = selectedResource && searchParam === selectedResource.value.name ? '' : searchParam
 
   const { data: eservicesData } = useQuery(
     EServiceQueries.getCatalogList({
@@ -79,15 +75,14 @@ export const ResourceAutoComplete: React.FC<ResourceAutoCompleteProps> = ({
     const eservices = eservicesData?.results ?? []
     const templates = templatesData?.results ?? []
     const merged = mergeLinkableCandidates(eservices, templates)
-    const alreadyKeys = new Set(
-      alreadySelectedResourceIds.map((r) => `${r.resourceKind}:${r.id}`)
-    )
+    const alreadyKeys = new Set(alreadySelectedResourceIds.map((r) => `${r.resourceKind}:${r.id}`))
     return merged
       .filter((c) => !alreadyKeys.has(`${c.resourceKind}:${c.value.id}`))
       .map((c) => {
         const publisher =
           c.resourceKind === 'ESERVICE' ? c.value.producer.name : c.value.creator.name
-        const labelKey = c.resourceKind === 'ESERVICE' ? 'options.eservice' : 'options.eserviceTemplate'
+        const labelKey =
+          c.resourceKind === 'ESERVICE' ? 'options.eservice' : 'options.eserviceTemplate'
         return {
           label: t(labelKey, { name: c.value.name, publisher }),
           value: c,
