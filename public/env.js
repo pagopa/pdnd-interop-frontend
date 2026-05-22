@@ -11,7 +11,7 @@ window.pagopa_env = {
   BACKEND_FOR_FRONTEND_URL: `${localhost}/backend-for-frontend`,
   MIXPANEL_PROJECT_ID: 'b6c8c3c3ed0b32d66c61593bcb84e705',
   ONETRUST_DOMAIN_SCRIPT_ID: '018ef6c1-31f6-70a6-bf72-ds7d45c0ade7e',
-  CLIENT_ASSERTION_JWT_AUDIENCE: '',
+  CLIENT_ASSERTION_JWT_AUDIENCE: 'auth.dev.interop.PagoPA.it/client-assertion',
   M2M_JWT_AUDIENCE: 'dev.interop.pagopa.it/m2m',
   WELL_KNOWN_URLS: 'https://dev.interop.pagopa.it/.well-known/jwks.json',
   PRODUCER_ALLOWED_ORIGINS:
