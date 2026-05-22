@@ -30,7 +30,8 @@ function useCreateKeychain() {
   })
 }
 
-function useRemoveKeychainFromEService(hasConfirmationDialog = true) {
+function useRemoveKeychainFromEService(options: { withConfirmationDialog?: boolean } = {}) {
+  const { withConfirmationDialog = true } = options
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'keychain.removeKeychainFromEService',
   })
@@ -40,7 +41,7 @@ function useRemoveKeychainFromEService(hasConfirmationDialog = true) {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: hasConfirmationDialog
+      confirmationDialog: withConfirmationDialog
         ? {
             title: t('confirmDialog.title'),
             description: t('confirmDialog.description'),

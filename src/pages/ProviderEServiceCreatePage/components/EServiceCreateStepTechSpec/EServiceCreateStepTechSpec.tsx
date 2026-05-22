@@ -94,7 +94,7 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
 
   const { mutateAsync: addKeychainToEService } = KeychainMutations.useAddKeychainToEService()
   const { mutateAsync: removeKeychainFromEService } =
-    KeychainMutations.useRemoveKeychainFromEService(false)
+    KeychainMutations.useRemoveKeychainFromEService({ withConfirmationDialog: false })
 
   const defaultValues: EServiceCreateStepTechSpecFormValues = {
     audience: descriptor?.audience?.[0] ?? '',
