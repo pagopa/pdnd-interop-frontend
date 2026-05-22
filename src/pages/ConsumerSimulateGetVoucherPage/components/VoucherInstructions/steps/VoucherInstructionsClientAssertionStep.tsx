@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Grid, Link, TextField } from '@mui/material'
 import { match } from 'ts-pattern'
 import { SectionContainer } from '@/components/layout/containers'
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 import { CLIENT_ASSERTION_JWT_AUDIENCE, FE_URL } from '@/config/env'
 import { useClientKind } from '@/hooks/useClientKind'
 import { StepActions } from '@/components/shared/StepActions'
@@ -113,17 +113,20 @@ export const VoucherInstructionsClientAssertionStep: React.FC = () => {
       <SectionContainer
         title={t('clientAssertionStep.title')}
         description={
-          <>
-            {t('clientAssertionStep.description.label')}{' '}
-            <Link
-              href="https://datatracker.ietf.org/doc/html/rfc7521"
-              target="_blank"
-              rel="noreferrer"
-              title={t('clientAssertionStep.description.link.title')}
-            >
-              {t('clientAssertionStep.description.link.label')}
-            </Link>
-          </>
+          <Trans
+            components={{
+              1: (
+                <Link
+                  href="https://datatracker.ietf.org/doc/html/rfc7521"
+                  target="_blank"
+                  rel="noreferrer"
+                  title={t('clientAssertionStep.description.link.title')}
+                />
+              ),
+            }}
+          >
+            {t('clientAssertionStep.description.label')}
+          </Trans>
         }
       >
         <SectionContainer variant="outlined" title={t('clientAssertionStep.assertionHeader.title')}>

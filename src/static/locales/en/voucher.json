@@ -313,9 +313,8 @@
     "stepperLabel": "Generate client assertion",
     "title": "Generate the client assertion",
     "description": {
-      "label": "The first step is to create an assertion signed by your party with the private key corresponding to one of the public keys you have uploaded to this client. Below are the details to create the JWS according to the specification",
+      "label": "The first requirement is to create the client assertion, defined by the <1>RFC7521</1> specification. The assertion must be compiled and signed with the private key corresponding to the public key selected in the previous step.",
       "link": {
-        "label": "RFC7521",
         "title": "Link to RFC7521 specification"
       }
     },

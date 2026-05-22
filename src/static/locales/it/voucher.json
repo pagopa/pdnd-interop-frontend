@@ -313,9 +313,8 @@
     "stepperLabel": "Genera client assertion",
     "title": "Genera la client assertion",
     "description": {
-      "label": "Il primo passaggio è creare un’asserzione firmata dal tuo ente con la chiave privata corrispondente a una delle chiavi pubbliche che hai caricato in questo client. Di seguito i dettagli per creare il JWS secondo la specifica",
+      "label": "Il primo requisito è di creare la client assertion, definita da specifica <1>RFC7521</1>. L’asserzione deve essere compilata e firmata con la chiave privata corrispondente a quella pubblica selezionata nello step precedente.",
       "link": {
-        "label": "RFC7521",
         "title": "Link alla specifica RFC7521"
       }
     },
