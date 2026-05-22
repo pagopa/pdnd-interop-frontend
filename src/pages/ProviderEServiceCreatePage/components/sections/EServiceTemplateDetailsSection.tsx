@@ -17,6 +17,12 @@ export const EServiceTemplateDetailsSection: React.FC<EServiceTemplateDetailsSec
     <SectionContainer title={t('title')} description={t('description')}>
       <Stack spacing={2}>
         <InformationContainer
+          label={t('asyncExchangeField.readOnlyLabel')}
+          content={t(
+            `asyncExchangeField.readOnlyOptions.${Boolean(eserviceTemplate.asyncExchange)}`
+          )}
+        />
+        <InformationContainer
           label={t('technologyField.readOnlyLabel')}
           content={eserviceTemplate.technology}
         />
