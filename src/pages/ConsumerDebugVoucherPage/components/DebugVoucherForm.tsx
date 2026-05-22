@@ -52,13 +52,15 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
   })
 
   const onSubmit = (formValues: DebugVoucherFormValues) => {
+    const isAsync = formValues.interactionType === 'async'
+
     const payloadValidateVoucher: AccessTokenRequest = {
       client_id: formValues.clientId || undefined,
       client_assertion: formValues.clientAssertion,
       client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
       grant_type: 'client_credentials',
       dpop_proof: formValues.dpopProof || undefined,
-      is_async: formValues.interactionType === 'async',
+      is_async: String(isAsync) as 'true' | 'false',
     }
 
     validateVoucher(payloadValidateVoucher, {
