@@ -34,12 +34,18 @@ vi.mock('../../sections/EServiceAsyncExchangeSection', () => ({
     isEServiceCreatedFromTemplate,
   }: {
     isEServiceCreatedFromTemplate?: boolean
-  }) => (
-    <div>
-      EServiceAsyncExchangeSection
-      {isEServiceCreatedFromTemplate ? '-template' : ''}
-    </div>
-  ),
+  }) => {
+    const { watch } = useFormContext()
+    const asyncExchangeProperties = watch('asyncExchangeProperties')
+
+    return (
+      <div>
+        EServiceAsyncExchangeSection
+        {isEServiceCreatedFromTemplate ? '-template' : ''}
+        <pre data-testid="async-exchange-properties">{JSON.stringify(asyncExchangeProperties)}</pre>
+      </div>
+    )
+  },
 }))
 
 const updateVersionDraft = vi.fn()
@@ -140,6 +146,29 @@ describe('EServiceCreateStepTechSpec', () => {
     expect(screen.getByText('EServiceAsyncExchangeSection')).toBeInTheDocument()
   })
 
+  it('should render the async exchange section with default values when asyncExchangeProperties are missing', () => {
+    mockUseEServiceCreateContext({
+      descriptor: {
+        ...createMockEServiceDescriptorProviderAsync(),
+        asyncExchangeProperties: undefined,
+      },
+    })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByTestId('async-exchange-properties')).toHaveTextContent(
+      JSON.stringify({
+        responseTime: 60,
+        resourceAvailableTime: 60,
+        maxResultSet: 1,
+        confirmation: false,
+        bulk: true,
+      })
+    )
+  })
+
   it('should render the async exchange section in template-instance mode when asyncExchange is true and the descriptor comes from a template', () => {
     mockUseEServiceCreateContext({
       descriptor: {
@@ -154,7 +183,7 @@ describe('EServiceCreateStepTechSpec', () => {
     expect(screen.getByText(/EServiceAsyncExchangeSection-template/)).toBeInTheDocument()
   })
 
-  it('should not include asyncExchangeProperties in payload when numeric fields are empty', async () => {
+  it('should include default asyncExchangeProperties in payload when asyncExchange is true and properties are missing', async () => {
     mockUseEServiceCreateContext({
       descriptor: {
         ...createMockEServiceDescriptorProviderAsync(),
@@ -170,7 +199,15 @@ describe('EServiceCreateStepTechSpec', () => {
     await userEvent.click(screen.getByText('forwardWithSaveBtn'))
 
     expect(updateVersionDraft).toHaveBeenCalledWith(
-      expect.not.objectContaining({ asyncExchangeProperties: expect.anything() }),
+      expect.objectContaining({
+        asyncExchangeProperties: {
+          responseTime: 60,
+          resourceAvailableTime: 60,
+          maxResultSet: 1,
+          confirmation: false,
+          bulk: true,
+        },
+      }),
       expect.any(Object)
     )
   })
