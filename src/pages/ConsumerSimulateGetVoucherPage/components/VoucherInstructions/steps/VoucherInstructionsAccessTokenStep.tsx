@@ -97,20 +97,7 @@ export const VoucherInstructionsAccessTokenStep: React.FC = () => {
           }
         >
           <Grid container columnSpacing={4.5} rowSpacing={3}>
-            {memberType !== MEMBER_TYPE.PRODUCER && (
-              <VerticalInformationContainer
-                label={t('accessTokenStep.requestBody.clientIdField.label')}
-                labelDescription={t('accessTokenStep.requestBody.clientIdField.description')}
-                content={clientId}
-                copyToClipboard={{
-                  value: clientId,
-                  tooltipTitle: t(
-                    'accessTokenStep.requestBody.clientIdField.copySuccessFeedbackText'
-                  ),
-                }}
-              />
-            )}
-            {memberType === MEMBER_TYPE.PRODUCER && (
+            {memberType === MEMBER_TYPE.PRODUCER ? (
               <VerticalInformationContainer
                 label={t('accessTokenStep.requestBody.producerKeychainId.label')}
                 labelDescription={t('accessTokenStep.requestBody.producerKeychainId.description')}
@@ -119,6 +106,18 @@ export const VoucherInstructionsAccessTokenStep: React.FC = () => {
                   value: producerKeychainId,
                   tooltipTitle: t(
                     'accessTokenStep.requestBody.producerKeychainId.copySuccessFeedbackText'
+                  ),
+                }}
+              />
+            ) : (
+              <VerticalInformationContainer
+                label={t('accessTokenStep.requestBody.clientIdField.label')}
+                labelDescription={t('accessTokenStep.requestBody.clientIdField.description')}
+                content={clientId}
+                copyToClipboard={{
+                  value: clientId,
+                  tooltipTitle: t(
+                    'accessTokenStep.requestBody.clientIdField.copySuccessFeedbackText'
                   ),
                 }}
               />
