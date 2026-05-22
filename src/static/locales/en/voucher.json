@@ -221,7 +221,7 @@
         "5": "Paste the command below, entering the path to your private key in the PATH_PRIVATEKEY field, and press enter.",
         "result": "6. You'll receive a first DPoP proof signed with your private key. Save this data for later steps."
       },
-      "exampleLabel": "Esempio di utilizzo"
+      "exampleLabel": "Example usage"
     },
     "navigateToDebugButton": {
       "label": "Debug"
