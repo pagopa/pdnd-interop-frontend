@@ -93,7 +93,8 @@
         "eserviceTemplate": "{{name}} (template di {{publisher}})"
       },
       "warning": {
-        "invalidResource": "Almeno uno degli elementi collegati non è più disponibile per essere associato."
+        "invalidResource": "Almeno uno degli elementi collegati non è più disponibile per essere associato.",
+        "orphanLinkedResources": "Alcune risorse collegate non sono più disponibili. Contatta il supporto."
       },
       "notifications": {
         "eserviceLinkError": "Non è stato possibile salvare questo e-service. Per favore riprova!",
@@ -183,7 +184,8 @@
           "eservice": "(e-service erogato da {{publisher}})",
           "eserviceTemplate": "(template e-service realizzato da {{publisher}})"
         },
-        "noLinkedResources": "Non hai indicato e-service o template e-service associati a questo template."
+        "noLinkedResources": "Non hai indicato e-service o template e-service associati a questo template.",
+        "orphanLinkedResources": "Alcune risorse collegate non sono più disponibili. Contatta il supporto."
       },
       "riskAnalysisSection": {
         "title": "Analisi del rischio"
@@ -281,7 +283,8 @@
         "providerField": {
           "label": "Cerca per erogatore"
         }
-      }
+      },
+      "orphanLinkedResources": "Alcune risorse collegate non sono più disponibili. Contatta il supporto."
     },
     "riskAnalysisTab": {
       "titlePA": "Analisi del rischio (Pubbliche Amministrazioni)",

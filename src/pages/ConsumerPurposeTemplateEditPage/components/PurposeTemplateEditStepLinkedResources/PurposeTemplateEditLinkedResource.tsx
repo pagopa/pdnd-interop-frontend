@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box } from '@mui/material'
+import { Alert, Box } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import SaveIcon from '@mui/icons-material/Save'
@@ -12,6 +12,7 @@ import { SectionContainer } from '@/components/layout/containers'
 import { useGeneratePath, useParams } from '@/router'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
+import { NotFoundError } from '@/utils/errors.utils'
 import type {
   CatalogEService,
   CatalogEServiceTemplate,
@@ -72,13 +73,14 @@ export const PurposeTemplateEditLinkedResource: React.FC<ActiveStepProps> = ({
   const { data: purposeTemplateFromQuery } = useQuery(
     PurposeTemplateQueries.getSingle(purposeTemplateId)
   )
-  const { data: linkableResourcesData } = useQuery({
+  const { data: linkableResourcesData, error: linkableResourcesError } = useQuery({
     ...PurposeTemplateQueries.getLinkableResources(purposeTemplateId, { offset: 0, limit: 50 }),
     enabled: Boolean(purposeTemplateId),
   })
 
   const purposeTemplate = purposeTemplateFromQuery
   const rawResources = linkableResourcesData?.results ?? []
+  const hasOrphanResources = linkableResourcesError instanceof NotFoundError
 
   const linkedResources: LinkableCandidate[] = rawResources.map(normalizeLinkableResource)
 
@@ -126,6 +128,11 @@ export const PurposeTemplateEditLinkedResource: React.FC<ActiveStepProps> = ({
           title={t('edit.step2.detailsTitle')}
           description={t('edit.step2.detailsDescription')}
         >
+          {hasOrphanResources && (
+            <Alert severity="warning" sx={{ mb: 2 }}>
+              {t('edit.step2.warning.orphanLinkedResources')}
+            </Alert>
+          )}
           <AddResourceToForm
             readOnly={false}
             purposeTemplate={purposeTemplate}

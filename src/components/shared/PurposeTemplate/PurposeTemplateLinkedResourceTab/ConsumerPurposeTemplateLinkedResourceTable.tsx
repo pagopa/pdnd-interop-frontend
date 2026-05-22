@@ -8,7 +8,7 @@ import {
   usePagination,
 } from '@pagopa/interop-fe-commons'
 import React from 'react'
-import { Skeleton } from '@mui/material'
+import { Alert, Skeleton } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { match } from 'ts-pattern'
@@ -16,6 +16,7 @@ import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.qu
 import { EServiceQueries } from '@/api/eservice'
 import { Link } from '@/router'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
+import { NotFoundError } from '@/utils/errors.utils'
 import type {
   GetLinkableResourcesParams,
   LinkableResource,
@@ -64,10 +65,14 @@ export const ConsumerPurposeTemplateLinkedResourceTable: React.FC<
     ...filtersParams,
   }
 
-  const { data: linkableResources, isFetching } = useQuery({
+  const { data: linkableResources, error, isFetching } = useQuery({
     ...PurposeTemplateQueries.getLinkableResources(purposeTemplate.id, queryParams),
     placeholderData: keepPreviousData,
   })
+
+  if (error instanceof NotFoundError) {
+    return <Alert severity="warning">{t('orphanLinkedResources')}</Alert>
+  }
 
   const headLabels = [
     t('linkedResourceName'),

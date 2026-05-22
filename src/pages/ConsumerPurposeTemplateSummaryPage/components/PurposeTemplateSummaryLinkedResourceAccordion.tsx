@@ -1,4 +1,4 @@
-import { Stack, Typography } from '@mui/material'
+import { Alert, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
@@ -6,6 +6,7 @@ import { match } from 'ts-pattern'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { SectionContainer } from '@/components/layout/containers'
 import { Link } from '@/router'
+import { NotFoundError } from '@/utils/errors.utils'
 
 type PurposeTemplateSummaryLinkedResourceAccordionProps = {
   purposeTemplateId: string
@@ -18,7 +19,7 @@ export const PurposeTemplateSummaryLinkedResourceAccordion: React.FC<
     keyPrefix: 'edit.summary.suggestedResourcesSection',
   })
 
-  const { data: linkableResources } = useQuery({
+  const { data: linkableResources, error } = useQuery({
     ...PurposeTemplateQueries.getLinkableResources(purposeTemplateId, { offset: 0, limit: 50 }),
     enabled: Boolean(purposeTemplateId),
   })
@@ -30,7 +31,9 @@ export const PurposeTemplateSummaryLinkedResourceAccordion: React.FC<
     <Stack spacing={2}>
       <SectionContainer innerSection title={t('subtitle')}>
         <Stack spacing={2}>
-          {hasResults ? (
+          {error instanceof NotFoundError ? (
+            <Alert severity="warning">{t('orphanLinkedResources')}</Alert>
+          ) : hasResults ? (
             linkableResources!.results.map((resource, idx) =>
               match(resource)
                 .with({ resourceKind: 'ESERVICE' }, (r) => (

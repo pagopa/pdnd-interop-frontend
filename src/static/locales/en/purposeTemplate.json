@@ -93,7 +93,8 @@
         "eserviceTemplate": "{{name}} (template by {{publisher}})"
       },
       "warning": {
-        "invalidResource": "At least one of the linked items is no longer available to be associated."
+        "invalidResource": "At least one of the linked items is no longer available to be associated.",
+        "orphanLinkedResources": "Some linked resources are no longer available. Please contact support."
       },
       "notifications": {
         "eserviceLinkError": "It was not possible to save this e-service. Please try again!",
@@ -183,7 +184,8 @@
           "eservice": "(e-service provided by {{publisher}})",
           "eserviceTemplate": "(e-service template created by {{publisher}})"
         },
-        "noLinkedResources": "You have not linked any e-services or e-service templates to this template."
+        "noLinkedResources": "You have not linked any e-services or e-service templates to this template.",
+        "orphanLinkedResources": "Some linked resources are no longer available. Please contact support."
       },
       "riskAnalysisSection": {
         "title": "Risk analysis"
@@ -281,7 +283,8 @@
         "providerField": {
           "label": "Filter by producer"
         }
-      }
+      },
+      "orphanLinkedResources": "Some linked resources are no longer available. Please contact support."
     },
     "riskAnalysisTab": {
       "titlePA": "Risk analysis (Public Administrations)",

@@ -4,6 +4,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useQuery } from '@tanstack/react-query'
 import type { LinkableResources } from '@/api/api.generatedTypes'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { NotFoundError } from '@/utils/errors.utils'
 import { ConsumerPurposeTemplateLinkedResourceTable } from '../ConsumerPurposeTemplateLinkedResourceTable'
 import { createMockPurposeTemplate } from '../../../../../../__mocks__/data/purposeTemplate.mocks'
 
@@ -57,6 +58,8 @@ vi.mock('react-i18next', () => ({
         'kind.eserviceTemplate': 'Template e-service',
         'filters.resourceField.label': 'Nome e-service',
         'filters.providerField.label': 'Nome erogatore',
+        orphanLinkedResources:
+          'Alcune risorse collegate non sono più disponibili. Contatta il supporto.',
       }
       return dict[key] ?? key
     },
@@ -74,6 +77,16 @@ function setData(data: LinkableResources | undefined) {
   vi.mocked(useQuery)
     .mockReturnValueOnce({ data: [] } as unknown as ReturnType<typeof useQuery>)
     .mockReturnValueOnce({ data, isFetching: false } as unknown as ReturnType<typeof useQuery>)
+}
+
+function setError(error: Error) {
+  vi.mocked(useQuery)
+    .mockReturnValueOnce({ data: [] } as unknown as ReturnType<typeof useQuery>)
+    .mockReturnValueOnce({
+      data: undefined,
+      error,
+      isFetching: false,
+    } as unknown as ReturnType<typeof useQuery>)
 }
 
 describe('ConsumerPurposeTemplateLinkedResourceTable', () => {
@@ -218,5 +231,19 @@ describe('ConsumerPurposeTemplateLinkedResourceTable', () => {
     // Filter inputs are rendered by @pagopa/interop-fe-commons Filters component;
     // we assert the row is rendered, proving the table did not throw.
     expect(screen.getByText('Template B')).toBeInTheDocument()
+  })
+
+  it('renders the orphan-warning Alert when the query errors with NotFoundError and hides table/filters', () => {
+    setError(new NotFoundError())
+
+    renderWithApplicationContext(
+      <ConsumerPurposeTemplateLinkedResourceTable purposeTemplate={mockPurposeTemplate} />,
+      { withReactQueryContext: true, withRouterContext: true }
+    )
+
+    expect(
+      screen.getByText('Alcune risorse collegate non sono più disponibili. Contatta il supporto.')
+    ).toBeInTheDocument()
+    expect(screen.queryByText('Tipo')).not.toBeInTheDocument()
   })
 })
