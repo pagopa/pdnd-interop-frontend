@@ -78,8 +78,7 @@ const EditableProducerKeychainSection: React.FC = () => {
   const watchedKeychains = useWatch({ control, name: 'keychains' })
 
   const { data: allKeychains = [], isPending } = useQuery({
-    ...KeychainQueries.getKeychainsList({ limit: 100, offset: 0 }),
-    select: (d) => d.results,
+    ...KeychainQueries.getAllKeychainsList(),
     enabled: !isOperatorAPI,
   })
 

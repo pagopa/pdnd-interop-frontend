@@ -7,18 +7,18 @@ import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { Mock } from 'vitest'
 import { useQuery } from '@tanstack/react-query'
+import type * as ReactQuery from '@tanstack/react-query'
 import { EServiceProducerKeychainSection } from '../EServiceProducerKeychainSection'
 import { mockUseEServiceCreateContext } from '@/../__mocks__/data/eservice.mocks'
 
 vi.mock('@tanstack/react-query', async () => {
-  const actual =
-    await vi.importActual<typeof import('@tanstack/react-query')>('@tanstack/react-query')
+  const actual = await vi.importActual<typeof ReactQuery>('@tanstack/react-query')
   return { ...actual, useQuery: vi.fn() }
 })
 
 vi.mock('@/api/keychain', () => ({
   KeychainQueries: {
-    getKeychainsList: vi.fn(() => ({ queryKey: ['KeychainGetList'], queryFn: vi.fn() })),
+    getAllKeychainsList: vi.fn(() => ({ queryKey: ['KeychainGetAllList'], queryFn: vi.fn() })),
   },
 }))
 
