@@ -98,9 +98,7 @@
       },
       "notifications": {
         "eserviceLinkError": "Non è stato possibile salvare questo e-service. Per favore riprova!",
-        "eserviceLinkSuccess": "L'e-service è stato salvato correttamente.",
-        "resourceLinkError": "Non è stato possibile collegare l'elemento. Per favore riprova!",
-        "resourceLinkSuccess": "L'elemento è stato collegato correttamente."
+        "eserviceLinkSuccess": "L'e-service è stato salvato correttamente."
       }
     },
     "step3": {

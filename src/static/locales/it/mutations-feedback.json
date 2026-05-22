@@ -1155,14 +1155,16 @@
       "loading": "Stiamo collegando l'elemento al template",
       "outcome": {
         "success": "L'elemento è stato collegato correttamente.",
-        "error": "Non è stato possibile collegare l'elemento. Per favore, riprova!"
+        "error": "Non è stato possibile collegare l'elemento. Per favore, riprova!",
+        "conflict": "L'elemento risulta già collegato. Abbiamo aggiornato l'elenco."
       }
     },
     "unlinkResource": {
       "loading": "Stiamo scollegando l'elemento dal template",
       "outcome": {
         "success": "L'elemento è stato scollegato correttamente.",
-        "error": "Non è stato possibile scollegare l'elemento. Per favore, riprova!"
+        "error": "Non è stato possibile scollegare l'elemento. Per favore, riprova!",
+        "conflict": "Il collegamento non è più attivo. Abbiamo aggiornato l'elenco."
       }
     },
     "downloadRiskAnalysis": {

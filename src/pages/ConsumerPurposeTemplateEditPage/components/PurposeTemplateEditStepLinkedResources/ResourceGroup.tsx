@@ -7,7 +7,6 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import { match } from 'ts-pattern'
 import { ResourceAutoComplete } from '@/components/shared/ResourceAutoComplete'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
-import { useToastNotification } from '@/stores/toast-notification.store'
 import type {
   LinkableResourceRequest,
   PurposeTemplateWithCompactCreator,
@@ -60,7 +59,6 @@ export const ResourceGroup: React.FC<ResourceGroupProps> = ({
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step2' })
   const [isAutocompleteShown, setIsAutocompleteShown] = React.useState(true)
   const { mutate: linkResource } = PurposeTemplateMutations.useLinkResourceToPurposeTemplate()
-  const { showToast } = useToastNotification()
 
   const handleAddResource = (candidate: LinkableCandidate) => {
     const payload = {
@@ -68,13 +66,7 @@ export const ResourceGroup: React.FC<ResourceGroupProps> = ({
       ...buildLinkPayload(candidate),
     }
     linkResource(payload, {
-      onSuccess: () => {
-        setIsAutocompleteShown(false)
-        showToast(t('notifications.resourceLinkSuccess'), 'success')
-      },
-      onError: () => {
-        showToast(t('notifications.resourceLinkError'), 'error')
-      },
+      onSuccess: () => setIsAutocompleteShown(false),
     })
   }
 

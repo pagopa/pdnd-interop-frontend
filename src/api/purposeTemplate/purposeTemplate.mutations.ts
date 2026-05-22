@@ -1,6 +1,18 @@
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { AxiosError } from 'axios'
 import { PurposeTemplateServices } from './purposeTemplate.services'
+
+// Surfaced by the BFF when a link/unlink resource operation hits a 409.
+// Sourced from `interop-be-monorepo/packages/purpose-template-process/src/model/domain/errors.ts`
+// (BFF prefix `015` for purpose-template-process).
+export const LINK_ALREADY_EXISTS_ERROR_CODES = ['015-0014', '015-0030'] as const
+export const LINK_NOT_FOUND_ERROR_CODES = ['015-0017', '015-0033'] as const
+
+function getErrorCode(error: unknown): string | undefined {
+  if (!(error instanceof AxiosError)) return undefined
+  return error.response?.data?.errors?.[0]?.code
+}
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purposeTemplate.createDraft' })
@@ -57,7 +69,16 @@ function useLinkResourceToPurposeTemplate() {
   return useMutation({
     mutationFn: PurposeTemplateServices.linkResourceToPurposeTemplate,
     meta: {
-      errorToastLabel: t('outcome.error'),
+      // BE returns 409 when the resource is already linked to this PT. The
+      // active query is refetched by the global polling on settled, so the
+      // user gets a sync'd list automatically; we just surface a clearer toast.
+      errorToastLabel: (error: unknown) => {
+        const code = getErrorCode(error)
+        if (code && (LINK_ALREADY_EXISTS_ERROR_CODES as readonly string[]).includes(code)) {
+          return t('outcome.conflict')
+        }
+        return t('outcome.error')
+      },
       successToastLabel: t('outcome.success'),
       loadingLabel: t('loading'),
     },
@@ -71,7 +92,15 @@ function useUnlinkResourceFromPurposeTemplate() {
   return useMutation({
     mutationFn: PurposeTemplateServices.unlinkResourceFromPurposeTemplate,
     meta: {
-      errorToastLabel: t('outcome.error'),
+      // BE returns 409 when the link no longer exists (race with another tab
+      // or stale view). Surface a clearer toast; global polling re-syncs the list.
+      errorToastLabel: (error: unknown) => {
+        const code = getErrorCode(error)
+        if (code && (LINK_NOT_FOUND_ERROR_CODES as readonly string[]).includes(code)) {
+          return t('outcome.conflict')
+        }
+        return t('outcome.error')
+      },
       successToastLabel: t('outcome.success'),
       loadingLabel: t('loading'),
     },

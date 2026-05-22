@@ -204,44 +204,6 @@ describe('ResourceGroup', () => {
     )
   })
 
-  it('shows success toast on link success', async () => {
-    mockLinkMutate.mockImplementation((_payload, opts) => opts?.onSuccess?.())
-
-    renderWithApplicationContext(
-      <ResourceGroup
-        group={[]}
-        readOnly={false}
-        onRemove={vi.fn()}
-        purposeTemplate={mockPurposeTemplate}
-        showWarning={false}
-      />,
-      { withReactQueryContext: true }
-    )
-
-    await userEvent.click(screen.getByTestId('autocomplete-add-template'))
-
-    expect(mockShowToast).toHaveBeenCalledWith(expect.any(String), 'success')
-  })
-
-  it('shows error toast on link error', async () => {
-    mockLinkMutate.mockImplementation((_payload, opts) => opts?.onError?.())
-
-    renderWithApplicationContext(
-      <ResourceGroup
-        group={[]}
-        readOnly={false}
-        onRemove={vi.fn()}
-        purposeTemplate={mockPurposeTemplate}
-        showWarning={false}
-      />,
-      { withReactQueryContext: true }
-    )
-
-    await userEvent.click(screen.getByTestId('autocomplete-add-template'))
-
-    expect(mockShowToast).toHaveBeenCalledWith(expect.any(String), 'error')
-  })
-
   it('hides autocomplete after a successful link', async () => {
     mockLinkMutate.mockImplementation((_payload, opts) => opts?.onSuccess?.())
 

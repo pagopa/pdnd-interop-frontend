@@ -98,9 +98,7 @@
       },
       "notifications": {
         "eserviceLinkError": "It was not possible to save this e-service. Please try again!",
-        "eserviceLinkSuccess": "The e-service was saved successfully.",
-        "resourceLinkError": "It was not possible to link this item. Please try again!",
-        "resourceLinkSuccess": "The item was linked successfully."
+        "eserviceLinkSuccess": "The e-service was saved successfully."
       }
     },
     "step3": {
