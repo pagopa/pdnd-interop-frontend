@@ -37,9 +37,7 @@ export const PurposeTemplateSummaryLinkedResourceAccordion: React.FC<
             results.map((resource) => {
               const view = viewLinkableResource(resource)
               const providedByKey =
-                view.kind === 'ESERVICE'
-                  ? 'providedBy.eservice'
-                  : 'providedBy.eserviceTemplate'
+                view.kind === 'ESERVICE' ? 'providedBy.eservice' : 'providedBy.eserviceTemplate'
               return (
                 <Typography key={`${view.kind}:${view.id}`} sx={{ fontWeight: 600 }}>
                   {match(resource)

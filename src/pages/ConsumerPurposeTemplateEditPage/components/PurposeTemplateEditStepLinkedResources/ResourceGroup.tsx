@@ -8,10 +8,7 @@ import { ResourceAutoComplete } from '@/components/shared/ResourceAutoComplete'
 import { ResourceContainer } from '@/components/layout/containers/ResourceContainer'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import type { PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
-import {
-  toLinkableResourceRequest,
-  type LinkableCandidate,
-} from '@/utils/purposeTemplate.utils'
+import { toLinkableResourceRequest, type LinkableCandidate } from '@/utils/purposeTemplate.utils'
 
 export type ResourceGroupProps = {
   group: LinkableCandidate[]
@@ -48,7 +45,10 @@ export const ResourceGroup: React.FC<ResourceGroupProps> = ({
   const handleAddResource = (candidate: LinkableCandidate) => {
     const payload = {
       purposeTemplateId: purposeTemplate.id,
-      ...toLinkableResourceRequest({ resourceKind: candidate.resourceKind, id: candidate.value.id }),
+      ...toLinkableResourceRequest({
+        resourceKind: candidate.resourceKind,
+        id: candidate.value.id,
+      }),
     }
     linkResource(payload, {
       onSuccess: () => setIsAutocompleteShown(false),

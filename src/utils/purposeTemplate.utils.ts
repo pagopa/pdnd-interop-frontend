@@ -41,7 +41,9 @@ export function mergeLinkableCandidates(
 }
 
 export function toLinkableResourceRequest(
-  input: { resourceKind: 'ESERVICE'; id: string } | { resourceKind: 'ESERVICE_TEMPLATE'; id: string }
+  input:
+    | { resourceKind: 'ESERVICE'; id: string }
+    | { resourceKind: 'ESERVICE_TEMPLATE'; id: string }
 ): LinkableResourceRequest {
   return match(input)
     .with({ resourceKind: 'ESERVICE' }, ({ id }) => ({
