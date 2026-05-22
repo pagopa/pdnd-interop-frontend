@@ -211,6 +211,18 @@
         "suggestionLabel": "Genera tu questo parametro.\nEsempio: 1651659340"
       }
     },
+    "assertionScript": {
+      "title": "Esempio di generazione da terminale",
+      "steps": {
+        "1": "Crea una nuova cartella e nominala “dpop_proof_test”",
+        "2": "Inserisci nella cartella lo script <1>{{ filename }}</1> (è richiesto Python 3.8)",
+        "3": "Crea una cartella “keys” e inserisci al suo interno una nuova chiave privata, nominandola “client-test-keypair.rsa.priv”.",
+        "4": "Apri il terminale e naviga fino alla cartella dpop_proof_test",
+        "5": "Incolla il comando sotto, inserendo il percorso verso la tua chiave privata nel campo PATH_CHIAVE PRIVATA e premi invio.",
+        "result": "6. Otterrai una prima DPoP proof firmata con la tua chiave privata. Salva questo dato per gli step successivi."
+      },
+      "exampleLabel": "Esempio di utilizzo"
+    },
     "navigateToDebugButton": {
       "label": "Effettua debug"
     }
@@ -301,9 +313,8 @@
     "stepperLabel": "Genera client assertion",
     "title": "Genera la client assertion",
     "description": {
-      "label": "Il primo passaggio è creare un’asserzione firmata dal tuo ente con la chiave privata corrispondente a una delle chiavi pubbliche che hai caricato in questo client. Di seguito i dettagli per creare il JWS secondo la specifica",
+      "label": "Il primo requisito è di creare la client assertion, definita da specifica <1>RFC7521</1>. L’asserzione deve essere compilata e firmata con la chiave privata corrispondente a quella pubblica selezionata nello step precedente.",
       "link": {
-        "label": "RFC7521",
         "title": "Link alla specifica RFC7521"
       }
     },
@@ -409,6 +420,11 @@
       "clientIdField": {
         "label": "Client_id",
         "description": "Il riferimento del client da cui viene effettuata la chiamata",
+        "copySuccessFeedbackText": "ID copiato correttamente"
+      },
+      "producerKeychainId": {
+        "label": "Producer Keychain ID",
+        "description": "L’id del portachiavi erogatore collegato",
         "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "clientAssertionField": {

@@ -211,6 +211,18 @@
         "suggestionLabel": "Generate this parameter yourself.\nExample: 1651659340"
       }
     },
+    "assertionScript": {
+      "title": "Terminal generation example",
+      "steps": {
+        "1": "Create a new folder and name it “dpop_proof_test”",
+        "2": "Place the script <1>{{ filename }}</1> in the folder (Python 3.8 is required)",
+        "3": "Create a “keys” folder and place a new private key inside it, naming it “client-test-keypair.rsa.priv”.",
+        "4": "Open Terminal and navigate to the dpop_proof_test folder",
+        "5": "Paste the command below, entering the path to your private key in the PATH_PRIVATEKEY field, and press enter.",
+        "result": "6. You'll receive a first DPoP proof signed with your private key. Save this data for later steps."
+      },
+      "exampleLabel": "Esempio di utilizzo"
+    },
     "navigateToDebugButton": {
       "label": "Debug"
     }
@@ -301,9 +313,8 @@
     "stepperLabel": "Generate client assertion",
     "title": "Generate the client assertion",
     "description": {
-      "label": "The first step is to create an assertion signed by your party with the private key corresponding to one of the public keys you have uploaded to this client. Below are the details to create the JWS according to the specification",
+      "label": "The first requirement is to create the client assertion, defined by the <1>RFC7521</1> specification. The assertion must be compiled and signed with the private key corresponding to the public key selected in the previous step.",
       "link": {
-        "label": "RFC7521",
         "title": "Link to RFC7521 specification"
       }
     },
@@ -409,6 +420,11 @@
       "clientIdField": {
         "label": "Client_id",
         "description": "The client reference from which the call is made",
+        "copySuccessFeedbackText": "ID successfully copied"
+      },
+      "producerKeychainId": {
+        "label": "Producer Keychain ID",
+        "description": "The ID of the selected producer keychain",
         "copySuccessFeedbackText": "ID successfully copied"
       },
       "clientAssertionField": {
