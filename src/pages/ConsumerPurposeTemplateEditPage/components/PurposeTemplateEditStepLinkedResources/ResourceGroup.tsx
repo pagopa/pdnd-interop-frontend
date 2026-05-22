@@ -7,11 +7,11 @@ import { match } from 'ts-pattern'
 import { ResourceAutoComplete } from '@/components/shared/ResourceAutoComplete'
 import { ResourceContainer } from '@/components/layout/containers/ResourceContainer'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
-import type {
-  LinkableResourceRequest,
-  PurposeTemplateWithCompactCreator,
-} from '@/api/api.generatedTypes'
-import type { LinkableCandidate } from '@/utils/purposeTemplate.utils'
+import type { PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
+import {
+  toLinkableResourceRequest,
+  type LinkableCandidate,
+} from '@/utils/purposeTemplate.utils'
 
 export type ResourceGroupProps = {
   group: LinkableCandidate[]
@@ -34,19 +34,6 @@ function isCandidateInvalid(candidate: LinkableCandidate): boolean {
     .exhaustive()
 }
 
-function buildLinkPayload(candidate: LinkableCandidate): LinkableResourceRequest {
-  return match(candidate)
-    .with({ resourceKind: 'ESERVICE' }, (c) => ({
-      resourceKind: 'ESERVICE' as const,
-      eserviceId: c.value.id,
-    }))
-    .with({ resourceKind: 'ESERVICE_TEMPLATE' }, (c) => ({
-      resourceKind: 'ESERVICE_TEMPLATE' as const,
-      eserviceTemplateId: c.value.id,
-    }))
-    .exhaustive()
-}
-
 export const ResourceGroup: React.FC<ResourceGroupProps> = ({
   group,
   readOnly,
@@ -61,7 +48,7 @@ export const ResourceGroup: React.FC<ResourceGroupProps> = ({
   const handleAddResource = (candidate: LinkableCandidate) => {
     const payload = {
       purposeTemplateId: purposeTemplate.id,
-      ...buildLinkPayload(candidate),
+      ...toLinkableResourceRequest({ resourceKind: candidate.resourceKind, id: candidate.value.id }),
     }
     linkResource(payload, {
       onSuccess: () => setIsAutocompleteShown(false),

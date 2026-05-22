@@ -1,7 +1,10 @@
+import { match } from 'ts-pattern'
 import type {
   CatalogEService,
   CatalogEServiceTemplate,
   EServiceDoc,
+  LinkableResource,
+  LinkableResourceRequest,
   RiskAnalysisFormTemplate,
   RiskAnalysisFormTemplateSeed,
   RiskAnalysisTemplateAnswer,
@@ -11,6 +14,13 @@ import type {
 export type LinkableCandidate =
   | { resourceKind: 'ESERVICE'; value: CatalogEService }
   | { resourceKind: 'ESERVICE_TEMPLATE'; value: CatalogEServiceTemplate }
+
+export type LinkableResourceView = {
+  kind: 'ESERVICE' | 'ESERVICE_TEMPLATE'
+  id: string
+  name: string
+  publisherName: string
+}
 
 export function mergeLinkableCandidates(
   eservices: CatalogEService[],
@@ -28,6 +38,55 @@ export function mergeLinkableCandidates(
   return candidates.sort((a, b) =>
     a.value.name.localeCompare(b.value.name, undefined, { sensitivity: 'base' })
   )
+}
+
+export function toLinkableResourceRequest(
+  input: { resourceKind: 'ESERVICE'; id: string } | { resourceKind: 'ESERVICE_TEMPLATE'; id: string }
+): LinkableResourceRequest {
+  return match(input)
+    .with({ resourceKind: 'ESERVICE' }, ({ id }) => ({
+      resourceKind: 'ESERVICE' as const,
+      eserviceId: id,
+    }))
+    .with({ resourceKind: 'ESERVICE_TEMPLATE' }, ({ id }) => ({
+      resourceKind: 'ESERVICE_TEMPLATE' as const,
+      eserviceTemplateId: id,
+    }))
+    .exhaustive()
+}
+
+export function viewLinkableResource(resource: LinkableResource): LinkableResourceView {
+  return match(resource)
+    .with({ resourceKind: 'ESERVICE' }, (r) => ({
+      kind: 'ESERVICE' as const,
+      id: r.eservice.id,
+      name: r.eservice.name,
+      publisherName: r.eservice.producer.name,
+    }))
+    .with({ resourceKind: 'ESERVICE_TEMPLATE' }, (r) => ({
+      kind: 'ESERVICE_TEMPLATE' as const,
+      id: r.eserviceTemplate.id,
+      name: r.eserviceTemplate.name,
+      publisherName: r.eserviceTemplate.creator.name,
+    }))
+    .exhaustive()
+}
+
+export function viewLinkableCandidate(candidate: LinkableCandidate): LinkableResourceView {
+  return match(candidate)
+    .with({ resourceKind: 'ESERVICE' }, (c) => ({
+      kind: 'ESERVICE' as const,
+      id: c.value.id,
+      name: c.value.name,
+      publisherName: c.value.producer.name,
+    }))
+    .with({ resourceKind: 'ESERVICE_TEMPLATE' }, (c) => ({
+      kind: 'ESERVICE_TEMPLATE' as const,
+      id: c.value.id,
+      name: c.value.name,
+      publisherName: c.value.creator.name,
+    }))
+    .exhaustive()
 }
 
 export function getDownloadDocumentName(document: EServiceDoc) {

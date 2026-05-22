@@ -7,6 +7,7 @@ import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.qu
 import { SectionContainer } from '@/components/layout/containers'
 import { Link } from '@/router'
 import { NotFoundError } from '@/utils/errors.utils'
+import { viewLinkableResource } from '@/utils/purposeTemplate.utils'
 
 type PurposeTemplateSummaryLinkedResourceAccordionProps = {
   purposeTemplateId: string
@@ -33,47 +34,45 @@ export const PurposeTemplateSummaryLinkedResourceAccordion: React.FC<
           {error instanceof NotFoundError ? (
             <Alert severity="warning">{t('orphanLinkedResources')}</Alert>
           ) : results.length > 0 ? (
-            results.map((resource) =>
-              match(resource)
-                .with({ resourceKind: 'ESERVICE' }, (r) => (
-                  <Typography key={`ESERVICE:${r.eservice.id}`} sx={{ fontWeight: 600 }}>
-                    <Link
-                      underline="none"
-                      to="SUBSCRIBE_CATALOG_VIEW"
-                      params={{
-                        eserviceId: r.eservice.id,
-                        descriptorId: r.descriptor.id,
-                      }}
-                    >
-                      {r.eservice.name}
-                    </Link>
-                    {' - '}
-                    {t('providedBy.eservice', { publisher: r.eservice.producer.name })}
-                  </Typography>
-                ))
-                .with({ resourceKind: 'ESERVICE_TEMPLATE' }, (r) => (
-                  <Typography
-                    key={`ESERVICE_TEMPLATE:${r.eserviceTemplate.id}`}
-                    sx={{ fontWeight: 600 }}
-                  >
-                    <Link
-                      underline="none"
-                      to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
-                      params={{
-                        eServiceTemplateId: r.eserviceTemplate.id,
-                        eServiceTemplateVersionId: r.eserviceTemplateVersion.id,
-                      }}
-                    >
-                      {r.eserviceTemplate.name}
-                    </Link>
-                    {' - '}
-                    {t('providedBy.eserviceTemplate', {
-                      publisher: r.eserviceTemplate.creator.name,
-                    })}
-                  </Typography>
-                ))
-                .exhaustive()
-            )
+            results.map((resource) => {
+              const view = viewLinkableResource(resource)
+              const providedByKey =
+                view.kind === 'ESERVICE'
+                  ? 'providedBy.eservice'
+                  : 'providedBy.eserviceTemplate'
+              return (
+                <Typography key={`${view.kind}:${view.id}`} sx={{ fontWeight: 600 }}>
+                  {match(resource)
+                    .with({ resourceKind: 'ESERVICE' }, (r) => (
+                      <Link
+                        underline="none"
+                        to="SUBSCRIBE_CATALOG_VIEW"
+                        params={{
+                          eserviceId: r.eservice.id,
+                          descriptorId: r.descriptor.id,
+                        }}
+                      >
+                        {view.name}
+                      </Link>
+                    ))
+                    .with({ resourceKind: 'ESERVICE_TEMPLATE' }, (r) => (
+                      <Link
+                        underline="none"
+                        to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
+                        params={{
+                          eServiceTemplateId: r.eserviceTemplate.id,
+                          eServiceTemplateVersionId: r.eserviceTemplateVersion.id,
+                        }}
+                      >
+                        {view.name}
+                      </Link>
+                    ))
+                    .exhaustive()}
+                  {' - '}
+                  {t(providedByKey, { publisher: view.publisherName })}
+                </Typography>
+              )
+            })
           ) : (
             <Typography variant="body2" color="text.secondary">
               {t('noLinkedResources')}
