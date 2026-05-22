@@ -286,6 +286,12 @@ describe('EServiceCreateStepTechSpec', () => {
     // After a successful diff, the descriptor update is attempted (here no other field changed,
     // so forward fires directly).
     await waitFor(() => expect(forward).toHaveBeenCalled())
+    expect(
+      queryClient.getQueryData(['KeychainGetAllList', { eserviceId: descriptor.eservice.id }])
+    ).toEqual([
+      { id: 'k1', name: 'Keychain 1', hasKeys: false },
+      { id: 'k3', name: 'Keychain 3', hasKeys: false },
+    ])
   })
 
   it('should NOT navigate forward when any keychain mutation rejects', async () => {

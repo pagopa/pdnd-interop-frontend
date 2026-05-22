@@ -146,6 +146,9 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
       const finalIds = values.keychains
         .map((row) => row.value?.id)
         .filter((id): id is string => Boolean(id))
+      const finalAssociatedKeychains = values.keychains
+        .map((row) => row.value)
+        .filter((keychain): keychain is CompactProducerKeychain => Boolean(keychain?.id))
 
       const addedIds = finalIds.filter((id) => !initialIds.includes(id))
       const removedIds = initialIds.filter((id) => !finalIds.includes(id))
@@ -175,6 +178,8 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
         }
         return
       }
+
+      queryClient.setQueryData(allKeychainsListQuery.queryKey, finalAssociatedKeychains)
     }
 
     const newDescriptorData = {
