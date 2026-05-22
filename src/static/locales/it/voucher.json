@@ -211,6 +211,18 @@
         "suggestionLabel": "Genera tu questo parametro.\nEsempio: 1651659340"
       }
     },
+    "assertionScript": {
+      "title": "Esempio di generazione da terminale",
+      "steps": {
+        "1": "Crea una nuova cartella e nominala “dpop_proof_test”",
+        "2": "Inserisci nella cartella lo script <1>{{ filename }}</1> (è richiesto Python 3.8)",
+        "3": "Crea una cartella “keys” e inserisci al suo interno una nuova chiave privata, nominandola “client-test-keypair.rsa.priv”.",
+        "4": "Apri il terminale e naviga fino alla cartella dpop_proof_test",
+        "5": "Incolla il comando sotto, inserendo il percorso verso la tua chiave privata nel campo PATH_CHIAVE PRIVATA e premi invio.",
+        "result": "6. Otterrai una prima DPoP proof firmata con la tua chiave privata. Salva questo dato per gli step successivi."
+      },
+      "exampleLabel": "Esempio di utilizzo"
+    },
     "navigateToDebugButton": {
       "label": "Effettua debug"
     }

@@ -96,6 +96,7 @@ export const VoucherInstructionsFirstDPoPProofStep: React.FC = () => {
           METHOD_API_INVOCATA: CLIENT_ASSERTION_HTM,
           PATH_API_INVOCATA: authEndpointUrl,
         }}
+        keyPrefix="firstDPoPProofStep"
       />
       <StepActions
         back={{

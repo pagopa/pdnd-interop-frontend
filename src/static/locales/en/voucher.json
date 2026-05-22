@@ -211,6 +211,18 @@
         "suggestionLabel": "Generate this parameter yourself.\nExample: 1651659340"
       }
     },
+    "assertionScript": {
+      "title": "Terminal generation example",
+      "steps": {
+        "1": "Create a new folder and name it “dpop_proof_test”",
+        "2": "Place the script <1>{{ filename }}</1> in the folder (Python 3.8 is required)",
+        "3": "Create a “keys” folder and place a new private key inside it, naming it “client-test-keypair.rsa.priv”.",
+        "4": "Open Terminal and navigate to the dpop_proof_test folder",
+        "5": "Paste the command below, entering the path to your private key in the PATH_PRIVATEKEY field, and press enter.",
+        "result": "6. You'll receive a first DPoP proof signed with your private key. Save this data for later steps."
+      },
+      "exampleLabel": "Esempio di utilizzo"
+    },
     "navigateToDebugButton": {
       "label": "Debug"
     }
