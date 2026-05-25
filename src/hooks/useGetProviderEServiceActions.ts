@@ -102,7 +102,16 @@ export function useGetProviderEServiceActions(
   }
 
   const handleSuspend = () => {
-    if (activeDescriptorId) suspend({ eserviceId, descriptorId: activeDescriptorId })
+    if (!activeDescriptorId) return
+    if (state === 'ARCHIVING' && archivingSchedule?.scope === 'ESERVICE') {
+      openDialog({
+        type: 'suspendArchivingEservice',
+        eserviceId,
+        descriptorId: activeDescriptorId,
+      })
+      return
+    }
+    suspend({ eserviceId, descriptorId: activeDescriptorId })
   }
 
   const suspendAction: ActionItemButton = {
@@ -112,7 +121,16 @@ export function useGetProviderEServiceActions(
   }
 
   const handleReactivate = () => {
-    if (activeDescriptorId) reactivate({ eserviceId, descriptorId: activeDescriptorId })
+    if (!activeDescriptorId) return
+    if (state === 'ARCHIVING_SUSPENDED' && archivingSchedule?.scope === 'ESERVICE') {
+      openDialog({
+        type: 'reactivateArchivingEservice',
+        eserviceId,
+        descriptorId: activeDescriptorId,
+      })
+      return
+    }
+    reactivate({ eserviceId, descriptorId: activeDescriptorId })
   }
 
   const reactivateAction: ActionItemButton = {
