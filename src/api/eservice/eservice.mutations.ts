@@ -158,7 +158,7 @@ function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }
   })
 }
 
-function useSuspendVersion() {
+function useSuspendVersion(options?: { skipConfirmation?: boolean }) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.suspendVersion' })
   return useMutation({
     mutationFn: EServiceServices.suspendVersion,
@@ -166,15 +166,17 @@ function useSuspendVersion() {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
+      confirmationDialog: options?.skipConfirmation
+        ? undefined
+        : {
+            title: t('confirmDialog.title'),
+            description: t('confirmDialog.description'),
+          },
     },
   })
 }
 
-function useReactivateVersion() {
+function useReactivateVersion(options?: { skipConfirmation?: boolean }) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.reactivateVersion' })
   return useMutation({
     mutationFn: EServiceServices.reactivateVersion,
@@ -182,10 +184,12 @@ function useReactivateVersion() {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
+      confirmationDialog: options?.skipConfirmation
+        ? undefined
+        : {
+            title: t('confirmDialog.title'),
+            description: t('confirmDialog.description'),
+          },
     },
   })
 }

@@ -23,7 +23,7 @@ export const DialogSuspendArchivingEservice: React.FC<DialogSuspendArchivingEser
   const ariaLabelId = React.useId()
   const ariaDescriptionId = React.useId()
 
-  const { mutate: suspend } = EServiceMutations.useSuspendVersion()
+  const { mutate: suspend } = EServiceMutations.useSuspendVersion({ skipConfirmation: true })
 
   const handleProceed = () => suspend({ eserviceId, descriptorId }, { onSuccess: closeDialog })
 

@@ -22,7 +22,7 @@ export const DialogReactivateArchivingEservice: React.FC<
   const ariaLabelId = React.useId()
   const ariaDescriptionId = React.useId()
 
-  const { mutate: reactivate } = EServiceMutations.useReactivateVersion()
+  const { mutate: reactivate } = EServiceMutations.useReactivateVersion({ skipConfirmation: true })
 
   const handleProceed = () => reactivate({ eserviceId, descriptorId }, { onSuccess: closeDialog })
 
