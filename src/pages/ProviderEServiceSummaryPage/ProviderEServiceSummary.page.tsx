@@ -3,6 +3,7 @@ import { PageContainer } from '@/components/layout/containers'
 import { Trans, useTranslation } from 'react-i18next'
 import { useGeneratePath, useNavigate, useParams } from '@/router'
 import { EServiceMutations, EServiceQueries } from '@/api/eservice'
+import { KeychainQueries } from '@/api/keychain'
 import { Alert, Button, Link, Stack, Tooltip, Typography } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
@@ -62,6 +63,15 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const { data: descriptor, isLoading } = useQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
+
+  const { data: associatedKeychains, isLoading: isAssociatedKeychainsLoading } = useQuery({
+    ...KeychainQueries.getKeychainsList({
+      eserviceId,
+      offset: 0,
+      limit: 50,
+    }),
+    enabled: Boolean(descriptor?.eservice.asyncExchange),
+  })
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 
@@ -219,6 +229,17 @@ const ProviderEServiceSummaryPage: React.FC = () => {
         riskAnalysis.rulesetExpiration && new Date(riskAnalysis.rulesetExpiration) < new Date()
     )
 
+  const isAsyncExchangeValidationLoading =
+    Boolean(descriptor?.eservice.asyncExchange) && isAssociatedKeychainsLoading
+
+  const areAsyncExchangeFieldsSet =
+    !descriptor?.eservice.asyncExchange ||
+    Boolean(
+      descriptor.asyncExchangeCallbackInterface &&
+      descriptor.asyncExchangeProperties &&
+      (associatedKeychains?.pagination.totalCount ?? 0) > 0
+    )
+
   const canBePublished = () => {
     return (
       !!(
@@ -230,6 +251,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
         descriptor.dailyCallsPerConsumer &&
         descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer &&
         arePersonalDataSet &&
+        areAsyncExchangeFieldsSet &&
         !isRulesetExpired
       ) && checklistEServiceFromTemplate()
     )
@@ -296,7 +318,15 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     Boolean(descriptor?.audience?.length) &&
     Boolean(descriptor?.voucherLifespan)
 
-  const isDocumentationSectionValid = Boolean(descriptor?.interface)
+  const isDocumentationSectionValid = Boolean(descriptor?.interface) && areAsyncExchangeFieldsSet
+  const isPublishable = canBePublished()
+  const publishTooltipKey = getPublishTooltipKey({
+    isPublishable,
+    arePersonalDataSet,
+    isRulesetExpired,
+    isValidationLoading: isAsyncExchangeValidationLoading,
+  })
+  const publishTooltipTitle = publishTooltipKey ? t(publishTooltipKey) : ''
 
   return (
     <>
@@ -390,10 +420,12 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
               title={t('summary.documentationSummary.title')}
-              showWarning={!isDocumentationSectionValid}
+              showWarning={!isAsyncExchangeValidationLoading && !isDocumentationSectionValid}
               warningLabel={t('summary.missingInformationsLabel')}
             >
-              <ProviderEServiceDocumentationSummarySection />
+              <ProviderEServiceDocumentationSummarySection
+                associatedKeychains={associatedKeychains}
+              />
             </SummaryAccordion>
           </React.Suspense>
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
@@ -434,7 +466,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
         {!isDelegator &&
           !(isEServiceFromTemplate && descriptor?.state === 'WAITING_FOR_APPROVAL') && (
             <>
-              {!canBePublished() && (
+              {!isAsyncExchangeValidationLoading && !isPublishable && (
                 <Alert severity="warning" sx={{ mt: 3 }}>
                   {t('summary.publishWarningLabel')}
                 </Alert>
@@ -459,9 +491,8 @@ const ProviderEServiceSummaryPage: React.FC = () => {
                 </Button>
                 <PublishButton
                   onClick={handlePublishDraft}
-                  disabled={!canBePublished() || isSupport}
-                  arePersonalDataSet={arePersonalDataSet}
-                  isRulesetExpired={isRulesetExpired}
+                  disabled={isAsyncExchangeValidationLoading || !isPublishable || isSupport}
+                  tooltipTitle={publishTooltipTitle}
                 />
               </Stack>
             </>
@@ -477,13 +508,13 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             >
               {tCommon('reject')}
             </Button>
-            <Tooltip title={arePersonalDataSet ? '' : t('summary.missingPersonalDataField')} arrow>
+            <Tooltip title={publishTooltipTitle} arrow>
               <span>
                 <Button
                   startIcon={<PublishIcon />}
                   variant="contained"
                   onClick={handleApproveDelegatedVersionDraft}
-                  disabled={isSupport || !arePersonalDataSet}
+                  disabled={isSupport || isAsyncExchangeValidationLoading || !isPublishable}
                 >
                   {tCommon('publish')}
                 </Button>
@@ -515,29 +546,15 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 type PublishButtonProps = {
   disabled: boolean
   onClick: VoidFunction
-  arePersonalDataSet?: boolean
-  isRulesetExpired?: boolean
+  tooltipTitle: string
 }
 
-const PublishButton: React.FC<PublishButtonProps> = ({
-  disabled,
-  onClick,
-  arePersonalDataSet,
-  isRulesetExpired,
-}) => {
+const PublishButton: React.FC<PublishButtonProps> = ({ disabled, onClick, tooltipTitle }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-  const { t } = useTranslation('eservice', { keyPrefix: 'summary' })
-  let tooltipToShow = t('notPublishableTooltip.label')
-
-  if (!arePersonalDataSet) {
-    tooltipToShow = t('missingPersonalDataField')
-  } else if (isRulesetExpired) {
-    tooltipToShow = t('rulesetExpiredTooltip.label')
-  }
 
   const Wrapper = disabled
     ? ({ children }: { children: React.ReactElement }) => (
-        <Tooltip arrow title={tooltipToShow}>
+        <Tooltip arrow title={tooltipTitle}>
           <span tabIndex={disabled ? 0 : undefined}>{children}</span>
         </Tooltip>
       )
@@ -550,6 +567,28 @@ const PublishButton: React.FC<PublishButtonProps> = ({
       </Button>
     </Wrapper>
   )
+}
+
+type PublishTooltipKey =
+  | 'summary.missingPersonalDataField'
+  | 'summary.notPublishableTooltip.label'
+  | 'summary.rulesetExpiredTooltip.label'
+
+function getPublishTooltipKey({
+  arePersonalDataSet,
+  isPublishable,
+  isRulesetExpired,
+  isValidationLoading,
+}: {
+  arePersonalDataSet?: boolean
+  isPublishable: boolean
+  isRulesetExpired?: boolean
+  isValidationLoading: boolean
+}): PublishTooltipKey | undefined {
+  if (isPublishable || isValidationLoading) return undefined
+  if (!arePersonalDataSet) return 'summary.missingPersonalDataField'
+  if (isRulesetExpired) return 'summary.rulesetExpiredTooltip.label'
+  return 'summary.notPublishableTooltip.label'
 }
 
 export default ProviderEServiceSummaryPage

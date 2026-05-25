@@ -1,6 +1,6 @@
 import React from 'react'
-import type { EServiceDoc } from '@/api/api.generatedTypes'
-import { Stack } from '@mui/material'
+import type { CompactProducerKeychains, EServiceDoc } from '@/api/api.generatedTypes'
+import { Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { IconLink } from '@/components/shared/IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
@@ -11,7 +11,13 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { secondsToMinutes } from '@/utils/format.utils'
 import { SummaryInformationContainer } from '@/components/shared/SummaryInformationContainer'
 
-export const ProviderEServiceDocumentationSummarySection: React.FC = () => {
+type ProviderEServiceDocumentationSummarySectionProps = {
+  associatedKeychains?: CompactProducerKeychains
+}
+
+export const ProviderEServiceDocumentationSummarySection: React.FC<
+  ProviderEServiceDocumentationSummarySectionProps
+> = ({ associatedKeychains }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'summary.documentationSummary' })
   const { t: tCommon } = useTranslation('common')
   const params = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
@@ -22,6 +28,7 @@ export const ProviderEServiceDocumentationSummarySection: React.FC = () => {
 
   const downloadDocument = EServiceDownloads.useDownloadVersionDocument()
   const voucherLifespan = secondsToMinutes(descriptor.voucherLifespan)
+  const isAsyncExchange = descriptor.eservice.asyncExchange
 
   const handleDownloadDocument = (document: EServiceDoc) => {
     downloadDocument(
@@ -33,6 +40,39 @@ export const ProviderEServiceDocumentationSummarySection: React.FC = () => {
       getDownloadDocumentName(document)
     )
   }
+
+  const asyncExchangeProperties = descriptor.asyncExchangeProperties
+
+  const formatAsyncNumber = (value: number | undefined) => {
+    return typeof value === 'number' ? String(value) : undefined
+  }
+
+  const formatAsyncSeconds = (value: number | undefined) => {
+    return typeof value === 'number'
+      ? `${value} ${tCommon('time.second', { count: value })}`
+      : undefined
+  }
+
+  const formatAsyncBoolean = (value: boolean | undefined) => {
+    return typeof value === 'boolean' ? t(`asyncExchange.booleanValue.${value}`) : undefined
+  }
+
+  const hiddenKeychainsCount = associatedKeychains
+    ? associatedKeychains.pagination.totalCount - associatedKeychains.results.length
+    : 0
+
+  const keychainsContent = associatedKeychains?.results.length ? (
+    <Stack spacing={1}>
+      {associatedKeychains.results.map((keychain) => (
+        <span key={keychain.id}>{keychain.name}</span>
+      ))}
+      {hiddenKeychainsCount > 0 && (
+        <Typography component="span" variant="body2">
+          {t('producerKeychains.moreLabel', { count: hiddenKeychainsCount })}
+        </Typography>
+      )}
+    </Stack>
+  ) : undefined
 
   return (
     <Stack spacing={2}>
@@ -57,6 +97,51 @@ export const ProviderEServiceDocumentationSummarySection: React.FC = () => {
           count: voucherLifespan,
         })}`}
       />
+      {isAsyncExchange && (
+        <>
+          <SummaryInformationContainer
+            label={t('callbackInterface.label')}
+            content={
+              descriptor.asyncExchangeCallbackInterface ? (
+                <IconLink
+                  component="button"
+                  startIcon={<AttachFileIcon fontSize="small" />}
+                  onClick={handleDownloadDocument.bind(
+                    null,
+                    descriptor.asyncExchangeCallbackInterface
+                  )}
+                >
+                  {descriptor.asyncExchangeCallbackInterface.prettyName}
+                </IconLink>
+              ) : undefined
+            }
+          />
+          <SummaryInformationContainer
+            label={t('asyncExchange.responseTime.label')}
+            content={formatAsyncSeconds(asyncExchangeProperties?.responseTime)}
+          />
+          <SummaryInformationContainer
+            label={t('asyncExchange.resourceAvailableTime.label')}
+            content={formatAsyncSeconds(asyncExchangeProperties?.resourceAvailableTime)}
+          />
+          <SummaryInformationContainer
+            label={t('asyncExchange.confirmation.label')}
+            content={formatAsyncBoolean(asyncExchangeProperties?.confirmation)}
+          />
+          <SummaryInformationContainer
+            label={t('asyncExchange.bulk.label')}
+            content={formatAsyncBoolean(asyncExchangeProperties?.bulk)}
+          />
+          <SummaryInformationContainer
+            label={t('asyncExchange.maxResultSet.label')}
+            content={formatAsyncNumber(asyncExchangeProperties?.maxResultSet)}
+          />
+          <SummaryInformationContainer
+            label={t('producerKeychains.label')}
+            content={keychainsContent}
+          />
+        </>
+      )}
     </Stack>
   )
 }
