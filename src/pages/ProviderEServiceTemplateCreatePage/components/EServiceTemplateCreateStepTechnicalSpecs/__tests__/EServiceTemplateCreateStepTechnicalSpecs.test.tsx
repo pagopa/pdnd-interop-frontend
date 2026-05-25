@@ -1,11 +1,15 @@
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import {
   EServiceTemplateCreateStepTechnicalSpecs,
   EServiceTemplateCreateStepTechnicalSpecsSkeleton,
 } from '../EServiceTemplateCreateStepTechnicalSpecs'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { mockUseEServiceTemplateCreateContext } from '@/../__mocks__/data/eserviceTemplate.mocks'
+import {
+  createMockEServiceTemplateVersionDetailsAsync,
+  mockUseEServiceTemplateCreateContext,
+} from '@/../__mocks__/data/eserviceTemplate.mocks'
 
 const mockUpdateVersionDraft = vi.fn()
 
@@ -132,6 +136,32 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
       withReactQueryContext: true,
     })
     expect(screen.queryByText('create.step4.documentation.title')).not.toBeInTheDocument()
+  })
+
+  it('includes default asyncExchangeProperties in payload when async template properties are missing', async () => {
+    mockUseEServiceTemplateCreateContext({
+      eserviceTemplateVersion: createMockEServiceTemplateVersionDetailsAsync({
+        asyncExchangeProperties: undefined,
+      }),
+    })
+    renderWithApplicationContext(<EServiceTemplateCreateStepTechnicalSpecs {...stepProps} />, {
+      withReactQueryContext: true,
+    })
+
+    await userEvent.click(screen.getByRole('button', { name: /create.forwardWithSaveBtn/ }))
+
+    expect(mockUpdateVersionDraft).toHaveBeenCalledWith(
+      expect.objectContaining({
+        asyncExchangeProperties: {
+          responseTime: 60,
+          resourceAvailableTime: 60,
+          maxResultSet: 1,
+          confirmation: false,
+          bulk: true,
+        },
+      }),
+      expect.any(Object)
+    )
   })
 })
 

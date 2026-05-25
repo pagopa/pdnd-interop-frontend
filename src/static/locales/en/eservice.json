@@ -46,7 +46,7 @@
         "firstVersionOnlyEditableInfo": "This data will no longer be editable after the first version of the e-service is published.",
         "asyncExchangeField": {
           "label": "How do you want to exchange the e-service data?",
-          "readOnlyLabel": "Data exchange type",
+          "readOnlyLabel": "Data exchange",
           "options": {
             "false": "Synchronous (standard)",
             "true": "Asynchronous / bulk (deferred)"
@@ -647,6 +647,7 @@
         "bottomActions": {
           "navigateVersions": "Navigate to another e-service version",
           "showTechnicalDetails": "Show e-service technical details",
+          "showAsyncExchangeDetails": "Show asynchronous exchange details",
           "downloadConsumerList": "Download consumer list",
           "showProducerContacts": "Show producer contacts",
           "exportVersion": "Download this e-service version",
@@ -959,6 +960,14 @@
             "RECEIVE": "Receive"
           }
         },
+        "asyncExchange": {
+          "label": "Data exchange type",
+          "value": {
+            "true": "Asynchronous"
+          }
+        },
+        "asyncExchangeCallbackInterface": "Callback interface",
+        "asyncExchangeCallbackInterfaceChecksum": "Callback interface checksum",
         "isSignalHubEnabled": {
           "label": "Is the data update system (Signal Hub) available?",
           "value": {
@@ -976,6 +985,21 @@
           "verifyVoucher": "How do I verify a consumer's voucher?",
           "wellKnown": "URL .well-known",
           "interfaceChecksum": "How to calculate the interface file checksum yourself?"
+        }
+      },
+      "asyncExchangeDetailsDrawer": {
+        "title": "Asynchronous exchange details",
+        "responseTime": "Maximum response time",
+        "resourceAvailableTime": "Maximum result availability time",
+        "confirmation": "Receipt confirmation",
+        "bulk": "Bulk download",
+        "maxResultSet": "Maximum number of results",
+        "callbackInterface": "Callback interface",
+        "callbackInterfaceChecksum": "Callback interface checksum",
+        "seconds": "seconds",
+        "booleanValue": {
+          "true": "Yes",
+          "false": "No"
         }
       },
       "producerContactsInfoDrawer": {
@@ -1060,6 +1084,10 @@
       "title": "You have published the e-service",
       "description": "The e-service is now available in the catalog and you will be able to receive subscription requests."
     },
+    "firstVersionAsync": {
+      "title": "You have published the async e-service",
+      "description": "The e-service is now available in the catalog and you will be able to receive subscription requests. Make sure you have linked a keychain to the e-service to enable data exchange."
+    },
     "newVersion": {
       "title": "You have published a new version of the e-service",
       "subtitle": "What happens now:",
@@ -1069,6 +1097,16 @@
         "the previous version becomes obsolete but remains active as long as there are subscribers."
       ]
     },
-    "action": "Close"
+    "newVersionAsync": {
+      "title": "You have published a new version of the e-service",
+      "subtitle": "What happens now:",
+      "bulletPoints": [
+        "the new version is available in the catalog;",
+        "subscribers receive an update notification;",
+        "the previous version becomes obsolete but remains active as long as there are subscribers."
+      ]
+    },
+    "action": "Close",
+    "asyncAction": "Go to the e-service"
   }
 }

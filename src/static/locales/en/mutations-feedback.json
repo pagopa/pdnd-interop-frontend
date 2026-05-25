@@ -384,6 +384,11 @@
         "description": {
           "default": "By clicking \"confirm\", the fruition request will be forwarded to the e-service producer for approval",
           "isDelegated": "By clicking \"confirm\", the fruition request will be forwarded to the e-service producer for approval and a notification will be sent to the delegating party for information."
+        },
+        "asyncExchange": {
+          "title": "Before submitting the fruition request",
+          "description": "This e-service uses asynchronous data exchange, which is different from standard synchronous exchanges. To work correctly, it requires implementing a callback interface provided by the producer. For full information, <1>consult the guide</1>.",
+          "checkbox": "I understand that a technical integration is required"
         }
       }
     },

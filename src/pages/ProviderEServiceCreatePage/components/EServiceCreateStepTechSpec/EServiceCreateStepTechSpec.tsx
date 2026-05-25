@@ -27,18 +27,21 @@ import {
 } from '../sections/EServiceProducerKeychainSection'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { EServiceAsyncExchangeSection } from '../sections/EServiceAsyncExchangeSection'
+import { getAsyncExchangePropertiesWithDefaults } from '@/utils/eservice.utils'
+
+type AsyncExchangePropertiesFormValues = {
+  responseTime: number | ''
+  resourceAvailableTime: number | ''
+  maxResultSet: number | ''
+  confirmation: boolean
+  bulk: boolean
+}
 
 export type EServiceCreateStepTechSpecFormValues = {
   audience: string
   voucherLifespan: number
   keychains: ProducerKeychainFieldArrayItem[]
-  asyncExchangeProperties: {
-    responseTime: number | ''
-    resourceAvailableTime: number | ''
-    maxResultSet: number | ''
-    confirmation: boolean
-    bulk: boolean
-  }
+  asyncExchangeProperties: AsyncExchangePropertiesFormValues
 }
 
 export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
@@ -103,13 +106,9 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
       initialAssociatedKeychains.length > 0
         ? initialAssociatedKeychains.map((k) => ({ value: k }))
         : [{ value: null }],
-    asyncExchangeProperties: {
-      responseTime: descriptor?.asyncExchangeProperties?.responseTime ?? '',
-      resourceAvailableTime: descriptor?.asyncExchangeProperties?.resourceAvailableTime ?? '',
-      maxResultSet: descriptor?.asyncExchangeProperties?.maxResultSet ?? '',
-      confirmation: descriptor?.asyncExchangeProperties?.confirmation ?? false,
-      bulk: descriptor?.asyncExchangeProperties?.bulk ?? false,
-    },
+    asyncExchangeProperties: getAsyncExchangePropertiesWithDefaults(
+      descriptor?.asyncExchangeProperties
+    ),
   }
 
   const formMethods = useForm<EServiceCreateStepTechSpecFormValues>({ defaultValues })

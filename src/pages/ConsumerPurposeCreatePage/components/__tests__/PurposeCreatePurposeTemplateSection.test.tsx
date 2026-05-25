@@ -64,9 +64,9 @@ const selectedEserviceMock: CatalogDescriptorEService = {
   ],
   isMine: true,
   hasCertifiedAttributes: true,
-  hasProducerKeychain: true,
-  hasProducerKeychainKeys: true,
   isSubscribed: true,
+  hasProducerKeychain: false,
+  hasProducerKeychainKeys: false,
   agreements: [],
   activeDescriptor: {
     id: 'desc-001',
