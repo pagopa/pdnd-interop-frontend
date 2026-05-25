@@ -1136,6 +1136,34 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
       'viewAllVersions',
     ])
   })
+
+  it('ARCHIVING ESERVICE: menu is reduced to clone+viewAllVersions (no archive/new-version while the whole e-service is archiving)', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVING', version: '1' },
+      delegation: undefined,
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      archivingSchedule: { scope: 'ESERVICE' },
+    })
+    expect(result.current.menuActions.map((a) => a.label)).toEqual([
+      'cloneEservice',
+      'viewAllVersions',
+    ])
+  })
+
+  it('ARCHIVING_SUSPENDED ESERVICE: menu is reduced to clone+viewAllVersions (same as ARCHIVING ESERVICE)', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVING_SUSPENDED', version: '1' },
+      delegation: undefined,
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      archivingSchedule: { scope: 'ESERVICE' },
+    })
+    expect(result.current.menuActions.map((a) => a.label)).toEqual([
+      'cloneEservice',
+      'viewAllVersions',
+    ])
+  })
 })
 
 describe('useGetProviderEServiceActions slot split bypass (preserve legacy behavior)', () => {
