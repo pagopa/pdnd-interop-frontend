@@ -116,6 +116,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     if (!descriptor) return
 
     const isFirstVersion = descriptor.version === '1'
+    const isAsyncExchange = descriptor.eservice.asyncExchange === true
 
     publishVersion(
       {
@@ -133,20 +134,34 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               descriptorId: descriptor.id,
             },
             state: {
-              ...match(isFirstVersion)
-                .with(true, () => ({
+              ...match({ isFirstVersion, isAsyncExchange })
+                .with({ isFirstVersion: true, isAsyncExchange: false }, () => ({
                   title: t('publishThankYou.firstVersion.title'),
                   description: t('publishThankYou.firstVersion.description'),
+                  buttonLabel: t('publishThankYou.action'),
                 }))
-                .with(false, () => ({
+                .with({ isFirstVersion: true, isAsyncExchange: true }, () => ({
+                  title: t('publishThankYou.firstVersionAsync.title'),
+                  description: t('publishThankYou.firstVersionAsync.description'),
+                  buttonLabel: t('publishThankYou.asyncAction'),
+                }))
+                .with({ isFirstVersion: false, isAsyncExchange: false }, () => ({
                   title: t('publishThankYou.newVersion.title'),
                   subtitle: t('publishThankYou.newVersion.subtitle'),
                   bulletPoints: t('publishThankYou.newVersion.bulletPoints', {
                     returnObjects: true,
                   }),
+                  buttonLabel: t('publishThankYou.action'),
+                }))
+                .with({ isFirstVersion: false, isAsyncExchange: true }, () => ({
+                  title: t('publishThankYou.newVersionAsync.title'),
+                  subtitle: t('publishThankYou.newVersionAsync.subtitle'),
+                  bulletPoints: t('publishThankYou.newVersionAsync.bulletPoints', {
+                    returnObjects: true,
+                  }),
+                  buttonLabel: t('publishThankYou.asyncAction'),
                 }))
                 .exhaustive(),
-              buttonLabel: t('publishThankYou.action'),
               closeRouteKey: 'PROVIDE_ESERVICE_MANAGE',
               closeRouteParams: { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
             },

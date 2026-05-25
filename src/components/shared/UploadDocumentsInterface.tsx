@@ -14,12 +14,14 @@ type UploadDocumentsInterfaceProps = {
   onSubmit: ({ interfaceDoc }: UploadDocumentsInterfaceFormValues) => void
   sxBox?: SxProps<Theme>
   error?: string
+  dropzoneLabel?: string
 }
 
 export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> = ({
   onSubmit,
   sxBox,
   error,
+  dropzoneLabel,
 }) => {
   const { t } = useTranslation('eservice')
   const { t: tCommon } = useTranslation('common')
@@ -43,25 +45,21 @@ export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> =
 
   return (
     <FormProvider {...formMethods}>
-      <Box
-        component={'form'}
-        onSubmit={formMethods.handleSubmit(onSubmit)}
-        sx={sxBox}
-        bgcolor="common.white"
-      >
+      <Box sx={sxBox} bgcolor="common.white">
         <RHFSingleFileInput
           sx={{ my: 0 }}
           name="interfaceDoc"
           rules={{ required: true }}
           data-testid="fileInput"
-          dropzoneLabel={t('create.step4.interface.dropzoneLabel')}
+          dropzoneLabel={dropzoneLabel ?? t('create.step4.interface.dropzoneLabel')}
         />
 
         {selectedInterface && (
           <Stack direction="row">
             <Button
               name="uploadInterfaceDocBtn"
-              type="submit"
+              type="button"
+              onClick={formMethods.handleSubmit(onSubmit)}
               variant="contained"
               startIcon={<SaveIcon fontSize="small" />}
               sx={{ mt: 2 }}

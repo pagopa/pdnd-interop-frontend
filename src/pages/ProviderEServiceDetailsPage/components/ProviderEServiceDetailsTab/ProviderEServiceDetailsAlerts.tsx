@@ -16,11 +16,23 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
 
   const isSuspended = descriptor?.state === 'SUSPENDED'
   const isDeprecated = descriptor?.state === 'DEPRECATED'
+  const shouldShowMissingKeychainAlert =
+    descriptor.eservice.asyncExchange && !descriptor.eservice.hasProducerKeychain
+  const shouldShowMissingKeychainKeysAlert =
+    descriptor.eservice.asyncExchange &&
+    descriptor.eservice.hasProducerKeychain &&
+    !descriptor.eservice.hasProducerKeychainKeys
 
   return (
     <Stack spacing={2}>
       {isSuspended && <Alert severity="error">{t('suspended')}</Alert>}
       {isDeprecated && <Alert severity="info">{t('deprecated')}</Alert>}
+      {shouldShowMissingKeychainAlert && (
+        <Alert severity="warning">{t('providerMissingProducerKeychain')}</Alert>
+      )}
+      {shouldShowMissingKeychainKeysAlert && (
+        <Alert severity="warning">{t('providerMissingProducerKeychainKeys')}</Alert>
+      )}
     </Stack>
   )
 }

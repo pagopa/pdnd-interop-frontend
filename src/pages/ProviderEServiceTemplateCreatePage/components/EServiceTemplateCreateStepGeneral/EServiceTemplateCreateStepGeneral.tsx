@@ -4,7 +4,7 @@ import { Box, Stack, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { RHFRadioGroup, RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
 import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
@@ -15,6 +15,7 @@ import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateCon
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { ESERVICE_TEMPLATE_NAME_MAX_LENGTH, SIGNALHUB_GUIDE_URL } from '@/config/constants'
 import { EServiceTemplateDetailsSection } from '@/pages/ProviderEServiceCreatePage/components/sections/EServiceTemplateDetailsSection'
+import { EServiceDetailsSectionBase } from '@/pages/ProviderEServiceCreatePage/components/sections/EServiceDetailsSectionBase'
 
 export type EServiceTemplateCreateStepGeneralFormValues = {
   name: string
@@ -22,13 +23,13 @@ export type EServiceTemplateCreateStepGeneralFormValues = {
   intendedTarget: string
   technology: EServiceTechnology
   mode: EServiceMode
+  asyncExchange: boolean
   isSignalHubEnabled?: boolean
   personalData?: boolean
 }
 
 export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate')
-  const { t: tCommon } = useTranslation('common', { keyPrefix: 'validation.mixed' })
   const navigate = useNavigate()
 
   const {
@@ -47,7 +48,10 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
     description: eserviceTemplateVersion?.eserviceTemplate.description ?? '',
     intendedTarget: eserviceTemplateVersion?.eserviceTemplate.intendedTarget ?? '',
     technology: eserviceTemplateVersion?.eserviceTemplate.technology ?? 'REST',
-    mode: eserviceTemplateMode,
+    mode: eserviceTemplateVersion?.eserviceTemplate.asyncExchange
+      ? 'DELIVER'
+      : eserviceTemplateMode,
+    asyncExchange: eserviceTemplateVersion?.eserviceTemplate.asyncExchange ?? false,
     isSignalHubEnabled: eserviceTemplateVersion?.eserviceTemplate.isSignalHubEnabled ?? false,
     personalData: eserviceTemplateVersion?.eserviceTemplate.personalData,
   }
@@ -194,64 +198,11 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
           />
         </SectionContainer>
 
-        <SectionContainer title={t('create.step1.instanceDetailsTitle')} component="div">
-          <RHFRadioGroup
-            name="technology"
-            row
-            required
-            label={t('create.step1.eserviceTemplateTechnologyField.label')}
-            options={[
-              { label: 'REST', value: 'REST' },
-              { label: 'SOAP', value: 'SOAP' },
-            ]}
-            rules={{ required: true }}
-            sx={{ mb: 0, mt: 1 }}
-          />
-          <RHFRadioGroup
-            name="mode"
-            row
-            required
-            label={t('create.step1.eserviceTemplateModeField.label')}
-            options={[
-              {
-                label: t('create.step1.eserviceTemplateModeField.options.DELIVER'),
-                value: 'DELIVER',
-              },
-              {
-                label: t('create.step1.eserviceTemplateModeField.options.RECEIVE'),
-                value: 'RECEIVE',
-              },
-            ]}
-            rules={{ required: true }}
-            sx={{ mb: 0, mt: 3 }}
-            onValueChange={(mode) => onEserviceTemplateModeChange(mode as EServiceMode)}
-          />
-          <RHFRadioGroup
-            name="personalData"
-            row
-            required
-            label={t(`create.step1.eservicePersonalDataField.${eserviceTemplateMode}.label`)}
-            options={[
-              {
-                label: t(
-                  `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.true`
-                ),
-                value: true,
-              },
-              {
-                label: t(
-                  `create.step1.eservicePersonalDataField.${eserviceTemplateMode}.options.false`
-                ),
-                value: false,
-              },
-            ]}
-            rules={{
-              validate: (value) => value === true || value === false || tCommon('required'),
-            }}
-            sx={{ mb: 0, mt: 3 }}
-            isOptionValueAsBoolean
-          />
-        </SectionContainer>
+        <EServiceDetailsSectionBase
+          isEditable={areEServiceTemplateGeneralInfoEditable}
+          eserviceMode={eserviceTemplateMode}
+          onEserviceModeChange={onEserviceTemplateModeChange}
+        />
 
         <SectionContainer title={t('create.step1.signalHubTitle')} component="div">
           <RHFSwitch name="isSignalHubEnabled" label={signalHubLabel} />

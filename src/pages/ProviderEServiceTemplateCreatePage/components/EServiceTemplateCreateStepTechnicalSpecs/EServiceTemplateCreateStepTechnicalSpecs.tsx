@@ -14,6 +14,7 @@ import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import type { UpdateEServiceTemplateVersionSeed } from '@/api/api.generatedTypes'
+import { getAsyncExchangePropertiesWithDefaults } from '@/utils/eservice.utils'
 
 type EServiceTemplateCreateStepTechnicalSpecsFormValues = {
   voucherLifespan: number
@@ -48,6 +49,13 @@ export const EServiceTemplateCreateStepTechnicalSpecs: React.FC<ActiveStepProps>
       agreementApprovalPolicy: eserviceTemplateVersion.agreementApprovalPolicy,
       dailyCallsPerConsumer: eserviceTemplateVersion.dailyCallsPerConsumer,
       dailyCallsTotal: eserviceTemplateVersion.dailyCallsTotal,
+      ...(eserviceTemplateVersion.eserviceTemplate.asyncExchange === true
+        ? {
+            asyncExchangeProperties: getAsyncExchangePropertiesWithDefaults(
+              eserviceTemplateVersion.asyncExchangeProperties
+            ),
+          }
+        : {}),
     }
 
     updateVersionDraft(

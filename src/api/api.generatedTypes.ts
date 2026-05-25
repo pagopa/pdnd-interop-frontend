@@ -360,12 +360,7 @@ export interface UpdateEServiceDescriptorTemplateInstanceSeed {
    */
   agreementApprovalPolicy: AgreementApprovalPolicy;
   attributes?: DescriptorAttributesSeed;
-  /** @format int32 */
-  asyncExchangeResponseTime?: number;
-  /** @format int32 */
-  asyncExchangeResourceAvailableTime?: number;
-  /** @format int32 */
-  asyncExchangeMaxResultSet?: number;
+  asyncExchangeProperties?: AsyncExchangePropertiesInstanceSeed;
 }
 
 export interface Mail {
@@ -501,6 +496,8 @@ export interface CatalogDescriptorEService {
    */
   hasCertifiedAttributes: boolean;
   isSubscribed: boolean;
+  hasProducerKeychain: boolean;
+  hasProducerKeychainKeys: boolean;
   activeDescriptor?: CompactDescriptor;
   mail?: Mail;
   isSignalHubEnabled?: boolean;
@@ -623,6 +620,8 @@ export interface ProducerDescriptorEService {
   mode: EServiceMode;
   riskAnalysis: EServiceRiskAnalysis[];
   descriptors: CompactDescriptor[];
+  hasProducerKeychain: boolean;
+  hasProducerKeychainKeys: boolean;
   draftDescriptor?: CompactDescriptor;
   mail?: Mail;
   isSignalHubEnabled?: boolean;
@@ -1601,6 +1600,15 @@ export interface AsyncExchangeProperties {
   bulk: boolean;
   /** @format int32 */
   maxResultSet: number;
+}
+
+export interface AsyncExchangePropertiesInstanceSeed {
+  /** @format int32 */
+  responseTime?: number;
+  /** @format int32 */
+  resourceAvailableTime?: number;
+  /** @format int32 */
+  maxResultSet?: number;
 }
 
 export interface DescriptorAttributes {
