@@ -3,7 +3,7 @@ import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { DialogShowEserviceVersionsList } from '../DialogShowEserviceVersionsList/DialogShowEserviceVersionsList'
 import type { DialogShowEserviceVersionsListProps } from '@/types/dialog.types'
-import type { CompactDescriptorWithArchivingSchedule } from '@/types/eservice.types'
+import type { CompactDescriptor } from '@/api/api.generatedTypes'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 
 const mockCloseDialog = vi.fn()
@@ -15,9 +15,7 @@ vi.mock('@/stores', async () => {
   }
 })
 
-const makeDescriptor = (
-  overrides: Partial<CompactDescriptorWithArchivingSchedule>
-): CompactDescriptorWithArchivingSchedule => ({
+const makeDescriptor = (overrides: Partial<CompactDescriptor>): CompactDescriptor => ({
   id: 'descriptor-id',
   version: '1',
   state: 'PUBLISHED',
@@ -96,14 +94,14 @@ describe('DialogShowEserviceVersionsList', () => {
     expect(mockCloseDialog).toHaveBeenCalled()
   })
 
-  it('shows the scheduled-archival badge for ARCHIVING_SUSPENDED descriptors', () => {
+  it('shows the archive icon for descriptors with archivableOn populated', () => {
     renderDialog({
       descriptors: [
         makeDescriptor({
           id: 'd1',
           version: '1',
           state: 'ARCHIVING_SUSPENDED',
-          archivingSchedule: { archivableOn: '2026-12-31', scope: 'Descriptor' },
+          archivableOn: '2026-12-31',
         }),
       ],
     })
@@ -112,7 +110,7 @@ describe('DialogShowEserviceVersionsList', () => {
     expect(within(row).getByTestId('ArchiveIcon')).toBeInTheDocument()
   })
 
-  it('does not show the archival badge for non-archiving states', () => {
+  it('does not show the archive icon when archivableOn is not set', () => {
     renderDialog({
       descriptors: [makeDescriptor({ id: 'd1', version: '1', state: 'PUBLISHED' })],
     })

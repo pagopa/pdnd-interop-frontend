@@ -99,6 +99,7 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
     | {
         for: 'descriptor'
         state: EServiceDescriptorState
+        isActiveDescriptor?: boolean
       }
     | {
         for: 'agreement'
@@ -168,8 +169,13 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
   }
 
   if (props.for === 'descriptor') {
-    color = chipColors['descriptor'][props.state]
-    label = t(`status.descriptor.${props.state}`)
+    const isActiveDescriptorArchiving = props.state === 'ARCHIVING' && props.isActiveDescriptor
+    color = isActiveDescriptorArchiving
+      ? chipColors['descriptor']['PUBLISHED']
+      : chipColors['descriptor'][props.state]
+    label = isActiveDescriptorArchiving
+      ? t('status.descriptor.PUBLISHED')
+      : t(`status.descriptor.${props.state}`)
   }
 
   if (props.for === 'agreement') {
@@ -205,7 +211,7 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
     <Chip
       label={label}
       color={color}
-      {...omit(props, ['for', 'state', 'agreement', 'attributeKey'])}
+      {...omit(props, ['for', 'state', 'agreement', 'attributeKey', 'isActiveDescriptor'])}
     />
   )
 }

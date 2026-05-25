@@ -8,6 +8,8 @@ import type { useParams } from '@/router'
 import { Link, type RouteKey } from '@/router'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { ActionMenu } from '@/components/shared/ActionMenu'
+import { ArchivingScheduleBadge } from '@/components/shared/ArchivingScheduleBadge'
+import type { ArchivingScope } from '@/api/api.generatedTypes'
 
 type RouteParams<TRouteKey extends RouteKey> = ReturnType<typeof useParams<TRouteKey>>
 
@@ -51,6 +53,10 @@ type HeaderInfoSectionProps = {
   shortcut: ShortCutProps
   actions?: Array<ActionItemButton>
   statusChip?: React.ComponentProps<typeof StatusChip>
+  archivingScheduleInfo?: {
+    archivableOn: string
+    scope: ArchivingScope
+  }
 }
 
 type IntroProps = {
@@ -230,6 +236,7 @@ export const HeaderInfoSection: React.FC<HeaderInfoSectionProps> = ({
   label,
   shortcut,
   statusChip,
+  archivingScheduleInfo,
   actions = [],
 }) => {
   return (
@@ -261,7 +268,15 @@ export const HeaderInfoSection: React.FC<HeaderInfoSectionProps> = ({
               {shortcut.label}
             </Link>
           )}
-          {statusChip && <StatusChip {...statusChip} />}
+          <Stack direction="row" alignItems="center" spacing={1}>
+            {statusChip && <StatusChip {...statusChip} />}
+            {archivingScheduleInfo && (
+              <ArchivingScheduleBadge
+                archivableOn={archivingScheduleInfo.archivableOn}
+                scope={archivingScheduleInfo.scope}
+              />
+            )}
+          </Stack>
         </Stack>
         <Stack direction="row" spacing={1}>
           {actions.map(({ action, label, color, icon: Icon, ...props }, index) => {

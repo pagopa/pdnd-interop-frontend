@@ -511,9 +511,11 @@
     "versionHeaderLabel": "Versione",
     "versionListModal": {
       "title": "Stato versioni",
-      "versionRowLabel": "Versione {{ version }}",
-      "scheduledArchivalTooltipDescriptor": "Versione in archiviazione il {{ date }}",
-      "scheduledArchivalTooltipEservice": "E-service in archiviazione il {{ date }}"
+      "versionRowLabel": "Versione {{ version }}"
+    },
+    "scheduledArchivalTooltip": {
+      "descriptor": "Versione in archiviazione il {{ date }}",
+      "eservice": "E-service in archiviazione il giorno {{ date }}"
     },
     "tabs": {
       "ariaLabel": "Due tab diverse per i dettagli dell'e-service e i portachiavi associati",

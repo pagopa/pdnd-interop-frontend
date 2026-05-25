@@ -1105,38 +1105,6 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     expect(result.current.headerInfoActions.map((a) => a.label)).toEqual(['reactivateVersion'])
   })
 
-  it('PUBLISHED with ESERVICE archiving overlay: cancelArchivingEservice primary, suspend in header, clone+viewAllVersions in menu', () => {
-    const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
-      delegation: undefined,
-    })
-    const { result } = renderDetailsPageHook(descriptorMock, {
-      archivingSchedule: { scope: 'ESERVICE' },
-    })
-    expect(result.current.primaryAction?.label).toBe('cancelArchivingEservice')
-    expect(result.current.headerInfoActions.map((a) => a.label)).toEqual(['suspendVersion'])
-    expect(result.current.menuActions.map((a) => a.label)).toEqual([
-      'cloneEservice',
-      'viewAllVersions',
-    ])
-  })
-
-  it('SUSPENDED with ESERVICE archiving overlay: cancelArchivingEservice primary, reactivate in header, clone+viewAllVersions in menu', () => {
-    const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
-      delegation: undefined,
-    })
-    const { result } = renderDetailsPageHook(descriptorMock, {
-      archivingSchedule: { scope: 'ESERVICE' },
-    })
-    expect(result.current.primaryAction?.label).toBe('cancelArchivingEservice')
-    expect(result.current.headerInfoActions.map((a) => a.label)).toEqual(['reactivateVersion'])
-    expect(result.current.menuActions.map((a) => a.label)).toEqual([
-      'cloneEservice',
-      'viewAllVersions',
-    ])
-  })
-
   it('ARCHIVING DESCRIPTOR: header has suspend+cancelArchivingVersion, menu has createNewVersion+clone+archiveEservice+viewAllVersions', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'ARCHIVING', version: '1' },

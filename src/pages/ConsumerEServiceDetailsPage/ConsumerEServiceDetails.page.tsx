@@ -93,11 +93,23 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
                     eserviceId,
                     eserviceName: descriptor.eservice.name,
                     descriptors: descriptor.eservice.descriptors,
+                    activeDescriptor: descriptor.eservice.activeDescriptor,
                     routeKey: 'SUBSCRIBE_CATALOG_VIEW',
                   }),
               },
               actions: headerInfoActions,
-              statusChip: { for: 'descriptor', state: descriptor.state },
+              statusChip: {
+                for: 'descriptor',
+                state: descriptor.state,
+                isActiveDescriptor: descriptor.id === descriptor.eservice.activeDescriptor?.id,
+              },
+              archivingScheduleInfo:
+                descriptor.archivingSchedule?.archivableOn && descriptor.archivingSchedule?.scope
+                  ? {
+                      archivableOn: descriptor.archivingSchedule.archivableOn,
+                      scope: descriptor.archivingSchedule.scope,
+                    }
+                  : undefined,
             }
           : undefined
       }

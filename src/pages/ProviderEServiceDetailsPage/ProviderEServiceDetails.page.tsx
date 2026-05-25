@@ -14,7 +14,7 @@ import { NewPageContainer } from '@/components/layout/containers/NewPageContaine
 import { useDialog } from '@/stores'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
-import { getViewLatestVersionTargetId } from '@/utils/eservice.utils'
+import { getActiveDescriptor, getViewLatestVersionTargetId } from '@/utils/eservice.utils'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -39,6 +39,11 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   const viewLatestVersionTargetId = React.useMemo(
     () => getViewLatestVersionTargetId(descriptor?.eservice.descriptors, descriptorId),
     [descriptor?.eservice.descriptors, descriptorId]
+  )
+
+  const activeDescriptor = React.useMemo(
+    () => getActiveDescriptor(descriptor?.eservice.descriptors),
+    [descriptor?.eservice.descriptors]
   )
 
   const { primaryAction, secondaryAction, menuActions, headerInfoActions } =
@@ -84,11 +89,23 @@ const ProviderEServiceDetailsPage: React.FC = () => {
                     eserviceId,
                     eserviceName: descriptor.eservice.name,
                     descriptors: descriptor.eservice.descriptors,
+                    activeDescriptor,
                     routeKey: 'PROVIDE_ESERVICE_MANAGE',
                   }),
               },
               actions: headerInfoActions,
-              statusChip: { for: 'descriptor', state: descriptor.state },
+              statusChip: {
+                for: 'descriptor',
+                state: descriptor.state,
+                isActiveDescriptor: descriptor.id === activeDescriptor?.id,
+              },
+              archivingScheduleInfo:
+                descriptor.archivingSchedule?.archivableOn && descriptor.archivingSchedule?.scope
+                  ? {
+                      archivableOn: descriptor.archivingSchedule.archivableOn,
+                      scope: descriptor.archivingSchedule.scope,
+                    }
+                  : undefined,
             }
           : undefined
       }

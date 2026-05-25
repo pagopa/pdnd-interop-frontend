@@ -21,6 +21,7 @@ export const DialogShowEserviceVersionsList: React.FC<DialogShowEserviceVersions
   eserviceId,
   eserviceName,
   descriptors,
+  activeDescriptor,
   routeKey,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.versionListModal' })
@@ -32,8 +33,6 @@ export const DialogShowEserviceVersionsList: React.FC<DialogShowEserviceVersions
   const visibleDescriptors = [...descriptors]
     .filter((d) => d.state !== 'DRAFT' && d.state !== 'WAITING_FOR_APPROVAL')
     .sort((a, b) => Number(a.version) - Number(b.version))
-
-  const latestDescriptorId = visibleDescriptors[visibleDescriptors.length - 1]?.id
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth maxWidth="xs">
@@ -48,7 +47,7 @@ export const DialogShowEserviceVersionsList: React.FC<DialogShowEserviceVersions
               <EserviceVersionRow
                 key={descriptor.id}
                 descriptor={descriptor}
-                isLatest={descriptor.id === latestDescriptorId}
+                activeDescriptor={activeDescriptor}
                 eserviceId={eserviceId}
                 routeKey={routeKey}
                 onNavigate={closeDialog}

@@ -1,28 +1,17 @@
 import React from 'react'
-import { Stack, Tooltip } from '@mui/material'
-import ArchiveIcon from '@mui/icons-material/Archive'
+import { Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import type { EServiceDescriptorState } from '@/api/api.generatedTypes'
-import type { CompactDescriptorWithArchivingSchedule } from '@/types/eservice.types'
+import type { CompactDescriptor } from '@/api/api.generatedTypes'
 import type { RouteKey } from '@/router'
 import { Link } from '@/router'
 import { StatusChip } from '@/components/shared/StatusChip'
-import { formatDateString } from '@/utils/format.utils'
+import { ArchivingScheduleBadge } from '@/components/shared/ArchivingScheduleBadge'
 
 export const ROW_HEIGHT = 56
 
-const mapToChipState = (
-  state: CompactDescriptorWithArchivingSchedule['state'],
-  isLatest: boolean
-): EServiceDescriptorState => {
-  if (state === 'ARCHIVING') return isLatest ? 'PUBLISHED' : 'DEPRECATED'
-  if (state === 'ARCHIVING_SUSPENDED') return 'SUSPENDED'
-  return state
-}
-
 type EserviceVersionRowProps = {
-  descriptor: CompactDescriptorWithArchivingSchedule
-  isLatest: boolean
+  descriptor: CompactDescriptor
+  activeDescriptor?: CompactDescriptor
   eserviceId: string
   routeKey: Extract<RouteKey, 'SUBSCRIBE_CATALOG_VIEW' | 'PROVIDE_ESERVICE_MANAGE'>
   onNavigate: () => void
@@ -30,22 +19,20 @@ type EserviceVersionRowProps = {
 
 export const EserviceVersionRow: React.FC<EserviceVersionRowProps> = ({
   descriptor,
-  isLatest,
+  activeDescriptor,
   eserviceId,
   routeKey,
   onNavigate,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.versionListModal' })
 
-  const chipState = mapToChipState(descriptor.state, isLatest)
-  const archivingSchedule =
-    descriptor.state === 'ARCHIVING' || descriptor.state === 'ARCHIVING_SUSPENDED'
-      ? descriptor.archivingSchedule
-      : undefined
-  const tooltipKey =
-    archivingSchedule?.scope === 'EService'
-      ? 'scheduledArchivalTooltipEservice'
-      : 'scheduledArchivalTooltipDescriptor'
+  const isActiveDescriptor = descriptor.id === activeDescriptor?.id
+  const archivableOn = descriptor.archivableOn
+
+  const isEserviceScope =
+    archivableOn != null &&
+    activeDescriptor?.archivableOn != null &&
+    archivableOn === activeDescriptor.archivableOn
 
   return (
     <Stack
@@ -63,16 +50,17 @@ export const EserviceVersionRow: React.FC<EserviceVersionRowProps> = ({
         {t('versionRowLabel', { version: descriptor.version })}
       </Link>
       <Stack direction="row" alignItems="center" spacing={1}>
-        <StatusChip for="eservice" state={chipState} size="small" />
-        {archivingSchedule && (
-          <Tooltip
-            title={t(tooltipKey, {
-              date: formatDateString(archivingSchedule.archivableOn),
-            })}
-            arrow
-          >
-            <ArchiveIcon color="primary" fontSize="small" />
-          </Tooltip>
+        <StatusChip
+          for="descriptor"
+          state={descriptor.state}
+          isActiveDescriptor={isActiveDescriptor}
+          size="small"
+        />
+        {archivableOn && (
+          <ArchivingScheduleBadge
+            archivableOn={archivableOn}
+            scope={isEserviceScope ? 'ESERVICE' : 'DESCRIPTOR'}
+          />
         )}
       </Stack>
     </Stack>
