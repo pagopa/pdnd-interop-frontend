@@ -64,8 +64,6 @@ const selectedEserviceMock: CatalogDescriptorEService = {
   ],
   isMine: true,
   hasCertifiedAttributes: true,
-  hasProducerKeychain: true,
-  hasProducerKeychainKeys: true,
   isSubscribed: true,
   hasProducerKeychain: false,
   hasProducerKeychainKeys: false,
