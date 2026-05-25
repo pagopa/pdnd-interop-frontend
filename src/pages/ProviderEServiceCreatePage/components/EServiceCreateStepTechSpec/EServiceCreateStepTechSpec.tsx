@@ -20,17 +20,20 @@ import { match } from 'ts-pattern'
 import { EServiceInterfaceSection } from '../sections/EServiceInterfaceSection'
 import { EServiceVoucherSection } from '../sections/EServiceVoucherSection'
 import { EServiceAsyncExchangeSection } from '../sections/EServiceAsyncExchangeSection'
+import { getAsyncExchangePropertiesWithDefaults } from '@/utils/eservice.utils'
+
+type AsyncExchangePropertiesFormValues = {
+  responseTime: number | ''
+  resourceAvailableTime: number | ''
+  maxResultSet: number | ''
+  confirmation: boolean
+  bulk: boolean
+}
 
 export type EServiceCreateStepTechSpecFormValues = {
   audience: string
   voucherLifespan: number
-  asyncExchangeProperties: {
-    responseTime: number | ''
-    resourceAvailableTime: number | ''
-    maxResultSet: number | ''
-    confirmation: boolean
-    bulk: boolean
-  }
+  asyncExchangeProperties: AsyncExchangePropertiesFormValues
 }
 
 export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
@@ -48,13 +51,9 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
   const defaultValues: EServiceCreateStepTechSpecFormValues = {
     audience: descriptor?.audience?.[0] ?? '',
     voucherLifespan: descriptor ? secondsToMinutes(descriptor.voucherLifespan) : 1,
-    asyncExchangeProperties: {
-      responseTime: descriptor?.asyncExchangeProperties?.responseTime ?? '',
-      resourceAvailableTime: descriptor?.asyncExchangeProperties?.resourceAvailableTime ?? '',
-      maxResultSet: descriptor?.asyncExchangeProperties?.maxResultSet ?? '',
-      confirmation: descriptor?.asyncExchangeProperties?.confirmation ?? false,
-      bulk: descriptor?.asyncExchangeProperties?.bulk ?? false,
-    },
+    asyncExchangeProperties: getAsyncExchangePropertiesWithDefaults(
+      descriptor?.asyncExchangeProperties
+    ),
   }
 
   const formMethods = useForm({ defaultValues })
