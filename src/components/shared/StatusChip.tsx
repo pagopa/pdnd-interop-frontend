@@ -169,13 +169,18 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
   }
 
   if (props.for === 'descriptor') {
-    const isActiveDescriptorArchiving = props.state === 'ARCHIVING' && props.isActiveDescriptor
-    color = isActiveDescriptorArchiving
-      ? chipColors['descriptor']['PUBLISHED']
-      : chipColors['descriptor'][props.state]
-    label = isActiveDescriptorArchiving
-      ? t('status.descriptor.PUBLISHED')
-      : t(`status.descriptor.${props.state}`)
+    const isActiveDescriptorBeingArchived =
+      props.isActiveDescriptor &&
+      (props.state === 'ARCHIVING' || props.state === 'ARCHIVING_SUSPENDED')
+
+    const remappedState: EServiceDescriptorState = isActiveDescriptorBeingArchived
+      ? props.state === 'ARCHIVING'
+        ? 'PUBLISHED'
+        : 'SUSPENDED'
+      : props.state
+
+    color = chipColors['descriptor'][remappedState]
+    label = t(`status.descriptor.${remappedState}`)
   }
 
   if (props.for === 'agreement') {

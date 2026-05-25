@@ -179,6 +179,12 @@ export function useGetProviderEServiceActions(
     icon: CancelOutlinedIcon,
   }
 
+  const archiveEserviceAction: ActionItemButton = {
+    action: noopArchivingAction,
+    label: tEserviceActions('archiveEservice'),
+    icon: ArchiveIcon,
+  }
+
   const cancelArchivingEserviceAction: ActionItemButton = {
     action: noopArchivingAction,
     label: tEserviceActions('cancelArchivingEservice'),
@@ -198,12 +204,6 @@ export function useGetProviderEServiceActions(
     action: handleViewLatestVersion,
     label: tEserviceActions('viewLatestVersion'),
     icon: ReplayCircleFilledIcon,
-  }
-
-  const archiveEserviceAction: ActionItemButton = {
-    action: noopArchivingAction,
-    label: tEserviceActions('archiveEservice'),
-    icon: ArchiveIcon,
   }
 
   const viewAllVersionsAction: ActionItemButton = {
