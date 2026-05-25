@@ -401,6 +401,13 @@
       "apiTechnology": {
         "label": "Tecnologia API"
       },
+      "exchangeType": {
+        "label": "Scambio dati",
+        "value": {
+          "sync": "Sincrono",
+          "async": "Asincrono"
+        }
+      },
       "personalDataField": {
         "DELIVER": {
           "label": "Eroga dati personali"
@@ -463,6 +470,30 @@
       "title": "Specifiche tecniche",
       "interface": {
         "label": "Interfaccia"
+      },
+      "callbackInterface": {
+        "label": "Interfaccia di callback"
+      },
+      "asyncExchange": {
+        "responseTime": {
+          "label": "Tempo massimo di callback"
+        },
+        "resourceAvailableTime": {
+          "label": "Tempo disponibilità risorsa"
+        },
+        "confirmation": {
+          "label": "Richiedi conferma di ricezione"
+        },
+        "bulk": {
+          "label": "Abilita download a blocchi"
+        },
+        "maxResultSet": {
+          "label": "Limite massimo di entità per risposta"
+        },
+        "booleanValue": {
+          "true": "Sì",
+          "false": "No"
+        }
       },
       "voucherLifespan": {
         "label": "Durata del voucher"
