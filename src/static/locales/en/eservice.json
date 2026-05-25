@@ -338,6 +338,18 @@
           "label": "I prefer to approve them manually"
         }
       },
+      "producerKeychainSection": {
+        "title": "Provider keychain",
+        "subtitle": "Asynchronous exchanges require linking a keychain to the e-service. Only a keychain with an associated key can authenticate on PDND and complete the data exchange.",
+        "keychainField": {
+          "label": "Select from available keychains"
+        },
+        "addKeychainBtn": "Add keychain",
+        "removeRowTooltip": "Remove",
+        "readOnlyLabel": "Associated keychains",
+        "noKeychainAlert": "You haven't created a keychain yet. We recommend doing so after publishing the e-service.",
+        "apiRoleAlert": "Asynchronous exchanges require linking a keychain to the e-service. Only users with the administrator role can do this: ask to link one before or after publication to enable data exchange."
+      },
       "asyncExchangeSection": {
         "title": "Asynchronous and bulk exchanges",
         "description": "Asynchronous and bulk exchanges require a callback interface that consumers will have to implement to receive your responses. Upload the OpenAPI file with the API description. <1>Learn more about asynchronous and bulk exchanges</1>.",
