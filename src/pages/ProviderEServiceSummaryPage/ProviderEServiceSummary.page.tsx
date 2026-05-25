@@ -222,7 +222,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     Boolean(
       descriptor.asyncExchangeCallbackInterface &&
       descriptor.asyncExchangeProperties &&
-      (associatedKeychains?.pagination?.totalCount ?? associatedKeychains?.results?.length ?? 0) > 0
+      (associatedKeychains?.pagination.totalCount ?? 0) > 0
     )
 
   const canBePublished = () => {
