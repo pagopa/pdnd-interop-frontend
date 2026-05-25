@@ -269,13 +269,13 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
       />
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <EServiceVoucherSection isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate} />
-        {isProducerKeychainSectionVisible && <EServiceProducerKeychainSection />}
         {isAsyncExchange && (
           <EServiceAsyncExchangeSection
             areEServiceGeneralInfoEditable={areEServiceGeneralInfoEditable}
             isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
           />
         )}
+        {isProducerKeychainSectionVisible && <EServiceProducerKeychainSection />}
         <StepActions
           back={{
             label: t('backWithoutSaveBtn'),

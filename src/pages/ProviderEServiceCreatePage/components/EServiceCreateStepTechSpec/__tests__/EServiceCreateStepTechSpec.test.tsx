@@ -244,6 +244,22 @@ describe('EServiceCreateStepTechSpec', () => {
     expect(await screen.findByText('EServiceAsyncExchangeSection')).toBeInTheDocument()
   })
 
+  it('should render the producer keychain section after the async exchange section', async () => {
+    mockUseEServiceCreateContext({ descriptor: createMockEServiceDescriptorProviderAsync() })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    const asyncExchangeSection = await screen.findByText('EServiceAsyncExchangeSection')
+    const producerKeychainSection = await screen.findByText('EServiceProducerKeychainSection')
+
+    expect(
+      asyncExchangeSection.compareDocumentPosition(producerKeychainSection) &
+        Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy()
+  })
+
   it('should NOT call keychain mutations on submit when e-service is not editable (version > 1)', async () => {
     mockUseEServiceCreateContext({
       descriptor: createMockEServiceDescriptorProviderAsync(),
