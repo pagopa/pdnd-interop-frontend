@@ -5,7 +5,6 @@ const useQueryMock = vi.fn()
 const useSubmitDraftMock = vi.fn()
 const submitAgreementDraftMock = vi.fn()
 const navigateMock = vi.fn()
-const getDescriptorCatalogQueryFnMock = vi.fn()
 
 vi.mock('@tanstack/react-query', async (importOriginal) => {
   // eslint-disable-next-line @typescript-eslint/consistent-type-imports
@@ -34,15 +33,6 @@ vi.mock('@/api/agreement', () => ({
       useSubmitDraftMock(isDelegated, isAsyncExchange),
     useUpdateDraft: () => ({ mutate: vi.fn() }),
     useDeleteDraft: () => ({ mutate: vi.fn() }),
-  },
-}))
-
-vi.mock('@/api/eservice', () => ({
-  EServiceQueries: {
-    getDescriptorCatalog: (eserviceId: string, descriptorId: string) => ({
-      queryKey: ['EServiceGetDescriptorCatalog', eserviceId, descriptorId],
-      queryFn: () => getDescriptorCatalogQueryFnMock(eserviceId, descriptorId),
-    }),
   },
 }))
 
@@ -89,8 +79,6 @@ describe('ConsumerAgreementCreatePage', () => {
     submitAgreementDraftMock.mockReset()
     useSubmitDraftMock.mockReset()
     useSubmitDraftMock.mockReturnValue({ mutate: submitAgreementDraftMock })
-    getDescriptorCatalogQueryFnMock.mockReset()
-    getDescriptorCatalogQueryFnMock.mockResolvedValue({ eservice: { asyncExchange: true } })
 
     const agreement = {
       id: 'agreement-id',
@@ -120,8 +108,7 @@ describe('ConsumerAgreementCreatePage', () => {
       ) {
         return { data: agreement }
       }
-
-      return { data: { eservice: { asyncExchange: true } } }
+      return { data: undefined }
     })
   })
 
@@ -144,5 +131,4 @@ describe('ConsumerAgreementCreatePage', () => {
       expect.objectContaining({ onSuccess: expect.any(Function) })
     )
   })
-
 })
