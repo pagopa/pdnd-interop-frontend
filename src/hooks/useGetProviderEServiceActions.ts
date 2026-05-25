@@ -103,15 +103,22 @@ export function useGetProviderEServiceActions(
 
   const handleSuspend = () => {
     if (!activeDescriptorId) return
-    if (state === 'ARCHIVING' && archivingSchedule?.scope === 'ESERVICE') {
-      openDialog({
-        type: 'suspendArchivingEservice',
-        eserviceId,
-        descriptorId: activeDescriptorId,
-      })
-      return
-    }
-    suspend({ eserviceId, descriptorId: activeDescriptorId })
+    match({ state, scope: archivingSchedule?.scope })
+      .with({ state: 'ARCHIVING', scope: 'ESERVICE' }, () =>
+        openDialog({
+          type: 'suspendArchivingEservice',
+          eserviceId,
+          descriptorId: activeDescriptorId,
+        })
+      )
+      .with({ state: 'ARCHIVING', scope: 'DESCRIPTOR' }, () =>
+        openDialog({
+          type: 'suspendArchivingDescriptor',
+          eserviceId,
+          descriptorId: activeDescriptorId,
+        })
+      )
+      .otherwise(() => suspend({ eserviceId, descriptorId: activeDescriptorId }))
   }
 
   const suspendAction: ActionItemButton = {
@@ -122,15 +129,22 @@ export function useGetProviderEServiceActions(
 
   const handleReactivate = () => {
     if (!activeDescriptorId) return
-    if (state === 'ARCHIVING_SUSPENDED' && archivingSchedule?.scope === 'ESERVICE') {
-      openDialog({
-        type: 'reactivateArchivingEservice',
-        eserviceId,
-        descriptorId: activeDescriptorId,
-      })
-      return
-    }
-    reactivate({ eserviceId, descriptorId: activeDescriptorId })
+    match({ state, scope: archivingSchedule?.scope })
+      .with({ state: 'ARCHIVING_SUSPENDED', scope: 'ESERVICE' }, () =>
+        openDialog({
+          type: 'reactivateArchivingEservice',
+          eserviceId,
+          descriptorId: activeDescriptorId,
+        })
+      )
+      .with({ state: 'ARCHIVING_SUSPENDED', scope: 'DESCRIPTOR' }, () =>
+        openDialog({
+          type: 'reactivateArchivingDescriptor',
+          eserviceId,
+          descriptorId: activeDescriptorId,
+        })
+      )
+      .otherwise(() => reactivate({ eserviceId, descriptorId: activeDescriptorId }))
   }
 
   const reactivateAction: ActionItemButton = {
