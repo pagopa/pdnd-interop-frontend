@@ -324,7 +324,13 @@ describe('ProviderEServiceSummaryPage', () => {
       descriptor: ReturnType<typeof createMockEServiceDescriptorProvider>
     ) => {
       const user = userEvent.setup()
-      useQueryMock.mockReturnValue({ data: descriptor, isLoading: false })
+
+      if (descriptor.eservice.asyncExchange) {
+        mockUseQueryWithDescriptor(descriptor)
+      } else {
+        useQueryMock.mockReturnValue({ data: descriptor, isLoading: false })
+      }
+
       usePublishVersionDraftMock.mockImplementationOnce(
         (_params: unknown, { onSuccess }: { onSuccess: () => void }) => {
           onSuccess()
@@ -354,9 +360,7 @@ describe('ProviderEServiceSummaryPage', () => {
     })
 
     it('navigates with firstVersionAsync state when publishing async first version', async () => {
-      await setupAndPublish(
-        createMockEServiceDescriptorProvider({ version: '1', eservice: { asyncExchange: true } })
-      )
+      await setupAndPublish(createMockEServiceDescriptorProviderAsync({ version: '1' }))
 
       expect(mockNavigate).toHaveBeenCalledWith(
         'PROVIDE_ESERVICE_PUBLISH_THANK_YOU',
@@ -384,9 +388,7 @@ describe('ProviderEServiceSummaryPage', () => {
     })
 
     it('navigates with newVersionAsync state when publishing async new version', async () => {
-      await setupAndPublish(
-        createMockEServiceDescriptorProvider({ eservice: { asyncExchange: true } })
-      )
+      await setupAndPublish(createMockEServiceDescriptorProviderAsync())
 
       expect(mockNavigate).toHaveBeenCalledWith(
         'PROVIDE_ESERVICE_PUBLISH_THANK_YOU',
