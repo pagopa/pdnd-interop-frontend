@@ -13,6 +13,8 @@ import {
   mockUseEServiceCreateContext,
 } from '@/../__mocks__/data/eservice.mocks'
 
+const useRemoveKeychainFromEService = vi.hoisted(() => vi.fn())
+
 vi.mock('../../sections/EServiceInterfaceSection', () => ({
   EServiceInterfaceSection: () => {
     return <div>EServiceInterfaceSection</div>
@@ -82,6 +84,8 @@ const updateInstanceVersionDraft = vi.fn()
 const addKeychainToEService = vi.fn().mockResolvedValue(undefined)
 const removeKeychainFromEService = vi.fn().mockResolvedValue(undefined)
 
+useRemoveKeychainFromEService.mockReturnValue({ mutateAsync: removeKeychainFromEService })
+
 vi.mock('@/api/eservice', () => ({
   EServiceMutations: {
     useUpdateVersionDraft: () => ({ mutate: updateVersionDraft }),
@@ -98,7 +102,7 @@ vi.mock('@/api/keychain', () => ({
   },
   KeychainMutations: {
     useAddKeychainToEService: () => ({ mutateAsync: addKeychainToEService }),
-    useRemoveKeychainFromEService: () => ({ mutateAsync: removeKeychainFromEService }),
+    useRemoveKeychainFromEService,
   },
 }))
 
@@ -202,6 +206,23 @@ describe('EServiceCreateStepTechSpec', () => {
       withRouterContext: true,
     })
     expect(await screen.findByText('EServiceProducerKeychainSection')).toBeInTheDocument()
+  })
+
+  it('should configure keychain removals without confirmation dialog', async () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderAsync(),
+    })
+
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await screen.findByText('EServiceProducerKeychainSection')
+
+    expect(useRemoveKeychainFromEService).toHaveBeenCalledWith({
+      withConfirmationDialog: false,
+    })
   })
 
   it('should render neither the producer keychain section nor the async exchange section when asyncExchange is false', () => {
