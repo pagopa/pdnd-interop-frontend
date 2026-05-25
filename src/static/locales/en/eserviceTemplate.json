@@ -444,7 +444,7 @@
         "label": "API Technology"
       },
       "exchangeType": {
-        "label": "Exchange type",
+        "label": "Data exchange",
         "value": {
           "sync": "Synchronous",
           "async": "Asynchronous"

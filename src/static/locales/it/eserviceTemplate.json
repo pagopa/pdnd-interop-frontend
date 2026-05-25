@@ -444,7 +444,7 @@
         "label": "Tecnologia API"
       },
       "exchangeType": {
-        "label": "Tipologia scambio",
+        "label": "Scambio dati",
         "value": {
           "sync": "Sincrono",
           "async": "Asincrono"
