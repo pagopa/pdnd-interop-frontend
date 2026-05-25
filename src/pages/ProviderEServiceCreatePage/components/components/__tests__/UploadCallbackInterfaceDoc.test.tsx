@@ -86,4 +86,52 @@ describe('UploadCallbackInterfaceDoc', () => {
       )
     })
   })
+
+  it('waits for the upload preparation before uploading the callback interface', async () => {
+    const onBeforeUpload = vi.fn().mockResolvedValue(true)
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderAsync({
+        asyncExchangeCallbackInterface: undefined,
+      }),
+    })
+    renderWithApplicationContext(<UploadCallbackInterfaceDoc onBeforeUpload={onBeforeUpload} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    const file = new File(['hello'], 'callback.yaml', { type: 'application/yaml' })
+    const input = screen
+      .getByTestId('fileInput')
+      .querySelector('input[type="file"]') as HTMLInputElement
+    await userEvent.upload(input, file)
+
+    await userEvent.click(screen.getByTestId('submitButton'))
+
+    await waitFor(() => expect(uploadDocument).toHaveBeenCalled())
+    expect(onBeforeUpload.mock.invocationCallOrder[0]).toBeLessThan(
+      uploadDocument.mock.invocationCallOrder[0]
+    )
+  })
+
+  it('does not upload the callback interface when the upload preparation fails', async () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderAsync({
+        asyncExchangeCallbackInterface: undefined,
+      }),
+    })
+    renderWithApplicationContext(<UploadCallbackInterfaceDoc onBeforeUpload={() => false} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    const file = new File(['hello'], 'callback.yaml', { type: 'application/yaml' })
+    const input = screen
+      .getByTestId('fileInput')
+      .querySelector('input[type="file"]') as HTMLInputElement
+    await userEvent.upload(input, file)
+
+    await userEvent.click(screen.getByTestId('submitButton'))
+
+    expect(uploadDocument).not.toHaveBeenCalled()
+  })
 })

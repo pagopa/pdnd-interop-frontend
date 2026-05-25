@@ -12,11 +12,13 @@ import { UploadCallbackInterfaceDoc } from '../components/UploadCallbackInterfac
 type EServiceAsyncExchangeSectionProps = {
   areEServiceGeneralInfoEditable: boolean
   isEServiceCreatedFromTemplate?: boolean
+  onBeforeCallbackInterfaceUpload?: () => boolean | Promise<boolean>
 }
 
 export const EServiceAsyncExchangeSection: React.FC<EServiceAsyncExchangeSectionProps> = ({
   areEServiceGeneralInfoEditable,
   isEServiceCreatedFromTemplate = false,
+  onBeforeCallbackInterfaceUpload,
 }) => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'create.step4.asyncExchangeSection',
@@ -36,7 +38,14 @@ export const EServiceAsyncExchangeSection: React.FC<EServiceAsyncExchangeSection
   const description = (
     <Trans
       components={{
-        1: <Link underline="hover" href={asyncExchangeGuideLink} target="_blank" rel="noopener noreferrer"/>,
+        1: (
+          <Link
+            underline="hover"
+            href={asyncExchangeGuideLink}
+            target="_blank"
+            rel="noopener noreferrer"
+          />
+        ),
       }}
     >
       {t('description')}
@@ -100,7 +109,7 @@ export const EServiceAsyncExchangeSection: React.FC<EServiceAsyncExchangeSection
           />
         </Stack>
       ) : (
-        <UploadCallbackInterfaceDoc />
+        <UploadCallbackInterfaceDoc onBeforeUpload={onBeforeCallbackInterfaceUpload} />
       )}
 
       <Typography variant="subtitle1" sx={{ mt: 3 }}>
@@ -116,9 +125,9 @@ export const EServiceAsyncExchangeSection: React.FC<EServiceAsyncExchangeSection
             type="number"
             inputProps={{ min: 1 }}
             required
-            rules={{ 
-              required: true, 
-              min: 1,                         
+            rules={{
+              required: true,
+              min: 1,
               validate: (value) => Number.isInteger(Number(value)) || t('validation.integer'),
             }}
             sx={{ flex: 1, my: 0 }}
@@ -133,9 +142,9 @@ export const EServiceAsyncExchangeSection: React.FC<EServiceAsyncExchangeSection
             type="number"
             inputProps={{ min: 1 }}
             required
-            rules={{ 
-              required: true, 
-              min: 1,                         
+            rules={{
+              required: true,
+              min: 1,
               validate: (value) => Number.isInteger(Number(value)) || t('validation.integer'),
             }}
             sx={{ flex: 1, my: 0 }}
@@ -150,9 +159,9 @@ export const EServiceAsyncExchangeSection: React.FC<EServiceAsyncExchangeSection
             type="number"
             inputProps={{ min: 1 }}
             required
-            rules={{ 
-              required: true, 
-              min: 1,                         
+            rules={{
+              required: true,
+              min: 1,
               validate: (value) => Number.isInteger(Number(value)) || t('validation.integer'),
             }}
             sx={{ my: 0 }}

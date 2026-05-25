@@ -44,6 +44,35 @@ export type EServiceCreateStepTechSpecFormValues = {
   asyncExchangeProperties: AsyncExchangePropertiesFormValues
 }
 
+const asyncExchangePropertiesFieldNames = [
+  'asyncExchangeProperties.responseTime',
+  'asyncExchangeProperties.resourceAvailableTime',
+  'asyncExchangeProperties.maxResultSet',
+] satisfies Array<`asyncExchangeProperties.${keyof AsyncExchangePropertiesFormValues}`>
+
+function getAsyncExchangePropertiesPayload({
+  asyncExchangeProperties,
+  isAsyncExchange,
+}: {
+  asyncExchangeProperties: AsyncExchangePropertiesFormValues
+  isAsyncExchange: boolean
+}) {
+  const hasValidAsyncProps =
+    asyncExchangeProperties.responseTime !== '' &&
+    asyncExchangeProperties.resourceAvailableTime !== '' &&
+    asyncExchangeProperties.maxResultSet !== ''
+
+  if (!isAsyncExchange || !hasValidAsyncProps) return undefined
+
+  return {
+    responseTime: Number(asyncExchangeProperties.responseTime),
+    resourceAvailableTime: Number(asyncExchangeProperties.resourceAvailableTime),
+    maxResultSet: Number(asyncExchangeProperties.maxResultSet),
+    confirmation: asyncExchangeProperties.confirmation,
+    bulk: asyncExchangeProperties.bulk,
+  }
+}
+
 export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
   const { descriptor, eserviceTemplate } = useEServiceCreateContext()
 
@@ -87,9 +116,10 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
   const { descriptor, forward, back, areEServiceGeneralInfoEditable } = useEServiceCreateContext()
   const queryClient = useQueryClient()
 
-  const { mutate: updateVersionDraft } = EServiceMutations.useUpdateVersionDraft({
-    suppressSuccessToast: true,
-  })
+  const { mutate: updateVersionDraft, mutateAsync: updateVersionDraftAsync } =
+    EServiceMutations.useUpdateVersionDraft({
+      suppressSuccessToast: true,
+    })
 
   const { mutate: updateInstanceVersionDraft } = EServiceMutations.useUpdateInstanceVersionDraft({
     suppressSuccessToast: true,
@@ -114,23 +144,49 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
   const formMethods = useForm<EServiceCreateStepTechSpecFormValues>({ defaultValues })
   const isAsyncExchange = descriptor?.eservice.asyncExchange === true
 
+  const persistAsyncExchangePropertiesBeforeCallbackUpload = async () => {
+    if (!descriptor || !isAsyncExchange || isEServiceCreatedFromTemplate) return true
+
+    const isValid = await formMethods.trigger(asyncExchangePropertiesFieldNames)
+    if (!isValid) return false
+
+    const asyncExchangeProperties = formMethods.getValues('asyncExchangeProperties')
+    const asyncExchangePropertiesPayload = getAsyncExchangePropertiesPayload({
+      asyncExchangeProperties,
+      isAsyncExchange,
+    })
+
+    if (!asyncExchangePropertiesPayload) return false
+
+    const areAsyncExchangePropertiesPersisted =
+      descriptor.asyncExchangeProperties &&
+      compareObjects(asyncExchangePropertiesPayload, descriptor.asyncExchangeProperties)
+
+    if (areAsyncExchangePropertiesPersisted) return true
+
+    await updateVersionDraftAsync({
+      eserviceId: descriptor.eservice.id,
+      descriptorId: descriptor.id,
+      audience: [formMethods.getValues('audience')],
+      agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
+      dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer ?? 1,
+      dailyCallsTotal: descriptor.dailyCallsTotal ?? 1,
+      voucherLifespan: minutesToSeconds(formMethods.getValues('voucherLifespan')),
+      attributes: remapDescriptorAttributesToDescriptorAttributesSeed(descriptor.attributes),
+      asyncExchangeProperties: asyncExchangePropertiesPayload,
+    })
+
+    return true
+  }
+
   const onSubmit: SubmitHandler<EServiceCreateStepTechSpecFormValues> = async (values) => {
     if (!descriptor) return
     const { asyncExchangeProperties, ...restValues } = values
 
-    const hasValidAsyncProps =
-      asyncExchangeProperties.responseTime !== '' &&
-      asyncExchangeProperties.resourceAvailableTime !== '' &&
-      asyncExchangeProperties.maxResultSet !== ''
-
-    const asyncExchangeNumericPayload =
-      isAsyncExchange && hasValidAsyncProps
-        ? {
-            responseTime: Number(asyncExchangeProperties.responseTime),
-            resourceAvailableTime: Number(asyncExchangeProperties.resourceAvailableTime),
-            maxResultSet: Number(asyncExchangeProperties.maxResultSet),
-          }
-        : null
+    const asyncExchangePropertiesPayload = getAsyncExchangePropertiesPayload({
+      asyncExchangeProperties,
+      isAsyncExchange,
+    })
 
     if (isProducerKeychainSectionVisible && areEServiceGeneralInfoEditable) {
       const allKeychainsListQuery = KeychainQueries.getAllKeychainsList({
@@ -185,14 +241,8 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
       ...restValues,
       voucherLifespan: minutesToSeconds(values.voucherLifespan),
       audience: [values.audience],
-      ...(asyncExchangeNumericPayload
-        ? {
-            asyncExchangeProperties: {
-              ...asyncExchangeNumericPayload,
-              confirmation: asyncExchangeProperties.confirmation,
-              bulk: asyncExchangeProperties.bulk,
-            },
-          }
+      ...(asyncExchangePropertiesPayload
+        ? { asyncExchangeProperties: asyncExchangePropertiesPayload }
         : {}),
     }
 
@@ -214,17 +264,25 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
     }
 
     match(isEServiceCreatedFromTemplate)
-      .with(true, () =>
+      .with(true, () => {
+        const asyncExchangePropertiesInstancePayload = asyncExchangePropertiesPayload
+          ? {
+              responseTime: asyncExchangePropertiesPayload.responseTime,
+              resourceAvailableTime: asyncExchangePropertiesPayload.resourceAvailableTime,
+              maxResultSet: asyncExchangePropertiesPayload.maxResultSet,
+            }
+          : undefined
+
         updateInstanceVersionDraft(
           {
             ...commonPayload,
-            ...(asyncExchangeNumericPayload
-              ? { asyncExchangeProperties: asyncExchangeNumericPayload }
+            ...(asyncExchangePropertiesInstancePayload
+              ? { asyncExchangeProperties: asyncExchangePropertiesInstancePayload }
               : {}),
           },
           { onSuccess: forward }
         )
-      )
+      })
       .with(false, () =>
         updateVersionDraft(
           {
@@ -272,6 +330,7 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
           <EServiceAsyncExchangeSection
             areEServiceGeneralInfoEditable={areEServiceGeneralInfoEditable}
             isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
+            onBeforeCallbackInterfaceUpload={persistAsyncExchangePropertiesBeforeCallbackUpload}
           />
         )}
         {isProducerKeychainSectionVisible && <EServiceProducerKeychainSection />}

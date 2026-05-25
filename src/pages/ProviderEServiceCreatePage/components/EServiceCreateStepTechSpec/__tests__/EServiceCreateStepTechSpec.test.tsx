@@ -69,8 +69,10 @@ vi.mock('../../sections/EServiceProducerKeychainSection', () => ({
 vi.mock('../../sections/EServiceAsyncExchangeSection', () => ({
   EServiceAsyncExchangeSection: ({
     isEServiceCreatedFromTemplate,
+    onBeforeCallbackInterfaceUpload,
   }: {
     isEServiceCreatedFromTemplate?: boolean
+    onBeforeCallbackInterfaceUpload?: () => boolean | Promise<boolean>
   }) => {
     const { watch } = useFormContext()
     const asyncExchangeProperties = watch('asyncExchangeProperties')
@@ -80,6 +82,9 @@ vi.mock('../../sections/EServiceAsyncExchangeSection', () => ({
         EServiceAsyncExchangeSection
         {isEServiceCreatedFromTemplate ? '-template' : ''}
         <pre data-testid="async-exchange-properties">{JSON.stringify(asyncExchangeProperties)}</pre>
+        <button type="button" onClick={onBeforeCallbackInterfaceUpload}>
+          prepare-callback-upload
+        </button>
       </div>
     )
   },
@@ -94,8 +99,11 @@ useRemoveKeychainFromEService.mockReturnValue({ mutateAsync: removeKeychainFromE
 
 vi.mock('@/api/eservice', () => ({
   EServiceMutations: {
-    useUpdateVersionDraft: () => ({ mutate: updateVersionDraft }),
-    useUpdateInstanceVersionDraft: () => ({ mutate: updateInstanceVersionDraft }),
+    useUpdateVersionDraft: () => ({ mutate: updateVersionDraft, mutateAsync: updateVersionDraft }),
+    useUpdateInstanceVersionDraft: () => ({
+      mutate: updateInstanceVersionDraft,
+      mutateAsync: updateInstanceVersionDraft,
+    }),
   },
 }))
 
@@ -433,6 +441,36 @@ describe('EServiceCreateStepTechSpec', () => {
       }),
       expect.any(Object)
     )
+  })
+
+  it('should persist default asyncExchangeProperties before callback interface upload when they are missing', async () => {
+    const descriptor = createMockEServiceDescriptorProviderAsync({
+      asyncExchangeCallbackInterface: undefined,
+      asyncExchangeProperties: undefined,
+    })
+    mockUseEServiceCreateContext({ descriptor })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await userEvent.click(await screen.findByText('prepare-callback-upload'))
+
+    await waitFor(() => {
+      expect(updateVersionDraft).toHaveBeenCalledWith(
+        expect.objectContaining({
+          eserviceId: descriptor.eservice.id,
+          descriptorId: descriptor.id,
+          asyncExchangeProperties: {
+            responseTime: 60,
+            resourceAvailableTime: 60,
+            maxResultSet: 1,
+            confirmation: false,
+            bulk: true,
+          },
+        })
+      )
+    })
   })
 
   it('should include asyncExchangeProperties in payload when asyncExchange is true', async () => {

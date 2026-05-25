@@ -13,11 +13,13 @@ type UploadCallbackInterfaceDocFormValues = {
 
 type UploadCallbackInterfaceDocProps = {
   error?: string
+  onBeforeUpload?: () => boolean | Promise<boolean>
   readOnly?: boolean
 }
 
 export const UploadCallbackInterfaceDoc: React.FC<UploadCallbackInterfaceDocProps> = ({
   error,
+  onBeforeUpload,
   readOnly = false,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step4.asyncExchangeSection' })
@@ -30,8 +32,13 @@ export const UploadCallbackInterfaceDoc: React.FC<UploadCallbackInterfaceDocProp
     prettyName: t('callbackInterface.prettyName'),
   })
 
-  const onSubmit: SubmitHandler<UploadCallbackInterfaceDocFormValues> = ({ interfaceDoc }) => {
+  const onSubmit: SubmitHandler<UploadCallbackInterfaceDocFormValues> = async ({
+    interfaceDoc,
+  }) => {
     if (!interfaceDoc) return
+    const canUpload = onBeforeUpload ? await onBeforeUpload() : true
+    if (!canUpload) return
+
     onUpload(interfaceDoc)
   }
 
