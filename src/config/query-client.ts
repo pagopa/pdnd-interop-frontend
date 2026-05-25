@@ -6,9 +6,11 @@ import {
   type Mutation,
   type QueryClientConfig,
   type MutationMeta,
+  type ConfirmationDialogMeta,
   QueryClient,
 } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
+import type { DialogDescriptionLink } from '@/types/dialog.types'
 
 // 1000, 2000, 4000, 8000, 16000, with a maximum of 30 seconds
 const exponentialBackoffRetry = (attemptIndex: number) => {
@@ -28,7 +30,7 @@ const resolveMeta = (query: {
   context?: unknown
 }) => {
   const { mutation, data, error, variables, context } = query
-  const meta = mutation.meta as MutationMeta | undefined
+  const meta: MutationMeta | undefined = mutation.meta
 
   if (!meta) return {}
 
@@ -45,35 +47,44 @@ const resolveMeta = (query: {
       ? meta.errorToastLabel(error, variables, context)
       : meta.errorToastLabel
 
-  const confirmationDialog = meta.confirmationDialog
+  const resolveConfirmationDialog = (confirmationDialog: ConfirmationDialogMeta) => {
+    const title =
+      typeof confirmationDialog.title === 'function'
+        ? confirmationDialog.title(variables)
+        : confirmationDialog.title
 
-  const title =
-    typeof confirmationDialog?.title === 'function'
-      ? confirmationDialog?.title(variables)
-      : confirmationDialog?.title
+    const description =
+      typeof confirmationDialog.description === 'function'
+        ? confirmationDialog.description(variables)
+        : confirmationDialog.description
 
-  const description =
-    typeof confirmationDialog?.description === 'function'
-      ? confirmationDialog?.description(variables)
-      : confirmationDialog?.description
+    return {
+      title,
+      description,
+      descriptionLink: confirmationDialog.descriptionLink,
+      proceedLabel: confirmationDialog.proceedLabel,
+      checkbox: confirmationDialog.checkbox,
+    }
+  }
 
-  const proceedLabel = confirmationDialog?.proceedLabel
-
-  const checkbox = confirmationDialog?.checkbox
+  const confirmationDialog = Array.isArray(meta.confirmationDialog)
+    ? meta.confirmationDialog.map(resolveConfirmationDialog)
+    : meta.confirmationDialog
+      ? resolveConfirmationDialog(meta.confirmationDialog)
+      : undefined
 
   return {
     loadingLabel,
     successToastLabel,
     errorToastLabel,
-    confirmationDialog: confirmationDialog
-      ? { title: title as string, description, proceedLabel, checkbox }
-      : undefined,
+    confirmationDialog,
   }
 }
 
 const waitForUserConfirmation = (confirmationDialog: {
   title: string
   description?: string
+  descriptionLink?: DialogDescriptionLink
   proceedLabel?: string
   checkbox?: string
 }) => {
@@ -82,6 +93,7 @@ const waitForUserConfirmation = (confirmationDialog: {
       type: 'basic',
       title: confirmationDialog.title,
       description: confirmationDialog.description,
+      descriptionLink: confirmationDialog.descriptionLink,
       proceedLabel: confirmationDialog.proceedLabel,
       checkbox: confirmationDialog.checkbox,
       onProceed: () => {
@@ -147,8 +159,14 @@ const requestPolling = () => {
 mutationCache.config.onMutate = async (variables, mutation) => {
   const meta = resolveMeta({ mutation, variables })
   if (meta.confirmationDialog) {
-    const confirmed = await waitForUserConfirmation(meta.confirmationDialog)
-    if (!confirmed) return Promise.reject(new CancellationError())
+    const confirmationDialogs = Array.isArray(meta.confirmationDialog)
+      ? meta.confirmationDialog
+      : [meta.confirmationDialog]
+
+    for (const confirmationDialog of confirmationDialogs) {
+      const confirmed = await waitForUserConfirmation(confirmationDialog)
+      if (!confirmed) return Promise.reject(new CancellationError())
+    }
   }
   if (meta.loadingLabel) showOverlay(meta.loadingLabel)
 }
