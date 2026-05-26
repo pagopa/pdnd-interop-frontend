@@ -48,6 +48,7 @@ vi.mock('@/stores/toast-notification.store', () => ({
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => key,
+    i18n: { language: 'it' },
   }),
 }))
 
@@ -149,7 +150,7 @@ describe('ResourceGroup', () => {
         purposeTemplate={mockPurposeTemplate}
         showWarning={false}
       />,
-      { withReactQueryContext: true }
+      { withReactQueryContext: true, withRouterContext: true }
     )
 
     expect(screen.getByText(/Eservice A/)).toBeInTheDocument()
@@ -165,7 +166,7 @@ describe('ResourceGroup', () => {
         purposeTemplate={mockPurposeTemplate}
         showWarning={false}
       />,
-      { withReactQueryContext: true }
+      { withReactQueryContext: true, withRouterContext: true }
     )
 
     await userEvent.click(screen.getByTestId('autocomplete-add-template'))
@@ -189,7 +190,7 @@ describe('ResourceGroup', () => {
         purposeTemplate={mockPurposeTemplate}
         showWarning={false}
       />,
-      { withReactQueryContext: true }
+      { withReactQueryContext: true, withRouterContext: true }
     )
 
     await userEvent.click(screen.getByTestId('autocomplete-add-eservice'))
@@ -215,7 +216,7 @@ describe('ResourceGroup', () => {
         purposeTemplate={mockPurposeTemplate}
         showWarning={false}
       />,
-      { withReactQueryContext: true }
+      { withReactQueryContext: true, withRouterContext: true }
     )
 
     expect(screen.getByTestId('resource-autocomplete-stub')).toBeInTheDocument()
@@ -235,7 +236,7 @@ describe('ResourceGroup', () => {
         purposeTemplate={mockPurposeTemplate}
         showWarning={false}
       />,
-      { withReactQueryContext: true }
+      { withReactQueryContext: true, withRouterContext: true }
     )
 
     const removeButton = screen.getAllByRole('button', { name: /elimina|remove|rimuovi/i })[0]
@@ -256,7 +257,7 @@ describe('ResourceGroup', () => {
         purposeTemplate={mockPurposeTemplate}
         showWarning={false}
       />,
-      { withReactQueryContext: true }
+      { withReactQueryContext: true, withRouterContext: true }
     )
 
     const removeButton = screen.getAllByRole('button', { name: /elimina|remove|rimuovi/i })[0]
@@ -276,7 +277,7 @@ describe('ResourceGroup', () => {
         purposeTemplate={mockPurposeTemplate}
         showWarning={true}
       />,
-      { withReactQueryContext: true }
+      { withReactQueryContext: true, withRouterContext: true }
     )
 
     expect(screen.getByText(/Eservice Suspended/)).toBeInTheDocument()
@@ -295,7 +296,7 @@ describe('ResourceGroup', () => {
         purposeTemplate={mockPurposeTemplate}
         showWarning={true}
       />,
-      { withReactQueryContext: true }
+      { withReactQueryContext: true, withRouterContext: true }
     )
 
     expect(screen.getByText(/Template Deprecated/)).toBeInTheDocument()
@@ -311,7 +312,7 @@ describe('ResourceGroup', () => {
         purposeTemplate={mockPurposeTemplate}
         showWarning={false}
       />,
-      { withReactQueryContext: true }
+      { withReactQueryContext: true, withRouterContext: true }
     )
 
     expect(screen.queryByTestId('resource-autocomplete-stub')).not.toBeInTheDocument()

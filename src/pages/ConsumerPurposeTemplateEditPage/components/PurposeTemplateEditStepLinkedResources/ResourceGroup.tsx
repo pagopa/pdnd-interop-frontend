@@ -1,11 +1,11 @@
 import React from 'react'
-import { Alert, Box, IconButton, Stack, Typography } from '@mui/material'
+import { Alert, Box, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import AddIcon from '@mui/icons-material/Add'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { match } from 'ts-pattern'
 import { ResourceAutoComplete } from '@/components/shared/ResourceAutoComplete'
+import { ResourceContainer } from '@/components/layout/containers/ResourceContainer'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import type {
   LinkableResourceRequest,
@@ -81,22 +81,18 @@ export const ResourceGroup: React.FC<ResourceGroupProps> = ({
             const invalid = isCandidateInvalid(candidate)
             return (
               <Box component="li" key={`${candidate.resourceKind}:${candidate.value.id}`}>
-                <Stack direction="row" alignItems="center" spacing={2}>
-                  {!readOnly && (
-                    <IconButton
-                      aria-label={t('removeResourceAriaLabel', { name: candidate.value.name })}
-                      onClick={() =>
-                        onRemove({
-                          resourceKind: candidate.resourceKind,
-                          id: candidate.value.id,
-                        })
-                      }
-                    >
-                      <RemoveCircleOutlineIcon color="error" />
-                    </IconButton>
-                  )}
-                  <Typography fontWeight={600}>{candidate.value.name}</Typography>
-                </Stack>
+                <ResourceContainer
+                  candidate={candidate}
+                  onRemove={
+                    readOnly
+                      ? undefined
+                      : () =>
+                          onRemove({
+                            resourceKind: candidate.resourceKind,
+                            id: candidate.value.id,
+                          })
+                  }
+                />
                 {showWarning && invalid && (
                   <Alert severity="warning" sx={{ mt: 1 }}>
                     {t('warning.invalidResource')}
