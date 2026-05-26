@@ -43,9 +43,23 @@ export const ResourceAutoComplete: React.FC<ResourceAutoCompleteProps> = ({
   const personalDataFilter: 'TRUE' | 'FALSE' =
     purposeTemplate.handlesPersonalData === true ? 'TRUE' : 'FALSE'
 
-  // Once a resource is selected, the autocomplete input mirrors its name — don't
-  // re-query for it as the user's "search" term.
-  const q = selectedResource && searchParam === selectedResource.value.name ? '' : searchParam
+  const formatResourceLabel = React.useCallback(
+    (candidate: LinkableCandidate) => {
+      const publisher =
+        candidate.resourceKind === 'ESERVICE'
+          ? candidate.value.producer.name
+          : candidate.value.creator.name
+      const labelKey =
+        candidate.resourceKind === 'ESERVICE' ? 'options.eservice' : 'options.eserviceTemplate'
+      return t(labelKey, { name: candidate.value.name, publisher })
+    },
+    [t]
+  )
+
+  // Once a resource is selected, the autocomplete input mirrors the option label —
+  // don't re-query for it as the user's "search" term.
+  const q =
+    selectedResource && searchParam === formatResourceLabel(selectedResource) ? '' : searchParam
 
   const { data: eservicesData } = useQuery(
     EServiceQueries.getCatalogList({
@@ -78,17 +92,11 @@ export const ResourceAutoComplete: React.FC<ResourceAutoCompleteProps> = ({
     const alreadyKeys = new Set(alreadySelectedResourceIds.map((r) => `${r.resourceKind}:${r.id}`))
     return merged
       .filter((c) => !alreadyKeys.has(`${c.resourceKind}:${c.value.id}`))
-      .map((c) => {
-        const publisher =
-          c.resourceKind === 'ESERVICE' ? c.value.producer.name : c.value.creator.name
-        const labelKey =
-          c.resourceKind === 'ESERVICE' ? 'options.eservice' : 'options.eserviceTemplate'
-        return {
-          label: t(labelKey, { name: c.value.name, publisher }),
-          value: c,
-        }
-      })
-  }, [eservicesData?.results, templatesData?.results, alreadySelectedResourceIds, t])
+      .map((c) => ({
+        label: formatResourceLabel(c),
+        value: c,
+      }))
+  }, [eservicesData?.results, templatesData?.results, alreadySelectedResourceIds, formatResourceLabel])
 
   return (
     <FormProvider {...formMethods}>
