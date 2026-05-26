@@ -234,11 +234,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 
   const areAsyncExchangeFieldsSet =
     !descriptor?.eservice.asyncExchange ||
-    Boolean(
-      descriptor.asyncExchangeCallbackInterface &&
-      descriptor.asyncExchangeProperties &&
-      (associatedKeychains?.pagination.totalCount ?? 0) > 0
-    )
+    Boolean(descriptor.asyncExchangeCallbackInterface && descriptor.asyncExchangeProperties)
 
   const canBePublished = () => {
     return (
