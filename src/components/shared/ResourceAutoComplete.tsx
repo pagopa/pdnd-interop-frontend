@@ -96,7 +96,12 @@ export const ResourceAutoComplete: React.FC<ResourceAutoCompleteProps> = ({
         label: formatResourceLabel(c),
         value: c,
       }))
-  }, [eservicesData?.results, templatesData?.results, alreadySelectedResourceIds, formatResourceLabel])
+  }, [
+    eservicesData?.results,
+    templatesData?.results,
+    alreadySelectedResourceIds,
+    formatResourceLabel,
+  ])
 
   return (
     <FormProvider {...formMethods}>
