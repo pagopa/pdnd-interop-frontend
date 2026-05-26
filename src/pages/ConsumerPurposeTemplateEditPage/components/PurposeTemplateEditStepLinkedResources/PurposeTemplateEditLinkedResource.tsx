@@ -67,7 +67,7 @@ export const PurposeTemplateEditLinkedResource: React.FC<ActiveStepProps> = ({ f
   const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false)
 
   const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'>()
-  const { data: purposeTemplateFromQuery } = useQuery(
+  const { data: purposeTemplate } = useQuery(
     PurposeTemplateQueries.getSingle(purposeTemplateId)
   )
   const { data: linkableResourcesData, error: linkableResourcesError } = useQuery({
@@ -75,7 +75,6 @@ export const PurposeTemplateEditLinkedResource: React.FC<ActiveStepProps> = ({ f
     enabled: Boolean(purposeTemplateId),
   })
 
-  const purposeTemplate = purposeTemplateFromQuery
   const rawResources = linkableResourcesData?.results ?? []
   const hasOrphanResources = linkableResourcesError instanceof NotFoundError
 
