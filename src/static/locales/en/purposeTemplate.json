@@ -44,7 +44,7 @@
     },
     "stepper": {
       "step1Label": "General information",
-      "step2Label": "Suggested e-services",
+      "step2Label": "Suggested e-services and e-service templates",
       "step3Label": "Risk analysis"
     },
     "step1": {
