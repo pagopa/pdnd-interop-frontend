@@ -55,24 +55,6 @@ describe('PurposeTemplateSummaryLinkedResourceAccordion', () => {
     vi.clearAllMocks()
   })
 
-  it('renders accordion with renamed title for the unified resources section', () => {
-    vi.mocked(useQuery).mockReturnValue({
-      data: {
-        results: [],
-        pagination: { offset: 0, limit: 50, totalCount: 0 },
-      } as LinkableResources,
-    } as ReturnType<typeof useQuery>)
-
-    renderWithApplicationContext(
-      <PurposeTemplateSummaryLinkedResourceAccordion
-        purposeTemplateId={TEST_PURPOSE_TEMPLATE_ID}
-      />,
-      { withReactQueryContext: true, withRouterContext: true }
-    )
-
-    expect(screen.getByText('E-service e template e-service suggeriti')).toBeInTheDocument()
-  })
-
   it('renders an ESERVICE row with discriminated label and link to SUBSCRIBE_CATALOG_VIEW', () => {
     const data: LinkableResources = {
       results: [

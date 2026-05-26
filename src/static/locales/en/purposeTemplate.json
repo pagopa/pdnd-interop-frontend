@@ -177,7 +177,6 @@
       },
       "suggestedResourcesSection": {
         "title": "Suggested e-services and e-service templates",
-        "subtitle": "Linked e-services and e-service templates",
         "providedBy": {
           "eservice": "(e-service provided by {{publisher}})",
           "eserviceTemplate": "(e-service template created by {{publisher}})"

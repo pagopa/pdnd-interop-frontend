@@ -28,7 +28,7 @@ export const PurposeTemplateSummaryLinkedResourceAccordion: React.FC<
 
   return (
     <Stack spacing={2}>
-      <SectionContainer innerSection title={t('subtitle')}>
+      <SectionContainer innerSection>
         <Stack spacing={2}>
           {error instanceof NotFoundError ? (
             <Alert severity="warning">{t('orphanLinkedResources')}</Alert>

@@ -86,11 +86,11 @@
       "eserviceSelectionSubtitle": "Puoi inserire e-service che hanno un trattamento dei dati personali analogo a quanto hai indicato.",
       "removeResourceAriaLabel": "Rimuovi {{name}}",
       "autocompleteInput": {
-        "label": "E-service o template e-service da associare"
+        "label": "E-service o template e-service suggeriti"
       },
       "options": {
-        "eservice": "{{name}} (e-service di {{publisher}})",
-        "eserviceTemplate": "{{name}} (template di {{publisher}})"
+        "eservice": "{{name}} - erogato da {{publisher}}",
+        "eserviceTemplate": "{{name}} - erogato da {{publisher}}"
       },
       "warning": {
         "invalidResource": "Almeno uno degli elementi collegati non è più disponibile per essere associato.",
@@ -177,7 +177,6 @@
       },
       "suggestedResourcesSection": {
         "title": "E-service e template e-service suggeriti",
-        "subtitle": "E-service e template e-service collegati",
         "providedBy": {
           "eservice": "(e-service erogato da {{publisher}})",
           "eserviceTemplate": "(template e-service realizzato da {{publisher}})"
