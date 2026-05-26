@@ -1,3 +1,4 @@
+import { EServiceMutations } from '@/api/eservice'
 import { DOCUMENTATION_URL, GRACE_PERIOD_ARCHIVING_ESERVICE } from '@/config/env'
 import { useDialog } from '@/stores'
 import type { DialogArchiveVersionProps } from '@/types/dialog.types'
@@ -27,16 +28,15 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
     keyPrefix: 'dialogArchiveVersion',
   })
 
-  // TODO mutation with archive version archiving api
-
   const { closeDialog } = useDialog()
+  const { mutate: scheduleArchive } = EServiceMutations.useScheduleArchiveDescriptor()
 
   const handleCancel = () => {
     closeDialog()
   }
 
   const handleArchive = () => {
-    // TODO call mutation with descriptorId and eventually eserviceId
+    scheduleArchive({ eserviceId, descriptorId }, { onSuccess: closeDialog })
   }
 
   const archiveDate = addDays(new Date(), GRACE_PERIOD_ARCHIVING_ESERVICE)
