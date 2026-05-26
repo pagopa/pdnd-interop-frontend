@@ -1097,7 +1097,7 @@ export function useGetProviderEServiceActions(
     menu: Array<ActionItemButton>
   }
 
-  const emptySlots: Slots = { primary: undefined, header: [], menu: [] }
+  const emptySlots = (): Slots => ({ primary: undefined, header: [], menu: [] })
 
   const menuClassic = [cloneAction, archiveEserviceAction, viewAllVersionsAction]
   const menuWithNewVersion = isEServiceBeingArchived
@@ -1139,7 +1139,7 @@ export function useGetProviderEServiceActions(
     }))
     .with(
       { state: 'ARCHIVING', archivingScope: 'DESCRIPTOR', isActiveDescriptor: true },
-      () => emptySlots
+      emptySlots
     )
     .with({ state: 'ARCHIVING' }, () => ({
       primary: undefined,
@@ -1153,14 +1153,14 @@ export function useGetProviderEServiceActions(
     }))
     .with(
       { state: 'ARCHIVING_SUSPENDED', archivingScope: 'DESCRIPTOR', isActiveDescriptor: true },
-      () => emptySlots
+      emptySlots
     )
     .with({ state: 'ARCHIVING_SUSPENDED' }, () => ({
       primary: undefined,
       header: [reactivateAction, cancelArchivingDescriptorAction],
       menu: menuWithNewVersion,
     }))
-    .with({ state: P.union('DRAFT', 'WAITING_FOR_APPROVAL') }, () => emptySlots)
+    .with({ state: P.union('DRAFT', 'WAITING_FOR_APPROVAL') }, emptySlots)
     .exhaustive()
 
   return {
