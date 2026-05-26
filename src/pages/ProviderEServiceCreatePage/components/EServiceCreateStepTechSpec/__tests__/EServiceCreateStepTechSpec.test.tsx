@@ -391,7 +391,7 @@ describe('EServiceCreateStepTechSpec', () => {
     expect(forward).not.toHaveBeenCalled()
   })
 
-  it('should render the async exchange section in template-instance mode when asyncExchange is true and the descriptor comes from a template', () => {
+  it('should render the async exchange and producer keychain sections in template-instance mode when asyncExchange is true', async () => {
     mockUseEServiceCreateContext({
       descriptor: {
         ...createMockEServiceDescriptorProviderAsync(),
@@ -402,7 +402,7 @@ describe('EServiceCreateStepTechSpec', () => {
       withReactQueryContext: true,
       withRouterContext: true,
     })
-    expect(screen.queryByText('EServiceProducerKeychainSection')).not.toBeInTheDocument()
+    expect(await screen.findByText('EServiceProducerKeychainSection')).toBeInTheDocument()
     expect(screen.getByText(/EServiceAsyncExchangeSection-template/)).toBeInTheDocument()
   })
 
