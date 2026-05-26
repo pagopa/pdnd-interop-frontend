@@ -38,7 +38,9 @@ export function useGetProviderEServiceActions(
   where?: 'tableRow' | 'detailsPage',
   archivingSchedule?: ArchivingSchedule,
   latestDescriptorId?: string,
-  onViewAllVersions?: () => void
+  onViewAllVersions?: () => void,
+  isActiveDescriptor?: boolean,
+  isEServiceBeingArchived?: boolean
 ): {
   primaryAction: ActionItemButton | undefined
   secondaryAction: ActionItemButton | undefined
@@ -1095,17 +1097,16 @@ export function useGetProviderEServiceActions(
     menu: Array<ActionItemButton>
   }
 
+  const emptySlots: Slots = { primary: undefined, header: [], menu: [] }
+
   const menuClassic = [cloneAction, archiveEserviceAction, viewAllVersionsAction]
-  const menuWithNewVersion = [
-    createNewDraftAction,
-    cloneAction,
-    archiveEserviceAction,
-    viewAllVersionsAction,
-  ]
+  const menuWithNewVersion = isEServiceBeingArchived
+    ? [cloneAction, viewAllVersionsAction]
+    : [createNewDraftAction, cloneAction, archiveEserviceAction, viewAllVersionsAction]
   const menuEserviceArchiving = [cloneAction, viewAllVersionsAction]
   const menuArchived = [cloneAction]
 
-  const slots: Slots = match({ state, archivingScope })
+  const slots: Slots = match({ state, archivingScope, isActiveDescriptor })
     .with({ state: 'PUBLISHED' }, () => ({
       primary: undefined,
       header: [suspendAction, createNewDraftAction],
@@ -1115,6 +1116,11 @@ export function useGetProviderEServiceActions(
       primary: undefined,
       header: [suspendAction, archiveDescriptorAction],
       menu: menuWithNewVersion,
+    }))
+    .with({ state: 'SUSPENDED', isActiveDescriptor: true }, () => ({
+      primary: undefined,
+      header: [reactivateAction, createNewDraftAction],
+      menu: menuClassic,
     }))
     .with({ state: 'SUSPENDED' }, () => ({
       primary: undefined,
@@ -1131,6 +1137,10 @@ export function useGetProviderEServiceActions(
       header: [suspendAction],
       menu: menuEserviceArchiving,
     }))
+    .with(
+      { state: 'ARCHIVING', archivingScope: 'DESCRIPTOR', isActiveDescriptor: true },
+      () => emptySlots
+    )
     .with({ state: 'ARCHIVING' }, () => ({
       primary: undefined,
       header: [suspendAction, cancelArchivingDescriptorAction],
@@ -1141,16 +1151,16 @@ export function useGetProviderEServiceActions(
       header: [reactivateAction],
       menu: menuEserviceArchiving,
     }))
+    .with(
+      { state: 'ARCHIVING_SUSPENDED', archivingScope: 'DESCRIPTOR', isActiveDescriptor: true },
+      () => emptySlots
+    )
     .with({ state: 'ARCHIVING_SUSPENDED' }, () => ({
       primary: undefined,
       header: [reactivateAction, cancelArchivingDescriptorAction],
       menu: menuWithNewVersion,
     }))
-    .with({ state: P.union('DRAFT', 'WAITING_FOR_APPROVAL') }, () => ({
-      primary: undefined,
-      header: [],
-      menu: [],
-    }))
+    .with({ state: P.union('DRAFT', 'WAITING_FOR_APPROVAL') }, () => emptySlots)
     .exhaustive()
 
   return {
