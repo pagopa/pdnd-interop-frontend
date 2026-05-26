@@ -84,7 +84,9 @@ export const ConsumerPurposeTemplateLinkedResourceTable: React.FC<
     t('linkedResourceProviderName'),
     '',
   ]
-  const isEmpty = linkableResources === undefined || linkableResources.results.length === 0
+  const results = linkableResources?.results ?? []
+  const totalCount = linkableResources?.pagination.totalCount ?? 0
+  const isEmpty = results.length === 0
 
   if (isFetching && linkableResources === undefined) {
     return <ConsumerPurposeTemplateLinkedResourceTableSkeleton />
@@ -94,7 +96,7 @@ export const ConsumerPurposeTemplateLinkedResourceTable: React.FC<
     <>
       <Filters {...filtersHandlers} />
       <Table headLabels={headLabels} isEmpty={isEmpty}>
-        {linkableResources!.results.map((resource) => (
+        {results.map((resource) => (
           <ConsumerPurposeTemplateLinkedResourceTableRow
             key={`${resource.resourceKind}:${getResourceId(resource)}`}
             resource={resource}
@@ -104,7 +106,7 @@ export const ConsumerPurposeTemplateLinkedResourceTable: React.FC<
       <Pagination
         {...paginationProps}
         rowPerPageOptions={rowPerPageOptions}
-        totalPages={getTotalPageCount(linkableResources!.pagination.totalCount)}
+        totalPages={getTotalPageCount(totalCount)}
       />
     </>
   )
