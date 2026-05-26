@@ -1,4 +1,5 @@
 import {
+  calculateArchivableOn,
   getDownloadDocumentName,
   getLastDescriptor,
   getViewLatestVersionTargetId,
@@ -94,5 +95,50 @@ describe('getViewLatestVersionTargetId utility function testing', () => {
     )
 
     expect(result).toBeUndefined()
+  })
+})
+
+describe('calculateArchivableOn utility function testing', () => {
+  it('should return midnight UTC of the day after now + gracePeriodDays', () => {
+    const now = new Date('2026-10-20T14:30:15.000Z')
+    const result = calculateArchivableOn(now, 30)
+
+    expect(result.toISOString()).toEqual('2026-11-20T00:00:00.000Z')
+  })
+
+  it('should not mutate the input date', () => {
+    const now = new Date('2026-10-20T14:30:15.000Z')
+    const nowIso = now.toISOString()
+    calculateArchivableOn(now, 30)
+
+    expect(now.toISOString()).toEqual(nowIso)
+  })
+
+  it('should correctly handle month boundaries', () => {
+    const now = new Date('2026-01-15T10:00:00.000Z')
+    const result = calculateArchivableOn(now, 20)
+
+    expect(result.toISOString()).toEqual('2026-02-05T00:00:00.000Z')
+  })
+
+  it('should correctly handle year boundaries', () => {
+    const now = new Date('2026-12-15T23:59:59.999Z')
+    const result = calculateArchivableOn(now, 30)
+
+    expect(result.toISOString()).toEqual('2027-01-15T00:00:00.000Z')
+  })
+
+  it('should be timezone-agnostic when called with the same wall-clock UTC instant', () => {
+    const now = new Date('2026-06-15T00:00:01.000Z')
+    const result = calculateArchivableOn(now, 30)
+
+    expect(result.toISOString()).toEqual('2026-07-16T00:00:00.000Z')
+  })
+
+  it('should use UTC arithmetic regardless of local timezone offset (input near midnight)', () => {
+    const now = new Date('2026-06-15T23:30:00.000Z')
+    const result = calculateArchivableOn(now, 30)
+
+    expect(result.toISOString()).toEqual('2026-07-16T00:00:00.000Z')
   })
 })

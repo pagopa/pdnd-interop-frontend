@@ -2,6 +2,7 @@ import { EServiceMutations } from '@/api/eservice'
 import { DOCUMENTATION_URL, GRACE_PERIOD_ARCHIVING_ESERVICE } from '@/config/env'
 import { useDialog } from '@/stores'
 import type { DialogArchiveVersionProps } from '@/types/dialog.types'
+import { calculateArchivableOn } from '@/utils/eservice.utils'
 import { formatDateStringNumeric } from '@/utils/format.utils'
 import {
   Alert,
@@ -13,7 +14,6 @@ import {
   Link,
   Typography,
 } from '@mui/material'
-import addDays from 'date-fns/addDays'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
@@ -39,7 +39,7 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
     scheduleArchive({ eserviceId, descriptorId }, { onSuccess: closeDialog })
   }
 
-  const archiveDate = addDays(new Date(), GRACE_PERIOD_ARCHIVING_ESERVICE)
+  const archiveDate = calculateArchivableOn(new Date(), GRACE_PERIOD_ARCHIVING_ESERVICE)
   const formattedArchiveDate = formatDateStringNumeric(archiveDate)
 
   return (
