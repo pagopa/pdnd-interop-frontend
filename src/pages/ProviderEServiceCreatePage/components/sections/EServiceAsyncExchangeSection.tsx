@@ -1,13 +1,9 @@
-import { SectionContainer } from '@/components/layout/containers'
-import { RHFCheckbox, RHFTextField } from '@/components/shared/react-hook-form-inputs'
-import { asyncExchangeGuideLink } from '@/config/constants'
-import { Alert, Grid, Link, Stack, Typography } from '@mui/material'
+import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
-import React from 'react'
-import { useFormContext } from 'react-hook-form'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { UploadCallbackInterfaceDoc } from '../components/UploadCallbackInterfaceDoc'
+import { EServiceAsyncExchangeSectionBase } from './EServiceAsyncExchangeSectionBase'
 
 type EServiceAsyncExchangeSectionProps = {
   areEServiceGeneralInfoEditable: boolean
@@ -23,175 +19,28 @@ export const EServiceAsyncExchangeSection: React.FC<EServiceAsyncExchangeSection
   })
 
   const { descriptor } = useEServiceCreateContext()
-  const { setValue } = useFormContext()
-
   const isSoap = descriptor?.eservice.technology === 'SOAP'
-
-  React.useEffect(() => {
-    if (isSoap && !isEServiceCreatedFromTemplate) {
-      setValue('asyncExchangeProperties.bulk', false)
-    }
-  }, [isSoap, isEServiceCreatedFromTemplate, setValue])
-
-  const description = (
-    <Trans
-      components={{
-        1: <Link underline="hover" href={asyncExchangeGuideLink} target="_blank" rel="noopener noreferrer"/>,
-      }}
-    >
-      {t('description')}
-    </Trans>
+  const readOnlyCallbackInterfaceContent = <UploadCallbackInterfaceDoc readOnly />
+  const editableCallbackInterfaceContent = isEServiceCreatedFromTemplate ? (
+    <Stack sx={{ mt: 2 }}>
+      <InformationContainer
+        label={t('callbackInterface.readOnlyLabel')}
+        content={readOnlyCallbackInterfaceContent}
+      />
+    </Stack>
+  ) : (
+    <UploadCallbackInterfaceDoc />
   )
 
-  if (!areEServiceGeneralInfoEditable && descriptor) {
-    const props = descriptor.asyncExchangeProperties
-
-    return (
-      <SectionContainer title={t('title')} description={description} sx={{ mt: 3 }}>
-        <Stack spacing={2} sx={{ mt: 2 }}>
-          <InformationContainer
-            label={t('callbackInterface.readOnlyLabel')}
-            content={<UploadCallbackInterfaceDoc readOnly />}
-          />
-          <Typography variant="subtitle1" sx={{ mt: 2 }}>
-            {t('configSubsection.title')}
-          </Typography>
-          <InformationContainer
-            label={t('responseTimeField.label')}
-            content={props?.responseTime?.toString() ?? '-'}
-          />
-          <InformationContainer
-            label={t('maxResultSetField.label')}
-            content={props?.maxResultSet?.toString() ?? '-'}
-          />
-          <InformationContainer
-            label={t('resourceAvailableTimeField.label')}
-            content={props?.resourceAvailableTime?.toString() ?? '-'}
-          />
-          <Typography variant="subtitle1" sx={{ mt: 2 }}>
-            {t('advancedSubsection.title')}
-          </Typography>
-          <InformationContainer
-            label={t('confirmationField.label')}
-            content={props ? t(`readOnlyOptions.${Boolean(props.confirmation)}`) : '-'}
-          />
-          <InformationContainer
-            label={t('bulkField.label')}
-            content={props ? t(`readOnlyOptions.${Boolean(props.bulk)}`) : '-'}
-          />
-        </Stack>
-      </SectionContainer>
-    )
-  }
-
-  const templateProps = descriptor?.asyncExchangeProperties
-
   return (
-    <SectionContainer title={t('title')} description={description} sx={{ mt: 3 }}>
-      <Alert severity="warning" sx={{ mt: 2 }}>
-        {t('editableInfoAlert')}
-      </Alert>
-
-      {isEServiceCreatedFromTemplate ? (
-        <Stack sx={{ mt: 2 }}>
-          <InformationContainer
-            label={t('callbackInterface.readOnlyLabel')}
-            content={<UploadCallbackInterfaceDoc readOnly />}
-          />
-        </Stack>
-      ) : (
-        <UploadCallbackInterfaceDoc />
-      )}
-
-      <Typography variant="subtitle1" sx={{ mt: 3 }}>
-        {t('configSubsection.title')}
-      </Typography>
-      <Grid container spacing={2} sx={{ mt: 1 }}>
-        <Grid item xs={12} sm={6}>
-          <RHFTextField
-            size="small"
-            name="asyncExchangeProperties.responseTime"
-            label={t('responseTimeField.label')}
-            infoLabel={t('responseTimeField.infoLabel')}
-            type="number"
-            inputProps={{ min: 1 }}
-            required
-            rules={{ 
-              required: true, 
-              min: 1,                         
-              validate: (value) => Number.isInteger(Number(value)) || t('validation.integer'),
-            }}
-            sx={{ flex: 1, my: 0 }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <RHFTextField
-            size="small"
-            name="asyncExchangeProperties.maxResultSet"
-            label={t('maxResultSetField.label')}
-            infoLabel={t('maxResultSetField.infoLabel')}
-            type="number"
-            inputProps={{ min: 1 }}
-            required
-            rules={{ 
-              required: true, 
-              min: 1,                         
-              validate: (value) => Number.isInteger(Number(value)) || t('validation.integer'),
-            }}
-            sx={{ flex: 1, my: 0 }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <RHFTextField
-            size="small"
-            name="asyncExchangeProperties.resourceAvailableTime"
-            label={t('resourceAvailableTimeField.label')}
-            infoLabel={t('resourceAvailableTimeField.infoLabel')}
-            type="number"
-            inputProps={{ min: 1 }}
-            required
-            rules={{ 
-              required: true, 
-              min: 1,                         
-              validate: (value) => Number.isInteger(Number(value)) || t('validation.integer'),
-            }}
-            sx={{ my: 0 }}
-          />
-        </Grid>
-      </Grid>
-      <Typography variant="subtitle1" sx={{ mt: 3 }}>
-        {t('advancedSubsection.title')}
-      </Typography>
-      {isEServiceCreatedFromTemplate ? (
-        <Stack spacing={2} sx={{ mt: 2 }}>
-          <InformationContainer
-            label={t('confirmationField.label')}
-            content={
-              templateProps ? t(`readOnlyOptions.${Boolean(templateProps.confirmation)}`) : '-'
-            }
-          />
-          <InformationContainer
-            label={t('bulkField.label')}
-            content={templateProps ? t(`readOnlyOptions.${Boolean(templateProps.bulk)}`) : '-'}
-          />
-        </Stack>
-      ) : (
-        <Stack spacing={0} sx={{ mt: 1 }}>
-          <RHFCheckbox
-            name="asyncExchangeProperties.confirmation"
-            label={t('confirmationField.label')}
-            infoLabel={t('confirmationField.infoLabel')}
-            sx={{ my: 0 }}
-          />
-          <RHFCheckbox
-            name="asyncExchangeProperties.bulk"
-            label={t('bulkField.label')}
-            infoLabel={t('bulkField.infoLabel')}
-            disabled={isSoap}
-            sx={{ mb: 0 }}
-          />
-        </Stack>
-      )}
-    </SectionContainer>
+    <EServiceAsyncExchangeSectionBase
+      areGeneralInfoEditable={areEServiceGeneralInfoEditable}
+      areAdvancedOptionsEditable={!isEServiceCreatedFromTemplate}
+      asyncExchangeProperties={descriptor?.asyncExchangeProperties}
+      editableCallbackInterfaceContent={editableCallbackInterfaceContent}
+      readOnlyCallbackInterfaceContent={readOnlyCallbackInterfaceContent}
+      isSoap={isSoap}
+      forceBulkFalse={!isEServiceCreatedFromTemplate}
+    />
   )
 }
