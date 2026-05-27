@@ -46,7 +46,8 @@ export const PurposeTemplateSummaryLinkedResourceAccordion: React.FC<
                       }}
                     >
                       {r.eservice.name}
-                    </Link>{' '}
+                    </Link>
+                    {' - '}
                     {t('providedBy.eservice', { publisher: r.eservice.producer.name })}
                   </Typography>
                 ))
@@ -64,7 +65,8 @@ export const PurposeTemplateSummaryLinkedResourceAccordion: React.FC<
                       }}
                     >
                       {r.eserviceTemplate.name}
-                    </Link>{' '}
+                    </Link>
+                    {' - '}
                     {t('providedBy.eserviceTemplate', {
                       publisher: r.eserviceTemplate.creator.name,
                     })}
