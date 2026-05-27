@@ -5,6 +5,7 @@ import type { ChipProps } from '@mui/material'
 import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
+import { match } from 'ts-pattern'
 import type {
   Agreement,
   AgreementListEntry,
@@ -173,11 +174,13 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
       props.isActiveDescriptor &&
       (props.state === 'ARCHIVING' || props.state === 'ARCHIVING_SUSPENDED')
 
-    const remappedState: EServiceDescriptorState = isActiveDescriptorBeingArchived
-      ? props.state === 'ARCHIVING'
-        ? 'PUBLISHED'
-        : 'SUSPENDED'
-      : props.state
+    const remappedState: EServiceDescriptorState = match({
+      state: props.state,
+      isActiveDescriptorBeingArchived,
+    })
+      .with({ isActiveDescriptorBeingArchived: false }, ({ state }) => state)
+      .with({ state: 'ARCHIVING' }, () => 'PUBLISHED' as const)
+      .otherwise(() => 'SUSPENDED' as const)
 
     color = chipColors['descriptor'][remappedState]
     label = t(`status.descriptor.${remappedState}`)
