@@ -63,7 +63,6 @@ export default defineConfig(({ mode }) => {
           '**/__tests__/**',
           '**/__test__/**',
           '**/__mocks__/**',
-          '**/api/agreement/**',
           '**/api/attribute/**',
           '**/api/auth/**',
           '**/api/client/**',

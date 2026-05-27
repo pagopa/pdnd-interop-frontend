@@ -3,6 +3,7 @@ import { renderHook } from '@testing-library/react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import type { ConfirmationDialogMeta } from '@tanstack/react-query'
 import { AgreementMutations } from '../agreement.mutations'
+import { apiGuideLink } from '@/config/constants'
 
 vi.mock('../agreement.services', () => ({
   AgreementServices: {
@@ -69,6 +70,9 @@ describe('AgreementMutations', () => {
         expect.objectContaining({
           title: 'confirmDialog.asyncExchange.title',
           description: 'confirmDialog.asyncExchange.description',
+          descriptionLink: {
+            href: apiGuideLink,
+          },
           checkbox: 'confirmDialog.asyncExchange.checkbox',
         })
       )
@@ -123,6 +127,22 @@ describe('AgreementMutations', () => {
       expect(getConfirmationDialogDescription(confirmationDialog)?.('unexpected')).toBe(
         'confirmDialog.description'
       )
+    })
+
+    it('should not show a confirmation when confirmation dialog is disabled for sync e-services', () => {
+      const { WrapperComponent, queryClient } = createWrapper()
+      const { result } = renderHook(() => AgreementMutations.useCreateDraft(false), {
+        wrapper: WrapperComponent,
+      })
+
+      result.current.mutate({
+        eserviceId: 'eservice-id',
+        descriptorId: 'descriptor-id',
+        eserviceName: 'E-Service name',
+        eserviceVersion: '1',
+      })
+
+      expect(queryClient.getMutationCache().getAll()[0]?.meta?.confirmationDialog).toBeUndefined()
     })
   })
 

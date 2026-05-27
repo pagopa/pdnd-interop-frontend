@@ -445,6 +445,26 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     })
   })
 
+  it('should return the create agreement draft action for delegators when jwt is not available', async () => {
+    mockUseJwt({ jwt: undefined, isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      isSubscribed: false,
+      hasCertifiedAttributes: true,
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock }),
+      [{ id: 'delegator-id', name: 'Delegator Name' }],
+      false
+    )
+
+    expect(result.current.actions).toHaveLength(1)
+    expect(result.current.actions[0]?.label).toBe('tableEServiceCatalog.subscribe')
+  })
+
   it("should return the create agreement draft action if the user doesn't have an active agreement and the subscriber is the e-service provider", async () => {
     mockUseJwt({ isAdmin: true })
 
