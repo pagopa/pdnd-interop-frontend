@@ -269,7 +269,7 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
         <EServiceVoucherSection isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate} />
         {isAsyncExchange && (
           <EServiceAsyncExchangeSection
-            areEServiceGeneralInfoEditable={areEServiceGeneralInfoEditable}
+            areEServiceGeneralInfoEditable={true}
             isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
           />
         )}

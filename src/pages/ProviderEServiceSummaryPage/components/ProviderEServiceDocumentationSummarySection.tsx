@@ -1,6 +1,6 @@
 import React from 'react'
 import type { CompactProducerKeychains, EServiceDoc } from '@/api/api.generatedTypes'
-import { Stack, Typography } from '@mui/material'
+import { Divider, Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { IconLink } from '@/components/shared/IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
@@ -99,6 +99,7 @@ export const ProviderEServiceDocumentationSummarySection: React.FC<
       />
       {isAsyncExchange && (
         <>
+          <Divider />
           <SummaryInformationContainer
             label={t('callbackInterface.label')}
             content={
@@ -136,6 +137,7 @@ export const ProviderEServiceDocumentationSummarySection: React.FC<
             label={t('asyncExchange.maxResultSet.label')}
             content={formatAsyncNumber(asyncExchangeProperties?.maxResultSet)}
           />
+          <Divider />
           <SummaryInformationContainer
             label={t('producerKeychains.label')}
             content={keychainsContent}
