@@ -89,12 +89,7 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
 
   return (
     <TableRow
-      cellData={[
-        purposeTitle,
-        eserviceCellData,
-        purpose.eservice.producer.name,
-        statusCell,
-      ]}
+      cellData={[purposeTitle, eserviceCellData, purpose.eservice.producer.name, statusCell]}
     >
       <Tooltip
         open={hasWaitingForApprovalVersion ? undefined : false}
