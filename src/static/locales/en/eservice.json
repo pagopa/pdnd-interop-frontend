@@ -626,7 +626,8 @@
       "missingProducerKeychain": "The producer has not linked the keychain to this async e-service yet. Data exchange is currently unavailable.",
       "missingProducerKeychainKeys": "The producer has not linked any keys to this async e-service keychain yet. Data exchange is currently unavailable.",
       "providerMissingProducerKeychain": "Associate a keychain with this e-service to enable data exchange.",
-      "providerMissingProducerKeychainKeys": "Add at least one key to the keychain linked to this e-service to enable data exchange."
+      "providerMissingProducerKeychainKeys": "Add at least one key to the keychain linked to this e-service to enable data exchange.",
+      "viewProducerKeychains": "View keychains"
     },
     "actions": {
       "backToListLabel": "Back to the e-services",

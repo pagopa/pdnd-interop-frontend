@@ -626,7 +626,8 @@
       "missingProducerKeychain": "L’erogatore non ha ancora collegato il portachiavi a questo e-service asincrono. Lo scambio dati non è al momento disponibile.",
       "missingProducerKeychainKeys": "L’erogatore non ha ancora collegato le chiavi al portachiavi di questo e-service asincrono. Lo scambio dati non è al momento disponibile.",
       "providerMissingProducerKeychain": "Associa un portachiavi a questo e-service per abilitare lo scambio dati.",
-      "providerMissingProducerKeychainKeys": "Associa almeno una chiave al portachiavi collegato a questo e-service per abilitare lo scambio dati."
+      "providerMissingProducerKeychainKeys": "Associa almeno una chiave al portachiavi collegato a questo e-service per abilitare lo scambio dati.",
+      "viewProducerKeychains": "Vedi portachiavi"
     },
     "actions": {
       "backToListLabel": "Torna agli e-service",
