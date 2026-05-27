@@ -31,7 +31,8 @@ const defaultFormValues = {
 const renderComponent = (
   areEServiceGeneralInfoEditable = true,
   descriptorOverrides: Parameters<typeof createMockEServiceDescriptorProviderAsync>[0] = {},
-  formValues: typeof defaultFormValues = defaultFormValues
+  formValues: typeof defaultFormValues = defaultFormValues,
+  isEServiceCreatedFromTemplate = false
 ) => {
   mockUseEServiceCreateContext({
     descriptor: createMockEServiceDescriptorProviderAsync(descriptorOverrides),
@@ -41,6 +42,7 @@ const renderComponent = (
     <ReactHookFormWrapper defaultValues={formValues}>
       <EServiceAsyncExchangeSection
         areEServiceGeneralInfoEditable={areEServiceGeneralInfoEditable}
+        isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
       />
     </ReactHookFormWrapper>,
     { withReactQueryContext: true, withRouterContext: true }
@@ -119,5 +121,12 @@ describe('EServiceAsyncExchangeSection', () => {
     expect(screen.getByText('UploadCallbackInterfaceDoc-readOnly')).toBeInTheDocument()
     expect(screen.queryByLabelText(/responseTimeField.label/)).not.toBeInTheDocument()
     expect(screen.getByText('callbackInterface.readOnlyLabel')).toBeInTheDocument()
+  })
+
+  it('should render the callback interface without an extra label for e-services created from template', () => {
+    renderComponent(true, {}, defaultFormValues, true)
+
+    expect(screen.getByText('UploadCallbackInterfaceDoc-readOnly')).toBeInTheDocument()
+    expect(screen.queryByText('callbackInterface.readOnlyLabel')).not.toBeInTheDocument()
   })
 })
