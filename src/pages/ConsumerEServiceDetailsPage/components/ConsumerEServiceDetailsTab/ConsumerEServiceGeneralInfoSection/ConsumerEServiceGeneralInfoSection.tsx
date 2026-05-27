@@ -105,6 +105,12 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
             content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
           />
           <InformationContainer
+            label={t('exchangeType.label')}
+            content={t(
+              `exchangeType.value.${descriptor.eservice.asyncExchange ? 'async' : 'sync'}`
+            )}
+          />
+          <InformationContainer
             label={t('eserviceDescription.label')}
             content={descriptor.eservice.description}
             direction="column"
