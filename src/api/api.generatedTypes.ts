@@ -110,6 +110,30 @@ export type DataType = "SINGLE" | "MULTI" | "FREETEXT";
 /** Consent Type */
 export type ConsentType = "PP" | "TOS";
 
+export type LinkableResource =
+  | ({
+      resourceKind: "ESERVICE";
+    } & LinkableEService)
+  | ({
+      resourceKind: "ESERVICE_TEMPLATE";
+    } & LinkableEServiceTemplate);
+
+export type LinkedResource =
+  | ({
+      resourceKind: "ESERVICE";
+    } & LinkedEService)
+  | ({
+      resourceKind: "ESERVICE_TEMPLATE";
+    } & LinkedEServiceTemplate);
+
+export type LinkableResourceRequest =
+  | ({
+      resourceKind: "ESERVICE";
+    } & LinkableEServiceRequest)
+  | ({
+      resourceKind: "ESERVICE_TEMPLATE";
+    } & LinkableEServiceTemplateRequest);
+
 /** models the reject payload for this purpose version. */
 export interface RejectPurposeVersionPayload {
   rejectionReason: string;
@@ -132,12 +156,20 @@ export interface SAMLTokenRequest {
 }
 
 export interface AccessTokenRequest {
-  /** @example "e58035ce-c753-4f72-b613-46f8a17b71cc" */
+  /**
+   * @format uuid
+   * @example "e58035ce-c753-4f72-b613-46f8a17b71cc"
+   */
   client_id?: string;
   /** @format jws */
   client_assertion: string;
   client_assertion_type: string;
   grant_type: string;
+  /**
+   * Set to true to validate the client assertion as an async token generation request
+   * @default "false"
+   */
+  is_async?: "true" | "false";
   /**
    * Optional DPoP proof JWT used to validate token generation
    * @format jws
@@ -229,6 +261,7 @@ export interface UpdateEServiceSeed {
   isConsumerDelegable?: boolean;
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
 }
 
 export interface UpdateEServiceTemplateInstanceSeed {
@@ -253,6 +286,7 @@ export interface EServiceSeed {
   isConsumerDelegable?: boolean;
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
 }
 
 export interface UpdateEServiceDescriptorQuotas {
@@ -332,6 +366,7 @@ export interface UpdateEServiceDescriptorSeed {
    */
   agreementApprovalPolicy: AgreementApprovalPolicy;
   attributes: DescriptorAttributesSeed;
+  asyncExchangeProperties?: AsyncExchangeProperties;
 }
 
 export interface UpdateEServiceDescriptorTemplateInstanceSeed {
@@ -357,6 +392,7 @@ export interface UpdateEServiceDescriptorTemplateInstanceSeed {
    */
   agreementApprovalPolicy: AgreementApprovalPolicy;
   attributes?: DescriptorAttributesSeed;
+  asyncExchangeProperties?: AsyncExchangePropertiesInstanceSeed;
 }
 
 export interface Mail {
@@ -439,6 +475,8 @@ export interface CatalogEServiceDescriptor {
   deprecatedAt?: string;
   /** @format date-time */
   archivedAt?: string;
+  asyncExchangeProperties?: AsyncExchangeProperties;
+  asyncExchangeCallbackInterface?: EServiceDoc;
 }
 
 /** Models Client details */
@@ -490,12 +528,15 @@ export interface CatalogDescriptorEService {
    */
   hasCertifiedAttributes: boolean;
   isSubscribed: boolean;
+  hasProducerKeychain: boolean;
+  hasProducerKeychainKeys: boolean;
   activeDescriptor?: CompactDescriptor;
   mail?: Mail;
   isSignalHubEnabled?: boolean;
   isConsumerDelegable?: boolean;
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
 }
 
 export interface ProducerEServiceDetails {
@@ -512,6 +553,9 @@ export interface ProducerEServiceDetails {
   isConsumerDelegable?: boolean;
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
+  /** @format uuid */
+  latestActiveDescriptorId?: string;
 }
 
 export interface EServiceRiskAnalysisSeed {
@@ -593,6 +637,8 @@ export interface ProducerEServiceDescriptor {
   rejectionReasons?: DescriptorRejectionReason[];
   serverUrls?: string[];
   templateRef?: EServiceTemplateRef;
+  asyncExchangeProperties?: AsyncExchangeProperties;
+  asyncExchangeCallbackInterface?: EServiceDoc;
   delegation?: DelegationWithCompactTenants;
 }
 
@@ -608,6 +654,8 @@ export interface ProducerDescriptorEService {
   mode: EServiceMode;
   riskAnalysis: EServiceRiskAnalysis[];
   descriptors: CompactDescriptor[];
+  hasProducerKeychain: boolean;
+  hasProducerKeychainKeys: boolean;
   draftDescriptor?: CompactDescriptor;
   mail?: Mail;
   isSignalHubEnabled?: boolean;
@@ -615,6 +663,7 @@ export interface ProducerDescriptorEService {
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
   instanceLabel?: string;
+  asyncExchange?: boolean;
 }
 
 export interface ProducerDescriptorEServiceProducer {
@@ -752,6 +801,7 @@ export interface CatalogEService {
   /** Indicates if there are unread notifications for this e-service */
   hasUnreadNotifications?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
 }
 
 export interface CompactClients {
@@ -849,6 +899,7 @@ export interface CompactPurposeEService {
   /** Risk Analysis Mode */
   mode: EServiceMode;
   personalData?: boolean;
+  asyncExchange?: boolean;
 }
 
 export interface CompactPurposeTemplateEService {
@@ -1252,6 +1303,42 @@ export interface EServiceDescriptorPurposeTemplate {
   eserviceId: string;
   /** @format uuid */
   descriptorId: string;
+  /** @format date-time */
+  createdAt: string;
+}
+
+export interface LinkableEServiceRequest {
+  resourceKind: "ESERVICE";
+  /** @format uuid */
+  eserviceId: string;
+}
+
+export interface LinkableEServiceTemplateRequest {
+  resourceKind: "ESERVICE_TEMPLATE";
+  /** @format uuid */
+  eserviceTemplateId: string;
+}
+
+export interface LinkedEService {
+  resourceKind: "ESERVICE";
+  /** @format uuid */
+  purposeTemplateId: string;
+  /** @format uuid */
+  eserviceId: string;
+  /** @format uuid */
+  descriptorId: string;
+  /** @format date-time */
+  createdAt: string;
+}
+
+export interface LinkedEServiceTemplate {
+  resourceKind: "ESERVICE_TEMPLATE";
+  /** @format uuid */
+  purposeTemplateId: string;
+  /** @format uuid */
+  eserviceTemplateId: string;
+  /** @format uuid */
+  eserviceTemplateVersionId: string;
   /** @format date-time */
   createdAt: string;
 }
@@ -2085,7 +2172,28 @@ export interface EServiceTemplateDetails {
   mode: EServiceMode;
   isSignalHubEnabled?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
   draftVersion?: CompactEServiceTemplateVersion;
+}
+
+export interface AsyncExchangeProperties {
+  /** @format int32 */
+  responseTime: number;
+  /** @format int32 */
+  resourceAvailableTime: number;
+  confirmation: boolean;
+  bulk: boolean;
+  /** @format int32 */
+  maxResultSet: number;
+}
+
+export interface AsyncExchangePropertiesInstanceSeed {
+  /** @format int32 */
+  responseTime?: number;
+  /** @format int32 */
+  resourceAvailableTime?: number;
+  /** @format int32 */
+  maxResultSet?: number;
 }
 
 export interface EServiceTemplateVersionDetails {
@@ -2122,6 +2230,8 @@ export interface EServiceTemplateVersionDetails {
   agreementApprovalPolicy?: AgreementApprovalPolicy;
   attributes: DescriptorAttributes;
   eserviceTemplate: EServiceTemplateDetails;
+  asyncExchangeProperties?: AsyncExchangeProperties;
+  asyncExchangeCallbackInterface?: EServiceDoc;
   hasRequesterRiskAnalysis?: boolean;
   personalData?: boolean;
 }
@@ -2168,7 +2278,7 @@ export interface UpdateEServiceTemplateSeed {
   intendedTarget: string;
   /**
    * @minLength 10
-   * @maxLength 250
+   * @maxLength 400
    */
   description: string;
   /** EService Descriptor State */
@@ -2192,7 +2302,7 @@ export interface EServiceTemplateSeed {
   intendedTarget: string;
   /**
    * @minLength 10
-   * @maxLength 250
+   * @maxLength 400
    */
   description: string;
   /** EService Descriptor State */
@@ -2202,6 +2312,7 @@ export interface EServiceTemplateSeed {
   version?: VersionSeedForEServiceTemplateCreation;
   isSignalHubEnabled?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
 }
 
 export interface InstanceEServiceSeed {
@@ -2213,6 +2324,7 @@ export interface InstanceEServiceSeed {
    * @maxLength 12
    */
   instanceLabel?: string;
+  asyncExchange?: boolean;
 }
 
 export interface VersionSeedForEServiceTemplateCreation {
@@ -2366,6 +2478,7 @@ export interface UpdateEServiceTemplateVersionSeed {
    */
   agreementApprovalPolicy?: AgreementApprovalPolicy;
   attributes: EServiceTemplateAttributesSeed;
+  asyncExchangeProperties?: AsyncExchangeProperties;
 }
 
 export interface EServiceTemplateAttributesSeed {
@@ -2491,6 +2604,39 @@ export interface EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescript
   descriptor: CompactDescriptor;
   /** @format date-time */
   createdAt: string;
+}
+
+export interface CompactPurposeTemplateEServiceTemplate {
+  /** @format uuid */
+  id: string;
+  name: string;
+  creator: CompactOrganization;
+  description?: string;
+}
+
+export interface LinkableEService {
+  resourceKind: "ESERVICE";
+  /** @format uuid */
+  purposeTemplateId: string;
+  eservice: CompactPurposeTemplateEService;
+  descriptor: CompactDescriptor;
+  /** @format date-time */
+  createdAt: string;
+}
+
+export interface LinkableEServiceTemplate {
+  resourceKind: "ESERVICE_TEMPLATE";
+  /** @format uuid */
+  purposeTemplateId: string;
+  eserviceTemplate: CompactPurposeTemplateEServiceTemplate;
+  eserviceTemplateVersion: CompactEServiceTemplateVersion;
+  /** @format date-time */
+  createdAt: string;
+}
+
+export interface LinkableResources {
+  results: LinkableResource[];
+  pagination: Pagination;
 }
 
 export interface NotificationsCountBySection {
@@ -3049,7 +3195,7 @@ export interface AddEServiceTemplateInstanceInterfaceSoapParams {
 /** E-Service document */
 export interface CreateEServiceDocumentPayload {
   /** Document Type */
-  kind: "INTERFACE" | "DOCUMENT";
+  kind: "INTERFACE" | "DOCUMENT" | "ASYNC_EXCHANGE_CALLBACK_INTERFACE";
   prettyName: string;
   /** @format binary */
   doc: File;
@@ -3729,6 +3875,22 @@ export interface GetPublishedPurposeTemplateCreatorsParams {
   limit: number;
 }
 
+export interface LinkResourceToPurposeTemplateParams {
+  /**
+   * the purpose template id
+   * @format uuid
+   */
+  purposeTemplateId: string;
+}
+
+export interface UnlinkResourceFromPurposeTemplateParams {
+  /**
+   * the purpose template id
+   * @format uuid
+   */
+  purposeTemplateId: string;
+}
+
 export interface LinkEServiceToPurposeTemplatePayload {
   /** @format uuid */
   eserviceId: string;
@@ -3752,6 +3914,34 @@ export interface UnlinkEServiceToPurposeTemplateParams {
    * the purpose template id
    * @format uuid
    */
+  purposeTemplateId: string;
+}
+
+export interface GetPurposeTemplateLinkableResourcesParams {
+  /**
+   * Fuzzy match on resource name (e-service name for concrete entries,
+   * e-service template name for template entries). If not provided,
+   * linkable resources match any name.
+   */
+  q?: string;
+  /**
+   * Filter by tenant ID. Matches the publisher of each linkable resource:
+   * the producer of a concrete e-service, or the creator of an e-service template.
+   * @default []
+   */
+  publisherIds?: string[];
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number;
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number;
+  /** @format uuid */
   purposeTemplateId: string;
 }
 
@@ -4897,7 +5087,7 @@ export interface CreateEServiceTemplateVersionParams {
 /** E-Service template document */
 export interface CreateEServiceTemplateDocumentPayload {
   /** Document Type */
-  kind: "INTERFACE" | "DOCUMENT";
+  kind: "INTERFACE" | "DOCUMENT" | "ASYNC_EXCHANGE_CALLBACK_INTERFACE";
   prettyName: string;
   /** @format binary */
   doc: File;
@@ -8928,6 +9118,50 @@ export namespace PurposeTemplates {
   }
 
   /**
+   * @description Link a single resource (concrete e-service or e-service template) to a purpose template. The kind of resource is specified by the `resourceKind` discriminator in the request body. Symmetric to the unified retrieval endpoint `/linkableResources`. Returns the created link with its `resourceKind` discriminator (raw link, no enrichment).
+   * @tags purposeTemplates
+   * @name LinkResourceToPurposeTemplate
+   * @summary Link a resource to a purpose template
+   * @request POST:/purposeTemplates/{purposeTemplateId}/linkResource
+   * @secure
+   */
+  export namespace LinkResourceToPurposeTemplate {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = LinkableResourceRequest;
+    export type RequestHeaders = {};
+    export type ResponseBody = LinkedResource;
+  }
+
+  /**
+   * @description Unlink a single resource (concrete e-service or e-service template) from a purpose template. The kind of resource is specified by the `resourceKind` discriminator in the request body.
+   * @tags purposeTemplates
+   * @name UnlinkResourceFromPurposeTemplate
+   * @summary Unlink a resource from a purpose template
+   * @request POST:/purposeTemplates/{purposeTemplateId}/unlinkResource
+   * @secure
+   */
+  export namespace UnlinkResourceFromPurposeTemplate {
+    export type RequestParams = {
+      /**
+       * the purpose template id
+       * @format uuid
+       */
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = LinkableResourceRequest;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
    * @description Link one Eservice to Purpose Template (Draft or Active state)
    * @tags purposeTemplates
    * @name LinkEServiceToPurposeTemplate
@@ -8969,6 +9203,49 @@ export namespace PurposeTemplates {
     export type RequestBody = UnlinkEServiceToPurposeTemplatePayload;
     export type RequestHeaders = {};
     export type ResponseBody = void;
+  }
+
+  /**
+   * @description Retrieve the unified list of resources linkable to a purpose template, currently associated with it. Each entry is either a concrete e-service (`resourceKind=ESERVICE`) or an e-service template (`resourceKind=ESERVICE_TEMPLATE`). Results are sorted by `createdAt` DESC (most recent links first), unified across both kinds. `totalCount` reflects the real total of linkable entries (concrete + templates). Behavior on missing referenced resources is fail-fast: if any link points to a removed e-service, descriptor, e-service template, version or tenant, the request returns 404.
+   * @tags purposeTemplates
+   * @name GetPurposeTemplateLinkableResources
+   * @summary Get Purpose Template Linkable Resources
+   * @request GET:/purposeTemplates/{purposeTemplateId}/linkableResources
+   * @secure
+   */
+  export namespace GetPurposeTemplateLinkableResources {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeTemplateId: string;
+    };
+    export type RequestQuery = {
+      /**
+       * Fuzzy match on resource name (e-service name for concrete entries,
+       * e-service template name for template entries). If not provided,
+       * linkable resources match any name.
+       */
+      q?: string;
+      /**
+       * Filter by tenant ID. Matches the publisher of each linkable resource:
+       * the producer of a concrete e-service, or the creator of an e-service template.
+       * @default []
+       */
+      publisherIds?: string[];
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number;
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = LinkableResources;
   }
 
   /**
