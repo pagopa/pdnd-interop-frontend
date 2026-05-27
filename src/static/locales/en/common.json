@@ -111,6 +111,16 @@
       "ARCHIVING": "deprecated",
       "ARCHIVING_SUSPENDED": "suspended"
     },
+    "descriptor": {
+      "PUBLISHED": "active",
+      "DRAFT": "draft",
+      "SUSPENDED": "suspended",
+      "ARCHIVED": "archived",
+      "DEPRECATED": "obsolete",
+      "WAITING_FOR_APPROVAL": "waiting for approval",
+      "ARCHIVING": "obsolete",
+      "ARCHIVING_SUSPENDED": "suspended"
+    },
     "agreement": {
       "ACTIVE": "active",
       "DRAFT": "draft",

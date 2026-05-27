@@ -2,12 +2,12 @@ import type {
   Agreement,
   RequesterCertifiedAttribute,
   CompactPurposeEService,
+  CompactDescriptor,
   DelegationKind,
   TenantKind,
   TargetTenantKind,
   CompactAgreement,
 } from '@/api/api.generatedTypes'
-import type { CompactDescriptorWithArchivingSchedule } from '@/types/eservice.types'
 import type { RouteKey } from '@/router'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
@@ -187,6 +187,7 @@ export type DialogShowEserviceVersionsListProps = {
   type: 'showEserviceVersionsList'
   eserviceId: string
   eserviceName: string
-  descriptors: CompactDescriptorWithArchivingSchedule[]
+  descriptors: CompactDescriptor[]
+  activeDescriptor?: CompactDescriptor
   routeKey: Extract<RouteKey, 'SUBSCRIBE_CATALOG_VIEW' | 'PROVIDE_ESERVICE_MANAGE'>
 }

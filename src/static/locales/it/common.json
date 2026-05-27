@@ -111,6 +111,16 @@
       "ARCHIVING": "obsoleto",
       "ARCHIVING_SUSPENDED": "sospeso"
     },
+    "descriptor": {
+      "PUBLISHED": "attiva",
+      "DRAFT": "in bozza",
+      "SUSPENDED": "sospesa",
+      "ARCHIVED": "archiviata",
+      "DEPRECATED": "obsoleta",
+      "WAITING_FOR_APPROVAL": "in attesa di approvazione",
+      "ARCHIVING": "obsoleta",
+      "ARCHIVING_SUSPENDED": "sospesa"
+    },
     "agreement": {
       "ACTIVE": "attivo",
       "DRAFT": "in bozza",

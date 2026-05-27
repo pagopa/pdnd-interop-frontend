@@ -511,9 +511,11 @@
     "versionHeaderLabel": "Version",
     "versionListModal": {
       "title": "Version statuses",
-      "versionRowLabel": "Version {{ version }}",
-      "scheduledArchivalTooltipDescriptor": "Version scheduled for archival on {{ date }}",
-      "scheduledArchivalTooltipEservice": "E-service scheduled for archival on {{ date }}"
+      "versionRowLabel": "Version {{ version }}"
+    },
+    "scheduledArchivalTooltip": {
+      "descriptor": "Version scheduled for archival on {{ date }}",
+      "eservice": "E-service scheduled for archival on {{ date }}"
     },
     "tabs": {
       "ariaLabel": "Two different tabs for e-service details and associated keychains",
@@ -529,7 +531,17 @@
     },
     "actions": {
       "backToListLabel": "Back to the e-services",
-      "backToCatalogLabel": "Back to the catalog"
+      "backToCatalogLabel": "Back to the catalog",
+      "suspendVersion": "Suspend version",
+      "reactivateVersion": "Reactivate version",
+      "createNewVersion": "Create new version",
+      "archiveVersion": "Archive version",
+      "cloneEservice": "Duplicate e-service",
+      "archiveEservice": "Archive e-service",
+      "cancelArchivingVersion": "Cancel version archiving",
+      "cancelArchivingEservice": "Cancel e-service archiving",
+      "viewLatestVersion": "View latest version",
+      "viewAllVersions": "View all versions"
     },
     "keychain": {
       "actionReservedToAdminTooltip": "This action is reserved to users with administrator permissions",
@@ -579,7 +591,6 @@
         },
         "consumerListFileName": "{{timestamp}}-consumers-list-{{eserviceName}}.csv",
         "bottomActions": {
-          "navigateVersions": "Navigate to another e-service version",
           "showTechnicalDetails": "Show e-service technical details",
           "downloadConsumerList": "Download consumer list",
           "showProducerContacts": "Show producer contacts",

@@ -511,9 +511,11 @@
     "versionHeaderLabel": "Versione",
     "versionListModal": {
       "title": "Stato versioni",
-      "versionRowLabel": "Versione {{ version }}",
-      "scheduledArchivalTooltipDescriptor": "Versione in archiviazione il {{ date }}",
-      "scheduledArchivalTooltipEservice": "E-service in archiviazione il {{ date }}"
+      "versionRowLabel": "Versione {{ version }}"
+    },
+    "scheduledArchivalTooltip": {
+      "descriptor": "Versione in archiviazione il {{ date }}",
+      "eservice": "E-service in archiviazione il giorno {{ date }}"
     },
     "tabs": {
       "ariaLabel": "Due tab diverse per i dettagli dell'e-service e i portachiavi associati",
@@ -529,7 +531,17 @@
     },
     "actions": {
       "backToListLabel": "Torna agli e-service",
-      "backToCatalogLabel": "Torna al catalogo"
+      "backToCatalogLabel": "Torna al catalogo",
+      "suspendVersion": "Sospendi versione",
+      "reactivateVersion": "Riattiva versione",
+      "createNewVersion": "Crea nuova versione",
+      "archiveVersion": "Archivia versione",
+      "cloneEservice": "Duplica e-service",
+      "archiveEservice": "Archivia e-service",
+      "cancelArchivingVersion": "Annulla archiviazione versione",
+      "cancelArchivingEservice": "Annulla archiviazione e-service",
+      "viewLatestVersion": "Vedi ultima versione",
+      "viewAllVersions": "Vedi tutte le versioni"
     },
     "keychain": {
       "actionReservedToAdminTooltip": "Quest’azione è riservata agli utenti con permessi da amministratore",
@@ -579,7 +591,6 @@
         },
         "consumerListFileName": "{{timestamp}}-lista-fruitori-{{eserviceName}}.csv",
         "bottomActions": {
-          "navigateVersions": "Naviga a un’altra versione dell’e-service",
           "showTechnicalDetails": "Vedi i dettagli tecnici dell’e-service",
           "downloadConsumerList": "Scarica l'elenco dei fruitori",
           "showProducerContacts": "Visualizza i contatti dell’erogatore",
