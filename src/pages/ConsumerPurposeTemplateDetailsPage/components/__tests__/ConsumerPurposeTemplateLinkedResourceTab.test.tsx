@@ -31,6 +31,7 @@ vi.mock('react-i18next', () => ({
     },
     i18n: { language: 'it' },
   }),
+  Trans: ({ children }: { children: React.ReactNode }) => children,
 }))
 
 describe('ConsumerPurposeTemplateLinkedResourceTab', () => {

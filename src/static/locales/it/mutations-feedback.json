@@ -1071,8 +1071,8 @@
     "publishDraft": {
       "loading": "Stiamo pubblicando il template della finalità agevolata",
       "outcome": {
-        "success": "Il template di finalità agevolata è stato creato con successo.",
-        "error": "Non è stato possibile creare il template di finalità agevolata. Assicurati di aver inserito le informazioni corrette e riprova."
+        "success": "Hai creato il template di finalità agevolata.",
+        "error": "Non è stato possibile creare il template di finalità agevolata. Controlla di aver inserito le informazioni corrette."
       },
       "confirmDialog": {
         "title": "Conferma pubblicazione del template",

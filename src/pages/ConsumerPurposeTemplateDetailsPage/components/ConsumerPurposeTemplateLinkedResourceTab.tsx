@@ -1,8 +1,9 @@
 import React from 'react'
-import { Typography } from '@mui/material'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
+import { Link } from '@mui/material'
 import EditIcon from '@mui/icons-material/Edit'
 import { SectionContainer } from '@/components/layout/containers'
+import { purposeTemplateGuideLink } from '@/config/constants'
 import type { ActionItemButton } from '@/types/common.types'
 import { useCurrentRoute, useNavigate } from '@/router'
 import { AuthHooks } from '@/api/auth'
@@ -52,7 +53,22 @@ export const ConsumerPurposeTemplateLinkedResourceTab: React.FC<
   return (
     <SectionContainer
       title={t('title')}
-      description={<Typography sx={{ whiteSpace: 'pre-line' }}>{t('description')}</Typography>}
+      description={
+        <Trans
+          components={{
+            1: (
+              <Link
+                href={purposeTemplateGuideLink}
+                target="_blank"
+                underline="none"
+                sx={{ fontWeight: 'fontWeightBold' }}
+              />
+            ),
+          }}
+        >
+          {t('description')}
+        </Trans>
+      }
       topSideActions={topSideActions}
       sx={{ backgroundColor: 'transparent' }}
     >

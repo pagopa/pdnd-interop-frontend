@@ -1071,8 +1071,8 @@
     "publishDraft": {
       "loading": "Facilitated purpose template is being published",
       "outcome": {
-        "success": "The facilitated purpose template is now published.",
-        "error": "The facilitated purpose template could not be published. Please ensure all required fields are filled out."
+        "success": "You have created the facilitated purpose template.",
+        "error": "The facilitated purpose template could not be created. Check that you have entered the correct information."
       },
       "confirmDialog": {
         "title": "Confirm Publication of the Facilitated Purpose Template",

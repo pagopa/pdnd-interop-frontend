@@ -264,7 +264,7 @@
     },
     "linkedResourcesTab": {
       "title": "Suggested e-services and e-service templates",
-      "description": "Here you find the list of e-services and e-service templates suggested for this facilitated purpose. The template can be used for other e-services not in the list.",
+      "description": "Here you find the list of e-services and e-service templates suggested for this facilitated purpose. The template can also be used for other e-services not in the list. <1>Link to the documentation</1>",
       "editButtonTooltip": "Cannot modify the list while the template is suspended or archived",
       "linkedResourceName": "E-service or e-service template",
       "linkedResourceKind": "Type",

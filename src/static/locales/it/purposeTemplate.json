@@ -78,7 +78,7 @@
     },
     "step2": {
       "detailsTitle": "E-service e template e-service suggeriti per questo template",
-      "detailsDescription": "Ci sono e-service o template e-service per cui pensi che questo template sia particolarmente adatto? Selezionali qui. Potrai associarli anche dopo la pubblicazione.",
+      "detailsDescription": "Qui puoi selezionare degli e-service o dei template e-service che suggerisci per questa finalità agevolata. Potrai farlo anche dopo la pubblicazione della finalità.",
       "addBtn": "Aggiungi elemento",
       "editLinkedEservices": "Aggiorna elenco",
       "editLinkedResources": "Aggiorna elenco",
@@ -89,8 +89,8 @@
         "label": "E-service o template e-service suggeriti"
       },
       "options": {
-        "eservice": "{{name}} - erogato da {{publisher}}",
-        "eserviceTemplate": "{{name}} - erogato da {{publisher}}"
+        "eservice": "{{name}} - e-service erogato da {{publisher}}",
+        "eserviceTemplate": "{{name}} - template e-service erogato da {{publisher}}"
       },
       "warning": {
         "invalidResource": "Almeno uno degli elementi collegati non è più disponibile per essere associato.",
@@ -264,7 +264,7 @@
     },
     "linkedResourcesTab": {
       "title": "E-service e template e-service suggeriti",
-      "description": "Qui trovi l'elenco degli e-service e dei template e-service suggeriti per questa finalità agevolata. Il template può essere usato per altri e-service non presenti nell'elenco.",
+      "description": "Qui trovi l'elenco degli e-service e template e-service suggeriti per questa finalità agevolata. Il template può essere usato anche per altri e-service non presenti nell'elenco. <1>Link alla documentazione</1>",
       "editButtonTooltip": "Non è possibile modificare l'elenco se il template è sospeso o archiviato",
       "linkedResourceName": "E-service o template e-service",
       "linkedResourceKind": "Tipo",
