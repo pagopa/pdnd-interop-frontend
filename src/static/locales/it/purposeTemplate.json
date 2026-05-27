@@ -178,8 +178,8 @@
       "suggestedResourcesSection": {
         "title": "E-service e template e-service suggeriti",
         "providedBy": {
-          "eservice": "(e-service erogato da {{publisher}})",
-          "eserviceTemplate": "(template e-service realizzato da {{publisher}})"
+          "eservice": "e-service erogato da {{publisher}}",
+          "eserviceTemplate": "template e-service erogato da {{publisher}}"
         },
         "noLinkedResources": "Non hai indicato e-service o template e-service associati a questo template.",
         "orphanLinkedResources": "Alcune risorse collegate non sono più disponibili. Contatta il supporto."
