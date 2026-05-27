@@ -1,7 +1,8 @@
-import type { Purpose } from '@/api/api.generatedTypes'
+import type { Purpose, RiskAnalysisSigningState } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { PurposeQueries } from '@/api/purpose'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
+import { InfoTooltip } from '@/components/shared/InfoTooltip'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetConsumerPurposesActions from '@/hooks/useGetConsumerPurposesActions'
@@ -15,6 +16,13 @@ import { useQueryClient } from '@tanstack/react-query'
 import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
 import { Stack } from '@mui/material'
 import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
+import { match } from 'ts-pattern'
+
+// TODO PIN-10135: remove this augmentation once the BE exposes
+// `riskAnalysisSigningState` on the `Purpose` model in the OpenAPI spec.
+type PurposeWithRiskAnalysisSigningState = Purpose & {
+  riskAnalysisSigningState?: RiskAnalysisSigningState
+}
 
 export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
   const { t } = useTranslation('purpose')
@@ -41,6 +49,21 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
   )
 
   const isDelegated = isDelegate || isDelegator
+
+  const riskAnalysisSigningState = (purpose as PurposeWithRiskAnalysisSigningState)
+    .riskAnalysisSigningState
+
+  const riskAnalysisTooltipLabel = match(riskAnalysisSigningState)
+    .with('SIGNED', () => t('list.riskAnalysisApproved'))
+    .with('REJECTED', () => t('list.riskAnalysisRejected'))
+    .otherwise(() => undefined)
+
+  const statusCell = (
+    <Stack key={purpose.id} direction="row" alignItems="center">
+      <StatusChip for="purpose" purpose={purpose} />
+      {riskAnalysisTooltipLabel && <InfoTooltip label={riskAnalysisTooltipLabel} />}
+    </Stack>
+  )
 
   const purposeTitle = (
     <Stack direction="row" alignItems="center" key={0}>
@@ -70,7 +93,7 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
         purposeTitle,
         eserviceCellData,
         purpose.eservice.producer.name,
-        <StatusChip key={purpose.id} for="purpose" purpose={purpose} />,
+        statusCell,
       ]}
     >
       <Tooltip
