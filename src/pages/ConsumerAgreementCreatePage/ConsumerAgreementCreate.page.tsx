@@ -27,14 +27,10 @@ const ConsumerAgreementCreatePage: React.FC = () => {
   const { data: agreement } = useQuery(AgreementQueries.getSingle(agreementId))
 
   const isDelegated = Boolean(agreement && agreement.delegation)
-  const isAsyncExchange = Boolean(agreement?.eservice.asyncExchange)
 
   const [consumerNotes, setConsumerNotes] = React.useState(agreement?.consumerNotes ?? '')
 
-  const { mutate: submitAgreementDraft } = AgreementMutations.useSubmitDraft(
-    isDelegated,
-    isAsyncExchange
-  )
+  const { mutate: submitAgreementDraft } = AgreementMutations.useSubmitDraft(isDelegated)
   const { mutate: updateAgreementDraft } = AgreementMutations.useUpdateDraft()
   const { mutate: deleteAgreementDraft } = AgreementMutations.useDeleteDraft()
 

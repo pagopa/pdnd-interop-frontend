@@ -11,7 +11,17 @@ import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act, fireEvent, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react'
 
 vi.mock('@/components/dialogs/DialogSelectAgreementConsumer/DialogSelectAgreementConsumer', () => ({
-  DialogSelectAgreementConsumer: () => <div>DialogSelectAgreementConsumer</div>,
+  DialogSelectAgreementConsumer: ({
+    onSubmitCreate,
+  }: {
+    onSubmitCreate?: (values: { isOwnEService: boolean; delegationId?: string }) => void
+  }) => (
+    <button
+      onClick={() => onSubmitCreate?.({ isOwnEService: false, delegationId: 'delegation-id' })}
+    >
+      DialogSelectAgreementConsumer
+    </button>
+  ),
 }))
 
 const server = setupServer(
@@ -246,6 +256,87 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     })
   })
 
+  it('should replace the create agreement draft confirmation with the async exchange confirmation for async e-services', async () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      hasCertifiedAttributes: true,
+      asyncExchange: true,
+    })
+
+    const { result, history } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
+    )
+    expect(result.current.actions).toHaveLength(1)
+    const createAgreementDraftAction = result.current.actions[0]!
+
+    act(() => {
+      createAgreementDraftAction.action()
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('confirmDialog.asyncExchange.title')).toBeInTheDocument()
+    })
+    expect(
+      screen.queryByRole('button', { name: 'confirmDialog.proceedLabel' })
+    ).not.toBeInTheDocument()
+
+    act(() => {
+      fireEvent.click(
+        screen.getByRole('checkbox', { name: 'confirmDialog.asyncExchange.checkbox' })
+      )
+    })
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
+    })
+
+    await waitFor(() => {
+      expect(history.location.pathname).toBe(`/it/fruizione/richieste/test-id/modifica`)
+    })
+  })
+
+  it('should show the async exchange confirmation after selecting the delegated consumer for async e-services', async () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      isSubscribed: false,
+      hasCertifiedAttributes: true,
+      asyncExchange: true,
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock }),
+      [{ id: 'delegator-id', name: 'Delegator Name' }],
+      false
+    )
+    expect(result.current.actions).toHaveLength(1)
+    const createAgreementDraftAction = result.current.actions[0]!
+
+    act(() => {
+      createAgreementDraftAction.action()
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('DialogSelectAgreementConsumer')).toBeInTheDocument()
+    })
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'DialogSelectAgreementConsumer' }))
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('confirmDialog.asyncExchange.title')).toBeInTheDocument()
+    })
+    expect(
+      screen.queryByRole('button', { name: 'confirmDialog.proceedLabel' })
+    ).not.toBeInTheDocument()
+  })
+
   it('should return the create agreement draft action if the user have only agreements with state ARCHIVED', async () => {
     mockUseJwt({ isAdmin: true })
 
@@ -354,6 +445,26 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     })
   })
 
+  it('should return the create agreement draft action for delegators when jwt is not available', async () => {
+    mockUseJwt({ jwt: undefined, isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      isSubscribed: false,
+      hasCertifiedAttributes: true,
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock }),
+      [{ id: 'delegator-id', name: 'Delegator Name' }],
+      false
+    )
+
+    expect(result.current.actions).toHaveLength(1)
+    expect(result.current.actions[0]?.label).toBe('tableEServiceCatalog.subscribe')
+  })
+
   it("should return the create agreement draft action if the user doesn't have an active agreement and the subscriber is the e-service provider", async () => {
     mockUseJwt({ isAdmin: true })
 
@@ -372,6 +483,45 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     act(() => {
       createAgreementDraftAction.action()
     })
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
+    })
+
+    await waitFor(() => {
+      expect(screen.getByRole('progressbar', { hidden: true })).toBeInTheDocument()
+    })
+
+    await waitForElementToBeRemoved(screen.getByRole('progressbar', { hidden: true }), {
+      timeout: 3 * 1000,
+    })
+
+    expect(history.location.pathname).toBe(`/it/fruizione/richieste/test-id`)
+  })
+
+  it('should show the activation confirmation when the subscriber is the async e-service provider', async () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: true,
+      asyncExchange: true,
+    })
+
+    const { result, history } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
+    )
+    expect(result.current.actions).toHaveLength(1)
+    const createAgreementDraftAction = result.current.actions[0]!
+
+    act(() => {
+      createAgreementDraftAction.action()
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('confirmDialog.title')).toBeInTheDocument()
+    })
+    expect(screen.queryByText('confirmDialog.asyncExchange.title')).not.toBeInTheDocument()
 
     act(() => {
       fireEvent.click(screen.getByRole('button', { name: 'confirm' }))

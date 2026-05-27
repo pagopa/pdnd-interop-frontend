@@ -31,7 +31,9 @@ function useGetEServiceConsumerActions(
 
   const { openDialog } = useDialog()
 
-  const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
+  const isAsyncExchange = descriptor?.eservice.asyncExchange === true
+
+  const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft(true, isAsyncExchange)
   const { mutate: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
 
   const actions: Array<ActionItemButton> = []
@@ -202,7 +204,7 @@ function useGetEServiceConsumerActions(
 
   const tenants: DelegationTenant[] = jwt
     ? [{ id: jwt.organizationId as string, name: jwt.organization.name }, ...(delegators ?? [])]
-    : delegators ?? []
+    : (delegators ?? [])
 
   const tenantsWithoutAgreement = tenants.filter(
     (tenant) => !existingAgreements.some((agreement) => agreement.consumerId === tenant.id)
