@@ -18,6 +18,31 @@ type EServiceAsyncExchangeSectionBaseProps = {
   forceBulkFalse?: boolean
 }
 
+const asyncExchangeNumericFields = [
+  {
+    name: 'asyncExchangeProperties.responseTime',
+    translationKey: 'responseTimeField',
+    sx: { flex: 1, my: 0 },
+  },
+  {
+    name: 'asyncExchangeProperties.maxResultSet',
+    translationKey: 'maxResultSetField',
+    sx: { flex: 1, my: 0 },
+  },
+  {
+    name: 'asyncExchangeProperties.resourceAvailableTime',
+    translationKey: 'resourceAvailableTimeField',
+    sx: { my: 0 },
+  },
+] satisfies Array<{
+  name: `asyncExchangeProperties.${keyof Pick<
+    AsyncExchangeProperties,
+    'responseTime' | 'maxResultSet' | 'resourceAvailableTime'
+  >}`
+  translationKey: 'responseTimeField' | 'maxResultSetField' | 'resourceAvailableTimeField'
+  sx: { flex?: number; my: number }
+}>
+
 export const EServiceAsyncExchangeSectionBase: React.FC<EServiceAsyncExchangeSectionBaseProps> = ({
   areGeneralInfoEditable,
   areAdvancedOptionsEditable,
@@ -114,57 +139,25 @@ export const EServiceAsyncExchangeSectionBase: React.FC<EServiceAsyncExchangeSec
         {t('configSubsection.title')}
       </Typography>
       <Grid container spacing={2} sx={{ mt: 1 }}>
-        <Grid item xs={12} sm={6}>
-          <RHFTextField
-            size="small"
-            name="asyncExchangeProperties.responseTime"
-            label={t('responseTimeField.label')}
-            infoLabel={t('responseTimeField.infoLabel')}
-            type="number"
-            inputProps={{ min: 1 }}
-            required
-            rules={{
-              required: true,
-              min: 1,
-              validate: (value) => Number.isInteger(Number(value)) || t('validation.integer'),
-            }}
-            sx={{ flex: 1, my: 0 }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <RHFTextField
-            size="small"
-            name="asyncExchangeProperties.maxResultSet"
-            label={t('maxResultSetField.label')}
-            infoLabel={t('maxResultSetField.infoLabel')}
-            type="number"
-            inputProps={{ min: 1 }}
-            required
-            rules={{
-              required: true,
-              min: 1,
-              validate: (value) => Number.isInteger(Number(value)) || t('validation.integer'),
-            }}
-            sx={{ flex: 1, my: 0 }}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <RHFTextField
-            size="small"
-            name="asyncExchangeProperties.resourceAvailableTime"
-            label={t('resourceAvailableTimeField.label')}
-            infoLabel={t('resourceAvailableTimeField.infoLabel')}
-            type="number"
-            inputProps={{ min: 1 }}
-            required
-            rules={{
-              required: true,
-              min: 1,
-              validate: (value) => Number.isInteger(Number(value)) || t('validation.integer'),
-            }}
-            sx={{ my: 0 }}
-          />
-        </Grid>
+        {asyncExchangeNumericFields.map(({ name, translationKey, sx }) => (
+          <Grid item xs={12} sm={6} key={name}>
+            <RHFTextField
+              size="small"
+              name={name}
+              label={t(`${translationKey}.label`)}
+              infoLabel={t(`${translationKey}.infoLabel`)}
+              type="number"
+              inputProps={{ min: 1 }}
+              required
+              rules={{
+                required: true,
+                min: 1,
+                validate: (value) => Number.isInteger(Number(value)) || t('validation.integer'),
+              }}
+              sx={sx}
+            />
+          </Grid>
+        ))}
       </Grid>
       <Typography variant="subtitle1" sx={{ mt: 3 }}>
         {t('advancedSubsection.title')}
