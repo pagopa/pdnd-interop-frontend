@@ -97,9 +97,9 @@ export const ProviderEServiceDocumentationSummarySection: React.FC<
           count: voucherLifespan,
         })}`}
       />
-      <Divider></Divider>
       {isAsyncExchange && (
         <>
+          <Divider></Divider>
           <SummaryInformationContainer
             label={t('callbackInterface.label')}
             content={
