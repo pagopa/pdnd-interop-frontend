@@ -109,6 +109,14 @@ export const ProviderEServiceTemplateTechnicalSpecsSummarySection: React.FC = ()
             }
           />
           <InformationContainer
+            label={t('asyncExchange.maxResultSet.label')}
+            content={
+              asyncExchangeProperties
+                ? String(asyncExchangeProperties.maxResultSet)
+                : renderMissingField()
+            }
+          />
+          <InformationContainer
             label={t('asyncExchange.confirmation.label')}
             content={
               asyncExchangeProperties
@@ -121,14 +129,6 @@ export const ProviderEServiceTemplateTechnicalSpecsSummarySection: React.FC = ()
             content={
               asyncExchangeProperties
                 ? t(`asyncExchange.booleanValue.${asyncExchangeProperties.bulk}`)
-                : renderMissingField()
-            }
-          />
-          <InformationContainer
-            label={t('asyncExchange.maxResultSet.label')}
-            content={
-              asyncExchangeProperties
-                ? String(asyncExchangeProperties.maxResultSet)
                 : renderMissingField()
             }
           />

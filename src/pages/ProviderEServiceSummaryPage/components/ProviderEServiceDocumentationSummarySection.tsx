@@ -126,16 +126,16 @@ export const ProviderEServiceDocumentationSummarySection: React.FC<
             content={formatAsyncSeconds(asyncExchangeProperties?.resourceAvailableTime)}
           />
           <SummaryInformationContainer
+            label={t('asyncExchange.maxResultSet.label')}
+            content={formatAsyncNumber(asyncExchangeProperties?.maxResultSet)}
+          />
+          <SummaryInformationContainer
             label={t('asyncExchange.confirmation.label')}
             content={formatAsyncBoolean(asyncExchangeProperties?.confirmation)}
           />
           <SummaryInformationContainer
             label={t('asyncExchange.bulk.label')}
             content={formatAsyncBoolean(asyncExchangeProperties?.bulk)}
-          />
-          <SummaryInformationContainer
-            label={t('asyncExchange.maxResultSet.label')}
-            content={formatAsyncNumber(asyncExchangeProperties?.maxResultSet)}
           />
           <Divider />
           <SummaryInformationContainer
