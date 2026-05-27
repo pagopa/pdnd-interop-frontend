@@ -208,11 +208,15 @@ export function useGetProviderEServiceActions(
     icon: ReplayCircleFilledIcon,
   }
 
-  const viewAllVersionsAction: ActionItemButton = {
-    action: () => onViewAllVersions?.(),
-    label: tEserviceActions('viewAllVersions'),
-    icon: AutoAwesomeMotionIcon,
-  }
+  const viewAllVersionsItems: Array<ActionItemButton> = onViewAllVersions
+    ? [
+        {
+          action: onViewAllVersions,
+          label: tEserviceActions('viewAllVersions'),
+          icon: AutoAwesomeMotionIcon,
+        },
+      ]
+    : []
 
   const handleEditDraft = () => {
     if (draftDescriptorId) {
@@ -1084,7 +1088,7 @@ export function useGetProviderEServiceActions(
       primaryAction: undefined,
       secondaryAction: undefined,
       menuActions:
-        where === 'detailsPage' ? [...availableAction, viewAllVersionsAction] : availableAction,
+        where === 'detailsPage' ? [...availableAction, ...viewAllVersionsItems] : availableAction,
       headerInfoActions: [],
     }
   }
@@ -1099,11 +1103,11 @@ export function useGetProviderEServiceActions(
 
   const emptySlots = (): Slots => ({ primary: undefined, header: [], menu: [] })
 
-  const menuClassic = [cloneAction, archiveEserviceAction, viewAllVersionsAction]
+  const menuClassic = [cloneAction, archiveEserviceAction, ...viewAllVersionsItems]
   const menuWithNewVersion = isEServiceBeingArchived
-    ? [cloneAction, viewAllVersionsAction]
-    : [createNewDraftAction, cloneAction, archiveEserviceAction, viewAllVersionsAction]
-  const menuEserviceArchiving = [cloneAction, viewAllVersionsAction]
+    ? [cloneAction, ...viewAllVersionsItems]
+    : [createNewDraftAction, cloneAction, archiveEserviceAction, ...viewAllVersionsItems]
+  const menuEserviceArchiving = [cloneAction, ...viewAllVersionsItems]
   const menuArchived = [cloneAction]
 
   const slots: Slots = match({ state, archivingScope, isActiveDescriptor })

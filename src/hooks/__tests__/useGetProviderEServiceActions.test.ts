@@ -944,8 +944,10 @@ function renderDetailsPageHook(
     latestDescriptorId?: string
     isActiveDescriptor?: boolean
     isEServiceBeingArchived?: boolean
+    hasMultipleVersions?: boolean
   } = {}
 ) {
+  const hasMultipleVersions = options.hasMultipleVersions ?? true
   return renderHookWithApplicationContext(
     () =>
       useGetProviderEServiceActions(
@@ -963,7 +965,7 @@ function renderDetailsPageHook(
         'detailsPage',
         options.archivingSchedule,
         options.latestDescriptorId,
-        undefined,
+        hasMultipleVersions ? () => {} : undefined,
         options.isActiveDescriptor,
         options.isEServiceBeingArchived
       ),
@@ -995,6 +997,18 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
       'cloneEservice',
       'archiveEservice',
       'viewAllVersions',
+    ])
+  })
+
+  it('viewAllVersions is omitted when the caller passes no onViewAllVersions (e-service with a single version)', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      delegation: undefined,
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, { hasMultipleVersions: false })
+    expect(result.current.menuActions.map((a) => a.label)).toEqual([
+      'cloneEservice',
+      'archiveEservice',
     ])
   })
 

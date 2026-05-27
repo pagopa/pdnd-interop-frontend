@@ -50,6 +50,8 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   const isEServiceBeingArchived =
     activeDescriptor?.state === 'ARCHIVING' || activeDescriptor?.state === 'ARCHIVING_SUSPENDED'
 
+  const hasMultipleVersions = (descriptor?.eservice.descriptors?.length ?? 0) > 1
+
   const { primaryAction, secondaryAction, menuActions, headerInfoActions } =
     useGetProviderEServiceActions(
       eserviceId,
@@ -66,7 +68,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
       'detailsPage',
       descriptor?.archivingSchedule,
       viewLatestVersionTargetId,
-      openVersionSelectorDrawer,
+      hasMultipleVersions ? openVersionSelectorDrawer : undefined,
       isActiveDescriptor,
       isEServiceBeingArchived
     )
