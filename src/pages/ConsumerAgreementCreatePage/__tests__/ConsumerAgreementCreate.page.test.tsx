@@ -29,8 +29,7 @@ vi.mock('@/api/agreement', () => ({
     }),
   },
   AgreementMutations: {
-    useSubmitDraft: (isDelegated: boolean, isAsyncExchange: boolean) =>
-      useSubmitDraftMock(isDelegated, isAsyncExchange),
+    useSubmitDraft: (isDelegated: boolean) => useSubmitDraftMock(isDelegated),
     useUpdateDraft: () => ({ mutate: vi.fn() }),
     useDeleteDraft: () => ({ mutate: vi.fn() }),
   },
@@ -112,13 +111,13 @@ describe('ConsumerAgreementCreatePage', () => {
     })
   })
 
-  it('should submit the draft with the async exchange confirmation enabled', async () => {
+  it('should submit the draft with delegation confirmation enabled', async () => {
     const user = userEvent.setup()
     const { default: ConsumerAgreementCreatePage } = await import('../ConsumerAgreementCreate.page')
 
     render(<ConsumerAgreementCreatePage />)
 
-    expect(useSubmitDraftMock).toHaveBeenCalledWith(true, true)
+    expect(useSubmitDraftMock).toHaveBeenCalledWith(true)
 
     await user.click(screen.getByRole('button', { name: 'edit.submitBtn' }))
 
