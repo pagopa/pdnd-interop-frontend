@@ -14,7 +14,7 @@ import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.qu
 import { useQuery } from '@tanstack/react-query'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
 import { PurposeTemplateTemplateSummaryGeneralInformationAccordion } from './components'
-import { PurposeTemplateSummaryLinkedEServiceAccordion } from './components/PurposeTemplateSummaryLinkedEServiceAccordion'
+import { PurposeTemplateSummaryLinkedResourceAccordion } from './components/PurposeTemplateSummaryLinkedResourceAccordion'
 import { PurposeTemplateSummaryRiskAnalysisAccordion } from './components/PurposeTemplateSummaryRiskAnalysisAccordion'
 
 const ConsumerPurposeTemplateTemplateSummaryPage: React.FC = () => {
@@ -91,8 +91,8 @@ const ConsumerPurposeTemplateTemplateSummaryPage: React.FC = () => {
           </SummaryAccordion>
         </React.Suspense>
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="2" title={t('edit.summary.suggestedEServicesSection.title')}>
-            <PurposeTemplateSummaryLinkedEServiceAccordion purposeTemplateId={purposeTemplateId} />
+          <SummaryAccordion headline="2" title={t('edit.summary.suggestedResourcesSection.title')}>
+            <PurposeTemplateSummaryLinkedResourceAccordion purposeTemplateId={purposeTemplateId} />
           </SummaryAccordion>
         </React.Suspense>
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>

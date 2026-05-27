@@ -1,4 +1,5 @@
 import type {
+  CatalogEServiceTemplate,
   EServiceTemplateDetails,
   EServiceTemplateVersionDetails,
 } from '@/api/api.generatedTypes'
@@ -127,6 +128,21 @@ const createMockEServiceTemplateDetails = createMockFactory<EServiceTemplateDeta
   },
 })
 
+const createMockCatalogEServiceTemplate = createMockFactory<CatalogEServiceTemplate>({
+  id: 'template-id-001',
+  name: 'Test Template',
+  description: 'Template description',
+  creator: {
+    id: 'creator-id',
+    name: 'Test Creator',
+  },
+  publishedVersion: {
+    id: 'template-version-id-001',
+    version: 1,
+    state: 'PUBLISHED',
+  },
+})
+
 function mockUseEServiceTemplateCreateContext(
   overwrites: Partial<
     ReturnType<typeof EServiceTemplateCreateContextModule.useEServiceTemplateCreateContext>
@@ -153,5 +169,6 @@ export {
   createMockEServiceTemplateVersionDetailsManualApproval,
   createMockEServiceTemplateVersionDetailsWithAttributes,
   createMockEServiceTemplateDetails,
+  createMockCatalogEServiceTemplate,
   mockUseEServiceTemplateCreateContext,
 }
