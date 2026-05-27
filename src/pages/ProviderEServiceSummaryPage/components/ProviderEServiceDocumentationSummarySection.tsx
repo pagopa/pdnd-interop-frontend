@@ -99,7 +99,7 @@ export const ProviderEServiceDocumentationSummarySection: React.FC<
       />
       {isAsyncExchange && (
         <>
-          <Divider></Divider>
+          <Divider />
           <SummaryInformationContainer
             label={t('callbackInterface.label')}
             content={
@@ -137,7 +137,7 @@ export const ProviderEServiceDocumentationSummarySection: React.FC<
             label={t('asyncExchange.maxResultSet.label')}
             content={formatAsyncNumber(asyncExchangeProperties?.maxResultSet)}
           />
-          <Divider></Divider>
+          <Divider />
           <SummaryInformationContainer
             label={t('producerKeychains.label')}
             content={keychainsContent}
