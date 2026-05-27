@@ -81,6 +81,24 @@ describe('ConsumerEServiceGeneralInfoSection', () => {
     ).toBeInTheDocument()
   })
 
+  it('renders exchange type for synchronous eservices', () => {
+    useSuspenseQueryMock.mockReturnValue({ data: createMockEServiceDescriptorCatalog() })
+
+    renderComponent()
+
+    expect(screen.getByText('exchangeType.label')).toBeInTheDocument()
+    expect(screen.getByText('exchangeType.value.sync')).toBeInTheDocument()
+  })
+
+  it('renders exchange type for asynchronous eservices', () => {
+    useSuspenseQueryMock.mockReturnValue({ data: createMockEServiceDescriptorCatalogAsync() })
+
+    renderComponent()
+
+    expect(screen.getByText('exchangeType.label')).toBeInTheDocument()
+    expect(screen.getByText('exchangeType.value.async')).toBeInTheDocument()
+  })
+
   it('opens async exchange details drawer from the async action', async () => {
     const user = userEvent.setup()
     useSuspenseQueryMock.mockReturnValue({ data: createMockEServiceDescriptorCatalogAsync() })

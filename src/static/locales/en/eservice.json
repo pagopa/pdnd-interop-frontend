@@ -678,6 +678,13 @@
             "label": "Specify whether this e-service processes personal data."
           }
         },
+        "exchangeType": {
+          "label": "Exchange type",
+          "value": {
+            "sync": "Synchronous",
+            "async": "Asynchronous"
+          }
+        },
         "consumerListFileName": "{{timestamp}}-consumers-list-{{eserviceName}}.csv",
         "bottomActions": {
           "navigateVersions": "Navigate to another e-service version",
