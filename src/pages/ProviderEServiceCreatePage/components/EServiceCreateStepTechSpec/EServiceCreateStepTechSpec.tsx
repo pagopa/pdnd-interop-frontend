@@ -45,26 +45,24 @@ export type EServiceCreateStepTechSpecFormValues = {
 }
 
 export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
-  const { descriptor, eserviceTemplate } = useEServiceCreateContext()
+  const { descriptor } = useEServiceCreateContext()
 
   const isEServiceCreatedFromTemplate = Boolean(descriptor?.templateRef?.templateVersionId)
   const isEServiceAsync = Boolean(descriptor?.eservice.asyncExchange)
-  const isProducerKeychainSectionVisible = isEServiceAsync && !eserviceTemplate
 
   const { data: initialAssociatedKeychains, isPending } = useQuery({
     ...KeychainQueries.getAllKeychainsList({
       eserviceId: descriptor?.eservice.id ?? '',
     }),
-    enabled: isProducerKeychainSectionVisible && Boolean(descriptor?.eservice.id),
+    enabled: isEServiceAsync && Boolean(descriptor?.eservice.id),
   })
 
-  if (isProducerKeychainSectionVisible && isPending) {
+  if (isEServiceAsync && isPending) {
     return <EServiceCreateStepTechSpecSkeleton />
   }
 
   return (
     <EServiceCreateStepTechSpecForm
-      isProducerKeychainSectionVisible={isProducerKeychainSectionVisible}
       isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
       initialAssociatedKeychains={initialAssociatedKeychains ?? []}
     />
@@ -72,13 +70,11 @@ export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
 }
 
 type EServiceCreateStepTechSpecFormProps = {
-  isProducerKeychainSectionVisible: boolean
   isEServiceCreatedFromTemplate: boolean
   initialAssociatedKeychains: CompactProducerKeychain[]
 }
 
 const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormProps> = ({
-  isProducerKeychainSectionVisible,
   isEServiceCreatedFromTemplate,
   initialAssociatedKeychains,
 }) => {
@@ -131,7 +127,7 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
           }
         : null
 
-    if (isProducerKeychainSectionVisible && areEServiceGeneralInfoEditable) {
+    if (isAsyncExchange && areEServiceGeneralInfoEditable) {
       const allKeychainsListQuery = KeychainQueries.getAllKeychainsList({
         eserviceId: descriptor.eservice.id,
       })
@@ -273,7 +269,7 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
             isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
           />
         )}
-        {isProducerKeychainSectionVisible && <EServiceProducerKeychainSection />}
+        {isAsyncExchange && <EServiceProducerKeychainSection />}
         <StepActions
           back={{
             label: t('backWithoutSaveBtn'),
