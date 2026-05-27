@@ -53,10 +53,17 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
   const riskAnalysisSigningState = (purpose as PurposeWithRiskAnalysisSigningState)
     .riskAnalysisSigningState
 
-  const riskAnalysisTooltipLabel = match(riskAnalysisSigningState)
-    .with('SIGNED', () => t('list.riskAnalysisApproved'))
-    .with('REJECTED', () => t('list.riskAnalysisRejected'))
-    .otherwise(() => undefined)
+  // The validation outcome of the risk analysis is relevant only for purposes
+  // whose current version is still a DRAFT: once the purpose is published the
+  // RA is implicitly approved and the icon would be redundant.
+  const isDraft = purpose.currentVersion?.state === 'DRAFT'
+
+  const riskAnalysisTooltipLabel = isDraft
+    ? match(riskAnalysisSigningState)
+        .with('SIGNED', () => t('list.riskAnalysisApproved'))
+        .with('REJECTED', () => t('list.riskAnalysisRejected'))
+        .otherwise(() => undefined)
+    : undefined
 
   const statusCell = (
     <Stack key={purpose.id} direction="row" alignItems="center">
