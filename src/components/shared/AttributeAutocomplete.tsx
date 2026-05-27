@@ -8,12 +8,16 @@ import { useTranslation } from 'react-i18next'
 import type { AttributeKind, DescriptorAttribute } from '@/api/api.generatedTypes'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE } from '@/config/env'
+import { match } from 'ts-pattern'
 
 export type AttributeAutocompleteProps = {
   attributeKey: AttributeKey
   onAddAttribute: (attribute: DescriptorAttribute) => void
   alreadySelectedAttributeIds: string[]
   direction?: 'column' | 'row'
+  onOpenConfigDrawer?: (attribute: DescriptorAttribute) => void
+  areCertifiedDiscreteOptionsIncluded?: boolean
 }
 
 type AttributeAutocompleteFormValues = { attribute: null | DescriptorAttribute }
@@ -23,6 +27,8 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
   onAddAttribute,
   alreadySelectedAttributeIds,
   direction = 'row',
+  onOpenConfigDrawer,
+  areCertifiedDiscreteOptionsIncluded = false,
 }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const [attributeSearchParam, setAttributeSearchParam] = useAutocompleteTextInput()
@@ -48,9 +54,19 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
     return result
   }
 
+  const kindsFilter = match(attributeKey)
+    .returnType<Array<AttributeKind>>()
+    .with('certified', () => {
+      if (areCertifiedDiscreteOptionsIncluded) return ['CERTIFIED', 'CERTIFIED_DISCRETE']
+      return ['CERTIFIED']
+    })
+    .with('verified', () => ['VERIFIED'])
+    .with('declared', () => ['DECLARED'])
+    .exhaustive()
+
   const { data } = useQuery({
     ...AttributeQueries.getList({
-      kinds: [attributeKey.toUpperCase() as AttributeKind],
+      kinds: kindsFilter,
       q: getQ(),
       offset: 0,
       limit: 50,
@@ -73,13 +89,19 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
       }))
   }, [data?.results, alreadySelectedAttributeIds])
 
+  const handleOpenConfigDrawer = handleSubmit(({ attribute }) => {
+    if (!attribute || !onOpenConfigDrawer) return
+    onOpenConfigDrawer(attribute)
+  })
+
+  const isConfigureCertifiedDiscrete =
+    selectedAttribute?.kind === 'CERTIFIED_DISCRETE' &&
+    FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE &&
+    onOpenConfigDrawer
+
   return (
     <FormProvider {...attributeAutocompleteFormMethods}>
-      <Stack
-        direction={direction}
-        alignItems={direction === 'column' ? 'start' : 'center'}
-        spacing={1}
-      >
+      <Stack direction={direction} alignItems="stretch" spacing={1} justifyContent="space-between">
         <RHFAutocompleteSingle
           label={t('autocompleteInput.label')}
           placeholder={t('autocompleteInput.placeholder')}
@@ -88,15 +110,25 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
           options={options}
           focusOnMount
           name="attribute"
+          size="small"
+          infoLabel={
+            isConfigureCertifiedDiscrete
+              ? 'TODO Per aggiungere questo attributo dovrai configurare alcuni valori'
+              : undefined
+          }
+          isOptionEqualToValue={(option, { value }) => option.value.id === value.id}
         />
-        <Button
-          onClick={handleAddAttributeToGroup}
-          disabled={!isSelected}
-          type="button"
-          variant="contained"
-        >
-          {t('add')}
-        </Button>
+        {isSelected && (
+          <Button
+            onClick={
+              isConfigureCertifiedDiscrete ? handleOpenConfigDrawer : handleAddAttributeToGroup
+            }
+            type="button"
+            variant="contained"
+          >
+            {isConfigureCertifiedDiscrete ? 'TODO configura' : t('add')}
+          </Button>
+        )}
       </Stack>
     </FormProvider>
   )
