@@ -198,17 +198,29 @@ export function useGetProviderEServiceActions(
   }
 
   const noopArchivingAction = () => {
-    /* TODO wired by PIN-9943 / PIN-9945 */
+    /* TODO wired by PIN-9945 */
+  }
+
+  const handleArchiveDescriptor = () => {
+    if (activeDescriptorId) {
+      openDialog({ type: 'archiveVersion', eserviceId, descriptorId: activeDescriptorId })
+    }
   }
 
   const archiveDescriptorAction: ActionItemButton = {
-    action: noopArchivingAction,
+    action: handleArchiveDescriptor,
     label: tEserviceActions('archiveVersion'),
     icon: ArchiveIcon,
   }
 
+  const handleCancelArchivingDescriptor = () => {
+    if (activeDescriptorId) {
+      openDialog({ type: 'cancelVersionArchiving', eserviceId, descriptorId: activeDescriptorId })
+    }
+  }
+
   const cancelArchivingDescriptorAction: ActionItemButton = {
-    action: noopArchivingAction,
+    action: handleCancelArchivingDescriptor,
     label: tEserviceActions('cancelArchivingVersion'),
     icon: CancelOutlinedIcon,
   }

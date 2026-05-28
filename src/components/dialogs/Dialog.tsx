@@ -31,6 +31,8 @@ import type {
   DialogReactivateArchivingEserviceProps,
   DialogSuspendArchivingDescriptorProps,
   DialogReactivateArchivingDescriptorProps,
+  DialogArchiveVersionProps,
+  DialogCancelVersionArchivingProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -57,6 +59,8 @@ import { DialogSuspendArchivingEservice } from './DialogSuspendArchivingEservice
 import { DialogReactivateArchivingEservice } from './DialogReactivateArchivingEservice'
 import { DialogSuspendArchivingDescriptor } from './DialogSuspendArchivingDescriptor'
 import { DialogReactivateArchivingDescriptor } from './DialogReactivateArchivingDescriptor'
+import { DialogArchiveVersion } from './DialogArchiveVersion'
+import { DialogCancelVersionArchiving } from './DialogCancelVersionArchiving'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -84,7 +88,9 @@ function match<T>(
   onSuspendArchivingEservice: (props: DialogSuspendArchivingEserviceProps) => T,
   onReactivateArchivingEservice: (props: DialogReactivateArchivingEserviceProps) => T,
   onSuspendArchivingDescriptor: (props: DialogSuspendArchivingDescriptorProps) => T,
-  onReactivateArchivingDescriptor: (props: DialogReactivateArchivingDescriptorProps) => T
+  onReactivateArchivingDescriptor: (props: DialogReactivateArchivingDescriptorProps) => T,
+  onArchiveVersion: (props: DialogArchiveVersionProps) => T,
+  onCancelVersionArchiving: (props: DialogCancelVersionArchivingProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -140,6 +146,10 @@ function match<T>(
         return onSuspendArchivingDescriptor(props)
       case 'reactivateArchivingDescriptor':
         return onReactivateArchivingDescriptor(props)
+      case 'archiveVersion':
+        return onArchiveVersion(props)
+      case 'cancelVersionArchiving':
+        return onCancelVersionArchiving(props)
     }
   }
 }
@@ -170,7 +180,9 @@ const _Dialog = match(
   (props) => <DialogSuspendArchivingEservice {...props} />,
   (props) => <DialogReactivateArchivingEservice {...props} />,
   (props) => <DialogSuspendArchivingDescriptor {...props} />,
-  (props) => <DialogReactivateArchivingDescriptor {...props} />
+  (props) => <DialogReactivateArchivingDescriptor {...props} />,
+  (props) => <DialogArchiveVersion {...props} />,
+  (props) => <DialogCancelVersionArchiving {...props} />
 )
 
 export const Dialog: React.FC = () => {
