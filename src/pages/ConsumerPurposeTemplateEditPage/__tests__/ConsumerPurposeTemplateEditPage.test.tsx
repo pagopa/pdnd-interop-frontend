@@ -19,10 +19,10 @@ vi.mock('../components/PurposeTemplateEditStepGeneral/PurposeTemplateEditStepGen
 }))
 
 vi.mock(
-  '../components/PurposeTemplateEditStepLinkedEServices/PurposeTemplateEditLinkedEService',
+  '../components/PurposeTemplateEditStepLinkedResources/PurposeTemplateEditLinkedResource',
   () => ({
-    PurposeTemplateEditLinkedEService: () => (
-      <div data-testid="step-linked-eservices">Step Linked EServices</div>
+    PurposeTemplateEditLinkedResource: () => (
+      <div data-testid="step-linked-eservices">Step Linked Resources</div>
     ),
   })
 )

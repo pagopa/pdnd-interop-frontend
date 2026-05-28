@@ -26,8 +26,11 @@ import type {
   DialogTenantKindEserviceTemplateProps,
   DialogTenantKindPurposeTemplateProps,
   DialogSelectAgreementConsumerProps,
+  DialogShowEserviceVersionsListProps,
   DialogArchiveEserviceProps,
   DialogCancelEserviceArchivingProps,
+  DialogArchiveVersionProps,
+  DialogCancelVersionArchivingProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -49,8 +52,11 @@ import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersio
 import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemplate'
 import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTemplate'
 import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/DialogSelectAgreementConsumer'
-import DialogCancelEserviceArchiving from './DialogCancelEserviceArchiving'
+import { DialogShowEserviceVersionsList } from './DialogShowEserviceVersionsList/DialogShowEserviceVersionsList'
 import DialogArchiveEservice from './DialogArchiveEservice'
+import DialogCancelEserviceArchiving from './DialogCancelEserviceArchiving'
+import { DialogArchiveVersion } from './DialogArchiveVersion'
+import { DialogCancelVersionArchiving } from './DialogCancelVersionArchiving'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -74,8 +80,11 @@ function match<T>(
   onDialogTenantKindEserviceTemplate: (props: DialogTenantKindEserviceTemplateProps) => T,
   onDialogTenantKindPurposeTemplate: (props: DialogTenantKindPurposeTemplateProps) => T,
   onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T,
+  onShowEserviceVersionsList: (props: DialogShowEserviceVersionsListProps) => T,
   onArchiveEservice: (props: DialogArchiveEserviceProps) => T,
-  onCancelEserviceArchiving: (props: DialogCancelEserviceArchivingProps) => T
+  onCancelEserviceArchiving: (props: DialogCancelEserviceArchivingProps) => T,
+  onArchiveVersion: (props: DialogArchiveVersionProps) => T,
+  onCancelVersionArchiving: (props: DialogCancelVersionArchivingProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -121,10 +130,16 @@ function match<T>(
         return onDialogTenantKindPurposeTemplate(props)
       case 'selectAgreementConsumer':
         return onSelectAgreementConsumer(props)
+      case 'showEserviceVersionsList':
+        return onShowEserviceVersionsList(props)
       case 'archiveEservice':
         return onArchiveEservice(props)
       case 'cancelEserviceArchiving':
         return onCancelEserviceArchiving(props)
+      case 'archiveVersion':
+        return onArchiveVersion(props)
+      case 'cancelVersionArchiving':
+        return onCancelVersionArchiving(props)
     }
   }
 }
@@ -151,8 +166,11 @@ const _Dialog = match(
   (props) => <DialogTenantKindEserviceTemplate {...props} />,
   (props) => <DialogTenantKindPurposeTemplate {...props} />,
   (props) => <DialogSelectAgreementConsumer {...props} />,
+  (props) => <DialogShowEserviceVersionsList {...props} />,
   (props) => <DialogArchiveEservice {...props} />,
-  (props) => <DialogCancelEserviceArchiving {...props} />
+  (props) => <DialogCancelEserviceArchiving {...props} />,
+  (props) => <DialogArchiveVersion {...props} />,
+  (props) => <DialogCancelVersionArchiving {...props} />
 )
 
 export const Dialog: React.FC = () => {

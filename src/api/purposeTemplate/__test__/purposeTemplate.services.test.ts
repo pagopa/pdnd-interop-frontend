@@ -1,7 +1,9 @@
 import { PurposeTemplateServices } from '../purposeTemplate.services'
 import type {
   GetCatalogPurposeTemplatesParams,
+  GetPurposeTemplateLinkableResourcesParams,
   LinkEServiceToPurposeTemplatePayload,
+  LinkableResourceRequest,
   UnlinkEServiceToPurposeTemplatePayload,
   PurposeTemplateSeed,
   GetCreatorPurposeTemplatesParams,
@@ -74,7 +76,8 @@ describe('PurposeTemplateServices', () => {
     })
   })
 
-  describe('getEservicesLinkedToPurposeTemplatesList', () => {
+  // TODO: remove this test after feature purpose template <-> e-service template linking validation
+  describe.skip('getEservicesLinkedToPurposeTemplatesList', () => {
     it('should make correct API call to eservices endpoint', async () => {
       const id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
       await PurposeTemplateServices.getEservicesLinkedToPurposeTemplatesList(id, {
@@ -176,7 +179,8 @@ describe('PurposeTemplateServices', () => {
     })
   })
 
-  describe('linkEserviceToPurposeTemplate', () => {
+  // TODO: remove this test after feature purpose template <-> e-service template linking validation
+  describe.skip('linkEserviceToPurposeTemplate', () => {
     it('should make correct API call to link eservice', async () => {
       const payload: LinkEServiceToPurposeTemplatePayload = {
         eserviceId: TEST_ESERVICE_ID,
@@ -194,7 +198,8 @@ describe('PurposeTemplateServices', () => {
     })
   })
 
-  describe('unlinkEserviceFromPurposeTemplate', () => {
+  // TODO: remove this test after feature purpose template <-> e-service template linking validation
+  describe.skip('unlinkEserviceFromPurposeTemplate', () => {
     it('should make correct API call to unlink eservice', async () => {
       const payload: UnlinkEServiceToPurposeTemplatePayload = {
         eserviceId: TEST_ESERVICE_ID,
@@ -208,6 +213,111 @@ describe('PurposeTemplateServices', () => {
       expect(axiosInstance.post).toHaveBeenCalledWith(
         `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-template-id/unlinkEservice`,
         payload
+      )
+    })
+  })
+
+  describe('getLinkableResources', () => {
+    it('should make GET call to linkableResources with params', async () => {
+      const params: Omit<GetPurposeTemplateLinkableResourcesParams, 'purposeTemplateId'> = {
+        offset: 0,
+        limit: 10,
+        q: 'foo',
+        publisherIds: ['pub-1', 'pub-2'],
+      }
+
+      await PurposeTemplateServices.getLinkableResources(TEST_PURPOSE_TEMPLATE_ID, params)
+
+      expect(axiosInstance.get).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${TEST_PURPOSE_TEMPLATE_ID}/linkableResources`,
+        { params }
+      )
+    })
+
+    it('should return response.data unchanged', async () => {
+      const fakeResponse = {
+        results: [],
+        pagination: { offset: 0, limit: 10, totalCount: 0 },
+      }
+      vi.mocked(axiosInstance.get).mockResolvedValueOnce({ data: fakeResponse })
+
+      const result = await PurposeTemplateServices.getLinkableResources(TEST_PURPOSE_TEMPLATE_ID, {
+        offset: 0,
+        limit: 10,
+      })
+
+      expect(result).toEqual(fakeResponse)
+    })
+  })
+
+  describe('linkResourceToPurposeTemplate', () => {
+    it('should POST ESERVICE body to /linkResource', async () => {
+      const body: LinkableResourceRequest = {
+        resourceKind: 'ESERVICE',
+        eserviceId: TEST_ESERVICE_ID,
+      }
+
+      await PurposeTemplateServices.linkResourceToPurposeTemplate({
+        purposeTemplateId: TEST_PURPOSE_TEMPLATE_ID,
+        ...body,
+      })
+
+      expect(axiosInstance.post).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${TEST_PURPOSE_TEMPLATE_ID}/linkResource`,
+        body
+      )
+    })
+
+    it('should POST ESERVICE_TEMPLATE body to /linkResource', async () => {
+      const body: LinkableResourceRequest = {
+        resourceKind: 'ESERVICE_TEMPLATE',
+        eserviceTemplateId: 'test-template-resource-id',
+      }
+
+      await PurposeTemplateServices.linkResourceToPurposeTemplate({
+        purposeTemplateId: TEST_PURPOSE_TEMPLATE_ID,
+        ...body,
+      })
+
+      expect(axiosInstance.post).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${TEST_PURPOSE_TEMPLATE_ID}/linkResource`,
+        body
+      )
+    })
+  })
+
+  describe('unlinkResourceFromPurposeTemplate', () => {
+    it('should POST ESERVICE body to /unlinkResource', async () => {
+      const body: LinkableResourceRequest = {
+        resourceKind: 'ESERVICE',
+        eserviceId: TEST_ESERVICE_ID,
+      }
+
+      await PurposeTemplateServices.unlinkResourceFromPurposeTemplate({
+        purposeTemplateId: TEST_PURPOSE_TEMPLATE_ID,
+        ...body,
+      })
+
+      expect(axiosInstance.post).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${TEST_PURPOSE_TEMPLATE_ID}/unlinkResource`,
+        body
+      )
+    })
+
+    it('should POST ESERVICE_TEMPLATE body to /unlinkResource', async () => {
+      const body: LinkableResourceRequest = {
+        resourceKind: 'ESERVICE_TEMPLATE',
+        eserviceTemplateId: 'test-template-resource-id',
+      }
+
+      await PurposeTemplateServices.unlinkResourceFromPurposeTemplate({
+        purposeTemplateId: TEST_PURPOSE_TEMPLATE_ID,
+        ...body,
+      })
+
+      expect(axiosInstance.post).toHaveBeenCalledWith(
+        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${TEST_PURPOSE_TEMPLATE_ID}/unlinkResource`,
+        body
       )
     })
   })

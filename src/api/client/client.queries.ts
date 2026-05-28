@@ -1,6 +1,6 @@
 import { queryOptions } from '@tanstack/react-query'
 import { ClientServices } from './client.services'
-import type { GetClientKeysParams, GetClientsParams, PublicKeys } from '../api.generatedTypes'
+import type { GetClientKeysParams, GetClientsParams } from '../api.generatedTypes'
 import { NotFoundError } from '@/utils/errors.utils'
 
 function getList(params: GetClientsParams) {

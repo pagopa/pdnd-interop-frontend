@@ -2,7 +2,7 @@
   "backToListBtn": "Torna alle finalità",
   "create": {
     "emptyTitle": "Crea finalità",
-    "preliminaryInformationSectionTitle": "Informazioni sulla finalità",
+    "preliminaryInformationSectionTitle": "Informazioni preliminari",
     "isTemplateField": {
       "label": "Usa un template precompilato"
     },
@@ -13,11 +13,11 @@
     },
     "consumerField": {
       "label": "Fruitore",
-      "infoLabel": "Seleziona il tuo ente o l'ente per cui hai una delega attiva come fruitore"
+      "infoLabel": "Tra gli aderenti, puoi selezionare solo il tuo ente o gli aderenti per i quali hai una delega in fruizione attiva"
     },
     "eserviceField": {
       "label": "E-service da associare",
-      "infoLabel": "Qui trovi solo gli e-service per cui il fruitore ha una richiesta attiva",
+      "infoLabel": "Puoi selezionare solo gli e-service per i quali il fruitore selezionato ha una richiesta di fruizione attiva",
       "alert": {
         "label": "Per l’e-service selezionato è possibile utilizzare la funzionalità di compilazione agevolata!"
       }
@@ -44,13 +44,13 @@
     "riskAnalysisPreviewTitle": "Analisi del rischio",
     "purposeTemplateField": {
       "title": "Compilazione agevolata della finalità",
-      "description": "Questa funzionalità ti guida durante l'analisi del rischio con annotazioni, documenti di supporto e alcune risposte precompilate. Il modello agevolato è reso disponibile per il riuso da altri enti e può essere usato senza vincoli.",
+      "description": "La funzionalità di compilazione agevolata mette a disposizione annotazioni, documenti di supporto e alcune risposte precompilate per facilitare la formulazione dell’analisi del rischio. Il modello è reso disponibile per il riuso da altri enti aderenti e può essere utilizzato senza vincoli.",
       "usePurposeTemplateSwitch": {
-        "label": "Usa la compilazione agevolata",
+        "label": "Utilizza la funzionalità di compilazione agevolata",
         "disabledTooltip": "Non è possibile utilizzare la funzionalità per \n l’e-service selezionato in quanto l’erogatore non ha indicato come verranno trattati i dati personali",
         "selectPurposeTemplate": {
           "title": "Scegli il modello di compilazione agevolata della finalità",
-          "showOnlyLinkedPurposeTemplates": "Mostra solo template suggeriti per l’e-service che ho selezionato",
+          "showOnlyLinkedPurposeTemplates": "Mostra solo template suggeriti",
           "autocompleteLabelPurposeTemplate": "Template per la compilazione agevolata della finalità",
           "viewPurposeTemplateBtn": "Visualizza il template selezionato"
         },
@@ -64,7 +64,7 @@
   "edit": {
     "emptyTitle": "Modifica finalità",
     "stepper": {
-      "stepGeneralLabel": "Informazioni generali",
+      "stepGeneralLabel": "Generale",
       "stepRiskAnalysisLabel": "Analisi del rischio"
     },
     "backWithoutSaveBtn": "Indietro",
@@ -72,7 +72,7 @@
     "endWithSaveBtn": "Vai al riepilogo",
     "eserviceProvider": "erogato da",
     "stepGeneral": {
-      "title": "Informazioni sulla finalità",
+      "title": "Informazioni generali",
       "nameField": {
         "label": "Nome della finalità",
         "infoLabel": "Ti aiuterà a distinguerla dalle altre. Min 5 caratteri, max 60 caratteri"
@@ -82,14 +82,14 @@
         "infoLabel": "Min 10 caratteri, max 250 caratteri"
       },
       "isFreeOfChargeField": {
-        "label": "Come metterai a disposizione l'accesso ai dati di questo e-service?*",
+        "label": "Come metterai a disposizione i dati che riceverai da questo e-service?",
         "options": {
           "YES": "A titolo gratuito",
           "NO": "A pagamento"
         }
       },
       "freeOfChargeReasonField": {
-        "label": "Motivazione titolo gratuito*",
+        "label": "Motivazione titolo gratuito",
         "infoLabel": "Spiega perché metterai questi dati a disposizione gratuitamente. Indica se lo fai in base a un’esenzione o a un’esclusione prevista dalla legge, oppure per un altro motivo. Min 10, max 250 caratteri"
       }
     },
@@ -98,7 +98,10 @@
       "description": "Indica il numero di chiamate previste ogni giorno per questa finalità.",
       "dailyCalls": {
         "label": "Stima numero chiamate API/giorno",
-        "infoLabel": "Inserisci un numero superiore o uguale a 1"
+        "infoLabel": "Inserisci un numero superiore o uguale a 1",
+        "validation": {
+          "integer": "Il valore di soglia deve essere intero"
+        }
       },
       "providerThresholdsInfo": {
         "label": "Soglie definite dall’erogatore",
@@ -235,7 +238,7 @@
       "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
     },
     "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione",
-    "publishBtn": "Pubblica bozza"
+    "publishBtn": "Pubblica"
   },
   "list": {
     "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare",

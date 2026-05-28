@@ -44,7 +44,7 @@
     },
     "stepper": {
       "step1Label": "General information",
-      "step2Label": "Suggested e-services",
+      "step2Label": "Suggested e-services and e-service templates",
       "step3Label": "Risk analysis"
     },
     "step1": {
@@ -77,14 +77,24 @@
       }
     },
     "step2": {
-      "detailsTitle": "Suggested e-services for this purpose template",
-      "detailsDescription": "Are there any e-services that you think this template is particularly suitable for? Select them here. You can also associate e-services after publication.",
-      "addBtn": "Add e-service",
+      "detailsTitle": "Suggested e-services and e-service templates for this purpose template",
+      "detailsDescription": "Are there any e-services or e-service templates that you think this template is particularly suitable for? Select them here. You can also associate them after publication.",
+      "addBtn": "Add item",
       "editLinkedEservices": "Update list",
+      "editLinkedResources": "Update list",
       "saveBtn": "Save",
       "eserviceSelectionSubtitle": "You can insert e-services that have personal data processing similar to what you indicated.",
+      "removeResourceAriaLabel": "Remove {{name}}",
       "autocompleteInput": {
-        "label": "E-service to associate"
+        "label": "E-service or e-service template to associate"
+      },
+      "options": {
+        "eservice": "{{name}} (e-service by {{publisher}})",
+        "eserviceTemplate": "{{name}} (template by {{publisher}})"
+      },
+      "warning": {
+        "invalidResource": "At least one of the linked items is no longer available to be associated.",
+        "orphanLinkedResources": "Some linked resources are no longer available. Please contact support."
       },
       "notifications": {
         "eserviceLinkError": "It was not possible to save this e-service. Please try again!",
@@ -165,6 +175,15 @@
         "providedBy": "Provided by",
         "noLinkedEservices": "You have not specified e-services associated with this template."
       },
+      "suggestedResourcesSection": {
+        "title": "Suggested e-services and e-service templates",
+        "providedBy": {
+          "eservice": "(e-service provided by {{publisher}})",
+          "eserviceTemplate": "(e-service template created by {{publisher}})"
+        },
+        "noLinkedResources": "You have not linked any e-services or e-service templates to this template.",
+        "orphanLinkedResources": "Some linked resources are no longer available. Please contact support."
+      },
       "riskAnalysisSection": {
         "title": "Risk analysis"
       }
@@ -179,6 +198,7 @@
       "ariaLabel": "Three separate tabs for purpose template details, linked e-services, and risk analysis",
       "details": "Template details",
       "linkedEservices": "Linked e-services",
+      "linkedResources": "Suggested e-services and e-service templates",
       "riskAnalysis": "Risk analysis"
     },
     "detailsTab": {
@@ -205,8 +225,13 @@
         },
         "linkedEservices": {
           "title": "Linked e-services",
-          "description": "The entity has defined a list of e-services for which the facilitated purpose is suggested. The user may also use this template for e-services not included in the list.",
+          "description": "Here's a list of suggested e-services for this simplified purpose. The template can also be used for other e-services not listed.",
           "linkedEservicesLink": "View linked e-services"
+        },
+        "linkedResources": {
+          "title": "Suggested e-services and e-service templates",
+          "description": "Here's a list of suggested e-services and e-service templates for this simplified purpose. The template can also be used for other e-services not listed.",
+          "link": "View linked e-services and templates"
         },
         "documentation": {
           "title": "Documentation",
@@ -236,6 +261,27 @@
           "label": "Filter by producer"
         }
       }
+    },
+    "linkedResourcesTab": {
+      "title": "Suggested e-services and e-service templates",
+      "description": "Here you find the list of e-services and e-service templates suggested for this facilitated purpose. The template can also be used for other e-services not in the list. <1>Link to the documentation</1>",
+      "editButtonTooltip": "Cannot modify the list while the template is suspended or archived",
+      "linkedResourceName": "E-service or e-service template",
+      "linkedResourceKind": "Type",
+      "linkedResourceProviderName": "Producer name",
+      "kind": {
+        "eservice": "E-service",
+        "eserviceTemplate": "E-service template"
+      },
+      "filters": {
+        "resourceField": {
+          "label": "E-service or template name"
+        },
+        "providerField": {
+          "label": "Filter by producer"
+        }
+      },
+      "orphanLinkedResources": "Some linked resources are no longer available. Please contact support."
     },
     "riskAnalysisTab": {
       "titlePA": "Risk analysis (Public Administrations)",

@@ -167,7 +167,7 @@
     "updateThresholds": {
       "loading": "Stiamo aggiornando le informazioni",
       "outcome": {
-        "success": "Hai modificato le soglie di chiamate API.",
+        "success": "Hai modificato le soglie di chiamate API dell'attributo certificato",
         "error": "Non è stato possibile modificare le soglie di chiamate API. Controlla di aver inserito le informazioni corrette."
       }
     },
@@ -385,6 +385,11 @@
         "description": {
           "default": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione",
           "isDelegated": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione e verrà inoltrata una notifica all’ente delegante per conoscenza."
+        },
+        "asyncExchange": {
+          "title": "Prima di richiedere la fruizione",
+          "description": "Questo e-service usa uno scambio dati asincrono, diverso dagli scambi sincroni standard. Per funzionare correttamente, è necessario implementare un’interfaccia di callback fornita dall’erogatore. Per tutte le informazioni, <1>consulta la guida</1>.",
+          "checkbox": "Sono consapevole che è necessaria un’integrazione tecnica"
         }
       }
     },
@@ -969,7 +974,8 @@
       "confirmDialog": {
         "title": "Pubblica template e-service",
         "titleNewVersion": "Pubblica nuova versione template e-service",
-        "description": "Una volta pubblicata, questa versione sarà disponibile nel catalogo dei template degli e-service e non potrà più essere cancellata. Potrai comunque sospenderla o renderla obsoleta quando pubblicherai una nuova versione."
+        "description": "Una volta pubblicata, questa versione sarà disponibile nel catalogo dei template degli e-service e non potrà più essere cancellata. Potrai comunque sospenderla o renderla obsoleta quando pubblicherai una nuova versione.",
+        "proceedLabel": "Pubblica"
       }
     },
     "deleteVersionDraft": {
@@ -994,11 +1000,18 @@
         "description": "Cliccando \"conferma\" questa versione del template di e-service sarà riattivata. Tutti i fruitori che hanno una richiesta di fruizione attiva per questa versione del template di e-service potranno nuovamente usufruirne"
       }
     },
-    "updateQuotas": {
+    "updateThresholds": {
       "loading": "Stiamo modificando le soglie di chiamate API",
       "outcome": {
         "success": "Hai modificato le soglie di chiamate API.",
         "error": "Non è stato possibile modificare le soglie di chiamate API. Controlla di aver inserito le informazioni corrette."
+      }
+    },
+    "updateVoucherLifespan": {
+      "loading": "Stiamo modificando le informazioni richieste",
+      "outcome": {
+        "success": "Le informazioni richieste sono state aggiornate correttamente.",
+        "error": "Non è stato possibile modificare le informazioni richieste. Controlla di aver inserito le informazioni corrette."
       }
     },
     "updateInstance": {
@@ -1064,8 +1077,8 @@
     "publishDraft": {
       "loading": "Stiamo pubblicando il template della finalità agevolata",
       "outcome": {
-        "success": "Il template di finalità agevolata è stato creato con successo.",
-        "error": "Non è stato possibile creare il template di finalità agevolata. Assicurati di aver inserito le informazioni corrette e riprova."
+        "success": "Hai creato il template di finalità agevolata.",
+        "error": "Non è stato possibile creare il template di finalità agevolata. Controlla di aver inserito le informazioni corrette."
       },
       "confirmDialog": {
         "title": "Conferma pubblicazione del template",
@@ -1142,6 +1155,22 @@
       "outcome": {
         "success": "L’e-service è stato rimosso correttamente.",
         "error": "Non è stato possibile rimuovere questo e-service. Per favore riprova!"
+      }
+    },
+    "linkResource": {
+      "loading": "Stiamo collegando l'elemento al template",
+      "outcome": {
+        "success": "L'elemento è stato collegato correttamente.",
+        "error": "Non è stato possibile collegare l'elemento. Per favore, riprova!",
+        "conflict": "L'elemento risulta già collegato. Abbiamo aggiornato l'elenco."
+      }
+    },
+    "unlinkResource": {
+      "loading": "Stiamo scollegando l'elemento dal template",
+      "outcome": {
+        "success": "L'elemento è stato scollegato correttamente.",
+        "error": "Non è stato possibile scollegare l'elemento. Per favore, riprova!",
+        "conflict": "Il collegamento non è più attivo. Abbiamo aggiornato l'elenco."
       }
     },
     "downloadRiskAnalysis": {

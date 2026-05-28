@@ -9,16 +9,15 @@ import {
   DUPLICATE_ESERVICENAME_ERROR_CODE,
 } from '@/api/eserviceTemplate'
 import { useNavigate, useParams } from '@/router'
-import FileCopyIcon from '@mui/icons-material/FileCopy'
 import DownloadIcon from '@mui/icons-material/Download'
 import InsertLinkIcon from '@mui/icons-material/InsertLink'
 import { useDrawerState } from '@/hooks/useDrawerState'
-import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
 import EditIcon from '@mui/icons-material/Edit'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 import { AuthHooks } from '@/api/auth'
 import { trackEvent } from '@/config/tracking'
+import { ESERVICE_DESCRIPTION_MAX_LENGTH } from '@/config/constants'
 import { AxiosError, isAxiosError } from 'axios'
 import { UpdateDescriptionDrawer } from '@/components/shared/UpdateDescriptionDrawer'
 import { UpdateNameDrawer } from '@/components/shared/UpdateNameDrawer'
@@ -28,7 +27,6 @@ import {
   UpdateInstanceLabelDrawer,
   type UpdateInstanceLabelDrawerRef,
 } from '@/components/shared/UpdateInstanceLabelDrawer'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
@@ -61,12 +59,6 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { mutate: updateEserviceName } = EServiceMutations.useUpdateEServiceName()
   const { mutate: updateEservicePersonalData } =
     EServiceMutations.useUpdateEServicePersonalDataFlagAfterPublication()
-
-  const {
-    isOpen: isVersionSelectorDrawerOpen,
-    openDrawer: openVersionSelectorDrawer,
-    closeDrawer: closeVersionSelectorDrawer,
-  } = useDrawerState()
 
   const {
     isOpen: isEServiceUpdateNameDrawerOpen,
@@ -139,16 +131,6 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     })
   }
 
-  const hasSingleVersion =
-    descriptor.eservice.descriptors.filter((d) => d.state !== 'DRAFT').length <= 1
-
-  const navigateVersionsAction = {
-    startIcon: <FileCopyIcon fontSize="small" />,
-    component: 'button',
-    onClick: openVersionSelectorDrawer,
-    label: t('bottomActions.navigateVersions'),
-  }
-
   const downloadConsumerListAction = {
     startIcon: <DownloadIcon fontSize="small" />,
     component: 'button',
@@ -213,7 +195,6 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
       <SectionContainer
         title={t('title')}
         bottomActions={[
-          ...(!hasSingleVersion ? [navigateVersionsAction] : []),
           ...(descriptor.eservice.mode === 'RECEIVE' && isAtLeastOneRiskyAnalysisAssociated
             ? [watchRiskyAnalysisAssociatedAction]
             : []),
@@ -227,26 +208,29 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
             label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
             content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
           />
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
-            (isAdmin || isOperatorAPI) &&
-            !arePersonalDataSet &&
-            !isEserviceFromTemplate && (
-              <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
-                <Stack spacing={25} direction="row" alignItems="center">
-                  {' '}
-                  {/**TODO FIX SPACING */}
-                  <Typography>{t('personalDataField.alert.label')}</Typography>
-                  <Button
-                    variant="naked"
-                    size="medium"
-                    sx={{ fontWeight: 700, mr: 1 }}
-                    onClick={openUpdatePersonalDataDrawer}
-                  >
-                    {tCommon('actions.specifyProcessing')}
-                  </Button>
-                </Stack>
-              </Alert>
+          <InformationContainer
+            label={t('exchangeType.label')}
+            content={t(
+              `exchangeType.value.${descriptor.eservice.asyncExchange ? 'async' : 'sync'}`
             )}
+          />
+          {(isAdmin || isOperatorAPI) && !arePersonalDataSet && !isEserviceFromTemplate && (
+            <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
+              <Stack spacing={25} direction="row" alignItems="center">
+                {' '}
+                {/**TODO FIX SPACING */}
+                <Typography>{t('personalDataField.alert.label')}</Typography>
+                <Button
+                  variant="naked"
+                  size="medium"
+                  sx={{ fontWeight: 700, mr: 1 }}
+                  onClick={openUpdatePersonalDataDrawer}
+                >
+                  {tCommon('actions.specifyProcessing')}
+                </Button>
+              </Stack>
+            </Alert>
+          )}
           {isEserviceFromTemplate ? (
             <>
               <InformationContainer
@@ -333,11 +317,6 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
           </SectionContainer>
         </Stack>
       </SectionContainer>
-      <EServiceVersionSelectorDrawer
-        isOpen={isVersionSelectorDrawerOpen}
-        onClose={closeVersionSelectorDrawer}
-        descriptor={descriptor}
-      />
       <UpdateDescriptionDrawer
         isOpen={isEServiceUpdateDescriptionDrawerOpen}
         onClose={closeEServiceUpdateDescriptionDrawer}
@@ -346,11 +325,14 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         title={tDrawer('updateEServiceDescriptionDrawer.title')}
         subtitle={tDrawer('updateEServiceDescriptionDrawer.subtitle')}
         label={tDrawer('updateEServiceDescriptionDrawer.eserviceDescriptionField.label')}
-        infoLabel={tDrawer('updateEServiceDescriptionDrawer.eserviceDescriptionField.infoLabel')}
+        infoLabel={tDrawer('updateEServiceDescriptionDrawer.eserviceDescriptionField.infoLabel', {
+          ESERVICE_DESCRIPTION_MAX_LENGTH,
+        })}
         validateLabel={tDrawer(
           'updateEServiceDescriptionDrawer.eserviceDescriptionField.validation.sameValue'
         )}
         onSubmit={handleDescriptionUpdate}
+        maxDescriptionLength={ESERVICE_DESCRIPTION_MAX_LENGTH}
       />
       <UpdateNameDrawer
         isOpen={isEServiceUpdateNameDrawerOpen}

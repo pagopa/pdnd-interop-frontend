@@ -33,10 +33,10 @@
   },
   "consumerDebugVoucher": {
     "title": "Client Assertion Debug",
-    "description": "The debug tool allows you to highlight any anomalies contained in your client assertion necessary for obtaining an access token."
+    "description": "If you can't get a voucher and don't know why, you can debug it with this simulator and understand possible errors."
   },
   "consumerSimulateGetVoucher": {
-    "title": "Simulate getting a voucher",
+    "title": "Simulate getting a {{voucherType}} voucher",
     "description": "Through this feature you can simulate obtaining a voucher. Once you have selected the parameters, you can perform a client assertion, request a voucher and verify that it is compatible."
   },
   "tenantCertifier": {

@@ -16,7 +16,6 @@ import {
   ProviderEServiceTemplateAdditionalInfoSummarySection,
 } from './components'
 import { ProviderEServiceTemplateRiskAnalysisSummaryList } from './components/ProviderEServiceTemplateRiskAnalysisSummaryList'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { UpdatePersonalDataDrawer } from '@/components/shared/UpdatePersonalDataDrawer'
 import type { EServiceMode } from '@/api/api.generatedTypes'
@@ -93,7 +92,14 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   }
 
   const arePersonalDataSet = eserviceTemplate?.eserviceTemplate.personalData !== undefined
-  const hasMissingFields = !eserviceTemplate?.voucherLifespan || !eserviceTemplate?.description
+  const hasMissingAsyncExchangeFields = Boolean(
+    eserviceTemplate?.eserviceTemplate.asyncExchange &&
+    (!eserviceTemplate.asyncExchangeProperties || !eserviceTemplate.asyncExchangeCallbackInterface)
+  )
+  const hasMissingFields =
+    !eserviceTemplate?.voucherLifespan ||
+    !eserviceTemplate?.description ||
+    hasMissingAsyncExchangeFields
 
   const canBePublished = () => {
     return !!(eserviceTemplate?.interface && arePersonalDataSet && !hasMissingFields)
@@ -169,7 +175,11 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
               title={t('summary.technicalSpecsSummary.title')}
-              showWarning={!eserviceTemplate?.voucherLifespan || !eserviceTemplate?.interface}
+              showWarning={
+                !eserviceTemplate?.voucherLifespan ||
+                !eserviceTemplate?.interface ||
+                hasMissingAsyncExchangeFields
+              }
               warningLabel={t('summary.completeInfoChip')}
             >
               <ProviderEServiceTemplateTechnicalSpecsSummarySection />
@@ -187,7 +197,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             </SummaryAccordion>
           </React.Suspense>
         </Stack>
-        {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && !arePersonalDataSet && !isLoading && (
+        {!arePersonalDataSet && !isLoading && (
           <Alert severity="warning" sx={{ alignItems: 'center', mt: 3 }} variant="outlined">
             <Stack spacing={30} direction="row" alignItems="center">
               {' '}
@@ -204,7 +214,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             </Stack>
           </Alert>
         )}
-        {hasMissingFields && !isLoading && (
+        {!canBePublished() && !isLoading && (
           <Alert severity="warning" sx={{ mt: 3 }}>
             {t('summary.missingFieldsBanner')}
           </Alert>
@@ -224,7 +234,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
           <PublishButton
             onClick={handlePublishDraft}
             disabled={!canBePublished()}
-            arePersonalDataSet={FEATURE_FLAG_ESERVICE_PERSONAL_DATA && arePersonalDataSet}
+            arePersonalDataSet={arePersonalDataSet}
             hasMissingFields={hasMissingFields}
           />
         </Stack>

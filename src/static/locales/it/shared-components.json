@@ -271,7 +271,6 @@
       }
     }
   },
-
   "dialogCancelEserviceArchiving": {
     "title": "Annulla archiviazione e-service",
     "description": "Questo e-service non sarà più in fase di archiviazione.",
@@ -297,6 +296,21 @@
     "actions": {
       "back": "Indietro",
       "forward": "Prosegui"
+    }
+  },
+  "dialogCancelVersionArchiving": {
+    "title": "Annulla archiviazione versione",
+    "description": "Questa versione non sarà più in fase di archiviazione.",
+    "actions": {
+      "keepArchiving": "Mantieni in archiviazione",
+      "cancelArchiving": "Annulla archiviazione"
+    }
+  },
+  "dialogArchiveVersion": {
+    "title": "Archivia versione",
+    "content": {
+      "description": "L’archiviazione avverrà il giorno <strong>{{date}}</strong>. Prima di questa data, la versione resterà attiva per consentire ai fruitori di adeguarsi. Potrai annullare l’archiviazione solo prima di questa data.",
+      "alert": "L’archiviazione effettiva potrebbe richiedere un tempo tecnico in cui i fruitori continueranno a scambiare dati. Consulta la <1>documentazione</1> per avere altri dettagli."
     }
   },
   "copyToClipboardButton": {
@@ -390,6 +404,18 @@
     "warning": {
       "ARCHIVED": "Questo e-service è stato archiviato e non può più essere associato. Rimuovilo prima di procedere",
       "SUSPENDED": "Questo e-service è stato sospeso e non può più essere associato. Rimuovilo prima di procedere"
+    }
+  },
+  "resourceContainer": {
+    "removeAriaLabel": "Rimuovi {{name}}",
+    "idCopyTooltipLabel": "ID copiato correttamente",
+    "eservice": {
+      "idField": "ID dell’e-service",
+      "viewBtn": "Visualizza e-service"
+    },
+    "eserviceTemplate": {
+      "idField": "ID del template e-service",
+      "viewBtn": "Visualizza template e-service"
     }
   },
   "drawer": {

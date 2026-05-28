@@ -11,12 +11,22 @@ import { useActiveTab } from '@/hooks/useActiveTab'
 import { ProviderEserviceDetailsTab } from './components/ProviderEServiceDetailsTab/ProviderEServiceDetailsTab'
 import { ProviderEserviceKeychainsTab } from './components/ProviderEServiceKeychainsTab/ProviderEServiceKeychainsTab'
 import { NewPageContainer } from '@/components/layout/containers/NewPageContainer'
+import { useDialog } from '@/stores'
+import { useDrawerState } from '@/hooks/useDrawerState'
+import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
+import { getActiveDescriptor, getViewLatestVersionTargetId } from '@/utils/eservice.utils'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
 
   const { activeTab, updateActiveTab } = useActiveTab('eserviceDetails')
+  const { openDialog } = useDialog()
+  const {
+    isOpen: isVersionSelectorDrawerOpen,
+    openDrawer: openVersionSelectorDrawer,
+    closeDrawer: closeVersionSelectorDrawer,
+  } = useDrawerState()
 
   const { data: descriptor } = useQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
@@ -25,6 +35,26 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   useMarkNotificationsAsRead(`${eserviceId}/${descriptorId}`)
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
+
+  const viewLatestVersionTargetId = React.useMemo(
+    () => getViewLatestVersionTargetId(descriptor?.eservice.descriptors, descriptorId),
+    [descriptor?.eservice.descriptors, descriptorId]
+  )
+
+  const handleViewKeychains = () => {
+    updateActiveTab(null, 'keychains')
+  }
+
+  const activeDescriptor = React.useMemo(
+    () => getActiveDescriptor(descriptor?.eservice.descriptors),
+    [descriptor?.eservice.descriptors]
+  )
+
+  const isActiveDescriptor = descriptor?.id === activeDescriptor?.id
+  const isEServiceBeingArchived =
+    activeDescriptor?.state === 'ARCHIVING' || activeDescriptor?.state === 'ARCHIVING_SUSPENDED'
+
+  const hasMultipleVersions = (descriptor?.eservice.descriptors?.length ?? 0) > 1
 
   const { primaryAction, secondaryAction, menuActions, headerInfoActions } =
     useGetProviderEServiceActions(
@@ -37,7 +67,14 @@ const ProviderEServiceDetailsPage: React.FC = () => {
       descriptor?.eservice.name,
       descriptor?.templateRef?.isNewTemplateVersionAvailable ?? false,
       isEserviceFromTemplate,
-      descriptor?.delegation
+      descriptor?.delegation,
+      descriptor?.eservice.personalData,
+      'detailsPage',
+      descriptor?.archivingSchedule,
+      viewLatestVersionTargetId,
+      hasMultipleVersions ? openVersionSelectorDrawer : undefined,
+      isActiveDescriptor,
+      isEServiceBeingArchived
     )
 
   return (
@@ -55,9 +92,32 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         descriptor
           ? {
               label: t('versionHeaderLabel'),
-              shortcut: { type: 'button', label: descriptor.version, onClick: () => {} }, // TODO navigation function
+              shortcut: {
+                type: 'button',
+                label: descriptor.version,
+                onClick: () =>
+                  openDialog({
+                    type: 'showEserviceVersionsList',
+                    eserviceId,
+                    eserviceName: descriptor.eservice.name,
+                    descriptors: descriptor.eservice.descriptors,
+                    activeDescriptor,
+                    routeKey: 'PROVIDE_ESERVICE_MANAGE',
+                  }),
+              },
               actions: headerInfoActions,
-              statusChip: { for: 'eservice', state: descriptor.state },
+              statusChip: {
+                for: 'descriptor',
+                state: descriptor.state,
+                isActiveDescriptor,
+              },
+              archivingScheduleInfo:
+                descriptor.archivingSchedule?.archivableOn && descriptor.archivingSchedule?.scope
+                  ? {
+                      archivableOn: descriptor.archivingSchedule.archivableOn,
+                      scope: descriptor.archivingSchedule.scope,
+                    }
+                  : undefined,
             }
           : undefined
       }
@@ -69,13 +129,20 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         </TabList>
 
         <TabPanel value="eserviceDetails">
-          <ProviderEserviceDetailsTab />
+          <ProviderEserviceDetailsTab onViewKeychains={handleViewKeychains} />
         </TabPanel>
 
         <TabPanel value="keychains">
           <ProviderEserviceKeychainsTab />
         </TabPanel>
       </TabContext>
+      {descriptor && (
+        <EServiceVersionSelectorDrawer
+          isOpen={isVersionSelectorDrawerOpen}
+          onClose={closeVersionSelectorDrawer}
+          descriptor={descriptor}
+        />
+      )}
     </NewPageContainer>
   )
 }

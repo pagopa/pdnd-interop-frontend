@@ -107,8 +107,8 @@ export const DialogSelectAgreementConsumerAutocomplete: React.FC<
     .with('edit', () =>
       Boolean(
         jwt &&
-          !isDelegator &&
-          agreements.some((agreement) => agreement.consumerId === jwt.organizationId)
+        !isDelegator &&
+        agreements.some((agreement) => agreement.consumerId === jwt.organizationId)
       )
     )
     .with('create', () =>

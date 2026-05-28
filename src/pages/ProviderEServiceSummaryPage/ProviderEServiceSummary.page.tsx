@@ -3,6 +3,7 @@ import { PageContainer } from '@/components/layout/containers'
 import { Trans, useTranslation } from 'react-i18next'
 import { useGeneratePath, useNavigate, useParams } from '@/router'
 import { EServiceMutations, EServiceQueries } from '@/api/eservice'
+import { KeychainQueries } from '@/api/keychain'
 import { Alert, Button, Link, Stack, Tooltip, Typography } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
@@ -21,7 +22,6 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { AuthHooks } from '@/api/auth'
 import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 import { useDialog } from '@/stores'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 import { UpdatePersonalDataDrawer } from '@/components/shared/UpdatePersonalDataDrawer'
 import type { EServiceMode } from '@/api/api.generatedTypes'
 import { match } from 'ts-pattern'
@@ -64,6 +64,15 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
 
+  const { data: associatedKeychains, isLoading: isAssociatedKeychainsLoading } = useQuery({
+    ...KeychainQueries.getKeychainsList({
+      eserviceId,
+      offset: 0,
+      limit: 50,
+    }),
+    enabled: Boolean(descriptor?.eservice.asyncExchange),
+  })
+
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 
   const { mutate: updateEservicePersonalData } =
@@ -73,6 +82,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 
   const isEServiceFromTemplate = descriptor?.templateRef
 
+  // In this case "draft" version is the actual version that user is creating, so if the e-service has only one draft it means that it has never been published before.
   const hasOnlyOneDraft = descriptor?.eservice.descriptors.length === 0
 
   const handleDeleteDraft = () => {
@@ -106,6 +116,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     if (!descriptor) return
 
     const isFirstVersion = descriptor.version === '1'
+    const isAsyncExchange = descriptor.eservice.asyncExchange === true
 
     publishVersion(
       {
@@ -123,20 +134,34 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               descriptorId: descriptor.id,
             },
             state: {
-              ...match(isFirstVersion)
-                .with(true, () => ({
+              ...match({ isFirstVersion, isAsyncExchange })
+                .with({ isFirstVersion: true, isAsyncExchange: false }, () => ({
                   title: t('publishThankYou.firstVersion.title'),
                   description: t('publishThankYou.firstVersion.description'),
+                  buttonLabel: t('publishThankYou.action'),
                 }))
-                .with(false, () => ({
+                .with({ isFirstVersion: true, isAsyncExchange: true }, () => ({
+                  title: t('publishThankYou.firstVersionAsync.title'),
+                  description: t('publishThankYou.firstVersionAsync.description'),
+                  buttonLabel: t('publishThankYou.asyncAction'),
+                }))
+                .with({ isFirstVersion: false, isAsyncExchange: false }, () => ({
                   title: t('publishThankYou.newVersion.title'),
                   subtitle: t('publishThankYou.newVersion.subtitle'),
                   bulletPoints: t('publishThankYou.newVersion.bulletPoints', {
                     returnObjects: true,
                   }),
+                  buttonLabel: t('publishThankYou.action'),
+                }))
+                .with({ isFirstVersion: false, isAsyncExchange: true }, () => ({
+                  title: t('publishThankYou.newVersionAsync.title'),
+                  subtitle: t('publishThankYou.newVersionAsync.subtitle'),
+                  bulletPoints: t('publishThankYou.newVersionAsync.bulletPoints', {
+                    returnObjects: true,
+                  }),
+                  buttonLabel: t('publishThankYou.asyncAction'),
                 }))
                 .exhaustive(),
-              buttonLabel: t('publishThankYou.action'),
               closeRouteKey: 'PROVIDE_ESERVICE_MANAGE',
               closeRouteParams: { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
             },
@@ -184,7 +209,9 @@ const ProviderEServiceSummaryPage: React.FC = () => {
       return true
     }
 
-    return !!descriptor.templateRef?.interfaceMetadata
+    return (
+      !!descriptor.templateRef?.interfaceMetadata || !!descriptor.templateRef?.templateInterface
+    )
   }
 
   const isReceiveMode = descriptor?.eservice.mode === 'RECEIVE'
@@ -194,11 +221,20 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const eserviceRiskAnalyses = descriptor?.eservice.riskAnalysis
 
   const isRulesetExpired =
+    // check if the e-service had already been published. In this case we have to skip ruleset expiration check (https://pagopa.atlassian.net/browse/PIN-9966)
+    hasOnlyOneDraft &&
     eserviceRiskAnalyses &&
     eserviceRiskAnalyses.some(
       (riskAnalysis) =>
         riskAnalysis.rulesetExpiration && new Date(riskAnalysis.rulesetExpiration) < new Date()
     )
+
+  const isAsyncExchangeValidationLoading =
+    Boolean(descriptor?.eservice.asyncExchange) && isAssociatedKeychainsLoading
+
+  const areAsyncExchangeFieldsSet =
+    !descriptor?.eservice.asyncExchange ||
+    Boolean(descriptor.asyncExchangeCallbackInterface && descriptor.asyncExchangeProperties)
 
   const canBePublished = () => {
     return (
@@ -210,7 +246,8 @@ const ProviderEServiceSummaryPage: React.FC = () => {
         descriptor.voucherLifespan &&
         descriptor.dailyCallsPerConsumer &&
         descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer &&
-        (FEATURE_FLAG_ESERVICE_PERSONAL_DATA ? arePersonalDataSet : true) &&
+        arePersonalDataSet &&
+        areAsyncExchangeFieldsSet &&
         !isRulesetExpired
       ) && checklistEServiceFromTemplate()
     )
@@ -270,14 +307,22 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const isGeneralInfoSectionValid =
     Boolean(descriptor?.eservice.description) &&
     Boolean(descriptor?.eservice.technology) &&
-    (FEATURE_FLAG_ESERVICE_PERSONAL_DATA ? arePersonalDataSet : true)
+    arePersonalDataSet
 
   const isVersionInfoSectionValid =
     Boolean(descriptor?.description) &&
     Boolean(descriptor?.audience?.length) &&
     Boolean(descriptor?.voucherLifespan)
 
-  const isDocumentationSectionValid = Boolean(descriptor?.interface)
+  const isDocumentationSectionValid = Boolean(descriptor?.interface) && areAsyncExchangeFieldsSet
+  const isPublishable = canBePublished()
+  const publishTooltipKey = getPublishTooltipKey({
+    isPublishable,
+    arePersonalDataSet,
+    isRulesetExpired,
+    isValidationLoading: isAsyncExchangeValidationLoading,
+  })
+  const publishTooltipTitle = publishTooltipKey ? t(publishTooltipKey) : ''
 
   return (
     <>
@@ -371,10 +416,12 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
               title={t('summary.documentationSummary.title')}
-              showWarning={!isDocumentationSectionValid}
+              showWarning={!isAsyncExchangeValidationLoading && !isDocumentationSectionValid}
               warningLabel={t('summary.missingInformationsLabel')}
             >
-              <ProviderEServiceDocumentationSummarySection />
+              <ProviderEServiceDocumentationSummarySection
+                associatedKeychains={associatedKeychains}
+              />
             </SummaryAccordion>
           </React.Suspense>
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
@@ -387,42 +434,35 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               <ProviderEServiceVersionInfoSummarySection />
             </SummaryAccordion>
           </React.Suspense>
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
-            !arePersonalDataSet &&
-            isDelegator &&
-            descriptor?.state === 'WAITING_FOR_APPROVAL' && (
-              <Alert severity="error">
-                {isEServiceFromTemplate
-                  ? t('summary.alertMissingPersonalData.eserviceTemplateLabel')
-                  : eserviceLabel}
-              </Alert>
-            )}
-          {FEATURE_FLAG_ESERVICE_PERSONAL_DATA &&
-            !arePersonalDataSet &&
-            !isLoading &&
-            !isDelegator &&
-            !isEServiceFromTemplate && (
-              <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
-                <Stack spacing={35} direction="row" alignItems="center">
-                  {' '}
-                  {/**TODO FIX SPACING */}
-                  <Typography>{t('summary.alertUpdatePersonalData.label')}</Typography>
-                  <Button
-                    variant="naked"
-                    size="medium"
-                    sx={{ fontWeight: 700, mr: 1, alignSelf: 'flex-end' }}
-                    onClick={openUpdatePersonalDataDrawer}
-                  >
-                    {tCommon('specifyProcessing')}
-                  </Button>
-                </Stack>
-              </Alert>
-            )}
+          {!arePersonalDataSet && isDelegator && descriptor?.state === 'WAITING_FOR_APPROVAL' && (
+            <Alert severity="error">
+              {isEServiceFromTemplate
+                ? t('summary.alertMissingPersonalData.eserviceTemplateLabel')
+                : eserviceLabel}
+            </Alert>
+          )}
+          {!arePersonalDataSet && !isLoading && !isDelegator && !isEServiceFromTemplate && (
+            <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
+              <Stack spacing={35} direction="row" alignItems="center">
+                {' '}
+                {/**TODO FIX SPACING */}
+                <Typography>{t('summary.alertUpdatePersonalData.label')}</Typography>
+                <Button
+                  variant="naked"
+                  size="medium"
+                  sx={{ fontWeight: 700, mr: 1, alignSelf: 'flex-end' }}
+                  onClick={openUpdatePersonalDataDrawer}
+                >
+                  {tCommon('specifyProcessing')}
+                </Button>
+              </Stack>
+            </Alert>
+          )}
         </Stack>
         {!isDelegator &&
           !(isEServiceFromTemplate && descriptor?.state === 'WAITING_FOR_APPROVAL') && (
             <>
-              {!canBePublished() && (
+              {!isAsyncExchangeValidationLoading && !isPublishable && (
                 <Alert severity="warning" sx={{ mt: 3 }}>
                   {t('summary.publishWarningLabel')}
                 </Alert>
@@ -447,9 +487,8 @@ const ProviderEServiceSummaryPage: React.FC = () => {
                 </Button>
                 <PublishButton
                   onClick={handlePublishDraft}
-                  disabled={!canBePublished() || isSupport}
-                  arePersonalDataSet={arePersonalDataSet}
-                  isRulesetExpired={isRulesetExpired}
+                  disabled={isAsyncExchangeValidationLoading || !isPublishable || isSupport}
+                  tooltipTitle={publishTooltipTitle}
                 />
               </Stack>
             </>
@@ -465,13 +504,13 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             >
               {tCommon('reject')}
             </Button>
-            <Tooltip title={arePersonalDataSet ? '' : t('summary.missingPersonalDataField')} arrow>
+            <Tooltip title={publishTooltipTitle} arrow>
               <span>
                 <Button
                   startIcon={<PublishIcon />}
                   variant="contained"
                   onClick={handleApproveDelegatedVersionDraft}
-                  disabled={isSupport || !arePersonalDataSet}
+                  disabled={isSupport || isAsyncExchangeValidationLoading || !isPublishable}
                 >
                   {tCommon('publish')}
                 </Button>
@@ -503,29 +542,15 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 type PublishButtonProps = {
   disabled: boolean
   onClick: VoidFunction
-  arePersonalDataSet?: boolean
-  isRulesetExpired?: boolean
+  tooltipTitle: string
 }
 
-const PublishButton: React.FC<PublishButtonProps> = ({
-  disabled,
-  onClick,
-  arePersonalDataSet,
-  isRulesetExpired,
-}) => {
+const PublishButton: React.FC<PublishButtonProps> = ({ disabled, onClick, tooltipTitle }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-  const { t } = useTranslation('eservice', { keyPrefix: 'summary' })
-  let tooltipToShow = t('notPublishableTooltip.label')
-
-  if (!arePersonalDataSet && FEATURE_FLAG_ESERVICE_PERSONAL_DATA) {
-    tooltipToShow = t('missingPersonalDataField')
-  } else if (isRulesetExpired) {
-    tooltipToShow = t('rulesetExpiredTooltip.label')
-  }
 
   const Wrapper = disabled
     ? ({ children }: { children: React.ReactElement }) => (
-        <Tooltip arrow title={tooltipToShow}>
+        <Tooltip arrow title={tooltipTitle}>
           <span tabIndex={disabled ? 0 : undefined}>{children}</span>
         </Tooltip>
       )
@@ -538,6 +563,28 @@ const PublishButton: React.FC<PublishButtonProps> = ({
       </Button>
     </Wrapper>
   )
+}
+
+type PublishTooltipKey =
+  | 'summary.missingPersonalDataField'
+  | 'summary.notPublishableTooltip.label'
+  | 'summary.rulesetExpiredTooltip.label'
+
+function getPublishTooltipKey({
+  arePersonalDataSet,
+  isPublishable,
+  isRulesetExpired,
+  isValidationLoading,
+}: {
+  arePersonalDataSet?: boolean
+  isPublishable: boolean
+  isRulesetExpired?: boolean
+  isValidationLoading: boolean
+}): PublishTooltipKey | undefined {
+  if (isPublishable || isValidationLoading) return undefined
+  if (!arePersonalDataSet) return 'summary.missingPersonalDataField'
+  if (isRulesetExpired) return 'summary.rulesetExpiredTooltip.label'
+  return 'summary.notPublishableTooltip.label'
 }
 
 export default ProviderEServiceSummaryPage

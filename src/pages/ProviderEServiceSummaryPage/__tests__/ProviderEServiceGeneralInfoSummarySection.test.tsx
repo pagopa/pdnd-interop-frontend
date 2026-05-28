@@ -1,12 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { screen } from '@testing-library/react'
 import { ProviderEServiceGeneralInfoSummarySection } from '../components/ProviderEServiceGeneralInfoSummarySection'
-import {
-  mockUseJwt,
-  mockUseParams,
-  mockEnvironmentParams,
-  renderWithApplicationContext,
-} from '@/utils/testing.utils'
+import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
 
 mockUseParams({
@@ -60,8 +55,35 @@ describe('ProviderEServiceGeneralInfoSummarySection', () => {
     expect(screen.getByText(mockData.eservice.technology)).toBeInTheDocument()
   })
 
+  it('renders exchange type for synchronous e-services', () => {
+    const mockData = createMockEServiceDescriptorProvider()
+    useSuspenseQueryMock.mockReturnValue({ data: mockData })
+
+    renderWithApplicationContext(<ProviderEServiceGeneralInfoSummarySection />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('exchangeType.label')).toBeInTheDocument()
+    expect(screen.getByText('exchangeType.value.sync')).toBeInTheDocument()
+  })
+
+  it('renders exchange type for asynchronous e-services', () => {
+    const mockData = createMockEServiceDescriptorProvider({
+      eservice: { asyncExchange: true },
+    })
+    useSuspenseQueryMock.mockReturnValue({ data: mockData })
+
+    renderWithApplicationContext(<ProviderEServiceGeneralInfoSummarySection />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('exchangeType.label')).toBeInTheDocument()
+    expect(screen.getByText('exchangeType.value.async')).toBeInTheDocument()
+  })
+
   it('renders personal data field', () => {
-    mockEnvironmentParams('FEATURE_FLAG_ESERVICE_PERSONAL_DATA', true)
     const mockData = createMockEServiceDescriptorProvider()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })
 

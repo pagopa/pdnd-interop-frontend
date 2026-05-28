@@ -1,4 +1,34 @@
-import type { EServiceDoc, Document, CompactDescriptor } from '@/api/api.generatedTypes'
+import type {
+  AsyncExchangeProperties,
+  EServiceDoc,
+  Document,
+  CompactDescriptor,
+} from '@/api/api.generatedTypes'
+
+export const defaultAsyncExchangeProperties: AsyncExchangeProperties = {
+  responseTime: 60,
+  resourceAvailableTime: 60,
+  maxResultSet: 1,
+  confirmation: false,
+  bulk: true,
+}
+
+export function getAsyncExchangePropertiesWithDefaults(
+  asyncExchangeProperties: Partial<AsyncExchangeProperties> | undefined
+): AsyncExchangeProperties {
+  return {
+    responseTime:
+      asyncExchangeProperties?.responseTime ?? defaultAsyncExchangeProperties.responseTime,
+    resourceAvailableTime:
+      asyncExchangeProperties?.resourceAvailableTime ??
+      defaultAsyncExchangeProperties.resourceAvailableTime,
+    maxResultSet:
+      asyncExchangeProperties?.maxResultSet ?? defaultAsyncExchangeProperties.maxResultSet,
+    confirmation:
+      asyncExchangeProperties?.confirmation ?? defaultAsyncExchangeProperties.confirmation,
+    bulk: asyncExchangeProperties?.bulk ?? defaultAsyncExchangeProperties.bulk,
+  }
+}
 
 export function getDownloadDocumentName(document: EServiceDoc | Document) {
   const filename: string = document.name
@@ -9,7 +39,34 @@ export function getDownloadDocumentName(document: EServiceDoc | Document) {
 
 export function getLastDescriptor(descriptors: Array<CompactDescriptor> | undefined) {
   const descriptor = descriptors?.find((descriptor) =>
-    descriptors.every((d) => descriptor.version >= d.version)
+    descriptors.every((d) => Number(descriptor.version) >= Number(d.version))
   )
   return descriptor
+}
+
+export function getActiveDescriptor(descriptors: Array<CompactDescriptor> | undefined) {
+  return getLastDescriptor(
+    descriptors?.filter(
+      (d) => d.state !== 'DRAFT' && d.state !== 'WAITING_FOR_APPROVAL' && d.state !== 'ARCHIVED'
+    )
+  )
+}
+
+export function getViewLatestVersionTargetId(
+  descriptors: Array<CompactDescriptor> | undefined,
+  currentDescriptorId: string | undefined
+) {
+  const latestId = getLastDescriptor(
+    descriptors?.filter(
+      (d) => d.state !== 'DRAFT' && d.state !== 'WAITING_FOR_APPROVAL' && d.state !== 'ARCHIVED'
+    )
+  )?.id
+  return latestId && latestId !== currentDescriptorId ? latestId : undefined
+}
+
+export function calculateArchivableOn(now: Date, gracePeriodDays: number): Date {
+  const d = new Date(now)
+  d.setUTCDate(d.getUTCDate() + gracePeriodDays + 1)
+  d.setUTCHours(0, 0, 0, 0)
+  return d
 }

@@ -37,13 +37,7 @@ const _RoutesWrapper: React.FC = () => {
   }, [searchParams, switchLang])
 
   const { isPublic, routeKey } = useCurrentRoute()
-  const {
-    jwt,
-    isSupport,
-    currentRoles,
-    isOrganizationAllowedToProduce,
-    isOrganizationAllowedToDelegations,
-  } = AuthHooks.useJwt()
+  const { jwt, isSupport, currentRoles, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   useScrollTopOnLocationChange()
 
@@ -64,7 +58,6 @@ const _RoutesWrapper: React.FC = () => {
                 <_AuthGuard
                   jwt={jwt}
                   isOrganizationAllowedToProduce={isOrganizationAllowedToProduce}
-                  isOrganizationAllowedToDelegations={isOrganizationAllowedToDelegations}
                   isSupport={isSupport}
                   currentRoles={currentRoles}
                 >

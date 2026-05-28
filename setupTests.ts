@@ -8,6 +8,8 @@ export const testConfigs = {
   NODE_ENV: 'test',
   STAGE: 'DEV',
   AUTHORIZATION_SERVER_TOKEN_CREATION_URL: 'https://auth.dev.interop.pagopa.it/token.oauth2',
+  AUTHORIZATION_SERVER_TOKEN_CREATION_ASYNC_URL:
+    'https://auth.dev.interop.pagopa.it/token.oauth2.async',
   SELFCARE_LOGIN_URL: 'https://uat.selfcare.pagopa.it/',
   SELFCARE_BASE_URL: 'https://uat.selfcare.pagopa.it',
   INTEROP_RESOURCES_BASE_URL: 'https://interop-public-assets-dev.s3.eu-south-1.amazonaws.com',
@@ -19,17 +21,17 @@ export const testConfigs = {
   WELL_KNOWN_URLS: 'https://dev.interop.pagopa.it/.well-known/jwks.json',
   PRODUCER_ALLOWED_ORIGINS:
     'IPA,ANAC,IVASS,INFOCAMERE,SELC,SELC-PT,PDND_INFOCAMERE-SCP,PDND_INFOCAMERE-PRV,PDND_INFOCAMERE-PT,INFOCAMERE-PT',
-  DELEGATIONS_ALLOWED_ORIGINS: 'IPA',
   PUBLIC_URL: '/ui',
   FEATURE_FLAG_ADMIN_CLIENT: 'true',
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: 'true',
   SIGNALHUB_PERSONAL_DATA_PROCESS_URL: 'http://localhost',
-  FEATURE_FLAG_ESERVICE_PERSONAL_DATA: 'true',
-  FEATURE_FLAG_USE_SIGNED_DOCUMENT: 'true',
+  FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER: 'true',
   DOCUMENTATION_URL:
     'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0',
   AVATAR_BASEPATH: 'http://selc-u-checkout-cdn-endpoint.azureedge.net',
   SELFCARE_PRODUCT_ID: 'prod-interop',
+  FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP: 'false',
+  GRACE_PERIOD_ARCHIVING_ESERVICE: 90,
 }
 
 // runs a cleanup after each test case (e.g. clearing jsdom)

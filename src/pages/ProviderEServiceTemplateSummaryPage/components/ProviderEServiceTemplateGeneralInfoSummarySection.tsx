@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from '@/router'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
-import { FEATURE_FLAG_ESERVICE_PERSONAL_DATA } from '@/config/env'
 
 export const ProviderEServiceTemplateGeneralInfoSummarySection: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'summary.generalInfoSummary' })
@@ -33,12 +32,16 @@ export const ProviderEServiceTemplateGeneralInfoSummarySection: React.FC = () =>
         label={t('apiTechnology.label')}
         content={eserviceTemplate.eserviceTemplate.technology}
       />
-      {FEATURE_FLAG_ESERVICE_PERSONAL_DATA && (
-        <InformationContainer
-          label={t(`personalDataField.${eserviceTemplate.eserviceTemplate.mode}.label`)}
-          content={t(`personalDataField.value.${eserviceTemplate.eserviceTemplate.personalData}`)}
-        />
-      )}
+      <InformationContainer
+        label={t('exchangeType.label')}
+        content={t(
+          `exchangeType.value.${eserviceTemplate.eserviceTemplate.asyncExchange ? 'async' : 'sync'}`
+        )}
+      />
+      <InformationContainer
+        label={t(`personalDataField.${eserviceTemplate.eserviceTemplate.mode}.label`)}
+        content={t(`personalDataField.value.${eserviceTemplate.eserviceTemplate.personalData}`)}
+      />
       <InformationContainer
         label={t('isSignalHubEnabled.label')}
         content={t(

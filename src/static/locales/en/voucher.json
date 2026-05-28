@@ -1,8 +1,42 @@
 {
   "backBtn": "Back",
   "proceedBtn": "Next",
-  "noPurposesLabel": "This client is not associated with any purpose",
-  "noKeysLabel": "This client does not contain public keys",
+  "newSimulationBtn": "New simulation",
+  "beginSimulation": "Begin simulation",
+  "noPurposesLabelAdmin": {
+    "title": "The selected client is not associated with any purpose",
+    "description": "To proceed, access the purpose and connect the {{clientName}} client.",
+    "actionLabel": "Purposes forwarded"
+  },
+  "noPurposesLabelSecurity": {
+    "title": "The selected client is not associated with any purpose",
+    "description": "To proceed, ask your manager to connect it to the purpose of interest of this customer."
+  },
+  "noKeysLabel": {
+    "title": "The selected client does not contain public keys",
+    "description": "To proceed, go to the client and add at least one public key.",
+    "actionLabel": "Go to client"
+  },
+  "noPurposesAndKeysLabel": {
+    "title": "The selected client is not linked to any purpose and contains no public keys.",
+    "description": "To proceed, associate the client with a purpose and add at least one public key to the client.",
+    "actionLabel": "Go to client"
+  },
+  "noEServicesLabel": {
+    "title": "The selected producer keychain is not associated with any e-service",
+    "description": "To proceed, log in to the e-service and connect the {{keychainName}} keychain.",
+    "actionLabel": "My e-services"
+  },
+  "noPublicKeysLabel": {
+    "title": "The selected producer keychain does not contain any public keys",
+    "description": "To proceed, access your keychain and add at least one public key.",
+    "actionLabel": "Go to keychain"
+  },
+  "noEServicesAndPublicKeysLabel": {
+    "title": "The selected keychain is not linked to any e-service and does not contain any public keys.",
+    "description": "To proceed, associate the keychain with an e-service and add at least one public key.",
+    "actionLabel": "Go to keychain"
+  },
   "choosePurposeLabel": "Choose the purpose to use",
   "purposeFailureMessage": "Warning! It will not be possible to obtain a voucher for this purpose. Service has been suspended in one or more components of the pipeline. The suspended components are:",
   "purposeFailureReason": {
@@ -12,32 +46,92 @@
   },
   "title": "Simulate voucher acquisition",
   "description": "Through this feature, you can simulate obtaining a voucher. Once the parameters are selected, you can perform a client assertion, request a voucher, and check that it is compatible.",
-  "step1": {
+  "eservice": "e-service",
+  "pdnd": "PDND",
+  "generalForm": {
     "stepperLabel": "Parameter selection",
-    "title": {
-      "API": "Select public key",
-      "CONSUMER": "Select purpose and public key"
+    "technicalDetails": {
+      "title": "Technical details",
+      "description": "Select the voucher and interaction model for a complete simulation."
     },
-    "description": "Used to show you the correct parameters to populate the client assertion",
+    "simulationSetup": {
+      "title": "Simulation setup",
+      "description": "It serves to show you the correct parameters to enhance the client assertion."
+    },
+    "voucherType": {
+      "label": "Voucher type",
+      "options": {
+        "bearer": {
+          "label": "Bearer (v2)",
+          "description": "Standard access token. The sender is authenticated only by possession of the token itself."
+        },
+        "dpop": {
+          "label": "DPoP (v3)",
+          "description": "Binds the token to a client cryptographic key, preventing the voucher from being reused by unauthorized parties."
+        }
+      }
+    },
+    "interactionType": {
+      "label": "Interaction type",
+      "options": {
+        "sync": "Synchronous (standard)",
+        "async": "Asynchronous (deferred)"
+      }
+    },
+    "memberType": {
+      "label": "Member type",
+      "options": {
+        "consumer": "E-service consumer",
+        "producer": "E-service producer"
+      }
+    },
+    "asyncExchangeStep": {
+      "label": "Asynchronous exchange step",
+      "startInteraction": "Start interaction (start_interaction)",
+      "getResource": "Obtaining the resource (get_resource)",
+      "confirmation": "Confirmation of receipt (confirmation)",
+      "callbackInvocation": "Callback invocation (callback_invocation)"
+    },
     "clientSelectInput": {
-      "label": "Choose the client to use"
+      "label": "Client to use"
     },
     "purposeSelectInput": {
-      "label": "Choose the purpose to use"
+      "label": "Purpose"
     },
     "keySelectInput": {
-      "label": "Choose the public key to use"
+      "label": "Public key"
+    },
+    "producerKeychain": {
+      "label": "Producer keychain"
+    },
+    "eservice": {
+      "label": "E-service"
     },
     "goToTechnicalDocsLabel": "Go to technical documentation",
     "showCurrentSelectionIds": "View IDs for current selection",
     "currentIdsDrawer": {
       "title": "View current selection IDs",
       "subtitle": "Useful parameters to obtain information through PDND APIs. Have questions? <1>Check the guide</1>.",
-      "eserviceIdDescription": "The ID of the e-service linked to the selected purpose",
-      "descriptorIdDescription": "The ID of the e-service version linked to the selected purpose",
-      "agreementIdDescription": "The ID of the service request linked to the selected purpose",
-      "purposeIdDescription": "The ID of the selected purpose",
-      "clientIdDescription": "The ID of this client",
+      "purposeEserviceId": {
+        "label": "eserviceId",
+        "description": "The ID of the e-service linked to the selected purpose"
+      },
+      "descriptorId": {
+        "label": "descriptorId",
+        "description": "The ID of the e-service version linked to the selected purpose"
+      },
+      "agreementId": {
+        "label": "agreementId",
+        "description": "The ID of the service request linked to the selected purpose"
+      },
+      "purposeId": {
+        "label": "purposeId",
+        "description": "The ID of the selected purpose"
+      },
+      "clientId": {
+        "label": "clientId",
+        "description": "The ID of this client"
+      },
       "producerOrganizationId": {
         "label": "organizationId (producer)",
         "description": "The ID of the producing party"
@@ -45,172 +139,391 @@
       "consumerOrganizationId": {
         "label": "organizationId (consumer)",
         "description": "The ID of your party"
+      },
+      "eserviceId": {
+        "label": "eserviceId",
+        "description": "The ID of the selected e-service"
+      },
+      "producerKeychainId": {
+        "label": "producerKeychainId",
+        "description": "The ID of the selected producer keychain"
+      },
+      "producerId": {
+        "label": "producerId",
+        "description": "The ID of the producer"
       }
     }
   },
-  "step2": {
-    "stepperLabel": "Client assertion",
-    "title": "Client assertion",
+  "assertionScript": {
+    "title": "Terminal generation example",
+    "steps": {
+      "1": "Create a folder and name it “client_assertion_test”",
+      "2": "Place the script <1>{{ filename }}</1> in the folder (Python 3.8 required)",
+      "3": "Create a “keys” folder and place the private key inside, naming it “client-test-keypair.rsa.priv”.\nMake sure the private key matches the public key you selected in the previous step.",
+      "4": "Open the terminal and navigate to the client_assertion_test folder",
+      "5": "Paste the command below and press enter",
+      "result": "6. You’ll receive a client assertion signed with your private key. Save this data for the next step."
+    },
+    "exampleLabel": "Example usage"
+  },
+  "firstDPoPProofStep": {
+    "stepperLabel": "First DPoP Proof",
+    "title": "DPoP Proof",
+    "description": "Now you need to generate the DPoP Proof (a signed JWT) to securely bind the session to your cryptographic keys and proceed with the voucher redemption. The key pair used is different from the one used for client assertion.",
+    "assertionHeader": {
+      "title": "Header",
+      "typField": {
+        "label": "TYP (Type)",
+        "description": "The type of object you are sending, in this case, a JWT.",
+        "copySuccessFeedbackText": "String successfully copied"
+      },
+      "algField": {
+        "label": "ALG (Algorithm)",
+        "description": "The algorithm used to sign this JWT. It can only be signed with RS256",
+        "copySuccessFeedbackText": "String successfully copied"
+      },
+      "jwkField": {
+        "label": "JWK (public key)",
+        "description": "The public key in JWK format corresponding to the private key used to sign the DPoP.",
+        "suggestionLabel": "Generate this parameter yourself.\nThe code starts with \"ey\""
+      }
+    },
+    "assertionPayload": {
+      "title": "Payload",
+      "htmField": {
+        "label": "HTM",
+        "description": "Indicates the HTTP method being invoked; in this case POST",
+        "copySuccessFeedbackText": "String successfully copied"
+      },
+      "htuField": {
+        "label": "HTU",
+        "description": "The URL being invoked; in this case a PDND Interoperability resource",
+        "copySuccessFeedbackText": "String successfully copied"
+      },
+      "jtiField": {
+        "label": "JTI (Unique Identifier)",
+        "description": "A unique identifier (UUID) for the DPoP. This is used to identify the token itself.",
+        "suggestionLabel": "Generate this parameter yourself.\nExample: 261cd445-3da6-421b-9ef4-7ba556efda5f"
+      },
+      "iatField": {
+        "label": "IAT (Creation Date and Time)",
+        "description": "Issued at, the timestamp reporting the date and time the token was created, expressed in UNIX epoch (numeric value, not string)",
+        "suggestionLabel": "Generate this parameter yourself.\nExample: 1651659340"
+      }
+    },
+    "assertionScript": {
+      "title": "Terminal generation example",
+      "steps": {
+        "1": "Create a new folder and name it “dpop_proof_test”",
+        "2": "Place the script <1>{{ filename }}</1> in the folder (Python 3.8 is required)",
+        "3": "Create a “keys” folder and place a new private key inside it, naming it “client-test-keypair.rsa.priv”.",
+        "4": "Open Terminal and navigate to the dpop_proof_test folder",
+        "5": "Paste the command below, entering the path to your private key in the PATH_PRIVATEKEY field, and press enter.",
+        "result": "6. You'll receive a first DPoP proof signed with your private key. Save this data for later steps."
+      },
+      "exampleLabel": "Example usage"
+    },
+    "navigateToDebugButton": {
+      "label": "Debug"
+    }
+  },
+  "secondDPoPProofStep": {
+    "stepperLabel": "Second DPoP",
+    "title": "Generate the second DPoP",
+    "description": "Now that the PDND authorization server has issued you a token, generate its hash and insert it into the second DPoP.",
+    "assertionHeader": {
+      "title": "Header",
+      "typField": {
+        "label": "TYP (Type)",
+        "description": "The type of object being sent, in this case, a JWT.",
+        "copySuccessFeedbackText": "String successfully copied"
+      },
+      "algField": {
+        "label": "ALG (Algorithm)",
+        "description": "The algorithm used to sign this JWT. It can only be signed with RS256",
+        "copySuccessFeedbackText": "String successfully copied"
+      },
+      "jwkField": {
+        "label": "JWK (public key)",
+        "description": "The public key in JWK format corresponding to the private key used to sign the DPoP.",
+        "suggestionLabel": "Generate this parameter yourself.\nThe code starts with \"ey\""
+      }
+    },
+    "assertionPayload": {
+      "title": "Payload",
+      "htmField": {
+        "label": "HTM",
+        "description": "Indicates the HTTP method you want to invoke against the resource"
+      },
+      "htuField": {
+        "label": "HTU",
+        "description": "The URL of the resource you want to invoke"
+      },
+      "alert": "You can find information about the HTM and HTU parameters within the e-service's OpenAPI interface.",
+      "athField": {
+        "label": "ATH",
+        "description": "The hash of the voucher released by PDND in the previous step.",
+        "suggestionLabel": "Generate this parameter by calculating the hash of the voucher received from PDND in the previous step.\nExample: 5ubMEMN4EjM0z2SnZRhCKzxJZFlcsrEhz1bVRTzfkZU="
+      },
+      "jtiField": {
+        "label": "JTI (Unique Identifier)",
+        "description": "A unique identifier (UUID) for the DPoP. This is used to identify the token itself.",
+        "suggestionLabel": "Generate this parameter yourself. \nExample: 261cd445-3da6-421b-9ef4-7ba556efda5f"
+      },
+      "iatField": {
+        "label": "IAT (Creation Date and Time)",
+        "description": "Issued at, the timestamp reporting the date and time the token was created, expressed in UNIX epoch (numeric value, not string)",
+        "suggestionLabel": "Generate this parameter yourself.\nExample: 1651659340"
+      }
+    },
+    "assertionScript": {
+      "title": "Terminal generation example",
+      "steps": {
+        "1": "In the previously created \"client_assertion_test\" folder, paste the script <1>{{ filename }}</1> (Python 3.8 is required)",
+        "2": "Reopen the terminal and paste the command below.",
+        "3": "Replace the ACCESS_TOKEN value with the JWT returned by the PDND authorization server in the previous step. This will be used to calculate the ATH parameter, which will be inserted into the second DPoP Proof.",
+        "4": "Use the same path and private key used for the first DPoP Proof. The HTM and HTU paths are pre-populated based on the data entered previously.",
+        "5": "Send the command.",
+        "result": "6. You'll receive a client assertion signed with your private key. Save this data for the next step."
+      },
+      "exampleLabel": "Example of use"
+    },
+    "exampleRequest": {
+      "title": {
+        "eservice": "Example of request to the producer",
+        "pdnd": "Example of a request to PDND"
+      },
+      "description": "If the token is valid, use it against the producer's API before it expires.",
+      "alert": {
+        "title": "Sample script. The producer may require additional parameters in the request. Before proceeding, check your producer's documentation.",
+        "actionLabel": "View e-service"
+      }
+    },
+    "pdndInteroperability": {
+      "title": "PDND",
+      "description": "The API that allows parties to interact with PDND in machine-to-machine mode",
+      "actionLabel": "Consult",
+      "apiV3": {
+        "title": "API v3",
+        "description": "API that allows you to automate read and write operations related to PDND. Interoperability with a high level of security."
+      }
+    }
+  },
+  "clientAssertionStep": {
+    "stepperLabel": "Generate client assertion",
+    "title": "Generate the client assertion",
     "description": {
-      "label": "The first step is to create an assertion signed by your party with the private key corresponding to one of the public keys you have uploaded to this client. Below are the details to create the JWS according to the specification",
+      "label": "The first requirement is to create the client assertion, defined by the <1>RFC7521</1> specification. The assertion must be compiled and signed with the private key corresponding to the public key selected in the previous step.",
       "link": {
-        "label": "RFC7521",
         "title": "Link to RFC7521 specification"
       }
     },
     "assertionHeader": {
       "title": "Assertion header",
       "kidField": {
-        "label": "KID",
-        "description": "The ID of the key selected in the previous step",
+        "label": "KID (Key ID)",
+        "description": "The identifier of the public key selected in the previous step, uploaded to PDND and used to sign the assertion.",
         "copySuccessFeedbackText": "ID successfully copied"
       },
       "algField": {
-        "label": "ALG",
-        "description": "The algorithm used to sign this JWT. At this time, signing is only possible with RS256",
+        "label": "ALG (Algorithm)",
+        "description": "The algorithm used to sign this JWT. It can only be signed with RS256.",
         "copySuccessFeedbackText": "Text successfully copied"
       },
       "typField": {
-        "label": "TYP",
-        "description": "The type of object being sent, in this case “JWT”",
+        "label": "TYP (Type)",
+        "description": "Defines the token type. For PDND Client Assertions the value is always JWT.",
         "copySuccessFeedbackText": "Text successfully copied"
       }
     },
     "assertionPayload": {
       "title": "Assertion payload",
       "issField": {
-        "label": "ISS",
-        "description": "The issuer of the request; in this case, the ID of this client",
+        "label": "ISS (Issuer)",
+        "description": "The Client ID of the application issuing the request.",
         "copySuccessFeedbackText": "ID successfully copied"
       },
       "subField": {
-        "label": "SUB",
-        "description": "The subject of the request; in this case, always the client ID",
+        "label": "SUB (Subject)",
+        "description": "The subject of the assertion. In PDND, this always coincides with the Client ID.",
         "copySuccessFeedbackText": "ID successfully copied"
       },
       "audField": {
-        "label": "AUD",
-        "description": "The target audience; in this case, a PDND resource",
+        "label": "AUD (Audience)",
+        "description": "The target audience; in this case a PDND Interoperability resource",
         "copySuccessFeedbackText": "String successfully copied"
       },
       "purposeIdField": {
-        "label": "PurposeId",
-        "description": "The ID of the purpose selected in the previous step",
+        "label": "PurposeId (Purpose ID)",
+        "description": "The purpose identifier (UUID) selected in the previous step and associated with the use of the e-service.",
         "copySuccessFeedbackText": "ID successfully copied"
       },
       "jtiField": {
-        "label": "JTI",
-        "description": "A unique random (UUID) ID generated by the token creator. Used to identify the token itself",
-        "suggestionLabel": "You must generate this parameter yourself. Example value: 261cd445-3da6-421b-9ef4-7ba556efda5f"
+        "label": "JTI (Unique Identifier)",
+        "description": "A random unique identifier (UUID) generated by the person creating the token. It serves to identify the token itself.",
+        "suggestionLabel": "Generate this parameter yourself.\nExample: 261cd445-3da6-421b-9ef4-7ba556efda5f"
       },
       "iatField": {
-        "label": "IAT",
-        "description": "Issued at: the timestamp indicating the date and time when the token is created, expressed in UNIX epoch (numeric value, not string)",
-        "suggestionLabel": "You must generate this parameter yourself. Example value: 1651659340"
+        "label": "IAT (Creation Date and Time)",
+        "description": "Issued at, the timestamp reporting the date and time the token was created, expressed in UNIX epoch (numeric value, not string)",
+        "suggestionLabel": "Generate this parameter yourself.\nExample: 1651659340"
       },
       "expField": {
-        "label": "EXP",
-        "description": "Expiration: the timestamp indicating the token expiration date and time, expressed in UNIX epoch (numeric value, not string)",
-        "suggestionLabel": "You must generate this parameter yourself. Example value: 1651738540"
-      }
-    },
-    "assertionScript": {
-      "title": "Example for generating a client assertion",
-      "steps": {
-        "1": "Create a folder and name it “client_assertion_test”",
-        "2": "Place the script <1>{{ filename }}</1> in the folder (Python 3.8 required)",
-        "3": "Create a “keys” folder and place the private key inside, naming it “client-test-keypair.rsa.priv”",
-        "4": "Open the terminal and navigate to the client_assertion_test folder",
-        "5": "Paste the command below and press enter",
-        "result": "This will generate a client assertion signed with your private key. Warning: the private key must match the public key you selected in the previous step."
+        "label": "EXP (Expiration)",
+        "description": "Expiration, the timestamp reporting the date and time of expiration of the token, expressed in UNIX epoch (numeric value, not string)",
+        "suggestionLabel": "Generate this parameter yourself.\nExample: 1651738540"
       },
-      "exampleLabel": "Example usage"
+      "scope": {
+        "label": "Scope",
+        "description": "Reference to the phase of interaction between the parties.",
+        "copySuccessFeedbackText": "String successfully copied"
+      },
+      "urlCallbackField": {
+        "label": "urlCallback",
+        "description": "The URL that the provider will need to contact to answer the call."
+      },
+      "interactionIdField": {
+        "label": "interactionID",
+        "description": "The unique ID that identifies the interaction between the parties."
+      },
+      "entityNumberField": {
+        "label": "EntityNumber",
+        "description": "The number of entities present in the response."
+      }
     }
   },
-  "step3": {
-    "stepperLabel": "Voucher",
-    "title": "Voucher request",
-    "consumerDescription": "Once the JWS has been signed with your private key, it must be used to make a voucher request to the PDND authorization server. If successful, a voucher usable at the producer’s e-service will be returned",
-    "apiDescription": "Once the JWS has been signed with your private key, it must be used to make a voucher request to the PDND authorization server. If successful, a voucher usable at the PDND API gateway will be returned",
+  "accessTokenStep": {
+    "stepperLabel": "Get access token",
+    "title": "Get the access token",
+    "description": "Once you’ve created the JWS signed with your private key, you can use it to make a request to the PDND Interoperability authorization server. If successful, you’ll receive a voucher that can be used at the provider’s e-service.",
     "authEndpoint": {
-      "label": "Authorization server endpoint",
-      "copySuccessFeedbackText": "URL successfully copied"
+      "title": "Authorization server endpoint",
+      "url": {
+        "label": "URL",
+        "description": "The ID of the key selected in the previous step",
+        "copySuccessFeedbackText": "URL successfully copied"
+      }
+    },
+    "requestDPoPHeader": {
+      "title": "DPoP request header",
+      "dPoP": {
+        "label": "DPoP",
+        "description": "The DPoP generated in the previous step",
+        "suggestionLabel": "Enter the DPoP you created in the previous step. The code starts with \"ey\""
+      }
     },
     "requestBody": {
-      "title": "Request body",
+      "title": {
+        "bearer": "POST Body request",
+        "dpop": "Body request"
+      },
       "clientIdField": {
-        "label": "client_id",
+        "label": "Client_id",
+        "description": "The client reference from which the call is made",
+        "copySuccessFeedbackText": "ID successfully copied"
+      },
+      "producerKeychainId": {
+        "label": "Producer Keychain ID",
+        "description": "The ID of the selected producer keychain",
         "copySuccessFeedbackText": "ID successfully copied"
       },
       "clientAssertionField": {
-        "label": "client_assertion",
-        "suggestionLabel": "The JWS obtained from the previous step (starts with “ey”)"
+        "label": "Client_assertion",
+        "description": "The complete JWT token encoded in Base64Url.",
+        "suggestionLabel": "Enter the client assertion you created in the previous step. The code begins with \"ey.\""
       },
       "clientAssertionTypeField": {
-        "label": "client_assertion_type",
-        "description": "The target audience; in this case, a PDND resource",
+        "label": "Client_assertion_type",
+        "description": "Specifies the type of assertion being sent.",
         "copySuccessFeedbackText": "String successfully copied"
       },
       "grantTypeField": {
-        "label": "grant_type",
+        "label": "Grant_type",
+        "description": "Defines the authorization method, client_credentials",
         "copySuccessFeedbackText": "String successfully copied"
       }
     },
     "voucherScript": {
-      "title": "Example cURL",
-      "guide": "Open the terminal, replace the placeholder YOUR_CLIENT_ASSERTION with the assertion you obtained in the previous step, and run the cURL. If you don’t have cURL, <1>you can install it</1> via Brew.",
+      "title": "Example cURL request",
+      "guide": {
+        "bearer": "Open the terminal, replace the placeholder YOUR_CLIENT_ASSERTION with the assertion you obtained in the previous step, and run the cURL. If you don’t have cURL, <1>you can install it</1> via Brew.",
+        "dpop": "Open the terminal, replace the placeholder YOUR_CLIENT_ASSERTION with the assertion you obtained in the first step and THE_DPOP_GENERATED with the text you obtained in the previous step. Once you’ve customized the terminal statement, launch cURL. If you don’t have cURL, <1>you can install it</1> from Brew."
+      },
       "exampleLabel": "Example cURL"
     },
-    "debugVoucherAlert": {
-      "description": "Unable to obtain a valid voucher? Try the",
-      "link": {
-        "label": "debug feature"
-      }
-    }
+    "debugVoucherLink": "Can’t get a valid voucher? Debug it."
   },
-  "step4": {
-    "consumerStepperLabel": "E-service access",
-    "apiStepperLabel": "API Interop access",
+  "dataAccessStep": {
+    "stepperLabelBearer": "Data access",
+    "stepperLabelDPoP": "PDND response",
     "actionLabel": "Consult",
-    "CONSUMER": {
-      "title": "Congratulations!",
-      "description": "You can now access the API of the e-service <strong>{{ eserviceName }}</strong> produced by <strong>{{ producerName }}</strong> ",
-      "actionTitle": "E-service page",
-      "actionDescription": "You can access the data made available by the producer",
-      "actionLabel": "Go to e-service page"
+    "pdndAccessToken": {
+      "title": "Have you received the access token from PDND?",
+      "description": "Once you’ve made a request to the PDND authorization server, you can get two results. If the request is successful, you’ll be returned a token to spend at the dispenser. If something goes wrong, use the available debug tool.",
+      "successAlert": {
+        "title": "Yes, I received a response containing an access token",
+        "description": "Congratulations, your token has been successfully generated by PDND."
+      },
+      "failureAlert": {
+        "title": "No, I did not receive a response containing an access token",
+        "description": "Something went wrong. Use the debug tool to figure out what happened.",
+        "debugButton": "Debug"
+      }
     },
-    "API": {
-      "title": "Congratulations!",
-      "description": "You can now access the PDND APIs",
-      "actionTitle": "PDND",
-      "actionDescription": "The API that allows parties to interact with PDND in machine-to-machine mode",
-      "titleSignalHub": "Signal Hub",
+    "pdndInteroperability": {
+      "title": "PDND",
+      "description": "The API that allows parties to interact with PDND in machine-to-machine mode",
       "actionLabel": "Consult",
-      "apiV1": {
-        "title": "API v.1 (deprecated)",
-        "description": "The API version currently in use and being deprecated."
-      },
       "apiV2": {
-        "title": "API v.2 (recommended)",
-        "description": "The most recent API version as the new standard for machine-to-machine communications to Interoperability."
+        "title": "API v2 (deprecated)",
+        "description": "API that allows you to automate read and write operations related to PDND Interoperability, based on Bearer access tokens."
       },
+      "apiV3": {
+        "title": "API v3",
+        "description": "API that allows you to automate read and write operations related to PDND. Interoperability with a high level of security."
+      }
+    },
+    "signalHub": {
+      "title": "Signal Hub",
+      "description": "The service that informs users when e-service data is changed.",
+      "actionLabel": "Consult",
       "pushApiSH": {
-        "title": "Signal submission (Push API)",
+        "title": "Push API",
         "description": "The API that allows producers to send data change signals"
       },
       "pullApiSH": {
-        "title": "Signal retrieval (Pull API)",
+        "title": "Pull API",
         "description": "The API that allows consumers to retrieve data change signals"
+      }
+    },
+    "exampleRequest": {
+      "title": {
+        "eservice": "Example of request to the producer",
+        "pdnd": "Example of a request to PDND"
+      },
+      "description": "If the token is valid, use it against the producer’s API before it expires.",
+      "alert": {
+        "title": "Sample script. The producer may require additional parameters in the request. Before proceeding, check your producer’s documentation.",
+        "actionLabel": "View e-service"
       }
     }
   },
   "consumerDebugVoucher": {
     "edit": {
       "title": "Request data to the server",
-      "clientAssertionLabel": "Enter your client assertion (required)",
-      "clientIdLabel": "Enter the client ID",
-      "description": "The request will be sent to the authorization server endpoint: <strong>{{ authServer }}</strong>",
-      "submitBtn": "Send request"
+      "description": "Copy the information you sent to the PDND authorization server that generated the error into these fields.",
+      "clientAssertionLabel": "Client assertion",
+      "clientAssertionInfoLabel": "The client assertion is a JWT token consisting of a string starting with \"ey.\" Copy it without adding spaces.",
+      "dpopProofLabel": "DPoP Proof",
+      "dpopProofInfoLabel": "If you generated a DPoP token, you will also need to enter the DPoP Proof in this field.",
+      "clientIdLabel": "client_id or producer_id",
+      "clientIdInfoLabel": "Please enter the same client_id or producer_id used to make the request to PDND.",
+      "interactionModelLabel": "Interaction model",
+      "interactionModelSync": "Synchronous (standard)",
+      "interactionModelAsync": "Asynchronous (deferred)",
+      "alert": "The request will be sent to the authorization server endpoint: <strong>{{ authServer }}</strong>",
+      "submitBtn": "Send request",
+      "goBackBtn": "Back"
     },
     "result": {
       "newRequestBtn": "Perform new check",
@@ -218,6 +531,7 @@
         "title": "Result of your request",
         "description": {
           "apiSuccess": "This request is valid; it is possible to obtain a voucher for the <strong>PDND APIs</strong>",
+          "apiV3Success": "This request is valid; it is possible to obtain a voucher for the <strong>PDND APIs v3</strong>",
           "consumerSuccess": "This request is valid; it is possible to obtain a voucher for the e-service <1>{{eserviceName}}, {{eserviceVersion}}</1>",
           "failed": "It is not possible to obtain a voucher for this request"
         }
@@ -226,10 +540,11 @@
         "title": "Debug result",
         "step": {
           "label": {
-            "clientAssertionValidation": "1. Client assertion validation",
-            "publicKeyRetrieve": "2. Retrieval of the public key stored on PDND",
-            "clientAssertionSignatureVerification": "3. Verification of the client assertion signature",
-            "platformStatesVerification": "4. Verification of the component states on PDND"
+            "clientAssertionValidation": "{{index}}. Client assertion validation",
+            "publicKeyRetrieve": "{{index}}. Retrieval of the public key stored on PDND",
+            "clientAssertionSignatureVerification": "{{index}}. Verification of the client assertion signature",
+            "platformStatesVerification": "{{index}}. States verification",
+            "dpopValidation": "{{index}}. DPoP proof validation"
           }
         }
       },
@@ -239,8 +554,14 @@
         "clientId": {
           "label": "Client_id"
         },
+        "voucherType": {
+          "label": "Voucher type"
+        },
         "clientAssertion": {
           "label": "Client_assertion"
+        },
+        "dpopProof": {
+          "label": "DPoP proof"
         },
         "clientAssertionType": {
           "label": "Client_assertion_type",
@@ -249,20 +570,24 @@
         "grantType": {
           "label": "Grant_type",
           "description": "The type of flow used, as specified in RFC"
-        }
+        },
+        "dpop": "DPoP",
+        "bearer": "Bearer"
       },
       "stepDrawer": {
         "title": {
-          "clientAssertionValidation": "1. Client assertion validation",
-          "publicKeyRetrieve": "2. Retrieval of the public key stored on PDND",
-          "clientAssertionSignatureVerification": "3. Verification of the client assertion signature",
-          "platformStatesVerification": "4. Verification of the component states on PDND"
+          "clientAssertionValidation": "{{index}}. Client assertion validation",
+          "publicKeyRetrieve": "{{index}}. Retrieval of the public key stored on PDND",
+          "clientAssertionSignatureVerification": "{{index}}. Verification of the client assertion signature",
+          "platformStatesVerification": "{{index}}. States verification",
+          "dpopValidation": "{{index}}. DPoP proof validation"
         },
         "description": {
           "clientAssertionValidation": "It is verified that the client assertion is well structured. All required fields must be present and correctly filled.",
           "publicKeyRetrieve": "It is verified that the public key corresponding to the kid in the client assertion is present on PDND and can be retrieved.",
           "clientAssertionSignatureVerification": "It is verified that the private key used to sign the client assertion matches the public key identified by the kid and retrieved in step 2.",
-          "platformStatesVerification": "It is verified that all administrative and technical components required by PDND are active"
+          "platformStatesVerification": "It is verified that all administrative and technical components required by PDND are active",
+          "dpopValidation": "It is verified that the information contained in the client assertion is compatible with the interaction state defined between the parties."
         },
         "stepResultLabel": "Verification result:",
         "nextStepBtn": "Go to next step"

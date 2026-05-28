@@ -15,6 +15,7 @@ import { AuthHooks } from '@/api/auth'
 import SendIcon from '@mui/icons-material/Send'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import ArticleIcon from '@mui/icons-material/Article'
+import ReplayCircleFilledIcon from '@mui/icons-material/ReplayCircleFilled'
 import noop from 'lodash/noop'
 import { useDialog } from '@/stores'
 import { match } from 'ts-pattern'
@@ -22,7 +23,8 @@ import { match } from 'ts-pattern'
 function useGetEServiceConsumerActions(
   descriptor?: CatalogEServiceDescriptor,
   delegators?: Array<DelegationTenant>,
-  isDelegator?: boolean
+  isDelegator?: boolean,
+  viewLatestVersionTargetId?: string
 ): {
   primaryAction: ActionItemButton | undefined
   secondaryAction: ActionItemButton | undefined
@@ -30,24 +32,26 @@ function useGetEServiceConsumerActions(
   headerInfoActions: Array<ActionItemButton>
 } {
   const { t } = useTranslation('eservice')
+  const { t: tEserviceActions } = useTranslation('eservice', { keyPrefix: 'read.actions' })
   const { jwt, isAdmin } = AuthHooks.useJwt()
 
   const navigate = useNavigate()
 
   const { openDialog } = useDialog()
 
-  const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
+  const isAsyncExchange = descriptor?.eservice.asyncExchange === true
+
+  const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft(true, isAsyncExchange)
   const { mutate: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
 
-  const actions: Array<ActionItemButton> = []
+  const emptyResult = {
+    primaryAction: undefined,
+    secondaryAction: undefined,
+    menuActions: [],
+    headerInfoActions: [],
+  }
 
-  if (!descriptor || !isAdmin)
-    return {
-      primaryAction: undefined,
-      secondaryAction: undefined,
-      menuActions: [],
-      headerInfoActions: [],
-    }
+  if (!descriptor || !isAdmin) return emptyResult
 
   const isMine = Boolean(descriptor.eservice.isMine)
   const isSubscribed = descriptor.eservice.isSubscribed
@@ -191,21 +195,24 @@ function useGetEServiceConsumerActions(
     })
   }
 
-  if (isSubscribed) {
-    actions.push({
-      action: handleInspectAgreementAction,
-      label: t('tableEServiceCatalog.inspect'),
-      icon: ArticleIcon,
-    })
-  }
+  const inspectAction: ActionItemButton | undefined = isSubscribed
+    ? {
+        action: handleInspectAgreementAction,
+        label: t('tableEServiceCatalog.inspect'),
+        icon: ArticleIcon,
+        variant: 'contained',
+      }
+    : undefined
 
-  if (hasAgreementDraft && !isDelegator) {
-    actions.push({
-      action: handleEditAgreementAction,
-      label: t('tableEServiceCatalog.editDraft'),
-      icon: PendingActionsIcon,
-    })
-  }
+  const editDraftAction: ActionItemButton | undefined =
+    hasAgreementDraft && !isDelegator
+      ? {
+          action: handleEditAgreementAction,
+          label: t('tableEServiceCatalog.editDraft'),
+          icon: PendingActionsIcon,
+          variant: 'contained',
+        }
+      : undefined
 
   const existingAgreements = descriptor.eservice.agreements.filter(
     (agreement) => agreement.state !== 'ARCHIVED' && agreement.state !== 'REJECTED'
@@ -219,7 +226,7 @@ function useGetEServiceConsumerActions(
     (tenant) => !existingAgreements.some((agreement) => agreement.consumerId === tenant.id)
   )
 
-  if (
+  const canShowSubscribe =
     // If there are more than one tenant without an agreement...
     tenantsWithoutAgreement.length > 1 ||
     // ...or there is exactly one tenant without an agreement and it is not the active party...
@@ -230,19 +237,21 @@ function useGetEServiceConsumerActions(
       tenantsWithoutAgreement[0].id === jwt?.organizationId &&
       !isDelegator &&
       canCreateAgreementDraft)
-  ) {
-    actions.push({
-      action:
-        tenantsWithoutAgreement.length === 1 &&
-        tenantsWithoutAgreement[0].id === jwt?.organizationId
-          ? handleCreateAgreementDraftAction
-          : handleOpenCreateAgreementDraftDialog,
-      label: t('tableEServiceCatalog.subscribe'),
-      icon: SendIcon,
-      disabled: isSuspended,
-      tooltip: isSuspended ? t('tableEServiceCatalog.eserviceSuspendedTooltip') : undefined,
-    })
-  }
+
+  const subscribeAction: ActionItemButton | undefined = canShowSubscribe
+    ? {
+        action:
+          tenantsWithoutAgreement.length === 1 &&
+          tenantsWithoutAgreement[0].id === jwt?.organizationId
+            ? handleCreateAgreementDraftAction
+            : handleOpenCreateAgreementDraftDialog,
+        label: t('tableEServiceCatalog.subscribe'),
+        icon: SendIcon,
+        variant: 'contained',
+        disabled: isSuspended,
+        tooltip: isSuspended ? t('tableEServiceCatalog.eserviceSuspendedTooltip') : undefined,
+      }
+    : undefined
 
   const shouldShowhasMissingAttributesTooltip =
     // ...the e-service is not owned by the active party...
@@ -262,21 +271,48 @@ function useGetEServiceConsumerActions(
     // ... and there is no agreement draft yet
     !hasAgreementDraft
 
-  if (shouldShowhasMissingAttributesTooltip) {
-    actions.push({
-      action: noop,
-      label: t('tableEServiceCatalog.subscribe'),
-      icon: SendIcon,
-      disabled: true,
-      tooltip: t('tableEServiceCatalog.missingCertifiedAttributesTooltip'),
-    })
+  const subscribeDisabledMissingAttributesAction: ActionItemButton | undefined =
+    shouldShowhasMissingAttributesTooltip
+      ? {
+          action: noop,
+          label: t('tableEServiceCatalog.subscribe'),
+          icon: SendIcon,
+          variant: 'contained',
+          disabled: true,
+          tooltip: t('tableEServiceCatalog.missingCertifiedAttributesTooltip'),
+        }
+      : undefined
+
+  const handleViewLatestVersion = () => {
+    if (viewLatestVersionTargetId) {
+      navigate('SUBSCRIBE_CATALOG_VIEW', {
+        params: { eserviceId: descriptor.eservice.id, descriptorId: viewLatestVersionTargetId },
+      })
+    }
   }
 
+  const viewLatestVersionAction: ActionItemButton | undefined = viewLatestVersionTargetId
+    ? {
+        action: handleViewLatestVersion,
+        label: tEserviceActions('viewLatestVersion'),
+        icon: ReplayCircleFilledIcon,
+      }
+    : undefined
+
+  const primaryAction: ActionItemButton | undefined =
+    inspectAction ?? editDraftAction ?? subscribeAction ?? subscribeDisabledMissingAttributesAction
+
+  const hasPrimaryAgreementAction = Boolean(inspectAction ?? editDraftAction)
+  const secondaryAction: ActionItemButton | undefined =
+    hasPrimaryAgreementAction && subscribeAction
+      ? { ...subscribeAction, variant: 'outlined' }
+      : undefined
+
   return {
-    primaryAction: undefined,
-    secondaryAction: undefined,
-    menuActions: actions,
-    headerInfoActions: [],
+    primaryAction,
+    secondaryAction,
+    menuActions: [],
+    headerInfoActions: viewLatestVersionAction ? [viewLatestVersionAction] : [],
   }
 }
 

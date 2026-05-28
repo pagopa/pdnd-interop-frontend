@@ -5,6 +5,7 @@ import type {
   Document as ApiDocument,
   GetCatalogPurposeTemplatesParams,
   GetCreatorPurposeTemplatesParams,
+  GetPurposeTemplateLinkableResourcesParams,
   GetPurposeTemplateEServicesParams,
 } from '../../api.generatedTypes'
 import { mockPurposeTemplateResponse } from '@/../__mocks__/data/purposeTemplate.mocks'
@@ -14,6 +15,7 @@ vi.mock('../purposeTemplate.services', () => ({
   PurposeTemplateServices: {
     getConsumerPurposeTemplatesList: vi.fn(),
     getEservicesLinkedToPurposeTemplatesList: vi.fn(),
+    getLinkableResources: vi.fn(),
     getSingle: vi.fn(),
     getCatalogPurposeTemplates: vi.fn(),
     getAnswerDocuments: vi.fn(),
@@ -63,7 +65,8 @@ describe('PurposeTemplateQueries', () => {
     })
   })
 
-  describe('getEservicesLinkedToPurposeTemplatesList', () => {
+  // TODO: remove this test after feature purpose template <-> e-service template linking validation
+  describe.skip('getEservicesLinkedToPurposeTemplatesList', () => {
     it('should return queryOptions with correct queryKey', () => {
       const params: GetPurposeTemplateEServicesParams = {
         purposeTemplateId: 'test-template-id',
@@ -105,6 +108,49 @@ describe('PurposeTemplateQueries', () => {
 
       expect(PurposeTemplateServices.getEservicesLinkedToPurposeTemplatesList).toHaveBeenCalledWith(
         params.purposeTemplateId,
+        params
+      )
+      expect(data).toEqual(mockData)
+    })
+  })
+
+  describe('getLinkableResources', () => {
+    const purposeTemplateId = 'test-template-id'
+
+    it('should return queryOptions with correct queryKey', () => {
+      const params: Omit<GetPurposeTemplateLinkableResourcesParams, 'purposeTemplateId'> = {
+        offset: 0,
+        limit: 10,
+      }
+
+      const result = PurposeTemplateQueries.getLinkableResources(purposeTemplateId, params)
+
+      expect(result.queryKey).toEqual([
+        'PurposeTemplateGetLinkableResources',
+        purposeTemplateId,
+        params,
+      ])
+    })
+
+    it('should call getLinkableResources service when queryFn is executed', async () => {
+      const params: Omit<GetPurposeTemplateLinkableResourcesParams, 'purposeTemplateId'> = {
+        offset: 0,
+        limit: 10,
+        q: 'foo',
+      }
+      const mockData = {
+        results: [],
+        pagination: { offset: 0, limit: 10, totalCount: 0 },
+      }
+      vi.mocked(PurposeTemplateServices.getLinkableResources).mockResolvedValue(mockData)
+
+      const result = PurposeTemplateQueries.getLinkableResources(purposeTemplateId, params)
+
+      expect(result.queryFn).toBeDefined()
+      const data = await (result.queryFn as () => Promise<unknown>)()
+
+      expect(PurposeTemplateServices.getLinkableResources).toHaveBeenCalledWith(
+        purposeTemplateId,
         params
       )
       expect(data).toEqual(mockData)

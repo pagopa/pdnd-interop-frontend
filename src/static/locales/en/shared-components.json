@@ -298,6 +298,21 @@
       "forward": "Forward"
     }
   },
+  "dialogCancelVersionArchiving": {
+    "title": "Cancel version archiving",
+    "description": "This version will no longer be archived.",
+    "actions": {
+      "keepArchiving": "Keep archiving",
+      "cancelArchiving": "Cancel archiving"
+    }
+  },
+  "dialogArchiveVersion": {
+    "title": "Archive version",
+    "content": {
+      "description": "Archiving will occur on <strong>{{date}}</strong>. Before this date, the version will remain active to allow users to adapt. You can only cancel archiving before this date.",
+      "alert": "Actual archiving may require some time as users continue to exchange data. See the <1>documentation</1> for further details."
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"
@@ -389,6 +404,18 @@
     "warning": {
       "ARCHIVED": "This e-service has been archived and can no longer be associated. Remove it before proceeding",
       "SUSPENDED": "This e-service has been suspended and can no longer be associated. Remove it before proceeding"
+    }
+  },
+  "resourceContainer": {
+    "removeAriaLabel": "Remove {{name}}",
+    "idCopyTooltipLabel": "ID copied successfully",
+    "eservice": {
+      "idField": "E-service ID",
+      "viewBtn": "View e-service"
+    },
+    "eserviceTemplate": {
+      "idField": "E-service template ID",
+      "viewBtn": "View e-service template"
     }
   },
   "drawer": {

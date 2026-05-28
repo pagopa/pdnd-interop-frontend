@@ -99,9 +99,7 @@ describe('ConsumerPurposePublishThankYouPage', () => {
       vi.advanceTimersByTime(1000)
     })
 
-    expect(
-      screen.getByRole('heading', { name: 'waitingForApproval.title' })
-    ).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'waitingForApproval.title' })).toBeInTheDocument()
     expect(screen.getByText('waitingForApproval.description')).toBeInTheDocument()
   })
 
@@ -119,9 +117,12 @@ describe('ConsumerPurposePublishThankYouPage', () => {
       withRouterContext: true,
     })
 
-    await waitFor(() => {
-      expect(screen.getByRole('button', { name: 'action' })).toBeInTheDocument()
-    }, { timeout: 2000 })
+    await waitFor(
+      () => {
+        expect(screen.getByRole('button', { name: 'action' })).toBeInTheDocument()
+      },
+      { timeout: 2000 }
+    )
 
     await user.click(screen.getByRole('button', { name: 'action' }))
 

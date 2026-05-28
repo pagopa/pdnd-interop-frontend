@@ -5,7 +5,10 @@ import { Stack } from '@mui/material'
 import React from 'react'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { useTranslation } from 'react-i18next'
-import { implementAndManageEServiceTemplateLink, updateEserviceInstanceLink } from '@/config/constants'
+import {
+  implementAndManageEServiceTemplateLink,
+  updateEserviceInstanceLink,
+} from '@/config/constants'
 
 export const EServiceTemplateUsefulLinksSection: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', {

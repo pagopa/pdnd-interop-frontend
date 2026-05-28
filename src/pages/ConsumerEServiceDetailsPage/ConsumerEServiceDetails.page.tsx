@@ -14,6 +14,8 @@ import ConsumerEServiceDetailsTab from './components/ConsumerEServiceDetailsTab/
 import ConsumerLinkedPurposeTemplatesTab from './components/ConsumerLinkedPurposeTemplatesTab.tsx/ConsumerLinkedPurposeTemplatesTab'
 import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { NewPageContainer } from '@/components/layout/containers/NewPageContainer'
+import { useDialog } from '@/stores'
+import { getViewLatestVersionTargetId } from '@/utils/eservice.utils'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -21,6 +23,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
   const { jwt } = AuthHooks.useJwt()
 
   const { activeTab, updateActiveTab } = useActiveTab('eserviceDetail')
+  const { openDialog } = useDialog()
 
   const { data: descriptor } = useQuery(
     EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
@@ -53,8 +56,13 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
 
   const isDelegator = delegations.length > 0
 
+  const viewLatestVersionTargetId = React.useMemo(
+    () => getViewLatestVersionTargetId(descriptor?.eservice.descriptors, descriptorId),
+    [descriptor?.eservice.descriptors, descriptorId]
+  )
+
   const { primaryAction, secondaryAction, menuActions, headerInfoActions } =
-    useGetEServiceConsumerActions(descriptor, delegators, isDelegator)
+    useGetEServiceConsumerActions(descriptor, delegators, isDelegator, viewLatestVersionTargetId)
 
   useTrackPageViewEvent('INTEROP_CATALOG_READ', {
     eserviceId: descriptor?.eservice.id,
@@ -76,9 +84,32 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
         descriptor
           ? {
               label: t('versionHeaderLabel'),
-              shortcut: { type: 'button', label: descriptor.version, onClick: () => {} }, // TODO navigation function
+              shortcut: {
+                type: 'button',
+                label: descriptor.version,
+                onClick: () =>
+                  openDialog({
+                    type: 'showEserviceVersionsList',
+                    eserviceId,
+                    eserviceName: descriptor.eservice.name,
+                    descriptors: descriptor.eservice.descriptors,
+                    activeDescriptor: descriptor.eservice.activeDescriptor,
+                    routeKey: 'SUBSCRIBE_CATALOG_VIEW',
+                  }),
+              },
               actions: headerInfoActions,
-              statusChip: { for: 'eservice', state: descriptor.state },
+              statusChip: {
+                for: 'descriptor',
+                state: descriptor.state,
+                isActiveDescriptor: descriptor.id === descriptor.eservice.activeDescriptor?.id,
+              },
+              archivingScheduleInfo:
+                descriptor.archivingSchedule?.archivableOn && descriptor.archivingSchedule?.scope
+                  ? {
+                      archivableOn: descriptor.archivingSchedule.archivableOn,
+                      scope: descriptor.archivingSchedule.scope,
+                    }
+                  : undefined,
             }
           : undefined
       }

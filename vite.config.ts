@@ -15,10 +15,10 @@ export default defineConfig(({ mode }) => {
     mode === 'development'
       ? devPlugins
       : mode === 'production'
-      ? prodPlugins
-      : mode === 'test'
-      ? testPlugins
-      : undefined
+        ? prodPlugins
+        : mode === 'test'
+          ? testPlugins
+          : undefined
 
   return {
     base: '/ui',
@@ -56,6 +56,11 @@ export default defineConfig(({ mode }) => {
       globals: true,
       environment: 'jsdom',
       setupFiles: './setupTests.ts',
+      server: {
+        deps: {
+          inline: ['@pagopa/mui-italia'],
+        },
+      },
       coverage: {
         reporter: ['text', 'lcov'],
         exclude: [
@@ -63,7 +68,6 @@ export default defineConfig(({ mode }) => {
           '**/__tests__/**',
           '**/__test__/**',
           '**/__mocks__/**',
-          '**/api/agreement/**',
           '**/api/attribute/**',
           '**/api/auth/**',
           '**/api/client/**',

@@ -1,6 +1,7 @@
-import { DOCUMENTATION_URL } from '@/config/env'
+import { DOCUMENTATION_URL, GRACE_PERIOD_ARCHIVING_ESERVICE } from '@/config/env'
 import { useDialog } from '@/stores'
 import type { DialogArchiveEserviceProps } from '@/types/dialog.types'
+import { formatDateStringNumeric } from '@/utils/format.utils'
 import {
   Alert,
   Box,
@@ -58,7 +59,7 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
   }
 
   const archiveDate = addDays(new Date(), GRACE_PERIOD_ARCHIVING_ESERVICE)
-  const formattedArchiveDate = formatDateStringNumeric(archiveDate) // TODO get date and utils function from pr pin 9943
+  const formattedArchiveDate = formatDateStringNumeric(archiveDate)
 
   const formMethods = useForm<ArchiveReasonFormValue>({
     defaultValues: { reason: '' },

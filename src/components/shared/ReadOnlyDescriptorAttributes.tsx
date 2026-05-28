@@ -264,6 +264,11 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
         )
       })()}
       color={groupColorAndText?.color ?? 'gray'}
+      subheader={
+        <Typography variant="body2" color="text.primary" sx={{ px: 2, pt: 1.5 }}>
+          {tAttribute('group.subtitle')}
+        </Typography>
+      }
     >
       {groupColorAndText && <Typography>{tAttribute(groupColorAndText.textKey)}</Typography>}
       <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">

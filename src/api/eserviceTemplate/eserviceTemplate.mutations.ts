@@ -52,9 +52,11 @@ function useUpdateEServiceTemplateDescription() {
   })
 }
 
-function useUpdateQuotas() {
+function useUpdateQuotas({ isThresholdOnlyUpdate }: { isThresholdOnlyUpdate?: boolean } = {}) {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eserviceTemplate.updateQuotas',
+    keyPrefix: isThresholdOnlyUpdate
+      ? 'eserviceTemplate.updateThresholds'
+      : 'eserviceTemplate.updateVoucherLifespan',
   })
   return useMutation({
     mutationFn: EServiceTemplateServices.updateEServiceTemplateQuotas,
@@ -273,7 +275,7 @@ function usePublishVersionDraft() {
             ? t('confirmDialog.title')
             : t('confirmDialog.titleNewVersion'),
         description: t('confirmDialog.description'),
-        proceedLabel: undefined,
+        proceedLabel: t('confirmDialog.proceedLabel'),
       },
     },
   })

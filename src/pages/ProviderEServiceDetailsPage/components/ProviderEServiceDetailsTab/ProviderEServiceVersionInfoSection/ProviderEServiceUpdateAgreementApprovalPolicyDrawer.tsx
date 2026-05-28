@@ -77,6 +77,17 @@ export const ProviderEServiceUpdateAgreementApprovalPolicyDrawer: React.FC<
           <RHFSwitch
             name="isAgreementApprovalPolicyManual"
             label={t('agreementApprovalPolicyField.label')}
+            rules={{
+              validate: (value) => {
+                if (
+                  (value && descriptor.agreementApprovalPolicy === 'MANUAL') ||
+                  (!value && descriptor.agreementApprovalPolicy === 'AUTOMATIC')
+                ) {
+                  return t('agreementApprovalPolicyField.validation.sameValue')
+                }
+                return true
+              },
+            }}
           />
         </Box>
       </Drawer>

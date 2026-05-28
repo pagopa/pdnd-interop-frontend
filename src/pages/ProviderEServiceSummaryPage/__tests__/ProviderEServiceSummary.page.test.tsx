@@ -1,11 +1,13 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import ProviderEServiceSummaryPage from '../ProviderEServiceSummary.page'
 import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import * as router from '@/router'
 import {
   createMockEServiceDescriptorReceive,
   createMockEServiceDescriptorProvider,
+  createMockEServiceDescriptorProviderAsync,
   createMockEServiceDescriptorProviderWithTemplateRef,
 } from '@/../__mocks__/data/eservice.mocks'
 
@@ -67,6 +69,14 @@ vi.mock('@/api/eservice', () => ({
   },
 }))
 
+vi.mock('@/api/keychain', () => ({
+  KeychainQueries: {
+    getKeychainsList: (params: unknown) => ({
+      queryKey: ['KeychainGetList', params],
+    }),
+  },
+}))
+
 const useQueryMock = vi.fn()
 
 vi.mock('@tanstack/react-query', async (importOriginal) => {
@@ -74,7 +84,7 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@tanstack/react-query')>()
   return {
     ...actual,
-    useQuery: () => useQueryMock(),
+    useQuery: (queryOptions: unknown) => useQueryMock(queryOptions),
   }
 })
 
@@ -91,6 +101,11 @@ vi.mock('@/hooks/useGetProducerDelegationUserRole', () => ({
 describe('ProviderEServiceSummaryPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    mockDelegationRole.mockReturnValue({
+      isDelegator: false,
+      isDelegate: false,
+      producerDelegations: [],
+    })
   })
 
   it('renders the page title', () => {
@@ -187,6 +202,71 @@ describe('ProviderEServiceSummaryPage', () => {
     expect(publishButton).toBeEnabled()
   })
 
+  it('enables publish button for complete asynchronous e-services', () => {
+    mockUseQueryWithDescriptor(createMockEServiceDescriptorProviderAsync())
+
+    renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    const publishButton = screen.getByRole('button', { name: 'publish' })
+    expect(publishButton).toBeEnabled()
+  })
+
+  it('does not show the publish warning while asynchronous keychains are loading', () => {
+    mockUseQueryWithDescriptor(createMockEServiceDescriptorProviderAsync(), {
+      isKeychainsLoading: true,
+    })
+
+    renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.queryByText('summary.publishWarningLabel')).not.toBeInTheDocument()
+  })
+
+  it('disables publish button when asynchronous mandatory fields are missing', () => {
+    mockUseQueryWithDescriptor(
+      createMockEServiceDescriptorProviderAsync({
+        asyncExchangeProperties: undefined,
+        asyncExchangeCallbackInterface: undefined,
+      })
+    )
+
+    renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    const publishButton = screen.getByRole('button', { name: 'publish' })
+    expect(publishButton).toBeDisabled()
+  })
+
+  it('disables delegated approval when asynchronous mandatory fields are missing', () => {
+    mockDelegationRole.mockReturnValue({
+      isDelegator: true,
+      isDelegate: false,
+      producerDelegations: [],
+    })
+    mockUseQueryWithDescriptor(
+      createMockEServiceDescriptorProviderAsync({
+        state: 'WAITING_FOR_APPROVAL',
+        asyncExchangeProperties: undefined,
+        asyncExchangeCallbackInterface: undefined,
+      })
+    )
+
+    renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    const approveButton = screen.getByRole('button', { name: 'publish' })
+    expect(approveButton).toBeDisabled()
+  })
+
   it('renders edit button', () => {
     useQueryMock.mockReturnValue({
       data: createMockEServiceDescriptorProvider(),
@@ -238,4 +318,182 @@ describe('ProviderEServiceSummaryPage', () => {
     expect(screen.queryByTestId('DeleteOutlineIcon')).not.toBeInTheDocument()
     expect(screen.queryByTestId('CreateIcon')).not.toBeInTheDocument()
   })
+
+  describe('handlePublishDraft navigation state', () => {
+    const setupAndPublish = async (
+      descriptor: ReturnType<typeof createMockEServiceDescriptorProvider>
+    ) => {
+      const user = userEvent.setup()
+
+      if (descriptor.eservice.asyncExchange) {
+        mockUseQueryWithDescriptor(descriptor)
+      } else {
+        useQueryMock.mockReturnValue({ data: descriptor, isLoading: false })
+      }
+
+      usePublishVersionDraftMock.mockImplementationOnce(
+        (_params: unknown, { onSuccess }: { onSuccess: () => void }) => {
+          onSuccess()
+        }
+      )
+
+      renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      })
+
+      await user.click(screen.getByRole('button', { name: 'publish' }))
+    }
+
+    it('navigates with firstVersion state when publishing sync first version', async () => {
+      await setupAndPublish(createMockEServiceDescriptorProvider({ version: '1' }))
+
+      expect(mockNavigate).toHaveBeenCalledWith(
+        'PROVIDE_ESERVICE_PUBLISH_THANK_YOU',
+        expect.objectContaining({
+          state: expect.objectContaining({
+            title: 'publishThankYou.firstVersion.title',
+            description: 'publishThankYou.firstVersion.description',
+          }),
+        })
+      )
+    })
+
+    it('navigates with firstVersionAsync state when publishing async first version', async () => {
+      await setupAndPublish(createMockEServiceDescriptorProviderAsync({ version: '1' }))
+
+      expect(mockNavigate).toHaveBeenCalledWith(
+        'PROVIDE_ESERVICE_PUBLISH_THANK_YOU',
+        expect.objectContaining({
+          state: expect.objectContaining({
+            title: 'publishThankYou.firstVersionAsync.title',
+            description: 'publishThankYou.firstVersionAsync.description',
+          }),
+        })
+      )
+    })
+
+    it('navigates with newVersion state when publishing sync new version', async () => {
+      await setupAndPublish(createMockEServiceDescriptorProvider())
+
+      expect(mockNavigate).toHaveBeenCalledWith(
+        'PROVIDE_ESERVICE_PUBLISH_THANK_YOU',
+        expect.objectContaining({
+          state: expect.objectContaining({
+            title: 'publishThankYou.newVersion.title',
+            subtitle: 'publishThankYou.newVersion.subtitle',
+          }),
+        })
+      )
+    })
+
+    it('navigates with newVersionAsync state when publishing async new version', async () => {
+      await setupAndPublish(createMockEServiceDescriptorProviderAsync())
+
+      expect(mockNavigate).toHaveBeenCalledWith(
+        'PROVIDE_ESERVICE_PUBLISH_THANK_YOU',
+        expect.objectContaining({
+          state: expect.objectContaining({
+            title: 'publishThankYou.newVersionAsync.title',
+            subtitle: 'publishThankYou.newVersionAsync.subtitle',
+          }),
+        })
+      )
+    })
+  })
+
+  describe('isRulesetExpired', () => {
+    it('should be true when there are no other descriptors and riskAnalysis rulesetExpiration is expired', () => {
+      const mock = createMockEServiceDescriptorProvider()
+      mock.eservice.descriptors = []
+      mock.eservice.riskAnalysis = [
+        {
+          id: 'risk-analysis-id-001',
+          name: 'Risk Analysis 1',
+          riskAnalysisForm: {
+            riskAnalysisId: 'form-id-001',
+            version: 'version-001',
+            answers: 'answers-001',
+          },
+          createdAt: '',
+          rulesetExpiration: '2020-01-01T00:00:00Z',
+        },
+      ]
+
+      useQueryMock.mockReturnValue({
+        data: mock,
+        isLoading: false,
+      })
+
+      renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      })
+
+      const publishButton = screen.getByRole('button', { name: 'publish' })
+      expect(publishButton).toBeDisabled()
+    })
+
+    it('should be false when there are other descriptors even if riskAnalysis rulesetExpiration is expired', () => {
+      useQueryMock.mockReturnValue({
+        data: createMockEServiceDescriptorProvider({
+          eservice: {
+            descriptors: [
+              {
+                id: 'descriptor-id-001',
+                state: 'PUBLISHED',
+                version: '1',
+                audience: [],
+              },
+            ],
+            riskAnalysis: [
+              {
+                id: 'risk-analysis-id-001',
+                name: 'Risk Analysis 1',
+                riskAnalysisForm: {
+                  riskAnalysisId: 'form-id-001',
+                  version: 'version-001',
+                },
+                createdAt: '',
+                rulesetExpiration: '2020-01-01T00:00:00Z',
+              },
+            ],
+          },
+        }),
+        isLoading: false,
+      })
+
+      renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      })
+
+      const publishButton = screen.getByRole('button', { name: 'publish' })
+      expect(publishButton).toBeEnabled()
+    })
+  })
 })
+
+function mockUseQueryWithDescriptor(
+  descriptor: ReturnType<typeof createMockEServiceDescriptorProvider>,
+  { isKeychainsLoading = false }: { isKeychainsLoading?: boolean } = {}
+) {
+  useQueryMock.mockImplementation((queryOptions) => {
+    if (queryOptions?.queryKey?.[0] === 'KeychainGetList') {
+      return {
+        data: isKeychainsLoading
+          ? undefined
+          : {
+              results: [{ id: 'keychain-id-001', name: 'Keychain 1', hasKeys: true }],
+              pagination: { totalCount: 1 },
+            },
+        isLoading: isKeychainsLoading,
+      }
+    }
+
+    return {
+      data: descriptor,
+      isLoading: false,
+    }
+  })
+}

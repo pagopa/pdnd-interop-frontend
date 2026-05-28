@@ -8,6 +8,8 @@ import type { useParams } from '@/router'
 import { Link, type RouteKey } from '@/router'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { ActionMenu } from '@/components/shared/ActionMenu'
+import { ArchivingScheduleBadge } from '@/components/shared/ArchivingScheduleBadge'
+import type { ArchivingScope } from '@/api/api.generatedTypes'
 
 type RouteParams<TRouteKey extends RouteKey> = ReturnType<typeof useParams<TRouteKey>>
 
@@ -51,6 +53,10 @@ type HeaderInfoSectionProps = {
   shortcut: ShortCutProps
   actions?: Array<ActionItemButton>
   statusChip?: React.ComponentProps<typeof StatusChip>
+  archivingScheduleInfo?: {
+    archivableOn: string
+    scope: ArchivingScope
+  }
 }
 
 type IntroProps = {
@@ -200,6 +206,7 @@ const ActionsSection: React.FC<ActionsSectionProps> = ({
           size="small"
           color={color}
           startIcon={Icon && <Icon />}
+          disabled={disabled}
           {...props}
         >
           {label}
@@ -229,10 +236,11 @@ export const HeaderInfoSection: React.FC<HeaderInfoSectionProps> = ({
   label,
   shortcut,
   statusChip,
+  archivingScheduleInfo,
   actions = [],
 }) => {
   return (
-    <Box bgcolor="grey.100" py={2} px={2} borderRadius={1} mt={3}>
+    <Box bgcolor="grey.100" py={2} pl={3} pr={0} borderRadius={1} mt={3}>
       <Stack direction="row" alignItems="center" justifyContent="space-between">
         <Stack direction="row" spacing={4} alignItems="center">
           <Typography component="h2" variant="body2" textTransform="uppercase">
@@ -260,9 +268,17 @@ export const HeaderInfoSection: React.FC<HeaderInfoSectionProps> = ({
               {shortcut.label}
             </Link>
           )}
-          {statusChip && <StatusChip {...statusChip} />}
+          <Stack direction="row" alignItems="center" spacing={1}>
+            {statusChip && <StatusChip {...statusChip} />}
+            {archivingScheduleInfo && (
+              <ArchivingScheduleBadge
+                archivableOn={archivingScheduleInfo.archivableOn}
+                scope={archivingScheduleInfo.scope}
+              />
+            )}
+          </Stack>
         </Stack>
-        <Stack direction="row" spacing={3}>
+        <Stack direction="row" spacing={1}>
           {actions.map(({ action, label, color, icon: Icon, ...props }, index) => {
             return (
               <Button
