@@ -190,6 +190,18 @@ function useReactivateVersion() {
   })
 }
 
+function useScheduleArchiveDescriptor() {
+  return useMutation({
+    mutationFn: EServiceServices.scheduleArchiveDescriptor,
+  })
+}
+
+function useCancelDescriptorArchiving() {
+  return useMutation({
+    mutationFn: EServiceServices.cancelDescriptorArchiving,
+  })
+}
+
 function useUpdateVersion({ isThresholdOnlyUpdate }: { isThresholdOnlyUpdate?: boolean } = {}) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: isThresholdOnlyUpdate ? 'eservice.updateThresholds' : 'eservice.updateVersion',
@@ -564,6 +576,8 @@ export const EServiceMutations = {
   usePublishVersionDraft,
   useSuspendVersion,
   useReactivateVersion,
+  useScheduleArchiveDescriptor,
+  useCancelDescriptorArchiving,
   useUpdateVersion,
   useDeleteVersionDraft,
   useAddEServiceRiskAnalysis,
