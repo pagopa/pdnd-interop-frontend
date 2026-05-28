@@ -9,7 +9,14 @@ type InfoTooltipProps = {
 export const InfoTooltip: React.FC<InfoTooltipProps> = ({ label }) => {
   return (
     <Tooltip title={label}>
-      <InfoIcon color="primary" fontSize="small" sx={{ ml: 1 }} />
+      <InfoIcon
+        color="primary"
+        fontSize="small"
+        sx={{ ml: 1 }}
+        tabIndex={0}
+        role="img"
+        aria-label={label}
+      />
     </Tooltip>
   )
 }
