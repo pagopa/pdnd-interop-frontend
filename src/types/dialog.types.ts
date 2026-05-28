@@ -40,6 +40,7 @@ export type DialogProps =
   | DialogTenantKindEserviceTemplateProps
   | DialogTenantKindPurposeTemplateProps
   | DialogSelectAgreementConsumerProps
+  | DialogRequestRiskAnalysisCompilationProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -178,4 +179,11 @@ export type DialogTenantKindEserviceTemplateProps = {
 export type DialogTenantKindPurposeTemplateProps = {
   type: 'tenantKindPurposeTemplate'
   onConfirm: (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => void
+}
+
+export type DialogRequestRiskAnalysisCompilationProps = {
+  type: 'requestRiskAnalysisCompilation'
+  purposeId: string
+  reviewerId: string
+  reviewerName: string
 }

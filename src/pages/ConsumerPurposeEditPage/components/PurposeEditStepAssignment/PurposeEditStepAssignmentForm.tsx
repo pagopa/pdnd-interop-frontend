@@ -13,7 +13,7 @@ import type {
   User,
 } from '@/api/api.generatedTypes'
 import { PurposeMutations } from '@/api/purpose'
-import { useNavigate } from '@/router'
+import { useDialog } from '@/stores'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
@@ -49,7 +49,7 @@ export const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFo
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit.stepAssignment' })
   const { mutate: assignReviewer } = PurposeMutations.useAssignRiskAnalysisReviewer()
-  const navigate = useNavigate()
+  const { openDialog } = useDialog()
 
   const hasNoReviewers = reviewers.length === 0
   const isFormHidden = isDelegate || hasNoReviewers
@@ -66,10 +66,6 @@ export const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFo
     reviewMode === 'selfWritesReviewerSigns' || reviewMode === 'reviewerWritesReviewerSigns'
   const isRequestReviewerCompilation = reviewMode === 'reviewerWritesReviewerSigns'
 
-  const goToSummary = () => {
-    navigate('SUBSCRIBE_PURPOSE_SUMMARY', { params: { purposeId: purpose.id } })
-  }
-
   const onSubmit = ({ reviewMode, reviewerId }: PurposeEditStepAssignmentFormValues) => {
     if (isFormHidden) {
       forward()
@@ -82,16 +78,28 @@ export const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFo
       return
     }
 
+    if (isRequestReviewerCompilation) {
+      const selectedReviewer = reviewers.find((u) => u.userId === reviewerId)
+      const reviewerName = selectedReviewer
+        ? `${selectedReviewer.name} ${selectedReviewer.familyName}`.trim()
+        : ''
+      openDialog({
+        type: 'requestRiskAnalysisCompilation',
+        purposeId: purpose.id,
+        reviewerId,
+        reviewerName,
+      })
+      return
+    }
+
     const payload: { purposeId: string } & RiskAnalysisAssignmentSeed = {
       purposeId: purpose.id,
       reviewMode: reviewModeEnum,
       reviewerIds: [reviewerId],
     }
 
-    // TODO[PIN-10138]: for reviewMode = REVIEWER_WRITES_REVIEWER_SIGNS the submit should
-    // first open a confirmation dialog (tracked in a separate task) before calling the API.
     assignReviewer(payload, {
-      onSuccess: isRequestReviewerCompilation ? goToSummary : forward,
+      onSuccess: forward,
     })
   }
 
