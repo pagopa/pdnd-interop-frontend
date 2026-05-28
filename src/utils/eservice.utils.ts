@@ -33,3 +33,10 @@ export function getViewLatestVersionTargetId(
   )?.id
   return latestId && latestId !== currentDescriptorId ? latestId : undefined
 }
+
+export function calculateArchivableOn(now: Date, gracePeriodDays: number): Date {
+  const d = new Date(now)
+  d.setUTCDate(d.getUTCDate() + gracePeriodDays + 1)
+  d.setUTCHours(0, 0, 0, 0)
+  return d
+}
