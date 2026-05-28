@@ -26,6 +26,10 @@ const ProviderEServiceDetailsPage: React.FC = () => {
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 
+  const handleViewKeychains = () => {
+    updateActiveTab(null, 'keychains')
+  }
+
   descriptor?.delegation
   const { actions } = useGetProviderEServiceActions(
     eserviceId,
@@ -65,7 +69,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         </TabList>
 
         <TabPanel value="eserviceDetails">
-          <ProviderEserviceDetailsTab />
+          <ProviderEserviceDetailsTab onViewKeychains={handleViewKeychains} />
         </TabPanel>
 
         <TabPanel value="keychains">

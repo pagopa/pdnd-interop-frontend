@@ -223,28 +223,11 @@
     "step1": {
       "templateInfoTitle": "Template information",
       "readOnlyTemplateInfoTitle": "E-service template characterization",
-      "instanceDetailsTitle": "E-service instance details",
-      "readOnlyInstanceDetailsTitle": "E-service details",
       "readOnlyDescription": "This information cannot be modified.",
       "signalHubTitle": "Signal Hub",
       "readOnlyNameLabel": "E-service template name",
       "readOnlyIntendedTargetLabel": "Who is this template intended for?",
       "readOnlyDescriptionLabel": "What does this template allow you to do?",
-      "readOnlyTechnologyLabel": "API Technology",
-      "readOnlyModeLabel": "Does the e-service deliver or receive data?",
-      "readOnlyModeValue": {
-        "DELIVER": "Deliver",
-        "RECEIVE": "Receive"
-      },
-      "readOnlyPersonalDataLabel": {
-        "DELIVER": "Delivers personal data",
-        "RECEIVE": "Receives personal data"
-      },
-      "readOnlyPersonalDataValue": {
-        "true": "Yes",
-        "false": "No",
-        "undefined": "Not specified"
-      },
       "eserviceTemplateNameField": {
         "label": "Template name",
         "infoLabel": "This is the name that will appear in the e-service template catalog and will become the base name of all e-services created from this template. Min 5 characters, max 45 characters."
@@ -257,38 +240,13 @@
         "label": "What does this e-service allow you to do?",
         "infoLabel": "Min 10 characters, max {{ESERVICE_DESCRIPTION_MAX_LENGTH}} characters"
       },
-      "eserviceTemplateTechnologyField": {
-        "label": "What technology is your API built with?"
-      },
       "eserviceTemplateModeField": {
-        "label": "Does the e-service deliver or receive data?",
-        "tooltipReceiveMode": "Currently, the use of templates is limited to the delivery of data.",
-        "options": {
-          "DELIVER": "Deliver",
-          "RECEIVE": "Receive"
-        },
         "isSignalHubEnabled": {
           "label": "Suggest to those who will use this template to report data changes with Signal Hub",
           "infoLabel": {
             "before": "Signal Hub sends",
             "linkLabel": "push notifications",
             "after": "when there are changes to the e-service data."
-          }
-        }
-      },
-      "eservicePersonalDataField": {
-        "DELIVER": {
-          "label": "Does the e-service deliver personal data?",
-          "options": {
-            "true": "Delivers personal data",
-            "false": "Does not deliver personal data"
-          }
-        },
-        "RECEIVE": {
-          "label": "Does the e-service receive personal data?",
-          "options": {
-            "true": "Receives personal data",
-            "false": "Does not receive personal data"
           }
         }
       }
@@ -443,6 +401,13 @@
       "apiTechnology": {
         "label": "API Technology"
       },
+      "exchangeType": {
+        "label": "Data exchange",
+        "value": {
+          "sync": "Synchronous",
+          "async": "Asynchronous"
+        }
+      },
       "personalDataField": {
         "DELIVER": {
           "label": "Delivers personal data"
@@ -505,6 +470,30 @@
       "title": "Technical specifications",
       "interface": {
         "label": "Interface"
+      },
+      "callbackInterface": {
+        "label": "Callback interface"
+      },
+      "asyncExchange": {
+        "responseTime": {
+          "label": "Maximum callback time"
+        },
+        "resourceAvailableTime": {
+          "label": "Resource availability time"
+        },
+        "confirmation": {
+          "label": "Require receipt acknowledgement"
+        },
+        "bulk": {
+          "label": "Enable bulk download"
+        },
+        "maxResultSet": {
+          "label": "Maximum entities per response"
+        },
+        "booleanValue": {
+          "true": "Yes",
+          "false": "No"
+        }
       },
       "voucherLifespan": {
         "label": "Voucher lifespan"
