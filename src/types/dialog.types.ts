@@ -16,6 +16,10 @@ export type DialogContent = {
   description?: string
 }
 
+export type DialogDescriptionLink = {
+  href: string
+}
+
 export type DialogDefaultProps = {
   maxWidth?: MUIDialogProps['maxWidth']
 }
@@ -59,6 +63,7 @@ export type DialogBasicProps = DialogDefaultProps & {
   type: 'basic'
   title: string
   description?: string
+  descriptionLink?: DialogDescriptionLink
   proceedLabel?: string
   onProceed: VoidFunction
   onCancel?: VoidFunction
