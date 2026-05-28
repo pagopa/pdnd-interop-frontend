@@ -6,43 +6,120 @@ import { useClientKind } from '@/hooks/useClientKind'
 import { SectionContainerSkeleton } from '@/components/layout/containers'
 import { VoucherInstructionsContextProvider } from './VoucherInstructionsContext'
 
-import { VoucherInstructionsStep1 } from './VoucherInstructionsStep1'
-import { VoucherInstructionsStep2 } from './VoucherInstructionsStep2'
-import { VoucherInstructionsStep3 } from './VoucherInstructionsStep3'
-import { VoucherInstructionsStep4 } from './VoucherInstructionsStep4'
+import type { VoucherInstructionsGeneralFormValues } from './VoucherInstructionsGeneralForm'
+import { VoucherInstructionsGeneralForm } from './VoucherInstructionsGeneralForm'
+import { VoucherInstructionsClientAssertionStep } from './steps/VoucherInstructionsClientAssertionStep'
+import { VoucherInstructionsAccessTokenStep } from './steps/VoucherInstructionsAccessTokenStep'
+import { VoucherInstructionsDataAccessStep } from './steps/VoucherInstructionsDataAccessStep'
+import { RequiredTextLabel } from '@/components/shared/RequiredTextLabel'
+import { VoucherInstructionsFirstDPoPProofStep } from './steps/VoucherInstructionsFirstDPoPProofStep'
+import { VoucherInstructionsSecondDPoPProofStep } from './steps/VoucherInstructionsSecondDPoPProofStep'
+import { useSearchParams } from 'react-router-dom'
 
 export const VoucherInstructions: React.FC = () => {
   const { t } = useTranslation('voucher')
   const clientKind = useClientKind()
-  const { activeStep, forward, back } = useActiveStep()
+  const { activeStep, forward, back, reset } = useActiveStep()
+  const [showStepper, setShowStepper] = React.useState(false)
+  const [steps, setSteps] = React.useState<{ label: string; component: React.FC<{}> }[]>([])
+  const [_, setSearchParams] = useSearchParams()
 
-  const steps = [
-    { label: t('step1.stepperLabel'), component: VoucherInstructionsStep1 },
-    { label: t('step2.stepperLabel'), component: VoucherInstructionsStep2 },
-    { label: t('step3.stepperLabel'), component: VoucherInstructionsStep3 },
-    {
-      label:
-        clientKind === 'CONSUMER' ? t('step4.consumerStepperLabel') : t('step4.apiStepperLabel'),
-      component: VoucherInstructionsStep4,
+  const Step = steps?.[activeStep]?.component
+
+  const handleBack = React.useCallback(() => {
+    if (activeStep === 0) {
+      setShowStepper(false)
+    } else {
+      back()
+    }
+  }, [activeStep, back])
+
+  const bearerFlowSteps = React.useMemo(
+    () => [
+      {
+        label: t('clientAssertionStep.stepperLabel'),
+        component: VoucherInstructionsClientAssertionStep,
+      },
+      {
+        label: t('accessTokenStep.stepperLabel'),
+        component: VoucherInstructionsAccessTokenStep,
+      },
+      {
+        label: t('dataAccessStep.stepperLabelBearer'),
+        component: VoucherInstructionsDataAccessStep,
+      },
+    ],
+    [t]
+  )
+
+  const dPoPFlowSteps = React.useMemo(
+    () => [
+      {
+        label: t('clientAssertionStep.stepperLabel'),
+        component: VoucherInstructionsClientAssertionStep,
+      },
+      {
+        label: t('firstDPoPProofStep.stepperLabel'),
+        component: VoucherInstructionsFirstDPoPProofStep,
+      },
+      {
+        label: t('accessTokenStep.stepperLabel'),
+        component: VoucherInstructionsAccessTokenStep,
+      },
+      {
+        label: t('dataAccessStep.stepperLabelDPoP'),
+        component: VoucherInstructionsDataAccessStep,
+      },
+      {
+        label: t('secondDPoPProofStep.stepperLabel'),
+        component: VoucherInstructionsSecondDPoPProofStep,
+      },
+    ],
+    [t]
+  )
+
+  const generateSteps = React.useCallback(
+    (values: VoucherInstructionsGeneralFormValues) => {
+      const newSteps = values.voucherType === 'BEARER' ? bearerFlowSteps : dPoPFlowSteps
+
+      setSteps(newSteps)
+      setShowStepper(true)
     },
-  ]
+    [bearerFlowSteps, dPoPFlowSteps]
+  )
 
-  const { component: Step } = steps[activeStep]
+  const handleReset = React.useCallback(() => {
+    reset?.()
+    setShowStepper(false)
+    setSteps([])
+    setSearchParams({}, { replace: true })
+  }, [reset, setSearchParams])
 
   const contextProps = {
-    goToPreviousStep: back,
+    goToPreviousStep: handleBack,
     goToNextStep: forward,
+    startStepper: generateSteps,
+    resetStepper: handleReset,
   }
 
   return (
     <>
       <VoucherInstructionsContextProvider {...contextProps}>
-        <Stepper steps={steps} activeIndex={activeStep} />
-        <React.Suspense
-          fallback={<SectionContainerSkeleton height={clientKind === 'CONSUMER' ? 356 : 297} />}
-        >
-          <Step />
-        </React.Suspense>
+        {!showStepper ? (
+          <>
+            <RequiredTextLabel />
+            <VoucherInstructionsGeneralForm />
+          </>
+        ) : (
+          <>
+            <Stepper steps={steps} activeIndex={activeStep} />
+            <React.Suspense
+              fallback={<SectionContainerSkeleton height={clientKind === 'CONSUMER' ? 356 : 297} />}
+            >
+              {Step ? <Step /> : null}
+            </React.Suspense>
+          </>
+        )}
       </VoucherInstructionsContextProvider>
     </>
   )

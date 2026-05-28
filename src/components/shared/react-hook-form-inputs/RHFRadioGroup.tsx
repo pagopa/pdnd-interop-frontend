@@ -94,7 +94,7 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
                 value={o.value}
                 control={<Radio />}
                 label={o.label}
-                sx={{ mr: 3 }}
+                sx={{ mr: 3, pl: 1, pt: 1 }}
               />
             ))}
           </MUIRadioGroup>

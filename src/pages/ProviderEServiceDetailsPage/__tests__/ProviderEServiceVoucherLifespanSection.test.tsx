@@ -70,6 +70,8 @@ const descriptorMock: ProducerEServiceDescriptor = {
     mode: 'DELIVER',
     riskAnalysis: [],
     descriptors: [],
+    hasProducerKeychain: false,
+    hasProducerKeychainKeys: false,
   },
   version: '',
   docs: [],

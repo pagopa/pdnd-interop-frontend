@@ -36,7 +36,7 @@
     "description": "Se non riesci ad ottenere un voucher e non sai perché, puoi effettuare il debugging con questo simulatore e capire i possibili errori."
   },
   "consumerSimulateGetVoucher": {
-    "title": "Simula l’ottenimento di un voucher",
+    "title": "Simula l’ottenimento di un voucher {{voucherType}}",
     "description": "Attraverso questa funzionalità potrai simulare l’ottenimento di un voucher. Una volta selezionati i parametri, potrai effettuare una client assertion, richiedere un voucher e verificare che sia compatibile."
   },
   "tenantCertifier": {
