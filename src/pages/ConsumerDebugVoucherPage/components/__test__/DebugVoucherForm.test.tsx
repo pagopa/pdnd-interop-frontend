@@ -48,6 +48,7 @@ describe('DebugVoucherForm testing', () => {
     const request = createMockDebugVoucherRequest({
       client_id: 'test client Id',
       client_assertion: 'test client assertion',
+      is_async: 'false',
     })
 
     await waitFor(() =>
@@ -79,6 +80,7 @@ describe('DebugVoucherForm testing', () => {
     const request = createMockDebugVoucherRequest({
       client_id: undefined,
       client_assertion: 'test client assertion',
+      is_async: 'false',
     })
 
     await waitFor(() =>
@@ -124,6 +126,7 @@ describe('DebugVoucherForm testing', () => {
       client_id: undefined,
       dpop_proof: 'test dpop proof',
       client_assertion: 'test client assertion',
+      is_async: 'false',
     })
 
     await waitFor(() =>
@@ -160,12 +163,56 @@ describe('DebugVoucherForm testing', () => {
     const request = createMockDebugVoucherRequest({
       client_assertion: 'test client assertion',
       client_id: undefined,
+      is_async: 'false',
     })
 
     await waitFor(() =>
       expect(setDebugVoucherValuesMockFn).toBeCalledWith({
         request: request,
         response: response,
+      })
+    )
+  })
+
+  it('should send is_async as true when async interaction type is selected', async () => {
+    const setDebugVoucherValuesMockFn = vi.fn()
+
+    const screen = renderWithApplicationContext(
+      <DebugVoucherForm setDebugVoucherValues={setDebugVoucherValuesMockFn} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    const clientAssertionInput = screen.getByRole('textbox', {
+      name: 'clientAssertionLabel',
+    })
+
+    fireEvent.change(clientAssertionInput, {
+      target: { value: 'test client assertion' },
+    })
+
+    const asyncRadio = screen.getByRole('radio', {
+      name: 'interactionModelAsync',
+    })
+
+    fireEvent.click(asyncRadio)
+
+    const submitButton = screen.getByRole('button', { name: 'submitBtn' })
+
+    fireEvent.click(submitButton)
+
+    const request = createMockDebugVoucherRequest({
+      client_assertion: 'test client assertion',
+      client_id: undefined,
+      is_async: 'true',
+    })
+
+    await waitFor(() =>
+      expect(setDebugVoucherValuesMockFn).toBeCalledWith({
+        request,
+        response,
       })
     )
   })

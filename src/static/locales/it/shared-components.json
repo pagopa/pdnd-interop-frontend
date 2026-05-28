@@ -379,6 +379,18 @@
       "SUSPENDED": "Questo e-service è stato sospeso e non può più essere associato. Rimuovilo prima di procedere"
     }
   },
+  "resourceContainer": {
+    "removeAriaLabel": "Rimuovi {{name}}",
+    "idCopyTooltipLabel": "ID copiato correttamente",
+    "eservice": {
+      "idField": "ID dell’e-service",
+      "viewBtn": "Visualizza e-service"
+    },
+    "eserviceTemplate": {
+      "idField": "ID del template e-service",
+      "viewBtn": "Visualizza template e-service"
+    }
+  },
   "drawer": {
     "closeIconAriaLabel": "Chiudi il drawer",
     "updateLabel": "Aggiorna"

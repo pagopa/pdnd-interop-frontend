@@ -7,13 +7,13 @@ import { useActiveTab } from '@/hooks/useActiveTab'
 
 export const PurposeTemplateLinkedEServicesSection: React.FC = () => {
   const { t } = useTranslation('purposeTemplate', {
-    keyPrefix: 'read.detailsTab.sections.linkedEservices',
+    keyPrefix: 'read.detailsTab.sections.linkedResources',
   })
 
   const { updateActiveTab } = useActiveTab('details')
 
   const handleGoToLinkedEServicesTab = () => {
-    updateActiveTab('', 'linkedEservices')
+    updateActiveTab('', 'linkedResources')
   }
 
   return (
@@ -23,7 +23,7 @@ export const PurposeTemplateLinkedEServicesSection: React.FC = () => {
         endIcon={<ChevronRightIcon fontSize="small" />}
         sx={{ fontWeight: 700, alignSelf: 'flex-start', padding: 0 }}
       >
-        {t('linkedEservicesLink')}
+        {t('link')}
       </Button>
     </SectionContainer>
   )

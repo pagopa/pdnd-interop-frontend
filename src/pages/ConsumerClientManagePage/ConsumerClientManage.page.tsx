@@ -48,7 +48,10 @@ const ConsumerClientManagePage: React.FC = () => {
 
   const voucherSimulationAction: ActionItemButton = {
     action: () =>
-      navigate(clientKind === 'API' ? 'SIMULATE_GET_VOUCHER_API' : 'SIMULATE_GET_VOUCHER_CONSUMER'),
+      navigate(
+        clientKind === 'API' ? 'SIMULATE_GET_VOUCHER_API' : 'SIMULATE_GET_VOUCHER_CONSUMER',
+        { urlParams: { clientId } }
+      ),
     label: tCommon('simulateVoucher'),
     variant: 'contained',
   }

@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom'
 export type ActiveStepProps = {
   back: VoidFunction
   forward: VoidFunction
+  reset?: VoidFunction
   activeStep: number
 }
 
@@ -36,5 +37,10 @@ export const useActiveStep = (): ActiveStepProps => {
     scrollToTop()
   }, [])
 
-  return { back, forward, activeStep }
+  const reset = React.useCallback(() => {
+    setActiveStep(0)
+    scrollToTop()
+  }, [])
+
+  return { back, forward, reset, activeStep }
 }

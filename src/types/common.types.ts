@@ -5,6 +5,7 @@ import type { ButtonProps } from '@mui/material'
 export type PagoPAEnvVars = {
   STAGE: 'DEV' | 'PROD' | 'UAT' | 'ATT' | 'QA' | 'DEV_REF'
   AUTHORIZATION_SERVER_TOKEN_CREATION_URL: string
+  AUTHORIZATION_SERVER_TOKEN_CREATION_ASYNC_URL: string
   BACKEND_FOR_FRONTEND_URL: string
   SELFCARE_LOGIN_URL: string
   INTEROP_RESOURCES_BASE_URL: string

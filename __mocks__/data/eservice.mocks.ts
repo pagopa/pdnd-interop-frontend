@@ -78,6 +78,8 @@ const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDes
     mode: 'DELIVER',
     riskAnalysis: [],
     agreements: [],
+    hasProducerKeychain: false,
+    hasProducerKeychainKeys: false,
   },
   id: 'ec94e366-cbb2-4203-ac07-95acf5289a31',
   interface: {
@@ -126,6 +128,8 @@ const createMockCatalogDescriptorEService = createMockFactory<CatalogDescriptorE
   mode: 'DELIVER',
   riskAnalysis: [],
   agreements: [],
+  hasProducerKeychain: false,
+  hasProducerKeychainKeys: false,
 })
 
 const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceDescriptor>({
@@ -155,6 +159,8 @@ const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceD
     mode: 'DELIVER',
     riskAnalysis: [],
     personalData: true,
+    hasProducerKeychain: false,
+    hasProducerKeychainKeys: false,
   },
   id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
   interface: {
@@ -201,6 +207,8 @@ const createMockEServiceDescriptorProviderNoInterface =
       technology: 'REST',
       mode: 'DELIVER',
       riskAnalysis: [],
+      hasProducerKeychain: false,
+      hasProducerKeychainKeys: false,
     },
     id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
     state: 'PUBLISHED',
@@ -251,6 +259,8 @@ const createMockEServiceDescriptorProviderWithRiskAnalysis =
           createdAt: '',
         },
       ],
+      hasProducerKeychain: false,
+      hasProducerKeychainKeys: false,
     },
     id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
     state: 'PUBLISHED',
@@ -297,6 +307,8 @@ const createMockEServiceDescriptorProviderWithDocs = createMockFactory<ProducerE
     technology: 'REST',
     mode: 'DELIVER',
     riskAnalysis: [],
+    hasProducerKeychain: false,
+    hasProducerKeychainKeys: false,
   },
   id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
   state: 'PUBLISHED',
@@ -337,6 +349,8 @@ const createMockEServiceDescriptorProviderWithTemplateRef =
       mode: 'DELIVER',
       riskAnalysis: [],
       personalData: true,
+      hasProducerKeychain: false,
+      hasProducerKeychainKeys: false,
     },
     id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
     interface: {
@@ -398,6 +412,8 @@ const createMockEServiceDescriptorReceive = createMockFactory<ProducerEServiceDe
         createdAt: '',
       },
     ],
+    hasProducerKeychain: false,
+    hasProducerKeychainKeys: false,
   },
   id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
   state: 'PUBLISHED',
