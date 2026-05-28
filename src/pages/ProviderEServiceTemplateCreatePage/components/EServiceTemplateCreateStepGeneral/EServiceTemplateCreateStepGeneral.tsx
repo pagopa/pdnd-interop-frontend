@@ -65,15 +65,19 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const onSubmit = (formValues: EServiceTemplateCreateStepGeneralFormValues) => {
     // If we are editing an existing e-service eserviceTemplateVersion, we update the draft
     if (eserviceTemplateVersion) {
+      const { asyncExchange: _asyncExchange, ...updateDraftPayload } = formValues
       // If nothing has changed skip the update call
       const isEServiceTemplateTheSame = compareObjects(
-        formValues,
+        updateDraftPayload,
         eserviceTemplateVersion.eserviceTemplate
       )
 
       if (!isEServiceTemplateTheSame)
         updateDraft(
-          { eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id, ...formValues },
+          {
+            eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
+            ...updateDraftPayload,
+          },
           { onSuccess: forward }
         )
       else forward()

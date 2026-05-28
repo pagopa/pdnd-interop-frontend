@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import {
@@ -7,12 +7,18 @@ import {
   EServiceTemplateCreateStepGeneralSkeleton,
 } from '../EServiceTemplateCreateStepGeneral'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { mockUseEServiceTemplateCreateContext } from '@/../__mocks__/data/eserviceTemplate.mocks'
+import {
+  createMockEServiceTemplateVersionDetailsAsync,
+  mockUseEServiceTemplateCreateContext,
+} from '@/../__mocks__/data/eserviceTemplate.mocks'
+
+const updateDraft = vi.fn()
+const createDraft = vi.fn()
 
 vi.mock('@/api/eserviceTemplate', () => ({
   EServiceTemplateMutations: {
-    useUpdateDraft: () => ({ mutate: vi.fn() }),
-    useCreateDraft: () => ({ mutate: vi.fn() }),
+    useUpdateDraft: () => ({ mutate: updateDraft }),
+    useCreateDraft: () => ({ mutate: createDraft }),
   },
 }))
 
@@ -142,6 +148,30 @@ describe('EServiceTemplateCreateStepGeneral', () => {
       withRouterContext: true,
     })
     expect(screen.getByRole('button', { name: /create.forwardWithSaveBtn/ })).toBeInTheDocument()
+  })
+
+  it('does not send asyncExchange when updating an existing e-service template draft', async () => {
+    const user = userEvent.setup()
+    const eserviceTemplateVersion = createMockEServiceTemplateVersionDetailsAsync({
+      eserviceTemplate: {
+        ...createMockEServiceTemplateVersionDetailsAsync().eserviceTemplate,
+        technology: 'SOAP',
+      },
+    })
+    mockUseEServiceTemplateCreateContext({ eserviceTemplateVersion })
+    renderWithApplicationContext(<EServiceTemplateCreateStepGeneral />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await user.click(screen.getByLabelText('REST'))
+    await user.click(screen.getByRole('button', { name: /create.forwardWithSaveBtn/ }))
+
+    await waitFor(() => expect(updateDraft).toHaveBeenCalled())
+    expect(updateDraft).toHaveBeenCalledWith(
+      expect.not.objectContaining({ asyncExchange: expect.any(Boolean) }),
+      expect.any(Object)
+    )
   })
 })
 
