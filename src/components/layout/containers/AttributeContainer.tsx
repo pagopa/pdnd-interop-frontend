@@ -113,8 +113,8 @@ export const AttributeContainer = <
 
   return (
     <>
-      <Stack direction="row" alignItems="center">
-        <Stack direction="row" alignItems="center" spacing={2}>
+      <Stack direction="row" alignItems="center" spacing={2}>
+        <Stack direction="row" alignItems="center">
           {checked && <CheckCircleIcon sx={{ color: 'success.dark' }} />}
           {onRemove && (
             <IconButton
@@ -127,7 +127,7 @@ export const AttributeContainer = <
         </Stack>
         <Card sx={{ borderRadius: 1, border: '1px solid', borderColor: 'divider', flex: 1 }}>
           <Stack p={2} direction="row" justifyContent="space-between" alignContent="center">
-            <Stack spacing={1}>
+            <Stack spacing={1} justifyContent="center">
               <Typography fontWeight={600}>{attribute.name}</Typography>
               {FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE &&
                 attribute.kind === 'CERTIFIED_DISCRETE' &&
