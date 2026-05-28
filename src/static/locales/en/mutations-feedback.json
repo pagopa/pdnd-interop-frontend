@@ -999,11 +999,18 @@
         "description": "By clicking \"confirm\", this e-service template version will be reactivated. All **Consumers** that have an active fruition request for this e-service template version will be able to access it"
       }
     },
-    "updateQuotas": {
+    "updateThresholds": {
       "loading": "Updating API call thresholds",
       "outcome": {
         "success": "API call thresholds have been updated.",
         "error": "Could not update API call thresholds. Please check the information entered."
+      }
+    },
+    "updateVoucherLifespan": {
+      "loading": "Updating required information",
+      "outcome": {
+        "success": "Required information has been updated successfully.",
+        "error": "Could not update required information. Please check the information entered."
       }
     },
     "updateInstance": {
@@ -1069,8 +1076,8 @@
     "publishDraft": {
       "loading": "Facilitated purpose template is being published",
       "outcome": {
-        "success": "The facilitated purpose template is now published.",
-        "error": "The facilitated purpose template could not be published. Please ensure all required fields are filled out."
+        "success": "You have created the facilitated purpose template.",
+        "error": "The facilitated purpose template could not be created. Check that you have entered the correct information."
       },
       "confirmDialog": {
         "title": "Confirm Publication of the Facilitated Purpose Template",
@@ -1147,6 +1154,22 @@
       "outcome": {
         "success": "The e-service was unassociated successfully.",
         "error": "It was not possible to unassociate this e-service. Please try again!"
+      }
+    },
+    "linkResource": {
+      "loading": "Linking the item to the template",
+      "outcome": {
+        "success": "The item has been linked successfully.",
+        "error": "It was not possible to link this item. Please try again!",
+        "conflict": "This item is already linked. The list has been refreshed."
+      }
+    },
+    "unlinkResource": {
+      "loading": "Unlinking the item from the template",
+      "outcome": {
+        "success": "The item has been unlinked successfully.",
+        "error": "It was not possible to unlink this item. Please try again!",
+        "conflict": "This link is no longer active. The list has been refreshed."
       }
     },
     "downloadRiskAnalysis": {

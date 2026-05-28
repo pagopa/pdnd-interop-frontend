@@ -37,7 +37,7 @@ describe('PublishThankYouPage', () => {
 
   it('renders title and simple description when no bullet points', () => {
     const state: PublishThankYouState = {
-      title: 'Hai pubblicato l\'e-service',
+      title: "Hai pubblicato l'e-service",
       description: 'Il tuo e-service è stato pubblicato.',
       buttonLabel: 'Chiudi',
       closeRouteKey: 'PROVIDE_ESERVICE_MANAGE' as router.RouteKey,

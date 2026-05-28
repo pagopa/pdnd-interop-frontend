@@ -136,7 +136,7 @@
         "subtitle": "From this panel, you can update the description of the template. The changes made will take effect immediately.",
         "eserviceTemplateDescriptionField": {
           "label": "Template e-service description",
-          "infoLabel": "Min 10 characters, max 250 characters",
+          "infoLabel": "Min 10 characters, max {{ESERVICE_DESCRIPTION_MAX_LENGTH}} characters",
           "validation": {
             "sameValue": "The template e-service description must be different from the current one"
           }
@@ -238,7 +238,7 @@
       },
       "eserviceDescriptionField": {
         "label": "What does this e-service allow you to do?",
-        "infoLabel": "Min 10 characters, max 250 characters"
+        "infoLabel": "Min 10 characters, max {{ESERVICE_DESCRIPTION_MAX_LENGTH}} characters"
       },
       "eserviceTemplateModeField": {
         "isSignalHubEnabled": {

@@ -10,7 +10,7 @@ import {
   SELFCARE_PRODUCT_ID,
   DOCUMENTATION_URL,
 } from '@/config/env'
-import type { PartySwitchItem } from '@pagopa/mui-italia/dist/components/PartySwitch'
+import type { PartySwitchItem } from '@pagopa/mui-italia/components/PartySwitch'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
 import type { SelfcareInstitution } from '@/api/api.generatedTypes'
@@ -170,7 +170,7 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
   }
 
   const headerChipProps = isSupport
-    ? ({ chipLabel: t('supportChipLabel'), color: 'primary' } as const)
+    ? ({ chipLabel: t('supportChipLabel'), chipColor: 'primary' } as const)
     : undefined
 
   return (

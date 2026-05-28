@@ -17,10 +17,11 @@ const exponentialBackoffRetry = (attemptIndex: number) => {
   return Math.min(1000 * 2 ** attemptIndex, 30 * 1000)
 }
 
-const { showToast } = useToastNotificationStore.getState()
-const { showOverlay, hideOverlay } = useLoadingOverlayStore.getState()
-const { openDialog } = useDialogStore.getState()
-const { setErrorData } = useErrorDataStore.getState()
+const getShowToast = () => useToastNotificationStore.getState().showToast
+const getShowOverlay = () => useLoadingOverlayStore.getState().showOverlay
+const getHideOverlay = () => useLoadingOverlayStore.getState().hideOverlay
+const getOpenDialog = () => useDialogStore.getState().openDialog
+const getSetErrorData = () => useErrorDataStore.getState().setErrorData
 
 const resolveMeta = (query: {
   mutation: Mutation<unknown, unknown, unknown>
@@ -89,7 +90,7 @@ const waitForUserConfirmation = (confirmationDialog: {
   checkbox?: string
 }) => {
   return new Promise((resolve) => {
-    openDialog({
+    getOpenDialog()({
       type: 'basic',
       title: confirmationDialog.title,
       description: confirmationDialog.description,
@@ -168,12 +169,12 @@ mutationCache.config.onMutate = async (variables, mutation) => {
       if (!confirmed) return Promise.reject(new CancellationError())
     }
   }
-  if (meta.loadingLabel) showOverlay(meta.loadingLabel)
+  if (meta.loadingLabel) getShowOverlay()(meta.loadingLabel)
 }
 
 mutationCache.config.onSuccess = (data, variables, context, mutation) => {
   const meta = resolveMeta({ mutation, data, variables, context })
-  if (meta.successToastLabel) showToast(meta.successToastLabel, 'success')
+  if (meta.successToastLabel) getShowToast()(meta.successToastLabel, 'success')
   requestPolling()
 }
 
@@ -190,15 +191,15 @@ mutationCache.config.onError = (error, variables, context, mutation) => {
       errorCode = error.response?.data?.errors?.[0]?.code
     }
     if (correlationId && errorCode) {
-      setErrorData(correlationId, errorCode)
+      getSetErrorData()(correlationId, errorCode)
     }
-    showToast(meta.errorToastLabel, 'error', correlationId)
+    getShowToast()(meta.errorToastLabel, 'error', correlationId)
   }
 }
 
 mutationCache.config.onSettled = (data, error, variables, context, mutation) => {
   const meta = resolveMeta({ mutation, data, error, variables, context })
-  if (meta.loadingLabel) hideOverlay()
+  if (meta.loadingLabel) getHideOverlay()()
 }
 
 export { queryClient }

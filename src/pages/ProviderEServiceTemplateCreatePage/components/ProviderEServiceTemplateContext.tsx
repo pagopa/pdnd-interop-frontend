@@ -48,10 +48,10 @@ const EServiceTemplateCreateContextProvider: FC<EServiceTemplateCreateContextPro
     const areEServiceTemplateGeneralInfoEditable = Boolean(
       // case 1: new e-service template
       !eserviceTemplateVersion ||
-        // case 3: already existing service template and version, but version is 1 and still a draft
-        (eserviceTemplateVersion &&
-          eserviceTemplateVersion.version === 1 &&
-          eserviceTemplateVersion.state === 'DRAFT')
+      // case 3: already existing service template and version, but version is 1 and still a draft
+      (eserviceTemplateVersion &&
+        eserviceTemplateVersion.version === 1 &&
+        eserviceTemplateVersion.state === 'DRAFT')
     )
 
     return {

@@ -167,9 +167,9 @@ export interface AccessTokenRequest {
   grant_type: string;
   /**
    * Set to true to validate the client assertion as an async token generation request
-   * @default false
+   * @default "false"
    */
-  is_async?: boolean;
+  is_async?: "true" | "false";
   /**
    * Optional DPoP proof JWT used to validate token generation
    * @format jws
@@ -1659,16 +1659,6 @@ export interface AgreementsEService {
   name: string;
   version: string;
   activeDescriptor?: CompactDescriptor;
-  asyncExchange?: boolean;
-}
-
-export interface AsyncExchangePropertiesInstanceSeed {
-  /** @format int32 */
-  responseTime?: number;
-  /** @format int32 */
-  resourceAvailableTime?: number;
-  /** @format int32 */
-  maxResultSet?: number;
 }
 
 export interface DescriptorAttributes {

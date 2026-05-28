@@ -10,6 +10,7 @@ import type {
   CompactEServiceTemplateVersion,
   EServiceTemplateInstances,
 } from '@/api/api.generatedTypes'
+import type * as ReactQuery from '@tanstack/react-query'
 
 const eserviceTemplateVersions: CompactEServiceTemplateVersion[] = [
   { id: 'template-version-1', version: 1, state: 'PUBLISHED' },
@@ -36,7 +37,7 @@ vi.mock('@/api/eserviceTemplate', () => ({
 }))
 
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  ...(await importOriginal<typeof ReactQuery>()),
   useSuspenseQuery: () => ({ data: mockQueryData }),
   useQuery: () => ({ data: mockQueryData?.pagination.totalCount }),
 }))

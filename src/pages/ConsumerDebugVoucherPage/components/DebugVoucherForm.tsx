@@ -7,6 +7,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { VoucherMutations } from '@/api/voucher'
 import type { AccessTokenRequest, TokenGenerationValidationResult } from '@/api/api.generatedTypes'
 import {
+  AUTHORIZATION_SERVER_TOKEN_CREATION_ASYNC_URL,
   AUTHORIZATION_SERVER_TOKEN_CREATION_URL,
   FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER,
 } from '@/config/env'
@@ -18,7 +19,7 @@ export type DebugVoucherFormValues = {
   clientAssertion: string
   clientId: string
   dpopProof: string
-  interactionType: string
+  interactionType: 'sync' | 'async'
 }
 
 export type DebugVoucherFormProps = {
@@ -51,13 +52,15 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
   })
 
   const onSubmit = (formValues: DebugVoucherFormValues) => {
+    const isAsync = formValues.interactionType === 'async'
+
     const payloadValidateVoucher: AccessTokenRequest = {
       client_id: formValues.clientId || undefined,
       client_assertion: formValues.clientAssertion,
       client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
       grant_type: 'client_credentials',
       dpop_proof: formValues.dpopProof || undefined,
-      // interactionType: formValues.interactionType, This value will be disabled for this release: https://www.figma.com/design/CpRV3kPvFEWLXGtJUgWeZW?node-id=4078-14921#1712917799
+      is_async: String(isAsync) as 'true' | 'false',
     }
 
     validateVoucher(payloadValidateVoucher, {
@@ -66,6 +69,8 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
       },
     })
   }
+
+  const interactionTypeValue = formMethods.watch('interactionType')
 
   return (
     <FormProvider {...formMethods}>
@@ -100,18 +105,16 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
               name="clientId"
               label={t('clientIdLabel')}
               infoLabel={t('clientIdInfoLabel')}
+              inputProps={{ maxLength: 36 }}
             />
 
-            {/* The input will be disabled for this release: https://www.figma.com/design/CpRV3kPvFEWLXGtJUgWeZW?node-id=4078-14921#1712917799 */}
             <RHFRadioGroup
-              disabled
               name="interactionType"
               label={t('interactionModelLabel')}
               rules={{ required: true }}
               required
               options={interactionTypeOptions}
             />
-            {/* --- */}
 
             <Alert color="info" icon={<InfoOutlined />}>
               <Trans
@@ -119,7 +122,12 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
                   strong: <Typography component="span" variant="inherit" fontWeight={700} />,
                 }}
               >
-                {t('alert', { authServer: AUTHORIZATION_SERVER_TOKEN_CREATION_URL })}
+                {t('alert', {
+                  authServer:
+                    interactionTypeValue === 'sync'
+                      ? AUTHORIZATION_SERVER_TOKEN_CREATION_URL
+                      : AUTHORIZATION_SERVER_TOKEN_CREATION_ASYNC_URL,
+                })}
               </Trans>
             </Alert>
           </Stack>

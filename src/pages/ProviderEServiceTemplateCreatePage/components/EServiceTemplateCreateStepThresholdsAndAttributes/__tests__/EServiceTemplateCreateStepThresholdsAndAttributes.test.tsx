@@ -40,20 +40,26 @@ afterEach(() => {
 describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
   it('should render the thresholds section title', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     expect(screen.getByText('step2.thresholdsAndAttributes.thresholdsTitle')).toBeInTheDocument()
   })
 
   it('should render the access requirements section title', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     expect(
       screen.getByText('step2.thresholdsAndAttributes.accessRequirements.title')
@@ -62,10 +68,13 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
 
   it('should render step actions with back and forward buttons', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     expect(screen.getByText('backWithoutSaveBtn')).toBeInTheDocument()
     expect(screen.getByText('forwardWithSaveBtn')).toBeInTheDocument()
@@ -73,10 +82,13 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
 
   it('should render the thresholds switch', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     expect(
       screen.getByText('step2.thresholdsAndAttributes.thresholdsSwitch.label')
@@ -85,10 +97,13 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
 
   it('should not show threshold fields when switch is off', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     expect(
       screen.queryByLabelText(/step2.thresholdsAndAttributes.dailyCallsPerConsumerField.label/)
@@ -99,10 +114,13 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
     mockUseEServiceTemplateCreateContext({
       eserviceTemplateVersion: createMockEServiceTemplateVersionDetails(),
     })
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     expect(
       screen.getByLabelText(/step2.thresholdsAndAttributes.dailyCallsPerConsumerField.label/)
@@ -114,10 +132,13 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
 
   it('should render attribute tabs (certified, verified, declared)', () => {
     mockUseEServiceTemplateCreateContext()
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     expect(
       screen.getByText('step2.thresholdsAndAttributes.accessRequirements.tabs.certified')
@@ -133,10 +154,13 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
   it('should call back when back button is clicked', async () => {
     const back = vi.fn()
     mockUseEServiceTemplateCreateContext({ back })
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     await userEvent.click(screen.getByText('backWithoutSaveBtn'))
     expect(back).toHaveBeenCalled()
@@ -148,10 +172,13 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
       forward,
       eserviceTemplateVersion: createMockEServiceTemplateVersionDetails(),
     })
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     await userEvent.click(screen.getByText('forwardWithSaveBtn'))
     await waitFor(() => {
@@ -162,10 +189,13 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
 
   it('should not call updateVersionDraft when eserviceTemplateVersion is undefined', async () => {
     mockUseEServiceTemplateCreateContext({ eserviceTemplateVersion: undefined })
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     await userEvent.click(screen.getByText('forwardWithSaveBtn'))
     await waitFor(() => {
@@ -177,10 +207,13 @@ describe('EServiceTemplateCreateStepThresholdsAndAttributes', () => {
     mockUseEServiceTemplateCreateContext({
       eserviceTemplateVersion: createMockEServiceTemplateVersionDetails(),
     })
-    renderWithApplicationContext(<EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />, {
-      withReactQueryContext: true,
-      withRouterContext: true,
-    })
+    renderWithApplicationContext(
+      <EServiceTemplateCreateStepThresholdsAndAttributes {...stepProps} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
 
     const dailyCallsTotalInput = screen.getByLabelText(
       /step2.thresholdsAndAttributes.dailyCallsTotalField.label/

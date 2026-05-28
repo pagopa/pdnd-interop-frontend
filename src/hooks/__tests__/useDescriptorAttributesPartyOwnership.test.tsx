@@ -10,11 +10,12 @@ import { vi } from 'vitest'
 import { useDescriptorAttributesPartyOwnership } from '../useDescriptorAttributesPartyOwnership'
 import { createMockEServiceDescriptorCatalog } from '@/../__mocks__/data/eservice.mocks'
 import { mockUseJwt } from '@/utils/testing.utils'
+import type * as ReactQuery from '@tanstack/react-query'
 
 mockUseJwt()
 
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  ...(await importOriginal<typeof ReactQuery>()),
   useQuery: vi.fn(),
   useQueries: vi.fn(),
 }))

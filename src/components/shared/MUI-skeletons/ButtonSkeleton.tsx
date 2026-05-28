@@ -1,5 +1,6 @@
 import React from 'react'
-import { ButtonProps, Skeleton, SkeletonProps } from '@mui/material'
+import type { ButtonProps, SkeletonProps } from '@mui/material'
+import { Skeleton } from '@mui/material'
 
 type ButtonSkeletonProps = Omit<SkeletonProps, 'height' | 'variant'> & {
   width: number

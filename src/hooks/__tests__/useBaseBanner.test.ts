@@ -5,6 +5,7 @@ import addDays from 'date-fns/addDays'
 import lightFormat from 'date-fns/lightFormat'
 import { act } from '@testing-library/react'
 import { useBannerStore } from '@/stores/banner.store'
+import type { BannerData } from '../bannerHooks/utils'
 
 const STORAGE_KEY = 'test-banner'
 
@@ -51,7 +52,11 @@ const createDateRange = (startDaysOffset: number, endDaysOffset: number) => {
   }
 }
 
-function renderUseBaseBannerHook(data: any, bannerKey: string, priority: number) {
+function renderUseBaseBannerHook(
+  data: BannerData | undefined,
+  bannerKey: string,
+  priority: number
+) {
   return renderHookWithApplicationContext(
     () =>
       useBaseBanner({
@@ -256,4 +261,3 @@ describe('useBaseBanner', () => {
     expect(result2.current.isOpen).toBe(true)
   })
 })
-

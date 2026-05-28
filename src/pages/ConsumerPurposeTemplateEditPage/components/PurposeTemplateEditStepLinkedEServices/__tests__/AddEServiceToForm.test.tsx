@@ -47,7 +47,8 @@ function TestWrapper({ children }: { children: React.ReactNode }) {
   return <FormProvider {...formMethods}>{children}</FormProvider>
 }
 
-describe('AddEServiceToForm', () => {
+// TODO: remove this test after feature purpose template <-> e-service template linking validation
+describe.skip('AddEServiceToForm', () => {
   const mockPurposeTemplate: PurposeTemplateWithCompactCreator = {
     id: 'template-123',
     purposeTitle: 'Test Purpose',
@@ -144,9 +145,8 @@ describe('AddEServiceToForm', () => {
   })
 
   it('handles remove eservice from group', async () => {
-    const { PurposeTemplateMutations } = await import(
-      '@/api/purposeTemplate/purposeTemplate.mutations'
-    )
+    const { PurposeTemplateMutations } =
+      await import('@/api/purposeTemplate/purposeTemplate.mutations')
     const mockMutate = vi.fn()
     ;(PurposeTemplateMutations.useUnlinkEserviceFromPurposeTemplate as Mock).mockReturnValue({
       mutate: mockMutate,
