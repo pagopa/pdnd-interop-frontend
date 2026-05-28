@@ -1,5 +1,6 @@
 import { queryOptions } from '@tanstack/react-query'
 import { SelfcareServices } from './selfcare.services'
+import type { UserProductRole } from '@/types/party.types'
 
 function getProducts() {
   return queryOptions({
@@ -34,8 +35,18 @@ function getSingleUser(userId: string) {
   })
 }
 
+function getUsersByRole(params: { tenantId: string; role: UserProductRole }) {
+  return queryOptions({
+    queryKey: ['SelfcareGetUsersByRole', params.tenantId, params.role],
+    queryFn: () => SelfcareServices.getUsersByRole(params),
+    throwOnError: false,
+    retry: false,
+  })
+}
+
 export const SelfcareQueries = {
   getProducts,
   getPartyList,
   getSingleUser,
+  getUsersByRole,
 }

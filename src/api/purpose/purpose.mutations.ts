@@ -219,6 +219,19 @@ function useCreateDraftFromPurposeTemplate() {
   })
 }
 
+function useAssignRiskAnalysisReviewer() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purpose.assignRiskAnalysisReviewer',
+  })
+  return useMutation({
+    mutationFn: PurposeServices.assignRiskAnalysisReviewer,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const PurposeMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -236,4 +249,5 @@ export const PurposeMutations = {
   useAddClient,
   useRemoveClient,
   useCreateDraftFromPurposeTemplate,
+  useAssignRiskAnalysisReviewer,
 }

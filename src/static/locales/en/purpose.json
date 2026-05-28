@@ -67,6 +67,7 @@
     "stepper": {
       "stepGeneralLabel": "General",
       "stepGeneralInformationLabel": "General information",
+      "stepAssignmentLabel": "Assignment",
       "stepRiskAnalysisLabel": "Risk assessment"
     },
     "backWithoutSaveBtn": "Back",
@@ -94,6 +95,33 @@
         "label": "Free of charge reason",
         "infoLabel": "Explain why you will make this data available free of charge. Indicate whether you are doing so under a statutory exemption or exclusion, or for another reason. Minimum 10 characters, maximum 250 characters."
       }
+    },
+    "stepAssignment": {
+      "title": "Assignment",
+      "description": "You can fill in the risk analysis on your own, or entrust a reviewer with the approval or the compilation.",
+      "reviewModeField": {
+        "label": "Choose a mode",
+        "options": {
+          "selfWritesSelfSigns": "Self-compilation and self-approval",
+          "selfWritesReviewerSigns": "Self-compilation and reviewer approval",
+          "reviewerWritesReviewerSigns": "Reviewer compilation and approval"
+        }
+      },
+      "reviewerField": {
+        "label": {
+          "selfWritesReviewerSigns": "Who will approve the risk analysis?",
+          "reviewerWritesReviewerSigns": "Who will fill in the risk analysis?"
+        },
+        "requiredError": "To proceed, please select a reviewer"
+      },
+      "noReviewersAlert": {
+        "message": "Your institution does not yet have a user with the reviewer role. You can add one from the Reserved Area.",
+        "linkLabel": "Go to Users"
+      },
+      "delegateAlert": "As a delegate, you cannot assign the risk analysis to a reviewer.",
+      "forwardBtn": "Save draft and proceed",
+      "requestReviewerCompilationBtn": "Request compilation",
+      "backToListBtn": "Back to purposes"
     },
     "loadEstimationSection": {
       "title": "Estimate API calls",
