@@ -2,7 +2,7 @@ import type { AsyncExchangeProperties } from '@/api/api.generatedTypes'
 import { SectionContainer } from '@/components/layout/containers'
 import { RHFCheckbox, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { asyncExchangeGuideLink } from '@/config/constants'
-import { Alert, Grid, Link, Stack, Typography } from '@mui/material'
+import { Alert, Box, Grid, Link, Stack, Typography } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
@@ -133,7 +133,7 @@ export const EServiceAsyncExchangeSectionBase: React.FC<EServiceAsyncExchangeSec
         {t('editableInfoAlert')}
       </Alert>
 
-      {editableCallbackInterfaceContent}
+      <Box sx={{ mt: 2 }}>{editableCallbackInterfaceContent}</Box>
 
       <Typography variant="subtitle1" sx={{ mt: 3 }}>
         {t('configSubsection.title')}

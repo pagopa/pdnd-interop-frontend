@@ -1,5 +1,6 @@
 import { screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import userEvent from '@testing-library/user-event'
+import { describe, expect, it, vi } from 'vitest'
 import {
   createMockEServiceDescriptorProvider,
   createMockEServiceDescriptorProviderAsync,
@@ -34,6 +35,25 @@ describe('ProviderEServiceDetailsAlerts', () => {
 
     expect(screen.getByText('providerMissingProducerKeychainKeys')).toBeInTheDocument()
     expect(screen.queryByText('providerMissingProducerKeychain')).not.toBeInTheDocument()
+  })
+
+  it('calls the keychains tab action from producer keychain alerts', async () => {
+    const descriptor = createMockEServiceDescriptorProviderAsync({
+      eservice: {
+        hasProducerKeychain: true,
+        hasProducerKeychainKeys: false,
+      },
+    })
+    const onViewKeychains = vi.fn()
+
+    renderWithApplicationContext(
+      <ProviderEServiceDetailsAlerts descriptor={descriptor} onViewKeychains={onViewKeychains} />,
+      {}
+    )
+
+    await userEvent.click(screen.getByRole('button', { name: 'viewProducerKeychains' }))
+
+    expect(onViewKeychains).toHaveBeenCalledTimes(1)
   })
 
   it('does not show producer keychain warnings when an async eservice has a keychain with keys', () => {

@@ -12,6 +12,7 @@ import {
   createMockEServiceDescriptorProviderAsync,
   mockUseEServiceCreateContext,
 } from '@/../__mocks__/data/eservice.mocks'
+import { createMockEServiceTemplateDetailsAsync } from '@/../__mocks__/data/eserviceTemplate.mocks'
 
 const useRemoveKeychainFromEService = vi.hoisted(() => vi.fn())
 
@@ -397,6 +398,7 @@ describe('EServiceCreateStepTechSpec', () => {
         ...createMockEServiceDescriptorProviderAsync(),
         templateRef: createMockEServiceDescriptorProviderWithTemplateRef().templateRef,
       },
+      eserviceTemplate: createMockEServiceTemplateDetailsAsync(),
     })
     renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
       withReactQueryContext: true,
