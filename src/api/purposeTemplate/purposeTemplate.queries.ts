@@ -1,8 +1,10 @@
 import { queryOptions } from '@tanstack/react-query'
 import { PurposeTemplateServices } from './purposeTemplate.services'
+import { NotFoundError } from '@/utils/errors.utils'
 import type {
   GetCatalogPurposeTemplatesParams,
   GetCreatorPurposeTemplatesParams,
+  GetPurposeTemplateLinkableResourcesParams,
   GetPurposeTemplateEServicesParams,
 } from '../api.generatedTypes'
 
@@ -25,6 +27,23 @@ function getEservicesLinkedToPurposeTemplatesList(params: GetPurposeTemplateESer
         params.purposeTemplateId,
         params
       ),
+  })
+}
+
+function getLinkableResources(
+  purposeTemplateId: string,
+  params: Omit<GetPurposeTemplateLinkableResourcesParams, 'purposeTemplateId'>
+) {
+  return queryOptions({
+    queryKey: ['PurposeTemplateGetLinkableResources', purposeTemplateId, params],
+    queryFn: () => PurposeTemplateServices.getLinkableResources(purposeTemplateId, params),
+    throwOnError: (error) => {
+      // The BE returns 404 when any linked resource (e-service, descriptor, template, version, tenant)
+      // referenced by the purpose template no longer exists. The purpose template's own existence
+      // is guaranteed by the parent page's `getSingle` query, so a 404 here means orphan link.
+      // Let consumers render a dedicated message instead of redirecting to NOT_FOUND.
+      return !(error instanceof NotFoundError)
+    },
   })
 }
 
@@ -63,6 +82,7 @@ function getPublishedPurposeTemplateCreators(params: {
 export const PurposeTemplateQueries = {
   getConsumerPurposeTemplatesList,
   getEservicesLinkedToPurposeTemplatesList,
+  getLinkableResources,
   getSingle,
   getCatalogPurposeTemplates,
   getAnswerDocuments,

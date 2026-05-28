@@ -73,6 +73,8 @@ const selectedEserviceMock: CatalogDescriptorEService = {
     audience: ['PUBLIC'],
   },
   personalData: false,
+  hasProducerKeychain: false,
+  hasProducerKeychainKeys: false,
 }
 
 const FormWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {

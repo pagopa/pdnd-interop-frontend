@@ -71,7 +71,7 @@ describe('ConsumerPurposeTemplateCatalogDetailsPage', async () => {
 
     await waitFor(() => {
       expect(screen.getByRole('tab', { name: 'read.tabs.details' })).toBeInTheDocument()
-      expect(screen.getByRole('tab', { name: 'read.tabs.linkedEservices' })).toBeInTheDocument()
+      expect(screen.getByRole('tab', { name: 'read.tabs.linkedResources' })).toBeInTheDocument()
       expect(screen.getByRole('tab', { name: 'read.tabs.riskAnalysis' })).toBeInTheDocument()
     })
   })
