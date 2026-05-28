@@ -2,6 +2,8 @@ import { fireEvent, screen } from '@testing-library/react'
 import { AttributeContainer } from '../AttributeContainer'
 import { vi, describe, it, expect } from 'vitest'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { createMockAttribute } from '../../../../../__mocks__/data/attribute.mocks'
+import userEvent from '@testing-library/user-event'
 
 vi.mock('@tanstack/react-query', async () => {
   const actual = (await vi.importActual('@tanstack/react-query')) as Record<string, unknown>
@@ -13,16 +15,16 @@ vi.mock('@tanstack/react-query', async () => {
   }
 })
 
+const baseAttribute = createMockAttribute({ id: 'attr-1', name: 'Test Attribute' })
+
 vi.mock('@/api/attribute', () => ({
   AttributeQueries: {
-    getSingle: vi.fn((id: string) => ({ queryKey: ['attribute', id], queryFn: vi.fn() })),
+    getSingle: vi.fn((id: string) => ({
+      queryKey: ['attribute', id],
+      queryFn: vi.fn().mockReturnValue(baseAttribute),
+    })),
   },
 }))
-
-const baseAttribute = {
-  id: 'attr-1',
-  name: 'Test Attribute',
-}
 
 describe('AttributeContainer', () => {
   it('should render the attribute name', () => {
@@ -61,15 +63,16 @@ describe('AttributeContainer', () => {
     expect(onRemove.mock.calls[0][1]).toBe('Test Attribute')
   })
 
-  it('should show "customizeBtn" when onCustomizeThreshold is provided and no dailyCallsPerConsumer', () => {
+  it('should show "customizeThreshold" when onCustomizeThreshold is provided and no dailyCallsPerConsumer', () => {
     renderWithApplicationContext(
       <AttributeContainer attribute={baseAttribute} onCustomizeThreshold={vi.fn()} />,
       { withReactQueryContext: true }
     )
-    expect(screen.getByText('customizeBtn')).toBeInTheDocument()
+    expect(screen.getByText('actions.customizeThreshold')).toBeInTheDocument()
   })
 
-  it('should show "changeBtn" when onCustomizeThreshold is provided and dailyCallsPerConsumer exists', () => {
+  it('should show "changeThreshold" inside the action menu when onCustomizeThreshold is provided and dailyCallsPerConsumer exists', async () => {
+    const user = userEvent.setup()
     renderWithApplicationContext(
       <AttributeContainer
         attribute={{ ...baseAttribute, dailyCallsPerConsumer: 100 }}
@@ -77,7 +80,11 @@ describe('AttributeContainer', () => {
       />,
       { withReactQueryContext: true }
     )
-    expect(screen.getByText('changeBtn')).toBeInTheDocument()
+
+    const menuActionsIconButton = screen.getByLabelText('iconButtonAriaLabel')
+    await user.click(menuActionsIconButton)
+
+    expect(screen.getByRole('menuitem', { name: 'actions.changeThreshold' })).toBeInTheDocument()
   })
 
   it('should call onCustomizeThreshold on click with stopPropagation', () => {
@@ -86,7 +93,7 @@ describe('AttributeContainer', () => {
       <AttributeContainer attribute={baseAttribute} onCustomizeThreshold={onCustomizeThreshold} />,
       { withReactQueryContext: true }
     )
-    const btn = screen.getByText('customizeBtn')
+    const btn = screen.getByText('actions.customizeThreshold')
     const clickEvent = new MouseEvent('click', { bubbles: true })
     const stopPropagationSpy = vi.spyOn(clickEvent, 'stopPropagation')
     fireEvent(btn, clickEvent)
