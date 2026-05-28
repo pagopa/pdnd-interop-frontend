@@ -29,6 +29,8 @@ import type {
   DialogShowEserviceVersionsListProps,
   DialogSuspendArchivingEserviceProps,
   DialogReactivateArchivingEserviceProps,
+  DialogArchiveVersionProps,
+  DialogCancelVersionArchivingProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -53,6 +55,8 @@ import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/D
 import { DialogShowEserviceVersionsList } from './DialogShowEserviceVersionsList/DialogShowEserviceVersionsList'
 import { DialogSuspendArchivingEservice } from './DialogSuspendArchivingEservice'
 import { DialogReactivateArchivingEservice } from './DialogReactivateArchivingEservice'
+import { DialogArchiveVersion } from './DialogArchiveVersion'
+import { DialogCancelVersionArchiving } from './DialogCancelVersionArchiving'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -78,7 +82,9 @@ function match<T>(
   onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T,
   onShowEserviceVersionsList: (props: DialogShowEserviceVersionsListProps) => T,
   onSuspendArchivingEservice: (props: DialogSuspendArchivingEserviceProps) => T,
-  onReactivateArchivingEservice: (props: DialogReactivateArchivingEserviceProps) => T
+  onReactivateArchivingEservice: (props: DialogReactivateArchivingEserviceProps) => T,
+  onArchiveVersion: (props: DialogArchiveVersionProps) => T,
+  onCancelVersionArchiving: (props: DialogCancelVersionArchivingProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -130,6 +136,10 @@ function match<T>(
         return onSuspendArchivingEservice(props)
       case 'reactivateArchivingEservice':
         return onReactivateArchivingEservice(props)
+      case 'archiveVersion':
+        return onArchiveVersion(props)
+      case 'cancelVersionArchiving':
+        return onCancelVersionArchiving(props)
     }
   }
 }
@@ -158,7 +168,9 @@ const _Dialog = match(
   (props) => <DialogSelectAgreementConsumer {...props} />,
   (props) => <DialogShowEserviceVersionsList {...props} />,
   (props) => <DialogSuspendArchivingEservice {...props} />,
-  (props) => <DialogReactivateArchivingEservice {...props} />
+  (props) => <DialogReactivateArchivingEservice {...props} />,
+  (props) => <DialogArchiveVersion {...props} />,
+  (props) => <DialogCancelVersionArchiving {...props} />
 )
 
 export const Dialog: React.FC = () => {
