@@ -1,16 +1,40 @@
 import React from 'react'
 import { useQuery } from '@tanstack/react-query'
+import { match } from 'ts-pattern'
 import { useParams } from '@/router'
 import { PurposeQueries } from '@/api/purpose'
-import { SelfcareQueries } from '@/api/selfcare'
+import { TenantQueries } from '@/api/tenant'
 import { AuthHooks } from '@/api/auth'
 import { NotFoundError } from '@/utils/errors.utils'
 import { SELFCARE_BASE_URL, SELFCARE_PRODUCT_ID } from '@/config/env'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
+import type { Purpose, RiskAnalysisReviewMode } from '@/api/api.generatedTypes'
 import PurposeEditStepAssignmentForm, {
   PurposeEditStepAssignmentFormSkeleton,
+  type PurposeEditStepAssignmentFormValues,
+  type ReviewModeOption,
 } from './PurposeEditStepAssignmentForm'
+
+// TODO[PIN-10138]: drop this local extension once `reviewMode` and `reviewerIds`
+// are added to the generated `Purpose` type by the BE.
+type PurposeWithAssignment = Purpose & {
+  reviewMode?: RiskAnalysisReviewMode
+  reviewerIds?: string[]
+}
+
+const beEnumToReviewModeOption = (
+  reviewMode: RiskAnalysisReviewMode | undefined
+): ReviewModeOption =>
+  match(reviewMode)
+    .with('ADMIN_WRITES_REVIEWER_SIGNS', () => 'selfWritesReviewerSigns' as const)
+    .with('REVIEWER_WRITES_REVIEWER_SIGNS', () => 'reviewerWritesReviewerSigns' as const)
+    .otherwise(() => 'selfWritesSelfSigns' as const)
+
+const getDefaultValues = (purpose: PurposeWithAssignment): PurposeEditStepAssignmentFormValues => ({
+  reviewMode: beEnumToReviewModeOption(purpose.reviewMode),
+  reviewerId: purpose.reviewerIds?.[0],
+})
 
 export const PurposeEditStepAssignment: React.FC<ActiveStepProps> = (props) => {
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_EDIT'>()
@@ -23,7 +47,7 @@ export const PurposeEditStepAssignment: React.FC<ActiveStepProps> = (props) => {
 
   const tenantId = jwt?.organizationId
   const { data: reviewers, isLoading: isLoadingReviewers } = useQuery({
-    ...SelfcareQueries.getUsersByRole({ tenantId: tenantId as string, role: 'reviewer' }),
+    ...TenantQueries.getPartyUsersList({ tenantId: tenantId as string, roles: ['reviewer'] }),
     enabled: Boolean(tenantId),
   })
 
@@ -43,12 +67,15 @@ export const PurposeEditStepAssignment: React.FC<ActiveStepProps> = (props) => {
     jwt &&
     `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users?lang=${lang}#${SELFCARE_PRODUCT_ID}`
 
+  const defaultValues = getDefaultValues(purpose as PurposeWithAssignment)
+
   return (
     <PurposeEditStepAssignmentForm
       purpose={purpose}
       reviewers={reviewers ?? []}
       isDelegate={isDelegate}
       selfcareUsersPageUrl={selfcareUsersPageUrl}
+      defaultValues={defaultValues}
       {...props}
     />
   )

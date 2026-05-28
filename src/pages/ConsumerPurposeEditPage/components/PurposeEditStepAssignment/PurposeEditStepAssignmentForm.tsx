@@ -2,6 +2,7 @@ import React from 'react'
 import { Alert, Box, Link, Stack } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { match } from 'ts-pattern'
 import { RHFAutocompleteSingle, RHFRadioGroup } from '@/components/shared/react-hook-form-inputs'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
@@ -17,7 +18,7 @@ import { useDialog } from '@/stores'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 
-type ReviewModeOption =
+export type ReviewModeOption =
   | 'selfWritesSelfSigns'
   | 'selfWritesReviewerSigns'
   | 'reviewerWritesReviewerSigns'
@@ -27,24 +28,27 @@ export type PurposeEditStepAssignmentFormValues = {
   reviewerId?: string
 }
 
-const REVIEW_MODE_TO_BE_ENUM: Record<ReviewModeOption, RiskAnalysisReviewMode | undefined> = {
-  selfWritesSelfSigns: undefined,
-  selfWritesReviewerSigns: 'ADMIN_WRITES_REVIEWER_SIGNS',
-  reviewerWritesReviewerSigns: 'REVIEWER_WRITES_REVIEWER_SIGNS',
-}
+const reviewModeOptionToBeEnum = (option: ReviewModeOption): RiskAnalysisReviewMode | undefined =>
+  match(option)
+    .with('selfWritesSelfSigns', () => undefined)
+    .with('selfWritesReviewerSigns', () => 'ADMIN_WRITES_REVIEWER_SIGNS' as const)
+    .with('reviewerWritesReviewerSigns', () => 'REVIEWER_WRITES_REVIEWER_SIGNS' as const)
+    .exhaustive()
 
 type PurposeEditStepAssignmentFormProps = ActiveStepProps & {
   purpose: Purpose
   reviewers: Array<User>
   isDelegate: boolean
   selfcareUsersPageUrl?: string
+  defaultValues: PurposeEditStepAssignmentFormValues
 }
 
-export const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps> = ({
+const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps> = ({
   purpose,
   reviewers,
   isDelegate,
   selfcareUsersPageUrl,
+  defaultValues,
   forward,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit.stepAssignment' })
@@ -54,12 +58,7 @@ export const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFo
   const hasNoReviewers = reviewers.length === 0
   const isFormHidden = isDelegate || hasNoReviewers
 
-  const formMethods = useForm<PurposeEditStepAssignmentFormValues>({
-    defaultValues: {
-      reviewMode: 'selfWritesSelfSigns',
-      reviewerId: undefined,
-    },
-  })
+  const formMethods = useForm<PurposeEditStepAssignmentFormValues>({ defaultValues })
 
   const reviewMode = formMethods.watch('reviewMode')
   const needsReviewer =
@@ -72,7 +71,7 @@ export const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFo
       return
     }
 
-    const reviewModeEnum = REVIEW_MODE_TO_BE_ENUM[reviewMode]
+    const reviewModeEnum = reviewModeOptionToBeEnum(reviewMode)
     if (!reviewModeEnum || !reviewerId) {
       forward()
       return
