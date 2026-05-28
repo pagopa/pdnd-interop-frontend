@@ -8,6 +8,8 @@ export const testConfigs = {
   NODE_ENV: 'test',
   STAGE: 'DEV',
   AUTHORIZATION_SERVER_TOKEN_CREATION_URL: 'https://auth.dev.interop.pagopa.it/token.oauth2',
+  AUTHORIZATION_SERVER_TOKEN_CREATION_ASYNC_URL:
+    'https://auth.dev.interop.pagopa.it/token.oauth2.async',
   SELFCARE_LOGIN_URL: 'https://uat.selfcare.pagopa.it/',
   SELFCARE_BASE_URL: 'https://uat.selfcare.pagopa.it',
   INTEROP_RESOURCES_BASE_URL: 'https://interop-public-assets-dev.s3.eu-south-1.amazonaws.com',

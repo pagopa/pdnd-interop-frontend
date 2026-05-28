@@ -44,7 +44,7 @@
     },
     "stepper": {
       "step1Label": "Informazioni generali",
-      "step2Label": "E-service suggeriti",
+      "step2Label": "E-service e template e-service suggeriti",
       "step3Label": "Analisi del rischio"
     },
     "step1": {
@@ -77,14 +77,24 @@
       }
     },
     "step2": {
-      "detailsTitle": "E-service suggeriti per questo template",
-      "detailsDescription": "Ci sono e-service per cui pensi che questo template sia particolarmente adatto? Selezionali qui. Potrai associare gli e-service anche dopo la pubblicazione.",
-      "addBtn": "Aggiungi e-service",
+      "detailsTitle": "E-service e template e-service suggeriti per questo template",
+      "detailsDescription": "Qui puoi selezionare degli e-service o dei template e-service che suggerisci per questa finalità agevolata. Potrai farlo anche dopo la pubblicazione della finalità.",
+      "addBtn": "Aggiungi elemento",
       "editLinkedEservices": "Aggiorna elenco",
+      "editLinkedResources": "Aggiorna elenco",
       "saveBtn": "Salva",
       "eserviceSelectionSubtitle": "Puoi inserire e-service che hanno un trattamento dei dati personali analogo a quanto hai indicato.",
+      "removeResourceAriaLabel": "Rimuovi {{name}}",
       "autocompleteInput": {
-        "label": "E-service da associare"
+        "label": "E-service o template e-service suggeriti"
+      },
+      "options": {
+        "eservice": "{{name}} - e-service erogato da {{publisher}}",
+        "eserviceTemplate": "{{name}} - template e-service erogato da {{publisher}}"
+      },
+      "warning": {
+        "invalidResource": "Almeno uno degli elementi collegati non è più disponibile per essere associato.",
+        "orphanLinkedResources": "Alcune risorse collegate non sono più disponibili. Contatta il supporto."
       },
       "notifications": {
         "eserviceLinkError": "Non è stato possibile salvare questo e-service. Per favore riprova!",
@@ -165,6 +175,15 @@
         "providedBy": "erogato da",
         "noLinkedEservices": "Non hai indicato e-service associati a questo template."
       },
+      "suggestedResourcesSection": {
+        "title": "E-service e template e-service suggeriti",
+        "providedBy": {
+          "eservice": "e-service erogato da {{publisher}}",
+          "eserviceTemplate": "template e-service erogato da {{publisher}}"
+        },
+        "noLinkedResources": "Non hai indicato e-service o template e-service associati a questo template.",
+        "orphanLinkedResources": "Alcune risorse collegate non sono più disponibili. Contatta il supporto."
+      },
       "riskAnalysisSection": {
         "title": "Analisi del rischio"
       }
@@ -179,6 +198,7 @@
       "ariaLabel": "Tre tab diverse per i dettagli del template della finalità, gli e-service collegati e l'analisi del rischio",
       "details": "Dettaglio template",
       "linkedEservices": "E-service collegati",
+      "linkedResources": "E-service e template e-service suggeriti",
       "riskAnalysis": "Analisi del rischio"
     },
     "detailsTab": {
@@ -208,6 +228,11 @@
           "description": "Qui trovi l’elenco degli e-service suggeriti per questa finalità agevolata. Il template può essere usato anche per altri e-service non presenti nell’elenco.",
           "linkedEservicesLink": "Visualizza gli e-service collegati"
         },
+        "linkedResources": {
+          "title": "E-service e template e-service suggeriti",
+          "description": "Qui trovi l’elenco degli e-service e dei template e-service suggeriti per questa finalità agevolata. Il template può essere usato anche per altri e-service non presenti nell’elenco.",
+          "link": "Visualizza gli e-service e i template collegati"
+        },
         "documentation": {
           "title": "Documentazione",
           "description": "Per questa analisi del rischio agevolata sono disponibili le seguenti linee guida.",
@@ -236,6 +261,27 @@
           "label": "Cerca per erogatore"
         }
       }
+    },
+    "linkedResourcesTab": {
+      "title": "E-service e template e-service suggeriti",
+      "description": "Qui trovi l'elenco degli e-service e template e-service suggeriti per questa finalità agevolata. Il template può essere usato anche per altri e-service non presenti nell'elenco. <1>Link alla documentazione</1>",
+      "editButtonTooltip": "Non è possibile modificare l'elenco se il template è sospeso o archiviato",
+      "linkedResourceName": "E-service o template e-service",
+      "linkedResourceKind": "Tipo",
+      "linkedResourceProviderName": "Nome erogatore",
+      "kind": {
+        "eservice": "E-service",
+        "eserviceTemplate": "Template e-service"
+      },
+      "filters": {
+        "resourceField": {
+          "label": "Nome e-service o template"
+        },
+        "providerField": {
+          "label": "Cerca per erogatore"
+        }
+      },
+      "orphanLinkedResources": "Alcune risorse collegate non sono più disponibili. Contatta il supporto."
     },
     "riskAnalysisTab": {
       "titlePA": "Analisi del rischio (Pubbliche Amministrazioni)",

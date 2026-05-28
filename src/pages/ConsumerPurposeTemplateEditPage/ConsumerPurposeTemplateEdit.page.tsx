@@ -5,7 +5,7 @@ import { useActiveStep } from '@/hooks/useActiveStep'
 import { useTranslation } from 'react-i18next'
 import type { StepperStep } from '@/types/common.types'
 import { PurposeTemplateEditStepGeneral } from './components/PurposeTemplateEditStepGeneral/PurposeTemplateEditStepGeneral'
-import { PurposeTemplateEditLinkedEService } from './components/PurposeTemplateEditStepLinkedEServices/PurposeTemplateEditLinkedEService'
+import { PurposeTemplateEditLinkedResource } from './components/PurposeTemplateEditStepLinkedResources/PurposeTemplateEditLinkedResource'
 import { PurposeTemplateEditStepRiskAnalysis } from './components/PurposeTemplateEditStepRiskAnalysis/PurposeTemplateEditRiskAnalysisForm'
 import { PurposeCreateContextProvider } from '@/components/shared/PurposeCreateContext'
 
@@ -15,7 +15,7 @@ const ConsumerPurposeTemplateEditPage: React.FC = () => {
 
   const steps: Array<StepperStep> = [
     { label: t('edit.stepper.step1Label'), component: PurposeTemplateEditStepGeneral },
-    { label: t('edit.stepper.step2Label'), component: PurposeTemplateEditLinkedEService },
+    { label: t('edit.stepper.step2Label'), component: PurposeTemplateEditLinkedResource },
     { label: t('edit.stepper.step3Label'), component: PurposeTemplateEditStepRiskAnalysis },
   ]
 

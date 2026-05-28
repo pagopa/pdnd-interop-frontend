@@ -40,6 +40,7 @@ export const keychainGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/utili
 export const keychainSetupGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/e-service/portachiavi`
 export const implementAndManageEServiceTemplateLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/template-e-service/operazioni-e-ciclo-di-vita`
 export const updateEserviceInstanceLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/template-e-service/relazione-tra-template-e-istanza`
+export const purposeTemplateGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/template-finalita/relazione-tra-template-e-finalita`
 export const notificationGuideLink = `https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/riferimenti-tecnici/notifiche`
 export const notificationMailChangeLink =
   'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/tutorial/tutorial-generali/come-modificare-la-mail-associata-allutenza'
@@ -76,4 +77,10 @@ export const apiSignalhubPullLink =
 
 export const ESERVICE_TEMPLATE_NAME_MAX_LENGTH = 45
 export const INSTANCE_LABEL_MAX_LENGTH = 12
+
+export const CLIENT_ASSERTION_TYP = 'dpop+jwt'
+export const CLIENT_ASSERTION_ALG = 'RS256'
+export const CLIENT_ASSERTION_HTM = 'POST'
+export const VOUCHER_FIRST_DPOP_FILENAME = 'create_dpop_proof_auth_server'
+export const VOUCHER_SECOND_DPOP_FILENAME = 'create_dpop_proof_resource_server'
 export const ESERVICE_DESCRIPTION_MAX_LENGTH = 400
