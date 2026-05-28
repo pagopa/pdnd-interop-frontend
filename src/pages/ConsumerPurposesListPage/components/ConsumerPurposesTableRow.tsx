@@ -32,7 +32,8 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
 
   const { actions } = useGetConsumerPurposesActions(purpose)
 
-  const isPurposeEditable = purpose?.currentVersion?.state === 'DRAFT' && isAdmin
+  const isDraft = purpose.currentVersion?.state === 'DRAFT'
+  const isPurposeEditable = isDraft && isAdmin
   const hasWaitingForApprovalVersion = !!(
     purpose.currentVersion && purpose.waitingForApprovalVersion
   )
@@ -56,8 +57,6 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
   // The validation outcome of the risk analysis is relevant only for purposes
   // whose current version is still a DRAFT: once the purpose is published the
   // RA is implicitly approved and the icon would be redundant.
-  const isDraft = purpose.currentVersion?.state === 'DRAFT'
-
   const riskAnalysisTooltipLabel = isDraft
     ? match(riskAnalysisSigningState)
         .with('SIGNED', () => t('list.riskAnalysisApproved'))
