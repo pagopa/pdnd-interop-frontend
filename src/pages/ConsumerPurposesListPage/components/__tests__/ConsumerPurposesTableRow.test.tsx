@@ -33,7 +33,7 @@ const renderRow = (purpose: Purpose) =>
   )
 
 describe('ConsumerPurposesTableRow - risk analysis signing state info icon', () => {
-  it('renders the info icon with the "approved" tooltip when the purpose is a DRAFT and riskAnalysisSigningState is SIGNED', () => {
+  it('renders the info icon with aria-label "list.riskAnalysisApproved" when the purpose is a DRAFT and riskAnalysisSigningState is SIGNED', () => {
     mockUseJwt()
     const { queryByLabelText } = renderRow(buildPurpose('DRAFT', 'SIGNED'))
 
@@ -41,7 +41,7 @@ describe('ConsumerPurposesTableRow - risk analysis signing state info icon', () 
     expect(queryByLabelText('list.riskAnalysisRejected')).not.toBeInTheDocument()
   })
 
-  it('renders the info icon with the "rejected" tooltip when the purpose is a DRAFT and riskAnalysisSigningState is REJECTED', () => {
+  it('renders the info icon with aria-label "list.riskAnalysisRejected" when the purpose is a DRAFT and riskAnalysisSigningState is REJECTED', () => {
     mockUseJwt()
     const { queryByLabelText } = renderRow(buildPurpose('DRAFT', 'REJECTED'))
 
@@ -50,7 +50,7 @@ describe('ConsumerPurposesTableRow - risk analysis signing state info icon', () 
   })
 
   it.each(['ASSIGNED', 'SUBMITTED', undefined] as const)(
-    'does not render any info icon for a DRAFT purpose when riskAnalysisSigningState is %s',
+    'does not render the info icon for a DRAFT purpose when riskAnalysisSigningState is %s',
     (signingState) => {
       mockUseJwt()
       const { queryByLabelText } = renderRow(buildPurpose('DRAFT', signingState))
@@ -61,7 +61,7 @@ describe('ConsumerPurposesTableRow - risk analysis signing state info icon', () 
   )
 
   it.each(['SIGNED', 'REJECTED'] as const)(
-    'does not render any info icon when the purpose is not a DRAFT, even if riskAnalysisSigningState is %s',
+    'does not render the info icon when the purpose is not a DRAFT, even if riskAnalysisSigningState is %s',
     (signingState) => {
       mockUseJwt()
       const { queryByLabelText } = renderRow(buildPurpose('ACTIVE', signingState))
