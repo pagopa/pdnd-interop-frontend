@@ -59,7 +59,7 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
         <Alert severity="info" sx={{ mt: 4 }}>
           <Trans
             components={{
-              1: <Link underline="hover" href={DOCUMENTATION_URL} target="_blank" />, // TODO documentation link
+              1: <Link underline="hover" href={DOCUMENTATION_URL} target="_blank" />,
             }}
           >
             {t('content.alert')}
