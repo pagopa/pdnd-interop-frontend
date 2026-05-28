@@ -37,10 +37,10 @@ const ConsumerPurposeEditPage: React.FC = () => {
   const isReceive = purpose?.eservice.mode === 'RECEIVE'
 
   const steps: Array<StepperStep> = isReceive
-    ? [{ label: t('edit.stepper.stepGeneralLabel'), component: PurposeEditStepGeneral }]
+    ? [{ label: t('edit.stepper.stepGeneralInformationLabel'), component: PurposeEditStepGeneral }]
     : [
         {
-          label: t('edit.stepper.stepGeneralLabel'),
+          label: t('edit.stepper.stepGeneralInformationLabel'),
           component: PurposeEditStepGeneral,
         },
         {

@@ -57,7 +57,8 @@
         "acknowledgeInfoResponsibility": {
           "label": "Dichiaro di aver compreso che, anche in presenza di suggerimenti precompilati, è mia responsabilità verificare e validare tutte le informazioni prima della pubblicazione.",
           "requiredError": "Devi accettare le condizioni per proseguire"
-        }
+        },
+        "evaluatorWarningAlert": "Se scegli la compilazione agevolata, non potrai assegnare la compilazione o l’approvazione dell’analisi del rischio al valutatore."
       }
     }
   },
@@ -65,6 +66,7 @@
     "emptyTitle": "Modifica finalità",
     "stepper": {
       "stepGeneralLabel": "Generale",
+      "stepGeneralInformationLabel": "Informazioni generali",
       "stepRiskAnalysisLabel": "Analisi del rischio"
     },
     "backWithoutSaveBtn": "Indietro",
