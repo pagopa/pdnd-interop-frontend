@@ -113,7 +113,7 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
           size="small"
           infoLabel={
             isConfigureCertifiedDiscrete
-              ? 'TODO Per aggiungere questo attributo dovrai configurare alcuni valori'
+              ? t('autocompleteInput.certifiedDiscreteInfoSection')
               : undefined
           }
           isOptionEqualToValue={(option, { value }) => option.value.id === value.id}
@@ -126,7 +126,7 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
             type="button"
             variant="contained"
           >
-            {isConfigureCertifiedDiscrete ? 'TODO configura' : t('add')}
+            {isConfigureCertifiedDiscrete ? t('config') : t('add')}
           </Button>
         )}
       </Stack>

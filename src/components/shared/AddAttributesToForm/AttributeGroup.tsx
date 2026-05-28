@@ -194,9 +194,9 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
         )}
       </AttributeGroupContainer>
       {FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE && attributeKey === 'certified' && (
-          onSubmit={handleSubmitConfigureDiscreteAttributeDrawer} // TODO
-          submitButtonLabel={'TODO label'}
         <ConfigureCertifiedDiscreteAttributeDrawer
+          onSubmit={handleSubmitConfigureDiscreteAttributeDrawer}
+          submitButtonLabel={t('add')}
         />
       )}
     </>

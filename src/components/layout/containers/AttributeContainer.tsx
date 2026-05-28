@@ -69,6 +69,7 @@ export const AttributeContainer = <
   onOpenConfigDrawer,
 }: AttributeContainerProps<TAttribute>) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'attributeContainer' })
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'comparators' })
   const [isDetailsDrawerOpen, setIsDetailsDrawerOpen] = React.useState<boolean>(false)
   const { data: completeAttribute, isLoading: isLoadingCompleteAttribute } = useQuery(
     AttributeQueries.getSingle(attribute.id)
@@ -84,7 +85,7 @@ export const AttributeContainer = <
     ) {
       const changeAttributeValueAction: ActionItemButton = {
         action: onOpenConfigDrawer,
-        label: 'TODO modifica attributo',
+        label: t('actions.modifyCertifiedDiscreteAttribute'),
       }
       actions.push(changeAttributeValueAction)
     }
@@ -92,7 +93,7 @@ export const AttributeContainer = <
     if (onCustomizeThreshold && attribute.dailyCallsPerConsumer) {
       const customizeThresholdAction: ActionItemButton = {
         action: onCustomizeThreshold,
-        label: 'TODO modifica soglia',
+        label: t('actions.changeThreshold'),
         icon: EditIcon,
       }
       actions.push(customizeThresholdAction)
@@ -100,7 +101,7 @@ export const AttributeContainer = <
 
     const inspectAttributeDetails: ActionItemButton = {
       action: () => setIsDetailsDrawerOpen(true),
-      label: 'TODO dettagli attributo',
+      label: t('actions.inspectAttributeDetails'),
     }
 
     actions.push(inspectAttributeDetails)
@@ -129,9 +130,10 @@ export const AttributeContainer = <
             <Stack spacing={1}>
               <Typography fontWeight={600}>{attribute.name}</Typography>
               {FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE &&
-                /*TODO attribute.kind === 'certifiedDiscrete' */ true && (
+                /*TODO attribute.kind === 'certifiedDiscrete' */ true &&
+                attribute.discreteConfig && (
                   <Typography variant="body2" fontWeight={700}>
-                    {`TODO comparator label${attribute.discreteConfig?.threshold}`}
+                    {`${tCommon(attribute.discreteConfig.comparator)} ${attribute.discreteConfig.threshold}`}
                   </Typography>
                 )}
               {(attribute.dailyCallsPerConsumer !== undefined || onCustomizeThreshold) && (
@@ -154,7 +156,7 @@ export const AttributeContainer = <
                         onCustomizeThreshold()
                       }}
                     >
-                      {t('customizeBtn')}
+                      {t('actions.customizeThreshold')}
                     </ButtonNaked>
                   )}
                 </Stack>
@@ -213,7 +215,7 @@ const AttributeDetailsDrawer: React.FC<{
       <Stack sx={{ mt: 1 }} spacing={2}>
         <InformationContainer
           direction="column"
-          label="TODO descrizione"
+          label={t('descriptionLabel')}
           content={attribute.description}
         />
         <InformationContainer
@@ -228,7 +230,7 @@ const AttributeDetailsDrawer: React.FC<{
         {attribute.origin && attribute.origin !== 'SELFCARE' && (
           <InformationContainer
             direction="column"
-            label="TODO ente certificatore"
+            label={t('tenantCertifierLabel')}
             content={attribute.origin}
           />
         )}

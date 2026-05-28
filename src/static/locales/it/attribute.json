@@ -74,9 +74,11 @@
     "addAnotherBtn": "Aggiungi un altro attributo",
     "autocompleteInput": {
       "label": "Aggiungi attributo",
-      "placeholder": "Inserisci nome attributo"
+      "placeholder": "Inserisci nome attributo",
+      "certifiedDiscreteInfoSection": "Per aggiungere questo attributo dovrai configurare alcuni valori"
     },
     "or": "oppure",
-    "add": "Aggiungi"
+    "add": "Aggiungi",
+    "config": "Configura"
   }
 }
