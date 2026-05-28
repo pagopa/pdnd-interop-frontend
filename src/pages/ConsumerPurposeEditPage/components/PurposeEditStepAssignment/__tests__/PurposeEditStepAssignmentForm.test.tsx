@@ -1,8 +1,10 @@
 import React from 'react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { screen } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import PurposeEditStepAssignmentForm from '../PurposeEditStepAssignmentForm'
+import PurposeEditStepAssignmentForm, {
+  type PurposeEditStepAssignmentFormValues,
+} from '../PurposeEditStepAssignmentForm'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 import type { User } from '@/api/api.generatedTypes'
@@ -37,20 +39,28 @@ const mockReviewer2: User = {
   roles: ['reviewer'],
 }
 
+const DEFAULT_VALUES: PurposeEditStepAssignmentFormValues = {
+  reviewMode: 'selfWritesSelfSigns',
+  reviewerId: undefined,
+}
+
 function renderComponent(overrides?: {
   reviewers?: Array<User>
   isDelegate?: boolean
   selfcareUsersPageUrl?: string
+  defaultValues?: PurposeEditStepAssignmentFormValues
+  forward?: VoidFunction
 }) {
-  const purpose = createMockPurpose()
+  const purpose = createMockPurpose({ id: 'purpose-id' })
   return renderWithApplicationContext(
     <PurposeEditStepAssignmentForm
       purpose={purpose}
       reviewers={overrides?.reviewers ?? [mockReviewer, mockReviewer2]}
       isDelegate={overrides?.isDelegate ?? false}
       selfcareUsersPageUrl={overrides?.selfcareUsersPageUrl ?? 'https://selfcare.test/users'}
+      defaultValues={overrides?.defaultValues ?? DEFAULT_VALUES}
       activeStep={1}
-      forward={vi.fn()}
+      forward={overrides?.forward ?? vi.fn()}
       back={vi.fn()}
     />,
     { withReactQueryContext: true, withRouterContext: true }
@@ -109,6 +119,19 @@ describe('PurposeEditStepAssignmentForm', () => {
     expect(assignReviewerMock).not.toHaveBeenCalled()
   })
 
+  it('marks the reviewer autocomplete as required (asterisk on the label)', async () => {
+    const user = userEvent.setup()
+    const { container } = renderComponent()
+
+    await user.click(
+      screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesReviewerSigns' })
+    )
+
+    const label = screen.getByText('reviewerField.label.selfWritesReviewerSigns')
+    expect(label.querySelector('.MuiFormLabel-asterisk')).toBeInTheDocument()
+    expect(container.querySelector('input[required]')).toBeInTheDocument()
+  })
+
   it('shows the "compiler" autocomplete with the reviewer required error when option 3 is selected, populated with the same list', async () => {
     const user = userEvent.setup()
     renderComponent()
@@ -146,22 +169,33 @@ describe('PurposeEditStepAssignmentForm', () => {
     expect(screen.queryByRole('button', { name: 'forwardBtn' })).not.toBeInTheDocument()
   })
 
+  it('uses the Save icon on the primary CTA for option 1 and 2, and the ArrowForward icon for option 3', async () => {
+    const user = userEvent.setup()
+    renderComponent()
+
+    const forwardBtn = screen.getByRole('button', { name: 'forwardBtn' })
+    expect(within(forwardBtn).getByTestId('SaveIcon')).toBeInTheDocument()
+    expect(within(forwardBtn).queryByTestId('ArrowForwardIcon')).not.toBeInTheDocument()
+
+    await user.click(
+      screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesReviewerSigns' })
+    )
+    const forwardBtn2 = screen.getByRole('button', { name: 'forwardBtn' })
+    expect(within(forwardBtn2).getByTestId('SaveIcon')).toBeInTheDocument()
+    expect(within(forwardBtn2).queryByTestId('ArrowForwardIcon')).not.toBeInTheDocument()
+
+    await user.click(
+      screen.getByRole('radio', { name: 'reviewModeField.options.reviewerWritesReviewerSigns' })
+    )
+    const requestBtn = screen.getByRole('button', { name: 'requestReviewerCompilationBtn' })
+    expect(within(requestBtn).getByTestId('ArrowForwardIcon')).toBeInTheDocument()
+    expect(within(requestBtn).queryByTestId('SaveIcon')).not.toBeInTheDocument()
+  })
+
   it('on submit with option 1, does not call the API and forwards', async () => {
     const user = userEvent.setup()
     const forward = vi.fn()
-    const purpose = createMockPurpose()
-    renderWithApplicationContext(
-      <PurposeEditStepAssignmentForm
-        purpose={purpose}
-        reviewers={[mockReviewer]}
-        isDelegate={false}
-        selfcareUsersPageUrl=""
-        activeStep={1}
-        forward={forward}
-        back={vi.fn()}
-      />,
-      { withReactQueryContext: true, withRouterContext: true }
-    )
+    renderComponent({ reviewers: [mockReviewer], forward })
 
     await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
 
@@ -172,19 +206,7 @@ describe('PurposeEditStepAssignmentForm', () => {
   it('on submit with option 2 and a reviewer selected, calls the API and forwards on success', async () => {
     const user = userEvent.setup()
     const forward = vi.fn()
-    const purpose = createMockPurpose({ id: 'purpose-id' })
-    renderWithApplicationContext(
-      <PurposeEditStepAssignmentForm
-        purpose={purpose}
-        reviewers={[mockReviewer]}
-        isDelegate={false}
-        selfcareUsersPageUrl=""
-        activeStep={1}
-        forward={forward}
-        back={vi.fn()}
-      />,
-      { withReactQueryContext: true, withRouterContext: true }
-    )
+    renderComponent({ reviewers: [mockReviewer], forward })
 
     await user.click(
       screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesReviewerSigns' })
@@ -208,19 +230,7 @@ describe('PurposeEditStepAssignmentForm', () => {
   it('on submit with option 3 and a reviewer selected, calls the API and navigates to summary on success', async () => {
     const user = userEvent.setup()
     const forward = vi.fn()
-    const purpose = createMockPurpose({ id: 'purpose-id' })
-    renderWithApplicationContext(
-      <PurposeEditStepAssignmentForm
-        purpose={purpose}
-        reviewers={[mockReviewer]}
-        isDelegate={false}
-        selfcareUsersPageUrl=""
-        activeStep={1}
-        forward={forward}
-        back={vi.fn()}
-      />,
-      { withReactQueryContext: true, withRouterContext: true }
-    )
+    renderComponent({ reviewers: [mockReviewer], forward })
 
     await user.click(
       screen.getByRole('radio', { name: 'reviewModeField.options.reviewerWritesReviewerSigns' })
@@ -245,6 +255,44 @@ describe('PurposeEditStepAssignmentForm', () => {
     })
   })
 
+  it('after selecting option 2 with a reviewer and switching back to option 1, on submit does not call the API and only forwards', async () => {
+    const user = userEvent.setup()
+    const forward = vi.fn()
+    renderComponent({ reviewers: [mockReviewer], forward })
+
+    await user.click(
+      screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesReviewerSigns' })
+    )
+    await user.click(
+      screen.getByRole('combobox', { name: 'reviewerField.label.selfWritesReviewerSigns' })
+    )
+    await user.click(screen.getByText('Mario Rossi'))
+
+    await user.click(
+      screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesSelfSigns' })
+    )
+    await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+
+    expect(assignReviewerMock).not.toHaveBeenCalled()
+    expect(forward).toHaveBeenCalled()
+  })
+
+  it('prefills the form from defaultValues so coming back to the step preserves the selection', () => {
+    renderComponent({
+      defaultValues: {
+        reviewMode: 'selfWritesReviewerSigns',
+        reviewerId: mockReviewer2.userId,
+      },
+    })
+
+    expect(
+      screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesReviewerSigns' })
+    ).toBeChecked()
+    expect(
+      screen.getByRole('combobox', { name: 'reviewerField.label.selfWritesReviewerSigns' })
+    ).toHaveValue('Anna Verdi')
+  })
+
   it('shows the info alert and hides the form when the institution has no reviewers', () => {
     renderComponent({ reviewers: [] })
 
@@ -263,19 +311,7 @@ describe('PurposeEditStepAssignmentForm', () => {
   it('on submit with no reviewers, does not call the API and forwards', async () => {
     const user = userEvent.setup()
     const forward = vi.fn()
-    const purpose = createMockPurpose()
-    renderWithApplicationContext(
-      <PurposeEditStepAssignmentForm
-        purpose={purpose}
-        reviewers={[]}
-        isDelegate={false}
-        selfcareUsersPageUrl=""
-        activeStep={1}
-        forward={forward}
-        back={vi.fn()}
-      />,
-      { withReactQueryContext: true, withRouterContext: true }
-    )
+    renderComponent({ reviewers: [], forward })
 
     await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
 
@@ -297,19 +333,7 @@ describe('PurposeEditStepAssignmentForm', () => {
   it('on submit as delegate, does not call the API and forwards', async () => {
     const user = userEvent.setup()
     const forward = vi.fn()
-    const purpose = createMockPurpose()
-    renderWithApplicationContext(
-      <PurposeEditStepAssignmentForm
-        purpose={purpose}
-        reviewers={[mockReviewer]}
-        isDelegate={true}
-        selfcareUsersPageUrl=""
-        activeStep={1}
-        forward={forward}
-        back={vi.fn()}
-      />,
-      { withReactQueryContext: true, withRouterContext: true }
-    )
+    renderComponent({ isDelegate: true, forward })
 
     await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
 
