@@ -32,34 +32,50 @@ type ActionSubmit = {
 }
 
 export type BackAction = ActionButton | ActionLink
+export type SecondaryAction = ActionButton | ActionLink
 export type ForwardAction = ActionButton | ActionSubmit
 
 type StepActionsProps = {
   back?: BackAction
+  secondaryAction?: SecondaryAction
   forward?: ForwardAction
 }
 
-export function StepActions({ back, forward }: StepActionsProps) {
+export function StepActions({ back, secondaryAction, forward }: StepActionsProps) {
   const forwardProps =
     forward &&
     (forward.type === 'button'
       ? { onClick: forward.onClick, disabled: forward.disabled }
       : { type: 'submit', disabled: forward.disabled })
+
+  const secondaryActionProps =
+    secondaryAction &&
+    (secondaryAction.type === 'link'
+      ? { component: Link, to: secondaryAction.to }
+      : { onClick: secondaryAction.onClick })
+
   const backProps =
     back && (back.type === 'link' ? { component: Link, to: back.to } : { onClick: back.onClick })
 
   const getJustifyContentProp = () => {
-    if (back && forward) return 'space-between'
+    const hasRightActions = secondaryAction || forward
 
-    if (!back && forward) return 'end'
+    if (back && hasRightActions) return 'space-between'
 
-    if (back && !forward) return 'start'
+    if (!back && hasRightActions) return 'end'
+
+    if (back && !hasRightActions) return 'start'
 
     return undefined
   }
 
   return (
-    <Stack direction="row" justifyContent={getJustifyContentProp()} spacing={2} sx={{ mt: 5 }}>
+    <Stack
+      direction="row"
+      justifyContent={getJustifyContentProp()}
+      spacing={2}
+      sx={{ mt: 5, alignItems: 'center' }}
+    >
       {back && (
         <Tooltip open={back.tooltip ? undefined : false} title={back.tooltip}>
           <span tabIndex={back.disabled ? 0 : undefined}>
@@ -75,20 +91,42 @@ export function StepActions({ back, forward }: StepActionsProps) {
         </Tooltip>
       )}
 
-      {forward && (
-        <Tooltip arrow open={forward.tooltip ? undefined : false} title={forward.tooltip}>
-          <span tabIndex={forward.disabled ? 0 : undefined}>
-            <Button
-              variant="contained"
-              startIcon={forward.startIcon}
-              endIcon={forward.endIcon}
-              {...forwardProps}
-              type={forwardProps?.type as 'submit' | 'button'}
+      {(secondaryAction || forward) && (
+        <Stack direction="row" spacing={3} sx={{ alignItems: 'center' }}>
+          {secondaryAction && (
+            <Tooltip
+              open={secondaryAction.tooltip ? undefined : false}
+              title={secondaryAction.tooltip}
             >
-              {forward.label}
-            </Button>
-          </span>
-        </Tooltip>
+              <span tabIndex={secondaryAction.disabled ? 0 : undefined}>
+                <Button
+                  variant="text"
+                  startIcon={secondaryAction.startIcon}
+                  endIcon={secondaryAction.endIcon}
+                  {...secondaryActionProps}
+                >
+                  {secondaryAction.label}
+                </Button>
+              </span>
+            </Tooltip>
+          )}
+
+          {forward && (
+            <Tooltip arrow open={forward.tooltip ? undefined : false} title={forward.tooltip}>
+              <span tabIndex={forward.disabled ? 0 : undefined}>
+                <Button
+                  variant="contained"
+                  startIcon={forward.startIcon}
+                  endIcon={forward.endIcon}
+                  {...forwardProps}
+                  type={forwardProps?.type as 'submit' | 'button'}
+                >
+                  {forward.label}
+                </Button>
+              </span>
+            </Tooltip>
+          )}
+        </Stack>
       )}
     </Stack>
   )

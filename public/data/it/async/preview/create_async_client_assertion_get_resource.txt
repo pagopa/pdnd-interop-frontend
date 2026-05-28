@@ -1,0 +1,9 @@
+python create_async_client_assertion_get_resource.py \
+  --kid=INSERISCI_VALORE_KID \
+  --alg=INSERISCI_VALORE_ALG \
+  --typ=INSERISCI_VALORE_TYP \
+  --issuer=INSERISCI_VALORE_ISS \
+  --subject=INSERISCI_VALORE_SUB \
+  --audience=INSERISCI_VALORE_AUD \
+  --interactionId=INSERISCI_VALORE_INTERACTION_ID \
+  --keyPath=PATH_CHIAVE_PRIVATA
