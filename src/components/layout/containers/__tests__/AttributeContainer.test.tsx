@@ -5,16 +5,6 @@ import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockAttribute } from '../../../../../__mocks__/data/attribute.mocks'
 import userEvent from '@testing-library/user-event'
 
-vi.mock('@tanstack/react-query', async () => {
-  const actual = (await vi.importActual('@tanstack/react-query')) as Record<string, unknown>
-  return {
-    ...actual,
-    useQueryClient: () => ({
-      prefetchQuery: vi.fn(),
-    }),
-  }
-})
-
 const baseAttribute = createMockAttribute({ id: 'attr-1', name: 'Test Attribute' })
 
 vi.mock('@/api/attribute', () => ({

@@ -12,6 +12,7 @@ import {
   createVerifiedTenantAttribute,
   createDeclaredTenantAttribute,
   createMockDescriptorAttribute,
+  createMockAttribute,
 } from '@/../__mocks__/data/attribute.mocks'
 
 mockUseParams({
@@ -45,11 +46,17 @@ vi.mock('@/api/eservice', () => ({
   },
 }))
 
+const baseAttribute = createMockAttribute({ id: 'attr-1', name: 'Test Attribute' })
+
 vi.mock('@/api/attribute', () => ({
   AttributeQueries: {
     getPartyCertifiedList: (orgId: string) => ['attribute', 'certified', orgId],
     getPartyVerifiedList: (orgId: string) => ['attribute', 'verified', orgId],
     getPartyDeclaredList: (orgId: string) => ['attribute', 'declared', orgId],
+    getSingle: vi.fn((id: string) => ({
+      queryKey: ['attribute', id],
+      queryFn: vi.fn().mockReturnValue(baseAttribute),
+    })),
   },
 }))
 
