@@ -43,7 +43,7 @@ type PurposeEditStepAssignmentFormProps = ActiveStepProps & {
   defaultValues: PurposeEditStepAssignmentFormValues
 }
 
-export const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps> = ({
+const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps> = ({
   purpose,
   reviewers,
   isDelegate,
