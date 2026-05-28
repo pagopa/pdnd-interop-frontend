@@ -54,6 +54,6 @@ export const Trans = ({
   i18nKey?: string
   defaults?: string
 }) => {
-  const text = typeof children === 'string' ? children : i18nKey ?? defaults
+  const text = typeof children === 'string' ? children : (i18nKey ?? defaults)
   return typeof text === 'string' ? renderTransNodes(text, components) : children
 }
