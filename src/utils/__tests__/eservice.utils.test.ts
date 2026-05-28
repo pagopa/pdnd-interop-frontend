@@ -1,6 +1,8 @@
+import type { TFunction } from 'i18next'
 import {
   calculateArchivableOn,
   getDownloadDocumentName,
+  getEServiceDescriptorAlertSpec,
   getLastDescriptor,
   getViewLatestVersionTargetId,
 } from '../eservice.utils'
@@ -140,5 +142,138 @@ describe('calculateArchivableOn utility function testing', () => {
     const result = calculateArchivableOn(now, 30)
 
     expect(result.toISOString()).toEqual('2026-07-16T00:00:00.000Z')
+  })
+})
+
+describe('getEServiceDescriptorAlertSpec utility function testing', () => {
+  const t = ((key: string, opts?: { date?: string }) =>
+    opts && 'date' in opts ? `${key}:${opts.date}` : key) as unknown as TFunction<
+    'eservice',
+    'read.alert'
+  >
+
+  const baseArgs = {
+    scope: undefined,
+    archivableOn: undefined,
+    archivedAt: undefined,
+    t,
+  } as const
+
+  it('returns error severity with suspended content when state is SUSPENDED (scope ignored)', () => {
+    expect(getEServiceDescriptorAlertSpec({ ...baseArgs, state: 'SUSPENDED' })).toEqual({
+      severity: 'error',
+      content: 'suspended',
+    })
+  })
+
+  it('returns info severity with deprecated content when state is DEPRECATED (scope ignored)', () => {
+    expect(getEServiceDescriptorAlertSpec({ ...baseArgs, state: 'DEPRECATED' })).toEqual({
+      severity: 'info',
+      content: 'deprecated',
+    })
+  })
+
+  it('returns info archivingDescriptor with formatted scheduled date when ARCHIVING + DESCRIPTOR', () => {
+    expect(
+      getEServiceDescriptorAlertSpec({
+        ...baseArgs,
+        state: 'ARCHIVING',
+        scope: 'DESCRIPTOR',
+        archivableOn: '2026-12-01T00:00:00.000Z',
+      })
+    ).toEqual({
+      severity: 'info',
+      content: expect.stringMatching(/^archivingDescriptor:.+/),
+    })
+  })
+
+  it('returns error archivingSuspendedDescriptor when ARCHIVING_SUSPENDED + DESCRIPTOR', () => {
+    expect(
+      getEServiceDescriptorAlertSpec({
+        ...baseArgs,
+        state: 'ARCHIVING_SUSPENDED',
+        scope: 'DESCRIPTOR',
+        archivableOn: '2026-12-01T00:00:00.000Z',
+      })
+    ).toEqual({
+      severity: 'error',
+      content: expect.stringMatching(/^archivingSuspendedDescriptor:.+/),
+    })
+  })
+
+  it('returns error archivingSuspendedEService when ARCHIVING_SUSPENDED + ESERVICE', () => {
+    expect(
+      getEServiceDescriptorAlertSpec({
+        ...baseArgs,
+        state: 'ARCHIVING_SUSPENDED',
+        scope: 'ESERVICE',
+        archivableOn: '2026-12-01T00:00:00.000Z',
+      })
+    ).toEqual({
+      severity: 'error',
+      content: expect.stringMatching(/^archivingSuspendedEService:.+/),
+    })
+  })
+
+  it('returns info archivedEService when ARCHIVED + ESERVICE', () => {
+    expect(
+      getEServiceDescriptorAlertSpec({
+        ...baseArgs,
+        state: 'ARCHIVED',
+        scope: 'ESERVICE',
+        archivedAt: '2026-12-01T00:00:00.000Z',
+      })
+    ).toEqual({
+      severity: 'info',
+      content: expect.stringMatching(/^archivedEService:.+/),
+    })
+  })
+
+  it('returns info archivedDescriptor for ARCHIVED with scope DESCRIPTOR (default branch)', () => {
+    expect(
+      getEServiceDescriptorAlertSpec({
+        ...baseArgs,
+        state: 'ARCHIVED',
+        scope: 'DESCRIPTOR',
+        archivedAt: '2026-12-01T00:00:00.000Z',
+      })
+    ).toEqual({
+      severity: 'info',
+      content: expect.stringMatching(/^archivedDescriptor:.+/),
+    })
+  })
+
+  it('returns info archivedDescriptor for ARCHIVED with no scope (default branch fallback)', () => {
+    expect(
+      getEServiceDescriptorAlertSpec({
+        ...baseArgs,
+        state: 'ARCHIVED',
+        archivedAt: '2026-12-01T00:00:00.000Z',
+      })
+    ).toEqual({
+      severity: 'info',
+      content: expect.stringMatching(/^archivedDescriptor:.+/),
+    })
+  })
+
+  it('returns undefined for states not handled by any branch (PUBLISHED)', () => {
+    expect(getEServiceDescriptorAlertSpec({ ...baseArgs, state: 'PUBLISHED' })).toBeUndefined()
+  })
+
+  it('returns undefined for ARCHIVING without a scope (no matching branch)', () => {
+    expect(getEServiceDescriptorAlertSpec({ ...baseArgs, state: 'ARCHIVING' })).toBeUndefined()
+  })
+
+  it('passes empty string for the date when archivableOn is undefined on ARCHIVING + DESCRIPTOR', () => {
+    expect(
+      getEServiceDescriptorAlertSpec({
+        ...baseArgs,
+        state: 'ARCHIVING',
+        scope: 'DESCRIPTOR',
+      })
+    ).toEqual({
+      severity: 'info',
+      content: 'archivingDescriptor:',
+    })
   })
 })
