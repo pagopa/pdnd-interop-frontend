@@ -83,7 +83,7 @@
       "editLinkedEservices": "Aggiorna elenco",
       "editLinkedResources": "Aggiorna elenco",
       "saveBtn": "Salva",
-      "eserviceSelectionSubtitle": "Puoi inserire e-service che hanno un trattamento dei dati personali analogo a quanto hai indicato.",
+      "eserviceSelectionSubtitle": "Puoi inserire e-service che hanno un trattamento dei dati personali simile a quello che hai indicato.",
       "removeResourceAriaLabel": "Rimuovi {{name}}",
       "autocompleteInput": {
         "label": "E-service o template e-service suggeriti"
