@@ -13,6 +13,8 @@ import { AttributeQueries } from '@/api/attribute'
 
 const baseAttribute = createMockAttribute({ id: 'attr-1', name: 'Test Attribute' })
 
+const baseAttribute = createMockAttribute({ id: 'attr-1', name: 'Test Attribute' })
+
 vi.mock('@/api/attribute', () => ({
   AttributeQueries: {
     getSingle: vi.fn((id: string) => ({
