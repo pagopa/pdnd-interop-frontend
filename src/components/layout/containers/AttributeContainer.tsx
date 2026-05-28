@@ -80,7 +80,7 @@ export const AttributeContainer = <
 
     if (
       FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE &&
-      true /*TODO attribute.kind === 'CERTIFIED_DISCRETE' */ &&
+      attribute.kind === 'CERTIFIED_DISCRETE' &&
       onOpenConfigDrawer
     ) {
       const changeAttributeValueAction: ActionItemButton = {
@@ -130,7 +130,7 @@ export const AttributeContainer = <
             <Stack spacing={1}>
               <Typography fontWeight={600}>{attribute.name}</Typography>
               {FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE &&
-                /*TODO attribute.kind === 'certifiedDiscrete' */ true &&
+                attribute.kind === 'CERTIFIED_DISCRETE' &&
                 attribute.discreteConfig && (
                   <Typography variant="body2" fontWeight={700}>
                     {`${tCommon(attribute.discreteConfig.comparator)} ${attribute.discreteConfig.threshold}`}

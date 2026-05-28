@@ -376,7 +376,12 @@
   },
   "configureCertifiedDiscreteAttributeDrawer": {
     "title": "Configura attributo",
-    "subtitle": "Imposta i valori dell'attributo certificato {{attributeName}}"
+    "subtitle": "Imposta i valori dell'attributo certificato {{attributeName}}",
+    "comparatorLabel": "Criterio",
+    "thresholdLabel":  "Valore numerico",
+    "validation": {
+      "integer": "Il valore deve essere intero"
+    }
   },
   "byDelegationChip": {
     "label": {

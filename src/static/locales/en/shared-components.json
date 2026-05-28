@@ -377,7 +377,12 @@
   },
   "configureCertifiedDiscreteAttributeDrawer": {
     "title": "Configure attribute",
-    "subtitle": "Set the values of the {{attributeName}} certificate attribute"
+    "subtitle": "Set the values of the {{attributeName}} certificate attribute",
+    "comparatorLabel": "Check",
+    "thresholdLabel":  "Numeric value",
+    "validation": {
+      "integer": "Value must be an integer"
+    }
   },
   "byDelegationChip": {
     "label": {

@@ -118,8 +118,7 @@ export const ConfigureCertifiedDiscreteAttributeDrawer: React.FC<
         <Stack component={'form'} noValidate id="discrete-attribute-form">
           <RHFAutocompleteSingle
             name="comparator"
-            label="TODO Criterio"
-            placeholder="TODO"
+            label={t('comparatorLabel')}
             options={comparatorOptions}
             focusOnMount
             size="small"
@@ -127,14 +126,13 @@ export const ConfigureCertifiedDiscreteAttributeDrawer: React.FC<
           />
           <RHFTextField
             name="threshold"
-            label={'TODO Valore numerico'}
+            label={t('thresholdLabel')}
             type="number"
             rules={{
               required: true,
               min: 1,
               max: 1000000000,
-              validate: (value) =>
-                Number.isInteger(Number(value)) || 'TODO error not integer message',
+              validate: (value) => Number.isInteger(Number(value)) || t('validation.integer'),
             }}
             required
             sx={{ mt: 2 }}
