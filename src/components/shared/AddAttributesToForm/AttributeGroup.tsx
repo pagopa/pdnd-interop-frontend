@@ -16,9 +16,9 @@ import { useFormContext } from 'react-hook-form'
 import { useCustomizeThresholdDrawer } from '../CustomizeThresholdDrawer'
 import { FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE } from '@/config/env'
 import {
-  ConfigureDiscreteAttributeDrawer,
-  useConfigureDiscreteAttributeDrawer,
-} from './ConfigureDiscreteAttributeDrawer'
+  ConfigureCertifiedDiscreteAttributeDrawer,
+  useConfigureCertifiedDiscreteAttributeDrawer,
+} from './ConfigureCertifiedDiscreteAttributeDrawer'
 
 export type AttributeGroupProps = {
   group: Array<DescriptorAttribute>
@@ -49,7 +49,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
     open: openConfigureDiscreteAttributeDrawer,
     close: closeConfigureDiscreteAttributeDrawer,
     attribute,
-  } = useConfigureDiscreteAttributeDrawer()
+  } = useConfigureCertifiedDiscreteAttributeDrawer()
 
   const handleDeleteAttributesGroup = () => {
     onRemoveAttributesGroup(groupIndex)
@@ -194,9 +194,9 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
         )}
       </AttributeGroupContainer>
       {FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE && attributeKey === 'certified' && (
-        <ConfigureDiscreteAttributeDrawer
           onSubmit={handleSubmitConfigureDiscreteAttributeDrawer} // TODO
           submitButtonLabel={'TODO label'}
+        <ConfigureCertifiedDiscreteAttributeDrawer
         />
       )}
     </>

@@ -10,13 +10,14 @@ import { Stack } from '@mui/material'
 import { RHFAutocompleteSingle, RHFTextField } from '../react-hook-form-inputs'
 import isEmpty from 'lodash/isEmpty'
 import { match } from 'ts-pattern'
+import { useTranslation } from 'react-i18next'
 
-type ConfigureDiscreteAttributeDrawerProps = {
+type ConfigureCertifiedDiscreteAttributeDrawerProps = {
   onSubmit: (comparator: AttributeCertifiedDiscreteComparator, threshold: number) => void
   submitButtonLabel: string
 }
 
-type ConfigureDiscreteAttributeDrawerStore = {
+type ConfigureCertifiedDiscreteAttributeDrawerStore = {
   isOpen: boolean
   open: (attribute: DescriptorAttribute) => void
   close: VoidFunction
@@ -26,32 +27,36 @@ type ConfigureDiscreteAttributeDrawerStore = {
 // TODO check if is more simple to add this in autocomplete directly and in attributeContainer directly
 // because AttributeGroup is used only in creation eservice and not in updateAttributesDrawer
 
-export const useConfigureDiscreteAttributeDrawer = create<ConfigureDiscreteAttributeDrawerStore>(
-  (set) => ({
+export const useConfigureCertifiedDiscreteAttributeDrawer =
+  create<ConfigureCertifiedDiscreteAttributeDrawerStore>((set) => ({
     isOpen: false,
     open: (attribute) => set({ attribute, isOpen: true }),
     close: () => set({ isOpen: false, attribute: undefined }),
-  })
-)
+  }))
 
-type ConfigureDiscreteAttributeFormValues = {
+type ConfigureCertifiedDiscreteAttributeFormValues = {
   comparator: AttributeCertifiedDiscreteComparator
   threshold: number
 }
 
-export const ConfigureDiscreteAttributeDrawer: React.FC<ConfigureDiscreteAttributeDrawerProps> = ({
-  onSubmit,
-  submitButtonLabel,
-}) => {
-  const { isOpen, close, attribute } = useConfigureDiscreteAttributeDrawer()
-  const formMethods = useForm<ConfigureDiscreteAttributeFormValues>({
+export const ConfigureCertifiedDiscreteAttributeDrawer: React.FC<
+  ConfigureCertifiedDiscreteAttributeDrawerProps
+> = ({ onSubmit, submitButtonLabel }) => {
+  const { t } = useTranslation('shared-components', {
+    keyPrefix: 'configureCertifiedDiscreteAttributeDrawer',
+  })
+  const { t: tCommon } = useTranslation('common', {
+    keyPrefix: 'comparators',
+  })
+  const { isOpen, close, attribute } = useConfigureCertifiedDiscreteAttributeDrawer()
+  const formMethods = useForm<ConfigureCertifiedDiscreteAttributeFormValues>({
     defaultValues: {
-      comparator: attribute?.discreteConfig?.comparator ?? 'GT', // TODO operator
-      threshold: attribute?.discreteConfig?.threshold ?? undefined, // TODO value
+      comparator: attribute?.discreteConfig?.comparator ?? 'GT',
+      threshold: attribute?.discreteConfig?.threshold ?? undefined,
     },
   })
 
-  const handleFormSubmit: SubmitHandler<ConfigureDiscreteAttributeFormValues> = ({
+  const handleFormSubmit: SubmitHandler<ConfigureCertifiedDiscreteAttributeFormValues> = ({
     comparator,
     threshold,
   }) => {
@@ -61,8 +66,8 @@ export const ConfigureDiscreteAttributeDrawer: React.FC<ConfigureDiscreteAttribu
   React.useEffect(() => {
     if (isOpen) {
       formMethods.reset({
-        comparator: 'GT', // operator
-        threshold: 1, // TODO value
+        comparator: 'GT',
+        threshold: undefined,
       })
     }
   }, [isOpen, formMethods, attribute])
@@ -78,16 +83,16 @@ export const ConfigureDiscreteAttributeDrawer: React.FC<ConfigureDiscreteAttribu
 
   const getComparatorOptions = () => {
     return ALL_COMPARATORS.map((comparator) => {
-      const label = match(comparator)
-        .with('GT', () => 'TODO Maggiore di')
-        .with('LT', () => 'TODO Minore di')
-        .with('GTE', () => 'TODO Maggiore o uguale a')
-        .with('LTE', () => 'TODO')
-        .with('EQ', () => 'TODO')
-        .with('NE', () => 'TODO')
-        .exhaustive()
+      // const label = match(comparator)
+      //   .with('GT', () => tCommon('GT'))
+      //   .with('LT', () => tCommon('LT'))
+      //   .with('GTE', () => tCommon('GTE'))
+      //   .with('LTE', () => tCommon('LTE'))
+      //   .with('EQ', () => tCommon('EQ'))
+      //   .with('NE', () => tCommon('NE'))
+      //   .exhaustive()
 
-      return { label, value: comparator }
+      return { label: tCommon(comparator), value: comparator }
     })
   }
 
@@ -97,8 +102,8 @@ export const ConfigureDiscreteAttributeDrawer: React.FC<ConfigureDiscreteAttribu
     <FormProvider {...formMethods}>
       <Drawer
         isOpen={isOpen}
-        title="TODO titolo"
-        subtitle="TODO subtitle"
+        title={t('title')}
+        subtitle={t('subtitle', { attributeName: attribute?.name })}
         onTransitionExited={formMethods.reset}
         onClose={close}
         buttonAction={{
