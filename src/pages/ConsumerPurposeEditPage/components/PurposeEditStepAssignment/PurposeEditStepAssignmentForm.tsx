@@ -79,9 +79,10 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
 
     if (isRequestReviewerCompilation) {
       const selectedReviewer = reviewers.find((u) => u.userId === reviewerId)
-      const reviewerName = selectedReviewer
-        ? `${selectedReviewer.name} ${selectedReviewer.familyName}`.trim()
-        : ''
+      if (!selectedReviewer) return
+      const reviewerName = [selectedReviewer.name, selectedReviewer.familyName]
+        .filter(Boolean)
+        .join(' ')
       openDialog({
         type: 'requestRiskAnalysisCompilation',
         purposeId: purpose.id,

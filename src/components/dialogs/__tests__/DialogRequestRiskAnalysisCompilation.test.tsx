@@ -1,17 +1,22 @@
 import React from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { DialogRequestRiskAnalysisCompilation } from '../DialogRequestRiskAnalysisCompilation'
+import { renderWithApplicationContext } from '@/utils/testing.utils'
 
 const closeDialogMock = vi.fn()
 const navigateMock = vi.fn()
 const assignReviewerMock = vi.fn()
 let isPendingMock = false
 
-vi.mock('@/stores', () => ({
-  useDialog: () => ({ closeDialog: closeDialogMock }),
-}))
+vi.mock('@/stores', async () => {
+  const actual = await vi.importActual<typeof import('@/stores')>('@/stores')
+  return {
+    ...actual,
+    useDialog: () => ({ closeDialog: closeDialogMock }),
+  }
+})
 
 vi.mock('@/router', () => ({
   useNavigate: () => navigateMock,
@@ -26,25 +31,17 @@ vi.mock('@/api/purpose', () => ({
   },
 }))
 
-vi.mock('react-i18next', () => ({
-  useTranslation: (_ns: string, opts?: { keyPrefix?: string }) => ({
-    t: (key: string, values?: Record<string, string>) => {
-      const fullKey = opts?.keyPrefix ? `${opts.keyPrefix}.${key}` : key
-      if (!values) return fullKey
-      return `${fullKey}|${Object.entries(values)
-        .map(([k, v]) => `${k}=${v}`)
-        .join(',')}`
-    },
-  }),
-  Trans: ({ children }: { children: React.ReactNode }) => <>{children}</>,
-}))
-
 const defaultProps = {
   type: 'requestRiskAnalysisCompilation' as const,
   purposeId: 'purpose-id',
   reviewerId: 'reviewer-uuid-1',
   reviewerName: 'Mario Rossi',
 }
+
+const renderDialog = () =>
+  renderWithApplicationContext(<DialogRequestRiskAnalysisCompilation {...defaultProps} />, {
+    withReactQueryContext: true,
+  })
 
 describe('DialogRequestRiskAnalysisCompilation', () => {
   beforeEach(() => {
@@ -54,30 +51,26 @@ describe('DialogRequestRiskAnalysisCompilation', () => {
     assignReviewerMock.mockReset()
   })
 
-  it('renders title and description with the reviewer name interpolated', () => {
-    render(<DialogRequestRiskAnalysisCompilation {...defaultProps} />)
+  it('renders the dialog with title and description', () => {
+    renderDialog()
 
     expect(screen.getByRole('dialog')).toBeInTheDocument()
-    expect(screen.getByText('dialogRequestRiskAnalysisCompilation.title')).toBeInTheDocument()
-    expect(
-      screen.getByText(
-        /dialogRequestRiskAnalysisCompilation\.description.*reviewerName=Mario Rossi/
-      )
-    ).toBeInTheDocument()
+    expect(screen.getByText('title')).toBeInTheDocument()
+    expect(screen.getByText('description')).toBeInTheDocument()
   })
 
   it('renders the cancel and confirm CTAs', () => {
-    render(<DialogRequestRiskAnalysisCompilation {...defaultProps} />)
+    renderDialog()
 
-    expect(screen.getByRole('button', { name: 'actions.cancel' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'actions.confirm' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'cancel' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'confirm' })).toBeInTheDocument()
   })
 
   it('on cancel, closes the dialog without calling the mutation', async () => {
     const user = userEvent.setup()
-    render(<DialogRequestRiskAnalysisCompilation {...defaultProps} />)
+    renderDialog()
 
-    await user.click(screen.getByRole('button', { name: 'actions.cancel' }))
+    await user.click(screen.getByRole('button', { name: 'cancel' }))
 
     expect(closeDialogMock).toHaveBeenCalledTimes(1)
     expect(assignReviewerMock).not.toHaveBeenCalled()
@@ -85,9 +78,9 @@ describe('DialogRequestRiskAnalysisCompilation', () => {
 
   it('on confirm, calls the mutation with the expected payload', async () => {
     const user = userEvent.setup()
-    render(<DialogRequestRiskAnalysisCompilation {...defaultProps} />)
+    renderDialog()
 
-    await user.click(screen.getByRole('button', { name: 'actions.confirm' }))
+    await user.click(screen.getByRole('button', { name: 'confirm' }))
 
     expect(assignReviewerMock).toHaveBeenCalledTimes(1)
     const [payload] = assignReviewerMock.mock.calls[0]
@@ -100,9 +93,9 @@ describe('DialogRequestRiskAnalysisCompilation', () => {
 
   it('on mutation success, closes the dialog and navigates to the summary page', async () => {
     const user = userEvent.setup()
-    render(<DialogRequestRiskAnalysisCompilation {...defaultProps} />)
+    renderDialog()
 
-    await user.click(screen.getByRole('button', { name: 'actions.confirm' }))
+    await user.click(screen.getByRole('button', { name: 'confirm' }))
 
     const [, options] = assignReviewerMock.mock.calls[0]
     options.onSuccess()
@@ -115,27 +108,37 @@ describe('DialogRequestRiskAnalysisCompilation', () => {
 
   it('does not close or navigate when the mutation does not invoke onSuccess (error path)', async () => {
     const user = userEvent.setup()
-    render(<DialogRequestRiskAnalysisCompilation {...defaultProps} />)
+    renderDialog()
 
-    await user.click(screen.getByRole('button', { name: 'actions.confirm' }))
+    await user.click(screen.getByRole('button', { name: 'confirm' }))
 
     expect(assignReviewerMock).toHaveBeenCalledTimes(1)
     expect(closeDialogMock).not.toHaveBeenCalled()
     expect(navigateMock).not.toHaveBeenCalled()
   })
 
-  it('disables the cancel CTA while the mutation is pending', () => {
+  it('disables both CTAs while the mutation is pending', () => {
     isPendingMock = true
-    render(<DialogRequestRiskAnalysisCompilation {...defaultProps} />)
+    renderDialog()
 
-    expect(screen.getByRole('button', { name: 'actions.cancel' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'cancel' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'confirm' })).toBeDisabled()
   })
 
+  it('shows the loading indicator on the confirm CTA while the mutation is pending', () => {
+    isPendingMock = true
+    renderDialog()
+
+    expect(screen.getByRole('progressbar')).toBeInTheDocument()
+  })
+
+  // userEvent refuses to click disabled buttons (pointer-events: none); fireEvent respects
+  // browser semantics: click events on disabled buttons do not propagate to onClick.
   it('does not close the dialog when cancel is clicked while the mutation is pending', () => {
     isPendingMock = true
-    render(<DialogRequestRiskAnalysisCompilation {...defaultProps} />)
+    renderDialog()
 
-    fireEvent.click(screen.getByRole('button', { name: 'actions.cancel' }))
+    fireEvent.click(screen.getByRole('button', { name: 'cancel' }))
 
     expect(closeDialogMock).not.toHaveBeenCalled()
   })

@@ -227,7 +227,6 @@ function useAssignRiskAnalysisReviewer() {
     mutationFn: PurposeServices.assignRiskAnalysisReviewer,
     meta: {
       errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
     },
   })
 }

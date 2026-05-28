@@ -620,7 +620,6 @@
       }
     },
     "assignRiskAnalysisReviewer": {
-      "loading": "Stiamo assegnando il valutatore",
       "outcome": {
         "error": "Non è stato possibile assegnare il valutatore. Per favore, riprova!"
       }
