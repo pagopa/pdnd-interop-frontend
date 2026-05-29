@@ -9,7 +9,7 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 
 const RiskAnalysisInfoCompilePage: React.FC = () => {
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisInfoCompile' })
-  const { purposeId } = useParams<'PROVIDE_PURPOSE_DETAILS'>()
+  const { purposeId } = useParams<'SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE'>()
   const navigate = useNavigate()
 
   const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
