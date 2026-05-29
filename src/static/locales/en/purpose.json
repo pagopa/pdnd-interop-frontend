@@ -504,6 +504,9 @@
           "SUBMITTED": "To be approved"
         }
       }
+    },
+    "today": {
+      "label": "Today"
     }
   },
   "publishThankYou": {

@@ -504,6 +504,9 @@
           "SUBMITTED": "Da approvare"
         }
       }
+    },
+    "today": {
+      "label": "Oggi"
     }
   },
   "publishThankYou": {

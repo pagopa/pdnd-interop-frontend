@@ -715,7 +715,23 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <RiskAnalysisListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin'],
+    authLevels: ['admin'] /* @TODO: change this when role will be available */,
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE',
+    path: '/analisi-del-rischio/:purposeId',
+    element: <></> /* @TODO: component will be written on next task */,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'] /* @TODO: change this when role will be available */,
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_COMPILE',
+    path: '/analisi-del-rischio/:purposeId/compilazione',
+    element: <></> /* @TODO: component will be written on next task */,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'] /* @TODO: change this when role will be available */,
   })
   .build()
 

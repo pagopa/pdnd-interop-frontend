@@ -8,12 +8,7 @@ import {
   useAutocompleteTextInput,
 } from '@pagopa/interop-fe-commons'
 import { useQuery, keepPreviousData } from '@tanstack/react-query'
-import type {
-  GetRiskAnalysisAssignmentsParams,
-  Purposes,
-  RiskAnalysisSigningState,
-} from '@/api/api.generatedTypes'
-import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
+import type { GetRiskAnalysisAssignmentsParams, Purposes } from '@/api/api.generatedTypes'
 import { RiskAnalysisTable, RiskAnalysisTableSkeleton } from './components/RiskAnalysisTable'
 import { PurposeQueries } from '@/api/purpose'
 import { EServiceQueries } from '@/api/eservice'
@@ -21,7 +16,6 @@ import { EServiceQueries } from '@/api/eservice'
 const RiskAnalysisListPage: React.FC = () => {
   /* const { isAdmin } = AuthHooks.useJwt() */
   const { t } = useTranslation('pages', { keyPrefix: 'riskAnalysisList' })
-  const { t: tCommon } = useTranslation('common')
   const { t: tPurpose } = useTranslation('purpose', { keyPrefix: 'riskAnalysisList.filters' })
 
   const [eserviceAutocompleteText, setEServiceAutocompleteInputChange] =

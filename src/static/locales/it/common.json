@@ -149,6 +149,10 @@
       "DRAFT": "in bozza",
       "SUSPENDED": "sospeso",
       "ARCHIVED": "archiviato"
+    },
+    "riskAnalysis": {
+      "ASSIGNED": "da compilare",
+      "SUBMITTED": "da approvare"
     }
   },
   "userProductRole": {

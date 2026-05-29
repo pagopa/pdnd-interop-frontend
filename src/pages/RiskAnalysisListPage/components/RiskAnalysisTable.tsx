@@ -17,6 +17,7 @@ export const RiskAnalysisTable: React.FC<RiskAnalysisTableProps> = ({ purposes }
     tCommon('eserviceName'),
     tCommon('providerName'),
     tCommon('status'),
+    '',
   ]
 
   return (

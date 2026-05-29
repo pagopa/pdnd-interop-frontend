@@ -149,6 +149,10 @@
       "DRAFT": "draft",
       "SUSPENDED": "suspended",
       "ARCHIVED": "archived"
+    },
+    "riskAnalysis": {
+      "ASSIGNED": "to fill out",
+      "SUBMITTED": "to be approved"
     }
   },
   "userProductRole": {

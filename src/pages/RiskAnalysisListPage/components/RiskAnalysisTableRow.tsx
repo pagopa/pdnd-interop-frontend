@@ -1,35 +1,74 @@
 import { ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { Link } from '@/router'
-import { Skeleton } from '@mui/material'
+import { Skeleton, Stack, Typography } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
-import { useTranslation } from 'react-i18next'
 import type { Purpose } from '@/api/api.generatedTypes'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
+import { useTranslation } from 'react-i18next'
 
 export const RiskAnalysisTableRow: React.FC<{
   purpose: Purpose
 }> = ({ purpose }) => {
-  const { t: tCommon } = useTranslation('common')
+  const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisList' })
+
+  const sentDate = purpose.reviewerWorkflow?.sentToReviewerAt
+    ? new Date(purpose.reviewerWorkflow.sentToReviewerAt)
+    : null
+
+  const today = new Date()
+
+  const isToday =
+    sentDate &&
+    sentDate.getDate() === today.getDate() &&
+    sentDate.getMonth() === today.getMonth() &&
+    sentDate.getFullYear() === today.getFullYear()
+
+  const formattedDate = sentDate
+    ? sentDate.toLocaleDateString(undefined, {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
+    : ''
 
   return (
     <TableRow
       cellData={[
-        Date.now().toString(),
+        isToday ? (
+          <Stack direction="row" spacing={1.5} alignItems="center">
+            <NotificationBadgeDot />
+            <Typography variant="body2" fontWeight={600}>
+              {t('today.label')}
+            </Typography>
+          </Stack>
+        ) : (
+          <Typography variant="body2" fontWeight={600}>
+            {formattedDate}
+          </Typography>
+        ),
         purpose.eservice.name,
         purpose.eservice.producer.name,
-        <StatusChip key={purpose.id} for="riskAnalysis" state={purpose.state} />,
+        purpose.reviewerWorkflow?.signingState ? (
+          <StatusChip
+            key={purpose.id}
+            for="riskAnalysis"
+            state={purpose.reviewerWorkflow.signingState}
+          />
+        ) : (
+          ''
+        ),
       ]}
     >
       <Link
         as="button"
         variant="naked"
         size="small"
-        to={'SUBSCRIBE_RISK_ANALYSIS_LIST'}
-        /* params={{
-          eserviceId: instance.id,
-          descriptorId: instance.latestDescriptor.id,
-        }} */
+        to="SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE"
+        params={{
+          purposeId: purpose.id,
+        }}
       >
         <ChevronRightIcon />
       </Link>
@@ -44,7 +83,7 @@ export const RiskAnalysisTableRowSkeleton: React.FC = () => {
         <Skeleton key={0} width={180} />,
         <Skeleton key={1} width={180} />,
         <Skeleton key={2} width={180} />,
-        <Skeleton key={2} width={180} />,
+        <Skeleton key={3} width={180} />,
       ]}
     >
       <ActionMenuSkeleton />
