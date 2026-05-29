@@ -1,17 +1,12 @@
 import { screen } from '@testing-library/react'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import RiskAnalysisListPage from '../RiskAnalysisList.page'
-import type { Purpose } from '@/api/api.generatedTypes'
+import type { RiskAnalysisSigningState } from '@/api/api.generatedTypes'
 
-vi.mock('../components/RiskAnalysisTable', () => ({
-  RiskAnalysisTable: ({ purposes }: { purposes: Purpose[] }) => (
-    <div data-testid="risk-analysis-table">
-      {purposes.map((p: Purpose) => (
-        <div key={p.id}>row-{p.id}</div>
-      ))}
-    </div>
+vi.mock('@/components/shared/StatusChip', () => ({
+  StatusChip: ({ state }: { state: RiskAnalysisSigningState }) => (
+    <div data-testid="status-chip">{state}</div>
   ),
-  RiskAnalysisTableSkeleton: () => <div data-testid="risk-analysis-skeleton">skeleton</div>,
 }))
 
 vi.mock('@/api/purpose', () => ({
@@ -46,24 +41,29 @@ describe('RiskAnalysisListPage', () => {
     })
   })
 
-  it('should render page title', () => {
+  it('renders page title', () => {
     expect(screen.getByText('title')).toBeInTheDocument()
   })
 
-  it('should render description', () => {
+  it('renders page description', () => {
     expect(screen.getByText('description')).toBeInTheDocument()
   })
 
-  it('should render filters', () => {
+  it('renders filters', () => {
     expect(screen.getByLabelText('eserviceField.label')).toBeInTheDocument()
     expect(screen.getByLabelText('riskAnalysisState.label')).toBeInTheDocument()
   })
 
-  it('should render table', () => {
-    expect(screen.getByTestId('risk-analysis-table')).toBeInTheDocument()
+  it('renders table row content', async () => {
+    expect(await screen.findByText('Test E-service')).toBeInTheDocument()
+    expect(screen.getByText('PagoPA')).toBeInTheDocument()
   })
 
-  it('should render row data (mocked)', () => {
-    expect(screen.getByText('row-1')).toBeInTheDocument()
+  it('renders status chip', async () => {
+    expect(await screen.findByText('ASSIGNED')).toBeInTheDocument()
+  })
+
+  it('renders today label', async () => {
+    expect(await screen.findByText('today.label')).toBeInTheDocument()
   })
 })
