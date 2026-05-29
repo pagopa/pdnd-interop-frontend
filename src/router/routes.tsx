@@ -715,7 +715,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <RiskAnalysisListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin'] /* @TODO: change this when role will be available */,
+    authLevels: [] /* @TODO: change this when role will be available */,
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE',
@@ -723,7 +723,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <></> /* @TODO: component will be written on next task */,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin'] /* @TODO: change this when role will be available */,
+    authLevels: [] /* @TODO: change this when role will be available */,
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_COMPILE',
@@ -731,7 +731,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <></> /* @TODO: component will be written on next task */,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin'] /* @TODO: change this when role will be available */,
+    authLevels: [] /* @TODO: change this when role will be available */,
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_APPROVE',
@@ -739,7 +739,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <></> /* @TODO: component will be written on next task */,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin'] /* @TODO: change this when role will be available */,
+    authLevels: [] /* @TODO: change this when role will be available */,
   })
   .build()
 
