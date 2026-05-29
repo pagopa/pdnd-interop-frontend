@@ -96,7 +96,8 @@
       "linkedEserviceName": "E-service or e-service template",
       "linkedEserviceProviderName": "Producer Name",
       "purposeTemplateCreatorName": "Creator name",
-      "purposeTemplateTarget": "Target"
+      "purposeTemplateTarget": "Target",
+      "assignmentDate": "Assignment date"
     }
   },
   "status": {

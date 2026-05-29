@@ -70,6 +70,7 @@ import ConsumerPurposeTemplateCatalogDetailsPage from '@/pages/ConsumerPurposeTe
 import { ConsumerPurposeTemplateSummaryPage } from '@/pages/ConsumerPurposeTemplateSummaryPage'
 import { ConsumerPurposeTemplateEditPage } from '@/pages/ConsumerPurposeTemplateEditPage'
 import { ConsumerSimulateGetVoucherPage } from '@/pages/ConsumerSimulateGetVoucherPage'
+import { RiskAnalysisListPage } from '@/pages/RiskAnalysisListPage'
 
 import { z } from 'zod'
 
@@ -707,6 +708,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: true,
     authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_LIST',
+    path: '/analisi-del-rischio',
+    element: <RiskAnalysisListPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin'],
   })
   .build()
 

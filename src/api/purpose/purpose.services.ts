@@ -6,6 +6,7 @@ import type {
   GetConsumerPurposesParams,
   GetProducerPurposesParams,
   GetRemainingDailyCallsParams,
+  GetRiskAnalysisAssignmentsParams,
   PatchPurposeUpdateFromTemplateContent,
   Purpose,
   PurposeAdditionDetailsSeed,
@@ -289,6 +290,14 @@ async function getRemainingDailyCalls({ purposeId }: GetRemainingDailyCallsParam
   return response.data
 }
 
+async function getRiskAnalysisAssignments(params: GetRiskAnalysisAssignmentsParams) {
+  const response = await axiosInstance.get<Purposes>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/assignments`,
+    { params }
+  )
+  return { ...response.data, results: response.data.results.map(REMOVE_ME_remapPurpose) }
+}
+
 export const PurposeServices = {
   getProducersList,
   getConsumersList,
@@ -315,4 +324,5 @@ export const PurposeServices = {
   createDraftFromPurposeTemplate,
   downloadRiskAnalysis,
   getRemainingDailyCalls,
+  getRiskAnalysisAssignments,
 }

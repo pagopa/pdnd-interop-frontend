@@ -492,6 +492,20 @@
       }
     }
   },
+  "riskAnalysisList": {
+    "filters": {
+      "eserviceField": {
+        "label": "Cerca per e-service"
+      },
+      "riskAnalysisState": {
+        "label": "Stato analisi del rischio",
+        "statusField": {
+          "ASSIGNED": "Da compilare",
+          "SUBMITTED": "Da approvare"
+        }
+      }
+    }
+  },
   "publishThankYou": {
     "loading": "Pubblicazione in corso",
     "active": {
