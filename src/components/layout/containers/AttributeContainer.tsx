@@ -114,17 +114,19 @@ export const AttributeContainer = <
   return (
     <>
       <Stack direction="row" alignItems="center" spacing={2}>
-        <Stack direction="row" alignItems="center">
-          {checked && <CheckCircleIcon sx={{ color: 'success.dark' }} />}
-          {onRemove && (
-            <IconButton
-              aria-label={t('removeAttributeAriaLabel', { attributeName: attribute.name })}
-              onClick={onRemove.bind(null, attribute.id, attribute.name)}
-            >
-              <RemoveCircleOutlineIcon color="error" />
-            </IconButton>
-          )}
-        </Stack>
+        {(checked || onRemove) && (
+          <Stack direction="row" alignItems="center">
+            {checked && <CheckCircleIcon sx={{ color: 'success.dark' }} />}
+            {onRemove && (
+              <IconButton
+                aria-label={t('removeAttributeAriaLabel', { attributeName: attribute.name })}
+                onClick={onRemove.bind(null, attribute.id, attribute.name)}
+              >
+                <RemoveCircleOutlineIcon color="error" />
+              </IconButton>
+            )}
+          </Stack>
+        )}
         <Card sx={{ borderRadius: 1, border: '1px solid', borderColor: 'divider', flex: 1 }}>
           <Stack p={2} direction="row" justifyContent="space-between" alignContent="center">
             <Stack spacing={1} justifyContent="center">
