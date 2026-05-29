@@ -224,10 +224,9 @@ function scheduleArchiveEservice({
   eserviceId: string
   archivingReason: string
 }) {
-  return axiosInstance.post<void>(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/scheduleArchive`,
-    { archivingReason }
-  )
+  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/scheduleArchive`, {
+    archivingReason,
+  })
 }
 
 function cancelEserviceArchiving({ eserviceId }: { eserviceId: string }) {
