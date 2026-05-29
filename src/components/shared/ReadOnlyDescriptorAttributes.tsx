@@ -8,6 +8,7 @@ import {
   AttributeGroupContainer,
 } from '@/components/layout/containers'
 import type {
+  CertifiedDiscreteTenantAttribute,
   CertifiedTenantAttribute,
   DeclaredTenantAttribute,
   DescriptorAttribute,
@@ -25,7 +26,7 @@ import {
 } from '@/utils/attribute.utils'
 
 export type AttributeOwnershipData = {
-  certified: CertifiedTenantAttribute[]
+  certified: Array<CertifiedTenantAttribute | CertifiedDiscreteTenantAttribute>
   verified: VerifiedTenantAttribute[]
   declared: DeclaredTenantAttribute[]
   producerId?: string
@@ -213,12 +214,9 @@ function getAttributeChecked(
     case 'certified':
       return isAttributeOwned('certified', attributeId, ownershipData.certified)
     case 'verified':
-      return isAttributeOwned(
-        'verified',
-        attributeId,
-        ownershipData.verified,
-        ownershipData.producerId
-      )
+      return isAttributeOwned('verified', attributeId, ownershipData.verified, {
+        verifierId: ownershipData.producerId,
+      })
     case 'declared':
       return isAttributeOwned('declared', attributeId, ownershipData.declared)
   }
