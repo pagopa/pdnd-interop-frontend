@@ -492,6 +492,42 @@
       }
     }
   },
+  "riskAnalysisInfoCompile": {
+    "backToListBtn": "Torna alle analisi del rischio",
+    "title": "Informazioni finalità",
+    "generalInfoSection": {
+      "label": "Informazioni generali",
+      "eService": {
+        "label": "E-service da associare"
+      },
+      "producer": {
+        "label": "Erogatore"
+      },
+      "purposeName": {
+        "label": "Nome della finalità"
+      },
+      "purposeDescription": {
+        "label": "Descrizione finalità"
+      },
+      "isFreeOfCharge": {
+        "label": "Come metterai a disposizione l'accesso ai dati di questo e-service?",
+        "options": {
+          "YES": "A titolo gratuito",
+          "NO": "A pagamento"
+        }
+      },
+      "freeOfChargeReason": {
+        "label": "Motivazione titolo gratuito"
+      }
+    },
+    "loadEstimationSection": {
+      "label": "Stima chiamate API",
+      "dailyCalls": {
+        "label": "Stima numero chiamate API/giorno"
+      }
+    },
+    "beginCompileBtn": "Inizia compilazione"
+  },
   "publishThankYou": {
     "loading": "Pubblicazione in corso",
     "active": {
