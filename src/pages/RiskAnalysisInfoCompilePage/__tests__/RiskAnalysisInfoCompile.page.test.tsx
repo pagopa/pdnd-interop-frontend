@@ -38,7 +38,7 @@ describe('RiskAnalysisInfoCompilePage', () => {
     vi.clearAllMocks()
   })
 
-  it('renders page title', () => {
+  it('should render page title', () => {
     useQueryMock.mockReturnValue({
       data: createMockPurpose(),
       isLoading: false,
@@ -52,7 +52,7 @@ describe('RiskAnalysisInfoCompilePage', () => {
     expect(screen.getByText('title')).toBeInTheDocument()
   })
 
-  it('renders general information section', () => {
+  it('should render general information section', () => {
     useQueryMock.mockReturnValue({
       data: createMockPurpose(),
       isLoading: false,
@@ -64,17 +64,13 @@ describe('RiskAnalysisInfoCompilePage', () => {
     })
 
     expect(screen.getByText('generalInfoSection.label')).toBeInTheDocument()
-
     expect(screen.getByText(createMockPurpose().title)).toBeInTheDocument()
-
     expect(screen.getByText(createMockPurpose().description)).toBeInTheDocument()
-
     expect(screen.getByText(createMockPurpose().eservice.name)).toBeInTheDocument()
-
     expect(screen.getByText(createMockPurpose().eservice.producer.name)).toBeInTheDocument()
   })
 
-  it('renders load estimation section', () => {
+  it('should render load estimation section', () => {
     const mockPurpose = createMockPurpose()
 
     useQueryMock.mockReturnValue({
@@ -88,11 +84,10 @@ describe('RiskAnalysisInfoCompilePage', () => {
     })
 
     expect(screen.getByText('loadEstimationSection.label')).toBeInTheDocument()
-
     expect(screen.getByText(`${mockPurpose.currentVersion?.dailyCalls}`)).toBeInTheDocument()
   })
 
-  it('renders YES when purpose is free of charge', () => {
+  it('should render YES when purpose is free of charge', () => {
     const mockPurpose = {
       ...createMockPurpose(),
       isFreeOfCharge: true,
@@ -111,7 +106,7 @@ describe('RiskAnalysisInfoCompilePage', () => {
     expect(screen.getByText('generalInfoSection.isFreeOfCharge.options.YES')).toBeInTheDocument()
   })
 
-  it('renders NO when purpose is not free of charge', () => {
+  it('should render NO when purpose is not free of charge', () => {
     const mockPurpose = {
       ...createMockPurpose(),
       isFreeOfCharge: false,
@@ -130,7 +125,7 @@ describe('RiskAnalysisInfoCompilePage', () => {
     expect(screen.getByText('generalInfoSection.isFreeOfCharge.options.NO')).toBeInTheDocument()
   })
 
-  it('renders begin compile button', () => {
+  it('should render begin compile button', () => {
     useQueryMock.mockReturnValue({
       data: createMockPurpose(),
       isLoading: false,
@@ -148,7 +143,7 @@ describe('RiskAnalysisInfoCompilePage', () => {
     ).toBeInTheDocument()
   })
 
-  it('navigates to compile page on begin compile click', () => {
+  it('should navigate to compile page on begin compile click', () => {
     const mockPurpose = createMockPurpose()
 
     useQueryMock.mockReturnValue({
@@ -174,7 +169,7 @@ describe('RiskAnalysisInfoCompilePage', () => {
     })
   })
 
-  it('does not navigate if purpose id is missing', () => {
+  it('should not navigate if purpose id is missing', () => {
     const mockPurpose = {
       ...createMockPurpose(),
       id: undefined,

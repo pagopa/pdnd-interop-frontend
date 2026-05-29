@@ -31,12 +31,12 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
         to: 'SUBSCRIBE_RISK_ANALYSIS_LIST',
       }}
     >
-      <Grid container>
+      <Grid container sx={{ mt: 3 }}>
         <Grid item xs={12}>
           {!purpose ? (
             <ProviderPurposeDetailsPageSkeleton />
           ) : (
-            <Stack spacing={2}>
+            <Stack spacing={3}>
               <SectionContainer title={t('generalInfoSection.label')}>
                 <Stack spacing={3}>
                   <InformationContainer
@@ -92,7 +92,7 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
           )}
         </Grid>
       </Grid>
-      <Stack direction="row" sx={{ mt: 4, justifyContent: 'right' }}>
+      <Stack direction="row" sx={{ mt: 5, justifyContent: 'right' }}>
         <Button onClick={handleBeginCompile} variant="contained" type="button">
           {t('beginCompileBtn')}
         </Button>
