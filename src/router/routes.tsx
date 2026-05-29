@@ -733,6 +733,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     hideSideNav: true,
     authLevels: ['admin'] /* @TODO: change this when role will be available */,
   })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_APPROVE',
+    path: '/analisi-del-rischio/:purposeId/approvazione',
+    element: <></> /* @TODO: component will be written on next task */,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'] /* @TODO: change this when role will be available */,
+  })
   .build()
 
 export type RouteKey = InferRouteKey<typeof routes>
