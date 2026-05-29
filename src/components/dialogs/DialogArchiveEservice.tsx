@@ -1,3 +1,4 @@
+import { EServiceMutations } from '@/api/eservice'
 import { DOCUMENTATION_URL, GRACE_PERIOD_ARCHIVING_ESERVICE } from '@/config/env'
 import { useDialog } from '@/stores'
 import type { DialogArchiveEserviceProps } from '@/types/dialog.types'
@@ -35,9 +36,8 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
 
   const [activeStep, setActiveStep] = useState<'ADVISE' | 'CONFIRM'>('ADVISE')
 
-  // TODO mutation with archive eservice api
-
   const { closeDialog } = useDialog()
+  const { mutate: scheduleArchive } = EServiceMutations.useScheduleArchiveEservice()
 
   const handleBackAction = () => {
     if (activeStep === 'ADVISE') {
@@ -53,9 +53,8 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
     setActiveStep('CONFIRM')
   }
 
-  const onSubmit = () => {
-    // TODO validate form and call onSubmit
-    closeDialog()
+  const onSubmit = ({ reason }: ArchiveReasonFormValue) => {
+    scheduleArchive({ eserviceId, archivingReason: reason }, { onSuccess: closeDialog })
   }
 
   const archiveDate = addDays(new Date(), GRACE_PERIOD_ARCHIVING_ESERVICE)
@@ -123,6 +122,7 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
             onClick={
               activeStep === 'ADVISE' ? handleForwardAction : formMethods.handleSubmit(onSubmit)
             }
+            sx={activeStep === 'CONFIRM' ? { color: 'common.white' } : undefined}
           >
             {activeStep === 'ADVISE' ? t('actions.forward') : tCommon('archive')}
           </Button>

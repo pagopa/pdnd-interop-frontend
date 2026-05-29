@@ -165,10 +165,6 @@ export function useGetProviderEServiceActions(
     icon: FiberNewIcon,
   }
 
-  const noopArchivingAction = () => {
-    /* TODO wired by PIN-9945 */
-  }
-
   const handleArchiveDescriptor = () => {
     if (activeDescriptorId) {
       openDialog({ type: 'archiveVersion', eserviceId, descriptorId: activeDescriptorId })
@@ -193,14 +189,22 @@ export function useGetProviderEServiceActions(
     icon: CancelOutlinedIcon,
   }
 
+  const handleArchiveEservice = () => {
+    openDialog({ type: 'archiveEservice', eserviceId })
+  }
+
   const archiveEserviceAction: ActionItemButton = {
-    action: noopArchivingAction,
+    action: handleArchiveEservice,
     label: tEserviceActions('archiveEservice'),
     icon: ArchiveIcon,
   }
 
+  const handleCancelArchivingEservice = () => {
+    openDialog({ type: 'cancelEserviceArchiving', eserviceId })
+  }
+
   const cancelArchivingEserviceAction: ActionItemButton = {
-    action: noopArchivingAction,
+    action: handleCancelArchivingEservice,
     label: tEserviceActions('cancelArchivingEservice'),
     icon: CancelOutlinedIcon,
     variant: 'contained',

@@ -1,3 +1,4 @@
+import { EServiceMutations } from '@/api/eservice'
 import { useDialog } from '@/stores'
 import type { DialogCancelEserviceArchivingProps } from '@/types/dialog.types'
 import {
@@ -21,17 +22,15 @@ const DialogCancelEserviceArchiving: React.FC<DialogCancelEserviceArchivingProps
     keyPrefix: 'dialogCancelEserviceArchiving',
   })
 
-  // TODO mutation with cancel eservice archiving api
-
   const { closeDialog } = useDialog()
+  const { mutate: cancelArchive } = EServiceMutations.useCancelEserviceArchiving()
 
   const handleKeepArchive = () => {
     closeDialog()
   }
 
   const handleCancelArchive = () => {
-    // TODO call mutation with eserviceId
-    closeDialog()
+    cancelArchive({ eserviceId }, { onSuccess: closeDialog })
   }
 
   return (
@@ -45,7 +44,12 @@ const DialogCancelEserviceArchiving: React.FC<DialogCancelEserviceArchivingProps
         <Button variant="outlined" color="primary" onClick={handleKeepArchive}>
           {tCommon('cancel')}
         </Button>
-        <Button variant="contained" color="error" onClick={handleCancelArchive}>
+        <Button
+          variant="contained"
+          color="error"
+          onClick={handleCancelArchive}
+          sx={{ color: 'common.white' }}
+        >
           {t('actions.cancelArchiving')}
         </Button>
       </DialogActions>
