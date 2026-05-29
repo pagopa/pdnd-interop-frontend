@@ -9,7 +9,6 @@ type RiskAnalysisTableProps = {
 }
 
 export const RiskAnalysisTable: React.FC<RiskAnalysisTableProps> = ({ purposes }) => {
-  const { t } = useTranslation('shared-components', { keyPrefix: 'table' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
 
   const headLabels = [
@@ -21,7 +20,7 @@ export const RiskAnalysisTable: React.FC<RiskAnalysisTableProps> = ({ purposes }
   ]
 
   return (
-    <Table headLabels={headLabels} isEmpty={purposes.length === 0} noDataLabel={t('noDataLabel')}>
+    <Table headLabels={headLabels}>
       {purposes.map((purpose: Purpose) => (
         <RiskAnalysisTableRow key={purpose.id} purpose={purpose} />
       ))}

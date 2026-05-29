@@ -8,14 +8,15 @@ import {
   useAutocompleteTextInput,
 } from '@pagopa/interop-fe-commons'
 import { useQuery, keepPreviousData } from '@tanstack/react-query'
-import type { GetRiskAnalysisAssignmentsParams, Purposes } from '@/api/api.generatedTypes'
+import type { GetRiskAnalysisAssignmentsParams } from '@/api/api.generatedTypes'
 import { RiskAnalysisTable, RiskAnalysisTableSkeleton } from './components/RiskAnalysisTable'
 import { PurposeQueries } from '@/api/purpose'
 import { EServiceQueries } from '@/api/eservice'
+import { Box, Typography } from '@mui/material'
 
 const RiskAnalysisListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'riskAnalysisList' })
-  const { t: tPurpose } = useTranslation('purpose', { keyPrefix: 'riskAnalysisList.filters' })
+  const { t: tPurpose } = useTranslation('purpose', { keyPrefix: 'riskAnalysisList' })
 
   const [eserviceAutocompleteText, setEServiceAutocompleteInputChange] =
     useAutocompleteTextInput('')
@@ -35,18 +36,18 @@ const RiskAnalysisListPage: React.FC = () => {
   >([
     {
       name: 'eservicesIds',
-      label: tPurpose('eserviceField.label'),
+      label: tPurpose('filters.eserviceField.label'),
       type: 'autocomplete-multiple',
       options: eservicesOptions,
       onTextInputChange: setEServiceAutocompleteInputChange,
     },
     {
       name: 'signingState',
-      label: tPurpose('riskAnalysisState.label'),
+      label: tPurpose('filters.riskAnalysisState.label'),
       type: 'autocomplete-single',
       options: [
-        { label: tPurpose('riskAnalysisState.statusField.ASSIGNED'), value: 'ASSIGNED' },
-        { label: tPurpose('riskAnalysisState.statusField.SUBMITTED'), value: 'SUBMITTED' },
+        { label: tPurpose('filters.riskAnalysisState.statusField.ASSIGNED'), value: 'ASSIGNED' },
+        { label: tPurpose('filters.riskAnalysisState.statusField.SUBMITTED'), value: 'SUBMITTED' },
       ],
     },
   ])
@@ -62,23 +63,50 @@ const RiskAnalysisListPage: React.FC = () => {
 
   return (
     <PageContainer title={t('title')} description={t('description')}>
-      <Filters {...filtersHandlers} />
-      <RiskAnalysisTableWrapper data={data} />
-      <Pagination
-        {...paginationProps}
-        rowPerPageOptions={rowPerPageOptions}
-        totalPages={getTotalPageCount(data?.pagination.totalCount)}
-      />
+      {data?.results.length !== 0 ? (
+        <>
+          <Filters {...filtersHandlers} />
+          <RiskAnalysisTableWrapper params={queryParams} />
+          <Pagination
+            {...paginationProps}
+            rowPerPageOptions={rowPerPageOptions}
+            totalPages={getTotalPageCount(data?.pagination.totalCount)}
+          />
+        </>
+      ) : (
+        <Box
+          sx={{
+            backgroundColor: 'grey.200',
+            p: 2,
+            mt: 5,
+          }}
+        >
+          <Box
+            sx={{
+              backgroundColor: 'white',
+              justifyContent: 'center',
+              borderRadius: 1,
+              display: 'flex',
+              py: 2,
+            }}
+          >
+            <Typography variant="body2" textAlign="center">
+              {tPurpose('noData.label')}
+            </Typography>
+          </Box>
+        </Box>
+      )}
     </PageContainer>
   )
 }
 
-const RiskAnalysisTableWrapper: React.FC<{
-  data: Purposes | undefined
-}> = ({ data }) => {
-  if (!data) return <RiskAnalysisTableSkeleton />
+const RiskAnalysisTableWrapper: React.FC<{ params: GetRiskAnalysisAssignmentsParams }> = ({
+  params,
+}) => {
+  const { data, isFetching } = useQuery(PurposeQueries.getRiskAnalysisAssignments(params))
+  if (!data && isFetching) return <RiskAnalysisTableSkeleton />
   return (
-    <RiskAnalysisTable purposes={data.results ?? []} data-testid="risk-analysis-table-component" />
+    <RiskAnalysisTable purposes={data?.results ?? []} data-testid="risk-analysis-table-component" />
   )
 }
 

@@ -507,6 +507,9 @@
     },
     "today": {
       "label": "Oggi"
+    },
+    "noData": {
+      "label": "Non hai nessuna analisi del rischio da valutare"
     }
   },
   "publishThankYou": {

@@ -50,8 +50,8 @@ describe('RiskAnalysisListPage', () => {
   })
 
   it('renders filters', () => {
-    expect(screen.getByLabelText('eserviceField.label')).toBeInTheDocument()
-    expect(screen.getByLabelText('riskAnalysisState.label')).toBeInTheDocument()
+    expect(screen.getByLabelText('filters.eserviceField.label')).toBeInTheDocument()
+    expect(screen.getByLabelText('filters.riskAnalysisState.label')).toBeInTheDocument()
   })
 
   it('renders table row content', async () => {
