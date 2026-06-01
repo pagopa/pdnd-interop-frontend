@@ -353,7 +353,7 @@
       "asyncExchangeSection": {
         "title": "Scambi asincroni e massivi",
         "description": "Gli scambi asincroni e massivi richiedono un’interfaccia di callback che i fruitori dovranno implementare per ricevere le tue risposte. Carica il file OpenAPI con la descrizione dell’API. <1>Scopri di più sugli scambi asincroni e massivi</1>.",
-        "editableInfoAlert": "Questi campi non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
+        "editableInfoAlert": "Dopo la pubblicazione, questi campi non saranno più modificabili. Per modificarli, dovrai creare una nuova versione dell’e-service.",
         "callbackInterface": {
           "readOnlyLabel": "Interfaccia di callback",
           "prettyName": "Interfaccia callback",
