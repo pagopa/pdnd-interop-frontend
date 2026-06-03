@@ -93,6 +93,27 @@ export const ProviderEServiceDocumentationSection: React.FC<
             </Stack>
           }
         />
+        {descriptor.eservice.asyncExchange && (
+          <InformationContainer
+            label={t('callbackInterface.label')}
+            content={
+              descriptor.asyncExchangeCallbackInterface ? (
+                <IconLink
+                  component="button"
+                  onClick={handleDownloadDocument.bind(
+                    null,
+                    descriptor.asyncExchangeCallbackInterface
+                  )}
+                  startIcon={<AttachFileIcon fontSize="small" />}
+                >
+                  {descriptor.asyncExchangeCallbackInterface.prettyName}
+                </IconLink>
+              ) : (
+                '-'
+              )
+            }
+          />
+        )}
         {descriptor.interface?.checksum && (
           <InformationContainer
             label={t('documentation.interfaceChecksum')}

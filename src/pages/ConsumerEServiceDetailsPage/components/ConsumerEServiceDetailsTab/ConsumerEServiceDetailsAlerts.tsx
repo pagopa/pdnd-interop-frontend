@@ -16,11 +16,24 @@ export const ConsumerEServiceDetailsAlerts: React.FC<ConsumerEServiceDetailsAler
 
   const isSuspended = descriptor?.state === 'SUSPENDED'
   const isDeprecated = descriptor?.state === 'DEPRECATED'
+  const isAsyncExchange = descriptor.eservice.asyncExchange === true
+  const isMissingProducerKeychain =
+    isAsyncExchange && descriptor.eservice.hasProducerKeychain === false
+  const isMissingProducerKeychainKeys =
+    isAsyncExchange &&
+    descriptor.eservice.hasProducerKeychain === true &&
+    descriptor.eservice.hasProducerKeychainKeys === false
 
   return (
     <Stack spacing={2}>
       {isSuspended && <Alert severity="error">{t('suspended')}</Alert>}
       {isDeprecated && <Alert severity="info">{t('deprecated')}</Alert>}
+      {isMissingProducerKeychain && (
+        <Alert severity="warning">{t('missingProducerKeychain')}</Alert>
+      )}
+      {isMissingProducerKeychainKeys && (
+        <Alert severity="warning">{t('missingProducerKeychainKeys')}</Alert>
+      )}
     </Stack>
   )
 }
