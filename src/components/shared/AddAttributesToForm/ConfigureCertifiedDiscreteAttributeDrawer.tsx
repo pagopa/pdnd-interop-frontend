@@ -9,7 +9,6 @@ import { Drawer } from '../Drawer'
 import { Stack } from '@mui/material'
 import { RHFAutocompleteSingle, RHFTextField } from '../react-hook-form-inputs'
 import isEmpty from 'lodash/isEmpty'
-import { match } from 'ts-pattern'
 import { useTranslation } from 'react-i18next'
 
 type ConfigureCertifiedDiscreteAttributeDrawerProps = {
@@ -72,31 +71,14 @@ export const ConfigureCertifiedDiscreteAttributeDrawer: React.FC<
     }
   }, [isOpen, formMethods, attribute])
 
-  const ALL_COMPARATORS: AttributeCertifiedDiscreteComparator[] = [
-    'GT',
-    'GTE',
-    'EQ',
-    'NE',
-    'LTE',
-    'LT',
+  const comparatorOptions = [
+    { label: tCommon('GT'), value: 'GT' as AttributeCertifiedDiscreteComparator },
+    { label: tCommon('LT'), value: 'LT' as AttributeCertifiedDiscreteComparator },
+    { label: tCommon('GTE'), value: 'GTE' as AttributeCertifiedDiscreteComparator },
+    { label: tCommon('LTE'), value: 'LTE' as AttributeCertifiedDiscreteComparator },
+    { label: tCommon('EQ'), value: 'EQ' as AttributeCertifiedDiscreteComparator },
+    { label: tCommon('NE'), value: 'NE' as AttributeCertifiedDiscreteComparator },
   ]
-
-  const getComparatorOptions = () => {
-    return ALL_COMPARATORS.map((comparator) => {
-      // const label = match(comparator)
-      //   .with('GT', () => tCommon('GT'))
-      //   .with('LT', () => tCommon('LT'))
-      //   .with('GTE', () => tCommon('GTE'))
-      //   .with('LTE', () => tCommon('LTE'))
-      //   .with('EQ', () => tCommon('EQ'))
-      //   .with('NE', () => tCommon('NE'))
-      //   .exhaustive()
-
-      return { label: tCommon(comparator), value: comparator }
-    })
-  }
-
-  const comparatorOptions = getComparatorOptions()
 
   return (
     <FormProvider {...formMethods}>
