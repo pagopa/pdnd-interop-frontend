@@ -10,10 +10,13 @@ export const RiskAnalysisRequiredMessageProvider = RiskAnalysisRequiredMessageCo
  * Returns the message to display for a risk-analysis question's error.
  *
  * When a required-message override is provided via context, it replaces the
- * default messages for `required` and `validate` rules (the two rule types
- * used by the RA form to enforce "must be answered"). Manual errors —
- * e.g. the incompatible-answer error on `usesPersonalData` — keep their own
- * message so the user still sees the specific reason.
+ * default messages of the two rule types the RA form uses to enforce
+ * "must be answered": `required` (for text/select/radio) and `validate`
+ * (for checkbox and switch, whose required-ness is expressed via a custom
+ * validator). Any other rule type — including manually set errors such as
+ * the incompatible-answer error on `usesPersonalData`, or future
+ * `pattern`/`min`/`max` rules — keeps its own message so the user still
+ * sees the specific reason.
  */
 export function useRiskAnalysisDisplayError(questionKey: string): string | undefined {
   const override = useContext(RiskAnalysisRequiredMessageContext)
@@ -22,6 +25,6 @@ export function useRiskAnalysisDisplayError(questionKey: string): string | undef
   const rawMessage = errorObj?.message as string | undefined
 
   if (!override || !errorObj) return rawMessage
-  if (errorObj.type === 'manual') return rawMessage
-  return override
+  if (errorObj.type === 'required' || errorObj.type === 'validate') return override
+  return rawMessage
 }
