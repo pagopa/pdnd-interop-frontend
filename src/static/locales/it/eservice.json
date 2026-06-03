@@ -353,7 +353,7 @@
       "asyncExchangeSection": {
         "title": "Scambi asincroni e massivi",
         "description": "Gli scambi asincroni e massivi richiedono un’interfaccia di callback che i fruitori dovranno implementare per ricevere le tue risposte. Carica il file OpenAPI con la descrizione dell’API. <1>Scopri di più sugli scambi asincroni e massivi</1>.",
-        "editableInfoAlert": "Questi campi non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
+        "editableInfoAlert": "Dopo la pubblicazione, questi campi non saranno più modificabili. Per modificarli, dovrai creare una nuova versione dell’e-service.",
         "callbackInterface": {
           "readOnlyLabel": "Interfaccia di callback",
           "prettyName": "Interfaccia callback",
@@ -625,9 +625,9 @@
       "deprecated": "Questa versione di e-service è obsoleta ma ancora attiva. Verrà dismessa automaticamente da PDND Interoperabilità quando l’ultima richiesta di fruizione presente su questa versione sarà archiviata.",
       "missingProducerKeychain": "L’erogatore non ha ancora collegato il portachiavi a questo e-service asincrono. Lo scambio dati non è al momento disponibile.",
       "missingProducerKeychainKeys": "L’erogatore non ha ancora collegato le chiavi al portachiavi di questo e-service asincrono. Lo scambio dati non è al momento disponibile.",
-      "providerMissingProducerKeychain": "Associa un portachiavi a questo e-service per abilitare lo scambio dati.",
-      "providerMissingProducerKeychainKeys": "Associa almeno una chiave al portachiavi collegato a questo e-service per abilitare lo scambio dati.",
-      "viewProducerKeychains": "Vedi portachiavi"
+      "providerMissingProducerKeychain": "Collega un portachiavi a questo e-service asincrono per abilitare lo scambio dati.",
+      "providerMissingProducerKeychainKeys": "Associa almeno una chiave al portachiavi collegato a questo e-service asincrono per abilitare lo scambio dati.",
+      "viewProducerKeychains": "Collega portachiavi"
     },
     "actions": {
       "backToListLabel": "Torna agli e-service",
