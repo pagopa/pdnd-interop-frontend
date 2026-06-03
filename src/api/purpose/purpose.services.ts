@@ -289,6 +289,17 @@ async function getRemainingDailyCalls({ purposeId }: GetRemainingDailyCallsParam
   return response.data
 }
 
+async function updateRiskAnalysis({
+  purposeId,
+  ...payload
+}: { purposeId: string } & PurposeUpdateContent) {
+  const response = await axiosInstance.post<PurposeVersionResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/form`,
+    payload
+  )
+  return response.data
+}
+
 export const PurposeServices = {
   getProducersList,
   getConsumersList,
@@ -315,4 +326,5 @@ export const PurposeServices = {
   createDraftFromPurposeTemplate,
   downloadRiskAnalysis,
   getRemainingDailyCalls,
+  updateRiskAnalysis,
 }
