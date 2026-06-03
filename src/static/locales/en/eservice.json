@@ -353,7 +353,7 @@
       "asyncExchangeSection": {
         "title": "Asynchronous and bulk exchanges",
         "description": "Asynchronous and bulk exchanges require a callback interface that consumers will have to implement to receive your responses. Upload the OpenAPI file with the API description. <1>Learn more about asynchronous and bulk exchanges</1>.",
-        "editableInfoAlert": "These fields will no longer be editable after the publication of the first version of the e-service.",
+        "editableInfoAlert": "After publication, these fields will no longer be editable. To modify them, you will need to create a new version of the e-service.",
         "callbackInterface": {
           "readOnlyLabel": "Callback interface",
           "prettyName": "Callback interface",
