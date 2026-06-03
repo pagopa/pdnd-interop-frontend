@@ -39,6 +39,7 @@ describe('DialogSelectAgreementConsumer', () => {
 
     renderWithApplicationContext(
       <DialogSelectAgreementConsumer
+        type="selectAgreementConsumer"
         action="create"
         eservice={{
           id: 'eservice-id',
