@@ -174,7 +174,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
                     ? openConfigureDiscreteAttributeDrawer
                     : undefined
                 }
-                areCertifiedDiscreteOptionsIncluded={true}
+                areCertifiedDiscreteOptionsIncluded={FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE}
               />
             ) : (
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
