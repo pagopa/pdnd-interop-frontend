@@ -82,7 +82,7 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
     if (!attribute || attributeGroupIndex === undefined) return
 
     const attributes = formMethods.getValues('attributes')
-    const groups = attributes['certified']
+    const groups = [...attributes['certified']]
     const group = groups[attributeGroupIndex]
 
     groups[attributeGroupIndex] = group.map((att) =>

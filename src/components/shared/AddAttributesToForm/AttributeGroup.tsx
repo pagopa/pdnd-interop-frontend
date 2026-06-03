@@ -79,7 +79,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
     if (!attribute) return
 
     const attributes = getValues('attributes')
-    const groups = attributes['certified']
+    const groups = [...attributes['certified']]
     const group = groups[groupIndex]
 
     const discreteConfig: EServiceAttributeCertifiedDiscreteConfig = {
