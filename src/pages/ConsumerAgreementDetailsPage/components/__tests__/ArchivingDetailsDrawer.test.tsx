@@ -37,11 +37,6 @@ describe('ArchivingDetailsDrawer', () => {
     expect(screen.getByText('Mandato di archiviazione amministrativo')).toBeInTheDocument()
   })
 
-  it('renders the placeholder when archivingReason is undefined', () => {
-    renderDrawer({ isOpen: true, archivingReason: undefined })
-    expect(screen.getByText('reasonPlaceholder')).toBeInTheDocument()
-  })
-
   it('calls onClose when the close button is clicked', async () => {
     const onClose = vi.fn()
     renderDrawer({ isOpen: true, archivingReason: 'a reason', onClose })

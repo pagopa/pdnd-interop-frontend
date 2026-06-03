@@ -146,8 +146,7 @@
     "archivingDetailsDrawer": {
       "title": "Dettagli archiviazione",
       "subtitle": "L’erogatore ha condiviso le seguenti informazioni a seguito dell’avvio del processo di archiviazione per questo e-service e tutte le sue versioni.",
-      "reasonLabel": "Motivazione archiviazione",
-      "reasonPlaceholder": "Nessuna motivazione fornita."
+      "reasonLabel": "Motivazione archiviazione"
     },
     "noCertifiedAttributesForUpgradeTooltip": "C’è un aggiornamento disponibile ma il tuo ente non possiede i requisiti minimi per effettuarlo.",
     "sections": {

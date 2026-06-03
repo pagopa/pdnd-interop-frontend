@@ -24,7 +24,7 @@ export const ArchivingDetailsDrawer: React.FC<ArchivingDetailsDrawerProps> = ({
         <Typography variant="body2" fontWeight={600}>
           {t('reasonLabel')}
         </Typography>
-        <Typography variant="body2">{archivingReason ?? t('reasonPlaceholder')}</Typography>
+        <Typography variant="body2">{archivingReason}</Typography>
       </Stack>
     </Drawer>
   )

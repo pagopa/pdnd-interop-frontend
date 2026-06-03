@@ -146,8 +146,7 @@
     "archivingDetailsDrawer": {
       "title": "Archiving details",
       "subtitle": "The producer shared the following information when the archiving process for this e-service and all its versions was started.",
-      "reasonLabel": "Archiving reason",
-      "reasonPlaceholder": "No reason provided."
+      "reasonLabel": "Archiving reason"
     },
     "noCertifiedAttributesForUpgradeTooltip": "An update is available but your party does not have the minimum requirements to perform it.",
     "sections": {
