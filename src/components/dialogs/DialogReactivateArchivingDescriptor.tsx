@@ -3,23 +3,23 @@ import { Typography } from '@mui/material'
 import { Trans, useTranslation } from 'react-i18next'
 import { EServiceMutations } from '@/api/eservice'
 import { useDialog } from '@/stores'
-import type { DialogSuspendArchivingEserviceProps } from '@/types/dialog.types'
+import type { DialogReactivateArchivingDescriptorProps } from '@/types/dialog.types'
 import { DialogConfirmArchivingAction } from './DialogConfirmArchivingAction'
 
-export const DialogSuspendArchivingEservice: React.FC<DialogSuspendArchivingEserviceProps> = ({
-  eserviceId,
-  descriptorId,
-}) => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'read.dialogSuspendArchivingEservice' })
-  const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+export const DialogReactivateArchivingDescriptor: React.FC<
+  DialogReactivateArchivingDescriptorProps
+> = ({ eserviceId, descriptorId }) => {
+  const { t } = useTranslation('eservice', {
+    keyPrefix: 'read.dialogReactivateArchivingDescriptor',
+  })
   const { closeDialog } = useDialog()
-  const { mutate: suspend } = EServiceMutations.useSuspendVersion({ skipConfirmation: true })
+  const { mutate: reactivate } = EServiceMutations.useReactivateVersion({ skipConfirmation: true })
 
   return (
     <DialogConfirmArchivingAction
       title={t('title')}
       intro={t('intro')}
-      primaryBulletText={t('bullets.suspended')}
+      primaryBulletText={t('bullets.usableAgain')}
       archivingNotAffectedBullet={
         <Trans
           t={t}
@@ -30,9 +30,8 @@ export const DialogSuspendArchivingEservice: React.FC<DialogSuspendArchivingEser
         />
       }
       archivedAfterNoticeText={t('bullets.archivedAfterNotice')}
-      confirmLabel={tCommon('suspend')}
-      confirmColor="error"
-      onConfirm={() => suspend({ eserviceId, descriptorId }, { onSuccess: closeDialog })}
+      confirmLabel={t('proceedLabel')}
+      onConfirm={() => reactivate({ eserviceId, descriptorId }, { onSuccess: closeDialog })}
     />
   )
 }

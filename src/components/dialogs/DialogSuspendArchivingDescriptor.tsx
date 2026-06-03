@@ -3,14 +3,14 @@ import { Typography } from '@mui/material'
 import { Trans, useTranslation } from 'react-i18next'
 import { EServiceMutations } from '@/api/eservice'
 import { useDialog } from '@/stores'
-import type { DialogSuspendArchivingEserviceProps } from '@/types/dialog.types'
+import type { DialogSuspendArchivingDescriptorProps } from '@/types/dialog.types'
 import { DialogConfirmArchivingAction } from './DialogConfirmArchivingAction'
 
-export const DialogSuspendArchivingEservice: React.FC<DialogSuspendArchivingEserviceProps> = ({
+export const DialogSuspendArchivingDescriptor: React.FC<DialogSuspendArchivingDescriptorProps> = ({
   eserviceId,
   descriptorId,
 }) => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'read.dialogSuspendArchivingEservice' })
+  const { t } = useTranslation('eservice', { keyPrefix: 'read.dialogSuspendArchivingDescriptor' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { closeDialog } = useDialog()
   const { mutate: suspend } = EServiceMutations.useSuspendVersion({ skipConfirmation: true })

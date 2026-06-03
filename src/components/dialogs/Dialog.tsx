@@ -31,6 +31,8 @@ import type {
   DialogCancelEserviceArchivingProps,
   DialogSuspendArchivingEserviceProps,
   DialogReactivateArchivingEserviceProps,
+  DialogSuspendArchivingDescriptorProps,
+  DialogReactivateArchivingDescriptorProps,
   DialogArchiveVersionProps,
   DialogCancelVersionArchivingProps,
 } from '@/types/dialog.types'
@@ -59,6 +61,8 @@ import DialogArchiveEservice from './DialogArchiveEservice'
 import DialogCancelEserviceArchiving from './DialogCancelEserviceArchiving'
 import { DialogSuspendArchivingEservice } from './DialogSuspendArchivingEservice'
 import { DialogReactivateArchivingEservice } from './DialogReactivateArchivingEservice'
+import { DialogSuspendArchivingDescriptor } from './DialogSuspendArchivingDescriptor'
+import { DialogReactivateArchivingDescriptor } from './DialogReactivateArchivingDescriptor'
 import { DialogArchiveVersion } from './DialogArchiveVersion'
 import { DialogCancelVersionArchiving } from './DialogCancelVersionArchiving'
 
@@ -89,6 +93,8 @@ function match<T>(
   onCancelEserviceArchiving: (props: DialogCancelEserviceArchivingProps) => T,
   onSuspendArchivingEservice: (props: DialogSuspendArchivingEserviceProps) => T,
   onReactivateArchivingEservice: (props: DialogReactivateArchivingEserviceProps) => T,
+  onSuspendArchivingDescriptor: (props: DialogSuspendArchivingDescriptorProps) => T,
+  onReactivateArchivingDescriptor: (props: DialogReactivateArchivingDescriptorProps) => T,
   onArchiveVersion: (props: DialogArchiveVersionProps) => T,
   onCancelVersionArchiving: (props: DialogCancelVersionArchivingProps) => T
 ) {
@@ -146,6 +152,10 @@ function match<T>(
         return onSuspendArchivingEservice(props)
       case 'reactivateArchivingEservice':
         return onReactivateArchivingEservice(props)
+      case 'suspendArchivingDescriptor':
+        return onSuspendArchivingDescriptor(props)
+      case 'reactivateArchivingDescriptor':
+        return onReactivateArchivingDescriptor(props)
       case 'archiveVersion':
         return onArchiveVersion(props)
       case 'cancelVersionArchiving':
@@ -181,6 +191,8 @@ const _Dialog = match(
   (props) => <DialogCancelEserviceArchiving {...props} />,
   (props) => <DialogSuspendArchivingEservice {...props} />,
   (props) => <DialogReactivateArchivingEservice {...props} />,
+  (props) => <DialogSuspendArchivingDescriptor {...props} />,
+  (props) => <DialogReactivateArchivingDescriptor {...props} />,
   (props) => <DialogArchiveVersion {...props} />,
   (props) => <DialogCancelVersionArchiving {...props} />
 )
