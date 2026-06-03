@@ -112,12 +112,9 @@ describe('attribute utils', () => {
         id: 'attribute-id-test',
         verifiedBy: [{ id: 'attribute-id', extensionDate: yesterday.toISOString() }],
       })
-      const result = isAttributeOwned(
-        'verified',
-        'attribute-id-test',
-        [attributeMock],
-        'attribute-id'
-      )
+      const result = isAttributeOwned('verified', 'attribute-id-test', [attributeMock], {
+        verifierId: 'attribute-id',
+      })
       expect(result).toBe(false)
     })
 
@@ -126,23 +123,22 @@ describe('attribute utils', () => {
         id: 'attribute-id-test',
         verifiedBy: [{ id: 'attribute-id' }],
       })
-      const result = isAttributeOwned(
-        'verified',
-        'attribute-id-test',
-        [attributeMock],
-        'attribute-id'
-      )
+      const result = isAttributeOwned('verified', 'attribute-id-test', [attributeMock], {
+        verifierId: 'attribute-id',
+      })
       expect(result).toBe(true)
     })
 
     it('should not be considered owned if the attribute is not in the owned attribute array (verified)', () => {
-      const result = isAttributeOwned('verified', 'attribute-id', [], 'producer-id')
+      const result = isAttributeOwned('verified', 'attribute-id', [], { verifierId: 'producer-id' })
       expect(result).toBe(false)
     })
 
     it('should not be considered owned if the attribute is in the owned attribute array but it is revoked (verified)', () => {
       const attributeMock = createVerifiedTenantAttribute({ verifiedBy: [] })
-      const result = isAttributeOwned('verified', 'attribute-id', [attributeMock], 'producer-id')
+      const result = isAttributeOwned('verified', 'attribute-id', [attributeMock], {
+        verifierId: 'producer-id',
+      })
       expect(result).toBe(false)
     })
 
