@@ -7,6 +7,7 @@ import type { Purpose } from '@/api/api.generatedTypes'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
 import { useTranslation } from 'react-i18next'
+import { isToday } from '@/utils/format.utils'
 
 export const RiskAnalysisTableRow: React.FC<{
   purpose: Purpose
@@ -16,14 +17,6 @@ export const RiskAnalysisTableRow: React.FC<{
   const sentDate = purpose.reviewerWorkflow?.sentToReviewerAt
     ? new Date(purpose.reviewerWorkflow.sentToReviewerAt)
     : null
-
-  const today = new Date()
-
-  const isToday =
-    sentDate &&
-    sentDate.getDate() === today.getDate() &&
-    sentDate.getMonth() === today.getMonth() &&
-    sentDate.getFullYear() === today.getFullYear()
 
   const formattedDate = sentDate
     ? sentDate.toLocaleDateString(undefined, {
@@ -36,7 +29,7 @@ export const RiskAnalysisTableRow: React.FC<{
   return (
     <TableRow
       cellData={[
-        isToday ? (
+        isToday(sentDate) ? (
           <Stack direction="row" spacing={1.5} alignItems="center">
             <NotificationBadgeDot />
             <Typography variant="body2" fontWeight={600}>

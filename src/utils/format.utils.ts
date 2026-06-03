@@ -26,3 +26,16 @@ export function minutesToSeconds(minutes: number) {
 export function secondsToMinutes(seconds: number) {
   return seconds / 60
 }
+
+export function isToday(date: Date | null) {
+  if (!date) return false
+
+  const todayDate = new Date()
+
+  return (
+    date &&
+    date.getDate() === todayDate.getDate() &&
+    date.getMonth() === todayDate.getMonth() &&
+    date.getFullYear() === todayDate.getFullYear()
+  )
+}
