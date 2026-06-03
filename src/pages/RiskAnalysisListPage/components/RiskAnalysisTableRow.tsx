@@ -44,11 +44,7 @@ export const RiskAnalysisTableRow: React.FC<{
         purpose.eservice.name,
         purpose.eservice.producer.name,
         purpose.reviewerWorkflow?.signingState ? (
-          <StatusChip
-            key={purpose.id}
-            for="riskAnalysis"
-            state={purpose.reviewerWorkflow.signingState}
-          />
+          <StatusChip for="riskAnalysis" state={purpose.reviewerWorkflow.signingState} />
         ) : (
           ''
         ),
