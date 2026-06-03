@@ -3,6 +3,7 @@ import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import { RiskAnalysisForm, RiskAnalysisFormSkeleton } from './RiskAnalysisForm/RiskAnalysisForm'
 import { useNavigate, useParams } from '@/router'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
+import { match } from 'ts-pattern'
 
 import { useQuery } from '@tanstack/react-query'
 
@@ -10,8 +11,9 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_EDIT'>()
   const navigate = useNavigate()
 
-  const { mutate: updatePurpose } = PurposeMutations.useUpdateDraft()
-  const { mutate: submitRiskAnalysis } = PurposeMutations.useSubmitRiskAnalysis()
+  const { mutate: updatePurpose, isPending: isSaving } = PurposeMutations.useUpdateDraft()
+  const { mutate: submitRiskAnalysis, isPending: isSubmittingForReviewer } =
+    PurposeMutations.useSubmitRiskAnalysis()
   const { data: purpose } = useQuery(PurposeQueries.getSingle(purposeId))
 
   const { data: riskAnalysis } = useQuery({
@@ -26,8 +28,11 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
     return <RiskAnalysisFormSkeleton />
   }
 
-  const isReviewerApprovalMode =
-    purpose.reviewerWorkflow?.reviewMode === 'ADMIN_WRITES_REVIEWER_SIGNS'
+  const isReviewerApprovalMode = match(purpose.reviewerWorkflow?.reviewMode)
+    .with('ADMIN_WRITES_REVIEWER_SIGNS', () => true)
+    .with('REVIEWER_WRITES_REVIEWER_SIGNS', () => false)
+    .with(undefined, () => false)
+    .exhaustive()
 
   const goToSummary = () => {
     navigate('SUBSCRIBE_PURPOSE_SUMMARY', {
@@ -82,6 +87,7 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
       personalData={purpose.eservice.personalData}
       isReviewerApprovalMode={isReviewerApprovalMode}
       onSaveDraft={isReviewerApprovalMode ? handleSaveAndGoToSummary : undefined}
+      isSubmitting={isSaving || isSubmittingForReviewer}
     />
   )
 }

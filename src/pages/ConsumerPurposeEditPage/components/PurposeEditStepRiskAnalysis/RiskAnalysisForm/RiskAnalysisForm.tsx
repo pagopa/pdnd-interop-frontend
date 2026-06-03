@@ -25,6 +25,7 @@ type RiskAnalysisFormProps = {
   personalData?: boolean
   isReviewerApprovalMode?: boolean
   onSaveDraft?: (answers: Record<string, string[]>) => void
+  isSubmitting?: boolean
 }
 
 export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
@@ -35,6 +36,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   personalData,
   isReviewerApprovalMode = false,
   onSaveDraft,
+  isSubmitting = false,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
   const { openDialog } = useDialog()
@@ -163,6 +165,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
                   type: 'button',
                   onClick: handleSaveDraftClick,
                   startIcon: <SaveIcon />,
+                  disabled: isSubmitting,
                 }
               : undefined
           }
@@ -172,6 +175,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
                   label: t('stepRiskAnalysis.requestApprovalBtn'),
                   type: 'submit',
                   startIcon: <SendIcon />,
+                  disabled: isSubmitting,
                 }
               : {
                   label: t('endWithSaveBtn'),

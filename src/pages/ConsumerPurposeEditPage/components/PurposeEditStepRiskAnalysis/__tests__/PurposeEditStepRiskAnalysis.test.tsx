@@ -45,8 +45,8 @@ vi.mock('@/api/purpose', () => ({
     }),
   },
   PurposeMutations: {
-    useUpdateDraft: () => ({ mutate: updateDraftMock }),
-    useSubmitRiskAnalysis: () => ({ mutate: submitRiskAnalysisMock }),
+    useUpdateDraft: () => ({ mutate: updateDraftMock, isPending: false }),
+    useSubmitRiskAnalysis: () => ({ mutate: submitRiskAnalysisMock, isPending: false }),
   },
 }))
 
@@ -205,6 +205,29 @@ describe('PurposeEditStepRiskAnalysis', () => {
     expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_PURPOSE_SUMMARY', {
       params: { purposeId: 'purpose-123' },
     })
+  })
+
+  it('in option 2 does not navigate when the submit step of the chain fails', () => {
+    const purpose = buildPurpose({
+      reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+      reviewerIds: ['reviewer-1'],
+      signingState: 'DRAFT',
+    })
+    mockQueries(purpose, createMockRiskAnalysisFormConfig())
+
+    render(<PurposeEditStepRiskAnalysis back={vi.fn()} forward={vi.fn()} activeStep={2} />)
+
+    const answers = { purpose: ['OTHER'], institutionalPurpose: ['text'] }
+    getLastFormProps().onSubmit(answers)
+
+    const [, saveOptions] = updateDraftMock.mock.calls[0]
+    saveOptions.onSuccess!()
+
+    expect(submitRiskAnalysisMock).toHaveBeenCalledTimes(1)
+    const [, submitOptions] = submitRiskAnalysisMock.mock.calls[0]
+    submitOptions.onError?.(new Error('boom'))
+
+    expect(navigateMock).not.toHaveBeenCalled()
   })
 
   it('in option 2 the draft save only persists and navigates without submitting', () => {

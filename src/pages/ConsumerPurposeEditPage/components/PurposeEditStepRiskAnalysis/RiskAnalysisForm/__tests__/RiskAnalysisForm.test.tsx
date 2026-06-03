@@ -198,6 +198,25 @@ describe('RiskAnalysisForm', () => {
       expect(screen.queryByText('stepRiskAnalysis.requestApprovalAlert')).not.toBeInTheDocument()
     })
 
+    it('disables both CTAs while a save+submit is in flight', () => {
+      const screen = render(
+        <RiskAnalysisForm
+          defaultAnswers={{}}
+          riskAnalysis={createMockRiskAnalysisFormConfig()}
+          onSubmit={vi.fn()}
+          onCancel={vi.fn()}
+          isReviewerApprovalMode
+          onSaveDraft={vi.fn()}
+          isSubmitting
+        />
+      )
+
+      expect(
+        screen.getByRole('button', { name: 'stepRiskAnalysis.requestApprovalBtn' })
+      ).toBeDisabled()
+      expect(screen.getByRole('button', { name: 'stepRiskAnalysis.saveDraftBtn' })).toBeDisabled()
+    })
+
     it('saves the draft even when a required field is left empty', async () => {
       const onSaveDraft = vi.fn()
       const screen = render(
