@@ -1158,7 +1158,7 @@ export function useGetProviderEServiceActions(
   const menuEserviceArchiving = [cloneAction, ...viewAllVersionsItems]
   const menuArchived = [cloneAction]
 
-  const slots: Slots = match({ state, archivingScope, isActiveDescriptor })
+  const slots: Slots = match({ state, archivingScope, isActiveDescriptor, isEServiceBeingArchived })
     .with({ state: 'PUBLISHED' }, () => ({
       primary: undefined,
       header: [suspendAction, createNewDraftAction],
@@ -1193,6 +1193,14 @@ export function useGetProviderEServiceActions(
       { state: 'ARCHIVING', archivingScope: 'DESCRIPTOR', isActiveDescriptor: true },
       emptySlots
     )
+    .with(
+      { state: 'ARCHIVING', archivingScope: 'DESCRIPTOR', isEServiceBeingArchived: true },
+      () => ({
+        primary: cancelArchivingEserviceAction,
+        header: [suspendAction, cancelArchivingDescriptorAction],
+        menu: menuWithNewVersion,
+      })
+    )
     .with({ state: 'ARCHIVING' }, () => ({
       primary: undefined,
       header: [suspendAction, cancelArchivingDescriptorAction],
@@ -1206,6 +1214,14 @@ export function useGetProviderEServiceActions(
     .with(
       { state: 'ARCHIVING_SUSPENDED', archivingScope: 'DESCRIPTOR', isActiveDescriptor: true },
       emptySlots
+    )
+    .with(
+      { state: 'ARCHIVING_SUSPENDED', archivingScope: 'DESCRIPTOR', isEServiceBeingArchived: true },
+      () => ({
+        primary: cancelArchivingEserviceAction,
+        header: [reactivateAction, cancelArchivingDescriptorAction],
+        menu: menuWithNewVersion,
+      })
     )
     .with({ state: 'ARCHIVING_SUSPENDED' }, () => ({
       primary: undefined,

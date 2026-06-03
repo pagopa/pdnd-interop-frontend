@@ -1244,7 +1244,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     ])
   })
 
-  it('ARCHIVING + DESCRIPTOR (non-active) with isEServiceBeingArchived=true: header keeps cancelArchivingVersion, menu collapses', () => {
+  it('ARCHIVING + DESCRIPTOR (non-active) with isEServiceBeingArchived=true: cancelArchivingEservice as primary, header keeps cancelArchivingVersion, menu collapses', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'ARCHIVING', version: '1' },
       delegation: undefined,
@@ -1254,8 +1254,30 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
       isActiveDescriptor: false,
       isEServiceBeingArchived: true,
     })
+    expect(result.current.primaryAction?.label).toBe('cancelArchivingEservice')
     expect(result.current.headerInfoActions.map((a) => a.label)).toEqual([
       'suspendVersion',
+      'cancelArchivingVersion',
+    ])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual([
+      'cloneEservice',
+      'viewAllVersions',
+    ])
+  })
+
+  it('ARCHIVING_SUSPENDED + DESCRIPTOR (non-active) with isEServiceBeingArchived=true: cancelArchivingEservice as primary, header keeps cancelArchivingVersion, menu collapses', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVING_SUSPENDED', version: '1' },
+      delegation: undefined,
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      archivingSchedule: { scope: 'DESCRIPTOR' },
+      isActiveDescriptor: false,
+      isEServiceBeingArchived: true,
+    })
+    expect(result.current.primaryAction?.label).toBe('cancelArchivingEservice')
+    expect(result.current.headerInfoActions.map((a) => a.label)).toEqual([
+      'reactivateVersion',
       'cancelArchivingVersion',
     ])
     expect(result.current.menuActions.map((a) => a.label)).toEqual([
