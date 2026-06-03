@@ -18,11 +18,14 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.sections.technicalInformations',
   })
+  const { t: tCommon } = useTranslation('common')
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
   const { data: descriptor } = useSuspenseQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
+
+  const asyncExchangeProperties = descriptor.asyncExchangeProperties
 
   return (
     <SectionContainer title={t('title')} description={t('description')}>
@@ -57,6 +60,12 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
               label={t('technology')}
               content={descriptor.eservice.technology}
             />
+            <InformationContainer
+              label={t('exchangeType.label')}
+              content={t(
+                `exchangeType.value.${descriptor.eservice.asyncExchange ? 'async' : 'sync'}`
+              )}
+            />
 
             <InformationContainer label={t('audience')} content={descriptor.audience[0]} />
 
@@ -65,6 +74,52 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
               labelDescription={t('mode.labelDescription')}
               content={t(`mode.value.${descriptor.eservice.mode}`)}
             />
+            {descriptor.eservice.asyncExchange && (
+              <>
+                <InformationContainer
+                  label={t('asyncExchange.responseTime.label')}
+                  content={
+                    asyncExchangeProperties
+                      ? `${asyncExchangeProperties.responseTime} ${tCommon('time.second', {
+                          count: asyncExchangeProperties.responseTime,
+                        })}`
+                      : '-'
+                  }
+                />
+                <InformationContainer
+                  label={t('asyncExchange.resourceAvailableTime.label')}
+                  content={
+                    asyncExchangeProperties
+                      ? `${asyncExchangeProperties.resourceAvailableTime} ${tCommon('time.second', {
+                          count: asyncExchangeProperties.resourceAvailableTime,
+                        })}`
+                      : '-'
+                  }
+                />
+                <InformationContainer
+                  label={t('asyncExchange.confirmation.label')}
+                  content={
+                    asyncExchangeProperties
+                      ? t(`asyncExchange.booleanValue.${asyncExchangeProperties.confirmation}`)
+                      : '-'
+                  }
+                />
+                <InformationContainer
+                  label={t('asyncExchange.bulk.label')}
+                  content={
+                    asyncExchangeProperties
+                      ? t(`asyncExchange.booleanValue.${asyncExchangeProperties.bulk}`)
+                      : '-'
+                  }
+                />
+                <InformationContainer
+                  label={t('asyncExchange.maxResultSet.label')}
+                  content={
+                    asyncExchangeProperties ? String(asyncExchangeProperties.maxResultSet) : '-'
+                  }
+                />
+              </>
+            )}
           </Stack>
         </SectionContainer>
         <Divider />

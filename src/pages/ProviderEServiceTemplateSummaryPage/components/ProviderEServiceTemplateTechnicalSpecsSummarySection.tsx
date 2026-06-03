@@ -11,6 +11,7 @@ import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTempla
 import { IconLink } from '@/components/shared/IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
+import type { EServiceDoc } from '@/api/api.generatedTypes'
 
 export const ProviderEServiceTemplateTechnicalSpecsSummarySection: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', {
@@ -27,54 +28,112 @@ export const ProviderEServiceTemplateTechnicalSpecsSummarySection: React.FC = ()
   const downloadDocument = EServiceTemplateDownloads.useDownloadVersionDocument()
   const voucherLifespan = secondsToMinutes(eserviceTemplate.voucherLifespan)
 
-  const handleDownloadInterface = () => {
-    if (!eserviceTemplate.interface) return
+  const asyncExchangeProperties = eserviceTemplate.asyncExchangeProperties
+
+  const handleDownloadDocument = (document: EServiceDoc) => {
     downloadDocument(
       {
         eServiceTemplateId: eserviceTemplate.eserviceTemplate.id,
         eServiceTemplateVersionId: eserviceTemplate.id,
-        documentId: eserviceTemplate.interface.id,
+        documentId: document.id,
       },
-      getDownloadDocumentName(eserviceTemplate.interface)
+      getDownloadDocumentName(document)
     )
   }
+
+  const renderMissingField = () => (
+    <Stack direction="row" alignItems="center" spacing={1}>
+      <WarningAmberIcon color="warning" fontSize="small" />
+      <Typography fontWeight={600}>{tSummary('missingField')}</Typography>
+    </Stack>
+  )
+
+  const renderDocumentLink = (document: EServiceDoc) => (
+    <IconLink
+      component="button"
+      startIcon={<AttachFileIcon fontSize="small" />}
+      onClick={handleDownloadDocument.bind(null, document)}
+    >
+      {document.prettyName}
+    </IconLink>
+  )
 
   return (
     <Stack spacing={2}>
       <InformationContainer
         label={t('interface.label')}
         content={
-          eserviceTemplate.interface ? (
-            <IconLink
-              component="button"
-              startIcon={<AttachFileIcon fontSize="small" />}
-              onClick={handleDownloadInterface}
-            >
-              {eserviceTemplate.interface.prettyName}
-            </IconLink>
-          ) : (
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <WarningAmberIcon color="warning" fontSize="small" />
-              <Typography fontWeight={600}>{tSummary('missingField')}</Typography>
-            </Stack>
-          )
+          eserviceTemplate.interface
+            ? renderDocumentLink(eserviceTemplate.interface)
+            : renderMissingField()
         }
       />
       <InformationContainer
         label={t('voucherLifespan.label')}
         content={
-          !eserviceTemplate.voucherLifespan ? (
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <WarningAmberIcon color="warning" fontSize="small" />
-              <Typography fontWeight={600}>{tSummary('missingField')}</Typography>
-            </Stack>
-          ) : (
-            `${voucherLifespan} ${tCommon('time.minute', {
-              count: voucherLifespan,
-            })}`
-          )
+          !eserviceTemplate.voucherLifespan
+            ? renderMissingField()
+            : `${voucherLifespan} ${tCommon('time.minute', {
+                count: voucherLifespan,
+              })}`
         }
       />
+      {eserviceTemplate.eserviceTemplate.asyncExchange && (
+        <>
+          <InformationContainer
+            label={t('callbackInterface.label')}
+            content={
+              eserviceTemplate.asyncExchangeCallbackInterface
+                ? renderDocumentLink(eserviceTemplate.asyncExchangeCallbackInterface)
+                : renderMissingField()
+            }
+          />
+          <InformationContainer
+            label={t('asyncExchange.responseTime.label')}
+            content={
+              asyncExchangeProperties
+                ? `${asyncExchangeProperties.responseTime} ${tCommon('time.second', {
+                    count: asyncExchangeProperties.responseTime,
+                  })}`
+                : renderMissingField()
+            }
+          />
+          <InformationContainer
+            label={t('asyncExchange.resourceAvailableTime.label')}
+            content={
+              asyncExchangeProperties
+                ? `${asyncExchangeProperties.resourceAvailableTime} ${tCommon('time.second', {
+                    count: asyncExchangeProperties.resourceAvailableTime,
+                  })}`
+                : renderMissingField()
+            }
+          />
+          <InformationContainer
+            label={t('asyncExchange.maxResultSet.label')}
+            content={
+              asyncExchangeProperties
+                ? String(asyncExchangeProperties.maxResultSet)
+                : renderMissingField()
+            }
+          />
+          <InformationContainer
+            label={t('asyncExchange.confirmation.label')}
+            content={
+              asyncExchangeProperties
+                ? t(`asyncExchange.booleanValue.${asyncExchangeProperties.confirmation}`)
+                : renderMissingField()
+            }
+          />
+          <InformationContainer
+            label={t('asyncExchange.bulk.label')}
+            content={
+              asyncExchangeProperties
+                ? t(`asyncExchange.booleanValue.${asyncExchangeProperties.bulk}`)
+                : renderMissingField()
+            }
+          />
+        </>
+      )}
     </Stack>
   )
 }

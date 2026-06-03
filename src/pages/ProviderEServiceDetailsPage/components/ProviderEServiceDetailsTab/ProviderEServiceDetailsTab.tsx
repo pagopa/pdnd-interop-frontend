@@ -25,7 +25,13 @@ import {
   ProviderEServiceSignalHubSection,
 } from './ProviderEServiceSignalHubSection'
 
-export const ProviderEserviceDetailsTab: React.FC = () => {
+type ProviderEserviceDetailsTabProps = {
+  onViewKeychains?: VoidFunction
+}
+
+export const ProviderEserviceDetailsTab: React.FC<ProviderEserviceDetailsTabProps> = ({
+  onViewKeychains,
+}) => {
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
 
   const { data: descriptor } = useQuery(
@@ -34,7 +40,7 @@ export const ProviderEserviceDetailsTab: React.FC = () => {
 
   return (
     <>
-      <ProviderEServiceDetailsAlerts descriptor={descriptor} />
+      <ProviderEServiceDetailsAlerts descriptor={descriptor} onViewKeychains={onViewKeychains} />
       <Grid container>
         <Grid item xs={8}>
           <React.Suspense fallback={<ProviderEServiceGeneralInfoSectionSkeleton />}>

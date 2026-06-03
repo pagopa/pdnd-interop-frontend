@@ -385,6 +385,11 @@
         "description": {
           "default": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione",
           "isDelegated": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione e verrà inoltrata una notifica all’ente delegante per conoscenza."
+        },
+        "asyncExchange": {
+          "title": "Prima di richiedere la fruizione",
+          "description": "Questo e-service usa uno scambio dati asincrono, diverso dagli scambi sincroni standard. Per funzionare correttamente, è necessario implementare un’interfaccia di callback fornita dall’erogatore. Per tutte le informazioni, <1>consulta la guida</1>.",
+          "checkbox": "Sono consapevole che è necessaria un’integrazione tecnica"
         }
       }
     },

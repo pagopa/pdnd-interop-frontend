@@ -1,5 +1,6 @@
 import {
   calculateArchivableOn,
+  getAsyncExchangePropertiesWithDefaults,
   getDownloadDocumentName,
   getLastDescriptor,
   getViewLatestVersionTargetId,
@@ -140,5 +141,22 @@ describe('calculateArchivableOn utility function testing', () => {
     const result = calculateArchivableOn(now, 30)
 
     expect(result.toISOString()).toEqual('2026-07-16T00:00:00.000Z')
+  })
+})
+
+describe('getAsyncExchangePropertiesWithDefaults utility function testing', () => {
+  it('should fill missing async exchange properties with defaults', () => {
+    const result = getAsyncExchangePropertiesWithDefaults({
+      responseTime: 120,
+      bulk: false,
+    })
+
+    expect(result).toEqual({
+      responseTime: 120,
+      resourceAvailableTime: 60,
+      maxResultSet: 1,
+      confirmation: false,
+      bulk: false,
+    })
   })
 })

@@ -16,6 +16,10 @@ export type DialogContent = {
   description?: string
 }
 
+export type DialogDescriptionLink = {
+  href: string
+}
+
 export type DialogDefaultProps = {
   maxWidth?: MUIDialogProps['maxWidth']
 }
@@ -43,6 +47,8 @@ export type DialogProps =
   | DialogTenantKindPurposeTemplateProps
   | DialogSelectAgreementConsumerProps
   | DialogShowEserviceVersionsListProps
+  | DialogArchiveEserviceProps
+  | DialogCancelEserviceArchivingProps
   | DialogSuspendArchivingEserviceProps
   | DialogReactivateArchivingEserviceProps
   | DialogArchiveVersionProps
@@ -61,6 +67,7 @@ export type DialogBasicProps = DialogDefaultProps & {
   type: 'basic'
   title: string
   description?: string
+  descriptionLink?: DialogDescriptionLink
   proceedLabel?: string
   onProceed: VoidFunction
   onCancel?: VoidFunction
@@ -194,6 +201,16 @@ export type DialogShowEserviceVersionsListProps = {
   descriptors: CompactDescriptor[]
   activeDescriptor?: CompactDescriptor
   routeKey: Extract<RouteKey, 'SUBSCRIBE_CATALOG_VIEW' | 'PROVIDE_ESERVICE_MANAGE'>
+}
+
+export type DialogArchiveEserviceProps = {
+  type: 'archiveEservice'
+  eserviceId: string
+}
+
+export type DialogCancelEserviceArchivingProps = {
+  type: 'cancelEserviceArchiving'
+  eserviceId: string
 }
 
 export type DialogSuspendArchivingEserviceProps = {

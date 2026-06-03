@@ -170,7 +170,9 @@
   },
   "time": {
     "minute_one": "minuto",
-    "minute_other": "minuti"
+    "minute_other": "minuti",
+    "second_one": "secondo",
+    "second_other": "secondi"
   },
   "tos": {
     "title": "Termini di servizio"
