@@ -367,15 +367,15 @@
         },
         "responseTimeField": {
           "label": "Maximum response time (in seconds)",
-          "infoLabel": "Indicates how long your e-service takes to return a response after a call from consumers."
+          "infoLabel": "Indicates how long your e-service takes to return a response after a call from consumers. Accepted values: from 1 to 999,999 seconds."
         },
         "maxResultSetField": {
           "label": "Maximum number of results per response",
-          "infoLabel": "Indicates the maximum number of elements that each response can contain."
+          "infoLabel": "Indicates the maximum number of elements that each response can contain. Accepted values: from 1 to 99,999."
         },
         "resourceAvailableTimeField": {
           "label": "Data availability duration (in seconds)",
-          "infoLabel": "Indicates how long the data is downloadable before being deleted."
+          "infoLabel": "Indicates how long the data is downloadable before being deleted. Accepted values: from 1 to 999,999 seconds."
         },
         "confirmationField": {
           "label": "Require receipt confirmation",

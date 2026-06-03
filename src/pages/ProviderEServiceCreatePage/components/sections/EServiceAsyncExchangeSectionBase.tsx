@@ -22,16 +22,22 @@ const asyncExchangeNumericFields = [
   {
     name: 'asyncExchangeProperties.responseTime',
     translationKey: 'responseTimeField',
+    min: 1,
+    max: 999999,
     sx: { flex: 1, my: 0 },
   },
   {
     name: 'asyncExchangeProperties.maxResultSet',
     translationKey: 'maxResultSetField',
+    min: 1,
+    max: 99999,
     sx: { flex: 1, my: 0 },
   },
   {
     name: 'asyncExchangeProperties.resourceAvailableTime',
     translationKey: 'resourceAvailableTimeField',
+    min: 1,
+    max: 999999,
     sx: { my: 0 },
   },
 ] satisfies Array<{
@@ -40,6 +46,8 @@ const asyncExchangeNumericFields = [
     'responseTime' | 'maxResultSet' | 'resourceAvailableTime'
   >}`
   translationKey: 'responseTimeField' | 'maxResultSetField' | 'resourceAvailableTimeField'
+  min: number
+  max: number
   sx: { flex?: number; my: number }
 }>
 
@@ -139,7 +147,7 @@ export const EServiceAsyncExchangeSectionBase: React.FC<EServiceAsyncExchangeSec
         {t('configSubsection.title')}
       </Typography>
       <Grid container spacing={2} sx={{ mt: 1 }}>
-        {asyncExchangeNumericFields.map(({ name, translationKey, sx }) => (
+        {asyncExchangeNumericFields.map(({ name, translationKey, min, max, sx }) => (
           <Grid item xs={12} sm={6} key={name}>
             <RHFTextField
               size="small"
@@ -147,11 +155,12 @@ export const EServiceAsyncExchangeSectionBase: React.FC<EServiceAsyncExchangeSec
               label={t(`${translationKey}.label`)}
               infoLabel={t(`${translationKey}.infoLabel`)}
               type="number"
-              inputProps={{ min: 1 }}
+              inputProps={{ min, max }}
               required
               rules={{
                 required: true,
-                min: 1,
+                min,
+                max,
                 validate: (value) => Number.isInteger(Number(value)) || t('validation.integer'),
               }}
               sx={sx}
