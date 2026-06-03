@@ -130,7 +130,6 @@ describe('EServiceCreateStepTechSpec', () => {
       withRouterContext: true,
     })
 
-    screen.debug()
     expect(screen.getByText('EServiceInterfaceSection')).toBeInTheDocument()
     expect(screen.getByText('EServiceVoucherSection')).toBeInTheDocument()
   })
