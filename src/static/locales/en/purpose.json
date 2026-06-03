@@ -510,6 +510,9 @@
     },
     "noData": {
       "label": "You have no risk analysis to evaluate"
+    },
+    "noResults": {
+      "label": "The current search returned no results."
     }
   },
   "publishThankYou": {

@@ -510,6 +510,9 @@
     },
     "noData": {
       "label": "Non hai nessuna analisi del rischio da valutare"
+    },
+    "noResults": {
+      "label": "La ricerca corrente non ha prodotto risultati."
     }
   },
   "publishThankYou": {

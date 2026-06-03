@@ -61,19 +61,14 @@ const RiskAnalysisListPage: React.FC = () => {
     placeholderData: keepPreviousData,
   })
 
+  const hasActiveFilters =
+    (queryParams.eservicesIds?.length ?? 0) > 0 || Boolean(queryParams.signingState)
+
+  const isInitialEmptyState = (data?.results.length ?? 0) === 0 && !hasActiveFilters
+
   return (
     <PageContainer title={t('title')} description={t('description')}>
-      {data?.results.length !== 0 ? (
-        <>
-          <Filters {...filtersHandlers} />
-          <RiskAnalysisTableWrapper params={queryParams} />
-          <Pagination
-            {...paginationProps}
-            rowPerPageOptions={rowPerPageOptions}
-            totalPages={getTotalPageCount(data?.pagination.totalCount)}
-          />
-        </>
-      ) : (
+      {isInitialEmptyState ? (
         <Box
           sx={{
             backgroundColor: 'grey.200',
@@ -95,6 +90,16 @@ const RiskAnalysisListPage: React.FC = () => {
             </Typography>
           </Box>
         </Box>
+      ) : (
+        <>
+          <Filters {...filtersHandlers} />
+          <RiskAnalysisTableWrapper params={queryParams} />
+          <Pagination
+            {...paginationProps}
+            rowPerPageOptions={rowPerPageOptions}
+            totalPages={getTotalPageCount(data?.pagination.totalCount)}
+          />
+        </>
       )}
     </PageContainer>
   )
