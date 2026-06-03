@@ -492,6 +492,20 @@
       }
     }
   },
+  "riskAnalysisSummary": {
+    "backToListBtn": "Back to risk analysis",
+    "title": "Summary",
+    "modifyBtn": "Edit draft",
+    "approveBtn": "Approve risk analysis",
+    "generalInformationSection": {
+      "title": "General information"
+    },
+    "riskAnalysisSection": {
+      "title": "Risk analysis"
+    },
+    "publishBtnDisabled": "Your declaration on personal data processing in the risk analysis prevents publication",
+    "infoAlert": "Once you approve the risk analysis, the administrator will be able to publish the purpose."
+  },
   "publishThankYou": {
     "loading": "Publishing in progress",
     "active": {

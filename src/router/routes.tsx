@@ -70,6 +70,7 @@ import ConsumerPurposeTemplateCatalogDetailsPage from '@/pages/ConsumerPurposeTe
 import { ConsumerPurposeTemplateSummaryPage } from '@/pages/ConsumerPurposeTemplateSummaryPage'
 import { ConsumerPurposeTemplateEditPage } from '@/pages/ConsumerPurposeTemplateEditPage'
 import { ConsumerSimulateGetVoucherPage } from '@/pages/ConsumerSimulateGetVoucherPage'
+import RiskAnalysisSummaryPage from '@/pages/RiskAnalysisSummaryPage/RiskAnalysisSummary.page'
 
 import { z } from 'zod'
 
@@ -707,6 +708,44 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     public: false,
     hideSideNav: true,
     authLevels: ['admin', 'api', 'support'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_LIST',
+    path: '/analisi-del-rischio',
+    element: (
+      <></>
+    ) /* @TODO: Must be merged with https://github.com/pagopa/pdnd-interop-frontend/pull/1949 */,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['admin'] /* @TODO: change this when role will be available */,
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE',
+    path: '/analisi-del-rischio/:purposeId',
+    element: (
+      <></>
+    ) /* @TODO: Must be merged with https://github.com/pagopa/pdnd-interop-frontend/pull/1950 */,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'] /* @TODO: change this when role will be available */,
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_COMPILE',
+    path: '/analisi-del-rischio/:purposeId/compilazione',
+    element: (
+      <></>
+    ) /* @TODO: Must be merged with https://github.com/pagopa/pdnd-interop-frontend/pull/1955 */,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'] /* @TODO: change this when role will be available */,
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_SUMMARY',
+    path: '/analisi-del-rischio/:purposeId/riepilogo',
+    element: <RiskAnalysisSummaryPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'] /* @TODO: change this when role will be available */,
   })
   .build()
 
