@@ -1141,7 +1141,7 @@
       ]
     },
     "newVersionAsync": {
-      "title": "You have published a new version of the e-service",
+      "title": "You have published a new version of the async e-service",
       "subtitle": "What happens now:",
       "bulletPoints": [
         "the new version is available in the catalog;",
