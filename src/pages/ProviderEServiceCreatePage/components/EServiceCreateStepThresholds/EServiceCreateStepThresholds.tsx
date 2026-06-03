@@ -5,7 +5,11 @@ import { EServiceMutations } from '@/api/eservice'
 import { type SubmitHandler, useForm, FormProvider, useWatch } from 'react-hook-form'
 import React from 'react'
 import { match } from 'ts-pattern'
-import { type AttributeKey } from '@/types/attribute.types'
+import type {
+  FormDescriptorAttributes,
+  AttributeKey,
+  FormDescriptorAttribute,
+} from '@/types/attribute.types'
 import {
   type ProducerEServiceDescriptor,
   type DescriptorAttribute,
@@ -18,7 +22,11 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import SaveIcon from '@mui/icons-material/Save'
 import { CreateAttributeDrawer } from '@/components/shared/CreateAttributeDrawer'
 import { compareObjects } from '@/utils/common.utils'
-import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
+import {
+  remapDescriptorAttributesToDescriptorAttributesSeed,
+  remapDescriptorAttributesToFormDescriptorAttributes,
+  remapFormDescriptorAttributesToDescriptorAttributesSeed,
+} from '@/utils/attribute.utils'
 import {
   CustomizeThresholdDrawer,
   useCustomizeThresholdDrawer,
@@ -30,7 +38,7 @@ import { SectionContainerSkeleton } from '@/components/layout/containers'
 export type CreateStepThresholdsFormValues = {
   dailyCallsPerConsumer: number
   dailyCallsTotal: number
-  attributes: DescriptorAttributes
+  attributes: FormDescriptorAttributes
 }
 
 export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
@@ -49,7 +57,13 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
     defaultValues: {
       dailyCallsPerConsumer: descriptor?.dailyCallsPerConsumer ?? 1,
       dailyCallsTotal: descriptor?.dailyCallsTotal ?? 2,
-      attributes: descriptor?.attributes ?? { certified: [], verified: [], declared: [] },
+      attributes: descriptor?.attributes
+        ? remapDescriptorAttributesToFormDescriptorAttributes(descriptor?.attributes)
+        : {
+            certified: [],
+            verified: [],
+            declared: [],
+          },
     },
   })
 
@@ -120,7 +134,7 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
   const onSubmit: SubmitHandler<CreateStepThresholdsFormValues> = (values) => {
     if (!descriptor) return
 
-    const removeEmptyAttributeGroups = (attributes: Array<Array<DescriptorAttribute>>) => {
+    const removeEmptyAttributeGroups = (attributes: Array<Array<FormDescriptorAttribute>>) => {
       return attributes.filter((group) => group.length > 0)
     }
 
@@ -130,14 +144,17 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
       declared: removeEmptyAttributeGroups(values.attributes.declared),
     }
 
-    const newDescriptorData: ProducerEServiceDescriptor = {
-      ...descriptor,
+    const newDescriptorData = {
       dailyCallsPerConsumer: values.dailyCallsPerConsumer,
       dailyCallsTotal: values.dailyCallsTotal,
       attributes,
     }
 
-    const areDescriptorsEquals = compareObjects(newDescriptorData, descriptor)
+    const areDescriptorsEquals = compareObjects(newDescriptorData, {
+      dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
+      dailyCallsTotal: descriptor.dailyCallsTotal,
+      attributes: descriptor.attributes,
+    })
     if (areDescriptorsEquals) {
       forward()
       return
@@ -153,7 +170,8 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
             dailyCallsPerConsumer: values.dailyCallsPerConsumer,
             dailyCallsTotal: values.dailyCallsTotal,
             agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
-            attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes),
+            // attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes), TODO
+            attributes: remapFormDescriptorAttributesToDescriptorAttributesSeed(attributes),
           },
           { onSuccess: forward }
         )
@@ -169,7 +187,8 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
             dailyCallsTotal: values.dailyCallsTotal,
             agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
             description: descriptor.description,
-            attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes),
+            // attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes), TODO
+            attributes: remapFormDescriptorAttributesToDescriptorAttributesSeed(attributes),
           },
           { onSuccess: forward }
         )

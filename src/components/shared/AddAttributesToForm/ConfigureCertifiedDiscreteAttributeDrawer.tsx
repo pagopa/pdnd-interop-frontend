@@ -10,6 +10,7 @@ import { Stack } from '@mui/material'
 import { RHFAutocompleteSingle, RHFTextField } from '../react-hook-form-inputs'
 import isEmpty from 'lodash/isEmpty'
 import { useTranslation } from 'react-i18next'
+import type { FormDescriptorAttribute } from '@/types/attribute.types'
 
 type ConfigureCertifiedDiscreteAttributeDrawerProps = {
   onSubmit: (comparator: AttributeCertifiedDiscreteComparator, threshold: number) => void
@@ -18,9 +19,9 @@ type ConfigureCertifiedDiscreteAttributeDrawerProps = {
 
 type ConfigureCertifiedDiscreteAttributeDrawerStore = {
   isOpen: boolean
-  open: (attribute: DescriptorAttribute, groupIndex: number) => void
+  open: (attribute: DescriptorAttribute | FormDescriptorAttribute, groupIndex: number) => void
   close: VoidFunction
-  attribute?: DescriptorAttribute
+  attribute?: DescriptorAttribute | FormDescriptorAttribute
   groupIndex?: number
 }
 

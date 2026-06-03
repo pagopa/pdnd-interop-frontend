@@ -1,5 +1,9 @@
 import { match } from 'ts-pattern'
-import type { AttributeKey } from './../types/attribute.types'
+import type {
+  AttributeKey,
+  FormDescriptorAttribute,
+  FormDescriptorAttributes,
+} from './../types/attribute.types'
 import type {
   CertifiedDiscreteTenantAttribute,
   CertifiedTenantAttribute,
@@ -271,6 +275,55 @@ export function hasAllDescriptorAttributes(
   }
 
   return descriptorAttributes.every(isGroupFullfilled)
+}
+
+/**
+ * This should be temporary, it is here because from the BFF we get the attributes in a different
+ * format than the one we need to send to the API.
+ * @param descriptorAttributes - The attributes to remap.
+ * @returns The remapped attributes.
+ */
+// TODO
+export const remapFormDescriptorAttributesToDescriptorAttributesSeed = (
+  formDescriptorAttributes: FormDescriptorAttributes
+): DescriptorAttributesSeed => {
+  const remapAttribute = (attr: FormDescriptorAttribute[][]): DescriptorAttributeSeed[][] => {
+    return attr.map((attrGroup) => {
+      return attrGroup.map((a) => ({
+        id: a.id,
+        explicitAttributeVerification: true,
+        dailyCallsPerConsumer: a?.dailyCallsPerConsumer,
+      }))
+    })
+  }
+
+  return {
+    certified: remapAttribute(formDescriptorAttributes.certified),
+    verified: remapAttribute(formDescriptorAttributes.verified),
+    declared: remapAttribute(formDescriptorAttributes.declared),
+  }
+}
+
+export const remapDescriptorAttributesToFormDescriptorAttributes = (
+  descriptorAttributes: DescriptorAttributes
+): FormDescriptorAttributes => {
+  const remapAttribute = (attr: DescriptorAttribute[][]): FormDescriptorAttribute[][] => {
+    return attr.map((attrGroup) => {
+      return attrGroup.map((a) => ({
+        id: a.id,
+        name: a.name,
+        kind: a.kind,
+        dailyCallsPerConsumer: a?.dailyCallsPerConsumer,
+        discreteConfig: a?.discreteConfig,
+      }))
+    })
+  }
+
+  return {
+    certified: remapAttribute(descriptorAttributes.certified),
+    verified: remapAttribute(descriptorAttributes.verified),
+    declared: remapAttribute(descriptorAttributes.declared),
+  }
 }
 
 /**

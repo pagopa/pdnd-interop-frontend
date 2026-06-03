@@ -1,6 +1,10 @@
 import React from 'react'
 import { AttributeContainer, AttributeGroupContainer } from '@/components/layout/containers'
-import type { AttributeKey } from '@/types/attribute.types'
+import type {
+  AttributeKey,
+  FormDescriptorAttribute,
+  FormDescriptorAttributes,
+} from '@/types/attribute.types'
 import { Box, Divider, Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import AddIcon from '@mui/icons-material/Add'
@@ -8,8 +12,8 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import { AttributeAutocomplete } from '../AttributeAutocomplete'
 import type {
   AttributeCertifiedDiscreteComparator,
-  DescriptorAttribute,
-  DescriptorAttributes,
+  AttributeKind,
+  CompactAttribute,
   EServiceAttributeCertifiedDiscreteConfig,
 } from '@/api/api.generatedTypes'
 import { useFormContext } from 'react-hook-form'
@@ -21,7 +25,7 @@ import {
 } from './ConfigureCertifiedDiscreteAttributeDrawer'
 
 export type AttributeGroupProps = {
-  group: Array<DescriptorAttribute>
+  group: Array<FormDescriptorAttribute>
   groupIndex: number
   attributeKey: AttributeKey
   readOnly: boolean
@@ -63,12 +67,13 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
     }
   }
 
-  const { watch, setValue, getValues } = useFormContext<{ attributes: DescriptorAttributes }>()
+  const { watch, setValue, getValues } = useFormContext<{ attributes: FormDescriptorAttributes }>()
   const attributeGroups = watch(`attributes.${attributeKey}`)
 
-  const handleAddAttributeToGroup = (attribute: DescriptorAttribute) => {
+  const handleAddAttributeToGroup = (attribute: { kind: AttributeKind } & CompactAttribute) => {
+    //TODO
     const newAttributeGroups = [...attributeGroups]
-    newAttributeGroups[groupIndex].push(attribute)
+    newAttributeGroups[groupIndex].push(attribute as FormDescriptorAttribute)
     setValue(`attributes.${attributeKey}`, newAttributeGroups)
     setIsAttributeAutocompleteVisible(false)
   }

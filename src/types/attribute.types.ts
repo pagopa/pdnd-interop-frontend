@@ -1,4 +1,8 @@
-import type { DescriptorAttributes } from '@/api/api.generatedTypes'
+import type {
+  AttributeKind,
+  DescriptorAttributes,
+  EServiceAttributeCertifiedDiscreteConfig,
+} from '@/api/api.generatedTypes'
 
 // export type AttributeKey = Lowercase<AttributeKind>
 // the AttributeKey type is defined as the keys of DescriptorAttributes
@@ -7,3 +11,17 @@ import type { DescriptorAttributes } from '@/api/api.generatedTypes'
 // "CERTIFIED_DISCRETE" is a sub-kind of "CERTIFIED" and it is under the same key of "certified" in DescriptorAttributes,
 // so we can't use the Lowercase<AttributeKind> approach to define the AttributeKey type
 export type AttributeKey = keyof DescriptorAttributes
+
+export type FormDescriptorAttribute = {
+  id: string
+  name: string
+  kind: AttributeKind
+  dailyCallsPerConsumer?: number
+  discreteConfig?: EServiceAttributeCertifiedDiscreteConfig
+}
+
+export type FormDescriptorAttributes = {
+  certified: FormDescriptorAttribute[][]
+  declared: FormDescriptorAttribute[][]
+  verified: FormDescriptorAttribute[][]
+}
