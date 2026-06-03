@@ -1,9 +1,5 @@
-import { EServiceQueries } from '@/api/eservice'
-import { useTrackPageViewEvent } from '@/config/tracking'
 import { Grid } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
 import React from 'react'
-import { useParams } from '@/router'
 import {
   ConsumerEServiceDescriptorAttributesSkeleton,
   ConsumerEServiceDescriptorAttributes,
@@ -22,17 +18,6 @@ import {
 } from './ConsumerEServiceSignalHubSection'
 
 const ConsumerEServiceDetailsTab: React.FC = () => {
-  const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
-
-  const { data: descriptor } = useQuery(
-    EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
-  )
-
-  useTrackPageViewEvent('INTEROP_CATALOG_READ', {
-    eserviceId: descriptor?.eservice.id,
-    descriptorId: descriptor?.id,
-  })
-
   return (
     <Grid container>
       <Grid item xs={8}>
