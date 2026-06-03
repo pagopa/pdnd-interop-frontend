@@ -208,6 +208,12 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
             label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
             content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
           />
+          <InformationContainer
+            label={t('exchangeType.label')}
+            content={t(
+              `exchangeType.value.${descriptor.eservice.asyncExchange ? 'async' : 'sync'}`
+            )}
+          />
           {(isAdmin || isOperatorAPI) && !arePersonalDataSet && !isEserviceFromTemplate && (
             <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
               <Stack spacing={25} direction="row" alignItems="center">

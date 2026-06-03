@@ -11,6 +11,7 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { interfaceVerificationGuideLink, manageEServiceGuideLink } from '@/config/constants'
 import { formatDateString, secondsToMinutes } from '@/utils/format.utils'
+import { ConsumerEServiceAsyncExchangeCallbackInterfaceInfo } from './ConsumerEServiceAsyncExchangeCallbackInterfaceInfo'
 
 type ConsumerEServiceTechnicalInfoDrawerProps = {
   isOpen: boolean
@@ -90,6 +91,21 @@ export const ConsumerEServiceTechnicalInfoDrawer: React.FC<
           content={t(`mode.value.${descriptor.eservice.mode}`)}
           direction="column"
         />
+        {descriptor.eservice.asyncExchange && (
+          <>
+            <InformationContainer
+              label={t('asyncExchange.label')}
+              content={t(`asyncExchange.value.${descriptor.eservice.asyncExchange}`)}
+              direction="column"
+            />
+            <ConsumerEServiceAsyncExchangeCallbackInterfaceInfo
+              callbackInterface={descriptor.asyncExchangeCallbackInterface}
+              callbackInterfaceLabel={t('asyncExchangeCallbackInterface')}
+              callbackInterfaceChecksumLabel={t('asyncExchangeCallbackInterfaceChecksum')}
+              onDownloadDocument={handleDownloadDocument}
+            />
+          </>
+        )}
         {isSignalHubFlagEnabled && (
           <InformationContainer
             label={t('isSignalHubEnabled.label')}

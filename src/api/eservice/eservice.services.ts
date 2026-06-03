@@ -217,6 +217,22 @@ function cancelDescriptorArchiving({
   )
 }
 
+function scheduleArchiveEservice({
+  eserviceId,
+  archivingReason,
+}: {
+  eserviceId: string
+  archivingReason: string
+}) {
+  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/scheduleArchive`, {
+    archivingReason,
+  })
+}
+
+function cancelEserviceArchiving({ eserviceId }: { eserviceId: string }) {
+  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/scheduleArchive`)
+}
+
 function deleteVersionDraft({
   eserviceId,
   descriptorId,
@@ -672,6 +688,8 @@ export const EServiceServices = {
   reactivateVersion,
   scheduleArchiveDescriptor,
   cancelDescriptorArchiving,
+  scheduleArchiveEservice,
+  cancelEserviceArchiving,
   deleteVersionDraft,
   addEServiceRiskAnalysis,
   getEServiceRiskAnalysis,

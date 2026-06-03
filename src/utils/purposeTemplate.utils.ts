@@ -16,16 +16,13 @@ export function mergeLinkableCandidates(
   eservices: CatalogEService[],
   templates: CatalogEServiceTemplate[]
 ): LinkableCandidate[] {
-  const activeTemplateVersionIds = new Set(templates.map((t) => t.publishedVersion.id))
-
-  const filteredEServices = eservices.filter((e) => {
-    const tplVersionId = e.activeDescriptor?.templateVersionId
-    return tplVersionId === undefined || !activeTemplateVersionIds.has(tplVersionId)
-  })
+  const standaloneEServices = eservices.filter(
+    (e) => e.activeDescriptor?.templateVersionId === undefined
+  )
 
   const candidates: LinkableCandidate[] = [
     ...templates.map((t) => ({ resourceKind: 'ESERVICE_TEMPLATE' as const, value: t })),
-    ...filteredEServices.map((e) => ({ resourceKind: 'ESERVICE' as const, value: e })),
+    ...standaloneEServices.map((e) => ({ resourceKind: 'ESERVICE' as const, value: e })),
   ]
 
   return candidates.sort((a, b) =>

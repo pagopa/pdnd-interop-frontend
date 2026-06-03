@@ -39,7 +39,9 @@ function useGetEServiceConsumerActions(
 
   const { openDialog } = useDialog()
 
-  const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
+  const isAsyncExchange = descriptor?.eservice.asyncExchange === true
+
+  const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft(true, isAsyncExchange)
   const { mutate: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
 
   const emptyResult = {
