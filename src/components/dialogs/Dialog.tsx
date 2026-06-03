@@ -29,6 +29,8 @@ import type {
   DialogShowEserviceVersionsListProps,
   DialogArchiveEserviceProps,
   DialogCancelEserviceArchivingProps,
+  DialogSuspendArchivingEserviceProps,
+  DialogReactivateArchivingEserviceProps,
   DialogArchiveVersionProps,
   DialogCancelVersionArchivingProps,
 } from '@/types/dialog.types'
@@ -55,6 +57,8 @@ import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/D
 import { DialogShowEserviceVersionsList } from './DialogShowEserviceVersionsList/DialogShowEserviceVersionsList'
 import DialogArchiveEservice from './DialogArchiveEservice'
 import DialogCancelEserviceArchiving from './DialogCancelEserviceArchiving'
+import { DialogSuspendArchivingEservice } from './DialogSuspendArchivingEservice'
+import { DialogReactivateArchivingEservice } from './DialogReactivateArchivingEservice'
 import { DialogArchiveVersion } from './DialogArchiveVersion'
 import { DialogCancelVersionArchiving } from './DialogCancelVersionArchiving'
 
@@ -83,6 +87,8 @@ function match<T>(
   onShowEserviceVersionsList: (props: DialogShowEserviceVersionsListProps) => T,
   onArchiveEservice: (props: DialogArchiveEserviceProps) => T,
   onCancelEserviceArchiving: (props: DialogCancelEserviceArchivingProps) => T,
+  onSuspendArchivingEservice: (props: DialogSuspendArchivingEserviceProps) => T,
+  onReactivateArchivingEservice: (props: DialogReactivateArchivingEserviceProps) => T,
   onArchiveVersion: (props: DialogArchiveVersionProps) => T,
   onCancelVersionArchiving: (props: DialogCancelVersionArchivingProps) => T
 ) {
@@ -136,6 +142,10 @@ function match<T>(
         return onArchiveEservice(props)
       case 'cancelEserviceArchiving':
         return onCancelEserviceArchiving(props)
+      case 'suspendArchivingEservice':
+        return onSuspendArchivingEservice(props)
+      case 'reactivateArchivingEservice':
+        return onReactivateArchivingEservice(props)
       case 'archiveVersion':
         return onArchiveVersion(props)
       case 'cancelVersionArchiving':
@@ -169,6 +179,8 @@ const _Dialog = match(
   (props) => <DialogShowEserviceVersionsList {...props} />,
   (props) => <DialogArchiveEservice {...props} />,
   (props) => <DialogCancelEserviceArchiving {...props} />,
+  (props) => <DialogSuspendArchivingEservice {...props} />,
+  (props) => <DialogReactivateArchivingEservice {...props} />,
   (props) => <DialogArchiveVersion {...props} />,
   (props) => <DialogCancelVersionArchiving {...props} />
 )

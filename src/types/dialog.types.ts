@@ -49,6 +49,8 @@ export type DialogProps =
   | DialogShowEserviceVersionsListProps
   | DialogArchiveEserviceProps
   | DialogCancelEserviceArchivingProps
+  | DialogSuspendArchivingEserviceProps
+  | DialogReactivateArchivingEserviceProps
   | DialogArchiveVersionProps
   | DialogCancelVersionArchivingProps
 
@@ -209,6 +211,18 @@ export type DialogArchiveEserviceProps = {
 export type DialogCancelEserviceArchivingProps = {
   type: 'cancelEserviceArchiving'
   eserviceId: string
+}
+
+export type DialogSuspendArchivingEserviceProps = {
+  type: 'suspendArchivingEservice'
+  eserviceId: string
+  descriptorId: string
+}
+
+export type DialogReactivateArchivingEserviceProps = {
+  type: 'reactivateArchivingEservice'
+  eserviceId: string
+  descriptorId: string
 }
 
 export type DialogArchiveVersionProps = {
