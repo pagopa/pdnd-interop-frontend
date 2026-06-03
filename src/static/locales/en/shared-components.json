@@ -271,6 +271,14 @@
       }
     }
   },
+  "dialogApproveRiskAnalysis": {
+    "title": "Approve risk analysis",
+    "description": "If confirmed, the risk analysis will no longer be editable and the administrator will be able to publish the purpose.",
+    "actions": {
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"

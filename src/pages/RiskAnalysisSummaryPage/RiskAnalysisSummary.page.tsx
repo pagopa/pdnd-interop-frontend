@@ -15,12 +15,15 @@ import { PurposeQueries } from '@/api/purpose'
 import { useGetConsumerPurposeAlertProps } from '../ConsumerPurposeSummaryPage/hooks/useGetConsumerPurposeAlertProps'
 import { checkIsRulesetExpired } from '@/utils/purpose.utils'
 import { useTranslation } from 'react-i18next'
+import { useDialog } from '@/stores'
 
 const RiskAnalysisSummaryPage: React.FC = () => {
   const { t } = useTranslation('purpose')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { purposeId } = useParams<'SUBSCRIBE_RISK_ANALYSIS_SUMMARY'>()
+
+  const { openDialog } = useDialog()
 
   const navigate = useNavigate()
 
@@ -66,7 +69,10 @@ const RiskAnalysisSummaryPage: React.FC = () => {
 
   const handleApproveDraft = () => {
     if (!purpose?.currentVersion) return
-    /* @TODO: logic will be added with https://pagopa.atlassian.net/browse/PIN-10193 */
+    openDialog({
+      type: 'approveRiskAnalysis',
+      purposeId,
+    })
   }
 
   return (

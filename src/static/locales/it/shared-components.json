@@ -271,6 +271,14 @@
       }
     }
   },
+  "dialogApproveRiskAnalysis": {
+    "title": "Approva analisi del rischio",
+    "description": "Se confermi, l’analisi del rischio non sarà più modificabile e l’amministratore potrà pubblicare la finalità.",
+    "actions": {
+      "confirm": "Conferma",
+      "cancel": "Annulla"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"

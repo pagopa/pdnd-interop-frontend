@@ -747,6 +747,16 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     hideSideNav: true,
     authLevels: ['admin'] /* @TODO: change this when role will be available */,
   })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL_SUCCESS',
+    path: '/analisi-del-rischio/:purposeId/conferma',
+    element: (
+      <></>
+    ) /* @TODO: this will be added with https://pagopa.atlassian.net/browse/PIN-10192 */,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'] /* @TODO: change this when role will be available */,
+  })
   .build()
 
 export type RouteKey = InferRouteKey<typeof routes>

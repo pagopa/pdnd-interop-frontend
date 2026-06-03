@@ -618,6 +618,12 @@
         "title": "Conferma rimozione client dalla finalità",
         "description": "Il client sarà rimosso da questa finalità. Tutte le chiavi caricate non potranno più essere usate per accedere all'e-service per questa finalità"
       }
+    },
+    "signRiskAnalysis": {
+      "loading": "Stiamo approvando l'analisi del rischio",
+      "outcome": {
+        "error": "Non è stato possibile approvare l'analisi del rischio. Per favore, riprova!"
+      }
     }
   },
   "client": {
