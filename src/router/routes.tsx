@@ -724,7 +724,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     path: '/analisi-del-rischio/:purposeId',
     element: (
       <></>
-    ) /* @TODO: Must be merged with https://github.com/pagopa/pdnd-interop-frontend/pull/1949 */,
+    ) /* @TODO: Must be merged with https://github.com/pagopa/pdnd-interop-frontend/pull/1950 */,
     public: false,
     hideSideNav: true,
     authLevels: ['admin'] /* @TODO: change this when role will be available */,
