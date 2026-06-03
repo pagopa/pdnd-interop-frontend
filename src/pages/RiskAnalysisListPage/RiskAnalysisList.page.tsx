@@ -8,7 +8,7 @@ import {
   useAutocompleteTextInput,
 } from '@pagopa/interop-fe-commons'
 import { useQuery, keepPreviousData } from '@tanstack/react-query'
-import type { GetRiskAnalysisAssignmentsParams } from '@/api/api.generatedTypes'
+import type { GetRiskAnalysisAssignmentsParams, Purpose } from '@/api/api.generatedTypes'
 import { RiskAnalysisTable, RiskAnalysisTableSkeleton } from './components/RiskAnalysisTable'
 import { PurposeQueries } from '@/api/purpose'
 import { EServiceQueries } from '@/api/eservice'
@@ -56,7 +56,7 @@ const RiskAnalysisListPage: React.FC = () => {
     usePagination()
   const queryParams = { ...paginationParams, ...filtersParams }
 
-  const { data } = useQuery({
+  const { data, isFetching } = useQuery({
     ...PurposeQueries.getRiskAnalysisAssignments(queryParams),
     placeholderData: keepPreviousData,
   })
@@ -93,11 +93,11 @@ const RiskAnalysisListPage: React.FC = () => {
       ) : (
         <>
           <Filters {...filtersHandlers} />
-          <RiskAnalysisTableWrapper params={queryParams} />
+          <RiskAnalysisTableWrapper purposes={data?.results ?? []} isFetching={isFetching} />
           <Pagination
             {...paginationProps}
             rowPerPageOptions={rowPerPageOptions}
-            totalPages={getTotalPageCount(data?.pagination.totalCount)}
+            totalPages={getTotalPageCount(data?.pagination.totalCount ?? 0)}
           />
         </>
       )}
@@ -105,14 +105,13 @@ const RiskAnalysisListPage: React.FC = () => {
   )
 }
 
-const RiskAnalysisTableWrapper: React.FC<{ params: GetRiskAnalysisAssignmentsParams }> = ({
-  params,
+const RiskAnalysisTableWrapper: React.FC<{ purposes: Purpose[]; isFetching: boolean }> = ({
+  purposes,
+  isFetching,
 }) => {
-  const { data, isFetching } = useQuery(PurposeQueries.getRiskAnalysisAssignments(params))
-  if (!data && isFetching) return <RiskAnalysisTableSkeleton />
-  return (
-    <RiskAnalysisTable purposes={data?.results ?? []} data-testid="risk-analysis-table-component" />
-  )
+  if (isFetching && !purposes.length) return <RiskAnalysisTableSkeleton />
+
+  return <RiskAnalysisTable purposes={purposes} />
 }
 
 export default RiskAnalysisListPage
