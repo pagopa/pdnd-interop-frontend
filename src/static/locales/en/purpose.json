@@ -179,6 +179,15 @@
           "personalData": "You will not be able to publish this purpose because you declared that personal data is processed, but the producer declared otherwise. For clarification, contact the producer.",
           "noPersonalData": "You will not be able to publish this purpose because you declared that personal data is not processed, but the producer declared otherwise. For clarification, contact the producer."
         }
+      },
+      "requestApprovalBtn": "Request approval",
+      "saveDraftBtn": "Save draft and continue",
+      "requestApprovalAlert": "To assign the risk analysis to the reviewer you need to answer all the questions.",
+      "requiredFieldErrorReviewer": "Fill in to continue",
+      "requestApprovalDialog": {
+        "title": "Request approval",
+        "description": "By confirming, you will assign the approval of the risk analysis to the reviewer and you will no longer be able to make changes.",
+        "proceedLabel": "Confirm"
       }
     },
     "purposeFromTemplate": {

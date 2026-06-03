@@ -25,6 +25,9 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
     return <RiskAnalysisFormSkeleton />
   }
 
+  const isReviewerApprovalMode =
+    purpose.reviewerWorkflow?.reviewMode === 'ADMIN_WRITES_REVIEWER_SIGNS'
+
   const goToSummary = () => {
     navigate('SUBSCRIBE_PURPOSE_SUMMARY', {
       params: {
@@ -55,6 +58,8 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
       onSubmit={handleSubmit}
       onCancel={back}
       personalData={purpose.eservice.personalData}
+      isReviewerApprovalMode={isReviewerApprovalMode}
+      onSaveDraft={isReviewerApprovalMode ? handleSubmit : undefined}
     />
   )
 }
