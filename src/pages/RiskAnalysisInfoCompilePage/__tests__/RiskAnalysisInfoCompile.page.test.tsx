@@ -87,6 +87,26 @@ describe('RiskAnalysisInfoCompilePage', () => {
     expect(screen.getByText(`${mockPurpose.currentVersion?.dailyCalls}`)).toBeInTheDocument()
   })
 
+  it('should handle missing currentVersion gracefully', () => {
+    const mockPurpose = {
+      ...createMockPurpose(),
+      currentVersion: undefined,
+    }
+
+    useQueryMock.mockReturnValue({
+      data: mockPurpose,
+      isLoading: false,
+    })
+
+    renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('loadEstimationSection.label')).toBeInTheDocument()
+    expect(screen.queryByText('undefined')).not.toBeInTheDocument()
+  })
+
   it('should render YES when purpose is free of charge', () => {
     const mockPurpose = {
       ...createMockPurpose(),
