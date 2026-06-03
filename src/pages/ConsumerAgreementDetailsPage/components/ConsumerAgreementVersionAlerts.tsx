@@ -2,7 +2,7 @@ import React from 'react'
 import type { CatalogEServiceDescriptor } from '@/api/api.generatedTypes'
 import { Alert, Button, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { getConsumerAgreementVersionAlertSpec } from '@/utils/eservice.utils'
+import { getConsumerAgreementVersionAlertSpec } from '@/utils/agreement.utils'
 import { ArchivingDetailsDrawer } from './ArchivingDetailsDrawer'
 
 type ConsumerAgreementVersionAlertsProps = {

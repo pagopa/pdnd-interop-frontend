@@ -2,7 +2,6 @@ import type { TFunction } from 'i18next'
 import {
   calculateArchivableOn,
   getAsyncExchangePropertiesWithDefaults,
-  getConsumerAgreementVersionAlertSpec,
   getDownloadDocumentName,
   getEServiceDescriptorAlertSpec,
   getLastDescriptor,
@@ -277,116 +276,6 @@ describe('getEServiceDescriptorAlertSpec utility function testing', () => {
       severity: 'info',
       content: 'archivingDescriptor:',
     })
-  })
-})
-
-describe('getConsumerAgreementVersionAlertSpec utility function testing', () => {
-  const t = ((key: string, opts?: { date?: string }) =>
-    opts && 'date' in opts ? `${key}:${opts.date}` : key) as unknown as TFunction<
-    'agreement',
-    'consumerRead.versionAlert'
-  >
-
-  const baseArgs = {
-    scope: undefined,
-    archivableOn: undefined,
-    archivedAt: undefined,
-    t,
-  } as const
-
-  it('returns empty array for states with no matching pattern (PUBLISHED)', () => {
-    expect(getConsumerAgreementVersionAlertSpec({ ...baseArgs, state: 'PUBLISHED' })).toEqual([])
-  })
-
-  it('returns single info alert for DEPRECATED', () => {
-    expect(getConsumerAgreementVersionAlertSpec({ ...baseArgs, state: 'DEPRECATED' })).toEqual([
-      { severity: 'info', content: 'deprecatedActive' },
-    ])
-  })
-
-  it('returns single warning alert with date for ARCHIVING + scope DESCRIPTOR (no see-details)', () => {
-    const result = getConsumerAgreementVersionAlertSpec({
-      ...baseArgs,
-      state: 'ARCHIVING',
-      scope: 'DESCRIPTOR',
-      archivableOn: '2026-12-01T00:00:00.000Z',
-    })
-    expect(result).toHaveLength(1)
-    expect(result[0]).toMatchObject({ severity: 'warning' })
-    expect(result[0].content).toMatch(/^archivingDescriptor:/)
-    expect(result[0].showSeeDetailsAction).toBeUndefined()
-  })
-
-  it('returns two alerts with see-details for ARCHIVING + scope ESERVICE', () => {
-    const result = getConsumerAgreementVersionAlertSpec({
-      ...baseArgs,
-      state: 'ARCHIVING',
-      scope: 'ESERVICE',
-      archivableOn: '2026-12-01T00:00:00.000Z',
-    })
-    expect(result).toHaveLength(2)
-    expect(result[0]).toMatchObject({ severity: 'warning', showSeeDetailsAction: true })
-    expect(result[0].content).toMatch(/^archivingEService:/)
-    expect(result[1]).toEqual({ severity: 'info', content: 'deprecatedActiveShort' })
-  })
-
-  it('returns single error alert for ARCHIVING_SUSPENDED + scope DESCRIPTOR', () => {
-    const result = getConsumerAgreementVersionAlertSpec({
-      ...baseArgs,
-      state: 'ARCHIVING_SUSPENDED',
-      scope: 'DESCRIPTOR',
-      archivableOn: '2026-12-01T00:00:00.000Z',
-    })
-    expect(result).toHaveLength(1)
-    expect(result[0]).toMatchObject({ severity: 'error' })
-    expect(result[0].content).toMatch(/^archivingSuspendedDescriptor:/)
-  })
-
-  it('returns error + warning with see-details for ARCHIVING_SUSPENDED + scope ESERVICE', () => {
-    const result = getConsumerAgreementVersionAlertSpec({
-      ...baseArgs,
-      state: 'ARCHIVING_SUSPENDED',
-      scope: 'ESERVICE',
-      archivableOn: '2026-12-01T00:00:00.000Z',
-    })
-    expect(result).toHaveLength(2)
-    expect(result[0]).toEqual({ severity: 'error', content: 'suspendedLastNoNewVersion' })
-    expect(result[1]).toMatchObject({ severity: 'warning', showSeeDetailsAction: true })
-    expect(result[1].content).toMatch(/^archivingEService:/)
-  })
-
-  it('returns single error alert for SUSPENDED', () => {
-    expect(getConsumerAgreementVersionAlertSpec({ ...baseArgs, state: 'SUSPENDED' })).toEqual([
-      { severity: 'error', content: 'suspendedLast' },
-    ])
-  })
-
-  it('returns archivedEService for ARCHIVED + scope ESERVICE', () => {
-    const result = getConsumerAgreementVersionAlertSpec({
-      ...baseArgs,
-      state: 'ARCHIVED',
-      scope: 'ESERVICE',
-      archivedAt: '2026-12-01T00:00:00.000Z',
-    })
-    expect(result).toHaveLength(1)
-    expect(result[0]).toMatchObject({ severity: 'error' })
-    expect(result[0].content).toMatch(/^archivedEService:/)
-  })
-
-  it('returns archivedDescriptor for ARCHIVED + scope DESCRIPTOR (default branch)', () => {
-    const result = getConsumerAgreementVersionAlertSpec({
-      ...baseArgs,
-      state: 'ARCHIVED',
-      scope: 'DESCRIPTOR',
-      archivedAt: '2026-12-01T00:00:00.000Z',
-    })
-    expect(result).toHaveLength(1)
-    expect(result[0]).toMatchObject({ severity: 'error' })
-    expect(result[0].content).toMatch(/^archivedDescriptor:/)
-  })
-
-  it('returns empty array for ARCHIVING without a scope (no matching branch)', () => {
-    expect(getConsumerAgreementVersionAlertSpec({ ...baseArgs, state: 'ARCHIVING' })).toEqual([])
   })
 })
 
