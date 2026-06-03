@@ -4,24 +4,7 @@ import { screen } from '@testing-library/react'
 import { ProviderEServiceDetailsAlerts } from '../ProviderEServiceDetailsAlerts'
 import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-
-const makeDescriptor = (
-  overrides: Partial<ProducerEServiceDescriptor> = {}
-): ProducerEServiceDescriptor =>
-  ({
-    id: 'descriptor-1',
-    state: 'PUBLISHED',
-    version: '1',
-    audience: ['aud'],
-    voucherLifespan: 60,
-    dailyCallsPerConsumer: 100,
-    dailyCallsTotal: 1000,
-    serverUrls: [],
-    docs: [],
-    eservice: {} as ProducerEServiceDescriptor['eservice'],
-    attributes: { certified: [], declared: [], verified: [] },
-    ...overrides,
-  }) as unknown as ProducerEServiceDescriptor
+import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
 
 const renderAlerts = (descriptor: ProducerEServiceDescriptor | undefined) =>
   renderWithApplicationContext(<ProviderEServiceDetailsAlerts descriptor={descriptor} />, {
@@ -35,12 +18,12 @@ describe('ProviderEServiceDetailsAlerts', () => {
   })
 
   it('renders nothing when the descriptor state has no matching alert spec (PUBLISHED)', () => {
-    const { container } = renderAlerts(makeDescriptor({ state: 'PUBLISHED' }))
+    const { container } = renderAlerts(createMockEServiceDescriptorProvider({ state: 'PUBLISHED' }))
     expect(container).toBeEmptyDOMElement()
   })
 
   it('renders an alert with error severity when state is SUSPENDED', () => {
-    renderAlerts(makeDescriptor({ state: 'SUSPENDED' }))
+    renderAlerts(createMockEServiceDescriptorProvider({ state: 'SUSPENDED' }))
     const alert = screen.getByRole('alert')
     expect(alert).toBeInTheDocument()
     expect(alert).toHaveClass(/MuiAlert-standardError/)
@@ -48,7 +31,7 @@ describe('ProviderEServiceDetailsAlerts', () => {
 
   it('renders an alert with info severity when state is ARCHIVED + scope ESERVICE', () => {
     renderAlerts(
-      makeDescriptor({
+      createMockEServiceDescriptorProvider({
         state: 'ARCHIVED',
         archivingSchedule: { scope: 'ESERVICE' },
         archivedAt: '2026-12-01T00:00:00.000Z',
@@ -61,7 +44,7 @@ describe('ProviderEServiceDetailsAlerts', () => {
 
   it('renders an alert with error severity when state is ARCHIVING_SUSPENDED + scope DESCRIPTOR', () => {
     renderAlerts(
-      makeDescriptor({
+      createMockEServiceDescriptorProvider({
         state: 'ARCHIVING_SUSPENDED',
         archivingSchedule: { scope: 'DESCRIPTOR', archivableOn: '2026-12-01T00:00:00.000Z' },
       })
