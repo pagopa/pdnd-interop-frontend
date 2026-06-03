@@ -232,6 +232,19 @@ function useAssignRiskAnalysisReviewer() {
   })
 }
 
+function useSubmitRiskAnalysis() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purpose.submitRiskAnalysis',
+  })
+  return useMutation({
+    mutationFn: PurposeServices.submitRiskAnalysis,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const PurposeMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -250,4 +263,5 @@ export const PurposeMutations = {
   useRemoveClient,
   useCreateDraftFromPurposeTemplate,
   useAssignRiskAnalysisReviewer,
+  useSubmitRiskAnalysis,
 }

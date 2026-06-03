@@ -624,6 +624,12 @@
       "outcome": {
         "error": "The reviewer could not be assigned. Please try again!"
       }
+    },
+    "submitRiskAnalysis": {
+      "loading": "Submitting the risk analysis to the reviewer",
+      "outcome": {
+        "error": "The risk analysis could not be submitted. Please try again!"
+      }
     }
   },
   "client": {

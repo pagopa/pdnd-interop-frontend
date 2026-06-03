@@ -11,6 +11,7 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
   const navigate = useNavigate()
 
   const { mutate: updatePurpose } = PurposeMutations.useUpdateDraft()
+  const { mutate: submitRiskAnalysis } = PurposeMutations.useSubmitRiskAnalysis()
   const { data: purpose } = useQuery(PurposeQueries.getSingle(purposeId))
 
   const { data: riskAnalysis } = useQuery({
@@ -36,7 +37,7 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
     })
   }
 
-  const handleSubmit = (answers: Record<string, string[]>) => {
+  const saveDraft = (answers: Record<string, string[]>, options?: { onSuccess?: () => void }) => {
     updatePurpose(
       {
         purposeId: purpose.id,
@@ -47,19 +48,40 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
         isFreeOfCharge: purpose.isFreeOfCharge,
         dailyCalls: purpose.currentVersion!.dailyCalls, // the current version is always present due to it being set in step 1
       },
-      { onSuccess: goToSummary }
+      options
     )
+  }
+
+  const handleSaveAndGoToSummary = (answers: Record<string, string[]>) => {
+    saveDraft(answers, { onSuccess: goToSummary })
+  }
+
+  const handleRequestApproval = (answers: Record<string, string[]>) => {
+    // "Richiedi approvazione" persists the latest answers and then submits
+    // the risk analysis to the reviewer; only after both succeed the user
+    // lands on the purpose summary.
+    saveDraft(answers, {
+      onSuccess: () => {
+        submitRiskAnalysis(
+          {
+            purposeId: purpose.id,
+            riskAnalysisForm: { version: riskAnalysis.version, answers },
+          },
+          { onSuccess: goToSummary }
+        )
+      },
+    })
   }
 
   return (
     <RiskAnalysisForm
       riskAnalysis={riskAnalysis}
       defaultAnswers={purpose.riskAnalysisForm?.answers}
-      onSubmit={handleSubmit}
+      onSubmit={isReviewerApprovalMode ? handleRequestApproval : handleSaveAndGoToSummary}
       onCancel={back}
       personalData={purpose.eservice.personalData}
       isReviewerApprovalMode={isReviewerApprovalMode}
-      onSaveDraft={isReviewerApprovalMode ? handleSubmit : undefined}
+      onSaveDraft={isReviewerApprovalMode ? handleSaveAndGoToSummary : undefined}
     />
   )
 }

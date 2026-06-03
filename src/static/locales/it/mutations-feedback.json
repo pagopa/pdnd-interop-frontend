@@ -624,6 +624,12 @@
       "outcome": {
         "error": "Non è stato possibile assegnare il valutatore. Per favore, riprova!"
       }
+    },
+    "submitRiskAnalysis": {
+      "loading": "Stiamo inviando l’analisi del rischio al valutatore",
+      "outcome": {
+        "error": "Non è stato possibile inviare l’analisi del rischio. Per favore, riprova!"
+      }
     }
   },
   "client": {
