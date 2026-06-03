@@ -40,7 +40,7 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
   if (!alert && !shouldShowMissingKeychainAlert && !shouldShowMissingKeychainKeysAlert) return null
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} sx={{ mb: 3 }}>
       {alert && <Alert severity={alert.severity}>{alert.content}</Alert>}
       {shouldShowMissingKeychainAlert && (
         <Alert severity="warning" action={viewKeychainsAction}>

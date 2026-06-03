@@ -16,6 +16,7 @@ import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { NewPageContainer } from '@/components/layout/containers/NewPageContainer'
 import { useDialog } from '@/stores'
 import { getViewLatestVersionTargetId } from '@/utils/eservice.utils'
+import { ConsumerEServiceDetailsAlerts } from './components/ConsumerEServiceDetailsTab/ConsumerEServiceDetailsAlerts'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -114,6 +115,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
           : undefined
       }
     >
+      <ConsumerEServiceDetailsAlerts descriptor={descriptor} />
       <TabContext value={activeTab}>
         <TabList
           onChange={updateActiveTab}

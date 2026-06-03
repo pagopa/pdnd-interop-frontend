@@ -34,7 +34,7 @@ export const ConsumerEServiceDetailsAlerts: React.FC<ConsumerEServiceDetailsAler
   if (!alert && !isMissingProducerKeychain && !isMissingProducerKeychainKeys) return null
 
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} sx={{ mb: 3 }}>
       {alert && <Alert severity={alert.severity}>{alert.content}</Alert>}
       {isMissingProducerKeychain && (
         <Alert severity="warning">{t('missingProducerKeychain')}</Alert>

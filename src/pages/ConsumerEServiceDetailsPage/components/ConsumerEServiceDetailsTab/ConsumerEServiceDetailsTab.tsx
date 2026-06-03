@@ -8,7 +8,6 @@ import {
   ConsumerEServiceDescriptorAttributesSkeleton,
   ConsumerEServiceDescriptorAttributes,
 } from './ConsumerEServiceDescriptorAttributes'
-import { ConsumerEServiceDetailsAlerts } from './ConsumerEServiceDetailsAlerts'
 import {
   ConsumerEServiceGeneralInfoSectionSkeleton,
   ConsumerEServiceGeneralInfoSection,
@@ -35,25 +34,22 @@ const ConsumerEServiceDetailsTab: React.FC = () => {
   })
 
   return (
-    <>
-      <ConsumerEServiceDetailsAlerts descriptor={descriptor} />
-      <Grid container>
-        <Grid item xs={8}>
-          <React.Suspense fallback={<ConsumerEServiceGeneralInfoSectionSkeleton />}>
-            <ConsumerEServiceGeneralInfoSection />
-          </React.Suspense>
-          <React.Suspense fallback={<ConsumerLinkedPurposeTemplatesSectionSkeleton />}>
-            <ConsumerLinkedPurposeTemplatesSection />
-          </React.Suspense>
-          <React.Suspense fallback={<ConsumerEServiceSignalHubSectionSkeleton />}>
-            <ConsumerEServiceSignalHubSection />
-          </React.Suspense>
-          <React.Suspense fallback={<ConsumerEServiceDescriptorAttributesSkeleton />}>
-            <ConsumerEServiceDescriptorAttributes />
-          </React.Suspense>
-        </Grid>
+    <Grid container>
+      <Grid item xs={8}>
+        <React.Suspense fallback={<ConsumerEServiceGeneralInfoSectionSkeleton />}>
+          <ConsumerEServiceGeneralInfoSection />
+        </React.Suspense>
+        <React.Suspense fallback={<ConsumerLinkedPurposeTemplatesSectionSkeleton />}>
+          <ConsumerLinkedPurposeTemplatesSection />
+        </React.Suspense>
+        <React.Suspense fallback={<ConsumerEServiceSignalHubSectionSkeleton />}>
+          <ConsumerEServiceSignalHubSection />
+        </React.Suspense>
+        <React.Suspense fallback={<ConsumerEServiceDescriptorAttributesSkeleton />}>
+          <ConsumerEServiceDescriptorAttributes />
+        </React.Suspense>
       </Grid>
-    </>
+    </Grid>
   )
 }
 
