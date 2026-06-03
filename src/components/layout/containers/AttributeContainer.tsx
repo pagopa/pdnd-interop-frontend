@@ -17,7 +17,7 @@ import { AttributeQueries } from '@/api/attribute'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
-import { FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE } from '@/config/env'
+import { FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE } from '@/config/env'
 import { ActionMenu } from '@/components/shared/ActionMenu'
 import type { ActionItemButton } from '@/types/common.types'
 import type {
@@ -75,14 +75,13 @@ export const AttributeContainer = <
     AttributeQueries.getSingle(attribute.id)
   )
 
+  const isAttributeCertifiedDiscrete =
+    FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE && attribute.kind === 'CERTIFIED_DISCRETE'
+
   const getMenuActions = () => {
     const actions: Array<ActionItemButton> = []
 
-    if (
-      FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE &&
-      attribute.kind === 'CERTIFIED_DISCRETE' &&
-      onOpenConfigDrawer
-    ) {
+    if (isAttributeCertifiedDiscrete && onOpenConfigDrawer) {
       const changeAttributeValueAction: ActionItemButton = {
         action: onOpenConfigDrawer,
         label: t('actions.modifyCertifiedDiscreteAttribute'),
@@ -131,13 +130,11 @@ export const AttributeContainer = <
           <Stack p={2} direction="row" justifyContent="space-between" alignContent="center">
             <Stack spacing={1} justifyContent="center">
               <Typography fontWeight={600}>{attribute.name}</Typography>
-              {FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE &&
-                attribute.kind === 'CERTIFIED_DISCRETE' &&
-                attribute.discreteConfig && (
-                  <Typography variant="body2" fontWeight={700}>
-                    {`${tCommon(attribute.discreteConfig.comparator)} ${attribute.discreteConfig.threshold}`}
-                  </Typography>
-                )}
+              {isAttributeCertifiedDiscrete && attribute.discreteConfig && (
+                <Typography variant="body2" fontWeight={700}>
+                  {`${tCommon(attribute.discreteConfig.comparator)} ${attribute.discreteConfig.threshold}`}
+                </Typography>
+              )}
               {(attribute.dailyCallsPerConsumer !== undefined || onCustomizeThreshold) && (
                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
                   {attribute.dailyCallsPerConsumer !== undefined && !hideThreshold && (

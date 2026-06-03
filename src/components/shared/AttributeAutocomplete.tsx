@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next'
 import type { AttributeKind, DescriptorAttribute } from '@/api/api.generatedTypes'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE } from '@/config/env'
+import { FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE } from '@/config/env'
 import { match } from 'ts-pattern'
 
 export type AttributeAutocompleteProps = {
@@ -96,7 +96,7 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
 
   const isConfigureCertifiedDiscrete =
     selectedAttribute?.kind === 'CERTIFIED_DISCRETE' &&
-    FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE &&
+    FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE &&
     onOpenConfigDrawer
 
   return (

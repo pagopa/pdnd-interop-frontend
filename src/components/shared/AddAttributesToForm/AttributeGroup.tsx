@@ -14,7 +14,7 @@ import type {
 } from '@/api/api.generatedTypes'
 import { useFormContext } from 'react-hook-form'
 import { useCustomizeThresholdDrawer } from '../CustomizeThresholdDrawer'
-import { FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE } from '@/config/env'
+import { FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE } from '@/config/env'
 import {
   ConfigureCertifiedDiscreteAttributeDrawer,
   useConfigureCertifiedDiscreteAttributeDrawer,
@@ -149,7 +149,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
                         : undefined
                     }
                     onOpenConfigDrawer={
-                      FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE
+                      FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE
                         ? () => openConfigureDiscreteAttributeDrawer(attribute)
                         : undefined
                     }
@@ -170,7 +170,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
                   [] as Array<string>
                 )}
                 onOpenConfigDrawer={
-                  FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE
+                  FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE
                     ? openConfigureDiscreteAttributeDrawer
                     : undefined
                 }
@@ -193,7 +193,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
           </>
         )}
       </AttributeGroupContainer>
-      {FEATURE_FLAG_CERTIFIED_ATTRIBUTE_DISCRETE && attributeKey === 'certified' && (
+      {FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE && attributeKey === 'certified' && (
         <ConfigureCertifiedDiscreteAttributeDrawer
           onSubmit={handleSubmitConfigureDiscreteAttributeDrawer}
           submitButtonLabel={t('add')}
