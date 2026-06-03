@@ -41,6 +41,10 @@ const ProviderEServiceDetailsPage: React.FC = () => {
     [descriptor?.eservice.descriptors, descriptorId]
   )
 
+  const handleViewKeychains = () => {
+    updateActiveTab(null, 'keychains')
+  }
+
   const activeDescriptor = React.useMemo(
     () => getActiveDescriptor(descriptor?.eservice.descriptors),
     [descriptor?.eservice.descriptors]
@@ -125,7 +129,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         </TabList>
 
         <TabPanel value="eserviceDetails">
-          <ProviderEserviceDetailsTab />
+          <ProviderEserviceDetailsTab onViewKeychains={handleViewKeychains} />
         </TabPanel>
 
         <TabPanel value="keychains">

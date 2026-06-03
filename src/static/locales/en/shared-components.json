@@ -271,6 +271,33 @@
       }
     }
   },
+  "dialogCancelEserviceArchiving": {
+    "title": "Cancel e-service archiving",
+    "description": "This e-service will no longer be archived.",
+    "actions": {
+      "cancelArchiving": "Cancel archiving"
+    }
+  },
+  "dialogArchiveEservice": {
+    "title": "Archive e-service",
+    "content": {
+      "advice": {
+        "description": "By archiving the e-service, all versions will be archived and draft versions will be deleted. If you confirm this choice, archiving will occur on <strong>{{date}}</strong>. Before this date, the e-service will remain active to allow users to adapt. You can cancel archiving only before this date."
+      },
+      "confirm": {
+        "description": "All users will be informed of the notice period and the reason for the archiving.",
+        "form": {
+          "label": "Archiving reason",
+          "infoLabel": "Explain why you chose to archive the e-service. If you wish, suggest an alternative e-service. Both information will be shared with users. Minimum 10 characters, maximum 250 characters."
+        }
+      },
+      "alert": "Actual archiving may require some technical time as users continue to exchange data. See <1>documentation</1> for further details."
+    },
+    "actions": {
+      "back": "Back",
+      "forward": "Forward"
+    }
+  },
   "dialogCancelVersionArchiving": {
     "title": "Cancel version archiving",
     "description": "This version will no longer be archived.",

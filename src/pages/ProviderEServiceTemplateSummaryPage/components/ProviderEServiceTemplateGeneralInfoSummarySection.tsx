@@ -33,6 +33,12 @@ export const ProviderEServiceTemplateGeneralInfoSummarySection: React.FC = () =>
         content={eserviceTemplate.eserviceTemplate.technology}
       />
       <InformationContainer
+        label={t('exchangeType.label')}
+        content={t(
+          `exchangeType.value.${eserviceTemplate.eserviceTemplate.asyncExchange ? 'async' : 'sync'}`
+        )}
+      />
+      <InformationContainer
         label={t(`personalDataField.${eserviceTemplate.eserviceTemplate.mode}.label`)}
         content={t(`personalDataField.value.${eserviceTemplate.eserviceTemplate.personalData}`)}
       />

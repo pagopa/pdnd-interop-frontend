@@ -27,6 +27,8 @@ import type {
   DialogTenantKindPurposeTemplateProps,
   DialogSelectAgreementConsumerProps,
   DialogShowEserviceVersionsListProps,
+  DialogArchiveEserviceProps,
+  DialogCancelEserviceArchivingProps,
   DialogArchiveVersionProps,
   DialogCancelVersionArchivingProps,
 } from '@/types/dialog.types'
@@ -51,6 +53,8 @@ import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemp
 import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTemplate'
 import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/DialogSelectAgreementConsumer'
 import { DialogShowEserviceVersionsList } from './DialogShowEserviceVersionsList/DialogShowEserviceVersionsList'
+import DialogArchiveEservice from './DialogArchiveEservice'
+import DialogCancelEserviceArchiving from './DialogCancelEserviceArchiving'
 import { DialogArchiveVersion } from './DialogArchiveVersion'
 import { DialogCancelVersionArchiving } from './DialogCancelVersionArchiving'
 
@@ -77,6 +81,8 @@ function match<T>(
   onDialogTenantKindPurposeTemplate: (props: DialogTenantKindPurposeTemplateProps) => T,
   onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T,
   onShowEserviceVersionsList: (props: DialogShowEserviceVersionsListProps) => T,
+  onArchiveEservice: (props: DialogArchiveEserviceProps) => T,
+  onCancelEserviceArchiving: (props: DialogCancelEserviceArchivingProps) => T,
   onArchiveVersion: (props: DialogArchiveVersionProps) => T,
   onCancelVersionArchiving: (props: DialogCancelVersionArchivingProps) => T
 ) {
@@ -126,6 +132,10 @@ function match<T>(
         return onSelectAgreementConsumer(props)
       case 'showEserviceVersionsList':
         return onShowEserviceVersionsList(props)
+      case 'archiveEservice':
+        return onArchiveEservice(props)
+      case 'cancelEserviceArchiving':
+        return onCancelEserviceArchiving(props)
       case 'archiveVersion':
         return onArchiveVersion(props)
       case 'cancelVersionArchiving':
@@ -157,6 +167,8 @@ const _Dialog = match(
   (props) => <DialogTenantKindPurposeTemplate {...props} />,
   (props) => <DialogSelectAgreementConsumer {...props} />,
   (props) => <DialogShowEserviceVersionsList {...props} />,
+  (props) => <DialogArchiveEservice {...props} />,
+  (props) => <DialogCancelEserviceArchiving {...props} />,
   (props) => <DialogArchiveVersion {...props} />,
   (props) => <DialogCancelVersionArchiving {...props} />
 )

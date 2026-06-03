@@ -23,11 +23,25 @@ export const ConsumerEServiceDetailsAlerts: React.FC<ConsumerEServiceDetailsAler
     t,
   })
 
-  if (!alert) return null
+  const isAsyncExchange = descriptor.eservice.asyncExchange === true
+  const isMissingProducerKeychain =
+    isAsyncExchange && descriptor.eservice.hasProducerKeychain === false
+  const isMissingProducerKeychainKeys =
+    isAsyncExchange &&
+    descriptor.eservice.hasProducerKeychain === true &&
+    descriptor.eservice.hasProducerKeychainKeys === false
+
+  if (!alert && !isMissingProducerKeychain && !isMissingProducerKeychainKeys) return null
 
   return (
     <Stack spacing={2}>
-      <Alert severity={alert.severity}>{alert.content}</Alert>
+      {alert && <Alert severity={alert.severity}>{alert.content}</Alert>}
+      {isMissingProducerKeychain && (
+        <Alert severity="warning">{t('missingProducerKeychain')}</Alert>
+      )}
+      {isMissingProducerKeychainKeys && (
+        <Alert severity="warning">{t('missingProducerKeychainKeys')}</Alert>
+      )}
     </Stack>
   )
 }
