@@ -2,6 +2,7 @@ import React from 'react'
 import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { Alert, Button, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
+import { getEServiceDescriptorAlertSpec } from '@/utils/eservice.utils'
 
 type ProviderEServiceDetailsAlertsProps = {
   descriptor: ProducerEServiceDescriptor | undefined
@@ -16,8 +17,14 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
 
   if (!descriptor) return null
 
-  const isSuspended = descriptor?.state === 'SUSPENDED'
-  const isDeprecated = descriptor?.state === 'DEPRECATED'
+  const alert = getEServiceDescriptorAlertSpec({
+    state: descriptor.state,
+    scope: descriptor.archivingSchedule?.scope,
+    archivableOn: descriptor.archivingSchedule?.archivableOn,
+    archivedAt: descriptor.archivedAt,
+    t,
+  })
+
   const shouldShowMissingKeychainAlert =
     descriptor.eservice.asyncExchange && !descriptor.eservice.hasProducerKeychain
   const shouldShowMissingKeychainKeysAlert =
@@ -30,10 +37,11 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
     </Button>
   ) : undefined
 
+  if (!alert && !shouldShowMissingKeychainAlert && !shouldShowMissingKeychainKeysAlert) return null
+
   return (
-    <Stack spacing={2}>
-      {isSuspended && <Alert severity="error">{t('suspended')}</Alert>}
-      {isDeprecated && <Alert severity="info">{t('deprecated')}</Alert>}
+    <Stack spacing={2} sx={{ mb: 3 }}>
+      {alert && <Alert severity={alert.severity}>{alert.content}</Alert>}
       {shouldShowMissingKeychainAlert && (
         <Alert severity="warning" action={viewKeychainsAction}>
           {t('providerMissingProducerKeychain')}

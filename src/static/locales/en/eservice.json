@@ -631,7 +631,12 @@
     },
     "alert": {
       "suspended": "This e-service version is discontinued. Until its reactivation, no consumer will be able to access the data provided through the API.",
-      "deprecated": "This e-service version is obsolete but still active. It will be automatically discontinued by PDND Interoperabilità when the last agreement on this version is archived.",
+      "deprecated": "This e-service version is obsolete but still active. It will be automatically archived when it has no more agreements.",
+      "archivingDescriptor": "This e-service version is being archived but is still active. It will be automatically archived on {{date}}.",
+      "archivingSuspendedDescriptor": "This e-service version is being archived and is currently suspended. It will be automatically archived on {{date}}.",
+      "archivedDescriptor": "This e-service version was archived on {{date}}.",
+      "archivingSuspendedEService": "This version is currently suspended. The e-service is being archived and will be automatically archived on {{date}}.",
+      "archivedEService": "This e-service was permanently archived on {{date}}.",
       "missingProducerKeychain": "The producer has not linked the keychain to this async e-service yet. Data exchange is currently unavailable.",
       "missingProducerKeychainKeys": "The producer has not linked any keys to this async e-service keychain yet. Data exchange is currently unavailable.",
       "providerMissingProducerKeychain": "Associate a keychain with this e-service to enable data exchange.",

@@ -15,6 +15,7 @@ import { useDialog } from '@/stores'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
 import { getActiveDescriptor, getViewLatestVersionTargetId } from '@/utils/eservice.utils'
+import { ProviderEServiceDetailsAlerts } from './components/ProviderEServiceDetailsTab/ProviderEServiceDetailsAlerts'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -122,6 +123,10 @@ const ProviderEServiceDetailsPage: React.FC = () => {
           : undefined
       }
     >
+      <ProviderEServiceDetailsAlerts
+        descriptor={descriptor}
+        onViewKeychains={handleViewKeychains}
+      />
       <TabContext value={activeTab}>
         <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
           <Tab label={t('tabs.eserviceDetails')} value="eserviceDetails" />
@@ -129,7 +134,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         </TabList>
 
         <TabPanel value="eserviceDetails">
-          <ProviderEserviceDetailsTab onViewKeychains={handleViewKeychains} />
+          <ProviderEserviceDetailsTab />
         </TabPanel>
 
         <TabPanel value="keychains">
