@@ -61,6 +61,7 @@ export type EServiceDescriptorState =
 
 /** Risk analysis signing state */
 export type RiskAnalysisSigningState =
+  | "DRAFT"
   | "ASSIGNED"
   | "SUBMITTED"
   | "SIGNED"
@@ -151,6 +152,20 @@ export interface RejectPurposeVersionPayload {
   rejectionReason: string;
 }
 
+/** Reviewer workflow state for a purpose risk analysis */
+export interface ReviewerWorkflow {
+  /** Risk analysis review mode */
+  reviewMode: RiskAnalysisReviewMode;
+  reviewerIds: string[];
+  /** Risk analysis signing state */
+  signingState: RiskAnalysisSigningState;
+  /** @format uuid */
+  signedBy?: string;
+  rejectionReason?: string;
+  /** @format date-time */
+  sentToReviewerAt?: string;
+}
+
 /** Payload to assign reviewer mode and reviewers to a purpose risk analysis */
 export interface RiskAnalysisAssignmentSeed {
   /** Risk analysis review mode */
@@ -166,6 +181,11 @@ export interface RiskAnalysisRejectionSeed {
    * @maxLength 250
    */
   rejectionReason: string;
+}
+
+/** Payload to submit the risk analysis form for reviewer signing */
+export interface RiskAnalysisSubmissionSeed {
+  riskAnalysisForm: RiskAnalysisFormSeed;
 }
 
 export interface GoogleSAMLPayload {
@@ -1170,6 +1190,8 @@ export interface Purpose {
   isDocumentReady: boolean;
   /** @format date-time */
   rulesetExpiration?: string;
+  /** Reviewer workflow state for a purpose risk analysis */
+  reviewerWorkflow?: ReviewerWorkflow;
 }
 
 export interface PurposeAdditionDetailsSeed {
@@ -3773,6 +3795,11 @@ export interface GetConsumerPurposesParams {
 }
 
 export interface GetRiskAnalysisAssignmentsParams {
+  /**
+   * comma separated sequence of EService IDs
+   * @default []
+   */
+  eservicesIds?: string[];
   /**
    * comma separated sequence of risk analysis signing states
    * @default []
@@ -8824,6 +8851,11 @@ export namespace Purposes {
     export type RequestParams = {};
     export type RequestQuery = {
       /**
+       * comma separated sequence of EService IDs
+       * @default []
+       */
+      eservicesIds?: string[];
+      /**
        * comma separated sequence of risk analysis signing states
        * @default []
        */
@@ -9003,7 +9035,7 @@ export namespace Purposes {
       purposeId: string;
     };
     export type RequestQuery = {};
-    export type RequestBody = never;
+    export type RequestBody = RiskAnalysisSubmissionSeed;
     export type RequestHeaders = {};
     export type ResponseBody = CreatedResource;
   }
