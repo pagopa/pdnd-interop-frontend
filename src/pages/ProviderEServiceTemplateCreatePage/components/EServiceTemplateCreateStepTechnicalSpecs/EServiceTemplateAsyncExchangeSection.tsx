@@ -15,6 +15,8 @@ export const EServiceTemplateAsyncExchangeSection: React.FC = () => {
       readOnlyCallbackInterfaceContent={<UploadTemplateCallbackInterfaceDoc />}
       isSoap={isSoap}
       forceBulkFalse
+      translationNamespace="eserviceTemplate"
+      translationKeyPrefix="create.step3.technicalSpecs.asyncExchangeSection"
     />
   )
 }
