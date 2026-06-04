@@ -756,7 +756,17 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL',
     path: '/analisi-del-rischio/:purposeId/approvazione',
-    element: <></> /* @TODO: component will be written on next task */,
+    element: <RiskAnalysisSummaryPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: [] /* @TODO: change this when role will be available */,
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_REJECTION_SUCCESS',
+    path: '/analisi-del-rischio/:purposeId/rifiuto',
+    element: (
+      <></>
+    ) /* @TODO: this will be added with https://pagopa.atlassian.net/browse/PIN-10196 */,
     public: false,
     hideSideNav: true,
     authLevels: [] /* @TODO: change this when role will be available */,

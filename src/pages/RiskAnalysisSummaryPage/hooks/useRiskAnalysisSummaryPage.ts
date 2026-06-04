@@ -50,6 +50,11 @@ export function useRiskAnalysisSummaryPage() {
     })
   }
 
+  const handleRejectDraft = () => {
+    if (!purpose?.currentVersion) return
+    /* @TODO: will be added with https://pagopa.atlassian.net/browse/PIN-10195 */
+  }
+
   return {
     purposeId,
     purpose,
@@ -61,6 +66,7 @@ export function useRiskAnalysisSummaryPage() {
     isPublishButtonDisabled,
     arePublishOrEditButtonsDisabled,
     handleEditDraft,
+    handleRejectDraft,
     handleApproveDraft,
   }
 }

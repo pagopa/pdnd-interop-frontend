@@ -570,6 +570,7 @@
     "SUBSCRIBE_RISK_ANALYSIS_COMPILE": "Compilazione analisi del rischio",
     "SUBSCRIBE_RISK_ANALYSIS_SUMMARY": "Riepilogo",
     "SUBSCRIBE_RISK_ANALYSIS_APPROVAL_SUCCESS": "Analisi del rischio approvata",
-    "SUBSCRIBE_RISK_ANALYSIS_APPROVAL": "Approvazione analisi del rischio"
+    "SUBSCRIBE_RISK_ANALYSIS_APPROVAL": "Approvazione analisi del rischio",
+    "SUBSCRIBE_RISK_ANALYSIS_REJECTION_SUCCESS": "Analisi del rischio rifiutata"
   }
 }

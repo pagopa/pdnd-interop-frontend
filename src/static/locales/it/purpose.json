@@ -494,9 +494,11 @@
   },
   "riskAnalysisSummary": {
     "backToListBtn": "Torna alle analisi del rischio",
-    "title": "Riepilogo",
+    "titleSummary": "Riepilogo",
+    "titleApproval": "Approvazione analisi del rischio",
     "modifyBtn": "Modifica bozza",
     "approveBtn": "Approva analisi del rischio",
+    "rejectBtn": "Rifiuta con motivazione",
     "generalInformationSection": {
       "title": "Informazioni generali"
     },

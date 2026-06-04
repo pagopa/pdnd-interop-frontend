@@ -494,9 +494,11 @@
   },
   "riskAnalysisSummary": {
     "backToListBtn": "Back to risk analysis",
-    "title": "Summary",
+    "titleSummary": "Summary",
+    "titleApproval": "Approve risk analysis",
     "modifyBtn": "Edit draft",
     "approveBtn": "Approve risk analysis",
+    "rejectBtn": "Reject with reason",
     "generalInformationSection": {
       "title": "General information"
     },
