@@ -742,7 +742,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_SUMMARY',
-    path: '/analisi-del-rischio/:purposeId/riepilogo',
+    path: '/analisi-del-rischio/:purposeId/compilazione/riepilogo',
     element: <RiskAnalysisSummaryPage />,
     public: false,
     hideSideNav: true,
