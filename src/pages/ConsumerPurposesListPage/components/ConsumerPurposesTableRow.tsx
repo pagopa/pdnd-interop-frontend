@@ -1,4 +1,4 @@
-import type { Purpose, RiskAnalysisSigningState } from '@/api/api.generatedTypes'
+import type { Purpose } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { PurposeQueries } from '@/api/purpose'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
@@ -17,12 +17,6 @@ import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
 import { Stack } from '@mui/material'
 import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
 import { match } from 'ts-pattern'
-
-// TODO PIN-10135: remove this augmentation once the BE exposes
-// `riskAnalysisSigningState` on the `Purpose` model in the OpenAPI spec.
-type PurposeWithRiskAnalysisSigningState = Purpose & {
-  riskAnalysisSigningState?: RiskAnalysisSigningState
-}
 
 export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
   const { t } = useTranslation('purpose')
@@ -51,14 +45,11 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
 
   const isDelegated = isDelegate || isDelegator
 
-  const riskAnalysisSigningState = (purpose as PurposeWithRiskAnalysisSigningState)
-    .riskAnalysisSigningState
-
   // The validation outcome of the risk analysis is relevant only for purposes
   // whose current version is still a DRAFT: once the purpose is published the
   // RA is implicitly approved and the icon would be redundant.
   const riskAnalysisTooltipLabel = isDraft
-    ? match(riskAnalysisSigningState)
+    ? match(purpose.reviewerWorkflow?.signingState)
         .with('SIGNED', () => t('list.riskAnalysisApproved'))
         .with('REJECTED', () => t('list.riskAnalysisRejected'))
         .otherwise(() => undefined)

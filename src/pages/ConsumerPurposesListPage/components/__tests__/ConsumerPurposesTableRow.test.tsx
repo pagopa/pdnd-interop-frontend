@@ -4,25 +4,30 @@ import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 import { ConsumerPurposesTableRow } from '../ConsumerPurposesTableRow'
 import type {
-  Purpose,
   PurposeVersionState,
+  ReviewerWorkflow,
   RiskAnalysisSigningState,
 } from '@/api/api.generatedTypes'
 
-type PurposeWithRiskAnalysisSigningState = Purpose & {
-  riskAnalysisSigningState?: RiskAnalysisSigningState
-}
-
 const buildPurpose = (
   currentVersionState: PurposeVersionState,
-  riskAnalysisSigningState: RiskAnalysisSigningState | undefined
-) =>
-  createMockPurpose({
-    currentVersion: { state: currentVersionState },
-    riskAnalysisSigningState,
-  } as PurposeWithRiskAnalysisSigningState)
+  signingState: RiskAnalysisSigningState | undefined
+) => {
+  const reviewerWorkflow: ReviewerWorkflow | undefined = signingState
+    ? {
+        reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
+        reviewerIds: [],
+        signingState,
+      }
+    : undefined
 
-const renderRow = (purpose: Purpose) =>
+  return createMockPurpose({
+    currentVersion: { state: currentVersionState },
+    reviewerWorkflow,
+  })
+}
+
+const renderRow = (purpose: ReturnType<typeof buildPurpose>) =>
   renderWithApplicationContext(
     <table>
       <tbody>
@@ -33,7 +38,7 @@ const renderRow = (purpose: Purpose) =>
   )
 
 describe('ConsumerPurposesTableRow - risk analysis signing state info icon', () => {
-  it('renders the info icon with aria-label "list.riskAnalysisApproved" when the purpose is a DRAFT and riskAnalysisSigningState is SIGNED', () => {
+  it('renders the info icon with aria-label "list.riskAnalysisApproved" when the purpose is a DRAFT and reviewerWorkflow.signingState is SIGNED', () => {
     mockUseJwt()
     const { queryByLabelText } = renderRow(buildPurpose('DRAFT', 'SIGNED'))
 
@@ -41,7 +46,7 @@ describe('ConsumerPurposesTableRow - risk analysis signing state info icon', () 
     expect(queryByLabelText('list.riskAnalysisRejected')).not.toBeInTheDocument()
   })
 
-  it('renders the info icon with aria-label "list.riskAnalysisRejected" when the purpose is a DRAFT and riskAnalysisSigningState is REJECTED', () => {
+  it('renders the info icon with aria-label "list.riskAnalysisRejected" when the purpose is a DRAFT and reviewerWorkflow.signingState is REJECTED', () => {
     mockUseJwt()
     const { queryByLabelText } = renderRow(buildPurpose('DRAFT', 'REJECTED'))
 
@@ -50,7 +55,7 @@ describe('ConsumerPurposesTableRow - risk analysis signing state info icon', () 
   })
 
   it.each(['ASSIGNED', 'SUBMITTED', undefined] as const)(
-    'does not render the info icon for a DRAFT purpose when riskAnalysisSigningState is %s',
+    'does not render the info icon for a DRAFT purpose when reviewerWorkflow.signingState is %s',
     (signingState) => {
       mockUseJwt()
       const { queryByLabelText } = renderRow(buildPurpose('DRAFT', signingState))
@@ -61,7 +66,7 @@ describe('ConsumerPurposesTableRow - risk analysis signing state info icon', () 
   )
 
   it.each(['SIGNED', 'REJECTED'] as const)(
-    'does not render the info icon when the purpose is not a DRAFT, even if riskAnalysisSigningState is %s',
+    'does not render the info icon when the purpose is not a DRAFT, even if reviewerWorkflow.signingState is %s',
     (signingState) => {
       mockUseJwt()
       const { queryByLabelText } = renderRow(buildPurpose('ACTIVE', signingState))
