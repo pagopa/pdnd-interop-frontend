@@ -492,6 +492,29 @@
       }
     }
   },
+  "riskAnalysisList": {
+    "filters": {
+      "eserviceField": {
+        "label": "Cerca per e-service"
+      },
+      "riskAnalysisState": {
+        "label": "Stato analisi del rischio",
+        "statusField": {
+          "ASSIGNED": "Da compilare",
+          "SUBMITTED": "Da approvare"
+        }
+      }
+    },
+    "today": {
+      "label": "Oggi"
+    },
+    "noData": {
+      "label": "Non hai nessuna analisi del rischio da valutare"
+    },
+    "noResults": {
+      "label": "La ricerca corrente non ha prodotto risultati."
+    }
+  },
   "publishThankYou": {
     "loading": "Pubblicazione in corso",
     "active": {
