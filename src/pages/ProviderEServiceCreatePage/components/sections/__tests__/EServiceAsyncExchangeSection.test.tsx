@@ -70,6 +70,23 @@ const AsyncExchangeValidationTestForm = ({ onSubmit }: { onSubmit: () => void })
   )
 }
 
+const AsyncExchangeTemplateTranslationTestForm = () => {
+  const methods = useForm({ defaultValues: defaultFormValues })
+
+  return (
+    <FormProvider {...methods}>
+      <EServiceAsyncExchangeSectionBase
+        areGeneralInfoEditable={true}
+        areAdvancedOptionsEditable={true}
+        editableCallbackInterfaceContent="UploadCallbackInterfaceDoc"
+        readOnlyCallbackInterfaceContent="UploadCallbackInterfaceDoc-readOnly"
+        translationKeyPrefix="create.step3.technicalSpecs.asyncExchangeSection"
+        translationNamespace="eserviceTemplate"
+      />
+    </FormProvider>
+  )
+}
+
 const renderValidationTestForm = (onSubmit = vi.fn()) => {
   renderWithApplicationContext(<AsyncExchangeValidationTestForm onSubmit={onSubmit} />, {
     withReactQueryContext: true,
@@ -77,6 +94,13 @@ const renderValidationTestForm = (onSubmit = vi.fn()) => {
   })
 
   return onSubmit
+}
+
+const renderTemplateTranslationTestForm = () => {
+  renderWithApplicationContext(<AsyncExchangeTemplateTranslationTestForm />, {
+    withReactQueryContext: true,
+    withRouterContext: true,
+  })
 }
 
 describe('EServiceAsyncExchangeSection', () => {
@@ -151,6 +175,26 @@ describe('EServiceAsyncExchangeSection', () => {
     expect(screen.getByText('UploadCallbackInterfaceDoc-readOnly')).toBeInTheDocument()
     expect(screen.queryByLabelText(/responseTimeField.label/)).not.toBeInTheDocument()
     expect(screen.getByText('callbackInterface.readOnlyLabel')).toBeInTheDocument()
+  })
+
+  it('should support template-specific translation keys', () => {
+    renderTemplateTranslationTestForm()
+
+    expect(
+      screen.getByLabelText(
+        /create\.step3\.technicalSpecs\.asyncExchangeSection\.responseTimeField\.label/
+      )
+    ).toBeInTheDocument()
+    expect(
+      screen.getByLabelText(
+        /create\.step3\.technicalSpecs\.asyncExchangeSection\.maxResultSetField\.label/
+      )
+    ).toBeInTheDocument()
+    expect(
+      screen.getByLabelText(
+        /create\.step3\.technicalSpecs\.asyncExchangeSection\.resourceAvailableTimeField\.label/
+      )
+    ).toBeInTheDocument()
   })
 
   it('should render the callback interface without an extra label for e-services created from template', () => {

@@ -355,6 +355,49 @@
             "infoLabel": "Maximum value: 1440 minutes (24 hours)"
           }
         },
+        "asyncExchangeSection": {
+          "title": "Asynchronous and bulk exchanges",
+          "description": "Asynchronous and bulk exchanges require a callback interface that consumers will have to implement to receive your responses. Upload the OpenAPI file with the API description. <1>Learn more about asynchronous and bulk exchanges</1>.",
+          "editableInfoAlert": "After publication, these fields will no longer be editable. To modify them, you will need to create a new version of the e-service template.",
+          "callbackInterface": {
+            "readOnlyLabel": "Callback interface",
+            "prettyName": "Callback interface",
+            "dropzoneLabel": "Drag the callback interface here or click here to select it from your computer"
+          },
+          "configSubsection": {
+            "title": "Exchange configuration"
+          },
+          "advancedSubsection": {
+            "title": "Advanced options"
+          },
+          "responseTimeField": {
+            "label": "Suggested maximum response time (in seconds)",
+            "infoLabel": "Suggest how long the e-service instances take to return a response after a call from consumers. Accepted values: from 1 to 999,999 seconds."
+          },
+          "maxResultSetField": {
+            "label": "Suggested maximum number of results per response",
+            "infoLabel": "Suggest the maximum number of elements that each response can contain. Accepted values: from 1 to 99,999."
+          },
+          "resourceAvailableTimeField": {
+            "label": "Suggested data availability duration (in seconds)",
+            "infoLabel": "Suggest how long the data is downloadable before being deleted. Accepted values: from 1 to 999,999 seconds."
+          },
+          "confirmationField": {
+            "label": "Require receipt confirmation",
+            "infoLabel": "The consumer will have to send a notification after downloading the file."
+          },
+          "bulkField": {
+            "label": "Allow chunked download",
+            "infoLabel": "The consumer can download large files in separate parts."
+          },
+          "readOnlyOptions": {
+            "true": "Yes",
+            "false": "No"
+          },
+          "validation": {
+            "integer": "The value must be an integer"
+          }
+        },
         "nameField": {
           "label": "Document name",
           "infoLabel": "Min 5 characters, max 60 characters"

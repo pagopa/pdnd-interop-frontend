@@ -146,16 +146,46 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
       withReactQueryContext: true,
     })
 
-    expect(screen.getByText('title')).toBeInTheDocument()
-    expect(screen.getByText('editableInfoAlert')).toBeInTheDocument()
-    expect(screen.queryByText('callbackInterface.readOnlyLabel')).not.toBeInTheDocument()
+    expect(
+      screen.getByText('create.step3.technicalSpecs.asyncExchangeSection.title')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText('create.step3.technicalSpecs.asyncExchangeSection.editableInfoAlert')
+    ).toBeInTheDocument()
+    expect(
+      screen.queryByText(
+        'create.step3.technicalSpecs.asyncExchangeSection.callbackInterface.readOnlyLabel'
+      )
+    ).not.toBeInTheDocument()
     expect(screen.getByDisplayValue('Specifica callback')).toBeInTheDocument()
-    expect(screen.getByText('configSubsection.title')).toBeInTheDocument()
-    expect(screen.getByLabelText(/responseTimeField.label/)).toHaveValue(1000)
-    expect(screen.getByLabelText(/resourceAvailableTimeField.label/)).toHaveValue(2000)
-    expect(screen.getByLabelText(/maxResultSetField.label/)).toHaveValue(100)
-    expect(screen.getByRole('checkbox', { name: /confirmationField.label/ })).toBeChecked()
-    expect(screen.getByRole('checkbox', { name: /bulkField.label/ })).toBeChecked()
+    expect(
+      screen.getByText('create.step3.technicalSpecs.asyncExchangeSection.configSubsection.title')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByLabelText(
+        /create\.step3\.technicalSpecs\.asyncExchangeSection\.responseTimeField\.label/
+      )
+    ).toHaveValue(1000)
+    expect(
+      screen.getByLabelText(
+        /create\.step3\.technicalSpecs\.asyncExchangeSection\.resourceAvailableTimeField\.label/
+      )
+    ).toHaveValue(2000)
+    expect(
+      screen.getByLabelText(
+        /create\.step3\.technicalSpecs\.asyncExchangeSection\.maxResultSetField\.label/
+      )
+    ).toHaveValue(100)
+    expect(
+      screen.getByRole('checkbox', {
+        name: /create\.step3\.technicalSpecs\.asyncExchangeSection\.confirmationField\.label/,
+      })
+    ).toBeChecked()
+    expect(
+      screen.getByRole('checkbox', {
+        name: /create\.step3\.technicalSpecs\.asyncExchangeSection\.bulkField\.label/,
+      })
+    ).toBeChecked()
   })
 
   it('does not render the async exchange section when the template is synchronous', () => {
@@ -164,8 +194,14 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
       withReactQueryContext: true,
     })
 
-    expect(screen.queryByText('title')).not.toBeInTheDocument()
-    expect(screen.queryByLabelText(/responseTimeField.label/)).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('create.step3.technicalSpecs.asyncExchangeSection.title')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByLabelText(
+        /create\.step3\.technicalSpecs\.asyncExchangeSection\.responseTimeField\.label/
+      )
+    ).not.toBeInTheDocument()
   })
 
   it('includes default asyncExchangeProperties in payload when async template properties are missing', async () => {
