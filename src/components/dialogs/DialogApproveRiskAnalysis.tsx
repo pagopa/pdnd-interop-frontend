@@ -23,22 +23,30 @@ export const DialogApproveRiskAnalysis: React.FC<DialogApproveRiskAnalysisProps>
   })
   const { closeDialog } = useDialog()
   const navigate = useNavigate()
-  const { mutate: signRiskAnalysis } = PurposeMutations.useSignRiskAnalysis()
+  const { mutate: signRiskAnalysis, isPending } = PurposeMutations.useSignRiskAnalysis()
+
+  const handleCloseDialog = () => {
+    if (!isPending) {
+      closeDialog()
+    }
+  }
 
   const onProceed = () => {
     signRiskAnalysis(
       { purposeId },
       {
         onSuccess() {
-          navigate('SUBSCRIBE_RISK_ANALYSIS_APPROVAL_SUCCESS', { params: { purposeId } })
+          navigate('SUBSCRIBE_RISK_ANALYSIS_APPROVAL_SUCCESS', {
+            params: { purposeId },
+          })
+          handleCloseDialog()
         },
       }
     )
-    closeDialog()
   }
 
   return (
-    <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
+    <Dialog aria-labelledby={ariaLabelId} open onClose={handleCloseDialog} fullWidth>
       <DialogTitle id={ariaLabelId} sx={{ pb: 1 }}>
         {t('title')}
       </DialogTitle>
@@ -50,10 +58,10 @@ export const DialogApproveRiskAnalysis: React.FC<DialogApproveRiskAnalysisProps>
       </DialogContent>
 
       <DialogActions>
-        <Button type="button" variant="outlined" onClick={closeDialog}>
+        <Button type="button" variant="outlined" onClick={handleCloseDialog} disabled={isPending}>
           {t('actions.cancel')}
         </Button>
-        <Button variant="contained" onClick={onProceed}>
+        <Button variant="contained" onClick={onProceed} disabled={isPending}>
           {t('actions.confirm')}
         </Button>
       </DialogActions>

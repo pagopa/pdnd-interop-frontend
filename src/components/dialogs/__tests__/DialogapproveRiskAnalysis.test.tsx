@@ -7,6 +7,7 @@ import * as router from '@/router'
 const closeDialogMock = vi.fn()
 const navigateMock = vi.fn()
 const signRiskAnalysisMock = vi.fn()
+const useSignRiskAnalysisMock = vi.fn()
 
 vi.mock('@/stores', () => ({
   useDialog: () => ({
@@ -18,15 +19,18 @@ vi.spyOn(router, 'useNavigate').mockReturnValue(navigateMock)
 
 vi.mock('@/api/purpose', () => ({
   PurposeMutations: {
-    useSignRiskAnalysis: () => ({
-      mutate: signRiskAnalysisMock,
-    }),
+    useSignRiskAnalysis: () => useSignRiskAnalysisMock(),
   },
 }))
 
 describe('DialogApproveRiskAnalysis', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+
+    useSignRiskAnalysisMock.mockReturnValue({
+      mutate: signRiskAnalysisMock,
+      isPending: false,
+    })
   })
 
   it('should render dialog informations', () => {
@@ -70,10 +74,10 @@ describe('DialogApproveRiskAnalysis', () => {
       expect.any(Object)
     )
 
-    expect(closeDialogMock).toHaveBeenCalledTimes(1)
+    expect(closeDialogMock).not.toHaveBeenCalled()
   })
 
-  it('should navigate on successful signing', async () => {
+  it('should navigate and close dialog on successful signing', async () => {
     const user = userEvent.setup()
 
     signRiskAnalysisMock.mockImplementation((_payload, options) => {
@@ -93,5 +97,19 @@ describe('DialogApproveRiskAnalysis', () => {
         purposeId: 'test-purpose-id',
       },
     })
+
+    expect(closeDialogMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('should disable actions while request is pending', () => {
+    useSignRiskAnalysisMock.mockReturnValue({
+      mutate: signRiskAnalysisMock,
+      isPending: true,
+    })
+
+    render(<DialogApproveRiskAnalysis purposeId="test-purpose-id" type="approveRiskAnalysis" />)
+
+    expect(screen.getByRole('button', { name: 'actions.cancel' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'actions.confirm' })).toBeDisabled()
   })
 })
