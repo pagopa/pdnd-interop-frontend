@@ -30,7 +30,8 @@
       "delegations": "Gestione delle deleghe"
     },
     "developerTools": "Tool per lo sviluppo",
-    "notifications": "Notifiche"
+    "notifications": "Notifiche",
+    "riskAnalysis": "Analisi del rischio"
   },
   "menu": "Menù",
   "userExternalLinkLabel": "Utenti",
