@@ -24,7 +24,8 @@ export const ConsumerPurposeSummaryAssignmentAccordion: React.FC<
     .with('REVIEWER_WRITES_REVIEWER_SIGNS', () => t('mode.reviewerWritesReviewerSigns'))
     .exhaustive()
 
-  // BE non espone ancora nome+cognome del Valutatore: mostriamo l'UUID raw come placeholder.
+  // BE does not yet expose the reviewer's first/last name: we render the raw UUID as a placeholder.
+  // BE invariant: when `reviewerWorkflow` is defined, `reviewerIds` is non-empty.
   const reviewerId = purpose.reviewerWorkflow?.reviewerIds[0]
 
   return (
