@@ -495,7 +495,6 @@
   "riskAnalysisCompile": {
     "backToListBtn": "Torna alle analisi del rischio",
     "title": "Compilazione analisi del rischio",
-    "backWithoutSaveBtn": "Indietro",
     "forwardWithSaveBtn": "Salva bozza e prosegui"
   },
   "publishThankYou": {

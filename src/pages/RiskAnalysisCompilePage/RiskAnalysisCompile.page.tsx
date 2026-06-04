@@ -9,10 +9,11 @@ import {
   RiskAnalysisForm,
   RiskAnalysisFormSkeleton,
 } from '../ConsumerPurposeEditPage/components/PurposeEditStepRiskAnalysis/RiskAnalysisForm'
+import { RequiredTextLabel } from '@/components/shared/RequiredTextLabel'
 
 const RiskAnalysisCompilePage: React.FC = () => {
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisCompile' })
-  const { purposeId } = useParams<'PROVIDE_PURPOSE_DETAILS'>()
+  const { purposeId } = useParams<'SUBSCRIBE_RISK_ANALYSIS_COMPILE'>()
   const navigate = useNavigate()
 
   const { mutate: updateRiskAnalysis } = PurposeMutations.useUpdateRiskAnalysis()
@@ -24,6 +25,7 @@ const RiskAnalysisCompilePage: React.FC = () => {
       riskAnalysisVersion: purpose?.riskAnalysisForm?.version,
       tenantKind: purpose?.consumer.kind,
     }),
+    enabled: Boolean(purpose),
   })
 
   if (!purpose || !riskAnalysis) {
@@ -70,6 +72,7 @@ const RiskAnalysisCompilePage: React.FC = () => {
         to: 'SUBSCRIBE_RISK_ANALYSIS_LIST',
       }}
     >
+      <RequiredTextLabel />
       <Grid container sx={{ mt: 3 }}>
         <RiskAnalysisForm
           riskAnalysis={riskAnalysis}

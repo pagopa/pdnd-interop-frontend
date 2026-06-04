@@ -495,7 +495,6 @@
   "riskAnalysisCompile": {
     "backToListBtn": "Back to risk analysis",
     "title": "Fill risk analysis",
-    "backWithoutSaveBtn": "Back",
     "forwardWithSaveBtn": "Save draft and proceed"
   },
   "publishThankYou": {
