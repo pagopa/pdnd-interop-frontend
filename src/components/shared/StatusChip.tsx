@@ -114,7 +114,7 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
       }
     | {
         for: 'riskAnalysis'
-        state: RiskAnalysisSigningState
+        state: Extract<RiskAnalysisSigningState, 'ASSIGNED' | 'SUBMITTED'>
       }
   )
 
