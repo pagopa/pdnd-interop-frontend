@@ -557,6 +557,7 @@
     "SIMULATE_GET_VOUCHER_CONSUMER": "Simulate getting a voucher",
     "SUBSCRIBE_RISK_ANALYSIS_LIST": "Risk analysis",
     "SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE": "Purpose information",
-    "SUBSCRIBE_RISK_ANALYSIS_COMPILE": "Compile risk analysis"
+    "SUBSCRIBE_RISK_ANALYSIS_COMPILE": "Compile risk analysis",
+    "SUBSCRIBE_RISK_ANALYSIS_APPROVAL": "Approve risk analysis"
   }
 }

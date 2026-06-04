@@ -559,6 +559,7 @@
     "PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU": "Pubblicazione completata",
     "SUBSCRIBE_RISK_ANALYSIS_LIST": "Analisi del rischio",
     "SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE": "Informazioni finalità",
-    "SUBSCRIBE_RISK_ANALYSIS_COMPILE": "Compilazione analisi del rischio"
+    "SUBSCRIBE_RISK_ANALYSIS_COMPILE": "Compilazione analisi del rischio",
+    "SUBSCRIBE_RISK_ANALYSIS_APPROVAL": "Approvazione analisi del rischio"
   }
 }
