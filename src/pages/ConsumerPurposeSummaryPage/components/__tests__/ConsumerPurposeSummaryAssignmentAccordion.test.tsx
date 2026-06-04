@@ -36,7 +36,7 @@ describe('ConsumerPurposeSummaryAssignmentAccordion', () => {
     vi.clearAllMocks()
   })
 
-  it('option 1 (autonomy): reviewerWorkflow undefined → renders only "Modalità" row with autonomy copy', () => {
+  it('option 1 (autonomy) and fallback (reviewerWorkflow undefined): renders only "Modalità" row with autonomy copy', () => {
     setPurpose(undefined)
 
     renderWithApplicationContext(
@@ -83,18 +83,5 @@ describe('ConsumerPurposeSummaryAssignmentAccordion', () => {
     expect(screen.getByText('mode.reviewerWritesReviewerSigns')).toBeInTheDocument()
     expect(screen.getByText('reviewer.label')).toBeInTheDocument()
     expect(screen.getByText(REVIEWER_ID)).toBeInTheDocument()
-  })
-
-  it('fallback: reviewerWorkflow missing on payload → same as option 1', () => {
-    setPurpose(undefined)
-
-    renderWithApplicationContext(
-      <ConsumerPurposeSummaryAssignmentAccordion purposeId="test-id" />,
-      { withReactQueryContext: true }
-    )
-
-    expect(screen.getByText('mode.label')).toBeInTheDocument()
-    expect(screen.getByText('mode.autonomy')).toBeInTheDocument()
-    expect(screen.queryByText('reviewer.label')).not.toBeInTheDocument()
   })
 })
