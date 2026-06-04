@@ -357,6 +357,7 @@
         "callbackInterface": {
           "readOnlyLabel": "Callback interface",
           "prettyName": "Callback interface",
+          "download": "Download callback file",
           "dropzoneLabel": "Drag the callback interface here or click here to select it from your computer"
         },
         "configSubsection": {
