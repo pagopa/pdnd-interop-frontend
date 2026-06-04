@@ -80,8 +80,8 @@ const RiskAnalysisSummaryPage: React.FC = () => {
       title={t('riskAnalysisSummary.title')}
       isLoading={isLoading}
       backToAction={{
-        label: t('backToListBtn'),
-        to: 'SUBSCRIBE_PURPOSE_LIST',
+        label: t('riskAnalysisSummary.backToListBtn'),
+        to: 'SUBSCRIBE_RISK_ANALYSIS_LIST',
       }}
     >
       {alertProps && <Alert sx={{ mb: 3 }} {...alertProps} />}
