@@ -71,6 +71,7 @@ import { ConsumerPurposeTemplateSummaryPage } from '@/pages/ConsumerPurposeTempl
 import { ConsumerPurposeTemplateEditPage } from '@/pages/ConsumerPurposeTemplateEditPage'
 import { ConsumerSimulateGetVoucherPage } from '@/pages/ConsumerSimulateGetVoucherPage'
 import RiskAnalysisSummaryPage from '@/pages/RiskAnalysisSummaryPage/RiskAnalysisSummary.page'
+import RiskAnalysisApproveThankYouPage from '@/pages/RiskAnalysisApproveThankYouPage/RiskAnalysisApproveThankYou.page'
 import RiskAnalysisCompilePage from '@/pages/RiskAnalysisCompilePage/RiskAnalysisCompile.page'
 import RiskAnalysisInfoCompilePage from '@/pages/RiskAnalysisInfoCompilePage/RiskAnalysisInfoCompile.page'
 import RiskAnalysisListPage from '@/pages/RiskAnalysisListPage/RiskAnalysisList.page'
@@ -747,9 +748,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL_SUCCESS',
     path: '/analisi-del-rischio/:purposeId/conferma',
-    element: (
-      <></>
-    ) /* @TODO: this will be added with https://pagopa.atlassian.net/browse/PIN-10192 */,
+    element: <RiskAnalysisApproveThankYouPage />,
     public: false,
     hideSideNav: true,
     authLevels: [] /* @TODO: change this when role will be available */,

@@ -581,5 +581,10 @@
       "description": "Fino alla sua attivazione da parte dell'erogatore non potrai accedere ai dati resi disponibili attraverso l'API e non potrai associare client. Riceverai una notifica quando l'erogatore approverà la tua finalità"
     },
     "action": "Chiudi"
+  },
+  "approveThankYou": {
+    "title": "Hai approvato l’analisi del rischio",
+    "description": "L’amministratore potrà pubblicare la finalità. Non vedrai più questa analisi del rischio tra quelle che devi compilare o approvare.",
+    "action": "Chiudi"
   }
 }

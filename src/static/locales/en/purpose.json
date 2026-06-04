@@ -581,5 +581,10 @@
       "description": "Until its activation by the provider, you will not be able to access data made available through the API and you will not be able to associate clients. You will receive a notification when the provider approves your purpose"
     },
     "action": "Close"
+  },
+  "approveThankYou": {
+    "title": "You have approved the risk analysis",
+    "description": "The administrator will be able to publish the purpose. You will no longer see this risk analysis among those you need to complete or approve.",
+    "action": "Close"
   }
 }
