@@ -19,7 +19,7 @@ export const RiskAnalysisTableRow: React.FC<{
     : null
 
   const formattedDate = sentDate
-    ? sentDate.toLocaleDateString(undefined, {
+    ? sentDate.toLocaleDateString('it-IT', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric',
