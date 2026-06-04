@@ -71,6 +71,9 @@ import { ConsumerPurposeTemplateSummaryPage } from '@/pages/ConsumerPurposeTempl
 import { ConsumerPurposeTemplateEditPage } from '@/pages/ConsumerPurposeTemplateEditPage'
 import { ConsumerSimulateGetVoucherPage } from '@/pages/ConsumerSimulateGetVoucherPage'
 import RiskAnalysisSummaryPage from '@/pages/RiskAnalysisSummaryPage/RiskAnalysisSummary.page'
+import RiskAnalysisCompilePage from '@/pages/RiskAnalysisCompilePage/RiskAnalysisCompile.page'
+import RiskAnalysisInfoCompilePage from '@/pages/RiskAnalysisInfoCompilePage/RiskAnalysisInfoCompile.page'
+import RiskAnalysisListPage from '@/pages/RiskAnalysisListPage/RiskAnalysisList.page'
 
 import { z } from 'zod'
 
@@ -712,32 +715,26 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_LIST',
     path: '/analisi-del-rischio',
-    element: (
-      <></>
-    ) /* @TODO: Must be merged with https://github.com/pagopa/pdnd-interop-frontend/pull/1949 */,
+    element: <RiskAnalysisListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin'] /* @TODO: change this when role will be available */,
+    authLevels: [] /* @TODO: change this when role will be available */,
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE',
     path: '/analisi-del-rischio/:purposeId',
-    element: (
-      <></>
-    ) /* @TODO: Must be merged with https://github.com/pagopa/pdnd-interop-frontend/pull/1950 */,
+    element: <RiskAnalysisInfoCompilePage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin'] /* @TODO: change this when role will be available */,
+    authLevels: [] /* @TODO: change this when role will be available */,
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_COMPILE',
     path: '/analisi-del-rischio/:purposeId/compilazione',
-    element: (
-      <></>
-    ) /* @TODO: Must be merged with https://github.com/pagopa/pdnd-interop-frontend/pull/1955 */,
+    element: <RiskAnalysisCompilePage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin'] /* @TODO: change this when role will be available */,
+    authLevels: [] /* @TODO: change this when role will be available */,
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_SUMMARY',
@@ -745,7 +742,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <RiskAnalysisSummaryPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin'] /* @TODO: change this when role will be available */,
+    authLevels: [] /* @TODO: change this when role will be available */,
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL_SUCCESS',
@@ -755,7 +752,15 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     ) /* @TODO: this will be added with https://pagopa.atlassian.net/browse/PIN-10192 */,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin'] /* @TODO: change this when role will be available */,
+    authLevels: [] /* @TODO: change this when role will be available */,
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL',
+    path: '/analisi-del-rischio/:purposeId/approvazione',
+    element: <></> /* @TODO: component will be written on next task */,
+    public: false,
+    hideSideNav: true,
+    authLevels: [] /* @TODO: change this when role will be available */,
   })
   .build()
 

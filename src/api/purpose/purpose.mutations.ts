@@ -230,6 +230,17 @@ function useSignRiskAnalysis() {
   })
 }
 
+function useUpdateRiskAnalysis() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.updateRiskAnalysis' })
+  return useMutation({
+    mutationFn: PurposeServices.updateRiskAnalysis,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const PurposeMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -248,4 +259,5 @@ export const PurposeMutations = {
   useRemoveClient,
   useCreateDraftFromPurposeTemplate,
   useSignRiskAnalysis,
+  useUpdateRiskAnalysis,
 }
