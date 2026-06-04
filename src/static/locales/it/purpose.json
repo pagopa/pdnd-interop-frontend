@@ -492,6 +492,20 @@
       }
     }
   },
+  "riskAnalysisSummary": {
+    "backToListBtn": "Torna alle analisi del rischio",
+    "title": "Riepilogo",
+    "modifyBtn": "Modifica bozza",
+    "approveBtn": "Approva analisi del rischio",
+    "generalInformationSection": {
+      "title": "Informazioni generali"
+    },
+    "riskAnalysisSection": {
+      "title": "Analisi del rischio"
+    },
+    "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione",
+    "infoAlert": "Quando approvi l’analisi del rischio, l’amministratore potrà pubblicare la finalità."
+  },
   "riskAnalysisCompile": {
     "backToListBtn": "Torna alle analisi del rischio",
     "title": "Compilazione analisi del rischio",

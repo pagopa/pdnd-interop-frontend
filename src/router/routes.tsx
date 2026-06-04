@@ -70,6 +70,7 @@ import ConsumerPurposeTemplateCatalogDetailsPage from '@/pages/ConsumerPurposeTe
 import { ConsumerPurposeTemplateSummaryPage } from '@/pages/ConsumerPurposeTemplateSummaryPage'
 import { ConsumerPurposeTemplateEditPage } from '@/pages/ConsumerPurposeTemplateEditPage'
 import { ConsumerSimulateGetVoucherPage } from '@/pages/ConsumerSimulateGetVoucherPage'
+import RiskAnalysisSummaryPage from '@/pages/RiskAnalysisSummaryPage/RiskAnalysisSummary.page'
 import RiskAnalysisCompilePage from '@/pages/RiskAnalysisCompilePage/RiskAnalysisCompile.page'
 import RiskAnalysisInfoCompilePage from '@/pages/RiskAnalysisInfoCompilePage/RiskAnalysisInfoCompile.page'
 import RiskAnalysisListPage from '@/pages/RiskAnalysisListPage/RiskAnalysisList.page'
@@ -737,10 +738,8 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_SUMMARY',
-    path: '/analisi-del-rischio/:purposeId/riepilogo',
-    element: (
-      <></>
-    ) /* @TODO: the component will be built with https://pagopa.atlassian.net/browse/PIN-10191 */,
+    path: '/analisi-del-rischio/:purposeId/compilazione/riepilogo',
+    element: <RiskAnalysisSummaryPage />,
     public: false,
     hideSideNav: true,
     authLevels: ['admin'] /* @TODO: change this when role will be available */,
