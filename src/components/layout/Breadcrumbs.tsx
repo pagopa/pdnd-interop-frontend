@@ -71,6 +71,7 @@ export function Breadcrumbs() {
         PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU: false,
         PROVIDE_ESERVICE_PUBLISH_THANK_YOU: false,
         SUBSCRIBE_PURPOSE_PUBLISH_THANK_YOU: false,
+        SUBSCRIBE_RISK_ANALYSIS_LIST: false,
       }}
     />
   )
