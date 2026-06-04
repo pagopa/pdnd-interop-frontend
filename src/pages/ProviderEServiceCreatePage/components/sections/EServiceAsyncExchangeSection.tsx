@@ -23,7 +23,8 @@ export const EServiceAsyncExchangeSection: React.FC<EServiceAsyncExchangeSection
   return (
     <EServiceAsyncExchangeSectionBase
       areGeneralInfoEditable={areEServiceGeneralInfoEditable}
-      areAdvancedOptionsEditable={!isEServiceCreatedFromTemplate}
+      areAdvancedOptionsEditable
+      areAdvancedOptionsDisabled={isEServiceCreatedFromTemplate}
       asyncExchangeProperties={descriptor?.asyncExchangeProperties}
       editableCallbackInterfaceContent={editableCallbackInterfaceContent}
       readOnlyCallbackInterfaceContent={readOnlyCallbackInterfaceContent}

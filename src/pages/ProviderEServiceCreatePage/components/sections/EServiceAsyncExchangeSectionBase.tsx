@@ -16,6 +16,7 @@ type EServiceAsyncExchangeSectionBaseProps = {
   readOnlyCallbackInterfaceContent: string | React.ReactElement
   isSoap?: boolean
   forceBulkFalse?: boolean
+  areAdvancedOptionsDisabled?: boolean
 }
 
 const asyncExchangeNumericFields = [
@@ -59,6 +60,7 @@ export const EServiceAsyncExchangeSectionBase: React.FC<EServiceAsyncExchangeSec
   readOnlyCallbackInterfaceContent,
   isSoap = false,
   forceBulkFalse = false,
+  areAdvancedOptionsDisabled = false,
 }) => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'create.step4.asyncExchangeSection',
@@ -177,13 +179,14 @@ export const EServiceAsyncExchangeSectionBase: React.FC<EServiceAsyncExchangeSec
             name="asyncExchangeProperties.confirmation"
             label={t('confirmationField.label')}
             infoLabel={t('confirmationField.infoLabel')}
+            disabled={areAdvancedOptionsDisabled}
             sx={{ my: 0 }}
           />
           <RHFCheckbox
             name="asyncExchangeProperties.bulk"
             label={t('bulkField.label')}
             infoLabel={t('bulkField.infoLabel')}
-            disabled={isSoap}
+            disabled={areAdvancedOptionsDisabled || isSoap}
             sx={{ mb: 0 }}
           />
         </Stack>

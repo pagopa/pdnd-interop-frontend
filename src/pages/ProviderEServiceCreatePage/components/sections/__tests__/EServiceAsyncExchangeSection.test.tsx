@@ -160,6 +160,13 @@ describe('EServiceAsyncExchangeSection', () => {
     expect(screen.queryByText('callbackInterface.readOnlyLabel')).not.toBeInTheDocument()
   })
 
+  it('should render advanced options as disabled checkboxes for e-services created from template', () => {
+    renderComponent(true, {}, defaultFormValues, true)
+
+    expect(screen.getByRole('checkbox', { name: /confirmationField.label/ })).toBeDisabled()
+    expect(screen.getByRole('checkbox', { name: /bulkField.label/ })).toBeDisabled()
+  })
+
   it('should prevent submit when async exchange numeric values exceed their limits', async () => {
     const onSubmit = renderValidationTestForm()
 
