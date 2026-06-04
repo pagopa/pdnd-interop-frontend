@@ -12,7 +12,10 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
   const { purposeId } = useParams<'SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE'>()
   const navigate = useNavigate()
 
-  const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
+  const { data: purpose, isLoading } = useQuery({
+    ...PurposeQueries.getSingle(purposeId),
+    throwOnError: true,
+  })
 
   const handleBeginCompile = () => {
     if (purpose?.id) {
@@ -34,7 +37,7 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
       <Grid container sx={{ mt: 3 }}>
         <Grid item xs={12}>
           {!purpose ? (
-            <ProviderPurposeDetailsPageSkeleton />
+            <RiskAnalysisInfoCompilePageSkeleton />
           ) : (
             <Stack spacing={3}>
               <SectionContainer title={t('generalInfoSection.label')}>
@@ -93,7 +96,7 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
         </Grid>
       </Grid>
       <Stack direction="row" sx={{ mt: 5, justifyContent: 'right' }}>
-        <Button onClick={handleBeginCompile} variant="contained" type="button">
+        <Button onClick={handleBeginCompile} variant="contained" type="button" disabled={isLoading}>
           {t('beginCompileBtn')}
         </Button>
       </Stack>
@@ -122,7 +125,7 @@ const RiskAnalysisLoadEstimateSectionSkeleton: React.FC = () => (
   </SectionContainer>
 )
 
-const ProviderPurposeDetailsPageSkeleton: React.FC = () => {
+const RiskAnalysisInfoCompilePageSkeleton: React.FC = () => {
   return (
     <Stack spacing={3}>
       <RiskAnalysisGeneralInfoSectionSkeleton />
