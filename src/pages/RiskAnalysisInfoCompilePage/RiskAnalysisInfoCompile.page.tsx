@@ -84,7 +84,7 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
                 <Stack spacing={3}>
                   <InformationContainer
                     label={t('loadEstimationSection.dailyCalls.label')}
-                    content={`${purpose.currentVersion?.dailyCalls ?? '-'}`}
+                    content={`${purpose.currentVersion?.dailyCalls ?? 1}`}
                   />
                 </Stack>
               </SectionContainer>

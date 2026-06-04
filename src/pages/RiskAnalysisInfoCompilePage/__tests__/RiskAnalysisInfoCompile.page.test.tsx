@@ -105,6 +105,7 @@ describe('RiskAnalysisInfoCompilePage', () => {
 
     expect(screen.getByText('loadEstimationSection.label')).toBeInTheDocument()
     expect(screen.queryByText('undefined')).not.toBeInTheDocument()
+    expect(screen.queryByText('1')).toBeInTheDocument()
   })
 
   it('should render YES when purpose is free of charge', () => {
