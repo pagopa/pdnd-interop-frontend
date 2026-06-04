@@ -77,10 +77,12 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
                         : t('generalInfoSection.isFreeOfCharge.options.NO')
                     }
                   />
-                  <InformationContainer
-                    label={t('generalInfoSection.freeOfChargeReason.label')}
-                    content={purpose.freeOfChargeReason || ''}
-                  />
+                  {purpose.isFreeOfCharge && (
+                    <InformationContainer
+                      label={t('generalInfoSection.freeOfChargeReason.label')}
+                      content={purpose.freeOfChargeReason || ''}
+                    />
+                  )}
                 </Stack>
               </SectionContainer>
               <SectionContainer title={t('loadEstimationSection.label')}>
