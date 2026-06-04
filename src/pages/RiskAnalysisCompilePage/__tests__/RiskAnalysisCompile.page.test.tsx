@@ -234,4 +234,29 @@ describe('RiskAnalysisCompilePage', () => {
       },
     })
   })
+
+  it('should use 1 as dailyCalls when currentVersion is missing', async () => {
+    const user = userEvent.setup()
+
+    setQueryData({
+      purpose: {
+        ...purpose,
+        currentVersion: undefined,
+      },
+      riskAnalysis,
+    })
+
+    renderWithApplicationContext(<RiskAnalysisCompilePage />, {
+      withRouterContext: true,
+    })
+
+    await user.click(screen.getByRole('button', { name: 'Submit' }))
+
+    expect(updateRiskAnalysisMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        dailyCalls: 1,
+      }),
+      expect.any(Object)
+    )
+  })
 })

@@ -47,7 +47,7 @@ const RiskAnalysisCompilePage: React.FC = () => {
         riskAnalysisForm: { version: riskAnalysis.version, answers },
         freeOfChargeReason: purpose.freeOfChargeReason,
         isFreeOfCharge: purpose.isFreeOfCharge,
-        dailyCalls: purpose.currentVersion!.dailyCalls,
+        dailyCalls: purpose.currentVersion?.dailyCalls ?? 1,
       },
       { onSuccess: goToSummary }
     )
