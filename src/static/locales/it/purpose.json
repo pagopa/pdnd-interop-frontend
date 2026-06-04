@@ -120,8 +120,7 @@
       },
       "delegateAlert": "Come delegato, non puoi assegnare l’analisi del rischio a un valutatore.",
       "forwardBtn": "Salva bozza e prosegui",
-      "requestReviewerCompilationBtn": "Richiedi compilazione",
-      "backToListBtn": "Torna alle finalità"
+      "requestReviewerCompilationBtn": "Richiedi compilazione"
     },
     "loadEstimationSection": {
       "title": "Stima chiamate API",
