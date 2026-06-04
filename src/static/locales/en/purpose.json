@@ -522,6 +522,65 @@
       }
     }
   },
+  "riskAnalysisInfoCompile": {
+    "backToListBtn": "Back to risk analysis",
+    "title": "Purpose information",
+    "generalInfoSection": {
+      "label": "General information",
+      "eService": {
+        "label": "E-service to be associated"
+      },
+      "producer": {
+        "label": "Producer"
+      },
+      "purposeName": {
+        "label": "Purpose name"
+      },
+      "purposeDescription": {
+        "label": "Purpose description"
+      },
+      "isFreeOfCharge": {
+        "label": "How will you make the data you receive from this e-service available?",
+        "options": {
+          "YES": "Free of charge",
+          "NO": "For a fee"
+        }
+      },
+      "freeOfChargeReason": {
+        "label": "Free of charge reason"
+      }
+    },
+    "loadEstimationSection": {
+      "label": "Estimate API calls",
+      "dailyCalls": {
+        "label": "Estimated number of API calls/day"
+      }
+    },
+    "beginCompileBtn": "Start compilation"
+  },
+  "riskAnalysisList": {
+    "filters": {
+      "eserviceField": {
+        "label": "Filter by e-service"
+      },
+      "riskAnalysisState": {
+        "label": "Risk analysis state",
+        "statusField": {
+          "ASSIGNED": "To fill out",
+          "SUBMITTED": "To be approved"
+        }
+      }
+    },
+    "today": {
+      "label": "Today"
+    },
+    "noData": {
+      "label": "You have no risk analysis to evaluate"
+    },
+    "noResults": {
+      "label": "The current search returned no results."
+    }
+  },
   "publishThankYou": {
     "loading": "Publishing in progress",
     "active": {
