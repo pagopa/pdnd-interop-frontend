@@ -65,8 +65,8 @@ export const ConfigureCertifiedDiscreteAttributeDrawer: React.FC<
   React.useEffect(() => {
     if (isOpen) {
       formMethods.reset({
-        comparator: 'GT',
-        threshold: undefined,
+        comparator: attribute?.discreteConfig?.comparator ?? 'GT',
+        threshold: attribute?.discreteConfig?.threshold ?? undefined,
       })
     }
   }, [isOpen, formMethods, attribute])
