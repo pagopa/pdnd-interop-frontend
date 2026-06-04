@@ -558,6 +558,10 @@
     "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Edit Purpose from Template",
     "PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU": "Publication completed",
     "SIMULATE_GET_VOUCHER_API": "Simulate getting a voucher",
-    "SIMULATE_GET_VOUCHER_CONSUMER": "Simulate getting a voucher"
+    "SIMULATE_GET_VOUCHER_CONSUMER": "Simulate getting a voucher",
+    "SUBSCRIBE_RISK_ANALYSIS_LIST": "Risk analysis",
+    "SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE": "Purpose information",
+    "SUBSCRIBE_RISK_ANALYSIS_COMPILE": "Compile risk analysis",
+    "SUBSCRIBE_RISK_ANALYSIS_APPROVAL": "Approve risk analysis"
   }
 }

@@ -96,7 +96,8 @@
       "linkedEserviceName": "E-service o template e-service",
       "linkedEserviceProviderName": "Nome erogatore",
       "purposeTemplateCreatorName": "Nome realizzatore",
-      "purposeTemplateTarget": "Destinatario"
+      "purposeTemplateTarget": "Destinatario",
+      "assignmentDate": "Data assegnazione"
     }
   },
   "status": {
@@ -148,6 +149,10 @@
       "DRAFT": "in bozza",
       "SUSPENDED": "sospeso",
       "ARCHIVED": "archiviato"
+    },
+    "riskAnalysis": {
+      "ASSIGNED": "da compilare",
+      "SUBMITTED": "da approvare"
     }
   },
   "userProductRole": {
