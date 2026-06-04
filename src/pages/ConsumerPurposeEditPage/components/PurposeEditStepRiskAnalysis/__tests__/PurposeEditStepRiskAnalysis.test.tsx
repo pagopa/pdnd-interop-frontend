@@ -231,7 +231,8 @@ describe('PurposeEditStepRiskAnalysis', () => {
     })
   })
 
-  it('in option 2 throws when reviewerIds is missing (BE contract violation) instead of opening a malformed dialog', () => {
+  it('in option 2 logs and no-ops when reviewerIds is missing (BE contract violation) instead of opening a malformed dialog', () => {
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
       reviewerIds: [],
@@ -241,8 +242,12 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
     render(<PurposeEditStepRiskAnalysis back={vi.fn()} forward={vi.fn()} activeStep={2} />)
 
-    expect(() => getLastFormProps().onSubmit({ purpose: ['OTHER'] })).toThrow(/reviewerIds/)
+    getLastFormProps().onSubmit({ purpose: ['OTHER'] })
+
+    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching(/reviewerIds/))
     expect(openDialogMock).not.toHaveBeenCalled()
+
+    consoleErrorSpy.mockRestore()
   })
 
   it('in option 2 the draft save only persists and navigates without submitting', () => {

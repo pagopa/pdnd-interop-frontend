@@ -68,11 +68,13 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
     if (!reviewerId) {
       // BE contract: option 2 always assigns at least one reviewer
       // (RiskAnalysisAssignmentSeed.reviewerIds has @minItems 1). If we land
-      // here the purpose is malformed; refuse to open a dialog with an empty
-      // interpolation slot.
-      throw new Error(
+      // here the purpose is malformed; log loudly and no-op rather than
+      // crashing the route — this is a UI action handler, not a place to
+      // throw to the ErrorBoundary.
+      console.error(
         'PurposeEditStepRiskAnalysis: reviewerIds is missing on a purpose in ADMIN_WRITES_REVIEWER_SIGNS mode'
       )
+      return
     }
     openDialog({
       type: 'requestPurposeApproval',
@@ -81,28 +83,17 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
       // closeDialog(), and the second mutate() would silently no-op against a
       // destroyed observer.
       onConfirm: () => {
-        updatePurpose(
-          {
-            purposeId: purpose.id,
-            title: purpose.title,
-            description: purpose.description,
-            riskAnalysisForm: { version: riskAnalysis.version, answers },
-            freeOfChargeReason: purpose.freeOfChargeReason,
-            isFreeOfCharge: purpose.isFreeOfCharge,
-            dailyCalls: purpose.currentVersion!.dailyCalls,
+        saveDraft(answers, {
+          onSuccess: () => {
+            submitRiskAnalysis(
+              {
+                purposeId: purpose.id,
+                riskAnalysisForm: { version: riskAnalysis.version, answers },
+              },
+              { onSuccess: goToSummary }
+            )
           },
-          {
-            onSuccess: () => {
-              submitRiskAnalysis(
-                {
-                  purposeId: purpose.id,
-                  riskAnalysisForm: { version: riskAnalysis.version, answers },
-                },
-                { onSuccess: goToSummary }
-              )
-            },
-          }
-        )
+        })
       },
     })
   }
