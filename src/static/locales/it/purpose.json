@@ -186,7 +186,7 @@
       "requiredFieldErrorReviewer": "Compila per proseguire",
       "requestApprovalDialog": {
         "title": "Richiedi approvazione",
-        "description": "Se confermi, assegnerai l’approvazione dell’analisi del rischio al valutatore e non potrai più fare modifiche.",
+        "description": "Se confermi, assegnerai l’approvazione dell’analisi del rischio al valutatore <strong>{{reviewerId}}</strong> e non potrai più fare modifiche.",
         "proceedLabel": "Conferma"
       }
     },

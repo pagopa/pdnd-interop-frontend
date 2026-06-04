@@ -4,12 +4,14 @@ import { RiskAnalysisForm, RiskAnalysisFormSkeleton } from './RiskAnalysisForm/R
 import { useNavigate, useParams } from '@/router'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { match } from 'ts-pattern'
+import { useDialog } from '@/stores'
 
 import { useQuery } from '@tanstack/react-query'
 
 export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back }) => {
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_EDIT'>()
   const navigate = useNavigate()
+  const { openDialog } = useDialog()
 
   const { mutate: updatePurpose, isPending: isSaving } = PurposeMutations.useUpdateDraft()
   const { mutate: submitRiskAnalysis, isPending: isSubmittingForReviewer } =
@@ -62,17 +64,36 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
   }
 
   const handleRequestApproval = (answers: Record<string, string[]>) => {
-    // "Richiedi approvazione" persists the latest answers and then submits
-    // the risk analysis to the reviewer; only after both succeed the user
-    // lands on the purpose summary.
-    saveDraft(answers, {
-      onSuccess: () => {
-        submitRiskAnalysis(
+    openDialog({
+      type: 'requestPurposeApproval',
+      reviewerId: purpose.reviewerWorkflow?.reviewerIds?.[0] ?? '',
+      // The chain (updateDraft -> submitRiskAnalysis -> navigate) runs in the
+      // parent so the MutationObservers stay mounted across the dialog close.
+      // Running the chain inside the dialog would break: closeDialog() unmounts
+      // the dialog, and the second mutate() call (inside the first onSuccess)
+      // would target a destroyed MutationObserver and silently no-op.
+      onConfirm: () => {
+        updatePurpose(
           {
             purposeId: purpose.id,
+            title: purpose.title,
+            description: purpose.description,
             riskAnalysisForm: { version: riskAnalysis.version, answers },
+            freeOfChargeReason: purpose.freeOfChargeReason,
+            isFreeOfCharge: purpose.isFreeOfCharge,
+            dailyCalls: purpose.currentVersion!.dailyCalls,
           },
-          { onSuccess: goToSummary }
+          {
+            onSuccess: () => {
+              submitRiskAnalysis(
+                {
+                  purposeId: purpose.id,
+                  riskAnalysisForm: { version: riskAnalysis.version, answers },
+                },
+                { onSuccess: goToSummary }
+              )
+            },
+          }
         )
       },
     })
