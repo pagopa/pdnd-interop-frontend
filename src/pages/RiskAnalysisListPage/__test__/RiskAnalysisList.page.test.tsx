@@ -2,6 +2,8 @@ import { screen } from '@testing-library/react'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import RiskAnalysisListPage from '../RiskAnalysisList.page'
 import type { RiskAnalysisSigningState } from '@/api/api.generatedTypes'
+import { useQuery } from '@tanstack/react-query'
+import type * as ReactQuery from '@tanstack/react-query'
 
 vi.mock('@/components/shared/StatusChip', () => ({
   StatusChip: ({ state }: { state: RiskAnalysisSigningState }) => (
@@ -33,12 +35,48 @@ vi.mock('@/api/purpose', () => ({
   },
 }))
 
+vi.mock('@tanstack/react-query', async () => {
+  const actual = await vi.importActual<typeof ReactQuery>('@tanstack/react-query')
+
+  return {
+    ...actual,
+    useQuery: vi.fn(),
+  }
+})
+
+const mockedUseQuery = vi.mocked(useQuery)
+
 describe('RiskAnalysisListPage', () => {
-  beforeEach(() => {
+  const renderPage = () =>
     renderWithApplicationContext(<RiskAnalysisListPage />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+
+    mockedUseQuery.mockReturnValue({
+      data: {
+        results: [
+          {
+            id: '1',
+            eservice: {
+              name: 'Test E-service',
+              producer: { name: 'PagoPA' },
+            },
+            reviewerWorkflow: {
+              signingState: 'ASSIGNED',
+              sentToReviewerAt: new Date().toISOString(),
+            },
+          },
+        ],
+        pagination: { totalCount: 1 },
+      },
+      isFetching: false,
+    } as unknown as ReturnType<typeof useQuery>)
+
+    renderPage()
   })
 
   it('renders page title', () => {
@@ -65,5 +103,20 @@ describe('RiskAnalysisListPage', () => {
 
   it('renders today label', async () => {
     expect(await screen.findByText('today.label')).toBeInTheDocument()
+  })
+
+  it('does not show noData label when data exists', () => {
+    expect(screen.queryByText('noData.label')).not.toBeInTheDocument()
+  })
+
+  it('does not render noData label while initial data is loading', () => {
+    mockedUseQuery.mockReturnValueOnce({
+      data: undefined,
+      isFetching: true,
+    } as unknown as ReturnType<typeof useQuery>)
+
+    renderPage()
+
+    expect(screen.queryByText('noData.label')).not.toBeInTheDocument()
   })
 })

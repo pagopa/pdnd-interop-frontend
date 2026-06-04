@@ -64,7 +64,7 @@ const RiskAnalysisListPage: React.FC = () => {
   const hasActiveFilters =
     (queryParams.eservicesIds?.length ?? 0) > 0 || Boolean(queryParams.signingState)
 
-  const isInitialEmptyState = (data?.results.length ?? 0) === 0 && !hasActiveFilters
+  const isInitialEmptyState = !!data && data.results.length === 0 && !hasActiveFilters
 
   return (
     <PageContainer title={t('title')} description={t('description')}>
