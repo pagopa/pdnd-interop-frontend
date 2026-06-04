@@ -17,7 +17,10 @@ const RiskAnalysisCompilePage: React.FC = () => {
   const navigate = useNavigate()
 
   const { mutate: updateRiskAnalysis } = PurposeMutations.useUpdateRiskAnalysis()
-  const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
+  const { data: purpose, isLoading } = useQuery({
+    ...PurposeQueries.getSingle(purposeId),
+    throwOnError: true,
+  })
 
   const { data: riskAnalysis } = useQuery({
     ...PurposeQueries.getRiskAnalyisLatestOrSpecificVersion({
@@ -49,7 +52,8 @@ const RiskAnalysisCompilePage: React.FC = () => {
         riskAnalysisForm: { version: riskAnalysis.version, answers },
         freeOfChargeReason: purpose.freeOfChargeReason,
         isFreeOfCharge: purpose.isFreeOfCharge,
-        dailyCalls: purpose.currentVersion?.dailyCalls ?? 1,
+        dailyCalls:
+          purpose.currentVersion?.dailyCalls ?? purpose.waitingForApprovalVersion?.dailyCalls ?? 1,
       },
       { onSuccess: goToSummary }
     )
@@ -76,10 +80,10 @@ const RiskAnalysisCompilePage: React.FC = () => {
       <Grid container sx={{ mt: 3 }}>
         <RiskAnalysisForm
           riskAnalysis={riskAnalysis}
-          defaultAnswers={purpose?.riskAnalysisForm?.answers}
+          defaultAnswers={purpose.riskAnalysisForm?.answers}
           onSubmit={handleSubmit}
           onCancel={back}
-          personalData={purpose?.eservice.personalData}
+          personalData={purpose.eservice.personalData}
           submitLabel={t('forwardWithSaveBtn')}
         />
       </Grid>
