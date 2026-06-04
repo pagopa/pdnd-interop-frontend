@@ -734,7 +734,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     authLevels: [] /* @TODO: change this when role will be available */,
   })
   .addRoute({
-    key: 'SUBSCRIBE_RISK_ANALYSIS_APPROVE',
+    key: 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL',
     path: '/analisi-del-rischio/:purposeId/approvazione',
     element: <></> /* @TODO: component will be written on next task */,
     public: false,
