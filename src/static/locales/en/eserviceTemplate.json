@@ -580,6 +580,7 @@
       "title": "You have published a new version of the e-service template",
       "description": "It is now available in the e-service template catalog. Those using the previous version of the template will receive a notification and will need to update to the new version."
     },
-    "action": "Close"
+    "action": "Close",
+    "goToTemplateAction": "Go to template"
   }
 }
