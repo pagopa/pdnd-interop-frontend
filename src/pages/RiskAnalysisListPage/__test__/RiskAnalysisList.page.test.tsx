@@ -4,6 +4,7 @@ import RiskAnalysisListPage from '../RiskAnalysisList.page'
 import type { RiskAnalysisSigningState } from '@/api/api.generatedTypes'
 import { useQuery } from '@tanstack/react-query'
 import type * as ReactQuery from '@tanstack/react-query'
+import { RiskAnalysisTableSkeleton } from '../components/RiskAnalysisTable'
 
 vi.mock('@/components/shared/StatusChip', () => ({
   StatusChip: ({ state }: { state: RiskAnalysisSigningState }) => (
@@ -118,5 +119,14 @@ describe('RiskAnalysisListPage', () => {
     renderPage()
 
     expect(screen.queryByText('noData.label')).not.toBeInTheDocument()
+  })
+
+  it('renders skeleton rows', () => {
+    const { container } = renderWithApplicationContext(<RiskAnalysisTableSkeleton />, {
+      withReactQueryContext: true,
+    })
+
+    const skeletons = container.querySelectorAll('.MuiSkeleton-root')
+    expect(skeletons.length).toBeGreaterThanOrEqual(5)
   })
 })
