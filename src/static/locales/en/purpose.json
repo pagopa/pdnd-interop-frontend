@@ -237,9 +237,9 @@
       "title": "Assignment",
       "mode": {
         "label": "Mode",
-        "autonomy": "Self-compilation and self-approval",
-        "adminWritesReviewerSigns": "Self-compilation and reviewer approval",
-        "reviewerWritesReviewerSigns": "Reviewer compilation and approval"
+        "autonomy": "Completed and approved autonomously",
+        "adminWritesReviewerSigns": "Completed autonomously, approved by the reviewer",
+        "reviewerWritesReviewerSigns": "Completed and approved by the reviewer"
       },
       "reviewer": {
         "label": "Reviewer"
