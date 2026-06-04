@@ -68,11 +68,18 @@ type AssignmentPurposeOverrides = {
 
 function buildPurpose(
   overrides: Partial<Purpose> = {},
-  assignment: AssignmentPurposeOverrides = {}
+  assignment?: AssignmentPurposeOverrides
 ): Purpose {
+  const reviewerWorkflow: Purpose['reviewerWorkflow'] | undefined = assignment?.reviewMode
+    ? {
+        reviewMode: assignment.reviewMode,
+        reviewerIds: assignment.reviewerIds ?? [],
+        signingState: 'ASSIGNED',
+      }
+    : undefined
   return {
     ...createMockPurpose({ id: 'purpose-123', ...overrides }),
-    ...(assignment as Partial<Purpose>),
+    ...(reviewerWorkflow ? { reviewerWorkflow } : {}),
   }
 }
 
