@@ -367,15 +367,15 @@
         },
         "responseTimeField": {
           "label": "Tempo massimo di risposta (in secondi)",
-          "infoLabel": "Indica in quanto tempo il tuo e-service restituisce una risposta dopo la chiamata dei fruitori."
+          "infoLabel": "Indica in quanto tempo il tuo e-service restituisce una risposta dopo la chiamata dei fruitori. Valori accettati: da 1 a 999.999 secondi."
         },
         "maxResultSetField": {
           "label": "Numero massimo di risultati per risposta",
-          "infoLabel": "Indica quanti elementi può contenere al massimo ogni risposta."
+          "infoLabel": "Indica quanti elementi può contenere al massimo ogni risposta. Valori accettati: da 1 a 99.999."
         },
         "resourceAvailableTimeField": {
           "label": "Durata di disponibilità del dato (in secondi)",
-          "infoLabel": "Indica per quanto tempo il dato è scaricabile prima di essere cancellato."
+          "infoLabel": "Indica per quanto tempo il dato è scaricabile prima di essere cancellato. Valori accettati: da 1 a 999.999 secondi."
         },
         "confirmationField": {
           "label": "Richiedi conferma di ricezione",
