@@ -57,7 +57,7 @@ export const RiskAnalysisTableRow: React.FC<{
         to={
           purpose.reviewerWorkflow?.signingState === 'ASSIGNED'
             ? 'SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE'
-            : 'SUBSCRIBE_RISK_ANALYSIS_APPROVE'
+            : 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL'
         }
         params={{
           purposeId: purpose.id,
