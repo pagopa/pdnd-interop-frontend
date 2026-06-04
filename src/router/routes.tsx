@@ -70,8 +70,9 @@ import ConsumerPurposeTemplateCatalogDetailsPage from '@/pages/ConsumerPurposeTe
 import { ConsumerPurposeTemplateSummaryPage } from '@/pages/ConsumerPurposeTemplateSummaryPage'
 import { ConsumerPurposeTemplateEditPage } from '@/pages/ConsumerPurposeTemplateEditPage'
 import { ConsumerSimulateGetVoucherPage } from '@/pages/ConsumerSimulateGetVoucherPage'
-import { RiskAnalysisListPage } from '@/pages/RiskAnalysisListPage'
+import RiskAnalysisCompilePage from '@/pages/RiskAnalysisCompilePage/RiskAnalysisCompile.page'
 import RiskAnalysisInfoCompilePage from '@/pages/RiskAnalysisInfoCompilePage/RiskAnalysisInfoCompile.page'
+import RiskAnalysisListPage from '@/pages/RiskAnalysisListPage/RiskAnalysisList.page'
 
 import { z } from 'zod'
 
@@ -724,15 +725,25 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <RiskAnalysisInfoCompilePage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin'] /* @TODO: change this when role will be available */,
+    authLevels: [] /* @TODO: change this when role will be available */,
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_COMPILE',
     path: '/analisi-del-rischio/:purposeId/compilazione',
-    element: <></> /* @TODO: component will be written on next task */,
+    element: <RiskAnalysisCompilePage />,
     public: false,
     hideSideNav: true,
     authLevels: [] /* @TODO: change this when role will be available */,
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_SUMMARY',
+    path: '/analisi-del-rischio/:purposeId/riepilogo',
+    element: (
+      <></>
+    ) /* @TODO: the component will be built with https://pagopa.atlassian.net/browse/PIN-10191 */,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['admin'] /* @TODO: change this when role will be available */,
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL',

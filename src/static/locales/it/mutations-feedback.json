@@ -594,6 +594,12 @@
         "error": "Non è stato possibile scaricare il documento dell'analisi del rischio. Per favore, riprova!"
       }
     },
+    "updateRiskAnalysis": {
+      "loading": "Stiamo aggiornando l'analisi del rischio",
+      "outcome": {
+        "error": "Non è stato possibile aggiornare l'analisi del rischio. Per favore, riprova!"
+      }
+    },
     "clone": {
       "loading": "Stiamo clonando la finalità",
       "outcome": {

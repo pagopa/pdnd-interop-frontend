@@ -492,6 +492,11 @@
       }
     }
   },
+  "riskAnalysisCompile": {
+    "backToListBtn": "Back to risk analysis",
+    "title": "Fill risk analysis",
+    "forwardWithSaveBtn": "Save draft and proceed"
+  },
   "riskAnalysisInfoCompile": {
     "backToListBtn": "Back to risk analysis",
     "title": "Purpose information",

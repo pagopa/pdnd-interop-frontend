@@ -492,6 +492,11 @@
       }
     }
   },
+  "riskAnalysisCompile": {
+    "backToListBtn": "Torna alle analisi del rischio",
+    "title": "Compilazione analisi del rischio",
+    "forwardWithSaveBtn": "Salva bozza e prosegui"
+  },
   "riskAnalysisInfoCompile": {
     "backToListBtn": "Torna alle analisi del rischio",
     "title": "Informazioni finalità",

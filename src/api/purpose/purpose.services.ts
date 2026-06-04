@@ -290,6 +290,17 @@ async function getRemainingDailyCalls({ purposeId }: GetRemainingDailyCallsParam
   return response.data
 }
 
+async function updateRiskAnalysis({
+  purposeId,
+  ...payload
+}: { purposeId: string } & PurposeUpdateContent) {
+  const response = await axiosInstance.put<PurposeVersionResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/form`,
+    payload
+  )
+  return response.data
+}
+
 async function getRiskAnalysisAssignments(params: GetRiskAnalysisAssignmentsParams) {
   const response = await axiosInstance.get<Purposes>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/assignments`,
@@ -324,5 +335,6 @@ export const PurposeServices = {
   createDraftFromPurposeTemplate,
   downloadRiskAnalysis,
   getRemainingDailyCalls,
+  updateRiskAnalysis,
   getRiskAnalysisAssignments,
 }
