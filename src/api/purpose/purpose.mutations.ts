@@ -219,6 +219,17 @@ function useCreateDraftFromPurposeTemplate() {
   })
 }
 
+function useSignRiskAnalysis() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.signRiskAnalysis' })
+  return useMutation({
+    mutationFn: PurposeServices.signRiskAnalysis,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 function useUpdateRiskAnalysis() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.updateRiskAnalysis' })
   return useMutation({
@@ -247,5 +258,6 @@ export const PurposeMutations = {
   useAddClient,
   useRemoveClient,
   useCreateDraftFromPurposeTemplate,
+  useSignRiskAnalysis,
   useUpdateRiskAnalysis,
 }

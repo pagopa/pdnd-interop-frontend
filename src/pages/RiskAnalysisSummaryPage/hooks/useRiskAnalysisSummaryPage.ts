@@ -3,10 +3,12 @@ import { useNavigate, useParams } from '@/router'
 import { checkIsRulesetExpired } from '@/utils/purpose.utils'
 import { useQuery } from '@tanstack/react-query'
 import { useGetConsumerPurposeAlertProps } from '../../ConsumerPurposeSummaryPage/hooks/useGetConsumerPurposeAlertProps'
+import { useDialog } from '@/stores'
 
 export function useRiskAnalysisSummaryPage() {
   const { purposeId } = useParams<'SUBSCRIBE_RISK_ANALYSIS_SUMMARY'>()
   const navigate = useNavigate()
+  const { openDialog } = useDialog()
 
   const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
 
@@ -42,7 +44,10 @@ export function useRiskAnalysisSummaryPage() {
 
   const handleApproveDraft = () => {
     if (!purpose?.currentVersion) return
-    // TODO PIN-10193
+    openDialog({
+      type: 'approveRiskAnalysis',
+      purposeId,
+    })
   }
 
   return {

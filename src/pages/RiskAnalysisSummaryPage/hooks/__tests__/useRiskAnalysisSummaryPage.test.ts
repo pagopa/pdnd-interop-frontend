@@ -131,4 +131,19 @@ describe('useRiskAnalysisSummaryPage', () => {
       params: { purposeId: 'test-purpose-id' },
     })
   })
+
+  it('should navigate on edit draft', () => {
+    useQueryMock.mockReturnValue({
+      data: null,
+      isLoading: false,
+    })
+
+    const { result } = renderHook(() => useRiskAnalysisSummaryPage())
+
+    result.current.handleEditDraft()
+
+    expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_RISK_ANALYSIS_COMPILE', {
+      params: { purposeId: 'test-purpose-id' },
+    })
+  })
 })

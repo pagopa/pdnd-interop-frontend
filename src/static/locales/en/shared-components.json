@@ -271,6 +271,14 @@
       }
     }
   },
+  "dialogApproveRiskAnalysis": {
+    "title": "Approve risk analysis",
+    "description": "If confirmed, the risk analysis will no longer be editable and the administrator will be able to publish the purpose.",
+    "actions": {
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"
@@ -559,6 +567,7 @@
     "SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE": "Purpose information",
     "SUBSCRIBE_RISK_ANALYSIS_COMPILE": "Compile risk analysis",
     "SUBSCRIBE_RISK_ANALYSIS_SUMMARY": "Summary",
+    "SUBSCRIBE_RISK_ANALYSIS_APPROVAL_SUCCESS": "Risk analysis approved",
     "SUBSCRIBE_RISK_ANALYSIS_APPROVAL": "Approve risk analysis"
   }
 }

@@ -24,6 +24,7 @@ import type {
   RetrieveRiskAnalysisConfigurationByVersionParams,
   ReversePurposeUpdateContent,
   RiskAnalysisFormConfig,
+  SignRiskAnalysisParams,
 } from '../api.generatedTypes'
 
 /**
@@ -290,6 +291,13 @@ async function getRemainingDailyCalls({ purposeId }: GetRemainingDailyCallsParam
   return response.data
 }
 
+async function signRiskAnalysis({ purposeId }: SignRiskAnalysisParams) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/sign`
+  )
+  return response.data
+}
+
 async function updateRiskAnalysis({
   purposeId,
   ...payload
@@ -335,6 +343,7 @@ export const PurposeServices = {
   createDraftFromPurposeTemplate,
   downloadRiskAnalysis,
   getRemainingDailyCalls,
+  signRiskAnalysis,
   updateRiskAnalysis,
   getRiskAnalysisAssignments,
 }
