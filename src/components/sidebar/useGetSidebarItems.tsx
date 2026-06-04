@@ -9,6 +9,7 @@ import { routes } from '@/router'
 import DnsIcon from '@mui/icons-material/Dns'
 import { ConsumerIcon, ProviderIcon, CatalogIcon, DeveloperToolIcon, MyTenantIcon } from '@/icons'
 import NotificationsIcon from '@mui/icons-material/Notifications'
+import AssignmentIcon from '@mui/icons-material/Assignment'
 import { useTranslation } from 'react-i18next'
 import { useIsOrganizationAllowedToDelegations } from '@/api/hooks'
 
@@ -25,6 +26,12 @@ export function useGetSidebarItems(): SidebarRoutes {
 
   return React.useMemo(() => {
     const interopRoutes: SidebarRoutes = [
+      {
+        rootRouteKey: 'SUBSCRIBE_RISK_ANALYSIS_LIST',
+        icon: AssignmentIcon,
+        label: t('riskAnalysis'),
+        children: [],
+      },
       {
         rootRouteKey: 'SUBSCRIBE_CATALOG_LIST',
         icon: CatalogIcon,
