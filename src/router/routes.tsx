@@ -71,6 +71,7 @@ import { ConsumerPurposeTemplateSummaryPage } from '@/pages/ConsumerPurposeTempl
 import { ConsumerPurposeTemplateEditPage } from '@/pages/ConsumerPurposeTemplateEditPage'
 import { ConsumerSimulateGetVoucherPage } from '@/pages/ConsumerSimulateGetVoucherPage'
 import { RiskAnalysisListPage } from '@/pages/RiskAnalysisListPage'
+import RiskAnalysisInfoCompilePage from '@/pages/RiskAnalysisInfoCompilePage/RiskAnalysisInfoCompile.page'
 
 import { z } from 'zod'
 
@@ -720,10 +721,10 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE',
     path: '/analisi-del-rischio/:purposeId',
-    element: <></> /* @TODO: component will be written on next task */,
+    element: <RiskAnalysisInfoCompilePage />,
     public: false,
     hideSideNav: true,
-    authLevels: [] /* @TODO: change this when role will be available */,
+    authLevels: ['admin'] /* @TODO: change this when role will be available */,
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_COMPILE',
