@@ -59,7 +59,7 @@ vi.mock('@/api/eserviceTemplate', () => ({
     getSingleByEServiceTemplateId: vi.fn((eserviceTemplateId: string) =>
       queryOptions({
         queryKey: ['EServiceTemplateGetSingleByEServiceTemplateId', eserviceTemplateId],
-        queryFn: vi.fn(),
+        queryFn: vi.fn() as unknown as () => Promise<unknown>,
       })
     ),
   },
