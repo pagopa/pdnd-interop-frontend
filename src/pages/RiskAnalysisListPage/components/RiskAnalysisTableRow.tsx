@@ -1,11 +1,10 @@
 import { ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { Link } from '@/router'
-import { Skeleton, Stack, Typography } from '@mui/material'
+import { Skeleton, Typography } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import type { Purpose } from '@/api/api.generatedTypes'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
 import { useTranslation } from 'react-i18next'
 import isToday from 'date-fns/isToday'
 
