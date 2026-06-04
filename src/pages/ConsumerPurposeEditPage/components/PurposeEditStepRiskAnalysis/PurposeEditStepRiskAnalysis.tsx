@@ -64,14 +64,22 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
   }
 
   const handleRequestApproval = (answers: Record<string, string[]>) => {
+    const reviewerId = purpose.reviewerWorkflow?.reviewerIds?.[0]
+    if (!reviewerId) {
+      // BE contract: option 2 always assigns at least one reviewer
+      // (RiskAnalysisAssignmentSeed.reviewerIds has @minItems 1). If we land
+      // here the purpose is malformed; refuse to open a dialog with an empty
+      // interpolation slot.
+      throw new Error(
+        'PurposeEditStepRiskAnalysis: reviewerIds is missing on a purpose in ADMIN_WRITES_REVIEWER_SIGNS mode'
+      )
+    }
     openDialog({
       type: 'requestPurposeApproval',
-      reviewerId: purpose.reviewerWorkflow?.reviewerIds?.[0] ?? '',
-      // The chain (updateDraft -> submitRiskAnalysis -> navigate) runs in the
-      // parent so the MutationObservers stay mounted across the dialog close.
-      // Running the chain inside the dialog would break: closeDialog() unmounts
-      // the dialog, and the second mutate() call (inside the first onSuccess)
-      // would target a destroyed MutationObserver and silently no-op.
+      reviewerId,
+      // Chain must live in the parent: putting it in the dialog would race
+      // closeDialog(), and the second mutate() would silently no-op against a
+      // destroyed observer.
       onConfirm: () => {
         updatePurpose(
           {

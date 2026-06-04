@@ -12,12 +12,31 @@ vi.mock('@/stores', () => ({
 
 vi.mock('react-i18next', () => ({
   useTranslation: (_ns: string, opts?: { keyPrefix?: string }) => ({
-    t: (key: string) => (opts?.keyPrefix ? `${opts.keyPrefix}.${key}` : key),
+    t: (key: string, values?: Record<string, unknown>) => {
+      const path = opts?.keyPrefix ? `${opts.keyPrefix}.${key}` : key
+      if (!values) return path
+      const serialized = Object.entries(values)
+        .map(([k, v]) => `${k}=${String(v)}`)
+        .join(',')
+      return `${path}(${serialized})`
+    },
   }),
-  // For <Trans>, render a deterministic string that includes the interpolated reviewerId.
-  Trans: ({ i18nKey, values }: { i18nKey: string; values?: Record<string, unknown> }) => (
+  // Project pattern: <Trans components={{ strong: ... }}>{t('key', values)}</Trans>.
+  // The real Trans parses the resolved children for tag markers and replaces
+  // them with components.strong. We don't simulate parsing — we render the
+  // resolved string verbatim AND a marker element so the test can confirm
+  // the strong wrapper was passed.
+  Trans: ({
+    children,
+    components,
+  }: {
+    children?: React.ReactNode
+    components?: { strong?: React.ReactElement }
+  }) => (
     <span>
-      {i18nKey}|reviewerId={String(values?.reviewerId ?? '')}
+      {children}
+      {components?.strong &&
+        React.cloneElement(components.strong, { 'data-testid': 'reviewer-id-strong' })}
     </span>
   ),
 }))
@@ -33,17 +52,20 @@ describe('DialogRequestPurposeApproval', () => {
     vi.clearAllMocks()
   })
 
-  it('renders the title, the description with the reviewerId interpolated, and both CTAs', () => {
+  it('renders the title, the description with the reviewerId interpolated, a strong wrapper, and both CTAs', () => {
     render(<DialogRequestPurposeApproval {...defaultProps} />)
 
     expect(
       screen.getByText('edit.stepRiskAnalysis.requestApprovalDialog.title')
     ).toBeInTheDocument()
+    // The description string from t() is resolved with reviewerId interpolated.
     expect(
       screen.getByText(
-        'edit.stepRiskAnalysis.requestApprovalDialog.description|reviewerId=reviewer-abc'
+        'edit.stepRiskAnalysis.requestApprovalDialog.description(reviewerId=reviewer-abc)'
       )
     ).toBeInTheDocument()
+    // <Trans> receives a `components.strong` to wrap the bold portion.
+    expect(screen.getByTestId('reviewer-id-strong')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'actions.cancel' })).toBeInTheDocument()
     expect(
       screen.getByRole('button', {

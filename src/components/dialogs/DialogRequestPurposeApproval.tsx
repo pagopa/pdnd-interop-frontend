@@ -39,16 +39,15 @@ export const DialogRequestPurposeApproval: React.FC<DialogRequestPurposeApproval
     >
       <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
 
-      <DialogContent id={ariaDescriptionId}>
-        <Typography variant="body2">
+      <DialogContent>
+        <Typography id={ariaDescriptionId} variant="body2">
           <Trans
-            i18nKey="edit.stepRiskAnalysis.requestApprovalDialog.description"
-            ns="purpose"
-            values={{ reviewerId }}
             components={{
               strong: <Typography component="span" variant="inherit" fontWeight={600} />,
             }}
-          />
+          >
+            {t('description', { reviewerId })}
+          </Trans>
         </Typography>
       </DialogContent>
 

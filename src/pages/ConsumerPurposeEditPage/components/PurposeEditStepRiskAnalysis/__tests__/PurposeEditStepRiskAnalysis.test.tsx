@@ -231,10 +231,9 @@ describe('PurposeEditStepRiskAnalysis', () => {
     })
   })
 
-  it('in option 2 opens the dialog with an empty reviewerId when reviewerIds is missing', () => {
+  it('in option 2 throws when reviewerIds is missing (BE contract violation) instead of opening a malformed dialog', () => {
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-      // No reviewerIds (degenerate state — keep the dialog openable instead of crashing).
       reviewerIds: [],
       signingState: 'DRAFT',
     })
@@ -242,10 +241,8 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
     render(<PurposeEditStepRiskAnalysis back={vi.fn()} forward={vi.fn()} activeStep={2} />)
 
-    getLastFormProps().onSubmit({ purpose: ['OTHER'] })
-
-    expect(openDialogMock).toHaveBeenCalledTimes(1)
-    expect(openDialogMock.mock.calls[0][0]).toMatchObject({ reviewerId: '' })
+    expect(() => getLastFormProps().onSubmit({ purpose: ['OTHER'] })).toThrow(/reviewerIds/)
+    expect(openDialogMock).not.toHaveBeenCalled()
   })
 
   it('in option 2 the draft save only persists and navigates without submitting', () => {
