@@ -87,8 +87,8 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
       reviewerIds: [reviewerId],
     }
 
-    // TODO[PIN-10138]: for reviewMode = REVIEWER_WRITES_REVIEWER_SIGNS the submit should
-    // first open a confirmation dialog (tracked in a separate task) before calling the API.
+    // TODO: for reviewMode = REVIEWER_WRITES_REVIEWER_SIGNS the submit should
+    // first open a confirmation dialog (tracked in a follow-up task) before calling the API.
     assignReviewer(payload, {
       onSuccess: isRequestReviewerCompilation ? goToSummary : forward,
     })

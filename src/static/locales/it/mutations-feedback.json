@@ -594,6 +594,12 @@
         "error": "Non è stato possibile scaricare il documento dell'analisi del rischio. Per favore, riprova!"
       }
     },
+    "updateRiskAnalysis": {
+      "loading": "Stiamo aggiornando l'analisi del rischio",
+      "outcome": {
+        "error": "Non è stato possibile aggiornare l'analisi del rischio. Per favore, riprova!"
+      }
+    },
     "clone": {
       "loading": "Stiamo clonando la finalità",
       "outcome": {
@@ -629,6 +635,12 @@
       "loading": "Stiamo inviando l’analisi del rischio al valutatore",
       "outcome": {
         "error": "L’analisi del rischio è stata salvata ma non è stato possibile inviarla al valutatore. Riprova!"
+      }
+    },
+    "signRiskAnalysis": {
+      "loading": "Stiamo approvando l'analisi del rischio",
+      "outcome": {
+        "error": "Non è stato possibile approvare l'analisi del rischio. Per favore, riprova!"
       }
     }
   },

@@ -30,7 +30,8 @@
       "delegations": "Delegations management"
     },
     "developerTools": "Developer tools",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "riskAnalysis": "Risk analysis"
   },
   "menu": "Menu",
   "userExternalLinkLabel": "Users",
