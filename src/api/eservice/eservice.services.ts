@@ -193,6 +193,46 @@ function reactivateVersion({
   )
 }
 
+function scheduleArchiveDescriptor({
+  eserviceId,
+  descriptorId,
+}: {
+  eserviceId: string
+  descriptorId: string
+}) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/scheduleArchive`
+  )
+}
+
+function cancelDescriptorArchiving({
+  eserviceId,
+  descriptorId,
+}: {
+  eserviceId: string
+  descriptorId: string
+}) {
+  return axiosInstance.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/scheduleArchive`
+  )
+}
+
+function scheduleArchiveEservice({
+  eserviceId,
+  archivingReason,
+}: {
+  eserviceId: string
+  archivingReason: string
+}) {
+  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/scheduleArchive`, {
+    archivingReason,
+  })
+}
+
+function cancelEserviceArchiving({ eserviceId }: { eserviceId: string }) {
+  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/scheduleArchive`)
+}
+
 function deleteVersionDraft({
   eserviceId,
   descriptorId,
@@ -646,6 +686,10 @@ export const EServiceServices = {
   updateInstanceVersion,
   updateAgreementApprovalPolicy,
   reactivateVersion,
+  scheduleArchiveDescriptor,
+  cancelDescriptorArchiving,
+  scheduleArchiveEservice,
+  cancelEserviceArchiving,
   deleteVersionDraft,
   addEServiceRiskAnalysis,
   getEServiceRiskAnalysis,

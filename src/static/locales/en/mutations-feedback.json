@@ -90,8 +90,9 @@
       },
       "confirmDialog": {
         "title": "Publish e-service",
-        "titleNewVersion": "Publish new e-service version",
+        "titleNewVersion": "Publish new version",
         "description": "Once published, this version will be available in the e-service catalog and can no longer be deleted. You can still suspend it or mark it as deprecated when you publish a new version.",
+        "descriptionNewVersion": "<p>When a new version of the e-service is published, it is immediately available in the catalog and can no longer be deleted.</p><p>The previous version becomes deprecated or, if it has no active consumers, will be archived automatically.</p><p>You will be able to suspend the new version or mark it as deprecated when you publish a subsequent version.</p>",
         "proceedLabel": "Publish"
       }
     },

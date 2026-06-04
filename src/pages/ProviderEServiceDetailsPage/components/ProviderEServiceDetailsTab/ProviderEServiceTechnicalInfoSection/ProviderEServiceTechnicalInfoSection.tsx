@@ -9,10 +9,7 @@ import { ProviderEServiceVoucherLifespanSection } from './ProviderEServiceVouche
 import { ProviderEServiceUsefulLinksSection } from './ProviderEServiceUsefulLinksSection'
 import { ProviderEServiceDocumentationSection } from './ProviderEServiceDocumentationSection'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
-import { formatDateString } from '@/utils/format.utils'
-import { ProviderEServiceAgreementApprovalPolicySection } from './ProviderEServiceAgreementApprovalPolicySection'
 import { ProviderEServiceDelegationsSection } from './ProviderEServiceDelegationsSection'
 
 export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
@@ -59,30 +56,6 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
                 tooltipTitle: t('producerId.copySuccessFeedbackText'),
               }}
             />
-            {descriptor.publishedAt && (
-              <InformationContainer
-                label={t('publishedAt')}
-                content={formatDateString(descriptor.publishedAt)}
-              />
-            )}
-            {descriptor.suspendedAt && descriptor.state === 'SUSPENDED' && (
-              <InformationContainer
-                label={t('suspendedAt')}
-                content={formatDateString(descriptor.suspendedAt)}
-              />
-            )}
-            {descriptor.deprecatedAt && (
-              <InformationContainer
-                label={t('deprecatedAt')}
-                content={formatDateString(descriptor.deprecatedAt)}
-              />
-            )}
-            {descriptor.archivedAt && (
-              <InformationContainer
-                label={t('archivedAt')}
-                content={formatDateString(descriptor.archivedAt)}
-              />
-            )}
             <InformationContainer
               label={t('technology')}
               content={descriptor.eservice.technology}
@@ -152,12 +125,6 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
         <Divider />
         <ProviderEServiceVoucherLifespanSection descriptor={descriptor} />
         <Divider />
-        {FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE && (
-          <>
-            <ProviderEServiceAgreementApprovalPolicySection descriptor={descriptor} />
-            <Divider />
-          </>
-        )}
         <ProviderEServiceDelegationsSection descriptor={descriptor} />
         <Divider />
         <ProviderEServiceDocumentationSection descriptor={descriptor} />

@@ -57,7 +57,9 @@ export type EServiceDescriptorState =
   | "DEPRECATED"
   | "SUSPENDED"
   | "ARCHIVED"
-  | "WAITING_FOR_APPROVAL";
+  | "WAITING_FOR_APPROVAL"
+  | "ARCHIVING"
+  | "ARCHIVING_SUSPENDED";
 
 /** Purpose State */
 export type PurposeVersionState =
@@ -103,6 +105,9 @@ export type AgreementApprovalPolicy = "AUTOMATIC" | "MANUAL";
 
 /** Risk Analysis Mode */
 export type EServiceMode = "RECEIVE" | "DELIVER";
+
+/** Archiving Scope */
+export type ArchivingScope = "ESERVICE" | "DESCRIPTOR";
 
 /** Data Type Question */
 export type DataType = "SINGLE" | "MULTI" | "FREETEXT";
@@ -475,6 +480,7 @@ export interface CatalogEServiceDescriptor {
   deprecatedAt?: string;
   /** @format date-time */
   archivedAt?: string;
+  archivingSchedule?: ArchivingSchedule;
   asyncExchangeProperties?: AsyncExchangeProperties;
   asyncExchangeCallbackInterface?: EServiceDoc;
 }
@@ -536,6 +542,7 @@ export interface CatalogDescriptorEService {
   isConsumerDelegable?: boolean;
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
+  archivingReason?: string;
   asyncExchange?: boolean;
 }
 
@@ -556,6 +563,15 @@ export interface ProducerEServiceDetails {
   asyncExchange?: boolean;
   /** @format uuid */
   latestActiveDescriptorId?: string;
+}
+
+export interface ArchivingSchedule {
+  /** @format date-time */
+  archivableOn?: string;
+  /** @format date-time */
+  startedAt?: string;
+  /** Archiving Scope */
+  scope?: ArchivingScope;
 }
 
 export interface EServiceRiskAnalysisSeed {
@@ -640,6 +656,7 @@ export interface ProducerEServiceDescriptor {
   asyncExchangeProperties?: AsyncExchangeProperties;
   asyncExchangeCallbackInterface?: EServiceDoc;
   delegation?: DelegationWithCompactTenants;
+  archivingSchedule?: ArchivingSchedule;
 }
 
 export interface ProducerDescriptorEService {
@@ -851,6 +868,8 @@ export interface CompactDescriptor {
   audience: string[];
   /** @format uuid */
   templateVersionId?: string;
+  /** @format date-time */
+  archivableOn?: string;
 }
 
 export interface TemplateInstanceInterfaceRESTSeed {
@@ -2606,6 +2625,14 @@ export interface EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescript
   createdAt: string;
 }
 
+export interface EServiceArchivingReasonSeed {
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  archivingReason: string;
+}
+
 export interface CompactPurposeTemplateEServiceTemplate {
   /** @format uuid */
   id: string;
@@ -3112,6 +3139,48 @@ export interface UpdateDescriptorParams {
    * @format uuid
    */
   descriptorId: string;
+}
+
+export interface ScheduleArchiveEserviceDescriptorParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface CancelEServiceDescriptorArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface CancelScheduleArchiveEserviceParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface ScheduleArchiveEserviceParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
 }
 
 export interface UpdateTemplateInstanceDescriptorParams {
@@ -7074,6 +7143,104 @@ export namespace Eservices {
   }
 
   /**
+   * @description Schedule the archiving process for an E-Service Descriptor
+   * @tags eservices
+   * @name ScheduleArchiveEserviceDescriptor
+   * @summary Schedule the archiving process for an E-Service Descriptor
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/scheduleArchive
+   * @secure
+   */
+  export namespace ScheduleArchiveEserviceDescriptor {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Cancel the archiving process for an E-Service Descriptor
+   * @tags eservices
+   * @name CancelEServiceDescriptorArchiving
+   * @summary Cancel the archiving process for an E-Service Descriptor
+   * @request DELETE:/eservices/{eServiceId}/descriptors/{descriptorId}/scheduleArchive
+   * @secure
+   */
+  export namespace CancelEServiceDescriptorArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Cancels the ongoing archiving process of an E-Service, restoring Descriptors to its previous operational state.
+   * @tags eservices
+   * @name CancelScheduleArchiveEservice
+   * @summary Cancel an ongoing archiving process of an E-Service
+   * @request DELETE:/eservices/{eServiceId}/scheduleArchive
+   * @secure
+   */
+  export namespace CancelScheduleArchiveEservice {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Schedule the archiving process for an E-Service
+   * @tags eservices
+   * @name ScheduleArchiveEservice
+   * @summary Schedule the archiving process for an E-Service
+   * @request POST:/eservices/{eServiceId}/scheduleArchive
+   * @secure
+   */
+  export namespace ScheduleArchiveEservice {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceArchivingReasonSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
    * @description Update agreement approval policy of published descriptor
    * @tags eservices
    * @name UpdateAgreementApprovalPolicy
@@ -7129,10 +7296,10 @@ export namespace Eservices {
   }
 
   /**
-   * @description Suspend the selected descriptor
+   * @description Suspend an E-Service Descriptor that is in Published, Deprecated or Archiving state, transitioning it to Suspended state or in ArchivingSuspended if previous state was Archiving
    * @tags eservices
    * @name SuspendDescriptor
-   * @summary Suspend the selected descriptor.
+   * @summary Suspend an E-Service Descriptor in Published, Deprecated or Archiving state
    * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/suspend
    * @secure
    */
