@@ -232,6 +232,28 @@ function useAssignRiskAnalysisReviewer() {
   })
 }
 
+function useSignRiskAnalysis() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.signRiskAnalysis' })
+  return useMutation({
+    mutationFn: PurposeServices.signRiskAnalysis,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useUpdateRiskAnalysis() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.updateRiskAnalysis' })
+  return useMutation({
+    mutationFn: PurposeServices.updateRiskAnalysis,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const PurposeMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -250,4 +272,6 @@ export const PurposeMutations = {
   useRemoveClient,
   useCreateDraftFromPurposeTemplate,
   useAssignRiskAnalysisReviewer,
+  useSignRiskAnalysis,
+  useUpdateRiskAnalysis,
 }

@@ -271,6 +271,14 @@
       }
     }
   },
+  "dialogApproveRiskAnalysis": {
+    "title": "Approva analisi del rischio",
+    "description": "Se confermi, l’analisi del rischio non sarà più modificabile e l’amministratore potrà pubblicare la finalità.",
+    "actions": {
+      "confirm": "Conferma",
+      "cancel": "Annulla"
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copia",
     "copied": "Copiato"
@@ -560,6 +568,8 @@
     "SUBSCRIBE_RISK_ANALYSIS_LIST": "Analisi del rischio",
     "SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE": "Informazioni finalità",
     "SUBSCRIBE_RISK_ANALYSIS_COMPILE": "Compilazione analisi del rischio",
+    "SUBSCRIBE_RISK_ANALYSIS_SUMMARY": "Riepilogo",
+    "SUBSCRIBE_RISK_ANALYSIS_APPROVAL_SUCCESS": "Analisi del rischio approvata",
     "SUBSCRIBE_RISK_ANALYSIS_APPROVAL": "Approvazione analisi del rischio"
   }
 }

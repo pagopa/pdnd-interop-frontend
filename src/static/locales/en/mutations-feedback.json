@@ -594,6 +594,12 @@
         "error": "The risk analysis document could not be downloaded. Please try again!"
       }
     },
+    "updateRiskAnalysis": {
+      "loading": "Risk analysis is being updated",
+      "outcome": {
+        "error": "The risk analysis could not be updated. Please try again!"
+      }
+    },
     "clone": {
       "loading": "Purpose is being cloned",
       "outcome": {
@@ -623,6 +629,12 @@
       "loading": "Assigning the reviewer",
       "outcome": {
         "error": "The reviewer could not be assigned. Please try again!"
+      }
+    },
+    "signRiskAnalysis": {
+      "loading": "Risk analysis is being signed",
+      "outcome": {
+        "error": "The risk analysis could not be signed. Please try again!"
       }
     }
   },

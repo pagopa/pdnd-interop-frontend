@@ -26,6 +26,7 @@ import type {
   DialogTenantKindEserviceTemplateProps,
   DialogTenantKindPurposeTemplateProps,
   DialogSelectAgreementConsumerProps,
+  DialogApproveRiskAnalysisProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -47,6 +48,7 @@ import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersio
 import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemplate'
 import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTemplate'
 import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/DialogSelectAgreementConsumer'
+import { DialogApproveRiskAnalysis } from './DialogApproveRiskAnalysis'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -69,7 +71,8 @@ function match<T>(
   onRejectDelegatedVersionDraft: (props: DialogRejectDelegatedVersionDraftProps) => T,
   onDialogTenantKindEserviceTemplate: (props: DialogTenantKindEserviceTemplateProps) => T,
   onDialogTenantKindPurposeTemplate: (props: DialogTenantKindPurposeTemplateProps) => T,
-  onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T
+  onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T,
+  onApproveRiskAnalysis: (props: DialogApproveRiskAnalysisProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -115,6 +118,8 @@ function match<T>(
         return onDialogTenantKindPurposeTemplate(props)
       case 'selectAgreementConsumer':
         return onSelectAgreementConsumer(props)
+      case 'approveRiskAnalysis':
+        return onApproveRiskAnalysis(props)
     }
   }
 }
@@ -140,7 +145,8 @@ const _Dialog = match(
   (props) => <DialogRejectDelegatedVersionDraft {...props} />,
   (props) => <DialogTenantKindEserviceTemplate {...props} />,
   (props) => <DialogTenantKindPurposeTemplate {...props} />,
-  (props) => <DialogSelectAgreementConsumer {...props} />
+  (props) => <DialogSelectAgreementConsumer {...props} />,
+  (props) => <DialogApproveRiskAnalysis {...props} />
 )
 
 export const Dialog: React.FC = () => {
