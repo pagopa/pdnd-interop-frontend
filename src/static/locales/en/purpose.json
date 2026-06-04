@@ -233,6 +233,18 @@
         }
       }
     },
+    "assignmentSection": {
+      "title": "Assignment",
+      "mode": {
+        "label": "Mode",
+        "autonomy": "Self-compilation and self-approval",
+        "adminWritesReviewerSigns": "Self-compilation and reviewer approval",
+        "reviewerWritesReviewerSigns": "Reviewer compilation and approval"
+      },
+      "reviewer": {
+        "label": "Reviewer"
+      }
+    },
     "riskAnalysisSection": {
       "title": "Risk analysis",
       "providerRiskAnalysisAlert": "The e-service selected for this purpose requires data to be sent from the consumer to the producer. The risk analysis was therefore compiled by the producer."

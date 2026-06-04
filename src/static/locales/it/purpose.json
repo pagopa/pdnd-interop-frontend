@@ -233,6 +233,18 @@
         }
       }
     },
+    "assignmentSection": {
+      "title": "Assegnazione",
+      "mode": {
+        "label": "Modalità",
+        "autonomy": "Compilazione e approvazione in autonomia",
+        "adminWritesReviewerSigns": "Compilazione in autonomia e approvazione del valutatore",
+        "reviewerWritesReviewerSigns": "Compilazione e approvazione del valutatore"
+      },
+      "reviewer": {
+        "label": "Valutatore"
+      }
+    },
     "riskAnalysisSection": {
       "title": "Analisi del rischio",
       "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
