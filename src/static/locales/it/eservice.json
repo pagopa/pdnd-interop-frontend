@@ -357,6 +357,7 @@
         "callbackInterface": {
           "readOnlyLabel": "Interfaccia di callback",
           "prettyName": "Interfaccia callback",
+          "download": "Scarica il file di callback",
           "dropzoneLabel": "Trascina qui l’interfaccia di callback oppure clicca qui per selezionarla dal computer"
         },
         "configSubsection": {

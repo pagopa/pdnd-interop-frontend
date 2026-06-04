@@ -10,8 +10,17 @@ import userEvent from '@testing-library/user-event'
 import { FormProvider, useForm } from 'react-hook-form'
 
 vi.mock('../../components/UploadCallbackInterfaceDoc', () => ({
-  UploadCallbackInterfaceDoc: ({ readOnly }: { readOnly?: boolean }) => (
-    <div>{readOnly ? 'UploadCallbackInterfaceDoc-readOnly' : 'UploadCallbackInterfaceDoc'}</div>
+  UploadCallbackInterfaceDoc: ({
+    readOnly,
+    showDownloadButton,
+  }: {
+    readOnly?: boolean
+    showDownloadButton?: boolean
+  }) => (
+    <div>
+      {readOnly ? 'UploadCallbackInterfaceDoc-readOnly' : 'UploadCallbackInterfaceDoc'}
+      {showDownloadButton ? '-downloadButton' : ''}
+    </div>
   ),
 }))
 
@@ -156,7 +165,9 @@ describe('EServiceAsyncExchangeSection', () => {
   it('should render the callback interface without an extra label for e-services created from template', () => {
     renderComponent(true, {}, defaultFormValues, true)
 
-    expect(screen.getByText('UploadCallbackInterfaceDoc-readOnly')).toBeInTheDocument()
+    expect(
+      screen.getByText('UploadCallbackInterfaceDoc-readOnly-downloadButton')
+    ).toBeInTheDocument()
     expect(screen.queryByText('callbackInterface.readOnlyLabel')).not.toBeInTheDocument()
   })
 
