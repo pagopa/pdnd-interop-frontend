@@ -1,7 +1,6 @@
 import {
   formatDateString,
   formatThousands,
-  isToday,
   minutesToSeconds,
   secondsToHoursMinutes,
   secondsToMinutes,
@@ -60,19 +59,5 @@ describe('testing secondsToMinutes utility function', () => {
     expect(secondsToMinutes(120)).toBe(2)
     expect(secondsToMinutes(3000)).toBe(50)
     expect(secondsToMinutes(599940)).toBe(9999)
-  })
-})
-
-describe('testing isToday utility function', () => {
-  it('should return true when date is today', () => {
-    const today = new Date()
-    expect(isToday(today)).toBe(true)
-  })
-  it('should return false when date is not today', () => {
-    const notToday = new Date('2000-01-01')
-    expect(isToday(notToday)).toBe(false)
-  })
-  it('should return false when date is null', () => {
-    expect(isToday(null)).toBe(false)
   })
 })

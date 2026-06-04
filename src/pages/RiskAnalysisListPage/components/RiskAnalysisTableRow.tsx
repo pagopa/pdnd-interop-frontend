@@ -7,7 +7,7 @@ import type { Purpose } from '@/api/api.generatedTypes'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
 import { useTranslation } from 'react-i18next'
-import { isToday } from '@/utils/format.utils'
+import isToday from 'date-fns/isToday'
 
 export const RiskAnalysisTableRow: React.FC<{
   purpose: Purpose
@@ -29,13 +29,10 @@ export const RiskAnalysisTableRow: React.FC<{
   return (
     <TableRow
       cellData={[
-        isToday(sentDate) ? (
-          <Stack direction="row" spacing={1.5} alignItems="center">
-            <NotificationBadgeDot />
-            <Typography variant="body2" fontWeight={600}>
-              {t('today.label')}
-            </Typography>
-          </Stack>
+        sentDate && isToday(sentDate) ? (
+          <Typography variant="body2" fontWeight={600}>
+            {t('today.label')}
+          </Typography>
         ) : (
           <Typography variant="body2" fontWeight={600}>
             {formattedDate}
