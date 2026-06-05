@@ -4,6 +4,8 @@ import { vi, describe, it, expect } from 'vitest'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockAttribute } from '../../../../../__mocks__/data/attribute.mocks'
 import userEvent from '@testing-library/user-event'
+import type { Attribute } from '@/api/api.generatedTypes'
+import { AttributeQueries } from '@/api/attribute'
 
 const baseAttribute = createMockAttribute({ id: 'attr-1', name: 'Test Attribute' })
 
@@ -104,5 +106,90 @@ describe('AttributeContainer', () => {
       { withReactQueryContext: true }
     )
     expect(screen.getByText('My Chip')).toBeInTheDocument()
+  })
+
+  it('should show "modifyCertifiedDiscreteAttribute" inside the action menu when onOpenConfigDrawer is provided and attribute kind is CERTIFIED_DISCRETE', async () => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(
+      <AttributeContainer
+        attribute={{ ...baseAttribute, kind: 'CERTIFIED_DISCRETE' }}
+        onOpenConfigDrawer={vi.fn()}
+      />,
+      { withReactQueryContext: true }
+    )
+
+    const menuActionsIconButton = screen.getByLabelText('iconButtonAriaLabel')
+    await user.click(menuActionsIconButton)
+
+    expect(
+      screen.getByRole('menuitem', { name: 'actions.modifyCertifiedDiscreteAttribute' })
+    ).toBeInTheDocument()
+  })
+
+  it('should show "inspectAttributeDetails" inside the action menu', async () => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(<AttributeContainer attribute={{ ...baseAttribute }} />, {
+      withReactQueryContext: true,
+    })
+
+    const menuActionsIconButton = screen.getByLabelText('iconButtonAriaLabel')
+    await user.click(menuActionsIconButton)
+
+    expect(
+      screen.getByRole('menuitem', { name: 'actions.inspectAttributeDetails' })
+    ).toBeInTheDocument()
+  })
+
+  it('should open AttributeDetailsDrawer with the attributes details when "inspectAttributeDetails" is clicked', async () => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(<AttributeContainer attribute={{ ...baseAttribute }} />, {
+      withReactQueryContext: true,
+    })
+
+    const menuActionsIconButton = screen.getByLabelText('iconButtonAriaLabel')
+    await user.click(menuActionsIconButton)
+
+    const inspectAttributeDetailsMenuItem = screen.getByRole('menuitem', {
+      name: 'actions.inspectAttributeDetails',
+    })
+    await user.click(inspectAttributeDetailsMenuItem)
+
+    const attributeDetailsDrawerDescription = screen.getByText(baseAttribute.description)
+    const attributeDetailsDrawerId = screen.getByText(baseAttribute.id)
+    const attributeDetailsDrawerOrigin = screen.queryByText('tenantCertifierLabel')
+
+    expect(attributeDetailsDrawerDescription).toBeInTheDocument()
+    expect(attributeDetailsDrawerId).toBeInTheDocument()
+    expect(attributeDetailsDrawerOrigin).not.toBeInTheDocument()
+  })
+
+  it('AttributeDetailsDrawer should contain origin if the attrubte has it', async () => {
+    const mockedAttributeWithOrigin: Attribute = { ...baseAttribute, origin: 'test origin' }
+
+    vi.mocked(AttributeQueries.getSingle).mockImplementationOnce(
+      (id: string) =>
+        ({
+          queryKey: ['attribute', id],
+          queryFn: vi.fn().mockReturnValue(mockedAttributeWithOrigin),
+        }) as unknown as ReturnType<typeof AttributeQueries.getSingle>
+    )
+
+    const user = userEvent.setup()
+
+    renderWithApplicationContext(<AttributeContainer attribute={{ ...baseAttribute }} />, {
+      withReactQueryContext: true,
+    })
+
+    const menuActionsIconButton = screen.getByLabelText('iconButtonAriaLabel')
+    await user.click(menuActionsIconButton)
+
+    const inspectAttributeDetailsMenuItem = screen.getByRole('menuitem', {
+      name: 'actions.inspectAttributeDetails',
+    })
+    await user.click(inspectAttributeDetailsMenuItem)
+
+    const attributeDetailsDrawerOrigin = screen.getByText(mockedAttributeWithOrigin.origin!)
+
+    expect(attributeDetailsDrawerOrigin).toBeInTheDocument()
   })
 })
