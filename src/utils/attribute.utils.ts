@@ -149,8 +149,8 @@ export function isAttributeGroupFullfilled<TAttributeKey extends AttributeKey>(
   ownedAttributes: TAttributeKey extends 'certified'
     ? CertifiedTenantAttribute[]
     : TAttributeKey extends 'verified'
-    ? VerifiedTenantAttribute[]
-    : DeclaredTenantAttribute[],
+      ? VerifiedTenantAttribute[]
+      : DeclaredTenantAttribute[],
   attributesGroup: Array<DescriptorAttribute>,
   verifierId?: string
 ) {
