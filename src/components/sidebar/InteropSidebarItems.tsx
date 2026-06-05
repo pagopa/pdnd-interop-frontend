@@ -35,7 +35,7 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
   const lang = useCurrentLanguage()
 
   const pathname = useCurrentRoute().routeKey
-  const { jwt, isAdmin, isReviewer, isSupport } = AuthHooks.useJwt()
+  const { jwt, isAdmin, isSupport } = AuthHooks.useJwt()
 
   const selfcareUsersPageUrl =
     jwt &&
@@ -123,7 +123,7 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
 
           return <SidebarItem key={route.label} {...sidebarItemProps} />
         })}
-      {(isAdmin || isReviewer) && (
+      {isAdmin && (
         <>
           <Divider sx={{ marginBottom: 2 }} />
           <SidebarItem
