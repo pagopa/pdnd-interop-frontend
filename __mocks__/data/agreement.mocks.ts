@@ -177,7 +177,6 @@ const createMockAgreement = createMockFactory<Agreement>({
           kind: 'VERIFIED',
         },
       ],
-      certifiedDiscrete: [],
     },
     contactMail: { address: 'ciao3@test.com' },
     createdAt: '2022-10-20T08:47:23.69Z',
