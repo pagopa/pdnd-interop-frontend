@@ -8,12 +8,9 @@ import {
   AttributeGroupContainer,
 } from '@/components/layout/containers'
 import type {
-  CertifiedDiscreteTenantAttribute,
-  CertifiedTenantAttribute,
-  DeclaredTenantAttribute,
   DescriptorAttribute,
   DescriptorAttributes,
-  VerifiedTenantAttribute,
+  TenantAttributes,
 } from '@/api/api.generatedTypes'
 import type { ActionItemButton } from '@/types/common.types'
 import { attributesHelpLink } from '@/config/constants'
@@ -26,9 +23,9 @@ import {
 } from '@/utils/attribute.utils'
 
 export type AttributeOwnershipData = {
-  certified: Array<CertifiedTenantAttribute | CertifiedDiscreteTenantAttribute>
-  verified: VerifiedTenantAttribute[]
-  declared: DeclaredTenantAttribute[]
+  certified: TenantAttributes['certified']
+  verified: TenantAttributes['verified']
+  declared: TenantAttributes['declared']
   producerId?: string
 }
 
