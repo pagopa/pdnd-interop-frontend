@@ -794,6 +794,7 @@ export interface CompactAttribute {
   /** @format uuid */
   id: string;
   name: string;
+  kind: AttributeKind;
 }
 
 export interface CompactAgreement {
@@ -1864,12 +1865,19 @@ export interface Tenant {
 
 export interface TenantAttributes {
   declared: DeclaredTenantAttribute[];
-  certified: CertifiedTenantAttribute[];
+  certified: (
+    | ({
+        kind: "CERTIFIED";
+      } & CertifiedTenantAttribute)
+    | ({
+        kind: "CERTIFIED_DISCRETE";
+      } & CertifiedDiscreteTenantAttribute)
+  )[];
   verified: VerifiedTenantAttribute[];
-  certifiedDiscrete: CertifiedDiscreteTenantAttribute[];
 }
 
 export interface DeclaredTenantAttribute {
+  kind: "DECLARED";
   /** @format uuid */
   id: string;
   name: string;
@@ -1909,6 +1917,7 @@ export interface TenantDelegatedFeaturesFlagsUpdateSeed {
 }
 
 export interface CertifiedTenantAttribute {
+  kind: "CERTIFIED";
   /** @format uuid */
   id: string;
   name: string;
@@ -1920,6 +1929,7 @@ export interface CertifiedTenantAttribute {
 }
 
 export interface CertifiedDiscreteTenantAttribute {
+  kind: "CERTIFIED_DISCRETE";
   /** @format uuid */
   id: string;
   name: string;
@@ -1944,6 +1954,7 @@ export interface TenantRemoteId {
 }
 
 export interface VerifiedTenantAttribute {
+  kind: "VERIFIED";
   /** @format uuid */
   id: string;
   name: string;
