@@ -75,6 +75,7 @@ import RiskAnalysisApproveThankYouPage from '@/pages/RiskAnalysisApproveThankYou
 import RiskAnalysisCompilePage from '@/pages/RiskAnalysisCompilePage/RiskAnalysisCompile.page'
 import RiskAnalysisInfoCompilePage from '@/pages/RiskAnalysisInfoCompilePage/RiskAnalysisInfoCompile.page'
 import RiskAnalysisListPage from '@/pages/RiskAnalysisListPage/RiskAnalysisList.page'
+import RiskAnalysisRejectThankYouPage from '@/pages/RiskAnalysisRejectThankYouPage/RiskAnalysisRejectThankYou.page'
 
 import { z } from 'zod'
 
@@ -764,9 +765,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_REJECTION_SUCCESS',
     path: '/analisi-del-rischio/:purposeId/rifiuto',
-    element: (
-      <></>
-    ) /* @TODO: this will be added with https://pagopa.atlassian.net/browse/PIN-10196 */,
+    element: <RiskAnalysisRejectThankYouPage />,
     public: false,
     hideSideNav: true,
     authLevels: [] /* @TODO: change this when role will be available */,
