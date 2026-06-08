@@ -28,11 +28,10 @@ vi.spyOn(router, 'useNavigate').mockReturnValue(mockFn)
 // file (light: MUI + i18n) instead of the whole barrel, whose accordions pull in
 // `@/router` and would create a huge/circular import graph that hangs the test.
 vi.mock('../components', async () => {
-  const { ConsumerPurposeSummaryRiskAnalysisRejectedAlert } =
+  const { ConsumerPurposeSummaryRiskAnalysisRejectedAlert } = await vi.importActual<
     // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-    await vi.importActual<
-      typeof import('../components/ConsumerPurposeSummaryRiskAnalysisRejectedAlert')
-    >('../components/ConsumerPurposeSummaryRiskAnalysisRejectedAlert')
+    typeof import('../components/ConsumerPurposeSummaryRiskAnalysisRejectedAlert')
+  >('../components/ConsumerPurposeSummaryRiskAnalysisRejectedAlert')
   return {
     ConsumerPurposeSummaryGeneralInformationAccordion: () => (
       <div data-testid="general-info-accordion" />
