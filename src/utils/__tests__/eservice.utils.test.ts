@@ -1,4 +1,5 @@
 import type { TFunction } from 'i18next'
+import type { EServiceDescriptorState } from '@/api/api.generatedTypes'
 import {
   calculateArchivableOn,
   getAsyncExchangePropertiesWithDefaults,
@@ -153,13 +154,15 @@ describe('isDescriptorBeingArchived utility function testing', () => {
     expect(isDescriptorBeingArchived('ARCHIVING_SUSPENDED')).toBe(true)
   })
 
-  it('returns false for other states and undefined', () => {
-    expect(isDescriptorBeingArchived('PUBLISHED')).toBe(false)
-    expect(isDescriptorBeingArchived('ARCHIVED')).toBe(false)
-    expect(isDescriptorBeingArchived('SUSPENDED')).toBe(false)
-    expect(isDescriptorBeingArchived('DEPRECATED')).toBe(false)
-    expect(isDescriptorBeingArchived('DRAFT')).toBe(false)
-    expect(isDescriptorBeingArchived(undefined)).toBe(false)
+  it.each<EServiceDescriptorState | undefined>([
+    'PUBLISHED',
+    'ARCHIVED',
+    'SUSPENDED',
+    'DEPRECATED',
+    'DRAFT',
+    undefined,
+  ])('returns false for state %s', (state) => {
+    expect(isDescriptorBeingArchived(state)).toBe(false)
   })
 })
 
