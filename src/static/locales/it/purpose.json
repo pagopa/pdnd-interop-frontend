@@ -247,7 +247,23 @@
     },
     "riskAnalysisSection": {
       "title": "Analisi del rischio",
-      "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
+      "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore.",
+      "reviewStatus": {
+        "chip": {
+          "awaitingCompilation": "In attesa di compilazione",
+          "awaitingApproval": "In attesa di approvazione",
+          "approved": "Approvata",
+          "rejected": "Rifiutata"
+        },
+        "infoAlert": {
+          "adminWritesReviewerSigns": "Quando il valutatore avrà approvato l’analisi del rischio, potrai pubblicare la finalità.",
+          "reviewerWritesReviewerSigns": "Quando il valutatore avrà compilato e approvato l’analisi del rischio, potrai pubblicare la finalità."
+        },
+        "rejectedAlert": {
+          "label": "Il valutatore ha rifiutato l’analisi del rischio. Leggi la motivazione, modifica l’analisi e inviala di nuovo in approvazione.",
+          "action": "Leggi motivazione"
+        }
+      }
     },
     "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione",
     "publishBtn": "Pubblica"

@@ -15,8 +15,10 @@ import {
   ConsumerPurposeSummaryAssignmentAccordion,
   ConsumerPurposeSummaryGeneralInformationAccordion,
   ConsumerPurposeSummaryRiskAnalysisAccordion,
+  ConsumerPurposeSummaryRiskAnalysisRejectedAlert,
 } from './components'
 import { useGetConsumerPurposeAlertProps } from './hooks/useGetConsumerPurposeAlertProps'
+import { useGetPurposeRiskAnalysisReviewStatus } from './hooks/useGetPurposeRiskAnalysisReviewStatus'
 import { useQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
 import { checkIsRulesetExpired } from '@/utils/purpose.utils'
@@ -41,6 +43,13 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   const isRulesetExpired = checkIsRulesetExpired(expirationDate)
 
   const alertProps = useGetConsumerPurposeAlertProps(purpose)
+
+  const {
+    chip: riskAnalysisChip,
+    isRejected: isRiskAnalysisRejected,
+    isPublishDisabledByReview,
+    infoAlertText: riskAnalysisInfoAlertText,
+  } = useGetPurposeRiskAnalysisReviewStatus(purpose)
 
   const eservicePersonalData = purpose?.eservice.personalData
 
@@ -126,6 +135,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       statusChip={purpose ? { for: 'purpose', purpose } : undefined}
     >
       {alertProps && <Alert sx={{ mb: 3 }} {...alertProps} />}
+      {isRiskAnalysisRejected && <ConsumerPurposeSummaryRiskAnalysisRejectedAlert />}
       <Stack spacing={3}>
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
           <SummaryAccordion
@@ -142,7 +152,11 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           </SummaryAccordion>
         </React.Suspense>
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="3" title={t('summary.riskAnalysisSection.title')}>
+          <SummaryAccordion
+            headline="3"
+            title={t('summary.riskAnalysisSection.title')}
+            statusChip={riskAnalysisChip}
+          >
             <ConsumerPurposeSummaryRiskAnalysisAccordion purposeId={purposeId} />
           </SummaryAccordion>
         </React.Suspense>
@@ -152,6 +166,11 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           expirationDate={expirationDate}
           isRulesetExpired={isRulesetExpired}
         />
+      )}
+      {riskAnalysisInfoAlertText && (
+        <Alert sx={{ mt: 3 }} severity="info" variant="outlined">
+          {riskAnalysisInfoAlertText}
+        </Alert>
       )}
       <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
         <Button
@@ -174,7 +193,11 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
         <Tooltip title={isPublishButtonDisabled ? t('summary.publishBtnDisabled') : ''} arrow>
           <span>
             <Button
-              disabled={arePublishOrEditButtonsDisabled || isPublishButtonDisabled}
+              disabled={
+                arePublishOrEditButtonsDisabled ||
+                isPublishButtonDisabled ||
+                isPublishDisabledByReview
+              }
               startIcon={<PublishIcon />}
               variant="contained"
               onClick={handlePublishDraft}

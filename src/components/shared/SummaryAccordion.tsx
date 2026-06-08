@@ -13,21 +13,24 @@ import {
 } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
+type SummaryAccordionStatusChip = {
+  label: string
+  color: 'warning' | 'success' | 'error'
+}
+
 type SummaryAccordionProps = {
   headline: string
   title: string
   children: React.ReactNode
   defaultExpanded?: boolean
-  showWarning?: boolean
-  warningLabel?: string
+  statusChip?: SummaryAccordionStatusChip
 }
 export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
   headline,
   title,
   children,
   defaultExpanded,
-  showWarning,
-  warningLabel,
+  statusChip,
 }) => {
   const id = React.useId()
 
@@ -66,8 +69,8 @@ export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
                 {title}
               </Typography>
             </Stack>
-            {showWarning && warningLabel && (
-              <Chip label={warningLabel} color="warning" size="small" sx={{ mr: 3 }} />
+            {statusChip && (
+              <Chip label={statusChip.label} color={statusChip.color} size="small" sx={{ mr: 3 }} />
             )}
           </Box>
         </AccordionSummary>

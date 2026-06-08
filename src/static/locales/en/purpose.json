@@ -247,7 +247,23 @@
     },
     "riskAnalysisSection": {
       "title": "Risk analysis",
-      "providerRiskAnalysisAlert": "The e-service selected for this purpose requires data to be sent from the consumer to the producer. The risk analysis was therefore compiled by the producer."
+      "providerRiskAnalysisAlert": "The e-service selected for this purpose requires data to be sent from the consumer to the producer. The risk analysis was therefore compiled by the producer.",
+      "reviewStatus": {
+        "chip": {
+          "awaitingCompilation": "Awaiting compilation",
+          "awaitingApproval": "Awaiting approval",
+          "approved": "Approved",
+          "rejected": "Rejected"
+        },
+        "infoAlert": {
+          "adminWritesReviewerSigns": "Once the reviewer has approved the risk analysis, you will be able to publish the purpose.",
+          "reviewerWritesReviewerSigns": "Once the reviewer has compiled and approved the risk analysis, you will be able to publish the purpose."
+        },
+        "rejectedAlert": {
+          "label": "The reviewer rejected the risk analysis. Read the reason, edit the analysis and submit it again for approval.",
+          "action": "Read reason"
+        }
+      }
     },
     "publishBtnDisabled": "Your declaration on personal data processing in the risk analysis prevents publication",
     "publishBtn": "Publish"

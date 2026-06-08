@@ -168,8 +168,11 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
               title={t('summary.technicalSpecsSummary.title')}
-              showWarning={!eserviceTemplate?.voucherLifespan || !eserviceTemplate?.interface}
-              warningLabel={t('summary.completeInfoChip')}
+              statusChip={
+                !eserviceTemplate?.voucherLifespan || !eserviceTemplate?.interface
+                  ? { label: t('summary.completeInfoChip'), color: 'warning' }
+                  : undefined
+              }
             >
               <ProviderEServiceTemplateTechnicalSpecsSummarySection />
             </SummaryAccordion>
@@ -179,8 +182,11 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '5' : '4'}
               title={t('summary.additionalInfoSummary.title')}
-              showWarning={!eserviceTemplate?.description}
-              warningLabel={t('summary.completeInfoChip')}
+              statusChip={
+                !eserviceTemplate?.description
+                  ? { label: t('summary.completeInfoChip'), color: 'warning' }
+                  : undefined
+              }
             >
               <ProviderEServiceTemplateAdditionalInfoSummarySection />
             </SummaryAccordion>
