@@ -1287,6 +1287,68 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
   })
 })
 
+describe('useGetProviderEServiceActions slot split with an existing version draft (where=detailsPage, admin happy path)', () => {
+  beforeEach(() => {
+    mockUseJwt({ isAdmin: true })
+  })
+
+  it('PUBLISHED + draft: stays in happy path, manageDraft replaces createNewVersion in header, menu unchanged', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      draftDescriptor: { id: 'draft-1', state: 'DRAFT', version: '2' },
+      delegation: undefined,
+    })
+    const { result } = renderDetailsPageHook(descriptorMock)
+    expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.headerInfoActions.map((a) => a.label)).toEqual([
+      'suspendVersion',
+      'manageDraft',
+    ])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual([
+      'cloneEservice',
+      'archiveEservice',
+      'viewAllVersions',
+    ])
+  })
+
+  it('DEPRECATED + draft: header keeps suspend+archiveVersion, manageDraft replaces createNewVersion in menu (4 items, no deleteDraft)', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      draftDescriptor: { id: 'draft-1', state: 'DRAFT', version: '2' },
+      delegation: undefined,
+    })
+    const { result } = renderDetailsPageHook(descriptorMock)
+    expect(result.current.headerInfoActions.map((a) => a.label)).toEqual([
+      'suspendVersion',
+      'archiveVersion',
+    ])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual([
+      'manageDraft',
+      'cloneEservice',
+      'archiveEservice',
+      'viewAllVersions',
+    ])
+  })
+
+  it('SUSPENDED on the active descriptor + draft: manageDraft replaces createNewVersion in header', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      draftDescriptor: { id: 'draft-1', state: 'DRAFT', version: '2' },
+      delegation: undefined,
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, { isActiveDescriptor: true })
+    expect(result.current.headerInfoActions.map((a) => a.label)).toEqual([
+      'reactivateVersion',
+      'manageDraft',
+    ])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual([
+      'cloneEservice',
+      'archiveEservice',
+      'viewAllVersions',
+    ])
+  })
+})
+
 describe('useGetProviderEServiceActions slot split bypass (preserve legacy behavior)', () => {
   beforeEach(() => {
     mockUseJwt({ isAdmin: true })
@@ -1303,24 +1365,6 @@ describe('useGetProviderEServiceActions slot split bypass (preserve legacy behav
     expect(result.current.primaryAction).toBeUndefined()
     expect(result.current.headerInfoActions).toHaveLength(0)
     expect(result.current.menuActions.map((a) => a.label)).toEqual(['viewAllVersions'])
-  })
-
-  it('PUBLISHED + hasVersionDraft: no slot split, legacy menu preserved + viewAllVersions appended', () => {
-    const descriptorMock = createMockEServiceProvider({
-      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
-      draftDescriptor: { id: 'draft-1', state: 'DRAFT', version: '2' },
-      delegation: undefined,
-    })
-    const { result } = renderDetailsPageHook(descriptorMock)
-    expect(result.current.primaryAction).toBeUndefined()
-    expect(result.current.headerInfoActions).toHaveLength(0)
-    expect(result.current.menuActions.map((a) => a.label)).toEqual([
-      'cloneEservice',
-      'manageDraft',
-      'deleteDraft',
-      'suspendVersion',
-      'viewAllVersions',
-    ])
   })
 
   it('PUBLISHED + template instance: no slot split, template menu preserved', () => {

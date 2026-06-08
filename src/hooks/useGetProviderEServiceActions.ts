@@ -1128,7 +1128,6 @@ export function useGetProviderEServiceActions(
     (isAdmin || isOperatorAPI) &&
     !isDelegator &&
     !isDelegate &&
-    !hasVersionDraft &&
     !isTemplateInstance
 
   if (!isHappyPathDetailsPage) {
@@ -1151,17 +1150,19 @@ export function useGetProviderEServiceActions(
 
   const emptySlots = (): Slots => ({ primary: undefined, header: [], menu: [] })
 
+  const newVersionAction = hasVersionDraft ? editDraftAction : createNewDraftAction
+
   const menuClassic = [cloneAction, archiveEserviceAction, ...viewAllVersionsItems]
   const menuWithNewVersion = isEServiceBeingArchived
     ? [cloneAction, ...viewAllVersionsItems]
-    : [createNewDraftAction, cloneAction, archiveEserviceAction, ...viewAllVersionsItems]
+    : [newVersionAction, cloneAction, archiveEserviceAction, ...viewAllVersionsItems]
   const menuEserviceArchiving = [cloneAction, ...viewAllVersionsItems]
   const menuArchived = [cloneAction]
 
   const slots: Slots = match({ state, archivingScope, isActiveDescriptor, isEServiceBeingArchived })
     .with({ state: 'PUBLISHED' }, () => ({
       primary: undefined,
-      header: [suspendAction, createNewDraftAction],
+      header: [suspendAction, newVersionAction],
       menu: menuClassic,
     }))
     .with({ state: 'DEPRECATED' }, () => ({
@@ -1171,7 +1172,7 @@ export function useGetProviderEServiceActions(
     }))
     .with({ state: 'SUSPENDED', isActiveDescriptor: true }, () => ({
       primary: undefined,
-      header: [reactivateAction, createNewDraftAction],
+      header: [reactivateAction, newVersionAction],
       menu: menuClassic,
     }))
     .with({ state: 'SUSPENDED' }, () => ({
