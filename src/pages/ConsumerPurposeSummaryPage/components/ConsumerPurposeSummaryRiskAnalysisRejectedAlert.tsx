@@ -26,12 +26,11 @@ export const ConsumerPurposeSummaryRiskAnalysisRejectedAlert: React.FC<
       <Alert
         sx={{ mb: 3 }}
         severity="error"
-        variant="outlined"
         action={
           <Button
             variant="naked"
             size="small"
-            sx={{ fontWeight: 700 }}
+            sx={{ fontWeight: 700, whiteSpace: 'nowrap' }}
             onClick={() => setIsDrawerOpen(true)}
           >
             {t('action')}
