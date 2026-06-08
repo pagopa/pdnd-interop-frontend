@@ -15,8 +15,8 @@ import { AttributeAutocomplete } from '@/components/shared/AttributeAutocomplete
 import cloneDeep from 'lodash/cloneDeep'
 import { EServiceMutations } from '@/api/eservice'
 import {
-  remapDescriptorAttributesToDescriptorAttributesSeed,
-  remapFormDescriptorAttributesToDescriptorAttributesSeed,
+  mapDescriptorAttributesToDescriptorAttributesSeed,
+  mapFormDescriptorAttributesToDescriptorAttributesSeed,
 } from '@/utils/attribute.utils'
 import { useParams } from '@/router'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
@@ -104,7 +104,7 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
           eserviceId,
           descriptorId,
           attributeKey,
-          ...remapFormDescriptorAttributesToDescriptorAttributesSeed(selectedAttributes),
+          ...mapFormDescriptorAttributesToDescriptorAttributesSeed(selectedAttributes),
         },
         { onSuccess: onClose }
       )
@@ -114,7 +114,7 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
           eServiceTemplateId,
           eServiceTemplateVersionId,
           attributeKey,
-          ...remapFormDescriptorAttributesToDescriptorAttributesSeed(selectedAttributes),
+          ...mapFormDescriptorAttributesToDescriptorAttributesSeed(selectedAttributes),
         },
         { onSuccess: onClose }
       )

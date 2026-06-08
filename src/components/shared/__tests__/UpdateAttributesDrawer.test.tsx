@@ -65,8 +65,7 @@ vi.mock('@/router', () => ({
 }))
 
 vi.mock('@/utils/attribute.utils', () => ({
-  remapFormDescriptorAttributesToDescriptorAttributesSeed: (attrs: FormDescriptorAttributes) =>
-    attrs,
+  mapFormDescriptorAttributesToDescriptorAttributesSeed: (attrs: FormDescriptorAttributes) => attrs,
 }))
 
 vi.mock('react-i18next', () => ({
