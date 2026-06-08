@@ -10,6 +10,19 @@
  * ---------------------------------------------------------------
  */
 
+/** Risk analysis signing state */
+export type RiskAnalysisSigningState =
+  | "DRAFT"
+  | "ASSIGNED"
+  | "SUBMITTED"
+  | "SIGNED"
+  | "REJECTED";
+
+/** Risk analysis review mode */
+export type RiskAnalysisReviewMode =
+  | "ADMIN_WRITES_REVIEWER_SIGNS"
+  | "REVIEWER_WRITES_REVIEWER_SIGNS";
+
 /** Filter e-services by personal data */
 export type PersonalDataFilter = "TRUE" | "FALSE" | "DEFINED";
 
@@ -58,14 +71,6 @@ export type EServiceDescriptorState =
   | "SUSPENDED"
   | "ARCHIVED"
   | "WAITING_FOR_APPROVAL";
-
-/** Risk analysis signing state */
-export type RiskAnalysisSigningState =
-  | "DRAFT"
-  | "ASSIGNED"
-  | "SUBMITTED"
-  | "SIGNED"
-  | "REJECTED";
 
 /** Purpose State */
 export type PurposeVersionState =
@@ -118,11 +123,6 @@ export type DataType = "SINGLE" | "MULTI" | "FREETEXT";
 /** Consent Type */
 export type ConsentType = "PP" | "TOS";
 
-/** Risk analysis review mode */
-export type RiskAnalysisReviewMode =
-  | "REVIEWER_WRITES_REVIEWER_SIGNS"
-  | "ADMIN_WRITES_REVIEWER_SIGNS";
-
 export type LinkableResource =
   | ({
       resourceKind: "ESERVICE";
@@ -150,42 +150,6 @@ export type LinkableResourceRequest =
 /** models the reject payload for this purpose version. */
 export interface RejectPurposeVersionPayload {
   rejectionReason: string;
-}
-
-/** Reviewer workflow state for a purpose risk analysis */
-export interface ReviewerWorkflow {
-  /** Risk analysis review mode */
-  reviewMode: RiskAnalysisReviewMode;
-  reviewerIds: string[];
-  /** Risk analysis signing state */
-  signingState: RiskAnalysisSigningState;
-  /** @format uuid */
-  signedBy?: string;
-  rejectionReason?: string;
-  /** @format date-time */
-  sentToReviewerAt?: string;
-}
-
-/** Payload to assign reviewer mode and reviewers to a purpose risk analysis */
-export interface RiskAnalysisAssignmentSeed {
-  /** Risk analysis review mode */
-  reviewMode: RiskAnalysisReviewMode;
-  /** @minItems 1 */
-  reviewerIds: string[];
-}
-
-/** Payload to reject the risk analysis with a reason */
-export interface RiskAnalysisRejectionSeed {
-  /**
-   * @minLength 10
-   * @maxLength 250
-   */
-  rejectionReason: string;
-}
-
-/** Payload to submit the risk analysis form for reviewer signing */
-export interface RiskAnalysisSubmissionSeed {
-  riskAnalysisForm: RiskAnalysisFormSeed;
 }
 
 export interface GoogleSAMLPayload {
@@ -2739,6 +2703,42 @@ export interface NotificationsCountBySection {
   };
 }
 
+/** Reviewer workflow state for a purpose risk analysis */
+export interface ReviewerWorkflow {
+  /** Risk analysis review mode */
+  reviewMode: RiskAnalysisReviewMode;
+  reviewerIds: string[];
+  /** Risk analysis signing state */
+  signingState: RiskAnalysisSigningState;
+  /** @format uuid */
+  signedBy?: string;
+  rejectionReason?: string;
+  /** @format date-time */
+  sentToReviewerAt?: string;
+}
+
+/** Payload to assign reviewer mode and reviewers to a purpose risk analysis */
+export interface RiskAnalysisAssignmentSeed {
+  /** Risk analysis review mode */
+  reviewMode: RiskAnalysisReviewMode;
+  /** @minItems 1 */
+  reviewerIds: string[];
+}
+
+/** Payload to submit the risk analysis form for reviewer signing */
+export interface RiskAnalysisSubmissionSeed {
+  riskAnalysisForm: RiskAnalysisFormSeed;
+}
+
+/** Payload to reject the risk analysis with a reason */
+export interface RiskAnalysisRejectionSeed {
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  rejectionReason: string;
+}
+
 export interface ProblemError {
   /**
    * Internal code of the error
@@ -3804,7 +3804,7 @@ export interface GetRiskAnalysisAssignmentsParams {
    * comma separated sequence of risk analysis signing states
    * @default []
    */
-  signingState?: RiskAnalysisSigningState[];
+  signingStates?: RiskAnalysisSigningState[];
   /**
    * @format int32
    * @min 0
@@ -8859,7 +8859,7 @@ export namespace Purposes {
        * comma separated sequence of risk analysis signing states
        * @default []
        */
-      signingState?: RiskAnalysisSigningState[];
+      signingStates?: RiskAnalysisSigningState[];
       /**
        * @format int32
        * @min 0
@@ -9018,7 +9018,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = RiskAnalysisAssignmentSeed;
     export type RequestHeaders = {};
-    export type ResponseBody = CreatedResource;
+    export type ResponseBody = void;
   }
 
   /**
@@ -9037,7 +9037,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = RiskAnalysisSubmissionSeed;
     export type RequestHeaders = {};
-    export type ResponseBody = CreatedResource;
+    export type ResponseBody = void;
   }
 
   /**
@@ -9056,7 +9056,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = CreatedResource;
+    export type ResponseBody = void;
   }
 
   /**
@@ -9075,7 +9075,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = RiskAnalysisRejectionSeed;
     export type RequestHeaders = {};
-    export type ResponseBody = CreatedResource;
+    export type ResponseBody = void;
   }
 
   /**
@@ -9094,7 +9094,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = RiskAnalysisFormSeed;
     export type RequestHeaders = {};
-    export type ResponseBody = CreatedResource;
+    export type ResponseBody = void;
   }
 
   /**

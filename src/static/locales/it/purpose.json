@@ -588,5 +588,10 @@
     "title": "Hai approvato l’analisi del rischio",
     "description": "L’amministratore potrà pubblicare la finalità. Non vedrai più questa analisi del rischio tra quelle che devi compilare o approvare.",
     "action": "Chiudi"
+  },
+  "rejectThankYou": {
+    "title": "Hai rifiutato l’analisi del rischio",
+    "description": "L’amministratore riceverà il motivo del tuo rifiuto. Non vedrai più questa analisi del rischio tra quelle che devi compilare o approvare.",
+    "action": "Chiudi"
   }
 }
