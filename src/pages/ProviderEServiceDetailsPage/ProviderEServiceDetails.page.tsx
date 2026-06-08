@@ -14,7 +14,11 @@ import { NewPageContainer } from '@/components/layout/containers/NewPageContaine
 import { useDialog } from '@/stores'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
-import { getActiveDescriptor, getViewLatestVersionTargetId } from '@/utils/eservice.utils'
+import {
+  getActiveDescriptor,
+  getViewLatestVersionTargetId,
+  isDescriptorBeingArchived,
+} from '@/utils/eservice.utils'
 import { ProviderEServiceDetailsAlerts } from './components/ProviderEServiceDetailsTab/ProviderEServiceDetailsAlerts'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
@@ -52,8 +56,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   )
 
   const isActiveDescriptor = descriptor?.id === activeDescriptor?.id
-  const isEServiceBeingArchived =
-    activeDescriptor?.state === 'ARCHIVING' || activeDescriptor?.state === 'ARCHIVING_SUSPENDED'
+  const isEServiceBeingArchived = isDescriptorBeingArchived(activeDescriptor?.state)
 
   const hasMultipleVersions = (descriptor?.eservice.descriptors?.length ?? 0) > 1
 
@@ -113,7 +116,9 @@ const ProviderEServiceDetailsPage: React.FC = () => {
                 isActiveDescriptor,
               },
               archivingScheduleInfo:
-                descriptor.archivingSchedule?.archivableOn && descriptor.archivingSchedule?.scope
+                isDescriptorBeingArchived(descriptor.state) &&
+                descriptor.archivingSchedule?.archivableOn &&
+                descriptor.archivingSchedule?.scope
                   ? {
                       archivableOn: descriptor.archivingSchedule.archivableOn,
                       scope: descriptor.archivingSchedule.scope,

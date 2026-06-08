@@ -6,6 +6,7 @@ import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
 import { match } from 'ts-pattern'
+import { isDescriptorBeingArchived } from '@/utils/eservice.utils'
 import type {
   Agreement,
   AgreementListEntry,
@@ -171,8 +172,7 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
 
   if (props.for === 'descriptor') {
     const isActiveDescriptorBeingArchived =
-      props.isActiveDescriptor &&
-      (props.state === 'ARCHIVING' || props.state === 'ARCHIVING_SUSPENDED')
+      props.isActiveDescriptor && isDescriptorBeingArchived(props.state)
 
     const remappedState: EServiceDescriptorState = match({
       state: props.state,

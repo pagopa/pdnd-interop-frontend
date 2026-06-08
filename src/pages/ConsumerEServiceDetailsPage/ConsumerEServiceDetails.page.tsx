@@ -15,7 +15,7 @@ import ConsumerLinkedPurposeTemplatesTab from './components/ConsumerLinkedPurpos
 import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { NewPageContainer } from '@/components/layout/containers/NewPageContainer'
 import { useDialog } from '@/stores'
-import { getViewLatestVersionTargetId } from '@/utils/eservice.utils'
+import { getViewLatestVersionTargetId, isDescriptorBeingArchived } from '@/utils/eservice.utils'
 import { ConsumerEServiceDetailsAlerts } from './components/ConsumerEServiceDetailsTab/ConsumerEServiceDetailsAlerts'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
@@ -105,7 +105,9 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
                 isActiveDescriptor: descriptor.id === descriptor.eservice.activeDescriptor?.id,
               },
               archivingScheduleInfo:
-                descriptor.archivingSchedule?.archivableOn && descriptor.archivingSchedule?.scope
+                isDescriptorBeingArchived(descriptor.state) &&
+                descriptor.archivingSchedule?.archivableOn &&
+                descriptor.archivingSchedule?.scope
                   ? {
                       archivableOn: descriptor.archivingSchedule.archivableOn,
                       scope: descriptor.archivingSchedule.scope,

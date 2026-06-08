@@ -114,3 +114,7 @@ export function calculateArchivableOn(now: Date, gracePeriodDays: number): Date 
   d.setUTCHours(0, 0, 0, 0)
   return d
 }
+
+export function isDescriptorBeingArchived(state: EServiceDescriptorState | undefined): boolean {
+  return state === 'ARCHIVING' || state === 'ARCHIVING_SUSPENDED'
+}
