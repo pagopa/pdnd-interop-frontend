@@ -75,6 +75,7 @@ import RiskAnalysisApproveThankYouPage from '@/pages/RiskAnalysisApproveThankYou
 import RiskAnalysisCompilePage from '@/pages/RiskAnalysisCompilePage/RiskAnalysisCompile.page'
 import RiskAnalysisInfoCompilePage from '@/pages/RiskAnalysisInfoCompilePage/RiskAnalysisInfoCompile.page'
 import RiskAnalysisListPage from '@/pages/RiskAnalysisListPage/RiskAnalysisList.page'
+import RiskAnalysisRejectThankYouPage from '@/pages/RiskAnalysisRejectThankYouPage/RiskAnalysisRejectThankYou.page'
 
 import { z } from 'zod'
 
@@ -206,7 +207,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerEServiceCatalogPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'security', 'api'],
+    authLevels: ['admin', 'support', 'security', 'api', 'reviewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_CREATE',
@@ -374,7 +375,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <PartyRegistryPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api', 'security'],
+    authLevels: ['admin', 'support', 'api', 'security', 'reviewer'],
   })
   .addRoute({
     key: 'ASSISTENCE_PARTY_SELECTION',
@@ -719,7 +720,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <RiskAnalysisListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: [] /* @TODO: change this when role will be available */,
+    authLevels: ['reviewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE',
@@ -727,7 +728,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <RiskAnalysisInfoCompilePage />,
     public: false,
     hideSideNav: true,
-    authLevels: [] /* @TODO: change this when role will be available */,
+    authLevels: ['reviewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_COMPILE',
@@ -735,7 +736,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <RiskAnalysisCompilePage />,
     public: false,
     hideSideNav: true,
-    authLevels: [] /* @TODO: change this when role will be available */,
+    authLevels: ['reviewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_SUMMARY',
@@ -743,7 +744,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <RiskAnalysisSummaryPage />,
     public: false,
     hideSideNav: true,
-    authLevels: [] /* @TODO: change this when role will be available */,
+    authLevels: ['reviewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL_SUCCESS',
@@ -751,15 +752,23 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <RiskAnalysisApproveThankYouPage />,
     public: false,
     hideSideNav: true,
-    authLevels: [] /* @TODO: change this when role will be available */,
+    authLevels: ['reviewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL',
     path: '/analisi-del-rischio/:purposeId/approvazione',
-    element: <></> /* @TODO: component will be written on next task */,
+    element: <RiskAnalysisSummaryPage />,
     public: false,
     hideSideNav: true,
-    authLevels: [] /* @TODO: change this when role will be available */,
+    authLevels: ['reviewer'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_REJECTION_SUCCESS',
+    path: '/analisi-del-rischio/:purposeId/rifiuto',
+    element: <RiskAnalysisRejectThankYouPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['reviewer'],
   })
   .build()
 

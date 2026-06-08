@@ -3,11 +3,14 @@ import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { ProviderEServiceGeneralInfoSection } from '../ProviderEServiceGeneralInfoSection'
 import { renderWithApplicationContext, mockUseJwt } from '@/utils/testing.utils'
-import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
+import {
+  createMockEServiceDescriptorProvider,
+  createMockEServiceDescriptorProviderAsync,
+} from '@/../__mocks__/data/eservice.mocks'
 import * as EServiceModule from '@/api/eservice'
 import * as EServiceTemplateMutationsModule from '@/api/eserviceTemplate/eserviceTemplate.mutations'
 import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
-import type * as ReactQuery from '@tanstack/react-query'
+import type * as TanStackReactQuery from '@tanstack/react-query'
 
 const mockUpdateInstanceLabel = vi.fn()
 const mockUpdateDescription = vi.fn()
@@ -52,7 +55,7 @@ vi.mock('@/api/eserviceTemplate/eserviceTemplate.mutations', () => ({
 }))
 
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
-  ...(await importOriginal<typeof ReactQuery>()),
+  ...(await importOriginal<typeof TanStackReactQuery>()),
   useSuspenseQuery: () => ({ data: mockDescriptorData }),
   useQuery: () => ({ data: [] }),
 }))
@@ -108,6 +111,26 @@ afterEach(() => {
 })
 
 describe('ProviderEServiceGeneralInfoSection - instanceLabel (published e-service from template)', () => {
+  it('renders exchange type for synchronous e-services', () => {
+    mockDescriptorData = createMockEServiceDescriptorProvider()
+    renderWithApplicationContext(<ProviderEServiceGeneralInfoSection />, {
+      withReactQueryContext: true,
+    })
+
+    expect(screen.getByText('exchangeType.label')).toBeInTheDocument()
+    expect(screen.getByText('exchangeType.value.sync')).toBeInTheDocument()
+  })
+
+  it('renders exchange type for asynchronous e-services', () => {
+    mockDescriptorData = createMockEServiceDescriptorProviderAsync()
+    renderWithApplicationContext(<ProviderEServiceGeneralInfoSection />, {
+      withReactQueryContext: true,
+    })
+
+    expect(screen.getByText('exchangeType.label')).toBeInTheDocument()
+    expect(screen.getByText('exchangeType.value.async')).toBeInTheDocument()
+  })
+
   it('shows the instanceLabel value when defined', () => {
     mockDescriptorData = baseTemplateDescriptor
     renderWithApplicationContext(<ProviderEServiceGeneralInfoSection />, {

@@ -4,6 +4,7 @@ import { ProviderEServiceTemplateTechnicalSpecsSummarySection } from '../compone
 import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import {
   createMockEServiceTemplateVersionDetails,
+  createMockEServiceTemplateVersionDetailsAsync,
   createMockEServiceTemplateVersionDetailsNoInterface,
 } from '@/../__mocks__/data/eserviceTemplate.mocks'
 
@@ -74,5 +75,50 @@ describe('ProviderEServiceTemplateTechnicalSpecsSummarySection', () => {
 
     expect(screen.getByText('interface.label')).toBeInTheDocument()
     expect(screen.getByText('missingField')).toBeInTheDocument()
+  })
+
+  it('renders async callback interface and exchange configuration', () => {
+    const mockData = createMockEServiceTemplateVersionDetailsAsync()
+    useSuspenseQueryMock.mockReturnValue({ data: mockData })
+
+    renderWithApplicationContext(<ProviderEServiceTemplateTechnicalSpecsSummarySection />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('callbackInterface.label')).toBeInTheDocument()
+    expect(
+      screen.getByText(mockData.asyncExchangeCallbackInterface!.prettyName)
+    ).toBeInTheDocument()
+    expect(screen.getByText('asyncExchange.responseTime.label')).toBeInTheDocument()
+    expect(
+      screen.getByText(`${mockData.asyncExchangeProperties!.responseTime} time.second`)
+    ).toBeInTheDocument()
+    expect(screen.getByText('asyncExchange.resourceAvailableTime.label')).toBeInTheDocument()
+    expect(
+      screen.getByText(`${mockData.asyncExchangeProperties!.resourceAvailableTime} time.second`)
+    ).toBeInTheDocument()
+    expect(screen.getByText('asyncExchange.confirmation.label')).toBeInTheDocument()
+    expect(screen.getByText('asyncExchange.bulk.label')).toBeInTheDocument()
+    expect(screen.getByText('asyncExchange.maxResultSet.label')).toBeInTheDocument()
+    expect(
+      screen.getByText(String(mockData.asyncExchangeProperties!.maxResultSet))
+    ).toBeInTheDocument()
+  })
+
+  it('renders missing field warnings when async data is incomplete', () => {
+    const mockData = createMockEServiceTemplateVersionDetailsAsync({
+      asyncExchangeProperties: undefined,
+      asyncExchangeCallbackInterface: undefined,
+    })
+    useSuspenseQueryMock.mockReturnValue({ data: mockData })
+
+    renderWithApplicationContext(<ProviderEServiceTemplateTechnicalSpecsSummarySection />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('callbackInterface.label')).toBeInTheDocument()
+    expect(screen.getAllByText('missingField')).toHaveLength(6)
   })
 })
