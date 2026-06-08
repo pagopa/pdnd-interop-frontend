@@ -15,6 +15,7 @@ import PurposeEditStepAssignmentForm, {
   type PurposeEditStepAssignmentFormValues,
   type ReviewModeOption,
 } from './PurposeEditStepAssignmentForm'
+import PurposeEditStepAssignmentReadOnly from './PurposeEditStepAssignmentReadOnly'
 
 const beEnumToReviewModeOption = (
   reviewMode: RiskAnalysisReviewMode | undefined
@@ -50,6 +51,13 @@ export const PurposeEditStepAssignment: React.FC<ActiveStepProps> = (props) => {
 
   if (!purpose) {
     throw new NotFoundError()
+  }
+
+  const isEditableDraft = purpose.currentVersion?.state === 'DRAFT'
+  if (purpose.reviewerWorkflow || !isEditableDraft) {
+    return (
+      <PurposeEditStepAssignmentReadOnly purpose={purpose} reviewers={reviewers ?? []} {...props} />
+    )
   }
 
   const isDelegate = Boolean(

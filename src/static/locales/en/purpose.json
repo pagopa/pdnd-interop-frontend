@@ -120,7 +120,12 @@
       },
       "delegateAlert": "As a delegate, you cannot assign the risk analysis to a reviewer.",
       "forwardBtn": "Save draft and proceed",
-      "requestReviewerCompilationBtn": "Request compilation"
+      "requestReviewerCompilationBtn": "Request compilation",
+      "readOnly": {
+        "modeLabel": "Mode",
+        "reviewerLabel": "Reviewer",
+        "forwardBtn": "Next"
+      }
     },
     "loadEstimationSection": {
       "title": "Estimate API calls",
