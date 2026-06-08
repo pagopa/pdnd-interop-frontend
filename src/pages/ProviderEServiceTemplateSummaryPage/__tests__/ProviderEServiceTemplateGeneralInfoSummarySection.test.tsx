@@ -4,6 +4,7 @@ import { ProviderEServiceTemplateGeneralInfoSummarySection } from '../components
 import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import {
   createMockEServiceTemplateVersionDetails,
+  createMockEServiceTemplateVersionDetailsAsync,
   createMockEServiceTemplateVersionDetailsReceiveMode,
 } from '@/../__mocks__/data/eserviceTemplate.mocks'
 
@@ -82,6 +83,32 @@ describe('ProviderEServiceTemplateGeneralInfoSummarySection', () => {
 
     expect(screen.getByText('apiTechnology.label')).toBeInTheDocument()
     expect(screen.getByText(mockData.eserviceTemplate.technology)).toBeInTheDocument()
+  })
+
+  it('renders synchronous exchange type', () => {
+    const mockData = createMockEServiceTemplateVersionDetails()
+    useSuspenseQueryMock.mockReturnValue({ data: mockData })
+
+    renderWithApplicationContext(<ProviderEServiceTemplateGeneralInfoSummarySection />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('exchangeType.label')).toBeInTheDocument()
+    expect(screen.getByText('exchangeType.value.sync')).toBeInTheDocument()
+  })
+
+  it('renders asynchronous exchange type', () => {
+    const mockData = createMockEServiceTemplateVersionDetailsAsync()
+    useSuspenseQueryMock.mockReturnValue({ data: mockData })
+
+    renderWithApplicationContext(<ProviderEServiceTemplateGeneralInfoSummarySection />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('exchangeType.label')).toBeInTheDocument()
+    expect(screen.getByText('exchangeType.value.async')).toBeInTheDocument()
   })
 
   it('renders Signal Hub enabled status', () => {

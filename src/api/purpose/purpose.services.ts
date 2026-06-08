@@ -6,6 +6,7 @@ import type {
   GetConsumerPurposesParams,
   GetProducerPurposesParams,
   GetRemainingDailyCallsParams,
+  GetRiskAnalysisAssignmentsParams,
   PatchPurposeUpdateFromTemplateContent,
   Purpose,
   PurposeAdditionDetailsSeed,
@@ -25,6 +26,8 @@ import type {
   RiskAnalysisAssignmentSeed,
   RiskAnalysisFormConfig,
   RiskAnalysisSubmissionSeed,
+  RiskAnalysisRejectionSeed,
+  SignRiskAnalysisParams,
 } from '../api.generatedTypes'
 
 /**
@@ -313,6 +316,43 @@ async function submitRiskAnalysis({
   return response.data
 }
 
+async function signRiskAnalysis({ purposeId }: SignRiskAnalysisParams) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/sign`
+  )
+  return response.data
+}
+
+async function rejectRiskAnalysis({
+  purposeId,
+  ...payload
+}: { purposeId: string } & RiskAnalysisRejectionSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/reject`,
+    payload
+  )
+  return response.data
+}
+
+async function updateRiskAnalysis({
+  purposeId,
+  ...payload
+}: { purposeId: string } & PurposeUpdateContent) {
+  const response = await axiosInstance.put<PurposeVersionResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/form`,
+    payload
+  )
+  return response.data
+}
+
+async function getRiskAnalysisAssignments(params: GetRiskAnalysisAssignmentsParams) {
+  const response = await axiosInstance.get<Purposes>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/assignments`,
+    { params }
+  )
+  return { ...response.data, results: response.data.results.map(REMOVE_ME_remapPurpose) }
+}
+
 export const PurposeServices = {
   getProducersList,
   getConsumersList,
@@ -341,4 +381,8 @@ export const PurposeServices = {
   getRemainingDailyCalls,
   assignRiskAnalysisReviewer,
   submitRiskAnalysis,
+  signRiskAnalysis,
+  rejectRiskAnalysis,
+  updateRiskAnalysis,
+  getRiskAnalysisAssignments,
 }

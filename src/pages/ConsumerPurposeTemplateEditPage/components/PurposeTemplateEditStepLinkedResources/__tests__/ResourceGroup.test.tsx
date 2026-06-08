@@ -47,7 +47,13 @@ vi.mock('@/stores/toast-notification.store', () => ({
 
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key: string) => key,
+    t: (key: string, opts?: Record<string, string>) => {
+      if (key === 'options.eservice')
+        return `${opts?.name} - e-service erogato da ${opts?.publisher}`
+      if (key === 'options.eserviceTemplate')
+        return `${opts?.name} - template erogato da ${opts?.publisher}`
+      return key
+    },
     i18n: { language: 'it' },
   }),
 }))

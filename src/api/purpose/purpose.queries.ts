@@ -5,6 +5,7 @@ import type {
   GetConsumerPurposesParams,
   GetProducerPurposesParams,
   GetRemainingDailyCallsParams,
+  GetRiskAnalysisAssignmentsParams,
   RetrieveLatestRiskAnalysisConfigurationParams,
   RetrieveRiskAnalysisConfigurationByVersionParams,
 } from '../api.generatedTypes'
@@ -59,6 +60,14 @@ function getRemainingDailyCalls(params: GetRemainingDailyCallsParams) {
   })
 }
 
+function getRiskAnalysisAssignments(params: GetRiskAnalysisAssignmentsParams) {
+  return queryOptions({
+    queryKey: ['getRiskAnalysisAssignments', params],
+    queryFn: () => PurposeServices.getRiskAnalysisAssignments(params),
+    throwOnError: false,
+  })
+}
+
 export const PurposeQueries = {
   getProducersList,
   getConsumersList,
@@ -67,4 +76,5 @@ export const PurposeQueries = {
   getRiskAnalysisVersion,
   getRiskAnalyisLatestOrSpecificVersion,
   getRemainingDailyCalls,
+  getRiskAnalysisAssignments,
 }

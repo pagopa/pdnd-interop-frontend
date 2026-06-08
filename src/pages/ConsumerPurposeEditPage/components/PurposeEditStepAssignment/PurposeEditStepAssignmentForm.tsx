@@ -17,6 +17,7 @@ import { PurposeMutations } from '@/api/purpose'
 import { useNavigate } from '@/router'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 export type ReviewModeOption =
   | 'selfWritesSelfSigns'
@@ -50,8 +51,10 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
   selfcareUsersPageUrl,
   defaultValues,
   forward,
+  back,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit.stepAssignment' })
+  const { t: tEdit } = useTranslation('purpose', { keyPrefix: 'edit' })
   const { mutate: assignReviewer } = PurposeMutations.useAssignRiskAnalysisReviewer()
   const navigate = useNavigate()
 
@@ -87,8 +90,8 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
       reviewerIds: [reviewerId],
     }
 
-    // TODO[PIN-10138]: for reviewMode = REVIEWER_WRITES_REVIEWER_SIGNS the submit should
-    // first open a confirmation dialog (tracked in a separate task) before calling the API.
+    // TODO: for reviewMode = REVIEWER_WRITES_REVIEWER_SIGNS the submit should
+    // first open a confirmation dialog (tracked in a follow-up task) before calling the API.
     assignReviewer(payload, {
       onSuccess: isRequestReviewerCompilation ? goToSummary : forward,
     })
@@ -154,7 +157,12 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
           </Stack>
         </SectionContainer>
         <StepActions
-          back={{ to: 'SUBSCRIBE_PURPOSE_LIST', label: t('backToListBtn'), type: 'link' }}
+          back={{
+            label: tEdit('backWithoutSaveBtn'),
+            type: 'button',
+            onClick: back,
+            startIcon: <ArrowBackIcon />,
+          }}
           forward={{
             label: isRequestReviewerCompilation
               ? t('requestReviewerCompilationBtn')

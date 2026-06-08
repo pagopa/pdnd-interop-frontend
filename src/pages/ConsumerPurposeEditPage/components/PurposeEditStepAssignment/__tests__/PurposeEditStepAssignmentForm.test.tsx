@@ -50,6 +50,7 @@ function renderComponent(overrides?: {
   selfcareUsersPageUrl?: string
   defaultValues?: PurposeEditStepAssignmentFormValues
   forward?: VoidFunction
+  back?: VoidFunction
 }) {
   const purpose = createMockPurpose({ id: 'purpose-id' })
   return renderWithApplicationContext(
@@ -61,7 +62,7 @@ function renderComponent(overrides?: {
       defaultValues={overrides?.defaultValues ?? DEFAULT_VALUES}
       activeStep={1}
       forward={overrides?.forward ?? vi.fn()}
-      back={vi.fn()}
+      back={overrides?.back ?? vi.fn()}
     />,
     { withReactQueryContext: true, withRouterContext: true }
   )
@@ -304,7 +305,7 @@ describe('PurposeEditStepAssignmentForm', () => {
     expect(
       screen.queryByRole('radio', { name: 'reviewModeField.options.selfWritesSelfSigns' })
     ).not.toBeInTheDocument()
-    expect(screen.getByText('backToListBtn')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'backWithoutSaveBtn' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'forwardBtn' })).toBeInTheDocument()
   })
 
@@ -326,7 +327,7 @@ describe('PurposeEditStepAssignmentForm', () => {
     expect(
       screen.queryByRole('radio', { name: 'reviewModeField.options.selfWritesSelfSigns' })
     ).not.toBeInTheDocument()
-    expect(screen.getByText('backToListBtn')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'backWithoutSaveBtn' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'forwardBtn' })).toBeInTheDocument()
   })
 
@@ -349,5 +350,15 @@ describe('PurposeEditStepAssignmentForm', () => {
     expect(
       screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesSelfSigns' })
     ).toBeInTheDocument()
+  })
+
+  it('calls back() when the secondary CTA is clicked', async () => {
+    const user = userEvent.setup()
+    const back = vi.fn()
+    renderComponent({ back })
+
+    await user.click(screen.getByRole('button', { name: 'backWithoutSaveBtn' }))
+
+    expect(back).toHaveBeenCalledTimes(1)
   })
 })

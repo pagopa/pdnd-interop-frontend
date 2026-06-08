@@ -9,12 +9,13 @@ import { routes } from '@/router'
 import DnsIcon from '@mui/icons-material/Dns'
 import { ConsumerIcon, ProviderIcon, CatalogIcon, DeveloperToolIcon, MyTenantIcon } from '@/icons'
 import NotificationsIcon from '@mui/icons-material/Notifications'
+import AssignmentIcon from '@mui/icons-material/Assignment'
 import { useTranslation } from 'react-i18next'
 import { useIsOrganizationAllowedToDelegations } from '@/api/hooks'
 
 export function useGetSidebarItems(): SidebarRoutes {
   const { t } = useTranslation('sidebar', { keyPrefix: 'menuItem' })
-  const { currentRoles, isSupport, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
+  const { currentRoles, isSupport, isReviewer, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
   const shouldCheckDelegationsPermission = isSupport || currentRoles.includes('admin')
@@ -26,10 +27,17 @@ export function useGetSidebarItems(): SidebarRoutes {
   return React.useMemo(() => {
     const interopRoutes: SidebarRoutes = [
       {
+        rootRouteKey: 'SUBSCRIBE_RISK_ANALYSIS_LIST',
+        icon: AssignmentIcon,
+        label: t('riskAnalysis'),
+        children: [],
+      },
+      {
         rootRouteKey: 'SUBSCRIBE_CATALOG_LIST',
         icon: CatalogIcon,
         label: t('eserviceCatalog'),
         children: [],
+        divider: isReviewer,
       },
       {
         icon: NotificationsIcon,
@@ -129,6 +137,7 @@ export function useGetSidebarItems(): SidebarRoutes {
     isOrganizationAllowedToDelegations,
     isOrganizationAllowedToDelegationsLoading,
     isSupport,
+    isReviewer,
     t,
     tenant,
   ])

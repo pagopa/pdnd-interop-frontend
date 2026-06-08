@@ -16,13 +16,6 @@ import PurposeEditStepAssignmentForm, {
   type ReviewModeOption,
 } from './PurposeEditStepAssignmentForm'
 
-// TODO[PIN-10138]: drop this local extension once `reviewMode` and `reviewerIds`
-// are added to the generated `Purpose` type by the BE.
-type PurposeWithAssignment = Purpose & {
-  reviewMode?: RiskAnalysisReviewMode
-  reviewerIds?: string[]
-}
-
 const beEnumToReviewModeOption = (
   reviewMode: RiskAnalysisReviewMode | undefined
 ): ReviewModeOption =>
@@ -31,9 +24,9 @@ const beEnumToReviewModeOption = (
     .with('REVIEWER_WRITES_REVIEWER_SIGNS', () => 'reviewerWritesReviewerSigns' as const)
     .otherwise(() => 'selfWritesSelfSigns' as const)
 
-const getDefaultValues = (purpose: PurposeWithAssignment): PurposeEditStepAssignmentFormValues => ({
-  reviewMode: beEnumToReviewModeOption(purpose.reviewMode),
-  reviewerId: purpose.reviewerIds?.[0],
+const getDefaultValues = (purpose: Purpose): PurposeEditStepAssignmentFormValues => ({
+  reviewMode: beEnumToReviewModeOption(purpose.reviewerWorkflow?.reviewMode),
+  reviewerId: purpose.reviewerWorkflow?.reviewerIds[0],
 })
 
 export const PurposeEditStepAssignment: React.FC<ActiveStepProps> = (props) => {
@@ -67,7 +60,7 @@ export const PurposeEditStepAssignment: React.FC<ActiveStepProps> = (props) => {
     jwt &&
     `${SELFCARE_BASE_URL}/dashboard/${jwt.selfcareId}/users?lang=${lang}#${SELFCARE_PRODUCT_ID}`
 
-  const defaultValues = getDefaultValues(purpose as PurposeWithAssignment)
+  const defaultValues = getDefaultValues(purpose)
 
   return (
     <PurposeEditStepAssignmentForm
