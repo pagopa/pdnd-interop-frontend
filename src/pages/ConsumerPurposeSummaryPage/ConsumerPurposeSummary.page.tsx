@@ -182,7 +182,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
         />
       )}
       {riskAnalysisInfoAlertText && (
-        <Alert sx={{ mt: 3 }} severity="info" variant="outlined">
+        <Alert sx={{ mt: 3 }} severity="info">
           {riskAnalysisInfoAlertText}
         </Alert>
       )}
