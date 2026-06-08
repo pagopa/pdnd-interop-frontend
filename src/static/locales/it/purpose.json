@@ -265,7 +265,8 @@
         },
         "rejectionDrawer": {
           "title": "Rifiuto analisi del rischio",
-          "intro": "Il valutatore ha rifiutato l’analisi del rischio con questa motivazione."
+          "intro": "Il valutatore ha rifiutato l’analisi del rischio con questa motivazione.",
+          "noReason": "Nessuna motivazione disponibile."
         }
       }
     },

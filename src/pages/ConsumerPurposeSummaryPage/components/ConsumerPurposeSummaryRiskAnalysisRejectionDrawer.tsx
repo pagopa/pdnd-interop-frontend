@@ -23,7 +23,7 @@ export const ConsumerPurposeSummaryRiskAnalysisRejectionDrawer: React.FC<
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title={t('title')} subtitle={t('intro')}>
       <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
-        {rejectionReason}
+        {rejectionReason || t('noReason')}
       </Typography>
     </Drawer>
   )

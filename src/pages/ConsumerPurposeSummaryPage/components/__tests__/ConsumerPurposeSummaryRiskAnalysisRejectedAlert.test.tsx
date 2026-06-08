@@ -25,6 +25,14 @@ describe('ConsumerPurposeSummaryRiskAnalysisRejectedAlert', () => {
     expect(screen.getByText(REASON)).toBeInTheDocument()
   })
 
+  it('shows a fallback message when the rejection reason is empty', () => {
+    render(<ConsumerPurposeSummaryRiskAnalysisRejectedAlert rejectionReason="" />)
+
+    fireEvent.click(screen.getByRole('button', { name: 'action' }))
+
+    expect(screen.getByText('noReason')).toBeInTheDocument()
+  })
+
   it('closes the drawer via the standard close button', async () => {
     render(<ConsumerPurposeSummaryRiskAnalysisRejectedAlert rejectionReason={REASON} />)
 
