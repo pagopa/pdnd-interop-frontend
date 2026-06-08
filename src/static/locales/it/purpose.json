@@ -250,6 +250,7 @@
       "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore.",
       "reviewStatus": {
         "chip": {
+          "approvalToRequest": "Approvazione da richiedere",
           "awaitingCompilation": "In attesa di compilazione",
           "awaitingApproval": "In attesa di approvazione",
           "approved": "Approvata",

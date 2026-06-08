@@ -250,6 +250,7 @@
       "providerRiskAnalysisAlert": "The e-service selected for this purpose requires data to be sent from the consumer to the producer. The risk analysis was therefore compiled by the producer.",
       "reviewStatus": {
         "chip": {
+          "approvalToRequest": "Approval to be requested",
           "awaitingCompilation": "Awaiting compilation",
           "awaitingApproval": "Awaiting approval",
           "approved": "Approved",

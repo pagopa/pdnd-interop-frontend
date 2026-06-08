@@ -9,7 +9,7 @@ type RiskAnalysisReviewChip = {
 
 type PurposeRiskAnalysisReviewStatus = {
   signingState: RiskAnalysisSigningState | undefined
-  /** Inline status chip for the risk analysis accordion title (undefined for option 1 / draft). */
+  /** Inline status chip for the risk analysis accordion title (undefined for option 1). */
   chip: RiskAnalysisReviewChip | undefined
   /** Risk analysis is waiting for the reviewer to fill in or approve it. */
   isAwaitingReview: boolean
@@ -39,17 +39,19 @@ export function useGetPurposeRiskAnalysisReviewStatus(
 
   const chip = match(signingState)
     .returnType<RiskAnalysisReviewChip | undefined>()
+    .with('DRAFT', () => ({ label: t('chip.approvalToRequest'), color: 'error' }))
     .with('ASSIGNED', () => ({ label: t('chip.awaitingCompilation'), color: 'warning' }))
     .with('SUBMITTED', () => ({ label: t('chip.awaitingApproval'), color: 'warning' }))
     .with('SIGNED', () => ({ label: t('chip.approved'), color: 'success' }))
     .with('REJECTED', () => ({ label: t('chip.rejected'), color: 'error' }))
-    .with('DRAFT', undefined, () => undefined)
+    .with(undefined, () => undefined)
     .exhaustive()
 
+  const isApprovalToRequest = signingState === 'DRAFT'
   const isAwaitingCompilation = signingState === 'ASSIGNED'
   const isAwaitingReview = isAwaitingCompilation || signingState === 'SUBMITTED'
   const isRejected = signingState === 'REJECTED'
-  const isPublishDisabledByReview = isAwaitingReview || isRejected
+  const isPublishDisabledByReview = isApprovalToRequest || isAwaitingReview || isRejected
 
   const infoAlertText = isAwaitingReview
     ? match(reviewMode)

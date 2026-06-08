@@ -263,16 +263,13 @@ describe('ConsumerPurposeSummaryPage', () => {
       expect(getPublishButton()).toBeEnabled()
     })
 
-    it('DRAFT with reviewerWorkflow defined: behaves like option 1 (no chip, no info alert, publish enabled)', () => {
+    it('DRAFT (approval to request): error chip, no info alert, publish disabled', () => {
       renderWithReviewerWorkflow('DRAFT')
 
-      expect(screen.queryByText('chip.awaitingApproval')).not.toBeInTheDocument()
-      expect(screen.queryByText('chip.awaitingCompilation')).not.toBeInTheDocument()
-      expect(screen.queryByText('chip.approved')).not.toBeInTheDocument()
-      expect(screen.queryByText('chip.rejected')).not.toBeInTheDocument()
+      expect(screen.getByText('chip.approvalToRequest')).toBeInTheDocument()
       expect(screen.queryByText('infoAlert.adminWritesReviewerSigns')).not.toBeInTheDocument()
       expect(screen.queryByText('infoAlert.reviewerWritesReviewerSigns')).not.toBeInTheDocument()
-      expect(getPublishButton()).toBeEnabled()
+      expect(getPublishButton()).toBeDisabled()
     })
 
     it('SUBMITTED (option 2, awaiting approval): warning chip, info alert, publish disabled, body shown', () => {
