@@ -63,10 +63,9 @@ vi.mock('@/config/env', async () => {
 })
 
 vi.mock('../PurposeEditStepAssignmentForm', async () => {
-  const actual =
-    await vi.importActual<typeof import('../PurposeEditStepAssignmentForm')>(
-      '../PurposeEditStepAssignmentForm'
-    )
+  const actual = await vi.importActual<typeof import('../PurposeEditStepAssignmentForm')>(
+    '../PurposeEditStepAssignmentForm'
+  )
   return {
     ...actual,
     default: vi.fn(() => <div data-testid="assignment-form" />),
