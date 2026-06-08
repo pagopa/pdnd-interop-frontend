@@ -52,7 +52,10 @@ export function useRiskAnalysisSummaryPage() {
 
   const handleRejectDraft = () => {
     if (!purpose?.currentVersion) return
-    /* @TODO: will be added with https://pagopa.atlassian.net/browse/PIN-10195 */
+    openDialog({
+      type: 'rejectRiskAnalysis',
+      purposeId,
+    })
   }
 
   return {

@@ -27,6 +27,7 @@ import type {
   DialogTenantKindPurposeTemplateProps,
   DialogSelectAgreementConsumerProps,
   DialogApproveRiskAnalysisProps,
+  DialogRejectRiskAnalysisProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -49,6 +50,7 @@ import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemp
 import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTemplate'
 import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/DialogSelectAgreementConsumer'
 import { DialogApproveRiskAnalysis } from './DialogApproveRiskAnalysis'
+import { DialogRejectRiskAnalysis } from './DialogRejectRiskAnalysis'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -72,7 +74,8 @@ function match<T>(
   onDialogTenantKindEserviceTemplate: (props: DialogTenantKindEserviceTemplateProps) => T,
   onDialogTenantKindPurposeTemplate: (props: DialogTenantKindPurposeTemplateProps) => T,
   onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T,
-  onApproveRiskAnalysis: (props: DialogApproveRiskAnalysisProps) => T
+  onApproveRiskAnalysis: (props: DialogApproveRiskAnalysisProps) => T,
+  onRejectRiskAnalysis: (props: DialogRejectRiskAnalysisProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -120,6 +123,8 @@ function match<T>(
         return onSelectAgreementConsumer(props)
       case 'approveRiskAnalysis':
         return onApproveRiskAnalysis(props)
+      case 'rejectRiskAnalysis':
+        return onRejectRiskAnalysis(props)
     }
   }
 }
@@ -146,7 +151,8 @@ const _Dialog = match(
   (props) => <DialogTenantKindEserviceTemplate {...props} />,
   (props) => <DialogTenantKindPurposeTemplate {...props} />,
   (props) => <DialogSelectAgreementConsumer {...props} />,
-  (props) => <DialogApproveRiskAnalysis {...props} />
+  (props) => <DialogApproveRiskAnalysis {...props} />,
+  (props) => <DialogRejectRiskAnalysis {...props} />
 )
 
 export const Dialog: React.FC = () => {

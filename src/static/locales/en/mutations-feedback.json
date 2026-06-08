@@ -630,6 +630,12 @@
       "outcome": {
         "error": "The risk analysis could not be signed. Please try again!"
       }
+    },
+    "rejectRiskAnalysis": {
+      "loading": "Risk analysis is being rejected",
+      "outcome": {
+        "error": "The risk analysis could not be rejected. Please try again!"
+      }
     }
   },
   "client": {

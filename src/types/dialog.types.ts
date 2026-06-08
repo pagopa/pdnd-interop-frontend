@@ -41,6 +41,7 @@ export type DialogProps =
   | DialogTenantKindPurposeTemplateProps
   | DialogSelectAgreementConsumerProps
   | DialogApproveRiskAnalysisProps
+  | DialogRejectRiskAnalysisProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -183,5 +184,10 @@ export type DialogTenantKindPurposeTemplateProps = {
 
 export type DialogApproveRiskAnalysisProps = {
   type: 'approveRiskAnalysis'
+  purposeId: string
+}
+
+export type DialogRejectRiskAnalysisProps = {
+  type: 'rejectRiskAnalysis'
   purposeId: string
 }

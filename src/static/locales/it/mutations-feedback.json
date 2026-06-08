@@ -630,6 +630,12 @@
       "outcome": {
         "error": "Non è stato possibile approvare l'analisi del rischio. Per favore, riprova!"
       }
+    },
+    "rejectRiskAnalysis": {
+      "loading": "Stiamo rigettando l'analisi del rischio",
+      "outcome": {
+        "error": "Non è stato possibile rigettare l'analisi del rischio. Per favore, riprova!"
+      }
     }
   },
   "client": {
