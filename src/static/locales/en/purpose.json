@@ -520,6 +520,84 @@
       }
     }
   },
+  "riskAnalysisSummary": {
+    "backToListBtn": "Back to risk analysis",
+    "title": "Summary",
+    "modifyBtn": "Edit draft",
+    "approveBtn": "Approve risk analysis",
+    "generalInformationSection": {
+      "title": "General information"
+    },
+    "riskAnalysisSection": {
+      "title": "Risk analysis"
+    },
+    "publishBtnDisabled": "Your declaration on personal data processing in the risk analysis prevents publication",
+    "infoAlert": "Once you approve the risk analysis, the administrator will be able to publish the purpose."
+  },
+  "riskAnalysisCompile": {
+    "backToListBtn": "Back to risk analysis",
+    "title": "Fill risk analysis",
+    "forwardWithSaveBtn": "Save draft and proceed"
+  },
+  "riskAnalysisInfoCompile": {
+    "backToListBtn": "Back to risk analysis",
+    "title": "Purpose information",
+    "generalInfoSection": {
+      "label": "General information",
+      "eService": {
+        "label": "E-service to be associated"
+      },
+      "producer": {
+        "label": "Producer"
+      },
+      "purposeName": {
+        "label": "Purpose name"
+      },
+      "purposeDescription": {
+        "label": "Purpose description"
+      },
+      "isFreeOfCharge": {
+        "label": "How will you make the data you receive from this e-service available?",
+        "options": {
+          "YES": "Free of charge",
+          "NO": "For a fee"
+        }
+      },
+      "freeOfChargeReason": {
+        "label": "Free of charge reason"
+      }
+    },
+    "loadEstimationSection": {
+      "label": "Estimate API calls",
+      "dailyCalls": {
+        "label": "Estimated number of API calls/day"
+      }
+    },
+    "beginCompileBtn": "Start compilation"
+  },
+  "riskAnalysisList": {
+    "filters": {
+      "eserviceField": {
+        "label": "Filter by e-service"
+      },
+      "riskAnalysisState": {
+        "label": "Risk analysis state",
+        "statusField": {
+          "ASSIGNED": "To fill out",
+          "SUBMITTED": "To be approved"
+        }
+      }
+    },
+    "today": {
+      "label": "Today"
+    },
+    "noData": {
+      "label": "You have no risk analysis to evaluate"
+    },
+    "noResults": {
+      "label": "The current search returned no results."
+    }
+  },
   "publishThankYou": {
     "loading": "Publishing in progress",
     "active": {
@@ -530,6 +608,11 @@
       "title": "Your purpose has been forwarded to the provider for approval",
       "description": "Until its activation by the provider, you will not be able to access data made available through the API and you will not be able to associate clients. You will receive a notification when the provider approves your purpose"
     },
+    "action": "Close"
+  },
+  "approveThankYou": {
+    "title": "You have approved the risk analysis",
+    "description": "The administrator will be able to publish the purpose. You will no longer see this risk analysis among those you need to complete or approve.",
     "action": "Close"
   }
 }
