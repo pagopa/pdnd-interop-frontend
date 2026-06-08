@@ -262,6 +262,10 @@
         "rejectedAlert": {
           "label": "The reviewer rejected the risk analysis. Read the reason, edit the analysis and submit it again for approval.",
           "action": "Read reason"
+        },
+        "rejectionDrawer": {
+          "title": "Risk analysis rejection",
+          "intro": "The reviewer rejected the risk analysis with the following reason."
         }
       }
     },

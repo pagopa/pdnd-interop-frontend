@@ -144,7 +144,11 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       statusChip={purpose ? { for: 'purpose', purpose } : undefined}
     >
       {alertProps && <Alert sx={{ mb: 3 }} {...alertProps} />}
-      {isRiskAnalysisRejected && <ConsumerPurposeSummaryRiskAnalysisRejectedAlert />}
+      {isRiskAnalysisRejected && (
+        <ConsumerPurposeSummaryRiskAnalysisRejectedAlert
+          rejectionReason={purpose?.reviewerWorkflow?.rejectionReason ?? ''}
+        />
+      )}
       <Stack spacing={3}>
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
           <SummaryAccordion
