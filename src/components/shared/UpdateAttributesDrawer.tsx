@@ -5,7 +5,7 @@ import type {
   FormDescriptorAttribute,
   FormDescriptorAttributes,
 } from '@/types/attribute.types'
-import type { DescriptorAttribute, DescriptorAttributes } from '@/api/api.generatedTypes'
+import type { DescriptorAttributes } from '@/api/api.generatedTypes'
 import { Box, Divider, Stack, Typography } from '@mui/material'
 import { AttributeContainer, AttributeGroupContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
@@ -14,10 +14,7 @@ import AddIcon from '@mui/icons-material/Add'
 import { AttributeAutocomplete } from '@/components/shared/AttributeAutocomplete'
 import cloneDeep from 'lodash/cloneDeep'
 import { EServiceMutations } from '@/api/eservice'
-import {
-  mapDescriptorAttributesToDescriptorAttributesSeed,
-  mapFormDescriptorAttributesToDescriptorAttributesSeed,
-} from '@/utils/attribute.utils'
+import { mapFormDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import { useParams } from '@/router'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
