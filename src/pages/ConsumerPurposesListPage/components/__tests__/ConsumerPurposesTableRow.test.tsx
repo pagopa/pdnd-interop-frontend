@@ -27,6 +27,8 @@ const buildPurpose = (
   })
 }
 
+mockUseJwt()
+
 const renderRow = (purpose: ReturnType<typeof buildPurpose>) =>
   renderWithApplicationContext(
     <table>
@@ -39,7 +41,6 @@ const renderRow = (purpose: ReturnType<typeof buildPurpose>) =>
 
 describe('ConsumerPurposesTableRow - risk analysis signing state info icon', () => {
   it('renders the info icon with aria-label "list.riskAnalysisApproved" when the purpose is a DRAFT and reviewerWorkflow.signingState is SIGNED', () => {
-    mockUseJwt()
     const { queryByLabelText } = renderRow(buildPurpose('DRAFT', 'SIGNED'))
 
     expect(queryByLabelText('list.riskAnalysisApproved')).toBeInTheDocument()
@@ -47,7 +48,6 @@ describe('ConsumerPurposesTableRow - risk analysis signing state info icon', () 
   })
 
   it('renders the info icon with aria-label "list.riskAnalysisRejected" when the purpose is a DRAFT and reviewerWorkflow.signingState is REJECTED', () => {
-    mockUseJwt()
     const { queryByLabelText } = renderRow(buildPurpose('DRAFT', 'REJECTED'))
 
     expect(queryByLabelText('list.riskAnalysisRejected')).toBeInTheDocument()
@@ -57,7 +57,6 @@ describe('ConsumerPurposesTableRow - risk analysis signing state info icon', () 
   it.each(['ASSIGNED', 'SUBMITTED', undefined] as const)(
     'does not render the info icon for a DRAFT purpose when reviewerWorkflow.signingState is %s',
     (signingState) => {
-      mockUseJwt()
       const { queryByLabelText } = renderRow(buildPurpose('DRAFT', signingState))
 
       expect(queryByLabelText('list.riskAnalysisApproved')).not.toBeInTheDocument()
@@ -68,7 +67,6 @@ describe('ConsumerPurposesTableRow - risk analysis signing state info icon', () 
   it.each(['SIGNED', 'REJECTED'] as const)(
     'does not render the info icon when the purpose is not a DRAFT, even if reviewerWorkflow.signingState is %s',
     (signingState) => {
-      mockUseJwt()
       const { queryByLabelText } = renderRow(buildPurpose('ACTIVE', signingState))
 
       expect(queryByLabelText('list.riskAnalysisApproved')).not.toBeInTheDocument()
