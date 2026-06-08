@@ -1,10 +1,9 @@
-import { type DescriptorAttributes } from '@/api/api.generatedTypes'
 import React from 'react'
 import { type TFunction } from 'i18next'
 import type { FormDescriptorAttributes } from '@/types/attribute.types'
 
 type UseAttributesCountersAlertArgs = {
-  attributes: FormDescriptorAttributes // TODO
+  attributes: FormDescriptorAttributes
   t: TFunction<'eservice', 'create'>
 }
 

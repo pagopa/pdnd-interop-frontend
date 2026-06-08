@@ -13,7 +13,7 @@ import { match } from 'ts-pattern'
 
 export type AttributeAutocompleteProps = {
   attributeKey: AttributeKey
-  onAddAttribute: (attribute: { kind: AttributeKind } & CompactAttribute) => void //TODO
+  onAddAttribute: (attribute: CompactAttribute) => void
   alreadySelectedAttributeIds: string[]
   groupIndex: number
   direction?: 'column' | 'row'
@@ -22,8 +22,8 @@ export type AttributeAutocompleteProps = {
 }
 
 type AttributeAutocompleteFormValues = {
-  attribute: null | ({ kind: AttributeKind } & CompactAttribute)
-} // TODO
+  attribute: null | CompactAttribute
+}
 
 export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
   attributeKey,
@@ -83,16 +83,15 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
     onAddAttribute(attribute)
   })
 
-  const options: { label: string; value: { kind: AttributeKind } & CompactAttribute }[] = //TODO
-    React.useMemo(() => {
-      const attributes = data?.results ?? []
-      return attributes
-        .filter((att) => !alreadySelectedAttributeIds.includes(att.id))
-        .map((att) => ({
-          label: att.name,
-          value: { kind: 'CERTIFIED', ...att }, //TODO
-        }))
-    }, [data?.results, alreadySelectedAttributeIds])
+  const options: { label: string; value: CompactAttribute }[] = React.useMemo(() => {
+    const attributes = data?.results ?? []
+    return attributes
+      .filter((att) => !alreadySelectedAttributeIds.includes(att.id))
+      .map((att) => ({
+        label: att.name,
+        value: att,
+      }))
+  }, [data?.results, alreadySelectedAttributeIds])
 
   const handleOpenConfigDrawer = handleSubmit(({ attribute }) => {
     if (!attribute || !onOpenConfigDrawer) return

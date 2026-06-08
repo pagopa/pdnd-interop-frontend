@@ -293,6 +293,7 @@ export const remapFormDescriptorAttributesToDescriptorAttributesSeed = (
         id: a.id,
         explicitAttributeVerification: true,
         dailyCallsPerConsumer: a?.dailyCallsPerConsumer,
+        discreteConfig: a?.discreteConfig,
       }))
     })
   }

@@ -12,7 +12,6 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import { AttributeAutocomplete } from '../AttributeAutocomplete'
 import type {
   AttributeCertifiedDiscreteComparator,
-  AttributeKind,
   CompactAttribute,
   EServiceAttributeCertifiedDiscreteConfig,
 } from '@/api/api.generatedTypes'
@@ -70,8 +69,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
   const { watch, setValue, getValues } = useFormContext<{ attributes: FormDescriptorAttributes }>()
   const attributeGroups = watch(`attributes.${attributeKey}`)
 
-  const handleAddAttributeToGroup = (attribute: { kind: AttributeKind } & CompactAttribute) => {
-    //TODO
+  const handleAddAttributeToGroup = (attribute: CompactAttribute) => {
     const newAttributeGroups = [...attributeGroups]
     newAttributeGroups[groupIndex].push(attribute as FormDescriptorAttribute)
     setValue(`attributes.${attributeKey}`, newAttributeGroups)
