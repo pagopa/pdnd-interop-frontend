@@ -277,17 +277,10 @@ export function hasAllDescriptorAttributes(
   return descriptorAttributes.every(isGroupFullfilled)
 }
 
-/**
- * This should be temporary, it is here because from the BFF we get the attributes in a different
- * format than the one we need to send to the API.
- * @param descriptorAttributes - The attributes to remap.
- * @returns The remapped attributes.
- */
-// TODO
-export const remapFormDescriptorAttributesToDescriptorAttributesSeed = (
+export const mapFormDescriptorAttributesToDescriptorAttributesSeed = (
   formDescriptorAttributes: FormDescriptorAttributes
 ): DescriptorAttributesSeed => {
-  const remapAttribute = (attr: FormDescriptorAttribute[][]): DescriptorAttributeSeed[][] => {
+  const mapAttribute = (attr: FormDescriptorAttribute[][]): DescriptorAttributeSeed[][] => {
     return attr.map((attrGroup) => {
       return attrGroup.map((a) => ({
         id: a.id,
@@ -299,16 +292,16 @@ export const remapFormDescriptorAttributesToDescriptorAttributesSeed = (
   }
 
   return {
-    certified: remapAttribute(formDescriptorAttributes.certified),
-    verified: remapAttribute(formDescriptorAttributes.verified),
-    declared: remapAttribute(formDescriptorAttributes.declared),
+    certified: mapAttribute(formDescriptorAttributes.certified),
+    verified: mapAttribute(formDescriptorAttributes.verified),
+    declared: mapAttribute(formDescriptorAttributes.declared),
   }
 }
 
-export const remapDescriptorAttributesToFormDescriptorAttributes = (
+export const mapDescriptorAttributesToFormDescriptorAttributes = (
   descriptorAttributes: DescriptorAttributes
 ): FormDescriptorAttributes => {
-  const remapAttribute = (attr: DescriptorAttribute[][]): FormDescriptorAttribute[][] => {
+  const mapAttribute = (attr: DescriptorAttribute[][]): FormDescriptorAttribute[][] => {
     return attr.map((attrGroup) => {
       return attrGroup.map((a) => ({
         id: a.id,
@@ -321,9 +314,9 @@ export const remapDescriptorAttributesToFormDescriptorAttributes = (
   }
 
   return {
-    certified: remapAttribute(descriptorAttributes.certified),
-    verified: remapAttribute(descriptorAttributes.verified),
-    declared: remapAttribute(descriptorAttributes.declared),
+    certified: mapAttribute(descriptorAttributes.certified),
+    verified: mapAttribute(descriptorAttributes.verified),
+    declared: mapAttribute(descriptorAttributes.declared),
   }
 }
 

@@ -71,7 +71,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
 
   const handleAddAttributeToGroup = (attribute: CompactAttribute) => {
     const newAttributeGroups = [...attributeGroups]
-    newAttributeGroups[groupIndex].push(attribute as FormDescriptorAttribute)
+    newAttributeGroups[groupIndex].push(attribute)
     setValue(`attributes.${attributeKey}`, newAttributeGroups)
     setIsAttributeAutocompleteVisible(false)
   }

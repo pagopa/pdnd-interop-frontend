@@ -10,11 +10,6 @@ import type {
   AttributeKey,
   FormDescriptorAttribute,
 } from '@/types/attribute.types'
-import {
-  type ProducerEServiceDescriptor,
-  type DescriptorAttribute,
-  type DescriptorAttributes,
-} from '@/api/api.generatedTypes'
 import { useAttributesCountersAlert } from './useAttributesCountersAlert'
 import { Alert, Box } from '@mui/material'
 import { StepActions } from '@/components/shared/StepActions'
@@ -23,9 +18,8 @@ import SaveIcon from '@mui/icons-material/Save'
 import { CreateAttributeDrawer } from '@/components/shared/CreateAttributeDrawer'
 import { compareObjects } from '@/utils/common.utils'
 import {
-  remapDescriptorAttributesToDescriptorAttributesSeed,
-  remapDescriptorAttributesToFormDescriptorAttributes,
-  remapFormDescriptorAttributesToDescriptorAttributesSeed,
+  mapDescriptorAttributesToFormDescriptorAttributes,
+  mapFormDescriptorAttributesToDescriptorAttributesSeed,
 } from '@/utils/attribute.utils'
 import {
   CustomizeThresholdDrawer,
@@ -58,7 +52,7 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
       dailyCallsPerConsumer: descriptor?.dailyCallsPerConsumer ?? 1,
       dailyCallsTotal: descriptor?.dailyCallsTotal ?? 2,
       attributes: descriptor?.attributes
-        ? remapDescriptorAttributesToFormDescriptorAttributes(descriptor?.attributes)
+        ? mapDescriptorAttributesToFormDescriptorAttributes(descriptor?.attributes)
         : {
             certified: [],
             verified: [],
@@ -138,7 +132,7 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
       return attributes.filter((group) => group.length > 0)
     }
 
-    const attributes = {
+    const attributes: FormDescriptorAttributes = {
       certified: removeEmptyAttributeGroups(values.attributes.certified),
       verified: removeEmptyAttributeGroups(values.attributes.verified),
       declared: removeEmptyAttributeGroups(values.attributes.declared),
@@ -153,7 +147,7 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
     const areDescriptorsEquals = compareObjects(newDescriptorData, {
       dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
       dailyCallsTotal: descriptor.dailyCallsTotal,
-      attributes: descriptor.attributes,
+      attributes: mapDescriptorAttributesToFormDescriptorAttributes(descriptor.attributes),
     })
     if (areDescriptorsEquals) {
       forward()
@@ -170,8 +164,7 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
             dailyCallsPerConsumer: values.dailyCallsPerConsumer,
             dailyCallsTotal: values.dailyCallsTotal,
             agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
-            // attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes), TODO
-            attributes: remapFormDescriptorAttributesToDescriptorAttributesSeed(attributes),
+            attributes: mapFormDescriptorAttributesToDescriptorAttributesSeed(attributes),
           },
           { onSuccess: forward }
         )
@@ -187,8 +180,7 @@ export const EServiceCreateStepThresholds: React.FC<ActiveStepProps> = () => {
             dailyCallsTotal: values.dailyCallsTotal,
             agreementApprovalPolicy: descriptor.agreementApprovalPolicy,
             description: descriptor.description,
-            // attributes: remapDescriptorAttributesToDescriptorAttributesSeed(attributes), TODO
-            attributes: remapFormDescriptorAttributesToDescriptorAttributesSeed(attributes),
+            attributes: mapFormDescriptorAttributesToDescriptorAttributesSeed(attributes),
           },
           { onSuccess: forward }
         )
