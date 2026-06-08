@@ -10,7 +10,7 @@ import type {
 } from '@/api/api.generatedTypes'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { SectionContainer } from '@/components/layout/containers'
-import { Box, Button, Divider, Stack } from '@mui/material'
+import { Alert, Box, Button, Divider, Stack } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -248,17 +248,24 @@ export const PurposeCreateForm: React.FC<PurposeCreateFormProps> = ({ purposeTem
           </SectionContainer>
         )}
         {isPurposeTemplateCreateSectionVisible && (
-          <SectionContainer
-            title={t('create.purposeTemplateField.title')}
-            description={t('create.purposeTemplateField.description')}
-          >
-            <Stack spacing={3}>
-              <PurposeCreatePurposeTemplateSection
-                selectedEService={selectedEServiceDescriptor?.eservice}
-                purposeTemplateId={purposeTemplateId}
-              />
-            </Stack>
-          </SectionContainer>
+          <>
+            <SectionContainer
+              title={t('create.purposeTemplateField.title')}
+              description={t('create.purposeTemplateField.description')}
+            >
+              <Stack spacing={3}>
+                <PurposeCreatePurposeTemplateSection
+                  selectedEService={selectedEServiceDescriptor?.eservice}
+                  purposeTemplateId={purposeTemplateId}
+                />
+              </Stack>
+            </SectionContainer>
+            {usePurposeTemplate && (
+              <Alert sx={{ mt: 2 }} severity="warning">
+                {t('create.purposeTemplateField.usePurposeTemplateSwitch.evaluatorWarningAlert')}
+              </Alert>
+            )}
+          </>
         )}
         <Stack direction="row" sx={{ mt: 4, justifyContent: 'right' }}>
           <Button variant="contained" type="submit" startIcon={<NoteAddIcon />}>
