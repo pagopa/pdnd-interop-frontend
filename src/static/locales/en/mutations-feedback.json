@@ -135,6 +135,11 @@
         "description": "The risk analysis will be deleted from this e-service."
       }
     },
+    "cancelEserviceArchiving": {
+      "outcome": {
+        "success": "The e-service is no longer being archived"
+      }
+    },
     "suspendVersion": {
       "loading": "E-service version is being suspended",
       "outcome": {

@@ -213,8 +213,14 @@ function useScheduleArchiveEservice() {
 }
 
 function useCancelEserviceArchiving() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.cancelEserviceArchiving',
+  })
   return useMutation({
     mutationFn: EServiceServices.cancelEserviceArchiving,
+    meta: {
+      successToastLabel: t('outcome.success'),
+    },
   })
 }
 
