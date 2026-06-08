@@ -6,7 +6,9 @@ import { useQuery } from '@tanstack/react-query'
 import { PurposeEditStepAssignment } from '../PurposeEditStepAssignment'
 import PurposeEditStepAssignmentForm from '../PurposeEditStepAssignmentForm'
 import { NotFoundError } from '@/utils/errors.utils'
+import { mockUseJwt } from '@/utils/testing.utils'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
+import { createMockSelfCareUser } from '@/../__mocks__/data/user.mocks'
 import type { Purpose, RiskAnalysisReviewMode, User } from '@/api/api.generatedTypes'
 
 vi.mock('@/router', () => ({
@@ -33,13 +35,6 @@ vi.mock('@/api/tenant', () => ({
     getPartyUsersList: (params: unknown) => ({
       queryKey: ['PartyGetPartyUsersList', params],
     }),
-  },
-}))
-
-const useJwtMock = vi.fn()
-vi.mock('@/api/auth', () => ({
-  AuthHooks: {
-    useJwt: () => useJwtMock(),
   },
 }))
 
@@ -84,15 +79,7 @@ function buildPurpose(
 }
 
 function buildReviewers(): Array<User> {
-  return [
-    {
-      userId: 'reviewer-1',
-      tenantId: 'tenant-1',
-      name: 'Mario',
-      familyName: 'Rossi',
-      roles: ['reviewer'],
-    },
-  ]
+  return [createMockSelfCareUser({ userId: 'reviewer-1', roles: ['reviewer'] })]
 }
 
 function mockQueries({
@@ -119,7 +106,7 @@ function mockQueries({
 }
 
 function setJwt(overrides: { organizationId?: string; selfcareId?: string } = {}) {
-  useJwtMock.mockReturnValue({
+  mockUseJwt({
     jwt: {
       organizationId: overrides.organizationId ?? 'org-current',
       selfcareId: overrides.selfcareId ?? 'selfcare-1',

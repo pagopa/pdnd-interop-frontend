@@ -2,9 +2,53 @@ import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { AgreementServices } from './agreement.services'
 import type { AgreementPayload, AgreementSubmissionPayload } from '../api.generatedTypes'
+import { apiGuideLink } from '@/config/constants'
+import type { ConfirmationDialogMeta } from '@tanstack/react-query'
+import type { TFunction } from 'i18next'
 
-function useCreateDraft(hasConfirmationDialog = true) {
+const getAsyncExchangeConfirmationDialog = (
+  t: TFunction<'mutations-feedback', 'agreement.submitDraft'>
+): ConfirmationDialogMeta => ({
+  title: t('confirmDialog.asyncExchange.title'),
+  description: t('confirmDialog.asyncExchange.description'),
+  descriptionLink: {
+    href: apiGuideLink,
+  },
+  checkbox: t('confirmDialog.asyncExchange.checkbox'),
+})
+
+function useCreateDraft(hasConfirmationDialog = true, isAsyncExchange = false) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.createDraft' })
+  const { t: tSubmitDraft } = useTranslation('mutations-feedback', {
+    keyPrefix: 'agreement.submitDraft',
+  })
+
+  const createDraftConfirmationDialog: ConfirmationDialogMeta = {
+    title: t('confirmDialog.title'),
+    description: (variables: unknown) => {
+      const eserviceName =
+        typeof variables === 'object' &&
+        variables !== null &&
+        'eserviceName' in variables &&
+        typeof variables.eserviceName === 'string'
+          ? variables.eserviceName
+          : undefined
+      const eserviceVersion =
+        typeof variables === 'object' &&
+        variables !== null &&
+        'eserviceVersion' in variables &&
+        typeof variables.eserviceVersion === 'string'
+          ? variables.eserviceVersion
+          : undefined
+
+      return t('confirmDialog.description', {
+        name: eserviceName,
+        version: eserviceVersion,
+      })
+    },
+    proceedLabel: t('confirmDialog.proceedLabel'),
+  }
+
   return useMutation({
     mutationFn: ({
       eserviceId,
@@ -18,25 +62,38 @@ function useCreateDraft(hasConfirmationDialog = true) {
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: hasConfirmationDialog
-        ? {
-            title: t('confirmDialog.title'),
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            description: (variables: any) => {
-              return t('confirmDialog.description', {
-                name: variables.eserviceName,
-                version: variables.eserviceVersion,
-              })
-            },
-            proceedLabel: t('confirmDialog.proceedLabel'),
-          }
-        : undefined,
+      confirmationDialog: isAsyncExchange
+        ? getAsyncExchangeConfirmationDialog(tSubmitDraft)
+        : hasConfirmationDialog
+          ? createDraftConfirmationDialog
+          : undefined,
     },
   })
 }
 
 function useSubmitDraft(isDelegated = false) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.submitDraft' })
+  const submitConfirmationDialog = {
+    title: t('confirmDialog.title'),
+    description: (variables: unknown) => {
+      const delegatorName =
+        typeof variables === 'object' &&
+        variables !== null &&
+        'delegatorName' in variables &&
+        typeof variables.delegatorName === 'string'
+          ? variables.delegatorName
+          : undefined
+
+      return isDelegated
+        ? t('confirmDialog.description.isDelegated', {
+            delegatorName,
+          })
+        : t('confirmDialog.description.default')
+    },
+  }
+
+  const confirmationDialog = [...(isDelegated ? [submitConfirmationDialog] : [])]
+
   return useMutation({
     mutationFn: ({
       agreementId,
@@ -51,17 +108,7 @@ function useSubmitDraft(isDelegated = false) {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        description: (variables: any) => {
-          return isDelegated
-            ? t('confirmDialog.description.isDelegated', {
-                delegatorName: variables.delegatorName,
-              })
-            : t('confirmDialog.description.default')
-        },
-      },
+      confirmationDialog: confirmationDialog.length > 0 ? confirmationDialog : undefined,
     },
   })
 }
@@ -70,6 +117,7 @@ function useSubmitToOwnEService() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'agreement.submitToOwnEService',
   })
+
   return useMutation({
     mutationFn: AgreementServices.submitToOwnEService,
     meta: {

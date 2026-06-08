@@ -71,7 +71,14 @@ export function Breadcrumbs() {
         PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU: false,
         PROVIDE_ESERVICE_PUBLISH_THANK_YOU: false,
         SUBSCRIBE_PURPOSE_PUBLISH_THANK_YOU: false,
-        SUBSCRIBE_RISK_ANALYSIS_LIST: false,
+        SUBSCRIBE_RISK_ANALYSIS_LIST:
+          routeKey === 'SUBSCRIBE_RISK_ANALYSIS_LIST'
+            ? false
+            : routeLabels.SUBSCRIBE_RISK_ANALYSIS_LIST,
+        SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE:
+          routeKey === 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL'
+            ? false
+            : routeLabels.SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE,
       }}
     />
   )

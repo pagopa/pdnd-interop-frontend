@@ -120,8 +120,7 @@
       },
       "delegateAlert": "As a delegate, you cannot assign the risk analysis to a reviewer.",
       "forwardBtn": "Save draft and proceed",
-      "requestReviewerCompilationBtn": "Request compilation",
-      "backToListBtn": "Back to purposes"
+      "requestReviewerCompilationBtn": "Request compilation"
     },
     "loadEstimationSection": {
       "title": "Estimate API calls",
@@ -533,9 +532,11 @@
   },
   "riskAnalysisSummary": {
     "backToListBtn": "Back to risk analysis",
-    "title": "Summary",
+    "titleSummary": "Summary",
+    "titleApproval": "Approve risk analysis",
     "modifyBtn": "Edit draft",
     "approveBtn": "Approve risk analysis",
+    "rejectBtn": "Reject with reason",
     "generalInformationSection": {
       "title": "General information"
     },
@@ -624,6 +625,11 @@
   "approveThankYou": {
     "title": "You have approved the risk analysis",
     "description": "The administrator will be able to publish the purpose. You will no longer see this risk analysis among those you need to complete or approve.",
+    "action": "Close"
+  },
+  "rejectThankYou": {
+    "title": "You have rejected the risk analysis",
+    "description": "The administrator will receive the reason for your rejection. You will no longer see this risk assessment among those you need to complete or approve.",
     "action": "Close"
   }
 }

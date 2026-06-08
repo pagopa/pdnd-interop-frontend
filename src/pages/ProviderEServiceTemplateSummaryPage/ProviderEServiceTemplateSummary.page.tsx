@@ -92,7 +92,14 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   }
 
   const arePersonalDataSet = eserviceTemplate?.eserviceTemplate.personalData !== undefined
-  const hasMissingFields = !eserviceTemplate?.voucherLifespan || !eserviceTemplate?.description
+  const hasMissingAsyncExchangeFields = Boolean(
+    eserviceTemplate?.eserviceTemplate.asyncExchange &&
+    (!eserviceTemplate.asyncExchangeProperties || !eserviceTemplate.asyncExchangeCallbackInterface)
+  )
+  const hasMissingFields =
+    !eserviceTemplate?.voucherLifespan ||
+    !eserviceTemplate?.description ||
+    hasMissingAsyncExchangeFields
 
   const canBePublished = () => {
     return !!(eserviceTemplate?.interface && arePersonalDataSet && !hasMissingFields)
@@ -168,7 +175,11 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
               title={t('summary.technicalSpecsSummary.title')}
-              showWarning={!eserviceTemplate?.voucherLifespan || !eserviceTemplate?.interface}
+              showWarning={
+                !eserviceTemplate?.voucherLifespan ||
+                !eserviceTemplate?.interface ||
+                hasMissingAsyncExchangeFields
+              }
               warningLabel={t('summary.completeInfoChip')}
             >
               <ProviderEServiceTemplateTechnicalSpecsSummarySection />

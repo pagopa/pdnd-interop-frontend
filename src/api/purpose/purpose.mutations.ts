@@ -264,6 +264,17 @@ function useSignRiskAnalysis() {
   })
 }
 
+function useRejectRiskAnalysis() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.rejectRiskAnalysis' })
+  return useMutation({
+    mutationFn: PurposeServices.rejectRiskAnalysis,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 function useUpdateRiskAnalysis() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.updateRiskAnalysis' })
   return useMutation({
@@ -295,5 +306,6 @@ export const PurposeMutations = {
   useAssignRiskAnalysisReviewer,
   useSubmitRiskAnalysis,
   useSignRiskAnalysis,
+  useRejectRiskAnalysis,
   useUpdateRiskAnalysis,
 }
