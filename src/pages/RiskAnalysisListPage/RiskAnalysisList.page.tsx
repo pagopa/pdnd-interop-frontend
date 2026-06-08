@@ -42,7 +42,7 @@ const RiskAnalysisListPage: React.FC = () => {
       onTextInputChange: setEServiceAutocompleteInputChange,
     },
     {
-      name: 'signingState',
+      name: 'signingStates',
       label: tPurpose('filters.riskAnalysisState.label'),
       type: 'autocomplete-single',
       options: [
@@ -62,7 +62,7 @@ const RiskAnalysisListPage: React.FC = () => {
   })
 
   const hasActiveFilters =
-    (queryParams.eservicesIds?.length ?? 0) > 0 || Boolean(queryParams.signingState)
+    (queryParams.eservicesIds?.length ?? 0) > 0 || Boolean(queryParams.signingStates)
 
   const isInitialEmptyState = !!data && data.results.length === 0 && !hasActiveFilters
 

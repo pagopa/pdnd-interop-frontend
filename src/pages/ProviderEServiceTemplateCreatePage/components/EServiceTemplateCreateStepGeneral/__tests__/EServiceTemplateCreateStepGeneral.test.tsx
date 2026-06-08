@@ -1,5 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import {
   EServiceTemplateCreateStepGeneral,
@@ -27,7 +28,7 @@ describe('EServiceTemplateCreateStepGeneral', () => {
       withRouterContext: true,
     })
     expect(screen.getByText('create.step1.templateInfoTitle')).toBeInTheDocument()
-    expect(screen.getByText('create.step1.instanceDetailsTitle')).toBeInTheDocument()
+    expect(screen.getByText('title')).toBeInTheDocument()
     expect(screen.getByText('create.step1.signalHubTitle')).toBeInTheDocument()
   })
 
@@ -70,18 +71,48 @@ describe('EServiceTemplateCreateStepGeneral', () => {
     expect(screen.getByLabelText('SOAP')).toBeInTheDocument()
   })
 
+  it('renders async exchange radio group', () => {
+    mockUseEServiceTemplateCreateContext()
+    renderWithApplicationContext(<EServiceTemplateCreateStepGeneral />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('asyncExchangeField.label')).toBeInTheDocument()
+    expect(screen.getByLabelText('asyncExchangeField.options.false')).toBeInTheDocument()
+    expect(screen.getByLabelText('asyncExchangeField.options.true')).toBeInTheDocument()
+  })
+
+  it('forces DELIVER mode when async exchange is selected', async () => {
+    const user = userEvent.setup()
+    mockUseEServiceTemplateCreateContext({ eserviceTemplateMode: 'RECEIVE' })
+    renderWithApplicationContext(<EServiceTemplateCreateStepGeneral />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await user.click(screen.getByLabelText('asyncExchangeField.options.true'))
+
+    const deliverRadio = screen.getByRole('radio', {
+      name: 'modeField.options.DELIVER',
+    })
+    const receiveRadio = screen.getByRole('radio', {
+      name: 'modeField.options.RECEIVE',
+    })
+
+    expect(deliverRadio).toBeChecked()
+    expect(deliverRadio).toBeDisabled()
+    expect(receiveRadio).toBeDisabled()
+  })
+
   it('renders mode radio group with Eroga and Riceve options', () => {
     mockUseEServiceTemplateCreateContext()
     renderWithApplicationContext(<EServiceTemplateCreateStepGeneral />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
-    expect(
-      screen.getByLabelText('create.step1.eserviceTemplateModeField.options.DELIVER')
-    ).toBeInTheDocument()
-    expect(
-      screen.getByLabelText('create.step1.eserviceTemplateModeField.options.RECEIVE')
-    ).toBeInTheDocument()
+    expect(screen.getByLabelText('modeField.options.DELIVER')).toBeInTheDocument()
+    expect(screen.getByLabelText('modeField.options.RECEIVE')).toBeInTheDocument()
   })
 
   it('renders the Signal Hub switch', () => {
