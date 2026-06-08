@@ -282,7 +282,7 @@
   "dialogRejectRiskAnalysis": {
     "title": "Reject risk analysis",
     "description": "Share with your administrator why you didn't approve the risk assessment and indicate any corrections that need to be made.",
-    "resonField": {
+    "reasonField": {
       "label": "Reason for refusal of approval",
       "infoLabel": "Explain why you declined the risk analysis. Minimum 10 characters, maximum 250 characters."
     },

@@ -40,7 +40,7 @@ describe('DialogRejectRiskAnalysis', () => {
     expect(screen.getByText('description')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'actions.cancel' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'actions.confirm' })).toBeInTheDocument()
-    expect(screen.getByLabelText('resonField.label')).toBeInTheDocument()
+    expect(screen.getByLabelText('reasonField.label')).toBeInTheDocument()
   })
 
   it('should close dialog when cancel is clicked', async () => {
@@ -62,7 +62,7 @@ describe('DialogRejectRiskAnalysis', () => {
 
     render(<DialogRejectRiskAnalysis purposeId="test-purpose-id" type="rejectRiskAnalysis" />)
 
-    await user.type(screen.getByLabelText('resonField.label'), 'Motivazione di rifiuto valida')
+    await user.type(screen.getByLabelText('reasonField.label'), 'Motivazione di rifiuto valida')
 
     await user.click(
       screen.getByRole('button', {
@@ -90,7 +90,7 @@ describe('DialogRejectRiskAnalysis', () => {
 
     render(<DialogRejectRiskAnalysis purposeId="test-purpose-id" type="rejectRiskAnalysis" />)
 
-    await user.type(screen.getByLabelText('resonField.label'), 'Motivazione di rifiuto valida')
+    await user.type(screen.getByLabelText('reasonField.label'), 'Motivazione di rifiuto valida')
 
     await user.click(
       screen.getByRole('button', {

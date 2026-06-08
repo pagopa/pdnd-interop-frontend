@@ -282,7 +282,7 @@
   "dialogRejectRiskAnalysis": {
     "title": "Rifiuta analisi del rischio",
     "description": "Condividi con l’amministratore perché non hai approvato l’analisi del rischio e indica eventuali correzioni da fare.",
-    "resonField": {
+    "reasonField": {
       "label": "Motivo rifiuto approvazione",
       "infoLabel": "Spiega perché hai rifiutato l’analisi del rischio. Min 10 caratteri, max 250 caratteri"
     },

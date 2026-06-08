@@ -69,8 +69,8 @@ export const DialogRejectRiskAnalysis: React.FC<DialogRejectRiskAnalysisProps> =
             <RequiredTextLabel />
             <RHFTextField
               name="rejectionReason"
-              label={t('resonField.label')}
-              infoLabel={t('resonField.infoLabel')}
+              label={t('reasonField.label')}
+              infoLabel={t('reasonField.infoLabel')}
               focusOnMount
               multiline
               inputProps={{ maxLength: 250 }}
