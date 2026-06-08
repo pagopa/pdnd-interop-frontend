@@ -1,11 +1,19 @@
-import { hasAllDescriptorAttributes, isAttributeGroupFullfilled } from '@/utils/attribute.utils'
-import type { DescriptorAttributes } from '@/api/api.generatedTypes'
+import {
+  hasAllDescriptorAttributes,
+  isAttributeCompliantWithDiscreteConfig,
+  isAttributeGroupFullfilled,
+} from '@/utils/attribute.utils'
+import type {
+  DescriptorAttributes,
+  EServiceAttributeCertifiedDiscreteConfig,
+} from '@/api/api.generatedTypes'
 import { isAttributeOwned, isAttributeRevoked } from '../attribute.utils'
 import {
   createCertifiedTenantAttribute,
   createDeclaredTenantAttribute,
   createVerifiedTenantAttribute,
   createMockDescriptorAttribute,
+  createCertifiedDiscreteTenantAttribute,
 } from '@/../__mocks__/data/attribute.mocks'
 import subDays from 'date-fns/subDays'
 
@@ -21,6 +29,22 @@ describe('attribute utils', () => {
 
     it('should be not considered revoked (certified)', () => {
       const attributeMock = createCertifiedTenantAttribute({
+        revocationTimestamp: undefined,
+      })
+      const result = isAttributeRevoked('certified', attributeMock)
+      expect(result).toBe(false)
+    })
+
+    it('should be considered revoked (CERTIFIED_DISCRETE)', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
+        revocationTimestamp: '2021-09-01T12:00:00.000Z',
+      })
+      const result = isAttributeRevoked('certified', attributeMock)
+      expect(result).toBe(true)
+    })
+
+    it('should be not considered revoked (CERTIFIED_DISCRETE)', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
         revocationTimestamp: undefined,
       })
       const result = isAttributeRevoked('certified', attributeMock)
@@ -101,6 +125,46 @@ describe('attribute utils', () => {
     it('should not be considered owned if the attribute is in the owned attribute array but it is revoked (certified)', () => {
       const attributeMock = createCertifiedTenantAttribute({ revocationTimestamp: 'timestamp' })
       const result = isAttributeOwned('certified', 'attribute-id', [attributeMock])
+      expect(result).toBe(false)
+    })
+
+    it('should be considered owned if the attribute is in the owned attribute array, it is not revoked and it is compliant to discrete config (CERTIFIED_DISCRETE)', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
+        id: 'attribute-id',
+        revocationTimestamp: undefined,
+        discreteValue: 100,
+      })
+      const result = isAttributeOwned('certified', 'attribute-id', [attributeMock], {
+        discreteConfig: { comparator: 'GT', threshold: 50 },
+      })
+      expect(result).toBe(true)
+    })
+
+    it('should not be considered owned if the attribute is not in the owned attribute array (CRETIFIED_DISCRETE)', () => {
+      const result = isAttributeOwned('certified', 'attribute-id', [], {
+        discreteConfig: { comparator: 'GT', threshold: 50 },
+      })
+      expect(result).toBe(false)
+    })
+
+    it('should not be considered owned if the attribute is in the owned attribute array but it is revoked (CERTIFIED_DISCRETE)', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
+        revocationTimestamp: 'timestamp',
+      })
+      const result = isAttributeOwned('certified', 'attribute-id', [attributeMock], {
+        discreteConfig: { comparator: 'GT', threshold: 50 },
+      })
+      expect(result).toBe(false)
+    })
+
+    it('should not be considered owned if the attribute is in the owned attribute array but it is not compliant to discrete config (CERTIFIED_DISCRETE)', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
+        revocationTimestamp: 'timestamp',
+        discreteValue: 10,
+      })
+      const result = isAttributeOwned('certified', 'attribute-id', [attributeMock], {
+        discreteConfig: { comparator: 'GT', threshold: 50 },
+      })
       expect(result).toBe(false)
     })
 
@@ -189,7 +253,7 @@ describe('attribute utils', () => {
       expect(result).toBe(true)
     })
 
-    it('should be considered fullfilled if no attributes are owned (certified)', () => {
+    it('should not be considered fullfilled if no attributes are owned (certified)', () => {
       const ownedAttributes = [
         createCertifiedTenantAttribute({ id: 'attribute-id-1', revocationTimestamp: undefined }),
         createCertifiedTenantAttribute({
@@ -198,6 +262,94 @@ describe('attribute utils', () => {
         }),
       ]
       const group = [createMockDescriptorAttribute({ id: 'attribute-id-2' })]
+      const result = isAttributeGroupFullfilled('certified', ownedAttributes, group)
+      expect(result).toBe(false)
+    })
+
+    it('should be considered fullfilled if at least one attribute is owned (CRETIFIED_DISCRETE)', () => {
+      const ownedAttributes = [
+        createCertifiedDiscreteTenantAttribute({
+          id: 'attribute-id-1',
+          revocationTimestamp: undefined,
+          discreteValue: 100,
+        }),
+        createCertifiedDiscreteTenantAttribute({
+          id: 'attribute-id-2',
+          revocationTimestamp: undefined,
+          discreteValue: 35,
+        }),
+      ]
+      const group = [
+        createMockDescriptorAttribute({
+          id: 'attribute-id-1',
+          kind: 'CERTIFIED_DISCRETE',
+          discreteConfig: { comparator: 'GT', threshold: 50 },
+        }),
+      ]
+      const result = isAttributeGroupFullfilled('certified', ownedAttributes, group)
+      expect(result).toBe(true)
+    })
+
+    it('should not be considered fullfilled if no attributes are owned (CRETIFIED_DISCRETE)', () => {
+      const ownedAttributes = [
+        createCertifiedDiscreteTenantAttribute({
+          id: 'attribute-id-1',
+          revocationTimestamp: undefined,
+          discreteValue: 35,
+        }),
+        createCertifiedDiscreteTenantAttribute({
+          id: 'attribute-id-2',
+          revocationTimestamp: undefined,
+          discreteValue: 44,
+        }),
+      ]
+      const group = [
+        createMockDescriptorAttribute({
+          id: 'attribute-id-1',
+          kind: 'CERTIFIED_DISCRETE',
+          discreteConfig: { comparator: 'GT', threshold: 50 },
+        }),
+      ]
+      const result = isAttributeGroupFullfilled('certified', ownedAttributes, group)
+      expect(result).toBe(false)
+    })
+
+    it('should be considered fullfilled if at least one attribute is owned (CRETIFIED_DISCRETE and CERTIFIED)', () => {
+      const ownedAttributes = [
+        createCertifiedTenantAttribute({ id: 'attribute-id-1', revocationTimestamp: undefined }),
+        createCertifiedDiscreteTenantAttribute({
+          id: 'attribute-id-2',
+          revocationTimestamp: undefined,
+          discreteValue: 1000,
+        }),
+      ]
+      const group = [
+        createMockDescriptorAttribute({
+          id: 'attribute-id-2',
+          kind: 'CERTIFIED_DISCRETE',
+          discreteConfig: { comparator: 'GT', threshold: 50 },
+        }),
+      ]
+      const result = isAttributeGroupFullfilled('certified', ownedAttributes, group)
+      expect(result).toBe(true)
+    })
+
+    it('should not be considered fullfilled if no attributes are owned (CERTIFIED_DISCRETE and CERTIFIED)', () => {
+      const ownedAttributes = [
+        createCertifiedTenantAttribute({ id: 'attribute-id-1', revocationTimestamp: undefined }),
+        createCertifiedDiscreteTenantAttribute({
+          id: 'attribute-id-2',
+          revocationTimestamp: '2021-09-01T12:00:00.000Z',
+          discreteValue: 1000,
+        }),
+      ]
+      const group = [
+        createMockDescriptorAttribute({
+          id: 'attribute-id-2',
+          kind: 'CERTIFIED_DISCRETE',
+          discreteConfig: { comparator: 'GT', threshold: 50 },
+        }),
+      ]
       const result = isAttributeGroupFullfilled('certified', ownedAttributes, group)
       expect(result).toBe(false)
     })
@@ -234,7 +386,7 @@ describe('attribute utils', () => {
       expect(result).toBe(true)
     })
 
-    it('should be considered fullfilled if no attributes are owned (declared)', () => {
+    it('should not be considered fullfilled if no attributes are owned (declared)', () => {
       const ownedAttributes = [
         createDeclaredTenantAttribute({ id: 'attribute-id-1', revocationTimestamp: undefined }),
         createDeclaredTenantAttribute({
@@ -292,6 +444,104 @@ describe('attribute utils', () => {
           [
             createMockDescriptorAttribute({ id: 'attribute-id-2' }),
             createMockDescriptorAttribute({ id: 'attribute-id-3' }),
+          ],
+          [
+            createMockDescriptorAttribute({ id: 'attribute-id-4' }),
+            createMockDescriptorAttribute({ id: 'attribute-id-5' }),
+          ],
+        ],
+        verified: [],
+        declared: [],
+      }
+      const result = hasAllDescriptorAttributes(
+        'certified',
+        ownedAttributes,
+        descriptorAttributes.certified
+      )
+      expect(result).toBe(false)
+    })
+
+    it('should return true if the user has fullfilled all the attribute groups requirements (CERTIFIED_DISCRETE)', () => {
+      const ownedAttributes = [
+        createCertifiedDiscreteTenantAttribute({
+          id: 'attribute-id-1',
+          revocationTimestamp: undefined,
+          discreteValue: 100,
+        }),
+        createCertifiedDiscreteTenantAttribute({
+          id: 'attribute-id-2',
+          revocationTimestamp: undefined,
+          discreteValue: 35,
+        }),
+      ]
+
+      const descriptorAttributes: DescriptorAttributes = {
+        certified: [
+          [
+            createMockDescriptorAttribute({
+              id: 'attribute-id-1',
+              kind: 'CERTIFIED_DISCRETE',
+              discreteConfig: { comparator: 'GT', threshold: 50 },
+            }),
+          ],
+          [
+            createMockDescriptorAttribute({
+              id: 'attribute-id-2',
+              kind: 'CERTIFIED_DISCRETE',
+              discreteConfig: { comparator: 'LT', threshold: 50 },
+            }),
+            createMockDescriptorAttribute({
+              id: 'attribute-id-3',
+              kind: 'CERTIFIED_DISCRETE',
+              discreteConfig: { comparator: 'GT', threshold: 500 },
+            }),
+          ],
+        ],
+        verified: [],
+        declared: [],
+      }
+      const result = hasAllDescriptorAttributes(
+        'certified',
+        ownedAttributes,
+        descriptorAttributes.certified
+      )
+      expect(result).toBe(true)
+    })
+
+    it('should return false if the user has not fullfilled all the attribute groups requirements (CERTIFIED_DISCRETE)', () => {
+      const ownedAttributes = [
+        createCertifiedDiscreteTenantAttribute({
+          id: 'attribute-id-1',
+          revocationTimestamp: undefined,
+          discreteValue: 100,
+        }),
+        createCertifiedDiscreteTenantAttribute({
+          id: 'attribute-id-2',
+          revocationTimestamp: undefined,
+          discreteValue: 35,
+        }),
+      ]
+
+      const descriptorAttributes: DescriptorAttributes = {
+        certified: [
+          [
+            createMockDescriptorAttribute({
+              id: 'attribute-id-1',
+              kind: 'CERTIFIED_DISCRETE',
+              discreteConfig: { comparator: 'GT', threshold: 50 },
+            }),
+          ],
+          [
+            createMockDescriptorAttribute({
+              id: 'attribute-id-2',
+              kind: 'CERTIFIED_DISCRETE',
+              discreteConfig: { comparator: 'LT', threshold: 50 },
+            }),
+            createMockDescriptorAttribute({
+              id: 'attribute-id-3',
+              kind: 'CERTIFIED_DISCRETE',
+              discreteConfig: { comparator: 'GT', threshold: 500 },
+            }),
           ],
           [
             createMockDescriptorAttribute({ id: 'attribute-id-4' }),
@@ -449,6 +699,32 @@ describe('attribute utils', () => {
         //@ts-expect-error
         hasAllDescriptorAttributes('unknown-kind', ownedAttributes, descriptorAttributes.certified)
       ).toThrowError('Unknown attribute kind: unknown-kind')
+    })
+  })
+
+  describe('isAttributeCompliantWithDiscreteConfig', () => {
+    it('should be compliant if the attribute CERTIFIED_dISCRETE discrete value is compliant with the discrete config', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
+        discreteValue: 100,
+      })
+      const discreteConfig: EServiceAttributeCertifiedDiscreteConfig = {
+        comparator: 'GT',
+        threshold: 50,
+      }
+      const result = isAttributeCompliantWithDiscreteConfig(attributeMock, discreteConfig)
+      expect(result).toBe(true)
+    })
+
+    it('should not be compliant if the attribute CERTIFIED_dISCRETE discrete value is not compliant with the discrete config', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
+        discreteValue: 100,
+      })
+      const discreteConfig: EServiceAttributeCertifiedDiscreteConfig = {
+        comparator: 'LT',
+        threshold: 50,
+      }
+      const result = isAttributeCompliantWithDiscreteConfig(attributeMock, discreteConfig)
+      expect(result).toBe(false)
     })
   })
 })
