@@ -10,6 +10,19 @@
  * ---------------------------------------------------------------
  */
 
+/** Risk analysis signing state */
+export type RiskAnalysisSigningState =
+  | "DRAFT"
+  | "ASSIGNED"
+  | "SUBMITTED"
+  | "SIGNED"
+  | "REJECTED";
+
+/** Risk analysis review mode */
+export type RiskAnalysisReviewMode =
+  | "ADMIN_WRITES_REVIEWER_SIGNS"
+  | "REVIEWER_WRITES_REVIEWER_SIGNS";
+
 /** Filter e-services by personal data */
 export type PersonalDataFilter = "TRUE" | "FALSE" | "DEFINED";
 
@@ -57,15 +70,9 @@ export type EServiceDescriptorState =
   | "DEPRECATED"
   | "SUSPENDED"
   | "ARCHIVED"
-  | "WAITING_FOR_APPROVAL";
-
-/** Risk analysis signing state */
-export type RiskAnalysisSigningState =
-  | "DRAFT"
-  | "ASSIGNED"
-  | "SUBMITTED"
-  | "SIGNED"
-  | "REJECTED";
+  | "WAITING_FOR_APPROVAL"
+  | "ARCHIVING"
+  | "ARCHIVING_SUSPENDED";
 
 /** Purpose State */
 export type PurposeVersionState =
@@ -112,16 +119,14 @@ export type AgreementApprovalPolicy = "AUTOMATIC" | "MANUAL";
 /** Risk Analysis Mode */
 export type EServiceMode = "RECEIVE" | "DELIVER";
 
+/** Archiving Scope */
+export type ArchivingScope = "ESERVICE" | "DESCRIPTOR";
+
 /** Data Type Question */
 export type DataType = "SINGLE" | "MULTI" | "FREETEXT";
 
 /** Consent Type */
 export type ConsentType = "PP" | "TOS";
-
-/** Risk analysis review mode */
-export type RiskAnalysisReviewMode =
-  | "REVIEWER_WRITES_REVIEWER_SIGNS"
-  | "ADMIN_WRITES_REVIEWER_SIGNS";
 
 export type LinkableResource =
   | ({
@@ -150,42 +155,6 @@ export type LinkableResourceRequest =
 /** models the reject payload for this purpose version. */
 export interface RejectPurposeVersionPayload {
   rejectionReason: string;
-}
-
-/** Reviewer workflow state for a purpose risk analysis */
-export interface ReviewerWorkflow {
-  /** Risk analysis review mode */
-  reviewMode: RiskAnalysisReviewMode;
-  reviewerIds: string[];
-  /** Risk analysis signing state */
-  signingState: RiskAnalysisSigningState;
-  /** @format uuid */
-  signedBy?: string;
-  rejectionReason?: string;
-  /** @format date-time */
-  sentToReviewerAt?: string;
-}
-
-/** Payload to assign reviewer mode and reviewers to a purpose risk analysis */
-export interface RiskAnalysisAssignmentSeed {
-  /** Risk analysis review mode */
-  reviewMode: RiskAnalysisReviewMode;
-  /** @minItems 1 */
-  reviewerIds: string[];
-}
-
-/** Payload to reject the risk analysis with a reason */
-export interface RiskAnalysisRejectionSeed {
-  /**
-   * @minLength 10
-   * @maxLength 250
-   */
-  rejectionReason: string;
-}
-
-/** Payload to submit the risk analysis form for reviewer signing */
-export interface RiskAnalysisSubmissionSeed {
-  riskAnalysisForm: RiskAnalysisFormSeed;
 }
 
 export interface GoogleSAMLPayload {
@@ -524,6 +493,7 @@ export interface CatalogEServiceDescriptor {
   deprecatedAt?: string;
   /** @format date-time */
   archivedAt?: string;
+  archivingSchedule?: ArchivingSchedule;
   asyncExchangeProperties?: AsyncExchangeProperties;
   asyncExchangeCallbackInterface?: EServiceDoc;
 }
@@ -585,6 +555,7 @@ export interface CatalogDescriptorEService {
   isConsumerDelegable?: boolean;
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
+  archivingReason?: string;
   asyncExchange?: boolean;
 }
 
@@ -605,6 +576,15 @@ export interface ProducerEServiceDetails {
   asyncExchange?: boolean;
   /** @format uuid */
   latestActiveDescriptorId?: string;
+}
+
+export interface ArchivingSchedule {
+  /** @format date-time */
+  archivableOn?: string;
+  /** @format date-time */
+  startedAt?: string;
+  /** Archiving Scope */
+  scope?: ArchivingScope;
 }
 
 export interface EServiceRiskAnalysisSeed {
@@ -689,6 +669,7 @@ export interface ProducerEServiceDescriptor {
   asyncExchangeProperties?: AsyncExchangeProperties;
   asyncExchangeCallbackInterface?: EServiceDoc;
   delegation?: DelegationWithCompactTenants;
+  archivingSchedule?: ArchivingSchedule;
 }
 
 export interface ProducerDescriptorEService {
@@ -900,6 +881,8 @@ export interface CompactDescriptor {
   audience: string[];
   /** @format uuid */
   templateVersionId?: string;
+  /** @format date-time */
+  archivableOn?: string;
 }
 
 export interface TemplateInstanceInterfaceRESTSeed {
@@ -2657,6 +2640,14 @@ export interface EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescript
   createdAt: string;
 }
 
+export interface EServiceArchivingReasonSeed {
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  archivingReason: string;
+}
+
 export interface CompactPurposeTemplateEServiceTemplate {
   /** @format uuid */
   id: string;
@@ -2737,6 +2728,42 @@ export interface NotificationsCountBySection {
     /** @format int32 */
     totalCount: number;
   };
+}
+
+/** Reviewer workflow state for a purpose risk analysis */
+export interface ReviewerWorkflow {
+  /** Risk analysis review mode */
+  reviewMode: RiskAnalysisReviewMode;
+  reviewerIds: string[];
+  /** Risk analysis signing state */
+  signingState: RiskAnalysisSigningState;
+  /** @format uuid */
+  signedBy?: string;
+  rejectionReason?: string;
+  /** @format date-time */
+  sentToReviewerAt?: string;
+}
+
+/** Payload to assign reviewer mode and reviewers to a purpose risk analysis */
+export interface RiskAnalysisAssignmentSeed {
+  /** Risk analysis review mode */
+  reviewMode: RiskAnalysisReviewMode;
+  /** @minItems 1 */
+  reviewerIds: string[];
+}
+
+/** Payload to submit the risk analysis form for reviewer signing */
+export interface RiskAnalysisSubmissionSeed {
+  riskAnalysisForm: RiskAnalysisFormSeed;
+}
+
+/** Payload to reject the risk analysis with a reason */
+export interface RiskAnalysisRejectionSeed {
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  rejectionReason: string;
 }
 
 export interface ProblemError {
@@ -3163,6 +3190,48 @@ export interface UpdateDescriptorParams {
    * @format uuid
    */
   descriptorId: string;
+}
+
+export interface ScheduleArchiveEserviceDescriptorParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface CancelEServiceDescriptorArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface CancelScheduleArchiveEserviceParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface ScheduleArchiveEserviceParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
 }
 
 export interface UpdateTemplateInstanceDescriptorParams {
@@ -3804,7 +3873,7 @@ export interface GetRiskAnalysisAssignmentsParams {
    * comma separated sequence of risk analysis signing states
    * @default []
    */
-  signingState?: RiskAnalysisSigningState[];
+  signingStates?: RiskAnalysisSigningState[];
   /**
    * @format int32
    * @min 0
@@ -7174,6 +7243,104 @@ export namespace Eservices {
   }
 
   /**
+   * @description Schedule the archiving process for an E-Service Descriptor
+   * @tags eservices
+   * @name ScheduleArchiveEserviceDescriptor
+   * @summary Schedule the archiving process for an E-Service Descriptor
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/scheduleArchive
+   * @secure
+   */
+  export namespace ScheduleArchiveEserviceDescriptor {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Cancel the archiving process for an E-Service Descriptor
+   * @tags eservices
+   * @name CancelEServiceDescriptorArchiving
+   * @summary Cancel the archiving process for an E-Service Descriptor
+   * @request DELETE:/eservices/{eServiceId}/descriptors/{descriptorId}/scheduleArchive
+   * @secure
+   */
+  export namespace CancelEServiceDescriptorArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Cancels the ongoing archiving process of an E-Service, restoring Descriptors to its previous operational state.
+   * @tags eservices
+   * @name CancelScheduleArchiveEservice
+   * @summary Cancel an ongoing archiving process of an E-Service
+   * @request DELETE:/eservices/{eServiceId}/scheduleArchive
+   * @secure
+   */
+  export namespace CancelScheduleArchiveEservice {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Schedule the archiving process for an E-Service
+   * @tags eservices
+   * @name ScheduleArchiveEservice
+   * @summary Schedule the archiving process for an E-Service
+   * @request POST:/eservices/{eServiceId}/scheduleArchive
+   * @secure
+   */
+  export namespace ScheduleArchiveEservice {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceArchivingReasonSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
    * @description Update agreement approval policy of published descriptor
    * @tags eservices
    * @name UpdateAgreementApprovalPolicy
@@ -7229,10 +7396,10 @@ export namespace Eservices {
   }
 
   /**
-   * @description Suspend the selected descriptor
+   * @description Suspend an E-Service Descriptor that is in Published, Deprecated or Archiving state, transitioning it to Suspended state or in ArchivingSuspended if previous state was Archiving
    * @tags eservices
    * @name SuspendDescriptor
-   * @summary Suspend the selected descriptor.
+   * @summary Suspend an E-Service Descriptor in Published, Deprecated or Archiving state
    * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/suspend
    * @secure
    */
@@ -8859,7 +9026,7 @@ export namespace Purposes {
        * comma separated sequence of risk analysis signing states
        * @default []
        */
-      signingState?: RiskAnalysisSigningState[];
+      signingStates?: RiskAnalysisSigningState[];
       /**
        * @format int32
        * @min 0
@@ -9018,7 +9185,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = RiskAnalysisAssignmentSeed;
     export type RequestHeaders = {};
-    export type ResponseBody = CreatedResource;
+    export type ResponseBody = void;
   }
 
   /**
@@ -9037,7 +9204,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = RiskAnalysisSubmissionSeed;
     export type RequestHeaders = {};
-    export type ResponseBody = CreatedResource;
+    export type ResponseBody = void;
   }
 
   /**
@@ -9056,7 +9223,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = CreatedResource;
+    export type ResponseBody = void;
   }
 
   /**
@@ -9075,7 +9242,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = RiskAnalysisRejectionSeed;
     export type RequestHeaders = {};
-    export type ResponseBody = CreatedResource;
+    export type ResponseBody = void;
   }
 
   /**
@@ -9094,7 +9261,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = RiskAnalysisFormSeed;
     export type RequestHeaders = {};
-    export type ResponseBody = CreatedResource;
+    export type ResponseBody = void;
   }
 
   /**

@@ -504,6 +504,84 @@
       }
     }
   },
+  "riskAnalysisSummary": {
+    "backToListBtn": "Torna alle analisi del rischio",
+    "title": "Riepilogo",
+    "modifyBtn": "Modifica bozza",
+    "approveBtn": "Approva analisi del rischio",
+    "generalInformationSection": {
+      "title": "Informazioni generali"
+    },
+    "riskAnalysisSection": {
+      "title": "Analisi del rischio"
+    },
+    "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione",
+    "infoAlert": "Quando approvi l’analisi del rischio, l’amministratore potrà pubblicare la finalità."
+  },
+  "riskAnalysisCompile": {
+    "backToListBtn": "Torna alle analisi del rischio",
+    "title": "Compilazione analisi del rischio",
+    "forwardWithSaveBtn": "Salva bozza e prosegui"
+  },
+  "riskAnalysisInfoCompile": {
+    "backToListBtn": "Torna alle analisi del rischio",
+    "title": "Informazioni finalità",
+    "generalInfoSection": {
+      "label": "Informazioni generali",
+      "eService": {
+        "label": "E-service da associare"
+      },
+      "producer": {
+        "label": "Erogatore"
+      },
+      "purposeName": {
+        "label": "Nome della finalità"
+      },
+      "purposeDescription": {
+        "label": "Descrizione finalità"
+      },
+      "isFreeOfCharge": {
+        "label": "Come metterai a disposizione l'accesso ai dati di questo e-service?",
+        "options": {
+          "YES": "A titolo gratuito",
+          "NO": "A pagamento"
+        }
+      },
+      "freeOfChargeReason": {
+        "label": "Motivazione titolo gratuito"
+      }
+    },
+    "loadEstimationSection": {
+      "label": "Stima chiamate API",
+      "dailyCalls": {
+        "label": "Stima numero chiamate API/giorno"
+      }
+    },
+    "beginCompileBtn": "Inizia la compilazione"
+  },
+  "riskAnalysisList": {
+    "filters": {
+      "eserviceField": {
+        "label": "Cerca per e-service"
+      },
+      "riskAnalysisState": {
+        "label": "Stato analisi del rischio",
+        "statusField": {
+          "ASSIGNED": "Da compilare",
+          "SUBMITTED": "Da approvare"
+        }
+      }
+    },
+    "today": {
+      "label": "Oggi"
+    },
+    "noData": {
+      "label": "Non hai nessuna analisi del rischio da valutare"
+    },
+    "noResults": {
+      "label": "La ricerca corrente non ha prodotto risultati."
+    }
+  },
   "publishThankYou": {
     "loading": "Pubblicazione in corso",
     "active": {
@@ -514,6 +592,11 @@
       "title": "La tua finalità è stata inoltrata all'erogatore per l'approvazione",
       "description": "Fino alla sua attivazione da parte dell'erogatore non potrai accedere ai dati resi disponibili attraverso l'API e non potrai associare client. Riceverai una notifica quando l'erogatore approverà la tua finalità"
     },
+    "action": "Chiudi"
+  },
+  "approveThankYou": {
+    "title": "Hai approvato l’analisi del rischio",
+    "description": "L’amministratore potrà pubblicare la finalità. Non vedrai più questa analisi del rischio tra quelle che devi compilare o approvare.",
     "action": "Chiudi"
   }
 }
