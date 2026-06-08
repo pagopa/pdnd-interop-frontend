@@ -1,4 +1,5 @@
 import type { TFunction } from 'i18next'
+import type { EServiceDescriptorState } from '@/api/api.generatedTypes'
 import {
   calculateArchivableOn,
   getAsyncExchangePropertiesWithDefaults,
@@ -6,6 +7,7 @@ import {
   getEServiceDescriptorAlertSpec,
   getLastDescriptor,
   getViewLatestVersionTargetId,
+  isDescriptorPendingArchiving,
 } from '../eservice.utils'
 
 describe('getDownloadDocumentName utility function testing', () => {
@@ -143,6 +145,24 @@ describe('calculateArchivableOn utility function testing', () => {
     const result = calculateArchivableOn(now, 30)
 
     expect(result.toISOString()).toEqual('2026-07-16T00:00:00.000Z')
+  })
+})
+
+describe('isDescriptorPendingArchiving utility function testing', () => {
+  it('returns true for ARCHIVING and ARCHIVING_SUSPENDED', () => {
+    expect(isDescriptorPendingArchiving('ARCHIVING')).toBe(true)
+    expect(isDescriptorPendingArchiving('ARCHIVING_SUSPENDED')).toBe(true)
+  })
+
+  it.each<EServiceDescriptorState | undefined>([
+    'PUBLISHED',
+    'ARCHIVED',
+    'SUSPENDED',
+    'DEPRECATED',
+    'DRAFT',
+    undefined,
+  ])('returns false for state %s', (state) => {
+    expect(isDescriptorPendingArchiving(state)).toBe(false)
   })
 })
 

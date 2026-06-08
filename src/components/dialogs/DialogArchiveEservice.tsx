@@ -20,7 +20,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { RequiredTextLabel } from '../shared/RequiredTextLabel'
-import addDays from 'date-fns/addDays'
+import { calculateArchivableOn } from '@/utils/eservice.utils'
 
 type ArchiveReasonFormValue = {
   reason: string
@@ -57,7 +57,7 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
     scheduleArchive({ eserviceId, archivingReason: reason }, { onSuccess: closeDialog })
   }
 
-  const archiveDate = addDays(new Date(), GRACE_PERIOD_ARCHIVING_ESERVICE)
+  const archiveDate = calculateArchivableOn(new Date(), GRACE_PERIOD_ARCHIVING_ESERVICE)
   const formattedArchiveDate = formatDateStringNumeric(archiveDate)
 
   const formMethods = useForm<ArchiveReasonFormValue>({
@@ -104,7 +104,7 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
           <Alert severity="info" sx={{ mt: 4 }}>
             <Trans
               components={{
-                1: <Link underline="hover" href={DOCUMENTATION_URL} target="_blank" />, // TODO documentation link
+                1: <Link underline="hover" href={DOCUMENTATION_URL} target="_blank" />,
               }}
             >
               {t('content.alert')}
