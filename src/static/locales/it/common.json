@@ -172,7 +172,8 @@
     "security": "Operatore di sicurezza",
     "api": "Operatore API",
     "support": "Supporto",
-    "reviewer": "Revisore"
+    "reviewer": "Revisore",
+    "viewer": "Consultatore"
   },
   "time": {
     "minute_one": "minuto",

@@ -15,7 +15,8 @@ import { useIsOrganizationAllowedToDelegations } from '@/api/hooks'
 
 export function useGetSidebarItems(): SidebarRoutes {
   const { t } = useTranslation('sidebar', { keyPrefix: 'menuItem' })
-  const { currentRoles, isSupport, isReviewer, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
+  const { currentRoles, isSupport, isReviewer, isViewer, isOrganizationAllowedToProduce } =
+    AuthHooks.useJwt()
 
   const { data: tenant } = TenantHooks.useGetActiveUserParty()
   const shouldCheckDelegationsPermission = isSupport || currentRoles.includes('admin')
@@ -37,7 +38,7 @@ export function useGetSidebarItems(): SidebarRoutes {
         icon: CatalogIcon,
         label: t('eserviceCatalog'),
         children: [],
-        divider: isReviewer,
+        divider: isReviewer || isViewer,
       },
       {
         icon: NotificationsIcon,
@@ -138,6 +139,7 @@ export function useGetSidebarItems(): SidebarRoutes {
     isOrganizationAllowedToDelegationsLoading,
     isSupport,
     isReviewer,
+    isViewer,
     t,
     tenant,
   ])
