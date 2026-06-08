@@ -146,7 +146,10 @@ function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }
                 eserviceName: variables.eserviceName,
               })
             }
-          : () => t('confirmDialog.description'),
+          : (variables: unknown) =>
+              (variables as { isFirstVersion?: boolean }).isFirstVersion
+                ? t('confirmDialog.description')
+                : t('confirmDialog.descriptionNewVersion'),
         proceedLabel: isByDelegation
           ? t('confirmDialog.actions.proceed')
           : t('confirmDialog.proceedLabel'),
@@ -155,7 +158,7 @@ function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }
   })
 }
 
-function useSuspendVersion() {
+function useSuspendVersion(options?: { skipConfirmation?: boolean }) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.suspendVersion' })
   return useMutation({
     mutationFn: EServiceServices.suspendVersion,
@@ -163,15 +166,17 @@ function useSuspendVersion() {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
+      confirmationDialog: options?.skipConfirmation
+        ? undefined
+        : {
+            title: t('confirmDialog.title'),
+            description: t('confirmDialog.description'),
+          },
     },
   })
 }
 
-function useReactivateVersion() {
+function useReactivateVersion(options?: { skipConfirmation?: boolean }) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.reactivateVersion' })
   return useMutation({
     mutationFn: EServiceServices.reactivateVersion,
@@ -179,11 +184,37 @@ function useReactivateVersion() {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
+      confirmationDialog: options?.skipConfirmation
+        ? undefined
+        : {
+            title: t('confirmDialog.title'),
+            description: t('confirmDialog.description'),
+          },
     },
+  })
+}
+
+function useScheduleArchiveDescriptor() {
+  return useMutation({
+    mutationFn: EServiceServices.scheduleArchiveDescriptor,
+  })
+}
+
+function useCancelDescriptorArchiving() {
+  return useMutation({
+    mutationFn: EServiceServices.cancelDescriptorArchiving,
+  })
+}
+
+function useScheduleArchiveEservice() {
+  return useMutation({
+    mutationFn: EServiceServices.scheduleArchiveEservice,
+  })
+}
+
+function useCancelEserviceArchiving() {
+  return useMutation({
+    mutationFn: EServiceServices.cancelEserviceArchiving,
   })
 }
 
@@ -561,6 +592,10 @@ export const EServiceMutations = {
   usePublishVersionDraft,
   useSuspendVersion,
   useReactivateVersion,
+  useScheduleArchiveDescriptor,
+  useCancelDescriptorArchiving,
+  useScheduleArchiveEservice,
+  useCancelEserviceArchiving,
   useUpdateVersion,
   useDeleteVersionDraft,
   useAddEServiceRiskAnalysis,
