@@ -9,7 +9,7 @@ import type {
 import type { AlertColor } from '@mui/material'
 import type { TFunction } from 'i18next'
 import { match } from 'ts-pattern'
-import { formatDateString } from './format.utils'
+import { formatDateStringNumeric } from './format.utils'
 
 export const defaultAsyncExchangeProperties: AsyncExchangeProperties = {
   responseTime: 60,
@@ -78,8 +78,8 @@ export function getEServiceDescriptorAlertSpec(args: {
   t: TFunction<'eservice', 'read.alert'>
 }): { severity: AlertColor; content: string } | undefined {
   const { state, scope, archivableOn, archivedAt, t } = args
-  const scheduledDate = archivableOn ? formatDateString(archivableOn) : ''
-  const archivedDate = archivedAt ? formatDateString(archivedAt) : ''
+  const scheduledDate = archivableOn ? formatDateStringNumeric(archivableOn) : ''
+  const archivedDate = archivedAt ? formatDateStringNumeric(archivedAt) : ''
 
   return match({ state, scope })
     .returnType<{ severity: AlertColor; content: string } | undefined>()
