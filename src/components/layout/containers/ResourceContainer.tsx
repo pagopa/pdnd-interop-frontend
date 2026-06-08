@@ -3,7 +3,7 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Card,
+  Box,
   IconButton,
   Stack,
   Typography,
@@ -25,10 +25,19 @@ type ResourceContainerProps = {
 
 export const ResourceContainer: React.FC<ResourceContainerProps> = ({ candidate, onRemove }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'resourceContainer' })
+  const { t: tPT } = useTranslation('purposeTemplate', { keyPrefix: 'edit.step2' })
   const panelContentId = React.useId()
   const headerId = React.useId()
 
   const name = candidate.value.name
+
+  const publisher = match(candidate)
+    .with({ resourceKind: 'ESERVICE' }, (c) => c.value.producer.name)
+    .with({ resourceKind: 'ESERVICE_TEMPLATE' }, (c) => c.value.creator.name)
+    .exhaustive()
+  const optionLabelKey =
+    candidate.resourceKind === 'ESERVICE' ? 'options.eservice' : 'options.eserviceTemplate'
+  const displayLabel = tPT(optionLabelKey, { name, publisher })
 
   return (
     <Stack direction="row" alignItems="center" spacing={2}>
@@ -37,20 +46,52 @@ export const ResourceContainer: React.FC<ResourceContainerProps> = ({ candidate,
           <RemoveCircleOutlineIcon color="error" />
         </IconButton>
       )}
-      <Card sx={{ borderRadius: 1, border: '1px solid', borderColor: 'divider', flex: 1 }}>
-        <Accordion disableGutters sx={{ '&:before': { display: 'none' } }}>
+      <Box
+        component="fieldset"
+        sx={{
+          border: '1px solid',
+          borderColor: 'divider',
+          borderRadius: 1,
+          m: 0,
+          px: 1,
+          pt: 0,
+          pb: 0,
+          flex: 1,
+          minWidth: 0,
+        }}
+      >
+        <Box
+          component="legend"
+          sx={{
+            px: 0.5,
+            ml: 0.5,
+            fontSize: 12,
+            color: 'text.secondary',
+            lineHeight: 1,
+          }}
+        >
+          {tPT('autocompleteInput.label')}
+        </Box>
+        <Accordion
+          disableGutters
+          sx={{
+            '&:before': { display: 'none' },
+            backgroundColor: 'transparent',
+            boxShadow: 'none',
+          }}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls={panelContentId}
             id={headerId}
           >
-            <Typography fontWeight={600}>{name}</Typography>
+            <Typography fontWeight={600}>{displayLabel}</Typography>
           </AccordionSummary>
           <AccordionDetails>
             <ResourceDetails candidate={candidate} />
           </AccordionDetails>
         </Accordion>
-      </Card>
+      </Box>
     </Stack>
   )
 }

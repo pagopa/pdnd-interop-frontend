@@ -36,6 +36,7 @@ export type EServiceCreateStepGeneralFormValues = {
   description: string
   technology: EServiceTechnology
   mode: EServiceMode
+  asyncExchange: boolean
   personalData: boolean | undefined
   isSignalHubEnabled: boolean
   isConsumerDelegable: boolean
@@ -249,24 +250,29 @@ function evaluateFormDefaultValues(
   descriptor: ProducerEServiceDescriptor | undefined,
   eserviceMode: EServiceMode
 ): EServiceCreateStepGeneralFormValues {
-  if (!eserviceTemplate)
+  if (!eserviceTemplate) {
+    const asyncExchange = descriptor?.eservice.asyncExchange ?? false
     return {
       name: descriptor?.eservice.name ?? '',
       description: descriptor?.eservice.description ?? '',
       technology: descriptor?.eservice.technology ?? 'REST',
-      mode: eserviceMode,
+      mode: asyncExchange ? 'DELIVER' : eserviceMode,
+      asyncExchange,
       personalData: descriptor?.eservice.personalData,
       isSignalHubEnabled: descriptor?.eservice.isSignalHubEnabled ?? false,
       isConsumerDelegable: descriptor?.eservice.isConsumerDelegable ?? true,
       isClientAccessDelegable: descriptor?.eservice.isClientAccessDelegable ?? true,
       instanceLabel: '', //instanceLabel will not be used
     }
+  }
 
+  const asyncExchange = eserviceTemplate?.asyncExchange ?? false
   return {
     name: eserviceTemplate?.name,
     description: eserviceTemplate?.description,
     technology: eserviceTemplate?.technology,
-    mode: eserviceTemplate?.mode,
+    mode: asyncExchange ? 'DELIVER' : eserviceTemplate?.mode,
+    asyncExchange,
     personalData: eserviceTemplate?.personalData,
     isSignalHubEnabled: eserviceTemplate?.isSignalHubEnabled ?? false,
     isConsumerDelegable: true,

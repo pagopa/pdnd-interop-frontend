@@ -34,7 +34,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   const { data: eserviceWithPersonalData } = useQuery(EServiceQueries.getSingle(eservice.id))
   const hasPersonalData = eserviceWithPersonalData?.personalData !== undefined
 
-  const { actions } = useGetProviderEServiceActions(
+  const { primaryAction, secondaryAction, menuActions } = useGetProviderEServiceActions(
     eservice.id,
     eservice.activeDescriptor?.state,
     eservice.draftDescriptor?.state,
@@ -64,6 +64,12 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
       EServiceQueries.getDescriptorProvider(eservice.id, eservice.activeDescriptor.id)
     )
   }
+
+  const actions = [
+    ...(primaryAction ? [primaryAction] : []),
+    ...(secondaryAction ? [secondaryAction] : []),
+    ...menuActions,
+  ]
 
   return (
     <TableRow

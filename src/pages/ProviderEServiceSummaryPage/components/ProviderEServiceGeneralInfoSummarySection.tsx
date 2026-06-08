@@ -56,6 +56,10 @@ export const ProviderEServiceGeneralInfoSummarySection: React.FC = () => {
         label={t('apiTechnology.label')}
         content={descriptor.eservice.technology}
       />
+      <SummaryInformationContainer
+        label={t('exchangeType.label')}
+        content={t(`exchangeType.value.${descriptor.eservice.asyncExchange ? 'async' : 'sync'}`)}
+      />
       {isEserviceFromTemplate && (
         <SummaryInformationContainer
           label={t('mode.label')}

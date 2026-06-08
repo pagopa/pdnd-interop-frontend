@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, Box, Stack } from '@mui/material'
+import { Alert, Box, Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import AddIcon from '@mui/icons-material/Add'
 import { ButtonNaked } from '@pagopa/mui-italia'
@@ -104,11 +104,16 @@ export const ResourceGroup: React.FC<ResourceGroupProps> = ({
         </Stack>
       )}
       {!readOnly && isAutocompleteShown && (
-        <ResourceAutoComplete
-          onAddResource={handleAddResource}
-          alreadySelectedResourceIds={alreadySelectedResourceIds}
-          purposeTemplate={purposeTemplate}
-        />
+        <Stack spacing={1}>
+          <ResourceAutoComplete
+            onAddResource={handleAddResource}
+            alreadySelectedResourceIds={alreadySelectedResourceIds}
+            purposeTemplate={purposeTemplate}
+          />
+          <Typography variant="body2" color="text.secondary" sx={{ pl: 2 }}>
+            {t('eserviceSelectionSubtitle')}
+          </Typography>
+        </Stack>
       )}
       {!readOnly && !isAutocompleteShown && (
         <ButtonNaked

@@ -50,6 +50,14 @@ export function useRiskAnalysisSummaryPage() {
     })
   }
 
+  const handleRejectDraft = () => {
+    if (!purpose?.currentVersion) return
+    openDialog({
+      type: 'rejectRiskAnalysis',
+      purposeId,
+    })
+  }
+
   return {
     purposeId,
     purpose,
@@ -61,6 +69,7 @@ export function useRiskAnalysisSummaryPage() {
     isPublishButtonDisabled,
     arePublishOrEditButtonsDisabled,
     handleEditDraft,
+    handleRejectDraft,
     handleApproveDraft,
   }
 }

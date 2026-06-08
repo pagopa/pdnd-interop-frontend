@@ -82,16 +82,16 @@ describe('mergeLinkableCandidates', () => {
       expected: ['ESERVICE:es-1', 'ESERVICE_TEMPLATE:tpl-1', 'ESERVICE:es-2'],
     },
     {
-      name: 'excludes e-service that is instance of an active template (templateVersionId in set)',
+      name: 'excludes e-service that is a template instance when its template is in the results',
       eservices: [makeEservice('es-1', 'Alpha', 'tplv-1')],
       templates: [makeTemplate('tpl-1', 'Bravo', 'tplv-1')],
       expected: ['ESERVICE_TEMPLATE:tpl-1'],
     },
     {
-      name: 'keeps e-service whose templateVersionId is not in any active template publishedVersion.id',
+      name: 'excludes template-instance e-service even when its template is not in the results',
       eservices: [makeEservice('es-1', 'Alpha', 'tplv-OLD')],
       templates: [makeTemplate('tpl-1', 'Bravo', 'tplv-NEW')],
-      expected: ['ESERVICE:es-1', 'ESERVICE_TEMPLATE:tpl-1'],
+      expected: ['ESERVICE_TEMPLATE:tpl-1'],
     },
     {
       name: 'keeps e-service with no activeDescriptor (undefined)',
@@ -100,7 +100,7 @@ describe('mergeLinkableCandidates', () => {
       expected: ['ESERVICE:es-1', 'ESERVICE_TEMPLATE:tpl-1'],
     },
     {
-      name: 'partial dedupe: removes only the e-service whose templateVersionId matches',
+      name: 'keeps standalone e-services and filters template-instance ones',
       eservices: [makeEservice('es-1', 'Alpha', 'tplv-1'), makeEservice('es-2', 'Charlie')],
       templates: [makeTemplate('tpl-1', 'Bravo', 'tplv-1')],
       expected: ['ESERVICE_TEMPLATE:tpl-1', 'ESERVICE:es-2'],
@@ -112,7 +112,7 @@ describe('mergeLinkableCandidates', () => {
       expected: ['ESERVICE:es-2', 'ESERVICE_TEMPLATE:tpl-1', 'ESERVICE:es-1'],
     },
     {
-      name: 'dedupe matches any active template publishedVersion.id in the set (cross-template)',
+      name: 'filters template-instance e-services regardless of which template they belong to',
       eservices: [makeEservice('es-1', 'Alpha', 'tplv-2')],
       templates: [
         makeTemplate('tpl-1', 'Bravo', 'tplv-1'),

@@ -279,6 +279,60 @@
       "cancel": "Cancel"
     }
   },
+  "dialogRejectRiskAnalysis": {
+    "title": "Reject risk analysis",
+    "description": "Share with your administrator why you didn't approve the risk assessment and indicate any corrections that need to be made.",
+    "reasonField": {
+      "label": "Reason for refusal of approval",
+      "infoLabel": "Explain why you declined the risk analysis. Minimum 10 characters, maximum 250 characters."
+    },
+    "actions": {
+      "confirm": "Confirm",
+      "cancel": "Go back"
+    }
+  },
+  "dialogCancelEserviceArchiving": {
+    "title": "Cancel e-service archiving",
+    "description": "This e-service will no longer be archived.",
+    "actions": {
+      "cancelArchiving": "Cancel archiving"
+    }
+  },
+  "dialogArchiveEservice": {
+    "title": "Archive e-service",
+    "content": {
+      "advice": {
+        "description": "By archiving the e-service, all versions will be archived and draft versions will be deleted. If you confirm this choice, archiving will occur on <strong>{{date}}</strong>. Before this date, the e-service will remain active to allow users to adapt. You can cancel archiving only before this date."
+      },
+      "confirm": {
+        "description": "All users will be informed of the notice period and the reason for the archiving.",
+        "form": {
+          "label": "Archiving reason",
+          "infoLabel": "Explain why you chose to archive the e-service. If you wish, suggest an alternative e-service. Both information will be shared with users. Minimum 10 characters, maximum 250 characters."
+        }
+      },
+      "alert": "Actual archiving may require some technical time as users continue to exchange data. See <1>documentation</1> for further details."
+    },
+    "actions": {
+      "back": "Back",
+      "forward": "Forward"
+    }
+  },
+  "dialogCancelVersionArchiving": {
+    "title": "Cancel version archiving",
+    "description": "This version will no longer be archived.",
+    "actions": {
+      "keepArchiving": "Keep archiving",
+      "cancelArchiving": "Cancel archiving"
+    }
+  },
+  "dialogArchiveVersion": {
+    "title": "Archive version",
+    "content": {
+      "description": "Archiving will occur on <strong>{{date}}</strong>. Before this date, the version will remain active to allow users to adapt. You can only cancel archiving before this date.",
+      "alert": "Actual archiving may require some time as users continue to exchange data. See the <1>documentation</1> for further details."
+    }
+  },
   "copyToClipboardButton": {
     "copy": "Copy",
     "copied": "Copied"
@@ -568,6 +622,7 @@
     "SUBSCRIBE_RISK_ANALYSIS_COMPILE": "Compile risk analysis",
     "SUBSCRIBE_RISK_ANALYSIS_SUMMARY": "Summary",
     "SUBSCRIBE_RISK_ANALYSIS_APPROVAL_SUCCESS": "Risk analysis approved",
-    "SUBSCRIBE_RISK_ANALYSIS_APPROVAL": "Approve risk analysis"
+    "SUBSCRIBE_RISK_ANALYSIS_APPROVAL": "Approve risk analysis",
+    "SUBSCRIBE_RISK_ANALYSIS_REJECTION_SUCCESS": "Risk analysis rejected"
   }
 }

@@ -44,6 +44,20 @@
         "description": "Queste informazioni sono state precompilate da chi ha creato il template e non sono modificabili.",
         "readOnlyDescription": "Le seguenti informazioni non sono più modificabili.",
         "firstVersionOnlyEditableInfo": "Questi dati non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
+        "asyncExchangeField": {
+          "label": "In che modo vuoi scambiare i dati dell’e-service?",
+          "readOnlyLabel": "Scambio dati",
+          "options": {
+            "false": "Sincrono (standard)",
+            "true": "Asincrono / massivo (in differita)"
+          },
+          "readOnlyOptions": {
+            "false": "Sincrono",
+            "true": "Asincrono"
+          },
+          "soapWarning": "La tecnologia SOAP non permette di abilitare il download a blocchi durante lo scambio asincrono dei dati.",
+          "operatorApiWarning": "Per gli scambi asincroni è necessario collegare un portachiavi all’e-service. Solo chi ha il ruolo di amministratore può farlo: chiedi di collegarlo prima o dopo la pubblicazione per abilitare lo scambio dei dati."
+        },
         "technologyField": {
           "label": "Con quale tecnologia è costruita la tua API?",
           "readOnlyLabel": "Tecnologia API"
@@ -323,6 +337,61 @@
           "title": "Vuoi approvare manualmente tutte le richieste di fruizione che riceverai?",
           "label": "Preferisco approvarle manualmente"
         }
+      },
+      "producerKeychainSection": {
+        "title": "Portachiavi erogatore",
+        "subtitle": "Per gli scambi asincroni è necessario collegare un portachiavi all'e-service. Solo un portachiavi con una chiave associata permette di autenticarsi su PDND e completare lo scambio dei dati.",
+        "keychainField": {
+          "label": "Seleziona tra i portachiavi disponibili"
+        },
+        "addKeychainBtn": "Aggiungi portachiavi",
+        "removeRowTooltip": "Rimuovi",
+        "readOnlyLabel": "Portachiavi associati",
+        "noKeychainAlert": "Non hai ancora creato un portachiavi. Ti consigliamo di farlo dopo aver pubblicato l'e-service.",
+        "apiRoleAlert": "Per gli scambi asincroni è necessario collegare un portachiavi all'e-service. Solo chi ha il ruolo di amministratore può farlo: chiedi di collegarlo prima o dopo la pubblicazione per abilitare lo scambio dei dati."
+      },
+      "asyncExchangeSection": {
+        "title": "Scambi asincroni e massivi",
+        "description": "Gli scambi asincroni e massivi richiedono un’interfaccia di callback che i fruitori dovranno implementare per ricevere le tue risposte. Carica il file OpenAPI con la descrizione dell’API. <1>Scopri di più sugli scambi asincroni e massivi</1>.",
+        "editableInfoAlert": "Questi campi non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
+        "callbackInterface": {
+          "readOnlyLabel": "Interfaccia di callback",
+          "prettyName": "Interfaccia callback",
+          "dropzoneLabel": "Trascina qui l’interfaccia di callback oppure clicca qui per selezionarla dal computer"
+        },
+        "configSubsection": {
+          "title": "Configurazione dello scambio"
+        },
+        "advancedSubsection": {
+          "title": "Opzioni avanzate"
+        },
+        "responseTimeField": {
+          "label": "Tempo massimo di risposta (in secondi)",
+          "infoLabel": "Indica in quanto tempo il tuo e-service restituisce una risposta dopo la chiamata dei fruitori."
+        },
+        "maxResultSetField": {
+          "label": "Numero massimo di risultati per risposta",
+          "infoLabel": "Indica quanti elementi può contenere al massimo ogni risposta."
+        },
+        "resourceAvailableTimeField": {
+          "label": "Durata di disponibilità del dato (in secondi)",
+          "infoLabel": "Indica per quanto tempo il dato è scaricabile prima di essere cancellato."
+        },
+        "confirmationField": {
+          "label": "Richiedi conferma di ricezione",
+          "infoLabel": "Il fruitore dovrà inviare una notifica dopo aver scaricato il file."
+        },
+        "bulkField": {
+          "label": "Consenti download a blocchi",
+          "infoLabel": "Il fruitore può scaricare file di grandi dimensioni in parti separate."
+        },
+        "readOnlyOptions": {
+          "true": "Sì",
+          "false": "No"
+        },
+        "validation": {
+          "integer": "Il valore deve essere un numero intero"
+        }
       }
     }
   },
@@ -374,6 +443,13 @@
       },
       "apiTechnology": {
         "label": "Tecnologia API"
+      },
+      "exchangeType": {
+        "label": "Scambio dati",
+        "value": {
+          "sync": "Sincrono",
+          "async": "Asincrono"
+        }
       },
       "isSignalHubEnabled": {
         "label": "È attivo il servizio di notifiche sulla variazione dati (Signal Hub)?",
@@ -437,11 +513,39 @@
       "interface": {
         "label": "Interfaccia"
       },
+      "callbackInterface": {
+        "label": "Interfaccia di callback"
+      },
       "audience": {
         "label": "Audience"
       },
       "voucherLifespan": {
         "label": "Durata del voucher"
+      },
+      "asyncExchange": {
+        "responseTime": {
+          "label": "Tempo massimo di callback"
+        },
+        "resourceAvailableTime": {
+          "label": "Tempo disponibilità risorsa"
+        },
+        "confirmation": {
+          "label": "Richiedi conferma di ricezione"
+        },
+        "bulk": {
+          "label": "Abilita download a blocchi"
+        },
+        "maxResultSet": {
+          "label": "Limite massimo di entità per risposta"
+        },
+        "booleanValue": {
+          "true": "Sì",
+          "false": "No"
+        }
+      },
+      "producerKeychains": {
+        "label": "Portachiavi associati",
+        "moreLabel": "+{{count}} altri"
       },
       "missingInfoLabel": "Da inserire",
       "emptyLabel": "Nessun documento caricato"
@@ -508,6 +612,15 @@
     "disabledTooltip": "E-service di test archiviato dal catalogo e non utilizzabile"
   },
   "read": {
+    "versionHeaderLabel": "Versione",
+    "versionListModal": {
+      "title": "Stato versioni",
+      "versionRowLabel": "Versione {{ version }}"
+    },
+    "scheduledArchivalTooltip": {
+      "descriptor": "Versione in archiviazione il {{ date }}",
+      "eservice": "E-service in archiviazione il giorno {{ date }}"
+    },
     "tabs": {
       "ariaLabel": "Due tab diverse per i dettagli dell'e-service e i portachiavi associati",
       "eserviceDetails": "Dettagli e-service",
@@ -518,11 +631,107 @@
     },
     "alert": {
       "suspended": "Questa versione di e-service è sospesa. Fino alla sua riattivazione nessun fruitore potrà accedere ai dati erogati attraverso l’API.",
-      "deprecated": "Questa versione di e-service è obsoleta ma ancora attiva. Verrà dismessa automaticamente da PDND Interoperabilità quando l’ultima richiesta di fruizione presente su questa versione sarà archiviata."
+      "deprecated": "Questa versione di e-service è obsoleta ma è ancora attiva. Sarà archiviata automaticamente quando non avrà più richieste di fruizione.",
+      "archivingDescriptor": "Questa versione dell’e-service è in fase di archiviazione, ma è ancora attiva. Sarà archiviata automaticamente il giorno {{date}}.",
+      "archivingSuspendedDescriptor": "Questa versione dell’e-service è in fase di archiviazione ed è al momento sospesa. Sarà archiviata automaticamente il giorno {{date}}.",
+      "archivedDescriptor": "Questa versione dell’e-service è stata archiviata il giorno {{date}}.",
+      "archivingSuspendedEService": "Questa versione è al momento sospesa. L’e-service è in fase di archiviazione e sarà archiviato automaticamente il giorno {{date}}.",
+      "archivedEService": "Questo e-service è stato archiviato definitivamente il giorno {{date}}.",
+      "missingProducerKeychain": "L’erogatore non ha ancora collegato il portachiavi a questo e-service asincrono. Lo scambio dati non è al momento disponibile.",
+      "missingProducerKeychainKeys": "L’erogatore non ha ancora collegato le chiavi al portachiavi di questo e-service asincrono. Lo scambio dati non è al momento disponibile.",
+      "providerMissingProducerKeychain": "Associa un portachiavi a questo e-service per abilitare lo scambio dati.",
+      "providerMissingProducerKeychainKeys": "Associa almeno una chiave al portachiavi collegato a questo e-service per abilitare lo scambio dati.",
+      "viewProducerKeychains": "Vedi portachiavi"
+    },
+    "dialogSuspendArchivingEservice": {
+      "title": "Sospendi versione di e-service in fase di archiviazione",
+      "intro": "Cosa succede con la sospensione:",
+      "bullets": {
+        "suspended": "la versione non potrà essere utilizzata e resterà disattiva fino a un’eventuale riattivazione;",
+        "archivingNotAffected": "la sospensione <strong>non modifica</strong> l’archiviazione già avviata per l’e-service e <strong>non interrompe</strong> il periodo di preavviso;",
+        "archivedAfterNotice": "dopo il periodo di preavviso, l’e-service e tutte le sue versioni saranno archiviate definitivamente."
+      }
+    },
+    "dialogReactivateArchivingEservice": {
+      "title": "Riattiva versione di e-service in fase di archiviazione",
+      "intro": "Cosa succede con la riattivazione:",
+      "bullets": {
+        "usableAgain": "la versione torna a essere utilizzabile, ma l’e-service resta in fase di archiviazione;",
+        "archivingNotAffected": "la riattivazione <strong>non modifica</strong> l’archiviazione già avviata per l’e-service e <strong>non interrompe</strong> il periodo di preavviso;",
+        "archivedAfterNotice": "dopo il periodo di preavviso, l’e-service e tutte le sue versioni saranno archiviate definitivamente."
+      },
+      "proceedLabel": "Riattiva"
+    },
+    "dialogSuspendArchivingDescriptor": {
+      "title": "Sospendi versione in fase di archiviazione",
+      "intro": "Cosa succede con la sospensione:",
+      "bullets": {
+        "suspended": "la versione non potrà essere utilizzata e resterà sospesa fino a un’eventuale riattivazione;",
+        "archivingNotAffected": "la sospensione <strong>non modifica</strong> l’archiviazione già avviata per questa versione e <strong>non interrompe</strong> il periodo di preavviso;",
+        "archivedAfterNotice": "dopo il periodo di preavviso, la versione sarà archiviata definitivamente."
+      }
+    },
+    "dialogReactivateArchivingDescriptor": {
+      "title": "Riattiva versione in fase di archiviazione",
+      "intro": "Cosa succede con la riattivazione:",
+      "bullets": {
+        "usableAgain": "la versione torna a essere utilizzabile, pur restando in fase di archiviazione;",
+        "archivingNotAffected": "la riattivazione <strong>non modifica</strong> l’archiviazione già avviata per questa versione e <strong>non interrompe</strong> il periodo di preavviso;",
+        "archivedAfterNotice": "dopo il periodo di preavviso, la versione sarà archiviata definitivamente."
+      },
+      "proceedLabel": "Riattiva"
+    },
+    "dialogSuspendArchivingEservice": {
+      "title": "Sospendi versione di e-service in fase di archiviazione",
+      "intro": "Cosa succede con la sospensione:",
+      "bullets": {
+        "suspended": "la versione non potrà essere utilizzata e resterà disattiva fino a un’eventuale riattivazione;",
+        "archivingNotAffected": "la sospensione <strong>non modifica</strong> l’archiviazione già avviata per l’e-service e <strong>non interrompe</strong> il periodo di preavviso;",
+        "archivedAfterNotice": "dopo il periodo di preavviso, l’e-service e tutte le sue versioni saranno archiviate definitivamente."
+      }
+    },
+    "dialogReactivateArchivingEservice": {
+      "title": "Riattiva versione di e-service in fase di archiviazione",
+      "intro": "Cosa succede con la riattivazione:",
+      "bullets": {
+        "usableAgain": "la versione torna a essere utilizzabile, ma l’e-service resta in fase di archiviazione;",
+        "archivingNotAffected": "la riattivazione <strong>non modifica</strong> l’archiviazione già avviata per l’e-service e <strong>non interrompe</strong> il periodo di preavviso;",
+        "archivedAfterNotice": "dopo il periodo di preavviso, l’e-service e tutte le sue versioni saranno archiviate definitivamente."
+      },
+      "proceedLabel": "Riattiva"
+    },
+    "dialogSuspendArchivingDescriptor": {
+      "title": "Sospendi versione in fase di archiviazione",
+      "intro": "Cosa succede con la sospensione:",
+      "bullets": {
+        "suspended": "la versione non potrà essere utilizzata e resterà sospesa fino a un’eventuale riattivazione;",
+        "archivingNotAffected": "la sospensione <strong>non modifica</strong> l’archiviazione già avviata per questa versione e <strong>non interrompe</strong> il periodo di preavviso;",
+        "archivedAfterNotice": "dopo il periodo di preavviso, la versione sarà archiviata definitivamente."
+      }
+    },
+    "dialogReactivateArchivingDescriptor": {
+      "title": "Riattiva versione in fase di archiviazione",
+      "intro": "Cosa succede con la riattivazione:",
+      "bullets": {
+        "usableAgain": "la versione torna a essere utilizzabile, pur restando in fase di archiviazione;",
+        "archivingNotAffected": "la riattivazione <strong>non modifica</strong> l’archiviazione già avviata per questa versione e <strong>non interrompe</strong> il periodo di preavviso;",
+        "archivedAfterNotice": "dopo il periodo di preavviso, la versione sarà archiviata definitivamente."
+      },
+      "proceedLabel": "Riattiva"
     },
     "actions": {
       "backToListLabel": "Torna agli e-service",
-      "backToCatalogLabel": "Torna al catalogo"
+      "backToCatalogLabel": "Torna al catalogo",
+      "suspendVersion": "Sospendi versione",
+      "reactivateVersion": "Riattiva versione",
+      "createNewVersion": "Crea nuova versione",
+      "archiveVersion": "Archivia versione",
+      "cloneEservice": "Duplica e-service",
+      "archiveEservice": "Archivia e-service",
+      "cancelArchivingVersion": "Annulla archiviazione versione",
+      "cancelArchivingEservice": "Annulla archiviazione e-service",
+      "viewLatestVersion": "Vedi ultima versione",
+      "viewAllVersions": "Vedi tutte le versioni"
     },
     "keychain": {
       "actionReservedToAdminTooltip": "Quest’azione è riservata agli utenti con permessi da amministratore",
@@ -570,14 +779,46 @@
             "label": "Specificare se questo e-service tratta dati personali."
           }
         },
+        "exchangeType": {
+          "label": "Scambio dati",
+          "value": {
+            "sync": "Sincrono",
+            "async": "Asincrono"
+          }
+        },
         "consumerListFileName": "{{timestamp}}-lista-fruitori-{{eserviceName}}.csv",
         "bottomActions": {
-          "navigateVersions": "Naviga a un’altra versione dell’e-service",
           "showTechnicalDetails": "Vedi i dettagli tecnici dell’e-service",
+          "showAsyncExchangeDetails": "Vedi i dettagli sullo scambio asincrono",
           "downloadConsumerList": "Scarica l'elenco dei fruitori",
           "showProducerContacts": "Visualizza i contatti dell’erogatore",
           "exportVersion": "Scarica questa versione dell’e-service",
           "watchRiskyAnalysisAssociated": "Consulta l'analisi del rischio di questo e-service"
+        }
+      },
+      "versionInformations": {
+        "title": "Informazioni versione",
+        "details": {
+          "title": "Dettagli",
+          "descriptorDescription": {
+            "label": "Descrizione della versione"
+          }
+        },
+        "agreementApprovalPolicy": {
+          "title": "Richieste di fruizione",
+          "label": "Approvazione richieste",
+          "content": {
+            "AUTOMATIC": "Automatica",
+            "MANUAL": "Manuale"
+          }
+        },
+        "lifeCycle": {
+          "title": "Ciclo di vita",
+          "lastVersionDate": "Data ultima versione",
+          "archivedDate": "Data archiviazione",
+          "suspendedDate": "Data sospensione",
+          "deprecatedDate": "Data deprecazione",
+          "publishedDate": "Data pubblicazione"
         }
       },
       "technicalInformations": {
@@ -585,6 +826,13 @@
         "description": "In questa sezione potrai verificare le specifiche dell’e-service ed apportare modifiche.",
         "technology": "Tecnologia",
         "audience": "Audience",
+        "exchangeType": {
+          "label": "Scambio dati",
+          "value": {
+            "sync": "Sincrono",
+            "async": "Asincrono"
+          }
+        },
         "eserviceId": {
           "label": "ID e-service",
           "copySuccessFeedbackText": "ID copiato correttamente"
@@ -597,10 +845,6 @@
           "label": "ID erogatore",
           "copySuccessFeedbackText": "ID copiato correttamente"
         },
-        "publishedAt": "Data ultima versione",
-        "suspendedAt": "Data ultima sospensione",
-        "deprecatedAt": "Data deprecazione versione",
-        "archivedAt": "Data archiviazione versione",
         "mode": {
           "label": "Tipologia e-service",
           "labelDescription": "Riceve / Eroga",
@@ -624,18 +868,34 @@
             "labelDescription": "chiamate API/giorno"
           }
         },
-        "agreementApprovalPolicy": {
-          "title": "Richieste di fruizione",
-          "label": "Accettazione richieste",
-          "content": {
-            "AUTOMATIC": "Automatica",
-            "MANUAL": "Manuale"
-          }
-        },
         "documentation": {
           "title": "Documentazione",
           "label": "Elenco documenti",
           "interfaceChecksum": "Checksum file di interfaccia"
+        },
+        "callbackInterface": {
+          "label": "Interfaccia di callback"
+        },
+        "asyncExchange": {
+          "responseTime": {
+            "label": "Tempo massimo di callback"
+          },
+          "resourceAvailableTime": {
+            "label": "Tempo disponibilità risorsa"
+          },
+          "confirmation": {
+            "label": "Richiedi conferma di ricezione"
+          },
+          "bulk": {
+            "label": "Abilita download a blocchi"
+          },
+          "maxResultSet": {
+            "label": "Limite massimo di entità per risposta"
+          },
+          "booleanValue": {
+            "true": "Sì",
+            "false": "No"
+          }
         },
         "usefulLinks": {
           "title": "Link utili",
@@ -855,6 +1115,14 @@
             "RECEIVE": "Riceve"
           }
         },
+        "asyncExchange": {
+          "label": "Tipologia di scambio dati",
+          "value": {
+            "true": "Asincrono"
+          }
+        },
+        "asyncExchangeCallbackInterface": "Interfaccia di callback",
+        "asyncExchangeCallbackInterfaceChecksum": "Checksum interfaccia di callback",
         "isSignalHubEnabled": {
           "label": "È disponibile il servizio di aggiornamento dati (Signal Hub)?",
           "value": {
@@ -874,15 +1142,29 @@
           "interfaceChecksum": "Come calcolo autonomamente il checksum del file di interfaccia?"
         }
       },
+      "asyncExchangeDetailsDrawer": {
+        "title": "Dettagli scambio asincrono",
+        "responseTime": "Tempo massimo di risposta",
+        "resourceAvailableTime": "Tempo massimo di disponibilità del risultato",
+        "confirmation": "Conferma di ricezione",
+        "bulk": "Download a blocchi",
+        "maxResultSet": "Numero massimo di risultati",
+        "callbackInterface": "Interfaccia di callback",
+        "callbackInterfaceChecksum": "Checksum interfaccia di callback",
+        "seconds": "secondi",
+        "booleanValue": {
+          "true": "Sì",
+          "false": "No"
+        }
+      },
       "producerContactsInfoDrawer": {
         "title": "Contatti dell'erogatore",
         "email": "Email di contatto",
         "notes": "Note"
       },
       "versionSelectorDrawer": {
-        "title": "Naviga ad un’altra versione dell’e-service",
+        "title": "Vedi un’altra versione dell’e-service",
         "label": "Seleziona versione",
-        "currentVersion": "{{ versionNum }} - versione visualizzata",
         "goToSelectedVersion": "Vai alla versione selezionata"
       },
       "updateDocumentationDrawer": {
@@ -956,6 +1238,10 @@
       "title": "Hai pubblicato l'e-service",
       "description": "Ora l'e-service è disponibile nel catalogo e potrai ricevere richieste di fruizione."
     },
+    "firstVersionAsync": {
+      "title": "Hai pubblicato l'e-service asincrono",
+      "description": "Ora l'e-service è disponibile nel catalogo e potrai ricevere richieste di fruizione. Assicurati di aver collegato un portachiavi all'e-service per rendere possibile lo scambio dei dati."
+    },
     "newVersion": {
       "title": "Hai pubblicato una nuova versione dell'e-service",
       "subtitle": "Cosa succede ora:",
@@ -965,6 +1251,16 @@
         "la versione precedente diventa obsoleta ma attiva fino a quando ci sono fruitori."
       ]
     },
-    "action": "Chiudi"
+    "newVersionAsync": {
+      "title": "Hai pubblicato una nuova versione dell'e-service",
+      "subtitle": "Cosa succede ora:",
+      "bulletPoints": [
+        "la nuova versione è disponibile nel catalogo;",
+        "i fruitori ricevono una notifica di aggiornamento;",
+        "la versione precedente diventa obsoleta ma attiva fino a quando ci sono fruitori."
+      ]
+    },
+    "action": "Chiudi",
+    "asyncAction": "Vai all'e-service"
   }
 }
