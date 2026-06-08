@@ -7,7 +7,7 @@ import {
   getEServiceDescriptorAlertSpec,
   getLastDescriptor,
   getViewLatestVersionTargetId,
-  isDescriptorBeingArchived,
+  isDescriptorPendingArchiving,
 } from '../eservice.utils'
 
 describe('getDownloadDocumentName utility function testing', () => {
@@ -148,10 +148,10 @@ describe('calculateArchivableOn utility function testing', () => {
   })
 })
 
-describe('isDescriptorBeingArchived utility function testing', () => {
+describe('isDescriptorPendingArchiving utility function testing', () => {
   it('returns true for ARCHIVING and ARCHIVING_SUSPENDED', () => {
-    expect(isDescriptorBeingArchived('ARCHIVING')).toBe(true)
-    expect(isDescriptorBeingArchived('ARCHIVING_SUSPENDED')).toBe(true)
+    expect(isDescriptorPendingArchiving('ARCHIVING')).toBe(true)
+    expect(isDescriptorPendingArchiving('ARCHIVING_SUSPENDED')).toBe(true)
   })
 
   it.each<EServiceDescriptorState | undefined>([
@@ -162,7 +162,7 @@ describe('isDescriptorBeingArchived utility function testing', () => {
     'DRAFT',
     undefined,
   ])('returns false for state %s', (state) => {
-    expect(isDescriptorBeingArchived(state)).toBe(false)
+    expect(isDescriptorPendingArchiving(state)).toBe(false)
   })
 })
 

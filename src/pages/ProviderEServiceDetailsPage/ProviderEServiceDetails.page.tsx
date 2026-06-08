@@ -17,7 +17,7 @@ import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersi
 import {
   getActiveDescriptor,
   getViewLatestVersionTargetId,
-  isDescriptorBeingArchived,
+  isDescriptorPendingArchiving,
 } from '@/utils/eservice.utils'
 import { ProviderEServiceDetailsAlerts } from './components/ProviderEServiceDetailsTab/ProviderEServiceDetailsAlerts'
 
@@ -56,7 +56,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   )
 
   const isActiveDescriptor = descriptor?.id === activeDescriptor?.id
-  const isEServiceBeingArchived = isDescriptorBeingArchived(activeDescriptor?.state)
+  const isEServiceBeingArchived = isDescriptorPendingArchiving(activeDescriptor?.state)
 
   const hasMultipleVersions = (descriptor?.eservice.descriptors?.length ?? 0) > 1
 
@@ -116,7 +116,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
                 isActiveDescriptor,
               },
               archivingScheduleInfo:
-                isDescriptorBeingArchived(descriptor.state) &&
+                isDescriptorPendingArchiving(descriptor.state) &&
                 descriptor.archivingSchedule?.archivableOn &&
                 descriptor.archivingSchedule?.scope
                   ? {
