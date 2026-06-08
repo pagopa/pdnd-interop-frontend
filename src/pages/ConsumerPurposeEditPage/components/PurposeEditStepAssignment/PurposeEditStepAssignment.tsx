@@ -1,6 +1,5 @@
 import React from 'react'
 import { useQuery } from '@tanstack/react-query'
-import { match } from 'ts-pattern'
 import { useParams } from '@/router'
 import { PurposeQueries } from '@/api/purpose'
 import { TenantQueries } from '@/api/tenant'
@@ -9,21 +8,13 @@ import { NotFoundError } from '@/utils/errors.utils'
 import { SELFCARE_BASE_URL, SELFCARE_PRODUCT_ID } from '@/config/env'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
-import type { Purpose, RiskAnalysisReviewMode } from '@/api/api.generatedTypes'
+import type { Purpose } from '@/api/api.generatedTypes'
 import PurposeEditStepAssignmentForm, {
   PurposeEditStepAssignmentFormSkeleton,
+  beEnumToReviewModeOption,
   type PurposeEditStepAssignmentFormValues,
-  type ReviewModeOption,
 } from './PurposeEditStepAssignmentForm'
 import PurposeEditStepAssignmentReadOnly from './PurposeEditStepAssignmentReadOnly'
-
-const beEnumToReviewModeOption = (
-  reviewMode: RiskAnalysisReviewMode | undefined
-): ReviewModeOption =>
-  match(reviewMode)
-    .with('ADMIN_WRITES_REVIEWER_SIGNS', () => 'selfWritesReviewerSigns' as const)
-    .with('REVIEWER_WRITES_REVIEWER_SIGNS', () => 'reviewerWritesReviewerSigns' as const)
-    .otherwise(() => 'selfWritesSelfSigns' as const)
 
 const getDefaultValues = (purpose: Purpose): PurposeEditStepAssignmentFormValues => ({
   reviewMode: beEnumToReviewModeOption(purpose.reviewerWorkflow?.reviewMode),

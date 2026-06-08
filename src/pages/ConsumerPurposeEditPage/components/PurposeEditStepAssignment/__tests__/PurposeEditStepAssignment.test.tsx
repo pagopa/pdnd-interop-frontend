@@ -62,10 +62,17 @@ vi.mock('@/config/env', async () => {
   }
 })
 
-vi.mock('../PurposeEditStepAssignmentForm', () => ({
-  default: vi.fn(() => <div data-testid="assignment-form" />),
-  PurposeEditStepAssignmentFormSkeleton: vi.fn(() => <div data-testid="skeleton" />),
-}))
+vi.mock('../PurposeEditStepAssignmentForm', async () => {
+  const actual =
+    await vi.importActual<typeof import('../PurposeEditStepAssignmentForm')>(
+      '../PurposeEditStepAssignmentForm'
+    )
+  return {
+    ...actual,
+    default: vi.fn(() => <div data-testid="assignment-form" />),
+    PurposeEditStepAssignmentFormSkeleton: vi.fn(() => <div data-testid="skeleton" />),
+  }
+})
 
 vi.mock('../PurposeEditStepAssignmentReadOnly', () => ({
   default: vi.fn(() => <div data-testid="assignment-readonly" />),

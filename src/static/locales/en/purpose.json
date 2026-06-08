@@ -124,6 +124,7 @@
       "readOnly": {
         "modeLabel": "Mode",
         "reviewerLabel": "Reviewer",
+        "reviewerUnknown": "Reviewer not available",
         "forwardBtn": "Next"
       }
     },

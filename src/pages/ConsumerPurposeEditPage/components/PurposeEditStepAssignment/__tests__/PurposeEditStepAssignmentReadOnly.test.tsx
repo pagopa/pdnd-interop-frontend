@@ -102,13 +102,14 @@ describe('PurposeEditStepAssignmentReadOnly', () => {
     expect(back).toHaveBeenCalledTimes(1)
   })
 
-  it('leaves the reviewer value empty when the assigned reviewer is not in the reviewers list', () => {
+  it('falls back to a placeholder when the assigned reviewer is not in the reviewers list', () => {
     renderComponent({
       purpose: buildPurpose('ADMIN_WRITES_REVIEWER_SIGNS', ['unknown-reviewer']),
       reviewers: [mockReviewer],
     })
 
     expect(screen.getByText('readOnly.reviewerLabel')).toBeInTheDocument()
+    expect(screen.getByText('readOnly.reviewerUnknown')).toBeInTheDocument()
     expect(screen.queryByText('Mario Rossi')).not.toBeInTheDocument()
   })
 })

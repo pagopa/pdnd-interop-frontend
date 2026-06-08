@@ -124,6 +124,7 @@
       "readOnly": {
         "modeLabel": "Modalità",
         "reviewerLabel": "Valutatore",
+        "reviewerUnknown": "Valutatore non disponibile",
         "forwardBtn": "Avanti"
       }
     },
