@@ -159,7 +159,8 @@
     "admin": "Administrator",
     "security": "Security operator",
     "api": "API operator",
-    "support": "Support"
+    "support": "Support",
+    "reviewer": "Reviewer"
   },
   "time": {
     "minute_one": "minute",
