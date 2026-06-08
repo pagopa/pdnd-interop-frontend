@@ -15,10 +15,6 @@ export const ConsumerPurposeSummaryRiskAnalysisAccordion: React.FC<
   const { data: purpose } = useSuspenseQuery(PurposeQueries.getSingle(purposeId))
   const { t } = useTranslation('purpose', { keyPrefix: 'summary.riskAnalysisSection' })
 
-  if (purpose.reviewerWorkflow?.signingState === 'ASSIGNED') {
-    return null
-  }
-
   return (
     <>
       <Stack spacing={3}>

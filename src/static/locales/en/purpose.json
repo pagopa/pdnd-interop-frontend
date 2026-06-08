@@ -266,6 +266,7 @@
       }
     },
     "publishBtnDisabled": "Your declaration on personal data processing in the risk analysis prevents publication",
+    "publishBtnDisabledByReview": "You will be able to publish once the reviewer has approved the risk analysis.",
     "publishBtn": "Publish"
   },
   "list": {

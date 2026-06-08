@@ -266,6 +266,7 @@
       }
     },
     "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione",
+    "publishBtnDisabledByReview": "Potrai pubblicare quando il valutatore avrà approvato l’analisi del rischio.",
     "publishBtn": "Pubblica"
   },
   "list": {

@@ -44,17 +44,8 @@ describe('ConsumerPurposeSummaryRiskAnalysisAccordion', () => {
     vi.clearAllMocks()
   })
 
-  it('ASSIGNED (awaiting compilation): renders an empty body (no risk analysis answers)', () => {
-    setPurpose('ASSIGNED')
-
-    renderWithApplicationContext(
-      <ConsumerPurposeSummaryRiskAnalysisAccordion purposeId="test-id" />,
-      { withReactQueryContext: true }
-    )
-
-    expect(screen.queryByTestId('risk-analysis-info-summary')).not.toBeInTheDocument()
-  })
-
+  // The empty-body case (ASSIGNED / awaiting compilation) is handled at page level by
+  // SummaryAccordion's `hideBody`, so this accordion always renders the answers when mounted.
   it.each<RiskAnalysisSigningState | undefined>(['SUBMITTED', 'SIGNED', 'REJECTED', undefined])(
     'signingState %s: renders the risk analysis answers',
     (signingState) => {

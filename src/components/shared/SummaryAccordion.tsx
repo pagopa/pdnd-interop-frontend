@@ -24,6 +24,8 @@ type SummaryAccordionProps = {
   children: React.ReactNode
   defaultExpanded?: boolean
   statusChip?: SummaryAccordionStatusChip
+  /** Render only the header (no expand affordance, no body) when there is no content to show. */
+  hideBody?: boolean
 }
 export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
   headline,
@@ -31,6 +33,7 @@ export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
   children,
   defaultExpanded,
   statusChip,
+  hideBody,
 }) => {
   const id = React.useId()
 
@@ -39,6 +42,7 @@ export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
       <MUIAccordion
         disableGutters
         defaultExpanded={defaultExpanded}
+        expanded={hideBody ? false : undefined}
         sx={{
           '.MuiAccordionSummary-root': {
             alignItems: 'center',
@@ -46,13 +50,14 @@ export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
         }}
       >
         <AccordionSummary
-          expandIcon={<ExpandMoreIcon color="primary" />}
+          expandIcon={hideBody ? undefined : <ExpandMoreIcon color="primary" />}
           aria-controls={`panel-content-${id}`}
           id={`panel-header-${id}`}
           sx={{
             px: 4,
             alignItems: 'end',
             py: 1.5,
+            ...(hideBody && { cursor: 'default', '&:hover': { backgroundColor: 'transparent' } }),
           }}
         >
           <Box
@@ -74,10 +79,12 @@ export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
             )}
           </Box>
         </AccordionSummary>
-        <AccordionDetails sx={{ px: 4, pb: 3 }}>
-          <Divider sx={{ mb: 3, mt: -1 }} />
-          {children}
-        </AccordionDetails>
+        {!hideBody && (
+          <AccordionDetails sx={{ px: 4, pb: 3 }}>
+            <Divider sx={{ mb: 3, mt: -1 }} />
+            {children}
+          </AccordionDetails>
+        )}
       </MUIAccordion>
     </Paper>
   )

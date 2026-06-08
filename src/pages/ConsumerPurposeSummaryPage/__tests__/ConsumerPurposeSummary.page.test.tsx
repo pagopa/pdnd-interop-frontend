@@ -24,11 +24,16 @@ const mockFn = vi.fn()
 vi.spyOn(router, 'useNavigate').mockReturnValue(mockFn)
 
 // Stub the accordions (data-bound, suspense) but keep the real rejected alert so its
-// content and "read reason" action can be asserted.
-vi.mock('../components', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('../components')>()
+// content and "read reason" action can be asserted. We import only the rejected alert
+// file (light: MUI + i18n) instead of the whole barrel, whose accordions pull in
+// `@/router` and would create a huge/circular import graph that hangs the test.
+vi.mock('../components', async () => {
+  const { ConsumerPurposeSummaryRiskAnalysisRejectedAlert } =
+    // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+    await vi.importActual<
+      typeof import('../components/ConsumerPurposeSummaryRiskAnalysisRejectedAlert')
+    >('../components/ConsumerPurposeSummaryRiskAnalysisRejectedAlert')
   return {
-    ...actual,
     ConsumerPurposeSummaryGeneralInformationAccordion: () => (
       <div data-testid="general-info-accordion" />
     ),
@@ -36,6 +41,7 @@ vi.mock('../components', async (importOriginal) => {
     ConsumerPurposeSummaryRiskAnalysisAccordion: () => (
       <div data-testid="risk-analysis-accordion" />
     ),
+    ConsumerPurposeSummaryRiskAnalysisRejectedAlert,
   }
 })
 
@@ -258,19 +264,34 @@ describe('ConsumerPurposeSummaryPage', () => {
       expect(getPublishButton()).toBeEnabled()
     })
 
-    it('SUBMITTED (option 2, awaiting approval): warning chip, info alert, publish disabled', () => {
+    it('DRAFT with reviewerWorkflow defined: behaves like option 1 (no chip, no info alert, publish enabled)', () => {
+      renderWithReviewerWorkflow('DRAFT')
+
+      expect(screen.queryByText('chip.awaitingApproval')).not.toBeInTheDocument()
+      expect(screen.queryByText('chip.awaitingCompilation')).not.toBeInTheDocument()
+      expect(screen.queryByText('chip.approved')).not.toBeInTheDocument()
+      expect(screen.queryByText('chip.rejected')).not.toBeInTheDocument()
+      expect(screen.queryByText('infoAlert.adminWritesReviewerSigns')).not.toBeInTheDocument()
+      expect(screen.queryByText('infoAlert.reviewerWritesReviewerSigns')).not.toBeInTheDocument()
+      expect(getPublishButton()).toBeEnabled()
+    })
+
+    it('SUBMITTED (option 2, awaiting approval): warning chip, info alert, publish disabled, body shown', () => {
       renderWithReviewerWorkflow('SUBMITTED')
 
       expect(screen.getByText('chip.awaitingApproval')).toBeInTheDocument()
       expect(screen.getByText('infoAlert.adminWritesReviewerSigns')).toBeInTheDocument()
+      expect(screen.getByTestId('risk-analysis-accordion')).toBeInTheDocument()
       expect(getPublishButton()).toBeDisabled()
     })
 
-    it('ASSIGNED (option 3, awaiting compilation): warning chip, info alert, publish disabled', () => {
+    it('ASSIGNED (option 3, awaiting compilation): warning chip, info alert, publish disabled, body hidden', () => {
       renderWithReviewerWorkflow('ASSIGNED')
 
       expect(screen.getByText('chip.awaitingCompilation')).toBeInTheDocument()
       expect(screen.getByText('infoAlert.reviewerWritesReviewerSigns')).toBeInTheDocument()
+      // Awaiting compilation → accordion body is hidden (no answers section rendered).
+      expect(screen.queryByTestId('risk-analysis-accordion')).not.toBeInTheDocument()
       expect(getPublishButton()).toBeDisabled()
     })
 

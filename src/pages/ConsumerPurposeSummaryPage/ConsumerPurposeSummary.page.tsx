@@ -46,6 +46,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   const {
     chip: riskAnalysisChip,
+    isAwaitingCompilation: isRiskAnalysisAwaitingCompilation,
     isRejected: isRiskAnalysisRejected,
     isPublishDisabledByReview,
     infoAlertText: riskAnalysisInfoAlertText,
@@ -69,6 +70,14 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       eservicePersonalData !== undefined &&
       checkIncompatibleAnswerValue()) ||
     (isEserviceDeliverMode && isRulesetExpired)
+
+  // Tooltip explaining why "Publish" is disabled, with the personal-data reason taking precedence.
+  let publishDisabledTooltip = ''
+  if (isPublishButtonDisabled) {
+    publishDisabledTooltip = t('summary.publishBtnDisabled')
+  } else if (isPublishDisabledByReview) {
+    publishDisabledTooltip = t('summary.publishBtnDisabledByReview')
+  }
 
   const arePublishOrEditButtonsDisabled =
     purpose?.agreement.state === 'ARCHIVED' || purpose?.eservice.descriptor.state === 'ARCHIVED'
@@ -156,6 +165,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
             headline="3"
             title={t('summary.riskAnalysisSection.title')}
             statusChip={riskAnalysisChip}
+            hideBody={isRiskAnalysisAwaitingCompilation}
           >
             <ConsumerPurposeSummaryRiskAnalysisAccordion purposeId={purposeId} />
           </SummaryAccordion>
@@ -190,7 +200,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           {tCommon('editDraft')}
         </Button>
 
-        <Tooltip title={isPublishButtonDisabled ? t('summary.publishBtnDisabled') : ''} arrow>
+        <Tooltip title={publishDisabledTooltip} arrow>
           <span>
             <Button
               disabled={

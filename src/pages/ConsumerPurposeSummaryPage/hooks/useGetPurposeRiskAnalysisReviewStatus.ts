@@ -13,6 +13,8 @@ type PurposeRiskAnalysisReviewStatus = {
   chip: RiskAnalysisReviewChip | undefined
   /** Risk analysis is waiting for the reviewer to fill in or approve it. */
   isAwaitingReview: boolean
+  /** Risk analysis has not been filled in yet by the assigned reviewer (empty accordion body). */
+  isAwaitingCompilation: boolean
   /** Risk analysis has been rejected by the reviewer. */
   isRejected: boolean
   /** Publish CTA must be disabled because of the review state. */
@@ -44,7 +46,8 @@ export function useGetPurposeRiskAnalysisReviewStatus(
     .with('DRAFT', undefined, () => undefined)
     .exhaustive()
 
-  const isAwaitingReview = signingState === 'ASSIGNED' || signingState === 'SUBMITTED'
+  const isAwaitingCompilation = signingState === 'ASSIGNED'
+  const isAwaitingReview = isAwaitingCompilation || signingState === 'SUBMITTED'
   const isRejected = signingState === 'REJECTED'
   const isPublishDisabledByReview = isAwaitingReview || isRejected
 
@@ -60,6 +63,7 @@ export function useGetPurposeRiskAnalysisReviewStatus(
     signingState,
     chip,
     isAwaitingReview,
+    isAwaitingCompilation,
     isRejected,
     isPublishDisabledByReview,
     infoAlertText,
