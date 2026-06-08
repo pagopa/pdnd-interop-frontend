@@ -370,7 +370,7 @@
       },
       "confirmDialog": {
         "title": "Fruition Request Draft Creation",
-        "description": "Do you want to create a fruition request draft for the e-service **{{name}}**, version **{{version}}**",
+        "description": "Do you want to create a fruition request draft for the e-service <strong>{{name}}</strong>, version <strong>{{version}}</strong>",
         "proceedLabel": "Create draft"
       }
     },
