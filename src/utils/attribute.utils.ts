@@ -126,7 +126,7 @@ export function isAttributeOwned(
           'certified',
           match as CertifiedTenantAttribute | CertifiedDiscreteTenantAttribute
         ) &&
-        ('discreteValue' in match && options?.discreteConfig
+        (match.kind === 'CERTIFIED_DISCRETE' && options?.discreteConfig
           ? isAttributeCompliantWithDiscreteConfig(match, options.discreteConfig)
           : true)
       )
