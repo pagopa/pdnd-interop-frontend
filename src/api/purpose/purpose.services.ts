@@ -25,6 +25,8 @@ import type {
   ReversePurposeUpdateContent,
   RiskAnalysisAssignmentSeed,
   RiskAnalysisFormConfig,
+  RiskAnalysisRejectionSeed,
+  SignRiskAnalysisParams,
 } from '../api.generatedTypes'
 
 /**
@@ -302,6 +304,35 @@ async function assignRiskAnalysisReviewer({
   return response.data
 }
 
+async function signRiskAnalysis({ purposeId }: SignRiskAnalysisParams) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/sign`
+  )
+  return response.data
+}
+
+async function rejectRiskAnalysis({
+  purposeId,
+  ...payload
+}: { purposeId: string } & RiskAnalysisRejectionSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/reject`,
+    payload
+  )
+  return response.data
+}
+
+async function updateRiskAnalysis({
+  purposeId,
+  ...payload
+}: { purposeId: string } & PurposeUpdateContent) {
+  const response = await axiosInstance.put<PurposeVersionResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/form`,
+    payload
+  )
+  return response.data
+}
+
 async function getRiskAnalysisAssignments(params: GetRiskAnalysisAssignmentsParams) {
   const response = await axiosInstance.get<Purposes>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/assignments`,
@@ -337,5 +368,8 @@ export const PurposeServices = {
   downloadRiskAnalysis,
   getRemainingDailyCalls,
   assignRiskAnalysisReviewer,
+  signRiskAnalysis,
+  rejectRiskAnalysis,
+  updateRiskAnalysis,
   getRiskAnalysisAssignments,
 }

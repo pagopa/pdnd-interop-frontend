@@ -2,16 +2,22 @@ import type {
   Agreement,
   RequesterCertifiedAttribute,
   CompactPurposeEService,
+  CompactDescriptor,
   DelegationKind,
   TenantKind,
   TargetTenantKind,
   CompactAgreement,
 } from '@/api/api.generatedTypes'
+import type { RouteKey } from '@/router'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
 
 export type DialogContent = {
   title: string
   description?: string
+}
+
+export type DialogDescriptionLink = {
+  href: string
 }
 
 export type DialogDefaultProps = {
@@ -41,6 +47,17 @@ export type DialogProps =
   | DialogTenantKindPurposeTemplateProps
   | DialogSelectAgreementConsumerProps
   | DialogRequestRiskAnalysisCompilationProps
+  | DialogApproveRiskAnalysisProps
+  | DialogRejectRiskAnalysisProps
+  | DialogShowEserviceVersionsListProps
+  | DialogArchiveEserviceProps
+  | DialogCancelEserviceArchivingProps
+  | DialogSuspendArchivingEserviceProps
+  | DialogReactivateArchivingEserviceProps
+  | DialogSuspendArchivingDescriptorProps
+  | DialogReactivateArchivingDescriptorProps
+  | DialogArchiveVersionProps
+  | DialogCancelVersionArchivingProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -55,6 +72,7 @@ export type DialogBasicProps = DialogDefaultProps & {
   type: 'basic'
   title: string
   description?: string
+  descriptionLink?: DialogDescriptionLink
   proceedLabel?: string
   onProceed: VoidFunction
   onCancel?: VoidFunction
@@ -186,4 +204,69 @@ export type DialogRequestRiskAnalysisCompilationProps = {
   purposeId: string
   reviewerId: string
   reviewerName: string
+}
+
+export type DialogApproveRiskAnalysisProps = {
+  type: 'approveRiskAnalysis'
+  purposeId: string
+}
+
+export type DialogRejectRiskAnalysisProps = {
+  type: 'rejectRiskAnalysis'
+  purposeId: string
+}
+
+export type DialogShowEserviceVersionsListProps = {
+  type: 'showEserviceVersionsList'
+  eserviceId: string
+  eserviceName: string
+  descriptors: CompactDescriptor[]
+  activeDescriptor?: CompactDescriptor
+  routeKey: Extract<RouteKey, 'SUBSCRIBE_CATALOG_VIEW' | 'PROVIDE_ESERVICE_MANAGE'>
+}
+
+export type DialogArchiveEserviceProps = {
+  type: 'archiveEservice'
+  eserviceId: string
+}
+
+export type DialogCancelEserviceArchivingProps = {
+  type: 'cancelEserviceArchiving'
+  eserviceId: string
+}
+
+export type DialogSuspendArchivingEserviceProps = {
+  type: 'suspendArchivingEservice'
+  eserviceId: string
+  descriptorId: string
+}
+
+export type DialogReactivateArchivingEserviceProps = {
+  type: 'reactivateArchivingEservice'
+  eserviceId: string
+  descriptorId: string
+}
+
+export type DialogSuspendArchivingDescriptorProps = {
+  type: 'suspendArchivingDescriptor'
+  eserviceId: string
+  descriptorId: string
+}
+
+export type DialogReactivateArchivingDescriptorProps = {
+  type: 'reactivateArchivingDescriptor'
+  eserviceId: string
+  descriptorId: string
+}
+
+export type DialogArchiveVersionProps = {
+  type: 'archiveVersion'
+  eserviceId: string
+  descriptorId: string
+}
+
+export type DialogCancelVersionArchivingProps = {
+  type: 'cancelVersionArchiving'
+  eserviceId: string
+  descriptorId: string
 }

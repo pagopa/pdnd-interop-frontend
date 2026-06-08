@@ -90,8 +90,9 @@
       },
       "confirmDialog": {
         "title": "Pubblica e-service",
-        "titleNewVersion": "Pubblica nuova versione e-service",
+        "titleNewVersion": "Pubblica nuova versione",
         "description": "Una volta pubblicata, questa versione sarà disponibile nel catalogo degli e-service e non potrà più essere cancellata. Potrai comunque sospenderla o renderla obsoleta quando pubblicherai una nuova versione.",
+        "descriptionNewVersion": "<p>Quando una nuova versione dell'e-service viene pubblicata, è subito disponibile nel catalogo e non può più essere cancellata.</p><p>La versione precedente diventa obsoleta oppure, se non ha fruitori attivi, sarà archiviata automaticamente.</p><p>Potrai sospendere la nuova versione o renderla obsoleta quando pubblicherai una versione successiva.</p>",
         "proceedLabel": "Pubblica"
       }
     },
@@ -384,6 +385,11 @@
         "description": {
           "default": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione",
           "isDelegated": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione e verrà inoltrata una notifica all’ente delegante per conoscenza."
+        },
+        "asyncExchange": {
+          "title": "Prima di richiedere la fruizione",
+          "description": "Questo e-service usa uno scambio dati asincrono, diverso dagli scambi sincroni standard. Per funzionare correttamente, è necessario implementare un’interfaccia di callback fornita dall’erogatore. Per tutte le informazioni, <1>consulta la guida</1>.",
+          "checkbox": "Sono consapevole che è necessaria un’integrazione tecnica"
         }
       }
     },
@@ -594,6 +600,12 @@
         "error": "Non è stato possibile scaricare il documento dell'analisi del rischio. Per favore, riprova!"
       }
     },
+    "updateRiskAnalysis": {
+      "loading": "Stiamo aggiornando l'analisi del rischio",
+      "outcome": {
+        "error": "Non è stato possibile aggiornare l'analisi del rischio. Per favore, riprova!"
+      }
+    },
     "clone": {
       "loading": "Stiamo clonando la finalità",
       "outcome": {
@@ -622,6 +634,18 @@
     "assignRiskAnalysisReviewer": {
       "outcome": {
         "error": "Non è stato possibile assegnare il valutatore. Per favore, riprova!"
+      }
+    },
+    "signRiskAnalysis": {
+      "loading": "Stiamo approvando l'analisi del rischio",
+      "outcome": {
+        "error": "Non è stato possibile approvare l'analisi del rischio. Per favore, riprova!"
+      }
+    },
+    "rejectRiskAnalysis": {
+      "loading": "Stiamo rigettando l'analisi del rischio",
+      "outcome": {
+        "error": "Non è stato possibile rigettare l'analisi del rischio. Per favore, riprova!"
       }
     }
   },

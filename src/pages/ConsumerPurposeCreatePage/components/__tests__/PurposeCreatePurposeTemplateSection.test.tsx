@@ -65,6 +65,8 @@ const selectedEserviceMock: CatalogDescriptorEService = {
   isMine: true,
   hasCertifiedAttributes: true,
   isSubscribed: true,
+  hasProducerKeychain: false,
+  hasProducerKeychainKeys: false,
   agreements: [],
   activeDescriptor: {
     id: 'desc-001',
@@ -73,8 +75,6 @@ const selectedEserviceMock: CatalogDescriptorEService = {
     audience: ['PUBLIC'],
   },
   personalData: false,
-  hasProducerKeychain: false,
-  hasProducerKeychainKeys: false,
 }
 
 const FormWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {

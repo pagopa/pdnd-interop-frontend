@@ -17,6 +17,7 @@ import { PurposeMutations } from '@/api/purpose'
 import { useDialog } from '@/stores'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 export type ReviewModeOption =
   | 'selfWritesSelfSigns'
@@ -50,8 +51,10 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
   selfcareUsersPageUrl,
   defaultValues,
   forward,
+  back,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit.stepAssignment' })
+  const { t: tEdit } = useTranslation('purpose', { keyPrefix: 'edit' })
   const { mutate: assignReviewer } = PurposeMutations.useAssignRiskAnalysisReviewer()
   const { openDialog } = useDialog()
 
@@ -163,7 +166,12 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
           </Stack>
         </SectionContainer>
         <StepActions
-          back={{ to: 'SUBSCRIBE_PURPOSE_LIST', label: t('backToListBtn'), type: 'link' }}
+          back={{
+            label: tEdit('backWithoutSaveBtn'),
+            type: 'button',
+            onClick: back,
+            startIcon: <ArrowBackIcon />,
+          }}
           forward={{
             label: isRequestReviewerCompilation
               ? t('requestReviewerCompilationBtn')

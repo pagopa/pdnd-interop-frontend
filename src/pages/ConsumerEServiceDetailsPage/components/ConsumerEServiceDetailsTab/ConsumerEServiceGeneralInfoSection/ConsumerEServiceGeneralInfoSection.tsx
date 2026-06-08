@@ -5,13 +5,13 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { EServiceQueries } from '@/api/eservice'
 import { useParams } from '@/router'
-import FileCopyIcon from '@mui/icons-material/FileCopy'
 import EngineeringIcon from '@mui/icons-material/Engineering'
 import ContactMailIcon from '@mui/icons-material/ContactMail'
+import SyncIcon from '@mui/icons-material/Sync'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { ConsumerEServiceTechnicalInfoDrawer } from './ConsumerEServiceTechnicalInfoDrawer'
+import { ConsumerEServiceAsyncExchangeDetailsDrawer } from './ConsumerEServiceAsyncExchangeDetailsDrawer'
 import { ConsumerEServiceProducerContactsDrawer } from './ConsumerEServiceProducerContactsDrawer'
-import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
 import { useSuspenseQuery } from '@tanstack/react-query'
 
 export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
@@ -37,28 +37,25 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
   } = useDrawerState()
 
   const {
-    isOpen: isVersionSelectorDrawerOpen,
-    openDrawer: openVersionSelectorDrawer,
-    closeDrawer: closeVersionSelectorDrawer,
+    isOpen: isAsyncExchangeDetailsDrawerOpen,
+    openDrawer: openAsyncExchangeDetailsDrawer,
+    closeDrawer: closeAsyncExchangeDetailsDrawer,
   } = useDrawerState()
 
-  const hasSingleVersion =
-    descriptor.eservice.descriptors.filter((d) => d.state !== 'DRAFT').length <= 1
-
   const hasContactInformations = !!descriptor.eservice.mail
-
-  const navigateVersionsAction = {
-    startIcon: <FileCopyIcon fontSize="small" />,
-    component: 'button',
-    onClick: openVersionSelectorDrawer,
-    label: t('bottomActions.navigateVersions'),
-  }
 
   const showTechnicalDetailsAction = {
     startIcon: <EngineeringIcon fontSize="small" />,
     component: 'button',
     onClick: openTechnicalInfoDrawer,
     label: t('bottomActions.showTechnicalDetails'),
+  }
+
+  const showAsyncExchangeDetailsAction = {
+    startIcon: <SyncIcon fontSize="small" />,
+    component: 'button',
+    onClick: openAsyncExchangeDetailsDrawer,
+    label: t('bottomActions.showAsyncExchangeDetails'),
   }
 
   const showProducerContactsAction = {
@@ -73,8 +70,8 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
       <SectionContainer
         title={t('title')}
         bottomActions={[
-          ...(!hasSingleVersion ? [navigateVersionsAction] : []),
           showTechnicalDetailsAction,
+          ...(descriptor.eservice.asyncExchange ? [showAsyncExchangeDetailsAction] : []),
           ...(hasContactInformations ? [showProducerContactsAction] : []),
         ]}
       >
@@ -87,6 +84,12 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
           <InformationContainer
             label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
             content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
+          />
+          <InformationContainer
+            label={t('exchangeType.label')}
+            content={t(
+              `exchangeType.value.${descriptor.eservice.asyncExchange ? 'async' : 'sync'}`
+            )}
           />
           <InformationContainer
             label={t('eserviceDescription.label')}
@@ -105,14 +108,14 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
         onClose={closeTechnicalInfoDrawer}
         descriptor={descriptor}
       />
+      <ConsumerEServiceAsyncExchangeDetailsDrawer
+        isOpen={isAsyncExchangeDetailsDrawerOpen}
+        onClose={closeAsyncExchangeDetailsDrawer}
+        descriptor={descriptor}
+      />
       <ConsumerEServiceProducerContactsDrawer
         isOpen={isProducerContactsDrawerOpen}
         onClose={closeProducerContactsDrawer}
-        descriptor={descriptor}
-      />
-      <EServiceVersionSelectorDrawer
-        isOpen={isVersionSelectorDrawerOpen}
-        onClose={closeVersionSelectorDrawer}
         descriptor={descriptor}
       />
     </>

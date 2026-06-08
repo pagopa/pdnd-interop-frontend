@@ -55,6 +55,34 @@ describe('ProviderEServiceGeneralInfoSummarySection', () => {
     expect(screen.getByText(mockData.eservice.technology)).toBeInTheDocument()
   })
 
+  it('renders exchange type for synchronous e-services', () => {
+    const mockData = createMockEServiceDescriptorProvider()
+    useSuspenseQueryMock.mockReturnValue({ data: mockData })
+
+    renderWithApplicationContext(<ProviderEServiceGeneralInfoSummarySection />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('exchangeType.label')).toBeInTheDocument()
+    expect(screen.getByText('exchangeType.value.sync')).toBeInTheDocument()
+  })
+
+  it('renders exchange type for asynchronous e-services', () => {
+    const mockData = createMockEServiceDescriptorProvider({
+      eservice: { asyncExchange: true },
+    })
+    useSuspenseQueryMock.mockReturnValue({ data: mockData })
+
+    renderWithApplicationContext(<ProviderEServiceGeneralInfoSummarySection />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('exchangeType.label')).toBeInTheDocument()
+    expect(screen.getByText('exchangeType.value.async')).toBeInTheDocument()
+  })
+
   it('renders personal data field', () => {
     const mockData = createMockEServiceDescriptorProvider()
     useSuspenseQueryMock.mockReturnValue({ data: mockData })

@@ -17,6 +17,7 @@ type RiskAnalysisFormProps = {
   onSubmit: (answers: Record<string, string[]>) => void
   onCancel: VoidFunction
   personalData?: boolean
+  submitLabel?: string
 }
 
 export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
@@ -25,6 +26,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   onSubmit,
   onCancel,
   personalData,
+  submitLabel,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
 
@@ -99,7 +101,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
             startIcon: <ArrowBackIcon />,
           }}
           forward={{
-            label: t('endWithSaveBtn'),
+            label: submitLabel ?? t('endWithSaveBtn'),
             type: 'submit',
             startIcon: <SaveIcon />,
           }}

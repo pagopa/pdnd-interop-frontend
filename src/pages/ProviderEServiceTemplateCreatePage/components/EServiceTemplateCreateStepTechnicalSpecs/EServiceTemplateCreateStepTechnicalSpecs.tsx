@@ -14,9 +14,18 @@ import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { minutesToSeconds, secondsToMinutes } from '@/utils/format.utils'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
 import type { UpdateEServiceTemplateVersionSeed } from '@/api/api.generatedTypes'
+import { getAsyncExchangePropertiesWithDefaults } from '@/utils/eservice.utils'
+import { EServiceTemplateAsyncExchangeSection } from './EServiceTemplateAsyncExchangeSection'
 
 type EServiceTemplateCreateStepTechnicalSpecsFormValues = {
   voucherLifespan: number
+  asyncExchangeProperties: {
+    responseTime: number | ''
+    resourceAvailableTime: number | ''
+    maxResultSet: number | ''
+    confirmation: boolean
+    bulk: boolean
+  }
 }
 
 export const EServiceTemplateCreateStepTechnicalSpecs: React.FC<ActiveStepProps> = () => {
@@ -32,12 +41,18 @@ export const EServiceTemplateCreateStepTechnicalSpecs: React.FC<ActiveStepProps>
     voucherLifespan: eserviceTemplateVersion
       ? secondsToMinutes(eserviceTemplateVersion.voucherLifespan)
       : 1,
+    asyncExchangeProperties: getAsyncExchangePropertiesWithDefaults(
+      eserviceTemplateVersion?.asyncExchangeProperties
+    ),
   }
 
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (values: EServiceTemplateCreateStepTechnicalSpecsFormValues) => {
     if (!eserviceTemplateVersion) return
+    const { asyncExchangeProperties } = values
+    const isAsyncExchange = eserviceTemplateVersion.eserviceTemplate.asyncExchange === true
+    const isSoap = eserviceTemplateVersion.eserviceTemplate.technology === 'SOAP'
 
     const payload: UpdateEServiceTemplateVersionSeed = {
       description: eserviceTemplateVersion.description,
@@ -48,6 +63,17 @@ export const EServiceTemplateCreateStepTechnicalSpecs: React.FC<ActiveStepProps>
       agreementApprovalPolicy: eserviceTemplateVersion.agreementApprovalPolicy,
       dailyCallsPerConsumer: eserviceTemplateVersion.dailyCallsPerConsumer,
       dailyCallsTotal: eserviceTemplateVersion.dailyCallsTotal,
+      ...(isAsyncExchange
+        ? {
+            asyncExchangeProperties: {
+              responseTime: Number(asyncExchangeProperties.responseTime),
+              resourceAvailableTime: Number(asyncExchangeProperties.resourceAvailableTime),
+              maxResultSet: Number(asyncExchangeProperties.maxResultSet),
+              confirmation: asyncExchangeProperties.confirmation,
+              bulk: isSoap ? false : asyncExchangeProperties.bulk,
+            },
+          }
+        : {}),
     }
 
     updateVersionDraft(
@@ -93,6 +119,9 @@ export const EServiceTemplateCreateStepTechnicalSpecs: React.FC<ActiveStepProps>
             />
           </Stack>
         </SectionContainer>
+        {eserviceTemplateVersion?.eserviceTemplate.asyncExchange && (
+          <EServiceTemplateAsyncExchangeSection />
+        )}
         <StepActions
           back={{
             label: t('create.backWithoutSaveBtn'),
