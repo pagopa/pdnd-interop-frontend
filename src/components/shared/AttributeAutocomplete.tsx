@@ -15,8 +15,9 @@ export type AttributeAutocompleteProps = {
   attributeKey: AttributeKey
   onAddAttribute: (attribute: DescriptorAttribute) => void
   alreadySelectedAttributeIds: string[]
+  groupIndex: number
   direction?: 'column' | 'row'
-  onOpenConfigDrawer?: (attribute: DescriptorAttribute) => void
+  onOpenConfigDrawer?: (attribute: DescriptorAttribute, groupIndex: number) => void
   areCertifiedDiscreteOptionsIncluded?: boolean
 }
 
@@ -28,6 +29,7 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
   alreadySelectedAttributeIds,
   direction = 'row',
   onOpenConfigDrawer,
+  groupIndex,
   areCertifiedDiscreteOptionsIncluded = false,
 }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
@@ -91,7 +93,7 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
 
   const handleOpenConfigDrawer = handleSubmit(({ attribute }) => {
     if (!attribute || !onOpenConfigDrawer) return
-    onOpenConfigDrawer(attribute)
+    onOpenConfigDrawer(attribute, groupIndex)
   })
 
   const isConfigureCertifiedDiscrete =

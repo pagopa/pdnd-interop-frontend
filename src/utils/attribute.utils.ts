@@ -256,6 +256,7 @@ export const remapDescriptorAttributesToDescriptorAttributesSeed = (
         id: a.id,
         explicitAttributeVerification: true,
         dailyCallsPerConsumer: a?.dailyCallsPerConsumer,
+        discreteConfig: a?.discreteConfig,
       }))
     })
   }

@@ -181,6 +181,7 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
                     alreadySelectedAttributeIds={alreadySelectedAttributeIds}
                     onAddAttribute={(attribute) => handleAddAttributeToGroup(groupIdx, attribute)}
                     direction="column"
+                    groupIndex={groupIdx}
                   />
                 </Box>
               ) : (

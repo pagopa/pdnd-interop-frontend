@@ -18,9 +18,10 @@ type ConfigureCertifiedDiscreteAttributeDrawerProps = {
 
 type ConfigureCertifiedDiscreteAttributeDrawerStore = {
   isOpen: boolean
-  open: (attribute: DescriptorAttribute) => void
+  open: (attribute: DescriptorAttribute, groupIndex: number) => void
   close: VoidFunction
   attribute?: DescriptorAttribute
+  groupIndex?: number
 }
 
 // TODO check if is more simple to add this in autocomplete directly and in attributeContainer directly
@@ -29,8 +30,8 @@ type ConfigureCertifiedDiscreteAttributeDrawerStore = {
 export const useConfigureCertifiedDiscreteAttributeDrawer =
   create<ConfigureCertifiedDiscreteAttributeDrawerStore>((set) => ({
     isOpen: false,
-    open: (attribute) => set({ attribute, isOpen: true }),
-    close: () => set({ isOpen: false, attribute: undefined }),
+    open: (attribute, groupIndex) => set({ attribute, groupIndex, isOpen: true }),
+    close: () => set({ isOpen: false, attribute: undefined, groupIndex: undefined }),
   }))
 
 type ConfigureCertifiedDiscreteAttributeFormValues = {

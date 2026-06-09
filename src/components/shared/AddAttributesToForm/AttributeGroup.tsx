@@ -49,6 +49,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
     open: openConfigureDiscreteAttributeDrawer,
     close: closeConfigureDiscreteAttributeDrawer,
     attribute,
+    groupIndex: attributeGroupIndex,
   } = useConfigureCertifiedDiscreteAttributeDrawer()
 
   const handleDeleteAttributesGroup = () => {
@@ -76,23 +77,23 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
     comparator: AttributeCertifiedDiscreteComparator,
     threshold: number
   ) => {
-    if (!attribute) return
+    if (!attribute || !attributeGroupIndex) return
 
     const attributes = getValues('attributes')
     const groups = [...attributes['certified']]
-    const group = groups[groupIndex]
+    const group = groups[attributeGroupIndex]
 
     const discreteConfig: EServiceAttributeCertifiedDiscreteConfig = {
       comparator: comparator,
       threshold: threshold,
     }
 
-    if (groups[groupIndex].some((att) => att.id === attribute.id)) {
-      groups[groupIndex] = group.map((att) =>
+    if (groups[attributeGroupIndex].some((att) => att.id === attribute.id)) {
+      groups[attributeGroupIndex] = group.map((att) =>
         att.id === attribute.id ? { ...att, discreteConfig: discreteConfig } : att
       )
     } else {
-      groups[groupIndex].push({ ...attribute, discreteConfig: discreteConfig })
+      groups[attributeGroupIndex].push({ ...attribute, discreteConfig: discreteConfig })
     }
 
     setValue(`attributes.certified`, groups, {
@@ -150,7 +151,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
                     }
                     onOpenConfigDrawer={
                       FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE
-                        ? () => openConfigureDiscreteAttributeDrawer(attribute)
+                        ? () => openConfigureDiscreteAttributeDrawer(attribute, groupIndex)
                         : undefined
                     }
                   />
@@ -174,6 +175,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
                     ? openConfigureDiscreteAttributeDrawer
                     : undefined
                 }
+                groupIndex={groupIndex}
                 areCertifiedDiscreteOptionsIncluded={FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE}
               />
             ) : (
