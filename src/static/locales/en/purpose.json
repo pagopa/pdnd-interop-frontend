@@ -160,7 +160,7 @@
       "readOnlySubtitle": {
         "SUBMITTED": "You can't edit the risk analysis because it has been submitted to the reviewer for approval.",
         "SIGNED": "The risk analysis can't be edited because it has been approved by the reviewer.",
-        "ASSIGNED": "You can't edit the risk analysis because it has been submitted to the reviewer for approval."
+        "ASSIGNED": "You can't edit the risk analysis because it has been assigned to the reviewer to fill it out."
       },
       "rejectedAlert": "The reviewer rejected the risk analysis. Edit the analysis and submit it again for approval.",
       "rejectedAlertLinkLabel": "Read reason",

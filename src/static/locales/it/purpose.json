@@ -160,7 +160,7 @@
       "readOnlySubtitle": {
         "SUBMITTED": "Non puoi modificare l'analisi del rischio perché è stata inviata in approvazione al valutatore.",
         "SIGNED": "Non è possibile modificare l'analisi del rischio perché è stata approvata dal valutatore.",
-        "ASSIGNED": "Non puoi modificare l'analisi del rischio perché è stata inviata in approvazione al valutatore."
+        "ASSIGNED": "Non puoi modificare l'analisi del rischio perché è stata assegnata al valutatore per la compilazione."
       },
       "rejectedAlert": "Il valutatore ha rifiutato l'analisi del rischio. Modifica l'analisi e inviala di nuovo in approvazione.",
       "rejectedAlertLinkLabel": "Leggi motivazione",

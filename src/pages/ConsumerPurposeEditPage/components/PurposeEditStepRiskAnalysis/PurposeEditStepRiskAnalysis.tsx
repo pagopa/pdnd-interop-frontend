@@ -11,8 +11,22 @@ import { SectionContainer } from '@/components/layout/containers'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { StepActions } from '@/components/shared/StepActions'
 import { RiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
+import { match, P } from 'ts-pattern'
 
 import { useQuery } from '@tanstack/react-query'
+
+// Display mode of the risk analysis step, derived from the reviewer workflow.
+//  - editable: option 1 (no reviewer) — plain editable form, as today.
+//  - editable-approval: option 2 still in the admin's hands (draft/assigned/rejected) —
+//    editable form with the "request approval" CTA; `isRejected` also shows the error alert.
+//  - read-only: the analysis has left the admin's hands (opt2 submitted/signed, opt3 signed) —
+//    shows the compiled answers as a summary, no editable controls.
+//  - awaiting-compilation: option 3 before the reviewer signed — only the info card is shown.
+type RiskAnalysisStepMode =
+  | { kind: 'editable' }
+  | { kind: 'editable-approval'; isRejected: boolean }
+  | { kind: 'read-only'; lockedState: 'SUBMITTED' | 'SIGNED' }
+  | { kind: 'awaiting-compilation' }
 
 export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
@@ -39,23 +53,41 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
   const reviewMode = purpose.reviewerWorkflow?.reviewMode
   const signingState = purpose.reviewerWorkflow?.signingState
 
-  // Option 2: admin compiles, reviewer signs. Option 3: reviewer compiles and signs.
-  const isOption2 = reviewMode === 'ADMIN_WRITES_REVIEWER_SIGNS'
-  const isOption3 = reviewMode === 'REVIEWER_WRITES_REVIEWER_SIGNS'
+  const stepMode = match<
+    { reviewMode: typeof reviewMode; signingState: typeof signingState },
+    RiskAnalysisStepMode
+  >({ reviewMode, signingState })
+    // Option 1: no reviewer workflow → behaves as today.
+    .with({ reviewMode: undefined }, () => ({ kind: 'editable' }))
+    // Option 2: admin compiles, reviewer signs.
+    .with(
+      { reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS', signingState: P.union('SUBMITTED', 'SIGNED') },
+      ({ signingState }) => ({ kind: 'read-only', lockedState: signingState })
+    )
+    .with({ reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS', signingState: 'REJECTED' }, () => ({
+      kind: 'editable-approval',
+      isRejected: true,
+    }))
+    // Option 2 still editable (draft/assigned): admin can compile and request approval.
+    .with({ reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS' }, () => ({
+      kind: 'editable-approval',
+      isRejected: false,
+    }))
+    // Option 3: reviewer compiles and signs.
+    .with({ reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS', signingState: 'SIGNED' }, () => ({
+      kind: 'read-only',
+      lockedState: 'SIGNED',
+    }))
+    .with({ reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS' }, () => ({
+      kind: 'awaiting-compilation',
+    }))
+    .exhaustive()
 
   // Option 2 keeps the admin able to compile and request approval; option 1 has no reviewer.
-  const isReviewerApprovalMode = isOption2
-
-  // Read-only once the analysis has left the admin's hands and cannot be edited.
-  const isReadOnly =
-    (isOption2 && (signingState === 'SUBMITTED' || signingState === 'SIGNED')) ||
-    (isOption3 && signingState === 'SIGNED')
-
-  // Option 3 before the reviewer compiled: the whole step is hidden but the info card.
-  const isAwaitingReviewerCompilation = isOption3 && signingState !== 'SIGNED'
+  const isReviewerApprovalMode = stepMode.kind === 'editable-approval'
 
   // Option 2 rejection: the form stays editable so the admin can fix and resubmit.
-  const isRejected = isOption2 && signingState === 'REJECTED'
+  const isRejected = stepMode.kind === 'editable-approval' && stepMode.isRejected
 
   const goToSummary = () => {
     navigate('SUBSCRIBE_PURPOSE_SUMMARY', {
@@ -107,15 +139,15 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
   //    answers as a plain-text summary — only the given answers, no editable controls.
   //  - awaiting compilation (opt3, reviewer hasn't compiled yet): the form is hidden,
   //    only the card is shown.
-  if (isReadOnly || isAwaitingReviewerCompilation) {
-    const chipState = isReadOnly ? (signingState as 'SUBMITTED' | 'SIGNED') : 'ASSIGNED'
-    const subtitleState = isReadOnly ? signingState : 'ASSIGNED'
+  if (stepMode.kind === 'read-only' || stepMode.kind === 'awaiting-compilation') {
+    // Both the status chip and the subtitle copy key from the same locked state.
+    const lockedState = stepMode.kind === 'read-only' ? stepMode.lockedState : 'ASSIGNED'
     return (
       <>
         <SectionContainer
           title={t('stepRiskAnalysis.title')}
-          titleEndAdornment={<StatusChip for="riskAnalysis" state={chipState} size="small" />}
-          description={t(`stepRiskAnalysis.readOnlySubtitle.${subtitleState}`)}
+          titleEndAdornment={<StatusChip for="riskAnalysis" state={lockedState} size="small" />}
+          description={t(`stepRiskAnalysis.readOnlySubtitle.${lockedState}`)}
           sx={{ mb: 2 }}
         >
           <InformationContainer
@@ -125,7 +157,7 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
             )}
           />
         </SectionContainer>
-        {isReadOnly && purpose.riskAnalysisForm && (
+        {stepMode.kind === 'read-only' && purpose.riskAnalysisForm && (
           <RiskAnalysisInfoSummary
             riskAnalysisConfig={riskAnalysis}
             riskAnalysisForm={purpose.riskAnalysisForm}
