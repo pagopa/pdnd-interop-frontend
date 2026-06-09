@@ -44,8 +44,9 @@ describe('ConsumerPurposeSummaryRiskAnalysisAccordion', () => {
     vi.clearAllMocks()
   })
 
-  // The empty-body case (ASSIGNED / awaiting compilation) is handled at page level by
-  // SummaryAccordion's `hideBody`, so this accordion always renders the answers when mounted.
+  // The empty-body case (ASSIGNED / awaiting compilation) is handled at page level: the page
+  // renders no children, so SummaryAccordion shows only the header. This accordion always
+  // renders the answers when mounted.
   it.each<RiskAnalysisSigningState | undefined>(['SUBMITTED', 'SIGNED', 'REJECTED', undefined])(
     'signingState %s: renders the risk analysis answers',
     (signingState) => {

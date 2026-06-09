@@ -169,9 +169,10 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
             headline="3"
             title={t('summary.riskAnalysisSection.title')}
             statusChip={riskAnalysisChip}
-            hideBody={isRiskAnalysisAwaitingCompilation}
           >
-            <ConsumerPurposeSummaryRiskAnalysisAccordion purposeId={purposeId} />
+            {isRiskAnalysisAwaitingCompilation ? null : (
+              <ConsumerPurposeSummaryRiskAnalysisAccordion purposeId={purposeId} />
+            )}
           </SummaryAccordion>
         </React.Suspense>
       </Stack>

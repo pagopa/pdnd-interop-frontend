@@ -24,8 +24,6 @@ type SummaryAccordionProps = {
   children: React.ReactNode
   defaultExpanded?: boolean
   statusChip?: SummaryAccordionStatusChip
-  /** Render only the header (no expand affordance, no body) when there is no content to show. */
-  hideBody?: boolean
 }
 export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
   headline,
@@ -33,9 +31,11 @@ export const SummaryAccordion: React.FC<SummaryAccordionProps> = ({
   children,
   defaultExpanded,
   statusChip,
-  hideBody,
 }) => {
   const id = React.useId()
+
+  // When there is no content, render only the header (no expand affordance, no body).
+  const hideBody = children == null
 
   return (
     <Paper elevation={8} sx={{ borderRadius: 4, overflow: 'hidden' }}>
