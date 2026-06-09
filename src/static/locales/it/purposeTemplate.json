@@ -83,7 +83,7 @@
       "editLinkedEservices": "Aggiorna elenco",
       "editLinkedResources": "Aggiorna elenco",
       "saveBtn": "Salva",
-      "eserviceSelectionSubtitle": "Puoi inserire e-service che hanno un trattamento dei dati personali analogo a quanto hai indicato.",
+      "eserviceSelectionSubtitle": "Puoi inserire e-service che hanno un trattamento dei dati personali simile a quello che hai indicato.",
       "removeResourceAriaLabel": "Rimuovi {{name}}",
       "autocompleteInput": {
         "label": "E-service o template e-service suggeriti"
@@ -264,7 +264,7 @@
     },
     "linkedResourcesTab": {
       "title": "E-service e template e-service suggeriti",
-      "description": "Qui trovi l'elenco degli e-service e template e-service suggeriti per questa finalità agevolata. Il template può essere usato anche per altri e-service non presenti nell'elenco. <1>Link alla documentazione</1>",
+      "description": "L’ente ha definito un elenco di e-service per cui è suggerito usare la finalità agevolata. Il fruitore ha facoltà di utilizzare questo template anche per e-service che non compaiono nella lista. <1>Link alla documentazione</1>",
       "editButtonTooltip": "Non è possibile modificare l'elenco se il template è sospeso o archiviato",
       "linkedResourceName": "E-service o template e-service",
       "linkedResourceKind": "Tipo",

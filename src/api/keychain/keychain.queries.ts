@@ -9,6 +9,13 @@ function getKeychainsList(params: GetProducerKeychainsParams) {
   })
 }
 
+function getAllKeychainsList(params: Omit<GetProducerKeychainsParams, 'limit' | 'offset'> = {}) {
+  return queryOptions({
+    queryKey: ['KeychainGetAllList', params],
+    queryFn: () => KeychainServices.getAllKeychainsList(params),
+  })
+}
+
 function getSingle(producerKeychainId: string) {
   return queryOptions({
     queryKey: ['KeychainGetSingle', producerKeychainId],
@@ -45,6 +52,7 @@ function getProducerKeychainKey({
 
 export const KeychainQueries = {
   getKeychainsList,
+  getAllKeychainsList,
   getSingle,
   getProducerKeychainUsersList,
   getProducerKeychainKeysList,

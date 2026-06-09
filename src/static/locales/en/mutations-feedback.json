@@ -90,8 +90,9 @@
       },
       "confirmDialog": {
         "title": "Publish e-service",
-        "titleNewVersion": "Publish new e-service version",
+        "titleNewVersion": "Publish new version",
         "description": "Once published, this version will be available in the e-service catalog and can no longer be deleted. You can still suspend it or mark it as deprecated when you publish a new version.",
+        "descriptionNewVersion": "<p>When a new version of the e-service is published, it is immediately available in the catalog and can no longer be deleted.</p><p>The previous version becomes deprecated or, if it has no active consumers, will be archived automatically.</p><p>You will be able to suspend the new version or mark it as deprecated when you publish a subsequent version.</p>",
         "proceedLabel": "Publish"
       }
     },
@@ -384,6 +385,11 @@
         "description": {
           "default": "By clicking \"confirm\", the fruition request will be forwarded to the e-service producer for approval",
           "isDelegated": "By clicking \"confirm\", the fruition request will be forwarded to the e-service producer for approval and a notification will be sent to the delegating party for information."
+        },
+        "asyncExchange": {
+          "title": "Before submitting the fruition request",
+          "description": "This e-service uses asynchronous data exchange, which is different from standard synchronous exchanges. To work correctly, it requires implementing a callback interface provided by the producer. For full information, <1>consult the guide</1>.",
+          "checkbox": "I understand that a technical integration is required"
         }
       }
     },
@@ -625,10 +631,27 @@
         "description": "This client will be removed from the current purpose. All keys added will no longer be usable to access the **Producer's** e-service for this purpose"
       }
     },
+    "assignRiskAnalysisReviewer": {
+      "outcome": {
+        "error": "The reviewer could not be assigned. Please try again!"
+      }
+    },
+    "submitRiskAnalysis": {
+      "loading": "Submitting the risk analysis to the reviewer",
+      "outcome": {
+        "error": "The risk analysis was saved but could not be submitted to the reviewer. Please try again!"
+      }
+    },
     "signRiskAnalysis": {
       "loading": "Risk analysis is being signed",
       "outcome": {
         "error": "The risk analysis could not be signed. Please try again!"
+      }
+    },
+    "rejectRiskAnalysis": {
+      "loading": "Risk analysis is being rejected",
+      "outcome": {
+        "error": "The risk analysis could not be rejected. Please try again!"
       }
     }
   },

@@ -2,6 +2,7 @@ import type { Purpose } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { PurposeQueries } from '@/api/purpose'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
+import { InfoTooltip } from '@/components/shared/InfoTooltip'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import useGetConsumerPurposesActions from '@/hooks/useGetConsumerPurposesActions'
@@ -15,6 +16,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
 import { Stack } from '@mui/material'
 import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
+import { match } from 'ts-pattern'
 
 export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
   const { t } = useTranslation('purpose')
@@ -24,7 +26,8 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
 
   const { actions } = useGetConsumerPurposesActions(purpose)
 
-  const isPurposeEditable = purpose?.currentVersion?.state === 'DRAFT' && isAdmin
+  const isDraft = purpose.currentVersion?.state === 'DRAFT'
+  const isPurposeEditable = isDraft && isAdmin
   const hasWaitingForApprovalVersion = !!(
     purpose.currentVersion && purpose.waitingForApprovalVersion
   )
@@ -41,6 +44,23 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
   )
 
   const isDelegated = isDelegate || isDelegator
+
+  // The validation outcome of the risk analysis is relevant only for purposes
+  // whose current version is still a DRAFT: once the purpose is published the
+  // RA is implicitly approved and the icon would be redundant.
+  const riskAnalysisTooltipLabel = isDraft
+    ? match(purpose.reviewerWorkflow?.signingState)
+        .with('SIGNED', () => t('list.riskAnalysisApproved'))
+        .with('REJECTED', () => t('list.riskAnalysisRejected'))
+        .otherwise(() => undefined)
+    : undefined
+
+  const statusCell = (
+    <Stack key={purpose.id} direction="row" alignItems="center">
+      <StatusChip for="purpose" purpose={purpose} />
+      {riskAnalysisTooltipLabel && <InfoTooltip label={riskAnalysisTooltipLabel} />}
+    </Stack>
+  )
 
   const purposeTitle = (
     <Stack direction="row" alignItems="center" key={0}>
@@ -66,12 +86,7 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
 
   return (
     <TableRow
-      cellData={[
-        purposeTitle,
-        eserviceCellData,
-        purpose.eservice.producer.name,
-        <StatusChip key={purpose.id} for="purpose" purpose={purpose} />,
-      ]}
+      cellData={[purposeTitle, eserviceCellData, purpose.eservice.producer.name, statusCell]}
     >
       <Tooltip
         open={hasWaitingForApprovalVersion ? undefined : false}

@@ -26,7 +26,18 @@ import type {
   DialogTenantKindEserviceTemplateProps,
   DialogTenantKindPurposeTemplateProps,
   DialogSelectAgreementConsumerProps,
+  DialogRequestRiskAnalysisCompilationProps,
   DialogApproveRiskAnalysisProps,
+  DialogRejectRiskAnalysisProps,
+  DialogShowEserviceVersionsListProps,
+  DialogArchiveEserviceProps,
+  DialogCancelEserviceArchivingProps,
+  DialogSuspendArchivingEserviceProps,
+  DialogReactivateArchivingEserviceProps,
+  DialogSuspendArchivingDescriptorProps,
+  DialogReactivateArchivingDescriptorProps,
+  DialogArchiveVersionProps,
+  DialogCancelVersionArchivingProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -48,7 +59,18 @@ import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersio
 import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemplate'
 import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTemplate'
 import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/DialogSelectAgreementConsumer'
+import { DialogRequestRiskAnalysisCompilation } from './DialogRequestRiskAnalysisCompilation'
 import { DialogApproveRiskAnalysis } from './DialogApproveRiskAnalysis'
+import { DialogRejectRiskAnalysis } from './DialogRejectRiskAnalysis'
+import { DialogShowEserviceVersionsList } from './DialogShowEserviceVersionsList/DialogShowEserviceVersionsList'
+import DialogArchiveEservice from './DialogArchiveEservice'
+import DialogCancelEserviceArchiving from './DialogCancelEserviceArchiving'
+import { DialogSuspendArchivingEservice } from './DialogSuspendArchivingEservice'
+import { DialogReactivateArchivingEservice } from './DialogReactivateArchivingEservice'
+import { DialogSuspendArchivingDescriptor } from './DialogSuspendArchivingDescriptor'
+import { DialogReactivateArchivingDescriptor } from './DialogReactivateArchivingDescriptor'
+import { DialogArchiveVersion } from './DialogArchiveVersion'
+import { DialogCancelVersionArchiving } from './DialogCancelVersionArchiving'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -72,7 +94,18 @@ function match<T>(
   onDialogTenantKindEserviceTemplate: (props: DialogTenantKindEserviceTemplateProps) => T,
   onDialogTenantKindPurposeTemplate: (props: DialogTenantKindPurposeTemplateProps) => T,
   onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T,
-  onApproveRiskAnalysis: (props: DialogApproveRiskAnalysisProps) => T
+  onRequestRiskAnalysisCompilation: (props: DialogRequestRiskAnalysisCompilationProps) => T,
+  onApproveRiskAnalysis: (props: DialogApproveRiskAnalysisProps) => T,
+  onRejectRiskAnalysis: (props: DialogRejectRiskAnalysisProps) => T,
+  onShowEserviceVersionsList: (props: DialogShowEserviceVersionsListProps) => T,
+  onArchiveEservice: (props: DialogArchiveEserviceProps) => T,
+  onCancelEserviceArchiving: (props: DialogCancelEserviceArchivingProps) => T,
+  onSuspendArchivingEservice: (props: DialogSuspendArchivingEserviceProps) => T,
+  onReactivateArchivingEservice: (props: DialogReactivateArchivingEserviceProps) => T,
+  onSuspendArchivingDescriptor: (props: DialogSuspendArchivingDescriptorProps) => T,
+  onReactivateArchivingDescriptor: (props: DialogReactivateArchivingDescriptorProps) => T,
+  onArchiveVersion: (props: DialogArchiveVersionProps) => T,
+  onCancelVersionArchiving: (props: DialogCancelVersionArchivingProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -118,8 +151,30 @@ function match<T>(
         return onDialogTenantKindPurposeTemplate(props)
       case 'selectAgreementConsumer':
         return onSelectAgreementConsumer(props)
+      case 'requestRiskAnalysisCompilation':
+        return onRequestRiskAnalysisCompilation(props)
       case 'approveRiskAnalysis':
         return onApproveRiskAnalysis(props)
+      case 'rejectRiskAnalysis':
+        return onRejectRiskAnalysis(props)
+      case 'showEserviceVersionsList':
+        return onShowEserviceVersionsList(props)
+      case 'archiveEservice':
+        return onArchiveEservice(props)
+      case 'cancelEserviceArchiving':
+        return onCancelEserviceArchiving(props)
+      case 'suspendArchivingEservice':
+        return onSuspendArchivingEservice(props)
+      case 'reactivateArchivingEservice':
+        return onReactivateArchivingEservice(props)
+      case 'suspendArchivingDescriptor':
+        return onSuspendArchivingDescriptor(props)
+      case 'reactivateArchivingDescriptor':
+        return onReactivateArchivingDescriptor(props)
+      case 'archiveVersion':
+        return onArchiveVersion(props)
+      case 'cancelVersionArchiving':
+        return onCancelVersionArchiving(props)
     }
   }
 }
@@ -146,7 +201,18 @@ const _Dialog = match(
   (props) => <DialogTenantKindEserviceTemplate {...props} />,
   (props) => <DialogTenantKindPurposeTemplate {...props} />,
   (props) => <DialogSelectAgreementConsumer {...props} />,
-  (props) => <DialogApproveRiskAnalysis {...props} />
+  (props) => <DialogRequestRiskAnalysisCompilation {...props} />,
+  (props) => <DialogApproveRiskAnalysis {...props} />,
+  (props) => <DialogRejectRiskAnalysis {...props} />,
+  (props) => <DialogShowEserviceVersionsList {...props} />,
+  (props) => <DialogArchiveEservice {...props} />,
+  (props) => <DialogCancelEserviceArchiving {...props} />,
+  (props) => <DialogSuspendArchivingEservice {...props} />,
+  (props) => <DialogReactivateArchivingEservice {...props} />,
+  (props) => <DialogSuspendArchivingDescriptor {...props} />,
+  (props) => <DialogReactivateArchivingDescriptor {...props} />,
+  (props) => <DialogArchiveVersion {...props} />,
+  (props) => <DialogCancelVersionArchiving {...props} />
 )
 
 export const Dialog: React.FC = () => {

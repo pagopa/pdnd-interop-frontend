@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogTitle,
   FormControlLabel,
+  Link,
   Typography,
 } from '@mui/material'
 import { Trans, useTranslation } from 'react-i18next'
@@ -16,6 +17,7 @@ import { useDialog } from '@/stores'
 export const DialogBasic: React.FC<DialogBasicProps> = ({
   title = 'Conferma azione',
   description,
+  descriptionLink,
   onProceed,
   onCancel,
   proceedLabel,
@@ -62,6 +64,18 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
           <Trans
             components={{
               strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+              p: (
+                <Typography
+                  component="p"
+                  variant="inherit"
+                  sx={{ '&:not(:last-of-type)': { mb: 2 } }}
+                />
+              ),
+              1: descriptionLink ? (
+                <Link href={descriptionLink.href} target="_blank" rel="noreferrer" />
+              ) : (
+                <React.Fragment />
+              ),
             }}
           >
             {description}
