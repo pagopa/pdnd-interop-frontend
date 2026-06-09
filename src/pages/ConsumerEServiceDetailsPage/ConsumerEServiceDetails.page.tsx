@@ -38,7 +38,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
       offset: 0,
       eserviceIds: [eserviceId],
     }),
-    enabled: Boolean(jwt?.organizationId),
+    enabled: Boolean(jwt?.organizationId) && !isReviewer,
     select: ({ results }) => results ?? [],
   })
 
@@ -51,7 +51,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
       states: ['ACTIVE'],
       delegatorIds: [jwt?.organizationId as string],
     }),
-    enabled: Boolean(jwt?.organizationId),
+    enabled: Boolean(jwt?.organizationId) && !isReviewer,
     select: ({ results }) => results ?? [],
   })
 
