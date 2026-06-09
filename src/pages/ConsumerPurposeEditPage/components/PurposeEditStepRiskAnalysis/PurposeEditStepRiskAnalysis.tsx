@@ -4,12 +4,14 @@ import { RiskAnalysisForm, RiskAnalysisFormSkeleton } from './RiskAnalysisForm/R
 import { useNavigate, useParams } from '@/router'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { match } from 'ts-pattern'
+import { useDialog } from '@/stores'
 
 import { useQuery } from '@tanstack/react-query'
 
 export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back }) => {
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_EDIT'>()
   const navigate = useNavigate()
+  const { openDialog } = useDialog()
 
   const { mutate: updatePurpose, isPending: isSaving } = PurposeMutations.useUpdateDraft()
   const { mutate: submitRiskAnalysis, isPending: isSubmittingForReviewer } =
@@ -62,18 +64,36 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
   }
 
   const handleRequestApproval = (answers: Record<string, string[]>) => {
-    // "Richiedi approvazione" persists the latest answers and then submits
-    // the risk analysis to the reviewer; only after both succeed the user
-    // lands on the purpose summary.
-    saveDraft(answers, {
-      onSuccess: () => {
-        submitRiskAnalysis(
-          {
-            purposeId: purpose.id,
-            riskAnalysisForm: { version: riskAnalysis.version, answers },
+    const reviewerId = purpose.reviewerWorkflow?.reviewerIds?.[0]
+    if (!reviewerId) {
+      // BE contract: option 2 always assigns at least one reviewer
+      // (RiskAnalysisAssignmentSeed.reviewerIds has @minItems 1). If we land
+      // here the purpose is malformed; log loudly and no-op rather than
+      // crashing the route — this is a UI action handler, not a place to
+      // throw to the ErrorBoundary.
+      console.error(
+        'PurposeEditStepRiskAnalysis: reviewerIds is missing on a purpose in ADMIN_WRITES_REVIEWER_SIGNS mode'
+      )
+      return
+    }
+    openDialog({
+      type: 'requestPurposeApproval',
+      reviewerId,
+      // Chain must live in the parent: putting it in the dialog would race
+      // closeDialog(), and the second mutate() would silently no-op against a
+      // destroyed observer.
+      onConfirm: () => {
+        saveDraft(answers, {
+          onSuccess: () => {
+            submitRiskAnalysis(
+              {
+                purposeId: purpose.id,
+                riskAnalysisForm: { version: riskAnalysis.version, answers },
+              },
+              { onSuccess: goToSummary }
+            )
           },
-          { onSuccess: goToSummary }
-        )
+        })
       },
     })
   }

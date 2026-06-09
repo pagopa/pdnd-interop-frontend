@@ -26,6 +26,7 @@ import type {
   DialogTenantKindEserviceTemplateProps,
   DialogTenantKindPurposeTemplateProps,
   DialogSelectAgreementConsumerProps,
+  DialogRequestPurposeApprovalProps,
   DialogRequestRiskAnalysisCompilationProps,
   DialogApproveRiskAnalysisProps,
   DialogRejectRiskAnalysisProps,
@@ -59,6 +60,7 @@ import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersio
 import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemplate'
 import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTemplate'
 import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/DialogSelectAgreementConsumer'
+import { DialogRequestPurposeApproval } from './DialogRequestPurposeApproval'
 import { DialogRequestRiskAnalysisCompilation } from './DialogRequestRiskAnalysisCompilation'
 import { DialogApproveRiskAnalysis } from './DialogApproveRiskAnalysis'
 import { DialogRejectRiskAnalysis } from './DialogRejectRiskAnalysis'
@@ -94,6 +96,7 @@ function match<T>(
   onDialogTenantKindEserviceTemplate: (props: DialogTenantKindEserviceTemplateProps) => T,
   onDialogTenantKindPurposeTemplate: (props: DialogTenantKindPurposeTemplateProps) => T,
   onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T,
+  onRequestPurposeApproval: (props: DialogRequestPurposeApprovalProps) => T,
   onRequestRiskAnalysisCompilation: (props: DialogRequestRiskAnalysisCompilationProps) => T,
   onApproveRiskAnalysis: (props: DialogApproveRiskAnalysisProps) => T,
   onRejectRiskAnalysis: (props: DialogRejectRiskAnalysisProps) => T,
@@ -151,6 +154,8 @@ function match<T>(
         return onDialogTenantKindPurposeTemplate(props)
       case 'selectAgreementConsumer':
         return onSelectAgreementConsumer(props)
+      case 'requestPurposeApproval':
+        return onRequestPurposeApproval(props)
       case 'requestRiskAnalysisCompilation':
         return onRequestRiskAnalysisCompilation(props)
       case 'approveRiskAnalysis':
@@ -201,6 +206,7 @@ const _Dialog = match(
   (props) => <DialogTenantKindEserviceTemplate {...props} />,
   (props) => <DialogTenantKindPurposeTemplate {...props} />,
   (props) => <DialogSelectAgreementConsumer {...props} />,
+  (props) => <DialogRequestPurposeApproval {...props} />,
   (props) => <DialogRequestRiskAnalysisCompilation {...props} />,
   (props) => <DialogApproveRiskAnalysis {...props} />,
   (props) => <DialogRejectRiskAnalysis {...props} />,
