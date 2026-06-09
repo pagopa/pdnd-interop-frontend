@@ -249,4 +249,21 @@ describe('ProviderEServiceTemplateSummaryPage', () => {
     expect(screen.getByRole('button', { name: 'deleteDraft' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'editDraft' })).toBeInTheDocument()
   })
+
+  it('does NOT render draft actions (publish/edit/delete) for a viewer', () => {
+    mockUseJwt({ isAdmin: false, isViewer: true })
+    useQueryMock.mockReturnValue({
+      data: createMockEServiceTemplateVersionDetails(),
+      isLoading: false,
+    })
+
+    renderWithApplicationContext(<ProviderEServiceTemplateSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.queryByRole('button', { name: 'publish' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'deleteDraft' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: 'editDraft' })).not.toBeInTheDocument()
+  })
 })

@@ -37,6 +37,17 @@ describe('useGetSidebarItems', () => {
     expect(result.current.length).toBe(7)
   })
 
+  it('should include the "Il mio ente" (PARTY_REGISTRY) item for a viewer', () => {
+    mockUseJwt({ currentRoles: ['viewer'], isViewer: true, isAdmin: false })
+    mockUseGetActiveUserParty()
+
+    const { result } = renderHook(() => useGetSidebarItems())
+    const tenantItem = result.current.find((item) => item.rootRouteKey === 'PARTY_REGISTRY')
+
+    expect(tenantItem).toBeDefined()
+    expect(tenantItem?.children?.some((child) => child.to === 'PARTY_REGISTRY')).toBe(true)
+  })
+
   describe('Delegations visibility', () => {
     it('should NOT hide the delegations route when allowed and not loading', () => {
       mockUseJwt({ currentRoles: ['admin'] })

@@ -13,6 +13,7 @@ import { PageContainer } from '@/components/layout/containers'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import { useQuery } from '@tanstack/react-query'
 import { PurposeTemplateMutations } from '@/api/purposeTemplate/purposeTemplate.mutations'
+import { AuthHooks } from '@/api/auth'
 import { PurposeTemplateTemplateSummaryGeneralInformationAccordion } from './components'
 import { PurposeTemplateSummaryLinkedResourceAccordion } from './components/PurposeTemplateSummaryLinkedResourceAccordion'
 import { PurposeTemplateSummaryRiskAnalysisAccordion } from './components/PurposeTemplateSummaryRiskAnalysisAccordion'
@@ -22,6 +23,8 @@ const ConsumerPurposeTemplateTemplateSummaryPage: React.FC = () => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY'>()
+
+  const { isAdmin } = AuthHooks.useJwt()
 
   const navigate = useNavigate()
 
@@ -102,22 +105,24 @@ const ConsumerPurposeTemplateTemplateSummaryPage: React.FC = () => {
         </React.Suspense>
       </Stack>
 
-      <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
-        <Button
-          startIcon={<DeleteOutlineIcon />}
-          variant="text"
-          color="error"
-          onClick={handleDeleteDraft}
-        >
-          {tCommon('deleteDraft')}
-        </Button>
-        <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
-          {tCommon('editDraft')}
-        </Button>
-        <Button startIcon={<PublishIcon />} variant="contained" onClick={handlePublishDraft}>
-          {tCommon('publish')}
-        </Button>
-      </Stack>
+      {isAdmin && (
+        <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
+          <Button
+            startIcon={<DeleteOutlineIcon />}
+            variant="text"
+            color="error"
+            onClick={handleDeleteDraft}
+          >
+            {tCommon('deleteDraft')}
+          </Button>
+          <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
+            {tCommon('editDraft')}
+          </Button>
+          <Button startIcon={<PublishIcon />} variant="contained" onClick={handlePublishDraft}>
+            {tCommon('publish')}
+          </Button>
+        </Stack>
+      )}
     </PageContainer>
   )
 }

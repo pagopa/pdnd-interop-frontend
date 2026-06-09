@@ -27,7 +27,7 @@ export const ProviderEServiceVoucherLifespanSection: React.FC<
     keyPrefix: 'read.drawers.updateVoucherDrawer',
   })
 
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt, isViewer } = AuthHooks.useJwt()
 
   const { isDelegator } = useGetProducerDelegationUserRole({
     eserviceId: descriptor.eservice.id,
@@ -78,7 +78,7 @@ export const ProviderEServiceVoucherLifespanSection: React.FC<
         innerSection
         title={t('thresholds.title')}
         topSideActions={
-          !isDelegator && !isEserviceFromTemplate
+          !isDelegator && !isEserviceFromTemplate && !isViewer
             ? [
                 {
                   action: onEdit,

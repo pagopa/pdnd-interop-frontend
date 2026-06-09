@@ -32,7 +32,8 @@ export const ProviderEServiceSignalHubSection: React.FC = () => {
 
   const isSignalHubEnabled = descriptor.eservice.isSignalHubEnabled ?? false
 
-  const organizationId = AuthHooks.useJwt().jwt?.organizationId
+  const { jwt, isViewer } = AuthHooks.useJwt()
+  const organizationId = jwt?.organizationId
   const { isDelegator } = useGetProducerDelegationUserRole({
     eserviceId,
     organizationId: organizationId,
@@ -80,7 +81,7 @@ export const ProviderEServiceSignalHubSection: React.FC = () => {
               innerSection
               title={t('innerSection.title')}
               topSideActions={
-                isDelegator
+                isDelegator || isViewer
                   ? []
                   : [
                       {

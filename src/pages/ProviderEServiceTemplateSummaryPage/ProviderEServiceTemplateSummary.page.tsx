@@ -9,6 +9,7 @@ import PublishIcon from '@mui/icons-material/Publish'
 import { SummaryAccordion, SummaryAccordionSkeleton } from '@/components/shared/SummaryAccordion'
 import { useQuery } from '@tanstack/react-query'
 import { EServiceTemplateMutations, EServiceTemplateQueries } from '@/api/eserviceTemplate'
+import { AuthHooks } from '@/api/auth'
 import {
   ProviderEServiceTemplateGeneralInfoSummarySection,
   ProviderEServiceTemplateThresholdsAndAttributesSummarySection,
@@ -27,6 +28,8 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   const { eServiceTemplateId, eServiceTemplateVersionId } =
     useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
   const navigate = useNavigate()
+
+  const { isAdmin } = AuthHooks.useJwt()
 
   const { mutate: deleteVersion } = EServiceTemplateMutations.useDeleteVersionDraft()
   const { mutate: publishVersion } = EServiceTemplateMutations.usePublishVersionDraft()
@@ -197,7 +200,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             </SummaryAccordion>
           </React.Suspense>
         </Stack>
-        {!arePersonalDataSet && !isLoading && (
+        {isAdmin && !arePersonalDataSet && !isLoading && (
           <Alert severity="warning" sx={{ alignItems: 'center', mt: 3 }} variant="outlined">
             <Stack spacing={30} direction="row" alignItems="center">
               {' '}
@@ -219,25 +222,27 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             {t('summary.missingFieldsBanner')}
           </Alert>
         )}
-        <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
-          <Button
-            startIcon={<DeleteOutlineIcon />}
-            variant="text"
-            color="error"
-            onClick={handleDeleteDraft}
-          >
-            {tCommon('deleteDraft')}
-          </Button>
-          <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
-            {tCommon('editDraft')}
-          </Button>
-          <PublishButton
-            onClick={handlePublishDraft}
-            disabled={!canBePublished()}
-            arePersonalDataSet={arePersonalDataSet}
-            hasMissingFields={hasMissingFields}
-          />
-        </Stack>
+        {isAdmin && (
+          <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
+            <Button
+              startIcon={<DeleteOutlineIcon />}
+              variant="text"
+              color="error"
+              onClick={handleDeleteDraft}
+            >
+              {tCommon('deleteDraft')}
+            </Button>
+            <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
+              {tCommon('editDraft')}
+            </Button>
+            <PublishButton
+              onClick={handlePublishDraft}
+              disabled={!canBePublished()}
+              arePersonalDataSet={arePersonalDataSet}
+              hasMissingFields={hasMissingFields}
+            />
+          </Stack>
+        )}
       </PageContainer>
       <UpdatePersonalDataDrawer
         isOpen={isEServiceTemplateUpdatePersonalDataDrawerOpen}

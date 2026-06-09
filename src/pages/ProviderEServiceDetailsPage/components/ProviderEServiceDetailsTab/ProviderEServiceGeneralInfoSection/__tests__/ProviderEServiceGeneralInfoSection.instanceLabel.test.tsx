@@ -171,6 +171,17 @@ describe('ProviderEServiceGeneralInfoSection - instanceLabel (published e-servic
     expect(screen.getByText('actions.edit')).toBeInTheDocument()
   })
 
+  it('does NOT show the edit button for instanceLabel for a viewer', () => {
+    mockUseJwt({ isAdmin: false, isViewer: true })
+    mockDescriptorData = baseTemplateDescriptor
+    renderWithApplicationContext(<ProviderEServiceGeneralInfoSection />, {
+      withReactQueryContext: true,
+    })
+
+    expect(screen.getByText('instanceLabel.label')).toBeInTheDocument()
+    expect(screen.queryByText('actions.edit')).not.toBeInTheDocument()
+  })
+
   it('opens the update instanceLabel drawer when clicking the edit button', async () => {
     const user = userEvent.setup()
     mockDescriptorData = baseTemplateDescriptor

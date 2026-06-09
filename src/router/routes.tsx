@@ -375,7 +375,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <PartyRegistryPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api', 'security', 'reviewer'],
+    authLevels: ['admin', 'support', 'api', 'security', 'reviewer', 'viewer'],
   })
   .addRoute({
     key: 'ASSISTENCE_PARTY_SELECTION',
@@ -591,7 +591,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceTemplateSummaryPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE',
@@ -688,7 +688,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateSummaryPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT',
