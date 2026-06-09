@@ -120,7 +120,13 @@
       },
       "delegateAlert": "Come delegato, non puoi assegnare l’analisi del rischio a un valutatore.",
       "forwardBtn": "Salva bozza e prosegui",
-      "requestReviewerCompilationBtn": "Richiedi compilazione"
+      "requestReviewerCompilationBtn": "Richiedi compilazione",
+      "readOnly": {
+        "modeLabel": "Modalità",
+        "reviewerLabel": "Valutatore",
+        "reviewerUnknown": "Valutatore non disponibile",
+        "forwardBtn": "Avanti"
+      }
     },
     "loadEstimationSection": {
       "title": "Stima chiamate API",
