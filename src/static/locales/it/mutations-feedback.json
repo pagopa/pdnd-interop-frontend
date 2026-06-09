@@ -135,6 +135,11 @@
         "description": "Cliccando \"conferma\" la finalità sarà eliminata da questo e-service."
       }
     },
+    "cancelEserviceArchiving": {
+      "outcome": {
+        "success": "L'e-service non è più in fase di archiviazione"
+      }
+    },
     "scheduleArchiveEservice": {
       "outcome": {
         "success": "Questo e-service sarà archiviato tra {{days}} giorni"
