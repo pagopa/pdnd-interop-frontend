@@ -22,16 +22,17 @@ export const ConsumerLinkedPurposeTemplatesSection: React.FC = () => {
     <>
       <SectionContainer title={t('title')} description={t('description')}>
         <SectionContainer innerSection>
-          <Stack spacing={2}>
-            <Button
-              onClick={handleGoToLinkedEServicesTab}
-              endIcon={<ChevronRightIcon fontSize="small" />}
-              sx={{ fontWeight: 700, alignSelf: 'flex-start', padding: 0 }}
-              disabled={isReviewer}
-            >
-              {t('linkedPurposeTabLink')}
-            </Button>
-          </Stack>
+          {!isReviewer && (
+            <Stack spacing={2}>
+              <Button
+                onClick={handleGoToLinkedEServicesTab}
+                endIcon={<ChevronRightIcon fontSize="small" />}
+                sx={{ fontWeight: 700, alignSelf: 'flex-start', padding: 0 }}
+              >
+                {t('linkedPurposeTabLink')}
+              </Button>
+            </Stack>
+          )}
         </SectionContainer>
       </SectionContainer>
     </>
