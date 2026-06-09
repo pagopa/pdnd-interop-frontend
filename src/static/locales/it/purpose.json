@@ -2,7 +2,7 @@
   "backToListBtn": "Torna alle finalità",
   "create": {
     "emptyTitle": "Crea finalità",
-    "preliminaryInformationSectionTitle": "Informazioni sulla finalità",
+    "preliminaryInformationSectionTitle": "Informazioni preliminari",
     "isTemplateField": {
       "label": "Usa un template precompilato"
     },
@@ -13,11 +13,11 @@
     },
     "consumerField": {
       "label": "Fruitore",
-      "infoLabel": "Seleziona il tuo ente o l'ente per cui hai una delega attiva come fruitore"
+      "infoLabel": "Tra gli aderenti, puoi selezionare solo il tuo ente o gli aderenti per i quali hai una delega in fruizione attiva"
     },
     "eserviceField": {
       "label": "E-service da associare",
-      "infoLabel": "Qui trovi solo gli e-service per cui il fruitore ha una richiesta attiva",
+      "infoLabel": "Puoi selezionare solo gli e-service per i quali il fruitore selezionato ha una richiesta di fruizione attiva",
       "alert": {
         "label": "Per l’e-service selezionato è possibile utilizzare la funzionalità di compilazione agevolata!"
       }
@@ -44,20 +44,21 @@
     "riskAnalysisPreviewTitle": "Analisi del rischio",
     "purposeTemplateField": {
       "title": "Compilazione agevolata della finalità",
-      "description": "Questa funzionalità ti guida durante l'analisi del rischio con annotazioni, documenti di supporto e alcune risposte precompilate. Il modello agevolato è reso disponibile per il riuso da altri enti e può essere usato senza vincoli.",
+      "description": "La funzionalità di compilazione agevolata mette a disposizione annotazioni, documenti di supporto e alcune risposte precompilate per facilitare la formulazione dell’analisi del rischio. Il modello è reso disponibile per il riuso da altri enti aderenti e può essere utilizzato senza vincoli.",
       "usePurposeTemplateSwitch": {
-        "label": "Usa la compilazione agevolata",
+        "label": "Utilizza la funzionalità di compilazione agevolata",
         "disabledTooltip": "Non è possibile utilizzare la funzionalità per \n l’e-service selezionato in quanto l’erogatore non ha indicato come verranno trattati i dati personali",
         "selectPurposeTemplate": {
           "title": "Scegli il modello di compilazione agevolata della finalità",
-          "showOnlyLinkedPurposeTemplates": "Mostra solo template suggeriti per l’e-service che ho selezionato",
+          "showOnlyLinkedPurposeTemplates": "Mostra solo template suggeriti",
           "autocompleteLabelPurposeTemplate": "Template per la compilazione agevolata della finalità",
           "viewPurposeTemplateBtn": "Visualizza il template selezionato"
         },
         "acknowledgeInfoResponsibility": {
           "label": "Dichiaro di aver compreso che, anche in presenza di suggerimenti precompilati, è mia responsabilità verificare e validare tutte le informazioni prima della pubblicazione.",
           "requiredError": "Devi accettare le condizioni per proseguire"
-        }
+        },
+        "evaluatorWarningAlert": "Se scegli la compilazione agevolata, non potrai assegnare la compilazione o l’approvazione dell’analisi del rischio al valutatore."
       }
     }
   },
@@ -65,6 +66,8 @@
     "emptyTitle": "Modifica finalità",
     "stepper": {
       "stepGeneralLabel": "Generale",
+      "stepGeneralInformationLabel": "Informazioni generali",
+      "stepAssignmentLabel": "Assegnazione",
       "stepRiskAnalysisLabel": "Analisi del rischio"
     },
     "backWithoutSaveBtn": "Indietro",
@@ -92,6 +95,32 @@
         "label": "Motivazione titolo gratuito",
         "infoLabel": "Spiega perché metterai questi dati a disposizione gratuitamente. Indica se lo fai in base a un’esenzione o a un’esclusione prevista dalla legge, oppure per un altro motivo. Min 10, max 250 caratteri"
       }
+    },
+    "stepAssignment": {
+      "title": "Assegnazione",
+      "description": "Puoi compilare l’analisi del rischio in autonomia oppure affidare a un valutatore l’approvazione o la compilazione.",
+      "reviewModeField": {
+        "label": "Scegli una modalità",
+        "options": {
+          "selfWritesSelfSigns": "Compilazione e approvazione in autonomia",
+          "selfWritesReviewerSigns": "Compilazione in autonomia e approvazione del valutatore",
+          "reviewerWritesReviewerSigns": "Compilazione e approvazione del valutatore"
+        }
+      },
+      "reviewerField": {
+        "label": {
+          "selfWritesReviewerSigns": "Chi approverà l’analisi del rischio?",
+          "reviewerWritesReviewerSigns": "Chi compilerà l’analisi del rischio?"
+        },
+        "requiredError": "Per proseguire, seleziona un valutatore"
+      },
+      "noReviewersAlert": {
+        "message": "Il tuo ente non ha ancora un utente con ruolo di valutatore. Puoi aggiungerlo dall’Area Riservata.",
+        "linkLabel": "Vai a Utenti"
+      },
+      "delegateAlert": "Come delegato, non puoi assegnare l’analisi del rischio a un valutatore.",
+      "forwardBtn": "Salva bozza e prosegui",
+      "requestReviewerCompilationBtn": "Richiedi compilazione"
     },
     "loadEstimationSection": {
       "title": "Stima chiamate API",
@@ -149,6 +178,15 @@
           "personalData": "Non potrai pubblicare questa finalità perché hai dichiarato che vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore.",
           "noPersonalData": "Non potrai pubblicare questa finalità perché hai dichiarato che non vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore."
         }
+      },
+      "requestApprovalBtn": "Richiedi approvazione",
+      "saveDraftBtn": "Salva bozza e prosegui",
+      "requestApprovalAlert": "Per assegnare l’analisi del rischio al valutatore è necessario compilare tutte le domande.",
+      "requiredFieldErrorReviewer": "Compila per proseguire",
+      "requestApprovalDialog": {
+        "title": "Richiedi approvazione",
+        "description": "Se confermi, assegnerai l’approvazione dell’analisi del rischio al valutatore e non potrai più fare modifiche.",
+        "proceedLabel": "Conferma"
       }
     },
     "purposeFromTemplate": {
@@ -279,6 +317,8 @@
     "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare",
     "newVersionAvailableTooltip": "Il fruitore ha richiesto un adeguamento che richiede la tua approvazione. Accedi alla finalità per maggiori dettagli",
     "waitingForApprovalVersionTooltip": "Hai richiesto un adeguamento che richiede l’approvazione dell’erogatore. Accedi alla finalità per maggiori dettagli",
+    "riskAnalysisApproved": "Analisi del rischio approvata",
+    "riskAnalysisRejected": "Analisi del rischio rifiutata",
     "filters": {
       "nameField": {
         "label": "Cerca per nome finalità"
@@ -529,9 +569,11 @@
   },
   "riskAnalysisSummary": {
     "backToListBtn": "Torna alle analisi del rischio",
-    "title": "Riepilogo",
+    "titleSummary": "Riepilogo",
+    "titleApproval": "Approvazione analisi del rischio",
     "modifyBtn": "Modifica bozza",
     "approveBtn": "Approva analisi del rischio",
+    "rejectBtn": "Rifiuta con motivazione",
     "generalInformationSection": {
       "title": "Informazioni generali"
     },
@@ -620,6 +662,11 @@
   "approveThankYou": {
     "title": "Hai approvato l’analisi del rischio",
     "description": "L’amministratore potrà pubblicare la finalità. Non vedrai più questa analisi del rischio tra quelle che devi compilare o approvare.",
+    "action": "Chiudi"
+  },
+  "rejectThankYou": {
+    "title": "Hai rifiutato l’analisi del rischio",
+    "description": "L’amministratore riceverà il motivo del tuo rifiuto. Non vedrai più questa analisi del rischio tra quelle che devi compilare o approvare.",
     "action": "Chiudi"
   }
 }

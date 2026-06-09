@@ -9,10 +9,7 @@ import { ProviderEServiceVoucherLifespanSection } from './ProviderEServiceVouche
 import { ProviderEServiceUsefulLinksSection } from './ProviderEServiceUsefulLinksSection'
 import { ProviderEServiceDocumentationSection } from './ProviderEServiceDocumentationSection'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE } from '@/config/env'
 import { AuthHooks } from '@/api/auth'
-import { formatDateString } from '@/utils/format.utils'
-import { ProviderEServiceAgreementApprovalPolicySection } from './ProviderEServiceAgreementApprovalPolicySection'
 import { ProviderEServiceDelegationsSection } from './ProviderEServiceDelegationsSection'
 
 export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
@@ -21,11 +18,14 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.sections.technicalInformations',
   })
+  const { t: tCommon } = useTranslation('common')
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
   const { data: descriptor } = useSuspenseQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
+
+  const asyncExchangeProperties = descriptor.asyncExchangeProperties
 
   return (
     <SectionContainer title={t('title')} description={t('description')}>
@@ -56,33 +56,15 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
                 tooltipTitle: t('producerId.copySuccessFeedbackText'),
               }}
             />
-            {descriptor.publishedAt && (
-              <InformationContainer
-                label={t('publishedAt')}
-                content={formatDateString(descriptor.publishedAt)}
-              />
-            )}
-            {descriptor.suspendedAt && descriptor.state === 'SUSPENDED' && (
-              <InformationContainer
-                label={t('suspendedAt')}
-                content={formatDateString(descriptor.suspendedAt)}
-              />
-            )}
-            {descriptor.deprecatedAt && (
-              <InformationContainer
-                label={t('deprecatedAt')}
-                content={formatDateString(descriptor.deprecatedAt)}
-              />
-            )}
-            {descriptor.archivedAt && (
-              <InformationContainer
-                label={t('archivedAt')}
-                content={formatDateString(descriptor.archivedAt)}
-              />
-            )}
             <InformationContainer
               label={t('technology')}
               content={descriptor.eservice.technology}
+            />
+            <InformationContainer
+              label={t('exchangeType.label')}
+              content={t(
+                `exchangeType.value.${descriptor.eservice.asyncExchange ? 'async' : 'sync'}`
+              )}
             />
 
             <InformationContainer label={t('audience')} content={descriptor.audience[0]} />
@@ -92,17 +74,57 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
               labelDescription={t('mode.labelDescription')}
               content={t(`mode.value.${descriptor.eservice.mode}`)}
             />
+            {descriptor.eservice.asyncExchange && (
+              <>
+                <InformationContainer
+                  label={t('asyncExchange.responseTime.label')}
+                  content={
+                    asyncExchangeProperties
+                      ? `${asyncExchangeProperties.responseTime} ${tCommon('time.second', {
+                          count: asyncExchangeProperties.responseTime,
+                        })}`
+                      : '-'
+                  }
+                />
+                <InformationContainer
+                  label={t('asyncExchange.resourceAvailableTime.label')}
+                  content={
+                    asyncExchangeProperties
+                      ? `${asyncExchangeProperties.resourceAvailableTime} ${tCommon('time.second', {
+                          count: asyncExchangeProperties.resourceAvailableTime,
+                        })}`
+                      : '-'
+                  }
+                />
+                <InformationContainer
+                  label={t('asyncExchange.confirmation.label')}
+                  content={
+                    asyncExchangeProperties
+                      ? t(`asyncExchange.booleanValue.${asyncExchangeProperties.confirmation}`)
+                      : '-'
+                  }
+                />
+                <InformationContainer
+                  label={t('asyncExchange.bulk.label')}
+                  content={
+                    asyncExchangeProperties
+                      ? t(`asyncExchange.booleanValue.${asyncExchangeProperties.bulk}`)
+                      : '-'
+                  }
+                />
+                <InformationContainer
+                  label={t('asyncExchange.maxResultSet.label')}
+                  content={
+                    asyncExchangeProperties ? String(asyncExchangeProperties.maxResultSet) : '-'
+                  }
+                />
+              </>
+            )}
           </Stack>
         </SectionContainer>
         <Divider />
         <ProviderEServiceVoucherLifespanSection descriptor={descriptor} />
         <Divider />
-        {FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE && (
-          <>
-            <ProviderEServiceAgreementApprovalPolicySection descriptor={descriptor} />
-            <Divider />
-          </>
-        )}
         <ProviderEServiceDelegationsSection descriptor={descriptor} />
         <Divider />
         <ProviderEServiceDocumentationSection descriptor={descriptor} />
