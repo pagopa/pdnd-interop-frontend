@@ -25,6 +25,7 @@ type RiskAnalysisFormProps = {
   isReviewerApprovalMode?: boolean
   onSaveDraft?: (answers: Record<string, string[]>) => void
   isSubmitting?: boolean
+  submitLabel?: string
 }
 
 export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
@@ -36,6 +37,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   isReviewerApprovalMode = false,
   onSaveDraft,
   isSubmitting = false,
+  submitLabel,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
 
@@ -159,7 +161,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
                   disabled: isSubmitting,
                 }
               : {
-                  label: t('endWithSaveBtn'),
+                  label: submitLabel ?? t('endWithSaveBtn'),
                   type: 'submit',
                   startIcon: <SaveIcon />,
                 }
