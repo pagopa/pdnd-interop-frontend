@@ -106,12 +106,12 @@ export function isAttributeOwned(
     return false
   }
 
-  const match = ownedAttributes[matchIndex]
+  const attributeMatched = ownedAttributes[matchIndex]
 
   /**
    * If no match is found, means that the tenant does not own the attribute.
    */
-  if (!match) return false
+  if (!attributeMatched) return false
 
   /**
    * If a match is found, last thing we need to check if it is revoked.
@@ -121,22 +121,34 @@ export function isAttributeOwned(
    */
   switch (kind) {
     case 'certified':
-      return (
-        !isAttributeRevoked(
-          'certified',
-          match as CertifiedTenantAttribute | CertifiedDiscreteTenantAttribute
-        ) &&
-        (match.kind === 'CERTIFIED_DISCRETE' && options?.discreteConfig
-          ? isAttributeCompliantWithDiscreteConfig(match, options.discreteConfig)
-          : true)
-      )
+      const isOwned = match(attributeMatched.kind)
+        .with('CERTIFIED', () => {
+          return !isAttributeRevoked('certified', attributeMatched as CertifiedTenantAttribute)
+        })
+        .with('CERTIFIED_DISCRETE', () => {
+          return (
+            !isAttributeRevoked(
+              'certified',
+              attributeMatched as CertifiedDiscreteTenantAttribute
+            ) &&
+            (options?.discreteConfig
+              ? isAttributeCompliantWithDiscreteConfig(
+                  attributeMatched as CertifiedDiscreteTenantAttribute,
+                  options.discreteConfig
+                )
+              : false)
+          )
+        })
+        .otherwise(() => false)
+
+      return isOwned
     case 'verified':
       return isOwnedVerifiedAttributeNotExpired(
-        match as VerifiedTenantAttribute,
+        attributeMatched as VerifiedTenantAttribute,
         options?.verifierId
       )
     case 'declared':
-      return !isAttributeRevoked('declared', match as DeclaredTenantAttribute)
+      return !isAttributeRevoked('declared', attributeMatched as DeclaredTenantAttribute)
     default:
       throw new Error(`Unknown attribute kind: ${kind}`)
   }

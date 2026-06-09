@@ -150,6 +150,7 @@ describe('attribute utils', () => {
     it('should not be considered owned if the attribute is in the owned attribute array but it is revoked (CERTIFIED_DISCRETE)', () => {
       const attributeMock = createCertifiedDiscreteTenantAttribute({
         revocationTimestamp: 'timestamp',
+        discreteValue: 100,
       })
       const result = isAttributeOwned('certified', 'attribute-id', [attributeMock], {
         discreteConfig: { comparator: 'GT', threshold: 50 },
@@ -159,7 +160,7 @@ describe('attribute utils', () => {
 
     it('should not be considered owned if the attribute is in the owned attribute array but it is not compliant to discrete config (CERTIFIED_DISCRETE)', () => {
       const attributeMock = createCertifiedDiscreteTenantAttribute({
-        revocationTimestamp: 'timestamp',
+        revocationTimestamp: undefined,
         discreteValue: 10,
       })
       const result = isAttributeOwned('certified', 'attribute-id', [attributeMock], {
