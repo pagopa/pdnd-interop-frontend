@@ -271,7 +271,7 @@ describe('RiskAnalysisForm', () => {
   })
 
   describe('rejected', () => {
-    it('shows the rejected alert with a (non-wired) "Leggi motivazione" link and keeps the form editable', () => {
+    it('shows the rejected alert with the "Leggi motivazione" link and keeps the form editable', () => {
       const screen = render(
         <RiskAnalysisForm
           defaultAnswers={{}}
@@ -294,6 +294,31 @@ describe('RiskAnalysisForm', () => {
       expect(
         screen.getByRole('button', { name: 'stepRiskAnalysis.requestApprovalBtn' })
       ).toBeInTheDocument()
+    })
+
+    it('opens the rejection drawer with the reviewer reason when the link is clicked', () => {
+      const reason = 'The data retention period is not compliant.'
+      const screen = render(
+        <RiskAnalysisForm
+          defaultAnswers={{}}
+          riskAnalysis={createMockRiskAnalysisFormConfig()}
+          onSubmit={vi.fn()}
+          onCancel={vi.fn()}
+          isReviewerApprovalMode
+          onSaveDraft={vi.fn()}
+          isRejected
+          rejectionReason={reason}
+        />
+      )
+
+      // drawer closed → its content is not mounted yet
+      expect(screen.queryByText(reason)).not.toBeInTheDocument()
+
+      fireEvent.click(
+        screen.getByRole('button', { name: 'stepRiskAnalysis.rejectedAlertLinkLabel' })
+      )
+
+      expect(screen.getByText(reason)).toBeInTheDocument()
     })
   })
 })

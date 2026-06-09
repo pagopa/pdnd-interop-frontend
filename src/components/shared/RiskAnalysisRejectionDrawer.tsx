@@ -3,7 +3,7 @@ import { Typography } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-type ConsumerPurposeSummaryRiskAnalysisRejectionDrawerProps = {
+type RiskAnalysisRejectionDrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
   rejectionReason: string
@@ -11,14 +11,14 @@ type ConsumerPurposeSummaryRiskAnalysisRejectionDrawerProps = {
 
 /**
  * Read-only drawer showing the reason the reviewer gave when rejecting the risk analysis.
- * Opened from the "read reason" link of the rejected error alert on the summary page.
+ * Reused by the purpose summary page and the purpose edit risk-analysis step.
  */
-export const ConsumerPurposeSummaryRiskAnalysisRejectionDrawer: React.FC<
-  ConsumerPurposeSummaryRiskAnalysisRejectionDrawerProps
-> = ({ isOpen, onClose, rejectionReason }) => {
-  const { t } = useTranslation('purpose', {
-    keyPrefix: 'summary.riskAnalysisSection.reviewStatus.rejectionDrawer',
-  })
+export const RiskAnalysisRejectionDrawer: React.FC<RiskAnalysisRejectionDrawerProps> = ({
+  isOpen,
+  onClose,
+  rejectionReason,
+}) => {
+  const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisRejectionDrawer' })
 
   return (
     <Drawer isOpen={isOpen} onClose={onClose} title={t('title')} subtitle={t('intro')}>

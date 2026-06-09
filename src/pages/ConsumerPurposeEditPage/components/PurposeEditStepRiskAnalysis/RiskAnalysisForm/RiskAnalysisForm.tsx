@@ -16,6 +16,7 @@ import { useRiskAnalysisForm } from '@/hooks/useRiskAnalysisForm'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useDialog } from '@/stores'
 import { getValidAnswers } from '@/utils/risk-analysis-form.utils'
+import { RiskAnalysisRejectionDrawer } from '@/components/shared/RiskAnalysisRejectionDrawer'
 
 type RiskAnalysisFormProps = {
   defaultAnswers: Record<string, string[]>
@@ -27,6 +28,7 @@ type RiskAnalysisFormProps = {
   onSaveDraft?: (answers: Record<string, string[]>) => void
   isSubmitting?: boolean
   isRejected?: boolean
+  rejectionReason?: string
   submitLabel?: string
 }
 
@@ -40,10 +42,12 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   onSaveDraft,
   isSubmitting = false,
   isRejected = false,
+  rejectionReason,
   submitLabel,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
   const { openDialog } = useDialog()
+  const [isRejectionDrawerOpen, setIsRejectionDrawerOpen] = React.useState(false)
 
   const riskAnalysisForm = useRiskAnalysisForm({
     riskAnalysisConfig: riskAnalysis,
@@ -126,8 +130,13 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
             severity="error"
             sx={{ mb: 2 }}
             action={
-              // TODO[task-08]: open the reject-reason drawer with reviewerWorkflow.rejectionReason
-              <Link component="button" type="button" variant="body2" underline="hover">
+              <Link
+                component="button"
+                type="button"
+                variant="body2"
+                underline="hover"
+                onClick={() => setIsRejectionDrawerOpen(true)}
+              >
                 {t('stepRiskAnalysis.rejectedAlertLinkLabel')}
               </Link>
             }
@@ -203,6 +212,13 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
           }
         />
       </Box>
+      {isRejected && (
+        <RiskAnalysisRejectionDrawer
+          isOpen={isRejectionDrawerOpen}
+          onClose={() => setIsRejectionDrawerOpen(false)}
+          rejectionReason={rejectionReason ?? ''}
+        />
+      )}
     </FormProvider>
   )
 }

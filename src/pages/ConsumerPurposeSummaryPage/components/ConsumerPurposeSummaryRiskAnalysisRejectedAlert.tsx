@@ -1,7 +1,7 @@
 import { Alert, Button } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ConsumerPurposeSummaryRiskAnalysisRejectionDrawer } from './ConsumerPurposeSummaryRiskAnalysisRejectionDrawer'
+import { RiskAnalysisRejectionDrawer } from '@/components/shared/RiskAnalysisRejectionDrawer'
 
 type ConsumerPurposeSummaryRiskAnalysisRejectedAlertProps = {
   rejectionReason: string
@@ -39,7 +39,7 @@ export const ConsumerPurposeSummaryRiskAnalysisRejectedAlert: React.FC<
       >
         {t('label')}
       </Alert>
-      <ConsumerPurposeSummaryRiskAnalysisRejectionDrawer
+      <RiskAnalysisRejectionDrawer
         isOpen={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
         rejectionReason={rejectionReason}

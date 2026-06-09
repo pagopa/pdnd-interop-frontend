@@ -308,17 +308,17 @@
         "rejectedAlert": {
           "label": "Il valutatore ha rifiutato l’analisi del rischio. Leggi la motivazione, modifica l’analisi e inviala di nuovo in approvazione.",
           "action": "Leggi motivazione"
-        },
-        "rejectionDrawer": {
-          "title": "Rifiuto analisi del rischio",
-          "intro": "Il valutatore ha rifiutato l’analisi del rischio con questa motivazione.",
-          "noReason": "Nessuna motivazione disponibile."
         }
       }
     },
     "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione",
     "publishBtnDisabledByReview": "Potrai pubblicare quando il valutatore avrà approvato l’analisi del rischio.",
     "publishBtn": "Pubblica"
+  },
+  "riskAnalysisRejectionDrawer": {
+    "title": "Rifiuto analisi del rischio",
+    "intro": "Il valutatore ha rifiutato l’analisi del rischio con questa motivazione.",
+    "noReason": "Nessuna motivazione disponibile."
   },
   "list": {
     "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare",

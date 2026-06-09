@@ -194,6 +194,7 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
       onSaveDraft={isReviewerApprovalMode ? handleSaveAndGoToSummary : undefined}
       isSubmitting={isSaving || isSubmittingForReviewer}
       isRejected={isRejected}
+      rejectionReason={purpose.reviewerWorkflow?.rejectionReason}
     />
   )
 }
