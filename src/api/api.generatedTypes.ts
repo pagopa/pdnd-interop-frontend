@@ -2569,6 +2569,7 @@ export interface NotificationConfig {
   clientAddedRemovedToProducer: boolean;
   purposeStatusChangedToProducer: boolean;
   templateStatusChangedToProducer: boolean;
+  eserviceStateChangedToProducer: boolean;
   agreementSuspendedUnsuspendedToConsumer: boolean;
   eserviceStateChangedToConsumer: boolean;
   agreementActivatedRejectedToConsumer: boolean;
