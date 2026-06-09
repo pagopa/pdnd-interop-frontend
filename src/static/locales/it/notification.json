@@ -146,6 +146,15 @@
         },
         "provider": {
           "title": "Erogazione",
+          "myEservices": {
+            "title": "I miei e-service",
+            "components": {
+              "eServiceStateUpdated": {
+                "label": "Variazione di stato degli e-service",
+                "description": "Avvisami quando lo stato di un e-service cambia"
+              }
+            }
+          },
           "agreement": {
             "title": "Richieste di fruizione",
             "components": {
