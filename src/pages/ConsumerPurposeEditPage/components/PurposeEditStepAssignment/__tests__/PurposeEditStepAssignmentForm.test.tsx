@@ -10,7 +10,7 @@ import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 import type { User } from '@/api/api.generatedTypes'
 
 const assignReviewerMock = vi.fn()
-const navigateMock = vi.fn()
+const openDialogMock = vi.fn()
 
 vi.mock('@/api/purpose', () => ({
   PurposeMutations: {
@@ -18,8 +18,15 @@ vi.mock('@/api/purpose', () => ({
   },
 }))
 
+vi.mock('@/stores', async () => {
+  const actual = await vi.importActual<typeof import('@/stores')>('@/stores')
+  return {
+    ...actual,
+    useDialog: () => ({ openDialog: openDialogMock, closeDialog: vi.fn() }),
+  }
+})
+
 vi.mock('@/router', () => ({
-  useNavigate: () => navigateMock,
   Link: ({ children, ...props }: React.PropsWithChildren) => <a {...props}>{children}</a>,
 }))
 
@@ -71,7 +78,7 @@ function renderComponent(overrides?: {
 describe('PurposeEditStepAssignmentForm', () => {
   beforeEach(() => {
     assignReviewerMock.mockReset()
-    navigateMock.mockReset()
+    openDialogMock.mockReset()
   })
 
   it('renders the 3 review mode options with the first one selected by default', () => {
@@ -228,7 +235,7 @@ describe('PurposeEditStepAssignmentForm', () => {
     )
   })
 
-  it('on submit with option 3 and a reviewer selected, calls the API and navigates to summary on success', async () => {
+  it('on submit with option 3 and a reviewer selected, opens the confirmation dialog without calling the API', async () => {
     const user = userEvent.setup()
     const forward = vi.fn()
     renderComponent({ reviewers: [mockReviewer], forward })
@@ -242,17 +249,13 @@ describe('PurposeEditStepAssignmentForm', () => {
     await user.click(screen.getByText('Mario Rossi'))
     await user.click(screen.getByRole('button', { name: 'requestReviewerCompilationBtn' }))
 
-    expect(assignReviewerMock).toHaveBeenCalledTimes(1)
-    const [payload, options] = assignReviewerMock.mock.calls[0]
-    expect(payload).toEqual({
+    expect(assignReviewerMock).not.toHaveBeenCalled()
+    expect(forward).not.toHaveBeenCalled()
+    expect(openDialogMock).toHaveBeenCalledWith({
+      type: 'requestRiskAnalysisCompilation',
       purposeId: 'purpose-id',
-      reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
-      reviewerIds: ['reviewer-uuid-1'],
-    })
-
-    options.onSuccess()
-    expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_PURPOSE_SUMMARY', {
-      params: { purposeId: 'purpose-id' },
+      reviewerId: 'reviewer-uuid-1',
+      reviewerName: 'Mario Rossi',
     })
   })
 

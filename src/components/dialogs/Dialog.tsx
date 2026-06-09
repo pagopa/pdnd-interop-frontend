@@ -26,6 +26,7 @@ import type {
   DialogTenantKindEserviceTemplateProps,
   DialogTenantKindPurposeTemplateProps,
   DialogSelectAgreementConsumerProps,
+  DialogRequestRiskAnalysisCompilationProps,
   DialogApproveRiskAnalysisProps,
   DialogRejectRiskAnalysisProps,
   DialogShowEserviceVersionsListProps,
@@ -58,6 +59,7 @@ import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersio
 import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemplate'
 import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTemplate'
 import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/DialogSelectAgreementConsumer'
+import { DialogRequestRiskAnalysisCompilation } from './DialogRequestRiskAnalysisCompilation'
 import { DialogApproveRiskAnalysis } from './DialogApproveRiskAnalysis'
 import { DialogRejectRiskAnalysis } from './DialogRejectRiskAnalysis'
 import { DialogShowEserviceVersionsList } from './DialogShowEserviceVersionsList/DialogShowEserviceVersionsList'
@@ -92,6 +94,7 @@ function match<T>(
   onDialogTenantKindEserviceTemplate: (props: DialogTenantKindEserviceTemplateProps) => T,
   onDialogTenantKindPurposeTemplate: (props: DialogTenantKindPurposeTemplateProps) => T,
   onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T,
+  onRequestRiskAnalysisCompilation: (props: DialogRequestRiskAnalysisCompilationProps) => T,
   onApproveRiskAnalysis: (props: DialogApproveRiskAnalysisProps) => T,
   onRejectRiskAnalysis: (props: DialogRejectRiskAnalysisProps) => T,
   onShowEserviceVersionsList: (props: DialogShowEserviceVersionsListProps) => T,
@@ -148,6 +151,8 @@ function match<T>(
         return onDialogTenantKindPurposeTemplate(props)
       case 'selectAgreementConsumer':
         return onSelectAgreementConsumer(props)
+      case 'requestRiskAnalysisCompilation':
+        return onRequestRiskAnalysisCompilation(props)
       case 'approveRiskAnalysis':
         return onApproveRiskAnalysis(props)
       case 'rejectRiskAnalysis':
@@ -196,6 +201,7 @@ const _Dialog = match(
   (props) => <DialogTenantKindEserviceTemplate {...props} />,
   (props) => <DialogTenantKindPurposeTemplate {...props} />,
   (props) => <DialogSelectAgreementConsumer {...props} />,
+  (props) => <DialogRequestRiskAnalysisCompilation {...props} />,
   (props) => <DialogApproveRiskAnalysis {...props} />,
   (props) => <DialogRejectRiskAnalysis {...props} />,
   (props) => <DialogShowEserviceVersionsList {...props} />,
