@@ -14,7 +14,6 @@ import {
 } from '@/components/shared/RiskAnalysisFormComponents'
 import { useRiskAnalysisForm } from '@/hooks/useRiskAnalysisForm'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
-import { useDialog } from '@/stores'
 import { getValidAnswers } from '@/utils/risk-analysis-form.utils'
 
 type RiskAnalysisFormProps = {
@@ -26,6 +25,7 @@ type RiskAnalysisFormProps = {
   isReviewerApprovalMode?: boolean
   onSaveDraft?: (answers: Record<string, string[]>) => void
   isSubmitting?: boolean
+  submitLabel?: string
 }
 
 export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
@@ -37,9 +37,9 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   isReviewerApprovalMode = false,
   onSaveDraft,
   isSubmitting = false,
+  submitLabel,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
-  const { openDialog } = useDialog()
 
   const riskAnalysisForm = useRiskAnalysisForm({
     riskAnalysisConfig: riskAnalysis,
@@ -62,18 +62,6 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
     return incompatible
   }
 
-  const requestApproval = (validAnswers: Record<string, string[]>) => {
-    // TODO[PIN-10171]: replace with the dedicated DialogRequestPurposeApproval
-    // (interpolates reviewer name, owns loading/error states and the BE call).
-    openDialog({
-      type: 'basic',
-      title: t('stepRiskAnalysis.requestApprovalDialog.title'),
-      description: t('stepRiskAnalysis.requestApprovalDialog.description'),
-      proceedLabel: t('stepRiskAnalysis.requestApprovalDialog.proceedLabel'),
-      onProceed: () => onSubmit(validAnswers),
-    })
-  }
-
   const handleValidSubmit = ({ validAnswers }: { validAnswers: Record<string, string[]> }) => {
     setShowRequiredAlert(false)
     setIncompatibleAnswerValue(false)
@@ -84,11 +72,6 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
         type: 'manual',
         message: t('stepRiskAnalysis.personalDataFlag.incompatibleAnswerError.purposeEdit'),
       })
-      return
-    }
-
-    if (isReviewerApprovalMode) {
-      requestApproval(validAnswers)
       return
     }
 
@@ -178,7 +161,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
                   disabled: isSubmitting,
                 }
               : {
-                  label: t('endWithSaveBtn'),
+                  label: submitLabel ?? t('endWithSaveBtn'),
                   type: 'submit',
                   startIcon: <SaveIcon />,
                 }

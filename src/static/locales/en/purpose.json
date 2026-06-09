@@ -120,7 +120,13 @@
       },
       "delegateAlert": "As a delegate, you cannot assign the risk analysis to a reviewer.",
       "forwardBtn": "Save draft and proceed",
-      "requestReviewerCompilationBtn": "Request compilation"
+      "requestReviewerCompilationBtn": "Request compilation",
+      "readOnly": {
+        "modeLabel": "Mode",
+        "reviewerLabel": "Reviewer",
+        "reviewerUnknown": "Reviewer not available",
+        "forwardBtn": "Next"
+      }
     },
     "loadEstimationSection": {
       "title": "Estimate API calls",
@@ -185,7 +191,7 @@
       "requiredFieldErrorReviewer": "Fill in to continue",
       "requestApprovalDialog": {
         "title": "Request approval",
-        "description": "By confirming, you will assign the approval of the risk analysis to the reviewer and you will no longer be able to make changes.",
+        "description": "By confirming, you will assign the approval of the risk analysis to the reviewer <strong>{{reviewerId}}</strong> and you will no longer be able to make changes.",
         "proceedLabel": "Confirm"
       }
     },

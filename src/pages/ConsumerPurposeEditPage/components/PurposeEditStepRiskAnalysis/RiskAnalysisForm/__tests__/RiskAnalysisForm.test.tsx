@@ -5,17 +5,9 @@ import { createMockRiskAnalysisFormConfig } from '@/../__mocks__/data/purpose.mo
 import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 
-const openDialogMock = vi.fn()
-vi.mock('@/stores', () => ({
-  useDialog: () => ({
-    openDialog: openDialogMock,
-    closeDialog: vi.fn(),
-  }),
-}))
-
 describe('RiskAnalysisForm', () => {
   beforeEach(() => {
-    openDialogMock.mockClear()
+    vi.clearAllMocks()
   })
 
   it('should update the questions accordingly', async () => {
@@ -100,7 +92,7 @@ describe('RiskAnalysisForm', () => {
       expect(screen.queryByRole('button', { name: 'endWithSaveBtn' })).not.toBeInTheDocument()
     })
 
-    it('on invalid submit shows the global alert and inline "Compila per proseguire", without opening the dialog', async () => {
+    it('on invalid submit shows the global alert and inline "Compila per proseguire", without calling onSubmit', async () => {
       const onSubmit = vi.fn()
       const screen = render(
         <RiskAnalysisForm
@@ -126,10 +118,9 @@ describe('RiskAnalysisForm', () => {
 
       expect(screen.getByText('stepRiskAnalysis.requestApprovalAlert')).toBeInTheDocument()
       expect(onSubmit).not.toHaveBeenCalled()
-      expect(openDialogMock).not.toHaveBeenCalled()
     })
 
-    it('on valid submit opens the confirmation dialog and does not call onSubmit until proceed', async () => {
+    it('on valid submit calls onSubmit with the validated answers', async () => {
       const onSubmit = vi.fn()
       const user = userEvent.setup()
       const screen = render(
@@ -147,24 +138,14 @@ describe('RiskAnalysisForm', () => {
       await user.type(screen.getByRole('textbox', { name: 'Question 2*' }), 'Some text')
       fireEvent.click(screen.getByRole('button', { name: 'stepRiskAnalysis.requestApprovalBtn' }))
 
-      await waitFor(() => expect(openDialogMock).toHaveBeenCalledTimes(1))
+      await waitFor(() =>
+        expect(onSubmit).toHaveBeenCalledWith({
+          purpose: ['OTHER'],
+          institutionalPurpose: ['Some text'],
+        })
+      )
 
-      expect(onSubmit).not.toHaveBeenCalled()
       expect(screen.queryByText('stepRiskAnalysis.requestApprovalAlert')).not.toBeInTheDocument()
-
-      const dialogPayload = openDialogMock.mock.calls[0][0]
-      expect(dialogPayload).toMatchObject({
-        type: 'basic',
-        title: 'stepRiskAnalysis.requestApprovalDialog.title',
-        description: 'stepRiskAnalysis.requestApprovalDialog.description',
-        proceedLabel: 'stepRiskAnalysis.requestApprovalDialog.proceedLabel',
-      })
-
-      dialogPayload.onProceed()
-      expect(onSubmit).toHaveBeenCalledWith({
-        purpose: ['OTHER'],
-        institutionalPurpose: ['Some text'],
-      })
     })
 
     it('saves the draft without validating when the user clicks "Salva bozza e prosegui"', async () => {
@@ -194,7 +175,6 @@ describe('RiskAnalysisForm', () => {
       )
 
       expect(onSubmit).not.toHaveBeenCalled()
-      expect(openDialogMock).not.toHaveBeenCalled()
       expect(screen.queryByText('stepRiskAnalysis.requestApprovalAlert')).not.toBeInTheDocument()
     })
 
