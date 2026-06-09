@@ -24,7 +24,7 @@ const ConsumerPurposeTemplateTemplateSummaryPage: React.FC = () => {
 
   const { purposeTemplateId } = useParams<'SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY'>()
 
-  const { isAdmin } = AuthHooks.useJwt()
+  const { isViewer } = AuthHooks.useJwt()
 
   const navigate = useNavigate()
 
@@ -105,7 +105,7 @@ const ConsumerPurposeTemplateTemplateSummaryPage: React.FC = () => {
         </React.Suspense>
       </Stack>
 
-      {isAdmin && (
+      {!isViewer && (
         <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
           <Button
             startIcon={<DeleteOutlineIcon />}

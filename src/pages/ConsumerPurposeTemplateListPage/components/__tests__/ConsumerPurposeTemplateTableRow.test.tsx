@@ -13,6 +13,8 @@ vi.mock('@/hooks/useGetConsumerPurposeTemplatesActions', () => ({
   default: () => ({ actions: [] }),
 }))
 
+mockUseJwt()
+
 const draftTemplate = {
   id: 'pt-1',
   purposeTitle: 'My draft template',

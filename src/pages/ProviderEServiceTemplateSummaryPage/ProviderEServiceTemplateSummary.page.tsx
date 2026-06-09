@@ -29,7 +29,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
     useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
   const navigate = useNavigate()
 
-  const { isAdmin } = AuthHooks.useJwt()
+  const { isViewer } = AuthHooks.useJwt()
 
   const { mutate: deleteVersion } = EServiceTemplateMutations.useDeleteVersionDraft()
   const { mutate: publishVersion } = EServiceTemplateMutations.usePublishVersionDraft()
@@ -200,7 +200,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             </SummaryAccordion>
           </React.Suspense>
         </Stack>
-        {isAdmin && !arePersonalDataSet && !isLoading && (
+        {!isViewer && !arePersonalDataSet && !isLoading && (
           <Alert severity="warning" sx={{ alignItems: 'center', mt: 3 }} variant="outlined">
             <Stack spacing={30} direction="row" alignItems="center">
               {' '}
@@ -222,7 +222,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             {t('summary.missingFieldsBanner')}
           </Alert>
         )}
-        {isAdmin && (
+        {!isViewer && (
           <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
             <Button
               startIcon={<DeleteOutlineIcon />}
