@@ -164,7 +164,9 @@
     },
     "riskAnalysis": {
       "ASSIGNED": "to fill out",
-      "SUBMITTED": "to be approved"
+      "SUBMITTED": "to be approved",
+      "SIGNED": "approved",
+      "REJECTED": "rejected"
     }
   },
   "userProductRole": {

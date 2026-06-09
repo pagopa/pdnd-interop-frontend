@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Alert, Box, Stack } from '@mui/material'
+import { Alert, Box, Link, Stack } from '@mui/material'
 import { FormProvider } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
@@ -26,6 +26,8 @@ type RiskAnalysisFormProps = {
   isReviewerApprovalMode?: boolean
   onSaveDraft?: (answers: Record<string, string[]>) => void
   isSubmitting?: boolean
+  isRejected?: boolean
+  submitLabel?: string
 }
 
 export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
@@ -37,6 +39,8 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   isReviewerApprovalMode = false,
   onSaveDraft,
   isSubmitting = false,
+  isRejected = false,
+  submitLabel,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
   const { openDialog } = useDialog()
@@ -117,6 +121,20 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   return (
     <FormProvider {...riskAnalysisForm}>
       <Box component="form" noValidate onSubmit={handleSubmit}>
+        {isRejected && (
+          <Alert
+            severity="error"
+            sx={{ mb: 2 }}
+            action={
+              // TODO[task-08]: open the reject-reason drawer with reviewerWorkflow.rejectionReason
+              <Link component="button" type="button" variant="body2" underline="hover">
+                {t('stepRiskAnalysis.rejectedAlertLinkLabel')}
+              </Link>
+            }
+          >
+            {t('stepRiskAnalysis.rejectedAlert')}
+          </Alert>
+        )}
         <SectionContainer
           title={t('stepRiskAnalysis.title')}
           description={t('stepRiskAnalysis.description')}
@@ -178,7 +196,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
                   disabled: isSubmitting,
                 }
               : {
-                  label: t('endWithSaveBtn'),
+                  label: submitLabel ?? t('endWithSaveBtn'),
                   type: 'submit',
                   startIcon: <SaveIcon />,
                 }

@@ -15,6 +15,8 @@ interface SectionContainerProps extends PaperProps {
   component?: React.ElementType
   titleTypographyProps?: TypographyProps
   descriptionTypographyProps?: TypographyProps
+  /** Rendered inline right after the title — e.g. a status chip. */
+  titleEndAdornment?: React.ReactNode
 
   innerSection?: boolean
 
@@ -31,6 +33,7 @@ export function SectionContainer({
   component = 'section',
   titleTypographyProps,
   descriptionTypographyProps,
+  titleEndAdornment,
   topSideActions,
   bottomActions,
   ...props
@@ -43,14 +46,19 @@ export function SectionContainer({
     >
       <Stack spacing={1}>
         <Stack direction="row" justifyContent="space-between" alignItems="center">
-          {title && (
-            <Typography
-              component={innerSection ? 'h3' : 'h2'}
-              variant={innerSection ? 'sidenav' : 'h6'}
-              {...titleTypographyProps}
-            >
-              {title}
-            </Typography>
+          {(title || titleEndAdornment) && (
+            <Stack direction="row" spacing={1} alignItems="center">
+              {title && (
+                <Typography
+                  component={innerSection ? 'h3' : 'h2'}
+                  variant={innerSection ? 'sidenav' : 'h6'}
+                  {...titleTypographyProps}
+                >
+                  {title}
+                </Typography>
+              )}
+              {titleEndAdornment}
+            </Stack>
           )}
           {topSideActions && (
             <Stack direction="row" spacing={2}>

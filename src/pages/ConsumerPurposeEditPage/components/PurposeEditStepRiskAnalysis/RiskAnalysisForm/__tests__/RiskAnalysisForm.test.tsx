@@ -78,6 +78,36 @@ describe('RiskAnalysisForm', () => {
     })
   })
 
+  it('uses submitLabel for the primary submit CTA when provided', async () => {
+    const onSubmit = vi.fn()
+    const user = userEvent.setup()
+    const screen = render(
+      <RiskAnalysisForm
+        defaultAnswers={{}}
+        riskAnalysis={createMockRiskAnalysisFormConfig()}
+        onSubmit={onSubmit}
+        onCancel={vi.fn()}
+        submitLabel="custom-submit-label"
+      />
+    )
+
+    // the custom label replaces the default "Vai al riepilogo" CTA
+    expect(screen.queryByRole('button', { name: 'endWithSaveBtn' })).not.toBeInTheDocument()
+    const submit = screen.getByRole('button', { name: 'custom-submit-label' })
+
+    // it is still a real submit: filling the form and clicking it calls onSubmit
+    fireEvent.click(screen.getByRole('radio', { name: 'Other' }))
+    await user.type(screen.getByRole('textbox', { name: 'Question 2*' }), 'Some text')
+    fireEvent.click(submit)
+
+    await waitFor(() =>
+      expect(onSubmit).toHaveBeenCalledWith({
+        purpose: ['OTHER'],
+        institutionalPurpose: ['Some text'],
+      })
+    )
+  })
+
   describe('reviewer-approval mode', () => {
     it('renders the primary "Richiedi approvazione" CTA and the secondary "Salva bozza e prosegui" CTA', () => {
       const screen = render(
@@ -237,6 +267,33 @@ describe('RiskAnalysisForm', () => {
 
       await waitFor(() => expect(onSaveDraft).toHaveBeenCalledTimes(1))
       expect(screen.queryByText('stepRiskAnalysis.requestApprovalAlert')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('rejected', () => {
+    it('shows the rejected alert with a (non-wired) "Leggi motivazione" link and keeps the form editable', () => {
+      const screen = render(
+        <RiskAnalysisForm
+          defaultAnswers={{}}
+          riskAnalysis={createMockRiskAnalysisFormConfig()}
+          onSubmit={vi.fn()}
+          onCancel={vi.fn()}
+          isReviewerApprovalMode
+          onSaveDraft={vi.fn()}
+          isRejected
+        />
+      )
+
+      expect(screen.getByText('stepRiskAnalysis.rejectedAlert')).toBeInTheDocument()
+      expect(
+        screen.getByRole('button', { name: 'stepRiskAnalysis.rejectedAlertLinkLabel' })
+      ).toBeInTheDocument()
+
+      // editable: inputs enabled and the request-approval CTA is shown
+      expect(screen.getByRole('radio', { name: 'Other' })).toBeEnabled()
+      expect(
+        screen.getByRole('button', { name: 'stepRiskAnalysis.requestApprovalBtn' })
+      ).toBeInTheDocument()
     })
   })
 })

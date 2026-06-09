@@ -60,12 +60,11 @@ const CHIP_COLORS_PURPOSE: Record<PurposeVersionState, MUIColor> = {
   REJECTED: 'error',
 }
 
-const CHIP_COLORS_RISK_ANALYSIS: Record<
-  Exclude<RiskAnalysisSigningState, 'DRAFT' | 'SIGNED' | 'REJECTED'>,
-  MUIColor
-> = {
+const CHIP_COLORS_RISK_ANALYSIS: Record<Exclude<RiskAnalysisSigningState, 'DRAFT'>, MUIColor> = {
   ASSIGNED: 'warning',
   SUBMITTED: 'info',
+  SIGNED: 'success',
+  REJECTED: 'error',
 }
 
 const CHIP_COLORS_DELEGATION: Record<DelegationState, MUIColor> = {
@@ -134,7 +133,7 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
       }
     | {
         for: 'riskAnalysis'
-        state: Extract<RiskAnalysisSigningState, 'ASSIGNED' | 'SUBMITTED'>
+        state: Exclude<RiskAnalysisSigningState, 'DRAFT'>
       }
   )
 
@@ -229,7 +228,7 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
     label = t(`status.purposeTemplate.${props.state}`)
   }
 
-  if (props.for === 'riskAnalysis' && (props.state === 'ASSIGNED' || props.state === 'SUBMITTED')) {
+  if (props.for === 'riskAnalysis') {
     color = chipColors['riskAnalysis'][props.state]
     label = t(`status.riskAnalysis.${props.state}`)
   }
