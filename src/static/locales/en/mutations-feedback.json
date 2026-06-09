@@ -631,6 +631,12 @@
         "description": "This client will be removed from the current purpose. All keys added will no longer be usable to access the **Producer's** e-service for this purpose"
       }
     },
+    "assignRiskAnalysisReviewer": {
+      "loading": "Assigning the reviewer",
+      "outcome": {
+        "error": "The reviewer could not be assigned. Please try again!"
+      }
+    },
     "signRiskAnalysis": {
       "loading": "Risk analysis is being signed",
       "outcome": {

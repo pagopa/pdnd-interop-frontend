@@ -631,6 +631,12 @@
         "description": "Il client sarà rimosso da questa finalità. Tutte le chiavi caricate non potranno più essere usate per accedere all'e-service per questa finalità"
       }
     },
+    "assignRiskAnalysisReviewer": {
+      "loading": "Stiamo assegnando il valutatore",
+      "outcome": {
+        "error": "Non è stato possibile assegnare il valutatore. Per favore, riprova!"
+      }
+    },
     "signRiskAnalysis": {
       "loading": "Stiamo approvando l'analisi del rischio",
       "outcome": {
