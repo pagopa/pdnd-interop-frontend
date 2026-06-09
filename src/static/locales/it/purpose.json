@@ -57,7 +57,8 @@
         "acknowledgeInfoResponsibility": {
           "label": "Dichiaro di aver compreso che, anche in presenza di suggerimenti precompilati, è mia responsabilità verificare e validare tutte le informazioni prima della pubblicazione.",
           "requiredError": "Devi accettare le condizioni per proseguire"
-        }
+        },
+        "evaluatorWarningAlert": "Se scegli la compilazione agevolata, non potrai assegnare la compilazione o l’approvazione dell’analisi del rischio al valutatore."
       }
     }
   },
@@ -65,6 +66,8 @@
     "emptyTitle": "Modifica finalità",
     "stepper": {
       "stepGeneralLabel": "Generale",
+      "stepGeneralInformationLabel": "Informazioni generali",
+      "stepAssignmentLabel": "Assegnazione",
       "stepRiskAnalysisLabel": "Analisi del rischio"
     },
     "backWithoutSaveBtn": "Indietro",
@@ -92,6 +95,32 @@
         "label": "Motivazione titolo gratuito",
         "infoLabel": "Spiega perché metterai questi dati a disposizione gratuitamente. Indica se lo fai in base a un’esenzione o a un’esclusione prevista dalla legge, oppure per un altro motivo. Min 10, max 250 caratteri"
       }
+    },
+    "stepAssignment": {
+      "title": "Assegnazione",
+      "description": "Puoi compilare l’analisi del rischio in autonomia oppure affidare a un valutatore l’approvazione o la compilazione.",
+      "reviewModeField": {
+        "label": "Scegli una modalità",
+        "options": {
+          "selfWritesSelfSigns": "Compilazione e approvazione in autonomia",
+          "selfWritesReviewerSigns": "Compilazione in autonomia e approvazione del valutatore",
+          "reviewerWritesReviewerSigns": "Compilazione e approvazione del valutatore"
+        }
+      },
+      "reviewerField": {
+        "label": {
+          "selfWritesReviewerSigns": "Chi approverà l’analisi del rischio?",
+          "reviewerWritesReviewerSigns": "Chi compilerà l’analisi del rischio?"
+        },
+        "requiredError": "Per proseguire, seleziona un valutatore"
+      },
+      "noReviewersAlert": {
+        "message": "Il tuo ente non ha ancora un utente con ruolo di valutatore. Puoi aggiungerlo dall’Area Riservata.",
+        "linkLabel": "Vai a Utenti"
+      },
+      "delegateAlert": "Come delegato, non puoi assegnare l’analisi del rischio a un valutatore.",
+      "forwardBtn": "Salva bozza e prosegui",
+      "requestReviewerCompilationBtn": "Richiedi compilazione"
     },
     "loadEstimationSection": {
       "title": "Stima chiamate API",
@@ -244,6 +273,8 @@
     "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare",
     "newVersionAvailableTooltip": "Il fruitore ha richiesto un adeguamento che richiede la tua approvazione. Accedi alla finalità per maggiori dettagli",
     "waitingForApprovalVersionTooltip": "Hai richiesto un adeguamento che richiede l’approvazione dell’erogatore. Accedi alla finalità per maggiori dettagli",
+    "riskAnalysisApproved": "Analisi del rischio approvata",
+    "riskAnalysisRejected": "Analisi del rischio rifiutata",
     "filters": {
       "nameField": {
         "label": "Cerca per nome finalità"
