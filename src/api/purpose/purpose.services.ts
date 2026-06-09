@@ -25,6 +25,7 @@ import type {
   ReversePurposeUpdateContent,
   RiskAnalysisAssignmentSeed,
   RiskAnalysisFormConfig,
+  RiskAnalysisSubmissionSeed,
   RiskAnalysisRejectionSeed,
   SignRiskAnalysisParams,
 } from '../api.generatedTypes'
@@ -304,6 +305,17 @@ async function assignRiskAnalysisReviewer({
   return response.data
 }
 
+async function submitRiskAnalysis({
+  purposeId,
+  ...payload
+}: { purposeId: string } & RiskAnalysisSubmissionSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/submit`,
+    payload
+  )
+  return response.data
+}
+
 async function signRiskAnalysis({ purposeId }: SignRiskAnalysisParams) {
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/sign`
@@ -368,6 +380,7 @@ export const PurposeServices = {
   downloadRiskAnalysis,
   getRemainingDailyCalls,
   assignRiskAnalysisReviewer,
+  submitRiskAnalysis,
   signRiskAnalysis,
   rejectRiskAnalysis,
   updateRiskAnalysis,

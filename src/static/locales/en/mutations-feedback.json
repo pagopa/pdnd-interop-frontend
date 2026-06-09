@@ -636,6 +636,12 @@
         "error": "The reviewer could not be assigned. Please try again!"
       }
     },
+    "submitRiskAnalysis": {
+      "loading": "Submitting the risk analysis to the reviewer",
+      "outcome": {
+        "error": "The risk analysis was saved but could not be submitted to the reviewer. Please try again!"
+      }
+    },
     "signRiskAnalysis": {
       "loading": "Risk analysis is being signed",
       "outcome": {

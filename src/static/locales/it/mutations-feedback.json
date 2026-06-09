@@ -636,6 +636,12 @@
         "error": "Non è stato possibile assegnare il valutatore. Per favore, riprova!"
       }
     },
+    "submitRiskAnalysis": {
+      "loading": "Stiamo inviando l’analisi del rischio al valutatore",
+      "outcome": {
+        "error": "L’analisi del rischio è stata salvata ma non è stato possibile inviarla al valutatore. Riprova!"
+      }
+    },
     "signRiskAnalysis": {
       "loading": "Stiamo approvando l'analisi del rischio",
       "outcome": {

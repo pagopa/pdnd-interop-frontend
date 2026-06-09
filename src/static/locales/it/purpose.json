@@ -178,6 +178,15 @@
           "personalData": "Non potrai pubblicare questa finalità perché hai dichiarato che vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore.",
           "noPersonalData": "Non potrai pubblicare questa finalità perché hai dichiarato che non vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore."
         }
+      },
+      "requestApprovalBtn": "Richiedi approvazione",
+      "saveDraftBtn": "Salva bozza e prosegui",
+      "requestApprovalAlert": "Per assegnare l’analisi del rischio al valutatore è necessario compilare tutte le domande.",
+      "requiredFieldErrorReviewer": "Compila per proseguire",
+      "requestApprovalDialog": {
+        "title": "Richiedi approvazione",
+        "description": "Se confermi, assegnerai l’approvazione dell’analisi del rischio al valutatore e non potrai più fare modifiche.",
+        "proceedLabel": "Conferma"
       }
     },
     "purposeFromTemplate": {

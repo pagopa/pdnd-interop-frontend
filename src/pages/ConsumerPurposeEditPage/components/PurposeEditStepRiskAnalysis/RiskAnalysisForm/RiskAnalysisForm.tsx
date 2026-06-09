@@ -7,9 +7,15 @@ import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
 import { StepActions } from '@/components/shared/StepActions'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { RiskAnalysisFormComponents } from '@/components/shared/RiskAnalysisFormComponents'
+import SendIcon from '@mui/icons-material/Send'
+import {
+  RiskAnalysisFormComponents,
+  RiskAnalysisRequiredMessageProvider,
+} from '@/components/shared/RiskAnalysisFormComponents'
 import { useRiskAnalysisForm } from '@/hooks/useRiskAnalysisForm'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
+import { useDialog } from '@/stores'
+import { getValidAnswers } from '@/utils/risk-analysis-form.utils'
 
 type RiskAnalysisFormProps = {
   defaultAnswers: Record<string, string[]>
@@ -17,7 +23,9 @@ type RiskAnalysisFormProps = {
   onSubmit: (answers: Record<string, string[]>) => void
   onCancel: VoidFunction
   personalData?: boolean
-  submitLabel?: string
+  isReviewerApprovalMode?: boolean
+  onSaveDraft?: (answers: Record<string, string[]>) => void
+  isSubmitting?: boolean
 }
 
 export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
@@ -26,9 +34,12 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   onSubmit,
   onCancel,
   personalData,
-  submitLabel,
+  isReviewerApprovalMode = false,
+  onSaveDraft,
+  isSubmitting = false,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
+  const { openDialog } = useDialog()
 
   const riskAnalysisForm = useRiskAnalysisForm({
     riskAnalysisConfig: riskAnalysis,
@@ -36,6 +47,7 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   })
 
   const [incompatibleAnswerValue, setIncompatibleAnswerValue] = React.useState<boolean>(false)
+  const [showRequiredAlert, setShowRequiredAlert] = React.useState<boolean>(false)
 
   const checkIncompatibleAnswerValue = (answers: Record<string, string[]>) => {
     if (personalData === undefined) {
@@ -50,7 +62,22 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
     return incompatible
   }
 
-  const handleSubmit = riskAnalysisForm.handleSubmit(({ validAnswers }) => {
+  const requestApproval = (validAnswers: Record<string, string[]>) => {
+    // TODO[PIN-10171]: replace with the dedicated DialogRequestPurposeApproval
+    // (interpolates reviewer name, owns loading/error states and the BE call).
+    openDialog({
+      type: 'basic',
+      title: t('stepRiskAnalysis.requestApprovalDialog.title'),
+      description: t('stepRiskAnalysis.requestApprovalDialog.description'),
+      proceedLabel: t('stepRiskAnalysis.requestApprovalDialog.proceedLabel'),
+      onProceed: () => onSubmit(validAnswers),
+    })
+  }
+
+  const handleValidSubmit = ({ validAnswers }: { validAnswers: Record<string, string[]> }) => {
+    setShowRequiredAlert(false)
+    setIncompatibleAnswerValue(false)
+
     if (checkIncompatibleAnswerValue(validAnswers)) {
       setIncompatibleAnswerValue(true)
       riskAnalysisForm.setError('answers.usesPersonalData', {
@@ -60,8 +87,32 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
       return
     }
 
+    if (isReviewerApprovalMode) {
+      requestApproval(validAnswers)
+      return
+    }
+
     onSubmit(validAnswers)
-  })
+  }
+
+  const handleInvalidSubmit = () => {
+    if (isReviewerApprovalMode) {
+      setShowRequiredAlert(true)
+    }
+  }
+
+  const handleSubmit = riskAnalysisForm.handleSubmit(handleValidSubmit, handleInvalidSubmit)
+
+  const handleSaveDraftClick = () => {
+    if (!onSaveDraft) return
+    const values = riskAnalysisForm.getValues()
+    const visibleQuestionsIds = Object.keys(riskAnalysisForm.questions)
+    onSaveDraft(getValidAnswers(visibleQuestionsIds, values.answers))
+  }
+
+  const requiredMessageOverride = isReviewerApprovalMode
+    ? t('stepRiskAnalysis.requiredFieldErrorReviewer')
+    : undefined
 
   return (
     <FormProvider {...riskAnalysisForm}>
@@ -76,12 +127,14 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
             content={t(`stepRiskAnalysis.personalDataFlag.content.${personalData}`)}
           />
         </SectionContainer>
-        <Stack spacing={2}>
-          <Alert sx={{ mt: 4, mb: 2 }} severity="warning">
-            {t('stepRiskAnalysis.personalInfoAlert')}
-          </Alert>
-          <RiskAnalysisFormComponents questions={riskAnalysisForm.questions} />
-        </Stack>
+        <RiskAnalysisRequiredMessageProvider value={requiredMessageOverride}>
+          <Stack spacing={2}>
+            <Alert sx={{ mt: 4, mb: 2 }} severity="warning">
+              {t('stepRiskAnalysis.personalInfoAlert')}
+            </Alert>
+            <RiskAnalysisFormComponents questions={riskAnalysisForm.questions} />
+          </Stack>
+        </RiskAnalysisRequiredMessageProvider>
         {incompatibleAnswerValue && (
           <Alert sx={{ mt: 2 }} severity="warning">
             {!personalData
@@ -93,6 +146,11 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
                 )}
           </Alert>
         )}
+        {isReviewerApprovalMode && showRequiredAlert && (
+          <Alert sx={{ mt: 2 }} severity="error">
+            {t('stepRiskAnalysis.requestApprovalAlert')}
+          </Alert>
+        )}
         <StepActions
           back={{
             label: t('backWithoutSaveBtn'),
@@ -100,11 +158,31 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
             onClick: onCancel,
             startIcon: <ArrowBackIcon />,
           }}
-          forward={{
-            label: submitLabel ?? t('endWithSaveBtn'),
-            type: 'submit',
-            startIcon: <SaveIcon />,
-          }}
+          secondaryAction={
+            isReviewerApprovalMode
+              ? {
+                  label: t('stepRiskAnalysis.saveDraftBtn'),
+                  type: 'button',
+                  onClick: handleSaveDraftClick,
+                  startIcon: <SaveIcon />,
+                  disabled: isSubmitting,
+                }
+              : undefined
+          }
+          forward={
+            isReviewerApprovalMode
+              ? {
+                  label: t('stepRiskAnalysis.requestApprovalBtn'),
+                  type: 'submit',
+                  startIcon: <SendIcon />,
+                  disabled: isSubmitting,
+                }
+              : {
+                  label: t('endWithSaveBtn'),
+                  type: 'submit',
+                  startIcon: <SaveIcon />,
+                }
+          }
         />
       </Box>
     </FormProvider>
