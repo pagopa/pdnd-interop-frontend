@@ -120,7 +120,13 @@
       },
       "delegateAlert": "Come delegato, non puoi assegnare l’analisi del rischio a un valutatore.",
       "forwardBtn": "Salva bozza e prosegui",
-      "requestReviewerCompilationBtn": "Richiedi compilazione"
+      "requestReviewerCompilationBtn": "Richiedi compilazione",
+      "readOnly": {
+        "modeLabel": "Modalità",
+        "reviewerLabel": "Valutatore",
+        "reviewerUnknown": "Valutatore non disponibile",
+        "forwardBtn": "Avanti"
+      }
     },
     "loadEstimationSection": {
       "title": "Stima chiamate API",
@@ -271,6 +277,18 @@
         }
       }
     },
+    "assignmentSection": {
+      "title": "Assegnazione",
+      "mode": {
+        "label": "Modalità",
+        "autonomy": "Compilazione e approvazione in autonomia",
+        "adminWritesReviewerSigns": "Compilazione in autonomia e approvazione del valutatore",
+        "reviewerWritesReviewerSigns": "Compilazione e approvazione del valutatore"
+      },
+      "reviewer": {
+        "label": "Valutatore"
+      }
+    },
     "riskAnalysisSection": {
       "title": "Analisi del rischio",
       "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
@@ -282,6 +300,8 @@
     "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare",
     "newVersionAvailableTooltip": "Il fruitore ha richiesto un adeguamento che richiede la tua approvazione. Accedi alla finalità per maggiori dettagli",
     "waitingForApprovalVersionTooltip": "Hai richiesto un adeguamento che richiede l’approvazione dell’erogatore. Accedi alla finalità per maggiori dettagli",
+    "riskAnalysisApproved": "Analisi del rischio approvata",
+    "riskAnalysisRejected": "Analisi del rischio rifiutata",
     "filters": {
       "nameField": {
         "label": "Cerca per nome finalità"

@@ -14,7 +14,7 @@ import type {
   User,
 } from '@/api/api.generatedTypes'
 import { PurposeMutations } from '@/api/purpose'
-import { useNavigate } from '@/router'
+import { useDialog } from '@/stores'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
@@ -34,6 +34,17 @@ const reviewModeOptionToBeEnum = (option: ReviewModeOption): RiskAnalysisReviewM
     .with('selfWritesSelfSigns', () => undefined)
     .with('selfWritesReviewerSigns', () => 'ADMIN_WRITES_REVIEWER_SIGNS' as const)
     .with('reviewerWritesReviewerSigns', () => 'REVIEWER_WRITES_REVIEWER_SIGNS' as const)
+    .exhaustive()
+
+// Maps the persisted BE review mode to its form option. The absence of a reviewer
+// workflow (undefined) means self-compilation and self-approval (option 1).
+export const beEnumToReviewModeOption = (
+  reviewMode: RiskAnalysisReviewMode | undefined
+): ReviewModeOption =>
+  match(reviewMode)
+    .with('ADMIN_WRITES_REVIEWER_SIGNS', () => 'selfWritesReviewerSigns' as const)
+    .with('REVIEWER_WRITES_REVIEWER_SIGNS', () => 'reviewerWritesReviewerSigns' as const)
+    .with(undefined, () => 'selfWritesSelfSigns' as const)
     .exhaustive()
 
 type PurposeEditStepAssignmentFormProps = ActiveStepProps & {
@@ -56,7 +67,7 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
   const { t } = useTranslation('purpose', { keyPrefix: 'edit.stepAssignment' })
   const { t: tEdit } = useTranslation('purpose', { keyPrefix: 'edit' })
   const { mutate: assignReviewer } = PurposeMutations.useAssignRiskAnalysisReviewer()
-  const navigate = useNavigate()
+  const { openDialog } = useDialog()
 
   const hasNoReviewers = reviewers.length === 0
   const isFormHidden = isDelegate || hasNoReviewers
@@ -67,10 +78,6 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
   const needsReviewer =
     reviewMode === 'selfWritesReviewerSigns' || reviewMode === 'reviewerWritesReviewerSigns'
   const isRequestReviewerCompilation = reviewMode === 'reviewerWritesReviewerSigns'
-
-  const goToSummary = () => {
-    navigate('SUBSCRIBE_PURPOSE_SUMMARY', { params: { purposeId: purpose.id } })
-  }
 
   const onSubmit = ({ reviewMode, reviewerId }: PurposeEditStepAssignmentFormValues) => {
     if (isFormHidden) {
@@ -84,16 +91,29 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
       return
     }
 
+    if (isRequestReviewerCompilation) {
+      const selectedReviewer = reviewers.find((u) => u.userId === reviewerId)
+      if (!selectedReviewer) return
+      const reviewerName = [selectedReviewer.name, selectedReviewer.familyName]
+        .filter(Boolean)
+        .join(' ')
+      openDialog({
+        type: 'requestRiskAnalysisCompilation',
+        purposeId: purpose.id,
+        reviewerId,
+        reviewerName,
+      })
+      return
+    }
+
     const payload: { purposeId: string } & RiskAnalysisAssignmentSeed = {
       purposeId: purpose.id,
       reviewMode: reviewModeEnum,
       reviewerIds: [reviewerId],
     }
 
-    // TODO: for reviewMode = REVIEWER_WRITES_REVIEWER_SIGNS the submit should
-    // first open a confirmation dialog (tracked in a follow-up task) before calling the API.
     assignReviewer(payload, {
-      onSuccess: isRequestReviewerCompilation ? goToSummary : forward,
+      onSuccess: forward,
     })
   }
 

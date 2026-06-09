@@ -47,6 +47,7 @@ export type DialogProps =
   | DialogTenantKindPurposeTemplateProps
   | DialogSelectAgreementConsumerProps
   | DialogRequestPurposeApprovalProps
+  | DialogRequestRiskAnalysisCompilationProps
   | DialogApproveRiskAnalysisProps
   | DialogRejectRiskAnalysisProps
   | DialogShowEserviceVersionsListProps
@@ -203,6 +204,13 @@ export type DialogRequestPurposeApprovalProps = {
   type: 'requestPurposeApproval'
   reviewerId: string
   onConfirm: VoidFunction
+}
+
+export type DialogRequestRiskAnalysisCompilationProps = {
+  type: 'requestRiskAnalysisCompilation'
+  purposeId: string
+  reviewerId: string
+  reviewerName: string
 }
 
 export type DialogApproveRiskAnalysisProps = {

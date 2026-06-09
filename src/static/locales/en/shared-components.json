@@ -235,6 +235,10 @@
       }
     }
   },
+  "dialogRequestRiskAnalysisCompilation": {
+    "title": "Request compilation and approval",
+    "description": "If you confirm, you will assign the compilation and approval of the risk analysis to the reviewer <strong>{{reviewerName}}</strong> and you will no longer be able to change this choice."
+  },
   "dialogRejectDelegatedVersionDraft": {
     "title": "Reject Publication",
     "description": "The reason for your rejection will be reported to your delegate, who will be able to update the draft and send it back to you for approval for publication.",

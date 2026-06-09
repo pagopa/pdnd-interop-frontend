@@ -120,7 +120,13 @@
       },
       "delegateAlert": "As a delegate, you cannot assign the risk analysis to a reviewer.",
       "forwardBtn": "Save draft and proceed",
-      "requestReviewerCompilationBtn": "Request compilation"
+      "requestReviewerCompilationBtn": "Request compilation",
+      "readOnly": {
+        "modeLabel": "Mode",
+        "reviewerLabel": "Reviewer",
+        "reviewerUnknown": "Reviewer not available",
+        "forwardBtn": "Next"
+      }
     },
     "loadEstimationSection": {
       "title": "Estimate API calls",
@@ -271,6 +277,18 @@
         }
       }
     },
+    "assignmentSection": {
+      "title": "Assignment",
+      "mode": {
+        "label": "Mode",
+        "autonomy": "Completed and approved autonomously",
+        "adminWritesReviewerSigns": "Completed autonomously, approved by the reviewer",
+        "reviewerWritesReviewerSigns": "Completed and approved by the reviewer"
+      },
+      "reviewer": {
+        "label": "Reviewer"
+      }
+    },
     "riskAnalysisSection": {
       "title": "Risk analysis",
       "providerRiskAnalysisAlert": "The e-service selected for this purpose requires data to be sent from the consumer to the producer. The risk analysis was therefore compiled by the producer."
@@ -282,6 +300,8 @@
     "cantCreatePurposeTooltip": "You cannot create purposes because you have no associable e-service",
     "newVersionAvailableTooltip": "The consumer has requested an adjustment that requires your approval. Access the purpose for more details",
     "waitingForApprovalVersionTooltip": "You have requested an adjustment that requires approval from the producer. Access the purpose for more details",
+    "riskAnalysisApproved": "Risk analysis approved",
+    "riskAnalysisRejected": "Risk analysis rejected",
     "filters": {
       "nameField": {
         "label": "Find by purpose name"

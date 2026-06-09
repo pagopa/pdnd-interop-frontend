@@ -12,6 +12,7 @@ import {
 } from '../../components/shared/SummaryAccordion'
 import { PageContainer } from '@/components/layout/containers'
 import {
+  ConsumerPurposeSummaryAssignmentAccordion,
   ConsumerPurposeSummaryGeneralInformationAccordion,
   ConsumerPurposeSummaryRiskAnalysisAccordion,
 } from './components'
@@ -136,7 +137,12 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           </SummaryAccordion>
         </React.Suspense>
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="2" title={t('summary.riskAnalysisSection.title')}>
+          <SummaryAccordion headline="2" title={t('summary.assignmentSection.title')}>
+            <ConsumerPurposeSummaryAssignmentAccordion purposeId={purposeId} />
+          </SummaryAccordion>
+        </React.Suspense>
+        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+          <SummaryAccordion headline="3" title={t('summary.riskAnalysisSection.title')}>
             <ConsumerPurposeSummaryRiskAnalysisAccordion purposeId={purposeId} />
           </SummaryAccordion>
         </React.Suspense>

@@ -26,6 +26,7 @@ vi.mock('../components', () => ({
   ConsumerPurposeSummaryGeneralInformationAccordion: () => (
     <div data-testid="general-info-accordion" />
   ),
+  ConsumerPurposeSummaryAssignmentAccordion: () => <div data-testid="assignment-accordion" />,
   ConsumerPurposeSummaryRiskAnalysisAccordion: () => <div data-testid="risk-analysis-accordion" />,
 }))
 

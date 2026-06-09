@@ -632,7 +632,6 @@
       }
     },
     "assignRiskAnalysisReviewer": {
-      "loading": "Assigning the reviewer",
       "outcome": {
         "error": "The reviewer could not be assigned. Please try again!"
       }
