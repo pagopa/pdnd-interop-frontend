@@ -135,10 +135,16 @@
         "description": "The risk analysis will be deleted from this e-service."
       }
     },
+    "scheduleArchiveEservice": {
+      "outcome": {
+        "success": "This e-service will be archived in {{days}} days"
+      }
+    },
     "suspendVersion": {
       "loading": "E-service version is being suspended",
       "outcome": {
         "success": "E-service version suspended successfully",
+        "successArchiving": "You have suspended this e-service version",
         "error": "The e-service version could not be suspended. Please try again!"
       },
       "confirmDialog": {
@@ -150,6 +156,7 @@
       "loading": "E-service version is being reactivated",
       "outcome": {
         "success": "E-service version reactivated successfully",
+        "successArchiving": "You have reactivated this e-service version",
         "error": "The e-service version could not be reactivated. Please try again!"
       },
       "confirmDialog": {

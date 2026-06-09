@@ -13,7 +13,10 @@ export const DialogReactivateArchivingDescriptor: React.FC<
     keyPrefix: 'read.dialogReactivateArchivingDescriptor',
   })
   const { closeDialog } = useDialog()
-  const { mutate: reactivate } = EServiceMutations.useReactivateVersion({ skipConfirmation: true })
+  const { mutate: reactivate } = EServiceMutations.useReactivateVersion({
+    skipConfirmation: true,
+    isArchivingContext: true,
+  })
 
   return (
     <DialogConfirmArchivingAction
