@@ -4,8 +4,10 @@ import { Button, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import { AuthHooks } from '@/api/auth'
 
 export const ConsumerLinkedPurposeTemplatesSection: React.FC = () => {
+  const { isReviewer } = AuthHooks.useJwt()
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.sections.linkedPurposeTemplates',
   })
@@ -25,6 +27,7 @@ export const ConsumerLinkedPurposeTemplatesSection: React.FC = () => {
               onClick={handleGoToLinkedEServicesTab}
               endIcon={<ChevronRightIcon fontSize="small" />}
               sx={{ fontWeight: 700, alignSelf: 'flex-start', padding: 0 }}
+              disabled={isReviewer}
             >
               {t('linkedPurposeTabLink')}
             </Button>

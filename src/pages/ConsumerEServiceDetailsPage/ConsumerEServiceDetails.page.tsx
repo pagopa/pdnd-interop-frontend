@@ -21,7 +21,7 @@ import { ConsumerEServiceDetailsAlerts } from './components/ConsumerEServiceDeta
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt, isReviewer } = AuthHooks.useJwt()
 
   const { activeTab, updateActiveTab } = useActiveTab('eserviceDetail')
   const { openDialog } = useDialog()
@@ -116,24 +116,28 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
       }
     >
       <ConsumerEServiceDetailsAlerts descriptor={descriptor} />
-      <TabContext value={activeTab}>
-        <TabList
-          onChange={updateActiveTab}
-          aria-label={t('tabs.ariaLabelEserviceDetail')}
-          variant="fullWidth"
-        >
-          <Tab label={t('tabs.eserviceDetail')} value="eserviceDetail" />
-          <Tab label={t('tabs.purposeTemplate')} value="linkedPurposeTemplates" />
-        </TabList>
+      {isReviewer ? (
+        <ConsumerEServiceDetailsTab />
+      ) : (
+        <TabContext value={activeTab}>
+          <TabList
+            onChange={updateActiveTab}
+            aria-label={t('tabs.ariaLabelEserviceDetail')}
+            variant="fullWidth"
+          >
+            <Tab label={t('tabs.eserviceDetail')} value="eserviceDetail" />
+            <Tab label={t('tabs.purposeTemplate')} value="linkedPurposeTemplates" />
+          </TabList>
 
-        <TabPanel value="eserviceDetail">
-          <ConsumerEServiceDetailsTab />
-        </TabPanel>
+          <TabPanel value="eserviceDetail">
+            <ConsumerEServiceDetailsTab />
+          </TabPanel>
 
-        <TabPanel value="linkedPurposeTemplates">
-          <ConsumerLinkedPurposeTemplatesTab />
-        </TabPanel>
-      </TabContext>
+          <TabPanel value="linkedPurposeTemplates">
+            <ConsumerLinkedPurposeTemplatesTab />
+          </TabPanel>
+        </TabContext>
+      )}
     </NewPageContainer>
   )
 }

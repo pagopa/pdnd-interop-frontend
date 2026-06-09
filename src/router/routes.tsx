@@ -199,7 +199,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerEServiceDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'security', 'api'],
+    authLevels: ['admin', 'support', 'security', 'api', 'reviewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_CATALOG_LIST',
