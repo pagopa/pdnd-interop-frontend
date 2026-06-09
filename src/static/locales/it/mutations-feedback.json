@@ -140,10 +140,16 @@
         "success": "L'e-service non è più in fase di archiviazione"
       }
     },
+    "scheduleArchiveEservice": {
+      "outcome": {
+        "success": "Questo e-service sarà archiviato tra {{days}} giorni"
+      }
+    },
     "suspendVersion": {
       "loading": "Stiamo sospendendo la versione",
       "outcome": {
         "success": "La versione dell'e-service è stata sospesa",
+        "successArchiving": "Hai sospeso questa versione dell'e-service",
         "error": "Non è stato possibile sospendere questa versione dell'e-service. Per favore, riprova!"
       },
       "confirmDialog": {
@@ -155,6 +161,7 @@
       "loading": "Stiamo riattivando la versione",
       "outcome": {
         "success": "La versione dell'e-service è stata riattivata",
+        "successArchiving": "Hai riattivato questa versione dell'e-service",
         "error": "Non è stato possibile riattivare questa versione dell'e-service. Per favore, riprova!"
       },
       "confirmDialog": {

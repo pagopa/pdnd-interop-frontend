@@ -92,6 +92,18 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
       icon: ProviderIcon,
       subsections: [
         {
+          name: 'myEservices',
+          title: t('provider.myEservices.title'),
+          components: [
+            {
+              key: 'eserviceStateChangedToProducer',
+              title: t('provider.myEservices.components.eServiceStateUpdated.label'),
+              description: t('provider.myEservices.components.eServiceStateUpdated.description'),
+              visibility: ['admin', 'api'],
+            },
+          ],
+        },
+        {
           name: 'richiesteFruizione',
           title: t('provider.agreement.title'),
           components: [

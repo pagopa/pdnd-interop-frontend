@@ -164,10 +164,15 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
   let label = ''
 
   if (props.for === 'eservice') {
-    color = props.isDraftToCorrect ? 'warning' : chipColors['eservice'][props.state]
+    const remappedState: EServiceDescriptorState = match(props.state)
+      .with('ARCHIVING', () => 'PUBLISHED' as const)
+      .with('ARCHIVING_SUSPENDED', () => 'SUSPENDED' as const)
+      .otherwise((state) => state)
+
+    color = props.isDraftToCorrect ? 'warning' : chipColors['eservice'][remappedState]
     label = props.isDraftToCorrect
       ? t('status.eservice.DRAFT_TO_CORRECT')
-      : t(`status.eservice.${props.state}`)
+      : t(`status.eservice.${remappedState}`)
   }
 
   if (props.for === 'descriptor') {

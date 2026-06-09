@@ -145,6 +145,15 @@
         },
         "provider": {
           "title": "Producing",
+          "myEservices": {
+            "title": "My e-services",
+            "components": {
+              "eServiceStateUpdated": {
+                "label": "E-service status update",
+                "description": "Notify me when an e-service status changes"
+              }
+            }
+          },
           "agreement": {
             "title": "Service Requests",
             "components": {
