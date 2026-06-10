@@ -254,8 +254,8 @@
             "title": "Certified or Verified Attributes",
             "components": {
               "attributesStateUpdated": {
-                "label": "Certified or verified attribute conferral or revocation",
-                "description": "Notify me when a certified or verified attribute is conferred or revoked to me"
+                "label": "Certified or verified attribute conferral, update or revocation",
+                "description": "Notify me when a certified or verified attribute is conferred, updated or revoked to me"
               }
             }
           },
