@@ -77,7 +77,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
     comparator: AttributeCertifiedDiscreteComparator,
     threshold: number
   ) => {
-    if (!attribute || !attributeGroupIndex) return
+    if (!attribute || attributeGroupIndex === undefined) return
 
     const attributes = getValues('attributes')
     const groups = [...attributes['certified']]

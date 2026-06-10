@@ -349,7 +349,7 @@
       "customizeThreshold": "Personalizza soglia",
       "changeThreshold": "Modifica soglia",
       "inspectAttributeDetails": "Dettagli attributo",
-      "changeCertifiedDiscreteAttribute": "Modifica attributo"
+      "modifyCertifiedDiscreteAttribute": "Modifica attributo"
     },
     "na": "n/a"
   },
