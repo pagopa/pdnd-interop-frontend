@@ -235,6 +235,10 @@
       }
     }
   },
+  "dialogRequestRiskAnalysisCompilation": {
+    "title": "Richiedi compilazione e approvazione",
+    "description": "Se confermi, assegnerai la compilazione e l'approvazione dell'analisi del rischio al valutatore <strong>{{reviewerName}}</strong> e non potrai più modificare questa scelta."
+  },
   "dialogRejectDelegatedVersionDraft": {
     "title": "Rifiuta pubblicazione",
     "description": "La motivazione del tuo rifiuto sarà riportata al tuo delegato, il quale potrà aggiornare la bozza e inviartela nuovamente in approvazione per la pubblicazione.",

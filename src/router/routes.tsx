@@ -95,7 +95,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <LogoutPage />,
     public: true,
     hideSideNav: true,
-    authLevels: ['admin', 'support', 'api', 'security'],
+    authLevels: ['admin', 'support', 'api', 'security', 'reviewer', 'viewer'],
   })
   .addRoute({
     key: 'TOS',
@@ -103,7 +103,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <TOSPage />,
     public: true,
     hideSideNav: true,
-    authLevels: ['admin', 'support', 'api', 'security'],
+    authLevels: ['admin', 'support', 'api', 'security', 'reviewer', 'viewer'],
   })
   .addRoute({
     key: 'PRIVACY_POLICY',
@@ -111,7 +111,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <PrivacyPolicyPage />,
     public: true,
     hideSideNav: true,
-    authLevels: ['admin', 'support', 'api', 'security'],
+    authLevels: ['admin', 'support', 'api', 'security', 'reviewer', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_CREATE',
@@ -151,7 +151,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api', 'security'],
+    authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_LIST',
@@ -159,7 +159,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api', 'security'],
+    authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_AGREEMENT_READ',
@@ -167,7 +167,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderAgreementDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api'],
+    authLevels: ['admin', 'support', 'api', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_AGREEMENT_LIST',
@@ -175,7 +175,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderAgreementsListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api'],
+    authLevels: ['admin', 'support', 'api', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_PURPOSE_LIST',
@@ -183,7 +183,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderPurposesListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api'],
+    authLevels: ['admin', 'support', 'api', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_PURPOSE_DETAILS',
@@ -191,7 +191,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderPurposeDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api'],
+    authLevels: ['admin', 'support', 'api', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_CATALOG_VIEW',
@@ -199,7 +199,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerEServiceDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'security', 'api', 'reviewer'],
+    authLevels: ['admin', 'support', 'security', 'api', 'reviewer', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_CATALOG_LIST',
@@ -207,7 +207,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerEServiceCatalogPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'security', 'api', 'reviewer'],
+    authLevels: ['admin', 'support', 'security', 'api', 'reviewer', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_CREATE',
@@ -247,7 +247,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'security'],
+    authLevels: ['admin', 'support', 'security', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_LIST',
@@ -255,7 +255,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposesListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'security'],
+    authLevels: ['admin', 'support', 'security', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_CLIENT_OPERATOR_EDIT',
@@ -303,7 +303,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerAgreementDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'security'],
+    authLevels: ['admin', 'support', 'security', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_AGREEMENT_LIST',
@@ -311,7 +311,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerAgreementsListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'security'],
+    authLevels: ['admin', 'support', 'security', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_AGREEMENT_EDIT',
@@ -527,7 +527,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceTemplatesCatalogPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_TEMPLATE_LIST',
@@ -535,7 +535,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceTemplatesListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE',
@@ -543,7 +543,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     redirect: 'PROVIDE_ESERVICE_LIST',
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU',
@@ -559,7 +559,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceTemplateDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS',
@@ -567,7 +567,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerEServiceTemplateDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_TEMPLATE_CREATE',
@@ -656,7 +656,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG',
@@ -664,7 +664,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateCatalogPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS',
@@ -672,7 +672,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS',
@@ -680,7 +680,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateCatalogDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY',

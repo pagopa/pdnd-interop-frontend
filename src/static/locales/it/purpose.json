@@ -67,6 +67,7 @@
     "stepper": {
       "stepGeneralLabel": "Generale",
       "stepGeneralInformationLabel": "Informazioni generali",
+      "stepAssignmentLabel": "Assegnazione",
       "stepRiskAnalysisLabel": "Analisi del rischio"
     },
     "backWithoutSaveBtn": "Indietro",
@@ -93,6 +94,38 @@
       "freeOfChargeReasonField": {
         "label": "Motivazione titolo gratuito",
         "infoLabel": "Spiega perché metterai questi dati a disposizione gratuitamente. Indica se lo fai in base a un’esenzione o a un’esclusione prevista dalla legge, oppure per un altro motivo. Min 10, max 250 caratteri"
+      }
+    },
+    "stepAssignment": {
+      "title": "Assegnazione",
+      "description": "Puoi compilare l’analisi del rischio in autonomia oppure affidare a un valutatore l’approvazione o la compilazione.",
+      "reviewModeField": {
+        "label": "Scegli una modalità",
+        "options": {
+          "selfWritesSelfSigns": "Compilazione e approvazione in autonomia",
+          "selfWritesReviewerSigns": "Compilazione in autonomia e approvazione del valutatore",
+          "reviewerWritesReviewerSigns": "Compilazione e approvazione del valutatore"
+        }
+      },
+      "reviewerField": {
+        "label": {
+          "selfWritesReviewerSigns": "Chi approverà l’analisi del rischio?",
+          "reviewerWritesReviewerSigns": "Chi compilerà l’analisi del rischio?"
+        },
+        "requiredError": "Per proseguire, seleziona un valutatore"
+      },
+      "noReviewersAlert": {
+        "message": "Il tuo ente non ha ancora un utente con ruolo di valutatore. Puoi aggiungerlo dall’Area Riservata.",
+        "linkLabel": "Vai a Utenti"
+      },
+      "delegateAlert": "Come delegato, non puoi assegnare l’analisi del rischio a un valutatore.",
+      "forwardBtn": "Salva bozza e prosegui",
+      "requestReviewerCompilationBtn": "Richiedi compilazione",
+      "readOnly": {
+        "modeLabel": "Modalità",
+        "reviewerLabel": "Valutatore",
+        "reviewerUnknown": "Valutatore non disponibile",
+        "forwardBtn": "Avanti"
       }
     },
     "loadEstimationSection": {
@@ -151,6 +184,15 @@
           "personalData": "Non potrai pubblicare questa finalità perché hai dichiarato che vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore.",
           "noPersonalData": "Non potrai pubblicare questa finalità perché hai dichiarato che non vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore."
         }
+      },
+      "requestApprovalBtn": "Richiedi approvazione",
+      "saveDraftBtn": "Salva bozza e prosegui",
+      "requestApprovalAlert": "Per assegnare l’analisi del rischio al valutatore è necessario compilare tutte le domande.",
+      "requiredFieldErrorReviewer": "Compila per proseguire",
+      "requestApprovalDialog": {
+        "title": "Richiedi approvazione",
+        "description": "Se confermi, assegnerai l’approvazione dell’analisi del rischio al valutatore <strong>{{reviewerId}}</strong> e non potrai più fare modifiche.",
+        "proceedLabel": "Conferma"
       }
     },
     "purposeFromTemplate": {
@@ -233,6 +275,18 @@
           "label": "Soglia totale prevista dall'erogatore",
           "value": "{{value}} chiamate API/giorno"
         }
+      }
+    },
+    "assignmentSection": {
+      "title": "Assegnazione",
+      "mode": {
+        "label": "Modalità",
+        "autonomy": "Compilazione e approvazione in autonomia",
+        "adminWritesReviewerSigns": "Compilazione in autonomia e approvazione del valutatore",
+        "reviewerWritesReviewerSigns": "Compilazione e approvazione del valutatore"
+      },
+      "reviewer": {
+        "label": "Valutatore"
       }
     },
     "riskAnalysisSection": {

@@ -5,6 +5,7 @@ import { useActiveStep } from '@/hooks/useActiveStep'
 import { useTranslation } from 'react-i18next'
 import type { StepperStep } from '@/types/common.types'
 import { PurposeEditStepGeneral } from './components/PurposeEditStepGeneral'
+import { PurposeEditStepAssignment } from './components/PurposeEditStepAssignment'
 import { PurposeEditStepRiskAnalysis } from './components/PurposeEditStepRiskAnalysis'
 import { useParams, useNavigate } from '@/router'
 import { PurposeQueries } from '@/api/purpose'
@@ -42,6 +43,10 @@ const ConsumerPurposeEditPage: React.FC = () => {
         {
           label: t('edit.stepper.stepGeneralInformationLabel'),
           component: PurposeEditStepGeneral,
+        },
+        {
+          label: t('edit.stepper.stepAssignmentLabel'),
+          component: PurposeEditStepAssignment,
         },
         {
           label: t('edit.stepper.stepRiskAnalysisLabel'),

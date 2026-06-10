@@ -219,6 +219,39 @@ function useCreateDraftFromPurposeTemplate() {
   })
 }
 
+function useAssignRiskAnalysisReviewer() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purpose.assignRiskAnalysisReviewer',
+  })
+  return useMutation({
+    mutationFn: PurposeServices.assignRiskAnalysisReviewer,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+/**
+ * Submits the risk analysis form for reviewer signing.
+ *
+ * NB: this mutation assumes the latest answers have already been persisted
+ * via `useUpdateDraft` before being called. The error-toast copy reflects
+ * that assumption (it tells the user the draft is safe). Future call sites
+ * that do not pre-save must override the toast label accordingly.
+ */
+function useSubmitRiskAnalysis() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purpose.submitRiskAnalysis',
+  })
+  return useMutation({
+    mutationFn: PurposeServices.submitRiskAnalysis,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 function useSignRiskAnalysis() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.signRiskAnalysis' })
   return useMutation({
@@ -269,6 +302,8 @@ export const PurposeMutations = {
   useAddClient,
   useRemoveClient,
   useCreateDraftFromPurposeTemplate,
+  useAssignRiskAnalysisReviewer,
+  useSubmitRiskAnalysis,
   useSignRiskAnalysis,
   useRejectRiskAnalysis,
   useUpdateRiskAnalysis,

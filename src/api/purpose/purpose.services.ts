@@ -23,7 +23,9 @@ import type {
   RetrieveLatestRiskAnalysisConfigurationParams,
   RetrieveRiskAnalysisConfigurationByVersionParams,
   ReversePurposeUpdateContent,
+  RiskAnalysisAssignmentSeed,
   RiskAnalysisFormConfig,
+  RiskAnalysisSubmissionSeed,
   RiskAnalysisRejectionSeed,
   SignRiskAnalysisParams,
 } from '../api.generatedTypes'
@@ -292,6 +294,28 @@ async function getRemainingDailyCalls({ purposeId }: GetRemainingDailyCallsParam
   return response.data
 }
 
+async function assignRiskAnalysisReviewer({
+  purposeId,
+  ...payload
+}: { purposeId: string } & RiskAnalysisAssignmentSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/assign`,
+    payload
+  )
+  return response.data
+}
+
+async function submitRiskAnalysis({
+  purposeId,
+  ...payload
+}: { purposeId: string } & RiskAnalysisSubmissionSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/submit`,
+    payload
+  )
+  return response.data
+}
+
 async function signRiskAnalysis({ purposeId }: SignRiskAnalysisParams) {
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/sign`
@@ -355,6 +379,8 @@ export const PurposeServices = {
   createDraftFromPurposeTemplate,
   downloadRiskAnalysis,
   getRemainingDailyCalls,
+  assignRiskAnalysisReviewer,
+  submitRiskAnalysis,
   signRiskAnalysis,
   rejectRiskAnalysis,
   updateRiskAnalysis,
