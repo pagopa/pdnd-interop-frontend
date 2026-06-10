@@ -157,6 +157,17 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
       screen.getByText('create.step3.technicalSpecs.interface.description.soap')
     ).toBeInTheDocument()
     expect(
+      screen.queryByText('create.step3.technicalSpecs.interface.description.technicalCompliance')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('create.step3.technicalSpecs.interface.description.semanticCompliance')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', {
+        name: /create.step3.technicalSpecs.interface.description.restLinkLabel/,
+      })
+    ).not.toBeInTheDocument()
+    expect(
       screen.queryByRole('link', {
         name: /create.step3.technicalSpecs.interface.description.schemaEditorLinkLabel/,
       })

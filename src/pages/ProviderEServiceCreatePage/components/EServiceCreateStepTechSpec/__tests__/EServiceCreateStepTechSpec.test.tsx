@@ -172,6 +172,39 @@ describe('EServiceCreateStepTechSpec', () => {
 
     expect(screen.getByText('step4.interface.description.soap')).toBeInTheDocument()
     expect(
+      screen.queryByText('step4.interface.description.technicalCompliance')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('step4.interface.description.semanticCompliance')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: /step4.interface.description.restLinkLabel/ })
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: /step4.interface.description.schemaEditorLinkLabel/ })
+    ).not.toBeInTheDocument()
+  })
+
+  it('should not render compliance links when creating an e-service from a template', () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderWithTemplateRef(),
+    })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('step4.interface.description.restForm')).toBeInTheDocument()
+    expect(
+      screen.queryByText('step4.interface.description.technicalCompliance')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('step4.interface.description.semanticCompliance')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: /step4.interface.description.restLinkLabel/ })
+    ).not.toBeInTheDocument()
+    expect(
       screen.queryByRole('link', { name: /step4.interface.description.schemaEditorLinkLabel/ })
     ).not.toBeInTheDocument()
   })
