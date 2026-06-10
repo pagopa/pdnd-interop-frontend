@@ -167,7 +167,7 @@ function useSuspendVersion(options?: { skipConfirmation?: boolean; isArchivingCo
       successToastLabel: t(
         options?.isArchivingContext ? 'outcome.successArchiving' : 'outcome.success'
       ),
-      errorToastLabel: t('outcome.error'),
+      errorToastLabel: t(options?.isArchivingContext ? 'outcome.errorArchiving' : 'outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: options?.skipConfirmation
         ? undefined
@@ -190,7 +190,7 @@ function useReactivateVersion(options?: {
       successToastLabel: t(
         options?.isArchivingContext ? 'outcome.successArchiving' : 'outcome.success'
       ),
-      errorToastLabel: t('outcome.error'),
+      errorToastLabel: t(options?.isArchivingContext ? 'outcome.errorArchiving' : 'outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: options?.skipConfirmation
         ? undefined
@@ -203,14 +203,28 @@ function useReactivateVersion(options?: {
 }
 
 function useScheduleArchiveDescriptor() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.scheduleArchiveDescriptor',
+  })
   return useMutation({
     mutationFn: EServiceServices.scheduleArchiveDescriptor,
+    meta: {
+      successToastLabel: t('outcome.success', { days: GRACE_PERIOD_ARCHIVING_ESERVICE }),
+      errorToastLabel: t('outcome.error'),
+    },
   })
 }
 
 function useCancelDescriptorArchiving() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.cancelDescriptorArchiving',
+  })
   return useMutation({
     mutationFn: EServiceServices.cancelDescriptorArchiving,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
   })
 }
 
@@ -222,6 +236,7 @@ function useScheduleArchiveEservice() {
     mutationFn: EServiceServices.scheduleArchiveEservice,
     meta: {
       successToastLabel: t('outcome.success', { days: GRACE_PERIOD_ARCHIVING_ESERVICE }),
+      errorToastLabel: t('outcome.error'),
     },
   })
 }
@@ -234,6 +249,7 @@ function useCancelEserviceArchiving() {
     mutationFn: EServiceServices.cancelEserviceArchiving,
     meta: {
       successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
     },
   })
 }
