@@ -73,14 +73,32 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
       kind: 'editable-approval',
       isRejected: false,
     }))
-    // Option 3: reviewer compiles and signs.
+    // Option 3: reviewer compiles AND signs in one step, so only ASSIGNED (awaiting
+    // compilation) and SIGNED (approved) are reachable. DRAFT/undefined collapse into
+    // the same awaiting state; SUBMITTED/REJECTED cannot occur in this mode and are
+    // surfaced as an invariant violation instead of silently rendering the wrong chip.
+    .with(
+      {
+        reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
+        signingState: P.union('DRAFT', 'ASSIGNED', undefined),
+      },
+      () => ({ kind: 'awaiting-compilation' })
+    )
     .with({ reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS', signingState: 'SIGNED' }, () => ({
       kind: 'read-only',
       lockedState: 'SIGNED',
     }))
-    .with({ reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS' }, () => ({
-      kind: 'awaiting-compilation',
-    }))
+    .with(
+      {
+        reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
+        signingState: P.union('SUBMITTED', 'REJECTED'),
+      },
+      ({ signingState }) => {
+        throw new Error(
+          `Unreachable risk analysis signing state "${signingState}" for REVIEWER_WRITES_REVIEWER_SIGNS`
+        )
+      }
+    )
     .exhaustive()
 
   // Option 2 keeps the admin able to compile and request approval; option 1 has no reviewer.

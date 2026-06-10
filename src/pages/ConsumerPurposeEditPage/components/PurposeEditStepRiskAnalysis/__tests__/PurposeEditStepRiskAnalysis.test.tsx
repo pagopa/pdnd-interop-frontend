@@ -228,6 +228,24 @@ describe('PurposeEditStepRiskAnalysis', () => {
     expect(screen.getByText('option 1')).toBeInTheDocument()
   })
 
+  it.each(['SUBMITTED', 'REJECTED'] as const)(
+    'in option 3 the unreachable %s state throws an invariant error',
+    (signingState) => {
+      mockQueries(
+        buildPurpose({
+          reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
+          reviewerIds: ['reviewer-1'],
+          signingState,
+        }),
+        createMockRiskAnalysisFormConfig()
+      )
+
+      expect(() =>
+        render(<PurposeEditStepRiskAnalysis back={vi.fn()} forward={vi.fn()} activeStep={2} />)
+      ).toThrow(/Unreachable risk analysis signing state/)
+    }
+  )
+
   it('in a read-only state the forward CTA stays accessible and navigates to the summary', () => {
     mockQueries(
       buildPurpose({
