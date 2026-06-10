@@ -5,11 +5,17 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useQuery } from '@tanstack/react-query'
 import { PurposeEditStepAssignment } from '../PurposeEditStepAssignment'
 import PurposeEditStepAssignmentForm from '../PurposeEditStepAssignmentForm'
+import PurposeEditStepAssignmentReadOnly from '../PurposeEditStepAssignmentReadOnly'
 import { NotFoundError } from '@/utils/errors.utils'
 import { mockUseJwt } from '@/utils/testing.utils'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
+import type {
+  Purpose,
+  PurposeVersionState,
+  RiskAnalysisReviewMode,
+  User,
+} from '@/api/api.generatedTypes'
 import { createMockSelfCareUser } from '@/../__mocks__/data/user.mocks'
-import type { Purpose, RiskAnalysisReviewMode, User } from '@/api/api.generatedTypes'
 
 vi.mock('@/router', () => ({
   useParams: () => ({ purposeId: 'purpose-123' }),
@@ -51,14 +57,25 @@ vi.mock('@/config/env', async () => {
   }
 })
 
-vi.mock('../PurposeEditStepAssignmentForm', () => ({
-  default: vi.fn(() => <div data-testid="assignment-form" />),
-  PurposeEditStepAssignmentFormSkeleton: vi.fn(() => <div data-testid="skeleton" />),
+vi.mock('../PurposeEditStepAssignmentForm', async () => {
+  const actual = await vi.importActual<typeof import('../PurposeEditStepAssignmentForm')>(
+    '../PurposeEditStepAssignmentForm'
+  )
+  return {
+    ...actual,
+    default: vi.fn(() => <div data-testid="assignment-form" />),
+    PurposeEditStepAssignmentFormSkeleton: vi.fn(() => <div data-testid="skeleton" />),
+  }
+})
+
+vi.mock('../PurposeEditStepAssignmentReadOnly', () => ({
+  default: vi.fn(() => <div data-testid="assignment-readonly" />),
 }))
 
 type AssignmentPurposeOverrides = {
   reviewMode?: RiskAnalysisReviewMode
   reviewerIds?: string[]
+  versionState?: PurposeVersionState
 }
 
 function buildPurpose(
@@ -72,8 +89,14 @@ function buildPurpose(
         signingState: 'ASSIGNED',
       }
     : undefined
+  const base = createMockPurpose({ id: 'purpose-123', ...overrides })
   return {
-    ...createMockPurpose({ id: 'purpose-123', ...overrides }),
+    ...base,
+    // Default to an editable draft so the form path is exercised unless a test opts out.
+    currentVersion: base.currentVersion && {
+      ...base.currentVersion,
+      state: assignment?.versionState ?? 'DRAFT',
+    },
     ...(reviewerWorkflow ? { reviewerWorkflow } : {}),
   }
 }
@@ -222,7 +245,7 @@ describe('PurposeEditStepAssignment', () => {
     )
   })
 
-  it('maps ADMIN_WRITES_REVIEWER_SIGNS on the purpose to selfWritesReviewerSigns with prefilled reviewerId', () => {
+  it('renders the read-only step (not the form) when the purpose has a persisted reviewer workflow', () => {
     const purpose = buildPurpose(
       {},
       { reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS', reviewerIds: ['reviewer-1'] }
@@ -231,43 +254,43 @@ describe('PurposeEditStepAssignment', () => {
 
     render(<PurposeEditStepAssignment back={vi.fn()} forward={vi.fn()} activeStep={1} />)
 
-    expect(PurposeEditStepAssignmentForm).toHaveBeenCalledWith(
-      expect.objectContaining({
-        defaultValues: { reviewMode: 'selfWritesReviewerSigns', reviewerId: 'reviewer-1' },
-      }),
-      expect.anything()
-    )
+    expect(screen.getByTestId('assignment-readonly')).toBeInTheDocument()
+    expect(PurposeEditStepAssignmentForm).not.toHaveBeenCalled()
   })
 
-  it('maps REVIEWER_WRITES_REVIEWER_SIGNS on the purpose to reviewerWritesReviewerSigns with prefilled reviewerId', () => {
+  it('forwards the purpose and the reviewers list to the read-only step', () => {
+    const reviewers = buildReviewers()
     const purpose = buildPurpose(
       {},
       { reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS', reviewerIds: ['reviewer-1'] }
     )
-    mockQueries({ purpose, reviewers: buildReviewers() })
+    mockQueries({ purpose, reviewers })
 
     render(<PurposeEditStepAssignment back={vi.fn()} forward={vi.fn()} activeStep={1} />)
 
-    expect(PurposeEditStepAssignmentForm).toHaveBeenCalledWith(
-      expect.objectContaining({
-        defaultValues: { reviewMode: 'reviewerWritesReviewerSigns', reviewerId: 'reviewer-1' },
-      }),
+    expect(PurposeEditStepAssignmentReadOnly).toHaveBeenCalledWith(
+      expect.objectContaining({ purpose, reviewers }),
       expect.anything()
     )
   })
 
-  it('leaves reviewerId undefined when the purpose has a reviewMode but no reviewerIds', () => {
-    const purpose = buildPurpose({}, { reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS' })
+  it('renders the editable form (not the read-only step) when the purpose has no reviewer workflow', () => {
+    mockQueries({ purpose: buildPurpose(), reviewers: buildReviewers() })
+
+    render(<PurposeEditStepAssignment back={vi.fn()} forward={vi.fn()} activeStep={1} />)
+
+    expect(PurposeEditStepAssignmentForm).toHaveBeenCalled()
+    expect(PurposeEditStepAssignmentReadOnly).not.toHaveBeenCalled()
+  })
+
+  it('renders the read-only step when the purpose is published, even without a reviewer workflow', () => {
+    const purpose = buildPurpose({}, { versionState: 'ACTIVE' })
     mockQueries({ purpose, reviewers: buildReviewers() })
 
     render(<PurposeEditStepAssignment back={vi.fn()} forward={vi.fn()} activeStep={1} />)
 
-    expect(PurposeEditStepAssignmentForm).toHaveBeenCalledWith(
-      expect.objectContaining({
-        defaultValues: { reviewMode: 'selfWritesReviewerSigns', reviewerId: undefined },
-      }),
-      expect.anything()
-    )
+    expect(screen.getByTestId('assignment-readonly')).toBeInTheDocument()
+    expect(PurposeEditStepAssignmentForm).not.toHaveBeenCalled()
   })
 
   it('passes an empty array as reviewers when the tenant has no users with the reviewer role', () => {

@@ -14,7 +14,6 @@ import {
 } from '@/components/shared/RiskAnalysisFormComponents'
 import { useRiskAnalysisForm } from '@/hooks/useRiskAnalysisForm'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
-import { useDialog } from '@/stores'
 import { getValidAnswers } from '@/utils/risk-analysis-form.utils'
 import { RiskAnalysisRejectionDrawer } from '@/components/shared/RiskAnalysisRejectionDrawer'
 
@@ -46,7 +45,6 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   submitLabel,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
-  const { openDialog } = useDialog()
   const [isRejectionDrawerOpen, setIsRejectionDrawerOpen] = React.useState(false)
 
   const riskAnalysisForm = useRiskAnalysisForm({
@@ -70,18 +68,6 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
     return incompatible
   }
 
-  const requestApproval = (validAnswers: Record<string, string[]>) => {
-    // TODO[PIN-10171]: replace with the dedicated DialogRequestPurposeApproval
-    // (interpolates reviewer name, owns loading/error states and the BE call).
-    openDialog({
-      type: 'basic',
-      title: t('stepRiskAnalysis.requestApprovalDialog.title'),
-      description: t('stepRiskAnalysis.requestApprovalDialog.description'),
-      proceedLabel: t('stepRiskAnalysis.requestApprovalDialog.proceedLabel'),
-      onProceed: () => onSubmit(validAnswers),
-    })
-  }
-
   const handleValidSubmit = ({ validAnswers }: { validAnswers: Record<string, string[]> }) => {
     setShowRequiredAlert(false)
     setIncompatibleAnswerValue(false)
@@ -92,11 +78,6 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
         type: 'manual',
         message: t('stepRiskAnalysis.personalDataFlag.incompatibleAnswerError.purposeEdit'),
       })
-      return
-    }
-
-    if (isReviewerApprovalMode) {
-      requestApproval(validAnswers)
       return
     }
 

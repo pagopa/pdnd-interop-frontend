@@ -50,6 +50,14 @@ vi.mock('@/api/purpose', () => ({
   },
 }))
 
+const openDialogMock = vi.fn()
+vi.mock('@/stores', () => ({
+  useDialog: () => ({
+    openDialog: openDialogMock,
+    closeDialog: vi.fn(),
+  }),
+}))
+
 type RiskAnalysisFormSpyProps = {
   isReviewerApprovalMode?: boolean
   onSubmit: (answers: Record<string, string[]>) => void
@@ -292,7 +300,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
     })
   })
 
-  it('in option 2 chains save then submit then navigate when the form invokes onSubmit', () => {
+  it('in option 2 opens the requestPurposeApproval dialog and the dialog onConfirm runs the save+submit+navigate chain', () => {
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
       reviewerIds: ['reviewer-1'],
@@ -306,6 +314,23 @@ describe('PurposeEditStepRiskAnalysis', () => {
     const answers = { purpose: ['OTHER'], institutionalPurpose: ['text'] }
     getLastFormProps().onSubmit(answers)
 
+    // Step 1: form onSubmit only opens the dialog — no BE call yet.
+    expect(updateDraftMock).not.toHaveBeenCalled()
+    expect(submitRiskAnalysisMock).not.toHaveBeenCalled()
+    expect(navigateMock).not.toHaveBeenCalled()
+
+    expect(openDialogMock).toHaveBeenCalledTimes(1)
+    const dialogPayload = openDialogMock.mock.calls[0][0]
+    expect(dialogPayload).toMatchObject({
+      type: 'requestPurposeApproval',
+      reviewerId: 'reviewer-1',
+    })
+    expect(typeof dialogPayload.onConfirm).toBe('function')
+
+    // Step 2: dialog onConfirm fires the chain. The chain lives in the parent
+    // so the MutationObservers stay mounted across closeDialog.
+    dialogPayload.onConfirm()
+
     expect(updateDraftMock).toHaveBeenCalledTimes(1)
     const [savePayload, saveOptions] = updateDraftMock.mock.calls[0]
     expect(savePayload).toMatchObject({
@@ -313,7 +338,6 @@ describe('PurposeEditStepRiskAnalysis', () => {
       riskAnalysisForm: { version: riskAnalysis.version, answers },
     })
     expect(submitRiskAnalysisMock).not.toHaveBeenCalled()
-    expect(navigateMock).not.toHaveBeenCalled()
 
     saveOptions.onSuccess!()
 
@@ -331,27 +355,23 @@ describe('PurposeEditStepRiskAnalysis', () => {
     })
   })
 
-  it('in option 2 does not navigate when the submit step of the chain fails', () => {
+  it('in option 2 logs and no-ops when reviewerIds is missing (BE contract violation) instead of opening a malformed dialog', () => {
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-      reviewerIds: ['reviewer-1'],
+      reviewerIds: [],
       signingState: 'DRAFT',
     })
     mockQueries(purpose, createMockRiskAnalysisFormConfig())
 
     render(<PurposeEditStepRiskAnalysis back={vi.fn()} forward={vi.fn()} activeStep={2} />)
 
-    const answers = { purpose: ['OTHER'], institutionalPurpose: ['text'] }
-    getLastFormProps().onSubmit(answers)
+    getLastFormProps().onSubmit({ purpose: ['OTHER'] })
 
-    const [, saveOptions] = updateDraftMock.mock.calls[0]
-    saveOptions.onSuccess!()
+    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching(/reviewerIds/))
+    expect(openDialogMock).not.toHaveBeenCalled()
 
-    expect(submitRiskAnalysisMock).toHaveBeenCalledTimes(1)
-    const [, submitOptions] = submitRiskAnalysisMock.mock.calls[0]
-    submitOptions.onError?.(new Error('boom'))
-
-    expect(navigateMock).not.toHaveBeenCalled()
+    consoleErrorSpy.mockRestore()
   })
 
   it('in option 2 the draft save only persists and navigates without submitting', () => {

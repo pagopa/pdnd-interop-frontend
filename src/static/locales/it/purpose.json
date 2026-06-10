@@ -120,7 +120,13 @@
       },
       "delegateAlert": "Come delegato, non puoi assegnare l’analisi del rischio a un valutatore.",
       "forwardBtn": "Salva bozza e prosegui",
-      "requestReviewerCompilationBtn": "Richiedi compilazione"
+      "requestReviewerCompilationBtn": "Richiedi compilazione",
+      "readOnly": {
+        "modeLabel": "Modalità",
+        "reviewerLabel": "Valutatore",
+        "reviewerUnknown": "Valutatore non disponibile",
+        "forwardBtn": "Avanti"
+      }
     },
     "loadEstimationSection": {
       "title": "Stima chiamate API",
@@ -192,7 +198,7 @@
       "requiredFieldErrorReviewer": "Compila per proseguire",
       "requestApprovalDialog": {
         "title": "Richiedi approvazione",
-        "description": "Se confermi, assegnerai l’approvazione dell’analisi del rischio al valutatore e non potrai più fare modifiche.",
+        "description": "Se confermi, assegnerai l’approvazione dell’analisi del rischio al valutatore <strong>{{reviewerId}}</strong> e non potrai più fare modifiche.",
         "proceedLabel": "Conferma"
       }
     },

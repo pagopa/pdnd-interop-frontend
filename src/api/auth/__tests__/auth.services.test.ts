@@ -22,6 +22,7 @@ vi.mock('../auth.utils', () => ({
     isOperatorSecurity: false,
     isSupport: false,
     isReviewer: false,
+    isViewer: false,
     isOrganizationAllowedToProduce: false,
     isOrganizationAllowedToDelegations: false,
     userEmail: undefined,
