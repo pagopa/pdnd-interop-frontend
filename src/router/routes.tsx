@@ -367,7 +367,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     redirect: 'SUBSCRIBE_AGREEMENT_LIST',
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'security', 'api'],
+    authLevels: ['admin', 'support', 'security', 'api', 'viewer'],
   })
   .addRoute({
     key: 'PARTY_REGISTRY',
@@ -439,7 +439,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     redirect: 'PARTY_REGISTRY',
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api', 'security'],
+    authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
   })
   .addRoute({
     key: 'TENANT_CERTIFIER',
