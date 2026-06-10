@@ -1189,7 +1189,10 @@ export function useGetProviderEServiceActions(
     .with({ state: 'ARCHIVED' }, () => ({
       primary: undefined,
       header: latestDescriptorId ? [viewLatestVersionAction] : [],
-      menu: latestDescriptorId ? menuArchivedEserviceActive : menuArchivedEserviceArchived,
+      menu:
+        latestDescriptorId && !isEServiceBeingArchived
+          ? menuArchivedEserviceActive
+          : menuArchivedEserviceArchived,
     }))
     .with({ state: 'ARCHIVING', archivingScope: 'ESERVICE' }, () => ({
       primary: cancelArchivingEserviceAction,
