@@ -61,7 +61,9 @@ export const ProviderAgreementDetailsCertifiedAttributesSection: React.FC = () =
                 <li key={attribute.id}>
                   <AttributeContainer
                     attribute={attribute}
-                    checked={isAttributeOwned('certified', attribute.id, ownedCertifiedAttributes)}
+                    checked={isAttributeOwned('certified', attribute.id, ownedCertifiedAttributes, {
+                      discreteConfig: attribute.discreteConfig,
+                    })}
                   />
                 </li>
               ))}

@@ -10,6 +10,7 @@ import {
 import type {
   DescriptorAttribute,
   DescriptorAttributes,
+  EServiceAttributeCertifiedDiscreteConfig,
   TenantAttributes,
 } from '@/api/api.generatedTypes'
 import type { ActionItemButton } from '@/types/common.types'
@@ -205,11 +206,14 @@ function getGroupColorAndText(
 function getAttributeChecked(
   attributeKey: AttributeKey,
   attributeId: string,
-  ownershipData: AttributeOwnershipData
+  ownershipData: AttributeOwnershipData,
+  discreteConfig?: EServiceAttributeCertifiedDiscreteConfig
 ): boolean {
   switch (attributeKey) {
     case 'certified':
-      return isAttributeOwned('certified', attributeId, ownershipData.certified)
+      return isAttributeOwned('certified', attributeId, ownershipData.certified, {
+        discreteConfig: discreteConfig,
+      })
     case 'verified':
       return isAttributeOwned('verified', attributeId, ownershipData.verified, {
         verifierId: ownershipData.producerId,
@@ -274,7 +278,12 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
                 attribute={attribute}
                 checked={
                   ownershipData && !shouldHideFulfillmentStatus
-                    ? getAttributeChecked(attributeKey, attribute.id, ownershipData)
+                    ? getAttributeChecked(
+                        attributeKey,
+                        attribute.id,
+                        ownershipData,
+                        attribute.discreteConfig
+                      )
                     : undefined
                 }
                 onCustomizeThreshold={withThreshold ? () => open(attribute, index) : undefined}
