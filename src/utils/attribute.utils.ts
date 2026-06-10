@@ -1,11 +1,13 @@
 import type { AttributeKey } from './../types/attribute.types'
 import type {
+  CertifiedDiscreteTenantAttribute,
   CertifiedTenantAttribute,
   DeclaredTenantAttribute,
   DescriptorAttribute,
   DescriptorAttributeSeed,
   DescriptorAttributes,
   DescriptorAttributesSeed,
+  TenantAttributes,
   VerifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
 
@@ -17,7 +19,10 @@ import type {
  * if not the attribute is considered revoked if it has been revoked at least once by any verifier.
  * @returns `true` if the attribute is considered revoked, false otherwise.
  */
-export function isAttributeRevoked(kind: 'certified', attribute: CertifiedTenantAttribute): boolean
+export function isAttributeRevoked(
+  kind: 'certified',
+  attribute: CertifiedTenantAttribute | CertifiedDiscreteTenantAttribute
+): boolean
 export function isAttributeRevoked(
   kind: 'verified',
   attribute: VerifiedTenantAttribute,
@@ -26,12 +31,19 @@ export function isAttributeRevoked(
 export function isAttributeRevoked(kind: 'declared', attribute: DeclaredTenantAttribute): boolean
 export function isAttributeRevoked(
   kind: AttributeKey,
-  attribute: CertifiedTenantAttribute | VerifiedTenantAttribute | DeclaredTenantAttribute,
+  attribute:
+    | CertifiedTenantAttribute
+    | CertifiedDiscreteTenantAttribute
+    | VerifiedTenantAttribute
+    | DeclaredTenantAttribute,
   verifierId?: string
 ) {
   switch (kind) {
     case 'certified':
-      return Boolean((attribute as CertifiedTenantAttribute).revocationTimestamp)
+      return Boolean(
+        (attribute as CertifiedTenantAttribute | CertifiedDiscreteTenantAttribute)
+          .revocationTimestamp
+      )
     case 'verified':
       /*
        * If a verifierId is passed, the attribute is considered revoked if it is revoked by him.
@@ -66,26 +78,23 @@ export function isAttributeRevoked(
 export function isAttributeOwned(
   kind: 'certified',
   attributeId: string,
-  ownedAttributes: CertifiedTenantAttribute[]
+  ownedAttributes: TenantAttributes['certified']
 ): boolean
 export function isAttributeOwned(
   kind: 'verified',
   attributeId: string,
-  ownedAttributes: VerifiedTenantAttribute[],
+  ownedAttributes: TenantAttributes['verified'],
   verifierId: string | undefined
 ): boolean
 export function isAttributeOwned(
   kind: 'declared',
   attributeId: string,
-  ownedAttributes: DeclaredTenantAttribute[]
+  ownedAttributes: TenantAttributes['declared']
 ): boolean
 export function isAttributeOwned(
   kind: AttributeKey,
   attributeId: string,
-  ownedAttributes:
-    | VerifiedTenantAttribute[]
-    | CertifiedTenantAttribute[]
-    | DeclaredTenantAttribute[],
+  ownedAttributes: TenantAttributes[AttributeKey],
   verifierId?: string
 ) {
   const matchIndex = ownedAttributes.findIndex((a) => a.id === attributeId)
@@ -110,11 +119,14 @@ export function isAttributeOwned(
 
   switch (kind) {
     case 'certified':
-      return !isAttributeRevoked('certified', match)
+      return !isAttributeRevoked(
+        'certified',
+        match as CertifiedTenantAttribute | CertifiedDiscreteTenantAttribute
+      )
     case 'verified':
       return isOwnedVerifiedAttributeNotExpired(match as VerifiedTenantAttribute, verifierId)
     case 'declared':
-      return !isAttributeRevoked('declared', match)
+      return !isAttributeRevoked('declared', match as DeclaredTenantAttribute)
     default:
       throw new Error(`Unknown attribute kind: ${kind}`)
   }
@@ -130,38 +142,39 @@ export function isAttributeOwned(
  */
 export function isAttributeGroupFullfilled(
   kind: 'certified',
-  ownedAttributes: CertifiedTenantAttribute[],
+  ownedAttributes: TenantAttributes['certified'],
   attributesGroup: Array<DescriptorAttribute>
 ): boolean
 export function isAttributeGroupFullfilled(
   kind: 'verified',
-  ownedAttributes: VerifiedTenantAttribute[],
+  ownedAttributes: TenantAttributes['verified'],
   attributesGroup: Array<DescriptorAttribute>,
   verifierId: string | undefined
 ): boolean
 export function isAttributeGroupFullfilled(
   kind: 'declared',
-  ownedAttributes: DeclaredTenantAttribute[],
+  ownedAttributes: TenantAttributes['declared'],
   attributesGroup: Array<DescriptorAttribute>
 ): boolean
-export function isAttributeGroupFullfilled<TAttributeKey extends AttributeKey>(
-  kind: TAttributeKey,
-  ownedAttributes: TAttributeKey extends 'certified'
-    ? CertifiedTenantAttribute[]
-    : TAttributeKey extends 'verified'
-      ? VerifiedTenantAttribute[]
-      : DeclaredTenantAttribute[],
+export function isAttributeGroupFullfilled(
+  kind: AttributeKey,
+  ownedAttributes: TenantAttributes[AttributeKey],
   attributesGroup: Array<DescriptorAttribute>,
   verifierId?: string
 ) {
   const isOwned = ({ id }: DescriptorAttribute) => {
     switch (kind) {
       case 'certified':
-        return isAttributeOwned(kind, id, ownedAttributes)
+        return isAttributeOwned(kind, id, ownedAttributes as TenantAttributes['certified'])
       case 'verified':
-        return isAttributeOwned(kind, id, ownedAttributes as VerifiedTenantAttribute[], verifierId)
+        return isAttributeOwned(
+          kind,
+          id,
+          ownedAttributes as TenantAttributes['verified'],
+          verifierId
+        )
       case 'declared':
-        return isAttributeOwned(kind, id, ownedAttributes)
+        return isAttributeOwned(kind, id, ownedAttributes as TenantAttributes['declared'])
       default:
         throw new Error(`Unknown attribute kind: ${kind}`)
     }
@@ -179,42 +192,47 @@ export function isAttributeGroupFullfilled<TAttributeKey extends AttributeKey>(
  */
 export function hasAllDescriptorAttributes(
   kind: 'certified',
-  ownedAttributes: CertifiedTenantAttribute[],
+  ownedAttributes: TenantAttributes['certified'],
   descriptorAttributes: Array<Array<DescriptorAttribute>>
 ): boolean
 export function hasAllDescriptorAttributes(
   kind: 'verified',
-  ownedAttributes: VerifiedTenantAttribute[],
+  ownedAttributes: TenantAttributes['verified'],
   descriptorAttributes: Array<Array<DescriptorAttribute>>,
   verifierId: string | undefined
 ): boolean
 export function hasAllDescriptorAttributes(
   kind: 'declared',
-  ownedAttributes: DeclaredTenantAttribute[],
+  ownedAttributes: TenantAttributes['declared'],
   descriptorAttributes: Array<Array<DescriptorAttribute>>
 ): boolean
 export function hasAllDescriptorAttributes(
   kind: AttributeKey,
-  ownedAttributes:
-    | VerifiedTenantAttribute[]
-    | CertifiedTenantAttribute[]
-    | DeclaredTenantAttribute[],
+  ownedAttributes: TenantAttributes[AttributeKey],
   descriptorAttributes: Array<Array<DescriptorAttribute>>,
   verifierId?: string
 ) {
   const isGroupFullfilled = (attributesGroup: Array<DescriptorAttribute>) => {
     switch (kind) {
       case 'certified':
-        return isAttributeGroupFullfilled(kind, ownedAttributes, attributesGroup)
+        return isAttributeGroupFullfilled(
+          kind,
+          ownedAttributes as TenantAttributes['certified'],
+          attributesGroup
+        )
       case 'verified':
         return isAttributeGroupFullfilled(
           kind,
-          ownedAttributes as VerifiedTenantAttribute[],
+          ownedAttributes as TenantAttributes['verified'],
           attributesGroup,
           verifierId
         )
       case 'declared':
-        return isAttributeGroupFullfilled(kind, ownedAttributes, attributesGroup)
+        return isAttributeGroupFullfilled(
+          kind,
+          ownedAttributes as TenantAttributes['declared'],
+          attributesGroup
+        )
       default:
         throw new Error(`Unknown attribute kind: ${kind}`)
     }
@@ -238,6 +256,7 @@ export const remapDescriptorAttributesToDescriptorAttributesSeed = (
         id: a.id,
         explicitAttributeVerification: true,
         dailyCallsPerConsumer: a?.dailyCallsPerConsumer,
+        discreteConfig: a?.discreteConfig,
       }))
     })
   }

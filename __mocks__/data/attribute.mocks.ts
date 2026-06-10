@@ -1,5 +1,6 @@
 import type {
   Attribute,
+  CertifiedDiscreteTenantAttribute,
   CertifiedTenantAttribute,
   CompactAttribute,
   DeclaredTenantAttribute,
@@ -22,6 +23,7 @@ const createCertifiedTenantAttribute = createMockFactory<CertifiedTenantAttribut
   description: 'Attribute description',
   assignmentTimestamp: '2021-09-01T12:00:00.000Z',
   revocationTimestamp: '2021-09-01T12:00:00.000Z',
+  kind: 'CERTIFIED',
 })
 
 const createVerifiedTenantAttribute = createMockFactory<VerifiedTenantAttribute>({
@@ -31,6 +33,7 @@ const createVerifiedTenantAttribute = createMockFactory<VerifiedTenantAttribute>
   assignmentTimestamp: '2021-09-01T12:00:00.000Z',
   verifiedBy: [],
   revokedBy: [],
+  kind: 'VERIFIED',
 })
 
 const createDeclaredTenantAttribute = createMockFactory<DeclaredTenantAttribute>({
@@ -39,11 +42,23 @@ const createDeclaredTenantAttribute = createMockFactory<DeclaredTenantAttribute>
   description: 'Attribute description',
   assignmentTimestamp: '2021-09-01T12:00:00.000Z',
   revocationTimestamp: '2021-09-01T12:00:00.000Z',
+  kind: 'DECLARED',
+})
+
+const createCertifiedDiscreteTenantAttribute = createMockFactory<CertifiedDiscreteTenantAttribute>({
+  id: 'id-certified-discrete-tenant-attribute',
+  name: 'Attribute Name',
+  description: 'Attribute description',
+  assignmentTimestamp: '2021-09-01T12:00:00.000Z',
+  revocationTimestamp: '2021-09-01T12:00:00.000Z',
+  kind: 'CERTIFIED_DISCRETE',
+  discreteValue: 100,
 })
 
 const createMockCompactAttribute = createMockFactory<CompactAttribute>({
   id: 'id-compact-attribute',
   name: 'Attribute Name',
+  kind: 'CERTIFIED',
 })
 
 const createMockDescriptorAttribute = createMockFactory<DescriptorAttribute>({
@@ -51,6 +66,7 @@ const createMockDescriptorAttribute = createMockFactory<DescriptorAttribute>({
   name: 'Attribute Name',
   description: 'Attribute description',
   explicitAttributeVerification: true,
+  kind: 'CERTIFIED',
 })
 
 export {
@@ -58,6 +74,7 @@ export {
   createCertifiedTenantAttribute,
   createVerifiedTenantAttribute,
   createDeclaredTenantAttribute,
+  createCertifiedDiscreteTenantAttribute,
   createMockCompactAttribute,
   createMockDescriptorAttribute,
 }

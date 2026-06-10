@@ -1,8 +1,5 @@
 import React from 'react'
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
   Card,
   CardActions,
@@ -12,7 +9,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
@@ -20,10 +16,25 @@ import EditIcon from '@mui/icons-material/Edit'
 import { AttributeQueries } from '@/api/attribute'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
+import { FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE } from '@/config/env'
+import { ActionMenu } from '@/components/shared/ActionMenu'
+import type { ActionItemButton } from '@/types/common.types'
+import type {
+  Attribute,
+  AttributeKind,
+  EServiceAttributeCertifiedDiscreteConfig,
+} from '@/api/api.generatedTypes'
+import { Drawer } from '@/components/shared/Drawer'
 
 type AttributeContainerProps<
-  TAttribute extends { id: string; name: string; dailyCallsPerConsumer?: number },
+  TAttribute extends {
+    id: string
+    name: string
+    dailyCallsPerConsumer?: number
+    kind?: AttributeKind
+    discreteConfig?: EServiceAttributeCertifiedDiscreteConfig
+  },
 > = {
   attribute: TAttribute
   actions?: Array<{
@@ -36,10 +47,17 @@ type AttributeContainerProps<
   onRemove?: (id: string, name: string) => void
   onCustomizeThreshold?: VoidFunction
   hideThreshold?: boolean
+  onOpenConfigDrawer?: VoidFunction
 }
 
 export const AttributeContainer = <
-  TAttribute extends { id: string; name: string; dailyCallsPerConsumer?: number },
+  TAttribute extends {
+    id: string
+    name: string
+    dailyCallsPerConsumer?: number
+    kind?: AttributeKind
+    discreteConfig?: EServiceAttributeCertifiedDiscreteConfig
+  },
 >({
   attribute,
   actions,
@@ -48,138 +66,175 @@ export const AttributeContainer = <
   onRemove,
   onCustomizeThreshold,
   hideThreshold,
+  onOpenConfigDrawer,
 }: AttributeContainerProps<TAttribute>) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'attributeContainer' })
-  const panelContentId = React.useId()
-  const headerId = React.useId()
-  const alreadyPrefetched = React.useRef(false)
-  const [hasExpandedOnce, setHasExpandedOnce] = React.useState(false)
+  const { t: tCommon } = useTranslation('common', { keyPrefix: 'comparators' })
+  const [isDetailsDrawerOpen, setIsDetailsDrawerOpen] = React.useState<boolean>(false)
+  const { data: completeAttribute, isLoading: isLoadingCompleteAttribute } = useQuery(
+    AttributeQueries.getSingle(attribute.id)
+  )
 
-  const queryClient = useQueryClient()
+  const isAttributeCertifiedDiscrete =
+    FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE && attribute.kind === 'CERTIFIED_DISCRETE'
 
-  const handlePrefetchAttribute = () => {
-    if (alreadyPrefetched.current) return
-    alreadyPrefetched.current = true
-    queryClient.prefetchQuery(AttributeQueries.getSingle(attribute.id))
+  const getMenuActions = () => {
+    const actions: Array<ActionItemButton> = []
+
+    if (isAttributeCertifiedDiscrete && onOpenConfigDrawer) {
+      const changeAttributeValueAction: ActionItemButton = {
+        action: onOpenConfigDrawer,
+        label: t('actions.modifyCertifiedDiscreteAttribute'),
+      }
+      actions.push(changeAttributeValueAction)
+    }
+
+    if (onCustomizeThreshold && attribute.dailyCallsPerConsumer) {
+      const customizeThresholdAction: ActionItemButton = {
+        action: onCustomizeThreshold,
+        label: t('actions.changeThreshold'),
+        icon: EditIcon,
+      }
+      actions.push(customizeThresholdAction)
+    }
+
+    const inspectAttributeDetails: ActionItemButton = {
+      action: () => setIsDetailsDrawerOpen(true),
+      label: t('actions.inspectAttributeDetails'),
+    }
+
+    actions.push(inspectAttributeDetails)
+
+    return actions
   }
 
+  const menuActions = getMenuActions()
+
   return (
-    <Stack direction="row" alignItems="center">
+    <>
       <Stack direction="row" alignItems="center" spacing={2}>
-        {checked && <CheckCircleIcon sx={{ color: 'success.dark' }} />}
-        {onRemove && (
-          <IconButton
-            aria-label={t('removeAttributeAriaLabel', { attributeName: attribute.name })}
-            onClick={onRemove.bind(null, attribute.id, attribute.name)}
-          >
-            <RemoveCircleOutlineIcon color="error" />
-          </IconButton>
+        {(checked || onRemove) && (
+          <Stack direction="row" alignItems="center">
+            {checked && <CheckCircleIcon sx={{ color: 'success.dark' }} />}
+            {onRemove && (
+              <IconButton
+                aria-label={t('removeAttributeAriaLabel', { attributeName: attribute.name })}
+                onClick={onRemove.bind(null, attribute.id, attribute.name)}
+              >
+                <RemoveCircleOutlineIcon color="error" />
+              </IconButton>
+            )}
+          </Stack>
         )}
-      </Stack>
-      <Card sx={{ borderRadius: 1, border: '1px solid', borderColor: 'divider', flex: 1 }}>
-        <Accordion
-          disableGutters
-          sx={{
-            '&:before': { display: 'none' },
-          }}
-        >
-          <AccordionSummary
-            onClick={() => setHasExpandedOnce(true)}
-            onPointerEnter={handlePrefetchAttribute}
-            onFocusVisible={handlePrefetchAttribute}
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls={panelContentId}
-            id={headerId}
-          >
-            <Stack spacing={1}>
+        <Card sx={{ borderRadius: 1, border: '1px solid', borderColor: 'divider', flex: 1 }}>
+          <Stack p={2} direction="row" justifyContent="space-between" alignContent="center">
+            <Stack spacing={1} justifyContent="center">
               <Typography fontWeight={600}>{attribute.name}</Typography>
+              {isAttributeCertifiedDiscrete && attribute.discreteConfig && (
+                <Typography variant="body2" fontWeight={700}>
+                  {`${tCommon(attribute.discreteConfig.comparator)} ${attribute.discreteConfig.threshold}`}
+                </Typography>
+              )}
               {(attribute.dailyCallsPerConsumer !== undefined || onCustomizeThreshold) && (
                 <Stack direction={'row'} spacing={2} alignItems={'center'}>
                   {attribute.dailyCallsPerConsumer !== undefined && !hideThreshold && (
                     <Stack direction={'row'} spacing={1}>
-                      <Typography sx={{ fontSize: 16 }}>{t('thresholdLabel')}</Typography>
-                      <Typography sx={{ fontSize: 16, fontWeight: 700 }}>
+                      <Typography variant="body2">{t('thresholdLabel')}</Typography>
+                      <Typography variant="body2" fontWeight={700}>
                         {attribute.dailyCallsPerConsumer}
                       </Typography>
                     </Stack>
                   )}
-                  {onCustomizeThreshold && (
+                  {onCustomizeThreshold && !attribute.dailyCallsPerConsumer && (
                     <ButtonNaked
                       color="primary"
                       type="button"
                       sx={{ fontWeight: 700 }}
-                      startIcon={attribute.dailyCallsPerConsumer ? <EditIcon /> : undefined}
                       onClick={(e: React.MouseEvent) => {
                         e.stopPropagation()
                         onCustomizeThreshold()
                       }}
                     >
-                      {attribute.dailyCallsPerConsumer ? t('changeBtn') : t('customizeBtn')}
+                      {t('actions.customizeThreshold')}
                     </ButtonNaked>
                   )}
                 </Stack>
               )}
             </Stack>
-          </AccordionSummary>
-          <AccordionDetails>
-            {hasExpandedOnce && <AttributeDetails attributeId={attribute.id} />}
-          </AccordionDetails>
-        </Accordion>
-        {(chipLabel || (actions && actions.length > 0)) && (
-          <Stack
-            sx={{ px: 2, pb: 2 }}
-            direction="row"
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Box>{chipLabel && <Chip label={chipLabel} />}</Box>
-            <CardActions disableSpacing sx={{ p: 0 }}>
-              <Stack direction="row" spacing={2}>
-                {actions?.map(({ action, label, color = 'primary' }, i) => (
-                  <ButtonNaked
-                    key={i}
-                    type="button"
-                    onClick={action.bind(null, attribute.id)}
-                    color={color}
-                  >
-                    {label}
-                  </ButtonNaked>
-                ))}
-              </Stack>
-            </CardActions>
+            <Box alignSelf="center">
+              <ActionMenu actions={menuActions} iconColor="action" />
+            </Box>
           </Stack>
-        )}
-      </Card>
-    </Stack>
+          {(chipLabel || (actions && actions.length > 0)) && (
+            <Stack
+              sx={{ px: 2, pb: 2 }}
+              direction="row"
+              alignItems="center"
+              justifyContent="space-between"
+            >
+              <Box>{chipLabel && <Chip label={chipLabel} />}</Box>
+              <CardActions disableSpacing sx={{ p: 0 }}>
+                <Stack direction="row" spacing={2}>
+                  {actions?.map(({ action, label, color = 'primary' }, i) => (
+                    <ButtonNaked
+                      key={i}
+                      type="button"
+                      onClick={action.bind(null, attribute.id)}
+                      color={color}
+                    >
+                      {label}
+                    </ButtonNaked>
+                  ))}
+                </Stack>
+              </CardActions>
+            </Stack>
+          )}
+        </Card>
+      </Stack>
+      {!isLoadingCompleteAttribute && completeAttribute && (
+        <AttributeDetailsDrawer
+          isOpen={isDetailsDrawerOpen}
+          onClose={() => setIsDetailsDrawerOpen(false)}
+          attribute={completeAttribute}
+        />
+      )}
+    </>
   )
 }
 
-const AttributeDetails: React.FC<{ attributeId: string }> = ({ attributeId }) => {
+const AttributeDetailsDrawer: React.FC<{
+  isOpen: boolean
+  onClose: VoidFunction
+  attribute: Attribute
+}> = ({ isOpen, onClose, attribute }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'attributeContainer' })
-  const { data: attribute, isLoading } = useQuery(AttributeQueries.getSingle(attributeId))
-
-  if (isLoading || !attribute) {
-    return (
-      <>
-        <Skeleton />
-        <Skeleton />
-      </>
-    )
-  }
 
   return (
-    <Stack sx={{ mt: 1 }} spacing={2}>
-      <Typography variant="body2">{attribute.description}</Typography>
-      <InformationContainer
-        direction="row"
-        content={attributeId}
-        copyToClipboard={{
-          value: attributeId,
-          tooltipTitle: t('idCopytooltipLabel'),
-        }}
-        label={t('attributeIdLabel')}
-      />
-    </Stack>
+    <Drawer isOpen={isOpen} onClose={onClose} title={attribute.name}>
+      <Stack sx={{ mt: 1 }} spacing={2}>
+        <InformationContainer
+          direction="column"
+          label={t('descriptionLabel')}
+          content={attribute.description}
+        />
+        <InformationContainer
+          direction="column"
+          label={t('attributeIdLabel')}
+          content={attribute.id}
+          copyToClipboard={{
+            value: attribute.id,
+            tooltipTitle: t('idCopytooltipLabel'),
+          }}
+        />
+        {attribute.origin && attribute.origin !== 'SELFCARE' && (
+          <InformationContainer
+            direction="column"
+            label={t('tenantCertifierLabel')}
+            content={attribute.origin}
+          />
+        )}
+      </Stack>
+    </Drawer>
   )
 }
 

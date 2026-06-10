@@ -16,7 +16,7 @@ const mockTenant = {
     },
   ],
   createdAt: 'test-createdAt',
-  attributes: { declared: [], verified: [], certified: [] },
+  attributes: { declared: [], verified: [], certified: [], certifiedDiscrete: [] },
 }
 
 describe('isTenantCertifier utility function testing', () => {

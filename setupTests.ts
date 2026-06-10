@@ -32,6 +32,7 @@ export const testConfigs = {
   SELFCARE_PRODUCT_ID: 'prod-interop',
   FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP: 'false',
   GRACE_PERIOD_ARCHIVING_ESERVICE: 90,
+  FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE: 'true',
 }
 
 // runs a cleanup after each test case (e.g. clearing jsdom)

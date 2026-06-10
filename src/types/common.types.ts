@@ -26,6 +26,7 @@ export type PagoPAEnvVars = {
   AVATAR_BASEPATH: string
   SELFCARE_PRODUCT_ID: string
   GRACE_PERIOD_ARCHIVING_ESERVICE: number
+  FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE: string
 }
 
 export type ExtendedWindow = Window & {

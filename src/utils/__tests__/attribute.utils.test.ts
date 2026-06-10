@@ -211,7 +211,7 @@ describe('attribute utils', () => {
         createVerifiedTenantAttribute({ id: 'attribute-id-1', verifiedBy: [{ id: 'test' }] }),
         createVerifiedTenantAttribute({ id: 'attribute-id-2', verifiedBy: [] }),
       ]
-      const group = [createMockDescriptorAttribute({ id: 'attribute-id-1' })]
+      const group = [createMockDescriptorAttribute({ id: 'attribute-id-1', kind: 'VERIFIED' })]
       const result = isAttributeGroupFullfilled('verified', ownedAttributes, group, 'test')
       expect(result).toBe(true)
     })
@@ -220,7 +220,7 @@ describe('attribute utils', () => {
       const ownedAttributes = [
         createVerifiedTenantAttribute({ id: 'attribute-id-1', verifiedBy: [{ id: 'test-1' }] }),
       ]
-      const group = [createMockDescriptorAttribute({ id: 'attribute-id-2' })]
+      const group = [createMockDescriptorAttribute({ id: 'attribute-id-2', kind: 'VERIFIED' })]
       const result = isAttributeGroupFullfilled('verified', ownedAttributes, group, 'test')
       expect(result).toBe(false)
     })
@@ -233,7 +233,7 @@ describe('attribute utils', () => {
           revocationTimestamp: '2021-09-01T12:00:00.000Z',
         }),
       ]
-      const group = [createMockDescriptorAttribute({ id: 'attribute-id-1' })]
+      const group = [createMockDescriptorAttribute({ id: 'attribute-id-1', kind: 'DECLARED' })]
       const result = isAttributeGroupFullfilled('declared', ownedAttributes, group)
       expect(result).toBe(true)
     })
@@ -246,7 +246,7 @@ describe('attribute utils', () => {
           revocationTimestamp: '2021-09-01T12:00:00.000Z',
         }),
       ]
-      const group = [createMockDescriptorAttribute({ id: 'attribute-id-2' })]
+      const group = [createMockDescriptorAttribute({ id: 'attribute-id-2', kind: 'DECLARED' })]
       const result = isAttributeGroupFullfilled('declared', ownedAttributes, group)
       expect(result).toBe(false)
     })
@@ -325,10 +325,10 @@ describe('attribute utils', () => {
       const descriptorAttributes: DescriptorAttributes = {
         certified: [],
         verified: [
-          [createMockDescriptorAttribute({ id: 'attribute-id-1' })],
+          [createMockDescriptorAttribute({ id: 'attribute-id-1', kind: 'VERIFIED' })],
           [
-            createMockDescriptorAttribute({ id: 'attribute-id-2' }),
-            createMockDescriptorAttribute({ id: 'attribute-id-3' }),
+            createMockDescriptorAttribute({ id: 'attribute-id-2', kind: 'VERIFIED' }),
+            createMockDescriptorAttribute({ id: 'attribute-id-3', kind: 'VERIFIED' }),
           ],
         ],
         declared: [],
@@ -350,10 +350,10 @@ describe('attribute utils', () => {
       const descriptorAttributes: DescriptorAttributes = {
         certified: [],
         verified: [
-          [createMockDescriptorAttribute({ id: 'attribute-id-1' })],
+          [createMockDescriptorAttribute({ id: 'attribute-id-1', kind: 'VERIFIED' })],
           [
-            createMockDescriptorAttribute({ id: 'attribute-id-2' }),
-            createMockDescriptorAttribute({ id: 'attribute-id-3' }),
+            createMockDescriptorAttribute({ id: 'attribute-id-2', kind: 'VERIFIED' }),
+            createMockDescriptorAttribute({ id: 'attribute-id-3', kind: 'VERIFIED' }),
           ],
         ],
         declared: [],
@@ -381,10 +381,10 @@ describe('attribute utils', () => {
         certified: [],
         verified: [],
         declared: [
-          [createMockDescriptorAttribute({ id: 'attribute-id-1' })],
+          [createMockDescriptorAttribute({ id: 'attribute-id-1', kind: 'DECLARED' })],
           [
-            createMockDescriptorAttribute({ id: 'attribute-id-2' }),
-            createMockDescriptorAttribute({ id: 'attribute-id-3' }),
+            createMockDescriptorAttribute({ id: 'attribute-id-2', kind: 'DECLARED' }),
+            createMockDescriptorAttribute({ id: 'attribute-id-3', kind: 'DECLARED' }),
           ],
         ],
       }
@@ -409,14 +409,14 @@ describe('attribute utils', () => {
         certified: [],
         verified: [],
         declared: [
-          [createMockDescriptorAttribute({ id: 'attribute-id-1' })],
+          [createMockDescriptorAttribute({ id: 'attribute-id-1', kind: 'DECLARED' })],
           [
-            createMockDescriptorAttribute({ id: 'attribute-id-2' }),
-            createMockDescriptorAttribute({ id: 'attribute-id-3' }),
+            createMockDescriptorAttribute({ id: 'attribute-id-2', kind: 'DECLARED' }),
+            createMockDescriptorAttribute({ id: 'attribute-id-3', kind: 'DECLARED' }),
           ],
           [
-            createMockDescriptorAttribute({ id: 'attribute-id-4' }),
-            createMockDescriptorAttribute({ id: 'attribute-id-5' }),
+            createMockDescriptorAttribute({ id: 'attribute-id-4', kind: 'DECLARED' }),
+            createMockDescriptorAttribute({ id: 'attribute-id-5', kind: 'DECLARED' }),
           ],
         ],
       }

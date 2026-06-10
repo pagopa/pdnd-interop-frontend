@@ -12,6 +12,7 @@ import {
   createVerifiedTenantAttribute,
   createDeclaredTenantAttribute,
   createMockDescriptorAttribute,
+  createMockAttribute,
 } from '@/../__mocks__/data/attribute.mocks'
 
 mockUseParams({
@@ -45,17 +46,31 @@ vi.mock('@/api/eservice', () => ({
   },
 }))
 
+const baseAttribute = createMockAttribute({ id: 'attr-1', name: 'Test Attribute' })
+
 vi.mock('@/api/attribute', () => ({
   AttributeQueries: {
     getPartyCertifiedList: (orgId: string) => ['attribute', 'certified', orgId],
     getPartyVerifiedList: (orgId: string) => ['attribute', 'verified', orgId],
     getPartyDeclaredList: (orgId: string) => ['attribute', 'declared', orgId],
+    getSingle: vi.fn((id: string) => ({
+      queryKey: ['attribute', id],
+      queryFn: vi.fn().mockReturnValue(baseAttribute),
+    })),
   },
 }))
 
 const certifiedAttr = createMockDescriptorAttribute({ id: 'cert-attr-1', name: 'Cert Attr' })
-const verifiedAttr = createMockDescriptorAttribute({ id: 'ver-attr-1', name: 'Ver Attr' })
-const declaredAttr = createMockDescriptorAttribute({ id: 'decl-attr-1', name: 'Decl Attr' })
+const verifiedAttr = createMockDescriptorAttribute({
+  id: 'ver-attr-1',
+  name: 'Ver Attr',
+  kind: 'VERIFIED',
+})
+const declaredAttr = createMockDescriptorAttribute({
+  id: 'decl-attr-1',
+  name: 'Decl Attr',
+  kind: 'DECLARED',
+})
 
 const baseDescriptor = {
   id: 'descriptor-id-001',
