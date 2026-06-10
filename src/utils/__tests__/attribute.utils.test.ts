@@ -9,7 +9,7 @@ import type {
 } from '@/api/api.generatedTypes'
 import { isAttributeOwned, isAttributeRevoked } from '../attribute.utils'
 import {
-  createCertifiedTenantAttribute,
+  createStandardCertifiedTenantAttribute,
   createDeclaredTenantAttribute,
   createVerifiedTenantAttribute,
   createMockDescriptorAttribute,
@@ -20,7 +20,7 @@ import subDays from 'date-fns/subDays'
 describe('attribute utils', () => {
   describe('isAttributeRevoked', () => {
     it('should be considered revoked (certified)', () => {
-      const attributeMock = createCertifiedTenantAttribute({
+      const attributeMock = createStandardCertifiedTenantAttribute({
         revocationTimestamp: '2021-09-01T12:00:00.000Z',
       })
       const result = isAttributeRevoked('certified', attributeMock)
@@ -28,7 +28,7 @@ describe('attribute utils', () => {
     })
 
     it('should be not considered revoked (certified)', () => {
-      const attributeMock = createCertifiedTenantAttribute({
+      const attributeMock = createStandardCertifiedTenantAttribute({
         revocationTimestamp: undefined,
       })
       const result = isAttributeRevoked('certified', attributeMock)
@@ -96,7 +96,7 @@ describe('attribute utils', () => {
     })
 
     it('should throw an error if an unknown kind is passed', () => {
-      const attributeMock = createCertifiedTenantAttribute({
+      const attributeMock = createStandardCertifiedTenantAttribute({
         revocationTimestamp: '2021-09-01T12:00:00.000Z',
       })
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -109,7 +109,7 @@ describe('attribute utils', () => {
 
   describe('isAttributeOwned', () => {
     it('should be considered owned if the attribute is in the owned attribute array and it is not revoked (certified)', () => {
-      const attributeMock = createCertifiedTenantAttribute({
+      const attributeMock = createStandardCertifiedTenantAttribute({
         id: 'attribute-id',
         revocationTimestamp: undefined,
       })
@@ -123,7 +123,9 @@ describe('attribute utils', () => {
     })
 
     it('should not be considered owned if the attribute is in the owned attribute array but it is revoked (certified)', () => {
-      const attributeMock = createCertifiedTenantAttribute({ revocationTimestamp: 'timestamp' })
+      const attributeMock = createStandardCertifiedTenantAttribute({
+        revocationTimestamp: 'timestamp',
+      })
       const result = isAttributeOwned('certified', 'attribute-id', [attributeMock])
       expect(result).toBe(false)
     })
@@ -228,7 +230,7 @@ describe('attribute utils', () => {
     })
 
     it('should throw an error if an unknown kind is passed', () => {
-      const attributeMock = createCertifiedTenantAttribute({
+      const attributeMock = createStandardCertifiedTenantAttribute({
         id: 'attribute-id',
         revocationTimestamp: '2021-09-01T12:00:00.000Z',
       })
@@ -243,8 +245,11 @@ describe('attribute utils', () => {
   describe('isAttributeGroupFullfilled', () => {
     it('should be considered fullfilled if at least one attribute is owned (certified)', () => {
       const ownedAttributes = [
-        createCertifiedTenantAttribute({ id: 'attribute-id-1', revocationTimestamp: undefined }),
-        createCertifiedTenantAttribute({
+        createStandardCertifiedTenantAttribute({
+          id: 'attribute-id-1',
+          revocationTimestamp: undefined,
+        }),
+        createStandardCertifiedTenantAttribute({
           id: 'attribute-id-2',
           revocationTimestamp: '2021-09-01T12:00:00.000Z',
         }),
@@ -256,8 +261,11 @@ describe('attribute utils', () => {
 
     it('should not be considered fullfilled if no attributes are owned (certified)', () => {
       const ownedAttributes = [
-        createCertifiedTenantAttribute({ id: 'attribute-id-1', revocationTimestamp: undefined }),
-        createCertifiedTenantAttribute({
+        createStandardCertifiedTenantAttribute({
+          id: 'attribute-id-1',
+          revocationTimestamp: undefined,
+        }),
+        createStandardCertifiedTenantAttribute({
           id: 'attribute-id-2',
           revocationTimestamp: '2021-09-01T12:00:00.000Z',
         }),
@@ -317,7 +325,10 @@ describe('attribute utils', () => {
 
     it('should be considered fullfilled if at least one attribute is owned (CRETIFIED_DISCRETE and CERTIFIED)', () => {
       const ownedAttributes = [
-        createCertifiedTenantAttribute({ id: 'attribute-id-1', revocationTimestamp: undefined }),
+        createStandardCertifiedTenantAttribute({
+          id: 'attribute-id-1',
+          revocationTimestamp: undefined,
+        }),
         createCertifiedDiscreteTenantAttribute({
           id: 'attribute-id-2',
           revocationTimestamp: undefined,
@@ -337,7 +348,10 @@ describe('attribute utils', () => {
 
     it('should not be considered fullfilled if no attributes are owned (CERTIFIED_DISCRETE and CERTIFIED)', () => {
       const ownedAttributes = [
-        createCertifiedTenantAttribute({ id: 'attribute-id-1', revocationTimestamp: undefined }),
+        createStandardCertifiedTenantAttribute({
+          id: 'attribute-id-1',
+          revocationTimestamp: undefined,
+        }),
         createCertifiedDiscreteTenantAttribute({
           id: 'attribute-id-2',
           revocationTimestamp: '2021-09-01T12:00:00.000Z',
@@ -404,8 +418,11 @@ describe('attribute utils', () => {
   describe('hasAllDescriptorAttributes', () => {
     it('should return true if the user has fullfilled all the attribute groups requirements (certified)', () => {
       const ownedAttributes = [
-        createCertifiedTenantAttribute({ id: 'attribute-id-1', revocationTimestamp: undefined }),
-        createCertifiedTenantAttribute({
+        createStandardCertifiedTenantAttribute({
+          id: 'attribute-id-1',
+          revocationTimestamp: undefined,
+        }),
+        createStandardCertifiedTenantAttribute({
           id: 'attribute-id-2',
           revocationTimestamp: undefined,
         }),
@@ -432,8 +449,11 @@ describe('attribute utils', () => {
 
     it('should return false if the user has not fullfilled all the attribute groups requirements (certified)', () => {
       const ownedAttributes = [
-        createCertifiedTenantAttribute({ id: 'attribute-id-1', revocationTimestamp: undefined }),
-        createCertifiedTenantAttribute({
+        createStandardCertifiedTenantAttribute({
+          id: 'attribute-id-1',
+          revocationTimestamp: undefined,
+        }),
+        createStandardCertifiedTenantAttribute({
           id: 'attribute-id-2',
           revocationTimestamp: undefined,
         }),
@@ -677,8 +697,11 @@ describe('attribute utils', () => {
 
     it('should throw an error if an unknown kind is passed', () => {
       const ownedAttributes = [
-        createCertifiedTenantAttribute({ id: 'attribute-id-1', revocationTimestamp: undefined }),
-        createCertifiedTenantAttribute({
+        createStandardCertifiedTenantAttribute({
+          id: 'attribute-id-1',
+          revocationTimestamp: undefined,
+        }),
+        createStandardCertifiedTenantAttribute({
           id: 'attribute-id-2',
           revocationTimestamp: undefined,
         }),

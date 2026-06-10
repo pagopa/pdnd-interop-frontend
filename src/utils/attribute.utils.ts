@@ -11,6 +11,7 @@ import type {
   TenantAttributes,
   EServiceAttributeCertifiedDiscreteConfig,
   VerifiedTenantAttribute,
+  StandardCertifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
 
 /**
@@ -21,10 +22,7 @@ import type {
  * if not the attribute is considered revoked if it has been revoked at least once by any verifier.
  * @returns `true` if the attribute is considered revoked, false otherwise.
  */
-export function isAttributeRevoked(
-  kind: 'certified',
-  attribute: CertifiedTenantAttribute | CertifiedDiscreteTenantAttribute
-): boolean
+export function isAttributeRevoked(kind: 'certified', attribute: CertifiedTenantAttribute): boolean
 export function isAttributeRevoked(
   kind: 'verified',
   attribute: VerifiedTenantAttribute,
@@ -33,19 +31,12 @@ export function isAttributeRevoked(
 export function isAttributeRevoked(kind: 'declared', attribute: DeclaredTenantAttribute): boolean
 export function isAttributeRevoked(
   kind: AttributeKey,
-  attribute:
-    | CertifiedTenantAttribute
-    | CertifiedDiscreteTenantAttribute
-    | VerifiedTenantAttribute
-    | DeclaredTenantAttribute,
+  attribute: CertifiedTenantAttribute | VerifiedTenantAttribute | DeclaredTenantAttribute,
   verifierId?: string
 ) {
   switch (kind) {
     case 'certified':
-      return Boolean(
-        (attribute as CertifiedTenantAttribute | CertifiedDiscreteTenantAttribute)
-          .revocationTimestamp
-      )
+      return Boolean((attribute as CertifiedTenantAttribute).revocationTimestamp)
     case 'verified':
       /*
        * If a verifierId is passed, the attribute is considered revoked if it is revoked by him.
@@ -123,7 +114,10 @@ export function isAttributeOwned(
     case 'certified':
       const isOwned = match(attributeMatched.kind)
         .with('CERTIFIED', () => {
-          return !isAttributeRevoked('certified', attributeMatched as CertifiedTenantAttribute)
+          return !isAttributeRevoked(
+            'certified',
+            attributeMatched as StandardCertifiedTenantAttribute
+          )
         })
         .with('CERTIFIED_DISCRETE', () => {
           return (
