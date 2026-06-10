@@ -89,6 +89,10 @@ export function getEServiceDescriptorAlertSpec(args: {
       severity: 'info',
       content: t('archivingDescriptor', { date: scheduledDate }),
     }))
+    .with({ state: 'ARCHIVING', scope: 'ESERVICE' }, () => ({
+      severity: 'info',
+      content: t('archivingEService', { date: scheduledDate }),
+    }))
     .with({ state: 'ARCHIVING_SUSPENDED', scope: 'DESCRIPTOR' }, () => ({
       severity: 'error',
       content: t('archivingSuspendedDescriptor', { date: scheduledDate }),
