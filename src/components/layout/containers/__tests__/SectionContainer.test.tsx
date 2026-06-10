@@ -4,7 +4,7 @@ import { SectionContainer } from '../SectionContainer'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 
 describe('SectionContainer', () => {
-  it('renders the title end adornment next to the title', () => {
+  it('renders the titleEndAdornment next to the title', () => {
     renderWithApplicationContext(
       <SectionContainer title="My section" titleEndAdornment={<span data-testid="adornment" />}>
         <div />
