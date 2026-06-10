@@ -10,6 +10,19 @@
  * ---------------------------------------------------------------
  */
 
+/** Risk analysis signing state */
+export type RiskAnalysisSigningState =
+  | "DRAFT"
+  | "ASSIGNED"
+  | "SUBMITTED"
+  | "SIGNED"
+  | "REJECTED";
+
+/** Risk analysis review mode */
+export type RiskAnalysisReviewMode =
+  | "ADMIN_WRITES_REVIEWER_SIGNS"
+  | "REVIEWER_WRITES_REVIEWER_SIGNS";
+
 /** Filter e-services by personal data */
 export type PersonalDataFilter = "TRUE" | "FALSE" | "DEFINED";
 
@@ -134,6 +147,14 @@ export type LinkableResource =
   | ({
       resourceKind: "ESERVICE_TEMPLATE";
     } & LinkableEServiceTemplate);
+
+export type CertifiedTenantAttribute =
+  | ({
+      kind: "CERTIFIED";
+    } & StandardCertifiedTenantAttribute)
+  | ({
+      kind: "CERTIFIED_DISCRETE";
+    } & CertifiedDiscreteTenantAttribute);
 
 export type LinkedResource =
   | ({
@@ -1175,6 +1196,8 @@ export interface Purpose {
   isDocumentReady: boolean;
   /** @format date-time */
   rulesetExpiration?: string;
+  /** Reviewer workflow state for a purpose risk analysis */
+  reviewerWorkflow?: ReviewerWorkflow;
 }
 
 export interface PurposeAdditionDetailsSeed {
@@ -1824,6 +1847,7 @@ export interface RequesterCertifiedAttribute {
   /** @format uuid */
   attributeId: string;
   attributeName: string;
+  kind: AttributeKind;
 }
 
 export interface RequesterCertifiedAttributes {
@@ -1971,14 +1995,7 @@ export interface Tenant {
 
 export interface TenantAttributes {
   declared: DeclaredTenantAttribute[];
-  certified: (
-    | ({
-        kind: "CERTIFIED";
-      } & CertifiedTenantAttribute)
-    | ({
-        kind: "CERTIFIED_DISCRETE";
-      } & CertifiedDiscreteTenantAttribute)
-  )[];
+  certified: CertifiedTenantAttribute[];
   verified: VerifiedTenantAttribute[];
 }
 
@@ -2022,7 +2039,7 @@ export interface TenantDelegatedFeaturesFlagsUpdateSeed {
   isDelegatedProducerFeatureEnabled: boolean;
 }
 
-export interface CertifiedTenantAttribute {
+export interface StandardCertifiedTenantAttribute {
   kind: "CERTIFIED";
   /** @format uuid */
   id: string;
@@ -2795,6 +2812,28 @@ export interface NotificationsCountBySection {
     /** @format int32 */
     totalCount: number;
   };
+}
+
+/** Reviewer workflow state for a purpose risk analysis */
+export interface ReviewerWorkflow {
+  /** Risk analysis review mode */
+  reviewMode: RiskAnalysisReviewMode;
+  reviewerIds: string[];
+  /** Risk analysis signing state */
+  signingState: RiskAnalysisSigningState;
+  /** @format uuid */
+  signedBy?: string;
+  rejectionReason?: string;
+  /** @format date-time */
+  sentToReviewerAt?: string;
+}
+
+/** Payload to assign reviewer mode and reviewers to a purpose risk analysis */
+export interface RiskAnalysisAssignmentSeed {
+  /** Risk analysis review mode */
+  reviewMode: RiskAnalysisReviewMode;
+  /** @minItems 1 */
+  reviewerIds: string[];
 }
 
 export interface ProblemError {
@@ -3948,6 +3987,11 @@ export interface RejectPurposeVersionParams {
   purposeId: string;
   /** @format uuid */
   versionId: string;
+}
+
+export interface AssignRiskAnalysisReviewerParams {
+  /** @format uuid */
+  purposeId: string;
 }
 
 export interface ArchivePurposeVersionParams {
@@ -9110,6 +9154,25 @@ export namespace Purposes {
     };
     export type RequestQuery = {};
     export type RequestBody = RejectPurposeVersionPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Assign reviewer mode and reviewers to the purpose risk analysis
+   * @tags purposes
+   * @name AssignRiskAnalysisReviewer
+   * @summary Assign risk analysis reviewer
+   * @request POST:/purposes/{purposeId}/riskAnalysis/assign
+   * @secure
+   */
+  export namespace AssignRiskAnalysisReviewer {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RiskAnalysisAssignmentSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
