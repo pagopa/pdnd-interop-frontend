@@ -18,6 +18,7 @@ export const parseJwt = memoize((token: string | null | undefined) => {
   const isOperatorSecurity = currentRoles.includes('security')
   const isSupport = currentRoles.includes('support')
   const isReviewer = currentRoles.includes('reviewer')
+  const isViewer = currentRoles.includes('viewer')
   const isOrganizationAllowedToProduce = !!(
     jwt?.externalId && PRODUCER_ALLOWED_ORIGINS.includes(jwt.externalId.origin)
   )
@@ -32,6 +33,7 @@ export const parseJwt = memoize((token: string | null | undefined) => {
     isOperatorSecurity,
     isSupport,
     isReviewer,
+    isViewer,
     isOrganizationAllowedToProduce,
     userEmail,
   }
