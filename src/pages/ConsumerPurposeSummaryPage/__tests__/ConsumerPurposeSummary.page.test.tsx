@@ -14,6 +14,7 @@ import {
   createMockPurposeCompatiblePersonalDataYes,
   createMockPurposeCompatiblePersonalDataNo,
 } from '@/../__mocks__/data/purpose.mocks'
+import type { ReviewerWorkflow, RiskAnalysisSigningState } from '@/api/api.generatedTypes'
 
 const mockPurposeId = 'test-purpose-id'
 mockUseParams({ purposeId: mockPurposeId })
@@ -22,13 +23,26 @@ const mockFn = vi.fn()
 
 vi.spyOn(router, 'useNavigate').mockReturnValue(mockFn)
 
-vi.mock('../components', () => ({
-  ConsumerPurposeSummaryGeneralInformationAccordion: () => (
-    <div data-testid="general-info-accordion" />
-  ),
-  ConsumerPurposeSummaryAssignmentAccordion: () => <div data-testid="assignment-accordion" />,
-  ConsumerPurposeSummaryRiskAnalysisAccordion: () => <div data-testid="risk-analysis-accordion" />,
-}))
+// Stub the accordions (data-bound, suspense) but keep the real rejected alert so its
+// content and "read reason" action can be asserted. We import only the rejected alert
+// file (light: MUI + i18n) instead of the whole barrel, whose accordions pull in
+// `@/router` and would create a huge/circular import graph that hangs the test.
+vi.mock('../components', async () => {
+  const { ConsumerPurposeSummaryRiskAnalysisRejectedAlert } = await vi.importActual<
+    // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+    typeof import('../components/ConsumerPurposeSummaryRiskAnalysisRejectedAlert')
+  >('../components/ConsumerPurposeSummaryRiskAnalysisRejectedAlert')
+  return {
+    ConsumerPurposeSummaryGeneralInformationAccordion: () => (
+      <div data-testid="general-info-accordion" />
+    ),
+    ConsumerPurposeSummaryAssignmentAccordion: () => <div data-testid="assignment-accordion" />,
+    ConsumerPurposeSummaryRiskAnalysisAccordion: () => (
+      <div data-testid="risk-analysis-accordion" />
+    ),
+    ConsumerPurposeSummaryRiskAnalysisRejectedAlert,
+  }
+})
 
 mockUseJwt()
 
@@ -211,5 +225,91 @@ describe('ConsumerPurposeSummaryPage', () => {
     })
 
     expect(screen.getByText('summary.alerts.rulesetExpired.label')).toBeInTheDocument()
+  })
+
+  describe('risk analysis review status (options 2 / 3)', () => {
+    const renderWithReviewerWorkflow = (signingState: RiskAnalysisSigningState | undefined) => {
+      const reviewerWorkflow: ReviewerWorkflow | undefined = signingState
+        ? {
+            reviewMode:
+              signingState === 'ASSIGNED'
+                ? 'REVIEWER_WRITES_REVIEWER_SIGNS'
+                : 'ADMIN_WRITES_REVIEWER_SIGNS',
+            reviewerIds: ['11111111-2222-3333-4444-555555555555'],
+            signingState,
+          }
+        : undefined
+
+      useQueryMock.mockReturnValue({
+        data: { ...createMockPurposeCompatiblePersonalDataYes(), reviewerWorkflow },
+        isLoading: false,
+      })
+
+      renderWithApplicationContext(<ConsumerPurposeSummaryPage />, {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      })
+    }
+
+    const getPublishButton = () => screen.getByRole('button', { name: 'summary.publishBtn' })
+
+    it('option 1 (no reviewerWorkflow): no chip, no info alert, publish enabled', () => {
+      renderWithReviewerWorkflow(undefined)
+
+      expect(screen.queryByText('chip.awaitingApproval')).not.toBeInTheDocument()
+      expect(screen.queryByText('chip.awaitingCompilation')).not.toBeInTheDocument()
+      expect(screen.queryByText('infoAlert.adminWritesReviewerSigns')).not.toBeInTheDocument()
+      expect(screen.queryByText('infoAlert.reviewerWritesReviewerSigns')).not.toBeInTheDocument()
+      expect(getPublishButton()).toBeEnabled()
+    })
+
+    it('DRAFT (approval to request): error chip, no info alert, publish disabled', () => {
+      renderWithReviewerWorkflow('DRAFT')
+
+      expect(screen.getByText('chip.approvalToRequest')).toBeInTheDocument()
+      expect(screen.queryByText('infoAlert.adminWritesReviewerSigns')).not.toBeInTheDocument()
+      expect(screen.queryByText('infoAlert.reviewerWritesReviewerSigns')).not.toBeInTheDocument()
+      expect(getPublishButton()).toBeDisabled()
+    })
+
+    it('SUBMITTED (option 2, awaiting approval): warning chip, info alert, publish disabled, body shown', () => {
+      renderWithReviewerWorkflow('SUBMITTED')
+
+      expect(screen.getByText('chip.awaitingApproval')).toBeInTheDocument()
+      expect(screen.getByText('infoAlert.adminWritesReviewerSigns')).toBeInTheDocument()
+      expect(screen.getByTestId('risk-analysis-accordion')).toBeInTheDocument()
+      expect(getPublishButton()).toBeDisabled()
+    })
+
+    it('ASSIGNED (option 3, awaiting compilation): warning chip, info alert, publish disabled, body hidden', () => {
+      renderWithReviewerWorkflow('ASSIGNED')
+
+      expect(screen.getByText('chip.awaitingCompilation')).toBeInTheDocument()
+      expect(screen.getByText('infoAlert.reviewerWritesReviewerSigns')).toBeInTheDocument()
+      // Awaiting compilation → accordion body is hidden (no answers section rendered).
+      expect(screen.queryByTestId('risk-analysis-accordion')).not.toBeInTheDocument()
+      expect(getPublishButton()).toBeDisabled()
+    })
+
+    it('SIGNED (approved): success chip, no info alert, publish enabled', () => {
+      renderWithReviewerWorkflow('SIGNED')
+
+      expect(screen.getByText('chip.approved')).toBeInTheDocument()
+      expect(screen.queryByText('infoAlert.adminWritesReviewerSigns')).not.toBeInTheDocument()
+      expect(screen.queryByText('infoAlert.reviewerWritesReviewerSigns')).not.toBeInTheDocument()
+      expect(getPublishButton()).toBeEnabled()
+    })
+
+    it('REJECTED: error chip, top error alert with "read reason" action, no info alert, publish disabled', () => {
+      renderWithReviewerWorkflow('REJECTED')
+
+      expect(screen.getByText('chip.rejected')).toBeInTheDocument()
+      // Top error alert (rejectedAlert keyPrefix → bare keys via i18n test mock).
+      expect(screen.getByText('label')).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: 'action' })).toBeInTheDocument()
+      expect(screen.queryByText('infoAlert.adminWritesReviewerSigns')).not.toBeInTheDocument()
+      expect(screen.queryByText('infoAlert.reviewerWritesReviewerSigns')).not.toBeInTheDocument()
+      expect(getPublishButton()).toBeDisabled()
+    })
   })
 })
