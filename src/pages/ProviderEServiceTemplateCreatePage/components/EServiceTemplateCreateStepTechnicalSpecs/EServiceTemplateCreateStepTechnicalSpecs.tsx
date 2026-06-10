@@ -16,6 +16,7 @@ import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/att
 import type { UpdateEServiceTemplateVersionSeed } from '@/api/api.generatedTypes'
 import { getAsyncExchangePropertiesWithDefaults } from '@/utils/eservice.utils'
 import { EServiceTemplateAsyncExchangeSection } from './EServiceTemplateAsyncExchangeSection'
+import { RestInterfaceDescription } from '@/components/shared/RestInterfaceDescription'
 
 type EServiceTemplateCreateStepTechnicalSpecsFormValues = {
   voucherLifespan: number
@@ -90,7 +91,26 @@ export const EServiceTemplateCreateStepTechnicalSpecs: React.FC<ActiveStepProps>
     eserviceTemplateVersion?.eserviceTemplate.technology === 'SOAP' ? (
       t(`create.step3.technicalSpecs.interface.description.soap`)
     ) : (
-      <>{t(`create.step3.technicalSpecs.interface.description.rest`)} </>
+      <RestInterfaceDescription
+        description={t('create.step3.technicalSpecs.interface.description.rest')}
+        beforePublishing={t('create.step3.technicalSpecs.interface.description.beforePublishing')}
+        technicalCompliance={t(
+          'create.step3.technicalSpecs.interface.description.technicalCompliance'
+        )}
+        technicalComplianceDescription={t(
+          'create.step3.technicalSpecs.interface.description.technicalComplianceDescription'
+        )}
+        semanticCompliance={t(
+          'create.step3.technicalSpecs.interface.description.semanticCompliance'
+        )}
+        semanticComplianceDescription={t(
+          'create.step3.technicalSpecs.interface.description.semanticComplianceDescription'
+        )}
+        openApiCheckerLabel={t('create.step3.technicalSpecs.interface.description.restLinkLabel')}
+        schemaEditorLabel={t(
+          'create.step3.technicalSpecs.interface.description.schemaEditorLinkLabel'
+        )}
+      />
     )
 
   return (
@@ -98,6 +118,10 @@ export const EServiceTemplateCreateStepTechnicalSpecs: React.FC<ActiveStepProps>
       <SectionContainer
         title={t('create.step3.technicalSpecs.interface.title')}
         description={sectionDescription}
+        descriptionTypographyProps={{
+          component:
+            eserviceTemplateVersion?.eserviceTemplate.technology !== 'SOAP' ? 'div' : undefined,
+        }}
       >
         <Stack spacing={3}>
           <Alert severity="info"> {t('create.step3.technicalSpecs.interface.alert')}</Alert>

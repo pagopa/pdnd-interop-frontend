@@ -299,8 +299,14 @@
       "interface": {
         "title": "Interfaccia",
         "description": {
-          "rest": "Carica il file OpenAPI che descrive l'API. Prima di caricarlo, verifica che rispetti i requisiti del ModI con",
-          "restLinkLabel": "l'OpenAPI Checker",
+          "rest": "Carica il file OpenAPI che descrive l'API.",
+          "beforePublishing": "Prima della pubblicazione, puoi usare questi strumenti per controllare:",
+          "technicalCompliance": "la conformità tecnica",
+          "technicalComplianceDescription": "secondo le linee guida ModI con",
+          "semanticCompliance": "la conformità semantica",
+          "semanticComplianceDescription": "tramite le annotazioni del Catalogo Nazionale Dati con",
+          "restLinkLabel": "OpenAPI Checker",
+          "schemaEditorLinkLabel": "Schema Editor",
           "restForm": "Compila questi campi per generare automaticamente il file OpenAPI.",
           "soap": "Carica il file WSDL che descrive l'API"
         },

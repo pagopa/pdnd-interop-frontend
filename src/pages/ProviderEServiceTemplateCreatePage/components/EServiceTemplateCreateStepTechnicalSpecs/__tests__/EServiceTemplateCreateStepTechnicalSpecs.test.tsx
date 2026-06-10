@@ -7,6 +7,7 @@ import {
 } from '../EServiceTemplateCreateStepTechnicalSpecs'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import {
+  createMockEServiceTemplateVersionDetails,
   createMockEServiceTemplateVersionDetailsAsync,
   mockUseEServiceTemplateCreateContext,
 } from '@/../__mocks__/data/eserviceTemplate.mocks'
@@ -96,6 +97,33 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
     ).toBeInTheDocument()
   })
 
+  it('renders OpenAPI Checker and Schema Editor links for REST templates', () => {
+    mockUseEServiceTemplateCreateContext({
+      eserviceTemplateVersion: createMockEServiceTemplateVersionDetails(),
+    })
+    renderWithApplicationContext(<EServiceTemplateCreateStepTechnicalSpecs {...stepProps} />, {
+      withReactQueryContext: true,
+    })
+
+    expect(
+      screen.getByText('create.step3.technicalSpecs.interface.description.technicalCompliance')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText('create.step3.technicalSpecs.interface.description.semanticCompliance')
+    ).toBeInTheDocument()
+
+    expect(
+      screen.getByRole('link', {
+        name: /create.step3.technicalSpecs.interface.description.restLinkLabel/,
+      })
+    ).toHaveAttribute('href', 'https://italia.github.io/api-oas-checker/')
+    expect(
+      screen.getByRole('link', {
+        name: /create.step3.technicalSpecs.interface.description.schemaEditorLinkLabel/,
+      })
+    ).toHaveAttribute('href', 'https://schema.gov.it/schema-editor')
+  })
+
   it('renders SOAP description when technology is SOAP', () => {
     mockUseEServiceTemplateCreateContext({
       eserviceTemplateVersion: {
@@ -128,6 +156,11 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
     expect(
       screen.getByText('create.step3.technicalSpecs.interface.description.soap')
     ).toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', {
+        name: /create.step3.technicalSpecs.interface.description.schemaEditorLinkLabel/,
+      })
+    ).not.toBeInTheDocument()
   })
 
   it('does not render the Documentation section', () => {
