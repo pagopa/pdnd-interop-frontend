@@ -7,6 +7,7 @@ import {
   mockUseEServiceCreateContext,
 } from '@/../__mocks__/data/eservice.mocks'
 import { useFormContext } from 'react-hook-form'
+import { createMockDescriptorAttribute } from '@/../__mocks__/data/attribute.mocks'
 
 vi.mock('../../sections/EServiceThresholdSection', () => ({
   EServiceThresholdSection: () => {
@@ -62,7 +63,11 @@ describe('EServiceCreateStepThresholds', () => {
   })
 
   it('should not call API when form data has not changed', async () => {
-    mockUseEServiceCreateContext()
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProvider({
+        attributes: { certified: [[createMockDescriptorAttribute()]], verified: [], declared: [] },
+      }),
+    })
     renderWithApplicationContext(<EServiceCreateStepThresholds {...stepProps} />, {
       withReactQueryContext: true,
       withRouterContext: true,

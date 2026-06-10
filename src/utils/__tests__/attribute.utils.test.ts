@@ -1,21 +1,27 @@
-import {
-  hasAllDescriptorAttributes,
-  isAttributeCompliantWithDiscreteConfig,
-  isAttributeGroupFullfilled,
-} from '@/utils/attribute.utils'
 import type {
   DescriptorAttributes,
   EServiceAttributeCertifiedDiscreteConfig,
 } from '@/api/api.generatedTypes'
-import { isAttributeOwned, isAttributeRevoked } from '../attribute.utils'
+import {
+  isAttributeOwned,
+  isAttributeRevoked,
+  hasAllDescriptorAttributes,
+  isAttributeCompliantWithDiscreteConfig,
+  isAttributeGroupFullfilled,
+  mapDescriptorAttributesToFormDescriptorAttributes,
+  mapFormDescriptorAttributesToDescriptorAttributesSeed,
+  remapDescriptorAttributesToDescriptorAttributesSeed,
+} from '../attribute.utils'
 import {
   createStandardCertifiedTenantAttribute,
   createDeclaredTenantAttribute,
   createVerifiedTenantAttribute,
   createMockDescriptorAttribute,
   createCertifiedDiscreteTenantAttribute,
+  createMockFormDescriptorAttribute,
 } from '@/../__mocks__/data/attribute.mocks'
 import subDays from 'date-fns/subDays'
+import type { FormDescriptorAttributes } from '@/types/attribute.types'
 
 describe('attribute utils', () => {
   describe('isAttributeRevoked', () => {
@@ -896,6 +902,210 @@ describe('attribute utils', () => {
       }
       const result = isAttributeCompliantWithDiscreteConfig(attributeMock, discreteConfig)
       expect(result).toBe(false)
+    })
+  })
+
+  describe('mapFormDescriptorAttributesToDescriptorAttributesSeed', () => {
+    it('should correctly map form descriptor attributes to descriptor attributes seed', () => {
+      const formDescriptorAttributes: FormDescriptorAttributes = {
+        certified: [
+          [
+            createMockFormDescriptorAttribute({
+              id: 'attribute-id-1-certified',
+              kind: 'CERTIFIED',
+              dailyCallsPerConsumer: 10,
+            }),
+            createMockFormDescriptorAttribute({
+              id: 'attribute-id-2-certifiedDiscrete',
+              kind: 'CERTIFIED_DISCRETE',
+              discreteConfig: { comparator: 'GT', threshold: 100 },
+            }),
+          ],
+        ],
+        verified: [
+          [createMockFormDescriptorAttribute({ id: 'attribute-id-1-verified', kind: 'VERIFIED' })],
+        ],
+        declared: [
+          [createMockFormDescriptorAttribute({ id: 'attribute-id-1-declared', kind: 'DECLARED' })],
+        ],
+      }
+
+      const result = mapFormDescriptorAttributesToDescriptorAttributesSeed(formDescriptorAttributes)
+
+      expect(result).toEqual({
+        certified: [
+          [
+            {
+              id: 'attribute-id-1-certified',
+              explicitAttributeVerification: true,
+              dailyCallsPerConsumer: 10,
+              discreteConfig: undefined,
+            },
+            {
+              id: 'attribute-id-2-certifiedDiscrete',
+              explicitAttributeVerification: true,
+              discreteConfig: { comparator: 'GT', threshold: 100 },
+              dailyCallsPerConsumer: undefined,
+            },
+          ],
+        ],
+        verified: [
+          [
+            {
+              id: 'attribute-id-1-verified',
+              explicitAttributeVerification: true,
+              discreteConfig: undefined,
+              dailyCallsPerConsumer: undefined,
+            },
+          ],
+        ],
+        declared: [
+          [
+            {
+              id: 'attribute-id-1-declared',
+              explicitAttributeVerification: true,
+              discreteConfig: undefined,
+              dailyCallsPerConsumer: undefined,
+            },
+          ],
+        ],
+      })
+    })
+  })
+
+  describe('mapDescriptorAttributesToFormDescriptorAttributes', () => {
+    it('should correctly map descriptor attributes to form descriptor attributes', () => {
+      const descriptorAttributes: DescriptorAttributes = {
+        certified: [
+          [
+            createMockDescriptorAttribute({
+              id: 'attribute-id-1-certified',
+              dailyCallsPerConsumer: 10,
+            }),
+            createMockDescriptorAttribute({
+              id: 'attribute-id-2-certifiedDiscrete',
+              kind: 'CERTIFIED_DISCRETE',
+              discreteConfig: { comparator: 'GT', threshold: 100 },
+            }),
+          ],
+        ],
+        verified: [
+          [createMockDescriptorAttribute({ id: 'attribute-id-1-verified', kind: 'VERIFIED' })],
+        ],
+        declared: [
+          [createMockDescriptorAttribute({ id: 'attribute-id-1-declared', kind: 'DECLARED' })],
+        ],
+      }
+
+      const result = mapDescriptorAttributesToFormDescriptorAttributes(descriptorAttributes)
+
+      expect(result).toEqual({
+        certified: [
+          [
+            {
+              id: 'attribute-id-1-certified',
+              name: 'Attribute Name',
+              kind: 'CERTIFIED',
+              discreteConfig: undefined,
+              dailyCallsPerConsumer: 10,
+            },
+            {
+              id: 'attribute-id-2-certifiedDiscrete',
+              name: 'Attribute Name',
+              kind: 'CERTIFIED_DISCRETE',
+              discreteConfig: { comparator: 'GT', threshold: 100 },
+              dailyCallsPerConsumer: undefined,
+            },
+          ],
+        ],
+        verified: [
+          [
+            {
+              id: 'attribute-id-1-verified',
+              name: 'Attribute Name',
+              kind: 'VERIFIED',
+              discreteConfig: undefined,
+              dailyCallsPerConsumer: undefined,
+            },
+          ],
+        ],
+        declared: [
+          [
+            {
+              id: 'attribute-id-1-declared',
+              name: 'Attribute Name',
+              kind: 'DECLARED',
+            },
+          ],
+        ],
+      })
+    })
+  })
+
+  describe('mapDescriptorAttributesToDescriptorAttributesSeed', () => {
+    it('should correctly map descriptor attributes to descriptor attributes seed', () => {
+      const descriptorAttributes: DescriptorAttributes = {
+        certified: [
+          [
+            createMockDescriptorAttribute({
+              id: 'attribute-id-1-certified',
+              dailyCallsPerConsumer: 10,
+            }),
+            createMockDescriptorAttribute({
+              id: 'attribute-id-2-certifiedDiscrete',
+              kind: 'CERTIFIED_DISCRETE',
+              discreteConfig: { comparator: 'GT', threshold: 100 },
+            }),
+          ],
+        ],
+        verified: [
+          [createMockDescriptorAttribute({ id: 'attribute-id-1-verified', kind: 'VERIFIED' })],
+        ],
+        declared: [
+          [createMockDescriptorAttribute({ id: 'attribute-id-1-declared', kind: 'DECLARED' })],
+        ],
+      }
+
+      const result = remapDescriptorAttributesToDescriptorAttributesSeed(descriptorAttributes)
+
+      expect(result).toEqual({
+        certified: [
+          [
+            {
+              id: 'attribute-id-1-certified',
+              explicitAttributeVerification: true,
+              dailyCallsPerConsumer: 10,
+              discreteConfig: undefined,
+            },
+            {
+              id: 'attribute-id-2-certifiedDiscrete',
+              explicitAttributeVerification: true,
+              discreteConfig: { comparator: 'GT', threshold: 100 },
+              dailyCallsPerConsumer: undefined,
+            },
+          ],
+        ],
+        verified: [
+          [
+            {
+              id: 'attribute-id-1-verified',
+              explicitAttributeVerification: true,
+              discreteConfig: undefined,
+              dailyCallsPerConsumer: undefined,
+            },
+          ],
+        ],
+        declared: [
+          [
+            {
+              id: 'attribute-id-1-declared',
+              explicitAttributeVerification: true,
+              discreteConfig: undefined,
+              dailyCallsPerConsumer: undefined,
+            },
+          ],
+        ],
+      })
     })
   })
 })

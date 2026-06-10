@@ -8,6 +8,7 @@ import type {
   VerifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
 import { createMockFactory } from '../../src/utils/testing.utils'
+import type { FormDescriptorAttribute } from '@/types/attribute.types'
 
 const createMockAttribute = createMockFactory<Attribute>({
   id: 'id-party-attribute',
@@ -69,6 +70,14 @@ const createMockDescriptorAttribute = createMockFactory<DescriptorAttribute>({
   kind: 'CERTIFIED',
 })
 
+const createMockFormDescriptorAttribute = createMockFactory<FormDescriptorAttribute>({
+  id: 'id-party-attribute',
+  name: 'Attribute Name',
+  kind: 'CERTIFIED',
+  dailyCallsPerConsumer: undefined,
+  discreteConfig: undefined,
+})
+
 export {
   createMockAttribute,
   createStandardCertifiedTenantAttribute,
@@ -77,4 +86,5 @@ export {
   createCertifiedDiscreteTenantAttribute,
   createMockCompactAttribute,
   createMockDescriptorAttribute,
+  createMockFormDescriptorAttribute,
 }
