@@ -704,7 +704,7 @@ describe('attribute utils', () => {
   })
 
   describe('isAttributeCompliantWithDiscreteConfig', () => {
-    it('should be compliant if the attribute CERTIFIED_dISCRETE discrete value is compliant with the discrete config', () => {
+    it('should be compliant if the attribute CERTIFIED_dISCRETE discrete value is compliant with the discrete config GT', () => {
       const attributeMock = createCertifiedDiscreteTenantAttribute({
         discreteValue: 100,
       })
@@ -716,13 +716,151 @@ describe('attribute utils', () => {
       expect(result).toBe(true)
     })
 
-    it('should not be compliant if the attribute CERTIFIED_dISCRETE discrete value is not compliant with the discrete config', () => {
+    it('should be compliant if the attribute CERTIFIED_dISCRETE discrete value is compliant with the discrete config LT', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
+        discreteValue: 100,
+      })
+      const discreteConfig: EServiceAttributeCertifiedDiscreteConfig = {
+        comparator: 'LT',
+        threshold: 1000,
+      }
+      const result = isAttributeCompliantWithDiscreteConfig(attributeMock, discreteConfig)
+      expect(result).toBe(true)
+    })
+
+    it('should be compliant if the attribute CERTIFIED_dISCRETE discrete value is compliant with the discrete config GTE', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
+        discreteValue: 100,
+      })
+      const discreteConfig: EServiceAttributeCertifiedDiscreteConfig = {
+        comparator: 'GTE',
+        threshold: 50,
+      }
+
+      const discreteConfig2: EServiceAttributeCertifiedDiscreteConfig = {
+        comparator: 'GTE',
+        threshold: 100,
+      }
+
+      const result = isAttributeCompliantWithDiscreteConfig(attributeMock, discreteConfig)
+      expect(result).toBe(true)
+
+      const result2 = isAttributeCompliantWithDiscreteConfig(attributeMock, discreteConfig2)
+      expect(result2).toBe(true)
+    })
+
+    it('should be compliant if the attribute CERTIFIED_dISCRETE discrete value is compliant with the discrete config LTE', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
+        discreteValue: 100,
+      })
+      const discreteConfig: EServiceAttributeCertifiedDiscreteConfig = {
+        comparator: 'LTE',
+        threshold: 1000,
+      }
+
+      const discreteConfig2: EServiceAttributeCertifiedDiscreteConfig = {
+        comparator: 'LTE',
+        threshold: 100,
+      }
+
+      const result = isAttributeCompliantWithDiscreteConfig(attributeMock, discreteConfig)
+      expect(result).toBe(true)
+
+      const result2 = isAttributeCompliantWithDiscreteConfig(attributeMock, discreteConfig2)
+      expect(result2).toBe(true)
+    })
+
+    it('should be compliant if the attribute CERTIFIED_dISCRETE discrete value is compliant with the discrete config EQ', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
+        discreteValue: 100,
+      })
+      const discreteConfig: EServiceAttributeCertifiedDiscreteConfig = {
+        comparator: 'EQ',
+        threshold: 100,
+      }
+      const result = isAttributeCompliantWithDiscreteConfig(attributeMock, discreteConfig)
+      expect(result).toBe(true)
+    })
+
+    it('should be compliant if the attribute CERTIFIED_dISCRETE discrete value is compliant with the discrete config NE', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
+        discreteValue: 100,
+      })
+      const discreteConfig: EServiceAttributeCertifiedDiscreteConfig = {
+        comparator: 'NE',
+        threshold: 50,
+      }
+      const result = isAttributeCompliantWithDiscreteConfig(attributeMock, discreteConfig)
+      expect(result).toBe(true)
+    })
+
+    it('should not be compliant if the attribute CERTIFIED_dISCRETE discrete value is not compliant with the discrete config GT', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
+        discreteValue: 100,
+      })
+      const discreteConfig: EServiceAttributeCertifiedDiscreteConfig = {
+        comparator: 'GT',
+        threshold: 500,
+      }
+      const result = isAttributeCompliantWithDiscreteConfig(attributeMock, discreteConfig)
+      expect(result).toBe(false)
+    })
+
+    it('should not be compliant if the attribute CERTIFIED_dISCRETE discrete value is not compliant with the discrete config LT', () => {
       const attributeMock = createCertifiedDiscreteTenantAttribute({
         discreteValue: 100,
       })
       const discreteConfig: EServiceAttributeCertifiedDiscreteConfig = {
         comparator: 'LT',
         threshold: 50,
+      }
+      const result = isAttributeCompliantWithDiscreteConfig(attributeMock, discreteConfig)
+      expect(result).toBe(false)
+    })
+
+    it('should not be compliant if the attribute CERTIFIED_dISCRETE discrete value is not compliant with the discrete config GTE', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
+        discreteValue: 100,
+      })
+      const discreteConfig: EServiceAttributeCertifiedDiscreteConfig = {
+        comparator: 'GTE',
+        threshold: 500,
+      }
+      const result = isAttributeCompliantWithDiscreteConfig(attributeMock, discreteConfig)
+      expect(result).toBe(false)
+    })
+
+    it('should not be compliant if the attribute CERTIFIED_dISCRETE discrete value is not compliant with the discrete config LTE', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
+        discreteValue: 100,
+      })
+      const discreteConfig: EServiceAttributeCertifiedDiscreteConfig = {
+        comparator: 'LTE',
+        threshold: 50,
+      }
+      const result = isAttributeCompliantWithDiscreteConfig(attributeMock, discreteConfig)
+      expect(result).toBe(false)
+    })
+
+    it('should not be compliant if the attribute CERTIFIED_dISCRETE discrete value is not compliant with the discrete config EQ', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
+        discreteValue: 100,
+      })
+      const discreteConfig: EServiceAttributeCertifiedDiscreteConfig = {
+        comparator: 'EQ',
+        threshold: 50,
+      }
+      const result = isAttributeCompliantWithDiscreteConfig(attributeMock, discreteConfig)
+      expect(result).toBe(false)
+    })
+
+    it('should not be compliant if the attribute CERTIFIED_dISCRETE discrete value is not compliant with the discrete config NE', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
+        discreteValue: 100,
+      })
+      const discreteConfig: EServiceAttributeCertifiedDiscreteConfig = {
+        comparator: 'NE',
+        threshold: 100,
       }
       const result = isAttributeCompliantWithDiscreteConfig(attributeMock, discreteConfig)
       expect(result).toBe(false)
