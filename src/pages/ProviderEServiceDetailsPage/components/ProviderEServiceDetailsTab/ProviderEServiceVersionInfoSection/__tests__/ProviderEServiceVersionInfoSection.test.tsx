@@ -116,6 +116,20 @@ describe('ProviderEServiceVersionInfoSection', () => {
         expect(screen.getByRole('heading', { level: 6, name: 'title' })).toBeInTheDocument()
       })
     })
+
+    it('does NOT render the edit button for a viewer', () => {
+      mockUseJwt({ isAdmin: false, isViewer: true })
+      mockDescriptorData = createMockEServiceDescriptorProvider({
+        agreementApprovalPolicy: 'AUTOMATIC',
+      })
+
+      renderWithApplicationContext(<ProviderEServiceVersionInfoSection />, {
+        withReactQueryContext: true,
+      })
+
+      expect(screen.getByText('agreementApprovalPolicy.title')).toBeInTheDocument()
+      expect(screen.queryByText('actions.edit')).not.toBeInTheDocument()
+    })
   })
 
   describe('Ciclo di vita', () => {
