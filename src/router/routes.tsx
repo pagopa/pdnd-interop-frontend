@@ -439,7 +439,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     redirect: 'PARTY_REGISTRY',
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
+    authLevels: ['admin', 'support', 'api', 'security', 'reviewer', 'viewer'],
   })
   .addRoute({
     key: 'TENANT_CERTIFIER',
