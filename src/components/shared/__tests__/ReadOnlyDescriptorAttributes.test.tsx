@@ -6,7 +6,7 @@ import type { AttributeOwnershipData } from '../ReadOnlyDescriptorAttributes'
 import type { DescriptorAttributes } from '@/api/api.generatedTypes'
 import { mockUseCurrentRoute, renderWithApplicationContext } from '@/utils/testing.utils'
 import {
-  createCertifiedTenantAttribute,
+  createStandardCertifiedTenantAttribute,
   createDeclaredTenantAttribute,
   createVerifiedTenantAttribute,
   createMockDescriptorAttribute,
@@ -125,7 +125,7 @@ describe('ReadOnlyDescriptorAttributes', () => {
       })
       const ownershipData = createOwnershipData({
         certified: [
-          createCertifiedTenantAttribute({ id: 'attr-1', revocationTimestamp: undefined }),
+          createStandardCertifiedTenantAttribute({ id: 'attr-1', revocationTimestamp: undefined }),
         ],
       })
 
@@ -174,7 +174,10 @@ describe('ReadOnlyDescriptorAttributes', () => {
       })
       const ownershipData = createOwnershipData({
         certified: [
-          createCertifiedTenantAttribute({ id: 'cert-attr-1', revocationTimestamp: undefined }),
+          createStandardCertifiedTenantAttribute({
+            id: 'cert-attr-1',
+            revocationTimestamp: undefined,
+          }),
         ],
         verified: [
           createVerifiedTenantAttribute({

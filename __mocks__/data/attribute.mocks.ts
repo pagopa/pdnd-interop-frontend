@@ -1,10 +1,10 @@
 import type {
   Attribute,
   CertifiedDiscreteTenantAttribute,
-  CertifiedTenantAttribute,
   CompactAttribute,
   DeclaredTenantAttribute,
   DescriptorAttribute,
+  StandardCertifiedTenantAttribute,
   VerifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
 import { createMockFactory } from '../../src/utils/testing.utils'
@@ -17,7 +17,7 @@ const createMockAttribute = createMockFactory<Attribute>({
   creationTime: '2021-09-01T12:00:00.000Z',
 })
 
-const createCertifiedTenantAttribute = createMockFactory<CertifiedTenantAttribute>({
+const createStandardCertifiedTenantAttribute = createMockFactory<StandardCertifiedTenantAttribute>({
   id: 'id-certified-tenant-attribute',
   name: 'Attribute Name',
   description: 'Attribute description',
@@ -71,7 +71,7 @@ const createMockDescriptorAttribute = createMockFactory<DescriptorAttribute>({
 
 export {
   createMockAttribute,
-  createCertifiedTenantAttribute,
+  createStandardCertifiedTenantAttribute,
   createVerifiedTenantAttribute,
   createDeclaredTenantAttribute,
   createCertifiedDiscreteTenantAttribute,

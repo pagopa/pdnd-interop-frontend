@@ -1,3 +1,4 @@
+import { match } from 'ts-pattern'
 import type { AttributeKey } from './../types/attribute.types'
 import type {
   CertifiedDiscreteTenantAttribute,
@@ -8,7 +9,9 @@ import type {
   DescriptorAttributes,
   DescriptorAttributesSeed,
   TenantAttributes,
+  EServiceAttributeCertifiedDiscreteConfig,
   VerifiedTenantAttribute,
+  StandardCertifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
 
 /**
@@ -19,10 +22,7 @@ import type {
  * if not the attribute is considered revoked if it has been revoked at least once by any verifier.
  * @returns `true` if the attribute is considered revoked, false otherwise.
  */
-export function isAttributeRevoked(
-  kind: 'certified',
-  attribute: CertifiedTenantAttribute | CertifiedDiscreteTenantAttribute
-): boolean
+export function isAttributeRevoked(kind: 'certified', attribute: CertifiedTenantAttribute): boolean
 export function isAttributeRevoked(
   kind: 'verified',
   attribute: VerifiedTenantAttribute,
@@ -31,19 +31,12 @@ export function isAttributeRevoked(
 export function isAttributeRevoked(kind: 'declared', attribute: DeclaredTenantAttribute): boolean
 export function isAttributeRevoked(
   kind: AttributeKey,
-  attribute:
-    | CertifiedTenantAttribute
-    | CertifiedDiscreteTenantAttribute
-    | VerifiedTenantAttribute
-    | DeclaredTenantAttribute,
+  attribute: CertifiedTenantAttribute | VerifiedTenantAttribute | DeclaredTenantAttribute,
   verifierId?: string
 ) {
   switch (kind) {
     case 'certified':
-      return Boolean(
-        (attribute as CertifiedTenantAttribute | CertifiedDiscreteTenantAttribute)
-          .revocationTimestamp
-      )
+      return Boolean((attribute as CertifiedTenantAttribute).revocationTimestamp)
     case 'verified':
       /*
        * If a verifierId is passed, the attribute is considered revoked if it is revoked by him.
@@ -78,13 +71,14 @@ export function isAttributeRevoked(
 export function isAttributeOwned(
   kind: 'certified',
   attributeId: string,
-  ownedAttributes: TenantAttributes['certified']
+  ownedAttributes: TenantAttributes['certified'],
+  options?: { discreteConfig?: EServiceAttributeCertifiedDiscreteConfig }
 ): boolean
 export function isAttributeOwned(
   kind: 'verified',
   attributeId: string,
   ownedAttributes: TenantAttributes['verified'],
-  verifierId: string | undefined
+  options?: { verifierId?: string }
 ): boolean
 export function isAttributeOwned(
   kind: 'declared',
@@ -95,7 +89,7 @@ export function isAttributeOwned(
   kind: AttributeKey,
   attributeId: string,
   ownedAttributes: TenantAttributes[AttributeKey],
-  verifierId?: string
+  options?: { verifierId?: string; discreteConfig?: EServiceAttributeCertifiedDiscreteConfig }
 ) {
   const matchIndex = ownedAttributes.findIndex((a) => a.id === attributeId)
 
@@ -103,12 +97,12 @@ export function isAttributeOwned(
     return false
   }
 
-  const match = ownedAttributes[matchIndex]
+  const attributeMatched = ownedAttributes[matchIndex]
 
   /**
    * If no match is found, means that the tenant does not own the attribute.
    */
-  if (!match) return false
+  if (!attributeMatched) return false
 
   /**
    * If a match is found, last thing we need to check if it is revoked.
@@ -116,20 +110,56 @@ export function isAttributeOwned(
    * For the verified attributes we check if verifiedBy has an entry which verifier id is the same as the verifierId passed. Also
    * we check if the attribute is expired.
    */
-
   switch (kind) {
     case 'certified':
-      return !isAttributeRevoked(
-        'certified',
-        match as CertifiedTenantAttribute | CertifiedDiscreteTenantAttribute
-      )
+      return match(attributeMatched.kind)
+        .with('CERTIFIED', () => {
+          return !isAttributeRevoked(
+            'certified',
+            attributeMatched as StandardCertifiedTenantAttribute
+          )
+        })
+        .with('CERTIFIED_DISCRETE', () => {
+          return (
+            !isAttributeRevoked(
+              'certified',
+              attributeMatched as CertifiedDiscreteTenantAttribute
+            ) &&
+            (options?.discreteConfig
+              ? isAttributeCompliantWithDiscreteConfig(
+                  attributeMatched as CertifiedDiscreteTenantAttribute,
+                  options.discreteConfig
+                )
+              : false)
+          )
+        })
+        .otherwise(() => false)
     case 'verified':
-      return isOwnedVerifiedAttributeNotExpired(match as VerifiedTenantAttribute, verifierId)
+      return isOwnedVerifiedAttributeNotExpired(
+        attributeMatched as VerifiedTenantAttribute,
+        options?.verifierId
+      )
     case 'declared':
-      return !isAttributeRevoked('declared', match as DeclaredTenantAttribute)
+      return !isAttributeRevoked('declared', attributeMatched as DeclaredTenantAttribute)
     default:
       throw new Error(`Unknown attribute kind: ${kind}`)
   }
+}
+
+export function isAttributeCompliantWithDiscreteConfig(
+  attribute: CertifiedDiscreteTenantAttribute,
+  discreteConfig: EServiceAttributeCertifiedDiscreteConfig
+): boolean {
+  const isCompliant = match(discreteConfig.comparator)
+    .with('GT', () => attribute.discreteValue > discreteConfig.threshold)
+    .with('GTE', () => attribute.discreteValue >= discreteConfig.threshold)
+    .with('LT', () => attribute.discreteValue < discreteConfig.threshold)
+    .with('LTE', () => attribute.discreteValue <= discreteConfig.threshold)
+    .with('EQ', () => attribute.discreteValue === discreteConfig.threshold)
+    .with('NE', () => attribute.discreteValue !== discreteConfig.threshold)
+    .exhaustive()
+
+  return isCompliant
 }
 
 /**
@@ -162,17 +192,19 @@ export function isAttributeGroupFullfilled(
   attributesGroup: Array<DescriptorAttribute>,
   verifierId?: string
 ) {
-  const isOwned = ({ id }: DescriptorAttribute) => {
+  const isOwned = ({ id, discreteConfig }: DescriptorAttribute) => {
     switch (kind) {
       case 'certified':
-        return isAttributeOwned(kind, id, ownedAttributes as TenantAttributes['certified'])
-      case 'verified':
         return isAttributeOwned(
           kind,
           id,
-          ownedAttributes as TenantAttributes['verified'],
-          verifierId
+          ownedAttributes as TenantAttributes['certified'],
+          discreteConfig ? { discreteConfig } : undefined
         )
+      case 'verified':
+        return isAttributeOwned(kind, id, ownedAttributes as TenantAttributes['verified'], {
+          verifierId,
+        })
       case 'declared':
         return isAttributeOwned(kind, id, ownedAttributes as TenantAttributes['declared'])
       default:
