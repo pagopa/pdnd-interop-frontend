@@ -4,6 +4,7 @@ import { EServiceCreateStepTechSpec } from '../EServiceCreateStepTechSpec'
 import { useFieldArray, useFormContext } from 'react-hook-form'
 import userEvent from '@testing-library/user-event'
 import type { Mock } from 'vitest'
+import type { ReactNode } from 'react'
 import { KeychainQueries } from '@/api/keychain'
 import { queryClient } from '@/config/query-client'
 import {
@@ -17,8 +18,13 @@ import { createMockEServiceTemplateDetailsAsync } from '@/../__mocks__/data/eser
 const useRemoveKeychainFromEService = vi.hoisted(() => vi.fn())
 
 vi.mock('../../sections/EServiceInterfaceSection', () => ({
-  EServiceInterfaceSection: () => {
-    return <div>EServiceInterfaceSection</div>
+  EServiceInterfaceSection: ({ description }: { description?: ReactNode }) => {
+    return (
+      <div>
+        <div>EServiceInterfaceSection</div>
+        {description}
+      </div>
+    )
   },
 }))
 
@@ -129,6 +135,78 @@ describe('EServiceCreateStepTechSpec', () => {
     })
     expect(screen.getByText('EServiceInterfaceSection')).toBeInTheDocument()
     expect(screen.getByText('EServiceVoucherSection')).toBeInTheDocument()
+  })
+
+  it('should render OpenAPI Checker and Schema Editor links in the REST interface description', () => {
+    mockUseEServiceCreateContext({ descriptor: createMockEServiceDescriptorProvider() })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('step4.interface.description.rest')).toBeInTheDocument()
+    expect(screen.getByText('step4.interface.description.technicalCompliance')).toBeInTheDocument()
+    expect(screen.getByText('step4.interface.description.semanticCompliance')).toBeInTheDocument()
+
+    expect(
+      screen.getByRole('link', { name: /step4.interface.description.restLinkLabel/ })
+    ).toHaveAttribute('href', 'https://italia.github.io/api-oas-checker/')
+    expect(
+      screen.getByRole('link', { name: /step4.interface.description.schemaEditorLinkLabel/ })
+    ).toHaveAttribute('href', 'https://schema.gov.it/schema-editor')
+  })
+
+  it('should not render the Schema Editor link in the SOAP interface description', () => {
+    const descriptor = createMockEServiceDescriptorProvider()
+
+    mockUseEServiceCreateContext({
+      descriptor: {
+        ...descriptor,
+        eservice: { ...descriptor.eservice, technology: 'SOAP' },
+      },
+    })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('step4.interface.description.soap')).toBeInTheDocument()
+    expect(
+      screen.queryByText('step4.interface.description.technicalCompliance')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('step4.interface.description.semanticCompliance')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: /step4.interface.description.restLinkLabel/ })
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: /step4.interface.description.schemaEditorLinkLabel/ })
+    ).not.toBeInTheDocument()
+  })
+
+  it('should not render compliance links when creating an e-service from a template', () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderWithTemplateRef(),
+    })
+    renderWithApplicationContext(<EServiceCreateStepTechSpec {...stepProps} />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('step4.interface.description.restForm')).toBeInTheDocument()
+    expect(
+      screen.queryByText('step4.interface.description.technicalCompliance')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('step4.interface.description.semanticCompliance')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: /step4.interface.description.restLinkLabel/ })
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', { name: /step4.interface.description.schemaEditorLinkLabel/ })
+    ).not.toBeInTheDocument()
   })
 
   it('should render step actions', () => {

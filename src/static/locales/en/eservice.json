@@ -299,8 +299,14 @@
       "interface": {
         "title": "Interface",
         "description": {
-          "rest": "Upload the OpenAPI file that describes the API. Before uploading, verify that it meets the ModI requirements with",
-          "restLinkLabel": "the OpenAPI Checker",
+          "rest": "Upload the OpenAPI file that describes the API.",
+          "beforePublishing": "Before publishing, you can use these tools to check:",
+          "technicalCompliance": "technical compliance",
+          "technicalComplianceDescription": "with the ModI guidelines through",
+          "semanticCompliance": "semantic compliance",
+          "semanticComplianceDescription": "with the National Data Catalog annotations through",
+          "restLinkLabel": "OpenAPI Checker",
+          "schemaEditorLinkLabel": "Schema Editor",
           "restForm": "Fill in these fields to automatically generate the OpenAPI file.",
           "soap": "Upload the WSDL file that describes the API"
         },
