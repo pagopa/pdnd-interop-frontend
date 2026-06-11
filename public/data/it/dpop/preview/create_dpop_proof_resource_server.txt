@@ -1,0 +1,7 @@
+python create_dpop_proof_resource_server.py \
+  --alg=INSERISCI_VALORE_ALG \
+  --typ=INSERISCI_VALORE_TYP \
+  --htm=METHOD_API_INVOCATA \
+  --htu=PATH_API_INVOCATA \
+  --accessToken=ACCESS_TOKEN \
+  --keyPath=PATH_CHIAVE_PRIVATA

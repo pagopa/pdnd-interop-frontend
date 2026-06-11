@@ -12,7 +12,7 @@ export function useCheckRiskAnalysisVersionMismatch(purpose: Purpose | undefined
 
   return Boolean(
     !!purpose?.riskAnalysisForm &&
-      latestRiskAnalysis &&
-      purpose.riskAnalysisForm.version !== latestRiskAnalysis.version
+    latestRiskAnalysis &&
+    purpose.riskAnalysisForm.version !== latestRiskAnalysis.version
   )
 }

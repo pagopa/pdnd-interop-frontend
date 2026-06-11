@@ -223,28 +223,11 @@
     "step1": {
       "templateInfoTitle": "Informazioni sul template",
       "readOnlyTemplateInfoTitle": "Caratterizzazione template di e-service",
-      "instanceDetailsTitle": "Dettagli dell'istanza di e-service",
-      "readOnlyInstanceDetailsTitle": "Dettagli dell'e-service",
       "readOnlyDescription": "Queste informazioni non sono modificabili.",
       "signalHubTitle": "Signal Hub",
       "readOnlyNameLabel": "Nome del template di e-service",
       "readOnlyIntendedTargetLabel": "A chi è rivolto questo template?",
       "readOnlyDescriptionLabel": "Cosa permette di fare questo template?",
-      "readOnlyTechnologyLabel": "Tecnologia API",
-      "readOnlyModeLabel": "L'e-service eroga o riceve dati?",
-      "readOnlyModeValue": {
-        "DELIVER": "Eroga",
-        "RECEIVE": "Riceve"
-      },
-      "readOnlyPersonalDataLabel": {
-        "DELIVER": "Eroga dati personali",
-        "RECEIVE": "Riceve dati personali"
-      },
-      "readOnlyPersonalDataValue": {
-        "true": "Sì",
-        "false": "No",
-        "undefined": "Non indicato"
-      },
       "eserviceTemplateNameField": {
         "label": "Nome del template",
         "infoLabel": "È il nome che comparirà nel catalogo template e-service e che diventerà il nome di base di tutti gli e-service creati a partire da questo template. Min 5 caratteri, max 45 caratteri."
@@ -257,38 +240,13 @@
         "label": "Cosa permette di fare questo e-service?",
         "infoLabel": "Min 10 caratteri, max {{ESERVICE_DESCRIPTION_MAX_LENGTH}} caratteri"
       },
-      "eserviceTemplateTechnologyField": {
-        "label": "Con quale tecnologia è costruita la tua API?"
-      },
       "eserviceTemplateModeField": {
-        "label": "L'e-service eroga o riceve dati?",
-        "tooltipReceiveMode": "Al momento l'utilizzo dei template è limitato all'erogazione di dati",
-        "options": {
-          "DELIVER": "Eroga",
-          "RECEIVE": "Riceve"
-        },
         "isSignalHubEnabled": {
           "label": "Suggerisci a chi userà questo template di segnalare le variazioni dei dati con Signal Hub",
           "infoLabel": {
             "before": "Signal Hub invia",
             "linkLabel": "notifiche push",
             "after": "in caso di variazioni dei dati dell'e-service."
-          }
-        }
-      },
-      "eservicePersonalDataField": {
-        "DELIVER": {
-          "label": "L'e-service eroga dati personali?",
-          "options": {
-            "true": "Eroga dati personali",
-            "false": "Non eroga dati personali"
-          }
-        },
-        "RECEIVE": {
-          "label": "L'e-service riceve dati personali?",
-          "options": {
-            "true": "Riceve dati personali",
-            "false": "Non riceve dati personali"
           }
         }
       }
@@ -397,6 +355,49 @@
             "infoLabel": "Valore massimo: 1440 minuti (24 ore)"
           }
         },
+        "asyncExchangeSection": {
+          "title": "Scambi asincroni e massivi",
+          "description": "Gli scambi asincroni e massivi richiedono un’interfaccia di callback che i fruitori dovranno implementare per ricevere le tue risposte. Carica il file OpenAPI con la descrizione dell’API. <1>Scopri di più sugli scambi asincroni e massivi</1>.",
+          "editableInfoAlert": "Dopo la pubblicazione, questi campi non saranno più modificabili. Per modificarli, dovrai creare una nuova versione del template di e-service.",
+          "callbackInterface": {
+            "readOnlyLabel": "Interfaccia di callback",
+            "prettyName": "Interfaccia callback",
+            "dropzoneLabel": "Trascina qui l’interfaccia di callback oppure clicca qui per selezionarla dal computer"
+          },
+          "configSubsection": {
+            "title": "Configurazione dello scambio"
+          },
+          "advancedSubsection": {
+            "title": "Opzioni avanzate"
+          },
+          "responseTimeField": {
+            "label": "Tempo massimo di risposta suggerito (in secondi)",
+            "infoLabel": "Suggerisci in quanto tempo le istanze di e-service restituiscono una risposta dopo la chiamata dei fruitori. Valori accettati: da 1 a 999.999 secondi."
+          },
+          "maxResultSetField": {
+            "label": "Numero massimo di risultati suggerito per risposta",
+            "infoLabel": "Suggerisci quanti elementi può contenere al massimo ogni risposta. Valori accettati: da 1 a 99.999."
+          },
+          "resourceAvailableTimeField": {
+            "label": "Durata suggerita di disponibilità del dato (in secondi)",
+            "infoLabel": "Suggerisci per quanto tempo il dato è scaricabile prima di essere cancellato. Valori accettati: da 1 a 999.999 secondi."
+          },
+          "confirmationField": {
+            "label": "Richiedi conferma di ricezione",
+            "infoLabel": "Il fruitore dovrà inviare una notifica dopo aver scaricato il file."
+          },
+          "bulkField": {
+            "label": "Consenti download a blocchi",
+            "infoLabel": "Il fruitore può scaricare file di grandi dimensioni in parti separate."
+          },
+          "readOnlyOptions": {
+            "true": "Sì",
+            "false": "No"
+          },
+          "validation": {
+            "integer": "Il valore deve essere un numero intero"
+          }
+        },
         "nameField": {
           "label": "Nome documento",
           "infoLabel": "Min 5 caratteri, max 60 caratteri"
@@ -442,6 +443,13 @@
       },
       "apiTechnology": {
         "label": "Tecnologia API"
+      },
+      "exchangeType": {
+        "label": "Scambio dati",
+        "value": {
+          "sync": "Sincrono",
+          "async": "Asincrono"
+        }
       },
       "personalDataField": {
         "DELIVER": {
@@ -506,6 +514,30 @@
       "interface": {
         "label": "Interfaccia"
       },
+      "callbackInterface": {
+        "label": "Interfaccia di callback"
+      },
+      "asyncExchange": {
+        "responseTime": {
+          "label": "Tempo massimo di callback"
+        },
+        "resourceAvailableTime": {
+          "label": "Tempo disponibilità risorsa"
+        },
+        "confirmation": {
+          "label": "Richiedi conferma di ricezione"
+        },
+        "bulk": {
+          "label": "Abilita download a blocchi"
+        },
+        "maxResultSet": {
+          "label": "Limite massimo di entità per risposta"
+        },
+        "booleanValue": {
+          "true": "Sì",
+          "false": "No"
+        }
+      },
       "voucherLifespan": {
         "label": "Durata del voucher"
       }
@@ -548,6 +580,7 @@
       "title": "Hai pubblicato una nuova versione del template e-service",
       "description": "Ora è disponibile nel catalogo template e-service. Chi sta usando la versione precedente del template, riceverà una notifica e dovrà aggiornare alla nuova versione."
     },
-    "action": "Chiudi"
+    "action": "Chiudi",
+    "goToTemplateAction": "Vai al template"
   }
 }

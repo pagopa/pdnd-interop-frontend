@@ -8,8 +8,10 @@ import { useParams } from '@/router'
 import FileCopyIcon from '@mui/icons-material/FileCopy'
 import EngineeringIcon from '@mui/icons-material/Engineering'
 import ContactMailIcon from '@mui/icons-material/ContactMail'
+import SyncIcon from '@mui/icons-material/Sync'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { ConsumerEServiceTechnicalInfoDrawer } from './ConsumerEServiceTechnicalInfoDrawer'
+import { ConsumerEServiceAsyncExchangeDetailsDrawer } from './ConsumerEServiceAsyncExchangeDetailsDrawer'
 import { ConsumerEServiceProducerContactsDrawer } from './ConsumerEServiceProducerContactsDrawer'
 import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
 import { useSuspenseQuery } from '@tanstack/react-query'
@@ -37,6 +39,12 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
   } = useDrawerState()
 
   const {
+    isOpen: isAsyncExchangeDetailsDrawerOpen,
+    openDrawer: openAsyncExchangeDetailsDrawer,
+    closeDrawer: closeAsyncExchangeDetailsDrawer,
+  } = useDrawerState()
+
+  const {
     isOpen: isVersionSelectorDrawerOpen,
     openDrawer: openVersionSelectorDrawer,
     closeDrawer: closeVersionSelectorDrawer,
@@ -61,6 +69,13 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
     label: t('bottomActions.showTechnicalDetails'),
   }
 
+  const showAsyncExchangeDetailsAction = {
+    startIcon: <SyncIcon fontSize="small" />,
+    component: 'button',
+    onClick: openAsyncExchangeDetailsDrawer,
+    label: t('bottomActions.showAsyncExchangeDetails'),
+  }
+
   const showProducerContactsAction = {
     startIcon: <ContactMailIcon fontSize="small" />,
     component: 'button',
@@ -75,6 +90,7 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
         bottomActions={[
           ...(!hasSingleVersion ? [navigateVersionsAction] : []),
           showTechnicalDetailsAction,
+          ...(descriptor.eservice.asyncExchange ? [showAsyncExchangeDetailsAction] : []),
           ...(hasContactInformations ? [showProducerContactsAction] : []),
         ]}
       >
@@ -87,6 +103,12 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
           <InformationContainer
             label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
             content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
+          />
+          <InformationContainer
+            label={t('exchangeType.label')}
+            content={t(
+              `exchangeType.value.${descriptor.eservice.asyncExchange ? 'async' : 'sync'}`
+            )}
           />
           <InformationContainer
             label={t('eserviceDescription.label')}
@@ -103,6 +125,11 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
       <ConsumerEServiceTechnicalInfoDrawer
         isOpen={isTechnicalInfoDrawerOpen}
         onClose={closeTechnicalInfoDrawer}
+        descriptor={descriptor}
+      />
+      <ConsumerEServiceAsyncExchangeDetailsDrawer
+        isOpen={isAsyncExchangeDetailsDrawerOpen}
+        onClose={closeAsyncExchangeDetailsDrawer}
         descriptor={descriptor}
       />
       <ConsumerEServiceProducerContactsDrawer

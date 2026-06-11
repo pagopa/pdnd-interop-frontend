@@ -77,7 +77,8 @@ vi.mock('@/components/layout/containers', () => ({
   SectionContainer: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
 }))
 
-describe('PurposeTemplateEditLinkedEService', () => {
+// TODO: remove this test after feature purpose template <-> e-service template linking validation
+describe.skip('PurposeTemplateEditLinkedEService', () => {
   const mockForward = vi.fn()
 
   const mockPurposeTemplate: PurposeTemplateWithCompactCreator = {

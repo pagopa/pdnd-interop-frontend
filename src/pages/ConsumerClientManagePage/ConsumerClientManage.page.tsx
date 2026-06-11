@@ -4,7 +4,7 @@ import { useParams } from '@/router'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import { Alert, Button, Grid, Link, Stack, Tab, Typography } from '@mui/material'
+import { Button, Grid, Stack, Tab } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useClientKind } from '@/hooks/useClientKind'
@@ -17,7 +17,6 @@ import DeleteIcon from '@mui/icons-material/DeleteOutline'
 import SyncIcon from '@mui/icons-material/Sync'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { SetClientAdminDrawer } from './components/SetClientAdminDrawer/SetClientAdminDrawer'
-import { apiV2GuideLink } from '@/config/constants'
 import { useNavigate } from '@/router'
 import type { ActionItemButton } from '@/types/common.types'
 
@@ -49,7 +48,10 @@ const ConsumerClientManagePage: React.FC = () => {
 
   const voucherSimulationAction: ActionItemButton = {
     action: () =>
-      navigate(clientKind === 'API' ? 'SIMULATE_GET_VOUCHER_API' : 'SIMULATE_GET_VOUCHER_CONSUMER'),
+      navigate(
+        clientKind === 'API' ? 'SIMULATE_GET_VOUCHER_API' : 'SIMULATE_GET_VOUCHER_CONSUMER',
+        { urlParams: { clientId } }
+      ),
     label: tCommon('simulateVoucher'),
     variant: 'contained',
   }

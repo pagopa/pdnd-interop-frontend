@@ -384,6 +384,11 @@
         "description": {
           "default": "By clicking \"confirm\", the fruition request will be forwarded to the e-service producer for approval",
           "isDelegated": "By clicking \"confirm\", the fruition request will be forwarded to the e-service producer for approval and a notification will be sent to the delegating party for information."
+        },
+        "asyncExchange": {
+          "title": "Before submitting the fruition request",
+          "description": "This e-service uses asynchronous data exchange, which is different from standard synchronous exchanges. To work correctly, it requires implementing a callback interface provided by the producer. For full information, <1>consult the guide</1>.",
+          "checkbox": "I understand that a technical integration is required"
         }
       }
     },
@@ -1071,8 +1076,8 @@
     "publishDraft": {
       "loading": "Facilitated purpose template is being published",
       "outcome": {
-        "success": "The facilitated purpose template is now published.",
-        "error": "The facilitated purpose template could not be published. Please ensure all required fields are filled out."
+        "success": "You have created the facilitated purpose template.",
+        "error": "The facilitated purpose template could not be created. Check that you have entered the correct information."
       },
       "confirmDialog": {
         "title": "Confirm Publication of the Facilitated Purpose Template",
@@ -1149,6 +1154,22 @@
       "outcome": {
         "success": "The e-service was unassociated successfully.",
         "error": "It was not possible to unassociate this e-service. Please try again!"
+      }
+    },
+    "linkResource": {
+      "loading": "Linking the item to the template",
+      "outcome": {
+        "success": "The item has been linked successfully.",
+        "error": "It was not possible to link this item. Please try again!",
+        "conflict": "This item is already linked. The list has been refreshed."
+      }
+    },
+    "unlinkResource": {
+      "loading": "Unlinking the item from the template",
+      "outcome": {
+        "success": "The item has been unlinked successfully.",
+        "error": "It was not possible to unlink this item. Please try again!",
+        "conflict": "This link is no longer active. The list has been refreshed."
       }
     },
     "downloadRiskAnalysis": {

@@ -1,4 +1,8 @@
-import { getDownloadDocumentName, getLastDescriptor } from '../eservice.utils'
+import {
+  getAsyncExchangePropertiesWithDefaults,
+  getDownloadDocumentName,
+  getLastDescriptor,
+} from '../eservice.utils'
 
 describe('getDownloadDocumentName utility function testing', () => {
   it('should correctly get the document namy from a DocumentRead data type', () => {
@@ -23,5 +27,22 @@ describe('getLastDescriptor utility function testing', () => {
     ])
 
     expect(result?.id).toEqual('test-id-3')
+  })
+})
+
+describe('getAsyncExchangePropertiesWithDefaults utility function testing', () => {
+  it('should fill missing async exchange properties with defaults', () => {
+    const result = getAsyncExchangePropertiesWithDefaults({
+      responseTime: 120,
+      bulk: false,
+    })
+
+    expect(result).toEqual({
+      responseTime: 120,
+      resourceAvailableTime: 60,
+      maxResultSet: 1,
+      confirmation: false,
+      bulk: false,
+    })
   })
 })

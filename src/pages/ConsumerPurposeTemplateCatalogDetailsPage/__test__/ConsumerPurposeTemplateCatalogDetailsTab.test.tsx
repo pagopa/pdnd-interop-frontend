@@ -66,14 +66,14 @@ describe('ConsumerPurposeTemplateCatalogDetailsTab', () => {
       }
     )
 
-    const linkedEservicesButton = screen.getByText('linkedEservicesLink')
+    const linkedResourcesButton = screen.getByText('link')
 
-    expect(linkedEservicesButton).toBeInTheDocument()
-    await user.click(linkedEservicesButton)
+    expect(linkedResourcesButton).toBeInTheDocument()
+    await user.click(linkedResourcesButton)
 
     await waitFor(() => {
       expect(mockUpdateActiveTab).toHaveBeenCalledTimes(1)
-      expect(mockUpdateActiveTab).toHaveBeenCalledWith('', 'linkedEservices')
+      expect(mockUpdateActiveTab).toHaveBeenCalledWith('', 'linkedResources')
     })
   })
 })

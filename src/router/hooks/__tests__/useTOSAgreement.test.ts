@@ -6,9 +6,10 @@ import { vi } from 'vitest'
 import { useTOSAgreement } from '../useTOSAgreement'
 import { createMockPrivacyNotice } from '../../../../__mocks__/data/one-trust-notice.mocks'
 import { renderHookWithApplicationContext } from '@/utils/testing.utils'
+import type * as ReactQuery from '@tanstack/react-query'
 
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  ...(await importOriginal<typeof ReactQuery>()),
   useQuery: vi.fn(),
   useSuspenseQuery: vi.fn(),
 }))
