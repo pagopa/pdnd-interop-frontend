@@ -60,8 +60,8 @@ describe('useProductUpdatesBanner', () => {
     })
     expect(useBaseBanner).toHaveBeenCalledWith({
       data: bannerData,
-      storageKey: 'notificationsBannerDismissedUntil',
-      bannerKey: 'notification',
+      storageKey: 'productUpdatesBannerDismissedUntil',
+      bannerKey: 'productUpdates',
       priority: 2,
     })
   })
