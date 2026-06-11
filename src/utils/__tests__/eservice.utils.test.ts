@@ -277,6 +277,21 @@ describe('getEServiceDescriptorAlertSpec utility function testing', () => {
     })
   })
 
+  it('returns combined archivedDescriptor + archivingEService when ARCHIVED and the e-service is being archived', () => {
+    expect(
+      getEServiceDescriptorAlertSpec({
+        ...baseArgs,
+        state: 'ARCHIVED',
+        archivedAt: '2026-12-01T00:00:00.000Z',
+        isEServiceBeingArchived: true,
+        eserviceArchivableOn: '2027-01-15T00:00:00.000Z',
+      })
+    ).toEqual({
+      severity: 'info',
+      content: expect.stringMatching(/^archivedDescriptor:.+ archivingEService:.+$/),
+    })
+  })
+
   it('returns undefined for states not handled by any branch (PUBLISHED)', () => {
     expect(getEServiceDescriptorAlertSpec({ ...baseArgs, state: 'PUBLISHED' })).toBeUndefined()
   })
