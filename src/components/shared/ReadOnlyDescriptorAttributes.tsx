@@ -8,11 +8,10 @@ import {
   AttributeGroupContainer,
 } from '@/components/layout/containers'
 import type {
-  CertifiedTenantAttribute,
-  DeclaredTenantAttribute,
   DescriptorAttribute,
   DescriptorAttributes,
-  VerifiedTenantAttribute,
+  EServiceAttributeCertifiedDiscreteConfig,
+  TenantAttributes,
 } from '@/api/api.generatedTypes'
 import type { ActionItemButton } from '@/types/common.types'
 import { attributesHelpLink } from '@/config/constants'
@@ -25,9 +24,9 @@ import {
 } from '@/utils/attribute.utils'
 
 export type AttributeOwnershipData = {
-  certified: CertifiedTenantAttribute[]
-  verified: VerifiedTenantAttribute[]
-  declared: DeclaredTenantAttribute[]
+  certified: TenantAttributes['certified']
+  verified: TenantAttributes['verified']
+  declared: TenantAttributes['declared']
   producerId?: string
 }
 
@@ -207,18 +206,18 @@ function getGroupColorAndText(
 function getAttributeChecked(
   attributeKey: AttributeKey,
   attributeId: string,
-  ownershipData: AttributeOwnershipData
+  ownershipData: AttributeOwnershipData,
+  discreteConfig?: EServiceAttributeCertifiedDiscreteConfig
 ): boolean {
   switch (attributeKey) {
     case 'certified':
-      return isAttributeOwned('certified', attributeId, ownershipData.certified)
+      return isAttributeOwned('certified', attributeId, ownershipData.certified, {
+        discreteConfig: discreteConfig,
+      })
     case 'verified':
-      return isAttributeOwned(
-        'verified',
-        attributeId,
-        ownershipData.verified,
-        ownershipData.producerId
-      )
+      return isAttributeOwned('verified', attributeId, ownershipData.verified, {
+        verifierId: ownershipData.producerId,
+      })
     case 'declared':
       return isAttributeOwned('declared', attributeId, ownershipData.declared)
   }
@@ -279,7 +278,12 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
                 attribute={attribute}
                 checked={
                   ownershipData && !shouldHideFulfillmentStatus
-                    ? getAttributeChecked(attributeKey, attribute.id, ownershipData)
+                    ? getAttributeChecked(
+                        attributeKey,
+                        attribute.id,
+                        ownershipData,
+                        attribute.discreteConfig
+                      )
                     : undefined
                 }
                 onCustomizeThreshold={withThreshold ? () => open(attribute, index) : undefined}

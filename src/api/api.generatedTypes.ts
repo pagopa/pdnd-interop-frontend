@@ -10,6 +10,19 @@
  * ---------------------------------------------------------------
  */
 
+/** Risk analysis signing state */
+export type RiskAnalysisSigningState =
+  | "DRAFT"
+  | "ASSIGNED"
+  | "SUBMITTED"
+  | "SIGNED"
+  | "REJECTED";
+
+/** Risk analysis review mode */
+export type RiskAnalysisReviewMode =
+  | "ADMIN_WRITES_REVIEWER_SIGNS"
+  | "REVIEWER_WRITES_REVIEWER_SIGNS";
+
 /** Filter e-services by personal data */
 export type PersonalDataFilter = "TRUE" | "FALSE" | "DEFINED";
 
@@ -45,7 +58,19 @@ export type TenantFeatureType =
 
 export type MailKind = "CONTACT_EMAIL" | "DIGITAL_ADDRESS";
 
-export type AttributeKind = "CERTIFIED" | "DECLARED" | "VERIFIED";
+export type AttributeKind =
+  | "CERTIFIED"
+  | "DECLARED"
+  | "VERIFIED"
+  | "CERTIFIED_DISCRETE";
+
+export type AttributeCertifiedDiscreteComparator =
+  | "GT"
+  | "LT"
+  | "EQ"
+  | "GTE"
+  | "LTE"
+  | "NE";
 
 /** EService Descriptor State */
 export type EServiceTechnology = "REST" | "SOAP";
@@ -122,6 +147,14 @@ export type LinkableResource =
   | ({
       resourceKind: "ESERVICE_TEMPLATE";
     } & LinkableEServiceTemplate);
+
+export type CertifiedTenantAttribute =
+  | ({
+      kind: "CERTIFIED";
+    } & StandardCertifiedTenantAttribute)
+  | ({
+      kind: "CERTIFIED_DISCRETE";
+    } & CertifiedDiscreteTenantAttribute);
 
 export type LinkedResource =
   | ({
@@ -754,6 +787,8 @@ export interface Agreement {
   verifiedAttributes: VerifiedAttribute[];
   /** set of the certified attributes belonging to this agreement, if any. */
   certifiedAttributes: CertifiedAttribute[];
+  /** set of the certified discrete attributes belonging to this agreement, if any. */
+  certifiedDiscreteAttributes: CertifiedDiscreteAttribute[];
   /** set of the declared attributes belonging to this agreement, if any. */
   declaredAttributes: DeclaredAttribute[];
   suspendedByConsumer?: boolean;
@@ -847,6 +882,7 @@ export interface CompactAttribute {
   /** @format uuid */
   id: string;
   name: string;
+  kind: AttributeKind;
 }
 
 export interface CompactAgreement {
@@ -1160,6 +1196,8 @@ export interface Purpose {
   isDocumentReady: boolean;
   /** @format date-time */
   rulesetExpiration?: string;
+  /** Reviewer workflow state for a purpose risk analysis */
+  reviewerWorkflow?: ReviewerWorkflow;
 }
 
 export interface PurposeAdditionDetailsSeed {
@@ -1692,12 +1730,14 @@ export interface DescriptorAttribute {
   name: string;
   description: string;
   explicitAttributeVerification: boolean;
+  kind: AttributeKind;
   /**
    * @format int32
    * @min 1
    * @max 1000000000
    */
   dailyCallsPerConsumer?: number;
+  discreteConfig?: EServiceAttributeCertifiedDiscreteConfig;
 }
 
 export interface DescriptorAttributesSeed {
@@ -1716,6 +1756,17 @@ export interface DescriptorAttributeSeed {
    * @max 1000000000
    */
   dailyCallsPerConsumer?: number;
+  discreteConfig?: EServiceAttributeCertifiedDiscreteConfig;
+}
+
+export interface EServiceAttributeCertifiedDiscreteConfig {
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  threshold: number;
+  comparator: AttributeCertifiedDiscreteComparator;
 }
 
 /**
@@ -1796,6 +1847,7 @@ export interface RequesterCertifiedAttribute {
   /** @format uuid */
   attributeId: string;
   attributeName: string;
+  kind: AttributeKind;
 }
 
 export interface RequesterCertifiedAttributes {
@@ -1808,6 +1860,22 @@ export interface RequesterCertifiedAttributes {
  * Models a certified attribute registry entry as payload response
  */
 export interface CertifiedAttribute {
+  /**
+   * uniquely identifies the attribute on the registry
+   * @format uuid
+   */
+  id: string;
+  description: string;
+  name: string;
+  /** @format date-time */
+  creationTime: string;
+}
+
+/**
+ * CertifiedDiscreteAttribute
+ * Models a certified discrete attribute registry entry as payload response
+ */
+export interface CertifiedDiscreteAttribute {
   /**
    * uniquely identifies the attribute on the registry
    * @format uuid
@@ -1922,6 +1990,7 @@ export interface Tenant {
   onboardedAt?: string;
   subUnitType?: TenantUnitType;
   selfcareInstitutionType?: string;
+  remoteIds?: TenantRemoteId[];
 }
 
 export interface TenantAttributes {
@@ -1931,6 +2000,7 @@ export interface TenantAttributes {
 }
 
 export interface DeclaredTenantAttribute {
+  kind: "DECLARED";
   /** @format uuid */
   id: string;
   name: string;
@@ -1969,7 +2039,8 @@ export interface TenantDelegatedFeaturesFlagsUpdateSeed {
   isDelegatedProducerFeatureEnabled: boolean;
 }
 
-export interface CertifiedTenantAttribute {
+export interface StandardCertifiedTenantAttribute {
+  kind: "CERTIFIED";
   /** @format uuid */
   id: string;
   name: string;
@@ -1980,7 +2051,33 @@ export interface CertifiedTenantAttribute {
   revocationTimestamp?: string;
 }
 
+export interface CertifiedDiscreteTenantAttribute {
+  kind: "CERTIFIED_DISCRETE";
+  /** @format uuid */
+  id: string;
+  name: string;
+  description: string;
+  /** @format date-time */
+  assignmentTimestamp: string;
+  /** @format date-time */
+  revocationTimestamp?: string;
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  discreteValue: number;
+}
+
+export interface TenantRemoteId {
+  origin: string;
+  value: string;
+  /** @format date-time */
+  assignmentTimestamp: string;
+}
+
 export interface VerifiedTenantAttribute {
+  kind: "VERIFIED";
   /** @format uuid */
   id: string;
   name: string;
@@ -2510,6 +2607,7 @@ export interface EServiceTemplateVersionAttributeSeed {
   /** @format uuid */
   id: string;
   explicitAttributeVerification: boolean;
+  discreteConfig?: EServiceAttributeCertifiedDiscreteConfig;
 }
 
 export interface EServiceTemplatePersonalDataFlagUpdateSeed {
@@ -2714,6 +2812,28 @@ export interface NotificationsCountBySection {
     /** @format int32 */
     totalCount: number;
   };
+}
+
+/** Reviewer workflow state for a purpose risk analysis */
+export interface ReviewerWorkflow {
+  /** Risk analysis review mode */
+  reviewMode: RiskAnalysisReviewMode;
+  reviewerIds: string[];
+  /** Risk analysis signing state */
+  signingState: RiskAnalysisSigningState;
+  /** @format uuid */
+  signedBy?: string;
+  rejectionReason?: string;
+  /** @format date-time */
+  sentToReviewerAt?: string;
+}
+
+/** Payload to assign reviewer mode and reviewers to a purpose risk analysis */
+export interface RiskAnalysisAssignmentSeed {
+  /** Risk analysis review mode */
+  reviewMode: RiskAnalysisReviewMode;
+  /** @minItems 1 */
+  reviewerIds: string[];
 }
 
 export interface ProblemError {
@@ -3867,6 +3987,11 @@ export interface RejectPurposeVersionParams {
   purposeId: string;
   /** @format uuid */
   versionId: string;
+}
+
+export interface AssignRiskAnalysisReviewerParams {
+  /** @format uuid */
+  purposeId: string;
 }
 
 export interface ArchivePurposeVersionParams {
@@ -9029,6 +9154,25 @@ export namespace Purposes {
     };
     export type RequestQuery = {};
     export type RequestBody = RejectPurposeVersionPayload;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Assign reviewer mode and reviewers to the purpose risk analysis
+   * @tags purposes
+   * @name AssignRiskAnalysisReviewer
+   * @summary Assign risk analysis reviewer
+   * @request POST:/purposes/{purposeId}/riskAnalysis/assign
+   * @secure
+   */
+  export namespace AssignRiskAnalysisReviewer {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RiskAnalysisAssignmentSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }

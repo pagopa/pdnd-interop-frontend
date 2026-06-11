@@ -61,7 +61,9 @@ export const ConsumerAgreementDetailsCertifiedAttributesSection: React.FC = () =
                 <AttributeContainer
                   key={attribute.id}
                   attribute={attribute}
-                  checked={isAttributeOwned('certified', attribute.id, ownedCertifiedAttributes)}
+                  checked={isAttributeOwned('certified', attribute.id, ownedCertifiedAttributes, {
+                    discreteConfig: attribute.discreteConfig,
+                  })}
                 />
               ))}
             </Stack>

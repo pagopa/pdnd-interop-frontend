@@ -381,12 +381,19 @@
     "action2Label": "Check the manual"
   },
   "attributeContainer": {
+    "descriptionLabel": "Description",
+    "tenantCertifierLabel": "Tenant certifier",
     "attributeIdLabel": "Attribute ID (attributeId)",
     "idCopytooltipLabel": "ID copied successfully",
     "removeAttributeAriaLabel": "Remove {{attributeName}} attribute",
     "thresholdLabel": "API calls/day per consumer",
-    "customizeBtn": "Customize threshold",
-    "changeBtn": "Change threshold",
+    "actions": {
+      "customizeThreshold": "Customize threshold",
+      "changeThreshold": "Change threshold",
+      "inspectAttributeDetails": "Attribute details",
+      "modifyCertifiedDiscreteAttribute": "Modify attribute"
+    },
+
     "na": "n/a"
   },
   "attributeGroupContainer": {
@@ -421,6 +428,15 @@
   "drawer": {
     "closeIconAriaLabel": "Close drawer",
     "updateLabel": "Update"
+  },
+  "configureCertifiedDiscreteAttributeDrawer": {
+    "title": "Configure attribute",
+    "subtitle": "Set the values of the {{attributeName}} certificate attribute",
+    "comparatorLabel": "Check",
+    "thresholdLabel":  "Numeric value",
+    "validation": {
+      "integer": "Value must be an integer"
+    }
   },
   "byDelegationChip": {
     "label": {

@@ -255,8 +255,8 @@
             "title": "Attributi certificati o verificati",
             "components": {
               "attributesStateUpdated": {
-                "label": "Conferimento o revoca di attributi certificati o verificati",
-                "description": "Avvisami quando mi viene conferito o revocato un attributo certificato o verificato"
+                "label": "Conferimento, aggiornamento o revoca di attributi certificati o verificati",
+                "description": "Avvisami quando mi viene conferito, aggiornato o revocato un attributo certificato o verificato"
               }
             }
           },

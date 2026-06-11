@@ -32,12 +32,9 @@ export const useProviderAgreementGetVerifiedAttributesActions = (
     // ... and only if the agreement is active, pending or suspended
     if (!['ACTIVE', 'PENDING', 'SUSPENDED'].includes(agreement.state)) return []
 
-    const isOwned = isAttributeOwned(
-      'verified',
-      attributeId,
-      ownedVerifiedAttributes,
-      agreement.producer.id
-    )
+    const isOwned = isAttributeOwned('verified', attributeId, ownedVerifiedAttributes, {
+      verifierId: agreement.producer.id,
+    })
 
     const handleVerifyAttribute = (attributeId: string) => {
       openAgreementVerifiedAttributeDrawer(attributeId, isOwned ? 'update' : 'verify')
