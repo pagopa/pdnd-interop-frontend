@@ -12,7 +12,6 @@ import {
 import { ButtonNaked } from '@pagopa/mui-italia'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
-import EditIcon from '@mui/icons-material/Edit'
 import { AttributeQueries } from '@/api/attribute'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
@@ -96,7 +95,6 @@ export const AttributeContainer = <
       const customizeThresholdAction: ActionItemButton = {
         action: onCustomizeThreshold,
         label: t('actions.changeThreshold'),
-        icon: EditIcon,
       }
       actions.push(customizeThresholdAction)
     }
