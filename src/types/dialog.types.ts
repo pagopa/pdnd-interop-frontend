@@ -7,6 +7,7 @@ import type {
   TenantKind,
   TargetTenantKind,
   CompactAgreement,
+  CompactUser,
 } from '@/api/api.generatedTypes'
 import type { RouteKey } from '@/router'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
@@ -202,7 +203,7 @@ export type DialogTenantKindPurposeTemplateProps = {
 
 export type DialogRequestPurposeApprovalProps = {
   type: 'requestPurposeApproval'
-  reviewerId: string
+  reviewer: CompactUser
   onConfirm: VoidFunction
 }
 

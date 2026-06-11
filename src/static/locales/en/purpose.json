@@ -198,7 +198,7 @@
       "requiredFieldErrorReviewer": "Fill in to continue",
       "requestApprovalDialog": {
         "title": "Request approval",
-        "description": "By confirming, you will assign the approval of the risk analysis to the reviewer <strong>{{reviewerId}}</strong> and you will no longer be able to make changes.",
+        "description": "By confirming, you will assign the approval of the risk analysis to the reviewer <strong>{{reviewerName}}</strong> and you will no longer be able to make changes.",
         "proceedLabel": "Confirm"
       }
     },

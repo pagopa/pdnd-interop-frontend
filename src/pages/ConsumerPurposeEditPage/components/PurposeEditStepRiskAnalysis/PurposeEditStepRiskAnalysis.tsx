@@ -137,21 +137,20 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
   }
 
   const handleRequestApproval = (answers: Record<string, string[]>) => {
-    const reviewerId = purpose.reviewerWorkflow?.reviewerIds?.[0]
-    if (!reviewerId) {
-      // BE contract: option 2 always assigns at least one reviewer
-      // (RiskAnalysisAssignmentSeed.reviewerIds has @minItems 1). If we land
-      // here the purpose is malformed; log loudly and no-op rather than
-      // crashing the route — this is a UI action handler, not a place to
-      // throw to the ErrorBoundary.
+    const reviewer = purpose.reviewerWorkflow?.reviewers?.[0]
+    if (!reviewer) {
+      // BE contract: option 2 always assigns at least one reviewer.
+      // If we land here the purpose is malformed;
+      // log loudly and no-op rather than crashing the route —
+      // this is a UI action handler, not a place to throw to the ErrorBoundary.
       console.error(
-        'PurposeEditStepRiskAnalysis: reviewerIds is missing on a purpose in ADMIN_WRITES_REVIEWER_SIGNS mode'
+        'PurposeEditStepRiskAnalysis: reviewers is missing on a purpose in ADMIN_WRITES_REVIEWER_SIGNS mode'
       )
       return
     }
     openDialog({
       type: 'requestPurposeApproval',
-      reviewerId,
+      reviewer,
       // Chain must live in the parent: putting it in the dialog would race
       // closeDialog(), and the second mutate() would silently no-op against a
       // destroyed observer.
