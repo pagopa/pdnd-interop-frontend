@@ -120,7 +120,7 @@ export const EServiceTemplateCreateStepTechnicalSpecs: React.FC<ActiveStepProps>
         description={sectionDescription}
         descriptionTypographyProps={{
           component:
-            eserviceTemplateVersion?.eserviceTemplate.technology !== 'SOAP' ? 'div' : undefined,
+            eserviceTemplateVersion?.eserviceTemplate.technology === 'REST' ? 'div' : undefined,
         }}
       >
         <Stack spacing={3}>
