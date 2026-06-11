@@ -2,7 +2,7 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { vi, describe, it, expect, beforeEach } from 'vitest'
 import { UpdateAttributesDrawer } from '../UpdateAttributesDrawer'
-import type { DescriptorAttributes } from '@/api/api.generatedTypes'
+import type { FormDescriptorAttributes } from '@/types/attribute.types'
 
 vi.mock('@/components/layout/containers', () => {
   type Attribute = { id: string; name: string }
@@ -65,7 +65,7 @@ vi.mock('@/router', () => ({
 }))
 
 vi.mock('@/utils/attribute.utils', () => ({
-  remapDescriptorAttributesToDescriptorAttributesSeed: (attrs: DescriptorAttributes) => attrs,
+  mapFormDescriptorAttributesToDescriptorAttributesSeed: (attrs: FormDescriptorAttributes) => attrs,
 }))
 
 vi.mock('react-i18next', () => ({

@@ -5,7 +5,7 @@ import type { AttributeKey } from '@/types/attribute.types'
 import { Button, Stack } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import type { AttributeKind, DescriptorAttribute } from '@/api/api.generatedTypes'
+import type { AttributeKind, CompactAttribute } from '@/api/api.generatedTypes'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE } from '@/config/env'
@@ -13,15 +13,17 @@ import { match } from 'ts-pattern'
 
 export type AttributeAutocompleteProps = {
   attributeKey: AttributeKey
-  onAddAttribute: (attribute: DescriptorAttribute) => void
+  onAddAttribute: (attribute: CompactAttribute) => void
   alreadySelectedAttributeIds: string[]
   groupIndex: number
   direction?: 'column' | 'row'
-  onOpenConfigDrawer?: (attribute: DescriptorAttribute, groupIndex: number) => void
+  onOpenConfigDrawer?: (attribute: CompactAttribute, groupIndex: number) => void
   areCertifiedDiscreteOptionsIncluded?: boolean
 }
 
-type AttributeAutocompleteFormValues = { attribute: null | DescriptorAttribute }
+type AttributeAutocompleteFormValues = {
+  attribute: null | CompactAttribute
+}
 
 export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
   attributeKey,
@@ -81,7 +83,7 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
     onAddAttribute(attribute)
   })
 
-  const options = React.useMemo(() => {
+  const options: { label: string; value: CompactAttribute }[] = React.useMemo(() => {
     const attributes = data?.results ?? []
     return attributes
       .filter((att) => !alreadySelectedAttributeIds.includes(att.id))

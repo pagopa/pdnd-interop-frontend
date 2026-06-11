@@ -1,5 +1,9 @@
 import { match } from 'ts-pattern'
-import type { AttributeKey } from './../types/attribute.types'
+import type {
+  AttributeKey,
+  FormDescriptorAttribute,
+  FormDescriptorAttributes,
+} from './../types/attribute.types'
 import type {
   CertifiedDiscreteTenantAttribute,
   CertifiedTenantAttribute,
@@ -271,6 +275,49 @@ export function hasAllDescriptorAttributes(
   }
 
   return descriptorAttributes.every(isGroupFullfilled)
+}
+
+export const mapFormDescriptorAttributesToDescriptorAttributesSeed = (
+  formDescriptorAttributes: FormDescriptorAttributes
+): DescriptorAttributesSeed => {
+  const mapAttribute = (attr: FormDescriptorAttribute[][]): DescriptorAttributeSeed[][] => {
+    return attr.map((attrGroup) => {
+      return attrGroup.map((a) => ({
+        id: a.id,
+        explicitAttributeVerification: true,
+        dailyCallsPerConsumer: a?.dailyCallsPerConsumer,
+        discreteConfig: a?.discreteConfig,
+      }))
+    })
+  }
+
+  return {
+    certified: mapAttribute(formDescriptorAttributes.certified),
+    verified: mapAttribute(formDescriptorAttributes.verified),
+    declared: mapAttribute(formDescriptorAttributes.declared),
+  }
+}
+
+export const mapDescriptorAttributesToFormDescriptorAttributes = (
+  descriptorAttributes: DescriptorAttributes
+): FormDescriptorAttributes => {
+  const mapAttribute = (attr: DescriptorAttribute[][]): FormDescriptorAttribute[][] => {
+    return attr.map((attrGroup) => {
+      return attrGroup.map((a) => ({
+        id: a.id,
+        name: a.name,
+        kind: a.kind,
+        dailyCallsPerConsumer: a?.dailyCallsPerConsumer,
+        discreteConfig: a?.discreteConfig,
+      }))
+    })
+  }
+
+  return {
+    certified: mapAttribute(descriptorAttributes.certified),
+    verified: mapAttribute(descriptorAttributes.verified),
+    declared: mapAttribute(descriptorAttributes.declared),
+  }
 }
 
 /**

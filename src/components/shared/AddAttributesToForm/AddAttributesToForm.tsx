@@ -1,12 +1,11 @@
 import React from 'react'
-import type { AttributeKey } from '@/types/attribute.types'
+import type { AttributeKey, FormDescriptorAttributes } from '@/types/attribute.types'
 import { useFormContext } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { SectionContainer } from '@/components/layout/containers'
 import { Box, Button, Link, Stack } from '@mui/material'
 import { attributesHelpLink } from '@/config/constants'
 import { AttributeGroup } from './AttributeGroup'
-import type { DescriptorAttributes } from '@/api/api.generatedTypes'
 import AddIcon from '@mui/icons-material/Add'
 import { ButtonNaked } from '@pagopa/mui-italia'
 
@@ -34,7 +33,7 @@ export const AddAttributesToForm: React.FC<AddAttributesToFormProps> = ({
 }) => {
   const { t: tAttribute } = useTranslation('attribute')
 
-  const { watch, setValue } = useFormContext<{ attributes: DescriptorAttributes }>()
+  const { watch, setValue } = useFormContext<{ attributes: FormDescriptorAttributes }>()
 
   const attributeGroups = watch(`attributes.${attributeKey}`)
 
