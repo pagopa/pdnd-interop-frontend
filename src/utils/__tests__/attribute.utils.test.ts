@@ -171,6 +171,15 @@ describe('attribute utils', () => {
       expect(result).toBe(false)
     })
 
+    it('should not be considered owned if the attribute is in the owned attribute array but discrete config is not defined (CERTIFIED_DISCRETE)', () => {
+      const attributeMock = createCertifiedDiscreteTenantAttribute({
+        revocationTimestamp: undefined,
+        discreteValue: 10,
+      })
+      const result = isAttributeOwned('certified', 'attribute-id', [attributeMock])
+      expect(result).toBe(false)
+    })
+
     it('should not be considered owned if the attribute is in the owned attribute array, it is not revoked (verified) but attribute is expired', () => {
       const now = Date.now()
       const yesterday = subDays(now, 1)

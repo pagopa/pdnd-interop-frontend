@@ -112,7 +112,7 @@ export function isAttributeOwned(
    */
   switch (kind) {
     case 'certified':
-      const isOwned = match(attributeMatched.kind)
+      return match(attributeMatched.kind)
         .with('CERTIFIED', () => {
           return !isAttributeRevoked(
             'certified',
@@ -134,8 +134,6 @@ export function isAttributeOwned(
           )
         })
         .otherwise(() => false)
-
-      return isOwned
     case 'verified':
       return isOwnedVerifiedAttributeNotExpired(
         attributeMatched as VerifiedTenantAttribute,
