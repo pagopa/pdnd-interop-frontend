@@ -146,6 +146,15 @@
         },
         "provider": {
           "title": "Erogazione",
+          "myEservices": {
+            "title": "I miei e-service",
+            "components": {
+              "eServiceStateUpdated": {
+                "label": "Variazione di stato degli e-service",
+                "description": "Avvisami quando lo stato di un e-service cambia"
+              }
+            }
+          },
           "agreement": {
             "title": "Richieste di fruizione",
             "components": {
@@ -246,8 +255,8 @@
             "title": "Attributi certificati o verificati",
             "components": {
               "attributesStateUpdated": {
-                "label": "Conferimento o revoca di attributi certificati o verificati",
-                "description": "Avvisami quando mi viene conferito o revocato un attributo certificato o verificato"
+                "label": "Conferimento, aggiornamento o revoca di attributi certificati o verificati",
+                "description": "Avvisami quando mi viene conferito, aggiornato o revocato un attributo certificato o verificato"
               }
             }
           },

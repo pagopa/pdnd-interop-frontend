@@ -107,7 +107,19 @@
       "ARCHIVED": "archiviato",
       "DEPRECATED": "deprecato",
       "WAITING_FOR_APPROVAL": "in attesa di approvazione",
-      "DRAFT_TO_CORRECT": "da correggere"
+      "DRAFT_TO_CORRECT": "da correggere",
+      "ARCHIVING": "obsoleto",
+      "ARCHIVING_SUSPENDED": "sospeso"
+    },
+    "descriptor": {
+      "PUBLISHED": "attiva",
+      "DRAFT": "in bozza",
+      "SUSPENDED": "sospesa",
+      "ARCHIVED": "archiviata",
+      "DEPRECATED": "obsoleta",
+      "WAITING_FOR_APPROVAL": "in attesa di approvazione",
+      "ARCHIVING": "obsoleta",
+      "ARCHIVING_SUSPENDED": "sospesa"
     },
     "agreement": {
       "ACTIVE": "attivo",
@@ -167,5 +179,13 @@
   },
   "privacyPolicy": {
     "title": "Privacy Policy"
+  },
+  "comparators": {
+    "GT": "Maggiore di",
+    "GTE": "Maggiore o uguale a",
+    "LT": "Minore di",
+    "LTE": "Minore o uguale a",
+    "EQ": "Uguale a",
+    "NE": "Diverso da"
   }
 }

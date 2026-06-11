@@ -22,6 +22,8 @@ import {
 import { useDialog } from '@/stores'
 import { useGetConsumerAgreementAlertProps } from './hooks/useGetConsumerAgreementAlertProps'
 import { useSuspenseQuery } from '@tanstack/react-query'
+import { EServiceQueries } from '@/api/eservice'
+import { ConsumerAgreementVersionAlerts } from './components/ConsumerAgreementVersionAlerts'
 
 const ConsumerAgreementDetailsPage: React.FC = () => {
   return (
@@ -40,6 +42,9 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
 
   const { agreementId } = useParams<'SUBSCRIBE_AGREEMENT_READ'>()
   const { data: agreement } = useSuspenseQuery(AgreementQueries.getSingle(agreementId))
+  const { data: descriptor } = useSuspenseQuery(
+    EServiceQueries.getDescriptorCatalog(agreement.eservice.id, agreement.descriptorId)
+  )
 
   useMarkNotificationsAsRead(agreementId)
 
@@ -87,6 +92,7 @@ const ConsumerAgreementDetailsPageContent: React.FC = () => {
       backToAction={{ label: t('backToRequestsBtn'), to: 'SUBSCRIBE_AGREEMENT_LIST' }}
       statusChip={agreement ? { for: 'agreement', agreement } : undefined}
     >
+      <ConsumerAgreementVersionAlerts descriptor={descriptor} />
       {alertProps && (
         <Alert sx={{ mb: 3 }} severity={alertProps.severity}>
           <Trans

@@ -19,17 +19,30 @@ const GeneralConfigs = z.object({
   NOTIFICATION_COUNT_REFRESH_INTERVAL: z.coerce.number().default(30000),
   AVATAR_BASEPATH: z.url().default('https://selfcare.pagopa.it'),
   SELFCARE_PRODUCT_ID: z.string().default('prod-interop'),
+  GRACE_PERIOD_ARCHIVING_ESERVICE: z.coerce.number().int().positive(),
 })
 
 const FeatureFlagConfigs = z.object({
   FEATURE_FLAG_ADMIN_CLIENT: z.enum(['true', 'false']),
-  FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: z.enum(['true', 'false']),
+  FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform((value) => value === 'true'),
+  FEATURE_FLAG_ESERVICE_PERSONAL_DATA: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform((value) => value === 'true'),
   FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP: z
     .enum(['true', 'false'])
     .default('false')
     .transform((value) => value === 'true'),
 
   FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER: z
+    .enum(['true', 'false'])
+    .default('false')
+    .transform((value) => value === 'true'),
+
+  FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE: z
     .enum(['true', 'false'])
     .default('false')
     .transform((value) => value === 'true'),
@@ -115,9 +128,11 @@ export const {
   NOTIFICATION_COUNT_REFRESH_INTERVAL,
   FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER,
   FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP,
+  FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE,
   DOCUMENTATION_URL,
   AVATAR_BASEPATH,
   SELFCARE_PRODUCT_ID,
+  GRACE_PERIOD_ARCHIVING_ESERVICE,
 } = parseConfigs()
 
 export const APP_MODE = parseAppMode()

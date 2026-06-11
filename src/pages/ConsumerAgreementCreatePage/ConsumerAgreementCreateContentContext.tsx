@@ -1,12 +1,6 @@
 import React from 'react'
 import { createContext } from '@/utils/common.utils'
-import type {
-  Agreement,
-  CertifiedTenantAttribute,
-  DeclaredTenantAttribute,
-  DescriptorAttributes,
-  VerifiedTenantAttribute,
-} from '@/api/api.generatedTypes'
+import type { Agreement, DescriptorAttributes, TenantAttributes } from '@/api/api.generatedTypes'
 import { AgreementQueries } from '@/api/agreement'
 import noop from 'lodash/noop'
 import { EServiceQueries } from '@/api/eservice'
@@ -15,13 +9,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 type ConsumerAgreementCreateContentContextType = {
   agreement: Agreement | undefined
   descriptorAttributes: DescriptorAttributes | undefined
-  partyAttributes:
-    | {
-        certified: CertifiedTenantAttribute[]
-        verified: VerifiedTenantAttribute[]
-        declared: DeclaredTenantAttribute[]
-      }
-    | undefined
+  partyAttributes: TenantAttributes | undefined
   isCertifiedAttributesDrawerOpen: boolean
   openCertifiedAttributesDrawer: VoidFunction
   closeCertifiedAttributesDrawer: VoidFunction

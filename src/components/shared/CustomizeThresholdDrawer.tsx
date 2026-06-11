@@ -9,6 +9,7 @@ import { WarningAmber } from '@mui/icons-material'
 import { create } from 'zustand'
 import isEmpty from 'lodash/isEmpty'
 import { GreyAlert } from './GreyAlert'
+import type { FormDescriptorAttribute } from '@/types/attribute.types'
 
 export type CustomizeThresholdDrawerProps = {
   dailyCallsPerConsumer?: number | ''
@@ -23,9 +24,12 @@ export type CustomizeThresholdDrawerProps = {
 
 type CustomizeThresholdDrawerStore = {
   isOpen: boolean
-  open: (attribute: DescriptorAttribute, attributeGroupIndex: number) => void
+  open: (
+    attribute: DescriptorAttribute | FormDescriptorAttribute,
+    attributeGroupIndex: number
+  ) => void
   close: VoidFunction
-  attribute?: DescriptorAttribute
+  attribute?: DescriptorAttribute | FormDescriptorAttribute
   attributeGroupIndex?: number
 }
 

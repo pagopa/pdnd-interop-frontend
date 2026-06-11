@@ -137,12 +137,9 @@ export const ProviderAgreementDetailsVerifiedAttributesSection: React.FC = () =>
                     <AttributeContainer
                       attribute={attribute}
                       chipLabel={getChipLabel(attribute.id)}
-                      checked={isAttributeOwned(
-                        'verified',
-                        attribute.id,
-                        ownedVerifiedAttributes,
-                        agreement?.producer.id
-                      )}
+                      checked={isAttributeOwned('verified', attribute.id, ownedVerifiedAttributes, {
+                        verifierId: agreement?.producer.id,
+                      })}
                       actions={getAttributeActions(attribute.id)}
                     />
                   </li>

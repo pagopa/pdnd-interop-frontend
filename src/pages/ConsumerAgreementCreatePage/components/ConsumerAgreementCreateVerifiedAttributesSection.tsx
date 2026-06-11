@@ -112,7 +112,7 @@ const VerifiedAttributesGroup: React.FC<VerifiedAttributesGroupProps> = ({
   const { t: tAttribute } = useTranslation('attribute')
 
   const hasAtLeastOneVerifiedAttribute = attributesGroup.some((group) =>
-    isAttributeOwned('verified', group.id, ownedVerifiedAttributes, verifierId)
+    isAttributeOwned('verified', group.id, ownedVerifiedAttributes, { verifierId: verifierId })
   )
   return (
     <AttributeGroupContainer

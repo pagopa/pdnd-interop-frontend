@@ -8,10 +8,11 @@ import {
   renderWithApplicationContext,
 } from '@/utils/testing.utils'
 import {
-  createCertifiedTenantAttribute,
+  createStandardCertifiedTenantAttribute,
   createVerifiedTenantAttribute,
   createDeclaredTenantAttribute,
   createMockDescriptorAttribute,
+  createMockAttribute,
 } from '@/../__mocks__/data/attribute.mocks'
 
 mockUseParams({
@@ -45,17 +46,31 @@ vi.mock('@/api/eservice', () => ({
   },
 }))
 
+const baseAttribute = createMockAttribute({ id: 'attr-1', name: 'Test Attribute' })
+
 vi.mock('@/api/attribute', () => ({
   AttributeQueries: {
     getPartyCertifiedList: (orgId: string) => ['attribute', 'certified', orgId],
     getPartyVerifiedList: (orgId: string) => ['attribute', 'verified', orgId],
     getPartyDeclaredList: (orgId: string) => ['attribute', 'declared', orgId],
+    getSingle: vi.fn((id: string) => ({
+      queryKey: ['attribute', id],
+      queryFn: vi.fn().mockReturnValue(baseAttribute),
+    })),
   },
 }))
 
 const certifiedAttr = createMockDescriptorAttribute({ id: 'cert-attr-1', name: 'Cert Attr' })
-const verifiedAttr = createMockDescriptorAttribute({ id: 'ver-attr-1', name: 'Ver Attr' })
-const declaredAttr = createMockDescriptorAttribute({ id: 'decl-attr-1', name: 'Decl Attr' })
+const verifiedAttr = createMockDescriptorAttribute({
+  id: 'ver-attr-1',
+  name: 'Ver Attr',
+  kind: 'VERIFIED',
+})
+const declaredAttr = createMockDescriptorAttribute({
+  id: 'decl-attr-1',
+  name: 'Decl Attr',
+  kind: 'DECLARED',
+})
 
 const baseDescriptor = {
   id: 'descriptor-id-001',
@@ -75,7 +90,7 @@ const baseDescriptor = {
 }
 
 function setupMocks(overrides?: {
-  ownedCertified?: ReturnType<typeof createCertifiedTenantAttribute>[]
+  ownedCertified?: ReturnType<typeof createStandardCertifiedTenantAttribute>[]
   ownedVerified?: ReturnType<typeof createVerifiedTenantAttribute>[]
   ownedDeclared?: ReturnType<typeof createDeclaredTenantAttribute>[]
 }) {
@@ -106,7 +121,7 @@ describe('ConsumerEServiceDescriptorAttributes', () => {
   it('should show success text when certified attribute is owned', () => {
     setupMocks({
       ownedCertified: [
-        createCertifiedTenantAttribute({
+        createStandardCertifiedTenantAttribute({
           id: 'cert-attr-1',
           revocationTimestamp: undefined,
         }),
@@ -120,7 +135,10 @@ describe('ConsumerEServiceDescriptorAttributes', () => {
   it('should show warning text for unfulfilled verified attributes', () => {
     setupMocks({
       ownedCertified: [
-        createCertifiedTenantAttribute({ id: 'cert-attr-1', revocationTimestamp: undefined }),
+        createStandardCertifiedTenantAttribute({
+          id: 'cert-attr-1',
+          revocationTimestamp: undefined,
+        }),
       ],
     })
     renderComponent()
@@ -131,7 +149,10 @@ describe('ConsumerEServiceDescriptorAttributes', () => {
   it('should show warning text for unfulfilled declared attributes', () => {
     setupMocks({
       ownedCertified: [
-        createCertifiedTenantAttribute({ id: 'cert-attr-1', revocationTimestamp: undefined }),
+        createStandardCertifiedTenantAttribute({
+          id: 'cert-attr-1',
+          revocationTimestamp: undefined,
+        }),
       ],
     })
     renderComponent()
@@ -142,7 +163,10 @@ describe('ConsumerEServiceDescriptorAttributes', () => {
   it('should show success text when verified attribute is owned', () => {
     setupMocks({
       ownedCertified: [
-        createCertifiedTenantAttribute({ id: 'cert-attr-1', revocationTimestamp: undefined }),
+        createStandardCertifiedTenantAttribute({
+          id: 'cert-attr-1',
+          revocationTimestamp: undefined,
+        }),
       ],
       ownedVerified: [
         createVerifiedTenantAttribute({
@@ -160,7 +184,10 @@ describe('ConsumerEServiceDescriptorAttributes', () => {
   it('should show success text when declared attribute is owned', () => {
     setupMocks({
       ownedCertified: [
-        createCertifiedTenantAttribute({ id: 'cert-attr-1', revocationTimestamp: undefined }),
+        createStandardCertifiedTenantAttribute({
+          id: 'cert-attr-1',
+          revocationTimestamp: undefined,
+        }),
       ],
       ownedDeclared: [
         createDeclaredTenantAttribute({

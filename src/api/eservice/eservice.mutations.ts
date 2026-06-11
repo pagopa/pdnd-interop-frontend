@@ -8,6 +8,7 @@ import type {
 import { EServiceServices } from './eservice.services'
 import { EServiceQueries } from './eservice.queries'
 import type { AttributeKey } from '@/types/attribute.types'
+import { GRACE_PERIOD_ARCHIVING_ESERVICE } from '@/config/env'
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createDraft' })
@@ -146,7 +147,10 @@ function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }
                 eserviceName: variables.eserviceName,
               })
             }
-          : () => t('confirmDialog.description'),
+          : (variables: unknown) =>
+              (variables as { isFirstVersion?: boolean }).isFirstVersion
+                ? t('confirmDialog.description')
+                : t('confirmDialog.descriptionNewVersion'),
         proceedLabel: isByDelegation
           ? t('confirmDialog.actions.proceed')
           : t('confirmDialog.proceedLabel'),
@@ -155,34 +159,97 @@ function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }
   })
 }
 
-function useSuspendVersion() {
+function useSuspendVersion(options?: { skipConfirmation?: boolean; isArchivingContext?: boolean }) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.suspendVersion' })
   return useMutation({
     mutationFn: EServiceServices.suspendVersion,
     meta: {
-      successToastLabel: t('outcome.success'),
-      errorToastLabel: t('outcome.error'),
+      successToastLabel: t(
+        options?.isArchivingContext ? 'outcome.successArchiving' : 'outcome.success'
+      ),
+      errorToastLabel: t(options?.isArchivingContext ? 'outcome.errorArchiving' : 'outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
+      confirmationDialog: options?.skipConfirmation
+        ? undefined
+        : {
+            title: t('confirmDialog.title'),
+            description: t('confirmDialog.description'),
+          },
     },
   })
 }
 
-function useReactivateVersion() {
+function useReactivateVersion(options?: {
+  skipConfirmation?: boolean
+  isArchivingContext?: boolean
+}) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.reactivateVersion' })
   return useMutation({
     mutationFn: EServiceServices.reactivateVersion,
     meta: {
+      successToastLabel: t(
+        options?.isArchivingContext ? 'outcome.successArchiving' : 'outcome.success'
+      ),
+      errorToastLabel: t(options?.isArchivingContext ? 'outcome.errorArchiving' : 'outcome.error'),
+      loadingLabel: t('loading'),
+      confirmationDialog: options?.skipConfirmation
+        ? undefined
+        : {
+            title: t('confirmDialog.title'),
+            description: t('confirmDialog.description'),
+          },
+    },
+  })
+}
+
+function useScheduleArchiveDescriptor() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.scheduleArchiveDescriptor',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.scheduleArchiveDescriptor,
+    meta: {
+      successToastLabel: t('outcome.success', { days: GRACE_PERIOD_ARCHIVING_ESERVICE }),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useCancelDescriptorArchiving() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.cancelDescriptorArchiving',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.cancelDescriptorArchiving,
+    meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
+    },
+  })
+}
+
+function useScheduleArchiveEservice() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.scheduleArchiveEservice',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.scheduleArchiveEservice,
+    meta: {
+      successToastLabel: t('outcome.success', { days: GRACE_PERIOD_ARCHIVING_ESERVICE }),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useCancelEserviceArchiving() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.cancelEserviceArchiving',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.cancelEserviceArchiving,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
     },
   })
 }
@@ -561,6 +628,10 @@ export const EServiceMutations = {
   usePublishVersionDraft,
   useSuspendVersion,
   useReactivateVersion,
+  useScheduleArchiveDescriptor,
+  useCancelDescriptorArchiving,
+  useScheduleArchiveEservice,
+  useCancelEserviceArchiving,
   useUpdateVersion,
   useDeleteVersionDraft,
   useAddEServiceRiskAnalysis,

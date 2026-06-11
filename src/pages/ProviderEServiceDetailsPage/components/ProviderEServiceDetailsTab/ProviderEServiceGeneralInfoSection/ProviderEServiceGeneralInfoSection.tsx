@@ -9,11 +9,9 @@ import {
   DUPLICATE_ESERVICENAME_ERROR_CODE,
 } from '@/api/eserviceTemplate'
 import { useNavigate, useParams } from '@/router'
-import FileCopyIcon from '@mui/icons-material/FileCopy'
 import DownloadIcon from '@mui/icons-material/Download'
 import InsertLinkIcon from '@mui/icons-material/InsertLink'
 import { useDrawerState } from '@/hooks/useDrawerState'
-import { EServiceVersionSelectorDrawer } from '@/components/shared/EServiceVersionSelectorDrawer'
 import EditIcon from '@mui/icons-material/Edit'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
@@ -61,12 +59,6 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { mutate: updateEserviceName } = EServiceMutations.useUpdateEServiceName()
   const { mutate: updateEservicePersonalData } =
     EServiceMutations.useUpdateEServicePersonalDataFlagAfterPublication()
-
-  const {
-    isOpen: isVersionSelectorDrawerOpen,
-    openDrawer: openVersionSelectorDrawer,
-    closeDrawer: closeVersionSelectorDrawer,
-  } = useDrawerState()
 
   const {
     isOpen: isEServiceUpdateNameDrawerOpen,
@@ -139,16 +131,6 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
     })
   }
 
-  const hasSingleVersion =
-    descriptor.eservice.descriptors.filter((d) => d.state !== 'DRAFT').length <= 1
-
-  const navigateVersionsAction = {
-    startIcon: <FileCopyIcon fontSize="small" />,
-    component: 'button',
-    onClick: openVersionSelectorDrawer,
-    label: t('bottomActions.navigateVersions'),
-  }
-
   const downloadConsumerListAction = {
     startIcon: <DownloadIcon fontSize="small" />,
     component: 'button',
@@ -213,7 +195,6 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
       <SectionContainer
         title={t('title')}
         bottomActions={[
-          ...(!hasSingleVersion ? [navigateVersionsAction] : []),
           ...(descriptor.eservice.mode === 'RECEIVE' && isAtLeastOneRiskyAnalysisAssociated
             ? [watchRiskyAnalysisAssociatedAction]
             : []),
@@ -334,21 +315,8 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
           >
             <Typography variant="body2">{descriptor.eservice.description}</Typography>
           </SectionContainer>
-          <Divider />
-          <SectionContainer
-            innerSection
-            title={t('descriptorDescription.label')}
-            titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
-          >
-            <Typography variant="body2">{descriptor.description ?? ''}</Typography>
-          </SectionContainer>
         </Stack>
       </SectionContainer>
-      <EServiceVersionSelectorDrawer
-        isOpen={isVersionSelectorDrawerOpen}
-        onClose={closeVersionSelectorDrawer}
-        descriptor={descriptor}
-      />
       <UpdateDescriptionDrawer
         isOpen={isEServiceUpdateDescriptionDrawerOpen}
         onClose={closeEServiceUpdateDescriptionDrawer}
