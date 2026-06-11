@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import type { Mock } from 'vitest'
 import { useQuery } from '@tanstack/react-query'
@@ -62,6 +62,7 @@ type RiskAnalysisFormSpyProps = {
   isReviewerApprovalMode?: boolean
   onSubmit: (answers: Record<string, string[]>) => void
   onSaveDraft?: (answers: Record<string, string[]>) => void
+  isRejected?: boolean
 }
 
 const formSpy = vi.fn<[RiskAnalysisFormSpyProps], null>()
@@ -109,13 +110,14 @@ describe('PurposeEditStepRiskAnalysis', () => {
     expect(formSpy).not.toHaveBeenCalled()
   })
 
-  it('passes isReviewerApprovalMode=false when purpose has no reviewerWorkflow', () => {
+  it('in option 1 (no reviewerWorkflow) renders editable with no chip, subtitle or read-only', () => {
     mockQueries(buildPurpose(), createMockRiskAnalysisFormConfig())
 
     render(<PurposeEditStepRiskAnalysis back={vi.fn()} forward={vi.fn()} activeStep={2} />)
 
     expect(getLastFormProps().isReviewerApprovalMode).toBe(false)
     expect(getLastFormProps().onSaveDraft).toBeUndefined()
+    expect(getLastFormProps().isRejected).toBeFalsy()
   })
 
   it('passes isReviewerApprovalMode=true with onSaveDraft when reviewMode is ADMIN_WRITES_REVIEWER_SIGNS', () => {
@@ -134,20 +136,142 @@ describe('PurposeEditStepRiskAnalysis', () => {
     expect(typeof getLastFormProps().onSaveDraft).toBe('function')
   })
 
-  it('passes isReviewerApprovalMode=false when reviewMode is REVIEWER_WRITES_REVIEWER_SIGNS', () => {
+  it('in option 2 awaiting approval shows the read-only summary with the submitted chip and subtitle, not the editable form', () => {
     mockQueries(
       buildPurpose({
-        reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
+        reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
         reviewerIds: ['reviewer-1'],
-        signingState: 'DRAFT',
+        signingState: 'SUBMITTED',
+      }),
+      createMockRiskAnalysisFormConfig()
+    )
+
+    const screen = render(
+      <PurposeEditStepRiskAnalysis back={vi.fn()} forward={vi.fn()} activeStep={2} />
+    )
+
+    expect(formSpy).not.toHaveBeenCalled()
+    expect(screen.getByText('status.riskAnalysis.SUBMITTED')).toBeInTheDocument()
+    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle.SUBMITTED')).toBeInTheDocument()
+    // the compiled answers are shown as a read-only summary (question + given answer)
+    expect(screen.getByText('Question 1')).toBeInTheDocument()
+    expect(screen.getByText('option 1')).toBeInTheDocument()
+  })
+
+  it('in option 2 approved shows the read-only summary with the approved chip and subtitle, not the editable form', () => {
+    mockQueries(
+      buildPurpose({
+        reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+        reviewerIds: ['reviewer-1'],
+        signingState: 'SIGNED',
+      }),
+      createMockRiskAnalysisFormConfig()
+    )
+
+    const screen = render(
+      <PurposeEditStepRiskAnalysis back={vi.fn()} forward={vi.fn()} activeStep={2} />
+    )
+
+    expect(formSpy).not.toHaveBeenCalled()
+    expect(screen.getByText('status.riskAnalysis.SIGNED')).toBeInTheDocument()
+    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle.SIGNED')).toBeInTheDocument()
+  })
+
+  it('in option 2 rejected keeps the form editable, flags the rejected alert and stays in approval mode', () => {
+    mockQueries(
+      buildPurpose({
+        reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+        reviewerIds: ['reviewer-1'],
+        signingState: 'REJECTED',
       }),
       createMockRiskAnalysisFormConfig()
     )
 
     render(<PurposeEditStepRiskAnalysis back={vi.fn()} forward={vi.fn()} activeStep={2} />)
 
-    expect(getLastFormProps().isReviewerApprovalMode).toBe(false)
-    expect(getLastFormProps().onSaveDraft).toBeUndefined()
+    expect(getLastFormProps().isRejected).toBe(true)
+    expect(getLastFormProps().isReviewerApprovalMode).toBe(true)
+  })
+
+  it('in option 3 before the reviewer compiled shows only the info card, not the form', () => {
+    mockQueries(
+      buildPurpose({
+        reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
+        reviewerIds: ['reviewer-1'],
+        signingState: 'ASSIGNED',
+      }),
+      createMockRiskAnalysisFormConfig()
+    )
+
+    const screen = render(
+      <PurposeEditStepRiskAnalysis back={vi.fn()} forward={vi.fn()} activeStep={2} />
+    )
+
+    expect(formSpy).not.toHaveBeenCalled()
+    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle.ASSIGNED')).toBeInTheDocument()
+    expect(screen.getByText('status.riskAnalysis.ASSIGNED')).toBeInTheDocument()
+    // everything but the info card is hidden: no answers summary, no editable form
+    expect(screen.queryByText('Question 1')).not.toBeInTheDocument()
+  })
+
+  it('in option 3 after the reviewer signed shows the read-only summary with the approved chip, not the editable form', () => {
+    mockQueries(
+      buildPurpose({
+        reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
+        reviewerIds: ['reviewer-1'],
+        signingState: 'SIGNED',
+      }),
+      createMockRiskAnalysisFormConfig()
+    )
+
+    const screen = render(
+      <PurposeEditStepRiskAnalysis back={vi.fn()} forward={vi.fn()} activeStep={2} />
+    )
+
+    expect(formSpy).not.toHaveBeenCalled()
+    expect(screen.getByText('status.riskAnalysis.SIGNED')).toBeInTheDocument()
+    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle.SIGNED')).toBeInTheDocument()
+    // the values compiled by the reviewer are visible in the read-only summary
+    expect(screen.getByText('Question 1')).toBeInTheDocument()
+    expect(screen.getByText('option 1')).toBeInTheDocument()
+  })
+
+  it.each(['SUBMITTED', 'REJECTED'] as const)(
+    'in option 3 the unreachable %s state throws an invariant error',
+    (signingState) => {
+      mockQueries(
+        buildPurpose({
+          reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
+          reviewerIds: ['reviewer-1'],
+          signingState,
+        }),
+        createMockRiskAnalysisFormConfig()
+      )
+
+      expect(() =>
+        render(<PurposeEditStepRiskAnalysis back={vi.fn()} forward={vi.fn()} activeStep={2} />)
+      ).toThrow(/Unreachable risk analysis signing state/)
+    }
+  )
+
+  it('in a read-only state the forward CTA stays accessible and navigates to the summary', () => {
+    mockQueries(
+      buildPurpose({
+        reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+        reviewerIds: ['reviewer-1'],
+        signingState: 'SIGNED',
+      }),
+      createMockRiskAnalysisFormConfig()
+    )
+
+    const screen = render(
+      <PurposeEditStepRiskAnalysis back={vi.fn()} forward={vi.fn()} activeStep={2} />
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: 'endWithSaveBtn' }))
+    expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_PURPOSE_SUMMARY', {
+      params: { purposeId: 'purpose-123' },
+    })
   })
 
   it('in option 1 saves the draft and navigates to summary on form onSubmit', () => {

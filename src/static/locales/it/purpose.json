@@ -163,6 +163,13 @@
       "title": "Analisi del rischio",
       "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
       "personalInfoAlert": "Attenzione: non inserire dati personali all'interno dei campi liberi di testo",
+      "readOnlySubtitle": {
+        "SUBMITTED": "Non puoi modificare l'analisi del rischio perché è stata inviata in approvazione al valutatore.",
+        "SIGNED": "Non è possibile modificare l'analisi del rischio perché è stata approvata dal valutatore.",
+        "ASSIGNED": "Non puoi modificare l'analisi del rischio perché è stata assegnata al valutatore per la compilazione."
+      },
+      "rejectedAlert": "Il valutatore ha rifiutato l'analisi del rischio. Modifica l'analisi e inviala di nuovo in approvazione.",
+      "rejectedAlertLinkLabel": "Leggi motivazione",
       "versionMismatchDialog": {
         "title": "Aggiornamento analisi del rischio",
         "description": "C'è una nuova versione di analisi del rischio disponibile. Quella compilata in precedenza è obsoleta e non può più essere usata. Se clicchi “Aggiorna”, tutti i campi che non sono cambiati ed erano stati compilati li troverai già compilati nella nuova versione",
@@ -307,17 +314,17 @@
         "rejectedAlert": {
           "label": "Il valutatore ha rifiutato l’analisi del rischio. Leggi la motivazione, modifica l’analisi e inviala di nuovo in approvazione.",
           "action": "Leggi motivazione"
-        },
-        "rejectionDrawer": {
-          "title": "Rifiuto analisi del rischio",
-          "intro": "Il valutatore ha rifiutato l’analisi del rischio con questa motivazione.",
-          "noReason": "Nessuna motivazione disponibile."
         }
       }
     },
     "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione",
     "publishBtnDisabledByReview": "Potrai pubblicare quando il valutatore avrà approvato l’analisi del rischio.",
     "publishBtn": "Pubblica"
+  },
+  "riskAnalysisRejectionDrawer": {
+    "title": "Rifiuto analisi del rischio",
+    "intro": "Il valutatore ha rifiutato l’analisi del rischio con questa motivazione.",
+    "noReason": "Nessuna motivazione disponibile."
   },
   "list": {
     "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare",

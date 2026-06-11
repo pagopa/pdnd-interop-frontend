@@ -164,7 +164,9 @@
     },
     "riskAnalysis": {
       "ASSIGNED": "da compilare",
-      "SUBMITTED": "da approvare"
+      "SUBMITTED": "da approvare",
+      "SIGNED": "approvata",
+      "REJECTED": "rifiutata"
     }
   },
   "userProductRole": {

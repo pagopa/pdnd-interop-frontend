@@ -163,6 +163,13 @@
       "title": "Risk analysis",
       "description": "The questions below will change based on the answers provided. If you edit an answer above, it may change the following questions",
       "personalInfoAlert": "Warning: do not put personal data inside text fields",
+      "readOnlySubtitle": {
+        "SUBMITTED": "You can't edit the risk analysis because it has been submitted to the reviewer for approval.",
+        "SIGNED": "The risk analysis can't be edited because it has been approved by the reviewer.",
+        "ASSIGNED": "You can't edit the risk analysis because it has been assigned to the reviewer to fill it out."
+      },
+      "rejectedAlert": "The reviewer rejected the risk analysis. Edit the analysis and submit it again for approval.",
+      "rejectedAlertLinkLabel": "Read reason",
       "versionMismatchDialog": {
         "title": "Risk analysis update",
         "description": "There is a new version of risk analysis available. The one compiled previously is obsolete and can no longer be used. If you click \"Update\", all the fields that have not changed and were filled in will already be filled in in the new version",
@@ -307,17 +314,17 @@
         "rejectedAlert": {
           "label": "The reviewer rejected the risk analysis. Read the reason, edit the analysis and submit it again for approval.",
           "action": "Read reason"
-        },
-        "rejectionDrawer": {
-          "title": "Risk analysis rejection",
-          "intro": "The reviewer rejected the risk analysis with the following reason.",
-          "noReason": "No reason available."
         }
       }
     },
     "publishBtnDisabled": "Your declaration on personal data processing in the risk analysis prevents publication",
     "publishBtnDisabledByReview": "You will be able to publish once the reviewer has approved the risk analysis.",
     "publishBtn": "Publish"
+  },
+  "riskAnalysisRejectionDrawer": {
+    "title": "Risk analysis rejection",
+    "intro": "The reviewer rejected the risk analysis with the following reason.",
+    "noReason": "No reason available."
   },
   "list": {
     "cantCreatePurposeTooltip": "You cannot create purposes because you have no associable e-service",

@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Alert, Box, Stack } from '@mui/material'
+import { Alert, Box, Link, Stack } from '@mui/material'
 import { FormProvider } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
@@ -15,6 +15,7 @@ import {
 import { useRiskAnalysisForm } from '@/hooks/useRiskAnalysisForm'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { getValidAnswers } from '@/utils/risk-analysis-form.utils'
+import { RiskAnalysisRejectionDrawer } from '@/components/shared/RiskAnalysisRejectionDrawer'
 
 type RiskAnalysisFormProps = {
   defaultAnswers: Record<string, string[]>
@@ -25,6 +26,8 @@ type RiskAnalysisFormProps = {
   isReviewerApprovalMode?: boolean
   onSaveDraft?: (answers: Record<string, string[]>) => void
   isSubmitting?: boolean
+  isRejected?: boolean
+  rejectionReason?: string
   submitLabel?: string
 }
 
@@ -37,9 +40,12 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   isReviewerApprovalMode = false,
   onSaveDraft,
   isSubmitting = false,
+  isRejected = false,
+  rejectionReason,
   submitLabel,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
+  const [isRejectionDrawerOpen, setIsRejectionDrawerOpen] = React.useState(false)
 
   const riskAnalysisForm = useRiskAnalysisForm({
     riskAnalysisConfig: riskAnalysis,
@@ -100,6 +106,25 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   return (
     <FormProvider {...riskAnalysisForm}>
       <Box component="form" noValidate onSubmit={handleSubmit}>
+        {isRejected && (
+          <Alert
+            severity="error"
+            sx={{ mb: 2 }}
+            action={
+              <Link
+                component="button"
+                type="button"
+                variant="body2"
+                underline="hover"
+                onClick={() => setIsRejectionDrawerOpen(true)}
+              >
+                {t('stepRiskAnalysis.rejectedAlertLinkLabel')}
+              </Link>
+            }
+          >
+            {t('stepRiskAnalysis.rejectedAlert')}
+          </Alert>
+        )}
         <SectionContainer
           title={t('stepRiskAnalysis.title')}
           description={t('stepRiskAnalysis.description')}
@@ -168,6 +193,13 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
           }
         />
       </Box>
+      {isRejected && (
+        <RiskAnalysisRejectionDrawer
+          isOpen={isRejectionDrawerOpen}
+          onClose={() => setIsRejectionDrawerOpen(false)}
+          rejectionReason={rejectionReason ?? ''}
+        />
+      )}
     </FormProvider>
   )
 }
