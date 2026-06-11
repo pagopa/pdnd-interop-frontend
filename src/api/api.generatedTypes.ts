@@ -2735,6 +2735,7 @@ export interface ReviewerWorkflow {
   /** Risk analysis review mode */
   reviewMode: RiskAnalysisReviewMode;
   reviewerIds: string[];
+  reviewers?: CompactUser[];
   /** Risk analysis signing state */
   signingState: RiskAnalysisSigningState;
   /** @format uuid */
