@@ -78,9 +78,19 @@ import RiskAnalysisListPage from '@/pages/RiskAnalysisListPage/RiskAnalysisList.
 import RiskAnalysisRejectThankYouPage from '@/pages/RiskAnalysisRejectThankYouPage/RiskAnalysisRejectThankYou.page'
 
 import { z } from 'zod'
+import { AuthHooks } from '@/api/auth'
 
 const languages = ['it', 'en'] as const
 export const AllowedLanguage = z.enum(languages)
+
+const LandingByRole = () => {
+  const { isReviewer } = AuthHooks.useJwt()
+  return isReviewer ? (
+    <components.Redirect to="SUBSCRIBE_RISK_ANALYSIS_LIST" />
+  ) : (
+    <components.Redirect to="SUBSCRIBE_CATALOG_LIST" />
+  )
+}
 
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
   LangCode,
@@ -404,10 +414,10 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   .addRoute({
     key: 'DEFAULT',
     path: '/',
-    redirect: 'SUBSCRIBE_CATALOG_LIST',
+    element: <LandingByRole />,
     public: true,
     hideSideNav: true,
-    authLevels: ['admin', 'support', 'api', 'security'],
+    authLevels: ['admin', 'support', 'api', 'security', 'reviewer', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_DEBUG_VOUCHER',
@@ -777,7 +787,7 @@ export type RouteKey = InferRouteKey<typeof routes>
 export const router = createBrowserRouter(
   [
     { element: <RoutesWrapper />, children: reactRouterDOMRoutes },
-    { path: '/', element: <components.Redirect to="SUBSCRIBE_CATALOG_LIST" /> },
+    { path: '/', element: <LandingByRole /> },
     { path: '/*', element: <components.Redirect to="NOT_FOUND" /> },
   ],
   { basename: '/ui' }
