@@ -374,11 +374,13 @@
     "bodySingleDay": "PDND Interoperabilità will undergo scheduled maintenance on {{maintenanceStartDay}} at {{maintenanceStartHour}} for approximately {{hoursDuration}} hours. We apologize for any inconvenience caused.",
     "bodyMultipleDay": "PDND Interoperabilità will undergo scheduled maintenance from {{maintenanceStartHour}} on {{maintenanceStartDay}} to {{maintenanceEndHour}} on {{maintenanceEndDay}}. We apologize for any inconvenience caused."
   },
-  "notificationsBanner": {
-    "title": "Notifications are here!",
-    "body": "We will inform you when there are news of your interest directly on the platform or via personal email. Check the manual and set your preferences now.",
-    "action1Label": "Configure notifications",
-    "action2Label": "Check the manual"
+  "productUpdatesBanner": {
+    "title": "What's new on PDND: archiving and new roles",
+    "body": "You can now archive obsolete versions of an e-service or an entire e-service. Two new roles are also available: Validator, to approve or fill in the risk analysis, and Viewer, to view an organization's activities on PDND.",
+    "action1Label": "How archiving works",
+    "action1AriaLabel": "How archiving works, opens in a new tab",
+    "action2Label": "How the new roles work",
+    "action2AriaLabel": "How the new roles work, opens in a new tab"
   },
   "attributeContainer": {
     "descriptionLabel": "Description",
@@ -433,7 +435,7 @@
     "title": "Configure attribute",
     "subtitle": "Set the values of the {{attributeName}} certificate attribute",
     "comparatorLabel": "Check",
-    "thresholdLabel":  "Numeric value",
+    "thresholdLabel": "Numeric value",
     "validation": {
       "integer": "Value must be an integer"
     }

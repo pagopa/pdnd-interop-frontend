@@ -14,7 +14,7 @@ import type { EServiceDescriptorState, GetEServicesCatalogParams } from '@/api/a
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { trackEvent } from '@/config/tracking'
 import { debounce } from 'lodash'
-import { NotificationsBanner } from '@/components/shared/banners/NotificationsBanner'
+import { ProductUpdatesBanner } from '@/components/shared/banners/ProductUpdatesBanner'
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
@@ -75,7 +75,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
 
   return (
     <PageContainer title={t('title')} description={t('description')}>
-      <NotificationsBanner />
+      <ProductUpdatesBanner />
       <Filters {...filtersHandlers} />
       <EServiceCatalogWrapper params={queryParams} />
       <Pagination

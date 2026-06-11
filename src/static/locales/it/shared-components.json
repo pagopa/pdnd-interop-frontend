@@ -374,11 +374,13 @@
     "bodySingleDay": "Interoperabilità PDND sarà sottoposto a manutenzione programmata il {{maintenanceStartDay}} alle {{maintenanceStartHour}} per circa {{hoursDuration}} ore. Ci scusiamo per gli eventuali disservizi causati.",
     "bodyMultipleDay": "Interoperabilità PDND sarà sottoposto a manutenzione programmata dalle {{maintenanceStartHour}} del {{maintenanceStartDay}} alle {{maintenanceEndHour}} del {{maintenanceEndDay}}. Ci scusiamo per gli eventuali disservizi causati."
   },
-  "notificationsBanner": {
-    "title": "Sono arrivate le notifiche!",
-    "body": "Ti informeremo quando ci sono novità di tuo interesse direttamente in piattaforma o tramite e-mail personale. Consulta il manuale e configura subito le tue preferenze.",
-    "action1Label": "Configura le notifiche",
-    "action2Label": "Consulta il manuale"
+  "productUpdatesBanner": {
+    "title": "Novità su PDND: archiviazione e nuovi ruoli",
+    "body": "Da adesso, puoi archiviare le versioni obsolete di un e-service o un intero e-service. In più sono disponibili due nuovi ruoli: validatore, per approvare o compilare l’analisi del rischio, e consultatore, per visualizzare le attività di un ente su PDND.",
+    "action1Label": "Come funziona l’archiviazione",
+    "action1AriaLabel": "Come funziona l’archiviazione, apre in una nuova scheda",
+    "action2Label": "Come funzionano i nuovi ruoli",
+    "action2AriaLabel": "Come funzionano i nuovi ruoli, apre in una nuova scheda"
   },
   "attributeContainer": {
     "descriptionLabel": "Descrizione",
@@ -432,7 +434,7 @@
     "title": "Configura attributo",
     "subtitle": "Imposta i valori dell'attributo certificato {{attributeName}}",
     "comparatorLabel": "Criterio",
-    "thresholdLabel":  "Valore numerico",
+    "thresholdLabel": "Valore numerico",
     "validation": {
       "integer": "Il valore deve essere intero"
     }
