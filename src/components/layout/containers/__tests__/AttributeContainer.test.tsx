@@ -2,7 +2,11 @@ import { fireEvent, screen } from '@testing-library/react'
 import { AttributeContainer } from '../AttributeContainer'
 import { vi, describe, it, expect } from 'vitest'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { createMockAttribute } from '../../../../../__mocks__/data/attribute.mocks'
+import {
+  createCertifiedDiscreteTenantAttribute,
+  createMockAttribute,
+  createMockDescriptorAttribute,
+} from '../../../../../__mocks__/data/attribute.mocks'
 import userEvent from '@testing-library/user-event'
 import type { Attribute } from '@/api/api.generatedTypes'
 import { AttributeQueries } from '@/api/attribute'
@@ -138,6 +142,124 @@ describe('AttributeContainer', () => {
     expect(
       screen.getByRole('menuitem', { name: 'actions.inspectAttributeDetails' })
     ).toBeInTheDocument()
+  })
+
+  it('should show discreteConfig with the right string (GT) if setted in DescriptorAttribute', async () => {
+    const descriptorAttributeMock = createMockDescriptorAttribute({
+      kind: 'CERTIFIED_DISCRETE',
+      discreteConfig: { comparator: 'GT', threshold: 100 },
+    })
+    renderWithApplicationContext(
+      <AttributeContainer attribute={{ ...descriptorAttributeMock }} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    const discreteConfig = screen.getByText('GT 100')
+
+    expect(discreteConfig).toBeInTheDocument()
+  })
+
+  it('should show discreteConfig with the right string (LT) if setted in DescriptorAttribute', async () => {
+    const descriptorAttributeMock = createMockDescriptorAttribute({
+      kind: 'CERTIFIED_DISCRETE',
+      discreteConfig: { comparator: 'LT', threshold: 100 },
+    })
+    renderWithApplicationContext(
+      <AttributeContainer attribute={{ ...descriptorAttributeMock }} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    const discreteConfig = screen.getByText('LT 100')
+
+    expect(discreteConfig).toBeInTheDocument()
+  })
+
+  it('should show discreteConfig with the right string (GTE) if setted in DescriptorAttribute', async () => {
+    const descriptorAttributeMock = createMockDescriptorAttribute({
+      kind: 'CERTIFIED_DISCRETE',
+      discreteConfig: { comparator: 'GTE', threshold: 100 },
+    })
+    renderWithApplicationContext(
+      <AttributeContainer attribute={{ ...descriptorAttributeMock }} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    const discreteConfig = screen.getByText('GTE 100')
+
+    expect(discreteConfig).toBeInTheDocument()
+  })
+
+  it('should show discreteConfig with the right string (LTE) if setted in DescriptorAttribute', async () => {
+    const descriptorAttributeMock = createMockDescriptorAttribute({
+      kind: 'CERTIFIED_DISCRETE',
+      discreteConfig: { comparator: 'LTE', threshold: 100 },
+    })
+    renderWithApplicationContext(
+      <AttributeContainer attribute={{ ...descriptorAttributeMock }} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    const discreteConfig = screen.getByText('LTE 100')
+
+    expect(discreteConfig).toBeInTheDocument()
+  })
+
+  it('should show discreteConfig with the right string (EQ) if setted in DescriptorAttribute', async () => {
+    const descriptorAttributeMock = createMockDescriptorAttribute({
+      kind: 'CERTIFIED_DISCRETE',
+      discreteConfig: { comparator: 'EQ', threshold: 100 },
+    })
+    renderWithApplicationContext(
+      <AttributeContainer attribute={{ ...descriptorAttributeMock }} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    const discreteConfig = screen.getByText('EQ 100')
+
+    expect(discreteConfig).toBeInTheDocument()
+  })
+
+  it('should show discreteConfig with the right string (NE) if setted in DescriptorAttribute', async () => {
+    const descriptorAttributeMock = createMockDescriptorAttribute({
+      kind: 'CERTIFIED_DISCRETE',
+      discreteConfig: { comparator: 'NE', threshold: 100 },
+    })
+    renderWithApplicationContext(
+      <AttributeContainer attribute={{ ...descriptorAttributeMock }} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    const discreteConfig = screen.getByText('NE 100')
+
+    expect(discreteConfig).toBeInTheDocument()
+  })
+
+  it('should show discreteValue if setted in CertifiedDiscreteTenantAttribute', async () => {
+    const descriptorAttributeMock = createCertifiedDiscreteTenantAttribute({
+      discreteValue: 140,
+    })
+    renderWithApplicationContext(
+      <AttributeContainer attribute={{ ...descriptorAttributeMock }} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    const discreteConfig = screen.getByText('140')
+
+    expect(discreteConfig).toBeInTheDocument()
   })
 
   it('should open AttributeDetailsDrawer with the attributes details when "inspectAttributeDetails" is clicked', async () => {

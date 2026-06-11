@@ -26,6 +26,7 @@ import type {
   EServiceAttributeCertifiedDiscreteConfig,
 } from '@/api/api.generatedTypes'
 import { Drawer } from '@/components/shared/Drawer'
+import { formatThousands } from '@/utils/format.utils'
 
 type AttributeContainerProps<
   TAttribute extends {
@@ -34,6 +35,7 @@ type AttributeContainerProps<
     dailyCallsPerConsumer?: number
     kind?: AttributeKind
     discreteConfig?: EServiceAttributeCertifiedDiscreteConfig
+    discreteValue?: number
   },
 > = {
   attribute: TAttribute
@@ -57,6 +59,7 @@ export const AttributeContainer = <
     dailyCallsPerConsumer?: number
     kind?: AttributeKind
     discreteConfig?: EServiceAttributeCertifiedDiscreteConfig
+    discreteValue?: number
   },
 >({
   attribute,
@@ -130,9 +133,16 @@ export const AttributeContainer = <
           <Stack p={2} direction="row" justifyContent="space-between" alignContent="center">
             <Stack spacing={1} justifyContent="center">
               <Typography fontWeight={600}>{attribute.name}</Typography>
+              {/* At most one of the discrete values can be shown at a time because if attribute is a DescriptorAttribute it has discreteConfig */}
               {isAttributeCertifiedDiscrete && attribute.discreteConfig && (
                 <Typography variant="body2" fontWeight={700}>
-                  {`${tCommon(attribute.discreteConfig.comparator)} ${attribute.discreteConfig.threshold}`}
+                  {`${tCommon(attribute.discreteConfig.comparator)} ${formatThousands(attribute.discreteConfig.threshold)}`}
+                </Typography>
+              )}
+              {/* and if attribute is a CertifiedDiscreteTenantAttribute it has discreteValue */}
+              {isAttributeCertifiedDiscrete && attribute.discreteValue && (
+                <Typography variant="body2" fontWeight={700}>
+                  {formatThousands(attribute.discreteValue)}
                 </Typography>
               )}
               {(attribute.dailyCallsPerConsumer !== undefined || onCustomizeThreshold) && (
