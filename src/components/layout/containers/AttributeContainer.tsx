@@ -13,9 +13,9 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import { AttributeQueries } from '@/api/attribute'
-import { InformationContainer } from '@pagopa/interop-fe-commons'
+import { InformationContainer, InformationContainerSkeleton } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE } from '@/config/env'
 import { ActionMenu } from '@/components/shared/ActionMenu'
 import type { ActionItemButton } from '@/types/common.types'
@@ -73,9 +73,16 @@ export const AttributeContainer = <
   const { t } = useTranslation('shared-components', { keyPrefix: 'attributeContainer' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'comparators' })
   const [isDetailsDrawerOpen, setIsDetailsDrawerOpen] = React.useState<boolean>(false)
-  const { data: completeAttribute, isLoading: isLoadingCompleteAttribute } = useQuery(
-    AttributeQueries.getSingle(attribute.id)
-  )
+
+  const alreadyPrefetched = React.useRef(false)
+
+  const queryClient = useQueryClient()
+
+  const handlePrefetchAttribute = () => {
+    if (alreadyPrefetched.current) return
+    alreadyPrefetched.current = true
+    queryClient.prefetchQuery(AttributeQueries.getSingle(attribute.id))
+  }
 
   const isAttributeCertifiedDiscrete =
     FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE && attribute.kind === 'CERTIFIED_DISCRETE'
@@ -169,7 +176,11 @@ export const AttributeContainer = <
                 </Stack>
               )}
             </Stack>
-            <Box alignSelf="center">
+            <Box
+              alignSelf="center"
+              onPointerEnter={handlePrefetchAttribute}
+              onFocus={handlePrefetchAttribute}
+            >
               <ActionMenu actions={menuActions} iconColor="action" />
             </Box>
           </Stack>
@@ -199,11 +210,11 @@ export const AttributeContainer = <
           )}
         </Card>
       </Stack>
-      {!isLoadingCompleteAttribute && completeAttribute && (
+      {alreadyPrefetched.current && (
         <AttributeDetailsDrawer
           isOpen={isDetailsDrawerOpen}
           onClose={() => setIsDetailsDrawerOpen(false)}
-          attribute={completeAttribute}
+          attributeId={attribute.id}
         />
       )}
     </>
@@ -213,35 +224,67 @@ export const AttributeContainer = <
 const AttributeDetailsDrawer: React.FC<{
   isOpen: boolean
   onClose: VoidFunction
-  attribute: Attribute
-}> = ({ isOpen, onClose, attribute }) => {
+  attributeId: string
+}> = ({ isOpen, onClose, attributeId }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'attributeContainer' })
 
+  const { data: attribute, isLoading } = useQuery({
+    ...AttributeQueries.getSingle(attributeId),
+    enabled: isOpen,
+  })
+
   return (
-    <Drawer isOpen={isOpen} onClose={onClose} title={attribute.name}>
-      <Stack sx={{ mt: 1 }} spacing={2}>
-        <InformationContainer
-          direction="column"
-          label={t('descriptionLabel')}
-          content={attribute.description}
-        />
-        <InformationContainer
-          direction="column"
-          label={t('attributeIdLabel')}
-          content={attribute.id}
-          copyToClipboard={{
-            value: attribute.id,
-            tooltipTitle: t('idCopytooltipLabel'),
-          }}
-        />
-        {attribute.origin && attribute.origin !== 'SELFCARE' && (
+    <Drawer
+      isOpen={isOpen}
+      onClose={onClose}
+      title={
+        attribute?.name ?? (
+          <Typography variant="h6">
+            <Skeleton width={'50%'} />
+          </Typography>
+        )
+      }
+    >
+      {!attribute || isLoading ? (
+        <Stack sx={{ mt: 1 }} spacing={2}>
+          <Stack spacing={0}>
+            <Skeleton width={'50%'} />
+            <Skeleton width={'70%'} />
+          </Stack>
+          <Stack spacing={0}>
+            <Skeleton width={'50%'} />
+            <Skeleton width={'70%'} />
+          </Stack>
+          <Stack spacing={0}>
+            <Skeleton width={'50%'} />
+            <Skeleton width={'70%'} />
+          </Stack>
+        </Stack>
+      ) : (
+        <Stack sx={{ mt: 1 }} spacing={2}>
           <InformationContainer
             direction="column"
-            label={t('tenantCertifierLabel')}
-            content={attribute.origin}
+            label={t('descriptionLabel')}
+            content={attribute.description}
           />
-        )}
-      </Stack>
+          <InformationContainer
+            direction="column"
+            label={t('attributeIdLabel')}
+            content={attribute.id}
+            copyToClipboard={{
+              value: attribute.id,
+              tooltipTitle: t('idCopytooltipLabel'),
+            }}
+          />
+          {attribute.origin && attribute.origin !== 'SELFCARE' && (
+            <InformationContainer
+              direction="column"
+              label={t('tenantCertifierLabel')}
+              content={attribute.origin}
+            />
+          )}
+        </Stack>
+      )}
     </Drawer>
   )
 }
