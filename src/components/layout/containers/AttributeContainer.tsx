@@ -13,14 +13,13 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import { AttributeQueries } from '@/api/attribute'
-import { InformationContainer, InformationContainerSkeleton } from '@pagopa/interop-fe-commons'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE } from '@/config/env'
 import { ActionMenu } from '@/components/shared/ActionMenu'
 import type { ActionItemButton } from '@/types/common.types'
 import type {
-  Attribute,
   AttributeKind,
   EServiceAttributeCertifiedDiscreteConfig,
 } from '@/api/api.generatedTypes'
