@@ -153,7 +153,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
                         : undefined
                     }
                     onOpenConfigDrawer={
-                      FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE
+                      FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE && !readOnly
                         ? () => openConfigureDiscreteAttributeDrawer(attribute, groupIndex)
                         : undefined
                     }
