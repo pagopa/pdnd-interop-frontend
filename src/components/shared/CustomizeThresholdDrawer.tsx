@@ -118,9 +118,7 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
             />
             <GreyAlert>
               <Stack spacing={0.5}>
-                <Typography variant="overline" sx={{ whiteSpace: 'nowrap' }}>
-                  {t('limitAlert.title')}
-                </Typography>
+                <Typography variant="overline">{t('limitAlert.title')}</Typography>
                 <Stack
                   direction={'row'}
                   alignItems={'center'}
