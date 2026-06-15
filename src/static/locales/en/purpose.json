@@ -302,8 +302,8 @@
       "reviewStatus": {
         "chip": {
           "approvalToRequest": "Approval to be requested",
-          "awaitingCompilation": "Awaiting compilation",
-          "awaitingApproval": "Awaiting approval",
+          "awaitingCompilation": "Waiting for compilation",
+          "awaitingApproval": "Waiting for approval",
           "approved": "Approved",
           "rejected": "Rejected"
         },
@@ -450,7 +450,7 @@
   },
   "consumerView": {
     "suspendedAlert": "This purpose is suspended. Until it is reactivated you will not be able to access the data made available through the API.",
-    "waitingForApprovalAlert": "This scope is awaiting approval. <strong>Until its activation</strong> by the producer you will <strong>not be able to access the data</strong> made available through the API and you will <strong>not be able to associate clients</strong>.",
+    "waitingForApprovalAlert": "This scope is waiting for approval. <strong>Until its activation</strong> by the producer you will <strong>not be able to access the data</strong> made available through the API and you will <strong>not be able to associate clients</strong>.",
     "archivedPurposeAlert": "This purpose is archived. You cannot access the data made available through the API. You can always <1>create a new one.</1>",
     "archivedPurposeClientsAlert": "This purpose has been archived. All clients were removed and new clients can no longer be associated",
     "rejectedPurposeAlert": "This purpose has been rejected. <2>Read here the reject reason</2>.",

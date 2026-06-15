@@ -163,8 +163,8 @@
       "ARCHIVED": "archived"
     },
     "riskAnalysis": {
-      "ASSIGNED": "to fill out",
-      "SUBMITTED": "to be approved",
+      "ASSIGNED": "waiting for compilation",
+      "SUBMITTED": "waiting for approval",
       "SIGNED": "approved",
       "REJECTED": "rejected"
     }
