@@ -304,7 +304,6 @@ describe('PurposeEditStepRiskAnalysis', () => {
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
       reviewerIds: ['reviewer-1'],
-      reviewers: [{ userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' }],
       signingState: 'DRAFT',
     })
     const riskAnalysis = createMockRiskAnalysisFormConfig()
@@ -322,9 +321,11 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
     expect(openDialogMock).toHaveBeenCalledTimes(1)
     const dialogPayload = openDialogMock.mock.calls[0][0]
+    // TODO: assert the real reviewer once the BE returns reviewers as CompactUser[];
+    // for now the component builds a placeholder from reviewerIds[0].
     expect(dialogPayload).toMatchObject({
       type: 'requestPurposeApproval',
-      reviewer: { userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' },
+      reviewer: { userId: 'reviewer-1', name: '', familyName: '' },
     })
     expect(typeof dialogPayload.onConfirm).toBe('function')
 
