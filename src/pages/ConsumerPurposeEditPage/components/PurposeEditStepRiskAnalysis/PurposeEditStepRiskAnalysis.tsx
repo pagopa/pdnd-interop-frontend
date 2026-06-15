@@ -156,17 +156,13 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
       // closeDialog(), and the second mutate() would silently no-op against a
       // destroyed observer.
       onConfirm: () => {
-        saveDraft(answers, {
-          onSuccess: () => {
-            submitRiskAnalysis(
-              {
-                purposeId: purpose.id,
-                riskAnalysisForm: { version: riskAnalysis.version, answers },
-              },
-              { onSuccess: goToSummary }
-            )
+        submitRiskAnalysis(
+          {
+            purposeId: purpose.id,
+            riskAnalysisForm: { version: riskAnalysis.version, answers },
           },
-        })
+          { onSuccess: goToSummary }
+        )
       },
     })
   }
