@@ -152,9 +152,6 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
     openDialog({
       type: 'requestPurposeApproval',
       reviewerId,
-      // Chain must live in the parent: putting it in the dialog would race
-      // closeDialog(), and the second mutate() would silently no-op against a
-      // destroyed observer.
       onConfirm: () => {
         saveDraft(answers, {
           onSuccess: () => {

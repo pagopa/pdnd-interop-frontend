@@ -639,7 +639,7 @@
     "submitRiskAnalysis": {
       "loading": "Stiamo inviando l’analisi del rischio al valutatore",
       "outcome": {
-        "error": "L’analisi del rischio è stata salvata ma non è stato possibile inviarla al valutatore. Riprova!"
+        "error": "Non è stato possibile inviare l’analisi del rischio al valutatore. Riprova!"
       }
     },
     "signRiskAnalysis": {

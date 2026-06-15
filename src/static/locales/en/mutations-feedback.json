@@ -639,7 +639,7 @@
     "submitRiskAnalysis": {
       "loading": "Submitting the risk analysis to the reviewer",
       "outcome": {
-        "error": "The risk analysis was saved but could not be submitted to the reviewer. Please try again!"
+        "error": "The risk analysis could not be submitted to the reviewer. Please try again!"
       }
     },
     "signRiskAnalysis": {
