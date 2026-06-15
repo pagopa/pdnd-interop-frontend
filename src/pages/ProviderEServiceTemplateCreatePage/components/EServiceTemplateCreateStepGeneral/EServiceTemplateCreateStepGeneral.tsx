@@ -94,19 +94,29 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
     })
   }
 
-  const signalHubLabel = (
-    <>
-      {' '}
-      <span> {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.label')} </span>
-      <Typography variant="body2" color="textSecondary" sx={{ marginTop: 0.5 }}>
-        {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.before')}{' '}
-        <IconLink href={SIGNALHUB_GUIDE_URL} target="_blank">
-          {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.linkLabel')}
-        </IconLink>{' '}
-        {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.after')}
-      </Typography>
-    </>
-  ) as unknown as string
+  const signalHubLabel = (disabled: boolean) =>
+    (
+      <>
+        {' '}
+        <span> {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.label')} </span>
+        <Typography
+          variant="body2"
+          color={disabled ? 'text.disabled' : 'text.secondary'}
+          sx={{ marginTop: 0.5 }}
+        >
+          {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.before')}{' '}
+          <IconLink
+            href={SIGNALHUB_GUIDE_URL}
+            target="_blank"
+            aria-disabled={disabled}
+            tabIndex={disabled ? -1 : undefined}
+          >
+            {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.linkLabel')}
+          </IconLink>{' '}
+          {t('create.step1.eserviceTemplateModeField.isSignalHubEnabled.infoLabel.after')}
+        </Typography>
+      </>
+    ) as unknown as string
 
   if (!areEServiceTemplateGeneralInfoEditable && eserviceTemplateVersion) {
     return (
@@ -143,7 +153,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
           <SectionContainer title={t('create.step1.signalHubTitle')} component="div">
             <RHFSwitch
               name="isSignalHubEnabled"
-              label={signalHubLabel}
+              label={signalHubLabel(!areEServiceTemplateGeneralInfoEditable)}
               disabled={!areEServiceTemplateGeneralInfoEditable}
             />
           </SectionContainer>
@@ -211,7 +221,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
         />
 
         <SectionContainer title={t('create.step1.signalHubTitle')} component="div">
-          <RHFSwitch name="isSignalHubEnabled" label={signalHubLabel} />
+          <RHFSwitch name="isSignalHubEnabled" label={signalHubLabel(false)} />
         </SectionContainer>
 
         <StepActions
