@@ -170,12 +170,15 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
   }
 
   const customizeThresholdDrawerSubtitle = (
-    <Trans
-      ns="eservice"
-      i18nKey="read.drawers.customizeThresholdDrawer.subtitle"
-      values={{ name: attribute?.name }}
-      components={{ 1: <strong /> }}
-    />
+    <Typography variant="body2">
+      <Trans
+        components={{
+          strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+        }}
+      >
+        {tCustomizeThresholdDrawer('subtitle', { name: attribute?.name })}
+      </Trans>
+    </Typography>
   )
 
   const currentConsumerThreshold = (
