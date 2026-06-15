@@ -359,10 +359,11 @@
       "asyncExchangeSection": {
         "title": "Asynchronous and bulk exchanges",
         "description": "Asynchronous and bulk exchanges require a callback interface that consumers will have to implement to receive your responses. Upload the OpenAPI file with the API description. <1>Learn more about asynchronous and bulk exchanges</1>.",
-        "editableInfoAlert": "These fields will no longer be editable after the publication of the first version of the e-service.",
+        "editableInfoAlert": "After publication, these fields will no longer be editable. To modify them, you will need to create a new version of the e-service.",
         "callbackInterface": {
           "readOnlyLabel": "Callback interface",
           "prettyName": "Callback interface",
+          "download": "Download callback file",
           "dropzoneLabel": "Drag the callback interface here or click here to select it from your computer"
         },
         "configSubsection": {
@@ -373,15 +374,15 @@
         },
         "responseTimeField": {
           "label": "Maximum response time (in seconds)",
-          "infoLabel": "Indicates how long your e-service takes to return a response after a call from consumers."
+          "infoLabel": "Indicates how long your e-service takes to return a response after a call from consumers. Accepted values: from 1 to 999,999 seconds."
         },
         "maxResultSetField": {
           "label": "Maximum number of results per response",
-          "infoLabel": "Indicates the maximum number of elements that each response can contain."
+          "infoLabel": "Indicates the maximum number of elements that each response can contain. Accepted values: from 1 to 99,999."
         },
         "resourceAvailableTimeField": {
           "label": "Data availability duration (in seconds)",
-          "infoLabel": "Indicates how long the data is downloadable before being deleted."
+          "infoLabel": "Indicates how long the data is downloadable before being deleted. Accepted values: from 1 to 999,999 seconds."
         },
         "confirmationField": {
           "label": "Require receipt confirmation",

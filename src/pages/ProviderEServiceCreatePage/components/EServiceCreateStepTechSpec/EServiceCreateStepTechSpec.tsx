@@ -25,6 +25,7 @@ import {
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { EServiceAsyncExchangeSection } from '../sections/EServiceAsyncExchangeSection'
 import { getAsyncExchangePropertiesWithDefaults } from '@/utils/eservice.utils'
+import { AuthHooks } from '@/api/auth/auth.hooks'
 import { RestInterfaceDescription } from '@/components/shared/RestInterfaceDescription'
 
 type AsyncExchangePropertiesFormValues = {
@@ -45,17 +46,19 @@ export type EServiceCreateStepTechSpecFormValues = {
 export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
   const { descriptor } = useEServiceCreateContext()
 
+  const { isOperatorAPI } = AuthHooks.useJwt()
+
   const isEServiceCreatedFromTemplate = Boolean(descriptor?.templateRef?.templateVersionId)
   const isEServiceAsync = Boolean(descriptor?.eservice.asyncExchange)
 
-  const { data: initialAssociatedKeychains, isPending } = useQuery({
+  const { data: initialAssociatedKeychains, isLoading } = useQuery({
     ...KeychainQueries.getAllKeychainsList({
       eserviceId: descriptor?.eservice.id ?? '',
     }),
-    enabled: isEServiceAsync && Boolean(descriptor?.eservice.id),
+    enabled: isEServiceAsync && Boolean(descriptor?.eservice.id) && !isOperatorAPI,
   })
 
-  if (isEServiceAsync && isPending) {
+  if (isEServiceAsync && isLoading) {
     return <EServiceCreateStepTechSpecSkeleton />
   }
 

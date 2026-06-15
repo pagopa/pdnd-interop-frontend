@@ -14,7 +14,9 @@ type UploadTemplateCallbackInterfaceDocFormValues = {
 }
 
 export const UploadTemplateCallbackInterfaceDoc: React.FC = () => {
-  const { t } = useTranslation('eservice', { keyPrefix: 'create.step4.asyncExchangeSection' })
+  const { t } = useTranslation('eserviceTemplate', {
+    keyPrefix: 'create.step3.technicalSpecs.asyncExchangeSection',
+  })
   const { eserviceTemplateVersion } = useEServiceTemplateCreateContext()
 
   const downloadDocument = EServiceTemplateDownloads.useDownloadVersionDocument()

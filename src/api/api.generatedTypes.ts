@@ -2293,22 +2293,46 @@ export interface EServiceTemplateDetails {
 }
 
 export interface AsyncExchangeProperties {
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 999999
+   */
   responseTime: number;
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 999999
+   */
   resourceAvailableTime: number;
   confirmation: boolean;
   bulk: boolean;
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 99999
+   */
   maxResultSet: number;
 }
 
 export interface AsyncExchangePropertiesInstanceSeed {
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 999999
+   */
   responseTime?: number;
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 999999
+   */
   resourceAvailableTime?: number;
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 99999
+   */
   maxResultSet?: number;
 }
 
@@ -2403,6 +2427,7 @@ export interface UpdateEServiceTemplateSeed {
   mode: EServiceMode;
   isSignalHubEnabled?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
 }
 
 export interface EServiceTemplateSeed {

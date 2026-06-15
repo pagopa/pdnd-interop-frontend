@@ -1,4 +1,4 @@
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { screen, waitFor } from '@testing-library/react'
 import { EServiceCreateStepTechSpec } from '../EServiceCreateStepTechSpec'
 import { useFieldArray, useFormContext } from 'react-hook-form'
@@ -14,6 +14,8 @@ import {
   mockUseEServiceCreateContext,
 } from '@/../__mocks__/data/eservice.mocks'
 import { createMockEServiceTemplateDetailsAsync } from '@/../__mocks__/data/eserviceTemplate.mocks'
+
+mockUseJwt()
 
 const useRemoveKeychainFromEService = vi.hoisted(() => vi.fn())
 
@@ -133,6 +135,7 @@ describe('EServiceCreateStepTechSpec', () => {
       withReactQueryContext: true,
       withRouterContext: true,
     })
+
     expect(screen.getByText('EServiceInterfaceSection')).toBeInTheDocument()
     expect(screen.getByText('EServiceVoucherSection')).toBeInTheDocument()
   })
