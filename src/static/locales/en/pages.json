@@ -66,5 +66,9 @@
   "consumerPurposeTemplatesCatalog": {
     "title": "Facilitated Purpose Templates Catalog",
     "description": "Purpose templates are shared models among all participants. After your fruition request is accepted, you can create a new purpose starting from one of these models, which contains a pre-filled part of the risk analysis."
+  },
+  "riskAnalysisList": {
+    "title": "Risk Analysis",
+    "description": "Here you'll only find the risk analyses you need to complete or approve. If a purpose is deleted, you'll no longer see it in this section."
   }
 }

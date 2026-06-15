@@ -96,7 +96,8 @@
       "linkedEserviceName": "E-service or e-service template",
       "linkedEserviceProviderName": "Producer Name",
       "purposeTemplateCreatorName": "Creator name",
-      "purposeTemplateTarget": "Target"
+      "purposeTemplateTarget": "Target",
+      "assignmentDate": "Assignment date"
     }
   },
   "status": {
@@ -160,13 +161,21 @@
       "DRAFT": "draft",
       "SUSPENDED": "suspended",
       "ARCHIVED": "archived"
+    },
+    "riskAnalysis": {
+      "ASSIGNED": "waiting for compilation",
+      "SUBMITTED": "waiting for approval",
+      "SIGNED": "approved",
+      "REJECTED": "rejected"
     }
   },
   "userProductRole": {
     "admin": "Administrator",
     "security": "Security operator",
     "api": "API operator",
-    "support": "Support"
+    "support": "Support",
+    "reviewer": "Reviewer",
+    "viewer": "Viewer"
   },
   "time": {
     "minute_one": "minute",

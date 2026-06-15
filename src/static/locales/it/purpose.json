@@ -57,7 +57,8 @@
         "acknowledgeInfoResponsibility": {
           "label": "Dichiaro di aver compreso che, anche in presenza di suggerimenti precompilati, è mia responsabilità verificare e validare tutte le informazioni prima della pubblicazione.",
           "requiredError": "Devi accettare le condizioni per proseguire"
-        }
+        },
+        "evaluatorWarningAlert": "Se scegli la compilazione agevolata, non potrai assegnare la compilazione o l’approvazione dell’analisi del rischio al valutatore."
       }
     }
   },
@@ -65,6 +66,8 @@
     "emptyTitle": "Modifica finalità",
     "stepper": {
       "stepGeneralLabel": "Generale",
+      "stepGeneralInformationLabel": "Informazioni generali",
+      "stepAssignmentLabel": "Assegnazione",
       "stepRiskAnalysisLabel": "Analisi del rischio"
     },
     "backWithoutSaveBtn": "Indietro",
@@ -91,6 +94,38 @@
       "freeOfChargeReasonField": {
         "label": "Motivazione titolo gratuito",
         "infoLabel": "Spiega perché metterai questi dati a disposizione gratuitamente. Indica se lo fai in base a un’esenzione o a un’esclusione prevista dalla legge, oppure per un altro motivo. Min 10, max 250 caratteri"
+      }
+    },
+    "stepAssignment": {
+      "title": "Assegnazione",
+      "description": "Puoi compilare l’analisi del rischio in autonomia oppure affidare a un valutatore l’approvazione o la compilazione.",
+      "reviewModeField": {
+        "label": "Scegli una modalità",
+        "options": {
+          "selfWritesSelfSigns": "Compilazione e approvazione in autonomia",
+          "selfWritesReviewerSigns": "Compilazione in autonomia e approvazione del valutatore",
+          "reviewerWritesReviewerSigns": "Compilazione e approvazione del valutatore"
+        }
+      },
+      "reviewerField": {
+        "label": {
+          "selfWritesReviewerSigns": "Chi approverà l’analisi del rischio?",
+          "reviewerWritesReviewerSigns": "Chi compilerà l’analisi del rischio?"
+        },
+        "requiredError": "Per proseguire, seleziona un valutatore"
+      },
+      "noReviewersAlert": {
+        "message": "Il tuo ente non ha ancora un utente con ruolo di valutatore. Puoi aggiungerlo dall’Area Riservata.",
+        "linkLabel": "Vai a Utenti"
+      },
+      "delegateAlert": "Come delegato, non puoi assegnare l’analisi del rischio a un valutatore.",
+      "forwardBtn": "Salva bozza e prosegui",
+      "requestReviewerCompilationBtn": "Richiedi compilazione",
+      "readOnly": {
+        "modeLabel": "Modalità",
+        "reviewerLabel": "Valutatore",
+        "reviewerUnknown": "Valutatore non disponibile",
+        "forwardBtn": "Avanti"
       }
     },
     "loadEstimationSection": {
@@ -128,6 +163,13 @@
       "title": "Analisi del rischio",
       "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
       "personalInfoAlert": "Attenzione: non inserire dati personali all'interno dei campi liberi di testo",
+      "readOnlySubtitle": {
+        "SUBMITTED": "Non puoi modificare l'analisi del rischio perché è stata inviata in approvazione al valutatore.",
+        "SIGNED": "Non è possibile modificare l'analisi del rischio perché è stata approvata dal valutatore.",
+        "ASSIGNED": "Non puoi modificare l'analisi del rischio perché è stata assegnata al valutatore per la compilazione."
+      },
+      "rejectedAlert": "Il valutatore ha rifiutato l'analisi del rischio. Modifica l'analisi e inviala di nuovo in approvazione.",
+      "rejectedAlertLinkLabel": "Leggi motivazione",
       "versionMismatchDialog": {
         "title": "Aggiornamento analisi del rischio",
         "description": "C'è una nuova versione di analisi del rischio disponibile. Quella compilata in precedenza è obsoleta e non può più essere usata. Se clicchi “Aggiorna”, tutti i campi che non sono cambiati ed erano stati compilati li troverai già compilati nella nuova versione",
@@ -149,6 +191,15 @@
           "personalData": "Non potrai pubblicare questa finalità perché hai dichiarato che vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore.",
           "noPersonalData": "Non potrai pubblicare questa finalità perché hai dichiarato che non vengono trattati dati personali, ma l’erogatore ha dichiarato il contrario. Per chiarimenti, contatta l’erogatore."
         }
+      },
+      "requestApprovalBtn": "Richiedi approvazione",
+      "saveDraftBtn": "Salva bozza e prosegui",
+      "requestApprovalAlert": "Per assegnare l’analisi del rischio al valutatore è necessario compilare tutte le domande.",
+      "requiredFieldErrorReviewer": "Compila per proseguire",
+      "requestApprovalDialog": {
+        "title": "Richiedi approvazione",
+        "description": "Se confermi, assegnerai l’approvazione dell’analisi del rischio al valutatore <strong>{{reviewerName}}</strong> e non potrai più fare modifiche.",
+        "proceedLabel": "Conferma"
       }
     },
     "purposeFromTemplate": {
@@ -233,17 +284,54 @@
         }
       }
     },
+    "assignmentSection": {
+      "title": "Assegnazione",
+      "mode": {
+        "label": "Modalità",
+        "autonomy": "Compilazione e approvazione in autonomia",
+        "adminWritesReviewerSigns": "Compilazione in autonomia e approvazione del valutatore",
+        "reviewerWritesReviewerSigns": "Compilazione e approvazione del valutatore"
+      },
+      "reviewer": {
+        "label": "Valutatore"
+      }
+    },
     "riskAnalysisSection": {
       "title": "Analisi del rischio",
-      "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore."
+      "providerRiskAnalysisAlert": "L’e-service scelto per questa finalità prevede che i dati vengano inviati dal fruitore all’erogatore. L’analisi del rischio è statata quindi compilata dall’erogatore.",
+      "reviewStatus": {
+        "chip": {
+          "approvalToRequest": "Approvazione da richiedere",
+          "awaitingCompilation": "In attesa di compilazione",
+          "awaitingApproval": "In attesa di approvazione",
+          "approved": "Approvata",
+          "rejected": "Rifiutata"
+        },
+        "infoAlert": {
+          "adminWritesReviewerSigns": "Quando il valutatore avrà approvato l’analisi del rischio, potrai pubblicare la finalità.",
+          "reviewerWritesReviewerSigns": "Quando il valutatore avrà compilato e approvato l’analisi del rischio, potrai pubblicare la finalità."
+        },
+        "rejectedAlert": {
+          "label": "Il valutatore ha rifiutato l’analisi del rischio. Leggi la motivazione, modifica l’analisi e inviala di nuovo in approvazione.",
+          "action": "Leggi motivazione"
+        }
+      }
     },
     "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione",
+    "publishBtnDisabledByReview": "Potrai pubblicare quando il valutatore avrà approvato l’analisi del rischio.",
     "publishBtn": "Pubblica"
+  },
+  "riskAnalysisRejectionDrawer": {
+    "title": "Rifiuto analisi del rischio",
+    "intro": "Il valutatore ha rifiutato l’analisi del rischio con questa motivazione.",
+    "noReason": "Nessuna motivazione disponibile."
   },
   "list": {
     "cantCreatePurposeTooltip": "Non puoi creare finalità perché non hai e-service da associare",
     "newVersionAvailableTooltip": "Il fruitore ha richiesto un adeguamento che richiede la tua approvazione. Accedi alla finalità per maggiori dettagli",
     "waitingForApprovalVersionTooltip": "Hai richiesto un adeguamento che richiede l’approvazione dell’erogatore. Accedi alla finalità per maggiori dettagli",
+    "riskAnalysisApproved": "Analisi del rischio approvata",
+    "riskAnalysisRejected": "Analisi del rischio rifiutata",
     "filters": {
       "nameField": {
         "label": "Cerca per nome finalità"
@@ -492,6 +580,86 @@
       }
     }
   },
+  "riskAnalysisSummary": {
+    "backToListBtn": "Torna alle analisi del rischio",
+    "titleSummary": "Riepilogo",
+    "titleApproval": "Approvazione analisi del rischio",
+    "modifyBtn": "Modifica bozza",
+    "approveBtn": "Approva analisi del rischio",
+    "rejectBtn": "Rifiuta con motivazione",
+    "generalInformationSection": {
+      "title": "Informazioni generali"
+    },
+    "riskAnalysisSection": {
+      "title": "Analisi del rischio"
+    },
+    "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione",
+    "infoAlert": "Quando approvi l’analisi del rischio, l’amministratore potrà pubblicare la finalità."
+  },
+  "riskAnalysisCompile": {
+    "backToListBtn": "Torna alle analisi del rischio",
+    "title": "Compilazione analisi del rischio",
+    "forwardWithSaveBtn": "Salva bozza e prosegui"
+  },
+  "riskAnalysisInfoCompile": {
+    "backToListBtn": "Torna alle analisi del rischio",
+    "title": "Informazioni finalità",
+    "generalInfoSection": {
+      "label": "Informazioni generali",
+      "eService": {
+        "label": "E-service da associare"
+      },
+      "producer": {
+        "label": "Erogatore"
+      },
+      "purposeName": {
+        "label": "Nome della finalità"
+      },
+      "purposeDescription": {
+        "label": "Descrizione finalità"
+      },
+      "isFreeOfCharge": {
+        "label": "Come metterai a disposizione l'accesso ai dati di questo e-service?",
+        "options": {
+          "YES": "A titolo gratuito",
+          "NO": "A pagamento"
+        }
+      },
+      "freeOfChargeReason": {
+        "label": "Motivazione titolo gratuito"
+      }
+    },
+    "loadEstimationSection": {
+      "label": "Stima chiamate API",
+      "dailyCalls": {
+        "label": "Stima numero chiamate API/giorno"
+      }
+    },
+    "beginCompileBtn": "Inizia la compilazione"
+  },
+  "riskAnalysisList": {
+    "filters": {
+      "eserviceField": {
+        "label": "Cerca per e-service"
+      },
+      "riskAnalysisState": {
+        "label": "Stato analisi del rischio",
+        "statusField": {
+          "ASSIGNED": "Da compilare",
+          "SUBMITTED": "Da approvare"
+        }
+      }
+    },
+    "today": {
+      "label": "Oggi"
+    },
+    "noData": {
+      "label": "Non hai nessuna analisi del rischio da valutare"
+    },
+    "noResults": {
+      "label": "La ricerca corrente non ha prodotto risultati."
+    }
+  },
   "publishThankYou": {
     "loading": "Pubblicazione in corso",
     "active": {
@@ -502,6 +670,16 @@
       "title": "La tua finalità è stata inoltrata all'erogatore per l'approvazione",
       "description": "Fino alla sua attivazione da parte dell'erogatore non potrai accedere ai dati resi disponibili attraverso l'API e non potrai associare client. Riceverai una notifica quando l'erogatore approverà la tua finalità"
     },
+    "action": "Chiudi"
+  },
+  "approveThankYou": {
+    "title": "Hai approvato l’analisi del rischio",
+    "description": "L’amministratore potrà pubblicare la finalità. Non vedrai più questa analisi del rischio tra quelle che devi compilare o approvare.",
+    "action": "Chiudi"
+  },
+  "rejectThankYou": {
+    "title": "Hai rifiutato l’analisi del rischio",
+    "description": "L’amministratore riceverà il motivo del tuo rifiuto. Non vedrai più questa analisi del rischio tra quelle che devi compilare o approvare.",
     "action": "Chiudi"
   }
 }

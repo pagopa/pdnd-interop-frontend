@@ -2293,46 +2293,22 @@ export interface EServiceTemplateDetails {
 }
 
 export interface AsyncExchangeProperties {
-  /**
-   * @format int32
-   * @min 1
-   * @max 999999
-   */
+  /** @format int32 */
   responseTime: number;
-  /**
-   * @format int32
-   * @min 1
-   * @max 999999
-   */
+  /** @format int32 */
   resourceAvailableTime: number;
   confirmation: boolean;
   bulk: boolean;
-  /**
-   * @format int32
-   * @min 1
-   * @max 99999
-   */
+  /** @format int32 */
   maxResultSet: number;
 }
 
 export interface AsyncExchangePropertiesInstanceSeed {
-  /**
-   * @format int32
-   * @min 1
-   * @max 999999
-   */
+  /** @format int32 */
   responseTime?: number;
-  /**
-   * @format int32
-   * @min 1
-   * @max 999999
-   */
+  /** @format int32 */
   resourceAvailableTime?: number;
-  /**
-   * @format int32
-   * @min 1
-   * @max 99999
-   */
+  /** @format int32 */
   maxResultSet?: number;
 }
 
@@ -2427,7 +2403,6 @@ export interface UpdateEServiceTemplateSeed {
   mode: EServiceMode;
   isSignalHubEnabled?: boolean;
   personalData?: boolean;
-  asyncExchange?: boolean;
 }
 
 export interface EServiceTemplateSeed {
@@ -2859,6 +2834,20 @@ export interface RiskAnalysisAssignmentSeed {
   reviewMode: RiskAnalysisReviewMode;
   /** @minItems 1 */
   reviewerIds: string[];
+}
+
+/** Payload to submit the risk analysis form for reviewer signing */
+export interface RiskAnalysisSubmissionSeed {
+  riskAnalysisForm: RiskAnalysisFormSeed;
+}
+
+/** Payload to reject the risk analysis with a reason */
+export interface RiskAnalysisRejectionSeed {
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  rejectionReason: string;
 }
 
 export interface ProblemError {
@@ -3958,6 +3947,30 @@ export interface GetConsumerPurposesParams {
   limit: number;
 }
 
+export interface GetRiskAnalysisAssignmentsParams {
+  /**
+   * comma separated sequence of EService IDs
+   * @default []
+   */
+  eservicesIds?: string[];
+  /**
+   * comma separated sequence of risk analysis signing states
+   * @default []
+   */
+  signingStates?: RiskAnalysisSigningState[];
+  /**
+   * @format int32
+   * @min 0
+   */
+  offset: number;
+  /**
+   * @format int32
+   * @min 1
+   * @max 50
+   */
+  limit: number;
+}
+
 export interface ClonePurposeParams {
   /** @format uuid */
   purposeId: string;
@@ -4015,6 +4028,26 @@ export interface RejectPurposeVersionParams {
 }
 
 export interface AssignRiskAnalysisReviewerParams {
+  /** @format uuid */
+  purposeId: string;
+}
+
+export interface SubmitRiskAnalysisParams {
+  /** @format uuid */
+  purposeId: string;
+}
+
+export interface SignRiskAnalysisParams {
+  /** @format uuid */
+  purposeId: string;
+}
+
+export interface RejectRiskAnalysisParams {
+  /** @format uuid */
+  purposeId: string;
+}
+
+export interface EditRiskAnalysisFormParams {
   /** @format uuid */
   purposeId: string;
 }
@@ -9059,6 +9092,43 @@ export namespace Purposes {
   }
 
   /**
+   * @description Retrieve purposes with reviewer workflow assignments
+   * @tags purposes
+   * @name GetRiskAnalysisAssignments
+   * @request GET:/purposes/riskAnalysis/assignments
+   * @secure
+   */
+  export namespace GetRiskAnalysisAssignments {
+    export type RequestParams = {};
+    export type RequestQuery = {
+      /**
+       * comma separated sequence of EService IDs
+       * @default []
+       */
+      eservicesIds?: string[];
+      /**
+       * comma separated sequence of risk analysis signing states
+       * @default []
+       */
+      signingStates?: RiskAnalysisSigningState[];
+      /**
+       * @format int32
+       * @min 0
+       */
+      offset: number;
+      /**
+       * @format int32
+       * @min 1
+       * @max 50
+       */
+      limit: number;
+    };
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = Purposes;
+  }
+
+  /**
    * @description clone purpose
    * @tags purposes
    * @name ClonePurpose
@@ -9198,6 +9268,82 @@ export namespace Purposes {
     };
     export type RequestQuery = {};
     export type RequestBody = RiskAnalysisAssignmentSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Validate and submit the risk analysis form for reviewer signing
+   * @tags purposes
+   * @name SubmitRiskAnalysis
+   * @summary Submit risk analysis for signing
+   * @request POST:/purposes/{purposeId}/riskAnalysis/submit
+   * @secure
+   */
+  export namespace SubmitRiskAnalysis {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RiskAnalysisSubmissionSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Sign/approve the risk analysis as a reviewer
+   * @tags purposes
+   * @name SignRiskAnalysis
+   * @summary Sign risk analysis
+   * @request POST:/purposes/{purposeId}/riskAnalysis/sign
+   * @secure
+   */
+  export namespace SignRiskAnalysis {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Reject the risk analysis as a reviewer (AdminWritesReviewerSigns mode only)
+   * @tags purposes
+   * @name RejectRiskAnalysis
+   * @summary Reject risk analysis
+   * @request POST:/purposes/{purposeId}/riskAnalysis/reject
+   * @secure
+   */
+  export namespace RejectRiskAnalysis {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RiskAnalysisRejectionSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Edit the risk analysis form as a reviewer (ReviewerWritesReviewerSigns mode only)
+   * @tags purposes
+   * @name EditRiskAnalysisForm
+   * @summary Edit risk analysis form
+   * @request PUT:/purposes/{purposeId}/riskAnalysis/form
+   * @secure
+   */
+  export namespace EditRiskAnalysisForm {
+    export type RequestParams = {
+      /** @format uuid */
+      purposeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RiskAnalysisFormSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }

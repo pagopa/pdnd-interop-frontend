@@ -235,6 +235,10 @@
       }
     }
   },
+  "dialogRequestRiskAnalysisCompilation": {
+    "title": "Richiedi compilazione e approvazione",
+    "description": "Se confermi, assegnerai la compilazione e l'approvazione dell'analisi del rischio al valutatore <strong>{{reviewerName}}</strong> e non potrai più modificare questa scelta."
+  },
   "dialogRejectDelegatedVersionDraft": {
     "title": "Rifiuta pubblicazione",
     "description": "La motivazione del tuo rifiuto sarà riportata al tuo delegato, il quale potrà aggiornare la bozza e inviartela nuovamente in approvazione per la pubblicazione.",
@@ -269,6 +273,26 @@
           "false": "No, non verranno trattati dati personali"
         }
       }
+    }
+  },
+  "dialogApproveRiskAnalysis": {
+    "title": "Approva analisi del rischio",
+    "description": "Se confermi, l’analisi del rischio non sarà più modificabile e l’amministratore potrà pubblicare la finalità.",
+    "actions": {
+      "confirm": "Conferma",
+      "cancel": "Annulla"
+    }
+  },
+  "dialogRejectRiskAnalysis": {
+    "title": "Rifiuta analisi del rischio",
+    "description": "Condividi con l’amministratore perché non hai approvato l’analisi del rischio e indica eventuali correzioni da fare.",
+    "reasonField": {
+      "label": "Motivo rifiuto approvazione",
+      "infoLabel": "Spiega perché hai rifiutato l’analisi del rischio. Min 10 caratteri, max 250 caratteri"
+    },
+    "actions": {
+      "confirm": "Rifiuta",
+      "cancel": "Indietro"
     }
   },
   "dialogCancelEserviceArchiving": {
@@ -615,6 +639,13 @@
     "SUBSCRIBE_PURPOSE_TEMPLATE_EDIT": "Modifica template finalità",
     "SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE": "Crea finalità da template",
     "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Modifica finalità da template",
-    "PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU": "Pubblicazione completata"
+    "PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU": "Pubblicazione completata",
+    "SUBSCRIBE_RISK_ANALYSIS_LIST": "Analisi del rischio",
+    "SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE": "Informazioni finalità",
+    "SUBSCRIBE_RISK_ANALYSIS_COMPILE": "Compilazione analisi del rischio",
+    "SUBSCRIBE_RISK_ANALYSIS_SUMMARY": "Riepilogo",
+    "SUBSCRIBE_RISK_ANALYSIS_APPROVAL_SUCCESS": "Analisi del rischio approvata",
+    "SUBSCRIBE_RISK_ANALYSIS_APPROVAL": "Approvazione analisi del rischio",
+    "SUBSCRIBE_RISK_ANALYSIS_REJECTION_SUCCESS": "Analisi del rischio rifiutata"
   }
 }

@@ -16,6 +16,8 @@ import { EServiceQueries } from '@/api/eservice'
 type RiskAnalysisInfoSummaryProps = {
   riskAnalysisConfig: RiskAnalysisFormConfig
   riskAnalysisForm: RiskAnalysisForm
+  innerSection?: boolean
+  hideTitle?: boolean
 }
 
 type EServiceRiskAnalysisInfoSummaryProps = {
@@ -31,9 +33,11 @@ type PurposeRiskAnalysisInfoSummaryProps = {
   purpose: Purpose
 }
 
-const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = ({
+export const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = ({
   riskAnalysisConfig,
   riskAnalysisForm,
+  innerSection = true,
+  hideTitle = false,
 }) => {
   type QuestionItem = { question: string; answer: string; questionInfoLabel?: string }
 
@@ -74,7 +78,10 @@ const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = ({
   }, [riskAnalysisForm, riskAnalysisConfig, currentLanguage])
 
   return (
-    <SectionContainer innerSection title={t('riskAnalysis.title')}>
+    <SectionContainer
+      innerSection={innerSection}
+      title={hideTitle ? undefined : t('riskAnalysis.title')}
+    >
       <List>
         {questions.map(({ question, answer, questionInfoLabel }, i) => (
           <ListItem key={i} sx={{ pl: 0 }}>

@@ -628,6 +628,12 @@
         "error": "The risk analysis document could not be downloaded. Please try again!"
       }
     },
+    "updateRiskAnalysis": {
+      "loading": "Risk analysis is being updated",
+      "outcome": {
+        "error": "The risk analysis could not be updated. Please try again!"
+      }
+    },
     "clone": {
       "loading": "Purpose is being cloned",
       "outcome": {
@@ -651,6 +657,29 @@
       "confirmDialog": {
         "title": "Confirm Client Removal from Purpose",
         "description": "This client will be removed from the current purpose. All keys added will no longer be usable to access the **Producer's** e-service for this purpose"
+      }
+    },
+    "assignRiskAnalysisReviewer": {
+      "outcome": {
+        "error": "The reviewer could not be assigned. Please try again!"
+      }
+    },
+    "submitRiskAnalysis": {
+      "loading": "Submitting the risk analysis to the reviewer",
+      "outcome": {
+        "error": "The risk analysis could not be submitted to the reviewer. Please try again!"
+      }
+    },
+    "signRiskAnalysis": {
+      "loading": "Risk analysis is being signed",
+      "outcome": {
+        "error": "The risk analysis could not be signed. Please try again!"
+      }
+    },
+    "rejectRiskAnalysis": {
+      "loading": "Risk analysis is being rejected",
+      "outcome": {
+        "error": "The risk analysis could not be rejected. Please try again!"
       }
     }
   },

@@ -394,8 +394,11 @@ const ProviderEServiceSummaryPage: React.FC = () => {
               headline="1"
               title={t('summary.generalInfoSummary.title')}
               defaultExpanded={true}
-              showWarning={!isGeneralInfoSectionValid}
-              warningLabel={t('summary.missingInformationsLabel')}
+              statusChip={
+                !isGeneralInfoSectionValid
+                  ? { label: t('summary.missingInformationsLabel'), color: 'warning' }
+                  : undefined
+              }
             >
               <ProviderEServiceGeneralInfoSummarySection />
             </SummaryAccordion>
@@ -416,8 +419,11 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
               title={t('summary.documentationSummary.title')}
-              showWarning={!isAsyncExchangeValidationLoading && !isDocumentationSectionValid}
-              warningLabel={t('summary.missingInformationsLabel')}
+              statusChip={
+                !isAsyncExchangeValidationLoading && !isDocumentationSectionValid
+                  ? { label: t('summary.missingInformationsLabel'), color: 'warning' }
+                  : undefined
+              }
             >
               <ProviderEServiceDocumentationSummarySection
                 associatedKeychains={associatedKeychains}
@@ -428,8 +434,11 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '5' : '4'}
               title={t('summary.versionInfoSummary.title')}
-              showWarning={!isVersionInfoSectionValid}
-              warningLabel={t('summary.missingInformationsLabel')}
+              statusChip={
+                !isVersionInfoSectionValid
+                  ? { label: t('summary.missingInformationsLabel'), color: 'warning' }
+                  : undefined
+              }
             >
               <ProviderEServiceVersionInfoSummarySection />
             </SummaryAccordion>
