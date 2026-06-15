@@ -300,7 +300,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
     })
   })
 
-  it('in option 2 opens the requestPurposeApproval dialog and the dialog onConfirm runs the save+submit+navigate chain', () => {
+  it('in option 2 opens the requestPurposeApproval dialog and the dialog onConfirm runs the submit+navigate chain', () => {
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
       reviewerIds: ['reviewer-1'],
@@ -328,18 +328,11 @@ describe('PurposeEditStepRiskAnalysis', () => {
     expect(typeof dialogPayload.onConfirm).toBe('function')
 
     // Step 2: dialog onConfirm fires the chain. The chain lives in the parent
-    // so the MutationObservers stay mounted across closeDialog.
+    // so the MutationObservers stay mounted across closeDialog. The BE unified
+    // the save into the submit call, so no save-draft request is made.
     dialogPayload.onConfirm()
 
-    expect(updateDraftMock).toHaveBeenCalledTimes(1)
-    const [savePayload, saveOptions] = updateDraftMock.mock.calls[0]
-    expect(savePayload).toMatchObject({
-      purposeId: purpose.id,
-      riskAnalysisForm: { version: riskAnalysis.version, answers },
-    })
-    expect(submitRiskAnalysisMock).not.toHaveBeenCalled()
-
-    saveOptions.onSuccess!()
+    expect(updateDraftMock).not.toHaveBeenCalled()
 
     expect(submitRiskAnalysisMock).toHaveBeenCalledTimes(1)
     const [submitPayload, submitOptions] = submitRiskAnalysisMock.mock.calls[0]
