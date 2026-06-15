@@ -14,9 +14,6 @@ import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
-import { IconLink } from '@/components/shared/IconLink'
-import LaunchIcon from '@mui/icons-material/Launch'
-import { openApiCheckerLink } from '@/config/constants'
 import { trackEvent } from '@/config/tracking'
 import { match } from 'ts-pattern'
 import { EServiceInterfaceSection } from '../sections/EServiceInterfaceSection'
@@ -28,6 +25,8 @@ import {
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { EServiceAsyncExchangeSection } from '../sections/EServiceAsyncExchangeSection'
 import { getAsyncExchangePropertiesWithDefaults } from '@/utils/eservice.utils'
+import { AuthHooks } from '@/api/auth/auth.hooks'
+import { RestInterfaceDescription } from '@/components/shared/RestInterfaceDescription'
 
 type AsyncExchangePropertiesFormValues = {
   responseTime: number | ''
@@ -47,17 +46,19 @@ export type EServiceCreateStepTechSpecFormValues = {
 export const EServiceCreateStepTechSpec: React.FC<ActiveStepProps> = () => {
   const { descriptor } = useEServiceCreateContext()
 
+  const { isOperatorAPI } = AuthHooks.useJwt()
+
   const isEServiceCreatedFromTemplate = Boolean(descriptor?.templateRef?.templateVersionId)
   const isEServiceAsync = Boolean(descriptor?.eservice.asyncExchange)
 
-  const { data: initialAssociatedKeychains, isPending } = useQuery({
+  const { data: initialAssociatedKeychains, isLoading } = useQuery({
     ...KeychainQueries.getAllKeychainsList({
       eserviceId: descriptor?.eservice.id ?? '',
     }),
-    enabled: isEServiceAsync && Boolean(descriptor?.eservice.id),
+    enabled: isEServiceAsync && Boolean(descriptor?.eservice.id) && !isOperatorAPI,
   })
 
-  if (isEServiceAsync && isPending) {
+  if (isEServiceAsync && isLoading) {
     return <EServiceCreateStepTechSpecSkeleton />
   }
 
@@ -242,23 +243,35 @@ const EServiceCreateStepTechSpecForm: React.FC<EServiceCreateStepTechSpecFormPro
     ) : isEServiceCreatedFromTemplate ? (
       t('step4.interface.description.restForm')
     ) : (
-      <>
-        {t(`step4.interface.description.rest`)}{' '}
-        <IconLink
-          href={openApiCheckerLink}
-          target="_blank"
-          endIcon={<LaunchIcon fontSize="small" />}
-          onClick={() => trackEvent('INTEROP_EXT_LINK_DTD_API_CHECKER', { src: 'CREATE_ESERVICE' })}
-        >
-          {t('step4.interface.description.restLinkLabel')}
-        </IconLink>
-      </>
+      <RestInterfaceDescription
+        description={t('step4.interface.description.rest')}
+        beforePublishing={t('step4.interface.description.beforePublishing')}
+        technicalCompliance={t('step4.interface.description.technicalCompliance')}
+        technicalComplianceDescription={t(
+          'step4.interface.description.technicalComplianceDescription'
+        )}
+        semanticCompliance={t('step4.interface.description.semanticCompliance')}
+        semanticComplianceDescription={t(
+          'step4.interface.description.semanticComplianceDescription'
+        )}
+        openApiCheckerLabel={t('step4.interface.description.restLinkLabel')}
+        schemaEditorLabel={t('step4.interface.description.schemaEditorLinkLabel')}
+        onOpenApiCheckerClick={() =>
+          trackEvent('INTEROP_EXT_LINK_DTD_API_CHECKER', { src: 'CREATE_ESERVICE' })
+        }
+      />
     )
 
   return (
     <FormProvider {...formMethods}>
       <EServiceInterfaceSection
         description={sectionDescription}
+        descriptionTypographyProps={{
+          component:
+            descriptor?.eservice.technology === 'REST' && !isEServiceCreatedFromTemplate
+              ? 'div'
+              : undefined,
+        }}
         isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
       />
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>

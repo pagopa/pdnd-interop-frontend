@@ -135,11 +135,37 @@
         "description": "Cliccando \"conferma\" la finalità sarà eliminata da questo e-service."
       }
     },
+    "scheduleArchiveDescriptor": {
+      "outcome": {
+        "success": "Questa versione dell'e-service sarà archiviata tra {{days}} giorni",
+        "error": "Non è stato possibile procedere con l'archiviazione di questa versione dell'e-service. Riprova più tardi."
+      }
+    },
+    "cancelDescriptorArchiving": {
+      "outcome": {
+        "success": "Questa versione non è più in fase di archiviazione",
+        "error": "Non è stato possibile annullare l'archiviazione di questa versione dell'e-service. Riprova più tardi."
+      }
+    },
+    "cancelEserviceArchiving": {
+      "outcome": {
+        "success": "L'e-service non è più in fase di archiviazione",
+        "error": "Non è stato possibile annullare l'archiviazione di questo e-service. Riprova più tardi."
+      }
+    },
+    "scheduleArchiveEservice": {
+      "outcome": {
+        "success": "Questo e-service sarà archiviato tra {{days}} giorni",
+        "error": "Non è stato possibile procedere con l'archiviazione di questo e-service. Riprova più tardi."
+      }
+    },
     "suspendVersion": {
       "loading": "Stiamo sospendendo la versione",
       "outcome": {
         "success": "La versione dell'e-service è stata sospesa",
-        "error": "Non è stato possibile sospendere questa versione dell'e-service. Per favore, riprova!"
+        "successArchiving": "Hai sospeso questa versione dell'e-service",
+        "error": "Non è stato possibile sospendere questa versione dell'e-service. Per favore, riprova!",
+        "errorArchiving": "Non è stato possibile sospendere questa versione dell'e-service. Riprova più tardi."
       },
       "confirmDialog": {
         "title": "Conferma sospensione versione",
@@ -150,7 +176,9 @@
       "loading": "Stiamo riattivando la versione",
       "outcome": {
         "success": "La versione dell'e-service è stata riattivata",
-        "error": "Non è stato possibile riattivare questa versione dell'e-service. Per favore, riprova!"
+        "successArchiving": "Hai riattivato questa versione dell'e-service",
+        "error": "Non è stato possibile riattivare questa versione dell'e-service. Per favore, riprova!",
+        "errorArchiving": "Non è stato possibile riattivare questa versione dell'e-service. Riprova più tardi."
       },
       "confirmDialog": {
         "title": "Conferma riattivazione versione",

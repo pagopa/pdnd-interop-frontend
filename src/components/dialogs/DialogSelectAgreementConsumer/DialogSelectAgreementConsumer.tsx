@@ -158,7 +158,7 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
     .exhaustive()
 
   const isButtonActionDisable = match(action)
-    .with('create', () => !isLoading && !hasTenantCertifiedAttributes)
+    .with('create', () => isQueryEnabled && !isLoading && !hasTenantCertifiedAttributes)
     .with(P.union('edit', 'inspect'), () => !selectedConsumerId)
     .exhaustive()
 
@@ -188,7 +188,7 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
                 agreements={agreementsOptions}
                 action={action}
               />
-              {!isLoading && !hasTenantCertifiedAttributes && action === 'create' && (
+              {isQueryEnabled && !isLoading && !hasTenantCertifiedAttributes && (
                 <Alert severity="warning" title={t('certifiedAttributesAlert.title')}>
                   {t('certifiedAttributesAlert.description')}
                 </Alert>

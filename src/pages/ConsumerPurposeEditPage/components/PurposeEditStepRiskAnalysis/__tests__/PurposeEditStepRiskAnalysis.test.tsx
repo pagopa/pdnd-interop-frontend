@@ -300,10 +300,11 @@ describe('PurposeEditStepRiskAnalysis', () => {
     })
   })
 
-  it('in option 2 opens the requestPurposeApproval dialog and the dialog onConfirm runs the save+submit+navigate chain', () => {
+  it('in option 2 opens the requestPurposeApproval dialog and the dialog onConfirm runs the submit+navigate chain', () => {
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
       reviewerIds: ['reviewer-1'],
+      reviewers: [{ userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' }],
       signingState: 'DRAFT',
     })
     const riskAnalysis = createMockRiskAnalysisFormConfig()
@@ -323,23 +324,16 @@ describe('PurposeEditStepRiskAnalysis', () => {
     const dialogPayload = openDialogMock.mock.calls[0][0]
     expect(dialogPayload).toMatchObject({
       type: 'requestPurposeApproval',
-      reviewerId: 'reviewer-1',
+      reviewer: { userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' },
     })
     expect(typeof dialogPayload.onConfirm).toBe('function')
 
     // Step 2: dialog onConfirm fires the chain. The chain lives in the parent
-    // so the MutationObservers stay mounted across closeDialog.
+    // so the MutationObservers stay mounted across closeDialog. The BE unified
+    // the save into the submit call, so no save-draft request is made.
     dialogPayload.onConfirm()
 
-    expect(updateDraftMock).toHaveBeenCalledTimes(1)
-    const [savePayload, saveOptions] = updateDraftMock.mock.calls[0]
-    expect(savePayload).toMatchObject({
-      purposeId: purpose.id,
-      riskAnalysisForm: { version: riskAnalysis.version, answers },
-    })
-    expect(submitRiskAnalysisMock).not.toHaveBeenCalled()
-
-    saveOptions.onSuccess!()
+    expect(updateDraftMock).not.toHaveBeenCalled()
 
     expect(submitRiskAnalysisMock).toHaveBeenCalledTimes(1)
     const [submitPayload, submitOptions] = submitRiskAnalysisMock.mock.calls[0]
@@ -355,11 +349,12 @@ describe('PurposeEditStepRiskAnalysis', () => {
     })
   })
 
-  it('in option 2 logs and no-ops when reviewerIds is missing (BE contract violation) instead of opening a malformed dialog', () => {
+  it('in option 2 logs and no-ops when reviewers is missing (BE contract violation) instead of opening a malformed dialog', () => {
     const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-      reviewerIds: [],
+      reviewerIds: ['reviewer-1'],
+      // reviewers intentionally omitted: the BE did not expose the reviewer info.
       signingState: 'DRAFT',
     })
     mockQueries(purpose, createMockRiskAnalysisFormConfig())
@@ -368,7 +363,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
     getLastFormProps().onSubmit({ purpose: ['OTHER'] })
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching(/reviewerIds/))
+    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching(/reviewers/))
     expect(openDialogMock).not.toHaveBeenCalled()
 
     consoleErrorSpy.mockRestore()

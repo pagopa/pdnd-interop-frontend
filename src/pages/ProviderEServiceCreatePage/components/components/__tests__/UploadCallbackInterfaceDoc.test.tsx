@@ -10,6 +10,7 @@ import {
 
 const uploadDocument = vi.fn()
 const deleteDocument = vi.fn()
+const downloadDocument = vi.fn()
 
 vi.mock('@/api/eservice', () => ({
   EServiceMutations: {
@@ -17,7 +18,7 @@ vi.mock('@/api/eservice', () => ({
     useDeleteVersionDraftDocument: () => ({ mutate: deleteDocument }),
   },
   EServiceDownloads: {
-    useDownloadVersionDocument: () => vi.fn(),
+    useDownloadVersionDocument: () => downloadDocument,
   },
 }))
 
@@ -42,6 +43,28 @@ describe('UploadCallbackInterfaceDoc', () => {
     })
 
     expect(screen.getByDisplayValue('Specifica callback')).toBeInTheDocument()
+  })
+
+  it('shows a textual download action in read-only template mode', async () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderAsync(),
+    })
+    renderWithApplicationContext(<UploadCallbackInterfaceDoc readOnly showDownloadButton />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await userEvent.click(screen.getByRole('button', { name: 'callbackInterface.download' }))
+
+    expect(screen.queryByDisplayValue('Specifica callback')).not.toBeInTheDocument()
+    expect(downloadDocument).toHaveBeenCalledWith(
+      {
+        eserviceId: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+        descriptorId: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+        documentId: 'callback-interface-doc-001',
+      },
+      'Specifica callback.yml'
+    )
   })
 
   it('shows the upload dropzone when no callback interface is present', () => {

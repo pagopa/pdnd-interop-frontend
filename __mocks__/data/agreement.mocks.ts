@@ -11,6 +11,7 @@ const createMockAgreement = createMockFactory<Agreement>({
           description: 'Norma 111',
           id: '0f0d68fe-b1a5-4e71-88d6-7217bb2f4ef4',
           name: 'Norma 111',
+          kind: 'CERTIFIED',
         },
       ],
       declared: [
@@ -19,12 +20,14 @@ const createMockAgreement = createMockFactory<Agreement>({
           description: 'Norma 111',
           id: '0f0d68fe-b1a5-4e71-88d6-7217bb2f4ef4',
           name: 'Norma 111',
+          kind: 'DECLARED',
         },
         {
           assignmentTimestamp: '2023-02-15T09:07:47.056Z',
           description: 'norma 112 description',
           id: '37be7938-fabb-4661-b2f8-64ececed059f',
           name: 'Norma 112',
+          kind: 'DECLARED',
         },
         {
           assignmentTimestamp: '2022-11-13T13:13:10.292Z',
@@ -32,6 +35,7 @@ const createMockAgreement = createMockFactory<Agreement>({
           id: '21754fda-c8af-438d-a008-7642e7d12516',
           name: 'test declared',
           revocationTimestamp: '2023-01-09T13:39:22.412Z',
+          kind: 'DECLARED',
         },
       ],
       verified: [
@@ -54,6 +58,7 @@ const createMockAgreement = createMockFactory<Agreement>({
               verificationDate: '2023-02-15T09:33:35.807Z',
             },
           ],
+          kind: 'VERIFIED',
         },
         {
           assignmentTimestamp: '2023-02-15T09:19:42.732Z',
@@ -67,6 +72,7 @@ const createMockAgreement = createMockFactory<Agreement>({
               verificationDate: '2023-02-15T09:19:42.732Z',
             },
           ],
+          kind: 'VERIFIED',
         },
         {
           assignmentTimestamp: '2023-02-15T09:19:38.568Z',
@@ -81,6 +87,7 @@ const createMockAgreement = createMockFactory<Agreement>({
               verificationDate: '2023-02-15T09:19:38.568Z',
             },
           ],
+          kind: 'VERIFIED',
         },
         {
           assignmentTimestamp: '2022-11-13T21:08:47.195Z',
@@ -102,6 +109,7 @@ const createMockAgreement = createMockFactory<Agreement>({
               verificationDate: '2023-02-15T09:19:16.78Z',
             },
           ],
+          kind: 'VERIFIED',
         },
         {
           assignmentTimestamp: '2022-11-13T20:32:23.178Z',
@@ -166,6 +174,7 @@ const createMockAgreement = createMockFactory<Agreement>({
               verificationDate: '2022-11-13T21:21:29.628Z',
             },
           ],
+          kind: 'VERIFIED',
         },
       ],
     },
@@ -253,6 +262,7 @@ const createMockAgreement = createMockFactory<Agreement>({
   ],
   isContractPresent: true,
   isDocumentReady: false,
+  certifiedDiscreteAttributes: [],
 })
 
 const createMockAgreementListingItem = createMockFactory<AgreementListEntry>({

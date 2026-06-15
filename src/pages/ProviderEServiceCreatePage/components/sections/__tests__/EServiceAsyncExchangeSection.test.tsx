@@ -1,14 +1,26 @@
 import { ReactHookFormWrapper, renderWithApplicationContext } from '@/utils/testing.utils'
-import { screen, waitFor } from '@testing-library/react'
+import { fireEvent, screen, waitFor } from '@testing-library/react'
 import { EServiceAsyncExchangeSection } from '../EServiceAsyncExchangeSection'
+import { EServiceAsyncExchangeSectionBase } from '../EServiceAsyncExchangeSectionBase'
 import {
   createMockEServiceDescriptorProviderAsync,
   mockUseEServiceCreateContext,
 } from '@/../__mocks__/data/eservice.mocks'
+import userEvent from '@testing-library/user-event'
+import { FormProvider, useForm } from 'react-hook-form'
 
 vi.mock('../../components/UploadCallbackInterfaceDoc', () => ({
-  UploadCallbackInterfaceDoc: ({ readOnly }: { readOnly?: boolean }) => (
-    <div>{readOnly ? 'UploadCallbackInterfaceDoc-readOnly' : 'UploadCallbackInterfaceDoc'}</div>
+  UploadCallbackInterfaceDoc: ({
+    readOnly,
+    showDownloadButton,
+  }: {
+    readOnly?: boolean
+    showDownloadButton?: boolean
+  }) => (
+    <div>
+      {readOnly ? 'UploadCallbackInterfaceDoc-readOnly' : 'UploadCallbackInterfaceDoc'}
+      {showDownloadButton ? '-downloadButton' : ''}
+    </div>
   ),
 }))
 
@@ -47,6 +59,57 @@ const renderComponent = (
     </ReactHookFormWrapper>,
     { withReactQueryContext: true, withRouterContext: true }
   )
+}
+
+const AsyncExchangeValidationTestForm = ({ onSubmit }: { onSubmit: () => void }) => {
+  const methods = useForm({ defaultValues: defaultFormValues })
+
+  return (
+    <FormProvider {...methods}>
+      <form noValidate onSubmit={methods.handleSubmit(onSubmit)}>
+        <EServiceAsyncExchangeSectionBase
+          areGeneralInfoEditable={true}
+          areAdvancedOptionsEditable={true}
+          editableCallbackInterfaceContent="UploadCallbackInterfaceDoc"
+          readOnlyCallbackInterfaceContent="UploadCallbackInterfaceDoc-readOnly"
+        />
+        <button type="submit">submit</button>
+      </form>
+    </FormProvider>
+  )
+}
+
+const AsyncExchangeTemplateTranslationTestForm = () => {
+  const methods = useForm({ defaultValues: defaultFormValues })
+
+  return (
+    <FormProvider {...methods}>
+      <EServiceAsyncExchangeSectionBase
+        areGeneralInfoEditable={true}
+        areAdvancedOptionsEditable={true}
+        editableCallbackInterfaceContent="UploadCallbackInterfaceDoc"
+        readOnlyCallbackInterfaceContent="UploadCallbackInterfaceDoc-readOnly"
+        translationKeyPrefix="create.step3.technicalSpecs.asyncExchangeSection"
+        translationNamespace="eserviceTemplate"
+      />
+    </FormProvider>
+  )
+}
+
+const renderValidationTestForm = (onSubmit = vi.fn()) => {
+  renderWithApplicationContext(<AsyncExchangeValidationTestForm onSubmit={onSubmit} />, {
+    withReactQueryContext: true,
+    withRouterContext: true,
+  })
+
+  return onSubmit
+}
+
+const renderTemplateTranslationTestForm = () => {
+  renderWithApplicationContext(<AsyncExchangeTemplateTranslationTestForm />, {
+    withReactQueryContext: true,
+    withRouterContext: true,
+  })
 }
 
 describe('EServiceAsyncExchangeSection', () => {
@@ -123,10 +186,61 @@ describe('EServiceAsyncExchangeSection', () => {
     expect(screen.getByText('callbackInterface.readOnlyLabel')).toBeInTheDocument()
   })
 
+  it('should support template-specific translation keys', () => {
+    renderTemplateTranslationTestForm()
+
+    expect(
+      screen.getByLabelText(
+        /create\.step3\.technicalSpecs\.asyncExchangeSection\.responseTimeField\.label/
+      )
+    ).toBeInTheDocument()
+    expect(
+      screen.getByLabelText(
+        /create\.step3\.technicalSpecs\.asyncExchangeSection\.maxResultSetField\.label/
+      )
+    ).toBeInTheDocument()
+    expect(
+      screen.getByLabelText(
+        /create\.step3\.technicalSpecs\.asyncExchangeSection\.resourceAvailableTimeField\.label/
+      )
+    ).toBeInTheDocument()
+  })
+
   it('should render the callback interface without an extra label for e-services created from template', () => {
     renderComponent(true, {}, defaultFormValues, true)
 
-    expect(screen.getByText('UploadCallbackInterfaceDoc-readOnly')).toBeInTheDocument()
+    expect(
+      screen.getByText('UploadCallbackInterfaceDoc-readOnly-downloadButton')
+    ).toBeInTheDocument()
     expect(screen.queryByText('callbackInterface.readOnlyLabel')).not.toBeInTheDocument()
+  })
+
+  it('should prevent submit when async exchange numeric values exceed their limits', async () => {
+    const onSubmit = renderValidationTestForm()
+
+    await userEvent.clear(screen.getByLabelText(/responseTimeField.label/))
+    await userEvent.type(screen.getByLabelText(/responseTimeField.label/), '1000000')
+    await userEvent.clear(screen.getByLabelText(/resourceAvailableTimeField.label/))
+    await userEvent.type(screen.getByLabelText(/resourceAvailableTimeField.label/), '1000000')
+    await userEvent.clear(screen.getByLabelText(/maxResultSetField.label/))
+    await userEvent.type(screen.getByLabelText(/maxResultSetField.label/), '100000')
+    await userEvent.click(screen.getByText('submit'))
+
+    expect(await screen.findAllByText('validation.number.max')).toHaveLength(3)
+    expect(onSubmit).not.toHaveBeenCalled()
+  })
+
+  it('should prevent submit when async exchange numeric values are below their minimum', async () => {
+    const onSubmit = renderValidationTestForm()
+
+    fireEvent.change(screen.getByLabelText(/responseTimeField.label/), { target: { value: '0' } })
+    fireEvent.change(screen.getByLabelText(/resourceAvailableTimeField.label/), {
+      target: { value: '0' },
+    })
+    fireEvent.change(screen.getByLabelText(/maxResultSetField.label/), { target: { value: '0' } })
+    await userEvent.click(screen.getByText('submit'))
+
+    expect(await screen.findAllByText('validation.number.min')).toHaveLength(3)
+    expect(onSubmit).not.toHaveBeenCalled()
   })
 })

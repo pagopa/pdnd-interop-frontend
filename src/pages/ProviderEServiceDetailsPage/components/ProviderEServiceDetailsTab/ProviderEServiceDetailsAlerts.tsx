@@ -2,7 +2,11 @@ import React from 'react'
 import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { Alert, Button, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { getEServiceDescriptorAlertSpec } from '@/utils/eservice.utils'
+import {
+  getActiveDescriptor,
+  getEServiceDescriptorAlertSpec,
+  isDescriptorPendingArchiving,
+} from '@/utils/eservice.utils'
 
 type ProviderEServiceDetailsAlertsProps = {
   descriptor: ProducerEServiceDescriptor | undefined
@@ -17,11 +21,16 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
 
   if (!descriptor) return null
 
+  const activeDescriptor = getActiveDescriptor(descriptor.eservice.descriptors)
+  const isEServiceBeingArchived = isDescriptorPendingArchiving(activeDescriptor?.state)
+
   const alert = getEServiceDescriptorAlertSpec({
     state: descriptor.state,
     scope: descriptor.archivingSchedule?.scope,
     archivableOn: descriptor.archivingSchedule?.archivableOn,
     archivedAt: descriptor.archivedAt,
+    isEServiceBeingArchived,
+    eserviceArchivableOn: activeDescriptor?.archivableOn,
     t,
   })
 

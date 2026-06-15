@@ -9,7 +9,7 @@ import type {
 import type { AlertColor } from '@mui/material'
 import type { TFunction } from 'i18next'
 import { match } from 'ts-pattern'
-import { formatDateString } from './format.utils'
+import { formatDateStringNumeric } from './format.utils'
 
 export const defaultAsyncExchangeProperties: AsyncExchangeProperties = {
   responseTime: 60,
@@ -75,19 +75,36 @@ export function getEServiceDescriptorAlertSpec(args: {
   scope: ArchivingScope | undefined
   archivableOn: string | undefined
   archivedAt: string | undefined
+  isEServiceBeingArchived?: boolean
+  eserviceArchivableOn?: string
   t: TFunction<'eservice', 'read.alert'>
 }): { severity: AlertColor; content: string } | undefined {
-  const { state, scope, archivableOn, archivedAt, t } = args
-  const scheduledDate = archivableOn ? formatDateString(archivableOn) : ''
-  const archivedDate = archivedAt ? formatDateString(archivedAt) : ''
+  const {
+    state,
+    scope,
+    archivableOn,
+    archivedAt,
+    isEServiceBeingArchived,
+    eserviceArchivableOn,
+    t,
+  } = args
+  const scheduledDate = archivableOn ? formatDateStringNumeric(archivableOn) : ''
+  const archivedDate = archivedAt ? formatDateStringNumeric(archivedAt) : ''
+  const eserviceScheduledDate = eserviceArchivableOn
+    ? formatDateStringNumeric(eserviceArchivableOn)
+    : ''
 
-  return match({ state, scope })
+  return match({ state, scope, isEServiceBeingArchived })
     .returnType<{ severity: AlertColor; content: string } | undefined>()
     .with({ state: 'SUSPENDED' }, () => ({ severity: 'error', content: t('suspended') }))
     .with({ state: 'DEPRECATED' }, () => ({ severity: 'info', content: t('deprecated') }))
     .with({ state: 'ARCHIVING', scope: 'DESCRIPTOR' }, () => ({
       severity: 'info',
       content: t('archivingDescriptor', { date: scheduledDate }),
+    }))
+    .with({ state: 'ARCHIVING', scope: 'ESERVICE' }, () => ({
+      severity: 'info',
+      content: t('archivingEService', { date: scheduledDate }),
     }))
     .with({ state: 'ARCHIVING_SUSPENDED', scope: 'DESCRIPTOR' }, () => ({
       severity: 'error',
@@ -96,6 +113,12 @@ export function getEServiceDescriptorAlertSpec(args: {
     .with({ state: 'ARCHIVING_SUSPENDED', scope: 'ESERVICE' }, () => ({
       severity: 'error',
       content: t('archivingSuspendedEService', { date: scheduledDate }),
+    }))
+    .with({ state: 'ARCHIVED', isEServiceBeingArchived: true }, () => ({
+      severity: 'info',
+      content: `${t('archivedDescriptor', { date: archivedDate })} ${t('archivingEService', {
+        date: eserviceScheduledDate,
+      })}`,
     }))
     .with({ state: 'ARCHIVED', scope: 'ESERVICE' }, () => ({
       severity: 'info',
@@ -113,4 +136,8 @@ export function calculateArchivableOn(now: Date, gracePeriodDays: number): Date 
   d.setUTCDate(d.getUTCDate() + gracePeriodDays + 1)
   d.setUTCHours(0, 0, 0, 0)
   return d
+}
+
+export function isDescriptorPendingArchiving(state: EServiceDescriptorState | undefined): boolean {
+  return state === 'ARCHIVING' || state === 'ARCHIVING_SUSPENDED'
 }

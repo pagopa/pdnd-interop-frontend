@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react'
 import { useAttributesCountersAlert } from '../useAttributesCountersAlert'
-import type { DescriptorAttributes } from '@/api/api.generatedTypes'
+import type { AttributeKind, DescriptorAttributes } from '@/api/api.generatedTypes'
 import type { TFunction } from 'i18next'
 
 const mockT = ((key: string) => key) as TFunction<'eservice', 'create'>
@@ -11,12 +11,13 @@ const emptyAttributes: DescriptorAttributes = {
   declared: [],
 }
 
-const makeGroup = (length: number) =>
+const makeGroup = (length: number, kind: AttributeKind) =>
   Array.from({ length }, (_, i) => ({
     id: `attr-${i}`,
     name: `Attribute ${i}`,
     description: '',
     explicitAttributeVerification: false,
+    kind: kind,
   }))
 
 describe('useAttributesCountersAlert', () => {
@@ -41,7 +42,7 @@ describe('useAttributesCountersAlert', () => {
 
   it('counts certified requirements correctly', () => {
     const attributes: DescriptorAttributes = {
-      certified: [makeGroup(2), makeGroup(1)],
+      certified: [makeGroup(2, 'CERTIFIED'), makeGroup(1, 'CERTIFIED')],
       verified: [],
       declared: [],
     }
@@ -55,7 +56,7 @@ describe('useAttributesCountersAlert', () => {
   it('counts verified requirements correctly', () => {
     const attributes: DescriptorAttributes = {
       certified: [],
-      verified: [makeGroup(3)],
+      verified: [makeGroup(3, 'VERIFIED')],
       declared: [],
     }
     const { result } = renderHook(() => useAttributesCountersAlert({ attributes, t: mockT }))
@@ -69,7 +70,7 @@ describe('useAttributesCountersAlert', () => {
     const attributes: DescriptorAttributes = {
       certified: [],
       verified: [],
-      declared: [makeGroup(1), makeGroup(2)],
+      declared: [makeGroup(1, 'DECLARED'), makeGroup(2, 'DECLARED')],
     }
     const { result } = renderHook(() => useAttributesCountersAlert({ attributes, t: mockT }))
     expect(result.current.totalRequirements).toBe(2)
@@ -80,9 +81,9 @@ describe('useAttributesCountersAlert', () => {
 
   it('counts all attribute types when all have requirements', () => {
     const attributes: DescriptorAttributes = {
-      certified: [makeGroup(1)],
-      verified: [makeGroup(2), makeGroup(1)],
-      declared: [makeGroup(1)],
+      certified: [makeGroup(1, 'CERTIFIED')],
+      verified: [makeGroup(2, 'VERIFIED'), makeGroup(1, 'VERIFIED')],
+      declared: [makeGroup(1, 'DECLARED')],
     }
     const { result } = renderHook(() => useAttributesCountersAlert({ attributes, t: mockT }))
     expect(result.current.totalRequirements).toBe(4)
@@ -95,9 +96,9 @@ describe('useAttributesCountersAlert', () => {
 
   it('skips empty groups when counting total requirements', () => {
     const attributes: DescriptorAttributes = {
-      certified: [makeGroup(1), [], makeGroup(2)],
+      certified: [makeGroup(1, 'CERTIFIED'), [], makeGroup(2, 'CERTIFIED')],
       verified: [[]],
-      declared: [makeGroup(1)],
+      declared: [makeGroup(1, 'DECLARED')],
     }
     const { result } = renderHook(() => useAttributesCountersAlert({ attributes, t: mockT }))
     expect(result.current.totalRequirements).toBe(3)

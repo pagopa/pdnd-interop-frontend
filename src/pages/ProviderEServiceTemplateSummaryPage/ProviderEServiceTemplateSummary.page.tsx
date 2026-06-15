@@ -85,7 +85,7 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
               description: isFirstVersion
                 ? t('publishThankYou.firstVersion.description')
                 : t('publishThankYou.newVersion.description'),
-              buttonLabel: t('publishThankYou.action'),
+              buttonLabel: t('publishThankYou.goToTemplateAction'),
               closeRouteKey: 'PROVIDE_ESERVICE_TEMPLATE_DETAILS',
               closeRouteParams: { eServiceTemplateId, eServiceTemplateVersionId },
             },

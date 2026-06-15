@@ -405,12 +405,18 @@
     "action2Label": "Consulta il manuale"
   },
   "attributeContainer": {
+    "descriptionLabel": "Descrizione",
+    "tenantCertifierLabel": "Ente certificatore",
     "attributeIdLabel": "ID dell'attributo (attributeId)",
     "idCopytooltipLabel": "ID copiato correttamente",
     "removeAttributeAriaLabel": "Rimuovi attributo {{attributeName}}",
     "thresholdLabel": "Chiamate API/giorno per fruitore",
-    "customizeBtn": "Personalizza soglia",
-    "changeBtn": "Modifica soglia",
+    "actions": {
+      "customizeThreshold": "Personalizza soglia",
+      "changeThreshold": "Modifica soglia",
+      "inspectAttributeDetails": "Dettagli attributo",
+      "modifyCertifiedDiscreteAttribute": "Modifica attributo"
+    },
     "na": "n/a"
   },
   "attributeGroupContainer": {
@@ -445,6 +451,15 @@
   "drawer": {
     "closeIconAriaLabel": "Chiudi il drawer",
     "updateLabel": "Aggiorna"
+  },
+  "configureCertifiedDiscreteAttributeDrawer": {
+    "title": "Configura attributo",
+    "subtitle": "Imposta i valori dell'attributo certificato {{attributeName}}",
+    "comparatorLabel": "Criterio",
+    "thresholdLabel":  "Valore numerico",
+    "validation": {
+      "integer": "Il valore deve essere intero"
+    }
   },
   "byDelegationChip": {
     "label": {

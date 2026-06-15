@@ -23,6 +23,8 @@ export type DrawerProps = {
     variant?: ButtonProps['variant']
     color?: ButtonProps['color']
     disabledTooltip?: string
+    type?: ButtonProps['type']
+    form?: ButtonProps['form']
   }
   children: React.ReactNode
   onTransitionExited?: VoidFunction
@@ -90,7 +92,11 @@ export const Drawer: React.FC<DrawerProps> = ({
           <Typography variant="h6" fontWeight={600}>
             {title}
           </Typography>
-          {subtitle && <Typography variant="body2">{subtitle}</Typography>}
+          {typeof subtitle === 'string' ? (
+            <Typography variant="body2">{subtitle}</Typography>
+          ) : (
+            subtitle
+          )}
         </Stack>
 
         <Box sx={{ flexGrow: 1, mt: 2, maxWidth: '100%' }}>{children}</Box>
@@ -110,6 +116,8 @@ export const Drawer: React.FC<DrawerProps> = ({
                   color={buttonAction.color ?? 'primary'}
                   fullWidth
                   onClick={buttonAction.action}
+                  type={buttonAction.type ?? 'button'}
+                  form={buttonAction.form ?? undefined}
                 >
                   {buttonAction.label}
                 </Button>

@@ -6,6 +6,7 @@ import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
 import { match } from 'ts-pattern'
+import { isDescriptorPendingArchiving } from '@/utils/eservice.utils'
 import type {
   Agreement,
   AgreementListEntry,
@@ -176,16 +177,20 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
   let label = ''
 
   if (props.for === 'eservice') {
-    color = props.isDraftToCorrect ? 'warning' : chipColors['eservice'][props.state]
+    const remappedState: EServiceDescriptorState = match(props.state)
+      .with('ARCHIVING', () => 'PUBLISHED' as const)
+      .with('ARCHIVING_SUSPENDED', () => 'SUSPENDED' as const)
+      .otherwise((state) => state)
+
+    color = props.isDraftToCorrect ? 'warning' : chipColors['eservice'][remappedState]
     label = props.isDraftToCorrect
       ? t('status.eservice.DRAFT_TO_CORRECT')
-      : t(`status.eservice.${props.state}`)
+      : t(`status.eservice.${remappedState}`)
   }
 
   if (props.for === 'descriptor') {
     const isActiveDescriptorBeingArchived =
-      props.isActiveDescriptor &&
-      (props.state === 'ARCHIVING' || props.state === 'ARCHIVING_SUSPENDED')
+      props.isActiveDescriptor && isDescriptorPendingArchiving(props.state)
 
     const remappedState: EServiceDescriptorState = match({
       state: props.state,

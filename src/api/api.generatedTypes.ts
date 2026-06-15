@@ -58,7 +58,19 @@ export type TenantFeatureType =
 
 export type MailKind = "CONTACT_EMAIL" | "DIGITAL_ADDRESS";
 
-export type AttributeKind = "CERTIFIED" | "DECLARED" | "VERIFIED";
+export type AttributeKind =
+  | "CERTIFIED"
+  | "DECLARED"
+  | "VERIFIED"
+  | "CERTIFIED_DISCRETE";
+
+export type AttributeCertifiedDiscreteComparator =
+  | "GT"
+  | "LT"
+  | "EQ"
+  | "GTE"
+  | "LTE"
+  | "NE";
 
 /** EService Descriptor State */
 export type EServiceTechnology = "REST" | "SOAP";
@@ -135,6 +147,14 @@ export type LinkableResource =
   | ({
       resourceKind: "ESERVICE_TEMPLATE";
     } & LinkableEServiceTemplate);
+
+export type CertifiedTenantAttribute =
+  | ({
+      kind: "CERTIFIED";
+    } & StandardCertifiedTenantAttribute)
+  | ({
+      kind: "CERTIFIED_DISCRETE";
+    } & CertifiedDiscreteTenantAttribute);
 
 export type LinkedResource =
   | ({
@@ -767,6 +787,8 @@ export interface Agreement {
   verifiedAttributes: VerifiedAttribute[];
   /** set of the certified attributes belonging to this agreement, if any. */
   certifiedAttributes: CertifiedAttribute[];
+  /** set of the certified discrete attributes belonging to this agreement, if any. */
+  certifiedDiscreteAttributes: CertifiedDiscreteAttribute[];
   /** set of the declared attributes belonging to this agreement, if any. */
   declaredAttributes: DeclaredAttribute[];
   suspendedByConsumer?: boolean;
@@ -860,6 +882,7 @@ export interface CompactAttribute {
   /** @format uuid */
   id: string;
   name: string;
+  kind: AttributeKind;
 }
 
 export interface CompactAgreement {
@@ -1707,12 +1730,14 @@ export interface DescriptorAttribute {
   name: string;
   description: string;
   explicitAttributeVerification: boolean;
+  kind: AttributeKind;
   /**
    * @format int32
    * @min 1
    * @max 1000000000
    */
   dailyCallsPerConsumer?: number;
+  discreteConfig?: EServiceAttributeCertifiedDiscreteConfig;
 }
 
 export interface DescriptorAttributesSeed {
@@ -1731,6 +1756,17 @@ export interface DescriptorAttributeSeed {
    * @max 1000000000
    */
   dailyCallsPerConsumer?: number;
+  discreteConfig?: EServiceAttributeCertifiedDiscreteConfig;
+}
+
+export interface EServiceAttributeCertifiedDiscreteConfig {
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  threshold: number;
+  comparator: AttributeCertifiedDiscreteComparator;
 }
 
 /**
@@ -1811,6 +1847,7 @@ export interface RequesterCertifiedAttribute {
   /** @format uuid */
   attributeId: string;
   attributeName: string;
+  kind: AttributeKind;
 }
 
 export interface RequesterCertifiedAttributes {
@@ -1823,6 +1860,22 @@ export interface RequesterCertifiedAttributes {
  * Models a certified attribute registry entry as payload response
  */
 export interface CertifiedAttribute {
+  /**
+   * uniquely identifies the attribute on the registry
+   * @format uuid
+   */
+  id: string;
+  description: string;
+  name: string;
+  /** @format date-time */
+  creationTime: string;
+}
+
+/**
+ * CertifiedDiscreteAttribute
+ * Models a certified discrete attribute registry entry as payload response
+ */
+export interface CertifiedDiscreteAttribute {
   /**
    * uniquely identifies the attribute on the registry
    * @format uuid
@@ -1937,6 +1990,7 @@ export interface Tenant {
   onboardedAt?: string;
   subUnitType?: TenantUnitType;
   selfcareInstitutionType?: string;
+  remoteIds?: TenantRemoteId[];
 }
 
 export interface TenantAttributes {
@@ -1946,6 +2000,7 @@ export interface TenantAttributes {
 }
 
 export interface DeclaredTenantAttribute {
+  kind: "DECLARED";
   /** @format uuid */
   id: string;
   name: string;
@@ -1984,7 +2039,8 @@ export interface TenantDelegatedFeaturesFlagsUpdateSeed {
   isDelegatedProducerFeatureEnabled: boolean;
 }
 
-export interface CertifiedTenantAttribute {
+export interface StandardCertifiedTenantAttribute {
+  kind: "CERTIFIED";
   /** @format uuid */
   id: string;
   name: string;
@@ -1995,7 +2051,33 @@ export interface CertifiedTenantAttribute {
   revocationTimestamp?: string;
 }
 
+export interface CertifiedDiscreteTenantAttribute {
+  kind: "CERTIFIED_DISCRETE";
+  /** @format uuid */
+  id: string;
+  name: string;
+  description: string;
+  /** @format date-time */
+  assignmentTimestamp: string;
+  /** @format date-time */
+  revocationTimestamp?: string;
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  discreteValue: number;
+}
+
+export interface TenantRemoteId {
+  origin: string;
+  value: string;
+  /** @format date-time */
+  assignmentTimestamp: string;
+}
+
 export interface VerifiedTenantAttribute {
+  kind: "VERIFIED";
   /** @format uuid */
   id: string;
   name: string;
@@ -2525,6 +2607,7 @@ export interface EServiceTemplateVersionAttributeSeed {
   /** @format uuid */
   id: string;
   explicitAttributeVerification: boolean;
+  discreteConfig?: EServiceAttributeCertifiedDiscreteConfig;
 }
 
 export interface EServiceTemplatePersonalDataFlagUpdateSeed {
@@ -2584,6 +2667,7 @@ export interface NotificationConfig {
   clientAddedRemovedToProducer: boolean;
   purposeStatusChangedToProducer: boolean;
   templateStatusChangedToProducer: boolean;
+  eserviceStateChangedToProducer: boolean;
   agreementSuspendedUnsuspendedToConsumer: boolean;
   eserviceStateChangedToConsumer: boolean;
   agreementActivatedRejectedToConsumer: boolean;
@@ -2735,7 +2819,6 @@ export interface ReviewerWorkflow {
   /** Risk analysis review mode */
   reviewMode: RiskAnalysisReviewMode;
   reviewerIds: string[];
-  reviewers?: CompactUser[];
   /** Risk analysis signing state */
   signingState: RiskAnalysisSigningState;
   /** @format uuid */

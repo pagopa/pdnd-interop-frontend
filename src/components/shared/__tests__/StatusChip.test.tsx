@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
 import { StatusChip } from '../StatusChip'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
@@ -17,5 +17,20 @@ describe('StatusChip', () => {
     renderWithApplicationContext(<StatusChip for="riskAnalysis" state={state} />, {})
 
     expect(screen.getByText(`status.riskAnalysis.${state}`)).toBeInTheDocument()
+  })
+
+  it('masks ARCHIVING as the active (PUBLISHED) status', () => {
+    const { baseElement } = render(<StatusChip for="eservice" state="ARCHIVING" />)
+    expect(baseElement).toHaveTextContent('status.eservice.PUBLISHED')
+  })
+
+  it('masks ARCHIVING_SUSPENDED as the suspended status', () => {
+    const { baseElement } = render(<StatusChip for="eservice" state="ARCHIVING_SUSPENDED" />)
+    expect(baseElement).toHaveTextContent('status.eservice.SUSPENDED')
+  })
+
+  it('leaves non-archiving states unchanged', () => {
+    const { baseElement } = render(<StatusChip for="eservice" state="DEPRECATED" />)
+    expect(baseElement).toHaveTextContent('status.eservice.DEPRECATED')
   })
 })
