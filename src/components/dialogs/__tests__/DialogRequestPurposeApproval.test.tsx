@@ -43,7 +43,7 @@ vi.mock('react-i18next', () => ({
 
 const defaultProps = {
   type: 'requestPurposeApproval' as const,
-  reviewerId: 'reviewer-abc',
+  reviewer: { userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' },
   onConfirm: vi.fn(),
 }
 
@@ -52,16 +52,16 @@ describe('DialogRequestPurposeApproval', () => {
     vi.clearAllMocks()
   })
 
-  it('renders the title, the description with the reviewerId interpolated, a strong wrapper, and both CTAs', () => {
+  it('renders the title, the description with the reviewerName interpolated, a strong wrapper, and both CTAs', () => {
     render(<DialogRequestPurposeApproval {...defaultProps} />)
 
     expect(
       screen.getByText('edit.stepRiskAnalysis.requestApprovalDialog.title')
     ).toBeInTheDocument()
-    // The description string from t() is resolved with reviewerId interpolated.
+    // The description string from t() is resolved with reviewerName interpolated.
     expect(
       screen.getByText(
-        'edit.stepRiskAnalysis.requestApprovalDialog.description(reviewerId=reviewer-abc)'
+        'edit.stepRiskAnalysis.requestApprovalDialog.description(reviewerName=Mario Rossi)'
       )
     ).toBeInTheDocument()
     // <Trans> receives a `components.strong` to wrap the bold portion.

@@ -304,6 +304,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
       reviewerIds: ['reviewer-1'],
+      reviewers: [{ userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' }],
       signingState: 'DRAFT',
     })
     const riskAnalysis = createMockRiskAnalysisFormConfig()
@@ -323,7 +324,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
     const dialogPayload = openDialogMock.mock.calls[0][0]
     expect(dialogPayload).toMatchObject({
       type: 'requestPurposeApproval',
-      reviewerId: 'reviewer-1',
+      reviewer: { userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' },
     })
     expect(typeof dialogPayload.onConfirm).toBe('function')
 
@@ -348,11 +349,12 @@ describe('PurposeEditStepRiskAnalysis', () => {
     })
   })
 
-  it('in option 2 logs and no-ops when reviewerIds is missing (BE contract violation) instead of opening a malformed dialog', () => {
+  it('in option 2 logs and no-ops when reviewers is missing (BE contract violation) instead of opening a malformed dialog', () => {
     const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-      reviewerIds: [],
+      reviewerIds: ['reviewer-1'],
+      // reviewers intentionally omitted: the BE did not expose the reviewer info.
       signingState: 'DRAFT',
     })
     mockQueries(purpose, createMockRiskAnalysisFormConfig())
@@ -361,7 +363,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
     getLastFormProps().onSubmit({ purpose: ['OTHER'] })
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching(/reviewerIds/))
+    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching(/reviewers/))
     expect(openDialogMock).not.toHaveBeenCalled()
 
     consoleErrorSpy.mockRestore()
