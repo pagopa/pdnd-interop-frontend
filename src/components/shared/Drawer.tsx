@@ -16,7 +16,7 @@ import type { ActionItem } from '@/types/common.types'
 export type DrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
-  title: string
+  title: React.ReactNode
   subtitle?: React.ReactNode
   buttonAction?: ActionItem & {
     disabled?: boolean
@@ -89,9 +89,13 @@ export const Drawer: React.FC<DrawerProps> = ({
         }}
       >
         <Stack spacing={1} pb={5}>
-          <Typography variant="h6" fontWeight={600}>
-            {title}
-          </Typography>
+          {typeof title === 'string' ? (
+            <Typography variant="h6" fontWeight={600}>
+              {title}
+            </Typography>
+          ) : (
+            title
+          )}
           {typeof subtitle === 'string' ? (
             <Typography variant="body2">{subtitle}</Typography>
           ) : (

@@ -13,6 +13,16 @@ import { AttributeQueries } from '@/api/attribute'
 
 const baseAttribute = createMockAttribute({ id: 'attr-1', name: 'Test Attribute' })
 
+vi.mock('@tanstack/react-query', async () => {
+  const actual = (await vi.importActual('@tanstack/react-query')) as Record<string, unknown>
+  return {
+    ...actual,
+    useQueryClient: () => ({
+      prefetchQuery: vi.fn(),
+    }),
+  }
+})
+
 vi.mock('@/api/attribute', () => ({
   AttributeQueries: {
     getSingle: vi.fn((id: string) => ({
@@ -262,7 +272,7 @@ describe('AttributeContainer', () => {
     expect(discreteConfig).toBeInTheDocument()
   })
 
-  it('should open AttributeDetailsDrawer with the attributes details when "inspectAttributeDetails" is clicked', async () => {
+  it('should open AttributeDetailsDrawer with the attribute details when "inspectAttributeDetails" is clicked', async () => {
     const user = userEvent.setup()
     renderWithApplicationContext(<AttributeContainer attribute={{ ...baseAttribute }} />, {
       withReactQueryContext: true,
@@ -285,10 +295,10 @@ describe('AttributeContainer', () => {
     expect(attributeDetailsDrawerOrigin).not.toBeInTheDocument()
   })
 
-  it('AttributeDetailsDrawer should contain origin if the attrubte has it', async () => {
+  it('AttributeDetailsDrawer should contain origin if the attribute has it', async () => {
     const mockedAttributeWithOrigin: Attribute = { ...baseAttribute, origin: 'test origin' }
 
-    vi.mocked(AttributeQueries.getSingle).mockImplementationOnce(
+    vi.mocked(AttributeQueries.getSingle).mockImplementation(
       (id: string) =>
         ({
           queryKey: ['attribute', id],
@@ -298,9 +308,12 @@ describe('AttributeContainer', () => {
 
     const user = userEvent.setup()
 
-    renderWithApplicationContext(<AttributeContainer attribute={{ ...baseAttribute }} />, {
-      withReactQueryContext: true,
-    })
+    renderWithApplicationContext(
+      <AttributeContainer attribute={{ ...mockedAttributeWithOrigin }} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
 
     const menuActionsIconButton = screen.getByLabelText('iconButtonAriaLabel')
     await user.click(menuActionsIconButton)
@@ -310,7 +323,7 @@ describe('AttributeContainer', () => {
     })
     await user.click(inspectAttributeDetailsMenuItem)
 
-    const attributeDetailsDrawerOrigin = screen.getByText(mockedAttributeWithOrigin.origin!)
+    const attributeDetailsDrawerOrigin = screen.queryByText(mockedAttributeWithOrigin.origin!)
 
     expect(attributeDetailsDrawerOrigin).toBeInTheDocument()
   })
