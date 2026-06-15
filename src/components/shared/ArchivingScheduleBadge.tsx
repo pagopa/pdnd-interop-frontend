@@ -3,7 +3,7 @@ import { Tooltip } from '@mui/material'
 import ArchiveIcon from '@mui/icons-material/Archive'
 import { useTranslation } from 'react-i18next'
 import type { ArchivingScope } from '@/api/api.generatedTypes'
-import { formatDateString } from '@/utils/format.utils'
+import { formatDateStringNumeric } from '@/utils/format.utils'
 
 type ArchivingScheduleBadgeProps = {
   archivableOn: string
@@ -19,7 +19,7 @@ export const ArchivingScheduleBadge: React.FC<ArchivingScheduleBadgeProps> = ({
     <Tooltip
       arrow
       title={t(scope === 'ESERVICE' ? 'eservice' : 'descriptor', {
-        date: formatDateString(archivableOn),
+        date: formatDateStringNumeric(archivableOn),
       })}
     >
       <ArchiveIcon color="primary" fontSize="small" />

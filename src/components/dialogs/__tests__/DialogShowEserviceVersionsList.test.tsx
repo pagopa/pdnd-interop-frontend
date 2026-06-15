@@ -117,4 +117,19 @@ describe('DialogShowEserviceVersionsList', () => {
 
     expect(screen.queryByTestId('ArchiveIcon')).not.toBeInTheDocument()
   })
+
+  it('does not show the archive icon for ARCHIVED descriptors even if archivableOn is set', () => {
+    renderDialog({
+      descriptors: [
+        makeDescriptor({
+          id: 'd1',
+          version: '1',
+          state: 'ARCHIVED',
+          archivableOn: '2026-12-31',
+        }),
+      ],
+    })
+
+    expect(screen.queryByTestId('ArchiveIcon')).not.toBeInTheDocument()
+  })
 })

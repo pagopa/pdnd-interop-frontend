@@ -6,6 +6,7 @@ import type { RouteKey } from '@/router'
 import { Link } from '@/router'
 import { StatusChip } from '@/components/shared/StatusChip'
 import { ArchivingScheduleBadge } from '@/components/shared/ArchivingScheduleBadge'
+import { isDescriptorPendingArchiving } from '@/utils/eservice.utils'
 
 export const ROW_HEIGHT = 56
 
@@ -56,7 +57,7 @@ export const EserviceVersionRow: React.FC<EserviceVersionRowProps> = ({
           isActiveDescriptor={isActiveDescriptor}
           size="small"
         />
-        {archivableOn && (
+        {archivableOn && isDescriptorPendingArchiving(descriptor.state) && (
           <ArchivingScheduleBadge
             archivableOn={archivableOn}
             scope={isEserviceScope ? 'ESERVICE' : 'DESCRIPTOR'}

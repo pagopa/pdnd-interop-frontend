@@ -1,4 +1,5 @@
 import type { TFunction } from 'i18next'
+import type { EServiceDescriptorState } from '@/api/api.generatedTypes'
 import {
   calculateArchivableOn,
   getAsyncExchangePropertiesWithDefaults,
@@ -6,6 +7,7 @@ import {
   getEServiceDescriptorAlertSpec,
   getLastDescriptor,
   getViewLatestVersionTargetId,
+  isDescriptorPendingArchiving,
 } from '../eservice.utils'
 
 describe('getDownloadDocumentName utility function testing', () => {
@@ -146,6 +148,24 @@ describe('calculateArchivableOn utility function testing', () => {
   })
 })
 
+describe('isDescriptorPendingArchiving utility function testing', () => {
+  it('returns true for ARCHIVING and ARCHIVING_SUSPENDED', () => {
+    expect(isDescriptorPendingArchiving('ARCHIVING')).toBe(true)
+    expect(isDescriptorPendingArchiving('ARCHIVING_SUSPENDED')).toBe(true)
+  })
+
+  it.each<EServiceDescriptorState | undefined>([
+    'PUBLISHED',
+    'ARCHIVED',
+    'SUSPENDED',
+    'DEPRECATED',
+    'DRAFT',
+    undefined,
+  ])('returns false for state %s', (state) => {
+    expect(isDescriptorPendingArchiving(state)).toBe(false)
+  })
+})
+
 describe('getEServiceDescriptorAlertSpec utility function testing', () => {
   const t = ((key: string, opts?: { date?: string }) =>
     opts && 'date' in opts ? `${key}:${opts.date}` : key) as unknown as TFunction<
@@ -254,6 +274,21 @@ describe('getEServiceDescriptorAlertSpec utility function testing', () => {
     ).toEqual({
       severity: 'info',
       content: expect.stringMatching(/^archivedDescriptor:.+/),
+    })
+  })
+
+  it('returns combined archivedDescriptor + archivingEService when ARCHIVED and the e-service is being archived', () => {
+    expect(
+      getEServiceDescriptorAlertSpec({
+        ...baseArgs,
+        state: 'ARCHIVED',
+        archivedAt: '2026-12-01T00:00:00.000Z',
+        isEServiceBeingArchived: true,
+        eserviceArchivableOn: '2027-01-15T00:00:00.000Z',
+      })
+    ).toEqual({
+      severity: 'info',
+      content: expect.stringMatching(/^archivedDescriptor:.+ archivingEService:.+$/),
     })
   })
 

@@ -188,5 +188,13 @@
   },
   "privacyPolicy": {
     "title": "Privacy policy"
+  },
+  "comparators": {
+    "GT": "Greater than",
+    "GTE": "Greater than or equal to",
+    "LT": "Less than",
+    "LTE": "Less than or equal to",
+    "EQ": "Equal to",
+    "NE": "Not equal to"
   }
 }

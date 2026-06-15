@@ -486,6 +486,7 @@ const createMockEServiceDescriptorReceive = createMockFactory<ProducerEServiceDe
           name: 'name-001',
           description: 'description-001',
           explicitAttributeVerification: true,
+          kind: 'CERTIFIED',
         },
       ],
     ],

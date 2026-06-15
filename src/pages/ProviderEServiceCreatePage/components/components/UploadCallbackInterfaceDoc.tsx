@@ -6,6 +6,8 @@ import { UploadDocumentsInterface } from '@/components/shared/UploadDocumentsInt
 import { type SubmitHandler } from 'react-hook-form'
 import { useEServiceCreateContext } from '../EServiceCreateContext'
 import { useInterfaceDocActions } from './useInterfaceDocActions'
+import { Button } from '@mui/material'
+import DownloadIcon from '@mui/icons-material/Download'
 
 type UploadCallbackInterfaceDocFormValues = {
   interfaceDoc: File | null
@@ -14,11 +16,13 @@ type UploadCallbackInterfaceDocFormValues = {
 type UploadCallbackInterfaceDocProps = {
   error?: string
   readOnly?: boolean
+  showDownloadButton?: boolean
 }
 
 export const UploadCallbackInterfaceDoc: React.FC<UploadCallbackInterfaceDocProps> = ({
   error,
   readOnly = false,
+  showDownloadButton = false,
 }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step4.asyncExchangeSection' })
   const { descriptor } = useEServiceCreateContext()
@@ -37,9 +41,20 @@ export const UploadCallbackInterfaceDoc: React.FC<UploadCallbackInterfaceDocProp
 
   return match({ readOnly, actualInterface })
     .with({ readOnly: true, actualInterface: null }, () => <>-</>)
-    .with({ readOnly: true, actualInterface: P.not(null) }, ({ actualInterface }) => (
-      <DocumentContainer doc={actualInterface} onDownload={onDownload} size="small" />
-    ))
+    .with({ readOnly: true, actualInterface: P.not(null) }, ({ actualInterface }) =>
+      showDownloadButton ? (
+        <Button
+          variant="naked"
+          sx={{ fontWeight: 600 }}
+          onClick={onDownload}
+          endIcon={<DownloadIcon sx={{ ml: 1 }} fontSize="small" />}
+        >
+          {t('callbackInterface.download')}
+        </Button>
+      ) : (
+        <DocumentContainer doc={actualInterface} onDownload={onDownload} size="small" />
+      )
+    )
     .with({ readOnly: false, actualInterface: null }, () => (
       <UploadDocumentsInterface
         onSubmit={onSubmit}

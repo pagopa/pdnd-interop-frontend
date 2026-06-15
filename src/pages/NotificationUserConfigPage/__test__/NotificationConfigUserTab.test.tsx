@@ -12,6 +12,7 @@ const inAppNotificationConfigMock: NotificationConfig = {
   clientAddedRemovedToProducer: true, // 05
   purposeStatusChangedToProducer: true, // 07
   templateStatusChangedToProducer: true, //09
+  eserviceStateChangedToProducer: true,
   agreementSuspendedUnsuspendedToConsumer: true, // 13
   eserviceStateChangedToConsumer: true, // 11
   agreementActivatedRejectedToConsumer: true, // 12
