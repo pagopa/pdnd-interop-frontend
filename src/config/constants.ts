@@ -44,6 +44,8 @@ export const keychainSetupGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/
 export const implementAndManageEServiceTemplateLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/template-e-service/operazioni-e-ciclo-di-vita`
 export const updateEserviceInstanceLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/template-e-service/relazione-tra-template-e-istanza`
 export const purposeTemplateGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/template-finalita/relazione-tra-template-e-finalita`
+export const archiveEserviceGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/e-service/operazioni-e-ciclo-di-vita`
+export const userRolesGuideLink = `${DOCUMENTATION_URL}/per-iniziare/primo-accesso-e-configurazione-iniziale`
 export const notificationGuideLink = `https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/riferimenti-tecnici/notifiche`
 export const notificationMailChangeLink =
   'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/tutorial/tutorial-generali/come-modificare-la-mail-associata-allutenza'
