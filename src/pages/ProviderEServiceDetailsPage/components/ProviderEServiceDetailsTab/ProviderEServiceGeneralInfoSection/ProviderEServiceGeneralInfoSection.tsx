@@ -199,7 +199,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
             ? [watchRiskyAnalysisAssociatedAction]
             : []),
           downloadConsumerListAction,
-          ...(!isEserviceFromTemplate ? [exportVersionListAction] : []),
+          ...(!isEserviceFromTemplate && !isViewer ? [exportVersionListAction] : []),
         ]}
       >
         <Stack spacing={2}>

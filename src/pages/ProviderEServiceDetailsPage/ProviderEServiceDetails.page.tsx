@@ -20,10 +20,12 @@ import {
   isDescriptorPendingArchiving,
 } from '@/utils/eservice.utils'
 import { ProviderEServiceDetailsAlerts } from './components/ProviderEServiceDetailsTab/ProviderEServiceDetailsAlerts'
+import { AuthHooks } from '@/api/auth'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
+  const { isViewer } = AuthHooks.useJwt()
 
   const { activeTab, updateActiveTab } = useActiveTab('eserviceDetails')
   const { openDialog } = useDialog()
@@ -132,20 +134,24 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         descriptor={descriptor}
         onViewKeychains={handleViewKeychains}
       />
-      <TabContext value={activeTab}>
-        <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
-          <Tab label={t('tabs.eserviceDetails')} value="eserviceDetails" />
-          <Tab label={t('tabs.keychain')} value="keychains" />
-        </TabList>
+      {!isViewer ? (
+        <TabContext value={activeTab}>
+          <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
+            <Tab label={t('tabs.eserviceDetails')} value="eserviceDetails" />
+            <Tab label={t('tabs.keychain')} value="keychains" />
+          </TabList>
 
-        <TabPanel value="eserviceDetails">
-          <ProviderEserviceDetailsTab />
-        </TabPanel>
+          <TabPanel value="eserviceDetails">
+            <ProviderEserviceDetailsTab />
+          </TabPanel>
 
-        <TabPanel value="keychains">
-          <ProviderEserviceKeychainsTab />
-        </TabPanel>
-      </TabContext>
+          <TabPanel value="keychains">
+            <ProviderEserviceKeychainsTab />
+          </TabPanel>
+        </TabContext>
+      ) : (
+        <ProviderEserviceDetailsTab />
+      )}
       {descriptor && (
         <EServiceVersionSelectorDrawer
           isOpen={isVersionSelectorDrawerOpen}
