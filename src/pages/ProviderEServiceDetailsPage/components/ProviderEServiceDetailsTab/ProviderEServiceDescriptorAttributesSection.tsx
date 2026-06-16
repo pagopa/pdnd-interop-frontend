@@ -86,7 +86,7 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
   }
 
   const getThresholdSectionActions = (): Array<ActionItemButton> | undefined => {
-    if (isViewer) return []
+    if (isViewer) return
     return [
       {
         action: () => setEditDailyCallsDrawerState({ isOpen: true }),
@@ -217,7 +217,7 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
           attributeKey="certified"
           descriptorAttributes={descriptorAttributes}
           topSideActions={getAttributeSectionActions('certified')}
-          withThreshold
+          withThreshold={!isViewer}
         />
         <Divider sx={{ my: 3 }} />
         <AttributeGroupsListSection

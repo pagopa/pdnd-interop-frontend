@@ -132,7 +132,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
     >
       <ProviderEServiceDetailsAlerts
         descriptor={descriptor}
-        onViewKeychains={handleViewKeychains}
+        onViewKeychains={isViewer ? undefined : handleViewKeychains}
       />
       {!isViewer ? (
         <TabContext value={activeTab}>
