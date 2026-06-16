@@ -1,6 +1,6 @@
 import { ClientMutations, ClientQueries } from '@/api/client'
 import { PageContainer, SectionContainer } from '@/components/layout/containers'
-import { useParams } from '@/router'
+import { useParams, useNavigate } from '@/router'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
@@ -17,13 +17,15 @@ import DeleteIcon from '@mui/icons-material/DeleteOutline'
 import SyncIcon from '@mui/icons-material/Sync'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { SetClientAdminDrawer } from './components/SetClientAdminDrawer/SetClientAdminDrawer'
-import { useNavigate } from '@/router'
 import type { ActionItemButton } from '@/types/common.types'
+import { useSearchParams } from 'react-router-dom'
 
 const ConsumerClientManagePage: React.FC = () => {
   const { t } = useTranslation('client', { keyPrefix: 'edit' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { clientId } = useParams<'SUBSCRIBE_CLIENT_EDIT' | 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'>()
+  const [searchParams] = useSearchParams()
+  const purposeId = searchParams.get('purposeId') || ''
   const clientKind = useClientKind()
   const { activeTab, updateActiveTab } = useActiveTab('clientOperators')
   const navigate = useNavigate()
@@ -50,7 +52,7 @@ const ConsumerClientManagePage: React.FC = () => {
     action: () =>
       navigate(
         clientKind === 'API' ? 'SIMULATE_GET_VOUCHER_API' : 'SIMULATE_GET_VOUCHER_CONSUMER',
-        { urlParams: { clientId } }
+        { urlParams: { clientId, purposeId } }
       ),
     label: tCommon('simulateVoucher'),
     variant: 'contained',
