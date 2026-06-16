@@ -4,8 +4,11 @@ import { ProviderEServiceTemplateDetailsTab } from '../ProviderEServiceTemplateD
 import {
   mockUseParams,
   mockUseCurrentRoute,
+  mockUseJwt,
   renderWithApplicationContext,
 } from '@/utils/testing.utils'
+
+mockUseJwt()
 
 mockUseParams({
   eServiceTemplateId: 'template-id-001',
