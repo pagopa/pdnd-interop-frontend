@@ -28,6 +28,7 @@ import type {
   RiskAnalysisSubmissionSeed,
   RiskAnalysisRejectionSeed,
   SignRiskAnalysisParams,
+  RiskAnalysisFormSeed,
 } from '../api.generatedTypes'
 
 /**
@@ -337,7 +338,7 @@ async function rejectRiskAnalysis({
 async function updateRiskAnalysis({
   purposeId,
   ...payload
-}: { purposeId: string } & PurposeUpdateContent) {
+}: { purposeId: string } & RiskAnalysisFormSeed) {
   const response = await axiosInstance.put<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/form`,
     payload
