@@ -17,11 +17,7 @@ import type { ActionItemButton } from '@/types/common.types'
 import { attributesHelpLink } from '@/config/constants'
 import { Typography } from '@mui/material'
 import { useCustomizeThresholdDrawer } from './CustomizeThresholdDrawer'
-import {
-  hasAllDescriptorAttributes,
-  isAttributeGroupFullfilled,
-  isAttributeOwned,
-} from '@/utils/attribute.utils'
+import { isAttributeGroupFullfilled, isAttributeOwned } from '@/utils/attribute.utils'
 
 export type AttributeOwnershipData = {
   certified: TenantAttributes['certified']
@@ -57,35 +53,24 @@ export const ReadOnlyDescriptorAttributes: React.FC<ReadOnlyDescriptorAttributes
     )
   }
 
-  const hasBlockingAttribute =
-    !!ownershipData &&
-    !hasAllDescriptorAttributes(
-      'certified',
-      ownershipData.certified,
-      descriptorAttributes.certified
-    )
-
   return (
     <>
       <AttributeGroupsListSection
         descriptorAttributes={descriptorAttributes}
         attributeKey="certified"
         ownershipData={ownershipData}
-        hasBlockingAttribute={hasBlockingAttribute}
       />
       <Divider sx={{ my: 3 }} />
       <AttributeGroupsListSection
         descriptorAttributes={descriptorAttributes}
         attributeKey="verified"
         ownershipData={ownershipData}
-        hasBlockingAttribute={hasBlockingAttribute}
       />
       <Divider sx={{ my: 3 }} />
       <AttributeGroupsListSection
         descriptorAttributes={descriptorAttributes}
         attributeKey="declared"
         ownershipData={ownershipData}
-        hasBlockingAttribute={hasBlockingAttribute}
       />
     </>
   )
@@ -97,7 +82,6 @@ type AttributeGroupsListSectionProps = {
   topSideActions?: Array<ActionItemButton>
   withThreshold?: boolean
   ownershipData?: AttributeOwnershipData
-  hasBlockingAttribute?: boolean
 }
 
 export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProps> = ({
@@ -106,7 +90,6 @@ export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProp
   topSideActions,
   withThreshold,
   ownershipData,
-  hasBlockingAttribute = false,
 }) => {
   const { t: tAttribute } = useTranslation('attribute')
 
@@ -135,7 +118,6 @@ export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProp
               attributeKey={attributeKey}
               withThreshold={withThreshold}
               ownershipData={ownershipData}
-              hasBlockingAttribute={hasBlockingAttribute}
             />
           ))}
         </Stack>
@@ -158,7 +140,6 @@ type AttributeGroupProps = {
   attributeKey: AttributeKey
   withThreshold?: boolean
   ownershipData?: AttributeOwnershipData
-  hasBlockingAttribute?: boolean
 }
 
 function getGroupColorAndText(
@@ -229,7 +210,6 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
   attributeKey,
   withThreshold,
   ownershipData,
-  hasBlockingAttribute = false,
 }) => {
   const { open } = useCustomizeThresholdDrawer()
   const { t: tAttribute } = useTranslation('attribute')
@@ -242,10 +222,6 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
   const rawGroupColorAndText = ownershipData
     ? getGroupColorAndText(attributeKey, attributes, ownershipData)
     : undefined
-
-  const shouldHideFulfillmentStatus =
-    hasBlockingAttribute && rawGroupColorAndText?.color !== 'error'
-  const groupColorAndText = shouldHideFulfillmentStatus ? undefined : rawGroupColorAndText
 
   return (
     <AttributeGroupContainer
@@ -262,14 +238,15 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
           text
         )
       })()}
-      color={groupColorAndText?.color ?? 'gray'}
+      color={rawGroupColorAndText?.color ?? 'gray'}
       subheader={
         <Typography variant="body2" color="text.primary" sx={{ px: 2, pt: 1.5 }}>
-          {tAttribute('group.subtitle')}
+          {rawGroupColorAndText
+            ? tAttribute(rawGroupColorAndText.textKey)
+            : tAttribute('group.subtitle')}
         </Typography>
       }
     >
-      {groupColorAndText && <Typography>{tAttribute(groupColorAndText.textKey)}</Typography>}
       <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
         {sortedAttributes.map((attribute, _index) => (
           <React.Fragment key={attribute.id}>
@@ -277,7 +254,7 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
               <AttributeContainer
                 attribute={attribute}
                 checked={
-                  ownershipData && !shouldHideFulfillmentStatus
+                  ownershipData
                     ? getAttributeChecked(
                         attributeKey,
                         attribute.id,
