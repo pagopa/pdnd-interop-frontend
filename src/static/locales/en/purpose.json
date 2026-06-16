@@ -39,7 +39,7 @@
     "defaultPurpose": {
       "title": "New purpose",
       "description": "Lorem ipsum dolor sit amet...",
-      "freeOfChargeReason": "I'm a Public Administration"
+      "freeOfChargeReason": "Specify the legal basis or reason that allows free access (e.g. institutional activity, legal provision, etc...)"
     },
     "riskAnalysisPreviewTitle": "Risk analysis",
     "purposeTemplateField": {
@@ -85,15 +85,11 @@
         "infoLabel": "Min 10 characters, max 250 characters"
       },
       "isFreeOfChargeField": {
-        "label": "How will you make the data you receive from this e-service available?",
-        "options": {
-          "YES": "Free of charge",
-          "NO": "For a fee"
-        }
+        "label": "I am entitled to use the e-service free of charge"
       },
       "freeOfChargeReasonField": {
-        "label": "Free of charge reason",
-        "infoLabel": "Explain why you will make this data available free of charge. Indicate whether you are doing so under a statutory exemption or exclusion, or for another reason. Minimum 10 characters, maximum 250 characters."
+        "label": "Specify the legal basis or reason that allows free access (required)",
+        "infoLabel": "Specify whether this is based on a legal exemption or exclusion, or on another reason. Min 10, max 250 characters"
       }
     },
     "stepAssignment": {

@@ -29,13 +29,13 @@ vi.mock('@/components/shared/PurposeLoadEstimationSection', () => ({
 const defaultValues: PurposeEditStepGeneralFormValues = {
   title: 'Test purpose',
   description: 'A test purpose description',
-  isFreeOfCharge: 'NO',
+  isFreeOfCharge: false,
   dailyCalls: 100,
 }
 
 function renderComponent(overrides?: {
   purposeMode?: 'DELIVER' | 'RECEIVE'
-  isFreeOfCharge?: 'YES' | 'NO'
+  isFreeOfCharge?: boolean
 }) {
   const purpose = createMockPurpose({
     eservice: {
@@ -67,7 +67,7 @@ function renderComponent(overrides?: {
 
 describe('PurposeEditStepGeneralForm', () => {
   it('should not show freeOfChargeReason field when isFreeOfCharge is NO', () => {
-    renderComponent({ isFreeOfCharge: 'NO' })
+    renderComponent({ isFreeOfCharge: false })
 
     expect(
       screen.queryByRole('textbox', { name: 'edit.stepGeneral.freeOfChargeReasonField.label' })
@@ -75,7 +75,7 @@ describe('PurposeEditStepGeneralForm', () => {
   })
 
   it('should show freeOfChargeReason field when isFreeOfCharge is YES', () => {
-    renderComponent({ isFreeOfCharge: 'YES' })
+    renderComponent({ isFreeOfCharge: true })
 
     expect(
       screen.getByRole('textbox', { name: 'edit.stepGeneral.freeOfChargeReasonField.label' })
@@ -84,16 +84,16 @@ describe('PurposeEditStepGeneralForm', () => {
 
   it('should show freeOfChargeReason field when user selects YES', async () => {
     const user = userEvent.setup()
-    renderComponent({ isFreeOfCharge: 'NO' })
+    renderComponent({ isFreeOfCharge: false })
 
     expect(
       screen.queryByRole('textbox', { name: 'edit.stepGeneral.freeOfChargeReasonField.label' })
     ).not.toBeInTheDocument()
 
-    const yesRadio = screen.getByRole('radio', {
-      name: 'edit.stepGeneral.isFreeOfChargeField.options.YES',
+    const freeOfChargeSwitch = screen.getByRole('checkbox', {
+      name: 'edit.stepGeneral.isFreeOfChargeField.label',
     })
-    await user.click(yesRadio)
+    await user.click(freeOfChargeSwitch)
 
     expect(
       screen.getByRole('textbox', { name: 'edit.stepGeneral.freeOfChargeReasonField.label' })
