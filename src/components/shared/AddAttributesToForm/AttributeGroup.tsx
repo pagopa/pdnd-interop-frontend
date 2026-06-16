@@ -53,6 +53,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
     close: closeConfigureDiscreteAttributeDrawer,
     attribute,
     groupIndex: attributeGroupIndex,
+    attributeIndex,
   } = useConfigureCertifiedDiscreteAttributeDrawer()
 
   const handleDeleteAttributesGroup = () => {
@@ -91,9 +92,11 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
       threshold: threshold,
     }
 
-    if (groups[attributeGroupIndex].some((att) => att.id === attribute.id)) {
-      groups[attributeGroupIndex] = group.map((att) =>
-        att.id === attribute.id ? { ...att, discreteConfig: discreteConfig } : att
+    if (attributeIndex && groups[attributeGroupIndex][attributeIndex].id === attribute.id) {
+      groups[attributeGroupIndex] = group.map((att, index) =>
+        att.id === attribute.id && index === attributeIndex
+          ? { ...att, discreteConfig: discreteConfig }
+          : att
       )
     } else {
       groups[attributeGroupIndex].push({ ...attribute, discreteConfig: discreteConfig })
@@ -154,7 +157,7 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
                     }
                     onOpenConfigDrawer={
                       FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE && !readOnly
-                        ? () => openConfigureDiscreteAttributeDrawer(attribute, groupIndex)
+                        ? () => openConfigureDiscreteAttributeDrawer(attribute, groupIndex, index)
                         : undefined
                     }
                   />

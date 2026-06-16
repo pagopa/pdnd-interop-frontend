@@ -17,7 +17,11 @@ export type AttributeAutocompleteProps = {
   alreadySelectedAttributeIds: string[]
   groupIndex: number
   direction?: 'column' | 'row'
-  onOpenConfigDrawer?: (attribute: CompactAttribute, groupIndex: number) => void
+  onOpenConfigDrawer?: (
+    attribute: CompactAttribute,
+    groupIndex: number,
+    attributeIndex?: number
+  ) => void
   areCertifiedDiscreteOptionsIncluded?: boolean
 }
 
