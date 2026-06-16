@@ -139,16 +139,16 @@
         }
       },
       "providerThresholdsInfo": {
-        "label": "Soglie definite dall’erogatore",
-        "description": "Le chiamate residue possono variare se l'erogatore riceve altre finalità prima della tua pubblicazione.",
+        "label": "Chiamate API disponibili al giorno",
+        "description": "Le chiamate disponibili possono variare se l'erogatore riceve altre finalità prima della tua pubblicazione.",
         "na": "n/a",
         "dailyCallsPerConsumer": {
-          "label": "Soglia per fruitore",
-          "value": "{{min}} di {{max}} chiamate API/giorno"
+          "label": "Per fruitore",
+          "value": "{{min}} chiamate disponibili su {{max}}"
         },
         "dailyCallsTotal": {
-          "label": "Soglia totale",
-          "value": "{{min}} di {{max}} chiamate API/giorno"
+          "label": "Totali",
+          "value": "{{min}} chiamate disponibili su {{max}}"
         }
       },
       "alerts": {
@@ -534,15 +534,16 @@
             }
           },
           "providerThresholdsInfo": {
-            "label": "Soglie definite dall’erogatore",
-            "description": "Le chiamate residue possono variare se l'erogatore riceve altre finalità prima della tua pubblicazione.",
+            "label": "Chiamate API disponibili al giorno",
+            "description": "Le chiamate disponibili possono variare se l'erogatore riceve altre finalità prima della tua pubblicazione.",
+            "na": "n/a",
             "dailyCallsPerConsumer": {
-              "label": "Soglia per fruitore",
-              "value": "{{min}} di {{max}} chiamate API/giorno"
+              "label": "Per fruitore",
+              "value": "{{min}} chiamate disponibili su {{max}}"
             },
             "dailyCallsTotal": {
-              "label": "Soglia totale",
-              "value": "{{min}} di {{max}} chiamate API/giorno"
+              "label": "Totali",
+              "value": "{{min}} chiamate disponibili su {{max}}"
             }
           },
           "riskAnalysisSection": {

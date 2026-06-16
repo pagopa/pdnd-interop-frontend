@@ -139,16 +139,16 @@
         }
       },
       "providerThresholdsInfo": {
-        "label": "Thresholds defined by the provider",
-        "description": "Residual calls may vary if the provider receives other purposes before your publication.",
+        "label": "Available API calls per day",
+        "description": "Available calls may vary if the provider receives other purposes before your publication.",
         "na": "n/a",
         "dailyCallsPerConsumer": {
-          "label": "Threshold per user",
-          "value": "{{min}} of {{max}} API calls/day"
+          "label": "Per consumer",
+          "value": "{{min}} available calls out of {{max}}"
         },
         "dailyCallsTotal": {
-          "label": "Total threshold",
-          "value": "{{min}} of {{max}} API calls/day"
+          "label": "Total",
+          "value": "{{min}} available calls out of {{max}}"
         }
       },
       "alerts": {
@@ -534,15 +534,16 @@
             }
           },
           "providerThresholdsInfo": {
-            "label": "Thresholds defined by the provider",
-            "description": "Residual calls may vary if the provider receives other purposes before your publication.",
+            "label": "Available API calls per day",
+            "description": "Available calls may vary if the provider receives other purposes before your publication.",
+            "na": "n/a",
             "dailyCallsPerConsumer": {
-              "label": "Threshold per user",
-              "value": "{{min}} of {{max}} API calls/day"
+              "label": "Per consumer",
+              "value": "{{min}} available calls out of {{max}}"
             },
             "dailyCallsTotal": {
-              "label": "Total threshold",
-              "value": "{{min}} of {{max}} API calls/day"
+              "label": "Total",
+              "value": "{{min}} available calls out of {{max}}"
             }
           },
           "riskAnalysisSection": {
