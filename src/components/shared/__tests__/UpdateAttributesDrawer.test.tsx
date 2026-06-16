@@ -2,8 +2,6 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { vi, describe, it, expect, beforeEach } from 'vitest'
 import { UpdateAttributesDrawer } from '../UpdateAttributesDrawer'
-import type { FormDescriptorAttributes } from '@/types/attribute.types'
-import { DescriptorAttributes } from '@/api/api.generatedTypes'
 
 vi.mock('@/components/layout/containers', () => {
   type Attribute = { id: string; name: string }
