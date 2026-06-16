@@ -264,6 +264,7 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
                     : undefined
                 }
                 onCustomizeThreshold={withThreshold ? () => open(attribute, index) : undefined}
+                hideThreshold={!withThreshold}
               />
             </Box>
             {sortedAttributes.length > 1 && _index < sortedAttributes.length - 1 && (
