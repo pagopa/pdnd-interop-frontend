@@ -86,7 +86,11 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
   const options: { label: string; value: CompactAttribute }[] = React.useMemo(() => {
     const attributes = data?.results ?? []
     return attributes
-      .filter((att) => !alreadySelectedAttributeIds.includes(att.id))
+      .filter(
+        (att) =>
+          (att.kind === 'CERTIFIED' && !alreadySelectedAttributeIds.includes(att.id)) ||
+          att.kind === 'CERTIFIED_DISCRETE'
+      )
       .map((att) => ({
         label: att.name,
         value: att,
