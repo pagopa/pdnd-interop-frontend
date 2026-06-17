@@ -135,8 +135,8 @@ describe('ReadOnlyDescriptorAttributes', () => {
     })
   })
 
-  describe('fulfillment status hidden when there is a blocking attribute', () => {
-    it('should hide fulfillment status for non-blocking groups when a certified group is unfulfilled', () => {
+  describe('fulfillment status color hidden and text visible when there is a blocking attribute', () => {
+    it('should hide fulfillment status color but not text for non-blocking groups when a certified group is unfulfilled', () => {
       const descriptorAttributes = createDescriptorAttributes({
         certified: [[createMockDescriptorAttribute({ id: 'cert-attr-1' })]],
         verified: [[createMockDescriptorAttribute({ id: 'ver-attr-1', kind: 'VERIFIED' })]],
@@ -160,11 +160,8 @@ describe('ReadOnlyDescriptorAttributes', () => {
       // The certified group should still show the error text
       expect(screen.getByText('group.manage.error.consumer')).toBeInTheDocument()
 
-      // Verified and declared groups should hide fulfillment status (no subtitle shown)
-      expect(screen.queryByText('consumer')).not.toBeInTheDocument()
-
-      // Success text should NOT appear (verified is fulfilled but hidden due to blocking attribute)
-      expect(screen.queryByText('group.manage.success.consumer')).not.toBeInTheDocument()
+      // Success text should appear (verified and declared are fulfilled and only color is hidden due to blocking attribute)
+      expect(screen.queryAllByText('group.manage.success.consumer').length).toBe(2)
     })
 
     it('should show fulfillment status when all certified groups are fulfilled', () => {
