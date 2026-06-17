@@ -173,17 +173,10 @@ describe('RiskAnalysisCompilePage', () => {
     expect(updateRiskAnalysisMock).toHaveBeenCalledWith(
       {
         purposeId: 'purpose-1',
-        title: 'Purpose title',
-        description: 'Purpose description',
-        riskAnalysisForm: {
-          version: '2',
-          answers: {
-            question1: ['answer1'],
-          },
+        version: '2',
+        answers: {
+          question1: ['answer1'],
         },
-        freeOfChargeReason: 'reason',
-        isFreeOfCharge: false,
-        dailyCalls: 10,
       },
       expect.any(Object)
     )
@@ -233,30 +226,5 @@ describe('RiskAnalysisCompilePage', () => {
         purposeId: 'purpose-1',
       },
     })
-  })
-
-  it('should use 1 as dailyCalls when currentVersion is missing', async () => {
-    const user = userEvent.setup()
-
-    setQueryData({
-      purpose: {
-        ...purpose,
-        currentVersion: undefined,
-      },
-      riskAnalysis,
-    })
-
-    renderWithApplicationContext(<RiskAnalysisCompilePage />, {
-      withRouterContext: true,
-    })
-
-    await user.click(screen.getByRole('button', { name: 'Submit' }))
-
-    expect(updateRiskAnalysisMock).toHaveBeenCalledWith(
-      expect.objectContaining({
-        dailyCalls: 1,
-      }),
-      expect.any(Object)
-    )
   })
 })
