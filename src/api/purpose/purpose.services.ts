@@ -339,11 +339,10 @@ async function updateRiskAnalysis({
   purposeId,
   ...payload
 }: { purposeId: string } & RiskAnalysisFormSeed) {
-  const response = await axiosInstance.put<PurposeVersionResource>(
+  return axiosInstance.put(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/form`,
     payload
   )
-  return response.data
 }
 
 async function getRiskAnalysisAssignments(params: GetRiskAnalysisAssignmentsParams) {
