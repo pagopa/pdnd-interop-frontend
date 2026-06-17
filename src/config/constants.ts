@@ -35,8 +35,7 @@ export const delegationGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/del
 export const delegationEServiceGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/deleghe/delega-per-la-fruizione`
 export const openApiCheckerLink = 'https://italia.github.io/api-oas-checker/'
 export const schemaEditorLink = 'https://schema.gov.it/schema-editor'
-// TODO: aggiornare con il link reale alla guida sugli scambi asincroni
-export const asyncExchangeGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/scambi-asincroni`
+export const asyncExchangeGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/e-service/scambi-di-dati-asincroni`
 export const eserviceNamingBestPracticeLink =
   'https://italia.github.io/pdnd-guida-nomenclatura-eservice/'
 export const keychainGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/utilizzare-i-voucher/garanzia-dellintegrita-della-risposta`
