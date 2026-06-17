@@ -20,7 +20,7 @@ import { AuthHooks } from '@/api/auth'
 const ConsumerPurposeDetailsPage: React.FC = () => {
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_DETAILS'>()
   const { t } = useTranslation('purpose')
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt, isViewer } = AuthHooks.useJwt()
 
   const { data: purpose, isLoading: isPurposeLoading } = useQuery(
     PurposeQueries.getSingle(purposeId)
@@ -45,8 +45,9 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
   const isPurposeArchived = purpose?.currentVersion?.state === 'ARCHIVED'
 
   const canAccessClientTab =
-    descriptor?.eservice.isClientAccessDelegable ||
-    purpose?.delegation?.delegate.id !== jwt?.organizationId
+    (descriptor?.eservice.isClientAccessDelegable ||
+      purpose?.delegation?.delegate.id !== jwt?.organizationId) &&
+    !isViewer
 
   const alertProps = useGetPurposeStateAlertProps(
     purpose,
