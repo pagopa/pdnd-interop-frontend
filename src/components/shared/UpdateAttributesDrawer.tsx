@@ -46,7 +46,10 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
   const { eServiceTemplateId, eServiceTemplateVersionId } =
     useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
-  const formModelAttributes = mapDescriptorAttributesToFormDescriptorAttributes(attributes)
+  const formModelAttributes = React.useMemo(
+    () => mapDescriptorAttributesToFormDescriptorAttributes(attributes),
+    [attributes]
+  )
 
   const [selectedAttributes, setSelectedAttributes] = React.useState<FormDescriptorAttributes>(() =>
     cloneDeep(formModelAttributes)
@@ -127,7 +130,7 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
     if (isOpen) {
       setSelectedAttributes(cloneDeep(formModelAttributes))
     }
-  }, [isOpen])
+  }, [formModelAttributes, isOpen])
 
   return (
     <Drawer
