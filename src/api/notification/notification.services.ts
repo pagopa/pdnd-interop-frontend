@@ -79,7 +79,7 @@ async function getNotificationsBannerConfigJson() {
   }
 
   const response = await axios.get<BannerData>(
-    `${INTEROP_RESOURCES_BASE_URL}/notifications-window/data.json`
+    `${INTEROP_RESOURCES_BASE_URL}/banner-info-window/data.json`
   )
   return response.data
 }
