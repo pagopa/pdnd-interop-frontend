@@ -10,6 +10,7 @@ import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import type { RiskAnalysisAnswers } from '@/types/risk-analysis-form.types'
 import { RemoveCircleOutline } from '@mui/icons-material'
 import { usePurposeCreateContext } from '../PurposeCreateContext'
+import { useRiskAnalysisDisplayError } from './RiskAnalysisRequiredMessageContext'
 import { match, P } from 'ts-pattern'
 
 export type RiskAnalysisTextFieldProps = Omit<OutlinedInputProps, 'type'> & {
@@ -55,7 +56,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
     name: `assignToTemplateUsers.${questionKey}`,
   }) as boolean | undefined
 
-  const error = formState.errors.answers?.[questionKey]?.message as string | undefined
+  const error = useRiskAnalysisDisplayError(questionKey)
   const suggestedValues: string[] = watch(suggestedValuesName) || []
 
   // For freeText questions with suggestedValues in consumer mode, check error on suggestedValueConsumer field

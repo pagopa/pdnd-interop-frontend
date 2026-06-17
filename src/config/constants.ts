@@ -34,6 +34,7 @@ export const apiGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/api-espost
 export const delegationGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/deleghe`
 export const delegationEServiceGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/deleghe/delega-per-la-fruizione`
 export const openApiCheckerLink = 'https://italia.github.io/api-oas-checker/'
+export const schemaEditorLink = 'https://schema.gov.it/schema-editor'
 // TODO: aggiornare con il link reale alla guida sugli scambi asincroni
 export const asyncExchangeGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/scambi-asincroni`
 export const eserviceNamingBestPracticeLink =
@@ -43,6 +44,8 @@ export const keychainSetupGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/
 export const implementAndManageEServiceTemplateLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/template-e-service/operazioni-e-ciclo-di-vita`
 export const updateEserviceInstanceLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/template-e-service/relazione-tra-template-e-istanza`
 export const purposeTemplateGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/template-finalita/relazione-tra-template-e-finalita`
+export const archiveEserviceGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/e-service/operazioni-e-ciclo-di-vita`
+export const userRolesGuideLink = `${DOCUMENTATION_URL}/per-iniziare/primo-accesso-e-configurazione-iniziale`
 export const notificationGuideLink = `https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/riferimenti-tecnici/notifiche`
 export const notificationMailChangeLink =
   'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/tutorial/tutorial-generali/come-modificare-la-mail-associata-allutenza'

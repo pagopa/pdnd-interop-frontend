@@ -36,7 +36,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
   const { t: tDrawer } = useTranslation('eservice', {
     keyPrefix: 'read.drawers',
   })
-  const { jwt, isOperatorAPI, isAdmin } = AuthHooks.useJwt()
+  const { jwt, isOperatorAPI, isAdmin, isViewer } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
   const { data: descriptor } = useSuspenseQuery(
@@ -254,7 +254,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
                 title={t('instanceLabel.label')}
                 titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
                 topSideActions={
-                  isDelegator
+                  isDelegator || isViewer
                     ? []
                     : [
                         {
@@ -281,7 +281,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
                 title={t('eserviceName.label')}
                 titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
                 topSideActions={
-                  isDelegator
+                  isDelegator || isViewer
                     ? []
                     : [
                         {
@@ -302,7 +302,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
             title={t('eserviceDescription.label')}
             titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
             topSideActions={
-              isDelegator || isEserviceFromTemplate
+              isDelegator || isEserviceFromTemplate || isViewer
                 ? []
                 : [
                     {

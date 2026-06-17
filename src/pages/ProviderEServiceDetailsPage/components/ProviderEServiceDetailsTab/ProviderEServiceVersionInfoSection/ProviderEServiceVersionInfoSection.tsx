@@ -12,12 +12,15 @@ import { formatDateString } from '@/utils/format.utils'
 import { getLastDescriptor } from '@/utils/eservice.utils'
 import { FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE } from '@/config/env'
 import { ProviderEServiceUpdateAgreementApprovalPolicyDrawer } from './ProviderEServiceUpdateAgreementApprovalPolicyDrawer'
+import { AuthHooks } from '@/api/auth'
 
 export const ProviderEServiceVersionInfoSection: React.FC = () => {
   const { t } = useTranslation('eservice', {
     keyPrefix: 'read.sections.versionInformations',
   })
   const { t: tCommon } = useTranslation('common')
+
+  const { isViewer } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
   const { data: descriptor } = useSuspenseQuery(
@@ -68,13 +71,17 @@ export const ProviderEServiceVersionInfoSection: React.FC = () => {
                 innerSection
                 title={t('agreementApprovalPolicy.title')}
                 titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
-                topSideActions={[
-                  {
-                    action: openApprovalPolicyDrawer,
-                    label: tCommon('actions.edit'),
-                    icon: EditIcon,
-                  },
-                ]}
+                topSideActions={
+                  isViewer
+                    ? []
+                    : [
+                        {
+                          action: openApprovalPolicyDrawer,
+                          label: tCommon('actions.edit'),
+                          icon: EditIcon,
+                        },
+                      ]
+                }
               >
                 <InformationContainer
                   label={t('agreementApprovalPolicy.label')}

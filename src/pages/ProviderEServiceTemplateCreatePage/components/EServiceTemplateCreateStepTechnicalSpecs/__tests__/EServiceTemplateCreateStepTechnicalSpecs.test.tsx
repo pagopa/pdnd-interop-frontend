@@ -7,6 +7,7 @@ import {
 } from '../EServiceTemplateCreateStepTechnicalSpecs'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import {
+  createMockEServiceTemplateVersionDetails,
   createMockEServiceTemplateVersionDetailsAsync,
   mockUseEServiceTemplateCreateContext,
 } from '@/../__mocks__/data/eserviceTemplate.mocks'
@@ -96,6 +97,33 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
     ).toBeInTheDocument()
   })
 
+  it('renders OpenAPI Checker and Schema Editor links for REST templates', () => {
+    mockUseEServiceTemplateCreateContext({
+      eserviceTemplateVersion: createMockEServiceTemplateVersionDetails(),
+    })
+    renderWithApplicationContext(<EServiceTemplateCreateStepTechnicalSpecs {...stepProps} />, {
+      withReactQueryContext: true,
+    })
+
+    expect(
+      screen.getByText('create.step3.technicalSpecs.interface.description.technicalCompliance')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText('create.step3.technicalSpecs.interface.description.semanticCompliance')
+    ).toBeInTheDocument()
+
+    expect(
+      screen.getByRole('link', {
+        name: /create.step3.technicalSpecs.interface.description.restLinkLabel/,
+      })
+    ).toHaveAttribute('href', 'https://italia.github.io/api-oas-checker/')
+    expect(
+      screen.getByRole('link', {
+        name: /create.step3.technicalSpecs.interface.description.schemaEditorLinkLabel/,
+      })
+    ).toHaveAttribute('href', 'https://schema.gov.it/schema-editor')
+  })
+
   it('renders SOAP description when technology is SOAP', () => {
     mockUseEServiceTemplateCreateContext({
       eserviceTemplateVersion: {
@@ -128,6 +156,22 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
     expect(
       screen.getByText('create.step3.technicalSpecs.interface.description.soap')
     ).toBeInTheDocument()
+    expect(
+      screen.queryByText('create.step3.technicalSpecs.interface.description.technicalCompliance')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('create.step3.technicalSpecs.interface.description.semanticCompliance')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', {
+        name: /create.step3.technicalSpecs.interface.description.restLinkLabel/,
+      })
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('link', {
+        name: /create.step3.technicalSpecs.interface.description.schemaEditorLinkLabel/,
+      })
+    ).not.toBeInTheDocument()
   })
 
   it('does not render the Documentation section', () => {
@@ -146,16 +190,46 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
       withReactQueryContext: true,
     })
 
-    expect(screen.getByText('title')).toBeInTheDocument()
-    expect(screen.getByText('editableInfoAlert')).toBeInTheDocument()
-    expect(screen.queryByText('callbackInterface.readOnlyLabel')).not.toBeInTheDocument()
+    expect(
+      screen.getByText('create.step3.technicalSpecs.asyncExchangeSection.title')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText('create.step3.technicalSpecs.asyncExchangeSection.editableInfoAlert')
+    ).toBeInTheDocument()
+    expect(
+      screen.queryByText(
+        'create.step3.technicalSpecs.asyncExchangeSection.callbackInterface.readOnlyLabel'
+      )
+    ).not.toBeInTheDocument()
     expect(screen.getByDisplayValue('Specifica callback')).toBeInTheDocument()
-    expect(screen.getByText('configSubsection.title')).toBeInTheDocument()
-    expect(screen.getByLabelText(/responseTimeField.label/)).toHaveValue(1000)
-    expect(screen.getByLabelText(/resourceAvailableTimeField.label/)).toHaveValue(2000)
-    expect(screen.getByLabelText(/maxResultSetField.label/)).toHaveValue(100)
-    expect(screen.getByRole('checkbox', { name: /confirmationField.label/ })).toBeChecked()
-    expect(screen.getByRole('checkbox', { name: /bulkField.label/ })).toBeChecked()
+    expect(
+      screen.getByText('create.step3.technicalSpecs.asyncExchangeSection.configSubsection.title')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByLabelText(
+        /create\.step3\.technicalSpecs\.asyncExchangeSection\.responseTimeField\.label/
+      )
+    ).toHaveValue(1000)
+    expect(
+      screen.getByLabelText(
+        /create\.step3\.technicalSpecs\.asyncExchangeSection\.resourceAvailableTimeField\.label/
+      )
+    ).toHaveValue(2000)
+    expect(
+      screen.getByLabelText(
+        /create\.step3\.technicalSpecs\.asyncExchangeSection\.maxResultSetField\.label/
+      )
+    ).toHaveValue(100)
+    expect(
+      screen.getByRole('checkbox', {
+        name: /create\.step3\.technicalSpecs\.asyncExchangeSection\.confirmationField\.label/,
+      })
+    ).toBeChecked()
+    expect(
+      screen.getByRole('checkbox', {
+        name: /create\.step3\.technicalSpecs\.asyncExchangeSection\.bulkField\.label/,
+      })
+    ).toBeChecked()
   })
 
   it('does not render the async exchange section when the template is synchronous', () => {
@@ -164,8 +238,14 @@ describe('EServiceTemplateCreateStepTechnicalSpecs', () => {
       withReactQueryContext: true,
     })
 
-    expect(screen.queryByText('title')).not.toBeInTheDocument()
-    expect(screen.queryByLabelText(/responseTimeField.label/)).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('create.step3.technicalSpecs.asyncExchangeSection.title')
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByLabelText(
+        /create\.step3\.technicalSpecs\.asyncExchangeSection\.responseTimeField\.label/
+      )
+    ).not.toBeInTheDocument()
   })
 
   it('includes default asyncExchangeProperties in payload when async template properties are missing', async () => {

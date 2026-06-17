@@ -15,7 +15,7 @@ export const EServiceAsyncExchangeSection: React.FC<EServiceAsyncExchangeSection
   const isSoap = descriptor?.eservice.technology === 'SOAP'
   const readOnlyCallbackInterfaceContent = <UploadCallbackInterfaceDoc readOnly />
   const editableCallbackInterfaceContent = isEServiceCreatedFromTemplate ? (
-    readOnlyCallbackInterfaceContent
+    <UploadCallbackInterfaceDoc readOnly showDownloadButton />
   ) : (
     <UploadCallbackInterfaceDoc />
   )

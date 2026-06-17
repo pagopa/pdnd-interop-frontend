@@ -7,6 +7,7 @@ import type {
   TenantKind,
   TargetTenantKind,
   CompactAgreement,
+  CompactUser,
 } from '@/api/api.generatedTypes'
 import type { RouteKey } from '@/router'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
@@ -46,6 +47,10 @@ export type DialogProps =
   | DialogTenantKindEserviceTemplateProps
   | DialogTenantKindPurposeTemplateProps
   | DialogSelectAgreementConsumerProps
+  | DialogRequestPurposeApprovalProps
+  | DialogRequestRiskAnalysisCompilationProps
+  | DialogApproveRiskAnalysisProps
+  | DialogRejectRiskAnalysisProps
   | DialogShowEserviceVersionsListProps
   | DialogArchiveEserviceProps
   | DialogCancelEserviceArchivingProps
@@ -194,6 +199,29 @@ export type DialogTenantKindEserviceTemplateProps = {
 export type DialogTenantKindPurposeTemplateProps = {
   type: 'tenantKindPurposeTemplate'
   onConfirm: (tenantKind: TargetTenantKind, handlesPersonalData: boolean) => void
+}
+
+export type DialogRequestPurposeApprovalProps = {
+  type: 'requestPurposeApproval'
+  reviewer: CompactUser
+  onConfirm: VoidFunction
+}
+
+export type DialogRequestRiskAnalysisCompilationProps = {
+  type: 'requestRiskAnalysisCompilation'
+  purposeId: string
+  reviewerId: string
+  reviewerName: string
+}
+
+export type DialogApproveRiskAnalysisProps = {
+  type: 'approveRiskAnalysis'
+  purposeId: string
+}
+
+export type DialogRejectRiskAnalysisProps = {
+  type: 'rejectRiskAnalysis'
+  purposeId: string
 }
 
 export type DialogShowEserviceVersionsListProps = {

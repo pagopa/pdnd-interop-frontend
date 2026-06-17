@@ -13,7 +13,10 @@ export const DialogSuspendArchivingEservice: React.FC<DialogSuspendArchivingEser
   const { t } = useTranslation('eservice', { keyPrefix: 'read.dialogSuspendArchivingEservice' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { closeDialog } = useDialog()
-  const { mutate: suspend } = EServiceMutations.useSuspendVersion({ skipConfirmation: true })
+  const { mutate: suspend } = EServiceMutations.useSuspendVersion({
+    skipConfirmation: true,
+    isArchivingContext: true,
+  })
 
   return (
     <DialogConfirmArchivingAction

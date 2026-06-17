@@ -12,10 +12,13 @@ import {
 } from '../../components/shared/SummaryAccordion'
 import { PageContainer } from '@/components/layout/containers'
 import {
+  ConsumerPurposeSummaryAssignmentAccordion,
   ConsumerPurposeSummaryGeneralInformationAccordion,
   ConsumerPurposeSummaryRiskAnalysisAccordion,
+  ConsumerPurposeSummaryRiskAnalysisRejectedAlert,
 } from './components'
 import { useGetConsumerPurposeAlertProps } from './hooks/useGetConsumerPurposeAlertProps'
+import { useGetPurposeRiskAnalysisReviewStatus } from './hooks/useGetPurposeRiskAnalysisReviewStatus'
 import { useQuery } from '@tanstack/react-query'
 import { AuthHooks } from '@/api/auth'
 import { checkIsRulesetExpired } from '@/utils/purpose.utils'
@@ -41,6 +44,14 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
 
   const alertProps = useGetConsumerPurposeAlertProps(purpose)
 
+  const {
+    chip: riskAnalysisChip,
+    isAwaitingCompilation: isRiskAnalysisAwaitingCompilation,
+    isRejected: isRiskAnalysisRejected,
+    isPublishDisabledByReview,
+    infoAlertText: riskAnalysisInfoAlertText,
+  } = useGetPurposeRiskAnalysisReviewStatus(purpose)
+
   const eservicePersonalData = purpose?.eservice.personalData
 
   const checkIncompatibleAnswerValue = () => {
@@ -59,6 +70,14 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       eservicePersonalData !== undefined &&
       checkIncompatibleAnswerValue()) ||
     (isEserviceDeliverMode && isRulesetExpired)
+
+  // Tooltip explaining why "Publish" is disabled, with the personal-data reason taking precedence.
+  let publishDisabledTooltip = ''
+  if (isPublishButtonDisabled) {
+    publishDisabledTooltip = t('summary.publishBtnDisabled')
+  } else if (isPublishDisabledByReview) {
+    publishDisabledTooltip = t('summary.publishBtnDisabledByReview')
+  }
 
   const arePublishOrEditButtonsDisabled =
     purpose?.agreement.state === 'ARCHIVED' || purpose?.eservice.descriptor.state === 'ARCHIVED'
@@ -125,6 +144,11 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       statusChip={purpose ? { for: 'purpose', purpose } : undefined}
     >
       {alertProps && <Alert sx={{ mb: 3 }} {...alertProps} />}
+      {isRiskAnalysisRejected && (
+        <ConsumerPurposeSummaryRiskAnalysisRejectedAlert
+          rejectionReason={purpose?.reviewerWorkflow?.rejectionReason ?? ''}
+        />
+      )}
       <Stack spacing={3}>
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
           <SummaryAccordion
@@ -136,8 +160,19 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           </SummaryAccordion>
         </React.Suspense>
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="2" title={t('summary.riskAnalysisSection.title')}>
-            <ConsumerPurposeSummaryRiskAnalysisAccordion purposeId={purposeId} />
+          <SummaryAccordion headline="2" title={t('summary.assignmentSection.title')}>
+            <ConsumerPurposeSummaryAssignmentAccordion purposeId={purposeId} />
+          </SummaryAccordion>
+        </React.Suspense>
+        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+          <SummaryAccordion
+            headline="3"
+            title={t('summary.riskAnalysisSection.title')}
+            statusChip={riskAnalysisChip}
+          >
+            {isRiskAnalysisAwaitingCompilation ? null : (
+              <ConsumerPurposeSummaryRiskAnalysisAccordion purposeId={purposeId} />
+            )}
           </SummaryAccordion>
         </React.Suspense>
       </Stack>
@@ -146,6 +181,11 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           expirationDate={expirationDate}
           isRulesetExpired={isRulesetExpired}
         />
+      )}
+      {riskAnalysisInfoAlertText && (
+        <Alert sx={{ mt: 3 }} severity="info">
+          {riskAnalysisInfoAlertText}
+        </Alert>
       )}
       <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
         <Button
@@ -165,10 +205,14 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           {tCommon('editDraft')}
         </Button>
 
-        <Tooltip title={isPublishButtonDisabled ? t('summary.publishBtnDisabled') : ''} arrow>
+        <Tooltip title={publishDisabledTooltip} arrow>
           <span>
             <Button
-              disabled={arePublishOrEditButtonsDisabled || isPublishButtonDisabled}
+              disabled={
+                arePublishOrEditButtonsDisabled ||
+                isPublishButtonDisabled ||
+                isPublishDisabledByReview
+              }
               startIcon={<PublishIcon />}
               variant="contained"
               onClick={handlePublishDraft}

@@ -1,12 +1,21 @@
-import type { AttributeKey } from './../types/attribute.types'
+import { match } from 'ts-pattern'
 import type {
+  AttributeKey,
+  FormDescriptorAttribute,
+  FormDescriptorAttributes,
+} from './../types/attribute.types'
+import type {
+  CertifiedDiscreteTenantAttribute,
   CertifiedTenantAttribute,
   DeclaredTenantAttribute,
   DescriptorAttribute,
   DescriptorAttributeSeed,
   DescriptorAttributes,
   DescriptorAttributesSeed,
+  TenantAttributes,
+  EServiceAttributeCertifiedDiscreteConfig,
   VerifiedTenantAttribute,
+  StandardCertifiedTenantAttribute,
 } from '@/api/api.generatedTypes'
 
 /**
@@ -66,27 +75,25 @@ export function isAttributeRevoked(
 export function isAttributeOwned(
   kind: 'certified',
   attributeId: string,
-  ownedAttributes: CertifiedTenantAttribute[]
+  ownedAttributes: TenantAttributes['certified'],
+  options?: { discreteConfig?: EServiceAttributeCertifiedDiscreteConfig }
 ): boolean
 export function isAttributeOwned(
   kind: 'verified',
   attributeId: string,
-  ownedAttributes: VerifiedTenantAttribute[],
-  verifierId: string | undefined
+  ownedAttributes: TenantAttributes['verified'],
+  options?: { verifierId?: string }
 ): boolean
 export function isAttributeOwned(
   kind: 'declared',
   attributeId: string,
-  ownedAttributes: DeclaredTenantAttribute[]
+  ownedAttributes: TenantAttributes['declared']
 ): boolean
 export function isAttributeOwned(
   kind: AttributeKey,
   attributeId: string,
-  ownedAttributes:
-    | VerifiedTenantAttribute[]
-    | CertifiedTenantAttribute[]
-    | DeclaredTenantAttribute[],
-  verifierId?: string
+  ownedAttributes: TenantAttributes[AttributeKey],
+  options?: { verifierId?: string; discreteConfig?: EServiceAttributeCertifiedDiscreteConfig }
 ) {
   const matchIndex = ownedAttributes.findIndex((a) => a.id === attributeId)
 
@@ -94,12 +101,12 @@ export function isAttributeOwned(
     return false
   }
 
-  const match = ownedAttributes[matchIndex]
+  const attributeMatched = ownedAttributes[matchIndex]
 
   /**
    * If no match is found, means that the tenant does not own the attribute.
    */
-  if (!match) return false
+  if (!attributeMatched) return false
 
   /**
    * If a match is found, last thing we need to check if it is revoked.
@@ -107,17 +114,56 @@ export function isAttributeOwned(
    * For the verified attributes we check if verifiedBy has an entry which verifier id is the same as the verifierId passed. Also
    * we check if the attribute is expired.
    */
-
   switch (kind) {
     case 'certified':
-      return !isAttributeRevoked('certified', match)
+      return match(attributeMatched.kind)
+        .with('CERTIFIED', () => {
+          return !isAttributeRevoked(
+            'certified',
+            attributeMatched as StandardCertifiedTenantAttribute
+          )
+        })
+        .with('CERTIFIED_DISCRETE', () => {
+          return (
+            !isAttributeRevoked(
+              'certified',
+              attributeMatched as CertifiedDiscreteTenantAttribute
+            ) &&
+            (options?.discreteConfig
+              ? isAttributeCompliantWithDiscreteConfig(
+                  attributeMatched as CertifiedDiscreteTenantAttribute,
+                  options.discreteConfig
+                )
+              : false)
+          )
+        })
+        .otherwise(() => false)
     case 'verified':
-      return isOwnedVerifiedAttributeNotExpired(match as VerifiedTenantAttribute, verifierId)
+      return isOwnedVerifiedAttributeNotExpired(
+        attributeMatched as VerifiedTenantAttribute,
+        options?.verifierId
+      )
     case 'declared':
-      return !isAttributeRevoked('declared', match)
+      return !isAttributeRevoked('declared', attributeMatched as DeclaredTenantAttribute)
     default:
       throw new Error(`Unknown attribute kind: ${kind}`)
   }
+}
+
+export function isAttributeCompliantWithDiscreteConfig(
+  attribute: CertifiedDiscreteTenantAttribute,
+  discreteConfig: EServiceAttributeCertifiedDiscreteConfig
+): boolean {
+  const isCompliant = match(discreteConfig.comparator)
+    .with('GT', () => attribute.discreteValue > discreteConfig.threshold)
+    .with('GTE', () => attribute.discreteValue >= discreteConfig.threshold)
+    .with('LT', () => attribute.discreteValue < discreteConfig.threshold)
+    .with('LTE', () => attribute.discreteValue <= discreteConfig.threshold)
+    .with('EQ', () => attribute.discreteValue === discreteConfig.threshold)
+    .with('NE', () => attribute.discreteValue !== discreteConfig.threshold)
+    .exhaustive()
+
+  return isCompliant
 }
 
 /**
@@ -130,38 +176,41 @@ export function isAttributeOwned(
  */
 export function isAttributeGroupFullfilled(
   kind: 'certified',
-  ownedAttributes: CertifiedTenantAttribute[],
+  ownedAttributes: TenantAttributes['certified'],
   attributesGroup: Array<DescriptorAttribute>
 ): boolean
 export function isAttributeGroupFullfilled(
   kind: 'verified',
-  ownedAttributes: VerifiedTenantAttribute[],
+  ownedAttributes: TenantAttributes['verified'],
   attributesGroup: Array<DescriptorAttribute>,
   verifierId: string | undefined
 ): boolean
 export function isAttributeGroupFullfilled(
   kind: 'declared',
-  ownedAttributes: DeclaredTenantAttribute[],
+  ownedAttributes: TenantAttributes['declared'],
   attributesGroup: Array<DescriptorAttribute>
 ): boolean
-export function isAttributeGroupFullfilled<TAttributeKey extends AttributeKey>(
-  kind: TAttributeKey,
-  ownedAttributes: TAttributeKey extends 'certified'
-    ? CertifiedTenantAttribute[]
-    : TAttributeKey extends 'verified'
-      ? VerifiedTenantAttribute[]
-      : DeclaredTenantAttribute[],
+export function isAttributeGroupFullfilled(
+  kind: AttributeKey,
+  ownedAttributes: TenantAttributes[AttributeKey],
   attributesGroup: Array<DescriptorAttribute>,
   verifierId?: string
 ) {
-  const isOwned = ({ id }: DescriptorAttribute) => {
+  const isOwned = ({ id, discreteConfig }: DescriptorAttribute) => {
     switch (kind) {
       case 'certified':
-        return isAttributeOwned(kind, id, ownedAttributes)
+        return isAttributeOwned(
+          kind,
+          id,
+          ownedAttributes as TenantAttributes['certified'],
+          discreteConfig ? { discreteConfig } : undefined
+        )
       case 'verified':
-        return isAttributeOwned(kind, id, ownedAttributes as VerifiedTenantAttribute[], verifierId)
+        return isAttributeOwned(kind, id, ownedAttributes as TenantAttributes['verified'], {
+          verifierId,
+        })
       case 'declared':
-        return isAttributeOwned(kind, id, ownedAttributes)
+        return isAttributeOwned(kind, id, ownedAttributes as TenantAttributes['declared'])
       default:
         throw new Error(`Unknown attribute kind: ${kind}`)
     }
@@ -179,48 +228,96 @@ export function isAttributeGroupFullfilled<TAttributeKey extends AttributeKey>(
  */
 export function hasAllDescriptorAttributes(
   kind: 'certified',
-  ownedAttributes: CertifiedTenantAttribute[],
+  ownedAttributes: TenantAttributes['certified'],
   descriptorAttributes: Array<Array<DescriptorAttribute>>
 ): boolean
 export function hasAllDescriptorAttributes(
   kind: 'verified',
-  ownedAttributes: VerifiedTenantAttribute[],
+  ownedAttributes: TenantAttributes['verified'],
   descriptorAttributes: Array<Array<DescriptorAttribute>>,
   verifierId: string | undefined
 ): boolean
 export function hasAllDescriptorAttributes(
   kind: 'declared',
-  ownedAttributes: DeclaredTenantAttribute[],
+  ownedAttributes: TenantAttributes['declared'],
   descriptorAttributes: Array<Array<DescriptorAttribute>>
 ): boolean
 export function hasAllDescriptorAttributes(
   kind: AttributeKey,
-  ownedAttributes:
-    | VerifiedTenantAttribute[]
-    | CertifiedTenantAttribute[]
-    | DeclaredTenantAttribute[],
+  ownedAttributes: TenantAttributes[AttributeKey],
   descriptorAttributes: Array<Array<DescriptorAttribute>>,
   verifierId?: string
 ) {
   const isGroupFullfilled = (attributesGroup: Array<DescriptorAttribute>) => {
     switch (kind) {
       case 'certified':
-        return isAttributeGroupFullfilled(kind, ownedAttributes, attributesGroup)
+        return isAttributeGroupFullfilled(
+          kind,
+          ownedAttributes as TenantAttributes['certified'],
+          attributesGroup
+        )
       case 'verified':
         return isAttributeGroupFullfilled(
           kind,
-          ownedAttributes as VerifiedTenantAttribute[],
+          ownedAttributes as TenantAttributes['verified'],
           attributesGroup,
           verifierId
         )
       case 'declared':
-        return isAttributeGroupFullfilled(kind, ownedAttributes, attributesGroup)
+        return isAttributeGroupFullfilled(
+          kind,
+          ownedAttributes as TenantAttributes['declared'],
+          attributesGroup
+        )
       default:
         throw new Error(`Unknown attribute kind: ${kind}`)
     }
   }
 
   return descriptorAttributes.every(isGroupFullfilled)
+}
+
+export const mapFormDescriptorAttributesToDescriptorAttributesSeed = (
+  formDescriptorAttributes: FormDescriptorAttributes
+): DescriptorAttributesSeed => {
+  const mapAttribute = (attr: FormDescriptorAttribute[][]): DescriptorAttributeSeed[][] => {
+    return attr.map((attrGroup) => {
+      return attrGroup.map((a) => ({
+        id: a.id,
+        explicitAttributeVerification: true,
+        dailyCallsPerConsumer: a?.dailyCallsPerConsumer,
+        discreteConfig: a?.discreteConfig,
+      }))
+    })
+  }
+
+  return {
+    certified: mapAttribute(formDescriptorAttributes.certified),
+    verified: mapAttribute(formDescriptorAttributes.verified),
+    declared: mapAttribute(formDescriptorAttributes.declared),
+  }
+}
+
+export const mapDescriptorAttributesToFormDescriptorAttributes = (
+  descriptorAttributes: DescriptorAttributes
+): FormDescriptorAttributes => {
+  const mapAttribute = (attr: DescriptorAttribute[][]): FormDescriptorAttribute[][] => {
+    return attr.map((attrGroup) => {
+      return attrGroup.map((a) => ({
+        id: a.id,
+        name: a.name,
+        kind: a.kind,
+        dailyCallsPerConsumer: a?.dailyCallsPerConsumer,
+        discreteConfig: a?.discreteConfig,
+      }))
+    })
+  }
+
+  return {
+    certified: mapAttribute(descriptorAttributes.certified),
+    verified: mapAttribute(descriptorAttributes.verified),
+    declared: mapAttribute(descriptorAttributes.declared),
+  }
 }
 
 /**
@@ -238,6 +335,7 @@ export const remapDescriptorAttributesToDescriptorAttributesSeed = (
         id: a.id,
         explicitAttributeVerification: true,
         dailyCallsPerConsumer: a?.dailyCallsPerConsumer,
+        discreteConfig: a?.discreteConfig,
       }))
     })
   }

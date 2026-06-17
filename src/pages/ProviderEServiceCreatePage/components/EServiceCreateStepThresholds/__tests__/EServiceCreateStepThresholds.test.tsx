@@ -7,6 +7,7 @@ import {
   mockUseEServiceCreateContext,
 } from '@/../__mocks__/data/eservice.mocks'
 import { useFormContext } from 'react-hook-form'
+import { createMockDescriptorAttribute } from '@/../__mocks__/data/attribute.mocks'
 
 vi.mock('../../sections/EServiceThresholdSection', () => ({
   EServiceThresholdSection: () => {
@@ -62,14 +63,22 @@ describe('EServiceCreateStepThresholds', () => {
   })
 
   it('should not call API when form data has not changed', async () => {
-    mockUseEServiceCreateContext()
+    const forwardMock = vi.fn()
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProvider({
+        attributes: { certified: [[createMockDescriptorAttribute()]], verified: [], declared: [] },
+      }),
+      forward: forwardMock,
+    })
     renderWithApplicationContext(<EServiceCreateStepThresholds {...stepProps} />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
 
     await userEvent.click(screen.getByText('forwardWithSaveBtn'))
+    expect(forwardMock).toHaveBeenCalled()
     expect(updateVersionDraft).not.toHaveBeenCalled()
+    expect(updateInstanceVersionDraft).not.toHaveBeenCalled()
   })
 
   it('should call updateVersionDraft API when form data has been changed', async () => {

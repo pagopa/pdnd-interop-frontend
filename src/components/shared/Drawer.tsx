@@ -16,13 +16,15 @@ import type { ActionItem } from '@/types/common.types'
 export type DrawerProps = {
   isOpen: boolean
   onClose: VoidFunction
-  title: string
+  title: React.ReactNode
   subtitle?: React.ReactNode
   buttonAction?: ActionItem & {
     disabled?: boolean
     variant?: ButtonProps['variant']
     color?: ButtonProps['color']
     disabledTooltip?: string
+    type?: ButtonProps['type']
+    form?: ButtonProps['form']
   }
   children: React.ReactNode
   onTransitionExited?: VoidFunction
@@ -87,10 +89,18 @@ export const Drawer: React.FC<DrawerProps> = ({
         }}
       >
         <Stack spacing={1} pb={5}>
-          <Typography variant="h6" fontWeight={600}>
-            {title}
-          </Typography>
-          {subtitle && <Typography variant="body2">{subtitle}</Typography>}
+          {typeof title === 'string' ? (
+            <Typography variant="h6" fontWeight={600}>
+              {title}
+            </Typography>
+          ) : (
+            title
+          )}
+          {typeof subtitle === 'string' ? (
+            <Typography variant="body2">{subtitle}</Typography>
+          ) : (
+            subtitle
+          )}
         </Stack>
 
         <Box sx={{ flexGrow: 1, mt: 2, maxWidth: '100%' }}>{children}</Box>
@@ -110,6 +120,8 @@ export const Drawer: React.FC<DrawerProps> = ({
                   color={buttonAction.color ?? 'primary'}
                   fullWidth
                   onClick={buttonAction.action}
+                  type={buttonAction.type ?? 'button'}
+                  form={buttonAction.form ?? undefined}
                 >
                   {buttonAction.label}
                 </Button>

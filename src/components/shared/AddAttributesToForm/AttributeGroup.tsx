@@ -1,17 +1,30 @@
 import React from 'react'
 import { AttributeContainer, AttributeGroupContainer } from '@/components/layout/containers'
-import type { AttributeKey } from '@/types/attribute.types'
+import type {
+  AttributeKey,
+  FormDescriptorAttribute,
+  FormDescriptorAttributes,
+} from '@/types/attribute.types'
 import { Box, Divider, Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import AddIcon from '@mui/icons-material/Add'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { AttributeAutocomplete } from '../AttributeAutocomplete'
-import type { DescriptorAttribute, DescriptorAttributes } from '@/api/api.generatedTypes'
+import type {
+  AttributeCertifiedDiscreteComparator,
+  CompactAttribute,
+  EServiceAttributeCertifiedDiscreteConfig,
+} from '@/api/api.generatedTypes'
 import { useFormContext } from 'react-hook-form'
 import { useCustomizeThresholdDrawer } from '../CustomizeThresholdDrawer'
+import { FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE } from '@/config/env'
+import {
+  ConfigureCertifiedDiscreteAttributeDrawer,
+  useConfigureCertifiedDiscreteAttributeDrawer,
+} from './ConfigureCertifiedDiscreteAttributeDrawer'
 
 export type AttributeGroupProps = {
-  group: Array<DescriptorAttribute>
+  group: Array<FormDescriptorAttribute>
   groupIndex: number
   attributeKey: AttributeKey
   readOnly: boolean
@@ -34,7 +47,13 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
   const [isAttributeAutocompleteVisible, setIsAttributeAutocompleteVisible] = React.useState(
     group.length === 0
   )
-  const { open } = useCustomizeThresholdDrawer()
+  const { open: openCustomizeThresholdDrawer } = useCustomizeThresholdDrawer()
+  const {
+    open: openConfigureDiscreteAttributeDrawer,
+    close: closeConfigureDiscreteAttributeDrawer,
+    attribute,
+    groupIndex: attributeGroupIndex,
+  } = useConfigureCertifiedDiscreteAttributeDrawer()
 
   const handleDeleteAttributesGroup = () => {
     onRemoveAttributesGroup(groupIndex)
@@ -47,90 +66,144 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
     }
   }
 
-  const { watch, setValue } = useFormContext<{ attributes: DescriptorAttributes }>()
+  const { watch, setValue, getValues } = useFormContext<{ attributes: FormDescriptorAttributes }>()
   const attributeGroups = watch(`attributes.${attributeKey}`)
 
-  const handleAddAttributeToGroup = (attribute: DescriptorAttribute) => {
+  const handleAddAttributeToGroup = (attribute: CompactAttribute) => {
     const newAttributeGroups = [...attributeGroups]
     newAttributeGroups[groupIndex].push(attribute)
     setValue(`attributes.${attributeKey}`, newAttributeGroups)
     setIsAttributeAutocompleteVisible(false)
   }
 
+  const handleSubmitConfigureDiscreteAttributeDrawer = (
+    comparator: AttributeCertifiedDiscreteComparator,
+    threshold: number
+  ) => {
+    if (!attribute || attributeGroupIndex === undefined) return
+
+    const attributes = getValues('attributes')
+    const groups = [...attributes['certified']]
+    const group = groups[attributeGroupIndex]
+
+    const discreteConfig: EServiceAttributeCertifiedDiscreteConfig = {
+      comparator: comparator,
+      threshold: threshold,
+    }
+
+    if (groups[attributeGroupIndex].some((att) => att.id === attribute.id)) {
+      groups[attributeGroupIndex] = group.map((att) =>
+        att.id === attribute.id ? { ...att, discreteConfig: discreteConfig } : att
+      )
+    } else {
+      groups[attributeGroupIndex].push({ ...attribute, discreteConfig: discreteConfig })
+    }
+
+    setValue(`attributes.certified`, groups, {
+      shouldValidate: false,
+    })
+    setIsAttributeAutocompleteVisible(false)
+    closeConfigureDiscreteAttributeDrawer()
+  }
+
   return (
-    <AttributeGroupContainer
-      color={readOnly ? 'gray' : 'primary'}
-      title={t('title', {
-        number: groupIndex + 1,
-        attributeLabel: tAttribute(`${attributeKey}.label`),
-      })}
-      subheader={
-        <Typography variant="body2" color="text.primary" sx={{ px: 2, pt: 1.5 }}>
-          {t('subtitle')}
-        </Typography>
-      }
-      onRemove={!readOnly ? handleDeleteAttributesGroup : undefined}
-    >
-      {group.length > 0 && (
-        <Stack sx={{ listStyleType: 'none', pl: 0, mt: 1, mb: 4 }} component="ul" spacing={0}>
-          {group.map((attribute, index) => (
-            <React.Fragment key={attribute.id}>
-              {index > 0 && (
-                <Divider
-                  component="li"
-                  sx={{ my: 1.5, '&::before, &::after': { borderColor: 'divider' } }}
-                >
-                  <Typography
-                    variant="subtitle2"
-                    color="text.primary"
-                    sx={{ px: 2, fontWeight: 700 }}
+    <>
+      <AttributeGroupContainer
+        color={readOnly ? 'gray' : 'primary'}
+        title={t('title', {
+          number: groupIndex + 1,
+          attributeLabel: tAttribute(`${attributeKey}.label`),
+        })}
+        subheader={
+          <Typography variant="body2" color="text.primary" sx={{ px: 2, pt: 1.5 }}>
+            {t('subtitle')}
+          </Typography>
+        }
+        onRemove={!readOnly ? handleDeleteAttributesGroup : undefined}
+      >
+        {group.length > 0 && (
+          <Stack sx={{ listStyleType: 'none', pl: 0, mt: 1, mb: 4 }} component="ul" spacing={0}>
+            {group.map((attribute, index) => (
+              <React.Fragment key={attribute.id}>
+                {index > 0 && (
+                  <Divider
+                    component="li"
+                    sx={{ my: 1.5, '&::before, &::after': { borderColor: 'divider' } }}
                   >
-                    {t('orSeparator')}
-                  </Typography>
-                </Divider>
-              )}
-              <Box component="li">
-                <AttributeContainer
-                  attribute={attribute}
-                  onRemove={
-                    !readOnly ? handleDeleteAttributeFromGroup.bind(null, attribute.id) : undefined
-                  }
-                  onCustomizeThreshold={
-                    withThreshold ? () => open(attribute, groupIndex) : undefined
-                  }
-                />
+                    <Typography
+                      variant="subtitle2"
+                      color="text.primary"
+                      sx={{ px: 2, fontWeight: 700 }}
+                    >
+                      {t('orSeparator')}
+                    </Typography>
+                  </Divider>
+                )}
+                <Box component="li">
+                  <AttributeContainer
+                    attribute={attribute}
+                    onRemove={
+                      !readOnly
+                        ? handleDeleteAttributeFromGroup.bind(null, attribute.id)
+                        : undefined
+                    }
+                    onCustomizeThreshold={
+                      withThreshold
+                        ? () => openCustomizeThresholdDrawer(attribute, groupIndex)
+                        : undefined
+                    }
+                    onOpenConfigDrawer={
+                      FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE && !readOnly
+                        ? () => openConfigureDiscreteAttributeDrawer(attribute, groupIndex)
+                        : undefined
+                    }
+                  />
+                </Box>
+              </React.Fragment>
+            ))}
+          </Stack>
+        )}
+        {!readOnly && (
+          <>
+            {isAttributeAutocompleteVisible ? (
+              <AttributeAutocomplete
+                attributeKey={attributeKey}
+                onAddAttribute={handleAddAttributeToGroup}
+                alreadySelectedAttributeIds={attributeGroups.reduce(
+                  (acc, group) => [...acc, ...group.map(({ id }) => id)],
+                  [] as Array<string>
+                )}
+                onOpenConfigDrawer={
+                  FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE
+                    ? openConfigureDiscreteAttributeDrawer
+                    : undefined
+                }
+                groupIndex={groupIndex}
+                areCertifiedDiscreteOptionsIncluded={FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE}
+              />
+            ) : (
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <ButtonNaked
+                  color="primary"
+                  type="button"
+                  sx={{ fontWeight: 700 }}
+                  readOnly={readOnly}
+                  startIcon={<AddIcon fontSize="small" />}
+                  onClick={() => setIsAttributeAutocompleteVisible(true)}
+                >
+                  {t('addAnotherBtn')}
+                </ButtonNaked>
               </Box>
-            </React.Fragment>
-          ))}
-        </Stack>
+            )}
+          </>
+        )}
+      </AttributeGroupContainer>
+      {FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE && attributeKey === 'certified' && (
+        <ConfigureCertifiedDiscreteAttributeDrawer
+          onSubmit={handleSubmitConfigureDiscreteAttributeDrawer}
+          submitButtonLabel={t('add')}
+        />
       )}
-      {!readOnly && (
-        <>
-          {isAttributeAutocompleteVisible ? (
-            <AttributeAutocomplete
-              attributeKey={attributeKey}
-              onAddAttribute={handleAddAttributeToGroup}
-              alreadySelectedAttributeIds={attributeGroups.reduce(
-                (acc, group) => [...acc, ...group.map(({ id }) => id)],
-                [] as Array<string>
-              )}
-            />
-          ) : (
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <ButtonNaked
-                color="primary"
-                type="button"
-                sx={{ fontWeight: 700 }}
-                readOnly={readOnly}
-                startIcon={<AddIcon fontSize="small" />}
-                onClick={() => setIsAttributeAutocompleteVisible(true)}
-              >
-                {t('addAnotherBtn')}
-              </ButtonNaked>
-            </Box>
-          )}
-        </>
-      )}
-    </AttributeGroupContainer>
+    </>
   )
 }

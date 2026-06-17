@@ -135,11 +135,37 @@
         "description": "The risk analysis will be deleted from this e-service."
       }
     },
+    "scheduleArchiveDescriptor": {
+      "outcome": {
+        "success": "This e-service version will be archived in {{days}} days",
+        "error": "This e-service version could not be archived. Please try again later."
+      }
+    },
+    "cancelDescriptorArchiving": {
+      "outcome": {
+        "success": "This version is no longer being archived",
+        "error": "The archiving of this e-service version could not be canceled. Please try again later."
+      }
+    },
+    "cancelEserviceArchiving": {
+      "outcome": {
+        "success": "The e-service is no longer being archived",
+        "error": "The archiving of this e-service could not be canceled. Please try again later."
+      }
+    },
+    "scheduleArchiveEservice": {
+      "outcome": {
+        "success": "This e-service will be archived in {{days}} days",
+        "error": "This e-service could not be archived. Please try again later."
+      }
+    },
     "suspendVersion": {
       "loading": "E-service version is being suspended",
       "outcome": {
         "success": "E-service version suspended successfully",
-        "error": "The e-service version could not be suspended. Please try again!"
+        "successArchiving": "You have suspended this e-service version",
+        "error": "The e-service version could not be suspended. Please try again!",
+        "errorArchiving": "The e-service version could not be suspended. Please try again later."
       },
       "confirmDialog": {
         "title": "Confirm Version Suspension",
@@ -150,7 +176,9 @@
       "loading": "E-service version is being reactivated",
       "outcome": {
         "success": "E-service version reactivated successfully",
-        "error": "The e-service version could not be reactivated. Please try again!"
+        "successArchiving": "You have reactivated this e-service version",
+        "error": "The e-service version could not be reactivated. Please try again!",
+        "errorArchiving": "The e-service version could not be reactivated. Please try again later."
       },
       "confirmDialog": {
         "title": "Confirm Version Reactivation",
@@ -600,6 +628,12 @@
         "error": "The risk analysis document could not be downloaded. Please try again!"
       }
     },
+    "updateRiskAnalysis": {
+      "loading": "Risk analysis is being updated",
+      "outcome": {
+        "error": "The risk analysis could not be updated. Please try again!"
+      }
+    },
     "clone": {
       "loading": "Purpose is being cloned",
       "outcome": {
@@ -623,6 +657,29 @@
       "confirmDialog": {
         "title": "Confirm Client Removal from Purpose",
         "description": "This client will be removed from the current purpose. All keys added will no longer be usable to access the **Producer's** e-service for this purpose"
+      }
+    },
+    "assignRiskAnalysisReviewer": {
+      "outcome": {
+        "error": "The reviewer could not be assigned. Please try again!"
+      }
+    },
+    "submitRiskAnalysis": {
+      "loading": "Submitting the risk analysis to the reviewer",
+      "outcome": {
+        "error": "The risk analysis could not be submitted to the reviewer. Please try again!"
+      }
+    },
+    "signRiskAnalysis": {
+      "loading": "Risk analysis is being signed",
+      "outcome": {
+        "error": "The risk analysis could not be signed. Please try again!"
+      }
+    },
+    "rejectRiskAnalysis": {
+      "loading": "Risk analysis is being rejected",
+      "outcome": {
+        "error": "The risk analysis could not be rejected. Please try again!"
       }
     }
   },

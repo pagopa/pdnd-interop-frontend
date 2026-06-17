@@ -26,6 +26,10 @@ import type {
   DialogTenantKindEserviceTemplateProps,
   DialogTenantKindPurposeTemplateProps,
   DialogSelectAgreementConsumerProps,
+  DialogRequestPurposeApprovalProps,
+  DialogRequestRiskAnalysisCompilationProps,
+  DialogApproveRiskAnalysisProps,
+  DialogRejectRiskAnalysisProps,
   DialogShowEserviceVersionsListProps,
   DialogArchiveEserviceProps,
   DialogCancelEserviceArchivingProps,
@@ -56,6 +60,10 @@ import { DialogRejectDelegatedVersionDraft } from './DialogRejectDelegatedVersio
 import { DialogTenantKindEserviceTemplate } from './DialogTenantKindEserviceTemplate'
 import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTemplate'
 import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/DialogSelectAgreementConsumer'
+import { DialogRequestPurposeApproval } from './DialogRequestPurposeApproval'
+import { DialogRequestRiskAnalysisCompilation } from './DialogRequestRiskAnalysisCompilation'
+import { DialogApproveRiskAnalysis } from './DialogApproveRiskAnalysis'
+import { DialogRejectRiskAnalysis } from './DialogRejectRiskAnalysis'
 import { DialogShowEserviceVersionsList } from './DialogShowEserviceVersionsList/DialogShowEserviceVersionsList'
 import DialogArchiveEservice from './DialogArchiveEservice'
 import DialogCancelEserviceArchiving from './DialogCancelEserviceArchiving'
@@ -88,6 +96,10 @@ function match<T>(
   onDialogTenantKindEserviceTemplate: (props: DialogTenantKindEserviceTemplateProps) => T,
   onDialogTenantKindPurposeTemplate: (props: DialogTenantKindPurposeTemplateProps) => T,
   onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T,
+  onRequestPurposeApproval: (props: DialogRequestPurposeApprovalProps) => T,
+  onRequestRiskAnalysisCompilation: (props: DialogRequestRiskAnalysisCompilationProps) => T,
+  onApproveRiskAnalysis: (props: DialogApproveRiskAnalysisProps) => T,
+  onRejectRiskAnalysis: (props: DialogRejectRiskAnalysisProps) => T,
   onShowEserviceVersionsList: (props: DialogShowEserviceVersionsListProps) => T,
   onArchiveEservice: (props: DialogArchiveEserviceProps) => T,
   onCancelEserviceArchiving: (props: DialogCancelEserviceArchivingProps) => T,
@@ -142,6 +154,14 @@ function match<T>(
         return onDialogTenantKindPurposeTemplate(props)
       case 'selectAgreementConsumer':
         return onSelectAgreementConsumer(props)
+      case 'requestPurposeApproval':
+        return onRequestPurposeApproval(props)
+      case 'requestRiskAnalysisCompilation':
+        return onRequestRiskAnalysisCompilation(props)
+      case 'approveRiskAnalysis':
+        return onApproveRiskAnalysis(props)
+      case 'rejectRiskAnalysis':
+        return onRejectRiskAnalysis(props)
       case 'showEserviceVersionsList':
         return onShowEserviceVersionsList(props)
       case 'archiveEservice':
@@ -186,6 +206,10 @@ const _Dialog = match(
   (props) => <DialogTenantKindEserviceTemplate {...props} />,
   (props) => <DialogTenantKindPurposeTemplate {...props} />,
   (props) => <DialogSelectAgreementConsumer {...props} />,
+  (props) => <DialogRequestPurposeApproval {...props} />,
+  (props) => <DialogRequestRiskAnalysisCompilation {...props} />,
+  (props) => <DialogApproveRiskAnalysis {...props} />,
+  (props) => <DialogRejectRiskAnalysis {...props} />,
   (props) => <DialogShowEserviceVersionsList {...props} />,
   (props) => <DialogArchiveEservice {...props} />,
   (props) => <DialogCancelEserviceArchiving {...props} />,

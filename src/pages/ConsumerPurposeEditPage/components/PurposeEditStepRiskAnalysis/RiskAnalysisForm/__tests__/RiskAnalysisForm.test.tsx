@@ -6,6 +6,10 @@ import { vi } from 'vitest'
 import userEvent from '@testing-library/user-event'
 
 describe('RiskAnalysisForm', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   it('should update the questions accordingly', async () => {
     const screen = render(
       <RiskAnalysisForm
@@ -63,6 +67,238 @@ describe('RiskAnalysisForm', () => {
         purpose: ['OTHER'],
         institutionalPurpose: ['Some text'],
       })
+    })
+  })
+
+  it('uses submitLabel for the primary submit CTA when provided', async () => {
+    const onSubmit = vi.fn()
+    const user = userEvent.setup()
+    const screen = render(
+      <RiskAnalysisForm
+        defaultAnswers={{}}
+        riskAnalysis={createMockRiskAnalysisFormConfig()}
+        onSubmit={onSubmit}
+        onCancel={vi.fn()}
+        submitLabel="custom-submit-label"
+      />
+    )
+
+    // the custom label replaces the default "Vai al riepilogo" CTA
+    expect(screen.queryByRole('button', { name: 'endWithSaveBtn' })).not.toBeInTheDocument()
+    const submit = screen.getByRole('button', { name: 'custom-submit-label' })
+
+    // it is still a real submit: filling the form and clicking it calls onSubmit
+    fireEvent.click(screen.getByRole('radio', { name: 'Other' }))
+    await user.type(screen.getByRole('textbox', { name: 'Question 2*' }), 'Some text')
+    fireEvent.click(submit)
+
+    await waitFor(() =>
+      expect(onSubmit).toHaveBeenCalledWith({
+        purpose: ['OTHER'],
+        institutionalPurpose: ['Some text'],
+      })
+    )
+  })
+
+  describe('reviewer-approval mode', () => {
+    it('renders the primary "Richiedi approvazione" CTA and the secondary "Salva bozza e prosegui" CTA', () => {
+      const screen = render(
+        <RiskAnalysisForm
+          defaultAnswers={{}}
+          riskAnalysis={createMockRiskAnalysisFormConfig()}
+          onSubmit={vi.fn()}
+          onCancel={vi.fn()}
+          isReviewerApprovalMode
+          onSaveDraft={vi.fn()}
+        />
+      )
+
+      expect(
+        screen.getByRole('button', { name: 'stepRiskAnalysis.requestApprovalBtn' })
+      ).toBeEnabled()
+      expect(
+        screen.getByRole('button', { name: 'stepRiskAnalysis.saveDraftBtn' })
+      ).toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'endWithSaveBtn' })).not.toBeInTheDocument()
+    })
+
+    it('on invalid submit shows the global alert and inline "Compila per proseguire", without calling onSubmit', async () => {
+      const onSubmit = vi.fn()
+      const screen = render(
+        <RiskAnalysisForm
+          defaultAnswers={{}}
+          riskAnalysis={createMockRiskAnalysisFormConfig()}
+          onSubmit={onSubmit}
+          onCancel={vi.fn()}
+          isReviewerApprovalMode
+          onSaveDraft={vi.fn()}
+        />
+      )
+
+      // Select 'Other' to reveal the required free-text Question 2, then submit
+      // without filling it to trigger a `required` validation failure.
+      fireEvent.click(screen.getByRole('radio', { name: 'Other' }))
+      fireEvent.click(screen.getByRole('button', { name: 'stepRiskAnalysis.requestApprovalBtn' }))
+
+      await waitFor(() => {
+        expect(
+          screen.getAllByText('stepRiskAnalysis.requiredFieldErrorReviewer').length
+        ).toBeGreaterThan(0)
+      })
+
+      expect(screen.getByText('stepRiskAnalysis.requestApprovalAlert')).toBeInTheDocument()
+      expect(onSubmit).not.toHaveBeenCalled()
+    })
+
+    it('on valid submit calls onSubmit with the validated answers', async () => {
+      const onSubmit = vi.fn()
+      const user = userEvent.setup()
+      const screen = render(
+        <RiskAnalysisForm
+          defaultAnswers={{}}
+          riskAnalysis={createMockRiskAnalysisFormConfig()}
+          onSubmit={onSubmit}
+          onCancel={vi.fn()}
+          isReviewerApprovalMode
+          onSaveDraft={vi.fn()}
+        />
+      )
+
+      fireEvent.click(screen.getByRole('radio', { name: 'Other' }))
+      await user.type(screen.getByRole('textbox', { name: 'Question 2*' }), 'Some text')
+      fireEvent.click(screen.getByRole('button', { name: 'stepRiskAnalysis.requestApprovalBtn' }))
+
+      await waitFor(() =>
+        expect(onSubmit).toHaveBeenCalledWith({
+          purpose: ['OTHER'],
+          institutionalPurpose: ['Some text'],
+        })
+      )
+
+      expect(screen.queryByText('stepRiskAnalysis.requestApprovalAlert')).not.toBeInTheDocument()
+    })
+
+    it('saves the draft without validating when the user clicks "Salva bozza e prosegui"', async () => {
+      const onSubmit = vi.fn()
+      const onSaveDraft = vi.fn()
+      const user = userEvent.setup()
+      const screen = render(
+        <RiskAnalysisForm
+          defaultAnswers={{}}
+          riskAnalysis={createMockRiskAnalysisFormConfig()}
+          onSubmit={onSubmit}
+          onCancel={vi.fn()}
+          isReviewerApprovalMode
+          onSaveDraft={onSaveDraft}
+        />
+      )
+
+      fireEvent.click(screen.getByRole('radio', { name: 'Other' }))
+      await user.type(screen.getByRole('textbox', { name: 'Question 2*' }), 'Partial')
+      fireEvent.click(screen.getByRole('button', { name: 'stepRiskAnalysis.saveDraftBtn' }))
+
+      await waitFor(() =>
+        expect(onSaveDraft).toHaveBeenCalledWith({
+          purpose: ['OTHER'],
+          institutionalPurpose: ['Partial'],
+        })
+      )
+
+      expect(onSubmit).not.toHaveBeenCalled()
+      expect(screen.queryByText('stepRiskAnalysis.requestApprovalAlert')).not.toBeInTheDocument()
+    })
+
+    it('disables both CTAs while a save+submit is in flight', () => {
+      const screen = render(
+        <RiskAnalysisForm
+          defaultAnswers={{}}
+          riskAnalysis={createMockRiskAnalysisFormConfig()}
+          onSubmit={vi.fn()}
+          onCancel={vi.fn()}
+          isReviewerApprovalMode
+          onSaveDraft={vi.fn()}
+          isSubmitting
+        />
+      )
+
+      expect(
+        screen.getByRole('button', { name: 'stepRiskAnalysis.requestApprovalBtn' })
+      ).toBeDisabled()
+      expect(screen.getByRole('button', { name: 'stepRiskAnalysis.saveDraftBtn' })).toBeDisabled()
+    })
+
+    it('saves the draft even when a required field is left empty', async () => {
+      const onSaveDraft = vi.fn()
+      const screen = render(
+        <RiskAnalysisForm
+          defaultAnswers={{}}
+          riskAnalysis={createMockRiskAnalysisFormConfig()}
+          onSubmit={vi.fn()}
+          onCancel={vi.fn()}
+          isReviewerApprovalMode
+          onSaveDraft={onSaveDraft}
+        />
+      )
+
+      // Pick 'Other' to reveal Question 2 (required, empty) and click the draft
+      // CTA: the save must go through even though the form would not validate.
+      fireEvent.click(screen.getByRole('radio', { name: 'Other' }))
+      fireEvent.click(screen.getByRole('button', { name: 'stepRiskAnalysis.saveDraftBtn' }))
+
+      await waitFor(() => expect(onSaveDraft).toHaveBeenCalledTimes(1))
+      expect(screen.queryByText('stepRiskAnalysis.requestApprovalAlert')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('rejected', () => {
+    it('shows the rejected alert with the "Leggi motivazione" link and keeps the form editable', () => {
+      const screen = render(
+        <RiskAnalysisForm
+          defaultAnswers={{}}
+          riskAnalysis={createMockRiskAnalysisFormConfig()}
+          onSubmit={vi.fn()}
+          onCancel={vi.fn()}
+          isReviewerApprovalMode
+          onSaveDraft={vi.fn()}
+          isRejected
+        />
+      )
+
+      expect(screen.getByText('stepRiskAnalysis.rejectedAlert')).toBeInTheDocument()
+      expect(
+        screen.getByRole('button', { name: 'stepRiskAnalysis.rejectedAlertLinkLabel' })
+      ).toBeInTheDocument()
+
+      // editable: inputs enabled and the request-approval CTA is shown
+      expect(screen.getByRole('radio', { name: 'Other' })).toBeEnabled()
+      expect(
+        screen.getByRole('button', { name: 'stepRiskAnalysis.requestApprovalBtn' })
+      ).toBeInTheDocument()
+    })
+
+    it('opens the rejection drawer with the reviewer reason when the link is clicked', () => {
+      const reason = 'The data retention period is not compliant.'
+      const screen = render(
+        <RiskAnalysisForm
+          defaultAnswers={{}}
+          riskAnalysis={createMockRiskAnalysisFormConfig()}
+          onSubmit={vi.fn()}
+          onCancel={vi.fn()}
+          isReviewerApprovalMode
+          onSaveDraft={vi.fn()}
+          isRejected
+          rejectionReason={reason}
+        />
+      )
+
+      // drawer closed → its content is not mounted yet
+      expect(screen.queryByText(reason)).not.toBeInTheDocument()
+
+      fireEvent.click(
+        screen.getByRole('button', { name: 'stepRiskAnalysis.rejectedAlertLinkLabel' })
+      )
+
+      expect(screen.getByText(reason)).toBeInTheDocument()
     })
   })
 })
