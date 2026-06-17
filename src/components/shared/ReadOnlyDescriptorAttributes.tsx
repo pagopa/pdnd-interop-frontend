@@ -245,13 +245,8 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
 
   const shouldHideFulfillmentStatus =
     hasBlockingAttribute && rawGroupColorAndText?.color !== 'error'
-  const groupColorAndText = shouldHideFulfillmentStatus ? undefined : rawGroupColorAndText
-
-  const subtitleText = (() => {
-    if (groupColorAndText) return tAttribute(groupColorAndText.textKey)
-    if (!groupColorAndText && !ownershipData) return tAttribute('group.subtitle')
-    return undefined
-  })()
+  const groupColor = shouldHideFulfillmentStatus ? undefined : rawGroupColorAndText?.color
+  const groupText = rawGroupColorAndText?.textKey
 
   return (
     <AttributeGroupContainer
@@ -268,13 +263,11 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
           text
         )
       })()}
-      color={groupColorAndText?.color ?? 'gray'}
+      color={groupColor ?? 'gray'}
       subheader={
-        subtitleText && (
-          <Typography variant="body2" color="text.primary" sx={{ px: 2, pt: 1.5 }}>
-            {subtitleText}
-          </Typography>
-        )
+        <Typography variant="body2" color="text.primary" sx={{ px: 2, pt: 1.5 }}>
+          {groupText ? tAttribute(groupText) : tAttribute('group.subtitle')}
+        </Typography>
       }
     >
       <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
