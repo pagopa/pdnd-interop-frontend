@@ -19,7 +19,7 @@ describe('ConsumerPurposeDetailsDailyCallsPlanCard', () => {
     expect(screen.getByText('changePlanRequestLink.label')).toBeInTheDocument()
   })
 
-  it('hides the change plan request link for non-admin (viewer) users', () => {
+  it('hides the change plan request link for non-admin users', () => {
     mockUseJwt({ isAdmin: false })
     renderWithApplicationContext(
       <ConsumerPurposeDetailsDailyCallsPlanCard purpose={createMockPurpose()} />,
