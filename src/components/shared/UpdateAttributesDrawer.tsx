@@ -14,7 +14,10 @@ import AddIcon from '@mui/icons-material/Add'
 import { AttributeAutocomplete } from '@/components/shared/AttributeAutocomplete'
 import cloneDeep from 'lodash/cloneDeep'
 import { EServiceMutations } from '@/api/eservice'
-import { mapFormDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
+import {
+  mapDescriptorAttributesToFormDescriptorAttributes,
+  mapFormDescriptorAttributesToDescriptorAttributesSeed,
+} from '@/utils/attribute.utils'
 import { useParams } from '@/router'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
@@ -43,8 +46,13 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
   const { eServiceTemplateId, eServiceTemplateVersionId } =
     useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
+  const formModelAttributes = React.useMemo(
+    () => mapDescriptorAttributesToFormDescriptorAttributes(attributes),
+    [attributes]
+  )
+
   const [selectedAttributes, setSelectedAttributes] = React.useState<FormDescriptorAttributes>(() =>
-    cloneDeep(attributes)
+    cloneDeep(formModelAttributes)
   )
 
   const { mutate: updateEserviceAttributes } = EServiceMutations.useUpdateDescriptorAttributes()
@@ -118,11 +126,17 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
     }
   }
 
+  React.useEffect(() => {
+    if (isOpen) {
+      setSelectedAttributes(cloneDeep(formModelAttributes))
+    }
+  }, [formModelAttributes, isOpen])
+
   return (
     <Drawer
       isOpen={isOpen}
       onClose={onClose}
-      onTransitionExited={() => setSelectedAttributes(cloneDeep(attributes))}
+      onTransitionExited={() => setSelectedAttributes(cloneDeep(formModelAttributes))}
       title={t('title', { attributeKind: tAttribute(`type.${attributeKey}_other`) })}
       subtitle={t('subtitle')}
       buttonAction={{

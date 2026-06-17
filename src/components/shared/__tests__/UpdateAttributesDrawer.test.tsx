@@ -2,7 +2,6 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { vi, describe, it, expect, beforeEach } from 'vitest'
 import { UpdateAttributesDrawer } from '../UpdateAttributesDrawer'
-import type { FormDescriptorAttributes } from '@/types/attribute.types'
 
 vi.mock('@/components/layout/containers', () => {
   type Attribute = { id: string; name: string }
@@ -62,10 +61,6 @@ vi.mock('@/router', () => ({
     eServiceTemplateId: 't1',
     eServiceTemplateVersionId: 'v1',
   }),
-}))
-
-vi.mock('@/utils/attribute.utils', () => ({
-  mapFormDescriptorAttributesToDescriptorAttributesSeed: (attrs: FormDescriptorAttributes) => attrs,
 }))
 
 vi.mock('react-i18next', () => ({
