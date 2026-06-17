@@ -72,6 +72,7 @@ export const ReadOnlyDescriptorAttributes: React.FC<ReadOnlyDescriptorAttributes
         attributeKey="certified"
         ownershipData={ownershipData}
         hasBlockingAttribute={hasBlockingAttribute}
+        hideThreshold
       />
       <Divider sx={{ my: 3 }} />
       <AttributeGroupsListSection
@@ -98,6 +99,7 @@ type AttributeGroupsListSectionProps = {
   withThreshold?: boolean
   ownershipData?: AttributeOwnershipData
   hasBlockingAttribute?: boolean
+  hideThreshold?: boolean
 }
 
 export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProps> = ({
@@ -107,6 +109,7 @@ export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProp
   withThreshold,
   ownershipData,
   hasBlockingAttribute = false,
+  hideThreshold = false,
 }) => {
   const { t: tAttribute } = useTranslation('attribute')
 
@@ -136,6 +139,7 @@ export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProp
               withThreshold={withThreshold}
               ownershipData={ownershipData}
               hasBlockingAttribute={hasBlockingAttribute}
+              hideThreshold={hideThreshold}
             />
           ))}
         </Stack>
@@ -159,6 +163,7 @@ type AttributeGroupProps = {
   withThreshold?: boolean
   ownershipData?: AttributeOwnershipData
   hasBlockingAttribute?: boolean
+  hideThreshold?: boolean
 }
 
 function getGroupColorAndText(
@@ -230,6 +235,7 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
   withThreshold,
   ownershipData,
   hasBlockingAttribute = false,
+  hideThreshold = false,
 }) => {
   const { open } = useCustomizeThresholdDrawer()
   const { t: tAttribute } = useTranslation('attribute')
@@ -287,7 +293,7 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
                     : undefined
                 }
                 onCustomizeThreshold={withThreshold ? () => open(attribute, index) : undefined}
-                hideThreshold={!withThreshold}
+                hideThreshold={hideThreshold}
               />
             </Box>
             {sortedAttributes.length > 1 && _index < sortedAttributes.length - 1 && (
