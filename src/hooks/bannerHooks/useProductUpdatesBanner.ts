@@ -1,13 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 import { useBaseBanner } from './useBaseBanner'
-import { NotificationQueries } from '@/api/notification'
+import { ProductUpdatesQueries } from '@/api/productUpdates/productUpdates.queries'
 import { useTranslation } from 'react-i18next'
 
 const STORAGE_KEY = 'productUpdatesBannerDismissedUntil'
 
 export function useProductUpdatesBanner() {
   const { t } = useTranslation('shared-components', { keyPrefix: 'productUpdatesBanner' })
-  const { data } = useQuery(NotificationQueries.getNotificationsBannerConfigJson())
+  const { data } = useQuery(ProductUpdatesQueries.getProductUpdatesJson())
 
   const { isOpen, closeBanner } = useBaseBanner({
     data,
