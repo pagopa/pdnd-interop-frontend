@@ -77,6 +77,7 @@ export const ConsumerAgreementDetailsCertifiedAttributesDrawer: React.FC<
                   checked={isAttributeOwned('certified', attribute.id, ownedCertifiedAttributes, {
                     discreteConfig: attribute.discreteConfig,
                   })}
+                  hideThreshold
                 />
               ))}
             </Stack>
