@@ -152,7 +152,7 @@ export const AttributeContainer = <
               {(attribute.dailyCallsPerConsumer !== undefined || onCustomizeThreshold) &&
                 !hideThreshold && (
                   <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                    {attribute.dailyCallsPerConsumer !== undefined && !hideThreshold && (
+                    {attribute.dailyCallsPerConsumer !== undefined && (
                       <Stack direction={'row'} spacing={1}>
                         <Typography variant="body2">{t('thresholdLabel')}</Typography>
                         <Typography variant="body2" fontWeight={700}>
