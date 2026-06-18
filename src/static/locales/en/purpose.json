@@ -498,6 +498,18 @@
           "label": "Go to agreement"
         }
       },
+      "riskAnalysisAssignment": {
+        "title": "Risk analysis assignment",
+        "mode": {
+          "label": "Mode",
+          "autonomy": "Completed and approved autonomously",
+          "adminWritesReviewerSigns": "Completed autonomously, approved by the reviewer",
+          "reviewerWritesReviewerSigns": "Completed and approved by the reviewer"
+        },
+        "reviewer": {
+          "label": "Reviewer"
+        }
+      },
       "loadEstimate": {
         "title": "API call estimation",
         "description": "The number of calls expected each day to the e-service",
