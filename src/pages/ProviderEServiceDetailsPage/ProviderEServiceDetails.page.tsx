@@ -20,12 +20,16 @@ import {
   isDescriptorPendingArchiving,
 } from '@/utils/eservice.utils'
 import { ProviderEServiceDetailsAlerts } from './components/ProviderEServiceDetailsTab/ProviderEServiceDetailsAlerts'
+import { AuthHooks } from '@/api/auth'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
 
   const { activeTab, updateActiveTab } = useActiveTab('eserviceDetails')
+  const { isAdmin } = AuthHooks.useJwt()
+  const canViewKeychains = isAdmin
+  const selectedTab = canViewKeychains ? activeTab : 'eserviceDetails'
   const { openDialog } = useDialog()
   const {
     isOpen: isVersionSelectorDrawerOpen,
@@ -47,6 +51,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   )
 
   const handleViewKeychains = () => {
+    if (!canViewKeychains) return
     updateActiveTab(null, 'keychains')
   }
 
@@ -130,21 +135,23 @@ const ProviderEServiceDetailsPage: React.FC = () => {
     >
       <ProviderEServiceDetailsAlerts
         descriptor={descriptor}
-        onViewKeychains={handleViewKeychains}
+        onViewKeychains={canViewKeychains ? handleViewKeychains : undefined}
       />
-      <TabContext value={activeTab}>
+      <TabContext value={selectedTab}>
         <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
           <Tab label={t('tabs.eserviceDetails')} value="eserviceDetails" />
-          <Tab label={t('tabs.keychain')} value="keychains" />
+          {canViewKeychains && <Tab label={t('tabs.keychain')} value="keychains" />}
         </TabList>
 
         <TabPanel value="eserviceDetails">
           <ProviderEserviceDetailsTab />
         </TabPanel>
 
-        <TabPanel value="keychains">
-          <ProviderEserviceKeychainsTab />
-        </TabPanel>
+        {canViewKeychains && (
+          <TabPanel value="keychains">
+            <ProviderEserviceKeychainsTab />
+          </TabPanel>
+        )}
       </TabContext>
       {descriptor && (
         <EServiceVersionSelectorDrawer
