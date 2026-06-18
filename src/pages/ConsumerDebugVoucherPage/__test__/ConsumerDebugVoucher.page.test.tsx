@@ -52,7 +52,7 @@ describe('ConsumerDebugVoucherPage testing', () => {
     const submitButton = screen.getByRole('button', { name: 'submitBtn' })
 
     fireEvent.change(clientAssertionInput, { target: { value: 'test client assertion' } })
-    fireEvent.change(clientIdInput, { target: { value: 'test client Id' } })
+    fireEvent.change(clientIdInput, { target: { value: '51c081d3-4bb3-4d6f-8889-8b7fe2ad7113' } })
     fireEvent.click(submitButton)
 
     await waitFor(() => {
@@ -73,7 +73,7 @@ describe('ConsumerDebugVoucherPage testing', () => {
     const submitButton = screen.getByRole('button', { name: 'submitBtn' })
 
     fireEvent.change(clientAssertionInput, { target: { value: 'test client assertion' } })
-    fireEvent.change(clientIdInput, { target: { value: 'test client Id' } })
+    fireEvent.change(clientIdInput, { target: { value: '51c081d3-4bb3-4d6f-8889-8b7fe2ad7113' } })
     fireEvent.click(submitButton)
 
     await waitFor(() => {
