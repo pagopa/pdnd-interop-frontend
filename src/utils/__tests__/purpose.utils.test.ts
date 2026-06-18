@@ -187,7 +187,9 @@ describe('getReviewModeLabel', () => {
   })
 
   it('maps ADMIN_WRITES_REVIEWER_SIGNS to its label', () => {
-    expect(getReviewModeLabel('ADMIN_WRITES_REVIEWER_SIGNS', t)).toBe('mode.adminWritesReviewerSigns')
+    expect(getReviewModeLabel('ADMIN_WRITES_REVIEWER_SIGNS', t)).toBe(
+      'mode.adminWritesReviewerSigns'
+    )
   })
 
   it('maps REVIEWER_WRITES_REVIEWER_SIGNS to its label', () => {
