@@ -28,6 +28,7 @@ function getSingle(purposeId: string) {
   return queryOptions({
     queryKey: ['PurposeGetSingle', purposeId],
     queryFn: () => PurposeServices.getSingle(purposeId),
+    staleTime: 60_000,
   })
 }
 
