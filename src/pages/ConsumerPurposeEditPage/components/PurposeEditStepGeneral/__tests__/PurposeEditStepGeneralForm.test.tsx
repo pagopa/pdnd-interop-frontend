@@ -131,7 +131,6 @@ describe('PurposeEditStepGeneralForm', () => {
         personalData: true,
         descriptor: { id: 'descriptor-id', state: 'PUBLISHED', version: '1', audience: [] },
       },
-      riskAnalysisForm: { answers: { purpose: ['INSTITUTIONAL'] }, version: '2.0' },
     })
 
     renderWithApplicationContext(
