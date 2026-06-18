@@ -21,7 +21,6 @@ import { parseJwt } from '@/api/auth/auth.utils'
 import { hasSessionExpired } from '@/utils/common.utils'
 import { DialogSessionExpired } from '@/components/dialogs/DialogSessionExpired'
 import { useErrorData } from '@/stores/error-data.store'
-import { AuthHooks } from '@/api/auth'
 
 type UseResolveErrorReturnType = {
   title: string
@@ -33,7 +32,6 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
   const { t } = useTranslation('error')
 
   const { error, resetErrorBoundary } = fallbackProps
-  const { isReviewer } = AuthHooks.useJwt()
 
   let title, description: string | undefined
   let content: JSX.Element | null = null
@@ -66,11 +64,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
   )
 
   const backToHomeButton = (
-    <Link
-      as="button"
-      variant="contained"
-      to={isReviewer ? 'SUBSCRIBE_RISK_ANALYSIS_LIST' : 'SUBSCRIBE_CATALOG_LIST'}
-    >
+    <Link as="button" variant="contained" to={'DEFAULT'}>
       {t('actions.backToHome')}
     </Link>
   )

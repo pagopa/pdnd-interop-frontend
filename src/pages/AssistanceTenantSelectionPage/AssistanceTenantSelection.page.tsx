@@ -3,7 +3,7 @@ import { Box, Button, Stack, Typography } from '@mui/material'
 import { TenantSelect, TenantSelectSkeleton } from './components/TenantSelect'
 import { useTranslation } from 'react-i18next'
 import { AssistencePartySelectionError } from '@/utils/errors.utils'
-import { AuthHooks, AuthMutations, AuthQueries } from '@/api/auth'
+import { AuthMutations, AuthQueries } from '@/api/auth'
 import type { CompactTenant } from '@/api/api.generatedTypes'
 import { useNavigate } from '@/router'
 import { useQueryClient } from '@tanstack/react-query'
@@ -11,7 +11,6 @@ import { STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 
 const AssistanceTenantSelectionPage: React.FC = () => {
   const { t } = useTranslation('assistance', { keyPrefix: 'tenantSelection' })
-  const { isReviewer } = AuthHooks.useJwt()
 
   const queryClient = useQueryClient()
   const navigate = useNavigate()
@@ -31,7 +30,7 @@ const AssistanceTenantSelectionPage: React.FC = () => {
         onSuccess: ({ session_token }) => {
           queryClient.setQueryData(AuthQueries.getSessionToken().queryKey, session_token)
           window.localStorage.setItem(STORAGE_KEY_SESSION_TOKEN, session_token)
-          navigate(isReviewer ? 'SUBSCRIBE_RISK_ANALYSIS_LIST' : 'SUBSCRIBE_CATALOG_LIST')
+          navigate('DEFAULT')
         },
       }
     )
