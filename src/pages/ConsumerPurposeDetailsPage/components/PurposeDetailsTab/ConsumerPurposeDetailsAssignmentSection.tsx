@@ -4,7 +4,7 @@ import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { match } from 'ts-pattern'
+import { getReviewModeLabel } from '@/utils/purpose.utils'
 
 type ConsumerPurposeDetailsAssignmentSectionProps = {
   purpose: Purpose
@@ -13,17 +13,9 @@ type ConsumerPurposeDetailsAssignmentSectionProps = {
 export const ConsumerPurposeDetailsAssignmentSection: React.FC<
   ConsumerPurposeDetailsAssignmentSectionProps
 > = ({ purpose }) => {
-  const { t } = useTranslation('purpose', {
-    keyPrefix: 'consumerView.sections.riskAnalysisAssignment',
-  })
+  const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisAssignment' })
 
-  const reviewMode = purpose.reviewerWorkflow?.reviewMode
-
-  const modeLabel = match(reviewMode)
-    .with(undefined, () => t('mode.autonomy'))
-    .with('ADMIN_WRITES_REVIEWER_SIGNS', () => t('mode.adminWritesReviewerSigns'))
-    .with('REVIEWER_WRITES_REVIEWER_SIGNS', () => t('mode.reviewerWritesReviewerSigns'))
-    .exhaustive()
+  const modeLabel = getReviewModeLabel(purpose.reviewerWorkflow?.reviewMode, t)
 
   // We surface only the first reviewer: the BE models `reviewerIds` as a list to allow multiple
   // reviewers in the future, but today at most one reviewer is ever assigned.

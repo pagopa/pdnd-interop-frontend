@@ -285,16 +285,7 @@
       }
     },
     "assignmentSection": {
-      "title": "Assegnazione",
-      "mode": {
-        "label": "Modalità",
-        "autonomy": "Compilazione e approvazione in autonomia",
-        "adminWritesReviewerSigns": "Compilazione in autonomia e approvazione del valutatore",
-        "reviewerWritesReviewerSigns": "Compilazione e approvazione del valutatore"
-      },
-      "reviewer": {
-        "label": "Valutatore"
-      }
+      "title": "Assegnazione"
     },
     "riskAnalysisSection": {
       "title": "Analisi del rischio",
@@ -448,6 +439,18 @@
       }
     }
   },
+  "riskAnalysisAssignment": {
+    "title": "Assegnazione analisi del rischio",
+    "mode": {
+      "label": "Modalità",
+      "autonomy": "Compilazione e approvazione in autonomia",
+      "adminWritesReviewerSigns": "Compilazione in autonomia e approvazione del valutatore",
+      "reviewerWritesReviewerSigns": "Compilazione e approvazione del valutatore"
+    },
+    "reviewer": {
+      "label": "Valutatore"
+    }
+  },
   "consumerView": {
     "suspendedAlert": "Questa finalità è sospesa. Fino alla sua riattivazione non potrai accedere ai dati resi disponibili attraverso l’API.",
     "waitingForApprovalAlert": "Questa finalità è in attesa di approvazione. <strong>Fino alla sua attivazione</strong> da parte dell’erogatore <strong>non potrai accedere ai dati</strong> resi disponibili attraverso l’API e <strong>non potrai associare client</strong>.",
@@ -496,18 +499,6 @@
         },
         "agreementLink": {
           "label": "Vai a richiesta di fruizione"
-        }
-      },
-      "riskAnalysisAssignment": {
-        "title": "Assegnazione analisi del rischio",
-        "mode": {
-          "label": "Modalità",
-          "autonomy": "Compilazione e approvazione in autonomia",
-          "adminWritesReviewerSigns": "Compilazione in autonomia e approvazione del valutatore",
-          "reviewerWritesReviewerSigns": "Compilazione e approvazione del valutatore"
-        },
-        "reviewer": {
-          "label": "Valutatore"
         }
       },
       "loadEstimate": {

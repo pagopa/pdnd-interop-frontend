@@ -285,16 +285,7 @@
       }
     },
     "assignmentSection": {
-      "title": "Assignment",
-      "mode": {
-        "label": "Mode",
-        "autonomy": "Completed and approved autonomously",
-        "adminWritesReviewerSigns": "Completed autonomously, approved by the reviewer",
-        "reviewerWritesReviewerSigns": "Completed and approved by the reviewer"
-      },
-      "reviewer": {
-        "label": "Reviewer"
-      }
+      "title": "Assignment"
     },
     "riskAnalysisSection": {
       "title": "Risk analysis",
@@ -448,6 +439,18 @@
       }
     }
   },
+  "riskAnalysisAssignment": {
+    "title": "Risk analysis assignment",
+    "mode": {
+      "label": "Mode",
+      "autonomy": "Completed and approved autonomously",
+      "adminWritesReviewerSigns": "Completed autonomously, approved by the reviewer",
+      "reviewerWritesReviewerSigns": "Completed and approved by the reviewer"
+    },
+    "reviewer": {
+      "label": "Reviewer"
+    }
+  },
   "consumerView": {
     "suspendedAlert": "This purpose is suspended. Until it is reactivated you will not be able to access the data made available through the API.",
     "waitingForApprovalAlert": "This scope is waiting for approval. <strong>Until its activation</strong> by the producer you will <strong>not be able to access the data</strong> made available through the API and you will <strong>not be able to associate clients</strong>.",
@@ -496,18 +499,6 @@
         },
         "agreementLink": {
           "label": "Go to agreement"
-        }
-      },
-      "riskAnalysisAssignment": {
-        "title": "Risk analysis assignment",
-        "mode": {
-          "label": "Mode",
-          "autonomy": "Completed and approved autonomously",
-          "adminWritesReviewerSigns": "Completed autonomously, approved by the reviewer",
-          "reviewerWritesReviewerSigns": "Completed and approved by the reviewer"
-        },
-        "reviewer": {
-          "label": "Reviewer"
         }
       },
       "loadEstimate": {
