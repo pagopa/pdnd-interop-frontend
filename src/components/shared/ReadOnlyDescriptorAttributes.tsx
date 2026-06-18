@@ -72,6 +72,7 @@ export const ReadOnlyDescriptorAttributes: React.FC<ReadOnlyDescriptorAttributes
         attributeKey="certified"
         ownershipData={ownershipData}
         hasBlockingAttribute={hasBlockingAttribute}
+        hideThreshold
       />
       <Divider sx={{ my: 3 }} />
       <AttributeGroupsListSection
@@ -98,6 +99,7 @@ type AttributeGroupsListSectionProps = {
   withThreshold?: boolean
   ownershipData?: AttributeOwnershipData
   hasBlockingAttribute?: boolean
+  hideThreshold?: boolean
 }
 
 export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProps> = ({
@@ -107,6 +109,7 @@ export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProp
   withThreshold,
   ownershipData,
   hasBlockingAttribute = false,
+  hideThreshold = false,
 }) => {
   const { t: tAttribute } = useTranslation('attribute')
 
@@ -136,6 +139,7 @@ export const AttributeGroupsListSection: React.FC<AttributeGroupsListSectionProp
               withThreshold={withThreshold}
               ownershipData={ownershipData}
               hasBlockingAttribute={hasBlockingAttribute}
+              hideThreshold={hideThreshold}
             />
           ))}
         </Stack>
@@ -159,6 +163,7 @@ type AttributeGroupProps = {
   withThreshold?: boolean
   ownershipData?: AttributeOwnershipData
   hasBlockingAttribute?: boolean
+  hideThreshold?: boolean
 }
 
 function getGroupColorAndText(
@@ -230,6 +235,7 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
   withThreshold,
   ownershipData,
   hasBlockingAttribute = false,
+  hideThreshold = false,
 }) => {
   const { open } = useCustomizeThresholdDrawer()
   const { t: tAttribute } = useTranslation('attribute')
@@ -245,7 +251,8 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
 
   const shouldHideFulfillmentStatus =
     hasBlockingAttribute && rawGroupColorAndText?.color !== 'error'
-  const groupColorAndText = shouldHideFulfillmentStatus ? undefined : rawGroupColorAndText
+  const groupColor = shouldHideFulfillmentStatus ? undefined : rawGroupColorAndText?.color
+  const groupText = rawGroupColorAndText?.textKey
 
   return (
     <AttributeGroupContainer
@@ -262,14 +269,13 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
           text
         )
       })()}
-      color={groupColorAndText?.color ?? 'gray'}
+      color={groupColor ?? 'gray'}
       subheader={
         <Typography variant="body2" color="text.primary" sx={{ px: 2, pt: 1.5 }}>
-          {tAttribute('group.subtitle')}
+          {groupText ? tAttribute(groupText) : tAttribute('group.subtitle')}
         </Typography>
       }
     >
-      {groupColorAndText && <Typography>{tAttribute(groupColorAndText.textKey)}</Typography>}
       <Stack spacing={1.2} sx={{ my: 2, mx: 0, listStyle: 'none', px: 0 }} component="ul">
         {sortedAttributes.map((attribute, _index) => (
           <React.Fragment key={attribute.id}>
@@ -287,6 +293,7 @@ const AttributeGroup: React.FC<AttributeGroupProps> = ({
                     : undefined
                 }
                 onCustomizeThreshold={withThreshold ? () => open(attribute, index) : undefined}
+                hideThreshold={hideThreshold}
               />
             </Box>
             {sortedAttributes.length > 1 && _index < sortedAttributes.length - 1 && (

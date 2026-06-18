@@ -44,6 +44,7 @@ export const EServiceTemplateAttributes: React.FC<EServiceTemplateAttributesProp
         attributeKey="certified"
         descriptorAttributes={attributes}
         topSideActions={readonly ? undefined : getAttributeSectionActions('certified')}
+        hideThreshold
       />
       <Divider sx={{ my: 3 }} />
       <AttributeGroupsListSection
