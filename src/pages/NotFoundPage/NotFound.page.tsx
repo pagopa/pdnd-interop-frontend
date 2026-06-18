@@ -12,7 +12,7 @@ const NotFoundPage: React.FC = () => {
       title={t('notFound.title')}
       description={t('notFound.description')}
     >
-      <Link as="button" variant="contained" to={'DEFAULT'}>
+      <Link as="button" variant="contained" to="DEFAULT">
         {t('actions.backToHome')}
       </Link>
     </PageContainer>
