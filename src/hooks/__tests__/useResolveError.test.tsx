@@ -48,12 +48,6 @@ const ThrowErrorComponent: React.FC<{ error: Error }> = ({ error }) => {
   return null
 }
 
-vi.mock('@/api/auth', () => ({
-  AuthHooks: {
-    useJwt: vi.fn(() => ({ isReviewer: false })),
-  },
-}))
-
 describe('', () => {
   it('should correctly resolve the generic Error throw', () => {
     const screen = render(<ThrowErrorComponent error={new Error('test')} />, {
