@@ -103,7 +103,6 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
             name="isFreeOfCharge"
             label={t('edit.stepGeneral.isFreeOfChargeField.label')}
             sx={{ pl: 2 }}
-            rules={{ required: true }}
           />
 
           {isFreeOfCharge && (
