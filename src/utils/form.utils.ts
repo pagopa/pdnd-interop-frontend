@@ -2,6 +2,7 @@ import mapValues from 'lodash/mapValues'
 import type { ControllerProps } from 'react-hook-form'
 import type { TFunction } from 'i18next'
 import type { InputDescriptorKey, InputDescriptors } from '@/types/common.types'
+import { z } from 'zod'
 
 /**
  * Returns the ids and accessibility props for a given input name and input descriptors
@@ -65,6 +66,12 @@ export const emailRegex =
 
 export const urlRegex =
   /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/
+
+const uuidSchema = z.string().uuid()
+
+export function isValidUUID(value: string): boolean {
+  return uuidSchema.safeParse(value).success
+}
 
 export const mapValidationErrorMessages = (
   rules: ControllerProps['rules'],

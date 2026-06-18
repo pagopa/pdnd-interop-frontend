@@ -13,15 +13,20 @@ import {
 import type { TokenGenerationValidationResult } from '@/api/api.generatedTypes'
 
 const response = createMockDebugVoucherResultPassed()
+const validateTokenGenerationHandler = vi.fn()
 
 const server = setupServer(
-  rest.post(`${BACKEND_FOR_FRONTEND_URL}/tools/validateTokenGeneration`, (_, res, ctx) => {
+  rest.post(`${BACKEND_FOR_FRONTEND_URL}/tools/validateTokenGeneration`, (req, res, ctx) => {
+    validateTokenGenerationHandler(req.body)
     return res(ctx.json<TokenGenerationValidationResult>(response))
   })
 )
 
 beforeAll(() => server.listen())
-afterEach(() => server.resetHandlers())
+afterEach(() => {
+  server.resetHandlers()
+  validateTokenGenerationHandler.mockClear()
+})
 afterAll(() => server.close())
 
 describe('DebugVoucherForm testing', () => {
@@ -42,11 +47,11 @@ describe('DebugVoucherForm testing', () => {
     const submitButton = screen.getByRole('button', { name: 'submitBtn' })
 
     fireEvent.change(clientAssertionInput, { target: { value: 'test client assertion' } })
-    fireEvent.change(clientIdInput, { target: { value: 'test client Id' } })
+    fireEvent.change(clientIdInput, { target: { value: '51c081d3-4bb3-4d6f-8889-8b7fe2ad7113' } })
     fireEvent.click(submitButton)
 
     const request = createMockDebugVoucherRequest({
-      client_id: 'test client Id',
+      client_id: '51c081d3-4bb3-4d6f-8889-8b7fe2ad7113',
       client_assertion: 'test client assertion',
       is_async: 'false',
     })
@@ -57,6 +62,31 @@ describe('DebugVoucherForm testing', () => {
         response: response,
       })
     )
+  })
+
+  it('should show a validation error and not submit when clientId is not a valid UUID', async () => {
+    const setDebugVoucherValuesMockFn = vi.fn()
+    const screen = renderWithApplicationContext(
+      <DebugVoucherForm setDebugVoucherValues={setDebugVoucherValuesMockFn} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    const clientAssertionInput = screen.getByRole('textbox', {
+      name: 'clientAssertionLabel',
+    })
+    const clientIdInput = screen.getByLabelText('clientIdLabel')
+    const submitButton = screen.getByRole('button', { name: 'submitBtn' })
+
+    fireEvent.change(clientAssertionInput, { target: { value: 'test client assertion' } })
+    fireEvent.change(clientIdInput, { target: { value: 'not-a-uuid' } })
+    fireEvent.click(submitButton)
+
+    expect(await screen.findByText('clientIdValidationError')).toBeInTheDocument()
+    expect(validateTokenGenerationHandler).not.toHaveBeenCalled()
+    expect(setDebugVoucherValuesMockFn).not.toHaveBeenCalled()
   })
 
   it('should call the onSuccess function when clientId is not compiled', async () => {

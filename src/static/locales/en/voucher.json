@@ -518,6 +518,7 @@
       "dpopProofInfoLabel": "If you generated a DPoP token, you will also need to enter the DPoP Proof in this field.",
       "clientIdLabel": "client_id or producer_id",
       "clientIdInfoLabel": "Please enter the same client_id or producer_id used to make the request to PDND.",
+      "clientIdValidationError": "Enter a valid UUID.",
       "interactionModelLabel": "Interaction model",
       "interactionModelSync": "Synchronous (standard)",
       "interactionModelAsync": "Asynchronous (deferred)",

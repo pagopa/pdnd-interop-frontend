@@ -14,6 +14,7 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import InfoOutlined from '@mui/icons-material/InfoOutlined'
 import { useNavigate } from '@/router'
+import { isValidUUID } from '@/utils/form.utils'
 
 export type DebugVoucherFormValues = {
   clientAssertion: string
@@ -106,6 +107,9 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
               label={t('clientIdLabel')}
               infoLabel={t('clientIdInfoLabel')}
               inputProps={{ maxLength: 36 }}
+              rules={{
+                validate: (value) => !value || isValidUUID(value) || t('clientIdValidationError'),
+              }}
             />
 
             <RHFRadioGroup
