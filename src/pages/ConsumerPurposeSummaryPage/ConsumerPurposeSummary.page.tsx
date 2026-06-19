@@ -88,7 +88,9 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   const isThereConsumerDelegation = Boolean(purpose?.delegation)
   const isDelegationMine =
     isThereConsumerDelegation && purpose?.delegation?.delegate.id === jwt?.organizationId //consumer side delegation
-
+  const isDelegator = Boolean(
+    purpose?.delegation && purpose?.delegation?.delegator.id === jwt?.organizationId
+  )
   const handleDeleteDraft = () => {
     deleteDraft(
       { purposeId },
@@ -189,6 +191,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       )}
       <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
         <Button
+          disabled={isDelegator}
           startIcon={<DeleteOutlineIcon />}
           variant="text"
           color="error"
@@ -197,7 +200,7 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           {tCommon('deleteDraft')}
         </Button>
         <Button
-          disabled={arePublishOrEditButtonsDisabled}
+          disabled={arePublishOrEditButtonsDisabled || isDelegator}
           startIcon={<CreateIcon />}
           variant="text"
           onClick={handleEditDraft}
@@ -211,7 +214,8 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
               disabled={
                 arePublishOrEditButtonsDisabled ||
                 isPublishButtonDisabled ||
-                isPublishDisabledByReview
+                isPublishDisabledByReview ||
+                isDelegator
               }
               startIcon={<PublishIcon />}
               variant="contained"

@@ -311,5 +311,33 @@ describe('ConsumerPurposeSummaryPage', () => {
       expect(screen.queryByText('infoAlert.reviewerWritesReviewerSigns')).not.toBeInTheDocument()
       expect(getPublishButton()).toBeDisabled()
     })
+
+    it('should disable delete, edit and publish buttons when current user is delegator', () => {
+      useQueryMock.mockReturnValue({
+        data: {
+          ...createMockPurposeCompatiblePersonalDataYes(),
+          delegation: {
+            id: 'delegation-id',
+            delegator: {
+              id: 'org-1',
+            },
+            delegate: {
+              id: 'another-org',
+            },
+          },
+        },
+        isLoading: false,
+      })
+      mockUseJwt({ jwt: { organizationId: 'org-1' } })
+
+      renderWithApplicationContext(<ConsumerPurposeSummaryPage />, {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      })
+
+      expect(screen.getByRole('button', { name: 'deleteDraft' })).toBeDisabled()
+      expect(screen.getByRole('button', { name: 'editDraft' })).toBeDisabled()
+      expect(screen.getByRole('button', { name: 'summary.publishBtn' })).toBeDisabled()
+    })
   })
 })
