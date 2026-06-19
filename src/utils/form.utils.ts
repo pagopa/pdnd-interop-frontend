@@ -68,9 +68,14 @@ export const urlRegex =
   /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/
 
 const uuidSchema = z.string().uuid()
+const jwtSchema = z.jwt()
 
 export function isValidUUID(value: string): boolean {
   return uuidSchema.safeParse(value).success
+}
+
+export function isValidJWT(value: string): boolean {
+  return jwtSchema.safeParse(value).success
 }
 
 export const mapValidationErrorMessages = (

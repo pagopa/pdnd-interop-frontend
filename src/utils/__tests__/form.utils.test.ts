@@ -1,6 +1,6 @@
 import type { TFunction } from 'i18next'
 import identity from 'lodash/identity'
-import { emailRegex, isValidUUID, mapValidationErrorMessages } from '../form.utils'
+import { emailRegex, isValidJWT, isValidUUID, mapValidationErrorMessages } from '../form.utils'
 
 const tMock = identity as unknown as TFunction
 
@@ -104,5 +104,13 @@ describe('isValidUUID validation utility function testing', () => {
     expect(isValidUUID('51c081d3-4bb3-4d6f-8889-8b7fe2ad7113')).toBe(true)
     expect(isValidUUID('not-a-uuid')).toBe(false)
     expect(isValidUUID('')).toBe(false)
+  })
+})
+
+describe('isValidJWT validation utility function testing', () => {
+  it('should correctly validate JWT strings', () => {
+    expect(isValidJWT('eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0ZXN0In0.c2lnbmF0dXJl')).toBe(true)
+    expect(isValidJWT('not-a-jwt')).toBe(false)
+    expect(isValidJWT('')).toBe(false)
   })
 })

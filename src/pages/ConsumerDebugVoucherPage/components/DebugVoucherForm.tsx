@@ -14,7 +14,7 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import InfoOutlined from '@mui/icons-material/InfoOutlined'
 import { useNavigate } from '@/router'
-import { isValidUUID } from '@/utils/form.utils'
+import { isValidJWT, isValidUUID } from '@/utils/form.utils'
 
 export type DebugVoucherFormValues = {
   clientAssertion: string
@@ -84,7 +84,11 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
               multiline
               required
               label={t('clientAssertionLabel')}
-              rules={{ required: true }}
+              rules={{
+                required: true,
+                validate: (value) =>
+                  !value || isValidJWT(value) || t('clientAssertionValidationError'),
+              }}
               size="medium"
               rows={5}
               infoLabel={t('clientAssertionInfoLabel')}
@@ -98,6 +102,9 @@ export const DebugVoucherForm: React.FC<DebugVoucherFormProps> = ({ setDebugVouc
                 label={t('dpopProofLabel')}
                 infoLabel={t('dpopProofInfoLabel')}
                 rows={5}
+                rules={{
+                  validate: (value) => !value || isValidJWT(value) || t('dpopProofValidationError'),
+                }}
               />
             )}
 
