@@ -88,7 +88,9 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
   const isThereConsumerDelegation = Boolean(purpose?.delegation)
   const isDelegationMine =
     isThereConsumerDelegation && purpose?.delegation?.delegate.id === jwt?.organizationId //consumer side delegation
-
+  const isDelegator = Boolean(
+    purpose?.delegation && purpose?.delegation?.delegator.id === jwt?.organizationId
+  )
   const handleDeleteDraft = () => {
     deleteDraft(
       { purposeId },
@@ -187,41 +189,43 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
           {riskAnalysisInfoAlertText}
         </Alert>
       )}
-      <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
-        <Button
-          startIcon={<DeleteOutlineIcon />}
-          variant="text"
-          color="error"
-          onClick={handleDeleteDraft}
-        >
-          {tCommon('deleteDraft')}
-        </Button>
-        <Button
-          disabled={arePublishOrEditButtonsDisabled}
-          startIcon={<CreateIcon />}
-          variant="text"
-          onClick={handleEditDraft}
-        >
-          {tCommon('editDraft')}
-        </Button>
+      {!isDelegator && (
+        <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
+          <Button
+            startIcon={<DeleteOutlineIcon />}
+            variant="text"
+            color="error"
+            onClick={handleDeleteDraft}
+          >
+            {tCommon('deleteDraft')}
+          </Button>
+          <Button
+            disabled={arePublishOrEditButtonsDisabled}
+            startIcon={<CreateIcon />}
+            variant="text"
+            onClick={handleEditDraft}
+          >
+            {tCommon('editDraft')}
+          </Button>
 
-        <Tooltip title={publishDisabledTooltip} arrow>
-          <span>
-            <Button
-              disabled={
-                arePublishOrEditButtonsDisabled ||
-                isPublishButtonDisabled ||
-                isPublishDisabledByReview
-              }
-              startIcon={<PublishIcon />}
-              variant="contained"
-              onClick={handlePublishDraft}
-            >
-              {t('summary.publishBtn')}
-            </Button>
-          </span>
-        </Tooltip>
-      </Stack>
+          <Tooltip title={publishDisabledTooltip} arrow>
+            <span>
+              <Button
+                disabled={
+                  arePublishOrEditButtonsDisabled ||
+                  isPublishButtonDisabled ||
+                  isPublishDisabledByReview
+                }
+                startIcon={<PublishIcon />}
+                variant="contained"
+                onClick={handlePublishDraft}
+              >
+                {t('summary.publishBtn')}
+              </Button>
+            </span>
+          </Tooltip>
+        </Stack>
+      )}
     </PageContainer>
   )
 }
