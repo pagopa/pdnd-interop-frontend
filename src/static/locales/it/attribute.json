@@ -29,7 +29,11 @@
   "attributesGenericLabel": "Attributi",
   "noAttributesRequiredTemplate": {
     "title": "Attributi",
-    "alert": "Questo template di e-service non richiede attributi"
+    "alert": "Questo template di e-service non richiede attributi",
+    "attributesAlert": "Questo template di e-service non richiede requisiti di accesso",
+    "certifiedAlert": "Questo template di e-service non richiede attributi certificati",
+    "verifiedAlert": "Questo template di e-service non richiede attributi verificati",
+    "declaredAlert": "Questo template di e-service non richiede attributi dichiarati"
   },
   "attributeCardHeader": {
     "label": "Requisito {{index}} | Attributi {{attributeKey}}"

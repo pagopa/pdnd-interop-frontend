@@ -2,7 +2,7 @@ import React from 'react'
 import { screen } from '@testing-library/react'
 import { EServiceAttributesSection } from '../EServiceAttributesSection'
 import { vi, describe, it, expect } from 'vitest'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { ReactHookFormWrapper, renderWithApplicationContext } from '@/utils/testing.utils'
 
 let lastRenderedProps: Record<string, Record<string, unknown>> = {}
 
@@ -21,17 +21,27 @@ vi.mock('@/components/shared/AddAttributesToForm', () => ({
   },
 }))
 
-const renderComponent = (isEServiceCreatedFromTemplate = false) => {
+const defaultFormValues = {
+  attributes: {
+    certified: [] as Array<Array<unknown>>,
+    verified: [] as Array<Array<unknown>>,
+    declared: [] as Array<Array<unknown>>,
+  },
+}
+
+const renderComponent = (isEServiceCreatedFromTemplate = false, formValues = defaultFormValues) => {
   lastRenderedProps = {}
   const handleOpenAttributeCreateDrawerFactory = vi.fn(() => vi.fn())
 
   return {
     handleOpenAttributeCreateDrawerFactory,
     ...renderWithApplicationContext(
-      <EServiceAttributesSection
-        isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
-        handleOpenAttributeCreateDrawerFactory={handleOpenAttributeCreateDrawerFactory}
-      />,
+      <ReactHookFormWrapper defaultValues={formValues}>
+        <EServiceAttributesSection
+          isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
+          handleOpenAttributeCreateDrawerFactory={handleOpenAttributeCreateDrawerFactory}
+        />
+      </ReactHookFormWrapper>,
       { withReactQueryContext: true, withRouterContext: true }
     ),
   }
@@ -62,7 +72,15 @@ describe('AttributesSection', () => {
   })
 
   it('should pass readOnly={true} when isEServiceCreatedFromTemplate is true', () => {
-    renderComponent(true)
+    const formValues = {
+      attributes: {
+        certified: [[{ id: 'c1' }]] as Array<Array<unknown>>,
+        verified: [] as Array<Array<unknown>>,
+        declared: [] as Array<Array<unknown>>,
+      },
+    }
+
+    renderComponent(true, formValues)
     const certifiedForm = screen.getByTestId('add-attributes-form-certified')
     expect(certifiedForm.textContent).toContain('readOnly=true')
   })
@@ -92,5 +110,31 @@ describe('AttributesSection', () => {
     expect(handleOpenAttributeCreateDrawerFactory).toHaveBeenCalledWith('declared')
     // Should NOT be called with 'certified'
     expect(handleOpenAttributeCreateDrawerFactory).not.toHaveBeenCalledWith('certified')
+  })
+
+  it('should hide tabs and show generic template alert when created from template and no attributes exist', () => {
+    renderComponent(true)
+
+    expect(screen.getByText('noAttributesRequiredTemplate.attributesAlert')).toBeInTheDocument()
+    expect(screen.queryByText('step2.attributes.tabs.certified')).not.toBeInTheDocument()
+    expect(screen.queryByText('step2.attributes.tabs.verified')).not.toBeInTheDocument()
+    expect(screen.queryByText('step2.attributes.tabs.declared')).not.toBeInTheDocument()
+  })
+
+  it('should show tabs when created from template and at least one attribute exists', () => {
+    const formValues = {
+      attributes: {
+        certified: [[{ id: 'c1' }]] as Array<Array<unknown>>,
+        verified: [] as Array<Array<unknown>>,
+        declared: [] as Array<Array<unknown>>,
+      },
+    }
+
+    renderComponent(true, formValues)
+
+    expect(screen.getByText('step2.attributes.tabs.certified')).toBeInTheDocument()
+    expect(
+      screen.queryByText('noAttributesRequiredTemplate.attributesAlert')
+    ).not.toBeInTheDocument()
   })
 })

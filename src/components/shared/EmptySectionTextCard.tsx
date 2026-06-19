@@ -4,9 +4,12 @@ type EmptySectionTextCardProps = {
   text: string
 }
 
-export const EmptySectionTextCard: React.FC<EmptySectionTextCardProps> = ({ text }) => {
+export const EmptySectionTextCard: React.FC<EmptySectionTextCardProps & { sx?: object }> = ({
+  text,
+  sx: sxCard,
+}) => {
   return (
-    <Card>
+    <Card sx={{ ...sxCard }}>
       <CardHeader
         titleTypographyProps={{
           variant: 'body1',
