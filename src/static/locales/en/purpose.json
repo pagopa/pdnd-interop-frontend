@@ -285,16 +285,7 @@
       }
     },
     "assignmentSection": {
-      "title": "Assignment",
-      "mode": {
-        "label": "Mode",
-        "autonomy": "Completed and approved autonomously",
-        "adminWritesReviewerSigns": "Completed autonomously, approved by the reviewer",
-        "reviewerWritesReviewerSigns": "Completed and approved by the reviewer"
-      },
-      "reviewer": {
-        "label": "Reviewer"
-      }
+      "title": "Assignment"
     },
     "riskAnalysisSection": {
       "title": "Risk analysis",
@@ -446,6 +437,18 @@
           }
         }
       }
+    }
+  },
+  "riskAnalysisAssignment": {
+    "title": "Risk analysis assignment",
+    "mode": {
+      "label": "Mode",
+      "autonomy": "Completed and approved autonomously",
+      "adminWritesReviewerSigns": "Completed autonomously, approved by the reviewer",
+      "reviewerWritesReviewerSigns": "Completed and approved by the reviewer"
+    },
+    "reviewer": {
+      "label": "Reviewer"
     }
   },
   "consumerView": {

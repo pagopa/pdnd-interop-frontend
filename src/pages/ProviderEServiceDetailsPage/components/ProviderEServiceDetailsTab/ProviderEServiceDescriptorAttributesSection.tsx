@@ -31,7 +31,7 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
   const { t: tCustomizeThresholdDrawer } = useTranslation('eservice', {
     keyPrefix: 'read.drawers.customizeThresholdDrawer',
   })
-  const { jwt, isAdmin, isOperatorAPI } = AuthHooks.useJwt()
+  const { jwt, isAdmin, isOperatorAPI, isViewer } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
 
@@ -86,6 +86,7 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
   }
 
   const getThresholdSectionActions = (): Array<ActionItemButton> | undefined => {
+    if (isViewer) return
     return [
       {
         action: () => setEditDailyCallsDrawerState({ isOpen: true }),
@@ -169,12 +170,15 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
   }
 
   const customizeThresholdDrawerSubtitle = (
-    <Trans
-      ns="eservice"
-      i18nKey="read.drawers.customizeThresholdDrawer.subtitle"
-      values={{ name: attribute?.name }}
-      components={{ 1: <strong /> }}
-    />
+    <Typography variant="body2">
+      <Trans
+        components={{
+          strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+        }}
+      >
+        {tCustomizeThresholdDrawer('subtitle', { name: attribute?.name })}
+      </Trans>
+    </Typography>
   )
 
   const currentConsumerThreshold = (
@@ -216,7 +220,7 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
           attributeKey="certified"
           descriptorAttributes={descriptorAttributes}
           topSideActions={getAttributeSectionActions('certified')}
-          withThreshold
+          withThreshold={!isViewer}
         />
         <Divider sx={{ my: 3 }} />
         <AttributeGroupsListSection

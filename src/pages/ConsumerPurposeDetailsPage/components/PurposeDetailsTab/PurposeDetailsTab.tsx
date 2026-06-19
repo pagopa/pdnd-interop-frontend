@@ -1,5 +1,6 @@
 import React from 'react'
 import type { Purpose } from '@/api/api.generatedTypes'
+import { ConsumerPurposeDetailsAssignmentSection } from './ConsumerPurposeDetailsAssignmentSection'
 import { ConsumerPurposeDetailsGeneralInfoSection } from './ConsumerPurposeDetailsGeneralInfoSection'
 import { ConsumerPurposeDetailsLoadEstimateSection } from './ConsumerPurposeDetailsLoadEstimateSection'
 import { SectionContainerSkeleton } from '@/components/layout/containers'
@@ -16,6 +17,7 @@ export const PurposeDetailsTab: React.FC<PurposeDetailsTabProps> = ({
 }) => {
   return (
     <Stack spacing={3}>
+      <ConsumerPurposeDetailsAssignmentSection purpose={purpose} />
       <ConsumerPurposeDetailsGeneralInfoSection purpose={purpose} />
       <ConsumerPurposeDetailsLoadEstimateSection
         purpose={purpose}
@@ -28,6 +30,7 @@ export const PurposeDetailsTab: React.FC<PurposeDetailsTabProps> = ({
 export const PurposeDetailTabSkeleton: React.FC = () => {
   return (
     <Stack spacing={3}>
+      <SectionContainerSkeleton height={140} />
       <SectionContainerSkeleton height={317} />
       <SectionContainerSkeleton height={538} />
     </Stack>

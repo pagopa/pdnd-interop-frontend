@@ -93,6 +93,38 @@ describe('AttributeContainer', () => {
     expect(screen.getByRole('menuitem', { name: 'actions.changeThreshold' })).toBeInTheDocument()
   })
 
+  it('should show threshold value when hideThreshold is false', async () => {
+    renderWithApplicationContext(
+      <AttributeContainer
+        attribute={{ ...baseAttribute, dailyCallsPerConsumer: 100 }}
+        hideThreshold={false}
+      />,
+      { withReactQueryContext: true }
+    )
+
+    const thresholdLabel = screen.queryByText('thresholdLabel')
+    const thresholdValue = screen.queryByText(100)
+
+    expect(thresholdLabel).toBeInTheDocument()
+    expect(thresholdValue).toBeInTheDocument()
+  })
+
+  it('should not show threshold value when hideThreshold is true', async () => {
+    renderWithApplicationContext(
+      <AttributeContainer
+        attribute={{ ...baseAttribute, dailyCallsPerConsumer: 100 }}
+        hideThreshold
+      />,
+      { withReactQueryContext: true }
+    )
+
+    const thresholdLabel = screen.queryByText('thresholdLabel')
+    const thresholdValue = screen.queryByText(100)
+
+    expect(thresholdLabel).not.toBeInTheDocument()
+    expect(thresholdValue).not.toBeInTheDocument()
+  })
+
   it('should call onCustomizeThreshold on click with stopPropagation', () => {
     const onCustomizeThreshold = vi.fn()
     renderWithApplicationContext(

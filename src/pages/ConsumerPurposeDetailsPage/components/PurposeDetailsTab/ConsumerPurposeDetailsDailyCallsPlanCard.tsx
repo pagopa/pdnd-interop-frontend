@@ -84,6 +84,7 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
               <Typography variant="h4">{formatThousands(dailyCalls)}</Typography>
             </Box>
             {!(
+              !isAdmin ||
               isSuspended ||
               isArchived ||
               waitingForApprovalVersion ||
@@ -107,11 +108,13 @@ export const ConsumerPurposeDetailsDailyCallsPlanCard: React.FC<
           </Stack>
         </CardContent>
       </Card>
-      <ConsumerPurposeDetailsDailyCallsUpdateDrawer
-        isOpen={isOpen}
-        onClose={closeDrawer}
-        purpose={purpose}
-      />
+      {isAdmin && (
+        <ConsumerPurposeDetailsDailyCallsUpdateDrawer
+          isOpen={isOpen}
+          onClose={closeDrawer}
+          purpose={purpose}
+        />
+      )}
     </>
   )
 }

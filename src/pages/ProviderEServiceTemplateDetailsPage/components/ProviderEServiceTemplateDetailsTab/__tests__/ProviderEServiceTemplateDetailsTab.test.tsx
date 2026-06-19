@@ -4,8 +4,11 @@ import { ProviderEServiceTemplateDetailsTab } from '../ProviderEServiceTemplateD
 import {
   mockUseParams,
   mockUseCurrentRoute,
+  mockUseJwt,
   renderWithApplicationContext,
 } from '@/utils/testing.utils'
+
+mockUseJwt()
 
 mockUseParams({
   eServiceTemplateId: 'template-id-001',
@@ -15,13 +18,17 @@ mockUseParams({
 mockUseCurrentRoute({ mode: 'provider' })
 
 vi.mock('@/components/shared/EserviceTemplate', () => ({
-  EServiceTemplateGeneralInfoSection: () => <div data-testid="general-info-section" />,
-  EServiceTemplateTechnicalInfoSection: () => <div data-testid="technical-info-section" />,
+  EServiceTemplateGeneralInfoSection: ({ readonly }: { readonly: boolean }) => (
+    <div data-testid="general-info-section" data-readonly={String(readonly)} />
+  ),
+  EServiceTemplateTechnicalInfoSection: ({ readonly }: { readonly: boolean }) => (
+    <div data-testid="technical-info-section" data-readonly={String(readonly)} />
+  ),
 }))
 
 vi.mock('../EServiceTemplateThresholdsAndAttributesSection', () => ({
-  EServiceTemplateThresholdsAndAttributesSection: () => (
-    <div data-testid="thresholds-and-attributes-section" />
+  EServiceTemplateThresholdsAndAttributesSection: ({ readonly }: { readonly: boolean }) => (
+    <div data-testid="thresholds-and-attributes-section" data-readonly={String(readonly)} />
   ),
 }))
 
@@ -49,7 +56,45 @@ describe('ProviderEServiceTemplateDetailsTab', () => {
       }
     )
 
-    expect(screen.getByTestId('general-info-section')).toBeInTheDocument()
-    expect(screen.getByTestId('thresholds-and-attributes-section')).toBeInTheDocument()
+    expect(screen.getByTestId('general-info-section')).toHaveAttribute('data-readonly', 'true')
+    expect(screen.getByTestId('thresholds-and-attributes-section')).toHaveAttribute(
+      'data-readonly',
+      'true'
+    )
+  })
+
+  it('sets readonly to false for admin users on a non-deprecated version', () => {
+    renderWithApplicationContext(
+      <ProviderEServiceTemplateDetailsTab eserviceTemplateVersionState="PUBLISHED" />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    expect(screen.getByTestId('general-info-section')).toHaveAttribute('data-readonly', 'false')
+    expect(screen.getByTestId('technical-info-section')).toHaveAttribute('data-readonly', 'false')
+    expect(screen.getByTestId('thresholds-and-attributes-section')).toHaveAttribute(
+      'data-readonly',
+      'false'
+    )
+  })
+
+  it('sets readonly to true for viewer users even on a non-deprecated version', () => {
+    mockUseJwt({ isAdmin: false, isViewer: true })
+    renderWithApplicationContext(
+      <ProviderEServiceTemplateDetailsTab eserviceTemplateVersionState="PUBLISHED" />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    expect(screen.getByTestId('general-info-section')).toHaveAttribute('data-readonly', 'true')
+    expect(screen.getByTestId('technical-info-section')).toHaveAttribute('data-readonly', 'true')
+    expect(screen.getByTestId('thresholds-and-attributes-section')).toHaveAttribute(
+      'data-readonly',
+      'true'
+    )
   })
 })

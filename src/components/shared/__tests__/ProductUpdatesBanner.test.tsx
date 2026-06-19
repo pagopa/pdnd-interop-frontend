@@ -5,7 +5,6 @@ import { ProductUpdatesBanner } from '../banners/ProductUpdatesBanner'
 import { vi } from 'vitest'
 import * as useProductUpdatesBannerModule from '@/hooks/bannerHooks/useProductUpdatesBanner'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { archiveEserviceGuideLink, userRolesGuideLink } from '@/config/constants'
 
 const mockProductUpdatesBanner = {
   title: 'This is a notification message',
@@ -25,7 +24,6 @@ describe('Checks product updates banner alert', () => {
 
   it('renders product updates banner with message and closes on button click', async () => {
     const user = userEvent.setup()
-    const windowOpenSpy = vi.spyOn(window, 'open').mockImplementation(() => null)
 
     vi.spyOn(useProductUpdatesBannerModule, 'useProductUpdatesBanner').mockReturnValue(
       mockProductUpdatesBanner
@@ -37,21 +35,15 @@ describe('Checks product updates banner alert', () => {
 
     expect(getByText(mockProductUpdatesBanner.title)).toBeInTheDocument()
     expect(getByText(mockProductUpdatesBanner.text)).toBeInTheDocument()
-    expect(getByText(mockProductUpdatesBanner.action1Label)).toBeInTheDocument()
-    expect(getByText(mockProductUpdatesBanner.action2Label)).toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: mockProductUpdatesBanner.action1AriaLabel })
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: mockProductUpdatesBanner.action2AriaLabel })
+    ).not.toBeInTheDocument()
 
     const closeButton = getByTestId('CloseIcon')
     await user.click(closeButton)
     expect(mockProductUpdatesBanner.closeBanner).toHaveBeenCalled()
-
-    await user.click(
-      screen.getByRole('button', { name: mockProductUpdatesBanner.action1AriaLabel })
-    )
-    expect(windowOpenSpy).toHaveBeenCalledWith(archiveEserviceGuideLink, '_blank')
-
-    await user.click(
-      screen.getByRole('button', { name: mockProductUpdatesBanner.action2AriaLabel })
-    )
-    expect(windowOpenSpy).toHaveBeenCalledWith(userRolesGuideLink, '_blank')
   })
 })

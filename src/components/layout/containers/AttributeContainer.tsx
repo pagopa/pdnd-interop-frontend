@@ -149,31 +149,32 @@ export const AttributeContainer = <
                   {formatThousands(attribute.discreteValue)}
                 </Typography>
               )}
-              {(attribute.dailyCallsPerConsumer !== undefined || onCustomizeThreshold) && (
-                <Stack direction={'row'} spacing={2} alignItems={'center'}>
-                  {attribute.dailyCallsPerConsumer !== undefined && !hideThreshold && (
-                    <Stack direction={'row'} spacing={1}>
-                      <Typography variant="body2">{t('thresholdLabel')}</Typography>
-                      <Typography variant="body2" fontWeight={700}>
-                        {attribute.dailyCallsPerConsumer}
-                      </Typography>
-                    </Stack>
-                  )}
-                  {onCustomizeThreshold && !attribute.dailyCallsPerConsumer && (
-                    <ButtonNaked
-                      color="primary"
-                      type="button"
-                      sx={{ fontWeight: 700 }}
-                      onClick={(e: React.MouseEvent) => {
-                        e.stopPropagation()
-                        onCustomizeThreshold()
-                      }}
-                    >
-                      {t('actions.customizeThreshold')}
-                    </ButtonNaked>
-                  )}
-                </Stack>
-              )}
+              {(attribute.dailyCallsPerConsumer !== undefined || onCustomizeThreshold) &&
+                !hideThreshold && (
+                  <Stack direction={'row'} spacing={2} alignItems={'center'}>
+                    {attribute.dailyCallsPerConsumer !== undefined && (
+                      <Stack direction={'row'} spacing={1}>
+                        <Typography variant="body2">{t('thresholdLabel')}</Typography>
+                        <Typography variant="body2" fontWeight={700}>
+                          {attribute.dailyCallsPerConsumer}
+                        </Typography>
+                      </Stack>
+                    )}
+                    {onCustomizeThreshold && !attribute.dailyCallsPerConsumer && (
+                      <ButtonNaked
+                        color="primary"
+                        type="button"
+                        sx={{ fontWeight: 700 }}
+                        onClick={(e: React.MouseEvent) => {
+                          e.stopPropagation()
+                          onCustomizeThreshold()
+                        }}
+                      >
+                        {t('actions.customizeThreshold')}
+                      </ButtonNaked>
+                    )}
+                  </Stack>
+                )}
             </Stack>
             <Box
               alignSelf="center"

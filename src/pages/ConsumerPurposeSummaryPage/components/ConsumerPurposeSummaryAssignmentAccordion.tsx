@@ -3,8 +3,8 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { match } from 'ts-pattern'
 import { PurposeQueries } from '@/api/purpose'
+import { getReviewModeLabel } from '@/utils/purpose.utils'
 
 type ConsumerPurposeSummaryAssignmentAccordionProps = {
   purposeId: string
@@ -14,15 +14,9 @@ export const ConsumerPurposeSummaryAssignmentAccordion: React.FC<
   ConsumerPurposeSummaryAssignmentAccordionProps
 > = ({ purposeId }) => {
   const { data: purpose } = useSuspenseQuery(PurposeQueries.getSingle(purposeId))
-  const { t } = useTranslation('purpose', { keyPrefix: 'summary.assignmentSection' })
+  const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisAssignment' })
 
-  const reviewMode = purpose.reviewerWorkflow?.reviewMode
-
-  const modeLabel = match(reviewMode)
-    .with(undefined, () => t('mode.autonomy'))
-    .with('ADMIN_WRITES_REVIEWER_SIGNS', () => t('mode.adminWritesReviewerSigns'))
-    .with('REVIEWER_WRITES_REVIEWER_SIGNS', () => t('mode.reviewerWritesReviewerSigns'))
-    .exhaustive()
+  const modeLabel = getReviewModeLabel(purpose.reviewerWorkflow?.reviewMode, t)
 
   // BE does not yet expose the reviewer's first/last name: we render the raw UUID as a placeholder.
   // We surface only the first reviewer: the BE models `reviewerIds` as a list to allow multiple

@@ -47,13 +47,8 @@ const RiskAnalysisCompilePage: React.FC = () => {
     updateRiskAnalysis(
       {
         purposeId: purpose.id,
-        title: purpose.title,
-        description: purpose.description,
-        riskAnalysisForm: { version: riskAnalysis.version, answers },
-        freeOfChargeReason: purpose.freeOfChargeReason,
-        isFreeOfCharge: purpose.isFreeOfCharge,
-        dailyCalls:
-          purpose.currentVersion?.dailyCalls ?? purpose.waitingForApprovalVersion?.dailyCalls ?? 1,
+        version: riskAnalysis.version,
+        answers,
       },
       { onSuccess: goToSummary }
     )

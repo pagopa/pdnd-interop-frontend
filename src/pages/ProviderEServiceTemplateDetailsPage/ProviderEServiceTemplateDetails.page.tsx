@@ -11,11 +11,14 @@ import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { ProviderEServiceTemplateDetailsTab } from './components/ProviderEServiceTemplateDetailsTab/ProviderEServiceTemplateDetailsTab'
 import { ProviderEServiceTemplateTenantsTab } from './components/ProviderEServiceTemplateTenantsTab/ProviderEServiceTemplateTenantsTab'
 import { useGetProviderEServiceTemplateActions } from '@/hooks/useGetProviderEServiceTemplateActions'
+import { AuthHooks } from '@/api/auth'
 
 const ProviderEServiceTemplateDetailsPage: React.FC = () => {
   const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'read' })
   const { eServiceTemplateId, eServiceTemplateVersionId } =
     useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
+
+  const { isViewer } = AuthHooks.useJwt()
 
   const { activeTab, updateActiveTab } = useActiveTab('eserviceTemplateDetails')
 
@@ -37,7 +40,7 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
   return (
     <PageContainer
       title={eserviceTemplate?.eserviceTemplate.name || ''}
-      topSideActions={actions}
+      topSideActions={isViewer ? [] : actions}
       isLoading={!eserviceTemplate}
       statusChip={
         eserviceTemplate
