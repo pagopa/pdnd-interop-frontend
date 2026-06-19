@@ -26,7 +26,7 @@
   },
   "noAttributesRequiredTemplate": {
     "title": "Attributes",
-    "alert": "This e-service template does not require any attributes.",
+    "alert": "This e-service template does not require any attributes",
     "attributesAlert": "This e-service template does not require access requirements",
     "certifiedAlert": "This e-service template does not require certified attributes",
     "verifiedAlert": "This e-service template does not require verified attributes",

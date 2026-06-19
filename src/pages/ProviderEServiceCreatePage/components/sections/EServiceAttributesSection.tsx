@@ -38,8 +38,7 @@ export const EServiceAttributesSection: React.FC<EServiceAttributesSectionProps>
     <SectionContainer
       title={t('step3.attributesTitle')}
       description={
-        !isEServiceCreatedFromTemplate &&
-        hasAnyAttributes && (
+        !(isEServiceCreatedFromTemplate && !hasAnyAttributes) && (
           <Trans
             ns="eservice"
             i18nKey={
@@ -53,13 +52,10 @@ export const EServiceAttributesSection: React.FC<EServiceAttributesSectionProps>
           />
         )
       }
-      sx={{ mt: 3 }}
+      sx={{ my: 3 }}
     >
       {isEServiceCreatedFromTemplate && !hasAnyAttributes ? (
-        <EmptySectionTextCard
-          text={tAttribute('noAttributesRequiredTemplate.attributesAlert')}
-          sx={{ mt: 3 }}
-        />
+        <EmptySectionTextCard text={tAttribute('noAttributesRequiredTemplate.attributesAlert')} />
       ) : (
         <TabContext value={activeTab}>
           <Box sx={{ borderBottom: 2, borderColor: 'divider', width: 'fit-content' }}>
