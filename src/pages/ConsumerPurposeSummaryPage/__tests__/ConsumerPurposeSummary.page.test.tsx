@@ -312,7 +312,7 @@ describe('ConsumerPurposeSummaryPage', () => {
       expect(getPublishButton()).toBeDisabled()
     })
 
-    it('should disable delete, edit and publish buttons when current user is delegator', () => {
+    it('should not show delete, edit and publish buttons when current user is delegator', () => {
       useQueryMock.mockReturnValue({
         data: {
           ...createMockPurposeCompatiblePersonalDataYes(),
