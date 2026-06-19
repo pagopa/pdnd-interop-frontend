@@ -5,7 +5,7 @@ import addDays from 'date-fns/addDays'
 import lightFormat from 'date-fns/lightFormat'
 import { act } from '@testing-library/react'
 import { useBannerStore } from '@/stores/banner.store'
-import type { BannerData } from '../bannerHooks/utils'
+import type { BannerData } from '@/types/banner.types'
 
 const STORAGE_KEY = 'test-banner'
 

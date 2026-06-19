@@ -1,6 +1,5 @@
 import axiosInstance from '@/config/axios'
-import axios from 'axios'
-import { APP_MODE, BACKEND_FOR_FRONTEND_URL, INTEROP_RESOURCES_BASE_URL } from '@/config/env'
+import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
   GetNotificationsParams,
   Notifications,
@@ -11,7 +10,6 @@ import type {
   NotificationsCountBySection,
   MarkNotificationsAsReadPayload,
 } from '../api.generatedTypes'
-import type { BannerData } from '@/hooks/bannerHooks/utils'
 
 async function getUserNotificationsList(params: GetNotificationsParams) {
   const response = await axiosInstance.get<Notifications>(
@@ -61,27 +59,6 @@ async function deleteNotifications(payload: { ids: string[] }) {
   return await axiosInstance.delete<void>(`${BACKEND_FOR_FRONTEND_URL}/inAppNotifications`, {
     data: payload,
   })
-}
-
-async function getNotificationsBannerConfigJson() {
-  // Mock data in development to avoid CORS issues with S3
-  if (APP_MODE === 'development') {
-    return {
-      start: {
-        date: '2023-05-25',
-        time: '10:47',
-      },
-      end: {
-        date: '2028-05-25',
-        time: '12:47',
-      },
-    } as BannerData
-  }
-
-  const response = await axios.get<BannerData>(
-    `${INTEROP_RESOURCES_BASE_URL}/notifications-window/data.json`
-  )
-  return response.data
 }
 
 async function markNotificationsAsReadByEntityId({ entityId }: { entityId: string }) {
@@ -137,7 +114,6 @@ export const NotificationServices = {
   markBulkAsNotRead,
   deleteNotification,
   deleteNotifications,
-  getNotificationsBannerConfigJson,
   markNotificationsAsReadByEntityId,
   getInAppNotificationsCount,
 }
