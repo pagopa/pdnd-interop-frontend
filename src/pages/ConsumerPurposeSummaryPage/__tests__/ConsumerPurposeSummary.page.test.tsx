@@ -335,9 +335,9 @@ describe('ConsumerPurposeSummaryPage', () => {
         withRouterContext: true,
       })
 
-      expect(screen.getByRole('button', { name: 'deleteDraft' })).toBeDisabled()
-      expect(screen.getByRole('button', { name: 'editDraft' })).toBeDisabled()
-      expect(screen.getByRole('button', { name: 'summary.publishBtn' })).toBeDisabled()
+      expect(screen.queryByRole('button', { name: 'deleteDraft' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'editDraft' })).not.toBeInTheDocument()
+      expect(screen.queryByRole('button', { name: 'summary.publishBtn' })).not.toBeInTheDocument()
     })
   })
 })
