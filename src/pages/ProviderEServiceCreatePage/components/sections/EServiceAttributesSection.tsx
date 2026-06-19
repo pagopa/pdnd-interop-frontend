@@ -82,7 +82,6 @@ export const EServiceAttributesSection: React.FC<EServiceAttributesSectionProps>
             {isEServiceCreatedFromTemplate && !hasCertifiedAttributes ? (
               <EmptySectionTextCard
                 text={tAttribute('noAttributesRequiredTemplate.certifiedAlert')}
-                sx={{ mt: 3 }}
               />
             ) : (
               <AddAttributesToForm
@@ -107,7 +106,6 @@ export const EServiceAttributesSection: React.FC<EServiceAttributesSectionProps>
             {isEServiceCreatedFromTemplate && !hasVerifiedAttributes ? (
               <EmptySectionTextCard
                 text={tAttribute('noAttributesRequiredTemplate.verifiedAlert')}
-                sx={{ mt: 3 }}
               />
             ) : (
               <AddAttributesToForm
@@ -129,7 +127,6 @@ export const EServiceAttributesSection: React.FC<EServiceAttributesSectionProps>
             {isEServiceCreatedFromTemplate && !hasDeclaredAttributes ? (
               <EmptySectionTextCard
                 text={tAttribute('noAttributesRequiredTemplate.declaredAlert')}
-                sx={{ mt: 3 }}
               />
             ) : (
               <AddAttributesToForm
