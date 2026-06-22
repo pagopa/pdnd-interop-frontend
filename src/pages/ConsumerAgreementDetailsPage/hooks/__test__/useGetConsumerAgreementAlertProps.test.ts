@@ -1,4 +1,4 @@
-import type { Agreement, Purpose } from '@/api/api.generatedTypes'
+import type { Agreement, EServiceDescriptorState, Purpose } from '@/api/api.generatedTypes'
 import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { useGetConsumerAgreementAlertProps } from '../useGetConsumerAgreementAlertProps'
 import { createMockAgreement } from '../../../../../__mocks__/data/agreement.mocks'
@@ -166,6 +166,23 @@ describe('check if useGetConsumerAgreementAlertProps returns the correct alertPr
       expect(result.current?.link?.to).toBe('SUBSCRIBE_PURPOSE_CREATE')
     })
   })
+
+  it.each<EServiceDescriptorState>(['ARCHIVING', 'ARCHIVING_SUSPENDED'])(
+    'shoud not return the noPurposeAlert when the e-service is being archived (active descriptor state %s), even without purposes',
+    (activeDescriptorState) => {
+      const agreement = createMockAgreement({
+        state: 'ACTIVE',
+        eservice: {
+          activeDescriptor: {
+            state: activeDescriptorState,
+          },
+        },
+      })
+      mockUseGetConsumersList([])
+      const { result } = renderUseGetConsumerAgreementAlertPropsHook(agreement)
+      expect(result.current).toBeUndefined()
+    }
+  )
 
   it('shoud not return any alertProps if nor suspended or missing certified attributes agreement is given and the agreement has purposes that are not all archived', () => {
     const agreement = createMockAgreement({
