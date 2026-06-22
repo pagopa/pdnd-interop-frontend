@@ -675,7 +675,7 @@
       "intro": "Cosa succede con la sospensione:",
       "bullets": {
         "suspended": "la versione non potrà essere utilizzata e resterà sospesa fino a un’eventuale riattivazione;",
-        "archivingNotAffected": "la sospensione <strong>non modifica</strong> l’archiviazione già avviata per questa versione e <strong>non interrompe</strong> il periodo di preavviso;",
+        "archivingNotAffected": "la sospensione <strong>non modifica</strong> e <strong>non interrompe</strong> l’archiviazione già avviata per questa versione;",
         "archivedAfterNotice": "dopo il periodo di preavviso, la versione sarà archiviata definitivamente."
       }
     },
@@ -684,7 +684,7 @@
       "intro": "Cosa succede con la riattivazione:",
       "bullets": {
         "usableAgain": "la versione torna a essere utilizzabile, pur restando in fase di archiviazione;",
-        "archivingNotAffected": "la riattivazione <strong>non modifica</strong> l’archiviazione già avviata per questa versione e <strong>non interrompe</strong> il periodo di preavviso;",
+        "archivingNotAffected": "la riattivazione <strong>non modifica</strong> e <strong>non interrompe</strong> l’archiviazione già avviata per questa versione;",
         "archivedAfterNotice": "dopo il periodo di preavviso, la versione sarà archiviata definitivamente."
       },
       "proceedLabel": "Riattiva"

@@ -675,7 +675,7 @@
       "intro": "What suspension does:",
       "bullets": {
         "suspended": "the version cannot be used and will remain suspended until reactivated;",
-        "archivingNotAffected": "suspension <strong>does not change</strong> the ongoing archival of this version and <strong>does not interrupt</strong> the notice period;",
+        "archivingNotAffected": "suspension <strong>does not change</strong> and <strong>does not interrupt</strong> the ongoing archival of this version;",
         "archivedAfterNotice": "once the notice period elapses, the version will be permanently archived."
       }
     },
@@ -684,7 +684,7 @@
       "intro": "What reactivation does:",
       "bullets": {
         "usableAgain": "the version becomes usable again, while remaining under archival;",
-        "archivingNotAffected": "reactivation <strong>does not change</strong> the ongoing archival of this version and <strong>does not interrupt</strong> the notice period;",
+        "archivingNotAffected": "reactivation <strong>does not change</strong> and <strong>does not interrupt</strong> the ongoing archival of this version;",
         "archivedAfterNotice": "once the notice period elapses, the version will be permanently archived."
       },
       "proceedLabel": "Reactivate"
