@@ -643,6 +643,7 @@
       "archivingEService": "Questo e-service è in fase di archiviazione, ma è ancora attivo. Sarà archiviato automaticamente il giorno {{date}}.",
       "archivingSuspendedDescriptor": "Questa versione dell’e-service è in fase di archiviazione ed è al momento sospesa. Sarà archiviata automaticamente il giorno {{date}}.",
       "archivedDescriptor": "Questa versione dell’e-service è stata archiviata il giorno {{date}}.",
+      "archivedDescriptorNoConsumers": "Questa versione è archiviata. Nessun fruitore può accedere ai dati erogati.",
       "archivingSuspendedEService": "Questa versione è al momento sospesa. L’e-service è in fase di archiviazione e sarà archiviato automaticamente il giorno {{date}}.",
       "archivedEService": "Questo e-service è stato archiviato definitivamente il giorno {{date}}.",
       "missingProducerKeychain": "L’erogatore non ha ancora collegato il portachiavi a questo e-service asincrono. Lo scambio dati non è al momento disponibile.",
