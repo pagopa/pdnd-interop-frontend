@@ -102,6 +102,22 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
             direction="column"
           />
         </Stack>
+        <SectionContainer innerSection title={t('delegationSection.title')} sx={{ mt: 3 }}>
+          <Stack spacing={2}>
+            <InformationContainer
+              label={t('delegationSection.isConsumerDelegable.label')}
+              content={t(
+                `delegationSection.isConsumerDelegable.value.${descriptor.eservice.isConsumerDelegable}`
+              )}
+            />
+            <InformationContainer
+              label={t('delegationSection.isClientAccessDelegable.label')}
+              content={t(
+                `delegationSection.isClientAccessDelegable.value.${descriptor.eservice.isClientAccessDelegable}`
+              )}
+            />
+          </Stack>
+        </SectionContainer>
       </SectionContainer>
       <ConsumerEServiceTechnicalInfoDrawer
         isOpen={isTechnicalInfoDrawerOpen}

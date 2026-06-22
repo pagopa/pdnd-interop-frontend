@@ -757,6 +757,25 @@
           }
         },
         "consumerListFileName": "{{timestamp}}-lista-fruitori-{{eserviceName}}.csv",
+        "delegationSection": {
+          "title": "Fruizione tramite delega",
+          "isConsumerDelegable": {
+            "label": "Autorizzazione",
+            "value": {
+              "true": "Sì",
+              "false": "No",
+              "undefined": "No"
+            }
+          },
+          "isClientAccessDelegable": {
+            "label": "Autorizzazione all’associazione dei client",
+            "value": {
+              "true": "Sì",
+              "false": "No",
+              "undefined": "No"
+            }
+          }
+        },
         "bottomActions": {
           "showTechnicalDetails": "Vedi i dettagli tecnici dell’e-service",
           "showAsyncExchangeDetails": "Vedi i dettagli sullo scambio asincrono",

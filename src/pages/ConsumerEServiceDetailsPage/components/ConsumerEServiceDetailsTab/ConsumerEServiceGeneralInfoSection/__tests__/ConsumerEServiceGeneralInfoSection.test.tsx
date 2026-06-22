@@ -167,4 +167,22 @@ describe('ConsumerEServiceGeneralInfoSection', () => {
     expect(screen.getByText('asyncExchangeCallbackInterface')).toBeInTheDocument()
     expect(screen.getByText('Specifica callback')).toBeInTheDocument()
   })
+
+  it('shows the delegation subsection with the delegation flags', () => {
+    useSuspenseQueryMock.mockReturnValue({
+      data: createMockEServiceDescriptorCatalog({
+        eservice: { isConsumerDelegable: true, isClientAccessDelegable: false },
+      }),
+    })
+
+    renderComponent()
+
+    expect(screen.getByText('delegationSection.title')).toBeInTheDocument()
+    expect(screen.getByText('delegationSection.isConsumerDelegable.label')).toBeInTheDocument()
+    expect(screen.getByText('delegationSection.isConsumerDelegable.value.true')).toBeInTheDocument()
+    expect(screen.getByText('delegationSection.isClientAccessDelegable.label')).toBeInTheDocument()
+    expect(
+      screen.getByText('delegationSection.isClientAccessDelegable.value.false')
+    ).toBeInTheDocument()
+  })
 })
