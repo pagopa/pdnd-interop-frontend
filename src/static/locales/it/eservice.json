@@ -656,8 +656,8 @@
       "intro": "Cosa succede con la sospensione:",
       "bullets": {
         "suspended": "la versione non potrà essere utilizzata e resterà disattiva fino a un’eventuale riattivazione;",
-        "archivingNotAffected": "la sospensione <strong>non modifica</strong> l’archiviazione già avviata per l’e-service e <strong>non interrompe</strong> il periodo di preavviso;",
-        "archivedAfterNotice": "dopo il periodo di preavviso, l’e-service e tutte le sue versioni saranno archiviate definitivamente."
+        "archivingNotAffected": "la sospensione <strong>non modifica</strong> e <strong>non interrompe</strong> l’archiviazione già avviata per l’e-service;",
+        "archivedAfterNotice": "dopo l’archiviazione, non potrai più riattivare l’e-service e tutte le sue versioni."
       }
     },
     "dialogReactivateArchivingEservice": {
@@ -665,8 +665,8 @@
       "intro": "Cosa succede con la riattivazione:",
       "bullets": {
         "usableAgain": "la versione torna a essere utilizzabile, ma l’e-service resta in fase di archiviazione;",
-        "archivingNotAffected": "la riattivazione <strong>non modifica</strong> l’archiviazione già avviata per l’e-service e <strong>non interrompe</strong> il periodo di preavviso;",
-        "archivedAfterNotice": "dopo il periodo di preavviso, l’e-service e tutte le sue versioni saranno archiviate definitivamente."
+        "archivingNotAffected": "la riattivazione <strong>non modifica</strong> e <strong>non interrompe</strong> l’archiviazione già avviata per l’e-service;",
+        "archivedAfterNotice": "dopo l’archiviazione, non potrai più riattivare l’e-service e tutte le sue versioni."
       },
       "proceedLabel": "Riattiva"
     },

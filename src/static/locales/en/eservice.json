@@ -656,8 +656,8 @@
       "intro": "What happens with the suspension:",
       "bullets": {
         "suspended": "the version will not be usable and will remain inactive until any reactivation;",
-        "archivingNotAffected": "the suspension <strong>does not modify</strong> the archiving already started for the e-service and <strong>does not interrupt</strong> the notice period;",
-        "archivedAfterNotice": "after the notice period, the e-service and all its versions will be permanently archived."
+        "archivingNotAffected": "the suspension <strong>does not modify</strong> and <strong>does not interrupt</strong> the archiving already started for the e-service;",
+        "archivedAfterNotice": "after archiving, you will no longer be able to reactivate the e-service and all its versions."
       }
     },
     "dialogReactivateArchivingEservice": {
@@ -665,8 +665,8 @@
       "intro": "What happens with the reactivation:",
       "bullets": {
         "usableAgain": "the version becomes usable again, but the e-service remains in the archiving phase;",
-        "archivingNotAffected": "the reactivation <strong>does not modify</strong> the archiving already started for the e-service and <strong>does not interrupt</strong> the notice period;",
-        "archivedAfterNotice": "after the notice period, the e-service and all its versions will be permanently archived."
+        "archivingNotAffected": "the reactivation <strong>does not modify</strong> and <strong>does not interrupt</strong> the archiving already started for the e-service;",
+        "archivedAfterNotice": "after archiving, you will no longer be able to reactivate the e-service and all its versions."
       },
       "proceedLabel": "Reactivate"
     },
