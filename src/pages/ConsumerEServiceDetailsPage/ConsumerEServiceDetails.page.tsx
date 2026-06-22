@@ -1,6 +1,8 @@
 import React from 'react'
 import { EServiceQueries } from '@/api/eservice'
+import { AgreementQueries } from '@/api/agreement'
 import useGetEServiceConsumerActions from '@/hooks/useGetEServiceConsumerActions'
+import { useDescriptorAttributesPartyOwnership } from '@/hooks/useDescriptorAttributesPartyOwnership'
 import { useParams } from '@/router'
 import { useTranslation } from 'react-i18next'
 import { Tab } from '@mui/material'
@@ -16,6 +18,10 @@ import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { NewPageContainer } from '@/components/layout/containers/NewPageContainer'
 import { useDialog } from '@/stores'
 import { getViewLatestVersionTargetId, isDescriptorPendingArchiving } from '@/utils/eservice.utils'
+import {
+  canAgreementBeUpgraded,
+  getRequesterObsoleteVersionAgreement,
+} from '@/utils/agreement.utils'
 import { ConsumerEServiceDetailsAlerts } from './components/ConsumerEServiceDetailsTab/ConsumerEServiceDetailsAlerts'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
@@ -62,8 +68,56 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
     [descriptor?.eservice.descriptors, descriptorId]
   )
 
+  const consumerAgreementsQuery = useQuery({
+    ...AgreementQueries.getConsumerAgreementsList({
+      limit: 50,
+      offset: 0,
+      eservicesIds: [eserviceId],
+    }),
+    enabled: Boolean(jwt?.organizationId) && !isReviewer,
+    select: ({ results }) => results ?? [],
+  })
+
+  const { hasBlockingAgreement, upgradeableAgreementId } = getRequesterObsoleteVersionAgreement(
+    consumerAgreementsQuery.data ?? [],
+    jwt?.organizationId
+  )
+
+  const { data: upgradeableAgreement } = useQuery({
+    ...AgreementQueries.getSingle(upgradeableAgreementId as string),
+    enabled: Boolean(upgradeableAgreementId),
+  })
+
+  const { hasAllCertifiedAttributes, hasAllDeclaredAttributes, hasAllVerifiedAttributes } =
+    useDescriptorAttributesPartyOwnership(
+      upgradeableAgreementId ? eserviceId : undefined,
+      upgradeableAgreementId ? descriptor?.eservice.activeDescriptor?.id : undefined,
+      upgradeableAgreementId ? jwt?.organizationId : undefined
+    )
+
+  const requesterEserviceAgreement =
+    consumerAgreementsQuery.isLoading || hasBlockingAgreement
+      ? {
+          blocksSubscribe: true,
+          upgrade:
+            upgradeableAgreement && canAgreementBeUpgraded(upgradeableAgreement)
+              ? {
+                  agreement: upgradeableAgreement,
+                  hasMissingAttributes: !hasAllDeclaredAttributes || !hasAllVerifiedAttributes,
+                  hasAllCertifiedAttributes,
+                }
+              : undefined,
+        }
+      : undefined
+
   const { primaryAction, secondaryAction, menuActions, headerInfoActions } =
-    useGetEServiceConsumerActions(descriptor, delegators, isDelegator, viewLatestVersionTargetId)
+    useGetEServiceConsumerActions(
+      descriptor,
+      delegators,
+      isDelegator,
+      viewLatestVersionTargetId,
+      requesterEserviceAgreement
+    )
 
   useTrackPageViewEvent('INTEROP_CATALOG_READ', {
     eserviceId: descriptor?.eservice.id,

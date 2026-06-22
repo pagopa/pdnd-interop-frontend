@@ -1,5 +1,6 @@
 import { AgreementMutations } from '@/api/agreement'
 import type {
+  Agreement,
   AgreementState,
   CatalogEServiceDescriptor,
   DelegationTenant,
@@ -16,6 +17,7 @@ import SendIcon from '@mui/icons-material/Send'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import ArticleIcon from '@mui/icons-material/Article'
 import ReplayCircleFilledIcon from '@mui/icons-material/ReplayCircleFilled'
+import UpdateIcon from '@mui/icons-material/Update'
 import noop from 'lodash/noop'
 import { useDialog } from '@/stores'
 import { match } from 'ts-pattern'
@@ -24,7 +26,15 @@ function useGetEServiceConsumerActions(
   descriptor?: CatalogEServiceDescriptor,
   delegators?: Array<DelegationTenant>,
   isDelegator?: boolean,
-  viewLatestVersionTargetId?: string
+  viewLatestVersionTargetId?: string,
+  requesterEserviceAgreement?: {
+    blocksSubscribe: boolean
+    upgrade?: {
+      agreement: Agreement
+      hasMissingAttributes: boolean
+      hasAllCertifiedAttributes: boolean
+    }
+  }
 ): {
   primaryAction: ActionItemButton | undefined
   secondaryAction: ActionItemButton | undefined
@@ -33,6 +43,7 @@ function useGetEServiceConsumerActions(
 } {
   const { t } = useTranslation('eservice')
   const { t: tEserviceActions } = useTranslation('eservice', { keyPrefix: 'read.actions' })
+  const { t: tAgreement } = useTranslation('agreement')
   const { jwt, isAdmin } = AuthHooks.useJwt()
 
   const navigate = useNavigate()
@@ -223,7 +234,9 @@ function useGetEServiceConsumerActions(
     : (delegators ?? [])
 
   const tenantsWithoutAgreement = tenants.filter(
-    (tenant) => !existingAgreements.some((agreement) => agreement.consumerId === tenant.id)
+    (tenant) =>
+      !existingAgreements.some((agreement) => agreement.consumerId === tenant.id) &&
+      !(requesterEserviceAgreement?.blocksSubscribe && tenant.id === jwt?.organizationId)
   )
 
   const canShowSubscribe =
@@ -253,9 +266,30 @@ function useGetEServiceConsumerActions(
       }
     : undefined
 
+  const upgrade = requesterEserviceAgreement?.upgrade
+  const upgradeAction: ActionItemButton | undefined = upgrade
+    ? {
+        action: () =>
+          openDialog({
+            type: 'upgradeAgreementVersion',
+            agreement: upgrade.agreement,
+            hasMissingAttributes: upgrade.hasMissingAttributes,
+          }),
+        label: t('tableEServiceCatalog.upgradeToNewVersion'),
+        icon: UpdateIcon,
+        variant: 'contained',
+        disabled: !upgrade.hasAllCertifiedAttributes,
+        tooltip: !upgrade.hasAllCertifiedAttributes
+          ? tAgreement('consumerRead.noCertifiedAttributesForUpgradeTooltip')
+          : undefined,
+      }
+    : undefined
+
   const shouldShowhasMissingAttributesTooltip =
     // ...the e-service is not owned by the active party...
     !isMine &&
+    // ... the requester has no blocking agreement for this e-service...
+    !requesterEserviceAgreement?.blocksSubscribe &&
     // ... the party doesn't own all the certified attributes required...
     !hasCertifiedAttributes &&
     // ... the e-service's latest active descriptor is the actual descriptor the user is viewing...
@@ -300,9 +334,13 @@ function useGetEServiceConsumerActions(
     : undefined
 
   const primaryAction: ActionItemButton | undefined =
-    inspectAction ?? editDraftAction ?? subscribeAction ?? subscribeDisabledMissingAttributesAction
+    inspectAction ??
+    editDraftAction ??
+    upgradeAction ??
+    subscribeAction ??
+    subscribeDisabledMissingAttributesAction
 
-  const hasPrimaryAgreementAction = Boolean(inspectAction ?? editDraftAction)
+  const hasPrimaryAgreementAction = Boolean(inspectAction ?? editDraftAction ?? upgradeAction)
   const secondaryAction: ActionItemButton | undefined =
     hasPrimaryAgreementAction && subscribeAction
       ? { ...subscribeAction, variant: 'outlined' }

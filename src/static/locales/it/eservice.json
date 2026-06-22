@@ -1196,6 +1196,7 @@
     "subscribe": "Richiedi fruizione",
     "editDraft": "Completa richiesta",
     "inspect": "Visualizza richiesta",
+    "upgradeToNewVersion": "Aggiorna a nuova versione",
     "eserviceSuspendedTooltip": "Non è attualmente possibile presentare nuove richieste, l’e-service è sospeso",
     "missingCertifiedAttributesTooltip": "Il tuo ente non ha gli attributi certificati necessari per iscriversi"
   },
