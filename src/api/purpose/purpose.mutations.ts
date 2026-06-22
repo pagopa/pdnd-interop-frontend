@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { PurposeServices } from './purpose.services'
-
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.createDraft' })
   return useMutation({
@@ -17,6 +16,19 @@ function useUpdateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.updateDraft' })
   return useMutation({
     mutationFn: PurposeServices.updateDraft,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useUpdateDraftFromPurposeTemplate() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purpose.updateDraft',
+  })
+  return useMutation({
+    mutationFn: PurposeServices.updateDraftFromPurposeTemplate,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -101,12 +113,12 @@ function useActivateVersion() {
   return useMutation({
     mutationFn: PurposeServices.activateVersion,
     meta: {
-      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {
         title: t('confirmDialog.title'),
         description: t('confirmDialog.description'),
+        proceedLabel: t('confirmDialog.proceedLabel'),
       },
     },
   })
@@ -196,9 +208,79 @@ function useRemoveClient() {
   })
 }
 
+function useCreateDraftFromPurposeTemplate() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.createDraft' })
+  return useMutation({
+    mutationFn: PurposeServices.createDraftFromPurposeTemplate,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useAssignRiskAnalysisReviewer() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purpose.assignRiskAnalysisReviewer',
+  })
+  return useMutation({
+    mutationFn: PurposeServices.assignRiskAnalysisReviewer,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useSubmitRiskAnalysis() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purpose.submitRiskAnalysis',
+  })
+  return useMutation({
+    mutationFn: PurposeServices.submitRiskAnalysis,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useSignRiskAnalysis() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.signRiskAnalysis' })
+  return useMutation({
+    mutationFn: PurposeServices.signRiskAnalysis,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useRejectRiskAnalysis() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.rejectRiskAnalysis' })
+  return useMutation({
+    mutationFn: PurposeServices.rejectRiskAnalysis,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useUpdateRiskAnalysis() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.updateRiskAnalysis' })
+  return useMutation({
+    mutationFn: PurposeServices.updateRiskAnalysis,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const PurposeMutations = {
   useCreateDraft,
   useUpdateDraft,
+  useUpdateDraftFromPurposeTemplate,
   useDeleteDraft,
   useCreateDraftForReceiveEService,
   useUpdateDraftForReceiveEService,
@@ -211,4 +293,10 @@ export const PurposeMutations = {
   useClone,
   useAddClient,
   useRemoveClient,
+  useCreateDraftFromPurposeTemplate,
+  useAssignRiskAnalysisReviewer,
+  useSubmitRiskAnalysis,
+  useSignRiskAnalysis,
+  useRejectRiskAnalysis,
+  useUpdateRiskAnalysis,
 }

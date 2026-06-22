@@ -1,6 +1,7 @@
 import { PurposeQueries } from '@/api/purpose'
 import { PageContainer } from '@/components/layout/containers'
 import useGetProviderPurposesActions from '@/hooks/useGetProviderPurposesActions'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { useParams } from '@/router'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -26,6 +27,8 @@ const ProviderPurposeDetailsPage: React.FC = () => {
   const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
 
   const { actions } = useGetProviderPurposesActions(purpose)
+
+  useMarkNotificationsAsRead(purposeId)
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 

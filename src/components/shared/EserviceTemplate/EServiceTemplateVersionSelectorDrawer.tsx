@@ -1,8 +1,7 @@
 import React from 'react'
 import type { CompactEServiceTemplateVersion } from '@/api/api.generatedTypes'
 import { Drawer } from '@/components/shared/Drawer'
-import { Slider, Typography } from '@mui/material'
-import type { Mark } from '@mui/base'
+import { MenuItem, TextField } from '@mui/material'
 import { type RouteKey, useCurrentRoute, useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
 
@@ -17,27 +16,19 @@ type EServiceTemplateVersionSelectorDrawerProps = {
 export const EServiceTemplateVersionSelectorDrawer: React.FC<
   EServiceTemplateVersionSelectorDrawerProps
 > = ({ isOpen, onClose, versions, actualVersion, eServiceTemplateId }) => {
-  const { t } = useTranslation('template', { keyPrefix: 'read.drawers.versionSelectorDrawer' })
+  const { t } = useTranslation('eserviceTemplate', {
+    keyPrefix: 'read.drawers.versionSelectorDrawer',
+  })
   const { mode } = useCurrentRoute()
 
   const [selectedVersion, setSelectedVersion] = React.useState(() => Number(actualVersion))
   const navigate = useNavigate()
 
-  const sliderId = React.useId()
-
   const templatesVersionsNotInDraft = versions.filter((d) => d.state !== 'DRAFT')
 
   const numVersions = templatesVersionsNotInDraft.length
 
-  const marks = React.useMemo<Mark[]>(() => {
-    return Array.from({ length: numVersions }).map((_, index) => ({
-      value: -(index + 1),
-      label:
-        (index + 1).toString() === actualVersion
-          ? t('currentVersion', { versionNum: index + 1 })
-          : '',
-    }))
-  }, [numVersions, actualVersion, t])
+  const versionOptions = Array.from({ length: numVersions }, (_, index) => index + 1)
 
   const handleReset = () => {
     setSelectedVersion(Number(actualVersion))
@@ -79,30 +70,19 @@ export const EServiceTemplateVersionSelectorDrawer: React.FC<
         action: handleGoToVersion,
       }}
     >
-      <Typography
-        sx={{ mb: 4, display: 'block' }}
-        variant="label"
-        component="label"
-        htmlFor={sliderId}
+      <TextField
+        select
+        fullWidth
+        label={t('label')}
+        value={selectedVersion}
+        onChange={(event) => setSelectedVersion(Number(event.target.value))}
       >
-        {t('label')}
-      </Typography>
-
-      <Slider
-        id={sliderId}
-        sx={{ maxHeight: 250, ml: 3 }}
-        onChange={(_, value) => setSelectedVersion(-value as number)}
-        orientation="vertical"
-        size="small"
-        value={-selectedVersion}
-        max={-1}
-        min={-numVersions}
-        step={null}
-        marks={marks}
-        scale={(x) => -x}
-        valueLabelDisplay="on"
-        track={false}
-      />
+        {versionOptions.map((version) => (
+          <MenuItem key={version} value={version}>
+            {version}
+          </MenuItem>
+        ))}
+      </TextField>
     </Drawer>
   )
 }

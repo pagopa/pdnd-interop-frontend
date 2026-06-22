@@ -1,6 +1,6 @@
 import type { ExternalId } from '@/api/api.generatedTypes'
 
-export type UserProductRole = 'admin' | 'security' | 'api' | 'support'
+export type UserProductRole = 'admin' | 'security' | 'api' | 'support' | 'reviewer' | 'viewer'
 
 export type DelegationType = 'DELEGATION_GRANTED' | 'DELEGATION_RECEIVED'
 
@@ -26,5 +26,6 @@ export type JwtUser = {
   name: string
   family_name: string
   organizationId: string
+  email?: string
   rootParent?: { id: string; description: string }
 }

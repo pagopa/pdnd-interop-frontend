@@ -13,7 +13,7 @@ import type { EServiceRiskAnalysis } from '@/api/api.generatedTypes'
 import { useSearchParams } from 'react-router-dom'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
-import { RiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
+import { EServiceRiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 
 const RiskAnalysisEServiceAssociatedPage: React.FC = () => {
   return (
@@ -25,7 +25,7 @@ const RiskAnalysisEServiceAssociatedPage: React.FC = () => {
 
 const RiskAnalysisEServiceAssociatedPageContent: React.FC = () => {
   const { t } = useTranslation('eservice')
-  const { eserviceId, descriptorId } = useParams<'WATCH_RISK_ANALISIS_FOR_ESERVICE'>()
+  const { eserviceId, descriptorId } = useParams<'WATCH_RISK_ANALYSIS_FOR_ESERVICE'>()
 
   const { data: descriptor } = useSuspenseQuery(
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
@@ -92,7 +92,10 @@ const RiskAnalysisEServiceAssociatedPageContent: React.FC = () => {
           </SectionContainer>
           {riskAnalysisId && eserviceId && (
             <SectionContainer>
-              <RiskAnalysisInfoSummary riskAnalysisId={riskAnalysisId} eServiceId={eserviceId} />
+              <EServiceRiskAnalysisInfoSummary
+                riskAnalysisId={riskAnalysisId}
+                eserviceId={eserviceId}
+              />
             </SectionContainer>
           )}
         </Box>

@@ -5,10 +5,14 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSuspenseQuery } from '@tanstack/react-query'
-import { TemplateQueries } from '@/api/template'
-import { EServiceTemplateThresholdsSection } from './EServiceTemplateThresholdsSection'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { EServiceTemplateDocumentationSection } from './EServiceTemplateDocumentationSection'
 import { EServiceTemplateUsefulLinksSection } from './EServiceTemplateUsefulLinksSection'
+import { UpdateVoucherDrawer } from '@/components/shared/UpdateVoucherDrawer'
+import { secondsToMinutes } from '@/utils/format.utils'
+import { useDrawerState } from '@/hooks/useDrawerState'
+import EditIcon from '@mui/icons-material/Edit'
 
 type EServiceTemplateTechnicalInfoSectionProps = {
   readonly: boolean
@@ -17,14 +21,37 @@ type EServiceTemplateTechnicalInfoSectionProps = {
 export const EServiceTemplateTechnicalInfoSection: React.FC<
   EServiceTemplateTechnicalInfoSectionProps
 > = ({ readonly, routeKey }) => {
-  const { t } = useTranslation('template', {
+  const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'read.sections.technicalInformations',
+  })
+  const { t: tCommon } = useTranslation('common')
+  const { t: tDrawer } = useTranslation('eserviceTemplate', {
+    keyPrefix: 'read.drawers.updateVoucherDrawer',
   })
 
   const { eServiceTemplateId, eServiceTemplateVersionId } = useParams<typeof routeKey>()
-  const { data: template } = useSuspenseQuery(
-    TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
+  const { data: eserviceTemplate } = useSuspenseQuery(
+    EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
+
+  const voucherLifespan = secondsToMinutes(eserviceTemplate.voucherLifespan)
+
+  const { isOpen, openDrawer, closeDrawer } = useDrawerState()
+
+  const { mutate: updateEserviceTemplateQuotas } = EServiceTemplateMutations.useUpdateQuotas()
+
+  const handleVoucherUpdate = (id: string, newVoucherLifespan: number, versionId?: string) => {
+    updateEserviceTemplateQuotas(
+      {
+        eServiceTemplateId: id,
+        eServiceTemplateVersionId: versionId!,
+        voucherLifespan: newVoucherLifespan,
+        dailyCallsPerConsumer: eserviceTemplate.dailyCallsPerConsumer,
+        dailyCallsTotal: eserviceTemplate.dailyCallsTotal,
+      },
+      { onSuccess: closeDrawer }
+    )
+  }
 
   return (
     <SectionContainer title={t('title')} description={t('description')}>
@@ -33,23 +60,55 @@ export const EServiceTemplateTechnicalInfoSection: React.FC<
           <Stack spacing={2}>
             <InformationContainer
               label={t('technology')}
-              content={template.eserviceTemplate.technology}
+              content={eserviceTemplate.eserviceTemplate.technology}
             />
 
             <InformationContainer
               label={t('mode.label')}
               labelDescription={t('mode.labelDescription')}
-              content={t(`mode.value.${template.eserviceTemplate.mode}`)}
+              content={t(`mode.value.${eserviceTemplate.eserviceTemplate.mode}`)}
             />
           </Stack>
         </SectionContainer>
         <Divider />
-        <EServiceTemplateThresholdsSection readonly={readonly} template={template} />
+        <SectionContainer
+          innerSection
+          title={t('voucher.title')}
+          topSideActions={
+            readonly
+              ? undefined
+              : [
+                  {
+                    action: openDrawer,
+                    label: tCommon('actions.edit'),
+                    icon: EditIcon,
+                  },
+                ]
+          }
+        >
+          <InformationContainer
+            label={t('thresholds.voucherLifespan.label')}
+            labelDescription={t('thresholds.voucherLifespan.labelDescription')}
+            content={`${voucherLifespan}`}
+          />
+        </SectionContainer>
         <Divider />
-        <EServiceTemplateDocumentationSection readonly={readonly} templateVersion={template} />
+        <EServiceTemplateDocumentationSection
+          readonly={readonly}
+          eserviceTemplateVersion={eserviceTemplate}
+        />
         <Divider />
         <EServiceTemplateUsefulLinksSection />
       </Stack>
+      <UpdateVoucherDrawer
+        isOpen={isOpen}
+        onClose={closeDrawer}
+        id={eserviceTemplate.eserviceTemplate.id}
+        voucherLifespan={eserviceTemplate.voucherLifespan}
+        versionId={eServiceTemplateVersionId}
+        subtitle={tDrawer('subtitle')}
+        onSubmit={handleVoucherUpdate}
+      />
     </SectionContainer>
   )
 }

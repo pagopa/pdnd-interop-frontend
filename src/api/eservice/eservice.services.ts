@@ -33,9 +33,12 @@ import type {
   RejectDelegatedEServiceDescriptorSeed,
   TemplateInstanceInterfaceRESTSeed,
   TemplateInstanceInterfaceSOAPSeed,
+  EServiceSignalHubUpdateSeed,
+  EServicePersonalDataFlagUpdateSeed,
+  EServiceDelegationFlagsUpdateSeed,
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
-import { waitFor } from '@/utils/common.utils'
+import { getAllFromPaginated, waitFor } from '@/utils/common.utils'
 
 async function getCatalogList(params: GetEServicesCatalogParams) {
   const response = await axiosInstance.get<CatalogEServices>(
@@ -43,6 +46,10 @@ async function getCatalogList(params: GetEServicesCatalogParams) {
     { params }
   )
   return response.data
+}
+
+async function getAllCatalogEServices(params: Omit<GetEServicesCatalogParams, 'limit' | 'offset'>) {
+  return await getAllFromPaginated((offset, limit) => getCatalogList({ ...params, limit, offset }))
 }
 
 async function getProviderList(params: GetProducerEServicesParams) {
@@ -184,6 +191,46 @@ function reactivateVersion({
   return axiosInstance.post(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/activate`
   )
+}
+
+function scheduleArchiveDescriptor({
+  eserviceId,
+  descriptorId,
+}: {
+  eserviceId: string
+  descriptorId: string
+}) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/scheduleArchive`
+  )
+}
+
+function cancelDescriptorArchiving({
+  eserviceId,
+  descriptorId,
+}: {
+  eserviceId: string
+  descriptorId: string
+}) {
+  return axiosInstance.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/scheduleArchive`
+  )
+}
+
+function scheduleArchiveEservice({
+  eserviceId,
+  archivingReason,
+}: {
+  eserviceId: string
+  archivingReason: string
+}) {
+  return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/scheduleArchive`, {
+    archivingReason,
+  })
+}
+
+function cancelEserviceArchiving({ eserviceId }: { eserviceId: string }) {
+  return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/scheduleArchive`)
 }
 
 function deleteVersionDraft({
@@ -362,7 +409,11 @@ async function downloadConsumerList({ eserviceId }: { eserviceId: string }) {
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/consumers`,
     { responseType: 'arraybuffer' }
   )
-  return response.data
+
+  const filename =
+    response?.headers?.['content-disposition']?.split('filename=')[1] || 'consumers.csv'
+
+  return { file: response.data, filename }
 }
 
 async function updateEServiceDescription({
@@ -577,8 +628,46 @@ async function getIsEServiceNameAvailable({ eserviceName }: { eserviceName: stri
   return response.data
 }
 
+async function updateEServiceSignalHub({
+  eserviceId,
+  ...payload
+}: { eserviceId: string } & EServiceSignalHubUpdateSeed) {
+  const response = await axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/signalhub/update`,
+    payload
+  )
+  return response.data
+}
+
+async function updateEServicePersonalDataFlagAfterPublication({
+  eserviceId,
+  ...payload
+}: {
+  eserviceId: string
+} & EServicePersonalDataFlagUpdateSeed) {
+  const response = await axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/personalDataFlag`,
+    payload
+  )
+  return response.data
+}
+
+async function updateEServiceDelegationFlagsAfterPublication({
+  eserviceId,
+  ...payload
+}: {
+  eserviceId: string
+} & EServiceDelegationFlagsUpdateSeed) {
+  const response = await axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/delegationFlags/update`,
+    payload
+  )
+  return response.data
+}
+
 export const EServiceServices = {
   getCatalogList,
+  getAllCatalogEServices,
   getProviderList,
   getSingle,
   getDescriptorCatalog,
@@ -597,6 +686,10 @@ export const EServiceServices = {
   updateInstanceVersion,
   updateAgreementApprovalPolicy,
   reactivateVersion,
+  scheduleArchiveDescriptor,
+  cancelDescriptorArchiving,
+  scheduleArchiveEservice,
+  cancelEserviceArchiving,
   deleteVersionDraft,
   addEServiceRiskAnalysis,
   getEServiceRiskAnalysis,
@@ -620,4 +713,7 @@ export const EServiceServices = {
   updateInstanceVersionDraft,
   deleteDraftAndUpgradeEService,
   getIsEServiceNameAvailable,
+  updateEServiceSignalHub,
+  updateEServicePersonalDataFlagAfterPublication,
+  updateEServiceDelegationFlagsAfterPublication,
 }

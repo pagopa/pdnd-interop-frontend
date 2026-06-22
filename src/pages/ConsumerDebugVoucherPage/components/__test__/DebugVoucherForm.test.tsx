@@ -31,10 +31,13 @@ describe('DebugVoucherForm testing', () => {
       <DebugVoucherForm setDebugVoucherValues={setDebugVoucherValuesMockFn} />,
       {
         withReactQueryContext: true,
+        withRouterContext: true,
       }
     )
 
-    const clientAssertionInput = screen.getByLabelText('clientAssertionLabel')
+    const clientAssertionInput = screen.getByRole('textbox', {
+      name: 'clientAssertionLabel',
+    })
     const clientIdInput = screen.getByLabelText('clientIdLabel')
     const submitButton = screen.getByRole('button', { name: 'submitBtn' })
 
@@ -45,6 +48,7 @@ describe('DebugVoucherForm testing', () => {
     const request = createMockDebugVoucherRequest({
       client_id: 'test client Id',
       client_assertion: 'test client assertion',
+      is_async: 'false',
     })
 
     await waitFor(() =>
@@ -61,10 +65,13 @@ describe('DebugVoucherForm testing', () => {
       <DebugVoucherForm setDebugVoucherValues={setDebugVoucherValuesMockFn} />,
       {
         withReactQueryContext: true,
+        withRouterContext: true,
       }
     )
 
-    const clientAssertionInput = screen.getByLabelText('clientAssertionLabel')
+    const clientAssertionInput = screen.getByRole('textbox', {
+      name: 'clientAssertionLabel',
+    })
     const submitButton = screen.getByRole('button', { name: 'submitBtn' })
 
     fireEvent.change(clientAssertionInput, { target: { value: 'test client assertion' } })
@@ -73,12 +80,139 @@ describe('DebugVoucherForm testing', () => {
     const request = createMockDebugVoucherRequest({
       client_id: undefined,
       client_assertion: 'test client assertion',
+      is_async: 'false',
     })
 
     await waitFor(() =>
       expect(setDebugVoucherValuesMockFn).toBeCalledWith({
         request: request,
         response: response,
+      })
+    )
+  })
+
+  it('should include dpop_proof when user provides it', async () => {
+    const setDebugVoucherValuesMockFn = vi.fn()
+
+    const screen = renderWithApplicationContext(
+      <DebugVoucherForm setDebugVoucherValues={setDebugVoucherValuesMockFn} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    const clientAssertionInput = screen.getByRole('textbox', {
+      name: 'clientAssertionLabel',
+    })
+
+    const dpopInput = screen.getByRole('textbox', {
+      name: 'dpopProofLabel',
+    })
+
+    const submitButton = screen.getByRole('button', { name: 'submitBtn' })
+
+    fireEvent.change(clientAssertionInput, {
+      target: { value: 'test client assertion' },
+    })
+
+    fireEvent.change(dpopInput, {
+      target: { value: 'test dpop proof' },
+    })
+
+    fireEvent.click(submitButton)
+
+    const request = createMockDebugVoucherRequest({
+      client_id: undefined,
+      dpop_proof: 'test dpop proof',
+      client_assertion: 'test client assertion',
+      is_async: 'false',
+    })
+
+    await waitFor(() =>
+      expect(setDebugVoucherValuesMockFn).toBeCalledWith({
+        request: request,
+        response: response,
+      })
+    )
+  })
+
+  it('should send dpop_proof as undefined when empty', async () => {
+    const setDebugVoucherValuesMockFn = vi.fn()
+
+    const screen = renderWithApplicationContext(
+      <DebugVoucherForm setDebugVoucherValues={setDebugVoucherValuesMockFn} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    const clientAssertionInput = screen.getByRole('textbox', {
+      name: 'clientAssertionLabel',
+    })
+
+    const submitButton = screen.getByRole('button', { name: 'submitBtn' })
+
+    fireEvent.change(clientAssertionInput, {
+      target: { value: 'test client assertion' },
+    })
+
+    fireEvent.click(submitButton)
+
+    const request = createMockDebugVoucherRequest({
+      client_assertion: 'test client assertion',
+      client_id: undefined,
+      is_async: 'false',
+    })
+
+    await waitFor(() =>
+      expect(setDebugVoucherValuesMockFn).toBeCalledWith({
+        request: request,
+        response: response,
+      })
+    )
+  })
+
+  it('should send is_async as true when async interaction type is selected', async () => {
+    const setDebugVoucherValuesMockFn = vi.fn()
+
+    const screen = renderWithApplicationContext(
+      <DebugVoucherForm setDebugVoucherValues={setDebugVoucherValuesMockFn} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    const clientAssertionInput = screen.getByRole('textbox', {
+      name: 'clientAssertionLabel',
+    })
+
+    fireEvent.change(clientAssertionInput, {
+      target: { value: 'test client assertion' },
+    })
+
+    const asyncRadio = screen.getByRole('radio', {
+      name: 'interactionModelAsync',
+    })
+
+    fireEvent.click(asyncRadio)
+
+    const submitButton = screen.getByRole('button', { name: 'submitBtn' })
+
+    fireEvent.click(submitButton)
+
+    const request = createMockDebugVoucherRequest({
+      client_assertion: 'test client assertion',
+      client_id: undefined,
+      is_async: 'true',
+    })
+
+    await waitFor(() =>
+      expect(setDebugVoucherValuesMockFn).toBeCalledWith({
+        request,
+        response,
       })
     )
   })

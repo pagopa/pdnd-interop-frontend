@@ -5,7 +5,7 @@ import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { useQuery } from '@tanstack/react-query'
 import { match } from 'ts-pattern'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 
 type DelegationCreateEServiceFromTemplateAutocompleteProps = {
   delegationKind: DelegationKind
@@ -57,10 +57,11 @@ export const DelegationCreateEServiceFromTemplateAutocomplete: React.FC<
 
   const { data: catalogEservicesTemplates = [], isLoading: isLoadingCatalogEservicesTemplates } =
     useQuery({
-      ...TemplateQueries.getProviderTemplatesCatalogList({
+      ...EServiceTemplateQueries.getProviderEServiceTemplatesCatalogList({
         q: getQ(),
         limit: 50,
         offset: 0,
+        personalData: 'DEFINED',
       }),
       select: (d) => d.results ?? [],
     })

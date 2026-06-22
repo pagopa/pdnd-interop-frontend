@@ -2,6 +2,7 @@
   "addBtn": "Aggiungi",
   "closeBtn": "Chiudi",
   "createNewBtn": "Crea nuovo",
+  "notEditableLabel": "Non modificabile",
   "validation": {
     "mixed": {
       "required": "Campo richiesto"
@@ -14,6 +15,9 @@
     "number": {
       "min": "Il valore deve essere superiore o uguale a {{min}}",
       "max": "Il valore deve essere inferiore o uguale a {{max}}"
+    },
+    "file": {
+      "maxNameLength": "Il documento deve avere un titolo di lunghezza inferiore o uguale a {{max}} caratteri"
     }
   },
   "actions": {
@@ -24,13 +28,13 @@
     "delete": "Elimina",
     "inspect": "Visualizza",
     "edit": "Modifica",
-    "clone": "Clona",
+    "clone": "Duplica",
     "publish": "Pubblica",
     "download": "Scarica",
     "archive": "Archivia",
     "cancel": "Annulla",
     "confirm": "Conferma",
-    "createNewDraft": "Crea bozza",
+    "createNewDraft": "Crea nuova versione",
     "saveDraft": "Salva bozza",
     "manageDraft": "Gestisci bozza",
     "deleteDraft": "Elimina bozza",
@@ -39,13 +43,22 @@
     "insert": "Inserisci",
     "revoke": "Revoca",
     "upload": "Carica",
+    "saveDocument": "Salva documento",
     "import": "Importa",
     "saveEdits": "Salva modifiche",
     "accept": "Accetta",
     "approve": "Approva",
     "createNewDraftFromEserviceTemplate": "Crea bozza da template",
-    "updateIstance": "Aggiorna istanza",
-    "select": "Seleziona"
+    "updateInstance": "Aggiorna istanza",
+    "select": "Seleziona",
+    "selectAdmin": "Seleziona admin",
+    "substituteAdmin": "Sostituisci admin",
+    "copy": "Copia",
+    "markAsRead": "Segna come letto",
+    "marsAsNotRead": "Segna da leggere",
+    "specifyProcessing": "Indica trattamento",
+    "save": "Salva",
+    "simulateVoucher": "Simula l'ottenimento del voucher"
   },
   "table": {
     "headData": {
@@ -71,9 +84,20 @@
       "delegatorName": "Delega richiesta da",
       "delegateName": "Delega conferita a",
       "eserviceTemplateUsingTenant": "Ente",
+      "eserviceTemplateInstanceLabel": "Parola identificativa",
       "eserviceTemplateInstanceVersion": "Versione template",
       "eserviceTemplateInstanceState": "Stato istanza",
-      "templateName": "Template"
+      "eserviceTemplateName": "Template",
+      "dateColumn": "Data",
+      "categoryColumn": "Categoria",
+      "objectColumn": "Oggetto",
+      "targetOrganization": "Destinazione ente",
+      "purposeTemplateName": "Nome template finalità",
+      "linkedEserviceName": "E-service o template e-service",
+      "linkedEserviceProviderName": "Nome erogatore",
+      "purposeTemplateCreatorName": "Nome realizzatore",
+      "purposeTemplateTarget": "Destinatario",
+      "assignmentDate": "Data assegnazione"
     }
   },
   "status": {
@@ -84,7 +108,19 @@
       "ARCHIVED": "archiviato",
       "DEPRECATED": "deprecato",
       "WAITING_FOR_APPROVAL": "in attesa di approvazione",
-      "DRAFT_TO_CORRECT": "da correggere"
+      "DRAFT_TO_CORRECT": "da correggere",
+      "ARCHIVING": "obsoleto",
+      "ARCHIVING_SUSPENDED": "sospeso"
+    },
+    "descriptor": {
+      "PUBLISHED": "attiva",
+      "DRAFT": "in bozza",
+      "SUSPENDED": "sospesa",
+      "ARCHIVED": "archiviata",
+      "DEPRECATED": "obsoleta",
+      "WAITING_FOR_APPROVAL": "in attesa di approvazione",
+      "ARCHIVING": "obsoleta",
+      "ARCHIVING_SUSPENDED": "sospesa"
     },
     "agreement": {
       "ACTIVE": "attivo",
@@ -102,11 +138,11 @@
     },
     "purpose": {
       "DRAFT": "in bozza",
-      "ACTIVE": "attiva",
-      "SUSPENDED": "sospesa",
+      "ACTIVE": "attivo",
+      "SUSPENDED": "sospeso",
       "WAITING_FOR_APPROVAL": "in attesa di approvazione",
-      "ARCHIVED": "archiviata",
-      "REJECTED": "rifiutata"
+      "ARCHIVED": "archiviato",
+      "REJECTED": "rifiutato"
     },
     "delegation": {
       "ACTIVE": "attiva",
@@ -114,27 +150,51 @@
       "REVOKED": "revocata",
       "WAITING_FOR_APPROVAL": "in attesa di accettazione"
     },
-    "template": {
+    "eserviceTemplate": {
       "PUBLISHED": "attivo",
       "DRAFT": "in bozza",
       "SUSPENDED": "sospeso",
       "DEPRECATED": "deprecato"
+    },
+    "purposeTemplate": {
+      "PUBLISHED": "attivo",
+      "DRAFT": "in bozza",
+      "SUSPENDED": "sospeso",
+      "ARCHIVED": "archiviato"
+    },
+    "riskAnalysis": {
+      "ASSIGNED": "in attesa di compilazione",
+      "SUBMITTED": "in attesa di approvazione",
+      "SIGNED": "approvata",
+      "REJECTED": "rifiutata"
     }
   },
   "userProductRole": {
     "admin": "Amministratore",
     "security": "Operatore di sicurezza",
     "api": "Operatore API",
-    "support": "Supporto"
+    "support": "Supporto",
+    "reviewer": "Valutatore",
+    "viewer": "Consultatore"
   },
   "time": {
     "minute_one": "minuto",
-    "minute_other": "minuti"
+    "minute_other": "minuti",
+    "second_one": "secondo",
+    "second_other": "secondi"
   },
   "tos": {
     "title": "Termini di servizio"
   },
   "privacyPolicy": {
     "title": "Privacy Policy"
+  },
+  "comparators": {
+    "GT": "Maggiore di",
+    "GTE": "Maggiore o uguale a",
+    "LT": "Minore di",
+    "LTE": "Minore o uguale a",
+    "EQ": "Uguale a",
+    "NE": "Diverso da"
   }
 }

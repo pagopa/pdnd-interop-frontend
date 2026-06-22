@@ -10,8 +10,9 @@ import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceAct
 import { TableRow } from '@pagopa/interop-fe-commons'
 import type { EServiceDescriptorState, ProducerEService } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
-import { useQueryClient } from '@tanstack/react-query'
-import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
+import { DelegationTooltip } from '@/components/shared/DelegationTooltip'
 
 type EServiceTableRow = {
   eservice: ProducerEService
@@ -30,7 +31,10 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
     eservice.delegation && eservice.delegation?.delegator.id === jwt?.organizationId
   )
 
-  const { actions } = useGetProviderEServiceActions(
+  const { data: eserviceWithPersonalData } = useQuery(EServiceQueries.getSingle(eservice.id))
+  const hasPersonalData = eserviceWithPersonalData?.personalData !== undefined
+
+  const { primaryAction, secondaryAction, menuActions } = useGetProviderEServiceActions(
     eservice.id,
     eservice.activeDescriptor?.state,
     eservice.draftDescriptor?.state,
@@ -40,7 +44,9 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
     eservice.name,
     eservice.isNewTemplateVersionAvailable ?? false,
     eservice.isTemplateInstance,
-    eservice.delegation
+    eservice.delegation,
+    hasPersonalData,
+    'tableRow'
   )
 
   const hasActiveDescriptor = eservice.activeDescriptor
@@ -59,16 +65,26 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
     )
   }
 
+  const actions = [
+    ...(primaryAction ? [primaryAction] : []),
+    ...(secondaryAction ? [secondaryAction] : []),
+    ...menuActions,
+  ]
+
   return (
     <TableRow
       cellData={[
         isEServiceByDelegation ? (
-          <Stack direction="row" spacing={1}>
+          <Stack direction="row" alignItems={'center'} spacing={1}>
+            {eservice.hasUnreadNotifications && <NotificationBadgeDot />}
             <Typography variant="body2">{eservice.name}</Typography>
-            <ByDelegationChip tenantRole={isDelegator ? 'DELEGATOR' : 'DELEGATE'} />
+            {eservice.delegation && <DelegationTooltip delegation={eservice.delegation} />}
           </Stack>
         ) : (
-          eservice.name
+          <Stack direction="row" alignItems="center">
+            {eservice.hasUnreadNotifications && <NotificationBadgeDot />}
+            {eservice.name}
+          </Stack>
         ),
         eservice?.activeDescriptor?.version || '1',
         <Stack key={eservice?.id} direction="row" spacing={1}>

@@ -1,32 +1,36 @@
 import React from 'react'
 import { EServiceQueries } from '@/api/eservice'
-import { PageContainer } from '@/components/layout/containers'
 import useGetEServiceConsumerActions from '@/hooks/useGetEServiceConsumerActions'
 import { useParams } from '@/router'
 import { useTranslation } from 'react-i18next'
-import { ConsumerEServiceDetailsAlerts } from './components/ConsumerEServiceDetailsAlerts'
-import { Grid } from '@mui/material'
-import {
-  ConsumerEServiceDescriptorAttributes,
-  ConsumerEServiceDescriptorAttributesSkeleton,
-} from './components/ConsumerEServiceDescriptorAttributes'
-import {
-  ConsumerEServiceGeneralInfoSection,
-  ConsumerEServiceGeneralInfoSectionSkeleton,
-} from './components/ConsumerEServiceGeneralInfoSection'
+import { Tab } from '@mui/material'
 import { useTrackPageViewEvent } from '@/config/tracking'
 import { useQuery } from '@tanstack/react-query'
 import { DelegationQueries } from '@/api/delegation'
 import { AuthHooks } from '@/api/auth'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
+import { useActiveTab } from '@/hooks/useActiveTab'
+import ConsumerEServiceDetailsTab from './components/ConsumerEServiceDetailsTab/ConsumerEServiceDetailsTab'
+import ConsumerLinkedPurposeTemplatesTab from './components/ConsumerLinkedPurposeTemplatesTab.tsx/ConsumerLinkedPurposeTemplatesTab'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
+import { NewPageContainer } from '@/components/layout/containers/NewPageContainer'
+import { useDialog } from '@/stores'
+import { getViewLatestVersionTargetId, isDescriptorPendingArchiving } from '@/utils/eservice.utils'
+import { ConsumerEServiceDetailsAlerts } from './components/ConsumerEServiceDetailsTab/ConsumerEServiceDetailsAlerts'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt, isReviewer } = AuthHooks.useJwt()
+
+  const { activeTab, updateActiveTab } = useActiveTab('eserviceDetail')
+  const { openDialog } = useDialog()
 
   const { data: descriptor } = useQuery(
     EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
   )
+
+  useMarkNotificationsAsRead(`${eserviceId}/${descriptorId}`)
 
   const { data: delegators } = useQuery({
     ...DelegationQueries.getConsumerDelegators({
@@ -34,7 +38,7 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
       offset: 0,
       eserviceIds: [eserviceId],
     }),
-    enabled: Boolean(jwt?.organizationId),
+    enabled: Boolean(jwt?.organizationId) && !isReviewer,
     select: ({ results }) => results ?? [],
   })
 
@@ -47,18 +51,19 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
       states: ['ACTIVE'],
       delegatorIds: [jwt?.organizationId as string],
     }),
-    enabled: Boolean(jwt?.organizationId),
+    enabled: Boolean(jwt?.organizationId) && !isReviewer,
     select: ({ results }) => results ?? [],
   })
 
   const isDelegator = delegations.length > 0
 
-  const { actions } = useGetEServiceConsumerActions(
-    descriptor?.eservice,
-    descriptor,
-    delegators,
-    isDelegator
+  const viewLatestVersionTargetId = React.useMemo(
+    () => getViewLatestVersionTargetId(descriptor?.eservice.descriptors, descriptorId),
+    [descriptor?.eservice.descriptors, descriptorId]
   )
+
+  const { primaryAction, secondaryAction, menuActions, headerInfoActions } =
+    useGetEServiceConsumerActions(descriptor, delegators, isDelegator, viewLatestVersionTargetId)
 
   useTrackPageViewEvent('INTEROP_CATALOG_READ', {
     eserviceId: descriptor?.eservice.id,
@@ -66,28 +71,76 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
   })
 
   return (
-    <PageContainer
+    <NewPageContainer
       title={descriptor?.eservice.name || ''}
-      topSideActions={actions}
+      primaryAction={primaryAction}
+      secondaryAction={secondaryAction}
+      menuActions={menuActions}
       isLoading={!descriptor}
-      statusChip={descriptor ? { for: 'eservice', state: descriptor?.state } : undefined}
       backToAction={{
         label: t('actions.backToCatalogLabel'),
         to: 'SUBSCRIBE_CATALOG_LIST',
       }}
+      infoSection={
+        descriptor
+          ? {
+              label: t('versionHeaderLabel'),
+              shortcut: {
+                type: 'button',
+                label: descriptor.version,
+                onClick: () =>
+                  openDialog({
+                    type: 'showEserviceVersionsList',
+                    eserviceId,
+                    eserviceName: descriptor.eservice.name,
+                    descriptors: descriptor.eservice.descriptors,
+                    activeDescriptor: descriptor.eservice.activeDescriptor,
+                    routeKey: 'SUBSCRIBE_CATALOG_VIEW',
+                  }),
+              },
+              actions: headerInfoActions,
+              statusChip: {
+                for: 'descriptor',
+                state: descriptor.state,
+                isActiveDescriptor: descriptor.id === descriptor.eservice.activeDescriptor?.id,
+              },
+              archivingScheduleInfo:
+                isDescriptorPendingArchiving(descriptor.state) &&
+                descriptor.archivingSchedule?.archivableOn &&
+                descriptor.archivingSchedule?.scope
+                  ? {
+                      archivableOn: descriptor.archivingSchedule.archivableOn,
+                      scope: descriptor.archivingSchedule.scope,
+                    }
+                  : undefined,
+            }
+          : undefined
+      }
     >
       <ConsumerEServiceDetailsAlerts descriptor={descriptor} />
-      <Grid container>
-        <Grid item xs={8}>
-          <React.Suspense fallback={<ConsumerEServiceGeneralInfoSectionSkeleton />}>
-            <ConsumerEServiceGeneralInfoSection />
-          </React.Suspense>
-          <React.Suspense fallback={<ConsumerEServiceDescriptorAttributesSkeleton />}>
-            <ConsumerEServiceDescriptorAttributes />
-          </React.Suspense>
-        </Grid>
-      </Grid>
-    </PageContainer>
+      {isReviewer ? (
+        <ConsumerEServiceDetailsTab />
+      ) : (
+        <TabContext value={activeTab}>
+          <TabList
+            onChange={updateActiveTab}
+            aria-label={t('tabs.ariaLabelEserviceDetail')}
+            variant="fullWidth"
+          >
+            <Tab label={t('tabs.eserviceDetail')} value="eserviceDetail" />
+            <Tab label={t('tabs.purposeTemplate')} value="linkedPurposeTemplates" />
+          </TabList>
+
+          <TabPanel value="eserviceDetail">
+            <ConsumerEServiceDetailsTab />
+          </TabPanel>
+
+          <TabPanel value="linkedPurposeTemplates">
+            <ConsumerLinkedPurposeTemplatesTab />
+          </TabPanel>
+        </TabContext>
+      )}
+    </NewPageContainer>
   )
 }
 

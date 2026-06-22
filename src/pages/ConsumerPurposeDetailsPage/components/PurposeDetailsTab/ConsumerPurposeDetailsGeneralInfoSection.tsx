@@ -21,16 +21,17 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
   })
 
   const generatePath = useGeneratePath()
+  const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'documents' })
 
-  const downloadRiskAnalysis = PurposeDownloads.useDownloadRiskAnalysis()
+  const downloadSignedRiskAnalysis = PurposeDownloads.useDownloadSignedRiskAnalysis()
 
-  const handleDownloadDocument = () => {
-    if (!purpose.currentVersion || !purpose.currentVersion.riskAnalysisDocument) return
-    downloadRiskAnalysis(
+  const handleDownloadSignedDocument = () => {
+    if (!purpose.currentVersion || !purpose.currentVersion.signedContract) return
+    downloadSignedRiskAnalysis(
       {
         purposeId: purpose.id,
         versionId: purpose.currentVersion.id,
-        documentId: purpose.currentVersion.riskAnalysisDocument.id,
+        signedContractId: purpose.currentVersion.signedContract?.id,
       },
       `${t('riskAnalysis.fileName')}.pdf`
     )
@@ -41,8 +42,14 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
     label: t('riskAnalysis.link.label'),
     component: 'button',
     type: 'button',
-    onClick: handleDownloadDocument,
+    sx: { fontWeight: '700' },
+    disabled: purpose.isDocumentReady === false,
+    tooltip: purpose.isDocumentReady === false ? tShared('notAvailableYet') : undefined,
+    onClick: handleDownloadSignedDocument,
+    'data-testid': 'download-risk-analysis-document-button',
   }
+
+  const isFromPurposeTemplate = Boolean(purpose.purposeTemplate?.id)
 
   return (
     <SectionContainer
@@ -54,6 +61,7 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
         {
           startIcon: <LinkIcon fontSize="small" />,
           label: t('agreementLink.label'),
+          sx: { fontWeight: '700' },
           href:
             '/ui' + generatePath('SUBSCRIBE_AGREEMENT_READ', { agreementId: purpose.agreement.id }),
           target: '_blank',
@@ -82,11 +90,31 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
           label={t('providerField.label')}
           content={purpose.eservice.producer.name}
         />
-        <InformationContainer label={t('consumerField.label')} content={purpose.consumer.name} />
         {purpose.delegation && (
+          <>
+            <InformationContainer
+              label={t('consumerField.label')}
+              content={purpose.consumer.name}
+            />
+            <InformationContainer
+              label={t('delegatedConsumerField.label')}
+              content={purpose.delegation.delegate.name}
+            />
+          </>
+        )}
+        {isFromPurposeTemplate && (
           <InformationContainer
-            label={t('delegatedConsumerField.label')}
-            content={purpose.delegation.delegate.name}
+            label={t('purposeTemplateField.label')}
+            content={
+              <Link
+                to="SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS"
+                params={{
+                  purposeTemplateId: purpose.purposeTemplate?.id as string,
+                }}
+              >
+                {purpose.purposeTemplate?.purposeTitle as string}
+              </Link>
+            }
           />
         )}
         <InformationContainer

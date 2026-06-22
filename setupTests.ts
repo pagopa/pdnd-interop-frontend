@@ -3,6 +3,38 @@ import { cleanup } from '@testing-library/react'
 // extends Vitest's expect method with methods from react-testing-library
 import '@testing-library/jest-dom/vitest'
 
+const localhost = 'http://localhost:3000/0.0'
+export const testConfigs = {
+  NODE_ENV: 'test',
+  STAGE: 'DEV',
+  AUTHORIZATION_SERVER_TOKEN_CREATION_URL: 'https://auth.dev.interop.pagopa.it/token.oauth2',
+  AUTHORIZATION_SERVER_TOKEN_CREATION_ASYNC_URL:
+    'https://auth.dev.interop.pagopa.it/token.oauth2.async',
+  SELFCARE_LOGIN_URL: 'https://uat.selfcare.pagopa.it/',
+  SELFCARE_BASE_URL: 'https://uat.selfcare.pagopa.it',
+  INTEROP_RESOURCES_BASE_URL: 'https://interop-public-assets-dev.s3.eu-south-1.amazonaws.com',
+  BACKEND_FOR_FRONTEND_URL: `${localhost}/backend-for-frontend`,
+  MIXPANEL_PROJECT_ID: 'b6c8c3c3ed0b32d66c61593bcb84e705',
+  ONETRUST_DOMAIN_SCRIPT_ID: '018ef6c1-31f6-70a6-bf72-ds7d45c0ade7e',
+  CLIENT_ASSERTION_JWT_AUDIENCE: '',
+  M2M_JWT_AUDIENCE: 'dev.interop.pagopa.it/m2m',
+  WELL_KNOWN_URLS: 'https://dev.interop.pagopa.it/.well-known/jwks.json',
+  PRODUCER_ALLOWED_ORIGINS:
+    'IPA,ANAC,IVASS,INFOCAMERE,SELC,SELC-PT,PDND_INFOCAMERE-SCP,PDND_INFOCAMERE-PRV,PDND_INFOCAMERE-PT,INFOCAMERE-PT',
+  PUBLIC_URL: '/ui',
+  FEATURE_FLAG_ADMIN_CLIENT: 'true',
+  FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: 'true',
+  SIGNALHUB_PERSONAL_DATA_PROCESS_URL: 'http://localhost',
+  FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER: 'true',
+  DOCUMENTATION_URL:
+    'https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0',
+  AVATAR_BASEPATH: 'http://selc-u-checkout-cdn-endpoint.azureedge.net',
+  SELFCARE_PRODUCT_ID: 'prod-interop',
+  FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP: 'false',
+  GRACE_PERIOD_ARCHIVING_ESERVICE: 90,
+  FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE: 'true',
+}
+
 // runs a cleanup after each test case (e.g. clearing jsdom)
 afterEach(() => {
   cleanup()
@@ -16,6 +48,8 @@ global.crypto.randomUUID = () =>
   Math.random().toString() as `${string}-${string}-${string}-${string}-${string}`
 
 vi.stubGlobal('scroll', vi.fn())
+vi.stubGlobal('pagopa_env', testConfigs)
+
 vi.mock('zustand')
 vi.mock('react-i18next')
 

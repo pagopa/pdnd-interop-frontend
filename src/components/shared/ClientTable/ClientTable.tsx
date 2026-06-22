@@ -5,7 +5,6 @@ import { ClientTableRow, ClientTableRowSkeleton } from './ClientTableRow'
 import { Filters, Pagination, Table, useFilters, usePagination } from '@pagopa/interop-fe-commons'
 import type { ClientKind, GetClientsParams } from '@/api/api.generatedTypes'
 import { keepPreviousData, useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { FEATURE_FLAG_ADMIN_CLIENT_API } from '@/config/env'
 
 type ClientTableProps = {
   clientKind: ClientKind
@@ -13,7 +12,8 @@ type ClientTableProps = {
 
 export const ClientTable: React.FC<ClientTableProps> = ({ clientKind }) => {
   const { t } = useTranslation('client', { keyPrefix: 'list.filters' })
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
   const { filtersParams, ...handlers } = useFilters([
     { name: 'q', type: 'freetext', label: t('nameField.label') },
   ])
@@ -37,6 +37,7 @@ export const ClientTable: React.FC<ClientTableProps> = ({ clientKind }) => {
       </Suspense>
       <Pagination
         {...paginationProps}
+        rowPerPageOptions={rowPerPageOptions}
         totalPages={getTotalPageCount(clients?.pagination.totalCount)}
       />
     </>
@@ -52,7 +53,7 @@ const ClientTableWrapper: React.FC<{
   const { data: clients } = useSuspenseQuery(ClientQueries.getList(params))
 
   const headLabels =
-    FEATURE_FLAG_ADMIN_CLIENT_API && clientKind === 'API'
+    clientKind === 'API'
       ? [tCommon('clientName'), tCommon('clientAdminName'), '']
       : [tCommon('clientName'), '']
   const isEmpty = clients.results.length === 0
@@ -72,9 +73,7 @@ export const ClientTableSkeleton: React.FC<{
 }> = ({ clientKind }) => {
   const { t } = useTranslation('common', { keyPrefix: 'table.headData' })
   const headLabels =
-    FEATURE_FLAG_ADMIN_CLIENT_API && clientKind === 'API'
-      ? [t('clientName'), t('clientAdminName'), '']
-      : [t('clientName'), '']
+    clientKind === 'API' ? [t('clientName'), t('clientAdminName'), ''] : [t('clientName'), '']
 
   return (
     <Table headLabels={headLabels}>

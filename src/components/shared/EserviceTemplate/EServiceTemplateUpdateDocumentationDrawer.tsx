@@ -13,15 +13,15 @@ import DownloadIcon from '@mui/icons-material/Download'
 import InfoIcon from '@mui/icons-material/Info'
 import CloseIcon from '@mui/icons-material/Close'
 import { Pagination, usePagination } from '@pagopa/interop-fe-commons'
-import { TemplateMutations } from '@/api/template'
-import { TemplateDownloads } from '@/api/template/template.downloads'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
+import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 
-type EServiceTemplateCreateStepDocumentsDocFormValues = {
+type EServiceTemplateUpdateDocumentationDocFormValues = {
   doc: File | null
   prettyName: string
 }
 
-const defaultValues: EServiceTemplateCreateStepDocumentsDocFormValues = {
+const defaultValues: EServiceTemplateUpdateDocumentationDocFormValues = {
   doc: null,
   prettyName: '',
 }
@@ -38,14 +38,16 @@ type EServiceTemplateUpdateDocumentationDrawerProps = {
 export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
   EServiceTemplateUpdateDocumentationDrawerProps
 > = ({ isOpen, onClose, templateId, templateVersionId, interfaceDocs, templateDocs }) => {
-  const { t } = useTranslation('template', { keyPrefix: 'read.drawers.updateDocumentationDrawer' })
+  const { t } = useTranslation('eserviceTemplate', {
+    keyPrefix: 'read.drawers.updateDocumentationDrawer',
+  })
   const { t: tCommon } = useTranslation('common')
 
-  const { mutate: uploadDocument } = TemplateMutations.usePostVersionDraftDocument()
-  const { mutate: deleteDocument } = TemplateMutations.useDeleteVersionDraftDocument()
+  const { mutate: uploadDocument } = EServiceTemplateMutations.usePostVersionDraftDocument()
+  const { mutate: deleteDocument } = EServiceTemplateMutations.useDeleteVersionDraftDocument()
   const { mutate: updateDocumentName } =
-    TemplateMutations.useUpdateVersionDraftDocumentDescription()
-  const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
+    EServiceTemplateMutations.useUpdateVersionDraftDocumentDescription()
+  const downloadDocument = EServiceTemplateDownloads.useDownloadVersionDocument()
 
   const [showWriteDocInput, setShowWriteDocInput] = React.useState(false)
 
@@ -70,7 +72,7 @@ export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
     shouldUnregister: true,
   })
 
-  const onSubmit = ({ doc, prettyName }: EServiceTemplateCreateStepDocumentsDocFormValues) => {
+  const onSubmit = ({ doc, prettyName }: EServiceTemplateUpdateDocumentationDocFormValues) => {
     if (!doc) return
 
     // the current total page number (before uploading the new doc)
@@ -169,7 +171,7 @@ export const EServiceTemplateUpdateDocumentationDrawer: React.FC<
           if (!doc) return null
           if (index === 0 && paginationParams.offset === 0)
             return (
-              <Stack spacing={1}>
+              <Stack spacing={1} key={doc.id}>
                 <InterfaceDocumentContainer doc={doc} onDownload={handleDownloadDocument} />
                 <Divider />
               </Stack>
@@ -258,7 +260,14 @@ const InterfaceDocumentContainer: React.FC<InterfaceDocumentContainerProps> = ({
       <Stack direction="row" alignItems="center" spacing={1}>
         <Typography variant="body2">{doc.prettyName}</Typography>
         <Tooltip title={t('interfaceInfoTooltip')}>
-          <InfoIcon fontSize="small" sx={{ color: 'text.secondary' }} />
+          <Stack
+            component="span"
+            tabIndex={0}
+            aria-label={t('interfaceInfoTooltip')}
+            sx={{ display: 'inline-flex', alignItems: 'center' }}
+          >
+            <InfoIcon fontSize="small" sx={{ color: 'text.secondary' }} aria-hidden={true} />
+          </Stack>
         </Tooltip>
       </Stack>
       {onDownload && (

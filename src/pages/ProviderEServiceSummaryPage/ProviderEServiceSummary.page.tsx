@@ -1,26 +1,30 @@
 import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
 import { Trans, useTranslation } from 'react-i18next'
-import { useNavigate, useParams } from '@/router'
+import { useGeneratePath, useNavigate, useParams } from '@/router'
 import { EServiceMutations, EServiceQueries } from '@/api/eservice'
-import { Alert, Button, Link, Stack, Tooltip } from '@mui/material'
+import { KeychainQueries } from '@/api/keychain'
+import { Alert, Button, Link, Stack, Tooltip, Typography } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
 import { SummaryAccordion, SummaryAccordionSkeleton } from '@/components/shared/SummaryAccordion'
 import {
-  ProviderEServiceDocumentationSummary,
-  ProviderEServiceGeneralInfoSummary,
-  ProviderEServiceVersionInfoSummary,
+  ProviderEServiceDocumentationSummarySection,
+  ProviderEServiceGeneralInfoSummarySection,
+  ProviderEServiceAttributeVersionSummarySection,
+  ProviderEServiceRiskAnalysisSummaryListSection,
+  ProviderEServiceVersionInfoSummarySection,
 } from './components'
-import { ProviderEServiceAttributeVersionSummary } from './components/ProviderEServiceAttributeVersionSummary'
-import { ProviderEServiceRiskAnalysisSummaryList } from './components/ProviderEServiceRiskAnalysisSummaryList'
 import { useQuery } from '@tanstack/react-query'
 import { RejectReasonDrawer } from '@/components/shared/RejectReasonDrawer'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { AuthHooks } from '@/api/auth'
 import { useGetProducerDelegationUserRole } from '@/hooks/useGetProducerDelegationUserRole'
 import { useDialog } from '@/stores'
+import { UpdatePersonalDataDrawer } from '@/components/shared/UpdatePersonalDataDrawer'
+import type { EServiceMode } from '@/api/api.generatedTypes'
+import { match } from 'ts-pattern'
 
 const ProviderEServiceSummaryPage: React.FC = () => {
   const { t } = useTranslation('eservice')
@@ -28,11 +32,13 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const { t: tDialogApproveDelegatedVersionDraft } = useTranslation('shared-components', {
     keyPrefix: 'dialogApproveDelegatedVersionDraft',
   })
+  const { t: tTemplate } = useTranslation('eserviceTemplate')
   const { jwt } = AuthHooks.useJwt()
   const { isSupport } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_SUMMARY'>()
   const navigate = useNavigate()
+  const generatePath = useGeneratePath()
   const { openDialog, closeDialog } = useDialog()
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
@@ -58,10 +64,29 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     EServiceQueries.getDescriptorProvider(eserviceId, descriptorId)
   )
 
+  const { data: associatedKeychains, isLoading: isAssociatedKeychainsLoading } = useQuery({
+    ...KeychainQueries.getKeychainsList({
+      eserviceId,
+      offset: 0,
+      limit: 50,
+    }),
+    enabled: Boolean(descriptor?.eservice.asyncExchange),
+  })
+
+  const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
+
+  const { mutate: updateEservicePersonalData } =
+    EServiceMutations.useUpdateEServicePersonalDataFlagAfterPublication()
+
+  const { mutate: setEservicePersonalDataFirstDraft } = EServiceMutations.useUpdateDraft()
+
+  const isEServiceFromTemplate = descriptor?.templateRef
+
+  // In this case "draft" version is the actual version that user is creating, so if the e-service has only one draft it means that it has never been published before.
+  const hasOnlyOneDraft = descriptor?.eservice.descriptors.length === 0
+
   const handleDeleteDraft = () => {
     if (!descriptor) return
-
-    const hasOnlyOneDraft = descriptor.eservice.descriptors.length === 0
 
     // In case the e-service has only one draft, we call the deleteDraft mutation
     if (hasOnlyOneDraft) {
@@ -90,21 +115,58 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   const handlePublishDraft = () => {
     if (!descriptor) return
 
+    const isFirstVersion = descriptor.version === '1'
+    const isAsyncExchange = descriptor.eservice.asyncExchange === true
+
     publishVersion(
       {
         eserviceId: descriptor.eservice.id,
         descriptorId: descriptor.id,
         delegatorName: delegation?.delegator.name,
         eserviceName: delegation?.eservice?.name,
+        isFirstVersion,
       },
       {
-        onSuccess: () =>
-          navigate('PROVIDE_ESERVICE_MANAGE', {
+        onSuccess: () => {
+          navigate('PROVIDE_ESERVICE_PUBLISH_THANK_YOU', {
             params: {
               eserviceId: descriptor.eservice.id,
               descriptorId: descriptor.id,
             },
-          }),
+            state: {
+              ...match({ isFirstVersion, isAsyncExchange })
+                .with({ isFirstVersion: true, isAsyncExchange: false }, () => ({
+                  title: t('publishThankYou.firstVersion.title'),
+                  description: t('publishThankYou.firstVersion.description'),
+                  buttonLabel: t('publishThankYou.action'),
+                }))
+                .with({ isFirstVersion: true, isAsyncExchange: true }, () => ({
+                  title: t('publishThankYou.firstVersionAsync.title'),
+                  description: t('publishThankYou.firstVersionAsync.description'),
+                  buttonLabel: t('publishThankYou.asyncAction'),
+                }))
+                .with({ isFirstVersion: false, isAsyncExchange: false }, () => ({
+                  title: t('publishThankYou.newVersion.title'),
+                  subtitle: t('publishThankYou.newVersion.subtitle'),
+                  bulletPoints: t('publishThankYou.newVersion.bulletPoints', {
+                    returnObjects: true,
+                  }),
+                  buttonLabel: t('publishThankYou.action'),
+                }))
+                .with({ isFirstVersion: false, isAsyncExchange: true }, () => ({
+                  title: t('publishThankYou.newVersionAsync.title'),
+                  subtitle: t('publishThankYou.newVersionAsync.subtitle'),
+                  bulletPoints: t('publishThankYou.newVersionAsync.bulletPoints', {
+                    returnObjects: true,
+                  }),
+                  buttonLabel: t('publishThankYou.asyncAction'),
+                }))
+                .exhaustive(),
+              closeRouteKey: 'PROVIDE_ESERVICE_MANAGE',
+              closeRouteParams: { eserviceId: descriptor.eservice.id, descriptorId: descriptor.id },
+            },
+          })
+        },
       }
     )
   }
@@ -142,30 +204,54 @@ const ProviderEServiceSummaryPage: React.FC = () => {
   }
 
   const checklistEServiceFromTemplate = (): boolean => {
-    const isEServiceFromTemplate = descriptor?.templateRef
-
     // if the descriptor is not from a template, return true, means that in canBePublished has not to have any condition
     if (!isEServiceFromTemplate) {
       return true
     }
 
-    return !!descriptor.templateRef?.interfaceMetadata
-  }
-
-  const canBePublished = () => {
-    return !!(
-      descriptor &&
-      descriptor.interface &&
-      descriptor.description &&
-      descriptor.audience[0] &&
-      descriptor.voucherLifespan &&
-      descriptor.dailyCallsPerConsumer &&
-      descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer &&
-      checklistEServiceFromTemplate()
+    return (
+      !!descriptor.templateRef?.interfaceMetadata || !!descriptor.templateRef?.templateInterface
     )
   }
 
   const isReceiveMode = descriptor?.eservice.mode === 'RECEIVE'
+
+  const arePersonalDataSet = descriptor?.eservice.personalData !== undefined
+
+  const eserviceRiskAnalyses = descriptor?.eservice.riskAnalysis
+
+  const isRulesetExpired =
+    // check if the e-service had already been published. In this case we have to skip ruleset expiration check (https://pagopa.atlassian.net/browse/PIN-9966)
+    hasOnlyOneDraft &&
+    eserviceRiskAnalyses &&
+    eserviceRiskAnalyses.some(
+      (riskAnalysis) =>
+        riskAnalysis.rulesetExpiration && new Date(riskAnalysis.rulesetExpiration) < new Date()
+    )
+
+  const isAsyncExchangeValidationLoading =
+    Boolean(descriptor?.eservice.asyncExchange) && isAssociatedKeychainsLoading
+
+  const areAsyncExchangeFieldsSet =
+    !descriptor?.eservice.asyncExchange ||
+    Boolean(descriptor.asyncExchangeCallbackInterface && descriptor.asyncExchangeProperties)
+
+  const canBePublished = () => {
+    return (
+      !!(
+        descriptor &&
+        descriptor.interface &&
+        descriptor.description &&
+        descriptor.audience[0] &&
+        descriptor.voucherLifespan &&
+        descriptor.dailyCallsPerConsumer &&
+        descriptor.dailyCallsTotal >= descriptor.dailyCallsPerConsumer &&
+        arePersonalDataSet &&
+        areAsyncExchangeFieldsSet &&
+        !isRulesetExpired
+      ) && checklistEServiceFromTemplate()
+    )
+  }
 
   const requireDelegateCorrections =
     descriptor?.rejectionReasons && descriptor.rejectionReasons.length > 0
@@ -176,153 +262,304 @@ const ProviderEServiceSummaryPage: React.FC = () => {
     return dateB.getTime() - dateA.getTime()
   })
 
+  const eserviceLabel = t('summary.alertMissingPersonalData.eserviceLabel')
+    .split('\n')
+    .map((line, idx) => (
+      <span key={idx}>
+        {line}
+        <br />
+      </span>
+    ))
+
+  const {
+    isOpen: isEServiceUpdatePersonalDataDrawerOpen,
+    openDrawer: openUpdatePersonalDataDrawer,
+    closeDrawer: closeEServiceUpdatePersonalDataDrawer,
+  } = useDrawerState()
+
+  const handleEServicePersonalDataUpdate = (eserviceId: string, personalData: boolean) => {
+    if (hasOnlyOneDraft) {
+      setEservicePersonalDataFirstDraft(
+        {
+          eserviceId: descriptor.eservice.id,
+          description: descriptor.eservice.description,
+          mode: descriptor.eservice.mode,
+          name: descriptor.eservice.name,
+          technology: descriptor.eservice.technology,
+          isClientAccessDelegable: descriptor.eservice.isClientAccessDelegable,
+          isConsumerDelegable: descriptor.eservice.isConsumerDelegable,
+          isSignalHubEnabled: descriptor.eservice.isSignalHubEnabled,
+          personalData: personalData,
+        },
+        { onSuccess: closeEServiceUpdatePersonalDataDrawer }
+      )
+    } else {
+      updateEservicePersonalData(
+        {
+          eserviceId: eserviceId,
+          personalData: personalData,
+        },
+        { onSuccess: closeEServiceUpdatePersonalDataDrawer }
+      )
+    }
+  }
+
+  const isGeneralInfoSectionValid =
+    Boolean(descriptor?.eservice.description) &&
+    Boolean(descriptor?.eservice.technology) &&
+    arePersonalDataSet
+
+  const isVersionInfoSectionValid =
+    Boolean(descriptor?.description) &&
+    Boolean(descriptor?.audience?.length) &&
+    Boolean(descriptor?.voucherLifespan)
+
+  const isDocumentationSectionValid = Boolean(descriptor?.interface) && areAsyncExchangeFieldsSet
+  const isPublishable = canBePublished()
+  const publishTooltipKey = getPublishTooltipKey({
+    isPublishable,
+    arePersonalDataSet,
+    isRulesetExpired,
+    isValidationLoading: isAsyncExchangeValidationLoading,
+  })
+  const publishTooltipTitle = publishTooltipKey ? t(publishTooltipKey) : ''
+
   return (
-    <PageContainer
-      title={t('summary.title', {
-        eserviceName: descriptor?.eservice.name,
-        versionNumber: descriptor?.version ?? '1',
-      })}
-      backToAction={{
-        label: t('backToListBtn'),
-        to: 'PROVIDE_ESERVICE_LIST',
-      }}
-      isLoading={isLoading}
-      statusChip={{
-        for: 'eservice',
-        state: 'DRAFT',
-        isDraftToCorrect: requireDelegateCorrections,
-      }}
-    >
-      <Stack spacing={3}>
-        {requireDelegateCorrections && (
-          <Alert severity="error" variant="outlined">
+    <>
+      <PageContainer
+        title={t('summary.title', {
+          eserviceName: descriptor?.eservice.name,
+          versionNumber: descriptor?.version ?? '1',
+        })}
+        description={
+          isEserviceFromTemplate ? (
             <Trans
               components={{
                 1: (
                   <Link
-                    onClick={openDrawer}
-                    variant="body2"
-                    fontWeight={700}
-                    sx={{ cursor: 'pointer' }}
+                    underline="hover"
+                    href={
+                      '/ui' +
+                      generatePath('SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS', {
+                        eServiceTemplateId: descriptor?.templateRef?.templateId as string,
+                        eServiceTemplateVersionId: descriptor?.templateRef
+                          ?.templateVersionId as string,
+                      })
+                    }
+                    target="_blank"
                   />
                 ),
               }}
             >
-              {isDelegator
-                ? t('summary.rejectedDelegatedVersionDraftAlert.delegator')
-                : t('summary.rejectedDelegatedVersionDraftAlert.delegate')}
+              {tTemplate('createInstance.eserviceTemplateDescriptionLink', {
+                templateName: descriptor?.templateRef?.templateName,
+              })}
             </Trans>
-          </Alert>
-        )}
-
-        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="1" title={t('summary.generalInfoSummary.title')}>
-            <ProviderEServiceGeneralInfoSummary />
-          </SummaryAccordion>
-        </React.Suspense>
-
-        {isReceiveMode && (
+          ) : undefined
+        }
+        backToAction={{
+          label: t('backToListBtn'),
+          to: 'PROVIDE_ESERVICE_LIST',
+        }}
+        isLoading={isLoading}
+        statusChip={{
+          for: 'eservice',
+          state: descriptor?.state || 'DRAFT',
+          isDraftToCorrect: requireDelegateCorrections,
+        }}
+      >
+        <Stack spacing={3}>
+          {requireDelegateCorrections && (
+            <Alert severity="error" variant="outlined">
+              <Trans
+                components={{
+                  1: (
+                    <Link
+                      onClick={openDrawer}
+                      variant="body2"
+                      fontWeight={700}
+                      sx={{ cursor: 'pointer' }}
+                    />
+                  ),
+                }}
+              >
+                {isDelegator
+                  ? t('summary.rejectedDelegatedVersionDraftAlert.delegator')
+                  : t('summary.rejectedDelegatedVersionDraftAlert.delegate')}
+              </Trans>
+            </Alert>
+          )}
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-            <SummaryAccordion headline="2" title={t('summary.riskAnalysisSummaryList.title')}>
-              <ProviderEServiceRiskAnalysisSummaryList />
+            <SummaryAccordion
+              headline="1"
+              title={t('summary.generalInfoSummary.title')}
+              defaultExpanded={true}
+              statusChip={
+                !isGeneralInfoSectionValid
+                  ? { label: t('summary.missingInformationsLabel'), color: 'warning' }
+                  : undefined
+              }
+            >
+              <ProviderEServiceGeneralInfoSummarySection />
             </SummaryAccordion>
           </React.Suspense>
+          <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+            <SummaryAccordion headline="2" title={t('summary.attributeVersionSummary.title')}>
+              <ProviderEServiceAttributeVersionSummarySection />
+            </SummaryAccordion>
+          </React.Suspense>
+          {isReceiveMode && (
+            <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+              <SummaryAccordion headline="3" title={t('summary.riskAnalysisSummaryList.title')}>
+                <ProviderEServiceRiskAnalysisSummaryListSection />
+              </SummaryAccordion>
+            </React.Suspense>
+          )}
+          <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+            <SummaryAccordion
+              headline={isReceiveMode ? '4' : '3'}
+              title={t('summary.documentationSummary.title')}
+              statusChip={
+                !isAsyncExchangeValidationLoading && !isDocumentationSectionValid
+                  ? { label: t('summary.missingInformationsLabel'), color: 'warning' }
+                  : undefined
+              }
+            >
+              <ProviderEServiceDocumentationSummarySection
+                associatedKeychains={associatedKeychains}
+              />
+            </SummaryAccordion>
+          </React.Suspense>
+          <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+            <SummaryAccordion
+              headline={isReceiveMode ? '5' : '4'}
+              title={t('summary.versionInfoSummary.title')}
+              statusChip={
+                !isVersionInfoSectionValid
+                  ? { label: t('summary.missingInformationsLabel'), color: 'warning' }
+                  : undefined
+              }
+            >
+              <ProviderEServiceVersionInfoSummarySection />
+            </SummaryAccordion>
+          </React.Suspense>
+          {!arePersonalDataSet && isDelegator && descriptor?.state === 'WAITING_FOR_APPROVAL' && (
+            <Alert severity="error">
+              {isEServiceFromTemplate
+                ? t('summary.alertMissingPersonalData.eserviceTemplateLabel')
+                : eserviceLabel}
+            </Alert>
+          )}
+          {!arePersonalDataSet && !isLoading && !isDelegator && !isEServiceFromTemplate && (
+            <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
+              <Stack spacing={35} direction="row" alignItems="center">
+                {' '}
+                {/**TODO FIX SPACING */}
+                <Typography>{t('summary.alertUpdatePersonalData.label')}</Typography>
+                <Button
+                  variant="naked"
+                  size="medium"
+                  sx={{ fontWeight: 700, mr: 1, alignSelf: 'flex-end' }}
+                  onClick={openUpdatePersonalDataDrawer}
+                >
+                  {tCommon('specifyProcessing')}
+                </Button>
+              </Stack>
+            </Alert>
+          )}
+        </Stack>
+        {!isDelegator &&
+          !(isEServiceFromTemplate && descriptor?.state === 'WAITING_FOR_APPROVAL') && (
+            <>
+              {!isAsyncExchangeValidationLoading && !isPublishable && (
+                <Alert severity="warning" sx={{ mt: 3 }}>
+                  {t('summary.publishWarningLabel')}
+                </Alert>
+              )}
+              <Stack spacing={1} sx={{ mt: 3 }} direction="row" justifyContent="end">
+                <Button
+                  startIcon={<DeleteOutlineIcon />}
+                  variant="text"
+                  color="error"
+                  onClick={handleDeleteDraft}
+                  disabled={isSupport}
+                >
+                  {tCommon('deleteDraft')}
+                </Button>
+                <Button
+                  startIcon={<CreateIcon />}
+                  variant="text"
+                  onClick={handleEditDraft}
+                  disabled={isSupport}
+                >
+                  {tCommon('editDraft')}
+                </Button>
+                <PublishButton
+                  onClick={handlePublishDraft}
+                  disabled={isAsyncExchangeValidationLoading || !isPublishable || isSupport}
+                  tooltipTitle={publishTooltipTitle}
+                />
+              </Stack>
+            </>
+          )}
+        {isDelegator && descriptor?.state === 'WAITING_FOR_APPROVAL' && (
+          <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
+            <Button
+              startIcon={<DeleteOutlineIcon />}
+              variant="text"
+              color="error"
+              onClick={handleRejectDelegatedVersionDraft}
+              disabled={isSupport}
+            >
+              {tCommon('reject')}
+            </Button>
+            <Tooltip title={publishTooltipTitle} arrow>
+              <span>
+                <Button
+                  startIcon={<PublishIcon />}
+                  variant="contained"
+                  onClick={handleApproveDelegatedVersionDraft}
+                  disabled={isSupport || isAsyncExchangeValidationLoading || !isPublishable}
+                >
+                  {tCommon('publish')}
+                </Button>
+              </span>
+            </Tooltip>
+          </Stack>
         )}
-
-        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion
-            headline={isReceiveMode ? '3' : '2'}
-            title={t('summary.versionInfoSummary.title')}
-          >
-            <ProviderEServiceVersionInfoSummary />
-          </SummaryAccordion>
-        </React.Suspense>
-
-        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion
-            headline={isReceiveMode ? '4' : '3'}
-            title={t('summary.attributeVersionSummary.title')}
-          >
-            <ProviderEServiceAttributeVersionSummary />
-          </SummaryAccordion>
-        </React.Suspense>
-
-        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion
-            headline={isReceiveMode ? '5' : '4'}
-            title={t('summary.documentationSummary.title')}
-          >
-            <ProviderEServiceDocumentationSummary />
-          </SummaryAccordion>
-        </React.Suspense>
-      </Stack>
-      {!isDelegator && (
-        <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
-          <Button
-            startIcon={<DeleteOutlineIcon />}
-            variant="text"
-            color="error"
-            onClick={handleDeleteDraft}
-            disabled={isSupport}
-          >
-            {tCommon('deleteDraft')}
-          </Button>
-          <Button
-            startIcon={<CreateIcon />}
-            variant="text"
-            onClick={handleEditDraft}
-            disabled={isSupport}
-          >
-            {tCommon('editDraft')}
-          </Button>
-          <PublishButton onClick={handlePublishDraft} disabled={!canBePublished() || isSupport} />
-        </Stack>
-      )}
-      {isDelegator && descriptor?.state === 'WAITING_FOR_APPROVAL' && (
-        <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
-          <Button
-            startIcon={<DeleteOutlineIcon />}
-            variant="text"
-            color="error"
-            onClick={handleRejectDelegatedVersionDraft}
-            disabled={isSupport}
-          >
-            {tCommon('reject')}
-          </Button>
-          <Button
-            startIcon={<PublishIcon />}
-            variant="contained"
-            onClick={handleApproveDelegatedVersionDraft}
-            disabled={isSupport}
-          >
-            {tCommon('publish')}
-          </Button>
-        </Stack>
-      )}
-
-      {requireDelegateCorrections && sortedRejectedReasons && (
-        <RejectReasonDrawer
-          isOpen={isOpen}
-          onClose={closeDrawer}
-          rejectReason={sortedRejectedReasons[0].rejectionReason}
-        />
-      )}
-    </PageContainer>
+        {requireDelegateCorrections && sortedRejectedReasons && (
+          <RejectReasonDrawer
+            isOpen={isOpen}
+            onClose={closeDrawer}
+            rejectReason={sortedRejectedReasons[0].rejectionReason}
+          />
+        )}
+      </PageContainer>
+      <UpdatePersonalDataDrawer
+        isOpen={isEServiceUpdatePersonalDataDrawerOpen}
+        onClose={closeEServiceUpdatePersonalDataDrawer}
+        eserviceId={descriptor?.eservice.id as string}
+        personalData={descriptor?.eservice.personalData}
+        onSubmit={handleEServicePersonalDataUpdate}
+        eserviceMode={descriptor?.eservice.mode as EServiceMode}
+        where="e-service"
+      />
+    </>
   )
 }
 
 type PublishButtonProps = {
   disabled: boolean
   onClick: VoidFunction
+  tooltipTitle: string
 }
 
-const PublishButton: React.FC<PublishButtonProps> = ({ disabled, onClick }) => {
+const PublishButton: React.FC<PublishButtonProps> = ({ disabled, onClick, tooltipTitle }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-  const { t } = useTranslation('eservice', { keyPrefix: 'summary' })
 
   const Wrapper = disabled
     ? ({ children }: { children: React.ReactElement }) => (
-        <Tooltip arrow title={t('notPublishableTooltip.label')}>
+        <Tooltip arrow title={tooltipTitle}>
           <span tabIndex={disabled ? 0 : undefined}>{children}</span>
         </Tooltip>
       )
@@ -335,6 +572,28 @@ const PublishButton: React.FC<PublishButtonProps> = ({ disabled, onClick }) => {
       </Button>
     </Wrapper>
   )
+}
+
+type PublishTooltipKey =
+  | 'summary.missingPersonalDataField'
+  | 'summary.notPublishableTooltip.label'
+  | 'summary.rulesetExpiredTooltip.label'
+
+function getPublishTooltipKey({
+  arePersonalDataSet,
+  isPublishable,
+  isRulesetExpired,
+  isValidationLoading,
+}: {
+  arePersonalDataSet?: boolean
+  isPublishable: boolean
+  isRulesetExpired?: boolean
+  isValidationLoading: boolean
+}): PublishTooltipKey | undefined {
+  if (isPublishable || isValidationLoading) return undefined
+  if (!arePersonalDataSet) return 'summary.missingPersonalDataField'
+  if (isRulesetExpired) return 'summary.rulesetExpiredTooltip.label'
+  return 'summary.notPublishableTooltip.label'
 }
 
 export default ProviderEServiceSummaryPage

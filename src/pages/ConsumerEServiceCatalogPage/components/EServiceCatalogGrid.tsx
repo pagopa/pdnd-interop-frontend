@@ -2,15 +2,13 @@ import { Grid, Alert } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CatalogEService } from '@/api/api.generatedTypes'
-import { STAGE } from '@/config/env'
+import { AVATAR_BASEPATH, STAGE } from '@/config/env'
 import { SH_ESERVICES_TO_HIDE_TEMP } from '@/config/constants'
 import { useQueryClient } from '@tanstack/react-query'
 import { EServiceQueries } from '@/api/eservice'
 import { CatalogCard, CatalogCardSkeleton } from '@/components/shared/CatalogCard'
 
-type EServiceCatalogGridProps = {
-  eservices: Array<CatalogEService> | undefined
-}
+type EServiceCatalogGridProps = { eservices: Array<CatalogEService> | undefined }
 
 export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ eservices }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'table' })
@@ -22,7 +20,7 @@ export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ eservi
   return (
     <Grid container spacing={3}>
       {eservices?.map((eservice) => (
-        <Grid item key={eservice.id} xs={4}>
+        <Grid item key={eservice.id} xs={12} sm={4}>
           <EServiceCatalogCard
             key={eservice.activeDescriptor?.id}
             eservice={eservice}
@@ -51,13 +49,15 @@ export const EServiceCatalogCard: React.FC<{ eservice: CatalogEService; disabled
       key={eservice.id}
       producerName={eservice.producer.name}
       description={eservice.description}
+      avatarURL={
+        eservice.producer.selfcareId
+          ? `${AVATAR_BASEPATH}/institutions/${eservice.producer.selfcareId}/logo.png`
+          : undefined
+      }
       title={eservice.name}
       prefetchFn={handlePrefetch}
       to="SUBSCRIBE_CATALOG_VIEW"
-      params={{
-        eserviceId: eservice.id,
-        descriptorId: activeDescriptor?.id ?? '',
-      }}
+      params={{ eserviceId: eservice.id, descriptorId: activeDescriptor?.id ?? '' }}
       disabled={disabled}
     />
   )
@@ -67,7 +67,7 @@ export const EServiceCatalogGridSkeleton: React.FC = () => {
   return (
     <Grid container spacing={3}>
       {new Array(9).fill('').map((_, i) => (
-        <Grid key={i} xs={4} item>
+        <Grid key={i} xs={12} sm={4} item>
           <CatalogCardSkeleton />
         </Grid>
       ))}

@@ -29,6 +29,18 @@ function getKeyList(params: GetClientKeysParams) {
   })
 }
 
+function getAllKeysList(params: Omit<GetClientKeysParams, 'limit' | 'offset'>) {
+  return queryOptions({
+    queryKey: ['ClientGetKeyList', params],
+    queryFn: () => ClientServices.getAllKeysList(params),
+    throwOnError: (error) => {
+      // The error boundary is disabled for 404 errors because the `getKeyList` service
+      // returns 404 if the client has no keys associated.
+      return !(error instanceof NotFoundError)
+    },
+  })
+}
+
 function getSingleKey(clientId: string, kid: string) {
   return queryOptions({
     queryKey: ['ClientGetSingleKey', clientId, kid],
@@ -57,4 +69,5 @@ export const ClientQueries = {
   getSingleKey,
   getOperatorsList,
   getOperatorKeys,
+  getAllKeysList,
 }

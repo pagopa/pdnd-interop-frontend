@@ -1,22 +1,30 @@
 import React from 'react'
 import { useNavigate } from '@/router'
-import { assistanceLink, documentationLink, pagoPaLink } from '@/config/constants'
+import { assistanceLink, pagoPaLink } from '@/config/constants'
 import { HeaderAccount, HeaderProduct, type ProductSwitchItem } from '@pagopa/mui-italia'
-import { FE_LOGIN_URL, SELFCARE_BASE_URL, STAGE } from '@/config/env'
-import type { PartySwitchItem } from '@pagopa/mui-italia/dist/components/PartySwitch'
+import {
+  FE_LOGIN_URL,
+  SELFCARE_BASE_URL,
+  STAGE,
+  AVATAR_BASEPATH,
+  SELFCARE_PRODUCT_ID,
+  DOCUMENTATION_URL,
+} from '@/config/env'
+import type { PartySwitchItem } from '@pagopa/mui-italia/components/PartySwitch'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
 import type { SelfcareInstitution } from '@/api/api.generatedTypes'
 import type { JwtUser, UserProductRole } from '@/types/party.types'
-import { getCurrentSelfCareProductId } from '@/utils/common.utils'
 import { useQuery } from '@tanstack/react-query'
 import { SelfcareQueries } from '@/api/selfcare'
+import { useErrorData } from '@/stores/error-data.store'
+import useCurrentLanguage from '@/hooks/useCurrentLanguage'
 
 /**
  * Generate the party list to be used in the HeaderProduct component to show the party switcher
  * If the parties list is not available, it will use the jwt to generate the party list containing only the active party
  */
-const getPartyList = (
+export const getPartyList = (
   parties: Array<SelfcareInstitution> | undefined,
   jwt: JwtUser | undefined,
   t: TFunction<'common'>
@@ -24,6 +32,7 @@ const getPartyList = (
   const generatePartyItem = (party: SelfcareInstitution) => ({
     id: party.id,
     name: party.description,
+    logoUrl: `${AVATAR_BASEPATH}/institutions/${party.id}/logo.png`,
     productRole: (party.userProductRoles as Array<UserProductRole>)
       .map((role) => t(`userProductRole.${role}`))
       .join(', '),
@@ -71,7 +80,9 @@ const getPartyList = (
  * If the products list is not available, it will return the default product list containing only
  * selfcare's Aria Riservata and interoperability products
  */
-const getProductList = (products?: Array<{ id: string; name: string }>): ProductSwitchItem[] => {
+export const getProductList = (
+  products?: Array<{ id: string; name: string }>
+): ProductSwitchItem[] => {
   const selfcareProduct: ProductSwitchItem = {
     id: 'selfcare',
     title: 'Area Riservata',
@@ -80,7 +91,7 @@ const getProductList = (products?: Array<{ id: string; name: string }>): Product
   }
 
   const interopProduct: ProductSwitchItem = {
-    id: getCurrentSelfCareProductId(),
+    id: SELFCARE_PRODUCT_ID,
     title: `Interoperabilità${STAGE === 'UAT' ? ' Collaudo' : ''}`,
     productUrl: '',
     linkType: 'internal',
@@ -105,11 +116,14 @@ type HeaderProps = {
 
 export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
   const navigate = useNavigate()
+  const lang = useCurrentLanguage()
   const { t } = useTranslation('shared-components', { keyPrefix: 'header' })
   const { t: tCommon } = useTranslation('common')
 
   const { data: parties } = useQuery({ ...SelfcareQueries.getPartyList(), enabled: Boolean(jwt) })
   const { data: products } = useQuery({ ...SelfcareQueries.getProducts(), enabled: Boolean(jwt) })
+
+  const { correlationId, errorCode } = useErrorData()
 
   const partyList = getPartyList(parties, jwt, tCommon)
   const productList = getProductList(products)
@@ -122,11 +136,21 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
     window.location.assign(FE_LOGIN_URL)
   }
 
+  const goToAssistance = () => {
+    const errorData = {
+      traceId: correlationId,
+      errorCode: errorCode,
+    }
+
+    window.open(
+      `${assistanceLink}${correlationId ? `&data=${JSON.stringify(errorData)}` : ''}`,
+      '_blank'
+    )
+  }
+
   const handleSelectParty = (party: PartySwitchItem) => {
     window.location.assign(
-      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${
-        party.id
-      }&productId=${getCurrentSelfCareProductId()}`
+      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${party.id}&productId=${SELFCARE_PRODUCT_ID}&lang=${lang}`
     )
   }
 
@@ -136,21 +160,21 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
     if (!selfcareId) return
 
     if (product.id === 'selfcare') {
-      window.location.assign(`${SELFCARE_BASE_URL}/dashboard/${selfcareId}`)
+      window.location.assign(`${SELFCARE_BASE_URL}/dashboard/${selfcareId}?lang=${lang}`)
       return
     }
 
     window.location.assign(
-      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${selfcareId}&productId=${product.id}`
+      `${SELFCARE_BASE_URL}/token-exchange?institutionId=${selfcareId}&productId=${product.id}&lang=${lang}`
     )
   }
 
   const headerChipProps = isSupport
-    ? ({ chipLabel: t('supportChipLabel'), color: 'primary' } as const)
+    ? ({ chipLabel: t('supportChipLabel'), chipColor: 'primary' } as const)
     : undefined
 
   return (
-    <header>
+    <header style={{ position: 'sticky', zIndex: 0 }}>
       <HeaderAccount
         rootLink={pagoPaLink}
         loggedUser={headerAccountLoggedUser}
@@ -158,23 +182,21 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
         onLogout={() => {
           navigate('LOGOUT')
         }}
-        onAssistanceClick={() => {
-          window.open(assistanceLink, '_blank')
-        }}
+        onAssistanceClick={goToAssistance}
         onDocumentationClick={() => {
-          window.open(documentationLink, '_blank')
+          window.open(DOCUMENTATION_URL, '_blank')
         }}
-        enableAssistanceButton={STAGE === 'UAT' || STAGE === 'PROD'}
+        // enableAssistanceButton={STAGE === 'UAT' || STAGE === 'PROD'}
       />
 
       <HeaderProduct
         // force re-render when selfcareId changes to solve a bug with the ProductSwitch component from mui-italia
         // must be removed when the bug is fixed
-        key={jwt?.selfcareId}
+        key={`${jwt?.selfcareId}${lang}`}
         onSelectedParty={handleSelectParty}
         onSelectedProduct={handleSelectProduct}
         partyId={selfcareId}
-        productId={getCurrentSelfCareProductId()}
+        productId={SELFCARE_PRODUCT_ID}
         productsList={productList}
         partyList={partyList}
         {...headerChipProps}

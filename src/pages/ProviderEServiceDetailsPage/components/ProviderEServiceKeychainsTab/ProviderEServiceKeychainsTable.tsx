@@ -7,7 +7,6 @@ import {
 } from './ProviderEServiceKeychainsTableRow'
 import { KeychainQueries } from '@/api/keychain'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { AuthHooks } from '@/api/auth'
 import type { GetProducerKeychainsParams } from '@/api/api.generatedTypes'
 
 type ProviderEServiceKeychainsTableProps = {
@@ -17,11 +16,10 @@ type ProviderEServiceKeychainsTableProps = {
 export const ProviderEServiceKeychainsTable: React.FC<ProviderEServiceKeychainsTableProps> = ({
   eserviceId,
 }) => {
-  const { jwt } = AuthHooks.useJwt()
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
 
   const params: GetProducerKeychainsParams = {
-    producerId: jwt?.organizationId as string,
     eserviceId: eserviceId,
     ...paginationParams,
   }
@@ -38,6 +36,7 @@ export const ProviderEServiceKeychainsTable: React.FC<ProviderEServiceKeychainsT
       </React.Suspense>
       <Pagination
         {...paginationProps}
+        rowPerPageOptions={rowPerPageOptions}
         totalPages={getTotalPageCount(associatedKeychainsTotalCount)}
       />
     </>

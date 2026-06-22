@@ -1,8 +1,42 @@
 {
   "backBtn": "Indietro",
   "proceedBtn": "Avanti",
-  "noPurposesLabel": "Questo client non è associato a nessuna finalità",
-  "noKeysLabel": "Questo client non contiene chiavi pubbliche",
+  "newSimulationBtn": "Nuova simulazione",
+  "beginSimulation": "Inizia simulazione",
+  "noPurposesLabelAdmin": {
+    "title": "Il client selezionato non è associato ad alcuna finalità",
+    "description": "Per procedere, accedi alla finalità e collega il client {{clientName}}.",
+    "actionLabel": "Finalità inoltrate"
+  },
+  "noPurposesLabelSecurity": {
+    "title": "Il client selezionato non è associato ad alcuna finalità",
+    "description": "Per procedere, chiedi al tuo responsabile di collegare alla finalità di interesse questo client."
+  },
+  "noKeysLabel": {
+    "title": "Il client selezionato non contiene chiavi pubbliche",
+    "description": "Per procedere, accedi al client e aggiungi almeno una chiave pubblica.",
+    "actionLabel": "Accedi al client"
+  },
+  "noPurposesAndKeysLabel": {
+    "title": "Il client selezionato non è collegato ad alcuna finalità e non contiene chiavi pubbliche.",
+    "description": "Per procedere, associa il client ad una finalità ed aggiungi almeno una chiave pubblica al client.",
+    "actionLabel": "Accedi al client"
+  },
+  "noEServicesLabel": {
+    "title": "Il portachiavi erogatore selezionato non è associato ad alcun e-service",
+    "description": "Per procedere, accedi all’e-service e collega il portachiavi {{keychainName}}.",
+    "actionLabel": "I miei e-service"
+  },
+  "noPublicKeysLabel": {
+    "title": "Il portachiavi erogatore selezionato non contiene chiavi pubbliche",
+    "description": "Per procedere, accedi al portachiavi e aggiungi almeno una chiave pubblica.",
+    "actionLabel": "Accedi al portachiavi"
+  },
+  "noEServicesAndPublicKeysLabel": {
+    "title": "Il portachiavi selezionato non è collegato ad alcun e-service e non contiene chiavi pubbliche.",
+    "description": "Per procedere, associa il portachiavi ad un e-service ed aggiungi almeno una chiave pubblica.",
+    "actionLabel": "Accedi al portachiavi"
+  },
   "choosePurposeLabel": "Scegli la finalità da utilizzare",
   "purposeFailureMessage": "Attenzione! Non sarà possibile ottenere un voucher per questa finalità. In una o più componenti della pipeline è stato sospeso il servizio. Le componenti sospese sono:",
   "purposeFailureReason": {
@@ -10,29 +44,94 @@
     "agreement": "accordo di fruizione",
     "purpose": "finalità"
   },
-  "step1": {
+  "title": "Simula l’ottenimento di un voucher",
+  "description": "Attraverso questa funzionalità potrai simulare l’ottenimento di un voucher. Una volta selezionati i parametri, potrai effettuare una client assertion, richiedere un voucher e verificare che sia compatibile.",
+  "eservice": "e-service",
+  "pdnd": "PDND",
+  "generalForm": {
     "stepperLabel": "Selezione parametri",
-    "title": {
-      "API": "Seleziona chiave pubblica",
-      "CONSUMER": "Seleziona finalità e chiave pubblica"
+    "technicalDetails": {
+      "title": "Dettagli tecnici",
+      "description": "Seleziona il voucher e il modello di interazione per una simulazione completa."
     },
-    "description": "Serve a mostrarti i parametri corretti per valorizzare la client assertion",
+    "simulationSetup": {
+      "title": "Configura la simulazione",
+      "description": "Serve a mostrarti i parametri corretti per valorizzare la client assertion."
+    },
+   "voucherType": {
+      "label": "Tipologia voucher",
+      "options": {
+        "bearer": {
+          "label": "Bearer (v2)",
+          "description": "Token di accesso standard. Il mittente è autenticato solo tramite il possesso del token stesso."
+        },
+        "dpop": {
+          "label": "DPoP (v3)",
+          "description": "Vincola il token a una chiave crittografica del client, impedendo il riutilizzo del voucher da parte di soggetti non autorizzati."
+        }
+      }
+    },
+    "interactionType": {
+      "label": "Modello di interazione",
+      "options": {
+        "sync": "Sincrono (standard)",
+        "async": "Asincrono (differito)"
+      }
+    },
+    "memberType": {
+      "label": "Tipologia di aderente",
+      "options": {
+        "consumer": "Fruitore dell’e-service",
+        "producer": "Erogatore dell’e-service"
+      }
+    },
+    "asyncExchangeStep": {
+      "label": "Step dello scambio asincrono",
+      "startInteraction": "Inizio dell’interazione (start_interaction)",
+      "getResource": "Ottenimento della risorsa (get_resource)",
+      "confirmation": "Conferma di ricezione (confirmation)",
+      "callbackInvocation": "Invocazione della callback (callback_invocation)"
+    },
+    "clientSelectInput": {
+      "label": "Client da utilizzare"
+    },
     "purposeSelectInput": {
-      "label": "Scegli la finalità da utilizzare"
+      "label": "Finalità"
     },
     "keySelectInput": {
-      "label": "Scegli la chiave pubblica da utilizzare"
+      "label": "Chiave pubblica"
+    },
+    "producerKeychain": {
+      "label": "Portachiavi erogatore"
+    },
+    "eservice": {
+      "label": "E-service"
     },
     "goToTechnicalDocsLabel": "Vai alla documentazione tecnica",
     "showCurrentSelectionIds": "Visualizza id per la selezione corrente",
     "currentIdsDrawer": {
       "title": "Visualizza id selezione corrente",
       "subtitle": "Parametri utili per ottenere informazioni attraverso le API di PDND Interoperabilità. Hai dubbi? <1>Consulta la guida</1>.",
-      "eserviceIdDescription": "L’id dell’e-service collegato alla finalità selezionata",
-      "descriptorIdDescription": "L’id della versione dell’e-service collegata alla finalità selezionata",
-      "agreementIdDescription": "L’id della richiesta di fruizione collegata alla finalità selezionata",
-      "purposeIdDescription": "L’id della finalità selezionata",
-      "clientIdDescription": "L’id di questo client",
+      "purposeEserviceId": {
+        "label": "eserviceId",
+        "description": "L’id dell’e-service collegato alla finalità selezionata"
+      },
+      "descriptorId": {
+        "label": "descriptorId",
+        "description": "L’id della versione dell’e-service collegata alla finalità selezionata"
+      },
+      "agreementId": {
+        "label": "agreementId",
+        "description": "L’id della richiesta di fruizione collegata alla finalità selezionata"
+      },
+      "purposeId": {
+        "label": "purposeId",
+        "description": "L’id della finalità selezionata"
+      },
+      "clientId": {
+        "label": "clientId",
+        "description": "L’id di questo client"
+      },
       "producerOrganizationId": {
         "label": "organizationId (erogatore)",
         "description": "L’id dell’ente erogatore"
@@ -40,164 +139,391 @@
       "consumerOrganizationId": {
         "label": "organizationId (fruitore)",
         "description": "L’id del tuo ente"
+      },
+      "eserviceId": {
+        "label": "eserviceId",
+        "description": "L’id dell’e-service selezionato"
+      },
+      "producerKeychainId": {
+        "label": "producerKeychainId",
+        "description": "L’id del portachiavi erogatore selezionato"
+      },
+      "producerId": {
+        "label": "producerId",
+        "description": "L’id dell’erogatore selezionato"
       }
     }
   },
-  "step2": {
-    "stepperLabel": "Client assertion",
-    "title": "Client assertion",
+  "assertionScript": {
+    "title": "Esempio di generazione da terminale",
+    "steps": {
+      "1": "Crea una cartella e nominala “client_assertion_test”",
+      "2": "Inserisci nella cartella lo script <1>{{ filename }}</1> (è richiesto Python 3.8)",
+      "3": "Crea una cartella “keys” e inserisci al suo interno la chiave privata, nominandola “client-test-keypair.rsa.priv”.\nAssicurati che la chiave privata corrisponda alla pubblica che hai selezionato nel passaggio precedente.",
+      "4": "Apri il terminale e naviga fino alla cartella client_assertion_test",
+      "5": "Incolla il comando sotto e premi invio",
+      "result": "6. Otterrai una client assertion firmata con la tua chiave privata. Salva questo dato per lo step successivo."
+    },
+    "exampleLabel": "Esempio di utilizzo"
+  },
+  "firstDPoPProofStep": {
+    "stepperLabel": "Prima DPoP Proof",
+    "title": "DPoP Proof",
+    "description": "Ora è necessario generare la DPoP Proof (un JWT firmato) per legare in modo sicuro la sessione alle tue chiavi crittografiche e procedere con il riscatto del voucher. La coppia di chiavi utilizzate è diversa da quelle utilizzate per la client assertion.",
+    "assertionHeader": {
+      "title": "Header",
+      "typField": {
+        "label": "TYP (Type)",
+        "description": "Il tipo di oggetto che si sta inviando, in questo caso, un JWT.",
+        "copySuccessFeedbackText": "Testo copiato correttamente"
+      },
+      "algField": {
+        "label": "ALG (Algorithm)",
+        "description": "L’algoritmo usato per firmare questo JWT. Si può firmare solo con RS256",
+        "copySuccessFeedbackText": "Testo copiato correttamente"
+      },
+      "jwkField": {
+        "label": "JWK (chiave pubblica)",
+        "description": "La chiave pubblica in formato JWK corrispondente alla chiave privata utilizzata per firmare la DPoP.",
+        "suggestionLabel": "Genera tu questo parametro.\nIl codice inizia per \"ey\""
+      }
+    },
+    "assertionPayload": {
+      "title": "Payload",
+      "htmField": {
+        "label": "HTM",
+        "description": "Indica il metodo HTTP che si sta invocando; in questo caso POST",
+        "copySuccessFeedbackText": "Testo copiato correttamente"
+      },
+      "htuField": {
+        "label": "HTU",
+        "description": "L’URL che si sta invocando; in questo caso una risorsa di PDND Interoperabilità",
+        "copySuccessFeedbackText": "Testo copiato correttamente"
+      },
+      "jtiField": {
+        "label": "JTI (Identificativo univoco)",
+        "description": "Un id unico (UUID) della DPoP. Serve per identificare il token stesso",
+        "suggestionLabel": "Genera tu questo parametro.\nEsempio: 261cd445-3da6-421b-9ef4-7ba556efda5f"
+      },
+      "iatField": {
+        "label": "IAT (Data e ora di creazione)",
+        "description": "Issued at, il timestamp riportante data e ora in cui viene creato il token, espresso in UNIX epoch (valore numerico, non stringa)",
+        "suggestionLabel": "Genera tu questo parametro.\nEsempio: 1651659340"
+      }
+    },
+    "assertionScript": {
+      "title": "Esempio di generazione da terminale",
+      "steps": {
+        "1": "Crea una nuova cartella e nominala “dpop_proof_test”",
+        "2": "Inserisci nella cartella lo script <1>{{ filename }}</1> (è richiesto Python 3.8)",
+        "3": "Crea una cartella “keys” e inserisci al suo interno una nuova chiave privata, nominandola “client-test-keypair.rsa.priv”.",
+        "4": "Apri il terminale e naviga fino alla cartella dpop_proof_test",
+        "5": "Incolla il comando sotto, inserendo il percorso verso la tua chiave privata nel campo PATH_CHIAVE PRIVATA e premi invio.",
+        "result": "6. Otterrai una prima DPoP proof firmata con la tua chiave privata. Salva questo dato per gli step successivi."
+      },
+      "exampleLabel": "Esempio di utilizzo"
+    },
+    "navigateToDebugButton": {
+      "label": "Effettua debug"
+    }
+  },
+  "secondDPoPProofStep": {
+    "stepperLabel": "Seconda DPoP",
+    "title": "Genera la seconda DPoP",
+    "description": "Ora che il server autorizzativo di PDND ti ha rilasciato un token, generane l’hash ed inseriscilo nella seconda DPoP.",
+    "assertionHeader": {
+      "title": "Header",
+      "typField": {
+        "label": "TYP (Type)",
+        "description": "Il tipo di oggetto che si sta inviando, in questo caso, un JWT.",
+        "copySuccessFeedbackText": "Testo copiato correttamente"
+      },
+      "algField": {
+        "label": "ALG (Algorithm)",
+        "description": "L’algoritmo usato per firmare questo JWT. Si può firmare solo con RS256",
+        "copySuccessFeedbackText": "Testo copiato correttamente"
+      },
+      "jwkField": {
+        "label": "JWK (chiave pubblica)",
+        "description": "La chiave pubblica in formato JWK corrispondente alla chiave privata utilizzata per firmare la DPoP",
+        "suggestionLabel": "Genera tu questo parametro.\nIl codice inizia per \"ey\""
+      }
+    },
+    "assertionPayload": {
+      "title": "Payload",
+      "htmField": {
+        "label": "HTM",
+        "description": "Indica il metodo HTTP che si vuole invocare verso la risorsa"
+      },
+      "htuField": {
+        "label": "HTU",
+        "description": "L'URL della risorsa che si vuole invocare"
+      },
+      "alert": "Trovi le informazioni sui parametri HTM e HTU all’interno dell’interfaccia OpenAPI dell’e-service.",
+      "athField": {
+        "label": "ATH",
+        "description": "L’hash del voucher rilasciato da PDND nello step precedente.",
+        "suggestionLabel": "Genera tu questo parametro calcolando l’hash del voucher ricevuto da PDND nello step precedente.\nEsempio: 5ubMEMN4EjM0z2SnZRhCKzxJZFlcsrEhz1bVRTzfkZU="
+      },
+      "jtiField": {
+        "label": "JTI (Identificativo univoco)",
+        "description": "Un id unico (UUID) della DPoP. Serve per identificare il token stesso",
+        "suggestionLabel": "Genera tu questo parametro. \nEsempio: 261cd445-3da6-421b-9ef4-7ba556efda5f"
+      },
+      "iatField": {
+        "label": "IAT (Data e ora di creazione)",
+        "description": "Issued at, il timestamp riportante data e ora in cui viene creato il token, espresso in UNIX epoch (valore numerico, non stringa)",
+        "suggestionLabel": "Genera tu questo parametro.\nEsempio: 1651659340"
+      }
+    },
+    "assertionScript": {
+      "title": "Esempio di generazione da terminale",
+      "steps": {
+        "1": "Nella cartella \"client_assertion_test\" precedentemente creata incolla lo script <1>{{ filename }}</1> (è richiesto Python 3.8)",
+        "2": "Riapri il terminale ed incolla il comando presente sotto.",
+        "3": "Sostituisci il valore ACCESS_TOKEN con il JWT che il server autorizzativo di PDND ti ha restituito nello step precedente. Servirà per calcolarne il parametro ATH che verrà inserito nella seconda DPoP Proof.",
+        "4": "Utilizza lo stesso path e la stessa chiave privata utilizzata per la prima DPoP Proof. I path HTM e HTU sono precompilati sulla base dei dati inseriti in precedenza.",
+        "5": "Invia il comando.",
+        "result": "6. Otterrai una client assertion firmata con la tua chiave privata. Salva questo dato per lo step successivo."
+      },
+      "exampleLabel": "Esempio di utilizzo"
+    },
+    "exampleRequest": {
+      "title": {
+        "eservice": "Esempio di richiesta verso l'erogatore",
+        "pdnd": "Esempio di richiesta verso PDND"
+      },
+      "description": "Se il token è valido, utilizzalo verso l’API dell’erogatore prima che scada.",
+      "alert": {
+        "title": "Script di esempio. L’erogatore potrebbe necessitare di altri parametri nella richiesta. Prima di procedere, controlla la documentazione dell’erogatore.",
+        "actionLabel": "Visualizza e-service"
+      }
+    },
+    "pdndInteroperability": {
+      "title": "PDND Interoperabilità",
+      "description": "L’API che permette agli aderenti di interagire con PDND Interoperabilità in modalità machine to machine",
+      "actionLabel": "Consulta",
+      "apiV3": {
+        "title": "API v3",
+        "description": "API che permette di automatizzare le operazioni di lettura e scrittura relative a PDND Interoperabilità con elevato livello di sicurezza."
+      }
+    }
+  },
+  "clientAssertionStep": {
+    "stepperLabel": "Genera client assertion",
+    "title": "Genera la client assertion",
     "description": {
-      "label": "Il primo passaggio è creare un’asserzione firmata dal tuo ente con la chiave privata corrispondente a una delle chiavi pubbliche che hai caricato in questo client. Di seguito i dettagli per creare il JWS secondo la specifica",
+      "label": "Il primo requisito è di creare la client assertion, definita da specifica <1>RFC7521</1>. L’asserzione deve essere compilata e firmata con la chiave privata corrispondente a quella pubblica selezionata nello step precedente.",
       "link": {
-        "label": "RFC7521",
         "title": "Link alla specifica RFC7521"
       }
     },
     "assertionHeader": {
-      "title": "Header dell'asserzione",
+      "title": "Header dell’asserzione",
       "kidField": {
-        "label": "KID",
-        "description": "L’ID della chiave selezionata nel passaggio precedente",
+        "label": "KID (Key ID)",
+        "description": "L’identificativo della chiave pubblica selezionata allo step precedente, caricata su PDND e utilizzata per firmare l’asserzione.",
         "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "algField": {
-        "label": "ALG",
-        "description": "L’algoritmo usato per firmare questo JWT. In questo momento si può firmare solo con RS256",
+        "label": "ALG (Algorithm)",
+        "description": "L’algoritmo usato per firmare questo JWT. Si può firmare solo con RS256",
         "copySuccessFeedbackText": "Testo copiato correttamente"
       },
       "typField": {
-        "label": "TYP",
-        "description": "Il tipo di oggetto che si sta inviando, in questo caso “JWT”",
+        "label": "TYP (Type)",
+        "description": "Definisce il tipo di token. Per le Client Assertion PDND il valore è sempre JWT.",
         "copySuccessFeedbackText": "Testo copiato correttamente"
       }
     },
     "assertionPayload": {
-      "title": "Payload dell'asserzione",
+      "title": "Payload dell’asserzione",
       "issField": {
-        "label": "ISS",
-        "description": "L’issuer della richiesta; in questo caso l’ID di questo client",
+        "label": "ISS (Issuer)",
+        "description": "Il Client ID dell’applicazione che emette la richiesta.",
         "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "subField": {
-        "label": "SUB",
-        "description": "Il subject della richiesta, in questo caso sempre l'ID del client",
+        "label": "SUB (Subject)",
+        "description": "Il soggetto dell’asserzione. In PDND coincide sempre con il Client ID.",
         "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "audField": {
-        "label": "AUD",
+        "label": "AUD (Audience)",
         "description": "L’audience di destinazione; in questo caso una risorsa di PDND Interoperabilità",
         "copySuccessFeedbackText": "Stringa copiata correttamente"
       },
       "purposeIdField": {
-        "label": "PurposeId",
-        "description": "L’ID della finalità selezionata nel passaggio precedente",
+        "label": "PurposeId (ID finalità)",
+        "description": "L’identificativo della finalità (UUID) selezionata nello step precedente e associata alla fruizione dell’e-service.",
         "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "jtiField": {
-        "label": "JTI",
+        "label": "JTI (Identificativo univoco)",
         "description": "Un id unico (UUID) random generato da chi vuole creare il token. Serve per identificare il token stesso",
-        "suggestionLabel": "Questo parametro devi generarlo tu. Valore esempio: 261cd445-3da6-421b-9ef4-7ba556efda5f"
+        "suggestionLabel": "Genera tu questo parametro.\nEsempio: 261cd445-3da6-421b-9ef4-7ba556efda5f"
       },
       "iatField": {
-        "label": "IAT",
+        "label": "IAT (Data e ora di creazione)",
         "description": "Issued at, il timestamp riportante data e ora in cui viene creato il token, espresso in UNIX epoch (valore numerico, non stringa)",
-        "suggestionLabel": "Questo parametro devi generarlo tu. Valore esempio: 1651659340"
+        "suggestionLabel": "Genera tu questo parametro.\nEsempio: 1651659340"
       },
       "expField": {
-        "label": "EXP",
+        "label": "EXP (Expiration)",
         "description": "Expiration, il timestamp riportante data e ora di scadenza del token, espresso in UNIX epoch (valore numerico, non stringa)",
-        "suggestionLabel": "Questo parametro devi generarlo tu. Valore esempio: 1651738540"
-      }
-    },
-    "assertionScript": {
-      "title": "Esempio per generare una client assertion",
-      "steps": {
-        "1": "Crea una cartella e nominala “client_assertion_test”",
-        "2": "Inserisci nella cartella lo script <1>{{ filename }}</1> (è richiesto Python 3.8)",
-        "3": "Crea una cartella “keys” e inserisci al suo interno la chiave privata, nominandola “client-test-keypair.rsa.priv”",
-        "4": "Apri il terminale e naviga fino alla cartella client_assertion_test",
-        "5": "Incolla il comando sotto e premi invio",
-        "result": "Ottieni così una client assertion firmata con la tua chiave privata. Attenzione: la chiave privata deve corrispondere alla pubblica che hai selezionato nel passaggio precedente."
+        "suggestionLabel": "Genera tu questo parametro.\nEsempio: 1651738540"
       },
-      "exampleLabel": "Esempio di utilizzo"
+      "scope": {
+        "label": "Scope",
+        "description": "Riferimento alla fase dell’interazione tra le parti.",
+        "copySuccessFeedbackText": "Stringa copiata correttamente"
+      },
+      "urlCallbackField": {
+        "label": "urlCallback",
+        "description": "L’URL che l’erogatore dovrà contattare per rispondere alla chiamata."
+      },
+      "interactionIdField": {
+        "label": "interactionID",
+        "description": "L’id unico che identifica l’interazione tra le parti."
+      },
+      "entityNumberField": {
+        "label": "EntityNumber",
+        "description": "Il numero di entità presenti nella risposta."
+      }
     }
   },
-  "step3": {
-    "stepperLabel": "Voucher",
-    "title": "Richiesta voucher",
-    "consumerDescription": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di voucher verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un voucher spendibile presso l'e-service dell’erogatore",
-    "apiDescription": "Una volta creato il JWS firmato con la propria chiave privata, bisogna utilizzarlo per fare una richiesta di voucher verso l’authorization server di Interoperabilità PDND. Se va a buon fine, verrà restituito un voucher spendibile presso l’API gateway di Interoperabilità",
+  "accessTokenStep": {
+    "stepperLabel": "Ottieni token di accesso",
+    "title": "Ottieni il token di accesso",
+    "description": "Una volta creato il JWS firmato con la propria chiave privata, puoi utilizzarlo per fare una richiesta verso l’authorization server di PDND Interoperabilità. Se va a buon fine, ti verrà restituito un voucher spendibile presso l’e-service dell’erogatore.",
     "authEndpoint": {
-      "label": "Endpoint authorization server",
-      "copySuccessFeedbackText": "URL copiata correttamente"
+      "title": "Endpoint del server autorizzativo (authorization server)",
+      "url": {
+        "label": "URL",
+        "description": "L’id della chiave selezionata nel passaggio precedente",
+        "copySuccessFeedbackText": "URL copiata correttamente"
+      }
+    },
+    "requestDPoPHeader": {
+      "title": "Header DPoP della richiesta",
+      "dPoP": {
+        "label": "DPoP",
+        "description": "La DPoP generata nello step precedente",
+        "suggestionLabel": "Inserisci la DPoP che hai creato nello step precedente. Il codice inizia per \"ey\""
+      }
     },
     "requestBody": {
-      "title": "Body della richiesta",
+      "title": {
+        "bearer": "Body della richiesta POST",
+        "dpop": "Body della richiesta"
+      },
       "clientIdField": {
-        "label": "client_id",
+        "label": "Client_id",
+        "description": "Il riferimento del client da cui viene effettuata la chiamata",
+        "copySuccessFeedbackText": "ID copiato correttamente"
+      },
+      "producerKeychainId": {
+        "label": "Producer Keychain ID",
+        "description": "L’id del portachiavi erogatore collegato",
         "copySuccessFeedbackText": "ID copiato correttamente"
       },
       "clientAssertionField": {
-        "label": "client_assertion",
-        "suggestionLabel": "Il JWS ottenuto dallo step precedente (comincia per “ey”)"
+        "label": "Client_assertion",
+        "description": "Il token JWT completo codificato in Base64Url.",
+        "suggestionLabel": "Inserisci la client assertion che hai creato nello step precedente. Il codice inizia per “ey”"
       },
       "clientAssertionTypeField": {
-        "label": "client_assertion_type",
-        "description": "L’audience di destinazione; in questo caso una risorsa di PDND Interoperabilità",
+        "label": "Client_assertion_type",
+        "description": "Specifica il tipo di asserzione inviata.",
         "copySuccessFeedbackText": "Stringa copiata correttamente"
       },
       "grantTypeField": {
-        "label": "grant_type",
+        "label": "Grant_type",
+        "description": "Definisce il metodo di autorizzazione, client_credentials",
         "copySuccessFeedbackText": "Stringa copiata correttamente"
       }
     },
     "voucherScript": {
-      "title": "Esempio di cURL",
-      "guide": "Apri il terminale, sostituisci il segnaposto LA_TUA_CLIENT_ASSERTION con l’asserzione che hai ottenuto allo step precedente e lancia la cURL. Se non hai cURL, <1>puoi installarlo</1> da Brew.",
+      "title": "Esempio di richiesta di cURL",
+      "guide": {
+        "bearer": "Apri il terminale, sostituisci il segnaposto LA_TUA_CLIENT_ASSERTION con l’asserzione che hai ottenuto allo step precedente e lancia la cURL. Se non hai cURL, <1>puoi installarlo</1> da Brew.",
+        "dpop": "Apri il terminale, sostituisci il segnaposto LA_TUA_CLIENT_ASSERTION con l’asserzione che hai ottenuto nel primo step e IL_DPOP_GENERATO con il testo che hai ottenuto nello step precedente. Una volta personalizzata l’istruzione al terminale, lancia la cURL. Se non hai cURL, <1>puoi installarlo</1> da Brew."
+      },
       "exampleLabel": "cURL di esempio"
     },
-    "debugVoucherAlert": {
-      "description": "Non riesci ad ottenere un voucher valido? Prova la",
-      "link": {
-        "label": "funzionalità di debug"
-      }
-    }
+    "debugVoucherLink": "Non riesci ad ottenere un voucher valido? Effettua il debug"
   },
-  "step4": {
-    "consumerStepperLabel": "Accesso e-service",
-    "apiStepperLabel": "Accesso API Interop",
-    "actionLabel": "Scarica",
-    "CONSUMER": {
-      "title": "Congratulazioni!",
-      "description": "Ora puoi accedere all’API dell’e-service <strong>{{ eserviceName }}</strong> erogato da <strong>{{ producerName }}</strong> ",
-      "actionTitle": "Scheda e-service",
-      "actionDescription": "Puoi accedere ai dati messi a disposizione dall’erogatore",
-      "actionLabel": "Vai alla scheda e-service"
+  "dataAccessStep": {
+    "stepperLabelBearer": "Accesso ai dati",
+    "stepperLabelDPoP": "Risposta PDND",
+    "actionLabel": "Consulta",
+    "pdndAccessToken": {
+      "title": "Hai ricevuto il token di accesso da PDND?",
+      "description": "Una volta formulata la richiesta al server autorizzativo di PDND, puoi avere due risultati. Se la richiesta è andata a buon fine ti verrà restituito un token da spendere verso l’erogatore. Se qualcosa è andato storto usa lo strumento di debug a disposizione.",
+      "successAlert": {
+        "title": "Sì, ho ricevuto una risposta contenente un token di accesso",
+        "description": "Congratulazioni, il token è stato generato correttamente da PDND."
+      },
+      "failureAlert": {
+        "title": "No, non ho ricevuto una risposta contenente un token di accesso",
+        "description": "Qualcosa è andato storto. Utilizza lo strumento di debug per capire cosa è successo.",
+        "debugButton": "Effettua debug"
+      }
     },
-    "API": {
-      "title": "Congratulazioni!",
-      "description": "Ora puoi accedere alle API di PDND Interoperabilità",
-      "actionTitle": "PDND Interoperabilità",
-      "actionDescription": "L’API che permette agli aderenti di interagire con PDND Interoperabilità in modalità machine to machine",
-      "titleSignalHub": "Signal Hub",
-      "actionLabel": "Scarica",
+    "pdndInteroperability": {
+      "title": "PDND Interoperabilità",
+      "description": "L’API che permette agli aderenti di interagire con PDND Interoperabilità in modalità machine to machine",
+      "actionLabel": "Consulta",
+      "apiV2": {
+        "title": "API v2 (deprecato)",
+        "description": "API che permette di automatizzare le operazioni di lettura e scrittura relative a PDND Interoperabilità, basate su access token Bearer."
+      },
+      "apiV3": {
+        "title": "API v3",
+        "description": "API che permette di automatizzare le operazioni di lettura e scrittura relative a PDND Interoperabilità con elevato livello di sicurezza."
+      }
+    },
+    "signalHub": {
+      "title": "Signal Hub",
+      "description": "Il servizio che informa i fruitori quando i dati dell’e-service vengono modificati.",
+      "actionLabel": "Consulta",
       "pushApiSH": {
-        "title": "Deposito segnali (Push API)",
+        "title": "Push API",
         "description": "L’API che permette agli erogatori di inviare i segnali di variazione sui dati"
       },
       "pullApiSH": {
-        "title": "Recupero segnali (Pull API)",
+        "title": "Pull API",
         "description": "L’API che permette ai fruitori di recuperare i segnali di variazione sui dati"
+      }
+    },
+    "exampleRequest": {
+      "title": {
+        "eservice": "Esempio di richiesta verso l’erogatore",
+        "pdnd": "Esempio di richiesta verso PDND"
+      },
+      "description": "Se il token è valido, utilizzalo verso l’API dell’erogatore prima che scada.",
+      "alert": {
+        "title": "Script di esempio. L’erogatore potrebbe necessitare di altri parametri nella richiesta. Prima di procedere, controlla la documentazione dell’erogatore.",
+        "actionLabel": "Visualizza e-service"
       }
     }
   },
   "consumerDebugVoucher": {
     "edit": {
       "title": "Dati della richiesta al server",
-      "clientAssertionLabel": "Inserisci la tua client assertion (richiesto)",
-      "clientIdLabel": "Inserisci il client id",
-      "description": "La richiesta sarà inoltrata all’endpoint del server autorizzativo: <strong>{{ authServer }}</strong>",
-      "submitBtn": "Inoltra richiesta"
+      "description": "Copia in questi campi le informazioni che hai inviato al server autorizzativo di PDND e che hanno generato l’errore.",
+      "clientAssertionLabel": "Client assertion",
+      "clientAssertionInfoLabel": "La client assertion è un token JWT composto da una stringa che inizia per \"ey\". Copiala senza aggiungere spazi.",
+      "dpopProofLabel": "DPoP Proof",
+      "dpopProofInfoLabel": "Se hai generato un token DPoP, dovrai inserire anche la DPoP Proof in questo campo.",
+      "clientIdLabel": "client_id o producer_id",
+      "clientIdInfoLabel": "Inserisci lo stesso client_id o producer_id usati per formulare la richiesta verso PDND.",
+      "interactionModelLabel": "Modello di interazione",
+      "interactionModelSync": "Sincrono (standard)",
+      "interactionModelAsync": "Asincrono (differito)",
+      "alert": "La richiesta sarà inoltrata all’endpoint del server autorizzativo: <strong>{{ authServer }}</strong>",
+      "submitBtn": "Inoltra richiesta",
+      "goBackBtn": "Indietro"
     },
     "result": {
       "newRequestBtn": "Effettua nuova verifica",
@@ -205,6 +531,7 @@
         "title": "Esito della tua richiesta",
         "description": {
           "apiSuccess": "Questa richiesta è valida, è possibile ottenere un voucher per le <strong>API di PDND Interoperabilità</strong>",
+          "apiV3Success": "Questa richiesta è valida, è possibile ottenere un voucher per le <strong>API di PDND Interoperabilità v3</strong>",
           "consumerSuccess": "Questa richiesta è valida, è possibile ottenere un voucher per l’e-service <1>{{eserviceName}}, {{eserviceVersion}}</1>",
           "failed": "Non è possibile ottenere un voucher per questa richiesta"
         }
@@ -213,10 +540,11 @@
         "title": "Esito del debug",
         "step": {
           "label": {
-            "clientAssertionValidation": "1. Validazione della client assertion",
-            "publicKeyRetrieve": "2. Recupero della chiave pubblica depositata su PDND Interoperabilità",
-            "clientAssertionSignatureVerification": "3. Verifica della firma della client assertion",
-            "platformStatesVerification": "4. Verifica degli stati delle componenti su PDND Interoperabilità"
+            "clientAssertionValidation": "{{index}}. Validazione della client assertion",
+            "publicKeyRetrieve": "{{index}}. Recupero della chiave pubblica depositata su PDND Interoperabilità",
+            "clientAssertionSignatureVerification": "{{index}}. Verifica della firma della client assertion",
+            "platformStatesVerification": "{{index}}. Verifica degli stati",
+            "dpopValidation": "{{index}}. Validazione DPoP proof"
           }
         }
       },
@@ -226,8 +554,14 @@
         "clientId": {
           "label": "Client_id"
         },
+        "voucherType": {
+          "label": "Voucher rilevato"
+        },
         "clientAssertion": {
           "label": "Client_assertion"
+        },
+        "dpopProof": {
+          "label": "DPoP proof"
         },
         "clientAssertionType": {
           "label": "Client_assertion_type",
@@ -236,20 +570,24 @@
         "grantType": {
           "label": "Grant_type",
           "description": "La tipologia di flusso utilizzato, come indicato in RFC"
-        }
+        },
+        "dpop": "DPoP",
+        "bearer": "Bearer"
       },
       "stepDrawer": {
         "title": {
-          "clientAssertionValidation": "1. Validazione della client assertion",
-          "publicKeyRetrieve": "2. Recupero della chiave pubblica depositata su PDND Interoperabilità",
-          "clientAssertionSignatureVerification": "3. Verifica della firma della client assertion",
-          "platformStatesVerification": "4. Verifica degli stati delle componenti su PDND Interoperabilità"
+          "clientAssertionValidation": "{{index}}. Validazione della client assertion",
+          "publicKeyRetrieve": "{{index}}. Recupero della chiave pubblica depositata su PDND Interoperabilità",
+          "clientAssertionSignatureVerification": "{{index}}. Verifica della firma della client assertion",
+          "platformStatesVerification": "{{index}}. Verifica degli stati",
+          "dpopValidation": "{{index}}. Validazione della DPoP proof"
         },
         "description": {
           "clientAssertionValidation": "Si verifica che la client assertion sia ben strutturata. Tutti i campi richiesti devono essere presenti e compilati correttamente.",
           "publicKeyRetrieve": "Si verifica che la chiave pubblica corrispondente al kid inserito nella client assertion sia presente su PDND Interoperabilità e che questa sia recuperabile.",
           "clientAssertionSignatureVerification": "Si verifica che ci sia corrispondenza tra la chiave privata con la quale è stata firmata la client assertion e quella pubblica identificata con il kid e recuperata al passaggio 2.",
-          "platformStatesVerification": "Si verifica che tutte le componenti amministrative e tecniche del flusso previsto da PDND Interoperabilità siano attive"
+          "platformStatesVerification": "Si verifica che tutte le componenti amministrative e tecniche del flusso previsto da PDND Interoperabilità siano attive",
+          "dpopValidation": "Si verifica che le informazioni contenute nella client assertion siano compatibili con lo stato dell'interazione definito tra le parti."
         },
         "stepResultLabel": "Risultato della verifica:",
         "nextStepBtn": "Vai al prossimo passaggio"
@@ -261,32 +599,32 @@
         "failed_other": "{{count}} errori"
       },
       "errors": {
-        "8001": "La stringa inserita come client_id non è uno uuid. Trovi il valore corretto all'interno della pagina del tuo client",
+        "8001": "La stringa inserita come client_id non è uno uuid. Trovi il valore corretto all’interno della pagina del tuo client",
         "8002": "La stringa inserita come grant_type è errata. Deve essere client_credentials",
         "8003": "La stringa inserita come client_assertion_type è errata. Deve essere urn:ietf:params:oauth:client-assertion-type:jwt-bearer",
-        "8006": "Il claim SUB (subject) della client assertion non è uno uuid valido. Il valore del subject è il client id, che trovi all'interno della pagina del tuo client",
-        "8007": "Nella client assertion manca il claim SUB (subject). Il valore del subject è il client id, che trovi all'interno della pagina del tuo client",
-        "8008": "Il claim SUB (subject) della client assertion non corrisponde al client_id inserito nella chiamata all'authorization server",
-        "8009": "La stringa inserita come purposeId non è uno uuid. Trovi il valore corretto all'interno della pagina del tuo client, selezionando la finalità di tuo interesse",
-        "8010": "Il claim AUD (audience) non contiene l'audience corretta",
-        "8011": "L'hash inserito all'interno del campo value nel digest non ha la lunghezza prevista dall'algoritmo di hashing SHA256",
-        "8012": "L'hashing del campo value nel digest deve avvenire con SHA256",
-        "8013": "Nell'header della client assertion manca il campo KID",
+        "8006": "Il claim SUB (subject) della client assertion non è uno uuid valido. Il valore del subject è il client id, che trovi all’interno della pagina del tuo client",
+        "8007": "Nella client assertion manca il claim SUB (subject). Il valore del subject è il client id, che trovi all’interno della pagina del tuo client",
+        "8008": "Il claim SUB (subject) della client assertion non corrisponde al client_id inserito nella chiamata all’authorization server",
+        "8009": "La stringa inserita come purposeId non è uno uuid. Trovi il valore corretto all’interno della pagina del tuo client, selezionando la finalità di tuo interesse",
+        "8010": "Il claim AUD (audience) non contiene l’audience corretta",
+        "8011": "L’hash inserito all’interno del campo value nel digest non ha la lunghezza prevista dall’algoritmo di hashing SHA256",
+        "8012": "L’hashing del campo value nel digest deve avvenire con SHA256",
+        "8013": "Nell’header della client assertion manca il campo KID",
         "8014": "Nel payload della client assertion manca il campo ALG",
         "8015": "Nel payload della client assertion manca il campo JTI",
         "8016": "Nel payload della client assertion manca il campo IAT",
         "8017": "Nel payload della client assertion manca il campo ISS",
         "8018": "Nel payload della client assertion manca il campo EXP",
-        "8019": "Il campo digest all'interno del payload della client assertion deve contenere due campi: alg e value",
-        "8020": "Il campo digest all'interno del payload della client assertion deve contenere due campi: alg e value",
-        "8023": "La firma della client assertion non è valida. Assicurati che la chiave privata con la quale hai firmato l'asserzione corrisponda alla chiave pubblica depositata su PDND Interoperabilità della quale hai indicato il kid",
+        "8019": "Il campo digest all’interno del payload della client assertion deve contenere due campi: alg e value",
+        "8020": "Il campo digest all’interno del payload della client assertion deve contenere due campi: alg e value",
+        "8023": "La firma della client assertion non è valida. Assicurati che la chiave privata con la quale hai firmato l’asserzione corrisponda alla chiave pubblica depositata su PDND Interoperabilità della quale hai indicato il kid",
         "8024": "Nel payload della client assertion manca il campo purposeId",
-        "8025": "L'id della finalità che hai indicato (purposeId) non corrisponde a nessuna finalità associata al client id che hai indicato",
+        "8025": "L’id della finalità che hai indicato (purposeId) non corrisponde a nessuna finalità associata al client id che hai indicato",
         "8026": "La client assertion è valida ma la finalità per la quale stai richiedendo il voucher non è attiva",
         "8027": "La client assertion è valida ma la versione di e-service per la quale stai richiedendo il voucher non è attiva",
         "8028": "La client assertion è valida ma la richiesta di fruizione per la quale stai richiedendo il voucher non è attiva",
         "8033": "Il campo kid non è correttamente compilato. Il kid può essere costituito solo da caratteri alfanumerici, trattini e underscore. Quello inviato contiene caratteri speciali non riconosciuti",
-        "8099": "L'id della chiave che hai indicato (kid) non fa parte del client che hai indicato come client id"
+        "8099": "L’id della chiave che hai indicato (kid) non fa parte del client che hai indicato come client id"
       }
     }
   }

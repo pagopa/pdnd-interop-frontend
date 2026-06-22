@@ -1,0 +1,5 @@
+if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "win32" ]; then
+	npx.cmd --no-install commitlint --edit "$1"
+else
+	npx --no-install commitlint --edit "$1"
+fi

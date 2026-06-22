@@ -1,42 +1,27 @@
 import { useDialogStore, useLoadingOverlayStore, useToastNotificationStore } from '@/stores'
+import { useErrorDataStore } from '@/stores/error-data.store'
 import { clearExponentialInterval, setExponentialInterval } from '@/utils/common.utils'
 import { NotFoundError } from '@/utils/errors.utils'
 import {
   type Mutation,
   type QueryClientConfig,
   type MutationMeta,
+  type ConfirmationDialogMeta,
   QueryClient,
 } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
-import { getMappedError } from './errors'
-
-declare module '@tanstack/react-query' {
-  interface MutationMeta<
-    TData = unknown,
-    TError = unknown,
-    TVariables = unknown,
-    TContext = unknown,
-  > {
-    loadingLabel?: string | ((variables: TVariables) => string)
-    successToastLabel?: string | ((data: TData, variables: TVariables, context: TContext) => string)
-    errorToastLabel?: string | ((error: TError, variables: TVariables, context: TContext) => string)
-    confirmationDialog?: {
-      title: string | ((variables: TVariables) => string)
-      description?: string | ((variables: TVariables) => string)
-      proceedLabel?: string
-      checkbox?: string
-    }
-  }
-}
+import type { DialogDescriptionLink } from '@/types/dialog.types'
 
 // 1000, 2000, 4000, 8000, 16000, with a maximum of 30 seconds
 const exponentialBackoffRetry = (attemptIndex: number) => {
   return Math.min(1000 * 2 ** attemptIndex, 30 * 1000)
 }
 
-const { showToast } = useToastNotificationStore.getState()
-const { showOverlay, hideOverlay } = useLoadingOverlayStore.getState()
-const { openDialog } = useDialogStore.getState()
+const getShowToast = () => useToastNotificationStore.getState().showToast
+const getShowOverlay = () => useLoadingOverlayStore.getState().showOverlay
+const getHideOverlay = () => useLoadingOverlayStore.getState().hideOverlay
+const getOpenDialog = () => useDialogStore.getState().openDialog
+const getSetErrorData = () => useErrorDataStore.getState().setErrorData
 
 const resolveMeta = (query: {
   mutation: Mutation<unknown, unknown, unknown>
@@ -46,7 +31,7 @@ const resolveMeta = (query: {
   context?: unknown
 }) => {
   const { mutation, data, error, variables, context } = query
-  const meta = mutation.meta as MutationMeta | undefined
+  const meta: MutationMeta | undefined = mutation.meta
 
   if (!meta) return {}
 
@@ -63,43 +48,53 @@ const resolveMeta = (query: {
       ? meta.errorToastLabel(error, variables, context)
       : meta.errorToastLabel
 
-  const confirmationDialog = meta.confirmationDialog
+  const resolveConfirmationDialog = (confirmationDialog: ConfirmationDialogMeta) => {
+    const title =
+      typeof confirmationDialog.title === 'function'
+        ? confirmationDialog.title(variables)
+        : confirmationDialog.title
 
-  const title =
-    typeof confirmationDialog?.title === 'function'
-      ? confirmationDialog?.title(variables)
-      : confirmationDialog?.title
+    const description =
+      typeof confirmationDialog.description === 'function'
+        ? confirmationDialog.description(variables)
+        : confirmationDialog.description
 
-  const description =
-    typeof confirmationDialog?.description === 'function'
-      ? confirmationDialog?.description(variables)
-      : confirmationDialog?.description
+    return {
+      title,
+      description,
+      descriptionLink: confirmationDialog.descriptionLink,
+      proceedLabel: confirmationDialog.proceedLabel,
+      checkbox: confirmationDialog.checkbox,
+    }
+  }
 
-  const proceedLabel = confirmationDialog?.proceedLabel
-
-  const checkbox = confirmationDialog?.checkbox
+  const confirmationDialog = Array.isArray(meta.confirmationDialog)
+    ? meta.confirmationDialog.map(resolveConfirmationDialog)
+    : meta.confirmationDialog
+      ? resolveConfirmationDialog(meta.confirmationDialog)
+      : undefined
 
   return {
     loadingLabel,
     successToastLabel,
     errorToastLabel,
-    confirmationDialog: confirmationDialog
-      ? { title: title as string, description, proceedLabel, checkbox }
-      : undefined,
+    confirmationDialog,
   }
 }
 
 const waitForUserConfirmation = (confirmationDialog: {
   title: string
   description?: string
+  descriptionLink?: DialogDescriptionLink
   proceedLabel?: string
   checkbox?: string
 }) => {
   return new Promise((resolve) => {
-    openDialog({
+    getOpenDialog()({
       type: 'basic',
       title: confirmationDialog.title,
       description: confirmationDialog.description,
+      descriptionLink: confirmationDialog.descriptionLink,
       proceedLabel: confirmationDialog.proceedLabel,
       checkbox: confirmationDialog.checkbox,
       onProceed: () => {
@@ -165,38 +160,46 @@ const requestPolling = () => {
 mutationCache.config.onMutate = async (variables, mutation) => {
   const meta = resolveMeta({ mutation, variables })
   if (meta.confirmationDialog) {
-    const confirmed = await waitForUserConfirmation(meta.confirmationDialog)
-    if (!confirmed) return Promise.reject(new CancellationError())
+    const confirmationDialogs = Array.isArray(meta.confirmationDialog)
+      ? meta.confirmationDialog
+      : [meta.confirmationDialog]
+
+    for (const confirmationDialog of confirmationDialogs) {
+      const confirmed = await waitForUserConfirmation(confirmationDialog)
+      if (!confirmed) return Promise.reject(new CancellationError())
+    }
   }
-  if (meta.loadingLabel) showOverlay(meta.loadingLabel)
+  if (meta.loadingLabel) getShowOverlay()(meta.loadingLabel)
 }
 
 mutationCache.config.onSuccess = (data, variables, context, mutation) => {
   const meta = resolveMeta({ mutation, data, variables, context })
-  if (meta.successToastLabel) showToast(meta.successToastLabel, 'success')
+  if (meta.successToastLabel) getShowToast()(meta.successToastLabel, 'success')
   requestPolling()
 }
 
 mutationCache.config.onError = (error, variables, context, mutation) => {
-
   // If the error is due to the user cancelling the mutation, do nothing.
   if (error instanceof CancellationError) return
 
   const meta = resolveMeta({ mutation, error, variables, context })
-  let errorMessage = meta.errorToastLabel
   if (meta.errorToastLabel) {
     let correlationId
+    let errorCode
     if (error instanceof AxiosError) {
-      correlationId = error.response?.data.correlationId
-      errorMessage = getMappedError(error.response?.data.errors[0].code)
+      correlationId = error.response?.data?.correlationId
+      errorCode = error.response?.data?.errors?.[0]?.code
     }
-    showToast(errorMessage, 'error', correlationId)
+    if (correlationId && errorCode) {
+      getSetErrorData()(correlationId, errorCode)
+    }
+    getShowToast()(meta.errorToastLabel, 'error', correlationId)
   }
 }
 
 mutationCache.config.onSettled = (data, error, variables, context, mutation) => {
   const meta = resolveMeta({ mutation, data, error, variables, context })
-  if (meta.loadingLabel) hideOverlay()
+  if (meta.loadingLabel) getHideOverlay()()
 }
 
 export { queryClient }

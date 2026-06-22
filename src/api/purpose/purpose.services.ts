@@ -2,22 +2,33 @@ import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
 import type {
   CreatedResource,
+  DelegationRef,
   GetConsumerPurposesParams,
   GetProducerPurposesParams,
+  GetRemainingDailyCallsParams,
+  GetRiskAnalysisAssignmentsParams,
+  PatchPurposeUpdateFromTemplateContent,
   Purpose,
   PurposeAdditionDetailsSeed,
   PurposeCloneSeed,
   PurposeEServiceSeed,
+  PurposeFromTemplateSeed,
   Purposes,
   PurposeSeed,
   PurposeUpdateContent,
   PurposeVersionResource,
   PurposeVersionSeed,
   RejectPurposeVersionPayload,
+  RemainingDailyCallsResponse,
   RetrieveLatestRiskAnalysisConfigurationParams,
   RetrieveRiskAnalysisConfigurationByVersionParams,
   ReversePurposeUpdateContent,
+  RiskAnalysisAssignmentSeed,
   RiskAnalysisFormConfig,
+  RiskAnalysisSubmissionSeed,
+  RiskAnalysisRejectionSeed,
+  SignRiskAnalysisParams,
+  RiskAnalysisFormSeed,
 } from '../api.generatedTypes'
 
 /**
@@ -33,10 +44,7 @@ function REMOVE_ME_remapPurpose(purpose: Purpose): Purpose {
     purpose.suspendedByConsumer &&
     purpose.currentVersion.dailyCalls === purpose.waitingForApprovalVersion.dailyCalls
   ) {
-    return {
-      ...purpose,
-      currentVersion: undefined,
-    }
+    return { ...purpose, currentVersion: undefined }
   }
 
   return purpose
@@ -45,9 +53,7 @@ function REMOVE_ME_remapPurpose(purpose: Purpose): Purpose {
 async function getProducersList(params: GetProducerPurposesParams) {
   const response = await axiosInstance.get<Purposes>(
     `${BACKEND_FOR_FRONTEND_URL}/producers/purposes`,
-    {
-      params,
-    }
+    { params }
   )
   return { ...response.data, results: response.data.results.map(REMOVE_ME_remapPurpose) }
 }
@@ -55,9 +61,7 @@ async function getProducersList(params: GetProducerPurposesParams) {
 async function getConsumersList(params: GetConsumerPurposesParams) {
   const response = await axiosInstance.get<Purposes>(
     `${BACKEND_FOR_FRONTEND_URL}/consumers/purposes`,
-    {
-      params,
-    }
+    { params }
   )
   return { ...response.data, results: response.data.results.map(REMOVE_ME_remapPurpose) }
 }
@@ -88,6 +92,22 @@ async function getRiskAnalysisVersion({
   return response.data
 }
 
+export type RiskAnlysisVersionConfig =
+  | Partial<RetrieveLatestRiskAnalysisConfigurationParams>
+  | Partial<RetrieveRiskAnalysisConfigurationByVersionParams>
+
+async function getRiskAnalyisLatestOrSpecificVersion(params: RiskAnlysisVersionConfig) {
+  if (
+    'riskAnalysisVersion' in params &&
+    params.riskAnalysisVersion !== undefined &&
+    params.eserviceId !== undefined
+  ) {
+    return getRiskAnalysisVersion(params as RetrieveRiskAnalysisConfigurationByVersionParams)
+  } else {
+    return getRiskAnalysisLatest(params as RetrieveLatestRiskAnalysisConfigurationParams)
+  }
+}
+
 async function createDraft(payload: PurposeSeed) {
   const response = await axiosInstance.post<CreatedResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes`,
@@ -102,6 +122,18 @@ async function updateDraft({
 }: { purposeId: string } & PurposeUpdateContent) {
   const response = await axiosInstance.post<PurposeVersionResource>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}`,
+    payload
+  )
+  return response.data
+}
+
+async function updateDraftFromPurposeTemplate({
+  purposeTemplateId,
+  purposeId,
+  ...payload
+}: { purposeTemplateId: string; purposeId: string } & PatchPurposeUpdateFromTemplateContent) {
+  const response = await axiosInstance.patch<PurposeVersionResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/purposes/${purposeId}`,
     payload
   )
   return response.data
@@ -158,16 +190,43 @@ async function downloadRiskAnalysis({
   return response.data
 }
 
-async function suspendVersion({ purposeId, versionId }: { purposeId: string; versionId: string }) {
+async function downloadSignedRiskAnalysis({
+  purposeId,
+  versionId,
+  signedContractId,
+}: {
+  purposeId: string
+  versionId: string
+  signedContractId: string
+}) {
+  const response = await axiosInstance.get<File>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/signedDocuments/${signedContractId}`,
+    { responseType: 'arraybuffer' }
+  )
+
+  return response.data
+}
+
+async function suspendVersion({
+  purposeId,
+  versionId,
+  delegationId,
+}: { purposeId: string; versionId: string } & DelegationRef) {
   const response = await axiosInstance.post<PurposeVersionResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/suspend`
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/suspend`,
+    { delegationId }
   )
   return response.data
 }
 
-async function activateVersion({ purposeId, versionId }: { purposeId: string; versionId: string }) {
+async function activateVersion({
+  purposeId,
+  versionId,
+  delegationId,
+}: { purposeId: string; versionId: string } & DelegationRef) {
   const response = await axiosInstance.post<PurposeVersionResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/activate`
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/versions/${versionId}/activate`,
+    { delegationId }
   )
   return response.data
 }
@@ -216,19 +275,99 @@ function removeClient({ clientId, purposeId }: { clientId: string; purposeId: st
   )
 }
 
+async function createDraftFromPurposeTemplate({
+  purposeTemplateId,
+  ...payload
+}: {
+  purposeTemplateId: string
+} & PurposeFromTemplateSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/purposes`,
+    payload
+  )
+  return response.data
+}
+
+async function getRemainingDailyCalls({ purposeId }: GetRemainingDailyCallsParams) {
+  const response = await axiosInstance.get<RemainingDailyCallsResponse>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/remainingDailyCalls`
+  )
+  return response.data
+}
+
+async function assignRiskAnalysisReviewer({
+  purposeId,
+  ...payload
+}: { purposeId: string } & RiskAnalysisAssignmentSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/assign`,
+    payload
+  )
+  return response.data
+}
+
+async function submitRiskAnalysis({
+  purposeId,
+  ...payload
+}: { purposeId: string } & RiskAnalysisSubmissionSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/submit`,
+    payload
+  )
+  return response.data
+}
+
+async function signRiskAnalysis({ purposeId }: SignRiskAnalysisParams) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/sign`
+  )
+  return response.data
+}
+
+async function rejectRiskAnalysis({
+  purposeId,
+  ...payload
+}: { purposeId: string } & RiskAnalysisRejectionSeed) {
+  const response = await axiosInstance.post<CreatedResource>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/reject`,
+    payload
+  )
+  return response.data
+}
+
+async function updateRiskAnalysis({
+  purposeId,
+  ...payload
+}: { purposeId: string } & RiskAnalysisFormSeed) {
+  return axiosInstance.put(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/form`,
+    payload
+  )
+}
+
+async function getRiskAnalysisAssignments(params: GetRiskAnalysisAssignmentsParams) {
+  const response = await axiosInstance.get<Purposes>(
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/assignments`,
+    { params }
+  )
+  return { ...response.data, results: response.data.results.map(REMOVE_ME_remapPurpose) }
+}
+
 export const PurposeServices = {
   getProducersList,
   getConsumersList,
   getSingle,
   getRiskAnalysisLatest,
   getRiskAnalysisVersion,
+  getRiskAnalyisLatestOrSpecificVersion,
   createDraft,
   updateDraft,
+  updateDraftFromPurposeTemplate,
   deleteDraft,
   createDraftForReceiveEService,
   updateDraftForReceiveEService,
   updateDailyCalls,
-  downloadRiskAnalysis,
+  downloadSignedRiskAnalysis,
   suspendVersion,
   activateVersion,
   archiveVersion,
@@ -237,4 +376,13 @@ export const PurposeServices = {
   clone,
   addClient,
   removeClient,
+  createDraftFromPurposeTemplate,
+  downloadRiskAnalysis,
+  getRemainingDailyCalls,
+  assignRiskAnalysisReviewer,
+  submitRiskAnalysis,
+  signRiskAnalysis,
+  rejectRiskAnalysis,
+  updateRiskAnalysis,
+  getRiskAnalysisAssignments,
 }

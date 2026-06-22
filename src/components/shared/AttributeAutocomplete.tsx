@@ -5,24 +5,34 @@ import type { AttributeKey } from '@/types/attribute.types'
 import { Button, Stack } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import type { AttributeKind, DescriptorAttribute } from '@/api/api.generatedTypes'
+import type { AttributeKind, CompactAttribute } from '@/api/api.generatedTypes'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import { FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE } from '@/config/env'
+import { match } from 'ts-pattern'
 
 export type AttributeAutocompleteProps = {
   attributeKey: AttributeKey
-  onAddAttribute: (attribute: DescriptorAttribute) => void
+  onAddAttribute: (attribute: CompactAttribute) => void
   alreadySelectedAttributeIds: string[]
+  groupIndex: number
   direction?: 'column' | 'row'
+  onOpenConfigDrawer?: (attribute: CompactAttribute, groupIndex: number) => void
+  areCertifiedDiscreteOptionsIncluded?: boolean
 }
 
-type AttributeAutocompleteFormValues = { attribute: null | DescriptorAttribute }
+type AttributeAutocompleteFormValues = {
+  attribute: null | CompactAttribute
+}
 
 export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
   attributeKey,
   onAddAttribute,
   alreadySelectedAttributeIds,
   direction = 'row',
+  onOpenConfigDrawer,
+  groupIndex,
+  areCertifiedDiscreteOptionsIncluded = false,
 }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
   const [attributeSearchParam, setAttributeSearchParam] = useAutocompleteTextInput()
@@ -48,9 +58,19 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
     return result
   }
 
+  const kindsFilter = match(attributeKey)
+    .returnType<Array<AttributeKind>>()
+    .with('certified', () => {
+      if (areCertifiedDiscreteOptionsIncluded) return ['CERTIFIED', 'CERTIFIED_DISCRETE']
+      return ['CERTIFIED']
+    })
+    .with('verified', () => ['VERIFIED'])
+    .with('declared', () => ['DECLARED'])
+    .exhaustive()
+
   const { data } = useQuery({
     ...AttributeQueries.getList({
-      kinds: [attributeKey.toUpperCase() as AttributeKind],
+      kinds: kindsFilter,
       q: getQ(),
       offset: 0,
       limit: 50,
@@ -63,7 +83,7 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
     onAddAttribute(attribute)
   })
 
-  const options = React.useMemo(() => {
+  const options: { label: string; value: CompactAttribute }[] = React.useMemo(() => {
     const attributes = data?.results ?? []
     return attributes
       .filter((att) => !alreadySelectedAttributeIds.includes(att.id))
@@ -73,13 +93,19 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
       }))
   }, [data?.results, alreadySelectedAttributeIds])
 
+  const handleOpenConfigDrawer = handleSubmit(({ attribute }) => {
+    if (!attribute || !onOpenConfigDrawer) return
+    onOpenConfigDrawer(attribute, groupIndex)
+  })
+
+  const isConfigureCertifiedDiscrete =
+    selectedAttribute?.kind === 'CERTIFIED_DISCRETE' &&
+    FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE &&
+    onOpenConfigDrawer
+
   return (
     <FormProvider {...attributeAutocompleteFormMethods}>
-      <Stack
-        direction={direction}
-        alignItems={direction === 'column' ? 'start' : 'center'}
-        spacing={1}
-      >
+      <Stack direction={direction} alignItems="stretch" spacing={1} justifyContent="space-between">
         <RHFAutocompleteSingle
           label={t('autocompleteInput.label')}
           placeholder={t('autocompleteInput.placeholder')}
@@ -88,15 +114,25 @@ export const AttributeAutocomplete: React.FC<AttributeAutocompleteProps> = ({
           options={options}
           focusOnMount
           name="attribute"
+          size="small"
+          infoLabel={
+            isConfigureCertifiedDiscrete
+              ? t('autocompleteInput.certifiedDiscreteInfoSection')
+              : undefined
+          }
+          isOptionEqualToValue={(option, { value }) => option.value.id === value.id}
         />
-        <Button
-          onClick={handleAddAttributeToGroup}
-          disabled={!isSelected}
-          type="button"
-          variant="contained"
-        >
-          {t('addBtn')}
-        </Button>
+        {isSelected && (
+          <Button
+            onClick={
+              isConfigureCertifiedDiscrete ? handleOpenConfigDrawer : handleAddAttributeToGroup
+            }
+            type="button"
+            variant="contained"
+          >
+            {isConfigureCertifiedDiscrete ? t('config') : t('add')}
+          </Button>
+        )}
       </Stack>
     </FormProvider>
   )

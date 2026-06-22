@@ -39,6 +39,9 @@
       "mailField": {
         "label": "Indirizzo email ente (richiesto)"
       },
+      "notificationActivationField": {
+        "label": "Ricevi email di cortesia per l’ente attraverso questa casella"
+      },
       "descriptionField": {
         "label": "Note",
         "infoLabel": "Min 10 caratteri, max 250 caratteri"
@@ -129,6 +132,7 @@
     "create": {
       "title": "Crea delega",
       "kindSectionTitle": "Tipologie di delega",
+      "kindSectionAriaLabel": "Seleziona il tipo di delega che vuoi creare",
       "consumerDelegationTitle": "Delega alla fruizione",
       "providerDelegationTitle": "Delega all'erogazione",
       "cancelBtn": "Annulla",
@@ -146,15 +150,19 @@
         "infoLabel": "Min 5 caratteri, max 60 caratteri",
         "infoLabelAutocomplete": {
           "consumer": "La lista include solo gli e-service per i quali i rispettivi erogatori hanno dato disponibilità alla fruizione per delega.",
-          "producer": "La lista include solo gli e-service per i quali i rispettivi erogatori hanno dato disponibilità all’erogazione per delega."
+          "producer": "La lista include gli e-service per i quali è stato indicato se trattano dati personali"
         },
         "infoLabelAutocompleteFromTemplate": {
           "consumer": "La lista include solo i template degli e-service per i quali i rispettivi erogatori hanno dato disponibilità alla fruizione per delega.",
-          "producer": "La lista include solo i template degli e-service per i quali i rispettivi erogatori hanno dato disponibilità all’erogazione per delega."
+          "producer": "La lista include i template di e-service da te istanziabili per i quali è stato indicato se trattano dati personali"
         },
         "descriptionLabel": "Descrizione dell'e-service",
         "descriptionInfoLabel": "Includere nel testo i dati di input e output. Min 10 caratteri, max 250 caratteri",
-        "eserviceNameLabel": "Erogato da"
+        "eserviceNameLabel": "Erogato da",
+        "validation": {
+          "duplicateName": "Hai già creato un e-service con questo nome, usane un altro.",
+          "emptyNotAvailable": "Aggiungi una parola per differenziare il tuo e-service."
+        }
       },
       "delegateField": {
         "consumer": {

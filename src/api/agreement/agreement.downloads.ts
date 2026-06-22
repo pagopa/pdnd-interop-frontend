@@ -22,7 +22,18 @@ function useDownloadContract() {
   })
 }
 
+function useDownloadSignedContract() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'agreement.downloadContract',
+  })
+  return useDownloadFile(AgreementServices.downloadSignedContract, {
+    errorToastLabel: t('outcome.error'),
+    loadingLabel: t('loading'),
+  })
+}
+
 export const AgreementDownloads = {
   useDownloadDocument,
   useDownloadContract,
+  useDownloadSignedContract,
 }

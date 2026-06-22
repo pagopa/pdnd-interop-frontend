@@ -9,7 +9,8 @@ import { AuthHooks } from '@/api/auth'
 
 export const KeychainsTable: React.FC = () => {
   const { t } = useTranslation('keychain', { keyPrefix: 'list.filters' })
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
   const { jwt } = AuthHooks.useJwt()
 
   const producerId = jwt?.organizationId as string
@@ -37,6 +38,7 @@ export const KeychainsTable: React.FC = () => {
       </Suspense>
       <Pagination
         {...paginationProps}
+        rowPerPageOptions={rowPerPageOptions}
         totalPages={getTotalPageCount(keychains?.pagination.totalCount)}
       />
     </>

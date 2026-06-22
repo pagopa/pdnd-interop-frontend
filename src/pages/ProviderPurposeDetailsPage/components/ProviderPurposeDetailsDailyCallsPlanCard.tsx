@@ -8,6 +8,8 @@ import { AuthHooks } from '@/api/auth'
 import { useTranslation } from 'react-i18next'
 import { formatThousands } from '@/utils/format.utils'
 import { useDialog } from '@/stores'
+import { DelegationQueries } from '@/api/delegation'
+import { useQuery } from '@tanstack/react-query'
 
 type ProviderPurposeDetailsDailyCallsPlanCardProps = {
   purpose: Purpose
@@ -19,7 +21,7 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
   const { t } = useTranslation('purpose', {
     keyPrefix: 'providerView.sections.loadEstimate.planCard',
   })
-  const { isAdmin } = AuthHooks.useJwt()
+  const { jwt, isAdmin } = AuthHooks.useJwt()
   const { mutate: activateVersion } = PurposeMutations.useActivateVersion()
 
   const { openDialog } = useDialog()
@@ -33,6 +35,21 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
   const rejectedVersion = purpose.rejectedVersion
   const isNewPurposeRejected = Boolean(rejectedVersion) && !Boolean(purpose.currentVersion)
 
+  const { data: producerDelegation = [] } = useQuery({
+    ...DelegationQueries.getList({
+      limit: 1,
+      offset: 0,
+      eserviceIds: [purpose?.eservice.id as string],
+      kind: 'DELEGATED_PRODUCER',
+      states: ['ACTIVE'],
+      delegateIds: [jwt?.organizationId as string],
+    }),
+    enabled: Boolean(jwt?.organizationId),
+    select: ({ results }) => results ?? [],
+  })
+
+  const isThereProducerDelegation = Boolean(producerDelegation[0])
+
   const title = React.useMemo(() => {
     if (waitingForApprovalVersion)
       return t(`title.waitingForApprovalPlan.${isChangePlanRequest ? 'changePlan' : 'newPurpose'}`)
@@ -44,7 +61,11 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
 
   const handleConfirmUpdate = () => {
     if (!waitingForApprovalVersion || !isAdmin) return null
-    activateVersion({ purposeId: purpose.id, versionId: waitingForApprovalVersion.id })
+    activateVersion({
+      purposeId: purpose.id,
+      versionId: waitingForApprovalVersion.id,
+      ...(isThereProducerDelegation && { delegationId: producerDelegation[0].id }),
+    })
   }
 
   const handleRejectUpdate = () => {
@@ -71,7 +92,7 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
         <CardHeader
           titleTypographyProps={{ variant: 'sidenav' }}
           title={title}
-          subheaderTypographyProps={{ variant: 'body2', color: 'text.secondary' }}
+          subheaderTypographyProps={{ variant: 'body2', color: 'text.secondary', mt: 1 }}
           subheader={t('subtitle')}
           action={
             isChangePlanRequest && (
@@ -106,6 +127,15 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
         <CardContent sx={{ px: 3, pt: 1 }}>
           {waitingForApprovalVersion && (
             <Stack direction="row" alignItems="space-between">
+              {purpose.currentVersion && (
+                <Box flex={1}>
+                  <Typography variant="h4">
+                    {formatThousands(purpose.currentVersion?.dailyCalls)}
+                  </Typography>
+                  <Typography variant="body2">{t('currentPlan.label')}</Typography>
+                </Box>
+              )}
+
               <Box flex={1}>
                 <Typography variant="h4">
                   {formatThousands(waitingForApprovalVersion.dailyCalls)}
@@ -118,17 +148,6 @@ export const ProviderPurposeDetailsDailyCallsPlanCard: React.FC<
                   )}
                 </Typography>
               </Box>
-
-              {purpose.currentVersion && (
-                <Box flex={1}>
-                  <Typography variant="h4" color="text.secondary" fontWeight={400}>
-                    {formatThousands(purpose.currentVersion?.dailyCalls)}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {t('currentPlan.label')}
-                  </Typography>
-                </Box>
-              )}
             </Stack>
           )}
           {isNewPurposeRejected && (

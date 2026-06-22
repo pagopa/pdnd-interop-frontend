@@ -1,8 +1,12 @@
 import { Drawer } from '@/components/shared/Drawer'
 import React from 'react'
-import type { AttributeKey } from '@/types/attribute.types'
-import type { DescriptorAttribute, DescriptorAttributes } from '@/api/api.generatedTypes'
-import { Box, Stack } from '@mui/material'
+import type {
+  AttributeKey,
+  FormDescriptorAttribute,
+  FormDescriptorAttributes,
+} from '@/types/attribute.types'
+import type { DescriptorAttributes } from '@/api/api.generatedTypes'
+import { Box, Divider, Stack, Typography } from '@mui/material'
 import { AttributeContainer, AttributeGroupContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { ButtonNaked } from '@pagopa/mui-italia'
@@ -10,9 +14,12 @@ import AddIcon from '@mui/icons-material/Add'
 import { AttributeAutocomplete } from '@/components/shared/AttributeAutocomplete'
 import cloneDeep from 'lodash/cloneDeep'
 import { EServiceMutations } from '@/api/eservice'
-import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
+import {
+  mapDescriptorAttributesToFormDescriptorAttributes,
+  mapFormDescriptorAttributesToDescriptorAttributesSeed,
+} from '@/utils/attribute.utils'
 import { useParams } from '@/router'
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
 type UpdateAttributesDrawerProps = {
   isOpen: boolean
@@ -39,15 +46,23 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
   const { eServiceTemplateId, eServiceTemplateVersionId } =
     useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
-  const [selectedAttributes, setSelectedAttributes] = React.useState<DescriptorAttributes>(() =>
-    cloneDeep(attributes)
+  const formModelAttributes = React.useMemo(
+    () => mapDescriptorAttributesToFormDescriptorAttributes(attributes),
+    [attributes]
+  )
+
+  const [selectedAttributes, setSelectedAttributes] = React.useState<FormDescriptorAttributes>(() =>
+    cloneDeep(formModelAttributes)
   )
 
   const { mutate: updateEserviceAttributes } = EServiceMutations.useUpdateDescriptorAttributes()
-  const { mutate: updateEserviceTemplateAttributes } = TemplateMutations.useUpdateAttributes()
+  const { mutate: updateEserviceTemplateAttributes } =
+    EServiceTemplateMutations.useUpdateAttributes()
 
   const attributeGroups = selectedAttributes[attributeKey]
-  const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = React.useState(false)
+  const [autocompleteShownForGroup, setAutocompleteShownForGroup] = React.useState<
+    Record<number, boolean>
+  >({})
 
   const alreadySelectedAttributeIds = React.useMemo(
     () =>
@@ -58,16 +73,16 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
     [attributeGroups]
   )
 
-  const handleAddAttributeToGroup = (groupdIdx: number, attribute: DescriptorAttribute) => {
+  const handleAddAttributeToGroup = (groupIdx: number, attribute: FormDescriptorAttribute) => {
     setSelectedAttributes((prev) => {
       const newAttributeGroups = [...prev[attributeKey]]
-      newAttributeGroups[groupdIdx].push(attribute)
+      newAttributeGroups[groupIdx].push(attribute)
       return {
         ...prev,
         [attributeKey]: newAttributeGroups,
       }
     })
-    setIsAttributeAutocompleteShown(false)
+    setAutocompleteShownForGroup((prev) => ({ ...prev, [groupIdx]: false }))
   }
 
   const handleRemoveAttributeFromGroup = (groupIdx: number, attributeId: string) => {
@@ -83,7 +98,7 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
     })
   }
 
-  const canAttributeBeRemoved = (groupIdx: number, attribute: DescriptorAttribute) => {
+  const canAttributeBeRemoved = (groupIdx: number, attribute: FormDescriptorAttribute) => {
     return !attributes[attributeKey][groupIdx].some((att) => att.id === attribute.id)
   }
 
@@ -94,7 +109,7 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
           eserviceId,
           descriptorId,
           attributeKey,
-          ...remapDescriptorAttributesToDescriptorAttributesSeed(selectedAttributes),
+          ...mapFormDescriptorAttributesToDescriptorAttributesSeed(selectedAttributes),
         },
         { onSuccess: onClose }
       )
@@ -104,18 +119,24 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
           eServiceTemplateId,
           eServiceTemplateVersionId,
           attributeKey,
-          ...remapDescriptorAttributesToDescriptorAttributesSeed(selectedAttributes),
+          ...mapFormDescriptorAttributesToDescriptorAttributesSeed(selectedAttributes),
         },
         { onSuccess: onClose }
       )
     }
   }
 
+  React.useEffect(() => {
+    if (isOpen) {
+      setSelectedAttributes(cloneDeep(formModelAttributes))
+    }
+  }, [formModelAttributes, isOpen])
+
   return (
     <Drawer
       isOpen={isOpen}
       onClose={onClose}
-      onTransitionExited={() => setSelectedAttributes(cloneDeep(attributes))}
+      onTransitionExited={() => setSelectedAttributes(cloneDeep(formModelAttributes))}
       title={t('title', { attributeKind: tAttribute(`type.${attributeKey}_other`) })}
       subtitle={t('subtitle')}
       buttonAction={{
@@ -133,40 +154,68 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
             sx={{ border: 'none' }}
             elevation={4}
             key={groupIdx}
-            title={tAttribute('group.read.provider')}
+            title={tAttribute('attributeCardHeader.label', {
+              index: groupIdx + 1,
+              attributeKey: tAttribute(`type.${attributeKey}_other`),
+            })}
           >
-            <Stack sx={{ listStyleType: 'none', pl: 0, mt: 1 }} component="ul" spacing={1.2}>
-              {group.map((attribute) => (
-                <Box component="li" key={attribute.id}>
-                  <AttributeContainer
-                    attribute={attribute}
-                    onRemove={
-                      canAttributeBeRemoved(groupIdx, attribute)
-                        ? (attribute) => handleRemoveAttributeFromGroup(groupIdx, attribute)
-                        : undefined
-                    }
+            <Typography sx={{ py: 1 }} variant="body2">
+              {tAttribute('group.read.provider')}
+            </Typography>
+            <Stack sx={{ listStyleType: 'none', pl: 0, mt: 1, mb: 0 }} component="ul" spacing={1.2}>
+              {group.map((attribute, attributeIndex) => (
+                <React.Fragment key={attribute.id}>
+                  <Box component="li">
+                    <AttributeContainer
+                      attribute={attribute}
+                      hideThreshold
+                      onRemove={
+                        canAttributeBeRemoved(groupIdx, attribute)
+                          ? (attribute) => handleRemoveAttributeFromGroup(groupIdx, attribute)
+                          : undefined
+                      }
+                    />
+                  </Box>
+                  {group.length > 1 && attributeIndex < group.length - 1 && (
+                    <Box component="li">
+                      <Divider sx={{ py: 1 }}>
+                        <Typography
+                          variant="caption"
+                          color="text.primary"
+                          fontWeight={700}
+                          textTransform="uppercase"
+                        >
+                          {tAttribute('group.or')}
+                        </Typography>
+                      </Divider>
+                    </Box>
+                  )}
+                </React.Fragment>
+              ))}
+              {autocompleteShownForGroup[groupIdx] ? (
+                <Box component="li" sx={{ pt: 1 }}>
+                  <AttributeAutocomplete
+                    attributeKey={attributeKey}
+                    alreadySelectedAttributeIds={alreadySelectedAttributeIds}
+                    onAddAttribute={(attribute) => handleAddAttributeToGroup(groupIdx, attribute)}
+                    direction="column"
+                    groupIndex={groupIdx}
                   />
                 </Box>
-              ))}
+              ) : (
+                <ButtonNaked
+                  color="primary"
+                  type="button"
+                  sx={{ fontWeight: 700, justifyContent: 'end', pb: 1, pt: 2 }}
+                  startIcon={<AddIcon fontSize="small" />}
+                  onClick={() =>
+                    setAutocompleteShownForGroup((prev) => ({ ...prev, [groupIdx]: true }))
+                  }
+                >
+                  {tAttribute('group.addAnotherBtn')}
+                </ButtonNaked>
+              )}
             </Stack>
-            {isAttributeAutocompleteShown ? (
-              <AttributeAutocomplete
-                attributeKey={attributeKey}
-                alreadySelectedAttributeIds={alreadySelectedAttributeIds}
-                onAddAttribute={(attribute) => handleAddAttributeToGroup(groupIdx, attribute)}
-                direction="column"
-              />
-            ) : (
-              <ButtonNaked
-                color="primary"
-                type="button"
-                sx={{ fontWeight: 700 }}
-                startIcon={<AddIcon fontSize="small" />}
-                onClick={() => setIsAttributeAutocompleteShown(true)}
-              >
-                {tAttribute('group.addBtn')}
-              </ButtonNaked>
-            )}
           </AttributeGroupContainer>
         ))}
       </Stack>

@@ -30,15 +30,18 @@ export const KeychainAddPublicKeyButton: React.FC<KeychainAddPublicKeyButtonProp
 
   const isInKeychain = Boolean(jwt && usersIds.includes(jwt.uid))
 
-  const { data: keys } = useQuery({
-    ...KeychainQueries.getProducerKeychainKeysList({ producerKeychainId: keychainId }),
+  const { data: publicKeysCount = 0 } = useQuery({
+    ...KeychainQueries.getProducerKeychainKeysList({
+      producerKeychainId: keychainId,
+      offset: 0,
+      limit: 1,
+    }),
     placeholderData: keepPreviousData,
-    select: (data) => data.keys,
+    select: (data) => data.pagination.totalCount,
   })
 
-  const publicKeys = keys || []
   const publicKeysLimit = 30
-  const hasReachedPublicKeysLimit = publicKeys.length >= publicKeysLimit
+  const hasReachedPublicKeysLimit = publicKeysCount >= publicKeysLimit
 
   const canNotAddKey = isSupport || !isInKeychain || hasReachedPublicKeysLimit
 

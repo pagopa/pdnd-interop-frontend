@@ -7,6 +7,7 @@ import type {
   ProducerEServiceDetails,
 } from '@/api/api.generatedTypes'
 import { createMockFactory } from '../../src/utils/testing.utils'
+import * as EserviceCreateContextModule from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateContext'
 
 const createMockEServiceRead = createMockFactory<ProducerEServiceDetails>({
   id: 'ad474d35-7939-4bee-bde9-4e469cca1030',
@@ -15,6 +16,7 @@ const createMockEServiceRead = createMockFactory<ProducerEServiceDetails>({
   technology: 'REST',
   mode: 'DELIVER',
   riskAnalysis: [],
+  asyncExchange: false,
 })
 
 const createMockEServiceProvider = createMockFactory<ProducerEService>({
@@ -39,13 +41,14 @@ const createMockEServiceCatalog = createMockFactory<CatalogEService>({
     id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
     name: "Agenzia per L'Italia Digitale",
   },
+  asyncExchange: false,
 })
 
 const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDescriptor>({
   agreementApprovalPolicy: 'MANUAL',
   audience: ['Lorem'],
   dailyCallsPerConsumer: 1,
-  dailyCallsTotal: 1,
+  dailyCallsTotal: 2,
   description: 'Lorem',
   docs: [],
   eservice: {
@@ -76,6 +79,10 @@ const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDes
     technology: 'REST',
     mode: 'DELIVER',
     riskAnalysis: [],
+    agreements: [],
+    hasProducerKeychain: false,
+    hasProducerKeychainKeys: false,
+    asyncExchange: false,
   },
   id: 'ec94e366-cbb2-4203-ac07-95acf5289a31',
   interface: {
@@ -92,6 +99,28 @@ const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDes
     certified: [],
     declared: [],
     verified: [],
+  },
+})
+
+const createMockEServiceDescriptorCatalogAsync = createMockFactory<CatalogEServiceDescriptor>({
+  ...createMockEServiceDescriptorCatalog(),
+  eservice: {
+    ...createMockEServiceDescriptorCatalog().eservice,
+    asyncExchange: true,
+  },
+  asyncExchangeProperties: {
+    responseTime: 1000,
+    resourceAvailableTime: 2000,
+    confirmation: true,
+    bulk: true,
+    maxResultSet: 100,
+  },
+  asyncExchangeCallbackInterface: {
+    contentType: 'application/octet-stream',
+    id: 'callback-interface-doc-001',
+    name: 'callback_open_api.yml',
+    prettyName: 'Specifica callback',
+    checksum: 'callback-checksum',
   },
 })
 
@@ -123,13 +152,22 @@ const createMockCatalogDescriptorEService = createMockFactory<CatalogDescriptorE
   technology: 'REST',
   mode: 'DELIVER',
   riskAnalysis: [],
+  agreements: [],
+  hasProducerKeychain: false,
+  hasProducerKeychainKeys: false,
+  asyncExchange: false,
+})
+
+const createMockCatalogDescriptorEServiceAsync = createMockFactory<CatalogDescriptorEService>({
+  ...createMockCatalogDescriptorEService(),
+  asyncExchange: true,
 })
 
 const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceDescriptor>({
   agreementApprovalPolicy: 'MANUAL',
   audience: ['nikon'],
   dailyCallsPerConsumer: 1,
-  dailyCallsTotal: 1,
+  dailyCallsTotal: 2,
   description: 'kinoin',
   docs: [],
   eservice: {
@@ -151,6 +189,10 @@ const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceD
     technology: 'REST',
     mode: 'DELIVER',
     riskAnalysis: [],
+    personalData: true,
+    hasProducerKeychain: false,
+    hasProducerKeychainKeys: false,
+    asyncExchange: false,
   },
   id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
   interface: {
@@ -170,11 +212,324 @@ const createMockEServiceDescriptorProvider = createMockFactory<ProducerEServiceD
   },
 })
 
+const createMockEServiceDescriptorProviderAsync = createMockFactory<ProducerEServiceDescriptor>({
+  ...createMockEServiceDescriptorProvider(),
+  eservice: {
+    ...createMockEServiceDescriptorProvider().eservice,
+    asyncExchange: true,
+  },
+  asyncExchangeProperties: {
+    responseTime: 1000,
+    resourceAvailableTime: 2000,
+    confirmation: true,
+    bulk: true,
+    maxResultSet: 100,
+  },
+  asyncExchangeCallbackInterface: {
+    checksum: 'callback-checksum',
+    contentType: 'application/octet-stream',
+    id: 'callback-interface-doc-001',
+    name: 'callback_open_api.yml',
+    prettyName: 'Specifica callback',
+  },
+})
+
+const createMockEServiceDescriptorProviderNoInterface =
+  createMockFactory<ProducerEServiceDescriptor>({
+    agreementApprovalPolicy: 'MANUAL',
+    audience: ['nikon'],
+    dailyCallsPerConsumer: 1,
+    dailyCallsTotal: 2,
+    description: 'kinoin',
+    docs: [],
+    eservice: {
+      description: 'Lorem ipsum',
+      descriptors: [
+        {
+          id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+          state: 'PUBLISHED',
+          version: '1',
+          audience: [],
+        },
+      ],
+      producer: {
+        id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+        tenantKind: 'PA',
+      },
+      id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+      name: '-- LUMACA -- test 20/10 [4]\t',
+      technology: 'REST',
+      mode: 'DELIVER',
+      riskAnalysis: [],
+      hasProducerKeychain: false,
+      hasProducerKeychainKeys: false,
+      asyncExchange: false,
+    },
+    id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+    state: 'PUBLISHED',
+    version: '3',
+    voucherLifespan: 60,
+    attributes: {
+      certified: [],
+      declared: [],
+      verified: [],
+    },
+  })
+
+const createMockEServiceDescriptorProviderWithRiskAnalysis =
+  createMockFactory<ProducerEServiceDescriptor>({
+    agreementApprovalPolicy: 'MANUAL',
+    audience: ['nikon'],
+    dailyCallsPerConsumer: 1,
+    dailyCallsTotal: 2,
+    description: 'kinoin',
+    docs: [],
+    eservice: {
+      description: 'Lorem ipsum',
+      descriptors: [
+        {
+          id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+          state: 'PUBLISHED',
+          version: '1',
+          audience: [],
+        },
+      ],
+      producer: {
+        id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+        tenantKind: 'PA',
+      },
+      id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+      name: '-- LUMACA -- test 20/10 [4]\t',
+      technology: 'REST',
+      mode: 'DELIVER',
+      riskAnalysis: [
+        {
+          id: 'risk-analysis-id-001',
+          name: 'Risk Analysis 1',
+          riskAnalysisForm: {
+            riskAnalysisId: 'form-id-001',
+            version: 'version-001',
+            answers: 'answers-001',
+          },
+          createdAt: '',
+        },
+      ],
+      hasProducerKeychain: false,
+      hasProducerKeychainKeys: false,
+      asyncExchange: false,
+    },
+    id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+    state: 'PUBLISHED',
+    version: '3',
+    voucherLifespan: 60,
+    attributes: {
+      certified: [],
+      declared: [],
+      verified: [],
+    },
+  })
+
+const createMockEServiceDescriptorProviderWithDocs = createMockFactory<ProducerEServiceDescriptor>({
+  agreementApprovalPolicy: 'MANUAL',
+  audience: ['nikon'],
+  dailyCallsPerConsumer: 1,
+  dailyCallsTotal: 2,
+  description: 'kinoin',
+  docs: [
+    {
+      id: 'doc-id-001',
+      name: 'document.pdf',
+      prettyName: 'Document PDF',
+      contentType: 'application/pdf',
+      checksum: 'checksum-doc-001',
+    },
+  ],
+  eservice: {
+    description: 'Lorem ipsum',
+    descriptors: [
+      {
+        id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+        state: 'PUBLISHED',
+        version: '1',
+        audience: [],
+      },
+    ],
+    producer: {
+      id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+      tenantKind: 'PA',
+    },
+    id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+    name: '-- LUMACA -- test 20/10 [4]\t',
+    technology: 'REST',
+    mode: 'DELIVER',
+    riskAnalysis: [],
+    hasProducerKeychain: false,
+    hasProducerKeychainKeys: false,
+    asyncExchange: false,
+  },
+  id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+  state: 'PUBLISHED',
+  version: '3',
+  voucherLifespan: 60,
+  attributes: {
+    certified: [],
+    declared: [],
+    verified: [],
+  },
+})
+
+const createMockEServiceDescriptorProviderWithTemplateRef =
+  createMockFactory<ProducerEServiceDescriptor>({
+    agreementApprovalPolicy: 'MANUAL',
+    audience: ['nikon'],
+    dailyCallsPerConsumer: 1,
+    dailyCallsTotal: 2,
+    description: 'kinoin',
+    docs: [],
+    eservice: {
+      description: 'Lorem ipsum',
+      descriptors: [
+        {
+          id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+          state: 'PUBLISHED',
+          version: '1',
+          audience: [],
+        },
+      ],
+      producer: {
+        id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+        tenantKind: 'PA',
+      },
+      id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+      name: '-- LUMACA -- test 20/10 [4]\t',
+      technology: 'REST',
+      mode: 'DELIVER',
+      riskAnalysis: [],
+      personalData: true,
+      hasProducerKeychain: false,
+      hasProducerKeychainKeys: false,
+      asyncExchange: false,
+    },
+    id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+    interface: {
+      checksum: 'checksum',
+      contentType: 'application/octet-stream',
+      id: '7b92cd7e-c485-4660-9344-608242ba0786',
+      name: 'VerificaCodiceFiscale.yaml',
+      prettyName: 'Specifica API',
+    },
+    state: 'PUBLISHED',
+    version: '3',
+    voucherLifespan: 60,
+    attributes: {
+      certified: [],
+      declared: [],
+      verified: [],
+    },
+    templateRef: {
+      templateId: 'template-id',
+      templateName: 'template-name',
+      templateVersionId: 'template-version-id',
+    },
+  })
+
+const createMockEServiceDescriptorReceive = createMockFactory<ProducerEServiceDescriptor>({
+  agreementApprovalPolicy: 'MANUAL',
+  audience: ['nikon'],
+  dailyCallsPerConsumer: 1,
+  dailyCallsTotal: 2,
+  description: 'kinoin',
+  docs: [],
+  eservice: {
+    description: 'Lorem ipsum',
+    descriptors: [
+      {
+        id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+        state: 'PUBLISHED',
+        version: '1',
+        audience: [],
+      },
+    ],
+    producer: {
+      id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+      tenantKind: 'PA',
+    },
+    id: '4edda5fd-2fed-485c-9ab4-bc7d78a67624',
+    name: '-- LUMACA -- test 20/10 [4]\t',
+    technology: 'REST',
+    mode: 'RECEIVE',
+    riskAnalysis: [
+      {
+        id: 'risk-analysis-id-001',
+        name: 'Risk Analysis 1',
+        riskAnalysisForm: {
+          riskAnalysisId: 'form-id-001',
+          version: 'version-001',
+          answers: 'answers-001',
+        },
+        createdAt: '',
+      },
+    ],
+    hasProducerKeychain: false,
+    hasProducerKeychainKeys: false,
+    asyncExchange: false,
+  },
+  id: '2092c1ef-9127-4dd5-ad81-c9ecf492975a',
+  state: 'PUBLISHED',
+  version: '3',
+  voucherLifespan: 60,
+  attributes: {
+    certified: [
+      [
+        {
+          id: 'id-001',
+          name: 'name-001',
+          description: 'description-001',
+          explicitAttributeVerification: true,
+          kind: 'CERTIFIED',
+        },
+      ],
+    ],
+    declared: [],
+    verified: [],
+  },
+})
+
+function mockUseEServiceCreateContext(
+  overwrites: Partial<ReturnType<typeof EserviceCreateContextModule.useEServiceCreateContext>> = {}
+) {
+  vi.spyOn(EserviceCreateContextModule, 'useEServiceCreateContext').mockReturnValue({
+    descriptor: undefined,
+    areEServiceGeneralInfoEditable: true,
+    forward: vi.fn(),
+    back: vi.fn(),
+    eserviceMode: 'DELIVER',
+    onEserviceModeChange: vi.fn(),
+    eserviceTemplate: undefined,
+    riskAnalysisFormState: {
+      isOpen: false,
+      riskAnalysisId: undefined,
+    },
+    openRiskAnalysisForm: vi.fn(),
+    closeRiskAnalysisForm: vi.fn(),
+    ...overwrites,
+  })
+}
+
 export {
   createMockEServiceProvider,
   createMockEServiceCatalog,
   createMockEServiceRead,
   createMockEServiceDescriptorCatalog,
+  createMockEServiceDescriptorCatalogAsync,
   createMockCatalogDescriptorEService,
+  createMockCatalogDescriptorEServiceAsync,
   createMockEServiceDescriptorProvider,
+  createMockEServiceDescriptorProviderAsync,
+  createMockEServiceDescriptorProviderNoInterface,
+  createMockEServiceDescriptorProviderWithRiskAnalysis,
+  createMockEServiceDescriptorProviderWithDocs,
+  createMockEServiceDescriptorProviderWithTemplateRef,
+  createMockEServiceDescriptorReceive,
+  mockUseEServiceCreateContext,
 }

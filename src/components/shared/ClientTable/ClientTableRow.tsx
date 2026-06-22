@@ -2,14 +2,14 @@ import type { ClientKind, CompactClient } from '@/api/api.generatedTypes'
 import { ClientQueries } from '@/api/client'
 import useGetClientActions from '@/hooks/useGetClientActions'
 import { Link } from '@/router'
-import { Box, Skeleton } from '@mui/material'
+import { Box, Skeleton, Stack } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActionMenu, ActionMenuSkeleton } from '../ActionMenu'
 import { ButtonSkeleton } from '../MUI-skeletons'
 import { useQueryClient } from '@tanstack/react-query'
-import { FEATURE_FLAG_ADMIN_CLIENT_API } from '@/config/env'
+import { NotificationBadgeDot } from '../NotificationBadgeDot/NotificationBadgeDot'
 
 type ClientTableRowProps = {
   client: CompactClient
@@ -26,12 +26,19 @@ export const ClientTableRow: React.FC<ClientTableRowProps> = ({ client, clientKi
     queryClient.prefetchQuery(ClientQueries.getSingle(client.id))
   }
 
+  const clientName = (
+    <Stack direction="row" alignItems="center" key={0}>
+      {client.hasUnreadNotifications && <NotificationBadgeDot />}
+      {client.name}
+    </Stack>
+  )
+
   return (
     <TableRow
       cellData={
-        FEATURE_FLAG_ADMIN_CLIENT_API && clientKind === 'API'
-          ? [client.name, client.admin ? `${client.admin.name} ${client.admin.familyName}` : '-']
-          : [client.name]
+        clientKind === 'API'
+          ? [clientName, client.admin ? `${client.admin.name} ${client.admin.familyName}` : '-']
+          : [clientName]
       }
     >
       <Link
@@ -59,7 +66,7 @@ export const ClientTableRowSkeleton: React.FC<{ clientKind: ClientKind }> = ({ c
   return (
     <TableRow
       cellData={
-        FEATURE_FLAG_ADMIN_CLIENT_API && clientKind === 'API'
+        clientKind === 'API'
           ? [<Skeleton key={0} width={260} />, <Skeleton key={1} width={180} />]
           : [<Skeleton key={0} width={440} />]
       }

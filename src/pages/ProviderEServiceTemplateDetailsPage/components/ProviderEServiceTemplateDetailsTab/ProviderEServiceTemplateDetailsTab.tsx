@@ -1,19 +1,21 @@
 import React from 'react'
 import { Grid } from '@mui/material'
 import {
-  EServiceTemplateAttributes,
   EServiceTemplateGeneralInfoSection,
   EServiceTemplateTechnicalInfoSection,
 } from '@/components/shared/EserviceTemplate'
 import type { EServiceTemplateVersionState } from '@/api/api.generatedTypes'
+import { EServiceTemplateThresholdsAndAttributesSection } from './EServiceTemplateThresholdsAndAttributesSection'
+import { AuthHooks } from '@/api/auth'
 
 type ProviderEServiceDetailsTabProps = {
-  templateVersionState: EServiceTemplateVersionState | undefined
+  eserviceTemplateVersionState: EServiceTemplateVersionState | undefined
 }
 export const ProviderEServiceTemplateDetailsTab: React.FC<ProviderEServiceDetailsTabProps> = ({
-  templateVersionState,
+  eserviceTemplateVersionState,
 }) => {
-  const readonly = templateVersionState === 'DEPRECATED'
+  const { isViewer } = AuthHooks.useJwt()
+  const readonly = eserviceTemplateVersionState === 'DEPRECATED' || isViewer
   const routeKey = 'PROVIDE_ESERVICE_TEMPLATE_DETAILS'
   return (
     <>
@@ -21,7 +23,7 @@ export const ProviderEServiceTemplateDetailsTab: React.FC<ProviderEServiceDetail
         <Grid item xs={8}>
           <EServiceTemplateGeneralInfoSection readonly={readonly} routeKey={routeKey} />
           <EServiceTemplateTechnicalInfoSection readonly={readonly} routeKey={routeKey} />
-          <EServiceTemplateAttributes readonly={readonly} routeKey={routeKey} />
+          <EServiceTemplateThresholdsAndAttributesSection readonly={readonly} routeKey={routeKey} />
         </Grid>
       </Grid>
     </>

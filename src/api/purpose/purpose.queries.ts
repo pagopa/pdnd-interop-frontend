@@ -1,8 +1,11 @@
 import { queryOptions } from '@tanstack/react-query'
+import type { RiskAnlysisVersionConfig } from './purpose.services'
 import { PurposeServices } from './purpose.services'
 import type {
   GetConsumerPurposesParams,
   GetProducerPurposesParams,
+  GetRemainingDailyCallsParams,
+  GetRiskAnalysisAssignmentsParams,
   RetrieveLatestRiskAnalysisConfigurationParams,
   RetrieveRiskAnalysisConfigurationByVersionParams,
 } from '../api.generatedTypes'
@@ -42,10 +45,36 @@ function getRiskAnalysisVersion(params: RetrieveRiskAnalysisConfigurationByVersi
   })
 }
 
+function getRiskAnalyisLatestOrSpecificVersion(params: RiskAnlysisVersionConfig) {
+  return queryOptions({
+    queryKey: ['GetRiskAnalysisLatestOrSpecificVersion', params],
+    queryFn: () => PurposeServices.getRiskAnalyisLatestOrSpecificVersion(params),
+  })
+}
+
+function getRemainingDailyCalls(params: GetRemainingDailyCallsParams) {
+  return queryOptions({
+    queryKey: ['getRemainingDailyCalls', params],
+    queryFn: () => PurposeServices.getRemainingDailyCalls(params),
+    throwOnError: false,
+  })
+}
+
+function getRiskAnalysisAssignments(params: GetRiskAnalysisAssignmentsParams) {
+  return queryOptions({
+    queryKey: ['getRiskAnalysisAssignments', params],
+    queryFn: () => PurposeServices.getRiskAnalysisAssignments(params),
+    throwOnError: false,
+  })
+}
+
 export const PurposeQueries = {
   getProducersList,
   getConsumersList,
   getSingle,
   getRiskAnalysisLatest,
   getRiskAnalysisVersion,
+  getRiskAnalyisLatestOrSpecificVersion,
+  getRemainingDailyCalls,
+  getRiskAnalysisAssignments,
 }

@@ -1,54 +1,53 @@
 import { Button, Typography } from '@mui/material'
 import { Table, TableRow } from '@pagopa/interop-fe-commons'
-import React, { useState } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 import PlusOneIcon from '@mui/icons-material/PlusOne'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 import { useDialog } from '@/stores'
-import { TenantKind } from '@/api/api.generatedTypes'
+import type { EServiceTemplateRiskAnalysis, TenantKind } from '@/api/api.generatedTypes'
 
-export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC = () => {
-  const { t } = useTranslation('template', {
-    keyPrefix: 'create.stepPurpose.purposeTableSection.purposeTable',
+export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC<{
+  onOpenAddRiskAnalysisForm: (selectedTenantKind: TenantKind) => void
+  onOpenEditRiskAnalysisForm: (riskAnalysis: EServiceTemplateRiskAnalysis) => void
+}> = ({ onOpenAddRiskAnalysisForm, onOpenEditRiskAnalysisForm }) => {
+  const { t } = useTranslation('eserviceTemplate', {
+    keyPrefix: 'create.step2.purpose.purposeTableSection.purposeTable',
   })
   const { t: tCommon } = useTranslation('common')
 
-  const { template, openRiskAnalysisForm, areEServiceTemplateGeneralInfoEditable } =
+  const { eserviceTemplateVersion, areEServiceTemplateGeneralInfoEditable } =
     useEServiceTemplateCreateContext()
 
-  const { mutate: deleteRiskAnalysis } = TemplateMutations.useDeleteTemplateRiskAnalysis()
+  const { mutate: deleteRiskAnalysis } =
+    EServiceTemplateMutations.useDeleteEServiceTemplateRiskAnalysis()
 
   const { openDialog } = useDialog()
 
-  const handleDialogConfirm = (tenantKindSelected: string) => {
-    openRiskAnalysisForm({ tenantKindSelected: tenantKindSelected as TenantKind })
-  }
-
   const handleAddNewPurpose = () => {
     openDialog({
-      type: 'tenantKind',
-      onConfirm: handleDialogConfirm,
+      type: 'tenantKindEServiceTemplate',
+      onConfirm: onOpenAddRiskAnalysisForm,
     })
   }
 
-  const handleEditPurpose = (riskAnalysisId: string) => {
-    openRiskAnalysisForm({ riskAnalysisId })
-  }
-
   const handleDeletePurpose = (riskAnalysisId: string) => {
-    if (!template) return
-    deleteRiskAnalysis({ eServiceTemplateId: template.id, riskAnalysisId: riskAnalysisId })
+    if (!eserviceTemplateVersion) return
+    deleteRiskAnalysis({
+      eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
+      riskAnalysisId: riskAnalysisId,
+    })
   }
 
   return (
     <>
       <Table
-        isEmpty={template?.eserviceTemplate.riskAnalysis.length === 0}
+        isEmpty={eserviceTemplateVersion?.eserviceTemplate.riskAnalysis.length === 0}
         headLabels={[]}
         noDataLabel={t('noDataLabel')}
       >
-        {template?.eserviceTemplate.riskAnalysis.map((riskAnalysis) => (
+        {eserviceTemplateVersion?.eserviceTemplate.riskAnalysis.map((riskAnalysis) => (
           <TableRow
             key={riskAnalysis.id}
             cellData={[
@@ -58,7 +57,7 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC = () =>
             ]}
           >
             <Button
-              onClick={handleEditPurpose.bind(null, riskAnalysis.id)}
+              onClick={() => onOpenEditRiskAnalysisForm(riskAnalysis)}
               disabled={!areEServiceTemplateGeneralInfoEditable}
               variant="naked"
               sx={{ mr: 3 }}
@@ -66,7 +65,7 @@ export const EServiceTemplateCreateStepPurposeAddPurposesTable: React.FC = () =>
               {tCommon('actions.edit')}
             </Button>
             <Button
-              onClick={handleDeletePurpose.bind(null, riskAnalysis.id)}
+              onClick={() => handleDeletePurpose(riskAnalysis.id)}
               disabled={!areEServiceTemplateGeneralInfoEditable}
               variant="naked"
               color="error"

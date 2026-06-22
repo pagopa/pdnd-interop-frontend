@@ -2,7 +2,6 @@ import React from 'react'
 import type { OneTrustContent } from '@/types/common.types'
 import { getKeys } from '@/utils/array.utils'
 import isEqual from 'lodash/isEqual'
-import { STAGE } from '@/config/env'
 
 /**
  * Check if the session has expired.
@@ -157,23 +156,31 @@ export function clearExponentialInterval(instanceId: string | undefined) {
   }
 }
 
-export function getCurrentSelfCareProductId() {
-  switch (STAGE) {
-    case 'PROD':
-      return 'prod-interop'
-    case 'ATT':
-      return 'prod-interop-atst'
-    case 'UAT':
-      return 'prod-interop-coll'
-    // DEV and QA are actually irrelevant. They are set to "prod-interop"
-    // just to avoid breaking the product dropdown in the UI
-    case 'DEV':
-    case 'QA':
-      return 'prod-interop'
-    // If the STAGE value is unmapped here, log a warning and
-    // set the value to "prod-interop" to avoid breaking the UI
-    default:
-      console.warn(`The value "${STAGE}" of STAGE is not mapped`)
-      return 'prod-interop'
+export async function getAllFromPaginated<A>(
+  getPaginatedCall: (offset: number, limit: number) => Promise<{ results: A[] }>
+): Promise<A[]> {
+  const getAllFromOffset = async (offset: number): Promise<A[]> => {
+    const limit = 50 // This is the default limit for pagination on BFF
+    const { results } = await getPaginatedCall(offset, limit)
+
+    return results.length < limit ? results : results.concat(await getAllFromOffset(offset + limit))
   }
+
+  return await getAllFromOffset(0)
+}
+
+export function isRiskAnalysisQuestionDisabled(
+  isFromPurposeTemplate: boolean | undefined,
+  type: 'creator' | 'consumer' | undefined,
+  isAssignedToTemplateUsersSwitch: boolean | undefined
+) {
+  if (!isFromPurposeTemplate) {
+    return false
+  }
+
+  if (type === 'consumer') {
+    return !isAssignedToTemplateUsersSwitch
+  }
+
+  return isAssignedToTemplateUsersSwitch
 }

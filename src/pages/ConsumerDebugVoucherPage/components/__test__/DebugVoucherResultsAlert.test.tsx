@@ -1,6 +1,7 @@
 import React from 'react'
 import { mockDebugVoucherContext } from './test.commons'
 import {
+  createMockDebugVoucherRequest,
   createMockDebugVoucherResultFailed,
   createMockDebugVoucherResultPassed,
 } from '@/../__mocks__/data/voucher.mocks'
@@ -18,6 +19,10 @@ describe('DebugVoucherResultsAlert testing', () => {
 
   it('should render correctly if result is passed and clientKind is API', () => {
     mockDebugVoucherContext({
+      request: {
+        ...createMockDebugVoucherRequest(),
+        dpop_proof: 'mock dpop proof',
+      },
       response: createMockDebugVoucherResultPassed({
         clientKind: 'API',
         steps: {
@@ -37,6 +42,10 @@ describe('DebugVoucherResultsAlert testing', () => {
             result: 'SKIPPED',
             failures: [],
           },
+          dpopValidation: {
+            result: 'SKIPPED',
+            failures: [],
+          },
         },
         eservice: undefined,
       }),
@@ -44,7 +53,7 @@ describe('DebugVoucherResultsAlert testing', () => {
 
     const screen = render(<DebugVoucherResultsAlert />)
 
-    expect(screen.getByText('alert.description.apiSuccess')).toBeInTheDocument()
+    expect(screen.getByText('alert.description.apiV3Success')).toBeInTheDocument()
   })
 
   it('should render correctly if result is passed and clientKind is CONSUMER', () => {

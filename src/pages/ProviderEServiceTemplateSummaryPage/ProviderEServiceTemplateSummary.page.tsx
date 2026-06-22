@@ -2,38 +2,46 @@ import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from '@/router'
-import { Button, Stack, Tooltip } from '@mui/material'
+import { Alert, Button, Stack, Tooltip, Typography } from '@mui/material'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CreateIcon from '@mui/icons-material/Create'
 import PublishIcon from '@mui/icons-material/Publish'
 import { SummaryAccordion, SummaryAccordionSkeleton } from '@/components/shared/SummaryAccordion'
 import { useQuery } from '@tanstack/react-query'
-import { TemplateMutations, TemplateQueries } from '@/api/template'
-import { ProviderEServiceTemplateGeneralInfoSummary } from './components/ProviderEServiceTemplateGeneralInfoSummary'
+import { EServiceTemplateMutations, EServiceTemplateQueries } from '@/api/eserviceTemplate'
+import { AuthHooks } from '@/api/auth'
 import {
-  ProviderEServiceTemplateAttributeVersionSummary,
-  ProviderEServiceTemplateDocumentationSummary,
-  ProviderEServiceTemplateVersionInfoSummary,
+  ProviderEServiceTemplateGeneralInfoSummarySection,
+  ProviderEServiceTemplateThresholdsAndAttributesSummarySection,
+  ProviderEServiceTemplateTechnicalSpecsSummarySection,
+  ProviderEServiceTemplateAdditionalInfoSummarySection,
 } from './components'
 import { ProviderEServiceTemplateRiskAnalysisSummaryList } from './components/ProviderEServiceTemplateRiskAnalysisSummaryList'
+import { useDrawerState } from '@/hooks/useDrawerState'
+import { UpdatePersonalDataDrawer } from '@/components/shared/UpdatePersonalDataDrawer'
+import type { EServiceMode } from '@/api/api.generatedTypes'
 
 const ProviderEServiceTemplateSummaryPage: React.FC = () => {
-  const { t } = useTranslation('template')
+  const { t } = useTranslation('eserviceTemplate')
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { eServiceTemplateId, eServiceTemplateVersionId } =
     useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
   const navigate = useNavigate()
 
-  const { mutate: deleteVersion } = TemplateMutations.useDeleteVersionDraft()
-  const { mutate: publishVersion } = TemplateMutations.usePublishVersionDraft()
+  const { isViewer } = AuthHooks.useJwt()
 
-  const { data: template, isLoading } = useQuery(
-    TemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
+  const { mutate: deleteVersion } = EServiceTemplateMutations.useDeleteVersionDraft()
+  const { mutate: publishVersion } = EServiceTemplateMutations.usePublishVersionDraft()
+  const { mutate: updateEserviceTemplatePersonalData } =
+    EServiceTemplateMutations.useUpdateEServiceTemplatePersonalDataFlagAfterPublication()
+
+  const { data: eserviceTemplate, isLoading } = useQuery(
+    EServiceTemplateQueries.getSingle(eServiceTemplateId, eServiceTemplateVersionId)
   )
 
   const handleDeleteDraft = () => {
-    if (!template) return
+    if (!eserviceTemplate) return
 
     deleteVersion(
       { eServiceTemplateId, eServiceTemplateVersionId },
@@ -42,130 +50,242 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   }
 
   const handleEditDraft = () => {
-    if (!template) return
+    if (!eserviceTemplate) return
     navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {
       params: {
         eServiceTemplateId: eServiceTemplateId,
         eServiceTemplateVersionId: eServiceTemplateVersionId,
       },
-      state: { stepIndexDestination: 1 },
+      state: { stepIndexDestination: 0 },
     })
   }
 
   const handlePublishDraft = () => {
-    if (!template) return
+    if (!eserviceTemplate) return
+
+    const isFirstVersion = eserviceTemplate.version === 1
 
     publishVersion(
       {
         eServiceTemplateId: eServiceTemplateId,
         eServiceTemplateVersionId: eServiceTemplateVersionId,
+        isFirstVersion,
       },
       {
         onSuccess: () =>
-          navigate('PROVIDE_ESERVICE_TEMPLATE_DETAILS', {
+          navigate('PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU', {
             params: {
               eServiceTemplateId: eServiceTemplateId,
               eServiceTemplateVersionId: eServiceTemplateVersionId,
+            },
+            state: {
+              title: isFirstVersion
+                ? t('publishThankYou.firstVersion.title')
+                : t('publishThankYou.newVersion.title'),
+              description: isFirstVersion
+                ? t('publishThankYou.firstVersion.description')
+                : t('publishThankYou.newVersion.description'),
+              buttonLabel: t('publishThankYou.goToTemplateAction'),
+              closeRouteKey: 'PROVIDE_ESERVICE_TEMPLATE_DETAILS',
+              closeRouteParams: { eServiceTemplateId, eServiceTemplateVersionId },
             },
           }),
       }
     )
   }
 
+  const arePersonalDataSet = eserviceTemplate?.eserviceTemplate.personalData !== undefined
+  const hasMissingAsyncExchangeFields = Boolean(
+    eserviceTemplate?.eserviceTemplate.asyncExchange &&
+    (!eserviceTemplate.asyncExchangeProperties || !eserviceTemplate.asyncExchangeCallbackInterface)
+  )
+  const hasMissingFields =
+    !eserviceTemplate?.voucherLifespan ||
+    !eserviceTemplate?.description ||
+    hasMissingAsyncExchangeFields
+
   const canBePublished = () => {
-    return !!template?.interface
+    return !!(eserviceTemplate?.interface && arePersonalDataSet && !hasMissingFields)
   }
 
-  const isReceiveMode = template?.eserviceTemplate.mode === 'RECEIVE'
+  const isReceiveMode = eserviceTemplate?.eserviceTemplate.mode === 'RECEIVE'
+
+  const {
+    isOpen: isEServiceTemplateUpdatePersonalDataDrawerOpen,
+    openDrawer: openUpdatePersonalDataDrawer,
+    closeDrawer: closeEServiceTemplateUpdatePersonalDataDrawer,
+  } = useDrawerState()
+
+  const handleEServiceTemplatePersonalDataUpdate = (
+    eserviceTemplateId: string,
+    personalData: boolean
+  ) => {
+    updateEserviceTemplatePersonalData(
+      {
+        eserviceTemplateId: eserviceTemplateId,
+        personalData: personalData,
+      },
+      { onSuccess: closeEServiceTemplateUpdatePersonalDataDrawer }
+    )
+  }
 
   return (
-    <PageContainer
-      title={t('summary.title', {
-        eserviceTemplateName: template?.eserviceTemplate.name,
-        versionEserviceTemplateNumber: template?.version ?? '1',
-      })}
-      backToAction={{
-        label: t('backToListBtn'),
-        to: 'PROVIDE_ESERVICE_TEMPLATE_LIST',
-      }}
-      isLoading={isLoading}
-      statusChip={{
-        for: 'template',
-        state: 'DRAFT',
-      }}
-    >
-      <Stack spacing={3}>
-        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="1" title={t('summary.generalInfoSummary.title')}>
-            <ProviderEServiceTemplateGeneralInfoSummary />
-          </SummaryAccordion>
-        </React.Suspense>
-
-        {isReceiveMode && (
+    <>
+      <PageContainer
+        title={t('summary.title', {
+          eserviceTemplateName: eserviceTemplate?.eserviceTemplate.name,
+          versionEserviceTemplateNumber: eserviceTemplate?.version ?? '1',
+        })}
+        backToAction={{
+          label: t('backToListBtn'),
+          to: 'PROVIDE_ESERVICE_TEMPLATE_LIST',
+        }}
+        isLoading={isLoading}
+        statusChip={{
+          for: 'eserviceTemplate',
+          state: 'DRAFT',
+        }}
+      >
+        <Stack spacing={3}>
           <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-            <SummaryAccordion headline="2" title={t('summary.riskAnalysisSummaryList.title')}>
-              <ProviderEServiceTemplateRiskAnalysisSummaryList />
+            <SummaryAccordion
+              headline="1"
+              title={t('summary.generalInfoSummary.title')}
+              defaultExpanded={true}
+            >
+              <ProviderEServiceTemplateGeneralInfoSummarySection />
             </SummaryAccordion>
           </React.Suspense>
+
+          {isReceiveMode && (
+            <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+              <SummaryAccordion headline="2" title={t('summary.riskAnalysisSummaryList.title')}>
+                <ProviderEServiceTemplateRiskAnalysisSummaryList />
+              </SummaryAccordion>
+            </React.Suspense>
+          )}
+
+          <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+            <SummaryAccordion
+              headline={isReceiveMode ? '3' : '2'}
+              title={t('summary.thresholdsAndAttributesSummary.title')}
+            >
+              <ProviderEServiceTemplateThresholdsAndAttributesSummarySection />
+            </SummaryAccordion>
+          </React.Suspense>
+
+          <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+            <SummaryAccordion
+              headline={isReceiveMode ? '4' : '3'}
+              title={t('summary.technicalSpecsSummary.title')}
+              statusChip={
+                !eserviceTemplate?.voucherLifespan ||
+                !eserviceTemplate?.interface ||
+                hasMissingAsyncExchangeFields
+                  ? { label: t('summary.completeInfoChip'), color: 'warning' }
+                  : undefined
+              }
+            >
+              <ProviderEServiceTemplateTechnicalSpecsSummarySection />
+            </SummaryAccordion>
+          </React.Suspense>
+
+          <React.Suspense fallback={<SummaryAccordionSkeleton />}>
+            <SummaryAccordion
+              headline={isReceiveMode ? '5' : '4'}
+              title={t('summary.additionalInfoSummary.title')}
+              statusChip={
+                !eserviceTemplate?.description
+                  ? { label: t('summary.completeInfoChip'), color: 'warning' }
+                  : undefined
+              }
+            >
+              <ProviderEServiceTemplateAdditionalInfoSummarySection />
+            </SummaryAccordion>
+          </React.Suspense>
+        </Stack>
+        {!isViewer && !arePersonalDataSet && !isLoading && (
+          <Alert severity="warning" sx={{ alignItems: 'center', mt: 3 }} variant="outlined">
+            <Stack spacing={30} direction="row" alignItems="center">
+              {' '}
+              {/**TODO FIX SPACING */}
+              <Typography>{t('summary.alertUpdatePersonalData.label')}</Typography>
+              <Button
+                variant="naked"
+                size="medium"
+                sx={{ fontWeight: 700, mr: 1, alignSelf: 'flex-end' }}
+                onClick={openUpdatePersonalDataDrawer}
+              >
+                {tCommon('specifyProcessing')}
+              </Button>
+            </Stack>
+          </Alert>
         )}
-
-        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion
-            headline={isReceiveMode ? '3' : '2'}
-            title={t('summary.versionInfoSummary.title')}
-          >
-            <ProviderEServiceTemplateVersionInfoSummary />
-          </SummaryAccordion>
-        </React.Suspense>
-
-        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion
-            headline={isReceiveMode ? '4' : '3'}
-            title={t('summary.attributeVersionSummary.title')}
-          >
-            <ProviderEServiceTemplateAttributeVersionSummary />
-          </SummaryAccordion>
-        </React.Suspense>
-
-        <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion
-            headline={isReceiveMode ? '5' : '4'}
-            title={t('summary.documentationSummary.title')}
-          >
-            <ProviderEServiceTemplateDocumentationSummary />
-          </SummaryAccordion>
-        </React.Suspense>
-      </Stack>
-      <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
-        <Button
-          startIcon={<DeleteOutlineIcon />}
-          variant="text"
-          color="error"
-          onClick={handleDeleteDraft}
-        >
-          {tCommon('deleteDraft')}
-        </Button>
-        <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
-          {tCommon('editDraft')}
-        </Button>
-        <PublishButton onClick={handlePublishDraft} disabled={!canBePublished()} />
-      </Stack>
-    </PageContainer>
+        {!canBePublished() && !isLoading && (
+          <Alert severity="warning" sx={{ mt: 3 }}>
+            {t('summary.missingFieldsBanner')}
+          </Alert>
+        )}
+        {!isViewer && (
+          <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
+            <Button
+              startIcon={<DeleteOutlineIcon />}
+              variant="text"
+              color="error"
+              onClick={handleDeleteDraft}
+            >
+              {tCommon('deleteDraft')}
+            </Button>
+            <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
+              {tCommon('editDraft')}
+            </Button>
+            <PublishButton
+              onClick={handlePublishDraft}
+              disabled={!canBePublished()}
+              arePersonalDataSet={arePersonalDataSet}
+              hasMissingFields={hasMissingFields}
+            />
+          </Stack>
+        )}
+      </PageContainer>
+      <UpdatePersonalDataDrawer
+        isOpen={isEServiceTemplateUpdatePersonalDataDrawerOpen}
+        onClose={closeEServiceTemplateUpdatePersonalDataDrawer}
+        eserviceId={eserviceTemplate?.eserviceTemplate.id as string}
+        personalData={eserviceTemplate?.eserviceTemplate.personalData}
+        onSubmit={handleEServiceTemplatePersonalDataUpdate}
+        eserviceMode={eserviceTemplate?.eserviceTemplate.mode as EServiceMode}
+        where="template e-service"
+      />
+    </>
   )
 }
 
 type PublishButtonProps = {
   disabled: boolean
   onClick: VoidFunction
+  arePersonalDataSet: boolean
+  hasMissingFields: boolean
 }
 
-const PublishButton: React.FC<PublishButtonProps> = ({ disabled, onClick }) => {
+const PublishButton: React.FC<PublishButtonProps> = ({
+  disabled,
+  onClick,
+  arePersonalDataSet,
+  hasMissingFields,
+}) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
-  const { t } = useTranslation('template', { keyPrefix: 'summary' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'summary' })
+
+  const getTooltipTitle = () => {
+    if (hasMissingFields) return t('missingFieldsTooltip')
+    if (!arePersonalDataSet) return t('missingPersonalDataField')
+    return t('notPublishableTooltip.label')
+  }
 
   const Wrapper = disabled
     ? ({ children }: { children: React.ReactElement }) => (
-        <Tooltip arrow title={t('notPublishableTooltip.label')}>
+        <Tooltip arrow title={getTooltipTitle()}>
           <span tabIndex={disabled ? 0 : undefined}>{children}</span>
         </Tooltip>
       )

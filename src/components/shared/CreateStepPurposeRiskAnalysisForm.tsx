@@ -1,6 +1,6 @@
-import type { RiskAnalysisFormConfig, TenantKind } from '@/api/api.generatedTypes'
+import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
 import React from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { FormProvider } from 'react-hook-form'
 import { Alert, Box, Stack } from '@mui/material'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
@@ -8,77 +8,59 @@ import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
-import type {
-  Answers,
-  Questions,
-} from '@/components/shared/RiskAnalysisFormComponents/types/risk-analysis-form.types'
-import {
-  getRiskAnalysisDefaultValues,
-  getUpdatedQuestions,
-  getValidAnswers,
-} from '@/components/shared/RiskAnalysisFormComponents/utils/risk-analysis-form.utils'
 import { RiskAnalysisFormComponents } from '@/components/shared/RiskAnalysisFormComponents'
-
-export type CreateStepPurposeRiskAnalysisFormValues = {
-  name: string
-} & Answers
+import { useRiskAnalysisForm } from '@/hooks/useRiskAnalysisForm'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
 
 type CreateStepPurposeRiskAnalysisFormProps = {
-  defaultName: string | undefined
-  defaultAnswers: Record<string, string[]>
+  defaultName?: string | undefined
+  defaultAnswers?: Record<string, string[]>
   riskAnalysis: RiskAnalysisFormConfig
-  onSubmit: (name: string, answers: Record<string, string[]>, tenantKind: TenantKind) => void
+  personalData?: boolean | undefined
+  onSubmit: (name: string, answers: Record<string, string[]>) => void
   onCancel: VoidFunction
 }
 
 export const CreateStepPurposeRiskAnalysisForm: React.FC<
   CreateStepPurposeRiskAnalysisFormProps
-> = ({ defaultName, defaultAnswers, riskAnalysis, onSubmit, onCancel }) => {
+> = ({ defaultName, defaultAnswers, riskAnalysis, onSubmit, onCancel, personalData }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'create.stepPurpose' })
 
-  const [_, startTransition] = React.useTransition()
-  const [defaultValues, __] = React.useState<Answers>(() =>
-    getRiskAnalysisDefaultValues(riskAnalysis.questions, defaultAnswers)
-  )
-  const [questions, setQuestions] = React.useState<Questions>(() =>
-    getUpdatedQuestions(defaultValues, riskAnalysis.questions)
-  )
-
-  const formMethods = useForm<CreateStepPurposeRiskAnalysisFormValues>({
-    defaultValues: {
-      name: defaultName ?? '',
-      ...defaultValues,
-    },
-    mode: 'onSubmit',
-    reValidateMode: 'onSubmit',
+  const riskAnalysisForm = useRiskAnalysisForm({
+    riskAnalysisConfig: riskAnalysis,
+    defaultAnswers: defaultAnswers,
+    extraFields: { name: defaultName ?? '' },
   })
 
-  const { watch } = formMethods
+  const [incompatibleAnswerValue, setIncompatibleAnswerValue] = React.useState<boolean>(false)
 
-  /**
-   * Subscribes to the form values changes
-   * and updates the actual visible questions on values change.
-   */
-  React.useEffect(() => {
-    const subscription = watch((answers) => {
-      startTransition(() => {
-        setQuestions(getUpdatedQuestions(answers as Answers, riskAnalysis.questions))
+  const checkIncompatibleAnswerValue = (validAnswers: Record<string, string[]>) => {
+    const userAnswer = validAnswers['usesPersonalData']?.[0]
+    const isYes = userAnswer === 'YES'
+    const isNo = userAnswer === 'NO'
+
+    const incompatible = (isYes && personalData === false) || (isNo && personalData === true)
+
+    setIncompatibleAnswerValue(incompatible)
+    return incompatible
+  }
+
+  const handleSubmit = riskAnalysisForm.handleSubmit(({ validAnswers, name }) => {
+    if (checkIncompatibleAnswerValue(validAnswers)) {
+      riskAnalysisForm.setError('answers.usesPersonalData', {
+        type: 'manual',
+        message: t(
+          'riskAnalysis.riskAnalysisSection.personalDataValuesAlert.labelForEserviceCreateStep2'
+        ),
       })
-    })
-    return () => subscription.unsubscribe()
-  }, [watch, riskAnalysis])
+      return
+    }
 
-  const handleSubmit = formMethods.handleSubmit((values) => {
-    const currentQuestionsIds = Object.keys(questions)
-
-    const { name, tenantKind, ...answers } = values
-    const validAnswers = getValidAnswers(currentQuestionsIds, answers)
-
-    onSubmit(name, validAnswers, tenantKind as TenantKind)
+    onSubmit(name, validAnswers)
   })
 
   return (
-    <FormProvider {...formMethods}>
+    <FormProvider {...riskAnalysisForm}>
       <Box component="form" noValidate onSubmit={handleSubmit}>
         <SectionContainer
           title={t('riskAnalysis.riskAnalysisNameSection.title')}
@@ -97,13 +79,24 @@ export const CreateStepPurposeRiskAnalysisForm: React.FC<
           title={t('riskAnalysis.riskAnalysisSection.title')}
           description={t('riskAnalysis.riskAnalysisSection.description')}
         >
-          <Alert sx={{ mt: 2, mb: -1 }} severity="warning">
-            {t('riskAnalysis.riskAnalysisSection.personalDataAlert')}
-          </Alert>
+          <InformationContainer
+            label={t('riskAnalysis.riskAnalysisSection.personalDataFlag.label')}
+            content={t(`riskAnalysis.riskAnalysisSection.personalDataFlag.${personalData}`)}
+          />
         </SectionContainer>
+        <Alert sx={{ mt: 2, mb: 2 }} severity="warning">
+          {t('riskAnalysis.riskAnalysisSection.personalDataAlert')}
+        </Alert>
         <Stack spacing={2}>
-          <RiskAnalysisFormComponents questions={questions} />
+          <RiskAnalysisFormComponents questions={riskAnalysisForm.questions} />
         </Stack>
+        {incompatibleAnswerValue && (
+          <Alert sx={{ mt: 2 }} severity="warning">
+            {t(
+              'riskAnalysis.riskAnalysisSection.personalDataValuesAlert.alertForIncompatibleAnswer'
+            )}
+          </Alert>
+        )}
         <StepActions
           back={{
             label: t('backWithoutSaveBtn'),

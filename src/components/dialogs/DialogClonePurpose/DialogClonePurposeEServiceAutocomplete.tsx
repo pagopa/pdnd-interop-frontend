@@ -9,11 +9,12 @@ import { useQuery } from '@tanstack/react-query'
 
 type DialogClonePurposeEServiceAutocompleteProps = {
   preselectedEservice: CompactPurposeEService
+  onEServiceChange: (personalData: boolean | undefined) => void
 }
 
 export const DialogClonePurposeEServiceAutocomplete: React.FC<
   DialogClonePurposeEServiceAutocompleteProps
-> = ({ preselectedEservice }) => {
+> = ({ preselectedEservice, onEServiceChange }) => {
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogClonePurpose',
   })
@@ -84,6 +85,11 @@ export const DialogClonePurposeEServiceAutocomplete: React.FC<
     value: eservice.id,
   }))
 
+  function handleEserviceIdValueChange(value: { label: string; value: string } | null) {
+    selectedEServiceRef.current = eservices.find((eservice) => eservice.id === value?.value)
+    onEServiceChange(selectedEServiceRef.current?.personalData)
+  }
+
   return (
     <RHFAutocompleteSingle
       sx={{ my: 0 }}
@@ -91,9 +97,7 @@ export const DialogClonePurposeEServiceAutocomplete: React.FC<
       name="eserviceId"
       label={t('eserviceField.label')}
       options={autocompleteOptions}
-      onValueChange={(value) => {
-        selectedEServiceRef.current = eservices.find((eservice) => eservice.id === value?.value)
-      }}
+      onValueChange={(value) => handleEserviceIdValueChange(value)}
       onInputChange={(_, value) => setEserviceAutocompleteTextInput(value)}
     />
   )

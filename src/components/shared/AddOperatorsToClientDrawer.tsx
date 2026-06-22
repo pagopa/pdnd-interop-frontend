@@ -88,7 +88,9 @@ export const AddOperatorsToClientDrawer: React.FC<AddOperatorsDrawerProps> = ({
             loading={isLoadingAllPartyOperators}
           />
 
-          <Alert severity="info">{t('adminAlert')}</Alert>
+          <Alert severity="info" aria-live="polite">
+            {t('adminAlert')}
+          </Alert>
         </Stack>
       </Drawer>
     </FormProvider>

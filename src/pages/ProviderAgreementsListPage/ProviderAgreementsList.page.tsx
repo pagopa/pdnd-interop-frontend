@@ -44,7 +44,8 @@ const ProviderAgreementsListPage: React.FC = () => {
       })),
   })
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetProducerAgreementsParams, 'limit' | 'offset'>
   >([
@@ -97,6 +98,7 @@ const ProviderAgreementsListPage: React.FC = () => {
       <ProviderAgreementsTableWrapper params={params} />
       <Pagination
         {...paginationProps}
+        rowPerPageOptions={rowPerPageOptions}
         totalPages={getTotalPageCount(data?.pagination.totalCount)}
       />
     </PageContainer>

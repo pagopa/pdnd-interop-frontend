@@ -20,17 +20,24 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
     keyPrefix: 'providerView.sections.generalInformations',
   })
 
+  const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'documents' })
+
   const generatePath = useGeneratePath()
 
-  const downloadRiskAnalysis = PurposeDownloads.useDownloadRiskAnalysis()
+  const downloadSignedRiskAnalysis = PurposeDownloads.useDownloadSignedRiskAnalysis()
 
-  const handleDownloadDocument = () => {
-    if (!purpose.currentVersion || !purpose.currentVersion.riskAnalysisDocument) return
-    downloadRiskAnalysis(
+  const handleDownloadSignedDocument = () => {
+    if (
+      !purpose.currentVersion ||
+      !purpose.currentVersion.riskAnalysisDocument ||
+      !purpose.currentVersion.signedContract?.id
+    )
+      return
+    downloadSignedRiskAnalysis(
       {
         purposeId: purpose.id,
         versionId: purpose.currentVersion.id,
-        documentId: purpose.currentVersion.riskAnalysisDocument.id,
+        signedContractId: purpose.currentVersion.signedContract?.id,
       },
       `${t('riskAnalysis.fileName')}.pdf`
     )
@@ -40,7 +47,9 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
     label: t('riskAnalysis.link.label'),
     component: 'button',
     type: 'button',
-    onClick: handleDownloadDocument,
+    disabled: purpose.isDocumentReady === false,
+    onClick: handleDownloadSignedDocument,
+    tooltip: purpose.isDocumentReady === false ? tShared('notAvailableYet') : undefined,
     startIcon: <DownloadIcon fontSize="small" />,
   }
 
@@ -77,6 +86,21 @@ export const ProviderPurposeDetailsGeneralInfoSection: React.FC<
             </Link>
           }
         />
+        {purpose.purposeTemplate && (
+          <InformationContainer
+            label={t('purposeTemplateField.label')}
+            content={
+              <Link
+                to="SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS"
+                params={{
+                  purposeTemplateId: purpose.purposeTemplate.id,
+                }}
+              >
+                {purpose.purposeTemplate.purposeTitle}
+              </Link>
+            }
+          />
+        )}
         <InformationContainer label={t('consumerField.label')} content={purpose.consumer.name} />
         <InformationContainer
           label={t('descriptionField.label')}

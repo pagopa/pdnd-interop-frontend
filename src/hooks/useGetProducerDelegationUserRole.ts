@@ -22,12 +22,12 @@ export function useGetProducerDelegationUserRole({
 
   const isDelegate = Boolean(
     organizationId &&
-      producerDelegations?.find((delegation) => delegation.delegate.id === organizationId)
+    producerDelegations?.find((delegation) => delegation.delegate.id === organizationId)
   )
 
   const isDelegator = Boolean(
     organizationId &&
-      producerDelegations?.find((delegation) => delegation.delegator.id === organizationId)
+    producerDelegations?.find((delegation) => delegation.delegator.id === organizationId)
   )
 
   return {

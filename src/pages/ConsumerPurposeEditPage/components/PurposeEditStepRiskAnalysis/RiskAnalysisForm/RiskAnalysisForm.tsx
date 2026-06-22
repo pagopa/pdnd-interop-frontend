@@ -1,28 +1,34 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Alert, Box, Stack } from '@mui/material'
-import { FormProvider, useForm } from 'react-hook-form'
+import { Alert, Box, Link, Stack } from '@mui/material'
+import { FormProvider } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import type { RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
 import { StepActions } from '@/components/shared/StepActions'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import type {
-  Answers,
-  Questions,
-} from '@/components/shared/RiskAnalysisFormComponents/types/risk-analysis-form.types'
+import SendIcon from '@mui/icons-material/Send'
 import {
-  getRiskAnalysisDefaultValues,
-  getUpdatedQuestions,
-  getValidAnswers,
-} from '@/components/shared/RiskAnalysisFormComponents/utils/risk-analysis-form.utils'
-import { RiskAnalysisFormComponents } from '@/components/shared/RiskAnalysisFormComponents'
+  RiskAnalysisFormComponents,
+  RiskAnalysisRequiredMessageProvider,
+} from '@/components/shared/RiskAnalysisFormComponents'
+import { useRiskAnalysisForm } from '@/hooks/useRiskAnalysisForm'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
+import { getValidAnswers } from '@/utils/risk-analysis-form.utils'
+import { RiskAnalysisRejectionDrawer } from '@/components/shared/RiskAnalysisRejectionDrawer'
 
 type RiskAnalysisFormProps = {
   defaultAnswers: Record<string, string[]>
   riskAnalysis: RiskAnalysisFormConfig
   onSubmit: (answers: Record<string, string[]>) => void
   onCancel: VoidFunction
+  personalData?: boolean
+  isReviewerApprovalMode?: boolean
+  onSaveDraft?: (answers: Record<string, string[]>) => void
+  isSubmitting?: boolean
+  isRejected?: boolean
+  rejectionReason?: string
+  submitLabel?: string
 }
 
 export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
@@ -30,59 +36,129 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
   riskAnalysis,
   onSubmit,
   onCancel,
+  personalData,
+  isReviewerApprovalMode = false,
+  onSaveDraft,
+  isSubmitting = false,
+  isRejected = false,
+  rejectionReason,
+  submitLabel,
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit' })
+  const [isRejectionDrawerOpen, setIsRejectionDrawerOpen] = React.useState(false)
 
-  const [_, startTransition] = React.useTransition()
-  const [defaultValues, __] = React.useState<Answers>(() =>
-    getRiskAnalysisDefaultValues(riskAnalysis.questions, defaultAnswers)
-  )
-  const [questions, setQuestions] = React.useState<Questions>(() =>
-    getUpdatedQuestions(defaultValues, riskAnalysis.questions)
-  )
-
-  const formMethods = useForm<Answers>({
-    defaultValues,
-    mode: 'onSubmit',
-    reValidateMode: 'onSubmit',
+  const riskAnalysisForm = useRiskAnalysisForm({
+    riskAnalysisConfig: riskAnalysis,
+    defaultAnswers: defaultAnswers,
   })
 
-  const { watch } = formMethods
+  const [incompatibleAnswerValue, setIncompatibleAnswerValue] = React.useState<boolean>(false)
+  const [showRequiredAlert, setShowRequiredAlert] = React.useState<boolean>(false)
 
-  /**
-   * Subscribes to the form values changes
-   * and updates the actual visible questions on values change.
-   */
-  React.useEffect(() => {
-    const subscription = watch((answers) => {
-      startTransition(() => {
-        setQuestions(getUpdatedQuestions(answers as Answers, riskAnalysis.questions))
+  const checkIncompatibleAnswerValue = (answers: Record<string, string[]>) => {
+    if (personalData === undefined) {
+      return false
+    }
+    const userAnswer = answers['usesPersonalData']?.[0]
+    const isYes = userAnswer === 'YES'
+    const isNo = userAnswer === 'NO'
+
+    const incompatible = (isYes && personalData !== true) || (isNo && personalData !== false)
+
+    return incompatible
+  }
+
+  const handleValidSubmit = ({ validAnswers }: { validAnswers: Record<string, string[]> }) => {
+    setShowRequiredAlert(false)
+    setIncompatibleAnswerValue(false)
+
+    if (checkIncompatibleAnswerValue(validAnswers)) {
+      setIncompatibleAnswerValue(true)
+      riskAnalysisForm.setError('answers.usesPersonalData', {
+        type: 'manual',
+        message: t('stepRiskAnalysis.personalDataFlag.incompatibleAnswerError.purposeEdit'),
       })
-    })
-    return () => subscription.unsubscribe()
-  }, [watch, riskAnalysis])
-
-  const handleSubmit = formMethods.handleSubmit((answers) => {
-    const currentQuestionsIds = Object.keys(questions)
-    const validAnswers = getValidAnswers(currentQuestionsIds, answers)
+      return
+    }
 
     onSubmit(validAnswers)
-  })
+  }
+
+  const handleInvalidSubmit = () => {
+    if (isReviewerApprovalMode) {
+      setShowRequiredAlert(true)
+    }
+  }
+
+  const handleSubmit = riskAnalysisForm.handleSubmit(handleValidSubmit, handleInvalidSubmit)
+
+  const handleSaveDraftClick = () => {
+    if (!onSaveDraft) return
+    const values = riskAnalysisForm.getValues()
+    const visibleQuestionsIds = Object.keys(riskAnalysisForm.questions)
+    onSaveDraft(getValidAnswers(visibleQuestionsIds, values.answers))
+  }
+
+  const requiredMessageOverride = isReviewerApprovalMode
+    ? t('stepRiskAnalysis.requiredFieldErrorReviewer')
+    : undefined
 
   return (
-    <FormProvider {...formMethods}>
+    <FormProvider {...riskAnalysisForm}>
       <Box component="form" noValidate onSubmit={handleSubmit}>
+        {isRejected && (
+          <Alert
+            severity="error"
+            sx={{ mb: 2 }}
+            action={
+              <Link
+                component="button"
+                type="button"
+                variant="body2"
+                underline="hover"
+                onClick={() => setIsRejectionDrawerOpen(true)}
+              >
+                {t('stepRiskAnalysis.rejectedAlertLinkLabel')}
+              </Link>
+            }
+          >
+            {t('stepRiskAnalysis.rejectedAlert')}
+          </Alert>
+        )}
         <SectionContainer
           title={t('stepRiskAnalysis.title')}
           description={t('stepRiskAnalysis.description')}
+          sx={{ mb: 2 }}
         >
-          <Alert sx={{ mt: 2, mb: -1 }} severity="warning">
-            {t('stepRiskAnalysis.personalInfoAlert')}
-          </Alert>
+          <InformationContainer
+            label={t('stepRiskAnalysis.personalDataFlag.label')}
+            content={t(`stepRiskAnalysis.personalDataFlag.content.${personalData}`)}
+          />
         </SectionContainer>
-        <Stack spacing={2}>
-          <RiskAnalysisFormComponents questions={questions} />
-        </Stack>
+        <RiskAnalysisRequiredMessageProvider value={requiredMessageOverride}>
+          <Stack spacing={2}>
+            <Alert sx={{ mt: 4, mb: 2 }} severity="warning">
+              {t('stepRiskAnalysis.personalInfoAlert')}
+            </Alert>
+            <RiskAnalysisFormComponents questions={riskAnalysisForm.questions} />
+          </Stack>
+        </RiskAnalysisRequiredMessageProvider>
+        {incompatibleAnswerValue && (
+          <Alert sx={{ mt: 2 }} severity="warning">
+            {!personalData
+              ? t(
+                  'stepRiskAnalysis.personalDataFlag.alertForIncompatibleAnswerPurpose.personalData'
+                )
+              : t(
+                  'stepRiskAnalysis.personalDataFlag.alertForIncompatibleAnswerPurpose.noPersonalData'
+                )}
+          </Alert>
+        )}
+        {isReviewerApprovalMode && showRequiredAlert && (
+          <Alert sx={{ mt: 2 }} severity="error">
+            {t('stepRiskAnalysis.requestApprovalAlert')}
+          </Alert>
+        )}
         <StepActions
           back={{
             label: t('backWithoutSaveBtn'),
@@ -90,13 +166,40 @@ export const RiskAnalysisForm: React.FC<RiskAnalysisFormProps> = ({
             onClick: onCancel,
             startIcon: <ArrowBackIcon />,
           }}
-          forward={{
-            label: t('endWithSaveBtn'),
-            type: 'submit',
-            startIcon: <SaveIcon />,
-          }}
+          secondaryAction={
+            isReviewerApprovalMode
+              ? {
+                  label: t('stepRiskAnalysis.saveDraftBtn'),
+                  type: 'button',
+                  onClick: handleSaveDraftClick,
+                  startIcon: <SaveIcon />,
+                  disabled: isSubmitting,
+                }
+              : undefined
+          }
+          forward={
+            isReviewerApprovalMode
+              ? {
+                  label: t('stepRiskAnalysis.requestApprovalBtn'),
+                  type: 'submit',
+                  startIcon: <SendIcon />,
+                  disabled: isSubmitting,
+                }
+              : {
+                  label: submitLabel ?? t('endWithSaveBtn'),
+                  type: 'submit',
+                  startIcon: <SaveIcon />,
+                }
+          }
         />
       </Box>
+      {isRejected && (
+        <RiskAnalysisRejectionDrawer
+          isOpen={isRejectionDrawerOpen}
+          onClose={() => setIsRejectionDrawerOpen(false)}
+          rejectionReason={rejectionReason ?? ''}
+        />
+      )}
     </FormProvider>
   )
 }

@@ -1,9 +1,11 @@
-import { Alert, Box, FormControlLabel, Stack, Switch } from '@mui/material'
+import { Alert, Box, Stack } from '@mui/material'
 import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { useQuery } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
 import type { DelegationKind } from '@/api/api.generatedTypes'
+import { DUPLICATE_ESERVICENAME_ERROR_CODE } from '@/api/eserviceTemplate/eserviceTemplate.mutations'
 import { SectionContainer } from '@/components/layout/containers'
 import { useDialog } from '@/stores'
 import { DelegationMutations, DelegationQueries } from '@/api/delegation'
@@ -16,14 +18,17 @@ import { AgreementQueries } from '@/api/agreement'
 import { DelegationCreateEServiceAutocomplete } from './DelegationCreateEServiceAutocomplete'
 import { DelegationCreateTenantAutocomplete } from './DelegationCreateTenantAutocomplete'
 import { DelegationCreateFormCreateEservice } from './DelegationCreateFormCreateEservice'
-import { EServiceQueries } from '@/api/eservice'
+import { RHFSwitch } from '@/components/shared/react-hook-form-inputs'
+import { InstanceLabelSection } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepGeneral'
 
 export type DelegationCreateFormValues = {
   eserviceId: string
   eserviceName: string
   eserviceDescription: string
   delegateId: string
+  isEserviceToBeCreated: boolean
   isEserviceFromTemplate?: boolean
+  instanceLabel?: string
 }
 
 type DelegationCreateFormProps = {
@@ -36,6 +41,9 @@ const defaultValues: DelegationCreateFormValues = {
   eserviceName: '',
   eserviceDescription: '',
   delegateId: '',
+  isEserviceToBeCreated: false,
+  isEserviceFromTemplate: false,
+  instanceLabel: '',
 }
 
 export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
@@ -45,14 +53,13 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
   const { t } = useTranslation('party')
   const { jwt } = AuthHooks.useJwt()
 
-  const [isEserviceToBeCreated, setIsEserviceToBeCreated] = useState(false)
-  const [isEserviceFromTemplate, setIsEserviceFromTemplate] = useState(false)
-
   const { openDialog } = useDialog()
 
   const formMethods = useForm<DelegationCreateFormValues>({ defaultValues })
 
   const selectedEServiceId = formMethods.watch('eserviceId')
+  const isEserviceToBeCreated = formMethods.watch('isEserviceToBeCreated')
+  const isEserviceFromTemplate = formMethods.watch('isEserviceFromTemplate')
 
   const { data: agreements = [] } = useQuery({
     ...AgreementQueries.getConsumerAgreementsList({
@@ -121,6 +128,16 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
           onSuccess: () => {
             navigate('DELEGATIONS')
           },
+          onError: (error) => {
+            if (
+              error instanceof AxiosError &&
+              error.response?.data?.errors?.[0]?.code === DUPLICATE_ESERVICENAME_ERROR_CODE
+            ) {
+              formMethods.setError('eserviceName', {
+                message: t('delegations.create.eserviceField.validation.duplicateName'),
+              })
+            }
+          },
         }
       )
       return
@@ -135,10 +152,24 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
         {
           delegateId: formValues.delegateId,
           eServiceTemplateId: formValues.eserviceId,
+          instanceLabel: formValues.instanceLabel?.trim() || undefined,
         },
         {
           onSuccess: () => {
             navigate('DELEGATIONS')
+          },
+          onError: (error) => {
+            if (
+              error instanceof AxiosError &&
+              error.response?.data?.errors?.[0]?.code === DUPLICATE_ESERVICENAME_ERROR_CODE
+            ) {
+              const instanceLabelValue = formMethods.getValues('instanceLabel')?.trim()
+              formMethods.setError('instanceLabel', {
+                message: instanceLabelValue
+                  ? t('delegations.create.eserviceField.validation.duplicateName')
+                  : t('delegations.create.eserviceField.validation.emptyNotAvailable'),
+              })
+            }
           },
         }
       )
@@ -174,20 +205,11 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
       ? t('delegations.create.providerDelegationTitle')
       : t('delegations.create.consumerDelegationTitle')
 
-  const handleChange = (value: boolean) => {
-    setIsEserviceFromTemplate(value)
-  }
-
   const [eserviceTemplateName, setEserviceTemplateName] = useState('')
 
   const handleTemplateNameAutocompleteChange = (eserviceTemplateName: string) => {
     setEserviceTemplateName(eserviceTemplateName)
   }
-
-  const { data: isEserviceNameAvailable } = useQuery({
-    ...EServiceQueries.getIsEServiceNameAvailable(eserviceTemplateName),
-    enabled: !!eserviceTemplateName,
-  })
 
   return (
     <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
@@ -195,27 +217,25 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
         <SectionContainer title={sectionTitle}>
           <Stack spacing={3}>
             {delegationKind === 'DELEGATED_PRODUCER' && (
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={isEserviceToBeCreated}
-                    onChange={() => setIsEserviceToBeCreated((prev) => !prev)}
-                  />
-                }
+              <RHFSwitch
+                name="isEserviceToBeCreated"
                 label={t('delegations.create.delegateField.provider.switch')}
-                labelPlacement="end"
-                componentsProps={{ typography: { variant: 'body2' } }}
+                inputProps={{
+                  'aria-expanded': isEserviceToBeCreated,
+                  'aria-controls': 'eservice-creation-section',
+                }}
               />
             )}
-            {!isEserviceToBeCreated || delegationKind === 'DELEGATED_CONSUMER' ? (
-              <DelegationCreateEServiceAutocomplete delegationKind={delegationKind} />
-            ) : (
-              <DelegationCreateFormCreateEservice
-                delegationKind={delegationKind}
-                onChange={handleChange}
-                handleTemplateNameAutocompleteChange={handleTemplateNameAutocompleteChange}
-              />
-            )}
+            <Box id="eservice-creation-section" aria-live="polite">
+              {!isEserviceToBeCreated || delegationKind === 'DELEGATED_CONSUMER' ? (
+                <DelegationCreateEServiceAutocomplete delegationKind={delegationKind} />
+              ) : (
+                <DelegationCreateFormCreateEservice
+                  delegationKind={delegationKind}
+                  handleTemplateNameAutocompleteChange={handleTemplateNameAutocompleteChange}
+                />
+              )}
+            </Box>
             <DelegationCreateTenantAutocomplete delegationKind={delegationKind} />
             {delegationKind === 'DELEGATED_CONSUMER' && (hasAgreement || isDelegated) && (
               <Alert severity="warning">
@@ -226,6 +246,12 @@ export const DelegationCreateForm: React.FC<DelegationCreateFormProps> = ({
             )}
           </Stack>
         </SectionContainer>
+        {isEserviceToBeCreated && isEserviceFromTemplate && eserviceTemplateName && (
+          <InstanceLabelSection
+            templateName={eserviceTemplateName}
+            instanceLabel={formMethods.watch('instanceLabel') ?? ''}
+          />
+        )}
       </FormProvider>
       <StepActions
         back={{

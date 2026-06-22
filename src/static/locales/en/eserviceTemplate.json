@@ -1,0 +1,592 @@
+{
+  "read": {
+    "tabs": {
+      "eserviceTemplateDetails": "Template details",
+      "eserviceTemplateTenants": "Using Parties",
+      "eserviceTemplateInstances": "Generated instances",
+      "ariaLabel": "Two separate tabs: one for the template e-service details and another for using parties."
+    },
+    "actions": {
+      "backToEserviceTemplateListLabel": "Back to the e-service templates",
+      "backToEserviceTemplateCatalog": "Back to catalog"
+    },
+    "sections": {
+      "generalInformations": {
+        "title": "Template information",
+        "version": {
+          "label": "You are viewing version number"
+        },
+        "eserviceTemplateName": {
+          "label": "E-service template name"
+        },
+        "eserviceTemplateintendedTarget": {
+          "label": "The template is aimed at"
+        },
+        "eserviceTemplateDescription": {
+          "label": "E-service template description"
+        },
+        "versionDescription": {
+          "label": "Version description"
+        },
+        "bottomActions": {
+          "navigateTemplateVersions": "Navigate to another e-service template version",
+          "downloadUsingTenantsList": "Download list of using parties",
+          "viewTechnicalInfo": "View e-service technical information"
+        },
+        "consumerListFileName": "{{timestamp}}-consumers-template-list-{{eServiceTemplateName}}.csv",
+        "personalDataField": {
+          "DELIVER": {
+            "label": "Delivers personal data"
+          },
+          "RECEIVE": {
+            "label": "Receives personal data"
+          },
+          "value": {
+            "true": "Yes",
+            "false": "No",
+            "undefined": "Not specified"
+          },
+          "alert": {
+            "label": "Specify whether this template e-service handles personal data."
+          }
+        }
+      },
+      "technicalInformations": {
+        "title": "E-service technical specifications",
+        "description": "In this section you can check the specifications of the e-service and make changes.",
+        "technology": "Technology",
+        "audience": "Audience",
+        "mode": {
+          "label": "E-service mode",
+          "labelDescription": "Receive / Deliver",
+          "value": {
+            "DELIVER": "Deliver",
+            "RECEIVE": "Receive"
+          }
+        },
+        "voucher": {
+          "title": "Voucher"
+        },
+        "thresholds": {
+          "title": "Thresholds",
+          "voucherLifespan": {
+            "label": "Voucher lifespan",
+            "labelDescription": "(in minutes)"
+          },
+          "dailyCallsPerConsumer": {
+            "label": "Per consumer suggested threshold",
+            "labelDescription": "(API calls/day)"
+          },
+          "dailyCallsTotal": {
+            "label": "Total suggested threshold",
+            "labelDescription": "(API calls/day)"
+          }
+        },
+        "documentation": {
+          "title": "Documentation",
+          "label": "Documents list"
+        },
+        "usefulLinks": {
+          "title": "Useful links",
+          "implementAndManageEServiceTemplate": "How do I implement and manage an e-service template?",
+          "updateEserviceInstance": "How can I update an e-service instance?",
+          "wellKnown": "URL .well-known"
+        }
+      },
+      "thresholdsAndAttributes": {
+        "title": "Thresholds and attributes",
+        "description": "Here you can find the thresholds and attributes required to use this e-service.",
+        "noThresholds": "This e-service template has no suggested thresholds",
+        "thresholds": {
+          "title": "API call thresholds",
+          "dailyCallsPerConsumer": {
+            "label": "Daily threshold per consumer"
+          },
+          "dailyCallsTotal": {
+            "label": "Daily total threshold"
+          }
+        }
+      }
+    },
+    "drawers": {
+      "updateEServiceTemplateNameDrawer": {
+        "title": "Edit template e-service name",
+        "subtitle": "From this panel you can update the name of the template e-service. The changes made will take effect immediately",
+        "templateNameField": {
+          "label": "Template e-service name",
+          "infoLabel": "Min 5 characters, max 45 characters",
+          "validation": {
+            "sameValue": "The template e-service name must be different from the current one"
+          }
+        }
+      },
+      "updateEServiceTemplateAudienceDrawer": {
+        "title": "Edit the target audience",
+        "subtitle": "From this panel, you can update the target audience of the template. The changes made will take effect immediately",
+        "eserviceTemplateAudienceField": {
+          "label": "Template target audience",
+          "infoLabel": "Min 10 characters, max 250 characters",
+          "validation": {
+            "sameValue": "The template target audience must be different from the current one"
+          }
+        }
+      },
+      "updateEServiceTemplateDescriptionDrawer": {
+        "title": "Edit the template e-service description",
+        "subtitle": "From this panel, you can update the description of the template. The changes made will take effect immediately.",
+        "eserviceTemplateDescriptionField": {
+          "label": "Template e-service description",
+          "infoLabel": "Min 10 characters, max {{ESERVICE_DESCRIPTION_MAX_LENGTH}} characters",
+          "validation": {
+            "sameValue": "The template e-service description must be different from the current one"
+          }
+        }
+      },
+      "updateEServiceTemplateThresholdsDrawer": {
+        "subtitle": "From this panel, you can update the quotas of the template e-service. The changes made will take effect immediately",
+        "dailyCallsPerConsumerLabel": "Per consumer suggested threshold",
+        "dailyCallsTotalLabel": "Total suggested threshold"
+      },
+      "updateVoucherDrawer": {
+        "subtitle": "The changes will take effect immediately"
+      },
+      "updateDocumentationDrawer": {
+        "title": "Edit documentation",
+        "subtitle": "Now you can edit, download and delete documents attached to the e-service template.",
+        "addDocumentLabel": "Add documentation",
+        "nameField": {
+          "label": "Document name"
+        },
+        "interfaceInfoTooltip": "The “API Specification” file is not editable. To update it, create a new version.",
+        "downloadDocumentTooltip": "Download document"
+      },
+      "versionSelectorDrawer": {
+        "title": "View another e-service template version",
+        "label": "Select version",
+        "goToSelectedVersion": "Go to the selected version"
+      }
+    }
+  },
+  "list": {
+    "filters": {
+      "nameField": {
+        "label": "Find by name"
+      },
+      "eserviceTemplateProviderField": {
+        "label": "Find by producer's template"
+      },
+      "tenantField": "Find by producer",
+      "statusField": {
+        "label": "Instance status",
+        "optionLabels": {
+          "ACTIVE": "Active",
+          "DRAFT": "Draft",
+          "SUSPENDED": "Suspended",
+          "DEPRECATED": "Deprecated",
+          "ARCHIVED": "Archived"
+        }
+      }
+    },
+    "usingTenantTable": {
+      "noDataLabel": "This template has not yet been used by any party.",
+      "noResultsLabel": "Your current search returned no results"
+    },
+    "myInstancesTable": {
+      "noDataLabel": "You have not yet created instances from this template."
+    }
+  },
+  "actions": {
+    "createNewEServiceInstance": "Use template",
+    "createInstanceDisabledTenantKind": "It is not possible to use the template because the producer has not created a purpose for your type of entity.",
+    "createInstanceDisabledPersonalData": "It is not possible to use the template because the producer has not indicated whether personal data is processed."
+  },
+  "createInstance": {
+    "title": "Create e-service from template",
+    "eserviceTemplateDescriptionLink": "Instance of <1>{{templateName}}</1>"
+  },
+  "noMultiDataLabel": "You have not yet created e-service templates.",
+  "backToListBtn": "Back to templates",
+  "create": {
+    "emptyTitle": "Create e-service template",
+    "stepper": {
+      "step1Label": "General information",
+      "step2Label": "Thresholds and attributes",
+      "step2ReceiveLabel": "Purpose",
+      "step3Label": "Technical specifications",
+      "step4Label": "Additional information"
+    },
+    "backWithoutSaveBtn": "Back",
+    "forwardWithSaveBtn": "Save draft and proceed",
+    "forwardWithoutSaveBtn": "Proceed",
+    "goToSummary": "Go to summary",
+    "step1": {
+      "templateInfoTitle": "Template information",
+      "readOnlyTemplateInfoTitle": "E-service template characterization",
+      "readOnlyDescription": "This information cannot be modified.",
+      "signalHubTitle": "Signal Hub",
+      "readOnlyNameLabel": "E-service template name",
+      "readOnlyIntendedTargetLabel": "Who is this template intended for?",
+      "readOnlyDescriptionLabel": "What does this template allow you to do?",
+      "eserviceTemplateNameField": {
+        "label": "Template name",
+        "infoLabel": "This is the name that will appear in the e-service template catalog and will become the base name of all e-services created from this template. Min 5 characters, max 45 characters."
+      },
+      "intendedTargetField": {
+        "label": "Who is the template intended for?",
+        "infoLabel": "Min 10 characters, max 250 characters"
+      },
+      "eserviceDescriptionField": {
+        "label": "What does this e-service allow you to do?",
+        "infoLabel": "Min 10 characters, max {{ESERVICE_DESCRIPTION_MAX_LENGTH}} characters"
+      },
+      "eserviceTemplateModeField": {
+        "isSignalHubEnabled": {
+          "label": "Suggest to those who will use this template to report data changes with Signal Hub",
+          "infoLabel": {
+            "before": "Signal Hub sends",
+            "linkLabel": "push notifications",
+            "after": "when there are changes to the e-service data."
+          }
+        }
+      }
+    },
+    "step4": {
+      "versionTitle": "Information for version {{versionNumber}}",
+      "versionDescriptionTitle": "Version description",
+      "versionDescriptionField": {
+        "label": "Describe this e-service version*",
+        "infoLabel": "If it is a new version, indicate what has changed from the previous one"
+      },
+      "documentationSection": {
+        "title": "Documentation",
+        "description": "Attach the technical documentation useful to consumers of e-services created from this template.",
+        "documentLabel": "Document {{number}}",
+        "nameField": {
+          "label": "Document name",
+          "infoLabel": "Min 5 characters, max 60 characters"
+        },
+        "saveDocumentBtn": "Save document",
+        "addAnotherFileBtn": "Add another file"
+      },
+      "requestManagementSection": {
+        "title": "Request management"
+      },
+      "agreementApprovalPolicySection": {
+        "label": "Suggest to those who will use this template the manual approval of received usage requests"
+      }
+    },
+    "step2": {
+      "thresholdsSection": {
+        "thresholdsSwitch": {
+          "label": "Suggest custom API threshold values to the implementer"
+        }
+      },
+      "purpose": {
+        "firstVersionOnlyEditableInfoAlert": "The contents of this step will no longer be editable after the publication of the first version of the e-service",
+        "purposeTableSection": {
+          "title": "Purpose",
+          "description": "Indicate the use cases for which you intend to collect data. For each purpose you will need to complete a risk analysis.",
+          "noSelectedPurposesTooltip": "You must indicate at least one purpose to continue",
+          "purposeTable": {
+            "noDataLabel": "No added purpose"
+          }
+        },
+        "tenantKindDialog": {
+          "title": "Indicate who will be able to use the following risk analysis.",
+          "description": "Indicate for whom the following risk analysis is filled.",
+          "tenantKind": {
+            "labelPA": "Public administration (Art. 2, comma 2, letter “a” of Codice dell'Amministrazione Digitale)",
+            "labelNotPA": "Operators of public services, publicly controlled companies (Art. 2, comma 2, letters “b” e “c”) or Private"
+          }
+        }
+      },
+      "thresholdsAndAttributes": {
+        "validation": {
+          "integer": "Threshold value must be an integer"
+        },
+        "thresholdsTitle": "API call thresholds",
+        "thresholdsSwitch": {
+          "label": "Suggest API calls/day thresholds to those who will use this template"
+        },
+        "dailyCallsPerConsumerField": {
+          "label": "API calls/day per consumer",
+          "infoLabel": "Enter a number greater than or equal to 1"
+        },
+        "dailyCallsTotalField": {
+          "label": "Total API calls/day",
+          "infoLabel": "Enter a number greater than the previous one",
+          "validation": {
+            "min": "This value cannot be below the threshold set for the API calls/day for each consumer"
+          }
+        },
+        "thresholdsInfoAlert": "Those who use this template will be able to modify the suggested thresholds and customize them for certified attributes.",
+        "accessRequirements": {
+          "title": "Access requirements",
+          "description": "Define who can access this e-service. Create one or more requirements and associate the required attributes to each. The consumer must meet all the indicated requirements and possess at least one of the attributes in each requirement. <1>Learn more about attributes</1>",
+          "createRequirementBtn": "Create requirement",
+          "placeholder": "This section will be available soon.",
+          "tabs": {
+            "certified": "Certified Attributes",
+            "verified": "Verified Attributes",
+            "declared": "Declared Attributes",
+            "certifiedDescription": "These are attributes certified by a <1>recognized authoritative source.</1>",
+            "verifiedDescription": "These are attributes verified <1>by other organizations</1>, with the possibility of requesting a verification from the provider.",
+            "declaredDescription": "These are attributes declared by the consumer during the service request. No verification from the provider is required."
+          }
+        }
+      }
+    },
+    "step3": {
+      "technicalSpecs": {
+        "interface": {
+          "title": "Interface",
+          "alert": "You can upload a file without contact data, terms and conditions, and server URLs, as these will be filled in by the implementer in the next phase.",
+          "description": {
+            "rest": "Upload a draft of the OpenAPI specification that describes the API.",
+            "beforePublishing": "Before publishing, you can use these tools to check:",
+            "technicalCompliance": "technical compliance",
+            "technicalComplianceDescription": "with the ModI guidelines through",
+            "semanticCompliance": "semantic compliance",
+            "semanticComplianceDescription": "with the National Data Catalog annotations through",
+            "restLinkLabel": "OpenAPI Checker",
+            "schemaEditorLinkLabel": "Schema Editor",
+            "soap": "Upload a draft of the WSDL specification that describes the API"
+          },
+          "prettyName": "API specification"
+        },
+        "voucher": {
+          "title": "Voucher",
+          "voucherLifespanField": {
+            "label": "Validity duration (in minutes)*",
+            "infoLabel": "Maximum value: 1440 minutes (24 hours)"
+          }
+        },
+        "asyncExchangeSection": {
+          "title": "Asynchronous and bulk exchanges",
+          "description": "Asynchronous and bulk exchanges require a callback interface that consumers will have to implement to receive your responses. Upload the OpenAPI file with the API description. <1>Learn more about asynchronous and bulk exchanges</1>.",
+          "editableInfoAlert": "After publication, these fields will no longer be editable. To modify them, you will need to create a new version of the e-service template.",
+          "callbackInterface": {
+            "readOnlyLabel": "Callback interface",
+            "prettyName": "Callback interface",
+            "dropzoneLabel": "Drag the callback interface here or click here to select it from your computer"
+          },
+          "configSubsection": {
+            "title": "Exchange configuration"
+          },
+          "advancedSubsection": {
+            "title": "Advanced options"
+          },
+          "responseTimeField": {
+            "label": "Suggested maximum response time (in seconds)",
+            "infoLabel": "Suggest how long the e-service instances take to return a response after a call from consumers. Accepted values: from 1 to 999,999 seconds."
+          },
+          "maxResultSetField": {
+            "label": "Suggested maximum number of results per response",
+            "infoLabel": "Suggest the maximum number of elements that each response can contain. Accepted values: from 1 to 99,999."
+          },
+          "resourceAvailableTimeField": {
+            "label": "Suggested data availability duration (in seconds)",
+            "infoLabel": "Suggest how long the data is downloadable before being deleted. Accepted values: from 1 to 999,999 seconds."
+          },
+          "confirmationField": {
+            "label": "Require receipt confirmation",
+            "infoLabel": "The consumer will have to send a notification after downloading the file."
+          },
+          "bulkField": {
+            "label": "Allow chunked download",
+            "infoLabel": "The consumer can download large files in separate parts."
+          },
+          "readOnlyOptions": {
+            "true": "Yes",
+            "false": "No"
+          },
+          "validation": {
+            "integer": "The value must be an integer"
+          }
+        },
+        "nameField": {
+          "label": "Document name",
+          "infoLabel": "Min 5 characters, max 60 characters"
+        },
+        "uploadBtn": "Upload"
+      },
+      "attributes": {
+        "attributesTitle": "Access requirements for version {{versionNumber}}",
+        "attributesDescription": "Please indicate all the certified, verified, and declared attributes that the consumer must have in order to create an agreement for the e-service",
+        "attributesAddBtn": "Add attribute",
+        "attributesCreateBtn": "Create new attribute",
+        "createAttributeDrawer": {
+          "title": {
+            "verified": "Create new verified attribute",
+            "declared": "Create new declared attribute"
+          },
+          "subtitle": "Once created, the attribute will be available in the list to be added to an e-service",
+          "nameField": {
+            "label": "Attribute name",
+            "infoLabel": "Min 5 characters, max 160 characters"
+          },
+          "descriptionField": {
+            "label": "Attribute description",
+            "infoLabel": "Min 10 characters, max 250 characters"
+          },
+          "submitBtnLabel": "Create attribute"
+        }
+      }
+    }
+  },
+  "summary": {
+    "title": "{{eserviceTemplateName}}, version {{versionEserviceTemplateNumber}}",
+    "generalInfoSummary": {
+      "title": "General information",
+      "templateName": {
+        "label": "E-service template name"
+      },
+      "intendedTarget": {
+        "label": "Who is this template intended for?"
+      },
+      "templateDescription": {
+        "label": "What does this template allow you to do?"
+      },
+      "apiTechnology": {
+        "label": "API Technology"
+      },
+      "exchangeType": {
+        "label": "Data exchange",
+        "value": {
+          "sync": "Synchronous",
+          "async": "Asynchronous"
+        }
+      },
+      "personalDataField": {
+        "DELIVER": {
+          "label": "Delivers personal data"
+        },
+        "RECEIVE": {
+          "label": "Receives personal data"
+        },
+        "value": {
+          "true": "Yes",
+          "false": "No",
+          "undefined": "Not specified"
+        }
+      },
+      "isSignalHubEnabled": {
+        "label": "Did you suggest using Signal Hub?",
+        "value": {
+          "true": "Yes",
+          "false": "No",
+          "undefined": "No"
+        }
+      }
+    },
+    "riskAnalysisSummaryList": {
+      "title": "Purpose",
+      "riskAnalysisTitle": "{{riskAnalysisIndex}}/{{totalRiskAnalysis}} - {{riskAnalysisName}}"
+    },
+    "thresholdsAndAttributesSummary": {
+      "title": "Thresholds and attributes",
+      "thresholdsTitle": "Suggested API call thresholds",
+      "noThresholds": "This e-service template has no suggested thresholds",
+      "dailyCallsPerConsumer": {
+        "label": "Per consumer",
+        "value": "{{value}} API calls/day"
+      },
+      "dailyCallsTotal": {
+        "label": "Total",
+        "value": "{{value}} API calls/day"
+      },
+      "attributes": {
+        "certified": {
+          "label": "Certified Attributes",
+          "description": "These are attributes certified by a <1>recognized authoritative source.</1>",
+          "noAttributesAlert": "This e-service does not require certified attributes"
+        },
+        "verified": {
+          "label": "Verified Attributes",
+          "description": "These are attributes verified <1>by other organizations</1>, with the possibility of requesting a verification from the producer.",
+          "noAttributesAlert": "This e-service does not require verified attributes"
+        },
+        "declared": {
+          "label": "Declared Attributes",
+          "description": "These are attributes declared by the consumer during the usage request. No verification from the producer is required.",
+          "noAttributesAlert": "This e-service does not require declared attributes"
+        },
+        "requirementTitle": "Requirement {{index}} | {{attributeType}}",
+        "requirementDescription": "The consumer must possess at least one of the attributes in this requirement."
+      }
+    },
+    "technicalSpecsSummary": {
+      "title": "Technical specifications",
+      "interface": {
+        "label": "Interface"
+      },
+      "callbackInterface": {
+        "label": "Callback interface"
+      },
+      "asyncExchange": {
+        "responseTime": {
+          "label": "Maximum callback time"
+        },
+        "resourceAvailableTime": {
+          "label": "Resource availability time"
+        },
+        "confirmation": {
+          "label": "Require receipt acknowledgement"
+        },
+        "bulk": {
+          "label": "Enable bulk download"
+        },
+        "maxResultSet": {
+          "label": "Maximum entities per response"
+        },
+        "booleanValue": {
+          "true": "Yes",
+          "false": "No"
+        }
+      },
+      "voucherLifespan": {
+        "label": "Voucher lifespan"
+      }
+    },
+    "additionalInfoSummary": {
+      "title": "Additional information",
+      "versionDescription": {
+        "label": "Version description"
+      },
+      "documentation": {
+        "label": "Documentation"
+      },
+      "emptyDocumentation": "No uploaded documents",
+      "manualApproval": {
+        "label": "Did you suggest manually approving usage requests?",
+        "value": {
+          "true": "Yes",
+          "false": "No"
+        }
+      }
+    },
+    "completeInfoChip": "Complete the required information",
+    "missingField": "To be filled in",
+    "missingFieldsBanner": "To publish, please fill in the missing information.",
+    "missingFieldsTooltip": "Some information is still missing. Complete the draft to publish.",
+    "notPublishableTooltip": {
+      "label": "One or more required fields have not been filled out. Please complete the draft."
+    },
+    "missingPersonalDataField": "You have not indicated whether the e-service delivers or receives personal data. You can go back to the first step to specify it, or you can proceed and add this information later.",
+    "alertUpdatePersonalData": {
+      "label": "Specify whether this e-service template handles personal data."
+    }
+  },
+  "publishThankYou": {
+    "firstVersion": {
+      "title": "You have published an e-service template",
+      "description": "It is now available in the e-service template catalog and can be used by other organizations to create their own e-services."
+    },
+    "newVersion": {
+      "title": "You have published a new version of the e-service template",
+      "description": "It is now available in the e-service template catalog. Those using the previous version of the template will receive a notification and will need to update to the new version."
+    },
+    "action": "Close",
+    "goToTemplateAction": "Go to template"
+  }
+}

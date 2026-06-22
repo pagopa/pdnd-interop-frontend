@@ -1,11 +1,10 @@
 import axiosInstance from '@/config/axios'
-import { BACKEND_FOR_FRONTEND_URL, TEMP_USER_BLACKLIST_URL, isDevelopment } from '@/config/env'
+import { BACKEND_FOR_FRONTEND_URL, TEMP_USER_BLACKLIST_URL, APP_MODE } from '@/config/env'
 import axios from 'axios'
 import type { SAMLTokenRequest, SessionToken } from '../api.generatedTypes'
 import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import { TokenExchangeError } from '@/utils/errors.utils'
 import { parseJwt } from './auth.utils'
-import { setMixpanelIdentifier } from '@/config/tracking'
 import { hasSessionExpired } from '@/utils/common.utils'
 
 async function swapTokens(identity_token: string) {
@@ -25,18 +24,17 @@ async function getSessionToken(): Promise<string | null> {
       return null
     }
     window.localStorage.setItem(STORAGE_KEY_SESSION_TOKEN, sessionToken)
-    if (parsedJwt.jwt?.uid) setMixpanelIdentifier(parsedJwt.jwt?.uid)
     return sessionToken
   }
 
   // 1. Check if there is a mock token: only used for dev purposes
-  if (isDevelopment && MOCK_TOKEN) return resolveToken(MOCK_TOKEN)
+  if (APP_MODE === 'development' && MOCK_TOKEN) return resolveToken(MOCK_TOKEN)
+
+  const fragmentParams = new URLSearchParams(window.location.hash.replace('#', ''))
 
   // 2. See if we are coming from Self Care and have a new token
-  const hasSelfCareIdentityToken = window.location.hash.includes('#id=')
-  if (hasSelfCareIdentityToken) {
-    const selfCareIdentityToken = window.location.hash.replace('#id=', '')
-    // Remove token from hash
+  const selfCareIdentityToken = fragmentParams.get('id') ?? ''
+  if (selfCareIdentityToken) {
     history.replaceState({}, document.title, window.location.href.split('#')[0])
     try {
       const result = await swapTokens(selfCareIdentityToken)
@@ -47,11 +45,12 @@ async function getSessionToken(): Promise<string | null> {
   }
 
   // 3. See if we are trying to login as support operator
-  // If the url has contains saml2 and jwt, we are trying to login as support operator
-  const hasSupportOperatorToken =
-    window.location.hash.includes('#saml2=') && window.location.hash.includes('jwt=')
+  // If the url contains saml2 and jwt, we are trying to login as support operator
+  const saml2 = fragmentParams.get('saml2') ?? ''
+  const supportOperatorToken = fragmentParams.get('jwt') ?? ''
+
+  const hasSupportOperatorToken = saml2 && supportOperatorToken
   if (hasSupportOperatorToken) {
-    const supportOperatorToken = window.location.hash.split('jwt=')[1]
     return resolveToken(supportOperatorToken)
   }
 

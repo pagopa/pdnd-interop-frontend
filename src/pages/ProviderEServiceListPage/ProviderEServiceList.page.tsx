@@ -13,12 +13,12 @@ import {
 } from '@pagopa/interop-fe-commons'
 import type { GetProducerEServicesParams } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
-import PlusOneIcon from '@mui/icons-material/PlusOne'
 import UploadFileIcon from '@mui/icons-material/UploadFile'
 import type { ActionItemButton } from '@/types/common.types'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { ProviderEServiceImportVersionDrawer } from './components/ProviderEServiceImportVersionDrawer'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import FiberNew from '@mui/icons-material/FiberNew'
 
 const ProviderEServiceListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceList' })
@@ -40,7 +40,9 @@ const ProviderEServiceListPage: React.FC = () => {
       })),
   })
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
+
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetProducerEServicesParams, 'limit' | 'offset'>
   >([
@@ -67,7 +69,7 @@ const ProviderEServiceListPage: React.FC = () => {
       action: () => navigate('PROVIDE_ESERVICE_CREATE'),
       label: tCommon('createNewBtn'),
       variant: 'contained',
-      icon: PlusOneIcon,
+      icon: FiberNew,
     },
   ]
 
@@ -85,7 +87,12 @@ const ProviderEServiceListPage: React.FC = () => {
     >
       <Filters {...filtersHandlers} />
       <EServiceTableWrapper params={queryParams} />
-      <Pagination {...paginationProps} totalPages={totalPageCount} />
+      <Pagination
+        pageNum={paginationProps.pageNum}
+        onPageChange={paginationProps.onPageChange}
+        rowPerPageOptions={rowPerPageOptions}
+        totalPages={totalPageCount}
+      />
       <ProviderEServiceImportVersionDrawer isOpen={isOpen} onClose={closeDrawer} />
     </PageContainer>
   )

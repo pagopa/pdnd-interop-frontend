@@ -1,0 +1,7 @@
+echo "Validate branch name before commit..."
+
+if [ "$OSTYPE" = "msys" ] || [ "$OSTYPE" = "win32" ]; then
+	npx.cmd --no-install validate-branch-name
+else
+	npx --no-install validate-branch-name
+fi

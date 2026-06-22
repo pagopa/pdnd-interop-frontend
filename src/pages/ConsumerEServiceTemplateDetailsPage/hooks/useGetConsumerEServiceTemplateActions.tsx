@@ -3,27 +3,18 @@ import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
 import type { ActionItemButton } from '@/types/common.types'
 import { AuthHooks } from '@/api/auth'
-import { TemplateMutations } from '@/api/template'
 import FiberNewIcon from '@mui/icons-material/FiberNew'
-import { EServiceQueries } from '@/api/eservice'
-import { useQuery } from '@tanstack/react-query'
 
 export function useGetConsumerEServiceTemplateActions(
   eServiceTemplateId: string,
-  eServiceTemplateName: string,
-  activeVersionState?: EServiceTemplateVersionState | undefined
+  hasRequesterRiskAnalysis: boolean,
+  activeVersionState?: EServiceTemplateVersionState | undefined,
+  hasPersonalDataValue?: boolean
 ): { actions: Array<ActionItemButton> } {
-  const { t } = useTranslation('template', { keyPrefix: 'actions' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'actions' })
 
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
   const navigate = useNavigate()
-
-  const { mutate: createEServiceFromTemplate } =
-    TemplateMutations.useCreateInstanceFromEServiceTemplate() //TODO: to remove?
-
-  const { data: isFirstInstanceFromTemplate, isLoading } = useQuery({
-    ...EServiceQueries.getIsEServiceNameAvailable(eServiceTemplateName),
-  })
 
   const state = activeVersionState ?? 'DRAFT'
 
@@ -36,22 +27,22 @@ export function useGetConsumerEServiceTemplateActions(
     })
   }
 
-  const tooltipLabel = t('createNewEServiceInstanceDisabled')
-    .split('\n')
-    .map((line, idx) => (
-      <span key={idx}>
-        {line}
-        <br />
-      </span>
-    ))
+  const tooltipToShow = (() => {
+    if (!hasPersonalDataValue) {
+      return t('createInstanceDisabledPersonalData')
+    }
+
+    if (!hasRequesterRiskAnalysis) {
+      return t('createInstanceDisabledTenantKind')
+    }
+  })()
 
   const newEServiceFromTemplateAction: ActionItemButton = {
     action: handleCreateEServiceFromTemplate,
     label: t('createNewEServiceInstance'),
     icon: FiberNewIcon,
-    disabled: !isLoading && !isFirstInstanceFromTemplate,
-    tooltip:
-      !isLoading && !isFirstInstanceFromTemplate ? (tooltipLabel as unknown as string) : undefined,
+    disabled: !hasRequesterRiskAnalysis || !hasPersonalDataValue,
+    tooltip: tooltipToShow,
   }
 
   const publishedConsumerActions = [newEServiceFromTemplateAction]

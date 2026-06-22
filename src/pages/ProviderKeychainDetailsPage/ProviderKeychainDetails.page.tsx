@@ -11,6 +11,7 @@ import { KeychainPublicKeysTab } from './components/KeychainPublicKeysTab/Keycha
 import { useQuery } from '@tanstack/react-query'
 import { KeychainQueries } from '@/api/keychain/keychain.queries'
 import { KeychainMutations } from '@/api/keychain/keychain.mutations'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { useNavigate } from '@/router'
 import { useParams } from '@/router'
 import { AuthHooks } from '@/api/auth'
@@ -28,6 +29,8 @@ const ProviderKeychainDetailsPage: React.FC = () => {
   const { data: keychain, isLoading: isLoadingKeychain } = useQuery(
     KeychainQueries.getSingle(keychainId)
   )
+
+  useMarkNotificationsAsRead(keychainId)
 
   const { isAdmin } = AuthHooks.useJwt()
 

@@ -64,8 +64,8 @@
         "error": "Non è stato possibile creare una bozza per la nuova versione dell'e-service. Assicurarsi di aver compilato tutti i campi e riprovare"
       },
       "confirmDialog": {
-        "title": "Conferma creazione bozza versione",
-        "description": "Verrà creata una nuova versione (in bozza) dell'e-service selezionato"
+        "title": "Crea nuova versione",
+        "description": "Stai per creare la bozza di una nuova versione di questo e-service"
       }
     },
     "updateVersionDraft": {
@@ -75,6 +75,13 @@
         "error": "Non è stato possibile aggiornare una bozza per la nuova versione dell'e-service. Assicurarsi di aver compilato tutti i campi e riprovare"
       }
     },
+    "updateAttributeThreshold": {
+      "loading": "La soglia di chiamate API dell'attributo certificato è in fase di modifica",
+      "outcome": {
+        "success": "Hai modificato la soglia di chiamate API dell’attributo certificato.",
+        "error": "Non è stato possibile modificare la soglia di chiamate API dell’attributo. Controlla di aver inserito le informazioni corrette."
+      }
+    },
     "publishVersionDraft": {
       "loading": "Stiamo pubblicando la versione in bozza",
       "outcome": {
@@ -82,8 +89,11 @@
         "error": "Non è stato possibile pubblicare la nuova versione dell'e-service. Verificare di aver caricato il documento di interfaccia e riprovare!"
       },
       "confirmDialog": {
-        "title": "Conferma pubblicazione bozza",
-        "description": "Una volta pubblicata, una versione dell'e-service non è più cancellabile e diventa disponibile nel catalogo degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile."
+        "title": "Pubblica e-service",
+        "titleNewVersion": "Pubblica nuova versione",
+        "description": "Una volta pubblicata, questa versione sarà disponibile nel catalogo degli e-service e non potrà più essere cancellata. Potrai comunque sospenderla o renderla obsoleta quando pubblicherai una nuova versione.",
+        "descriptionNewVersion": "<p>Quando una nuova versione dell'e-service viene pubblicata, è subito disponibile nel catalogo e non può più essere cancellata.</p><p>La versione precedente diventa obsoleta oppure, se non ha fruitori attivi, sarà archiviata automaticamente.</p><p>Potrai sospendere la nuova versione o renderla obsoleta quando pubblicherai una versione successiva.</p>",
+        "proceedLabel": "Pubblica"
       }
     },
     "publishDelegatedVersionDraft": {
@@ -125,11 +135,37 @@
         "description": "Cliccando \"conferma\" la finalità sarà eliminata da questo e-service."
       }
     },
+    "scheduleArchiveDescriptor": {
+      "outcome": {
+        "success": "Questa versione dell'e-service sarà archiviata tra {{days}} giorni",
+        "error": "Non è stato possibile procedere con l'archiviazione di questa versione dell'e-service. Riprova più tardi."
+      }
+    },
+    "cancelDescriptorArchiving": {
+      "outcome": {
+        "success": "Questa versione non è più in fase di archiviazione",
+        "error": "Non è stato possibile annullare l'archiviazione di questa versione dell'e-service. Riprova più tardi."
+      }
+    },
+    "cancelEserviceArchiving": {
+      "outcome": {
+        "success": "L'e-service non è più in fase di archiviazione",
+        "error": "Non è stato possibile annullare l'archiviazione di questo e-service. Riprova più tardi."
+      }
+    },
+    "scheduleArchiveEservice": {
+      "outcome": {
+        "success": "Questo e-service sarà archiviato tra {{days}} giorni",
+        "error": "Non è stato possibile procedere con l'archiviazione di questo e-service. Riprova più tardi."
+      }
+    },
     "suspendVersion": {
       "loading": "Stiamo sospendendo la versione",
       "outcome": {
         "success": "La versione dell'e-service è stata sospesa",
-        "error": "Non è stato possibile sospendere questa versione dell'e-service. Per favore, riprova!"
+        "successArchiving": "Hai sospeso questa versione dell'e-service",
+        "error": "Non è stato possibile sospendere questa versione dell'e-service. Per favore, riprova!",
+        "errorArchiving": "Non è stato possibile sospendere questa versione dell'e-service. Riprova più tardi."
       },
       "confirmDialog": {
         "title": "Conferma sospensione versione",
@@ -140,7 +176,9 @@
       "loading": "Stiamo riattivando la versione",
       "outcome": {
         "success": "La versione dell'e-service è stata riattivata",
-        "error": "Non è stato possibile riattivare questa versione dell'e-service. Per favore, riprova!"
+        "successArchiving": "Hai riattivato questa versione dell'e-service",
+        "error": "Non è stato possibile riattivare questa versione dell'e-service. Per favore, riprova!",
+        "errorArchiving": "Non è stato possibile riattivare questa versione dell'e-service. Riprova più tardi."
       },
       "confirmDialog": {
         "title": "Conferma riattivazione versione",
@@ -152,6 +190,13 @@
       "outcome": {
         "success": "Le informazioni richieste sono state aggiornate correttamente",
         "error": "Non è stato possibile aggiornare le informazioni richieste. Per favore, riprova!"
+      }
+    },
+    "updateThresholds": {
+      "loading": "Stiamo aggiornando le informazioni",
+      "outcome": {
+        "success": "Hai modificato le soglie di chiamate API dell'attributo certificato",
+        "error": "Non è stato possibile modificare le soglie di chiamate API. Controlla di aver inserito le informazioni corrette."
       }
     },
     "updateAgreementApprovalPolicy": {
@@ -209,7 +254,7 @@
     "updateDescriptorAttributes": {
       "loading": "Stiamo aggiornando gli attributi",
       "outcome": {
-        "success": "Gli attributi {{attributeKind}} sono stati modificati correttamente!",
+        "success": "Gli attributi {{attributeKind}} che hai aggiunto sono stati salvati.",
         "error": "Non è stato possibile modificare gli attributi {{attributeKind}}. Per favore, riprova!"
       }
     },
@@ -250,6 +295,34 @@
       "confirmDialog": {
         "title": "Conferma cancellazione bozza",
         "description": "Cliccando \"conferma\" verrà cancellata la bozza precedentemente creata e non sarà più recuperabile. Una volta cancellata la bozza, potrai procedere con l’aggiornamento dell’istanza alla versione più recente."
+      }
+    },
+    "updateEServiceIsSignalHubEnabled": {
+      "loading": "Stiamo aggiornando l'adesione a Signal Hub",
+      "outcome": {
+        "error": "Non è stato possibile modificare l’adesione a Signal Hub. Per favore, riprova!",
+        "success": "L’adesione a Signal Hub è stata modificata correttamente!"
+      }
+    },
+    "updateEServicePersonalDataFlagAfterPublication": {
+      "loading": "Stiamo aggiornando il trattamento dei dati personali",
+      "outcome": {
+        "error": "Non è stato possibile modificare il trattamento dei dati personali. Per favore, riprova!",
+        "success": "Il trattamento dei dati personali è stato modificato correttamente!"
+      }
+    },
+    "updateEServiceTemplatePersonalDataFlagAfterPublication": {
+      "loading": "Stiamo aggiornando il trattamento dei dati personali",
+      "outcome": {
+        "error": "Non è stato possibile modificare il trattamento dei dati personali. Per favore, riprova!",
+        "success": "Il trattamento dei dati personali è stato modificato correttamente!"
+      }
+    },
+    "updateEServiceDelegationFlagsAfterPublication": {
+      "loading": "Stiamo aggiornando la preferenza sulla fruizione tramite delega",
+      "outcome": {
+        "error": "Non è stato possibile modificare la preferenza sulla fruizione tramite delega. Per favore, riprova!",
+        "success": "La preferenza sulla fruizione tramite delega è stata modificata correttamente!"
       }
     }
   },
@@ -340,6 +413,11 @@
         "description": {
           "default": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione",
           "isDelegated": "Cliccando su \"conferma\", la richiesta di fruizione sarà inoltrata all'erogatore dell'e-service per approvazione e verrà inoltrata una notifica all’ente delegante per conoscenza."
+        },
+        "asyncExchange": {
+          "title": "Prima di richiedere la fruizione",
+          "description": "Questo e-service usa uno scambio dati asincrono, diverso dagli scambi sincroni standard. Per funzionare correttamente, è necessario implementare un’interfaccia di callback fornita dall’erogatore. Per tutte le informazioni, <1>consulta la guida</1>.",
+          "checkbox": "Sono consapevole che è necessaria un’integrazione tecnica"
         }
       }
     },
@@ -506,12 +584,13 @@
     "activateVersion": {
       "loading": "Stiamo pubblicando la finalità",
       "outcome": {
-        "success": "La finalità è ora pubblicata. Attenzione: se il numero di chiamate eccede il limite stabilito dall'erogatore, sarà necessaria una sua approvazione per poter sfruttare quel carico",
-        "error": "Non è stato possibile riattivare la finalità. Per favore, riprova! Se è la prima attivazione, assicurati che tutti i campi richiesti dalla finalità siano compilati"
+        "success": "La finalità è stata pubblicata con successo.",
+        "error": "Non è stato possibile pubblicare la finalità. Assicurati di aver inserito le informazioni corrette e riprova."
       },
       "confirmDialog": {
-        "title": "Conferma attivazione finalità",
-        "description": "Cliccando \"conferma\" questa finalità verrà attivata. Tutti i client associati dal fruitore avranno accesso all'e-service dell'erogatore con il numero di chiamate stabilito"
+        "title": "Pubblica finalità",
+        "description": "Una volta pubblicata, tutti i client associati dal fruitore avranno accesso all'e-service in base al numero di chiamate definito.",
+        "proceedLabel": "Pubblica"
       }
     },
     "archiveVersion": {
@@ -549,6 +628,12 @@
         "error": "Non è stato possibile scaricare il documento dell'analisi del rischio. Per favore, riprova!"
       }
     },
+    "updateRiskAnalysis": {
+      "loading": "Stiamo aggiornando l'analisi del rischio",
+      "outcome": {
+        "error": "Non è stato possibile aggiornare l'analisi del rischio. Per favore, riprova!"
+      }
+    },
     "clone": {
       "loading": "Stiamo clonando la finalità",
       "outcome": {
@@ -572,6 +657,29 @@
       "confirmDialog": {
         "title": "Conferma rimozione client dalla finalità",
         "description": "Il client sarà rimosso da questa finalità. Tutte le chiavi caricate non potranno più essere usate per accedere all'e-service per questa finalità"
+      }
+    },
+    "assignRiskAnalysisReviewer": {
+      "outcome": {
+        "error": "Non è stato possibile assegnare il valutatore. Per favore, riprova!"
+      }
+    },
+    "submitRiskAnalysis": {
+      "loading": "Stiamo inviando l’analisi del rischio al valutatore",
+      "outcome": {
+        "error": "Non è stato possibile inviare l’analisi del rischio al valutatore. Riprova!"
+      }
+    },
+    "signRiskAnalysis": {
+      "loading": "Stiamo approvando l'analisi del rischio",
+      "outcome": {
+        "error": "Non è stato possibile approvare l'analisi del rischio. Per favore, riprova!"
+      }
+    },
+    "rejectRiskAnalysis": {
+      "loading": "Stiamo rigettando l'analisi del rischio",
+      "outcome": {
+        "error": "Non è stato possibile rigettare l'analisi del rischio. Per favore, riprova!"
       }
     }
   },
@@ -635,6 +743,24 @@
         "success": "L'utente è stato rimosso correttamente dal client",
         "error": "Non è stato possibile rimuovere l'utente dal client. Per favore, riprova!"
       }
+    },
+    "setClientAdmin": {
+      "loading": "Stiamo assegnando l'admin API",
+      "outcome": {
+        "success": "L’admin API è stato assegnato correttamente!",
+        "error": "Non è stato possibile assegnare il ruolo di admin API. Per favore, riprova!"
+      }
+    },
+    "removeClientAdmin": {
+      "loading": "Stiamo rimuovendo l'admin API",
+      "outcome": {
+        "success": "L’admin API è stato rimosso correttamente!",
+        "error": "Non è stato possibile rimuovere l’admin API. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma rimozione Admin API",
+        "description": "Cliccando “Conferma” l’utente <strong>{{userName}}</strong> verrà rimosso dal ruolo di Client Admin API. Questo client non potrà più scrivere dati verso le API di Interop fino a quando non verrà selezionato un nuovo admin."
+      }
     }
   },
   "party": {
@@ -657,7 +783,7 @@
     "tokenVerification": {
       "loading": "Stiamo effettuando la verifica. Attendere, prego",
       "outcome": {
-        "error": "C’è stato un errrore nell’elaborazione della richiesta. Per favore, riprova in seguito!"
+        "error": "C’è stato un errore nell’elaborazione della richiesta. Per favore, riprova in seguito!"
       }
     }
   },
@@ -892,7 +1018,7 @@
     "updateDescriptorAttributes": {
       "loading": "Stiamo aggiornando gli attributi",
       "outcome": {
-        "success": "Gli attributi {{attributeKind}} sono stati modificati correttamente!",
+        "success": "Gli attributi {{attributeKind}} che hai aggiunto sono stati salvati.",
         "error": "Non è stato possibile modificare gli attributi {{attributeKind}}. Per favore, riprova!"
       }
     },
@@ -903,8 +1029,10 @@
         "error": "Non è stato possibile pubblicare la nuova versione del template dell'e-service."
       },
       "confirmDialog": {
-        "title": "Conferma pubblicazione bozza",
-        "description": "Una volta pubblicata, una versione del template dell'e-service non è più cancellabile e diventa disponibile nel catalogo dei template degli e-service. Sarà comunque possibile sospenderla, o renderla obsoleta una volta che una nuova versione diventa disponibile."
+        "title": "Pubblica template e-service",
+        "titleNewVersion": "Pubblica nuova versione template e-service",
+        "description": "Una volta pubblicata, questa versione sarà disponibile nel catalogo dei template degli e-service e non potrà più essere cancellata. Potrai comunque sospenderla o renderla obsoleta quando pubblicherai una nuova versione.",
+        "proceedLabel": "Pubblica"
       }
     },
     "deleteVersionDraft": {
@@ -927,6 +1055,185 @@
       "confirmDialog": {
         "title": "Conferma riattivazione versione",
         "description": "Cliccando \"conferma\" questa versione del template di e-service sarà riattivata. Tutti i fruitori che hanno una richiesta di fruizione attiva per questa versione del template di e-service potranno nuovamente usufruirne"
+      }
+    },
+    "updateThresholds": {
+      "loading": "Stiamo modificando le soglie di chiamate API",
+      "outcome": {
+        "success": "Hai modificato le soglie di chiamate API.",
+        "error": "Non è stato possibile modificare le soglie di chiamate API. Controlla di aver inserito le informazioni corrette."
+      }
+    },
+    "updateVoucherLifespan": {
+      "loading": "Stiamo modificando le informazioni richieste",
+      "outcome": {
+        "success": "Le informazioni richieste sono state aggiornate correttamente.",
+        "error": "Non è stato possibile modificare le informazioni richieste. Controlla di aver inserito le informazioni corrette."
+      }
+    },
+    "updateInstance": {
+      "loading": "Stiamo aggiornando l'istanza dell'e-service",
+      "outcome": {
+        "error": "Non è stato possibile aggiornare l'istanza. Verifica di aver compilato i campi richiesti e riprova!"
+      }
+    },
+    "updateInstanceLabel": {
+      "loading": "Stiamo aggiornando la parola identificativa dell'e-service",
+      "outcome": {
+        "error": "Non è stato possibile aggiornare la parola identificativa. Riprova.",
+        "success": "Parola identificativa aggiornata correttamente"
+      }
+    }
+  },
+  "purposeTemplate": {
+    "createDraft": {
+      "loading": "Stiamo creando la bozza",
+      "outcome": {
+        "error": "Non è stato possibile creare la bozza del template di finalità agevolata. Per favore, riprova!"
+      }
+    },
+    "updateDraft": {
+      "loading": "Stiamo aggiornando la bozza",
+      "outcome": {
+        "error": "Non è stato possibile aggiornare la bozza del template di finalità agevolata. Per favore, riprova!"
+      }
+    },
+    "deleteDraft": {
+      "loading": "Stiamo cancellando il template in bozza",
+      "outcome": {
+        "success": "Il template è stato cancellato correttamente",
+        "error": "Non è stato possibile cancellare il template. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma cancellazione del template",
+        "description": "Cliccando \"conferma\" questo template verrà cancellata e non sarà più recuperabile."
+      }
+    },
+    "suspendPurposeTemplate": {
+      "loading": "Stiamo sospendendo il template",
+      "outcome": {
+        "success": "Il template finalità agevolata è stato sospeso correttamente.",
+        "error": "Non è stato possibile sospendere il template. Riprova più tardi."
+      },
+      "confirmDialog": {
+        "title": "Conferma sospensione template",
+        "description": "Cliccando \"conferma\" questo template sarà sospeso. Nessun utilizzatore potrà utilizzare questo template finché non sarà riattivato."
+      }
+    },
+    "activatePurposeTemplate": {
+      "loading": "Stiamo attivando il template",
+      "outcome": {
+        "success": "Il template è ora pubblicato.",
+        "error": "Non è stato possibile riattivare il template. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Conferma riattivazione del template",
+        "description": "Cliccando \"conferma\" questo template verrà riattivato."
+      }
+    },
+    "publishDraft": {
+      "loading": "Stiamo pubblicando il template della finalità agevolata",
+      "outcome": {
+        "success": "Hai creato il template di finalità agevolata.",
+        "error": "Non è stato possibile creare il template di finalità agevolata. Controlla di aver inserito le informazioni corrette."
+      },
+      "confirmDialog": {
+        "title": "Conferma pubblicazione del template",
+        "description": "Cliccando \"conferma\" questo template verrà pubblicato."
+      }
+    },
+    "archivePurposeTemplate": {
+      "loading": "Stiamo archiviando il template",
+      "outcome": {
+        "success": "Il template finalità agevolata è stato archiviato correttamente.",
+        "error": "Non è stato possibile archiviare il template. Riprova più tardi."
+      },
+      "confirmDialog": {
+        "title": "Conferma archiviazione template",
+        "description": "Cliccando \"conferma\" questo template sarà archiviato. Una volta archiviato, il template non potrà più essere utilizzato."
+      }
+    },
+    "addAnnotationToAnswer": {
+      "loading": "Stiamo aggiungendo l'annotazione",
+      "outcome": {
+        "success": "Annotazione aggiunta con successo.",
+        "error": "Non è stato possibile aggiungere l’annotazione. Assicurati di aver inserito le informazioni corrette e riprova."
+      }
+    },
+    "addDocumentsToAnswer": {
+      "loading": "Stiamo aggiungendo i documenti",
+      "outcome": {
+        "success": "I documenti sono stati aggiunti correttamente",
+        "error": "Non è stato possibile aggiungere i documenti. Per favore, riprova!"
+      }
+    },
+    "deleteAnnotation": {
+      "loading": "Stiamo rimuovendo l'annotazione",
+      "outcome": {
+        "success": "L'annotazione è stata rimossa correttamente",
+        "error": "Non è stato possibile rimuovere l'annotazione. Per favore, riprova!"
+      },
+      "confirmDialog": {
+        "title": "Rimuovi annotazione",
+        "description": "Confermi di voler rimuovere questa annotazione?",
+        "proceedLabel": "Rimuovi annotazione",
+        "cancelLabel": "Mantieni annotazione"
+      }
+    },
+    "deleteDocument": {
+      "loading": "Stiamo rimuovendo il documento",
+      "outcome": {
+        "success": "Il documento è stato rimosso correttamente",
+        "error": "Non è stato possibile rimuovere il documento. Per favore, riprova!"
+      }
+    },
+    "downloadDocument": {
+      "loading": "Stiamo scaricando il documento",
+      "outcome": {
+        "error": "Non è stato possibile scaricare il documento. Per favore, riprova!"
+      }
+    },
+    "updatePrettyNameDocument": {
+      "loading": "Stiamo aggiornando il nome del documento",
+      "outcome": {
+        "success": "Il nome del documento è stato aggiornato correttamente",
+        "error": "Non è stato possibile aggiornare il nome del documento. Per favore, riprova!"
+      }
+    },
+    "linkEService": {
+      "loading": "Stiamo collegando l'e-service",
+      "outcome": {
+        "success": "L’e-service è stato salvato correttamente.",
+        "error": "Non è stato possibile salvare questo e-service. Per favore riprova!"
+      }
+    },
+    "unlinkEService": {
+      "loading": "Stiamo rimuovendo l'e-service",
+      "outcome": {
+        "success": "L’e-service è stato rimosso correttamente.",
+        "error": "Non è stato possibile rimuovere questo e-service. Per favore riprova!"
+      }
+    },
+    "linkResource": {
+      "loading": "Stiamo collegando l'elemento al template",
+      "outcome": {
+        "success": "L'elemento è stato collegato correttamente.",
+        "error": "Non è stato possibile collegare l'elemento. Per favore, riprova!",
+        "conflict": "L'elemento risulta già collegato. Abbiamo aggiornato l'elenco."
+      }
+    },
+    "unlinkResource": {
+      "loading": "Stiamo scollegando l'elemento dal template",
+      "outcome": {
+        "success": "L'elemento è stato scollegato correttamente.",
+        "error": "Non è stato possibile scollegare l'elemento. Per favore, riprova!",
+        "conflict": "Il collegamento non è più attivo. Abbiamo aggiornato l'elenco."
+      }
+    },
+    "downloadRiskAnalysis": {
+      "loading": "Stiamo scaricando il documento dell'analisi del rischio",
+      "outcome": {
+        "error": "Non è stato possibile scaricare il documento dell'analisi del rischio. Per favore, riprova!"
       }
     }
   }

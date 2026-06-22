@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Footer, Header } from '@/components/layout'
 import { AppLayout } from '@/components/layout/AppLayout'
 import { PageContainerSkeleton } from '@/components/layout/containers'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useSearchParams } from 'react-router-dom'
 import useScrollTopOnLocationChange from '../../hooks/useScrollTopOnLocationChange'
 import { Box } from '@mui/material'
 import { AuthGuard } from './AuthGuard'
@@ -11,20 +11,35 @@ import TOSAgreement from './TOSAgreement'
 import { useTOSAgreement } from '../../hooks/useTOSAgreement'
 import { ErrorPage } from '@/pages'
 import { Dialog } from '@/components/dialogs'
-import { routes, useCurrentRoute } from '@/router'
-import { useCheckSessionExpired } from '@/router/hooks/useCheckSessionExpired'
+import { routes, useCurrentRoute, useSwitchPathLang } from '@/router'
 import { AuthHooks } from '@/api/auth'
+import { Stack } from '@mui/system'
+import { AllowedLanguage } from '@/router/routes'
 
 function EmptyWrapper({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }
 
 const _RoutesWrapper: React.FC = () => {
+  const switchLang = useSwitchPathLang()
+  const [searchParams] = useSearchParams()
+
+  useEffect(() => {
+    const langParam = searchParams.get('lang')
+    if (langParam !== null) {
+      const language = AllowedLanguage.safeParse(langParam)
+      if (language.success) {
+        switchLang(language.data)
+      } else {
+        console.warn(`Language URL param is not valid: "${langParam}"`)
+      }
+    }
+  }, [searchParams, switchLang])
+
   const { isPublic, routeKey } = useCurrentRoute()
   const { jwt, isSupport, currentRoles, isOrganizationAllowedToProduce } = AuthHooks.useJwt()
 
   useScrollTopOnLocationChange()
-  useCheckSessionExpired(jwt?.exp)
 
   /**
    * If the route is public, we don't need to check the TOS or the user's authorization.
@@ -35,7 +50,7 @@ const _RoutesWrapper: React.FC = () => {
   return (
     <>
       <Header jwt={jwt} isSupport={isSupport} />
-      <Box sx={{ flex: 1 }}>
+      <Stack direction={'column'}>
         <_TOSGuard>
           <AppLayout hideSideNav={!!routes[routeKey].hideSideNav}>
             <ErrorBoundary key={routeKey} FallbackComponent={ErrorPage}>
@@ -52,9 +67,9 @@ const _RoutesWrapper: React.FC = () => {
             </ErrorBoundary>
           </AppLayout>
         </_TOSGuard>
-      </Box>
-      <Footer jwt={jwt} />
-      <Dialog />
+        <Footer jwt={jwt} />
+        <Dialog />
+      </Stack>
     </>
   )
 }

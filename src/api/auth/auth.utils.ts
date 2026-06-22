@@ -11,13 +11,19 @@ export type ParsedJwt = ReturnType<typeof parseJwt>
 export const parseJwt = memoize((token: string | null | undefined) => {
   const jwt = token ? jwtDecode<JwtUser>(token) : undefined
   const currentRoles = jwt ? jwt.organization.roles.map((r) => r.role) : []
+  // According to the domain, if a user has the admin role, they don't have other roles,
+  // which is why we check currentRoles.length === 1
   const isAdmin = currentRoles.length === 1 && currentRoles[0] === 'admin'
   const isOperatorAPI = currentRoles.includes('api')
   const isOperatorSecurity = currentRoles.includes('security')
   const isSupport = currentRoles.includes('support')
+  const isReviewer = currentRoles.includes('reviewer')
+  const isViewer = currentRoles.includes('viewer')
   const isOrganizationAllowedToProduce = !!(
     jwt?.externalId && PRODUCER_ALLOWED_ORIGINS.includes(jwt.externalId.origin)
   )
+
+  const userEmail = jwt?.email
 
   return {
     jwt,
@@ -26,6 +32,9 @@ export const parseJwt = memoize((token: string | null | undefined) => {
     isOperatorAPI,
     isOperatorSecurity,
     isSupport,
+    isReviewer,
+    isViewer,
     isOrganizationAllowedToProduce,
+    userEmail,
   }
 })

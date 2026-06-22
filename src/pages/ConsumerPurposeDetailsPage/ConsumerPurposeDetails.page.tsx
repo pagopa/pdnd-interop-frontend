@@ -2,6 +2,7 @@ import { PurposeQueries } from '@/api/purpose'
 import { PageContainer } from '@/components/layout/containers'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import useGetConsumerPurposesActions from '@/hooks/useGetConsumerPurposesActions'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { Link, useParams } from '@/router'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Alert, Grid, Tab, Typography, Link as MUILink } from '@mui/material'
@@ -19,11 +20,13 @@ import { AuthHooks } from '@/api/auth'
 const ConsumerPurposeDetailsPage: React.FC = () => {
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_DETAILS'>()
   const { t } = useTranslation('purpose')
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt, isViewer } = AuthHooks.useJwt()
 
   const { data: purpose, isLoading: isPurposeLoading } = useQuery(
     PurposeQueries.getSingle(purposeId)
   )
+
+  useMarkNotificationsAsRead(purposeId)
 
   const { data: descriptor, isLoading: isDescriptorLoading } = useQuery({
     ...EServiceQueries.getDescriptorCatalog(
@@ -42,8 +45,9 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
   const isPurposeArchived = purpose?.currentVersion?.state === 'ARCHIVED'
 
   const canAccessClientTab =
-    descriptor?.eservice.isClientAccessDelegable ||
-    purpose?.delegation?.delegate.id !== jwt?.organizationId
+    (descriptor?.eservice.isClientAccessDelegable ||
+      purpose?.delegation?.delegate.id !== jwt?.organizationId) &&
+    !isViewer
 
   const alertProps = useGetPurposeStateAlertProps(
     purpose,
@@ -63,7 +67,7 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
       }}
     >
       {alertProps && (
-        <Alert severity={alertProps.severity} sx={{ mb: 3 }} variant={alertProps.variant}>
+        <Alert severity={alertProps.severity} sx={{ my: 3 }} variant={alertProps.variant}>
           <Trans
             components={{
               1: alertProps.link ? (

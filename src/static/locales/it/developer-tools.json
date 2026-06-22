@@ -1,0 +1,55 @@
+{
+  "backToDeveloperToolsLabel": "Torna ai Tool per lo sviluppo",
+  "developerTools": {
+    "page": {
+      "title": "Tool per lo sviluppo",
+      "description": "Una sezione che contiene alcuni strumenti utili a supporto dello sviluppo",
+      "sectionRiskAnalysisExport": {
+        "title": "Export analisi del rischio",
+        "description": "Esporta e importa in formato .json formattato l’analisi del rischio che compili, pronta per essere utilizzata nelle chiamate di creazione di una finalità nei flussi machine to machine.",
+        "importTooltip": "Disponibile a breve",
+        "importButton": "Importa .json",
+        "exportButton": "Esporta .json"
+      },
+      "sectionDebugClientAssertion": {
+        "title": "Debug Client Assertion",
+        "description": "Lo strumento di debug ti consente di evidenziare eventuali anomalie contenute nella tua client assertion necessaria per l’ottenimento dell’access token.",
+        "button": "Effettua il debug"
+      },
+      "sectionVoucherSimulation": {
+        "title": "Simulatore ottenimento token",
+        "description": "Dopo aver creato e selezionato un client, puoi simulare l’ottenimento di un voucher attraverso questo strumento.",
+        "firstButton": "Simula per e-service",
+        "secondButton": "Simula per Interoperabilità"
+      }
+    }
+  },
+  "riskAnalysisExporterTool": {
+    "page": {
+      "title": "Export analisi del rischio",
+      "description": "Lo strumento di export ti permette di esportare in formato .json formattato l’analisi del rischio che compili, pronta per essere utilizzata nelle chiamate di creazione di una finalità nei flussi machine to machine.",
+      "alertInfo": "La funzionalità di import dell’analisi del rischio sarà disponibile a breve.",
+      "steps": {
+        "riskAnalysis": "Analisi del rischio",
+        "exportGeneration": "Generazione export"
+      }
+    },
+    "jsonExportStep": {
+      "title": "Il tuo export JSON",
+      "successAlert": "L’analisi del rischio è stata compilata in ogni sua parte e ha generato un output formattato correttamente.",
+      "warningAlertTitle": "L’analisi del rischio è stata compilata parzialmente.",
+      "backButton": "Indietro"
+    },
+    "formStep": {
+      "generateCodeButton": "Genera codice",
+      "riskAnalysisSection": {
+        "title": "Analisi del rischio",
+        "description": "Indica per chi stai compilando questa analisi del rischio.",
+        "tenantKindLabel": "Tipologia ente",
+        "publicAdministrationOption": "Pubbliche Amministrazioni",
+        "privateOption": "Gestori di pubblici servizi, Società a controllo pubblico oppure Privati",
+        "warningAlert": "Hai scelto di compilare una analisi del rischio per un tipo di ente diverso dal tuo. Ricorda che le analisi del rischio variano sulla base della tipologia di ente, pertanto quella che stai compilando potrebbe non funzionare per te."
+      }
+    }
+  }
+}

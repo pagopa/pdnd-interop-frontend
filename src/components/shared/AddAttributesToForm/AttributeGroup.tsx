@@ -1,20 +1,34 @@
 import React from 'react'
 import { AttributeContainer, AttributeGroupContainer } from '@/components/layout/containers'
-import type { AttributeKey } from '@/types/attribute.types'
-import { Box, Stack } from '@mui/material'
+import type {
+  AttributeKey,
+  FormDescriptorAttribute,
+  FormDescriptorAttributes,
+} from '@/types/attribute.types'
+import { Box, Divider, Stack, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import AddIcon from '@mui/icons-material/Add'
 import { ButtonNaked } from '@pagopa/mui-italia'
 import { AttributeAutocomplete } from '../AttributeAutocomplete'
-import type { DescriptorAttribute } from '@/api/api.generatedTypes'
+import type {
+  AttributeCertifiedDiscreteComparator,
+  CompactAttribute,
+  EServiceAttributeCertifiedDiscreteConfig,
+} from '@/api/api.generatedTypes'
 import { useFormContext } from 'react-hook-form'
-import type { CreateStepAttributesFormValues } from '@/pages/ProviderEServiceCreatePage/components/EServiceCreateStepAttributes'
+import { useCustomizeThresholdDrawer } from '../CustomizeThresholdDrawer'
+import { FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE } from '@/config/env'
+import {
+  ConfigureCertifiedDiscreteAttributeDrawer,
+  useConfigureCertifiedDiscreteAttributeDrawer,
+} from './ConfigureCertifiedDiscreteAttributeDrawer'
 
 export type AttributeGroupProps = {
-  group: Array<DescriptorAttribute>
+  group: Array<FormDescriptorAttribute>
   groupIndex: number
   attributeKey: AttributeKey
   readOnly: boolean
+  withThreshold?: boolean
   onRemoveAttributesGroup: (groupIndex: number) => void
   onRemoveAttributeFromGroup: (attributeId: string, groupIndex: number) => void
 }
@@ -24,11 +38,22 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
   groupIndex,
   attributeKey,
   readOnly,
+  withThreshold,
   onRemoveAttributesGroup,
   onRemoveAttributeFromGroup,
 }) => {
   const { t } = useTranslation('attribute', { keyPrefix: 'group' })
-  const [isAttributeAutocompleteShown, setIsAttributeAutocompleteShown] = React.useState(false)
+  const { t: tAttribute } = useTranslation('attribute')
+  const [isAttributeAutocompleteVisible, setIsAttributeAutocompleteVisible] = React.useState(
+    group.length === 0
+  )
+  const { open: openCustomizeThresholdDrawer } = useCustomizeThresholdDrawer()
+  const {
+    open: openConfigureDiscreteAttributeDrawer,
+    close: closeConfigureDiscreteAttributeDrawer,
+    attribute,
+    groupIndex: attributeGroupIndex,
+  } = useConfigureCertifiedDiscreteAttributeDrawer()
 
   const handleDeleteAttributesGroup = () => {
     onRemoveAttributesGroup(groupIndex)
@@ -36,63 +61,149 @@ export const AttributeGroup: React.FC<AttributeGroupProps> = ({
 
   const handleDeleteAttributeFromGroup = (attributeId: string) => {
     onRemoveAttributeFromGroup(attributeId, groupIndex)
+    if (group.length === 1) {
+      setIsAttributeAutocompleteVisible(true)
+    }
   }
 
-  const { watch, setValue } = useFormContext<CreateStepAttributesFormValues>()
+  const { watch, setValue, getValues } = useFormContext<{ attributes: FormDescriptorAttributes }>()
   const attributeGroups = watch(`attributes.${attributeKey}`)
 
-  const handleAddAttributeToGroup = (attribute: DescriptorAttribute) => {
+  const handleAddAttributeToGroup = (attribute: CompactAttribute) => {
     const newAttributeGroups = [...attributeGroups]
     newAttributeGroups[groupIndex].push(attribute)
     setValue(`attributes.${attributeKey}`, newAttributeGroups)
-    setIsAttributeAutocompleteShown(false)
+    setIsAttributeAutocompleteVisible(false)
+  }
+
+  const handleSubmitConfigureDiscreteAttributeDrawer = (
+    comparator: AttributeCertifiedDiscreteComparator,
+    threshold: number
+  ) => {
+    if (!attribute || attributeGroupIndex === undefined) return
+
+    const attributes = getValues('attributes')
+    const groups = [...attributes['certified']]
+    const group = groups[attributeGroupIndex]
+
+    const discreteConfig: EServiceAttributeCertifiedDiscreteConfig = {
+      comparator: comparator,
+      threshold: threshold,
+    }
+
+    if (groups[attributeGroupIndex].some((att) => att.id === attribute.id)) {
+      groups[attributeGroupIndex] = group.map((att) =>
+        att.id === attribute.id ? { ...att, discreteConfig: discreteConfig } : att
+      )
+    } else {
+      groups[attributeGroupIndex].push({ ...attribute, discreteConfig: discreteConfig })
+    }
+
+    setValue(`attributes.certified`, groups, {
+      shouldValidate: false,
+    })
+    setIsAttributeAutocompleteVisible(false)
+    closeConfigureDiscreteAttributeDrawer()
   }
 
   return (
-    <AttributeGroupContainer
-      color={readOnly ? 'gray' : 'primary'}
-      title={t('read.provider')}
-      onRemove={!readOnly ? handleDeleteAttributesGroup : undefined}
-    >
-      {group.length > 0 && (
-        <Stack sx={{ listStyleType: 'none', pl: 0, mt: 1, mb: 4 }} component="ul" spacing={1.2}>
-          {group.map((attribute) => (
-            <Box component="li" key={attribute.id}>
-              <AttributeContainer
-                attribute={attribute}
-                onRemove={
-                  !readOnly ? handleDeleteAttributeFromGroup.bind(null, attribute.id) : undefined
+    <>
+      <AttributeGroupContainer
+        color={readOnly ? 'gray' : 'primary'}
+        title={t('title', {
+          number: groupIndex + 1,
+          attributeLabel: tAttribute(`${attributeKey}.label`),
+        })}
+        subheader={
+          <Typography variant="body2" color="text.primary" sx={{ px: 2, pt: 1.5 }}>
+            {t('subtitle')}
+          </Typography>
+        }
+        onRemove={!readOnly ? handleDeleteAttributesGroup : undefined}
+      >
+        {group.length > 0 && (
+          <Stack sx={{ listStyleType: 'none', pl: 0, mt: 1, mb: 4 }} component="ul" spacing={0}>
+            {group.map((attribute, index) => (
+              <React.Fragment key={attribute.id}>
+                {index > 0 && (
+                  <Divider
+                    component="li"
+                    sx={{ my: 1.5, '&::before, &::after': { borderColor: 'divider' } }}
+                  >
+                    <Typography
+                      variant="subtitle2"
+                      color="text.primary"
+                      sx={{ px: 2, fontWeight: 700 }}
+                    >
+                      {t('orSeparator')}
+                    </Typography>
+                  </Divider>
+                )}
+                <Box component="li">
+                  <AttributeContainer
+                    attribute={attribute}
+                    onRemove={
+                      !readOnly
+                        ? handleDeleteAttributeFromGroup.bind(null, attribute.id)
+                        : undefined
+                    }
+                    onCustomizeThreshold={
+                      withThreshold
+                        ? () => openCustomizeThresholdDrawer(attribute, groupIndex)
+                        : undefined
+                    }
+                    onOpenConfigDrawer={
+                      FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE && !readOnly
+                        ? () => openConfigureDiscreteAttributeDrawer(attribute, groupIndex)
+                        : undefined
+                    }
+                  />
+                </Box>
+              </React.Fragment>
+            ))}
+          </Stack>
+        )}
+        {!readOnly && (
+          <>
+            {isAttributeAutocompleteVisible ? (
+              <AttributeAutocomplete
+                attributeKey={attributeKey}
+                onAddAttribute={handleAddAttributeToGroup}
+                alreadySelectedAttributeIds={attributeGroups.reduce(
+                  (acc, group) => [...acc, ...group.map(({ id }) => id)],
+                  [] as Array<string>
+                )}
+                onOpenConfigDrawer={
+                  FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE
+                    ? openConfigureDiscreteAttributeDrawer
+                    : undefined
                 }
+                groupIndex={groupIndex}
+                areCertifiedDiscreteOptionsIncluded={FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE}
               />
-            </Box>
-          ))}
-        </Stack>
+            ) : (
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <ButtonNaked
+                  color="primary"
+                  type="button"
+                  sx={{ fontWeight: 700 }}
+                  readOnly={readOnly}
+                  startIcon={<AddIcon fontSize="small" />}
+                  onClick={() => setIsAttributeAutocompleteVisible(true)}
+                >
+                  {t('addAnotherBtn')}
+                </ButtonNaked>
+              </Box>
+            )}
+          </>
+        )}
+      </AttributeGroupContainer>
+      {FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE && attributeKey === 'certified' && (
+        <ConfigureCertifiedDiscreteAttributeDrawer
+          onSubmit={handleSubmitConfigureDiscreteAttributeDrawer}
+          submitButtonLabel={t('add')}
+        />
       )}
-      {!readOnly && (
-        <>
-          {isAttributeAutocompleteShown ? (
-            <AttributeAutocomplete
-              attributeKey={attributeKey}
-              onAddAttribute={handleAddAttributeToGroup}
-              alreadySelectedAttributeIds={attributeGroups.reduce(
-                (acc, group) => [...acc, ...group.map(({ id }) => id)],
-                [] as Array<string>
-              )}
-            />
-          ) : (
-            <ButtonNaked
-              color="primary"
-              type="button"
-              sx={{ fontWeight: 700 }}
-              readOnly={readOnly}
-              startIcon={<AddIcon fontSize="small" />}
-              onClick={() => setIsAttributeAutocompleteShown(true)}
-            >
-              {t('addBtn')}
-            </ButtonNaked>
-          )}
-        </>
-      )}
-    </AttributeGroupContainer>
+    </>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { PageContainer } from '@/components/layout/containers'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { useTranslation } from 'react-i18next'
 import { EServiceTemplateCatalogGrid } from './components'
 import {
@@ -16,16 +16,20 @@ import type { GetEServiceTemplatesCatalogParams } from '@/api/api.generatedTypes
 
 const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'providerEServiceTemplatesCatalog' })
-  const { t: tTemplate } = useTranslation('template', { keyPrefix: 'list.filters' })
+  const { t: tEServiceTemplate } = useTranslation('eserviceTemplate', { keyPrefix: 'list.filters' })
 
-  const [templateProducersAutocompleteInput, setTemplateProducersAutocompleteInput] =
-    useAutocompleteTextInput()
+  const [
+    eserviceTemplateProducersAutocompleteInput,
+    setEServiceTemplateProducersAutocompleteInput,
+  ] = useAutocompleteTextInput()
 
   const { data: templateProducersOptions = [] } = useQuery({
-    ...TemplateQueries.getProducersTemplateEserviceList({
+    ...EServiceTemplateQueries.getProducersEServiceTemplateList({
       offset: 0,
       limit: 50,
-      q: templateProducersAutocompleteInput ? templateProducersAutocompleteInput : undefined,
+      q: eserviceTemplateProducersAutocompleteInput
+        ? eserviceTemplateProducersAutocompleteInput
+        : undefined,
     }),
     placeholderData: keepPreviousData,
     select: (data) =>
@@ -42,21 +46,21 @@ const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
   >([
     {
       name: 'q',
-      label: tTemplate('nameField.label'),
+      label: tEServiceTemplate('nameField.label'),
       type: 'freetext',
     },
     {
       name: 'creatorsIds',
-      label: tTemplate('templateProviderField.label'),
+      label: tEServiceTemplate('eserviceTemplateProviderField.label'),
       type: 'autocomplete-multiple',
       options: templateProducersOptions,
-      onTextInputChange: setTemplateProducersAutocompleteInput,
+      onTextInputChange: setEServiceTemplateProducersAutocompleteInput,
     },
   ])
   const queryParams = { ...paginationParams, ...filtersParams }
 
   const { data } = useQuery({
-    ...TemplateQueries.getProviderTemplatesCatalogList(queryParams),
+    ...EServiceTemplateQueries.getProviderEServiceTemplatesCatalogList(queryParams),
     placeholderData: keepPreviousData,
   })
 
@@ -75,7 +79,9 @@ const ProviderEServiceTemplatesCatalogPage: React.FC = () => {
 const ProviderEServiceTemplatesCatalogWrapper: React.FC<{
   params: { limit: number; offset: number }
 }> = ({ params }) => {
-  const { data, isFetching } = useQuery(TemplateQueries.getProviderTemplatesCatalogList(params))
+  const { data, isFetching } = useQuery(
+    EServiceTemplateQueries.getProviderEServiceTemplatesCatalogList(params)
+  )
 
   if (!data && isFetching) return <EServiceCatalogGridSkeleton />
 

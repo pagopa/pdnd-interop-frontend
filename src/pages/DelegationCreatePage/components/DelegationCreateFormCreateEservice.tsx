@@ -1,54 +1,49 @@
-import { Alert, FormControlLabel, Switch } from '@mui/material'
+import React from 'react'
+import { Alert, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
-import { useState } from 'react'
-import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
-import { DelegationKind } from '@/api/api.generatedTypes'
+import { RHFTextField, RHFSwitch } from '@/components/shared/react-hook-form-inputs'
+import { useFormContext, useWatch } from 'react-hook-form'
+import type { DelegationKind } from '@/api/api.generatedTypes'
 import { DelegationCreateEServiceFromTemplateAutocomplete } from './DelegationCreateEServiceFromTemplateAutocomplete'
 
 type DelegationCreateFormCreateEserviceProps = {
   delegationKind: DelegationKind
-  onChange: (value: boolean) => void
   handleTemplateNameAutocompleteChange: (eserviceTemplateName: string) => void
 }
 
 export const DelegationCreateFormCreateEservice: React.FC<
   DelegationCreateFormCreateEserviceProps
-> = ({ delegationKind, onChange, handleTemplateNameAutocompleteChange }) => {
+> = ({ delegationKind, handleTemplateNameAutocompleteChange }) => {
   const { t } = useTranslation('party', {
     keyPrefix: 'delegations.create',
   })
 
-  const [isEserviceFromTemplate, setIsEserviceFromTemplate] = useState(false)
-
-  const handleChange = () => {
-    setIsEserviceFromTemplate((prev) => {
-      const updatedState = !prev
-      onChange(updatedState)
-      return updatedState
-    })
-  }
+  const { control } = useFormContext()
+  const isEserviceFromTemplate = useWatch({
+    control,
+    name: 'isEserviceFromTemplate',
+    defaultValue: false,
+  })
 
   return (
     <>
-      <FormControlLabel
-        control={<Switch checked={isEserviceFromTemplate} onChange={handleChange} />}
+      <RHFSwitch
+        name="isEserviceFromTemplate"
         label={t('delegateField.provider.switchEserviceFromTemplate')}
-        labelPlacement="end"
-        componentsProps={{ typography: { variant: 'body2' } }}
+        autoFocus
       />
+
       {isEserviceFromTemplate ? (
-        <>
+        <Stack spacing={3} sx={{ mt: 2 }}>
           <Alert severity="info">{t('delegateField.provider.alertEserviceFromTemplate')}</Alert>
           <DelegationCreateEServiceFromTemplateAutocomplete
             delegationKind={delegationKind}
             handleTemplateNameAutocompleteChange={handleTemplateNameAutocompleteChange}
           />
-        </>
+        </Stack>
       ) : (
         <>
-          {' '}
           <RHFTextField
-            focusOnMount={true}
             name="eserviceName"
             label={t('eserviceField.label')}
             infoLabel={t('eserviceField.infoLabel')}

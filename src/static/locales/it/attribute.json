@@ -6,53 +6,79 @@
   },
   "certified": {
     "label": "Attributi Certificati",
-    "description": "Ovvero attributi certificati da una <1>fonte autoritativa riconosciuta.</1>"
+    "description": "Sono attributi certificati da una <1>fonte autoritativa riconosciuta.</1>",
+    "requirement": "Requisito {{index}} | Attributi Certificati"
   },
   "verified": {
     "label": "Attributi Verificati",
-    "description": "Ovvero attributi verificati <1>da altre organizzazioni per lo stesso fruitore</1> con la possibilità di richiedere una verifica dall’erogatore. Per ogni attributo verifica o revoca..."
+    "description": "Sono attributi verificati <1>da altre organizzazioni</1>, con la possibilità di richiedere una verifica dall’erogatore.",
+    "requirement": "Requisito {{index}} | Attributi Verificati"
   },
   "declared": {
     "label": "Attributi Dichiarati",
-    "description": "Ovvero attributi dichiarati dal fruitore sotto propria responsabilità durante la richiesta di fruizione. Non è necessaria una verifica dell’erogatore."
+    "description": "Sono attributi dichiarati dal fruitore stesso durante la richiesta di fruizione. Non è necessaria una verifica dell’erogatore.",
+    "requirement": "Requisito {{index}} | Attributi Dichiarati"
   },
+  "or": "Oppure",
   "noAttributesRequiredAlert": {
     "provider": "Il tuo ente non richiede attributi {{attributeKey}}",
     "consumer": "L'erogatore non richiede attributi {{attributeKey}}"
   },
+  "noGenericAttributesRequiredAlert": "Questo e-service non richiede attributi {{attributeKey}}",
+  "noAttributesRequiredGenericAlert": "Questo e-service non richiede attributi",
+  "attributesGenericLabel": "Attributi",
+  "noAttributesRequiredTemplate": {
+    "title": "Attributi",
+    "alert": "Questo template di e-service non richiede attributi"
+  },
+  "attributeCardHeader": {
+    "label": "Requisito {{index}} | Attributi {{attributeKey}}"
+  },
   "group": {
     "read": {
-      "provider": "Il fruitore dovrà possedere almeno uno dei seguenti attributi",
-      "consumer": "Il tuo ente dovrà possedere almeno uno dei seguenti attributi"
+      "provider": "Il fruitore deve possedere almeno uno degli attributi di questo requisito.",
+      "consumer": "Il tuo ente dovrà possedere almeno uno degli attributi di questo requisito."
     },
     "manage": {
       "success": {
         "provider": "Il fruitore possiede almeno uno dei seguenti attributi",
-        "consumer": "Il tuo ente possiede almeno uno dei seguenti attributi"
+        "consumer": "Possiedi almeno uno dei seguenti attributi"
       },
       "warning": {
+        "certified": {
+          "provider": "Il fruitore deve possedere almeno uno dei seguenti attributi",
+          "consumer": "Il tuo ente deve possedere almeno uno dei seguenti attributi certificati"
+        },
         "verified": {
           "provider": "Il fruitore deve possedere almeno uno dei seguenti attributi",
-          "consumer": "L'erogatore deve verificare se possiedi almeno uno dei seguenti attributi"
+          "consumer": "L'erogatore deve verificare se possiedi almeno uno di questi attributi."
         },
         "declared": {
           "provider": "Il fruitore deve possedere almeno uno dei seguenti attributi",
-          "consumer": "Il tuo ente deve possedere almeno uno dei seguenti attributi"
+          "consumer": "Dovrai dichiarare di possedere almeno uno dei seguenti attributi."
         }
       },
       "error": {
         "provider": "Il fruitore non possiede nessuno dei seguenti attributi",
-        "consumer": "Il tuo ente non possiede nessuno dei seguenti attributi"
+        "consumer": "Per ora non possiedi nessuno degli attributi indicati"
       },
       "revokedByCertifier": "Attributo revocato dal certificatore",
       "revokedByProducer": "Attributo revocato da un erogatore",
       "revokedByOwnParty": "Attributo revocato dal tuo ente",
       "expirationDate": "Scadenza verifica: {{expirationDate}}"
     },
-    "addBtn": "Aggiungi requisito",
+    "title": "Requisito {{number}} | {{attributeLabel}}",
+    "subtitle": "Il fruitore deve possedere almeno uno degli attributi di questo requisito.",
+    "orSeparator": "OPPURE",
+    "addBtn": "Aggiungi",
+    "addAnotherBtn": "Aggiungi un altro attributo",
     "autocompleteInput": {
-      "label": "Aggiungi attributo al gruppo",
-      "placeholder": "Inserisci nome attributo"
-    }
+      "label": "Aggiungi attributo",
+      "placeholder": "Inserisci nome attributo",
+      "certifiedDiscreteInfoSection": "Per aggiungere questo attributo dovrai configurare alcuni valori"
+    },
+    "or": "oppure",
+    "add": "Aggiungi",
+    "config": "Configura"
   }
 }

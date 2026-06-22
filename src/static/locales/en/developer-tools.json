@@ -1,0 +1,55 @@
+{
+  "backToDeveloperToolsLabel": "Back to Developer Tools",
+  "developerTools": {
+    "page": {
+      "title": "Developer Tools",
+      "description": "A section containing some useful tools to support development",
+      "sectionRiskAnalysisExport": {
+        "title": "Risk Analysis Export",
+        "description": "Export and import in formatted .json format the risk analysis you compile, ready to be used in purpose creation calls in machine-to-machine flows.",
+        "importTooltip": "Available soon",
+        "importButton": "Import .json",
+        "exportButton": "Export .json"
+      },
+      "sectionDebugClientAssertion": {
+        "title": "Debug Client Assertion",
+        "description": "The debug tool allows you to highlight any anomalies contained in your client assertion required to obtain the access token.",
+        "button": "Run debug"
+      },
+      "sectionVoucherSimulation": {
+        "title": "Token obtaining simulator",
+        "description": "After creating and selecting a client, you can simulate obtaining a voucher through this tool.",
+        "firstButton": "Simulate for e-service",
+        "secondButton": "Simulate for Interop"
+      }
+    }
+  },
+  "riskAnalysisExporterTool": {
+    "page": {
+      "title": "Risk Analysis Export",
+      "description": "The export tool allows you to export in formatted .json format the risk analysis you compile, ready to be used in purpose creation calls in machine-to-machine flows.",
+      "alertInfo": "The risk analysis import feature will be available soon.",
+      "steps": {
+        "riskAnalysis": "Risk analysis",
+        "exportGeneration": "Export generation"
+      }
+    },
+    "jsonExportStep": {
+      "title": "Your JSON export",
+      "successAlert": "The risk analysis has been fully completed and has generated a correctly formatted output.",
+      "warningAlertTitle": "The risk analysis has been partially completed.",
+      "backButton": "Back"
+    },
+    "formStep": {
+      "generateCodeButton": "Generate code",
+      "riskAnalysisSection": {
+        "title": "Risk analysis",
+        "description": "Indicate for whom you are compiling this risk analysis.",
+        "tenantKindLabel": "Party type",
+        "publicAdministrationOption": "Public Administrations",
+        "privateOption": "Public service managers, publicly controlled companies, or private entities",
+        "warningAlert": "You have chosen to compile a risk analysis for a party type different from yours. Remember that risk analyses vary based on the party type, therefore the one you are compiling may not work for you."
+      }
+    }
+  }
+}

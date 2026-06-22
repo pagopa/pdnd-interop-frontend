@@ -7,9 +7,14 @@ import { useTranslation } from 'react-i18next'
 type ActionMenuProps = {
   actions: Array<ActionItem>
   iconColor?: ExtendedMUIColor
+  hasIconBorder?: boolean
 }
 
-export const ActionMenu: React.FC<ActionMenuProps> = ({ actions, iconColor = 'primary' }) => {
+export const ActionMenu: React.FC<ActionMenuProps> = ({
+  actions,
+  iconColor = 'primary',
+  hasIconBorder = false,
+}) => {
   const [open, setOpen] = React.useState(false)
   const anchorRef = React.useRef<HTMLButtonElement>(null)
   const compositionButtonId = useId() + '-composition-button'
@@ -52,14 +57,22 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({ actions, iconColor = 'pr
       <IconButton
         ref={anchorRef}
         id={compositionButtonId}
-        sx={{ visibility: actions.length > 0 ? 'visible' : 'hidden' }}
+        sx={{
+          visibility: actions.length > 0 ? 'visible' : 'hidden',
+          border: hasIconBorder ? 2 : undefined,
+          borderRadius: hasIconBorder ? 1 : undefined,
+        }}
         aria-controls={open ? compositionMenuId : undefined}
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
         aria-label={t('iconButtonAriaLabel')}
       >
-        <MoreVertIcon color={iconColor} fontSize="small" />
+        <MoreVertIcon
+          color={iconColor}
+          fontSize="small"
+          sx={{ marginX: hasIconBorder ? 0.5 : 0 }}
+        />
       </IconButton>
       <ClickAwayListener onClickAway={handleClose}>
         <Menu
@@ -75,14 +88,16 @@ export const ActionMenu: React.FC<ActionMenuProps> = ({ actions, iconColor = 'pr
           anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
           transformOrigin={{ vertical: 'top', horizontal: 'right' }}
         >
-          {actions.map(({ label, action }) => (
+          {actions.map(({ label, action, fontColor, icon: Icon }) => (
             <MenuItem
+              sx={{ color: fontColor ?? 'inherit' }}
               key={label}
               onClick={(e) => {
                 action()
                 handleClose(e)
               }}
             >
+              {Icon && <Icon sx={{ marginRight: 1 }} />}
               {label}
             </MenuItem>
           ))}

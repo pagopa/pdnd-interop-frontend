@@ -7,25 +7,25 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { IconLink } from '@/components/shared/IconLink'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
-import { TemplateDownloads } from '@/api/template/template.downloads'
+import { EServiceTemplateDownloads } from '@/api/eserviceTemplate/eserviceTemplate.downloads'
 import type { EServiceDoc, EServiceTemplateVersionDetails } from '@/api/api.generatedTypes'
 import { getDownloadDocumentName } from '@/utils/eservice.utils'
 import { EServiceTemplateUpdateDocumentationDrawer } from '.'
 
 type EServiceTemplateDocumentationSectionProps = {
   readonly?: boolean
-  templateVersion: EServiceTemplateVersionDetails
+  eserviceTemplateVersion: EServiceTemplateVersionDetails
 }
 
 export const EServiceTemplateDocumentationSection: React.FC<
   EServiceTemplateDocumentationSectionProps
-> = ({ templateVersion, readonly }) => {
-  const { t } = useTranslation('template', {
+> = ({ eserviceTemplateVersion, readonly }) => {
+  const { t } = useTranslation('eserviceTemplate', {
     keyPrefix: 'read.sections.technicalInformations',
   })
   const { t: tCommon } = useTranslation('common')
 
-  const docs = [templateVersion.interface, ...templateVersion.docs]
+  const docs = [eserviceTemplateVersion.interface, ...eserviceTemplateVersion.docs]
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
@@ -33,13 +33,13 @@ export const EServiceTemplateDocumentationSection: React.FC<
     openDrawer()
   }
 
-  const downloadDocument = TemplateDownloads.useDownloadVersionDocument()
+  const downloadDocument = EServiceTemplateDownloads.useDownloadVersionDocument()
 
   const handleDownloadDocument = (document: EServiceDoc) => {
     downloadDocument(
       {
-        eServiceTemplateId: templateVersion.eserviceTemplate.id,
-        eServiceTemplateVersionId: templateVersion.id,
+        eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id,
+        eServiceTemplateVersionId: eserviceTemplateVersion.id,
         documentId: document.id,
       },
       getDownloadDocumentName(document)
@@ -87,9 +87,9 @@ export const EServiceTemplateDocumentationSection: React.FC<
       <EServiceTemplateUpdateDocumentationDrawer
         isOpen={isOpen}
         onClose={closeDrawer}
-        templateId={templateVersion.eserviceTemplate.id}
-        templateVersionId={templateVersion.id}
-        templateDocs={templateVersion.docs}
+        templateId={eserviceTemplateVersion.eserviceTemplate.id}
+        templateVersionId={eserviceTemplateVersion.id}
+        templateDocs={eserviceTemplateVersion.docs}
       />
     </>
   )

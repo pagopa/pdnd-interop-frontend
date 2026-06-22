@@ -2,7 +2,7 @@ import { Filters, Pagination, Table, useFilters, usePagination } from '@pagopa/i
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
-import { TemplateQueries } from '@/api/template'
+import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import {
   ProviderEServiceTemplateUsingTenantsTableRow,
   ProviderEServiceTemplateUsingTenantsTableRowSkeleton,
@@ -15,15 +15,16 @@ import { Alert } from '@mui/material'
 
 type ProviderEServiceTemplateUsingTenantsTableProps = {
   eserviceTemplateId: string
-  templateVersions: CompactEServiceTemplateVersion[]
+  eserviceTemplateVersions: CompactEServiceTemplateVersion[]
 }
 
 export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
   ProviderEServiceTemplateUsingTenantsTableProps
-> = ({ eserviceTemplateId, templateVersions }) => {
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+> = ({ eserviceTemplateId, eserviceTemplateVersions }) => {
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
 
-  const { t: tTemplate } = useTranslation('template', { keyPrefix: 'list.filters' })
+  const { t: tTemplate } = useTranslation('eserviceTemplate', { keyPrefix: 'list.filters' })
 
   const { filtersParams, ...filtersHandlers } = useFilters<
     Omit<GetEServiceTemplateInstancesParams, 'limit' | 'offset'>
@@ -45,7 +46,7 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
   const queryParams = { ...paginationParams, ...filtersParams }
 
   const { data: templateInstancesCount } = useQuery({
-    ...TemplateQueries.getProviderTemplateInstancesList({
+    ...EServiceTemplateQueries.getProviderEServiceTemplateInstancesList({
       ...queryParams,
       eserviceTemplateId: eserviceTemplateId,
     }),
@@ -64,11 +65,15 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
         <ProviderEServiceTemplateUsingTenantsTableWrapper
           params={queryParams}
           eserviceTemplateId={eserviceTemplateId}
-          templateVersions={templateVersions}
+          eserviceTemplateVersions={eserviceTemplateVersions}
           noTableData={isDataEmpty && areFiltersEmpty}
         />
       </React.Suspense>
-      <Pagination {...paginationProps} totalPages={getTotalPageCount(templateInstancesCount)} />
+      <Pagination
+        {...paginationProps}
+        rowPerPageOptions={rowPerPageOptions}
+        totalPages={getTotalPageCount(templateInstancesCount)}
+      />
     </>
   )
 }
@@ -76,14 +81,14 @@ export const ProviderEServiceTemplateUsingTenantsTable: React.FC<
 const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
   params: GetEServiceTemplateInstancesParams
   eserviceTemplateId: string
-  templateVersions: CompactEServiceTemplateVersion[]
+  eserviceTemplateVersions: CompactEServiceTemplateVersion[]
   noTableData: boolean
-}> = ({ params, eserviceTemplateId, templateVersions, noTableData }) => {
+}> = ({ params, eserviceTemplateId, eserviceTemplateVersions, noTableData }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'table.headData' })
-  const { t } = useTranslation('template', { keyPrefix: 'list.usingTenantTable' })
+  const { t } = useTranslation('eserviceTemplate', { keyPrefix: 'list.usingTenantTable' })
 
   const { data: templateInstances } = useSuspenseQuery(
-    TemplateQueries.getProviderTemplateInstancesList({
+    EServiceTemplateQueries.getProviderEServiceTemplateInstancesList({
       ...params,
       eserviceTemplateId: eserviceTemplateId,
     })
@@ -91,8 +96,10 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
 
   const headLabels = [
     tCommon('eserviceTemplateUsingTenant'),
+    tCommon('eserviceTemplateInstanceLabel'),
     tCommon('eserviceTemplateInstanceVersion'),
     tCommon('eserviceTemplateInstanceState'),
+    '',
   ]
   const isEmpty = templateInstances.results.length === 0
 
@@ -108,9 +115,10 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
         >
           {templateInstances?.results.map((instance) => (
             <ProviderEServiceTemplateUsingTenantsTableRow
+              type="provider"
               key={instance.id}
               instance={instance}
-              templateVersions={templateVersions}
+              eserviceTemplateVersions={eserviceTemplateVersions}
             />
           ))}
         </Table>
@@ -122,7 +130,13 @@ const ProviderEServiceTemplateUsingTenantsTableWrapper: React.FC<{
 export const ProviderEServiceTemplateUsingTenantsTableSkeleton: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
 
-  const headLabels = [tCommon('table.headData.eserviceTemplateUsingTenant'), '']
+  const headLabels = [
+    tCommon('table.headData.eserviceTemplateUsingTenant'),
+    tCommon('table.headData.eserviceTemplateInstanceLabel'),
+    tCommon('table.headData.eserviceTemplateInstanceVersion'),
+    tCommon('table.headData.eserviceTemplateInstanceState'),
+    '',
+  ]
   return (
     <Table headLabels={headLabels}>
       <ProviderEServiceTemplateUsingTenantsTableRowSkeleton />

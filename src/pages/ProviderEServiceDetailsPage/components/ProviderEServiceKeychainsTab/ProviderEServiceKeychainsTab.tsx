@@ -17,13 +17,12 @@ export const ProviderEserviceKeychainsTab: React.FC = () => {
   const { t: tCommon } = useTranslation('common')
   const { eserviceId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
   const queryClient = useQueryClient()
-  const { jwt, isAdmin } = AuthHooks.useJwt()
+  const { isAdmin } = AuthHooks.useJwt()
 
   const { isOpen, closeDrawer, openDrawer } = useDrawerState()
 
   const { data: excludeKeychainsIdsList = [] } = useQuery({
     ...KeychainQueries.getKeychainsList({
-      producerId: jwt?.organizationId as string,
       eserviceId: eserviceId,
       limit: 50,
       offset: 0,
@@ -46,7 +45,6 @@ export const ProviderEserviceKeychainsTab: React.FC = () => {
       KeychainQueries.getKeychainsList({
         limit: 50,
         offset: 0,
-        producerId: jwt?.organizationId as string,
       })
     )
   }

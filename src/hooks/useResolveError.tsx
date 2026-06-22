@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { isRouteErrorResponse } from 'react-router-dom'
 import { Button, TextField, Typography } from '@mui/material'
@@ -11,12 +11,16 @@ import {
   UnauthorizedError,
 } from '@/utils/errors.utils'
 import type { FallbackProps } from 'react-error-boundary'
-import { FE_LOGIN_URL, isDevelopment, SELFCARE_BASE_URL } from '@/config/env'
+import { APP_MODE, SELFCARE_BASE_URL } from '@/config/env'
 import { CodeBlock } from '@pagopa/interop-fe-commons'
 import { AxiosError } from 'axios'
 import { Stack } from '@mui/system'
-import { assistanceLink } from '@/config/constants'
+import { assistanceLink, STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import { CopyToClipboardButton } from '@pagopa/mui-italia'
+import { parseJwt } from '@/api/auth/auth.utils'
+import { hasSessionExpired } from '@/utils/common.utils'
+import { DialogSessionExpired } from '@/components/dialogs/DialogSessionExpired'
+import { useErrorData } from '@/stores/error-data.store'
 
 type UseResolveErrorReturnType = {
   title: string
@@ -31,7 +35,21 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
 
   let title, description: string | undefined
   let content: JSX.Element | null = null
-  const correlationId = error.response?.data.correlationId
+  const correlationId = error.response?.data?.correlationId
+  const errorCode = error.response?.data?.errors?.[0]?.code
+
+  const { setErrorData } = useErrorData()
+
+  useEffect(() => {
+    if (correlationId) {
+      setErrorData(correlationId, errorCode)
+    }
+  }, [correlationId, errorCode, setErrorData])
+
+  const errorData = {
+    traceId: correlationId,
+    errorCode: errorCode,
+  }
 
   const reloadPageButton = (
     <Button size="small" variant="contained" onClick={() => window.location.reload()}>
@@ -46,7 +64,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
   )
 
   const backToHomeButton = (
-    <Link as="button" variant="contained" to="SUBSCRIBE_CATALOG_LIST">
+    <Link as="button" variant="contained" to="DEFAULT">
       {t('actions.backToHome')}
     </Link>
   )
@@ -77,7 +95,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
       />
       <Button
         target="_blank"
-        href={assistanceLink}
+        href={`${assistanceLink}&data=${JSON.stringify(errorData)}`}
         style={{ backgroundColor: 'transparent', fontWeight: 700 }}
         disableRipple
       >
@@ -89,7 +107,9 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
   if (error instanceof Error) {
     content = (
       <>
-        {isDevelopment && <CodeBlock code={error?.stack || error.message || error?.name} />}
+        {APP_MODE === 'development' && (
+          <CodeBlock code={error?.stack || error.message || error?.name} />
+        )}
         {reloadPageButton}
       </>
     )
@@ -106,7 +126,7 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
     description = t('axiosError.description')
     content = (
       <>
-        {isDevelopment && <CodeBlock code={error.response ?? error} />}
+        {APP_MODE === 'development' && <CodeBlock code={error.response ?? error} />}
         {retryQueryButton}
         {correlationId && correlationIdSection}
       </>
@@ -138,7 +158,13 @@ function useResolveError(fallbackProps: FallbackProps): UseResolveErrorReturnTyp
   }
 
   if (error instanceof UnauthorizedError) {
-    window.location.assign(FE_LOGIN_URL)
+    const sessionToken = window.localStorage.getItem(STORAGE_KEY_SESSION_TOKEN)
+    if (sessionToken) {
+      const exp = parseJwt(sessionToken).jwt?.exp
+      if (hasSessionExpired(exp)) {
+        content = <DialogSessionExpired type="sessionExpired" />
+      }
+    }
   }
 
   return { title, description, content }

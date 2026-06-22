@@ -1,14 +1,14 @@
 import React from 'react'
-import {
-  ClientAddPublicKeyButton,
-  ClientAddPublicKeyButtonSkeleton,
-} from './ClientAddPublicKeyButton'
 import { ClientPublicKeysTable, ClientPublicKeysTableSkeleton } from './ClientPublicKeysTable'
 import { Filters, useFilters, Pagination, usePagination } from '@pagopa/interop-fe-commons'
 import { ClientQueries } from '@/api/client'
 import type { GetClientKeysParams } from '@/api/api.generatedTypes'
 import { useTranslation } from 'react-i18next'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
+import {
+  ClientPublicKeysHeadSection,
+  ClientPublicKeysHeadSectionSkeleton,
+} from './ClientPublicKeysHeadSection'
 
 interface ClientPublicKeysProps {
   clientId: string
@@ -37,7 +37,8 @@ export const ClientPublicKeys: React.FC<ClientPublicKeysProps> = ({ clientId }) 
     },
   ])
 
-  const { paginationParams, paginationProps, getTotalPageCount } = usePagination({ limit: 10 })
+  const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
+    usePagination()
 
   const queryParams = {
     ...filtersParams,
@@ -53,13 +54,17 @@ export const ClientPublicKeys: React.FC<ClientPublicKeysProps> = ({ clientId }) 
 
   return (
     <>
-      <React.Suspense fallback={<ClientAddPublicKeyButtonSkeleton />}>
-        <ClientAddPublicKeyButton clientId={clientId} />
+      <React.Suspense fallback={<ClientPublicKeysHeadSectionSkeleton />}>
+        <ClientPublicKeysHeadSection clientId={clientId} />
       </React.Suspense>
       <Filters {...filtersHandlers} />
       <React.Suspense fallback={<ClientPublicKeysTableSkeleton />}>
         <ClientPublicKeysWrapper params={queryParams} />
-        <Pagination {...paginationProps} totalPages={totalPageCount} />
+        <Pagination
+          {...paginationProps}
+          rowPerPageOptions={rowPerPageOptions}
+          totalPages={totalPageCount}
+        />
       </React.Suspense>
     </>
   )

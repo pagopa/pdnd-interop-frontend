@@ -10,7 +10,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import { match } from 'ts-pattern'
-import { TemplateMutations } from '@/api/template'
+import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
 export function useGetProviderEServiceTemplateActions(
   eServiceTemplateId: string,
@@ -18,18 +18,18 @@ export function useGetProviderEServiceTemplateActions(
   draftVersionId: string | undefined,
   activeVersionState: EServiceTemplateVersionState | undefined,
   draftVersionState: EServiceTemplateVersionState | undefined,
-  mode: EServiceMode | undefined
+  _mode: EServiceMode | undefined
 ): { actions: Array<ActionItemButton> } {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
 
   const { isAdmin, isOperatorAPI } = AuthHooks.useJwt()
   const navigate = useNavigate()
 
-  const { mutate: publishDraft } = TemplateMutations.usePublishVersionDraft()
-  const { mutate: deleteVersionDraft } = TemplateMutations.useDeleteVersionDraft()
-  const { mutate: suspend } = TemplateMutations.useSuspendVersion()
-  const { mutate: reactivate } = TemplateMutations.useReactivateVersion()
-  const { mutate: createNewVersionDraft } = TemplateMutations.useCreateNewVersionDraft()
+  const { mutate: publishDraft } = EServiceTemplateMutations.usePublishVersionDraft()
+  const { mutate: deleteVersionDraft } = EServiceTemplateMutations.useDeleteVersionDraft()
+  const { mutate: suspend } = EServiceTemplateMutations.useSuspendVersion()
+  const { mutate: reactivate } = EServiceTemplateMutations.useReactivateVersion()
+  const { mutate: createNewVersionDraft } = EServiceTemplateMutations.useCreateNewVersionDraft()
 
   const state = activeVersionState ?? draftVersionState ?? 'DRAFT'
   const hasVersionDraft = !!draftVersionId
@@ -90,7 +90,7 @@ export function useGetProviderEServiceTemplateActions(
       onSuccess({ id: templateVersionId }) {
         navigate('PROVIDE_ESERVICE_TEMPLATE_EDIT', {
           params: { eServiceTemplateId, eServiceTemplateVersionId: templateVersionId },
-          state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
+          state: { stepIndexDestination: 0 },
         })
       },
     })

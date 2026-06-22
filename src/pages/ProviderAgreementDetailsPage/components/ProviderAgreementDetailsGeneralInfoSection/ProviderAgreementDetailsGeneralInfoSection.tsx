@@ -18,7 +18,7 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
     keyPrefix: 'providerRead.sections.generalInformations',
   })
   const { agreement } = useProviderAgreementDetailsContext()
-  const downloadContract = AgreementDownloads.useDownloadContract()
+  const downloadSignedContract = AgreementDownloads.useDownloadSignedContract()
 
   const isDelegated = Boolean('delegation' in agreement)
 
@@ -55,8 +55,8 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
     })
   }
 
-  const handleDownloadDocument = () => {
-    downloadContract({ agreementId: agreement.id }, `${t('documentation.fileName')}.pdf`)
+  const handleDownloadSignedDocument = () => {
+    downloadSignedContract({ agreementId: agreement.id }, `${t('documentation.fileName')}.pdf`)
   }
 
   const actions = []
@@ -67,7 +67,7 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
       label: t('documentation.link.label'),
       component: 'button',
       type: 'button',
-      onClick: handleDownloadDocument,
+      onClick: handleDownloadSignedDocument,
     })
   }
 

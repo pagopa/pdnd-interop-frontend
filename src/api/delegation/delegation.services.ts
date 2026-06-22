@@ -17,7 +17,7 @@ import type {
 } from '../api.generatedTypes'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { EServiceServices } from '../eservice'
-import { TemplateServices } from '../template'
+import { EServiceTemplateServices } from '../eserviceTemplate'
 
 async function getList(params: GetDelegationsParams) {
   const response = await axiosInstance.get<CompactDelegations>(
@@ -94,6 +94,20 @@ async function downloadDelegationContract({
   return response.data
 }
 
+async function downloadSignedDelegationContract({
+  delegationId,
+  contractId,
+}: {
+  delegationId: string
+  contractId: string
+}) {
+  const response = await axiosInstance.get<File>(
+    `${BACKEND_FOR_FRONTEND_URL}/delegations/${delegationId}/signedContract/${contractId}`,
+    { responseType: 'arraybuffer' }
+  )
+  return response.data
+}
+
 async function createProducerDelegationAndEservice({
   delegateId,
   ...crateDraftPayload
@@ -157,7 +171,7 @@ async function createProducerDelegationAndEserviceFromTemplate({
     eServiceTemplateId,
     ...crateDraftPayload,
   }
-  const response = await TemplateServices.createInstanceFromEServiceTemplate(requestPayload)
+  const response = await EServiceTemplateServices.createInstanceFromEServiceTemplate(requestPayload)
   //!!! Temporary, in order to avoid eventual consistency issues.
   await waitFor(4000)
   const delegationParams = {
@@ -184,4 +198,5 @@ export const DelegationServices = {
   getConsumerDelegatedEservices,
   revokeConsumerDelegation,
   createProducerDelegationAndEserviceFromTemplate,
+  downloadSignedDelegationContract,
 }

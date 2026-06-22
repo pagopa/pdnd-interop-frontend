@@ -1,4 +1,5 @@
 import type {
+  ArchivingSchedule,
   DelegationWithCompactTenants,
   EServiceDescriptorState,
   EServiceMode,
@@ -15,8 +16,12 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import PublishIcon from '@mui/icons-material/Publish'
+import ArchiveIcon from '@mui/icons-material/Archive'
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
+import ReplayCircleFilledIcon from '@mui/icons-material/ReplayCircleFilled'
+import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion'
 import { useDialog } from '@/stores'
-import { match } from 'ts-pattern'
+import { match, P } from 'ts-pattern'
 
 export function useGetProviderEServiceActions(
   eserviceId: string,
@@ -28,14 +33,24 @@ export function useGetProviderEServiceActions(
   eserviceName: string | undefined,
   isNewTemplateVersionAvailable: boolean,
   isTemplateInstance: boolean,
-  delegation?: DelegationWithCompactTenants
-): { actions: Array<ActionItemButton> } {
+  delegation?: DelegationWithCompactTenants,
+  hasPersonalData?: boolean,
+  where?: 'tableRow' | 'detailsPage',
+  archivingSchedule?: ArchivingSchedule,
+  latestDescriptorId?: string,
+  onViewAllVersions?: () => void,
+  isActiveDescriptor?: boolean,
+  isEServiceBeingArchived?: boolean
+): {
+  primaryAction: ActionItemButton | undefined
+  secondaryAction: ActionItemButton | undefined
+  menuActions: Array<ActionItemButton>
+  headerInfoActions: Array<ActionItemButton>
+} {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
+  const { t: tEserviceActions } = useTranslation('eservice', { keyPrefix: 'read.actions' })
   const { t: tDialogApproveDelegatedVersionDraft } = useTranslation('shared-components', {
     keyPrefix: 'dialogApproveDelegatedVersionDraft',
-  })
-  const { t: tConfirmationDialog } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.deleteDraft.confirmDialog',
   })
   const { isAdmin, isOperatorAPI, jwt } = AuthHooks.useJwt()
   const navigate = useNavigate()
@@ -44,9 +59,6 @@ export function useGetProviderEServiceActions(
   const isDelegator = delegation?.delegator.id === jwt?.organizationId
   const isDelegate = delegation?.delegate.id === jwt?.organizationId
 
-  const { mutate: publishDraft } = EServiceMutations.usePublishVersionDraft({
-    isByDelegation: isDelegate,
-  })
   const { mutate: deleteDraft } = EServiceMutations.useDeleteDraft()
   const { mutate: deleteVersionDraft } = EServiceMutations.useDeleteVersionDraft()
   const { mutate: suspend } = EServiceMutations.useSuspendVersion()
@@ -65,7 +77,13 @@ export function useGetProviderEServiceActions(
   const isDraftWaitingForApproval = draftDescriptorState === 'WAITING_FOR_APPROVAL'
 
   // Only admin and operatorAPI can see actions
-  if (!isAdmin && !isOperatorAPI) return { actions: [] }
+  if (!isAdmin && !isOperatorAPI)
+    return {
+      primaryAction: undefined,
+      secondaryAction: undefined,
+      menuActions: [],
+      headerInfoActions: [],
+    }
 
   const deleteDraftAction: ActionItemButton = {
     action: deleteDraft.bind(null, { eserviceId }),
@@ -86,23 +104,54 @@ export function useGetProviderEServiceActions(
   }
 
   const handleSuspend = () => {
-    if (activeDescriptorId) suspend({ eserviceId, descriptorId: activeDescriptorId })
+    if (!activeDescriptorId) return
+    match({ state, scope: archivingSchedule?.scope })
+      .with({ state: 'ARCHIVING', scope: 'ESERVICE' }, () =>
+        openDialog({
+          type: 'suspendArchivingEservice',
+          eserviceId,
+          descriptorId: activeDescriptorId,
+        })
+      )
+      .with({ state: 'ARCHIVING', scope: 'DESCRIPTOR' }, () =>
+        openDialog({
+          type: 'suspendArchivingDescriptor',
+          eserviceId,
+          descriptorId: activeDescriptorId,
+        })
+      )
+      .otherwise(() => suspend({ eserviceId, descriptorId: activeDescriptorId }))
   }
 
   const suspendAction: ActionItemButton = {
     action: handleSuspend,
-    label: t('suspend'),
+    label: tEserviceActions('suspendVersion'),
     icon: PauseCircleOutlineIcon,
-    color: 'error',
   }
 
   const handleReactivate = () => {
-    if (activeDescriptorId) reactivate({ eserviceId, descriptorId: activeDescriptorId })
+    if (!activeDescriptorId) return
+    match({ state, scope: archivingSchedule?.scope })
+      .with({ state: 'ARCHIVING_SUSPENDED', scope: 'ESERVICE' }, () =>
+        openDialog({
+          type: 'reactivateArchivingEservice',
+          eserviceId,
+          descriptorId: activeDescriptorId,
+        })
+      )
+      .with({ state: 'ARCHIVING_SUSPENDED', scope: 'DESCRIPTOR' }, () =>
+        openDialog({
+          type: 'reactivateArchivingDescriptor',
+          eserviceId,
+          descriptorId: activeDescriptorId,
+        })
+      )
+      .otherwise(() => reactivate({ eserviceId, descriptorId: activeDescriptorId }))
   }
 
   const reactivateAction: ActionItemButton = {
     action: handleReactivate,
-    label: t('activate'),
+    label: tEserviceActions('reactivateVersion'),
     icon: PlayCircleOutlineIcon,
   }
 
@@ -125,7 +174,7 @@ export function useGetProviderEServiceActions(
 
   const cloneAction: ActionItemButton = {
     action: handleClone,
-    label: t('clone'),
+    label: tEserviceActions('cloneEservice'),
     icon: ContentCopyIcon,
   }
 
@@ -136,7 +185,6 @@ export function useGetProviderEServiceActions(
         onSuccess({ id }) {
           navigate('PROVIDE_ESERVICE_EDIT', {
             params: { eserviceId, descriptorId: id },
-            state: { stepIndexDestination: mode === 'RECEIVE' ? 2 : 1 },
           })
         },
       }
@@ -145,9 +193,78 @@ export function useGetProviderEServiceActions(
 
   const createNewDraftAction: ActionItemButton = {
     action: handleCreateNewDraft,
-    label: t('createNewDraft'),
+    label: tEserviceActions('createNewVersion'),
     icon: FiberNewIcon,
   }
+
+  const handleArchiveDescriptor = () => {
+    if (activeDescriptorId) {
+      openDialog({ type: 'archiveVersion', eserviceId, descriptorId: activeDescriptorId })
+    }
+  }
+
+  const archiveDescriptorAction: ActionItemButton = {
+    action: handleArchiveDescriptor,
+    label: tEserviceActions('archiveVersion'),
+    icon: ArchiveIcon,
+  }
+
+  const handleCancelArchivingDescriptor = () => {
+    if (activeDescriptorId) {
+      openDialog({ type: 'cancelVersionArchiving', eserviceId, descriptorId: activeDescriptorId })
+    }
+  }
+
+  const cancelArchivingDescriptorAction: ActionItemButton = {
+    action: handleCancelArchivingDescriptor,
+    label: tEserviceActions('cancelArchivingVersion'),
+    icon: CancelOutlinedIcon,
+  }
+
+  const handleArchiveEservice = () => {
+    openDialog({ type: 'archiveEservice', eserviceId })
+  }
+
+  const archiveEserviceAction: ActionItemButton = {
+    action: handleArchiveEservice,
+    label: tEserviceActions('archiveEservice'),
+    icon: ArchiveIcon,
+  }
+
+  const handleCancelArchivingEservice = () => {
+    openDialog({ type: 'cancelEserviceArchiving', eserviceId })
+  }
+
+  const cancelArchivingEserviceAction: ActionItemButton = {
+    action: handleCancelArchivingEservice,
+    label: tEserviceActions('cancelArchivingEservice'),
+    icon: CancelOutlinedIcon,
+    variant: 'contained',
+  }
+
+  const handleViewLatestVersion = () => {
+    if (latestDescriptorId) {
+      navigate('PROVIDE_ESERVICE_MANAGE', {
+        params: { eserviceId, descriptorId: latestDescriptorId },
+      })
+    }
+  }
+
+  const viewLatestVersionAction: ActionItemButton = {
+    action: handleViewLatestVersion,
+    label: tEserviceActions('viewLatestVersion'),
+    icon: ReplayCircleFilledIcon,
+  }
+
+  const viewAllVersionsItems: Array<ActionItemButton> = onViewAllVersions
+    ? [
+        {
+          action: onViewAllVersions,
+          label: tEserviceActions('viewAllVersions'),
+          icon: AutoAwesomeMotionIcon,
+        },
+      ]
+    : []
 
   const handleEditDraft = () => {
     if (draftDescriptorId) {
@@ -236,7 +353,7 @@ export function useGetProviderEServiceActions(
 
   const upgradeEServiceAction: ActionItemButton = {
     action: handleUpgradeEService,
-    label: t('updateIstance'),
+    label: t('updateInstance'),
     icon: FiberNewIcon,
   }
 
@@ -936,9 +1053,14 @@ export function useGetProviderEServiceActions(
     DEPRECATED: isDelegator ? [] : [suspendAction],
     DRAFT: draftActions,
     SUSPENDED: fromTemplateSuspendActions,
-    WAITING_FOR_APPROVAL: isDelegator
-      ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
-      : [],
+    WAITING_FOR_APPROVAL:
+      isDelegator && where !== 'tableRow'
+        ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+        : isDelegator && where === 'tableRow' && !hasPersonalData
+          ? [rejectDelegatedVersionDraftAction]
+          : [],
+    ARCHIVING: [],
+    ARCHIVING_SUSPENDED: [],
   }
 
   const EServiceFromTemplateOperatorAPIActions: Record<
@@ -950,9 +1072,14 @@ export function useGetProviderEServiceActions(
     DEPRECATED: [],
     DRAFT: draftActions,
     SUSPENDED: fromTemplateSuspendActions,
-    WAITING_FOR_APPROVAL: isDelegator
-      ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
-      : [],
+    WAITING_FOR_APPROVAL:
+      isDelegator && where !== 'tableRow'
+        ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+        : isDelegator && where === 'tableRow' && !hasPersonalData
+          ? [rejectDelegatedVersionDraftAction]
+          : [],
+    ARCHIVING: [],
+    ARCHIVING_SUSPENDED: [],
   }
 
   const adminActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
@@ -961,9 +1088,14 @@ export function useGetProviderEServiceActions(
     DEPRECATED: isDelegator ? [] : [suspendAction],
     DRAFT: draftActions,
     SUSPENDED: suspendedActions,
-    WAITING_FOR_APPROVAL: isDelegator
-      ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
-      : [],
+    WAITING_FOR_APPROVAL:
+      isDelegator && where !== 'tableRow'
+        ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+        : isDelegator && where === 'tableRow' && !hasPersonalData
+          ? [rejectDelegatedVersionDraftAction]
+          : [],
+    ARCHIVING: isDelegator ? [] : [suspendAction, cloneAction],
+    ARCHIVING_SUSPENDED: isDelegator ? [] : [reactivateAction, cloneAction],
   }
 
   const operatorAPIActions: Record<EServiceDescriptorState, Array<ActionItemButton>> = {
@@ -972,9 +1104,14 @@ export function useGetProviderEServiceActions(
     DEPRECATED: [],
     DRAFT: draftActions,
     SUSPENDED: suspendedActions,
-    WAITING_FOR_APPROVAL: isDelegator
-      ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
-      : [],
+    WAITING_FOR_APPROVAL:
+      isDelegator && where !== 'tableRow'
+        ? [approveDelegatedVersionDraftAction, rejectDelegatedVersionDraftAction]
+        : isDelegator && where === 'tableRow' && !hasPersonalData
+          ? [rejectDelegatedVersionDraftAction]
+          : [],
+    ARCHIVING: [],
+    ARCHIVING_SUSPENDED: [],
   }
 
   const availableClassicEServiceAction = isAdmin ? adminActions[state] : operatorAPIActions[state]
@@ -986,5 +1123,128 @@ export function useGetProviderEServiceActions(
     ? availableFromTemplateEserviceAction
     : availableClassicEServiceAction
 
-  return { actions: availableAction }
+  const isHappyPathDetailsPage =
+    where === 'detailsPage' &&
+    (isAdmin || isOperatorAPI) &&
+    !isDelegator &&
+    !isDelegate &&
+    !isTemplateInstance
+
+  if (!isHappyPathDetailsPage) {
+    return {
+      primaryAction: undefined,
+      secondaryAction: undefined,
+      menuActions:
+        where === 'detailsPage' ? [...availableAction, ...viewAllVersionsItems] : availableAction,
+      headerInfoActions: [],
+    }
+  }
+
+  const archivingScope = archivingSchedule?.scope
+
+  type Slots = {
+    primary: ActionItemButton | undefined
+    header: Array<ActionItemButton>
+    menu: Array<ActionItemButton>
+  }
+
+  const emptySlots = (): Slots => ({ primary: undefined, header: [], menu: [] })
+
+  const newVersionAction = hasVersionDraft ? editDraftAction : createNewDraftAction
+
+  const menuClassic = [cloneAction, archiveEserviceAction, ...viewAllVersionsItems]
+  const menuWithNewVersion = isEServiceBeingArchived
+    ? [cloneAction, ...viewAllVersionsItems]
+    : [newVersionAction, cloneAction, archiveEserviceAction, ...viewAllVersionsItems]
+  const menuEserviceArchiving = [cloneAction, ...viewAllVersionsItems]
+  const menuArchivedEserviceActive = [
+    newVersionAction,
+    cloneAction,
+    archiveEserviceAction,
+    ...viewAllVersionsItems,
+  ]
+  const menuArchivedEserviceArchived = [cloneAction, ...viewAllVersionsItems]
+
+  const slots: Slots = match({ state, archivingScope, isActiveDescriptor, isEServiceBeingArchived })
+    .with({ state: 'PUBLISHED' }, () => ({
+      primary: undefined,
+      header: [suspendAction, newVersionAction],
+      menu: menuClassic,
+    }))
+    .with({ state: 'DEPRECATED' }, () => ({
+      primary: undefined,
+      header: [suspendAction, archiveDescriptorAction],
+      menu: menuWithNewVersion,
+    }))
+    .with({ state: 'SUSPENDED', isActiveDescriptor: true }, () => ({
+      primary: undefined,
+      header: [reactivateAction, newVersionAction],
+      menu: menuClassic,
+    }))
+    .with({ state: 'SUSPENDED' }, () => ({
+      primary: undefined,
+      header: [reactivateAction, archiveDescriptorAction],
+      menu: menuWithNewVersion,
+    }))
+    .with({ state: 'ARCHIVED' }, () => ({
+      primary: undefined,
+      header: latestDescriptorId ? [viewLatestVersionAction] : [],
+      menu:
+        latestDescriptorId && !isEServiceBeingArchived
+          ? menuArchivedEserviceActive
+          : menuArchivedEserviceArchived,
+    }))
+    .with({ state: 'ARCHIVING', archivingScope: 'ESERVICE' }, () => ({
+      primary: cancelArchivingEserviceAction,
+      header: [suspendAction],
+      menu: menuEserviceArchiving,
+    }))
+    .with(
+      { state: 'ARCHIVING', archivingScope: 'DESCRIPTOR', isActiveDescriptor: true },
+      emptySlots
+    )
+    .with(
+      { state: 'ARCHIVING', archivingScope: 'DESCRIPTOR', isEServiceBeingArchived: true },
+      () => ({
+        primary: cancelArchivingEserviceAction,
+        header: [suspendAction, cancelArchivingDescriptorAction],
+        menu: menuWithNewVersion,
+      })
+    )
+    .with({ state: 'ARCHIVING' }, () => ({
+      primary: undefined,
+      header: [suspendAction, cancelArchivingDescriptorAction],
+      menu: menuWithNewVersion,
+    }))
+    .with({ state: 'ARCHIVING_SUSPENDED', archivingScope: 'ESERVICE' }, () => ({
+      primary: cancelArchivingEserviceAction,
+      header: [reactivateAction],
+      menu: menuEserviceArchiving,
+    }))
+    .with(
+      { state: 'ARCHIVING_SUSPENDED', archivingScope: 'DESCRIPTOR', isActiveDescriptor: true },
+      emptySlots
+    )
+    .with(
+      { state: 'ARCHIVING_SUSPENDED', archivingScope: 'DESCRIPTOR', isEServiceBeingArchived: true },
+      () => ({
+        primary: cancelArchivingEserviceAction,
+        header: [reactivateAction, cancelArchivingDescriptorAction],
+        menu: menuWithNewVersion,
+      })
+    )
+    .with({ state: 'ARCHIVING_SUSPENDED' }, () => ({
+      primary: undefined,
+      header: [reactivateAction, cancelArchivingDescriptorAction],
+      menu: menuWithNewVersion,
+    }))
+    .with({ state: P.union('DRAFT', 'WAITING_FOR_APPROVAL') }, emptySlots)
+    .exhaustive()
+
+  return {
+    primaryAction: slots.primary,
+    secondaryAction: undefined,
+    menuActions: slots.menu,
+    headerInfoActions: slots.header,
+  }
 }

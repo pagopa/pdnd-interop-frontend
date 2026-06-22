@@ -1,20 +1,16 @@
-import type {
-  CatalogEServiceDescriptor,
-  CertifiedTenantAttribute,
-  DeclaredTenantAttribute,
-  VerifiedTenantAttribute,
-} from '@/api/api.generatedTypes'
+import type { CatalogEServiceDescriptor, TenantAttributes } from '@/api/api.generatedTypes'
 import { renderHook } from '@testing-library/react'
 import type { Mock } from 'vitest'
 import { vi } from 'vitest'
 import { useDescriptorAttributesPartyOwnership } from '../useDescriptorAttributesPartyOwnership'
 import { createMockEServiceDescriptorCatalog } from '@/../__mocks__/data/eservice.mocks'
 import { mockUseJwt } from '@/utils/testing.utils'
+import type * as ReactQuery from '@tanstack/react-query'
 
 mockUseJwt()
 
 vi.mock('@tanstack/react-query', async (importOriginal) => ({
-  ...(await importOriginal<typeof import('@tanstack/react-query')>()),
+  ...(await importOriginal<typeof ReactQuery>()),
   useQuery: vi.fn(),
   useQueries: vi.fn(),
 }))
@@ -28,9 +24,9 @@ const mockUseGetDescriptorCatalog = (descriptor: CatalogEServiceDescriptor | und
 }
 
 const mockUseGetPartyAttributes = (
-  certified: CertifiedTenantAttribute[] | undefined,
-  verified: VerifiedTenantAttribute[] | undefined,
-  declared: DeclaredTenantAttribute[] | undefined
+  certified: TenantAttributes['certified'] | undefined,
+  verified: TenantAttributes['verified'] | undefined,
+  declared: TenantAttributes['declared'] | undefined
 ) => {
   ;(useQueries as Mock).mockReturnValue([
     { data: certified ? { attributes: certified } : undefined },

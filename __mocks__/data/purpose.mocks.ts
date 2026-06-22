@@ -2,7 +2,12 @@ import type { Purpose, RiskAnalysisFormConfig } from '@/api/api.generatedTypes'
 import { createMockFactory } from '../../src/utils/testing.utils'
 
 const createMockPurpose = createMockFactory<Purpose>({
-  agreement: { id: '3ec3875a-cf24-450a-b94b-550ca2ec5e86', state: 'ACTIVE', canBeUpgraded: false },
+  agreement: {
+    id: '3ec3875a-cf24-450a-b94b-550ca2ec5e86',
+    state: 'ACTIVE',
+    canBeUpgraded: false,
+    consumerId: '6b16be70-9230-4209-bd1f-7e5ae0eed289',
+  },
   clients: [],
   consumer: { id: '6b16be70-9230-4209-bd1f-7e5ae0eed289', name: 'PagoPa S.p.A.' },
   description: 'Lorem ipsum dolor sit amet...',
@@ -17,6 +22,7 @@ const createMockPurpose = createMockFactory<Purpose>({
     name: 'Test Attributi 2 - Ste',
     producer: { id: '6b16be70-9230-4209-bd1f-7e5ae0eed289', name: 'PagoPa S.p.A.' },
     mode: 'DELIVER',
+    personalData: true,
   },
   id: 'e46c7d27-18a0-40db-b7f9-ae8652355e8e',
   riskAnalysisForm: {
@@ -41,6 +47,7 @@ const createMockPurpose = createMockFactory<Purpose>({
   suspendedByConsumer: false,
   suspendedByProducer: false,
   title: 'Nuova finalità',
+  hasUnreadNotifications: false,
   versions: [
     {
       createdAt: '2023-02-03T07:59:52.458Z',
@@ -71,6 +78,7 @@ const createMockPurpose = createMockFactory<Purpose>({
   isFreeOfCharge: false,
   dailyCallsPerConsumer: 1,
   dailyCallsTotal: 10,
+  isDocumentReady: false,
 })
 
 const createMockRiskAnalysisFormConfig = createMockFactory<RiskAnalysisFormConfig>({
@@ -113,4 +121,207 @@ const createMockRiskAnalysisFormConfig = createMockFactory<RiskAnalysisFormConfi
   ],
 })
 
-export { createMockPurpose, createMockRiskAnalysisFormConfig }
+const createMockPurposeUsesPersonalDataAnswerNo = createMockFactory<Purpose>({
+  id: 'purpose-id',
+  title: 'Test Purpose',
+  consumer: { id: 'consumer-id', name: 'Consumer Name' },
+  eservice: {
+    id: 'eservice-id',
+    name: 'Test Eservice',
+    mode: 'DELIVER',
+    producer: { id: 'producer-id', name: 'Producer Name' },
+    personalData: true,
+    descriptor: {
+      id: 'descriptor-id',
+      state: 'PUBLISHED',
+      version: '1',
+      audience: ['test'],
+    },
+  },
+  agreement: {
+    id: 'agreement-id',
+    state: 'ACTIVE',
+    canBeUpgraded: false,
+    consumerId: 'consumer-id',
+  },
+  riskAnalysisForm: {
+    answers: { usesPersonalData: ['NO'] },
+    version: '3.1',
+    riskAnalysisId: 'risk-analysis-id',
+  },
+  versions: [],
+  clients: [],
+  description: '',
+  isFreeOfCharge: false,
+  dailyCallsPerConsumer: 0,
+  dailyCallsTotal: 0,
+  hasUnreadNotifications: false,
+  isDocumentReady: false,
+})
+
+const createMockPurposeUsesPersonalDataAnswerYes = createMockFactory<Purpose>({
+  id: 'purpose-id',
+  title: 'Test Purpose',
+  consumer: { id: 'consumer-id', name: 'Consumer Name' },
+  eservice: {
+    id: 'eservice-id',
+    name: 'Test Eservice',
+    mode: 'DELIVER',
+    producer: { id: 'producer-id', name: 'Producer Name' },
+    personalData: false,
+    descriptor: {
+      id: 'descriptor-id',
+      state: 'PUBLISHED',
+      version: '1',
+      audience: ['test'],
+    },
+  },
+  agreement: {
+    id: 'agreement-id',
+    state: 'ACTIVE',
+    canBeUpgraded: false,
+    consumerId: 'consumer-id',
+  },
+  riskAnalysisForm: {
+    answers: { usesPersonalData: ['YES'] },
+    version: '3.1',
+    riskAnalysisId: 'risk-analysis-id',
+  },
+  versions: [],
+  clients: [],
+  description: '',
+  isFreeOfCharge: false,
+  dailyCallsPerConsumer: 0,
+  dailyCallsTotal: 0,
+  hasUnreadNotifications: false,
+  isDocumentReady: false,
+  rulesetExpiration: '2030-01-01T00:00:00Z',
+})
+
+const createMockPurposeCallsExceed = createMockFactory<Purpose>({
+  id: 'purpose-id',
+  title: 'Test Purpose',
+  consumer: { id: 'consumer-id', name: 'Consumer Name' },
+  eservice: {
+    id: 'eservice-id',
+    name: 'Test Eservice',
+    mode: 'DELIVER',
+    producer: { id: 'producer-id', name: 'Producer Name' },
+    personalData: false,
+    descriptor: {
+      id: 'descriptor-id',
+      state: 'PUBLISHED',
+      version: '1',
+      audience: ['test'],
+    },
+  },
+  agreement: {
+    id: 'agreement-id',
+    state: 'ACTIVE',
+    canBeUpgraded: false,
+    consumerId: 'consumer-id',
+  },
+  riskAnalysisForm: {
+    answers: { usesPersonalData: ['YES'] },
+    version: '3.1',
+    riskAnalysisId: 'risk-analysis-id',
+  },
+  versions: [
+    {
+      createdAt: '2023-02-03T07:59:52.458Z',
+      dailyCalls: 1,
+      firstActivationAt: '2023-02-03T08:26:43.139Z',
+      id: '3a5c9422-876c-4de8-828a-66586fd68b55',
+      riskAnalysisDocument: {
+        contentType: 'application/pdf',
+        createdAt: '2023-02-03T08:26:43.049Z',
+        id: '3562b028-0193-45fa-acf9-4bbe1ced352a',
+      },
+      state: 'ACTIVE',
+    },
+  ],
+  clients: [],
+  description: '',
+  isFreeOfCharge: false,
+  dailyCallsPerConsumer: 0,
+  currentVersion: {
+    createdAt: '2023-02-03T07:59:52.458Z',
+    dailyCalls: 1,
+    firstActivationAt: '2023-02-03T08:26:43.139Z',
+    id: '3a5c9422-876c-4de8-828a-66586fd68b55',
+    riskAnalysisDocument: {
+      contentType: 'application/pdf',
+      createdAt: '2023-02-03T08:26:43.049Z',
+      id: '3562b028-0193-45fa-acf9-4bbe1ced352a',
+    },
+    state: 'ACTIVE',
+  },
+  dailyCallsTotal: 0,
+  hasUnreadNotifications: false,
+  isDocumentReady: false,
+  rulesetExpiration: undefined,
+})
+
+const createMockPurposeCompatiblePersonalDataYes = createMockFactory<Purpose>({
+  ...createMockPurposeUsesPersonalDataAnswerNo(),
+  riskAnalysisForm: {
+    ...createMockPurposeUsesPersonalDataAnswerNo().riskAnalysisForm!,
+    answers: { usesPersonalData: ['YES'] },
+  },
+})
+
+const createMockPurposeCompatiblePersonalDataNo = createMockFactory<Purpose>({
+  ...createMockPurposeUsesPersonalDataAnswerYes(),
+  riskAnalysisForm: {
+    ...createMockPurposeUsesPersonalDataAnswerYes().riskAnalysisForm!,
+    answers: { usesPersonalData: ['NO'] },
+  },
+})
+
+const createMockPurposeCallsPerConsumerExceed = createMockFactory<Purpose>({
+  ...createMockPurposeCallsExceed(),
+  currentVersion: {
+    id: '1',
+    state: 'ACTIVE',
+    createdAt: '2023-02-03T07:59:52.458Z',
+    dailyCalls: 2,
+  },
+  dailyCallsPerConsumer: 1,
+  dailyCallsTotal: 10,
+})
+
+const createMockPurposeCallsTotalExceed = createMockFactory<Purpose>({
+  ...createMockPurposeCallsExceed(),
+  currentVersion: {
+    id: '1',
+    state: 'ACTIVE',
+    createdAt: '2023-02-03T07:59:52.458Z',
+    dailyCalls: 2,
+  },
+  dailyCallsPerConsumer: 10,
+  dailyCallsTotal: 11,
+})
+
+const createMockPurposeCallsWithoutExceed = createMockFactory<Purpose>({
+  ...createMockPurposeCallsExceed(),
+  currentVersion: {
+    id: '1',
+    state: 'ACTIVE',
+    createdAt: '2023-02-03T07:59:52.458Z',
+    dailyCalls: 1,
+  },
+  dailyCallsPerConsumer: 10,
+  dailyCallsTotal: 100,
+})
+
+export {
+  createMockPurpose,
+  createMockRiskAnalysisFormConfig,
+  createMockPurposeUsesPersonalDataAnswerNo,
+  createMockPurposeUsesPersonalDataAnswerYes,
+  createMockPurposeCompatiblePersonalDataYes,
+  createMockPurposeCompatiblePersonalDataNo,
+  createMockPurposeCallsPerConsumerExceed,
+  createMockPurposeCallsTotalExceed,
+  createMockPurposeCallsWithoutExceed,
+}

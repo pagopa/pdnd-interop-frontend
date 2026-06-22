@@ -103,12 +103,9 @@ export const ConsumerAgreementDetailsVerifiedAttributesSection: React.FC = () =>
                     key={attribute.id}
                     attribute={attribute}
                     chipLabel={getChipLabel(attribute.id)}
-                    checked={isAttributeOwned(
-                      'verified',
-                      attribute.id,
-                      ownedVerifiedAttributes,
-                      agreement?.producer.id
-                    )}
+                    checked={isAttributeOwned('verified', attribute.id, ownedVerifiedAttributes, {
+                      verifierId: agreement?.producer.id,
+                    })}
                   />
                 ))}
               </Stack>

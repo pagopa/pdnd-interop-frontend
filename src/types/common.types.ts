@@ -5,23 +5,28 @@ import type { ButtonProps } from '@mui/material'
 export type PagoPAEnvVars = {
   STAGE: 'DEV' | 'PROD' | 'UAT' | 'ATT' | 'QA' | 'DEV_REF'
   AUTHORIZATION_SERVER_TOKEN_CREATION_URL: string
+  AUTHORIZATION_SERVER_TOKEN_CREATION_ASYNC_URL: string
   BACKEND_FOR_FRONTEND_URL: string
   SELFCARE_LOGIN_URL: string
   INTEROP_RESOURCES_BASE_URL: string
   MIXPANEL_PROJECT_ID: string
-  API_GATEWAY_INTERFACE_URL: string
+  API_GATEWAY_V1_INTERFACE_URL: string
+  API_GATEWAY_V2_INTERFACE_URL: string
   ONETRUST_DOMAIN_SCRIPT_ID: string
   CLIENT_ASSERTION_JWT_AUDIENCE: string
   WELL_KNOWN_URLS: string
   SELFCARE_BASE_URL: string
   PRODUCER_ALLOWED_ORIGINS: string
-  API_SIGNAL_HUB_PUSH_INTERFACE_URL: string
-  API_SIGNAL_HUB_PULL_INTERFACE_URL: string
-  FEATURE_FLAG_SIGNALHUB_WHITELIST: string
-  SIGNALHUB_WHITELIST_PRODUCER: string
-  SIGNALHUB_WHITELIST_CONSUMER: string
-  FEATURE_FLAG_ADMIN_CLIENT_API: string
   FEATURE_FLAG_AGREEMENT_APPROVAL_POLICY_UPDATE: string
+  SIGNALHUB_PERSONAL_DATA_PROCESS_URL: string
+  FEATURE_FLAG_ESERVICE_PERSONAL_DATA: string
+  FEATURE_FLAG_DPOP_CLIENT_ASSERTION_DEBUGGER: string
+  FEATURE_FLAG_DELEGATION_CONSTRAINT_SKIP: string
+  DOCUMENTATION_URL: string
+  AVATAR_BASEPATH: string
+  SELFCARE_PRODUCT_ID: string
+  GRACE_PERIOD_ARCHIVING_ESERVICE: number
+  FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE: string
 }
 
 export type ExtendedWindow = Window & {
@@ -47,13 +52,19 @@ export type Provider = 'provider'
 export type Consumer = 'consumer'
 export type ProviderOrConsumer = Provider | Consumer
 
-export type ActionItem = { action: VoidFunction; label: string }
+export type ActionItem = {
+  action: VoidFunction
+  label: string
+  fontColor?: string
+  icon?: SvgIconComponent
+}
 export type ActionItemButton = ActionItem & {
   color?: ButtonProps['color']
-  icon?: SvgIconComponent
   tooltip?: string
   disabled?: boolean
   variant?: ButtonProps['variant']
+  onPointerEnter?: VoidFunction
+  onFocusVisible?: VoidFunction
 }
 
 export type StepperStepComponentProps = {
@@ -65,9 +76,14 @@ export type StepperStep = {
   label: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   component: React.ElementType<StepperStepComponentProps & any>
+  showRequiredLabel?: boolean
 }
 
 export type InputOption = { label: string | JSX.Element; value: string | number }
+export type InputRadioGroupOption = {
+  label: string | JSX.Element
+  value: string | number | boolean
+}
 
 /**
  * InputDescriptors describes the various labels and messages that can be

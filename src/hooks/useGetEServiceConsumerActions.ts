@@ -1,6 +1,6 @@
 import { AgreementMutations } from '@/api/agreement'
 import type {
-  CatalogEService,
+  AgreementState,
   CatalogEServiceDescriptor,
   DelegationTenant,
 } from '@/api/api.generatedTypes'
@@ -8,7 +8,6 @@ import { useNavigate } from '@/router'
 import type { ActionItemButton } from '@/types/common.types'
 import { useTranslation } from 'react-i18next'
 import {
-  checkIfAlreadySubscribed,
   checkIfcanCreateAgreementDraft,
   checkIfhasAlreadyAgreementDraft,
 } from '@/utils/agreement.utils'
@@ -16,53 +15,115 @@ import { AuthHooks } from '@/api/auth'
 import SendIcon from '@mui/icons-material/Send'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
 import ArticleIcon from '@mui/icons-material/Article'
+import ReplayCircleFilledIcon from '@mui/icons-material/ReplayCircleFilled'
 import noop from 'lodash/noop'
 import { useDialog } from '@/stores'
+import { match } from 'ts-pattern'
 
 function useGetEServiceConsumerActions(
-  eservice?: CatalogEService | CatalogEServiceDescriptor['eservice'],
   descriptor?: CatalogEServiceDescriptor,
   delegators?: Array<DelegationTenant>,
-  isDelegator?: boolean
-) {
+  isDelegator?: boolean,
+  viewLatestVersionTargetId?: string
+): {
+  primaryAction: ActionItemButton | undefined
+  secondaryAction: ActionItemButton | undefined
+  menuActions: Array<ActionItemButton>
+  headerInfoActions: Array<ActionItemButton>
+} {
   const { t } = useTranslation('eservice')
-  const { isAdmin } = AuthHooks.useJwt()
+  const { t: tEserviceActions } = useTranslation('eservice', { keyPrefix: 'read.actions' })
+  const { jwt, isAdmin } = AuthHooks.useJwt()
 
   const navigate = useNavigate()
 
   const { openDialog } = useDialog()
 
-  const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft()
+  const isAsyncExchange = descriptor?.eservice.asyncExchange === true
+
+  const { mutate: createAgreementDraft } = AgreementMutations.useCreateDraft(true, isAsyncExchange)
   const { mutate: submitToOwnEService } = AgreementMutations.useSubmitToOwnEService()
 
-  const isMine = Boolean(eservice?.isMine)
-  const isSubscribed = checkIfAlreadySubscribed(eservice)
-  const hasAgreementDraft = checkIfhasAlreadyAgreementDraft(eservice)
-  const canCreateAgreementDraft = checkIfcanCreateAgreementDraft(eservice, descriptor)
-  const isSuspended = descriptor?.state === 'SUSPENDED'
-
-  const hasCertifiedAttributes = descriptor?.eservice.hasCertifiedAttributes
-
-  const actions: Array<ActionItemButton> = []
-
-  if (!eservice || !descriptor || !isAdmin) return { actions: [] satisfies Array<ActionItemButton> }
-
-  const handleInspectAgreementAction = () => {
-    if (!eservice.agreement) return
-    navigate('SUBSCRIBE_AGREEMENT_READ', {
-      params: {
-        agreementId: eservice.agreement.id,
-      },
-    })
+  const emptyResult = {
+    primaryAction: undefined,
+    secondaryAction: undefined,
+    menuActions: [],
+    headerInfoActions: [],
   }
 
+  if (!descriptor || !isAdmin) return emptyResult
+
+  const isMine = Boolean(descriptor.eservice.isMine)
+  const isSubscribed = descriptor.eservice.isSubscribed
+  const hasAgreementDraft = checkIfhasAlreadyAgreementDraft(descriptor.eservice)
+  const canCreateAgreementDraft = checkIfcanCreateAgreementDraft(jwt?.organizationId, descriptor)
+  const isSuspended = descriptor?.state === 'SUSPENDED'
+
+  const hasCertifiedAttributes = descriptor.eservice.hasCertifiedAttributes
+
+  const inspectableAgreementsStates: AgreementState[] = ['ACTIVE', 'SUSPENDED', 'PENDING']
+  const inspectableAgreements = descriptor.eservice.agreements.filter((agreement) =>
+    inspectableAgreementsStates.includes(agreement.state)
+  )
+
+  const handleInspectAgreementAction = () => {
+    match(inspectableAgreements.length)
+      .with(0, () => {})
+      .with(1, () => {
+        navigate('SUBSCRIBE_AGREEMENT_READ', {
+          params: {
+            agreementId: inspectableAgreements[0].id,
+          },
+        })
+      })
+      .otherwise(() => {
+        openDialog({
+          type: 'selectAgreementConsumer',
+          eservice: {
+            id: descriptor.eservice.id,
+            name: descriptor.eservice.name,
+            producerId: descriptor.eservice.producer.id,
+          },
+          descriptor: {
+            id: descriptor.id,
+            version: descriptor.version,
+          },
+          agreements: descriptor.eservice.agreements,
+          action: 'inspect',
+        })
+      })
+  }
+
+  const editableAgreements = descriptor.eservice.agreements.filter(
+    (agreement) => agreement.state === 'DRAFT'
+  )
+
   const handleEditAgreementAction = () => {
-    if (!eservice.agreement) return
-    navigate('SUBSCRIBE_AGREEMENT_EDIT', {
-      params: {
-        agreementId: eservice.agreement.id,
-      },
-    })
+    match(editableAgreements.length)
+      .with(0, () => {})
+      .with(1, () => {
+        navigate('SUBSCRIBE_AGREEMENT_EDIT', {
+          params: {
+            agreementId: editableAgreements[0].id,
+          },
+        })
+      })
+      .otherwise(() => {
+        openDialog({
+          type: 'selectAgreementConsumer',
+          eservice: {
+            id: descriptor.eservice.id,
+            name: descriptor.eservice.name,
+            producerId: descriptor.eservice.producer.id,
+          },
+          descriptor: {
+            id: descriptor.id,
+            version: descriptor.version,
+          },
+          agreements: descriptor.eservice.agreements,
+          action: 'edit',
+        })
+      })
   }
 
   const handleCreateAgreementDraft = ({
@@ -79,7 +140,7 @@ function useGetEServiceConsumerActions(
     if (isOwnEService) {
       submitToOwnEService(
         {
-          eserviceId: eservice.id,
+          eserviceId: descriptor.eservice.id,
           descriptorId: descriptor.id,
           delegationId: delegationId,
         },
@@ -98,8 +159,8 @@ function useGetEServiceConsumerActions(
      * */
     createAgreementDraft(
       {
-        eserviceName: eservice.name,
-        eserviceId: eservice.id,
+        eserviceName: descriptor.eservice.name,
+        eserviceId: descriptor.eservice.id,
         eserviceVersion: descriptor.version,
         descriptorId: descriptor.id,
         delegationId: delegationId,
@@ -118,56 +179,79 @@ function useGetEServiceConsumerActions(
 
   const handleOpenCreateAgreementDraftDialog = () => {
     openDialog({
-      type: 'createAgreementDraft',
-      eservice: { id: eservice.id, name: eservice.name, producerId: eservice.producer.id },
-      descriptor: { id: descriptor.id, version: descriptor.version },
-      onSubmit: handleCreateAgreementDraft,
+      type: 'selectAgreementConsumer',
+      eservice: {
+        id: descriptor.eservice.id,
+        name: descriptor.eservice.name,
+        producerId: descriptor.eservice.producer.id,
+      },
+      descriptor: {
+        id: descriptor.id,
+        version: descriptor.version,
+      },
+      agreements: descriptor.eservice.agreements,
+      action: 'create',
+      onSubmitCreate: handleCreateAgreementDraft,
     })
   }
 
-  if (isSubscribed) {
-    return {
-      actions: [
-        {
-          action: handleInspectAgreementAction,
-          label: t('tableEServiceCatalog.inspect'),
-          icon: ArticleIcon,
-        },
-      ],
-    }
-  }
+  const inspectAction: ActionItemButton | undefined = isSubscribed
+    ? {
+        action: handleInspectAgreementAction,
+        label: t('tableEServiceCatalog.inspect'),
+        icon: ArticleIcon,
+        variant: 'contained',
+      }
+    : undefined
 
-  if (hasAgreementDraft && !isDelegator) {
-    return {
-      actions: [
-        {
+  const editDraftAction: ActionItemButton | undefined =
+    hasAgreementDraft && !isDelegator
+      ? {
           action: handleEditAgreementAction,
           label: t('tableEServiceCatalog.editDraft'),
           icon: PendingActionsIcon,
-        },
-      ],
-    }
-  }
+          variant: 'contained',
+        }
+      : undefined
 
-  if (
-    (canCreateAgreementDraft && !isDelegator && (delegators?.length === 0 || !delegators)) ||
-    (delegators && delegators?.length > 0)
-  ) {
-    return {
-      actions: [
-        {
-          action:
-            delegators && delegators?.length > 0
-              ? handleOpenCreateAgreementDraftDialog
-              : handleCreateAgreementDraftAction,
-          label: t('tableEServiceCatalog.subscribe'),
-          icon: SendIcon,
-          disabled: isSuspended,
-          tooltip: isSuspended ? t('tableEServiceCatalog.eserviceSuspendedTooltip') : undefined,
-        },
-      ],
-    }
-  }
+  const existingAgreements = descriptor.eservice.agreements.filter(
+    (agreement) => agreement.state !== 'ARCHIVED' && agreement.state !== 'REJECTED'
+  )
+
+  const tenants: DelegationTenant[] = jwt
+    ? [{ id: jwt.organizationId as string, name: jwt.organization.name }, ...(delegators ?? [])]
+    : (delegators ?? [])
+
+  const tenantsWithoutAgreement = tenants.filter(
+    (tenant) => !existingAgreements.some((agreement) => agreement.consumerId === tenant.id)
+  )
+
+  const canShowSubscribe =
+    // If there are more than one tenant without an agreement...
+    tenantsWithoutAgreement.length > 1 ||
+    // ...or there is exactly one tenant without an agreement and it is not the active party...
+    (tenantsWithoutAgreement.length === 1 &&
+      tenantsWithoutAgreement[0].id !== jwt?.organizationId) ||
+    // ...or there is exactly one tenant without an agreement, it is the active party, the user is not a delegator for this eservice and can create the agreement draft
+    (tenantsWithoutAgreement.length === 1 &&
+      tenantsWithoutAgreement[0].id === jwt?.organizationId &&
+      !isDelegator &&
+      canCreateAgreementDraft)
+
+  const subscribeAction: ActionItemButton | undefined = canShowSubscribe
+    ? {
+        action:
+          tenantsWithoutAgreement.length === 1 &&
+          tenantsWithoutAgreement[0].id === jwt?.organizationId
+            ? handleCreateAgreementDraftAction
+            : handleOpenCreateAgreementDraftDialog,
+        label: t('tableEServiceCatalog.subscribe'),
+        icon: SendIcon,
+        variant: 'contained',
+        disabled: isSuspended,
+        tooltip: isSuspended ? t('tableEServiceCatalog.eserviceSuspendedTooltip') : undefined,
+      }
+    : undefined
 
   const shouldShowhasMissingAttributesTooltip =
     // ...the e-service is not owned by the active party...
@@ -175,27 +259,61 @@ function useGetEServiceConsumerActions(
     // ... the party doesn't own all the certified attributes required...
     !hasCertifiedAttributes &&
     // ... the e-service's latest active descriptor is the actual descriptor the user is viewing...
-    eservice.activeDescriptor?.id === descriptor?.id &&
+    descriptor.eservice.activeDescriptor?.id === descriptor?.id &&
     /// ... and it is not archived.
     descriptor?.state !== 'ARCHIVED' &&
     /// ... and it is not delegator
-    !isDelegator
+    !isDelegator &&
+    // ... and is not subscribed yet
+    !isSubscribed &&
+    // ... there are no delegators that can subscribe
+    !(delegators && delegators.length > 0) &&
+    // ... and there is no agreement draft yet
+    !hasAgreementDraft
 
-  if (shouldShowhasMissingAttributesTooltip) {
-    return {
-      actions: [
-        {
+  const subscribeDisabledMissingAttributesAction: ActionItemButton | undefined =
+    shouldShowhasMissingAttributesTooltip
+      ? {
           action: noop,
           label: t('tableEServiceCatalog.subscribe'),
           icon: SendIcon,
+          variant: 'contained',
           disabled: true,
           tooltip: t('tableEServiceCatalog.missingCertifiedAttributesTooltip'),
-        },
-      ],
+        }
+      : undefined
+
+  const handleViewLatestVersion = () => {
+    if (viewLatestVersionTargetId) {
+      navigate('SUBSCRIBE_CATALOG_VIEW', {
+        params: { eserviceId: descriptor.eservice.id, descriptorId: viewLatestVersionTargetId },
+      })
     }
   }
 
-  return { actions }
+  const viewLatestVersionAction: ActionItemButton | undefined = viewLatestVersionTargetId
+    ? {
+        action: handleViewLatestVersion,
+        label: tEserviceActions('viewLatestVersion'),
+        icon: ReplayCircleFilledIcon,
+      }
+    : undefined
+
+  const primaryAction: ActionItemButton | undefined =
+    inspectAction ?? editDraftAction ?? subscribeAction ?? subscribeDisabledMissingAttributesAction
+
+  const hasPrimaryAgreementAction = Boolean(inspectAction ?? editDraftAction)
+  const secondaryAction: ActionItemButton | undefined =
+    hasPrimaryAgreementAction && subscribeAction
+      ? { ...subscribeAction, variant: 'outlined' }
+      : undefined
+
+  return {
+    primaryAction,
+    secondaryAction,
+    menuActions: [],
+    headerInfoActions: viewLatestVersionAction ? [viewLatestVersionAction] : [],
+  }
 }
 
 export default useGetEServiceConsumerActions

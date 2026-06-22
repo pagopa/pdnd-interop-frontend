@@ -18,6 +18,7 @@ import identity from 'lodash/identity'
 import isEqual from 'lodash/isEqual'
 import type { ControllerProps } from 'react-hook-form/dist/types/controller'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
+import { theme } from '@pagopa/mui-italia'
 
 export type RHFAutocompleteInput<T> = { label: string; value: T }
 
@@ -32,6 +33,7 @@ export type RHFAutocompleteBaseProps<
   labelType?: 'external' | 'shrink'
   infoLabel?: string
   focusOnMount?: boolean
+  placeholder?: TextFieldProps['placeholder']
   getOptionValue?: (option: AutocompleteValue<T, Multiple, DisableClearable, FreeSolo>) => unknown
   variant?: TextFieldProps['variant']
   rules?: ControllerProps['rules']
@@ -118,9 +120,15 @@ export function _RHFAutocompleteBase<
                 <TextField
                   variant={variant}
                   error={!!error}
-                  placeholder={placeholder ?? '...'}
+                  required={Boolean(rules?.required)}
+                  placeholder={placeholder}
                   {...params}
                   autoFocus={focusOnMount}
+                  sx={{
+                    '& .MuiFormLabel-asterisk': {
+                      color: rules?.required ? theme.palette.error.dark : 'inherit',
+                    },
+                  }}
                   InputLabelProps={{
                     ...(labelType === 'external'
                       ? {
@@ -133,7 +141,7 @@ export function _RHFAutocompleteBase<
                             pointerEvents: 'auto',
                           },
                         }
-                      : { shrink: true }),
+                      : {}),
                     ...params.InputLabelProps,
                   }}
                   InputProps={{

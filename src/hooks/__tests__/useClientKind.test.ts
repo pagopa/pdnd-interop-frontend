@@ -7,11 +7,11 @@ import { useClientKind } from '../useClientKind'
 function renderUseGetClientActionsHook(clientKind?: ClientKind) {
   const memoryHistory = createMemoryHistory()
 
-  memoryHistory.push('/it/fruizione/catalogo-e-service')
+  memoryHistory.push('/it/catalogo-e-service')
 
-  if (clientKind === 'API') memoryHistory.push('/it/fruizione/interop-m2m')
+  if (clientKind === 'API') memoryHistory.push('/it/gestione-client/api-interop')
 
-  if (clientKind === 'CONSUMER') memoryHistory.push('/it/fruizione/client')
+  if (clientKind === 'CONSUMER') memoryHistory.push('/it/gestione-client/api-e-service')
 
   return renderHookWithApplicationContext(
     () => useClientKind(),

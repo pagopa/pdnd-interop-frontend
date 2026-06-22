@@ -7,13 +7,21 @@ import { AuthHooks } from '@/api/auth'
 import { UpdatePartyMailDrawer } from './UpdatePartyMailDrawer'
 import EditIcon from '@mui/icons-material/Edit'
 import { TenantHooks } from '@/api/tenant'
+import { NotificationQueries } from '@/api/notification'
+import { useQuery } from '@tanstack/react-query'
 
 export const PartyContactsSection: React.FC = () => {
   const { t } = useTranslation('party', { keyPrefix: 'contacts' })
   const { t: tCommon } = useTranslation('common')
+  const { t: tNotification } = useTranslation('notification', { keyPrefix: 'tenantPage' })
+
   const { isAdmin } = AuthHooks.useJwt()
 
   const { data: user } = TenantHooks.useGetActiveUserParty()
+  const { data: tenantEmailNotificationConfigs } = useQuery({
+    ...NotificationQueries.getTenantNotificationConfigs(),
+    enabled: isAdmin,
+  })
   const email = user.contactMail
 
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
@@ -47,13 +55,29 @@ export const PartyContactsSection: React.FC = () => {
         >
           <Stack spacing={2}>
             <InformationContainer label={t('mailField.label')} content={email?.address || 'n/a'} />
+            {isAdmin && (
+              <InformationContainer
+                label={tNotification('label')}
+                content={
+                  tenantEmailNotificationConfigs?.enabled
+                    ? tNotification('active')
+                    : tNotification('inactive')
+                }
+              />
+            )}
+
             <InformationContainer
               label={t('descriptionField.label')}
               content={email?.description || 'n/a'}
               direction="column"
             />
           </Stack>
-          <UpdatePartyMailDrawer isOpen={isDrawerOpen} onClose={onCloseDrawer} email={email} />
+          <UpdatePartyMailDrawer
+            isOpen={isDrawerOpen}
+            onClose={onCloseDrawer}
+            email={email}
+            enabledTenantNotificationConfigEmail={tenantEmailNotificationConfigs?.enabled}
+          />
         </SectionContainer>
       </Grid>
     </Grid>

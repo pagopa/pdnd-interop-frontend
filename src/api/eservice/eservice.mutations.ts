@@ -8,6 +8,7 @@ import type {
 import { EServiceServices } from './eservice.services'
 import { EServiceQueries } from './eservice.queries'
 import type { AttributeKey } from '@/types/attribute.types'
+import { GRACE_PERIOD_ARCHIVING_ESERVICE } from '@/config/env'
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createDraft' })
@@ -89,9 +90,14 @@ function useCreateVersionDraft(
   })
 }
 
-function useUpdateVersionDraft(config = { suppressSuccessToast: false }) {
+function useUpdateVersionDraft(
+  config = { suppressSuccessToast: false },
+  { isThresholdOnlyUpdate }: { isThresholdOnlyUpdate?: boolean } = {}
+) {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.updateVersionDraft',
+    keyPrefix: isThresholdOnlyUpdate
+      ? 'eservice.updateAttributeThreshold'
+      : 'eservice.updateVersionDraft',
   })
   return useMutation({
     mutationFn: (
@@ -123,13 +129,16 @@ function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }
       eserviceName?: string
       eserviceId: string
       descriptorId: string
+      isFirstVersion?: boolean
     }) => EServiceServices.publishVersionDraft({ eserviceId, descriptorId }),
     meta: {
-      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {
-        title: t('confirmDialog.title'),
+        title: (variables: unknown) =>
+          (variables as { isFirstVersion?: boolean }).isFirstVersion
+            ? t('confirmDialog.title')
+            : t('confirmDialog.titleNewVersion'),
         description: isByDelegation
           ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (variables: any) => {
@@ -138,47 +147,117 @@ function usePublishVersionDraft({ isByDelegation }: { isByDelegation?: boolean }
                 eserviceName: variables.eserviceName,
               })
             }
-          : () => t('confirmDialog.description'),
-        proceedLabel: isByDelegation ? t('confirmDialog.actions.proceed') : undefined,
+          : (variables: unknown) =>
+              (variables as { isFirstVersion?: boolean }).isFirstVersion
+                ? t('confirmDialog.description')
+                : t('confirmDialog.descriptionNewVersion'),
+        proceedLabel: isByDelegation
+          ? t('confirmDialog.actions.proceed')
+          : t('confirmDialog.proceedLabel'),
       },
     },
   })
 }
 
-function useSuspendVersion() {
+function useSuspendVersion(options?: { skipConfirmation?: boolean; isArchivingContext?: boolean }) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.suspendVersion' })
   return useMutation({
     mutationFn: EServiceServices.suspendVersion,
     meta: {
-      successToastLabel: t('outcome.success'),
-      errorToastLabel: t('outcome.error'),
+      successToastLabel: t(
+        options?.isArchivingContext ? 'outcome.successArchiving' : 'outcome.success'
+      ),
+      errorToastLabel: t(options?.isArchivingContext ? 'outcome.errorArchiving' : 'outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
+      confirmationDialog: options?.skipConfirmation
+        ? undefined
+        : {
+            title: t('confirmDialog.title'),
+            description: t('confirmDialog.description'),
+          },
     },
   })
 }
 
-function useReactivateVersion() {
+function useReactivateVersion(options?: {
+  skipConfirmation?: boolean
+  isArchivingContext?: boolean
+}) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.reactivateVersion' })
   return useMutation({
     mutationFn: EServiceServices.reactivateVersion,
     meta: {
-      successToastLabel: t('outcome.success'),
-      errorToastLabel: t('outcome.error'),
+      successToastLabel: t(
+        options?.isArchivingContext ? 'outcome.successArchiving' : 'outcome.success'
+      ),
+      errorToastLabel: t(options?.isArchivingContext ? 'outcome.errorArchiving' : 'outcome.error'),
       loadingLabel: t('loading'),
-      confirmationDialog: {
-        title: t('confirmDialog.title'),
-        description: t('confirmDialog.description'),
-      },
+      confirmationDialog: options?.skipConfirmation
+        ? undefined
+        : {
+            title: t('confirmDialog.title'),
+            description: t('confirmDialog.description'),
+          },
     },
   })
 }
 
-function useUpdateVersion() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
+function useScheduleArchiveDescriptor() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.scheduleArchiveDescriptor',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.scheduleArchiveDescriptor,
+    meta: {
+      successToastLabel: t('outcome.success', { days: GRACE_PERIOD_ARCHIVING_ESERVICE }),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useCancelDescriptorArchiving() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.cancelDescriptorArchiving',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.cancelDescriptorArchiving,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useScheduleArchiveEservice() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.scheduleArchiveEservice',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.scheduleArchiveEservice,
+    meta: {
+      successToastLabel: t('outcome.success', { days: GRACE_PERIOD_ARCHIVING_ESERVICE }),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useCancelEserviceArchiving() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.cancelEserviceArchiving',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.cancelEserviceArchiving,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useUpdateVersion({ isThresholdOnlyUpdate }: { isThresholdOnlyUpdate?: boolean } = {}) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: isThresholdOnlyUpdate ? 'eservice.updateThresholds' : 'eservice.updateVersion',
+  })
   return useMutation({
     mutationFn: EServiceServices.updateVersion,
     meta: {
@@ -189,8 +268,12 @@ function useUpdateVersion() {
   })
 }
 
-function useUpdateInstanceVersion() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.updateVersion' })
+function useUpdateInstanceVersion({
+  isThresholdOnlyUpdate,
+}: { isThresholdOnlyUpdate?: boolean } = {}) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: isThresholdOnlyUpdate ? 'eservice.updateThresholds' : 'eservice.updateVersion',
+  })
   return useMutation({
     mutationFn: EServiceServices.updateInstanceVersion,
     meta: {
@@ -493,6 +576,48 @@ function useDeleteDraftAndUpgradeEService() {
   })
 }
 
+function useUpdateEServiceSignalHub() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateEServiceIsSignalHubEnabled',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.updateEServiceSignalHub,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useUpdateEServicePersonalDataFlagAfterPublication() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateEServicePersonalDataFlagAfterPublication',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.updateEServicePersonalDataFlagAfterPublication,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useUpdateEServiceDelegationFlagsAfterPublication() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.updateEServiceDelegationFlagsAfterPublication',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.updateEServiceDelegationFlagsAfterPublication,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const EServiceMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -503,6 +628,10 @@ export const EServiceMutations = {
   usePublishVersionDraft,
   useSuspendVersion,
   useReactivateVersion,
+  useScheduleArchiveDescriptor,
+  useCancelDescriptorArchiving,
+  useScheduleArchiveEservice,
+  useCancelEserviceArchiving,
   useUpdateVersion,
   useDeleteVersionDraft,
   useAddEServiceRiskAnalysis,
@@ -524,4 +653,7 @@ export const EServiceMutations = {
   useDeleteDraftAndUpgradeEService,
   useUpdateInstanceVersion,
   useUpdateAgreementApprovalPolicy,
+  useUpdateEServiceSignalHub,
+  useUpdateEServicePersonalDataFlagAfterPublication,
+  useUpdateEServiceDelegationFlagsAfterPublication,
 }

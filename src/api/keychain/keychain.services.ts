@@ -15,6 +15,7 @@ import type {
   PublicKey,
   PublicKeys,
 } from '../api.generatedTypes'
+import { getAllFromPaginated } from '@/utils/common.utils'
 
 async function getSingle(producerKeychainId: string) {
   const response = await axiosInstance.get<ProducerKeychain>(
@@ -31,10 +32,16 @@ async function getKeychainsList(params: GetProducerKeychainsParams) {
   return response.data
 }
 
+async function getAllKeychainsList(params: Omit<GetProducerKeychainsParams, 'limit' | 'offset'>) {
+  return await getAllFromPaginated((offset, limit) =>
+    getKeychainsList({ ...params, limit, offset })
+  )
+}
+
 async function getProducerKeychainKeysList(params: GetProducerKeysParams) {
   const response = await axiosInstance.get<PublicKeys>(
     `${BACKEND_FOR_FRONTEND_URL}/producerKeychains/${params.producerKeychainId}/keys`,
-    { params: { userIds: params.userIds } }
+    { params: { userIds: params.userIds, offset: params.offset, limit: params.limit } }
   )
   return response.data
 }
@@ -162,6 +169,7 @@ async function removeUserFromKeychain({
 export const KeychainServices = {
   getSingle,
   getKeychainsList,
+  getAllKeychainsList,
   getProducerKeychainUsersList,
   getProducerKeychainKeysList,
   getProducerKeychainKey,
