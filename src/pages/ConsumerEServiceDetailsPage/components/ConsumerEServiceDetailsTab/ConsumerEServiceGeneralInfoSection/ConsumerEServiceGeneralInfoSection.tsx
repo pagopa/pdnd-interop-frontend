@@ -4,7 +4,7 @@ import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { EServiceQueries } from '@/api/eservice'
-import { useParams } from '@/router'
+import { Link, useParams } from '@/router'
 import EngineeringIcon from '@mui/icons-material/Engineering'
 import ContactMailIcon from '@mui/icons-material/ContactMail'
 import SyncIcon from '@mui/icons-material/Sync'
@@ -80,6 +80,22 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
             label={t('producer.label')}
             content={descriptor.eservice.producer.name}
           />
+          {descriptor.templateRef && (
+            <InformationContainer
+              label={t('eserviceTemplateInUse.label')}
+              content={
+                <Link
+                  to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
+                  params={{
+                    eServiceTemplateId: descriptor.templateRef.templateId,
+                    eServiceTemplateVersionId: descriptor.templateRef.templateVersionId as string,
+                  }}
+                >
+                  {descriptor.templateRef.templateName}
+                </Link>
+              }
+            />
+          )}
           <InformationContainer label={t('version.label')} content={descriptor.version} />
           <InformationContainer
             label={t(`personalDataField.${descriptor.eservice.mode}.label`)}

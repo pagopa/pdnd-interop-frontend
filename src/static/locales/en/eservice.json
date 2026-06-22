@@ -724,6 +724,9 @@
         "eserviceTemplateName": {
           "label": "Template reference"
         },
+        "eserviceTemplateInUse": {
+          "label": "Template in use"
+        },
         "eserviceName": {
           "label": "E-service name"
         },
