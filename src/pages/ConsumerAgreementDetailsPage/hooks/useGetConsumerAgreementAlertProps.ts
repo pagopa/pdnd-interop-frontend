@@ -1,4 +1,5 @@
 import type { Agreement } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 import { PurposeQueries } from '@/api/purpose'
 import type { Link, RouteKey } from '@/router'
 import type { AlertProps } from '@mui/material'
@@ -17,6 +18,7 @@ export function useGetConsumerAgreementAlertProps(agreement: Agreement):
     }
   | undefined {
   const { t } = useTranslation('agreement')
+  const { isViewer } = AuthHooks.useJwt()
 
   const { data: purposes } = useQuery({
     ...PurposeQueries.getConsumersList({
@@ -53,7 +55,7 @@ export function useGetConsumerAgreementAlertProps(agreement: Agreement):
     purposes?.results.length === 0 ||
     purposes?.results.every((purpose) => purpose.currentVersion?.state === 'ARCHIVED')
 
-  if (isWithoutPurposes) {
+  if (isWithoutPurposes && !isViewer) {
     return {
       severity: 'info',
       content: t('consumerRead.noPurposeAlert'),
