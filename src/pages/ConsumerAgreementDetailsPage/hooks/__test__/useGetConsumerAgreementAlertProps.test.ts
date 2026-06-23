@@ -34,12 +34,9 @@ function renderUseGetConsumerAgreementAlertPropsHook(agreementMock: Agreement) {
   })
 }
 
-describe('check if useGetConsumerAgreementAlertProps returns the correct alertProps based on the passed agreement - no agreement', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
-    mockUseJwt()
-  })
+mockUseJwt()
 
+describe('check if useGetConsumerAgreementAlertProps returns the correct alertProps based on the passed agreement - no agreement', () => {
   it('shoud return the correct alertProps if suspended agreement with suspendedByProducer is given', () => {
     mockUseGetConsumersList([])
     const agreement = createMockAgreement({
