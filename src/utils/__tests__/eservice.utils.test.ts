@@ -250,30 +250,28 @@ describe('getEServiceDescriptorAlertSpec utility function testing', () => {
     })
   })
 
-  it('returns info archivedDescriptor for ARCHIVED with scope DESCRIPTOR (default branch)', () => {
+  it('returns info archivedDescriptorNoConsumers for ARCHIVED with scope DESCRIPTOR (default branch)', () => {
     expect(
       getEServiceDescriptorAlertSpec({
         ...baseArgs,
         state: 'ARCHIVED',
         scope: 'DESCRIPTOR',
-        archivedAt: '2026-12-01T00:00:00.000Z',
       })
     ).toEqual({
       severity: 'info',
-      content: expect.stringMatching(/^archivedDescriptor:.+/),
+      content: 'archivedDescriptorNoConsumers',
     })
   })
 
-  it('returns info archivedDescriptor for ARCHIVED with no scope (default branch fallback)', () => {
+  it('returns info archivedDescriptorNoConsumers for ARCHIVED with no scope (default branch fallback)', () => {
     expect(
       getEServiceDescriptorAlertSpec({
         ...baseArgs,
         state: 'ARCHIVED',
-        archivedAt: '2026-12-01T00:00:00.000Z',
       })
     ).toEqual({
       severity: 'info',
-      content: expect.stringMatching(/^archivedDescriptor:.+/),
+      content: 'archivedDescriptorNoConsumers',
     })
   })
 

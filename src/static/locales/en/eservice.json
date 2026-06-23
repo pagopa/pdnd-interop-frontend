@@ -643,6 +643,7 @@
       "archivingEService": "This e-service is being archived but is still active. It will be automatically archived on {{date}}.",
       "archivingSuspendedDescriptor": "This e-service version is being archived and is currently suspended. It will be automatically archived on {{date}}.",
       "archivedDescriptor": "This e-service version was archived on {{date}}.",
+      "archivedDescriptorNoConsumers": "This version is archived. No consumer can access the data provided.",
       "archivingSuspendedEService": "This version is currently suspended. The e-service is being archived and will be automatically archived on {{date}}.",
       "archivedEService": "This e-service was permanently archived on {{date}}.",
       "missingProducerKeychain": "The producer has not linked the keychain to this async e-service yet. Data exchange is currently unavailable.",
