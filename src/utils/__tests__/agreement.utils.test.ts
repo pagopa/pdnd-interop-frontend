@@ -263,17 +263,16 @@ describe('getConsumerAgreementVersionAlertSpec utility function testing', () => 
     expect(result[0].showSeeDetailsAction).toBeUndefined()
   })
 
-  it('returns two alerts with see-details for ARCHIVING + scope ESERVICE', () => {
+  it('returns a single warning alert with see-details for ARCHIVING + scope ESERVICE', () => {
     const result = getConsumerAgreementVersionAlertSpec({
       ...baseArgs,
       state: 'ARCHIVING',
       scope: 'ESERVICE',
       archivableOn: '2026-12-01T00:00:00.000Z',
     })
-    expect(result).toHaveLength(2)
+    expect(result).toHaveLength(1)
     expect(result[0]).toMatchObject({ severity: 'warning', showSeeDetailsAction: true })
     expect(result[0].content).toMatch(/^archivingEService:/)
-    expect(result[1]).toEqual({ severity: 'info', content: 'deprecatedActiveShort' })
   })
 
   it('returns single error alert for ARCHIVING_SUSPENDED + scope DESCRIPTOR', () => {
