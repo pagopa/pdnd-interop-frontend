@@ -70,7 +70,7 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
       <FormProvider {...formMethods}>
         <DialogContent>
           {activeStep === 'ADVISE' && (
-            <Typography variant="body2">
+            <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
               <Trans
                 components={{
                   strong: <Typography component="span" variant="inherit" fontWeight={600} />,
