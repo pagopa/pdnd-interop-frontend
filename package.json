@@ -12,6 +12,7 @@
     "coverage": "vitest run --coverage",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "check:error-mappings": "node scripts/check-error-mappings.js",
     "generate-types": "node scripts/open-api-type-generator.js",
     "crawling-guide-links": "node scripts/guide-crawl/index.js",
     "prepare": "husky"
