@@ -43,6 +43,12 @@ const ProviderEServiceDetailsPage: React.FC = () => {
 
   useMarkNotificationsAsRead(`${eserviceId}/${descriptorId}`)
 
+  React.useEffect(() => {
+    if (!canViewKeychains && activeTab === 'keychains') {
+      updateActiveTab(null, 'eserviceDetails')
+    }
+  }, [activeTab, canViewKeychains, updateActiveTab])
+
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 
   const viewLatestVersionTargetId = React.useMemo(

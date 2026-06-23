@@ -114,9 +114,10 @@ describe('ProviderEServiceDetailsPage', () => {
   it('keeps API operators on the details tab when the URL requests the keychains tab', async () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
 
-    renderPage('?tab=keychains')
+    const { history } = renderPage('?tab=keychains')
 
     expect(await screen.findByText('ProviderEserviceDetailsTab')).toBeInTheDocument()
     expect(screen.queryByText('ProviderEserviceKeychainsTab')).not.toBeInTheDocument()
+    expect(history.location.search).toBe('?tab=eserviceDetails')
   })
 })
