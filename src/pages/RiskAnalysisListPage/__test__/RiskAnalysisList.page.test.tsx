@@ -80,37 +80,51 @@ describe('RiskAnalysisListPage', () => {
     renderPage()
   })
 
-  it('renders page title', () => {
+  it('should render page title', () => {
     expect(screen.getByText('title')).toBeInTheDocument()
   })
 
-  it('renders page description', () => {
+  it('should render page description', () => {
     expect(screen.getByText('description')).toBeInTheDocument()
   })
 
-  it('renders filters', () => {
+  it('should render empty page description', () => {
+    mockedUseQuery.mockReturnValue({
+      data: {
+        results: [],
+        pagination: { totalCount: 0 },
+      },
+      isFetching: false,
+    } as unknown as ReturnType<typeof useQuery>)
+
+    renderPage()
+
+    expect(screen.getByText('emptyDescription')).toBeInTheDocument()
+  })
+
+  it('should render filters', () => {
     expect(screen.getByLabelText('filters.eserviceField.label')).toBeInTheDocument()
     expect(screen.getByLabelText('filters.riskAnalysisState.label')).toBeInTheDocument()
   })
 
-  it('renders table row content', async () => {
+  it('should render table row content', async () => {
     expect(await screen.findByText('Test E-service')).toBeInTheDocument()
     expect(screen.getByText('PagoPA')).toBeInTheDocument()
   })
 
-  it('renders status chip', async () => {
+  it('should render status chip', async () => {
     expect(await screen.findByText('ASSIGNED')).toBeInTheDocument()
   })
 
-  it('renders today label', async () => {
+  it('should render today label', async () => {
     expect(await screen.findByText('today.label')).toBeInTheDocument()
   })
 
-  it('does not show noData label when data exists', () => {
+  it('should not show noData label when data exists', () => {
     expect(screen.queryByText('noData.label')).not.toBeInTheDocument()
   })
 
-  it('does not render noData label while initial data is loading', () => {
+  it('should not render noData label while initial data is loading', () => {
     mockedUseQuery.mockReturnValueOnce({
       data: undefined,
       isFetching: true,
@@ -121,7 +135,7 @@ describe('RiskAnalysisListPage', () => {
     expect(screen.queryByText('noData.label')).not.toBeInTheDocument()
   })
 
-  it('renders skeleton rows', () => {
+  it('should render skeleton rows', () => {
     const { container } = renderWithApplicationContext(<RiskAnalysisTableSkeleton />, {
       withReactQueryContext: true,
     })

@@ -69,6 +69,7 @@
   },
   "riskAnalysisList": {
     "title": "Analisi del rischio",
-    "description": "Qui trovi solo le analisi del rischio che devi compilare o approvare. Se una finalità sarà eliminata, non la vedrai più in questa sezione."
+    "description": "Qui trovi solo le analisi del rischio che devi compilare o approvare. Se una finalità sarà eliminata, non la vedrai più in questa sezione.",
+    "emptyDescription": "Qui trovi le analisi del rischio assegnate a te. Se una finalità sarà eliminata, non la vedrai più in questa sezione."
   }
 }

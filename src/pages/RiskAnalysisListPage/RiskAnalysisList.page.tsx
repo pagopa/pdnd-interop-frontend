@@ -67,7 +67,10 @@ const RiskAnalysisListPage: React.FC = () => {
   const isInitialEmptyState = !!data && data.results.length === 0 && !hasActiveFilters
 
   return (
-    <PageContainer title={t('title')} description={t('description')}>
+    <PageContainer
+      title={t('title')}
+      description={data?.results.length === 0 ? t('emptyDescription') : t('description')}
+    >
       {isInitialEmptyState ? (
         <Box
           sx={{
