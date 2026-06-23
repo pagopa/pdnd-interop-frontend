@@ -6,6 +6,7 @@ import {
 } from '@/components/shared/EserviceTemplate'
 import type { EServiceTemplateVersionState } from '@/api/api.generatedTypes'
 import { EServiceTemplateThresholdsAndAttributesSection } from './EServiceTemplateThresholdsAndAttributesSection'
+import { AuthHooks } from '@/api/auth'
 
 type ProviderEServiceDetailsTabProps = {
   eserviceTemplateVersionState: EServiceTemplateVersionState | undefined
@@ -13,7 +14,8 @@ type ProviderEServiceDetailsTabProps = {
 export const ProviderEServiceTemplateDetailsTab: React.FC<ProviderEServiceDetailsTabProps> = ({
   eserviceTemplateVersionState,
 }) => {
-  const readonly = eserviceTemplateVersionState === 'DEPRECATED'
+  const { isViewer } = AuthHooks.useJwt()
+  const readonly = eserviceTemplateVersionState === 'DEPRECATED' || isViewer
   const routeKey = 'PROVIDE_ESERVICE_TEMPLATE_DETAILS'
   return (
     <>

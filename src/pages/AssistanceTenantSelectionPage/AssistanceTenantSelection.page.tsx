@@ -30,7 +30,7 @@ const AssistanceTenantSelectionPage: React.FC = () => {
         onSuccess: ({ session_token }) => {
           queryClient.setQueryData(AuthQueries.getSessionToken().queryKey, session_token)
           window.localStorage.setItem(STORAGE_KEY_SESSION_TOKEN, session_token)
-          navigate('SUBSCRIBE_CATALOG_LIST')
+          navigate('DEFAULT')
         },
       }
     )

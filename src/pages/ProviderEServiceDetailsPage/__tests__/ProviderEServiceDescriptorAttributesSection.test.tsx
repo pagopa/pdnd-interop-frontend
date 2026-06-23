@@ -90,4 +90,19 @@ describe('ProviderEServiceDescriptorAttributesSection', () => {
     expect(screen.getByText('thresholds.dailyCallsTotal.label')).toBeInTheDocument()
     expect(screen.getByText('1000')).toBeInTheDocument()
   })
+
+  it('shows the threshold edit action for admin users', () => {
+    renderWithApplicationContext(<ProviderEServiceDescriptorAttributesSection />, {
+      withReactQueryContext: true,
+    })
+    expect(screen.getByText('modify')).toBeInTheDocument()
+  })
+
+  it('hides the threshold edit action for viewer users', () => {
+    mockUseJwt({ isAdmin: false, isViewer: true })
+    renderWithApplicationContext(<ProviderEServiceDescriptorAttributesSection />, {
+      withReactQueryContext: true,
+    })
+    expect(screen.queryByText('modify')).not.toBeInTheDocument()
+  })
 })

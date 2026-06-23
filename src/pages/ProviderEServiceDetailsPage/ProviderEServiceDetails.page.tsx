@@ -25,9 +25,9 @@ import { AuthHooks } from '@/api/auth'
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
+  const { isAdmin, isSupport, isOperatorSecurity, isViewer } = AuthHooks.useJwt()
 
   const { activeTab, updateActiveTab } = useActiveTab('eserviceDetails')
-  const { isAdmin, isSupport, isOperatorSecurity } = AuthHooks.useJwt()
   const canViewKeychains = isAdmin || isSupport || isOperatorSecurity
   const selectedTab = canViewKeychains ? activeTab : 'eserviceDetails'
   const { openDialog } = useDialog()
@@ -142,22 +142,26 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         descriptor={descriptor}
         onViewKeychains={canViewKeychains ? handleViewKeychains : undefined}
       />
-      <TabContext value={selectedTab}>
-        <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
-          <Tab label={t('tabs.eserviceDetails')} value="eserviceDetails" />
-          {canViewKeychains && <Tab label={t('tabs.keychain')} value="keychains" />}
-        </TabList>
+      {!isViewer ? (
+        <TabContext value={selectedTab}>
+          <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
+            <Tab label={t('tabs.eserviceDetails')} value="eserviceDetails" />
+            {canViewKeychains && <Tab label={t('tabs.keychain')} value="keychains" />}
+          </TabList>
 
-        <TabPanel value="eserviceDetails">
-          <ProviderEserviceDetailsTab />
-        </TabPanel>
-
-        {canViewKeychains && (
-          <TabPanel value="keychains">
-            <ProviderEserviceKeychainsTab />
+          <TabPanel value="eserviceDetails">
+            <ProviderEserviceDetailsTab />
           </TabPanel>
-        )}
-      </TabContext>
+
+          {canViewKeychains && (
+            <TabPanel value="keychains">
+              <ProviderEserviceKeychainsTab />
+            </TabPanel>
+          )}
+        </TabContext>
+      ) : (
+        <ProviderEserviceDetailsTab />
+      )}
       {descriptor && (
         <EServiceVersionSelectorDrawer
           isOpen={isVersionSelectorDrawerOpen}
