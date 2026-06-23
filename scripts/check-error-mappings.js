@@ -6,6 +6,7 @@ const frontendRoot = process.cwd()
 const frontendErrorsFile = path.join(frontendRoot, 'src/config/errors.ts')
 const backendRepositoryRawBaseUrl =
   'https://raw.githubusercontent.com/pagopa/interop-be-monorepo/develop'
+const backendRepositoryBlobBaseUrl = 'https://github.com/pagopa/interop-be-monorepo/blob/develop'
 const localeFiles = [
   path.join(frontendRoot, 'src/static/locales/en/error.json'),
   path.join(frontendRoot, 'src/static/locales/it/error.json'),
@@ -80,7 +81,7 @@ const fetchBackendFile = async (file) => {
   return response.text()
 }
 
-const getBackendFileUrl = (file) => `${backendRepositoryRawBaseUrl}/${file}`
+const getBackendFileUrl = (file) => `${backendRepositoryBlobBaseUrl}/${file}`
 
 const parseBackendErrorCodes = (source) => {
   const errorCodesBlock = source.match(/const errorCodes = \{(?<body>[\s\S]*?)\n\}/)
