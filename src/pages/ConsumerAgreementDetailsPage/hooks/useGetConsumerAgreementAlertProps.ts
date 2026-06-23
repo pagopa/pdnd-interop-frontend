@@ -54,11 +54,11 @@ export function useGetConsumerAgreementAlertProps(agreement: Agreement):
     purposes?.results.length === 0 ||
     purposes?.results.every((purpose) => purpose.currentVersion?.state === 'ARCHIVED')
 
-  const isEServiceBeingArchived = isDescriptorPendingArchiving(
-    agreement.eservice.activeDescriptor?.state
-  )
+  const activeDescriptorState = agreement.eservice.activeDescriptor?.state
+  const isEServiceArchivedOrArchiving =
+    isDescriptorPendingArchiving(activeDescriptorState) || activeDescriptorState === 'ARCHIVED'
 
-  if (isWithoutPurposes && !isEServiceBeingArchived) {
+  if (isWithoutPurposes && !isEServiceArchivedOrArchiving) {
     return {
       severity: 'info',
       content: t('consumerRead.noPurposeAlert'),
