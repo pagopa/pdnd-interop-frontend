@@ -137,7 +137,6 @@ export function getConsumerAgreementVersionAlertSpec(args: {
         content: t('archivingEService', { date: scheduledDate }),
         showSeeDetailsAction: true,
       },
-      { severity: 'info', content: t('deprecatedActiveShort') },
     ])
     .with({ state: 'ARCHIVING_SUSPENDED', scope: 'DESCRIPTOR' }, () => [
       { severity: 'error', content: t('archivingSuspendedDescriptor', { date: scheduledDate }) },
