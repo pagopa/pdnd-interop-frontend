@@ -11,7 +11,7 @@ function renderUseGetPurposeStateAlertPropsHook(
 }
 
 describe('useGetPurposeStateAlertProps', () => {
-  it('returns the "no clients" alert with the link to the clients tab for a non-viewer user', () => {
+  it('returns the "no clients" alert with the link to the clients tab for user', () => {
     const purpose = createMockPurpose({ currentVersion: { state: 'ACTIVE' }, clients: [] })
 
     const { result } = renderUseGetPurposeStateAlertPropsHook(purpose, true)
