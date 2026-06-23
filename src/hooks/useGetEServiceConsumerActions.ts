@@ -284,7 +284,7 @@ function useGetEServiceConsumerActions(
         }
       : undefined
 
-  const subscribeDisabledArchivingAction: ActionItemButton | undefined =
+  const shouldShowDisabledArchivingSubscribe =
     isDescriptorPendingArchiving(descriptor.state) &&
     Boolean(viewLatestVersionTargetId) &&
     !isMine &&
@@ -292,6 +292,9 @@ function useGetEServiceConsumerActions(
     !hasAgreementDraft &&
     !isDelegator &&
     !(delegators && delegators.length > 0)
+
+  const subscribeDisabledArchivingAction: ActionItemButton | undefined =
+    shouldShowDisabledArchivingSubscribe
       ? {
           action: noop,
           label: t('tableEServiceCatalog.subscribe'),
