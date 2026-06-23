@@ -22,19 +22,21 @@ import noop from 'lodash/noop'
 import { useDialog } from '@/stores'
 import { match } from 'ts-pattern'
 
+export type RequesterEserviceAgreement = {
+  blocksSubscribe: boolean
+  upgrade?: {
+    agreement: Agreement
+    hasMissingAttributes: boolean
+    hasAllCertifiedAttributes: boolean
+  }
+}
+
 function useGetEServiceConsumerActions(
   descriptor?: CatalogEServiceDescriptor,
   delegators?: Array<DelegationTenant>,
   isDelegator?: boolean,
   viewLatestVersionTargetId?: string,
-  requesterEserviceAgreement?: {
-    blocksSubscribe: boolean
-    upgrade?: {
-      agreement: Agreement
-      hasMissingAttributes: boolean
-      hasAllCertifiedAttributes: boolean
-    }
-  }
+  requesterEserviceAgreement?: RequesterEserviceAgreement
 ): {
   primaryAction: ActionItemButton | undefined
   secondaryAction: ActionItemButton | undefined
@@ -266,20 +268,20 @@ function useGetEServiceConsumerActions(
       }
     : undefined
 
-  const upgrade = requesterEserviceAgreement?.upgrade
-  const upgradeAction: ActionItemButton | undefined = upgrade
+  const upgradeAgreement = requesterEserviceAgreement?.upgrade
+  const upgradeAction: ActionItemButton | undefined = upgradeAgreement
     ? {
         action: () =>
           openDialog({
             type: 'upgradeAgreementVersion',
-            agreement: upgrade.agreement,
-            hasMissingAttributes: upgrade.hasMissingAttributes,
+            agreement: upgradeAgreement.agreement,
+            hasMissingAttributes: upgradeAgreement.hasMissingAttributes,
           }),
         label: t('tableEServiceCatalog.upgradeToNewVersion'),
         icon: UpdateIcon,
         variant: 'contained',
-        disabled: !upgrade.hasAllCertifiedAttributes,
-        tooltip: !upgrade.hasAllCertifiedAttributes
+        disabled: !upgradeAgreement.hasAllCertifiedAttributes,
+        tooltip: !upgradeAgreement.hasAllCertifiedAttributes
           ? tAgreement('consumerRead.noCertifiedAttributesForUpgradeTooltip')
           : undefined,
       }

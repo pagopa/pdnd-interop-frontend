@@ -99,10 +99,10 @@ export const canAgreementBeUpgraded = (agreement?: Agreement) => {
 
 export function getRequesterObsoleteVersionAgreement(
   consumerAgreements: AgreementListEntry[],
-  requesterId: string | undefined
+  requesterTenantId: string | undefined
 ): { hasBlockingAgreement: boolean; upgradeableAgreementId: string | undefined } {
   const ownAgreements = consumerAgreements.filter(
-    (agreement) => agreement.consumer.id === requesterId
+    (agreement) => agreement.consumer.id === requesterTenantId
   )
 
   return {
