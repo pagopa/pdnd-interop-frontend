@@ -51,7 +51,6 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   )
 
   const handleViewKeychains = () => {
-    if (!canViewKeychains) return
     updateActiveTab(null, 'keychains')
   }
 
