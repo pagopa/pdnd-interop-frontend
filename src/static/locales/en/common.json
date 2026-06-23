@@ -167,6 +167,10 @@
       "SUBMITTED": "waiting for approval",
       "SIGNED": "approved",
       "REJECTED": "rejected"
+    },
+    "riskAnalysisList": {
+      "ASSIGNED": "to compile",
+      "SUBMITTED": "to approve"
     }
   },
   "userProductRole": {
