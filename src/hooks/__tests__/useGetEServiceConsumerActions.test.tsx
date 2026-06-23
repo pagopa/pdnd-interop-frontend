@@ -1,6 +1,10 @@
 import useGetEServiceConsumerActions from '../useGetEServiceConsumerActions'
 import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
-import { type CatalogEServiceDescriptor, type DelegationTenant } from '@/api/api.generatedTypes'
+import {
+  type CatalogEServiceDescriptor,
+  type DelegationTenant,
+  type EServiceDescriptorState,
+} from '@/api/api.generatedTypes'
 import {
   createMockCatalogDescriptorEService,
   createMockEServiceDescriptorCatalog,
@@ -775,6 +779,58 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     expect(result.current.primaryAction?.label).toBe('tableEServiceCatalog.subscribe')
     expect(result.current.primaryAction?.disabled).toBe(true)
     expect(result.current.secondaryAction).toBeUndefined()
+  })
+
+  it.each<EServiceDescriptorState>(['ARCHIVING', 'ARCHIVING_SUSPENDED'])(
+    'should show the subscribe action disabled and without tooltip when viewing an obsolete version being archived (state %s) as a non-subscribed third party',
+    (state) => {
+      mockUseJwt({ isAdmin: true })
+
+      const eserviceMock = createMockCatalogDescriptorEService({
+        agreements: [],
+        isMine: false,
+        isSubscribed: false,
+        activeDescriptor: { id: 'latest-descriptor-id', state: 'PUBLISHED', version: '2' },
+      })
+
+      const descriptorMock = createMockEServiceDescriptorCatalog({
+        eservice: eserviceMock,
+        id: 'obsolete-descriptor-id',
+        state,
+      })
+
+      const { result } = renderUseGetEServiceConsumerActionsHook(
+        descriptorMock,
+        undefined,
+        false,
+        'latest-descriptor-id'
+      )
+
+      expect(result.current.primaryAction?.label).toBe('tableEServiceCatalog.subscribe')
+      expect(result.current.primaryAction?.disabled).toBe(true)
+      expect(result.current.primaryAction?.tooltip).toBeUndefined()
+      expect(result.current.secondaryAction).toBeUndefined()
+    }
+  )
+
+  it('should not show the disabled subscribe action when the archiving descriptor is the latest version (whole e-service archiving)', () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      isSubscribed: false,
+      hasCertifiedAttributes: true,
+    })
+
+    const descriptorMock = createMockEServiceDescriptorCatalog({
+      eservice: eserviceMock,
+      state: 'ARCHIVING',
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(descriptorMock)
+
+    expect(result.current.primaryAction).toBeUndefined()
   })
 
   it('should expose the view latest version action in the header info row when a target id is provided', () => {
