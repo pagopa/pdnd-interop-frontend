@@ -84,6 +84,24 @@ describe('ProviderEServiceDetailsPage', () => {
     expect(screen.getByRole('tab', { name: 'tabs.keychain' })).toBeInTheDocument()
   })
 
+  it('shows the keychain tab to support users', async () => {
+    mockUseJwt({ isAdmin: false, isSupport: true })
+
+    renderPage()
+
+    expect(await screen.findByRole('tab', { name: 'tabs.eserviceDetails' })).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: 'tabs.keychain' })).toBeInTheDocument()
+  })
+
+  it('shows the keychain tab to security operators', async () => {
+    mockUseJwt({ isAdmin: false, isOperatorSecurity: true })
+
+    renderPage()
+
+    expect(await screen.findByRole('tab', { name: 'tabs.eserviceDetails' })).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: 'tabs.keychain' })).toBeInTheDocument()
+  })
+
   it('hides the keychain tab from API operators', async () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
 

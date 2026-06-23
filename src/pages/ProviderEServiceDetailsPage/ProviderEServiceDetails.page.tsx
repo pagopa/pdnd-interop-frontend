@@ -27,8 +27,8 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
 
   const { activeTab, updateActiveTab } = useActiveTab('eserviceDetails')
-  const { isAdmin } = AuthHooks.useJwt()
-  const canViewKeychains = isAdmin
+  const { isAdmin, isSupport, isOperatorSecurity } = AuthHooks.useJwt()
+  const canViewKeychains = isAdmin || isSupport || isOperatorSecurity
   const selectedTab = canViewKeychains ? activeTab : 'eserviceDetails'
   const { openDialog } = useDialog()
   const {
