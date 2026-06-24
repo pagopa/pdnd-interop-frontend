@@ -250,6 +250,17 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
     expect(cloneAction).toBeUndefined()
   })
 
+  it('should return delete only if signingState is present and it is not SIGNED', () => {
+    const purposeMock = createMockPurpose({
+      currentVersion: { state: 'DRAFT' },
+      reviewerWorkflow: { signingState: 'REJECTED' },
+    })
+    const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
+
+    expect(result.current.actions).toHaveLength(1)
+    expect(result.current.actions[0].label).toBe('delete')
+  })
+
   describe('clone action button', () => {
     it('should have tooltip when ruleset is expired and the button is disabled', () => {
       mockUseCurrentRoute({ routeKey: 'SUBSCRIBE_PURPOSE_DETAILS' })

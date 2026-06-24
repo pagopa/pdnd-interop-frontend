@@ -157,11 +157,13 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     return actions
   }
 
+  const signingState = purpose?.reviewerWorkflow?.signingState
   const isDeliverMode = purpose.eservice.mode === 'DELIVER'
   const isSuspended = purpose?.currentVersion?.state === 'SUSPENDED'
   const isActive = purpose?.currentVersion?.state === 'ACTIVE'
   const isDraft = purpose?.currentVersion?.state === 'DRAFT'
   const isArchived = purpose?.currentVersion?.state === 'ARCHIVED'
+  const isNotSigned = Boolean(signingState) && signingState !== 'SIGNED'
   const isSuspendedByConsumer = checkPurposeSuspendedByConsumer(purpose, jwt?.organizationId)
 
   const hasCurrentVersion = Boolean(purpose?.currentVersion)
@@ -171,6 +173,7 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
   const actions = match({
     isDeliverMode,
     isDraft,
+    isNotSigned,
     isArchived,
     isActive,
     isSuspended,
@@ -204,6 +207,13 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
         isArchived: true,
       },
       () => []
+    )
+    .with(
+      {
+        isDraft: true,
+        isNotSigned: true,
+      },
+      () => [deleteAction]
     )
     // purpose in DRAFT state
     .with(
