@@ -269,6 +269,9 @@
       "description": {
         "label": "Description"
       },
+      "name": {
+        "label": "Purpose name"
+      },
       "loadEstimationSection": {
         "title": "Load estimation",
         "dailyCalls": {

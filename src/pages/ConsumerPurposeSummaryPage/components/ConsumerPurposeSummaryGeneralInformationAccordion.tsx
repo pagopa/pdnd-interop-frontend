@@ -35,6 +35,7 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
 
   return (
     <Stack spacing={2}>
+      <InformationContainer content={purpose.title} direction="row" label={t('name.label')} />
       <InformationContainer
         content={purpose.description}
         direction="row"
