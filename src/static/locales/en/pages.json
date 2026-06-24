@@ -69,6 +69,6 @@
   },
   "riskAnalysisList": {
     "title": "Risk Analysis",
-    "description": "Here you'll only find the risk analyses you need to complete or approve. If a purpose is deleted, you'll no longer see it in this section."
+    "description": "Here you'll find the risk analyses assigned to you. If a purpose is deleted, you'll no longer see it in this section."
   }
 }
