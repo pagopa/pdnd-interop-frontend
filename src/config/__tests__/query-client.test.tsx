@@ -1,7 +1,7 @@
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useMutation } from '@tanstack/react-query'
-import { AxiosError } from 'axios'
+import { AxiosError, AxiosHeaders } from 'axios'
 import i18n from 'i18next'
 import errorEnNs from '@/static/locales/en/error.json'
 import errorItNs from '@/static/locales/it/error.json'
@@ -160,7 +160,7 @@ describe('queryClient mutation errors', () => {
         status: 409,
         statusText: 'Conflict',
         headers: {},
-        config: { headers: undefined },
+        config: { headers: new AxiosHeaders() },
         data: {
           correlationId: 'test-correlation-id',
           errors: [{ code: '008-0008' }],
@@ -195,7 +195,7 @@ describe('queryClient mutation errors', () => {
         status: 409,
         statusText: 'Conflict',
         headers: {},
-        config: { headers: undefined },
+        config: { headers: new AxiosHeaders() },
         data: {
           correlationId: 'test-correlation-id',
           errors: [{ code: '008-9999' }],
