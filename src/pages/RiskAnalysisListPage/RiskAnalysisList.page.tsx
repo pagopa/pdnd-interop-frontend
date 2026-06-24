@@ -69,7 +69,7 @@ const RiskAnalysisListPage: React.FC = () => {
   return (
     <PageContainer
       title={t('title')}
-      description={data?.results.length === 0 ? t('emptyDescription') : t('description')}
+      description={isInitialEmptyState ? t('emptyDescription') : t('description')}
     >
       {isInitialEmptyState ? (
         <Box
