@@ -118,7 +118,7 @@
         "message": "Il tuo ente non ha ancora un utente con ruolo di valutatore. Puoi aggiungerlo dall’Area Riservata.",
         "linkLabel": "Vai a Utenti"
       },
-      "delegateAlert": "Come delegato, non puoi assegnare l’analisi del rischio a un valutatore.",
+      "delegateAlert": "Come delegato alla fruizione dell’e-service {{name}}, non puoi assegnare l'analisi del rischio a un valutatore ma puoi compilarla in autonomia.",
       "forwardBtn": "Salva bozza e prosegui",
       "requestReviewerCompilationBtn": "Richiedi compilazione",
       "readOnly": {
