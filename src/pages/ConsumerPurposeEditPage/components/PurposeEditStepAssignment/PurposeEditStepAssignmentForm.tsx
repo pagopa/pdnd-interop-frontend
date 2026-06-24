@@ -168,8 +168,6 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
                   <RHFAutocompleteSingle
                     name="reviewerId"
                     label={t(`reviewerField.label.${reviewerLabelKey}`)}
-                    labelType="external"
-                    placeholder={t('reviewerField.placeholder')}
                     options={reviewerOptions}
                     rules={{ required: t('reviewerField.requiredError') }}
                   />
