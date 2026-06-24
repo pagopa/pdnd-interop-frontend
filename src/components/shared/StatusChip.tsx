@@ -68,14 +68,6 @@ const CHIP_COLORS_RISK_ANALYSIS: Record<Exclude<RiskAnalysisSigningState, 'DRAFT
   REJECTED: 'error',
 }
 
-const CHIP_COLORS_RISK_ANALYSIS_LIST: Record<
-  Exclude<RiskAnalysisSigningState, 'DRAFT' | 'SIGNED' | 'REJECTED'>,
-  MUIColor
-> = {
-  ASSIGNED: 'warning',
-  SUBMITTED: 'info',
-}
-
 const CHIP_COLORS_DELEGATION: Record<DelegationState, MUIColor> = {
   ACTIVE: 'success',
   REJECTED: 'error',
@@ -106,7 +98,7 @@ const chipColors = {
   eserviceTemplate: CHIP_COLORS_E_SERVICE_TEMPLATE,
   purposeTemplate: CHIP_COLORS_PURPOSE_TEMPLATE,
   riskAnalysis: CHIP_COLORS_RISK_ANALYSIS,
-  riskAnalysisList: CHIP_COLORS_RISK_ANALYSIS_LIST,
+  riskAnalysisList: CHIP_COLORS_RISK_ANALYSIS,
 } as const
 
 type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
