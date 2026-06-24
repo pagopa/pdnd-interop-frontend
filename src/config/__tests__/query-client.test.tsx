@@ -1,8 +1,13 @@
 import { screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useMutation } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
+import i18n from 'i18next'
+import errorEnNs from '@/static/locales/en/error.json'
+import errorItNs from '@/static/locales/it/error.json'
 import { queryClient } from '../query-client'
-import { useDialogStore } from '@/stores'
+import { useDialogStore, useToastNotificationStore } from '@/stores'
+import { useErrorDataStore } from '@/stores/error-data.store'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import type { ConfirmationDialogMeta } from '@tanstack/react-query'
 
@@ -22,6 +27,28 @@ const TestMutation = ({
 
   return <button onClick={() => mutate()}>submit</button>
 }
+
+const TestMutationError = ({ mutationFn }: { mutationFn: () => Promise<void> }) => {
+  const { mutate } = useMutation({
+    mutationFn,
+    meta: {
+      errorToastLabel: 'Operation-specific error',
+    },
+  })
+
+  return <button onClick={() => mutate()}>submit</button>
+}
+
+beforeAll(async () => {
+  await i18n.init({
+    lng: 'en',
+    fallbackLng: 'en',
+    resources: {
+      en: { error: errorEnNs },
+      it: { error: errorItNs },
+    },
+  })
+})
 
 describe('queryClient confirmation dialogs', () => {
   beforeEach(() => {
@@ -111,5 +138,84 @@ describe('queryClient confirmation dialogs', () => {
       ).not.toBeInTheDocument()
     })
     expect(mutationFn).not.toHaveBeenCalled()
+  })
+})
+
+describe('queryClient mutation errors', () => {
+  beforeEach(() => {
+    queryClient.clear()
+    useToastNotificationStore.setState({
+      isShown: false,
+      message: '',
+      severity: 'success',
+      correlationId: undefined,
+    })
+    useErrorDataStore.getState().clearErrorData()
+  })
+
+  it('shows the mapped toast and preserves correlation data for mapped Axios errors', async () => {
+    const user = userEvent.setup()
+    const mutationFn = vi.fn().mockRejectedValue(
+      new AxiosError('Conflict', '409', undefined, undefined, {
+        status: 409,
+        statusText: 'Conflict',
+        headers: {},
+        config: { headers: undefined },
+        data: {
+          correlationId: 'test-correlation-id',
+          errors: [{ code: '008-0008' }],
+        },
+      })
+    )
+
+    renderWithApplicationContext(<TestMutationError mutationFn={mutationFn} />, {
+      withReactQueryContext: true,
+    })
+
+    await user.click(screen.getByRole('button', { name: 'submit' }))
+
+    await waitFor(() => {
+      expect(useToastNotificationStore.getState()).toMatchObject({
+        isShown: true,
+        message: 'eService not found',
+        severity: 'error',
+        correlationId: 'test-correlation-id',
+      })
+    })
+    expect(useErrorDataStore.getState()).toMatchObject({
+      correlationId: 'test-correlation-id',
+      errorCode: '008-0008',
+    })
+  })
+
+  it('falls back to the operation label for unmapped Axios errors', async () => {
+    const user = userEvent.setup()
+    const mutationFn = vi.fn().mockRejectedValue(
+      new AxiosError('Conflict', '409', undefined, undefined, {
+        status: 409,
+        statusText: 'Conflict',
+        headers: {},
+        config: { headers: undefined },
+        data: {
+          correlationId: 'test-correlation-id',
+          errors: [{ code: '008-9999' }],
+        },
+      })
+    )
+
+    renderWithApplicationContext(<TestMutationError mutationFn={mutationFn} />, {
+      withReactQueryContext: true,
+    })
+
+    await user.click(screen.getByRole('button', { name: 'submit' }))
+
+    await waitFor(() => {
+      expect(useToastNotificationStore.getState()).toMatchObject({
+        isShown: true,
+        message: 'Operation-specific error',
+        severity: 'error',
+        correlationId: 'test-correlation-id',
+      })
+    })
   })
 })
