@@ -1012,4 +1012,35 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     expect(result.current.secondaryAction?.label).toBe('tableEServiceCatalog.subscribe')
     expect(result.current.secondaryAction?.variant).toBe('outlined')
   })
+
+  it('should show the upgrade action as primary and the inspect action as outlined secondary when the requester is subscribed and viewing an obsolete upgradeable version', () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      isSubscribed: true,
+      hasCertifiedAttributes: true,
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock }),
+      undefined,
+      false,
+      undefined,
+      {
+        blocksSubscribe: true,
+        upgrade: {
+          agreement: createMockAgreement(),
+          hasMissingAttributes: false,
+          hasAllCertifiedAttributes: true,
+        },
+      }
+    )
+
+    expect(result.current.primaryAction?.label).toBe('tableEServiceCatalog.upgradeToNewVersion')
+    expect(result.current.primaryAction?.variant).toBe('contained')
+    expect(result.current.secondaryAction?.label).toBe('tableEServiceCatalog.inspect')
+    expect(result.current.secondaryAction?.variant).toBe('outlined')
+  })
 })

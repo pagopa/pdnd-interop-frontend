@@ -357,18 +357,20 @@ function useGetEServiceConsumerActions(
     : undefined
 
   const primaryAction: ActionItemButton | undefined =
+    upgradeAction ??
     inspectAction ??
     editDraftAction ??
-    upgradeAction ??
     subscribeAction ??
     subscribeDisabledMissingAttributesAction ??
     subscribeDisabledArchivingAction
 
   const hasPrimaryAgreementAction = Boolean(inspectAction ?? editDraftAction ?? upgradeAction)
   const secondaryAction: ActionItemButton | undefined =
-    hasPrimaryAgreementAction && subscribeAction
-      ? { ...subscribeAction, variant: 'outlined' }
-      : undefined
+    upgradeAction && inspectAction
+      ? { ...inspectAction, variant: 'outlined' }
+      : hasPrimaryAgreementAction && subscribeAction
+        ? { ...subscribeAction, variant: 'outlined' }
+        : undefined
 
   return {
     primaryAction,
