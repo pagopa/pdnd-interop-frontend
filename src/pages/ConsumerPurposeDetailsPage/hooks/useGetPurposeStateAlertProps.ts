@@ -4,6 +4,7 @@ import type { AlertProps } from '@mui/material'
 import type { Link } from '@/router'
 import { useTranslation } from 'react-i18next'
 import type React from 'react'
+import { AuthHooks } from '@/api/auth'
 
 function useGetPurposeStateAlertProps(
   purpose: Purpose | undefined,
@@ -21,6 +22,7 @@ function useGetPurposeStateAlertProps(
     }
   | undefined {
   const { t } = useTranslation('purpose', { keyPrefix: 'consumerView' })
+  const { isViewer } = AuthHooks.useJwt()
 
   if (!purpose) return undefined
 
@@ -86,6 +88,7 @@ function useGetPurposeStateAlertProps(
   if (
     isPurposeActive &&
     purpose.clients.length === 0 &&
+    !isViewer &&
     !(purpose.delegation && !isEServiceClientAccessDelegable)
   ) {
     return {
