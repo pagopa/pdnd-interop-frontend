@@ -25,6 +25,8 @@ describe('getMappedError', () => {
 
   it('maps passthrough process errors without colliding with BFF suffixes', () => {
     expect(getMappedError('001-0005')).toBe('eService not found')
+    expect(getMappedError('001-007')).toBe('The eService already has this name')
+    expect(getMappedError('005-009')).toBe('Expiration date cannot be in the past')
     expect(getMappedError('008-0005')).toBe('Attribute not found')
   })
 

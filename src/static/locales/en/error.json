@@ -223,6 +223,7 @@
     "tenantNotFoundBySelfcareId": "Institution not found by Selfcare identifier",
     "selfcareIdConflict": "Selfcare identifier conflict",
     "verifiedAttributeNotFoundInTenant": "Verified attribute not found for this institution",
+    "expirationDateCannotBeInThePast": "Expiration date cannot be in the past",
     "tenantNotFoundInVerifiers": "Institution not found among verifiers",
     "expirationDateNotFoundInVerifier": "Expiration date not found for the verifier",
     "attributeDoesNotBelongToCertifier": "The attribute does not belong to the certifier",

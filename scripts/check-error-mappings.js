@@ -88,7 +88,7 @@ const parseBackendErrorCodes = (source) => {
   if (!errorCodesBlock?.groups?.body) return []
 
   return [
-    ...errorCodesBlock.groups.body.matchAll(/\b([A-Za-z][A-Za-z0-9_]*)\s*:\s*"([0-9]{4})"/g),
+    ...errorCodesBlock.groups.body.matchAll(/\b([A-Za-z][A-Za-z0-9_]*)\s*:\s*"([0-9]{3,4})"/g),
   ].map((match) => ({
     key: match[1],
     suffix: match[2],
@@ -99,7 +99,7 @@ const parseFrontendMappedErrors = () => {
   const source = readTextFile(frontendErrorsFile)
   const exactCodes = new Map()
 
-  for (const match of source.matchAll(/'([0-9]{3}-[0-9]{4})': '([^']+)'/g)) {
+  for (const match of source.matchAll(/'([0-9]{3}-[0-9]{3,4})': '([^']+)'/g)) {
     exactCodes.set(match[1], match[2])
   }
 

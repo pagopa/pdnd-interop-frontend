@@ -223,6 +223,7 @@
     "tenantNotFoundBySelfcareId": "Ente non trovato tramite identificativo Selfcare",
     "selfcareIdConflict": "Conflitto sull'identificativo Selfcare",
     "verifiedAttributeNotFoundInTenant": "Attributo verificato non trovato per l'ente",
+    "expirationDateCannotBeInThePast": "La data di scadenza non può essere nel passato",
     "tenantNotFoundInVerifiers": "Ente non trovato tra i verificatori",
     "expirationDateNotFoundInVerifier": "Data di scadenza non trovata per il verificatore",
     "attributeDoesNotBelongToCertifier": "L'attributo non appartiene al certificatore",
