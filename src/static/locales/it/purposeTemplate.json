@@ -80,7 +80,6 @@
       "detailsTitle": "E-service e template e-service suggeriti per questo template",
       "detailsDescription": "Qui puoi selezionare degli e-service o dei template e-service che suggerisci per questa finalità agevolata. Potrai farlo anche dopo la pubblicazione della finalità.",
       "addBtn": "Aggiungi elemento",
-      "editLinkedEservices": "Aggiorna elenco",
       "editLinkedResources": "Aggiorna elenco",
       "saveBtn": "Salva",
       "eserviceSelectionSubtitle": "Puoi inserire e-service che hanno un trattamento dei dati personali simile a quello che hai indicato.",
@@ -169,12 +168,6 @@
         "thresholdLabel": "Il tuo piano suggerito",
         "dailyCallsLabel": "chiamate API/giorno"
       },
-      "suggestedEServicesSection": {
-        "title": "E-service suggeriti",
-        "subtitle": "E-service collegati",
-        "providedBy": "erogato da",
-        "noLinkedEservices": "Non hai indicato e-service associati a questo template."
-      },
       "suggestedResourcesSection": {
         "title": "E-service e template e-service suggeriti",
         "providedBy": {
@@ -197,7 +190,6 @@
     "tabs": {
       "ariaLabel": "Tre tab diverse per i dettagli del template della finalità, gli e-service collegati e l'analisi del rischio",
       "details": "Dettaglio template",
-      "linkedEservices": "E-service collegati",
       "linkedResources": "E-service e template e-service suggeriti",
       "riskAnalysis": "Analisi del rischio"
     },
@@ -223,11 +215,6 @@
           "yes": "Sì",
           "no": "No"
         },
-        "linkedEservices": {
-          "title": "E-service collegati",
-          "description": "Qui trovi l’elenco degli e-service suggeriti per questa finalità agevolata. Il template può essere usato anche per altri e-service non presenti nell’elenco.",
-          "linkedEservicesLink": "Visualizza gli e-service collegati"
-        },
         "linkedResources": {
           "title": "E-service e template e-service suggeriti",
           "description": "Qui trovi l’elenco degli e-service e dei template e-service suggeriti per questa finalità agevolata. Il template può essere usato anche per altri e-service non presenti nell’elenco.",
@@ -246,19 +233,6 @@
             "title": "Il piano suggerito",
             "subtitle": "Chiamate API/giorno"
           }
-        }
-      }
-    },
-    "linkedEservicesTab": {
-      "title": "E-service collegati",
-      "description": "Definisci un elenco di e-service per cui è suggerito usare la finalità agevolata. Il fruitore ha facoltà di utilizzare \n questo template anche per e-service che non compaiono nella lista.",
-      "editButtonTooltip": "Non è possibile modificare l'elenco degli e-service se il template è sospeso o archiviato",
-      "filters": {
-        "eserviceField": {
-          "label": "Nome e-service"
-        },
-        "providerField": {
-          "label": "Cerca per erogatore"
         }
       }
     },

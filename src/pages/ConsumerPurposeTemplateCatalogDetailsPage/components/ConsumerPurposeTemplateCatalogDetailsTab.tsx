@@ -3,7 +3,7 @@ import { Grid } from '@mui/material'
 import type { PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
 import { PurposeTemplateGeneralInfoSection } from '@/components/shared/PurposeTemplate/PurposeTemplateDetailsTab/PurposeTemplateGeneralnfoSection'
 import { PurposeTemplateDocumentationSection } from '@/components/shared/PurposeTemplate/PurposeTemplateDetailsTab/PurposeTemplateDocumentationSection'
-import { PurposeTemplateLinkedEServicesSection } from '@/components/shared/PurposeTemplate/PurposeTemplateDetailsTab/PurposeTemplateLinkedEServicesSection'
+import { PurposeTemplateLinkedResourcesSection } from '@/components/shared/PurposeTemplate/PurposeTemplateDetailsTab/PurposeTemplateLinkedResourcesSection'
 import { PurposeTemplateThresholdSection } from '@/components/shared/PurposeTemplate/PurposeTemplateDetailsTab/PurposeTemplateThresholdSection'
 
 type ConsumerPurposeTemplateCatalogDetailsTabProps = {
@@ -20,7 +20,7 @@ export const ConsumerPurposeTemplateCatalogDetailsTab: React.FC<
       <Grid container>
         <Grid item xs={8}>
           <PurposeTemplateGeneralInfoSection purposeTemplate={purposeTemplate} />
-          <PurposeTemplateLinkedEServicesSection />
+          <PurposeTemplateLinkedResourcesSection />
           <PurposeTemplateDocumentationSection purposeTemplate={purposeTemplate} />
           {isThresholdSectionVisible && (
             <PurposeTemplateThresholdSection purposeTemplate={purposeTemplate} />

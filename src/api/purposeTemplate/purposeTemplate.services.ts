@@ -4,12 +4,8 @@ import type {
   CatalogPurposeTemplates,
   CreatedResource,
   CreatorPurposeTemplates,
-  EServiceDescriptorPurposeTemplate,
-  EServiceDescriptorsPurposeTemplate,
   GetCatalogPurposeTemplatesParams,
   GetPurposeTemplateLinkableResourcesParams,
-  GetPurposeTemplateEServicesParams,
-  LinkEServiceToPurposeTemplatePayload,
   LinkableResourceRequest,
   LinkableResources,
   LinkedResource,
@@ -22,7 +18,6 @@ import type {
   RiskAnalysisTemplateAnswerResponse,
   AddRiskAnalysisTemplateAnswerAnnotationDocumentPayload,
   RiskAnalysisTemplateAnswerAnnotationDocument,
-  UnlinkEServiceToPurposeTemplatePayload,
   GetCreatorPurposeTemplatesParams,
   UpdateRiskAnalysisTemplateAnswerAnnotationDocumentSeed,
   CompactOrganizations,
@@ -31,17 +26,6 @@ import type {
 async function getConsumerPurposeTemplatesList(params: GetCreatorPurposeTemplatesParams) {
   const response = await axiosInstance.get<CreatorPurposeTemplates>(
     `${BACKEND_FOR_FRONTEND_URL}/creators/purposeTemplates`,
-    { params }
-  )
-  return response.data
-}
-
-async function getEservicesLinkedToPurposeTemplatesList(
-  purposeTemplateId: string,
-  params: Omit<GetPurposeTemplateEServicesParams, 'purposeTemplateId'>
-) {
-  const response = await axiosInstance.get<EServiceDescriptorsPurposeTemplate>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/eservices`,
     { params }
   )
   return response.data
@@ -103,27 +87,6 @@ async function updateDraft({
 } & PurposeTemplateSeed) {
   return await axiosInstance.put<PurposeTemplate>(
     `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}`,
-    payload
-  )
-}
-
-async function linkEserviceToPurposeTemplate({
-  purposeTemplateId,
-  ...payload
-}: { purposeTemplateId: string } & LinkEServiceToPurposeTemplatePayload) {
-  const response = await axiosInstance.post<EServiceDescriptorPurposeTemplate>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/linkEservice`,
-    payload
-  )
-  return response.data
-}
-
-async function unlinkEserviceFromPurposeTemplate({
-  purposeTemplateId,
-  ...payload
-}: { purposeTemplateId: string } & UnlinkEServiceToPurposeTemplatePayload) {
-  return await axiosInstance.post<void>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${purposeTemplateId}/unlinkEservice`,
     payload
   )
 }
@@ -340,13 +303,10 @@ async function downloadSignedRiskAnalysis({ purposeTemplateId }: { purposeTempla
 
 export const PurposeTemplateServices = {
   getConsumerPurposeTemplatesList,
-  getEservicesLinkedToPurposeTemplatesList,
   getLinkableResources,
   getSingle,
   getAnswerDocuments,
   updateDraft,
-  linkEserviceToPurposeTemplate,
-  unlinkEserviceFromPurposeTemplate,
   linkResourceToPurposeTemplate,
   unlinkResourceFromPurposeTemplate,
   addRiskAnalysisAnswer,

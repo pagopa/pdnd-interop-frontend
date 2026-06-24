@@ -17,6 +17,7 @@ import { EServiceQueries } from '@/api/eservice'
 import { Link } from '@/router'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { NotFoundError } from '@/utils/errors.utils'
+import { viewLinkableResource } from '@/utils/purposeTemplate.utils'
 import type {
   GetPurposeTemplateLinkableResourcesParams,
   LinkableResource,
@@ -96,12 +97,15 @@ export const ConsumerPurposeTemplateLinkedResourceTable: React.FC<
     <>
       <Filters {...filtersHandlers} />
       <Table headLabels={headLabels} isEmpty={isEmpty}>
-        {results.map((resource) => (
-          <ConsumerPurposeTemplateLinkedResourceTableRow
-            key={`${resource.resourceKind}:${getResourceId(resource)}`}
-            resource={resource}
-          />
-        ))}
+        {results.map((resource) => {
+          const view = viewLinkableResource(resource)
+          return (
+            <ConsumerPurposeTemplateLinkedResourceTableRow
+              key={`${view.kind}:${view.id}`}
+              resource={resource}
+            />
+          )
+        })}
       </Table>
       <Pagination
         {...paginationProps}
@@ -112,59 +116,50 @@ export const ConsumerPurposeTemplateLinkedResourceTable: React.FC<
   )
 }
 
-function getResourceId(resource: LinkableResource): string {
-  return match(resource)
-    .with({ resourceKind: 'ESERVICE' }, (r) => r.eservice.id)
-    .with({ resourceKind: 'ESERVICE_TEMPLATE' }, (r) => r.eserviceTemplate.id)
-    .exhaustive()
-}
-
 type RowProps = { resource: LinkableResource }
 
 const ConsumerPurposeTemplateLinkedResourceTableRow: React.FC<RowProps> = ({ resource }) => {
   const { t } = useTranslation('purposeTemplate', { keyPrefix: 'read.linkedResourcesTab' })
   const { t: tCommon } = useTranslation('common')
 
-  return match(resource)
-    .with({ resourceKind: 'ESERVICE' }, (r) => (
-      <TableRow cellData={[r.eservice.name, t('kind.eservice'), r.eservice.producer.name]}>
-        <Link
-          as="button"
-          to="SUBSCRIBE_CATALOG_VIEW"
-          params={{
-            eserviceId: r.eservice.id,
-            descriptorId: r.descriptor.id,
-          }}
-          variant="outlined"
-          size="small"
-        >
-          {tCommon('actions.inspect')}
-        </Link>
-      </TableRow>
-    ))
-    .with({ resourceKind: 'ESERVICE_TEMPLATE' }, (r) => (
-      <TableRow
-        cellData={[
-          r.eserviceTemplate.name,
-          t('kind.eserviceTemplate'),
-          r.eserviceTemplate.creator.name,
-        ]}
-      >
-        <Link
-          as="button"
-          to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
-          params={{
-            eServiceTemplateId: r.eserviceTemplate.id,
-            eServiceTemplateVersionId: r.eserviceTemplateVersion.id,
-          }}
-          variant="outlined"
-          size="small"
-        >
-          {tCommon('actions.inspect')}
-        </Link>
-      </TableRow>
-    ))
-    .exhaustive()
+  const view = viewLinkableResource(resource)
+  const kindLabel = view.kind === 'ESERVICE' ? t('kind.eservice') : t('kind.eserviceTemplate')
+  const cellData = [view.name, kindLabel, view.publisherName]
+
+  return (
+    <TableRow cellData={cellData}>
+      {match(resource)
+        .with({ resourceKind: 'ESERVICE' }, (r) => (
+          <Link
+            as="button"
+            to="SUBSCRIBE_CATALOG_VIEW"
+            params={{
+              eserviceId: r.eservice.id,
+              descriptorId: r.descriptor.id,
+            }}
+            variant="outlined"
+            size="small"
+          >
+            {tCommon('actions.inspect')}
+          </Link>
+        ))
+        .with({ resourceKind: 'ESERVICE_TEMPLATE' }, (r) => (
+          <Link
+            as="button"
+            to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
+            params={{
+              eServiceTemplateId: r.eserviceTemplate.id,
+              eServiceTemplateVersionId: r.eserviceTemplateVersion.id,
+            }}
+            variant="outlined"
+            size="small"
+          >
+            {tCommon('actions.inspect')}
+          </Link>
+        ))
+        .exhaustive()}
+    </TableRow>
+  )
 }
 
 export const ConsumerPurposeTemplateLinkedResourceTableSkeleton: React.FC = () => {

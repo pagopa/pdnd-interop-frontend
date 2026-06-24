@@ -1200,20 +1200,6 @@
         "error": "It was not possible to update the document name. Please try again!"
       }
     },
-    "linkEService": {
-      "loading": "E-service is being linked",
-      "outcome": {
-        "success": "The e-service was saved successfully.",
-        "error": "It was not possible to save this e-service. Please try again!"
-      }
-    },
-    "unlinkEService": {
-      "loading": "E-service is being unlinked",
-      "outcome": {
-        "success": "The e-service was unassociated successfully.",
-        "error": "It was not possible to unassociate this e-service. Please try again!"
-      }
-    },
     "linkResource": {
       "loading": "Linking the item to the template",
       "outcome": {
