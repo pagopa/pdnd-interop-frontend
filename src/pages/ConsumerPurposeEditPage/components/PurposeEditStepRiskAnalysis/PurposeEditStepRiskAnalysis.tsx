@@ -140,7 +140,6 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
   const handleRequestApproval = (answers: Record<string, string[]>) => {
     const reviewerId = purpose.reviewerWorkflow?.reviewerIds?.[0]
     if (!reviewerId) {
-      // BE contract: option 2 always assigns at least one reviewer.
       // If we land here the purpose is malformed;
       // log loudly and no-op rather than crashing the route —
       // this is a UI action handler, not a place to throw to the ErrorBoundary.
@@ -149,9 +148,12 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
       )
       return
     }
-    // TODO: replace with `purpose.reviewerWorkflow.reviewers[0]` once the BE
-    // updates ReviewerWorkflow to return CompactUser[] instead of reviewerIds.
-    const reviewer: CompactUser = { userId: reviewerId, name: '', familyName: '' }
+
+    const reviewer: CompactUser = purpose.reviewerWorkflow?.reviewers?.[0] ?? {
+      userId: reviewerId,
+      name: '',
+      familyName: '',
+    }
     openDialog({
       type: 'requestPurposeApproval',
       reviewer,

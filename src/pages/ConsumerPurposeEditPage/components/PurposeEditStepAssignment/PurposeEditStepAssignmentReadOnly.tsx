@@ -7,17 +7,15 @@ import { StepActions } from '@/components/shared/StepActions'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
-import type { Purpose, User } from '@/api/api.generatedTypes'
+import type { Purpose } from '@/api/api.generatedTypes'
 import { beEnumToReviewModeOption } from './PurposeEditStepAssignmentForm'
 
 type PurposeEditStepAssignmentReadOnlyProps = ActiveStepProps & {
   purpose: Purpose
-  reviewers: Array<User>
 }
 
 const PurposeEditStepAssignmentReadOnly: React.FC<PurposeEditStepAssignmentReadOnlyProps> = ({
   purpose,
-  reviewers,
   forward,
   back,
 }) => {
@@ -27,8 +25,7 @@ const PurposeEditStepAssignmentReadOnly: React.FC<PurposeEditStepAssignmentReadO
   const reviewerWorkflow = purpose.reviewerWorkflow
   const reviewModeOption = beEnumToReviewModeOption(reviewerWorkflow?.reviewMode)
 
-  const reviewerId = reviewerWorkflow?.reviewerIds[0]
-  const reviewer = reviewers.find((u) => u.userId === reviewerId)
+  const reviewer = reviewerWorkflow?.reviewers?.[0]
   // The assigned reviewer may no longer be resolvable (role revoked on SelfCare, left the
   // organization, or a different tenant in a delegation): fall back to a placeholder
   // instead of rendering a blank value.

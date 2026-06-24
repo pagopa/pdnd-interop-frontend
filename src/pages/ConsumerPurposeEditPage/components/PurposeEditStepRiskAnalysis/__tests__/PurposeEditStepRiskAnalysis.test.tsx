@@ -304,9 +304,11 @@ describe('PurposeEditStepRiskAnalysis', () => {
   })
 
   it('in option 2 opens the requestPurposeApproval dialog and the dialog onConfirm runs the submit+navigate chain', () => {
+    const reviewer = { userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' }
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
       reviewerIds: ['reviewer-1'],
+      reviewers: [reviewer],
       signingState: 'DRAFT',
     })
     const riskAnalysis = createMockRiskAnalysisFormConfig()
@@ -324,11 +326,9 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
     expect(openDialogMock).toHaveBeenCalledTimes(1)
     const dialogPayload = openDialogMock.mock.calls[0][0]
-    // TODO: assert the real reviewer once the BE returns reviewers as CompactUser[];
-    // for now the component builds a placeholder from reviewerIds[0].
     expect(dialogPayload).toMatchObject({
       type: 'requestPurposeApproval',
-      reviewer: { userId: 'reviewer-1', name: '', familyName: '' },
+      reviewer,
     })
     expect(typeof dialogPayload.onConfirm).toBe('function')
 
@@ -358,6 +358,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
       reviewerIds: [],
+      reviewers: [],
       signingState: 'DRAFT',
     })
     mockQueries(purpose, createMockRiskAnalysisFormConfig())
@@ -370,6 +371,28 @@ describe('PurposeEditStepRiskAnalysis', () => {
     expect(openDialogMock).not.toHaveBeenCalled()
 
     consoleErrorSpy.mockRestore()
+  })
+
+  it('in option 2 still opens the dialog when reviewerIds is present but reviewers is not yet populated (staggered BE release)', () => {
+    const purpose = buildPurpose({
+      reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+      reviewerIds: ['reviewer-1'],
+      reviewers: [],
+      signingState: 'DRAFT',
+    })
+    mockQueries(purpose, createMockRiskAnalysisFormConfig())
+
+    render(<PurposeEditStepRiskAnalysis back={vi.fn()} forward={vi.fn()} activeStep={2} />)
+
+    getLastFormProps().onSubmit({ purpose: ['OTHER'] })
+
+    // The missing reviewers[] must not block the admin: the dialog opens with a placeholder
+    // reviewer built from reviewerId (name + surname simply unavailable until the BE backfills).
+    expect(openDialogMock).toHaveBeenCalledTimes(1)
+    expect(openDialogMock.mock.calls[0][0]).toMatchObject({
+      type: 'requestPurposeApproval',
+      reviewer: { userId: 'reviewer-1', name: '', familyName: '' },
+    })
   })
 
   it('in option 2 the draft save only persists and navigates without submitting', () => {
