@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { PurposeQueries } from '@/api/purpose'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { useGetPurposeInfoAlert } from '@/hooks/useGetPurposeInfoAlert'
+import { AuthHooks } from '@/api/auth'
 
 type ConsumerPurposeSummaryGeneralInformationAccordionProps = {
   purposeId: string
@@ -22,6 +23,7 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
   )
 
   const { t } = useTranslation('purpose', { keyPrefix: 'summary.generalInformationSection' })
+  const { isReviewer } = AuthHooks.useJwt()
 
   const generalInfoAlertProps = useGetPurposeInfoAlert({
     dailyCalls: purpose.currentVersion?.dailyCalls,
@@ -35,6 +37,9 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
 
   return (
     <Stack spacing={2}>
+      {isReviewer && (
+        <InformationContainer content={purpose.title} direction="row" label={t('name.label')} />
+      )}
       <InformationContainer
         content={purpose.description}
         direction="row"
