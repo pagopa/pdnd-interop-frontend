@@ -660,14 +660,17 @@
       }
     },
     "assignRiskAnalysisReviewer": {
+      "loading": "We are assigning the risk analysis to a reviewer",
       "outcome": {
-        "error": "The reviewer could not be assigned. Please try again!"
+        "success": "You have assigned a reviewer to compile and approve the risk analysis.",
+        "error": "It was not possible to assign the risk analysis."
       }
     },
     "submitRiskAnalysis": {
-      "loading": "Submitting the risk analysis to the reviewer",
+      "loading": "We are assigning the risk analysis to a reviewer",
       "outcome": {
-        "error": "The risk analysis could not be submitted to the reviewer. Please try again!"
+        "success": "You have assigned risk analysis approval to a reviewer.",
+        "error": "It was not possible to assign the risk analysis."
       }
     },
     "signRiskAnalysis": {
