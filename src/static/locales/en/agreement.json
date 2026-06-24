@@ -133,7 +133,6 @@
     "noPurposeAlert": "To access the data <1>create your first purpose</1>.",
     "versionAlert": {
       "deprecatedActive": "This e-service version is obsolete but still active. A new version is available.",
-      "deprecatedActiveShort": "This e-service version is obsolete but still active.",
       "archivingDescriptor": "This e-service version will be archived on {{date}}. After that date, you will only be able to use the new version to exchange data with the e-service.",
       "archivingSuspendedDescriptor": "This e-service version will be archived on {{date}}. It is currently suspended and cannot be used. A new version is available.",
       "suspendedLast": "This e-service version is currently suspended and cannot be used.",

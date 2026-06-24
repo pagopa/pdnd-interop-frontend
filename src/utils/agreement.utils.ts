@@ -1,5 +1,6 @@
 import type {
   Agreement,
+  AgreementListEntry,
   ArchivingScope,
   CatalogDescriptorEService,
   CatalogEServiceDescriptor,
@@ -96,6 +97,24 @@ export const canAgreementBeUpgraded = (agreement?: Agreement) => {
   return hasNewVersion && isActiveDescriptorPublishedOrSuspended && isAgreementActiveOrSuspended
 }
 
+export function getRequesterObsoleteVersionAgreement(
+  consumerAgreements: AgreementListEntry[],
+  requesterTenantId: string | undefined
+): { hasBlockingAgreement: boolean; upgradeableAgreementId: string | undefined } {
+  const ownAgreements = consumerAgreements.filter(
+    (agreement) => agreement.consumer.id === requesterTenantId
+  )
+
+  return {
+    hasBlockingAgreement: ownAgreements.some(
+      (agreement) => agreement.state !== 'ARCHIVED' && agreement.state !== 'REJECTED'
+    ),
+    upgradeableAgreementId: ownAgreements.find(
+      (agreement) => agreement.canBeUpgraded && ['ACTIVE', 'SUSPENDED'].includes(agreement.state)
+    )?.id,
+  }
+}
+
 /**
  * Check if there is an available new e-service version for the given agreement.
  * This is used in the agreement creation page.
@@ -137,7 +156,6 @@ export function getConsumerAgreementVersionAlertSpec(args: {
         content: t('archivingEService', { date: scheduledDate }),
         showSeeDetailsAction: true,
       },
-      { severity: 'info', content: t('deprecatedActiveShort') },
     ])
     .with({ state: 'ARCHIVING_SUSPENDED', scope: 'DESCRIPTOR' }, () => [
       { severity: 'error', content: t('archivingSuspendedDescriptor', { date: scheduledDate }) },

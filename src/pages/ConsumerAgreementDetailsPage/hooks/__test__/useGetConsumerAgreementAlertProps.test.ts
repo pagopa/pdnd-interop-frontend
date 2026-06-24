@@ -1,4 +1,4 @@
-import type { Agreement, Purpose } from '@/api/api.generatedTypes'
+import type { Agreement, EServiceDescriptorState, Purpose } from '@/api/api.generatedTypes'
 import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { useGetConsumerAgreementAlertProps } from '../useGetConsumerAgreementAlertProps'
 import { createMockAgreement } from '../../../../../__mocks__/data/agreement.mocks'
@@ -37,7 +37,7 @@ function renderUseGetConsumerAgreementAlertPropsHook(agreementMock: Agreement) {
 mockUseJwt()
 
 describe('check if useGetConsumerAgreementAlertProps returns the correct alertProps based on the passed agreement - no agreement', () => {
-  it('shoud return the correct alertProps if suspended agreement with suspendedByProducer is given', () => {
+  it('should return the correct alertProps if suspended agreement with suspendedByProducer is given', () => {
     mockUseGetConsumersList([])
     const agreement = createMockAgreement({
       state: 'SUSPENDED',
@@ -50,7 +50,7 @@ describe('check if useGetConsumerAgreementAlertProps returns the correct alertPr
     expect(result.current?.content).toBe('consumerRead.suspendedAlert.byProducer')
   })
 
-  it('shoud return the correct alertProps if suspended agreement with suspendedByConsumer is given', () => {
+  it('should return the correct alertProps if suspended agreement with suspendedByConsumer is given', () => {
     const agreement = createMockAgreement({
       state: 'SUSPENDED',
       suspendedByProducer: false,
@@ -62,7 +62,7 @@ describe('check if useGetConsumerAgreementAlertProps returns the correct alertPr
     expect(result.current?.content).toBe('consumerRead.suspendedAlert.byConsumer')
   })
 
-  it('shoud return the correct alertProps if suspended agreement with suspendedByPlatform is given', () => {
+  it('should return the correct alertProps if suspended agreement with suspendedByPlatform is given', () => {
     const agreement = createMockAgreement({
       state: 'SUSPENDED',
       suspendedByProducer: false,
@@ -74,7 +74,7 @@ describe('check if useGetConsumerAgreementAlertProps returns the correct alertPr
     expect(result.current?.content).toBe('consumerRead.suspendedAlert.byPlatform')
   })
 
-  it('shoud return the correct alertProps if suspended agreement with every suspendedBy is given', () => {
+  it('should return the correct alertProps if suspended agreement with every suspendedBy is given', () => {
     const agreement = createMockAgreement({
       state: 'SUSPENDED',
       suspendedByProducer: true,
@@ -86,7 +86,7 @@ describe('check if useGetConsumerAgreementAlertProps returns the correct alertPr
     expect(result.current?.content).toBe('consumerRead.suspendedAlert.byProducer')
   })
 
-  it('shoud return the correct alertProps if suspended agreement with only suspendedByProducer and suspendedByPlatform is given', () => {
+  it('should return the correct alertProps if suspended agreement with only suspendedByProducer and suspendedByPlatform is given', () => {
     const agreement = createMockAgreement({
       state: 'SUSPENDED',
       suspendedByProducer: true,
@@ -98,7 +98,7 @@ describe('check if useGetConsumerAgreementAlertProps returns the correct alertPr
     expect(result.current?.content).toBe('consumerRead.suspendedAlert.byProducer')
   })
 
-  it('shoud return the correct alertProps if suspended agreement with only suspendedByProducer and suspendedByConsumer is given', () => {
+  it('should return the correct alertProps if suspended agreement with only suspendedByProducer and suspendedByConsumer is given', () => {
     const agreement = createMockAgreement({
       state: 'SUSPENDED',
       suspendedByProducer: true,
@@ -110,7 +110,7 @@ describe('check if useGetConsumerAgreementAlertProps returns the correct alertPr
     expect(result.current?.content).toBe('consumerRead.suspendedAlert.byProducer')
   })
 
-  it('shoud return the correct alertProps if suspended agreement with only suspendedByConsumer and suspendedByPlatform is given', () => {
+  it('should return the correct alertProps if suspended agreement with only suspendedByConsumer and suspendedByPlatform is given', () => {
     const agreement = createMockAgreement({
       state: 'SUSPENDED',
       suspendedByProducer: false,
@@ -122,7 +122,7 @@ describe('check if useGetConsumerAgreementAlertProps returns the correct alertPr
     expect(result.current?.content).toBe('consumerRead.suspendedAlert.byConsumer')
   })
 
-  it('shoud return the correct alertProps if missing certified attributes agreement is given', () => {
+  it('should return the correct alertProps if missing certified attributes agreement is given', () => {
     const agreement = createMockAgreement({
       state: 'MISSING_CERTIFIED_ATTRIBUTES',
     })
@@ -131,7 +131,7 @@ describe('check if useGetConsumerAgreementAlertProps returns the correct alertPr
     expect(result.current?.content).toBe('consumerRead.missingCertifiedAttributesAlert')
   })
 
-  it('shoud return the correct alertProps if nor suspended or missing certified attributes agreement is given and that agreement has not purposes', async () => {
+  it('should return the correct alertProps if neither suspended nor missing certified attributes agreement is given and that agreement has no purposes', async () => {
     const agreement = createMockAgreement({
       state: 'ACTIVE',
     })
@@ -144,7 +144,7 @@ describe('check if useGetConsumerAgreementAlertProps returns the correct alertPr
     })
   })
 
-  it('shoud return the correct alertProps if nor suspended or missing certified attributes agreement is given and that agreement has only archived purposes', async () => {
+  it('should return the correct alertProps if neither suspended nor missing certified attributes agreement is given and that agreement has only archived purposes', async () => {
     const agreement = createMockAgreement({
       state: 'ACTIVE',
     })
@@ -169,7 +169,24 @@ describe('check if useGetConsumerAgreementAlertProps returns the correct alertPr
     })
   })
 
-  it('shoud not return any alertProps if nor suspended or missing certified attributes agreement is given and the agreement has purposes that are not all archived', () => {
+  it.each<EServiceDescriptorState>(['ARCHIVING', 'ARCHIVING_SUSPENDED', 'ARCHIVED'])(
+    'should not return the noPurposeAlert when the e-service is archived or being archived (active descriptor state %s), even without purposes',
+    (activeDescriptorState) => {
+      const agreement = createMockAgreement({
+        state: 'ACTIVE',
+        eservice: {
+          activeDescriptor: {
+            state: activeDescriptorState,
+          },
+        },
+      })
+      mockUseGetConsumersList([])
+      const { result } = renderUseGetConsumerAgreementAlertPropsHook(agreement)
+      expect(result.current).toBeUndefined()
+    }
+  )
+
+  it('should not return any alertProps if neither suspended nor missing certified attributes agreement is given and the agreement has purposes that are not all archived', () => {
     const agreement = createMockAgreement({
       state: 'ACTIVE',
     })

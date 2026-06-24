@@ -17,6 +17,7 @@ import { NewPageContainer } from '@/components/layout/containers/NewPageContaine
 import { useDialog } from '@/stores'
 import { getViewLatestVersionTargetId, isDescriptorPendingArchiving } from '@/utils/eservice.utils'
 import { ConsumerEServiceDetailsAlerts } from './components/ConsumerEServiceDetailsTab/ConsumerEServiceDetailsAlerts'
+import { useRequesterEserviceAgreement } from './hooks/useRequesterEserviceAgreement'
 
 const ConsumerEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -62,8 +63,21 @@ const ConsumerEServiceDetailsPage: React.FC = () => {
     [descriptor?.eservice.descriptors, descriptorId]
   )
 
+  const requesterEserviceAgreement = useRequesterEserviceAgreement({
+    eserviceId,
+    activeDescriptorId: descriptor?.eservice.activeDescriptor?.id,
+    requesterTenantId: jwt?.organizationId,
+    isReviewer,
+  })
+
   const { primaryAction, secondaryAction, menuActions, headerInfoActions } =
-    useGetEServiceConsumerActions(descriptor, delegators, isDelegator, viewLatestVersionTargetId)
+    useGetEServiceConsumerActions(
+      descriptor,
+      delegators,
+      isDelegator,
+      viewLatestVersionTargetId,
+      requesterEserviceAgreement
+    )
 
   useTrackPageViewEvent('INTEROP_CATALOG_READ', {
     eserviceId: descriptor?.eservice.id,

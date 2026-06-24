@@ -2,6 +2,7 @@ import type { Agreement } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { PurposeQueries } from '@/api/purpose'
 import type { Link, RouteKey } from '@/router'
+import { isDescriptorPendingArchiving } from '@/utils/eservice.utils'
 import type { AlertProps } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
@@ -55,7 +56,11 @@ export function useGetConsumerAgreementAlertProps(agreement: Agreement):
     purposes?.results.length === 0 ||
     purposes?.results.every((purpose) => purpose.currentVersion?.state === 'ARCHIVED')
 
-  if (isWithoutPurposes && !isViewer) {
+  const activeDescriptorState = agreement.eservice.activeDescriptor?.state
+  const isEServiceArchivedOrArchiving =
+    isDescriptorPendingArchiving(activeDescriptorState) || activeDescriptorState === 'ARCHIVED'
+
+  if (isWithoutPurposes && !isEServiceArchivedOrArchiving && !isViewer) {
     return {
       severity: 'info',
       content: t('consumerRead.noPurposeAlert'),
