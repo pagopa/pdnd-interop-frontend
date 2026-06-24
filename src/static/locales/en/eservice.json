@@ -1197,6 +1197,7 @@
     "subscribe": "Request fruition",
     "editDraft": "Complete request",
     "inspect": "Inspect request",
+    "upgradeToNewVersion": "Update to new version",
     "eserviceSuspendedTooltip": "It is currently not possible to submit new requests; the e-service is suspended",
     "missingCertifiedAttributesTooltip": "Your institution does not have the certified attributes necessary to register"
   },

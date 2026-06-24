@@ -1,5 +1,6 @@
 import type {
   Agreement,
+  AgreementListEntry,
   ArchivingScope,
   CatalogDescriptorEService,
   CatalogEServiceDescriptor,
@@ -94,6 +95,24 @@ export const canAgreementBeUpgraded = (agreement?: Agreement) => {
   const isAgreementActiveOrSuspended = ['ACTIVE', 'SUSPENDED'].includes(agreement.state)
 
   return hasNewVersion && isActiveDescriptorPublishedOrSuspended && isAgreementActiveOrSuspended
+}
+
+export function getRequesterObsoleteVersionAgreement(
+  consumerAgreements: AgreementListEntry[],
+  requesterTenantId: string | undefined
+): { hasBlockingAgreement: boolean; upgradeableAgreementId: string | undefined } {
+  const ownAgreements = consumerAgreements.filter(
+    (agreement) => agreement.consumer.id === requesterTenantId
+  )
+
+  return {
+    hasBlockingAgreement: ownAgreements.some(
+      (agreement) => agreement.state !== 'ARCHIVED' && agreement.state !== 'REJECTED'
+    ),
+    upgradeableAgreementId: ownAgreements.find(
+      (agreement) => agreement.canBeUpgraded && ['ACTIVE', 'SUSPENDED'].includes(agreement.state)
+    )?.id,
+  }
 }
 
 /**
