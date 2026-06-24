@@ -1,4 +1,5 @@
 import type { Agreement } from '@/api/api.generatedTypes'
+import { AuthHooks } from '@/api/auth'
 import { PurposeQueries } from '@/api/purpose'
 import type { Link, RouteKey } from '@/router'
 import { isDescriptorPendingArchiving } from '@/utils/eservice.utils'
@@ -18,6 +19,7 @@ export function useGetConsumerAgreementAlertProps(agreement: Agreement):
     }
   | undefined {
   const { t } = useTranslation('agreement')
+  const { isViewer } = AuthHooks.useJwt()
 
   const { data: purposes } = useQuery({
     ...PurposeQueries.getConsumersList({
@@ -58,7 +60,7 @@ export function useGetConsumerAgreementAlertProps(agreement: Agreement):
   const isEServiceArchivedOrArchiving =
     isDescriptorPendingArchiving(activeDescriptorState) || activeDescriptorState === 'ARCHIVED'
 
-  if (isWithoutPurposes && !isEServiceArchivedOrArchiving) {
+  if (isWithoutPurposes && !isEServiceArchivedOrArchiving && !isViewer) {
     return {
       severity: 'info',
       content: t('consumerRead.noPurposeAlert'),

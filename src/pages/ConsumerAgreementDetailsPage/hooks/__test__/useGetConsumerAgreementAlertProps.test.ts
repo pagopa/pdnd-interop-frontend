@@ -1,5 +1,5 @@
 import type { Agreement, EServiceDescriptorState, Purpose } from '@/api/api.generatedTypes'
-import { renderHookWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { useGetConsumerAgreementAlertProps } from '../useGetConsumerAgreementAlertProps'
 import { createMockAgreement } from '../../../../../__mocks__/data/agreement.mocks'
 import { waitFor } from '@testing-library/react'
@@ -33,6 +33,8 @@ function renderUseGetConsumerAgreementAlertPropsHook(agreementMock: Agreement) {
     withReactQueryContext: true,
   })
 }
+
+mockUseJwt()
 
 describe('check if useGetConsumerAgreementAlertProps returns the correct alertProps based on the passed agreement - no agreement', () => {
   it('should return the correct alertProps if suspended agreement with suspendedByProducer is given', () => {
@@ -201,6 +203,16 @@ describe('check if useGetConsumerAgreementAlertProps returns the correct alertPr
       },
     })
     mockUseGetConsumersList([purpose, purpose2])
+    const { result } = renderUseGetConsumerAgreementAlertPropsHook(agreement)
+    expect(result.current).toBeUndefined()
+  })
+
+  it('should not return noPurpose alert if user is viewer and agreement has no purposes', () => {
+    mockUseJwt({ isViewer: true })
+    const agreement = createMockAgreement({
+      state: 'ACTIVE',
+    })
+    mockUseGetConsumersList([])
     const { result } = renderUseGetConsumerAgreementAlertPropsHook(agreement)
     expect(result.current).toBeUndefined()
   })
