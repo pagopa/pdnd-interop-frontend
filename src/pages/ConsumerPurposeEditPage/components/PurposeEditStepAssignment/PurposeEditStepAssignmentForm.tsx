@@ -66,7 +66,9 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit.stepAssignment' })
   const { t: tEdit } = useTranslation('purpose', { keyPrefix: 'edit' })
-  const { mutate: assignReviewer } = PurposeMutations.useAssignRiskAnalysisReviewer()
+  const { mutate: assignReviewer } = PurposeMutations.useAssignRiskAnalysisReviewer({
+    showSuccessToast: false,
+  })
   const { openDialog } = useDialog()
 
   const hasNoReviewers = reviewers.length === 0
