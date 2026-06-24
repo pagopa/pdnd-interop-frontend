@@ -13,10 +13,7 @@ const mockReviewer: CompactUser = {
   familyName: 'Rossi',
 }
 
-function buildPurpose(
-  reviewMode: RiskAnalysisReviewMode,
-  reviewers: Array<CompactUser>
-): Purpose {
+function buildPurpose(reviewMode: RiskAnalysisReviewMode, reviewers: Array<CompactUser>): Purpose {
   return {
     ...createMockPurpose({ id: 'purpose-id' }),
     reviewerWorkflow: {
