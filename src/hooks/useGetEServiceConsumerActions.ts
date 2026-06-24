@@ -11,6 +11,7 @@ import {
   checkIfcanCreateAgreementDraft,
   checkIfhasAlreadyAgreementDraft,
 } from '@/utils/agreement.utils'
+import { isDescriptorPendingArchiving } from '@/utils/eservice.utils'
 import { AuthHooks } from '@/api/auth'
 import SendIcon from '@mui/icons-material/Send'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
@@ -283,6 +284,27 @@ function useGetEServiceConsumerActions(
         }
       : undefined
 
+  const shouldShowDisabledArchivingSubscribe =
+    (isDescriptorPendingArchiving(descriptor.state) ||
+      isDescriptorPendingArchiving(descriptor.eservice.activeDescriptor?.state)) &&
+    Boolean(viewLatestVersionTargetId) &&
+    !isMine &&
+    !isSubscribed &&
+    !hasAgreementDraft &&
+    !isDelegator &&
+    !(delegators && delegators.length > 0)
+
+  const subscribeDisabledArchivingAction: ActionItemButton | undefined =
+    shouldShowDisabledArchivingSubscribe
+      ? {
+          action: noop,
+          label: t('tableEServiceCatalog.subscribe'),
+          icon: SendIcon,
+          variant: 'contained',
+          disabled: true,
+        }
+      : undefined
+
   const handleViewLatestVersion = () => {
     if (viewLatestVersionTargetId) {
       navigate('SUBSCRIBE_CATALOG_VIEW', {
@@ -300,7 +322,11 @@ function useGetEServiceConsumerActions(
     : undefined
 
   const primaryAction: ActionItemButton | undefined =
-    inspectAction ?? editDraftAction ?? subscribeAction ?? subscribeDisabledMissingAttributesAction
+    inspectAction ??
+    editDraftAction ??
+    subscribeAction ??
+    subscribeDisabledMissingAttributesAction ??
+    subscribeDisabledArchivingAction
 
   const hasPrimaryAgreementAction = Boolean(inspectAction ?? editDraftAction)
   const secondaryAction: ActionItemButton | undefined =
