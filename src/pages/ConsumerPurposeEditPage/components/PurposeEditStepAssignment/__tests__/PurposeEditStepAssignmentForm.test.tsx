@@ -19,6 +19,7 @@ vi.mock('@/api/purpose', () => ({
 }))
 
 vi.mock('@/stores', async () => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   const actual = await vi.importActual<typeof import('@/stores')>('@/stores')
   return {
     ...actual,
@@ -115,10 +116,11 @@ describe('PurposeEditStepAssignmentForm', () => {
     await user.click(
       screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesReviewerSigns' })
     )
+    expect(screen.getByText('reviewerField.label.selfWritesReviewerSigns')).toBeInTheDocument()
 
     expect(
       screen.getByRole('combobox', {
-        name: 'reviewerField.label.selfWritesReviewerSigns',
+        name: 'reviewerField.inputLabel',
       })
     ).toBeInTheDocument()
 
@@ -135,7 +137,7 @@ describe('PurposeEditStepAssignmentForm', () => {
       screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesReviewerSigns' })
     )
 
-    const label = screen.getByText('reviewerField.label.selfWritesReviewerSigns')
+    const label = screen.getByText('reviewerField.inputLabel')
     expect(label.querySelector('.MuiFormLabel-asterisk')).toBeInTheDocument()
     expect(container.querySelector('input[required]')).toBeInTheDocument()
   })
@@ -147,9 +149,10 @@ describe('PurposeEditStepAssignmentForm', () => {
     await user.click(
       screen.getByRole('radio', { name: 'reviewModeField.options.reviewerWritesReviewerSigns' })
     )
+    expect(screen.getByText('reviewerField.label.reviewerWritesReviewerSigns')).toBeInTheDocument()
 
     const autocomplete = screen.getByRole('combobox', {
-      name: 'reviewerField.label.reviewerWritesReviewerSigns',
+      name: 'reviewerField.inputLabel',
     })
     expect(autocomplete).toBeInTheDocument()
 
@@ -219,9 +222,9 @@ describe('PurposeEditStepAssignmentForm', () => {
     await user.click(
       screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesReviewerSigns' })
     )
-    await user.click(
-      screen.getByRole('combobox', { name: 'reviewerField.label.selfWritesReviewerSigns' })
-    )
+
+    await user.click(screen.getByRole('combobox', { name: 'reviewerField.inputLabel' }))
+
     await user.click(screen.getByText('Mario Rossi'))
     await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
 
@@ -243,9 +246,9 @@ describe('PurposeEditStepAssignmentForm', () => {
     await user.click(
       screen.getByRole('radio', { name: 'reviewModeField.options.reviewerWritesReviewerSigns' })
     )
-    await user.click(
-      screen.getByRole('combobox', { name: 'reviewerField.label.reviewerWritesReviewerSigns' })
-    )
+
+    await user.click(screen.getByRole('combobox', { name: 'reviewerField.inputLabel' }))
+
     await user.click(screen.getByText('Mario Rossi'))
     await user.click(screen.getByRole('button', { name: 'requestReviewerCompilationBtn' }))
 
@@ -267,9 +270,9 @@ describe('PurposeEditStepAssignmentForm', () => {
     await user.click(
       screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesReviewerSigns' })
     )
-    await user.click(
-      screen.getByRole('combobox', { name: 'reviewerField.label.selfWritesReviewerSigns' })
-    )
+
+    await user.click(screen.getByRole('combobox', { name: 'reviewerField.inputLabel' }))
+
     await user.click(screen.getByText('Mario Rossi'))
 
     await user.click(
@@ -293,7 +296,9 @@ describe('PurposeEditStepAssignmentForm', () => {
       screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesReviewerSigns' })
     ).toBeChecked()
     expect(
-      screen.getByRole('combobox', { name: 'reviewerField.label.selfWritesReviewerSigns' })
+      screen.getByRole('combobox', {
+        name: 'reviewerField.inputLabel',
+      })
     ).toHaveValue('Anna Verdi')
   })
 
