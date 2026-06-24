@@ -7,6 +7,7 @@ import type { Purpose } from '@/api/api.generatedTypes'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { useTranslation } from 'react-i18next'
 import isToday from 'date-fns/isToday'
+import { match, P } from 'ts-pattern'
 
 export const RiskAnalysisTableRow: React.FC<{
   purpose: Purpose
@@ -39,14 +40,17 @@ export const RiskAnalysisTableRow: React.FC<{
         ),
         purpose.eservice.name,
         purpose.eservice.producer.name,
-        purpose.reviewerWorkflow?.signingState ? (
-          <StatusChip
-            for="riskAnalysisList"
-            state={purpose.reviewerWorkflow.signingState as 'ASSIGNED' | 'SUBMITTED'}
-          />
-        ) : (
-          ''
-        ),
+        purpose.reviewerWorkflow?.signingState
+          ? match(purpose.reviewerWorkflow.signingState)
+              .with(P.union('ASSIGNED', 'SUBMITTED'), (state) => (
+                <StatusChip for="riskAnalysisList" state={state} />
+              ))
+              .with(P.union('SIGNED', 'REJECTED'), (state) => (
+                <StatusChip for="riskAnalysis" state={state} />
+              ))
+              .with('DRAFT', () => '')
+              .exhaustive()
+          : '',
       ]}
     >
       <Link
