@@ -467,11 +467,11 @@ const getTranslationKey = (errorCode?: string): string | undefined => {
   return undefined
 }
 
-const getLocalizedError = (translationKey: string): string => {
+const getLocalizedError = (translationKey: string): string | undefined => {
   const normalizedTranslationKey = translationKeyAliases[translationKey] ?? translationKey
   const localizedMessage = i18n.t(`error:errors-bff.${normalizedTranslationKey}`, {
     defaultValue: '',
   })
 
-  return localizedMessage || i18n.t('error:errors-bff.genericMappedError')
+  return localizedMessage || undefined
 }

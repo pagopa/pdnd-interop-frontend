@@ -51,4 +51,26 @@ describe('getMappedError', () => {
     expect(getMappedError('0008')).toBeUndefined()
     expect(getMappedError()).toBeUndefined()
   })
+
+  it('returns undefined when the mapped translation is missing', () => {
+    try {
+      i18n.addResourceBundle(
+        'en',
+        'error',
+        {
+          ...errorEnNs,
+          'errors-bff': {
+            ...errorEnNs['errors-bff'],
+            clientNotFound: '',
+          },
+        },
+        true,
+        true
+      )
+
+      expect(getMappedError('008-0051')).toBeUndefined()
+    } finally {
+      i18n.addResourceBundle('en', 'error', errorEnNs, true, true)
+    }
+  })
 })
