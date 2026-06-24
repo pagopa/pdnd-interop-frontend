@@ -301,9 +301,11 @@ describe('PurposeEditStepRiskAnalysis', () => {
   })
 
   it('in option 2 opens the requestPurposeApproval dialog and the dialog onConfirm runs the submit+navigate chain', () => {
+    const reviewer = { userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' }
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
       reviewerIds: ['reviewer-1'],
+      reviewers: [reviewer],
       signingState: 'DRAFT',
     })
     const riskAnalysis = createMockRiskAnalysisFormConfig()
@@ -321,11 +323,9 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
     expect(openDialogMock).toHaveBeenCalledTimes(1)
     const dialogPayload = openDialogMock.mock.calls[0][0]
-    // TODO: assert the real reviewer once the BE returns reviewers as CompactUser[];
-    // for now the component builds a placeholder from reviewerIds[0].
     expect(dialogPayload).toMatchObject({
       type: 'requestPurposeApproval',
-      reviewer: { userId: 'reviewer-1', name: '', familyName: '' },
+      reviewer,
     })
     expect(typeof dialogPayload.onConfirm).toBe('function')
 
@@ -350,11 +350,12 @@ describe('PurposeEditStepRiskAnalysis', () => {
     })
   })
 
-  it('in option 2 logs and no-ops when reviewerIds is missing (BE contract violation) instead of opening a malformed dialog', () => {
+  it('in option 2 logs and no-ops when reviewers is missing (BE contract violation) instead of opening a malformed dialog', () => {
     const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
       reviewerIds: [],
+      reviewers: [],
       signingState: 'DRAFT',
     })
     mockQueries(purpose, createMockRiskAnalysisFormConfig())
@@ -363,7 +364,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
     getLastFormProps().onSubmit({ purpose: ['OTHER'] })
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching(/reviewerIds/))
+    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching(/reviewers/))
     expect(openDialogMock).not.toHaveBeenCalled()
 
     consoleErrorSpy.mockRestore()

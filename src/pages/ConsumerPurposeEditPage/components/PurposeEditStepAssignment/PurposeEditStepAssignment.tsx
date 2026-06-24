@@ -46,9 +46,7 @@ export const PurposeEditStepAssignment: React.FC<ActiveStepProps> = (props) => {
 
   const isEditableDraft = purpose.currentVersion?.state === 'DRAFT'
   if (purpose.reviewerWorkflow || !isEditableDraft) {
-    return (
-      <PurposeEditStepAssignmentReadOnly purpose={purpose} reviewers={reviewers ?? []} {...props} />
-    )
+    return <PurposeEditStepAssignmentReadOnly purpose={purpose} {...props} />
   }
 
   const isDelegate = Boolean(
