@@ -16,7 +16,7 @@ import type {
 import { PurposeMutations } from '@/api/purpose'
 import { useDialog } from '@/stores'
 import SaveIcon from '@mui/icons-material/Save'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import SendIcon from '@mui/icons-material/Send'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 export type ReviewModeOption =
@@ -168,6 +168,8 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
                   <RHFAutocompleteSingle
                     name="reviewerId"
                     label={t(`reviewerField.label.${reviewerLabelKey}`)}
+                    labelType="external"
+                    placeholder={t('reviewerField.placeholder')}
                     options={reviewerOptions}
                     rules={{ required: t('reviewerField.requiredError') }}
                   />
@@ -188,8 +190,7 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
               ? t('requestReviewerCompilationBtn')
               : t('forwardBtn'),
             type: 'submit',
-            startIcon: isRequestReviewerCompilation ? undefined : <SaveIcon />,
-            endIcon: isRequestReviewerCompilation ? <ArrowForwardIcon /> : undefined,
+            startIcon: isRequestReviewerCompilation ? <SendIcon /> : <SaveIcon />,
           }}
         />
       </Box>

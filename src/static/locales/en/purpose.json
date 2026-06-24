@@ -112,6 +112,7 @@
           "selfWritesReviewerSigns": "Who will approve the risk analysis?",
           "reviewerWritesReviewerSigns": "Who will fill in the risk analysis?"
         },
+        "placeholder": "Select reviewer",
         "requiredError": "To proceed, please select a reviewer"
       },
       "noReviewersAlert": {

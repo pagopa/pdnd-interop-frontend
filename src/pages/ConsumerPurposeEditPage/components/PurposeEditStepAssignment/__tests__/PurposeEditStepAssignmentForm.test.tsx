@@ -177,26 +177,26 @@ describe('PurposeEditStepAssignmentForm', () => {
     expect(screen.queryByRole('button', { name: 'forwardBtn' })).not.toBeInTheDocument()
   })
 
-  it('uses the Save icon on the primary CTA for option 1 and 2, and the ArrowForward icon for option 3', async () => {
+  it('uses the Save icon on the primary CTA for option 1 and 2, and the Send icon for option 3', async () => {
     const user = userEvent.setup()
     renderComponent()
 
     const forwardBtn = screen.getByRole('button', { name: 'forwardBtn' })
     expect(within(forwardBtn).getByTestId('SaveIcon')).toBeInTheDocument()
-    expect(within(forwardBtn).queryByTestId('ArrowForwardIcon')).not.toBeInTheDocument()
+    expect(within(forwardBtn).queryByTestId('SendIcon')).not.toBeInTheDocument()
 
     await user.click(
       screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesReviewerSigns' })
     )
     const forwardBtn2 = screen.getByRole('button', { name: 'forwardBtn' })
     expect(within(forwardBtn2).getByTestId('SaveIcon')).toBeInTheDocument()
-    expect(within(forwardBtn2).queryByTestId('ArrowForwardIcon')).not.toBeInTheDocument()
+    expect(within(forwardBtn2).queryByTestId('SendIcon')).not.toBeInTheDocument()
 
     await user.click(
       screen.getByRole('radio', { name: 'reviewModeField.options.reviewerWritesReviewerSigns' })
     )
     const requestBtn = screen.getByRole('button', { name: 'requestReviewerCompilationBtn' })
-    expect(within(requestBtn).getByTestId('ArrowForwardIcon')).toBeInTheDocument()
+    expect(within(requestBtn).getByTestId('SendIcon')).toBeInTheDocument()
     expect(within(requestBtn).queryByTestId('SaveIcon')).not.toBeInTheDocument()
   })
 
