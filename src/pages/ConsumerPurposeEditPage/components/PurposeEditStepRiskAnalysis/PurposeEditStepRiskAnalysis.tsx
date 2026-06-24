@@ -1,5 +1,6 @@
 import React from 'react'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
+import type { CompactUser } from '@/api/api.generatedTypes'
 import { RiskAnalysisForm, RiskAnalysisFormSkeleton } from './RiskAnalysisForm/RiskAnalysisForm'
 import { useNavigate, useParams } from '@/router'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
@@ -137,16 +138,21 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
   }
 
   const handleRequestApproval = (answers: Record<string, string[]>) => {
-    const reviewer = purpose.reviewerWorkflow?.reviewers?.[0]
-    if (!reviewer) {
-      // BE contract: option 2 always assigns at least one reviewer.
+    const reviewerId = purpose.reviewerWorkflow?.reviewerIds?.[0]
+    if (!reviewerId) {
       // If we land here the purpose is malformed;
       // log loudly and no-op rather than crashing the route —
       // this is a UI action handler, not a place to throw to the ErrorBoundary.
       console.error(
-        'PurposeEditStepRiskAnalysis: reviewers is missing on a purpose in ADMIN_WRITES_REVIEWER_SIGNS mode'
+        'PurposeEditStepRiskAnalysis: reviewerIds is missing on a purpose in ADMIN_WRITES_REVIEWER_SIGNS mode'
       )
       return
+    }
+
+    const reviewer: CompactUser = purpose.reviewerWorkflow?.reviewers?.[0] ?? {
+      userId: reviewerId,
+      name: '',
+      familyName: '',
     }
     openDialog({
       type: 'requestPurposeApproval',

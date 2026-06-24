@@ -350,7 +350,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
     })
   })
 
-  it('in option 2 logs and no-ops when reviewers is missing (BE contract violation) instead of opening a malformed dialog', () => {
+  it('in option 2 logs and no-ops when reviewerIds is missing (BE contract violation) instead of opening a malformed dialog', () => {
     const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
@@ -364,10 +364,32 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
     getLastFormProps().onSubmit({ purpose: ['OTHER'] })
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching(/reviewers/))
+    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching(/reviewerIds/))
     expect(openDialogMock).not.toHaveBeenCalled()
 
     consoleErrorSpy.mockRestore()
+  })
+
+  it('in option 2 still opens the dialog when reviewerIds is present but reviewers is not yet populated (staggered BE release)', () => {
+    const purpose = buildPurpose({
+      reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+      reviewerIds: ['reviewer-1'],
+      reviewers: [],
+      signingState: 'DRAFT',
+    })
+    mockQueries(purpose, createMockRiskAnalysisFormConfig())
+
+    render(<PurposeEditStepRiskAnalysis back={vi.fn()} forward={vi.fn()} activeStep={2} />)
+
+    getLastFormProps().onSubmit({ purpose: ['OTHER'] })
+
+    // The missing reviewers[] must not block the admin: the dialog opens with a placeholder
+    // reviewer built from reviewerId (name + surname simply unavailable until the BE backfills).
+    expect(openDialogMock).toHaveBeenCalledTimes(1)
+    expect(openDialogMock.mock.calls[0][0]).toMatchObject({
+      type: 'requestPurposeApproval',
+      reviewer: { userId: 'reviewer-1', name: '', familyName: '' },
+    })
   })
 
   it('in option 2 the draft save only persists and navigates without submitting', () => {
