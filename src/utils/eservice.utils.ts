@@ -143,13 +143,15 @@ export function isDescriptorPendingArchiving(state: EServiceDescriptorState | un
 }
 
 /**
- * Removes the ` (n)` suffix that browsers append to a downloaded file name to
- * avoid overwriting an existing one (e.g. `my-eservice (1).zip` -> `my-eservice.zip`).
+ * Removes the `(n)` suffix that browsers append to a downloaded file name to
+ * avoid overwriting an existing one. The leading space is optional because some
+ * browsers add it (Chrome/Edge: `my-eservice (1).zip`) and some don't
+ * (Firefox: `my-eservice(1).zip`); both become `my-eservice.zip`.
  *
  * The e-service import on the BFF derives the zip's root folder name from the
  * uploaded file name, so a renamed file breaks the import (PIN-10161). Stripping
  * the suffix restores the original name produced at export time.
  */
 export function sanitizeImportEserviceFileName(fileName: string): string {
-  return fileName.replace(/ \(\d+\)(?=\.zip$)/, '')
+  return fileName.replace(/ ?\(\d+\)(?=\.zip$)/, '')
 }

@@ -345,6 +345,11 @@ describe('sanitizeImportEserviceFileName utility function testing', () => {
       expected: 'abc123_def456.zip',
     },
     {
+      scenario: 'strips the no-space `(n)` suffix (e.g. Firefox)',
+      input: 'abc123_def456(1).zip',
+      expected: 'abc123_def456.zip',
+    },
+    {
       scenario: 'leaves an untouched file name unchanged',
       input: 'abc123_def456.zip',
       expected: 'abc123_def456.zip',
