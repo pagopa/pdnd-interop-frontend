@@ -131,7 +131,13 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer title={t('title')} description={t('description')}>
           <Stack spacing={3}>
-            {isDelegate && <Alert severity="warning">{t('delegateAlert')}</Alert>}
+            {isDelegate && (
+              <Alert severity="warning">
+                {t('delegateAlert', {
+                  name: purpose.eservice.name,
+                })}
+              </Alert>
+            )}
             {!isDelegate && hasNoReviewers && (
               <Alert severity="info">
                 {t('noReviewersAlert.message')}{' '}

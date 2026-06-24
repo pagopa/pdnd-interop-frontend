@@ -119,7 +119,7 @@
         "message": "Your institution does not yet have a user with the reviewer role. You can add one from the Reserved Area.",
         "linkLabel": "Go to Users"
       },
-      "delegateAlert": "As a delegate, you cannot assign the risk analysis to a reviewer.",
+      "delegateAlert": "As the delegate to consuming the e-service {{name}}, you cannot assign the risk analysis to a reviewer but you can complete it yourself.",
       "forwardBtn": "Save draft and proceed",
       "requestReviewerCompilationBtn": "Request compilation",
       "readOnly": {
