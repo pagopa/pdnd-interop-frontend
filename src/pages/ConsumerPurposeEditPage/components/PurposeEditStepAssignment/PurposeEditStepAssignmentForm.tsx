@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, Box, Link, Stack } from '@mui/material'
+import { Alert, Box, Link, Stack, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { match } from 'ts-pattern'
@@ -165,12 +165,17 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
                   ]}
                 />
                 {needsReviewer && (
-                  <RHFAutocompleteSingle
-                    name="reviewerId"
-                    label={t(`reviewerField.label.${reviewerLabelKey}`)}
-                    options={reviewerOptions}
-                    rules={{ required: t('reviewerField.requiredError') }}
-                  />
+                  <>
+                    <Typography variant="body2" fontWeight={600}>
+                      {t(`reviewerField.label.${reviewerLabelKey}`)}
+                    </Typography>
+                    <RHFAutocompleteSingle
+                      name="reviewerId"
+                      label={t('reviewerField.inputLabel')}
+                      options={reviewerOptions}
+                      rules={{ required: t('reviewerField.requiredError') }}
+                    />
+                  </>
                 )}
               </>
             )}

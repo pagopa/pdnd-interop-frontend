@@ -112,6 +112,7 @@
           "selfWritesReviewerSigns": "Chi approverà l’analisi del rischio?",
           "reviewerWritesReviewerSigns": "Chi compilerà l’analisi del rischio?"
         },
+        "inputLabel": "Seleziona valutatore",
         "requiredError": "Per proseguire, seleziona un valutatore"
       },
       "noReviewersAlert": {
