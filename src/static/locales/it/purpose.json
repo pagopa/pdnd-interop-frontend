@@ -116,7 +116,7 @@
         "requiredError": "Per proseguire, seleziona un valutatore"
       },
       "noReviewersAlert": {
-        "message": "Il tuo ente non ha ancora un utente con ruolo di valutatore. Puoi aggiungerlo dall’Area Riservata.",
+        "message": "Il tuo ente non ha ancora un utente con ruolo di valutatore. Puoi aggiungerlo dall’Area Riservata o compilare in autonomia l’analisi del rischio.",
         "linkLabel": "Vai a Utenti"
       },
       "delegateAlert": "Come delegato alla fruizione dell’e-service {{name}}, non puoi assegnare l'analisi del rischio a un valutatore ma puoi compilarla in autonomia.",
