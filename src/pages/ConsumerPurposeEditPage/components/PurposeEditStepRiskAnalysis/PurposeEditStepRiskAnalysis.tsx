@@ -232,6 +232,7 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
       isSubmitting={isSaving || isSubmittingForReviewer}
       isRejected={isRejected}
       rejectionReason={purpose.reviewerWorkflow?.rejectionReason}
+      submitLabel={t('forwardWithSaveBtn')}
     />
   )
 }

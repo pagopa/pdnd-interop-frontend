@@ -63,6 +63,7 @@ type RiskAnalysisFormSpyProps = {
   onSubmit: (answers: Record<string, string[]>) => void
   onSaveDraft?: (answers: Record<string, string[]>) => void
   isRejected?: boolean
+  submitLabel?: string
 }
 
 const formSpy = vi.fn<[RiskAnalysisFormSpyProps], null>()
@@ -118,6 +119,8 @@ describe('PurposeEditStepRiskAnalysis', () => {
     expect(getLastFormProps().isReviewerApprovalMode).toBe(false)
     expect(getLastFormProps().onSaveDraft).toBeUndefined()
     expect(getLastFormProps().isRejected).toBeFalsy()
+    // the editable step 3 forward CTA reads "Salva bozza e prosegui", not "Vai al riepilogo"
+    expect(getLastFormProps().submitLabel).toBe('forwardWithSaveBtn')
   })
 
   it('passes isReviewerApprovalMode=true with onSaveDraft when reviewMode is ADMIN_WRITES_REVIEWER_SIGNS', () => {
