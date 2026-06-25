@@ -99,7 +99,7 @@ const RouterErrorPage = () => {
 
   return (
     <Box sx={{ p: 8 }}>
-      <ErrorPage error={error} resetErrorBoundary={() => undefined} />
+      <ErrorPage error={error} resetErrorBoundary={() => window.location.reload()} />
     </Box>
   )
 }
