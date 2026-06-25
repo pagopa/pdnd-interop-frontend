@@ -113,3 +113,32 @@ export const mapValidationErrorMessages = (
 
   return mappedRules
 }
+
+export const withTrimmedRequired = (
+  rules: ControllerProps['rules'],
+  t: TFunction
+): ControllerProps['rules'] => {
+  if (!rules || !rules.required) {
+    return rules
+  }
+
+  const requiredRule = rules.required
+  const requiredMessage =
+    requiredRule && typeof requiredRule === 'object' && 'message' in requiredRule
+      ? requiredRule.message
+      : typeof requiredRule === 'string'
+        ? requiredRule
+        : t('validation.mixed.required')
+
+  const notBlank = (value: unknown): true | typeof requiredMessage =>
+    typeof value !== 'string' || value.trim().length > 0 || requiredMessage
+
+  const { validate } = rules
+  if (validate === undefined) {
+    return { ...rules, validate: notBlank }
+  }
+  if (typeof validate === 'function') {
+    return { ...rules, validate: { existing: validate, notBlank } }
+  }
+  return { ...rules, validate: { ...validate, notBlank } }
+}
