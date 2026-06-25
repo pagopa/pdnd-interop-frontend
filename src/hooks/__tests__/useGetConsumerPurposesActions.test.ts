@@ -288,5 +288,18 @@ describe('check if useGetConsumerPurposesActions returns the correct actions bas
       expect(cloneAction?.tooltip).toBeUndefined()
       expect(cloneAction?.disabled).toBe(false)
     })
+
+    it('should return only delete action if draft purpose has no reviewerWorkflow and no riskAnalysisForm', () => {
+      const purposeMock = createMockPurpose({
+        currentVersion: { state: 'DRAFT' },
+        reviewerWorkflow: undefined,
+        riskAnalysisForm: undefined,
+      })
+
+      const { result } = renderUseGetConsumerPurposesActionsHook(purposeMock)
+
+      expect(result.current.actions).toHaveLength(1)
+      expect(result.current.actions[0].label).toBe('delete')
+    })
   })
 })
