@@ -1,6 +1,7 @@
 import React from 'react'
 import RoutesWrapper from '../RoutesWrapper'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { router } from '@/router/routes'
 import { vi } from 'vitest'
 import * as useTOSAgreement from '../../../hooks/useTOSAgreement'
 import {
@@ -82,6 +83,10 @@ const renderRoutesWrapperWithError = () => {
 }
 
 describe('RoutesWrapper', () => {
+  it('should configure a React Router errorElement on the root route', () => {
+    expect('errorElement' in router.routes[0]).toBe(true)
+  })
+
   it('should show the TOSAgreement when isPublic is false and TOS are not accepted', () => {
     mockUseCurrentRoute({ isPublic: false, routeKey: 'TOS' })
     useTOSAgreementSpy.mockReturnValue({
