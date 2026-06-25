@@ -213,6 +213,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
     expect(formSpy).not.toHaveBeenCalled()
     expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle.ASSIGNED')).toBeInTheDocument()
     expect(screen.getByText('status.riskAnalysis.ASSIGNED')).toBeInTheDocument()
+    expect(screen.getByText('stepRiskAnalysis.reviewerWritesReviewerSigns')).toBeInTheDocument()
     // everything but the info card is hidden: no answers summary, no editable form
     expect(screen.queryByText('Question 1')).not.toBeInTheDocument()
   })

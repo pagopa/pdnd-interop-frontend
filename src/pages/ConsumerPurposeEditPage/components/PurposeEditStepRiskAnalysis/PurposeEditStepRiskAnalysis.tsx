@@ -14,6 +14,7 @@ import { StepActions } from '@/components/shared/StepActions'
 import { RiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 import { match, P } from 'ts-pattern'
 import { useDialog } from '@/stores'
+import { Alert } from '@mui/material'
 
 import { useQuery } from '@tanstack/react-query'
 
@@ -196,6 +197,11 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
             )}
           />
         </SectionContainer>
+        {stepMode.kind === 'awaiting-compilation' && (
+          <Alert severity="info" sx={{ mb: 2 }}>
+            {t('stepRiskAnalysis.reviewerWritesReviewerSigns')}
+          </Alert>
+        )}
         {stepMode.kind === 'read-only' && purpose.riskAnalysisForm && (
           <RiskAnalysisInfoSummary
             riskAnalysisConfig={riskAnalysis}
