@@ -2,7 +2,7 @@ import React from 'react'
 import RoutesWrapper from '../RoutesWrapper'
 import { RouterProvider, createBrowserRouter, createMemoryRouter } from 'react-router-dom'
 import { router } from '@/router/routes'
-import { vi } from 'vitest'
+import { beforeEach, vi } from 'vitest'
 import * as useTOSAgreement from '../../../hooks/useTOSAgreement'
 import {
   mockUseCurrentRoute,
@@ -12,15 +12,19 @@ import {
 } from '@/utils/testing.utils'
 import { ThemeProvider } from '@mui/material'
 import { theme } from '@pagopa/interop-fe-commons'
+import { AuthHooks } from '@/api/auth'
+import { TokenExchangeError } from '@/utils/errors.utils'
 
 const useTOSAgreementSpy = vi.spyOn(useTOSAgreement, 'useTOSAgreement')
-useTOSAgreementSpy.mockReturnValue({
-  isTOSAccepted: true,
-  handleAcceptTOS: vi.fn(),
-})
 
-mockUseJwt()
-mockUseGetActiveUserParty()
+beforeEach(() => {
+  useTOSAgreementSpy.mockReturnValue({
+    isTOSAccepted: true,
+    handleAcceptTOS: vi.fn(),
+  })
+  mockUseJwt()
+  mockUseGetActiveUserParty()
+})
 
 vi.mock('@/api/hooks', () => ({
   useIsOrganizationAllowedToDelegations: vi.fn(() => ({ isAllowed: true, isLoading: false })),
@@ -83,19 +87,13 @@ const renderRoutesWrapperWithError = () => {
 }
 
 const renderRouterErrorPage = () => {
-  const rootRoute = router.routes[0]
+  vi.spyOn(AuthHooks, 'useJwt').mockImplementation(() => {
+    throw new TokenExchangeError()
+  })
 
-  if (!('errorElement' in rootRoute) || !React.isValidElement(rootRoute.errorElement)) {
-    throw new Error('Expected root route to define an errorElement')
-  }
-
-  const routerWithError = createMemoryRouter([
-    {
-      path: '/',
-      element: <ErrorComponent />,
-      errorElement: rootRoute.errorElement,
-    },
-  ])
+  const routerWithError = createMemoryRouter(router.routes, {
+    initialEntries: ['/'],
+  })
 
   return renderWithApplicationContext(
     <ThemeProvider theme={theme}>
@@ -108,16 +106,17 @@ const renderRouterErrorPage = () => {
 }
 
 describe('RoutesWrapper', () => {
-  it('should configure a React Router errorElement on the root route', () => {
+  it('should configure a React Router errorElement that covers every top-level route', () => {
     expect('errorElement' in router.routes[0]).toBe(true)
+    expect(router.routes).toHaveLength(1)
   })
 
-  it('should show the application ErrorPage when React Router catches a thrown route error', () => {
+  it('should show the application ErrorPage when React Router catches a thrown error on a top-level route', () => {
     const screen = renderRouterErrorPage()
 
-    expect(screen.getByText('default.title')).toBeInTheDocument()
-    expect(screen.getByText('default.description')).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'actions.reloadPage' })).toBeInTheDocument()
+    expect(screen.getByText('tokenExchange.title')).toBeInTheDocument()
+    expect(screen.getByText('tokenExchange.description')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'actions.backToSelfcare' })).toBeInTheDocument()
   })
 
   it('should show the TOSAgreement when isPublic is false and TOS are not accepted', () => {
