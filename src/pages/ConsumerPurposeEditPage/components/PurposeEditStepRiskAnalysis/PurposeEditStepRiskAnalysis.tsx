@@ -187,7 +187,7 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
         <SectionContainer
           title={t('stepRiskAnalysis.title')}
           titleEndAdornment={<StatusChip for="riskAnalysis" state={lockedState} size="small" />}
-          description={t(`stepRiskAnalysis.readOnlySubtitle.${lockedState}`)}
+          description={t(`stepRiskAnalysis.readOnlySubtitle`)}
           sx={{ mb: 2 }}
         >
           <InformationContainer

@@ -164,11 +164,7 @@
       "title": "Analisi del rischio",
       "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
       "personalInfoAlert": "Attenzione: non inserire dati personali all'interno dei campi liberi di testo",
-      "readOnlySubtitle": {
-        "SUBMITTED": "Non puoi modificare l'analisi del rischio perché è stata inviata in approvazione al valutatore.",
-        "SIGNED": "Non è possibile modificare l'analisi del rischio perché è stata approvata dal valutatore.",
-        "ASSIGNED": "Non puoi modificare l’analisi del rischio perché è stata inviata in approvazione al valutatore."
-      },
+      "readOnlySubtitle": "Non puoi modificare l'analisi del rischio perché è stata inviata al valutatore.",
       "rejectedAlert": "Il valutatore ha rifiutato l'analisi del rischio. Modifica l'analisi e inviala di nuovo in approvazione.",
       "rejectedAlertLinkLabel": "Leggi motivazione",
       "reviewerWritesReviewerSigns": "Quando il valutatore avrà compilato e approvato l’analisi del rischio, potrai pubblicare la finalità.",

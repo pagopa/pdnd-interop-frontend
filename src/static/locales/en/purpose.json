@@ -164,11 +164,7 @@
       "title": "Risk analysis",
       "description": "The questions below will change based on the answers provided. If you edit an answer above, it may change the following questions",
       "personalInfoAlert": "Warning: do not put personal data inside text fields",
-      "readOnlySubtitle": {
-        "SUBMITTED": "You can't edit the risk analysis because it has been submitted to the reviewer for approval.",
-        "SIGNED": "The risk analysis can't be edited because it has been approved by the reviewer.",
-        "ASSIGNED": "You cannot modify the risk analysis because it has been submitted to the reviewer for approval."
-      },
+      "readOnlySubtitle": "You cannot modify the risk analysis because it has been sent to the reviewer.",
       "rejectedAlert": "The reviewer rejected the risk analysis. Edit the analysis and submit it again for approval.",
       "rejectedAlertLinkLabel": "Read reason",
       "reviewerWritesReviewerSigns": "Once the reviewer has compiled and approved the risk analysis, you will be able to publish the purpose.",
