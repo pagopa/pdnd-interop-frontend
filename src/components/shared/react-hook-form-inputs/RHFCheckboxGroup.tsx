@@ -43,7 +43,7 @@ export const RHFCheckboxGroup: React.FC<RHFCheckboxGroupProps> = ({
   return (
     <InputWrapper component="fieldset" error={error} sx={sx} infoLabel={infoLabel} {...ids}>
       <FormLabel component="legend">{label}</FormLabel>
-      <FormGroup {...accessibilityProps}>
+      <FormGroup {...accessibilityProps} data-testId="checkbox-group">
         <Controller
           name={name}
           rules={mapValidationErrorMessages(rules, t)}
