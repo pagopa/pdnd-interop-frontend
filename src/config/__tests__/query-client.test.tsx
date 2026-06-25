@@ -112,6 +112,20 @@ describe('queryClient confirmation dialogs', () => {
     expect(mockedSetExponentialInterval).not.toHaveBeenCalled()
   })
 
+  it('should request active queries polling when the mutation does not opt out', async () => {
+    const user = userEvent.setup()
+    const mutationFn = vi.fn().mockResolvedValue(undefined)
+
+    renderWithApplicationContext(<TestMutation mutationFn={mutationFn} />, {
+      withReactQueryContext: true,
+    })
+
+    await user.click(screen.getByRole('button', { name: 'submit' }))
+
+    await waitFor(() => expect(mutationFn).toHaveBeenCalledTimes(1))
+    expect(mockedSetExponentialInterval).toHaveBeenCalledWith(expect.any(Function), 20 * 1000)
+  })
+
   it('should not run the mutation when a confirmation dialog is cancelled', async () => {
     const user = userEvent.setup()
     const mutationFn = vi.fn().mockResolvedValue(undefined)
