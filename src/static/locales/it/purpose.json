@@ -123,6 +123,7 @@
       "forwardBtn": "Salva bozza e prosegui",
       "requestReviewerCompilationBtn": "Richiedi compilazione",
       "readOnly": {
+        "subtitle": "Non è possibile modificare l’assegnazione perché l’analisi del rischio è stata inviata per l’approvazione al valutatore.",
         "modeLabel": "Modalità",
         "reviewerLabel": "Valutatore",
         "reviewerUnknown": "Valutatore non disponibile",

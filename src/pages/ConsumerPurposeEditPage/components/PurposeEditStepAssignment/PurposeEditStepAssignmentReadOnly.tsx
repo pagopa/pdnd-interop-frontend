@@ -35,7 +35,7 @@ const PurposeEditStepAssignmentReadOnly: React.FC<PurposeEditStepAssignmentReadO
 
   return (
     <>
-      <SectionContainer title={t('title')} description={t('description')}>
+      <SectionContainer title={t('title')} description={t('readOnly.subtitle')}>
         <Stack spacing={2}>
           <InformationContainer
             label={t('readOnly.modeLabel')}
