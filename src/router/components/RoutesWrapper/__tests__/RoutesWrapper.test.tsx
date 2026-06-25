@@ -85,7 +85,7 @@ const renderRoutesWrapperWithError = () => {
 const renderRouterErrorPage = () => {
   const rootRoute = router.routes[0]
 
-  if (!('errorElement' in rootRoute)) {
+  if (!('errorElement' in rootRoute) || !React.isValidElement(rootRoute.errorElement)) {
     throw new Error('Expected root route to define an errorElement')
   }
 
