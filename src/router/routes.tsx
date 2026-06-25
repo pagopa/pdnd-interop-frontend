@@ -799,12 +799,13 @@ export type RouteKey = InferRouteKey<typeof routes>
 export const router = createBrowserRouter(
   [
     {
-      element: <RoutesWrapper />,
       errorElement: <RouterErrorPage />,
-      children: reactRouterDOMRoutes,
+      children: [
+        { element: <RoutesWrapper />, children: reactRouterDOMRoutes },
+        { path: '/', element: <LandingByRole /> },
+        { path: '/*', element: <components.Redirect to="NOT_FOUND" /> },
+      ],
     },
-    { path: '/', element: <LandingByRole /> },
-    { path: '/*', element: <components.Redirect to="NOT_FOUND" /> },
   ],
   { basename: '/ui' }
 )
