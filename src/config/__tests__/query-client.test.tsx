@@ -5,17 +5,22 @@ import { queryClient } from '../query-client'
 import { useDialogStore } from '@/stores'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import type { ConfirmationDialogMeta, MutationMeta } from '@tanstack/react-query'
+import type * as CommonUtils from '@/utils/common.utils'
 
 const { mockedSetExponentialInterval, mockedClearExponentialInterval } = vi.hoisted(() => ({
   mockedSetExponentialInterval: vi.fn(() => 'active-queries-polling-interval-id'),
   mockedClearExponentialInterval: vi.fn(),
 }))
 
-vi.mock('@/utils/common.utils', async () => ({
-  ...(await vi.importActual('@/utils/common.utils')),
-  setExponentialInterval: mockedSetExponentialInterval,
-  clearExponentialInterval: mockedClearExponentialInterval,
-}))
+vi.mock('@/utils/common.utils', async () => {
+  const actual = await vi.importActual<typeof CommonUtils>('@/utils/common.utils')
+
+  return {
+    ...actual,
+    setExponentialInterval: mockedSetExponentialInterval,
+    clearExponentialInterval: mockedClearExponentialInterval,
+  }
+})
 
 const TestMutation = ({
   confirmationDialog,
