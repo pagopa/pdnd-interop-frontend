@@ -15,6 +15,7 @@ declare module '@tanstack/react-query' {
     successToastLabel?: string | ((data: unknown, variables: unknown, context: unknown) => string)
     errorToastLabel?: string | ((error: unknown, variables: unknown, context: unknown) => string)
     confirmationDialog?: ConfirmationDialogMeta | Array<ConfirmationDialogMeta>
+    skipActiveQueriesPolling?: boolean
   }
 
   interface Register {
