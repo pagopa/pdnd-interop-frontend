@@ -213,6 +213,7 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     )
     .with(
       {
+        isDeliverMode: true,
         isDraft: true,
         hasNoReviewerWorkflowAndNoRiskAnalysis: true,
       },
