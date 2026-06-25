@@ -1,6 +1,6 @@
 import React from 'react'
 import RoutesWrapper from '../RoutesWrapper'
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { RouterProvider, createBrowserRouter, createMemoryRouter } from 'react-router-dom'
 import { router } from '@/router/routes'
 import { vi } from 'vitest'
 import * as useTOSAgreement from '../../../hooks/useTOSAgreement'
@@ -82,9 +82,42 @@ const renderRoutesWrapperWithError = () => {
   )
 }
 
+const renderRouterErrorPage = () => {
+  const rootRoute = router.routes[0]
+
+  if (!('errorElement' in rootRoute)) {
+    throw new Error('Expected root route to define an errorElement')
+  }
+
+  const routerWithError = createMemoryRouter([
+    {
+      path: '/',
+      element: <ErrorComponent />,
+      errorElement: rootRoute.errorElement,
+    },
+  ])
+
+  return renderWithApplicationContext(
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={routerWithError} />
+    </ThemeProvider>,
+    {
+      withReactQueryContext: true,
+    }
+  )
+}
+
 describe('RoutesWrapper', () => {
   it('should configure a React Router errorElement on the root route', () => {
     expect('errorElement' in router.routes[0]).toBe(true)
+  })
+
+  it('should show the application ErrorPage when React Router catches a thrown route error', () => {
+    const screen = renderRouterErrorPage()
+
+    expect(screen.getByText('default.title')).toBeInTheDocument()
+    expect(screen.getByText('default.description')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'actions.reloadPage' })).toBeInTheDocument()
   })
 
   it('should show the TOSAgreement when isPublic is false and TOS are not accepted', () => {
