@@ -169,6 +169,8 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
   const hasCurrentVersion = Boolean(purpose?.currentVersion)
   const hasWaitingForApprovalVersion = Boolean(purpose?.waitingForApprovalVersion)
   const hasRejectedVersion = Boolean(purpose?.rejectedVersion)
+  const hasReviewerWorkflow = Boolean(purpose.reviewerWorkflow)
+  const hasRiskAnalysisForm = Boolean(purpose.riskAnalysisForm)
 
   const actions = match({
     isDeliverMode,
@@ -183,6 +185,8 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     hasCurrentVersion,
     hasWaitingForApprovalVersion,
     hasRejectedVersion,
+    hasReviewerWorkflow,
+    hasRiskAnalysisForm,
     routeKey,
   })
     // purpose with no currentVersion but with waitingForApprovalVersion
@@ -207,6 +211,15 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
         isArchived: true,
       },
       () => []
+    )
+    .with(
+      {
+        isDeliverMode: true,
+        isDraft: true,
+        hasReviewerWorkflow: false,
+        hasRiskAnalysisForm: false,
+      },
+      () => [deleteAction]
     )
     .with(
       {
