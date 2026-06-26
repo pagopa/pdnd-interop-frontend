@@ -24,6 +24,7 @@ vi.mock('@/router', () => ({
 
 vi.mock('@tanstack/react-query', async () => {
   const actual =
+    // eslint-disable-next-line @typescript-eslint/consistent-type-imports
     await vi.importActual<typeof import('@tanstack/react-query')>('@tanstack/react-query')
   return {
     ...actual,
@@ -155,7 +156,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
     expect(formSpy).not.toHaveBeenCalled()
     expect(screen.getByText('status.riskAnalysis.SUBMITTED')).toBeInTheDocument()
-    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle.SUBMITTED')).toBeInTheDocument()
+    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle')).toBeInTheDocument()
     // the compiled answers are shown as a read-only summary (question + given answer)
     expect(screen.getByText('Question 1')).toBeInTheDocument()
     expect(screen.getByText('option 1')).toBeInTheDocument()
@@ -177,7 +178,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
     expect(formSpy).not.toHaveBeenCalled()
     expect(screen.getByText('status.riskAnalysis.SIGNED')).toBeInTheDocument()
-    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle.SIGNED')).toBeInTheDocument()
+    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle')).toBeInTheDocument()
   })
 
   it('in option 2 rejected keeps the form editable, flags the rejected alert and stays in approval mode', () => {
@@ -211,8 +212,9 @@ describe('PurposeEditStepRiskAnalysis', () => {
     )
 
     expect(formSpy).not.toHaveBeenCalled()
-    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle.ASSIGNED')).toBeInTheDocument()
+    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle')).toBeInTheDocument()
     expect(screen.getByText('status.riskAnalysis.ASSIGNED')).toBeInTheDocument()
+    expect(screen.getByText('stepRiskAnalysis.reviewerWritesReviewerSigns')).toBeInTheDocument()
     // everything but the info card is hidden: no answers summary, no editable form
     expect(screen.queryByText('Question 1')).not.toBeInTheDocument()
   })
@@ -233,7 +235,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
     expect(formSpy).not.toHaveBeenCalled()
     expect(screen.getByText('status.riskAnalysis.SIGNED')).toBeInTheDocument()
-    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle.SIGNED')).toBeInTheDocument()
+    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle')).toBeInTheDocument()
     // the values compiled by the reviewer are visible in the read-only summary
     expect(screen.getByText('Question 1')).toBeInTheDocument()
     expect(screen.getByText('option 1')).toBeInTheDocument()
