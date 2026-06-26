@@ -123,7 +123,7 @@
       "forwardBtn": "Save draft and proceed",
       "requestReviewerCompilationBtn": "Request compilation",
       "readOnly": {
-        "subtitle": "The assignment can't be edited because the risk analysis has been submitted to the reviewer for approval.",
+        "subtitle": "You cannot modify the assignment because you have submitted the risk assessment to the evaluator.",
         "modeLabel": "Mode",
         "reviewerLabel": "Reviewer",
         "reviewerUnknown": "Reviewer not available",
