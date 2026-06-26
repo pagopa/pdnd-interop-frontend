@@ -672,8 +672,9 @@
       "description": "La finalità è attiva. Associa il tuo primo client per accedere ai dati dell'e-service."
     },
     "waitingForApproval": {
-      "title": "La tua finalità è stata inoltrata all'erogatore per l'approvazione",
-      "description": "Fino alla sua attivazione da parte dell'erogatore non potrai accedere ai dati resi disponibili attraverso l'API e non potrai associare client. Riceverai una notifica quando l'erogatore approverà la tua finalità"
+      "title": "Hai pubblicato una finalità. Ora dovrà essere approvata dall'erogatore.",
+      "description": "Quando sarà approvata, riceverai una notifica. Fino all'approvazione, non potrai associare client o accedere ai dati dell’e-service.",
+      "action": "Vai alla finalità"
     },
     "action": "Chiudi"
   },
