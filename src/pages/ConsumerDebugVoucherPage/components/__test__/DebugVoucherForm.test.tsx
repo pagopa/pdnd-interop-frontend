@@ -11,10 +11,10 @@ import {
   createMockDebugVoucherResultPassed,
 } from '@/../__mocks__/data/voucher.mocks'
 import type { TokenGenerationValidationResult } from '@/api/api.generatedTypes'
+import { validJwt } from '../../__test__/test.commons'
 
 const response = createMockDebugVoucherResultPassed()
 const validateTokenGenerationHandler = vi.fn()
-const validJwt = 'eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0ZXN0In0.c2lnbmF0dXJl'
 
 const server = setupServer(
   rest.post(`${BACKEND_FOR_FRONTEND_URL}/tools/validateTokenGeneration`, (req, res, ctx) => {

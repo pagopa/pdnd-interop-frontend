@@ -6,8 +6,7 @@ import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { rest } from 'msw'
 import { fireEvent, waitFor } from '@testing-library/react'
 import type { TokenGenerationValidationResult } from '@/api/api.generatedTypes'
-
-const validJwt = 'eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJ0ZXN0In0.c2lnbmF0dXJl'
+import { validJwt } from './test.commons'
 
 const server = setupServer(
   rest.post(`${BACKEND_FOR_FRONTEND_URL}/tools/validateTokenGeneration`, (_, res, ctx) => {
