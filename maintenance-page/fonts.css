@@ -36,36 +36,3 @@
     url('https://selfcare.pagopa.it/assets/font/Titillium_Web/TitilliumWeb-Bold.ttf')
       format('truetype');
 }
-
-@font-face {
-  font-family: 'Titillium Sans Pro';
-  font-display: swap;
-  font-weight: 400;
-  src:
-    url('https://selfcare.pagopa.it/assets/font/Titillium_Sans_Pro/TitilliumSansPro-Regular.woff2')
-      format('woff2'),
-    url('https://selfcare.pagopa.it/assets/font/Titillium_Sans_Pro/TitilliumSansPro-Regular.woff')
-      format('woff');
-}
-
-@font-face {
-  font-family: 'Titillium Sans Pro';
-  font-display: swap;
-  font-weight: 600;
-  src:
-    url('https://selfcare.pagopa.it/assets/font/Titillium_Sans_Pro/TitilliumSansPro-SemiBold.woff2')
-      format('woff2'),
-    url('https://selfcare.pagopa.it/assets/font/Titillium_Sans_Pro/TitilliumSansPro-SemiBold.woff')
-      format('woff');
-}
-
-@font-face {
-  font-family: 'Titillium Sans Pro';
-  font-display: swap;
-  font-weight: 700;
-  src:
-    url('https://selfcare.pagopa.it/assets/font/Titillium_Sans_Pro/TitilliumSansPro-Bold.woff2')
-      format('woff2'),
-    url('https://selfcare.pagopa.it/assets/font/Titillium_Sans_Pro/TitilliumSansPro-Bold.woff')
-      format('woff');
-}

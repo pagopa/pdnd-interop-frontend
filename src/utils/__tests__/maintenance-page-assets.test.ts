@@ -24,5 +24,6 @@ describe('maintenance page assets', () => {
 
     expect(fontStylesheet).toContain('@font-face')
     expect(fontStylesheet).toMatch(/font-family:\s*['"]Titillium Web['"]/)
+    expect(fontStylesheet).not.toMatch(/font-family:\s*['"]Titillium Sans Pro['"]/)
   })
 })
