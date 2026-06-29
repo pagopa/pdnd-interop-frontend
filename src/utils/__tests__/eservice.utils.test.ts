@@ -8,6 +8,7 @@ import {
   getLastDescriptor,
   getViewLatestVersionTargetId,
   isDescriptorPendingArchiving,
+  sanitizeImportEserviceFileName,
 } from '../eservice.utils'
 
 describe('getDownloadDocumentName utility function testing', () => {
@@ -328,5 +329,52 @@ describe('getAsyncExchangePropertiesWithDefaults utility function testing', () =
       confirmation: false,
       bulk: false,
     })
+  })
+})
+
+describe('sanitizeImportEserviceFileName utility function testing', () => {
+  it.each([
+    {
+      scenario: 'strips the browser ` (1)` collision suffix',
+      input: 'abc123_def456 (1).zip',
+      expected: 'abc123_def456.zip',
+    },
+    {
+      scenario: 'strips a multi-digit ` (n)` suffix',
+      input: 'abc123_def456 (12).zip',
+      expected: 'abc123_def456.zip',
+    },
+    {
+      scenario: 'strips the no-space `(n)` suffix (e.g. Firefox)',
+      input: 'abc123_def456(1).zip',
+      expected: 'abc123_def456.zip',
+    },
+    {
+      scenario: 'leaves an untouched file name unchanged',
+      input: 'abc123_def456.zip',
+      expected: 'abc123_def456.zip',
+    },
+    {
+      scenario: 'does not strip a suffix that is not right before the extension',
+      input: 'abc (1) def.zip',
+      expected: 'abc (1) def.zip',
+    },
+    {
+      scenario: 'only strips the suffix adjacent to the .zip extension',
+      input: 'abc (2) def (1).zip',
+      expected: 'abc (2) def.zip',
+    },
+    {
+      scenario: 'does not strip the suffix when the extension is not .zip',
+      input: 'abc (1).txt',
+      expected: 'abc (1).txt',
+    },
+    {
+      scenario: 'keeps parentheses that are part of the name (no number)',
+      input: 'abc (copy).zip',
+      expected: 'abc (copy).zip',
+    },
+  ])('should $scenario', ({ input, expected }) => {
+    expect(sanitizeImportEserviceFileName(input)).toEqual(expected)
   })
 })

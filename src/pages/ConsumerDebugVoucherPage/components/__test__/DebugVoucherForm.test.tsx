@@ -11,17 +11,23 @@ import {
   createMockDebugVoucherResultPassed,
 } from '@/../__mocks__/data/voucher.mocks'
 import type { TokenGenerationValidationResult } from '@/api/api.generatedTypes'
+import { validJwt } from '../../__test__/test.commons'
 
 const response = createMockDebugVoucherResultPassed()
+const validateTokenGenerationHandler = vi.fn()
 
 const server = setupServer(
-  rest.post(`${BACKEND_FOR_FRONTEND_URL}/tools/validateTokenGeneration`, (_, res, ctx) => {
+  rest.post(`${BACKEND_FOR_FRONTEND_URL}/tools/validateTokenGeneration`, (req, res, ctx) => {
+    validateTokenGenerationHandler(req.body)
     return res(ctx.json<TokenGenerationValidationResult>(response))
   })
 )
 
 beforeAll(() => server.listen())
-afterEach(() => server.resetHandlers())
+afterEach(() => {
+  server.resetHandlers()
+  validateTokenGenerationHandler.mockClear()
+})
 afterAll(() => server.close())
 
 describe('DebugVoucherForm testing', () => {
@@ -41,13 +47,13 @@ describe('DebugVoucherForm testing', () => {
     const clientIdInput = screen.getByLabelText('clientIdLabel')
     const submitButton = screen.getByRole('button', { name: 'submitBtn' })
 
-    fireEvent.change(clientAssertionInput, { target: { value: 'test client assertion' } })
-    fireEvent.change(clientIdInput, { target: { value: 'test client Id' } })
+    fireEvent.change(clientAssertionInput, { target: { value: validJwt } })
+    fireEvent.change(clientIdInput, { target: { value: '51c081d3-4bb3-4d6f-8889-8b7fe2ad7113' } })
     fireEvent.click(submitButton)
 
     const request = createMockDebugVoucherRequest({
-      client_id: 'test client Id',
-      client_assertion: 'test client assertion',
+      client_id: '51c081d3-4bb3-4d6f-8889-8b7fe2ad7113',
+      client_assertion: validJwt,
       is_async: 'false',
     })
 
@@ -57,6 +63,54 @@ describe('DebugVoucherForm testing', () => {
         response: response,
       })
     )
+  })
+
+  it('should show a validation error and not submit when clientId is not a valid UUID', async () => {
+    const setDebugVoucherValuesMockFn = vi.fn()
+    const screen = renderWithApplicationContext(
+      <DebugVoucherForm setDebugVoucherValues={setDebugVoucherValuesMockFn} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    const clientAssertionInput = screen.getByRole('textbox', {
+      name: 'clientAssertionLabel',
+    })
+    const clientIdInput = screen.getByLabelText('clientIdLabel')
+    const submitButton = screen.getByRole('button', { name: 'submitBtn' })
+
+    fireEvent.change(clientAssertionInput, { target: { value: validJwt } })
+    fireEvent.change(clientIdInput, { target: { value: 'not-a-uuid' } })
+    fireEvent.click(submitButton)
+
+    expect(await screen.findByText('clientIdValidationError')).toBeInTheDocument()
+    expect(validateTokenGenerationHandler).not.toHaveBeenCalled()
+    expect(setDebugVoucherValuesMockFn).not.toHaveBeenCalled()
+  })
+
+  it('should show a validation error and not submit when clientAssertion is not a valid JWT', async () => {
+    const setDebugVoucherValuesMockFn = vi.fn()
+    const screen = renderWithApplicationContext(
+      <DebugVoucherForm setDebugVoucherValues={setDebugVoucherValuesMockFn} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    const clientAssertionInput = screen.getByRole('textbox', {
+      name: 'clientAssertionLabel',
+    })
+    const submitButton = screen.getByRole('button', { name: 'submitBtn' })
+
+    fireEvent.change(clientAssertionInput, { target: { value: 'not-a-jwt' } })
+    fireEvent.click(submitButton)
+
+    expect(await screen.findByText('clientAssertionValidationError')).toBeInTheDocument()
+    expect(validateTokenGenerationHandler).not.toHaveBeenCalled()
+    expect(setDebugVoucherValuesMockFn).not.toHaveBeenCalled()
   })
 
   it('should call the onSuccess function when clientId is not compiled', async () => {
@@ -74,12 +128,12 @@ describe('DebugVoucherForm testing', () => {
     })
     const submitButton = screen.getByRole('button', { name: 'submitBtn' })
 
-    fireEvent.change(clientAssertionInput, { target: { value: 'test client assertion' } })
+    fireEvent.change(clientAssertionInput, { target: { value: validJwt } })
     fireEvent.click(submitButton)
 
     const request = createMockDebugVoucherRequest({
       client_id: undefined,
-      client_assertion: 'test client assertion',
+      client_assertion: validJwt,
       is_async: 'false',
     })
 
@@ -113,19 +167,19 @@ describe('DebugVoucherForm testing', () => {
     const submitButton = screen.getByRole('button', { name: 'submitBtn' })
 
     fireEvent.change(clientAssertionInput, {
-      target: { value: 'test client assertion' },
+      target: { value: validJwt },
     })
 
     fireEvent.change(dpopInput, {
-      target: { value: 'test dpop proof' },
+      target: { value: validJwt },
     })
 
     fireEvent.click(submitButton)
 
     const request = createMockDebugVoucherRequest({
       client_id: undefined,
-      dpop_proof: 'test dpop proof',
-      client_assertion: 'test client assertion',
+      dpop_proof: validJwt,
+      client_assertion: validJwt,
       is_async: 'false',
     })
 
@@ -135,6 +189,42 @@ describe('DebugVoucherForm testing', () => {
         response: response,
       })
     )
+  })
+
+  it('should show a validation error and not submit when dpopProof is not a valid JWT', async () => {
+    const setDebugVoucherValuesMockFn = vi.fn()
+
+    const screen = renderWithApplicationContext(
+      <DebugVoucherForm setDebugVoucherValues={setDebugVoucherValuesMockFn} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    const clientAssertionInput = screen.getByRole('textbox', {
+      name: 'clientAssertionLabel',
+    })
+
+    const dpopInput = screen.getByRole('textbox', {
+      name: 'dpopProofLabel',
+    })
+
+    const submitButton = screen.getByRole('button', { name: 'submitBtn' })
+
+    fireEvent.change(clientAssertionInput, {
+      target: { value: validJwt },
+    })
+
+    fireEvent.change(dpopInput, {
+      target: { value: 'not-a-jwt' },
+    })
+
+    fireEvent.click(submitButton)
+
+    expect(await screen.findByText('dpopProofValidationError')).toBeInTheDocument()
+    expect(validateTokenGenerationHandler).not.toHaveBeenCalled()
+    expect(setDebugVoucherValuesMockFn).not.toHaveBeenCalled()
   })
 
   it('should send dpop_proof as undefined when empty', async () => {
@@ -155,13 +245,13 @@ describe('DebugVoucherForm testing', () => {
     const submitButton = screen.getByRole('button', { name: 'submitBtn' })
 
     fireEvent.change(clientAssertionInput, {
-      target: { value: 'test client assertion' },
+      target: { value: validJwt },
     })
 
     fireEvent.click(submitButton)
 
     const request = createMockDebugVoucherRequest({
-      client_assertion: 'test client assertion',
+      client_assertion: validJwt,
       client_id: undefined,
       is_async: 'false',
     })
@@ -190,7 +280,7 @@ describe('DebugVoucherForm testing', () => {
     })
 
     fireEvent.change(clientAssertionInput, {
-      target: { value: 'test client assertion' },
+      target: { value: validJwt },
     })
 
     const asyncRadio = screen.getByRole('radio', {
@@ -204,7 +294,7 @@ describe('DebugVoucherForm testing', () => {
     fireEvent.click(submitButton)
 
     const request = createMockDebugVoucherRequest({
-      client_assertion: 'test client assertion',
+      client_assertion: validJwt,
       client_id: undefined,
       is_async: 'true',
     })
