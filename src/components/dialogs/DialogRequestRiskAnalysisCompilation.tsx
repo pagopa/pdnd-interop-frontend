@@ -11,6 +11,7 @@ import { LoadingButton } from '@mui/lab'
 import { Trans, useTranslation } from 'react-i18next'
 import { PurposeMutations } from '@/api/purpose'
 import { useDialog } from '@/stores'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import { useNavigate } from '@/router'
 import type { DialogRequestRiskAnalysisCompilationProps } from '@/types/dialog.types'
 
@@ -27,6 +28,7 @@ export const DialogRequestRiskAnalysisCompilation: React.FC<
   const { closeDialog } = useDialog()
   const navigate = useNavigate()
   const { mutate: assignReviewer, isPending } = PurposeMutations.useAssignRiskAnalysisReviewer()
+  const isConfirmDisabled = useIsActionDisabledBySupport(isPending)
 
   const handleConfirm = () => {
     assignReviewer(
@@ -69,7 +71,12 @@ export const DialogRequestRiskAnalysisCompilation: React.FC<
         <Button variant="outlined" onClick={handleClose} disabled={isPending}>
           {tCommon('cancel')}
         </Button>
-        <LoadingButton variant="contained" loading={isPending} onClick={handleConfirm}>
+        <LoadingButton
+          variant="contained"
+          loading={isPending}
+          disabled={isConfirmDisabled}
+          onClick={handleConfirm}
+        >
           {tCommon('confirm')}
         </LoadingButton>
       </DialogActions>

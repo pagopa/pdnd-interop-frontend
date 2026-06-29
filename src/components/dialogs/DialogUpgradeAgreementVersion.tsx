@@ -20,6 +20,7 @@ import {
 } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 type DialogUpgradeAgreementVersionProps = {
   agreement: Agreement
@@ -80,6 +81,7 @@ export const DialogUpgradeAgreementVersion: React.FC<DialogUpgradeAgreementVersi
     !checkboxesState.attributesCheck ||
     !checkboxesState.apiIntegrationCheck ||
     !checkboxesState.testEnvCheck
+  const isUpgradeDisabled = useIsActionDisabledBySupport(isUpgradeButtonDisabled)
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth maxWidth="md">
@@ -167,12 +169,10 @@ export const DialogUpgradeAgreementVersion: React.FC<DialogUpgradeAgreementVersi
           {t('actions.cancelLabel')}
         </Button>
         <Tooltip
-          title={
-            isUpgradeButtonDisabled ? t('actions.upgrade.notAllCheckboxCheckedTooltip') : undefined
-          }
+          title={isUpgradeDisabled ? t('actions.upgrade.notAllCheckboxCheckedTooltip') : undefined}
         >
-          <span tabIndex={isUpgradeButtonDisabled ? 0 : undefined}>
-            <Button disabled={isUpgradeButtonDisabled} variant="contained" onClick={handleUpgrade}>
+          <span tabIndex={isUpgradeDisabled ? 0 : undefined}>
+            <Button disabled={isUpgradeDisabled} variant="contained" onClick={handleUpgrade}>
               {t('actions.upgrade.label')}
             </Button>
           </span>

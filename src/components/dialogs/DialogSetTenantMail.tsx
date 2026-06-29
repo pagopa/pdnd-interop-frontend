@@ -17,6 +17,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { emailRegex } from '@/utils/form.utils'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 type SetTenantMailFormValues = {
   contactEmail: string
@@ -31,6 +32,7 @@ export const DialogSetTenantMail: React.FC<DialogSetTenantMailProps> = () => {
   })
   const { t: tCommon } = useTranslation('common')
   const { jwt } = AuthHooks.useJwt()
+  const isConfirmDisabled = useIsActionDisabledBySupport()
 
   const { closeDialog } = useDialog()
   const { mutateAsync: setMail } = TenantMutations.useUpdateMail()
@@ -99,7 +101,7 @@ export const DialogSetTenantMail: React.FC<DialogSetTenantMailProps> = () => {
             <Button type="button" variant="outlined" onClick={closeDialog}>
               {tCommon('actions.cancel')}
             </Button>
-            <Button variant="contained" type="submit">
+            <Button variant="contained" type="submit" disabled={isConfirmDisabled}>
               {tCommon('actions.confirm')}
             </Button>
           </DialogActions>

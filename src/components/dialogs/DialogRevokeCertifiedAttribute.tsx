@@ -1,5 +1,6 @@
 import { AttributeMutations } from '@/api/attribute'
 import { useDialog } from '@/stores'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import type { DialogRevokeCertifiedAttributeProps } from '@/types/dialog.types'
 import {
   Button,
@@ -25,6 +26,7 @@ export const DialogRevokeCertifiedAttribute: React.FC<DialogRevokeCertifiedAttri
   const { t } = useTranslation('shared-components', { keyPrefix: 'dialogRevokeCertifiedAttribute' })
 
   const [isConfirmCheckboxChecked, setIsConfirmCheckboxChecked] = React.useState<boolean>(false)
+  const isConfirmDisabled = useIsActionDisabledBySupport(!isConfirmCheckboxChecked)
 
   const { mutate: revokeCertifiedAttribute } = AttributeMutations.useRevokeCertifiedAttribute()
 
@@ -83,7 +85,7 @@ export const DialogRevokeCertifiedAttribute: React.FC<DialogRevokeCertifiedAttri
         <Button variant="outlined" onClick={handleCancel}>
           {tCommon('cancel')}
         </Button>
-        <Button variant="contained" disabled={!isConfirmCheckboxChecked} onClick={handleRevoke}>
+        <Button variant="contained" disabled={isConfirmDisabled} onClick={handleRevoke}>
           {tCommon('revoke')}
         </Button>
       </DialogActions>
