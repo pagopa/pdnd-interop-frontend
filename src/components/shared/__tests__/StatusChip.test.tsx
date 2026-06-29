@@ -31,19 +31,23 @@ describe('StatusChip', () => {
 
   // The "simple" variants all share the same data-driven path: the label key is
   // `status.<for>.<state>` and the color is looked up by the `for` discriminant.
-  it('renders the label of every simple variant from its `for` namespace', () => {
+  // States are chosen so each resolves to a distinct color, exercising the
+  // `colorsByState[p.state]` lookup (not just the label namespace).
+  it('renders label and color for every simple variant from its `for` namespace', () => {
     renderWithApplicationContext(
       <>
         <StatusChip for="delegation" state="ACTIVE" />
-        <StatusChip for="eserviceTemplate" state="PUBLISHED" />
-        <StatusChip for="purposeTemplate" state="PUBLISHED" />
+        <StatusChip for="eserviceTemplate" state="DRAFT" />
+        <StatusChip for="purposeTemplate" state="SUSPENDED" />
       </>,
       {}
     )
 
-    expect(screen.getByText('status.delegation.ACTIVE')).toBeInTheDocument()
-    expect(screen.getByText('status.eserviceTemplate.PUBLISHED')).toBeInTheDocument()
-    expect(screen.getByText('status.purposeTemplate.PUBLISHED')).toBeInTheDocument()
+    const chipOf = (label: string) => screen.getByText(label).closest('.MuiChip-root')
+
+    expect(chipOf('status.delegation.ACTIVE')).toHaveClass('MuiChip-colorSuccess')
+    expect(chipOf('status.eserviceTemplate.DRAFT')).toHaveClass('MuiChip-colorInfo')
+    expect(chipOf('status.purposeTemplate.SUSPENDED')).toHaveClass('MuiChip-colorError')
   })
 
   it('renders the descriptor label for a plain state', () => {
@@ -58,6 +62,13 @@ describe('StatusChip', () => {
       <StatusChip for="descriptor" state="ARCHIVING" isActiveDescriptor />
     )
     expect(baseElement).toHaveTextContent('status.descriptor.PUBLISHED')
+  })
+
+  it('masks an active descriptor pending archiving-suspended as SUSPENDED', () => {
+    const { baseElement } = render(
+      <StatusChip for="descriptor" state="ARCHIVING_SUSPENDED" isActiveDescriptor />
+    )
+    expect(baseElement).toHaveTextContent('status.descriptor.SUSPENDED')
   })
 
   it('renders the DRAFT_TO_CORRECT label when isDraftToCorrect is set', () => {
