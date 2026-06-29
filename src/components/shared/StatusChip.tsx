@@ -182,6 +182,7 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
     'purpose',
     'isActiveDescriptor',
     'isDraftToCorrect',
+    'attributeKey',
   ])
 
   return match(props)
