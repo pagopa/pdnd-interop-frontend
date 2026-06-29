@@ -8,6 +8,7 @@ import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import { useQueryClient } from '@tanstack/react-query'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import type { ProducerEServiceTemplate } from '@/api/api.generatedTypes'
 import { useGetProviderEServiceTemplateActions } from '@/hooks/useGetProviderEServiceTemplateActions'
 import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
@@ -40,9 +41,13 @@ export const EServiceTemplateTableRow: React.FC<EServiceTemplateTableRow> = ({
   )
 
   const handlePrefetch = () => {
-    queryClient.prefetchQuery(
-      EServiceTemplateQueries.getSingle(eserviceTemplate.id, versionIdEserviceTemplate as string)
-    )
+    queryClient.prefetchQuery({
+      ...EServiceTemplateQueries.getSingle(
+        eserviceTemplate.id,
+        versionIdEserviceTemplate as string
+      ),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   const hasNotActiveVersionTemplate = !eserviceTemplate.activeVersion
