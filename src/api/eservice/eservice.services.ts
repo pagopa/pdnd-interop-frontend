@@ -39,6 +39,7 @@ import type {
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 import { getAllFromPaginated, waitFor } from '@/utils/common.utils'
+import { sanitizeImportEserviceFileName } from '@/utils/eservice.utils'
 
 async function getCatalogList(params: GetEServicesCatalogParams) {
   const response = await axiosInstance.get<CatalogEServices>(
@@ -450,7 +451,7 @@ async function exportVersion({
 }
 
 async function importVersion({ eserviceFile }: { eserviceFile: File }) {
-  const fileName = eserviceFile.name
+  const fileName = sanitizeImportEserviceFileName(eserviceFile.name)
   const { data: presignedUrl } = await axiosInstance.get<PresignedUrl>(
     `${BACKEND_FOR_FRONTEND_URL}/import/eservices/presignedUrl`,
     { params: { fileName } }
