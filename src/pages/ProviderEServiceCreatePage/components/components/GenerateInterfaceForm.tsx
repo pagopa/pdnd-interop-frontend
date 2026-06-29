@@ -140,6 +140,10 @@ export const GenerateInterfaceForm: React.FC = () => {
 
         {eServiceTechnology === 'REST' && <EditRESTInfoInterfaceFields />}
 
+        <Typography variant="body2" fontWeight={600}>
+          {t('serverSection.title')}
+        </Typography>
+
         <Stack direction="column">
           <RHFTextField
             size="small"
@@ -246,9 +250,6 @@ export const EditRESTInfoInterfaceFields: React.FC = () => {
           },
         }}
       />
-      <Typography variant="body2" fontWeight={600}>
-        {t('serverSection.title')}
-      </Typography>
     </>
   )
 }

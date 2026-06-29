@@ -83,6 +83,29 @@ describe('GenerateInterfaceForm', () => {
     expect(screen.queryByText('contactSection.title')).not.toBeInTheDocument()
   })
 
+  it('should show the server section title when technology is SOAP', () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderWithTemplateRef({
+        eservice: {
+          description: 'Lorem ipsum',
+          descriptors: [],
+          producer: { id: 'org-id', tenantKind: 'PA' },
+          id: 'eservice-id',
+          name: 'Test',
+          technology: 'SOAP',
+          mode: 'DELIVER',
+          riskAnalysis: [],
+        },
+      }),
+    })
+    renderWithApplicationContext(<GenerateInterfaceForm />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('serverSection.title')).toBeInTheDocument()
+  })
+
   it('should add a new server URL field when add button is clicked', async () => {
     mockUseEServiceCreateContext({
       descriptor: createMockEServiceDescriptorProviderWithTemplateRef(),
