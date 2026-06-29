@@ -2,7 +2,6 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { vi, describe, it, expect, beforeEach } from 'vitest'
 import { UpdateAttributesDrawer } from '../UpdateAttributesDrawer'
-import type { DescriptorAttributes } from '@/api/api.generatedTypes'
 
 vi.mock('@/components/layout/containers', () => {
   type Attribute = { id: string; name: string }
@@ -64,10 +63,6 @@ vi.mock('@/router', () => ({
   }),
 }))
 
-vi.mock('@/utils/attribute.utils', () => ({
-  remapDescriptorAttributesToDescriptorAttributesSeed: (attrs: DescriptorAttributes) => attrs,
-}))
-
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string) => key,
@@ -87,6 +82,7 @@ describe('UpdateAttributesDrawer', () => {
             name: 'Attribute 1',
             description: 'desc 1',
             explicitAttributeVerification: false,
+            kind: 'CERTIFIED' as const,
           },
         ],
         [
@@ -95,6 +91,7 @@ describe('UpdateAttributesDrawer', () => {
             name: 'Attribute 2',
             description: 'desc 2',
             explicitAttributeVerification: false,
+            kind: 'CERTIFIED' as const,
           },
         ],
       ],
@@ -146,12 +143,14 @@ describe('UpdateAttributesDrawer', () => {
               name: 'Attribute 1',
               description: 'desc 1',
               explicitAttributeVerification: false,
+              kind: 'CERTIFIED' as const,
             },
             {
               id: 'attr-2',
               name: 'Attribute 2',
               description: 'desc 2',
               explicitAttributeVerification: false,
+              kind: 'CERTIFIED' as const,
             },
           ],
         ],

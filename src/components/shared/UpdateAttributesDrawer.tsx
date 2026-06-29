@@ -1,7 +1,11 @@
 import { Drawer } from '@/components/shared/Drawer'
 import React from 'react'
-import type { AttributeKey } from '@/types/attribute.types'
-import type { DescriptorAttribute, DescriptorAttributes } from '@/api/api.generatedTypes'
+import type {
+  AttributeKey,
+  FormDescriptorAttribute,
+  FormDescriptorAttributes,
+} from '@/types/attribute.types'
+import type { DescriptorAttributes } from '@/api/api.generatedTypes'
 import { Box, Divider, Stack, Typography } from '@mui/material'
 import { AttributeContainer, AttributeGroupContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +14,10 @@ import AddIcon from '@mui/icons-material/Add'
 import { AttributeAutocomplete } from '@/components/shared/AttributeAutocomplete'
 import cloneDeep from 'lodash/cloneDeep'
 import { EServiceMutations } from '@/api/eservice'
-import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
+import {
+  mapDescriptorAttributesToFormDescriptorAttributes,
+  mapFormDescriptorAttributesToDescriptorAttributesSeed,
+} from '@/utils/attribute.utils'
 import { useParams } from '@/router'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
 
@@ -39,8 +46,13 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
   const { eServiceTemplateId, eServiceTemplateVersionId } =
     useParams<'PROVIDE_ESERVICE_TEMPLATE_DETAILS'>()
 
-  const [selectedAttributes, setSelectedAttributes] = React.useState<DescriptorAttributes>(() =>
-    cloneDeep(attributes)
+  const formModelAttributes = React.useMemo(
+    () => mapDescriptorAttributesToFormDescriptorAttributes(attributes),
+    [attributes]
+  )
+
+  const [selectedAttributes, setSelectedAttributes] = React.useState<FormDescriptorAttributes>(() =>
+    cloneDeep(formModelAttributes)
   )
 
   const { mutate: updateEserviceAttributes } = EServiceMutations.useUpdateDescriptorAttributes()
@@ -61,7 +73,7 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
     [attributeGroups]
   )
 
-  const handleAddAttributeToGroup = (groupIdx: number, attribute: DescriptorAttribute) => {
+  const handleAddAttributeToGroup = (groupIdx: number, attribute: FormDescriptorAttribute) => {
     setSelectedAttributes((prev) => {
       const newAttributeGroups = [...prev[attributeKey]]
       newAttributeGroups[groupIdx].push(attribute)
@@ -86,7 +98,7 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
     })
   }
 
-  const canAttributeBeRemoved = (groupIdx: number, attribute: DescriptorAttribute) => {
+  const canAttributeBeRemoved = (groupIdx: number, attribute: FormDescriptorAttribute) => {
     return !attributes[attributeKey][groupIdx].some((att) => att.id === attribute.id)
   }
 
@@ -97,7 +109,7 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
           eserviceId,
           descriptorId,
           attributeKey,
-          ...remapDescriptorAttributesToDescriptorAttributesSeed(selectedAttributes),
+          ...mapFormDescriptorAttributesToDescriptorAttributesSeed(selectedAttributes),
         },
         { onSuccess: onClose }
       )
@@ -107,18 +119,24 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
           eServiceTemplateId,
           eServiceTemplateVersionId,
           attributeKey,
-          ...remapDescriptorAttributesToDescriptorAttributesSeed(selectedAttributes),
+          ...mapFormDescriptorAttributesToDescriptorAttributesSeed(selectedAttributes),
         },
         { onSuccess: onClose }
       )
     }
   }
 
+  React.useEffect(() => {
+    if (isOpen) {
+      setSelectedAttributes(cloneDeep(formModelAttributes))
+    }
+  }, [formModelAttributes, isOpen])
+
   return (
     <Drawer
       isOpen={isOpen}
       onClose={onClose}
-      onTransitionExited={() => setSelectedAttributes(cloneDeep(attributes))}
+      onTransitionExited={() => setSelectedAttributes(cloneDeep(formModelAttributes))}
       title={t('title', { attributeKind: tAttribute(`type.${attributeKey}_other`) })}
       subtitle={t('subtitle')}
       buttonAction={{
@@ -181,6 +199,7 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
                     alreadySelectedAttributeIds={alreadySelectedAttributeIds}
                     onAddAttribute={(attribute) => handleAddAttributeToGroup(groupIdx, attribute)}
                     direction="column"
+                    groupIndex={groupIdx}
                   />
                 </Box>
               ) : (

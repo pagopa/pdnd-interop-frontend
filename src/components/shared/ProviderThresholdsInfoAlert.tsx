@@ -22,7 +22,12 @@ export function ProviderThresholdsInfoAlert({
   return (
     <GreyAlert>
       <AlertTitle sx={{ textTransform: 'uppercase', fontWeight: 700 }}>{t('label')}</AlertTitle>
-      <Stack direction="row" spacing={6} sx={{ mt: 0.5, mb: 1, whiteSpace: 'nowrap' }}>
+      <Stack
+        direction={{ xs: 'column', lg: 'row' }}
+        spacing={{ xs: 1, lg: 6 }}
+        sx={{ mt: 0.5, mb: 1, flexWrap: 'wrap' }}
+        alignItems={{ xs: 'flex-start', lg: 'center' }}
+      >
         <Stack direction="row" spacing={2} alignItems="center">
           <Typography>{t('dailyCallsPerConsumer.label')}</Typography>
           <Typography fontWeight={600}>

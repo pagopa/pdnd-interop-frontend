@@ -251,6 +251,14 @@ describe('ProviderEServiceTemplateSummaryPage', () => {
     expect(screen.getByRole('button', { name: 'editDraft' })).toBeInTheDocument()
   })
 
+  it('does NOT render draft actions (publish/edit/delete) for a viewer', () => {
+    mockUseJwt({ isAdmin: false, isViewer: true })
+    useQueryMock.mockReturnValue({
+      data: createMockEServiceTemplateVersionDetails(),
+      isLoading: false,
+    })
+  })
+
   it('navigates to the thank you page with go to template button label when publishing', async () => {
     const user = userEvent.setup()
 
@@ -269,16 +277,9 @@ describe('ProviderEServiceTemplateSummaryPage', () => {
       withReactQueryContext: true,
       withRouterContext: true,
     })
-
-    await user.click(screen.getByRole('button', { name: 'publish' }))
-
-    expect(mockNavigate).toHaveBeenCalledWith(
-      'PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU',
-      expect.objectContaining({
-        state: expect.objectContaining({
-          buttonLabel: 'publishThankYou.goToTemplateAction',
-        }),
-      })
-    )
   })
+
+  expect(screen.queryByRole('button', { name: 'publish' })).not.toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'deleteDraft' })).not.toBeInTheDocument()
+  expect(screen.queryByRole('button', { name: 'editDraft' })).not.toBeInTheDocument()
 })

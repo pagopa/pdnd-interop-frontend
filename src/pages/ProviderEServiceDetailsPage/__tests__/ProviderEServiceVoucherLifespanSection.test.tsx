@@ -86,6 +86,7 @@ const descriptorMock: ProducerEServiceDescriptor = {
           name: 'Attribute 1',
           description: 'desc 1',
           explicitAttributeVerification: false,
+          kind: 'CERTIFIED',
         },
       ],
     ],

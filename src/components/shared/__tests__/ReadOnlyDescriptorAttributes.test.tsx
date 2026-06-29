@@ -6,17 +6,45 @@ import type { AttributeOwnershipData } from '../ReadOnlyDescriptorAttributes'
 import type { DescriptorAttributes } from '@/api/api.generatedTypes'
 import { mockUseCurrentRoute, renderWithApplicationContext } from '@/utils/testing.utils'
 import {
-  createCertifiedTenantAttribute,
+  createStandardCertifiedTenantAttribute,
   createDeclaredTenantAttribute,
   createVerifiedTenantAttribute,
   createMockDescriptorAttribute,
 } from '@/../__mocks__/data/attribute.mocks'
+import type { AttributeGroupContainerProps } from '@/components/layout/containers'
 
 mockUseCurrentRoute({ mode: 'consumer' })
 
 vi.mock('../CustomizeThresholdDrawer', () => ({
   useCustomizeThresholdDrawer: () => ({ open: vi.fn() }),
 }))
+
+const { mockContainerBehavior } = vi.hoisted(() => ({
+  mockContainerBehavior: vi.fn(),
+}))
+vi.mock('@/components/layout/containers/AttributeGroupContainer', async () => {
+  const actual = await vi.importActual<
+    // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+    typeof import('@/components/layout/containers/AttributeGroupContainer')
+  >('@/components/layout/containers/AttributeGroupContainer')
+  return {
+    ...actual,
+    AttributeGroupContainer: (props: AttributeGroupContainerProps) => {
+      const shouldMock = mockContainerBehavior()
+      if (shouldMock) {
+        const { color, title, subheader, children } = props
+        return (
+          <div data-testid="attribute-group-container" data-color={color}>
+            <div>{title}</div>
+            {subheader}
+            {children}
+          </div>
+        )
+      }
+      return <actual.AttributeGroupContainer {...props} />
+    },
+  }
+})
 
 const PRODUCER_ID = 'producer-id'
 
@@ -95,7 +123,7 @@ describe('ReadOnlyDescriptorAttributes', () => {
 
     it('should show warning (yellow) for unfulfilled verified attributes', () => {
       const descriptorAttributes = createDescriptorAttributes({
-        verified: [[createMockDescriptorAttribute({ id: 'attr-1' })]],
+        verified: [[createMockDescriptorAttribute({ id: 'attr-1', kind: 'VERIFIED' })]],
       })
       const ownershipData = createOwnershipData({
         verified: [],
@@ -108,7 +136,7 @@ describe('ReadOnlyDescriptorAttributes', () => {
 
     it('should show warning (yellow) for unfulfilled declared attributes', () => {
       const descriptorAttributes = createDescriptorAttributes({
-        declared: [[createMockDescriptorAttribute({ id: 'attr-1' })]],
+        declared: [[createMockDescriptorAttribute({ id: 'attr-1', kind: 'DECLARED' })]],
       })
       const ownershipData = createOwnershipData({
         declared: [],
@@ -125,7 +153,7 @@ describe('ReadOnlyDescriptorAttributes', () => {
       })
       const ownershipData = createOwnershipData({
         certified: [
-          createCertifiedTenantAttribute({ id: 'attr-1', revocationTimestamp: undefined }),
+          createStandardCertifiedTenantAttribute({ id: 'attr-1', revocationTimestamp: undefined }),
         ],
       })
 
@@ -135,12 +163,17 @@ describe('ReadOnlyDescriptorAttributes', () => {
     })
   })
 
-  describe('fulfillment status hidden when there is a blocking attribute', () => {
-    it('should hide fulfillment status for non-blocking groups when a certified group is unfulfilled', () => {
+  describe('fulfillment status color hidden and text visible when there is a blocking attribute', () => {
+    beforeEach(() => {
+      mockContainerBehavior.mockReturnValue(false)
+    })
+
+    it('should hide fulfillment status color but not text for non-blocking groups when a certified group is unfulfilled', () => {
+      mockContainerBehavior.mockReturnValue(true)
       const descriptorAttributes = createDescriptorAttributes({
         certified: [[createMockDescriptorAttribute({ id: 'cert-attr-1' })]],
-        verified: [[createMockDescriptorAttribute({ id: 'ver-attr-1' })]],
-        declared: [[createMockDescriptorAttribute({ id: 'decl-attr-1' })]],
+        verified: [[createMockDescriptorAttribute({ id: 'ver-attr-1', kind: 'VERIFIED' })]],
+        declared: [[createMockDescriptorAttribute({ id: 'decl-attr-1', kind: 'DECLARED' })]],
       })
       const ownershipData = createOwnershipData({
         certified: [], // unfulfilled → error (blocking)
@@ -160,21 +193,30 @@ describe('ReadOnlyDescriptorAttributes', () => {
       // The certified group should still show the error text
       expect(screen.getByText('group.manage.error.consumer')).toBeInTheDocument()
 
-      // Verified and declared groups should hide fulfillment status (no subtitle shown)
-      expect(screen.queryByText('consumer')).not.toBeInTheDocument()
+      // Success text should appear (verified and declared are fulfilled and only color is hidden due to blocking attribute)
+      expect(screen.queryAllByText('group.manage.success.consumer').length).toBe(2)
 
-      // Success text should NOT appear (verified is fulfilled but hidden due to blocking attribute)
-      expect(screen.queryByText('group.manage.success.consumer')).not.toBeInTheDocument()
+      const groups = screen.getAllByTestId('attribute-group-container')
+      expect(groups.length).toBe(3)
+
+      const [certifiedGroup, verifiedGroup, declaredGroup] = groups
+
+      expect(certifiedGroup).toHaveAttribute('data-color', 'error')
+      expect(verifiedGroup).toHaveAttribute('data-color', 'gray')
+      expect(declaredGroup).toHaveAttribute('data-color', 'gray')
     })
 
     it('should show fulfillment status when all certified groups are fulfilled', () => {
       const descriptorAttributes = createDescriptorAttributes({
         certified: [[createMockDescriptorAttribute({ id: 'cert-attr-1' })]],
-        verified: [[createMockDescriptorAttribute({ id: 'ver-attr-1' })]],
+        verified: [[createMockDescriptorAttribute({ id: 'ver-attr-1', kind: 'VERIFIED' })]],
       })
       const ownershipData = createOwnershipData({
         certified: [
-          createCertifiedTenantAttribute({ id: 'cert-attr-1', revocationTimestamp: undefined }),
+          createStandardCertifiedTenantAttribute({
+            id: 'cert-attr-1',
+            revocationTimestamp: undefined,
+          }),
         ],
         verified: [
           createVerifiedTenantAttribute({
@@ -194,7 +236,7 @@ describe('ReadOnlyDescriptorAttributes', () => {
     it('should hide checkmarks for non-blocking groups when there is a blocking attribute', () => {
       const descriptorAttributes = createDescriptorAttributes({
         certified: [[createMockDescriptorAttribute({ id: 'cert-attr-1' })]],
-        verified: [[createMockDescriptorAttribute({ id: 'ver-attr-1' })]],
+        verified: [[createMockDescriptorAttribute({ id: 'ver-attr-1', kind: 'VERIFIED' })]],
       })
       const ownershipData = createOwnershipData({
         certified: [], // unfulfilled → blocking attribute
@@ -210,7 +252,7 @@ describe('ReadOnlyDescriptorAttributes', () => {
 
       // The verified attribute is owned but its fulfillment status is hidden,
       // so no checkmark should be rendered for it
-      const checkIcons = screen.queryAllByTestId('CheckIcon')
+      const checkIcons = screen.queryAllByTestId('CheckCircleIcon')
       expect(checkIcons.length).toBe(0)
     })
   })
@@ -218,7 +260,7 @@ describe('ReadOnlyDescriptorAttributes', () => {
   describe('verified attributes can never be red', () => {
     it('should show warning, not error, for unfulfilled verified attributes', () => {
       const descriptorAttributes = createDescriptorAttributes({
-        verified: [[createMockDescriptorAttribute({ id: 'attr-1' })]],
+        verified: [[createMockDescriptorAttribute({ id: 'attr-1', kind: 'VERIFIED' })]],
       })
       const ownershipData = createOwnershipData({
         verified: [],
@@ -234,7 +276,7 @@ describe('ReadOnlyDescriptorAttributes', () => {
   describe('declared attributes can never be red', () => {
     it('should show warning, not error, for unfulfilled declared attributes', () => {
       const descriptorAttributes = createDescriptorAttributes({
-        declared: [[createMockDescriptorAttribute({ id: 'attr-1' })]],
+        declared: [[createMockDescriptorAttribute({ id: 'attr-1', kind: 'DECLARED' })]],
       })
       const ownershipData = createOwnershipData({
         declared: [],

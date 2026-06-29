@@ -51,8 +51,8 @@ export function StepActions({ back, secondaryAction, forward }: StepActionsProps
   const secondaryActionProps =
     secondaryAction &&
     (secondaryAction.type === 'link'
-      ? { component: Link, to: secondaryAction.to }
-      : { onClick: secondaryAction.onClick })
+      ? { component: Link, to: secondaryAction.to, disabled: secondaryAction.disabled }
+      : { onClick: secondaryAction.onClick, disabled: secondaryAction.disabled })
 
   const backProps =
     back && (back.type === 'link' ? { component: Link, to: back.to } : { onClick: back.onClick })

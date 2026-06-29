@@ -2,6 +2,16 @@ import { fireEvent, screen } from '@testing-library/react'
 import { AttributeContainer } from '../AttributeContainer'
 import { vi, describe, it, expect } from 'vitest'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
+import {
+  createCertifiedDiscreteTenantAttribute,
+  createMockAttribute,
+  createMockDescriptorAttribute,
+} from '../../../../../__mocks__/data/attribute.mocks'
+import userEvent from '@testing-library/user-event'
+import type { Attribute } from '@/api/api.generatedTypes'
+import { AttributeQueries } from '@/api/attribute'
+
+const baseAttribute = createMockAttribute({ id: 'attr-1', name: 'Test Attribute' })
 
 vi.mock('@tanstack/react-query', async () => {
   const actual = (await vi.importActual('@tanstack/react-query')) as Record<string, unknown>
@@ -15,14 +25,12 @@ vi.mock('@tanstack/react-query', async () => {
 
 vi.mock('@/api/attribute', () => ({
   AttributeQueries: {
-    getSingle: vi.fn((id: string) => ({ queryKey: ['attribute', id], queryFn: vi.fn() })),
+    getSingle: vi.fn((id: string) => ({
+      queryKey: ['attribute', id],
+      queryFn: vi.fn().mockReturnValue(baseAttribute),
+    })),
   },
 }))
-
-const baseAttribute = {
-  id: 'attr-1',
-  name: 'Test Attribute',
-}
 
 describe('AttributeContainer', () => {
   it('should render the attribute name', () => {
@@ -61,15 +69,16 @@ describe('AttributeContainer', () => {
     expect(onRemove.mock.calls[0][1]).toBe('Test Attribute')
   })
 
-  it('should show "customizeBtn" when onCustomizeThreshold is provided and no dailyCallsPerConsumer', () => {
+  it('should show "customizeThreshold" when onCustomizeThreshold is provided and no dailyCallsPerConsumer', () => {
     renderWithApplicationContext(
       <AttributeContainer attribute={baseAttribute} onCustomizeThreshold={vi.fn()} />,
       { withReactQueryContext: true }
     )
-    expect(screen.getByText('customizeBtn')).toBeInTheDocument()
+    expect(screen.getByText('actions.customizeThreshold')).toBeInTheDocument()
   })
 
-  it('should show "changeBtn" when onCustomizeThreshold is provided and dailyCallsPerConsumer exists', () => {
+  it('should show "changeThreshold" inside the action menu when onCustomizeThreshold is provided and dailyCallsPerConsumer exists', async () => {
+    const user = userEvent.setup()
     renderWithApplicationContext(
       <AttributeContainer
         attribute={{ ...baseAttribute, dailyCallsPerConsumer: 100 }}
@@ -77,7 +86,43 @@ describe('AttributeContainer', () => {
       />,
       { withReactQueryContext: true }
     )
-    expect(screen.getByText('changeBtn')).toBeInTheDocument()
+
+    const menuActionsIconButton = screen.getByLabelText('iconButtonAriaLabel')
+    await user.click(menuActionsIconButton)
+
+    expect(screen.getByRole('menuitem', { name: 'actions.changeThreshold' })).toBeInTheDocument()
+  })
+
+  it('should show threshold value when hideThreshold is false', async () => {
+    renderWithApplicationContext(
+      <AttributeContainer
+        attribute={{ ...baseAttribute, dailyCallsPerConsumer: 100 }}
+        hideThreshold={false}
+      />,
+      { withReactQueryContext: true }
+    )
+
+    const thresholdLabel = screen.queryByText('thresholdLabel')
+    const thresholdValue = screen.queryByText(100)
+
+    expect(thresholdLabel).toBeInTheDocument()
+    expect(thresholdValue).toBeInTheDocument()
+  })
+
+  it('should not show threshold value when hideThreshold is true', async () => {
+    renderWithApplicationContext(
+      <AttributeContainer
+        attribute={{ ...baseAttribute, dailyCallsPerConsumer: 100 }}
+        hideThreshold
+      />,
+      { withReactQueryContext: true }
+    )
+
+    const thresholdLabel = screen.queryByText('thresholdLabel')
+    const thresholdValue = screen.queryByText(100)
+
+    expect(thresholdLabel).not.toBeInTheDocument()
+    expect(thresholdValue).not.toBeInTheDocument()
   })
 
   it('should call onCustomizeThreshold on click with stopPropagation', () => {
@@ -86,7 +131,7 @@ describe('AttributeContainer', () => {
       <AttributeContainer attribute={baseAttribute} onCustomizeThreshold={onCustomizeThreshold} />,
       { withReactQueryContext: true }
     )
-    const btn = screen.getByText('customizeBtn')
+    const btn = screen.getByText('actions.customizeThreshold')
     const clickEvent = new MouseEvent('click', { bubbles: true })
     const stopPropagationSpy = vi.spyOn(clickEvent, 'stopPropagation')
     fireEvent(btn, clickEvent)
@@ -107,5 +152,211 @@ describe('AttributeContainer', () => {
       { withReactQueryContext: true }
     )
     expect(screen.getByText('My Chip')).toBeInTheDocument()
+  })
+
+  it('should show "modifyCertifiedDiscreteAttribute" inside the action menu when onOpenConfigDrawer is provided and attribute kind is CERTIFIED_DISCRETE', async () => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(
+      <AttributeContainer
+        attribute={{ ...baseAttribute, kind: 'CERTIFIED_DISCRETE' }}
+        onOpenConfigDrawer={vi.fn()}
+      />,
+      { withReactQueryContext: true }
+    )
+
+    const menuActionsIconButton = screen.getByLabelText('iconButtonAriaLabel')
+    await user.click(menuActionsIconButton)
+
+    expect(
+      screen.getByRole('menuitem', { name: 'actions.modifyCertifiedDiscreteAttribute' })
+    ).toBeInTheDocument()
+  })
+
+  it('should show "inspectAttributeDetails" inside the action menu', async () => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(<AttributeContainer attribute={{ ...baseAttribute }} />, {
+      withReactQueryContext: true,
+    })
+
+    const menuActionsIconButton = screen.getByLabelText('iconButtonAriaLabel')
+    await user.click(menuActionsIconButton)
+
+    expect(
+      screen.getByRole('menuitem', { name: 'actions.inspectAttributeDetails' })
+    ).toBeInTheDocument()
+  })
+
+  it('should show discreteConfig with the right string (GT) if setted in DescriptorAttribute', async () => {
+    const descriptorAttributeMock = createMockDescriptorAttribute({
+      kind: 'CERTIFIED_DISCRETE',
+      discreteConfig: { comparator: 'GT', threshold: 100 },
+    })
+    renderWithApplicationContext(
+      <AttributeContainer attribute={{ ...descriptorAttributeMock }} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    const discreteConfig = screen.getByText('GT 100')
+
+    expect(discreteConfig).toBeInTheDocument()
+  })
+
+  it('should show discreteConfig with the right string (LT) if setted in DescriptorAttribute', async () => {
+    const descriptorAttributeMock = createMockDescriptorAttribute({
+      kind: 'CERTIFIED_DISCRETE',
+      discreteConfig: { comparator: 'LT', threshold: 100 },
+    })
+    renderWithApplicationContext(
+      <AttributeContainer attribute={{ ...descriptorAttributeMock }} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    const discreteConfig = screen.getByText('LT 100')
+
+    expect(discreteConfig).toBeInTheDocument()
+  })
+
+  it('should show discreteConfig with the right string (GTE) if setted in DescriptorAttribute', async () => {
+    const descriptorAttributeMock = createMockDescriptorAttribute({
+      kind: 'CERTIFIED_DISCRETE',
+      discreteConfig: { comparator: 'GTE', threshold: 100 },
+    })
+    renderWithApplicationContext(
+      <AttributeContainer attribute={{ ...descriptorAttributeMock }} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    const discreteConfig = screen.getByText('GTE 100')
+
+    expect(discreteConfig).toBeInTheDocument()
+  })
+
+  it('should show discreteConfig with the right string (LTE) if setted in DescriptorAttribute', async () => {
+    const descriptorAttributeMock = createMockDescriptorAttribute({
+      kind: 'CERTIFIED_DISCRETE',
+      discreteConfig: { comparator: 'LTE', threshold: 100 },
+    })
+    renderWithApplicationContext(
+      <AttributeContainer attribute={{ ...descriptorAttributeMock }} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    const discreteConfig = screen.getByText('LTE 100')
+
+    expect(discreteConfig).toBeInTheDocument()
+  })
+
+  it('should show discreteConfig with the right string (EQ) if setted in DescriptorAttribute', async () => {
+    const descriptorAttributeMock = createMockDescriptorAttribute({
+      kind: 'CERTIFIED_DISCRETE',
+      discreteConfig: { comparator: 'EQ', threshold: 100 },
+    })
+    renderWithApplicationContext(
+      <AttributeContainer attribute={{ ...descriptorAttributeMock }} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    const discreteConfig = screen.getByText('EQ 100')
+
+    expect(discreteConfig).toBeInTheDocument()
+  })
+
+  it('should show discreteConfig with the right string (NE) if setted in DescriptorAttribute', async () => {
+    const descriptorAttributeMock = createMockDescriptorAttribute({
+      kind: 'CERTIFIED_DISCRETE',
+      discreteConfig: { comparator: 'NE', threshold: 100 },
+    })
+    renderWithApplicationContext(
+      <AttributeContainer attribute={{ ...descriptorAttributeMock }} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    const discreteConfig = screen.getByText('NE 100')
+
+    expect(discreteConfig).toBeInTheDocument()
+  })
+
+  it('should show discreteValue if setted in CertifiedDiscreteTenantAttribute', async () => {
+    const descriptorAttributeMock = createCertifiedDiscreteTenantAttribute({
+      discreteValue: 140,
+    })
+    renderWithApplicationContext(
+      <AttributeContainer attribute={{ ...descriptorAttributeMock }} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    const discreteConfig = screen.getByText('140')
+
+    expect(discreteConfig).toBeInTheDocument()
+  })
+
+  it('should open AttributeDetailsDrawer with the attribute details when "inspectAttributeDetails" is clicked', async () => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(<AttributeContainer attribute={{ ...baseAttribute }} />, {
+      withReactQueryContext: true,
+    })
+
+    const menuActionsIconButton = screen.getByLabelText('iconButtonAriaLabel')
+    await user.click(menuActionsIconButton)
+
+    const inspectAttributeDetailsMenuItem = screen.getByRole('menuitem', {
+      name: 'actions.inspectAttributeDetails',
+    })
+    await user.click(inspectAttributeDetailsMenuItem)
+
+    const attributeDetailsDrawerDescription = screen.getByText(baseAttribute.description)
+    const attributeDetailsDrawerId = screen.getByText(baseAttribute.id)
+    const attributeDetailsDrawerOrigin = screen.queryByText('tenantCertifierLabel')
+
+    expect(attributeDetailsDrawerDescription).toBeInTheDocument()
+    expect(attributeDetailsDrawerId).toBeInTheDocument()
+    expect(attributeDetailsDrawerOrigin).not.toBeInTheDocument()
+  })
+
+  it('AttributeDetailsDrawer should contain origin if the attribute has it', async () => {
+    const mockedAttributeWithOrigin: Attribute = { ...baseAttribute, origin: 'test origin' }
+
+    vi.mocked(AttributeQueries.getSingle).mockImplementation(
+      (id: string) =>
+        ({
+          queryKey: ['attribute', id],
+          queryFn: vi.fn().mockReturnValue(mockedAttributeWithOrigin),
+        }) as unknown as ReturnType<typeof AttributeQueries.getSingle>
+    )
+
+    const user = userEvent.setup()
+
+    renderWithApplicationContext(
+      <AttributeContainer attribute={{ ...mockedAttributeWithOrigin }} />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    const menuActionsIconButton = screen.getByLabelText('iconButtonAriaLabel')
+    await user.click(menuActionsIconButton)
+
+    const inspectAttributeDetailsMenuItem = screen.getByRole('menuitem', {
+      name: 'actions.inspectAttributeDetails',
+    })
+    await user.click(inspectAttributeDetailsMenuItem)
+
+    const attributeDetailsDrawerOrigin = screen.queryByText(mockedAttributeWithOrigin.origin!)
+
+    expect(attributeDetailsDrawerOrigin).toBeInTheDocument()
   })
 })

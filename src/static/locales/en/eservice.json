@@ -299,8 +299,14 @@
       "interface": {
         "title": "Interface",
         "description": {
-          "rest": "Upload the OpenAPI file that describes the API. Before uploading, verify that it meets the ModI requirements with",
-          "restLinkLabel": "the OpenAPI Checker",
+          "rest": "Upload the OpenAPI file that describes the API.",
+          "beforePublishing": "Before publishing, you can use these tools to check:",
+          "technicalCompliance": "technical compliance",
+          "technicalComplianceDescription": "with the ModI guidelines through",
+          "semanticCompliance": "semantic compliance",
+          "semanticComplianceDescription": "with the National Data Catalog annotations through",
+          "restLinkLabel": "OpenAPI Checker",
+          "schemaEditorLinkLabel": "Schema Editor",
           "restForm": "Fill in these fields to automatically generate the OpenAPI file.",
           "soap": "Upload the WSDL file that describes the API"
         },
@@ -613,6 +619,15 @@
     "disabledTooltip": "Test e-service archived from the catalog and not usable."
   },
   "read": {
+    "versionHeaderLabel": "Version",
+    "versionListModal": {
+      "title": "Version statuses",
+      "versionRowLabel": "Version {{ version }}"
+    },
+    "scheduledArchivalTooltip": {
+      "descriptor": "Version scheduled for archival on {{ date }}",
+      "eservice": "E-service scheduled for archival on {{ date }}"
+    },
     "tabs": {
       "ariaLabel": "Two different tabs for e-service details and associated keychains",
       "eserviceDetails": "E-service details",
@@ -623,16 +638,71 @@
     },
     "alert": {
       "suspended": "This e-service version is discontinued. Until its reactivation, no consumer will be able to access the data provided through the API.",
-      "deprecated": "This e-service version is obsolete but still active. It will be automatically discontinued by PDND Interoperabilità when the last agreement on this version is archived.",
+      "deprecated": "This e-service version is obsolete but still active. It will be automatically archived when it has no more agreements.",
+      "archivingDescriptor": "This e-service version is being archived but is still active. It will be automatically archived on {{date}}.",
+      "archivingEService": "This e-service is being archived but is still active. It will be automatically archived on {{date}}.",
+      "archivingSuspendedDescriptor": "This e-service version is being archived and is currently suspended. It will be automatically archived on {{date}}.",
+      "archivedDescriptor": "This e-service version was archived on {{date}}.",
+      "archivedDescriptorNoConsumers": "This version is archived. No consumer can access the data provided.",
+      "archivingSuspendedEService": "This version is currently suspended. The e-service is being archived and will be automatically archived on {{date}}.",
+      "archivedEService": "This e-service was permanently archived on {{date}}.",
       "missingProducerKeychain": "The producer has not linked the keychain to this async e-service yet. Data exchange is currently unavailable.",
       "missingProducerKeychainKeys": "The producer has not linked any keys to this async e-service keychain yet. Data exchange is currently unavailable.",
       "providerMissingProducerKeychain": "Associate a keychain with this e-service to enable data exchange.",
       "providerMissingProducerKeychainKeys": "Add at least one key to the keychain linked to this e-service to enable data exchange.",
       "viewProducerKeychains": "View keychains"
     },
+    "dialogSuspendArchivingEservice": {
+      "title": "Suspend version of e-service being archived",
+      "intro": "What happens with the suspension:",
+      "bullets": {
+        "suspended": "the version will not be usable and will remain inactive until any reactivation;",
+        "archivingNotAffected": "the suspension <strong>does not modify</strong> and <strong>does not interrupt</strong> the archiving already started for the e-service;",
+        "archivedAfterNotice": "after archiving, you will no longer be able to reactivate the e-service and all its versions."
+      }
+    },
+    "dialogReactivateArchivingEservice": {
+      "title": "Reactivate version of e-service being archived",
+      "intro": "What happens with the reactivation:",
+      "bullets": {
+        "usableAgain": "the version becomes usable again, but the e-service remains in the archiving phase;",
+        "archivingNotAffected": "the reactivation <strong>does not modify</strong> and <strong>does not interrupt</strong> the archiving already started for the e-service;",
+        "archivedAfterNotice": "after archiving, you will no longer be able to reactivate the e-service and all its versions."
+      },
+      "proceedLabel": "Reactivate"
+    },
+    "dialogSuspendArchivingDescriptor": {
+      "title": "Suspend version under archival",
+      "intro": "What suspension does:",
+      "bullets": {
+        "suspended": "the version cannot be used and will remain suspended until reactivated;",
+        "archivingNotAffected": "suspension <strong>does not change</strong> and <strong>does not interrupt</strong> the ongoing archival of this version;",
+        "archivedAfterNotice": "once the notice period elapses, the version will be permanently archived."
+      }
+    },
+    "dialogReactivateArchivingDescriptor": {
+      "title": "Reactivate version under archival",
+      "intro": "What reactivation does:",
+      "bullets": {
+        "usableAgain": "the version becomes usable again, while remaining under archival;",
+        "archivingNotAffected": "reactivation <strong>does not change</strong> and <strong>does not interrupt</strong> the ongoing archival of this version;",
+        "archivedAfterNotice": "once the notice period elapses, the version will be permanently archived."
+      },
+      "proceedLabel": "Reactivate"
+    },
     "actions": {
       "backToListLabel": "Back to the e-services",
-      "backToCatalogLabel": "Back to the catalog"
+      "backToCatalogLabel": "Back to the catalog",
+      "suspendVersion": "Suspend version",
+      "reactivateVersion": "Reactivate version",
+      "createNewVersion": "Create new version",
+      "archiveVersion": "Archive version",
+      "cloneEservice": "Duplicate e-service",
+      "archiveEservice": "Archive e-service",
+      "cancelArchivingVersion": "Cancel version archiving",
+      "cancelArchivingEservice": "Cancel e-service archiving",
+      "viewLatestVersion": "View latest version",
+      "viewAllVersions": "View all versions"
     },
     "keychain": {
       "actionReservedToAdminTooltip": "This action is reserved to users with administrator permissions",
@@ -689,13 +759,37 @@
         },
         "consumerListFileName": "{{timestamp}}-consumers-list-{{eserviceName}}.csv",
         "bottomActions": {
-          "navigateVersions": "Navigate to another e-service version",
           "showTechnicalDetails": "Show e-service technical details",
           "showAsyncExchangeDetails": "Show asynchronous exchange details",
           "downloadConsumerList": "Download consumer list",
           "showProducerContacts": "Show producer contacts",
           "exportVersion": "Download this e-service version",
           "watchRiskyAnalysisAssociated": "Consult risk analysis associated with this e-service"
+        }
+      },
+      "versionInformations": {
+        "title": "Version information",
+        "details": {
+          "title": "Details",
+          "descriptorDescription": {
+            "label": "Version description"
+          }
+        },
+        "agreementApprovalPolicy": {
+          "title": "Agreements",
+          "label": "Requests approval",
+          "content": {
+            "AUTOMATIC": "Automatic",
+            "MANUAL": "Manual"
+          }
+        },
+        "lifeCycle": {
+          "title": "Lifecycle",
+          "lastVersionDate": "Last version date",
+          "archivedDate": "Archive date",
+          "suspendedDate": "Suspension date",
+          "deprecatedDate": "Deprecation date",
+          "publishedDate": "Publish date"
         }
       },
       "technicalInformations": {
@@ -722,10 +816,6 @@
           "label": "Producer ID",
           "copySuccessFeedbackText": "Producer ID copied successfully"
         },
-        "publishedAt": "Last version date",
-        "suspendedAt": "Last suspended date",
-        "deprecatedAt": "Deprecated version date",
-        "archivedAt": "Archived version date",
         "mode": {
           "label": "E-service mode",
           "labelDescription": "Receive / Deliver",
@@ -747,14 +837,6 @@
           "dailyCallsTotal": {
             "label": "Total threshold",
             "labelDescription": "(API calls/day)"
-          }
-        },
-        "agreementApprovalPolicy": {
-          "title": "Agreements",
-          "label": "Requests acceptance",
-          "content": {
-            "AUTOMATIC": "Automatic",
-            "MANUAL": "Manual"
           }
         },
         "documentation": {
@@ -1052,9 +1134,8 @@
         "notes": "Notes"
       },
       "versionSelectorDrawer": {
-        "title": "Navigate to another e-service version",
+        "title": "View another e-service version",
         "label": "Select version",
-        "currentVersion": "{{ versionNum }} - current version",
         "goToSelectedVersion": "Go to the selected version"
       },
       "updateDocumentationDrawer": {
@@ -1116,6 +1197,7 @@
     "subscribe": "Request fruition",
     "editDraft": "Complete request",
     "inspect": "Inspect request",
+    "upgradeToNewVersion": "Update to new version",
     "eserviceSuspendedTooltip": "It is currently not possible to submit new requests; the e-service is suspended",
     "missingCertifiedAttributesTooltip": "Your institution does not have the certified attributes necessary to register"
   },

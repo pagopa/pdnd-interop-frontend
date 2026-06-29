@@ -5,6 +5,8 @@ import type { ChipProps } from '@mui/material'
 import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
 import type { TFunction } from 'i18next'
+import { match } from 'ts-pattern'
+import { isDescriptorPendingArchiving } from '@/utils/eservice.utils'
 import type {
   Agreement,
   AgreementListEntry,
@@ -15,6 +17,7 @@ import type {
   Purpose,
   PurposeTemplateState,
   PurposeVersionState,
+  RiskAnalysisSigningState,
 } from '@/api/api.generatedTypes'
 
 const CHIP_COLORS_E_SERVICE: Record<EServiceDescriptorState, MUIColor> = {
@@ -24,6 +27,19 @@ const CHIP_COLORS_E_SERVICE: Record<EServiceDescriptorState, MUIColor> = {
   ARCHIVED: 'info',
   DEPRECATED: 'warning',
   WAITING_FOR_APPROVAL: 'warning',
+  ARCHIVING: 'warning',
+  ARCHIVING_SUSPENDED: 'error',
+}
+
+const CHIP_COLORS_DESCRIPTOR: Record<EServiceDescriptorState, MUIColor> = {
+  PUBLISHED: 'success',
+  DRAFT: 'info',
+  SUSPENDED: 'error',
+  ARCHIVED: undefined,
+  DEPRECATED: 'warning',
+  WAITING_FOR_APPROVAL: 'warning',
+  ARCHIVING: 'warning',
+  ARCHIVING_SUSPENDED: 'error',
 }
 
 const CHIP_COLORS_AGREEMENT: Record<AgreementState, MUIColor> = {
@@ -42,6 +58,13 @@ const CHIP_COLORS_PURPOSE: Record<PurposeVersionState, MUIColor> = {
   SUSPENDED: 'error',
   WAITING_FOR_APPROVAL: 'warning',
   ARCHIVED: 'info',
+  REJECTED: 'error',
+}
+
+const CHIP_COLORS_RISK_ANALYSIS: Record<Exclude<RiskAnalysisSigningState, 'DRAFT'>, MUIColor> = {
+  ASSIGNED: 'warning',
+  SUBMITTED: 'info',
+  SIGNED: 'success',
   REJECTED: 'error',
 }
 
@@ -68,11 +91,14 @@ const CHIP_COLORS_PURPOSE_TEMPLATE: Record<PurposeTemplateState, MUIColor> = {
 
 const chipColors = {
   eservice: CHIP_COLORS_E_SERVICE,
+  descriptor: CHIP_COLORS_DESCRIPTOR,
   agreement: CHIP_COLORS_AGREEMENT,
   purpose: CHIP_COLORS_PURPOSE,
   delegation: CHIP_COLORS_DELEGATION,
   eserviceTemplate: CHIP_COLORS_E_SERVICE_TEMPLATE,
   purposeTemplate: CHIP_COLORS_PURPOSE_TEMPLATE,
+  riskAnalysis: CHIP_COLORS_RISK_ANALYSIS,
+  riskAnalysisList: CHIP_COLORS_RISK_ANALYSIS,
 } as const
 
 type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
@@ -81,6 +107,11 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
         for: 'eservice'
         state: EServiceDescriptorState
         isDraftToCorrect?: boolean
+      }
+    | {
+        for: 'descriptor'
+        state: EServiceDescriptorState
+        isActiveDescriptor?: boolean
       }
     | {
         for: 'agreement'
@@ -101,6 +132,14 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
     | {
         for: 'purposeTemplate'
         state: PurposeTemplateState
+      }
+    | {
+        for: 'riskAnalysis'
+        state: Exclude<RiskAnalysisSigningState, 'DRAFT'>
+      }
+    | {
+        for: 'riskAnalysisList'
+        state: Exclude<RiskAnalysisSigningState, 'DRAFT' | 'SIGNED' | 'REJECTED'>
       }
   )
 
@@ -143,10 +182,31 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
   let label = ''
 
   if (props.for === 'eservice') {
-    color = props.isDraftToCorrect ? 'warning' : chipColors['eservice'][props.state]
+    const remappedState: EServiceDescriptorState = match(props.state)
+      .with('ARCHIVING', () => 'PUBLISHED' as const)
+      .with('ARCHIVING_SUSPENDED', () => 'SUSPENDED' as const)
+      .otherwise((state) => state)
+
+    color = props.isDraftToCorrect ? 'warning' : chipColors['eservice'][remappedState]
     label = props.isDraftToCorrect
       ? t('status.eservice.DRAFT_TO_CORRECT')
-      : t(`status.eservice.${props.state}`)
+      : t(`status.eservice.${remappedState}`)
+  }
+
+  if (props.for === 'descriptor') {
+    const isActiveDescriptorBeingArchived =
+      props.isActiveDescriptor && isDescriptorPendingArchiving(props.state)
+
+    const remappedState: EServiceDescriptorState = match({
+      state: props.state,
+      isActiveDescriptorBeingArchived,
+    })
+      .with({ isActiveDescriptorBeingArchived: false }, ({ state }) => state)
+      .with({ state: 'ARCHIVING' }, () => 'PUBLISHED' as const)
+      .otherwise(() => 'SUSPENDED' as const)
+
+    color = chipColors['descriptor'][remappedState]
+    label = t(`status.descriptor.${remappedState}`)
   }
 
   if (props.for === 'agreement') {
@@ -178,11 +238,21 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
     label = t(`status.purposeTemplate.${props.state}`)
   }
 
+  if (props.for === 'riskAnalysis') {
+    color = chipColors['riskAnalysis'][props.state]
+    label = t(`status.riskAnalysis.${props.state}`)
+  }
+
+  if (props.for === 'riskAnalysisList') {
+    color = chipColors['riskAnalysisList'][props.state]
+    label = t(`status.riskAnalysisList.${props.state}`)
+  }
+
   return (
     <Chip
       label={label}
       color={color}
-      {...omit(props, ['for', 'state', 'agreement', 'attributeKey'])}
+      {...omit(props, ['for', 'state', 'agreement', 'attributeKey', 'isActiveDescriptor'])}
     />
   )
 }

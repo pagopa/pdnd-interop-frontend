@@ -1,9 +1,4 @@
-import type {
-  CatalogEServiceDescriptor,
-  CertifiedTenantAttribute,
-  DeclaredTenantAttribute,
-  VerifiedTenantAttribute,
-} from '@/api/api.generatedTypes'
+import type { CatalogEServiceDescriptor, TenantAttributes } from '@/api/api.generatedTypes'
 import { renderHook } from '@testing-library/react'
 import type { Mock } from 'vitest'
 import { vi } from 'vitest'
@@ -29,9 +24,9 @@ const mockUseGetDescriptorCatalog = (descriptor: CatalogEServiceDescriptor | und
 }
 
 const mockUseGetPartyAttributes = (
-  certified: CertifiedTenantAttribute[] | undefined,
-  verified: VerifiedTenantAttribute[] | undefined,
-  declared: DeclaredTenantAttribute[] | undefined
+  certified: TenantAttributes['certified'] | undefined,
+  verified: TenantAttributes['verified'] | undefined,
+  declared: TenantAttributes['declared'] | undefined
 ) => {
   ;(useQueries as Mock).mockReturnValue([
     { data: certified ? { attributes: certified } : undefined },

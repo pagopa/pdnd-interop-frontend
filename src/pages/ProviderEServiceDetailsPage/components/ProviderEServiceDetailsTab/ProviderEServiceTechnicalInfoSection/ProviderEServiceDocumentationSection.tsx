@@ -26,7 +26,7 @@ export const ProviderEServiceDocumentationSection: React.FC<
   })
   const { t: tCommon } = useTranslation('common')
 
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt, isViewer } = AuthHooks.useJwt()
 
   const { isDelegator } = useGetProducerDelegationUserRole({
     eserviceId: descriptor.eservice.id,
@@ -62,7 +62,7 @@ export const ProviderEServiceDocumentationSection: React.FC<
         innerSection
         title={t('documentation.title')}
         topSideActions={
-          isDelegator || isEserviceFromTemplate
+          isDelegator || isEserviceFromTemplate || isViewer
             ? []
             : [
                 {

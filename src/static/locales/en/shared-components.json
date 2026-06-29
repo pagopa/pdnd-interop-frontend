@@ -235,6 +235,10 @@
       }
     }
   },
+  "dialogRequestRiskAnalysisCompilation": {
+    "title": "Request compilation and approval",
+    "description": "If you confirm, you will assign the compilation and approval of the risk analysis to the reviewer <strong>{{reviewerName}}</strong> and you will no longer be able to change this choice."
+  },
   "dialogRejectDelegatedVersionDraft": {
     "title": "Reject Publication",
     "description": "The reason for your rejection will be reported to your delegate, who will be able to update the draft and send it back to you for approval for publication.",
@@ -269,6 +273,68 @@
           "false": "No, personal data will not be processed"
         }
       }
+    }
+  },
+  "dialogApproveRiskAnalysis": {
+    "title": "Approve risk analysis",
+    "description": "If confirmed, the risk analysis will no longer be editable and the administrator will be able to publish the purpose.",
+    "actions": {
+      "confirm": "Confirm",
+      "cancel": "Cancel"
+    }
+  },
+  "dialogRejectRiskAnalysis": {
+    "title": "Reject risk analysis",
+    "description": "Share with your administrator why you didn't approve the risk assessment and indicate any corrections that need to be made.",
+    "reasonField": {
+      "label": "Reason for refusal of approval",
+      "infoLabel": "Explain why you declined the risk analysis. Minimum 10 characters, maximum 250 characters."
+    },
+    "actions": {
+      "confirm": "Confirm",
+      "cancel": "Go back"
+    }
+  },
+  "dialogCancelEserviceArchiving": {
+    "title": "Cancel e-service archiving",
+    "description": "This e-service will no longer be archived.",
+    "actions": {
+      "cancelArchiving": "Cancel archiving"
+    }
+  },
+  "dialogArchiveEservice": {
+    "title": "Archive e-service",
+    "content": {
+      "advice": {
+        "description": "By archiving the e-service, all versions will be archived and draft versions will be deleted.\nIf you confirm this choice, archiving will occur on <strong>{{date}}</strong>. Before this date, the e-service will remain active to allow users to adapt. You can cancel archiving only before this date."
+      },
+      "confirm": {
+        "description": "All users will be informed of the notice period and the reason for the archiving.",
+        "form": {
+          "label": "Archiving reason",
+          "infoLabel": "Explain why you chose to archive the e-service. If you wish, suggest an alternative e-service. Both information will be shared with users. Minimum 10 characters, maximum 250 characters."
+        }
+      },
+      "alert": "Actual archiving may require some technical time as users continue to exchange data. See <1>documentation</1> for further details."
+    },
+    "actions": {
+      "back": "Back",
+      "forward": "Forward"
+    }
+  },
+  "dialogCancelVersionArchiving": {
+    "title": "Cancel version archiving",
+    "description": "This version will no longer be archived.",
+    "actions": {
+      "keepArchiving": "Keep archiving",
+      "cancelArchiving": "Cancel archiving"
+    }
+  },
+  "dialogArchiveVersion": {
+    "title": "Archive version",
+    "content": {
+      "description": "Archiving will occur on <strong>{{date}}</strong>. Before this date, the version will remain active to allow users to adapt. You can only cancel archiving before this date.",
+      "alert": "Actual archiving may require some time as users continue to exchange data. See the <1>documentation</1> for further details."
     }
   },
   "copyToClipboardButton": {
@@ -332,19 +398,28 @@
     "bodySingleDay": "PDND Interoperabilità will undergo scheduled maintenance on {{maintenanceStartDay}} at {{maintenanceStartHour}} for approximately {{hoursDuration}} hours. We apologize for any inconvenience caused.",
     "bodyMultipleDay": "PDND Interoperabilità will undergo scheduled maintenance from {{maintenanceStartHour}} on {{maintenanceStartDay}} to {{maintenanceEndHour}} on {{maintenanceEndDay}}. We apologize for any inconvenience caused."
   },
-  "notificationsBanner": {
-    "title": "Notifications are here!",
-    "body": "We will inform you when there are news of your interest directly on the platform or via personal email. Check the manual and set your preferences now.",
-    "action1Label": "Configure notifications",
-    "action2Label": "Check the manual"
+  "productUpdatesBanner": {
+    "title": "What's new on PDND: archiving and new roles",
+    "body": "You can now archive obsolete versions of an e-service or an entire e-service. Two new roles are also available: Validator, to approve or fill in the risk analysis, and Viewer, to view an organization's activities on PDND.",
+    "action1Label": "How archiving works",
+    "action1AriaLabel": "How archiving works, opens in a new tab",
+    "action2Label": "How the new roles work",
+    "action2AriaLabel": "How the new roles work, opens in a new tab"
   },
   "attributeContainer": {
+    "descriptionLabel": "Description",
+    "tenantCertifierLabel": "Tenant certifier",
     "attributeIdLabel": "Attribute ID (attributeId)",
     "idCopytooltipLabel": "ID copied successfully",
     "removeAttributeAriaLabel": "Remove {{attributeName}} attribute",
     "thresholdLabel": "API calls/day per consumer",
-    "customizeBtn": "Customize threshold",
-    "changeBtn": "Change threshold",
+    "actions": {
+      "customizeThreshold": "Customize threshold",
+      "changeThreshold": "Change threshold",
+      "inspectAttributeDetails": "Attribute details",
+      "modifyCertifiedDiscreteAttribute": "Modify attribute"
+    },
+
     "na": "n/a"
   },
   "attributeGroupContainer": {
@@ -379,6 +454,15 @@
   "drawer": {
     "closeIconAriaLabel": "Close drawer",
     "updateLabel": "Update"
+  },
+  "configureCertifiedDiscreteAttributeDrawer": {
+    "title": "Configure attribute",
+    "subtitle": "Set the values of the {{attributeName}} certificate attribute",
+    "comparatorLabel": "Check",
+    "thresholdLabel": "Numeric value",
+    "validation": {
+      "integer": "Value must be an integer"
+    }
   },
   "byDelegationChip": {
     "label": {
@@ -554,6 +638,13 @@
     "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Edit Purpose from Template",
     "PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU": "Publication completed",
     "SIMULATE_GET_VOUCHER_API": "Simulate getting a voucher",
-    "SIMULATE_GET_VOUCHER_CONSUMER": "Simulate getting a voucher"
+    "SIMULATE_GET_VOUCHER_CONSUMER": "Simulate getting a voucher",
+    "SUBSCRIBE_RISK_ANALYSIS_LIST": "Risk analysis",
+    "SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE": "Purpose information",
+    "SUBSCRIBE_RISK_ANALYSIS_COMPILE": "Compile risk analysis",
+    "SUBSCRIBE_RISK_ANALYSIS_SUMMARY": "Summary",
+    "SUBSCRIBE_RISK_ANALYSIS_APPROVAL_SUCCESS": "Risk analysis approved",
+    "SUBSCRIBE_RISK_ANALYSIS_APPROVAL": "Approve risk analysis",
+    "SUBSCRIBE_RISK_ANALYSIS_REJECTION_SUCCESS": "Risk analysis rejected"
   }
 }

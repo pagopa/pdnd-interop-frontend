@@ -9,6 +9,8 @@ import { useTranslation } from 'react-i18next'
 import type { CreatorPurposeTemplate } from '@/api/api.generatedTypes'
 import useGetConsumerPurposeTemplateTemplatesActions from '@/hooks/useGetConsumerPurposeTemplatesActions'
 import { TenantHooks } from '@/api/tenant'
+import { AuthHooks } from '@/api/auth'
+import { match } from 'ts-pattern'
 
 export const ConsumerPurposeTemplateTableRow: React.FC<{
   purposeTemplate: CreatorPurposeTemplate
@@ -20,7 +22,16 @@ export const ConsumerPurposeTemplateTableRow: React.FC<{
     keyPrefix: 'list.filters.targetTenantKindField.values',
   })
 
+  const { isViewer } = AuthHooks.useJwt()
+
   const isPA = Boolean(purposeTemplate.targetTenantKind === 'PA')
+  const isDraft = purposeTemplate.state === 'DRAFT'
+
+  // A viewer cannot reach the draft edit route: route them to the read-only summary instead.
+  const linkTo = match({ isDraft, isViewer })
+    .with({ isDraft: true, isViewer: false }, () => 'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT' as const)
+    .with({ isDraft: true, isViewer: true }, () => 'SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY' as const)
+    .otherwise(() => 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS' as const)
 
   return (
     <TableRow
@@ -36,14 +47,10 @@ export const ConsumerPurposeTemplateTableRow: React.FC<{
         onFocusVisible={() => {}}
         variant="outlined"
         size="small"
-        to={
-          purposeTemplate.state === 'DRAFT'
-            ? 'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT'
-            : 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS'
-        }
+        to={linkTo}
         params={{ purposeTemplateId: purposeTemplate.id }}
       >
-        {tCommon(`actions.${purposeTemplate.state === 'DRAFT' ? 'manageDraft' : 'inspect'}`)}
+        {tCommon(`actions.${isDraft && !isViewer ? 'manageDraft' : 'inspect'}`)}
       </Link>
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>
         <ActionMenu actions={actions} />

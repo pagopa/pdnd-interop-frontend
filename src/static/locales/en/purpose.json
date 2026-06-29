@@ -57,7 +57,8 @@
         "acknowledgeInfoResponsibility": {
           "label": "I acknowledge that, even in the presence of pre-filled suggestions, it is my responsibility to verify and validate all information before publication.",
           "requiredError": "You must accept the conditions to proceed"
-        }
+        },
+        "evaluatorWarningAlert": "If you choose the facilitated compilation, you will not be able to assign the compilation or the approval of the risk analysis to the evaluator."
       }
     }
   },
@@ -65,6 +66,8 @@
     "emptyTitle": "Edit purpose",
     "stepper": {
       "stepGeneralLabel": "General",
+      "stepGeneralInformationLabel": "General information",
+      "stepAssignmentLabel": "Assignment",
       "stepRiskAnalysisLabel": "Risk assessment"
     },
     "backWithoutSaveBtn": "Back",
@@ -91,6 +94,40 @@
       "freeOfChargeReasonField": {
         "label": "Free of charge reason",
         "infoLabel": "Explain why you will make this data available free of charge. Indicate whether you are doing so under a statutory exemption or exclusion, or for another reason. Minimum 10 characters, maximum 250 characters."
+      }
+    },
+    "stepAssignment": {
+      "title": "Assignment",
+      "description": "You can fill in the risk analysis on your own, or entrust a reviewer with the approval or the compilation.",
+      "reviewModeField": {
+        "label": "Choose a mode",
+        "options": {
+          "selfWritesSelfSigns": "Self-compilation and self-approval",
+          "selfWritesReviewerSigns": "Self-compilation and reviewer approval",
+          "reviewerWritesReviewerSigns": "Reviewer compilation and approval"
+        }
+      },
+      "reviewerField": {
+        "label": {
+          "selfWritesReviewerSigns": "Who will approve the risk analysis?",
+          "reviewerWritesReviewerSigns": "Who will fill in the risk analysis?"
+        },
+        "inputLabel": "Select the reviewer",
+        "requiredError": "To proceed, please select a reviewer"
+      },
+      "noReviewersAlert": {
+        "message": "Your institution does not yet have a user with the reviewer role. You can add one from the Reserved Area or complete the risk analysis yourself.",
+        "linkLabel": "Go to Users"
+      },
+      "delegateAlert": "As the delegate to consuming the e-service {{name}}, you cannot assign the risk analysis to a reviewer but you can complete it yourself.",
+      "forwardBtn": "Save draft and proceed",
+      "requestReviewerCompilationBtn": "Request compilation",
+      "readOnly": {
+        "subtitle": "You cannot modify the assignment because you have submitted the risk assessment to the evaluator.",
+        "modeLabel": "Mode",
+        "reviewerLabel": "Reviewer",
+        "reviewerUnknown": "Reviewer not available",
+        "forwardBtn": "Next"
       }
     },
     "loadEstimationSection": {
@@ -128,6 +165,10 @@
       "title": "Risk analysis",
       "description": "The questions below will change based on the answers provided. If you edit an answer above, it may change the following questions",
       "personalInfoAlert": "Warning: do not put personal data inside text fields",
+      "readOnlySubtitle": "You cannot modify the risk analysis because it has been sent to the reviewer.",
+      "rejectedAlert": "The reviewer rejected the risk analysis. Edit the analysis and submit it again for approval.",
+      "rejectedAlertLinkLabel": "Read reason",
+      "reviewerWritesReviewerSigns": "Once the reviewer has compiled and approved the risk analysis, you will be able to publish the purpose.",
       "versionMismatchDialog": {
         "title": "Risk analysis update",
         "description": "There is a new version of risk analysis available. The one compiled previously is obsolete and can no longer be used. If you click \"Update\", all the fields that have not changed and were filled in will already be filled in in the new version",
@@ -149,6 +190,15 @@
           "personalData": "You will not be able to publish this purpose because you declared that personal data is processed, but the producer declared otherwise. For clarification, contact the producer.",
           "noPersonalData": "You will not be able to publish this purpose because you declared that personal data is not processed, but the producer declared otherwise. For clarification, contact the producer."
         }
+      },
+      "requestApprovalBtn": "Request approval",
+      "saveDraftBtn": "Save draft and continue",
+      "requestApprovalAlert": "To assign the risk analysis to the reviewer you need to answer all the questions.",
+      "requiredFieldErrorReviewer": "Fill in to continue",
+      "requestApprovalDialog": {
+        "title": "Request approval",
+        "description": "By confirming, you will assign the approval of the risk analysis to the reviewer <strong>{{reviewerName}}</strong> and you will no longer be able to make changes.",
+        "proceedLabel": "Confirm"
       }
     },
     "purposeFromTemplate": {
@@ -217,6 +267,9 @@
       "description": {
         "label": "Description"
       },
+      "name": {
+        "label": "Purpose name"
+      },
       "loadEstimationSection": {
         "title": "Load estimation",
         "dailyCalls": {
@@ -233,17 +286,46 @@
         }
       }
     },
+    "assignmentSection": {
+      "title": "Assignment"
+    },
     "riskAnalysisSection": {
       "title": "Risk analysis",
-      "providerRiskAnalysisAlert": "The e-service selected for this purpose requires data to be sent from the consumer to the producer. The risk analysis was therefore compiled by the producer."
+      "providerRiskAnalysisAlert": "The e-service selected for this purpose requires data to be sent from the consumer to the producer. The risk analysis was therefore compiled by the producer.",
+      "reviewStatus": {
+        "chip": {
+          "approvalToRequest": "Approval to be requested",
+          "awaitingCompilation": "Waiting for compilation",
+          "awaitingApproval": "Waiting for approval",
+          "approved": "Approved",
+          "rejected": "Rejected"
+        },
+        "infoAlert": {
+          "adminWritesReviewerSigns": "Once the reviewer has approved the risk analysis, you will be able to publish the purpose.",
+          "reviewerWritesReviewerSigns": "Once the reviewer has compiled and approved the risk analysis, you will be able to publish the purpose."
+        },
+        "rejectedAlert": {
+          "label": "The reviewer rejected the risk analysis. Read the reason, edit the analysis and submit it again for approval.",
+          "action": "Read reason"
+        }
+      }
     },
     "publishBtnDisabled": "Your declaration on personal data processing in the risk analysis prevents publication",
+    "publishBtnDisabledByReview": "You will be able to publish once the reviewer has approved the risk analysis.",
+    "publishBtnDisabledNotCompiled": "To publish you must first complete the risk analysis.",
     "publishBtn": "Publish"
+  },
+  "riskAnalysisRejectionDrawer": {
+    "title": "Risk analysis rejection",
+    "intro": "The reviewer rejected the risk analysis with the following reason.",
+    "noReason": "No reason available."
   },
   "list": {
     "cantCreatePurposeTooltip": "You cannot create purposes because you have no associable e-service",
     "newVersionAvailableTooltip": "The consumer has requested an adjustment that requires your approval. Access the purpose for more details",
     "waitingForApprovalVersionTooltip": "You have requested an adjustment that requires approval from the producer. Access the purpose for more details",
+    "riskAnalysisApproved": "Risk analysis approved",
+    "riskAnalysisRejected": "Risk analysis rejected",
     "filters": {
       "nameField": {
         "label": "Find by purpose name"
@@ -360,9 +442,21 @@
       }
     }
   },
+  "riskAnalysisAssignment": {
+    "title": "Risk analysis assignment",
+    "mode": {
+      "label": "Mode",
+      "autonomy": "Completed and approved autonomously",
+      "adminWritesReviewerSigns": "Completed autonomously, approved by the reviewer",
+      "reviewerWritesReviewerSigns": "Completed and approved by the reviewer"
+    },
+    "reviewer": {
+      "label": "Reviewer"
+    }
+  },
   "consumerView": {
     "suspendedAlert": "This purpose is suspended. Until it is reactivated you will not be able to access the data made available through the API.",
-    "waitingForApprovalAlert": "This scope is awaiting approval. <strong>Until its activation</strong> by the producer you will <strong>not be able to access the data</strong> made available through the API and you will <strong>not be able to associate clients</strong>.",
+    "waitingForApprovalAlert": "This scope is waiting for approval. <strong>Until its activation</strong> by the producer you will <strong>not be able to access the data</strong> made available through the API and you will <strong>not be able to associate clients</strong>.",
     "archivedPurposeAlert": "This purpose is archived. You cannot access the data made available through the API. You can always <1>create a new one.</1>",
     "archivedPurposeClientsAlert": "This purpose has been archived. All clients were removed and new clients can no longer be associated",
     "rejectedPurposeAlert": "This purpose has been rejected. <2>Read here the reject reason</2>.",
@@ -492,6 +586,86 @@
       }
     }
   },
+  "riskAnalysisSummary": {
+    "backToListBtn": "Back to risk analysis",
+    "titleSummary": "Summary",
+    "titleApproval": "Approve risk analysis",
+    "modifyBtn": "Edit draft",
+    "approveBtn": "Approve risk analysis",
+    "rejectBtn": "Reject with reason",
+    "generalInformationSection": {
+      "title": "General information"
+    },
+    "riskAnalysisSection": {
+      "title": "Risk analysis"
+    },
+    "publishBtnDisabled": "Your declaration on personal data processing in the risk analysis prevents publication",
+    "infoAlert": "Once you approve the risk analysis, the administrator will be able to publish the purpose."
+  },
+  "riskAnalysisCompile": {
+    "backToListBtn": "Back to risk analysis",
+    "title": "Fill risk analysis",
+    "forwardWithSaveBtn": "Save draft and proceed"
+  },
+  "riskAnalysisInfoCompile": {
+    "backToListBtn": "Back to risk analysis",
+    "title": "Purpose information",
+    "generalInfoSection": {
+      "label": "General information",
+      "eService": {
+        "label": "E-service to be associated"
+      },
+      "producer": {
+        "label": "Producer"
+      },
+      "purposeName": {
+        "label": "Purpose name"
+      },
+      "purposeDescription": {
+        "label": "Purpose description"
+      },
+      "isFreeOfCharge": {
+        "label": "How will you make the data you receive from this e-service available?",
+        "options": {
+          "YES": "Free of charge",
+          "NO": "For a fee"
+        }
+      },
+      "freeOfChargeReason": {
+        "label": "Free of charge reason"
+      }
+    },
+    "loadEstimationSection": {
+      "label": "Estimate API calls",
+      "dailyCalls": {
+        "label": "Estimated number of API calls/day"
+      }
+    },
+    "beginCompileBtn": "Start compilation"
+  },
+  "riskAnalysisList": {
+    "filters": {
+      "eserviceField": {
+        "label": "Filter by e-service"
+      },
+      "riskAnalysisState": {
+        "label": "Risk analysis state",
+        "statusField": {
+          "ASSIGNED": "To fill out",
+          "SUBMITTED": "To be approved"
+        }
+      }
+    },
+    "today": {
+      "label": "Today"
+    },
+    "noData": {
+      "label": "You have no risk analysis to evaluate"
+    },
+    "noResults": {
+      "label": "The current search returned no results."
+    }
+  },
   "publishThankYou": {
     "loading": "Publishing in progress",
     "active": {
@@ -499,9 +673,20 @@
       "description": "The purpose is active. Associate your first client to access the e-service data."
     },
     "waitingForApproval": {
-      "title": "Your purpose has been forwarded to the provider for approval",
-      "description": "Until its activation by the provider, you will not be able to access data made available through the API and you will not be able to associate clients. You will receive a notification when the provider approves your purpose"
+      "title": "You have published a purpose. It will now have to be approved by the provider.",
+      "description": "When it is approved, you will receive a notification. Until approval, you will not be able to associate clients or access the e-service data.",
+      "action": "Go to purpose"
     },
+    "action": "Close"
+  },
+  "approveThankYou": {
+    "title": "You have approved the risk analysis",
+    "description": "The administrator will be able to publish the purpose. You will no longer see this risk analysis among those you need to complete or approve.",
+    "action": "Close"
+  },
+  "rejectThankYou": {
+    "title": "You have rejected the risk analysis",
+    "description": "The administrator will receive the reason for your rejection. You will no longer see this risk assessment among those you need to complete or approve.",
     "action": "Close"
   }
 }

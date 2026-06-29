@@ -38,7 +38,7 @@ if (redirectUrl) {
   window.location.replace(url)
 } else if (requestedLang) {
   fragmentParams.delete('lang')
-  const url = `/ui/${lang}/catalogo-e-service#${fragmentParams.toString()}`
+  const url = `/ui/${lang}/#${fragmentParams.toString()}`
 
   window.location.replace(url)
 } else {

@@ -9,6 +9,7 @@ import PublishIcon from '@mui/icons-material/Publish'
 import { SummaryAccordion, SummaryAccordionSkeleton } from '@/components/shared/SummaryAccordion'
 import { useQuery } from '@tanstack/react-query'
 import { EServiceTemplateMutations, EServiceTemplateQueries } from '@/api/eserviceTemplate'
+import { AuthHooks } from '@/api/auth'
 import {
   ProviderEServiceTemplateGeneralInfoSummarySection,
   ProviderEServiceTemplateThresholdsAndAttributesSummarySection,
@@ -27,6 +28,8 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
   const { eServiceTemplateId, eServiceTemplateVersionId } =
     useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
   const navigate = useNavigate()
+
+  const { isViewer } = AuthHooks.useJwt()
 
   const { mutate: deleteVersion } = EServiceTemplateMutations.useDeleteVersionDraft()
   const { mutate: publishVersion } = EServiceTemplateMutations.usePublishVersionDraft()
@@ -175,12 +178,13 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '4' : '3'}
               title={t('summary.technicalSpecsSummary.title')}
-              showWarning={
+              statusChip={
                 !eserviceTemplate?.voucherLifespan ||
                 !eserviceTemplate?.interface ||
                 hasMissingAsyncExchangeFields
+                  ? { label: t('summary.completeInfoChip'), color: 'warning' }
+                  : undefined
               }
-              warningLabel={t('summary.completeInfoChip')}
             >
               <ProviderEServiceTemplateTechnicalSpecsSummarySection />
             </SummaryAccordion>
@@ -190,14 +194,17 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             <SummaryAccordion
               headline={isReceiveMode ? '5' : '4'}
               title={t('summary.additionalInfoSummary.title')}
-              showWarning={!eserviceTemplate?.description}
-              warningLabel={t('summary.completeInfoChip')}
+              statusChip={
+                !eserviceTemplate?.description
+                  ? { label: t('summary.completeInfoChip'), color: 'warning' }
+                  : undefined
+              }
             >
               <ProviderEServiceTemplateAdditionalInfoSummarySection />
             </SummaryAccordion>
           </React.Suspense>
         </Stack>
-        {!arePersonalDataSet && !isLoading && (
+        {!isViewer && !arePersonalDataSet && !isLoading && (
           <Alert severity="warning" sx={{ alignItems: 'center', mt: 3 }} variant="outlined">
             <Stack spacing={30} direction="row" alignItems="center">
               {' '}
@@ -219,25 +226,27 @@ const ProviderEServiceTemplateSummaryPage: React.FC = () => {
             {t('summary.missingFieldsBanner')}
           </Alert>
         )}
-        <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
-          <Button
-            startIcon={<DeleteOutlineIcon />}
-            variant="text"
-            color="error"
-            onClick={handleDeleteDraft}
-          >
-            {tCommon('deleteDraft')}
-          </Button>
-          <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
-            {tCommon('editDraft')}
-          </Button>
-          <PublishButton
-            onClick={handlePublishDraft}
-            disabled={!canBePublished()}
-            arePersonalDataSet={arePersonalDataSet}
-            hasMissingFields={hasMissingFields}
-          />
-        </Stack>
+        {!isViewer && (
+          <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
+            <Button
+              startIcon={<DeleteOutlineIcon />}
+              variant="text"
+              color="error"
+              onClick={handleDeleteDraft}
+            >
+              {tCommon('deleteDraft')}
+            </Button>
+            <Button startIcon={<CreateIcon />} variant="text" onClick={handleEditDraft}>
+              {tCommon('editDraft')}
+            </Button>
+            <PublishButton
+              onClick={handlePublishDraft}
+              disabled={!canBePublished()}
+              arePersonalDataSet={arePersonalDataSet}
+              hasMissingFields={hasMissingFields}
+            />
+          </Stack>
+        )}
       </PageContainer>
       <UpdatePersonalDataDrawer
         isOpen={isEServiceTemplateUpdatePersonalDataDrawerOpen}

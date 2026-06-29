@@ -9,6 +9,7 @@ import { WarningAmber } from '@mui/icons-material'
 import { create } from 'zustand'
 import isEmpty from 'lodash/isEmpty'
 import { GreyAlert } from './GreyAlert'
+import type { FormDescriptorAttribute } from '@/types/attribute.types'
 
 export type CustomizeThresholdDrawerProps = {
   dailyCallsPerConsumer?: number | ''
@@ -23,9 +24,12 @@ export type CustomizeThresholdDrawerProps = {
 
 type CustomizeThresholdDrawerStore = {
   isOpen: boolean
-  open: (attribute: DescriptorAttribute, attributeGroupIndex: number) => void
+  open: (
+    attribute: DescriptorAttribute | FormDescriptorAttribute,
+    attributeGroupIndex: number
+  ) => void
   close: VoidFunction
-  attribute?: DescriptorAttribute
+  attribute?: DescriptorAttribute | FormDescriptorAttribute
   attributeGroupIndex?: number
 }
 
@@ -114,9 +118,7 @@ export const CustomizeThresholdDrawer: React.FC<CustomizeThresholdDrawerProps> =
             />
             <GreyAlert>
               <Stack spacing={0.5}>
-                <Typography variant="overline" sx={{ whiteSpace: 'nowrap' }}>
-                  {t('limitAlert.title')}
-                </Typography>
+                <Typography variant="overline">{t('limitAlert.title')}</Typography>
                 <Stack
                   direction={'row'}
                   alignItems={'center'}

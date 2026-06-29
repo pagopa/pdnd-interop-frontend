@@ -131,6 +131,22 @@
     },
     "missingCertifiedAttributesAlert": "Questa bozza non è momentaneamente attivabile. Uno o più requisiti non risultano soddisfatti. Eliminala e creane una nuova.",
     "noPurposeAlert": "Per accedere ai dati <1>crea la tua prima finalità</1>.",
+    "versionAlert": {
+      "deprecatedActive": "Questa versione dell’e-service è obsoleta, ma è ancora attiva. È disponibile una nuova versione.",
+      "archivingDescriptor": "Questa versione dell’e-service sarà archiviata il giorno {{date}}. Dopo questa data potrai utilizzare solo la nuova versione per scambiare dati con l’e-service.",
+      "archivingSuspendedDescriptor": "Questa versione dell’e-service sarà archiviata il giorno {{date}}. Al momento è sospesa e non può essere utilizzata. È disponibile una nuova versione.",
+      "suspendedLast": "Questa versione dell’e-service è al momento sospesa e non può essere utilizzata.",
+      "suspendedLastNoNewVersion": "Questa versione dell’e-service è al momento sospesa e non può essere utilizzata. Non è disponibile una nuova versione.",
+      "archivedDescriptor": "Questa versione dell’e-service è stata archiviata il giorno {{date}} e non può più essere utilizzata. Per continuare a scambiare dati con l’e-service, passa alla nuova versione. La richiesta di fruizione collegata a questa versione può essere archiviata.",
+      "archivedEService": "Questo e-service è stato archiviato il giorno {{date}} e non può più essere utilizzato. La richiesta di fruizione collegata a questa versione può essere archiviata.",
+      "archivingEService": "Questo e-service sarà archiviato il giorno {{date}}. Dopo questa data non potrai più scambiare dati con l’e-service.",
+      "seeDetails": "Vedi dettagli"
+    },
+    "archivingDetailsDrawer": {
+      "title": "Dettagli archiviazione",
+      "subtitle": "L’erogatore ha condiviso le seguenti informazioni a seguito dell’avvio del processo di archiviazione per questo e-service e tutte le sue versioni.",
+      "reasonLabel": "Motivazione archiviazione"
+    },
     "noCertifiedAttributesForUpgradeTooltip": "C’è un aggiornamento disponibile ma il tuo ente non possiede i requisiti minimi per effettuarlo.",
     "sections": {
       "generalInformations": {

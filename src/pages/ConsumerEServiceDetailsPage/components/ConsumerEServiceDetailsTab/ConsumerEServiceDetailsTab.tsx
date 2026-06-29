@@ -1,14 +1,9 @@
-import { EServiceQueries } from '@/api/eservice'
-import { useTrackPageViewEvent } from '@/config/tracking'
 import { Grid } from '@mui/material'
-import { useQuery } from '@tanstack/react-query'
 import React from 'react'
-import { useParams } from '@/router'
 import {
   ConsumerEServiceDescriptorAttributesSkeleton,
   ConsumerEServiceDescriptorAttributes,
 } from './ConsumerEServiceDescriptorAttributes'
-import { ConsumerEServiceDetailsAlerts } from './ConsumerEServiceDetailsAlerts'
 import {
   ConsumerEServiceGeneralInfoSectionSkeleton,
   ConsumerEServiceGeneralInfoSection,
@@ -21,39 +16,30 @@ import {
   ConsumerEServiceSignalHubSection,
   ConsumerEServiceSignalHubSectionSkeleton,
 } from './ConsumerEServiceSignalHubSection'
+import { AuthHooks } from '@/api/auth'
 
 const ConsumerEServiceDetailsTab: React.FC = () => {
-  const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
-
-  const { data: descriptor } = useQuery(
-    EServiceQueries.getDescriptorCatalog(eserviceId, descriptorId)
-  )
-
-  useTrackPageViewEvent('INTEROP_CATALOG_READ', {
-    eserviceId: descriptor?.eservice.id,
-    descriptorId: descriptor?.id,
-  })
+  const { isReviewer } = AuthHooks.useJwt()
 
   return (
-    <>
-      <ConsumerEServiceDetailsAlerts descriptor={descriptor} />
-      <Grid container>
-        <Grid item xs={8}>
-          <React.Suspense fallback={<ConsumerEServiceGeneralInfoSectionSkeleton />}>
-            <ConsumerEServiceGeneralInfoSection />
-          </React.Suspense>
+    <Grid container>
+      <Grid item xs={8}>
+        <React.Suspense fallback={<ConsumerEServiceGeneralInfoSectionSkeleton />}>
+          <ConsumerEServiceGeneralInfoSection />
+        </React.Suspense>
+        {!isReviewer && (
           <React.Suspense fallback={<ConsumerLinkedPurposeTemplatesSectionSkeleton />}>
             <ConsumerLinkedPurposeTemplatesSection />
           </React.Suspense>
-          <React.Suspense fallback={<ConsumerEServiceSignalHubSectionSkeleton />}>
-            <ConsumerEServiceSignalHubSection />
-          </React.Suspense>
-          <React.Suspense fallback={<ConsumerEServiceDescriptorAttributesSkeleton />}>
-            <ConsumerEServiceDescriptorAttributes />
-          </React.Suspense>
-        </Grid>
+        )}
+        <React.Suspense fallback={<ConsumerEServiceSignalHubSectionSkeleton />}>
+          <ConsumerEServiceSignalHubSection />
+        </React.Suspense>
+        <React.Suspense fallback={<ConsumerEServiceDescriptorAttributesSkeleton />}>
+          <ConsumerEServiceDescriptorAttributes />
+        </React.Suspense>
       </Grid>
-    </>
+    </Grid>
   )
 }
 

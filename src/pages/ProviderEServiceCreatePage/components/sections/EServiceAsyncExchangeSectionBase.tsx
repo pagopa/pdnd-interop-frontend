@@ -55,6 +55,18 @@ const asyncExchangeNumericFields = [
   sx: { flex?: number; my: number }
 }>
 
+const AdvancedOptionLabel: React.FC<{ label: string; infoLabel: string }> = ({
+  label,
+  infoLabel,
+}) => (
+  <Stack>
+    <Typography variant="body1">{label}</Typography>
+    <Typography variant="body2" color="text.secondary">
+      {infoLabel}
+    </Typography>
+  </Stack>
+)
+
 export const EServiceAsyncExchangeSectionBase: React.FC<EServiceAsyncExchangeSectionBaseProps> = ({
   areGeneralInfoEditable,
   areAdvancedOptionsEditable,
@@ -188,14 +200,22 @@ export const EServiceAsyncExchangeSectionBase: React.FC<EServiceAsyncExchangeSec
         <Stack spacing={0} sx={{ mt: 1 }}>
           <RHFCheckbox
             name="asyncExchangeProperties.confirmation"
-            label={tAsyncExchange('confirmationField.label')}
-            infoLabel={tAsyncExchange('confirmationField.infoLabel')}
+            label={
+              <AdvancedOptionLabel
+                label={tAsyncExchange('confirmationField.label')}
+                infoLabel={tAsyncExchange('confirmationField.infoLabel')}
+              />
+            }
             sx={{ my: 0 }}
           />
           <RHFCheckbox
             name="asyncExchangeProperties.bulk"
-            label={tAsyncExchange('bulkField.label')}
-            infoLabel={tAsyncExchange('bulkField.infoLabel')}
+            label={
+              <AdvancedOptionLabel
+                label={tAsyncExchange('bulkField.label')}
+                infoLabel={tAsyncExchange('bulkField.infoLabel')}
+              />
+            }
             disabled={isSoap}
             sx={{ mb: 0 }}
           />

@@ -1,6 +1,6 @@
 {
   "name": "interop-dashboard-frontend",
-  "version": "2.3.0-RC2",
+  "version": "2.4.0-RC4",
   "type": "module",
   "packageManager": "pnpm@9.15.9",
   "scripts": {

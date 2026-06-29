@@ -1,10 +1,15 @@
 import useGetEServiceConsumerActions from '../useGetEServiceConsumerActions'
 import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
-import { type CatalogEServiceDescriptor, type DelegationTenant } from '@/api/api.generatedTypes'
+import {
+  type CatalogEServiceDescriptor,
+  type DelegationTenant,
+  type EServiceDescriptorState,
+} from '@/api/api.generatedTypes'
 import {
   createMockCatalogDescriptorEService,
   createMockEServiceDescriptorCatalog,
 } from '@/../__mocks__/data/eservice.mocks'
+import { createMockAgreement } from '@/../__mocks__/data/agreement.mocks'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
@@ -22,6 +27,10 @@ vi.mock('@/components/dialogs/DialogSelectAgreementConsumer/DialogSelectAgreemen
       DialogSelectAgreementConsumer
     </button>
   ),
+}))
+
+vi.mock('@/components/dialogs/DialogUpgradeAgreementVersion', () => ({
+  DialogUpgradeAgreementVersion: () => <button>DialogUpgradeAgreementVersion</button>,
 }))
 
 const server = setupServer(
@@ -52,10 +61,19 @@ afterAll(() => {
 function renderUseGetEServiceConsumerActionsHook(
   descriptorMock?: CatalogEServiceDescriptor,
   delegatorsMock?: Array<DelegationTenant>,
-  isDelegatorMock?: boolean
+  isDelegatorMock?: boolean,
+  viewLatestVersionTargetIdMock?: string,
+  requesterEserviceAgreementMock?: Parameters<typeof useGetEServiceConsumerActions>[4]
 ) {
   return renderHookWithApplicationContext(
-    () => useGetEServiceConsumerActions(descriptorMock, delegatorsMock, isDelegatorMock),
+    () =>
+      useGetEServiceConsumerActions(
+        descriptorMock,
+        delegatorsMock,
+        isDelegatorMock,
+        viewLatestVersionTargetIdMock,
+        requesterEserviceAgreementMock
+      ),
     {
       withReactQueryContext: true,
       withRouterContext: true,
@@ -67,10 +85,12 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
   it('should return no actions if no descriptor is passed', () => {
     mockUseJwt({ isAdmin: true })
     const { result } = renderUseGetEServiceConsumerActionsHook(undefined)
-    expect(result.current.actions).toHaveLength(0)
+    expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.secondaryAction).toBeUndefined()
+    expect(result.current.menuActions).toHaveLength(0)
   })
 
-  it('should return inspect agreement action if the user has just an agreement with state ACTIVE, SUSPENDED or PENDING', async () => {
+  it('should return inspect agreement action as primary if the user has just an agreement with state ACTIVE, SUSPENDED or PENDING', async () => {
     mockUseJwt({ isAdmin: true })
 
     const eserviceMock = createMockCatalogDescriptorEService({
@@ -88,9 +108,9 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(1)
-    const goToAgreementAction = result.current.actions[0]!
+    const goToAgreementAction = result.current.primaryAction!
     expect(goToAgreementAction.label).toBe('tableEServiceCatalog.inspect')
+    expect(result.current.menuActions).toHaveLength(0)
 
     goToAgreementAction.action()
     expect(history.location.pathname).toBe(
@@ -127,8 +147,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
       false
     )
 
-    expect(result.current.actions).toHaveLength(1)
-    const goToAgreementAction = result.current.actions[0]!
+    const goToAgreementAction = result.current.primaryAction!
     expect(goToAgreementAction.label).toBe('tableEServiceCatalog.inspect')
 
     act(() => {
@@ -140,7 +159,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     })
   })
 
-  it('should return the edit agreement action if the user has one agreement with state DRAFT', async () => {
+  it('should return the edit agreement action as primary if the user has one agreement with state DRAFT', async () => {
     mockUseJwt({ isAdmin: true })
 
     const eserviceMock = createMockCatalogDescriptorEService({
@@ -157,8 +176,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(1)
-    const goToAgreementAction = result.current.actions[0]!
+    const goToAgreementAction = result.current.primaryAction!
     expect(goToAgreementAction.label).toBe('tableEServiceCatalog.editDraft')
 
     goToAgreementAction.action()
@@ -190,8 +208,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(1)
-    const goToAgreementEditAction = result.current.actions[0]!
+    const goToAgreementEditAction = result.current.primaryAction!
     expect(goToAgreementEditAction.label).toBe('tableEServiceCatalog.editDraft')
 
     act(() => {
@@ -220,10 +237,12 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(0)
+    expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.secondaryAction).toBeUndefined()
+    expect(result.current.menuActions).toHaveLength(0)
   })
 
-  it("should return the create agreement draft action if the user doesn't have agreements", async () => {
+  it("should return the create agreement draft action as primary if the user doesn't have agreements", async () => {
     mockUseJwt({ isAdmin: true })
 
     const eserviceMock = createMockCatalogDescriptorEService({
@@ -235,8 +254,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(1)
-    const createAgreementDraftAction = result.current.actions[0]!
+    const createAgreementDraftAction = result.current.primaryAction!
     expect(createAgreementDraftAction.label).toBe('tableEServiceCatalog.subscribe')
 
     act(() => {
@@ -269,8 +287,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(1)
-    const createAgreementDraftAction = result.current.actions[0]!
+    const createAgreementDraftAction = result.current.primaryAction!
 
     act(() => {
       createAgreementDraftAction.action()
@@ -314,8 +331,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
       [{ id: 'delegator-id', name: 'Delegator Name' }],
       false
     )
-    expect(result.current.actions).toHaveLength(1)
-    const createAgreementDraftAction = result.current.actions[0]!
+    const createAgreementDraftAction = result.current.primaryAction!
 
     act(() => {
       createAgreementDraftAction.action()
@@ -337,7 +353,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('should return the create agreement draft action if the user have only agreements with state ARCHIVED', async () => {
+  it('should return the create agreement draft action as primary if the user have only agreements with state ARCHIVED', async () => {
     mockUseJwt({ isAdmin: true })
 
     const eserviceMock = createMockCatalogDescriptorEService({
@@ -356,8 +372,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(1)
-    const createAgreementDraftAction = result.current.actions[0]!
+    const createAgreementDraftAction = result.current.primaryAction!
     expect(createAgreementDraftAction.label).toBe('tableEServiceCatalog.subscribe')
 
     act(() => {
@@ -377,7 +392,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     })
   })
 
-  it('should return the create agreement draft action if the user have only agreements with state REJECTED', async () => {
+  it('should return the create agreement draft action as primary if the user have only agreements with state REJECTED', async () => {
     mockUseJwt({ isAdmin: true })
 
     const eserviceMock = createMockCatalogDescriptorEService({
@@ -396,8 +411,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(1)
-    const createAgreementDraftAction = result.current.actions[0]!
+    const createAgreementDraftAction = result.current.primaryAction!
     expect(createAgreementDraftAction.label).toBe('tableEServiceCatalog.subscribe')
 
     act(() => {
@@ -432,8 +446,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
       [{ id: 'delegator-id', name: 'Delegator Name' }],
       false
     )
-    expect(result.current.actions).toHaveLength(1)
-    const createAgreementDraftAction = result.current.actions[0]!
+    const createAgreementDraftAction = result.current.primaryAction!
     expect(createAgreementDraftAction.label).toBe('tableEServiceCatalog.subscribe')
 
     act(() => {
@@ -461,11 +474,10 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
       false
     )
 
-    expect(result.current.actions).toHaveLength(1)
-    expect(result.current.actions[0]?.label).toBe('tableEServiceCatalog.subscribe')
+    expect(result.current.primaryAction?.label).toBe('tableEServiceCatalog.subscribe')
   })
 
-  it("should return the create agreement draft action if the user doesn't have an active agreement and the subscriber is the e-service provider", async () => {
+  it("should return the create agreement draft action as primary if the user doesn't have an active agreement and the subscriber is the e-service provider", async () => {
     mockUseJwt({ isAdmin: true })
 
     const eserviceMock = createMockCatalogDescriptorEService({
@@ -476,8 +488,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(1)
-    const createAgreementDraftAction = result.current.actions[0]!
+    const createAgreementDraftAction = result.current.primaryAction!
     expect(createAgreementDraftAction.label).toBe('tableEServiceCatalog.subscribe')
 
     act(() => {
@@ -511,8 +522,7 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result, history } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(1)
-    const createAgreementDraftAction = result.current.actions[0]!
+    const createAgreementDraftAction = result.current.primaryAction!
 
     act(() => {
       createAgreementDraftAction.action()
@@ -549,10 +559,10 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     const { result } = renderUseGetEServiceConsumerActionsHook(
       createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
     )
-    expect(result.current.actions).toHaveLength(0)
+    expect(result.current.primaryAction).toBeUndefined()
   })
 
-  it('should return the inspect agreement action and the edit agreement action if the user has an agreement with state ACTIVE and another agreement with state DRAFT', async () => {
+  it('should prefer the inspect agreement action over the edit agreement action when the user has both', async () => {
     mockUseJwt({ isAdmin: true })
 
     const eserviceMock = createMockCatalogDescriptorEService({
@@ -578,14 +588,12 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
       [{ id: 'delegator-id', name: 'Delegator Name' }],
       false
     )
-    expect(result.current.actions).toHaveLength(2)
-    const goToAgreementAction = result.current.actions[0]!
-    const goToEditAgreementAction = result.current.actions[1]!
-    expect(goToAgreementAction.label).toBe('tableEServiceCatalog.inspect')
-    expect(goToEditAgreementAction.label).toBe('tableEServiceCatalog.editDraft')
+    expect(result.current.primaryAction?.label).toBe('tableEServiceCatalog.inspect')
+    expect(result.current.secondaryAction).toBeUndefined()
+    expect(result.current.menuActions).toHaveLength(0)
   })
 
-  it('should return the inspect agreement action, the edit agreement action and the create agreement action if the user has agreement with state ACTIVE, agreement with state DRAFT and can create another agreement (via delegation)', async () => {
+  it('should expose the subscribe action as secondary when the user has inspect, editDraft and subscribe candidates', async () => {
     mockUseJwt({ isAdmin: true })
 
     const eserviceMock = createMockCatalogDescriptorEService({
@@ -616,12 +624,423 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
       false
     )
 
-    expect(result.current.actions).toHaveLength(3)
-    const goToAgreementAction = result.current.actions[0]!
-    const goToEditAgreementAction = result.current.actions[1]!
-    const goToCreateAgreementAction = result.current.actions[2]!
-    expect(goToAgreementAction.label).toBe('tableEServiceCatalog.inspect')
-    expect(goToEditAgreementAction.label).toBe('tableEServiceCatalog.editDraft')
-    expect(goToCreateAgreementAction.label).toBe('tableEServiceCatalog.subscribe')
+    expect(result.current.primaryAction?.label).toBe('tableEServiceCatalog.inspect')
+    expect(result.current.secondaryAction?.label).toBe('tableEServiceCatalog.subscribe')
+    expect(result.current.secondaryAction?.variant).toBe('outlined')
+    expect(result.current.menuActions).toHaveLength(0)
+  })
+
+  it('should expose the subscribe action as secondary outlined button when own org has an ACTIVE agreement and a delegator has no agreement', async () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [
+        {
+          id: 'test',
+          state: 'ACTIVE',
+          canBeUpgraded: false,
+          consumerId: 'organizationId',
+        },
+      ],
+      isSubscribed: true,
+      hasCertifiedAttributes: true,
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock }),
+      [{ id: 'delegator-id', name: 'Delegator Name' }],
+      false
+    )
+
+    expect(result.current.primaryAction?.label).toBe('tableEServiceCatalog.inspect')
+    expect(result.current.secondaryAction?.label).toBe('tableEServiceCatalog.subscribe')
+    expect(result.current.secondaryAction?.variant).toBe('outlined')
+    expect(result.current.secondaryAction?.disabled).toBeFalsy()
+  })
+
+  it('should expose the subscribe action as secondary outlined button when own org has a DRAFT agreement and a delegator has no agreement', async () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [
+        {
+          id: 'test',
+          state: 'DRAFT',
+          canBeUpgraded: false,
+          consumerId: 'organizationId',
+        },
+      ],
+      hasCertifiedAttributes: true,
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock }),
+      [{ id: 'delegator-id', name: 'Delegator Name' }],
+      false
+    )
+
+    expect(result.current.primaryAction?.label).toBe('tableEServiceCatalog.editDraft')
+    expect(result.current.secondaryAction?.label).toBe('tableEServiceCatalog.subscribe')
+    expect(result.current.secondaryAction?.variant).toBe('outlined')
+  })
+
+  it('should open the DialogSelectAgreementConsumer when the secondary subscribe action is triggered on a multi-tenant scenario', async () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [
+        {
+          id: 'test',
+          state: 'ACTIVE',
+          canBeUpgraded: false,
+          consumerId: 'organizationId',
+        },
+      ],
+      isSubscribed: true,
+      hasCertifiedAttributes: true,
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock }),
+      [{ id: 'delegator-id', name: 'Delegator Name' }],
+      false
+    )
+
+    const secondaryAction = result.current.secondaryAction!
+    expect(secondaryAction.label).toBe('tableEServiceCatalog.subscribe')
+
+    act(() => {
+      secondaryAction.action()
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('DialogSelectAgreementConsumer')).toBeInTheDocument()
+    })
+  })
+
+  it('should keep the secondary subscribe action disabled with tooltip when the descriptor is SUSPENDED', () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [
+        {
+          id: 'test',
+          state: 'ACTIVE',
+          canBeUpgraded: false,
+          consumerId: 'organizationId',
+        },
+      ],
+      isSubscribed: true,
+      hasCertifiedAttributes: true,
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock, state: 'SUSPENDED' }),
+      [{ id: 'delegator-id', name: 'Delegator Name' }],
+      false
+    )
+
+    expect(result.current.primaryAction?.label).toBe('tableEServiceCatalog.inspect')
+    expect(result.current.secondaryAction?.label).toBe('tableEServiceCatalog.subscribe')
+    expect(result.current.secondaryAction?.variant).toBe('outlined')
+    expect(result.current.secondaryAction?.disabled).toBe(true)
+    expect(result.current.secondaryAction?.tooltip).toBe(
+      'tableEServiceCatalog.eserviceSuspendedTooltip'
+    )
+  })
+
+  it('should not expose any secondary action when subscribe is the primary action', () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      hasCertifiedAttributes: true,
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
+    )
+
+    expect(result.current.primaryAction?.label).toBe('tableEServiceCatalog.subscribe')
+    expect(result.current.secondaryAction).toBeUndefined()
+  })
+
+  it('should not expose any secondary action when the disabled missing-attributes subscribe is the primary action', () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      isSubscribed: false,
+      hasCertifiedAttributes: false,
+    })
+
+    const descriptorMock = createMockEServiceDescriptorCatalog({
+      eservice: { ...eserviceMock, activeDescriptor: { id: 'active-id', state: 'PUBLISHED' } },
+      id: 'active-id',
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(descriptorMock)
+
+    expect(result.current.primaryAction?.label).toBe('tableEServiceCatalog.subscribe')
+    expect(result.current.primaryAction?.disabled).toBe(true)
+    expect(result.current.secondaryAction).toBeUndefined()
+  })
+
+  it.each<EServiceDescriptorState>(['ARCHIVING', 'ARCHIVING_SUSPENDED'])(
+    'should show the subscribe action disabled and without tooltip when viewing an obsolete version being archived (state %s) as a non-subscribed third party',
+    (state) => {
+      mockUseJwt({ isAdmin: true })
+
+      const eserviceMock = createMockCatalogDescriptorEService({
+        agreements: [],
+        isMine: false,
+        isSubscribed: false,
+        activeDescriptor: { id: 'latest-descriptor-id', state: 'PUBLISHED', version: '2' },
+      })
+
+      const descriptorMock = createMockEServiceDescriptorCatalog({
+        eservice: eserviceMock,
+        id: 'obsolete-descriptor-id',
+        state,
+      })
+
+      const { result } = renderUseGetEServiceConsumerActionsHook(
+        descriptorMock,
+        undefined,
+        false,
+        'latest-descriptor-id'
+      )
+
+      expect(result.current.primaryAction?.label).toBe('tableEServiceCatalog.subscribe')
+      expect(result.current.primaryAction?.disabled).toBe(true)
+      expect(result.current.primaryAction?.tooltip).toBeUndefined()
+      expect(result.current.secondaryAction).toBeUndefined()
+    }
+  )
+
+  it('should not show the disabled subscribe action when the archiving descriptor is the latest version (whole e-service archiving)', () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      isSubscribed: false,
+      hasCertifiedAttributes: true,
+    })
+
+    const descriptorMock = createMockEServiceDescriptorCatalog({
+      eservice: eserviceMock,
+      state: 'ARCHIVING',
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(descriptorMock)
+
+    expect(result.current.primaryAction).toBeUndefined()
+  })
+
+  it('should expose the view latest version action in the header info row when a target id is provided', () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [
+        {
+          id: 'test',
+          state: 'ACTIVE',
+          canBeUpgraded: false,
+          consumerId: 'organizationId',
+        },
+      ],
+      isSubscribed: true,
+    })
+
+    const { result, history } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock }),
+      undefined,
+      undefined,
+      'latest-descriptor-id'
+    )
+
+    expect(result.current.secondaryAction).toBeUndefined()
+    expect(result.current.headerInfoActions).toHaveLength(1)
+    const viewLatest = result.current.headerInfoActions[0]!
+    expect(viewLatest.label).toBe('viewLatestVersion')
+
+    viewLatest.action()
+    expect(history.location.pathname).toBe(
+      `/it/catalogo-e-service/${eserviceMock.id}/latest-descriptor-id`
+    )
+  })
+
+  it('should not expose the view latest version action when no target id is provided', () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      hasCertifiedAttributes: true,
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock })
+    )
+
+    expect(result.current.secondaryAction).toBeUndefined()
+    expect(result.current.headerInfoActions).toHaveLength(0)
+  })
+
+  it('should not show the subscribe action when the requester already has a blocking agreement on an obsolete version', () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      isSubscribed: false,
+      hasCertifiedAttributes: true,
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock }),
+      undefined,
+      false,
+      undefined,
+      { blocksSubscribe: true }
+    )
+
+    expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.secondaryAction).toBeUndefined()
+  })
+
+  it('should show the upgrade action as primary when the requester has an upgradeable agreement on an obsolete version', async () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      isSubscribed: false,
+      hasCertifiedAttributes: true,
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock }),
+      undefined,
+      false,
+      undefined,
+      {
+        blocksSubscribe: true,
+        upgrade: {
+          agreement: createMockAgreement(),
+          hasMissingAttributes: false,
+          hasAllCertifiedAttributes: true,
+        },
+      }
+    )
+
+    const upgradeAction = result.current.primaryAction!
+    expect(upgradeAction.label).toBe('tableEServiceCatalog.upgradeToNewVersion')
+    expect(upgradeAction.disabled).toBeFalsy()
+    expect(result.current.secondaryAction).toBeUndefined()
+
+    act(() => {
+      upgradeAction.action()
+    })
+
+    await waitFor(() => {
+      expect(screen.getByText('DialogUpgradeAgreementVersion')).toBeInTheDocument()
+    })
+  })
+
+  it('should disable the upgrade action with a tooltip when the requester is missing certified attributes', () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      isSubscribed: false,
+      hasCertifiedAttributes: false,
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock }),
+      undefined,
+      false,
+      undefined,
+      {
+        blocksSubscribe: true,
+        upgrade: {
+          agreement: createMockAgreement(),
+          hasMissingAttributes: true,
+          hasAllCertifiedAttributes: false,
+        },
+      }
+    )
+
+    expect(result.current.primaryAction?.label).toBe('tableEServiceCatalog.upgradeToNewVersion')
+    expect(result.current.primaryAction?.disabled).toBe(true)
+    expect(result.current.primaryAction?.tooltip).toBe(
+      'consumerRead.noCertifiedAttributesForUpgradeTooltip'
+    )
+  })
+
+  it('should keep the subscribe action for a delegator without agreement while the requester has an obsolete-version agreement', () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      isSubscribed: false,
+      hasCertifiedAttributes: true,
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock }),
+      [{ id: 'delegator-id', name: 'Delegator Name' }],
+      false,
+      undefined,
+      {
+        blocksSubscribe: true,
+        upgrade: {
+          agreement: createMockAgreement(),
+          hasMissingAttributes: false,
+          hasAllCertifiedAttributes: true,
+        },
+      }
+    )
+
+    expect(result.current.primaryAction?.label).toBe('tableEServiceCatalog.upgradeToNewVersion')
+    expect(result.current.secondaryAction?.label).toBe('tableEServiceCatalog.subscribe')
+    expect(result.current.secondaryAction?.variant).toBe('outlined')
+  })
+
+  it('should show the upgrade action as primary and the inspect action as outlined secondary when the requester is subscribed and viewing an obsolete upgradeable version', () => {
+    mockUseJwt({ isAdmin: true })
+
+    const eserviceMock = createMockCatalogDescriptorEService({
+      agreements: [],
+      isMine: false,
+      isSubscribed: true,
+      hasCertifiedAttributes: true,
+    })
+
+    const { result } = renderUseGetEServiceConsumerActionsHook(
+      createMockEServiceDescriptorCatalog({ eservice: eserviceMock }),
+      undefined,
+      false,
+      undefined,
+      {
+        blocksSubscribe: true,
+        upgrade: {
+          agreement: createMockAgreement(),
+          hasMissingAttributes: false,
+          hasAllCertifiedAttributes: true,
+        },
+      }
+    )
+
+    expect(result.current.primaryAction?.label).toBe('tableEServiceCatalog.upgradeToNewVersion')
+    expect(result.current.primaryAction?.variant).toBe('contained')
+    expect(result.current.secondaryAction?.label).toBe('tableEServiceCatalog.inspect')
+    expect(result.current.secondaryAction?.variant).toBe('outlined')
   })
 })

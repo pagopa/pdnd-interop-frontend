@@ -235,6 +235,10 @@
       }
     }
   },
+  "dialogRequestRiskAnalysisCompilation": {
+    "title": "Richiedi compilazione e approvazione",
+    "description": "Se confermi, assegnerai la compilazione e l'approvazione dell'analisi del rischio al valutatore <strong>{{reviewerName}}</strong> e non potrai più modificare questa scelta."
+  },
   "dialogRejectDelegatedVersionDraft": {
     "title": "Rifiuta pubblicazione",
     "description": "La motivazione del tuo rifiuto sarà riportata al tuo delegato, il quale potrà aggiornare la bozza e inviartela nuovamente in approvazione per la pubblicazione.",
@@ -269,6 +273,68 @@
           "false": "No, non verranno trattati dati personali"
         }
       }
+    }
+  },
+  "dialogApproveRiskAnalysis": {
+    "title": "Approva analisi del rischio",
+    "description": "Se confermi, l’analisi del rischio non sarà più modificabile e l’amministratore potrà pubblicare la finalità.",
+    "actions": {
+      "confirm": "Conferma",
+      "cancel": "Annulla"
+    }
+  },
+  "dialogRejectRiskAnalysis": {
+    "title": "Rifiuta analisi del rischio",
+    "description": "Condividi con l’amministratore perché non hai approvato l’analisi del rischio e indica eventuali correzioni da fare.",
+    "reasonField": {
+      "label": "Motivo rifiuto approvazione",
+      "infoLabel": "Spiega perché hai rifiutato l’analisi del rischio. Min 10 caratteri, max 250 caratteri"
+    },
+    "actions": {
+      "confirm": "Rifiuta",
+      "cancel": "Indietro"
+    }
+  },
+  "dialogCancelEserviceArchiving": {
+    "title": "Annulla archiviazione e-service",
+    "description": "Questo e-service non sarà più in fase di archiviazione.",
+    "actions": {
+      "cancelArchiving": "Annulla archiviazione"
+    }
+  },
+  "dialogArchiveEservice": {
+    "title": "Archivia e-service",
+    "content": {
+      "advice": {
+        "description": "Con l’archiviazione dell’e-service, tutte le sue versioni saranno archiviate e quelle in bozza eliminate.\nSe confermi questa scelta, l’archiviazione avverrà il giorno <strong>{{date}}</strong>. Prima di questa data, l’e-service resterà attivo per consentire ai fruitori di adeguarsi. Potrai annullare l’archiviazione solo prima di questa data."
+      },
+      "confirm": {
+        "description": "Tutti i fruitori saranno informati sul periodo di preavviso e sul motivo dell’archiviazione.",
+        "form": {
+          "label": "Motivo archiviazione",
+          "infoLabel": "Spiega perché hai scelto di archiviare l’e-service. Se vuoi, suggerisci un e-service alternativo. Entrambe le informazioni saranno condivise con i fruitori. Min 10 caratteri, max 250 caratteri"
+        }
+      },
+      "alert": "L’archiviazione effettiva potrebbe richiedere un tempo tecnico in cui i fruitori continueranno a scambiare dati. Consulta la <1>documentazione</1> per avere altri dettagli."
+    },
+    "actions": {
+      "back": "Indietro",
+      "forward": "Prosegui"
+    }
+  },
+  "dialogCancelVersionArchiving": {
+    "title": "Annulla archiviazione versione",
+    "description": "Questa versione non sarà più in fase di archiviazione.",
+    "actions": {
+      "keepArchiving": "Mantieni in archiviazione",
+      "cancelArchiving": "Annulla archiviazione"
+    }
+  },
+  "dialogArchiveVersion": {
+    "title": "Archivia versione",
+    "content": {
+      "description": "L’archiviazione avverrà il giorno <strong>{{date}}</strong>. Prima di questa data, la versione resterà attiva per consentire ai fruitori di adeguarsi. Potrai annullare l’archiviazione solo prima di questa data.",
+      "alert": "L’archiviazione effettiva potrebbe richiedere un tempo tecnico in cui i fruitori continueranno a scambiare dati. Consulta la <1>documentazione</1> per avere altri dettagli."
     }
   },
   "copyToClipboardButton": {
@@ -332,19 +398,27 @@
     "bodySingleDay": "Interoperabilità PDND sarà sottoposto a manutenzione programmata il {{maintenanceStartDay}} alle {{maintenanceStartHour}} per circa {{hoursDuration}} ore. Ci scusiamo per gli eventuali disservizi causati.",
     "bodyMultipleDay": "Interoperabilità PDND sarà sottoposto a manutenzione programmata dalle {{maintenanceStartHour}} del {{maintenanceStartDay}} alle {{maintenanceEndHour}} del {{maintenanceEndDay}}. Ci scusiamo per gli eventuali disservizi causati."
   },
-  "notificationsBanner": {
-    "title": "Sono arrivate le notifiche!",
-    "body": "Ti informeremo quando ci sono novità di tuo interesse direttamente in piattaforma o tramite e-mail personale. Consulta il manuale e configura subito le tue preferenze.",
-    "action1Label": "Configura le notifiche",
-    "action2Label": "Consulta il manuale"
+  "productUpdatesBanner": {
+    "title": "Novità su PDND: archiviazione e nuovi ruoli",
+    "body": "Da adesso, puoi archiviare le versioni obsolete di un e-service o un intero e-service. In più sono disponibili due nuovi ruoli: validatore, per approvare o compilare l’analisi del rischio, e consultatore, per visualizzare le attività di un ente su PDND.",
+    "action1Label": "Come funziona l’archiviazione",
+    "action1AriaLabel": "Come funziona l’archiviazione, apre in una nuova scheda",
+    "action2Label": "Come funzionano i nuovi ruoli",
+    "action2AriaLabel": "Come funzionano i nuovi ruoli, apre in una nuova scheda"
   },
   "attributeContainer": {
+    "descriptionLabel": "Descrizione",
+    "tenantCertifierLabel": "Ente certificatore",
     "attributeIdLabel": "ID dell'attributo (attributeId)",
     "idCopytooltipLabel": "ID copiato correttamente",
     "removeAttributeAriaLabel": "Rimuovi attributo {{attributeName}}",
     "thresholdLabel": "Chiamate API/giorno per fruitore",
-    "customizeBtn": "Personalizza soglia",
-    "changeBtn": "Modifica soglia",
+    "actions": {
+      "customizeThreshold": "Personalizza soglia",
+      "changeThreshold": "Modifica soglia",
+      "inspectAttributeDetails": "Dettagli attributo",
+      "modifyCertifiedDiscreteAttribute": "Modifica attributo"
+    },
     "na": "n/a"
   },
   "attributeGroupContainer": {
@@ -379,6 +453,15 @@
   "drawer": {
     "closeIconAriaLabel": "Chiudi il drawer",
     "updateLabel": "Aggiorna"
+  },
+  "configureCertifiedDiscreteAttributeDrawer": {
+    "title": "Configura attributo",
+    "subtitle": "Imposta i valori dell'attributo certificato {{attributeName}}",
+    "comparatorLabel": "Criterio",
+    "thresholdLabel": "Valore numerico",
+    "validation": {
+      "integer": "Il valore deve essere intero"
+    }
   },
   "byDelegationChip": {
     "label": {
@@ -556,6 +639,13 @@
     "SUBSCRIBE_PURPOSE_TEMPLATE_EDIT": "Modifica template finalità",
     "SUBSCRIBE_PURPOSE_CREATE_FROM_TEMPLATE": "Crea finalità da template",
     "SUBSCRIBE_PURPOSE_FROM_TEMPLATE_EDIT": "Modifica finalità da template",
-    "PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU": "Pubblicazione completata"
+    "PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU": "Pubblicazione completata",
+    "SUBSCRIBE_RISK_ANALYSIS_LIST": "Analisi del rischio",
+    "SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE": "Informazioni finalità",
+    "SUBSCRIBE_RISK_ANALYSIS_COMPILE": "Compilazione analisi del rischio",
+    "SUBSCRIBE_RISK_ANALYSIS_SUMMARY": "Riepilogo",
+    "SUBSCRIBE_RISK_ANALYSIS_APPROVAL_SUCCESS": "Analisi del rischio approvata",
+    "SUBSCRIBE_RISK_ANALYSIS_APPROVAL": "Approvazione analisi del rischio",
+    "SUBSCRIBE_RISK_ANALYSIS_REJECTION_SUCCESS": "Analisi del rischio rifiutata"
   }
 }

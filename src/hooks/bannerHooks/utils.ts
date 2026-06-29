@@ -1,9 +1,5 @@
 import differenceInHours from 'date-fns/differenceInHours'
-
-export type BannerData = {
-  start: { date: string; time: string }
-  end: { date: string; time: string }
-}
+import type { BannerData } from '@/types/banner.types'
 
 export type BannerDurationType = 'hours' | 'days'
 

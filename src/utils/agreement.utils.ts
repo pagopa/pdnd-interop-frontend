@@ -1,8 +1,15 @@
 import type {
   Agreement,
+  AgreementListEntry,
+  ArchivingScope,
   CatalogDescriptorEService,
   CatalogEServiceDescriptor,
+  EServiceDescriptorState,
 } from '@/api/api.generatedTypes'
+import type { AlertColor } from '@mui/material'
+import type { TFunction } from 'i18next'
+import { match } from 'ts-pattern'
+import { formatDateString } from './format.utils'
 
 /**
  * Checks if the user has already an agreement draft for the given e-service.
@@ -90,6 +97,24 @@ export const canAgreementBeUpgraded = (agreement?: Agreement) => {
   return hasNewVersion && isActiveDescriptorPublishedOrSuspended && isAgreementActiveOrSuspended
 }
 
+export function getRequesterObsoleteVersionAgreement(
+  consumerAgreements: AgreementListEntry[],
+  requesterTenantId: string | undefined
+): { hasBlockingAgreement: boolean; upgradeableAgreementId: string | undefined } {
+  const ownAgreements = consumerAgreements.filter(
+    (agreement) => agreement.consumer.id === requesterTenantId
+  )
+
+  return {
+    hasBlockingAgreement: ownAgreements.some(
+      (agreement) => agreement.state !== 'ARCHIVED' && agreement.state !== 'REJECTED'
+    ),
+    upgradeableAgreementId: ownAgreements.find(
+      (agreement) => agreement.canBeUpgraded && ['ACTIVE', 'SUSPENDED'].includes(agreement.state)
+    )?.id,
+  }
+}
+
 /**
  * Check if there is an available new e-service version for the given agreement.
  * This is used in the agreement creation page.
@@ -100,4 +125,55 @@ export const isNewEServiceVersionAvailable = (agreement: Agreement | undefined) 
     eserviceActiveDescriptor &&
     parseInt(eserviceActiveDescriptor.version, 10) > parseInt(agreement.eservice.version, 10)
   )
+}
+
+export type ConsumerAgreementVersionAlertSpec = {
+  severity: AlertColor
+  content: string
+  showSeeDetailsAction?: boolean
+}
+
+export function getConsumerAgreementVersionAlertSpec(args: {
+  state: EServiceDescriptorState
+  scope: ArchivingScope | undefined
+  archivableOn: string | undefined
+  archivedAt: string | undefined
+  t: TFunction<'agreement', 'consumerRead.versionAlert'>
+}): ConsumerAgreementVersionAlertSpec[] {
+  const { state, scope, archivableOn, archivedAt, t } = args
+  const scheduledDate = archivableOn ? formatDateString(archivableOn) : ''
+  const archivedDate = archivedAt ? formatDateString(archivedAt) : ''
+
+  return match({ state, scope })
+    .returnType<ConsumerAgreementVersionAlertSpec[]>()
+    .with({ state: 'DEPRECATED' }, () => [{ severity: 'info', content: t('deprecatedActive') }])
+    .with({ state: 'ARCHIVING', scope: 'DESCRIPTOR' }, () => [
+      { severity: 'warning', content: t('archivingDescriptor', { date: scheduledDate }) },
+    ])
+    .with({ state: 'ARCHIVING', scope: 'ESERVICE' }, () => [
+      {
+        severity: 'warning',
+        content: t('archivingEService', { date: scheduledDate }),
+        showSeeDetailsAction: true,
+      },
+    ])
+    .with({ state: 'ARCHIVING_SUSPENDED', scope: 'DESCRIPTOR' }, () => [
+      { severity: 'error', content: t('archivingSuspendedDescriptor', { date: scheduledDate }) },
+    ])
+    .with({ state: 'ARCHIVING_SUSPENDED', scope: 'ESERVICE' }, () => [
+      { severity: 'error', content: t('suspendedLastNoNewVersion') },
+      {
+        severity: 'warning',
+        content: t('archivingEService', { date: scheduledDate }),
+        showSeeDetailsAction: true,
+      },
+    ])
+    .with({ state: 'SUSPENDED' }, () => [{ severity: 'error', content: t('suspendedLast') }])
+    .with({ state: 'ARCHIVED', scope: 'ESERVICE' }, () => [
+      { severity: 'error', content: t('archivedEService', { date: archivedDate }) },
+    ])
+    .with({ state: 'ARCHIVED' }, () => [
+      { severity: 'error', content: t('archivedDescriptor', { date: archivedDate }) },
+    ])
+    .otherwise(() => [])
 }

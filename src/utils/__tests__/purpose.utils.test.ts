@@ -4,7 +4,9 @@ import {
   getDaysToExpiration,
   checkIsRulesetExpired,
   getFormattedExpirationDate,
+  getReviewModeLabel,
 } from '../purpose.utils'
+import type { TFunction } from 'i18next'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 import { describe, it, expect, vi, afterEach } from 'vitest'
 
@@ -173,5 +175,26 @@ describe('checkIsRulesetExpired', () => {
   it('should return false if the date is in the future', () => {
     const result = checkIsRulesetExpired('2099-12-25')
     expect(result).toBeFalsy()
+  })
+})
+
+describe('getReviewModeLabel', () => {
+  // Stub `t` returning the requested key, so we assert the mode-to-key mapping regardless of copy.
+  const t = ((key: string) => key) as unknown as TFunction<'purpose', 'riskAnalysisAssignment'>
+
+  it('maps an undefined review mode to the autonomy label', () => {
+    expect(getReviewModeLabel(undefined, t)).toBe('mode.autonomy')
+  })
+
+  it('maps ADMIN_WRITES_REVIEWER_SIGNS to its label', () => {
+    expect(getReviewModeLabel('ADMIN_WRITES_REVIEWER_SIGNS', t)).toBe(
+      'mode.adminWritesReviewerSigns'
+    )
+  })
+
+  it('maps REVIEWER_WRITES_REVIEWER_SIGNS to its label', () => {
+    expect(getReviewModeLabel('REVIEWER_WRITES_REVIEWER_SIGNS', t)).toBe(
+      'mode.reviewerWritesReviewerSigns'
+    )
   })
 })

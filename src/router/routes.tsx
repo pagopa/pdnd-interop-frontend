@@ -70,11 +70,27 @@ import ConsumerPurposeTemplateCatalogDetailsPage from '@/pages/ConsumerPurposeTe
 import { ConsumerPurposeTemplateSummaryPage } from '@/pages/ConsumerPurposeTemplateSummaryPage'
 import { ConsumerPurposeTemplateEditPage } from '@/pages/ConsumerPurposeTemplateEditPage'
 import { ConsumerSimulateGetVoucherPage } from '@/pages/ConsumerSimulateGetVoucherPage'
+import RiskAnalysisSummaryPage from '@/pages/RiskAnalysisSummaryPage/RiskAnalysisSummary.page'
+import RiskAnalysisApproveThankYouPage from '@/pages/RiskAnalysisApproveThankYouPage/RiskAnalysisApproveThankYou.page'
+import RiskAnalysisCompilePage from '@/pages/RiskAnalysisCompilePage/RiskAnalysisCompile.page'
+import RiskAnalysisInfoCompilePage from '@/pages/RiskAnalysisInfoCompilePage/RiskAnalysisInfoCompile.page'
+import RiskAnalysisListPage from '@/pages/RiskAnalysisListPage/RiskAnalysisList.page'
+import RiskAnalysisRejectThankYouPage from '@/pages/RiskAnalysisRejectThankYouPage/RiskAnalysisRejectThankYou.page'
 
 import { z } from 'zod'
+import { AuthHooks } from '@/api/auth'
 
 const languages = ['it', 'en'] as const
 export const AllowedLanguage = z.enum(languages)
+
+const LandingByRole = () => {
+  const { isReviewer } = AuthHooks.useJwt()
+  return isReviewer ? (
+    <components.Redirect to="SUBSCRIBE_RISK_ANALYSIS_LIST" />
+  ) : (
+    <components.Redirect to="SUBSCRIBE_CATALOG_LIST" />
+  )
+}
 
 export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new InteropRouterBuilder<
   LangCode,
@@ -89,7 +105,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <LogoutPage />,
     public: true,
     hideSideNav: true,
-    authLevels: ['admin', 'support', 'api', 'security'],
+    authLevels: ['admin', 'support', 'api', 'security', 'reviewer', 'viewer'],
   })
   .addRoute({
     key: 'TOS',
@@ -97,7 +113,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <TOSPage />,
     public: true,
     hideSideNav: true,
-    authLevels: ['admin', 'support', 'api', 'security'],
+    authLevels: ['admin', 'support', 'api', 'security', 'reviewer', 'viewer'],
   })
   .addRoute({
     key: 'PRIVACY_POLICY',
@@ -105,7 +121,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <PrivacyPolicyPage />,
     public: true,
     hideSideNav: true,
-    authLevels: ['admin', 'support', 'api', 'security'],
+    authLevels: ['admin', 'support', 'api', 'security', 'reviewer', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_CREATE',
@@ -145,7 +161,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api', 'security'],
+    authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_LIST',
@@ -153,7 +169,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api', 'security'],
+    authLevels: ['admin', 'support', 'api', 'security', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_AGREEMENT_READ',
@@ -161,7 +177,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderAgreementDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api'],
+    authLevels: ['admin', 'support', 'api', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_AGREEMENT_LIST',
@@ -169,7 +185,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderAgreementsListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api'],
+    authLevels: ['admin', 'support', 'api', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_PURPOSE_LIST',
@@ -177,7 +193,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderPurposesListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api'],
+    authLevels: ['admin', 'support', 'api', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_PURPOSE_DETAILS',
@@ -185,7 +201,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderPurposeDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api'],
+    authLevels: ['admin', 'support', 'api', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_CATALOG_VIEW',
@@ -193,7 +209,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerEServiceDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'security', 'api'],
+    authLevels: ['admin', 'support', 'security', 'api', 'reviewer', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_CATALOG_LIST',
@@ -201,7 +217,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerEServiceCatalogPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'security', 'api'],
+    authLevels: ['admin', 'support', 'security', 'api', 'reviewer', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_CREATE',
@@ -241,7 +257,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'security'],
+    authLevels: ['admin', 'support', 'security', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_LIST',
@@ -249,7 +265,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposesListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'security'],
+    authLevels: ['admin', 'support', 'security', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_CLIENT_OPERATOR_EDIT',
@@ -297,7 +313,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerAgreementDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'security'],
+    authLevels: ['admin', 'support', 'security', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_AGREEMENT_LIST',
@@ -305,7 +321,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerAgreementsListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'security'],
+    authLevels: ['admin', 'support', 'security', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_AGREEMENT_EDIT',
@@ -361,7 +377,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     redirect: 'SUBSCRIBE_AGREEMENT_LIST',
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'security', 'api'],
+    authLevels: ['admin', 'support', 'security', 'api', 'viewer'],
   })
   .addRoute({
     key: 'PARTY_REGISTRY',
@@ -369,7 +385,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <PartyRegistryPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api', 'security'],
+    authLevels: ['admin', 'support', 'api', 'security', 'reviewer', 'viewer'],
   })
   .addRoute({
     key: 'ASSISTENCE_PARTY_SELECTION',
@@ -398,10 +414,10 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
   .addRoute({
     key: 'DEFAULT',
     path: '/',
-    redirect: 'SUBSCRIBE_CATALOG_LIST',
+    element: <LandingByRole />,
     public: true,
     hideSideNav: true,
-    authLevels: ['admin', 'support', 'api', 'security'],
+    authLevels: ['admin', 'support', 'api', 'security', 'reviewer', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_DEBUG_VOUCHER',
@@ -433,7 +449,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     redirect: 'PARTY_REGISTRY',
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'support', 'api', 'security'],
+    authLevels: ['admin', 'support', 'api', 'security', 'reviewer', 'viewer'],
   })
   .addRoute({
     key: 'TENANT_CERTIFIER',
@@ -521,7 +537,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceTemplatesCatalogPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_TEMPLATE_LIST',
@@ -529,7 +545,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceTemplatesListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE',
@@ -537,7 +553,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     redirect: 'PROVIDE_ESERVICE_LIST',
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_TEMPLATE_PUBLISH_THANK_YOU',
@@ -553,7 +569,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceTemplateDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS',
@@ -561,7 +577,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerEServiceTemplateDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_TEMPLATE_CREATE',
@@ -585,7 +601,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ProviderEServiceTemplateSummaryPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'PROVIDE_ESERVICE_FROM_TEMPLATE_CREATE',
@@ -650,7 +666,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateListPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG',
@@ -658,7 +674,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateCatalogPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_DETAILS',
@@ -666,7 +682,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_CATALOG_DETAILS',
@@ -674,7 +690,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateCatalogDetailsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_SUMMARY',
@@ -682,7 +698,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <ConsumerPurposeTemplateSummaryPage />,
     public: false,
     hideSideNav: true,
-    authLevels: ['admin', 'api', 'support'],
+    authLevels: ['admin', 'api', 'support', 'viewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_EDIT',
@@ -708,6 +724,62 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     hideSideNav: true,
     authLevels: ['admin', 'api', 'support'],
   })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_LIST',
+    path: '/analisi-del-rischio',
+    element: <RiskAnalysisListPage />,
+    public: false,
+    hideSideNav: false,
+    authLevels: ['reviewer'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE',
+    path: '/analisi-del-rischio/:purposeId',
+    element: <RiskAnalysisInfoCompilePage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['reviewer'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_COMPILE',
+    path: '/analisi-del-rischio/:purposeId/compilazione',
+    element: <RiskAnalysisCompilePage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['reviewer'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_SUMMARY',
+    path: '/analisi-del-rischio/:purposeId/compilazione/riepilogo',
+    element: <RiskAnalysisSummaryPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['reviewer'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL_SUCCESS',
+    path: '/analisi-del-rischio/:purposeId/conferma',
+    element: <RiskAnalysisApproveThankYouPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['reviewer'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL',
+    path: '/analisi-del-rischio/:purposeId/approvazione',
+    element: <RiskAnalysisSummaryPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['reviewer'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_REJECTION_SUCCESS',
+    path: '/analisi-del-rischio/:purposeId/rifiuto',
+    element: <RiskAnalysisRejectThankYouPage />,
+    public: false,
+    hideSideNav: true,
+    authLevels: ['reviewer'],
+  })
   .build()
 
 export type RouteKey = InferRouteKey<typeof routes>
@@ -715,7 +787,7 @@ export type RouteKey = InferRouteKey<typeof routes>
 export const router = createBrowserRouter(
   [
     { element: <RoutesWrapper />, children: reactRouterDOMRoutes },
-    { path: '/', element: <components.Redirect to="SUBSCRIBE_CATALOG_LIST" /> },
+    { path: '/', element: <LandingByRole /> },
     { path: '/*', element: <components.Redirect to="NOT_FOUND" /> },
   ],
   { basename: '/ui' }

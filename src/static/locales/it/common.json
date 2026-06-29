@@ -96,7 +96,8 @@
       "linkedEserviceName": "E-service o template e-service",
       "linkedEserviceProviderName": "Nome erogatore",
       "purposeTemplateCreatorName": "Nome realizzatore",
-      "purposeTemplateTarget": "Destinatario"
+      "purposeTemplateTarget": "Destinatario",
+      "assignmentDate": "Data assegnazione"
     }
   },
   "status": {
@@ -107,7 +108,19 @@
       "ARCHIVED": "archiviato",
       "DEPRECATED": "deprecato",
       "WAITING_FOR_APPROVAL": "in attesa di approvazione",
-      "DRAFT_TO_CORRECT": "da correggere"
+      "DRAFT_TO_CORRECT": "da correggere",
+      "ARCHIVING": "obsoleto",
+      "ARCHIVING_SUSPENDED": "sospeso"
+    },
+    "descriptor": {
+      "PUBLISHED": "attiva",
+      "DRAFT": "in bozza",
+      "SUSPENDED": "sospesa",
+      "ARCHIVED": "archiviata",
+      "DEPRECATED": "obsoleta",
+      "WAITING_FOR_APPROVAL": "in attesa di approvazione",
+      "ARCHIVING": "obsoleta",
+      "ARCHIVING_SUSPENDED": "sospesa"
     },
     "agreement": {
       "ACTIVE": "attivo",
@@ -148,13 +161,25 @@
       "DRAFT": "in bozza",
       "SUSPENDED": "sospeso",
       "ARCHIVED": "archiviato"
+    },
+    "riskAnalysis": {
+      "ASSIGNED": "in attesa di compilazione",
+      "SUBMITTED": "in attesa di approvazione",
+      "SIGNED": "approvata",
+      "REJECTED": "rifiutata"
+    },
+    "riskAnalysisList": {
+      "ASSIGNED": "da compilare",
+      "SUBMITTED": "da approvare"
     }
   },
   "userProductRole": {
     "admin": "Amministratore",
     "security": "Operatore di sicurezza",
     "api": "Operatore API",
-    "support": "Supporto"
+    "support": "Supporto",
+    "reviewer": "Valutatore",
+    "viewer": "Consultatore"
   },
   "time": {
     "minute_one": "minuto",
@@ -167,5 +192,13 @@
   },
   "privacyPolicy": {
     "title": "Privacy Policy"
+  },
+  "comparators": {
+    "GT": "Maggiore di",
+    "GTE": "Maggiore o uguale a",
+    "LT": "Minore di",
+    "LTE": "Minore o uguale a",
+    "EQ": "Uguale a",
+    "NE": "Diverso da"
   }
 }

@@ -11,6 +11,7 @@ import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import type { ProducerEServiceTemplate } from '@/api/api.generatedTypes'
 import { useGetProviderEServiceTemplateActions } from '@/hooks/useGetProviderEServiceTemplateActions'
 import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
+import { AuthHooks } from '@/api/auth'
 
 type EServiceTemplateTableRow = {
   eserviceTemplate: ProducerEServiceTemplate
@@ -20,6 +21,7 @@ export const EServiceTemplateTableRow: React.FC<EServiceTemplateTableRow> = ({
   eserviceTemplate,
 }) => {
   const { t } = useTranslation('common', { keyPrefix: 'actions' })
+  const { isViewer } = AuthHooks.useJwt()
 
   const queryClient = useQueryClient()
 
@@ -87,7 +89,7 @@ export const EServiceTemplateTableRow: React.FC<EServiceTemplateTableRow> = ({
           eServiceTemplateVersionId: versionId ?? '',
         }}
       >
-        {hasNotActiveVersionTemplate ? t('manageDraft') : t('inspect')}
+        {hasNotActiveVersionTemplate && !isViewer ? t('manageDraft') : t('inspect')}
       </Link>
 
       <Box component="span" sx={{ ml: 2, display: 'inline-block' }}>

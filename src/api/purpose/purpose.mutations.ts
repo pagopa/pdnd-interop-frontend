@@ -219,6 +219,67 @@ function useCreateDraftFromPurposeTemplate() {
   })
 }
 
+function useAssignRiskAnalysisReviewer({ showSuccessToast }: { showSuccessToast: boolean }) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purpose.assignRiskAnalysisReviewer',
+  })
+  return useMutation({
+    mutationFn: PurposeServices.assignRiskAnalysisReviewer,
+    meta: {
+      successToastLabel: showSuccessToast ? t('outcome.success') : undefined,
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useSubmitRiskAnalysis() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purpose.submitRiskAnalysis',
+  })
+  return useMutation({
+    mutationFn: PurposeServices.submitRiskAnalysis,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useSignRiskAnalysis() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.signRiskAnalysis' })
+  return useMutation({
+    mutationFn: PurposeServices.signRiskAnalysis,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useRejectRiskAnalysis() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.rejectRiskAnalysis' })
+  return useMutation({
+    mutationFn: PurposeServices.rejectRiskAnalysis,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
+function useUpdateRiskAnalysis() {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.updateRiskAnalysis' })
+  return useMutation({
+    mutationFn: PurposeServices.updateRiskAnalysis,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+    },
+  })
+}
+
 export const PurposeMutations = {
   useCreateDraft,
   useUpdateDraft,
@@ -236,4 +297,9 @@ export const PurposeMutations = {
   useAddClient,
   useRemoveClient,
   useCreateDraftFromPurposeTemplate,
+  useAssignRiskAnalysisReviewer,
+  useSubmitRiskAnalysis,
+  useSignRiskAnalysis,
+  useRejectRiskAnalysis,
+  useUpdateRiskAnalysis,
 }

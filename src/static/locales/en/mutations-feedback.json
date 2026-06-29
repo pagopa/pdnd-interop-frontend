@@ -90,8 +90,9 @@
       },
       "confirmDialog": {
         "title": "Publish e-service",
-        "titleNewVersion": "Publish new e-service version",
+        "titleNewVersion": "Publish new version",
         "description": "Once published, this version will be available in the e-service catalog and can no longer be deleted. You can still suspend it or mark it as deprecated when you publish a new version.",
+        "descriptionNewVersion": "<p>When a new version of the e-service is published, it is immediately available in the catalog and can no longer be deleted.</p><p>The previous version becomes deprecated or, if it has no active consumers, will be archived automatically.</p><p>You will be able to suspend the new version or mark it as deprecated when you publish a subsequent version.</p>",
         "proceedLabel": "Publish"
       }
     },
@@ -134,11 +135,37 @@
         "description": "The risk analysis will be deleted from this e-service."
       }
     },
+    "scheduleArchiveDescriptor": {
+      "outcome": {
+        "success": "This e-service version will be archived in {{days}} days",
+        "error": "This e-service version could not be archived. Please try again later."
+      }
+    },
+    "cancelDescriptorArchiving": {
+      "outcome": {
+        "success": "This version is no longer being archived",
+        "error": "The archiving of this e-service version could not be canceled. Please try again later."
+      }
+    },
+    "cancelEserviceArchiving": {
+      "outcome": {
+        "success": "The e-service is no longer being archived",
+        "error": "The archiving of this e-service could not be canceled. Please try again later."
+      }
+    },
+    "scheduleArchiveEservice": {
+      "outcome": {
+        "success": "This e-service will be archived in {{days}} days",
+        "error": "This e-service could not be archived. Please try again later."
+      }
+    },
     "suspendVersion": {
       "loading": "E-service version is being suspended",
       "outcome": {
         "success": "E-service version suspended successfully",
-        "error": "The e-service version could not be suspended. Please try again!"
+        "successArchiving": "You have suspended this e-service version",
+        "error": "The e-service version could not be suspended. Please try again!",
+        "errorArchiving": "The e-service version could not be suspended. Please try again later."
       },
       "confirmDialog": {
         "title": "Confirm Version Suspension",
@@ -149,7 +176,9 @@
       "loading": "E-service version is being reactivated",
       "outcome": {
         "success": "E-service version reactivated successfully",
-        "error": "The e-service version could not be reactivated. Please try again!"
+        "successArchiving": "You have reactivated this e-service version",
+        "error": "The e-service version could not be reactivated. Please try again!",
+        "errorArchiving": "The e-service version could not be reactivated. Please try again later."
       },
       "confirmDialog": {
         "title": "Confirm Version Reactivation",
@@ -369,7 +398,7 @@
       },
       "confirmDialog": {
         "title": "Fruition Request Draft Creation",
-        "description": "Do you want to create a fruition request draft for the e-service **{{name}}**, version **{{version}}**",
+        "description": "Do you want to create a fruition request draft for the e-service <strong>{{name}}</strong>, version <strong>{{version}}</strong>",
         "proceedLabel": "Create draft"
       }
     },
@@ -599,6 +628,12 @@
         "error": "The risk analysis document could not be downloaded. Please try again!"
       }
     },
+    "updateRiskAnalysis": {
+      "loading": "Risk analysis is being updated",
+      "outcome": {
+        "error": "The risk analysis could not be updated. Please try again!"
+      }
+    },
     "clone": {
       "loading": "Purpose is being cloned",
       "outcome": {
@@ -622,6 +657,32 @@
       "confirmDialog": {
         "title": "Confirm Client Removal from Purpose",
         "description": "This client will be removed from the current purpose. All keys added will no longer be usable to access the **Producer's** e-service for this purpose"
+      }
+    },
+    "assignRiskAnalysisReviewer": {
+      "loading": "We are assigning the risk analysis to a reviewer",
+      "outcome": {
+        "success": "You have assigned a reviewer to compile and approve the risk analysis.",
+        "error": "It was not possible to assign the risk analysis."
+      }
+    },
+    "submitRiskAnalysis": {
+      "loading": "We are assigning the risk analysis to a reviewer",
+      "outcome": {
+        "success": "You have assigned risk analysis approval to a reviewer.",
+        "error": "It was not possible to assign the risk analysis."
+      }
+    },
+    "signRiskAnalysis": {
+      "loading": "Risk analysis is being signed",
+      "outcome": {
+        "error": "The risk analysis could not be signed. Please try again!"
+      }
+    },
+    "rejectRiskAnalysis": {
+      "loading": "Risk analysis is being rejected",
+      "outcome": {
+        "error": "The risk analysis could not be rejected. Please try again!"
       }
     }
   },

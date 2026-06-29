@@ -24,7 +24,7 @@ export const ProviderEServiceDelegationsSection: React.FC<
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt, isViewer } = AuthHooks.useJwt()
 
   const isConsumerDelegable = descriptor.eservice.isConsumerDelegable
   const isClientAccessDelegable = descriptor.eservice.isClientAccessDelegable
@@ -40,7 +40,7 @@ export const ProviderEServiceDelegationsSection: React.FC<
         innerSection
         title={t('title')}
         topSideActions={
-          isDelegator
+          isDelegator || isViewer
             ? []
             : [
                 {

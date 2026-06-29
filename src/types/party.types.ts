@@ -1,6 +1,6 @@
 import type { ExternalId } from '@/api/api.generatedTypes'
 
-export type UserProductRole = 'admin' | 'security' | 'api' | 'support'
+export type UserProductRole = 'admin' | 'security' | 'api' | 'support' | 'reviewer' | 'viewer'
 
 export type DelegationType = 'DELEGATION_GRANTED' | 'DELEGATION_RECEIVED'
 
