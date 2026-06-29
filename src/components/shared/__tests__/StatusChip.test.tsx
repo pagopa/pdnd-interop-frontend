@@ -7,18 +7,20 @@ import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 import { createMockAgreement } from '@/../__mocks__/data/agreement.mocks'
 
 describe('StatusChip', () => {
-  // The risk analysis chip only routes the state to its label key; i18n returns
-  // the key as text in tests, so asserting the label verifies our own mapping
-  // (not MUI's rendering).
-  it.each<Exclude<RiskAnalysisSigningState, 'DRAFT'>>([
-    'ASSIGNED',
-    'SUBMITTED',
-    'SIGNED',
-    'REJECTED',
-  ])('renders the risk analysis label for state %s', (state) => {
+  // The risk analysis chip routes the state to its label key (i18n returns the key
+  // as text in tests) and to its color through the shared data-driven arm, so both
+  // the label namespace and the resolved `MuiChip-color*` class are asserted.
+  it.each<[Exclude<RiskAnalysisSigningState, 'DRAFT'>, string]>([
+    ['ASSIGNED', 'MuiChip-colorWarning'],
+    ['SUBMITTED', 'MuiChip-colorInfo'],
+    ['SIGNED', 'MuiChip-colorSuccess'],
+    ['REJECTED', 'MuiChip-colorError'],
+  ])('renders the risk analysis label and color for state %s', (state, colorClass) => {
     renderWithApplicationContext(<StatusChip for="riskAnalysis" state={state} />, {})
 
-    expect(screen.getByText(`status.riskAnalysis.${state}`)).toBeInTheDocument()
+    const chip = screen.getByText(`status.riskAnalysis.${state}`).closest('.MuiChip-root')
+    expect(chip).toBeInTheDocument()
+    expect(chip).toHaveClass(colorClass)
   })
 
   // The "simple" variants all share the same data-driven path: the label key is
