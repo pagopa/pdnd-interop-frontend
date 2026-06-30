@@ -387,7 +387,7 @@
   },
   "environmentBanner": {
     "content": {
-      "uat": "Testing environment. Do not use real data.",
+      "uat": "Testing environment. Configure as if in Production, but use only test data.",
       "att": "Validation environment for private entities: be careful, the data must not be real"
     }
   },
