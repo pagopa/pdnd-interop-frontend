@@ -25,7 +25,7 @@ const ConsumerClientManagePage: React.FC = () => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { clientId } = useParams<'SUBSCRIBE_CLIENT_EDIT' | 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT'>()
   const [searchParams] = useSearchParams()
-  const purposeId = searchParams.get('purposeId') || ''
+  const purposeId = searchParams.get('purposeId')
   const clientKind = useClientKind()
   const { activeTab, updateActiveTab } = useActiveTab('clientOperators')
   const navigate = useNavigate()
