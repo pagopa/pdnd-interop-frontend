@@ -929,17 +929,17 @@
       }
     },
     "updateEServiceDescription": {
-      "loading": "Stiamo modificando la descrizione dell'e-service del template",
+      "loading": "Stiamo modificando la descrizione del template e-service",
       "outcome": {
-        "error": "Descrizione dell'e-service del template dell'e-service non aggiornata. Riprovare.",
-        "success": "Descrizione dell'e-service del template dell'e-service aggiornata correttamente"
+        "error": "Descrizione del template e-service non aggiornata. Riprovare.",
+        "success": "Descrizione del template e-service aggiornata correttamente"
       }
     },
     "updateVersion": {
-      "loading": "Stiamo modificando la descrizione della versione dell'e-service del template",
+      "loading": "Stiamo modificando la descrizione della versione del template e-service",
       "outcome": {
-        "error": "Descrizione della versione dell'e-service del template dell'e-service non aggiornata. Riprovare.",
-        "success": "Descrizione della versione dell'e-service del template dell'e-service aggiornata correttamente"
+        "error": "Descrizione della versione del template e-service non aggiornata. Riprovare.",
+        "success": "Descrizione della versione del template e-service aggiornata correttamente"
       }
     },
     "postVersionDraftDocument": {
