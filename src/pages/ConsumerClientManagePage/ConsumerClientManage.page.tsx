@@ -52,7 +52,7 @@ const ConsumerClientManagePage: React.FC = () => {
     action: () =>
       navigate(
         clientKind === 'API' ? 'SIMULATE_GET_VOUCHER_API' : 'SIMULATE_GET_VOUCHER_CONSUMER',
-        { urlParams: { clientId, purposeId } }
+        { urlParams: { clientId, ...(purposeId ? { purposeId } : {}) } }
       ),
     label: tCommon('simulateVoucher'),
     variant: 'contained',
