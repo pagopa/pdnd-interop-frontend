@@ -41,7 +41,7 @@
       },
       "detailsSection": {
         "title": "E-service details",
-        "description": "This information has been pre-populated by the template creator and cannot be edited.",
+        "description": "This information cannot be edited.",
         "readOnlyDescription": "The following information is no longer editable.",
         "firstVersionOnlyEditableInfo": "This data will no longer be editable after the first version of the e-service is published.",
         "asyncExchangeField": {
