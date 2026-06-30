@@ -315,7 +315,7 @@
           "infoLabel": "Spiega perché hai scelto di archiviare l’e-service. Se vuoi, suggerisci un e-service alternativo. Entrambe le informazioni saranno condivise con i fruitori. Min 10 caratteri, max 250 caratteri"
         }
       },
-      "alert": "L’archiviazione effettiva potrebbe richiedere un tempo tecnico in cui i fruitori continueranno a scambiare dati. Consulta la <1>documentazione</1> per avere altri dettagli."
+      "alert": "L’archiviazione effettiva potrebbe richiedere un tempo tecnico aggiuntivo in cui i fruitori continueranno a scambiare dati. Consulta la <1>documentazione</1> per avere altri dettagli."
     },
     "actions": {
       "back": "Indietro",
@@ -334,7 +334,7 @@
     "title": "Archivia versione",
     "content": {
       "description": "L’archiviazione avverrà il giorno <strong>{{date}}</strong>. Prima di questa data, la versione resterà attiva per consentire ai fruitori di adeguarsi. Potrai annullare l’archiviazione solo prima di questa data.",
-      "alert": "L’archiviazione effettiva potrebbe richiedere un tempo tecnico in cui i fruitori continueranno a scambiare dati. Consulta la <1>documentazione</1> per avere altri dettagli."
+      "alert": "L’archiviazione effettiva potrebbe richiedere un tempo tecnico aggiuntivo in cui i fruitori continueranno a scambiare dati. Consulta la <1>documentazione</1> per avere altri dettagli."
     }
   },
   "copyToClipboardButton": {
