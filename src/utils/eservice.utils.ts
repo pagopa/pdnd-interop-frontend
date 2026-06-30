@@ -126,7 +126,7 @@ export function getEServiceDescriptorAlertSpec(args: {
     }))
     .with({ state: 'ARCHIVED' }, () => ({
       severity: 'info',
-      content: t('archivedDescriptor', { date: archivedDate }),
+      content: t('archivedDescriptorNoConsumers'),
     }))
     .otherwise(() => undefined)
 }

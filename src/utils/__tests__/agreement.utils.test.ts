@@ -1,10 +1,14 @@
 import type { TFunction } from 'i18next'
-import { createMockAgreement } from '@/../__mocks__/data/agreement.mocks'
+import {
+  createMockAgreement,
+  createMockAgreementListingItem,
+} from '@/../__mocks__/data/agreement.mocks'
 import {
   canAgreementBeUpgraded,
   checkIfcanCreateAgreementDraft,
   checkIfhasAlreadyAgreementDraft,
   getConsumerAgreementVersionAlertSpec,
+  getRequesterObsoleteVersionAgreement,
   isNewEServiceVersionAvailable,
 } from '../agreement.utils'
 import {
@@ -259,17 +263,16 @@ describe('getConsumerAgreementVersionAlertSpec utility function testing', () => 
     expect(result[0].showSeeDetailsAction).toBeUndefined()
   })
 
-  it('returns two alerts with see-details for ARCHIVING + scope ESERVICE', () => {
+  it('returns a single warning alert with see-details for ARCHIVING + scope ESERVICE', () => {
     const result = getConsumerAgreementVersionAlertSpec({
       ...baseArgs,
       state: 'ARCHIVING',
       scope: 'ESERVICE',
       archivableOn: '2026-12-01T00:00:00.000Z',
     })
-    expect(result).toHaveLength(2)
+    expect(result).toHaveLength(1)
     expect(result[0]).toMatchObject({ severity: 'warning', showSeeDetailsAction: true })
     expect(result[0].content).toMatch(/^archivingEService:/)
-    expect(result[1]).toEqual({ severity: 'info', content: 'deprecatedActiveShort' })
   })
 
   it('returns single error alert for ARCHIVING_SUSPENDED + scope DESCRIPTOR', () => {
@@ -329,5 +332,98 @@ describe('getConsumerAgreementVersionAlertSpec utility function testing', () => 
 
   it('returns empty array for ARCHIVING without a scope (no matching branch)', () => {
     expect(getConsumerAgreementVersionAlertSpec({ ...baseArgs, state: 'ARCHIVING' })).toEqual([])
+  })
+})
+
+describe('getRequesterObsoleteVersionAgreement', () => {
+  it('returns no blocking agreement and no upgradeable id when the list is empty', () => {
+    expect(getRequesterObsoleteVersionAgreement([], 'organizationId')).toEqual({
+      hasBlockingAgreement: false,
+      upgradeableAgreementId: undefined,
+    })
+  })
+
+  it('ignores agreements that belong to other organizations', () => {
+    const result = getRequesterObsoleteVersionAgreement(
+      [
+        createMockAgreementListingItem({
+          id: 'other-id',
+          consumer: { id: 'another-org' },
+          state: 'ACTIVE',
+          canBeUpgraded: true,
+        }),
+      ],
+      'organizationId'
+    )
+    expect(result).toEqual({ hasBlockingAgreement: false, upgradeableAgreementId: undefined })
+  })
+
+  it('flags a blocking agreement when the requester has a non archived/rejected agreement', () => {
+    const result = getRequesterObsoleteVersionAgreement(
+      [
+        createMockAgreementListingItem({
+          id: 'agreement-id',
+          consumer: { id: 'organizationId' },
+          state: 'ACTIVE',
+          canBeUpgraded: false,
+        }),
+      ],
+      'organizationId'
+    )
+    expect(result).toEqual({ hasBlockingAgreement: true, upgradeableAgreementId: undefined })
+  })
+
+  it('does not flag a blocking agreement when the requester only has archived or rejected agreements', () => {
+    const result = getRequesterObsoleteVersionAgreement(
+      [
+        createMockAgreementListingItem({
+          id: 'archived-id',
+          consumer: { id: 'organizationId' },
+          state: 'ARCHIVED',
+          canBeUpgraded: false,
+        }),
+        createMockAgreementListingItem({
+          id: 'rejected-id',
+          consumer: { id: 'organizationId' },
+          state: 'REJECTED',
+          canBeUpgraded: false,
+        }),
+      ],
+      'organizationId'
+    )
+    expect(result).toEqual({ hasBlockingAgreement: false, upgradeableAgreementId: undefined })
+  })
+
+  it('returns the id of the requester upgradeable agreement', () => {
+    const result = getRequesterObsoleteVersionAgreement(
+      [
+        createMockAgreementListingItem({
+          id: 'upgradeable-id',
+          consumer: { id: 'organizationId' },
+          state: 'ACTIVE',
+          canBeUpgraded: true,
+        }),
+      ],
+      'organizationId'
+    )
+    expect(result).toEqual({
+      hasBlockingAgreement: true,
+      upgradeableAgreementId: 'upgradeable-id',
+    })
+  })
+
+  it('does not select a canBeUpgraded agreement whose state is not ACTIVE or SUSPENDED', () => {
+    const result = getRequesterObsoleteVersionAgreement(
+      [
+        createMockAgreementListingItem({
+          id: 'draft-id',
+          consumer: { id: 'organizationId' },
+          state: 'DRAFT',
+          canBeUpgraded: true,
+        }),
+      ],
+      'organizationId'
+    )
+    expect(result).toEqual({ hasBlockingAgreement: true, upgradeableAgreementId: undefined })
   })
 })

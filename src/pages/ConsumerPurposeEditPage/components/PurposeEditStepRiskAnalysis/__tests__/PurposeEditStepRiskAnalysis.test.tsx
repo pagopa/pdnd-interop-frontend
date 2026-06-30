@@ -24,6 +24,7 @@ vi.mock('@/router', () => ({
 
 vi.mock('@tanstack/react-query', async () => {
   const actual =
+    // eslint-disable-next-line @typescript-eslint/consistent-type-imports
     await vi.importActual<typeof import('@tanstack/react-query')>('@tanstack/react-query')
   return {
     ...actual,
@@ -63,6 +64,7 @@ type RiskAnalysisFormSpyProps = {
   onSubmit: (answers: Record<string, string[]>) => void
   onSaveDraft?: (answers: Record<string, string[]>) => void
   isRejected?: boolean
+  submitLabel?: string
 }
 
 const formSpy = vi.fn<[RiskAnalysisFormSpyProps], null>()
@@ -118,6 +120,8 @@ describe('PurposeEditStepRiskAnalysis', () => {
     expect(getLastFormProps().isReviewerApprovalMode).toBe(false)
     expect(getLastFormProps().onSaveDraft).toBeUndefined()
     expect(getLastFormProps().isRejected).toBeFalsy()
+    // the editable step 3 forward CTA reads "Salva bozza e prosegui", not "Vai al riepilogo"
+    expect(getLastFormProps().submitLabel).toBe('forwardWithSaveBtn')
   })
 
   it('passes isReviewerApprovalMode=true with onSaveDraft when reviewMode is ADMIN_WRITES_REVIEWER_SIGNS', () => {
@@ -152,7 +156,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
     expect(formSpy).not.toHaveBeenCalled()
     expect(screen.getByText('status.riskAnalysis.SUBMITTED')).toBeInTheDocument()
-    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle.SUBMITTED')).toBeInTheDocument()
+    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle')).toBeInTheDocument()
     // the compiled answers are shown as a read-only summary (question + given answer)
     expect(screen.getByText('Question 1')).toBeInTheDocument()
     expect(screen.getByText('option 1')).toBeInTheDocument()
@@ -174,7 +178,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
     expect(formSpy).not.toHaveBeenCalled()
     expect(screen.getByText('status.riskAnalysis.SIGNED')).toBeInTheDocument()
-    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle.SIGNED')).toBeInTheDocument()
+    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle')).toBeInTheDocument()
   })
 
   it('in option 2 rejected keeps the form editable, flags the rejected alert and stays in approval mode', () => {
@@ -208,8 +212,9 @@ describe('PurposeEditStepRiskAnalysis', () => {
     )
 
     expect(formSpy).not.toHaveBeenCalled()
-    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle.ASSIGNED')).toBeInTheDocument()
+    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle')).toBeInTheDocument()
     expect(screen.getByText('status.riskAnalysis.ASSIGNED')).toBeInTheDocument()
+    expect(screen.getByText('stepRiskAnalysis.reviewerWritesReviewerSigns')).toBeInTheDocument()
     // everything but the info card is hidden: no answers summary, no editable form
     expect(screen.queryByText('Question 1')).not.toBeInTheDocument()
   })
@@ -230,7 +235,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
     expect(formSpy).not.toHaveBeenCalled()
     expect(screen.getByText('status.riskAnalysis.SIGNED')).toBeInTheDocument()
-    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle.SIGNED')).toBeInTheDocument()
+    expect(screen.getByText('stepRiskAnalysis.readOnlySubtitle')).toBeInTheDocument()
     // the values compiled by the reviewer are visible in the read-only summary
     expect(screen.getByText('Question 1')).toBeInTheDocument()
     expect(screen.getByText('option 1')).toBeInTheDocument()
@@ -301,9 +306,11 @@ describe('PurposeEditStepRiskAnalysis', () => {
   })
 
   it('in option 2 opens the requestPurposeApproval dialog and the dialog onConfirm runs the submit+navigate chain', () => {
+    const reviewer = { userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' }
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
       reviewerIds: ['reviewer-1'],
+      reviewers: [reviewer],
       signingState: 'DRAFT',
     })
     const riskAnalysis = createMockRiskAnalysisFormConfig()
@@ -321,11 +328,9 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
     expect(openDialogMock).toHaveBeenCalledTimes(1)
     const dialogPayload = openDialogMock.mock.calls[0][0]
-    // TODO: assert the real reviewer once the BE returns reviewers as CompactUser[];
-    // for now the component builds a placeholder from reviewerIds[0].
     expect(dialogPayload).toMatchObject({
       type: 'requestPurposeApproval',
-      reviewer: { userId: 'reviewer-1', name: '', familyName: '' },
+      reviewer,
     })
     expect(typeof dialogPayload.onConfirm).toBe('function')
 
@@ -355,6 +360,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
       reviewerIds: [],
+      reviewers: [],
       signingState: 'DRAFT',
     })
     mockQueries(purpose, createMockRiskAnalysisFormConfig())
@@ -367,6 +373,28 @@ describe('PurposeEditStepRiskAnalysis', () => {
     expect(openDialogMock).not.toHaveBeenCalled()
 
     consoleErrorSpy.mockRestore()
+  })
+
+  it('in option 2 still opens the dialog when reviewerIds is present but reviewers is not yet populated (staggered BE release)', () => {
+    const purpose = buildPurpose({
+      reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+      reviewerIds: ['reviewer-1'],
+      reviewers: [],
+      signingState: 'DRAFT',
+    })
+    mockQueries(purpose, createMockRiskAnalysisFormConfig())
+
+    render(<PurposeEditStepRiskAnalysis back={vi.fn()} forward={vi.fn()} activeStep={2} />)
+
+    getLastFormProps().onSubmit({ purpose: ['OTHER'] })
+
+    // The missing reviewers[] must not block the admin: the dialog opens with a placeholder
+    // reviewer built from reviewerId (name + surname simply unavailable until the BE backfills).
+    expect(openDialogMock).toHaveBeenCalledTimes(1)
+    expect(openDialogMock.mock.calls[0][0]).toMatchObject({
+      type: 'requestPurposeApproval',
+      reviewer: { userId: 'reviewer-1', name: '', familyName: '' },
+    })
   })
 
   it('in option 2 the draft save only persists and navigates without submitting', () => {

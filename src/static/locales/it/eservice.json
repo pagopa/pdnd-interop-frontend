@@ -643,6 +643,7 @@
       "archivingEService": "Questo e-service è in fase di archiviazione, ma è ancora attivo. Sarà archiviato automaticamente il giorno {{date}}.",
       "archivingSuspendedDescriptor": "Questa versione dell’e-service è in fase di archiviazione ed è al momento sospesa. Sarà archiviata automaticamente il giorno {{date}}.",
       "archivedDescriptor": "Questa versione dell’e-service è stata archiviata il giorno {{date}}.",
+      "archivedDescriptorNoConsumers": "Questa versione è archiviata. Nessun fruitore può accedere ai dati erogati.",
       "archivingSuspendedEService": "Questa versione è al momento sospesa. L’e-service è in fase di archiviazione e sarà archiviato automaticamente il giorno {{date}}.",
       "archivedEService": "Questo e-service è stato archiviato definitivamente il giorno {{date}}.",
       "missingProducerKeychain": "L’erogatore non ha ancora collegato il portachiavi a questo e-service asincrono. Lo scambio dati non è al momento disponibile.",
@@ -656,8 +657,8 @@
       "intro": "Cosa succede con la sospensione:",
       "bullets": {
         "suspended": "la versione non potrà essere utilizzata e resterà disattiva fino a un’eventuale riattivazione;",
-        "archivingNotAffected": "la sospensione <strong>non modifica</strong> l’archiviazione già avviata per l’e-service e <strong>non interrompe</strong> il periodo di preavviso;",
-        "archivedAfterNotice": "dopo il periodo di preavviso, l’e-service e tutte le sue versioni saranno archiviate definitivamente."
+        "archivingNotAffected": "la sospensione <strong>non modifica</strong> e <strong>non interrompe</strong> l’archiviazione già avviata per l’e-service;",
+        "archivedAfterNotice": "dopo l’archiviazione, non potrai più riattivare l’e-service e tutte le sue versioni."
       }
     },
     "dialogReactivateArchivingEservice": {
@@ -665,8 +666,8 @@
       "intro": "Cosa succede con la riattivazione:",
       "bullets": {
         "usableAgain": "la versione torna a essere utilizzabile, ma l’e-service resta in fase di archiviazione;",
-        "archivingNotAffected": "la riattivazione <strong>non modifica</strong> l’archiviazione già avviata per l’e-service e <strong>non interrompe</strong> il periodo di preavviso;",
-        "archivedAfterNotice": "dopo il periodo di preavviso, l’e-service e tutte le sue versioni saranno archiviate definitivamente."
+        "archivingNotAffected": "la riattivazione <strong>non modifica</strong> e <strong>non interrompe</strong> l’archiviazione già avviata per l’e-service;",
+        "archivedAfterNotice": "dopo l’archiviazione, non potrai più riattivare l’e-service e tutte le sue versioni."
       },
       "proceedLabel": "Riattiva"
     },
@@ -675,7 +676,7 @@
       "intro": "Cosa succede con la sospensione:",
       "bullets": {
         "suspended": "la versione non potrà essere utilizzata e resterà sospesa fino a un’eventuale riattivazione;",
-        "archivingNotAffected": "la sospensione <strong>non modifica</strong> l’archiviazione già avviata per questa versione e <strong>non interrompe</strong> il periodo di preavviso;",
+        "archivingNotAffected": "la sospensione <strong>non modifica</strong> e <strong>non interrompe</strong> l’archiviazione già avviata per questa versione;",
         "archivedAfterNotice": "dopo il periodo di preavviso, la versione sarà archiviata definitivamente."
       }
     },
@@ -684,7 +685,7 @@
       "intro": "Cosa succede con la riattivazione:",
       "bullets": {
         "usableAgain": "la versione torna a essere utilizzabile, pur restando in fase di archiviazione;",
-        "archivingNotAffected": "la riattivazione <strong>non modifica</strong> l’archiviazione già avviata per questa versione e <strong>non interrompe</strong> il periodo di preavviso;",
+        "archivingNotAffected": "la riattivazione <strong>non modifica</strong> e <strong>non interrompe</strong> l’archiviazione già avviata per questa versione;",
         "archivedAfterNotice": "dopo il periodo di preavviso, la versione sarà archiviata definitivamente."
       },
       "proceedLabel": "Riattiva"
@@ -1196,6 +1197,7 @@
     "subscribe": "Richiedi fruizione",
     "editDraft": "Completa richiesta",
     "inspect": "Visualizza richiesta",
+    "upgradeToNewVersion": "Aggiorna a nuova versione",
     "eserviceSuspendedTooltip": "Non è attualmente possibile presentare nuove richieste, l’e-service è sospeso",
     "missingCertifiedAttributesTooltip": "Il tuo ente non ha gli attributi certificati necessari per iscriversi"
   },

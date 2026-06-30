@@ -1,5 +1,5 @@
 import { EServiceMutations } from '@/api/eservice'
-import { DOCUMENTATION_URL, GRACE_PERIOD_ARCHIVING_ESERVICE } from '@/config/env'
+import { DOCUMENTATION_URL, GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS } from '@/config/env'
 import { useDialog } from '@/stores'
 import type { DialogArchiveVersionProps } from '@/types/dialog.types'
 import { calculateArchivableOn } from '@/utils/eservice.utils'
@@ -39,7 +39,7 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
     scheduleArchive({ eserviceId, descriptorId }, { onSuccess: closeDialog })
   }
 
-  const archiveDate = calculateArchivableOn(new Date(), GRACE_PERIOD_ARCHIVING_ESERVICE)
+  const archiveDate = calculateArchivableOn(new Date(), GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS)
   const formattedArchiveDate = formatDateStringNumeric(archiveDate)
 
   return (

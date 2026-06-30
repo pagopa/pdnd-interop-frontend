@@ -71,7 +71,7 @@ export const DialogRejectRiskAnalysis: React.FC<DialogRejectRiskAnalysisProps> =
               name="rejectionReason"
               label={t('reasonField.label')}
               infoLabel={t('reasonField.infoLabel')}
-              focusOnMount
+              required
               multiline
               inputProps={{ maxLength: 250 }}
               rules={{ required: true, minLength: 10 }}
@@ -87,7 +87,13 @@ export const DialogRejectRiskAnalysis: React.FC<DialogRejectRiskAnalysisProps> =
             >
               {t('actions.cancel')}
             </Button>
-            <Button variant="contained" type="submit" disabled={isPending}>
+            <Button
+              variant="contained"
+              type="submit"
+              color="error"
+              sx={{ color: 'common.white' }}
+              disabled={isPending}
+            >
               {t('actions.confirm')}
             </Button>
           </DialogActions>

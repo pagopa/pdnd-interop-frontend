@@ -43,7 +43,7 @@ describe('ConsumerAgreementVersionAlerts', () => {
     expect(screen.queryByRole('button', { name: 'seeDetails' })).toBeNull()
   })
 
-  it('renders two alerts and a see-details button when state is ARCHIVING + scope ESERVICE', () => {
+  it('renders a single warning alert and a see-details button when state is ARCHIVING + scope ESERVICE', () => {
     renderAlerts(
       createMockEServiceDescriptorCatalog({
         state: 'ARCHIVING',
@@ -51,9 +51,8 @@ describe('ConsumerAgreementVersionAlerts', () => {
       })
     )
     const alerts = screen.getAllByRole('alert')
-    expect(alerts).toHaveLength(2)
+    expect(alerts).toHaveLength(1)
     expect(alerts[0]).toHaveClass(/MuiAlert-standardWarning/)
-    expect(alerts[1]).toHaveClass(/MuiAlert-standardInfo/)
     expect(screen.getByRole('button', { name: 'seeDetails' })).toBeInTheDocument()
   })
 
