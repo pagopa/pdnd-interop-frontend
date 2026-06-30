@@ -39,7 +39,10 @@ const serializeParams = (query: Record<string, unknown>) => {
       .filter(([, value]) => value !== undefined && value !== null)
       .map(([key, value]) =>
         Array.isArray(value)
-          ? `${encodeQueryParam(key)}=${value.map(encodeQueryParam).join(',')}`
+          ? `${encodeQueryParam(key)}=${value
+              .filter((arrayValue) => arrayValue !== undefined && arrayValue !== null)
+              .map(encodeQueryParam)
+              .join(',')}`
           : `${encodeQueryParam(key)}=${encodeQueryParam(value)}`
       )
       .join('&')

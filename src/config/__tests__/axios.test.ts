@@ -7,13 +7,16 @@ describe('axios params serializer', () => {
       url: '/catalog',
       params: {
         q: '% & "\'',
-        states: ['PUBLISHED', 'DRAFT'],
+        states: ['PUBLISHED', undefined, null, 'DRAFT'],
+        eserviceIds: [undefined],
         offset: 0,
         empty: '',
         omitted: undefined,
       },
     })
 
-    expect(uri).toBe('/catalog?q=%25%20%26%20%22%27&states=PUBLISHED,DRAFT&offset=0&empty=')
+    expect(uri).toBe(
+      '/catalog?q=%25%20%26%20%22%27&states=PUBLISHED,DRAFT&eserviceIds=&offset=0&empty='
+    )
   })
 })
