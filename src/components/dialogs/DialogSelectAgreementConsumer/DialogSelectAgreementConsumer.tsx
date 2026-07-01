@@ -158,11 +158,11 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
     .with('create', () => () => onSubmitCreate({ isOwnEService, delegationId }))
     .exhaustive()
 
-  const isButtonActionDisable = match(action)
+  const isConfirmDisabledWithoutSupport = match(action)
     .with('create', () => isQueryEnabled && !isLoading && !hasTenantCertifiedAttributes)
     .with(P.union('edit', 'inspect'), () => !selectedConsumerId)
     .exhaustive()
-  const isButtonActionDisabled = useIsActionDisabledBySupport(isButtonActionDisable)
+  const isConfirmDisabled = useIsActionDisabledBySupport(isConfirmDisabledWithoutSupport)
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} maxWidth="md" fullWidth>
@@ -202,7 +202,7 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
             <Button type="button" variant="outlined" onClick={closeDialog}>
               {tCommon('cancel')}
             </Button>
-            <Button variant="contained" type="submit" disabled={isButtonActionDisabled}>
+            <Button variant="contained" type="submit" disabled={isConfirmDisabled}>
               {t(`actions.${action}`)}
             </Button>
           </DialogActions>
