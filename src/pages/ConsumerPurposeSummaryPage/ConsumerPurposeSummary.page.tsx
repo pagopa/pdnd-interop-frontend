@@ -71,12 +71,16 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
       checkIncompatibleAnswerValue()) ||
     (isEserviceDeliverMode && isRulesetExpired)
 
+  const isRiskAnalysisNotCompiled = isEserviceDeliverMode && !purpose?.riskAnalysisForm
+
   // Tooltip explaining why "Publish" is disabled, with the personal-data reason taking precedence.
   let publishDisabledTooltip = ''
   if (isPublishButtonDisabled) {
     publishDisabledTooltip = t('summary.publishBtnDisabled')
   } else if (isPublishDisabledByReview) {
     publishDisabledTooltip = t('summary.publishBtnDisabledByReview')
+  } else if (isRiskAnalysisNotCompiled) {
+    publishDisabledTooltip = t('summary.publishBtnDisabledNotCompiled')
   }
 
   const arePublishOrEditButtonsDisabled =
@@ -214,7 +218,8 @@ const ConsumerPurposeSummaryPage: React.FC = () => {
                 disabled={
                   arePublishOrEditButtonsDisabled ||
                   isPublishButtonDisabled ||
-                  isPublishDisabledByReview
+                  isPublishDisabledByReview ||
+                  isRiskAnalysisNotCompiled
                 }
                 startIcon={<PublishIcon />}
                 variant="contained"

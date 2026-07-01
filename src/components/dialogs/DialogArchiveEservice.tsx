@@ -1,5 +1,5 @@
 import { EServiceMutations } from '@/api/eservice'
-import { DOCUMENTATION_URL, GRACE_PERIOD_ARCHIVING_ESERVICE } from '@/config/env'
+import { DOCUMENTATION_URL, GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS } from '@/config/env'
 import { useDialog } from '@/stores'
 import type { DialogArchiveEserviceProps } from '@/types/dialog.types'
 import { formatDateStringNumeric } from '@/utils/format.utils'
@@ -58,7 +58,7 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
     scheduleArchive({ eserviceId, archivingReason: reason }, { onSuccess: closeDialog })
   }
 
-  const archiveDate = calculateArchivableOn(new Date(), GRACE_PERIOD_ARCHIVING_ESERVICE)
+  const archiveDate = calculateArchivableOn(new Date(), GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS)
   const formattedArchiveDate = formatDateStringNumeric(archiveDate)
   const isForwardActionDisabled = useIsActionDisabledBySupport()
 
@@ -72,7 +72,7 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
       <FormProvider {...formMethods}>
         <DialogContent>
           {activeStep === 'ADVISE' && (
-            <Typography variant="body2">
+            <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
               <Trans
                 components={{
                   strong: <Typography component="span" variant="inherit" fontWeight={600} />,

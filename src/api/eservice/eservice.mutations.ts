@@ -8,7 +8,7 @@ import type {
 import { EServiceServices } from './eservice.services'
 import { EServiceQueries } from './eservice.queries'
 import type { AttributeKey } from '@/types/attribute.types'
-import { GRACE_PERIOD_ARCHIVING_ESERVICE } from '@/config/env'
+import { GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS } from '@/config/env'
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createDraft' })
@@ -209,7 +209,7 @@ function useScheduleArchiveDescriptor() {
   return useMutation({
     mutationFn: EServiceServices.scheduleArchiveDescriptor,
     meta: {
-      successToastLabel: t('outcome.success', { days: GRACE_PERIOD_ARCHIVING_ESERVICE }),
+      successToastLabel: t('outcome.success', { days: GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS }),
       errorToastLabel: t('outcome.error'),
     },
   })
@@ -235,7 +235,7 @@ function useScheduleArchiveEservice() {
   return useMutation({
     mutationFn: EServiceServices.scheduleArchiveEservice,
     meta: {
-      successToastLabel: t('outcome.success', { days: GRACE_PERIOD_ARCHIVING_ESERVICE }),
+      successToastLabel: t('outcome.success', { days: GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS }),
       errorToastLabel: t('outcome.error'),
     },
   })

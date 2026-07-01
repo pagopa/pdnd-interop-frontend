@@ -14,6 +14,7 @@ import { StepActions } from '@/components/shared/StepActions'
 import { RiskAnalysisInfoSummary } from '@/components/shared/RiskAnalysisInfoSummary'
 import { match, P } from 'ts-pattern'
 import { useDialog } from '@/stores'
+import { Alert } from '@mui/material'
 
 import { useQuery } from '@tanstack/react-query'
 
@@ -140,7 +141,6 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
   const handleRequestApproval = (answers: Record<string, string[]>) => {
     const reviewerId = purpose.reviewerWorkflow?.reviewerIds?.[0]
     if (!reviewerId) {
-      // BE contract: option 2 always assigns at least one reviewer.
       // If we land here the purpose is malformed;
       // log loudly and no-op rather than crashing the route —
       // this is a UI action handler, not a place to throw to the ErrorBoundary.
@@ -149,9 +149,12 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
       )
       return
     }
-    // TODO: replace with `purpose.reviewerWorkflow.reviewers[0]` once the BE
-    // updates ReviewerWorkflow to return CompactUser[] instead of reviewerIds.
-    const reviewer: CompactUser = { userId: reviewerId, name: '', familyName: '' }
+
+    const reviewer: CompactUser = purpose.reviewerWorkflow?.reviewers?.[0] ?? {
+      userId: reviewerId,
+      name: '',
+      familyName: '',
+    }
     openDialog({
       type: 'requestPurposeApproval',
       reviewer,
@@ -184,7 +187,7 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
         <SectionContainer
           title={t('stepRiskAnalysis.title')}
           titleEndAdornment={<StatusChip for="riskAnalysis" state={lockedState} size="small" />}
-          description={t(`stepRiskAnalysis.readOnlySubtitle.${lockedState}`)}
+          description={t(`stepRiskAnalysis.readOnlySubtitle`)}
           sx={{ mb: 2 }}
         >
           <InformationContainer
@@ -194,6 +197,11 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
             )}
           />
         </SectionContainer>
+        {stepMode.kind === 'awaiting-compilation' && (
+          <Alert severity="info" sx={{ mb: 2 }}>
+            {t('stepRiskAnalysis.reviewerWritesReviewerSigns')}
+          </Alert>
+        )}
         {stepMode.kind === 'read-only' && purpose.riskAnalysisForm && (
           <RiskAnalysisInfoSummary
             riskAnalysisConfig={riskAnalysis}
@@ -232,6 +240,7 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
       isSubmitting={isSaving || isSubmittingForReviewer}
       isRejected={isRejected}
       rejectionReason={purpose.reviewerWorkflow?.rejectionReason}
+      submitLabel={t('forwardWithSaveBtn')}
     />
   )
 }

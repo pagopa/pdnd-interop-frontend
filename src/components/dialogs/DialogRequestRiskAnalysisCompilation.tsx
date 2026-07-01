@@ -27,7 +27,9 @@ export const DialogRequestRiskAnalysisCompilation: React.FC<
 
   const { closeDialog } = useDialog()
   const navigate = useNavigate()
-  const { mutate: assignReviewer, isPending } = PurposeMutations.useAssignRiskAnalysisReviewer()
+  const { mutate: assignReviewer, isPending } = PurposeMutations.useAssignRiskAnalysisReviewer({
+    showSuccessToast: true,
+  })
   const isConfirmDisabled = useIsActionDisabledBySupport(isPending)
 
   const handleConfirm = () => {
