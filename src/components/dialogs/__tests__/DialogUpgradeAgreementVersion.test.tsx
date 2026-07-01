@@ -5,13 +5,15 @@ import { DialogUpgradeAgreementVersion } from '../DialogUpgradeAgreementVersion'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockAgreement } from '@/../__mocks__/data/agreement.mocks'
 import { SupportActionGuardProvider } from '@/hooks/useIsActionDisabledBySupport'
-import { AgreementMutations } from '@/api/agreement'
 
-const mockUpgradeAgreement = vi.fn()
+const { mockUpgradeAgreement, mockUseUpgrade } = vi.hoisted(() => ({
+  mockUpgradeAgreement: vi.fn(),
+  mockUseUpgrade: vi.fn(),
+}))
 
 vi.mock('@/api/agreement', () => ({
   AgreementMutations: {
-    useUpgrade: vi.fn(),
+    useUpgrade: mockUseUpgrade,
   },
 }))
 
@@ -37,9 +39,9 @@ function renderDialog({ isSupport = false }: { isSupport?: boolean } = {}) {
 describe('DialogUpgradeAgreementVersion', () => {
   beforeEach(() => {
     vi.clearAllMocks()
-    vi.mocked(AgreementMutations.useUpgrade).mockReturnValue({
+    mockUseUpgrade.mockReturnValue({
       mutate: mockUpgradeAgreement,
-    } as ReturnType<typeof AgreementMutations.useUpgrade>)
+    })
   })
 
   it('enables the upgrade action only after all confirmation checkboxes are selected', async () => {
