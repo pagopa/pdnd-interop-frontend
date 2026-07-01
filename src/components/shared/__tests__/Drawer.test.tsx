@@ -4,6 +4,7 @@ import { Drawer } from '../Drawer'
 import { beforeEach, vi } from 'vitest'
 import { Typography } from '@mui/material'
 import { SupportActionGuardProvider } from '@/hooks/useIsActionDisabledBySupport'
+import userEvent from '@testing-library/user-event'
 
 describe('Drawer test', () => {
   beforeEach(() => {
@@ -35,5 +36,27 @@ describe('Drawer test', () => {
     )
 
     expect(screen.getByRole('button', { name: 'Confirm' })).toBeDisabled()
+  })
+
+  it('should explain when the action button is disabled for support users', async () => {
+    const user = userEvent.setup()
+
+    render(
+      <SupportActionGuardProvider isSupport>
+        <Drawer
+          isOpen
+          onClose={vi.fn()}
+          title="test title"
+          buttonAction={{ label: 'Confirm', action: vi.fn() }}
+        >
+          <Typography>TEST CHILDREN</Typography>
+        </Drawer>
+      </SupportActionGuardProvider>
+    )
+
+    const confirmButton = screen.getByRole('button', { name: 'Confirm' })
+    await user.hover(confirmButton.parentElement!)
+
+    expect(await screen.findByText('supportDisableInfo')).toBeVisible()
   })
 })

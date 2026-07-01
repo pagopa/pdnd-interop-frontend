@@ -15,7 +15,11 @@ export const SupportActionGuardProvider: React.FC<SupportActionGuardProviderProp
 }
 
 export function useIsActionDisabledBySupport(disabled?: boolean) {
-  const isSupport = React.useContext(SupportActionGuardContext)
+  const isSupport = useIsSupportActionGuardEnabled()
 
   return isSupport ? true : disabled
+}
+
+export function useIsSupportActionGuardEnabled() {
+  return React.useContext(SupportActionGuardContext)
 }
