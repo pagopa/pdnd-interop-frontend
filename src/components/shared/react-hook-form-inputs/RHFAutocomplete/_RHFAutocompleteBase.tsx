@@ -159,7 +159,7 @@ export function _RHFAutocompleteBase<
                 />
               )
             }}
-            renderOption={(props, value, { inputValue }) => {
+            renderOption={(props, value, { inputValue, selected }) => {
               const label = value.label
               if (!label) return null
 
@@ -167,7 +167,7 @@ export function _RHFAutocompleteBase<
               const parts = parse(label, matches)
 
               return (
-                <li {...props}>
+                <li {...props} aria-selected={selected}>
                   <div>
                     {parts.map((part, i) => (
                       <Typography
