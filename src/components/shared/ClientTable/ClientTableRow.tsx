@@ -1,5 +1,6 @@
 import type { ClientKind, CompactClient } from '@/api/api.generatedTypes'
 import { ClientQueries } from '@/api/client'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import useGetClientActions from '@/hooks/useGetClientActions'
 import { Link } from '@/router'
 import { Box, Skeleton, Stack } from '@mui/material'
@@ -23,7 +24,10 @@ export const ClientTableRow: React.FC<ClientTableRowProps> = ({ client, clientKi
   const { actions } = useGetClientActions(client)
 
   const handlePrefetch = () => {
-    queryClient.prefetchQuery(ClientQueries.getSingle(client.id))
+    queryClient.prefetchQuery({
+      ...ClientQueries.getSingle(client.id),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   const clientName = (

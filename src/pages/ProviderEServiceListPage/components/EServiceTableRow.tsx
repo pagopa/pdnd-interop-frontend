@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from '@/router'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { EServiceQueries } from '@/api/eservice'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
 import { TableRow } from '@pagopa/interop-fe-commons'
@@ -56,13 +57,17 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
 
   const handlePrefetch = () => {
     if (isEServiceEditable) {
-      queryClient.prefetchQuery(EServiceQueries.getSingle(eservice.id))
+      queryClient.prefetchQuery({
+        ...EServiceQueries.getSingle(eservice.id),
+        staleTime: PREFETCH_STALE_TIME,
+      })
       return
     }
     if (!eservice.activeDescriptor) return
-    queryClient.prefetchQuery(
-      EServiceQueries.getDescriptorProvider(eservice.id, eservice.activeDescriptor.id)
-    )
+    queryClient.prefetchQuery({
+      ...EServiceQueries.getDescriptorProvider(eservice.id, eservice.activeDescriptor.id),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   const actions = [
