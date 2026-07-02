@@ -5,7 +5,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import type { InputOption } from '@/types/common.types'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
-import { mapValidationErrorMessages } from '@/utils/form.utils'
+import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 
 export type RHFCheckboxGroupProps = {
   sx?: SxProps
@@ -35,10 +35,15 @@ export const RHFCheckboxGroup: React.FC<RHFCheckboxGroupProps> = ({
 
   const error = formState.errors[name]?.message as string | undefined
 
+  const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
+    infoLabel,
+    error,
+  })
+
   return (
-    <InputWrapper component="fieldset" error={error} sx={sx} infoLabel={infoLabel}>
+    <InputWrapper component="fieldset" error={error} sx={sx} infoLabel={infoLabel} {...ids}>
       <FormLabel component="legend">{label}</FormLabel>
-      <FormGroup>
+      <FormGroup {...accessibilityProps} data-testId="checkbox-group">
         <Controller
           name={name}
           rules={mapValidationErrorMessages(rules, t)}
