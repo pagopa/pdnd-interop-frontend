@@ -64,7 +64,7 @@ export const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = (
 
       // Plain text: this value comes from a text field
       if (visualType === 'text') {
-        return { question, answer: answerValue[0] }
+        return { question, answer: answerValue[0], questionInfoLabel }
       }
 
       // Multiple options: this value comes from a multiple choice checkbox
