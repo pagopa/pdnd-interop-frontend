@@ -1,5 +1,6 @@
 import { EServiceMutations } from '@/api/eservice'
-import { DOCUMENTATION_URL, GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS } from '@/config/env'
+import { GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS } from '@/config/env'
+import { archivingGuideLink } from '@/config/constants'
 import { useDialog } from '@/stores'
 import type { DialogArchiveEserviceProps } from '@/types/dialog.types'
 import { formatDateStringNumeric } from '@/utils/format.utils'
@@ -104,7 +105,7 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
           <Alert severity="info" sx={{ mt: 4 }}>
             <Trans
               components={{
-                1: <Link underline="hover" href={DOCUMENTATION_URL} target="_blank" />,
+                1: <Link underline="hover" href={archivingGuideLink} target="_blank" />,
               }}
             >
               {t('content.alert')}
