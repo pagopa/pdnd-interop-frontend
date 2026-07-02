@@ -25,9 +25,11 @@ import { AuthHooks } from '@/api/auth'
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
-  const { isViewer } = AuthHooks.useJwt()
+  const { isAdmin, isSupport, isOperatorSecurity, isViewer } = AuthHooks.useJwt()
 
   const { activeTab, updateActiveTab } = useActiveTab('eserviceDetails')
+  const canViewKeychains = isAdmin || isSupport || isOperatorSecurity
+  const selectedTab = canViewKeychains ? activeTab : 'eserviceDetails'
   const { openDialog } = useDialog()
   const {
     isOpen: isVersionSelectorDrawerOpen,
@@ -40,6 +42,12 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   )
 
   useMarkNotificationsAsRead(`${eserviceId}/${descriptorId}`)
+
+  React.useEffect(() => {
+    if (!canViewKeychains && activeTab === 'keychains') {
+      updateActiveTab(null, 'eserviceDetails')
+    }
+  }, [activeTab, canViewKeychains, updateActiveTab])
 
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 
@@ -132,22 +140,24 @@ const ProviderEServiceDetailsPage: React.FC = () => {
     >
       <ProviderEServiceDetailsAlerts
         descriptor={descriptor}
-        onViewKeychains={isViewer ? undefined : handleViewKeychains}
+        onViewKeychains={canViewKeychains ? handleViewKeychains : undefined}
       />
       {!isViewer ? (
-        <TabContext value={activeTab}>
+        <TabContext value={selectedTab}>
           <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
             <Tab label={t('tabs.eserviceDetails')} value="eserviceDetails" />
-            <Tab label={t('tabs.keychain')} value="keychains" />
+            {canViewKeychains && <Tab label={t('tabs.keychain')} value="keychains" />}
           </TabList>
 
           <TabPanel value="eserviceDetails">
             <ProviderEserviceDetailsTab />
           </TabPanel>
 
-          <TabPanel value="keychains">
-            <ProviderEserviceKeychainsTab />
-          </TabPanel>
+          {canViewKeychains && (
+            <TabPanel value="keychains">
+              <ProviderEserviceKeychainsTab />
+            </TabPanel>
+          )}
         </TabContext>
       ) : (
         <ProviderEserviceDetailsTab />
