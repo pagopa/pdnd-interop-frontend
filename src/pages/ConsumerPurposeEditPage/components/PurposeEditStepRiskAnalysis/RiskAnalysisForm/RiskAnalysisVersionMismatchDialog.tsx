@@ -1,6 +1,7 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 type RiskAnalysisVersionMismatchDialogProps = {
   onProceed: VoidFunction
@@ -15,6 +16,7 @@ export const RiskAnalysisVersionMismatchDialog: React.FC<
   })
   const ariaLabelId = React.useId()
   const ariaDescriptionId = React.useId()
+  const isProceedDisabled = useIsActionDisabledBySupport()
 
   return (
     <Dialog open aria-labelledby={ariaLabelId} aria-describedby={ariaDescriptionId}>
@@ -26,7 +28,7 @@ export const RiskAnalysisVersionMismatchDialog: React.FC<
         <Button variant="outlined" onClick={onRefuse}>
           {t('cancelButtonLabel')}
         </Button>
-        <Button variant="contained" onClick={onProceed}>
+        <Button variant="contained" disabled={isProceedDisabled} onClick={onProceed}>
           {t('proceedButtonLabel')}
         </Button>
       </DialogActions>

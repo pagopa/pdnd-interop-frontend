@@ -17,6 +17,7 @@ import { RequiredTextLabel } from '../shared/RequiredTextLabel'
 import { FormProvider, useForm } from 'react-hook-form'
 import type { RiskAnalysisRejectionSeed } from '@/api/api.generatedTypes'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 export const DialogRejectRiskAnalysis: React.FC<DialogRejectRiskAnalysisProps> = ({
   purposeId,
@@ -29,6 +30,7 @@ export const DialogRejectRiskAnalysis: React.FC<DialogRejectRiskAnalysisProps> =
   const { closeDialog } = useDialog()
   const navigate = useNavigate()
   const { mutate: rejectRiskAnalysis, isPending } = PurposeMutations.useRejectRiskAnalysis()
+  const isConfirmDisabled = useIsActionDisabledBySupport(isPending)
 
   const formMethods = useForm<RiskAnalysisRejectionSeed>({
     defaultValues: { rejectionReason: '' },
@@ -92,7 +94,7 @@ export const DialogRejectRiskAnalysis: React.FC<DialogRejectRiskAnalysisProps> =
               type="submit"
               color="error"
               sx={{ color: 'common.white' }}
-              disabled={isPending}
+              disabled={isConfirmDisabled}
             >
               {t('actions.confirm')}
             </Button>

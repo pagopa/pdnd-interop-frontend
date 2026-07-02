@@ -104,7 +104,8 @@
       "cancelLabel": "Annulla",
       "upgrade": {
         "label": "Aggiorna",
-        "notAllCheckboxCheckedTooltip": "Per poter aggiornare, spunta tutte le caselle di controllo sopra"
+        "notAllCheckboxCheckedTooltip": "Per poter aggiornare, spunta tutte le caselle di controllo sopra",
+        "supportDisableInfo": "L'utenza di assistenza non è abilitata ad aggiornare l'accordo"
       }
     }
   },
@@ -452,7 +453,8 @@
   },
   "drawer": {
     "closeIconAriaLabel": "Chiudi il drawer",
-    "updateLabel": "Aggiorna"
+    "updateLabel": "Aggiorna",
+    "supportDisableInfo": "L'utenza di assistenza non è abilitata a eseguire questa azione"
   },
   "configureCertifiedDiscreteAttributeDrawer": {
     "title": "Configura attributo",

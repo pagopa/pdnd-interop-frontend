@@ -104,7 +104,8 @@
       "cancelLabel": "Cancel",
       "upgrade": {
         "label": "Update",
-        "notAllCheckboxCheckedTooltip": "To be able to update, check all the boxes above"
+        "notAllCheckboxCheckedTooltip": "To be able to update, check all the boxes above",
+        "supportDisableInfo": "The support account is not enabled to update the agreement"
       }
     }
   },
@@ -453,7 +454,8 @@
   },
   "drawer": {
     "closeIconAriaLabel": "Close drawer",
-    "updateLabel": "Update"
+    "updateLabel": "Update",
+    "supportDisableInfo": "The support account is not enabled to perform this action"
   },
   "configureCertifiedDiscreteAttributeDrawer": {
     "title": "Configure attribute",

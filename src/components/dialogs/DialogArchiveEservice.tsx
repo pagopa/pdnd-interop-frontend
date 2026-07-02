@@ -21,6 +21,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { RequiredTextLabel } from '../shared/RequiredTextLabel'
 import { calculateArchivableOn } from '@/utils/eservice.utils'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 type ArchiveReasonFormValue = {
   reason: string
@@ -59,6 +60,7 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
 
   const archiveDate = calculateArchivableOn(new Date(), GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS)
   const formattedArchiveDate = formatDateStringNumeric(archiveDate)
+  const isForwardActionDisabled = useIsActionDisabledBySupport()
 
   const formMethods = useForm<ArchiveReasonFormValue>({
     defaultValues: { reason: '' },
@@ -119,6 +121,7 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
           <Button
             variant="contained"
             color={activeStep === 'ADVISE' ? 'primary' : 'error'}
+            disabled={isForwardActionDisabled}
             onClick={
               activeStep === 'ADVISE' ? handleForwardAction : formMethods.handleSubmit(onSubmit)
             }
