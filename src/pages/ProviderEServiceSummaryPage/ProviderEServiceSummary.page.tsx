@@ -571,7 +571,7 @@ const PublishButton: React.FC<PublishButtonProps> = ({ disabled, onClick, toolti
           tabIndex={0}
           role="button"
           aria-disabled="true"
-          aria-label={`${buttonLabel} - ${tooltipTitle}`}
+          aria-label={tooltipTitle ? `${buttonLabel} - ${tooltipTitle}` : `${buttonLabel}`}
         >
           <span aria-hidden="true">{button}</span>
         </span>
