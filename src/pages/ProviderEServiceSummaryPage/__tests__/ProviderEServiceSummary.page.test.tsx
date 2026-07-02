@@ -240,8 +240,10 @@ describe('ProviderEServiceSummaryPage', () => {
       withRouterContext: true,
     })
 
-    const publishButton = screen.getByRole('button', { name: 'publish' })
-    expect(publishButton).toBeDisabled()
+    const publishButton = screen.getByRole('button', {
+      name: 'publish - summary.notPublishableTooltip.label',
+    })
+    expect(publishButton).toHaveAttribute('aria-disabled', 'true')
   })
 
   it('disables delegated approval when asynchronous mandatory fields are missing', () => {
@@ -263,7 +265,9 @@ describe('ProviderEServiceSummaryPage', () => {
       withRouterContext: true,
     })
 
-    const approveButton = screen.getByRole('button', { name: 'publish' })
+    const approveButton = screen.getByRole('button', {
+      name: 'publish',
+    })
     expect(approveButton).toBeDisabled()
   })
 
@@ -430,8 +434,10 @@ describe('ProviderEServiceSummaryPage', () => {
         withRouterContext: true,
       })
 
-      const publishButton = screen.getByRole('button', { name: 'publish' })
-      expect(publishButton).toBeDisabled()
+      const publishButton = screen.getByRole('button', {
+        name: 'publish - summary.rulesetExpiredTooltip.label',
+      })
+      expect(publishButton).toHaveAttribute('aria-disabled', 'true')
     })
 
     it('should be false when there are other descriptors even if riskAnalysis rulesetExpiration is expired', () => {
