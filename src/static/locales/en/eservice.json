@@ -725,6 +725,9 @@
         "eserviceTemplateName": {
           "label": "Template reference"
         },
+        "eserviceTemplateInUse": {
+          "label": "Template in use"
+        },
         "eserviceName": {
           "label": "E-service name"
         },
@@ -758,6 +761,25 @@
           }
         },
         "consumerListFileName": "{{timestamp}}-consumers-list-{{eserviceName}}.csv",
+        "delegationSection": {
+          "title": "Fruition via delegation",
+          "isConsumerDelegable": {
+            "label": "Authorization",
+            "value": {
+              "true": "Yes",
+              "false": "No",
+              "undefined": "No"
+            }
+          },
+          "isClientAccessDelegable": {
+            "label": "Authorization for client association",
+            "value": {
+              "true": "Yes",
+              "false": "No",
+              "undefined": "No"
+            }
+          }
+        },
         "bottomActions": {
           "showTechnicalDetails": "Show e-service technical details",
           "showAsyncExchangeDetails": "Show asynchronous exchange details",
