@@ -37,7 +37,7 @@ const {
         userId: 'admin-id',
         name: 'Mario',
         familyName: 'Rossi',
-      },
+      } as { userId: string; name: string; familyName: string } | undefined,
     },
   },
 }))
