@@ -14,11 +14,8 @@ import { PurposeLoadEstimationSection } from '@/components/shared/PurposeLoadEst
 
 export type PurposeEditStepGeneralFormValues = Omit<
   PurposeUpdateContent,
-  'riskAnalysisForm' | 'isFreeOfCharge' | 'eserviceId'
-> & {
-  dailyCalls: number
-  isFreeOfCharge: boolean
-}
+  'riskAnalysisForm' | 'eserviceId'
+>
 
 type PurposeEditStepGeneralFormProps = ActiveStepProps & {
   purpose: Purpose
