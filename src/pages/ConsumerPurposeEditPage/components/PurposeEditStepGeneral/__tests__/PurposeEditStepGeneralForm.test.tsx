@@ -170,6 +170,60 @@ describe('PurposeEditStepGeneralForm', () => {
     })
   })
 
+  it('submits with DELIVER mode, keeps isFreeOfCharge false and omits freeOfChargeReason in payload', async () => {
+    const user = userEvent.setup()
+    const forwardMock = vi.fn()
+
+    const purpose = createMockPurpose({
+      id: 'purpose-id-free-of-charge-off',
+      eservice: {
+        id: 'eservice-id',
+        name: 'Test Eservice',
+        mode: 'DELIVER',
+        producer: { id: 'producer-id', name: 'Producer' },
+        personalData: true,
+        descriptor: { id: 'descriptor-id', state: 'PUBLISHED', version: '1', audience: [] },
+      },
+    })
+
+    renderWithApplicationContext(
+      <PurposeEditStepGeneralForm
+        purpose={purpose}
+        defaultValues={{
+          ...defaultValues,
+          title: 'Valid title for submit',
+          description: 'Valid description that is long enough',
+          isFreeOfCharge: false,
+          freeOfChargeReason: 'This reason should not be sent',
+        }}
+        activeStep={0}
+        forward={forwardMock}
+        back={vi.fn()}
+      />,
+      { withReactQueryContext: true, withRouterContext: true }
+    )
+
+    await user.click(screen.getByRole('button', { name: 'edit.forwardWithSaveBtn' }))
+
+    await waitFor(() => {
+      expect(updateDraftForReceiveMock).not.toHaveBeenCalled()
+      expect(updateDraftMock).toHaveBeenCalledTimes(1)
+      expect(updateDraftMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          purposeId: 'purpose-id-free-of-charge-off',
+          title: 'Valid title for submit',
+          description: 'Valid description that is long enough',
+          isFreeOfCharge: false,
+          dailyCalls: 100,
+          riskAnalysisForm: purpose.riskAnalysisForm,
+        }),
+        expect.objectContaining({ onSuccess: forwardMock })
+      )
+    })
+
+    expect(updateDraftMock.mock.calls[0]?.[0]).not.toHaveProperty('freeOfChargeReason')
+  })
+
   it('submits with RECEIVE mode and navigates to summary on success', async () => {
     const user = userEvent.setup()
 

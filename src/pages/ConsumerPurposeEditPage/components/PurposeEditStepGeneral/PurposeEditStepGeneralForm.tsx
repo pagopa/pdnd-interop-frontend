@@ -58,7 +58,7 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
     const requestPayload = {
       ...updateDraftPayload,
       isFreeOfCharge,
-      freeOfChargeReason: isFreeOfCharge ? freeOfChargeReason : undefined,
+      ...(isFreeOfCharge ? { freeOfChargeReason } : {}),
       purposeId,
       dailyCalls: dailyCalls,
     }
