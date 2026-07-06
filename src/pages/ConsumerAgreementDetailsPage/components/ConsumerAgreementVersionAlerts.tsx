@@ -38,7 +38,7 @@ export const ConsumerAgreementVersionAlerts: React.FC<ConsumerAgreementVersionAl
             severity={alert.severity}
             action={
               alert.showSeeDetailsAction ? (
-                <Button color="inherit" size="small" onClick={() => setIsDrawerOpen(true)}>
+                <Button color="primary" size="small" onClick={() => setIsDrawerOpen(true)}>
                   {t('seeDetails')}
                 </Button>
               ) : undefined

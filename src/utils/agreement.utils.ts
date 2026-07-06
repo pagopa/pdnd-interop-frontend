@@ -9,7 +9,7 @@ import type {
 import type { AlertColor } from '@mui/material'
 import type { TFunction } from 'i18next'
 import { match } from 'ts-pattern'
-import { formatDateString } from './format.utils'
+import { formatDateStringNumeric } from './format.utils'
 
 /**
  * Checks if the user has already an agreement draft for the given e-service.
@@ -141,8 +141,8 @@ export function getConsumerAgreementVersionAlertSpec(args: {
   t: TFunction<'agreement', 'consumerRead.versionAlert'>
 }): ConsumerAgreementVersionAlertSpec[] {
   const { state, scope, archivableOn, archivedAt, t } = args
-  const scheduledDate = archivableOn ? formatDateString(archivableOn) : ''
-  const archivedDate = archivedAt ? formatDateString(archivedAt) : ''
+  const scheduledDate = archivableOn ? formatDateStringNumeric(archivableOn) : ''
+  const archivedDate = archivedAt ? formatDateStringNumeric(archivedAt) : ''
 
   return match({ state, scope })
     .returnType<ConsumerAgreementVersionAlertSpec[]>()
@@ -156,6 +156,7 @@ export function getConsumerAgreementVersionAlertSpec(args: {
         content: t('archivingEService', { date: scheduledDate }),
         showSeeDetailsAction: true,
       },
+      { severity: 'info', content: t('deprecatedActiveShort') },
     ])
     .with({ state: 'ARCHIVING_SUSPENDED', scope: 'DESCRIPTOR' }, () => [
       { severity: 'error', content: t('archivingSuspendedDescriptor', { date: scheduledDate }) },
