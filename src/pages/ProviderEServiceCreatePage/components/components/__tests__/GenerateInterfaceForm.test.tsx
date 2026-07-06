@@ -83,7 +83,7 @@ describe('GenerateInterfaceForm', () => {
     expect(screen.queryByText('contactSection.title')).not.toBeInTheDocument()
   })
 
-  it('should show the server section title when technology is SOAP', () => {
+  it('should show the server section title and the URL description field when technology is SOAP', () => {
     mockUseEServiceCreateContext({
       descriptor: createMockEServiceDescriptorProviderWithTemplateRef({
         eservice: {
@@ -104,6 +104,89 @@ describe('GenerateInterfaceForm', () => {
     })
 
     expect(screen.getByText('serverSection.title')).toBeInTheDocument()
+    expect(screen.getByLabelText(/serverSection.descriptionLabel/)).toBeInTheDocument()
+  })
+
+  it('should render the server URL description field when technology is REST', () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderWithTemplateRef(),
+    })
+    renderWithApplicationContext(<GenerateInterfaceForm />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByLabelText(/serverSection.descriptionLabel/)).toBeInTheDocument()
+  })
+
+  it('should include the server URL description in the payload when filled', async () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderWithTemplateRef(),
+    })
+    renderWithApplicationContext(<GenerateInterfaceForm />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await userEvent.type(screen.getByLabelText(/contactSection.contactNameField/), 'John')
+    await userEvent.type(screen.getByLabelText(/contactSection.emailField/), 'john@test.com')
+    await userEvent.type(screen.getByLabelText(/serverSection.label/), 'https://api.test.com')
+    await userEvent.type(
+      screen.getByLabelText(/serverSection.descriptionLabel/),
+      'Production environment'
+    )
+
+    await userEvent.click(screen.getByText('save'))
+
+    await waitFor(() => {
+      expect(deleteAndUpdateRESTInfo).toHaveBeenCalledWith(
+        expect.objectContaining({
+          serverUrls: [{ url: 'https://api.test.com', description: 'Production environment' }],
+        })
+      )
+    })
+  })
+
+  it('should omit the server URL description from the payload when empty', async () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderWithTemplateRef(),
+    })
+    renderWithApplicationContext(<GenerateInterfaceForm />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await userEvent.type(screen.getByLabelText(/contactSection.contactNameField/), 'John')
+    await userEvent.type(screen.getByLabelText(/contactSection.emailField/), 'john@test.com')
+    await userEvent.type(screen.getByLabelText(/serverSection.label/), 'https://api.test.com')
+
+    await userEvent.click(screen.getByText('save'))
+
+    await waitFor(() => {
+      expect(deleteAndUpdateRESTInfo).toHaveBeenCalledWith(
+        expect.objectContaining({ serverUrls: [{ url: 'https://api.test.com' }] })
+      )
+    })
+  })
+
+  it('should show a min-length error and not submit when the description is shorter than 10 characters', async () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderWithTemplateRef(),
+    })
+    renderWithApplicationContext(<GenerateInterfaceForm />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await userEvent.type(screen.getByLabelText(/contactSection.contactNameField/), 'John')
+    await userEvent.type(screen.getByLabelText(/contactSection.emailField/), 'john@test.com')
+    await userEvent.type(screen.getByLabelText(/serverSection.label/), 'https://api.test.com')
+    await userEvent.type(screen.getByLabelText(/serverSection.descriptionLabel/), 'short')
+
+    await userEvent.click(screen.getByText('save'))
+
+    expect(await screen.findByText('validation.string.minLength')).toBeInTheDocument()
+    expect(deleteAndUpdateRESTInfo).not.toHaveBeenCalled()
   })
 
   it('should add a new server URL field when add button is clicked', async () => {

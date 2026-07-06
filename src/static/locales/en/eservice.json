@@ -286,6 +286,8 @@
           "serverSection": {
             "title": "Server",
             "label": "Server URL",
+            "descriptionLabel": "Server URL description",
+            "descriptionInfoLabel": "Describe which environment the server URL link points to. Min 10 characters, max 250 characters",
             "add": "Add server URL",
             "remove": "Remove field"
           },
