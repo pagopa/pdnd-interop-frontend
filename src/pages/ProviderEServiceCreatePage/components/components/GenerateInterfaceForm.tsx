@@ -1,11 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Stack, Box, Typography, Tooltip, Button, Divider } from '@mui/material'
+import { Stack, Box, Typography, Button, Divider } from '@mui/material'
 import { emailRegex, urlRegex } from '@/utils/form.utils'
 import DownloadIcon from '@mui/icons-material/Download'
 import AddIcon from '@mui/icons-material/Add'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import { useForm, FormProvider, type UseFieldArrayReturn, useFieldArray } from 'react-hook-form'
 import type {
   TemplateInstanceInterfaceMetadata,
@@ -56,10 +56,13 @@ export const GenerateInterfaceForm: React.FC = () => {
     contactEmail: descriptor?.templateRef?.interfaceMetadata?.contactEmail ?? '',
     contactUrl: descriptor?.templateRef?.interfaceMetadata?.contactUrl ?? '',
     termsAndConditionsUrl: descriptor?.templateRef?.interfaceMetadata?.termsAndConditionsUrl ?? '',
-    serverUrls: descriptor?.serverUrls?.map((serverUrl) => ({
-      url: serverUrl.url,
-      description: serverUrl.description ?? '',
-    })) ?? [{ url: '', description: '' }],
+    serverUrls:
+      descriptor?.serverUrls && descriptor.serverUrls.length > 0
+        ? descriptor.serverUrls.map((serverUrl) => ({
+            url: serverUrl.url,
+            description: serverUrl.description ?? '',
+          }))
+        : [{ url: '', description: '' }],
   }
 
   const { mutate: deleteAndUpdateEServiceRESTInterfaceInfo } =
@@ -151,35 +154,15 @@ export const GenerateInterfaceForm: React.FC = () => {
 
         {eServiceTechnology === 'REST' && <EditRESTInfoInterfaceFields />}
 
-        <Typography variant="body2" fontWeight={600}>
-          {t('serverSection.title')}
-        </Typography>
-
         <Stack direction="column">
-          <RHFTextField
-            size="small"
-            sx={{ width: '50%' }}
-            name={`serverUrls`}
-            indexFieldArray={0}
-            fieldArrayKeyName="url"
-            label={t('serverSection.label')}
-            required
-            rules={{
-              required: true,
-            }}
-          />
-          <ServerUrlDescriptionField index={0} />
-          {fieldsArray.fields.slice(1).map((item, index) => {
-            // Starting from 1 because first field is already rendered and need to be rendered always.
-            return (
-              <UrlInputField
-                key={index}
-                id={item.id}
-                index={index + 1}
-                remove={fieldsArray.remove}
-              />
-            )
-          })}
+          {fieldsArray.fields.map((item, index) => (
+            <ServerUrlField
+              key={item.id}
+              index={index}
+              total={fieldsArray.fields.length}
+              remove={fieldsArray.remove}
+            />
+          ))}
 
           <Button
             size="small"
@@ -266,37 +249,48 @@ export const EditRESTInfoInterfaceFields: React.FC = () => {
   )
 }
 
-export const UrlInputField: React.FC<{
+const ServerUrlField: React.FC<{
   index: number
-  id: string
+  total: number
   remove: UseFieldArrayReturn<TemplateInstanceInterfaceMetadata, never, 'id'>['remove']
-}> = ({ index, id, remove }) => {
+}> = ({ index, total, remove }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'create.step4.eserviceTemplate.interface' })
 
+  const hasMultipleServers = total > 1
+
   return (
-    <React.Fragment key={id}>
-      <Divider sx={{ my: 3 }} />
-      <Stack direction="row" alignItems="flex-start">
-        {index >= 1 && (
-          <Tooltip title={t('serverSection.remove')}>
-            <Button color="error" sx={{ p: 1 }} onClick={() => remove(index)} variant="naked">
-              <RemoveCircleOutlineIcon fontSize="small" />
-            </Button>
-          </Tooltip>
-        )}
-        <Stack direction="column" sx={{ flex: 1 }}>
-          <RHFTextField
+    <>
+      {index > 0 && <Divider sx={{ my: 3 }} />}
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Typography variant="body2" fontWeight={600}>
+          {hasMultipleServers
+            ? t('serverSection.counter', { current: index + 1, total })
+            : t('serverSection.title')}
+        </Typography>
+        {hasMultipleServers && (
+          <Button
+            color="error"
+            variant="naked"
             size="small"
-            sx={{ width: '50%' }}
-            name={`serverUrls`}
-            indexFieldArray={index}
-            fieldArrayKeyName="url"
-            label={t('serverSection.label')}
-          />
-          <ServerUrlDescriptionField index={index} />
-        </Stack>
+            startIcon={<DeleteOutlineIcon fontSize="small" />}
+            onClick={() => remove(index)}
+          >
+            {t('serverSection.removeServer')}
+          </Button>
+        )}
       </Stack>
-    </React.Fragment>
+      <RHFTextField
+        size="small"
+        sx={{ width: '50%' }}
+        name={`serverUrls`}
+        indexFieldArray={index}
+        fieldArrayKeyName="url"
+        label={t('serverSection.label')}
+        required
+        rules={{ required: true }}
+      />
+      <ServerUrlDescriptionField index={index} />
+    </>
   )
 }
 

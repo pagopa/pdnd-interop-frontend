@@ -205,6 +205,69 @@ describe('GenerateInterfaceForm', () => {
     expect(urlFields.length).toBe(2)
   })
 
+  it('should not show the per-server counter or a remove button when there is a single server URL', () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderWithTemplateRef(),
+    })
+    renderWithApplicationContext(<GenerateInterfaceForm />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('serverSection.title')).toBeInTheDocument()
+    expect(screen.queryByText('serverSection.counter')).not.toBeInTheDocument()
+    expect(screen.queryByText('serverSection.removeServer')).not.toBeInTheDocument()
+  })
+
+  it('should show a counter and a remove button for every server when there is more than one', async () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderWithTemplateRef(),
+    })
+    renderWithApplicationContext(<GenerateInterfaceForm />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await userEvent.click(screen.getByText('serverSection.add'))
+
+    expect(screen.getAllByText('serverSection.counter')).toHaveLength(2)
+    expect(screen.getAllByText('serverSection.removeServer')).toHaveLength(2)
+    expect(screen.queryByText('serverSection.title')).not.toBeInTheDocument()
+  })
+
+  it('should remove a server URL and restore the single-server layout when a remove button is clicked', async () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderWithTemplateRef(),
+    })
+    renderWithApplicationContext(<GenerateInterfaceForm />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await userEvent.click(screen.getByText('serverSection.add'))
+    expect(screen.getAllByLabelText(/serverSection.label/)).toHaveLength(2)
+
+    await userEvent.click(screen.getAllByText('serverSection.removeServer')[1])
+
+    expect(screen.getAllByLabelText(/serverSection.label/)).toHaveLength(1)
+    expect(screen.queryByText('serverSection.removeServer')).not.toBeInTheDocument()
+    expect(screen.getByText('serverSection.title')).toBeInTheDocument()
+  })
+
+  it('should render a single empty server URL field when the descriptor has no server URLs', () => {
+    mockUseEServiceCreateContext({
+      descriptor: createMockEServiceDescriptorProviderWithTemplateRef({ serverUrls: [] }),
+    })
+    renderWithApplicationContext(<GenerateInterfaceForm />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getAllByLabelText(/serverSection.label/)).toHaveLength(1)
+    expect(screen.getByText('serverSection.title')).toBeInTheDocument()
+    expect(screen.queryByText('serverSection.removeServer')).not.toBeInTheDocument()
+  })
+
   it('should call REST mutation on submit when technology is REST', async () => {
     mockUseEServiceCreateContext({
       descriptor: createMockEServiceDescriptorProviderWithTemplateRef(),
