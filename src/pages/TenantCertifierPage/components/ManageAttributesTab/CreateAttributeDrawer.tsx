@@ -26,6 +26,8 @@ export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
   const { t } = useTranslation('party', { keyPrefix: 'tenantCertifier.manageTab.drawer' })
 
   const { mutate: createCertifiedAttribute } = AttributeMutations.useCreateCertified()
+  const { mutate: createCertifiedDiscreteAttribute } =
+    AttributeMutations.useCreateCertifiedDiscrete()
 
   const formMethods = useForm<CreateNewAttributeFormValues>({
     defaultValues: {
@@ -42,7 +44,10 @@ export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
           createCertifiedAttribute({ name: name, description: description }, { onSuccess: onClose })
         )
         .with('CERTIFIED_DISCRETE', () => {
-          //TODO
+          createCertifiedDiscreteAttribute(
+            { name: name, description: description },
+            { onSuccess: onClose }
+          )
         })
         .exhaustive()
     }
