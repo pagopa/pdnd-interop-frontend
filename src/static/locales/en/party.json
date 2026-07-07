@@ -81,13 +81,27 @@
         "subtitle": "Once created, you can assign and revoke this attribute to other parties",
         "submitBtnLabel": "Create attribute",
         "form": {
-          "nameField": {
-            "label": "Attribute name",
-            "infoLabel": "Min 5 characters, max 160 characters"
+          "kindField": {
+            "label": "Type",
+            "kindRadio": {
+            "optionCertifiedLabel": "Certified attribute",
+            "optionCertifiedDiscreteLabel": "Certified attribute with a value to be customized"
+            }
           },
-          "descriptionField": {
-            "label": "Attribute description",
-            "infoLabel": "Min 10 characters, max 250 characters"
+          "infoFields": {
+            "label": "Information",
+            "nameField": {
+              "label": "Attribute name",
+              "infoLabel": "Min 5 characters, max 160 characters"
+            },
+            "descriptionField": {
+              "label": "Attribute description",
+              "infoLabel": "Min 10 characters, max 250 characters"
+            },
+            "thresholdTypeField": {
+              "label": "Value type",
+              "optionNumericLabel": "Numeric"
+            }
           }
         }
       }
