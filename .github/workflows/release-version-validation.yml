@@ -44,7 +44,7 @@ jobs:
           echo "Checking PR labels for release tag..."
           echo "Allowed release: $ALLOWED_RELEASE_TOWARDS_DEV_BRANCH"
 
-          RELEASE="$(echo "$PR_LABELS_JSON" | jq -r '.[]' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n1)"
+          RELEASE="$( { echo "$PR_LABELS_JSON" | jq -r '.[]?' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' || true; } | sort -V | tail -n1)"
 
           if [ -z "$RELEASE" ]; then
             echo "::error::PR does not have a release label (expected format: x.y.z)"
