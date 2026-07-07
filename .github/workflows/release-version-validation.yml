@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 env:
-  ALLOWED_RELEASE_TOWARDS_DEV_BRANCH: '2.21.0'
+  ALLOWED_RELEASE_TOWARDS_DEV_BRANCH: ${{ vars.ALLOWED_RELEASE_TOWARDS_DEV_BRANCH }}
 
 jobs:
   validate-dev:
