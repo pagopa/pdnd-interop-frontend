@@ -58,8 +58,8 @@ jobs:
 
           echo "Found release label: $RELEASE"
 
-          if [ "$RELEASE" != "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" ]; then
-            echo "::error::Release label '$RELEASE' does not match the allowed release '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'"
+          if [ "$(printf '%s\n%s\n' "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" "$RELEASE" | sort -V | tail -n1)" != "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" ]; then
+            echo "::error::Release label '$RELEASE' is higher than the allowed release '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'"
             echo "If you wish to merge this PR in the future, please wait until it is permitted."
             exit 1
           fi
