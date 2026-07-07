@@ -4,9 +4,25 @@ import { AttributeServices } from './attribute.services'
 import type { DeclaredTenantAttributeSeed } from '../api.generatedTypes'
 
 function useCreateCertified() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'attribute.create' })
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'attribute.createCertifiedAttribute',
+  })
   return useMutation({
     mutationFn: AttributeServices.createCertified,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
+    },
+  })
+}
+
+function useCreateCertifiedDiscrete() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'attribute.createCertifiedAttribute',
+  })
+  return useMutation({
+    mutationFn: AttributeServices.createCertifiedDiscrete,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -148,6 +164,7 @@ function useRevokeDeclaredPartyAttribute() {
 
 export const AttributeMutations = {
   useCreateCertified,
+  useCreateCertifiedDiscrete,
   useCreateVerified,
   useCreateDeclared,
   useAddCertifiedAttribute,

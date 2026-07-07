@@ -334,6 +334,13 @@
         "success": "L’attributo è stato creato correttamente"
       }
     },
+    "createCertifiedAttribute": {
+      "loading": "Stiamo creando il nuovo attributo",
+      "outcome": {
+        "error": "Non è stato possibile creare l'attributo certificato. Controlla di aver inserito le informazioni corrette.",
+        "success": "Hai creato un nuovo attributo certificato."
+      }
+    },
     "addCertifiedAttribute": {
       "loading": "Stiamo assegnando l'attributo",
       "outcome": {
