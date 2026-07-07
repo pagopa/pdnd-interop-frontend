@@ -2191,6 +2191,17 @@ export interface CertifiedTenantAttributeSeed {
   id: string;
 }
 
+export interface CertifiedDiscreteTenantAttributeSeed {
+  /** @format uuid */
+  id: string;
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  certifiedDiscreteThreshold: number;
+}
+
 export interface DelegationTenant {
   /** @format uuid */
   id: string;
@@ -3926,6 +3937,14 @@ export interface AddCertifiedAttributeParams {
   tenantId: string;
 }
 
+export interface AddCertifiedDiscreteAttributeParams {
+  /**
+   * The internal identifier of the tenant
+   * @format uuid
+   */
+  tenantId: string;
+}
+
 export interface GetProducerPurposesParams {
   q?: string;
   /**
@@ -4516,6 +4535,19 @@ export interface VerifyVerifiedAttributeParams {
 }
 
 export interface RevokeCertifiedAttributeParams {
+  /**
+   * Tenant id which attribute needs to be verified
+   * @format uuid
+   */
+  tenantId: string;
+  /**
+   * Attribute id to be revoked
+   * @format uuid
+   */
+  attributeId: string;
+}
+
+export interface RevokeCertifiedDiscreteAttributeParams {
   /**
    * Tenant id which attribute needs to be verified
    * @format uuid
@@ -6708,6 +6740,27 @@ export namespace Tenants {
   }
 
   /**
+   * @description Add a certified discrete attribute to a Tenant by the requester Tenant
+   * @tags tenants
+   * @name AddCertifiedDiscreteAttribute
+   * @request POST:/tenants/{tenantId}/attributes/certifiedDiscrete
+   * @secure
+   */
+  export namespace AddCertifiedDiscreteAttribute {
+    export type RequestParams = {
+      /**
+       * The internal identifier of the tenant
+       * @format uuid
+       */
+      tenantId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = CertifiedDiscreteTenantAttributeSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
    * @description Adds the declared attribute to the Institution
    * @tags tenants
    * @name AddDeclaredAttribute
@@ -6819,6 +6872,32 @@ export namespace Tenants {
    * @secure
    */
   export namespace RevokeCertifiedAttribute {
+    export type RequestParams = {
+      /**
+       * Tenant id which attribute needs to be verified
+       * @format uuid
+       */
+      tenantId: string;
+      /**
+       * Attribute id to be revoked
+       * @format uuid
+       */
+      attributeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Revoke a certified discrete attribute to a Tenant by the requester Tenant
+   * @tags tenants
+   * @name RevokeCertifiedDiscreteAttribute
+   * @request DELETE:/tenants/{tenantId}/attributes/certifiedDiscrete/{attributeId}
+   * @secure
+   */
+  export namespace RevokeCertifiedDiscreteAttribute {
     export type RequestParams = {
       /**
        * Tenant id which attribute needs to be verified
@@ -10310,6 +10389,24 @@ export namespace CertifiedAttributes {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = CertifiedAttributeSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = Attribute;
+  }
+}
+
+export namespace CertifiedDiscreteAttributes {
+  /**
+   * @description Creates the certified discrete attribute passed as payload
+   * @tags attributes
+   * @name CreateCertifiedDiscreteAttribute
+   * @summary Creates certified discrete attribute
+   * @request POST:/certifiedDiscreteAttributes
+   * @secure
+   */
+  export namespace CreateCertifiedDiscreteAttribute {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = AttributeSeed;
     export type RequestHeaders = {};
     export type ResponseBody = Attribute;
   }
