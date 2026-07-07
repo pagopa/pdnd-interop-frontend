@@ -2,6 +2,7 @@ name: Release version validation
 
 on:
   pull_request:
+    types: [opened, reopened, synchronize, labeled, unlabeled, edited]
     branches:
       - 'dev'
 
