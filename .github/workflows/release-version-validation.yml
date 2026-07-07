@@ -1,0 +1,67 @@
+name: Release version validation
+
+on:
+  pull_request:
+    branches:
+      - 'dev'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  ALLOWED_RELEASE_TOWARDS_DEV_BRANCH: '2.21.0'
+
+jobs:
+  validate-dev:
+    name: Validate PR towards dev
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - name: Check if PR is an align PR
+        id: check_align
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          if echo "$PR_TITLE" | grep -qP '^align/\d+\.\d+\.\d+$'; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "PR title '$PR_TITLE' is an align PR. Skipping release check."
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check release label on PR
+        if: steps.check_align.outputs.skip != 'true'
+        env:
+          PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ' ') }}
+        run: |
+          echo "Checking PR labels for release tag..."
+          echo "Allowed release: $ALLOWED_RELEASE_TOWARDS_DEV_BRANCH"
+
+          RELEASE=""
+          for LABEL in $PR_LABELS; do
+            if echo "$LABEL" | grep -qP '^\d+\.\d+\.\d+$'; then
+              RELEASE="$LABEL"
+              break
+            fi
+          done
+
+          if [ -z "$RELEASE" ]; then
+            echo "::error::PR does not have a release label (expected format: x.y.z)"
+            exit 1
+          fi
+
+          echo "Found release label: $RELEASE"
+
+          if [ "$RELEASE" != "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" ]; then
+            echo "::error::Release label '$RELEASE' does not match the allowed release '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'"
+            echo "If you wish to merge this PR in the future, please wait until it is permitted."
+            exit 1
+          fi
+
+          echo "Release label matches. PR is allowed to merge."
