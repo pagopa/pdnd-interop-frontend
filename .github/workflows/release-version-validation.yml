@@ -45,6 +45,10 @@ jobs:
           echo "Checking PR labels for release tag..."
           echo "Allowed release: $ALLOWED_RELEASE_TOWARDS_DEV_BRANCH"
 
+          if [[ -z "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" || ! "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::warning::Repository variable ALLOWED_RELEASE_TOWARDS_DEV_BRANCH is not set or is not in x.y.z format; skipping release validation."
+            exit 0
+          fi
           RELEASE="$( { echo "$PR_LABELS_JSON" | jq -r '.[]?' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' || true; } | sort -V | tail -n1)"
 
           if [ -z "$RELEASE" ]; then
