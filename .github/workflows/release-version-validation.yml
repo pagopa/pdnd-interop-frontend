@@ -56,13 +56,14 @@ jobs:
 
           ALLOWED_MAJOR=$(echo "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" | cut -d. -f1)
           ALLOWED_MINOR=$(echo "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" | cut -d. -f2)
+          ALLOWED_PREVIOUS_MINOR=$((ALLOWED_MINOR - 1))
 
           LABEL_MAJOR=$(echo "$RELEASE" | cut -d. -f1)
           LABEL_MINOR=$(echo "$RELEASE" | cut -d. -f2)
           LABEL_PATCH=$(echo "$RELEASE" | cut -d. -f3)
 
-          if [ "$LABEL_MAJOR" -eq "$ALLOWED_MAJOR" ] && [ "$LABEL_MINOR" -lt "$ALLOWED_MINOR" ] && [ "$LABEL_PATCH" -gt 0 ]; then
-            echo "Release label '$RELEASE' is a hotfix for a previous minor release. PR is allowed to merge."
+          if [ "$LABEL_MAJOR" -eq "$ALLOWED_MAJOR" ] && [ "$LABEL_MINOR" -eq "$ALLOWED_PREVIOUS_MINOR" ] && [ "$LABEL_PATCH" -gt 0 ]; then
+            echo "Release label '$RELEASE' is a hotfix for the immediately previous minor release. PR is allowed to merge."
             exit 0
           fi
 
@@ -70,10 +71,12 @@ jobs:
             echo "::warning::Release label '$RELEASE' is higher than the allowed release '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'. This PR cannot be merged yet."
             gh pr comment "${{ github.event.pull_request.number }}" \
               --repo "${{ github.repository }}" \
-              --body "⚠️ **Release version validation warning**
+              --body-file - 2>/dev/null <<EOF || true
+⚠️ **Release version validation warning**
 
 Release label \`$RELEASE\` is higher than the currently allowed release \`$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH\`.
-If you wish to merge this PR, please wait until it is permitted." 2>/dev/null || true
+If you wish to merge this PR, please wait until it is permitted.
+EOF
           fi
 
           echo "Release label matches. PR is allowed to merge."
