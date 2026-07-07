@@ -18,6 +18,7 @@ type CreateNewAttributeFormValues = {
   kind: Extract<AttributeKind, 'CERTIFIED' | 'CERTIFIED_DISCRETE'>
   name: string
   description: string
+  thresholdType: string
 }
 
 export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
@@ -35,6 +36,7 @@ export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
       kind: 'CERTIFIED',
       name: '',
       description: '',
+      thresholdType: undefined,
     },
   })
 
