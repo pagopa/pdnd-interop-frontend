@@ -43,7 +43,22 @@ describe('ConsumerAgreementVersionAlerts', () => {
     expect(screen.queryByRole('button', { name: 'seeDetails' })).toBeNull()
   })
 
-  it('renders a single warning alert and a see-details button when state is ARCHIVING + scope ESERVICE', () => {
+  it('renders a warning alert with see-details plus an obsolete-version info alert when state is ARCHIVING + scope ESERVICE and the descriptor is obsolete', () => {
+    renderAlerts(
+      createMockEServiceDescriptorCatalog({
+        id: 'obsolete-descriptor-id',
+        state: 'ARCHIVING',
+        archivingSchedule: { scope: 'ESERVICE', archivableOn: '2026-12-01T00:00:00.000Z' },
+      })
+    )
+    const alerts = screen.getAllByRole('alert')
+    expect(alerts).toHaveLength(2)
+    expect(alerts[0]).toHaveClass(/MuiAlert-standardWarning/)
+    expect(alerts[1]).toHaveClass(/MuiAlert-standardInfo/)
+    expect(screen.getByRole('button', { name: 'seeDetails' })).toBeInTheDocument()
+  })
+
+  it('renders only the warning alert with see-details when state is ARCHIVING + scope ESERVICE and the descriptor is the active one', () => {
     renderAlerts(
       createMockEServiceDescriptorCatalog({
         state: 'ARCHIVING',
@@ -76,7 +91,7 @@ describe('ConsumerAgreementVersionAlerts', () => {
     expect(alerts[0]).toHaveClass(/MuiAlert-standardError/)
   })
 
-  it('renders an error alert when state is ARCHIVED + scope DESCRIPTOR (default branch)', () => {
+  it('renders the version-archived alert for ARCHIVED + scope DESCRIPTOR', () => {
     renderAlerts(
       createMockEServiceDescriptorCatalog({
         state: 'ARCHIVED',
@@ -87,6 +102,21 @@ describe('ConsumerAgreementVersionAlerts', () => {
     const alerts = screen.getAllByRole('alert')
     expect(alerts).toHaveLength(1)
     expect(alerts[0]).toHaveClass(/MuiAlert-standardError/)
+    expect(alerts[0]).toHaveTextContent('archivedDescriptor')
+  })
+
+  it('renders the whole-e-service archived alert for ARCHIVED + scope ESERVICE', () => {
+    renderAlerts(
+      createMockEServiceDescriptorCatalog({
+        state: 'ARCHIVED',
+        archivingSchedule: { scope: 'ESERVICE' },
+        archivedAt: '2026-12-01T00:00:00.000Z',
+      })
+    )
+    const alerts = screen.getAllByRole('alert')
+    expect(alerts).toHaveLength(1)
+    expect(alerts[0]).toHaveClass(/MuiAlert-standardError/)
+    expect(alerts[0]).toHaveTextContent('archivedEService')
   })
 
   it('opens the drawer when the see-details button is clicked (ARCHIVING_SUSPENDED + ESERVICE)', async () => {

@@ -133,12 +133,13 @@
     "noPurposeAlert": "To access the data <1>create your first purpose</1>.",
     "versionAlert": {
       "deprecatedActive": "This e-service version is obsolete but still active. A new version is available.",
+      "deprecatedActiveShort": "This e-service version is obsolete but still active.",
       "archivingDescriptor": "This e-service version will be archived on {{date}}. After that date, you will only be able to use the new version to exchange data with the e-service.",
       "archivingSuspendedDescriptor": "This e-service version will be archived on {{date}}. It is currently suspended and cannot be used. A new version is available.",
       "suspendedLast": "This e-service version is currently suspended and cannot be used.",
       "suspendedLastNoNewVersion": "This e-service version is currently suspended and cannot be used. No new version is available.",
-      "archivedDescriptor": "This e-service version was archived on {{date}} and can no longer be used. To continue exchanging data with the e-service, switch to the new version. The agreement linked to this version can be archived.",
-      "archivedEService": "This e-service was archived on {{date}} and can no longer be used. The agreement linked to this version can be archived.",
+      "archivedDescriptor": "This e-service version was archived on {{date}} and can no longer be used. To continue exchanging data with the e-service, check whether a new version is available and, if you haven't already, archive the agreement.",
+      "archivedEService": "This e-service was archived on {{date}} and can no longer be used. If you haven't already, archive the agreement.",
       "archivingEService": "This e-service will be archived on {{date}}. After that date, you will no longer be able to exchange data with the e-service.",
       "seeDetails": "See details"
     },
