@@ -157,20 +157,25 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     return actions
   }
 
+  const signingState = purpose?.reviewerWorkflow?.signingState
   const isDeliverMode = purpose.eservice.mode === 'DELIVER'
   const isSuspended = purpose?.currentVersion?.state === 'SUSPENDED'
   const isActive = purpose?.currentVersion?.state === 'ACTIVE'
   const isDraft = purpose?.currentVersion?.state === 'DRAFT'
   const isArchived = purpose?.currentVersion?.state === 'ARCHIVED'
+  const isNotSigned = Boolean(signingState) && signingState !== 'SIGNED'
   const isSuspendedByConsumer = checkPurposeSuspendedByConsumer(purpose, jwt?.organizationId)
 
   const hasCurrentVersion = Boolean(purpose?.currentVersion)
   const hasWaitingForApprovalVersion = Boolean(purpose?.waitingForApprovalVersion)
   const hasRejectedVersion = Boolean(purpose?.rejectedVersion)
+  const hasReviewerWorkflow = Boolean(purpose.reviewerWorkflow)
+  const hasRiskAnalysisForm = Boolean(purpose.riskAnalysisForm)
 
   const actions = match({
     isDeliverMode,
     isDraft,
+    isNotSigned,
     isArchived,
     isActive,
     isSuspended,
@@ -180,6 +185,8 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
     hasCurrentVersion,
     hasWaitingForApprovalVersion,
     hasRejectedVersion,
+    hasReviewerWorkflow,
+    hasRiskAnalysisForm,
     routeKey,
   })
     // purpose with no currentVersion but with waitingForApprovalVersion
@@ -204,6 +211,22 @@ function useGetConsumerPurposesActions(purpose?: Purpose) {
         isArchived: true,
       },
       () => []
+    )
+    .with(
+      {
+        isDeliverMode: true,
+        isDraft: true,
+        hasReviewerWorkflow: false,
+        hasRiskAnalysisForm: false,
+      },
+      () => [deleteAction]
+    )
+    .with(
+      {
+        isDraft: true,
+        isNotSigned: true,
+      },
+      () => [deleteAction]
     )
     // purpose in DRAFT state
     .with(

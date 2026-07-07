@@ -126,7 +126,7 @@ export function getEServiceDescriptorAlertSpec(args: {
     }))
     .with({ state: 'ARCHIVED' }, () => ({
       severity: 'info',
-      content: t('archivedDescriptor', { date: archivedDate }),
+      content: t('archivedDescriptorNoConsumers'),
     }))
     .otherwise(() => undefined)
 }
@@ -140,4 +140,8 @@ export function calculateArchivableOn(now: Date, gracePeriodDays: number): Date 
 
 export function isDescriptorPendingArchiving(state: EServiceDescriptorState | undefined): boolean {
   return state === 'ARCHIVING' || state === 'ARCHIVING_SUSPENDED'
+}
+
+export function sanitizeImportEserviceFileName(fileName: string): string {
+  return fileName.replace(/ ?\(\d+\)(?=\.zip$)/, '')
 }

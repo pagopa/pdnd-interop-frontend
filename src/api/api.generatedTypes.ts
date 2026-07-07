@@ -2293,22 +2293,46 @@ export interface EServiceTemplateDetails {
 }
 
 export interface AsyncExchangeProperties {
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 999999
+   */
   responseTime: number;
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 999999
+   */
   resourceAvailableTime: number;
   confirmation: boolean;
   bulk: boolean;
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 99999
+   */
   maxResultSet: number;
 }
 
 export interface AsyncExchangePropertiesInstanceSeed {
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 999999
+   */
   responseTime?: number;
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 999999
+   */
   resourceAvailableTime?: number;
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 99999
+   */
   maxResultSet?: number;
 }
 
@@ -2403,6 +2427,7 @@ export interface UpdateEServiceTemplateSeed {
   mode: EServiceMode;
   isSignalHubEnabled?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
 }
 
 export interface EServiceTemplateSeed {
@@ -2440,7 +2465,7 @@ export interface InstanceEServiceSeed {
    * @maxLength 12
    */
   instanceLabel?: string;
-  asyncExchange?: boolean;
+  asyncExchangeProperties?: AsyncExchangePropertiesInstanceSeed;
 }
 
 export interface VersionSeedForEServiceTemplateCreation {
@@ -2819,6 +2844,7 @@ export interface ReviewerWorkflow {
   /** Risk analysis review mode */
   reviewMode: RiskAnalysisReviewMode;
   reviewerIds: string[];
+  reviewers?: CompactUser[];
   /** Risk analysis signing state */
   signingState: RiskAnalysisSigningState;
   /** @format uuid */
@@ -4277,7 +4303,7 @@ export interface GetCatalogPurposeTemplatesParams {
    */
   creatorIds?: string[];
   /**
-   * comma separated sequence of e-service IDs
+   * comma separated sequence of e-service IDs. For e-services that are instances of an e-service template, purpose templates linked to the originating e-service template are also returned.
    * @default []
    */
   eserviceIds?: string[];
@@ -7089,7 +7115,7 @@ export namespace Catalog {
        */
       creatorIds?: string[];
       /**
-       * comma separated sequence of e-service IDs
+       * comma separated sequence of e-service IDs. For e-services that are instances of an e-service template, purpose templates linked to the originating e-service template are also returned.
        * @default []
        */
       eserviceIds?: string[];

@@ -6,7 +6,6 @@ import type {
   GetCatalogPurposeTemplatesParams,
   GetCreatorPurposeTemplatesParams,
   GetPurposeTemplateLinkableResourcesParams,
-  GetPurposeTemplateEServicesParams,
 } from '../../api.generatedTypes'
 import { mockPurposeTemplateResponse } from '@/../__mocks__/data/purposeTemplate.mocks'
 import type { AxiosResponse } from 'axios'
@@ -14,7 +13,6 @@ import type { AxiosResponse } from 'axios'
 vi.mock('../purposeTemplate.services', () => ({
   PurposeTemplateServices: {
     getConsumerPurposeTemplatesList: vi.fn(),
-    getEservicesLinkedToPurposeTemplatesList: vi.fn(),
     getLinkableResources: vi.fn(),
     getSingle: vi.fn(),
     getCatalogPurposeTemplates: vi.fn(),
@@ -61,55 +59,6 @@ describe('PurposeTemplateQueries', () => {
       const data = await (result.queryFn as () => Promise<unknown>)()
 
       expect(PurposeTemplateServices.getConsumerPurposeTemplatesList).toHaveBeenCalledWith(params)
-      expect(data).toEqual(mockData)
-    })
-  })
-
-  // TODO: remove this test after feature purpose template <-> e-service template linking validation
-  describe.skip('getEservicesLinkedToPurposeTemplatesList', () => {
-    it('should return queryOptions with correct queryKey', () => {
-      const params: GetPurposeTemplateEServicesParams = {
-        purposeTemplateId: 'test-template-id',
-        offset: 0,
-        limit: 10,
-      }
-
-      const result = PurposeTemplateQueries.getEservicesLinkedToPurposeTemplatesList(params)
-
-      expect(result.queryKey).toEqual([
-        'PurposeTemplateGetEservicesLinkedToPurposeTemplatesList',
-        params.purposeTemplateId,
-        params,
-      ])
-    })
-
-    it('should call getEservicesLinkedToPurposeTemplatesList service when queryFn is executed', async () => {
-      const params: GetPurposeTemplateEServicesParams = {
-        purposeTemplateId: 'test-template-id',
-        offset: 0,
-        limit: 10,
-      }
-      const mockData = {
-        results: [],
-        pagination: {
-          offset: 0,
-          limit: 10,
-          totalCount: 0,
-        },
-      }
-      vi.mocked(PurposeTemplateServices.getEservicesLinkedToPurposeTemplatesList).mockResolvedValue(
-        mockData
-      )
-
-      const result = PurposeTemplateQueries.getEservicesLinkedToPurposeTemplatesList(params)
-
-      expect(result.queryFn).toBeDefined()
-      const data = await (result.queryFn as () => Promise<unknown>)()
-
-      expect(PurposeTemplateServices.getEservicesLinkedToPurposeTemplatesList).toHaveBeenCalledWith(
-        params.purposeTemplateId,
-        params
-      )
       expect(data).toEqual(mockData)
     })
   })

@@ -660,14 +660,17 @@
       }
     },
     "assignRiskAnalysisReviewer": {
+      "loading": "Stiamo assegnando l'analisi del rischio a un valutatore",
       "outcome": {
-        "error": "Non è stato possibile assegnare il valutatore. Per favore, riprova!"
+        "success": "Hai assegnato la compilazione e l’approvazione dell’analisi del rischio a un valutatore.",
+        "error": "Non è stato possibile assegnare l’analisi del rischio."
       }
     },
     "submitRiskAnalysis": {
-      "loading": "Stiamo inviando l’analisi del rischio al valutatore",
+      "loading": "Stiamo assegnando l’analisi del rischio a un valutatore",
       "outcome": {
-        "error": "Non è stato possibile inviare l’analisi del rischio al valutatore. Riprova!"
+        "success": "Hai assegnato l’approvazione dell’analisi del rischio a un valutatore.",
+        "error": "Non è stato possibile assegnare l’analisi del rischio."
       }
     },
     "signRiskAnalysis": {
@@ -1198,20 +1201,6 @@
       "outcome": {
         "success": "Il nome del documento è stato aggiornato correttamente",
         "error": "Non è stato possibile aggiornare il nome del documento. Per favore, riprova!"
-      }
-    },
-    "linkEService": {
-      "loading": "Stiamo collegando l'e-service",
-      "outcome": {
-        "success": "L’e-service è stato salvato correttamente.",
-        "error": "Non è stato possibile salvare questo e-service. Per favore riprova!"
-      }
-    },
-    "unlinkEService": {
-      "loading": "Stiamo rimuovendo l'e-service",
-      "outcome": {
-        "success": "L’e-service è stato rimosso correttamente.",
-        "error": "Non è stato possibile rimuovere questo e-service. Per favore riprova!"
       }
     },
     "linkResource": {

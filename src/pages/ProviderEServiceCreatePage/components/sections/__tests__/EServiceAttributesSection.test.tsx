@@ -1,8 +1,9 @@
 import React from 'react'
 import { screen } from '@testing-library/react'
+import { createMemoryHistory } from 'history'
 import { EServiceAttributesSection } from '../EServiceAttributesSection'
 import { vi, describe, it, expect } from 'vitest'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { ReactHookFormWrapper, renderWithApplicationContext } from '@/utils/testing.utils'
 
 let lastRenderedProps: Record<string, Record<string, unknown>> = {}
 
@@ -21,18 +22,36 @@ vi.mock('@/components/shared/AddAttributesToForm', () => ({
   },
 }))
 
-const renderComponent = (isEServiceCreatedFromTemplate = false) => {
+const defaultFormValues = {
+  attributes: {
+    certified: [] as Array<Array<unknown>>,
+    verified: [] as Array<Array<unknown>>,
+    declared: [] as Array<Array<unknown>>,
+  },
+}
+
+const renderComponent = (
+  isEServiceCreatedFromTemplate = false,
+  formValues = defaultFormValues,
+  activeTab?: 'certified' | 'verified' | 'declared'
+) => {
   lastRenderedProps = {}
   const handleOpenAttributeCreateDrawerFactory = vi.fn(() => vi.fn())
+  const history = createMemoryHistory({
+    initialEntries: [activeTab ? `/?tab=${activeTab}` : '/'],
+  })
 
   return {
     handleOpenAttributeCreateDrawerFactory,
     ...renderWithApplicationContext(
-      <EServiceAttributesSection
-        isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
-        handleOpenAttributeCreateDrawerFactory={handleOpenAttributeCreateDrawerFactory}
-      />,
-      { withReactQueryContext: true, withRouterContext: true }
+      <ReactHookFormWrapper defaultValues={formValues}>
+        <EServiceAttributesSection
+          isEServiceCreatedFromTemplate={isEServiceCreatedFromTemplate}
+          handleOpenAttributeCreateDrawerFactory={handleOpenAttributeCreateDrawerFactory}
+        />
+      </ReactHookFormWrapper>,
+      { withReactQueryContext: true, withRouterContext: true },
+      history
     ),
   }
 }
@@ -62,7 +81,15 @@ describe('AttributesSection', () => {
   })
 
   it('should pass readOnly={true} when isEServiceCreatedFromTemplate is true', () => {
-    renderComponent(true)
+    const formValues = {
+      attributes: {
+        certified: [[{ id: 'c1' }]] as Array<Array<unknown>>,
+        verified: [] as Array<Array<unknown>>,
+        declared: [] as Array<Array<unknown>>,
+      },
+    }
+
+    renderComponent(true, formValues)
     const certifiedForm = screen.getByTestId('add-attributes-form-certified')
     expect(certifiedForm.textContent).toContain('readOnly=true')
   })
@@ -92,5 +119,123 @@ describe('AttributesSection', () => {
     expect(handleOpenAttributeCreateDrawerFactory).toHaveBeenCalledWith('declared')
     // Should NOT be called with 'certified'
     expect(handleOpenAttributeCreateDrawerFactory).not.toHaveBeenCalledWith('certified')
+  })
+
+  it('should hide tabs and show generic template alert when created from template and no attributes exist', () => {
+    renderComponent(true)
+
+    expect(screen.getByText('noAttributesRequiredTemplate.attributesAlert')).toBeInTheDocument()
+    expect(screen.queryByText('step2.attributes.tabs.certified')).not.toBeInTheDocument()
+    expect(screen.queryByText('step2.attributes.tabs.verified')).not.toBeInTheDocument()
+    expect(screen.queryByText('step2.attributes.tabs.declared')).not.toBeInTheDocument()
+  })
+
+  it('should show tabs when created from template and at least one attribute exists', () => {
+    const formValues = {
+      attributes: {
+        certified: [[{ id: 'c1' }]] as Array<Array<unknown>>,
+        verified: [] as Array<Array<unknown>>,
+        declared: [] as Array<Array<unknown>>,
+      },
+    }
+
+    renderComponent(true, formValues)
+
+    expect(screen.getByText('step2.attributes.tabs.certified')).toBeInTheDocument()
+    expect(
+      screen.queryByText('noAttributesRequiredTemplate.attributesAlert')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should show certified empty state and hide certified form when template has no certified attributes', () => {
+    const formValues = {
+      attributes: {
+        certified: [] as Array<Array<unknown>>,
+        verified: [[{ id: 'v1' }]] as Array<Array<unknown>>,
+        declared: [[{ id: 'd1' }]] as Array<Array<unknown>>,
+      },
+    }
+
+    renderComponent(true, formValues)
+
+    expect(screen.getByText('noAttributesRequiredTemplate.certifiedAlert')).toBeInTheDocument()
+    expect(screen.queryByTestId('add-attributes-form-certified')).not.toBeInTheDocument()
+  })
+
+  it('should show verified empty state and hide verified form when template has no verified attributes', () => {
+    const formValues = {
+      attributes: {
+        certified: [[{ id: 'c1' }]] as Array<Array<unknown>>,
+        verified: [] as Array<Array<unknown>>,
+        declared: [[{ id: 'd1' }]] as Array<Array<unknown>>,
+      },
+    }
+
+    renderComponent(true, formValues, 'verified')
+
+    expect(screen.getByText('noAttributesRequiredTemplate.verifiedAlert')).toBeInTheDocument()
+    expect(screen.queryByTestId('add-attributes-form-verified')).not.toBeInTheDocument()
+  })
+
+  it('should show declared empty state and hide declared form when template has no declared attributes', () => {
+    const formValues = {
+      attributes: {
+        certified: [[{ id: 'c1' }]] as Array<Array<unknown>>,
+        verified: [[{ id: 'v1' }]] as Array<Array<unknown>>,
+        declared: [] as Array<Array<unknown>>,
+      },
+    }
+
+    renderComponent(true, formValues, 'declared')
+
+    expect(screen.getByText('noAttributesRequiredTemplate.declaredAlert')).toBeInTheDocument()
+    expect(screen.queryByTestId('add-attributes-form-declared')).not.toBeInTheDocument()
+  })
+
+  it('should show certified form and hide certified empty state when template has certified attributes', () => {
+    const formValues = {
+      attributes: {
+        certified: [[{ id: 'c1' }]] as Array<Array<unknown>>,
+        verified: [] as Array<Array<unknown>>,
+        declared: [] as Array<Array<unknown>>,
+      },
+    }
+
+    renderComponent(true, formValues)
+
+    expect(screen.getByTestId('add-attributes-form-certified')).toBeInTheDocument()
+    expect(
+      screen.queryByText('noAttributesRequiredTemplate.certifiedAlert')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should show verified form and hide verified empty state when template has verified attributes', () => {
+    const formValues = {
+      attributes: {
+        certified: [] as Array<Array<unknown>>,
+        verified: [[{ id: 'v1' }]] as Array<Array<unknown>>,
+        declared: [] as Array<Array<unknown>>,
+      },
+    }
+
+    renderComponent(true, formValues, 'verified')
+
+    expect(screen.getByTestId('add-attributes-form-verified')).toBeInTheDocument()
+    expect(screen.queryByText('noAttributesRequiredTemplate.verifiedAlert')).not.toBeInTheDocument()
+  })
+
+  it('should show declared form and hide declared empty state when template has declared attributes', () => {
+    const formValues = {
+      attributes: {
+        certified: [] as Array<Array<unknown>>,
+        verified: [] as Array<Array<unknown>>,
+        declared: [[{ id: 'd1' }]] as Array<Array<unknown>>,
+      },
+    }
+
+    renderComponent(true, formValues, 'declared')
+
+    expect(screen.getByTestId('add-attributes-form-declared')).toBeInTheDocument()
+    expect(screen.queryByText('noAttributesRequiredTemplate.declaredAlert')).not.toBeInTheDocument()
   })
 })

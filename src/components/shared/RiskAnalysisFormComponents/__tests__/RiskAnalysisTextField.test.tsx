@@ -19,6 +19,7 @@ vi.mock('@/utils/form.utils', () => ({
     ids: { labelId: 'test-label-id', helperTextId: 'test-helper-id' },
   })),
   mapValidationErrorMessages: vi.fn((rules) => rules),
+  withTrimmedRequired: vi.fn((rules) => rules),
 }))
 
 // Mock RiskAnalysisInputWrapper

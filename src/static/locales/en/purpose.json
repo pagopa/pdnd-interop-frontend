@@ -39,7 +39,7 @@
     "defaultPurpose": {
       "title": "New purpose",
       "description": "Lorem ipsum dolor sit amet...",
-      "freeOfChargeReason": "I'm a Public Administration"
+      "freeOfChargeReason": "Specify the legal basis or reason that allows free access (e.g. institutional activity, legal provision, etc...)"
     },
     "riskAnalysisPreviewTitle": "Risk analysis",
     "purposeTemplateField": {
@@ -85,15 +85,11 @@
         "infoLabel": "Min 10 characters, max 250 characters"
       },
       "isFreeOfChargeField": {
-        "label": "How will you make the data you receive from this e-service available?",
-        "options": {
-          "YES": "Free of charge",
-          "NO": "For a fee"
-        }
+        "label": "I am entitled to use the e-service free of charge"
       },
       "freeOfChargeReasonField": {
-        "label": "Free of charge reason",
-        "infoLabel": "Explain why you will make this data available free of charge. Indicate whether you are doing so under a statutory exemption or exclusion, or for another reason. Minimum 10 characters, maximum 250 characters."
+        "label": "Specify the legal basis or reason that allows free access (required)",
+        "infoLabel": "Specify whether this is based on a legal exemption or exclusion, or on another reason. Min 10, max 250 characters"
       }
     },
     "stepAssignment": {
@@ -112,16 +108,18 @@
           "selfWritesReviewerSigns": "Who will approve the risk analysis?",
           "reviewerWritesReviewerSigns": "Who will fill in the risk analysis?"
         },
+        "inputLabel": "Select the reviewer",
         "requiredError": "To proceed, please select a reviewer"
       },
       "noReviewersAlert": {
-        "message": "Your institution does not yet have a user with the reviewer role. You can add one from the Reserved Area.",
+        "message": "Your institution does not yet have a user with the reviewer role. You can add one from the Reserved Area or complete the risk analysis yourself.",
         "linkLabel": "Go to Users"
       },
-      "delegateAlert": "As a delegate, you cannot assign the risk analysis to a reviewer.",
+      "delegateAlert": "As the delegate to consuming the e-service {{name}}, you cannot assign the risk analysis to a reviewer but you can complete it yourself.",
       "forwardBtn": "Save draft and proceed",
       "requestReviewerCompilationBtn": "Request compilation",
       "readOnly": {
+        "subtitle": "You cannot modify the assignment because you have submitted the risk assessment to the evaluator.",
         "modeLabel": "Mode",
         "reviewerLabel": "Reviewer",
         "reviewerUnknown": "Reviewer not available",
@@ -139,16 +137,16 @@
         }
       },
       "providerThresholdsInfo": {
-        "label": "Thresholds defined by the provider",
-        "description": "Residual calls may vary if the provider receives other purposes before your publication.",
+        "label": "Available API calls per day",
+        "description": "Available calls may vary if the provider receives other purposes before your publication.",
         "na": "n/a",
         "dailyCallsPerConsumer": {
-          "label": "Threshold per user",
-          "value": "{{min}} of {{max}} API calls/day"
+          "label": "Per consumer",
+          "value": "{{min}} available calls out of {{max}}"
         },
         "dailyCallsTotal": {
-          "label": "Total threshold",
-          "value": "{{min}} of {{max}} API calls/day"
+          "label": "Total",
+          "value": "{{min}} available calls out of {{max}}"
         }
       },
       "alerts": {
@@ -163,13 +161,10 @@
       "title": "Risk analysis",
       "description": "The questions below will change based on the answers provided. If you edit an answer above, it may change the following questions",
       "personalInfoAlert": "Warning: do not put personal data inside text fields",
-      "readOnlySubtitle": {
-        "SUBMITTED": "You can't edit the risk analysis because it has been submitted to the reviewer for approval.",
-        "SIGNED": "The risk analysis can't be edited because it has been approved by the reviewer.",
-        "ASSIGNED": "You can't edit the risk analysis because it has been assigned to the reviewer to fill it out."
-      },
+      "readOnlySubtitle": "You cannot modify the risk analysis because it has been sent to the reviewer.",
       "rejectedAlert": "The reviewer rejected the risk analysis. Edit the analysis and submit it again for approval.",
       "rejectedAlertLinkLabel": "Read reason",
+      "reviewerWritesReviewerSigns": "Once the reviewer has compiled and approved the risk analysis, you will be able to publish the purpose.",
       "versionMismatchDialog": {
         "title": "Risk analysis update",
         "description": "There is a new version of risk analysis available. The one compiled previously is obsolete and can no longer be used. If you click \"Update\", all the fields that have not changed and were filled in will already be filled in in the new version",
@@ -268,6 +263,9 @@
       "description": {
         "label": "Description"
       },
+      "name": {
+        "label": "Purpose name"
+      },
       "loadEstimationSection": {
         "title": "Load estimation",
         "dailyCalls": {
@@ -310,6 +308,7 @@
     },
     "publishBtnDisabled": "Your declaration on personal data processing in the risk analysis prevents publication",
     "publishBtnDisabledByReview": "You will be able to publish once the reviewer has approved the risk analysis.",
+    "publishBtnDisabledNotCompiled": "To publish you must first complete the risk analysis.",
     "publishBtn": "Publish"
   },
   "riskAnalysisRejectionDrawer": {
@@ -537,15 +536,16 @@
             }
           },
           "providerThresholdsInfo": {
-            "label": "Thresholds defined by the provider",
-            "description": "Residual calls may vary if the provider receives other purposes before your publication.",
+            "label": "Available API calls per day",
+            "description": "Available calls may vary if the provider receives other purposes before your publication.",
+            "na": "n/a",
             "dailyCallsPerConsumer": {
-              "label": "Threshold per user",
-              "value": "{{min}} of {{max}} API calls/day"
+              "label": "Per consumer",
+              "value": "{{min}} available calls out of {{max}}"
             },
             "dailyCallsTotal": {
-              "label": "Total threshold",
-              "value": "{{min}} of {{max}} API calls/day"
+              "label": "Total",
+              "value": "{{min}} available calls out of {{max}}"
             }
           },
           "riskAnalysisSection": {
@@ -670,8 +670,9 @@
       "description": "The purpose is active. Associate your first client to access the e-service data."
     },
     "waitingForApproval": {
-      "title": "Your purpose has been forwarded to the provider for approval",
-      "description": "Until its activation by the provider, you will not be able to access data made available through the API and you will not be able to associate clients. You will receive a notification when the provider approves your purpose"
+      "title": "You have published a purpose. It will now have to be approved by the provider.",
+      "description": "When it is approved, you will receive a notification. Until approval, you will not be able to associate clients or access the e-service data.",
+      "action": "Go to purpose"
     },
     "action": "Close"
   },

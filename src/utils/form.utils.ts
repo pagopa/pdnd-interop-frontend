@@ -2,6 +2,7 @@ import mapValues from 'lodash/mapValues'
 import type { ControllerProps } from 'react-hook-form'
 import type { TFunction } from 'i18next'
 import type { InputDescriptorKey, InputDescriptors } from '@/types/common.types'
+import { z } from 'zod'
 
 /**
  * Returns the ids and accessibility props for a given input name and input descriptors
@@ -66,6 +67,17 @@ export const emailRegex =
 export const urlRegex =
   /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/
 
+const uuidSchema = z.uuid()
+const jwtSchema = z.jwt()
+
+export function isValidUUID(value: string): boolean {
+  return uuidSchema.safeParse(value).success
+}
+
+export function isValidJWT(value: string): boolean {
+  return jwtSchema.safeParse(value).success
+}
+
 export const mapValidationErrorMessages = (
   rules: ControllerProps['rules'],
   t: TFunction
@@ -112,4 +124,33 @@ export const mapValidationErrorMessages = (
   })
 
   return mappedRules
+}
+
+export const withTrimmedRequired = (
+  rules: ControllerProps['rules'],
+  t: TFunction
+): ControllerProps['rules'] => {
+  if (!rules || !rules.required) {
+    return rules
+  }
+
+  const requiredRule = rules.required
+  const requiredMessage =
+    requiredRule && typeof requiredRule === 'object' && 'message' in requiredRule
+      ? requiredRule.message
+      : typeof requiredRule === 'string'
+        ? requiredRule
+        : t('validation.mixed.required')
+
+  const notBlank = (value: unknown): true | typeof requiredMessage =>
+    typeof value !== 'string' || value.trim().length > 0 || requiredMessage
+
+  const { validate } = rules
+  if (validate === undefined) {
+    return { ...rules, validate: notBlank }
+  }
+  if (typeof validate === 'function') {
+    return { ...rules, validate: { existing: validate, notBlank } }
+  }
+  return { ...rules, validate: { ...validate, notBlank } }
 }
