@@ -45,6 +45,28 @@ jobs:
           echo "Checking PR labels for release tag..."
           echo "Allowed release: $ALLOWED_RELEASE_TOWARDS_DEV_BRANCH"
 
+          COMMENT_MARKER='<!-- release-version-validation -->'
+
+          upsert_warning_comment() {
+            local body="$1"
+            local comment_id
+
+            comment_id="$(gh api "repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
+              --paginate \
+              --jq ".[] | select(.user.login == \"github-actions[bot]\" and (.body | contains(\"$COMMENT_MARKER\"))) | .id" \
+              | tail -n1)"
+
+            if [ -n "$comment_id" ]; then
+              gh api "repos/${{ github.repository }}/issues/comments/$comment_id" \
+                --method PATCH \
+                -f body="$body" >/dev/null
+            else
+              gh pr comment "${{ github.event.pull_request.number }}" \
+                --repo "${{ github.repository }}" \
+                --body "$body" >/dev/null
+            fi
+          }
+
           if [[ -z "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" || ! "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "::warning::Repository variable ALLOWED_RELEASE_TOWARDS_DEV_BRANCH is not set or is not in x.y.z format; skipping release validation."
             exit 0
@@ -53,10 +75,7 @@ jobs:
 
           if [ -z "$RELEASE" ]; then
             echo "::warning::PR does not have a release label (expected format: x.y.z)."
-            gh pr comment "${{ github.event.pull_request.number }}" \
-              --repo "${{ github.repository }}" \
-              --edit-last \
-              --body "$(printf '%b' "⚠️ **Release version validation warning**\n\nNo release label was found on this PR (expected format: \`x.y.z\`).")" || true
+            upsert_warning_comment "$(printf '%b' "$COMMENT_MARKER\n⚠️ **Release version validation warning**\n\nNo release label was found on this PR (expected format: \`x.y.z\`).")" || true
             exit 0
           fi
 
@@ -70,17 +89,19 @@ jobs:
           LABEL_MINOR=$(echo "$RELEASE" | cut -d. -f2)
           LABEL_PATCH=$(echo "$RELEASE" | cut -d. -f3)
 
+          if [ "$RELEASE" = "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" ]; then
+            echo "Release label '$RELEASE' matches the allowed release. PR is allowed to merge."
+            exit 0
+          fi
+
           if [ "$LABEL_MAJOR" -eq "$ALLOWED_MAJOR" ] && [ "$LABEL_MINOR" -eq "$ALLOWED_PREVIOUS_MINOR" ] && [ "$LABEL_PATCH" -gt 0 ]; then
             echo "Release label '$RELEASE' is a hotfix for the immediately previous minor release. PR is allowed to merge."
             exit 0
           fi
 
-          if [ "$(printf '%s\n%s\n' "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" "$RELEASE" | sort -V | tail -n1)" != "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" ]; then
-            echo "::warning::Release label '$RELEASE' is higher than the allowed release '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'."
-            gh pr comment "${{ github.event.pull_request.number }}" \
-              --repo "${{ github.repository }}" \
-              --edit-last \
-              --body "$(printf '%b' "⚠️ **Release version validation warning**\n\nRelease label \`$RELEASE\` is higher than the currently allowed release \`$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH\`.\nIf you wish to merge this PR, please wait until it is permitted.")" || true
+          if [ "$RELEASE" != "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" ]; then
+            echo "::warning::Release label '$RELEASE' is not within the allowed range for merge towards dev. Allowed release: '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'."
+            upsert_warning_comment "$(printf '%b' "$COMMENT_MARKER\n⚠️ **Release version validation warning**\n\nRelease label \`$RELEASE\` is not allowed for merge towards \`dev\`.\nAllowed release: \`$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH\`.\nAccepted exception: only the immediately previous minor release with patch greater than 0 is allowed as a hotfix.")" || true
             exit 0
           fi
 
