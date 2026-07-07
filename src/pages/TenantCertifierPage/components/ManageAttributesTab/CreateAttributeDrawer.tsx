@@ -89,7 +89,7 @@ export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
               name="kind"
               options={kindOptions}
               rules={{ required: true }}
-              aria-controls="thresholdTypeField"
+              aria-controls="threshold-type-field"
             />
           </Stack>
           <Stack spacing={3}>
@@ -117,7 +117,7 @@ export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
             />
             {selectedKind === 'CERTIFIED_DISCRETE' && (
               <RHFAutocompleteSingle
-                id="thresholdTypeField"
+                id="threshold-type-field"
                 label={t('form.infoFields.thresholdTypeField.label')}
                 name="thresholdType"
                 size="small"
