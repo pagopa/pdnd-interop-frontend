@@ -71,12 +71,7 @@ jobs:
             echo "::warning::Release label '$RELEASE' is higher than the allowed release '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'. This PR cannot be merged yet."
             gh pr comment "${{ github.event.pull_request.number }}" \
               --repo "${{ github.repository }}" \
-              --body-file - 2>/dev/null <<EOF || true
-⚠️ **Release version validation warning**
-
-Release label \`$RELEASE\` is higher than the currently allowed release \`$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH\`.
-If you wish to merge this PR, please wait until it is permitted.
-EOF
+              --body "$(printf '%b' "⚠️ **Release version validation warning**\n\nRelease label \`$RELEASE\` is higher than the currently allowed release \`$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH\`.\nIf you wish to merge this PR, please wait until it is permitted.")" 2>/dev/null || true
           fi
 
           echo "Release label matches. PR is allowed to merge."
