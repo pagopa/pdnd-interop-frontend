@@ -1,11 +1,7 @@
 import type { AttributeKind } from '@/api/api.generatedTypes'
 import { AttributeMutations } from '@/api/attribute'
 import { Drawer } from '@/components/shared/Drawer'
-import {
-  RHFAutocompleteSingle,
-  RHFRadioGroup,
-  RHFTextField,
-} from '@/components/shared/react-hook-form-inputs'
+import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { Stack, Typography } from '@mui/material'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -21,7 +17,6 @@ type CreateNewAttributeFormValues = {
   kind: Extract<AttributeKind, 'CERTIFIED' | 'CERTIFIED_DISCRETE'>
   name: string
   description: string
-  thresholdType: string
 }
 
 export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
@@ -37,12 +32,11 @@ export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
       kind: 'CERTIFIED',
       name: '',
       description: '',
-      thresholdType: undefined,
     },
   })
 
   const onSubmit = formMethods.handleSubmit(
-    ({ kind, name, description, thresholdType }: CreateNewAttributeFormValues) => {
+    ({ kind, name, description }: CreateNewAttributeFormValues) => {
       match(kind)
         .with('CERTIFIED', () =>
           createCertifiedAttribute({ name: name, description: description }, { onSuccess: onClose })
@@ -65,8 +59,6 @@ export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
     },
   ] as const
 
-  const selectedKind = formMethods.watch('kind')
-
   return (
     <FormProvider {...formMethods}>
       <Drawer
@@ -85,12 +77,7 @@ export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
             <Typography fontWeight={600} variant="label">
               {t('form.kindField.label')}
             </Typography>
-            <RHFRadioGroup
-              name="kind"
-              options={kindOptions}
-              rules={{ required: true }}
-              aria-controls="threshold-type-field"
-            />
+            <RHFRadioGroup name="kind" options={kindOptions} rules={{ required: true }} />
           </Stack>
           <Stack spacing={3}>
             <Typography fontWeight={600} variant="label">
@@ -115,21 +102,6 @@ export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
               rules={{ required: true, minLength: 10 }}
               infoLabel={t('form.infoFields.descriptionField.infoLabel')}
             />
-            {selectedKind === 'CERTIFIED_DISCRETE' && (
-              <RHFAutocompleteSingle
-                id="threshold-type-field"
-                label={t('form.infoFields.thresholdTypeField.label')}
-                name="thresholdType"
-                size="small"
-                rules={{ required: true }}
-                options={[
-                  {
-                    label: t('form.infoFields.thresholdTypeField.optionNumericLabel'),
-                    value: 'number',
-                  },
-                ]}
-              />
-            )}
           </Stack>
         </Stack>
       </Drawer>

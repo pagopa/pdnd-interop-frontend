@@ -97,10 +97,6 @@
             "descriptionField": {
               "label": "Attribute description",
               "infoLabel": "Min 10 characters, max 250 characters"
-            },
-            "thresholdTypeField": {
-              "label": "Value type",
-              "optionNumericLabel": "Numeric"
             }
           }
         }
