@@ -55,7 +55,8 @@ jobs:
             echo "::warning::PR does not have a release label (expected format: x.y.z)."
             gh pr comment "${{ github.event.pull_request.number }}" \
               --repo "${{ github.repository }}" \
-              --body "$(printf '%b' "⚠️ **Release version validation warning**\n\nNo release label was found on this PR (expected format: \`x.y.z\`).")" 2>/dev/null || true
+              --edit-last \
+              --body "$(printf '%b' "⚠️ **Release version validation warning**\n\nNo release label was found on this PR (expected format: \`x.y.z\`).")" || true
             exit 0
           fi
 
