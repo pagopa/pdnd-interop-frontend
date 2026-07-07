@@ -39,18 +39,12 @@ jobs:
       - name: Check release label on PR
         if: steps.check_align.outputs.skip != 'true'
         env:
-          PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ' ') }}
+          PR_LABELS_JSON: ${{ toJson(github.event.pull_request.labels.*.name) }}
         run: |
           echo "Checking PR labels for release tag..."
           echo "Allowed release: $ALLOWED_RELEASE_TOWARDS_DEV_BRANCH"
 
-          RELEASE=""
-          for LABEL in $PR_LABELS; do
-            if echo "$LABEL" | grep -qP '^\d+\.\d+\.\d+$'; then
-              RELEASE="$LABEL"
-              break
-            fi
-          done
+          RELEASE="$(echo "$PR_LABELS_JSON" | jq -r '.[]' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -n1)"
 
           if [ -z "$RELEASE" ]; then
             echo "::error::PR does not have a release label (expected format: x.y.z)"
