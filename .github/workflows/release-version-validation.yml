@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      pull-requests: read
+      pull-requests: write
     steps:
       - name: Check if PR is an align PR
         id: check_align
@@ -40,6 +40,7 @@ jobs:
         if: steps.check_align.outputs.skip != 'true'
         env:
           PR_LABELS_JSON: ${{ toJson(github.event.pull_request.labels.*.name) }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           echo "Checking PR labels for release tag..."
           echo "Allowed release: $ALLOWED_RELEASE_TOWARDS_DEV_BRANCH"
@@ -53,10 +54,26 @@ jobs:
 
           echo "Found release label: $RELEASE"
 
+          ALLOWED_MAJOR=$(echo "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" | cut -d. -f1)
+          ALLOWED_MINOR=$(echo "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" | cut -d. -f2)
+
+          LABEL_MAJOR=$(echo "$RELEASE" | cut -d. -f1)
+          LABEL_MINOR=$(echo "$RELEASE" | cut -d. -f2)
+          LABEL_PATCH=$(echo "$RELEASE" | cut -d. -f3)
+
+          if [ "$LABEL_MAJOR" -eq "$ALLOWED_MAJOR" ] && [ "$LABEL_MINOR" -lt "$ALLOWED_MINOR" ] && [ "$LABEL_PATCH" -gt 0 ]; then
+            echo "Release label '$RELEASE' is a hotfix for a previous minor release. PR is allowed to merge."
+            exit 0
+          fi
+
           if [ "$(printf '%s\n%s\n' "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" "$RELEASE" | sort -V | tail -n1)" != "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" ]; then
-            echo "::error::Release label '$RELEASE' is higher than the allowed release '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'"
-            echo "If you wish to merge this PR in the future, please wait until it is permitted."
-            exit 1
+            echo "::warning::Release label '$RELEASE' is higher than the allowed release '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'. This PR cannot be merged yet."
+            gh pr comment "${{ github.event.pull_request.number }}" \
+              --repo "${{ github.repository }}" \
+              --body "⚠️ **Release version validation warning**
+
+Release label \`$RELEASE\` is higher than the currently allowed release \`$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH\`.
+If you wish to merge this PR, please wait until it is permitted." 2>/dev/null || true
           fi
 
           echo "Release label matches. PR is allowed to merge."
