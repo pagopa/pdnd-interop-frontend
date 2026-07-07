@@ -513,18 +513,11 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             >
               {tCommon('reject')}
             </Button>
-            <Tooltip title={publishTooltipTitle} arrow>
-              <span>
-                <Button
-                  startIcon={<PublishIcon />}
-                  variant="contained"
-                  onClick={handleApproveDelegatedVersionDraft}
-                  disabled={isSupport || isAsyncExchangeValidationLoading || !isPublishable}
-                >
-                  {tCommon('publish')}
-                </Button>
-              </span>
-            </Tooltip>
+            <PublishButton
+              onClick={handleApproveDelegatedVersionDraft}
+              disabled={isSupport || isAsyncExchangeValidationLoading || !isPublishable}
+              tooltipTitle={publishTooltipTitle}
+            />
           </Stack>
         )}
         {requireDelegateCorrections && sortedRejectedReasons && (
@@ -571,7 +564,7 @@ const PublishButton: React.FC<PublishButtonProps> = ({ disabled, onClick, toolti
           tabIndex={0}
           role="button"
           aria-disabled="true"
-          aria-label={tooltipTitle ? `${buttonLabel} - ${tooltipTitle}` : `${buttonLabel}`}
+          aria-label={tooltipTitle ? `${buttonLabel} - ${tooltipTitle}` : buttonLabel}
         >
           <span aria-hidden="true">{button}</span>
         </span>
