@@ -138,9 +138,10 @@ export function getConsumerAgreementVersionAlertSpec(args: {
   scope: ArchivingScope | undefined
   archivableOn: string | undefined
   archivedAt: string | undefined
+  isObsoleteDescriptor: boolean
   t: TFunction<'agreement', 'consumerRead.versionAlert'>
 }): ConsumerAgreementVersionAlertSpec[] {
-  const { state, scope, archivableOn, archivedAt, t } = args
+  const { state, scope, archivableOn, archivedAt, isObsoleteDescriptor, t } = args
   const scheduledDate = archivableOn ? formatDateStringNumeric(archivableOn) : ''
   const archivedDate = archivedAt ? formatDateStringNumeric(archivedAt) : ''
 
@@ -150,14 +151,19 @@ export function getConsumerAgreementVersionAlertSpec(args: {
     .with({ state: 'ARCHIVING', scope: 'DESCRIPTOR' }, () => [
       { severity: 'warning', content: t('archivingDescriptor', { date: scheduledDate }) },
     ])
-    .with({ state: 'ARCHIVING', scope: 'ESERVICE' }, () => [
-      {
-        severity: 'warning',
-        content: t('archivingEService', { date: scheduledDate }),
-        showSeeDetailsAction: true,
-      },
-      { severity: 'info', content: t('deprecatedActiveShort') },
-    ])
+    .with({ state: 'ARCHIVING', scope: 'ESERVICE' }, () => {
+      const alerts: ConsumerAgreementVersionAlertSpec[] = [
+        {
+          severity: 'warning',
+          content: t('archivingEService', { date: scheduledDate }),
+          showSeeDetailsAction: true,
+        },
+      ]
+      if (isObsoleteDescriptor) {
+        alerts.push({ severity: 'info', content: t('deprecatedActiveShort') })
+      }
+      return alerts
+    })
     .with({ state: 'ARCHIVING_SUSPENDED', scope: 'DESCRIPTOR' }, () => [
       { severity: 'error', content: t('archivingSuspendedDescriptor', { date: scheduledDate }) },
     ])

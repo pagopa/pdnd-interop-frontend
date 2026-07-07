@@ -43,9 +43,10 @@ describe('ConsumerAgreementVersionAlerts', () => {
     expect(screen.queryByRole('button', { name: 'seeDetails' })).toBeNull()
   })
 
-  it('renders a warning alert with see-details plus an obsolete-version info alert when state is ARCHIVING + scope ESERVICE', () => {
+  it('renders a warning alert with see-details plus an obsolete-version info alert when state is ARCHIVING + scope ESERVICE and the descriptor is obsolete', () => {
     renderAlerts(
       createMockEServiceDescriptorCatalog({
+        id: 'obsolete-descriptor-id',
         state: 'ARCHIVING',
         archivingSchedule: { scope: 'ESERVICE', archivableOn: '2026-12-01T00:00:00.000Z' },
       })
@@ -54,6 +55,19 @@ describe('ConsumerAgreementVersionAlerts', () => {
     expect(alerts).toHaveLength(2)
     expect(alerts[0]).toHaveClass(/MuiAlert-standardWarning/)
     expect(alerts[1]).toHaveClass(/MuiAlert-standardInfo/)
+    expect(screen.getByRole('button', { name: 'seeDetails' })).toBeInTheDocument()
+  })
+
+  it('renders only the warning alert with see-details when state is ARCHIVING + scope ESERVICE and the descriptor is the active one', () => {
+    renderAlerts(
+      createMockEServiceDescriptorCatalog({
+        state: 'ARCHIVING',
+        archivingSchedule: { scope: 'ESERVICE', archivableOn: '2026-12-01T00:00:00.000Z' },
+      })
+    )
+    const alerts = screen.getAllByRole('alert')
+    expect(alerts).toHaveLength(1)
+    expect(alerts[0]).toHaveClass(/MuiAlert-standardWarning/)
     expect(screen.getByRole('button', { name: 'seeDetails' })).toBeInTheDocument()
   })
 
