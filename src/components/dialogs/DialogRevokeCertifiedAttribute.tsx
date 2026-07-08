@@ -27,6 +27,8 @@ export const DialogRevokeCertifiedAttribute: React.FC<DialogRevokeCertifiedAttri
   const [isConfirmCheckboxChecked, setIsConfirmCheckboxChecked] = React.useState<boolean>(false)
 
   const { mutate: revokeCertifiedAttribute } = AttributeMutations.useRevokeCertifiedAttribute()
+  const { mutate: revokeCertifiedDiscreteAttribute } =
+    AttributeMutations.useRevokeCertifiedDiscreteAttribute()
 
   const handleCheckBoxChange = () => {
     setIsConfirmCheckboxChecked((prev) => {
@@ -39,7 +41,17 @@ export const DialogRevokeCertifiedAttribute: React.FC<DialogRevokeCertifiedAttri
   }
 
   const handleRevoke = () => {
-    revokeCertifiedAttribute({ tenantId: attribute.tenantId, attributeId: attribute.attributeId })
+    if (attribute.kind === 'CERTIFIED') {
+      revokeCertifiedAttribute({ tenantId: attribute.tenantId, attributeId: attribute.attributeId })
+    }
+
+    if (attribute.kind === 'CERTIFIED_DISCRETE') {
+      revokeCertifiedDiscreteAttribute({
+        tenantId: attribute.tenantId,
+        attributeId: attribute.attributeId,
+      })
+    }
+
     closeDialog()
   }
 
