@@ -300,15 +300,15 @@
         "title": "Interfaccia",
         "description": {
           "rest": "Carica il file OpenAPI che descrive l'API.",
-          "beforePublishing": "Prima della pubblicazione, puoi usare questi strumenti per controllare:",
-          "technicalCompliance": "la conformità tecnica",
+          "beforePublishing": "Prima della pubblicazione, puoi usare questi strumenti per:",
+          "technicalCompliance": "controllare la conformità tecnica",
           "technicalComplianceDescription": "secondo le linee guida ModI con",
-          "semanticCompliance": "la conformità semantica",
-          "semanticComplianceDescription": "tramite le annotazioni del Catalogo Nazionale Dati con",
+          "semanticCompliance": "verificare la qualità semantica",
+          "semanticComplianceDescription": "del tuo schema dati attraverso lo score calcolato dallo",
           "restLinkLabel": "OpenAPI Checker",
           "schemaEditorLinkLabel": "Schema Editor",
           "restForm": "Compila questi campi per generare automaticamente il file OpenAPI.",
-          "soap": "Carica il file WSDL che descrive l'API"
+          "soap": "Carica il file WSDL che descrive l'API."
         },
         "prettyName": "Specifica API",
         "dropzoneLabel": "Trascina qui il file OpenAPI oppure clicca qui per selezionarlo dal computer",

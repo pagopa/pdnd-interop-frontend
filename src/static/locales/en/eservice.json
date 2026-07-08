@@ -300,15 +300,15 @@
         "title": "Interface",
         "description": {
           "rest": "Upload the OpenAPI file that describes the API.",
-          "beforePublishing": "Before publishing, you can use these tools to check:",
-          "technicalCompliance": "technical compliance",
+          "beforePublishing": "Before publishing, you can use these tools to:",
+          "technicalCompliance": "check technical compliance",
           "technicalComplianceDescription": "with the ModI guidelines through",
-          "semanticCompliance": "semantic compliance",
-          "semanticComplianceDescription": "with the National Data Catalog annotations through",
+          "semanticCompliance": "verify semantic quality",
+          "semanticComplianceDescription": "of your data schema through the score calculated by",
           "restLinkLabel": "OpenAPI Checker",
           "schemaEditorLinkLabel": "Schema Editor",
           "restForm": "Fill in these fields to automatically generate the OpenAPI file.",
-          "soap": "Upload the WSDL file that describes the API"
+          "soap": "Upload the WSDL file that describes the API."
         },
         "prettyName": "API specification",
         "dropzoneLabel": "Drag the OpenAPI file here or click here to select it from your computer",

@@ -342,15 +342,15 @@
           "title": "Interfaccia",
           "alert": "Puoi caricare un file senza dati di contatto, Termini e Condizioni e indirizzi dei server: queste informazioni saranno inserite in una fase successiva da chi userà il template.",
           "description": {
-            "rest": "Carica una bozza del file OpenAPI che descrive l'API.",
-            "beforePublishing": "Prima della pubblicazione, puoi usare questi strumenti per controllare:",
-            "technicalCompliance": "la conformità tecnica",
+            "rest": "Carica il file OpenAPI che descrive l'API.",
+            "beforePublishing": "Prima della pubblicazione, puoi usare questi strumenti per:",
+            "technicalCompliance": "controllare la conformità tecnica",
             "technicalComplianceDescription": "secondo le linee guida ModI con",
-            "semanticCompliance": "la conformità semantica",
-            "semanticComplianceDescription": "tramite le annotazioni del Catalogo Nazionale Dati con",
+            "semanticCompliance": "verificare la qualità semantica",
+            "semanticComplianceDescription": "del tuo schema dati attraverso lo score calcolato dallo",
             "restLinkLabel": "OpenAPI Checker",
             "schemaEditorLinkLabel": "Schema Editor",
-            "soap": "Carica una bozza del file WSDL che descrive l'API"
+            "soap": "Carica il file WSDL che descrive l'API."
           },
           "prettyName": "Specifica API"
         },
