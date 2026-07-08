@@ -32,8 +32,6 @@ vi.mock('@/components/shared/AttributeAutocomplete', () => ({
         onAddAttribute({
           id: 'attr-3',
           name: 'Attribute 3',
-          description: 'desc 3',
-          explicitAttributeVerification: false,
           kind: 'CERTIFIED',
         })
       }
