@@ -42,6 +42,8 @@ describe('ProductUpdatesServices.getProductUpdatesJson', () => {
         date: '2028-05-25',
         time: '12:47',
       },
+      title: 'Novita su PDND',
+      description: 'Sono disponibili nuovi aggiornamenti di piattaforma.',
     })
     expect(axios.get).not.toHaveBeenCalled()
   })
@@ -56,6 +58,8 @@ describe('ProductUpdatesServices.getProductUpdatesJson', () => {
         date: '2026-06-12',
         time: '23:59',
       },
+      title: 'Novita piattaforma',
+      description: 'E disponibile una nuova funzionalita.',
     }
     vi.mocked(axios.get).mockResolvedValueOnce({ data: bannerData })
     const ProductUpdatesServices = await importProductUpdatesServices()
@@ -63,8 +67,99 @@ describe('ProductUpdatesServices.getProductUpdatesJson', () => {
     const result = await ProductUpdatesServices.getProductUpdatesJson()
 
     expect(axios.get).toHaveBeenCalledWith(
-      'https://interop-resources.example.com/banner-info-window/data.json'
+      'https://interop-resources.example.com/banner-info-window/it/data.json'
     )
     expect(result).toEqual(bannerData)
+  })
+
+  it('fetches the product updates banner data for the current language', async () => {
+    const bannerData = {
+      start: { date: '2026-06-11', time: '00:00' },
+      end: { date: '2026-06-12', time: '23:59' },
+      title: 'Platform news',
+      description: 'A new feature is available.',
+      firstLink: {
+        link: 'https://docs.example.com/feature',
+        label: 'Read the guide',
+      },
+    }
+    vi.mocked(axios.get).mockResolvedValueOnce({ data: bannerData })
+    const ProductUpdatesServices = await importProductUpdatesServices()
+
+    const result = await ProductUpdatesServices.getProductUpdatesJson('en')
+
+    expect(axios.get).toHaveBeenCalledWith(
+      'https://interop-resources.example.com/banner-info-window/en/data.json'
+    )
+    expect(result).toEqual(bannerData)
+  })
+
+  it('falls back to the Italian banner when the current language file cannot be loaded', async () => {
+    const italianBannerData = {
+      start: { date: '2026-06-11', time: '00:00' },
+      end: { date: '2026-06-12', time: '23:59' },
+      title: 'Novita piattaforma',
+      description: 'E disponibile una nuova funzionalita.',
+    }
+    vi.mocked(axios.get)
+      .mockRejectedValueOnce(new Error('Not found'))
+      .mockResolvedValueOnce({ data: italianBannerData })
+    const ProductUpdatesServices = await importProductUpdatesServices()
+
+    const result = await ProductUpdatesServices.getProductUpdatesJson('en')
+
+    expect(axios.get).toHaveBeenNthCalledWith(
+      1,
+      'https://interop-resources.example.com/banner-info-window/en/data.json'
+    )
+    expect(axios.get).toHaveBeenNthCalledWith(
+      2,
+      'https://interop-resources.example.com/banner-info-window/it/data.json'
+    )
+    expect(result).toEqual(italianBannerData)
+  })
+
+  it('rejects invalid product updates banner data', async () => {
+    vi.mocked(axios.get).mockResolvedValueOnce({
+      data: {
+        start: { date: '2026-06-11', time: '00:00' },
+        end: { date: '2026-06-12', time: '23:59' },
+        title: 'Novita piattaforma',
+      },
+    })
+    const ProductUpdatesServices = await importProductUpdatesServices()
+
+    await expect(ProductUpdatesServices.getProductUpdatesJson()).rejects.toThrow()
+  })
+
+  it('falls back to the Italian banner when the current language file has invalid data', async () => {
+    const italianBannerData = {
+      start: { date: '2026-06-11', time: '00:00' },
+      end: { date: '2026-06-12', time: '23:59' },
+      title: 'Novita piattaforma',
+      description: 'E disponibile una nuova funzionalita.',
+    }
+    vi.mocked(axios.get)
+      .mockResolvedValueOnce({
+        data: {
+          start: { date: '2026-06-11', time: '00:00' },
+          end: { date: '2026-06-12', time: '23:59' },
+          title: 'Platform news',
+        },
+      })
+      .mockResolvedValueOnce({ data: italianBannerData })
+    const ProductUpdatesServices = await importProductUpdatesServices()
+
+    const result = await ProductUpdatesServices.getProductUpdatesJson('en')
+
+    expect(axios.get).toHaveBeenNthCalledWith(
+      1,
+      'https://interop-resources.example.com/banner-info-window/en/data.json'
+    )
+    expect(axios.get).toHaveBeenNthCalledWith(
+      2,
+      'https://interop-resources.example.com/banner-info-window/it/data.json'
+    )
+    expect(result).toEqual(italianBannerData)
   })
 })
