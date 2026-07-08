@@ -344,8 +344,8 @@
     "addCertifiedAttribute": {
       "loading": "Stiamo assegnando l'attributo",
       "outcome": {
-        "error": "Non è stato possibile assegnare l’attributo. Per favore, riprova",
-        "success": "L’attributo è stato assegnato correttamente"
+        "error": "Non è stato possibile assegnare l'attributo certificato. Controlla di aver inserito le informazioni corrette.",
+        "success": "Hai assegnato l'attributo certificato."
       }
     },
     "revokeCertifiedAttribute": {

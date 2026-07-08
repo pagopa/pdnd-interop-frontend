@@ -67,12 +67,40 @@ function useAddCertifiedAttribute() {
   })
 }
 
+function useAddCertifiedDiscreteAttribute() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'attribute.addCertifiedAttribute',
+  })
+  return useMutation({
+    mutationFn: AttributeServices.addCertifiedDiscreteAttribute,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
+    },
+  })
+}
+
 function useRevokeCertifiedAttribute() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'attribute.revokeCertifiedAttribute',
   })
   return useMutation({
     mutationFn: AttributeServices.revokeCertifiedAttribute,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
+    },
+  })
+}
+
+function useRevokeCertifiedDiscreteAttribute() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'attribute.revokeCertifiedAttribute',
+  })
+  return useMutation({
+    mutationFn: AttributeServices.revokeCertifiedDiscreteAttribute,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -168,7 +196,9 @@ export const AttributeMutations = {
   useCreateVerified,
   useCreateDeclared,
   useAddCertifiedAttribute,
+  useAddCertifiedDiscreteAttribute,
   useRevokeCertifiedAttribute,
+  useRevokeCertifiedDiscreteAttribute,
   useVerifyPartyAttribute,
   useUpdateVerifiedPartyAttribute,
   useRevokeVerifiedPartyAttribute,
