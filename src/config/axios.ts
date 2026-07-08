@@ -32,7 +32,9 @@ const serializeParams = (query: Record<string, unknown>) => {
       // like 0 or '' are allowed
       .filter(([, value]) => value !== undefined && value !== null)
       .map(([key, value]) =>
-        Array.isArray(value) ? `${key}=${value.join(',')}` : `${key}=${value}`
+        Array.isArray(value)
+          ? `${key}=${value.map((v) => encodeURIComponent(String(v))).join(',')}`
+          : `${key}=${encodeURIComponent(String(value))}`
       )
       .join('&')
   )
