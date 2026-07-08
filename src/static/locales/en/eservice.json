@@ -286,8 +286,11 @@
           "serverSection": {
             "title": "Server",
             "label": "Server URL",
+            "descriptionLabel": "Server URL description",
+            "descriptionInfoLabel": "Describe which environment the server URL link points to. Min 10 characters, max 250 characters",
             "add": "Add server URL",
-            "remove": "Remove field"
+            "counter": "Server {{current}} of {{total}}",
+            "removeServer": "Delete server"
           },
           "description": {
             "rest": "Compile following fields and openAPI will be automatically generated",

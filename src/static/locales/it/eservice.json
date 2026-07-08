@@ -286,8 +286,11 @@
           "serverSection": {
             "title": "Server",
             "label": "URL server",
+            "descriptionLabel": "Descrizione dell'URL server",
+            "descriptionInfoLabel": "Descrivi verso quale ambiente è rivolto il link dell'URL server. Min 10 caratteri, max 250 caratteri",
             "add": "Aggiungi URL server",
-            "remove": "Rimuovi campo"
+            "counter": "Server {{current}} di {{total}}",
+            "removeServer": "Elimina server"
           },
           "description": {
             "rest": "Compila i seguenti campi e ti verrà generato automaticamente il file OpenAPI.",

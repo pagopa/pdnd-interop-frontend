@@ -684,7 +684,10 @@ export interface ProducerEServiceDescriptor {
   /** @format date-time */
   suspendedAt?: string;
   rejectionReasons?: DescriptorRejectionReason[];
-  serverUrls?: string[];
+  serverUrls?: {
+    url: string;
+    description?: string;
+  }[];
   templateRef?: EServiceTemplateRef;
   asyncExchangeProperties?: AsyncExchangeProperties;
   asyncExchangeCallbackInterface?: EServiceDoc;
@@ -908,6 +911,16 @@ export interface CompactDescriptor {
   archivableOn?: string;
 }
 
+export interface TemplateInstanceInterfaceServerUrlSeed {
+  /** @format uri */
+  url: string;
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  description?: string;
+}
+
 export interface TemplateInstanceInterfaceRESTSeed {
   contactName: string;
   /** @format email */
@@ -916,11 +929,11 @@ export interface TemplateInstanceInterfaceRESTSeed {
   contactUrl?: string;
   /** @format uri */
   termsAndConditionsUrl?: string;
-  serverUrls: string[];
+  serverUrls: TemplateInstanceInterfaceServerUrlSeed[];
 }
 
 export interface TemplateInstanceInterfaceSOAPSeed {
-  serverUrls: string[];
+  serverUrls: TemplateInstanceInterfaceServerUrlSeed[];
 }
 
 export interface TemplateInstanceInterfaceMetadata {
