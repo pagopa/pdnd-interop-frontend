@@ -329,7 +329,7 @@
             "certified": "Attributi Certificati",
             "verified": "Attributi Verificati",
             "declared": "Attributi Dichiarati",
-            "certifiedDescription": "Sono attributi certificati da una <1>fonte autoritativa riconosciuta.</1>",
+            "certifiedDescription": "Sono attributi riconosciuti da fonti certificate come IPA. Tra i più usati, per esempio, ci sono Comuni e loro Consorzi e Associazioni, Province e loro Consorzi e Associazioni, Gestori di Pubblici Servizi. <1>Scopri di più su quali attributi usare</1>.",
             "verifiedDescription": "Sono attributi verificati <1>da altre organizzazioni</1>, con la possibilità di richiedere una verifica dall'erogatore.",
             "declaredDescription": "Sono attributi dichiarati dal fruitore stesso durante la richiesta di fruizione. Non è necessaria una verifica dell'erogatore."
           }

@@ -8,7 +8,7 @@ import { Box, Link, Tab, Typography } from '@mui/material'
 import { Trans, useTranslation } from 'react-i18next'
 import { useFormContext } from 'react-hook-form'
 
-import { attributesHelpLink } from '@/config/constants'
+import { attributesHelpLink, certifiedAttributesHelpLink } from '@/config/constants'
 
 type EServiceAttributesSectionProps = {
   isEServiceCreatedFromTemplate: boolean
@@ -74,7 +74,7 @@ export const EServiceAttributesSection: React.FC<EServiceAttributesSectionProps>
                 ns="eservice"
                 i18nKey="create.step3.certifiedDescription"
                 components={{
-                  1: <Link underline="hover" href={attributesHelpLink} target="_blank" />,
+                  1: <Link underline="hover" href={certifiedAttributesHelpLink} target="_blank" />,
                 }}
               />
             </Typography>
