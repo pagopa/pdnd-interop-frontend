@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useId } from 'react'
 import { FormControlLabel, FormGroup, Checkbox } from '@mui/material'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import type { InputOption } from '@/types/common.types'
@@ -53,10 +53,13 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
       ? { validate: () => true }
       : mapValidationErrorMessages(rules, t)
 
+  const labelId = useId()
+
   return (
     <RiskAnalysisInputWrapper
       isInputGroup
       label={label}
+      labelId={labelId}
       infoLabel={infoLabel}
       helperText={helperText}
       error={error}
