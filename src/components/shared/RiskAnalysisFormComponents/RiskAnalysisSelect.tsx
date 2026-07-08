@@ -58,6 +58,7 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
 
   return (
     <RiskAnalysisInputWrapper
+      name={name}
       label={label}
       infoLabel={infoLabel}
       error={error}
@@ -75,10 +76,14 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
           <MUISelect
             {...props}
             {...fieldProps}
+            id={name}
+            labelId={ids.labelId}
             value={value ?? ''}
             inputProps={{
               ...props.inputProps,
-              ...accessibilityProps,
+            }}
+            SelectDisplayProps={{
+              'aria-describedby': accessibilityProps['aria-describedby'],
             }}
             onChange={(e) => {
               onChange(e)
