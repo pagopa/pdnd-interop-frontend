@@ -2,7 +2,7 @@ import type { CompactAttribute, CompactTenant, TenantFeature } from '@/api/api.g
 import { AttributeMutations, AttributeQueries } from '@/api/attribute'
 import { TenantHooks, TenantQueries } from '@/api/tenant'
 import { Drawer } from '@/components/shared/Drawer'
-import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
+import { RHFAutocompleteSingle, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { Stack } from '@mui/material'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
@@ -18,6 +18,7 @@ type AssignAttributeDrawerProps = {
 type AssignAttributeFormValues = {
   attribute: CompactAttribute
   tenant: CompactTenant
+  threshold: number
 }
 
 export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
@@ -27,6 +28,8 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
   const { t } = useTranslation('party', { keyPrefix: 'tenantCertifier.assignTab.drawer' })
 
   const { mutate: addCertifiedAttribute } = AttributeMutations.useAddCertifiedAttribute()
+  const { mutate: addCertifiedDiscreteAttribute } =
+    AttributeMutations.useAddCertifiedDiscreteAttribute()
 
   const [attributeSearchParam, setAttributeSearchParam] = useAutocompleteTextInput()
   const [tenantSearchParam, setTenantSearchParam] = useAutocompleteTextInput()
@@ -35,6 +38,7 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
     defaultValues: {
       attribute: undefined,
       tenant: undefined,
+      threshold: undefined,
     },
   })
 
@@ -64,7 +68,7 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
     ...AttributeQueries.getList({
       limit: 50,
       offset: 0,
-      kinds: ['CERTIFIED'],
+      kinds: ['CERTIFIED', 'CERTIFIED_DISCRETE'],
       origin: certifierId,
       q: getAttributeQ(),
     }),
@@ -103,10 +107,23 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
   })
 
   const onSubmit = formMethods.handleSubmit((values: AssignAttributeFormValues) => {
-    addCertifiedAttribute(
-      { id: values.attribute.id, tenantId: values.tenant.id },
-      { onSuccess: onClose }
-    )
+    if (values.attribute.kind === 'CERTIFIED') {
+      addCertifiedAttribute(
+        { id: values.attribute.id, tenantId: values.tenant.id },
+        { onSuccess: onClose }
+      )
+    }
+
+    if (values.attribute.kind === 'CERTIFIED_DISCRETE') {
+      addCertifiedDiscreteAttribute(
+        {
+          id: values.attribute.id,
+          tenantId: values.tenant.id,
+          certifiedDiscreteThreshold: values.threshold,
+        },
+        { onSuccess: onClose }
+      )
+    }
   })
 
   const handleTransitionExited = () => {
@@ -132,23 +149,33 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
         <Stack component="form" noValidate spacing={3}>
           <RHFAutocompleteSingle
             label={t('form.attributeField.label')}
-            labelType="external"
             size="small"
             onInputChange={(_, value) => setAttributeSearchParam(value)}
             sx={{ mb: 0, flex: 1 }}
             options={attributeOptions}
             focusOnMount
             name="attribute"
+            aria-controls="threshold-value-field"
           />
           <RHFAutocompleteSingle
             label={t('form.tenantField.label')}
-            labelType="external"
             size="small"
             onInputChange={(_, value) => setTenantSearchParam(value)}
             sx={{ mb: 0, flex: 1 }}
             options={tenantOptions}
             name="tenant"
           />
+          {selectedAttribute && selectedAttribute.kind === 'CERTIFIED_DISCRETE' && (
+            <RHFTextField
+              id="threshold-value-field"
+              label={t('form.thresholdField.label')}
+              name="threshold"
+              rules={{ required: true, min: 0, max: 1000000000 }}
+              required
+              size="small"
+              type="number"
+            />
+          )}
         </Stack>
       </Drawer>
     </FormProvider>
