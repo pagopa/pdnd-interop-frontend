@@ -72,11 +72,13 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
           eserviceTemplateVersion.eserviceTemplate
         )
 
-        if (!isEServiceTemplateTheSame)
+        if (!isEServiceTemplateTheSame) {
           updateDraft(
             { eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id, ...formValues },
             { onSuccess: forward }
           )
+          return
+        }
       }
       //if the version is not the first one or the state is not DRAFT, we just forward to the next step because there aren't editable fields in this step
       forward()
