@@ -62,8 +62,8 @@ jobs:
           dismiss_blocking_review_if_present() {
             local latest_review_info
             if ! latest_review_info="$(get_latest_bot_review_info)"; then
-              echo "::error::Failed to fetch latest bot review before attempting dismissal."
-              return 1
+              echo "::warning::Failed to fetch latest bot review; skipping dismissal."
+              return 0
             fi
 
             if [ -z "$latest_review_info" ]; then
