@@ -61,7 +61,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (formValues: EServiceTemplateCreateStepGeneralFormValues) => {
-    // If we are editing an existing e-service eserviceTemplateVersion, we update the draft
+    // If we are editing an existing e-service eserviceTemplateVersion, we proceed to the next step because there aren't editable fields in this step
     if (eserviceTemplateVersion) {
       forward()
       return

@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import {
@@ -7,17 +7,22 @@ import {
   EServiceTemplateCreateStepGeneralSkeleton,
 } from '../EServiceTemplateCreateStepGeneral'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { mockUseEServiceTemplateCreateContext } from '@/../__mocks__/data/eserviceTemplate.mocks'
+import {
+  createMockEServiceTemplateVersionDetails,
+  mockUseEServiceTemplateCreateContext,
+} from '@/../__mocks__/data/eserviceTemplate.mocks'
+
+const createDraftMutateMock = vi.fn()
 
 vi.mock('@/api/eserviceTemplate', () => ({
   EServiceTemplateMutations: {
-    useUpdateDraft: () => ({ mutate: vi.fn() }),
-    useCreateDraft: () => ({ mutate: vi.fn() }),
+    useCreateDraft: () => ({ mutate: createDraftMutateMock }),
   },
 }))
 
 afterEach(() => {
   vi.clearAllMocks()
+  createDraftMutateMock.mockReset()
 })
 
 describe('EServiceTemplateCreateStepGeneral', () => {
@@ -142,6 +147,78 @@ describe('EServiceTemplateCreateStepGeneral', () => {
       withRouterContext: true,
     })
     expect(screen.getByRole('button', { name: /create.forwardWithSaveBtn/ })).toBeInTheDocument()
+  })
+
+  it('on submit in edit flow forwards without creating a draft', async () => {
+    const user = userEvent.setup()
+    const forward = vi.fn()
+
+    mockUseEServiceTemplateCreateContext({
+      eserviceTemplateVersion: createMockEServiceTemplateVersionDetails(),
+      areEServiceTemplateGeneralInfoEditable: false,
+      forward,
+    })
+
+    renderWithApplicationContext(<EServiceTemplateCreateStepGeneral />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await user.click(screen.getByRole('button', { name: /create.forwardWithSaveBtn/ }))
+
+    expect(forward).toHaveBeenCalledTimes(1)
+    expect(createDraftMutateMock).not.toHaveBeenCalled()
+  })
+
+  it('on submit in create flow creates draft and forwards only after success', async () => {
+    const user = userEvent.setup()
+    const forward = vi.fn()
+
+    mockUseEServiceTemplateCreateContext({
+      eserviceTemplateVersion: undefined,
+      forward,
+    })
+
+    renderWithApplicationContext(<EServiceTemplateCreateStepGeneral />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await user.type(
+      screen.getByLabelText(/create.step1.eserviceTemplateNameField.label/),
+      'Valid template name'
+    )
+    await user.type(
+      screen.getByLabelText(/create.step1.intendedTargetField.label/),
+      'Valid intended target value'
+    )
+    await user.type(
+      screen.getByLabelText(/create.step1.eserviceDescriptionField.label/),
+      'Valid template description'
+    )
+    await user.click(screen.getByLabelText('personalDataField.DELIVER.options.false'))
+
+    expect(screen.getByLabelText(/create.step1.eserviceTemplateNameField.label/)).toHaveValue(
+      'Valid template name'
+    )
+    expect(screen.getByLabelText(/create.step1.intendedTargetField.label/)).toHaveValue(
+      'Valid intended target value'
+    )
+    expect(screen.getByLabelText(/create.step1.eserviceDescriptionField.label/)).toHaveValue(
+      'Valid template description'
+    )
+
+    await user.click(screen.getByRole('button', { name: /create.forwardWithSaveBtn/ }))
+
+    await waitFor(() => {
+      expect(createDraftMutateMock).toHaveBeenCalledTimes(1)
+    })
+    expect(forward).not.toHaveBeenCalled()
+
+    const createDraftOptions = createDraftMutateMock.mock.calls[0][1]
+    createDraftOptions.onSuccess({ id: 'template-id', versionId: 'version-id' })
+
+    expect(forward).toHaveBeenCalledTimes(1)
   })
 })
 
