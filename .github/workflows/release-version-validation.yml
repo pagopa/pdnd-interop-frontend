@@ -80,8 +80,8 @@ jobs:
 
             gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews/$review_id/dismissals" \
               --method PUT \
-              -f message='Release version validation passed. Dismissing previous blocking review.' \
-              -f event='DISMISS' >/dev/null
+              -f message='Release version validation passed. Dismissing previous blocking review.' >/dev/null \
+              || echo "::warning::Failed to dismiss previous blocking review (id: $review_id)."
           }
 
           if [[ "$PR_TITLE" =~ ^align/(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
