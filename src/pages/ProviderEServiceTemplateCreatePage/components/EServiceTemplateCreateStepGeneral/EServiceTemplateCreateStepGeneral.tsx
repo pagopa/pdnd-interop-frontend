@@ -64,7 +64,8 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
 
   const onSubmit = (formValues: EServiceTemplateCreateStepGeneralFormValues) => {
     if (eserviceTemplateVersion) {
-      //if we are editing the first version of an existing draft of the eservice template, we update the draft
+      //if we are editing the first version of an existing draft of the e-service template,
+      // we update the draft
       if (areEServiceTemplateGeneralInfoEditable) {
         // If nothing has changed skip the update call
         const isEServiceTemplateTheSame = compareObjects(
@@ -80,7 +81,8 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
           return
         }
       }
-      //if the version is not the first one or the state is not DRAFT, we just forward to the next step because there aren't editable fields in this step
+      //if the version is not the first one or the state is not DRAFT,
+      // we just forward to the next step because there aren't editable fields in this step
       forward()
       return
     }

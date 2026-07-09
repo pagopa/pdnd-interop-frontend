@@ -152,6 +152,31 @@ describe('EServiceTemplateCreateStepGeneral', () => {
     expect(screen.getByRole('button', { name: /create.forwardWithSaveBtn/ })).toBeInTheDocument()
   })
 
+  it('submits without update when existing version is not editable', async () => {
+    const user = userEvent.setup()
+    const forwardMock = vi.fn()
+
+    mockUseEServiceTemplateCreateContext({
+      eserviceTemplateVersion: createMockEServiceTemplateVersionDetails({
+        version: 2,
+        state: 'PUBLISHED',
+      }),
+      areEServiceTemplateGeneralInfoEditable: false,
+      forward: forwardMock,
+    })
+
+    renderWithApplicationContext(<EServiceTemplateCreateStepGeneral />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await user.click(screen.getByRole('button', { name: /create.forwardWithSaveBtn/ }))
+
+    expect(updateDraftMock).not.toHaveBeenCalled()
+    expect(createDraftMock).not.toHaveBeenCalled()
+    expect(forwardMock).toHaveBeenCalledTimes(1)
+  })
+
   it('submits without update when existing first draft is unchanged', async () => {
     const user = userEvent.setup()
     const forwardMock = vi.fn()
@@ -197,6 +222,7 @@ describe('EServiceTemplateCreateStepGeneral', () => {
     const [, { onSuccess }] = updateDraftMock.mock.calls[0]
     expect(forwardMock).not.toHaveBeenCalled()
     onSuccess()
+    expect(forwardMock).toHaveBeenCalledTimes(1)
   })
 })
 
