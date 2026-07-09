@@ -152,7 +152,7 @@ describe('EServiceTemplateCreateStepGeneral', () => {
     expect(screen.getByRole('button', { name: /create.forwardWithSaveBtn/ })).toBeInTheDocument()
   })
 
-  it.only('submits without update when existing first draft is unchanged', async () => {
+  it('submits without update when existing first draft is unchanged', async () => {
     const user = userEvent.setup()
     const forwardMock = vi.fn()
 
@@ -193,10 +193,10 @@ describe('EServiceTemplateCreateStepGeneral', () => {
     )
     await user.click(screen.getByRole('button', { name: /create.forwardWithSaveBtn/ }))
 
-    const [, options] = updateDraftMock.mock.calls[0]
+    expect(updateDraftMock).toHaveBeenCalledTimes(1)
+    const [, { onSuccess }] = updateDraftMock.mock.calls[0]
     expect(forwardMock).not.toHaveBeenCalled()
-    options.onSuccess()
-    expect(forwardMock).toHaveBeenCalledTimes(1)
+    onSuccess()
   })
 })
 
