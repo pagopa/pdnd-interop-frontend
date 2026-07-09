@@ -79,7 +79,7 @@ jobs:
             if [ -n "$comment_id" ]; then
               gh api "repos/${{ github.repository }}/issues/comments/$comment_id" \
                 --method PATCH \
-                -f body="$body" >/dev/null
+                -f body="$body" >/dev/null || true
             else
               gh pr comment "${{ github.event.pull_request.number }}" \
                 --repo "${{ github.repository }}" \
