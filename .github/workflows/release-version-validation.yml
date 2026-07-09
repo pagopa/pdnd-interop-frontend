@@ -93,7 +93,7 @@ jobs:
 
             if [ -n "$comment_id" ]; then
               gh api "repos/${{ github.repository }}/issues/comments/$comment_id" \
-                --method DELETE >/dev/null
+                --method DELETE >/dev/null || true
             fi
           }
 
