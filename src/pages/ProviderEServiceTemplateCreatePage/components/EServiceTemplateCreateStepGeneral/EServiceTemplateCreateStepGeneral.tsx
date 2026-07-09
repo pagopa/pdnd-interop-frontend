@@ -8,7 +8,6 @@ import { RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inp
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
 import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
-import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import { IconLink } from '@/components/shared/IconLink'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
@@ -44,7 +43,6 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
     onEserviceTemplateModeChange,
   } = useEServiceTemplateCreateContext()
 
-  const { mutate: updateDraft } = EServiceTemplateMutations.useUpdateDraft()
   const { mutate: createDraft } = EServiceTemplateMutations.useCreateDraft()
 
   const defaultValues: EServiceTemplateCreateStepGeneralFormValues = {
@@ -65,19 +63,7 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const onSubmit = (formValues: EServiceTemplateCreateStepGeneralFormValues) => {
     // If we are editing an existing e-service eserviceTemplateVersion, we update the draft
     if (eserviceTemplateVersion) {
-      // If nothing has changed skip the update call
-      const isEServiceTemplateTheSame = compareObjects(
-        formValues,
-        eserviceTemplateVersion.eserviceTemplate
-      )
-
-      if (!isEServiceTemplateTheSame)
-        updateDraft(
-          { eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id, ...formValues },
-          { onSuccess: forward }
-        )
-      else forward()
-
+      forward()
       return
     }
 
