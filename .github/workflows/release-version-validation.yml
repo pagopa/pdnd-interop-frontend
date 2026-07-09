@@ -24,48 +24,14 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - name: Check if PR is an align PR
-        id: check_align
+      - name: Check release label on PR
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          get_latest_bot_review_state() {
-            gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
-              --paginate \
-              --slurp \
-              --jq 'flatten | map(select(.user.login == "github-actions[bot]" and .submitted_at != null)) | sort_by(.submitted_at) | last | .state // empty' || true
-          }
-
-          approve_review_if_blocking() {
-            local latest_state
-            latest_state="$(get_latest_bot_review_state)"
-
-            if [ "$latest_state" != "CHANGES_REQUESTED" ]; then
-              return 0
-            fi
-
-            gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
-              --method POST \
-              -f event='APPROVE' \
-              -f commit_id='${{ github.event.pull_request.head.sha }}' \
-              -f body='Release version validation skipped for align PR. Removing previous blocking review.' >/dev/null || true
-          }
-
-          if [[ "$PR_TITLE" =~ ^align/[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            approve_review_if_blocking || true
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-            echo "PR title '$PR_TITLE' is an align PR. Skipping release check."
-          else
-            echo "skip=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Check release label on PR
-        if: steps.check_align.outputs.skip != 'true'
-        env:
           PR_LABELS_JSON: ${{ toJson(github.event.pull_request.labels.*.name) }}
           GH_TOKEN: ${{ github.token }}
         run: |
+          SEMVER_REGEX='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'
+
           echo "Checking PR labels for release tag..."
           echo "Allowed release: $ALLOWED_RELEASE_TOWARDS_DEV_BRANCH"
 
@@ -73,13 +39,16 @@ jobs:
             gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
               --paginate \
               --slurp \
-              --jq 'flatten | map(select(.user.login == "github-actions[bot]" and .submitted_at != null)) | sort_by(.submitted_at) | last | .state // empty' || true
+              --jq 'flatten | map(select(.user.login == "github-actions[bot]" and .submitted_at != null)) | sort_by(.submitted_at) | last | .state // empty'
           }
 
           request_changes_review() {
             local reason="$1"
             local latest_state
-            latest_state="$(get_latest_bot_review_state)"
+            if ! latest_state="$(get_latest_bot_review_state)"; then
+              echo "::error::Failed to fetch latest bot review state before posting REQUEST_CHANGES review."
+              return 1
+            fi
 
             if [ "$latest_state" = "CHANGES_REQUESTED" ]; then
               echo "A blocking review from github-actions[bot] already exists."
@@ -90,12 +59,15 @@ jobs:
               --method POST \
               -f event='REQUEST_CHANGES' \
               -f commit_id='${{ github.event.pull_request.head.sha }}' \
-              -f body="Release version validation failed. $reason" >/dev/null || true
+              -f body="Release version validation failed. $reason" >/dev/null
           }
 
           approve_review_if_blocking() {
             local latest_state
-            latest_state="$(get_latest_bot_review_state)"
+            if ! latest_state="$(get_latest_bot_review_state)"; then
+              echo "::error::Failed to fetch latest bot review state before posting APPROVE review."
+              return 1
+            fi
 
             if [ "$latest_state" != "CHANGES_REQUESTED" ]; then
               return 0
@@ -105,27 +77,33 @@ jobs:
               --method POST \
               -f event='APPROVE' \
               -f commit_id='${{ github.event.pull_request.head.sha }}' \
-              -f body='Release version validation passed. Removing previous blocking review.' >/dev/null || true
+              -f body='Release version validation passed. Removing previous blocking review.' >/dev/null
           }
 
-          if [[ -z "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" || ! "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "::warning::Repository variable ALLOWED_RELEASE_TOWARDS_DEV_BRANCH is not set or is not in x.y.z format; blocking merge until configuration is fixed."
-            request_changes_review "Repository variable ALLOWED_RELEASE_TOWARDS_DEV_BRANCH is missing or invalid (expected x.y.z)." || true
+          if [[ "$PR_TITLE" =~ ^align/(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+            approve_review_if_blocking
+            echo "PR title '$PR_TITLE' is an align PR. Skipping release check."
             exit 0
           fi
-          mapfile -t SEMVER_RELEASE_LABELS < <(echo "$PR_LABELS_JSON" | jq -r '.[]?' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' || true)
+
+          if [[ -z "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" || ! "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" =~ $SEMVER_REGEX ]]; then
+            echo "::warning::Repository variable ALLOWED_RELEASE_TOWARDS_DEV_BRANCH is not set or is not in x.y.z format; blocking merge until configuration is fixed."
+            request_changes_review "Repository variable ALLOWED_RELEASE_TOWARDS_DEV_BRANCH is missing or invalid (expected x.y.z)."
+            exit 0
+          fi
+          mapfile -t SEMVER_RELEASE_LABELS < <(echo "$PR_LABELS_JSON" | jq -r '.[]?' | grep -E "$SEMVER_REGEX" || true)
           SEMVER_LABEL_COUNT="${#SEMVER_RELEASE_LABELS[@]}"
 
           if [ "$SEMVER_LABEL_COUNT" -eq 0 ]; then
             echo "::warning::PR does not have a release label (expected format: x.y.z)."
-            request_changes_review "No release label found on the PR (expected format: x.y.z)." || true
+            request_changes_review "No release label found on the PR (expected format: x.y.z)."
             exit 0
           fi
 
           if [ "$SEMVER_LABEL_COUNT" -gt 1 ]; then
             LABEL_LIST="$(printf '%s, ' "${SEMVER_RELEASE_LABELS[@]}" | sed 's/, $//')"
             echo "::warning::PR has multiple release labels in x.y.z format: $LABEL_LIST. Exactly one release label is required."
-            request_changes_review "Multiple release labels found ($LABEL_LIST). Exactly one x.y.z release label is required." || true
+            request_changes_review "Multiple release labels found ($LABEL_LIST). Exactly one x.y.z release label is required."
             exit 0
           fi
 
@@ -133,12 +111,18 @@ jobs:
 
           echo "Found release label: $RELEASE"
 
-          ALLOWED_MAJOR=$(echo "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" | cut -d. -f1)
-          ALLOWED_MINOR=$(echo "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" | cut -d. -f2)
+          ALLOWED_MAJOR_RAW=$(echo "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" | cut -d. -f1)
+          ALLOWED_MINOR_RAW=$(echo "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" | cut -d. -f2)
 
-          LABEL_MAJOR=$(echo "$RELEASE" | cut -d. -f1)
-          LABEL_MINOR=$(echo "$RELEASE" | cut -d. -f2)
-          LABEL_PATCH=$(echo "$RELEASE" | cut -d. -f3)
+          LABEL_MAJOR_RAW=$(echo "$RELEASE" | cut -d. -f1)
+          LABEL_MINOR_RAW=$(echo "$RELEASE" | cut -d. -f2)
+          LABEL_PATCH_RAW=$(echo "$RELEASE" | cut -d. -f3)
+
+          ALLOWED_MAJOR=$((10#$ALLOWED_MAJOR_RAW))
+          ALLOWED_MINOR=$((10#$ALLOWED_MINOR_RAW))
+          LABEL_MAJOR=$((10#$LABEL_MAJOR_RAW))
+          LABEL_MINOR=$((10#$LABEL_MINOR_RAW))
+          LABEL_PATCH=$((10#$LABEL_PATCH_RAW))
 
           PREVIOUS_HOTFIX_ALLOWED=false
           if [ "$ALLOWED_MINOR" -gt 0 ]; then
@@ -150,16 +134,16 @@ jobs:
 
           if [ "$RELEASE" = "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" ]; then
             echo "Release label '$RELEASE' matches the allowed release. PR is allowed to merge."
-            approve_review_if_blocking || true
+            approve_review_if_blocking
             exit 0
           fi
 
           if [ "$PREVIOUS_HOTFIX_ALLOWED" = "true" ]; then
             echo "Release label '$RELEASE' is a valid hotfix for the previous release line. PR is allowed to merge."
-            approve_review_if_blocking || true
+            approve_review_if_blocking
             exit 0
           fi
 
           echo "::warning::Release label '$RELEASE' is not within the allowed range for merge towards dev. Allowed release: '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'."
-          request_changes_review "Release label '$RELEASE' is not allowed for merge towards dev. Allowed release: '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'." || true
+          request_changes_review "Release label '$RELEASE' is not allowed for merge towards dev. Allowed release: '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'."
           exit 0
