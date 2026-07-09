@@ -45,18 +45,29 @@ jobs:
               return 1
             fi
 
-            echo "$reviews_json" | jq -r 'flatten | map(select(.user.login == "github-actions[bot]" and .submitted_at != null)) | sort_by(.submitted_at) | last | [(.id // ""), (.state // "")] | @tsv'
+            echo "$reviews_json" | jq -r 'flatten | map(select(.user.login == "github-actions[bot]" and .submitted_at != null)) | sort_by(.submitted_at) | last | [(.id // ""), (.state // ""), (.body // "")] | @tsv'
           }
 
           request_changes_review() {
             local reason="$1"
+            local desired_body="Release version validation failed. $reason"
+            local latest_id latest_state latest_body
+
+            if IFS=$'\t' read -r latest_id latest_state latest_body < <(get_latest_bot_review_info); then
+              if [ "$latest_state" = "CHANGES_REQUESTED" ] && [ "$latest_body" = "$desired_body" ]; then
+                echo "Existing blocking review already matches current validation reason; skipping."
+                return 0
+              fi
+            fi
+
+            dismiss_blocking_review_if_present
             echo "Posting REQUEST_CHANGES review with current validation reason."
 
             gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
               --method POST \
               -f event='REQUEST_CHANGES' \
               -f commit_id='${{ github.event.pull_request.head.sha }}' \
-              -f body="Release version validation failed. $reason" >/dev/null
+              -f body="$desired_body" >/dev/null
           }
 
           dismiss_blocking_review_if_present() {
