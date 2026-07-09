@@ -28,8 +28,24 @@ jobs:
         id: check_align
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
+          GH_TOKEN: ${{ github.token }}
         run: |
+          COMMENT_MARKER='<!-- release-version-validation -->'
+
+          delete_warning_comment() {
+            local comment_id
+            comment_id="$(gh api "repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
+              --paginate \
+              --jq ".[] | select(.user.login == \"github-actions[bot]\" and (.body | contains(\"$COMMENT_MARKER\"))) | .id" \
+              | tail -n1 || true)"
+
+            if [ -n "$comment_id" ]; then
+              gh api "repos/${{ github.repository }}/issues/comments/$comment_id" --method DELETE >/dev/null || true
+            fi
+          }
+
           if [[ "$PR_TITLE" =~ ^align/[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            delete_warning_comment
             echo "skip=true" >> "$GITHUB_OUTPUT"
             echo "PR title '$PR_TITLE' is an align PR. Skipping release check."
           else
