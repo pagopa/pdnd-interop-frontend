@@ -19,10 +19,12 @@ env:
 jobs:
   validate-dev:
     name: Validate PR towards dev
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       issues: write
       pull-requests: write
+    steps:
       - name: Check if PR is an align PR
         id: check_align
         env:
@@ -55,12 +57,12 @@ jobs:
         if: steps.check_align.outputs.skip != 'true'
         env:
           PR_LABELS_JSON: ${{ toJson(github.event.pull_request.labels.*.name) }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
           echo "Checking PR labels for release tag..."
           echo "Allowed release: $ALLOWED_RELEASE_TOWARDS_DEV_BRANCH"
 
           COMMENT_MARKER='<!-- release-version-validation -->'
-
           get_warning_comment_id() {
             gh api "repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
               --paginate \
@@ -82,6 +84,7 @@ jobs:
               gh pr comment "${{ github.event.pull_request.number }}" \
                 --repo "${{ github.repository }}" \
                 --body "$body" >/dev/null || true
+            fi
           }
 
           delete_warning_comment() {
@@ -111,11 +114,18 @@ jobs:
 
           ALLOWED_MAJOR=$(echo "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" | cut -d. -f1)
           ALLOWED_MINOR=$(echo "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" | cut -d. -f2)
-          ALLOWED_PREVIOUS_MINOR=$((ALLOWED_MINOR - 1))
 
           LABEL_MAJOR=$(echo "$RELEASE" | cut -d. -f1)
           LABEL_MINOR=$(echo "$RELEASE" | cut -d. -f2)
           LABEL_PATCH=$(echo "$RELEASE" | cut -d. -f3)
+
+          PREVIOUS_HOTFIX_ALLOWED=false
+          if [ "$ALLOWED_MINOR" -gt 0 ]; then
+            ALLOWED_PREVIOUS_MINOR=$((ALLOWED_MINOR - 1))
+            if [ "$LABEL_MAJOR" -eq "$ALLOWED_MAJOR" ] && [ "$LABEL_MINOR" -eq "$ALLOWED_PREVIOUS_MINOR" ] && [ "$LABEL_PATCH" -gt 0 ]; then
+              PREVIOUS_HOTFIX_ALLOWED=true
+            fi
+          fi
 
           if [ "$RELEASE" = "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" ]; then
             echo "Release label '$RELEASE' matches the allowed release. PR is allowed to merge."
@@ -123,12 +133,12 @@ jobs:
             exit 0
           fi
 
-          if [ "$LABEL_MAJOR" -eq "$ALLOWED_MAJOR" ] && [ "$LABEL_MINOR" -eq "$ALLOWED_PREVIOUS_MINOR" ] && [ "$LABEL_PATCH" -gt 0 ]; then
-            echo "Release label '$RELEASE' is a hotfix for the immediately previous minor release. PR is allowed to merge."
+          if [ "$PREVIOUS_HOTFIX_ALLOWED" = "true" ]; then
+            echo "Release label '$RELEASE' is a valid hotfix for the previous release line. PR is allowed to merge."
             delete_warning_comment || true
             exit 0
           fi
 
           echo "::warning::Release label '$RELEASE' is not within the allowed range for merge towards dev. Allowed release: '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'."
-          upsert_warning_comment "$(printf '%b' "$COMMENT_MARKER\n⚠️ **Release version validation warning**\n\nRelease label \`$RELEASE\` is not allowed for merge towards \`dev\`.\nAllowed release: \`$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH\`.\nAccepted exception: only the immediately previous minor release with patch greater than 0 is allowed as a hotfix.")" || true
+          upsert_warning_comment "$(printf '%b' "$COMMENT_MARKER\n⚠️ **Release version validation warning**\n\nRelease label \`$RELEASE\` is not allowed for merge towards \`dev\`.\nAllowed release: \`$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH\`.\nAccepted exception: only the immediately previous minor release in the same major, with patch greater than 0, is allowed as a hotfix.")" || true
           exit 0
