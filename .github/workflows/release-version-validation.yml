@@ -30,12 +30,14 @@ jobs:
           PR_LABELS_JSON: ${{ toJson(github.event.pull_request.labels.*.name) }}
           GH_TOKEN: ${{ github.token }}
         run: |
+          set -euo pipefail
+
           SEMVER_REGEX='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'
 
           echo "Checking PR labels for release tag..."
           echo "Allowed release: $ALLOWED_RELEASE_TOWARDS_DEV_BRANCH"
 
-          get_latest_bot_review_state() {
+          get_latest_bot_review_info() {
             local reviews_json
             if ! reviews_json="$(gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
               --paginate \
@@ -43,21 +45,12 @@ jobs:
               return 1
             fi
 
-            echo "$reviews_json" | jq -r 'flatten | map(select(.user.login == "github-actions[bot]" and .submitted_at != null)) | sort_by(.submitted_at) | last | .state // empty'
+            echo "$reviews_json" | jq -r 'flatten | map(select(.user.login == "github-actions[bot]" and .submitted_at != null)) | sort_by(.submitted_at) | last | [(.id // ""), (.state // "")] | @tsv'
           }
 
           request_changes_review() {
             local reason="$1"
-            local latest_state
-            if ! latest_state="$(get_latest_bot_review_state)"; then
-              echo "::error::Failed to fetch latest bot review state before posting REQUEST_CHANGES review."
-              return 1
-            fi
-
-            if [ "$latest_state" = "CHANGES_REQUESTED" ]; then
-              echo "A blocking review from github-actions[bot] already exists."
-              return 0
-            fi
+            echo "Posting REQUEST_CHANGES review with current validation reason."
 
             gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
               --method POST \
@@ -66,26 +59,33 @@ jobs:
               -f body="Release version validation failed. $reason" >/dev/null
           }
 
-          approve_review_if_blocking() {
-            local latest_state
-            if ! latest_state="$(get_latest_bot_review_state)"; then
-              echo "::error::Failed to fetch latest bot review state before posting APPROVE review."
+          dismiss_blocking_review_if_present() {
+            local latest_review_info
+            if ! latest_review_info="$(get_latest_bot_review_info)"; then
+              echo "::error::Failed to fetch latest bot review before attempting dismissal."
               return 1
             fi
 
-            if [ "$latest_state" != "CHANGES_REQUESTED" ]; then
+            if [ -z "$latest_review_info" ]; then
               return 0
             fi
 
-            gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
-              --method POST \
-              -f event='APPROVE' \
-              -f commit_id='${{ github.event.pull_request.head.sha }}' \
-              -f body='Release version validation passed. Removing previous blocking review.' >/dev/null
+            local review_id review_state
+            review_id="${latest_review_info%%$'\t'*}"
+            review_state="${latest_review_info#*$'\t'}"
+
+            if [ "$review_state" != "CHANGES_REQUESTED" ] || [ -z "$review_id" ]; then
+              return 0
+            fi
+
+            gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews/$review_id/dismissals" \
+              --method PUT \
+              -f message='Release version validation passed. Dismissing previous blocking review.' \
+              -f event='DISMISS' >/dev/null
           }
 
           if [[ "$PR_TITLE" =~ ^align/(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
-            approve_review_if_blocking
+            dismiss_blocking_review_if_present
             echo "PR title '$PR_TITLE' is an align PR. Skipping release check."
             exit 0
           fi
@@ -138,13 +138,13 @@ jobs:
 
           if [ "$RELEASE" = "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" ]; then
             echo "Release label '$RELEASE' matches the allowed release. PR is allowed to merge."
-            approve_review_if_blocking
+            dismiss_blocking_review_if_present
             exit 0
           fi
 
           if [ "$PREVIOUS_HOTFIX_ALLOWED" = "true" ]; then
             echo "Release label '$RELEASE' is a valid hotfix for the previous release line. PR is allowed to merge."
-            approve_review_if_blocking
+            dismiss_blocking_review_if_present
             exit 0
           fi
 
