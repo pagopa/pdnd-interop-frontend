@@ -116,7 +116,10 @@
             "label": "Ente assegnatario"
           },
           "thresholdField": {
-            "label": "Valore numerico"
+            "label": "Valore numerico",
+            "validation": {
+              "integer": "Il valore deve essere intero"
+            }
           }
         }
       }

@@ -3,12 +3,14 @@ import { AttributeMutations, AttributeQueries } from '@/api/attribute'
 import { TenantHooks, TenantQueries } from '@/api/tenant'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFAutocompleteSingle, RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE } from '@/config/env'
 import { Stack } from '@mui/material'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { match } from 'ts-pattern'
 
 type AssignAttributeDrawerProps = {
   isOpen: boolean
@@ -68,7 +70,9 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
     ...AttributeQueries.getList({
       limit: 50,
       offset: 0,
-      kinds: ['CERTIFIED', 'CERTIFIED_DISCRETE'],
+      kinds: FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE
+        ? ['CERTIFIED', 'CERTIFIED_DISCRETE']
+        : ['CERTIFIED'],
       origin: certifierId,
       q: getAttributeQ(),
     }),
@@ -107,23 +111,24 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
   })
 
   const onSubmit = formMethods.handleSubmit((values: AssignAttributeFormValues) => {
-    if (values.attribute.kind === 'CERTIFIED') {
-      addCertifiedAttribute(
-        { id: values.attribute.id, tenantId: values.tenant.id },
-        { onSuccess: onClose }
+    match(values.attribute.kind)
+      .with('CERTIFIED', () =>
+        addCertifiedAttribute(
+          { id: values.attribute.id, tenantId: values.tenant.id },
+          { onSuccess: onClose }
+        )
       )
-    }
-
-    if (values.attribute.kind === 'CERTIFIED_DISCRETE') {
-      addCertifiedDiscreteAttribute(
-        {
-          id: values.attribute.id,
-          tenantId: values.tenant.id,
-          certifiedDiscreteThreshold: values.threshold,
-        },
-        { onSuccess: onClose }
+      .with('CERTIFIED_DISCRETE', () =>
+        addCertifiedDiscreteAttribute(
+          {
+            id: values.attribute.id,
+            tenantId: values.tenant.id,
+            certifiedDiscreteThreshold: values.threshold,
+          },
+          { onSuccess: onClose }
+        )
       )
-    }
+      .run()
   })
 
   const handleTransitionExited = () => {
@@ -170,7 +175,13 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
               id="threshold-value-field"
               label={t('form.thresholdField.label')}
               name="threshold"
-              rules={{ required: true, min: 0, max: 1000000000 }}
+              rules={{
+                required: true,
+                min: 1,
+                max: 1000000000,
+                validate: (value) =>
+                  Number.isInteger(Number(value)) || t('form.thresholdField.validation.integer'),
+              }}
               required
               size="small"
               type="number"

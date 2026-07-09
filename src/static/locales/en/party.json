@@ -116,7 +116,10 @@
             "label": "Assignee party"
           },
           "thresholdField": {
-            "label": "Numerical value"
+            "label": "Numerical value",
+            "validation": {
+              "integer": "Value must be an integer"
+            }
           }
         }
       }
