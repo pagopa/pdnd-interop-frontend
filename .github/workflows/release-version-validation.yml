@@ -56,8 +56,7 @@ jobs:
         if: steps.check_align.outputs.skip != 'true'
         env:
           PR_LABELS_JSON: ${{ toJson(github.event.pull_request.labels.*.name) }}
-          GH_TOKEN: ${{ github.token }}
-        run: |
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           echo "Checking PR labels for release tag..."
           echo "Allowed release: $ALLOWED_RELEASE_TOWARDS_DEV_BRANCH"
 
