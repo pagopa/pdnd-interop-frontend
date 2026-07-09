@@ -1124,11 +1124,7 @@ export function useGetProviderEServiceActions(
     : availableClassicEServiceAction
 
   const isHappyPathDetailsPage =
-    where === 'detailsPage' &&
-    (isAdmin || isOperatorAPI) &&
-    !isDelegator &&
-    !isDelegate &&
-    !isTemplateInstance
+    where === 'detailsPage' && (isAdmin || isOperatorAPI) && !isDelegator && !isDelegate
 
   if (!isHappyPathDetailsPage) {
     return {
@@ -1152,18 +1148,34 @@ export function useGetProviderEServiceActions(
 
   const newVersionAction = hasVersionDraft ? editDraftAction : createNewDraftAction
 
-  const menuClassic = [cloneAction, archiveEserviceAction, ...viewAllVersionsItems]
-  const menuWithNewVersion = isEServiceBeingArchived
-    ? [cloneAction, ...viewAllVersionsItems]
-    : [newVersionAction, cloneAction, archiveEserviceAction, ...viewAllVersionsItems]
-  const menuEserviceArchiving = [cloneAction, ...viewAllVersionsItems]
-  const menuArchivedEserviceActive = [
-    newVersionAction,
-    cloneAction,
+  const cloneItems: Array<ActionItemButton> = isTemplateInstance ? [] : [cloneAction]
+  const upgradeItems: Array<ActionItemButton> =
+    isTemplateInstance && isNewTemplateVersionAvailable ? [upgradeEServiceAction] : []
+
+  const menuClassic = [
+    ...upgradeItems,
+    ...cloneItems,
     archiveEserviceAction,
     ...viewAllVersionsItems,
   ]
-  const menuArchivedEserviceArchived = [cloneAction, ...viewAllVersionsItems]
+  const menuWithNewVersion = isEServiceBeingArchived
+    ? [...cloneItems, ...viewAllVersionsItems]
+    : [
+        ...upgradeItems,
+        newVersionAction,
+        ...cloneItems,
+        archiveEserviceAction,
+        ...viewAllVersionsItems,
+      ]
+  const menuEserviceArchiving = [...cloneItems, ...viewAllVersionsItems]
+  const menuArchivedEserviceActive = [
+    ...upgradeItems,
+    newVersionAction,
+    ...cloneItems,
+    archiveEserviceAction,
+    ...viewAllVersionsItems,
+  ]
+  const menuArchivedEserviceArchived = [...cloneItems, ...viewAllVersionsItems]
 
   const slots: Slots = match({ state, archivingScope, isActiveDescriptor, isEServiceBeingArchived })
     .with({ state: 'PUBLISHED' }, () => ({

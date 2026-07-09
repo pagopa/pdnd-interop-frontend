@@ -1,5 +1,6 @@
 import { EServiceMutations } from '@/api/eservice'
-import { DOCUMENTATION_URL, GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS } from '@/config/env'
+import { GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS } from '@/config/env'
+import { archivingGuideLink } from '@/config/constants'
 import { useDialog } from '@/stores'
 import type { DialogArchiveVersionProps } from '@/types/dialog.types'
 import { calculateArchivableOn } from '@/utils/eservice.utils'
@@ -59,7 +60,7 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
         <Alert severity="info" sx={{ mt: 4 }}>
           <Trans
             components={{
-              1: <Link underline="hover" href={DOCUMENTATION_URL} target="_blank" />,
+              1: <Link underline="hover" href={archivingGuideLink} target="_blank" />,
             }}
           >
             {t('content.alert')}
