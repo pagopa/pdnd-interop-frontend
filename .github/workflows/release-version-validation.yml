@@ -22,7 +22,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      issues: write
       pull-requests: write
     steps:
       - name: Check if PR is an align PR
@@ -34,8 +33,8 @@ jobs:
           get_latest_bot_review_state() {
             gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
               --paginate \
-              --jq '.[] | select(.user.login == "github-actions[bot]") | .state' \
-              | tail -n1 || true
+              --slurp \
+              --jq 'flatten | map(select(.user.login == "github-actions[bot]" and .submitted_at != null)) | sort_by(.submitted_at) | last | .state // empty' || true
           }
 
           approve_review_if_blocking() {
@@ -73,8 +72,8 @@ jobs:
           get_latest_bot_review_state() {
             gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
               --paginate \
-              --jq '.[] | select(.user.login == "github-actions[bot]") | .state' \
-              | tail -n1 || true
+              --slurp \
+              --jq 'flatten | map(select(.user.login == "github-actions[bot]" and .submitted_at != null)) | sort_by(.submitted_at) | last | .state // empty' || true
           }
 
           request_changes_review() {
@@ -110,17 +109,27 @@ jobs:
           }
 
           if [[ -z "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" || ! "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "::warning::Repository variable ALLOWED_RELEASE_TOWARDS_DEV_BRANCH is not set or is not in x.y.z format; skipping release validation."
-            approve_review_if_blocking || true
+            echo "::warning::Repository variable ALLOWED_RELEASE_TOWARDS_DEV_BRANCH is not set or is not in x.y.z format; blocking merge until configuration is fixed."
+            request_changes_review "Repository variable ALLOWED_RELEASE_TOWARDS_DEV_BRANCH is missing or invalid (expected x.y.z)." || true
             exit 0
           fi
-          RELEASE="$( { echo "$PR_LABELS_JSON" | jq -r '.[]?' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' || true; } | sort -V | tail -n1)"
+          mapfile -t SEMVER_RELEASE_LABELS < <(echo "$PR_LABELS_JSON" | jq -r '.[]?' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' || true)
+          SEMVER_LABEL_COUNT="${#SEMVER_RELEASE_LABELS[@]}"
 
-          if [ -z "$RELEASE" ]; then
+          if [ "$SEMVER_LABEL_COUNT" -eq 0 ]; then
             echo "::warning::PR does not have a release label (expected format: x.y.z)."
             request_changes_review "No release label found on the PR (expected format: x.y.z)." || true
             exit 0
           fi
+
+          if [ "$SEMVER_LABEL_COUNT" -gt 1 ]; then
+            LABEL_LIST="$(printf '%s, ' "${SEMVER_RELEASE_LABELS[@]}" | sed 's/, $//')"
+            echo "::warning::PR has multiple release labels in x.y.z format: $LABEL_LIST. Exactly one release label is required."
+            request_changes_review "Multiple release labels found ($LABEL_LIST). Exactly one x.y.z release label is required." || true
+            exit 0
+          fi
+
+          RELEASE="${SEMVER_RELEASE_LABELS[0]}"
 
           echo "Found release label: $RELEASE"
 
