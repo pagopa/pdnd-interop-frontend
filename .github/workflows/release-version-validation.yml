@@ -67,7 +67,7 @@ jobs:
             gh api "repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
               --paginate \
               --jq ".[] | select(.user.login == \"github-actions[bot]\" and (.body | contains(\"$COMMENT_MARKER\"))) | .id" \
-              | tail -n1
+              | tail -n1 || true
           }
 
           upsert_warning_comment() {
