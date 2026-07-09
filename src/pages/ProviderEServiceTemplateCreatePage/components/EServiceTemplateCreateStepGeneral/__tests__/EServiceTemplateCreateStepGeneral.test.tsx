@@ -7,12 +7,20 @@ import {
   EServiceTemplateCreateStepGeneralSkeleton,
 } from '../EServiceTemplateCreateStepGeneral'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { mockUseEServiceTemplateCreateContext } from '@/../__mocks__/data/eserviceTemplate.mocks'
+import {
+  createMockEServiceTemplateVersionDetails,
+  mockUseEServiceTemplateCreateContext,
+} from '@/../__mocks__/data/eserviceTemplate.mocks'
+
+const { updateDraftMock, createDraftMock } = vi.hoisted(() => ({
+  updateDraftMock: vi.fn(),
+  createDraftMock: vi.fn(),
+}))
 
 vi.mock('@/api/eserviceTemplate', () => ({
   EServiceTemplateMutations: {
-    useUpdateDraft: () => ({ mutate: vi.fn() }),
-    useCreateDraft: () => ({ mutate: vi.fn() }),
+    useUpdateDraft: () => ({ mutate: updateDraftMock }),
+    useCreateDraft: () => ({ mutate: createDraftMock }),
   },
 }))
 
@@ -142,6 +150,57 @@ describe('EServiceTemplateCreateStepGeneral', () => {
       withRouterContext: true,
     })
     expect(screen.getByRole('button', { name: /create.forwardWithSaveBtn/ })).toBeInTheDocument()
+  })
+
+  it('submits without update when existing first draft is unchanged', async () => {
+    const user = userEvent.setup()
+    const forwardMock = vi.fn()
+
+    mockUseEServiceTemplateCreateContext({
+      eserviceTemplateVersion: createMockEServiceTemplateVersionDetails(),
+      forward: forwardMock,
+    })
+
+    renderWithApplicationContext(<EServiceTemplateCreateStepGeneral />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await user.click(screen.getByRole('button', { name: /create.forwardWithSaveBtn/ }))
+
+    expect(updateDraftMock).not.toHaveBeenCalled()
+    expect(forwardMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('updates draft when existing first draft data changes', async () => {
+    const user = userEvent.setup()
+
+    mockUseEServiceTemplateCreateContext({
+      eserviceTemplateVersion: createMockEServiceTemplateVersionDetails(),
+    })
+
+    renderWithApplicationContext(<EServiceTemplateCreateStepGeneral />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    await user.clear(screen.getByLabelText(/create.step1.eserviceTemplateNameField.label/))
+    await user.type(
+      screen.getByLabelText(/create.step1.eserviceTemplateNameField.label/),
+      'Updated Template Name'
+    )
+    await user.click(screen.getByRole('button', { name: /create.forwardWithSaveBtn/ }))
+
+    expect(updateDraftMock).toHaveBeenCalledTimes(1)
+    expect(updateDraftMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        eServiceTemplateId: 'template-id-001',
+        name: 'Updated Template Name',
+      }),
+      expect.objectContaining({
+        onSuccess: expect.any(Function),
+      })
+    )
   })
 })
 
