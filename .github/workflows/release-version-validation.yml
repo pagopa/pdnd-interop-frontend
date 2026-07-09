@@ -83,8 +83,7 @@ jobs:
             else
               gh pr comment "${{ github.event.pull_request.number }}" \
                 --repo "${{ github.repository }}" \
-                --body "$body" >/dev/null
-            fi
+                --body "$body" >/dev/null || true
           }
 
           delete_warning_comment() {
