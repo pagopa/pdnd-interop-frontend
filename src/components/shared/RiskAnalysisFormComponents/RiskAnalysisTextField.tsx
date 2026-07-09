@@ -149,6 +149,11 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
             label={t('suggestedAnswersLabel')}
             options={suggestedValues.map((value) => ({ label: value, value }))}
             rules={{ required: true }}
+            id={`select-${suggestedValueConsumerName}`}
+            inputProps={{
+              'aria-label': label,
+              id: `input-${suggestedValueConsumerName}`,
+            }}
           />
         ) : type === 'consumer' ? (
           // Show textArea for consumer if editable or no suggestedValues
