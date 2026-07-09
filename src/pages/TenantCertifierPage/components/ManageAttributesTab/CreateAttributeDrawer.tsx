@@ -83,7 +83,6 @@ export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
               </Typography>
               <RHFRadioGroup name="kind" options={kindOptions} rules={{ required: true }} />
             </Stack>
-
             <Stack spacing={3}>
               <Typography fontWeight={600} variant="label">
                 {t('form.infoFields.label')}
