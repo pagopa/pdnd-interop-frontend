@@ -36,10 +36,14 @@ jobs:
           echo "Allowed release: $ALLOWED_RELEASE_TOWARDS_DEV_BRANCH"
 
           get_latest_bot_review_state() {
-            gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
+            local reviews_json
+            if ! reviews_json="$(gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
               --paginate \
-              --slurp \
-              --jq 'flatten | map(select(.user.login == "github-actions[bot]" and .submitted_at != null)) | sort_by(.submitted_at) | last | .state // empty'
+              --slurp)"; then
+              return 1
+            fi
+
+            echo "$reviews_json" | jq -r 'flatten | map(select(.user.login == "github-actions[bot]" and .submitted_at != null)) | sort_by(.submitted_at) | last | .state // empty'
           }
 
           request_changes_review() {
