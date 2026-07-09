@@ -31,22 +31,30 @@ jobs:
           PR_TITLE: ${{ github.event.pull_request.title }}
           GH_TOKEN: ${{ github.token }}
         run: |
-          COMMENT_MARKER='<!-- release-version-validation -->'
-
-          delete_warning_comment() {
-            local comment_id
-            comment_id="$(gh api "repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
+          get_latest_bot_review_state() {
+            gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
               --paginate \
-              --jq ".[] | select(.user.login == \"github-actions[bot]\" and (.body | contains(\"$COMMENT_MARKER\"))) | .id" \
-              | tail -n1 || true)"
+              --jq '.[] | select(.user.login == "github-actions[bot]") | .state' \
+              | tail -n1 || true
+          }
 
-            if [ -n "$comment_id" ]; then
-              gh api "repos/${{ github.repository }}/issues/comments/$comment_id" --method DELETE >/dev/null || true
+          approve_review_if_blocking() {
+            local latest_state
+            latest_state="$(get_latest_bot_review_state)"
+
+            if [ "$latest_state" != "CHANGES_REQUESTED" ]; then
+              return 0
             fi
+
+            gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
+              --method POST \
+              -f event='APPROVE' \
+              -f commit_id='${{ github.event.pull_request.head.sha }}' \
+              -f body='Release version validation skipped for align PR. Removing previous blocking review.' >/dev/null || true
           }
 
           if [[ "$PR_TITLE" =~ ^align/[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            delete_warning_comment
+            approve_review_if_blocking || true
             echo "skip=true" >> "$GITHUB_OUTPUT"
             echo "PR title '$PR_TITLE' is an align PR. Skipping release check."
           else
@@ -61,41 +69,6 @@ jobs:
         run: |
           echo "Checking PR labels for release tag..."
           echo "Allowed release: $ALLOWED_RELEASE_TOWARDS_DEV_BRANCH"
-
-          COMMENT_MARKER='<!-- release-version-validation -->'
-          get_warning_comment_id() {
-            gh api "repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments" \
-              --paginate \
-              --jq ".[] | select(.user.login == \"github-actions[bot]\" and (.body | contains(\"$COMMENT_MARKER\"))) | .id" \
-              | tail -n1 || true
-          }
-
-          upsert_warning_comment() {
-            local body="$1"
-            local comment_id
-
-            comment_id="$(get_warning_comment_id)"
-
-            if [ -n "$comment_id" ]; then
-              gh api "repos/${{ github.repository }}/issues/comments/$comment_id" \
-                --method PATCH \
-                -f body="$body" >/dev/null || true
-            else
-              gh pr comment "${{ github.event.pull_request.number }}" \
-                --repo "${{ github.repository }}" \
-                --body "$body" >/dev/null || true
-            fi
-          }
-
-          delete_warning_comment() {
-            local comment_id
-            comment_id="$(get_warning_comment_id)"
-
-            if [ -n "$comment_id" ]; then
-              gh api "repos/${{ github.repository }}/issues/comments/$comment_id" \
-                --method DELETE >/dev/null || true
-            fi
-          }
 
           get_latest_bot_review_state() {
             gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
@@ -138,14 +111,13 @@ jobs:
 
           if [[ -z "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" || ! "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "::warning::Repository variable ALLOWED_RELEASE_TOWARDS_DEV_BRANCH is not set or is not in x.y.z format; skipping release validation."
-            delete_warning_comment || true
+            approve_review_if_blocking || true
             exit 0
           fi
           RELEASE="$( { echo "$PR_LABELS_JSON" | jq -r '.[]?' | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' || true; } | sort -V | tail -n1)"
 
           if [ -z "$RELEASE" ]; then
             echo "::warning::PR does not have a release label (expected format: x.y.z)."
-            upsert_warning_comment "$(printf '%b' "$COMMENT_MARKER\n⚠️ **Release version validation warning**\n\nNo release label was found on this PR (expected format: \`x.y.z\`).")" || true
             request_changes_review "No release label found on the PR (expected format: x.y.z)." || true
             exit 0
           fi
@@ -169,19 +141,16 @@ jobs:
 
           if [ "$RELEASE" = "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" ]; then
             echo "Release label '$RELEASE' matches the allowed release. PR is allowed to merge."
-            delete_warning_comment || true
             approve_review_if_blocking || true
             exit 0
           fi
 
           if [ "$PREVIOUS_HOTFIX_ALLOWED" = "true" ]; then
             echo "Release label '$RELEASE' is a valid hotfix for the previous release line. PR is allowed to merge."
-            delete_warning_comment || true
             approve_review_if_blocking || true
             exit 0
           fi
 
           echo "::warning::Release label '$RELEASE' is not within the allowed range for merge towards dev. Allowed release: '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'."
-          upsert_warning_comment "$(printf '%b' "$COMMENT_MARKER\n⚠️ **Release version validation warning**\n\nRelease label \`$RELEASE\` is not allowed for merge towards \`dev\`.\nAllowed release: \`$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH\`.\nAccepted exception: only the immediately previous minor release in the same major, with patch greater than 0, is allowed as a hotfix.")" || true
           request_changes_review "Release label '$RELEASE' is not allowed for merge towards dev. Allowed release: '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'." || true
           exit 0
