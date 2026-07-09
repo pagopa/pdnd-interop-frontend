@@ -82,9 +82,8 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
                 {...fieldProps}
                 inputProps={{
                   ...switchProps.inputProps,
+                  ...accessibilityProps,
                   id: name,
-                  'aria-labelledby': ids.labelId,
-                  'aria-describedby': accessibilityProps['aria-describedby'],
                 }}
                 onChange={(e) => {
                   onChange(e.target.checked ? 'true' : 'false')

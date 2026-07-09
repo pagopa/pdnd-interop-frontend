@@ -56,6 +56,13 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
       ? { required: false }
       : mapValidationErrorMessages(rules, t)
 
+  const mergedAriaDescribedBy = [
+    props.SelectDisplayProps?.['aria-describedby'],
+    accessibilityProps['aria-describedby'],
+  ]
+    .filter(Boolean)
+    .join(' ')
+
   return (
     <RiskAnalysisInputWrapper
       name={name}
@@ -76,6 +83,7 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
           <MUISelect
             {...props}
             {...fieldProps}
+            {...accessibilityProps}
             id={name}
             labelId={ids.labelId}
             value={value ?? ''}
@@ -83,7 +91,8 @@ export const RiskAnalysisSelect: React.FC<RiskAnalysisSelectProps> = ({
               ...props.inputProps,
             }}
             SelectDisplayProps={{
-              'aria-describedby': accessibilityProps['aria-describedby'],
+              ...props.SelectDisplayProps,
+              'aria-describedby': mergedAriaDescribedBy || undefined,
             }}
             onChange={(e) => {
               onChange(e)

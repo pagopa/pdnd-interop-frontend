@@ -60,7 +60,7 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
   const labelId = externalLabelId || internalLabelId
 
   return (
-    <SectionContainer>
+    <SectionContainer component={isInputGroup ? 'fieldset' : 'div'}>
       <SectionContainer
         innerSection
         {...(isFromPurposeTemplate ? { sx: { border: 1, borderColor: 'lightgrey', p: 3 } } : {})}
