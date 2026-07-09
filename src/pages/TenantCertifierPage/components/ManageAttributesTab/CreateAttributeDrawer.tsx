@@ -77,14 +77,13 @@ export const CreateAttributeDrawer: React.FC<CreateAttributeDrawerProps> = ({
       >
         {FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE && (
           <Stack component="form" noValidate spacing={5} mb={3}>
-            (
             <Stack spacing={3}>
               <Typography fontWeight={600} variant="label">
                 {t('form.kindField.label')}
               </Typography>
               <RHFRadioGroup name="kind" options={kindOptions} rules={{ required: true }} />
             </Stack>
-            )
+
             <Stack spacing={3}>
               <Typography fontWeight={600} variant="label">
                 {t('form.infoFields.label')}
