@@ -60,28 +60,26 @@ jobs:
           }
 
           dismiss_blocking_review_if_present() {
-            local latest_review_info
-            if ! latest_review_info="$(get_latest_bot_review_info)"; then
-              echo "::warning::Failed to fetch latest bot review; skipping dismissal."
+            local reviews_json
+            if ! reviews_json="$(gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
+              --paginate \
+              --slurp)"; then
+              echo "::warning::Failed to fetch bot reviews; skipping dismissal."
               return 0
             fi
 
-            if [ -z "$latest_review_info" ]; then
+            mapfile -t review_ids < <(echo "$reviews_json" | jq -r 'flatten | map(select(.user.login == "github-actions[bot]" and .state == "CHANGES_REQUESTED" and .id != null)) | sort_by(.submitted_at) | .[].id')
+
+            if [ "${#review_ids[@]}" -eq 0 ]; then
               return 0
             fi
 
-            local review_id review_state
-            review_id="${latest_review_info%%$'\t'*}"
-            review_state="${latest_review_info#*$'\t'}"
-
-            if [ "$review_state" != "CHANGES_REQUESTED" ] || [ -z "$review_id" ]; then
-              return 0
-            fi
-
-            gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews/$review_id/dismissals" \
-              --method PUT \
-              -f message='Release version validation passed. Dismissing previous blocking review.' >/dev/null \
-              || echo "::warning::Failed to dismiss previous blocking review (id: $review_id)."
+            for review_id in "${review_ids[@]}"; do
+              gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews/$review_id/dismissals" \
+                --method PUT \
+                -f message='Release version validation passed. Dismissing previous blocking review.' >/dev/null \
+                || echo "::warning::Failed to dismiss previous blocking review (id: $review_id)."
+            done
           }
 
           if [[ "$PR_TITLE" =~ ^align/(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
