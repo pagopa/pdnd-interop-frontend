@@ -19,11 +19,10 @@ env:
 jobs:
   validate-dev:
     name: Validate PR towards dev
-    runs-on: ubuntu-latest
     permissions:
       contents: read
+      issues: write
       pull-requests: write
-    steps:
       - name: Check if PR is an align PR
         id: check_align
         env:
