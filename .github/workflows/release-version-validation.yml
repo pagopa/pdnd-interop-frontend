@@ -97,6 +97,45 @@ jobs:
             fi
           }
 
+          get_latest_bot_review_state() {
+            gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
+              --paginate \
+              --jq '.[] | select(.user.login == "github-actions[bot]") | .state' \
+              | tail -n1 || true
+          }
+
+          request_changes_review() {
+            local reason="$1"
+            local latest_state
+            latest_state="$(get_latest_bot_review_state)"
+
+            if [ "$latest_state" = "CHANGES_REQUESTED" ]; then
+              echo "A blocking review from github-actions[bot] already exists."
+              return 0
+            fi
+
+            gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
+              --method POST \
+              -f event='REQUEST_CHANGES' \
+              -f commit_id='${{ github.event.pull_request.head.sha }}' \
+              -f body="Release version validation failed. $reason" >/dev/null || true
+          }
+
+          approve_review_if_blocking() {
+            local latest_state
+            latest_state="$(get_latest_bot_review_state)"
+
+            if [ "$latest_state" != "CHANGES_REQUESTED" ]; then
+              return 0
+            fi
+
+            gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
+              --method POST \
+              -f event='APPROVE' \
+              -f commit_id='${{ github.event.pull_request.head.sha }}' \
+              -f body='Release version validation passed. Removing previous blocking review.' >/dev/null || true
+          }
+
           if [[ -z "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" || ! "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "::warning::Repository variable ALLOWED_RELEASE_TOWARDS_DEV_BRANCH is not set or is not in x.y.z format; skipping release validation."
             delete_warning_comment || true
@@ -107,6 +146,7 @@ jobs:
           if [ -z "$RELEASE" ]; then
             echo "::warning::PR does not have a release label (expected format: x.y.z)."
             upsert_warning_comment "$(printf '%b' "$COMMENT_MARKER\n⚠️ **Release version validation warning**\n\nNo release label was found on this PR (expected format: \`x.y.z\`).")" || true
+            request_changes_review "No release label found on the PR (expected format: x.y.z)." || true
             exit 0
           fi
 
@@ -130,15 +170,18 @@ jobs:
           if [ "$RELEASE" = "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" ]; then
             echo "Release label '$RELEASE' matches the allowed release. PR is allowed to merge."
             delete_warning_comment || true
+            approve_review_if_blocking || true
             exit 0
           fi
 
           if [ "$PREVIOUS_HOTFIX_ALLOWED" = "true" ]; then
             echo "Release label '$RELEASE' is a valid hotfix for the previous release line. PR is allowed to merge."
             delete_warning_comment || true
+            approve_review_if_blocking || true
             exit 0
           fi
 
           echo "::warning::Release label '$RELEASE' is not within the allowed range for merge towards dev. Allowed release: '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'."
           upsert_warning_comment "$(printf '%b' "$COMMENT_MARKER\n⚠️ **Release version validation warning**\n\nRelease label \`$RELEASE\` is not allowed for merge towards \`dev\`.\nAllowed release: \`$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH\`.\nAccepted exception: only the immediately previous minor release in the same major, with patch greater than 0, is allowed as a hotfix.")" || true
+          request_changes_review "Release label '$RELEASE' is not allowed for merge towards dev. Allowed release: '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'." || true
           exit 0
