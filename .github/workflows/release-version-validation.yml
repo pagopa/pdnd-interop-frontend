@@ -88,7 +88,7 @@ jobs:
             for review_id in "${review_ids[@]}"; do
               gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews/$review_id/dismissals" \
                 --method PUT \
-                -f message='Release version validation passed. Dismissing previous blocking review.' >/dev/null \
+                -f message='Release version validation updated. Dismissing previous blocking review.' >/dev/null \
                 || echo "::warning::Failed to dismiss previous blocking review (id: $review_id)."
             done
           }
