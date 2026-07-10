@@ -20,7 +20,7 @@ vi.mock('@/api/attribute/attribute.services', () => ({
 
 describe('CreateAttributeDrawer', () => {
   beforeEach(() => {
-    vi.clearAllMocks() // Pulisce i mock tra un test e l'altro
+    vi.clearAllMocks()
   })
   describe('rendering', () => {
     it('should not render the drawer when isOpen is false', () => {
