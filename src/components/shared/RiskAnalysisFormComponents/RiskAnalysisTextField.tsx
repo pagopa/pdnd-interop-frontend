@@ -163,6 +163,7 @@ export const RiskAnalysisTextField: React.FC<RiskAnalysisTextFieldProps> = ({
             render={({ field: { ref, onChange, ...fieldProps } }) => (
               <OutlinedInput
                 {...props}
+                id={currentFieldName}
                 inputProps={{ ...props.inputProps, ...accessibilityProps }}
                 multiline={multiline}
                 rows={multiline ? 6 : undefined}
