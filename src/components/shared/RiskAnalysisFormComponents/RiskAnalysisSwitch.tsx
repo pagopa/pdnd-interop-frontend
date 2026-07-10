@@ -67,11 +67,7 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
       type={type}
       isAssignedToTemplateUsersSwitch={isAssignedToTemplateUsersSwitch}
     >
-      <Box
-        component="label"
-        htmlFor={name}
-        sx={{ color: 'text.primary', display: 'flex', cursor: 'pointer' }}
-      >
+      <Box sx={{ color: 'text.primary', display: 'flex', cursor: 'pointer' }}>
         <Stack sx={{ mt: 2, mb: 1 }} direction="row" alignItems="center" spacing={1}>
           <Controller
             name={name}
