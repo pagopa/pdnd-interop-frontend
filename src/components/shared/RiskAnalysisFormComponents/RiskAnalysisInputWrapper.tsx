@@ -76,7 +76,7 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
               <Box sx={{ flex: 1, minWidth: 0 }}>
                 <FormLabel
                   htmlFor={isInputGroup ? undefined : name}
-                  component={isInputGroup ? 'div' : 'label'}
+                  component={isInputGroup ? 'legend' : 'label'}
                   id={labelId}
                   sx={{ fontWeight: 600 }}
                 >
