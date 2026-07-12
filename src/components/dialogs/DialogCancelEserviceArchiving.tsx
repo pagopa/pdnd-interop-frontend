@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 const DialogCancelEserviceArchiving: React.FC<DialogCancelEserviceArchivingProps> = ({
   eserviceId,
@@ -24,6 +25,7 @@ const DialogCancelEserviceArchiving: React.FC<DialogCancelEserviceArchivingProps
 
   const { closeDialog } = useDialog()
   const { mutate: cancelArchive } = EServiceMutations.useCancelEserviceArchiving()
+  const isConfirmDisabled = useIsActionDisabledBySupport()
 
   const handleKeepArchive = () => {
     closeDialog()
@@ -47,6 +49,7 @@ const DialogCancelEserviceArchiving: React.FC<DialogCancelEserviceArchivingProps
         <Button
           variant="contained"
           color="error"
+          disabled={isConfirmDisabled}
           onClick={handleCancelArchive}
           sx={{ color: 'common.white' }}
         >

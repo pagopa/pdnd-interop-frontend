@@ -17,6 +17,7 @@ import {
 } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
   eserviceId,
@@ -31,6 +32,7 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
 
   const { closeDialog } = useDialog()
   const { mutate: scheduleArchive } = EServiceMutations.useScheduleArchiveDescriptor()
+  const isConfirmDisabled = useIsActionDisabledBySupport()
 
   const handleCancel = () => {
     closeDialog()
@@ -72,7 +74,7 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
         <Button variant="outlined" onClick={handleCancel}>
           {tCommon('cancel')}
         </Button>
-        <Button variant="contained" onClick={handleArchive}>
+        <Button variant="contained" disabled={isConfirmDisabled} onClick={handleArchive}>
           {tCommon('archive')}
         </Button>
       </DialogActions>
