@@ -119,7 +119,7 @@ export const PurposeCreateForm: React.FC<PurposeCreateFormProps> = ({ purposeTem
     !isLoadingPurposeTemplates &&
     purposeTemplates?.results &&
     purposeTemplates.results.length > 0 &&
-    selectedEServiceMode === 'DELIVER'
+    selectedEServiceMode !== 'RECEIVE'
 
   // const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
 
