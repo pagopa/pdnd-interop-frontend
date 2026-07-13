@@ -116,7 +116,10 @@ export const PurposeCreateForm: React.FC<PurposeCreateFormProps> = ({ purposeTem
 
   const selectedEServiceMode = selectedEServiceDescriptor?.eservice.mode
   const isPurposeTemplateCreateSectionVisible =
-    !isLoadingPurposeTemplates && purposeTemplates?.results && purposeTemplates.results.length > 0
+    !isLoadingPurposeTemplates &&
+    purposeTemplates?.results &&
+    purposeTemplates.results.length > 0 &&
+    selectedEServiceMode === 'DELIVER'
 
   // const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
 
