@@ -19,6 +19,7 @@ export const pagoPaLink = {
 }
 export const assistanceLink = `https://selfcare.pagopa.it/assistenza?productId=${SELFCARE_PRODUCT_ID}`
 export const attributesHelpLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/attributi`
+export const certifiedAttributesHelpLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/attributi/gli-attributi-piu-utilizzati`
 export const verifyVoucherGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/utilizzare-i-voucher`
 export const manageEServiceGuideLink = `${DOCUMENTATION_URL}/tutorial/tutorial-per-lerogatore/come-integrare-unapi`
 export const importExportEServiceGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/e-service/e-service`
