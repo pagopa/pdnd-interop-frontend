@@ -25,10 +25,12 @@ export type RHFTextFieldProps = Omit<MUITextFieldProps, 'type' | 'label'> & {
 } & (
     | {
         type?: 'text' | 'email'
+        integerOnly?: never
         onValueChange?: (value: string) => void
       }
     | {
         type?: 'number'
+        integerOnly?: boolean
         onValueChange?: (value: number) => void
       }
   )
@@ -41,6 +43,7 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
   infoLabel,
   focusOnMount,
   multiline,
+  integerOnly = false,
   onValueChange,
   rules,
   size = 'small',
@@ -104,7 +107,8 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
                 ? (e) => {
                     if (e.key.length !== 1 || e.ctrlKey || e.metaKey) return
                     const isEmpty = (e.target as HTMLInputElement).value === ''
-                    if (!/[1-9.\-]/.test(e.key) && !(e.key === '0' && !isEmpty)) {
+                    const allowedCharacters = integerOnly ? /[1-9\-]/ : /[1-9.\-]/
+                    if (!allowedCharacters.test(e.key) && !(e.key === '0' && !isEmpty)) {
                       e.preventDefault()
                     }
                   }
