@@ -3,8 +3,10 @@ import { useProductUpdatesBanner } from '@/hooks/bannerHooks/useProductUpdatesBa
 import { Banner } from './Banner'
 import { Button } from '@mui/material'
 import OpenInNewIcon from '@mui/icons-material/OpenInNew'
+import { useTranslation } from 'react-i18next'
 
 export const ProductUpdatesBanner: React.FC = () => {
+  const { t } = useTranslation('shared-components', { keyPrefix: 'productUpdatesBanner' })
   const { title, text, firstLink, secondLink, isOpen, closeBanner } = useProductUpdatesBanner()
 
   return (
@@ -23,6 +25,7 @@ export const ProductUpdatesBanner: React.FC = () => {
             href={firstLink.link}
             target="_blank"
             rel="noreferrer"
+            aria-label={t('linkAriaLabel', { label: firstLink.label })}
           >
             {firstLink.label}
           </Button>
@@ -38,6 +41,7 @@ export const ProductUpdatesBanner: React.FC = () => {
             href={secondLink.link}
             target="_blank"
             rel="noreferrer"
+            aria-label={t('linkAriaLabel', { label: secondLink.label })}
           >
             {secondLink.label}
           </Button>

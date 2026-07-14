@@ -6,6 +6,12 @@ import { vi } from 'vitest'
 import * as useProductUpdatesBannerModule from '@/hooks/bannerHooks/useProductUpdatesBanner'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 
+vi.mock('react-i18next', () => ({
+  useTranslation: () => ({
+    t: (_key: string, { label }: { label: string }) => `${label}, opens in a new tab`,
+  }),
+}))
+
 const mockProductUpdatesBanner = {
   title: 'This is a notification message',
   text: 'This is the notification context',
@@ -40,10 +46,14 @@ describe('Checks product updates banner alert', () => {
     expect(getByText(mockProductUpdatesBanner.title)).toBeInTheDocument()
     expect(getByText(mockProductUpdatesBanner.text)).toBeInTheDocument()
     expect(
-      screen.getByRole('link', { name: mockProductUpdatesBanner.firstLink.label })
+      screen.getByRole('link', {
+        name: `${mockProductUpdatesBanner.firstLink.label}, opens in a new tab`,
+      })
     ).toHaveAttribute('href', mockProductUpdatesBanner.firstLink.link)
     expect(
-      screen.getByRole('link', { name: mockProductUpdatesBanner.secondLink.label })
+      screen.getByRole('link', {
+        name: `${mockProductUpdatesBanner.secondLink.label}, opens in a new tab`,
+      })
     ).toHaveAttribute('href', mockProductUpdatesBanner.secondLink.link)
 
     const closeButton = getByTestId('CloseIcon')

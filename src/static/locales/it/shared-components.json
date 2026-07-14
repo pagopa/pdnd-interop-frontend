@@ -404,7 +404,8 @@
     "action1Label": "Come funziona l’archiviazione",
     "action1AriaLabel": "Come funziona l’archiviazione, apre in una nuova scheda",
     "action2Label": "Come funzionano i nuovi ruoli",
-    "action2AriaLabel": "Come funzionano i nuovi ruoli, apre in una nuova scheda"
+    "action2AriaLabel": "Come funzionano i nuovi ruoli, apre in una nuova scheda",
+    "linkAriaLabel": "{{label}}, apre in una nuova scheda"
   },
   "attributeContainer": {
     "descriptionLabel": "Descrizione",

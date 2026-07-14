@@ -404,7 +404,8 @@
     "action1Label": "How archiving works",
     "action1AriaLabel": "How archiving works, opens in a new tab",
     "action2Label": "How the new roles work",
-    "action2AriaLabel": "How the new roles work, opens in a new tab"
+    "action2AriaLabel": "How the new roles work, opens in a new tab",
+    "linkAriaLabel": "{{label}}, opens in a new tab"
   },
   "attributeContainer": {
     "descriptionLabel": "Description",
