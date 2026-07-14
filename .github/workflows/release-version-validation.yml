@@ -47,7 +47,7 @@ jobs:
               return 1
             fi
 
-            echo "$reviews_json" | jq -r 'flatten | map(select(.user.login == "github-actions[bot]" and .submitted_at != null)) | sort_by(.submitted_at) | last | [(.id // ""), (.state // ""), (.body // "")] | @tsv'
+            echo "$reviews_json" | jq -r 'flatten | map(select(.user.login == "github-actions[bot]" and .submitted_at != null and (.body // "" | startswith("Release version validation failed.")))) | sort_by(.submitted_at) | last | [(.id // ""), (.state // ""), (.body // "")] | @tsv'
           }
 
           request_changes_review() {
