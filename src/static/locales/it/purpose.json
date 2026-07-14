@@ -88,8 +88,8 @@
         "label": "Ho diritto all'utilizzo dell'e-service a titolo gratuito"
       },
       "freeOfChargeReasonField": {
-        "label": "Indica la base giuridica o il motivo che consente l'accesso gratuito (richiesto)",
-        "infoLabel": "Specifica se lo fai in base a un’esenzione o a un’esclusione prevista dalla legge, oppure per un altro motivo. Min 10, max 250 caratteri"
+        "label": "Spiega perché puoi usare l’e-service a titolo gratuito (richiesto)",
+        "infoLabel": "Indica se lo fai in base a un’esenzione o a un’esclusione prevista dalla legge, oppure per un altro motivo. Min 10, max 250 caratteri"
       }
     },
     "stepAssignment": {
