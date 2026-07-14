@@ -63,7 +63,7 @@ jobs:
             fi
 
             echo "Posting REQUEST_CHANGES review with current validation reason."
-            current_head_sha="$(gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" --jq '.head.sha')"
+            current_head_sha="${{ github.event.pull_request.head.sha }}"
 
             gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
               --method POST \
