@@ -399,12 +399,6 @@
     "bodyMultipleDay": "PDND Interoperabilità will undergo scheduled maintenance from {{maintenanceStartHour}} on {{maintenanceStartDay}} to {{maintenanceEndHour}} on {{maintenanceEndDay}}. We apologize for any inconvenience caused."
   },
   "productUpdatesBanner": {
-    "title": "What's new on PDND: archiving and new roles",
-    "body": "You can now archive obsolete versions of an e-service or an entire e-service. Two new roles are also available: Validator, to approve or fill in the risk analysis, and Viewer, to view an organization's activities on PDND.",
-    "action1Label": "How archiving works",
-    "action1AriaLabel": "How archiving works, opens in a new tab",
-    "action2Label": "How the new roles work",
-    "action2AriaLabel": "How the new roles work, opens in a new tab",
     "linkAriaLabel": "{{label}}, opens in a new tab"
   },
   "attributeContainer": {
