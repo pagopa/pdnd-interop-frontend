@@ -81,8 +81,7 @@ jobs:
               return 0
             fi
 
-            mapfile -t review_ids < <(echo "$reviews_json" | jq -r 'flatten | map(select(.user.login == "github-actions[bot]" and .state == "CHANGES_REQUESTED" and .id != null)) | sort_by(.submitted_at) | .[].id')
-
+            mapfile -t review_ids < <(echo "$reviews_json" | jq -r 'flatten | map(select(.user.login == "github-actions[bot]" and .state == "CHANGES_REQUESTED" and .id != null and (.body // "" | startswith("Release version validation failed.")))) | sort_by(.submitted_at) | .[].id')
             if [ "${#review_ids[@]}" -eq 0 ]; then
               return 0
             fi
