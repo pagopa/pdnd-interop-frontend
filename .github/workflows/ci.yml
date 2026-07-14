@@ -10,7 +10,7 @@ env:
 
 jobs:
   build:
-    name: Build and Test
+    name: Build and Lint
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -39,12 +39,35 @@ jobs:
       - name: Building
         run: pnpm run build
 
+  test:
+    name: Test (shard ${{ matrix.shard }}/4)
+    strategy:
+      matrix:
+        shard: [1, 2, 3, 4]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout current branch (full)
+        uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
+        with:
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061
+
+      - name: Install node
+        uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
+        with:
+          node-version: 18.15.0
+
+      - name: Installing
+        run: pnpm install --frozen-lockfile
+
       - name: Testing
-        run: pnpm run test
+        run: pnpm run test -- --shard=${{ matrix.shard }}/4
 
   publish:
     name: Publish Artifacts
-    needs: [build]
+    needs: [build, test]
     permissions:
       id-token: write
       contents: read
