@@ -91,7 +91,11 @@ describe('DialogArchiveEservice', () => {
     await userEvent.click(screen.getByRole('button', { name: 'archive' }))
     expect(mockScheduleArchive).toHaveBeenCalledTimes(1)
     expect(mockScheduleArchive).toHaveBeenCalledWith(
-      { eserviceId: 'eservice-42', archivingReason: 'Sostituito da nuova versione integrata' },
+      {
+        eserviceId: 'eservice-42',
+        archivingReason: 'Sostituito da nuova versione integrata',
+        gracePeriodDays: 60,
+      },
       expect.objectContaining({ onSuccess: expect.any(Function) })
     )
   })

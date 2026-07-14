@@ -945,7 +945,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
 function renderDetailsPageHook(
   descriptorMock: ProducerEService,
   options: {
-    archivingSchedule?: ArchivingSchedule
+    archivingSchedule?: Pick<ArchivingSchedule, 'scope'> & Partial<ArchivingSchedule>
     latestDescriptorId?: string
     isActiveDescriptor?: boolean
     isEServiceBeingArchived?: boolean
@@ -953,6 +953,14 @@ function renderDetailsPageHook(
   } = {}
 ) {
   const hasMultipleVersions = options.hasMultipleVersions ?? true
+  const archivingScheduleMock: ArchivingSchedule | undefined = options.archivingSchedule
+    ? {
+        archivableOn: options.archivingSchedule.archivableOn ?? '2026-01-01T00:00:00.000Z',
+        startedAt: options.archivingSchedule.startedAt ?? '2026-01-01T00:00:00.000Z',
+        scope: options.archivingSchedule.scope,
+        gracePeriodDays: options.archivingSchedule.gracePeriodDays,
+      }
+    : undefined
   return renderHookWithApplicationContext(
     () =>
       useGetProviderEServiceActions(
@@ -968,7 +976,7 @@ function renderDetailsPageHook(
         descriptorMock.delegation,
         undefined,
         'detailsPage',
-        options.archivingSchedule,
+        archivingScheduleMock,
         options.latestDescriptorId,
         hasMultipleVersions ? () => {} : undefined,
         options.isActiveDescriptor,

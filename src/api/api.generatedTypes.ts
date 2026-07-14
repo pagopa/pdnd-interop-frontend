@@ -26,6 +26,12 @@ export type RiskAnalysisReviewMode =
 /** Filter e-services by personal data */
 export type PersonalDataFilter = "TRUE" | "FALSE" | "DEFINED";
 
+/**
+ * Number of days for the archiving grace period
+ * @format int32
+ */
+export type GracePeriodDays = 30 | 60 | 90 | 120;
+
 /** EService Descriptor State */
 export type EServiceTemplateVersionState =
   | "DRAFT"
@@ -600,11 +606,13 @@ export interface ProducerEServiceDetails {
 
 export interface ArchivingSchedule {
   /** @format date-time */
-  archivableOn?: string;
+  archivableOn: string;
   /** @format date-time */
-  startedAt?: string;
+  startedAt: string;
   /** Archiving Scope */
-  scope?: ArchivingScope;
+  scope: ArchivingScope;
+  /** Number of days for the archiving grace period */
+  gracePeriodDays?: GracePeriodDays;
 }
 
 export interface EServiceRiskAnalysisSeed {
@@ -2762,12 +2770,20 @@ export interface EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescript
   createdAt: string;
 }
 
-export interface EServiceArchivingReasonSeed {
+export interface GracePeriodDaysSeed {
+  /** Number of days for the archiving grace period */
+  gracePeriodDays: GracePeriodDays;
+}
+
+/** Archiving Reason and Grace Period Days */
+export interface EServiceArchivingSeed {
   /**
    * @minLength 10
    * @maxLength 250
    */
   archivingReason: string;
+  /** Number of days for the archiving grace period */
+  gracePeriodDays: GracePeriodDays;
 }
 
 export interface CompactPurposeTemplateEServiceTemplate {
@@ -3017,7 +3033,15 @@ export interface DeleteAgreementParams {
   agreementId: string;
 }
 
-export interface ActivateAgreementParams {
+export interface ApproveAgreementParams {
+  /**
+   * The identifier of the agreement
+   * @format uuid
+   */
+  agreementId: string;
+}
+
+export interface UnsuspendAgreementParams {
   /**
    * The identifier of the agreement
    * @format uuid
@@ -6289,12 +6313,34 @@ export namespace Agreements {
   /**
    * @description returns the updated agreement
    * @tags agreements
-   * @name ActivateAgreement
+   * @name ApproveAgreement
    * @summary Activate an agreement
-   * @request POST:/agreements/{agreementId}/activate
+   * @request POST:/agreements/{agreementId}/approve
    * @secure
    */
-  export namespace ActivateAgreement {
+  export namespace ApproveAgreement {
+    export type RequestParams = {
+      /**
+       * The identifier of the agreement
+       * @format uuid
+       */
+      agreementId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = DelegationRef;
+    export type RequestHeaders = {};
+    export type ResponseBody = Agreement;
+  }
+
+  /**
+   * @description returns the updated agreement
+   * @tags agreements
+   * @name UnsuspendAgreement
+   * @summary Activate a suspended agreement
+   * @request POST:/agreements/{agreementId}/unsuspend
+   * @secure
+   */
+  export namespace UnsuspendAgreement {
     export type RequestParams = {
       /**
        * The identifier of the agreement
@@ -7387,7 +7433,7 @@ export namespace Eservices {
       descriptorId: string;
     };
     export type RequestQuery = {};
-    export type RequestBody = never;
+    export type RequestBody = GracePeriodDaysSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
@@ -7458,7 +7504,7 @@ export namespace Eservices {
       eServiceId: string;
     };
     export type RequestQuery = {};
-    export type RequestBody = EServiceArchivingReasonSeed;
+    export type RequestBody = EServiceArchivingSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
