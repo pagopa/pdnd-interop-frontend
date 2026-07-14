@@ -6,7 +6,7 @@ import { z } from 'zod'
 const DEFAULT_BANNER_LANGUAGE = 'it'
 
 const productUpdatesBannerLinkSchema = z.object({
-  link: z.string().url(),
+  link: z.url({ protocol: /^https?$/ }),
   label: z.string().min(1),
 })
 

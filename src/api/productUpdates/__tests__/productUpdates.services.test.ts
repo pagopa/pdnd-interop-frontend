@@ -132,6 +132,24 @@ describe('ProductUpdatesServices.getProductUpdatesJson', () => {
     await expect(ProductUpdatesServices.getProductUpdatesJson()).rejects.toThrow()
   })
 
+  it('rejects banner links that do not use HTTP or HTTPS', async () => {
+    vi.mocked(axios.get).mockResolvedValueOnce({
+      data: {
+        start: { date: '2026-06-11', time: '00:00' },
+        end: { date: '2026-06-12', time: '23:59' },
+        title: 'Novita piattaforma',
+        description: 'E disponibile una nuova funzionalita.',
+        firstLink: {
+          link: 'javascript:alert(document.domain)',
+          label: 'Read the guide',
+        },
+      },
+    })
+    const ProductUpdatesServices = await importProductUpdatesServices()
+
+    await expect(ProductUpdatesServices.getProductUpdatesJson()).rejects.toThrow()
+  })
+
   it('falls back to the Italian banner when the current language file has invalid data', async () => {
     const italianBannerData = {
       start: { date: '2026-06-11', time: '00:00' },
