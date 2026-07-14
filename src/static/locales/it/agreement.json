@@ -133,12 +133,13 @@
     "noPurposeAlert": "Per accedere ai dati <1>crea la tua prima finalità</1>.",
     "versionAlert": {
       "deprecatedActive": "Questa versione dell’e-service è obsoleta, ma è ancora attiva. È disponibile una nuova versione.",
+      "deprecatedActiveShort": "Questa versione dell’e-service è obsoleta, ma è ancora attiva.",
       "archivingDescriptor": "Questa versione dell’e-service sarà archiviata il giorno {{date}}. Dopo questa data potrai utilizzare solo la nuova versione per scambiare dati con l’e-service.",
       "archivingSuspendedDescriptor": "Questa versione dell’e-service sarà archiviata il giorno {{date}}. Al momento è sospesa e non può essere utilizzata. È disponibile una nuova versione.",
       "suspendedLast": "Questa versione dell’e-service è al momento sospesa e non può essere utilizzata.",
       "suspendedLastNoNewVersion": "Questa versione dell’e-service è al momento sospesa e non può essere utilizzata. Non è disponibile una nuova versione.",
-      "archivedDescriptor": "Questa versione dell’e-service è stata archiviata il giorno {{date}} e non può più essere utilizzata. Per continuare a scambiare dati con l’e-service, passa alla nuova versione. La richiesta di fruizione collegata a questa versione può essere archiviata.",
-      "archivedEService": "Questo e-service è stato archiviato il giorno {{date}} e non può più essere utilizzato. La richiesta di fruizione collegata a questa versione può essere archiviata.",
+      "archivedDescriptor": "Questa versione dell’e-service è stata archiviata il giorno {{date}} e non può più essere utilizzata. Per continuare a scambiare i dati con l’e-service, verifica se è disponibile una nuova versione e, se non l’hai già fatto, archivia la richiesta di fruizione.",
+      "archivedEService": "Questo e-service è stato archiviato il giorno {{date}} e non può più essere utilizzato. Se non l’hai già fatto, archivia la richiesta di fruizione.",
       "archivingEService": "Questo e-service sarà archiviato il giorno {{date}}. Dopo questa data non potrai più scambiare dati con l’e-service.",
       "seeDetails": "Vedi dettagli"
     },

@@ -39,7 +39,10 @@ afterAll(() => {
   server.close()
 })
 
-function renderUseGetProviderEServiceTableActionsHook(descriptorMock: ProducerEService) {
+function renderUseGetProviderEServiceTableActionsHook(
+  descriptorMock: ProducerEService,
+  opts: { where?: 'tableRow' | 'detailsPage'; hasPersonalData?: boolean } = {}
+) {
   return renderHookWithApplicationContext(
     () =>
       useGetProviderEServiceActions(
@@ -50,9 +53,11 @@ function renderUseGetProviderEServiceTableActionsHook(descriptorMock: ProducerES
         descriptorMock.draftDescriptor?.id,
         descriptorMock.mode,
         descriptorMock.name,
-        descriptorMock.isTemplateInstance,
         descriptorMock.isNewTemplateVersionAvailable ?? false,
-        descriptorMock.delegation
+        descriptorMock.isTemplateInstance,
+        descriptorMock.delegation,
+        opts.hasPersonalData,
+        opts.where
       ),
     {
       withReactQueryContext: true,
@@ -1390,8 +1395,14 @@ describe('useGetProviderEServiceActions slot split bypass (preserve legacy behav
     expect(result.current.headerInfoActions).toHaveLength(0)
     expect(result.current.menuActions.map((a) => a.label)).toEqual(['viewAllVersions'])
   })
+})
 
-  it('PUBLISHED + template instance: no slot split, template menu preserved', () => {
+describe('useGetProviderEServiceActions slot split — template instance (where=detailsPage, non-delegated)', () => {
+  beforeEach(() => {
+    mockUseJwt({ isAdmin: true })
+  })
+
+  it('PUBLISHED: enters the slot split; suspend+createNewVersion in header, archiveEservice+viewAllVersions in menu, no cloneEservice (S1)', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
       isTemplateInstance: true,
@@ -1399,7 +1410,232 @@ describe('useGetProviderEServiceActions slot split bypass (preserve legacy behav
     })
     const { result } = renderDetailsPageHook(descriptorMock)
     expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.headerInfoActions.map((a) => a.label)).toEqual([
+      'suspendVersion',
+      'createNewVersion',
+    ])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual([
+      'archiveEservice',
+      'viewAllVersions',
+    ])
+  })
+
+  it('SUSPENDED active single version: archiveEservice now appears in the menu (the reported bug fix) (S5/QA1)', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      isTemplateInstance: true,
+      delegation: undefined,
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      isActiveDescriptor: true,
+      hasMultipleVersions: false,
+    })
+    expect(result.current.headerInfoActions.map((a) => a.label)).toEqual([
+      'reactivateVersion',
+      'createNewVersion',
+    ])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual(['archiveEservice'])
+  })
+
+  it('DEPRECATED: archiveVersion in header, menu keeps createNewVersion+archiveEservice, no cloneEservice (S3/QA2)', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      isTemplateInstance: true,
+      delegation: undefined,
+    })
+    const { result } = renderDetailsPageHook(descriptorMock)
+    expect(result.current.headerInfoActions.map((a) => a.label)).toEqual([
+      'suspendVersion',
+      'archiveVersion',
+    ])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual([
+      'createNewVersion',
+      'archiveEservice',
+      'viewAllVersions',
+    ])
+  })
+
+  it('SUSPENDED non-active: reactivate+archiveVersion in header (S4/QA3)', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      isTemplateInstance: true,
+      delegation: undefined,
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, { isActiveDescriptor: false })
+    expect(result.current.headerInfoActions.map((a) => a.label)).toEqual([
+      'reactivateVersion',
+      'archiveVersion',
+    ])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual([
+      'createNewVersion',
+      'archiveEservice',
+      'viewAllVersions',
+    ])
+  })
+
+  it('ARCHIVED with a newer descriptor: viewLatestVersion in header, menu keeps createNewVersion+archiveEservice (S6)', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },
+      isTemplateInstance: true,
+      delegation: undefined,
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, { latestDescriptorId: 'newer-id' })
+    expect(result.current.headerInfoActions.map((a) => a.label)).toEqual(['viewLatestVersion'])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual([
+      'createNewVersion',
+      'archiveEservice',
+      'viewAllVersions',
+    ])
+  })
+
+  it('ARCHIVING with ESERVICE scope: cancelArchivingEservice primary, reduced menu without cloneEservice (S7)', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVING', version: '1' },
+      isTemplateInstance: true,
+      delegation: undefined,
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      archivingSchedule: { scope: 'ESERVICE' },
+    })
+    expect(result.current.primaryAction?.label).toBe('cancelArchivingEservice')
+    expect(result.current.headerInfoActions.map((a) => a.label)).toEqual(['suspendVersion'])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual(['viewAllVersions'])
+  })
+
+  it('archiving-collapsed menus never expose "Aggiorna istanza", even when a new template version is available (S7b)', () => {
+    const eserviceArchiving = renderDetailsPageHook(
+      createMockEServiceProvider({
+        activeDescriptor: { id: 'test-1', state: 'ARCHIVING', version: '1' },
+        isTemplateInstance: true,
+        isNewTemplateVersionAvailable: true,
+        delegation: undefined,
+      }),
+      { archivingSchedule: { scope: 'ESERVICE' } }
+    )
+    expect(eserviceArchiving.result.current.menuActions.map((a) => a.label)).toEqual([
+      'viewAllVersions',
+    ])
+
+    const eserviceBeingArchived = renderDetailsPageHook(
+      createMockEServiceProvider({
+        activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+        isTemplateInstance: true,
+        isNewTemplateVersionAvailable: true,
+        delegation: undefined,
+      }),
+      { isEServiceBeingArchived: true }
+    )
+    expect(eserviceBeingArchived.result.current.menuActions.map((a) => a.label)).not.toContain(
+      'updateInstance'
+    )
+  })
+
+  it('E10 (ARCHIVING + DESCRIPTOR + isActiveDescriptor=true): still empty (impossible state), same as classic (S11)', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVING', version: '1' },
+      isTemplateInstance: true,
+      delegation: undefined,
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      archivingSchedule: { scope: 'DESCRIPTOR' },
+      isActiveDescriptor: true,
+    })
+    expect(result.current.primaryAction).toBeUndefined()
     expect(result.current.headerInfoActions).toHaveLength(0)
-    expect(result.current.menuActions.length).toBeGreaterThan(0)
+    expect(result.current.menuActions).toHaveLength(0)
+  })
+
+  it('"Aggiorna istanza" (updateInstance) is in the menu only when a new template version is available (S14)', () => {
+    const withUpgrade = renderDetailsPageHook(
+      createMockEServiceProvider({
+        activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+        isTemplateInstance: true,
+        isNewTemplateVersionAvailable: true,
+        delegation: undefined,
+      })
+    )
+    expect(withUpgrade.result.current.menuActions.map((a) => a.label)).toEqual([
+      'updateInstance',
+      'archiveEservice',
+      'viewAllVersions',
+    ])
+
+    const withoutUpgrade = renderDetailsPageHook(
+      createMockEServiceProvider({
+        activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+        isTemplateInstance: true,
+        isNewTemplateVersionAvailable: false,
+        delegation: undefined,
+      })
+    )
+    expect(withoutUpgrade.result.current.menuActions.map((a) => a.label)).not.toContain(
+      'updateInstance'
+    )
+  })
+
+  it.each(['PUBLISHED', 'DEPRECATED', 'SUSPENDED', 'ARCHIVED'] as const)(
+    'never exposes "Duplica e-service" (cloneEservice) — %s (S13)',
+    (state) => {
+      const descriptorMock = createMockEServiceProvider({
+        activeDescriptor: { id: 'test-1', state, version: '1' },
+        isTemplateInstance: true,
+        delegation: undefined,
+      })
+      const { result } = renderDetailsPageHook(descriptorMock, { latestDescriptorId: 'newer-id' })
+      const labels = [
+        result.current.primaryAction?.label,
+        ...result.current.headerInfoActions.map((a) => a.label),
+        ...result.current.menuActions.map((a) => a.label),
+      ]
+      expect(labels).not.toContain('cloneEservice')
+    }
+  )
+
+  it('operatorAPI (non-delegated) gets the same slot split as admin (S17)', () => {
+    mockUseJwt({ isAdmin: false, isOperatorAPI: true })
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      isTemplateInstance: true,
+      delegation: undefined,
+    })
+    const { result } = renderDetailsPageHook(descriptorMock)
+    expect(result.current.headerInfoActions.map((a) => a.label)).toEqual([
+      'suspendVersion',
+      'createNewVersion',
+    ])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual([
+      'archiveEservice',
+      'viewAllVersions',
+    ])
+  })
+
+  it('delegated template instance stays out of the slot split (no archive actions) (S15)', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      isTemplateInstance: true,
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: { id: 'organizationId', name: 'delegator-name' },
+      }),
+    })
+    const { result } = renderDetailsPageHook(descriptorMock)
+    expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.headerInfoActions).toHaveLength(0)
+    expect(result.current.menuActions.map((a) => a.label)).not.toContain('archiveEservice')
+  })
+
+  it('table-row context stays out of the slot split (flat template menu, no archive) (S16)', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      isTemplateInstance: true,
+      delegation: undefined,
+    })
+    const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock, {
+      where: 'tableRow',
+    })
+    expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.headerInfoActions).toHaveLength(0)
+    const labels = result.current.menuActions.map((a) => a.label)
+    expect(labels).not.toContain('archiveEservice')
+    expect(labels).not.toContain('archiveVersion')
   })
 })
