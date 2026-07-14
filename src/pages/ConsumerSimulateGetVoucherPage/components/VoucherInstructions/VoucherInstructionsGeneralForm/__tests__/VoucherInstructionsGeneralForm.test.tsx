@@ -22,11 +22,12 @@ vi.mock('../VoucherInstructionsGeneralFormCurrentIdsDrawer', () => ({
 }))
 
 vi.mock('@/api/client/client.services', () => ({
-  getList: vi.fn().mockResolvedValue({
-    data: {
-      content: [],
-    },
-  }),
+  ClientServices: {
+    getList: vi.fn().mockResolvedValue({
+      results: [],
+      pagination: { offset: 0, limit: 50, totalCount: 0 },
+    }),
+  },
 }))
 
 describe('VoucherInstructionsGeneralForm', () => {
