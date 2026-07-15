@@ -100,6 +100,29 @@ describe('DialogArchiveEservice', () => {
     )
   })
 
+  it('submits the grace period selected by the user on the ADVISE step instead of the default one', async () => {
+    renderDialog({ eserviceId: 'eservice-42' })
+
+    const radios = screen.getAllByRole('radio') as Array<HTMLInputElement>
+    const radio120 = radios.find((radio) => radio.value === '120')
+    expect(radio120).toBeDefined()
+
+    await userEvent.click(radio120!)
+    await userEvent.click(screen.getByRole('button', { name: 'actions.forward' }))
+    await userEvent.type(screen.getByRole('textbox'), 'Sostituito da nuova versione integrata')
+    await userEvent.click(screen.getByRole('button', { name: 'archive' }))
+
+    expect(mockScheduleArchive).toHaveBeenCalledTimes(1)
+    expect(mockScheduleArchive).toHaveBeenCalledWith(
+      {
+        eserviceId: 'eservice-42',
+        archivingReason: 'Sostituito da nuova versione integrata',
+        gracePeriodDays: 120,
+      },
+      expect.objectContaining({ onSuccess: expect.any(Function) })
+    )
+  })
+
   it('closes the dialog after the schedule archive mutation succeeds', async () => {
     renderDialog()
 
