@@ -26,7 +26,8 @@ function useGetAgreementsActions(
   const { openDialog } = useDialog()
   const navigate = useNavigate()
 
-  const { mutate: activateAgreement } = AgreementMutations.useActivate()
+  const { mutate: approveAgreement } = AgreementMutations.useApprove()
+  const { mutate: unsuspendAgreement } = AgreementMutations.useUnsuspend()
   const { mutate: suspendAgreement } = AgreementMutations.useSuspend()
   const { mutate: deleteAgreement } = AgreementMutations.useDeleteDraft()
   const { mutate: cloneAgreement } = AgreementMutations.useClone()
@@ -58,6 +59,8 @@ function useGetAgreementsActions(
   if (!agreement || mode === null || !isAdmin || isDelegator) return { actions: [] }
 
   const handleActivate = () => {
+    const activateAgreement = agreement.state === 'PENDING' ? approveAgreement : unsuspendAgreement
+
     if (from === 'CONSUMER' && isDelegationMine) {
       activateAgreement({ agreementId: agreement.id, delegationId: agreement.delegation?.id })
     } else if (from === 'PRODUCER' && isThereProducerDelegation) {
