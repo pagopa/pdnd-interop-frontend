@@ -11,7 +11,7 @@ import type {
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
 import { SectionContainer } from '@/components/layout/containers'
 import { Alert, Box, Button, Divider, Stack } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { PurposeCreateEServiceAutocomplete } from './PurposeCreateEServiceAutocomplete'
@@ -119,7 +119,7 @@ export const PurposeCreateForm: React.FC<PurposeCreateFormProps> = ({ purposeTem
     !isLoadingPurposeTemplates &&
     purposeTemplates?.results &&
     purposeTemplates.results.length > 0 &&
-    selectedEServiceMode !== 'RECEIVE'
+    selectedEServiceMode === 'DELIVER'
 
   // const isSubmitBtnDisabled = !!(useTemplate && purposeId && !purpose)
 
@@ -215,6 +215,13 @@ export const PurposeCreateForm: React.FC<PurposeCreateFormProps> = ({ purposeTem
       })
     }
   }
+
+  useEffect(() => {
+    if (selectedEServiceMode === 'RECEIVE') {
+      formMethods.setValue('templateId', null)
+      formMethods.setValue('usePurposeTemplate', false)
+    }
+  }, [selectedEServiceMode, formMethods])
 
   return (
     <FormProvider {...formMethods}>
