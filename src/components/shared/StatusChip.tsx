@@ -232,27 +232,41 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
         />
       )
     })
-    .with(
-      { for: 'delegation' },
-      { for: 'eserviceTemplate' },
-      { for: 'purposeTemplate' },
-      { for: 'riskAnalysis' },
-      { for: 'riskAnalysisList' },
-      (p) => {
-        // Every "simple" variant resolves to the same lookup: the color map is keyed by the
-        // `for` discriminant and the i18n namespace coincides with it (`status.<for>.<state>`).
-        // The cast bridges a correlation TS can't track: `p.state` is always a valid key of
-        // `chipColors[p.for]` for the matched member, but the union of records hides it.
-        const colorsByState = chipColors[p.for] as Record<string, MUIColor>
-        return (
-          <Chip
-            label={t(`status.${p.for}.${p.state}`)}
-            color={colorsByState[p.state]}
-            {...chipProps}
-          />
-        )
-      }
-    )
+    .with({ for: 'delegation' }, (p) => (
+      <Chip
+        label={t(`status.delegation.${p.state}`)}
+        color={chipColors.delegation[p.state]}
+        {...chipProps}
+      />
+    ))
+    .with({ for: 'eserviceTemplate' }, (p) => (
+      <Chip
+        label={t(`status.eserviceTemplate.${p.state}`)}
+        color={chipColors.eserviceTemplate[p.state]}
+        {...chipProps}
+      />
+    ))
+    .with({ for: 'purposeTemplate' }, (p) => (
+      <Chip
+        label={t(`status.purposeTemplate.${p.state}`)}
+        color={chipColors.purposeTemplate[p.state]}
+        {...chipProps}
+      />
+    ))
+    .with({ for: 'riskAnalysis' }, (p) => (
+      <Chip
+        label={t(`status.riskAnalysis.${p.state}`)}
+        color={chipColors.riskAnalysis[p.state]}
+        {...chipProps}
+      />
+    ))
+    .with({ for: 'riskAnalysisList' }, (p) => (
+      <Chip
+        label={t(`status.riskAnalysisList.${p.state}`)}
+        color={chipColors.riskAnalysisList[p.state]}
+        {...chipProps}
+      />
+    ))
     .exhaustive()
 }
 
