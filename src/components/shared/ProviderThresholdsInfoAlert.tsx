@@ -1,5 +1,5 @@
 import { AlertTitle, Stack, Typography } from '@mui/material'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { GreyAlert } from '@/components/shared/GreyAlert'
 
 type ProviderThresholdsInfoAlertProps = {
@@ -30,20 +30,27 @@ export function ProviderThresholdsInfoAlert({
       >
         <Stack direction="row" spacing={2} alignItems="center">
           <Typography>{t('dailyCallsPerConsumer.label')}</Typography>
-          <Typography fontWeight={600}>
-            {t('dailyCallsPerConsumer.value', {
-              min: remainingDailyCallsPerConsumer ?? t('na'),
-              max: dailyCallsPerConsumer,
-            })}
+          <Typography>
+            <Trans
+              ns="purpose"
+              i18nKey="edit.loadEstimationSection.providerThresholdsInfo.dailyCallsPerConsumer.value"
+              values={{
+                min: remainingDailyCallsPerConsumer ?? t('na'),
+                max: dailyCallsPerConsumer,
+              }}
+              components={{ strong: <strong /> }}
+            />
           </Typography>
         </Stack>
         <Stack direction="row" spacing={2} alignItems="center">
           <Typography>{t('dailyCallsTotal.label')}</Typography>
-          <Typography fontWeight={600}>
-            {t('dailyCallsTotal.value', {
-              min: remainingDailyCallsTotal ?? t('na'),
-              max: dailyCallsTotal,
-            })}
+          <Typography>
+            <Trans
+              ns="purpose"
+              i18nKey="edit.loadEstimationSection.providerThresholdsInfo.dailyCallsTotal.value"
+              values={{ min: remainingDailyCallsTotal ?? t('na'), max: dailyCallsTotal }}
+              components={{ strong: <strong /> }}
+            />
           </Typography>
         </Stack>
       </Stack>

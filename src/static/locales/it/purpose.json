@@ -142,11 +142,11 @@
         "na": "n/a",
         "dailyCallsPerConsumer": {
           "label": "Per fruitore",
-          "value": "{{min}} chiamate disponibili su {{max}}"
+          "value": "<strong>{{min}}</strong> chiamate disponibili su <strong>{{max}}</strong>"
         },
         "dailyCallsTotal": {
           "label": "Totali",
-          "value": "{{min}} chiamate disponibili su {{max}}"
+          "value": "<strong>{{min}}</strong> chiamate disponibili su <strong>{{max}}</strong>"
         }
       },
       "alerts": {
@@ -541,11 +541,11 @@
             "na": "n/a",
             "dailyCallsPerConsumer": {
               "label": "Per fruitore",
-              "value": "{{min}} chiamate disponibili su {{max}}"
+              "value": "<strong>{{min}}</strong> chiamate disponibili su <strong>{{max}}</strong>"
             },
             "dailyCallsTotal": {
               "label": "Totali",
-              "value": "{{min}} chiamate disponibili su {{max}}"
+              "value": "<strong>{{min}}</strong> chiamate disponibili su <strong>{{max}}</strong>"
             }
           },
           "riskAnalysisSection": {
