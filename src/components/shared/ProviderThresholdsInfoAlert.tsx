@@ -46,8 +46,8 @@ export function ProviderThresholdsInfoAlert({
           <Typography>{t('dailyCallsTotal.label')}</Typography>
           <Typography>
             <Trans
-              ns="purpose"
-              i18nKey="edit.loadEstimationSection.providerThresholdsInfo.dailyCallsTotal.value"
+              t={t}
+              i18nKey="dailyCallsTotal.value"
               values={{ min: remainingDailyCallsTotal ?? t('na'), max: dailyCallsTotal }}
               components={{ strong: <strong /> }}
             />
