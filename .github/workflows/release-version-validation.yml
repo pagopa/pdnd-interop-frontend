@@ -94,9 +94,9 @@ jobs:
             done
           }
 
-          if [[ "$PR_TITLE" =~ ^align/(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+          if echo "$PR_LABELS_JSON" | jq -r '.[]?' | grep -qi '^align$'; then
             dismiss_blocking_review_if_present
-            echo "PR title '$PR_TITLE' is an align PR. Skipping release check."
+            echo "PR has 'align' label. Skipping release check."
             exit 0
           fi
 
