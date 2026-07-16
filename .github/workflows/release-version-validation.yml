@@ -61,8 +61,9 @@ jobs:
               fi
             fi
 
-            echo "Posting REQUEST_CHANGES review with current validation reason."
-            current_head_sha="${{ github.event.pull_request.head.sha }}"
+              echo "Posting REQUEST_CHANGES review with current validation reason."
+              dismiss_blocking_review_if_present
+              current_head_sha="${{ github.event.pull_request.head.sha }}"
 
             gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
               --method POST \
