@@ -2199,7 +2199,7 @@ export interface CertifiedDiscreteTenantAttributeSeed {
    * @min 1
    * @max 1000000000
    */
-  certifiedDiscreteThreshold: number;
+  certifiedDiscreteValue: number;
 }
 
 export interface DelegationTenant {
@@ -3028,7 +3028,15 @@ export interface DeleteAgreementParams {
   agreementId: string;
 }
 
-export interface ActivateAgreementParams {
+export interface ApproveAgreementParams {
+  /**
+   * The identifier of the agreement
+   * @format uuid
+   */
+  agreementId: string;
+}
+
+export interface UnsuspendAgreementParams {
   /**
    * The identifier of the agreement
    * @format uuid
@@ -6321,12 +6329,34 @@ export namespace Agreements {
   /**
    * @description returns the updated agreement
    * @tags agreements
-   * @name ActivateAgreement
+   * @name ApproveAgreement
    * @summary Activate an agreement
-   * @request POST:/agreements/{agreementId}/activate
+   * @request POST:/agreements/{agreementId}/approve
    * @secure
    */
-  export namespace ActivateAgreement {
+  export namespace ApproveAgreement {
+    export type RequestParams = {
+      /**
+       * The identifier of the agreement
+       * @format uuid
+       */
+      agreementId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = DelegationRef;
+    export type RequestHeaders = {};
+    export type ResponseBody = Agreement;
+  }
+
+  /**
+   * @description returns the updated agreement
+   * @tags agreements
+   * @name UnsuspendAgreement
+   * @summary Activate a suspended agreement
+   * @request POST:/agreements/{agreementId}/unsuspend
+   * @secure
+   */
+  export namespace UnsuspendAgreement {
     export type RequestParams = {
       /**
        * The identifier of the agreement
@@ -6891,7 +6921,7 @@ export namespace Tenants {
   }
 
   /**
-   * @description Revoke a certified discrete attribute to a Tenant by the requester Tenant
+   * @description Revoke a certified discrete attribute from a Tenant by the requester Tenant
    * @tags tenants
    * @name RevokeCertifiedDiscreteAttribute
    * @request DELETE:/tenants/{tenantId}/attributes/certifiedDiscrete/{attributeId}
