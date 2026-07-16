@@ -68,7 +68,7 @@ describe('DialogArchiveVersion', () => {
     )
   })
 
-  it('submits the grace period selected by the user instead of the default one', async () => {
+  it('should submit the grace period selected by the user instead of the default one', async () => {
     renderDialog({ eserviceId: 'eservice-42', descriptorId: 'descriptor-99' })
 
     const radios = screen.getAllByRole('radio') as Array<HTMLInputElement>

@@ -37,7 +37,7 @@ const expectedArchiveDateTextFor = (days: number) =>
   `Archiving will occur on ${formatDateStringNumeric(calculateArchivableOn(new Date(), days))}`
 
 describe('GracePeriodField', () => {
-  it('renders one radio per grace period option with the default one preselected', () => {
+  it('should render one radio per grace period option with the default one preselected', () => {
     renderField()
 
     const radios = screen.getAllByRole('radio') as Array<HTMLInputElement>
@@ -45,7 +45,7 @@ describe('GracePeriodField', () => {
     expect(radios.find((radio) => radio.value === String(DEFAULT_GRACE_PERIOD_DAYS))).toBeChecked()
   })
 
-  it('updates the archiving-date preview when the user selects a different grace period', async () => {
+  it('should update the archiving-date preview when the user selects a different grace period', async () => {
     renderField()
 
     expect(
