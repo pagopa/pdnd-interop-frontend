@@ -20,7 +20,7 @@ type AssignAttributeDrawerProps = {
 type AssignAttributeFormValues = {
   attribute: CompactAttribute
   tenant: CompactTenant
-  threshold: number
+  value: number
 }
 
 export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
@@ -40,7 +40,7 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
     defaultValues: {
       attribute: undefined,
       tenant: undefined,
-      threshold: undefined,
+      value: undefined,
     },
   })
 
@@ -123,7 +123,7 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
           {
             id: values.attribute.id,
             tenantId: values.tenant.id,
-            certifiedDiscreteThreshold: values.threshold,
+            certifiedDiscreteValue: values.value,
           },
           { onSuccess: onClose }
         )
@@ -137,6 +137,13 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
     setAttributeSearchParam('')
     setTenantSearchParam('')
   }
+
+  const isSelectedAttributeCertifiedDiscrete =
+    selectedAttribute && selectedAttribute.kind === 'CERTIFIED_DISCRETE'
+
+  React.useEffect(() => {
+    formMethods.resetField('value')
+  }, [formMethods, selectedAttribute])
 
   return (
     <FormProvider {...formMethods}>
@@ -160,7 +167,7 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
             options={attributeOptions}
             focusOnMount
             name="attribute"
-            aria-controls="threshold-value-field"
+            aria-controls={isSelectedAttributeCertifiedDiscrete ? 'value-field' : undefined}
           />
           <RHFAutocompleteSingle
             label={t('form.tenantField.label')}
@@ -170,17 +177,17 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
             options={tenantOptions}
             name="tenant"
           />
-          {selectedAttribute && selectedAttribute.kind === 'CERTIFIED_DISCRETE' && (
+          {isSelectedAttributeCertifiedDiscrete && (
             <RHFTextField
-              id="threshold-value-field"
-              label={t('form.thresholdField.label')}
-              name="threshold"
+              id="value-field"
+              label={t('form.valueField.label')}
+              name="value"
               rules={{
                 required: true,
                 min: 1,
                 max: 1000000000,
                 validate: (value) =>
-                  Number.isInteger(Number(value)) || t('form.thresholdField.validation.integer'),
+                  Number.isInteger(Number(value)) || t('form.valueField.validation.integer'),
               }}
               required
               size="small"

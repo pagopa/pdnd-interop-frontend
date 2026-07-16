@@ -115,7 +115,7 @@
           "tenantField": {
             "label": "Assignee party"
           },
-          "thresholdField": {
+          "valueField": {
             "label": "Numerical value",
             "validation": {
               "integer": "Value must be an integer"

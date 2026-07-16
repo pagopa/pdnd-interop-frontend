@@ -115,7 +115,7 @@
           "tenantField": {
             "label": "Ente assegnatario"
           },
-          "thresholdField": {
+          "valueField": {
             "label": "Valore numerico",
             "validation": {
               "integer": "Il valore deve essere intero"
