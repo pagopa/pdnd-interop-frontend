@@ -28,7 +28,6 @@ jobs:
     steps:
       - name: Check release label on PR
         env:
-          PR_TITLE: ${{ github.event.pull_request.title }}
           PR_LABELS_JSON: ${{ toJson(github.event.pull_request.labels.*.name) }}
           GH_TOKEN: ${{ github.token }}
         run: |
