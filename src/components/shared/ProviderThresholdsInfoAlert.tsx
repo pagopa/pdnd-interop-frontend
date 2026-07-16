@@ -32,8 +32,8 @@ export function ProviderThresholdsInfoAlert({
           <Typography>{t('dailyCallsPerConsumer.label')}</Typography>
           <Typography>
             <Trans
-              ns="purpose"
-              i18nKey="edit.loadEstimationSection.providerThresholdsInfo.dailyCallsPerConsumer.value"
+              t={t}
+              i18nKey="dailyCallsPerConsumer.value"
               values={{
                 min: remainingDailyCallsPerConsumer ?? t('na'),
                 max: dailyCallsPerConsumer,
