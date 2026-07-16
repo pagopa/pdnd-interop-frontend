@@ -142,11 +142,11 @@
         "na": "n/a",
         "dailyCallsPerConsumer": {
           "label": "Per consumer",
-          "value": "{{min}} available calls out of {{max}}"
+          "value": "<strong>{{min}}</strong> available calls out of <strong>{{max}}</strong>"
         },
         "dailyCallsTotal": {
           "label": "Total",
-          "value": "{{min}} available calls out of {{max}}"
+          "value": "<strong>{{min}}</strong> available calls out of <strong>{{max}}</strong>"
         }
       },
       "alerts": {
@@ -541,11 +541,11 @@
             "na": "n/a",
             "dailyCallsPerConsumer": {
               "label": "Per consumer",
-              "value": "{{min}} available calls out of {{max}}"
+              "value": "<strong>{{min}}</strong> available calls out of <strong>{{max}}</strong>"
             },
             "dailyCallsTotal": {
               "label": "Total",
-              "value": "{{min}} available calls out of {{max}}"
+              "value": "<strong>{{min}}</strong> available calls out of <strong>{{max}}</strong>"
             }
           },
           "riskAnalysisSection": {
