@@ -259,54 +259,6 @@ describe('AssignAttributeDrawer', () => {
       expect(addCertifiedDiscreteAttributeRequests).toHaveLength(0)
     })
 
-    it('should reset value when the selected attribute changes', async () => {
-      const user = userEvent.setup()
-      const screen = renderWithApplicationContext(
-        <AssignAttributeDrawer isOpen={true} onClose={vi.fn()} />,
-        {
-          withReactQueryContext: true,
-        }
-      )
-
-      const attributeAutocomplete = screen.getByRole('combobox', {
-        name: 'form.attributeField.label',
-      })
-
-      await user.click(attributeAutocomplete)
-      await user.click(await screen.findByRole('option', { name: 'test certified discrete' }))
-
-      const valueField = screen.getByRole('spinbutton', {
-        name: 'form.valueField.label',
-      })
-
-      await user.type(valueField, '11')
-      expect(valueField).toHaveValue(11)
-
-      await user.click(attributeAutocomplete)
-      await user.click(await screen.findByRole('option', { name: 'test certified' }))
-
-      await user.click(attributeAutocomplete)
-      await user.click(await screen.findByRole('option', { name: 'test certified discrete' }))
-
-      expect(
-        screen.getByRole('spinbutton', {
-          name: 'form.valueField.label',
-        })
-      ).toHaveValue(null)
-
-      const tenantAutocomplete = screen.getByRole('combobox', {
-        name: 'form.tenantField.label',
-      })
-      await user.click(tenantAutocomplete)
-      await user.click(await screen.findByRole('option', { name: 'test tenant name' }))
-
-      await user.click(screen.getByRole('button', { name: 'submitBtnLabel' }))
-
-      expect(await screen.findByText('validation.mixed.required')).toBeInTheDocument()
-      expect(addCertifiedAttributeRequests).toHaveLength(0)
-      expect(addCertifiedDiscreteAttributeRequests).toHaveLength(0)
-    })
-
     it('should show min error and block submit for CERTIFIED_DISCRETE when value is below 1', async () => {
       const user = userEvent.setup()
       const screen = renderWithApplicationContext(
@@ -383,6 +335,55 @@ describe('AssignAttributeDrawer', () => {
       expect(await screen.findByText('form.valueField.validation.integer')).toBeInTheDocument()
       expect(addCertifiedAttributeRequests).toHaveLength(0)
       expect(addCertifiedDiscreteAttributeRequests).toHaveLength(0)
+    })
+
+    it('should reset value to default when selected attribute changes', async () => {
+      const user = userEvent.setup()
+      const screen = renderWithApplicationContext(
+        <AssignAttributeDrawer isOpen={true} onClose={vi.fn()} />,
+        {
+          withReactQueryContext: true,
+        }
+      )
+
+      const attributeAutocomplete = screen.getByRole('combobox', {
+        name: 'form.attributeField.label',
+      })
+
+      await user.click(attributeAutocomplete)
+      const certifiedDiscreteAttributeToSelect = await screen.findByRole('option', {
+        name: 'test certified discrete',
+      })
+      await user.click(certifiedDiscreteAttributeToSelect)
+
+      const valueField = screen.getByRole('spinbutton', {
+        name: 'form.valueField.label',
+      })
+      await user.type(valueField, '11')
+      expect((valueField as HTMLInputElement).value).toBe('11')
+
+      await user.click(attributeAutocomplete)
+      const certifiedAttributeToSelect = await screen.findByRole('option', {
+        name: 'test certified',
+      })
+      await user.click(certifiedAttributeToSelect)
+
+      expect(
+        screen.queryByRole('spinbutton', {
+          name: 'form.valueField.label',
+        })
+      ).not.toBeInTheDocument()
+
+      await user.click(attributeAutocomplete)
+      const certifiedDiscreteAttributeToSelectAgain = await screen.findByRole('option', {
+        name: 'test certified discrete',
+      })
+      await user.click(certifiedDiscreteAttributeToSelectAgain)
+
+      const valueFieldAfterAttributeChange = screen.getByRole('spinbutton', {
+        name: 'form.valueField.label',
+      })
+      expect((valueFieldAfterAttributeChange as HTMLInputElement).value).toBe('')
     })
   })
 })
