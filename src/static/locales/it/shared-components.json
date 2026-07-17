@@ -563,6 +563,12 @@
 
   "requiredLabel": "*Campi obbligatori",
 
+  "stepper": {
+    "stepperLabel": "Step {{currentStep}} di {{totalSteps}}",
+    "completeLabel": "Step completato",
+    "currentStepLabel": "Step corrente"
+  },
+
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Termini di servizio",

@@ -419,7 +419,6 @@
       "inspectAttributeDetails": "Attribute details",
       "modifyCertifiedDiscreteAttribute": "Modify attribute"
     },
-
     "na": "n/a"
   },
   "attributeGroupContainer": {
@@ -561,7 +560,15 @@
   "documents": {
     "notAvailableYet": "The document will be available soon"
   },
+
   "requiredLabel": "*Required fields.",
+
+  "stepper": {
+    "stepperLabel": "Step {{currentStep}} of {{totalSteps}}",
+    "completeLabel": "Step completed",
+    "currentStepLabel": "Current Step"
+  },
+
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Terms of Service",
