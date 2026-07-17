@@ -141,10 +141,6 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
   const isSelectedAttributeCertifiedDiscrete =
     selectedAttribute && selectedAttribute.kind === 'CERTIFIED_DISCRETE'
 
-  React.useEffect(() => {
-    formMethods.resetField('value')
-  }, [formMethods, selectedAttribute])
-
   return (
     <FormProvider {...formMethods}>
       <Drawer
@@ -163,6 +159,7 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
             label={t('form.attributeField.label')}
             size="small"
             onInputChange={(_, value) => setAttributeSearchParam(value)}
+            onValueChange={() => formMethods.resetField('value')}
             sx={{ mb: 0, flex: 1 }}
             options={attributeOptions}
             focusOnMount
