@@ -566,7 +566,7 @@
   "stepper": {
     "stepperLabel": "Step {{currentStep}} of {{totalSteps}}",
     "completeLabel": "Step completed",
-    "currentStepLabel": "Current Step"
+    "currentStepLabel": "Current step"
   },
 
   "routeLabels": {

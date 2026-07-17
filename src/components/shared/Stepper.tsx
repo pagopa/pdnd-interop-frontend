@@ -29,7 +29,7 @@ export function Stepper({ steps, activeIndex }: StepperProps) {
               <StepLabel tabIndex={0}>
                 <span style={visuallyHidden}>
                   {statusText}
-                  {t('stepperLabel', { currentStep: index + 1, totalSteps: steps.length })}:
+                  {t('stepperLabel', { currentStep: index + 1, totalSteps: steps.length }) + ': '}
                 </span>
                 {label}
               </StepLabel>
