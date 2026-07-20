@@ -3017,7 +3017,15 @@ export interface DeleteAgreementParams {
   agreementId: string;
 }
 
-export interface ActivateAgreementParams {
+export interface ApproveAgreementParams {
+  /**
+   * The identifier of the agreement
+   * @format uuid
+   */
+  agreementId: string;
+}
+
+export interface UnsuspendAgreementParams {
   /**
    * The identifier of the agreement
    * @format uuid
@@ -4541,12 +4549,12 @@ export interface UpdateVerifiedAttributeParams {
   attributeId: string;
 }
 
-export interface RevokeVerifiedAttributePayload {
-  /** @format uuid */
-  agreementId: string;
-}
-
 export interface RevokeVerifiedAttributeParams {
+  /**
+   * Agreement id related to the Verified attribute revocation
+   * @format uuid
+   */
+  agreementId: string;
   /**
    * Tenant id which attribute needs to be verified
    * @format uuid
@@ -6289,12 +6297,34 @@ export namespace Agreements {
   /**
    * @description returns the updated agreement
    * @tags agreements
-   * @name ActivateAgreement
+   * @name ApproveAgreement
    * @summary Activate an agreement
-   * @request POST:/agreements/{agreementId}/activate
+   * @request POST:/agreements/{agreementId}/approve
    * @secure
    */
-  export namespace ActivateAgreement {
+  export namespace ApproveAgreement {
+    export type RequestParams = {
+      /**
+       * The identifier of the agreement
+       * @format uuid
+       */
+      agreementId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = DelegationRef;
+    export type RequestHeaders = {};
+    export type ResponseBody = Agreement;
+  }
+
+  /**
+   * @description returns the updated agreement
+   * @tags agreements
+   * @name UnsuspendAgreement
+   * @summary Activate a suspended agreement
+   * @request POST:/agreements/{agreementId}/unsuspend
+   * @secure
+   */
+  export namespace UnsuspendAgreement {
     export type RequestParams = {
       /**
        * The identifier of the agreement
@@ -6884,8 +6914,14 @@ export namespace Tenants {
        */
       attributeId: string;
     };
-    export type RequestQuery = {};
-    export type RequestBody = RevokeVerifiedAttributePayload;
+    export type RequestQuery = {
+      /**
+       * Agreement id related to the Verified attribute revocation
+       * @format uuid
+       */
+      agreementId: string;
+    };
+    export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
