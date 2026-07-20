@@ -165,6 +165,7 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
             focusOnMount
             name="attribute"
             aria-controls={isSelectedAttributeCertifiedDiscrete ? 'value-field' : undefined}
+            rules={{ required: true }}
           />
           <RHFAutocompleteSingle
             label={t('form.tenantField.label')}
@@ -173,6 +174,7 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
             sx={{ mb: 0, flex: 1 }}
             options={tenantOptions}
             name="tenant"
+            rules={{ required: true }}
           />
           {isSelectedAttributeCertifiedDiscrete && (
             <RHFTextField
@@ -180,7 +182,7 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
               label={t('form.valueField.label')}
               name="value"
               rules={{
-                required: true,
+                required: isSelectedAttributeCertifiedDiscrete ? true : false,
                 min: 1,
                 max: 1000000000,
                 validate: (value) =>

@@ -133,6 +133,48 @@ describe('AssignAttributeDrawer', () => {
   })
 
   describe('form submission', () => {
+    it('should show required error and block submit when attribute is missing', async () => {
+      const user = userEvent.setup()
+      const screen = renderWithApplicationContext(
+        <AssignAttributeDrawer isOpen={true} onClose={vi.fn()} />,
+        {
+          withReactQueryContext: true,
+        }
+      )
+
+      const submitButton = screen.getByRole('button', { name: 'submitBtnLabel' })
+      await user.click(submitButton)
+
+      const requiredErrors = await screen.findAllByText('validation.mixed.required')
+      expect(requiredErrors).toHaveLength(2)
+      expect(addCertifiedAttributeRequests).toHaveLength(0)
+      expect(addCertifiedDiscreteAttributeRequests).toHaveLength(0)
+    })
+
+    it('should show required error and block submit when tenant is missing', async () => {
+      const user = userEvent.setup()
+      const screen = renderWithApplicationContext(
+        <AssignAttributeDrawer isOpen={true} onClose={vi.fn()} />,
+        {
+          withReactQueryContext: true,
+        }
+      )
+
+      const attributeAutocomplete = screen.getByRole('combobox', {
+        name: 'form.attributeField.label',
+      })
+      await user.click(attributeAutocomplete)
+      const attributeToSelect = await screen.findByRole('option', { name: 'test certified' })
+      await user.click(attributeToSelect)
+
+      const submitButton = screen.getByRole('button', { name: 'submitBtnLabel' })
+      await user.click(submitButton)
+
+      expect(await screen.findByText('validation.mixed.required')).toBeInTheDocument()
+      expect(addCertifiedAttributeRequests).toHaveLength(0)
+      expect(addCertifiedDiscreteAttributeRequests).toHaveLength(0)
+    })
+
     it('should call addCertifiedAttribute if selectedAttribute kind is CERTIFIED', async () => {
       const user = userEvent.setup()
       const screen = renderWithApplicationContext(
