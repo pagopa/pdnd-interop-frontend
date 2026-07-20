@@ -9,7 +9,7 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material'
-import React from 'react'
+import React, { useId } from 'react'
 import { RiskAnalysisAnswerComponent } from '@/pages/ConsumerPurposeTemplateEditPage/components/PurposeTemplateEditStepRiskAnalysis/RiskAnalysisForm/RiskAnalysisAnswerComponent'
 import { RiskAnalysisReadAnnotationsComponent } from '@/pages/ConsumerPurposeFromTemplateEditPage/components/PurposeFromTemplateEditStepRiskAnalysis/RiskAnalysisReadAnnotationsComponent'
 import { useTranslation } from 'react-i18next'
@@ -40,7 +40,7 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
   infoLabel,
   helperText,
   helperTextId,
-  labelId,
+  labelId: externalLabelId,
   infoLabelId,
   error,
   errorId,
@@ -55,18 +55,27 @@ const RiskAnalysisInputWrapper: React.FC<RiskAnalysisInputWrapperProps> = ({
   const { t: tShared } = useTranslation('shared-components', {
     keyPrefix: 'purposeTemplateRiskAnalysisInfoSummary',
   })
+
+  const internalLabelId = useId()
+  const labelId = externalLabelId || internalLabelId
+
   return (
     <SectionContainer component={isInputGroup ? 'fieldset' : 'div'}>
       <SectionContainer
         innerSection
         {...(isFromPurposeTemplate ? { sx: { border: 1, borderColor: 'lightgrey', p: 3 } } : {})}
       >
-        <FormControl fullWidth error={!!error}>
+        <FormControl
+          fullWidth
+          error={!!error}
+          role={isInputGroup ? 'group' : undefined}
+          aria-labelledby={isInputGroup ? labelId : undefined}
+        >
           <Stack spacing={1} sx={{ mb: 4 }}>
             <Box display="flex" justifyContent="space-between" alignItems="flex-start" gap={2}>
               <Box sx={{ flex: 1, minWidth: 0 }}>
                 <FormLabel
-                  htmlFor={name}
+                  htmlFor={isInputGroup ? undefined : name}
                   component={isInputGroup ? 'legend' : 'label'}
                   id={labelId}
                   sx={{ fontWeight: 600 }}
