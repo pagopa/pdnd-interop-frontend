@@ -22,9 +22,9 @@ describe('Stepper', () => {
   it('renders SR-only status text for completed and current steps', () => {
     renderWithApplicationContext(<Stepper steps={steps} activeIndex={1} />, {})
 
-    const firstLabel = screen.getByText('Step one').closest('.MuiStepLabel-root')
-    const secondLabel = screen.getByText('Step two').closest('.MuiStepLabel-root')
-    const thirdLabel = screen.getByText('Step three').closest('.MuiStepLabel-root')
+    const firstLabel = screen.getByText('Step one').closest('[tabindex="0"]')
+    const secondLabel = screen.getByText('Step two').closest('[tabindex="0"]')
+    const thirdLabel = screen.getByText('Step three').closest('[tabindex="0"]')
 
     expect(firstLabel).toHaveTextContent(
       'shared-components.stepper.completeLabel shared-components.stepper.stepperLabel'
@@ -40,9 +40,9 @@ describe('Stepper', () => {
   it('makes each step label focusable and keeps labels visible', () => {
     renderWithApplicationContext(<Stepper steps={steps} activeIndex={1} />, {})
 
-    const stepOne = screen.getByText('Step one').closest('.MuiStepLabel-root')
-    const stepTwo = screen.getByText('Step two').closest('.MuiStepLabel-root')
-    const stepThree = screen.getByText('Step three').closest('.MuiStepLabel-root')
+    const stepOne = screen.getByText('Step one').closest('[tabindex="0"]')
+    const stepTwo = screen.getByText('Step two').closest('[tabindex="0"]')
+    const stepThree = screen.getByText('Step three').closest('[tabindex="0"]')
 
     expect(stepOne).toHaveAttribute('tabindex', '0')
     expect(stepTwo).toHaveAttribute('tabindex', '0')
