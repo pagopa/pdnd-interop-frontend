@@ -11,6 +11,7 @@ import {
 } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
 import type { DialogDescriptionLink } from '@/types/dialog.types'
+import { getMappedError } from './errors'
 
 // 1000, 2000, 4000, 8000, 16000, with a maximum of 30 seconds
 const exponentialBackoffRetry = (attemptIndex: number) => {
@@ -186,14 +187,16 @@ mutationCache.config.onError = (error, variables, context, mutation) => {
   if (meta.errorToastLabel) {
     let correlationId
     let errorCode
+    let errorMessage = meta.errorToastLabel
     if (error instanceof AxiosError) {
       correlationId = error.response?.data?.correlationId
       errorCode = error.response?.data?.errors?.[0]?.code
+      errorMessage = getMappedError(errorCode) ?? errorMessage
     }
     if (correlationId && errorCode) {
       getSetErrorData()(correlationId, errorCode)
     }
-    getShowToast()(meta.errorToastLabel, 'error', correlationId)
+    getShowToast()(errorMessage, 'error', correlationId)
   }
 }
 
