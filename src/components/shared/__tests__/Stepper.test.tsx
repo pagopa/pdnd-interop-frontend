@@ -27,10 +27,10 @@ describe('Stepper', () => {
     const thirdLabel = screen.getByText('Step three').closest('.MuiStepLabel-root')
 
     expect(firstLabel).toHaveTextContent(
-      'shared-components.stepper.completeLabel: shared-components.stepper.stepperLabel'
+      'shared-components.stepper.completeLabelshared-components.stepper.stepperLabel'
     )
     expect(secondLabel).toHaveTextContent(
-      'shared-components.stepper.currentStepLabel: shared-components.stepper.stepperLabel'
+      'shared-components.stepper.currentStepLabelshared-components.stepper.stepperLabel'
     )
     expect(thirdLabel).toHaveTextContent('shared-components.stepper.stepperLabel')
     expect(thirdLabel).not.toHaveTextContent('shared-components.stepper.completeLabel')
