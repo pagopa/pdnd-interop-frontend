@@ -28,7 +28,7 @@ export function Stepper({ steps, activeIndex }: StepperProps) {
               {/* force the non-interactive label into the tab order to improve accessibility */}
               <StepLabel tabIndex={0}>
                 <span style={visuallyHidden}>
-                  {statusText}
+                  {statusText}{' '}
                   {t('stepperLabel', { currentStep: index + 1, totalSteps: steps.length })}
                 </span>
                 {label}
