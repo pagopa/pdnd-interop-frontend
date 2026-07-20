@@ -20,8 +20,8 @@ export function Stepper({ steps, activeIndex }: StepperProps) {
           const isCurrent = index === activeIndex
 
           let statusText = ''
-          if (isCompleted) statusText = t('completeLabel') + ': '
-          else if (isCurrent) statusText = t('currentStepLabel') + ': '
+          if (isCompleted) statusText = t('completeLabel')
+          else if (isCurrent) statusText = t('currentStepLabel')
 
           return (
             <Step key={index}>
