@@ -344,8 +344,8 @@
     "addCertifiedAttribute": {
       "loading": "Attribute is being assigned",
       "outcome": {
-        "error": "The attribute could not be assigned. Please try again",
-        "success": "The attribute has been assigned successfully"
+        "error": "The certificate attribute could not be assigned. Check that you have entered the correct information.",
+        "success": "You have assigned the certified attribute."
       }
     },
     "revokeCertifiedAttribute": {

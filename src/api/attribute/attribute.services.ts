@@ -6,6 +6,7 @@ import type {
   Attributes,
   CertifiedAttributeSeed,
   CertifiedAttributesResponse,
+  CertifiedDiscreteTenantAttributeSeed,
   CertifiedTenantAttributeSeed,
   DeclaredAttributesResponse,
   DeclaredTenantAttributeSeed,
@@ -104,6 +105,16 @@ async function addCertifiedAttribute({
   )
 }
 
+async function addCertifiedDiscreteAttribute({
+  tenantId,
+  ...payload
+}: { tenantId: string } & CertifiedDiscreteTenantAttributeSeed) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/attributes/certifiedDiscrete`,
+    payload
+  )
+}
+
 async function revokeCertifiedAttribute({
   tenantId,
   attributeId,
@@ -113,6 +124,18 @@ async function revokeCertifiedAttribute({
 }) {
   return axiosInstance.delete(
     `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/attributes/certified/${attributeId}`
+  )
+}
+
+async function revokeCertifiedDiscreteAttribute({
+  tenantId,
+  attributeId,
+}: {
+  tenantId: string
+  attributeId: string
+}) {
+  return axiosInstance.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/attributes/certifiedDiscrete/${attributeId}`
   )
 }
 
@@ -174,7 +197,9 @@ export const AttributeServices = {
   createVerified,
   createDeclared,
   addCertifiedAttribute,
+  addCertifiedDiscreteAttribute,
   revokeCertifiedAttribute,
+  revokeCertifiedDiscreteAttribute,
   verifyPartyAttribute,
   updateVerifiedPartyAttribute,
   revokeVerifiedPartyAttribute,

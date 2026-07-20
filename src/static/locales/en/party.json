@@ -106,7 +106,7 @@
       "assignAttributeBtn": "Assign attribute",
       "drawer": {
         "title": "Assign attribute",
-        "subtitle": "The assignee party will be able to use the selected certified attribute for all e-services on PDND",
+        "subtitle": "The assignee party may use the certified attribute for all e-services on PDND Interoperabilità.",
         "submitBtnLabel": "Assign attribute",
         "form": {
           "attributeField": {
@@ -114,6 +114,12 @@
           },
           "tenantField": {
             "label": "Assignee party"
+          },
+          "valueField": {
+            "label": "Numerical value",
+            "validation": {
+              "integer": "Value must be an integer"
+            }
           }
         }
       }

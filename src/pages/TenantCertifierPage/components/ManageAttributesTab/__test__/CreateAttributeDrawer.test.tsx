@@ -3,24 +3,44 @@ import React from 'react'
 import { CreateAttributeDrawer } from '../CreateAttributeDrawer'
 import userEvent from '@testing-library/user-event'
 import { waitFor } from '@testing-library/react'
+import { vi, describe, it, beforeEach, beforeAll, afterAll, afterEach, expect } from 'vitest'
+import { rest } from 'msw'
+import { setupServer } from 'msw/node'
+import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 
-const { mockCreateCertified, mockCreateCertifiedDiscrete } = vi.hoisted(() => {
-  return {
-    mockCreateCertified: vi.fn(),
-    mockCreateCertifiedDiscrete: vi.fn(),
-  }
+let createCertifiedRequests: Array<{ name: string; description: string }> = []
+let createCertifiedDiscreteRequests: Array<{ name: string; description: string }> = []
+
+const server = setupServer(
+  rest.post(`${BACKEND_FOR_FRONTEND_URL}/certifiedAttributes`, async (req, res, ctx) => {
+    const body = await req.json()
+    createCertifiedRequests.push(body as { name: string; description: string })
+    return res(ctx.status(200))
+  }),
+  rest.post(`${BACKEND_FOR_FRONTEND_URL}/certifiedDiscreteAttributes`, async (req, res, ctx) => {
+    const body = await req.json()
+    createCertifiedDiscreteRequests.push(body as { name: string; description: string })
+    return res(ctx.status(200))
+  })
+)
+
+beforeAll(() => {
+  server.listen()
 })
 
-vi.mock('@/api/attribute/attribute.services', () => ({
-  AttributeServices: {
-    createCertified: mockCreateCertified,
-    createCertifiedDiscrete: mockCreateCertifiedDiscrete,
-  },
-}))
+afterEach(() => {
+  server.resetHandlers()
+})
+
+afterAll(() => {
+  server.close()
+})
 
 describe('CreateAttributeDrawer', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    createCertifiedRequests = []
+    createCertifiedDiscreteRequests = []
   })
   describe('rendering', () => {
     it('should not render the drawer when isOpen is false', () => {
@@ -80,11 +100,13 @@ describe('CreateAttributeDrawer', () => {
       await user.click(submitButton)
 
       await waitFor(() => {
-        expect(mockCreateCertifiedDiscrete).not.toBeCalled()
-        expect(mockCreateCertified).toBeCalledWith({
-          name: 'test name certified',
-          description: 'test description certified',
-        })
+        expect(createCertifiedDiscreteRequests).toHaveLength(0)
+        expect(createCertifiedRequests).toHaveLength(1)
+      })
+
+      expect(createCertifiedRequests[0]).toEqual({
+        name: 'test name certified',
+        description: 'test description certified',
       })
     })
 
@@ -115,12 +137,58 @@ describe('CreateAttributeDrawer', () => {
       await user.click(submitButton)
 
       await waitFor(() => {
-        expect(mockCreateCertified).not.toBeCalled()
-        expect(mockCreateCertifiedDiscrete).toBeCalledWith({
-          name: 'test name certified discrete',
-          description: 'test description certified discrete',
-        })
+        expect(createCertifiedRequests).toHaveLength(0)
+        expect(createCertifiedDiscreteRequests).toHaveLength(1)
       })
+
+      expect(createCertifiedDiscreteRequests[0]).toEqual({
+        name: 'test name certified discrete',
+        description: 'test description certified discrete',
+      })
+    })
+
+    it('should show required errors and block submit when required fields are empty', async () => {
+      const user = userEvent.setup()
+      const screen = renderWithApplicationContext(
+        <CreateAttributeDrawer isOpen={true} onClose={vi.fn()} />,
+        {
+          withReactQueryContext: true,
+        }
+      )
+
+      const submitButton = screen.getByRole('button', { name: 'submitBtnLabel' })
+      await user.click(submitButton)
+
+      const requiredErrors = await screen.findAllByText('validation.mixed.required')
+      expect(requiredErrors).toHaveLength(2)
+      expect(createCertifiedRequests).toHaveLength(0)
+      expect(createCertifiedDiscreteRequests).toHaveLength(0)
+    })
+
+    it('should show minLength errors and block submit when fields are too short', async () => {
+      const user = userEvent.setup()
+      const screen = renderWithApplicationContext(
+        <CreateAttributeDrawer isOpen={true} onClose={vi.fn()} />,
+        {
+          withReactQueryContext: true,
+        }
+      )
+
+      const nameField = screen.getByRole('textbox', { name: 'form.infoFields.nameField.label' })
+      const descriptionField = screen.getByRole('textbox', {
+        name: 'form.infoFields.descriptionField.label',
+      })
+
+      await user.type(nameField, 'abc')
+      await user.type(descriptionField, 'short')
+
+      const submitButton = screen.getByRole('button', { name: 'submitBtnLabel' })
+      await user.click(submitButton)
+
+      const minLengthErrors = await screen.findAllByText('validation.string.minLength')
+      expect(minLengthErrors).toHaveLength(2)
+      expect(createCertifiedRequests).toHaveLength(0)
+      expect(createCertifiedDiscreteRequests).toHaveLength(0)
     })
   })
 })
