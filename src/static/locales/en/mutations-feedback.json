@@ -334,6 +334,13 @@
         "success": "The attribute has been created successfully"
       }
     },
+    "createCertifiedAttribute": {
+      "loading": "We are creating the new attribute.",
+      "outcome": {
+        "error": "The certificate attribute could not be created. Check that you have entered the correct information.",
+        "success": "You have created a new certified attribute."
+      }
+    },
     "addCertifiedAttribute": {
       "loading": "Attribute is being assigned",
       "outcome": {

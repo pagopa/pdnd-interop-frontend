@@ -70,6 +70,14 @@ async function createCertified(payload: CertifiedAttributeSeed) {
   return response.data
 }
 
+async function createCertifiedDiscrete(payload: AttributeSeed) {
+  const response = await axiosInstance.post<Attribute>(
+    `${BACKEND_FOR_FRONTEND_URL}/certifiedDiscreteAttributes`,
+    payload
+  )
+  return response.data
+}
+
 async function createVerified(payload: AttributeSeed) {
   const response = await axiosInstance.post<Attribute>(
     `${BACKEND_FOR_FRONTEND_URL}/verifiedAttributes`,
@@ -162,6 +170,7 @@ export const AttributeServices = {
   getPartyVerifiedList,
   getPartyDeclaredList,
   createCertified,
+  createCertifiedDiscrete,
   createVerified,
   createDeclared,
   addCertifiedAttribute,

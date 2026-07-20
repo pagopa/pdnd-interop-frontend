@@ -81,13 +81,23 @@
         "subtitle": "Una volta creato, potrai assegnare e revocare questo attributo agli altri enti",
         "submitBtnLabel": "Crea attributo",
         "form": {
-          "nameField": {
-            "label": "Nome dell'attributo",
-            "infoLabel": "Min 5 caratteri, max 160 caratteri"
+          "kindField": {
+            "label": "Tipologia",
+            "kindRadio": {
+            "optionCertifiedLabel": "Attributo certificato",
+            "optionCertifiedDiscreteLabel": "Attributo certificato con valore da personalizzare"
+            }
           },
-          "descriptionField": {
-            "label": "Descrizione dell’attributo",
-            "infoLabel": "Min 10 caratteri, max 250 caratteri"
+          "infoFields": {
+            "label": "Informazioni",
+            "nameField": {
+              "label": "Nome dell'attributo",
+              "infoLabel": "Min 5 caratteri, max 160 caratteri"
+            },
+            "descriptionField": {
+              "label": "Descrizione dell’attributo",
+              "infoLabel": "Min 10 caratteri, max 250 caratteri"
+            }
           }
         }
       }
