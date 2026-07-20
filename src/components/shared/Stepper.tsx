@@ -24,7 +24,7 @@ export function Stepper({ steps, activeIndex }: StepperProps) {
           else if (isCurrent) statusText = t('currentStepLabel')
 
           return (
-            <Step key={index}>
+            <Step key={label}>
               {/* force the non-interactive label into the tab order to improve accessibility */}
               <StepLabel tabIndex={0}>
                 <span style={visuallyHidden}>

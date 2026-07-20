@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import type { StepperStep } from '@/types/common.types'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { Stepper } from '../Stepper'
