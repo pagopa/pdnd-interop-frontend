@@ -321,7 +321,8 @@ function useGetEServiceConsumerActions(
       : undefined
 
   const shouldShowDisabledArchivingSubscribe =
-    isDescriptorPendingArchiving(descriptor.state) &&
+    (isDescriptorPendingArchiving(descriptor.state) ||
+      isDescriptorPendingArchiving(descriptor.eservice.activeDescriptor?.state)) &&
     Boolean(viewLatestVersionTargetId) &&
     !isMine &&
     !isSubscribed &&
