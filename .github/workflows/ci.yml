@@ -44,7 +44,9 @@ jobs:
     strategy:
       matrix:
         shard: [1, 2, 3, 4]
-    runs-on: ubuntu-latest
+        os: [ubuntu-latest]
+        node: [18.15.0]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current branch (full)
         uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
@@ -57,7 +59,7 @@ jobs:
       - name: Install node
         uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
         with:
-          node-version: 18.15.0
+          node-version: ${{ matrix.node }}
 
       - name: Installing
         run: pnpm install --frozen-lockfile
