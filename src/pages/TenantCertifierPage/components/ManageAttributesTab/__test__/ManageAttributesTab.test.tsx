@@ -60,14 +60,17 @@ describe('ManageAttributesTab', () => {
 
     vi.spyOn(AttributeServices, 'getList').mockResolvedValue({
       pagination: { offset: 0, limit: 10, totalCount: 25 },
-      results: [{ id: 'attribute-1' }],
+      results: [{ id: 'attribute-1', name: 'attribute 1', kind: 'CERTIFIED' }],
     })
   })
 
   it('renders admin actions and passes expected service params', async () => {
     const getListSpy = vi.spyOn(AttributeServices, 'getList').mockResolvedValue({
       pagination: { offset: 0, limit: 10, totalCount: 30 },
-      results: [{ id: 'attribute-1' }, { id: 'attribute-2' }],
+      results: [
+        { id: 'attribute-1', name: 'attribute 1', kind: 'CERTIFIED' },
+        { id: 'attribute-2', name: 'attribute 2', kind: 'CERTIFIED_DISCRETE' },
+      ],
     })
 
     renderWithApplicationContext(<ManageAttributesTab />, {
