@@ -79,7 +79,7 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
               <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
                 {t('content.advice.description')}
               </Typography>
-              <GracePeriodField />
+              <GracePeriodField description={t('content.advice.gracePeriodDescription')} />
             </Stack>
           )}
 

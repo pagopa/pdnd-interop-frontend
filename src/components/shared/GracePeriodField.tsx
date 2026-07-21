@@ -8,7 +8,11 @@ import { useWatch } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { RHFRadioGroup } from './react-hook-form-inputs'
 
-export const GracePeriodField: React.FC = () => {
+type GracePeriodFieldProps = {
+  description?: string
+}
+
+export const GracePeriodField: React.FC<GracePeriodFieldProps> = ({ description }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'archiveGracePeriod' })
 
   const selectedGracePeriodDays = Number(
@@ -26,7 +30,24 @@ export const GracePeriodField: React.FC = () => {
 
   return (
     <Stack spacing={3}>
-      <RHFRadioGroup name="gracePeriodDays" label={t('label')} options={options} />
+      <RHFRadioGroup
+        name="gracePeriodDays"
+        label={
+          description ? (
+            <Stack component="span">
+              <Typography component="span" variant="inherit">
+                {t('label')}
+              </Typography>
+              <Typography component="span" variant="body2" fontWeight={400}>
+                {description}
+              </Typography>
+            </Stack>
+          ) : (
+            t('label')
+          )
+        }
+        options={options}
+      />
       <Typography variant="body2">
         <Trans
           components={{

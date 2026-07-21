@@ -44,6 +44,7 @@ describe('DialogArchiveEservice', () => {
     renderDialog()
 
     expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByText('content.advice.gracePeriodDescription')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'cancel' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'actions.forward' })).toBeInTheDocument()
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument()

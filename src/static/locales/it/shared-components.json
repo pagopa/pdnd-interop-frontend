@@ -306,7 +306,8 @@
     "title": "Archivia e-service",
     "content": {
       "advice": {
-        "description": "Con l’archiviazione dell’e-service, tutte le sue versioni saranno archiviate e quelle in bozza eliminate.\nSe confermi questa scelta, inizierà un periodo di preavviso in cui l’e-service resterà attivo per consentire ai fruitori di adeguarsi."
+        "description": "Con l’archiviazione dell’e-service, tutte le sue versioni saranno archiviate e quelle in bozza eliminate.\nSe confermi questa scelta, inizierà un periodo di preavviso in cui l’e-service resterà attivo per consentire ai fruitori di adeguarsi.",
+        "gracePeriodDescription": "Se una versione è già in fase di archiviazione, puoi archiviare l’intero e-service solo dopo la data di archiviazione prevista per quella versione."
       },
       "confirm": {
         "description": "Tutti i fruitori saranno informati sulla data e sul motivo dell’archiviazione.",
