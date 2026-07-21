@@ -1,5 +1,6 @@
 import { SELFCARE_PRODUCT_ID, type InteropFEConfigs } from './env'
 import { DOCUMENTATION_URL } from '@/config/env'
+import type { GracePeriodDays } from '@/api/api.generatedTypes'
 
 export const DEFAULT_LANG = 'it'
 export const STORAGE_KEY_SESSION_TOKEN = 'token'
@@ -45,6 +46,11 @@ export const updateEserviceInstanceLink = `${DOCUMENTATION_URL}/riferimenti-tecn
 export const purposeTemplateGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/template-finalita/relazione-tra-template-e-finalita`
 export const archiveEserviceGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/e-service/operazioni-e-ciclo-di-vita`
 export const archivingGuideLink = `${DOCUMENTATION_URL}/riferimenti-tecnici/e-service/archiviazione`
+
+export const GRACE_PERIOD_DAYS_OPTIONS = [
+  30, 60, 90, 120,
+] as const satisfies readonly GracePeriodDays[]
+export const DEFAULT_GRACE_PERIOD_DAYS: GracePeriodDays = 60
 export const userRolesGuideLink = `${DOCUMENTATION_URL}/per-iniziare/primo-accesso-e-configurazione-iniziale`
 export const notificationGuideLink = `https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/riferimenti-tecnici/notifiche`
 export const notificationMailChangeLink =

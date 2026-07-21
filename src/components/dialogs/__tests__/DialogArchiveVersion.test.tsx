@@ -63,7 +63,24 @@ describe('DialogArchiveVersion', () => {
     await userEvent.click(screen.getByRole('button', { name: 'archive' }))
     expect(mockScheduleArchive).toHaveBeenCalledTimes(1)
     expect(mockScheduleArchive).toHaveBeenCalledWith(
-      { eserviceId: 'eservice-42', descriptorId: 'descriptor-99' },
+      { eserviceId: 'eservice-42', descriptorId: 'descriptor-99', gracePeriodDays: 60 },
+      expect.objectContaining({ onSuccess: expect.any(Function) })
+    )
+  })
+
+  it('should submit the grace period selected by the user instead of the default one', async () => {
+    renderDialog({ eserviceId: 'eservice-42', descriptorId: 'descriptor-99' })
+
+    const radios = screen.getAllByRole('radio') as Array<HTMLInputElement>
+    const radio90 = radios.find((radio) => radio.value === '90')
+    expect(radio90).toBeDefined()
+
+    await userEvent.click(radio90!)
+    await userEvent.click(screen.getByRole('button', { name: 'archive' }))
+
+    expect(mockScheduleArchive).toHaveBeenCalledTimes(1)
+    expect(mockScheduleArchive).toHaveBeenCalledWith(
+      { eserviceId: 'eservice-42', descriptorId: 'descriptor-99', gracePeriodDays: 90 },
       expect.objectContaining({ onSuccess: expect.any(Function) })
     )
   })

@@ -306,7 +306,7 @@
     "title": "Archive e-service",
     "content": {
       "advice": {
-        "description": "By archiving the e-service, all versions will be archived and draft versions will be deleted.\nIf you confirm this choice, archiving will occur on <strong>{{date}}</strong>. Before this date, the e-service will remain active to allow users to adapt. You can cancel archiving only before this date."
+        "description": "By archiving the e-service, all versions will be archived and draft versions will be deleted.\nIf you confirm this choice, a notice period will begin during which the e-service will remain active to allow users to adapt."
       },
       "confirm": {
         "description": "All users will be informed of the date and the reason for the archiving.",
@@ -333,9 +333,15 @@
   "dialogArchiveVersion": {
     "title": "Archive version",
     "content": {
-      "description": "Archiving will occur on <strong>{{date}}</strong>. Before this date, the version will remain active to allow users to adapt. You can only cancel archiving before this date.",
+      "description": "If you confirm this choice, a notice period will begin during which the version will remain active to allow users to adapt.",
       "alert": "Actual archiving may require additional technical time as users continue to exchange data. See the <1>documentation</1> for further details."
     }
+  },
+  "archiveGracePeriod": {
+    "label": "Select the notice period duration",
+    "option": "{{days}} days",
+    "optionRecommended": "{{days}} days (recommended)",
+    "archiveDate": "Archiving will occur on <strong>{{date}}</strong>. You can only cancel archiving before this date."
   },
   "copyToClipboardButton": {
     "copy": "Copy",

@@ -26,6 +26,12 @@ export type RiskAnalysisReviewMode =
 /** Filter e-services by personal data */
 export type PersonalDataFilter = "TRUE" | "FALSE" | "DEFINED";
 
+/**
+ * Number of days for the archiving grace period
+ * @format int32
+ */
+export type GracePeriodDays = 30 | 60 | 90 | 120;
+
 /** EService Descriptor State */
 export type EServiceTemplateVersionState =
   | "DRAFT"
@@ -600,11 +606,13 @@ export interface ProducerEServiceDetails {
 
 export interface ArchivingSchedule {
   /** @format date-time */
-  archivableOn?: string;
+  archivableOn: string;
   /** @format date-time */
-  startedAt?: string;
+  startedAt: string;
   /** Archiving Scope */
-  scope?: ArchivingScope;
+  scope: ArchivingScope;
+  /** Number of days for the archiving grace period */
+  gracePeriodDays?: GracePeriodDays;
 }
 
 export interface EServiceRiskAnalysisSeed {
@@ -2773,12 +2781,20 @@ export interface EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescript
   createdAt: string;
 }
 
-export interface EServiceArchivingReasonSeed {
+export interface GracePeriodDaysSeed {
+  /** Number of days for the archiving grace period */
+  gracePeriodDays: GracePeriodDays;
+}
+
+/** Archiving Reason and Grace Period Days */
+export interface EServiceArchivingSeed {
   /**
    * @minLength 10
    * @maxLength 250
    */
   archivingReason: string;
+  /** Number of days for the archiving grace period */
+  gracePeriodDays: GracePeriodDays;
 }
 
 export interface CompactPurposeTemplateEServiceTemplate {
@@ -7496,7 +7512,7 @@ export namespace Eservices {
       descriptorId: string;
     };
     export type RequestQuery = {};
-    export type RequestBody = never;
+    export type RequestBody = GracePeriodDaysSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
@@ -7567,7 +7583,7 @@ export namespace Eservices {
       eServiceId: string;
     };
     export type RequestQuery = {};
-    export type RequestBody = EServiceArchivingReasonSeed;
+    export type RequestBody = EServiceArchivingSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
