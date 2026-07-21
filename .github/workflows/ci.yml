@@ -63,7 +63,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Testing
-        run: pnpm run test -- --shard=${{ matrix.shard }}/4
+        run: pnpm run test --shard=${{ matrix.shard }}/4
 
   publish:
     name: Publish Artifacts
