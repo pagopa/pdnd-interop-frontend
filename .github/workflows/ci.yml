@@ -2,8 +2,13 @@ name: Continuous Integration
 
 on:
   push:
-    branches: ['**']
+    branches:
+      - dev
+      - main
+      - 'release/**'
     tags: ['**']
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -39,8 +44,8 @@ jobs:
       - name: Building
         run: pnpm run build
 
-  test:
-    name: Test (shard ${{ matrix.shard }}/4)
+  coverage:
+    name: Coverage (shard ${{ matrix.shard }}/4)
     strategy:
       matrix:
         shard: [1, 2, 3, 4]
@@ -64,12 +69,43 @@ jobs:
       - name: Installing
         run: pnpm install --frozen-lockfile
 
-      - name: Testing
-        run: pnpm run test --shard=${{ matrix.shard }}/4
+      - name: Test and coverage
+        run: pnpm run coverage --shard=${{ matrix.shard }}/4
+
+      - name: Upload coverage shard
+        if: github.event_name == 'pull_request' || github.ref == 'refs/heads/dev'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v4.3.1
+        with:
+          name: lcov-shard-${{ matrix.shard }}
+          path: coverage/lcov.info
+          retention-days: 1
+
+  sonarcloud:
+    name: SonarCloud
+    needs: [coverage]
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/dev'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@ee0669bd1cc54295c223e0bb666b733df41de1c5 # v2
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Download coverage shards
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v4.1.6
+        with:
+          pattern: lcov-shard-*
+          path: coverage-reports
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.javascript.lcov.reportPaths=coverage-reports/lcov-shard-1/lcov.info,coverage-reports/lcov-shard-2/lcov.info,coverage-reports/lcov-shard-3/lcov.info,coverage-reports/lcov-shard-4/lcov.info
 
   publish:
     name: Publish Artifacts
-    needs: [build, test]
+    needs: [build, coverage]
     permissions:
       id-token: write
       contents: read
