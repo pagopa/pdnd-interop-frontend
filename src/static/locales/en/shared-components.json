@@ -306,7 +306,8 @@
     "title": "Archive e-service",
     "content": {
       "advice": {
-        "description": "By archiving the e-service, all versions will be archived and draft versions will be deleted.\nIf you confirm this choice, a notice period will begin during which the e-service will remain active to allow users to adapt."
+        "description": "By archiving the e-service, all versions will be archived and draft versions will be deleted.\nIf you confirm this choice, a notice period will begin during which the e-service will remain active to allow users to adapt.",
+        "gracePeriodDescription": "If a version is already being archived, you can archive the entire e-service only after the scheduled archiving date for that version."
       },
       "confirm": {
         "description": "All users will be informed of the date and the reason for the archiving.",
