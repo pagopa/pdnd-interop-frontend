@@ -3,8 +3,6 @@ name: Release version validation
 on:
   pull_request:
     types: [opened, reopened, synchronize, labeled, unlabeled, edited, ready_for_review]
-    branches:
-      - 'dev'
 
 concurrency:
   group: ${{ github.workflow }}-pr-${{ github.event.pull_request.number }}
@@ -30,13 +28,15 @@ jobs:
         env:
           PR_LABELS_JSON: ${{ toJson(github.event.pull_request.labels.*.name) }}
           GH_TOKEN: ${{ github.token }}
+          PR_ACTION: ${{ github.event.action }}
+          CURRENT_BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
         run: |
           set -euo pipefail
 
           SEMVER_REGEX='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'
 
           echo "Checking PR labels for release tag..."
-          echo "Allowed release: $ALLOWED_RELEASE_TOWARDS_DEV_BRANCH"
+          echo "Allowed release: $ALLOWED_RELEASE"
 
           get_latest_bot_review_info() {
             local reviews_json
@@ -93,15 +93,25 @@ jobs:
             done
           }
 
+          # Only validate for dev branch; dismiss review for any other target branch
+          if [[ "$CURRENT_BASE_BRANCH" != "dev" ]]; then
+            dismiss_blocking_review_if_present
+            echo "PR target branch is not dev. Skipping release check."
+            exit 0
+          fi
+
+          ALLOWED_RELEASE="$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH"
+          echo "Validating for dev branch. ALLOWED_RELEASE: $ALLOWED_RELEASE"
+
           if echo "$PR_LABELS_JSON" | jq -r '.[]?' | grep -qi '^align$'; then
             dismiss_blocking_review_if_present
             echo "PR has 'align' label. Skipping release check."
             exit 0
           fi
 
-          if [[ -z "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" || ! "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" =~ $SEMVER_REGEX ]]; then
-            echo "::warning::Repository variable ALLOWED_RELEASE_TOWARDS_DEV_BRANCH is not set or is not in x.y.z format; blocking merge until configuration is fixed."
-            request_changes_review "Repository variable ALLOWED_RELEASE_TOWARDS_DEV_BRANCH is missing or invalid (expected x.y.z)."
+          if [[ -z "$ALLOWED_RELEASE" || ! "$ALLOWED_RELEASE" =~ $SEMVER_REGEX ]]; then
+            echo "::warning::Repository variable ALLOWED_RELEASE is not set or is not in x.y.z format; blocking merge until configuration is fixed."
+            request_changes_review "Repository variable ALLOWED_RELEASE is missing or invalid (expected x.y.z)."
             exit 0
           fi
           mapfile -t SEMVER_RELEASE_LABELS < <(echo "$PR_LABELS_JSON" | jq -r '.[]?' | grep -E "$SEMVER_REGEX" || true)
@@ -124,8 +134,8 @@ jobs:
 
           echo "Found release label: $RELEASE"
 
-          ALLOWED_MAJOR_RAW=$(echo "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" | cut -d. -f1)
-          ALLOWED_MINOR_RAW=$(echo "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" | cut -d. -f2)
+          ALLOWED_MAJOR_RAW=$(echo "$ALLOWED_RELEASE" | cut -d. -f1)
+          ALLOWED_MINOR_RAW=$(echo "$ALLOWED_RELEASE" | cut -d. -f2)
 
           LABEL_MAJOR_RAW=$(echo "$RELEASE" | cut -d. -f1)
           LABEL_MINOR_RAW=$(echo "$RELEASE" | cut -d. -f2)
@@ -145,7 +155,7 @@ jobs:
             fi
           fi
 
-          if [ "$RELEASE" = "$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH" ]; then
+          if [ "$RELEASE" = "$ALLOWED_RELEASE" ]; then
             echo "Release label '$RELEASE' matches the allowed release. PR is allowed to merge."
             dismiss_blocking_review_if_present
             exit 0
@@ -157,6 +167,6 @@ jobs:
             exit 0
           fi
 
-          echo "::warning::Release label '$RELEASE' is not within the allowed range for merge towards dev. Allowed release: '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'."
-          request_changes_review "Release label '$RELEASE' is not allowed for merge towards dev. Allowed release: '$ALLOWED_RELEASE_TOWARDS_DEV_BRANCH'."
+          echo "::warning::Release label '$RELEASE' is not within the allowed range for merge. Allowed release: '$ALLOWED_RELEASE'."
+          request_changes_review "Release label '$RELEASE' is not allowed. Allowed release: '$ALLOWED_RELEASE'."
           exit 0
