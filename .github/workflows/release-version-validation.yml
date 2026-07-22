@@ -110,8 +110,8 @@ jobs:
           fi
 
           if [[ -z "$ALLOWED_RELEASE" || ! "$ALLOWED_RELEASE" =~ $SEMVER_REGEX ]]; then
-            echo "::warning::Repository variable ALLOWED_RELEASE is not set or is not in x.y.z format; blocking merge until configuration is fixed."
-            request_changes_review "Repository variable ALLOWED_RELEASE is missing or invalid (expected x.y.z)."
+            echo "::warning::Repository variable ALLOWED_RELEASE_TOWARDS_DEV_BRANCH is not set or is not in x.y.z format; blocking merge until configuration is fixed."
+            request_changes_review "Repository variable ALLOWED_RELEASE_TOWARDS_DEV_BRANCH is missing or invalid (expected x.y.z)."
             exit 0
           fi
           mapfile -t SEMVER_RELEASE_LABELS < <(echo "$PR_LABELS_JSON" | jq -r '.[]?' | grep -E "$SEMVER_REGEX" || true)
