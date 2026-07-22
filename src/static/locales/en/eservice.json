@@ -286,8 +286,11 @@
           "serverSection": {
             "title": "Server",
             "label": "Server URL",
+            "descriptionLabel": "Server URL description",
+            "descriptionInfoLabel": "Describe which environment the server URL link points to. Min 10 characters, max 250 characters",
             "add": "Add server URL",
-            "remove": "Remove field"
+            "counter": "Server {{current}} of {{total}}",
+            "removeServer": "Delete server"
           },
           "description": {
             "rest": "Compile following fields and openAPI will be automatically generated",
@@ -300,15 +303,15 @@
         "title": "Interface",
         "description": {
           "rest": "Upload the OpenAPI file that describes the API.",
-          "beforePublishing": "Before publishing, you can use these tools to check:",
-          "technicalCompliance": "technical compliance",
+          "beforePublishing": "Before publishing, you can use these tools to:",
+          "technicalCompliance": "check technical compliance",
           "technicalComplianceDescription": "with the ModI guidelines through",
-          "semanticCompliance": "semantic compliance",
-          "semanticComplianceDescription": "with the National Data Catalog annotations through",
+          "semanticCompliance": "verify semantic quality",
+          "semanticComplianceDescription": "of your data schema through the score calculated by",
           "restLinkLabel": "OpenAPI Checker",
           "schemaEditorLinkLabel": "Schema Editor",
           "restForm": "Fill in these fields to automatically generate the OpenAPI file.",
-          "soap": "Upload the WSDL file that describes the API"
+          "soap": "Upload the WSDL file that describes the API."
         },
         "prettyName": "API specification",
         "dropzoneLabel": "Drag the OpenAPI file here or click here to select it from your computer",

@@ -64,7 +64,7 @@ export const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = (
 
       // Plain text: this value comes from a text field
       if (visualType === 'text') {
-        return { question, answer: answerValue[0] }
+        return { question, answer: answerValue[0], questionInfoLabel }
       }
 
       // Multiple options: this value comes from a multiple choice checkbox
@@ -82,19 +82,19 @@ export const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = (
       innerSection={innerSection}
       title={hideTitle ? undefined : t('riskAnalysis.title')}
     >
-      <List>
+      <List disablePadding>
         {questions.map(({ question, answer, questionInfoLabel }, i) => (
           <ListItem key={i} sx={{ pl: 0 }}>
             <ListItemText>
               <Typography variant="body2">{question}</Typography>
+              <Typography variant="body2" fontWeight={600} my={1}>
+                {answer}
+              </Typography>
               {questionInfoLabel && (
                 <Typography variant="caption" color="grey" component="p">
                   {questionInfoLabel}
                 </Typography>
               )}
-              <Typography variant="body2" fontWeight={600} mt={0.5}>
-                {answer}
-              </Typography>
             </ListItemText>
           </ListItem>
         ))}

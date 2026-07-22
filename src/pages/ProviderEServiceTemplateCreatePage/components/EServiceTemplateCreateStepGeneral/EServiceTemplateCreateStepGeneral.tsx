@@ -8,7 +8,6 @@ import { RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inp
 import { StepActions } from '@/components/shared/StepActions'
 import { useNavigate } from '@/router'
 import type { EServiceMode, EServiceTechnology } from '@/api/api.generatedTypes'
-import { compareObjects } from '@/utils/common.utils'
 import SaveIcon from '@mui/icons-material/Save'
 import { IconLink } from '@/components/shared/IconLink'
 import { useEServiceTemplateCreateContext } from '../ProviderEServiceTemplateContext'
@@ -20,6 +19,7 @@ import {
 } from '@/config/constants'
 import { EServiceTemplateDetailsSection } from '@/pages/ProviderEServiceCreatePage/components/sections/EServiceTemplateDetailsSection'
 import { EServiceDetailsSectionBase } from '@/pages/ProviderEServiceCreatePage/components/sections/EServiceDetailsSectionBase'
+import { compareObjects } from '@/utils/common.utils'
 
 export type EServiceTemplateCreateStepGeneralFormValues = {
   name: string
@@ -44,8 +44,8 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
     onEserviceTemplateModeChange,
   } = useEServiceTemplateCreateContext()
 
-  const { mutate: updateDraft } = EServiceTemplateMutations.useUpdateDraft()
   const { mutate: createDraft } = EServiceTemplateMutations.useCreateDraft()
+  const { mutate: updateDraft } = EServiceTemplateMutations.useUpdateDraft()
 
   const defaultValues: EServiceTemplateCreateStepGeneralFormValues = {
     name: eserviceTemplateVersion?.eserviceTemplate.name ?? '',
@@ -63,21 +63,27 @@ export const EServiceTemplateCreateStepGeneral: React.FC = () => {
   const formMethods = useForm({ defaultValues })
 
   const onSubmit = (formValues: EServiceTemplateCreateStepGeneralFormValues) => {
-    // If we are editing an existing e-service eserviceTemplateVersion, we update the draft
     if (eserviceTemplateVersion) {
-      // If nothing has changed skip the update call
-      const isEServiceTemplateTheSame = compareObjects(
-        formValues,
-        eserviceTemplateVersion.eserviceTemplate
-      )
-
-      if (!isEServiceTemplateTheSame)
-        updateDraft(
-          { eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id, ...formValues },
-          { onSuccess: forward }
+      //if we are editing the first version of an existing draft of the e-service template,
+      // we update the draft
+      if (areEServiceTemplateGeneralInfoEditable) {
+        // If nothing has changed skip the update call
+        const isEServiceTemplateTheSame = compareObjects(
+          formValues,
+          eserviceTemplateVersion.eserviceTemplate
         )
-      else forward()
 
+        if (!isEServiceTemplateTheSame) {
+          updateDraft(
+            { eServiceTemplateId: eserviceTemplateVersion.eserviceTemplate.id, ...formValues },
+            { onSuccess: forward }
+          )
+          return
+        }
+      }
+      //if the version is not the first one or the state is not DRAFT,
+      // we just forward to the next step because there aren't editable fields in this step
+      forward()
       return
     }
 

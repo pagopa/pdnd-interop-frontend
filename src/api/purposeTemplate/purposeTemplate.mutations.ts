@@ -36,32 +36,6 @@ function useUpdateDraft() {
   })
 }
 
-function useLinkEserviceToPurposeTemplate() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purposeTemplate.linkEService' })
-  return useMutation({
-    mutationFn: PurposeTemplateServices.linkEserviceToPurposeTemplate,
-    meta: {
-      errorToastLabel: t('outcome.error'),
-      successToastLabel: t('outcome.success'),
-      loadingLabel: t('loading'),
-    },
-  })
-}
-
-function useUnlinkEserviceFromPurposeTemplate() {
-  const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'purposeTemplate.unlinkEService',
-  })
-  return useMutation({
-    mutationFn: PurposeTemplateServices.unlinkEserviceFromPurposeTemplate,
-    meta: {
-      errorToastLabel: t('outcome.error'),
-      successToastLabel: t('outcome.success'),
-      loadingLabel: t('loading'),
-    },
-  })
-}
-
 function useLinkResourceToPurposeTemplate() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purposeTemplate.linkResource',
@@ -279,8 +253,6 @@ function useUpdatePrettyNameAnnotationAssociatedDocument() {
 
 export const PurposeTemplateMutations = {
   useUpdateDraft,
-  useLinkEserviceToPurposeTemplate,
-  useUnlinkEserviceFromPurposeTemplate,
   useLinkResourceToPurposeTemplate,
   useUnlinkResourceFromPurposeTemplate,
   useCreateDraft,
