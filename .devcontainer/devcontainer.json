@@ -1,0 +1,47 @@
+{
+  "name": "PDND Interop full stack",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "initializeCommand": ".devcontainer/initialize.sh",
+  "workspaceMount": "source=${localWorkspaceFolder},target=${localWorkspaceFolder},type=bind,consistency=cached",
+  "workspaceFolder": "${localWorkspaceFolder}",
+  "mounts": [
+    "source=${localWorkspaceFolder}/../interop-be-monorepo,target=${localWorkspaceFolder}/../interop-be-monorepo,type=bind,consistency=cached",
+    "source=interop-frontend-node-modules,target=${localWorkspaceFolder}/node_modules,type=volume",
+    "source=interop-backend-node-modules,target=${localWorkspaceFolder}/../interop-be-monorepo/node_modules,type=volume",
+    "source=interop-devcontainer-pnpm-store,target=/home/node/.local/share/pnpm,type=volume",
+    "source=interop-playwright-browsers,target=/home/node/.cache/ms-playwright,type=volume"
+  ],
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  },
+  "runArgs": ["--add-host=host.docker.internal:host-gateway"],
+  "appPort": ["3000:5173"],
+  "containerEnv": {
+    "INTEROP_AUTO_START": "${localEnv:INTEROP_AUTO_START}"
+  },
+  "postCreateCommand": ".devcontainer/scripts/setup.sh",
+  "postStartCommand": ".devcontainer/scripts/post-start.sh",
+  "forwardPorts": [5173],
+  "portsAttributes": {
+    "5173": {
+      "label": "PDND Interop frontend",
+      "onAutoForward": "openBrowser",
+      "protocol": "http"
+    }
+  },
+  "otherPortsAttributes": {
+    "onAutoForward": "ignore"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker"
+      ]
+    }
+  }
+}

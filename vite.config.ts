@@ -4,6 +4,7 @@ import type { PluginOption } from 'vite'
 import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { parse } from 'node-html-parser'
+import { resolveBackendProxy } from './scripts/local-development/vite-config.mjs'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -43,10 +44,17 @@ export default defineConfig(({ mode }) => {
     },
     envPrefix: 'REACT_APP_',
     server: {
-      port: 3000,
+      port: Number(process.env.INTEROP_FRONTEND_PORT ?? 3000),
+      allowedHosts:
+        process.env.INTEROP_FRONTEND_PORT === '5173' ? ['host.docker.internal'] : undefined,
+      hmr: process.env.INTEROP_FRONTEND_PORT === '5173' ? { clientPort: 3000 } : undefined,
+      watch:
+        process.env.INTEROP_FRONTEND_POLLING === 'true'
+          ? { usePolling: true, interval: 500 }
+          : undefined,
       proxy: {
         '/0.0/backend-for-frontend': {
-          target: 'https://selfcare.dev.interop.pagopa.it',
+          ...resolveBackendProxy(process.env.INTEROP_BACKEND_TARGET),
           changeOrigin: true,
           secure: false,
         },

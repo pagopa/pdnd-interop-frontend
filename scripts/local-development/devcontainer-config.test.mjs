@@ -1,0 +1,92 @@
+import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import { chmod, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { fileURLToPath } from "node:url";
+import test from "node:test";
+
+const config = JSON.parse(
+  await readFile(
+    new URL("../../.devcontainer/devcontainer.json", import.meta.url),
+    "utf8",
+  ),
+);
+
+test("publishes only the frontend through the devcontainer", () => {
+  assert.deepEqual(config.appPort, ["3000:5173"]);
+  assert.deepEqual(config.forwardPorts, [5173]);
+  assert.equal(config.portsAttributes["5173"].onAutoForward, "openBrowser");
+  assert.equal(config.otherPortsAttributes.onAutoForward, "ignore");
+});
+
+test("does not open a new VS Code window when the frontend is ready", async () => {
+  const startupScripts = await Promise.all([
+    readFile(new URL("./run-startup.sh", import.meta.url), "utf8"),
+    readFile(new URL("./dashboard.sh", import.meta.url), "utf8"),
+  ]);
+
+  for (const script of startupScripts) {
+    assert.doesNotMatch(script, /code --open-url/);
+  }
+});
+
+test("does not share personal Codex state with the devcontainer", () => {
+  assert.equal(config.mounts.some((mount) => mount.includes(".codex")), false);
+  assert.equal(
+    config.customizations.vscode.extensions.includes("openai.chatgpt"),
+    false,
+  );
+});
+
+test("uses the canonical frontend route with its trailing slash", async () => {
+  const files = await Promise.all([
+    readFile(new URL("./dashboard.sh", import.meta.url), "utf8"),
+    readFile(new URL("./fullstack.sh", import.meta.url), "utf8"),
+    readFile(new URL("./run-e2e.sh", import.meta.url), "utf8"),
+    readFile(new URL("./run-startup.sh", import.meta.url), "utf8"),
+    readFile(new URL("../../e2e/local-full-stack.spec.ts", import.meta.url), "utf8"),
+    readFile(new URL("../../docs/local-full-stack.md", import.meta.url), "utf8"),
+  ]);
+
+  for (const file of files) {
+    assert.doesNotMatch(file, /:3000\/ui\/it(?!\/)/);
+  }
+});
+
+test("does not expose the host URL as a remote-terminal localhost link", async () => {
+  const startupScripts = await Promise.all([
+    readFile(new URL("./dashboard.sh", import.meta.url), "utf8"),
+    readFile(new URL("./fullstack.sh", import.meta.url), "utf8"),
+    readFile(new URL("./run-startup.sh", import.meta.url), "utf8"),
+  ]);
+
+  for (const script of startupScripts) {
+    assert.doesNotMatch(script, /echo ["'].*http:\/\/localhost:3000/);
+  }
+});
+
+test("runs browser checks on a Linux host without host.docker.internal", async () => {
+  const fakeBin = await mkdtemp(join(tmpdir(), "interop-e2e-test-"));
+  const getent = join(fakeBin, "getent");
+  const pnpm = join(fakeBin, "pnpm");
+
+  try {
+    await writeFile(getent, "#!/bin/sh\nexit 2\n");
+    await writeFile(pnpm, "#!/bin/sh\nexit 0\n");
+    await Promise.all([chmod(getent, 0o755), chmod(pnpm, 0o755)]);
+
+    const result = spawnSync(
+      fileURLToPath(new URL("./run-e2e.sh", import.meta.url)),
+      [],
+      {
+        env: { ...process.env, PATH: `${fakeBin}:${process.env.PATH}` },
+        encoding: "utf8",
+      },
+    );
+
+    assert.equal(result.status, 0, result.stderr);
+  } finally {
+    await rm(fakeBin, { recursive: true, force: true });
+  }
+});
