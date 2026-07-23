@@ -1,0 +1,12 @@
+{
+  "folders": [
+    {
+      "name": "pdnd-interop-frontend",
+      "path": "."
+    },
+    {
+      "name": "interop-be-monorepo",
+      "path": "../interop-be-monorepo"
+    }
+  ]
+}
