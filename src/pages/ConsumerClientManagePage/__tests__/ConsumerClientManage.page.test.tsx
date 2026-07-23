@@ -4,6 +4,10 @@ import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import ConsumerClientManagePage from '../ConsumerClientManage.page'
+import { AuthHooks } from '@/api/auth'
+import { createMockJwtUser } from '@/../__mocks__/data/user.mocks'
+
+const useJwtSpy = vi.spyOn(AuthHooks, 'useJwt')
 
 const {
   mockedNavigate,
@@ -204,6 +208,18 @@ describe('ConsumerClientManagePage', () => {
     }
 
     mockedGetSingle.mockReturnValue({ queryKey: ['ClientGetSingle'] })
+    useJwtSpy.mockReturnValue({
+      jwt: createMockJwtUser(),
+      currentRoles: [],
+      isAdmin: true,
+      userEmail: 'test@email.com',
+      isOperatorAPI: false,
+      isOperatorSecurity: false,
+      isOrganizationAllowedToProduce: false,
+      isReviewer: false,
+      isSupport: false,
+      isViewer: false,
+    })
   })
 
   it('renders API admin section, tabs, and marks notifications as read', () => {
