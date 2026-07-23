@@ -19,6 +19,7 @@ import { useQuery } from '@tanstack/react-query'
 import { SelfcareQueries } from '@/api/selfcare'
 import { useErrorData } from '@/stores/error-data.store'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
+import { isLocalIdentitySelectionEnabled } from '@/config/local-development'
 
 /**
  * Generate the party list to be used in the HeaderProduct component to show the party switcher
@@ -29,15 +30,20 @@ export const getPartyList = (
   jwt: JwtUser | undefined,
   t: TFunction<'common'>
 ): PartySwitchItem[] => {
-  const generatePartyItem = (party: SelfcareInstitution) => ({
-    id: party.id,
-    name: party.description,
-    logoUrl: `${AVATAR_BASEPATH}/institutions/${party.id}/logo.png`,
-    productRole: (party.userProductRoles as Array<UserProductRole>)
-      .map((role) => t(`userProductRole.${role}`))
-      .join(', '),
-    parentName: party.parent,
-  })
+  const generatePartyItem = (party: SelfcareInstitution) => {
+    const roles =
+      party.id === jwt?.selfcareId
+        ? jwt.organization.roles.map(({ role }) => role)
+        : (party.userProductRoles as Array<UserProductRole>)
+
+    return {
+      id: party.id,
+      name: party.description,
+      logoUrl: `${AVATAR_BASEPATH}/institutions/${party.id}/logo.png`,
+      productRole: roles.map((role) => t(`userProductRole.${role}`)).join(', '),
+      parentName: party.parent,
+    }
+  }
 
   if (parties && parties.length > 0) {
     /**
@@ -149,6 +155,11 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
   }
 
   const handleSelectParty = (party: PartySwitchItem) => {
+    if (isLocalIdentitySelectionEnabled) {
+      window.location.assign(FE_LOGIN_URL)
+      return
+    }
+
     window.location.assign(
       `${SELFCARE_BASE_URL}/token-exchange?institutionId=${party.id}&productId=${SELFCARE_PRODUCT_ID}&lang=${lang}`
     )

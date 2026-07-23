@@ -74,3 +74,28 @@ test('shows local services and searches their logs', async ({ page }) => {
   await page.getByRole('searchbox', { name: 'Cerca nei log' }).fill('Local infrastructure is ready')
   await expect(page.getByText('Local infrastructure is ready', { exact: false })).toBeVisible()
 })
+
+test('selects a local tenant and role-specific user from the local identity route', async ({
+  page,
+}) => {
+  await page.goto('/ui/it/local-identity-selection/')
+  await page.getByRole('alert').getByRole('button').click()
+
+  await page.getByRole('combobox', { name: 'Ente', exact: true }).click()
+  await page.getByRole('option', { name: 'Provider Demo' }).click()
+  await page.getByRole('combobox', { name: 'Utente', exact: true }).click()
+  await page.getByRole('option', { name: 'Utente Viewer' }).click()
+  await page.getByRole('button', { name: 'Prosegui' }).click()
+
+  await expect(page).not.toHaveURL(/local-identity-selection/)
+  const selectedClaims = await page.evaluate(() => {
+    const token = window.localStorage.getItem('token')
+    if (!token) return null
+    return JSON.parse(atob(token.split('.')[1].replaceAll('-', '+').replaceAll('_', '/')))
+  })
+  expect(selectedClaims).toMatchObject({
+    organizationId: 'f28ce6eb-b314-4abf-8d4f-216bc42cd3e4',
+    uid: '10000000-0000-4000-8000-000000000005',
+    'user-roles': 'viewer',
+  })
+})
