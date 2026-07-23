@@ -16,4 +16,4 @@ if command -v getent >/dev/null 2>&1; then
 fi
 
 cd "$FRONTEND_ROOT"
-exec pnpm exec playwright test e2e/local-full-stack.spec.ts "$@"
+exec pnpm exec playwright test e2e "$@"

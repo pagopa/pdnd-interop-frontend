@@ -8,6 +8,8 @@ MODE="${1:-local}"
 cd "$FRONTEND_ROOT"
 export INTEROP_FRONTEND_PORT="${INTEROP_FRONTEND_PORT:-5173}"
 export INTEROP_FRONTEND_POLLING="${INTEROP_FRONTEND_POLLING:-true}"
+export INTEROP_LOCAL_DEVELOPMENT="true"
+export REACT_APP_LOCAL_DASHBOARD="true"
 
 if [[ "$MODE" == "local" ]]; then
   TOKEN_FILE="$BACKEND_ROOT/.local-development/frontend-token"
@@ -17,8 +19,10 @@ if [[ "$MODE" == "local" ]]; then
   fi
   export REACT_APP_MOCK_TOKEN="$(tr -d '\n' < "$TOKEN_FILE")"
   export INTEROP_BACKEND_TARGET="http://localhost:3600"
+elif [[ "$MODE" == "bootstrap" ]]; then
+  export INTEROP_BACKEND_TARGET="http://localhost:3600"
 elif [[ "$MODE" != "dev" ]]; then
-  echo "Unknown frontend mode: $MODE (expected local or dev)" >&2
+  echo "Unknown frontend mode: $MODE (expected bootstrap, local, or dev)" >&2
   exit 1
 fi
 

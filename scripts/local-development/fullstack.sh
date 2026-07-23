@@ -6,6 +6,7 @@ BACKEND_ROOT="$(dirname "$FRONTEND_ROOT")/interop-be-monorepo"
 RUNTIME_ROOT="$FRONTEND_ROOT/.local-development"
 LOG_ROOT="$RUNTIME_ROOT/logs"
 SELECTION_FILE="$RUNTIME_ROOT/selection.env"
+STATUS_FILE="$RUNTIME_ROOT/startup.status"
 
 mkdir -p "$LOG_ROOT"
 
@@ -35,8 +36,9 @@ wait_http() {
   local name="$1"
   local url="$2"
   local session="${3:-}"
+  local display_location="${4:-at $url}"
   local attempts=0
-  echo "Waiting for $name at $url"
+  echo "Waiting for $name $display_location"
   until curl --fail --silent --output /dev/null "$url"; do
     if [[ -n "$session" ]] && ! has_session "$session"; then
       echo "$name cannot start because $session exited unexpectedly." >&2
@@ -46,7 +48,7 @@ wait_http() {
     fi
     attempts=$((attempts + 1))
     if (( attempts >= 180 )); then
-      echo "Timed out waiting for $name at $url. See $LOG_ROOT/interop-backend.log" >&2
+      echo "Timed out waiting for $name $display_location. See $LOG_ROOT/interop-backend.log" >&2
       return 1
     fi
     sleep 1
@@ -62,14 +64,19 @@ generate_token() {
 
 restart_frontend() {
   local mode="$1"
+  local ready_path="/ui/it/"
+  if [[ "$mode" == "bootstrap" ]]; then ready_path="/ui/local-dashboard/"; fi
   has_session interop-frontend && tmux kill-session -t interop-frontend
   start_session interop-frontend \
     "cd \"$FRONTEND_ROOT\" && ./scripts/local-development/run-frontend.sh $mode"
-  wait_http "frontend" "http://localhost:5173/ui/it" interop-frontend
-  echo "Frontend ready in $mode mode on host port 3000 at path /ui/it/."
+  wait_http "frontend" "http://localhost:5173$ready_path" interop-frontend \
+    "at http://localhost:3000$ready_path"
+  echo "Frontend ready in $mode mode: http://localhost:3000$ready_path"
 }
 
 start() {
+  echo "Starting Vite with the local dashboard"
+  restart_frontend bootstrap
   echo "[1/7] Checking access to the host Docker daemon"
   docker info >/dev/null
   echo "[2/7] Starting host-port forwarding"
@@ -105,6 +112,7 @@ stop() {
     has_session "$session" && tmux kill-session -t "$session"
   done
   (cd "$BACKEND_ROOT" && pnpm infra:stop)
+  printf 'stopped\n' > "$STATUS_FILE"
   echo "Local full stack stopped; Docker volumes were preserved"
 }
 

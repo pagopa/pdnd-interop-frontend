@@ -36,6 +36,7 @@ echo "Running the frontend browser checks"
 printf 'ready\n' > "$STATUS_FILE"
 echo
 echo "FULL STACK READY"
-echo "Frontend ready on host port 3000 at path /ui/it/."
+echo "Frontend ready: http://localhost:3000/ui/it/"
+echo "Dashboard ready: http://localhost:3000/ui/local-dashboard/"
 echo "Logs: pnpm local:logs"
 echo "Status: pnpm local:status"

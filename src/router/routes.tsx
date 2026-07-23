@@ -79,6 +79,15 @@ import RiskAnalysisRejectThankYouPage from '@/pages/RiskAnalysisRejectThankYouPa
 
 import { z } from 'zod'
 import { AuthHooks } from '@/api/auth'
+import { isLocalDevelopmentDashboardEnabled } from '@/config/local-development'
+
+const LocalDevelopmentDashboardPage = isLocalDevelopmentDashboardEnabled
+  ? React.lazy(() => import('@/pages/LocalDevelopmentDashboardPage/LocalDevelopmentDashboard.page'))
+  : undefined
+
+const localDevelopmentDashboardRoutes = LocalDevelopmentDashboardPage
+  ? [{ path: '/local-dashboard/', element: <LocalDevelopmentDashboardPage /> }]
+  : []
 
 const languages = ['it', 'en'] as const
 export const AllowedLanguage = z.enum(languages)
@@ -786,6 +795,7 @@ export type RouteKey = InferRouteKey<typeof routes>
 
 export const router = createBrowserRouter(
   [
+    ...localDevelopmentDashboardRoutes,
     { element: <RoutesWrapper />, children: reactRouterDOMRoutes },
     { path: '/', element: <LandingByRole /> },
     { path: '/*', element: <components.Redirect to="NOT_FOUND" /> },

@@ -5,11 +5,21 @@ import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { parse } from 'node-html-parser'
 import { resolveBackendProxy } from './scripts/local-development/vite-config.mjs'
+import { localDashboardPlugin } from './scripts/local-development/vite-dashboard-plugin.mjs'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
+  const isLocalDevelopment = process.env.INTEROP_LOCAL_DEVELOPMENT === 'true'
+  const localDevelopmentPlugins = isLocalDevelopment
+    ? [
+        localDashboardPlugin({
+          frontendRoot: __dirname,
+          backendRoot: path.resolve(__dirname, '../interop-be-monorepo'),
+        }),
+      ]
+    : []
   const prodPlugins = [react(), setNonceAttToScripts()]
-  const devPlugins = [react(), visualizer(), configurePreviewServer()]
+  const devPlugins = [react(), visualizer(), configurePreviewServer(), ...localDevelopmentPlugins]
   const testPlugins = [react()]
 
   const plugins =

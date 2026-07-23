@@ -2,7 +2,9 @@
 
 The VS Code devcontainer runs the frontend and the backend monorepo against a
 local, persistent infrastructure. The frontend is available at
-<http://localhost:3000/ui/it/> and uses the local backend by default.
+<http://localhost:3000/ui/it/> and uses the local backend by default. The local
+operations dashboard is available at
+<http://localhost:3000/ui/local-dashboard/>.
 
 ## Prerequisites
 
@@ -30,11 +32,16 @@ downloaded packages.
 3. When VS Code asks whether automatic tasks are allowed for this repository,
    select **Allow Automatic Tasks**. This explicit, one-time permission is
    required before VS Code can open the `fullstack:startup-dashboard` terminal.
-4. Follow that terminal: it reports infrastructure, backend health checks,
-   seed, token generation, smoke checks, and the final frontend status. Startup
-   failures are displayed there immediately with the relevant backend log tail.
-5. When the dashboard reports `READY`, VS Code opens the explicitly forwarded
-   Vite port in the browser. The canonical host URL remains
+4. Vite starts first in bootstrap mode, so VS Code can immediately open the
+   React dashboard at <http://localhost:3000/ui/local-dashboard/>. The page
+   reports startup progress, Docker infrastructure, backend processes, and
+   searchable logs while the rest of the stack is still starting.
+5. Follow the `fullstack:startup-dashboard` terminal for the same startup flow
+   in text form. Startup failures are displayed there immediately with the
+   relevant backend log tail.
+6. After seed and token generation, Vite restarts once in authenticated local
+   mode. The dashboard reconnects automatically after this brief interruption.
+   When startup reports `READY`, open the application at
    <http://localhost:3000/ui/it/>.
 
 If the automatic-task notification was dismissed, run **Tasks: Manage
@@ -54,20 +61,20 @@ the container without starting the stack automatically. Then run
 
 Run these commands from the frontend terminal inside the devcontainer:
 
-| Command | Effect |
-| --- | --- |
-| `pnpm local:start` | Starts infrastructure, backend, base seed, token, and frontend |
-| `pnpm local:status` | Shows tmux sessions, every backend application process, and Docker services |
-| `pnpm local:dashboard` | Follows the current automatic startup and prints its final status |
-| `pnpm local:smoke` | Checks frontend, BFF, Selfcare, catalog seed, and Docker services |
-| `pnpm local:test:e2e` | Opens the published frontend with Playwright and verifies the local seed |
-| `pnpm local:logs` | Follows the combined backend log |
-| `pnpm local:logs -- frontend` | Follows the frontend log |
-| `pnpm local:stop` | Stops the stack and preserves Docker volumes |
-| `pnpm local:reset` | Stops the stack and deletes all local Interop volumes and generated state |
-| `pnpm local:use:local` | Restarts only Vite against the local backend |
-| `pnpm local:use:dev` | Restarts only Vite against the development environment |
-| `pnpm local:identity -- <tenant> <role>` | Generates a local token and restarts Vite with that identity |
+| Command                                  | Effect                                                                            |
+| ---------------------------------------- | --------------------------------------------------------------------------------- |
+| `pnpm local:start`                       | Starts infrastructure, backend, base seed, token, and frontend                    |
+| `pnpm local:status`                      | Shows tmux sessions, every backend application process, and Docker services       |
+| `pnpm local:dashboard`                   | Follows the current automatic startup in the terminal and prints its final status |
+| `pnpm local:smoke`                       | Checks frontend, BFF, Selfcare, catalog seed, and Docker services                 |
+| `pnpm local:test:e2e`                    | Opens the published frontend with Playwright and verifies the local seed          |
+| `pnpm local:logs`                        | Follows the combined backend log                                                  |
+| `pnpm local:logs -- frontend`            | Follows the frontend log                                                          |
+| `pnpm local:stop`                        | Stops the stack and preserves Docker volumes                                      |
+| `pnpm local:reset`                       | Stops the stack and deletes all local Interop volumes and generated state         |
+| `pnpm local:use:local`                   | Restarts only Vite against the local backend                                      |
+| `pnpm local:use:dev`                     | Restarts only Vite against the development environment                            |
+| `pnpm local:identity -- <tenant> <role>` | Generates a local token and restarts Vite with that identity                      |
 
 `local:reset` is destructive for this local environment. It removes event
 store, SQL readmodels, DynamoDB, Kafka, Redis, MinIO, and generated seed/token
@@ -101,6 +108,14 @@ mode keeps the regular Vite environment configuration and therefore uses the
 token already configured for development. Changing mode restarts Vite only;
 the local backend and its volumes stay running.
 
+The dashboard route and its read-only status/log endpoints exist only when Vite
+is started by the local-development scripts. They are not registered by a
+normal `pnpm dev` or production build. Log search covers the most recent 2 MB
+of each local startup, backend, frontend, and port-forward log and accepts a
+correlation ID or arbitrary text. Subsequent polling requests use a byte cursor
+for each source and transfer only complete log lines appended since the
+previous response. Changing the source or search text starts a fresh query.
+
 ## Manual UI verification
 
 After `pnpm local:start`, verify the user-visible contract:
@@ -121,6 +136,17 @@ and configuration behaviour are covered by automated smoke and unit tests.
 ## Troubleshooting
 
 - Use `pnpm local:status` first, then `pnpm local:logs`.
+- Open <http://localhost:3000/ui/local-dashboard/> to inspect services and
+  search the latest 500 log lines by source, level, process, correlation ID, or
+  message without leaving the browser. Selecting a process in the services
+  table applies the corresponding log filter. Use **Copia log filtrati** to
+  copy the complete filtered result, including virtualized rows, for an issue
+  or troubleshooting note.
+- Port `5173` is Vite's internal devcontainer port and is used only by health
+  checks. From the host browser always use port `3000`.
+- After an unclean Docker shutdown, startup automatically removes a stale
+  ZooKeeper `/brokers/ids/1` registration only when Kafka is not running. Kafka
+  topics and persistent volumes are preserved.
 - The `fullstack:startup-dashboard` terminal is opened automatically on every
   container start. Use **Terminal: Run Task** to reopen it if it was closed.
 - If old persistent data is incompatible with the current branches, run
