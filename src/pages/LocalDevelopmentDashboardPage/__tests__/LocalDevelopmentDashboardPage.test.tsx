@@ -35,6 +35,12 @@ vi.mock('react-i18next', () => ({
         copyFilteredLogs: 'Copy filtered logs',
         filteredLogsCopied: 'Logs copied',
         clearLogFilters: 'Clear filters',
+        degradedTitle: 'Why the environment is degraded',
+        degradedDescription: 'These runtime checks require attention:',
+        sessionDiagnostic: 'Session',
+        processDiagnostic: 'Process',
+        infrastructureDiagnostic: 'Docker service',
+        'states.stopped': 'Stopped',
       })[key] ?? key,
   }),
 }))
@@ -97,6 +103,43 @@ afterEach(() => {
 })
 
 describe('Local development dashboard', () => {
+  it('explains a degraded status even when every process and Docker service is running', async () => {
+    const degradedStatusResponse = {
+      ...statusResponse,
+      overall: 'degraded',
+      sessions: [
+        { name: 'interop-backend', state: 'running' },
+        { name: 'interop-frontend', state: 'stopped' },
+      ],
+    }
+    const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
+      if (String(input).includes('/api/status')) {
+        return new Response(JSON.stringify(degradedStatusResponse), { status: 200 })
+      }
+
+      return new Response(
+        JSON.stringify({
+          query: '',
+          source: null,
+          cursors: {},
+          results: [],
+        }),
+        { status: 200 }
+      )
+    })
+    vi.stubGlobal('fetch', fetchMock)
+
+    renderWithApplicationContext(<LocalDevelopmentDashboardPage />, {
+      withReactQueryContext: true,
+    })
+
+    expect(
+      await screen.findByRole('heading', { name: 'Why the environment is degraded' })
+    ).toBeVisible()
+    expect(screen.getByRole('alert')).toHaveTextContent(/Session.*interop-frontend.*Stopped/)
+    expect(screen.getByRole('alert')).not.toHaveTextContent(/interop-backend.*Running/)
+  })
+
   it('shows services and searches logs by correlation ID', async () => {
     const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
       const url = String(input)

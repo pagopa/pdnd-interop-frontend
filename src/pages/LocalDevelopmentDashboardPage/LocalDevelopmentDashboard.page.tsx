@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {
   Alert,
+  AlertTitle,
   Box,
   Button,
   Chip,
@@ -109,6 +110,20 @@ const LocalDevelopmentDashboardPage: React.FC = () => {
   const runningProcesses = status?.processes.filter(({ state }) => state === 'running').length ?? 0
   const runningInfrastructure =
     status?.infrastructure.filter(({ state }) => state === 'running').length ?? 0
+  const degradedCauses =
+    status?.overall === 'degraded'
+      ? [
+          ...status.sessions
+            .filter(({ name, state }) => name !== 'interop-dashboard' && state !== 'running')
+            .map(({ name, state }) => ({ kind: 'session' as const, name, state })),
+          ...status.processes
+            .filter(({ state }) => state !== 'running')
+            .map(({ name, state }) => ({ kind: 'process' as const, name, state })),
+          ...status.infrastructure
+            .filter(({ state }) => state !== 'running')
+            .map(({ name, state }) => ({ kind: 'infrastructure' as const, name, state })),
+        ]
+      : []
 
   const copyFilteredLogs = async () => {
     if (logEntries.length === 0) return
@@ -243,6 +258,29 @@ const LocalDevelopmentDashboardPage: React.FC = () => {
 
           {(statusQuery.isError || logsQuery.isError) && (
             <Alert severity="error">{t('connectionError')}</Alert>
+          )}
+
+          {degradedCauses.length > 0 && (
+            <Alert severity="warning">
+              <AlertTitle>
+                <Typography component="h2" variant="subtitle1" fontWeight={700}>
+                  {t('degradedTitle')}
+                </Typography>
+              </AlertTitle>
+              <Typography variant="body2">{t('degradedDescription')}</Typography>
+              <Box component="ul" sx={{ mt: 1, mb: 0, pl: 3 }}>
+                {degradedCauses.map(({ kind, name, state }) => (
+                  <li key={`${kind}-${name}`}>
+                    <Typography variant="body2">
+                      <Box component="span" fontWeight={700}>
+                        {t(`${kind}Diagnostic`)}:
+                      </Box>{' '}
+                      {name} ({t(`states.${state}`)})
+                    </Typography>
+                  </li>
+                ))}
+              </Box>
+            </Alert>
           )}
 
           <Paper variant="outlined" sx={{ p: { xs: 2, md: 3 } }}>
