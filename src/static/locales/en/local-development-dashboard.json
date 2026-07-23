@@ -10,6 +10,8 @@
   "sessionDiagnostic": "Session",
   "processDiagnostic": "Process",
   "infrastructureDiagnostic": "Docker service",
+  "supervisorWarningTitle": "Local supervisors are not running",
+  "supervisorWarningDescription": "These tmux sessions are no longer available. Process and container health is evaluated separately:",
   "searchLabel": "Search logs",
   "searchPlaceholder": "Correlation ID, service, or error message",
   "sourceLabel": "Source",

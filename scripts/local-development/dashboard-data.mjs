@@ -28,18 +28,15 @@ const STARTUP_CHECKS = [
   },
 ]
 
-export function deriveOverallState({ startupState, sessions, processes, infrastructure }) {
+export function deriveOverallState({ startupState, processes, infrastructure }) {
   if (startupState !== 'ready') {
     return startupState
   }
 
-  const hasStoppedSession = sessions
-    .filter(({ name }) => name !== 'interop-dashboard')
-    .some(({ state }) => state !== 'running')
   const hasStoppedProcess = processes.some(({ state }) => state !== 'running')
   const hasStoppedInfrastructure = infrastructure.some(({ state }) => state !== 'running')
 
-  return hasStoppedSession || hasStoppedProcess || hasStoppedInfrastructure ? 'degraded' : 'ready'
+  return hasStoppedProcess || hasStoppedInfrastructure ? 'degraded' : 'ready'
 }
 
 export function deriveStartupChecks(startupState, startupLog) {

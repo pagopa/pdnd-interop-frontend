@@ -35,8 +35,9 @@ vi.mock('react-i18next', () => ({
         copyFilteredLogs: 'Copy filtered logs',
         filteredLogsCopied: 'Logs copied',
         clearLogFilters: 'Clear filters',
-        degradedTitle: 'Why the environment is degraded',
-        degradedDescription: 'These runtime checks require attention:',
+        supervisorWarningTitle: 'Local supervisors are not running',
+        supervisorWarningDescription:
+          'The runtime is operational, but these tmux sessions are unavailable:',
         sessionDiagnostic: 'Session',
         processDiagnostic: 'Process',
         infrastructureDiagnostic: 'Docker service',
@@ -103,10 +104,9 @@ afterEach(() => {
 })
 
 describe('Local development dashboard', () => {
-  it('explains a degraded status even when every process and Docker service is running', async () => {
-    const degradedStatusResponse = {
+  it('reports stopped supervisors without degrading a healthy runtime', async () => {
+    const statusWithStoppedSupervisor = {
       ...statusResponse,
-      overall: 'degraded',
       sessions: [
         { name: 'interop-backend', state: 'running' },
         { name: 'interop-frontend', state: 'stopped' },
@@ -114,7 +114,7 @@ describe('Local development dashboard', () => {
     }
     const fetchMock = vi.fn(async (input: RequestInfo | URL) => {
       if (String(input).includes('/api/status')) {
-        return new Response(JSON.stringify(degradedStatusResponse), { status: 200 })
+        return new Response(JSON.stringify(statusWithStoppedSupervisor), { status: 200 })
       }
 
       return new Response(
@@ -134,10 +134,11 @@ describe('Local development dashboard', () => {
     })
 
     expect(
-      await screen.findByRole('heading', { name: 'Why the environment is degraded' })
+      await screen.findByRole('heading', { name: 'Local supervisors are not running' })
     ).toBeVisible()
     expect(screen.getByRole('alert')).toHaveTextContent(/Session.*interop-frontend.*Stopped/)
     expect(screen.getByRole('alert')).not.toHaveTextContent(/interop-backend.*Running/)
+    expect(screen.getByText('states.ready')).toBeVisible()
   })
 
   it('shows services and searches logs by correlation ID', async () => {

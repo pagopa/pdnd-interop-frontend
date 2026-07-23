@@ -110,12 +110,15 @@ const LocalDevelopmentDashboardPage: React.FC = () => {
   const runningProcesses = status?.processes.filter(({ state }) => state === 'running').length ?? 0
   const runningInfrastructure =
     status?.infrastructure.filter(({ state }) => state === 'running').length ?? 0
+  const stoppedSupervisors =
+    status?.startup.state === 'ready'
+      ? status.sessions.filter(
+          ({ name, state }) => name !== 'interop-dashboard' && state !== 'running'
+        )
+      : []
   const degradedCauses =
     status?.overall === 'degraded'
       ? [
-          ...status.sessions
-            .filter(({ name, state }) => name !== 'interop-dashboard' && state !== 'running')
-            .map(({ name, state }) => ({ kind: 'session' as const, name, state })),
           ...status.processes
             .filter(({ state }) => state !== 'running')
             .map(({ name, state }) => ({ kind: 'process' as const, name, state })),
@@ -258,6 +261,29 @@ const LocalDevelopmentDashboardPage: React.FC = () => {
 
           {(statusQuery.isError || logsQuery.isError) && (
             <Alert severity="error">{t('connectionError')}</Alert>
+          )}
+
+          {stoppedSupervisors.length > 0 && (
+            <Alert severity="warning">
+              <AlertTitle>
+                <Typography component="h2" variant="subtitle1" fontWeight={700}>
+                  {t('supervisorWarningTitle')}
+                </Typography>
+              </AlertTitle>
+              <Typography variant="body2">{t('supervisorWarningDescription')}</Typography>
+              <Box component="ul" sx={{ mt: 1, mb: 0, pl: 3 }}>
+                {stoppedSupervisors.map(({ name, state }) => (
+                  <li key={name}>
+                    <Typography variant="body2">
+                      <Box component="span" fontWeight={700}>
+                        {t('sessionDiagnostic')}:
+                      </Box>{' '}
+                      {name} ({t(`states.${state}`)})
+                    </Typography>
+                  </li>
+                ))}
+              </Box>
+            </Alert>
           )}
 
           {degradedCauses.length > 0 && (

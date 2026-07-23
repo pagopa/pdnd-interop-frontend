@@ -9,7 +9,7 @@ import {
   searchLogEntries,
 } from './dashboard-data.mjs'
 
-test('degrades a ready environment when an application session stops', () => {
+test('keeps a ready environment when only a supervisor session stops', () => {
   assert.equal(
     deriveOverallState({
       startupState: 'ready',
@@ -18,6 +18,15 @@ test('degrades a ready environment when an application session stops', () => {
         { name: 'interop-backend', state: 'stopped' },
       ],
       processes: [],
+      infrastructure: [],
+    }),
+    'ready'
+  )
+  assert.equal(
+    deriveOverallState({
+      startupState: 'ready',
+      sessions: [],
+      processes: [{ name: 'backend-for-frontend', state: 'stopped' }],
       infrastructure: [],
     }),
     'degraded'

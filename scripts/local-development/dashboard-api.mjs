@@ -243,7 +243,7 @@ export function createDashboardApi({
 
       return {
         timestamp: new Date().toISOString(),
-        overall: deriveOverallState({ startupState, sessions, processes, infrastructure }),
+        overall: deriveOverallState({ startupState, processes, infrastructure }),
         startup: {
           state: startupState,
           checks: deriveStartupChecks(startupState, startupLog),

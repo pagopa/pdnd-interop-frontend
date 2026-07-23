@@ -10,6 +10,8 @@
   "sessionDiagnostic": "Sessione",
   "processDiagnostic": "Processo",
   "infrastructureDiagnostic": "Servizio Docker",
+  "supervisorWarningTitle": "Supervisori locali non attivi",
+  "supervisorWarningDescription": "Queste sessioni tmux non sono più disponibili. Lo stato di processi e container viene valutato separatamente:",
   "searchLabel": "Cerca nei log",
   "searchPlaceholder": "Correlation ID, servizio o messaggio di errore",
   "sourceLabel": "Sorgente",
