@@ -149,6 +149,7 @@
       "title": "Create delegation",
       "kindSectionTitle": "Delegation types",
       "kindSectionAriaLabel": "Select the delegation type you want to create",
+      "kindSectionErrorMessage": "To continue, select whether you want to create a delegation for consuming or producing.",
       "consumerDelegationTitle": "Delegation for consuming",
       "providerDelegationTitle": "Delegation for producing",
       "cancelBtn": "Cancel",
