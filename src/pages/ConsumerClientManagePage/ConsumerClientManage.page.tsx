@@ -19,6 +19,7 @@ import { useDrawerState } from '@/hooks/useDrawerState'
 import { SetClientAdminDrawer } from './components/SetClientAdminDrawer/SetClientAdminDrawer'
 import type { ActionItemButton } from '@/types/common.types'
 import { useSearchParams } from 'react-router-dom'
+import { AuthHooks } from '@/api/auth'
 
 const ConsumerClientManagePage: React.FC = () => {
   const { t } = useTranslation('client', { keyPrefix: 'edit' })
@@ -29,6 +30,7 @@ const ConsumerClientManagePage: React.FC = () => {
   const clientKind = useClientKind()
   const { activeTab, updateActiveTab } = useActiveTab('clientOperators')
   const navigate = useNavigate()
+  const { isAdmin } = AuthHooks.useJwt()
 
   const { data: client, isLoading: isLoadingClient } = useQuery(ClientQueries.getSingle(clientId))
 
@@ -77,31 +79,35 @@ const ConsumerClientManagePage: React.FC = () => {
               description={t('adminSection.description')}
               sx={{ mb: 3 }}
             >
-              {client?.admin ? (
-                <Stack direction="row" justifyContent="space-between" alignItems={'center'}>
-                  <InformationContainer
-                    label={t('adminSection.adminLabel')}
-                    content={`${client.admin.name} ${client.admin.familyName}`}
-                    direction="column"
-                  />
-                  <Stack direction="row" spacing={2}>
-                    <Button variant="outlined" startIcon={<SyncIcon />} onClick={openDrawer}>
-                      {t('adminSection.actions.substituteAdminLabel')}
+              {isAdmin && (
+                <>
+                  {client?.admin ? (
+                    <Stack direction="row" justifyContent="space-between" alignItems={'center'}>
+                      <InformationContainer
+                        label={t('adminSection.adminLabel')}
+                        content={`${client.admin.name} ${client.admin.familyName}`}
+                        direction="column"
+                      />
+                      <Stack direction="row" spacing={2}>
+                        <Button variant="outlined" startIcon={<SyncIcon />} onClick={openDrawer}>
+                          {t('adminSection.actions.substituteAdminLabel')}
+                        </Button>
+                        <Button
+                          variant="outlined"
+                          color="error"
+                          startIcon={<DeleteIcon />}
+                          onClick={handleRemoveClientAdmin}
+                        >
+                          {t('adminSection.actions.removeAdminLabel')}
+                        </Button>
+                      </Stack>
+                    </Stack>
+                  ) : (
+                    <Button variant="outlined" onClick={openDrawer}>
+                      {t('adminSection.actions.selectAdminLabel')}
                     </Button>
-                    <Button
-                      variant="outlined"
-                      color="error"
-                      startIcon={<DeleteIcon />}
-                      onClick={handleRemoveClientAdmin}
-                    >
-                      {t('adminSection.actions.removeAdminLabel')}
-                    </Button>
-                  </Stack>
-                </Stack>
-              ) : (
-                <Button variant="outlined" onClick={openDrawer}>
-                  {t('adminSection.actions.selectAdminLabel')}
-                </Button>
+                  )}
+                </>
               )}
             </SectionContainer>
           </Grid>
@@ -121,7 +127,7 @@ const ConsumerClientManagePage: React.FC = () => {
           <ClientPublicKeys clientId={clientId} />
         </TabPanel>
       </TabContext>
-      {clientKind === 'API' && (
+      {clientKind === 'API' && isAdmin && (
         <SetClientAdminDrawer
           isOpen={isOpen}
           onClose={closeDrawer}
