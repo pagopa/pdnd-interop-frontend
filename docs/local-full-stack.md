@@ -49,6 +49,9 @@ Automatic Tasks** from the Command Palette, choose **Allow Automatic Tasks**,
 and reload the window. Alternatively, run `pnpm local:dashboard` in a terminal
 to attach to the startup that is already running.
 
+The automatic task is guarded by the devcontainer environment. Opening the
+repository or workspace directly on the host does not start the local stack.
+
 If `../interop-be-monorepo` is missing, the initialize step clones its
 `develop` branch. If it already exists, it is left untouched: no checkout,
 pull, stash, or branch change is performed.

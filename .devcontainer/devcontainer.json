@@ -19,6 +19,7 @@
   "runArgs": ["--add-host=host.docker.internal:host-gateway"],
   "appPort": ["3000:5173"],
   "containerEnv": {
+    "INTEROP_DEVCONTAINER": "true",
     "INTEROP_AUTO_START": "${localEnv:INTEROP_AUTO_START}"
   },
   "postCreateCommand": ".devcontainer/scripts/setup.sh",
