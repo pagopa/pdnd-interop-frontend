@@ -266,7 +266,7 @@ describe('ProviderEServiceSummaryPage', () => {
     })
 
     const approveButton = screen.getByRole('button', {
-      name: 'publish',
+      name: 'publish - summary.notPublishableTooltip.label',
     })
     expect(approveButton).toBeDisabled()
   })
