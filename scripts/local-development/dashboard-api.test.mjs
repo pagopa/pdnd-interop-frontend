@@ -12,6 +12,7 @@ test('reads environment status and searches local logs', async () => {
   const backendRoot = join(root, 'backend')
   const frontendRuntime = join(frontendRoot, '.local-development')
   const backendRuntime = join(backendRoot, '.local-development')
+  const backendDatasetRoot = join(backendRoot, 'docker/local-development')
   const catalogRoot = join(backendRoot, 'packages/catalog-process')
   const logRoot = join(frontendRuntime, 'logs')
 
@@ -19,6 +20,7 @@ test('reads environment status and searches local logs', async () => {
     await Promise.all([
       mkdir(logRoot, { recursive: true }),
       mkdir(backendRuntime, { recursive: true }),
+      mkdir(backendDatasetRoot, { recursive: true }),
       mkdir(catalogRoot, { recursive: true }),
     ])
     await Promise.all([
@@ -31,8 +33,43 @@ test('reads environment status and searches local logs', async () => {
       writeFile(join(logRoot, 'interop-frontend.log'), 'Frontend ready\n'),
       writeFile(join(backendRuntime, 'frontend-full.pids'), 'pagopa-interop-catalog-process 120\n'),
       writeFile(join(catalogRoot, '.env'), 'PORT=3000\n'),
+      writeFile(
+        join(backendDatasetRoot, 'dataset.json'),
+        JSON.stringify({
+          tenants: [
+            {
+              key: 'comune',
+              name: 'Comune Demo',
+              selfcareId: 'selfcare-comune',
+            },
+          ],
+          users: [
+            {
+              id: 'user-1',
+              memberships: [
+                {
+                  tenantSelfcareId: 'selfcare-comune',
+                  roles: ['security', 'viewer'],
+                },
+              ],
+              name: 'Mario',
+              surname: 'Rossi',
+              email: 'mario@comune.demo',
+            },
+          ],
+        })
+      ),
+      writeFile(
+        join(backendRuntime, 'state.json'),
+        JSON.stringify({
+          tenants: {
+            comune: { id: '5470e567-de4c-416a-abd5-738dab94a5fd' },
+          },
+        })
+      ),
     ])
 
+    const generatedIdentityTokens = []
     const api = createDashboardApi({
       frontendRoot,
       backendRoot,
@@ -40,6 +77,10 @@ test('reads environment status and searches local logs', async () => {
         `${JSON.stringify({ Service: 'kafka', Name: 'interop-kafka-1', State: 'running', Health: 'healthy' })}\n`,
       isProcessRunning: (pid) => pid === 120,
       isSessionRunning: async () => true,
+      generateIdentityToken: async (identity) => {
+        generatedIdentityTokens.push(identity)
+        return 'local-session-token'
+      },
     })
 
     const status = await api.getStatus()
@@ -90,6 +131,35 @@ test('reads environment status and searches local logs', async () => {
     assert.deepEqual(rotatedLogs.resetSources, ['backend'])
     assert.equal(rotatedLogs.results.length, 1)
     assert.equal(rotatedLogs.results[0].message, 'Fresh log after rotation')
+
+    assert.deepEqual(await api.getIdentities(), {
+      tenants: [
+        {
+          key: 'comune',
+          id: '5470e567-de4c-416a-abd5-738dab94a5fd',
+          name: 'Comune Demo',
+          users: [
+            {
+              id: 'user-1',
+              name: 'Mario',
+              surname: 'Rossi',
+              email: 'mario@comune.demo',
+              roles: ['security', 'viewer'],
+            },
+          ],
+        },
+      ],
+    })
+    assert.deepEqual(
+      await api.createIdentityToken({
+        tenantKey: 'comune',
+        userId: 'user-1',
+      }),
+      { sessionToken: 'local-session-token' }
+    )
+    assert.deepEqual(generatedIdentityTokens, [
+      { tenantKey: 'comune', userId: 'user-1' },
+    ])
   } finally {
     await rm(root, { recursive: true, force: true })
   }

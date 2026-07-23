@@ -152,13 +152,69 @@ async function defaultIsSessionRunning(name) {
   }
 }
 
+async function defaultGenerateIdentityToken(backendRoot, { tenantKey, userId }) {
+  const { stdout } = await execFileAsync(
+    'node',
+    [
+      'scripts/local-development/cli.mjs',
+      'token',
+      '--tenant',
+      tenantKey,
+      '--user',
+      userId,
+    ],
+    { cwd: backendRoot, maxBuffer: 1024 * 1024 }
+  )
+  return stdout.trim()
+}
+
 export function createDashboardApi({
   frontendRoot,
   backendRoot,
   composePs = () => defaultComposePs(backendRoot),
   isProcessRunning = defaultIsProcessRunning,
   isSessionRunning = defaultIsSessionRunning,
+  generateIdentityToken = (identity) => defaultGenerateIdentityToken(backendRoot, identity),
 }) {
+  const getIdentities = async () => {
+    const [dataset, state] = await Promise.all([
+      readFile(join(backendRoot, 'docker/local-development/dataset.json'), 'utf8').then(JSON.parse),
+      readFile(join(backendRoot, '.local-development/state.json'), 'utf8').then(JSON.parse),
+    ])
+
+    return {
+      tenants: dataset.tenants.flatMap((tenant) => {
+        const tenantState = state.tenants[tenant.key]
+        if (!tenantState) return []
+
+        return [
+          {
+            key: tenant.key,
+            id: tenantState.id,
+            name: tenant.name,
+            users: dataset.users
+              .flatMap((user) => {
+                const membership = user.memberships.find(
+                  (candidate) => candidate.tenantSelfcareId === tenant.selfcareId
+                )
+                return membership
+                  ? [
+                      {
+                        id: user.id,
+                        name: user.name,
+                        surname: user.surname,
+                        email: user.email,
+                        roles: membership.roles,
+                      },
+                    ]
+                  : []
+              }),
+          },
+        ]
+      }),
+    }
+  }
+
   return {
     async getStatus() {
       const frontendRuntime = join(frontendRoot, '.local-development')
@@ -210,6 +266,21 @@ export function createDashboardApi({
         results: searchLogEntries(logs, { query, level, service, limit: safeLimit }),
         cursors: Object.fromEntries(logs.map((log) => [log.source, log.cursor])),
         resetSources: logs.filter((log) => log.reset).map((log) => log.source),
+      }
+    },
+
+    getIdentities,
+
+    async createIdentityToken({ tenantKey, userId }) {
+      const identities = await getIdentities()
+      const tenant = identities.tenants.find((candidate) => candidate.key === tenantKey)
+      const user = tenant?.users.find((candidate) => candidate.id === userId)
+      if (!tenant || !user) {
+        throw new Error('Invalid local identity selection')
+      }
+
+      return {
+        sessionToken: await generateIdentityToken({ tenantKey, userId }),
       }
     },
   }

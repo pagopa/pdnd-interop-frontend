@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { Readable } from 'node:stream'
 import test from 'node:test'
 
 import { createLocalDashboardMiddleware } from './vite-dashboard-plugin.mjs'
@@ -69,4 +70,37 @@ test('serves status and log search from development-only endpoints', async () =>
     },
   ])
   assert.deepEqual(JSON.parse(logsResponse.body), { results: [] })
+})
+
+test('serves local identities and creates the selected session token', async () => {
+  const selections = []
+  const middleware = createLocalDashboardMiddleware({
+    getIdentities: async () => ({ tenants: [{ key: 'comune' }] }),
+    createIdentityToken: async (selection) => {
+      selections.push(selection)
+      return { sessionToken: 'local-session-token' }
+    },
+  })
+  const identitiesResponse = createResponse()
+  const tokenResponse = createResponse()
+  const tokenRequest = Readable.from([
+    JSON.stringify({ tenantKey: 'comune', userId: 'user-1' }),
+  ])
+  tokenRequest.method = 'POST'
+  tokenRequest.url = '/__local-dashboard/api/identity'
+
+  await middleware(
+    { method: 'GET', url: '/__local-dashboard/api/identities' },
+    identitiesResponse,
+    () => assert.fail('unexpected next')
+  )
+  await middleware(tokenRequest, tokenResponse, () => assert.fail('unexpected next'))
+
+  assert.deepEqual(JSON.parse(identitiesResponse.body), {
+    tenants: [{ key: 'comune' }],
+  })
+  assert.deepEqual(selections, [{ tenantKey: 'comune', userId: 'user-1' }])
+  assert.deepEqual(JSON.parse(tokenResponse.body), {
+    sessionToken: 'local-session-token',
+  })
 })

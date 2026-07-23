@@ -20,6 +20,18 @@ function parseCursors(value) {
   )
 }
 
+async function readJsonBody(request) {
+  const chunks = []
+  let length = 0
+  for await (const chunk of request) {
+    const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)
+    length += buffer.length
+    if (length > 64 * 1024) throw new Error('Local dashboard request body is too large')
+    chunks.push(buffer)
+  }
+  return JSON.parse(Buffer.concat(chunks).toString('utf8'))
+}
+
 export function createLocalDashboardMiddleware(api) {
   return async (request, response, next) => {
     try {
@@ -49,6 +61,16 @@ export function createLocalDashboardMiddleware(api) {
             cursors: parseCursors(url.searchParams.get('cursors')),
           })
         )
+        return
+      }
+
+      if (request.method === 'GET' && url.pathname === '/__local-dashboard/api/identities') {
+        sendJson(response, 200, await api.getIdentities())
+        return
+      }
+
+      if (request.method === 'POST' && url.pathname === '/__local-dashboard/api/identity') {
+        sendJson(response, 200, await api.createIdentityToken(await readJsonBody(request)))
         return
       }
 
