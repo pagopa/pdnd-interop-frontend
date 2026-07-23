@@ -47,6 +47,26 @@ test('shows local services and searches their logs', async ({ page }) => {
   expect(dashboardBox).not.toBeNull()
   expect(rootBox?.height ?? 0).toBeGreaterThanOrEqual((dashboardBox?.height ?? 0) - 1)
 
+  const pageLayout = await page.evaluate(() => ({
+    documentHeight: document.documentElement.scrollHeight,
+    viewportHeight: window.innerHeight,
+  }))
+  expect(pageLayout.documentHeight).toBeLessThanOrEqual(pageLayout.viewportHeight)
+
+  const main = page.getByRole('main')
+  const mainLayout = await main.evaluate((element) => ({
+    clientHeight: element.clientHeight,
+    scrollHeight: element.scrollHeight,
+  }))
+  expect(mainLayout.scrollHeight).toBeGreaterThan(mainLayout.clientHeight)
+
+  const headerYBeforeScroll = (await page.getByRole('banner').boundingBox())?.y
+  await main.evaluate((element) => {
+    element.scrollTop = element.scrollHeight
+  })
+  const headerYAfterScroll = (await page.getByRole('banner').boundingBox())?.y
+  expect(headerYAfterScroll).toBe(headerYBeforeScroll)
+
   const renderedLogRows = page.getByRole('list', { name: 'Log' }).getByRole('listitem')
   await expect(renderedLogRows.first()).toBeVisible()
   expect(await renderedLogRows.count()).toBeLessThan(50)

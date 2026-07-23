@@ -6,11 +6,6 @@ body,
   flex-direction: column;
 }
 
-#root:has(#local-development-dashboard) {
-  height: auto;
-  min-height: 100%;
-}
-
 /*
  * TEMP Waiting for MUI to reset the body color
 */

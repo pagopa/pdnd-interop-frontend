@@ -135,11 +135,24 @@ const LocalDevelopmentDashboardPage: React.FC = () => {
     <Box
       id="local-development-dashboard"
       data-testid="local-development-dashboard"
-      sx={{ minHeight: '100vh', bgcolor: 'grey.50', color: 'text.primary' }}
+      sx={{
+        height: '100%',
+        minHeight: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
+        bgcolor: 'grey.50',
+        color: 'text.primary',
+      }}
     >
       <Box
         component="header"
-        sx={{ bgcolor: 'background.paper', borderBottom: 1, borderColor: 'divider' }}
+        sx={{
+          flexShrink: 0,
+          bgcolor: 'background.paper',
+          borderBottom: 1,
+          borderColor: 'divider',
+        }}
       >
         <Container maxWidth="xl">
           <Stack direction="row" minHeight={64} alignItems="center" justifyContent="space-between">
@@ -176,7 +189,11 @@ const LocalDevelopmentDashboardPage: React.FC = () => {
         </Container>
       </Box>
 
-      <Container component="main" maxWidth="xl" sx={{ py: { xs: 3, md: 5 } }}>
+      <Container
+        component="main"
+        maxWidth="xl"
+        sx={{ flex: 1, minHeight: 0, overflowY: 'auto', py: { xs: 3, md: 5 } }}
+      >
         <Stack spacing={3}>
           <Stack
             direction={{ xs: 'column', md: 'row' }}
