@@ -394,7 +394,7 @@
   },
   "environmentBanner": {
     "content": {
-      "uat": "Ambiente di collaudo. Non utilizzare dati reali.",
+      "uat": "Ambiente di collaudo. Configura come se fossi in Produzione, ma usa solo dati fittizi.",
       "att": "Ambiente di attestazione per enti privati: attenzione i dati non devono essere reali"
     }
   },
