@@ -1,5 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
+const localDevelopmentMocks = vi.hoisted(() => ({
+  identitySelectionEnabled: true,
+}))
+
 vi.mock('@/config/env', () => ({
   APP_MODE: 'development',
   BACKEND_FOR_FRONTEND_URL: '/0.0/backend-for-frontend',
@@ -12,7 +16,9 @@ vi.mock('@/config/constants', () => ({
 }))
 
 vi.mock('@/config/local-development', () => ({
-  isLocalDevelopmentDashboardEnabled: true,
+  get isLocalIdentitySelectionEnabled() {
+    return localDevelopmentMocks.identitySelectionEnabled
+  },
 }))
 
 vi.mock('../auth.utils', () => ({
@@ -27,6 +33,7 @@ vi.mock('@/utils/common.utils', () => ({
 
 describe('local development authentication', () => {
   beforeEach(() => {
+    localDevelopmentMocks.identitySelectionEnabled = true
     window.localStorage.clear()
     window.location.hash = ''
   })
@@ -37,5 +44,14 @@ describe('local development authentication', () => {
     const { AuthServices } = await import('../auth.services')
 
     await expect(AuthServices.getSessionToken()).resolves.toBe('selected-identity-token')
+  })
+
+  it('restores the configured development token when local identity selection is disabled', async () => {
+    localDevelopmentMocks.identitySelectionEnabled = false
+    window.localStorage.setItem('token', 'selected-identity-token')
+
+    const { AuthServices } = await import('../auth.services')
+
+    await expect(AuthServices.getSessionToken()).resolves.toBe('startup-token')
   })
 })
