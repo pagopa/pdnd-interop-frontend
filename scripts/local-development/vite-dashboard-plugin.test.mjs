@@ -2,7 +2,10 @@ import assert from 'node:assert/strict'
 import { Readable } from 'node:stream'
 import test from 'node:test'
 
-import { createLocalDashboardMiddleware } from './vite-dashboard-plugin.mjs'
+import {
+  createLocalDashboardMiddleware,
+  localDashboardPlugin,
+} from './vite-dashboard-plugin.mjs'
 
 function createResponse() {
   return {
@@ -103,4 +106,21 @@ test('serves local identities and creates the selected session token', async () 
   assert.deepEqual(JSON.parse(tokenResponse.body), {
     sessionToken: 'local-session-token',
   })
+})
+
+test('overrides the Selfcare login URL with the local identity selection route', () => {
+  const selfcareLoginUrl = 'http://localhost:3000/ui/it/local-identity-selection/'
+  const plugin = localDashboardPlugin({
+    frontendRoot: '/workspace/frontend',
+    backendRoot: '/workspace/backend',
+    selfcareLoginUrl,
+  })
+
+  const transformed = plugin.transformIndexHtml()
+
+  assert.equal(transformed.tags[0].tag, 'script')
+  assert.match(
+    transformed.tags[0].children,
+    new RegExp(`SELFCARE_LOGIN_URL = ${JSON.stringify(selfcareLoginUrl)}`)
+  )
 })

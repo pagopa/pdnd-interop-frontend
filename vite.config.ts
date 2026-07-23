@@ -15,6 +15,7 @@ export default defineConfig(({ mode }) => {
         localDashboardPlugin({
           frontendRoot: __dirname,
           backendRoot: path.resolve(__dirname, '../interop-be-monorepo'),
+          selfcareLoginUrl: process.env.SELFCARE_LOGIN_URL,
         }),
       ]
     : []

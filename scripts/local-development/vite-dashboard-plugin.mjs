@@ -83,12 +83,27 @@ export function createLocalDashboardMiddleware(api) {
   }
 }
 
-export function localDashboardPlugin({ frontendRoot, backendRoot }) {
+export function localDashboardPlugin({ frontendRoot, backendRoot, selfcareLoginUrl }) {
   const api = createDashboardApi({ frontendRoot, backendRoot })
   const middleware = createLocalDashboardMiddleware(api)
+  const runtimeConfigTags = selfcareLoginUrl
+    ? [
+        {
+          tag: 'script',
+          injectTo: 'head',
+          children: `window.pagopa_env.SELFCARE_LOGIN_URL = ${JSON.stringify(selfcareLoginUrl)}`,
+        },
+      ]
+    : []
 
   return {
     name: 'interop-local-dashboard',
+    transformIndexHtml(html = '') {
+      return {
+        html,
+        tags: runtimeConfigTags,
+      }
+    },
     configureServer(server) {
       server.middlewares.use(middleware)
     },

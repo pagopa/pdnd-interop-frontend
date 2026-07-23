@@ -86,9 +86,15 @@ test('starts Vite in dashboard mode before Docker and enables only local middlew
 
   assert.ok(fullstack.indexOf('restart_frontend bootstrap') < fullstack.indexOf('docker info'))
   assert.match(frontendRunner, /REACT_APP_LOCAL_DASHBOARD/)
+  assert.match(frontendRunner, /REACT_APP_LOCAL_IDENTITY_SELECTION/)
   assert.match(frontendRunner, /INTEROP_LOCAL_DEVELOPMENT/)
+  assert.match(
+    frontendRunner,
+    /SELFCARE_LOGIN_URL=.*http:\/\/localhost:3000\/ui\/it\/local-identity-selection\//
+  )
   assert.match(frontendRunner, /bootstrap/)
   assert.match(viteConfig, /localDashboardPlugin/)
+  assert.match(viteConfig, /selfcareLoginUrl: process\.env\.SELFCARE_LOGIN_URL/)
   assert.match(viteConfig, /INTEROP_LOCAL_DEVELOPMENT === 'true'/)
 })
 

@@ -98,4 +98,9 @@ test('selects a local tenant and role-specific user from the local identity rout
     uid: '10000000-0000-4000-8000-000000000005',
     'user-roles': 'viewer',
   })
+
+  await page.getByRole('button', { name: 'Esci' }).click()
+
+  await expect(page).toHaveURL(/\/ui\/it\/local-identity-selection\/$/)
+  await expect.poll(() => page.evaluate(() => window.localStorage.getItem('token'))).toBeNull()
 })

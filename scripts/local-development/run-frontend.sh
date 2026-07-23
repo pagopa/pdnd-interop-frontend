@@ -12,6 +12,8 @@ export INTEROP_LOCAL_DEVELOPMENT="true"
 export REACT_APP_LOCAL_DASHBOARD="true"
 
 if [[ "$MODE" == "local" ]]; then
+  export REACT_APP_LOCAL_IDENTITY_SELECTION="true"
+  export SELFCARE_LOGIN_URL="${SELFCARE_LOGIN_URL:-http://localhost:3000/ui/it/local-identity-selection/}"
   TOKEN_FILE="$BACKEND_ROOT/.local-development/frontend-token"
   if [[ ! -s "$TOKEN_FILE" ]]; then
     echo "Missing local token. Run pnpm local:start first." >&2
@@ -20,6 +22,8 @@ if [[ "$MODE" == "local" ]]; then
   export REACT_APP_MOCK_TOKEN="$(tr -d '\n' < "$TOKEN_FILE")"
   export INTEROP_BACKEND_TARGET="http://localhost:3600"
 elif [[ "$MODE" == "bootstrap" ]]; then
+  export REACT_APP_LOCAL_IDENTITY_SELECTION="true"
+  export SELFCARE_LOGIN_URL="${SELFCARE_LOGIN_URL:-http://localhost:3000/ui/it/local-identity-selection/}"
   export INTEROP_BACKEND_TARGET="http://localhost:3600"
 elif [[ "$MODE" != "dev" ]]; then
   echo "Unknown frontend mode: $MODE (expected bootstrap, local, or dev)" >&2
