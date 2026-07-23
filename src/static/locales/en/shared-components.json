@@ -563,12 +563,6 @@
 
   "requiredLabel": "*Required fields.",
 
-  "stepper": {
-    "stepperLabel": "Step {{currentStep}} of {{totalSteps}}",
-    "completeLabel": "Step completed",
-    "currentStepLabel": "Current step"
-  },
-
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Terms of Service",
