@@ -74,7 +74,7 @@ Run these commands from the frontend terminal inside the devcontainer:
 | `pnpm local:reset`                       | Stops the stack and deletes all local Interop volumes and generated state         |
 | `pnpm local:use:local`                   | Restarts only Vite against the local backend                                      |
 | `pnpm local:use:dev`                     | Restarts only Vite against the development environment                            |
-| `pnpm local:identity -- <tenant> <role>` | Generates a local token and restarts Vite with that identity                      |
+| `pnpm local:identity -- <tenant> <user>` | Generates a local token and restarts Vite with that identity                      |
 
 `local:reset` is destructive for this local environment. It removes event
 store, SQL readmodels, DynamoDB, Kafka, Redis, MinIO, and generated seed/token
@@ -83,8 +83,18 @@ state; it does not delete either Git checkout.
 ## Identities and seed
 
 Available tenants are `comune`, `provider`, `impresa`, and `certificatore`.
-Available roles are `admin`, `api`, `security`, `reviewer`, and `viewer`.
-For example:
+Available users are `admin`, `api`, `security`, `reviewer`, and `viewer`, each
+with the corresponding single role on every tenant.
+Use the party switcher in the frontend header, or open
+<http://localhost:3000/ui/it/local-identity-selection/>, to select a local tenant
+and a role-specific user. Every local user can access all seeded tenants, and the
+selection persists across page reloads.
+
+The local frontend runner sets `SELFCARE_LOGIN_URL` to that route. Override the
+variable before starting Vite if the frontend is published on a different host
+URL.
+
+The CLI remains available as a fallback:
 
 ```bash
 pnpm local:identity -- comune reviewer
@@ -97,7 +107,9 @@ older token-generation scripts. Tokens are signed by local KMS and the frontend
 reads the generated token file without writing it to a tracked `.env` file.
 
 The idempotent base seed creates the four Selfcare tenants and a published
-`Catalogo Demo` e-service owned by `Provider Demo`. Data reaches the SQL and
+`Catalogo Demo` e-service owned by `Provider Demo`. Each tenant also receives a
+`CONTACT_EMAIL`, so agreement submission and the other flows that require a
+tenant contact address work without manual setup. Data reaches the SQL and
 DynamoDB readmodels through the same APIs and event consumers used by the
 application.
 
@@ -123,6 +135,8 @@ After `pnpm local:start`, verify the user-visible contract:
 1. Open the UI and confirm that the selected institution is `Comune Demo`.
 2. Open the catalog and confirm that `Catalogo Demo`, published by
    `Provider Demo`, is visible.
+3. Use the header party switcher to select `Provider Demo` and `Utente Viewer`,
+   then confirm that the frontend opens with the selected identity.
 3. As `provider admin`, create an e-service and confirm that it appears in the
    producer e-service list after a refresh.
 4. Switch to `comune reviewer` and confirm that the risk-analysis/reviewer area
