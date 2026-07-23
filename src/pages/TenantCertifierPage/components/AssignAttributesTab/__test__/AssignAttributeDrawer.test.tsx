@@ -296,6 +296,9 @@ describe('AssignAttributeDrawer', () => {
       await user.click(tenantAutocomplete)
       const tenantToSelect = await screen.findByRole('option', { name: 'test tenant name' })
       await user.click(tenantToSelect)
+      await waitFor(() => {
+        expect((tenantAutocomplete as HTMLInputElement).value).toBe('test tenant name')
+      })
 
       const submitButton = screen.getByRole('button', { name: 'submitBtnLabel' })
       await user.click(submitButton)
