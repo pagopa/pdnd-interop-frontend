@@ -4,6 +4,7 @@ import type { PluginOption } from 'vite'
 import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { parse } from 'node-html-parser'
+import { configDefaults } from 'vitest/config'
 import { resolveBackendProxy } from './scripts/local-development/vite-config.mjs'
 import { localDashboardPlugin } from './scripts/local-development/vite-dashboard-plugin.mjs'
 
@@ -75,6 +76,7 @@ export default defineConfig(({ mode }) => {
       globals: true,
       environment: 'jsdom',
       setupFiles: './setupTests.ts',
+      exclude: [...configDefaults.exclude, 'e2e/**'],
       server: {
         deps: {
           inline: ['@pagopa/mui-italia'],
