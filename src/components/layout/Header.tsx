@@ -32,7 +32,7 @@ export const getPartyList = (
 ): PartySwitchItem[] => {
   const generatePartyItem = (party: SelfcareInstitution) => {
     const roles =
-      party.id === jwt?.selfcareId
+      isLocalIdentitySelectionEnabled && party.id === jwt?.selfcareId
         ? jwt.organization.roles.map(({ role }) => role)
         : (party.userProductRoles as Array<UserProductRole>)
 

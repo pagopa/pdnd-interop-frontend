@@ -199,7 +199,23 @@ describe('Header', () => {
     ])
   })
 
-  it('uses the JWT roles for the active party returned by Selfcare', () => {
+  it('uses the Selfcare roles for the active party outside local identity selection', () => {
+    const jwtMock = createMockJwtUser({
+      selfcareId: 'id1',
+      organization: {
+        name: 'description1',
+        roles: [{ role: 'security' }],
+      },
+    })
+
+    const result = getPartyList(mockParties, jwtMock, mockTFunction as TFunction<'common'>)
+
+    expect(result[0].productRole).toBe('userProductRole.admin')
+    expect(result[1].productRole).toBe('userProductRole.security, userProductRole.api')
+  })
+
+  it('uses the JWT roles for the active party during local identity selection', () => {
+    localDevelopmentMocks.identitySelectionEnabled = true
     const jwtMock = createMockJwtUser({
       selfcareId: 'id1',
       organization: {
