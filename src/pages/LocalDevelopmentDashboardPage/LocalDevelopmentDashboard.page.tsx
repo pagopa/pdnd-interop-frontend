@@ -209,8 +209,19 @@ const LocalDevelopmentDashboardPage: React.FC = () => {
 
       <Container
         component="main"
-        maxWidth="xl"
-        sx={{ flex: 1, minHeight: 0, overflowY: 'auto', py: { xs: 3, md: 5 } }}
+        maxWidth={false}
+        sx={{
+          flex: 1,
+          minHeight: 0,
+          mx: 0,
+          px: {
+            xs: 2,
+            sm: 3,
+            xl: 'max(24px, calc((100% - 1536px) / 2 + 24px))',
+          },
+          py: { xs: 3, md: 5 },
+          overflowY: 'auto',
+        }}
       >
         <Stack spacing={3}>
           <Stack
