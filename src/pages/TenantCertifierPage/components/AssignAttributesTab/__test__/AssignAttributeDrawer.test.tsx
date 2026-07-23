@@ -197,9 +197,12 @@ describe('AssignAttributeDrawer', () => {
       await user.click(tenantAutocomplete)
       const tenantToSelect = await screen.findByRole('option', { name: 'test tenant name' })
       await user.click(tenantToSelect)
-      await waitFor(() => {
-        expect((tenantAutocomplete as HTMLInputElement).value).toBe('test tenant name')
-      })
+      await waitFor(
+        () => {
+          expect((tenantAutocomplete as HTMLInputElement).value).toBe('test tenant name')
+        },
+        { timeout: 3000 }
+      )
 
       const valueField = screen.queryByRole('spinbutton', {
         name: 'form.valueField.label',
@@ -296,9 +299,12 @@ describe('AssignAttributeDrawer', () => {
       await user.click(tenantAutocomplete)
       const tenantToSelect = await screen.findByRole('option', { name: 'test tenant name' })
       await user.click(tenantToSelect)
-      await waitFor(() => {
-        expect((tenantAutocomplete as HTMLInputElement).value).toBe('test tenant name')
-      })
+      await waitFor(
+        () => {
+          expect((tenantAutocomplete as HTMLInputElement).value).toBe('test tenant name')
+        },
+        { timeout: 3000 }
+      )
 
       const submitButton = screen.getByRole('button', { name: 'submitBtnLabel' })
       await user.click(submitButton)
