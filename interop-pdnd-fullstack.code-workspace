@@ -8,5 +8,71 @@
       "name": "interop-be-monorepo",
       "path": "../interop-be-monorepo"
     }
-  ]
+  ],
+  "settings": {
+    "prettier.enable": false,
+    "editor.formatOnSave": false,
+    "prettier.requireConfig": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit",
+      "source.organizeImports": "never"
+    },
+    "editor.detectIndentation": true,
+    "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+    "eslint.workingDirectories": [{ "mode": "auto" }],
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "vitest.disableWorkspaceWarning": true,
+    "vitest.maximumConfigs": 200,
+    "files.watcherExclude": {
+      "**/target/**": true,
+      "**/.git/**": true,
+      "**/node_modules/**": true,
+      "**/.turbo/**": true,
+      "**/dist/**": true,
+      "**/build/**": true,
+      "**/.next/**": true,
+      "**/coverage/**": true,
+      "**/.cache/**": true,
+      "**/tmp/**": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/.turbo": true,
+      "**/dist": true,
+      "**/build": true,
+      "**/.next": true,
+      "**/coverage": true
+    },
+    "files.exclude": {
+      "**/.turbo": true,
+      "**/dist": true,
+      "**/build": true,
+      "**/.next": true,
+      "**/coverage": true
+    }
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "fullstack:startup-dashboard",
+        "type": "shell",
+        "command": "./.devcontainer/scripts/startup-dashboard.sh",
+        "options": {
+          "cwd": "${workspaceFolder:pdnd-interop-frontend}"
+        },
+        "problemMatcher": [],
+        "runOptions": {
+          "runOn": "folderOpen"
+        },
+        "presentation": {
+          "reveal": "always",
+          "panel": "dedicated",
+          "focus": false,
+          "showReuseMessage": false,
+          "close": false
+        }
+      }
+    ]
+  }
 }
