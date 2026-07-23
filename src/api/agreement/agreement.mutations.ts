@@ -187,10 +187,10 @@ function useDeleteDraftDocument() {
   })
 }
 
-function useActivate() {
+function useActivate(mutationFn: typeof AgreementServices.approve) {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'agreement.activate' })
   return useMutation({
-    mutationFn: AgreementServices.activate,
+    mutationFn,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -201,6 +201,14 @@ function useActivate() {
       },
     },
   })
+}
+
+function useApprove() {
+  return useActivate(AgreementServices.approve)
+}
+
+function useUnsuspend() {
+  return useActivate(AgreementServices.unsuspend)
 }
 
 function useReject() {
@@ -282,7 +290,8 @@ export const AgreementMutations = {
   useUpdateDraft,
   useUploadDraftDocument,
   useDeleteDraftDocument,
-  useActivate,
+  useApprove,
+  useUnsuspend,
   useReject,
   useSuspend,
   useArchive,

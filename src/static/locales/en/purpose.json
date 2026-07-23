@@ -88,8 +88,8 @@
         "label": "I am entitled to use the e-service free of charge"
       },
       "freeOfChargeReasonField": {
-        "label": "Specify the legal basis or reason that allows free access (required)",
-        "infoLabel": "Specify whether this is based on a legal exemption or exclusion, or on another reason. Min 10, max 250 characters"
+        "label": "Explain why you can use the e-service free of charge (required)",
+        "infoLabel": "Indicate whether you are doing so on the basis of a legal exemption or exclusion, or for another reason. Min 10, max 250 characters"
       }
     },
     "stepAssignment": {
@@ -142,11 +142,11 @@
         "na": "n/a",
         "dailyCallsPerConsumer": {
           "label": "Per consumer",
-          "value": "{{min}} available calls out of {{max}}"
+          "value": "<strong>{{min}}</strong> available calls out of <strong>{{max}}</strong>"
         },
         "dailyCallsTotal": {
           "label": "Total",
-          "value": "{{min}} available calls out of {{max}}"
+          "value": "<strong>{{min}}</strong> available calls out of <strong>{{max}}</strong>"
         }
       },
       "alerts": {
@@ -541,11 +541,11 @@
             "na": "n/a",
             "dailyCallsPerConsumer": {
               "label": "Per consumer",
-              "value": "{{min}} available calls out of {{max}}"
+              "value": "<strong>{{min}}</strong> available calls out of <strong>{{max}}</strong>"
             },
             "dailyCallsTotal": {
               "label": "Total",
-              "value": "{{min}} available calls out of {{max}}"
+              "value": "<strong>{{min}}</strong> available calls out of <strong>{{max}}</strong>"
             }
           },
           "riskAnalysisSection": {
