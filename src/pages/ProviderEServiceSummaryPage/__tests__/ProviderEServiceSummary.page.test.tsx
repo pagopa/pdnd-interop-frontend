@@ -268,7 +268,7 @@ describe('ProviderEServiceSummaryPage', () => {
     const approveButton = screen.getByRole('button', {
       name: 'publish - summary.notPublishableTooltip.label',
     })
-    expect(approveButton).toBeDisabled()
+    expect(approveButton).toHaveAttribute('aria-disabled', 'true')
   })
 
   it('renders edit button', () => {
