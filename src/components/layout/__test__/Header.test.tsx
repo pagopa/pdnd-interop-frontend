@@ -13,10 +13,29 @@ import { renderWithApplicationContext } from '@/utils/testing.utils'
 import * as useErrorData from '@/stores/error-data.store'
 import userEvent from '@testing-library/user-event'
 import { assistanceLink } from '@/config/constants'
-import { SELFCARE_BASE_URL, AVATAR_BASEPATH } from '@/config/env'
+import { SELFCARE_BASE_URL, AVATAR_BASEPATH, FE_LOGIN_URL } from '@/config/env'
 import type { Mock } from 'vitest'
 import type { PartySwitchItem } from '@pagopa/mui-italia/components/PartySwitch'
 import type * as ReactQuery from '@tanstack/react-query'
+
+const localDevelopmentMocks = vi.hoisted(() => ({
+  enabled: false,
+  identitySelectionEnabled: false,
+  navigate: vi.fn(),
+}))
+
+vi.mock('@/config/local-development', () => ({
+  get isLocalDevelopmentDashboardEnabled() {
+    return localDevelopmentMocks.enabled
+  },
+  get isLocalIdentitySelectionEnabled() {
+    return localDevelopmentMocks.identitySelectionEnabled
+  },
+}))
+
+vi.mock('@/router', () => ({
+  useNavigate: () => localDevelopmentMocks.navigate,
+}))
 
 // Functions and component mocks
 const mockTFunction = (key: string) => key
@@ -118,6 +137,12 @@ const mockParties: Array<SelfcareInstitution> = [
 ]
 
 describe('Header', () => {
+  afterEach(() => {
+    localDevelopmentMocks.enabled = false
+    localDevelopmentMocks.identitySelectionEnabled = false
+    localDevelopmentMocks.navigate.mockClear()
+  })
+
   it('getPartyList should return an Array of PartySwitchItem', () => {
     const result = getPartyList(mockParties, undefined, mockTFunction as TFunction<'common'>)
 
@@ -172,6 +197,37 @@ describe('Header', () => {
         logoUrl: `${AVATAR_BASEPATH}/institutions/${jwtMock.selfcareId}/logo.png`,
       },
     ])
+  })
+
+  it('uses the Selfcare roles for the active party outside local identity selection', () => {
+    const jwtMock = createMockJwtUser({
+      selfcareId: 'id1',
+      organization: {
+        name: 'description1',
+        roles: [{ role: 'security' }],
+      },
+    })
+
+    const result = getPartyList(mockParties, jwtMock, mockTFunction as TFunction<'common'>)
+
+    expect(result[0].productRole).toBe('userProductRole.admin')
+    expect(result[1].productRole).toBe('userProductRole.security, userProductRole.api')
+  })
+
+  it('uses the JWT roles for the active party during local identity selection', () => {
+    localDevelopmentMocks.identitySelectionEnabled = true
+    const jwtMock = createMockJwtUser({
+      selfcareId: 'id1',
+      organization: {
+        name: 'description1',
+        roles: [{ role: 'security' }],
+      },
+    })
+
+    const result = getPartyList(mockParties, jwtMock, mockTFunction as TFunction<'common'>)
+
+    expect(result[0].productRole).toBe('userProductRole.security')
+    expect(result[1].productRole).toBe('userProductRole.security, userProductRole.api')
   })
 
   it('getPartyList should return an Array of PartySwitchItem with only the jwt PartySwitchItem', () => {
@@ -388,6 +444,32 @@ describe('Header', () => {
     expect(mockWindowAssign).toBeCalledWith(
       `${SELFCARE_BASE_URL}/token-exchange?institutionId=${'test-party-id'}&productId=prod-interop&lang=it`
     )
+  })
+
+  it('opens the configured local login instead of Selfcare in local development', async () => {
+    localDevelopmentMocks.enabled = true
+    localDevelopmentMocks.identitySelectionEnabled = true
+    const user = userEvent.setup()
+    const jwtMock = createMockJwtUser()
+    mockUseGetData({
+      partiesData: mockParties,
+      productsData: mockProducts,
+    })
+    mockHeaderProduct(createMockPartySwitchItem(), createMockProductSwitchItem())
+    const mockWindowAssign = vi.fn()
+    vi.spyOn(window, 'location', 'get').mockReturnValue({
+      assign: mockWindowAssign,
+    } as unknown as Location)
+
+    const screen = renderWithApplicationContext(<Header jwt={jwtMock} />, {
+      withRouterContext: true,
+      withReactQueryContext: true,
+    })
+
+    await user.click(screen.getByRole('button', { name: 'test-selectedParty' }))
+
+    expect(mockWindowAssign).toHaveBeenCalledWith(FE_LOGIN_URL)
+    expect(localDevelopmentMocks.navigate).not.toHaveBeenCalled()
   })
 
   it('Header handleSelectProcuct action should return nothing if selfcareId from jwt is undefined', async () => {

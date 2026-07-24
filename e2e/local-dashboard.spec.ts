@@ -1,0 +1,106 @@
+import { expect, test } from '@playwright/test'
+
+test('shows local services and searches their logs', async ({ page }) => {
+  await page.goto('/ui/local-dashboard/')
+
+  await expect(page.getByRole('heading', { name: 'Ambiente locale' })).toBeVisible()
+  await expect(page.getByText('pagopa-interop-catalog-process', { exact: true })).toBeVisible()
+
+  const startupPanel = page
+    .getByRole('heading', { name: /Avvio dell/ })
+    .locator('..')
+    .locator('..')
+  const searchPanel = page
+    .locator('.MuiPaper-root')
+    .filter({ has: page.getByRole('searchbox', { name: 'Cerca nei log' }) })
+  const servicesPanel = page.getByRole('heading', { name: 'Servizi' }).locator('..').locator('..')
+  const logsPanel = page.getByRole('heading', { name: 'Log' }).locator('..').locator('..')
+  const cardsContainer = servicesPanel.locator('..')
+  const [startupBox, searchBox, servicesBox, logsBox, cardsBox] = await Promise.all([
+    startupPanel.boundingBox(),
+    searchPanel.boundingBox(),
+    servicesPanel.boundingBox(),
+    logsPanel.boundingBox(),
+    cardsContainer.boundingBox(),
+  ])
+
+  expect(startupBox).not.toBeNull()
+  expect(searchBox).not.toBeNull()
+  expect(servicesBox).not.toBeNull()
+  expect(logsBox).not.toBeNull()
+  expect(cardsBox).not.toBeNull()
+  expect(startupBox?.y ?? 0).toBeLessThan(searchBox?.y ?? 0)
+  expect(searchBox?.y ?? 0).toBeLessThan(servicesBox?.y ?? 0)
+  expect(Math.abs((servicesBox?.x ?? 0) - (startupBox?.x ?? 0))).toBeLessThanOrEqual(1)
+  expect((logsBox?.x ?? 0) + (logsBox?.width ?? 0)).toBeLessThanOrEqual(
+    (startupBox?.x ?? 0) + (startupBox?.width ?? 0) + 1
+  )
+  expect((servicesBox?.y ?? 0) + (servicesBox?.height ?? 0)).toBeLessThanOrEqual(
+    (cardsBox?.y ?? 0) + (cardsBox?.height ?? 0) + 1
+  )
+
+  const [rootBox, dashboardBox] = await Promise.all([
+    page.locator('#root').boundingBox(),
+    page.getByTestId('local-development-dashboard').boundingBox(),
+  ])
+  expect(rootBox).not.toBeNull()
+  expect(dashboardBox).not.toBeNull()
+  expect(rootBox?.height ?? 0).toBeGreaterThanOrEqual((dashboardBox?.height ?? 0) - 1)
+
+  const pageLayout = await page.evaluate(() => ({
+    documentHeight: document.documentElement.scrollHeight,
+    viewportHeight: window.innerHeight,
+  }))
+  expect(pageLayout.documentHeight).toBeLessThanOrEqual(pageLayout.viewportHeight)
+
+  const main = page.getByRole('main')
+  const mainLayout = await main.evaluate((element) => ({
+    clientHeight: element.clientHeight,
+    scrollHeight: element.scrollHeight,
+  }))
+  expect(mainLayout.scrollHeight).toBeGreaterThan(mainLayout.clientHeight)
+
+  const headerYBeforeScroll = (await page.getByRole('banner').boundingBox())?.y
+  await main.evaluate((element) => {
+    element.scrollTop = element.scrollHeight
+  })
+  const headerYAfterScroll = (await page.getByRole('banner').boundingBox())?.y
+  expect(headerYAfterScroll).toBe(headerYBeforeScroll)
+
+  const renderedLogRows = page.getByRole('list', { name: 'Log' }).getByRole('listitem')
+  await expect(renderedLogRows.first()).toBeVisible()
+  expect(await renderedLogRows.count()).toBeLessThan(50)
+
+  await page.getByRole('searchbox', { name: 'Cerca nei log' }).fill('Local infrastructure is ready')
+  await expect(page.getByText('Local infrastructure is ready', { exact: false })).toBeVisible()
+})
+
+test('selects a local tenant and role-specific user from the local identity route', async ({
+  page,
+}) => {
+  await page.goto('/ui/it/local-identity-selection/')
+  await page.getByRole('alert').getByRole('button').click()
+
+  await page.getByRole('combobox', { name: 'Ente', exact: true }).click()
+  await page.getByRole('option', { name: 'Provider Demo' }).click()
+  await page.getByRole('combobox', { name: 'Utente', exact: true }).click()
+  await page.getByRole('option', { name: 'Utente Viewer' }).click()
+  await page.getByRole('button', { name: 'Prosegui' }).click()
+
+  await expect(page).not.toHaveURL(/local-identity-selection/)
+  const selectedClaims = await page.evaluate(() => {
+    const token = window.localStorage.getItem('token')
+    if (!token) return null
+    return JSON.parse(atob(token.split('.')[1].replaceAll('-', '+').replaceAll('_', '/')))
+  })
+  expect(selectedClaims).toMatchObject({
+    organizationId: 'f28ce6eb-b314-4abf-8d4f-216bc42cd3e4',
+    uid: '10000000-0000-4000-8000-000000000005',
+    'user-roles': 'viewer',
+  })
+
+  await page.getByRole('button', { name: 'Esci' }).click()
+
+  await expect(page).toHaveURL(/\/ui\/it\/local-identity-selection\/$/)
+  await expect.poll(() => page.evaluate(() => window.localStorage.getItem('token'))).toBeNull()
+})

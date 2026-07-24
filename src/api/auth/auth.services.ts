@@ -6,6 +6,7 @@ import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import { TokenExchangeError } from '@/utils/errors.utils'
 import { parseJwt } from './auth.utils'
 import { hasSessionExpired } from '@/utils/common.utils'
+import { isLocalIdentitySelectionEnabled } from '@/config/local-development'
 
 async function swapTokens(identity_token: string) {
   const response = await axiosInstance.post<{ session_token: string }>(
@@ -26,6 +27,11 @@ async function getSessionToken(): Promise<string | null> {
     window.localStorage.setItem(STORAGE_KEY_SESSION_TOKEN, sessionToken)
     return sessionToken
   }
+
+  const localDevelopmentToken = isLocalIdentitySelectionEnabled
+    ? window.localStorage.getItem(STORAGE_KEY_SESSION_TOKEN)
+    : null
+  if (localDevelopmentToken) return resolveToken(localDevelopmentToken)
 
   // 1. Check if there is a mock token: only used for dev purposes
   if (APP_MODE === 'development' && MOCK_TOKEN) return resolveToken(MOCK_TOKEN)
