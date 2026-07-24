@@ -44,6 +44,7 @@ describe('DialogArchiveEservice', () => {
     renderDialog()
 
     expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByText('content.advice.gracePeriodDescription')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'cancel' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'actions.forward' })).toBeInTheDocument()
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
@@ -91,7 +92,34 @@ describe('DialogArchiveEservice', () => {
     await userEvent.click(screen.getByRole('button', { name: 'archive' }))
     expect(mockScheduleArchive).toHaveBeenCalledTimes(1)
     expect(mockScheduleArchive).toHaveBeenCalledWith(
-      { eserviceId: 'eservice-42', archivingReason: 'Sostituito da nuova versione integrata' },
+      {
+        eserviceId: 'eservice-42',
+        archivingReason: 'Sostituito da nuova versione integrata',
+        gracePeriodDays: 60,
+      },
+      expect.objectContaining({ onSuccess: expect.any(Function) })
+    )
+  })
+
+  it('should submit the grace period selected by the user on the ADVISE step instead of the default one', async () => {
+    renderDialog({ eserviceId: 'eservice-42' })
+
+    const radios = screen.getAllByRole('radio') as Array<HTMLInputElement>
+    const radio120 = radios.find((radio) => radio.value === '120')
+    expect(radio120).toBeDefined()
+
+    await userEvent.click(radio120!)
+    await userEvent.click(screen.getByRole('button', { name: 'actions.forward' }))
+    await userEvent.type(screen.getByRole('textbox'), 'Sostituito da nuova versione integrata')
+    await userEvent.click(screen.getByRole('button', { name: 'archive' }))
+
+    expect(mockScheduleArchive).toHaveBeenCalledTimes(1)
+    expect(mockScheduleArchive).toHaveBeenCalledWith(
+      {
+        eserviceId: 'eservice-42',
+        archivingReason: 'Sostituito da nuova versione integrata',
+        gracePeriodDays: 120,
+      },
       expect.objectContaining({ onSuccess: expect.any(Function) })
     )
   })

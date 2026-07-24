@@ -81,13 +81,23 @@
         "subtitle": "Once created, you can assign and revoke this attribute to other parties",
         "submitBtnLabel": "Create attribute",
         "form": {
-          "nameField": {
-            "label": "Attribute name",
-            "infoLabel": "Min 5 characters, max 160 characters"
+          "kindField": {
+            "label": "Type",
+            "kindRadio": {
+            "optionCertifiedLabel": "Certified attribute",
+            "optionCertifiedDiscreteLabel": "Certified attribute with a value to be customized"
+            }
           },
-          "descriptionField": {
-            "label": "Attribute description",
-            "infoLabel": "Min 10 characters, max 250 characters"
+          "infoFields": {
+            "label": "Information",
+            "nameField": {
+              "label": "Attribute name",
+              "infoLabel": "Min 5 characters, max 160 characters"
+            },
+            "descriptionField": {
+              "label": "Attribute description",
+              "infoLabel": "Min 10 characters, max 250 characters"
+            }
           }
         }
       }
@@ -96,7 +106,7 @@
       "assignAttributeBtn": "Assign attribute",
       "drawer": {
         "title": "Assign attribute",
-        "subtitle": "The assignee party will be able to use the selected certified attribute for all e-services on PDND",
+        "subtitle": "The assignee party may use the certified attribute for all e-services on PDND Interoperabilità.",
         "submitBtnLabel": "Assign attribute",
         "form": {
           "attributeField": {
@@ -104,6 +114,12 @@
           },
           "tenantField": {
             "label": "Assignee party"
+          },
+          "valueField": {
+            "label": "Numerical value",
+            "validation": {
+              "integer": "Value must be an integer"
+            }
           }
         }
       }

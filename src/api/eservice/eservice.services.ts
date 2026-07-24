@@ -19,6 +19,7 @@ import type {
   GetEServicesCatalogParams,
   GetProducerEServicesParams,
   GetProducersParams,
+  GracePeriodDays,
   PresignedUrl,
   ProducerEServiceDescriptor,
   ProducerEServiceDetails,
@@ -197,12 +198,15 @@ function reactivateVersion({
 function scheduleArchiveDescriptor({
   eserviceId,
   descriptorId,
+  gracePeriodDays,
 }: {
   eserviceId: string
   descriptorId: string
+  gracePeriodDays: GracePeriodDays
 }) {
   return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/scheduleArchive`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/scheduleArchive`,
+    { gracePeriodDays }
   )
 }
 
@@ -221,12 +225,15 @@ function cancelDescriptorArchiving({
 function scheduleArchiveEservice({
   eserviceId,
   archivingReason,
+  gracePeriodDays,
 }: {
   eserviceId: string
   archivingReason: string
+  gracePeriodDays: GracePeriodDays
 }) {
   return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/scheduleArchive`, {
     archivingReason,
+    gracePeriodDays,
   })
 }
 
