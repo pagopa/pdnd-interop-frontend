@@ -2,17 +2,7 @@ name: Release version validation
 
 on:
   pull_request:
-    types:
-      [
-        opened,
-        reopened,
-        synchronize,
-        labeled,
-        unlabeled,
-        edited,
-        ready_for_review,
-        converted_to_draft,
-      ]
+    types: [opened, reopened, synchronize, labeled, unlabeled, edited, ready_for_review, converted_to_draft]
 
 concurrency:
   group: ${{ github.workflow }}-pr-${{ github.event.pull_request.number }}
