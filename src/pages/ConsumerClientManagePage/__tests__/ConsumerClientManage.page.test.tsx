@@ -325,4 +325,86 @@ describe('ConsumerClientManagePage', () => {
       'closed-client-id-no-admin'
     )
   })
+
+  it('does not render SetClientAdminDrawer if the user is not an admin', async () => {
+    useJwtSpy.mockReturnValue({
+      jwt: createMockJwtUser(),
+      currentRoles: [],
+      isAdmin: false,
+      userEmail: 'test@email.com',
+      isOperatorAPI: false,
+      isOperatorSecurity: true,
+      isOrganizationAllowedToProduce: false,
+      isReviewer: false,
+      isSupport: false,
+      isViewer: false,
+    })
+
+    renderWithApplicationContext(<ConsumerClientManagePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.queryByTestId('set-client-admin-drawer')).not.toBeInTheDocument()
+  })
+
+  it('does not render sobstitute/remove admin actions if the user is not an admin and client admin is selected', async () => {
+    useJwtSpy.mockReturnValue({
+      jwt: createMockJwtUser(),
+      currentRoles: [],
+      isAdmin: false,
+      userEmail: 'test@email.com',
+      isOperatorAPI: false,
+      isOperatorSecurity: true,
+      isOrganizationAllowedToProduce: false,
+      isReviewer: false,
+      isSupport: false,
+      isViewer: false,
+    })
+
+    renderWithApplicationContext(<ConsumerClientManagePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.queryByText('edit.adminSection.adminLabel')).not.toBeInTheDocument()
+    expect(
+      screen.queryByRole('button', { name: 'edit.adminSection.actions.removeAdminLabel' })
+    ).not.toBeInTheDocument()
+
+    expect(
+      screen.queryByRole('button', { name: 'edit.adminSection.actions.substituteAdminLabel' })
+    ).not.toBeInTheDocument()
+  })
+
+  it('does not render select admin actions if the user is not an admin and client admin is not selected', async () => {
+    useJwtSpy.mockReturnValue({
+      jwt: createMockJwtUser(),
+      currentRoles: [],
+      isAdmin: false,
+      userEmail: 'test@email.com',
+      isOperatorAPI: false,
+      isOperatorSecurity: true,
+      isOrganizationAllowedToProduce: false,
+      isReviewer: false,
+      isSupport: false,
+      isViewer: false,
+    })
+
+    state.client = {
+      id: 'client-id',
+      name: 'Client Name',
+      description: 'Client Description',
+      admin: undefined,
+    }
+
+    renderWithApplicationContext(<ConsumerClientManagePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(
+      screen.queryByRole('button', { name: 'edit.adminSection.actions.selectAdminLabel' })
+    ).not.toBeInTheDocument()
+  })
 })
