@@ -2,7 +2,17 @@ name: Release version validation
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize, labeled, unlabeled, edited, ready_for_review]
+    types:
+      [
+        opened,
+        reopened,
+        synchronize,
+        labeled,
+        unlabeled,
+        edited,
+        ready_for_review,
+        converted_to_draft,
+      ]
 
 concurrency:
   group: ${{ github.workflow }}-pr-${{ github.event.pull_request.number }}
@@ -17,7 +27,7 @@ env:
 jobs:
   validate-dev:
     name: Validate PR towards dev
-    if: github.event.pull_request.state == 'open' && github.event.pull_request.draft == false
+    if: github.event.action == 'converted_to_draft' || (github.event.pull_request.state == 'open' && github.event.pull_request.draft == false)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -92,6 +102,13 @@ jobs:
                 || echo "::warning::Failed to dismiss previous blocking review (id: $review_id)."
             done
           }
+
+          # Early exit: if PR converted to draft, dismiss any blocking review
+          if [[ "$PR_ACTION" == "converted_to_draft" ]]; then
+            echo "PR converted to draft. Dismissing any blocking review."
+            dismiss_blocking_review_if_present
+            exit 0
+          fi
 
           # Only validate for dev branch; dismiss review for any other target branch
           if [[ "$CURRENT_BASE_BRANCH" != "dev" ]]; then
