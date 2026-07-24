@@ -79,36 +79,34 @@ const ConsumerClientManagePage: React.FC = () => {
               description={t('adminSection.description')}
               sx={{ mb: 3 }}
             >
-              {isAdmin && (
-                <>
-                  {client?.admin ? (
-                    <Stack direction="row" justifyContent="space-between" alignItems={'center'}>
-                      <InformationContainer
-                        label={t('adminSection.adminLabel')}
-                        content={`${client.admin.name} ${client.admin.familyName}`}
-                        direction="column"
-                      />
-                      <Stack direction="row" spacing={2}>
-                        <Button variant="outlined" startIcon={<SyncIcon />} onClick={openDrawer}>
-                          {t('adminSection.actions.substituteAdminLabel')}
-                        </Button>
-                        <Button
-                          variant="outlined"
-                          color="error"
-                          startIcon={<DeleteIcon />}
-                          onClick={handleRemoveClientAdmin}
-                        >
-                          {t('adminSection.actions.removeAdminLabel')}
-                        </Button>
-                      </Stack>
+              {client?.admin ? (
+                <Stack direction="row" justifyContent="space-between" alignItems={'center'}>
+                  <InformationContainer
+                    label={t('adminSection.adminLabel')}
+                    content={`${client.admin.name} ${client.admin.familyName}`}
+                    direction="column"
+                  />
+                  {isAdmin && (
+                    <Stack direction="row" spacing={2}>
+                      <Button variant="outlined" startIcon={<SyncIcon />} onClick={openDrawer}>
+                        {t('adminSection.actions.substituteAdminLabel')}
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        startIcon={<DeleteIcon />}
+                        onClick={handleRemoveClientAdmin}
+                      >
+                        {t('adminSection.actions.removeAdminLabel')}
+                      </Button>
                     </Stack>
-                  ) : (
-                    <Button variant="outlined" onClick={openDrawer}>
-                      {t('adminSection.actions.selectAdminLabel')}
-                    </Button>
                   )}
-                </>
-              )}
+                </Stack>
+              ) : isAdmin ? (
+                <Button variant="outlined" onClick={openDrawer}>
+                  {t('adminSection.actions.selectAdminLabel')}
+                </Button>
+              ) : null}
             </SectionContainer>
           </Grid>
         </Grid>

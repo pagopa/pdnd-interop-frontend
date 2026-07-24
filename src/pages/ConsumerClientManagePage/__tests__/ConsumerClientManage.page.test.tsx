@@ -367,7 +367,7 @@ describe('ConsumerClientManagePage', () => {
       withRouterContext: true,
     })
 
-    expect(screen.queryByText('edit.adminSection.adminLabel')).not.toBeInTheDocument()
+    expect(screen.queryByText('edit.adminSection.adminLabel')).toBeInTheDocument()
     expect(
       screen.queryByRole('button', { name: 'edit.adminSection.actions.removeAdminLabel' })
     ).not.toBeInTheDocument()
