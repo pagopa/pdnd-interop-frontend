@@ -5,6 +5,14 @@ FRONTEND_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 RUNTIME_ROOT="$FRONTEND_ROOT/.local-development"
 LOG_FILE="$RUNTIME_ROOT/startup.log"
 STATUS_FILE="$RUNTIME_ROOT/startup.status"
+FOLLOW_ONLY=false
+
+if [[ "${1:-}" == "--follow-only" ]]; then
+  FOLLOW_ONLY=true
+elif [[ -n "${1:-}" ]]; then
+  echo "Usage: $0 [--follow-only]" >&2
+  exit 1
+fi
 
 mkdir -p "$RUNTIME_ROOT"
 touch "$LOG_FILE"
@@ -13,7 +21,9 @@ echo "PDND Interop local environment"
 echo "This terminal follows infrastructure, backend, seed, smoke, and frontend startup."
 echo
 
-"$FRONTEND_ROOT/scripts/local-development/start-background.sh"
+if [[ "$FOLLOW_ONLY" == "false" ]]; then
+  "$FRONTEND_ROOT/scripts/local-development/start-background.sh"
+fi
 
 tail -n +1 -F "$LOG_FILE" &
 TAIL_PID=$!
