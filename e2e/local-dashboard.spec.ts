@@ -94,7 +94,10 @@ test('selects a local tenant and role-specific user from the local identity rout
     return JSON.parse(atob(token.split('.')[1].replaceAll('-', '+').replaceAll('_', '/')))
   })
   expect(selectedClaims).toMatchObject({
-    organizationId: 'f28ce6eb-b314-4abf-8d4f-216bc42cd3e4',
+    organization: {
+      id: '00000000-0000-4000-8000-000000000002',
+      name: 'Provider Demo',
+    },
     uid: '10000000-0000-4000-8000-000000000005',
     'user-roles': 'viewer',
   })
