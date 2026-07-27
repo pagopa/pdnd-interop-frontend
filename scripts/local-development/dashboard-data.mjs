@@ -28,13 +28,17 @@ const STARTUP_CHECKS = [
   },
 ]
 
+const SUCCESSFUL_ONE_SHOT_SERVICES = new Set(['dynamodb-migrations', 'minio-seed'])
+
 export function deriveOverallState({ startupState, processes, infrastructure }) {
   if (startupState !== 'ready') {
     return startupState
   }
 
   const hasStoppedProcess = processes.some(({ state }) => state !== 'running')
-  const hasStoppedInfrastructure = infrastructure.some(({ state }) => state !== 'running')
+  const hasStoppedInfrastructure = infrastructure.some(
+    ({ state }) => state !== 'running' && state !== 'passed'
+  )
 
   return hasStoppedProcess || hasStoppedInfrastructure ? 'degraded' : 'ready'
 }
@@ -100,7 +104,12 @@ export function parseComposeServices(output) {
   return records.map((record) => ({
     name: record.Service,
     container: record.Name,
-    state: record.State,
+    state:
+      record.State === 'exited' &&
+      Number(record.ExitCode) === 0 &&
+      SUCCESSFUL_ONE_SHOT_SERVICES.has(record.Service)
+        ? 'passed'
+        : record.State,
     health: record.Health || null,
   }))
 }

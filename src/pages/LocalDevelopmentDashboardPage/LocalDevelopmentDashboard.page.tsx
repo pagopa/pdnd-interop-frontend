@@ -109,7 +109,8 @@ const LocalDevelopmentDashboardPage: React.FC = () => {
   )
   const runningProcesses = status?.processes.filter(({ state }) => state === 'running').length ?? 0
   const runningInfrastructure =
-    status?.infrastructure.filter(({ state }) => state === 'running').length ?? 0
+    status?.infrastructure.filter(({ state }) => state === 'running' || state === 'passed')
+      .length ?? 0
   const stoppedSupervisors =
     status?.startup.state === 'ready'
       ? status.sessions.filter(
@@ -123,7 +124,7 @@ const LocalDevelopmentDashboardPage: React.FC = () => {
             .filter(({ state }) => state !== 'running')
             .map(({ name, state }) => ({ kind: 'process' as const, name, state })),
           ...status.infrastructure
-            .filter(({ state }) => state !== 'running')
+            .filter(({ state }) => state !== 'running' && state !== 'passed')
             .map(({ name, state }) => ({ kind: 'infrastructure' as const, name, state })),
         ]
       : []

@@ -2,7 +2,7 @@
   "title": "Local environment",
   "description": "Inspect local runtime health and search logs without leaving the frontend.",
   "openFrontend": "Open frontend",
-  "runtimeSummary": "{{runningProcesses}} of {{processCount}} processes and {{runningInfrastructure}} of {{infrastructureCount}} Docker services are running.",
+  "runtimeSummary": "{{runningProcesses}} of {{processCount}} processes are running and {{runningInfrastructure}} of {{infrastructureCount}} Docker services are operational.",
   "lastUpdated": "Updated at {{time}}",
   "connectionError": "The dashboard cannot read the local state. Vite may be restarting.",
   "degradedTitle": "Why the environment is degraded",

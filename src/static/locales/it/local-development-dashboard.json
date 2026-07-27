@@ -2,7 +2,7 @@
   "title": "Ambiente locale",
   "description": "Controlla lo stato del runtime locale e cerca nei log senza uscire dal frontend.",
   "openFrontend": "Apri il frontend",
-  "runtimeSummary": "{{runningProcesses}} processi su {{processCount}} e {{runningInfrastructure}} servizi Docker su {{infrastructureCount}} sono in esecuzione.",
+  "runtimeSummary": "{{runningProcesses}} processi su {{processCount}} sono in esecuzione e {{runningInfrastructure}} servizi Docker su {{infrastructureCount}} sono operativi.",
   "lastUpdated": "Aggiornato alle {{time}}",
   "connectionError": "La dashboard non riesce a leggere lo stato locale. Vite potrebbe essere in fase di riavvio.",
   "degradedTitle": "Perché l’ambiente è degradato",
