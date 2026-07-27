@@ -30,20 +30,15 @@ export const getPartyList = (
   jwt: JwtUser | undefined,
   t: TFunction<'common'>
 ): PartySwitchItem[] => {
-  const generatePartyItem = (party: SelfcareInstitution) => {
-    const roles =
-      isLocalIdentitySelectionEnabled && party.id === jwt?.selfcareId
-        ? jwt.organization.roles.map(({ role }) => role)
-        : (party.userProductRoles as Array<UserProductRole>)
-
-    return {
-      id: party.id,
-      name: party.description,
-      logoUrl: `${AVATAR_BASEPATH}/institutions/${party.id}/logo.png`,
-      productRole: roles.map((role) => t(`userProductRole.${role}`)).join(', '),
-      parentName: party.parent,
-    }
-  }
+  const generatePartyItem = (party: SelfcareInstitution) => ({
+    id: party.id,
+    name: party.description,
+    logoUrl: `${AVATAR_BASEPATH}/institutions/${party.id}/logo.png`,
+    productRole: (party.userProductRoles as Array<UserProductRole>)
+      .map((role) => t(`userProductRole.${role}`))
+      .join(', '),
+    parentName: party.parent,
+  })
 
   if (parties && parties.length > 0) {
     /**
