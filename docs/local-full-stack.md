@@ -140,11 +140,11 @@ After `pnpm local:start`, verify the user-visible contract:
    `Provider Demo`, is visible.
 3. Use the header party switcher to select `Provider Demo` and `Utente Viewer`,
    then confirm that the frontend opens with the selected identity.
-3. As `provider admin`, create an e-service and confirm that it appears in the
+4. As `provider admin`, create an e-service and confirm that it appears in the
    producer e-service list after a refresh.
-4. Switch to `comune reviewer` and confirm that the risk-analysis/reviewer area
+5. Switch to `comune reviewer` and confirm that the risk-analysis/reviewer area
    is accessible.
-5. Switch back to `comune admin` and confirm normal administration navigation.
+6. Switch back to `comune admin` and confirm normal administration navigation.
 
 This is the extended manual UI check. Startup also runs focused Playwright
 checks for the published frontend shell and seeded catalog; API, seed, proxy,
@@ -154,11 +154,11 @@ and configuration behaviour are covered by automated smoke and unit tests.
 
 - Use `pnpm local:status` first, then `pnpm local:logs`.
 - Open <http://localhost:3000/ui/local-dashboard/> to inspect services and
-  search the latest 500 log lines by source, level, process, correlation ID, or
-  message without leaving the browser. Selecting a process in the services
-  table applies the corresponding log filter. Use **Copia log filtrati** to
-  copy the complete filtered result, including virtualized rows, for an issue
-  or troubleshooting note.
+  search the latest 2 MB of logs by source, level, process, correlation ID, or
+  message without leaving the browser. Each query returns up to 500 matching
+  entries. Selecting a process in the services table applies the corresponding
+  log filter. Use **Copia log filtrati** to copy the complete filtered result,
+  including virtualized rows, for an issue or troubleshooting note.
 - Port `5173` is Vite's internal devcontainer port and is used only by health
   checks. From the host browser always use port `3000`.
 - After an unclean Docker shutdown, startup automatically removes a stale
