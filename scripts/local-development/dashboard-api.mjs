@@ -128,7 +128,15 @@ async function readLogsMetadata(frontendRoot) {
 async function defaultComposePs(backendRoot) {
   const { stdout } = await execFileAsync(
     'docker',
-    ['compose', '-f', join(backendRoot, 'docker/docker-compose.yml'), 'ps', '--format', 'json'],
+    [
+      'compose',
+      '-f',
+      join(backendRoot, 'docker/docker-compose.yml'),
+      'ps',
+      '--all',
+      '--format',
+      'json',
+    ],
     { cwd: backendRoot, maxBuffer: 4 * 1024 * 1024 }
   )
   return stdout
