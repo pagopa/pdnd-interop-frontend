@@ -49,12 +49,12 @@ async function readLogMetadata(path) {
 async function readLogRange(path, requestedCursor) {
   let file
   try {
-    const details = await stat(path)
+    file = await open(path, 'r')
+    const details = await file.stat()
     const hasValidCursor =
       Number.isInteger(requestedCursor) && requestedCursor >= 0 && requestedCursor <= details.size
     let startOffset = hasValidCursor ? requestedCursor : Math.max(0, details.size - MAX_LOG_BYTES)
     const length = details.size - startOffset
-    file = await open(path, 'r')
     const buffer = Buffer.alloc(length)
     await file.read(buffer, 0, length, startOffset)
 
