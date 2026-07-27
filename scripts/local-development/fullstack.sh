@@ -111,7 +111,7 @@ stop() {
   for session in interop-frontend interop-backend interop-port-forwards; do
     has_session "$session" && tmux kill-session -t "$session"
   done
-  (cd "$BACKEND_ROOT" && pnpm infra:stop)
+  (cd "$BACKEND_ROOT" && pnpm local:infra:stop)
   printf 'stopped\n' > "$STATUS_FILE"
   echo "Local full stack stopped; Docker volumes were preserved"
 }
