@@ -16,11 +16,14 @@ test('publishes the frontend instead of an internal backend endpoint', async ({ 
 test('renders the e-service created by the local seed', async ({ page }) => {
   await page.goto('/ui/it/catalogo-e-service')
   const accessButton = page.getByRole('button', { name: 'Accedi' })
+  const catalogHeading = page.getByRole('heading', { name: 'Catalogo degli e-service' })
+
+  await expect(accessButton.or(catalogHeading).first()).toBeVisible()
   if (await accessButton.isVisible()) {
     await accessButton.click()
   }
 
-  await expect(page.getByRole('heading', { name: 'Catalogo degli e-service' })).toBeVisible()
+  await expect(catalogHeading).toBeVisible()
   await expect(page.getByText('Catalogo Demo', { exact: true })).toBeVisible()
   await expect(page.getByText('Provider Demo', { exact: true })).toBeVisible()
 })
