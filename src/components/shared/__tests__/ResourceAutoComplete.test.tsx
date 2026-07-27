@@ -4,10 +4,10 @@ import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import type * as ReactHookForm from 'react-hook-form'
 import { useQuery } from '@tanstack/react-query'
-import type { CatalogEService, CatalogEServiceTemplate } from '@/api/api.generatedTypes'
+import type { CatalogEServiceTemplate, CompactCatalogEService } from '@/api/api.generatedTypes'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { ResourceAutoComplete } from '../ResourceAutoComplete'
-import { createMockEServiceCatalog } from '../../../../__mocks__/data/eservice.mocks'
+import { createMockCompactEServiceCatalog } from '../../../../__mocks__/data/eservice.mocks'
 import { createMockCatalogEServiceTemplate } from '../../../../__mocks__/data/eserviceTemplate.mocks'
 import { createMockPurposeTemplate } from '../../../../__mocks__/data/purposeTemplate.mocks'
 
@@ -19,8 +19,8 @@ vi.mock('@tanstack/react-query', async () => {
   }
 })
 
-const { mockedGetCatalogList, mockedGetTemplatesCatalog } = vi.hoisted(() => ({
-  mockedGetCatalogList: vi.fn((_params?: unknown) => ({
+const { mockedGetCompactCatalogList, mockedGetTemplatesCatalog } = vi.hoisted(() => ({
+  mockedGetCompactCatalogList: vi.fn((_params?: unknown) => ({
     queryKey: ['eservice-catalog'],
     queryFn: vi.fn(),
   })),
@@ -32,7 +32,7 @@ const { mockedGetCatalogList, mockedGetTemplatesCatalog } = vi.hoisted(() => ({
 
 vi.mock('@/api/eservice', () => ({
   EServiceQueries: {
-    getCatalogList: mockedGetCatalogList,
+    getCompactCatalogList: mockedGetCompactCatalogList,
   },
 }))
 
@@ -95,7 +95,7 @@ vi.mock('react-i18next', () => ({
   }),
 }))
 
-function setQueryData(eservices: CatalogEService[], templates: CatalogEServiceTemplate[]) {
+function setQueryData(eservices: CompactCatalogEService[], templates: CatalogEServiceTemplate[]) {
   vi.mocked(useQuery)
     .mockReturnValueOnce({
       data: {
@@ -118,7 +118,7 @@ describe('ResourceAutoComplete', () => {
   })
 
   it('renders option labels with discriminated suffix for both kinds', () => {
-    const eservice = createMockEServiceCatalog({
+    const eservice = createMockCompactEServiceCatalog({
       id: 'es-1',
       name: 'Eservice A',
       producer: { id: 'p-1', name: 'Org1' },
@@ -145,7 +145,7 @@ describe('ResourceAutoComplete', () => {
   })
 
   it('filters out resources already linked via composite kind+id key', () => {
-    const eservice = createMockEServiceCatalog({
+    const eservice = createMockCompactEServiceCatalog({
       id: 'shared-id',
       name: 'Eservice A',
       producer: { id: 'p-1', name: 'Org1' },
@@ -183,7 +183,7 @@ describe('ResourceAutoComplete', () => {
       { withReactQueryContext: true }
     )
 
-    expect(mockedGetCatalogList).toHaveBeenCalledWith(
+    expect(mockedGetCompactCatalogList).toHaveBeenCalledWith(
       expect.objectContaining({ personalData: 'TRUE' })
     )
     expect(mockedGetTemplatesCatalog).toHaveBeenCalledWith(
@@ -203,7 +203,7 @@ describe('ResourceAutoComplete', () => {
       { withReactQueryContext: true }
     )
 
-    expect(mockedGetCatalogList).toHaveBeenCalledWith(
+    expect(mockedGetCompactCatalogList).toHaveBeenCalledWith(
       expect.objectContaining({ personalData: 'FALSE' })
     )
     expect(mockedGetTemplatesCatalog).toHaveBeenCalledWith(
@@ -212,7 +212,7 @@ describe('ResourceAutoComplete', () => {
   })
 
   it('dedupe: excludes e-service that is instance of an active template (mergeLinkableCandidates wiring)', () => {
-    const eserviceInstance = createMockEServiceCatalog({
+    const eserviceInstance = createMockCompactEServiceCatalog({
       id: 'es-instance',
       name: 'Eservice Instance',
       producer: { id: 'p-1', name: 'Org1' },

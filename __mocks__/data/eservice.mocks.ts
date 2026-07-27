@@ -2,6 +2,7 @@ import type {
   CatalogDescriptorEService,
   CatalogEService,
   CatalogEServiceDescriptor,
+  CompactCatalogEService,
   ProducerEService,
   ProducerEServiceDescriptor,
   ProducerEServiceDetails,
@@ -42,6 +43,21 @@ const createMockEServiceCatalog = createMockFactory<CatalogEService>({
     name: "Agenzia per L'Italia Digitale",
   },
   asyncExchange: false,
+})
+
+const createMockCompactEServiceCatalog = createMockFactory<CompactCatalogEService>({
+  activeDescriptor: {
+    id: 'e9762e42-129a-4b07-9b2e-9614998ef9b8',
+    state: 'PUBLISHED',
+    version: '1',
+    audience: [],
+  },
+  name: '!! -- CAMMELLO -- Test 18/10 [1]',
+  id: 'ad474d35-7939-4bee-bde9-4e469cca1030',
+  producer: {
+    id: '62c6cf7f-f279-41b1-bd76-27982e6491df',
+    name: "Agenzia per L'Italia Digitale",
+  },
 })
 
 const createMockEServiceDescriptorCatalog = createMockFactory<CatalogEServiceDescriptor>({
@@ -519,6 +535,7 @@ function mockUseEServiceCreateContext(
 export {
   createMockEServiceProvider,
   createMockEServiceCatalog,
+  createMockCompactEServiceCatalog,
   createMockEServiceRead,
   createMockEServiceDescriptorCatalog,
   createMockEServiceDescriptorCatalogAsync,

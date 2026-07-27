@@ -42,7 +42,7 @@ const ConsumerPurposesListPage: React.FC = () => {
   })
 
   const { data: eservicesOptions = [] } = useQuery({
-    ...EServiceQueries.getCatalogList({ offset: 0, limit: 50, q: eserviceAutocompleteText }),
+    ...EServiceQueries.getCompactCatalogList({ offset: 0, limit: 50, q: eserviceAutocompleteText }),
     placeholderData: keepPreviousData,
     select: ({ results }) =>
       results.map((o) => ({
@@ -95,7 +95,7 @@ const ConsumerPurposesListPage: React.FC = () => {
   }
 
   const { data: hasActiveEServices } = useQuery({
-    ...EServiceQueries.getCatalogList({
+    ...EServiceQueries.getCompactCatalogList({
       agreementStates: ['ACTIVE'],
       states: ['PUBLISHED'],
       limit: 1,

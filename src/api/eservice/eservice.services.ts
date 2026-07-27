@@ -3,6 +3,7 @@ import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import type {
   CatalogEServiceDescriptor,
   CatalogEServices,
+  CompactCatalogEServices,
   CompactOrganizations,
   CreatedEServiceDescriptor,
   CreatedResource,
@@ -15,6 +16,7 @@ import type {
   EServiceRiskAnalysisSeed,
   EServiceSeed,
   FileResource,
+  GetCompactCatalogEServicesParams,
   GetConsumersParams,
   GetEServicesCatalogParams,
   GetProducerEServicesParams,
@@ -52,6 +54,14 @@ async function getCatalogList(params: GetEServicesCatalogParams) {
 
 async function getAllCatalogEServices(params: Omit<GetEServicesCatalogParams, 'limit' | 'offset'>) {
   return await getAllFromPaginated((offset, limit) => getCatalogList({ ...params, limit, offset }))
+}
+
+async function getCompactCatalogList(params: GetCompactCatalogEServicesParams) {
+  const response = await axiosInstance.get<CompactCatalogEServices>(
+    `${BACKEND_FOR_FRONTEND_URL}/catalog/eservices`,
+    { params }
+  )
+  return response.data
 }
 
 async function getProviderList(params: GetProducerEServicesParams) {
@@ -676,6 +686,7 @@ async function updateEServiceDelegationFlagsAfterPublication({
 export const EServiceServices = {
   getCatalogList,
   getAllCatalogEServices,
+  getCompactCatalogList,
   getProviderList,
   getSingle,
   getDescriptorCatalog,

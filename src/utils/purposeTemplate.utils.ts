@@ -1,7 +1,7 @@
 import { match } from 'ts-pattern'
 import type {
-  CatalogEService,
   CatalogEServiceTemplate,
+  CompactCatalogEService,
   EServiceDoc,
   LinkableResource,
   LinkableResourceRequest,
@@ -12,7 +12,7 @@ import type {
 } from '@/api/api.generatedTypes'
 
 export type LinkableCandidate =
-  | { resourceKind: 'ESERVICE'; value: CatalogEService }
+  | { resourceKind: 'ESERVICE'; value: CompactCatalogEService }
   | { resourceKind: 'ESERVICE_TEMPLATE'; value: CatalogEServiceTemplate }
 
 export type LinkableResourceView = {
@@ -23,7 +23,7 @@ export type LinkableResourceView = {
 }
 
 export function mergeLinkableCandidates(
-  eservices: CatalogEService[],
+  eservices: CompactCatalogEService[],
   templates: CatalogEServiceTemplate[]
 ): LinkableCandidate[] {
   const standaloneEServices = eservices.filter(

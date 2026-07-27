@@ -4,7 +4,7 @@ import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-input
 import { useTranslation } from 'react-i18next'
 import { useFormContext } from 'react-hook-form'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
-import type { CatalogEService, CompactPurposeEService } from '@/api/api.generatedTypes'
+import type { CompactCatalogEService, CompactPurposeEService } from '@/api/api.generatedTypes'
 import { useQuery } from '@tanstack/react-query'
 
 type DialogClonePurposeEServiceAutocompleteProps = {
@@ -18,13 +18,13 @@ export const DialogClonePurposeEServiceAutocomplete: React.FC<
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogClonePurpose',
   })
-  const selectedEServiceRef = React.useRef<CatalogEService | CompactPurposeEService | undefined>(
-    preselectedEservice
-  )
+  const selectedEServiceRef = React.useRef<
+    CompactCatalogEService | CompactPurposeEService | undefined
+  >(preselectedEservice)
   const hasSetFirstEService = React.useRef(true)
 
   const formatAutocompleteOptionLabel = React.useCallback(
-    (eservice: CatalogEService | CompactPurposeEService) => {
+    (eservice: CompactCatalogEService | CompactPurposeEService) => {
       return `${eservice.name} ${t('eserviceField.eserviceProvider')} ${eservice.producer.name}`
     },
     [t]
@@ -53,7 +53,7 @@ export const DialogClonePurposeEServiceAutocomplete: React.FC<
   }
 
   const { data, isLoading } = useQuery(
-    EServiceQueries.getCatalogList({
+    EServiceQueries.getCompactCatalogList({
       q: getQ(),
       agreementStates: ['ACTIVE'],
       // e-service might also be on 'DEPRECATED' state

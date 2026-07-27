@@ -62,7 +62,7 @@ export const ResourceAutoComplete: React.FC<ResourceAutoCompleteProps> = ({
     selectedResource && searchParam === formatResourceLabel(selectedResource) ? '' : searchParam
 
   const { data: eservicesData } = useQuery(
-    EServiceQueries.getCatalogList({
+    EServiceQueries.getCompactCatalogList({
       q,
       states: ['PUBLISHED'],
       limit: 50,
