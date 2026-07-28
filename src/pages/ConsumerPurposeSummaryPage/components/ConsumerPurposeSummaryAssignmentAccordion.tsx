@@ -18,17 +18,16 @@ export const ConsumerPurposeSummaryAssignmentAccordion: React.FC<
 
   const modeLabel = getReviewModeLabel(purpose.reviewerWorkflow?.reviewMode, t)
 
-  // BE does not yet expose the reviewer's first/last name: we render the raw UUID as a placeholder.
-  // We surface only the first reviewer: the BE models `reviewerIds` as a list to allow multiple
+  // We surface only the first reviewer: the BE models `reviewers` as a list to allow multiple
   // reviewers in the future, but today at most one reviewer is ever assigned.
-  // BE invariant: when `reviewerWorkflow` is defined, `reviewerIds` is non-empty.
-  const reviewerId = purpose.reviewerWorkflow?.reviewerIds[0]
+  const reviewer = purpose.reviewerWorkflow?.reviewers?.[0]
+  const reviewerName = reviewer ? `${reviewer.name} ${reviewer.familyName}`.trim() : undefined
 
   return (
     <Stack spacing={2}>
       <InformationContainer content={modeLabel} direction="row" label={t('mode.label')} />
-      {reviewerId && (
-        <InformationContainer content={reviewerId} direction="row" label={t('reviewer.label')} />
+      {reviewerName && (
+        <InformationContainer content={reviewerName} direction="row" label={t('reviewer.label')} />
       )}
     </Stack>
   )

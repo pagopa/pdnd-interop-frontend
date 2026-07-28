@@ -258,7 +258,7 @@ describe('PurposeEditStepAssignment', () => {
     expect(PurposeEditStepAssignmentForm).not.toHaveBeenCalled()
   })
 
-  it('forwards the purpose and the reviewers list to the read-only step', () => {
+  it('forwards the purpose to the read-only step', () => {
     const reviewers = buildReviewers()
     const purpose = buildPurpose(
       {},
@@ -269,7 +269,7 @@ describe('PurposeEditStepAssignment', () => {
     render(<PurposeEditStepAssignment back={vi.fn()} forward={vi.fn()} activeStep={1} />)
 
     expect(PurposeEditStepAssignmentReadOnly).toHaveBeenCalledWith(
-      expect.objectContaining({ purpose, reviewers }),
+      expect.objectContaining({ purpose }),
       expect.anything()
     )
   })

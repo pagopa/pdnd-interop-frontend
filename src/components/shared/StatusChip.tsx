@@ -98,6 +98,7 @@ const chipColors = {
   eserviceTemplate: CHIP_COLORS_E_SERVICE_TEMPLATE,
   purposeTemplate: CHIP_COLORS_PURPOSE_TEMPLATE,
   riskAnalysis: CHIP_COLORS_RISK_ANALYSIS,
+  riskAnalysisList: CHIP_COLORS_RISK_ANALYSIS,
 } as const
 
 type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
@@ -135,6 +136,10 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
     | {
         for: 'riskAnalysis'
         state: Exclude<RiskAnalysisSigningState, 'DRAFT'>
+      }
+    | {
+        for: 'riskAnalysisList'
+        state: Exclude<RiskAnalysisSigningState, 'DRAFT' | 'SIGNED' | 'REJECTED'>
       }
   )
 
@@ -236,6 +241,11 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
   if (props.for === 'riskAnalysis') {
     color = chipColors['riskAnalysis'][props.state]
     label = t(`status.riskAnalysis.${props.state}`)
+  }
+
+  if (props.for === 'riskAnalysisList') {
+    color = chipColors['riskAnalysisList'][props.state]
+    label = t(`status.riskAnalysisList.${props.state}`)
   }
 
   return (

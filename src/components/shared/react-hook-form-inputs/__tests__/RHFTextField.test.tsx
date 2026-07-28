@@ -201,4 +201,32 @@ describe('determine whether the integration between react-hook-form and MUI’s 
       expect(screen.getByText('validation.mixed.required')).toBeInTheDocument()
     })
   })
+
+  it('should treat a whitespace-only value as empty for required validation', async () => {
+    const user = userEvent.setup()
+    const WhitespaceWrapper = () => {
+      const formMethods = useForm({
+        defaultValues: {
+          username: '',
+        },
+        mode: 'onBlur',
+      })
+
+      return (
+        <FormProvider {...formMethods}>
+          <RHFTextField label="username" name="username" rules={{ required: true }} />
+        </FormProvider>
+      )
+    }
+
+    const { getByRole } = render(<WhitespaceWrapper />)
+    const input = getByRole('textbox')
+
+    await user.type(input, '   ')
+    input.blur()
+
+    await waitFor(() => {
+      expect(screen.getByText('validation.mixed.required')).toBeInTheDocument()
+    })
+  })
 })

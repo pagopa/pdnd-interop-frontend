@@ -17,18 +17,21 @@ export const ConsumerPurposeDetailsAssignmentSection: React.FC<
 
   const modeLabel = getReviewModeLabel(purpose.reviewerWorkflow?.reviewMode, t)
 
-  // We surface only the first reviewer: the BE models `reviewerIds` as a list to allow multiple
+  // We surface only the first reviewer: the BE models `reviewers` as a list to allow multiple
   // reviewers in the future, but today at most one reviewer is ever assigned.
-  // TODO: the BE does not expose the reviewer's name yet, only `reviewerId`. We render the raw id
-  // as a placeholder. Replace it with the reviewer's name/surname once the BE exposes them.
-  const reviewerId = purpose.reviewerWorkflow?.reviewerIds[0]
+  const reviewer = purpose.reviewerWorkflow?.reviewers?.[0]
+  const reviewerName = reviewer ? `${reviewer.name} ${reviewer.familyName}`.trim() : undefined
 
   return (
     <SectionContainer title={t('title')}>
       <Stack spacing={2}>
         <InformationContainer label={t('mode.label')} direction="row" content={modeLabel} />
-        {reviewerId && (
-          <InformationContainer label={t('reviewer.label')} direction="row" content={reviewerId} />
+        {reviewerName && (
+          <InformationContainer
+            label={t('reviewer.label')}
+            direction="row"
+            content={reviewerName}
+          />
         )}
       </Stack>
     </SectionContainer>

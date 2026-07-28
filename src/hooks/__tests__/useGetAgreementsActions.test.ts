@@ -406,6 +406,59 @@ describe('check if useGetAgreementsActions returns the correct actions based on 
   })
 })
 
+describe('check if agreement activation actions call the correct endpoint', () => {
+  it('should unsuspend an agreement suspended by the producer', async () => {
+    const unsuspendHandler = vi.fn((_, res, ctx) => res(ctx.json({})))
+    server.use(
+      rest.post(
+        `${BACKEND_FOR_FRONTEND_URL}/agreements/e8a8153e-9ab2-4aeb-a14c-96aebd4fa049/unsuspend`,
+        unsuspendHandler
+      )
+    )
+    const agreement = createMockAgreement({ state: 'SUSPENDED', suspendedByProducer: true })
+    const { result } = renderUseGetAgreementsActionsHook(agreement, 'provider')
+
+    act(() => result.current.actions[0].action())
+    fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
+
+    await waitFor(() => expect(unsuspendHandler).toHaveBeenCalledOnce())
+  })
+
+  it('should unsuspend an agreement suspended by the consumer', async () => {
+    const unsuspendHandler = vi.fn((_, res, ctx) => res(ctx.json({})))
+    server.use(
+      rest.post(
+        `${BACKEND_FOR_FRONTEND_URL}/agreements/e8a8153e-9ab2-4aeb-a14c-96aebd4fa049/unsuspend`,
+        unsuspendHandler
+      )
+    )
+    const agreement = createMockAgreement({ state: 'SUSPENDED', suspendedByConsumer: true })
+    const { result } = renderUseGetAgreementsActionsHook(agreement, 'consumer')
+
+    act(() => result.current.actions[1].action())
+    fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
+
+    await waitFor(() => expect(unsuspendHandler).toHaveBeenCalledOnce())
+  })
+
+  it('should approve a pending agreement', async () => {
+    const approveHandler = vi.fn((_, res, ctx) => res(ctx.json({})))
+    server.use(
+      rest.post(
+        `${BACKEND_FOR_FRONTEND_URL}/agreements/e8a8153e-9ab2-4aeb-a14c-96aebd4fa049/approve`,
+        approveHandler
+      )
+    )
+    const agreement = createMockAgreement({ state: 'PENDING' })
+    const { result } = renderUseGetAgreementsActionsHook(agreement, 'provider')
+
+    act(() => result.current.actions[1].action())
+    fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
+
+    await waitFor(() => expect(approveHandler).toHaveBeenCalledOnce())
+  })
+})
+
 describe('check if the onSuccess callbacks are called correclty after the clone and delete actions', () => {
   it('should navigate to SUBSCRIBE_AGREEMENT_EDIT route with the returned agreementId after the clone action', async () => {
     const agreement = createMockAgreement({

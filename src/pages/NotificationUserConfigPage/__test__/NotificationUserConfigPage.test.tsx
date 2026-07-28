@@ -6,6 +6,7 @@ import type { UserNotificationConfig } from '@/api/api.generatedTypes'
 import { createUserNotificationConfigs } from '../../../../__mocks__/data/notification.mocks'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
+import { queryClient } from '@/config/query-client'
 
 mockUseJwt()
 
@@ -15,6 +16,10 @@ const server = setupServer(
   })
 )
 beforeAll(() => server.listen())
+
+afterEach(() => {
+  queryClient.clear()
+})
 
 describe('NotificationUserConfigPage', () => {
   beforeEach(() => {

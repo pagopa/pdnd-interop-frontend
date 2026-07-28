@@ -101,6 +101,7 @@ describe('ConsumerPurposePublishThankYouPage', () => {
 
     expect(screen.getByRole('heading', { name: 'waitingForApproval.title' })).toBeInTheDocument()
     expect(screen.getByText('waitingForApproval.description')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'waitingForApproval.action' })).toBeInTheDocument()
   })
 
   it('navigates to purpose details when close button is clicked', async () => {

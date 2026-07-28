@@ -219,14 +219,16 @@ function useCreateDraftFromPurposeTemplate() {
   })
 }
 
-function useAssignRiskAnalysisReviewer() {
+function useAssignRiskAnalysisReviewer({ showSuccessToast }: { showSuccessToast: boolean }) {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'purpose.assignRiskAnalysisReviewer',
   })
   return useMutation({
     mutationFn: PurposeServices.assignRiskAnalysisReviewer,
     meta: {
+      successToastLabel: showSuccessToast ? t('outcome.success') : undefined,
       errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
     },
   })
 }
@@ -238,6 +240,7 @@ function useSubmitRiskAnalysis() {
   return useMutation({
     mutationFn: PurposeServices.submitRiskAnalysis,
     meta: {
+      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
     },

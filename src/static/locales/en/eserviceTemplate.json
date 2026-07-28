@@ -342,15 +342,15 @@
           "title": "Interface",
           "alert": "You can upload a file without contact data, terms and conditions, and server URLs, as these will be filled in by the implementer in the next phase.",
           "description": {
-            "rest": "Upload a draft of the OpenAPI specification that describes the API.",
-            "beforePublishing": "Before publishing, you can use these tools to check:",
-            "technicalCompliance": "technical compliance",
+            "rest": "Upload the OpenAPI file that describes the API.",
+            "beforePublishing": "Before publishing, you can use these tools to:",
+            "technicalCompliance": "check technical compliance",
             "technicalComplianceDescription": "with the ModI guidelines through",
-            "semanticCompliance": "semantic compliance",
-            "semanticComplianceDescription": "with the National Data Catalog annotations through",
+            "semanticCompliance": "verify semantic quality",
+            "semanticComplianceDescription": "of your data schema through the score calculated by",
             "restLinkLabel": "OpenAPI Checker",
             "schemaEditorLinkLabel": "Schema Editor",
-            "soap": "Upload a draft of the WSDL specification that describes the API"
+            "soap": "Upload the WSDL file that describes the API."
           },
           "prettyName": "API specification"
         },

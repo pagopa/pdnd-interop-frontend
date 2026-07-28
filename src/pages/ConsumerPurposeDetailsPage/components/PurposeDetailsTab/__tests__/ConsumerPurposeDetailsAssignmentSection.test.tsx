@@ -21,7 +21,27 @@ describe('ConsumerPurposeDetailsAssignmentSection', () => {
     expect(screen.queryByText('reviewer.label')).not.toBeInTheDocument()
   })
 
-  it('shows the assigned mode and the reviewer id', () => {
+  it('shows the assigned mode and the reviewer name and surname', () => {
+    renderWithApplicationContext(
+      <ConsumerPurposeDetailsAssignmentSection
+        purpose={createMockPurpose({
+          reviewerWorkflow: {
+            reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+            reviewerIds: [reviewerId],
+            reviewers: [{ userId: reviewerId, name: 'Mario', familyName: 'Rossi' }],
+            signingState: 'ASSIGNED',
+          },
+        })}
+      />,
+      { withReactQueryContext: true }
+    )
+
+    expect(screen.getByText('mode.adminWritesReviewerSigns')).toBeInTheDocument()
+    expect(screen.getByText('reviewer.label')).toBeInTheDocument()
+    expect(screen.getByText('Mario Rossi')).toBeInTheDocument()
+  })
+
+  it('does not show the reviewer row when the reviewer workflow has no reviewers', () => {
     renderWithApplicationContext(
       <ConsumerPurposeDetailsAssignmentSection
         purpose={createMockPurpose({
@@ -36,7 +56,6 @@ describe('ConsumerPurposeDetailsAssignmentSection', () => {
     )
 
     expect(screen.getByText('mode.adminWritesReviewerSigns')).toBeInTheDocument()
-    expect(screen.getByText('reviewer.label')).toBeInTheDocument()
-    expect(screen.getByText(reviewerId)).toBeInTheDocument()
+    expect(screen.queryByText('reviewer.label')).not.toBeInTheDocument()
   })
 })

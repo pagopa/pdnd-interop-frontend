@@ -5,22 +5,21 @@ import userEvent from '@testing-library/user-event'
 import PurposeEditStepAssignmentReadOnly from '../PurposeEditStepAssignmentReadOnly'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
-import type { Purpose, RiskAnalysisReviewMode, User } from '@/api/api.generatedTypes'
+import type { CompactUser, Purpose, RiskAnalysisReviewMode } from '@/api/api.generatedTypes'
 
-const mockReviewer: User = {
+const mockReviewer: CompactUser = {
   userId: 'reviewer-uuid-1',
-  tenantId: 'tenant-uuid',
   name: 'Mario',
   familyName: 'Rossi',
-  roles: ['reviewer'],
 }
 
-function buildPurpose(reviewMode: RiskAnalysisReviewMode, reviewerIds: string[]): Purpose {
+function buildPurpose(reviewMode: RiskAnalysisReviewMode, reviewers: Array<CompactUser>): Purpose {
   return {
     ...createMockPurpose({ id: 'purpose-id' }),
     reviewerWorkflow: {
       reviewMode,
-      reviewerIds,
+      reviewerIds: reviewers.map((r) => r.userId),
+      reviewers,
       signingState: 'ASSIGNED',
     },
   }
@@ -28,16 +27,12 @@ function buildPurpose(reviewMode: RiskAnalysisReviewMode, reviewerIds: string[])
 
 function renderComponent(overrides?: {
   purpose?: Purpose
-  reviewers?: Array<User>
   forward?: VoidFunction
   back?: VoidFunction
 }) {
   return renderWithApplicationContext(
     <PurposeEditStepAssignmentReadOnly
-      purpose={
-        overrides?.purpose ?? buildPurpose('ADMIN_WRITES_REVIEWER_SIGNS', ['reviewer-uuid-1'])
-      }
-      reviewers={overrides?.reviewers ?? [mockReviewer]}
+      purpose={overrides?.purpose ?? buildPurpose('ADMIN_WRITES_REVIEWER_SIGNS', [mockReviewer])}
       activeStep={1}
       forward={overrides?.forward ?? vi.fn()}
       back={overrides?.back ?? vi.fn()}
@@ -57,7 +52,7 @@ describe('PurposeEditStepAssignmentReadOnly', () => {
   })
 
   it('renders the "mode" row with the option-2 label and the "reviewer" row for ADMIN_WRITES_REVIEWER_SIGNS', () => {
-    renderComponent({ purpose: buildPurpose('ADMIN_WRITES_REVIEWER_SIGNS', ['reviewer-uuid-1']) })
+    renderComponent({ purpose: buildPurpose('ADMIN_WRITES_REVIEWER_SIGNS', [mockReviewer]) })
 
     expect(screen.getByText('readOnly.modeLabel')).toBeInTheDocument()
     expect(screen.getByText('reviewModeField.options.selfWritesReviewerSigns')).toBeInTheDocument()
@@ -67,7 +62,7 @@ describe('PurposeEditStepAssignmentReadOnly', () => {
 
   it('renders the "mode" row with the option-3 label and the "reviewer" row for REVIEWER_WRITES_REVIEWER_SIGNS', () => {
     renderComponent({
-      purpose: buildPurpose('REVIEWER_WRITES_REVIEWER_SIGNS', ['reviewer-uuid-1']),
+      purpose: buildPurpose('REVIEWER_WRITES_REVIEWER_SIGNS', [mockReviewer]),
     })
 
     expect(screen.getByText('readOnly.modeLabel')).toBeInTheDocument()
@@ -102,10 +97,9 @@ describe('PurposeEditStepAssignmentReadOnly', () => {
     expect(back).toHaveBeenCalledTimes(1)
   })
 
-  it('falls back to a placeholder when the assigned reviewer is not in the reviewers list', () => {
+  it('falls back to a placeholder when the workflow exposes no resolvable reviewer', () => {
     renderComponent({
-      purpose: buildPurpose('ADMIN_WRITES_REVIEWER_SIGNS', ['unknown-reviewer']),
-      reviewers: [mockReviewer],
+      purpose: buildPurpose('ADMIN_WRITES_REVIEWER_SIGNS', []),
     })
 
     expect(screen.getByText('readOnly.reviewerLabel')).toBeInTheDocument()

@@ -17,11 +17,15 @@ export const ConsumerAgreementVersionAlerts: React.FC<ConsumerAgreementVersionAl
 
   if (!descriptor) return null
 
+  const activeDescriptor = descriptor.eservice.activeDescriptor
+  const isObsoleteDescriptor = Boolean(activeDescriptor && activeDescriptor.id !== descriptor.id)
+
   const alerts = getConsumerAgreementVersionAlertSpec({
     state: descriptor.state,
     scope: descriptor.archivingSchedule?.scope,
     archivableOn: descriptor.archivingSchedule?.archivableOn,
     archivedAt: descriptor.archivedAt,
+    isObsoleteDescriptor,
     t,
   })
 
@@ -38,7 +42,7 @@ export const ConsumerAgreementVersionAlerts: React.FC<ConsumerAgreementVersionAl
             severity={alert.severity}
             action={
               alert.showSeeDetailsAction ? (
-                <Button color="inherit" size="small" onClick={() => setIsDrawerOpen(true)}>
+                <Button color="primary" size="small" onClick={() => setIsDrawerOpen(true)}>
                   {t('seeDetails')}
                 </Button>
               ) : undefined

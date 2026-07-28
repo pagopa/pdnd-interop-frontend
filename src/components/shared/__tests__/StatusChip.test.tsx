@@ -18,6 +18,14 @@ describe('StatusChip', () => {
 
     expect(screen.getByText(`status.riskAnalysis.${state}`)).toBeInTheDocument()
   })
+  it.each<Exclude<RiskAnalysisSigningState, 'DRAFT' | 'SIGNED' | 'REJECTED'>>([
+    'ASSIGNED',
+    'SUBMITTED',
+  ])('renders the risk analysis list label for state %s', (state) => {
+    renderWithApplicationContext(<StatusChip for="riskAnalysisList" state={state} />, {})
+
+    expect(screen.getByText(`status.riskAnalysisList.${state}`)).toBeInTheDocument()
+  })
 
   it('masks ARCHIVING as the active (PUBLISHED) status', () => {
     const { baseElement } = render(<StatusChip for="eservice" state="ARCHIVING" />)

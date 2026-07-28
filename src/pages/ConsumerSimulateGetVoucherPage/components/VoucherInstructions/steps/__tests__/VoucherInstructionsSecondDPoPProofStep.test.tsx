@@ -93,6 +93,46 @@ describe('VoucherInstructionsSecondDPoPProofStep', () => {
     ).toBeInTheDocument()
   })
 
+  it('renders PDND M2M guidance for API clients', async () => {
+    useClientKindMock.mockReturnValue('API')
+
+    renderWithApplicationContext(
+      <MemoryRouter>
+        <VoucherInstructionsSecondDPoPProofStep />
+      </MemoryRouter>,
+      { withReactQueryContext: true }
+    )
+
+    expect(
+      screen.getByText('secondDPoPProofStep.assertionPayload.htmField.description.pdnd')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText('secondDPoPProofStep.assertionPayload.htuField.description.pdnd')
+    ).toBeInTheDocument()
+    expect(screen.getByText('secondDPoPProofStep.assertionPayload.alert.pdnd')).toBeInTheDocument()
+  })
+
+  it('renders eservice guidance for consumer clients', async () => {
+    useClientKindMock.mockReturnValue('CONSUMER')
+
+    renderWithApplicationContext(
+      <MemoryRouter>
+        <VoucherInstructionsSecondDPoPProofStep />
+      </MemoryRouter>,
+      { withReactQueryContext: true }
+    )
+
+    expect(
+      screen.getByText('secondDPoPProofStep.assertionPayload.htmField.description.eservice')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText('secondDPoPProofStep.assertionPayload.htuField.description.eservice')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText('secondDPoPProofStep.assertionPayload.alert.eservice')
+    ).toBeInTheDocument()
+  })
+
   it('renders interoperability section for API clients only', async () => {
     useClientKindMock.mockReturnValue('API')
 

@@ -283,7 +283,7 @@
       "loading": "Stiamo modificando i dati di interfaccia dell e-service",
       "outcome": {
         "error": "Non è stato possibile salvare i dati di interfaccia. Assicurati di aver inserito le informazioni corrette.",
-        "success": "Dati di interfaccia sono stati salvati corettamente"
+        "success": "I dati di interfaccia sono stati salvati."
       }
     },
     "deleteAndUpgradeEService": {
@@ -334,11 +334,18 @@
         "success": "L’attributo è stato creato correttamente"
       }
     },
+    "createCertifiedAttribute": {
+      "loading": "Stiamo creando il nuovo attributo",
+      "outcome": {
+        "error": "Non è stato possibile creare l'attributo certificato. Controlla di aver inserito le informazioni corrette.",
+        "success": "Hai creato un nuovo attributo certificato."
+      }
+    },
     "addCertifiedAttribute": {
       "loading": "Stiamo assegnando l'attributo",
       "outcome": {
-        "error": "Non è stato possibile assegnare l’attributo. Per favore, riprova",
-        "success": "L’attributo è stato assegnato correttamente"
+        "error": "Non è stato possibile assegnare l'attributo certificato. Controlla di aver inserito le informazioni corrette.",
+        "success": "Hai assegnato l'attributo certificato."
       }
     },
     "revokeCertifiedAttribute": {
@@ -660,14 +667,17 @@
       }
     },
     "assignRiskAnalysisReviewer": {
+      "loading": "Stiamo assegnando l'analisi del rischio a un valutatore",
       "outcome": {
-        "error": "Non è stato possibile assegnare il valutatore. Per favore, riprova!"
+        "success": "Hai assegnato la compilazione e l’approvazione dell’analisi del rischio a un valutatore.",
+        "error": "Non è stato possibile assegnare l’analisi del rischio."
       }
     },
     "submitRiskAnalysis": {
-      "loading": "Stiamo inviando l’analisi del rischio al valutatore",
+      "loading": "Stiamo assegnando l’analisi del rischio a un valutatore",
       "outcome": {
-        "error": "Non è stato possibile inviare l’analisi del rischio al valutatore. Riprova!"
+        "success": "Hai assegnato l’approvazione dell’analisi del rischio a un valutatore.",
+        "error": "Non è stato possibile assegnare l’analisi del rischio."
       }
     },
     "signRiskAnalysis": {

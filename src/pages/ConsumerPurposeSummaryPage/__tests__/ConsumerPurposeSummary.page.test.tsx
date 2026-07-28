@@ -182,6 +182,47 @@ describe('ConsumerPurposeSummaryPage', () => {
     expect(publishButton).toBeEnabled()
   })
 
+  it('disables publish button when risk analysis is not compiled (DELIVER mode, self-compile assignment)', () => {
+    useQueryMock.mockReturnValue({
+      data: { ...createMockPurposeCompatiblePersonalDataYes(), riskAnalysisForm: undefined },
+      isLoading: false,
+    })
+
+    renderWithApplicationContext(<ConsumerPurposeSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    const publishButton = screen.getByRole('button', {
+      name: 'summary.publishBtn',
+    })
+
+    expect(publishButton).toBeDisabled()
+  })
+
+  it('enables publish button when risk analysis is not compiled but eservice is in RECEIVE mode (provider-supplied)', () => {
+    const purpose = createMockPurposeCompatiblePersonalDataYes()
+    useQueryMock.mockReturnValue({
+      data: {
+        ...purpose,
+        riskAnalysisForm: undefined,
+        eservice: { ...purpose.eservice, mode: 'RECEIVE' },
+      },
+      isLoading: false,
+    })
+
+    renderWithApplicationContext(<ConsumerPurposeSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    const publishButton = screen.getByRole('button', {
+      name: 'summary.publishBtn',
+    })
+
+    expect(publishButton).toBeEnabled()
+  })
+
   it('shows info alert when there is an expiration date to show', () => {
     useQueryMock.mockReturnValue({
       data: createMockPurposeUsesPersonalDataAnswerYes(),
