@@ -15,6 +15,7 @@ import {
 } from '@mui/material'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
+import { match } from 'ts-pattern'
 
 export const DialogRevokeCertifiedAttribute: React.FC<DialogRevokeCertifiedAttributeProps> = ({
   attribute,
@@ -29,6 +30,8 @@ export const DialogRevokeCertifiedAttribute: React.FC<DialogRevokeCertifiedAttri
   const isConfirmDisabled = useIsActionDisabledBySupport(!isConfirmCheckboxChecked)
 
   const { mutate: revokeCertifiedAttribute } = AttributeMutations.useRevokeCertifiedAttribute()
+  const { mutate: revokeCertifiedDiscreteAttribute } =
+    AttributeMutations.useRevokeCertifiedDiscreteAttribute()
 
   const handleCheckBoxChange = () => {
     setIsConfirmCheckboxChecked((prev) => {
@@ -41,7 +44,21 @@ export const DialogRevokeCertifiedAttribute: React.FC<DialogRevokeCertifiedAttri
   }
 
   const handleRevoke = () => {
-    revokeCertifiedAttribute({ tenantId: attribute.tenantId, attributeId: attribute.attributeId })
+    match(attribute.kind)
+      .with('CERTIFIED', () =>
+        revokeCertifiedAttribute({
+          tenantId: attribute.tenantId,
+          attributeId: attribute.attributeId,
+        })
+      )
+      .with('CERTIFIED_DISCRETE', () =>
+        revokeCertifiedDiscreteAttribute({
+          tenantId: attribute.tenantId,
+          attributeId: attribute.attributeId,
+        })
+      )
+      .run()
+
     closeDialog()
   }
 

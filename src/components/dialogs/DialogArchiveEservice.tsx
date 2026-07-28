@@ -1,8 +1,9 @@
 import { EServiceMutations } from '@/api/eservice'
-import { DOCUMENTATION_URL, GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS } from '@/config/env'
+import type { GracePeriodDays } from '@/api/api.generatedTypes'
+import { archivingGuideLink, DEFAULT_GRACE_PERIOD_DAYS } from '@/config/constants'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import { useDialog } from '@/stores'
 import type { DialogArchiveEserviceProps } from '@/types/dialog.types'
-import { formatDateStringNumeric } from '@/utils/format.utils'
 import {
   Alert,
   Box,
@@ -18,13 +19,13 @@ import {
 import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
+import { GracePeriodField } from '../shared/GracePeriodField'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { RequiredTextLabel } from '../shared/RequiredTextLabel'
-import { calculateArchivableOn } from '@/utils/eservice.utils'
-import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
-type ArchiveReasonFormValue = {
+type ArchiveEserviceFormValues = {
   reason: string
+  gracePeriodDays: string
 }
 
 const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceId }) => {
@@ -40,6 +41,10 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
   const { closeDialog } = useDialog()
   const { mutate: scheduleArchive } = EServiceMutations.useScheduleArchiveEservice()
 
+  const formMethods = useForm<ArchiveEserviceFormValues>({
+    defaultValues: { reason: '', gracePeriodDays: String(DEFAULT_GRACE_PERIOD_DAYS) },
+  })
+
   const handleBackAction = () => {
     if (activeStep === 'ADVISE') {
       closeDialog()
@@ -54,17 +59,18 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
     setActiveStep('CONFIRM')
   }
 
-  const onSubmit = ({ reason }: ArchiveReasonFormValue) => {
-    scheduleArchive({ eserviceId, archivingReason: reason }, { onSuccess: closeDialog })
+  const onSubmit = ({ reason, gracePeriodDays }: ArchiveEserviceFormValues) => {
+    scheduleArchive(
+      {
+        eserviceId,
+        archivingReason: reason,
+        gracePeriodDays: Number(gracePeriodDays) as GracePeriodDays,
+      },
+      { onSuccess: closeDialog }
+    )
   }
 
-  const archiveDate = calculateArchivableOn(new Date(), GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS)
-  const formattedArchiveDate = formatDateStringNumeric(archiveDate)
   const isForwardActionDisabled = useIsActionDisabledBySupport()
-
-  const formMethods = useForm<ArchiveReasonFormValue>({
-    defaultValues: { reason: '' },
-  })
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
@@ -72,15 +78,12 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
       <FormProvider {...formMethods}>
         <DialogContent>
           {activeStep === 'ADVISE' && (
-            <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
-              <Trans
-                components={{
-                  strong: <Typography component="span" variant="inherit" fontWeight={600} />,
-                }}
-              >
-                {t('content.advice.description', { date: formattedArchiveDate })}
-              </Trans>
-            </Typography>
+            <Stack spacing={3}>
+              <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+                {t('content.advice.description')}
+              </Typography>
+              <GracePeriodField description={t('content.advice.gracePeriodDescription')} />
+            </Stack>
           )}
 
           {activeStep === 'CONFIRM' && (
@@ -106,7 +109,7 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
           <Alert severity="info" sx={{ mt: 4 }}>
             <Trans
               components={{
-                1: <Link underline="hover" href={DOCUMENTATION_URL} target="_blank" />,
+                1: <Link underline="hover" href={archivingGuideLink} target="_blank" />,
               }}
             >
               {t('content.alert')}

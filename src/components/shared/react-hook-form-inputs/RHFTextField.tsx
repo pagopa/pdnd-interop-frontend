@@ -5,7 +5,11 @@ import { InputWrapper } from '../InputWrapper'
 import type { FieldErrors, FieldValues } from 'react-hook-form'
 import { useFormContext, Controller } from 'react-hook-form'
 import type { ControllerProps } from 'react-hook-form/dist/types/controller'
-import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
+import {
+  getAriaAccessibilityInputProps,
+  mapValidationErrorMessages,
+  withTrimmedRequired,
+} from '@/utils/form.utils'
 import { useTranslation } from 'react-i18next'
 import get from 'lodash/get'
 
@@ -62,7 +66,7 @@ export const RHFTextField: React.FC<RHFTextFieldProps> = ({
     <InputWrapper error={error} sx={sx} infoLabel={infoLabel} {...ids}>
       <Controller
         name={fieldName}
-        rules={mapValidationErrorMessages(rules, t)}
+        rules={withTrimmedRequired(mapValidationErrorMessages(rules, t), t)}
         render={({ field: { ref, onChange: _onChange, ...fieldProps } }) => (
           <MUITextField
             autoFocus={focusOnMount}

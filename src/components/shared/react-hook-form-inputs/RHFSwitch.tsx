@@ -56,6 +56,7 @@ export const RHFSwitch: React.FC<RHFSwitchProps> = ({
               />
             }
             label={label}
+            componentsProps={{ typography: { id: ids.labelId } }}
           />
         )}
       />

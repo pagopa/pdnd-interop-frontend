@@ -39,7 +39,7 @@
     "defaultPurpose": {
       "title": "Nuova finalità",
       "description": "Lorem ipsum dolor sit amet...",
-      "freeOfChargeReason": "Sono una Pubblica Amministrazione"
+      "freeOfChargeReason": "Indica la base giuridica o il motivo che consente l'accesso gratuito (es: attività istituzionale, norma di legge, ecc...)"
     },
     "riskAnalysisPreviewTitle": "Analisi del rischio",
     "purposeTemplateField": {
@@ -85,15 +85,11 @@
         "infoLabel": "Min 10 caratteri, max 250 caratteri"
       },
       "isFreeOfChargeField": {
-        "label": "Come metterai a disposizione i dati che riceverai da questo e-service?",
-        "options": {
-          "YES": "A titolo gratuito",
-          "NO": "A pagamento"
-        }
+        "label": "Ho diritto all'utilizzo dell'e-service a titolo gratuito"
       },
       "freeOfChargeReasonField": {
-        "label": "Motivazione titolo gratuito",
-        "infoLabel": "Spiega perché metterai questi dati a disposizione gratuitamente. Indica se lo fai in base a un’esenzione o a un’esclusione prevista dalla legge, oppure per un altro motivo. Min 10, max 250 caratteri"
+        "label": "Spiega perché puoi usare l’e-service a titolo gratuito (richiesto)",
+        "infoLabel": "Indica se lo fai in base a un’esenzione o a un’esclusione prevista dalla legge, oppure per un altro motivo. Min 10, max 250 caratteri"
       }
     },
     "stepAssignment": {
@@ -141,16 +137,16 @@
         }
       },
       "providerThresholdsInfo": {
-        "label": "Soglie definite dall’erogatore",
-        "description": "Le chiamate residue possono variare se l'erogatore riceve altre finalità prima della tua pubblicazione.",
+        "label": "Chiamate API disponibili al giorno",
+        "description": "Le chiamate disponibili possono variare se l'erogatore riceve altre finalità prima della tua pubblicazione.",
         "na": "n/a",
         "dailyCallsPerConsumer": {
-          "label": "Soglia per fruitore",
-          "value": "{{min}} di {{max}} chiamate API/giorno"
+          "label": "Per fruitore",
+          "value": "<strong>{{min}}</strong> chiamate disponibili su <strong>{{max}}</strong>"
         },
         "dailyCallsTotal": {
-          "label": "Soglia totale",
-          "value": "{{min}} di {{max}} chiamate API/giorno"
+          "label": "Totali",
+          "value": "<strong>{{min}}</strong> chiamate disponibili su <strong>{{max}}</strong>"
         }
       },
       "alerts": {
@@ -540,15 +536,16 @@
             }
           },
           "providerThresholdsInfo": {
-            "label": "Soglie definite dall’erogatore",
-            "description": "Le chiamate residue possono variare se l'erogatore riceve altre finalità prima della tua pubblicazione.",
+            "label": "Chiamate API disponibili al giorno",
+            "description": "Le chiamate disponibili possono variare se l'erogatore riceve altre finalità prima della tua pubblicazione.",
+            "na": "n/a",
             "dailyCallsPerConsumer": {
-              "label": "Soglia per fruitore",
-              "value": "{{min}} di {{max}} chiamate API/giorno"
+              "label": "Per fruitore",
+              "value": "<strong>{{min}}</strong> chiamate disponibili su <strong>{{max}}</strong>"
             },
             "dailyCallsTotal": {
-              "label": "Soglia totale",
-              "value": "{{min}} di {{max}} chiamate API/giorno"
+              "label": "Totali",
+              "value": "<strong>{{min}}</strong> chiamate disponibili su <strong>{{max}}</strong>"
             }
           },
           "riskAnalysisSection": {

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
-import { RHFRadioGroup, RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { RHFSwitch, RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
 import { StepActions } from '@/components/shared/StepActions'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
@@ -14,11 +14,8 @@ import { PurposeLoadEstimationSection } from '@/components/shared/PurposeLoadEst
 
 export type PurposeEditStepGeneralFormValues = Omit<
   PurposeUpdateContent,
-  'riskAnalysisForm' | 'isFreeOfCharge' | 'eserviceId'
-> & {
-  dailyCalls: number
-  isFreeOfCharge: 'YES' | 'NO'
-}
+  'riskAnalysisForm' | 'eserviceId'
+>
 
 type PurposeEditStepGeneralFormProps = ActiveStepProps & {
   purpose: Purpose
@@ -53,13 +50,12 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
 
   const onSubmit = (values: PurposeEditStepGeneralFormValues) => {
     const { dailyCalls, isFreeOfCharge, freeOfChargeReason, ...updateDraftPayload } = values
-    const isFreeOfChargeBool = isFreeOfCharge === 'YES'
     const purposeId = purpose.id
 
     const requestPayload = {
       ...updateDraftPayload,
-      isFreeOfCharge: isFreeOfChargeBool,
-      freeOfChargeReason: isFreeOfChargeBool ? freeOfChargeReason : undefined,
+      isFreeOfCharge,
+      ...(isFreeOfCharge ? { freeOfChargeReason } : {}),
       purposeId,
       dailyCalls: dailyCalls,
     }
@@ -100,17 +96,13 @@ const PurposeEditStepGeneralForm: React.FC<PurposeEditStepGeneralFormProps> = ({
             required
           />
 
-          <RHFRadioGroup
+          <RHFSwitch
             name="isFreeOfCharge"
             label={t('edit.stepGeneral.isFreeOfChargeField.label')}
-            options={[
-              { label: t('edit.stepGeneral.isFreeOfChargeField.options.YES'), value: 'YES' },
-              { label: t('edit.stepGeneral.isFreeOfChargeField.options.NO'), value: 'NO' },
-            ]}
-            required
+            sx={{ pl: 2 }}
           />
 
-          {isFreeOfCharge === 'YES' && (
+          {isFreeOfCharge && (
             <RHFTextField
               name="freeOfChargeReason"
               label={t('edit.stepGeneral.freeOfChargeReasonField.label')}

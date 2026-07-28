@@ -9,7 +9,7 @@ import type {
 import type { AlertColor } from '@mui/material'
 import type { TFunction } from 'i18next'
 import { match } from 'ts-pattern'
-import { formatDateString } from './format.utils'
+import { formatDateStringNumeric } from './format.utils'
 
 /**
  * Checks if the user has already an agreement draft for the given e-service.
@@ -138,11 +138,12 @@ export function getConsumerAgreementVersionAlertSpec(args: {
   scope: ArchivingScope | undefined
   archivableOn: string | undefined
   archivedAt: string | undefined
+  isObsoleteDescriptor: boolean
   t: TFunction<'agreement', 'consumerRead.versionAlert'>
 }): ConsumerAgreementVersionAlertSpec[] {
-  const { state, scope, archivableOn, archivedAt, t } = args
-  const scheduledDate = archivableOn ? formatDateString(archivableOn) : ''
-  const archivedDate = archivedAt ? formatDateString(archivedAt) : ''
+  const { state, scope, archivableOn, archivedAt, isObsoleteDescriptor, t } = args
+  const scheduledDate = archivableOn ? formatDateStringNumeric(archivableOn) : ''
+  const archivedDate = archivedAt ? formatDateStringNumeric(archivedAt) : ''
 
   return match({ state, scope })
     .returnType<ConsumerAgreementVersionAlertSpec[]>()
@@ -150,13 +151,19 @@ export function getConsumerAgreementVersionAlertSpec(args: {
     .with({ state: 'ARCHIVING', scope: 'DESCRIPTOR' }, () => [
       { severity: 'warning', content: t('archivingDescriptor', { date: scheduledDate }) },
     ])
-    .with({ state: 'ARCHIVING', scope: 'ESERVICE' }, () => [
-      {
-        severity: 'warning',
-        content: t('archivingEService', { date: scheduledDate }),
-        showSeeDetailsAction: true,
-      },
-    ])
+    .with({ state: 'ARCHIVING', scope: 'ESERVICE' }, () => {
+      const alerts: ConsumerAgreementVersionAlertSpec[] = [
+        {
+          severity: 'warning',
+          content: t('archivingEService', { date: scheduledDate }),
+          showSeeDetailsAction: true,
+        },
+      ]
+      if (isObsoleteDescriptor) {
+        alerts.push({ severity: 'info', content: t('deprecatedActiveShort') })
+      }
+      return alerts
+    })
     .with({ state: 'ARCHIVING_SUSPENDED', scope: 'DESCRIPTOR' }, () => [
       { severity: 'error', content: t('archivingSuspendedDescriptor', { date: scheduledDate }) },
     ])
