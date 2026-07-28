@@ -52,7 +52,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 
   const viewLatestVersionTargetId = React.useMemo(
-    () => getViewLatestVersionTargetId(descriptor?.eservice.descriptors, descriptorId),
+    () => getViewLatestVersionTargetId(descriptor?.eservice.descriptors, descriptorId, 'provider'),
     [descriptor?.eservice.descriptors, descriptorId]
   )
 

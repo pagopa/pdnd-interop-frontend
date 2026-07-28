@@ -60,12 +60,16 @@ export function getActiveDescriptor(descriptors: Array<CompactDescriptor> | unde
 
 export function getViewLatestVersionTargetId(
   descriptors: Array<CompactDescriptor> | undefined,
-  currentDescriptorId: string | undefined
+  currentDescriptorId: string | undefined,
+  isProviderOrConsumer: 'provider' | 'consumer'
 ) {
+  const excludedStates: Array<EServiceDescriptorState> =
+    isProviderOrConsumer === 'provider'
+      ? ['DRAFT', 'WAITING_FOR_APPROVAL']
+      : ['DRAFT', 'WAITING_FOR_APPROVAL', 'ARCHIVED']
+
   const latestId = getLastDescriptor(
-    descriptors?.filter(
-      (d) => d.state !== 'DRAFT' && d.state !== 'WAITING_FOR_APPROVAL' && d.state !== 'ARCHIVED'
-    )
+    descriptors?.filter((d) => !excludedStates.includes(d.state))
   )?.id
   return latestId && latestId !== currentDescriptorId ? latestId : undefined
 }
