@@ -54,15 +54,14 @@ const ConsumerClientCreatePage: React.FC = () => {
     }
   }
 
-  const backToRoute = clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M' : 'SUBSCRIBE_CLIENT_LIST'
-
   return (
     <PageContainer
       title={t('create.title')}
       description={t('create.description')}
-      backToAction={{
-        label: t('create.actions.backToClientsLabel'),
-        to: backToRoute,
+      navigation={{
+        mode: 'wizard',
+        exitAction:
+          clientKind === 'API' ? { to: 'SUBSCRIBE_INTEROP_M2M' } : { to: 'SUBSCRIBE_CLIENT_LIST' },
       }}
     >
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>

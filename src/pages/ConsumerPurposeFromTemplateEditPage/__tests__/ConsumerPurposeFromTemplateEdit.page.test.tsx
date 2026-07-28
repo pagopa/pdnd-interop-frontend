@@ -34,13 +34,17 @@ vi.mock(
 )
 
 describe('ConsumerPurposeFromTemplateEditPage', () => {
-  it('renders back to list button', () => {
+  it('renders the wizard exit action instead of the previous back to list action', () => {
     renderWithApplicationContext(<ConsumerPurposeFromTemplateEditPage />, {
       withReactQueryContext: true,
       withRouterContext: true,
     })
 
-    expect(screen.getByText('backToListBtn')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'exitButton' })).toHaveAttribute(
+      'href',
+      '/it/fruizione/finalita'
+    )
+    expect(screen.queryByText('backToListBtn')).not.toBeInTheDocument()
   })
   it('renders required label', () => {
     renderWithApplicationContext(<ConsumerPurposeFromTemplateEditPage />, {

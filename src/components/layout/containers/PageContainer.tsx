@@ -2,25 +2,16 @@ import React from 'react'
 import type { SxProps } from '@mui/material'
 import { Box, Button, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
 import type { ActionItemButton } from '@/types/common.types'
-import { Breadcrumbs } from '../Breadcrumbs'
 import { StatusChip } from '@/components/shared/StatusChip'
-import { Link, type RouteKey } from '@/router'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-
-export type PageBackToAction = {
-  label: string
-  to: RouteKey
-  params?: Record<string, string>
-  urlParams?: Record<string, string>
-}
+import { PageNavigation, type PageNavigationProps } from './PageNavigation'
 
 type PageContainerActionsProps = {
   statusChip?: React.ComponentProps<typeof StatusChip>
   topSideActions?: Array<ActionItemButton>
 }
 
-type PageContainerBreadcrumbsProps = {
-  backToAction?: PageBackToAction
+type PageContainerNavigationProps = {
+  navigation?: PageNavigationProps
 }
 
 type PageContainerIntroProps = {
@@ -33,32 +24,51 @@ type PageContainerProps = {
   sx?: SxProps
   children: React.ReactNode
 } & PageContainerActionsProps &
-  PageContainerBreadcrumbsProps &
+  PageContainerNavigationProps &
   PageContainerIntroProps
 
 type PageContainerSkeletonProps = {
   children?: React.ReactNode
-  backToAction?: PageBackToAction
+  navigation?: PageNavigationProps
 }
 
 export const PageContainer: React.FC<PageContainerProps> = ({ children, isLoading, ...props }) => {
+  const [hasUnsavedChanges, setHasUnsavedChanges] = React.useState(false)
+  const wizardStepKey = props.navigation?.mode === 'wizard' ? props.navigation.stepKey : undefined
+
+  React.useEffect(() => {
+    setHasUnsavedChanges(false)
+  }, [wizardStepKey])
+
+  const navigation =
+    props.navigation?.mode === 'wizard'
+      ? { ...props.navigation, hasUnsavedChanges }
+      : props.navigation
+
   return (
     <Box>
-      <PageContainerBreadcrumbs {...props} />
+      <PageContainerNavigation navigation={navigation} />
       {isLoading ? <PageContainerIntroSkeleton /> : <PageContainerIntro {...props} />}
       {!isLoading && <PageContainerActions {...props} />}
-      <Box sx={{ mt: 1 }}>{children}</Box>
+      <Box
+        sx={{ mt: 1 }}
+        onChangeCapture={
+          props.navigation?.mode === 'wizard' ? () => setHasUnsavedChanges(true) : undefined
+        }
+      >
+        {children}
+      </Box>
     </Box>
   )
 }
 
 export const PageContainerSkeleton: React.FC<PageContainerSkeletonProps> = ({
   children,
-  backToAction,
+  navigation,
 }) => {
   return (
     <Box>
-      <PageContainerBreadcrumbs backToAction={backToAction} />
+      <PageContainerNavigation navigation={navigation} />
       <PageContainerIntroSkeleton />
       <Box sx={{ mt: 1 }}>{children}</Box>
     </Box>
@@ -95,30 +105,9 @@ const PageContainerSubtitle: React.FC<PageContainerSubtitle> = ({ description })
     description
   )
 }
-const PageContainerBreadcrumbs: React.FC<PageContainerBreadcrumbsProps> = ({ backToAction }) => {
-  return (
-    <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 1 }}>
-      {backToAction && (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        <Link
-          to={backToAction.to}
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          params={backToAction.params}
-          options={backToAction.urlParams ? { urlParams: backToAction.urlParams } : undefined}
-          as="button"
-          startIcon={<ArrowBackIcon />}
-          size="small"
-          variant="naked"
-        >
-          {backToAction.label}
-        </Link>
-      )}
-      <Breadcrumbs />
-    </Stack>
-  )
-}
+const PageContainerNavigation: React.FC<PageContainerNavigationProps> = ({ navigation }) => (
+  <PageNavigation {...(navigation ?? {})} />
+)
 
 const PageContainerActions: React.FC<PageContainerActionsProps> = ({
   statusChip,

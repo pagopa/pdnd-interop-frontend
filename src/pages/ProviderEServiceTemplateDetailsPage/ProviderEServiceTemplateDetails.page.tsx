@@ -50,10 +50,7 @@ const ProviderEServiceTemplateDetailsPage: React.FC = () => {
             }
           : undefined
       }
-      backToAction={{
-        label: t('actions.backToEserviceTemplateListLabel'),
-        to: 'PROVIDE_ESERVICE_TEMPLATE_LIST',
-      }}
+      navigation={{ showBackButton: true }}
     >
       <TabContext value={activeTab}>
         <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">

@@ -13,12 +13,10 @@ import { Alert, Link } from '@mui/material'
 import { useDrawerState } from '@/hooks/useDrawerState'
 import { RejectReasonDrawer } from '@/components/shared/RejectReasonDrawer'
 import { useGetDelegationActions } from '@/hooks/useGetDelegationActions'
-import { AuthHooks } from '@/api/auth'
 
 export const DelegationDetailsPage: React.FC = () => {
   const { delegationId } = useParams<'DELEGATION_DETAILS'>()
   const { t } = useTranslation('party', { keyPrefix: 'delegations.details' })
-  const { jwt } = AuthHooks.useJwt()
 
   const { data: delegation, isLoading } = useQuery(
     DelegationQueries.getSingle({ delegationId: delegationId })
@@ -30,18 +28,11 @@ export const DelegationDetailsPage: React.FC = () => {
 
   const { actions } = useGetDelegationActions(delegation)
 
-  const backToDelegationListTabKey =
-    delegation?.delegator.id === jwt?.organizationId ? 'delegationsGranted' : 'delegationsReceived'
-
   return (
     <PageContainer
       title={t('title')}
       isLoading={isLoading}
-      backToAction={{
-        label: t('backToDelegationList'),
-        to: 'DELEGATIONS',
-        urlParams: { tab: backToDelegationListTabKey },
-      }}
+      navigation={{ showBackButton: true }}
       topSideActions={actions}
     >
       {delegation && delegation.state === 'REJECTED' && delegation.rejectionReason && (

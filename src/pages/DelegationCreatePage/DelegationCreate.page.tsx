@@ -25,9 +25,10 @@ export const DelegationCreatePage: React.FC = () => {
   return (
     <PageContainer
       title={t('delegations.create.title')}
-      backToAction={{
-        label: t('delegations.actions.backToDelegations'),
-        to: 'DELEGATIONS',
+      navigation={{
+        mode: 'wizard',
+        exitAction: { to: 'DELEGATIONS' },
+        stepKey: activeStep,
       }}
     >
       <Stack spacing={2}>

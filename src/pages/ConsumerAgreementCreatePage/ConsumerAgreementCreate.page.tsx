@@ -118,10 +118,7 @@ const ConsumerAgreementCreatePage: React.FC = () => {
             }
           : undefined
       }
-      backToAction={{
-        label: t('backToRequestsBtn'),
-        to: 'SUBSCRIBE_AGREEMENT_LIST',
-      }}
+      navigation={{ mode: 'wizard', exitAction: { to: 'SUBSCRIBE_AGREEMENT_LIST' } }}
     >
       {alertProps && (
         <Alert sx={{ mb: 3 }} severity={alertProps.severity}>

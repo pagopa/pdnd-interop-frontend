@@ -5,17 +5,12 @@ import {
   OperatorGeneralInfoSection,
   OperatorGeneralInfoSectionSkeleton,
 } from './components/OperatorGeneralInfoSection'
-import { useTranslation } from 'react-i18next'
 import { Grid } from '@mui/material'
-import { useClientKind } from '@/hooks/useClientKind'
 import { useGetClientOperatorsActions } from '@/hooks/useGetClientOperatorsActions'
 import { useQuery } from '@tanstack/react-query'
 import { SelfcareQueries } from '@/api/selfcare'
 
 const OperatorDetailsPage: React.FC = () => {
-  const clientKind = useClientKind()
-  const { t } = useTranslation('user')
-
   const { clientId: clientId, operatorId } = useParams<
     'SUBSCRIBE_INTEROP_M2M_CLIENT_OPERATOR_EDIT' | 'SUBSCRIBE_CLIENT_OPERATOR_EDIT'
   >()
@@ -24,20 +19,12 @@ const OperatorDetailsPage: React.FC = () => {
 
   const { actions } = useGetClientOperatorsActions(operatorId, clientId)
 
-  const backToOperatorsListRouteKey =
-    clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT' : 'SUBSCRIBE_CLIENT_EDIT'
-
   return (
     <PageContainer
       isLoading={isLoading}
       title={operatorFullname}
       topSideActions={actions}
-      backToAction={{
-        label: t('backToMemberListBtn'),
-        to: backToOperatorsListRouteKey,
-        urlParams: { tab: 'clientOperators' },
-        params: { clientId },
-      }}
+      navigation={{ showBackButton: true }}
     >
       <Grid spacing={2} container>
         <Grid item xs={7}>

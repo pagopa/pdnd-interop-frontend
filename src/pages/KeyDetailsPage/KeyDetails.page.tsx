@@ -3,7 +3,6 @@ import { ClientQueries } from '@/api/client'
 import { PageContainer } from '@/components/layout/containers'
 import { useParams } from '@/router'
 import { Trans, useTranslation } from 'react-i18next'
-import { useClientKind } from '@/hooks/useClientKind'
 import {
   KeyGeneralInfoSectionSkeleton,
   KeyGeneralInfoSection,
@@ -15,13 +14,9 @@ import { useQuery } from '@tanstack/react-query'
 
 const KeyDetailsPage: React.FC = () => {
   const { t } = useTranslation('key')
-  const clientKind = useClientKind()
   const { clientId, kid } = useParams<
     'SUBSCRIBE_INTEROP_M2M_CLIENT_KEY_EDIT' | 'SUBSCRIBE_CLIENT_KEY_EDIT'
   >()
-
-  const backToOperatorsListRouteKey =
-    clientKind === 'API' ? 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT' : 'SUBSCRIBE_CLIENT_EDIT'
 
   const { data: publicKey, isLoading } = useQuery(ClientQueries.getSingleKey(clientId, kid))
 
@@ -32,12 +27,7 @@ const KeyDetailsPage: React.FC = () => {
       isLoading={isLoading}
       title={publicKey?.name}
       topSideActions={actions}
-      backToAction={{
-        label: t('backToKeyListBtn'),
-        to: backToOperatorsListRouteKey,
-        params: { clientId },
-        urlParams: { tab: 'publicKeys' },
-      }}
+      navigation={{ showBackButton: true }}
     >
       <React.Suspense fallback={<KeyGeneralInfoSectionSkeleton />}>
         {publicKey?.isOrphan && (
