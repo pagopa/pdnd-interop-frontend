@@ -371,7 +371,13 @@
   "singleFileInput": {
     "dropzone": {
       "button": "Upload file",
-      "label": "Drag the file here or click to select it from your computer"
+      "label": "Drag the file here or click to select it from your computer",
+      "allowedExtensions": {
+        "generic": "You can only upload files with extension .pdf, .json, .md, .yaml, .yml, .txt, .xsd, .wsdl, .xml",
+        "rest": "You can only upload files with extension .yaml, .json",
+        "soap": "You can only upload files with extension .wsdl, .xml",
+        "eserviceImport": "You can only upload files with extension .zip"
+      }
     },
     "loadingLabel": "Uploading..."
   },

@@ -371,7 +371,13 @@
   "singleFileInput": {
     "dropzone": {
       "button": "Carica il file",
-      "label": "Trascina qui il file o clicca qui per selezionarlo dal tuo computer"
+      "label": "Trascina qui il file o clicca qui per selezionarlo dal tuo computer",
+      "allowedExtensions": {
+        "generic": "Puoi caricare solo file con estensione .pdf, .json, .md, .yaml, .yml, .txt, .xsd, .wsdl, .xml",
+        "rest": "Puoi caricare solo file con estensione .yaml, .json",
+        "soap": "Puoi caricare solo file con estensione .wsdl, .xml",
+        "eserviceImport": "Puoi caricare solo file con estensione .zip"
+      }
     },
     "loadingLabel": "Caricamento in corso..."
   },

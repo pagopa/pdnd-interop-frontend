@@ -69,6 +69,7 @@ export const UploadTemplateCallbackInterfaceDoc: React.FC = () => {
         onSubmit={onSubmit}
         sxBox={{ py: 2 }}
         dropzoneLabel={t('callbackInterface.dropzoneLabel')}
+        technology={eserviceTemplateVersion?.eserviceTemplate.technology}
       />
     ))
     .with(P.not(null), (actualInterface) => (
