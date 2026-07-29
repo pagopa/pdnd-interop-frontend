@@ -90,6 +90,7 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
                     value={o.value}
                     control={
                       <Checkbox
+                        role="checkbox"
                         checked={field.value?.includes(o.value) ?? false}
                         onChange={onChange}
                         name={String(o.value)}
