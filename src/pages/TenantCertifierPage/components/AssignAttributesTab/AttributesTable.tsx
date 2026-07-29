@@ -11,7 +11,12 @@ type AttributesTableProps = {
 export const AttributesTable: React.FC<AttributesTableProps> = ({ attributes }) => {
   const { t } = useTranslation('common', { keyPrefix: 'table.headData' })
 
-  const headLabels = [t('assigneeTenant'), t('certifiedAttribute'), '']
+  const headLabels = [
+    t('assigneeTenant'),
+    t('certifiedAttribute'),
+    t('certifiedDiscreteAttributeValue'),
+    '',
+  ]
 
   const isEmpty = attributes && attributes.length === 0
 

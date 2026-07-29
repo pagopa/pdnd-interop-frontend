@@ -2,6 +2,7 @@ import type { RequesterCertifiedAttribute } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { useDialog } from '@/stores'
+import { formatThousands } from '@/utils/format.utils'
 import { Button, Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
@@ -24,8 +25,10 @@ export const AttributesTableRow: React.FC<AttributesTableRowProps> = ({ attribut
     })
   }
 
+  const attributeValue = attribute.discreteValue ? formatThousands(attribute.discreteValue) : '-'
+
   return (
-    <TableRow cellData={[attribute.tenantName, attribute.attributeName]}>
+    <TableRow cellData={[attribute.tenantName, attribute.attributeName, attributeValue]}>
       {isAdmin && (
         <Button variant="outlined" color="error" size="small" onClick={handleRevoke}>
           {t(`actions.revoke`)}
