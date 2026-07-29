@@ -156,6 +156,15 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
       >
         <Stack component="form" noValidate spacing={3}>
           <RHFAutocompleteSingle
+            label={t('form.tenantField.label')}
+            size="small"
+            onInputChange={(_, value) => setTenantSearchParam(value)}
+            sx={{ mb: 0, flex: 1 }}
+            options={tenantOptions}
+            name="tenant"
+            rules={{ required: true }}
+          />
+          <RHFAutocompleteSingle
             label={t('form.attributeField.label')}
             size="small"
             onInputChange={(_, value) => setAttributeSearchParam(value)}
@@ -165,15 +174,6 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
             focusOnMount
             name="attribute"
             aria-controls={isSelectedAttributeCertifiedDiscrete ? 'value-field' : undefined}
-            rules={{ required: true }}
-          />
-          <RHFAutocompleteSingle
-            label={t('form.tenantField.label')}
-            size="small"
-            onInputChange={(_, value) => setTenantSearchParam(value)}
-            sx={{ mb: 0, flex: 1 }}
-            options={tenantOptions}
-            name="tenant"
             rules={{ required: true }}
           />
           {isSelectedAttributeCertifiedDiscrete && (
