@@ -2,6 +2,8 @@ import mapValues from 'lodash/mapValues'
 import type { ControllerProps } from 'react-hook-form'
 import type { TFunction } from 'i18next'
 import type { InputDescriptorKey, InputDescriptors } from '@/types/common.types'
+import { CLIENT_ASSERTION_TYP } from '@/config/constants'
+import { jwtDecode } from 'jwt-decode'
 import { z } from 'zod'
 
 /**
@@ -69,6 +71,10 @@ export const urlRegex =
 
 const uuidSchema = z.uuid()
 const jwtSchema = z.jwt()
+const dpopProofHeaderSchema = z.object({
+  typ: z.literal(CLIENT_ASSERTION_TYP),
+  alg: z.string().min(1),
+})
 
 export function isValidUUID(value: string): boolean {
   return uuidSchema.safeParse(value).success
@@ -76,6 +82,19 @@ export function isValidUUID(value: string): boolean {
 
 export function isValidJWT(value: string): boolean {
   return jwtSchema.safeParse(value).success
+}
+
+export function isValidDPoPProof(value: string): boolean {
+  if (value.split('.').length !== 3) {
+    return false
+  }
+
+  try {
+    const header = jwtDecode<unknown>(value, { header: true })
+    return dpopProofHeaderSchema.safeParse(header).success
+  } catch {
+    return false
+  }
 }
 
 export const mapValidationErrorMessages = (
