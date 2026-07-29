@@ -7,7 +7,6 @@ import React from 'react'
 import { useWatch } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 import { RHFRadioGroup } from './react-hook-form-inputs'
-import { theme } from '@pagopa/mui-italia'
 
 type GracePeriodFieldProps = {
   description?: string
@@ -44,15 +43,12 @@ export const GracePeriodField: React.FC<GracePeriodFieldProps> = ({ description 
               </Typography>
             </Stack>
           ) : (
-            t('label')
+            <Typography component="span" variant="body1" fontWeight={600}>
+              {t('label')}
+            </Typography>
           )
         }
         options={options}
-        sx={{
-          '& .MuiFormLabel-root': {
-            color: theme.palette.text.primary,
-          },
-        }}
       />
       <Typography variant="body2">
         <Trans
