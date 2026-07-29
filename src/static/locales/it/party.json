@@ -104,6 +104,8 @@
     },
     "assignTab": {
       "assignAttributeBtn": "Assegna attributo",
+      "revokeAttributeBtn": "Revoca attributo",
+      "changeAttributeValueBtn": "Modifica valore",
       "drawer": {
         "title": "Assegna attributo",
         "subtitle": "L'ente assegnatario potrà usare l'attributo certificato per tutti gli e-service su PDND Interoperabilità.",
@@ -115,6 +117,20 @@
           "tenantField": {
             "label": "Ente assegnatario"
           },
+          "valueField": {
+            "label": "Valore numerico",
+            "validation": {
+              "integer": "Il valore deve essere intero"
+            }
+          }
+        }
+      },
+      "changeValueDrawer": {
+        "title": "Modifica valore",
+        "subtitle": "Modifica i valori dell’attributo certificato <strong>{{attributeName}}</strong> per l’ente <strong>{{tenantName}}</strong>.",
+        "actualValue": "Il valore numerico attuale è <strong>{{value}}</strong>",
+        "submitBtnLabel": "Salva modifiche",
+        "form": {
           "valueField": {
             "label": "Valore numerico",
             "validation": {
