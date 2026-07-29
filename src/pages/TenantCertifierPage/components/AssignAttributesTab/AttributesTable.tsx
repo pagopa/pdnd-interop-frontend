@@ -31,7 +31,12 @@ export const AttributesTable: React.FC<AttributesTableProps> = ({ attributes }) 
 
 export const AttributesTableSkeleton: React.FC = () => {
   const { t } = useTranslation('common', { keyPrefix: 'table.headData' })
-  const headLabels = [t('assigneeTenant'), t('certifiedAttribute'), '']
+  const headLabels = [
+    t('assigneeTenant'),
+    t('certifiedAttribute'),
+    t('certifiedDiscreteAttributeValue'),
+    '',
+  ]
 
   return (
     <Table headLabels={headLabels}>
