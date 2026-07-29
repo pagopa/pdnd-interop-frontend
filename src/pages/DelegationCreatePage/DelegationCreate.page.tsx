@@ -28,6 +28,7 @@ export const DelegationCreatePage: React.FC = () => {
       navigation={{
         mode: 'wizard',
         exitAction: { to: 'DELEGATIONS' },
+        hasUnsavedChanges: activeStep === 'KIND' ? delegationKind != null : undefined,
         stepKey: activeStep,
       }}
     >
