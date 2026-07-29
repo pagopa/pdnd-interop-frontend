@@ -26,11 +26,11 @@ const OperatorsInputTable: React.FC = () => {
 
   const handleRemoveOperator = (operatorId: string) => {
     const newOperators = operators.filter((o) => o.userId !== operatorId)
-    setValue('operators', newOperators)
+    setValue('operators', newOperators, { shouldDirty: true })
   }
 
   const handleAddOperator = (newOperators: Users) => {
-    setValue('operators', [...operators, ...newOperators])
+    setValue('operators', [...operators, ...newOperators], { shouldDirty: true })
   }
 
   const handleOpenAddOperatorDrawer = () => {

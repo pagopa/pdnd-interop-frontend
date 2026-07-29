@@ -42,7 +42,10 @@ export const PageContainer: React.FC<PageContainerProps> = ({ children, isLoadin
 
   const navigation =
     props.navigation?.mode === 'wizard'
-      ? { ...props.navigation, hasUnsavedChanges }
+      ? {
+          ...props.navigation,
+          hasUnsavedChanges: props.navigation.hasUnsavedChanges ?? hasUnsavedChanges,
+        }
       : props.navigation
 
   return (
