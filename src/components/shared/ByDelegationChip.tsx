@@ -31,10 +31,14 @@ export const ByDelegationChip: React.FC<ByDelegationChipProps> = ({ tenantRole, 
         .exhaustive()
     : undefined
 
-  return (
+  const chip = <Chip label={tenantRoleLabel} color={'info'} sx={{ borderRadius: 1, ml: 1 }} />
+
+  return tooltipLabel ? (
     <Tooltip title={tooltipLabel} arrow>
-      <Chip label={tenantRoleLabel} color={'info'} sx={{ borderRadius: 1, ml: 1 }} />
+      {chip}
     </Tooltip>
+  ) : (
+    chip
   )
 }
 

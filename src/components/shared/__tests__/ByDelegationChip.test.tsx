@@ -43,6 +43,12 @@ describe('ByDelegationChip', () => {
     expect(container.querySelector('[aria-label]')).toBeNull()
   })
 
+  it('renders the chip directly without a Tooltip wrapper when delegation is not provided', () => {
+    const { container } = render(<ByDelegationChip tenantRole="DELEGATOR" />)
+    // The chip must be the first child of the container — no Tooltip span wrapper
+    expect(container.firstElementChild).toHaveClass('MuiChip-root')
+  })
+
   it('shows the delegator tooltip with the delegate name when tenantRole is DELEGATOR and delegation is provided', () => {
     render(<ByDelegationChip tenantRole="DELEGATOR" delegation={mockDelegation} />)
     expect(
