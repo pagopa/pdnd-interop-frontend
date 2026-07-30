@@ -134,7 +134,7 @@
     "versionAlert": {
       "deprecatedActive": "Questa versione dell’e-service è obsoleta, ma è ancora attiva. È disponibile una nuova versione.",
       "deprecatedActiveShort": "Questa versione dell’e-service è obsoleta, ma è ancora attiva.",
-      "archivingDescriptor": "Questa versione dell’e-service sarà archiviata il giorno {{date}}. Dopo questa data potrai utilizzare solo la nuova versione per scambiare dati con l’e-service.",
+      "archivingDescriptor": "Questo e-service sarà archiviato il giorno {{date}}. Dopo questa data non potrai più scambiare dati con l’e-service.",
       "archivingSuspendedDescriptor": "Questa versione dell’e-service sarà archiviata il giorno {{date}}. Al momento è sospesa e non può essere utilizzata. È disponibile una nuova versione.",
       "suspendedLast": "Questa versione dell’e-service è al momento sospesa e non può essere utilizzata.",
       "suspendedLastNoNewVersion": "Questa versione dell’e-service è al momento sospesa e non può essere utilizzata. Non è disponibile una nuova versione.",
