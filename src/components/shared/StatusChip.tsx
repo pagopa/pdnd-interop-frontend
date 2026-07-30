@@ -255,8 +255,9 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
         'for',
         'state',
         'agreement',
-        'attributeKey',
+        'purpose',
         'isActiveDescriptor',
+        'isDraftToCorrect',
         'tooltipLabel',
       ])}
     />
