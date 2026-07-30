@@ -447,7 +447,8 @@
       "reviewerWritesReviewerSigns": "Completed and approved by the reviewer"
     },
     "reviewer": {
-      "label": "Reviewer"
+      "label_one": "Reviewer",
+      "label_other": "Reviewers"
     }
   },
   "consumerView": {

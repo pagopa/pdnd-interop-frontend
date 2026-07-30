@@ -4,7 +4,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { PurposeQueries } from '@/api/purpose'
-import { getReviewModeLabel } from '@/utils/purpose.utils'
+import { getReviewModeLabel, getReviewerNames } from '@/utils/purpose.utils'
 
 type ConsumerPurposeSummaryAssignmentAccordionProps = {
   purposeId: string
@@ -18,16 +18,17 @@ export const ConsumerPurposeSummaryAssignmentAccordion: React.FC<
 
   const modeLabel = getReviewModeLabel(purpose.reviewerWorkflow?.reviewMode, t)
 
-  // We surface only the first reviewer: the BE models `reviewers` as a list to allow multiple
-  // reviewers in the future, but today at most one reviewer is ever assigned.
-  const reviewer = purpose.reviewerWorkflow?.reviewers?.[0]
-  const reviewerName = reviewer ? `${reviewer.name} ${reviewer.familyName}`.trim() : undefined
+  const reviewerNames = getReviewerNames(purpose.reviewerWorkflow?.reviewers)
 
   return (
     <Stack spacing={2}>
       <InformationContainer content={modeLabel} direction="row" label={t('mode.label')} />
-      {reviewerName && (
-        <InformationContainer content={reviewerName} direction="row" label={t('reviewer.label')} />
+      {reviewerNames.length > 0 && (
+        <InformationContainer
+          content={reviewerNames.join(', ')}
+          direction="row"
+          label={t('reviewer.label', { count: reviewerNames.length })}
+        />
       )}
     </Stack>
   )
