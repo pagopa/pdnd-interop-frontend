@@ -22,6 +22,7 @@ vi.mock('@/api/purpose', () => ({
 }))
 
 const REVIEWER_ID = '11111111-2222-3333-4444-555555555555'
+const OTHER_REVIEWER_ID = '66666666-7777-8888-9999-000000000000'
 
 const setPurpose = (reviewerWorkflow: ReviewerWorkflow | undefined) => {
   const purpose: Purpose = {
@@ -87,6 +88,26 @@ describe('ConsumerPurposeSummaryAssignmentAccordion', () => {
     expect(screen.getByText('Mario Rossi')).toBeInTheDocument()
   })
 
+  it('renders every assigned reviewer as a comma separated list', () => {
+    setPurpose({
+      reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+      reviewerIds: [REVIEWER_ID, OTHER_REVIEWER_ID],
+      reviewers: [
+        { userId: REVIEWER_ID, name: 'Mario', familyName: 'Rossi' },
+        { userId: OTHER_REVIEWER_ID, name: 'Luigi', familyName: 'Verdi' },
+      ],
+      signingState: 'ASSIGNED',
+    })
+
+    renderWithApplicationContext(
+      <ConsumerPurposeSummaryAssignmentAccordion purposeId="test-id" />,
+      { withReactQueryContext: true }
+    )
+
+    expect(screen.getByText('reviewer.label')).toBeInTheDocument()
+    expect(screen.getByText('Mario Rossi, Luigi Verdi')).toBeInTheDocument()
+  })
+
   it('does not render the "Valutatore" row when the reviewer workflow has no reviewers', () => {
     setPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
@@ -100,6 +121,22 @@ describe('ConsumerPurposeSummaryAssignmentAccordion', () => {
     )
 
     expect(screen.getByText('mode.adminWritesReviewerSigns')).toBeInTheDocument()
+    expect(screen.queryByText('reviewer.label')).not.toBeInTheDocument()
+  })
+
+  it('does not render the "Valutatore" row when the reviewers list is empty', () => {
+    setPurpose({
+      reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+      reviewerIds: [],
+      reviewers: [],
+      signingState: 'ASSIGNED',
+    })
+
+    renderWithApplicationContext(
+      <ConsumerPurposeSummaryAssignmentAccordion purposeId="test-id" />,
+      { withReactQueryContext: true }
+    )
+
     expect(screen.queryByText('reviewer.label')).not.toBeInTheDocument()
   })
 })

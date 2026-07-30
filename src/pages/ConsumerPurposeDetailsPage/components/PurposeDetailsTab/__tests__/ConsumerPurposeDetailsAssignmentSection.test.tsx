@@ -7,6 +7,7 @@ import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 mockUseJwt()
 
 const reviewerId = 'b7f6b32e-6252-4994-ac7b-47622e674e5a'
+const otherReviewerId = 'c1a2b3c4-d5e6-4789-9abc-def012345678'
 
 describe('ConsumerPurposeDetailsAssignmentSection', () => {
   it('shows the autonomy mode and no reviewer when there is no reviewer workflow', () => {
@@ -39,6 +40,28 @@ describe('ConsumerPurposeDetailsAssignmentSection', () => {
     expect(screen.getByText('mode.adminWritesReviewerSigns')).toBeInTheDocument()
     expect(screen.getByText('reviewer.label')).toBeInTheDocument()
     expect(screen.getByText('Mario Rossi')).toBeInTheDocument()
+  })
+
+  it('shows every assigned reviewer as a comma separated list', () => {
+    renderWithApplicationContext(
+      <ConsumerPurposeDetailsAssignmentSection
+        purpose={createMockPurpose({
+          reviewerWorkflow: {
+            reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+            reviewerIds: [reviewerId, otherReviewerId],
+            reviewers: [
+              { userId: reviewerId, name: 'Mario', familyName: 'Rossi' },
+              { userId: otherReviewerId, name: 'Luigi', familyName: 'Verdi' },
+            ],
+            signingState: 'ASSIGNED',
+          },
+        })}
+      />,
+      { withReactQueryContext: true }
+    )
+
+    expect(screen.getByText('reviewer.label')).toBeInTheDocument()
+    expect(screen.getByText('Mario Rossi, Luigi Verdi')).toBeInTheDocument()
   })
 
   it('does not show the reviewer row when the reviewer workflow has no reviewers', () => {
