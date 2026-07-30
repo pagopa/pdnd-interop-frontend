@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { ByDelegationChip, ByDelegationChipSkeleton } from '../ByDelegationChip'
 import type { DelegationWithCompactTenants } from '@/api/api.generatedTypes'
 
