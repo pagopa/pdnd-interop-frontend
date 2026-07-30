@@ -58,4 +58,47 @@ describe('StatusChip', () => {
     )
     expect(container.querySelector('[isdrafttocorrect]')).toBeNull()
   })
+
+  it('renders the isDraftToCorrect warning label when isDraftToCorrect is true', () => {
+    const { baseElement } = render(
+      <StatusChip for="eservice" state="DRAFT" isDraftToCorrect={true} />
+    )
+    expect(baseElement).toHaveTextContent('status.eservice.DRAFT_TO_CORRECT')
+  })
+
+  it('renders the descriptor label for PUBLISHED state', () => {
+    const { baseElement } = render(
+      <StatusChip for="descriptor" state="PUBLISHED" isActiveDescriptor={false} />
+    )
+    expect(baseElement).toHaveTextContent('status.descriptor.PUBLISHED')
+  })
+
+  it('masks descriptor ARCHIVING as PUBLISHED when isActiveDescriptor is true', () => {
+    const { baseElement } = render(
+      <StatusChip for="descriptor" state="ARCHIVING" isActiveDescriptor={true} />
+    )
+    expect(baseElement).toHaveTextContent('status.descriptor.PUBLISHED')
+  })
+
+  it('masks descriptor ARCHIVING_SUSPENDED as SUSPENDED when isActiveDescriptor is true', () => {
+    const { baseElement } = render(
+      <StatusChip for="descriptor" state="ARCHIVING_SUSPENDED" isActiveDescriptor={true} />
+    )
+    expect(baseElement).toHaveTextContent('status.descriptor.SUSPENDED')
+  })
+
+  it('renders the delegation label for ACTIVE state', () => {
+    const { baseElement } = render(<StatusChip for="delegation" state="ACTIVE" />)
+    expect(baseElement).toHaveTextContent('status.delegation.ACTIVE')
+  })
+
+  it('renders the eserviceTemplate label for PUBLISHED state', () => {
+    const { baseElement } = render(<StatusChip for="eserviceTemplate" state="PUBLISHED" />)
+    expect(baseElement).toHaveTextContent('status.eserviceTemplate.PUBLISHED')
+  })
+
+  it('renders the purposeTemplate label for DRAFT state', () => {
+    const { baseElement } = render(<StatusChip for="purposeTemplate" state="DRAFT" />)
+    expect(baseElement).toHaveTextContent('status.purposeTemplate.DRAFT')
+  })
 })

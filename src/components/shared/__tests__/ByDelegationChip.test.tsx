@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
 import { describe, it, expect } from 'vitest'
-import { ByDelegationChip } from '../ByDelegationChip'
+import { ByDelegationChip, ByDelegationChipSkeleton } from '../ByDelegationChip'
 import type { DelegationWithCompactTenants } from '@/api/api.generatedTypes'
 
 vi.mock('react-i18next', () => ({
@@ -60,5 +60,13 @@ describe('ByDelegationChip', () => {
   it('shows the default tooltip when tenantRole is undefined and delegation is provided', () => {
     render(<ByDelegationChip delegation={mockDelegation} />)
     expect(screen.getByLabelText('delegationTooltip.label.default')).toBeInTheDocument()
+  })
+})
+
+describe('ByDelegationChipSkeleton', () => {
+  it('renders a skeleton placeholder', () => {
+    const { container } = render(<ByDelegationChipSkeleton />)
+    expect(container.firstChild).toBeInTheDocument()
+    expect(container.querySelector('.MuiSkeleton-root')).toBeInTheDocument()
   })
 })

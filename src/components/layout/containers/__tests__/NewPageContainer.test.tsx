@@ -8,6 +8,7 @@ const renderComponent = ({
   title,
   backToAction,
   statusChip,
+  byDelegationChip,
   primaryAction,
   secondaryAction,
   menuActions,
@@ -19,6 +20,7 @@ const renderComponent = ({
       title={title}
       backToAction={backToAction}
       statusChip={statusChip}
+      byDelegationChip={byDelegationChip}
       primaryAction={primaryAction}
       secondaryAction={secondaryAction}
       menuActions={menuActions}
@@ -236,5 +238,25 @@ describe('NewPageContainer', () => {
 
     expect(infoSectionAction1).toBeInTheDocument()
     expect(infoSectionAction2).toBeInTheDocument()
+  })
+
+  it('should render the ByDelegationChip when byDelegationChip prop is provided', () => {
+    const screen = renderComponent({
+      children: 'Test children',
+      title: 'Test title',
+      byDelegationChip: { tenantRole: 'DELEGATOR' },
+    })
+
+    expect(screen.getByText('label.delegator')).toBeInTheDocument()
+  })
+
+  it('should not render the ByDelegationChip when byDelegationChip prop is not provided', () => {
+    const screen = renderComponent({
+      children: 'Test children',
+      title: 'Test title',
+    })
+
+    expect(screen.queryByText('label.delegator')).not.toBeInTheDocument()
+    expect(screen.queryByText('label.delegate')).not.toBeInTheDocument()
   })
 })
