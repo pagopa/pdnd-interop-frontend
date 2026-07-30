@@ -41,4 +41,21 @@ describe('StatusChip', () => {
     const { baseElement } = render(<StatusChip for="eservice" state="DEPRECATED" />)
     expect(baseElement).toHaveTextContent('status.eservice.DEPRECATED')
   })
+
+  it('renders a tooltip when tooltipLabel is provided', () => {
+    render(<StatusChip for="eservice" state="PUBLISHED" tooltipLabel="Archiving on 01/08/2026" />)
+    expect(screen.getByLabelText('Archiving on 01/08/2026')).toBeInTheDocument()
+  })
+
+  it('does not render a tooltip when tooltipLabel is not provided', () => {
+    const { container } = render(<StatusChip for="eservice" state="PUBLISHED" />)
+    expect(container.querySelector('[aria-label]')).toBeNull()
+  })
+
+  it('does not leak isDraftToCorrect into the DOM', () => {
+    const { container } = render(
+      <StatusChip for="eservice" state="DRAFT" isDraftToCorrect={true} />
+    )
+    expect(container.querySelector('[isdrafttocorrect]')).toBeNull()
+  })
 })
