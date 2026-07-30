@@ -25,7 +25,7 @@ import { AuthHooks } from '@/api/auth'
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
-  const { isAdmin, isSupport, isOperatorSecurity, isViewer } = AuthHooks.useJwt()
+  const { isAdmin, isSupport, isOperatorSecurity, isViewer, jwt } = AuthHooks.useJwt()
 
   const { activeTab, updateActiveTab } = useActiveTab('eserviceDetails')
   const canViewKeychains = isAdmin || isSupport || isOperatorSecurity
@@ -70,6 +70,12 @@ const ProviderEServiceDetailsPage: React.FC = () => {
 
   const hasMultipleVersions = (descriptor?.eservice.descriptors?.length ?? 0) > 1
 
+  const delegationTenantRole = descriptor?.delegation
+    ? descriptor.delegation.delegator.id === jwt?.organizationId
+      ? 'DELEGATOR'
+      : 'DELEGATE'
+    : undefined
+
   const { primaryAction, secondaryAction, menuActions, headerInfoActions } =
     useGetProviderEServiceActions(
       eserviceId,
@@ -98,6 +104,11 @@ const ProviderEServiceDetailsPage: React.FC = () => {
       secondaryAction={secondaryAction}
       menuActions={menuActions}
       isLoading={!descriptor}
+      byDelegationChip={
+        descriptor?.delegation
+          ? { tenantRole: delegationTenantRole, delegation: descriptor.delegation }
+          : undefined
+      }
       backToAction={{
         label: t('actions.backToListLabel'),
         to: 'PROVIDE_ESERVICE_LIST',

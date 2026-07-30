@@ -12,7 +12,8 @@ import type { EServiceDescriptorState, ProducerEService } from '@/api/api.genera
 import { AuthHooks } from '@/api/auth'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
-import { DelegationTooltip } from '@/components/shared/DelegationTooltip'
+import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
+import { formatDateStringNumeric } from '@/utils/format.utils'
 
 type EServiceTableRow = {
   eservice: ProducerEService
@@ -20,6 +21,9 @@ type EServiceTableRow = {
 
 export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   const { t } = useTranslation('common')
+  const { t: tEservice } = useTranslation('eservice', {
+    keyPrefix: 'read.scheduledArchivalTooltip',
+  })
   const { isAdmin, isOperatorAPI, jwt } = AuthHooks.useJwt()
 
   const queryClient = useQueryClient()
@@ -78,7 +82,12 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
           <Stack direction="row" alignItems={'center'} spacing={1}>
             {eservice.hasUnreadNotifications && <NotificationBadgeDot />}
             <Typography variant="body2">{eservice.name}</Typography>
-            {eservice.delegation && <DelegationTooltip delegation={eservice.delegation} />}
+            {eservice.delegation && (
+              <ByDelegationChip
+                tenantRole={isDelegator ? 'DELEGATOR' : 'DELEGATE'}
+                delegation={eservice.delegation}
+              />
+            )}
           </Stack>
         ) : (
           <Stack direction="row" alignItems="center">
@@ -89,7 +98,19 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
         eservice?.activeDescriptor?.version || '1',
         <Stack key={eservice?.id} direction="row" spacing={1}>
           {eservice?.activeDescriptor && (
-            <StatusChip for="eservice" state={eservice.activeDescriptor.state} />
+            <StatusChip
+              for="eservice"
+              state={eservice.activeDescriptor.state}
+              tooltipLabel={
+                (eservice.activeDescriptor.state === 'ARCHIVING' ||
+                  eservice.activeDescriptor.state === 'ARCHIVING_SUSPENDED') &&
+                eservice.activeDescriptor.archivableOn
+                  ? tEservice('eservice', {
+                      date: formatDateStringNumeric(eservice.activeDescriptor.archivableOn),
+                    })
+                  : undefined
+              }
+            />
           )}
           {(!hasActiveDescriptor || eservice?.draftDescriptor) && (
             <StatusChip

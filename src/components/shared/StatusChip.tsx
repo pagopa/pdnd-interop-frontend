@@ -1,6 +1,6 @@
 import React from 'react'
 import type { MUIColor } from '@/types/common.types'
-import { Chip, Skeleton, Stack } from '@mui/material'
+import { Chip, Skeleton, Stack, Tooltip } from '@mui/material'
 import type { ChipProps } from '@mui/material'
 import omit from 'lodash/omit'
 import { useTranslation } from 'react-i18next'
@@ -101,8 +101,7 @@ const chipColors = {
   riskAnalysisList: CHIP_COLORS_RISK_ANALYSIS,
 } as const
 
-type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
-  (
+type StatusChipProps = Omit<ChipProps, 'color' | 'label'> & { tooltipLabel?: string } & (
     | {
         for: 'eservice'
         state: EServiceDescriptorState
@@ -248,13 +247,26 @@ export const StatusChip: React.FC<StatusChipProps> = (props) => {
     label = t(`status.riskAnalysisList.${props.state}`)
   }
 
-  return (
+  const chip = (
     <Chip
       label={label}
       color={color}
-      {...omit(props, ['for', 'state', 'agreement', 'attributeKey', 'isActiveDescriptor'])}
+      {...omit(props, [
+        'for',
+        'state',
+        'agreement',
+        'attributeKey',
+        'isActiveDescriptor',
+        'tooltipLabel',
+      ])}
     />
   )
+
+  if (props.tooltipLabel) {
+    return <Tooltip title={props.tooltipLabel}>{chip}</Tooltip>
+  }
+
+  return chip
 }
 
 const PurposeStatusChip: React.FC<{ purpose: Purpose }> = ({ purpose }) => {

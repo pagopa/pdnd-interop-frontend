@@ -473,14 +473,14 @@
   "byDelegationChip": {
     "label": {
       "default": "In delega",
-      "delegator": "Delegato",
+      "delegator": "Affidato in delega",
       "delegate": "Ricevuto in delega"
     }
   },
   "delegationTooltip": {
     "label": {
       "default": "In delega",
-      "delegator": "Delegato a {{delegate}}",
+      "delegator": "Affidato in delega a {{delegate}}",
       "delegate": "Ricevuto in delega da {{delegator}}"
     }
   },
