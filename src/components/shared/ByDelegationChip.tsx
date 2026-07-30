@@ -19,15 +19,17 @@ export const ByDelegationChip: React.FC<ByDelegationChipProps> = ({ tenantRole, 
     .with(undefined, () => tChip('label.default'))
     .exhaustive()
 
-  const tooltipLabel = match(tenantRole)
-    .with('DELEGATOR', () =>
-      tTooltip('label.delegator', { delegate: delegation?.delegate.name ?? '' })
-    )
-    .with('DELEGATE', () =>
-      tTooltip('label.delegate', { delegator: delegation?.delegator.name ?? '' })
-    )
-    .with(undefined, () => tTooltip('label.default'))
-    .exhaustive()
+  const tooltipLabel = delegation
+    ? match(tenantRole)
+        .with('DELEGATOR', () =>
+          tTooltip('label.delegator', { delegate: delegation.delegate.name })
+        )
+        .with('DELEGATE', () =>
+          tTooltip('label.delegate', { delegator: delegation.delegator.name })
+        )
+        .with(undefined, () => tTooltip('label.default'))
+        .exhaustive()
+    : undefined
 
   return (
     <Tooltip title={tooltipLabel} arrow>
