@@ -1,0 +1,38 @@
+@font-face {
+  font-family: 'Titillium Web';
+  font-display: swap;
+  font-weight: 400;
+  src:
+    url('https://selfcare.pagopa.it/assets/font/Titillium_Web/TitilliumWeb-Regular.woff2')
+      format('woff2'),
+    url('https://selfcare.pagopa.it/assets/font/Titillium_Web/TitilliumWeb-Regular.woff')
+      format('woff'),
+    url('https://selfcare.pagopa.it/assets/font/Titillium_Web/TitilliumWeb-Regular.ttf')
+      format('truetype');
+}
+
+@font-face {
+  font-family: 'Titillium Web';
+  font-weight: 600;
+  font-display: swap;
+  src:
+    url('https://selfcare.pagopa.it/assets/font/Titillium_Web/TitilliumWeb-SemiBold.woff2')
+      format('woff2'),
+    url('https://selfcare.pagopa.it/assets/font/Titillium_Web/TitilliumWeb-SemiBold.woff')
+      format('woff'),
+    url('https://selfcare.pagopa.it/assets/font/Titillium_Web/TitilliumWeb-SemiBold.ttf')
+      format('truetype');
+}
+
+@font-face {
+  font-family: 'Titillium Web';
+  font-display: swap;
+  font-weight: 700;
+  src:
+    url('https://selfcare.pagopa.it/assets/font/Titillium_Web/TitilliumWeb-Bold.woff2')
+      format('woff2'),
+    url('https://selfcare.pagopa.it/assets/font/Titillium_Web/TitilliumWeb-Bold.woff')
+      format('woff'),
+    url('https://selfcare.pagopa.it/assets/font/Titillium_Web/TitilliumWeb-Bold.ttf')
+      format('truetype');
+}

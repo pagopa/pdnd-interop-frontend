@@ -7,7 +7,7 @@ import {
   renderWithApplicationContext,
 } from '@/utils/testing.utils'
 import { ConsumerPurposeTemplateLinkedResourceTab } from '../ConsumerPurposeTemplateLinkedResourceTab'
-import { createMockPurposeTemplate } from '../../../../../__mocks__/data/purposeTemplate.mocks'
+import { createMockPurposeTemplate } from '../../../../../../__mocks__/data/purposeTemplate.mocks'
 
 vi.mock(
   '@/components/shared/PurposeTemplate/PurposeTemplateLinkedResourceTab/ConsumerPurposeTemplateLinkedResourceTable',

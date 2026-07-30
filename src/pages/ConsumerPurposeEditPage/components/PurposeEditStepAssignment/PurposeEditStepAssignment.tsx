@@ -30,10 +30,15 @@ export const PurposeEditStepAssignment: React.FC<ActiveStepProps> = (props) => {
     PurposeQueries.getSingle(purposeId)
   )
 
+  // The reviewers list is only consumed by the editable-draft form branch, so only
+  // fetch it when that branch will actually render (avoids a wasted call on the read-only step).
+  const isEditableDraft = purpose?.currentVersion?.state === 'DRAFT'
+  const shouldRenderForm = Boolean(purpose) && !purpose?.reviewerWorkflow && isEditableDraft
+
   const tenantId = jwt?.organizationId
   const { data: reviewers, isLoading: isLoadingReviewers } = useQuery({
     ...TenantQueries.getPartyUsersList({ tenantId: tenantId as string, roles: ['reviewer'] }),
-    enabled: Boolean(tenantId),
+    enabled: Boolean(tenantId) && shouldRenderForm,
   })
 
   if (isLoadingPurpose || isLoadingReviewers) {
@@ -44,11 +49,8 @@ export const PurposeEditStepAssignment: React.FC<ActiveStepProps> = (props) => {
     throw new NotFoundError()
   }
 
-  const isEditableDraft = purpose.currentVersion?.state === 'DRAFT'
   if (purpose.reviewerWorkflow || !isEditableDraft) {
-    return (
-      <PurposeEditStepAssignmentReadOnly purpose={purpose} reviewers={reviewers ?? []} {...props} />
-    )
+    return <PurposeEditStepAssignmentReadOnly purpose={purpose} {...props} />
   }
 
   const isDelegate = Boolean(

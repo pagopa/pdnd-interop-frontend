@@ -51,7 +51,7 @@ const ConsumerPurposePublishThankYouPage: React.FC = () => {
           {isActive ? t('active.description') : t('waitingForApproval.description')}
         </Typography>
       }
-      buttonLabel={t('action')}
+      buttonLabel={isActive ? t('action') : t('waitingForApproval.action')}
       onButtonClick={handleClose}
     />
   )

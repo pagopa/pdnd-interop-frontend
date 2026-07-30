@@ -2,9 +2,7 @@ import { PurposeTemplateServices } from '../purposeTemplate.services'
 import type {
   GetCatalogPurposeTemplatesParams,
   GetPurposeTemplateLinkableResourcesParams,
-  LinkEServiceToPurposeTemplatePayload,
   LinkableResourceRequest,
-  UnlinkEServiceToPurposeTemplatePayload,
   PurposeTemplateSeed,
   GetCreatorPurposeTemplatesParams,
 } from '../../api.generatedTypes'
@@ -72,22 +70,6 @@ describe('PurposeTemplateServices', () => {
       expect(axiosInstance.get).toHaveBeenCalledWith(
         `${BACKEND_FOR_FRONTEND_URL}/catalog/purposeTemplates`,
         { params }
-      )
-    })
-  })
-
-  // TODO: remove this test after feature purpose template <-> e-service template linking validation
-  describe.skip('getEservicesLinkedToPurposeTemplatesList', () => {
-    it('should make correct API call to eservices endpoint', async () => {
-      const id = '3fa85f64-5717-4562-b3fc-2c963f66afa6'
-      await PurposeTemplateServices.getEservicesLinkedToPurposeTemplatesList(id, {
-        offset: 0,
-        limit: 10,
-      })
-
-      expect(axiosInstance.get).toHaveBeenCalledWith(
-        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/${id}/eservices`,
-        { params: { offset: 0, limit: 10 } }
       )
     })
   })
@@ -174,44 +156,6 @@ describe('PurposeTemplateServices', () => {
 
       expect(axiosInstance.put).toHaveBeenCalledWith(
         `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-id`,
-        payload
-      )
-    })
-  })
-
-  // TODO: remove this test after feature purpose template <-> e-service template linking validation
-  describe.skip('linkEserviceToPurposeTemplate', () => {
-    it('should make correct API call to link eservice', async () => {
-      const payload: LinkEServiceToPurposeTemplatePayload = {
-        eserviceId: TEST_ESERVICE_ID,
-      }
-
-      await PurposeTemplateServices.linkEserviceToPurposeTemplate({
-        purposeTemplateId: TEST_PURPOSE_TEMPLATE_ID,
-        ...payload,
-      })
-
-      expect(axiosInstance.post).toHaveBeenCalledWith(
-        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-template-id/linkEservice`,
-        payload
-      )
-    })
-  })
-
-  // TODO: remove this test after feature purpose template <-> e-service template linking validation
-  describe.skip('unlinkEserviceFromPurposeTemplate', () => {
-    it('should make correct API call to unlink eservice', async () => {
-      const payload: UnlinkEServiceToPurposeTemplatePayload = {
-        eserviceId: TEST_ESERVICE_ID,
-      }
-
-      await PurposeTemplateServices.unlinkEserviceFromPurposeTemplate({
-        purposeTemplateId: TEST_PURPOSE_TEMPLATE_ID,
-        ...payload,
-      })
-
-      expect(axiosInstance.post).toHaveBeenCalledWith(
-        `${BACKEND_FOR_FRONTEND_URL}/purposeTemplates/test-template-id/unlinkEservice`,
         payload
       )
     })

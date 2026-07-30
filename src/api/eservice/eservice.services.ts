@@ -19,6 +19,7 @@ import type {
   GetEServicesCatalogParams,
   GetProducerEServicesParams,
   GetProducersParams,
+  GracePeriodDays,
   PresignedUrl,
   ProducerEServiceDescriptor,
   ProducerEServiceDetails,
@@ -39,6 +40,7 @@ import type {
 } from '../api.generatedTypes'
 import type { AttributeKey } from '@/types/attribute.types'
 import { getAllFromPaginated, waitFor } from '@/utils/common.utils'
+import { sanitizeImportEserviceFileName } from '@/utils/eservice.utils'
 
 async function getCatalogList(params: GetEServicesCatalogParams) {
   const response = await axiosInstance.get<CatalogEServices>(
@@ -196,12 +198,15 @@ function reactivateVersion({
 function scheduleArchiveDescriptor({
   eserviceId,
   descriptorId,
+  gracePeriodDays,
 }: {
   eserviceId: string
   descriptorId: string
+  gracePeriodDays: GracePeriodDays
 }) {
   return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/scheduleArchive`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/scheduleArchive`,
+    { gracePeriodDays }
   )
 }
 
@@ -220,12 +225,15 @@ function cancelDescriptorArchiving({
 function scheduleArchiveEservice({
   eserviceId,
   archivingReason,
+  gracePeriodDays,
 }: {
   eserviceId: string
   archivingReason: string
+  gracePeriodDays: GracePeriodDays
 }) {
   return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/scheduleArchive`, {
     archivingReason,
+    gracePeriodDays,
   })
 }
 
@@ -450,7 +458,7 @@ async function exportVersion({
 }
 
 async function importVersion({ eserviceFile }: { eserviceFile: File }) {
-  const fileName = eserviceFile.name
+  const fileName = sanitizeImportEserviceFileName(eserviceFile.name)
   const { data: presignedUrl } = await axiosInstance.get<PresignedUrl>(
     `${BACKEND_FOR_FRONTEND_URL}/import/eservices/presignedUrl`,
     { params: { fileName } }

@@ -26,6 +26,12 @@ export type RiskAnalysisReviewMode =
 /** Filter e-services by personal data */
 export type PersonalDataFilter = "TRUE" | "FALSE" | "DEFINED";
 
+/**
+ * Number of days for the archiving grace period
+ * @format int32
+ */
+export type GracePeriodDays = 30 | 60 | 90 | 120;
+
 /** EService Descriptor State */
 export type EServiceTemplateVersionState =
   | "DRAFT"
@@ -600,11 +606,13 @@ export interface ProducerEServiceDetails {
 
 export interface ArchivingSchedule {
   /** @format date-time */
-  archivableOn?: string;
+  archivableOn: string;
   /** @format date-time */
-  startedAt?: string;
+  startedAt: string;
   /** Archiving Scope */
-  scope?: ArchivingScope;
+  scope: ArchivingScope;
+  /** Number of days for the archiving grace period */
+  gracePeriodDays?: GracePeriodDays;
 }
 
 export interface EServiceRiskAnalysisSeed {
@@ -684,7 +692,10 @@ export interface ProducerEServiceDescriptor {
   /** @format date-time */
   suspendedAt?: string;
   rejectionReasons?: DescriptorRejectionReason[];
-  serverUrls?: string[];
+  serverUrls?: {
+    url: string;
+    description?: string;
+  }[];
   templateRef?: EServiceTemplateRef;
   asyncExchangeProperties?: AsyncExchangeProperties;
   asyncExchangeCallbackInterface?: EServiceDoc;
@@ -908,6 +919,16 @@ export interface CompactDescriptor {
   archivableOn?: string;
 }
 
+export interface TemplateInstanceInterfaceServerUrlSeed {
+  /** @format uri */
+  url: string;
+  /**
+   * @minLength 10
+   * @maxLength 250
+   */
+  description?: string;
+}
+
 export interface TemplateInstanceInterfaceRESTSeed {
   contactName: string;
   /** @format email */
@@ -916,11 +937,11 @@ export interface TemplateInstanceInterfaceRESTSeed {
   contactUrl?: string;
   /** @format uri */
   termsAndConditionsUrl?: string;
-  serverUrls: string[];
+  serverUrls: TemplateInstanceInterfaceServerUrlSeed[];
 }
 
 export interface TemplateInstanceInterfaceSOAPSeed {
-  serverUrls: string[];
+  serverUrls: TemplateInstanceInterfaceServerUrlSeed[];
 }
 
 export interface TemplateInstanceInterfaceMetadata {
@@ -2178,6 +2199,17 @@ export interface CertifiedTenantAttributeSeed {
   id: string;
 }
 
+export interface CertifiedDiscreteTenantAttributeSeed {
+  /** @format uuid */
+  id: string;
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  certifiedDiscreteValue: number;
+}
+
 export interface DelegationTenant {
   /** @format uuid */
   id: string;
@@ -2293,22 +2325,46 @@ export interface EServiceTemplateDetails {
 }
 
 export interface AsyncExchangeProperties {
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 999999
+   */
   responseTime: number;
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 999999
+   */
   resourceAvailableTime: number;
   confirmation: boolean;
   bulk: boolean;
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 99999
+   */
   maxResultSet: number;
 }
 
 export interface AsyncExchangePropertiesInstanceSeed {
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 999999
+   */
   responseTime?: number;
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 999999
+   */
   resourceAvailableTime?: number;
-  /** @format int32 */
+  /**
+   * @format int32
+   * @min 1
+   * @max 99999
+   */
   maxResultSet?: number;
 }
 
@@ -2403,6 +2459,7 @@ export interface UpdateEServiceTemplateSeed {
   mode: EServiceMode;
   isSignalHubEnabled?: boolean;
   personalData?: boolean;
+  asyncExchange?: boolean;
 }
 
 export interface EServiceTemplateSeed {
@@ -2440,7 +2497,7 @@ export interface InstanceEServiceSeed {
    * @maxLength 12
    */
   instanceLabel?: string;
-  asyncExchange?: boolean;
+  asyncExchangeProperties?: AsyncExchangePropertiesInstanceSeed;
 }
 
 export interface VersionSeedForEServiceTemplateCreation {
@@ -2724,12 +2781,20 @@ export interface EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescript
   createdAt: string;
 }
 
-export interface EServiceArchivingReasonSeed {
+export interface GracePeriodDaysSeed {
+  /** Number of days for the archiving grace period */
+  gracePeriodDays: GracePeriodDays;
+}
+
+/** Archiving Reason and Grace Period Days */
+export interface EServiceArchivingSeed {
   /**
    * @minLength 10
    * @maxLength 250
    */
   archivingReason: string;
+  /** Number of days for the archiving grace period */
+  gracePeriodDays: GracePeriodDays;
 }
 
 export interface CompactPurposeTemplateEServiceTemplate {
@@ -2819,6 +2884,7 @@ export interface ReviewerWorkflow {
   /** Risk analysis review mode */
   reviewMode: RiskAnalysisReviewMode;
   reviewerIds: string[];
+  reviewers?: CompactUser[];
   /** Risk analysis signing state */
   signingState: RiskAnalysisSigningState;
   /** @format uuid */
@@ -2978,7 +3044,15 @@ export interface DeleteAgreementParams {
   agreementId: string;
 }
 
-export interface ActivateAgreementParams {
+export interface ApproveAgreementParams {
+  /**
+   * The identifier of the agreement
+   * @format uuid
+   */
+  agreementId: string;
+}
+
+export interface UnsuspendAgreementParams {
   /**
    * The identifier of the agreement
    * @format uuid
@@ -3887,6 +3961,14 @@ export interface AddCertifiedAttributeParams {
   tenantId: string;
 }
 
+export interface AddCertifiedDiscreteAttributeParams {
+  /**
+   * The internal identifier of the tenant
+   * @format uuid
+   */
+  tenantId: string;
+}
+
 export interface GetProducerPurposesParams {
   q?: string;
   /**
@@ -4277,7 +4359,7 @@ export interface GetCatalogPurposeTemplatesParams {
    */
   creatorIds?: string[];
   /**
-   * comma separated sequence of e-service IDs
+   * comma separated sequence of e-service IDs. For e-services that are instances of an e-service template, purpose templates linked to the originating e-service template are also returned.
    * @default []
    */
   eserviceIds?: string[];
@@ -4477,6 +4559,19 @@ export interface VerifyVerifiedAttributeParams {
 }
 
 export interface RevokeCertifiedAttributeParams {
+  /**
+   * Tenant id which attribute needs to be verified
+   * @format uuid
+   */
+  tenantId: string;
+  /**
+   * Attribute id to be revoked
+   * @format uuid
+   */
+  attributeId: string;
+}
+
+export interface RevokeCertifiedDiscreteAttributeParams {
   /**
    * Tenant id which attribute needs to be verified
    * @format uuid
@@ -6250,12 +6345,34 @@ export namespace Agreements {
   /**
    * @description returns the updated agreement
    * @tags agreements
-   * @name ActivateAgreement
+   * @name ApproveAgreement
    * @summary Activate an agreement
-   * @request POST:/agreements/{agreementId}/activate
+   * @request POST:/agreements/{agreementId}/approve
    * @secure
    */
-  export namespace ActivateAgreement {
+  export namespace ApproveAgreement {
+    export type RequestParams = {
+      /**
+       * The identifier of the agreement
+       * @format uuid
+       */
+      agreementId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = DelegationRef;
+    export type RequestHeaders = {};
+    export type ResponseBody = Agreement;
+  }
+
+  /**
+   * @description returns the updated agreement
+   * @tags agreements
+   * @name UnsuspendAgreement
+   * @summary Activate a suspended agreement
+   * @request POST:/agreements/{agreementId}/unsuspend
+   * @secure
+   */
+  export namespace UnsuspendAgreement {
     export type RequestParams = {
       /**
        * The identifier of the agreement
@@ -6669,6 +6786,27 @@ export namespace Tenants {
   }
 
   /**
+   * @description Add a certified discrete attribute to a Tenant by the requester Tenant
+   * @tags tenants
+   * @name AddCertifiedDiscreteAttribute
+   * @request POST:/tenants/{tenantId}/attributes/certifiedDiscrete
+   * @secure
+   */
+  export namespace AddCertifiedDiscreteAttribute {
+    export type RequestParams = {
+      /**
+       * The internal identifier of the tenant
+       * @format uuid
+       */
+      tenantId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = CertifiedDiscreteTenantAttributeSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
    * @description Adds the declared attribute to the Institution
    * @tags tenants
    * @name AddDeclaredAttribute
@@ -6780,6 +6918,32 @@ export namespace Tenants {
    * @secure
    */
   export namespace RevokeCertifiedAttribute {
+    export type RequestParams = {
+      /**
+       * Tenant id which attribute needs to be verified
+       * @format uuid
+       */
+      tenantId: string;
+      /**
+       * Attribute id to be revoked
+       * @format uuid
+       */
+      attributeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Revoke a certified discrete attribute from a Tenant by the requester Tenant
+   * @tags tenants
+   * @name RevokeCertifiedDiscreteAttribute
+   * @request DELETE:/tenants/{tenantId}/attributes/certifiedDiscrete/{attributeId}
+   * @secure
+   */
+  export namespace RevokeCertifiedDiscreteAttribute {
     export type RequestParams = {
       /**
        * Tenant id which attribute needs to be verified
@@ -7089,7 +7253,7 @@ export namespace Catalog {
        */
       creatorIds?: string[];
       /**
-       * comma separated sequence of e-service IDs
+       * comma separated sequence of e-service IDs. For e-services that are instances of an e-service template, purpose templates linked to the originating e-service template are also returned.
        * @default []
        */
       eserviceIds?: string[];
@@ -7348,7 +7512,7 @@ export namespace Eservices {
       descriptorId: string;
     };
     export type RequestQuery = {};
-    export type RequestBody = never;
+    export type RequestBody = GracePeriodDaysSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
@@ -7419,7 +7583,7 @@ export namespace Eservices {
       eServiceId: string;
     };
     export type RequestQuery = {};
-    export type RequestBody = EServiceArchivingReasonSeed;
+    export type RequestBody = EServiceArchivingSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
@@ -10271,6 +10435,24 @@ export namespace CertifiedAttributes {
     export type RequestParams = {};
     export type RequestQuery = {};
     export type RequestBody = CertifiedAttributeSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = Attribute;
+  }
+}
+
+export namespace CertifiedDiscreteAttributes {
+  /**
+   * @description Creates the certified discrete attribute passed as payload
+   * @tags attributes
+   * @name CreateCertifiedDiscreteAttribute
+   * @summary Creates certified discrete attribute
+   * @request POST:/certifiedDiscreteAttributes
+   * @secure
+   */
+  export namespace CreateCertifiedDiscreteAttribute {
+    export type RequestParams = {};
+    export type RequestQuery = {};
+    export type RequestBody = AttributeSeed;
     export type RequestHeaders = {};
     export type ResponseBody = Attribute;
   }
