@@ -247,7 +247,7 @@ describe('getConsumerAgreementVersionAlertSpec utility function testing', () => 
 
   it('returns single info alert for DEPRECATED', () => {
     expect(getConsumerAgreementVersionAlertSpec({ ...baseArgs, state: 'DEPRECATED' })).toEqual([
-      { severity: 'info', content: 'deprecatedActive' },
+      { severity: 'info', content: 'deprecatedActiveShort' },
     ])
   })
 
