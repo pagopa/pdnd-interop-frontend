@@ -40,7 +40,13 @@ export const AttributesTableRow: React.FC<AttributesTableRowProps> = ({ attribut
 
 export const AttributesTableRowSkeleton: React.FC = () => {
   return (
-    <TableRow cellData={[<Skeleton key={0} width={220} />, <Skeleton key={1} width={220} />]}>
+    <TableRow
+      cellData={[
+        <Skeleton key={0} width={220} />,
+        <Skeleton key={1} width={220} />,
+        <Skeleton key={2} width={220} />,
+      ]}
+    >
       <ButtonSkeleton size="small" width={100} />
     </TableRow>
   )

@@ -94,6 +94,6 @@ describe('AttributesTableRowSkeleton', () => {
     )
 
     const skeletons = container.querySelectorAll('.MuiSkeleton-root')
-    expect(skeletons.length).toBeGreaterThanOrEqual(3)
+    expect(skeletons.length).toBe(4)
   })
 })
