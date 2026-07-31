@@ -67,7 +67,7 @@ export const DialogClonePurpose: React.FC<DialogClonePurposeProps> = ({ purposeI
       { purposeId: purposeId, eserviceId: eserviceId },
       {
         onSuccess({ purposeId }) {
-          navigate('SUBSCRIBE_PURPOSE_SUMMARY', { params: { purposeId } })
+          navigate('SUBSCRIBE_PURPOSE_EDIT', { params: { purposeId } })
           closeDialog()
         },
       }
