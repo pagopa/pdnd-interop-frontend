@@ -8,15 +8,28 @@ import {
   useAutocompleteTextInput,
 } from '@pagopa/interop-fe-commons'
 import { useQuery, keepPreviousData } from '@tanstack/react-query'
-import type { GetRiskAnalysisAssignmentsParams, Purpose } from '@/api/api.generatedTypes'
+import type {
+  GetRiskAnalysisAssignmentsParams,
+  Purpose,
+  RiskAnalysisSigningState,
+} from '@/api/api.generatedTypes'
 import { RiskAnalysisTable, RiskAnalysisTableSkeleton } from './components/RiskAnalysisTable'
 import { PurposeQueries } from '@/api/purpose'
 import { EServiceQueries } from '@/api/eservice'
-import { Box, Typography } from '@mui/material'
+import { Tab } from '@mui/material'
+import { TabContext, TabList, TabPanel } from '@mui/lab'
+import { useActiveTab } from '@/hooks/useActiveTab'
+import NoDataBox from './components/NoDataBox'
+
+export const RiskAnalysisListPageTab = {
+  TODO: 'todo',
+  DONE: 'done',
+}
 
 const RiskAnalysisListPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'riskAnalysisList' })
   const { t: tPurpose } = useTranslation('purpose', { keyPrefix: 'riskAnalysisList' })
+  const { activeTab, updateActiveTab } = useActiveTab(RiskAnalysisListPageTab.TODO)
 
   const [eserviceAutocompleteText, setEServiceAutocompleteInputChange] =
     useAutocompleteTextInput('')
@@ -45,16 +58,50 @@ const RiskAnalysisListPage: React.FC = () => {
       name: 'signingStates',
       label: tPurpose('filters.riskAnalysisState.label'),
       type: 'autocomplete-single',
-      options: [
-        { label: tPurpose('filters.riskAnalysisState.statusField.ASSIGNED'), value: 'ASSIGNED' },
-        { label: tPurpose('filters.riskAnalysisState.statusField.SUBMITTED'), value: 'SUBMITTED' },
-      ],
+      options:
+        activeTab === RiskAnalysisListPageTab.TODO
+          ? [
+              {
+                label: tPurpose('filters.riskAnalysisState.statusField.ASSIGNED'),
+                value: 'ASSIGNED',
+              },
+              {
+                label: tPurpose('filters.riskAnalysisState.statusField.SUBMITTED'),
+                value: 'SUBMITTED',
+              },
+            ]
+          : [
+              {
+                label: tPurpose('filters.riskAnalysisState.statusField.SIGNED'),
+                value: 'SIGNED',
+              },
+              {
+                label: tPurpose('filters.riskAnalysisState.statusField.REJECTED'),
+                value: 'REJECTED',
+              },
+            ],
     },
   ])
 
   const { paginationParams, paginationProps, getTotalPageCount, rowPerPageOptions } =
     usePagination()
-  const queryParams = { ...paginationParams, ...filtersParams }
+
+  const defaultSigningStates: RiskAnalysisSigningState[] =
+    activeTab === RiskAnalysisListPageTab.TODO ? ['ASSIGNED', 'SUBMITTED'] : ['SIGNED', 'REJECTED']
+
+  const queryParams = {
+    ...paginationParams,
+    ...filtersParams,
+    signingStates: filtersParams.signingStates ?? defaultSigningStates,
+  }
+
+  const { data: allRiskAnalysisAssignments } = useQuery({
+    ...PurposeQueries.getRiskAnalysisAssignments({
+      offset: 0,
+      limit: 1,
+    }),
+    placeholderData: keepPreviousData,
+  })
 
   const { data, isFetching } = useQuery({
     ...PurposeQueries.getRiskAnalysisAssignments(queryParams),
@@ -62,43 +109,51 @@ const RiskAnalysisListPage: React.FC = () => {
   })
 
   const hasActiveFilters =
-    (queryParams.eservicesIds?.length ?? 0) > 0 || Boolean(queryParams.signingStates)
+    (filtersParams.eservicesIds?.length ?? 0) > 0 || Boolean(filtersParams.signingStates)
 
-  const isInitialEmptyState = !!data && data.results.length === 0 && !hasActiveFilters
+  const isInitialEmptyState =
+    !!allRiskAnalysisAssignments &&
+    allRiskAnalysisAssignments.results.length === 0 &&
+    !hasActiveFilters
+
+  const emptyTabLabel =
+    activeTab === RiskAnalysisListPageTab.TODO ? tPurpose('emptyTodo') : tPurpose('emptyDone')
 
   return (
     <PageContainer title={t('title')} description={t('description')}>
       {isInitialEmptyState ? (
-        <Box
-          sx={{
-            backgroundColor: 'grey.200',
-            p: 2,
-            mt: 5,
-          }}
-        >
-          <Box
-            sx={{
-              backgroundColor: 'white',
-              justifyContent: 'center',
-              borderRadius: 1,
-              display: 'flex',
-              py: 2,
-            }}
-          >
-            <Typography variant="body2" textAlign="center">
-              {tPurpose('noData.label')}
-            </Typography>
-          </Box>
-        </Box>
+        <NoDataBox isInTab label={tPurpose('noData.label')} />
       ) : (
         <>
-          <Filters {...filtersHandlers} />
-          <RiskAnalysisTableWrapper purposes={data?.results ?? []} isFetching={isFetching} />
-          <Pagination
-            {...paginationProps}
-            rowPerPageOptions={rowPerPageOptions}
-            totalPages={getTotalPageCount(data?.pagination.totalCount ?? 0)}
-          />
+          <TabContext value={activeTab}>
+            <TabList
+              sx={{ mt: 4 }}
+              onChange={updateActiveTab}
+              aria-label={tPurpose('tabs.ariaLabel')}
+              variant="fullWidth"
+            >
+              <Tab label={tPurpose('tabs.todo')} value={RiskAnalysisListPageTab.TODO} />
+              <Tab label={tPurpose('tabs.done')} value={RiskAnalysisListPageTab.DONE} />
+            </TabList>
+            <TabPanel value={activeTab}>
+              {data?.results.length === 0 ? (
+                <NoDataBox label={emptyTabLabel} />
+              ) : (
+                <>
+                  <Filters {...filtersHandlers} />
+                  <RiskAnalysisTableWrapper
+                    purposes={data?.results ?? []}
+                    isFetching={isFetching}
+                  />
+                  <Pagination
+                    {...paginationProps}
+                    rowPerPageOptions={rowPerPageOptions}
+                    totalPages={getTotalPageCount(data?.pagination.totalCount ?? 0)}
+                  />
+                </>
+              )}
+            </TabPanel>
+          </TabContext>
         </>
       )}
     </PageContainer>

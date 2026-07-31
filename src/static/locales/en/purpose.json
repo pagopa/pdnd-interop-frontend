@@ -649,7 +649,9 @@
         "label": "Risk analysis state",
         "statusField": {
           "ASSIGNED": "To fill out",
-          "SUBMITTED": "To be approved"
+          "SUBMITTED": "To be approved",
+          "SIGNED": "Signed",
+          "REJECTED": "Rejected"
         }
       }
     },
@@ -657,11 +659,18 @@
       "label": "Today"
     },
     "noData": {
-      "label": "You have no risk analysis to evaluate"
+      "label": "You do not have any risk analyses assigned for now"
     },
     "noResults": {
       "label": "The current search returned no results."
-    }
+    },
+    "tabs": {
+      "ariaLabel": "Two separate tabs for risk analyses: those to be completed and those already concluded",
+      "todo": "To do",
+      "done": "Done"
+    },
+    "emptyTodo": "You have no risk analyses to evaluate for now",
+    "emptyDone": "You have no completed risk analyses for now"
   },
   "publishThankYou": {
     "loading": "Publishing in progress",

@@ -97,7 +97,10 @@
       "linkedEserviceProviderName": "Producer Name",
       "purposeTemplateCreatorName": "Creator name",
       "purposeTemplateTarget": "Target",
-      "assignmentDate": "Assignment date"
+      "assignmentDate": "Assignment date",
+      "reviewersCount": "Reviewers count",
+      "approvalDate": "Approval date",
+      "reviewer": "Reviewer"
     }
   },
   "status": {
@@ -170,7 +173,9 @@
     },
     "riskAnalysisList": {
       "ASSIGNED": "to compile",
-      "SUBMITTED": "to approve"
+      "SUBMITTED": "to approve",
+      "SIGNED": "approved",
+      "REJECTED": "rejected"
     }
   },
   "userProductRole": {

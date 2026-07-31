@@ -1,18 +1,22 @@
 import { ActionMenuSkeleton } from '@/components/shared/ActionMenu'
-import { StatusChip } from '@/components/shared/StatusChip'
+import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
 import { Link } from '@/router'
-import { Skeleton, Typography } from '@mui/material'
+import { Skeleton, Stack, Typography } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import type { Purpose } from '@/api/api.generatedTypes'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { useTranslation } from 'react-i18next'
 import isToday from 'date-fns/isToday'
 import { match, P } from 'ts-pattern'
+import { useActiveTab } from '@/hooks/useActiveTab'
+import { RiskAnalysisListPageTab } from '../RiskAnalysisList.page'
+import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
 
 export const RiskAnalysisTableRow: React.FC<{
   purpose: Purpose
 }> = ({ purpose }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisList' })
+  const { activeTab } = useActiveTab(RiskAnalysisListPageTab.TODO)
 
   const sentDate = purpose.reviewerWorkflow?.sentToReviewerAt
     ? new Date(purpose.reviewerWorkflow.sentToReviewerAt)
@@ -26,33 +30,30 @@ export const RiskAnalysisTableRow: React.FC<{
       })
     : ''
 
+  const cellData = [
+    <Stack direction="row" alignItems="center" key="date">
+      {purpose.hasUnreadNotifications && <NotificationBadgeDot />}
+      <Typography variant="body2" fontWeight={600}>
+        {sentDate && isToday(sentDate) ? t('today.label') : formattedDate}
+      </Typography>
+    </Stack>,
+    purpose.eservice.name,
+    purpose.eservice.producer.name,
+    activeTab === RiskAnalysisListPageTab.TODO
+      ? String(purpose.reviewerWorkflow?.reviewerIds?.length ?? '-')
+      : 'reviewer_name_placeholder' /* @TODO - add the reviewer name (the one who signed or rejected the RA) */,
+    purpose.reviewerWorkflow?.signingState
+      ? match(purpose.reviewerWorkflow.signingState)
+          .with(P.union('ASSIGNED', 'SUBMITTED', 'SIGNED', 'REJECTED'), (state) => (
+            <StatusChip for="riskAnalysisList" state={state} />
+          ))
+          .with('DRAFT', () => '')
+          .exhaustive()
+      : '',
+  ]
+
   return (
-    <TableRow
-      cellData={[
-        sentDate && isToday(sentDate) ? (
-          <Typography variant="body2" fontWeight={600}>
-            {t('today.label')}
-          </Typography>
-        ) : (
-          <Typography variant="body2" fontWeight={600}>
-            {formattedDate}
-          </Typography>
-        ),
-        purpose.eservice.name,
-        purpose.eservice.producer.name,
-        purpose.reviewerWorkflow?.signingState
-          ? match(purpose.reviewerWorkflow.signingState)
-              .with(P.union('ASSIGNED', 'SUBMITTED'), (state) => (
-                <StatusChip for="riskAnalysisList" state={state} />
-              ))
-              .with(P.union('SIGNED', 'REJECTED'), (state) => (
-                <StatusChip for="riskAnalysis" state={state} />
-              ))
-              .with('DRAFT', () => '')
-              .exhaustive()
-          : '',
-      ]}
-    >
+    <TableRow cellData={cellData}>
       <Link
         as="button"
         variant="naked"
@@ -79,7 +80,8 @@ export const RiskAnalysisTableRowSkeleton: React.FC = () => {
         <Skeleton key={0} width={180} />,
         <Skeleton key={1} width={180} />,
         <Skeleton key={2} width={180} />,
-        <Skeleton key={3} width={180} />,
+        <Skeleton key={4} width={180} />,
+        <StatusChipSkeleton key={3} />,
       ]}
     >
       <ActionMenuSkeleton />
