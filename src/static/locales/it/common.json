@@ -78,6 +78,7 @@
       "userName": "Nome e cognome",
       "certifiedAttributes": "Attributi certificati",
       "assigneeTenant": "Ente assegnatario",
+      "certifiedDiscreteAttributeValue": "Valore",
       "keychain": "Portachiavi",
       "certifiedAttribute": "Attributo certificato",
       "delegationKind": "Delega per",
