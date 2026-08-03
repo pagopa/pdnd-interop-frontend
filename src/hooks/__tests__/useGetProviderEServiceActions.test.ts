@@ -1,13 +1,15 @@
 import { createMockEServiceProvider } from '@/../__mocks__/data/eservice.mocks'
 import { createMockDelegationWithCompactTenants } from '@/../__mocks__/data/delegation.mocks'
+import { EServiceMutations } from '@/api/eservice'
 import { useGetProviderEServiceActions } from '../useGetProviderEServiceActions'
 import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
-import { fireEvent, screen, waitFor } from '@testing-library/react'
+import { waitFor } from '@testing-library/react'
 import type { ArchivingSchedule, ProducerEService } from '@/api/api.generatedTypes'
+import { DEFAULT_GRACE_PERIOD_DAYS } from '@/config/constants'
 
 mockUseJwt({ isAdmin: true })
 
@@ -877,6 +879,21 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should navigate to PROVIDE_ESERVICE_EDIT page on clone action success', async () => {
     mockUseJwt({ isAdmin: true })
+    const cloneMutateMock = vi.fn(
+      (
+        _variables: unknown,
+        options?: { onSuccess?: (data: { id: string; descriptorId: string }) => void }
+      ) => {
+        options?.onSuccess?.({
+          id: '6dbb7416-8315-4970-a6be-393a03d0a79d',
+          descriptorId: 'fd09a069-81f8-4cb5-a302-64320e83a033',
+        })
+      }
+    )
+    const cloneSpy = vi
+      .spyOn(EServiceMutations, 'useCloneFromVersion')
+      .mockReturnValue({ mutate: cloneMutateMock } as never)
+
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
@@ -892,19 +909,26 @@ describe('useGetProviderEServiceTableActions tests', () => {
       cloneAction.action()
     })
 
-    act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
-    })
-
     await waitFor(() => {
       expect(history.location.pathname).toBe(
         '/it/erogazione/e-service/6dbb7416-8315-4970-a6be-393a03d0a79d/fd09a069-81f8-4cb5-a302-64320e83a033/modifica'
       )
     })
+
+    cloneSpy.mockRestore()
   })
 
   it('should navigate to PROVIDE_ESERVICE_EDIT page on create new draft action success', async () => {
     mockUseJwt({ isAdmin: true })
+    const createDraftMutateMock = vi.fn(
+      (_variables: unknown, options?: { onSuccess?: (data: { id: string }) => void }) => {
+        options?.onSuccess?.({ id: 'test-id' })
+      }
+    )
+    const createDraftSpy = vi
+      .spyOn(EServiceMutations, 'useCreateVersionDraft')
+      .mockReturnValue({ mutate: createDraftMutateMock } as never)
+
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       delegation: undefined,
@@ -919,15 +943,13 @@ describe('useGetProviderEServiceTableActions tests', () => {
       cloneAction.action()
     })
 
-    act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
-    })
-
     await waitFor(() => {
       expect(history.location.pathname).toBe(
         '/it/erogazione/e-service/ad474d35-7939-4bee-bde9-4e469cca1030/test-id/modifica'
       )
     })
+
+    createDraftSpy.mockRestore()
   })
 
   it('should not return actions if the user is a security operator', () => {
@@ -958,7 +980,7 @@ function renderDetailsPageHook(
         archivableOn: options.archivingSchedule.archivableOn ?? '2026-01-01T00:00:00.000Z',
         startedAt: options.archivingSchedule.startedAt ?? '2026-01-01T00:00:00.000Z',
         scope: options.archivingSchedule.scope,
-        gracePeriodDays: options.archivingSchedule.gracePeriodDays,
+        gracePeriodDays: options.archivingSchedule.gracePeriodDays ?? DEFAULT_GRACE_PERIOD_DAYS,
       }
     : undefined
   return renderHookWithApplicationContext(
