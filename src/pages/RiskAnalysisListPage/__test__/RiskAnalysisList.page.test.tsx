@@ -4,7 +4,9 @@ import RiskAnalysisListPage from '../RiskAnalysisList.page'
 import type { RiskAnalysisSigningState } from '@/api/api.generatedTypes'
 import { useQuery } from '@tanstack/react-query'
 import type * as ReactQuery from '@tanstack/react-query'
-import { RiskAnalysisTableSkeleton } from '../components/RiskAnalysisTable'
+import { RiskAnalysisTable, RiskAnalysisTableSkeleton } from '../components/RiskAnalysisTable'
+
+const mockUseActiveTab = vi.fn()
 
 vi.mock('@/components/shared/StatusChip', () => ({
   StatusChip: ({ state }: { state: RiskAnalysisSigningState }) => (
@@ -14,10 +16,7 @@ vi.mock('@/components/shared/StatusChip', () => ({
 }))
 
 vi.mock('@/hooks/useActiveTab', () => ({
-  useActiveTab: () => ({
-    activeTab: 'todo',
-    updateActiveTab: vi.fn(),
-  }),
+  useActiveTab: () => mockUseActiveTab(),
 }))
 
 vi.mock('@/api/purpose', () => ({
@@ -76,6 +75,11 @@ describe('RiskAnalysisListPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
 
+    mockUseActiveTab.mockReturnValue({
+      activeTab: 'todo',
+      updateActiveTab: vi.fn(),
+    })
+
     mockedUseQuery
       .mockReturnValueOnce({
         data: [],
@@ -100,7 +104,9 @@ describe('RiskAnalysisListPage', () => {
               },
             },
           ],
-          pagination: { totalCount: 1 },
+          pagination: {
+            totalCount: 1,
+          },
         },
         isFetching: false,
       } as unknown as ReturnType<typeof useQuery>)
@@ -108,42 +114,42 @@ describe('RiskAnalysisListPage', () => {
     renderPage()
   })
 
-  it('renders page title', () => {
+  it('should render page title', () => {
     expect(screen.getByText('title')).toBeInTheDocument()
   })
 
-  it('renders page description', () => {
+  it('should render page description', () => {
     expect(screen.getByText('description')).toBeInTheDocument()
   })
 
-  it('renders tabs', () => {
+  it('should render tabs', () => {
     expect(screen.getByRole('tab', { name: 'tabs.todo' })).toBeInTheDocument()
     expect(screen.getByRole('tab', { name: 'tabs.done' })).toBeInTheDocument()
   })
 
-  it('renders filters', () => {
+  it('should render filters', () => {
     expect(screen.getByLabelText('filters.eserviceField.label')).toBeInTheDocument()
     expect(screen.getByLabelText('filters.riskAnalysisState.label')).toBeInTheDocument()
   })
 
-  it('renders table row content', async () => {
+  it('should render table row content', async () => {
     expect(await screen.findByText('Test E-service')).toBeInTheDocument()
     expect(screen.getByText('PagoPA')).toBeInTheDocument()
   })
 
-  it('renders status chip', async () => {
+  it('should render status chip', async () => {
     expect(await screen.findByText('ASSIGNED')).toBeInTheDocument()
   })
 
-  it('renders today label', async () => {
+  it('should render today label', async () => {
     expect(await screen.findByText('today.label')).toBeInTheDocument()
   })
 
-  it('does not show noData label when data exists', () => {
+  it('should not show noData label when data exists', () => {
     expect(screen.queryByText('noData.label')).not.toBeInTheDocument()
   })
 
-  it('does not render noData label while initial data is loading', () => {
+  it('should not render noData label while initial data is loading', () => {
     mockedUseQuery
       .mockReturnValueOnce({
         data: [],
@@ -161,7 +167,7 @@ describe('RiskAnalysisListPage', () => {
     expect(screen.queryByText('noData.label')).not.toBeInTheDocument()
   })
 
-  it('renders initial empty state', () => {
+  it('should render initial empty state', () => {
     mockedUseQuery
       .mockReturnValueOnce({
         data: [],
@@ -186,7 +192,7 @@ describe('RiskAnalysisListPage', () => {
     expect(screen.getByText('noData.label')).toBeInTheDocument()
   })
 
-  it('renders empty todo tab', () => {
+  it('should render empty todo tab', () => {
     mockedUseQuery
       .mockReturnValueOnce({
         data: [],
@@ -211,7 +217,51 @@ describe('RiskAnalysisListPage', () => {
     expect(screen.getByText('emptyTodo')).toBeInTheDocument()
   })
 
-  it('renders skeleton rows', () => {
+  it('should render empty done tab', () => {
+    mockUseActiveTab.mockReturnValue({
+      activeTab: 'done',
+      updateActiveTab: vi.fn(),
+    })
+
+    mockedUseQuery
+      .mockReturnValueOnce({
+        data: [],
+      } as unknown as ReturnType<typeof useQuery>)
+      .mockReturnValueOnce({
+        data: {
+          results: [{ id: '1' }],
+        },
+      } as unknown as ReturnType<typeof useQuery>)
+      .mockReturnValueOnce({
+        data: {
+          results: [],
+          pagination: {
+            totalCount: 0,
+          },
+        },
+        isFetching: false,
+      } as unknown as ReturnType<typeof useQuery>)
+
+    renderPage()
+
+    expect(screen.getByText('emptyDone')).toBeInTheDocument()
+  })
+
+  it('should render done table headers', () => {
+    mockUseActiveTab.mockReturnValue({
+      activeTab: 'done',
+      updateActiveTab: vi.fn(),
+    })
+
+    renderWithApplicationContext(<RiskAnalysisTable purposes={[]} />, {
+      withReactQueryContext: true,
+    })
+
+    expect(screen.getByText('approvalDate')).toBeInTheDocument()
+    expect(screen.getByText('reviewer')).toBeInTheDocument()
+  })
+
+  it('should render skeleton rows', () => {
     const { container } = renderWithApplicationContext(<RiskAnalysisTableSkeleton />, {
       withReactQueryContext: true,
     })

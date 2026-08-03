@@ -18,7 +18,7 @@ describe('DialogCancelVersionArchiving', () => {
     vi.clearAllMocks()
   })
 
-  it('renders the provided label', () => {
+  it('should render the provided label', () => {
     renderComponent()
     expect(screen.getByText('No data available')).toBeInTheDocument()
   })
