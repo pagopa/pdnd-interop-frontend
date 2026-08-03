@@ -271,6 +271,8 @@ export type DialogArchiveVersionProps = {
   type: 'archiveVersion'
   eserviceId: string
   descriptorId: string
+  isDelegate?: boolean
+  delegatorName?: string
 }
 
 export type DialogCancelVersionArchivingProps = {

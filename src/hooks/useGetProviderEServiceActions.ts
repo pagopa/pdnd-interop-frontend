@@ -199,7 +199,13 @@ export function useGetProviderEServiceActions(
 
   const handleArchiveDescriptor = () => {
     if (activeDescriptorId) {
-      openDialog({ type: 'archiveVersion', eserviceId, descriptorId: activeDescriptorId })
+      openDialog({
+        type: 'archiveVersion',
+        eserviceId,
+        descriptorId: activeDescriptorId,
+        isDelegate,
+        delegatorName: delegation?.delegator.name,
+      })
     }
   }
 
@@ -1124,8 +1130,7 @@ export function useGetProviderEServiceActions(
     : availableClassicEServiceAction
 
   const isHappyPathDetailsPage =
-    where === 'detailsPage' && (isAdmin || isOperatorAPI) && !isDelegator && !isDelegate
-
+    where === 'detailsPage' && (isAdmin || isOperatorAPI) && !isDelegator && isDelegate
   if (!isHappyPathDetailsPage) {
     return {
       primaryAction: undefined,

@@ -217,6 +217,22 @@ function useScheduleArchiveDescriptor() {
   })
 }
 
+function useRequestArchiveDescriptor() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.scheduleArchiveDescriptor',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.requestArchiveDescriptor,
+    meta: {
+      successToastLabel: (_data: unknown, variables: unknown) =>
+        t('outcome.success', {
+          days: (variables as { gracePeriodDays: number }).gracePeriodDays,
+        }),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
 function useCancelDescriptorArchiving() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.cancelDescriptorArchiving',
@@ -634,6 +650,7 @@ export const EServiceMutations = {
   useSuspendVersion,
   useReactivateVersion,
   useScheduleArchiveDescriptor,
+  useRequestArchiveDescriptor,
   useCancelDescriptorArchiving,
   useScheduleArchiveEservice,
   useCancelEserviceArchiving,

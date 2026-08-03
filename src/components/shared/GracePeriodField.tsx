@@ -10,9 +10,10 @@ import { RHFRadioGroup } from './react-hook-form-inputs'
 
 type GracePeriodFieldProps = {
   description?: string
+  isDelegate?: boolean
 }
 
-export const GracePeriodField: React.FC<GracePeriodFieldProps> = ({ description }) => {
+export const GracePeriodField: React.FC<GracePeriodFieldProps> = ({ description, isDelegate }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'archiveGracePeriod' })
 
   const selectedGracePeriodDays = Number(
@@ -54,7 +55,9 @@ export const GracePeriodField: React.FC<GracePeriodFieldProps> = ({ description 
             strong: <Typography component="span" variant="inherit" fontWeight={600} />,
           }}
         >
-          {t('archiveDate', { date: formattedArchiveDate })}
+          {t(isDelegate ? 'archiveDateDelegate' : 'archiveDate', {
+            date: formattedArchiveDate,
+          })}
         </Trans>
       </Typography>
     </Stack>

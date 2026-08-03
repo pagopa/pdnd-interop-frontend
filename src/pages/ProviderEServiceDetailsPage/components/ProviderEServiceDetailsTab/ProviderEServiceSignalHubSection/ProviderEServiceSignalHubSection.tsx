@@ -1,6 +1,6 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Divider, Stack, Typography } from '@mui/material'
+import { Divider, Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
@@ -59,8 +59,9 @@ export const ProviderEServiceSignalHubSection: React.FC = () => {
     <>
       <SectionContainer
         title={t('title')}
+        descriptionTypographyProps={{ component: 'div' }}
         description={
-          <Typography color="text.secondary" variant="body2">
+          <>
             {t('description.before')}{' '}
             <IconLink
               href={SIGNALHUB_GUIDE_URL}
@@ -71,7 +72,7 @@ export const ProviderEServiceSignalHubSection: React.FC = () => {
               {t('description.linkLabel')}
             </IconLink>{' '}
             {t('description.after')}
-          </Typography>
+          </>
         }
       >
         <Stack spacing={2}>

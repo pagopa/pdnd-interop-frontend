@@ -222,6 +222,21 @@ function cancelDescriptorArchiving({
   )
 }
 
+function requestArchiveDescriptor({
+  eserviceId,
+  descriptorId,
+  gracePeriodDays,
+}: {
+  eserviceId: string
+  descriptorId: string
+  gracePeriodDays: GracePeriodDays
+}) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/submitDelegatedArchiving`,
+    { gracePeriodDays }
+  )
+}
+
 function scheduleArchiveEservice({
   eserviceId,
   archivingReason,
@@ -695,6 +710,7 @@ export const EServiceServices = {
   updateAgreementApprovalPolicy,
   reactivateVersion,
   scheduleArchiveDescriptor,
+  requestArchiveDescriptor,
   cancelDescriptorArchiving,
   scheduleArchiveEservice,
   cancelEserviceArchiving,

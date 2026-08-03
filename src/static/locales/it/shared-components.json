@@ -333,16 +333,22 @@
   },
   "dialogArchiveVersion": {
     "title": "Archivia versione",
+    "titleDelegate": "Richiedi archiviazione versione",
     "content": {
       "description": "Se confermi questa scelta, inizierà un periodo di preavviso in cui la versione resterà attiva per consentire ai fruitori di adeguarsi.",
+      "descriptionDelegate": "Per archiviare la versione di questo e-service ricevuto in delega, devi richiedere l’approvazione all’ente delegante {{name}}.\n\nSe l’ente delegante approverà la richiesta, inizierà un periodo di preavviso in cui la versione resterà attiva per consentire ai fruitori di adeguarsi.",
       "alert": "L’archiviazione effettiva potrebbe richiedere un tempo tecnico aggiuntivo in cui i fruitori continueranno a scambiare dati. Consulta la <1>documentazione</1> per avere altri dettagli."
+    },
+    "actions": {
+      "requestArchiving": "Richiedi archiviazione"
     }
   },
   "archiveGracePeriod": {
     "label": "Seleziona la durata del periodo di preavviso",
     "option": "{{days}} giorni",
     "optionRecommended": "{{days}} giorni (consigliato)",
-    "archiveDate": "L’archiviazione avverrà il giorno <strong>{{date}}</strong>. Potrai annullare l’archiviazione solo prima di questa data."
+    "archiveDate": "L’archiviazione avverrà il giorno <strong>{{date}}</strong>. Potrai annullare l’archiviazione solo prima di questa data.",
+    "archiveDateDelegate": "Potrai richiedere di annullare l’archiviazione solo finché la fase di archiviazione è in corso."
   },
   "copyToClipboardButton": {
     "copy": "Copia",

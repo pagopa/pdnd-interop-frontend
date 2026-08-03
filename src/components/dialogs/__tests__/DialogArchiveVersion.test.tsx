@@ -17,9 +17,13 @@ vi.mock('@/stores', async () => {
 const mockScheduleArchive = vi.fn((_params, options) => {
   options?.onSuccess?.()
 })
+const mockRequestArchive = vi.fn((_params, options) => {
+  options?.onSuccess?.()
+})
 vi.mock('@/api/eservice', () => ({
   EServiceMutations: {
     useScheduleArchiveDescriptor: () => ({ mutate: mockScheduleArchive }),
+    useRequestArchiveDescriptor: () => ({ mutate: mockRequestArchive }),
   },
 }))
 
@@ -90,5 +94,18 @@ describe('DialogArchiveVersion', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'archive' }))
     expect(mockCloseDialog).toHaveBeenCalledTimes(1)
+  })
+
+  it('uses the delegate request-archive mutation when isDelegate is true', async () => {
+    renderDialog({ isDelegate: true, eserviceId: 'eservice-42', descriptorId: 'descriptor-99' })
+
+    await userEvent.click(screen.getByRole('button', { name: 'requestArchiving' }))
+
+    expect(mockRequestArchive).toHaveBeenCalledTimes(1)
+    expect(mockRequestArchive).toHaveBeenCalledWith(
+      { eserviceId: 'eservice-42', descriptorId: 'descriptor-99', gracePeriodDays: 60 },
+      expect.objectContaining({ onSuccess: expect.any(Function) })
+    )
+    expect(mockScheduleArchive).not.toHaveBeenCalled()
   })
 })

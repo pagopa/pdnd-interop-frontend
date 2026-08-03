@@ -333,16 +333,22 @@
   },
   "dialogArchiveVersion": {
     "title": "Archive version",
+    "titleDelegate": "Request version archiving",
     "content": {
       "description": "If you confirm this choice, a notice period will begin during which the version will remain active to allow users to adapt.",
+      "descriptionDelegate": "To archive the version of this e-service received by delegation, you must request approval from the delegating institution {{name}}.\n\nIf the delegating institution approves the request, a notice period will begin during which the version will remain active to allow consumers to adapt.",
       "alert": "Actual archiving may require additional technical time as users continue to exchange data. See the <1>documentation</1> for further details."
+    },
+    "actions": {
+      "requestArchiving": "Request archiving"
     }
   },
   "archiveGracePeriod": {
     "label": "Select the notice period duration",
     "option": "{{days}} days",
     "optionRecommended": "{{days}} days (recommended)",
-    "archiveDate": "Archiving will occur on <strong>{{date}}</strong>. You can only cancel archiving before this date."
+    "archiveDate": "Archiving will occur on <strong>{{date}}</strong>. You can only cancel archiving before this date.",
+    "archiveDateDelegate": "You can request to cancel archiving only while the archiving phase is in progress."
   },
   "copyToClipboardButton": {
     "copy": "Copy",

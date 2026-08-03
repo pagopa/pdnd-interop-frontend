@@ -26,6 +26,8 @@ type ArchiveVersionFormValues = {
 export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
   eserviceId,
   descriptorId,
+  isDelegate,
+  delegatorName,
 }) => {
   const ariaLabelId = React.useId()
 
@@ -36,6 +38,7 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
 
   const { closeDialog } = useDialog()
   const { mutate: scheduleArchive } = EServiceMutations.useScheduleArchiveDescriptor()
+  const { mutate: requestArchive } = EServiceMutations.useRequestArchiveDescriptor()
 
   const formMethods = useForm<ArchiveVersionFormValues>({
     defaultValues: { gracePeriodDays: String(DEFAULT_GRACE_PERIOD_DAYS) },
@@ -47,17 +50,28 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
 
   const handleArchive = () => {
     const gracePeriodDays = Number(formMethods.getValues('gracePeriodDays')) as GracePeriodDays
+    if (isDelegate) {
+      requestArchive({ eserviceId, descriptorId, gracePeriodDays }, { onSuccess: closeDialog })
+      return
+    }
+
     scheduleArchive({ eserviceId, descriptorId, gracePeriodDays }, { onSuccess: closeDialog })
   }
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
-      <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
+      <DialogTitle id={ariaLabelId}>{isDelegate ? t('titleDelegate') : t('title')}</DialogTitle>
       <FormProvider {...formMethods}>
         <DialogContent>
           <Stack spacing={3}>
-            <Typography variant="body2">{t('content.description')}</Typography>
-            <GracePeriodField />
+            <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+              <Trans
+                t={t}
+                i18nKey={isDelegate ? 'content.descriptionDelegate' : 'content.description'}
+                values={isDelegate ? { name: delegatorName ?? '' } : undefined}
+              />
+            </Typography>
+            <GracePeriodField isDelegate={isDelegate} />
           </Stack>
 
           <Alert severity="info" sx={{ mt: 4 }}>
@@ -81,7 +95,7 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
             onClick={handleArchive}
             sx={{ color: 'common.white' }}
           >
-            {tCommon('archive')}
+            {isDelegate ? t('actions.requestArchiving') : tCommon('archive')}
           </Button>
         </DialogActions>
       </FormProvider>
