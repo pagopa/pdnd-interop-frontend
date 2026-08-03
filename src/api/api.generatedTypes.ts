@@ -20,6 +20,7 @@ export type RiskAnalysisSigningState =
 
 /** Risk analysis review mode */
 export type RiskAnalysisReviewMode =
+  | "ADMIN_WRITES_ADMIN_SIGNS"
   | "ADMIN_WRITES_REVIEWER_SIGNS"
   | "REVIEWER_WRITES_REVIEWER_SIGNS";
 
@@ -612,7 +613,7 @@ export interface ArchivingSchedule {
   /** Archiving Scope */
   scope: ArchivingScope;
   /** Number of days for the archiving grace period */
-  gracePeriodDays?: GracePeriodDays;
+  gracePeriodDays: GracePeriodDays;
 }
 
 export interface EServiceRiskAnalysisSeed {
@@ -1217,6 +1218,8 @@ export interface Purpose {
   isDocumentReady: boolean;
   /** @format date-time */
   rulesetExpiration?: string;
+  /** Risk analysis review mode */
+  reviewMode?: RiskAnalysisReviewMode;
   /** Reviewer workflow state for a purpose risk analysis */
   reviewerWorkflow?: ReviewerWorkflow;
 }
@@ -1372,17 +1375,6 @@ export interface RiskAnalysisTemplateAnswerAnnotationSeed {
    * @maxLength 2000
    */
   text: string;
-}
-
-export interface EServiceDescriptorPurposeTemplate {
-  /** @format uuid */
-  purposeTemplateId: string;
-  /** @format uuid */
-  eserviceId: string;
-  /** @format uuid */
-  descriptorId: string;
-  /** @format date-time */
-  createdAt: string;
 }
 
 export interface LinkableEServiceRequest {
@@ -2767,20 +2759,6 @@ export interface UserNotificationConfigUpdateSeed {
   emailConfig: NotificationConfig;
 }
 
-export interface EServiceDescriptorsPurposeTemplate {
-  results: EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescriptor[];
-  pagination: Pagination;
-}
-
-export interface EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescriptor {
-  /** @format uuid */
-  purposeTemplateId: string;
-  eservice: CompactPurposeTemplateEService;
-  descriptor: CompactDescriptor;
-  /** @format date-time */
-  createdAt: string;
-}
-
 export interface GracePeriodDaysSeed {
   /** Number of days for the archiving grace period */
   gracePeriodDays: GracePeriodDays;
@@ -2879,19 +2857,20 @@ export interface NotificationsCountBySection {
   };
 }
 
+/** A designated reviewer enriched with its user details */
+export type Reviewer = CompactUser & {
+  /** @format date-time */
+  sentToReviewerAt?: string;
+};
+
 /** Reviewer workflow state for a purpose risk analysis */
 export interface ReviewerWorkflow {
-  /** Risk analysis review mode */
-  reviewMode: RiskAnalysisReviewMode;
-  reviewerIds: string[];
-  reviewers?: CompactUser[];
+  reviewers?: Reviewer[];
   /** Risk analysis signing state */
   signingState: RiskAnalysisSigningState;
   /** @format uuid */
   signedBy?: string;
   rejectionReason?: string;
-  /** @format date-time */
-  sentToReviewerAt?: string;
 }
 
 /** Payload to assign reviewer mode and reviewers to a purpose risk analysis */
@@ -2899,12 +2878,21 @@ export interface RiskAnalysisAssignmentSeed {
   /** Risk analysis review mode */
   reviewMode: RiskAnalysisReviewMode;
   /** @minItems 1 */
-  reviewerIds: string[];
+  reviewerIds?: string[];
 }
 
 /** Payload to submit the risk analysis form for reviewer signing */
 export interface RiskAnalysisSubmissionSeed {
   riskAnalysisForm: RiskAnalysisFormSeed;
+}
+
+/** Payload to sign the latest version of a purpose risk analysis */
+export interface RiskAnalysisSignSeed {
+  /**
+   * @format int32
+   * @min 0
+   */
+  metadataVersionToSign: number;
 }
 
 /** Payload to reject the risk analysis with a reason */
@@ -4226,32 +4214,6 @@ export interface UnlinkResourceFromPurposeTemplateParams {
   purposeTemplateId: string;
 }
 
-export interface LinkEServiceToPurposeTemplatePayload {
-  /** @format uuid */
-  eserviceId: string;
-}
-
-export interface LinkEServiceToPurposeTemplateParams {
-  /**
-   * the purpose template id
-   * @format uuid
-   */
-  purposeTemplateId: string;
-}
-
-export interface UnlinkEServiceToPurposeTemplatePayload {
-  /** @format uuid */
-  eserviceId: string;
-}
-
-export interface UnlinkEServiceToPurposeTemplateParams {
-  /**
-   * the purpose template id
-   * @format uuid
-   */
-  purposeTemplateId: string;
-}
-
 export interface GetPurposeTemplateLinkableResourcesParams {
   /**
    * Fuzzy match on resource name (e-service name for concrete entries,
@@ -4265,29 +4227,6 @@ export interface GetPurposeTemplateLinkableResourcesParams {
    * @default []
    */
   publisherIds?: string[];
-  /**
-   * @format int32
-   * @min 0
-   */
-  offset: number;
-  /**
-   * @format int32
-   * @min 1
-   * @max 50
-   */
-  limit: number;
-  /** @format uuid */
-  purposeTemplateId: string;
-}
-
-export interface GetPurposeTemplateEServicesParams {
-  /**
-   * comma separated sequence of e-service producer IDs
-   * @default []
-   */
-  producerIds?: string[];
-  /** filter linked e-services by name */
-  eserviceName?: string;
   /**
    * @format int32
    * @min 0
@@ -9028,7 +8967,7 @@ export namespace Templates {
     export type RequestQuery = {};
     export type RequestBody = InstanceEServiceSeed;
     export type RequestHeaders = {};
-    export type ResponseBody = CreatedResource;
+    export type ResponseBody = CreatedEServiceDescriptor;
   }
 
   /**
@@ -9469,7 +9408,7 @@ export namespace Purposes {
       purposeId: string;
     };
     export type RequestQuery = {};
-    export type RequestBody = never;
+    export type RequestBody = RiskAnalysisSignSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
@@ -9809,50 +9748,6 @@ export namespace PurposeTemplates {
   }
 
   /**
-   * @description Link one Eservice to Purpose Template (Draft or Active state)
-   * @tags purposeTemplates
-   * @name LinkEServiceToPurposeTemplate
-   * @summary Link one Eservice to Purpose Template
-   * @request POST:/purposeTemplates/{purposeTemplateId}/linkEservice
-   * @secure
-   */
-  export namespace LinkEServiceToPurposeTemplate {
-    export type RequestParams = {
-      /**
-       * the purpose template id
-       * @format uuid
-       */
-      purposeTemplateId: string;
-    };
-    export type RequestQuery = {};
-    export type RequestBody = LinkEServiceToPurposeTemplatePayload;
-    export type RequestHeaders = {};
-    export type ResponseBody = EServiceDescriptorPurposeTemplate;
-  }
-
-  /**
-   * @description Unlink one Eservice from Purpose Template (Draft or Active state)
-   * @tags purposeTemplates
-   * @name UnlinkEServiceToPurposeTemplate
-   * @summary Unlink one Eservice from Purpose Template
-   * @request POST:/purposeTemplates/{purposeTemplateId}/unlinkEservice
-   * @secure
-   */
-  export namespace UnlinkEServiceToPurposeTemplate {
-    export type RequestParams = {
-      /**
-       * the purpose template id
-       * @format uuid
-       */
-      purposeTemplateId: string;
-    };
-    export type RequestQuery = {};
-    export type RequestBody = UnlinkEServiceToPurposeTemplatePayload;
-    export type RequestHeaders = {};
-    export type ResponseBody = void;
-  }
-
-  /**
    * @description Retrieve the unified list of resources linkable to a purpose template, currently associated with it. Each entry is either a concrete e-service (`resourceKind=ESERVICE`) or an e-service template (`resourceKind=ESERVICE_TEMPLATE`). Results are sorted by `createdAt` DESC (most recent links first), unified across both kinds. `totalCount` reflects the real total of linkable entries (concrete + templates). Behavior on missing referenced resources is fail-fast: if any link points to a removed e-service, descriptor, e-service template, version or tenant, the request returns 404.
    * @tags purposeTemplates
    * @name GetPurposeTemplateLinkableResources
@@ -9893,44 +9788,6 @@ export namespace PurposeTemplates {
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = LinkableResources;
-  }
-
-  /**
-   * @description Retrieve e-services linked to a purpose template
-   * @tags purposeTemplates
-   * @name GetPurposeTemplateEServices
-   * @summary Get Purpose Template E-Services
-   * @request GET:/purposeTemplates/{purposeTemplateId}/eservices
-   * @secure
-   */
-  export namespace GetPurposeTemplateEServices {
-    export type RequestParams = {
-      /** @format uuid */
-      purposeTemplateId: string;
-    };
-    export type RequestQuery = {
-      /**
-       * comma separated sequence of e-service producer IDs
-       * @default []
-       */
-      producerIds?: string[];
-      /** filter linked e-services by name */
-      eserviceName?: string;
-      /**
-       * @format int32
-       * @min 0
-       */
-      offset: number;
-      /**
-       * @format int32
-       * @min 1
-       * @max 50
-       */
-      limit: number;
-    };
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = EServiceDescriptorsPurposeTemplate;
   }
 
   /**
