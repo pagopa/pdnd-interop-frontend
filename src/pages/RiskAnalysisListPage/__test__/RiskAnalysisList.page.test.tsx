@@ -10,6 +10,14 @@ vi.mock('@/components/shared/StatusChip', () => ({
   StatusChip: ({ state }: { state: RiskAnalysisSigningState }) => (
     <div data-testid="status-chip">{state}</div>
   ),
+  StatusChipSkeleton: () => <div data-testid="status-chip-skeleton" />,
+}))
+
+vi.mock('@/hooks/useActiveTab', () => ({
+  useActiveTab: () => ({
+    activeTab: 'todo',
+    updateActiveTab: vi.fn(),
+  }),
 }))
 
 vi.mock('@/api/purpose', () => ({
@@ -36,6 +44,17 @@ vi.mock('@/api/purpose', () => ({
   },
 }))
 
+vi.mock('@/api/eservice', () => ({
+  EServiceQueries: {
+    getCatalogList: () => ({
+      queryKey: ['eservices'],
+      queryFn: async () => ({
+        results: [],
+      }),
+    }),
+  },
+}))
+
 vi.mock('@tanstack/react-query', async () => {
   const actual = await vi.importActual<typeof ReactQuery>('@tanstack/react-query')
 
@@ -57,25 +76,34 @@ describe('RiskAnalysisListPage', () => {
   beforeEach(() => {
     vi.clearAllMocks()
 
-    mockedUseQuery.mockReturnValue({
-      data: {
-        results: [
-          {
-            id: '1',
-            eservice: {
-              name: 'Test E-service',
-              producer: { name: 'PagoPA' },
+    mockedUseQuery
+      .mockReturnValueOnce({
+        data: [],
+      } as unknown as ReturnType<typeof useQuery>)
+      .mockReturnValueOnce({
+        data: {
+          results: [{ id: '1' }],
+        },
+      } as unknown as ReturnType<typeof useQuery>)
+      .mockReturnValueOnce({
+        data: {
+          results: [
+            {
+              id: '1',
+              eservice: {
+                name: 'Test E-service',
+                producer: { name: 'PagoPA' },
+              },
+              reviewerWorkflow: {
+                signingState: 'ASSIGNED',
+                sentToReviewerAt: new Date().toISOString(),
+              },
             },
-            reviewerWorkflow: {
-              signingState: 'ASSIGNED',
-              sentToReviewerAt: new Date().toISOString(),
-            },
-          },
-        ],
-        pagination: { totalCount: 1 },
-      },
-      isFetching: false,
-    } as unknown as ReturnType<typeof useQuery>)
+          ],
+          pagination: { totalCount: 1 },
+        },
+        isFetching: false,
+      } as unknown as ReturnType<typeof useQuery>)
 
     renderPage()
   })
@@ -86,6 +114,11 @@ describe('RiskAnalysisListPage', () => {
 
   it('renders page description', () => {
     expect(screen.getByText('description')).toBeInTheDocument()
+  })
+
+  it('renders tabs', () => {
+    expect(screen.getByRole('tab', { name: 'tabs.todo' })).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: 'tabs.done' })).toBeInTheDocument()
   })
 
   it('renders filters', () => {
@@ -111,14 +144,71 @@ describe('RiskAnalysisListPage', () => {
   })
 
   it('does not render noData label while initial data is loading', () => {
-    mockedUseQuery.mockReturnValueOnce({
-      data: undefined,
-      isFetching: true,
-    } as unknown as ReturnType<typeof useQuery>)
+    mockedUseQuery
+      .mockReturnValueOnce({
+        data: [],
+      } as unknown as ReturnType<typeof useQuery>)
+      .mockReturnValueOnce({
+        data: undefined,
+      } as unknown as ReturnType<typeof useQuery>)
+      .mockReturnValueOnce({
+        data: undefined,
+        isFetching: true,
+      } as unknown as ReturnType<typeof useQuery>)
 
     renderPage()
 
     expect(screen.queryByText('noData.label')).not.toBeInTheDocument()
+  })
+
+  it('renders initial empty state', () => {
+    mockedUseQuery
+      .mockReturnValueOnce({
+        data: [],
+      } as unknown as ReturnType<typeof useQuery>)
+      .mockReturnValueOnce({
+        data: {
+          results: [],
+        },
+      } as unknown as ReturnType<typeof useQuery>)
+      .mockReturnValueOnce({
+        data: {
+          results: [],
+          pagination: {
+            totalCount: 0,
+          },
+        },
+        isFetching: false,
+      } as unknown as ReturnType<typeof useQuery>)
+
+    renderPage()
+
+    expect(screen.getByText('noData.label')).toBeInTheDocument()
+  })
+
+  it('renders empty todo tab', () => {
+    mockedUseQuery
+      .mockReturnValueOnce({
+        data: [],
+      } as unknown as ReturnType<typeof useQuery>)
+      .mockReturnValueOnce({
+        data: {
+          results: [{ id: '1' }],
+        },
+      } as unknown as ReturnType<typeof useQuery>)
+      .mockReturnValueOnce({
+        data: {
+          results: [],
+          pagination: {
+            totalCount: 0,
+          },
+        },
+        isFetching: false,
+      } as unknown as ReturnType<typeof useQuery>)
+
+    renderPage()
+
+    expect(screen.getByText('emptyTodo')).toBeInTheDocument()
   })
 
   it('renders skeleton rows', () => {

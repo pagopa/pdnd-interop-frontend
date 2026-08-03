@@ -136,7 +136,7 @@ const RiskAnalysisListPage: React.FC = () => {
               <Tab label={tPurpose('tabs.done')} value={RiskAnalysisListPageTab.DONE} />
             </TabList>
             <TabPanel value={activeTab}>
-              {data?.results.length === 0 ? (
+              {data?.results.length === 0 && !hasActiveFilters ? (
                 <NoDataBox label={emptyTabLabel} />
               ) : (
                 <>
