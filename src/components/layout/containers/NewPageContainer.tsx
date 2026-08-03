@@ -134,7 +134,9 @@ const Intro: React.FC<IntroProps> = ({
             <StatusChip {...statusChip} />
           </Box>
         )}
-        {byDelegationChip && <ByDelegationChip {...byDelegationChip} />}
+        {byDelegationChip && byDelegationChip.tenantRole && (
+          <ByDelegationChip {...byDelegationChip} />
+        )}
         <ActionsSection
           primaryAction={primaryAction}
           secondaryAction={secondaryAction}
