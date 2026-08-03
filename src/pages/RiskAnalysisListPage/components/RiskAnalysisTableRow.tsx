@@ -52,23 +52,28 @@ export const RiskAnalysisTableRow: React.FC<{
       : '',
   ]
 
+  const redirectPath = match(purpose.reviewerWorkflow?.signingState)
+    .with('ASSIGNED', () => 'SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE' as const)
+    .with('SUBMITTED', () => 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL' as const)
+    .with('SIGNED', () => null) /* Will be developed in PIN-10694 */
+    .with('REJECTED', () => null) /* Will be developed in PIN-10694 */
+    .otherwise(() => null)
+
   return (
     <TableRow cellData={cellData}>
-      <Link
-        as="button"
-        variant="naked"
-        size="small"
-        to={
-          purpose.reviewerWorkflow?.signingState === 'ASSIGNED'
-            ? 'SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE'
-            : 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL'
-        }
-        params={{
-          purposeId: purpose.id,
-        }}
-      >
-        <ChevronRightIcon />
-      </Link>
+      {redirectPath && (
+        <Link
+          as="button"
+          variant="naked"
+          size="small"
+          to={redirectPath}
+          params={{
+            purposeId: purpose.id,
+          }}
+        >
+          <ChevronRightIcon />
+        </Link>
+      )}
     </TableRow>
   )
 }
@@ -80,8 +85,8 @@ export const RiskAnalysisTableRowSkeleton: React.FC = () => {
         <Skeleton key={0} width={180} />,
         <Skeleton key={1} width={180} />,
         <Skeleton key={2} width={180} />,
-        <Skeleton key={4} width={180} />,
-        <StatusChipSkeleton key={3} />,
+        <Skeleton key={3} width={180} />,
+        <StatusChipSkeleton key={4} />,
       ]}
     >
       <ActionMenuSkeleton />
