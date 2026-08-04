@@ -96,10 +96,13 @@ function renderComponent(overrides?: {
   )
 }
 
-/** Opens the reviewers dropdown, picks the given names and closes it again. */
+/**
+ * Picks the given reviewers from the dropdown. The autocomplete does not set
+ * `disableCloseOnSelect`, so the popup closes after every pick and has to be reopened.
+ */
 async function selectReviewers(user: ReturnType<typeof userEvent.setup>, names: Array<string>) {
-  await user.click(screen.getByRole('combobox', { name: 'reviewerField.inputLabel' }))
   for (const name of names) {
+    await user.click(screen.getByRole('combobox', { name: 'reviewerField.inputLabel' }))
     await user.click(await screen.findByRole('option', { name }))
   }
   await user.keyboard('{Escape}')
@@ -562,7 +565,8 @@ describe('PurposeEditStepAssignmentForm', () => {
         reviewers: [],
       })
 
-      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+      // The CTA still reads from the persisted mode, which is the reviewer-compilation one.
+      await user.click(screen.getByRole('button', { name: 'requestReviewerCompilationBtn' }))
 
       expect(openDialogMock).toHaveBeenCalledWith(
         expect.objectContaining({
