@@ -215,9 +215,44 @@ export function useGetProviderEServiceActions(
     icon: ArchiveIcon,
   }
 
+  const openCancelArchivingDialogForTesting = (archivingApproved: boolean) => {
+    if (!activeDescriptorId) return
+    openDialog({
+      type: 'cancelVersionArchiving',
+      eserviceId,
+      descriptorId: activeDescriptorId,
+      isDelegate,
+      delegatorName: delegation?.delegator.name,
+      archivingApproved,
+      archivingDate: archivingSchedule?.archivableOn ?? '2025-01-27T00:00:00.000Z',
+    })
+  }
+
+  const temporaryCancelArchivingDialogTestActions: Array<ActionItemButton> =
+    import.meta.env.DEV && isDelegate
+      ? [
+          {
+            action: () => openCancelArchivingDialogForTesting(false),
+            label: '[TMP] Test annulla richiesta (non approvata)',
+          },
+          {
+            action: () => openCancelArchivingDialogForTesting(true),
+            label: '[TMP] Test annulla richiesta (approvata)',
+          },
+        ]
+      : []
+
   const handleCancelArchivingDescriptor = () => {
     if (activeDescriptorId) {
-      openDialog({ type: 'cancelVersionArchiving', eserviceId, descriptorId: activeDescriptorId })
+      openDialog({
+        type: 'cancelVersionArchiving',
+        eserviceId,
+        descriptorId: activeDescriptorId,
+        isDelegate,
+        delegatorName: delegation?.delegator.name,
+        archivingApproved: Boolean(archivingSchedule?.archivableOn),
+        archivingDate: archivingSchedule?.archivableOn,
+      })
     }
   }
 
@@ -1190,7 +1225,11 @@ export function useGetProviderEServiceActions(
     }))
     .with({ state: 'DEPRECATED' }, () => ({
       primary: undefined,
-      header: [suspendAction, archiveDescriptorAction],
+      header: [
+        suspendAction,
+        archiveDescriptorAction,
+        ...temporaryCancelArchivingDialogTestActions,
+      ],
       menu: menuWithNewVersion,
     }))
     .with({ state: 'SUSPENDED', isActiveDescriptor: true }, () => ({
@@ -1200,7 +1239,11 @@ export function useGetProviderEServiceActions(
     }))
     .with({ state: 'SUSPENDED' }, () => ({
       primary: undefined,
-      header: [reactivateAction, archiveDescriptorAction],
+      header: [
+        reactivateAction,
+        archiveDescriptorAction,
+        ...temporaryCancelArchivingDialogTestActions,
+      ],
       menu: menuWithNewVersion,
     }))
     .with({ state: 'ARCHIVED' }, () => ({

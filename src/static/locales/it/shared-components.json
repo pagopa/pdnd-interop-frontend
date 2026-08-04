@@ -325,10 +325,19 @@
   },
   "dialogCancelVersionArchiving": {
     "title": "Annulla archiviazione versione",
+    "titleDelegate": "Annulla richiesta di archiviazione",
+    "titleDelegateApproved": "Annulla richiesta di archiviazione",
     "description": "Questa versione non sarà più in fase di archiviazione.",
+    "descriptionDelegate": "Il giorno {{date}} hai richiesto l’archiviazione di questa versione dell’e-service all’ente delegante {{name}}. Fino all’approvazione, puoi annullare la richiesta di archiviazione in autonomia.",
+    "descriptionDelegateApproved": "Questa versione dell’e-service sarà archiviata il giorno {{date}}. Per annullare l’archiviazione, devi contattare l’ente delegante {{name}} prima di questa data.",
+    "alertDelegate": "Quando la richiesta di archiviazione sarà approvata, dovrai contattare l’ente delegante per richiedere l’annullamento dell’archiviazione.",
     "actions": {
       "keepArchiving": "Mantieni in archiviazione",
-      "cancelArchiving": "Annulla archiviazione"
+      "keepArchivingDelegate": "Mantieni richiesta di archiviazione",
+      "cancelArchiving": "Annulla archiviazione",
+      "cancelArchivingDelegate": "Annulla richiesta di archiviazione",
+      "cancelApproved": "Annulla",
+      "closeApproved": "Chiudi"
     }
   },
   "dialogArchiveVersion": {

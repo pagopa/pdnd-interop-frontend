@@ -325,10 +325,19 @@
   },
   "dialogCancelVersionArchiving": {
     "title": "Cancel version archiving",
+    "titleDelegate": "Cancel archiving request",
+    "titleDelegateApproved": "Cancel archiving request",
     "description": "This version will no longer be archived.",
+    "descriptionDelegate": "The archiving request sent to the delegating institution {{name}} will be canceled.",
+    "descriptionDelegateApproved": "This e-service version will be archived on {{date}}. To cancel archiving, contact the delegating institution {{name}} before this date.",
+    "alertDelegate": "Once the archiving request is approved, you will need to contact the delegating institution to request cancellation of archiving.",
     "actions": {
       "keepArchiving": "Keep archiving",
-      "cancelArchiving": "Cancel archiving"
+      "keepArchivingDelegate": "Keep archiving request",
+      "cancelArchiving": "Cancel archiving",
+      "cancelArchivingDelegate": "Cancel archiving request",
+      "cancelApproved": "Cancel",
+      "closeApproved": "Close"
     }
   },
   "dialogArchiveVersion": {

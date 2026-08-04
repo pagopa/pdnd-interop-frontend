@@ -49,6 +49,48 @@ describe('DialogCancelVersionArchiving', () => {
     expect(screen.getByRole('button', { name: 'actions.cancelArchiving' })).toBeInTheDocument()
   })
 
+  it('renders delegate-specific action labels when opened in delegation context', () => {
+    renderDialog({ isDelegate: true, delegatorName: 'Comune di Milano' })
+
+    expect(
+      screen.getByRole('button', { name: 'actions.keepArchivingDelegate' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'actions.cancelArchivingDelegate' })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('alert')).toHaveTextContent('alertDelegate')
+    expect(screen.getByRole('button', { name: 'actions.cancelArchivingDelegate' })).toHaveClass(
+      'MuiButton-containedPrimary'
+    )
+  })
+
+  it('renders approved delegate copy and close-only actions when archivingApproved is true', () => {
+    renderDialog({
+      isDelegate: true,
+      delegatorName: 'Comune di Milano',
+      archivingApproved: true,
+      archivingDate: '2025-01-27T00:00:00.000Z',
+    })
+
+    expect(screen.getByRole('button', { name: 'actions.cancelApproved' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'actions.closeApproved' })).toBeInTheDocument()
+  })
+
+  it('does not call cancel mutation when archivingApproved is true and user clicks either action', async () => {
+    renderDialog({
+      isDelegate: true,
+      delegatorName: 'Comune di Milano',
+      archivingApproved: true,
+      archivingDate: '2025-01-27T00:00:00.000Z',
+    })
+
+    await userEvent.click(screen.getByRole('button', { name: 'actions.cancelApproved' }))
+    await userEvent.click(screen.getByRole('button', { name: 'actions.closeApproved' }))
+
+    expect(mockCancelArchive).not.toHaveBeenCalled()
+    expect(mockCloseDialog).toHaveBeenCalledTimes(2)
+  })
+
   it('closes the dialog when clicking the keep-archiving button without calling the mutation', async () => {
     renderDialog()
 

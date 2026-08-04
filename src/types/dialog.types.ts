@@ -279,4 +279,8 @@ export type DialogCancelVersionArchivingProps = {
   type: 'cancelVersionArchiving'
   eserviceId: string
   descriptorId: string
+  isDelegate?: boolean
+  delegatorName?: string
+  archivingApproved?: boolean
+  archivingDate?: string
 }
