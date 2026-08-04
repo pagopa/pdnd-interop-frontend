@@ -11,6 +11,8 @@ vi.mock('@/api/purpose', () => ({
   },
 }))
 
+mockUseJwt()
+
 const waitingForApprovalVersion: PurposeVersion = {
   id: 'waiting-for-approval-version-id',
   state: 'WAITING_FOR_APPROVAL',
@@ -20,7 +22,6 @@ const waitingForApprovalVersion: PurposeVersion = {
 
 describe('ConsumerPurposeDetailsDailyCallsUpdatePlanCard', () => {
   it('shows the remove change plan request link for admin consumers with a pending request', () => {
-    mockUseJwt()
     renderWithApplicationContext(
       <ConsumerPurposeDetailsDailyCallsUpdatePlanCard
         purpose={createMockPurpose({ waitingForApprovalVersion })}
@@ -30,19 +31,7 @@ describe('ConsumerPurposeDetailsDailyCallsUpdatePlanCard', () => {
     expect(screen.getByText('removeChangePlanRequestLink.label')).toBeInTheDocument()
   })
 
-  it('hides the remove change plan request link for non-admin users', () => {
-    mockUseJwt({ isAdmin: false })
-    renderWithApplicationContext(
-      <ConsumerPurposeDetailsDailyCallsUpdatePlanCard
-        purpose={createMockPurpose({ waitingForApprovalVersion })}
-      />,
-      { withReactQueryContext: true }
-    )
-    expect(screen.queryByText('removeChangePlanRequestLink.label')).not.toBeInTheDocument()
-  })
-
   it('hides the remove change plan request link for the delegator of an active delegation', () => {
-    mockUseJwt()
     renderWithApplicationContext(
       <ConsumerPurposeDetailsDailyCallsUpdatePlanCard
         purpose={createMockPurpose({
@@ -60,7 +49,6 @@ describe('ConsumerPurposeDetailsDailyCallsUpdatePlanCard', () => {
   })
 
   it('shows the remove change plan request link for the delegate of an active delegation', () => {
-    mockUseJwt()
     renderWithApplicationContext(
       <ConsumerPurposeDetailsDailyCallsUpdatePlanCard
         purpose={createMockPurpose({
@@ -75,5 +63,29 @@ describe('ConsumerPurposeDetailsDailyCallsUpdatePlanCard', () => {
       { withReactQueryContext: true }
     )
     expect(screen.getByText('removeChangePlanRequestLink.label')).toBeInTheDocument()
+  })
+
+  it('shows the remove change plan request link disabled when the current version is suspended', () => {
+    renderWithApplicationContext(
+      <ConsumerPurposeDetailsDailyCallsUpdatePlanCard
+        purpose={createMockPurpose({
+          waitingForApprovalVersion,
+          currentVersion: { state: 'SUSPENDED' },
+        })}
+      />,
+      { withReactQueryContext: true }
+    )
+    expect(screen.getByRole('button', { name: 'removeChangePlanRequestLink.label' })).toBeDisabled()
+  })
+
+  it('hides the remove change plan request link for non-admin users', () => {
+    mockUseJwt({ isAdmin: false })
+    renderWithApplicationContext(
+      <ConsumerPurposeDetailsDailyCallsUpdatePlanCard
+        purpose={createMockPurpose({ waitingForApprovalVersion })}
+      />,
+      { withReactQueryContext: true }
+    )
+    expect(screen.queryByText('removeChangePlanRequestLink.label')).not.toBeInTheDocument()
   })
 })
