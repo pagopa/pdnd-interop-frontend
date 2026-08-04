@@ -985,6 +985,34 @@ describe('useGetEServiceConsumerActions tests - actions', () => {
     expect(result.current.primaryAction).toBeUndefined()
   })
 
+  it.each<EServiceDescriptorState>(['ARCHIVING', 'ARCHIVING_SUSPENDED'])(
+    'should not expose the disabled subscribe action when viewing the latest version while the e-service is being archived (state %s)',
+    (state) => {
+      mockUseJwt({ isAdmin: true })
+
+      const eserviceMock = createMockCatalogDescriptorEService({
+        agreements: [],
+        isMine: false,
+        isSubscribed: false,
+        hasCertifiedAttributes: true,
+      })
+
+      const descriptorMock = createMockEServiceDescriptorCatalog({
+        eservice: {
+          ...eserviceMock,
+          activeDescriptor: { id: 'latest-id', state },
+        },
+        state,
+        id: 'latest-id',
+      })
+
+      const { result } = renderUseGetEServiceConsumerActionsHook(descriptorMock)
+
+      expect(result.current.primaryAction).toBeUndefined()
+      expect(result.current.secondaryAction).toBeUndefined()
+    }
+  )
+
   it('should not show the subscribe action when the requester already has a blocking agreement on an obsolete version', () => {
     mockUseJwt({ isAdmin: true })
 
