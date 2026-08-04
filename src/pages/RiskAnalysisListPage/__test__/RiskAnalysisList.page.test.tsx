@@ -8,6 +8,16 @@ import { RiskAnalysisTable, RiskAnalysisTableSkeleton } from '../components/Risk
 
 const mockUseActiveTab = vi.fn()
 
+vi.mock('@/api/auth', () => ({
+  AuthHooks: {
+    useJwt: () => ({
+      jwt: {
+        uid: 'reviewer-1',
+      },
+    }),
+  },
+}))
+
 vi.mock('@/components/shared/StatusChip', () => ({
   StatusChip: ({ state }: { state: RiskAnalysisSigningState }) => (
     <div data-testid="status-chip">{state}</div>
@@ -33,7 +43,13 @@ vi.mock('@/api/purpose', () => ({
             },
             reviewerWorkflow: {
               signingState: 'ASSIGNED',
-              sentToReviewerAt: new Date().toISOString(),
+              reviewers: [
+                {
+                  userId: 'reviewer-1',
+                  name: 'Mario Rossi',
+                  sentToReviewerAt: new Date().toISOString(),
+                },
+              ],
             },
           },
         ],
@@ -100,7 +116,13 @@ describe('RiskAnalysisListPage', () => {
               },
               reviewerWorkflow: {
                 signingState: 'ASSIGNED',
-                sentToReviewerAt: new Date().toISOString(),
+                reviewers: [
+                  {
+                    userId: 'reviewer-1',
+                    name: 'Mario Rossi',
+                    sentToReviewerAt: new Date().toISOString(),
+                  },
+                ],
               },
             },
           ],
@@ -245,6 +267,103 @@ describe('RiskAnalysisListPage', () => {
     renderPage()
 
     expect(screen.getByText('emptyDone')).toBeInTheDocument()
+  })
+
+  it('should render signed by reviewer name in done tab', async () => {
+    mockUseActiveTab.mockReturnValue({
+      activeTab: 'done',
+      updateActiveTab: vi.fn(),
+    })
+
+    mockedUseQuery
+      .mockReturnValueOnce({
+        data: [],
+      } as unknown as ReturnType<typeof useQuery>)
+      .mockReturnValueOnce({
+        data: {
+          results: [{ id: '1' }],
+        },
+      } as unknown as ReturnType<typeof useQuery>)
+      .mockReturnValueOnce({
+        data: {
+          results: [
+            {
+              id: '1',
+              eservice: {
+                name: 'Test E-service',
+                producer: { name: 'PagoPA' },
+              },
+              reviewerWorkflow: {
+                signingState: 'SIGNED',
+                signedBy: 'reviewer-2',
+                reviewers: [
+                  {
+                    userId: 'reviewer-2',
+                    name: 'Mario Rossi',
+                    sentToReviewerAt: new Date().toISOString(),
+                  },
+                ],
+              },
+            },
+          ],
+          pagination: {
+            totalCount: 1,
+          },
+        },
+        isFetching: false,
+      } as unknown as ReturnType<typeof useQuery>)
+
+    renderPage()
+
+    expect(await screen.findByText('Mario Rossi')).toBeInTheDocument()
+  })
+
+  it('should render reviewers count in todo tab', async () => {
+    mockedUseQuery
+      .mockReturnValueOnce({
+        data: [],
+      } as unknown as ReturnType<typeof useQuery>)
+      .mockReturnValueOnce({
+        data: {
+          results: [{ id: '1' }],
+        },
+      } as unknown as ReturnType<typeof useQuery>)
+      .mockReturnValueOnce({
+        data: {
+          results: [
+            {
+              id: '1',
+              eservice: {
+                name: 'Test E-service',
+                producer: { name: 'PagoPA' },
+              },
+              reviewerWorkflow: {
+                signingState: 'ASSIGNED',
+                reviewers: [
+                  {
+                    userId: 'reviewer-1',
+                    name: 'Mario Rossi',
+                    sentToReviewerAt: new Date().toISOString(),
+                  },
+                  {
+                    userId: 'reviewer-2',
+                    name: 'Luigi Verdi',
+                    sentToReviewerAt: new Date().toISOString(),
+                  },
+                ],
+              },
+            },
+          ],
+          pagination: {
+            totalCount: 1,
+          },
+        },
+        isFetching: false,
+      } as unknown as ReturnType<typeof useQuery>)
+
+    renderPage()
+
+    expect(await screen.findByText('2')).toBeInTheDocument()
   })
 
   it('should render done table headers', () => {
