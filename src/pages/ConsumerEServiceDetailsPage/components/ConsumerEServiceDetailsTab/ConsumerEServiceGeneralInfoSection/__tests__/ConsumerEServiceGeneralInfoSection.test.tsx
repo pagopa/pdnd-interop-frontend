@@ -186,6 +186,39 @@ describe('ConsumerEServiceGeneralInfoSection', () => {
     ).toBeInTheDocument()
   })
 
+  it('shows the delegation subsection with the delegation flags inverted', () => {
+    useSuspenseQueryMock.mockReturnValue({
+      data: createMockEServiceDescriptorCatalog({
+        eservice: { isConsumerDelegable: false, isClientAccessDelegable: true },
+      }),
+    })
+
+    renderComponent()
+
+    expect(screen.getByText('delegationSection.title')).toBeInTheDocument()
+    expect(screen.getByText('delegationSection.isConsumerDelegable.label')).toBeInTheDocument()
+    expect(
+      screen.getByText('delegationSection.isConsumerDelegable.value.false')
+    ).toBeInTheDocument()
+    expect(screen.getByText('delegationSection.isClientAccessDelegable.label')).toBeInTheDocument()
+    expect(
+      screen.getByText('delegationSection.isClientAccessDelegable.value.true')
+    ).toBeInTheDocument()
+  })
+
+  it('treats undefined delegation flags as not delegable', () => {
+    useSuspenseQueryMock.mockReturnValue({ data: createMockEServiceDescriptorCatalog() })
+
+    renderComponent()
+
+    expect(
+      screen.getByText('delegationSection.isConsumerDelegable.value.undefined')
+    ).toBeInTheDocument()
+    expect(
+      screen.getByText('delegationSection.isClientAccessDelegable.value.undefined')
+    ).toBeInTheDocument()
+  })
+
   it('does not show the template reference for an e-service not derived from a template', () => {
     useSuspenseQueryMock.mockReturnValue({ data: createMockEServiceDescriptorCatalog() })
 
@@ -209,5 +242,43 @@ describe('ConsumerEServiceGeneralInfoSection', () => {
 
     expect(screen.getByText('eserviceTemplateInUse.label')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'My template' })).toBeInTheDocument()
+  })
+
+  it('navigates to the template details page from the template reference link', async () => {
+    const user = userEvent.setup()
+    useSuspenseQueryMock.mockReturnValue({
+      data: createMockEServiceDescriptorCatalog({
+        templateRef: {
+          templateId: 'template-id-001',
+          templateVersionId: 'template-version-id-001',
+          templateName: 'My template',
+        },
+      }),
+    })
+
+    const { history } = renderComponent()
+
+    await user.click(screen.getByRole('link', { name: 'My template' }))
+
+    expect(history.location.pathname).toBe(
+      '/it/erogazione/catalogo-template/template-id-001/template-version-id-001'
+    )
+  })
+
+  it('shows the template name as plain text when the template version is missing', () => {
+    useSuspenseQueryMock.mockReturnValue({
+      data: createMockEServiceDescriptorCatalog({
+        templateRef: {
+          templateId: 'template-id-001',
+          templateName: 'My template',
+        },
+      }),
+    })
+
+    renderComponent()
+
+    expect(screen.getByText('eserviceTemplateInUse.label')).toBeInTheDocument()
+    expect(screen.getByText('My template')).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: 'My template' })).not.toBeInTheDocument()
   })
 })

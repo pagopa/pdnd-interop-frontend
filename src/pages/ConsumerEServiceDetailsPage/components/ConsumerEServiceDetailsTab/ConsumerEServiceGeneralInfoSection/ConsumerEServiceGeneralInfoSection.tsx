@@ -43,6 +43,7 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
   } = useDrawerState()
 
   const hasContactInformations = !!descriptor.eservice.mail
+  const { templateRef } = descriptor
 
   const showTechnicalDetailsAction = {
     startIcon: <EngineeringIcon fontSize="small" />,
@@ -80,19 +81,25 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
             label={t('producer.label')}
             content={descriptor.eservice.producer.name}
           />
-          {descriptor.templateRef && (
+          {templateRef && (
             <InformationContainer
               label={t('eserviceTemplateInUse.label')}
               content={
-                <Link
-                  to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
-                  params={{
-                    eServiceTemplateId: descriptor.templateRef.templateId,
-                    eServiceTemplateVersionId: descriptor.templateRef.templateVersionId as string,
-                  }}
-                >
-                  {descriptor.templateRef.templateName}
-                </Link>
+                /* Without the template version there is no valid route to link to, so the template
+                   name is shown as plain text instead of a broken link. */
+                templateRef.templateVersionId ? (
+                  <Link
+                    to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
+                    params={{
+                      eServiceTemplateId: templateRef.templateId,
+                      eServiceTemplateVersionId: templateRef.templateVersionId,
+                    }}
+                  >
+                    {templateRef.templateName}
+                  </Link>
+                ) : (
+                  templateRef.templateName
+                )
               }
             />
           )}
