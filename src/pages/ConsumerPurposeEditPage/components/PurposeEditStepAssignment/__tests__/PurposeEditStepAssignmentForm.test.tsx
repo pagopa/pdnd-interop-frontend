@@ -528,7 +528,19 @@ describe('PurposeEditStepAssignmentForm', () => {
 
       await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
 
-      expect(openDialogMock).not.toHaveBeenCalled()
+      expect(assignReviewerMock).not.toHaveBeenCalled()
+      expect(openDialogMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'editRiskAnalysisAssignment',
+          fromMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+          toMode: 'ADMIN_WRITES_ADMIN_SIGNS',
+          addedReviewerNames: [],
+          removedReviewerNames: ['Luca Neri'],
+        })
+      )
+
+      openDialogMock.mock.calls[0][0].onConfirm()
+
       expect(assignReviewerMock).toHaveBeenCalledWith(
         {
           purposeId: 'purpose-id',
@@ -536,6 +548,27 @@ describe('PurposeEditStepAssignmentForm', () => {
           reviewerIds: undefined,
         },
         expect.objectContaining({ onSuccess: forward })
+      )
+    })
+
+    it('carries the reviewer-compilation mode into the dialog so the risk analysis loss is announced', async () => {
+      const user = userEvent.setup()
+      renderComponent({
+        purpose: buildAssignedPurpose('REVIEWER_WRITES_REVIEWER_SIGNS', [removedReviewer]),
+        defaultValues: {
+          reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
+          reviewerIds: [removedReviewer.userId],
+        },
+        reviewers: [],
+      })
+
+      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+
+      expect(openDialogMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          fromMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
+          toMode: 'ADMIN_WRITES_ADMIN_SIGNS',
+        })
       )
     })
 

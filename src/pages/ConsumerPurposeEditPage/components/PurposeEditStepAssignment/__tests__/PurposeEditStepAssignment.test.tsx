@@ -249,6 +249,36 @@ describe('PurposeEditStepAssignment', () => {
     )
   })
 
+  it('reseeds the form when a refetch changes the persisted assignment', () => {
+    mockQueries({ purpose: buildPurpose(), reviewers: buildReviewers() })
+
+    const { rerender } = render(
+      <PurposeEditStepAssignment back={vi.fn()} forward={vi.fn()} activeStep={1} />
+    )
+
+    mockQueries({
+      purpose: buildPurpose(
+        {},
+        {
+          reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+          reviewers: [{ userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' }],
+        }
+      ),
+      reviewers: buildReviewers(),
+    })
+    rerender(<PurposeEditStepAssignment back={vi.fn()} forward={vi.fn()} activeStep={1} />)
+
+    expect(PurposeEditStepAssignmentForm).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        defaultValues: {
+          reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+          reviewerIds: ['reviewer-1'],
+        },
+      }),
+      expect.anything()
+    )
+  })
+
   it('seeds the default values with the persisted review mode and reviewers', () => {
     const purpose = buildPurpose(
       {},

@@ -115,33 +115,23 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
   }
 
   const onSubmit = ({ reviewMode, reviewerIds }: PurposeEditStepAssignmentFormValues) => {
-    if (isFormHidden) {
-      if (hasLostItsOnlyReviewers) {
-        assignReviewer(
-          {
-            purposeId: purpose.id,
-            reviewMode: 'ADMIN_WRITES_ADMIN_SIGNS',
-            reviewerIds: undefined,
-          },
-          { onSuccess: forward }
-        )
-        return
-      }
+    if (isFormHidden && !hasLostItsOnlyReviewers) {
       forward()
       return
     }
 
-    // Everything below is derived from the submitted values rather than from the watched ones,
-    // so the payload can never drift from what the admin actually confirmed.
-    const submittedNeedsReviewers = checkReviewModeNeedsReviewers(reviewMode)
-    const submittedHandsOverToReviewer = reviewMode === 'REVIEWER_WRITES_REVIEWER_SIGNS'
+    const submittedMode: RiskAnalysisReviewMode = isFormHidden
+      ? 'ADMIN_WRITES_ADMIN_SIGNS'
+      : reviewMode
+    const submittedNeedsReviewers = checkReviewModeNeedsReviewers(submittedMode)
+    const submittedHandsOverToReviewer = submittedMode === 'REVIEWER_WRITES_REVIEWER_SIGNS'
 
     // A mode that involves no reviewer must not carry over the ones from the previous assignment.
     const nextReviewerIds = submittedNeedsReviewers ? reviewerIds : []
 
     const payload: { purposeId: string } & RiskAnalysisAssignmentSeed = {
       purposeId: purpose.id,
-      reviewMode,
+      reviewMode: submittedMode,
       reviewerIds: submittedNeedsReviewers ? nextReviewerIds : undefined,
     }
 
@@ -180,7 +170,7 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
       .map(getReviewerName)
 
     const hasChanges =
-      fromMode !== reviewMode || addedReviewerNames.length > 0 || removedReviewerNames.length > 0
+      fromMode !== submittedMode || addedReviewerNames.length > 0 || removedReviewerNames.length > 0
 
     if (!hasChanges) {
       // Nothing was changed: there is nothing to confirm and nothing to persist.
@@ -192,7 +182,7 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
     openDialog({
       type: 'editRiskAnalysisAssignment',
       fromMode,
-      toMode: reviewMode,
+      toMode: submittedMode,
       addedReviewerNames,
       removedReviewerNames,
       // The mutation must be triggered from here: running it inside the dialog would race

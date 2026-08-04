@@ -66,8 +66,11 @@ export const PurposeEditStepAssignment: React.FC<ActiveStepProps> = (props) => {
 
   const defaultValues = getDefaultValues(purpose)
 
+  const formKey = [defaultValues.reviewMode, ...defaultValues.reviewerIds].join('|')
+
   return (
     <PurposeEditStepAssignmentForm
+      key={formKey}
       purpose={purpose}
       reviewers={reviewers ?? []}
       isDelegate={isDelegate}
