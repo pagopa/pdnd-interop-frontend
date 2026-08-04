@@ -143,9 +143,7 @@ describe('PurposeEditStepAssignmentForm', () => {
     await user.click(
       screen.getByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_REVIEWER_SIGNS' })
     )
-    expect(
-      screen.getByText('reviewerField.label.ADMIN_WRITES_REVIEWER_SIGNS')
-    ).toBeInTheDocument()
+    expect(screen.getByText('reviewerField.label.ADMIN_WRITES_REVIEWER_SIGNS')).toBeInTheDocument()
 
     expect(screen.getByRole('combobox', { name: 'reviewerField.inputLabel' })).toBeInTheDocument()
 

@@ -57,9 +57,7 @@ describe('PurposeEditStepAssignmentReadOnly', () => {
     renderComponent({ purpose })
 
     expect(screen.getByText('readOnly.modeLabel')).toBeInTheDocument()
-    expect(
-      screen.getByText('reviewModeField.options.ADMIN_WRITES_ADMIN_SIGNS')
-    ).toBeInTheDocument()
+    expect(screen.getByText('reviewModeField.options.ADMIN_WRITES_ADMIN_SIGNS')).toBeInTheDocument()
     expect(screen.queryByText('readOnly.reviewerLabel')).not.toBeInTheDocument()
   })
 

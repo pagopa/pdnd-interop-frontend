@@ -278,10 +278,7 @@ describe('PurposeEditStepAssignment', () => {
   it.each(['DRAFT', 'ASSIGNED', 'SUBMITTED', 'REJECTED'] as const)(
     'renders the editable form when the risk analysis is not approved yet (%s)',
     (signingState) => {
-      const purpose = buildPurpose(
-        {},
-        { reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS', signingState }
-      )
+      const purpose = buildPurpose({}, { reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS', signingState })
       mockQueries({ purpose, reviewers: buildReviewers() })
 
       render(<PurposeEditStepAssignment back={vi.fn()} forward={vi.fn()} activeStep={1} />)
