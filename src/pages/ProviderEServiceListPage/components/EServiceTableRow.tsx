@@ -1,10 +1,11 @@
 import React from 'react'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
-import { Box, Skeleton, Stack, Typography } from '@mui/material'
+import { Box, Chip, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { Link } from '@/router'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { EServiceQueries } from '@/api/eservice'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { useGetProviderEServiceActions } from '@/hooks/useGetProviderEServiceActions'
 import { TableRow } from '@pagopa/interop-fe-commons'
@@ -60,13 +61,17 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
 
   const handlePrefetch = () => {
     if (isEServiceEditable) {
-      queryClient.prefetchQuery(EServiceQueries.getSingle(eservice.id))
+      queryClient.prefetchQuery({
+        ...EServiceQueries.getSingle(eservice.id),
+        staleTime: PREFETCH_STALE_TIME,
+      })
       return
     }
     if (!eservice.activeDescriptor) return
-    queryClient.prefetchQuery(
-      EServiceQueries.getDescriptorProvider(eservice.id, eservice.activeDescriptor.id)
-    )
+    queryClient.prefetchQuery({
+      ...EServiceQueries.getDescriptorProvider(eservice.id, eservice.activeDescriptor.id),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   const actions = [
@@ -98,20 +103,20 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
         eservice?.activeDescriptor?.version || '1',
         <Stack key={eservice?.id} direction="row" spacing={1}>
           {eservice?.activeDescriptor && (
-            <StatusChip
-              for="eservice"
-              state={eservice.activeDescriptor.state}
-              tooltipLabel={
-                (eservice.activeDescriptor.state === 'ARCHIVING' ||
-                  eservice.activeDescriptor.state === 'ARCHIVING_SUSPENDED') &&
-                eservice.activeDescriptor.archivableOn
-                  ? tEservice('eservice', {
-                      date: formatDateStringNumeric(eservice.activeDescriptor.archivableOn),
-                    })
-                  : undefined
-              }
-            />
+            <StatusChip for="eservice" state={eservice.activeDescriptor.state} />
           )}
+          {eservice?.activeDescriptor &&
+            (eservice.activeDescriptor.state === 'ARCHIVING' ||
+              eservice.activeDescriptor.state === 'ARCHIVING_SUSPENDED') &&
+            eservice.activeDescriptor.archivableOn && (
+              <Tooltip
+                title={tEservice('eservice', {
+                  date: formatDateStringNumeric(eservice.activeDescriptor.archivableOn),
+                })}
+              >
+                <Chip label={tEservice('status')} color="info" />
+              </Tooltip>
+            )}
           {(!hasActiveDescriptor || eservice?.draftDescriptor) && (
             <StatusChip
               for="eservice"

@@ -41,7 +41,7 @@
       },
       "detailsSection": {
         "title": "Dettagli dell'e-service",
-        "description": "Queste informazioni sono state precompilate da chi ha creato il template e non sono modificabili.",
+        "description": "Queste informazioni non sono modificabili.",
         "readOnlyDescription": "Le seguenti informazioni non sono più modificabili.",
         "firstVersionOnlyEditableInfo": "Questi dati non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
         "asyncExchangeField": {
@@ -628,6 +628,7 @@
       "versionRowLabel": "Versione {{ version }}"
     },
     "scheduledArchivalTooltip": {
+      "status": "in archiviazione",
       "descriptor": "Versione in archiviazione il {{ date }}",
       "eservice": "E-service in archiviazione il giorno {{ date }}"
     },
