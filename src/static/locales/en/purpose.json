@@ -123,6 +123,8 @@
       },
       "noReviewersAlert": {
         "message": "Your institution does not yet have a user with the reviewer role. You can add one from the Reserved Area or complete the risk analysis yourself.",
+        "removedReviewerMessage_one": "The reviewer assigned to this risk analysis has been removed. There is nobody else with the reviewer role in your institution: you can assign the role from the Reserved Area or complete the risk analysis yourself.",
+        "removedReviewerMessage_other": "The reviewers assigned to this risk analysis have been removed. There is nobody else with the reviewer role in your institution: you can assign the role from the Reserved Area or complete the risk analysis yourself.",
         "linkLabel": "Go to Users"
       },
       "delegateAlert": "As the delegate to consuming the e-service {{name}}, you cannot assign the risk analysis to a reviewer but you can complete it yourself.",

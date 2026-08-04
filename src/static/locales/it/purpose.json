@@ -123,6 +123,8 @@
       },
       "noReviewersAlert": {
         "message": "Il tuo ente non ha ancora un utente con ruolo di valutatore. Puoi aggiungerlo dall’Area Riservata o compilare in autonomia l’analisi del rischio.",
+        "removedReviewerMessage_one": "Il valutatore assegnato a questa analisi del rischio è stato rimosso. Nel tuo ente non ci sono altre persone con il ruolo di valutatore: puoi assegnarlo dall’Area Riservata oppure compilare l’analisi in autonomia.",
+        "removedReviewerMessage_other": "I valutatori assegnati a questa analisi del rischio sono stati rimossi. Nel tuo ente non ci sono altre persone con il ruolo di valutatore: puoi assegnarlo dall’Area Riservata oppure compilare l’analisi in autonomia.",
         "linkLabel": "Vai a Utenti"
       },
       "delegateAlert": "Come delegato alla fruizione dell’e-service {{name}}, non puoi assegnare l'analisi del rischio a un valutatore ma puoi compilarla in autonomia.",

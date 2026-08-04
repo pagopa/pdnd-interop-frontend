@@ -93,6 +93,8 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
   const removedReviewerIds = removedReviewers.map(({ userId }) => userId)
 
   const hasNoReviewers = reviewers.length === 0
+
+  const hasLostItsOnlyReviewers = !isDelegate && hasNoReviewers && removedReviewers.length > 0
   const isFormHidden = isDelegate || hasNoReviewers
 
   const formMethods = useForm<PurposeEditStepAssignmentFormValues>({ defaultValues })
@@ -114,6 +116,17 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
 
   const onSubmit = ({ reviewMode, reviewerIds }: PurposeEditStepAssignmentFormValues) => {
     if (isFormHidden) {
+      if (hasLostItsOnlyReviewers) {
+        assignReviewer(
+          {
+            purposeId: purpose.id,
+            reviewMode: 'ADMIN_WRITES_ADMIN_SIGNS',
+            reviewerIds: undefined,
+          },
+          { onSuccess: forward }
+        )
+        return
+      }
       forward()
       return
     }
@@ -234,7 +247,11 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
             )}
             {!isDelegate && hasNoReviewers && (
               <Alert severity="info">
-                {t('noReviewersAlert.message')}{' '}
+                {hasLostItsOnlyReviewers
+                  ? t('noReviewersAlert.removedReviewerMessage', {
+                      count: removedReviewers.length,
+                    })
+                  : t('noReviewersAlert.message')}{' '}
                 {selfcareUsersPageUrl && (
                   <Link href={selfcareUsersPageUrl} target="_blank" rel="noopener noreferrer">
                     {t('noReviewersAlert.linkLabel')}

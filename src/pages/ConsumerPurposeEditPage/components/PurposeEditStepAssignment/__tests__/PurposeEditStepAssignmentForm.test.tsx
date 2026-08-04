@@ -483,6 +483,79 @@ describe('PurposeEditStepAssignmentForm', () => {
       expect(openDialogMock).not.toHaveBeenCalled()
     })
 
+    it('explains the assignment is dangling when the institution has no other reviewer left', () => {
+      renderComponent({ purpose: purposeWithRemovedReviewer(), defaultValues, reviewers: [] })
+
+      expect(screen.getByText('noReviewersAlert.removedReviewerMessage')).toBeInTheDocument()
+      expect(screen.queryByText('noReviewersAlert.message')).not.toBeInTheDocument()
+      expect(screen.getByRole('link', { name: 'noReviewersAlert.linkLabel' })).toHaveAttribute(
+        'href',
+        'https://selfcare.test/users'
+      )
+      expect(
+        screen.queryByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_ADMIN_SIGNS' })
+      ).not.toBeInTheDocument()
+    })
+
+    it('keeps the plain "no reviewers" copy when nothing was assigned in the first place', () => {
+      renderComponent({ reviewers: [] })
+
+      expect(screen.getByText('noReviewersAlert.message')).toBeInTheDocument()
+      expect(screen.queryByText('noReviewersAlert.removedReviewerMessage')).not.toBeInTheDocument()
+    })
+
+    it('keeps the delegate alert when the delegate cannot assign reviewers anyway', () => {
+      renderComponent({
+        purpose: purposeWithRemovedReviewer(),
+        defaultValues,
+        reviewers: [],
+        isDelegate: true,
+      })
+
+      expect(screen.getByText('delegateAlert')).toBeInTheDocument()
+      expect(screen.queryByText('noReviewersAlert.removedReviewerMessage')).not.toBeInTheDocument()
+    })
+
+    it('falls back to the self-compilation mode on submit, dropping the dangling assignment', async () => {
+      const user = userEvent.setup()
+      const forward = vi.fn()
+      renderComponent({
+        purpose: purposeWithRemovedReviewer(),
+        defaultValues,
+        reviewers: [],
+        forward,
+      })
+
+      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+
+      expect(openDialogMock).not.toHaveBeenCalled()
+      expect(assignReviewerMock).toHaveBeenCalledWith(
+        {
+          purposeId: 'purpose-id',
+          reviewMode: 'ADMIN_WRITES_ADMIN_SIGNS',
+          reviewerIds: undefined,
+        },
+        expect.objectContaining({ onSuccess: forward })
+      )
+    })
+
+    it('does not touch the assignment on submit when the delegate alert is the one shown', async () => {
+      const user = userEvent.setup()
+      const forward = vi.fn()
+      renderComponent({
+        purpose: purposeWithRemovedReviewer(),
+        defaultValues,
+        reviewers: [],
+        isDelegate: true,
+        forward,
+      })
+
+      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+
+      expect(assignReviewerMock).not.toHaveBeenCalled()
+      expect(forward).toHaveBeenCalled()
+    })
+
     it('blocks the submit when more than one assigned reviewer was removed', async () => {
       const user = userEvent.setup()
       const otherRemoved: CompactUser = {
