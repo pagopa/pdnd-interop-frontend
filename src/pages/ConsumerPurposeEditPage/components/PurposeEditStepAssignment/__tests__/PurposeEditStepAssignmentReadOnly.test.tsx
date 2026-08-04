@@ -5,7 +5,12 @@ import userEvent from '@testing-library/user-event'
 import PurposeEditStepAssignmentReadOnly from '../PurposeEditStepAssignmentReadOnly'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
-import type { CompactUser, Purpose, RiskAnalysisReviewMode } from '@/api/api.generatedTypes'
+import type {
+  CompactUser,
+  Purpose,
+  PurposeVersionState,
+  RiskAnalysisReviewMode,
+} from '@/api/api.generatedTypes'
 
 const mockReviewer: CompactUser = {
   userId: 'reviewer-uuid-1',
@@ -13,14 +18,19 @@ const mockReviewer: CompactUser = {
   familyName: 'Rossi',
 }
 
-function buildPurpose(reviewMode: RiskAnalysisReviewMode, reviewers: Array<CompactUser>): Purpose {
+function buildPurpose(
+  reviewMode: RiskAnalysisReviewMode,
+  reviewers: Array<CompactUser>,
+  versionState: PurposeVersionState = 'DRAFT'
+): Purpose {
+  const base = createMockPurpose({ id: 'purpose-id' })
   return {
-    ...createMockPurpose({ id: 'purpose-id' }),
+    ...base,
+    currentVersion: base.currentVersion && { ...base.currentVersion, state: versionState },
+    reviewMode,
     reviewerWorkflow: {
-      reviewMode,
-      reviewerIds: reviewers.map((r) => r.userId),
       reviewers,
-      signingState: 'ASSIGNED',
+      signingState: 'SIGNED',
     },
   }
 }
@@ -47,7 +57,9 @@ describe('PurposeEditStepAssignmentReadOnly', () => {
     renderComponent({ purpose })
 
     expect(screen.getByText('readOnly.modeLabel')).toBeInTheDocument()
-    expect(screen.getByText('reviewModeField.options.selfWritesSelfSigns')).toBeInTheDocument()
+    expect(
+      screen.getByText('reviewModeField.options.ADMIN_WRITES_ADMIN_SIGNS')
+    ).toBeInTheDocument()
     expect(screen.queryByText('readOnly.reviewerLabel')).not.toBeInTheDocument()
   })
 
@@ -55,7 +67,9 @@ describe('PurposeEditStepAssignmentReadOnly', () => {
     renderComponent({ purpose: buildPurpose('ADMIN_WRITES_REVIEWER_SIGNS', [mockReviewer]) })
 
     expect(screen.getByText('readOnly.modeLabel')).toBeInTheDocument()
-    expect(screen.getByText('reviewModeField.options.selfWritesReviewerSigns')).toBeInTheDocument()
+    expect(
+      screen.getByText('reviewModeField.options.ADMIN_WRITES_REVIEWER_SIGNS')
+    ).toBeInTheDocument()
     expect(screen.getByText('readOnly.reviewerLabel')).toBeInTheDocument()
     expect(screen.getByText('Mario Rossi')).toBeInTheDocument()
   })
@@ -67,10 +81,37 @@ describe('PurposeEditStepAssignmentReadOnly', () => {
 
     expect(screen.getByText('readOnly.modeLabel')).toBeInTheDocument()
     expect(
-      screen.getByText('reviewModeField.options.reviewerWritesReviewerSigns')
+      screen.getByText('reviewModeField.options.REVIEWER_WRITES_REVIEWER_SIGNS')
     ).toBeInTheDocument()
     expect(screen.getByText('readOnly.reviewerLabel')).toBeInTheDocument()
     expect(screen.getByText('Mario Rossi')).toBeInTheDocument()
+  })
+
+  it('lists every assigned reviewer, not just the first one', () => {
+    renderComponent({
+      purpose: buildPurpose('ADMIN_WRITES_REVIEWER_SIGNS', [
+        mockReviewer,
+        { userId: 'reviewer-uuid-2', name: 'Anna', familyName: 'Verdi' },
+      ]),
+    })
+
+    expect(screen.getByText('Mario Rossi, Anna Verdi')).toBeInTheDocument()
+  })
+
+  it('explains the assignment is frozen because the risk analysis was approved, while the purpose is still a draft', () => {
+    renderComponent({ purpose: buildPurpose('ADMIN_WRITES_REVIEWER_SIGNS', [mockReviewer]) })
+
+    expect(screen.getByText('readOnly.subtitle.signed')).toBeInTheDocument()
+    expect(screen.queryByText('readOnly.subtitle.published')).not.toBeInTheDocument()
+  })
+
+  it('explains the assignment is frozen because the purpose has been published', () => {
+    renderComponent({
+      purpose: buildPurpose('ADMIN_WRITES_REVIEWER_SIGNS', [mockReviewer], 'ACTIVE'),
+    })
+
+    expect(screen.getByText('readOnly.subtitle.published')).toBeInTheDocument()
+    expect(screen.queryByText('readOnly.subtitle.signed')).not.toBeInTheDocument()
   })
 
   it('does not render any radio group, autocomplete or submit CTA', () => {
@@ -97,13 +138,23 @@ describe('PurposeEditStepAssignmentReadOnly', () => {
     expect(back).toHaveBeenCalledTimes(1)
   })
 
-  it('falls back to a placeholder when the workflow exposes no resolvable reviewer', () => {
+  it('hides the reviewer row when the workflow carries no reviewer', () => {
     renderComponent({
       purpose: buildPurpose('ADMIN_WRITES_REVIEWER_SIGNS', []),
     })
 
+    expect(screen.queryByText('readOnly.reviewerLabel')).not.toBeInTheDocument()
+    expect(screen.queryByText('Mario Rossi')).not.toBeInTheDocument()
+  })
+
+  it('falls back to a placeholder when an assigned reviewer has no resolvable name', () => {
+    renderComponent({
+      purpose: buildPurpose('ADMIN_WRITES_REVIEWER_SIGNS', [
+        { userId: 'reviewer-uuid-3', name: '', familyName: '' },
+      ]),
+    })
+
     expect(screen.getByText('readOnly.reviewerLabel')).toBeInTheDocument()
     expect(screen.getByText('readOnly.reviewerUnknown')).toBeInTheDocument()
-    expect(screen.queryByText('Mario Rossi')).not.toBeInTheDocument()
   })
 })

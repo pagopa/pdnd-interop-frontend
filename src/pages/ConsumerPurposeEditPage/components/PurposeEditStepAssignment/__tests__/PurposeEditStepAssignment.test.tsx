@@ -10,9 +10,11 @@ import { NotFoundError } from '@/utils/errors.utils'
 import { mockUseJwt } from '@/utils/testing.utils'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 import type {
+  CompactUser,
   Purpose,
   PurposeVersionState,
   RiskAnalysisReviewMode,
+  RiskAnalysisSigningState,
   User,
 } from '@/api/api.generatedTypes'
 import { createMockSelfCareUser } from '@/../__mocks__/data/user.mocks'
@@ -74,7 +76,8 @@ vi.mock('../PurposeEditStepAssignmentReadOnly', () => ({
 
 type AssignmentPurposeOverrides = {
   reviewMode?: RiskAnalysisReviewMode
-  reviewerIds?: string[]
+  reviewers?: Array<CompactUser>
+  signingState?: RiskAnalysisSigningState
   versionState?: PurposeVersionState
 }
 
@@ -82,13 +85,6 @@ function buildPurpose(
   overrides: Partial<Purpose> = {},
   assignment?: AssignmentPurposeOverrides
 ): Purpose {
-  const reviewerWorkflow: Purpose['reviewerWorkflow'] | undefined = assignment?.reviewMode
-    ? {
-        reviewMode: assignment.reviewMode,
-        reviewerIds: assignment.reviewerIds ?? [],
-        signingState: 'ASSIGNED',
-      }
-    : undefined
   const base = createMockPurpose({ id: 'purpose-123', ...overrides })
   return {
     ...base,
@@ -97,7 +93,15 @@ function buildPurpose(
       ...base.currentVersion,
       state: assignment?.versionState ?? 'DRAFT',
     },
-    ...(reviewerWorkflow ? { reviewerWorkflow } : {}),
+    ...(assignment?.reviewMode
+      ? {
+          reviewMode: assignment.reviewMode,
+          reviewerWorkflow: {
+            reviewers: assignment.reviewers ?? [],
+            signingState: assignment.signingState ?? 'ASSIGNED',
+          },
+        }
+      : {}),
   }
 }
 
@@ -232,23 +236,65 @@ describe('PurposeEditStepAssignment', () => {
     )
   })
 
-  it('defaults reviewMode to selfWritesSelfSigns when the purpose has no reviewMode set', () => {
+  it('defaults reviewMode to self-compilation when the purpose has no reviewMode set', () => {
     mockQueries({ purpose: buildPurpose(), reviewers: buildReviewers() })
 
     render(<PurposeEditStepAssignment back={vi.fn()} forward={vi.fn()} activeStep={1} />)
 
     expect(PurposeEditStepAssignmentForm).toHaveBeenCalledWith(
       expect.objectContaining({
-        defaultValues: { reviewMode: 'selfWritesSelfSigns', reviewerId: undefined },
+        defaultValues: { reviewMode: 'ADMIN_WRITES_ADMIN_SIGNS', reviewerIds: [] },
       }),
       expect.anything()
     )
   })
 
-  it('renders the read-only step (not the form) when the purpose has a persisted reviewer workflow', () => {
+  it('seeds the default values with the persisted review mode and reviewers', () => {
     const purpose = buildPurpose(
       {},
-      { reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS', reviewerIds: ['reviewer-1'] }
+      {
+        reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+        reviewers: [
+          { userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' },
+          { userId: 'reviewer-2', name: 'Anna', familyName: 'Bianchi' },
+        ],
+      }
+    )
+    mockQueries({ purpose, reviewers: buildReviewers() })
+
+    render(<PurposeEditStepAssignment back={vi.fn()} forward={vi.fn()} activeStep={1} />)
+
+    expect(PurposeEditStepAssignmentForm).toHaveBeenCalledWith(
+      expect.objectContaining({
+        defaultValues: {
+          reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+          reviewerIds: ['reviewer-1', 'reviewer-2'],
+        },
+      }),
+      expect.anything()
+    )
+  })
+
+  it.each(['DRAFT', 'ASSIGNED', 'SUBMITTED', 'REJECTED'] as const)(
+    'renders the editable form when the risk analysis is not approved yet (%s)',
+    (signingState) => {
+      const purpose = buildPurpose(
+        {},
+        { reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS', signingState }
+      )
+      mockQueries({ purpose, reviewers: buildReviewers() })
+
+      render(<PurposeEditStepAssignment back={vi.fn()} forward={vi.fn()} activeStep={1} />)
+
+      expect(PurposeEditStepAssignmentForm).toHaveBeenCalled()
+      expect(PurposeEditStepAssignmentReadOnly).not.toHaveBeenCalled()
+    }
+  )
+
+  it('renders the read-only step (not the form) once the risk analysis has been approved', () => {
+    const purpose = buildPurpose(
+      {},
+      { reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS', signingState: 'SIGNED' }
     )
     mockQueries({ purpose, reviewers: buildReviewers() })
 
@@ -262,7 +308,7 @@ describe('PurposeEditStepAssignment', () => {
     const reviewers = buildReviewers()
     const purpose = buildPurpose(
       {},
-      { reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS', reviewerIds: ['reviewer-1'] }
+      { reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS', signingState: 'SIGNED' }
     )
     mockQueries({ purpose, reviewers })
 

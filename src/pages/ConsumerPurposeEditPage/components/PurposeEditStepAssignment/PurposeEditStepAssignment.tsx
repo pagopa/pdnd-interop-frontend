@@ -11,14 +11,15 @@ import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import type { Purpose } from '@/api/api.generatedTypes'
 import PurposeEditStepAssignmentForm, {
   PurposeEditStepAssignmentFormSkeleton,
-  beEnumToReviewModeOption,
   type PurposeEditStepAssignmentFormValues,
 } from './PurposeEditStepAssignmentForm'
 import PurposeEditStepAssignmentReadOnly from './PurposeEditStepAssignmentReadOnly'
 
 const getDefaultValues = (purpose: Purpose): PurposeEditStepAssignmentFormValues => ({
-  reviewMode: beEnumToReviewModeOption(purpose.reviewerWorkflow?.reviewMode),
-  reviewerId: purpose.reviewerWorkflow?.reviewerIds[0],
+  // A purpose with no persisted review mode has never been assigned: the form starts on
+  // self-compilation and self-approval.
+  reviewMode: purpose.reviewMode ?? 'ADMIN_WRITES_ADMIN_SIGNS',
+  reviewerIds: purpose.reviewerWorkflow?.reviewers?.map(({ userId }) => userId) ?? [],
 })
 
 export const PurposeEditStepAssignment: React.FC<ActiveStepProps> = (props) => {
@@ -30,15 +31,17 @@ export const PurposeEditStepAssignment: React.FC<ActiveStepProps> = (props) => {
     PurposeQueries.getSingle(purposeId)
   )
 
-  // The reviewers list is only consumed by the editable-draft form branch, so only
-  // fetch it when that branch will actually render (avoids a wasted call on the read-only step).
-  const isEditableDraft = purpose?.currentVersion?.state === 'DRAFT'
-  const shouldRenderForm = Boolean(purpose) && !purpose?.reviewerWorkflow && isEditableDraft
+  // The assignment can be changed until the risk analysis is approved, and only while the purpose
+  // is still a draft. The reviewers list is only consumed by the editable branch, so only fetch it
+  // when that branch will actually render (avoids a wasted call on the read-only step).
+  const isPurposeDraft = purpose?.currentVersion?.state === 'DRAFT'
+  const isRiskAnalysisSigned = purpose?.reviewerWorkflow?.signingState === 'SIGNED'
+  const isEditable = Boolean(purpose) && isPurposeDraft && !isRiskAnalysisSigned
 
   const tenantId = jwt?.organizationId
   const { data: reviewers, isLoading: isLoadingReviewers } = useQuery({
     ...TenantQueries.getPartyUsersList({ tenantId: tenantId as string, roles: ['reviewer'] }),
-    enabled: Boolean(tenantId) && shouldRenderForm,
+    enabled: Boolean(tenantId) && isEditable,
   })
 
   if (isLoadingPurpose || isLoadingReviewers) {
@@ -49,7 +52,7 @@ export const PurposeEditStepAssignment: React.FC<ActiveStepProps> = (props) => {
     throw new NotFoundError()
   }
 
-  if (purpose.reviewerWorkflow || !isEditableDraft) {
+  if (!isEditable) {
     return <PurposeEditStepAssignmentReadOnly purpose={purpose} {...props} />
   }
 

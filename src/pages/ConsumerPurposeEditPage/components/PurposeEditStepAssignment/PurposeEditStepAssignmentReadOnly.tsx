@@ -8,7 +8,6 @@ import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
 import type { Purpose } from '@/api/api.generatedTypes'
-import { beEnumToReviewModeOption } from './PurposeEditStepAssignmentForm'
 
 type PurposeEditStepAssignmentReadOnlyProps = ActiveStepProps & {
   purpose: Purpose
@@ -22,31 +21,35 @@ const PurposeEditStepAssignmentReadOnly: React.FC<PurposeEditStepAssignmentReadO
   const { t } = useTranslation('purpose', { keyPrefix: 'edit.stepAssignment' })
   const { t: tEdit } = useTranslation('purpose', { keyPrefix: 'edit' })
 
-  const reviewerWorkflow = purpose.reviewerWorkflow
-  const reviewModeOption = beEnumToReviewModeOption(reviewerWorkflow?.reviewMode)
+  const reviewMode = purpose.reviewMode ?? 'ADMIN_WRITES_ADMIN_SIGNS'
 
-  const reviewer = reviewerWorkflow?.reviewers?.[0]
-  // The assigned reviewer may no longer be resolvable (role revoked on SelfCare, left the
+  // The assignment is frozen either because the purpose left the draft state or because the risk
+  // analysis has been approved; the publication is the stronger reason, so it takes precedence.
+  const isPurposeDraft = purpose.currentVersion?.state === 'DRAFT'
+  const subtitle = isPurposeDraft ? t('readOnly.subtitle.signed') : t('readOnly.subtitle.published')
+
+  const reviewers = purpose.reviewerWorkflow?.reviewers ?? []
+  // An assigned reviewer may no longer be resolvable (role revoked on SelfCare, left the
   // organization, or a different tenant in a delegation): fall back to a placeholder
   // instead of rendering a blank value.
-  const reviewerName = reviewer
-    ? `${reviewer.name} ${reviewer.familyName}`.trim()
-    : t('readOnly.reviewerUnknown')
+  const reviewerNames = reviewers
+    .map((reviewer) => `${reviewer.name} ${reviewer.familyName}`.trim())
+    .map((name) => name || t('readOnly.reviewerUnknown'))
 
   return (
     <>
-      <SectionContainer title={t('title')} description={t('readOnly.subtitle')}>
+      <SectionContainer title={t('title')} description={subtitle}>
         <Stack spacing={2}>
           <InformationContainer
             label={t('readOnly.modeLabel')}
             direction="row"
-            content={t(`reviewModeField.options.${reviewModeOption}`)}
+            content={t(`reviewModeField.options.${reviewMode}`)}
           />
-          {reviewerWorkflow && (
+          {reviewerNames.length > 0 && (
             <InformationContainer
-              label={t('readOnly.reviewerLabel')}
+              label={t('readOnly.reviewerLabel', { count: reviewerNames.length })}
               direction="row"
-              content={reviewerName}
+              content={reviewerNames.join(', ')}
             />
           )}
         </Stack>
