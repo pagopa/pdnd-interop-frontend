@@ -2870,6 +2870,10 @@ export interface ReviewerWorkflow {
   signingState: RiskAnalysisSigningState;
   /** @format uuid */
   signedBy?: string;
+  /** @format date-time */
+  signedAt?: string;
+  /** @format uuid */
+  rejectedBy?: string;
   rejectionReason?: string;
 }
 

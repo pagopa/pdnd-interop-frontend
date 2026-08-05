@@ -22,24 +22,30 @@ export const RiskAnalysisTableRow: React.FC<{
 
   const reviewerWorkflow = purpose.reviewerWorkflow
   const reviewers = reviewerWorkflow?.reviewers ?? []
-
   const currentReviewer = reviewers.find((reviewer) => reviewer.userId === jwt?.uid)
 
-  const signedBy =
-    reviewers.find((reviewer) => reviewer.userId === reviewerWorkflow?.signedBy)?.name ?? '-'
+  const signedOrRejectedBy = match(reviewerWorkflow?.signingState)
+    .with(
+      'SIGNED',
+      () =>
+        reviewers.find((reviewer) => reviewer.userId === reviewerWorkflow?.signedBy)?.name ?? '-'
+    )
+    .with(
+      'REJECTED',
+      () =>
+        reviewers.find((reviewer) => reviewer.userId === reviewerWorkflow?.rejectedBy)?.name ?? '-'
+    )
+    .otherwise(() => '-')
 
-  const date = match(reviewerWorkflow?.signingState)
+  const assignedOrApprovedDate = match(reviewerWorkflow?.signingState)
     .with(P.union('ASSIGNED', 'SUBMITTED'), () =>
       currentReviewer?.sentToReviewerAt ? new Date(currentReviewer.sentToReviewerAt) : null
     )
-    /* @TODO - waiting for updated models */
-    /* .with('SIGNED', () =>
-      reviewerWorkflow?.signedByDate ? new Date(reviewerWorkflow.signedByDate) : null
-    ) */
+    .with('SIGNED', () => (reviewerWorkflow?.signedAt ? new Date(reviewerWorkflow.signedAt) : null))
     .otherwise(() => null)
 
-  const formattedDate = date
-    ? date.toLocaleDateString('it-IT', {
+  const formattedDate = assignedOrApprovedDate
+    ? assignedOrApprovedDate.toLocaleDateString('it-IT', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric',
@@ -50,12 +56,14 @@ export const RiskAnalysisTableRow: React.FC<{
     <Stack direction="row" alignItems="center" key="date">
       {purpose.hasUnreadNotifications && <NotificationBadgeDot />}
       <Typography variant="body2" fontWeight={600}>
-        {date && isToday(date) ? t('today.label') : formattedDate}
+        {assignedOrApprovedDate && isToday(assignedOrApprovedDate)
+          ? t('today.label')
+          : formattedDate}
       </Typography>
     </Stack>,
     purpose.eservice.name,
     purpose.eservice.producer.name,
-    activeTab === RiskAnalysisListPageTab.TODO ? String(reviewers.length) : signedBy,
+    activeTab === RiskAnalysisListPageTab.TODO ? String(reviewers.length) : signedOrRejectedBy,
     purpose.reviewerWorkflow?.signingState
       ? match(purpose.reviewerWorkflow.signingState)
           .with(P.union('ASSIGNED', 'SUBMITTED', 'SIGNED', 'REJECTED'), (state) => (
