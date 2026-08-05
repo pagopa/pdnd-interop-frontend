@@ -987,14 +987,16 @@ function renderDetailsPageHook(
   } = {}
 ) {
   const hasMultipleVersions = options.hasMultipleVersions ?? true
-  const archivingScheduleMock: ArchivingSchedule | undefined = options.archivingSchedule
-    ? {
-        archivableOn: options.archivingSchedule.archivableOn ?? '2026-01-01T00:00:00.000Z',
-        startedAt: options.archivingSchedule.startedAt ?? '2026-01-01T00:00:00.000Z',
-        scope: options.archivingSchedule.scope,
-        gracePeriodDays: options.archivingSchedule.gracePeriodDays,
-      }
-    : undefined
+  const archivingScheduleMock = (
+    options.archivingSchedule
+      ? {
+          archivableOn: options.archivingSchedule.archivableOn ?? '2026-01-01T00:00:00.000Z',
+          startedAt: options.archivingSchedule.startedAt ?? '2026-01-01T00:00:00.000Z',
+          scope: options.archivingSchedule.scope,
+          gracePeriodDays: options.archivingSchedule.gracePeriodDays,
+        }
+      : undefined
+  ) as ArchivingSchedule | undefined
   return renderHookWithApplicationContext(
     () =>
       useGetProviderEServiceActions(
