@@ -87,12 +87,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
           <Stack direction="row" alignItems={'center'} spacing={1}>
             {eservice.hasUnreadNotifications && <NotificationBadgeDot />}
             <Typography variant="body2">{eservice.name}</Typography>
-            {eservice.delegation && (
-              <ByDelegationChip
-                tenantRole={isDelegator ? 'DELEGATOR' : 'DELEGATE'}
-                delegation={eservice.delegation}
-              />
-            )}
+            {eservice.delegation && <ByDelegationChip delegation={eservice.delegation} />}
           </Stack>
         ) : (
           <Stack direction="row" alignItems="center">

@@ -76,7 +76,7 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
   const eserviceCellData = (
     <>
       {purpose.eservice.name}
-      {isDelegated && <ByDelegationChip tenantRole={isDelegator ? 'DELEGATOR' : 'DELEGATE'} />}
+      {isDelegated && <ByDelegationChip delegation={purpose.delegation} />}
     </>
   )
 

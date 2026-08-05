@@ -2,6 +2,21 @@ import userEvent from '@testing-library/user-event'
 import { NewPageContainer, type PageContainerProps } from '../NewPageContainer'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import type { ActionItemButton } from '@/types/common.types'
+import type { DelegationWithCompactTenants } from '@/api/api.generatedTypes'
+
+const mockUseJwt = vi.fn(() => ({ jwt: { organizationId: 'delegator-id' } }))
+
+vi.mock('@/api/auth', () => ({
+  AuthHooks: {
+    useJwt: () => mockUseJwt(),
+  },
+}))
+
+const mockDelegation: DelegationWithCompactTenants = {
+  id: 'delegation-1',
+  delegator: { id: 'delegator-id', name: 'Ente Delegante' },
+  delegate: { id: 'delegate-id', name: 'Ente Delegato' },
+}
 
 const renderComponent = ({
   children,
@@ -244,10 +259,22 @@ describe('NewPageContainer', () => {
     const screen = renderComponent({
       children: 'Test children',
       title: 'Test title',
-      byDelegationChip: { tenantRole: 'DELEGATOR' },
+      byDelegationChip: { delegation: mockDelegation },
     })
 
     expect(screen.getByText('label.delegator')).toBeInTheDocument()
+  })
+
+  it('should render the delegate role label in ByDelegationChip when jwt organization matches delegate', () => {
+    mockUseJwt.mockReturnValueOnce({ jwt: { organizationId: 'delegate-id' } })
+
+    const screen = renderComponent({
+      children: 'Test children',
+      title: 'Test title',
+      byDelegationChip: { delegation: mockDelegation },
+    })
+
+    expect(screen.getByText('label.delegate')).toBeInTheDocument()
   })
 
   it('should not render the ByDelegationChip when byDelegationChip prop is not provided', () => {
