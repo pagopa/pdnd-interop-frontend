@@ -1,5 +1,6 @@
 import type {
   ArchivingSchedule,
+  DelegatedDescriptorArchivingRequest,
   DelegationWithCompactTenants,
   EServiceDescriptorState,
   EServiceMode,
@@ -22,6 +23,10 @@ import ReplayCircleFilledIcon from '@mui/icons-material/ReplayCircleFilled'
 import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion'
 import { useDialog } from '@/stores'
 import { match, P } from 'ts-pattern'
+import {
+  calculateDelegatedArchivableOn,
+  getLatestDelegatedDescriptorArchivingRequest,
+} from '@/utils/eservice.utils'
 
 export function useGetProviderEServiceActions(
   eserviceId: string,
@@ -40,7 +45,8 @@ export function useGetProviderEServiceActions(
   latestDescriptorId?: string,
   onViewAllVersions?: () => void,
   isActiveDescriptor?: boolean,
-  isEServiceBeingArchived?: boolean
+  isEServiceBeingArchived?: boolean,
+  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest[]
 ): {
   primaryAction: ActionItemButton | undefined
   secondaryAction: ActionItemButton | undefined
@@ -215,34 +221,16 @@ export function useGetProviderEServiceActions(
     icon: ArchiveIcon,
   }
 
-  const openCancelArchivingDialogForTesting = (archivingApproved: boolean) => {
-    if (!activeDescriptorId) return
-    openDialog({
-      type: 'cancelVersionArchiving',
-      eserviceId,
-      descriptorId: activeDescriptorId,
-      isDelegate,
-      delegatorName: delegation?.delegator.name,
-      archivingApproved,
-      archivingDate: archivingSchedule?.archivableOn ?? '2025-01-27T00:00:00.000Z',
-    })
-  }
-
-  const temporaryCancelArchivingDialogTestActions: Array<ActionItemButton> =
-    import.meta.env.DEV && isDelegate
-      ? [
-          {
-            action: () => openCancelArchivingDialogForTesting(false),
-            label: '[TMP] Test annulla richiesta (non approvata)',
-          },
-          {
-            action: () => openCancelArchivingDialogForTesting(true),
-            label: '[TMP] Test annulla richiesta (approvata)',
-          },
-        ]
-      : []
-
   const handleCancelArchivingDescriptor = () => {
+    const latestDelegatedArchivingRequest =
+      getLatestDelegatedDescriptorArchivingRequest(delegatedArchivingRequest)
+    const { acceptedAt, gracePeriodDays } = latestDelegatedArchivingRequest ?? {}
+
+    const delegatedAcceptedArchivingDate =
+      acceptedAt && gracePeriodDays !== undefined
+        ? calculateDelegatedArchivableOn(acceptedAt, gracePeriodDays).toISOString()
+        : undefined
+
     if (activeDescriptorId) {
       openDialog({
         type: 'cancelVersionArchiving',
@@ -250,8 +238,8 @@ export function useGetProviderEServiceActions(
         descriptorId: activeDescriptorId,
         isDelegate,
         delegatorName: delegation?.delegator.name,
-        archivingApproved: Boolean(archivingSchedule?.archivableOn),
-        archivingDate: archivingSchedule?.archivableOn,
+        archivingApproved: Boolean(acceptedAt),
+        archivingDate: delegatedAcceptedArchivingDate ?? archivingSchedule?.archivableOn,
       })
     }
   }
@@ -1225,11 +1213,7 @@ export function useGetProviderEServiceActions(
     }))
     .with({ state: 'DEPRECATED' }, () => ({
       primary: undefined,
-      header: [
-        suspendAction,
-        archiveDescriptorAction,
-        ...temporaryCancelArchivingDialogTestActions,
-      ],
+      header: [suspendAction, archiveDescriptorAction],
       menu: menuWithNewVersion,
     }))
     .with({ state: 'SUSPENDED', isActiveDescriptor: true }, () => ({
@@ -1239,11 +1223,7 @@ export function useGetProviderEServiceActions(
     }))
     .with({ state: 'SUSPENDED' }, () => ({
       primary: undefined,
-      header: [
-        reactivateAction,
-        archiveDescriptorAction,
-        ...temporaryCancelArchivingDialogTestActions,
-      ],
+      header: [reactivateAction, archiveDescriptorAction],
       menu: menuWithNewVersion,
     }))
     .with({ state: 'ARCHIVED' }, () => ({

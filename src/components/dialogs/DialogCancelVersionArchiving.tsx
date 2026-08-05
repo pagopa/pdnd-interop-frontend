@@ -30,6 +30,7 @@ export const DialogCancelVersionArchiving: React.FC<DialogCancelVersionArchiving
 
   const { closeDialog } = useDialog()
   const { mutate: cancelArchive } = EServiceMutations.useCancelDescriptorArchiving()
+  const { mutate: cancelArchiveRequest } = EServiceMutations.useCancelDelegatedArchivingRequest()
 
   const handleKeepArchive = () => {
     closeDialog()
@@ -37,6 +38,10 @@ export const DialogCancelVersionArchiving: React.FC<DialogCancelVersionArchiving
 
   const handleCancelArchive = () => {
     cancelArchive({ eserviceId, descriptorId }, { onSuccess: closeDialog })
+  }
+
+  const handleCancelArchiveRequest = () => {
+    cancelArchiveRequest({ eserviceId }, { onSuccess: closeDialog })
   }
 
   const isApprovedDelegateArchiving = Boolean(isDelegate && archivingApproved)
@@ -48,16 +53,19 @@ export const DialogCancelVersionArchiving: React.FC<DialogCancelVersionArchiving
     : isDelegate
       ? 'titleDelegate'
       : 'title'
+
   const descriptionKey = isApprovedDelegateArchiving
     ? 'descriptionDelegateApproved'
     : isDelegate
       ? 'descriptionDelegate'
       : 'description'
+
   const keepArchivingKey = isApprovedDelegateArchiving
     ? 'actions.cancelApproved'
     : isDelegate
       ? 'actions.keepArchivingDelegate'
       : 'actions.keepArchiving'
+
   const cancelArchivingKey = isApprovedDelegateArchiving
     ? 'actions.closeApproved'
     : isDelegate
@@ -86,7 +94,13 @@ export const DialogCancelVersionArchiving: React.FC<DialogCancelVersionArchiving
         <Button
           variant="contained"
           color={isDelegate ? 'primary' : 'error'}
-          onClick={isApprovedDelegateArchiving ? closeDialog : handleCancelArchive}
+          onClick={
+            isApprovedDelegateArchiving
+              ? closeDialog
+              : isDelegate
+                ? handleCancelArchiveRequest
+                : handleCancelArchive
+          }
           sx={{ color: 'common.white' }}
         >
           {t(cancelArchivingKey)}

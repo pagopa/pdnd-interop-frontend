@@ -17,9 +17,13 @@ vi.mock('@/stores', async () => {
 const mockCancelArchive = vi.fn((_params, options) => {
   options?.onSuccess?.()
 })
+const mockCancelArchiveRequest = vi.fn((_params, options) => {
+  options?.onSuccess?.()
+})
 vi.mock('@/api/eservice', () => ({
   EServiceMutations: {
     useCancelDescriptorArchiving: () => ({ mutate: mockCancelArchive }),
+    useCancelDelegatedArchivingRequest: () => ({ mutate: mockCancelArchiveRequest }),
   },
 }))
 
@@ -88,6 +92,7 @@ describe('DialogCancelVersionArchiving', () => {
     await userEvent.click(screen.getByRole('button', { name: 'actions.closeApproved' }))
 
     expect(mockCancelArchive).not.toHaveBeenCalled()
+    expect(mockCancelArchiveRequest).not.toHaveBeenCalled()
     expect(mockCloseDialog).toHaveBeenCalledTimes(2)
   })
 
@@ -96,6 +101,19 @@ describe('DialogCancelVersionArchiving', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'actions.keepArchiving' }))
     expect(mockCloseDialog).toHaveBeenCalledTimes(1)
+    expect(mockCancelArchive).not.toHaveBeenCalled()
+    expect(mockCancelArchiveRequest).not.toHaveBeenCalled()
+  })
+
+  it('invokes delegated cancel request mutation when clicking cancel in delegate mode', async () => {
+    renderDialog({ isDelegate: true, eserviceId: 'eservice-42', descriptorId: 'descriptor-99' })
+
+    await userEvent.click(screen.getByRole('button', { name: 'actions.cancelArchivingDelegate' }))
+    expect(mockCancelArchiveRequest).toHaveBeenCalledTimes(1)
+    expect(mockCancelArchiveRequest).toHaveBeenCalledWith(
+      { eserviceId: 'eservice-42' },
+      expect.objectContaining({ onSuccess: expect.any(Function) })
+    )
     expect(mockCancelArchive).not.toHaveBeenCalled()
   })
 
@@ -108,6 +126,7 @@ describe('DialogCancelVersionArchiving', () => {
       { eserviceId: 'eservice-42', descriptorId: 'descriptor-99' },
       expect.objectContaining({ onSuccess: expect.any(Function) })
     )
+    expect(mockCancelArchiveRequest).not.toHaveBeenCalled()
   })
 
   it('closes the dialog after the cancel archive mutation succeeds', async () => {

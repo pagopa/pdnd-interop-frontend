@@ -7,7 +7,11 @@ import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
 import { fireEvent, screen, waitFor } from '@testing-library/react'
-import type { ArchivingSchedule, ProducerEService } from '@/api/api.generatedTypes'
+import type {
+  ArchivingSchedule,
+  DelegatedDescriptorArchivingRequest,
+  ProducerEService,
+} from '@/api/api.generatedTypes'
 
 mockUseJwt({ isAdmin: true })
 
@@ -946,6 +950,7 @@ function renderDetailsPageHook(
   descriptorMock: ProducerEService,
   options: {
     archivingSchedule?: Pick<ArchivingSchedule, 'scope'> & Partial<ArchivingSchedule>
+    delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest[]
     latestDescriptorId?: string
     isActiveDescriptor?: boolean
     isEServiceBeingArchived?: boolean
@@ -958,7 +963,7 @@ function renderDetailsPageHook(
         archivableOn: options.archivingSchedule.archivableOn ?? '2026-01-01T00:00:00.000Z',
         startedAt: options.archivingSchedule.startedAt ?? '2026-01-01T00:00:00.000Z',
         scope: options.archivingSchedule.scope,
-        gracePeriodDays: options.archivingSchedule.gracePeriodDays,
+        gracePeriodDays: options.archivingSchedule.gracePeriodDays ?? 30,
       }
     : undefined
   return renderHookWithApplicationContext(
@@ -980,7 +985,8 @@ function renderDetailsPageHook(
         options.latestDescriptorId,
         hasMultipleVersions ? () => {} : undefined,
         options.isActiveDescriptor,
-        options.isEServiceBeingArchived
+        options.isEServiceBeingArchived,
+        options.delegatedArchivingRequest
       ),
     {
       withReactQueryContext: true,
@@ -1122,6 +1128,88 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
       'suspendVersion',
       'cancelArchivingVersion',
     ])
+  })
+
+  it('delegate cancel archiving dialog uses delegate-pending variant when latest delegated request has no acceptedAt', async () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVING', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: { id: 'organizationId', name: 'Comune di Roma' },
+        delegator: { id: 'delegator-id', name: 'Comune di Milano' },
+      }),
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      archivingSchedule: { scope: 'DESCRIPTOR' },
+      delegatedArchivingRequest: [
+        {
+          requestedAt: '2026-11-01T00:00:00.000Z',
+          acceptedAt: '2026-11-02T00:00:00.000Z',
+          requesterId: 'requester-old',
+          gracePeriodDays: 30,
+        },
+        {
+          requestedAt: '2026-12-01T00:00:00.000Z',
+          requesterId: 'requester-new',
+          gracePeriodDays: 30,
+        },
+      ],
+    })
+
+    const cancelArchivingVersionAction = result.current.headerInfoActions.find(
+      (action) => action.label === 'cancelArchivingVersion'
+    )
+
+    expect(cancelArchivingVersionAction).toBeDefined()
+
+    act(() => {
+      cancelArchivingVersionAction?.action()
+    })
+
+    expect(
+      screen.getByRole('button', { name: 'actions.keepArchivingDelegate' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'actions.cancelArchivingDelegate' })
+    ).toBeInTheDocument()
+  })
+
+  it('delegate cancel archiving dialog uses delegate-approved variant when latest delegated request has acceptedAt', async () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVING', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: { id: 'organizationId', name: 'Comune di Roma' },
+        delegator: { id: 'delegator-id', name: 'Comune di Milano' },
+      }),
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      archivingSchedule: { scope: 'DESCRIPTOR' },
+      delegatedArchivingRequest: [
+        {
+          requestedAt: '2026-11-01T00:00:00.000Z',
+          requesterId: 'requester-old',
+          gracePeriodDays: 30,
+        },
+        {
+          requestedAt: '2026-12-01T00:00:00.000Z',
+          acceptedAt: '2026-12-02T00:00:00.000Z',
+          requesterId: 'requester-new',
+          gracePeriodDays: 30,
+        },
+      ],
+    })
+
+    const cancelArchivingVersionAction = result.current.headerInfoActions.find(
+      (action) => action.label === 'cancelArchivingVersion'
+    )
+
+    expect(cancelArchivingVersionAction).toBeDefined()
+
+    act(() => {
+      cancelArchivingVersionAction?.action()
+    })
+
+    expect(screen.getByRole('button', { name: 'actions.cancelApproved' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'actions.closeApproved' })).toBeInTheDocument()
   })
 
   it('ARCHIVING with ESERVICE scope: cancelArchivingEservice as primary, only suspend in header', () => {

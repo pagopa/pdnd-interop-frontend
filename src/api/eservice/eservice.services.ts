@@ -237,6 +237,12 @@ function requestArchiveDescriptor({
   )
 }
 
+function cancelDelegatedArchivingRequest({ eserviceId }: { eserviceId: string }) {
+  return axiosInstance.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/submitDelegatedArchiving`
+  )
+}
+
 function scheduleArchiveEservice({
   eserviceId,
   archivingReason,
@@ -711,6 +717,7 @@ export const EServiceServices = {
   reactivateVersion,
   scheduleArchiveDescriptor,
   requestArchiveDescriptor,
+  cancelDelegatedArchivingRequest,
   cancelDescriptorArchiving,
   scheduleArchiveEservice,
   cancelEserviceArchiving,

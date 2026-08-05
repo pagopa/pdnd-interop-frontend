@@ -2,6 +2,7 @@ import type { TFunction } from 'i18next'
 import type { EServiceDescriptorState } from '@/api/api.generatedTypes'
 import {
   calculateArchivableOn,
+  calculateDelegatedArchivableOn,
   getAsyncExchangePropertiesWithDefaults,
   getDownloadDocumentName,
   getEServiceDescriptorAlertSpec,
@@ -146,6 +147,20 @@ describe('calculateArchivableOn utility function testing', () => {
     const result = calculateArchivableOn(now, 30)
 
     expect(result.toISOString()).toEqual('2026-07-16T00:00:00.000Z')
+  })
+})
+
+describe('calculateDelegatedArchivableOn utility function testing', () => {
+  it('should return acceptedAt + gracePeriodDays without the extra +1 day offset', () => {
+    const result = calculateDelegatedArchivableOn('2026-10-20T14:30:15.000Z', 30)
+
+    expect(result.toISOString()).toEqual('2026-11-19T14:30:15.000Z')
+  })
+
+  it('should correctly handle year boundaries', () => {
+    const result = calculateDelegatedArchivableOn('2026-12-15T23:59:59.999Z', 30)
+
+    expect(result.toISOString()).toEqual('2027-01-14T23:59:59.999Z')
   })
 })
 
