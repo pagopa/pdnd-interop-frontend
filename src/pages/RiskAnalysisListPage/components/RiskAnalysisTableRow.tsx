@@ -14,9 +14,8 @@ export const RiskAnalysisTableRow: React.FC<{
 }> = ({ purpose }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisList' })
 
-  const sentDate = purpose.reviewerWorkflow?.sentToReviewerAt
-    ? new Date(purpose.reviewerWorkflow.sentToReviewerAt)
-    : null
+  const sentToReviewerAt = purpose.reviewerWorkflow?.reviewers?.[0]?.sentToReviewerAt
+  const sentDate = sentToReviewerAt ? new Date(sentToReviewerAt) : null
 
   const formattedDate = sentDate
     ? sentDate.toLocaleDateString('it-IT', {

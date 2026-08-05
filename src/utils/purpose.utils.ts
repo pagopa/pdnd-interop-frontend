@@ -1,6 +1,6 @@
 import type { Purpose, RiskAnalysisReviewMode } from '@/api/api.generatedTypes'
 import type { TFunction } from 'i18next'
-import { match } from 'ts-pattern'
+import { match, P } from 'ts-pattern'
 
 export function getPurposeFailureReasons(
   purpose: Purpose
@@ -65,7 +65,8 @@ export function checkIsRulesetExpired(expirationDate: string | undefined) {
 }
 
 /**
- * Returns the localized label for the risk analysis review mode. An undefined mode means the risk
+ * Returns the localized label for the risk analysis review mode. `ADMIN_WRITES_ADMIN_SIGNS` (and
+ * an undefined mode, for purposes created before the BE started sending it) means the risk
  * analysis was completed and approved autonomously, with no reviewer assigned. Both the purpose
  * summary and details surfaces share the `riskAnalysisAssignment` i18n block.
  */
@@ -74,7 +75,7 @@ export function getReviewModeLabel(
   t: TFunction<'purpose', 'riskAnalysisAssignment'>
 ) {
   return match(reviewMode)
-    .with(undefined, () => t('mode.autonomy'))
+    .with(P.union(undefined, 'ADMIN_WRITES_ADMIN_SIGNS'), () => t('mode.autonomy'))
     .with('ADMIN_WRITES_REVIEWER_SIGNS', () => t('mode.adminWritesReviewerSigns'))
     .with('REVIEWER_WRITES_REVIEWER_SIGNS', () => t('mode.reviewerWritesReviewerSigns'))
     .exhaustive()

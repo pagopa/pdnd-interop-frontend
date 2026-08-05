@@ -61,8 +61,11 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
     { reviewMode: typeof reviewMode; signingState: typeof signingState },
     RiskAnalysisStepMode
   >({ reviewMode, signingState })
-    // Option 1: no reviewer workflow → behaves as today.
-    .with({ reviewMode: undefined }, () => ({ kind: 'editable' }))
+    // Option 1: self-compilation and self-approval, no reviewer workflow → behaves as today.
+    // `undefined` covers the purposes created before the BE started sending the review mode.
+    .with({ reviewMode: P.union(undefined, 'ADMIN_WRITES_ADMIN_SIGNS') }, () => ({
+      kind: 'editable',
+    }))
     // Option 2: admin compiles, reviewer signs.
     .with(
       { reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS', signingState: P.union('SUBMITTED', 'SIGNED') },
@@ -139,8 +142,8 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
   }
 
   const handleRequestApproval = (answers: Record<string, string[]>) => {
-    const reviewerId = purpose.reviewerWorkflow?.reviewers?.[0]?.userId
-    if (!reviewerId) {
+    const reviewer: CompactUser | undefined = purpose.reviewerWorkflow?.reviewers?.[0]
+    if (!reviewer) {
       // If we land here the purpose is malformed;
       // log loudly and no-op rather than crashing the route —
       // this is a UI action handler, not a place to throw to the ErrorBoundary.
@@ -150,11 +153,6 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
       return
     }
 
-    const reviewer: CompactUser = purpose.reviewerWorkflow?.reviewers?.[0] ?? {
-      userId: reviewerId,
-      name: '',
-      familyName: '',
-    }
     openDialog({
       type: 'requestPurposeApproval',
       reviewer,
