@@ -139,13 +139,13 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
   }
 
   const handleRequestApproval = (answers: Record<string, string[]>) => {
-    const reviewerId = purpose.reviewerWorkflow?.reviewerIds?.[0]
+    const reviewerId = purpose.reviewerWorkflow?.reviewers?.[0]?.userId
     if (!reviewerId) {
       // If we land here the purpose is malformed;
       // log loudly and no-op rather than crashing the route —
       // this is a UI action handler, not a place to throw to the ErrorBoundary.
       console.error(
-        'PurposeEditStepRiskAnalysis: reviewerIds is missing on a purpose in ADMIN_WRITES_REVIEWER_SIGNS mode'
+        'PurposeEditStepRiskAnalysis: reviewers is missing on a purpose in ADMIN_WRITES_REVIEWER_SIGNS mode'
       )
       return
     }
