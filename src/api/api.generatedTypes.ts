@@ -523,6 +523,7 @@ export interface CatalogEServiceDescriptor {
   archivingSchedule?: ArchivingSchedule;
   asyncExchangeProperties?: AsyncExchangeProperties;
   asyncExchangeCallbackInterface?: EServiceDoc;
+  templateRef?: EServiceTemplateRef;
 }
 
 /** Models Client details */

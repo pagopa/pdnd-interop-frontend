@@ -13,6 +13,7 @@ import { ButtonNaked } from '@pagopa/mui-italia'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import { AttributeQueries } from '@/api/attribute'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -80,7 +81,10 @@ export const AttributeContainer = <
   const handlePrefetchAttribute = () => {
     if (alreadyPrefetched.current) return
     alreadyPrefetched.current = true
-    queryClient.prefetchQuery(AttributeQueries.getSingle(attribute.id))
+    queryClient.prefetchQuery({
+      ...AttributeQueries.getSingle(attribute.id),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   const isAttributeCertifiedDiscrete =
