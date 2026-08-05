@@ -126,6 +126,10 @@
               "purposeStateUpdated": {
                 "label": "Purpose status update",
                 "description": "Notify me when a purpose status is suspended, archived, or reactivated"
+              },
+              "riskAnalysisAssignmentStatus": {
+                "label": "Status of risk analysis assignments",
+                "description": "Notify me when an evaluator approves or rejects a risk analysis"
               }
             }
           },

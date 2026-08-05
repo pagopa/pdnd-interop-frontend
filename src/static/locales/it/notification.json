@@ -127,6 +127,10 @@
               "purposeStateUpdated": {
                 "label": "Variazione di stato di una finalità",
                 "description": "Avvisami quando lo stato di una finalità viene sospesa, archiviata o riattivata"
+              },
+              "riskAnalysisAssignmentStatus": {
+                "label": "Stato delle assegnazioni di un’analisi del rischio",
+                "description": "Avvisami quando un valutatore approva o rifiuta un’analisi del rischio"
               }
             }
           },

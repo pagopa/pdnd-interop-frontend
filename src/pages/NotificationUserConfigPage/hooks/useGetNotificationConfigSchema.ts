@@ -59,6 +59,14 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
               description: t('subscriber.purpose.components.purposeStateUpdated.description'),
               visibility: ['admin', 'security'],
             },
+            {
+              key: 'riskAnalysisAssignmentStatus',
+              title: t('subscriber.purpose.components.riskAnalysisAssignmentStatus.label'),
+              description: t(
+                'subscriber.purpose.components.riskAnalysisAssignmentStatus.description'
+              ),
+              visibility: ['admin'],
+            },
           ],
         },
         {
