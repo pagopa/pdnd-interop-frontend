@@ -79,6 +79,7 @@ const resolveMeta = (query: {
     successToastLabel,
     errorToastLabel,
     confirmationDialog,
+    skipActiveQueriesPolling: meta.skipActiveQueriesPolling,
   }
 }
 
@@ -175,7 +176,7 @@ mutationCache.config.onMutate = async (variables, mutation) => {
 mutationCache.config.onSuccess = (data, variables, context, mutation) => {
   const meta = resolveMeta({ mutation, data, variables, context })
   if (meta.successToastLabel) getShowToast()(meta.successToastLabel, 'success')
-  requestPolling()
+  if (!meta.skipActiveQueriesPolling) requestPolling()
 }
 
 mutationCache.config.onError = (error, variables, context, mutation) => {

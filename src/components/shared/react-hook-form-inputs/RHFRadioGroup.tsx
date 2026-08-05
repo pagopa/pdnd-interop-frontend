@@ -11,7 +11,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import type { InputRadioGroupOption } from '@/types/common.types'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
-import { mapValidationErrorMessages } from '@/utils/form.utils'
+import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 import { theme } from '@pagopa/mui-italia'
 
 export type RHFRadioGroupProps = Omit<MUIRadioGroupProps, 'onChange'> & {
@@ -49,8 +49,13 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
 
   const error = formState.errors[name]?.message as string | undefined
 
+  const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
+    infoLabel,
+    error,
+  })
+
   return (
-    <InputWrapper error={error} sx={sx} infoLabel={infoLabel}>
+    <InputWrapper error={error} sx={sx} infoLabel={infoLabel} {...ids}>
       {label && (
         <FormLabel
           sx={{
@@ -74,6 +79,7 @@ export const RHFRadioGroup: React.FC<RHFRadioGroupProps> = ({
             aria-labelledby={labelId}
             {...props}
             {...fieldProps}
+            {...accessibilityProps}
             onChange={(_, val) => {
               let value: string | boolean = val
               if (isOptionValueAsBoolean) {

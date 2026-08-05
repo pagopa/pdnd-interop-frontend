@@ -253,13 +253,22 @@
       "title": "Payload",
       "htmField": {
         "label": "HTM",
-        "description": "Indicates the HTTP method you want to invoke against the resource"
+        "description": {
+          "eservice": "Indicates the HTTP method you want to invoke against the resource",
+          "pdnd": "The HTTP method of the PDND M2M API operation you want to invoke."
+        }
       },
       "htuField": {
         "label": "HTU",
-        "description": "The URL of the resource you want to invoke"
+        "description": {
+          "eservice": "The URL of the resource you want to invoke",
+          "pdnd": "The full URL, without query parameters, of the PDND M2M API operation you want to invoke."
+        }
       },
-      "alert": "You can find information about the HTM and HTU parameters within the e-service's OpenAPI interface.",
+      "alert": {
+        "eservice": "You can find information about the HTM and HTU parameters within the e-service's OpenAPI interface.",
+        "pdnd": "You can find the HTM and HTU values in the PDND M2M v3 OpenAPI specification."
+      },
       "athField": {
         "label": "ATH",
         "description": "The hash of the voucher released by PDND in the previous step.",

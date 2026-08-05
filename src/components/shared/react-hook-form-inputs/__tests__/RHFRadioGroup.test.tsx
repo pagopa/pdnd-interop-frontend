@@ -5,6 +5,8 @@ import userEvent from '@testing-library/user-event'
 import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
 import { RHFRadioGroup } from '@/components/shared/react-hook-form-inputs'
 import { vi } from 'vitest'
+import { Box, Button } from '@mui/material'
+import { FormProvider, useForm } from 'react-hook-form'
 
 const radioGroupOptions = [
   { label: 'option1', value: 'option1' },
@@ -87,5 +89,74 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     await user.click(radioOption1)
     expect(onValueChange).toHaveBeenCalledTimes(1)
     expect(onValueChange).toHaveBeenCalledWith('option1')
+  })
+
+  it('should have infoLabel id and corresponding describedBy when infoLabel passed', () => {
+    const screen = render(
+      <TestInputWrapper>
+        <RHFRadioGroup {...radioGroupProps.standard} infoLabel="testInfoLabel" />
+      </TestInputWrapper>
+    )
+
+    const infoLabel = screen.getByText('testInfoLabel')
+    const radioGroup = screen.getByRole('radiogroup')
+
+    expect(infoLabel).toHaveAttribute('id', 'testText-infoLabel')
+    expect(radioGroup).toHaveAttribute('aria-describedby', 'testText-infoLabel')
+  })
+
+  it('should have error label id and corresponding describedBy and aria-invalid when there is an error', async () => {
+    const user = userEvent.setup()
+    const FormWrapper = ({ children }: { children: React.ReactNode }) => {
+      const formMethods = useForm({
+        defaultValues: {
+          testText: null,
+        },
+      })
+
+      const onSubmit = vi.fn()
+
+      return (
+        <FormProvider {...formMethods}>
+          <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
+            {children}
+            <Button type="submit">form submit</Button>
+          </Box>
+        </FormProvider>
+      )
+    }
+
+    const screen = render(
+      <FormWrapper>
+        <RHFRadioGroup
+          {...radioGroupProps.standard}
+          rules={{
+            validate: (value: string) => {
+              if (value === 'option1') {
+                return 'error'
+              }
+              return true
+            },
+          }}
+        />
+      </FormWrapper>
+    )
+
+    const radioOption1 = screen.getByRole('radio', {
+      name: 'option1',
+    }) as HTMLInputElement
+
+    await user.click(radioOption1)
+    expect(radioOption1).toBeChecked()
+
+    const submitButton = screen.getByRole('button', { name: 'form submit' })
+    await user.click(submitButton)
+
+    const errorLabel = screen.getByText('error')
+    const radioGroup = screen.getByRole('radiogroup')
+
+    expect(errorLabel).toHaveAttribute('id', 'testText-error')
+    expect(radioGroup).toHaveAttribute('aria-describedby', 'testText-error')
+    expect(radioGroup).toHaveAttribute('aria-invalid', 'true')
   })
 })

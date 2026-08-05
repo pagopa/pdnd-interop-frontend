@@ -283,7 +283,7 @@
       "loading": "Stiamo modificando i dati di interfaccia dell e-service",
       "outcome": {
         "error": "Non è stato possibile salvare i dati di interfaccia. Assicurati di aver inserito le informazioni corrette.",
-        "success": "Dati di interfaccia sono stati salvati corettamente"
+        "success": "I dati di interfaccia sono stati salvati."
       }
     },
     "deleteAndUpgradeEService": {
@@ -334,11 +334,18 @@
         "success": "L’attributo è stato creato correttamente"
       }
     },
+    "createCertifiedAttribute": {
+      "loading": "Stiamo creando il nuovo attributo",
+      "outcome": {
+        "error": "Non è stato possibile creare l'attributo certificato. Controlla di aver inserito le informazioni corrette.",
+        "success": "Hai creato un nuovo attributo certificato."
+      }
+    },
     "addCertifiedAttribute": {
       "loading": "Stiamo assegnando l'attributo",
       "outcome": {
-        "error": "Non è stato possibile assegnare l’attributo. Per favore, riprova",
-        "success": "L’attributo è stato assegnato correttamente"
+        "error": "Non è stato possibile assegnare l'attributo certificato. Controlla di aver inserito le informazioni corrette.",
+        "success": "Hai assegnato l'attributo certificato."
       }
     },
     "revokeCertifiedAttribute": {
@@ -929,17 +936,17 @@
       }
     },
     "updateEServiceDescription": {
-      "loading": "Stiamo modificando la descrizione dell'e-service del template",
+      "loading": "Stiamo modificando la descrizione del template e-service",
       "outcome": {
-        "error": "Descrizione dell'e-service del template dell'e-service non aggiornata. Riprovare.",
-        "success": "Descrizione dell'e-service del template dell'e-service aggiornata correttamente"
+        "error": "Descrizione del template e-service non aggiornata. Riprovare.",
+        "success": "Descrizione del template e-service aggiornata correttamente"
       }
     },
     "updateVersion": {
-      "loading": "Stiamo modificando la descrizione della versione dell'e-service del template",
+      "loading": "Stiamo modificando la descrizione della versione del template e-service",
       "outcome": {
-        "error": "Descrizione della versione dell'e-service del template dell'e-service non aggiornata. Riprovare.",
-        "success": "Descrizione della versione dell'e-service del template dell'e-service aggiornata correttamente"
+        "error": "Descrizione della versione del template e-service non aggiornata. Riprovare.",
+        "success": "Descrizione della versione del template e-service aggiornata correttamente"
       }
     },
     "postVersionDraftDocument": {

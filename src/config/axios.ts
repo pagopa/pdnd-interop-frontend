@@ -24,6 +24,12 @@ const deepTrim = (object: string | Record<string, unknown>) => {
 }
 
 /** This function helps to serialize correctly arrays in url params  */
+const encodeQueryParam = (value: unknown) =>
+  encodeURIComponent(String(value)).replace(
+    /[!'()*]/g,
+    (char) => `%${char.charCodeAt(0).toString(16).toUpperCase()}`
+  )
+
 const serializeParams = (query: Record<string, unknown>) => {
   return (
     Object.entries(query)
@@ -32,7 +38,12 @@ const serializeParams = (query: Record<string, unknown>) => {
       // like 0 or '' are allowed
       .filter(([, value]) => value !== undefined && value !== null)
       .map(([key, value]) =>
-        Array.isArray(value) ? `${key}=${value.join(',')}` : `${key}=${value}`
+        Array.isArray(value)
+          ? `${encodeQueryParam(key)}=${value
+              .filter((arrayValue) => arrayValue !== undefined && arrayValue !== null)
+              .map(encodeQueryParam)
+              .join(',')}`
+          : `${encodeQueryParam(key)}=${encodeQueryParam(value)}`
       )
       .join('&')
   )
