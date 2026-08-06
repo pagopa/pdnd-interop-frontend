@@ -8,6 +8,7 @@ import { PurposeQueries } from '@/api/purpose'
 import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { useGetPurposeInfoAlert } from '@/hooks/useGetPurposeInfoAlert'
 import { AuthHooks } from '@/api/auth'
+import { formatDateStringNumeric } from '@/utils/format.utils'
 
 type ConsumerPurposeSummaryGeneralInformationAccordionProps = {
   purposeId: string
@@ -16,7 +17,7 @@ type ConsumerPurposeSummaryGeneralInformationAccordionProps = {
 export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
   ConsumerPurposeSummaryGeneralInformationAccordionProps
 > = ({ purposeId }) => {
-  const { isReviewer } = AuthHooks.useJwt()
+  const { jwt, isReviewer } = AuthHooks.useJwt()
   const { data: purpose } = useSuspenseQuery(PurposeQueries.getSingle(purposeId))
 
   const { data: remainingDailyCalls } = useQuery({
@@ -35,6 +36,13 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
     keyPrefix: 'summary.alerts',
     showFallback: false,
   })
+
+  const loggedReviewer = purpose?.reviewerWorkflow?.reviewers?.find((r) => r.userId === jwt?.uid)
+  const assignmentDate = loggedReviewer?.sentToReviewerAt
+    ? formatDateStringNumeric(loggedReviewer.sentToReviewerAt)
+    : '-'
+
+  console.log('isReviewer', isReviewer)
 
   return (
     <Stack spacing={2}>
@@ -93,6 +101,24 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
           {generalInfoAlertProps && <Alert sx={{ mt: 3 }} {...generalInfoAlertProps} />}
         </Stack>
       </SectionContainer>
+      {isReviewer && (
+        <SectionContainer innerSection sx={{ pt: 4 }} title={t('assignmentSection.label')}>
+          <Stack spacing={2}>
+            <InformationContainer
+              label={t('assignmentSection.assignmentDate.label')}
+              content={assignmentDate}
+            />
+            <InformationContainer
+              label={t('assignmentSection.reviewers.label')}
+              content={
+                purpose.reviewerWorkflow?.reviewers
+                  ?.map((reviewer) => reviewer.familyName)
+                  .join(', ') ?? '-'
+              }
+            />
+          </Stack>
+        </SectionContainer>
+      )}
     </Stack>
   )
 }
