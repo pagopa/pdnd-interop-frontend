@@ -238,6 +238,7 @@ describe('getConsumerAgreementVersionAlertSpec utility function testing', () => 
     archivableOn: undefined,
     archivedAt: undefined,
     isObsoleteDescriptor: false,
+    activeDescriptorState: undefined,
     t,
   } as const
 

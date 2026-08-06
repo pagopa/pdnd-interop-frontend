@@ -27,6 +27,7 @@ export const ConsumerAgreementVersionAlerts: React.FC<ConsumerAgreementVersionAl
     archivedAt: descriptor.archivedAt,
     isObsoleteDescriptor,
     t,
+    activeDescriptorState: activeDescriptor.state,
   })
 
   if (alerts.length === 0) return null
