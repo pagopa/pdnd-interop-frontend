@@ -649,7 +649,9 @@
         "label": "Stato analisi del rischio",
         "statusField": {
           "ASSIGNED": "Da compilare",
-          "SUBMITTED": "Da approvare"
+          "SUBMITTED": "Da approvare",
+          "SIGNED": "Approvata",
+          "REJECTED": "Rifiutata"
         }
       }
     },
@@ -657,11 +659,18 @@
       "label": "Oggi"
     },
     "noData": {
-      "label": "Non hai nessuna analisi del rischio da valutare"
+      "label": "Per ora non hai analisi del rischio assegnate"
     },
     "noResults": {
       "label": "La ricerca corrente non ha prodotto risultati."
-    }
+    },
+    "tabs": {
+      "ariaLabel": "Due tab diverse per le analisi del rischio da completare e quelle concluse",
+      "todo": "Da fare",
+      "done": "Concluse"
+    },
+    "emptyTodo": "Per ora non hai analisi del rischio da valutare",
+    "emptyDone": "Per ora non hai analisi del rischio concluse"
   },
   "publishThankYou": {
     "loading": "Pubblicazione in corso",
