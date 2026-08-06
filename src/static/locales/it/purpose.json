@@ -280,6 +280,15 @@
           "label": "Soglia totale prevista dall'erogatore",
           "value": "{{value}} chiamate API/giorno"
         }
+      },
+      "assignmentSection": {
+        "label": "Assegnazione",
+        "assignmentDate": {
+          "label": "Data di assegnazione"
+        },
+        "reviewers": {
+          "label": "Assegnata a"
+        }
       }
     },
     "assignmentSection": {
@@ -636,6 +645,15 @@
       "label": "Stima chiamate API",
       "dailyCalls": {
         "label": "Stima numero chiamate API/giorno"
+      }
+    },
+    "reviewersSection": {
+      "label": "Assegnazione",
+      "assignmentDate": {
+        "label": "Data di assegnazione"
+      },
+      "reviewers": {
+        "label": "Assegnata a"
       }
     },
     "beginCompileBtn": "Inizia la compilazione"

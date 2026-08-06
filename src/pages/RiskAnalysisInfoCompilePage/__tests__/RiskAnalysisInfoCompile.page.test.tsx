@@ -214,4 +214,40 @@ describe('RiskAnalysisInfoCompilePage', () => {
 
     expect(mockNavigate).not.toHaveBeenCalled()
   })
+
+  it('should not show reviewers section when user is not reviewer', async () => {
+    const mockPurpose = createMockPurpose()
+
+    useQueryMock.mockReturnValue({
+      data: mockPurpose,
+      isLoading: false,
+    })
+    mockUseJwt({ isReviewer: false })
+
+    renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.queryByText('reviewersSection.assignmentDate.label')).not.toBeInTheDocument()
+    expect(screen.queryByText('reviewersSection.reviewers.label')).not.toBeInTheDocument()
+  })
+
+  it('should show reviewers section when user is reviewer', async () => {
+    const mockPurpose = createMockPurpose()
+
+    useQueryMock.mockReturnValue({
+      data: mockPurpose,
+      isLoading: false,
+    })
+    mockUseJwt({ isReviewer: true })
+
+    renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.queryByText('reviewersSection.assignmentDate.label')).toBeInTheDocument()
+    expect(screen.queryByText('reviewersSection.reviewers.label')).toBeInTheDocument()
+  })
 })
