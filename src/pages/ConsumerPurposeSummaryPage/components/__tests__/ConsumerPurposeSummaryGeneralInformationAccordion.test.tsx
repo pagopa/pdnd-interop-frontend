@@ -3,6 +3,7 @@ import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { ConsumerPurposeSummaryGeneralInformationAccordion } from '../ConsumerPurposeSummaryGeneralInformationAccordion'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 import { waitFor } from '@testing-library/react'
+import { screen } from '@testing-library/react'
 
 const useSuspenseQueryMock = vi.fn()
 const remainingDailyCallsQueryFn = vi.fn().mockResolvedValue({
@@ -80,5 +81,33 @@ describe('ConsumerPurposeSummaryGeneralInformationAccordion', () => {
     await waitFor(() => {
       expect(remainingDailyCallsQueryFn).not.toHaveBeenCalled()
     })
+  })
+
+  it('should not show assignment section when user is not reviewer', async () => {
+    mockUseJwt({ isReviewer: false })
+
+    renderWithApplicationContext(
+      <ConsumerPurposeSummaryGeneralInformationAccordion purposeId="purpose-id" />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    expect(screen.queryByText('assignmentSection.assignmentDate.label')).not.toBeInTheDocument()
+    expect(screen.queryByText('assignmentSection.reviewers.label')).not.toBeInTheDocument()
+  })
+
+  it('should show assignment section when user is reviewer', async () => {
+    mockUseJwt({ isReviewer: true })
+
+    renderWithApplicationContext(
+      <ConsumerPurposeSummaryGeneralInformationAccordion purposeId="purpose-id" />,
+      {
+        withReactQueryContext: true,
+      }
+    )
+
+    expect(screen.queryByText('assignmentSection.assignmentDate.label')).toBeInTheDocument()
+    expect(screen.queryByText('assignmentSection.reviewers.label')).toBeInTheDocument()
   })
 })
