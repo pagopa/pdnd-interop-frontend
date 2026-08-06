@@ -12,7 +12,6 @@ import {
   checkIfcanCreateAgreementDraft,
   checkIfhasAlreadyAgreementDraft,
 } from '@/utils/agreement.utils'
-import { isDescriptorPendingArchiving } from '@/utils/eservice.utils'
 import { AuthHooks } from '@/api/auth'
 import SendIcon from '@mui/icons-material/Send'
 import PendingActionsIcon from '@mui/icons-material/PendingActions'
@@ -320,9 +319,7 @@ function useGetEServiceConsumerActions(
         }
       : undefined
 
-  const shouldShowDisabledArchivingSubscribe =
-    (isDescriptorPendingArchiving(descriptor.state) ||
-      isDescriptorPendingArchiving(descriptor.eservice.activeDescriptor?.state)) &&
+  const shouldShowDisabledObsoleteVersionSubscribe =
     Boolean(viewLatestVersionTargetId) &&
     !isMine &&
     !isSubscribed &&
@@ -330,8 +327,8 @@ function useGetEServiceConsumerActions(
     !isDelegator &&
     !(delegators && delegators.length > 0)
 
-  const subscribeDisabledArchivingAction: ActionItemButton | undefined =
-    shouldShowDisabledArchivingSubscribe
+  const subscribeDisabledObsoleteVersionAction: ActionItemButton | undefined =
+    shouldShowDisabledObsoleteVersionSubscribe
       ? {
           action: noop,
           label: t('tableEServiceCatalog.subscribe'),
@@ -363,7 +360,7 @@ function useGetEServiceConsumerActions(
     editDraftAction ??
     subscribeAction ??
     subscribeDisabledMissingAttributesAction ??
-    subscribeDisabledArchivingAction
+    subscribeDisabledObsoleteVersionAction
 
   const hasPrimaryAgreementAction = Boolean(inspectAction ?? editDraftAction ?? upgradeAction)
   const secondaryAction: ActionItemButton | undefined =
