@@ -640,6 +640,38 @@
     },
     "beginCompileBtn": "Inizia la compilazione"
   },
+  "riskAnalysisDetails": {
+    "backToListBtn": "Torna alle analisi del rischio",
+    "tabs": {
+      "ariaLabel": "Due tab diverse per il dettaglio della finalità e per l’analisi del rischio",
+      "details": "Dettagli finalità",
+      "riskAnalysis": "Analisi del rischio"
+    },
+    "signedAlert": "Non puoi più modificare l’analisi del rischio perché è stata approvata.",
+    "rejectedAlert": {
+      "label": "L’analisi del rischio di questa finalità è stata rifiutata.",
+      "action": "Leggi motivazione"
+    },
+    "assignmentSection": {
+      "title": "Assegnazione",
+      "assignedAt": {
+        "label": "Data assegnazione"
+      },
+      "signedAt": {
+        "label": "Data approvazione"
+      },
+      "signedBy": {
+        "label": "Approvata da"
+      },
+      "assignedTo": {
+        "label": "Assegnata a"
+      }
+    },
+    "riskAnalysisSection": {
+      "title": "Analisi del rischio",
+      "signedSubtitle": "Non puoi più modificare l’analisi del rischio perché l’hai approvata."
+    }
+  },
   "riskAnalysisList": {
     "filters": {
       "eserviceField": {

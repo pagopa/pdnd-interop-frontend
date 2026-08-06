@@ -75,10 +75,12 @@ export function Breadcrumbs() {
           routeKey === 'SUBSCRIBE_RISK_ANALYSIS_LIST'
             ? false
             : routeLabels.SUBSCRIBE_RISK_ANALYSIS_LIST,
-        SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE:
-          routeKey === 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL'
-            ? false
-            : routeLabels.SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE,
+        SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE: [
+          'SUBSCRIBE_RISK_ANALYSIS_APPROVAL',
+          'SUBSCRIBE_RISK_ANALYSIS_DETAILS',
+        ].includes(routeKey)
+          ? false
+          : routeLabels.SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE,
       }}
     />
   )

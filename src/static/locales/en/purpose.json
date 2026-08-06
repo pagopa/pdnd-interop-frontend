@@ -640,6 +640,38 @@
     },
     "beginCompileBtn": "Start compilation"
   },
+  "riskAnalysisDetails": {
+    "backToListBtn": "Back to risk analysis",
+    "tabs": {
+      "ariaLabel": "Two separate tabs for the purpose details and for the risk analysis",
+      "details": "Purpose details",
+      "riskAnalysis": "Risk analysis"
+    },
+    "signedAlert": "You can no longer edit the risk analysis because it has been approved.",
+    "rejectedAlert": {
+      "label": "The risk analysis of this purpose has been rejected.",
+      "action": "Read reason"
+    },
+    "assignmentSection": {
+      "title": "Assignment",
+      "assignedAt": {
+        "label": "Assignment date"
+      },
+      "signedAt": {
+        "label": "Approval date"
+      },
+      "signedBy": {
+        "label": "Approved by"
+      },
+      "assignedTo": {
+        "label": "Assigned to"
+      }
+    },
+    "riskAnalysisSection": {
+      "title": "Risk analysis",
+      "signedSubtitle": "You can no longer edit the risk analysis because you approved it."
+    }
+  },
   "riskAnalysisList": {
     "filters": {
       "eserviceField": {
