@@ -1,4 +1,4 @@
-import type { Purpose, RiskAnalysisReviewMode } from '@/api/api.generatedTypes'
+import type { CompactUser, Purpose, RiskAnalysisReviewMode } from '@/api/api.generatedTypes'
 import type { TFunction } from 'i18next'
 import { match } from 'ts-pattern'
 
@@ -78,4 +78,15 @@ export function getReviewModeLabel(
     .with('ADMIN_WRITES_REVIEWER_SIGNS', () => t('mode.adminWritesReviewerSigns'))
     .with('REVIEWER_WRITES_REVIEWER_SIGNS', () => t('mode.reviewerWritesReviewerSigns'))
     .exhaustive()
+}
+
+/**
+ * Returns the full names of the reviewers assigned to the risk analysis, preserving the order
+ * returned by the BE and dropping entries with no name at all. Both the purpose summary and details
+ * surfaces list them in the `riskAnalysisAssignment` section, pluralizing the label on the count.
+ */
+export function getReviewerNames(reviewers: CompactUser[] | undefined) {
+  return (reviewers ?? [])
+    .map((reviewer) => [reviewer.name, reviewer.familyName].filter(Boolean).join(' ').trim())
+    .filter(Boolean)
 }
