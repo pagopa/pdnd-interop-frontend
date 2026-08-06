@@ -99,7 +99,7 @@ describe('DialogArchiveVersion', () => {
   it('uses the delegate request-archive mutation when isDelegate is true', async () => {
     renderDialog({ isDelegate: true, eserviceId: 'eservice-42', descriptorId: 'descriptor-99' })
 
-    await userEvent.click(screen.getByRole('button', { name: 'requestArchiving' }))
+    await userEvent.click(screen.getByRole('button', { name: 'actions.requestArchiving' }))
 
     expect(mockRequestArchive).toHaveBeenCalledTimes(1)
     expect(mockRequestArchive).toHaveBeenCalledWith(
