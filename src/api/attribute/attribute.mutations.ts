@@ -4,9 +4,25 @@ import { AttributeServices } from './attribute.services'
 import type { DeclaredTenantAttributeSeed } from '../api.generatedTypes'
 
 function useCreateCertified() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'attribute.create' })
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'attribute.createCertifiedAttribute',
+  })
   return useMutation({
     mutationFn: AttributeServices.createCertified,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
+    },
+  })
+}
+
+function useCreateCertifiedDiscrete() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'attribute.createCertifiedAttribute',
+  })
+  return useMutation({
+    mutationFn: AttributeServices.createCertifiedDiscrete,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -51,12 +67,40 @@ function useAddCertifiedAttribute() {
   })
 }
 
+function useAddCertifiedDiscreteAttribute() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'attribute.addCertifiedAttribute',
+  })
+  return useMutation({
+    mutationFn: AttributeServices.addCertifiedDiscreteAttribute,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
+    },
+  })
+}
+
 function useRevokeCertifiedAttribute() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'attribute.revokeCertifiedAttribute',
   })
   return useMutation({
     mutationFn: AttributeServices.revokeCertifiedAttribute,
+    meta: {
+      errorToastLabel: t('outcome.error'),
+      loadingLabel: t('loading'),
+      successToastLabel: t('outcome.success'),
+    },
+  })
+}
+
+function useRevokeCertifiedDiscreteAttribute() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'attribute.revokeCertifiedAttribute',
+  })
+  return useMutation({
+    mutationFn: AttributeServices.revokeCertifiedDiscreteAttribute,
     meta: {
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
@@ -148,10 +192,13 @@ function useRevokeDeclaredPartyAttribute() {
 
 export const AttributeMutations = {
   useCreateCertified,
+  useCreateCertifiedDiscrete,
   useCreateVerified,
   useCreateDeclared,
   useAddCertifiedAttribute,
+  useAddCertifiedDiscreteAttribute,
   useRevokeCertifiedAttribute,
+  useRevokeCertifiedDiscreteAttribute,
   useVerifyPartyAttribute,
   useUpdateVerifiedPartyAttribute,
   useRevokeVerifiedPartyAttribute,

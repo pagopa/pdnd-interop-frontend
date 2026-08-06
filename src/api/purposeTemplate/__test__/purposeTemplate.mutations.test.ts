@@ -10,8 +10,6 @@ vi.mock('../purposeTemplate.services', () => ({
   PurposeTemplateServices: {
     createDraft: vi.fn(),
     updateDraft: vi.fn(),
-    linkEserviceToPurposeTemplate: vi.fn(),
-    unlinkEserviceFromPurposeTemplate: vi.fn(),
     linkResourceToPurposeTemplate: vi.fn(),
     unlinkResourceFromPurposeTemplate: vi.fn(),
     publishDraft: vi.fn(),
@@ -113,78 +111,6 @@ describe('PurposeTemplateMutations', () => {
       await result.current.mutateAsync(mockPayload)
 
       expect(PurposeTemplateServices.updateDraft).toHaveBeenCalledWith(mockPayload)
-    })
-  })
-
-  // TODO: remove this test after feature purpose template <-> e-service template linking validation
-  describe.skip('useLinkEserviceToPurposeTemplate', () => {
-    it('should return mutation with correct configuration', () => {
-      const { result } = renderHook(
-        () => PurposeTemplateMutations.useLinkEserviceToPurposeTemplate(),
-        {
-          wrapper: createWrapper(),
-        }
-      )
-
-      expect(result.current.mutate).toBeDefined()
-      expect(result.current.mutateAsync).toBeDefined()
-      expect(result.current.isPending).toBe(false)
-    })
-
-    it('should call linkEserviceToPurposeTemplate service when mutation is executed', async () => {
-      const mockPayload = {
-        purposeTemplateId: 'test-template-id',
-        eserviceId: 'test-eservice-id',
-      }
-
-      const { result } = renderHook(
-        () => PurposeTemplateMutations.useLinkEserviceToPurposeTemplate(),
-        {
-          wrapper: createWrapper(),
-        }
-      )
-
-      await result.current.mutateAsync(mockPayload)
-
-      expect(PurposeTemplateServices.linkEserviceToPurposeTemplate).toHaveBeenCalledWith(
-        mockPayload
-      )
-    })
-  })
-
-  // TODO: remove this test after feature purpose template <-> e-service template linking validation
-  describe.skip('useUnlinkEserviceFromPurposeTemplate', () => {
-    it('should return mutation with correct configuration', () => {
-      const { result } = renderHook(
-        () => PurposeTemplateMutations.useUnlinkEserviceFromPurposeTemplate(),
-        {
-          wrapper: createWrapper(),
-        }
-      )
-
-      expect(result.current.mutate).toBeDefined()
-      expect(result.current.mutateAsync).toBeDefined()
-      expect(result.current.isPending).toBe(false)
-    })
-
-    it('should call unlinkEserviceFromPurposeTemplate service when mutation is executed', async () => {
-      const mockPayload = {
-        purposeTemplateId: 'test-template-id',
-        eserviceId: 'test-eservice-id',
-      }
-
-      const { result } = renderHook(
-        () => PurposeTemplateMutations.useUnlinkEserviceFromPurposeTemplate(),
-        {
-          wrapper: createWrapper(),
-        }
-      )
-
-      await result.current.mutateAsync(mockPayload)
-
-      expect(PurposeTemplateServices.unlinkEserviceFromPurposeTemplate).toHaveBeenCalledWith(
-        mockPayload
-      )
     })
   })
 

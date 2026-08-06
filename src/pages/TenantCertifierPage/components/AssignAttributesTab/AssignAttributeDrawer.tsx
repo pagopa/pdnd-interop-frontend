@@ -2,13 +2,15 @@ import type { CompactAttribute, CompactTenant, TenantFeature } from '@/api/api.g
 import { AttributeMutations, AttributeQueries } from '@/api/attribute'
 import { TenantHooks, TenantQueries } from '@/api/tenant'
 import { Drawer } from '@/components/shared/Drawer'
-import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
+import { RHFAutocompleteSingle, RHFTextField } from '@/components/shared/react-hook-form-inputs'
+import { FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE } from '@/config/env'
 import { Stack } from '@mui/material'
 import { useAutocompleteTextInput } from '@pagopa/interop-fe-commons'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { match } from 'ts-pattern'
 
 type AssignAttributeDrawerProps = {
   isOpen: boolean
@@ -18,6 +20,7 @@ type AssignAttributeDrawerProps = {
 type AssignAttributeFormValues = {
   attribute: CompactAttribute
   tenant: CompactTenant
+  value: number
 }
 
 export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
@@ -27,6 +30,8 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
   const { t } = useTranslation('party', { keyPrefix: 'tenantCertifier.assignTab.drawer' })
 
   const { mutate: addCertifiedAttribute } = AttributeMutations.useAddCertifiedAttribute()
+  const { mutate: addCertifiedDiscreteAttribute } =
+    AttributeMutations.useAddCertifiedDiscreteAttribute()
 
   const [attributeSearchParam, setAttributeSearchParam] = useAutocompleteTextInput()
   const [tenantSearchParam, setTenantSearchParam] = useAutocompleteTextInput()
@@ -35,6 +40,7 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
     defaultValues: {
       attribute: undefined,
       tenant: undefined,
+      value: undefined,
     },
   })
 
@@ -64,7 +70,9 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
     ...AttributeQueries.getList({
       limit: 50,
       offset: 0,
-      kinds: ['CERTIFIED'],
+      kinds: FEATURE_FLAG_ATTRIBUTE_CERTIFIED_DISCRETE
+        ? ['CERTIFIED', 'CERTIFIED_DISCRETE']
+        : ['CERTIFIED'],
       origin: certifierId,
       q: getAttributeQ(),
     }),
@@ -103,10 +111,24 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
   })
 
   const onSubmit = formMethods.handleSubmit((values: AssignAttributeFormValues) => {
-    addCertifiedAttribute(
-      { id: values.attribute.id, tenantId: values.tenant.id },
-      { onSuccess: onClose }
-    )
+    match(values.attribute.kind)
+      .with('CERTIFIED', () =>
+        addCertifiedAttribute(
+          { id: values.attribute.id, tenantId: values.tenant.id },
+          { onSuccess: onClose }
+        )
+      )
+      .with('CERTIFIED_DISCRETE', () =>
+        addCertifiedDiscreteAttribute(
+          {
+            id: values.attribute.id,
+            tenantId: values.tenant.id,
+            certifiedDiscreteValue: values.value,
+          },
+          { onSuccess: onClose }
+        )
+      )
+      .run()
   })
 
   const handleTransitionExited = () => {
@@ -115,6 +137,9 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
     setAttributeSearchParam('')
     setTenantSearchParam('')
   }
+
+  const isSelectedAttributeCertifiedDiscrete =
+    selectedAttribute && selectedAttribute.kind === 'CERTIFIED_DISCRETE'
 
   return (
     <FormProvider {...formMethods}>
@@ -132,23 +157,42 @@ export const AssignAttributeDrawer: React.FC<AssignAttributeDrawerProps> = ({
         <Stack component="form" noValidate spacing={3}>
           <RHFAutocompleteSingle
             label={t('form.attributeField.label')}
-            labelType="external"
             size="small"
             onInputChange={(_, value) => setAttributeSearchParam(value)}
+            onValueChange={() => formMethods.resetField('value')}
             sx={{ mb: 0, flex: 1 }}
             options={attributeOptions}
             focusOnMount
             name="attribute"
+            aria-controls={isSelectedAttributeCertifiedDiscrete ? 'value-field' : undefined}
+            rules={{ required: true }}
           />
           <RHFAutocompleteSingle
             label={t('form.tenantField.label')}
-            labelType="external"
             size="small"
             onInputChange={(_, value) => setTenantSearchParam(value)}
             sx={{ mb: 0, flex: 1 }}
             options={tenantOptions}
             name="tenant"
+            rules={{ required: true }}
           />
+          {isSelectedAttributeCertifiedDiscrete && (
+            <RHFTextField
+              id="value-field"
+              label={t('form.valueField.label')}
+              name="value"
+              rules={{
+                required: isSelectedAttributeCertifiedDiscrete ? true : false,
+                min: 1,
+                max: 1000000000,
+                validate: (value) =>
+                  Number.isInteger(Number(value)) || t('form.valueField.validation.integer'),
+              }}
+              required
+              size="small"
+              type="number"
+            />
+          )}
         </Stack>
       </Drawer>
     </FormProvider>

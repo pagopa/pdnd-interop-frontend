@@ -8,7 +8,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Tab } from '@mui/material'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { ConsumerPurposeTemplateCatalogDetailsTab } from './components/ConsumerPurposeTemplateCatalogDetailsTab'
-import { ConsumerPurposeTemplateLinkedResourceTab } from '../ConsumerPurposeTemplateDetailsPage/components/ConsumerPurposeTemplateLinkedResourceTab'
+import { ConsumerPurposeTemplateLinkedResourceTab } from '@/components/shared/PurposeTemplate/PurposeTemplateLinkedResourceTab/ConsumerPurposeTemplateLinkedResourceTab'
 import { PurposeTemplateRiskAnalysisTab } from '@/components/shared/PurposeTemplate/PurposeTemplateRiskAnalysisTab'
 import { TenantHooks } from '@/api/tenant'
 

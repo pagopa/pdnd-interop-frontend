@@ -5,28 +5,12 @@ import type {
   GetCatalogPurposeTemplatesParams,
   GetCreatorPurposeTemplatesParams,
   GetPurposeTemplateLinkableResourcesParams,
-  GetPurposeTemplateEServicesParams,
 } from '../api.generatedTypes'
 
 function getConsumerPurposeTemplatesList(params: GetCreatorPurposeTemplatesParams) {
   return queryOptions({
     queryKey: ['PurposeTemplateGetProviderPurposeTemplatesList', params],
     queryFn: () => PurposeTemplateServices.getConsumerPurposeTemplatesList(params),
-  })
-}
-
-function getEservicesLinkedToPurposeTemplatesList(params: GetPurposeTemplateEServicesParams) {
-  return queryOptions({
-    queryKey: [
-      'PurposeTemplateGetEservicesLinkedToPurposeTemplatesList',
-      params.purposeTemplateId,
-      params,
-    ],
-    queryFn: () =>
-      PurposeTemplateServices.getEservicesLinkedToPurposeTemplatesList(
-        params.purposeTemplateId,
-        params
-      ),
   })
 }
 
@@ -81,7 +65,6 @@ function getPublishedPurposeTemplateCreators(params: {
 
 export const PurposeTemplateQueries = {
   getConsumerPurposeTemplatesList,
-  getEservicesLinkedToPurposeTemplatesList,
   getLinkableResources,
   getSingle,
   getCatalogPurposeTemplates,

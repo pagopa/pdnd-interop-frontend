@@ -41,7 +41,7 @@
       },
       "detailsSection": {
         "title": "E-service details",
-        "description": "This information has been pre-populated by the template creator and cannot be edited.",
+        "description": "This information cannot be edited.",
         "readOnlyDescription": "The following information is no longer editable.",
         "firstVersionOnlyEditableInfo": "This data will no longer be editable after the first version of the e-service is published.",
         "asyncExchangeField": {
@@ -286,8 +286,11 @@
           "serverSection": {
             "title": "Server",
             "label": "Server URL",
+            "descriptionLabel": "Server URL description",
+            "descriptionInfoLabel": "Describe which environment the server URL link points to. Min 10 characters, max 250 characters",
             "add": "Add server URL",
-            "remove": "Remove field"
+            "counter": "Server {{current}} of {{total}}",
+            "removeServer": "Delete server"
           },
           "description": {
             "rest": "Compile following fields and openAPI will be automatically generated",
@@ -300,15 +303,15 @@
         "title": "Interface",
         "description": {
           "rest": "Upload the OpenAPI file that describes the API.",
-          "beforePublishing": "Before publishing, you can use these tools to check:",
-          "technicalCompliance": "technical compliance",
+          "beforePublishing": "Before publishing, you can use these tools to:",
+          "technicalCompliance": "check technical compliance",
           "technicalComplianceDescription": "with the ModI guidelines through",
-          "semanticCompliance": "semantic compliance",
-          "semanticComplianceDescription": "with the National Data Catalog annotations through",
+          "semanticCompliance": "verify semantic quality",
+          "semanticComplianceDescription": "of your data schema through the score calculated by",
           "restLinkLabel": "OpenAPI Checker",
           "schemaEditorLinkLabel": "Schema Editor",
           "restForm": "Fill in these fields to automatically generate the OpenAPI file.",
-          "soap": "Upload the WSDL file that describes the API"
+          "soap": "Upload the WSDL file that describes the API."
         },
         "prettyName": "API specification",
         "dropzoneLabel": "Drag the OpenAPI file here or click here to select it from your computer",
@@ -643,6 +646,7 @@
       "archivingEService": "This e-service is being archived but is still active. It will be automatically archived on {{date}}.",
       "archivingSuspendedDescriptor": "This e-service version is being archived and is currently suspended. It will be automatically archived on {{date}}.",
       "archivedDescriptor": "This e-service version was archived on {{date}}.",
+      "archivedDescriptorNoConsumers": "This version is archived. No consumer can access the data provided.",
       "archivingSuspendedEService": "This version is currently suspended. The e-service is being archived and will be automatically archived on {{date}}.",
       "archivedEService": "This e-service was permanently archived on {{date}}.",
       "missingProducerKeychain": "The producer has not linked the keychain to this async e-service yet. Data exchange is currently unavailable.",
@@ -656,8 +660,8 @@
       "intro": "What happens with the suspension:",
       "bullets": {
         "suspended": "the version will not be usable and will remain inactive until any reactivation;",
-        "archivingNotAffected": "the suspension <strong>does not modify</strong> the archiving already started for the e-service and <strong>does not interrupt</strong> the notice period;",
-        "archivedAfterNotice": "after the notice period, the e-service and all its versions will be permanently archived."
+        "archivingNotAffected": "the suspension <strong>does not modify</strong> and <strong>does not interrupt</strong> the archiving already started for the e-service;",
+        "archivedAfterNotice": "after archiving, you will no longer be able to reactivate the e-service and all its versions."
       }
     },
     "dialogReactivateArchivingEservice": {
@@ -665,8 +669,8 @@
       "intro": "What happens with the reactivation:",
       "bullets": {
         "usableAgain": "the version becomes usable again, but the e-service remains in the archiving phase;",
-        "archivingNotAffected": "the reactivation <strong>does not modify</strong> the archiving already started for the e-service and <strong>does not interrupt</strong> the notice period;",
-        "archivedAfterNotice": "after the notice period, the e-service and all its versions will be permanently archived."
+        "archivingNotAffected": "the reactivation <strong>does not modify</strong> and <strong>does not interrupt</strong> the archiving already started for the e-service;",
+        "archivedAfterNotice": "after archiving, you will no longer be able to reactivate the e-service and all its versions."
       },
       "proceedLabel": "Reactivate"
     },
@@ -675,7 +679,7 @@
       "intro": "What suspension does:",
       "bullets": {
         "suspended": "the version cannot be used and will remain suspended until reactivated;",
-        "archivingNotAffected": "suspension <strong>does not change</strong> the ongoing archival of this version and <strong>does not interrupt</strong> the notice period;",
+        "archivingNotAffected": "suspension <strong>does not change</strong> and <strong>does not interrupt</strong> the ongoing archival of this version;",
         "archivedAfterNotice": "once the notice period elapses, the version will be permanently archived."
       }
     },
@@ -684,7 +688,7 @@
       "intro": "What reactivation does:",
       "bullets": {
         "usableAgain": "the version becomes usable again, while remaining under archival;",
-        "archivingNotAffected": "reactivation <strong>does not change</strong> the ongoing archival of this version and <strong>does not interrupt</strong> the notice period;",
+        "archivingNotAffected": "reactivation <strong>does not change</strong> and <strong>does not interrupt</strong> the ongoing archival of this version;",
         "archivedAfterNotice": "once the notice period elapses, the version will be permanently archived."
       },
       "proceedLabel": "Reactivate"
@@ -724,6 +728,9 @@
         "eserviceTemplateName": {
           "label": "Template reference"
         },
+        "eserviceTemplateInUse": {
+          "label": "Template in use"
+        },
         "eserviceName": {
           "label": "E-service name"
         },
@@ -757,6 +764,25 @@
           }
         },
         "consumerListFileName": "{{timestamp}}-consumers-list-{{eserviceName}}.csv",
+        "delegationSection": {
+          "title": "Fruition via delegation",
+          "isConsumerDelegable": {
+            "label": "Authorization",
+            "value": {
+              "true": "Yes",
+              "false": "No",
+              "undefined": "No"
+            }
+          },
+          "isClientAccessDelegable": {
+            "label": "Authorization for client association",
+            "value": {
+              "true": "Yes",
+              "false": "No",
+              "undefined": "No"
+            }
+          }
+        },
         "bottomActions": {
           "showTechnicalDetails": "Show e-service technical details",
           "showAsyncExchangeDetails": "Show asynchronous exchange details",
@@ -1196,6 +1222,7 @@
     "subscribe": "Request fruition",
     "editDraft": "Complete request",
     "inspect": "Inspect request",
+    "upgradeToNewVersion": "Update to new version",
     "eserviceSuspendedTooltip": "It is currently not possible to submit new requests; the e-service is suspended",
     "missingCertifiedAttributesTooltip": "Your institution does not have the certified attributes necessary to register"
   },

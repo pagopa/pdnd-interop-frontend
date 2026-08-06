@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { Alert, Box } from '@mui/material'
-import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import SaveIcon from '@mui/icons-material/Save'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
@@ -19,7 +18,7 @@ import type {
   LinkableResource,
 } from '@/api/api.generatedTypes'
 import type { LinkableCandidate } from '@/utils/purposeTemplate.utils'
-import { AddResourceToForm, type EditStepLinkedResourcesForm } from './AddResourceToForm'
+import { AddResourceToForm } from './AddResourceToForm'
 
 function normalizeLinkableResource(resource: LinkableResource): LinkableCandidate {
   return match(resource)
@@ -96,10 +95,8 @@ export const PurposeTemplateEditLinkedResource: React.FC<ActiveStepProps> = ({ f
     }
   }
 
-  const defaultValues: EditStepLinkedResourcesForm = { resources: [] }
-  const formMethods = useForm<EditStepLinkedResourcesForm>({ defaultValues })
-
-  const onSubmit = () => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
     setHasAttemptedSubmit(true)
     if (hasInvalid) return
     if (isInDraftState) {
@@ -115,40 +112,38 @@ export const PurposeTemplateEditLinkedResource: React.FC<ActiveStepProps> = ({ f
   if (!purposeTemplate) return null
 
   return (
-    <FormProvider {...formMethods}>
-      <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
-        <SectionContainer
-          title={t('edit.step2.detailsTitle')}
-          description={t('edit.step2.detailsDescription')}
-        >
-          {hasOrphanResources && (
-            <Alert severity="warning" sx={{ mb: 2 }}>
-              {t('edit.step2.warning.orphanLinkedResources')}
-            </Alert>
-          )}
-          <AddResourceToForm
-            readOnly={false}
-            purposeTemplate={purposeTemplate}
-            linkedResources={linkedResources}
-            showWarning={showInvalidWarning}
-          />
-          <StepActions
-            back={{
-              onClick: handleBack,
-              label: isInDraftState ? t('edit.backWithoutSaveBtn') : tCommon('actions.cancel'),
-              type: 'button',
-              startIcon: isInDraftState ? <ArrowBackIcon /> : undefined,
-            }}
-            forward={{
-              label: isInDraftState
-                ? t('edit.forwardWithSaveBtn')
-                : t('edit.step2.editLinkedResources'),
-              type: 'submit',
-              startIcon: <SaveIcon />,
-            }}
-          />
-        </SectionContainer>
-      </Box>
-    </FormProvider>
+    <Box component="form" noValidate onSubmit={handleSubmit}>
+      <SectionContainer
+        title={t('edit.step2.detailsTitle')}
+        description={t('edit.step2.detailsDescription')}
+      >
+        {hasOrphanResources && (
+          <Alert severity="warning" sx={{ mb: 2 }}>
+            {t('edit.step2.warning.orphanLinkedResources')}
+          </Alert>
+        )}
+        <AddResourceToForm
+          readOnly={false}
+          purposeTemplate={purposeTemplate}
+          linkedResources={linkedResources}
+          showWarning={showInvalidWarning}
+        />
+        <StepActions
+          back={{
+            onClick: handleBack,
+            label: isInDraftState ? t('edit.backWithoutSaveBtn') : tCommon('actions.cancel'),
+            type: 'button',
+            startIcon: isInDraftState ? <ArrowBackIcon /> : undefined,
+          }}
+          forward={{
+            label: isInDraftState
+              ? t('edit.forwardWithSaveBtn')
+              : t('edit.step2.editLinkedResources'),
+            type: 'submit',
+            startIcon: <SaveIcon />,
+          }}
+        />
+      </SectionContainer>
+    </Box>
   )
 }

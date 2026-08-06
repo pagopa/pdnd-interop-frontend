@@ -8,7 +8,11 @@ import { EServiceQueries } from '@/api/eservice'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
 import { RHFAutocompleteSingle } from '@/components/shared/react-hook-form-inputs'
 import type { PurposeTemplateWithCompactCreator } from '@/api/api.generatedTypes'
-import { mergeLinkableCandidates, type LinkableCandidate } from '@/utils/purposeTemplate.utils'
+import {
+  mergeLinkableCandidates,
+  viewLinkableCandidate,
+  type LinkableCandidate,
+} from '@/utils/purposeTemplate.utils'
 
 export type AlreadySelectedResourceId = {
   resourceKind: 'ESERVICE' | 'ESERVICE_TEMPLATE'
@@ -45,13 +49,9 @@ export const ResourceAutoComplete: React.FC<ResourceAutoCompleteProps> = ({
 
   const formatResourceLabel = React.useCallback(
     (candidate: LinkableCandidate) => {
-      const publisher =
-        candidate.resourceKind === 'ESERVICE'
-          ? candidate.value.producer.name
-          : candidate.value.creator.name
-      const labelKey =
-        candidate.resourceKind === 'ESERVICE' ? 'options.eservice' : 'options.eserviceTemplate'
-      return t(labelKey, { name: candidate.value.name, publisher })
+      const view = viewLinkableCandidate(candidate)
+      const labelKey = view.kind === 'ESERVICE' ? 'options.eservice' : 'options.eserviceTemplate'
+      return t(labelKey, { name: view.name, publisher: view.publisherName })
     },
     [t]
   )

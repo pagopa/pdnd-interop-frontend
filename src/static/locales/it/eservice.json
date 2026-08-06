@@ -41,7 +41,7 @@
       },
       "detailsSection": {
         "title": "Dettagli dell'e-service",
-        "description": "Queste informazioni sono state precompilate da chi ha creato il template e non sono modificabili.",
+        "description": "Queste informazioni non sono modificabili.",
         "readOnlyDescription": "Le seguenti informazioni non sono più modificabili.",
         "firstVersionOnlyEditableInfo": "Questi dati non saranno più modificabili dopo la pubblicazione della prima versione dell’e-service.",
         "asyncExchangeField": {
@@ -286,8 +286,11 @@
           "serverSection": {
             "title": "Server",
             "label": "URL server",
+            "descriptionLabel": "Descrizione dell'URL server",
+            "descriptionInfoLabel": "Descrivi verso quale ambiente è rivolto il link dell'URL server. Min 10 caratteri, max 250 caratteri",
             "add": "Aggiungi URL server",
-            "remove": "Rimuovi campo"
+            "counter": "Server {{current}} di {{total}}",
+            "removeServer": "Elimina server"
           },
           "description": {
             "rest": "Compila i seguenti campi e ti verrà generato automaticamente il file OpenAPI.",
@@ -300,15 +303,15 @@
         "title": "Interfaccia",
         "description": {
           "rest": "Carica il file OpenAPI che descrive l'API.",
-          "beforePublishing": "Prima della pubblicazione, puoi usare questi strumenti per controllare:",
-          "technicalCompliance": "la conformità tecnica",
+          "beforePublishing": "Prima della pubblicazione, puoi usare questi strumenti per:",
+          "technicalCompliance": "controllare la conformità tecnica",
           "technicalComplianceDescription": "secondo le linee guida ModI con",
-          "semanticCompliance": "la conformità semantica",
-          "semanticComplianceDescription": "tramite le annotazioni del Catalogo Nazionale Dati con",
+          "semanticCompliance": "verificare la qualità semantica",
+          "semanticComplianceDescription": "del tuo schema dati attraverso lo score calcolato dallo",
           "restLinkLabel": "OpenAPI Checker",
           "schemaEditorLinkLabel": "Schema Editor",
           "restForm": "Compila questi campi per generare automaticamente il file OpenAPI.",
-          "soap": "Carica il file WSDL che descrive l'API"
+          "soap": "Carica il file WSDL che descrive l'API."
         },
         "prettyName": "Specifica API",
         "dropzoneLabel": "Trascina qui il file OpenAPI oppure clicca qui per selezionarlo dal computer",
@@ -643,6 +646,7 @@
       "archivingEService": "Questo e-service è in fase di archiviazione, ma è ancora attivo. Sarà archiviato automaticamente il giorno {{date}}.",
       "archivingSuspendedDescriptor": "Questa versione dell’e-service è in fase di archiviazione ed è al momento sospesa. Sarà archiviata automaticamente il giorno {{date}}.",
       "archivedDescriptor": "Questa versione dell’e-service è stata archiviata il giorno {{date}}.",
+      "archivedDescriptorNoConsumers": "Questa versione è archiviata. Nessun fruitore può accedere ai dati erogati.",
       "archivingSuspendedEService": "Questa versione è al momento sospesa. L’e-service è in fase di archiviazione e sarà archiviato automaticamente il giorno {{date}}.",
       "archivedEService": "Questo e-service è stato archiviato definitivamente il giorno {{date}}.",
       "missingProducerKeychain": "L’erogatore non ha ancora collegato il portachiavi a questo e-service asincrono. Lo scambio dati non è al momento disponibile.",
@@ -656,8 +660,8 @@
       "intro": "Cosa succede con la sospensione:",
       "bullets": {
         "suspended": "la versione non potrà essere utilizzata e resterà disattiva fino a un’eventuale riattivazione;",
-        "archivingNotAffected": "la sospensione <strong>non modifica</strong> l’archiviazione già avviata per l’e-service e <strong>non interrompe</strong> il periodo di preavviso;",
-        "archivedAfterNotice": "dopo il periodo di preavviso, l’e-service e tutte le sue versioni saranno archiviate definitivamente."
+        "archivingNotAffected": "la sospensione <strong>non modifica</strong> e <strong>non interrompe</strong> l’archiviazione già avviata per l’e-service;",
+        "archivedAfterNotice": "dopo l’archiviazione, non potrai più riattivare l’e-service e tutte le sue versioni."
       }
     },
     "dialogReactivateArchivingEservice": {
@@ -665,8 +669,8 @@
       "intro": "Cosa succede con la riattivazione:",
       "bullets": {
         "usableAgain": "la versione torna a essere utilizzabile, ma l’e-service resta in fase di archiviazione;",
-        "archivingNotAffected": "la riattivazione <strong>non modifica</strong> l’archiviazione già avviata per l’e-service e <strong>non interrompe</strong> il periodo di preavviso;",
-        "archivedAfterNotice": "dopo il periodo di preavviso, l’e-service e tutte le sue versioni saranno archiviate definitivamente."
+        "archivingNotAffected": "la riattivazione <strong>non modifica</strong> e <strong>non interrompe</strong> l’archiviazione già avviata per l’e-service;",
+        "archivedAfterNotice": "dopo l’archiviazione, non potrai più riattivare l’e-service e tutte le sue versioni."
       },
       "proceedLabel": "Riattiva"
     },
@@ -675,7 +679,7 @@
       "intro": "Cosa succede con la sospensione:",
       "bullets": {
         "suspended": "la versione non potrà essere utilizzata e resterà sospesa fino a un’eventuale riattivazione;",
-        "archivingNotAffected": "la sospensione <strong>non modifica</strong> l’archiviazione già avviata per questa versione e <strong>non interrompe</strong> il periodo di preavviso;",
+        "archivingNotAffected": "la sospensione <strong>non modifica</strong> e <strong>non interrompe</strong> l’archiviazione già avviata per questa versione;",
         "archivedAfterNotice": "dopo il periodo di preavviso, la versione sarà archiviata definitivamente."
       }
     },
@@ -684,7 +688,7 @@
       "intro": "Cosa succede con la riattivazione:",
       "bullets": {
         "usableAgain": "la versione torna a essere utilizzabile, pur restando in fase di archiviazione;",
-        "archivingNotAffected": "la riattivazione <strong>non modifica</strong> l’archiviazione già avviata per questa versione e <strong>non interrompe</strong> il periodo di preavviso;",
+        "archivingNotAffected": "la riattivazione <strong>non modifica</strong> e <strong>non interrompe</strong> l’archiviazione già avviata per questa versione;",
         "archivedAfterNotice": "dopo il periodo di preavviso, la versione sarà archiviata definitivamente."
       },
       "proceedLabel": "Riattiva"
@@ -724,6 +728,9 @@
         "eserviceTemplateName": {
           "label": "Riferimento template"
         },
+        "eserviceTemplateInUse": {
+          "label": "Template in uso"
+        },
         "eserviceName": {
           "label": "Nome dell’e-service"
         },
@@ -757,6 +764,25 @@
           }
         },
         "consumerListFileName": "{{timestamp}}-lista-fruitori-{{eserviceName}}.csv",
+        "delegationSection": {
+          "title": "Fruizione tramite delega",
+          "isConsumerDelegable": {
+            "label": "Autorizzazione",
+            "value": {
+              "true": "Sì",
+              "false": "No",
+              "undefined": "No"
+            }
+          },
+          "isClientAccessDelegable": {
+            "label": "Autorizzazione all’associazione dei client",
+            "value": {
+              "true": "Sì",
+              "false": "No",
+              "undefined": "No"
+            }
+          }
+        },
         "bottomActions": {
           "showTechnicalDetails": "Vedi i dettagli tecnici dell’e-service",
           "showAsyncExchangeDetails": "Vedi i dettagli sullo scambio asincrono",
@@ -1196,6 +1222,7 @@
     "subscribe": "Richiedi fruizione",
     "editDraft": "Completa richiesta",
     "inspect": "Visualizza richiesta",
+    "upgradeToNewVersion": "Aggiorna a nuova versione",
     "eserviceSuspendedTooltip": "Non è attualmente possibile presentare nuove richieste, l’e-service è sospeso",
     "missingCertifiedAttributesTooltip": "Il tuo ente non ha gli attributi certificati necessari per iscriversi"
   },

@@ -1,6 +1,7 @@
 import React from 'react'
 import type { Purpose } from '@/api/api.generatedTypes'
 import { PurposeQueries } from '@/api/purpose'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
@@ -22,7 +23,10 @@ export const ProviderPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
   const { actions } = useGetProviderPurposesActions(purpose)
 
   const handlePrefetch = () => {
-    queryClient.prefetchQuery(PurposeQueries.getSingle(purpose.id))
+    queryClient.prefetchQuery({
+      ...PurposeQueries.getSingle(purpose.id),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   const hasWaitingForApprovalVersion = !!(

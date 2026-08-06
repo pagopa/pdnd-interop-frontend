@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, Box, Link, Stack } from '@mui/material'
+import { Alert, Box, Link, Stack, Typography } from '@mui/material'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { match } from 'ts-pattern'
@@ -16,7 +16,7 @@ import type {
 import { PurposeMutations } from '@/api/purpose'
 import { useDialog } from '@/stores'
 import SaveIcon from '@mui/icons-material/Save'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import SendIcon from '@mui/icons-material/Send'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 
 export type ReviewModeOption =
@@ -66,7 +66,9 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
 }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'edit.stepAssignment' })
   const { t: tEdit } = useTranslation('purpose', { keyPrefix: 'edit' })
-  const { mutate: assignReviewer } = PurposeMutations.useAssignRiskAnalysisReviewer()
+  const { mutate: assignReviewer } = PurposeMutations.useAssignRiskAnalysisReviewer({
+    showSuccessToast: false,
+  })
   const { openDialog } = useDialog()
 
   const hasNoReviewers = reviewers.length === 0
@@ -131,7 +133,13 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
       <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
         <SectionContainer title={t('title')} description={t('description')}>
           <Stack spacing={3}>
-            {isDelegate && <Alert severity="warning">{t('delegateAlert')}</Alert>}
+            {isDelegate && (
+              <Alert severity="warning">
+                {t('delegateAlert', {
+                  name: purpose.eservice.name,
+                })}
+              </Alert>
+            )}
             {!isDelegate && hasNoReviewers && (
               <Alert severity="info">
                 {t('noReviewersAlert.message')}{' '}
@@ -165,12 +173,17 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
                   ]}
                 />
                 {needsReviewer && (
-                  <RHFAutocompleteSingle
-                    name="reviewerId"
-                    label={t(`reviewerField.label.${reviewerLabelKey}`)}
-                    options={reviewerOptions}
-                    rules={{ required: t('reviewerField.requiredError') }}
-                  />
+                  <>
+                    <Typography variant="body2" fontWeight={600}>
+                      {t(`reviewerField.label.${reviewerLabelKey}`)}
+                    </Typography>
+                    <RHFAutocompleteSingle
+                      name="reviewerId"
+                      label={t('reviewerField.inputLabel')}
+                      options={reviewerOptions}
+                      rules={{ required: t('reviewerField.requiredError') }}
+                    />
+                  </>
                 )}
               </>
             )}
@@ -188,8 +201,7 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
               ? t('requestReviewerCompilationBtn')
               : t('forwardBtn'),
             type: 'submit',
-            startIcon: isRequestReviewerCompilation ? undefined : <SaveIcon />,
-            endIcon: isRequestReviewerCompilation ? <ArrowForwardIcon /> : undefined,
+            startIcon: isRequestReviewerCompilation ? <SendIcon /> : <SaveIcon />,
           }}
         />
       </Box>

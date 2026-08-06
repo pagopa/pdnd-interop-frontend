@@ -80,7 +80,6 @@
       "detailsTitle": "Suggested e-services and e-service templates for this purpose template",
       "detailsDescription": "Are there any e-services or e-service templates that you think this template is particularly suitable for? Select them here. You can also associate them after publication.",
       "addBtn": "Add item",
-      "editLinkedEservices": "Update list",
       "editLinkedResources": "Update list",
       "saveBtn": "Save",
       "eserviceSelectionSubtitle": "You can insert e-services that have personal data processing similar to what you indicated.",
@@ -169,12 +168,6 @@
         "thresholdLabel": "Suggested plan",
         "dailyCallsLabel": "Suggested daily API calls"
       },
-      "suggestedEServicesSection": {
-        "title": "Suggested e-services",
-        "subtitle": "Linked e-services",
-        "providedBy": "Provided by",
-        "noLinkedEservices": "You have not specified e-services associated with this template."
-      },
       "suggestedResourcesSection": {
         "title": "Suggested e-services and e-service templates",
         "providedBy": {
@@ -197,7 +190,6 @@
     "tabs": {
       "ariaLabel": "Three separate tabs for purpose template details, linked e-services, and risk analysis",
       "details": "Template details",
-      "linkedEservices": "Linked e-services",
       "linkedResources": "Suggested e-services and e-service templates",
       "riskAnalysis": "Risk analysis"
     },
@@ -223,11 +215,6 @@
           "yes": "Yes",
           "no": "No"
         },
-        "linkedEservices": {
-          "title": "Linked e-services",
-          "description": "Here's a list of suggested e-services for this simplified purpose. The template can also be used for other e-services not listed.",
-          "linkedEservicesLink": "View linked e-services"
-        },
         "linkedResources": {
           "title": "Suggested e-services and e-service templates",
           "description": "Here's a list of suggested e-services and e-service templates for this simplified purpose. The template can also be used for other e-services not listed.",
@@ -246,19 +233,6 @@
             "title": "Suggested plan",
             "subtitle": "(API calls/day)"
           }
-        }
-      }
-    },
-    "linkedEservicesTab": {
-      "title": "Linked e-services and template e-services",
-      "description": "Define a list of e-services for which it is suggested to use the facilitated purpose. The user may also use this template for e-services not included in the list.",
-      "editButtonTooltip": "It is not possible to modify the list of e-services if the template is suspended or archived",
-      "filters": {
-        "eserviceField": {
-          "label": "E-service name"
-        },
-        "providerField": {
-          "label": "Filter by producer"
         }
       }
     },

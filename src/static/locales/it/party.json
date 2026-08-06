@@ -81,13 +81,23 @@
         "subtitle": "Una volta creato, potrai assegnare e revocare questo attributo agli altri enti",
         "submitBtnLabel": "Crea attributo",
         "form": {
-          "nameField": {
-            "label": "Nome dell'attributo",
-            "infoLabel": "Min 5 caratteri, max 160 caratteri"
+          "kindField": {
+            "label": "Tipologia",
+            "kindRadio": {
+            "optionCertifiedLabel": "Attributo certificato",
+            "optionCertifiedDiscreteLabel": "Attributo certificato con valore da personalizzare"
+            }
           },
-          "descriptionField": {
-            "label": "Descrizione dell’attributo",
-            "infoLabel": "Min 10 caratteri, max 250 caratteri"
+          "infoFields": {
+            "label": "Informazioni",
+            "nameField": {
+              "label": "Nome dell'attributo",
+              "infoLabel": "Min 5 caratteri, max 160 caratteri"
+            },
+            "descriptionField": {
+              "label": "Descrizione dell’attributo",
+              "infoLabel": "Min 10 caratteri, max 250 caratteri"
+            }
           }
         }
       }
@@ -96,7 +106,7 @@
       "assignAttributeBtn": "Assegna attributo",
       "drawer": {
         "title": "Assegna attributo",
-        "subtitle": "L’ente assegnatario potrà spendere l’attributo certificato selezionato per tutti gli e-service presenti su PDND Interoperabilità",
+        "subtitle": "L'ente assegnatario potrà usare l'attributo certificato per tutti gli e-service su PDND Interoperabilità.",
         "submitBtnLabel": "Assegna attributo",
         "form": {
           "attributeField": {
@@ -104,6 +114,12 @@
           },
           "tenantField": {
             "label": "Ente assegnatario"
+          },
+          "valueField": {
+            "label": "Valore numerico",
+            "validation": {
+              "integer": "Il valore deve essere intero"
+            }
           }
         }
       }

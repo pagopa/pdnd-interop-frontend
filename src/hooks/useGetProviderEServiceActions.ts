@@ -425,11 +425,13 @@ export function useGetProviderEServiceActions(
     .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: false }, () => [
       cloneAction,
       createNewDraftAction,
+      suspendAction,
     ])
     .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: true }, () => [
       cloneAction,
       editDraftAction,
       deleteAction,
+      suspendAction,
     ])
     .with(
       { isAdmin: false, isDelegator: true, isDelegate: false, hasVersionDraft: false },
@@ -457,6 +459,7 @@ export function useGetProviderEServiceActions(
     )
     .with({ isAdmin: false, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
       createNewDraftAction,
+      suspendAction,
     ])
     .with(
       {
@@ -466,7 +469,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => [editDraftAction, deleteAction]
+      () => [editDraftAction, deleteAction, suspendAction]
     )
     .with(
       {
@@ -476,7 +479,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => []
+      () => [suspendAction]
     )
     .otherwise(() => [])
 
@@ -549,10 +552,12 @@ export function useGetProviderEServiceActions(
       () => [reactivateAction]
     )
     .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: false }, () => [
+      reactivateAction,
       cloneAction,
       createNewDraftAction,
     ])
     .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: true }, () => [
+      reactivateAction,
       cloneAction,
       editDraftAction,
       deleteAction,
@@ -582,6 +587,7 @@ export function useGetProviderEServiceActions(
       () => [editDraftAction]
     )
     .with({ isAdmin: false, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
+      reactivateAction,
       createNewDraftAction,
     ])
     .with(
@@ -592,7 +598,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => [editDraftAction, deleteAction]
+      () => [reactivateAction, editDraftAction, deleteAction]
     )
     .with(
       {
@@ -602,7 +608,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => []
+      () => [reactivateAction]
     )
     .otherwise(() => [])
 
@@ -735,7 +741,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [createNewDraftAction, upgradeEServiceAction]
+      () => [createNewDraftAction, upgradeEServiceAction, suspendAction]
     )
     .with(
       {
@@ -745,10 +751,11 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: false,
       },
-      () => []
+      () => [suspendAction]
     )
     .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: true }, () => [
       deleteAction,
+      suspendAction,
     ])
     .with(
       { isAdmin: false, isDelegator: true, isDelegate: false, hasVersionDraft: false },
@@ -782,7 +789,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [upgradeEServiceAction]
+      () => [upgradeEServiceAction, suspendAction]
     )
     .with(
       {
@@ -792,7 +799,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: false,
       },
-      () => []
+      () => [suspendAction]
     )
     .with(
       {
@@ -802,7 +809,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => [editDraftAction, deleteAction]
+      () => [editDraftAction, deleteAction, suspendAction]
     )
     .with(
       {
@@ -812,7 +819,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => []
+      () => [suspendAction]
     )
     .otherwise(() => [])
 
@@ -946,7 +953,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [upgradeEServiceAction]
+      () => [reactivateAction, upgradeEServiceAction]
     )
     .with(
       {
@@ -956,7 +963,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: false,
       },
-      () => []
+      () => [reactivateAction]
     )
     .with(
       {
@@ -966,7 +973,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isNewTemplateVersionAvailable: true,
       },
-      () => [upgradeEServiceAction, editDraftAction, deleteAction]
+      () => [reactivateAction, upgradeEServiceAction, editDraftAction, deleteAction]
     )
     .with(
       {
@@ -976,7 +983,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isNewTemplateVersionAvailable: false,
       },
-      () => [editDraftAction, deleteAction]
+      () => [reactivateAction, editDraftAction, deleteAction]
     )
     .with(
       { isAdmin: false, isDelegator: true, isDelegate: false, hasVersionDraft: false },
@@ -1010,7 +1017,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [upgradeEServiceAction]
+      () => [reactivateAction, upgradeEServiceAction]
     )
     .with(
       {
@@ -1020,7 +1027,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: false,
       },
-      () => []
+      () => [reactivateAction]
     )
     .with(
       {
@@ -1030,7 +1037,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => [editDraftAction, deleteAction]
+      () => [reactivateAction, editDraftAction, deleteAction]
     )
     .with(
       {
@@ -1040,7 +1047,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => []
+      () => [reactivateAction]
     )
     .otherwise(() => [])
 
@@ -1124,11 +1131,7 @@ export function useGetProviderEServiceActions(
     : availableClassicEServiceAction
 
   const isHappyPathDetailsPage =
-    where === 'detailsPage' &&
-    (isAdmin || isOperatorAPI) &&
-    !isDelegator &&
-    !isDelegate &&
-    !isTemplateInstance
+    where === 'detailsPage' && (isAdmin || isOperatorAPI) && !isDelegator && !isDelegate
 
   if (!isHappyPathDetailsPage) {
     return {
@@ -1152,18 +1155,34 @@ export function useGetProviderEServiceActions(
 
   const newVersionAction = hasVersionDraft ? editDraftAction : createNewDraftAction
 
-  const menuClassic = [cloneAction, archiveEserviceAction, ...viewAllVersionsItems]
-  const menuWithNewVersion = isEServiceBeingArchived
-    ? [cloneAction, ...viewAllVersionsItems]
-    : [newVersionAction, cloneAction, archiveEserviceAction, ...viewAllVersionsItems]
-  const menuEserviceArchiving = [cloneAction, ...viewAllVersionsItems]
-  const menuArchivedEserviceActive = [
-    newVersionAction,
-    cloneAction,
+  const cloneItems: Array<ActionItemButton> = isTemplateInstance ? [] : [cloneAction]
+  const upgradeItems: Array<ActionItemButton> =
+    isTemplateInstance && isNewTemplateVersionAvailable ? [upgradeEServiceAction] : []
+
+  const menuClassic = [
+    ...upgradeItems,
+    ...cloneItems,
     archiveEserviceAction,
     ...viewAllVersionsItems,
   ]
-  const menuArchivedEserviceArchived = [cloneAction, ...viewAllVersionsItems]
+  const menuWithNewVersion = isEServiceBeingArchived
+    ? [...cloneItems, ...viewAllVersionsItems]
+    : [
+        ...upgradeItems,
+        newVersionAction,
+        ...cloneItems,
+        archiveEserviceAction,
+        ...viewAllVersionsItems,
+      ]
+  const menuEserviceArchiving = [...cloneItems, ...viewAllVersionsItems]
+  const menuArchivedEserviceActive = [
+    ...upgradeItems,
+    newVersionAction,
+    ...cloneItems,
+    archiveEserviceAction,
+    ...viewAllVersionsItems,
+  ]
+  const menuArchivedEserviceArchived = [...cloneItems, ...viewAllVersionsItems]
 
   const slots: Slots = match({ state, archivingScope, isActiveDescriptor, isEServiceBeingArchived })
     .with({ state: 'PUBLISHED' }, () => ({
