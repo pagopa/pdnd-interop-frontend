@@ -162,7 +162,7 @@
       "description": "The questions below will change based on the answers provided. If you edit an answer above, it may change the following questions",
       "personalInfoAlert": "Warning: do not put personal data inside text fields",
       "readOnlySubtitle": "You cannot modify the risk analysis because it has been sent to the reviewer.",
-      "rejectedAlert": "The reviewer rejected the risk analysis. Edit the analysis and submit it again for approval.",
+      "rejectedAlert": "A reviewer rejected the risk analysis. Edit the analysis and submit it again for approval.",
       "rejectedAlertLinkLabel": "Read reason",
       "reviewerWritesReviewerSigns": "Once the reviewer has compiled and approved the risk analysis, you will be able to publish the purpose.",
       "versionMismatchDialog": {
@@ -301,7 +301,7 @@
           "reviewerWritesReviewerSigns": "Once the reviewer has compiled and approved the risk analysis, you will be able to publish the purpose."
         },
         "rejectedAlert": {
-          "label": "The reviewer rejected the risk analysis. Read the reason, edit the analysis and submit it again for approval.",
+          "label": "A reviewer rejected the risk analysis. Read the reason, edit the analysis and submit it again for approval.",
           "action": "Read reason"
         }
       }
@@ -313,7 +313,7 @@
   },
   "riskAnalysisRejectionDrawer": {
     "title": "Risk analysis rejection",
-    "intro": "The reviewer rejected the risk analysis with the following reason.",
+    "intro": "A reviewer rejected the risk analysis with the following reason.",
     "noReason": "No reason available."
   },
   "list": {

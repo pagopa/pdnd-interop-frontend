@@ -162,7 +162,7 @@
       "description": "Le domande del questionario varieranno in base alle risposte fornite man mano. Modificando la risposta a una domanda precedente, le successive domande potrebbero variare.",
       "personalInfoAlert": "Attenzione: non inserire dati personali all'interno dei campi liberi di testo",
       "readOnlySubtitle": "Non puoi modificare l'analisi del rischio perché è stata inviata al valutatore.",
-      "rejectedAlert": "Il valutatore ha rifiutato l'analisi del rischio. Modifica l'analisi e inviala di nuovo in approvazione.",
+      "rejectedAlert": "Un valutatore ha rifiutato l'analisi del rischio. Modifica l'analisi e inviala di nuovo in approvazione.",
       "rejectedAlertLinkLabel": "Leggi motivazione",
       "reviewerWritesReviewerSigns": "Quando il valutatore avrà compilato e approvato l’analisi del rischio, potrai pubblicare la finalità.",
       "versionMismatchDialog": {
@@ -301,7 +301,7 @@
           "reviewerWritesReviewerSigns": "Quando il valutatore avrà compilato e approvato l’analisi del rischio, potrai pubblicare la finalità."
         },
         "rejectedAlert": {
-          "label": "Il valutatore ha rifiutato l’analisi del rischio. Leggi la motivazione, modifica l’analisi e inviala di nuovo in approvazione.",
+          "label": "Un valutatore ha rifiutato l’analisi del rischio. Leggi la motivazione, modifica l’analisi e inviala di nuovo in approvazione.",
           "action": "Leggi motivazione"
         }
       }
@@ -313,7 +313,7 @@
   },
   "riskAnalysisRejectionDrawer": {
     "title": "Rifiuto analisi del rischio",
-    "intro": "Il valutatore ha rifiutato l’analisi del rischio con questa motivazione.",
+    "intro": "Un valutatore ha rifiutato l’analisi del rischio con questa motivazione.",
     "noReason": "Nessuna motivazione disponibile."
   },
   "list": {
