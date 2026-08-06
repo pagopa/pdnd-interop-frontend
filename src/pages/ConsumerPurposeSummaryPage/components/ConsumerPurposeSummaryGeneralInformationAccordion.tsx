@@ -42,8 +42,6 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
     ? formatDateStringNumeric(loggedReviewer.sentToReviewerAt)
     : '-'
 
-  console.log('isReviewer', isReviewer)
-
   return (
     <Stack spacing={2}>
       <InformationContainer content={purpose.title} direction="row" label={t('name.label')} />
