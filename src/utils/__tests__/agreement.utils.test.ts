@@ -265,6 +265,19 @@ describe('getConsumerAgreementVersionAlertSpec utility function testing', () => 
     expect(result[0].showSeeDetailsAction).toBeUndefined()
   })
 
+  it('returns short warning alert for ARCHIVING + scope DESCRIPTOR when the active descriptor is also archiving', () => {
+    const result = getConsumerAgreementVersionAlertSpec({
+      ...baseArgs,
+      state: 'ARCHIVING',
+      scope: 'DESCRIPTOR',
+      archivableOn: '2026-12-01T00:00:00.000Z',
+      activeDescriptorState: 'ARCHIVING',
+    })
+    expect(result).toHaveLength(1)
+    expect(result[0]).toMatchObject({ severity: 'warning' })
+    expect(result[0].content).toMatch(/^archivingDescriptorShort:/)
+  })
+
   it('returns warning + obsolete info alert for ARCHIVING + scope DESCRIPTOR when the descriptor is obsolete', () => {
     const result = getConsumerAgreementVersionAlertSpec({
       ...baseArgs,
