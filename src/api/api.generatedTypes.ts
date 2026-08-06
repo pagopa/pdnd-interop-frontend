@@ -523,7 +523,6 @@ export interface CatalogEServiceDescriptor {
   archivingSchedule?: ArchivingSchedule;
   asyncExchangeProperties?: AsyncExchangeProperties;
   asyncExchangeCallbackInterface?: EServiceDoc;
-  templateRef?: EServiceTemplateRef;
 }
 
 /** Models Client details */
@@ -2871,6 +2870,10 @@ export interface ReviewerWorkflow {
   signingState: RiskAnalysisSigningState;
   /** @format uuid */
   signedBy?: string;
+  /** @format date-time */
+  signedAt?: string;
+  /** @format uuid */
+  rejectedBy?: string;
   rejectionReason?: string;
 }
 
