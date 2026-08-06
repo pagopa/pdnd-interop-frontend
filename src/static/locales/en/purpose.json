@@ -280,6 +280,15 @@
           "label": "Total threshold set by the producer",
           "value": "{{value}} API calls/day"
         }
+      },
+      "assignmentSection": {
+        "label": "Assignment",
+        "assignmentDate": {
+          "label": "Assignment date"
+        },
+        "reviewers": {
+          "label": "Assigned to"
+        }
       }
     },
     "assignmentSection": {
@@ -636,6 +645,15 @@
       "label": "Estimate API calls",
       "dailyCalls": {
         "label": "Estimated number of API calls/day"
+      }
+    },
+    "reviewersSection": {
+      "label": "Assignment",
+      "assignmentDate": {
+        "label": "Assignment date"
+      },
+      "reviewers": {
+        "label": "Assigned to"
       }
     },
     "beginCompileBtn": "Start compilation"
