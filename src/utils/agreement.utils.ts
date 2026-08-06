@@ -148,9 +148,17 @@ export function getConsumerAgreementVersionAlertSpec(args: {
   return match({ state, scope })
     .returnType<ConsumerAgreementVersionAlertSpec[]>()
     .with({ state: 'DEPRECATED' }, () => [{ severity: 'info', content: t('deprecatedActive') }])
-    .with({ state: 'ARCHIVING', scope: 'DESCRIPTOR' }, () => [
-      { severity: 'warning', content: t('archivingDescriptor', { date: scheduledDate }) },
-    ])
+    .with({ state: 'ARCHIVING', scope: 'DESCRIPTOR' }, () => {
+      const alerts: ConsumerAgreementVersionAlertSpec[] = [
+        { severity: 'warning', content: t('archivingDescriptor', { date: scheduledDate }) },
+      ]
+
+      if (isObsoleteDescriptor) {
+        alerts.push({ severity: 'info', content: t('deprecatedActive') })
+      }
+
+      return alerts
+    })
     .with({ state: 'ARCHIVING', scope: 'ESERVICE' }, () => {
       const alerts: ConsumerAgreementVersionAlertSpec[] = [
         {
