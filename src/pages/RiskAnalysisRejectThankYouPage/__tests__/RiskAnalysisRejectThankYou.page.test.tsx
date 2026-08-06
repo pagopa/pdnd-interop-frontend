@@ -2,10 +2,12 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import RiskAnalysisRejectThankYouPage from '../RiskAnalysisRejectThankYou.page'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import * as router from '@/router'
 
 const navigateMock = vi.fn()
+
+mockUseParams({ purposeId: 'purpose-id-001' })
 
 vi.spyOn(router, 'useNavigate').mockReturnValue(navigateMock)
 
@@ -29,7 +31,7 @@ describe('RiskAnalysisRejectThankYouPage', () => {
     ).toBeInTheDocument()
   })
 
-  it('should navigate to risk analysis list when action button is clicked', async () => {
+  it('should navigate to the purpose detail page when action button is clicked', async () => {
     const user = userEvent.setup()
 
     renderWithApplicationContext(<RiskAnalysisRejectThankYouPage />, {
@@ -42,6 +44,8 @@ describe('RiskAnalysisRejectThankYouPage', () => {
       })
     )
 
-    expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_RISK_ANALYSIS_LIST')
+    expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_RISK_ANALYSIS_DETAILS', {
+      params: { purposeId: 'purpose-id-001' },
+    })
   })
 })
