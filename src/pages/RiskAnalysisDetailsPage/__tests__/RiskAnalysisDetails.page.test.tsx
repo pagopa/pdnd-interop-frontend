@@ -71,10 +71,7 @@ function createConcludedPurpose(
   }
 }
 
-function renderPage(
-  purpose: Purpose | undefined,
-  { isLoading = false, isFetching = false } = {}
-) {
+function renderPage(purpose: Purpose | undefined, { isLoading = false, isFetching = false } = {}) {
   useQueryMock.mockReturnValue({ data: purpose, isLoading, isFetching })
 
   return renderWithApplicationContext(<RiskAnalysisDetailsPage />, {
