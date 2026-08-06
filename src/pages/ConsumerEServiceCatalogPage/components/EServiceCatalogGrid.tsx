@@ -3,7 +3,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CatalogEService } from '@/api/api.generatedTypes'
 import { AVATAR_BASEPATH, STAGE } from '@/config/env'
-import { SH_ESERVICES_TO_HIDE_TEMP } from '@/config/constants'
+import { PREFETCH_STALE_TIME, SH_ESERVICES_TO_HIDE_TEMP } from '@/config/constants'
 import { useQueryClient } from '@tanstack/react-query'
 import { EServiceQueries } from '@/api/eservice'
 import { CatalogCard, CatalogCardSkeleton } from '@/components/shared/CatalogCard'
@@ -42,7 +42,10 @@ export const EServiceCatalogCard: React.FC<{ eservice: CatalogEService; disabled
 
   const handlePrefetch = () => {
     if (!activeDescriptor) return
-    queryClient.prefetchQuery(EServiceQueries.getDescriptorCatalog(eServiceId, activeDescriptor.id))
+    queryClient.prefetchQuery({
+      ...EServiceQueries.getDescriptorCatalog(eServiceId, activeDescriptor.id),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
   return (
     <CatalogCard

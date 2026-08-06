@@ -4,7 +4,7 @@ import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { EServiceQueries } from '@/api/eservice'
-import { useParams } from '@/router'
+import { Link, useParams } from '@/router'
 import EngineeringIcon from '@mui/icons-material/Engineering'
 import ContactMailIcon from '@mui/icons-material/ContactMail'
 import SyncIcon from '@mui/icons-material/Sync'
@@ -43,6 +43,7 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
   } = useDrawerState()
 
   const hasContactInformations = !!descriptor.eservice.mail
+  const { templateRef } = descriptor
 
   const showTechnicalDetailsAction = {
     startIcon: <EngineeringIcon fontSize="small" />,
@@ -80,6 +81,28 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
             label={t('producer.label')}
             content={descriptor.eservice.producer.name}
           />
+          {templateRef && (
+            <InformationContainer
+              label={t('eserviceTemplateInUse.label')}
+              content={
+                /* Without the template version there is no valid route to link to, so the template
+                   name is shown as plain text instead of a broken link. */
+                templateRef.templateVersionId ? (
+                  <Link
+                    to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
+                    params={{
+                      eServiceTemplateId: templateRef.templateId,
+                      eServiceTemplateVersionId: templateRef.templateVersionId,
+                    }}
+                  >
+                    {templateRef.templateName}
+                  </Link>
+                ) : (
+                  templateRef.templateName
+                )
+              }
+            />
+          )}
           <InformationContainer label={t('version.label')} content={descriptor.version} />
           <InformationContainer
             label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
@@ -102,6 +125,22 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
             direction="column"
           />
         </Stack>
+        <SectionContainer innerSection title={t('delegationSection.title')} sx={{ mt: 3 }}>
+          <Stack spacing={2}>
+            <InformationContainer
+              label={t('delegationSection.isConsumerDelegable.label')}
+              content={t(
+                `delegationSection.isConsumerDelegable.value.${descriptor.eservice.isConsumerDelegable}`
+              )}
+            />
+            <InformationContainer
+              label={t('delegationSection.isClientAccessDelegable.label')}
+              content={t(
+                `delegationSection.isClientAccessDelegable.value.${descriptor.eservice.isClientAccessDelegable}`
+              )}
+            />
+          </Stack>
+        </SectionContainer>
       </SectionContainer>
       <ConsumerEServiceTechnicalInfoDrawer
         isOpen={isTechnicalInfoDrawerOpen}
