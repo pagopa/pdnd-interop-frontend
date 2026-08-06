@@ -34,8 +34,6 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
     ? formatDateStringNumeric(loggedReviewer.sentToReviewerAt)
     : '-'
 
-  console.log('purpose', purpose)
-
   return (
     <PageContainer
       title={t('title')}
@@ -48,7 +46,7 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
       <Grid container sx={{ mt: 3 }}>
         <Grid item xs={12}>
           {!purpose ? (
-            <RiskAnalysisInfoCompilePageSkeleton />
+            <RiskAnalysisInfoCompilePageSkeleton isReviewer={isReviewer} />
           ) : (
             <Stack spacing={3}>
               <SectionContainer title={t('generalInfoSection.label')}>
@@ -156,12 +154,18 @@ const RiskAnalysisLoadEstimateAndReviewersSectionSkeleton: React.FC = () => (
   </SectionContainer>
 )
 
-const RiskAnalysisInfoCompilePageSkeleton: React.FC = () => {
+type RiskAnalysisInfoCompilePageSkeletonProps = {
+  isReviewer: boolean
+}
+
+const RiskAnalysisInfoCompilePageSkeleton: React.FC<RiskAnalysisInfoCompilePageSkeletonProps> = ({
+  isReviewer,
+}) => {
   return (
     <Stack spacing={3}>
       <RiskAnalysisGeneralInfoSectionSkeleton />
       <RiskAnalysisLoadEstimateAndReviewersSectionSkeleton />
-      <RiskAnalysisLoadEstimateAndReviewersSectionSkeleton />
+      {isReviewer && <RiskAnalysisLoadEstimateAndReviewersSectionSkeleton />}
     </Stack>
   )
 }
