@@ -1,12 +1,10 @@
 import { createMockEServiceProvider } from '@/../__mocks__/data/eservice.mocks'
 import { createMockDelegationWithCompactTenants } from '@/../__mocks__/data/delegation.mocks'
+import { EServiceMutations } from '@/api/eservice'
 import { useGetProviderEServiceActions } from '../useGetProviderEServiceActions'
 import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
-import { rest } from 'msw'
-import { setupServer } from 'msw/node'
-import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
-import { fireEvent, screen, waitFor } from '@testing-library/react'
+import { screen, waitFor } from '@testing-library/react'
 import type {
   ArchivingSchedule,
   DelegatedDescriptorArchivingRequest,
@@ -14,34 +12,6 @@ import type {
 } from '@/api/api.generatedTypes'
 
 mockUseJwt({ isAdmin: true })
-
-const server = setupServer(
-  rest.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/ad474d35-7939-4bee-bde9-4e469cca1030/descriptors/test-1/clone`,
-    (_, res, ctx) => {
-      return res(
-        ctx.json({
-          id: '6dbb7416-8315-4970-a6be-393a03d0a79d',
-          descriptorId: 'fd09a069-81f8-4cb5-a302-64320e83a033',
-        })
-      )
-    }
-  ),
-  rest.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/ad474d35-7939-4bee-bde9-4e469cca1030/descriptors`,
-    (_, res, ctx) => {
-      return res(ctx.json({ id: 'test-id' }))
-    }
-  )
-)
-
-beforeAll(() => {
-  server.listen()
-})
-
-afterAll(() => {
-  server.close()
-})
 
 function renderUseGetProviderEServiceTableActionsHook(
   descriptorMock: ProducerEService,
@@ -881,6 +851,16 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should navigate to PROVIDE_ESERVICE_EDIT page on clone action success', async () => {
     mockUseJwt({ isAdmin: true })
+    const cloneMutate = vi.fn((_: unknown, options?: { onSuccess?: (data: unknown) => void }) => {
+      options?.onSuccess?.({
+        id: '6dbb7416-8315-4970-a6be-393a03d0a79d',
+        descriptorId: 'fd09a069-81f8-4cb5-a302-64320e83a033',
+      })
+    })
+    vi.spyOn(EServiceMutations, 'useCloneFromVersion').mockReturnValueOnce({
+      mutate: cloneMutate,
+    } as unknown as ReturnType<typeof EServiceMutations.useCloneFromVersion>)
+
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
@@ -896,10 +876,6 @@ describe('useGetProviderEServiceTableActions tests', () => {
       cloneAction.action()
     })
 
-    act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
-    })
-
     await waitFor(() => {
       expect(history.location.pathname).toBe(
         '/it/erogazione/e-service/6dbb7416-8315-4970-a6be-393a03d0a79d/fd09a069-81f8-4cb5-a302-64320e83a033/modifica'
@@ -909,6 +885,15 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
   it('should navigate to PROVIDE_ESERVICE_EDIT page on create new draft action success', async () => {
     mockUseJwt({ isAdmin: true })
+    const createDraftMutate = vi.fn(
+      (_: unknown, options?: { onSuccess?: (data: unknown) => void }) => {
+        options?.onSuccess?.({ id: 'test-id' })
+      }
+    )
+    vi.spyOn(EServiceMutations, 'useCreateVersionDraft').mockReturnValueOnce({
+      mutate: createDraftMutate,
+    } as unknown as ReturnType<typeof EServiceMutations.useCreateVersionDraft>)
+
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       delegation: undefined,
@@ -921,10 +906,6 @@ describe('useGetProviderEServiceTableActions tests', () => {
 
     act(() => {
       cloneAction.action()
-    })
-
-    act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
     })
 
     await waitFor(() => {

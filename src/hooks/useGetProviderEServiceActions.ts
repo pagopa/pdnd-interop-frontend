@@ -1153,7 +1153,7 @@ export function useGetProviderEServiceActions(
     : availableClassicEServiceAction
 
   const isHappyPathDetailsPage =
-    where === 'detailsPage' && (isAdmin || isOperatorAPI) && !isDelegator && isDelegate
+    where === 'detailsPage' && (isAdmin || isOperatorAPI) && !isDelegator
   if (!isHappyPathDetailsPage) {
     return {
       primaryAction: undefined,
