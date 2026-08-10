@@ -141,10 +141,22 @@
         "error": "This e-service version could not be archived. Please try again later."
       }
     },
+    "requestArchiveDescriptor": {
+      "outcome": {
+        "success": "You have requested the archiving of this e-service version from the delegating organization",
+        "error": "It was not possible to request the archiving of this e-service version. Please try again later."
+      }
+    },
     "cancelDescriptorArchiving": {
       "outcome": {
         "success": "This version is no longer being archived",
         "error": "The archiving of this e-service version could not be canceled. Please try again later."
+      }
+    },
+    "cancelDelegatedArchivingRequest": {
+      "outcome": {
+        "success": "The archiving request for this e-service version has been canceled",
+        "error": "It was not possible to cancel the archiving request for this e-service version. Please try again later."
       }
     },
     "cancelEserviceArchiving": {
