@@ -205,6 +205,14 @@ export function useGetProviderEServiceActions(
 
   const handleArchiveDescriptor = () => {
     if (activeDescriptorId) {
+      const hasDelegatedArchivingRequestInProgress =
+        Boolean(isDelegate) && Boolean(delegatedArchivingRequest?.length)
+
+      if (hasDelegatedArchivingRequestInProgress) {
+        openDialog({ type: 'blockArchivingRequest' })
+        return
+      }
+
       openDialog({
         type: 'archiveVersion',
         eserviceId,

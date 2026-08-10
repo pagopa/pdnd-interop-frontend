@@ -699,7 +699,15 @@
       },
       "proceedLabel": "Riattiva"
     },
+    "dialogBlockArchivingRequest": {
+      "title": "È già presente una richiesta di archiviazione",
+      "description": "È possibile inviare una sola richiesta di archiviazione alla volta per lo stesso e-service.\nSe vuoi inviarne una nuova devi prima annullare quella esistente.",
+      "actions": {
+        "goBack": "Torna indietro"
+      }
+    },
     "actions": {
+      "goBack": "Torna indietro",
       "backToListLabel": "Torna agli e-service",
       "backToCatalogLabel": "Torna al catalogo",
       "suspendVersion": "Sospendi versione",

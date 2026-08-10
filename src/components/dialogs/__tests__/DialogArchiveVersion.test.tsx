@@ -4,13 +4,15 @@ import userEvent from '@testing-library/user-event'
 import { DialogArchiveVersion } from '../DialogArchiveVersion'
 import type { DialogArchiveVersionProps } from '@/types/dialog.types'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { AxiosError } from 'axios'
 
 const mockCloseDialog = vi.fn()
+const mockOpenDialog = vi.fn()
 vi.mock('@/stores', async () => {
   const actual = await vi.importActual<typeof import('@/stores')>('@/stores')
   return {
     ...actual,
-    useDialog: () => ({ closeDialog: mockCloseDialog, openDialog: vi.fn() }),
+    useDialog: () => ({ closeDialog: mockCloseDialog, openDialog: mockOpenDialog }),
   }
 })
 
@@ -107,5 +109,27 @@ describe('DialogArchiveVersion', () => {
       expect.objectContaining({ onSuccess: expect.any(Function) })
     )
     expect(mockScheduleArchive).not.toHaveBeenCalled()
+  })
+
+  it('opens block-archiving dialog when delegate request returns conflict', async () => {
+    mockRequestArchive.mockImplementationOnce((_params, options) => {
+      options?.onError?.(
+        new AxiosError('Conflict', undefined, undefined, undefined, {
+          status: 409,
+          statusText: 'Conflict',
+          data: {},
+          headers: {},
+          config: { headers: {} },
+        })
+      )
+    })
+
+    renderDialog({ isDelegate: true, eserviceId: 'eservice-42', descriptorId: 'descriptor-99' })
+
+    await userEvent.click(screen.getByRole('button', { name: 'actions.requestArchiving' }))
+
+    expect(mockOpenDialog).toHaveBeenCalledTimes(1)
+    expect(mockOpenDialog).toHaveBeenCalledWith({ type: 'blockArchivingRequest' })
+    expect(mockCloseDialog).not.toHaveBeenCalled()
   })
 })

@@ -1031,6 +1031,40 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     ])
   })
 
+  it('DEPRECATED delegate with an existing delegatedArchivingRequest: archiveVersion action opens block dialog', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'Comune di Roma',
+        },
+      }),
+    })
+
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      delegatedArchivingRequest: [
+        {
+          requestedAt: '2026-12-01T00:00:00.000Z',
+          requesterId: 'requester-id',
+          gracePeriodDays: 30,
+        },
+      ],
+    })
+
+    const archiveVersionAction = result.current.headerInfoActions.find(
+      (action) => action.label === 'archiveVersion'
+    )
+
+    expect(archiveVersionAction).toBeDefined()
+
+    act(() => {
+      archiveVersionAction?.action()
+    })
+
+    expect(screen.getByRole('button', { name: 'actions.goBack' })).toBeInTheDocument()
+  })
+
   it('SUSPENDED on the active descriptor: reactivate and createNewVersion in header, clone+archiveEservice+viewAllVersions in menu (active version is never archivable as single descriptor)', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },

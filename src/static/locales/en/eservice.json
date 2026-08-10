@@ -699,7 +699,15 @@
       },
       "proceedLabel": "Reactivate"
     },
+    "dialogBlockArchivingRequest": {
+      "title": "An archiving request already exists",
+      "description": "Only one archiving request at a time can be sent for the same e-service.\nIf you want to send a new one, you must first cancel the existing request.",
+      "actions": {
+        "goBack": "Go back"
+      }
+    },
     "actions": {
+      "goBack": "Go back",
       "backToListLabel": "Back to the e-services",
       "backToCatalogLabel": "Back to the catalog",
       "suspendVersion": "Suspend version",

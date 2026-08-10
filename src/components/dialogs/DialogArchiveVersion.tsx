@@ -14,6 +14,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
+import { AxiosError } from 'axios'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
@@ -36,7 +37,7 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
     keyPrefix: 'dialogArchiveVersion',
   })
 
-  const { closeDialog } = useDialog()
+  const { closeDialog, openDialog } = useDialog()
   const { mutate: scheduleArchive } = EServiceMutations.useScheduleArchiveDescriptor()
   const { mutate: requestArchive } = EServiceMutations.useRequestArchiveDescriptor()
 
@@ -51,7 +52,17 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
   const handleArchive = () => {
     const gracePeriodDays = Number(formMethods.getValues('gracePeriodDays')) as GracePeriodDays
     if (isDelegate) {
-      requestArchive({ eserviceId, descriptorId, gracePeriodDays }, { onSuccess: closeDialog })
+      requestArchive(
+        { eserviceId, descriptorId, gracePeriodDays },
+        {
+          onSuccess: closeDialog,
+          onError: (error) => {
+            if (error instanceof AxiosError && error.response?.status === 409) {
+              openDialog({ type: 'blockArchivingRequest' })
+            }
+          },
+        }
+      )
       return
     }
 
