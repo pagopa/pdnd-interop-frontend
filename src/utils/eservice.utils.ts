@@ -2,7 +2,6 @@ import type {
   ArchivingScope,
   AsyncExchangeProperties,
   CompactDescriptor,
-  DelegatedDescriptorArchivingRequest,
   Document,
   EServiceDescriptorState,
   EServiceDoc,
@@ -147,25 +146,6 @@ export function calculateDelegatedArchivableOn(acceptedAt: string, gracePeriodDa
 
 export function isDescriptorPendingArchiving(state: EServiceDescriptorState | undefined): boolean {
   return state === 'ARCHIVING' || state === 'ARCHIVING_SUSPENDED'
-}
-
-export function getLatestDelegatedDescriptorArchivingRequest(
-  delegatedArchivingRequests: DelegatedDescriptorArchivingRequest[] | undefined
-): DelegatedDescriptorArchivingRequest | undefined {
-  return delegatedArchivingRequests?.reduce<DelegatedDescriptorArchivingRequest | undefined>(
-    (latest, current) => {
-      if (!latest) return current
-      const latestTime = Date.parse(latest.requestedAt)
-      const currentTime = Date.parse(current.requestedAt)
-
-      if (Number.isNaN(latestTime) || Number.isNaN(currentTime)) {
-        return current.requestedAt > latest.requestedAt ? current : latest
-      }
-
-      return currentTime > latestTime ? current : latest
-    },
-    undefined
-  )
 }
 
 export function sanitizeImportEserviceFileName(fileName: string): string {

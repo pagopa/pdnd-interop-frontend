@@ -8,7 +8,6 @@ import { Drawer } from '@/components/shared/Drawer'
 import {
   getActiveDescriptor,
   getEServiceDescriptorAlertSpec,
-  getLatestDelegatedDescriptorArchivingRequest,
   isDescriptorPendingArchiving,
 } from '@/utils/eservice.utils'
 
@@ -40,18 +39,16 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
     t,
   })
 
-  const latestDelegatedArchivingRequest = getLatestDelegatedDescriptorArchivingRequest(
-    descriptor.delegatedArchivingRequest
-  )
+  const delegatedArchivingRequest = descriptor.eservice.delegatedArchivingRequest
 
-  const { requestedAt, rejectionReason, rejectedAt } = latestDelegatedArchivingRequest ?? {}
+  const { requestedAt, rejectionReason, rejectedAt } = delegatedArchivingRequest ?? {}
 
   const delegatorName = descriptor.delegation?.delegator.name || '-'
 
   const shouldShowDelegatedArchivingRequestRejectedAlert = Boolean(rejectedAt)
 
   const shouldShowDelegatedArchivingRequestAlert =
-    Boolean(latestDelegatedArchivingRequest) && !shouldShowDelegatedArchivingRequestRejectedAlert
+    Boolean(delegatedArchivingRequest) && !shouldShowDelegatedArchivingRequestRejectedAlert
 
   const shouldShowMissingKeychainAlert =
     descriptor.eservice.asyncExchange && !descriptor.eservice.hasProducerKeychain

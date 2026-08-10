@@ -520,7 +520,7 @@ export interface CatalogEServiceDescriptor {
   /** @format date-time */
   archivedAt?: string;
   archivingSchedule?: ArchivingSchedule;
-  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest[];
+  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest;
   asyncExchangeProperties?: AsyncExchangeProperties;
   asyncExchangeCallbackInterface?: EServiceDoc;
   templateRef?: EServiceTemplateRef;
@@ -584,7 +584,7 @@ export interface CatalogDescriptorEService {
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
   archivingReason?: string;
-  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest[];
+  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest;
   asyncExchange?: boolean;
 }
 
@@ -603,7 +603,7 @@ export interface ProducerEServiceDetails {
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
   asyncExchange?: boolean;
-  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest[];
+  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest;
   /** @format uuid */
   latestActiveDescriptorId?: string;
 }
@@ -734,7 +734,7 @@ export interface ProducerEServiceDescriptor {
   asyncExchangeCallbackInterface?: EServiceDoc;
   delegation?: DelegationWithCompactTenants;
   archivingSchedule?: ArchivingSchedule;
-  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest[];
+  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest;
 }
 
 export interface ProducerDescriptorEService {
@@ -759,7 +759,7 @@ export interface ProducerDescriptorEService {
   personalData?: boolean;
   instanceLabel?: string;
   asyncExchange?: boolean;
-  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest[];
+  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest;
 }
 
 export interface ProducerDescriptorEServiceProducer {
@@ -952,6 +952,7 @@ export interface CompactDescriptor {
   templateVersionId?: string;
   /** @format date-time */
   archivableOn?: string;
+  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest;
 }
 
 export interface TemplateInstanceInterfaceServerUrlSeed {
@@ -1168,6 +1169,8 @@ export interface CompactProducerDescriptor {
   version: string;
   audience: string[];
   requireCorrections?: boolean;
+  /** @format date-time */
+  archivableOn?: string;
 }
 
 export interface ProducerEService {

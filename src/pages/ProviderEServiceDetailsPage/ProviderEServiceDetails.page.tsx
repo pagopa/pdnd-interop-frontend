@@ -89,7 +89,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
       hasMultipleVersions ? openVersionSelectorDrawer : undefined,
       isActiveDescriptor,
       isEServiceBeingArchived,
-      descriptor?.delegatedArchivingRequest
+      descriptor?.eservice.delegatedArchivingRequest
     )
 
   return (
