@@ -104,14 +104,15 @@ describe('DialogArchiveVersion', () => {
     await userEvent.click(screen.getByRole('button', { name: 'actions.requestArchiving' }))
 
     expect(mockRequestArchive).toHaveBeenCalledTimes(1)
-    expect(mockRequestArchive).toHaveBeenCalledWith(
-      { eserviceId: 'eservice-42', descriptorId: 'descriptor-99', gracePeriodDays: 60 },
-      expect.objectContaining({ onSuccess: expect.any(Function) })
-    )
+    expect(mockRequestArchive).toHaveBeenCalledWith({
+      eserviceId: 'eservice-42',
+      descriptorId: 'descriptor-99',
+      gracePeriodDays: 60,
+    })
     expect(mockScheduleArchive).not.toHaveBeenCalled()
   })
 
-  it('opens block-archiving dialog when delegate request returns conflict', async () => {
+  it('does not open block-archiving dialog from this component when delegate request returns conflict', async () => {
     mockRequestArchive.mockImplementationOnce((_params, options) => {
       options?.onError?.(
         new AxiosError('Conflict', undefined, undefined, undefined, {
@@ -128,8 +129,7 @@ describe('DialogArchiveVersion', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'actions.requestArchiving' }))
 
-    expect(mockOpenDialog).toHaveBeenCalledTimes(1)
-    expect(mockOpenDialog).toHaveBeenCalledWith({ type: 'blockArchivingRequest' })
+    expect(mockOpenDialog).not.toHaveBeenCalled()
     expect(mockCloseDialog).not.toHaveBeenCalled()
   })
 })

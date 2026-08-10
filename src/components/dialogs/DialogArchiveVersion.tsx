@@ -52,17 +52,7 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
   const handleArchive = () => {
     const gracePeriodDays = Number(formMethods.getValues('gracePeriodDays')) as GracePeriodDays
     if (isDelegate) {
-      requestArchive(
-        { eserviceId, descriptorId, gracePeriodDays },
-        {
-          onSuccess: closeDialog,
-          onError: (error) => {
-            if (error instanceof AxiosError && error.response?.status === 409) {
-              openDialog({ type: 'blockArchivingRequest' })
-            }
-          },
-        }
-      )
+      requestArchive({ eserviceId, descriptorId, gracePeriodDays })
       return
     }
 
