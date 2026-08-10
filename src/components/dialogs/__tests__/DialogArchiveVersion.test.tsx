@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import { DialogArchiveVersion } from '../DialogArchiveVersion'
 import type { DialogArchiveVersionProps } from '@/types/dialog.types'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import { AxiosError } from 'axios'
+import { AxiosError, AxiosHeaders } from 'axios'
 
 const mockCloseDialog = vi.fn()
 const mockOpenDialog = vi.fn()
@@ -118,8 +118,8 @@ describe('DialogArchiveVersion', () => {
           status: 409,
           statusText: 'Conflict',
           data: {},
-          headers: {},
-          config: { headers: {} },
+          headers: new AxiosHeaders(),
+          config: { headers: new AxiosHeaders() },
         })
       )
     })
