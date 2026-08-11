@@ -200,5 +200,8 @@
     "LTE": "Minore o uguale a",
     "EQ": "Uguale a",
     "NE": "Diverso da"
+  },
+  "ariaLabels": {
+    "downloadDocument": "Scarica il documento {{name}}"
   }
 }
