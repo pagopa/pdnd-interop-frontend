@@ -12,8 +12,8 @@ import {
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { type SvgIconComponent } from '@mui/icons-material'
-import { SidebarIcon } from './SidebarIcon'
 import { useSidebarContext } from './Sidebar'
+import { SidenavIcon } from '@pagopa/mui-italia/components/Sidenav'
 
 type SidebarItemGroupProps = {
   notification?: number
@@ -62,7 +62,7 @@ export const SidebarItemGroup: React.FC<SidebarItemGroupProps> = ({
           }
         >
           <Stack direction="row" sx={{ flexGrow: 1, paddingLeft: 2 }}>
-            <SidebarIcon Icon={StartIcon} notification={notification} />
+            <SidenavIcon Icon={StartIcon} notification={notification} />
             {open && (
               <>
                 <ListItemText

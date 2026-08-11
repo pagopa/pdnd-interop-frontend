@@ -15,6 +15,7 @@ import { sidebarStyles } from '../sidebar.styles'
 import type { SvgIconComponent } from '@mui/icons-material'
 import { SidebarIcon } from './SidebarIcon'
 import { useSidebarContext } from './Sidebar'
+import { SidenavIcon } from '@pagopa/mui-italia/components/Sidenav'
 
 type PolymorphicProps<C extends ElementType, P = {}> = P & { component?: C } & Omit<
     ComponentPropsWithoutRef<C>,
@@ -67,7 +68,7 @@ export function SidebarItem<C extends ElementType = 'a'>({
             disabled={disabled}
             {...props}
           >
-            {StartIcon && <SidebarIcon Icon={StartIcon} notification={notification} />}
+            {StartIcon && <SidenavIcon Icon={StartIcon} notification={notification} />}
 
             {open && (
               <ListItemText

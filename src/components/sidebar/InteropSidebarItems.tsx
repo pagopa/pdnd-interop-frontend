@@ -1,6 +1,5 @@
 import React from 'react'
 import { Divider } from '@mui/material'
-import { SidebarItemGroup } from './components/SidebarItemGroup'
 import { useState } from 'react'
 import { type RouteKey, useCurrentRoute, useGeneratePath } from '@/router'
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded'
@@ -16,13 +15,14 @@ import {
 import { Link } from 'react-router-dom'
 import { useIsRouteInCurrentSubtree } from './hooks/useIsRouteInCurrentSubtree'
 import { AuthHooks } from '@/api/auth'
-import { SidebarItem } from './components/SidebarItem'
+import { type SidebarItem } from './components/SidebarItem'
 import { useQuery } from '@tanstack/react-query'
 import { NotificationQueries } from '@/api/notification'
 import { match } from 'ts-pattern'
 import { routes as routesDefinitions } from '@/router/routes'
 import { get } from 'lodash'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
+import { SidenavItem, SidenavItemGroup } from '@pagopa/mui-italia/components/Sidenav'
 
 type InteropSidebarItems = {
   routes: SidebarRoutes
@@ -75,7 +75,7 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
       .map((child) => {
         const routeKey = child.to
         return (
-          <SidebarItem
+          <SidenavItem
             isSelected={isRouteInCurrentSubtree(routeKey)}
             component={Link}
             to={generatePath(routeKey)}
@@ -103,9 +103,9 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
 
           if (route.children && route.children.length > 0) {
             return (
-              <SidebarItemGroup
+              <SidenavItemGroup
                 renderOnCollapsed={
-                  <SidebarItem datatest-id={route.label} key={route.label} {...sidebarItemProps} />
+                  <SidenavItem data-testid={route.label} key={route.label} {...sidebarItemProps} />
                 }
                 key={route.label}
                 notification={getNotificationCountByRouteKey(route.rootRouteKey, 'root')}
@@ -117,22 +117,22 @@ export const InteropSidebarItems: React.FC<InteropSidebarItems> = ({ routes }) =
                 icon={route.icon}
               >
                 {renderChildItems(route)}
-              </SidebarItemGroup>
+              </SidenavItemGroup>
             )
           }
 
-          return <SidebarItem key={route.label} {...sidebarItemProps} />
+          return <SidenavItem key={route.label} {...sidebarItemProps} />
         })}
       {isAdmin && (
         <>
           <Divider sx={{ marginBottom: 2 }} />
-          <SidebarItem
+          <SidenavItem
             href={selfcareUsersPageUrl}
             label={t('userExternalLinkLabel')}
             StartIcon={PeopleIcon}
             EndIcon={ExitToAppRoundedIcon}
           />
-          <SidebarItem
+          <SidenavItem
             href={selfcareGroupsPageUrl}
             label={t('groupsExternalLinkLabel')}
             target="_blank"

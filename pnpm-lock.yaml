@@ -37,10 +37,10 @@ importers:
         version: 6.20.2(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@mui/material@5.18.0(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mui/system@5.18.0(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(date-fns@2.30.0)(dayjs@1.11.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@pagopa/interop-fe-commons':
         specifier: 1.5.3
-        version: 1.5.3(ymetdcksuscyxf43pkvingdoai)
+        version: 1.5.3(raksbwaxdbpdukmmcplefal6km)
       '@pagopa/mui-italia':
-        specifier: 2.4.0
-        version: 2.4.0(dyvxuajnxmfgebpwpefvcxn5gi)
+        specifier: 2.5.0-RC6
+        version: 2.5.0-RC6(dyvxuajnxmfgebpwpefvcxn5gi)
       '@tanstack/react-query':
         specifier: 5.51.4
         version: 5.51.4(react@18.3.1)
@@ -986,8 +986,8 @@ packages:
       react-router-dom: ^6.16.0
       zod: ^4.0.0
 
-  '@pagopa/mui-italia@2.4.0':
-    resolution: {integrity: sha512-yqDRG+ppPWQC7nH/xspzcnkIyYhfBUyAShpO8f63ooFC55fPIV4lzFb2QCU+ENL7aw3GyVlcpuNd7H71c2HAQg==}
+  '@pagopa/mui-italia@2.5.0-RC6':
+    resolution: {integrity: sha512-c0rZ0xVpGU3g+LEnge52OhPxIz/J9TuFOWgSy/hyD9AsS1TXxzmNJ7kalCflWIkRdDjyUDUdhPsRrCR4dBkoUg==}
     engines: {node: '>=22.x'}
     peerDependencies:
       '@emotion/react': ^11.14.0
@@ -4619,7 +4619,7 @@ snapshots:
 
   '@open-draft/until@1.0.3': {}
 
-  '@pagopa/interop-fe-commons@1.5.3(ymetdcksuscyxf43pkvingdoai)':
+  '@pagopa/interop-fe-commons@1.5.3(raksbwaxdbpdukmmcplefal6km)':
     dependencies:
       '@emotion/react': 11.14.0(@types/react@18.3.28)(react@18.3.1)
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1)
@@ -4629,7 +4629,7 @@ snapshots:
       '@mui/material': 5.18.0(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@mui/system': 5.18.0(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1)
       '@mui/x-date-pickers': 6.20.2(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@mui/material@5.18.0(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mui/system@5.18.0(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(date-fns@2.30.0)(dayjs@1.11.21)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@pagopa/mui-italia': 2.4.0(dyvxuajnxmfgebpwpefvcxn5gi)
+      '@pagopa/mui-italia': 2.5.0-RC6(dyvxuajnxmfgebpwpefvcxn5gi)
       date-fns: 2.30.0
       i18next: 23.16.8
       mixpanel-browser: 2.75.0(@mixpanel/rrweb-utils@2.0.0-alpha.18.3)
@@ -4640,7 +4640,7 @@ snapshots:
       react-router-dom: 6.4.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       zod: 4.3.6
 
-  '@pagopa/mui-italia@2.4.0(dyvxuajnxmfgebpwpefvcxn5gi)':
+  '@pagopa/mui-italia@2.5.0-RC6(dyvxuajnxmfgebpwpefvcxn5gi)':
     dependencies:
       '@emotion/react': 11.14.0(@types/react@18.3.28)(react@18.3.1)
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@18.3.28)(react@18.3.1))(@types/react@18.3.28)(react@18.3.1)

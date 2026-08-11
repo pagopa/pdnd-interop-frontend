@@ -61,7 +61,12 @@ export function Sidebar({
     <SidebarContextProvider mobile={mobile} open={open} onSidebarOpen={onSidebarOpen}>
       {!mobile ? (
         <Box sx={styles.container} component="aside">
-          <Stack component="nav" role="navigation" aria-expanded={!open}>
+          <Stack
+            component="nav"
+            role="navigation"
+            aria-expanded={!open}
+            sx={{ height: '100%' }}
+          >
             <List disablePadding sx={{ marginTop: 1 }}>
               {children}
             </List>
