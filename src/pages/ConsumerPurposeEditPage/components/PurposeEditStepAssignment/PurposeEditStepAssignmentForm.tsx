@@ -107,7 +107,8 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
     const user =
       reviewers.find((reviewer) => reviewer.userId === userId) ??
       assignedReviewers.find((reviewer) => reviewer.userId === userId)
-    return user ? getFullName(user) : t('readOnly.reviewerUnknown')
+    const fullName = user && getFullName(user)
+    return fullName || t('readOnly.reviewerUnknown')
   }
 
   const goToSummary = () => {
@@ -194,8 +195,11 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
   // Reviewers no longer belonging to the institution are kept among the options so that their
   // chip still renders, but they are filtered out of the dropdown so they cannot be picked again.
   const reviewerOptions: Array<ReviewerOption> = [
-    ...reviewers.map((user) => ({ label: getFullName(user), value: user.userId })),
-    ...removedReviewers.map((user) => ({ label: getFullName(user), value: user.userId })),
+    ...reviewers.map((user) => ({ label: getReviewerName(user.userId), value: user.userId })),
+    ...removedReviewers.map((user) => ({
+      label: getReviewerName(user.userId),
+      value: user.userId,
+    })),
   ]
 
   const filterOptions = (

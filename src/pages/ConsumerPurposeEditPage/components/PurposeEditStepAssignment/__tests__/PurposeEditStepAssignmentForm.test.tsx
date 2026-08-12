@@ -390,6 +390,33 @@ describe('PurposeEditStepAssignmentForm', () => {
       )
     })
 
+    it('uses the unavailable reviewer placeholder in the confirmation dialog when the name is empty', async () => {
+      const user = userEvent.setup()
+      const reviewerWithoutName: CompactUser = {
+        userId: 'reviewer-without-name',
+        name: '',
+        familyName: '',
+      }
+      renderComponent({
+        purpose: buildAssignedPurpose('ADMIN_WRITES_REVIEWER_SIGNS', [reviewerWithoutName]),
+        defaultValues: {
+          reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+          reviewerIds: [reviewerWithoutName.userId],
+        },
+      })
+
+      await user.click(
+        screen.getByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_ADMIN_SIGNS' })
+      )
+      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+
+      expect(openDialogMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          removedReviewerNames: ['readOnly.reviewerUnknown'],
+        })
+      )
+    })
+
     it('runs the mutation only when the dialog is confirmed', async () => {
       const user = userEvent.setup()
       const forward = vi.fn()
