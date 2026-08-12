@@ -253,13 +253,22 @@
       "title": "Payload",
       "htmField": {
         "label": "HTM",
-        "description": "Indica il metodo HTTP che si vuole invocare verso la risorsa"
+        "description": {
+          "eservice": "Indica il metodo HTTP che si vuole invocare verso la risorsa",
+          "pdnd": "Il metodo HTTP dell’operazione API M2M PDND che vuoi invocare."
+        }
       },
       "htuField": {
         "label": "HTU",
-        "description": "L'URL della risorsa che si vuole invocare"
+        "description": {
+          "eservice": "L'URL della risorsa che si vuole invocare",
+          "pdnd": "L’URL completo, senza parametri di query, dell’operazione API M2M PDND che vuoi invocare."
+        }
       },
-      "alert": "Trovi le informazioni sui parametri HTM e HTU all’interno dell’interfaccia OpenAPI dell’e-service.",
+      "alert": {
+        "eservice": "Trovi le informazioni sui parametri HTM e HTU all’interno dell’interfaccia OpenAPI dell’e-service.",
+        "pdnd": "Trovi i valori di HTM e HTU nella specifica OpenAPI M2M v3 di PDND."
+      },
       "athField": {
         "label": "ATH",
         "description": "L’hash del voucher rilasciato da PDND nello step precedente.",

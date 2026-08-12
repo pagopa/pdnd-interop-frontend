@@ -78,6 +78,7 @@
       "userName": "First and last name",
       "certifiedAttributes": "Certified attributes",
       "assigneeTenant": "Assigned party",
+      "certifiedDiscreteAttributeValue": "Value",
       "certifiedAttribute": "Certified attribute",
       "keychain": "Keychain",
       "delegationKind": "Delegation for",

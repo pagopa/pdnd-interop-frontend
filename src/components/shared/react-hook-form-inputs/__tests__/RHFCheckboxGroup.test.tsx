@@ -5,6 +5,8 @@ import userEvent from '@testing-library/user-event'
 import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
 import { RHFCheckboxGroup } from '@/components/shared/react-hook-form-inputs'
 import { vi } from 'vitest'
+import { FormProvider, useForm } from 'react-hook-form'
+import { Box, Button } from '@mui/material'
 
 const checkboxGroupOptions = [
   { label: 'option1', value: 'option1' },
@@ -106,5 +108,67 @@ describe('determine whether the integration between react-hook-form and MUI’s 
     )
 
     expect(checkboxResult.queryByRole('checkbox')).toBeNull()
+  })
+
+  it('should have infoLabel id and corresponding describedBy when infoLabel passed', () => {
+    const screen = render(
+      <TestInputWrapper>
+        <RHFCheckboxGroup {...checkboxGroupProps.standard} infoLabel="testInfoLabel" />
+      </TestInputWrapper>
+    )
+
+    const infoLabel = screen.getByText('testInfoLabel')
+    const checkboxGroup = screen.getByTestId('checkbox-group')
+
+    expect(infoLabel).toHaveAttribute('id', 'testText-infoLabel')
+    expect(checkboxGroup).toHaveAttribute('aria-describedby', 'testText-infoLabel')
+  })
+
+  it('should have error label id and corresponding describedBy and aria-invalid when there is an error', async () => {
+    const user = userEvent.setup()
+    const FormWrapper = ({ children }: { children: React.ReactNode }) => {
+      const formMethods = useForm({
+        defaultValues: {
+          testText: [],
+        },
+      })
+
+      const onSubmit = vi.fn()
+
+      return (
+        <FormProvider {...formMethods}>
+          <Box component="form" noValidate onSubmit={formMethods.handleSubmit(onSubmit)}>
+            {children}
+            <Button type="submit">form submit</Button>
+          </Box>
+        </FormProvider>
+      )
+    }
+
+    const screen = render(
+      <FormWrapper>
+        <RHFCheckboxGroup
+          {...checkboxGroupProps.standard}
+          rules={{
+            validate: (value: Array<string>) => {
+              if (value.length === 0) {
+                return 'error'
+              }
+              return true
+            },
+          }}
+        />
+      </FormWrapper>
+    )
+
+    const submitButton = screen.getByRole('button', { name: 'form submit' })
+    await user.click(submitButton)
+
+    const errorLabel = screen.getByText('error')
+    const checkboxGroup = screen.getByTestId('checkbox-group')
+
+    expect(errorLabel).toHaveAttribute('id', 'testText-error')
+    expect(checkboxGroup).toHaveAttribute('aria-describedby', 'testText-error')
+    expect(checkboxGroup).toHaveAttribute('aria-invalid', 'true')
   })
 })

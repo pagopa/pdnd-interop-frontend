@@ -1,10 +1,8 @@
 import { EServiceMutations } from '@/api/eservice'
-import { GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS } from '@/config/env'
-import { archivingGuideLink } from '@/config/constants'
+import type { GracePeriodDays } from '@/api/api.generatedTypes'
+import { archivingGuideLink, DEFAULT_GRACE_PERIOD_DAYS } from '@/config/constants'
 import { useDialog } from '@/stores'
 import type { DialogArchiveVersionProps } from '@/types/dialog.types'
-import { calculateArchivableOn } from '@/utils/eservice.utils'
-import { formatDateStringNumeric } from '@/utils/format.utils'
 import {
   Alert,
   Button,
@@ -13,10 +11,17 @@ import {
   DialogContent,
   DialogTitle,
   Link,
+  Stack,
   Typography,
 } from '@mui/material'
 import React from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
+import { GracePeriodField } from '../shared/GracePeriodField'
+
+type ArchiveVersionFormValues = {
+  gracePeriodDays: string
+}
 
 export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
   eserviceId,
@@ -32,50 +37,54 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
   const { closeDialog } = useDialog()
   const { mutate: scheduleArchive } = EServiceMutations.useScheduleArchiveDescriptor()
 
+  const formMethods = useForm<ArchiveVersionFormValues>({
+    defaultValues: { gracePeriodDays: String(DEFAULT_GRACE_PERIOD_DAYS) },
+  })
+
   const handleCancel = () => {
     closeDialog()
   }
 
   const handleArchive = () => {
-    scheduleArchive({ eserviceId, descriptorId }, { onSuccess: closeDialog })
+    const gracePeriodDays = Number(formMethods.getValues('gracePeriodDays')) as GracePeriodDays
+    scheduleArchive({ eserviceId, descriptorId, gracePeriodDays }, { onSuccess: closeDialog })
   }
-
-  const archiveDate = calculateArchivableOn(new Date(), GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS)
-  const formattedArchiveDate = formatDateStringNumeric(archiveDate)
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
       <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
-      <DialogContent>
-        <Typography variant="body2">
-          <Trans
-            components={{
-              strong: <Typography component="span" variant="inherit" fontWeight={600} />,
-            }}
-          >
-            {t('content.description', { date: formattedArchiveDate })}
-          </Trans>
-        </Typography>
+      <FormProvider {...formMethods}>
+        <DialogContent>
+          <Stack spacing={3}>
+            <Typography variant="body2">{t('content.description')}</Typography>
+            <GracePeriodField />
+          </Stack>
 
-        <Alert severity="info" sx={{ mt: 4 }}>
-          <Trans
-            components={{
-              1: <Link underline="hover" href={archivingGuideLink} target="_blank" />,
-            }}
-          >
-            {t('content.alert')}
-          </Trans>
-        </Alert>
-      </DialogContent>
+          <Alert severity="info" sx={{ mt: 4 }}>
+            <Trans
+              components={{
+                1: <Link underline="hover" href={archivingGuideLink} target="_blank" />,
+              }}
+            >
+              {t('content.alert')}
+            </Trans>
+          </Alert>
+        </DialogContent>
 
-      <DialogActions>
-        <Button variant="outlined" onClick={handleCancel}>
-          {tCommon('cancel')}
-        </Button>
-        <Button variant="contained" onClick={handleArchive}>
-          {tCommon('archive')}
-        </Button>
-      </DialogActions>
+        <DialogActions>
+          <Button variant="outlined" onClick={handleCancel}>
+            {tCommon('cancel')}
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleArchive}
+            sx={{ color: 'common.white' }}
+          >
+            {tCommon('archive')}
+          </Button>
+        </DialogActions>
+      </FormProvider>
     </Dialog>
   )
 }

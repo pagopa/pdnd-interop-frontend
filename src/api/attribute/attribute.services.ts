@@ -6,6 +6,7 @@ import type {
   Attributes,
   CertifiedAttributeSeed,
   CertifiedAttributesResponse,
+  CertifiedDiscreteTenantAttributeSeed,
   CertifiedTenantAttributeSeed,
   DeclaredAttributesResponse,
   DeclaredTenantAttributeSeed,
@@ -70,6 +71,14 @@ async function createCertified(payload: CertifiedAttributeSeed) {
   return response.data
 }
 
+async function createCertifiedDiscrete(payload: AttributeSeed) {
+  const response = await axiosInstance.post<Attribute>(
+    `${BACKEND_FOR_FRONTEND_URL}/certifiedDiscreteAttributes`,
+    payload
+  )
+  return response.data
+}
+
 async function createVerified(payload: AttributeSeed) {
   const response = await axiosInstance.post<Attribute>(
     `${BACKEND_FOR_FRONTEND_URL}/verifiedAttributes`,
@@ -96,6 +105,16 @@ async function addCertifiedAttribute({
   )
 }
 
+async function addCertifiedDiscreteAttribute({
+  tenantId,
+  ...payload
+}: { tenantId: string } & CertifiedDiscreteTenantAttributeSeed) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/attributes/certifiedDiscrete`,
+    payload
+  )
+}
+
 async function revokeCertifiedAttribute({
   tenantId,
   attributeId,
@@ -105,6 +124,18 @@ async function revokeCertifiedAttribute({
 }) {
   return axiosInstance.delete(
     `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/attributes/certified/${attributeId}`
+  )
+}
+
+async function revokeCertifiedDiscreteAttribute({
+  tenantId,
+  attributeId,
+}: {
+  tenantId: string
+  attributeId: string
+}) {
+  return axiosInstance.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/attributes/certifiedDiscrete/${attributeId}`
   )
 }
 
@@ -162,10 +193,13 @@ export const AttributeServices = {
   getPartyVerifiedList,
   getPartyDeclaredList,
   createCertified,
+  createCertifiedDiscrete,
   createVerified,
   createDeclared,
   addCertifiedAttribute,
+  addCertifiedDiscreteAttribute,
   revokeCertifiedAttribute,
+  revokeCertifiedDiscreteAttribute,
   verifyPartyAttribute,
   updateVerifiedPartyAttribute,
   revokeVerifiedPartyAttribute,
