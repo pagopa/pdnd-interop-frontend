@@ -112,6 +112,19 @@ describe('PurposeEditStepAssignmentReadOnly', () => {
     expect(screen.queryByText('readOnly.subtitle.signed')).not.toBeInTheDocument()
   })
 
+  it.each(['WAITING_FOR_APPROVAL', 'SUSPENDED', 'REJECTED', 'ARCHIVED'] as const)(
+    'uses a generic explanation when the purpose is %s but not published',
+    (versionState) => {
+      renderComponent({
+        purpose: buildPurpose('ADMIN_WRITES_REVIEWER_SIGNS', [mockReviewer], versionState),
+      })
+
+      expect(screen.getByText('readOnly.subtitle.notDraft')).toBeInTheDocument()
+      expect(screen.queryByText('readOnly.subtitle.published')).not.toBeInTheDocument()
+      expect(screen.queryByText('readOnly.subtitle.signed')).not.toBeInTheDocument()
+    }
+  )
+
   it('does not render any radio group, autocomplete or submit CTA', () => {
     renderComponent()
 

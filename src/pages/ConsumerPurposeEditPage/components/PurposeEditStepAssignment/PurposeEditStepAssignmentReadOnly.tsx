@@ -2,6 +2,7 @@ import React from 'react'
 import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
+import { match } from 'ts-pattern'
 import { SectionContainer } from '@/components/layout/containers'
 import { StepActions } from '@/components/shared/StepActions'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
@@ -23,10 +24,10 @@ const PurposeEditStepAssignmentReadOnly: React.FC<PurposeEditStepAssignmentReadO
 
   const reviewMode = purpose.reviewMode ?? 'ADMIN_WRITES_ADMIN_SIGNS'
 
-  // The assignment is frozen either because the purpose left the draft state or because the risk
-  // analysis has been approved; the publication is the stronger reason, so it takes precedence.
-  const isPurposeDraft = purpose.currentVersion?.state === 'DRAFT'
-  const subtitle = isPurposeDraft ? t('readOnly.subtitle.signed') : t('readOnly.subtitle.published')
+  const subtitle = match(purpose.currentVersion?.state)
+    .with('DRAFT', () => t('readOnly.subtitle.signed'))
+    .with('ACTIVE', () => t('readOnly.subtitle.published'))
+    .otherwise(() => t('readOnly.subtitle.notDraft'))
 
   const reviewers = purpose.reviewerWorkflow?.reviewers ?? []
   // An assigned reviewer may no longer be resolvable (role revoked on SelfCare, left the

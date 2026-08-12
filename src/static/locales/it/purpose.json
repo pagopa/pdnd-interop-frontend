@@ -133,7 +133,8 @@
       "readOnly": {
         "subtitle": {
           "signed": "Non puoi modificare l’assegnazione perché l’analisi del rischio è stata approvata.",
-          "published": "Non puoi modificare l’assegnazione perché la finalità è stata pubblicata."
+          "published": "Non puoi modificare l’assegnazione perché la finalità è stata pubblicata.",
+          "notDraft": "Non puoi modificare l’assegnazione perché la finalità non è più in bozza."
         },
         "modeLabel": "Modalità",
         "reviewerLabel_one": "Valutatore",

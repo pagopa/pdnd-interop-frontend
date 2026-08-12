@@ -133,7 +133,8 @@
       "readOnly": {
         "subtitle": {
           "signed": "You cannot modify the assignment because the risk analysis has been approved.",
-          "published": "You cannot modify the assignment because the purpose has been published."
+          "published": "You cannot modify the assignment because the purpose has been published.",
+          "notDraft": "You cannot modify the assignment because the purpose is no longer a draft."
         },
         "modeLabel": "Mode",
         "reviewerLabel_one": "Reviewer",
