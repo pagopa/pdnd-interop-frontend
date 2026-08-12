@@ -7,11 +7,15 @@ import { useTranslation } from 'react-i18next'
 type DelegationCreateCardsProps = {
   selectedDelegationKind: DelegationKind | undefined
   changeDelegationKind: (delegationKind: DelegationKind) => void
+  showErrorMessage: boolean
+  errorMessageId: string
 }
 
 export const DelegationCreateCards: React.FC<DelegationCreateCardsProps> = ({
   selectedDelegationKind,
   changeDelegationKind,
+  showErrorMessage,
+  errorMessageId,
 }) => {
   const { t } = useTranslation('party')
 
@@ -22,6 +26,9 @@ export const DelegationCreateCards: React.FC<DelegationCreateCardsProps> = ({
       sx={{ width: '100%' }}
       role="radiogroup"
       aria-label={t('delegations.create.kindSectionAriaLabel')}
+      aria-invalid={showErrorMessage}
+      aria-errormessage={errorMessageId}
+      aria-required={true}
     >
       <DelegationKindButton
         selected={selectedDelegationKind === 'DELEGATED_CONSUMER'}
