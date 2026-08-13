@@ -232,6 +232,7 @@ export type DialogEditRiskAnalysisAssignmentProps = {
 export type DialogApproveRiskAnalysisProps = {
   type: 'approveRiskAnalysis'
   purposeId: string
+  metadataVersionToSign: number
 }
 
 export type DialogRejectRiskAnalysisProps = {
