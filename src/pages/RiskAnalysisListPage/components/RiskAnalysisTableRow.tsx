@@ -77,8 +77,7 @@ export const RiskAnalysisTableRow: React.FC<{
   const redirectPath = match(purpose.reviewerWorkflow?.signingState)
     .with('ASSIGNED', () => 'SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE' as const)
     .with('SUBMITTED', () => 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL' as const)
-    .with('SIGNED', () => null) /* Will be developed in PIN-10694 */
-    .with('REJECTED', () => null) /* Will be developed in PIN-10694 */
+    .with(P.union('SIGNED', 'REJECTED'), () => 'SUBSCRIBE_RISK_ANALYSIS_DETAILS' as const)
     .otherwise(() => null)
 
   return (

@@ -31,7 +31,7 @@ type EServiceTemplateRiskAnalysisInfoSummaryProps = {
 
 type PurposeRiskAnalysisInfoSummaryProps = {
   purpose: Purpose
-}
+} & Pick<RiskAnalysisInfoSummaryProps, 'innerSection' | 'hideTitle'>
 
 export const RiskAnalysisInfoSummary: React.FC<RiskAnalysisInfoSummaryProps> = ({
   riskAnalysisConfig,
@@ -152,6 +152,8 @@ export const EServiceTemplateRiskAnalysisInfoSummary: React.FC<
 
 export const PurposeRiskAnalysisInfoSummary: React.FC<PurposeRiskAnalysisInfoSummaryProps> = ({
   purpose,
+  innerSection,
+  hideTitle,
 }) => {
   const riskAnalysisForm = purpose.riskAnalysisForm
 
@@ -170,6 +172,8 @@ export const PurposeRiskAnalysisInfoSummary: React.FC<PurposeRiskAnalysisInfoSum
     <RiskAnalysisInfoSummary
       riskAnalysisConfig={riskAnalysisConfig}
       riskAnalysisForm={riskAnalysisForm}
+      innerSection={innerSection}
+      hideTitle={hideTitle}
     />
   )
 }
