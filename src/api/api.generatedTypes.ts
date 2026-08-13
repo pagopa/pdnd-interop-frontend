@@ -523,6 +523,7 @@ export interface CatalogEServiceDescriptor {
   archivingSchedule?: ArchivingSchedule;
   asyncExchangeProperties?: AsyncExchangeProperties;
   asyncExchangeCallbackInterface?: EServiceDoc;
+  templateRef?: EServiceTemplateRef;
 }
 
 /** Models Client details */
@@ -1134,6 +1135,8 @@ export interface CompactProducerDescriptor {
   version: string;
   audience: string[];
   requireCorrections?: boolean;
+  /** @format date-time */
+  archivableOn?: string;
 }
 
 export interface ProducerEService {
@@ -6658,10 +6661,10 @@ export namespace Tenants {
   }
 
   /**
-   * @description Retrieve the certified attributes
+   * @description Retrieves the certified attributes assigned by the requester tenant acting as certifier, paired with the tenants they are assigned to. It does not return the attributes assigned to the requester tenant.
    * @tags tenants
    * @name GetRequesterCertifiedAttributes
-   * @summary Gets the certified attributes of the requester
+   * @summary Gets the certified attributes assigned by the requester as certifier
    * @request GET:/tenants/attributes/certified
    * @secure
    */
