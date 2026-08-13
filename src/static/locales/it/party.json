@@ -78,7 +78,7 @@
       },
       "drawer": {
         "title": "Crea nuovo attributo certificato",
-        "subtitle": "Una volta creato, potrai assegnare e revocare questo attributo agli altri enti",
+        "subtitle": "Una volta creato, potrai assegnare e revocare questo attributo agli altri enti.",
         "submitBtnLabel": "Crea attributo",
         "form": {
           "kindField": {

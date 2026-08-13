@@ -11,7 +11,7 @@ import {
   createMockDebugVoucherResultPassed,
 } from '@/../__mocks__/data/voucher.mocks'
 import type { TokenGenerationValidationResult } from '@/api/api.generatedTypes'
-import { validJwt } from '../../__test__/test.commons'
+import { validDpopProof, validJwt } from '../../__test__/test.commons'
 
 const response = createMockDebugVoucherResultPassed()
 const validateTokenGenerationHandler = vi.fn()
@@ -145,7 +145,7 @@ describe('DebugVoucherForm testing', () => {
     )
   })
 
-  it('should include dpop_proof when user provides it', async () => {
+  it('should submit when user provides a valid DPoP proof', async () => {
     const setDebugVoucherValuesMockFn = vi.fn()
 
     const screen = renderWithApplicationContext(
@@ -171,14 +171,14 @@ describe('DebugVoucherForm testing', () => {
     })
 
     fireEvent.change(dpopInput, {
-      target: { value: validJwt },
+      target: { value: validDpopProof },
     })
 
     fireEvent.click(submitButton)
 
     const request = createMockDebugVoucherRequest({
       client_id: undefined,
-      dpop_proof: validJwt,
+      dpop_proof: validDpopProof,
       client_assertion: validJwt,
       is_async: 'false',
     })

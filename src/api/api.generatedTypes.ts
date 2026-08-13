@@ -1859,6 +1859,12 @@ export interface RequesterCertifiedAttribute {
   attributeId: string;
   attributeName: string;
   kind: AttributeKind;
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  discreteValue?: number;
 }
 
 export interface RequesterCertifiedAttributes {

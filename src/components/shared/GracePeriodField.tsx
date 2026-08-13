@@ -33,18 +33,16 @@ export const GracePeriodField: React.FC<GracePeriodFieldProps> = ({ description 
       <RHFRadioGroup
         name="gracePeriodDays"
         label={
-          description ? (
-            <Stack component="span">
-              <Typography component="span" variant="inherit">
-                {t('label')}
-              </Typography>
+          <Stack component="span">
+            <Typography component="span" variant="body1" fontWeight={600}>
+              {t('label')}
+            </Typography>
+            {description && (
               <Typography component="span" variant="body2" fontWeight={400}>
                 {description}
               </Typography>
-            </Stack>
-          ) : (
-            t('label')
-          )
+            )}
+          </Stack>
         }
         options={options}
       />

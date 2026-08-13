@@ -78,7 +78,7 @@
       },
       "drawer": {
         "title": "Create new certified attribute",
-        "subtitle": "Once created, you can assign and revoke this attribute to other parties",
+        "subtitle": "Once created, you can assign and revoke this attribute to other parties.",
         "submitBtnLabel": "Create attribute",
         "form": {
           "kindField": {
