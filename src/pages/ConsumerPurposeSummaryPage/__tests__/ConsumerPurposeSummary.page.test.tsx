@@ -14,7 +14,11 @@ import {
   createMockPurposeCompatiblePersonalDataYes,
   createMockPurposeCompatiblePersonalDataNo,
 } from '@/../__mocks__/data/purpose.mocks'
-import type { ReviewerWorkflow, RiskAnalysisSigningState } from '@/api/api.generatedTypes'
+import type {
+  ReviewerWorkflow,
+  RiskAnalysisReviewMode,
+  RiskAnalysisSigningState,
+} from '@/api/api.generatedTypes'
 
 const mockPurposeId = 'test-purpose-id'
 mockUseParams({ purposeId: mockPurposeId })
@@ -270,19 +274,27 @@ describe('ConsumerPurposeSummaryPage', () => {
 
   describe('risk analysis review status (options 2 / 3)', () => {
     const renderWithReviewerWorkflow = (signingState: RiskAnalysisSigningState | undefined) => {
+      const reviewMode: RiskAnalysisReviewMode | undefined = signingState
+        ? signingState === 'ASSIGNED'
+          ? 'REVIEWER_WRITES_REVIEWER_SIGNS'
+          : 'ADMIN_WRITES_REVIEWER_SIGNS'
+        : undefined
+
       const reviewerWorkflow: ReviewerWorkflow | undefined = signingState
         ? {
-            reviewMode:
-              signingState === 'ASSIGNED'
-                ? 'REVIEWER_WRITES_REVIEWER_SIGNS'
-                : 'ADMIN_WRITES_REVIEWER_SIGNS',
-            reviewerIds: ['11111111-2222-3333-4444-555555555555'],
+            reviewers: [
+              {
+                userId: '11111111-2222-3333-4444-555555555555',
+                name: 'Mario',
+                familyName: 'Rossi',
+              },
+            ],
             signingState,
           }
         : undefined
 
       useQueryMock.mockReturnValue({
-        data: { ...createMockPurposeCompatiblePersonalDataYes(), reviewerWorkflow },
+        data: { ...createMockPurposeCompatiblePersonalDataYes(), reviewMode, reviewerWorkflow },
         isLoading: false,
       })
 

@@ -7,14 +7,19 @@ import PurposeEditStepAssignmentForm, {
 } from '../PurposeEditStepAssignmentForm'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
-import type { User } from '@/api/api.generatedTypes'
+import type { CompactUser, Purpose, RiskAnalysisReviewMode, User } from '@/api/api.generatedTypes'
 
 const assignReviewerMock = vi.fn()
 const openDialogMock = vi.fn()
+const navigateMock = vi.fn()
+const useAssignRiskAnalysisReviewerMock = vi.fn((..._args: Array<unknown>) => ({
+  mutate: assignReviewerMock,
+}))
 
 vi.mock('@/api/purpose', () => ({
   PurposeMutations: {
-    useAssignRiskAnalysisReviewer: () => ({ mutate: assignReviewerMock }),
+    useAssignRiskAnalysisReviewer: (...args: Array<unknown>) =>
+      useAssignRiskAnalysisReviewerMock(...args),
   },
 }))
 
@@ -29,6 +34,7 @@ vi.mock('@/stores', async () => {
 
 vi.mock('@/router', () => ({
   Link: ({ children, ...props }: React.PropsWithChildren) => <a {...props}>{children}</a>,
+  useNavigate: () => navigateMock,
 }))
 
 const mockReviewer: User = {
@@ -48,11 +54,25 @@ const mockReviewer2: User = {
 }
 
 const DEFAULT_VALUES: PurposeEditStepAssignmentFormValues = {
-  reviewMode: 'selfWritesSelfSigns',
-  reviewerId: undefined,
+  reviewMode: 'ADMIN_WRITES_ADMIN_SIGNS',
+  reviewerIds: [],
+}
+
+/** Builds a purpose that already carries a persisted assignment, i.e. the edit flow. */
+function buildAssignedPurpose(
+  reviewMode: RiskAnalysisReviewMode,
+  reviewers: Array<CompactUser>
+): Purpose {
+  const base = createMockPurpose({ id: 'purpose-id' })
+  return {
+    ...base,
+    reviewMode,
+    reviewerWorkflow: { reviewers, signingState: 'ASSIGNED' },
+  }
 }
 
 function renderComponent(overrides?: {
+  purpose?: Purpose
   reviewers?: Array<User>
   isDelegate?: boolean
   selfcareUsersPageUrl?: string
@@ -60,7 +80,7 @@ function renderComponent(overrides?: {
   forward?: VoidFunction
   back?: VoidFunction
 }) {
-  const purpose = createMockPurpose({ id: 'purpose-id' })
+  const purpose = overrides?.purpose ?? createMockPurpose({ id: 'purpose-id' })
   return renderWithApplicationContext(
     <PurposeEditStepAssignmentForm
       purpose={purpose}
@@ -76,28 +96,38 @@ function renderComponent(overrides?: {
   )
 }
 
+/**
+ * Picks the given reviewers from the dropdown. The autocomplete does not set
+ * `disableCloseOnSelect`, so the popup closes after every pick and has to be reopened.
+ */
+async function selectReviewers(user: ReturnType<typeof userEvent.setup>, names: Array<string>) {
+  for (const name of names) {
+    await user.click(screen.getByRole('combobox', { name: 'reviewerField.inputLabel' }))
+    await user.click(await screen.findByRole('option', { name }))
+  }
+  await user.keyboard('{Escape}')
+}
+
 describe('PurposeEditStepAssignmentForm', () => {
   beforeEach(() => {
     assignReviewerMock.mockReset()
     openDialogMock.mockReset()
+    navigateMock.mockReset()
+    useAssignRiskAnalysisReviewerMock.mockClear()
   })
 
   it('renders the 3 review mode options with the first one selected by default', () => {
     renderComponent()
 
-    const selfWritesSelfSigns = screen.getByRole('radio', {
-      name: 'reviewModeField.options.selfWritesSelfSigns',
-    })
-    const selfWritesReviewerSigns = screen.getByRole('radio', {
-      name: 'reviewModeField.options.selfWritesReviewerSigns',
-    })
-    const reviewerWritesReviewerSigns = screen.getByRole('radio', {
-      name: 'reviewModeField.options.reviewerWritesReviewerSigns',
-    })
-
-    expect(selfWritesSelfSigns).toBeChecked()
-    expect(selfWritesReviewerSigns).not.toBeChecked()
-    expect(reviewerWritesReviewerSigns).not.toBeChecked()
+    expect(
+      screen.getByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_ADMIN_SIGNS' })
+    ).toBeChecked()
+    expect(
+      screen.getByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_REVIEWER_SIGNS' })
+    ).not.toBeChecked()
+    expect(
+      screen.getByRole('radio', { name: 'reviewModeField.options.REVIEWER_WRITES_REVIEWER_SIGNS' })
+    ).not.toBeChecked()
   })
 
   it('does not show the reviewer autocomplete when the first option is selected', () => {
@@ -114,15 +144,11 @@ describe('PurposeEditStepAssignmentForm', () => {
     renderComponent()
 
     await user.click(
-      screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesReviewerSigns' })
+      screen.getByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_REVIEWER_SIGNS' })
     )
-    expect(screen.getByText('reviewerField.label.selfWritesReviewerSigns')).toBeInTheDocument()
+    expect(screen.getByText('reviewerField.label.ADMIN_WRITES_REVIEWER_SIGNS')).toBeInTheDocument()
 
-    expect(
-      screen.getByRole('combobox', {
-        name: 'reviewerField.inputLabel',
-      })
-    ).toBeInTheDocument()
+    expect(screen.getByRole('combobox', { name: 'reviewerField.inputLabel' })).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
     expect(await screen.findByText('reviewerField.requiredError')).toBeInTheDocument()
@@ -134,7 +160,7 @@ describe('PurposeEditStepAssignmentForm', () => {
     const { container } = renderComponent()
 
     await user.click(
-      screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesReviewerSigns' })
+      screen.getByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_REVIEWER_SIGNS' })
     )
 
     const label = screen.getByText('reviewerField.inputLabel')
@@ -142,23 +168,20 @@ describe('PurposeEditStepAssignmentForm', () => {
     expect(container.querySelector('input[required]')).toBeInTheDocument()
   })
 
-  it('shows the "compiler" autocomplete with the reviewer required error when option 3 is selected, populated with the same list', async () => {
+  it('shows the "compiler" autocomplete when option 3 is selected, populated with the same list', async () => {
     const user = userEvent.setup()
     renderComponent()
 
     await user.click(
-      screen.getByRole('radio', { name: 'reviewModeField.options.reviewerWritesReviewerSigns' })
+      screen.getByRole('radio', { name: 'reviewModeField.options.REVIEWER_WRITES_REVIEWER_SIGNS' })
     )
-    expect(screen.getByText('reviewerField.label.reviewerWritesReviewerSigns')).toBeInTheDocument()
+    expect(
+      screen.getByText('reviewerField.label.REVIEWER_WRITES_REVIEWER_SIGNS')
+    ).toBeInTheDocument()
 
-    const autocomplete = screen.getByRole('combobox', {
-      name: 'reviewerField.inputLabel',
-    })
-    expect(autocomplete).toBeInTheDocument()
-
-    await user.click(autocomplete)
-    expect(screen.getByText('Mario Rossi')).toBeInTheDocument()
-    expect(screen.getByText('Anna Verdi')).toBeInTheDocument()
+    await user.click(screen.getByRole('combobox', { name: 'reviewerField.inputLabel' }))
+    expect(await screen.findByRole('option', { name: 'Mario Rossi' })).toBeInTheDocument()
+    expect(screen.getByRole('option', { name: 'Anna Verdi' })).toBeInTheDocument()
   })
 
   it('switches the primary CTA to "request compilation" when option 3 is selected', async () => {
@@ -171,7 +194,7 @@ describe('PurposeEditStepAssignmentForm', () => {
     ).not.toBeInTheDocument()
 
     await user.click(
-      screen.getByRole('radio', { name: 'reviewModeField.options.reviewerWritesReviewerSigns' })
+      screen.getByRole('radio', { name: 'reviewModeField.options.REVIEWER_WRITES_REVIEWER_SIGNS' })
     )
 
     expect(
@@ -189,117 +212,451 @@ describe('PurposeEditStepAssignmentForm', () => {
     expect(within(forwardBtn).queryByTestId('SendIcon')).not.toBeInTheDocument()
 
     await user.click(
-      screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesReviewerSigns' })
+      screen.getByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_REVIEWER_SIGNS' })
     )
     const forwardBtn2 = screen.getByRole('button', { name: 'forwardBtn' })
     expect(within(forwardBtn2).getByTestId('SaveIcon')).toBeInTheDocument()
     expect(within(forwardBtn2).queryByTestId('SendIcon')).not.toBeInTheDocument()
 
     await user.click(
-      screen.getByRole('radio', { name: 'reviewModeField.options.reviewerWritesReviewerSigns' })
+      screen.getByRole('radio', { name: 'reviewModeField.options.REVIEWER_WRITES_REVIEWER_SIGNS' })
     )
     const requestBtn = screen.getByRole('button', { name: 'requestReviewerCompilationBtn' })
     expect(within(requestBtn).getByTestId('SendIcon')).toBeInTheDocument()
     expect(within(requestBtn).queryByTestId('SaveIcon')).not.toBeInTheDocument()
   })
 
-  it('on submit with option 1, does not call the API and forwards', async () => {
-    const user = userEvent.setup()
-    const forward = vi.fn()
-    renderComponent({ reviewers: [mockReviewer], forward })
+  describe('first compilation', () => {
+    it('asks for no success feedback, since the first assignment is silent', () => {
+      renderComponent()
 
-    await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+      expect(useAssignRiskAnalysisReviewerMock).toHaveBeenCalledWith({ feedback: 'none' })
+    })
 
-    expect(assignReviewerMock).not.toHaveBeenCalled()
-    expect(forward).toHaveBeenCalled()
-  })
+    it('on submit with option 1, persists the self-compilation mode without reviewers and forwards', async () => {
+      const user = userEvent.setup()
+      const forward = vi.fn()
+      renderComponent({ reviewers: [mockReviewer], forward })
 
-  it('on submit with option 2 and a reviewer selected, calls the API and forwards on success', async () => {
-    const user = userEvent.setup()
-    const forward = vi.fn()
-    renderComponent({ reviewers: [mockReviewer], forward })
+      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
 
-    await user.click(
-      screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesReviewerSigns' })
-    )
+      expect(assignReviewerMock).toHaveBeenCalledWith(
+        {
+          purposeId: 'purpose-id',
+          reviewMode: 'ADMIN_WRITES_ADMIN_SIGNS',
+          reviewerIds: undefined,
+        },
+        expect.objectContaining({ onSuccess: forward })
+      )
+      expect(openDialogMock).not.toHaveBeenCalled()
+    })
 
-    await user.click(screen.getByRole('combobox', { name: 'reviewerField.inputLabel' }))
+    it('on submit with option 2 and a reviewer selected, calls the API and forwards on success', async () => {
+      const user = userEvent.setup()
+      const forward = vi.fn()
+      renderComponent({ reviewers: [mockReviewer], forward })
 
-    await user.click(screen.getByText('Mario Rossi'))
-    await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+      await user.click(
+        screen.getByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_REVIEWER_SIGNS' })
+      )
+      await selectReviewers(user, ['Mario Rossi'])
+      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
 
-    expect(assignReviewerMock).toHaveBeenCalledWith(
-      {
+      expect(assignReviewerMock).toHaveBeenCalledWith(
+        {
+          purposeId: 'purpose-id',
+          reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+          reviewerIds: ['reviewer-uuid-1'],
+        },
+        expect.objectContaining({ onSuccess: forward })
+      )
+    })
+
+    it('sends every selected reviewer, not just the first one', async () => {
+      const user = userEvent.setup()
+      renderComponent()
+
+      await user.click(
+        screen.getByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_REVIEWER_SIGNS' })
+      )
+      await selectReviewers(user, ['Mario Rossi', 'Anna Verdi'])
+      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+
+      expect(assignReviewerMock).toHaveBeenCalledWith(
+        expect.objectContaining({ reviewerIds: ['reviewer-uuid-1', 'reviewer-uuid-2'] }),
+        expect.anything()
+      )
+    })
+
+    it('on submit with option 3, opens the compilation dialog without calling the API', async () => {
+      const user = userEvent.setup()
+      const forward = vi.fn()
+      renderComponent({ forward })
+
+      await user.click(
+        screen.getByRole('radio', {
+          name: 'reviewModeField.options.REVIEWER_WRITES_REVIEWER_SIGNS',
+        })
+      )
+      await selectReviewers(user, ['Mario Rossi', 'Anna Verdi'])
+      await user.click(screen.getByRole('button', { name: 'requestReviewerCompilationBtn' }))
+
+      expect(assignReviewerMock).not.toHaveBeenCalled()
+      expect(forward).not.toHaveBeenCalled()
+      expect(openDialogMock).toHaveBeenCalledWith({
+        type: 'requestRiskAnalysisCompilation',
         purposeId: 'purpose-id',
-        reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-        reviewerIds: ['reviewer-uuid-1'],
-      },
-      expect.objectContaining({ onSuccess: forward })
-    )
-  })
+        reviewerIds: ['reviewer-uuid-1', 'reviewer-uuid-2'],
+        reviewerNames: ['Mario Rossi', 'Anna Verdi'],
+      })
+    })
 
-  it('on submit with option 3 and a reviewer selected, opens the confirmation dialog without calling the API', async () => {
-    const user = userEvent.setup()
-    const forward = vi.fn()
-    renderComponent({ reviewers: [mockReviewer], forward })
+    it('drops the selected reviewers when switching back to option 1 before submitting', async () => {
+      const user = userEvent.setup()
+      const forward = vi.fn()
+      renderComponent({ reviewers: [mockReviewer], forward })
 
-    await user.click(
-      screen.getByRole('radio', { name: 'reviewModeField.options.reviewerWritesReviewerSigns' })
-    )
+      await user.click(
+        screen.getByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_REVIEWER_SIGNS' })
+      )
+      await selectReviewers(user, ['Mario Rossi'])
+      await user.click(
+        screen.getByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_ADMIN_SIGNS' })
+      )
+      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
 
-    await user.click(screen.getByRole('combobox', { name: 'reviewerField.inputLabel' }))
-
-    await user.click(screen.getByText('Mario Rossi'))
-    await user.click(screen.getByRole('button', { name: 'requestReviewerCompilationBtn' }))
-
-    expect(assignReviewerMock).not.toHaveBeenCalled()
-    expect(forward).not.toHaveBeenCalled()
-    expect(openDialogMock).toHaveBeenCalledWith({
-      type: 'requestRiskAnalysisCompilation',
-      purposeId: 'purpose-id',
-      reviewerId: 'reviewer-uuid-1',
-      reviewerName: 'Mario Rossi',
+      expect(assignReviewerMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          reviewMode: 'ADMIN_WRITES_ADMIN_SIGNS',
+          reviewerIds: undefined,
+        }),
+        expect.anything()
+      )
     })
   })
 
-  it('after selecting option 2 with a reviewer and switching back to option 1, on submit does not call the API and only forwards', async () => {
-    const user = userEvent.setup()
-    const forward = vi.fn()
-    renderComponent({ reviewers: [mockReviewer], forward })
+  describe('edit of an existing assignment', () => {
+    const assignedPurpose = () =>
+      buildAssignedPurpose('ADMIN_WRITES_REVIEWER_SIGNS', [
+        { userId: mockReviewer.userId, name: 'Mario', familyName: 'Rossi' },
+      ])
 
-    await user.click(
-      screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesReviewerSigns' })
-    )
+    const editDefaultValues: PurposeEditStepAssignmentFormValues = {
+      reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+      reviewerIds: [mockReviewer.userId],
+    }
 
-    await user.click(screen.getByRole('combobox', { name: 'reviewerField.inputLabel' }))
+    it('asks for the edit feedback so the dedicated snackbar is shown', () => {
+      renderComponent({ purpose: assignedPurpose(), defaultValues: editDefaultValues })
 
-    await user.click(screen.getByText('Mario Rossi'))
+      expect(useAssignRiskAnalysisReviewerMock).toHaveBeenCalledWith({ feedback: 'edit' })
+    })
 
-    await user.click(
-      screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesSelfSigns' })
-    )
-    await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+    it('opens the confirmation dialog with the mode change and the added reviewer, without calling the API', async () => {
+      const user = userEvent.setup()
+      renderComponent({ purpose: assignedPurpose(), defaultValues: editDefaultValues })
 
-    expect(assignReviewerMock).not.toHaveBeenCalled()
-    expect(forward).toHaveBeenCalled()
+      await selectReviewers(user, ['Anna Verdi'])
+      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+
+      expect(assignReviewerMock).not.toHaveBeenCalled()
+      expect(openDialogMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'editRiskAnalysisAssignment',
+          fromMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+          toMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+          addedReviewerNames: ['Anna Verdi'],
+          removedReviewerNames: [],
+        })
+      )
+    })
+
+    it('reports the dropped reviewers as removed when the new mode needs none', async () => {
+      const user = userEvent.setup()
+      renderComponent({ purpose: assignedPurpose(), defaultValues: editDefaultValues })
+
+      await user.click(
+        screen.getByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_ADMIN_SIGNS' })
+      )
+      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+
+      expect(openDialogMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          fromMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+          toMode: 'ADMIN_WRITES_ADMIN_SIGNS',
+          addedReviewerNames: [],
+          removedReviewerNames: ['Mario Rossi'],
+        })
+      )
+    })
+
+    it('uses the unavailable reviewer placeholder in the confirmation dialog when the name is empty', async () => {
+      const user = userEvent.setup()
+      const reviewerWithoutName: CompactUser = {
+        userId: 'reviewer-without-name',
+        name: '',
+        familyName: '',
+      }
+      renderComponent({
+        purpose: buildAssignedPurpose('ADMIN_WRITES_REVIEWER_SIGNS', [reviewerWithoutName]),
+        defaultValues: {
+          reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+          reviewerIds: [reviewerWithoutName.userId],
+        },
+      })
+
+      await user.click(
+        screen.getByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_ADMIN_SIGNS' })
+      )
+      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+
+      expect(openDialogMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          removedReviewerNames: ['readOnly.reviewerUnknown'],
+        })
+      )
+    })
+
+    it('runs the mutation only when the dialog is confirmed', async () => {
+      const user = userEvent.setup()
+      const forward = vi.fn()
+      renderComponent({ purpose: assignedPurpose(), defaultValues: editDefaultValues, forward })
+
+      await user.click(
+        screen.getByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_ADMIN_SIGNS' })
+      )
+      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+
+      expect(assignReviewerMock).not.toHaveBeenCalled()
+
+      openDialogMock.mock.calls[0][0].onConfirm()
+
+      expect(assignReviewerMock).toHaveBeenCalledWith(
+        {
+          purposeId: 'purpose-id',
+          reviewMode: 'ADMIN_WRITES_ADMIN_SIGNS',
+          reviewerIds: undefined,
+        },
+        expect.objectContaining({ onSuccess: forward })
+      )
+    })
+
+    it('goes to the summary instead of the next step when the new mode is the reviewer compilation', async () => {
+      const user = userEvent.setup()
+      renderComponent({ purpose: assignedPurpose(), defaultValues: editDefaultValues })
+
+      await user.click(
+        screen.getByRole('radio', {
+          name: 'reviewModeField.options.REVIEWER_WRITES_REVIEWER_SIGNS',
+        })
+      )
+      await user.click(screen.getByRole('button', { name: 'requestReviewerCompilationBtn' }))
+
+      openDialogMock.mock.calls[0][0].onConfirm()
+      assignReviewerMock.mock.calls[0][1].onSuccess()
+
+      expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_PURPOSE_SUMMARY', {
+        params: { purposeId: 'purpose-id' },
+      })
+    })
+
+    it('skips the dialog and just moves on when nothing was changed', async () => {
+      const user = userEvent.setup()
+      const forward = vi.fn()
+      renderComponent({ purpose: assignedPurpose(), defaultValues: editDefaultValues, forward })
+
+      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+
+      expect(openDialogMock).not.toHaveBeenCalled()
+      expect(assignReviewerMock).not.toHaveBeenCalled()
+      expect(forward).toHaveBeenCalled()
+    })
+  })
+
+  describe('reviewer removed from the institution', () => {
+    const removedReviewer: CompactUser = {
+      userId: 'removed-uuid',
+      name: 'Luca',
+      familyName: 'Neri',
+    }
+    const purposeWithRemovedReviewer = () =>
+      buildAssignedPurpose('ADMIN_WRITES_REVIEWER_SIGNS', [removedReviewer])
+    const defaultValues: PurposeEditStepAssignmentFormValues = {
+      reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+      reviewerIds: [removedReviewer.userId],
+    }
+
+    it('keeps the removed reviewer visible as a selected chip', () => {
+      renderComponent({ purpose: purposeWithRemovedReviewer(), defaultValues })
+
+      expect(screen.getByText('Luca Neri')).toBeInTheDocument()
+    })
+
+    it('does not offer the removed reviewer among the dropdown options', async () => {
+      const user = userEvent.setup()
+      renderComponent({ purpose: purposeWithRemovedReviewer(), defaultValues })
+
+      await user.click(screen.getByRole('combobox', { name: 'reviewerField.inputLabel' }))
+
+      expect(await screen.findByRole('option', { name: 'Mario Rossi' })).toBeInTheDocument()
+      expect(screen.queryByRole('option', { name: 'Luca Neri' })).not.toBeInTheDocument()
+    })
+
+    it('blocks the submit with a singular error while the removed reviewer is still selected', async () => {
+      const user = userEvent.setup()
+      renderComponent({ purpose: purposeWithRemovedReviewer(), defaultValues })
+
+      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+
+      expect(await screen.findByText('reviewerField.removedError')).toBeInTheDocument()
+      expect(assignReviewerMock).not.toHaveBeenCalled()
+      expect(openDialogMock).not.toHaveBeenCalled()
+    })
+
+    it('explains the assignment is dangling when the institution has no other reviewer left', () => {
+      renderComponent({ purpose: purposeWithRemovedReviewer(), defaultValues, reviewers: [] })
+
+      expect(screen.getByText('noReviewersAlert.removedReviewerMessage')).toBeInTheDocument()
+      expect(screen.queryByText('noReviewersAlert.message')).not.toBeInTheDocument()
+      expect(screen.getByRole('link', { name: 'noReviewersAlert.linkLabel' })).toHaveAttribute(
+        'href',
+        'https://selfcare.test/users'
+      )
+      expect(
+        screen.queryByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_ADMIN_SIGNS' })
+      ).not.toBeInTheDocument()
+    })
+
+    it('keeps the plain "no reviewers" copy when nothing was assigned in the first place', () => {
+      renderComponent({ reviewers: [] })
+
+      expect(screen.getByText('noReviewersAlert.message')).toBeInTheDocument()
+      expect(screen.queryByText('noReviewersAlert.removedReviewerMessage')).not.toBeInTheDocument()
+    })
+
+    it('keeps the delegate alert when the delegate cannot assign reviewers anyway', () => {
+      renderComponent({
+        purpose: purposeWithRemovedReviewer(),
+        defaultValues,
+        reviewers: [],
+        isDelegate: true,
+      })
+
+      expect(screen.getByText('delegateAlert')).toBeInTheDocument()
+      expect(screen.queryByText('noReviewersAlert.removedReviewerMessage')).not.toBeInTheDocument()
+    })
+
+    it('falls back to the self-compilation mode on submit, dropping the dangling assignment', async () => {
+      const user = userEvent.setup()
+      const forward = vi.fn()
+      renderComponent({
+        purpose: purposeWithRemovedReviewer(),
+        defaultValues,
+        reviewers: [],
+        forward,
+      })
+
+      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+
+      expect(assignReviewerMock).not.toHaveBeenCalled()
+      expect(openDialogMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          type: 'editRiskAnalysisAssignment',
+          fromMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+          toMode: 'ADMIN_WRITES_ADMIN_SIGNS',
+          addedReviewerNames: [],
+          removedReviewerNames: ['Luca Neri'],
+        })
+      )
+
+      openDialogMock.mock.calls[0][0].onConfirm()
+
+      expect(assignReviewerMock).toHaveBeenCalledWith(
+        {
+          purposeId: 'purpose-id',
+          reviewMode: 'ADMIN_WRITES_ADMIN_SIGNS',
+          reviewerIds: undefined,
+        },
+        expect.objectContaining({ onSuccess: forward })
+      )
+    })
+
+    it('carries the reviewer-compilation mode into the dialog so the risk analysis loss is announced', async () => {
+      const user = userEvent.setup()
+      renderComponent({
+        purpose: buildAssignedPurpose('REVIEWER_WRITES_REVIEWER_SIGNS', [removedReviewer]),
+        defaultValues: {
+          reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
+          reviewerIds: [removedReviewer.userId],
+        },
+        reviewers: [],
+      })
+
+      // The CTA still reads from the persisted mode, which is the reviewer-compilation one.
+      await user.click(screen.getByRole('button', { name: 'requestReviewerCompilationBtn' }))
+
+      expect(openDialogMock).toHaveBeenCalledWith(
+        expect.objectContaining({
+          fromMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
+          toMode: 'ADMIN_WRITES_ADMIN_SIGNS',
+        })
+      )
+    })
+
+    it('does not touch the assignment on submit when the delegate alert is the one shown', async () => {
+      const user = userEvent.setup()
+      const forward = vi.fn()
+      renderComponent({
+        purpose: purposeWithRemovedReviewer(),
+        defaultValues,
+        reviewers: [],
+        isDelegate: true,
+        forward,
+      })
+
+      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+
+      expect(assignReviewerMock).not.toHaveBeenCalled()
+      expect(forward).toHaveBeenCalled()
+    })
+
+    it('blocks the submit when more than one assigned reviewer was removed', async () => {
+      const user = userEvent.setup()
+      const otherRemoved: CompactUser = {
+        userId: 'removed-uuid-2',
+        name: 'Sara',
+        familyName: 'Gialli',
+      }
+      renderComponent({
+        purpose: buildAssignedPurpose('ADMIN_WRITES_REVIEWER_SIGNS', [
+          removedReviewer,
+          otherRemoved,
+        ]),
+        defaultValues: {
+          reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+          reviewerIds: [removedReviewer.userId, otherRemoved.userId],
+        },
+      })
+
+      await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
+
+      expect(await screen.findByText('reviewerField.removedError')).toBeInTheDocument()
+      expect(assignReviewerMock).not.toHaveBeenCalled()
+    })
   })
 
   it('prefills the form from defaultValues so coming back to the step preserves the selection', () => {
     renderComponent({
       defaultValues: {
-        reviewMode: 'selfWritesReviewerSigns',
-        reviewerId: mockReviewer2.userId,
+        reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+        reviewerIds: [mockReviewer2.userId],
       },
     })
 
     expect(
-      screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesReviewerSigns' })
+      screen.getByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_REVIEWER_SIGNS' })
     ).toBeChecked()
-    expect(
-      screen.getByRole('combobox', {
-        name: 'reviewerField.inputLabel',
-      })
-    ).toHaveValue('Anna Verdi')
+    expect(screen.getByText('Anna Verdi')).toBeInTheDocument()
   })
 
   it('shows the info alert and hides the form when the institution has no reviewers', () => {
@@ -311,7 +668,7 @@ describe('PurposeEditStepAssignmentForm', () => {
       'https://selfcare.test/users'
     )
     expect(
-      screen.queryByRole('radio', { name: 'reviewModeField.options.selfWritesSelfSigns' })
+      screen.queryByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_ADMIN_SIGNS' })
     ).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'backWithoutSaveBtn' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'forwardBtn' })).toBeInTheDocument()
@@ -333,7 +690,7 @@ describe('PurposeEditStepAssignmentForm', () => {
 
     expect(screen.getByText('delegateAlert')).toBeInTheDocument()
     expect(
-      screen.queryByRole('radio', { name: 'reviewModeField.options.selfWritesSelfSigns' })
+      screen.queryByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_ADMIN_SIGNS' })
     ).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'backWithoutSaveBtn' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'forwardBtn' })).toBeInTheDocument()
@@ -356,7 +713,7 @@ describe('PurposeEditStepAssignmentForm', () => {
     expect(screen.queryByText('noReviewersAlert.message')).not.toBeInTheDocument()
     expect(screen.queryByText('delegateAlert')).not.toBeInTheDocument()
     expect(
-      screen.getByRole('radio', { name: 'reviewModeField.options.selfWritesSelfSigns' })
+      screen.getByRole('radio', { name: 'reviewModeField.options.ADMIN_WRITES_ADMIN_SIGNS' })
     ).toBeInTheDocument()
   })
 

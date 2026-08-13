@@ -1,6 +1,6 @@
 import type { Purpose, RiskAnalysisSigningState } from '@/api/api.generatedTypes'
 import { useTranslation } from 'react-i18next'
-import { match } from 'ts-pattern'
+import { match, P } from 'ts-pattern'
 
 type RiskAnalysisReviewChip = {
   label: string
@@ -35,7 +35,7 @@ export function useGetPurposeRiskAnalysisReviewStatus(
   })
 
   const signingState = purpose?.reviewerWorkflow?.signingState
-  const reviewMode = purpose?.reviewerWorkflow?.reviewMode
+  const reviewMode = purpose?.reviewMode
 
   const chip = match(signingState)
     .returnType<RiskAnalysisReviewChip | undefined>()
@@ -57,7 +57,7 @@ export function useGetPurposeRiskAnalysisReviewStatus(
     ? match(reviewMode)
         .with('ADMIN_WRITES_REVIEWER_SIGNS', () => t('infoAlert.adminWritesReviewerSigns'))
         .with('REVIEWER_WRITES_REVIEWER_SIGNS', () => t('infoAlert.reviewerWritesReviewerSigns'))
-        .with(undefined, () => undefined)
+        .with(P.union('ADMIN_WRITES_ADMIN_SIGNS', undefined), () => undefined)
         .exhaustive()
     : undefined
 

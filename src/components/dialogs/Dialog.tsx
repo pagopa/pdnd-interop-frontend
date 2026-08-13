@@ -28,6 +28,7 @@ import type {
   DialogSelectAgreementConsumerProps,
   DialogRequestPurposeApprovalProps,
   DialogRequestRiskAnalysisCompilationProps,
+  DialogEditRiskAnalysisAssignmentProps,
   DialogApproveRiskAnalysisProps,
   DialogRejectRiskAnalysisProps,
   DialogShowEserviceVersionsListProps,
@@ -62,6 +63,7 @@ import { DialogTenantKindPurposeTemplate } from './DialogTenantKindPurposeTempla
 import { DialogSelectAgreementConsumer } from './DialogSelectAgreementConsumer/DialogSelectAgreementConsumer'
 import { DialogRequestPurposeApproval } from './DialogRequestPurposeApproval'
 import { DialogRequestRiskAnalysisCompilation } from './DialogRequestRiskAnalysisCompilation'
+import { DialogEditRiskAnalysisAssignment } from './DialogEditRiskAnalysisAssignment'
 import { DialogApproveRiskAnalysis } from './DialogApproveRiskAnalysis'
 import { DialogRejectRiskAnalysis } from './DialogRejectRiskAnalysis'
 import { DialogShowEserviceVersionsList } from './DialogShowEserviceVersionsList/DialogShowEserviceVersionsList'
@@ -98,6 +100,7 @@ function match<T>(
   onSelectAgreementConsumer: (props: DialogSelectAgreementConsumerProps) => T,
   onRequestPurposeApproval: (props: DialogRequestPurposeApprovalProps) => T,
   onRequestRiskAnalysisCompilation: (props: DialogRequestRiskAnalysisCompilationProps) => T,
+  onEditRiskAnalysisAssignment: (props: DialogEditRiskAnalysisAssignmentProps) => T,
   onApproveRiskAnalysis: (props: DialogApproveRiskAnalysisProps) => T,
   onRejectRiskAnalysis: (props: DialogRejectRiskAnalysisProps) => T,
   onShowEserviceVersionsList: (props: DialogShowEserviceVersionsListProps) => T,
@@ -158,6 +161,8 @@ function match<T>(
         return onRequestPurposeApproval(props)
       case 'requestRiskAnalysisCompilation':
         return onRequestRiskAnalysisCompilation(props)
+      case 'editRiskAnalysisAssignment':
+        return onEditRiskAnalysisAssignment(props)
       case 'approveRiskAnalysis':
         return onApproveRiskAnalysis(props)
       case 'rejectRiskAnalysis':
@@ -208,6 +213,7 @@ const _Dialog = match(
   (props) => <DialogSelectAgreementConsumer {...props} />,
   (props) => <DialogRequestPurposeApproval {...props} />,
   (props) => <DialogRequestRiskAnalysisCompilation {...props} />,
+  (props) => <DialogEditRiskAnalysisAssignment {...props} />,
   (props) => <DialogApproveRiskAnalysis {...props} />,
   (props) => <DialogRejectRiskAnalysis {...props} />,
   (props) => <DialogShowEserviceVersionsList {...props} />,

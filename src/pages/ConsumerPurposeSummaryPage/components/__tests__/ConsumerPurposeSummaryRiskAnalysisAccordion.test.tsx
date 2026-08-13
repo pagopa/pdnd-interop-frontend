@@ -28,10 +28,12 @@ vi.mock('@/components/shared/RiskAnalysisInfoSummary', () => ({
 const setPurpose = (signingState: RiskAnalysisSigningState | undefined) => {
   const purpose: Purpose = {
     ...createMockPurpose(),
+    reviewMode: signingState ? 'REVIEWER_WRITES_REVIEWER_SIGNS' : undefined,
     reviewerWorkflow: signingState
       ? {
-          reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
-          reviewerIds: ['11111111-2222-3333-4444-555555555555'],
+          reviewers: [
+            { userId: '11111111-2222-3333-4444-555555555555', name: 'Mario', familyName: 'Rossi' },
+          ],
           signingState,
         }
       : undefined,

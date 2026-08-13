@@ -15,14 +15,14 @@ const buildPurpose = (
 ) => {
   const reviewerWorkflow: ReviewerWorkflow | undefined = signingState
     ? {
-        reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
-        reviewerIds: [],
+        reviewers: [],
         signingState,
       }
     : undefined
 
   return createMockPurpose({
     currentVersion: { state: currentVersionState },
+    reviewMode: signingState ? 'REVIEWER_WRITES_REVIEWER_SIGNS' : undefined,
     reviewerWorkflow,
   })
 }

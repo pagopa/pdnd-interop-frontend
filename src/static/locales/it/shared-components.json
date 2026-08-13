@@ -237,7 +237,8 @@
   },
   "dialogRequestRiskAnalysisCompilation": {
     "title": "Richiedi compilazione e approvazione",
-    "description": "Se confermi, assegnerai la compilazione e l'approvazione dell'analisi del rischio al valutatore <strong>{{reviewerName}}</strong> e non potrai più modificare questa scelta."
+    "description_one": "Se confermi, assegnerai la compilazione e l'approvazione dell'analisi del rischio al valutatore <strong>{{reviewerNames}}</strong> e non potrai più modificare questa scelta.",
+    "description_other": "Se confermi, assegnerai la compilazione e l'approvazione dell'analisi del rischio ai valutatori <strong>{{reviewerNames}}</strong> e non potrai più modificare questa scelta."
   },
   "dialogRejectDelegatedVersionDraft": {
     "title": "Rifiuta pubblicazione",
