@@ -11,6 +11,7 @@ import { useGetClientOperatorsActions } from '@/hooks/useGetClientOperatorsActio
 import type { CompactUser } from '@/api/api.generatedTypes'
 import { useQueryClient } from '@tanstack/react-query'
 import { SelfcareQueries } from '@/api/selfcare'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 
 interface ClientOperatorsTableRowProps {
   operator: CompactUser
@@ -29,7 +30,10 @@ export const ClientOperatorsTableRow: React.FC<ClientOperatorsTableRowProps> = (
   const { actions } = useGetClientOperatorsActions(operator.userId, clientId)
 
   const handlePrefetchOperator = () => {
-    queryClient.prefetchQuery(SelfcareQueries.getSingleUser(operator.userId))
+    queryClient.prefetchQuery({
+      ...SelfcareQueries.getSingleUser(operator.userId),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   const inspectRouteKey =

@@ -9,6 +9,7 @@ import useGetKeychainActions from '@/hooks/useGetKeychainActions'
 import type { CompactProducerKeychain } from '@/api/api.generatedTypes'
 import { useQueryClient } from '@tanstack/react-query'
 import { KeychainQueries } from '@/api/keychain/keychain.queries'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { Stack } from '@mui/material'
 import { NotificationBadgeDot } from '../NotificationBadgeDot/NotificationBadgeDot'
 
@@ -23,7 +24,10 @@ export const KeychainsTableRow: React.FC<KeychainsTableRow> = ({ keychain }) => 
   const { actions } = useGetKeychainActions(keychain)
 
   const handlePrefetch = () => {
-    queryClient.prefetchQuery(KeychainQueries.getSingle(keychain.id))
+    queryClient.prefetchQuery({
+      ...KeychainQueries.getSingle(keychain.id),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   const keychainNameCellData = (

@@ -1,5 +1,6 @@
 import React from 'react'
 import { AgreementQueries } from '@/api/agreement'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import type { AgreementListEntry } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
@@ -35,7 +36,10 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
   const isAgreementEditable = isAdmin && agreement.state === 'DRAFT'
 
   const handlePrefetch = () => {
-    queryClient.prefetchQuery(AgreementQueries.getSingle(agreement.id))
+    queryClient.prefetchQuery({
+      ...AgreementQueries.getSingle(agreement.id),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   const isDelegator = Boolean(

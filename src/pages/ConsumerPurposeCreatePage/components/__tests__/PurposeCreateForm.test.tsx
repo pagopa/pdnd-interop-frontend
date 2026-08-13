@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 import { useFormContext } from 'react-hook-form'
 import { PurposeCreateForm } from '../PurposeCreateForm'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
+import { createMockEServiceDescriptorCatalog } from '@/../__mocks__/data/eservice.mocks'
 
 vi.mock('@/router', () => ({
   useNavigate: () => vi.fn(),
@@ -24,13 +25,19 @@ vi.mock('@/api/purpose', () => ({
 vi.mock('@/api/eservice', () => ({
   EServiceQueries: {
     getAllCatalogEServices: () => ({ queryKey: ['eservices'], queryFn: vi.fn() }),
-    getDescriptorCatalog: () => ({ queryKey: ['descriptor'], queryFn: vi.fn() }),
+    getDescriptorCatalog: () => ({
+      queryKey: ['descriptor'],
+      queryFn: createMockEServiceDescriptorCatalog(),
+    }),
   },
 }))
 
 vi.mock('@/api/purposeTemplate/purposeTemplate.queries', () => ({
   PurposeTemplateQueries: {
-    getCatalogPurposeTemplates: () => ({ queryKey: ['purpose-templates'], queryFn: vi.fn() }),
+    getCatalogPurposeTemplates: () => ({
+      queryKey: ['purpose-templates'],
+      queryFn: () => ({ results: [{ id: 'tpl-1' }], totalCount: 1 }),
+    }),
   },
 }))
 
@@ -43,6 +50,12 @@ vi.mock('@tanstack/react-query', async () => {
       if (queryKey?.[0] === 'purpose-templates') {
         return {
           data: { results: [{ id: 'tpl-1' }], totalCount: 1 },
+          isLoading: false,
+        }
+      }
+      if (queryKey?.[0] === 'descriptor') {
+        return {
+          data: createMockEServiceDescriptorCatalog(),
           isLoading: false,
         }
       }

@@ -182,6 +182,7 @@ const UploadDocumentsSectionReadonly: React.FC<{
       <IconLink
         fontWeight={600}
         component="button"
+        type="button"
         onClick={() => handleDownloadDocument(doc)}
         endIcon={<DownloadIcon sx={{ ml: 1 }} fontSize="small" />}
       >

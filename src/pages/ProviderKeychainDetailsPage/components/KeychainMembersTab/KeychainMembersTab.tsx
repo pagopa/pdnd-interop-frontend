@@ -10,6 +10,7 @@ import { KeychainMembersTable, KeychainMembersTableSkeleton } from './KeychainMe
 import { KeychainMutations } from '@/api/keychain/keychain.mutations'
 import { KeychainQueries } from '@/api/keychain/keychain.queries'
 import { TenantQueries } from '@/api/tenant'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { AddUsersToKeychainDrawer } from '@/components/shared/AddUsersToKeychainDrawer'
 
 type KeychainMembersTabProps = {
@@ -40,12 +41,13 @@ export const KeychainMembersTab: React.FC<KeychainMembersTabProps> = ({ keychain
 
   const handlePrefetchUserList = () => {
     if (!canAddMembers) return
-    queryClient.prefetchQuery(
-      TenantQueries.getPartyUsersList({
+    queryClient.prefetchQuery({
+      ...TenantQueries.getPartyUsersList({
         roles: ['admin', 'security'],
         tenantId: jwt?.organizationId as string,
-      })
-    )
+      }),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   return (

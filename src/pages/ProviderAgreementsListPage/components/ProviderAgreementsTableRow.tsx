@@ -1,4 +1,5 @@
 import { AgreementQueries } from '@/api/agreement'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import type { AgreementListEntry } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
@@ -30,7 +31,10 @@ export const ProviderAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
   const descriptor = agreement.descriptor
 
   const handlePrefetch = () => {
-    queryClient.prefetchQuery(AgreementQueries.getSingle(agreement.id))
+    queryClient.prefetchQuery({
+      ...AgreementQueries.getSingle(agreement.id),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   const eserviceCellData = (
