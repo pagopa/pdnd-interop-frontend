@@ -156,6 +156,7 @@
     "scheduleArchiveEservice": {
       "outcome": {
         "success": "This e-service will be archived in {{days}} days",
+        "gracePeriodError": "You cannot archive the e-service before a version that is already being archived. Select a longer grace period.",
         "error": "This e-service could not be archived. Please try again later."
       }
     },

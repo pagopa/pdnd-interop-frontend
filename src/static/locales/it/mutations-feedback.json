@@ -156,6 +156,7 @@
     "scheduleArchiveEservice": {
       "outcome": {
         "success": "Questo e-service sarà archiviato tra {{days}} giorni",
+        "gracePeriodError": "Non puoi archiviare l’e-service prima di una versione già in fase di archiviazione. Seleziona una durata più lunga.",
         "error": "Non è stato possibile procedere con l'archiviazione di questo e-service. Riprova più tardi."
       }
     },
