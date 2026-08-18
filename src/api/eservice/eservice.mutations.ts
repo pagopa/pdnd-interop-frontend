@@ -9,8 +9,7 @@ import type {
 import { EServiceServices } from './eservice.services'
 import { EServiceQueries } from './eservice.queries'
 import type { AttributeKey } from '@/types/attribute.types'
-
-const GRACE_PERIOD_DAYS_LOWER_THAN_DESCRIPTOR_ERROR_CODE = '001-0070'
+import { GRACE_PERIOD_DAYS_LOWER_THAN_DESCRIPTOR_ERROR_CODE } from '@/config/constants'
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createDraft' })
