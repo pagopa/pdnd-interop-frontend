@@ -93,18 +93,32 @@ function setupMocks(overrides?: {
   ownedCertified?: ReturnType<typeof createStandardCertifiedTenantAttribute>[]
   ownedVerified?: ReturnType<typeof createVerifiedTenantAttribute>[]
   ownedDeclared?: ReturnType<typeof createDeclaredTenantAttribute>[]
+  delegatedCertified?: ReturnType<typeof createStandardCertifiedTenantAttribute>[][]
+  descriptorAttributes?: typeof baseDescriptor.attributes
 }) {
   mockUseJwt()
-  useSuspenseQueryMock.mockReturnValue({ data: baseDescriptor })
-  useSuspenseQueriesMock.mockReturnValue([
-    { data: { attributes: overrides?.ownedCertified ?? [] } },
-    { data: { attributes: overrides?.ownedVerified ?? [] } },
-    { data: { attributes: overrides?.ownedDeclared ?? [] } },
-  ])
+  useSuspenseQueryMock.mockReturnValue({
+    data: {
+      ...baseDescriptor,
+      attributes: overrides?.descriptorAttributes ?? baseDescriptor.attributes,
+    },
+  })
+  useSuspenseQueriesMock.mockReset()
+  useSuspenseQueriesMock
+    .mockReturnValueOnce([
+      { data: { attributes: overrides?.ownedCertified ?? [] } },
+      { data: { attributes: overrides?.ownedVerified ?? [] } },
+      { data: { attributes: overrides?.ownedDeclared ?? [] } },
+    ])
+    .mockReturnValueOnce(
+      (overrides?.delegatedCertified ?? []).map((attributes) => ({ data: { attributes } }))
+    )
 }
 
-function renderComponent() {
-  return renderWithApplicationContext(<ConsumerEServiceDescriptorAttributes />, {
+function renderComponent(
+  props: React.ComponentProps<typeof ConsumerEServiceDescriptorAttributes> = {}
+) {
+  return renderWithApplicationContext(<ConsumerEServiceDescriptorAttributes {...props} />, {
     withReactQueryContext: true,
     withRouterContext: true,
   })
@@ -217,5 +231,95 @@ describe('ConsumerEServiceDescriptorAttributes', () => {
     expect(screen.getByText('thresholds.title')).toBeInTheDocument()
     expect(screen.getByText('thresholds.dailyCallsPerConsumer.label')).toBeInTheDocument()
     expect(screen.getByText('thresholds.dailyCallsTotal.label')).toBeInTheDocument()
+  })
+
+  it('should show the custom threshold assigned to the consumer certified attribute', () => {
+    setupMocks({
+      ownedCertified: [
+        createStandardCertifiedTenantAttribute({
+          id: 'cert-attr-1',
+          revocationTimestamp: undefined,
+        }),
+      ],
+      descriptorAttributes: {
+        ...baseDescriptor.attributes,
+        certified: [[{ ...certifiedAttr, dailyCallsPerConsumer: 500 }]],
+      },
+    })
+    renderComponent()
+
+    expect(screen.getByText('thresholds.customized.title')).toBeInTheDocument()
+    expect(screen.getByText('thresholds.customized.currentTenantLabel')).toBeInTheDocument()
+    expect(screen.getByText('500')).toBeInTheDocument()
+    expect(screen.getByText('1000')).toBeInTheDocument()
+  })
+
+  it('should not show a custom threshold the consumer does not own', () => {
+    setupMocks({
+      descriptorAttributes: {
+        ...baseDescriptor.attributes,
+        certified: [[{ ...certifiedAttr, dailyCallsPerConsumer: 500 }]],
+      },
+    })
+    renderComponent()
+
+    expect(screen.getByText('1000')).toBeInTheDocument()
+    expect(screen.queryByText('500')).not.toBeInTheDocument()
+    expect(screen.queryByText('thresholds.customized.title')).not.toBeInTheDocument()
+  })
+
+  it('should show the custom threshold assigned to a consumer delegator', () => {
+    setupMocks({
+      delegatedCertified: [
+        [
+          createStandardCertifiedTenantAttribute({
+            id: 'cert-attr-1',
+            revocationTimestamp: undefined,
+          }),
+        ],
+      ],
+      descriptorAttributes: {
+        ...baseDescriptor.attributes,
+        certified: [[{ ...certifiedAttr, dailyCallsPerConsumer: 750 }]],
+      },
+    })
+    renderComponent({ delegators: [{ id: 'delegator-id', name: 'Delegator' }] })
+
+    expect(screen.getByText('thresholds.customized.title')).toBeInTheDocument()
+    expect(screen.getByText('Delegator')).toBeInTheDocument()
+    expect(screen.getByText('750')).toBeInTheDocument()
+    expect(screen.getByText('1000')).toBeInTheDocument()
+  })
+
+  it('should show the highest custom threshold among the certified attributes owned by the consumer', () => {
+    setupMocks({
+      ownedCertified: [
+        createStandardCertifiedTenantAttribute({
+          id: 'cert-attr-1',
+          revocationTimestamp: undefined,
+        }),
+        createStandardCertifiedTenantAttribute({
+          id: 'cert-attr-2',
+          revocationTimestamp: undefined,
+        }),
+      ],
+      descriptorAttributes: {
+        ...baseDescriptor.attributes,
+        certified: [
+          [{ ...certifiedAttr, dailyCallsPerConsumer: 500 }],
+          [
+            createMockDescriptorAttribute({
+              id: 'cert-attr-2',
+              name: 'Second certified attribute',
+              dailyCallsPerConsumer: 750,
+            }),
+          ],
+        ],
+      },
+    })
+    renderComponent()
+
+    expect(screen.getByText('750')).toBeInTheDocument()
+    expect(screen.queryByText('500')).not.toBeInTheDocument()
   })
 })
