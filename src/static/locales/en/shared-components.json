@@ -423,9 +423,11 @@
     "actions": {
       "customizeThreshold": "Customize threshold",
       "changeThreshold": "Change threshold",
+      "removeThreshold": "Remove threshold",
       "inspectAttributeDetails": "Attribute details",
       "modifyCertifiedDiscreteAttribute": "Modify attribute"
     },
+    "removeThresholdSuccess": "You removed the certified attribute API call threshold.",
 
     "na": "n/a"
   },
