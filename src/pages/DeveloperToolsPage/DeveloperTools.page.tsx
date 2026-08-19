@@ -1,10 +1,12 @@
 import React from 'react'
 import { PageContainer, SectionContainer } from '@/components/layout/containers'
-import { Grid, Stack, Tooltip } from '@mui/material'
+import { Button, Grid, Stack, Tooltip } from '@mui/material'
 import { Link } from '@/router'
 import DownloadIcon from '@mui/icons-material/Download'
 import UploadIcon from '@mui/icons-material/Upload'
+import LaunchIcon from '@mui/icons-material/Launch'
 import { useTranslation } from 'react-i18next'
+import { openApiCheckerLink, schemaEditorLink } from '@/config/constants'
 
 const DeveloperToolsPage: React.FC = () => {
   const { t } = useTranslation('developer-tools', { keyPrefix: 'developerTools.page' })
@@ -79,6 +81,42 @@ const DeveloperToolsPage: React.FC = () => {
                 {t('sectionDebugClientAssertion.button')}
               </Link>
             </Stack>
+          </SectionContainer>
+        </Grid>
+        <Grid item xs={7}>
+          <SectionContainer
+            title={t('sectionOpenApiChecker.title')}
+            description={t('sectionOpenApiChecker.description')}
+          >
+            <Button
+              component="a"
+              variant="outlined"
+              size="medium"
+              href={openApiCheckerLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              endIcon={<LaunchIcon />}
+            >
+              {t('sectionOpenApiChecker.button')}
+            </Button>
+          </SectionContainer>
+        </Grid>
+        <Grid item xs={7}>
+          <SectionContainer
+            title={t('sectionSchemaEditor.title')}
+            description={t('sectionSchemaEditor.description')}
+          >
+            <Button
+              component="a"
+              variant="outlined"
+              size="medium"
+              href={schemaEditorLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              endIcon={<LaunchIcon />}
+            >
+              {t('sectionSchemaEditor.button')}
+            </Button>
           </SectionContainer>
         </Grid>
       </Grid>

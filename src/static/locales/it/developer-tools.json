@@ -21,6 +21,16 @@
         "description": "Dopo aver creato e selezionato un client, puoi simulare l’ottenimento di un voucher attraverso questo strumento.",
         "firstButton": "Simula per e-service",
         "secondButton": "Simula per Interoperabilità"
+      },
+      "sectionOpenApiChecker": {
+        "title": "OpenAPI Checker",
+        "description": "Verifica la conformità delle tue specifiche OpenAPI alle linee guida italiane.",
+        "button": "Vai a OpenAPI Checker"
+      },
+      "sectionSchemaEditor": {
+        "title": "Schema Editor",
+        "description": "Crea e modifica gli schemi da utilizzare nelle tue specifiche API.",
+        "button": "Vai a Schema Editor"
       }
     }
   },

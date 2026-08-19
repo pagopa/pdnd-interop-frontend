@@ -21,6 +21,16 @@
         "description": "After creating and selecting a client, you can simulate obtaining a voucher through this tool.",
         "firstButton": "Simulate for e-service",
         "secondButton": "Simulate for Interop"
+      },
+      "sectionOpenApiChecker": {
+        "title": "OpenAPI Checker",
+        "description": "Check whether your OpenAPI specifications comply with the Italian guidelines.",
+        "button": "Go to OpenAPI Checker"
+      },
+      "sectionSchemaEditor": {
+        "title": "Schema Editor",
+        "description": "Create and edit the schemas to use in your API specifications.",
+        "button": "Go to Schema Editor"
       }
     }
   },

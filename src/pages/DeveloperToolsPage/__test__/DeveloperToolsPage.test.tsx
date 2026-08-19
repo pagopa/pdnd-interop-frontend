@@ -44,4 +44,28 @@ describe('Developer tools page', () => {
 
     expect(history.location.pathname).contain('/tool-sviluppo/debug-voucher')
   })
+
+  it('should render links to OpenAPI Checker and Schema Editor', () => {
+    renderWithApplicationContext(<DeveloperToolsPage />, {
+      withRouterContext: true,
+      withReactQueryContext: false,
+    })
+
+    expect(screen.getByRole('link', { name: 'sectionOpenApiChecker.button' })).toHaveAttribute(
+      'href',
+      'https://italia.github.io/api-oas-checker/'
+    )
+    expect(screen.getByRole('link', { name: 'sectionOpenApiChecker.button' })).toHaveAttribute(
+      'target',
+      '_blank'
+    )
+    expect(screen.getByRole('link', { name: 'sectionSchemaEditor.button' })).toHaveAttribute(
+      'href',
+      'https://schema.gov.it/schema-editor'
+    )
+    expect(screen.getByRole('link', { name: 'sectionSchemaEditor.button' })).toHaveAttribute(
+      'target',
+      '_blank'
+    )
+  })
 })
