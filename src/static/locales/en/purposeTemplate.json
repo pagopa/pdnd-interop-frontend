@@ -62,14 +62,10 @@
         "infoLabel": "Min 10 characters, max 250 characters"
       },
       "purposeTemplateIsFreeOfCharge": {
-        "radioButton": {
-          "label": "Indicate whether access to the data made available through the use of this E-service is free of charge.",
-          "YES": "Yes",
-          "NO": "No"
-        },
+        "switchLabel": "I am entitled to use the e-service free of charge",
         "reasonField": {
-          "label": "Justification for free-of-charge access (required)",
-          "infoLabel": "You are required to specify whether the provision of data free of charge is due to a legal exemption/exclusion or other reason. Min 10 characters, max 250 characters."
+          "label": "Explain why you can use the e-service free of charge (required)",
+          "infoLabel": "Specify whether this is based on a legal exemption or exclusion, or on another reason. Min 10, max 250 characters"
         }
       },
       "APICallsField": {
