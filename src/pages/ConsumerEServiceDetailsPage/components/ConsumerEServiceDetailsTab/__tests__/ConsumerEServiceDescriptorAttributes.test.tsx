@@ -14,6 +14,7 @@ import {
   createMockDescriptorAttribute,
   createMockAttribute,
 } from '@/../__mocks__/data/attribute.mocks'
+import { formatThousands } from '@/utils/format.utils'
 
 mockUseParams({
   eserviceId: 'eservice-id-001',
@@ -251,7 +252,7 @@ describe('ConsumerEServiceDescriptorAttributes', () => {
     expect(screen.getByText('thresholds.customized.title')).toBeInTheDocument()
     expect(screen.getByText('thresholds.customized.currentTenantLabel')).toBeInTheDocument()
     expect(screen.getByText('500')).toBeInTheDocument()
-    expect(screen.getByText('1000')).toBeInTheDocument()
+    expect(screen.getByText(formatThousands(1000))).toBeInTheDocument()
   })
 
   it('should not show a custom threshold the consumer does not own', () => {
@@ -263,7 +264,7 @@ describe('ConsumerEServiceDescriptorAttributes', () => {
     })
     renderComponent()
 
-    expect(screen.getByText('1000')).toBeInTheDocument()
+    expect(screen.getByText(formatThousands(1000))).toBeInTheDocument()
     expect(screen.queryByText('500')).not.toBeInTheDocument()
     expect(screen.queryByText('thresholds.customized.title')).not.toBeInTheDocument()
   })
@@ -288,7 +289,7 @@ describe('ConsumerEServiceDescriptorAttributes', () => {
     expect(screen.getByText('thresholds.customized.title')).toBeInTheDocument()
     expect(screen.getByText('Delegator')).toBeInTheDocument()
     expect(screen.getByText('750')).toBeInTheDocument()
-    expect(screen.getByText('1000')).toBeInTheDocument()
+    expect(screen.getByText(formatThousands(1000))).toBeInTheDocument()
   })
 
   it('should show the highest custom threshold among the certified attributes owned by the consumer', () => {
