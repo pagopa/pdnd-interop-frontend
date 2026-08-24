@@ -51,7 +51,9 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
 
   const handleArchive = () => {
     const gracePeriodDays = Number(formMethods.getValues('gracePeriodDays')) as GracePeriodDays
+    if (isDelegate) {
       requestArchive({ eserviceId, descriptorId, gracePeriodDays }, { onSuccess: closeDialog })
+      return
     }
 
     scheduleArchive({ eserviceId, descriptorId, gracePeriodDays }, { onSuccess: closeDialog })
