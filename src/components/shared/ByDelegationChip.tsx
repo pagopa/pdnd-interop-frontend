@@ -14,13 +14,10 @@ export const ByDelegationChip: React.FC<ByDelegationChipProps> = ({ delegation }
   const { t: tTooltip } = useTranslation('shared-components', { keyPrefix: 'delegationTooltip' })
   const { jwt } = AuthHooks.useJwt()
 
-  const tenantRole = delegation
-    ? delegation.delegator.id === jwt?.organizationId
-      ? 'DELEGATOR'
-      : delegation.delegate.id === jwt?.organizationId
-        ? 'DELEGATE'
-        : undefined
-    : undefined
+  const tenantRole = match(delegation)
+    .with({ delegator: { id: jwt?.organizationId } }, () => 'DELEGATOR' as const) // Delegante
+    .with({ delegate: { id: jwt?.organizationId } }, () => 'DELEGATE' as const) // Delegato
+    .otherwise(() => undefined)
 
   const tenantRoleLabel = match(tenantRole)
     .with('DELEGATOR', () => tChip('label.delegator'))

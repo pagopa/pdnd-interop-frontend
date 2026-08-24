@@ -34,7 +34,7 @@ vi.mock('@/api/eservice', () => ({
 
 const MY_ORG_ID = 'my-org-id'
 
-function renderRow(eservice: ReturnType<typeof createMockEServiceProvider>) {
+function render(eservice: ReturnType<typeof createMockEServiceProvider>) {
   return renderWithApplicationContext(<EServiceTableRow eservice={eservice} />, {
     withRouterContext: true,
     withReactQueryContext: true,
@@ -48,12 +48,12 @@ describe('EServiceTableRow', () => {
   })
 
   it('renders the eservice name', () => {
-    renderRow(createMockEServiceProvider({ name: 'My E-Service' }))
+    render(createMockEServiceProvider({ name: 'My E-Service' }))
     expect(screen.getByText('My E-Service')).toBeInTheDocument()
   })
 
   it('does not render ByDelegationChip when there is no delegation', () => {
-    renderRow(createMockEServiceProvider({ delegation: undefined }))
+    render(createMockEServiceProvider({ delegation: undefined }))
     expect(screen.queryByText('byDelegationChip.label.delegator')).not.toBeInTheDocument()
     expect(screen.queryByText('byDelegationChip.label.delegate')).not.toBeInTheDocument()
   })
@@ -63,7 +63,7 @@ describe('EServiceTableRow', () => {
       delegator: { id: MY_ORG_ID, name: 'My Org' },
       delegate: { id: 'other-org-id', name: 'Other Org' },
     })
-    renderRow(createMockEServiceProvider({ delegation }))
+    render(createMockEServiceProvider({ delegation }))
     expect(screen.getByText('label.delegator')).toBeInTheDocument()
   })
 
@@ -72,7 +72,7 @@ describe('EServiceTableRow', () => {
       delegator: { id: 'other-org-id', name: 'Other Org' },
       delegate: { id: MY_ORG_ID, name: 'My Org' },
     })
-    renderRow(createMockEServiceProvider({ delegation }))
+    render(createMockEServiceProvider({ delegation }))
     expect(screen.getByText('label.delegate')).toBeInTheDocument()
   })
 
@@ -86,7 +86,7 @@ describe('EServiceTableRow', () => {
         archivableOn: '2026-08-01T00:00:00Z',
       },
     })
-    renderRow(eservice)
+    render(eservice)
     // The global i18n mock returns the key itself; the tooltip aria-label is 'eservice'
     expect(screen.getByLabelText('eservice')).toBeInTheDocument()
   })
@@ -101,7 +101,7 @@ describe('EServiceTableRow', () => {
         archivableOn: undefined,
       },
     })
-    renderRow(eservice)
+    render(eservice)
     expect(screen.queryByLabelText(/scheduledArchivalTooltip/)).not.toBeInTheDocument()
   })
 
@@ -115,7 +115,7 @@ describe('EServiceTableRow', () => {
         archivableOn: undefined,
       },
     })
-    renderRow(eservice)
+    render(eservice)
     expect(screen.queryByLabelText(/scheduledArchivalTooltip/)).not.toBeInTheDocument()
   })
 
@@ -123,12 +123,12 @@ describe('EServiceTableRow', () => {
     const eservice = createMockEServiceProvider({
       activeDescriptor: { id: 'desc-id', state: 'PUBLISHED', version: '1', audience: [] },
     })
-    renderRow(eservice)
+    render(eservice)
     expect(screen.getByRole('link', { name: 'actions.inspect' })).toBeInTheDocument()
   })
 
   it('renders manageDraft button when there is no active descriptor (admin user)', () => {
-    renderRow(createMockEServiceProvider({ activeDescriptor: undefined }))
+    render(createMockEServiceProvider({ activeDescriptor: undefined }))
     expect(screen.getByRole('link', { name: 'actions.manageDraft' })).toBeInTheDocument()
   })
 })
