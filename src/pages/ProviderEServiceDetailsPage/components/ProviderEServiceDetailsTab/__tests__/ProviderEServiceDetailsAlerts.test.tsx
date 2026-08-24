@@ -55,13 +55,10 @@ describe('ProviderEServiceDetailsAlerts', () => {
   it('renders delegated archiving request info alert when latest request is not rejected', () => {
     const descriptor = createMockEServiceDescriptorProvider({
       state: 'PUBLISHED',
-      eservice: {
-        delegatedArchivingRequest: {
-          requestedAt: '2026-12-01T00:00:00.000Z',
-          requesterId: 'requester-id',
-          gracePeriodDays: 30,
-          archivingReason: 'Reason',
-        },
+      delegatedArchivingRequest: {
+        requestedAt: '2026-12-01T00:00:00.000Z',
+        requesterId: 'requester-id',
+        gracePeriodDays: 30,
       },
     })
 
@@ -78,15 +75,12 @@ describe('ProviderEServiceDetailsAlerts', () => {
         delegator: { id: 'delegator-id', name: 'Comune di Milano' },
         delegate: { id: 'delegate-id', name: 'Comune di Roma' },
       },
-      eservice: {
-        delegatedArchivingRequest: {
-          requestedAt: '2026-12-02T00:00:00.000Z',
-          rejectedAt: '2026-12-02T00:00:00.000Z',
-          rejectionReason: 'Motivazione di rifiuto',
-          requesterId: 'requester-id',
-          gracePeriodDays: 30,
-          archivingReason: 'Reason',
-        },
+      delegatedArchivingRequest: {
+        requestedAt: '2026-12-02T00:00:00.000Z',
+        rejectedAt: '2026-12-02T00:00:00.000Z',
+        rejectionReason: 'Motivazione di rifiuto',
+        requesterId: 'requester-id',
+        gracePeriodDays: 30,
       },
     })
 

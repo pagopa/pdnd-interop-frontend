@@ -2810,6 +2810,12 @@ export interface EServiceArchivingSeed {
   gracePeriodDays: GracePeriodDays;
 }
 
+/** Seed for an owner to reject a delegated archiving request */
+export interface RejectDelegatedEServiceArchivingSeed {
+  /** @minLength 1 */
+  rejectionReason: string;
+}
+
 export interface CompactPurposeTemplateEServiceTemplate {
   /** @format uuid */
   id: string;
@@ -3403,6 +3409,37 @@ export interface ScheduleArchiveEserviceParams {
    * @format uuid
    */
   eServiceId: string;
+}
+
+export interface ApproveDelegatedEServiceArchivingParams {
+  /** @format uuid */
+  eServiceId: string;
+}
+
+export interface RejectDelegatedEServiceArchivingParams {
+  /** @format uuid */
+  eServiceId: string;
+}
+
+export interface SubmitDelegatedEServiceArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface SubmitDelegatedDescriptorArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
 }
 
 export interface UpdateTemplateInstanceDescriptorParams {
@@ -6679,10 +6716,10 @@ export namespace Tenants {
   }
 
   /**
-   * @description Retrieve the certified attributes
+   * @description Retrieves the certified attributes assigned by the requester tenant acting as certifier, paired with the tenants they are assigned to. It does not return the attributes assigned to the requester tenant.
    * @tags tenants
    * @name GetRequesterCertifiedAttributes
-   * @summary Gets the certified attributes of the requester
+   * @summary Gets the certified attributes assigned by the requester as certifier
    * @request GET:/tenants/attributes/certified
    * @secure
    */
@@ -7548,6 +7585,93 @@ export namespace Eservices {
     };
     export type RequestQuery = {};
     export type RequestBody = EServiceArchivingSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows the owner (delegator) to approve a delegate's archiving request
+   * @tags eservices
+   * @name ApproveDelegatedEServiceArchiving
+   * @summary Approve a delegated archiving request for an E-Service
+   * @request POST:/eservices/{eServiceId}/approveDelegatedArchiving
+   * @secure
+   */
+  export namespace ApproveDelegatedEServiceArchiving {
+    export type RequestParams = {
+      /** @format uuid */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows the owner (delegator) to reject a delegate's archiving request
+   * @tags eservices
+   * @name RejectDelegatedEServiceArchiving
+   * @summary Reject a delegated archiving request for an E-Service
+   * @request POST:/eservices/{eServiceId}/rejectDelegatedArchiving
+   * @secure
+   */
+  export namespace RejectDelegatedEServiceArchiving {
+    export type RequestParams = {
+      /** @format uuid */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RejectDelegatedEServiceArchivingSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows a delegate to request the archiving of the specified E-Service. The owner must then approve or reject the request.
+   * @tags eservices
+   * @name SubmitDelegatedEServiceArchiving
+   * @summary Submit a delegated archiving request for an E-Service
+   * @request POST:/eservices/{eServiceId}/submitDelegatedArchiving
+   * @secure
+   */
+  export namespace SubmitDelegatedEServiceArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceArchivingSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows a delegate to request the archiving of the specified Descriptor. The owner must then approve or reject the request.
+   * @tags eservices
+   * @name SubmitDelegatedDescriptorArchiving
+   * @summary Submit a delegated archiving request for an E-Service
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/submitDelegatedArchiving
+   * @secure
+   */
+  export namespace SubmitDelegatedDescriptorArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = GracePeriodDaysSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }

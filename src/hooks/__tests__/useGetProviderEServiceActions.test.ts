@@ -7,7 +7,7 @@ import { act } from 'react-dom/test-utils'
 import { screen, waitFor } from '@testing-library/react'
 import type {
   ArchivingSchedule,
-  DelegatedEServiceArchivingRequest,
+  DelegatedDescriptorArchivingRequest,
   ProducerEService,
 } from '@/api/api.generatedTypes'
 
@@ -931,7 +931,8 @@ function renderDetailsPageHook(
   descriptorMock: ProducerEService,
   options: {
     archivingSchedule?: Pick<ArchivingSchedule, 'scope'> & Partial<ArchivingSchedule>
-    delegatedArchivingRequest?: DelegatedEServiceArchivingRequest
+    delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest
+    hasAnyActiveDelegatedArchivingRequest?: boolean
     latestDescriptorId?: string
     isActiveDescriptor?: boolean
     isEServiceBeingArchived?: boolean
@@ -967,7 +968,8 @@ function renderDetailsPageHook(
         hasMultipleVersions ? () => {} : undefined,
         options.isActiveDescriptor,
         options.isEServiceBeingArchived,
-        options.delegatedArchivingRequest
+        options.delegatedArchivingRequest,
+        options.hasAnyActiveDelegatedArchivingRequest
       ),
     {
       withReactQueryContext: true,
@@ -1047,7 +1049,6 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
         requestedAt: '2026-12-01T00:00:00.000Z',
         requesterId: 'requester-id',
         gracePeriodDays: 30,
-        archivingReason: 'Reason',
       },
     })
 
@@ -1079,7 +1080,6 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
         rejectedAt: '2026-12-03T00:00:00.000Z',
         requesterId: 'requester-id',
         gracePeriodDays: 30,
-        archivingReason: 'Reason',
         rejectionReason: 'Rejected',
       },
     })
@@ -1101,6 +1101,35 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     expect(screen.getByRole('button', { name: 'actions.requestArchiving' })).toBeInTheDocument()
   })
 
+  it('DEPRECATED delegate with no descriptor-level request but another active delegated request in the e-service: archiveVersion opens block dialog', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: {
+          id: 'organizationId',
+          name: 'Comune di Roma',
+        },
+      }),
+    })
+
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      delegatedArchivingRequest: undefined,
+      hasAnyActiveDelegatedArchivingRequest: true,
+    })
+
+    const archiveVersionAction = result.current.headerInfoActions.find(
+      (action) => action.label === 'archiveVersion'
+    )
+
+    expect(archiveVersionAction).toBeDefined()
+
+    act(() => {
+      archiveVersionAction?.action()
+    })
+
+    expect(screen.getByRole('button', { name: 'actions.goBack' })).toBeInTheDocument()
+  })
+
   it('DEPRECATED delegate with an existing delegatedArchivingRequest: cancelArchivingVersion action opens delegate pending cancel dialog', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
@@ -1115,7 +1144,6 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
         requestedAt: '2026-12-01T00:00:00.000Z',
         requesterId: 'requester-id',
         gracePeriodDays: 30,
-        archivingReason: 'Reason',
       },
     })
 
@@ -1151,7 +1179,6 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
         requestedAt: '2026-12-01T00:00:00.000Z',
         requesterId: 'requester-id',
         gracePeriodDays: 30,
-        archivingReason: 'Reason',
       },
     })
 
@@ -1176,7 +1203,6 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
         rejectedAt: '2026-12-03T00:00:00.000Z',
         requesterId: 'requester-id',
         gracePeriodDays: 30,
-        archivingReason: 'Reason',
         rejectionReason: 'Rejected',
       },
     })
@@ -1296,7 +1322,6 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
         requestedAt: '2026-12-01T00:00:00.000Z',
         requesterId: 'requester-new',
         gracePeriodDays: 30,
-        archivingReason: 'Reason',
       },
     })
 
@@ -1326,10 +1351,8 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
       archivingSchedule: { scope: 'DESCRIPTOR' },
       delegatedArchivingRequest: {
         requestedAt: '2026-12-01T00:00:00.000Z',
-        acceptedAt: '2026-12-02T00:00:00.000Z',
         requesterId: 'requester-new',
         gracePeriodDays: 30,
-        archivingReason: 'Reason',
       },
     })
 
@@ -1362,7 +1385,6 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
         requestedAt: '2026-12-01T00:00:00.000Z',
         requesterId: 'requester-new',
         gracePeriodDays: 30,
-        archivingReason: 'Reason',
       },
     })
 

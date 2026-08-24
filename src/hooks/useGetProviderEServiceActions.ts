@@ -1,6 +1,6 @@
 import type {
   ArchivingSchedule,
-  DelegatedEServiceArchivingRequest,
+  DelegatedDescriptorArchivingRequest,
   DelegationWithCompactTenants,
   EServiceDescriptorState,
   EServiceMode,
@@ -42,7 +42,8 @@ export function useGetProviderEServiceActions(
   onViewAllVersions?: () => void,
   isActiveDescriptor?: boolean,
   isEServiceBeingArchived?: boolean,
-  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest
+  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest,
+  hasAnyActiveDelegatedArchivingRequest?: boolean
 ): {
   primaryAction: ActionItemButton | undefined
   secondaryAction: ActionItemButton | undefined
@@ -60,6 +61,9 @@ export function useGetProviderEServiceActions(
 
   const isDelegator = delegation?.delegator.id === jwt?.organizationId
   const isDelegate = delegation?.delegate.id === jwt?.organizationId
+  const hasAnyDelegatedArchivingRequestInProgress = Boolean(
+    isDelegate && hasAnyActiveDelegatedArchivingRequest
+  )
   const isPendingDelegatedArchivingRequest = Boolean(
     isDelegate && delegatedArchivingRequest && !delegatedArchivingRequest.rejectedAt
   )
@@ -204,9 +208,7 @@ export function useGetProviderEServiceActions(
 
   const handleArchiveDescriptor = () => {
     if (activeDescriptorId) {
-      const hasDelegatedArchivingRequestInProgress = isPendingDelegatedArchivingRequest
-
-      if (hasDelegatedArchivingRequestInProgress) {
+      if (hasAnyDelegatedArchivingRequestInProgress) {
         openDialog({ type: 'blockArchivingRequest' })
         return
       }
@@ -229,6 +231,7 @@ export function useGetProviderEServiceActions(
 
   const handleCancelArchivingDescriptor = () => {
     const isDescriptorArchivingInProgress = state === 'ARCHIVING' || state === 'ARCHIVING_SUSPENDED'
+    const pendingArchivingDate = delegatedArchivingRequest?.requestedAt
 
     if (activeDescriptorId) {
       openDialog({
@@ -238,7 +241,9 @@ export function useGetProviderEServiceActions(
         isDelegate,
         delegatorName: delegation?.delegator.name,
         archivingApproved: isDescriptorArchivingInProgress,
-        archivingDate: archivingSchedule?.archivableOn,
+        archivingDate: isDescriptorArchivingInProgress
+          ? archivingSchedule?.archivableOn
+          : pendingArchivingDate,
       })
     }
   }
