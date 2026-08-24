@@ -104,11 +104,14 @@ describe('DialogArchiveVersion', () => {
     await userEvent.click(screen.getByRole('button', { name: 'actions.requestArchiving' }))
 
     expect(mockRequestArchive).toHaveBeenCalledTimes(1)
-    expect(mockRequestArchive).toHaveBeenCalledWith({
-      eserviceId: 'eservice-42',
-      descriptorId: 'descriptor-99',
-      gracePeriodDays: 60,
-    })
+    expect(mockRequestArchive).toHaveBeenCalledWith(
+      {
+        eserviceId: 'eservice-42',
+        descriptorId: 'descriptor-99',
+        gracePeriodDays: 60,
+      },
+      expect.objectContaining({ onSuccess: expect.any(Function) })
+    )
     expect(mockScheduleArchive).not.toHaveBeenCalled()
   })
 
