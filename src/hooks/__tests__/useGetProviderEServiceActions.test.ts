@@ -1031,7 +1031,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     ])
   })
 
-  it('DEPRECATED delegate with an existing delegatedArchivingRequest: header shows cancelArchivingVersion and hides archiveVersion', () => {
+  it('DEPRECATED descriptor as a delegate with an existing delegatedArchivingRequest: header must show cancelArchivingVersion button and hide archiveVersion button', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
       delegation: createMockDelegationWithCompactTenants({
@@ -1062,7 +1062,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     expect(cancelArchivingVersionAction).toBeDefined()
   })
 
-  it('DEPRECATED delegate with a rejected delegatedArchivingRequest: header shows archiveVersion and hides cancelArchivingVersion', async () => {
+  it('DEPRECATED descriptor as a delegate with a rejected delegatedArchivingRequest: header must show archiveVersion button and hide cancelArchivingVersion button', async () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
       delegation: createMockDelegationWithCompactTenants({

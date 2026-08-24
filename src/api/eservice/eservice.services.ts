@@ -222,7 +222,7 @@ function cancelDescriptorArchiving({
   )
 }
 
-function requestArchiveDescriptor({
+function submitDelegatedArchivingRequest({
   eserviceId,
   descriptorId,
   gracePeriodDays,
@@ -716,7 +716,7 @@ export const EServiceServices = {
   updateAgreementApprovalPolicy,
   reactivateVersion,
   scheduleArchiveDescriptor,
-  requestArchiveDescriptor,
+  submitDelegatedArchivingRequest,
   cancelDelegatedArchivingRequest,
   cancelDescriptorArchiving,
   scheduleArchiveEservice,

@@ -1174,7 +1174,6 @@ export function useGetProviderEServiceActions(
   const emptySlots = (): Slots => ({ primary: undefined, header: [], menu: [] })
 
   const newVersionAction = hasVersionDraft ? editDraftAction : createNewDraftAction
-  const isDelegateWithPendingDelegatedArchivingRequest = isPendingDelegatedArchivingRequest
 
   const cloneItems: Array<ActionItemButton> = isTemplateInstance ? [] : [cloneAction]
   const upgradeItems: Array<ActionItemButton> =
@@ -1213,7 +1212,7 @@ export function useGetProviderEServiceActions(
     }))
     .with({ state: 'DEPRECATED' }, () => ({
       primary: undefined,
-      header: isDelegateWithPendingDelegatedArchivingRequest
+      header: isPendingDelegatedArchivingRequest
         ? [suspendAction, cancelArchivingDescriptorAction]
         : [suspendAction, archiveDescriptorAction],
       menu: menuWithNewVersion,
@@ -1225,7 +1224,7 @@ export function useGetProviderEServiceActions(
     }))
     .with({ state: 'SUSPENDED' }, () => ({
       primary: undefined,
-      header: isDelegateWithPendingDelegatedArchivingRequest
+      header: isPendingDelegatedArchivingRequest
         ? [reactivateAction, cancelArchivingDescriptorAction]
         : [reactivateAction, archiveDescriptorAction],
       menu: menuWithNewVersion,

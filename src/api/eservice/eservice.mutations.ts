@@ -222,7 +222,7 @@ function useRequestArchiveDescriptor() {
     keyPrefix: 'eservice.requestArchiveDescriptor',
   })
   return useMutation({
-    mutationFn: EServiceServices.requestArchiveDescriptor,
+    mutationFn: EServiceServices.submitDelegatedArchivingRequest,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),

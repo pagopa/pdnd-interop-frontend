@@ -1,11 +1,10 @@
-import React from 'react'
-import { renderHook } from '@testing-library/react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { EServiceMutations } from '../eservice.mutations'
+import { queryClient } from '@/config/query-client'
+import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 
 vi.mock('../eservice.services', () => ({
   EServiceServices: {
-    requestArchiveDescriptor: vi.fn(),
+    submitDelegatedArchivingRequest: vi.fn(),
     cancelDelegatedArchivingRequest: vi.fn(),
   },
 }))
@@ -16,28 +15,16 @@ vi.mock('react-i18next', () => ({
   }),
 }))
 
-const createWrapper = () => {
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: { retry: false },
-      mutations: { retry: false },
-    },
-  })
-
-  const WrapperComponent = ({ children }: { children: React.ReactNode }) => (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  )
-  WrapperComponent.displayName = 'TestWrapper'
-
-  return { WrapperComponent, queryClient }
-}
+afterEach(() => {
+  queryClient.clear()
+})
 
 describe('EServiceMutations delegated archiving toasts', () => {
   it('useRequestArchiveDescriptor uses dedicated request-archiving toast labels', () => {
-    const { WrapperComponent, queryClient } = createWrapper()
-    const { result } = renderHook(() => EServiceMutations.useRequestArchiveDescriptor(), {
-      wrapper: WrapperComponent,
-    })
+    const { result } = renderHookWithApplicationContext(
+      () => EServiceMutations.useRequestArchiveDescriptor(),
+      { withReactQueryContext: true }
+    )
 
     result.current.mutate({
       eserviceId: 'eservice-id',
@@ -45,7 +32,7 @@ describe('EServiceMutations delegated archiving toasts', () => {
       gracePeriodDays: 60,
     })
 
-    const mutationMeta = queryClient.getMutationCache().getAll()[0]?.meta
+    const mutationMeta = queryClient.getMutationCache().getAll().at(-1)?.meta
 
     expect(mutationMeta?.successToastLabel).toBe(
       'eservice.requestArchiveDescriptor.outcome.success'
@@ -54,14 +41,14 @@ describe('EServiceMutations delegated archiving toasts', () => {
   })
 
   it('useCancelDelegatedArchivingRequest uses dedicated cancel-request toast labels', () => {
-    const { WrapperComponent, queryClient } = createWrapper()
-    const { result } = renderHook(() => EServiceMutations.useCancelDelegatedArchivingRequest(), {
-      wrapper: WrapperComponent,
-    })
+    const { result } = renderHookWithApplicationContext(
+      () => EServiceMutations.useCancelDelegatedArchivingRequest(),
+      { withReactQueryContext: true }
+    )
 
     result.current.mutate({ eserviceId: 'eservice-id' })
 
-    const mutationMeta = queryClient.getMutationCache().getAll()[0]?.meta
+    const mutationMeta = queryClient.getMutationCache().getAll().at(-1)?.meta
 
     expect(mutationMeta?.successToastLabel).toBe(
       'eservice.cancelDelegatedArchivingRequest.outcome.success'

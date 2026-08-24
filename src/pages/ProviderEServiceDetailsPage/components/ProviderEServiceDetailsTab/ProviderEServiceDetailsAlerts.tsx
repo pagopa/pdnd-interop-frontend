@@ -39,9 +39,11 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
     t,
   })
 
-  const delegatedArchivingRequest = descriptor.eservice.delegatedArchivingRequest
+  const { delegatedArchivingRequest } = descriptor.eservice
 
-  const { requestedAt, rejectionReason, rejectedAt } = delegatedArchivingRequest ?? {}
+  const requestedAt = delegatedArchivingRequest?.requestedAt
+  const rejectionReason = delegatedArchivingRequest?.rejectionReason
+  const rejectedAt = delegatedArchivingRequest?.rejectedAt
 
   const delegatorName = descriptor.delegation?.delegator.name || '-'
 
