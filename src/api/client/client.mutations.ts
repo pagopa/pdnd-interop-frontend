@@ -7,7 +7,6 @@ function useCreate() {
   return useMutation({
     mutationFn: ClientServices.create,
     meta: {
-      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
     },
@@ -19,7 +18,6 @@ function useCreateInteropM2M() {
   return useMutation({
     mutationFn: ClientServices.createInteropM2M,
     meta: {
-      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
     },

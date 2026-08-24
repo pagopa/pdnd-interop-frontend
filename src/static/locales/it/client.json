@@ -47,6 +47,11 @@
     "actions": {
       "createLabel": "Crea",
       "backToClientsLabel": "Torna ai client"
+    },
+    "thankYou": {
+      "title": "Hai creato un nuovo client",
+      "description": "Ora puoi associarlo a una finalità attiva per accedere ai dati di un e-service.",
+      "action": "Vai al client"
     }
   },
   "edit": {

@@ -1,5 +1,10 @@
 {
   "backToListBtn": "Back to templates",
+  "publishThankYou": {
+    "title": "You published the purpose template",
+    "description": "Entities can now use it to speed up access to e-service data.",
+    "action": "Go to template"
+  },
   "list": {
     "filters": {
       "nameField": {

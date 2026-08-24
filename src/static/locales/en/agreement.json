@@ -264,7 +264,12 @@
     "noContactEmailTooltip": "Before submitting the request, your party must enter a contact email",
     "noContactEmailAlert": "To submit this service request, it is necessary to provide a contact email. You can now add your email <1>using this form</1>.",
     "newVersionAlert": "This draft can no longer be activated. Since its creation, a new version of the e-service has been released. Delete it and create a new one.",
-    "delegatedAttributesAlert": "The attributes required and displayed on this page are related to the party <strong>{{delegatorName}}</strong>."
+    "delegatedAttributesAlert": "The attributes required and displayed on this page are related to the party <strong>{{delegatorName}}</strong>.",
+    "thankYou": {
+      "title": "You submitted the agreement request",
+      "description": "You will receive a notification when it is approved.",
+      "action": "Go to request"
+    }
   },
   "list": {
     "eserviceName": "{{name}}, v. {{version}}",

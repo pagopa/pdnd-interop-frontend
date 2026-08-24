@@ -51,9 +51,16 @@ const ConsumerAgreementCreatePage: React.FC = () => {
       { agreementId, consumerNotes, delegatorName: agreement?.consumer.name },
       {
         onSuccess() {
-          navigate('SUBSCRIBE_AGREEMENT_READ', {
-            params: {
-              agreementId: agreementId,
+          navigate('SUBSCRIBE_AGREEMENT_CREATE_THANK_YOU', {
+            params: { agreementId },
+            state: {
+              title: t('edit.thankYou.title'),
+              description: t('edit.thankYou.description'),
+              buttonLabel: t('edit.thankYou.action'),
+              closeRouteKey: 'SUBSCRIBE_AGREEMENT_READ',
+              closeRouteParams: {
+                agreementId,
+              },
             },
           })
         },
