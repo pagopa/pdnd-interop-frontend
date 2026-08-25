@@ -7,7 +7,7 @@ import { renderWithApplicationContext } from '@/utils/testing.utils'
 
 const mockCloseDialog = vi.fn()
 vi.mock('@/stores', async () => {
-  const actual = await vi.importActual<typeof import('@/stores')>('@/stores')
+  const actual = (await vi.importActual('@/stores')) as object
   return {
     ...actual,
     useDialog: () => ({ closeDialog: mockCloseDialog, openDialog: vi.fn() }),
@@ -17,9 +17,13 @@ vi.mock('@/stores', async () => {
 const mockCancelArchive = vi.fn((_params, options) => {
   options?.onSuccess?.()
 })
+const mockCancelArchiveRequest = vi.fn((_params, options) => {
+  options?.onSuccess?.()
+})
 vi.mock('@/api/eservice', () => ({
   EServiceMutations: {
     useCancelEserviceArchiving: () => ({ mutate: mockCancelArchive }),
+    useCancelDelegatedArchivingRequest: () => ({ mutate: mockCancelArchiveRequest }),
   },
 }))
 
@@ -54,6 +58,7 @@ describe('DialogCancelEserviceArchiving', () => {
     await userEvent.click(screen.getByRole('button', { name: 'cancel' }))
     expect(mockCloseDialog).toHaveBeenCalledTimes(1)
     expect(mockCancelArchive).not.toHaveBeenCalled()
+    expect(mockCancelArchiveRequest).not.toHaveBeenCalled()
   })
 
   it('invokes the cancel archive mutation with the correct eserviceId when clicking the destructive button', async () => {
@@ -65,6 +70,7 @@ describe('DialogCancelEserviceArchiving', () => {
       { eserviceId: 'eservice-42' },
       expect.objectContaining({ onSuccess: expect.any(Function) })
     )
+    expect(mockCancelArchiveRequest).not.toHaveBeenCalled()
   })
 
   it('closes the dialog after the cancel archive mutation succeeds', async () => {
@@ -72,5 +78,49 @@ describe('DialogCancelEserviceArchiving', () => {
 
     await userEvent.click(screen.getByRole('button', { name: 'actions.cancelArchiving' }))
     expect(mockCloseDialog).toHaveBeenCalledTimes(1)
+  })
+
+  it('renders delegate-specific pending labels and calls delegated cancel request mutation', async () => {
+    renderDialog({
+      isDelegate: true,
+      delegatorName: 'Comune di Milano',
+      archivingApproved: false,
+    })
+
+    expect(
+      screen.getByRole('button', { name: 'actions.keepArchivingDelegate' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'actions.cancelArchivingDelegate' })
+    ).toBeInTheDocument()
+    expect(screen.getByRole('alert')).toHaveTextContent('alertDelegate')
+
+    await userEvent.click(screen.getByRole('button', { name: 'actions.cancelArchivingDelegate' }))
+
+    expect(mockCancelArchiveRequest).toHaveBeenCalledTimes(1)
+    expect(mockCancelArchiveRequest).toHaveBeenCalledWith(
+      { eserviceId: 'eservice-id' },
+      expect.objectContaining({ onSuccess: expect.any(Function) })
+    )
+    expect(mockCancelArchive).not.toHaveBeenCalled()
+  })
+
+  it('renders delegate-approved variant and does not call mutations on action buttons', async () => {
+    renderDialog({
+      isDelegate: true,
+      delegatorName: 'Comune di Milano',
+      archivingApproved: true,
+      archivingDate: '2025-01-27T00:00:00.000Z',
+    })
+
+    expect(screen.getByRole('button', { name: 'actions.cancelApproved' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'actions.closeApproved' })).toBeInTheDocument()
+
+    await userEvent.click(screen.getByRole('button', { name: 'actions.cancelApproved' }))
+    await userEvent.click(screen.getByRole('button', { name: 'actions.closeApproved' }))
+
+    expect(mockCancelArchive).not.toHaveBeenCalled()
+    expect(mockCancelArchiveRequest).not.toHaveBeenCalled()
+    expect(mockCloseDialog).toHaveBeenCalledTimes(2)
   })
 })

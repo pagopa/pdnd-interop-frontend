@@ -98,7 +98,8 @@ const ProviderEServiceDetailsPage: React.FC = () => {
       isActiveDescriptor,
       isEServiceBeingArchived,
       descriptor?.delegatedArchivingRequest,
-      hasAnyActiveDelegatedArchivingRequest
+      hasAnyActiveDelegatedArchivingRequest,
+      descriptor?.eservice.delegatedArchivingRequest
     )
 
   return (

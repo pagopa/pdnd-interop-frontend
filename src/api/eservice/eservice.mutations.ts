@@ -272,6 +272,19 @@ function useScheduleArchiveEservice() {
   })
 }
 
+function useRequestArchiveEservice() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.requestArchiveEservice',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.submitDelegatedArchivingEserviceRequest,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
 function useCancelEserviceArchiving() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.cancelEserviceArchiving',
@@ -664,6 +677,7 @@ export const EServiceMutations = {
   useCancelDescriptorArchiving,
   useCancelDelegatedArchivingRequest,
   useScheduleArchiveEservice,
+  useRequestArchiveEservice,
   useCancelEserviceArchiving,
   useUpdateVersion,
   useDeleteVersionDraft,

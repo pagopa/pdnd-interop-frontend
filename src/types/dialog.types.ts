@@ -237,11 +237,17 @@ export type DialogShowEserviceVersionsListProps = {
 export type DialogArchiveEserviceProps = {
   type: 'archiveEservice'
   eserviceId: string
+  isDelegate?: boolean
+  delegatorName?: string
 }
 
 export type DialogCancelEserviceArchivingProps = {
   type: 'cancelEserviceArchiving'
   eserviceId: string
+  isDelegate?: boolean
+  delegatorName?: string
+  archivingApproved?: boolean
+  archivingDate?: string
 }
 
 export type DialogSuspendArchivingEserviceProps = {

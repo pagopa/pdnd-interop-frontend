@@ -258,6 +258,24 @@ function scheduleArchiveEservice({
   })
 }
 
+function submitDelegatedArchivingEserviceRequest({
+  eserviceId,
+  archivingReason,
+  gracePeriodDays,
+}: {
+  eserviceId: string
+  archivingReason: string
+  gracePeriodDays: GracePeriodDays
+}) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/submitDelegatedArchiving`,
+    {
+      archivingReason,
+      gracePeriodDays,
+    }
+  )
+}
+
 function cancelEserviceArchiving({ eserviceId }: { eserviceId: string }) {
   return axiosInstance.delete(`${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/scheduleArchive`)
 }
@@ -720,6 +738,7 @@ export const EServiceServices = {
   cancelDelegatedArchivingRequest,
   cancelDescriptorArchiving,
   scheduleArchiveEservice,
+  submitDelegatedArchivingEserviceRequest,
   cancelEserviceArchiving,
   deleteVersionDraft,
   addEServiceRiskAnalysis,

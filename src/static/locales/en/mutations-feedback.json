@@ -171,6 +171,12 @@
         "error": "This e-service could not be archived. Please try again later."
       }
     },
+    "requestArchiveEservice": {
+      "outcome": {
+        "success": "You have requested the archiving of this e-service from the delegating organization",
+        "error": "It was not possible to request the archiving of this e-service. Please try again later."
+      }
+    },
     "suspendVersion": {
       "loading": "E-service version is being suspended",
       "outcome": {

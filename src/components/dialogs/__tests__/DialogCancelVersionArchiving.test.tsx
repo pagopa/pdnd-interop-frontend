@@ -7,7 +7,7 @@ import { renderWithApplicationContext } from '@/utils/testing.utils'
 
 const mockCloseDialog = vi.fn()
 vi.mock('@/stores', async () => {
-  const actual = await vi.importActual<typeof import('@/stores')>('@/stores')
+  const actual = (await vi.importActual('@/stores')) as object
   return {
     ...actual,
     useDialog: () => ({ closeDialog: mockCloseDialog, openDialog: vi.fn() }),

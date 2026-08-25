@@ -171,6 +171,12 @@
         "error": "Non è stato possibile procedere con l'archiviazione di questo e-service. Riprova più tardi."
       }
     },
+    "requestArchiveEservice": {
+      "outcome": {
+        "success": "Hai richiesto l’archiviazione di questo e-service all’ente delegante",
+        "error": "Non è stato possibile richiedere l’archiviazione di questo e-service. Riprova più tardi."
+      }
+    },
     "suspendVersion": {
       "loading": "Stiamo sospendendo la versione",
       "outcome": {

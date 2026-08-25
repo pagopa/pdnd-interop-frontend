@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { formatDateStringNumeric } from '@/utils/format.utils'
 import { Drawer } from '@/components/shared/Drawer'
 import {
+  calculateDelegatedArchivableOn,
   getActiveDescriptor,
   getEServiceDescriptorAlertSpec,
   isDescriptorPendingArchiving,
@@ -20,7 +21,9 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
   descriptor,
   onViewKeychains,
 }) => {
-  const [isRejectionReasonDrawerOpen, setIsRejectionReasonDrawerOpen] = React.useState(false)
+  const [rejectionReasonDrawerTarget, setRejectionReasonDrawerTarget] = React.useState<
+    'descriptor' | 'eservice' | null
+  >(null)
 
   const { t } = useTranslation('eservice', { keyPrefix: 'read.alert' })
 
@@ -40,6 +43,7 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
   })
 
   const { delegatedArchivingRequest } = descriptor
+  const delegatedEServiceArchivingRequest = descriptor.eservice.delegatedArchivingRequest
 
   const requestedAt = delegatedArchivingRequest?.requestedAt
   const rejectionReason = delegatedArchivingRequest?.rejectionReason
@@ -51,6 +55,34 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
 
   const shouldShowDelegatedArchivingRequestAlert =
     Boolean(delegatedArchivingRequest) && !shouldShowDelegatedArchivingRequestRejectedAlert
+
+  const delegatedEServiceArchivingRequestedAt = delegatedEServiceArchivingRequest?.requestedAt
+  const delegatedEServiceArchivingAcceptedAt = delegatedEServiceArchivingRequest?.acceptedAt
+  const delegatedEServiceArchivingRejectedAt = delegatedEServiceArchivingRequest?.rejectedAt
+  const delegatedEServiceArchivingRejectionReason =
+    delegatedEServiceArchivingRequest?.rejectionReason
+
+  const delegatedEServiceArchivingDate = delegatedEServiceArchivingAcceptedAt
+    ? formatDateStringNumeric(
+        calculateDelegatedArchivableOn(
+          delegatedEServiceArchivingAcceptedAt,
+          delegatedEServiceArchivingRequest?.gracePeriodDays ?? 30
+        ).toISOString()
+      )
+    : '-'
+
+  const shouldShowDelegatedEServiceArchivingRequestRejectedAlert = Boolean(
+    delegatedEServiceArchivingRejectedAt
+  )
+
+  const shouldShowDelegatedEServiceArchivingRequestAcceptedAlert = Boolean(
+    delegatedEServiceArchivingAcceptedAt && !delegatedEServiceArchivingRejectedAt
+  )
+
+  const shouldShowDelegatedEServiceArchivingRequestAlert =
+    Boolean(delegatedEServiceArchivingRequest) &&
+    !delegatedEServiceArchivingAcceptedAt &&
+    !delegatedEServiceArchivingRejectedAt
 
   const shouldShowMissingKeychainAlert =
     descriptor.eservice.asyncExchange && !descriptor.eservice.hasProducerKeychain
@@ -68,6 +100,9 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
     !alert &&
     !shouldShowDelegatedArchivingRequestRejectedAlert &&
     !shouldShowDelegatedArchivingRequestAlert &&
+    !shouldShowDelegatedEServiceArchivingRequestRejectedAlert &&
+    !shouldShowDelegatedEServiceArchivingRequestAcceptedAlert &&
+    !shouldShowDelegatedEServiceArchivingRequestAlert &&
     !shouldShowMissingKeychainAlert &&
     !shouldShowMissingKeychainKeysAlert
   )
@@ -85,7 +120,7 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
               size="small"
               startIcon={<StickyNote2Icon />}
               sx={{ whiteSpace: 'nowrap' }}
-              onClick={() => setIsRejectionReasonDrawerOpen(true)}
+              onClick={() => setRejectionReasonDrawerTarget('descriptor')}
             >
               {t('delegatedDescriptorArchivingRequestRejectedAction')}
             </Button>
@@ -101,6 +136,40 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
           })}
         </Alert>
       )}
+      {shouldShowDelegatedEServiceArchivingRequestRejectedAlert && (
+        <Alert
+          severity="error"
+          action={
+            <Button
+              color="primary"
+              size="small"
+              startIcon={<StickyNote2Icon />}
+              sx={{ whiteSpace: 'nowrap' }}
+              onClick={() => setRejectionReasonDrawerTarget('eservice')}
+            >
+              {t('delegatedEServiceArchivingRequestRejectedAction')}
+            </Button>
+          }
+        >
+          {t('delegatedEServiceArchivingRequestRejected')}
+        </Alert>
+      )}
+      {shouldShowDelegatedEServiceArchivingRequestAcceptedAlert && (
+        <Alert severity="info">
+          {t('archivingEService', {
+            date: delegatedEServiceArchivingDate,
+          })}
+        </Alert>
+      )}
+      {shouldShowDelegatedEServiceArchivingRequestAlert && (
+        <Alert severity="info">
+          {t('delegatedEServiceArchivingRequest', {
+            date: delegatedEServiceArchivingRequestedAt
+              ? formatDateStringNumeric(delegatedEServiceArchivingRequestedAt)
+              : '-',
+          })}
+        </Alert>
+      )}
       {shouldShowMissingKeychainAlert && (
         <Alert severity="warning" action={viewKeychainsAction}>
           {t('providerMissingProducerKeychain')}
@@ -113,18 +182,35 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
       )}
 
       <Drawer
-        isOpen={isRejectionReasonDrawerOpen}
-        onClose={() => setIsRejectionReasonDrawerOpen(false)}
-        title={t('delegatedDescriptorArchivingRequestRejectedDrawerTitle')}
-        subtitle={t('delegatedDescriptorArchivingRequestRejectedDrawerSubtitle', {
-          name: delegatorName,
-        })}
+        isOpen={rejectionReasonDrawerTarget !== null}
+        onClose={() => setRejectionReasonDrawerTarget(null)}
+        title={
+          rejectionReasonDrawerTarget === 'eservice'
+            ? t('delegatedEServiceArchivingRequestRejectedDrawerTitle')
+            : t('delegatedDescriptorArchivingRequestRejectedDrawerTitle')
+        }
+        subtitle={
+          rejectionReasonDrawerTarget === 'eservice'
+            ? t('delegatedEServiceArchivingRequestRejectedDrawerSubtitle', {
+                name: delegatorName,
+              })
+            : t('delegatedDescriptorArchivingRequestRejectedDrawerSubtitle', {
+                name: delegatorName,
+              })
+        }
         buttonAction={{
-          label: t('delegatedDescriptorArchivingRequestRejectedDrawerAction'),
-          action: () => setIsRejectionReasonDrawerOpen(false),
+          label:
+            rejectionReasonDrawerTarget === 'eservice'
+              ? t('delegatedEServiceArchivingRequestRejectedDrawerAction')
+              : t('delegatedDescriptorArchivingRequestRejectedDrawerAction'),
+          action: () => setRejectionReasonDrawerTarget(null),
         }}
       >
-        <Typography variant="body2">{rejectionReason || '-'}</Typography>
+        <Typography variant="body2">
+          {rejectionReasonDrawerTarget === 'eservice'
+            ? delegatedEServiceArchivingRejectionReason || '-'
+            : rejectionReason || '-'}
+        </Typography>
       </Drawer>
     </Stack>
   )
