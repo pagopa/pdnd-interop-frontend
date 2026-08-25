@@ -60,6 +60,7 @@ export type DialogProps =
   | DialogReactivateArchivingDescriptorProps
   | DialogArchiveVersionProps
   | DialogCancelVersionArchivingProps
+  | DialogBlockArchivingRequestProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -271,10 +272,20 @@ export type DialogArchiveVersionProps = {
   type: 'archiveVersion'
   eserviceId: string
   descriptorId: string
+  isDelegate?: boolean
+  delegatorName?: string
 }
 
 export type DialogCancelVersionArchivingProps = {
   type: 'cancelVersionArchiving'
   eserviceId: string
   descriptorId: string
+  isDelegate?: boolean
+  delegatorName?: string
+  archivingApproved?: boolean
+  archivingDate?: string
+}
+
+export type DialogBlockArchivingRequestProps = {
+  type: 'blockArchivingRequest'
 }

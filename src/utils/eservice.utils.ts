@@ -138,6 +138,12 @@ export function calculateArchivableOn(now: Date, gracePeriodDays: number): Date 
   return d
 }
 
+export function calculateDelegatedArchivableOn(acceptedAt: string, gracePeriodDays: number): Date {
+  const d = new Date(acceptedAt)
+  d.setUTCDate(d.getUTCDate() + gracePeriodDays)
+  return d
+}
+
 export function isDescriptorPendingArchiving(state: EServiceDescriptorState | undefined): boolean {
   return state === 'ARCHIVING' || state === 'ARCHIVING_SUSPENDED'
 }

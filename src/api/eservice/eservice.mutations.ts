@@ -217,12 +217,38 @@ function useScheduleArchiveDescriptor() {
   })
 }
 
+function useRequestArchiveDescriptor() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.requestArchiveDescriptor',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.submitDelegatedArchivingRequest,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
 function useCancelDescriptorArchiving() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.cancelDescriptorArchiving',
   })
   return useMutation({
     mutationFn: EServiceServices.cancelDescriptorArchiving,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useCancelDelegatedArchivingRequest() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.cancelDelegatedArchivingRequest',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.cancelDelegatedArchivingRequest,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -634,7 +660,9 @@ export const EServiceMutations = {
   useSuspendVersion,
   useReactivateVersion,
   useScheduleArchiveDescriptor,
+  useRequestArchiveDescriptor,
   useCancelDescriptorArchiving,
+  useCancelDelegatedArchivingRequest,
   useScheduleArchiveEservice,
   useCancelEserviceArchiving,
   useUpdateVersion,

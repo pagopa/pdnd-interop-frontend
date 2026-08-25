@@ -141,10 +141,22 @@
         "error": "Non è stato possibile procedere con l'archiviazione di questa versione dell'e-service. Riprova più tardi."
       }
     },
+    "requestArchiveDescriptor": {
+      "outcome": {
+        "success": "Hai richiesto l’archiviazione di questa versione dell’e-service all’ente delegante",
+        "error": "Non è stato possibile richiedere l’archiviazione di questa versione dell’e-service. Riprova più tardi."
+      }
+    },
     "cancelDescriptorArchiving": {
       "outcome": {
         "success": "Questa versione non è più in fase di archiviazione",
         "error": "Non è stato possibile annullare l'archiviazione di questa versione dell'e-service. Riprova più tardi."
+      }
+    },
+    "cancelDelegatedArchivingRequest": {
+      "outcome": {
+        "success": "La richiesta di archiviazione di questa versione dell’e-service è stata annullata",
+        "error": "Non è stato possibile annullare la richiesta di archiviazione di questa versione dell’e-service. Riprova più tardi."
       }
     },
     "cancelEserviceArchiving": {

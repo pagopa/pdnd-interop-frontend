@@ -520,8 +520,10 @@ export interface CatalogEServiceDescriptor {
   /** @format date-time */
   archivedAt?: string;
   archivingSchedule?: ArchivingSchedule;
+  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest;
   asyncExchangeProperties?: AsyncExchangeProperties;
   asyncExchangeCallbackInterface?: EServiceDoc;
+  templateRef?: EServiceTemplateRef;
 }
 
 /** Models Client details */
@@ -582,6 +584,7 @@ export interface CatalogDescriptorEService {
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
   archivingReason?: string;
+  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest;
   asyncExchange?: boolean;
 }
 
@@ -600,8 +603,38 @@ export interface ProducerEServiceDetails {
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
   asyncExchange?: boolean;
+  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest;
   /** @format uuid */
   latestActiveDescriptorId?: string;
+}
+
+export interface DelegatedDescriptorArchivingRequest {
+  /** @format date-time */
+  requestedAt: string;
+  /** @format date-time */
+  acceptedAt?: string;
+  /** @format date-time */
+  rejectedAt?: string;
+  rejectionReason?: string;
+  /** @format uuid */
+  requesterId: string;
+  /** Number of days for the archiving grace period */
+  gracePeriodDays: GracePeriodDays;
+}
+
+export interface DelegatedEServiceArchivingRequest {
+  /** @format date-time */
+  requestedAt: string;
+  /** @format date-time */
+  acceptedAt?: string;
+  /** @format date-time */
+  rejectedAt?: string;
+  rejectionReason?: string;
+  /** @format uuid */
+  requesterId: string;
+  /** Number of days for the archiving grace period */
+  gracePeriodDays: GracePeriodDays;
+  archivingReason: string;
 }
 
 export interface ArchivingSchedule {
@@ -612,7 +645,7 @@ export interface ArchivingSchedule {
   /** Archiving Scope */
   scope: ArchivingScope;
   /** Number of days for the archiving grace period */
-  gracePeriodDays?: GracePeriodDays;
+  gracePeriodDays: GracePeriodDays;
 }
 
 export interface EServiceRiskAnalysisSeed {
@@ -701,6 +734,7 @@ export interface ProducerEServiceDescriptor {
   asyncExchangeCallbackInterface?: EServiceDoc;
   delegation?: DelegationWithCompactTenants;
   archivingSchedule?: ArchivingSchedule;
+  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest;
 }
 
 export interface ProducerDescriptorEService {
@@ -725,6 +759,7 @@ export interface ProducerDescriptorEService {
   personalData?: boolean;
   instanceLabel?: string;
   asyncExchange?: boolean;
+  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest;
 }
 
 export interface ProducerDescriptorEServiceProducer {
@@ -917,6 +952,7 @@ export interface CompactDescriptor {
   templateVersionId?: string;
   /** @format date-time */
   archivableOn?: string;
+  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest;
 }
 
 export interface TemplateInstanceInterfaceServerUrlSeed {
@@ -1133,6 +1169,8 @@ export interface CompactProducerDescriptor {
   version: string;
   audience: string[];
   requireCorrections?: boolean;
+  /** @format date-time */
+  archivableOn?: string;
 }
 
 export interface ProducerEService {
@@ -1372,17 +1410,6 @@ export interface RiskAnalysisTemplateAnswerAnnotationSeed {
    * @maxLength 2000
    */
   text: string;
-}
-
-export interface EServiceDescriptorPurposeTemplate {
-  /** @format uuid */
-  purposeTemplateId: string;
-  /** @format uuid */
-  eserviceId: string;
-  /** @format uuid */
-  descriptorId: string;
-  /** @format date-time */
-  createdAt: string;
 }
 
 export interface LinkableEServiceRequest {
@@ -2767,20 +2794,6 @@ export interface UserNotificationConfigUpdateSeed {
   emailConfig: NotificationConfig;
 }
 
-export interface EServiceDescriptorsPurposeTemplate {
-  results: EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescriptor[];
-  pagination: Pagination;
-}
-
-export interface EServiceDescriptorPurposeTemplateWithCompactEServiceAndDescriptor {
-  /** @format uuid */
-  purposeTemplateId: string;
-  eservice: CompactPurposeTemplateEService;
-  descriptor: CompactDescriptor;
-  /** @format date-time */
-  createdAt: string;
-}
-
 export interface GracePeriodDaysSeed {
   /** Number of days for the archiving grace period */
   gracePeriodDays: GracePeriodDays;
@@ -2795,6 +2808,12 @@ export interface EServiceArchivingSeed {
   archivingReason: string;
   /** Number of days for the archiving grace period */
   gracePeriodDays: GracePeriodDays;
+}
+
+/** Seed for an owner to reject a delegated archiving request */
+export interface RejectDelegatedEServiceArchivingSeed {
+  /** @minLength 1 */
+  rejectionReason: string;
 }
 
 export interface CompactPurposeTemplateEServiceTemplate {
@@ -3390,6 +3409,37 @@ export interface ScheduleArchiveEserviceParams {
    * @format uuid
    */
   eServiceId: string;
+}
+
+export interface ApproveDelegatedEServiceArchivingParams {
+  /** @format uuid */
+  eServiceId: string;
+}
+
+export interface RejectDelegatedEServiceArchivingParams {
+  /** @format uuid */
+  eServiceId: string;
+}
+
+export interface SubmitDelegatedEServiceArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface SubmitDelegatedDescriptorArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
 }
 
 export interface UpdateTemplateInstanceDescriptorParams {
@@ -4226,32 +4276,6 @@ export interface UnlinkResourceFromPurposeTemplateParams {
   purposeTemplateId: string;
 }
 
-export interface LinkEServiceToPurposeTemplatePayload {
-  /** @format uuid */
-  eserviceId: string;
-}
-
-export interface LinkEServiceToPurposeTemplateParams {
-  /**
-   * the purpose template id
-   * @format uuid
-   */
-  purposeTemplateId: string;
-}
-
-export interface UnlinkEServiceToPurposeTemplatePayload {
-  /** @format uuid */
-  eserviceId: string;
-}
-
-export interface UnlinkEServiceToPurposeTemplateParams {
-  /**
-   * the purpose template id
-   * @format uuid
-   */
-  purposeTemplateId: string;
-}
-
 export interface GetPurposeTemplateLinkableResourcesParams {
   /**
    * Fuzzy match on resource name (e-service name for concrete entries,
@@ -4265,29 +4289,6 @@ export interface GetPurposeTemplateLinkableResourcesParams {
    * @default []
    */
   publisherIds?: string[];
-  /**
-   * @format int32
-   * @min 0
-   */
-  offset: number;
-  /**
-   * @format int32
-   * @min 1
-   * @max 50
-   */
-  limit: number;
-  /** @format uuid */
-  purposeTemplateId: string;
-}
-
-export interface GetPurposeTemplateEServicesParams {
-  /**
-   * comma separated sequence of e-service producer IDs
-   * @default []
-   */
-  producerIds?: string[];
-  /** filter linked e-services by name */
-  eserviceName?: string;
   /**
    * @format int32
    * @min 0
@@ -6715,10 +6716,10 @@ export namespace Tenants {
   }
 
   /**
-   * @description Retrieve the certified attributes
+   * @description Retrieves the certified attributes assigned by the requester tenant acting as certifier, paired with the tenants they are assigned to. It does not return the attributes assigned to the requester tenant.
    * @tags tenants
    * @name GetRequesterCertifiedAttributes
-   * @summary Gets the certified attributes of the requester
+   * @summary Gets the certified attributes assigned by the requester as certifier
    * @request GET:/tenants/attributes/certified
    * @secure
    */
@@ -7584,6 +7585,93 @@ export namespace Eservices {
     };
     export type RequestQuery = {};
     export type RequestBody = EServiceArchivingSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows the owner (delegator) to approve a delegate's archiving request
+   * @tags eservices
+   * @name ApproveDelegatedEServiceArchiving
+   * @summary Approve a delegated archiving request for an E-Service
+   * @request POST:/eservices/{eServiceId}/approveDelegatedArchiving
+   * @secure
+   */
+  export namespace ApproveDelegatedEServiceArchiving {
+    export type RequestParams = {
+      /** @format uuid */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows the owner (delegator) to reject a delegate's archiving request
+   * @tags eservices
+   * @name RejectDelegatedEServiceArchiving
+   * @summary Reject a delegated archiving request for an E-Service
+   * @request POST:/eservices/{eServiceId}/rejectDelegatedArchiving
+   * @secure
+   */
+  export namespace RejectDelegatedEServiceArchiving {
+    export type RequestParams = {
+      /** @format uuid */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RejectDelegatedEServiceArchivingSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows a delegate to request the archiving of the specified E-Service. The owner must then approve or reject the request.
+   * @tags eservices
+   * @name SubmitDelegatedEServiceArchiving
+   * @summary Submit a delegated archiving request for an E-Service
+   * @request POST:/eservices/{eServiceId}/submitDelegatedArchiving
+   * @secure
+   */
+  export namespace SubmitDelegatedEServiceArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceArchivingSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows a delegate to request the archiving of the specified Descriptor. The owner must then approve or reject the request.
+   * @tags eservices
+   * @name SubmitDelegatedDescriptorArchiving
+   * @summary Submit a delegated archiving request for an E-Service
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/submitDelegatedArchiving
+   * @secure
+   */
+  export namespace SubmitDelegatedDescriptorArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = GracePeriodDaysSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
@@ -9028,7 +9116,7 @@ export namespace Templates {
     export type RequestQuery = {};
     export type RequestBody = InstanceEServiceSeed;
     export type RequestHeaders = {};
-    export type ResponseBody = CreatedResource;
+    export type ResponseBody = CreatedEServiceDescriptor;
   }
 
   /**
@@ -9809,50 +9897,6 @@ export namespace PurposeTemplates {
   }
 
   /**
-   * @description Link one Eservice to Purpose Template (Draft or Active state)
-   * @tags purposeTemplates
-   * @name LinkEServiceToPurposeTemplate
-   * @summary Link one Eservice to Purpose Template
-   * @request POST:/purposeTemplates/{purposeTemplateId}/linkEservice
-   * @secure
-   */
-  export namespace LinkEServiceToPurposeTemplate {
-    export type RequestParams = {
-      /**
-       * the purpose template id
-       * @format uuid
-       */
-      purposeTemplateId: string;
-    };
-    export type RequestQuery = {};
-    export type RequestBody = LinkEServiceToPurposeTemplatePayload;
-    export type RequestHeaders = {};
-    export type ResponseBody = EServiceDescriptorPurposeTemplate;
-  }
-
-  /**
-   * @description Unlink one Eservice from Purpose Template (Draft or Active state)
-   * @tags purposeTemplates
-   * @name UnlinkEServiceToPurposeTemplate
-   * @summary Unlink one Eservice from Purpose Template
-   * @request POST:/purposeTemplates/{purposeTemplateId}/unlinkEservice
-   * @secure
-   */
-  export namespace UnlinkEServiceToPurposeTemplate {
-    export type RequestParams = {
-      /**
-       * the purpose template id
-       * @format uuid
-       */
-      purposeTemplateId: string;
-    };
-    export type RequestQuery = {};
-    export type RequestBody = UnlinkEServiceToPurposeTemplatePayload;
-    export type RequestHeaders = {};
-    export type ResponseBody = void;
-  }
-
-  /**
    * @description Retrieve the unified list of resources linkable to a purpose template, currently associated with it. Each entry is either a concrete e-service (`resourceKind=ESERVICE`) or an e-service template (`resourceKind=ESERVICE_TEMPLATE`). Results are sorted by `createdAt` DESC (most recent links first), unified across both kinds. `totalCount` reflects the real total of linkable entries (concrete + templates). Behavior on missing referenced resources is fail-fast: if any link points to a removed e-service, descriptor, e-service template, version or tenant, the request returns 404.
    * @tags purposeTemplates
    * @name GetPurposeTemplateLinkableResources
@@ -9893,44 +9937,6 @@ export namespace PurposeTemplates {
     export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = LinkableResources;
-  }
-
-  /**
-   * @description Retrieve e-services linked to a purpose template
-   * @tags purposeTemplates
-   * @name GetPurposeTemplateEServices
-   * @summary Get Purpose Template E-Services
-   * @request GET:/purposeTemplates/{purposeTemplateId}/eservices
-   * @secure
-   */
-  export namespace GetPurposeTemplateEServices {
-    export type RequestParams = {
-      /** @format uuid */
-      purposeTemplateId: string;
-    };
-    export type RequestQuery = {
-      /**
-       * comma separated sequence of e-service producer IDs
-       * @default []
-       */
-      producerIds?: string[];
-      /** filter linked e-services by name */
-      eserviceName?: string;
-      /**
-       * @format int32
-       * @min 0
-       */
-      offset: number;
-      /**
-       * @format int32
-       * @min 1
-       * @max 50
-       */
-      limit: number;
-    };
-    export type RequestBody = never;
-    export type RequestHeaders = {};
-    export type ResponseBody = EServiceDescriptorsPurposeTemplate;
   }
 
   /**
