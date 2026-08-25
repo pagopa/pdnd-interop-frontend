@@ -1,6 +1,6 @@
 import React from 'react'
 import { PageContainer, SectionContainer } from '@/components/layout/containers'
-import { Button, Grid, Stack, Tooltip } from '@mui/material'
+import { Box, Button, Grid, Stack, Tooltip } from '@mui/material'
 import { Link } from '@/router'
 import DownloadIcon from '@mui/icons-material/Download'
 import UploadIcon from '@mui/icons-material/Upload'
@@ -85,38 +85,42 @@ const DeveloperToolsPage: React.FC = () => {
         </Grid>
         <Grid item xs={7}>
           <SectionContainer
-            title={t('sectionOpenApiChecker.title')}
-            description={t('sectionOpenApiChecker.description')}
+            title={t('sectionOpenApiAnalysis.title')}
+            description={
+              <Box>
+                {t('sectionOpenApiAnalysis.description')}
+                <Box component="ul" sx={{ m: 0, pl: 3 }}>
+                  <li>{t('sectionOpenApiAnalysis.openApiCheckerDescription')}</li>
+                  <li>{t('sectionOpenApiAnalysis.schemaEditorDescription')}</li>
+                </Box>
+              </Box>
+            }
+            descriptionTypographyProps={{ component: 'div' }}
           >
-            <Button
-              component="a"
-              variant="outlined"
-              size="medium"
-              href={openApiCheckerLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              endIcon={<LaunchIcon />}
-            >
-              {t('sectionOpenApiChecker.button')}
-            </Button>
-          </SectionContainer>
-        </Grid>
-        <Grid item xs={7}>
-          <SectionContainer
-            title={t('sectionSchemaEditor.title')}
-            description={t('sectionSchemaEditor.description')}
-          >
-            <Button
-              component="a"
-              variant="outlined"
-              size="medium"
-              href={schemaEditorLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              endIcon={<LaunchIcon />}
-            >
-              {t('sectionSchemaEditor.button')}
-            </Button>
+            <Stack direction="row" spacing={2}>
+              <Button
+                component="a"
+                variant="contained"
+                size="medium"
+                href={openApiCheckerLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                endIcon={<LaunchIcon />}
+              >
+                {t('sectionOpenApiAnalysis.openApiCheckerButton')}
+              </Button>
+              <Button
+                component="a"
+                variant="outlined"
+                size="medium"
+                href={schemaEditorLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                endIcon={<LaunchIcon />}
+              >
+                {t('sectionOpenApiAnalysis.schemaEditorButton')}
+              </Button>
+            </Stack>
           </SectionContainer>
         </Grid>
       </Grid>

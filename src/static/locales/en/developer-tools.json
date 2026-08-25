@@ -22,15 +22,13 @@
         "firstButton": "Simulate for e-service",
         "secondButton": "Simulate for Interop"
       },
-      "sectionOpenApiChecker": {
-        "title": "OpenAPI Checker",
-        "description": "Check whether your OpenAPI specifications comply with the Italian guidelines.",
-        "button": "Go to OpenAPI Checker"
-      },
-      "sectionSchemaEditor": {
-        "title": "Schema Editor",
-        "description": "Create and edit the schemas to use in your API specifications.",
-        "button": "Go to Schema Editor"
+      "sectionOpenApiAnalysis": {
+        "title": "OpenAPI file analysis",
+        "description": "Before publishing, you can validate the OpenAPI file of a REST interface with these tools:",
+        "openApiCheckerDescription": "check technical compliance with the ModI guidelines using OpenAPI Checker;",
+        "schemaEditorDescription": "check the semantic quality of your data schema through the score calculated by Schema Editor.",
+        "openApiCheckerButton": "OpenAPI Checker",
+        "schemaEditorButton": "Schema Editor"
       }
     }
   },

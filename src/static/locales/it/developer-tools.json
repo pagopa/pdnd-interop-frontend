@@ -22,15 +22,13 @@
         "firstButton": "Simula per e-service",
         "secondButton": "Simula per Interoperabilità"
       },
-      "sectionOpenApiChecker": {
-        "title": "OpenAPI Checker",
-        "description": "Verifica la conformità delle tue specifiche OpenAPI alle linee guida italiane.",
-        "button": "Vai a OpenAPI Checker"
-      },
-      "sectionSchemaEditor": {
-        "title": "Schema Editor",
-        "description": "Crea e modifica gli schemi da utilizzare nelle tue specifiche API.",
-        "button": "Vai a Schema Editor"
+      "sectionOpenApiAnalysis": {
+        "title": "Analisi file OpenAPI",
+        "description": "Prima della pubblicazione, puoi verificare il file OpenAPI di un’interfaccia REST con questi strumenti per:",
+        "openApiCheckerDescription": "controllare la conformità tecnica secondo le linee guida ModI con OpenAPI Checker;",
+        "schemaEditorDescription": "verificare la qualità semantica del tuo schema dati attraverso lo score calcolato dallo Schema Editor.",
+        "openApiCheckerButton": "OpenAPI Checker",
+        "schemaEditorButton": "Schema Editor"
       }
     }
   },
