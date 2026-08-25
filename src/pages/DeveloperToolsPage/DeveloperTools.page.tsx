@@ -89,7 +89,7 @@ const DeveloperToolsPage: React.FC = () => {
             description={
               <Box>
                 {t('sectionOpenApiAnalysis.description')}
-                <Box component="ul" sx={{ m: 0, pl: 3 }}>
+                <Box component="ul" sx={{ m: 0, pl: 3, listStyleType: 'square' }}>
                   <li>{t('sectionOpenApiAnalysis.openApiCheckerDescription')}</li>
                   <li>{t('sectionOpenApiAnalysis.schemaEditorDescription')}</li>
                 </Box>
