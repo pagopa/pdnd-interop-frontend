@@ -69,6 +69,7 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
   return (
     <>
       <SectionContainer
+        component="dl"
         title={t('title')}
         bottomActions={[
           showTechnicalDetailsAction,
