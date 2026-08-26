@@ -654,7 +654,7 @@
       "delegatedDescriptorArchivingRequestRejectedDrawerSubtitle": "L’ente delegante {{name}} ha rifiutato la richiesta di archiviazione con questa motivazione.",
       "delegatedDescriptorArchivingRequestRejectedDrawerAction": "Chiudi",
       "delegatedEServiceArchivingRequest": "Il giorno {{date}} hai richiesto l’archiviazione dell’e-service all’ente delegante. L’ente delegante può approvarla o rifiutarla con una motivazione.",
-      "delegatedEServiceArchivingRequestRejected": "L’ente delegante ha rifiutato la richiesta di archiviazione dell’e-service. Leggi la motivazione o contatta l’ente delegante. Puoi richiedere di nuovo l’archiviazione della versione in qualsiasi momento.",
+      "delegatedEServiceArchivingRequestRejected": "L’ente delegante ha rifiutato la richiesta di archiviazione dell’e-service. Leggi la motivazione o contatta l’ente delegante. Puoi richiedere di nuovo l’archiviazione di questo e-service in qualsiasi momento.",
       "delegatedEServiceArchivingRequestRejectedAction": "Leggi motivazione",
       "delegatedEServiceArchivingRequestRejectedDrawerTitle": "Rifiuto richiesta di archiviazione",
       "delegatedEServiceArchivingRequestRejectedDrawerSubtitle": "L’ente delegante {{name}} ha rifiutato la richiesta di archiviazione con questa motivazione.",

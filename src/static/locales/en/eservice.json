@@ -654,7 +654,7 @@
       "delegatedDescriptorArchivingRequestRejectedDrawerSubtitle": "The delegating institution {{name}} rejected the archiving request with this reason.",
       "delegatedDescriptorArchivingRequestRejectedDrawerAction": "Close",
       "delegatedEServiceArchivingRequest": "On {{date}} you requested archiving of the e-service to the delegating institution. The delegating institution can approve or reject it with a reason.",
-      "delegatedEServiceArchivingRequestRejected": "The delegating institution rejected the archiving request for the e-service. Read the reason or contact the delegating institution. You can request archiving of the version again at any time.",
+      "delegatedEServiceArchivingRequestRejected": "The delegating institution rejected the archiving request for the e-service. Read the reason or contact the delegating institution. You can request archiving of this e-service again at any time.",
       "delegatedEServiceArchivingRequestRejectedAction": "Read reason",
       "delegatedEServiceArchivingRequestRejectedDrawerTitle": "Archiving request rejection",
       "delegatedEServiceArchivingRequestRejectedDrawerSubtitle": "The delegating institution {{name}} rejected the archiving request with this reason.",

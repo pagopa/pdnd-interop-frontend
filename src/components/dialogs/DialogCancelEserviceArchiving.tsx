@@ -30,7 +30,8 @@ const DialogCancelEserviceArchiving: React.FC<DialogCancelEserviceArchivingProps
 
   const { closeDialog } = useDialog()
   const { mutate: cancelArchive } = EServiceMutations.useCancelEserviceArchiving()
-  const { mutate: cancelArchiveRequest } = EServiceMutations.useCancelDelegatedArchivingRequest()
+  const { mutate: cancelArchiveRequest } =
+    EServiceMutations.useCancelDelegatedEserviceArchivingRequest()
 
   const handleKeepArchive = () => {
     closeDialog()

@@ -1200,11 +1200,14 @@ export function useGetProviderEServiceActions(
   const cloneItems: Array<ActionItemButton> = isTemplateInstance ? [] : [cloneAction]
   const upgradeItems: Array<ActionItemButton> =
     isTemplateInstance && isNewTemplateVersionAvailable ? [upgradeEServiceAction] : []
+  const archiveEserviceItems: Array<ActionItemButton> = isPendingDelegatedEserviceArchivingRequest
+    ? []
+    : [archiveEserviceAction]
 
   const menuClassic = [
     ...upgradeItems,
     ...cloneItems,
-    archiveEserviceAction,
+    ...archiveEserviceItems,
     ...viewAllVersionsItems,
   ]
   const menuWithNewVersion = isEServiceBeingArchived
@@ -1213,7 +1216,7 @@ export function useGetProviderEServiceActions(
         ...upgradeItems,
         newVersionAction,
         ...cloneItems,
-        archiveEserviceAction,
+        ...archiveEserviceItems,
         ...viewAllVersionsItems,
       ]
   const menuEserviceArchiving = [...cloneItems, ...viewAllVersionsItems]
@@ -1221,7 +1224,7 @@ export function useGetProviderEServiceActions(
     ...upgradeItems,
     newVersionAction,
     ...cloneItems,
-    archiveEserviceAction,
+    ...archiveEserviceItems,
     ...viewAllVersionsItems,
   ]
   const menuArchivedEserviceArchived = [...cloneItems, ...viewAllVersionsItems]
@@ -1313,10 +1316,12 @@ export function useGetProviderEServiceActions(
     variant: 'contained',
   }
 
+  const primaryAction = isPendingDelegatedEserviceArchivingRequest
+    ? delegateCancelEserviceArchivingAction
+    : slots.primary
+
   return {
-    primaryAction: isPendingDelegatedEserviceArchivingRequest
-      ? delegateCancelEserviceArchivingAction
-      : slots.primary,
+    primaryAction,
     secondaryAction: undefined,
     menuActions: slots.menu,
     headerInfoActions: slots.header,

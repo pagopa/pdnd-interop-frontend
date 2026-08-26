@@ -135,9 +135,30 @@ describe('ProviderEServiceDetailsAlerts', () => {
     expect(screen.getByRole('alert')).toHaveClass(/MuiAlert-standardInfo/)
   })
 
-  it('renders delegated e-service archiving request approved info alert when acceptedAt is set', () => {
+  it('renders delegated e-service archiving info alert when descriptor is in ARCHIVING', () => {
     const descriptor = createMockEServiceDescriptorProvider({
-      state: 'PUBLISHED',
+      state: 'ARCHIVING',
+      archivingSchedule: { scope: 'ESERVICE', archivableOn: '2026-12-20T00:00:00.000Z' },
+      eservice: {
+        delegatedArchivingRequest: {
+          requestedAt: '2026-12-01T00:00:00.000Z',
+          requesterId: 'requester-id',
+          gracePeriodDays: 30,
+          archivingReason: 'Motivo archiviazione',
+        },
+      },
+    })
+
+    renderAlerts(descriptor)
+
+    expect(screen.getByText('archivingEService')).toBeInTheDocument()
+    expect(screen.getByRole('alert')).toHaveClass(/MuiAlert-standardInfo/)
+  })
+
+  it('does not duplicate e-service archiving info alert when descriptor already has archiving alert', () => {
+    const descriptor = createMockEServiceDescriptorProvider({
+      state: 'ARCHIVING',
+      archivingSchedule: { scope: 'ESERVICE', archivableOn: '2026-12-20T00:00:00.000Z' },
       eservice: {
         delegatedArchivingRequest: {
           requestedAt: '2026-12-01T00:00:00.000Z',
@@ -151,8 +172,7 @@ describe('ProviderEServiceDetailsAlerts', () => {
 
     renderAlerts(descriptor)
 
-    expect(screen.getByText('archivingEService')).toBeInTheDocument()
-    expect(screen.getByRole('alert')).toHaveClass(/MuiAlert-standardInfo/)
+    expect(screen.getAllByText('archivingEService')).toHaveLength(1)
   })
 
   it('renders delegated e-service archiving request rejection error alert and opens drawer with rejection reason', async () => {

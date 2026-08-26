@@ -1436,6 +1436,9 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     })
 
     expect(result.current.primaryAction?.label).toBe('cancelArchivingEservice')
+    expect(result.current.menuActions.map((action) => action.label)).not.toContain(
+      'archiveEservice'
+    )
   })
 
   it('delegate with rejected delegated e-service archiving request: does not force cancelArchivingEservice as primary', () => {

@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { formatDateStringNumeric } from '@/utils/format.utils'
 import { Drawer } from '@/components/shared/Drawer'
 import {
-  calculateDelegatedArchivableOn,
   getActiveDescriptor,
   getEServiceDescriptorAlertSpec,
   isDescriptorPendingArchiving,
@@ -31,6 +30,7 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
 
   const activeDescriptor = getActiveDescriptor(descriptor.eservice.descriptors)
   const isEServiceBeingArchived = isDescriptorPendingArchiving(activeDescriptor?.state)
+  const isCurrentDescriptorArchiving = isDescriptorPendingArchiving(descriptor.state)
 
   const alert = getEServiceDescriptorAlertSpec({
     state: descriptor.state,
@@ -57,18 +57,12 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
     Boolean(delegatedArchivingRequest) && !shouldShowDelegatedArchivingRequestRejectedAlert
 
   const delegatedEServiceArchivingRequestedAt = delegatedEServiceArchivingRequest?.requestedAt
-  const delegatedEServiceArchivingAcceptedAt = delegatedEServiceArchivingRequest?.acceptedAt
   const delegatedEServiceArchivingRejectedAt = delegatedEServiceArchivingRequest?.rejectedAt
   const delegatedEServiceArchivingRejectionReason =
     delegatedEServiceArchivingRequest?.rejectionReason
 
-  const delegatedEServiceArchivingDate = delegatedEServiceArchivingAcceptedAt
-    ? formatDateStringNumeric(
-        calculateDelegatedArchivableOn(
-          delegatedEServiceArchivingAcceptedAt,
-          delegatedEServiceArchivingRequest?.gracePeriodDays ?? 30
-        ).toISOString()
-      )
+  const delegatedEServiceArchivingDate = descriptor.archivingSchedule?.archivableOn
+    ? formatDateStringNumeric(descriptor.archivingSchedule.archivableOn)
     : '-'
 
   const shouldShowDelegatedEServiceArchivingRequestRejectedAlert = Boolean(
@@ -76,13 +70,15 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
   )
 
   const shouldShowDelegatedEServiceArchivingRequestAcceptedAlert = Boolean(
-    delegatedEServiceArchivingAcceptedAt && !delegatedEServiceArchivingRejectedAt
+    delegatedEServiceArchivingRequest &&
+    !delegatedEServiceArchivingRejectedAt &&
+    isCurrentDescriptorArchiving
   )
 
   const shouldShowDelegatedEServiceArchivingRequestAlert =
     Boolean(delegatedEServiceArchivingRequest) &&
-    !delegatedEServiceArchivingAcceptedAt &&
-    !delegatedEServiceArchivingRejectedAt
+    !delegatedEServiceArchivingRejectedAt &&
+    !isCurrentDescriptorArchiving
 
   const shouldShowMissingKeychainAlert =
     descriptor.eservice.asyncExchange && !descriptor.eservice.hasProducerKeychain
@@ -154,7 +150,7 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
           {t('delegatedEServiceArchivingRequestRejected')}
         </Alert>
       )}
-      {shouldShowDelegatedEServiceArchivingRequestAcceptedAlert && (
+      {shouldShowDelegatedEServiceArchivingRequestAcceptedAlert && !alert && (
         <Alert severity="info">
           {t('archivingEService', {
             date: delegatedEServiceArchivingDate,

@@ -23,7 +23,7 @@ const mockCancelArchiveRequest = vi.fn((_params, options) => {
 vi.mock('@/api/eservice', () => ({
   EServiceMutations: {
     useCancelEserviceArchiving: () => ({ mutate: mockCancelArchive }),
-    useCancelDelegatedArchivingRequest: () => ({ mutate: mockCancelArchiveRequest }),
+    useCancelDelegatedEserviceArchivingRequest: () => ({ mutate: mockCancelArchiveRequest }),
   },
 }))
 

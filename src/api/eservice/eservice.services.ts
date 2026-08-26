@@ -243,6 +243,12 @@ function cancelDelegatedArchivingRequest({ eserviceId }: { eserviceId: string })
   )
 }
 
+function cancelDelegatedArchivingEserviceRequest({ eserviceId }: { eserviceId: string }) {
+  return axiosInstance.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/submitDelegatedArchiving`
+  )
+}
+
 function scheduleArchiveEservice({
   eserviceId,
   archivingReason,
@@ -736,6 +742,7 @@ export const EServiceServices = {
   scheduleArchiveDescriptor,
   submitDelegatedArchivingRequest,
   cancelDelegatedArchivingRequest,
+  cancelDelegatedArchivingEserviceRequest,
   cancelDescriptorArchiving,
   scheduleArchiveEservice,
   submitDelegatedArchivingEserviceRequest,

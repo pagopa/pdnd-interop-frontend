@@ -301,7 +301,7 @@
     "titleDelegateApproved": "Annulla richiesta di archiviazione",
     "description": "Questo e-service non sarà più in fase di archiviazione.",
     "descriptionDelegate": "La richiesta di archiviazione inviata all’ente delegante {{name}} verrà annullata.",
-    "descriptionDelegateApproved": "Questo e-service sarà archiviata il giorno {{date}}. Per annullare l’archiviazione, devi contattare l’ente delegante {{name}} prima di questa data.",
+    "descriptionDelegateApproved": "Questo e-service sarà archiviato il giorno {{date}}. Per annullare l’archiviazione, devi contattare l’ente delegante {{name}} prima di questa data.",
     "alertDelegate": "Quando la richiesta di archiviazione sarà approvata, dovrai contattare l’ente delegante per richiedere l’annullamento dell’archiviazione.",
     "actions": {
       "cancelArchiving": "Annulla archiviazione",
