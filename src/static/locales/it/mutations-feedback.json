@@ -153,7 +153,7 @@
         "error": "Non è stato possibile annullare l'archiviazione di questa versione dell'e-service. Riprova più tardi."
       }
     },
-    "cancelDelegatedArchivingRequest": {
+    "cancelDelegatedArchivingVersionRequest": {
       "outcome": {
         "success": "La richiesta di archiviazione di questa versione dell’e-service è stata annullata",
         "error": "Non è stato possibile annullare la richiesta di archiviazione di questa versione dell’e-service. Riprova più tardi."

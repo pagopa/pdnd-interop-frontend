@@ -4,8 +4,8 @@ import { renderHookWithApplicationContext } from '@/utils/testing.utils'
 
 vi.mock('../eservice.services', () => ({
   EServiceServices: {
-    submitDelegatedArchivingRequest: vi.fn(),
-    cancelDelegatedArchivingRequest: vi.fn(),
+    submitDelegatedArchivingVersionRequest: vi.fn(),
+    cancelDelegatedArchivingVersionRequest: vi.fn(),
     cancelDelegatedArchivingEserviceRequest: vi.fn(),
   },
 }))
@@ -41,21 +41,21 @@ describe('EServiceMutations delegated archiving toasts', () => {
     expect(mutationMeta?.errorToastLabel).toBe('eservice.requestArchiveDescriptor.outcome.error')
   })
 
-  it('useCancelDelegatedArchivingRequest uses dedicated cancel-request toast labels', () => {
+  it('useCancelDelegatedArchivingVersionRequest uses dedicated version cancel-request toast labels', () => {
     const { result } = renderHookWithApplicationContext(
-      () => EServiceMutations.useCancelDelegatedArchivingRequest(),
+      () => EServiceMutations.useCancelDelegatedArchivingVersionRequest(),
       { withReactQueryContext: true }
     )
 
-    result.current.mutate({ eserviceId: 'eservice-id' })
+    result.current.mutate({ eserviceId: 'eservice-id', descriptorId: 'descriptor-id' })
 
     const mutationMeta = queryClient.getMutationCache().getAll().at(-1)?.meta
 
     expect(mutationMeta?.successToastLabel).toBe(
-      'eservice.cancelDelegatedArchivingRequest.outcome.success'
+      'eservice.cancelDelegatedArchivingVersionRequest.outcome.success'
     )
     expect(mutationMeta?.errorToastLabel).toBe(
-      'eservice.cancelDelegatedArchivingRequest.outcome.error'
+      'eservice.cancelDelegatedArchivingVersionRequest.outcome.error'
     )
   })
 

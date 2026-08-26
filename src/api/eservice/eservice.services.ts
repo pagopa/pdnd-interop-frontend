@@ -222,7 +222,7 @@ function cancelDescriptorArchiving({
   )
 }
 
-function submitDelegatedArchivingRequest({
+function submitDelegatedArchivingVersionRequest({
   eserviceId,
   descriptorId,
   gracePeriodDays,
@@ -237,9 +237,15 @@ function submitDelegatedArchivingRequest({
   )
 }
 
-function cancelDelegatedArchivingRequest({ eserviceId }: { eserviceId: string }) {
+function cancelDelegatedArchivingVersionRequest({
+  eserviceId,
+  descriptorId,
+}: {
+  eserviceId: string
+  descriptorId: string
+}) {
   return axiosInstance.delete(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/submitDelegatedArchiving`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/submitDelegatedArchiving`
   )
 }
 
@@ -740,8 +746,8 @@ export const EServiceServices = {
   updateAgreementApprovalPolicy,
   reactivateVersion,
   scheduleArchiveDescriptor,
-  submitDelegatedArchivingRequest,
-  cancelDelegatedArchivingRequest,
+  submitDelegatedArchivingVersionRequest,
+  cancelDelegatedArchivingVersionRequest,
   cancelDelegatedArchivingEserviceRequest,
   cancelDescriptorArchiving,
   scheduleArchiveEservice,

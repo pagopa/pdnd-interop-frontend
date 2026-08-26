@@ -30,7 +30,8 @@ export const DialogCancelVersionArchiving: React.FC<DialogCancelVersionArchiving
 
   const { closeDialog } = useDialog()
   const { mutate: cancelArchive } = EServiceMutations.useCancelDescriptorArchiving()
-  const { mutate: cancelArchiveRequest } = EServiceMutations.useCancelDelegatedArchivingRequest()
+  const { mutate: cancelArchiveRequest } =
+    EServiceMutations.useCancelDelegatedArchivingVersionRequest()
 
   const handleKeepArchive = () => {
     closeDialog()
@@ -41,7 +42,7 @@ export const DialogCancelVersionArchiving: React.FC<DialogCancelVersionArchiving
   }
 
   const handleCancelArchiveRequest = () => {
-    cancelArchiveRequest({ eserviceId }, { onSuccess: closeDialog })
+    cancelArchiveRequest({ eserviceId, descriptorId }, { onSuccess: closeDialog })
   }
 
   const isApprovedDelegateArchiving = Boolean(isDelegate && archivingApproved)

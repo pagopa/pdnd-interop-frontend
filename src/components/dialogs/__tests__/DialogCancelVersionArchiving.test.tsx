@@ -23,7 +23,7 @@ const mockCancelArchiveRequest = vi.fn((_params, options) => {
 vi.mock('@/api/eservice', () => ({
   EServiceMutations: {
     useCancelDescriptorArchiving: () => ({ mutate: mockCancelArchive }),
-    useCancelDelegatedArchivingRequest: () => ({ mutate: mockCancelArchiveRequest }),
+    useCancelDelegatedArchivingVersionRequest: () => ({ mutate: mockCancelArchiveRequest }),
   },
 }))
 
@@ -111,7 +111,7 @@ describe('DialogCancelVersionArchiving', () => {
     await userEvent.click(screen.getByRole('button', { name: 'actions.cancelArchivingDelegate' }))
     expect(mockCancelArchiveRequest).toHaveBeenCalledTimes(1)
     expect(mockCancelArchiveRequest).toHaveBeenCalledWith(
-      { eserviceId: 'eservice-42' },
+      { eserviceId: 'eservice-42', descriptorId: 'descriptor-99' },
       expect.objectContaining({ onSuccess: expect.any(Function) })
     )
     expect(mockCancelArchive).not.toHaveBeenCalled()

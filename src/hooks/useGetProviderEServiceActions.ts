@@ -275,13 +275,18 @@ export function useGetProviderEServiceActions(
   }
 
   const handleCancelArchivingEservice = () => {
+    const isEserviceArchivingInProgress = state === 'ARCHIVING' || state === 'ARCHIVING_SUSPENDED'
+    const pendingArchivingDate = delegatedEserviceArchivingRequest?.requestedAt
+
     openDialog({
       type: 'cancelEserviceArchiving',
       eserviceId,
       isDelegate,
       delegatorName: delegation?.delegator.name,
-      archivingApproved: Boolean(delegatedEserviceArchivingRequest?.acceptedAt),
-      archivingDate: archivingSchedule?.archivableOn,
+      archivingApproved: isEserviceArchivingInProgress,
+      archivingDate: isEserviceArchivingInProgress
+        ? archivingSchedule?.archivableOn
+        : pendingArchivingDate,
     })
   }
 

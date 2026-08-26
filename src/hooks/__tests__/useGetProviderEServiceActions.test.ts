@@ -1441,6 +1441,63 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     )
   })
 
+  it('delegate pending e-service request opens cancel dialog with pending delegate actions', async () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: { id: 'organizationId', name: 'Comune di Roma' },
+        delegator: { id: 'delegator-id', name: 'Comune di Milano' },
+      }),
+    })
+
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      delegatedEserviceArchivingRequest: {
+        requestedAt: '2026-12-01T00:00:00.000Z',
+        requesterId: 'requester-id',
+        gracePeriodDays: 30,
+        archivingReason: 'Motivo archiviazione',
+      },
+    })
+
+    act(() => {
+      result.current.primaryAction?.action()
+    })
+
+    expect(
+      screen.getByRole('button', { name: 'actions.keepArchivingDelegate' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'actions.cancelArchivingDelegate' })
+    ).toBeInTheDocument()
+  })
+
+  it('delegate e-service request uses approved cancel-dialog variant when state is ARCHIVING', async () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVING', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: { id: 'organizationId', name: 'Comune di Roma' },
+        delegator: { id: 'delegator-id', name: 'Comune di Milano' },
+      }),
+    })
+
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      archivingSchedule: { scope: 'ESERVICE', archivableOn: '2026-12-20T00:00:00.000Z' },
+      delegatedEserviceArchivingRequest: {
+        requestedAt: '2026-12-01T00:00:00.000Z',
+        requesterId: 'requester-id',
+        gracePeriodDays: 30,
+        archivingReason: 'Motivo archiviazione',
+      },
+    })
+
+    act(() => {
+      result.current.primaryAction?.action()
+    })
+
+    expect(screen.getByRole('button', { name: 'actions.cancelApproved' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'actions.closeApproved' })).toBeInTheDocument()
+  })
+
   it('delegate with rejected delegated e-service archiving request: does not force cancelArchivingEservice as primary', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
