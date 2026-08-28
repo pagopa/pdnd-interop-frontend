@@ -212,6 +212,16 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
               ),
               visibility: ['admin'],
             },
+            {
+              key: 'archivingRequestFromDelegate',
+              title: t(
+                'delegation.delegationAssignment.components.archivingRequestFromDelegate.label'
+              ),
+              description: t(
+                'delegation.delegationAssignment.components.archivingRequestFromDelegate.description'
+              ),
+              visibility: ['admin'],
+            },
           ],
         },
         {
@@ -231,6 +241,16 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
               title: t('delegation.delegationReceive.components.eserviceDelegatedApproval.label'), // 22
               description: t(
                 'delegation.delegationReceive.components.eserviceDelegatedApproval.description'
+              ),
+              visibility: ['admin'],
+            },
+            {
+              key: 'archivingRequestApprovedRejectedByDelegator',
+              title: t(
+                'delegation.delegationReceive.components.archivingRequestApprovedRejectedByDelegator.label'
+              ),
+              description: t(
+                'delegation.delegationReceive.components.archivingRequestApprovedRejectedByDelegator.description'
               ),
               visibility: ['admin'],
             },
