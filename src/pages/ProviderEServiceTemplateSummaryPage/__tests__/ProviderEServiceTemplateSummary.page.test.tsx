@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import ProviderEServiceTemplateSummaryPage from '../ProviderEServiceTemplateSummary.page'
 import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import * as router from '@/router'
@@ -260,8 +259,6 @@ describe('ProviderEServiceTemplateSummaryPage', () => {
   })
 
   it('navigates to the thank you page with go to template button label when publishing', async () => {
-    const user = userEvent.setup()
-
     useQueryMock.mockReturnValue({
       data: createMockEServiceTemplateVersionDetailsAsync(),
       isLoading: false,
