@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import type { NotificationSubSectionSchema } from '../types'
+import type { NotificationSubSectionComponentSchema, NotificationSubSectionSchema } from '../types'
 import { type NotificationConfigSchema, type NotificationConfigType } from '../types'
 import { match } from 'ts-pattern'
 import React from 'react'
@@ -16,13 +16,13 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
 
   const createNotificationComponent = (
     key: string,
-    titleKey: string,
-    descriptionKey: string,
-    visibility: NotificationSubSectionSchema['components'][number]['visibility']
-  ) => ({
+    title: string,
+    description: string,
+    visibility: NotificationSubSectionComponentSchema['visibility']
+  ): NotificationSubSectionComponentSchema => ({
     key,
-    title: t(titleKey as never),
-    description: t(descriptionKey as never),
+    title,
+    description,
     visibility,
   })
 
@@ -37,20 +37,20 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
           components: [
             createNotificationComponent(
               'eserviceStateChangedToConsumer',
-              'subscriber.dataUsage.components.eServiceStateUpdated.label',
-              'subscriber.dataUsage.components.eServiceStateUpdated.description',
+              t('subscriber.dataUsage.components.eServiceStateUpdated.label'),
+              t('subscriber.dataUsage.components.eServiceStateUpdated.description'),
               ['admin', 'security']
             ),
             createNotificationComponent(
               'agreementActivatedRejectedToConsumer',
-              'subscriber.dataUsage.components.agreementManagement.label',
-              'subscriber.dataUsage.components.agreementManagement.description',
+              t('subscriber.dataUsage.components.agreementManagement.label'),
+              t('subscriber.dataUsage.components.agreementManagement.description'),
               ['admin']
             ),
             createNotificationComponent(
               'agreementSuspendedUnsuspendedToConsumer',
-              'subscriber.dataUsage.components.agreementStateUpdated.label',
-              'subscriber.dataUsage.components.agreementStateUpdated.description',
+              t('subscriber.dataUsage.components.agreementStateUpdated.label'),
+              t('subscriber.dataUsage.components.agreementStateUpdated.description'),
               ['admin', 'security']
             ),
           ],
@@ -61,14 +61,14 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
           components: [
             createNotificationComponent(
               'purposeActivatedRejectedToConsumer',
-              'subscriber.purpose.components.purposeManagement.label',
-              'subscriber.purpose.components.purposeManagement.description',
+              t('subscriber.purpose.components.purposeManagement.label'),
+              t('subscriber.purpose.components.purposeManagement.description'),
               ['admin']
             ),
             createNotificationComponent(
               'purposeSuspendedUnsuspendedToConsumer',
-              'subscriber.purpose.components.purposeStateUpdated.label',
-              'subscriber.purpose.components.purposeStateUpdated.description',
+              t('subscriber.purpose.components.purposeStateUpdated.label'),
+              t('subscriber.purpose.components.purposeStateUpdated.description'),
               ['admin', 'security']
             ),
           ],
@@ -79,14 +79,16 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
           components: [
             createNotificationComponent(
               'purposeQuotaAdjustmentRequestToProducer',
-              'subscriber.thresholds.components.purposeQuotaAdjustmentRequestToProducer.label',
-              'subscriber.thresholds.components.purposeQuotaAdjustmentRequestToProducer.description',
+              t('subscriber.thresholds.components.purposeQuotaAdjustmentRequestToProducer.label'),
+              t(
+                'subscriber.thresholds.components.purposeQuotaAdjustmentRequestToProducer.description'
+              ),
               ['admin', 'security']
             ),
             createNotificationComponent(
               'purposeOverQuotaStateToConsumer',
-              'subscriber.thresholds.components.purposeOverQuotaStateToConsumer.label',
-              'subscriber.thresholds.components.purposeOverQuotaStateToConsumer.description',
+              t('subscriber.thresholds.components.purposeOverQuotaStateToConsumer.label'),
+              t('subscriber.thresholds.components.purposeOverQuotaStateToConsumer.description'),
               ['admin', 'security']
             ),
           ],
@@ -103,8 +105,8 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
           components: [
             createNotificationComponent(
               'eserviceStateChangedToProducer',
-              'provider.myEservices.components.eServiceStateUpdated.label',
-              'provider.myEservices.components.eServiceStateUpdated.description',
+              t('provider.myEservices.components.eServiceStateUpdated.label'),
+              t('provider.myEservices.components.eServiceStateUpdated.description'),
               ['admin', 'api']
             ),
           ],
@@ -115,14 +117,14 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
           components: [
             createNotificationComponent(
               'agreementManagementToProducer',
-              'provider.agreement.components.agreementRequestReceived.label',
-              'provider.agreement.components.agreementRequestReceived.description',
+              t('provider.agreement.components.agreementRequestReceived.label'),
+              t('provider.agreement.components.agreementRequestReceived.description'),
               ['admin']
             ),
             createNotificationComponent(
               'agreementSuspendedUnsuspendedToProducer',
-              'provider.agreement.components.agreementStateUpdated.label',
-              'provider.agreement.components.agreementStateUpdated.description',
+              t('provider.agreement.components.agreementStateUpdated.label'),
+              t('provider.agreement.components.agreementStateUpdated.description'),
               ['admin']
             ),
           ],
@@ -133,8 +135,8 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
           components: [
             createNotificationComponent(
               'purposeStatusChangedToProducer',
-              'provider.purpose.components.purposeStateUpdated.label',
-              'provider.purpose.components.purposeStateUpdated.description',
+              t('provider.purpose.components.purposeStateUpdated.label'),
+              t('provider.purpose.components.purposeStateUpdated.description'),
               ['admin', 'api']
             ),
           ],
@@ -145,8 +147,10 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
           components: [
             createNotificationComponent(
               'clientAddedRemovedToProducer',
-              'provider.clientAndThresholds.components.clientAssociationFromSubscriber.label',
-              'provider.clientAndThresholds.components.clientAssociationFromSubscriber.description',
+              t('provider.clientAndThresholds.components.clientAssociationFromSubscriber.label'),
+              t(
+                'provider.clientAndThresholds.components.clientAssociationFromSubscriber.description'
+              ),
               ['admin', 'api']
             ),
           ],
@@ -157,26 +161,26 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
           components: [
             createNotificationComponent(
               'eserviceTemplateStatusChangedToInstantiator',
-              'provider.eserviceTemplate.components.templateStateUpdated.label',
-              'provider.eserviceTemplate.components.templateStateUpdated.description',
+              t('provider.eserviceTemplate.components.templateStateUpdated.label'),
+              t('provider.eserviceTemplate.components.templateStateUpdated.description'),
               ['admin']
             ),
             createNotificationComponent(
               'newEserviceTemplateVersionToInstantiator',
-              'provider.eserviceTemplate.components.newTemplateVersion.label',
-              'provider.eserviceTemplate.components.newTemplateVersion.description',
+              t('provider.eserviceTemplate.components.newTemplateVersion.label'),
+              t('provider.eserviceTemplate.components.newTemplateVersion.description'),
               ['admin']
             ),
             createNotificationComponent(
               'eserviceTemplateNameChangedToInstantiator',
-              'provider.eserviceTemplate.components.templatePropertiesUpdated.label',
-              'provider.eserviceTemplate.components.templatePropertiesUpdated.description',
+              t('provider.eserviceTemplate.components.templatePropertiesUpdated.label'),
+              t('provider.eserviceTemplate.components.templatePropertiesUpdated.description'),
               ['admin']
             ),
             createNotificationComponent(
               'templateStatusChangedToProducer',
-              'provider.eserviceTemplate.components.templateStateArchivedSuspended.label',
-              'provider.eserviceTemplate.components.templateStateArchivedSuspended.description',
+              t('provider.eserviceTemplate.components.templateStateArchivedSuspended.label'),
+              t('provider.eserviceTemplate.components.templateStateArchivedSuspended.description'),
               ['admin', 'api']
             ),
           ],
@@ -193,20 +197,22 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
           components: [
             createNotificationComponent(
               'delegationApprovedRejectedToDelegator',
-              'delegation.delegationAssignment.components.delegationUpdated.label',
-              'delegation.delegationAssignment.components.delegationUpdated.description',
+              t('delegation.delegationAssignment.components.delegationUpdated.label'),
+              t('delegation.delegationAssignment.components.delegationUpdated.description'),
               ['admin']
             ),
             createNotificationComponent(
               'eserviceNewVersionSubmittedToDelegator',
-              'delegation.delegationAssignment.components.eserviceDelegatedCreated.label',
-              'delegation.delegationAssignment.components.eserviceDelegatedCreated.description',
+              t('delegation.delegationAssignment.components.eserviceDelegatedCreated.label'),
+              t('delegation.delegationAssignment.components.eserviceDelegatedCreated.description'),
               ['admin']
             ),
             createNotificationComponent(
               'archivingRequestFromDelegate',
-              'delegation.delegationAssignment.components.archivingRequestFromDelegate.label',
-              'delegation.delegationAssignment.components.archivingRequestFromDelegate.description',
+              t('delegation.delegationAssignment.components.archivingRequestFromDelegate.label'),
+              t(
+                'delegation.delegationAssignment.components.archivingRequestFromDelegate.description'
+              ),
               ['admin']
             ),
           ],
@@ -217,20 +223,24 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
           components: [
             createNotificationComponent(
               'delegationSubmittedRevokedToDelegate',
-              'delegation.delegationReceive.components.delegationUpdated.label',
-              'delegation.delegationReceive.components.delegationUpdated.description',
+              t('delegation.delegationReceive.components.delegationUpdated.label'),
+              t('delegation.delegationReceive.components.delegationUpdated.description'),
               ['admin']
             ),
             createNotificationComponent(
               'eserviceNewVersionApprovedRejectedToDelegate',
-              'delegation.delegationReceive.components.eserviceDelegatedApproval.label',
-              'delegation.delegationReceive.components.eserviceDelegatedApproval.description',
+              t('delegation.delegationReceive.components.eserviceDelegatedApproval.label'),
+              t('delegation.delegationReceive.components.eserviceDelegatedApproval.description'),
               ['admin']
             ),
             createNotificationComponent(
               'archivingRequestApprovedRejectedByDelegator',
-              'delegation.delegationReceive.components.archivingRequestApprovedRejectedByDelegator.label',
-              'delegation.delegationReceive.components.archivingRequestApprovedRejectedByDelegator.description',
+              t(
+                'delegation.delegationReceive.components.archivingRequestApprovedRejectedByDelegator.label'
+              ),
+              t(
+                'delegation.delegationReceive.components.archivingRequestApprovedRejectedByDelegator.description'
+              ),
               ['admin']
             ),
           ],
@@ -247,8 +257,8 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
           components: [
             createNotificationComponent(
               'certifiedVerifiedAttributeAssignedRevokedToAssignee',
-              'keyAndAttributes.attributes.components.attributesStateUpdated.label',
-              'keyAndAttributes.attributes.components.attributesStateUpdated.description',
+              t('keyAndAttributes.attributes.components.attributesStateUpdated.label'),
+              t('keyAndAttributes.attributes.components.attributesStateUpdated.description'),
               ['admin']
             ),
           ],
@@ -259,8 +269,8 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
           components: [
             createNotificationComponent(
               'clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers',
-              'keyAndAttributes.keys.components.clientKeysAssociationUpdated.label',
-              'keyAndAttributes.keys.components.clientKeysAssociationUpdated.description',
+              t('keyAndAttributes.keys.components.clientKeysAssociationUpdated.label'),
+              t('keyAndAttributes.keys.components.clientKeysAssociationUpdated.description'),
               ['admin', 'security']
             ),
           ],
