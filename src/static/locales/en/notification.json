@@ -231,6 +231,10 @@
               "eserviceDelegatedCreated": {
                 "label": "Delegate request approval",
                 "description": "Notify me when the delegate generates a new version of the delegated e-service so that I can evaluate it"
+              },
+              "archivingRequestFromDelegate": {
+                "label": "Archiving management",
+                "description": "Notify me when the delegate requests the archiving of a version or an e-service entrusted in delegation"
               }
             }
           },
@@ -244,6 +248,10 @@
               "eserviceDelegatedApproval": {
                 "label": "New e-service version publication approval",
                 "description": "Notify me when the delegating entity has approved or rejected my version change request"
+              },
+              "archivingRequestApprovedRejectedByDelegator": {
+                "label": "Archiving management",
+                "description": "Notify me when the delegating entity approves or rejects my archiving request for a delegated version or e-service"
               }
             }
           }

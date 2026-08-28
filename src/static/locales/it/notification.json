@@ -232,6 +232,10 @@
               "eserviceDelegatedCreated": {
                 "label": "Approvazione delle richieste del delegato",
                 "description": "Avvisami quando il delegato genera una nuova versione di e-service in delega affinché possa valutarla"
+              },
+              "archivingRequestFromDelegate": {
+                "label": "Gestione archiviazione",
+                "description": "Avvisami quando il delegato richiede l’archiviazione di una versione o di un e-service affidato in delega"
               }
             }
           },
@@ -245,6 +249,10 @@
               "eserviceDelegatedApproval": {
                 "label": "Approvazione della pubblicazione di una nuova versione di e-service",
                 "description": "Avvisami quando l’ente delegante ha approvato o rifiutato la mia richiesta di variazione della versione"
+              },
+              "archivingRequestApprovedRejectedByDelegator": {
+                "label": "Gestione archiviazione",
+                "description": "Avvisami quando l’ente delegante approva o rifiuta la mia richiesta di archiviazione di una versione o di un e-service affidato in delega"
               }
             }
           }
