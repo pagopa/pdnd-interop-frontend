@@ -14,6 +14,18 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
     keyPrefix: 'notifications.configurationPage.sections',
   })
 
+  const createNotificationComponent = (
+    key: string,
+    titleKey: string,
+    descriptionKey: string,
+    visibility: NotificationSubSectionSchema['components'][number]['visibility']
+  ) => ({
+    key,
+    title: t(titleKey as never),
+    description: t(descriptionKey as never),
+    visibility,
+  })
+
   const notificationConfigSchema: NotificationConfigSchema = {
     subscriber: {
       title: t('subscriber.title'),
@@ -23,66 +35,60 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
           name: 'fruizioneDati',
           title: t('subscriber.dataUsage.title'),
           components: [
-            {
-              key: 'eserviceStateChangedToConsumer',
-              title: t('subscriber.dataUsage.components.eServiceStateUpdated.label'), // 11
-              description: t('subscriber.dataUsage.components.eServiceStateUpdated.description'),
-              visibility: ['admin', 'security'],
-            },
-            {
-              key: 'agreementActivatedRejectedToConsumer',
-              title: t('subscriber.dataUsage.components.agreementManagement.label'), // 12
-              description: t('subscriber.dataUsage.components.agreementManagement.description'),
-              visibility: ['admin'],
-            },
-            {
-              key: 'agreementSuspendedUnsuspendedToConsumer',
-              title: t('subscriber.dataUsage.components.agreementStateUpdated.label'), // 13
-              description: t('subscriber.dataUsage.components.agreementStateUpdated.description'),
-              visibility: ['admin', 'security'],
-            },
+            createNotificationComponent(
+              'eserviceStateChangedToConsumer',
+              'subscriber.dataUsage.components.eServiceStateUpdated.label',
+              'subscriber.dataUsage.components.eServiceStateUpdated.description',
+              ['admin', 'security']
+            ),
+            createNotificationComponent(
+              'agreementActivatedRejectedToConsumer',
+              'subscriber.dataUsage.components.agreementManagement.label',
+              'subscriber.dataUsage.components.agreementManagement.description',
+              ['admin']
+            ),
+            createNotificationComponent(
+              'agreementSuspendedUnsuspendedToConsumer',
+              'subscriber.dataUsage.components.agreementStateUpdated.label',
+              'subscriber.dataUsage.components.agreementStateUpdated.description',
+              ['admin', 'security']
+            ),
           ],
         },
         {
           name: 'finalita',
           title: t('subscriber.purpose.title'),
           components: [
-            {
-              key: 'purposeActivatedRejectedToConsumer',
-              title: t('subscriber.purpose.components.purposeManagement.label'), // 15
-              description: t('subscriber.purpose.components.purposeManagement.description'),
-              visibility: ['admin'],
-            },
-            {
-              key: 'purposeSuspendedUnsuspendedToConsumer',
-              title: t('subscriber.purpose.components.purposeStateUpdated.label'), // 16
-              description: t('subscriber.purpose.components.purposeStateUpdated.description'),
-              visibility: ['admin', 'security'],
-            },
+            createNotificationComponent(
+              'purposeActivatedRejectedToConsumer',
+              'subscriber.purpose.components.purposeManagement.label',
+              'subscriber.purpose.components.purposeManagement.description',
+              ['admin']
+            ),
+            createNotificationComponent(
+              'purposeSuspendedUnsuspendedToConsumer',
+              'subscriber.purpose.components.purposeStateUpdated.label',
+              'subscriber.purpose.components.purposeStateUpdated.description',
+              ['admin', 'security']
+            ),
           ],
         },
         {
           name: 'soglieDiCarico',
           title: t('subscriber.thresholds.title'),
           components: [
-            {
-              key: 'purposeQuotaAdjustmentRequestToProducer',
-              title: t(
-                'subscriber.thresholds.components.purposeQuotaAdjustmentRequestToProducer.label'
-              ),
-              description: t(
-                'subscriber.thresholds.components.purposeQuotaAdjustmentRequestToProducer.description'
-              ),
-              visibility: ['admin', 'security'],
-            },
-            {
-              key: 'purposeOverQuotaStateToConsumer',
-              title: t('subscriber.thresholds.components.purposeOverQuotaStateToConsumer.label'),
-              description: t(
-                'subscriber.thresholds.components.purposeOverQuotaStateToConsumer.description'
-              ),
-              visibility: ['admin', 'security'],
-            },
+            createNotificationComponent(
+              'purposeQuotaAdjustmentRequestToProducer',
+              'subscriber.thresholds.components.purposeQuotaAdjustmentRequestToProducer.label',
+              'subscriber.thresholds.components.purposeQuotaAdjustmentRequestToProducer.description',
+              ['admin', 'security']
+            ),
+            createNotificationComponent(
+              'purposeOverQuotaStateToConsumer',
+              'subscriber.thresholds.components.purposeOverQuotaStateToConsumer.label',
+              'subscriber.thresholds.components.purposeOverQuotaStateToConsumer.description',
+              ['admin', 'security']
+            ),
           ],
         },
       ],
@@ -95,94 +101,84 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
           name: 'myEservices',
           title: t('provider.myEservices.title'),
           components: [
-            {
-              key: 'eserviceStateChangedToProducer',
-              title: t('provider.myEservices.components.eServiceStateUpdated.label'),
-              description: t('provider.myEservices.components.eServiceStateUpdated.description'),
-              visibility: ['admin', 'api'],
-            },
+            createNotificationComponent(
+              'eserviceStateChangedToProducer',
+              'provider.myEservices.components.eServiceStateUpdated.label',
+              'provider.myEservices.components.eServiceStateUpdated.description',
+              ['admin', 'api']
+            ),
           ],
         },
         {
           name: 'richiesteFruizione',
           title: t('provider.agreement.title'),
           components: [
-            {
-              key: 'agreementManagementToProducer',
-              title: t('provider.agreement.components.agreementRequestReceived.label'), // 03
-              description: t('provider.agreement.components.agreementRequestReceived.description'),
-              visibility: ['admin'],
-            },
-            {
-              key: 'agreementSuspendedUnsuspendedToProducer',
-              title: t('provider.agreement.components.agreementStateUpdated.label'), // 04
-              description: t('provider.agreement.components.agreementStateUpdated.description'),
-              visibility: ['admin'],
-            },
+            createNotificationComponent(
+              'agreementManagementToProducer',
+              'provider.agreement.components.agreementRequestReceived.label',
+              'provider.agreement.components.agreementRequestReceived.description',
+              ['admin']
+            ),
+            createNotificationComponent(
+              'agreementSuspendedUnsuspendedToProducer',
+              'provider.agreement.components.agreementStateUpdated.label',
+              'provider.agreement.components.agreementStateUpdated.description',
+              ['admin']
+            ),
           ],
         },
         {
           name: 'finalita',
           title: t('provider.purpose.title'),
           components: [
-            {
-              key: 'purposeStatusChangedToProducer',
-              title: t('provider.purpose.components.purposeStateUpdated.label'), // 07
-              description: t('provider.purpose.components.purposeStateUpdated.description'),
-              visibility: ['admin', 'api'],
-            },
+            createNotificationComponent(
+              'purposeStatusChangedToProducer',
+              'provider.purpose.components.purposeStateUpdated.label',
+              'provider.purpose.components.purposeStateUpdated.description',
+              ['admin', 'api']
+            ),
           ],
         },
         {
           name: 'clientSoglieDiCarico',
           title: t('provider.clientAndThresholds.title'),
           components: [
-            {
-              key: 'clientAddedRemovedToProducer',
-              title: t(
-                'provider.clientAndThresholds.components.clientAssociationFromSubscriber.label'
-              ), // 05
-              description: t(
-                'provider.clientAndThresholds.components.clientAssociationFromSubscriber.description'
-              ),
-              visibility: ['admin', 'api'],
-            },
+            createNotificationComponent(
+              'clientAddedRemovedToProducer',
+              'provider.clientAndThresholds.components.clientAssociationFromSubscriber.label',
+              'provider.clientAndThresholds.components.clientAssociationFromSubscriber.description',
+              ['admin', 'api']
+            ),
           ],
         },
         {
           name: 'eserviceTemplate',
           title: t('provider.eserviceTemplate.title'),
           components: [
-            {
-              key: 'eserviceTemplateStatusChangedToInstantiator',
-              title: t('provider.eserviceTemplate.components.templateStateUpdated.label'), // 19
-              description: t(
-                'provider.eserviceTemplate.components.templateStateUpdated.description'
-              ),
-              visibility: ['admin'],
-            },
-            {
-              key: 'newEserviceTemplateVersionToInstantiator',
-              title: t('provider.eserviceTemplate.components.newTemplateVersion.label'), // 17'
-              description: t('provider.eserviceTemplate.components.newTemplateVersion.description'),
-              visibility: ['admin'],
-            },
-            {
-              key: 'eserviceTemplateNameChangedToInstantiator',
-              title: t('provider.eserviceTemplate.components.templatePropertiesUpdated.label'), // 18
-              description: t(
-                'provider.eserviceTemplate.components.templatePropertiesUpdated.description'
-              ),
-              visibility: ['admin'],
-            },
-            {
-              key: 'templateStatusChangedToProducer',
-              title: t('provider.eserviceTemplate.components.templateStateArchivedSuspended.label'), // 09
-              description: t(
-                'provider.eserviceTemplate.components.templateStateArchivedSuspended.description'
-              ),
-              visibility: ['admin', 'api'],
-            },
+            createNotificationComponent(
+              'eserviceTemplateStatusChangedToInstantiator',
+              'provider.eserviceTemplate.components.templateStateUpdated.label',
+              'provider.eserviceTemplate.components.templateStateUpdated.description',
+              ['admin']
+            ),
+            createNotificationComponent(
+              'newEserviceTemplateVersionToInstantiator',
+              'provider.eserviceTemplate.components.newTemplateVersion.label',
+              'provider.eserviceTemplate.components.newTemplateVersion.description',
+              ['admin']
+            ),
+            createNotificationComponent(
+              'eserviceTemplateNameChangedToInstantiator',
+              'provider.eserviceTemplate.components.templatePropertiesUpdated.label',
+              'provider.eserviceTemplate.components.templatePropertiesUpdated.description',
+              ['admin']
+            ),
+            createNotificationComponent(
+              'templateStatusChangedToProducer',
+              'provider.eserviceTemplate.components.templateStateArchivedSuspended.label',
+              'provider.eserviceTemplate.components.templateStateArchivedSuspended.description',
+              ['admin', 'api']
+            ),
           ],
         },
       ],
@@ -195,65 +191,48 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
           name: 'richiesteFruizione',
           title: t('delegation.delegationAssignment.title'),
           components: [
-            {
-              key: 'delegationApprovedRejectedToDelegator',
-              title: t('delegation.delegationAssignment.components.delegationUpdated.label'), // 20
-              description: t(
-                'delegation.delegationAssignment.components.delegationUpdated.description'
-              ),
-              visibility: ['admin'],
-            },
-            {
-              key: 'eserviceNewVersionSubmittedToDelegator',
-              title: t('delegation.delegationAssignment.components.eserviceDelegatedCreated.label'), // 21
-
-              description: t(
-                'delegation.delegationAssignment.components.eserviceDelegatedCreated.description'
-              ),
-              visibility: ['admin'],
-            },
-            {
-              key: 'archivingRequestFromDelegate',
-              title: t(
-                'delegation.delegationAssignment.components.archivingRequestFromDelegate.label'
-              ),
-              description: t(
-                'delegation.delegationAssignment.components.archivingRequestFromDelegate.description'
-              ),
-              visibility: ['admin'],
-            },
+            createNotificationComponent(
+              'delegationApprovedRejectedToDelegator',
+              'delegation.delegationAssignment.components.delegationUpdated.label',
+              'delegation.delegationAssignment.components.delegationUpdated.description',
+              ['admin']
+            ),
+            createNotificationComponent(
+              'eserviceNewVersionSubmittedToDelegator',
+              'delegation.delegationAssignment.components.eserviceDelegatedCreated.label',
+              'delegation.delegationAssignment.components.eserviceDelegatedCreated.description',
+              ['admin']
+            ),
+            createNotificationComponent(
+              'archivingRequestFromDelegate',
+              'delegation.delegationAssignment.components.archivingRequestFromDelegate.label',
+              'delegation.delegationAssignment.components.archivingRequestFromDelegate.description',
+              ['admin']
+            ),
           ],
         },
         {
           name: 'delegationReceive',
           title: t('delegation.delegationReceive.title'),
           components: [
-            {
-              key: 'delegationSubmittedRevokedToDelegate',
-              title: t('delegation.delegationReceive.components.delegationUpdated.label'), // 23
-              description: t(
-                'delegation.delegationReceive.components.delegationUpdated.description'
-              ),
-              visibility: ['admin'],
-            },
-            {
-              key: 'eserviceNewVersionApprovedRejectedToDelegate',
-              title: t('delegation.delegationReceive.components.eserviceDelegatedApproval.label'), // 22
-              description: t(
-                'delegation.delegationReceive.components.eserviceDelegatedApproval.description'
-              ),
-              visibility: ['admin'],
-            },
-            {
-              key: 'archivingRequestApprovedRejectedByDelegator',
-              title: t(
-                'delegation.delegationReceive.components.archivingRequestApprovedRejectedByDelegator.label'
-              ),
-              description: t(
-                'delegation.delegationReceive.components.archivingRequestApprovedRejectedByDelegator.description'
-              ),
-              visibility: ['admin'],
-            },
+            createNotificationComponent(
+              'delegationSubmittedRevokedToDelegate',
+              'delegation.delegationReceive.components.delegationUpdated.label',
+              'delegation.delegationReceive.components.delegationUpdated.description',
+              ['admin']
+            ),
+            createNotificationComponent(
+              'eserviceNewVersionApprovedRejectedToDelegate',
+              'delegation.delegationReceive.components.eserviceDelegatedApproval.label',
+              'delegation.delegationReceive.components.eserviceDelegatedApproval.description',
+              ['admin']
+            ),
+            createNotificationComponent(
+              'archivingRequestApprovedRejectedByDelegator',
+              'delegation.delegationReceive.components.archivingRequestApprovedRejectedByDelegator.label',
+              'delegation.delegationReceive.components.archivingRequestApprovedRejectedByDelegator.description',
+              ['admin']
+            ),
           ],
         },
       ],
@@ -266,28 +245,24 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
           name: 'attributes',
           title: t('keyAndAttributes.attributes.title'),
           components: [
-            {
-              key: 'certifiedVerifiedAttributeAssignedRevokedToAssignee',
-              title: t('keyAndAttributes.attributes.components.attributesStateUpdated.label'), // 24
-              description: t(
-                'keyAndAttributes.attributes.components.attributesStateUpdated.description'
-              ),
-              visibility: ['admin'],
-            },
+            createNotificationComponent(
+              'certifiedVerifiedAttributeAssignedRevokedToAssignee',
+              'keyAndAttributes.attributes.components.attributesStateUpdated.label',
+              'keyAndAttributes.attributes.components.attributesStateUpdated.description',
+              ['admin']
+            ),
           ],
         },
         {
           name: 'keys',
           title: t('keyAndAttributes.keys.title'),
           components: [
-            {
-              key: 'clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers',
-              title: t('keyAndAttributes.keys.components.clientKeysAssociationUpdated.label'), // 25
-              description: t(
-                'keyAndAttributes.keys.components.clientKeysAssociationUpdated.description'
-              ),
-              visibility: ['admin', 'security'], // To define
-            },
+            createNotificationComponent(
+              'clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers',
+              'keyAndAttributes.keys.components.clientKeysAssociationUpdated.label',
+              'keyAndAttributes.keys.components.clientKeysAssociationUpdated.description',
+              ['admin', 'security']
+            ),
           ],
         },
       ],
@@ -295,12 +270,8 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
   }
 
   const notificationSchema: NotificationConfigSchema = match(type)
-    .with('inApp', () => {
-      return notificationConfigSchema
-    })
-    .with('email', () => {
-      return notificationConfigSchema
-    })
+    .with('inApp', () => notificationConfigSchema)
+    .with('email', () => notificationConfigSchema)
     .exhaustive()
 
   const sectionComponentKeysMap = React.useMemo(() => {
