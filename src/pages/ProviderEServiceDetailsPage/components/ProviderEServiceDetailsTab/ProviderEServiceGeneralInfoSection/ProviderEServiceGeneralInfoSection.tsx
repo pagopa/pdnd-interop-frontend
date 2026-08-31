@@ -202,18 +202,20 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
           ...(!isEserviceFromTemplate && !isViewer ? [exportVersionListAction] : []),
         ]}
       >
-        <Stack spacing={2} component="dl">
-          <InformationContainer label={t('version.label')} content={descriptor.version} />
-          <InformationContainer
-            label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
-            content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
-          />
-          <InformationContainer
-            label={t('exchangeType.label')}
-            content={t(
-              `exchangeType.value.${descriptor.eservice.asyncExchange ? 'async' : 'sync'}`
-            )}
-          />
+        <Stack spacing={2}>
+          <Stack component="dl" spacing={2} sx={{ m: 0 }}>
+            <InformationContainer label={t('version.label')} content={descriptor.version} />
+            <InformationContainer
+              label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
+              content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
+            />
+            <InformationContainer
+              label={t('exchangeType.label')}
+              content={t(
+                `exchangeType.value.${descriptor.eservice.asyncExchange ? 'async' : 'sync'}`
+              )}
+            />
+          </Stack>
           {(isAdmin || isOperatorAPI) && !arePersonalDataSet && !isEserviceFromTemplate && (
             <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
               <Stack spacing={25} direction="row" alignItems="center">
@@ -233,21 +235,23 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
           )}
           {isEserviceFromTemplate ? (
             <>
-              <InformationContainer
-                label={t('eserviceTemplateName.label')}
-                content={
-                  <Link
-                    to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
-                    params={{
-                      eServiceTemplateId: descriptor.templateRef?.templateId as string,
-                      eServiceTemplateVersionId: descriptor.templateRef
-                        ?.templateVersionId as string,
-                    }}
-                  >
-                    {descriptor.templateRef?.templateName}
-                  </Link>
-                }
-              />
+              <Stack component="dl" sx={{ m: 0 }}>
+                <InformationContainer
+                  label={t('eserviceTemplateName.label')}
+                  content={
+                    <Link
+                      to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
+                      params={{
+                        eServiceTemplateId: descriptor.templateRef?.templateId as string,
+                        eServiceTemplateVersionId: descriptor.templateRef
+                          ?.templateVersionId as string,
+                      }}
+                    >
+                      {descriptor.templateRef?.templateName}
+                    </Link>
+                  }
+                />
+              </Stack>
               <Divider />
               <SectionContainer
                 innerSection

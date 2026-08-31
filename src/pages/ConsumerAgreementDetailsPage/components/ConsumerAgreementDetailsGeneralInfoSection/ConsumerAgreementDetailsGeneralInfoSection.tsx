@@ -56,85 +56,81 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
   return (
     <>
       <SectionContainer title={t('title')}>
-        <Stack spacing={2} component="dl">
-          <InformationContainer
-            label={t('eServiceField.label')}
-            content={
-              <Link
-                to="SUBSCRIBE_CATALOG_VIEW"
-                params={{
-                  eserviceId: agreement.eservice.id,
-                  descriptorId: agreement.descriptorId,
-                }}
-              >
-                {t('eServiceField.value', {
-                  name: agreement.eservice.name,
-                  version: agreement.eservice.version,
-                })}
-              </Link>
-            }
-          />
-          <InformationContainer
-            label={t('providerField.label')}
-            content={agreement.producer.name}
-          />
-          <InformationContainer
-            label={t('consumerField.label')}
-            content={agreement.consumer.name}
-          />
-          {isDelegated && (
+        <Stack spacing={2}>
+          <Stack spacing={2} component="dl" sx={{ m: 0 }}>
             <InformationContainer
-              label={t('delegatedConsumerField.label')}
-              content={agreement.delegation?.delegate.name as string}
+              label={t('eServiceField.label')}
+              content={
+                <Link
+                  to="SUBSCRIBE_CATALOG_VIEW"
+                  params={{
+                    eserviceId: agreement.eservice.id,
+                    descriptorId: agreement.descriptorId,
+                  }}
+                >
+                  {t('eServiceField.value', {
+                    name: agreement.eservice.name,
+                    version: agreement.eservice.version,
+                  })}
+                </Link>
+              }
             />
-          )}
-          {agreement.state === 'REJECTED' && agreement.rejectionReason && (
             <InformationContainer
-              label={t('rejectionMessageField.label')}
-              direction="column"
-              content={agreement.rejectionReason}
+              label={t('providerField.label')}
+              content={agreement.producer.name}
             />
+            <InformationContainer
+              label={t('consumerField.label')}
+              content={agreement.consumer.name}
+            />
+            {isDelegated && (
+              <InformationContainer
+                label={t('delegatedConsumerField.label')}
+                content={agreement.delegation?.delegate.name as string}
+              />
+            )}
+            {agreement.state === 'REJECTED' && agreement.rejectionReason && (
+              <InformationContainer
+                label={t('rejectionMessageField.label')}
+                direction="column"
+                content={agreement.rejectionReason}
+              />
+            )}
+          </Stack>
+          <Divider />
+          {agreement.isContractPresent && (
+            <IconLink
+              data-testid="download-agreement-document-button"
+              component="button"
+              disabled={!agreement.isDocumentReady}
+              startIcon={<DownloadIcon />}
+              sx={{ alignSelf: 'start' }}
+              onClick={handleDownloadSignedAgreementDocument}
+              tooltip={!agreement.isDocumentReady ? tShared('notAvailableYet') : undefined}
+            >
+              {t('documentation.link.label')}
+            </IconLink>
           )}
-          <>
-            <Divider />
-            {agreement.isContractPresent && (
-              <>
-                <IconLink
-                  data-testid="download-agreement-document-button"
-                  component="button"
-                  disabled={!agreement.isDocumentReady}
-                  startIcon={<DownloadIcon />}
-                  sx={{ alignSelf: 'start' }}
-                  onClick={handleDownloadSignedAgreementDocument}
-                  tooltip={!agreement.isDocumentReady ? tShared('notAvailableYet') : undefined}
-                >
-                  {t('documentation.link.label')}
-                </IconLink>
-              </>
-            )}
-            {agreement.state !== 'PENDING' && (
-              <>
-                <IconLink
-                  startIcon={<RuleIcon />}
-                  component="button"
-                  sx={{ alignSelf: 'start' }}
-                  onClick={handleOpenCertifiedAttributesDrawer}
-                >
-                  {t('certifiedAttributeLink.label')}
-                </IconLink>
-              </>
-            )}
-            {agreement.producer.contactMail && (
-              <IconLink
-                onClick={handleOpenContactDrawer}
-                startIcon={<ContactMailIcon />}
-                component="button"
-                sx={{ alignSelf: 'start' }}
-              >
-                {t('providerDetailsLink.label')}
-              </IconLink>
-            )}
-          </>
+          {agreement.state !== 'PENDING' && (
+            <IconLink
+              startIcon={<RuleIcon />}
+              component="button"
+              sx={{ alignSelf: 'start' }}
+              onClick={handleOpenCertifiedAttributesDrawer}
+            >
+              {t('certifiedAttributeLink.label')}
+            </IconLink>
+          )}
+          {agreement.producer.contactMail && (
+            <IconLink
+              onClick={handleOpenContactDrawer}
+              startIcon={<ContactMailIcon />}
+              component="button"
+              sx={{ alignSelf: 'start' }}
+            >
+              {t('providerDetailsLink.label')}
+            </IconLink>
+          )}
         </Stack>
       </SectionContainer>
       {agreement.producer.contactMail && (

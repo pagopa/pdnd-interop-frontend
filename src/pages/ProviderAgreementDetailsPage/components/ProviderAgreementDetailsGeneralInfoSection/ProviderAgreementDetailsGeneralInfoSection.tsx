@@ -112,7 +112,7 @@ export const ProviderAgreementDetailsGeneralInfoSection: React.FC = () => {
 
   return (
     <>
-      <SectionContainer title={t('title')} bottomActions={actions} component="dl">
+      <SectionContainer title={t('title')} bottomActions={actions}>
         <Stack spacing={2} component="dl">
           <InformationContainer
             label={t('eServiceField.label')}
