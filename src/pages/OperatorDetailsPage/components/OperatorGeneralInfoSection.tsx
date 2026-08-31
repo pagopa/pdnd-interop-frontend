@@ -63,6 +63,7 @@ export const OperatorGeneralInfoSection: React.FC<OperatorGeneralInfoSectionProp
     >
       <InformationContainer
         component="dl"
+        sx={{ m: 0 }}
         label={t('productRoleField.label')}
         content={userRoles}
       />
