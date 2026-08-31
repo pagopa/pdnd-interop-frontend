@@ -1,6 +1,5 @@
 import type {
   ArchivingSchedule,
-  DelegatedDescriptorArchivingRequest,
   DelegatedEServiceArchivingRequest,
   DelegationWithCompactTenants,
   EServiceDescriptorState,
@@ -43,9 +42,7 @@ export function useGetProviderEServiceActions(
   onViewAllVersions?: () => void,
   isActiveDescriptor?: boolean,
   isEServiceBeingArchived?: boolean,
-  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest,
-  hasAnyActiveDelegatedArchivingRequest?: boolean,
-  delegatedEserviceArchivingRequest?: DelegatedEServiceArchivingRequest
+  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest
 ): {
   primaryAction: ActionItemButton | undefined
   secondaryAction: ActionItemButton | undefined
@@ -63,14 +60,15 @@ export function useGetProviderEServiceActions(
 
   const isDelegator = delegation?.delegator.id === jwt?.organizationId
   const isDelegate = delegation?.delegate.id === jwt?.organizationId
-  const hasAnyDelegatedArchivingRequestInProgress = Boolean(
-    isDelegate && hasAnyActiveDelegatedArchivingRequest
-  )
-  const isPendingDelegatedArchivingRequest = Boolean(
+  const isDelegatedArchivingRequestInProgress = Boolean(
     isDelegate && delegatedArchivingRequest && !delegatedArchivingRequest.rejectedAt
   )
+  const isPendingDelegatedArchivingRequest = Boolean(
+    isDelegatedArchivingRequestInProgress &&
+    delegatedArchivingRequest?.descriptorId === activeDescriptorId
+  )
   const isPendingDelegatedEserviceArchivingRequest = Boolean(
-    isDelegate && delegatedEserviceArchivingRequest && !delegatedEserviceArchivingRequest.rejectedAt
+    isDelegatedArchivingRequestInProgress && !delegatedArchivingRequest?.descriptorId
   )
 
   const { mutate: deleteDraft } = EServiceMutations.useDeleteDraft()
@@ -213,7 +211,7 @@ export function useGetProviderEServiceActions(
 
   const handleArchiveDescriptor = () => {
     if (activeDescriptorId) {
-      if (hasAnyDelegatedArchivingRequestInProgress) {
+      if (isDelegatedArchivingRequestInProgress) {
         openDialog({ type: 'blockArchivingRequest' })
         return
       }
@@ -276,7 +274,7 @@ export function useGetProviderEServiceActions(
 
   const handleCancelArchivingEservice = () => {
     const isEserviceArchivingInProgress = state === 'ARCHIVING' || state === 'ARCHIVING_SUSPENDED'
-    const pendingArchivingDate = delegatedEserviceArchivingRequest?.requestedAt
+    const pendingArchivingDate = delegatedArchivingRequest?.requestedAt
 
     openDialog({
       type: 'cancelEserviceArchiving',

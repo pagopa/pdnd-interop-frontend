@@ -520,7 +520,6 @@ export interface CatalogEServiceDescriptor {
   /** @format date-time */
   archivedAt?: string;
   archivingSchedule?: ArchivingSchedule;
-  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest;
   asyncExchangeProperties?: AsyncExchangeProperties;
   asyncExchangeCallbackInterface?: EServiceDoc;
   templateRef?: EServiceTemplateRef;
@@ -584,7 +583,6 @@ export interface CatalogDescriptorEService {
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
   archivingReason?: string;
-  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest;
   asyncExchange?: boolean;
 }
 
@@ -608,20 +606,6 @@ export interface ProducerEServiceDetails {
   latestActiveDescriptorId?: string;
 }
 
-export interface DelegatedDescriptorArchivingRequest {
-  /** @format date-time */
-  requestedAt: string;
-  /** @format date-time */
-  acceptedAt?: string;
-  /** @format date-time */
-  rejectedAt?: string;
-  rejectionReason?: string;
-  /** @format uuid */
-  requesterId: string;
-  /** Number of days for the archiving grace period */
-  gracePeriodDays: GracePeriodDays;
-}
-
 export interface DelegatedEServiceArchivingRequest {
   /** @format date-time */
   requestedAt: string;
@@ -634,7 +618,9 @@ export interface DelegatedEServiceArchivingRequest {
   requesterId: string;
   /** Number of days for the archiving grace period */
   gracePeriodDays: GracePeriodDays;
-  archivingReason: string;
+  archivingReason?: string;
+  /** @format uuid */
+  descriptorId?: string;
 }
 
 export interface ArchivingSchedule {
@@ -734,7 +720,6 @@ export interface ProducerEServiceDescriptor {
   asyncExchangeCallbackInterface?: EServiceDoc;
   delegation?: DelegationWithCompactTenants;
   archivingSchedule?: ArchivingSchedule;
-  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest;
 }
 
 export interface ProducerDescriptorEService {
@@ -952,7 +937,6 @@ export interface CompactDescriptor {
   templateVersionId?: string;
   /** @format date-time */
   archivableOn?: string;
-  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest;
 }
 
 export interface TemplateInstanceInterfaceServerUrlSeed {
@@ -2768,6 +2752,8 @@ export interface NotificationConfig {
   clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: boolean;
   purposeQuotaAdjustmentRequestToProducer: boolean;
   purposeOverQuotaStateToConsumer: boolean;
+  eserviceArchivingRequestedToDelegator: boolean;
+  eserviceArchivingApprovedRejectedToDelegate: boolean;
 }
 
 export interface TenantNotificationConfig {
@@ -2812,6 +2798,12 @@ export interface EServiceArchivingSeed {
 
 /** Seed for an owner to reject a delegated archiving request */
 export interface RejectDelegatedEServiceArchivingSeed {
+  /** @minLength 1 */
+  rejectionReason: string;
+}
+
+/** Seed for an owner to reject a delegated descriptor archiving request */
+export interface RejectDelegatedDescriptorArchivingSeed {
   /** @minLength 1 */
   rejectionReason: string;
 }
@@ -3430,6 +3422,32 @@ export interface SubmitDelegatedEServiceArchivingParams {
 }
 
 export interface SubmitDelegatedDescriptorArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface ApproveDelegatedDescriptorArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface RejectDelegatedDescriptorArchivingParams {
   /**
    * the eservice id
    * @format uuid
@@ -7672,6 +7690,60 @@ export namespace Eservices {
     };
     export type RequestQuery = {};
     export type RequestBody = GracePeriodDaysSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows the owner (delegator) to approve a delegate's descriptor archiving request
+   * @tags eservices
+   * @name ApproveDelegatedDescriptorArchiving
+   * @summary Approve a delegated archiving request for a Descriptor
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/approveDelegatedArchiving
+   * @secure
+   */
+  export namespace ApproveDelegatedDescriptorArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows the owner (delegator) to reject a delegate's descriptor archiving request
+   * @tags eservices
+   * @name RejectDelegatedDescriptorArchiving
+   * @summary Reject a delegated archiving request for a Descriptor
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/rejectDelegatedArchiving
+   * @secure
+   */
+  export namespace RejectDelegatedDescriptorArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RejectDelegatedDescriptorArchivingSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }

@@ -54,11 +54,16 @@ describe('ProviderEServiceDetailsAlerts', () => {
 
   it('renders delegated archiving request info alert when latest request is not rejected', () => {
     const descriptor = createMockEServiceDescriptorProvider({
+      id: 'descriptor-id-1',
       state: 'PUBLISHED',
-      delegatedArchivingRequest: {
-        requestedAt: '2026-12-01T00:00:00.000Z',
-        requesterId: 'requester-id',
-        gracePeriodDays: 30,
+      eservice: {
+        delegatedArchivingRequest: {
+          requestedAt: '2026-12-01T00:00:00.000Z',
+          descriptorId: 'descriptor-id-1',
+          requesterId: 'requester-id',
+          gracePeriodDays: 30,
+          archivingReason: 'Motivo archiviazione',
+        },
       },
     })
 
@@ -70,17 +75,22 @@ describe('ProviderEServiceDetailsAlerts', () => {
 
   it('renders delegated archiving request rejection error alert using latest request and opens drawer with rejection reason', async () => {
     const descriptor = createMockEServiceDescriptorProvider({
+      id: 'descriptor-id-1',
       state: 'PUBLISHED',
       delegation: {
         delegator: { id: 'delegator-id', name: 'Comune di Milano' },
         delegate: { id: 'delegate-id', name: 'Comune di Roma' },
       },
-      delegatedArchivingRequest: {
-        requestedAt: '2026-12-02T00:00:00.000Z',
-        rejectedAt: '2026-12-02T00:00:00.000Z',
-        rejectionReason: 'Motivazione di rifiuto',
-        requesterId: 'requester-id',
-        gracePeriodDays: 30,
+      eservice: {
+        delegatedArchivingRequest: {
+          requestedAt: '2026-12-02T00:00:00.000Z',
+          descriptorId: 'descriptor-id-1',
+          rejectedAt: '2026-12-02T00:00:00.000Z',
+          rejectionReason: 'Motivazione di rifiuto',
+          requesterId: 'requester-id',
+          gracePeriodDays: 30,
+          archivingReason: 'Motivo archiviazione',
+        },
       },
     })
 

@@ -42,42 +42,41 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
     t,
   })
 
-  const { delegatedArchivingRequest } = descriptor
-  const delegatedEServiceArchivingRequest = descriptor.eservice.delegatedArchivingRequest
-
-  const requestedAt = delegatedArchivingRequest?.requestedAt
-  const rejectionReason = delegatedArchivingRequest?.rejectionReason
-  const rejectedAt = delegatedArchivingRequest?.rejectedAt
+  const delegatedArchivingRequest = descriptor.eservice.delegatedArchivingRequest
+  const isDescriptorDelegatedArchivingRequest = Boolean(
+    delegatedArchivingRequest && delegatedArchivingRequest.descriptorId === descriptor.id
+  )
+  const isEServiceDelegatedArchivingRequest = Boolean(
+    delegatedArchivingRequest && !delegatedArchivingRequest.descriptorId
+  )
 
   const delegatorName = descriptor.delegation?.delegator.name || '-'
 
-  const shouldShowDelegatedArchivingRequestRejectedAlert = Boolean(rejectedAt)
+  const shouldShowDelegatedArchivingRequestRejectedAlert = Boolean(
+    isDescriptorDelegatedArchivingRequest && delegatedArchivingRequest?.rejectedAt
+  )
 
   const shouldShowDelegatedArchivingRequestAlert =
-    Boolean(delegatedArchivingRequest) && !shouldShowDelegatedArchivingRequestRejectedAlert
-
-  const delegatedEServiceArchivingRequestedAt = delegatedEServiceArchivingRequest?.requestedAt
-  const delegatedEServiceArchivingRejectedAt = delegatedEServiceArchivingRequest?.rejectedAt
-  const delegatedEServiceArchivingRejectionReason =
-    delegatedEServiceArchivingRequest?.rejectionReason
+    Boolean(isDescriptorDelegatedArchivingRequest) &&
+    !shouldShowDelegatedArchivingRequestRejectedAlert
 
   const delegatedEServiceArchivingDate = descriptor.archivingSchedule?.archivableOn
     ? formatDateStringNumeric(descriptor.archivingSchedule.archivableOn)
     : '-'
 
   const shouldShowDelegatedEServiceArchivingRequestRejectedAlert = Boolean(
-    delegatedEServiceArchivingRejectedAt
+    isEServiceDelegatedArchivingRequest && delegatedArchivingRequest?.rejectedAt
   )
 
   const shouldShowDelegatedEServiceArchivingRequestAcceptedAlert = Boolean(
-    delegatedEServiceArchivingRequest &&
-    !delegatedEServiceArchivingRejectedAt &&
+    isEServiceDelegatedArchivingRequest &&
+    !delegatedArchivingRequest?.rejectedAt &&
     isCurrentDescriptorArchiving
   )
 
   const shouldShowDelegatedEServiceArchivingRequestAlert =
-    Boolean(delegatedEServiceArchivingRequest) &&
-    !delegatedEServiceArchivingRejectedAt &&
+    Boolean(isEServiceDelegatedArchivingRequest) &&
+    !delegatedArchivingRequest?.rejectedAt &&
     !isCurrentDescriptorArchiving
 
   const shouldShowMissingKeychainAlert =
@@ -128,7 +127,10 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
       {shouldShowDelegatedArchivingRequestAlert && (
         <Alert severity="info">
           {t('delegatedDescriptorArchivingRequest', {
-            date: requestedAt ? formatDateStringNumeric(requestedAt) : '-',
+            date:
+              isDescriptorDelegatedArchivingRequest && delegatedArchivingRequest?.requestedAt
+                ? formatDateStringNumeric(delegatedArchivingRequest.requestedAt)
+                : '-',
           })}
         </Alert>
       )}
@@ -160,9 +162,10 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
       {shouldShowDelegatedEServiceArchivingRequestAlert && (
         <Alert severity="info">
           {t('delegatedEServiceArchivingRequest', {
-            date: delegatedEServiceArchivingRequestedAt
-              ? formatDateStringNumeric(delegatedEServiceArchivingRequestedAt)
-              : '-',
+            date:
+              isEServiceDelegatedArchivingRequest && delegatedArchivingRequest?.requestedAt
+                ? formatDateStringNumeric(delegatedArchivingRequest.requestedAt)
+                : '-',
           })}
         </Alert>
       )}
@@ -204,8 +207,11 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
       >
         <Typography variant="body2">
           {rejectionReasonDrawerTarget === 'eservice'
-            ? delegatedEServiceArchivingRejectionReason || '-'
-            : rejectionReason || '-'}
+            ? (isEServiceDelegatedArchivingRequest && delegatedArchivingRequest?.rejectionReason) ||
+              '-'
+            : (isDescriptorDelegatedArchivingRequest &&
+                delegatedArchivingRequest?.rejectionReason) ||
+              '-'}
         </Typography>
       </Drawer>
     </Stack>

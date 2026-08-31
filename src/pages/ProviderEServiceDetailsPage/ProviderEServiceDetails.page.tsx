@@ -67,14 +67,6 @@ const ProviderEServiceDetailsPage: React.FC = () => {
 
   const isActiveDescriptor = descriptor?.id === activeDescriptor?.id
   const isEServiceBeingArchived = isDescriptorPendingArchiving(activeDescriptor?.state)
-  const hasAnyActiveDelegatedArchivingRequest = React.useMemo(() => {
-    const requests = [
-      descriptor?.delegatedArchivingRequest,
-      descriptor?.eservice.delegatedArchivingRequest,
-      ...(descriptor?.eservice.descriptors ?? []).map((d) => d.delegatedArchivingRequest),
-    ]
-    return requests.some((request) => Boolean(request && !request.rejectedAt))
-  }, [descriptor])
 
   const hasMultipleVersions = (descriptor?.eservice.descriptors?.length ?? 0) > 1
 
@@ -97,8 +89,6 @@ const ProviderEServiceDetailsPage: React.FC = () => {
       hasMultipleVersions ? openVersionSelectorDrawer : undefined,
       isActiveDescriptor,
       isEServiceBeingArchived,
-      descriptor?.delegatedArchivingRequest,
-      hasAnyActiveDelegatedArchivingRequest,
       descriptor?.eservice.delegatedArchivingRequest
     )
 
