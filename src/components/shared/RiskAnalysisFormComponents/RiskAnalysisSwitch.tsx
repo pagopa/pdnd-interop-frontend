@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormLabel, Switch as MUISwitch, Typography, Stack } from '@mui/material'
+import { Switch as MUISwitch, Typography, Stack, Box } from '@mui/material'
 import type { SwitchProps as MUISwitchProps } from '@mui/material'
 import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
@@ -56,6 +56,7 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
 
   return (
     <RiskAnalysisInputWrapper
+      name={name}
       label={label}
       error={error}
       infoLabel={infoLabel}
@@ -66,7 +67,7 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
       type={type}
       isAssignedToTemplateUsersSwitch={isAssignedToTemplateUsersSwitch}
     >
-      <FormLabel sx={{ color: 'text.primary' }}>
+      <Box sx={{ color: 'text.primary', display: 'flex', cursor: 'pointer' }}>
         <Stack sx={{ mt: 2, mb: 1 }} direction="row" alignItems="center" spacing={1}>
           <Controller
             name={name}
@@ -77,7 +78,8 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
                 {...fieldProps}
                 inputProps={{
                   ...switchProps.inputProps,
-                  'aria-describedby': accessibilityProps['aria-describedby'],
+                  ...accessibilityProps,
+                  id: name,
                 }}
                 onChange={(e) => {
                   onChange(e.target.checked ? 'true' : 'false')
@@ -98,7 +100,7 @@ export const RiskAnalysisSwitch: React.FC<RiskAnalysisSwitchProps> = ({
             </Typography>
           )}
         </Stack>
-      </FormLabel>
+      </Box>
     </RiskAnalysisInputWrapper>
   )
 }
