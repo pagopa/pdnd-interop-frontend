@@ -513,18 +513,11 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             >
               {tCommon('reject')}
             </Button>
-            <Tooltip title={publishTooltipTitle} arrow>
-              <span>
-                <Button
-                  startIcon={<PublishIcon />}
-                  variant="contained"
-                  onClick={handleApproveDelegatedVersionDraft}
-                  disabled={isSupport || isAsyncExchangeValidationLoading || !isPublishable}
-                >
-                  {tCommon('publish')}
-                </Button>
-              </span>
-            </Tooltip>
+            <PublishButton
+              onClick={handleApproveDelegatedVersionDraft}
+              disabled={isSupport || isAsyncExchangeValidationLoading || !isPublishable}
+              tooltipTitle={publishTooltipTitle}
+            />
           </Stack>
         )}
         {requireDelegateCorrections && sortedRejectedReasons && (
@@ -556,22 +549,30 @@ type PublishButtonProps = {
 
 const PublishButton: React.FC<PublishButtonProps> = ({ disabled, onClick, tooltipTitle }) => {
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const buttonLabel = tCommon('publish')
 
-  const Wrapper = disabled
-    ? ({ children }: { children: React.ReactElement }) => (
-        <Tooltip arrow title={tooltipTitle}>
-          <span tabIndex={disabled ? 0 : undefined}>{children}</span>
-        </Tooltip>
-      )
-    : React.Fragment
-
-  return (
-    <Wrapper>
-      <Button disabled={disabled} startIcon={<PublishIcon />} variant="contained" onClick={onClick}>
-        {tCommon('publish')}
-      </Button>
-    </Wrapper>
+  const button = (
+    <Button disabled={disabled} startIcon={<PublishIcon />} variant="contained" onClick={onClick}>
+      {buttonLabel}
+    </Button>
   )
+
+  if (disabled) {
+    return (
+      <Tooltip arrow title={tooltipTitle}>
+        <span
+          tabIndex={0}
+          role="button"
+          aria-disabled="true"
+          aria-label={tooltipTitle ? `${buttonLabel} - ${tooltipTitle}` : buttonLabel}
+        >
+          <span aria-hidden="true">{button}</span>
+        </span>
+      </Tooltip>
+    )
+  }
+
+  return button
 }
 
 type PublishTooltipKey =
