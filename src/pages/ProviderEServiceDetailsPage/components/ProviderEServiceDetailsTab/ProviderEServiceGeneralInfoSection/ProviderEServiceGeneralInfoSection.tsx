@@ -202,7 +202,7 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
           ...(!isEserviceFromTemplate && !isViewer ? [exportVersionListAction] : []),
         ]}
       >
-        <Stack spacing={2}>
+        <Stack spacing={2} component="dl">
           <InformationContainer label={t('version.label')} content={descriptor.version} />
           <InformationContainer
             label={t(`personalDataField.${descriptor.eservice.mode}.label`)}

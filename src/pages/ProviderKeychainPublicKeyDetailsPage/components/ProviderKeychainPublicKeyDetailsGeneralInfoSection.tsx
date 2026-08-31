@@ -36,7 +36,7 @@ export const ProviderKeychainPublicKeyDetailsGeneralInfoSection: React.FC<
             },
           ]}
         >
-          <Stack spacing={2}>
+          <Stack spacing={2} component="dl">
             <InformationContainer
               label={t('creationDateField.label')}
               content={formatDateString(publicKey.createdAt)}

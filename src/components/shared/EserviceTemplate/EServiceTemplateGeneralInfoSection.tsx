@@ -146,7 +146,7 @@ export const EServiceTemplateGeneralInfoSection: React.FC<
           //TODO: THE API is not ready yet
         ]}
       >
-        <Stack spacing={2}>
+        <Stack spacing={2} component="dl">
           <InformationContainer
             label={t('version.label')}
             content={eserviceTemplateVersion?.version.toString() || '1'}

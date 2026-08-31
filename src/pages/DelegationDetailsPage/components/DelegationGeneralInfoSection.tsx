@@ -99,7 +99,7 @@ export const DelegationGeneralInfoSection: React.FC<DelegationGeneralInfoSection
     <Grid container>
       <Grid item xs={7}>
         <SectionContainer title={t('title')} bottomActions={downloadContractActions}>
-          <Stack spacing={2}>
+          <Stack spacing={2} component="dl">
             <InformationContainer
               label={t('eserviceNameField.label')}
               content={match({

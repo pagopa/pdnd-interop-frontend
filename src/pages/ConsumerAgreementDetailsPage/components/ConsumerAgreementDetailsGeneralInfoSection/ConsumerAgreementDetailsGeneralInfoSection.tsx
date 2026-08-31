@@ -56,7 +56,7 @@ export const ConsumerAgreementDetailsGeneralInfoSection: React.FC = () => {
   return (
     <>
       <SectionContainer title={t('title')}>
-        <Stack spacing={2}>
+        <Stack spacing={2} component="dl">
           <InformationContainer
             label={t('eServiceField.label')}
             content={
