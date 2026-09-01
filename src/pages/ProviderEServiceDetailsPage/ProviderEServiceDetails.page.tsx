@@ -98,10 +98,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
       secondaryAction={secondaryAction}
       menuActions={menuActions}
       isLoading={!descriptor}
-      backToAction={{
-        label: t('actions.backToListLabel'),
-        to: 'PROVIDE_ESERVICE_LIST',
-      }}
+      navigation={{ showBackButton: true }}
       infoSection={
         descriptor
           ? {

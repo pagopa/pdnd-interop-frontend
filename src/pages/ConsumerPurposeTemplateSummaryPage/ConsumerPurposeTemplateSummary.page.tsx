@@ -73,10 +73,7 @@ const ConsumerPurposeTemplateTemplateSummaryPage: React.FC = () => {
     <PageContainer
       title={t('edit.summary.title')}
       isLoading={isLoading}
-      backToAction={{
-        label: t('backToListBtn'),
-        to: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST',
-      }}
+      navigation={{ mode: 'back' }}
       statusChip={
         purposeTemplate ? { for: 'purposeTemplate', state: purposeTemplate.state } : undefined
       }

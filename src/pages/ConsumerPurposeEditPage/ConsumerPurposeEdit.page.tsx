@@ -61,9 +61,10 @@ const ConsumerPurposeEditPage: React.FC = () => {
     <PageContainer
       title={t('edit.emptyTitle')}
       isLoading={isLoadingPurpose}
-      backToAction={{
-        label: t('backToListBtn'),
-        to: 'SUBSCRIBE_PURPOSE_LIST',
+      navigation={{
+        mode: 'wizard',
+        exitAction: { to: 'SUBSCRIBE_PURPOSE_LIST' },
+        stepKey: activeStep,
       }}
     >
       <RequiredTextLabel />

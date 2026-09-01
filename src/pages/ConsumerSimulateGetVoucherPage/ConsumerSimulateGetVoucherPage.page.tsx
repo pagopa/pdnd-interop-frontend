@@ -14,6 +14,7 @@ const ConsumerDebugVoucherPage: React.FC = () => {
         voucherType: clientKind === 'API' ? tVoucher('pdnd') : tVoucher('eservice'),
       })}
       description={t('description')}
+      navigation={{ mode: 'wizard', exitAction: { to: 'DEVELOPER_TOOLS' } }}
     >
       <VoucherInstructions />
     </PageContainer>

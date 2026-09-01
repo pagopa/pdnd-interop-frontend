@@ -44,10 +44,7 @@ const RiskAnalysisSummaryPage: React.FC = () => {
     <PageContainer
       title={isApprovalFlow ? t('titleApproval') : t('titleSummary')}
       isLoading={isLoading}
-      backToAction={{
-        label: t('backToListBtn'),
-        to: 'SUBSCRIBE_RISK_ANALYSIS_LIST',
-      }}
+      navigation={{ mode: 'back' }}
     >
       {alertProps && <Alert sx={{ mb: 3 }} {...alertProps} />}
 

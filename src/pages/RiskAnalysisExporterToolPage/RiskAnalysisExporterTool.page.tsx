@@ -31,9 +31,10 @@ const RiskAnalysisExporterToolPage: React.FC = () => {
     <PageContainer
       title={t('riskAnalysisExporterTool.page.title')}
       description={t('riskAnalysisExporterTool.page.description')}
-      backToAction={{
-        to: 'DEVELOPER_TOOLS',
-        label: t('backToDeveloperToolsLabel'),
+      navigation={{
+        mode: 'wizard',
+        exitAction: { to: 'DEVELOPER_TOOLS' },
+        stepKey: activeStep,
       }}
     >
       <Alert severity="info" sx={{ my: 2 }}>

@@ -2,25 +2,15 @@ import React from 'react'
 import type { SxProps } from '@mui/material'
 import { Box, Button, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
 import type { ActionItemButton } from '@/types/common.types'
-import { Breadcrumbs } from '../Breadcrumbs'
 import { StatusChip } from '@/components/shared/StatusChip'
 import type { useParams } from '@/router'
 import { Link, type RouteKey } from '@/router'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import { ActionMenu } from '@/components/shared/ActionMenu'
 import { ArchivingScheduleBadge } from '@/components/shared/ArchivingScheduleBadge'
 import type { ArchivingScope } from '@/api/api.generatedTypes'
+import { PageNavigation, type PageNavigationProps } from './PageNavigation'
 
 type RouteParams<TRouteKey extends RouteKey> = ReturnType<typeof useParams<TRouteKey>>
-
-export type PageBackToAction = {
-  [K in RouteKey]: {
-    label: string
-    to: K // the specified route
-    params?: RouteParams<K> // params corresponding to that route
-    urlParams?: Record<string, string>
-  }
-}[RouteKey]
 
 type ActionsSectionProps = {
   primaryAction?: ActionItemButton
@@ -28,8 +18,8 @@ type ActionsSectionProps = {
   menuActions?: Array<ActionItemButton>
 }
 
-type BreadcrumbsSectionProps = {
-  backToAction?: PageBackToAction
+type NavigationSectionProps = {
+  navigation?: PageNavigationProps
 }
 
 type ShortCutProps =
@@ -70,12 +60,12 @@ export type PageContainerProps = {
   isLoading?: boolean
   sx?: SxProps
   children: React.ReactNode
-} & BreadcrumbsSectionProps &
+} & NavigationSectionProps &
   IntroProps
 
 type PageContainerSkeletonProps = {
   children?: React.ReactNode
-  backToAction?: PageBackToAction
+  navigation?: PageNavigationProps
 }
 
 type SubtitleProps = {
@@ -89,7 +79,7 @@ export const NewPageContainer: React.FC<PageContainerProps> = ({
 }) => {
   return (
     <Stack direction="column" spacing={3}>
-      <BreadcrumbsSection {...props} />
+      <NavigationSection {...props} />
       {isLoading ? <IntroSkeleton /> : <Intro {...props} />}
       <Box>{children}</Box>
     </Stack>
@@ -98,11 +88,11 @@ export const NewPageContainer: React.FC<PageContainerProps> = ({
 
 export const PageContainerSkeleton: React.FC<PageContainerSkeletonProps> = ({
   children,
-  backToAction,
+  navigation,
 }) => {
   return (
     <Box>
-      <BreadcrumbsSection backToAction={backToAction} />
+      <NavigationSection navigation={navigation} />
       <IntroSkeleton />
       <Box sx={{ mt: 1 }}>{children}</Box>
     </Box>
@@ -152,26 +142,9 @@ const Subtitle: React.FC<SubtitleProps> = ({ description }) => {
     description
   )
 }
-const BreadcrumbsSection: React.FC<BreadcrumbsSectionProps> = ({ backToAction }) => {
-  return (
-    <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 1 }}>
-      {backToAction && (
-        <Link
-          to={backToAction.to}
-          params={backToAction.params}
-          options={backToAction.urlParams ? { urlParams: backToAction.urlParams } : undefined}
-          as="button"
-          startIcon={<ArrowBackIcon />}
-          size="small"
-          variant="naked"
-        >
-          {backToAction.label}
-        </Link>
-      )}
-      <Breadcrumbs />
-    </Stack>
-  )
-}
+const NavigationSection: React.FC<NavigationSectionProps> = ({ navigation }) => (
+  <PageNavigation {...(navigation ?? {})} />
+)
 
 const ActionsSection: React.FC<ActionsSectionProps> = ({
   primaryAction,
