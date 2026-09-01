@@ -91,7 +91,7 @@ const ConsumerPurposeTemplateListPage: React.FC = () => {
   ]
 
   const { data: eservicesOptions = [] } = useQuery({
-    ...EServiceQueries.getCatalogList({
+    ...EServiceQueries.getCompactCatalogList({
       q: eservicesAutocompleteInput,
       states: ['PUBLISHED'],
       limit: 50,

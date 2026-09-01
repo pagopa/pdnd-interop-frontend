@@ -22,7 +22,7 @@ const RiskAnalysisListPage: React.FC = () => {
     useAutocompleteTextInput('')
 
   const { data: eservicesOptions = [] } = useQuery({
-    ...EServiceQueries.getCatalogList({ offset: 0, limit: 50, q: eserviceAutocompleteText }),
+    ...EServiceQueries.getCompactCatalogList({ offset: 0, limit: 50, q: eserviceAutocompleteText }),
     placeholderData: keepPreviousData,
     select: ({ results }) =>
       results.map((o) => ({

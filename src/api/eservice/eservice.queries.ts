@@ -1,6 +1,7 @@
 import { queryOptions } from '@tanstack/react-query'
 import { EServiceServices } from './eservice.services'
 import type {
+  GetCompactCatalogEServicesParams,
   GetConsumersParams,
   GetEServicesCatalogParams,
   GetProducerEServicesParams,
@@ -18,6 +19,13 @@ function getAllCatalogEServices(params: Omit<GetEServicesCatalogParams, 'offset'
   return queryOptions({
     queryKey: ['EServiceGetAllCatalogList', params],
     queryFn: () => EServiceServices.getAllCatalogEServices(params),
+  })
+}
+
+function getCompactCatalogList(params: GetCompactCatalogEServicesParams) {
+  return queryOptions({
+    queryKey: ['EServiceGetCompactCatalogList', params],
+    queryFn: () => EServiceServices.getCompactCatalogList(params),
   })
 }
 
@@ -84,6 +92,7 @@ function getIsEServiceNameAvailable(eserviceName: string) {
 export const EServiceQueries = {
   getCatalogList,
   getAllCatalogEServices,
+  getCompactCatalogList,
   getProviderList,
   getDescriptorCatalog,
   getDescriptorProvider,

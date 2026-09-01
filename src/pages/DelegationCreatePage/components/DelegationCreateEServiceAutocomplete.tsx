@@ -1,6 +1,6 @@
 import type {
-  CatalogEService,
   CatalogEServiceTemplate,
+  CompactCatalogEService,
   DelegationKind,
   ProducerEService,
 } from '@/api/api.generatedTypes'
@@ -20,7 +20,7 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
   DelegationCreateEServiceAutocompleteProps
 > = ({ delegationKind }) => {
   const { t } = useTranslation('party')
-  const selectedEServiceRef = React.useRef<CatalogEService | ProducerEService | undefined>(
+  const selectedEServiceRef = React.useRef<CompactCatalogEService | ProducerEService | undefined>(
     undefined
   )
 
@@ -28,7 +28,7 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
     useAutocompleteTextInput()
 
   const formatAutocompleteOptionLabel = React.useCallback(
-    (eservice: CatalogEService | ProducerEService | CatalogEServiceTemplate) => {
+    (eservice: CompactCatalogEService | ProducerEService | CatalogEServiceTemplate) => {
       return match(delegationKind)
         .with('DELEGATED_CONSUMER', () => {
           if (!('producer' in eservice)) return eservice.name
@@ -73,7 +73,7 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
   })
 
   const { data: catalogEservices = [], isLoading: isLoadingCatalogEservices } = useQuery({
-    ...EServiceQueries.getCatalogList({
+    ...EServiceQueries.getCompactCatalogList({
       q: getQ(),
       // e-service might also be on 'DEPRECATED' state
       states: ['PUBLISHED'],

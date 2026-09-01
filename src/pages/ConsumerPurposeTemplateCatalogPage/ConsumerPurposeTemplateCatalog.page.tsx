@@ -8,7 +8,10 @@ import {
   useFilters,
   usePagination,
 } from '@pagopa/interop-fe-commons'
-import type { CatalogEService, GetCatalogPurposeTemplatesParams } from '@/api/api.generatedTypes'
+import type {
+  CompactCatalogEService,
+  GetCatalogPurposeTemplatesParams,
+} from '@/api/api.generatedTypes'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
 import {
@@ -41,7 +44,7 @@ const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
   })
 
   const { data: eservicesOptions = [] } = useQuery({
-    ...EServiceQueries.getCatalogList({
+    ...EServiceQueries.getCompactCatalogList({
       q: eservicesAutocompleteInput,
       states: ['PUBLISHED'],
       limit: 50,
@@ -49,7 +52,7 @@ const ConsumerPurposeTemplateCatalogPage: React.FC = () => {
     }),
     placeholderData: keepPreviousData,
     select: ({ results }) =>
-      results.map((eservice: CatalogEService) => ({
+      results.map((eservice: CompactCatalogEService) => ({
         label: eservice.name,
         value: eservice.id,
       })),
