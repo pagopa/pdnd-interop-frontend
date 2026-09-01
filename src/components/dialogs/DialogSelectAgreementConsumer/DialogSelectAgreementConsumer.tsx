@@ -22,6 +22,7 @@ import { match, P } from 'ts-pattern'
 import { useQuery } from '@tanstack/react-query'
 import { DelegationQueries } from '@/api/delegation'
 import { TenantQueries } from '@/api/tenant'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 type SelectAgreementConsumerFormValues = {
   consumerId: string
@@ -157,10 +158,11 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
     .with('create', () => () => onSubmitCreate({ isOwnEService, delegationId }))
     .exhaustive()
 
-  const isButtonActionDisable = match(action)
+  const isConfirmDisabledWithoutSupport = match(action)
     .with('create', () => isQueryEnabled && !isLoading && !hasTenantCertifiedAttributes)
     .with(P.union('edit', 'inspect'), () => !selectedConsumerId)
     .exhaustive()
+  const isConfirmDisabled = useIsActionDisabledBySupport(isConfirmDisabledWithoutSupport)
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} maxWidth="md" fullWidth>
@@ -200,7 +202,7 @@ export const DialogSelectAgreementConsumer: React.FC<DialogSelectAgreementConsum
             <Button type="button" variant="outlined" onClick={closeDialog}>
               {tCommon('cancel')}
             </Button>
-            <Button variant="contained" type="submit" disabled={isButtonActionDisable}>
+            <Button variant="contained" type="submit" disabled={isConfirmDisabled}>
               {t(`actions.${action}`)}
             </Button>
           </DialogActions>

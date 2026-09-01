@@ -1,4 +1,5 @@
 import { useDialog } from '@/stores'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import type { DialogDeleteAnnotationProps } from '@/types/dialog.types'
 import {
   Button,
@@ -15,6 +16,7 @@ export const DialogDeleteAnnotation: React.FC<DialogDeleteAnnotationProps> = ({ 
   const ariaLabelId = React.useId()
   const ariaDescriptionId = React.useId()
   const { closeDialog } = useDialog()
+  const isConfirmDisabled = useIsActionDisabledBySupport()
   const { t } = useTranslation('purposeTemplate', {
     keyPrefix: 'catalogCard.deleteAnnotationDialog',
   })
@@ -47,7 +49,12 @@ export const DialogDeleteAnnotation: React.FC<DialogDeleteAnnotationProps> = ({ 
         <Button variant="outlined" onClick={handleCancel}>
           {t('cancelLabel')}
         </Button>
-        <Button variant="outlined" color="error" onClick={handleProceed}>
+        <Button
+          variant="outlined"
+          color="error"
+          disabled={isConfirmDisabled}
+          onClick={handleProceed}
+        >
           {t('proceedLabel')}
         </Button>
       </DialogActions>

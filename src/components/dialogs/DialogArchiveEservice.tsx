@@ -1,6 +1,7 @@
 import { EServiceMutations } from '@/api/eservice'
 import type { GracePeriodDays } from '@/api/api.generatedTypes'
 import { archivingGuideLink, DEFAULT_GRACE_PERIOD_DAYS } from '@/config/constants'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import { useDialog } from '@/stores'
 import type { DialogArchiveEserviceProps } from '@/types/dialog.types'
 import {
@@ -18,9 +19,9 @@ import {
 import React, { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
+import { GracePeriodField } from '../shared/GracePeriodField'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { RequiredTextLabel } from '../shared/RequiredTextLabel'
-import { GracePeriodField } from '../shared/GracePeriodField'
 
 type ArchiveEserviceFormValues = {
   reason: string
@@ -68,6 +69,8 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
       { onSuccess: closeDialog }
     )
   }
+
+  const isForwardActionDisabled = useIsActionDisabledBySupport()
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
@@ -121,6 +124,7 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceI
           <Button
             variant="contained"
             color={activeStep === 'ADVISE' ? 'primary' : 'error'}
+            disabled={isForwardActionDisabled}
             onClick={
               activeStep === 'ADVISE' ? handleForwardAction : formMethods.handleSubmit(onSubmit)
             }

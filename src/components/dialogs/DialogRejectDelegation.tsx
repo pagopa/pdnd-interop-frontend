@@ -7,6 +7,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { useTranslation } from 'react-i18next'
 import { match } from 'ts-pattern'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 type RejectDelegationFormValues = {
   reason: string
@@ -37,6 +38,7 @@ export const DialogRejectDelegation: React.FC<DialogRejectDelegationProps> = ({
   })
 
   const isSubmitButtonEnabled = formMethods.watch('reason') !== ''
+  const isSubmitDisabled = useIsActionDisabledBySupport(!isSubmitButtonEnabled)
 
   const onSubmit = ({ reason }: RejectDelegationFormValues) => {
     rejectDelegation({ delegationId, rejectionReason: reason })
@@ -67,7 +69,7 @@ export const DialogRejectDelegation: React.FC<DialogRejectDelegationProps> = ({
             <Button type="button" variant="outlined" onClick={closeDialog}>
               {tCommon('cancel')}
             </Button>
-            <Button variant="contained" type="submit" disabled={!isSubmitButtonEnabled}>
+            <Button variant="contained" type="submit" disabled={isSubmitDisabled}>
               {t('actions.reject')}
             </Button>
           </DialogActions>
