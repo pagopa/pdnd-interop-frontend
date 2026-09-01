@@ -103,7 +103,8 @@
         "error": "It was not possible to forward the new e-service version to the delegator for approval. Please try again!"
       },
       "confirmDialog": {
-        "title": "Request New E-service Version Publication",
+        "title": "Request e-service publication",
+        "titleNewVersion": "Request version publication",
         "description": "You are about to forward to <strong>{{delegatorName}}</strong> the request to publish a new version of the <strong>{{eserviceName}}</strong> e-service.",
         "actions": {
           "proceed": "Submit request"
