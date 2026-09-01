@@ -57,12 +57,11 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
   )
 
   const shouldShowDelegatedArchivingRequestAlert =
-    Boolean(isDescriptorDelegatedArchivingRequest) &&
-    !shouldShowDelegatedArchivingRequestRejectedAlert
+    isDescriptorDelegatedArchivingRequest && !shouldShowDelegatedArchivingRequestRejectedAlert
 
   const delegatedEServiceArchivingDate = descriptor.archivingSchedule?.archivableOn
     ? formatDateStringNumeric(descriptor.archivingSchedule.archivableOn)
-    : '-'
+    : ''
 
   const shouldShowDelegatedEServiceArchivingRequestRejectedAlert = Boolean(
     isEServiceDelegatedArchivingRequest && delegatedArchivingRequest?.rejectedAt
@@ -75,7 +74,7 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
   )
 
   const shouldShowDelegatedEServiceArchivingRequestAlert =
-    Boolean(isEServiceDelegatedArchivingRequest) &&
+    isEServiceDelegatedArchivingRequest &&
     !delegatedArchivingRequest?.rejectedAt &&
     !isCurrentDescriptorArchiving
 
@@ -127,10 +126,9 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
       {shouldShowDelegatedArchivingRequestAlert && (
         <Alert severity="info">
           {t('delegatedDescriptorArchivingRequest', {
-            date:
-              isDescriptorDelegatedArchivingRequest && delegatedArchivingRequest?.requestedAt
-                ? formatDateStringNumeric(delegatedArchivingRequest.requestedAt)
-                : '-',
+            date: delegatedArchivingRequest?.requestedAt
+              ? formatDateStringNumeric(delegatedArchivingRequest.requestedAt)
+              : '',
           })}
         </Alert>
       )}
@@ -162,10 +160,9 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
       {shouldShowDelegatedEServiceArchivingRequestAlert && (
         <Alert severity="info">
           {t('delegatedEServiceArchivingRequest', {
-            date:
-              isEServiceDelegatedArchivingRequest && delegatedArchivingRequest?.requestedAt
-                ? formatDateStringNumeric(delegatedArchivingRequest.requestedAt)
-                : '-',
+            date: delegatedArchivingRequest?.requestedAt
+              ? formatDateStringNumeric(delegatedArchivingRequest.requestedAt)
+              : '',
           })}
         </Alert>
       )}
@@ -205,14 +202,7 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
           action: () => setRejectionReasonDrawerTarget(null),
         }}
       >
-        <Typography variant="body2">
-          {rejectionReasonDrawerTarget === 'eservice'
-            ? (isEServiceDelegatedArchivingRequest && delegatedArchivingRequest?.rejectionReason) ||
-              '-'
-            : (isDescriptorDelegatedArchivingRequest &&
-                delegatedArchivingRequest?.rejectionReason) ||
-              '-'}
-        </Typography>
+        <Typography variant="body2">{delegatedArchivingRequest?.rejectionReason || '-'}</Typography>
       </Drawer>
     </Stack>
   )
