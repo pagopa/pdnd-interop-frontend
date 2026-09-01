@@ -628,6 +628,7 @@
       "versionRowLabel": "Version {{ version }}"
     },
     "scheduledArchivalTooltip": {
+      "status": "archiving",
       "descriptor": "Version scheduled for archival on {{ date }}",
       "eservice": "E-service scheduled for archival on {{ date }}"
     },

@@ -55,7 +55,7 @@ export const ConsumerAgreementsTableRow: React.FC<{ agreement: AgreementListEntr
     <Stack direction="row" alignItems="center">
       {agreement.hasUnreadNotifications && <NotificationBadgeDot />}
       {t('eserviceName', { name: eservice.name, version: descriptor.version })}
-      {isDelegated && <ByDelegationChip tenantRole={isDelegator ? 'DELEGATOR' : 'DELEGATE'} />}
+      {isDelegated && <ByDelegationChip delegation={agreement.delegation} />}
     </Stack>
   )
 

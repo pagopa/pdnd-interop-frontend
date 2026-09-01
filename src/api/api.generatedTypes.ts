@@ -1134,6 +1134,8 @@ export interface CompactProducerDescriptor {
   version: string;
   audience: string[];
   requireCorrections?: boolean;
+  /** @format date-time */
+  archivableOn?: string;
 }
 
 export interface ProducerEService {
