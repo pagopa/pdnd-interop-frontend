@@ -104,7 +104,7 @@
       },
       "confirmDialog": {
         "title": "Request e-service publication",
-        "titleNewVersion": "Request New E-service Version Publication",
+        "titleNewVersion": "Request version publication",
         "description": "You are about to forward to <strong>{{delegatorName}}</strong> the request to publish a new version of the <strong>{{eserviceName}}</strong> e-service.",
         "actions": {
           "proceed": "Submit request"
