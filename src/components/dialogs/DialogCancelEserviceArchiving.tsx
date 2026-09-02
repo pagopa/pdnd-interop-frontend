@@ -2,8 +2,8 @@ import { EServiceMutations } from '@/api/eservice'
 import { useDialog } from '@/stores'
 import type { DialogCancelEserviceArchivingProps } from '@/types/dialog.types'
 import { formatDateStringNumeric } from '@/utils/format.utils'
-import { Alert } from '@mui/material'
 import {
+  Alert,
   Button,
   Dialog,
   DialogActions,

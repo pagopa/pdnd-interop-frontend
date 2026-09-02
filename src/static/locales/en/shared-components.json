@@ -300,7 +300,7 @@
     "titleDelegate": "Cancel archiving request",
     "titleDelegateApproved": "Cancel archiving request",
     "description": "This e-service will no longer be archived.",
-    "descriptionDelegate": "On {{date}} you requested archiving of this e-service version from the delegating institution {{name}}. Until approval, you can cancel the archiving request on your own.",
+    "descriptionDelegate": "On {{date}} you requested archiving of this e-service from the delegating institution {{name}}. Until approval, you can cancel the archiving request on your own.",
     "descriptionDelegateApproved": "This e-service will be archived on {{date}}. To cancel archiving, contact the delegating institution {{name}} before this date.",
     "alertDelegate": "Once the archiving request is approved, you will need to contact the delegating institution to request cancellation of archiving.",
     "actions": {
@@ -341,7 +341,7 @@
     "titleDelegate": "Cancel archiving request",
     "titleDelegateApproved": "Cancel archiving request",
     "description": "This version will no longer be archived.",
-    "descriptionDelegate": "The archiving request sent to the delegating institution {{name}} will be canceled.",
+    "descriptionDelegate": "On {{date}} you requested archiving of this e-service version from the delegating institution {{name}}. Until approval, you can cancel the archiving request on your own.",
     "descriptionDelegateApproved": "This e-service version will be archived on {{date}}. To cancel archiving, contact the delegating institution {{name}} before this date.",
     "alertDelegate": "Once the archiving request is approved, you will need to contact the delegating institution to request cancellation of archiving.",
     "actions": {
