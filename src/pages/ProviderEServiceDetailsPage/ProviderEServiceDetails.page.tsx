@@ -20,12 +20,13 @@ import {
   isDescriptorPendingArchiving,
 } from '@/utils/eservice.utils'
 import { ProviderEServiceDetailsAlerts } from './components/ProviderEServiceDetailsTab/ProviderEServiceDetailsAlerts'
+import { ProviderEServiceArchivingAlert } from './components/ProviderEServiceArchivingAlert'
 import { AuthHooks } from '@/api/auth'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
-  const { isAdmin, isSupport, isOperatorSecurity, isViewer } = AuthHooks.useJwt()
+  const { isAdmin, isSupport, isOperatorSecurity, isViewer, jwt } = AuthHooks.useJwt()
 
   const { activeTab, updateActiveTab } = useActiveTab('eserviceDetails')
   const canViewKeychains = isAdmin || isSupport || isOperatorSecurity
@@ -92,6 +93,8 @@ const ProviderEServiceDetailsPage: React.FC = () => {
       descriptor?.eservice.delegatedArchivingRequest
     )
 
+  const isDelegator = jwt?.organizationId === descriptor?.delegation?.delegator.id
+
   return (
     <NewPageContainer
       title={descriptor?.eservice.name || ''}
@@ -139,6 +142,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
           : undefined
       }
     >
+      {isDelegator && <ProviderEServiceArchivingAlert descriptor={descriptor} />}
       <ProviderEServiceDetailsAlerts
         descriptor={descriptor}
         onViewKeychains={canViewKeychains ? handleViewKeychains : undefined}

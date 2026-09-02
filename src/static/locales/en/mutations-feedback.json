@@ -159,10 +159,28 @@
         "error": "It was not possible to cancel the archiving request for this e-service version. Please try again later."
       }
     },
-    "cancelDelegatedEserviceArchivingRequest": {
+    "approveDelegatedArchivingEService": {
       "outcome": {
-        "success": "The archiving request for this e-service has been canceled",
-        "error": "It was not possible to cancel the archiving request for this e-service. Please try again later."
+        "success": "This e-service will be archived in {{days}} days",
+        "error": "It was not possible to archive this e-service. Please try again later."
+      }
+    },
+    "rejectDelegatedArchivingEService": {
+      "outcome": {
+        "success": "You have rejected the e-service archiving request",
+        "error": "Your e-service archiving request could not be rejected. Please try again later."
+      }
+    },
+    "approveDelegatedArchivingVersion": {
+      "outcome": {
+        "success": "This version of the e-service will be archived in {{days}} days",
+        "error": "It was not possible to archive this version of the e-service. Please try again later."
+      }
+    },
+    "rejectDelegatedArchivingVersion": {
+      "outcome": {
+        "success": "You have rejected the request to archive this version of the e-service",
+        "error": "The request to archive this version of the e-service could not be rejected. Please try again later."
       }
     },
     "cancelEserviceArchiving": {
