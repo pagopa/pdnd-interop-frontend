@@ -395,6 +395,13 @@
         "title": "Revoke Declared Attribute",
         "description": "Are you sure you want to revoke the attribute?"
       }
+    },
+    "updateCertifiedDiscreteAttribute": {
+      "loading": "Certified attribute value is being modified.",
+      "outcome": {
+        "error": "The value of the discrete certificate attribute could not be changed. Please check that you have entered the correct information.",
+        "success": "You have changed the value of the certificate attribute."
+      }
     }
   },
   "agreement": {
