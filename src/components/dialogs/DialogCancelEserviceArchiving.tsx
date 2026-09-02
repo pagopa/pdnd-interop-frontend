@@ -77,9 +77,7 @@ const DialogCancelEserviceArchiving: React.FC<DialogCancelEserviceArchivingProps
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
       <DialogTitle id={ariaLabelId}>{t(titleKey)}</DialogTitle>
       <DialogContent>
-        <Typography variant="body2">
-          {t(descriptionKey, { name: delegatorName, date: formattedArchivingDate })}
-        </Typography>
+          {t(descriptionKey, { name: delegatorName ?? '-', date: formattedArchivingDate })}
 
         {isPendingDelegateArchiving && (
           <Alert severity="info" sx={{ mt: 4 }}>
