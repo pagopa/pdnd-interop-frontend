@@ -1,4 +1,5 @@
 import type { RequesterCertifiedAttribute } from '@/api/api.generatedTypes'
+import { AttributeMutations } from '@/api/attribute'
 import { Drawer } from '@/components/shared/Drawer'
 import { RHFTextField } from '@/components/shared/react-hook-form-inputs'
 import { Stack, Typography } from '@mui/material'
@@ -25,6 +26,9 @@ const ChangeAttributeValueDrawer: React.FC<ChangeAttributeValueDrawerProps> = ({
     keyPrefix: 'tenantCertifier.assignTab.changeValueDrawer',
   })
 
+  const { mutate: updateCertifiedDiscreteAttribute } =
+    AttributeMutations.useUpdateCertifiedDiscreteAttribute()
+
   const formMethods = useForm<ChangeAttributeValueFormValues>({
     defaultValues: {
       value: attribute.discreteValue ?? undefined,
@@ -32,17 +36,31 @@ const ChangeAttributeValueDrawer: React.FC<ChangeAttributeValueDrawerProps> = ({
   })
 
   const onSubmit = formMethods.handleSubmit(({ value }: ChangeAttributeValueFormValues) => {
-    console.log('TODO function')
+    updateCertifiedDiscreteAttribute({
+      tenantId: attribute.tenantId,
+      attributeId: attribute.attributeId,
+      certifiedDiscreteValue: value,
+    })
   })
 
   return (
     <FormProvider {...formMethods}>
       <Drawer
         title={t('title')}
-        subtitle={t('subtitle', {
-          attributeName: attribute.attributeName,
-          tenantName: attribute.tenantName,
-        })}
+        subtitle={
+          <Typography variant="body2">
+            <Trans
+              components={{
+                strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+              }}
+            >
+              {t('subtitle', {
+                attributeName: attribute.attributeName,
+                tenantName: attribute.tenantName,
+              })}
+            </Trans>
+          </Typography>
+        }
         buttonAction={{
           action: onSubmit,
           label: t('submitBtnLabel'),
