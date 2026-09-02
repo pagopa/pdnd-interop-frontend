@@ -1,8 +1,8 @@
-import type { DialogRejectArchivingDelegatedProps } from '@/types/dialog.types'
+import type { DialogDelegatorRejectArchivingVersionProps } from '@/types/dialog.types'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { screen } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
-import DialogRejectArchivingDelegated from '../DialogRejectArchivingDelegated'
+import DialogDelegatorRejectArchivingVersion from '../DialogDelegatorRejectArchivingVersion'
 
 const mockCloseDialog = vi.fn()
 const mockOpenDialog = vi.fn()
@@ -14,65 +14,49 @@ vi.mock('@/stores', async () => {
   }
 })
 
-const mockRejectArchiveEServiceRequest = vi.fn((_params, options) => {
-  options?.onSuccess?.()
-})
 const mockRejectArchiveVersionRequest = vi.fn((_params, options) => {
   options?.onSuccess?.()
 })
 
 vi.mock('@/api/eservice', () => ({
   EServiceMutations: {
-    useRejectDelegatedArchivingEServiceRequest: () => ({
-      mutate: mockRejectArchiveEServiceRequest,
-    }),
     useRejectDelegatedArchivingVersionRequest: () => ({
       mutate: mockRejectArchiveVersionRequest,
     }),
   },
 }))
 
-const renderDialog = (overrides: Partial<DialogRejectArchivingDelegatedProps> = {}) => {
-  const props: DialogRejectArchivingDelegatedProps = {
-    type: 'rejectArchivingDelegated',
+const renderDialog = (overrides: Partial<DialogDelegatorRejectArchivingVersionProps> = {}) => {
+  const props: DialogDelegatorRejectArchivingVersionProps = {
+    type: 'delegatorRejectArchivingVersion',
+    descriptorId: 'descriptor-id',
     eserviceId: 'eservice-id',
     delegatedName: 'delegated-name',
     ...overrides,
   }
-  return renderWithApplicationContext(<DialogRejectArchivingDelegated {...props} />, {
+  return renderWithApplicationContext(<DialogDelegatorRejectArchivingVersion {...props} />, {
     withReactQueryContext: true,
     withRouterContext: true,
   })
 }
 
-describe('DialogRejectArchivingDelegated', () => {
+describe('DialogDelegatorRejectArchivingVersion', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
 
-  it('renders DialogRejectArchivingDelegated for eservice', async () => {
+  it('renders DialogRejectArchivingDelegated', async () => {
     renderDialog()
 
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     expect(screen.getByText('dialogRejectArchivingDelegated.title')).toBeInTheDocument()
     expect(screen.getByText('dialogRejectArchivingDelegated.paragraph')).toBeInTheDocument()
     expect(screen.getByText('dialogConfirmArchivingDelegated.fieldLabel')).toBeInTheDocument()
-    const button = screen.getByRole('button', { name: 'dialogRejectArchivingDelegated.cancel' })
-    expect(button).toBeInTheDocument()
-    expect(
-      screen.getByRole('button', { name: 'dialogRejectArchivingDelegated.confirm' })
-    ).toBeInTheDocument()
-    await userEvent.click(button)
-    expect(mockRejectArchiveEServiceRequest).toBeCalled()
   })
 
-  it('renders DialogRejectArchivingDelegated for eservice', async () => {
-    renderDialog({ descriptorId: 'descriptor-id' })
+  it('check for function call on button click', async () => {
+    renderDialog()
 
-    expect(screen.getByRole('dialog')).toBeInTheDocument()
-    expect(screen.getByText('dialogRejectArchivingDelegated.title')).toBeInTheDocument()
-    expect(screen.getByText('dialogRejectArchivingDelegated.paragraph')).toBeInTheDocument()
-    expect(screen.getByText('dialogConfirmArchivingDelegated.fieldLabel')).toBeInTheDocument()
     const button = screen.getByRole('button', { name: 'dialogRejectArchivingDelegated.cancel' })
     expect(button).toBeInTheDocument()
     expect(

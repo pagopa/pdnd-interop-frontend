@@ -9,7 +9,7 @@ import {
   Button,
 } from '@mui/material'
 import { useDialog } from '@/stores'
-import type { DialogRejectArchivingDelegatedProps } from '@/types/dialog.types'
+import type { DialogDelegatorRejectArchivingVersionProps } from '@/types/dialog.types'
 import { useTranslation } from 'react-i18next'
 import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
@@ -20,16 +20,12 @@ type RejectArchivingDelegatedFormValues = {
   reason: string
 }
 
-const DialogRejectArchivingDelegated: React.FC<DialogRejectArchivingDelegatedProps> = ({
-  eserviceId,
-  descriptorId,
-  delegatedName,
-}) => {
+const DialogDelegatorRejectArchivingVersion: React.FC<
+  DialogDelegatorRejectArchivingVersionProps
+> = ({ eserviceId, descriptorId, delegatedName }) => {
   const ariaLabelId = React.useId()
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { closeDialog } = useDialog()
-  const { mutate: rejectEServiceRequest } =
-    EServiceMutations.useRejectDelegatedArchivingEServiceRequest()
   const { mutate: rejectVersionRequest } =
     EServiceMutations.useRejectDelegatedArchivingVersionRequest()
 
@@ -40,14 +36,10 @@ const DialogRejectArchivingDelegated: React.FC<DialogRejectArchivingDelegatedPro
   const onSubmit: SubmitHandler<RejectArchivingDelegatedFormValues> = (values) => {
     if (!values.reason) return
 
-    if (descriptorId) {
-      rejectVersionRequest(
-        { eserviceId, descriptorId, rejectReason: values.reason },
-        { onSuccess: closeDialog }
-      )
-    } else {
-      rejectEServiceRequest({ eserviceId, rejectReason: values.reason }, { onSuccess: closeDialog })
-    }
+    rejectVersionRequest(
+      { eserviceId, descriptorId, rejectReason: values.reason },
+      { onSuccess: closeDialog }
+    )
   }
 
   return (
@@ -87,4 +79,4 @@ const DialogRejectArchivingDelegated: React.FC<DialogRejectArchivingDelegatedPro
   )
 }
 
-export default DialogRejectArchivingDelegated
+export default DialogDelegatorRejectArchivingVersion
