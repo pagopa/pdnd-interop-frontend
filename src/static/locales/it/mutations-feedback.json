@@ -395,6 +395,13 @@
         "title": "Revoca attributo dichiarato",
         "description": "Sei sicuro di voler revocare l'attributo?"
       }
+    },
+    "updateCertifiedDiscreteAttribute": {
+      "loading": "Stiamo modificando il valore dell’attributo certificato.",
+      "outcome": {
+        "error": "Non è stato possibile modificare il valore dell’attributo certificato discreto. Controlla di aver inserito le informazioni corrette.",
+        "success": "Hai modificato il valore dell’attributo certificato."
+      }
     }
   },
   "agreement": {
