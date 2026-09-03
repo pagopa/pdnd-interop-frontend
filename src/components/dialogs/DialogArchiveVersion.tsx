@@ -14,7 +14,6 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import { AxiosError } from 'axios'
 import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
@@ -37,7 +36,7 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
     keyPrefix: 'dialogArchiveVersion',
   })
 
-  const { closeDialog, openDialog } = useDialog()
+  const { closeDialog } = useDialog()
   const { mutate: scheduleArchive } = EServiceMutations.useScheduleArchiveDescriptor()
   const { mutate: requestArchive } = EServiceMutations.useRequestArchiveDescriptor()
 

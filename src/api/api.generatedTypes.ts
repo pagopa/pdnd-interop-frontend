@@ -520,7 +520,6 @@ export interface CatalogEServiceDescriptor {
   /** @format date-time */
   archivedAt?: string;
   archivingSchedule?: ArchivingSchedule;
-  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest;
   asyncExchangeProperties?: AsyncExchangeProperties;
   asyncExchangeCallbackInterface?: EServiceDoc;
   templateRef?: EServiceTemplateRef;
@@ -584,7 +583,6 @@ export interface CatalogDescriptorEService {
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
   archivingReason?: string;
-  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest;
   asyncExchange?: boolean;
 }
 
@@ -608,20 +606,6 @@ export interface ProducerEServiceDetails {
   latestActiveDescriptorId?: string;
 }
 
-export interface DelegatedDescriptorArchivingRequest {
-  /** @format date-time */
-  requestedAt: string;
-  /** @format date-time */
-  acceptedAt?: string;
-  /** @format date-time */
-  rejectedAt?: string;
-  rejectionReason?: string;
-  /** @format uuid */
-  requesterId: string;
-  /** Number of days for the archiving grace period */
-  gracePeriodDays: GracePeriodDays;
-}
-
 export interface DelegatedEServiceArchivingRequest {
   /** @format date-time */
   requestedAt: string;
@@ -634,7 +618,9 @@ export interface DelegatedEServiceArchivingRequest {
   requesterId: string;
   /** Number of days for the archiving grace period */
   gracePeriodDays: GracePeriodDays;
-  archivingReason: string;
+  archivingReason?: string;
+  /** @format uuid */
+  descriptorId?: string;
 }
 
 export interface ArchivingSchedule {
@@ -734,7 +720,6 @@ export interface ProducerEServiceDescriptor {
   asyncExchangeCallbackInterface?: EServiceDoc;
   delegation?: DelegationWithCompactTenants;
   archivingSchedule?: ArchivingSchedule;
-  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest;
 }
 
 export interface ProducerDescriptorEService {
@@ -952,7 +937,6 @@ export interface CompactDescriptor {
   templateVersionId?: string;
   /** @format date-time */
   archivableOn?: string;
-  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest;
 }
 
 export interface TemplateInstanceInterfaceServerUrlSeed {
@@ -1896,6 +1880,12 @@ export interface RequesterCertifiedAttribute {
   attributeId: string;
   attributeName: string;
   kind: AttributeKind;
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  discreteValue?: number;
 }
 
 export interface RequesterCertifiedAttributes {
@@ -2229,6 +2219,15 @@ export interface CertifiedTenantAttributeSeed {
 export interface CertifiedDiscreteTenantAttributeSeed {
   /** @format uuid */
   id: string;
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  certifiedDiscreteValue: number;
+}
+
+export interface UpdateCertifiedDiscreteTenantAttributeSeed {
   /**
    * @format int32
    * @min 1
@@ -2768,6 +2767,8 @@ export interface NotificationConfig {
   clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: boolean;
   purposeQuotaAdjustmentRequestToProducer: boolean;
   purposeOverQuotaStateToConsumer: boolean;
+  eserviceArchivingRequestedToDelegator: boolean;
+  eserviceArchivingApprovedRejectedToDelegate: boolean;
 }
 
 export interface TenantNotificationConfig {
@@ -2812,6 +2813,12 @@ export interface EServiceArchivingSeed {
 
 /** Seed for an owner to reject a delegated archiving request */
 export interface RejectDelegatedEServiceArchivingSeed {
+  /** @minLength 1 */
+  rejectionReason: string;
+}
+
+/** Seed for an owner to reject a delegated descriptor archiving request */
+export interface RejectDelegatedDescriptorArchivingSeed {
   /** @minLength 1 */
   rejectionReason: string;
 }
@@ -3429,7 +3436,54 @@ export interface SubmitDelegatedEServiceArchivingParams {
   eServiceId: string;
 }
 
+export interface CancelDelegatedEServiceArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
 export interface SubmitDelegatedDescriptorArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface CancelDelegatedDescriptorArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface ApproveDelegatedDescriptorArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface RejectDelegatedDescriptorArchivingParams {
   /**
    * the eservice id
    * @format uuid
@@ -3866,6 +3920,11 @@ export interface GetProducerEServicesParams {
   consumersIds?: string[];
   /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
   delegated?: boolean;
+  /**
+   * comma separated sequence of states
+   * @default []
+   */
+  states?: EServiceDescriptorState[];
   /**
    * @format int32
    * @min 0
@@ -4573,6 +4632,19 @@ export interface RevokeCertifiedAttributeParams {
 }
 
 export interface RevokeCertifiedDiscreteAttributeParams {
+  /**
+   * Tenant id which attribute needs to be verified
+   * @format uuid
+   */
+  tenantId: string;
+  /**
+   * Attribute id to be revoked
+   * @format uuid
+   */
+  attributeId: string;
+}
+
+export interface UpdateCertifiedDiscreteAttributeParams {
   /**
    * Tenant id which attribute needs to be verified
    * @format uuid
@@ -6001,6 +6073,11 @@ export namespace Producers {
       /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
       delegated?: boolean;
       /**
+       * comma separated sequence of states
+       * @default []
+       */
+      states?: EServiceDescriptorState[];
+      /**
        * @format int32
        * @min 0
        */
@@ -6964,6 +7041,32 @@ export namespace Tenants {
   }
 
   /**
+   * @description Update the value of a certified discrete attribute for a Tenant by the requester Tenant
+   * @tags tenants
+   * @name UpdateCertifiedDiscreteAttribute
+   * @request PUT:/tenants/{tenantId}/attributes/certifiedDiscrete/{attributeId}
+   * @secure
+   */
+  export namespace UpdateCertifiedDiscreteAttribute {
+    export type RequestParams = {
+      /**
+       * Tenant id which attribute needs to be verified
+       * @format uuid
+       */
+      tenantId: string;
+      /**
+       * Attribute id to be revoked
+       * @format uuid
+       */
+      attributeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = UpdateCertifiedDiscreteTenantAttributeSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
    * @description Update expirationDate for Verified Attribute of Tenant
    * @tags tenants
    * @name UpdateVerifiedAttribute
@@ -7650,6 +7753,28 @@ export namespace Eservices {
   }
 
   /**
+   * @description Allows a delegate to cancel a previously submitted archiving request for the specified E-Service.
+   * @tags eservices
+   * @name CancelDelegatedEServiceArchiving
+   * @summary Cancel a delegated archiving request for an E-Service
+   * @request DELETE:/eservices/{eServiceId}/submitDelegatedArchiving
+   * @secure
+   */
+  export namespace CancelDelegatedEServiceArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
    * @description Allows a delegate to request the archiving of the specified Descriptor. The owner must then approve or reject the request.
    * @tags eservices
    * @name SubmitDelegatedDescriptorArchiving
@@ -7672,6 +7797,87 @@ export namespace Eservices {
     };
     export type RequestQuery = {};
     export type RequestBody = GracePeriodDaysSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows a delegate to cancel a previously submitted archiving request for the specified Descriptor.
+   * @tags eservices
+   * @name CancelDelegatedDescriptorArchiving
+   * @summary Cancel a delegated archiving request for an E-Service
+   * @request DELETE:/eservices/{eServiceId}/descriptors/{descriptorId}/submitDelegatedArchiving
+   * @secure
+   */
+  export namespace CancelDelegatedDescriptorArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows the owner (delegator) to approve a delegate's descriptor archiving request
+   * @tags eservices
+   * @name ApproveDelegatedDescriptorArchiving
+   * @summary Approve a delegated archiving request for a Descriptor
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/approveDelegatedArchiving
+   * @secure
+   */
+  export namespace ApproveDelegatedDescriptorArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows the owner (delegator) to reject a delegate's descriptor archiving request
+   * @tags eservices
+   * @name RejectDelegatedDescriptorArchiving
+   * @summary Reject a delegated archiving request for a Descriptor
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/rejectDelegatedArchiving
+   * @secure
+   */
+  export namespace RejectDelegatedDescriptorArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RejectDelegatedDescriptorArchivingSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }

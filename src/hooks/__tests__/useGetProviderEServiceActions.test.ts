@@ -7,7 +7,7 @@ import { act } from 'react-dom/test-utils'
 import { screen, waitFor } from '@testing-library/react'
 import type {
   ArchivingSchedule,
-  DelegatedDescriptorArchivingRequest,
+  DelegatedEServiceArchivingRequest,
   ProducerEService,
 } from '@/api/api.generatedTypes'
 
@@ -931,8 +931,7 @@ function renderDetailsPageHook(
   descriptorMock: ProducerEService,
   options: {
     archivingSchedule?: Pick<ArchivingSchedule, 'scope'> & Partial<ArchivingSchedule>
-    delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest
-    hasAnyActiveDelegatedArchivingRequest?: boolean
+    delegatedArchivingRequest?: DelegatedEServiceArchivingRequest
     latestDescriptorId?: string
     isActiveDescriptor?: boolean
     isEServiceBeingArchived?: boolean
@@ -968,8 +967,7 @@ function renderDetailsPageHook(
         hasMultipleVersions ? () => {} : undefined,
         options.isActiveDescriptor,
         options.isEServiceBeingArchived,
-        options.delegatedArchivingRequest,
-        options.hasAnyActiveDelegatedArchivingRequest
+        options.delegatedArchivingRequest
       ),
     {
       withReactQueryContext: true,
@@ -1033,7 +1031,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     ])
   })
 
-  it('DEPRECATED descriptor as a delegate with an existing delegatedArchivingRequest: header must show cancelArchivingVersion button and hide archiveVersion button', () => {
+  it('DEPRECATED: as a delegate, on a version with an existing delegatedArchivingRequest header must show cancelArchivingVersion button and hide archiveVersion button', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
       delegation: createMockDelegationWithCompactTenants({
@@ -1047,6 +1045,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     const { result } = renderDetailsPageHook(descriptorMock, {
       delegatedArchivingRequest: {
         requestedAt: '2026-12-01T00:00:00.000Z',
+        descriptorId: 'test-1',
         requesterId: 'requester-id',
         gracePeriodDays: 30,
       },
@@ -1063,7 +1062,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     expect(cancelArchivingVersionAction).toBeDefined()
   })
 
-  it('DEPRECATED descriptor as a delegate with a rejected delegatedArchivingRequest: header must show archiveVersion button and hide cancelArchivingVersion button', async () => {
+  it('DEPRECATED: descriptor as a delegate with a rejected delegatedArchivingRequest: header must show archiveVersion button and hide cancelArchivingVersion button', async () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
       delegation: createMockDelegationWithCompactTenants({
@@ -1078,6 +1077,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
       delegatedArchivingRequest: {
         requestedAt: '2026-12-01T00:00:00.000Z',
         rejectedAt: '2026-12-03T00:00:00.000Z',
+        descriptorId: 'test-1',
         requesterId: 'requester-id',
         gracePeriodDays: 30,
         rejectionReason: 'Rejected',
@@ -1101,7 +1101,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     expect(screen.getByRole('button', { name: 'actions.requestArchiving' })).toBeInTheDocument()
   })
 
-  it('DEPRECATED delegate with no descriptor-level request but another active delegated request in the e-service: archiveVersion opens block dialog', () => {
+  it('DEPRECATED: as a delegate, if theres another pending archiving request for a different descriptor: archiveVersion opens block dialog', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
       delegation: createMockDelegationWithCompactTenants({
@@ -1113,8 +1113,13 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     })
 
     const { result } = renderDetailsPageHook(descriptorMock, {
-      delegatedArchivingRequest: undefined,
-      hasAnyActiveDelegatedArchivingRequest: true,
+      delegatedArchivingRequest: {
+        requestedAt: '2026-12-01T00:00:00.000Z',
+        descriptorId: 'different-descriptor-id',
+        requesterId: 'requester-id',
+        gracePeriodDays: 30,
+        archivingReason: 'Motivo archiviazione',
+      },
     })
 
     const archiveVersionAction = result.current.headerInfoActions.find(
@@ -1142,6 +1147,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     const { result } = renderDetailsPageHook(descriptorMock, {
       delegatedArchivingRequest: {
         requestedAt: '2026-12-01T00:00:00.000Z',
+        descriptorId: 'test-1',
         requesterId: 'requester-id',
         gracePeriodDays: 30,
       },
@@ -1177,6 +1183,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
       isActiveDescriptor: false,
       delegatedArchivingRequest: {
         requestedAt: '2026-12-01T00:00:00.000Z',
+        descriptorId: 'test-1',
         requesterId: 'requester-id',
         gracePeriodDays: 30,
       },
@@ -1201,6 +1208,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
       delegatedArchivingRequest: {
         requestedAt: '2026-12-01T00:00:00.000Z',
         rejectedAt: '2026-12-03T00:00:00.000Z',
+        descriptorId: 'test-1',
         requesterId: 'requester-id',
         gracePeriodDays: 30,
         rejectionReason: 'Rejected',
@@ -1320,6 +1328,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
       archivingSchedule: { scope: 'DESCRIPTOR' },
       delegatedArchivingRequest: {
         requestedAt: '2026-12-01T00:00:00.000Z',
+        descriptorId: 'test-1',
         requesterId: 'requester-new',
         gracePeriodDays: 30,
       },
@@ -1351,6 +1360,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
       archivingSchedule: { scope: 'DESCRIPTOR' },
       delegatedArchivingRequest: {
         requestedAt: '2026-12-01T00:00:00.000Z',
+        descriptorId: 'test-1',
         requesterId: 'requester-new',
         gracePeriodDays: 30,
       },
@@ -1383,6 +1393,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
       archivingSchedule: { scope: 'DESCRIPTOR' },
       delegatedArchivingRequest: {
         requestedAt: '2026-12-01T00:00:00.000Z',
+        descriptorId: 'test-1',
         requesterId: 'requester-new',
         gracePeriodDays: 30,
       },
@@ -1412,6 +1423,109 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     })
     expect(result.current.primaryAction?.label).toBe('cancelArchivingEservice')
     expect(result.current.headerInfoActions.map((a) => a.label)).toEqual(['suspendVersion'])
+  })
+
+  it('delegate with pending e-service archiving request: shows cancelArchivingEservice as primary', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: { id: 'organizationId', name: 'Comune di Roma' },
+        delegator: { id: 'delegator-id', name: 'Comune di Milano' },
+      }),
+    })
+
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      delegatedArchivingRequest: {
+        requestedAt: '2026-12-01T00:00:00.000Z',
+        requesterId: 'requester-id',
+        gracePeriodDays: 30,
+        archivingReason: 'Motivo archiviazione',
+      },
+    })
+
+    expect(result.current.primaryAction?.label).toBe('cancelArchivingEservice')
+    expect(result.current.menuActions.map((action) => action.label)).not.toContain(
+      'archiveEservice'
+    )
+  })
+
+  it('if theres a pending e-service archiving request, delegate opens the cancel dialog with its correct action buttons', async () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: { id: 'organizationId', name: 'Comune di Roma' },
+        delegator: { id: 'delegator-id', name: 'Comune di Milano' },
+      }),
+    })
+
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      delegatedArchivingRequest: {
+        requestedAt: '2026-12-01T00:00:00.000Z',
+        requesterId: 'requester-id',
+        gracePeriodDays: 30,
+        archivingReason: 'Motivo archiviazione',
+      },
+    })
+
+    act(() => {
+      result.current.primaryAction?.action()
+    })
+
+    expect(
+      screen.getByRole('button', { name: 'actions.keepArchivingDelegate' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'actions.cancelArchivingDelegate' })
+    ).toBeInTheDocument()
+  })
+
+  it('delegate e-service request uses approved cancel-dialog variant when state is ARCHIVING', async () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVING', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: { id: 'organizationId', name: 'Comune di Roma' },
+        delegator: { id: 'delegator-id', name: 'Comune di Milano' },
+      }),
+    })
+
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      archivingSchedule: { scope: 'ESERVICE', archivableOn: '2026-12-20T00:00:00.000Z' },
+      delegatedArchivingRequest: {
+        requestedAt: '2026-12-01T00:00:00.000Z',
+        requesterId: 'requester-id',
+        gracePeriodDays: 30,
+        archivingReason: 'Motivo archiviazione',
+      },
+    })
+
+    act(() => {
+      result.current.primaryAction?.action()
+    })
+
+    expect(screen.getByRole('button', { name: 'actions.cancelApproved' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'actions.closeApproved' })).toBeInTheDocument()
+  })
+
+  it('delegate with rejected delegated e-service archiving request: does not force cancelArchivingEservice as primary', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: { id: 'organizationId', name: 'Comune di Roma' },
+        delegator: { id: 'delegator-id', name: 'Comune di Milano' },
+      }),
+    })
+
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      delegatedArchivingRequest: {
+        requestedAt: '2026-12-01T00:00:00.000Z',
+        rejectedAt: '2026-12-02T00:00:00.000Z',
+        requesterId: 'requester-id',
+        gracePeriodDays: 30,
+        archivingReason: 'Motivo archiviazione',
+      },
+    })
+
+    expect(result.current.primaryAction).toBeUndefined()
   })
 
   it('ARCHIVING_SUSPENDED with DESCRIPTOR scope: reactivate and cancelArchivingVersion in header', () => {

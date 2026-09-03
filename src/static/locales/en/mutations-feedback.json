@@ -153,10 +153,16 @@
         "error": "The archiving of this e-service version could not be canceled. Please try again later."
       }
     },
-    "cancelDelegatedArchivingRequest": {
+    "cancelDelegatedArchivingVersionRequest": {
       "outcome": {
         "success": "The archiving request for this e-service version has been canceled",
         "error": "It was not possible to cancel the archiving request for this e-service version. Please try again later."
+      }
+    },
+    "cancelDelegatedEserviceArchivingRequest": {
+      "outcome": {
+        "success": "The archiving request for this e-service has been canceled",
+        "error": "It was not possible to cancel the archiving request for this e-service. Please try again later."
       }
     },
     "cancelEserviceArchiving": {
@@ -169,6 +175,12 @@
       "outcome": {
         "success": "This e-service will be archived in {{days}} days",
         "error": "This e-service could not be archived. Please try again later."
+      }
+    },
+    "requestArchiveEservice": {
+      "outcome": {
+        "success": "You have requested the archiving of this e-service from the delegating organization",
+        "error": "It was not possible to request the archiving of this e-service. Please try again later."
       }
     },
     "suspendVersion": {

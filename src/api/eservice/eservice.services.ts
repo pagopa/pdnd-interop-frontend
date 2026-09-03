@@ -222,7 +222,7 @@ function cancelDescriptorArchiving({
   )
 }
 
-function submitDelegatedArchivingRequest({
+function submitDelegatedArchivingVersionRequest({
   eserviceId,
   descriptorId,
   gracePeriodDays,
@@ -237,7 +237,19 @@ function submitDelegatedArchivingRequest({
   )
 }
 
-function cancelDelegatedArchivingRequest({ eserviceId }: { eserviceId: string }) {
+function cancelDelegatedArchivingVersionRequest({
+  eserviceId,
+  descriptorId,
+}: {
+  eserviceId: string
+  descriptorId: string
+}) {
+  return axiosInstance.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/submitDelegatedArchiving`
+  )
+}
+
+function cancelDelegatedArchivingEserviceRequest({ eserviceId }: { eserviceId: string }) {
   return axiosInstance.delete(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/submitDelegatedArchiving`
   )
@@ -256,6 +268,24 @@ function scheduleArchiveEservice({
     archivingReason,
     gracePeriodDays,
   })
+}
+
+function submitDelegatedArchivingEserviceRequest({
+  eserviceId,
+  archivingReason,
+  gracePeriodDays,
+}: {
+  eserviceId: string
+  archivingReason: string
+  gracePeriodDays: GracePeriodDays
+}) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/submitDelegatedArchiving`,
+    {
+      archivingReason,
+      gracePeriodDays,
+    }
+  )
 }
 
 function cancelEserviceArchiving({ eserviceId }: { eserviceId: string }) {
@@ -716,10 +746,12 @@ export const EServiceServices = {
   updateAgreementApprovalPolicy,
   reactivateVersion,
   scheduleArchiveDescriptor,
-  submitDelegatedArchivingRequest,
-  cancelDelegatedArchivingRequest,
+  submitDelegatedArchivingVersionRequest,
+  cancelDelegatedArchivingVersionRequest,
+  cancelDelegatedArchivingEserviceRequest,
   cancelDescriptorArchiving,
   scheduleArchiveEservice,
+  submitDelegatedArchivingEserviceRequest,
   cancelEserviceArchiving,
   deleteVersionDraft,
   addEServiceRiskAnalysis,
