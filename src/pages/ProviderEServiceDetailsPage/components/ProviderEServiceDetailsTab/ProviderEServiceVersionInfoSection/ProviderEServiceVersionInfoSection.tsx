@@ -58,6 +58,7 @@ export const ProviderEServiceVersionInfoSection: React.FC = () => {
             <InformationContainer
               label={t('details.descriptorDescription.label')}
               component="dl"
+              sx={{ m: 0 }}
               content={
                 <Typography variant="body2" component="span">
                   {descriptor.description ?? ''}
@@ -86,6 +87,7 @@ export const ProviderEServiceVersionInfoSection: React.FC = () => {
               >
                 <InformationContainer
                   component="dl"
+                  sx={{ m: 0 }}
                   label={t('agreementApprovalPolicy.label')}
                   content={t(
                     `agreementApprovalPolicy.content.${descriptor.agreementApprovalPolicy}`
