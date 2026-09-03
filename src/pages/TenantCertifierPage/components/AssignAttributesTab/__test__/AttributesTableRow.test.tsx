@@ -58,13 +58,26 @@ describe('AttributesTableRow', () => {
     expect(getByText('-')).toBeInTheDocument()
   })
 
-  it('should render revoke action for admin and open revoke dialog on click', async () => {
+  it('should render revoke and change value actions for admin with CERTIFIED_DISCRETE attribute', async () => {
     mockUseJwt({ isAdmin: true })
 
     const { getByRole } = renderRow(baseAttribute)
 
     const user = userEvent.setup()
-    await user.click(getByRole('button', { name: 'actions.revoke' }))
+    await user.click(getByRole('button', { name: 'iconButtonAriaLabel' }))
+
+    expect(getByRole('menuitem', { name: 'revokeAttributeBtn' })).toBeInTheDocument()
+    expect(getByRole('menuitem', { name: 'changeAttributeValueBtn' })).toBeInTheDocument()
+  })
+
+  it('should open revoke dialog when admin clicks the revoke action', async () => {
+    mockUseJwt({ isAdmin: true })
+
+    const { getByRole } = renderRow(baseAttribute)
+
+    const user = userEvent.setup()
+    await user.click(getByRole('button', { name: 'iconButtonAriaLabel' }))
+    await user.click(getByRole('menuitem', { name: 'revokeAttributeBtn' }))
 
     expect(openDialogMock).toHaveBeenCalledTimes(1)
     expect(openDialogMock).toHaveBeenCalledWith({
@@ -73,12 +86,41 @@ describe('AttributesTableRow', () => {
     })
   })
 
+  it('should open change value drawer when admin clicks the change value action', async () => {
+    mockUseJwt({ isAdmin: true })
+
+    const { getByRole, getByText } = renderRow(baseAttribute)
+
+    const user = userEvent.setup()
+    await user.click(getByRole('button', { name: 'iconButtonAriaLabel' }))
+    await user.click(getByRole('menuitem', { name: 'changeAttributeValueBtn' }))
+
+    expect(getByText('title')).toBeInTheDocument()
+    expect(getByRole('spinbutton', { name: 'form.valueField.label' })).toHaveValue(1000)
+  })
+
+  it('should render only revoke action for admin with CERTIFIED attribute', async () => {
+    mockUseJwt({ isAdmin: true })
+
+    const { getByRole, queryByRole } = renderRow({
+      ...baseAttribute,
+      kind: 'CERTIFIED',
+      discreteValue: undefined,
+    })
+
+    const user = userEvent.setup()
+    await user.click(getByRole('button', { name: 'iconButtonAriaLabel' }))
+
+    expect(getByRole('menuitem', { name: 'revokeAttributeBtn' })).toBeInTheDocument()
+    expect(queryByRole('menuitem', { name: 'changeAttributeValueBtn' })).not.toBeInTheDocument()
+  })
+
   it('should not render revoke action for non-admin user', () => {
     mockUseJwt({ isAdmin: false })
 
     const { queryByRole } = renderRow(baseAttribute)
 
-    expect(queryByRole('button', { name: 'actions.revoke' })).not.toBeInTheDocument()
+    expect(queryByRole('button', { name: 'iconButtonAriaLabel' })).not.toBeInTheDocument()
   })
 })
 
