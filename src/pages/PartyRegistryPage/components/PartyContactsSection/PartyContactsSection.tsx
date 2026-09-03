@@ -53,7 +53,7 @@ export const PartyContactsSection: React.FC = () => {
               : undefined
           }
         >
-          <Stack spacing={2}>
+          <Stack component="dl" spacing={2} sx={{ m: 0 }}>
             <InformationContainer label={t('mailField.label')} content={email?.address || 'n/a'} />
             {isAdmin && (
               <InformationContainer

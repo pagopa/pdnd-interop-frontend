@@ -76,7 +76,7 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
           ...(hasContactInformations ? [showProducerContactsAction] : []),
         ]}
       >
-        <Stack spacing={2}>
+        <Stack component="dl" spacing={2} sx={{ m: 0 }}>
           <InformationContainer
             label={t('producer.label')}
             content={descriptor.eservice.producer.name}
@@ -126,7 +126,7 @@ export const ConsumerEServiceGeneralInfoSection: React.FC = () => {
           />
         </Stack>
         <SectionContainer innerSection title={t('delegationSection.title')} sx={{ mt: 3 }}>
-          <Stack spacing={2}>
+          <Stack component="dl" spacing={2} sx={{ m: 0 }}>
             <InformationContainer
               label={t('delegationSection.isConsumerDelegable.label')}
               content={t(

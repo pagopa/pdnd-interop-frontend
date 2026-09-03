@@ -1,5 +1,6 @@
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { EmptySectionTextCard } from '../EmptySectionTextCard'
+import { Stack } from '@mui/material'
 
 type EServiceTemplateThresholdsProps = {
   dailyCallsTotal?: string
@@ -21,9 +22,9 @@ export const EServiceTemplateThresholds: React.FC<EServiceTemplateThresholdsProp
   if (noThresholds) return <EmptySectionTextCard text={emptyMessage} />
 
   return (
-    <>
+    <Stack component="dl" spacing={2} sx={{ m: 0 }}>
       <InformationContainer label={dailyCallsPerConsumerLabel} content={dailyCallsPerConsumer} />
       <InformationContainer label={dailyCallsTotalLabel} content={dailyCallsTotal} />
-    </>
+    </Stack>
   )
 }

@@ -68,7 +68,7 @@ export const ConsumerPurposeDetailsGeneralInfoSection: React.FC<
         },
       ]}
     >
-      <Stack spacing={2}>
+      <Stack spacing={2} component="dl" sx={{ m: 0 }}>
         <InformationContainer
           label={t('eServiceField.label')}
           content={
