@@ -1425,7 +1425,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     expect(result.current.headerInfoActions.map((a) => a.label)).toEqual(['suspendVersion'])
   })
 
-  it('delegate with pending delegated e-service archiving request: shows cancelArchivingEservice as primary', () => {
+  it('delegate with pending e-service archiving request: shows cancelArchivingEservice as primary', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
       delegation: createMockDelegationWithCompactTenants({
