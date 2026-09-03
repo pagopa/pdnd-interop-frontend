@@ -213,7 +213,7 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
                 ['admin']
               ),
               createNotificationComponent(
-                'archivingRequestFromDelegate',
+                'eserviceArchivingRequestedToDelegator',
                 t('delegation.delegationAssignment.components.archivingRequestFromDelegate.label'),
                 t(
                   'delegation.delegationAssignment.components.archivingRequestFromDelegate.description'
@@ -239,7 +239,7 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
                 ['admin']
               ),
               createNotificationComponent(
-                'archivingRequestApprovedRejectedByDelegator',
+                'eserviceArchivingApprovedRejectedToDelegate',
                 t(
                   'delegation.delegationReceive.components.archivingRequestApprovedRejectedByDelegator.label'
                 ),
