@@ -1031,7 +1031,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     ])
   })
 
-  it('DEPRECATED descriptor as a delegate with an existing delegatedArchivingRequest: header must show cancelArchivingVersion button and hide archiveVersion button', () => {
+  it('DEPRECATED: as a delegate, on a version with an existing delegatedArchivingRequest header must show cancelArchivingVersion button and hide archiveVersion button', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
       delegation: createMockDelegationWithCompactTenants({
@@ -1062,7 +1062,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     expect(cancelArchivingVersionAction).toBeDefined()
   })
 
-  it('DEPRECATED descriptor as a delegate with a rejected delegatedArchivingRequest: header must show archiveVersion button and hide cancelArchivingVersion button', async () => {
+  it('DEPRECATED: descriptor as a delegate with a rejected delegatedArchivingRequest: header must show archiveVersion button and hide cancelArchivingVersion button', async () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
       delegation: createMockDelegationWithCompactTenants({
@@ -1101,7 +1101,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     expect(screen.getByRole('button', { name: 'actions.requestArchiving' })).toBeInTheDocument()
   })
 
-  it('DEPRECATED delegate with another active delegated request for a different descriptor: archiveVersion opens block dialog', () => {
+  it('DEPRECATED: as a delegate, if theres another pending archiving request for a different descriptor: archiveVersion opens block dialog', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
       delegation: createMockDelegationWithCompactTenants({
@@ -1449,7 +1449,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     )
   })
 
-  it('delegate pending e-service request opens cancel dialog with pending delegate actions', async () => {
+  it('if theres a pending e-service archiving request, delegate opens the cancel dialog with its correct action buttons', async () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
       delegation: createMockDelegationWithCompactTenants({
