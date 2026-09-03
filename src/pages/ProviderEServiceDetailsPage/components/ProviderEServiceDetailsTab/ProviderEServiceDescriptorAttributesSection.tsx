@@ -204,7 +204,7 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
           sx={{ p: 0 }}
           topSideActions={getThresholdSectionActions()}
         >
-          <Stack spacing={1} mt={1} mb={3}>
+          <Stack component="dl" spacing={1} mt={1} mb={3}>
             <InformationContainer
               label={t('thresholds.dailyCallsPerConsumer.label')}
               content={`${descriptor.dailyCallsPerConsumer}`}

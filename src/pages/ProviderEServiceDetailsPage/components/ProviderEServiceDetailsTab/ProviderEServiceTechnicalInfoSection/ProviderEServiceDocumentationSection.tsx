@@ -73,62 +73,64 @@ export const ProviderEServiceDocumentationSection: React.FC<
               ]
         }
       >
-        <InformationContainer
-          label={t('documentation.label')}
-          content={
-            <Stack alignItems="start" spacing={0.5}>
-              {docs.map((doc) => {
-                if (!doc) return null
-                return (
-                  <IconLink
-                    key={doc.id}
-                    component="button"
-                    onClick={handleDownloadDocument.bind(null, doc)}
-                    startIcon={<AttachFileIcon fontSize="small" />}
-                    aria-label={tCommon('ariaLabels.downloadDocument', {
-                      name: doc.prettyName,
-                    })}
-                  >
-                    {doc.prettyName}
-                  </IconLink>
-                )
-              })}
-            </Stack>
-          }
-        />
-        {descriptor.eservice.asyncExchange && (
+        <Stack component="dl" spacing={2} sx={{ m: 0 }}>
           <InformationContainer
-            label={t('callbackInterface.label')}
+            label={t('documentation.label')}
             content={
-              descriptor.asyncExchangeCallbackInterface ? (
-                <IconLink
-                  component="button"
-                  onClick={handleDownloadDocument.bind(
-                    null,
-                    descriptor.asyncExchangeCallbackInterface
-                  )}
-                  startIcon={<AttachFileIcon fontSize="small" />}
-                  aria-label={tCommon('ariaLabels.downloadDocument', {
-                    name: descriptor.asyncExchangeCallbackInterface.prettyName,
-                  })}
-                >
-                  {descriptor.asyncExchangeCallbackInterface.prettyName}
-                </IconLink>
-              ) : (
-                '-'
-              )
+              <Stack alignItems="start" spacing={0.5}>
+                {docs.map((doc) => {
+                  if (!doc) return null
+                  return (
+                    <IconLink
+                      key={doc.id}
+                      component="button"
+                      onClick={handleDownloadDocument.bind(null, doc)}
+                      startIcon={<AttachFileIcon fontSize="small" />}
+                      aria-label={tCommon('ariaLabels.downloadDocument', {
+                        name: doc.prettyName,
+                      })}
+                    >
+                      {doc.prettyName}
+                    </IconLink>
+                  )
+                })}
+              </Stack>
             }
           />
-        )}
-        {descriptor.interface?.checksum && (
-          <InformationContainer
-            label={t('documentation.interfaceChecksum')}
-            content={descriptor.interface.checksum}
-            copyToClipboard={{
-              value: descriptor.interface.checksum,
-            }}
-          />
-        )}
+          {descriptor.eservice.asyncExchange && (
+            <InformationContainer
+              label={t('callbackInterface.label')}
+              content={
+                descriptor.asyncExchangeCallbackInterface ? (
+                  <IconLink
+                    component="button"
+                    onClick={handleDownloadDocument.bind(
+                      null,
+                      descriptor.asyncExchangeCallbackInterface
+                    )}
+                    startIcon={<AttachFileIcon fontSize="small" />}
+                    aria-label={tCommon('ariaLabels.downloadDocument', {
+                      name: descriptor.asyncExchangeCallbackInterface.prettyName,
+                    })}
+                  >
+                    {descriptor.asyncExchangeCallbackInterface.prettyName}
+                  </IconLink>
+                ) : (
+                  '-'
+                )
+              }
+            />
+          )}
+          {descriptor.interface?.checksum && (
+            <InformationContainer
+              label={t('documentation.interfaceChecksum')}
+              content={descriptor.interface.checksum}
+              copyToClipboard={{
+                value: descriptor.interface.checksum,
+              }}
+            />
+          )}
+        </Stack>
       </SectionContainer>
       <ProviderEServiceUpdateDocumentationDrawer
         isOpen={isOpen}

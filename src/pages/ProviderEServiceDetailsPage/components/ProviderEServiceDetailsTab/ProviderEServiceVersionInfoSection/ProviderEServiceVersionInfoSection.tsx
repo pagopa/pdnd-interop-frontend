@@ -57,6 +57,7 @@ export const ProviderEServiceVersionInfoSection: React.FC = () => {
           >
             <InformationContainer
               label={t('details.descriptorDescription.label')}
+              component="dl"
               content={
                 <Typography variant="body2" component="span">
                   {descriptor.description ?? ''}
@@ -84,6 +85,7 @@ export const ProviderEServiceVersionInfoSection: React.FC = () => {
                 }
               >
                 <InformationContainer
+                  component="dl"
                   label={t('agreementApprovalPolicy.label')}
                   content={t(
                     `agreementApprovalPolicy.content.${descriptor.agreementApprovalPolicy}`
@@ -98,7 +100,7 @@ export const ProviderEServiceVersionInfoSection: React.FC = () => {
             title={t('lifeCycle.title')}
             titleTypographyProps={{ variant: 'body1', fontWeight: 600 }}
           >
-            <Stack spacing={2}>
+            <Stack component="dl" spacing={2} sx={{ m: 0 }}>
               {!isViewingLatestVersion && latestDescriptor.publishedAt && (
                 <InformationContainer
                   label={t('lifeCycle.lastVersionDate')}
