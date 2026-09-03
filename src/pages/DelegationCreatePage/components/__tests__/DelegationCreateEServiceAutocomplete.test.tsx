@@ -70,7 +70,7 @@ describe('DelegationCreateEServiceAutocomplete', () => {
     >)
   })
 
-  it('uses the full set of provider states for a producer delegation', () => {
+  it('filters out ARCHIVED e-services from the provider autocomplete for a producer delegation', () => {
     renderWithApplicationContext(
       <DelegationCreateEServiceAutocomplete delegationKind="DELEGATED_PRODUCER" />,
       { withReactQueryContext: true }
