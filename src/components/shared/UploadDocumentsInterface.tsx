@@ -5,6 +5,7 @@ import type { SxProps, Theme } from '@mui/material'
 import { Box, Button, Stack } from '@mui/material'
 import SaveIcon from '@mui/icons-material/Save'
 import { useTranslation } from 'react-i18next'
+import type { EServiceTechnology } from '@/api/api.generatedTypes'
 
 type UploadDocumentsInterfaceFormValues = {
   interfaceDoc: File | null
@@ -15,6 +16,7 @@ type UploadDocumentsInterfaceProps = {
   sxBox?: SxProps<Theme>
   error?: string
   dropzoneLabel?: string
+  technology?: EServiceTechnology
 }
 
 export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> = ({
@@ -22,6 +24,7 @@ export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> =
   sxBox,
   error,
   dropzoneLabel,
+  technology = 'REST',
 }) => {
   const { t } = useTranslation('eservice')
   const { t: tCommon } = useTranslation('common')
@@ -52,6 +55,7 @@ export const UploadDocumentsInterface: React.FC<UploadDocumentsInterfaceProps> =
           rules={{ required: true }}
           data-testid="fileInput"
           dropzoneLabel={dropzoneLabel ?? t('create.step4.interface.dropzoneLabel')}
+          fileType={technology === 'REST' ? 'rest' : 'soap'}
         />
 
         {selectedInterface && (

@@ -9,7 +9,7 @@ const file = new File(['testFile'], 'testFile.pdf', { type: 'document/pdf' })
 
 describe('UploadDocumentsInterface', () => {
   it('renders the form with file input and submit button hidden initially', () => {
-    render(<UploadDocumentsInterface onSubmit={mockSubmit} />)
+    render(<UploadDocumentsInterface onSubmit={mockSubmit} technology="REST" />)
 
     // Check that the file input is rendered
     const fileInput = screen.getByTestId('fileInput')
@@ -22,7 +22,7 @@ describe('UploadDocumentsInterface', () => {
 
   it('shows the submit button when a file is ready to be uploaded', async () => {
     const user = userEvent.setup()
-    render(<UploadDocumentsInterface onSubmit={mockSubmit} />)
+    render(<UploadDocumentsInterface onSubmit={mockSubmit} technology="REST" />)
 
     const fileInput = screen.getByTestId('fileInput').querySelector('input')!
 
@@ -35,7 +35,7 @@ describe('UploadDocumentsInterface', () => {
 
   it('calls onSubmit with userEvent', async () => {
     const user = userEvent.setup()
-    render(<UploadDocumentsInterface onSubmit={mockSubmit} />)
+    render(<UploadDocumentsInterface onSubmit={mockSubmit} technology="REST" />)
 
     const fileInput = screen.getByTestId('fileInput').querySelector('input')!
 
@@ -45,5 +45,20 @@ describe('UploadDocumentsInterface', () => {
     await user.click(submitButton)
 
     await waitFor(() => expect(mockSubmit).toHaveBeenCalled())
+  })
+
+  it.each([
+    {
+      technology: 'REST' as const,
+      expected: 'dropzone.allowedExtensions.rest',
+    },
+    {
+      technology: 'SOAP' as const,
+      expected: 'dropzone.allowedExtensions.soap',
+    },
+  ])('shows the allowed extensions for $technology interfaces', ({ technology, expected }) => {
+    render(<UploadDocumentsInterface onSubmit={mockSubmit} technology={technology} />)
+
+    expect(screen.getByText(expected)).toBeInTheDocument()
   })
 })
