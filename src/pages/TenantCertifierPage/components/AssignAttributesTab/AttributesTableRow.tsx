@@ -9,7 +9,7 @@ import { Skeleton } from '@mui/material'
 import { TableRow } from '@pagopa/interop-fe-commons'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import ChangeAttributeValueDrawer from './ChangeAttributeValueDrawer'
+import UpdateAttributeValueDrawer from './UpdateAttributeValueDrawer'
 
 type AttributesTableRowProps = {
   attribute: RequesterCertifiedAttribute
@@ -56,7 +56,7 @@ export const AttributesTableRow: React.FC<AttributesTableRowProps> = ({ attribut
         )}
       </TableRow>
       {attribute.kind === 'CERTIFIED_DISCRETE' && (
-        <ChangeAttributeValueDrawer isOpen={isOpen} onClose={closeDrawer} attribute={attribute} />
+        <UpdateAttributeValueDrawer isOpen={isOpen} onClose={closeDrawer} attribute={attribute} />
       )}
     </>
   )

@@ -105,7 +105,7 @@
     "assignTab": {
       "assignAttributeBtn": "Assign attribute",
       "revokeAttributeBtn": "Revoke attribute",
-      "changeAttributeValueBtn": "Change value",
+      "updateAttributeValueBtn": "Update value",
       "drawer": {
         "title": "Assign attribute",
         "subtitle": "The assignee party may use the certified attribute for all e-services on PDND Interoperabilità.",
@@ -125,9 +125,9 @@
           }
         }
       },
-      "changeValueDrawer": {
-        "title": "Change value",
-        "subtitle": "Change the values of the <strong>{{attributeName}}</strong> certificate attribute for the tenant <strong>{{tenantName}}</strong>.",
+      "updateValueDrawer": {
+        "title": "Update value",
+        "subtitle": "Update the values of the <strong>{{attributeName}}</strong> certificate attribute for the tenant <strong>{{tenantName}}</strong>.",
         "actualValue": "The current numeric value is <strong>{{value}}</strong>",
         "submitBtnLabel": "Save changes",
         "form": {

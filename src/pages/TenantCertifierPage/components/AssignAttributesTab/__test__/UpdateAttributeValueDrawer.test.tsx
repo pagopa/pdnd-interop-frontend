@@ -1,7 +1,7 @@
 import type { RequesterCertifiedAttribute } from '@/api/api.generatedTypes'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import React from 'react'
-import ChangeAttributeValueDrawer from '../ChangeAttributeValueDrawer'
+import UpdateAttributeValueDrawer from '../UpdateAttributeValueDrawer'
 import userEvent from '@testing-library/user-event'
 import { waitFor } from '@testing-library/react'
 import { vi, describe, it, beforeEach, beforeAll, afterAll, afterEach, expect } from 'vitest'
@@ -51,7 +51,7 @@ afterAll(() => {
   server.close()
 })
 
-describe('ChangeAttributeValueDrawer', () => {
+describe('UpdateAttributeValueDrawer', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     updateCertifiedDiscreteAttributeRequests = []
@@ -60,7 +60,7 @@ describe('ChangeAttributeValueDrawer', () => {
   describe('rendering', () => {
     it('should not render the drawer when isOpen is false', () => {
       const screen = renderWithApplicationContext(
-        <ChangeAttributeValueDrawer attribute={mockAttribute} isOpen={false} onClose={vi.fn()} />,
+        <UpdateAttributeValueDrawer attribute={mockAttribute} isOpen={false} onClose={vi.fn()} />,
         {
           withReactQueryContext: true,
         }
@@ -76,7 +76,7 @@ describe('ChangeAttributeValueDrawer', () => {
 
     it('should render the drawer when isOpen is true', () => {
       const screen = renderWithApplicationContext(
-        <ChangeAttributeValueDrawer attribute={mockAttribute} isOpen={true} onClose={vi.fn()} />,
+        <UpdateAttributeValueDrawer attribute={mockAttribute} isOpen={true} onClose={vi.fn()} />,
         {
           withReactQueryContext: true,
         }
@@ -91,7 +91,7 @@ describe('ChangeAttributeValueDrawer', () => {
 
     it('should render the field pre-filled with the attribute discreteValue', () => {
       const screen = renderWithApplicationContext(
-        <ChangeAttributeValueDrawer attribute={mockAttribute} isOpen={true} onClose={vi.fn()} />,
+        <UpdateAttributeValueDrawer attribute={mockAttribute} isOpen={true} onClose={vi.fn()} />,
         {
           withReactQueryContext: true,
         }
@@ -106,7 +106,7 @@ describe('ChangeAttributeValueDrawer', () => {
     it('should call updateCertifiedDiscreteAttribute with the new value on submit', async () => {
       const user = userEvent.setup()
       const screen = renderWithApplicationContext(
-        <ChangeAttributeValueDrawer attribute={mockAttribute} isOpen={true} onClose={vi.fn()} />,
+        <UpdateAttributeValueDrawer attribute={mockAttribute} isOpen={true} onClose={vi.fn()} />,
         {
           withReactQueryContext: true,
         }
@@ -133,7 +133,7 @@ describe('ChangeAttributeValueDrawer', () => {
     it('should show a required error and block submit when the value field is empty', async () => {
       const user = userEvent.setup()
       const screen = renderWithApplicationContext(
-        <ChangeAttributeValueDrawer attribute={mockAttribute} isOpen={true} onClose={vi.fn()} />,
+        <UpdateAttributeValueDrawer attribute={mockAttribute} isOpen={true} onClose={vi.fn()} />,
         {
           withReactQueryContext: true,
         }
@@ -152,7 +152,7 @@ describe('ChangeAttributeValueDrawer', () => {
     it('should show a min error and block submit when the value is lower than 1', async () => {
       const user = userEvent.setup()
       const screen = renderWithApplicationContext(
-        <ChangeAttributeValueDrawer attribute={mockAttribute} isOpen={true} onClose={vi.fn()} />,
+        <UpdateAttributeValueDrawer attribute={mockAttribute} isOpen={true} onClose={vi.fn()} />,
         {
           withReactQueryContext: true,
         }
@@ -173,7 +173,7 @@ describe('ChangeAttributeValueDrawer', () => {
     it('should call onClose and reset the form after the transition exits', () => {
       const onCloseFn = vi.fn()
       const screen = renderWithApplicationContext(
-        <ChangeAttributeValueDrawer attribute={mockAttribute} isOpen={true} onClose={onCloseFn} />,
+        <UpdateAttributeValueDrawer attribute={mockAttribute} isOpen={true} onClose={onCloseFn} />,
         {
           withReactQueryContext: true,
         }

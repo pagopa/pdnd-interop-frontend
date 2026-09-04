@@ -7,40 +7,43 @@ import React from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
 
-type ChangeAttributeValueDrawerProps = {
+type UpdateAttributeValueDrawerProps = {
   attribute: RequesterCertifiedAttribute
   isOpen: boolean
   onClose: () => void
 }
 
-type ChangeAttributeValueFormValues = {
+type UpdateAttributeValueFormValues = {
   value: number
 }
 
-const ChangeAttributeValueDrawer: React.FC<ChangeAttributeValueDrawerProps> = ({
+const UpdateAttributeValueDrawer: React.FC<UpdateAttributeValueDrawerProps> = ({
   attribute,
   isOpen,
   onClose,
 }) => {
   const { t } = useTranslation('party', {
-    keyPrefix: 'tenantCertifier.assignTab.changeValueDrawer',
+    keyPrefix: 'tenantCertifier.assignTab.updateValueDrawer',
   })
 
   const { mutate: updateCertifiedDiscreteAttribute } =
     AttributeMutations.useUpdateCertifiedDiscreteAttribute()
 
-  const formMethods = useForm<ChangeAttributeValueFormValues>({
+  const formMethods = useForm<UpdateAttributeValueFormValues>({
     defaultValues: {
       value: attribute.discreteValue ?? undefined,
     },
   })
 
-  const onSubmit = formMethods.handleSubmit(({ value }: ChangeAttributeValueFormValues) => {
-    updateCertifiedDiscreteAttribute({
-      tenantId: attribute.tenantId,
-      attributeId: attribute.attributeId,
-      certifiedDiscreteValue: value,
-    })
+  const onSubmit = formMethods.handleSubmit(({ value }: UpdateAttributeValueFormValues) => {
+    updateCertifiedDiscreteAttribute(
+      {
+        tenantId: attribute.tenantId,
+        attributeId: attribute.attributeId,
+        certifiedDiscreteValue: value,
+      },
+      { onSuccess: onClose }
+    )
   })
 
   return (
@@ -100,4 +103,4 @@ const ChangeAttributeValueDrawer: React.FC<ChangeAttributeValueDrawerProps> = ({
   )
 }
 
-export default ChangeAttributeValueDrawer
+export default UpdateAttributeValueDrawer
