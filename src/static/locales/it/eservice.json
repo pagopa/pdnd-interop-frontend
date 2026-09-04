@@ -965,6 +965,10 @@
           "dailyCallsTotal": {
             "label": "Soglia giornaliera totale"
           },
+          "customized": {
+            "title": "Soglie di chiamate API personalizzate",
+            "currentTenantLabel": "Per il tuo ente"
+          },
           "noThresholdTemplate": "Questo template di e-service non ha soglie suggerite"
         }
       },
