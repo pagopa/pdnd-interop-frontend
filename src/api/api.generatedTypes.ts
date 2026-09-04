@@ -720,6 +720,7 @@ export interface ProducerEServiceDescriptor {
   asyncExchangeCallbackInterface?: EServiceDoc;
   delegation?: DelegationWithCompactTenants;
   archivingSchedule?: ArchivingSchedule;
+  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest;
 }
 
 export interface ProducerDescriptorEService {
@@ -937,6 +938,7 @@ export interface CompactDescriptor {
   templateVersionId?: string;
   /** @format date-time */
   archivableOn?: string;
+  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest;
 }
 
 export interface TemplateInstanceInterfaceServerUrlSeed {

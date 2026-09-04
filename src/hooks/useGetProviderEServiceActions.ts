@@ -1,6 +1,6 @@
 import type {
   ArchivingSchedule,
-  DelegatedDescriptorArchivingRequest,
+  DelegatedEServiceArchivingRequest,
   DelegationWithCompactTenants,
   EServiceDescriptorState,
   EServiceMode,
@@ -42,7 +42,7 @@ export function useGetProviderEServiceActions(
   onViewAllVersions?: () => void,
   isActiveDescriptor?: boolean,
   isEServiceBeingArchived?: boolean,
-  delegatedArchivingRequest?: DelegatedDescriptorArchivingRequest,
+  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest,
   hasAnyActiveDelegatedArchivingRequest?: boolean
 ): {
   primaryAction: ActionItemButton | undefined

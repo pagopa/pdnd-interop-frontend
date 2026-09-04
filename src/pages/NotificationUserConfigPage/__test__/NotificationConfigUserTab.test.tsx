@@ -29,6 +29,8 @@ const inAppNotificationConfigMock: NotificationConfig = {
   purposeQuotaAdjustmentRequestToProducer: false,
   purposeOverQuotaStateToConsumer: false,
   clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: true, // 25
+  eserviceArchivingRequestedToDelegator: true,
+  eserviceArchivingApprovedRejectedToDelegate: true,
 }
 
 describe('NotificationConfigUserTab', () => {
