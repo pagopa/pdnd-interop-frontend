@@ -161,6 +161,7 @@ export type DialogRevokeDelegationProps = {
   type: 'revokeDelegation'
   delegationId: string
   eserviceName: string
+  delegateName: string
   delegationKind: DelegationKind
 }
 

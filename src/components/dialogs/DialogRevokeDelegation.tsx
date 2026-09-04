@@ -21,6 +21,7 @@ import { match } from 'ts-pattern'
 export const DialogRevokeDelegation: React.FC<DialogRevokeDelegationProps> = ({
   delegationId,
   eserviceName,
+  delegateName,
   delegationKind,
 }) => {
   const ariaLabelId = React.useId()
@@ -67,7 +68,8 @@ export const DialogRevokeDelegation: React.FC<DialogRevokeDelegationProps> = ({
               }}
             >
               {t('content.description', {
-                eserviceName: eserviceName,
+                eserviceName,
+                delegateName,
               })}
             </Trans>
           </Typography>
