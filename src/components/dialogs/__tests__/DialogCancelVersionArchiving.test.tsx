@@ -7,7 +7,7 @@ import { renderWithApplicationContext } from '@/utils/testing.utils'
 
 const mockCloseDialog = vi.fn()
 vi.mock('@/stores', async () => {
-  const actual = (await vi.importActual('@/stores')) as object
+  const actual = await vi.importActual<typeof import('@/stores')>('@/stores')
   return {
     ...actual,
     useDialog: () => ({ closeDialog: mockCloseDialog, openDialog: vi.fn() }),
@@ -23,7 +23,7 @@ const mockCancelArchiveRequest = vi.fn((_params, options) => {
 vi.mock('@/api/eservice', () => ({
   EServiceMutations: {
     useCancelDescriptorArchiving: () => ({ mutate: mockCancelArchive }),
-    useCancelDelegatedArchivingVersionRequest: () => ({ mutate: mockCancelArchiveRequest }),
+    useCancelDelegatedArchivingRequest: () => ({ mutate: mockCancelArchiveRequest }),
   },
 }))
 
@@ -111,7 +111,7 @@ describe('DialogCancelVersionArchiving', () => {
     await userEvent.click(screen.getByRole('button', { name: 'actions.cancelArchivingDelegate' }))
     expect(mockCancelArchiveRequest).toHaveBeenCalledTimes(1)
     expect(mockCancelArchiveRequest).toHaveBeenCalledWith(
-      { eserviceId: 'eservice-42', descriptorId: 'descriptor-99' },
+      { eserviceId: 'eservice-42' },
       expect.objectContaining({ onSuccess: expect.any(Function) })
     )
     expect(mockCancelArchive).not.toHaveBeenCalled()

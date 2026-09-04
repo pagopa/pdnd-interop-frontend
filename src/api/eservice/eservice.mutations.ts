@@ -222,7 +222,7 @@ function useRequestArchiveDescriptor() {
     keyPrefix: 'eservice.requestArchiveDescriptor',
   })
   return useMutation({
-    mutationFn: EServiceServices.submitDelegatedArchivingVersionRequest,
+    mutationFn: EServiceServices.submitDelegatedArchivingRequest,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -243,25 +243,12 @@ function useCancelDescriptorArchiving() {
   })
 }
 
-function useCancelDelegatedArchivingVersionRequest() {
+function useCancelDelegatedArchivingRequest() {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.cancelDelegatedArchivingVersionRequest',
+    keyPrefix: 'eservice.cancelDelegatedArchivingRequest',
   })
   return useMutation({
-    mutationFn: EServiceServices.cancelDelegatedArchivingVersionRequest,
-    meta: {
-      successToastLabel: t('outcome.success'),
-      errorToastLabel: t('outcome.error'),
-    },
-  })
-}
-
-function useCancelDelegatedEserviceArchivingRequest() {
-  const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.cancelDelegatedEserviceArchivingRequest',
-  })
-  return useMutation({
-    mutationFn: EServiceServices.cancelDelegatedArchivingEserviceRequest,
+    mutationFn: EServiceServices.cancelDelegatedArchivingRequest,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -280,19 +267,6 @@ function useScheduleArchiveEservice() {
         t('outcome.success', {
           days: (variables as { gracePeriodDays: number }).gracePeriodDays,
         }),
-      errorToastLabel: t('outcome.error'),
-    },
-  })
-}
-
-function useRequestArchiveEservice() {
-  const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'eservice.requestArchiveEservice',
-  })
-  return useMutation({
-    mutationFn: EServiceServices.submitDelegatedArchivingEserviceRequest,
-    meta: {
-      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
     },
   })
@@ -688,10 +662,8 @@ export const EServiceMutations = {
   useScheduleArchiveDescriptor,
   useRequestArchiveDescriptor,
   useCancelDescriptorArchiving,
-  useCancelDelegatedArchivingVersionRequest,
-  useCancelDelegatedEserviceArchivingRequest,
+  useCancelDelegatedArchivingRequest,
   useScheduleArchiveEservice,
-  useRequestArchiveEservice,
   useCancelEserviceArchiving,
   useUpdateVersion,
   useDeleteVersionDraft,

@@ -297,32 +297,20 @@
   },
   "dialogCancelEserviceArchiving": {
     "title": "Cancel e-service archiving",
-    "titleDelegate": "Cancel archiving request",
-    "titleDelegateApproved": "Cancel archiving request",
     "description": "This e-service will no longer be archived.",
-    "descriptionDelegate": "On {{date}} you requested archiving of this e-service from the delegating institution {{name}}. Until approval, you can cancel the archiving request on your own.",
-    "descriptionDelegateApproved": "This e-service will be archived on {{date}}. To cancel archiving, contact the delegating institution {{name}} before this date.",
-    "alertDelegate": "Once the archiving request is approved, you will need to contact the delegating institution to request cancellation of archiving.",
     "actions": {
-      "cancelArchiving": "Cancel archiving",
-      "keepArchivingDelegate": "Keep archiving request",
-      "cancelArchivingDelegate": "Cancel archiving request",
-      "cancelApproved": "Cancel",
-      "closeApproved": "Close"
+      "cancelArchiving": "Cancel archiving"
     }
   },
   "dialogArchiveEservice": {
     "title": "Archive e-service",
-    "titleDelegate": "Request e-service archiving",
     "content": {
       "advice": {
         "description": "By archiving the e-service, all versions will be archived and draft versions will be deleted.\nIf you confirm this choice, a notice period will begin during which the e-service will remain active to allow users to adapt.",
-        "descriptionDelegate": "By archiving the e-service, all versions will be archived and draft or approval-pending versions will be deleted.\n\nTo archive an e-service received by delegation, you must request approval from the delegating institution {{name}}.\n\nIf the delegating institution approves the request, a notice period will begin during which the e-service will remain active to allow users to adapt.",
         "gracePeriodDescription": "If a version is already being archived, you can archive the entire e-service only after the scheduled archiving date for that version."
       },
       "confirm": {
         "description": "All users will be informed of the date and the reason for the archiving.",
-        "descriptionDelegate": "When the delegating institution {{name}} approves the request, all users will be informed about the archiving date and reason.",
         "form": {
           "label": "Archiving reason",
           "infoLabel": "Explain why you chose to archive the e-service. If you wish, suggest an alternative e-service. Both information will be shared with users. Minimum 10 characters, maximum 250 characters."
@@ -332,8 +320,7 @@
     },
     "actions": {
       "back": "Back",
-      "forward": "Forward",
-      "requestArchiving": "Request archiving"
+      "forward": "Forward"
     }
   },
   "dialogCancelVersionArchiving": {
@@ -341,7 +328,7 @@
     "titleDelegate": "Cancel archiving request",
     "titleDelegateApproved": "Cancel archiving request",
     "description": "This version will no longer be archived.",
-    "descriptionDelegate": "On {{date}} you requested archiving of this e-service version from the delegating institution {{name}}. Until approval, you can cancel the archiving request on your own.",
+    "descriptionDelegate": "The archiving request sent to the delegating institution {{name}} will be canceled.",
     "descriptionDelegateApproved": "This e-service version will be archived on {{date}}. To cancel archiving, contact the delegating institution {{name}} before this date.",
     "alertDelegate": "Once the archiving request is approved, you will need to contact the delegating institution to request cancellation of archiving.",
     "actions": {

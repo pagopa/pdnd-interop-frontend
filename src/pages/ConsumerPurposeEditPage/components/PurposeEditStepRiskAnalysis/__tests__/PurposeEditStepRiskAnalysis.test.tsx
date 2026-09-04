@@ -36,9 +36,8 @@ type UpdateDraftPayload = { purposeId: string } & PurposeUpdateContent
 type SubmitRiskAnalysisPayload = { purposeId: string } & RiskAnalysisSubmissionSeed
 type MutateOptions = { onSuccess?: () => void; onError?: (err: unknown) => void }
 
-const updateDraftMock = vi.fn<(payload: UpdateDraftPayload, options: MutateOptions) => void>()
-const submitRiskAnalysisMock =
-  vi.fn<(payload: SubmitRiskAnalysisPayload, options: MutateOptions) => void>()
+const updateDraftMock = vi.fn()
+const submitRiskAnalysisMock = vi.fn()
 vi.mock('@/api/purpose', () => ({
   PurposeQueries: {
     getSingle: (purposeId: string) => ({ queryKey: ['PurposeGetSingle', purposeId] }),
@@ -68,7 +67,7 @@ type RiskAnalysisFormSpyProps = {
   submitLabel?: string
 }
 
-const formSpy = vi.fn<(props: RiskAnalysisFormSpyProps) => null>()
+const formSpy = vi.fn()
 vi.mock('../RiskAnalysisForm/RiskAnalysisForm', () => ({
   RiskAnalysisForm: (props: RiskAnalysisFormSpyProps) => formSpy(props),
   RiskAnalysisFormSkeleton: () => <div data-testid="skeleton" />,

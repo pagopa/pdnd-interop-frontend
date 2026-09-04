@@ -17,13 +17,9 @@ vi.mock('@/stores', async () => {
 const mockScheduleArchive = vi.fn((_params, options) => {
   options?.onSuccess?.()
 })
-const mockRequestArchive = vi.fn((_params, options) => {
-  options?.onSuccess?.()
-})
 vi.mock('@/api/eservice', () => ({
   EServiceMutations: {
     useScheduleArchiveEservice: () => ({ mutate: mockScheduleArchive }),
-    useRequestArchiveEservice: () => ({ mutate: mockRequestArchive }),
   },
 }))
 
@@ -44,143 +40,96 @@ describe('DialogArchiveEservice', () => {
     vi.clearAllMocks()
   })
 
-  describe('standard flow', () => {
-    it('renders ADVISE step with cancel and forward buttons', () => {
-      renderDialog()
+  it('renders ADVISE step with cancel and forward buttons', () => {
+    renderDialog()
 
-      expect(screen.getByRole('dialog')).toBeInTheDocument()
-      expect(screen.getByText('content.advice.gracePeriodDescription')).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'cancel' })).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'actions.forward' })).toBeInTheDocument()
-      expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
-    })
-
-    it('closes the dialog when clicking cancel on ADVISE step without calling the mutation', async () => {
-      renderDialog()
-
-      await userEvent.click(screen.getByRole('button', { name: 'cancel' }))
-      expect(mockCloseDialog).toHaveBeenCalledTimes(1)
-      expect(mockScheduleArchive).not.toHaveBeenCalled()
-      expect(mockRequestArchive).not.toHaveBeenCalled()
-    })
-
-    it('moves to CONFIRM step with back and archive buttons + reason input when clicking forward', async () => {
-      renderDialog()
-
-      await userEvent.click(screen.getByRole('button', { name: 'actions.forward' }))
-      expect(screen.getByRole('button', { name: 'actions.back' })).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'archive' })).toBeInTheDocument()
-      expect(screen.getByRole('textbox')).toBeInTheDocument()
-    })
-
-    it('returns to ADVISE step when clicking back on CONFIRM step', async () => {
-      renderDialog()
-
-      await userEvent.click(screen.getByRole('button', { name: 'actions.forward' }))
-      await userEvent.click(screen.getByRole('button', { name: 'actions.back' }))
-      expect(screen.getByRole('button', { name: 'cancel' })).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'actions.forward' })).toBeInTheDocument()
-    })
-
-    it('does not invoke the mutation when submitting an empty reason (validation fails)', async () => {
-      renderDialog()
-
-      await userEvent.click(screen.getByRole('button', { name: 'actions.forward' }))
-      await userEvent.click(screen.getByRole('button', { name: 'archive' }))
-      expect(mockScheduleArchive).not.toHaveBeenCalled()
-      expect(mockRequestArchive).not.toHaveBeenCalled()
-    })
-
-    it('invokes the schedule archive mutation with eserviceId and reason when submitting a valid reason', async () => {
-      renderDialog({ eserviceId: 'eservice-42' })
-
-      await userEvent.click(screen.getByRole('button', { name: 'actions.forward' }))
-      await userEvent.type(screen.getByRole('textbox'), 'Sostituito da nuova versione integrata')
-      await userEvent.click(screen.getByRole('button', { name: 'archive' }))
-      expect(mockScheduleArchive).toHaveBeenCalledTimes(1)
-      expect(mockScheduleArchive).toHaveBeenCalledWith(
-        {
-          eserviceId: 'eservice-42',
-          archivingReason: 'Sostituito da nuova versione integrata',
-          gracePeriodDays: 60,
-        },
-        expect.objectContaining({ onSuccess: expect.any(Function) })
-      )
-      expect(mockRequestArchive).not.toHaveBeenCalled()
-    })
-
-    it('should submit the grace period selected by the user on the ADVISE step instead of the default one', async () => {
-      renderDialog({ eserviceId: 'eservice-42' })
-
-      const radios = screen.getAllByRole('radio') as Array<HTMLInputElement>
-      const radio120 = radios.find((radio) => radio.value === '120')
-      expect(radio120).toBeDefined()
-
-      await userEvent.click(radio120!)
-      await userEvent.click(screen.getByRole('button', { name: 'actions.forward' }))
-      await userEvent.type(screen.getByRole('textbox'), 'Sostituito da nuova versione integrata')
-      await userEvent.click(screen.getByRole('button', { name: 'archive' }))
-
-      expect(mockScheduleArchive).toHaveBeenCalledTimes(1)
-      expect(mockScheduleArchive).toHaveBeenCalledWith(
-        {
-          eserviceId: 'eservice-42',
-          archivingReason: 'Sostituito da nuova versione integrata',
-          gracePeriodDays: 120,
-        },
-        expect.objectContaining({ onSuccess: expect.any(Function) })
-      )
-    })
-
-    it('closes the dialog after the schedule archive mutation succeeds', async () => {
-      renderDialog()
-
-      await userEvent.click(screen.getByRole('button', { name: 'actions.forward' }))
-      await userEvent.type(screen.getByRole('textbox'), 'Sostituito da nuova versione')
-      await userEvent.click(screen.getByRole('button', { name: 'archive' }))
-      expect(mockCloseDialog).toHaveBeenCalledTimes(1)
-    })
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByText('content.advice.gracePeriodDescription')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'cancel' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'actions.forward' })).toBeInTheDocument()
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
   })
 
-  describe('delegation flow', () => {
-    it('renders delegate-specific ADVISE copy and delegate archive-date message', () => {
-      renderDialog({ isDelegate: true, delegatorName: 'Comune di Milano' })
+  it('closes the dialog when clicking cancel on ADVISE step without calling the mutation', async () => {
+    renderDialog()
 
-      expect(screen.getByText('content.advice.descriptionDelegate')).toBeInTheDocument()
-      expect(screen.getByText('archiveDateDelegate')).toBeInTheDocument()
-    })
+    await userEvent.click(screen.getByRole('button', { name: 'cancel' }))
+    expect(mockCloseDialog).toHaveBeenCalledTimes(1)
+    expect(mockScheduleArchive).not.toHaveBeenCalled()
+  })
 
-    it('on delegate CONFIRM step shows delegate title/description and request CTA', async () => {
-      renderDialog({ isDelegate: true, delegatorName: 'Comune di Milano' })
+  it('moves to CONFIRM step with back and archive buttons + reason input when clicking forward', async () => {
+    renderDialog()
 
-      await userEvent.click(screen.getByRole('button', { name: 'actions.forward' }))
+    await userEvent.click(screen.getByRole('button', { name: 'actions.forward' }))
+    expect(screen.getByRole('button', { name: 'actions.back' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'archive' })).toBeInTheDocument()
+    expect(screen.getByRole('textbox')).toBeInTheDocument()
+  })
 
-      expect(screen.getByText('titleDelegate')).toBeInTheDocument()
-      expect(screen.getByText('content.confirm.descriptionDelegate')).toBeInTheDocument()
-      expect(screen.getByRole('button', { name: 'actions.requestArchiving' })).toBeInTheDocument()
-    })
+  it('returns to ADVISE step when clicking back on CONFIRM step', async () => {
+    renderDialog()
 
-    it('in delegate flow submits archiving request mutation instead of schedule archive', async () => {
-      renderDialog({
+    await userEvent.click(screen.getByRole('button', { name: 'actions.forward' }))
+    await userEvent.click(screen.getByRole('button', { name: 'actions.back' }))
+    expect(screen.getByRole('button', { name: 'cancel' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'actions.forward' })).toBeInTheDocument()
+  })
+
+  it('does not invoke the mutation when submitting an empty reason (validation fails)', async () => {
+    renderDialog()
+
+    await userEvent.click(screen.getByRole('button', { name: 'actions.forward' }))
+    await userEvent.click(screen.getByRole('button', { name: 'archive' }))
+    expect(mockScheduleArchive).not.toHaveBeenCalled()
+  })
+
+  it('invokes the schedule archive mutation with eserviceId and reason when submitting a valid reason', async () => {
+    renderDialog({ eserviceId: 'eservice-42' })
+
+    await userEvent.click(screen.getByRole('button', { name: 'actions.forward' }))
+    await userEvent.type(screen.getByRole('textbox'), 'Sostituito da nuova versione integrata')
+    await userEvent.click(screen.getByRole('button', { name: 'archive' }))
+    expect(mockScheduleArchive).toHaveBeenCalledTimes(1)
+    expect(mockScheduleArchive).toHaveBeenCalledWith(
+      {
         eserviceId: 'eservice-42',
-        isDelegate: true,
-        delegatorName: 'Comune di Milano',
-      })
+        archivingReason: 'Sostituito da nuova versione integrata',
+        gracePeriodDays: 60,
+      },
+      expect.objectContaining({ onSuccess: expect.any(Function) })
+    )
+  })
 
-      await userEvent.click(screen.getByRole('button', { name: 'actions.forward' }))
-      await userEvent.type(screen.getByRole('textbox'), 'Sostituito da nuova versione integrata')
-      await userEvent.click(screen.getByRole('button', { name: 'actions.requestArchiving' }))
+  it('should submit the grace period selected by the user on the ADVISE step instead of the default one', async () => {
+    renderDialog({ eserviceId: 'eservice-42' })
 
-      expect(mockRequestArchive).toHaveBeenCalledTimes(1)
-      expect(mockRequestArchive).toHaveBeenCalledWith(
-        {
-          eserviceId: 'eservice-42',
-          archivingReason: 'Sostituito da nuova versione integrata',
-          gracePeriodDays: 60,
-        },
-        expect.objectContaining({ onSuccess: expect.any(Function) })
-      )
-      expect(mockScheduleArchive).not.toHaveBeenCalled()
-    })
+    const radios = screen.getAllByRole('radio') as Array<HTMLInputElement>
+    const radio120 = radios.find((radio) => radio.value === '120')
+    expect(radio120).toBeDefined()
+
+    await userEvent.click(radio120!)
+    await userEvent.click(screen.getByRole('button', { name: 'actions.forward' }))
+    await userEvent.type(screen.getByRole('textbox'), 'Sostituito da nuova versione integrata')
+    await userEvent.click(screen.getByRole('button', { name: 'archive' }))
+
+    expect(mockScheduleArchive).toHaveBeenCalledTimes(1)
+    expect(mockScheduleArchive).toHaveBeenCalledWith(
+      {
+        eserviceId: 'eservice-42',
+        archivingReason: 'Sostituito da nuova versione integrata',
+        gracePeriodDays: 120,
+      },
+      expect.objectContaining({ onSuccess: expect.any(Function) })
+    )
+  })
+
+  it('closes the dialog after the schedule archive mutation succeeds', async () => {
+    renderDialog()
+
+    await userEvent.click(screen.getByRole('button', { name: 'actions.forward' }))
+    await userEvent.type(screen.getByRole('textbox'), 'Sostituito da nuova versione')
+    await userEvent.click(screen.getByRole('button', { name: 'archive' }))
+    expect(mockCloseDialog).toHaveBeenCalledTimes(1)
   })
 })

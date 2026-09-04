@@ -42,7 +42,8 @@ export function useGetProviderEServiceActions(
   onViewAllVersions?: () => void,
   isActiveDescriptor?: boolean,
   isEServiceBeingArchived?: boolean,
-  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest
+  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest,
+  hasAnyActiveDelegatedArchivingRequest?: boolean
 ): {
   primaryAction: ActionItemButton | undefined
   secondaryAction: ActionItemButton | undefined
@@ -60,14 +61,11 @@ export function useGetProviderEServiceActions(
 
   const isDelegator = delegation?.delegator.id === jwt?.organizationId
   const isDelegate = delegation?.delegate.id === jwt?.organizationId
-  const isArchivingRequestInProgress = Boolean(
+  const hasAnyDelegatedArchivingRequestInProgress = Boolean(
+    isDelegate && hasAnyActiveDelegatedArchivingRequest
+  )
+  const isPendingDelegatedArchivingRequest = Boolean(
     isDelegate && delegatedArchivingRequest && !delegatedArchivingRequest.rejectedAt
-  )
-  const isArchivingRequestFromActiveDescriptor = Boolean(
-    isArchivingRequestInProgress && delegatedArchivingRequest?.descriptorId === activeDescriptorId
-  )
-  const isArchivingRequestFromEservice = Boolean(
-    isArchivingRequestInProgress && !delegatedArchivingRequest?.descriptorId
   )
 
   const { mutate: deleteDraft } = EServiceMutations.useDeleteDraft()
@@ -210,7 +208,7 @@ export function useGetProviderEServiceActions(
 
   const handleArchiveDescriptor = () => {
     if (activeDescriptorId) {
-      if (isArchivingRequestInProgress) {
+      if (hasAnyDelegatedArchivingRequestInProgress) {
         openDialog({ type: 'blockArchivingRequest' })
         return
       }
@@ -257,12 +255,7 @@ export function useGetProviderEServiceActions(
   }
 
   const handleArchiveEservice = () => {
-    openDialog({
-      type: 'archiveEservice',
-      eserviceId,
-      isDelegate,
-      delegatorName: delegation?.delegator.name,
-    })
+    openDialog({ type: 'archiveEservice', eserviceId })
   }
 
   const archiveEserviceAction: ActionItemButton = {
@@ -272,19 +265,7 @@ export function useGetProviderEServiceActions(
   }
 
   const handleCancelArchivingEservice = () => {
-    const isEserviceArchivingInProgress = state === 'ARCHIVING' || state === 'ARCHIVING_SUSPENDED'
-    const pendingArchivingDate = delegatedArchivingRequest?.requestedAt
-
-    openDialog({
-      type: 'cancelEserviceArchiving',
-      eserviceId,
-      isDelegate,
-      delegatorName: delegation?.delegator.name,
-      archivingApproved: isEserviceArchivingInProgress,
-      archivingDate: isEserviceArchivingInProgress
-        ? archivingSchedule?.archivableOn
-        : pendingArchivingDate,
-    })
+    openDialog({ type: 'cancelEserviceArchiving', eserviceId })
   }
 
   const cancelArchivingEserviceAction: ActionItemButton = {
@@ -1202,14 +1183,11 @@ export function useGetProviderEServiceActions(
   const cloneItems: Array<ActionItemButton> = isTemplateInstance ? [] : [cloneAction]
   const upgradeItems: Array<ActionItemButton> =
     isTemplateInstance && isNewTemplateVersionAvailable ? [upgradeEServiceAction] : []
-  const archiveEserviceItems: Array<ActionItemButton> = isArchivingRequestFromEservice
-    ? []
-    : [archiveEserviceAction]
 
   const menuClassic = [
     ...upgradeItems,
     ...cloneItems,
-    ...archiveEserviceItems,
+    archiveEserviceAction,
     ...viewAllVersionsItems,
   ]
   const menuWithNewVersion = isEServiceBeingArchived
@@ -1218,7 +1196,7 @@ export function useGetProviderEServiceActions(
         ...upgradeItems,
         newVersionAction,
         ...cloneItems,
-        ...archiveEserviceItems,
+        archiveEserviceAction,
         ...viewAllVersionsItems,
       ]
   const menuEserviceArchiving = [...cloneItems, ...viewAllVersionsItems]
@@ -1226,7 +1204,7 @@ export function useGetProviderEServiceActions(
     ...upgradeItems,
     newVersionAction,
     ...cloneItems,
-    ...archiveEserviceItems,
+    archiveEserviceAction,
     ...viewAllVersionsItems,
   ]
   const menuArchivedEserviceArchived = [...cloneItems, ...viewAllVersionsItems]
@@ -1239,7 +1217,7 @@ export function useGetProviderEServiceActions(
     }))
     .with({ state: 'DEPRECATED' }, () => ({
       primary: undefined,
-      header: isArchivingRequestFromActiveDescriptor
+      header: isPendingDelegatedArchivingRequest
         ? [suspendAction, cancelArchivingDescriptorAction]
         : [suspendAction, archiveDescriptorAction],
       menu: menuWithNewVersion,
@@ -1251,7 +1229,7 @@ export function useGetProviderEServiceActions(
     }))
     .with({ state: 'SUSPENDED' }, () => ({
       primary: undefined,
-      header: isArchivingRequestFromActiveDescriptor
+      header: isPendingDelegatedArchivingRequest
         ? [reactivateAction, cancelArchivingDescriptorAction]
         : [reactivateAction, archiveDescriptorAction],
       menu: menuWithNewVersion,
@@ -1311,19 +1289,8 @@ export function useGetProviderEServiceActions(
     .with({ state: P.union('DRAFT', 'WAITING_FOR_APPROVAL') }, emptySlots)
     .exhaustive()
 
-  const delegateCancelEserviceArchivingAction: ActionItemButton = {
-    action: handleCancelArchivingEservice,
-    label: tEserviceActions('cancelArchivingEservice'),
-    icon: ArchiveIcon,
-    variant: 'contained',
-  }
-
-  const primaryAction = isArchivingRequestFromEservice
-    ? delegateCancelEserviceArchivingAction
-    : slots.primary
-
   return {
-    primaryAction,
+    primaryAction: slots.primary,
     secondaryAction: undefined,
     menuActions: slots.menu,
     headerInfoActions: slots.header,

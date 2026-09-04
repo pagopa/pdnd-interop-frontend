@@ -27,11 +27,7 @@ type ArchiveEserviceFormValues = {
   gracePeriodDays: string
 }
 
-const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({
-  eserviceId,
-  isDelegate,
-  delegatorName,
-}) => {
+const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({ eserviceId }) => {
   const ariaLabelId = React.useId()
 
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
@@ -43,7 +39,6 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({
 
   const { closeDialog } = useDialog()
   const { mutate: scheduleArchive } = EServiceMutations.useScheduleArchiveEservice()
-  const { mutate: requestArchive } = EServiceMutations.useRequestArchiveEservice()
 
   const formMethods = useForm<ArchiveEserviceFormValues>({
     defaultValues: { reason: '', gracePeriodDays: String(DEFAULT_GRACE_PERIOD_DAYS) },
@@ -64,50 +59,33 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({
   }
 
   const onSubmit = ({ reason, gracePeriodDays }: ArchiveEserviceFormValues) => {
-    const payload = {
-      eserviceId,
-      archivingReason: reason,
-      gracePeriodDays: Number(gracePeriodDays) as GracePeriodDays,
-    }
-
-    if (isDelegate) {
-      requestArchive(payload, { onSuccess: closeDialog })
-      return
-    }
-
-    scheduleArchive(payload, { onSuccess: closeDialog })
+    scheduleArchive(
+      {
+        eserviceId,
+        archivingReason: reason,
+        gracePeriodDays: Number(gracePeriodDays) as GracePeriodDays,
+      },
+      { onSuccess: closeDialog }
+    )
   }
-
-  const titleKey = isDelegate ? 'titleDelegate' : 'title'
-  const adviceDescriptionKey = isDelegate
-    ? 'content.advice.descriptionDelegate'
-    : 'content.advice.description'
-  const confirmDescriptionKey = isDelegate
-    ? 'content.confirm.descriptionDelegate'
-    : 'content.confirm.description'
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
-      <DialogTitle id={ariaLabelId}>{t(titleKey)}</DialogTitle>
+      <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
       <FormProvider {...formMethods}>
         <DialogContent>
           {activeStep === 'ADVISE' && (
             <Stack spacing={3}>
               <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
-                {t(adviceDescriptionKey, { name: delegatorName ?? '' })}
+                {t('content.advice.description')}
               </Typography>
-              <GracePeriodField
-                description={t('content.advice.gracePeriodDescription')}
-                isDelegate={isDelegate}
-              />
+              <GracePeriodField description={t('content.advice.gracePeriodDescription')} />
             </Stack>
           )}
 
           {activeStep === 'CONFIRM' && (
             <Stack spacing={4}>
-              <Typography variant="body2">
-                {t(confirmDescriptionKey, { name: delegatorName ?? '' })}
-              </Typography>
+              <Typography variant="body2">{t('content.confirm.description')}</Typography>
               <Box component="form" noValidate>
                 <RequiredTextLabel />
                 <RHFTextField
@@ -148,11 +126,7 @@ const DialogArchiveEservice: React.FC<DialogArchiveEserviceProps> = ({
             }
             sx={activeStep === 'CONFIRM' ? { color: 'common.white' } : undefined}
           >
-            {activeStep === 'ADVISE'
-              ? t('actions.forward')
-              : isDelegate
-                ? t('actions.requestArchiving')
-                : tCommon('archive')}
+            {activeStep === 'ADVISE' ? t('actions.forward') : tCommon('archive')}
           </Button>
         </DialogActions>
       </FormProvider>
