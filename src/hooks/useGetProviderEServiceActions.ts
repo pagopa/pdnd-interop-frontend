@@ -60,6 +60,7 @@ export function useGetProviderEServiceActions(
 
   const isDelegator = delegation?.delegator.id === jwt?.organizationId
   const isDelegate = delegation?.delegate.id === jwt?.organizationId
+
   const isArchivingRequestInProgress = Boolean(
     isDelegate && delegatedArchivingRequest && !delegatedArchivingRequest.rejectedAt
   )
@@ -257,6 +258,11 @@ export function useGetProviderEServiceActions(
   }
 
   const handleArchiveEservice = () => {
+    if (isArchivingRequestInProgress) {
+      openDialog({ type: 'blockArchivingRequest' })
+      return
+    }
+
     openDialog({
       type: 'archiveEservice',
       eserviceId,

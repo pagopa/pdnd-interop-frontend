@@ -1479,6 +1479,38 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     ).toBeInTheDocument()
   })
 
+  it('delegate cannot open a new e-service archiving request while another delegated archiving request is in progress', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegate: { id: 'organizationId', name: 'Comune di Roma' },
+        delegator: { id: 'delegator-id', name: 'Comune di Milano' },
+      }),
+    })
+
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      delegatedArchivingRequest: {
+        requestedAt: '2026-12-01T00:00:00.000Z',
+        descriptorId: 'different-descriptor-id',
+        requesterId: 'requester-id',
+        gracePeriodDays: 30,
+        archivingReason: 'Motivo archiviazione',
+      },
+    })
+
+    const archiveEserviceAction = result.current.menuActions.find(
+      (action) => action.label === 'archiveEservice'
+    )
+
+    expect(archiveEserviceAction).toBeDefined()
+
+    act(() => {
+      archiveEserviceAction?.action()
+    })
+
+    expect(screen.getByRole('button', { name: 'actions.goBack' })).toBeInTheDocument()
+  })
+
   it('delegate e-service request uses approved cancel-dialog variant when state is ARCHIVING', async () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'ARCHIVING', version: '1' },
