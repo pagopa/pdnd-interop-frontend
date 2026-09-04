@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { Drawer } from '@/components/shared/Drawer'
 import { useDialog } from '@/stores'
+import { formatDateStringNumeric } from '@/utils/format.utils'
 
 type ProviderEServiceArchivingAlertProps = {
   descriptor?: ProducerEServiceDescriptor
@@ -32,7 +33,7 @@ export const ProviderEServiceArchivingAlert: React.FC<ProviderEServiceArchivingA
           <Stack direction="row" spacing={5}>
             <Box>
               {t('alert.delegatorEServiceArchivingRequest', {
-                date: request?.requestedAt,
+                date: formatDateStringNumeric(request.requestedAt),
                 entity: descriptor.delegation?.delegate.name,
               })}
             </Box>
@@ -122,7 +123,7 @@ export const ProviderEServiceArchivingAlert: React.FC<ProviderEServiceArchivingA
           <Stack direction="row" spacing={5}>
             <Box>
               {t('alert.delegatorDescriptorArchivingRequest', {
-                date: request?.requestedAt,
+                date: formatDateStringNumeric(request.requestedAt),
                 entity: descriptor?.delegation?.delegate.name,
               })}
             </Box>

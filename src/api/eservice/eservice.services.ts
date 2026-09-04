@@ -263,14 +263,14 @@ function approveDelegatedEServiceArchivingRequest({ eserviceId }: { eserviceId: 
 
 function rejectDelegatedEServiceArchivingRequest({
   eserviceId,
-  rejectReason,
+  rejectionReason,
 }: {
   eserviceId: string
-  rejectReason: string
+  rejectionReason: string
 }) {
   return axiosInstance.post(
     `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/rejectDelegatedArchiving`,
-    { rejectReason }
+    { rejectionReason }
   )
 }
 
@@ -282,22 +282,22 @@ function approveDelegatedVersionArchivingRequest({
   descriptorId: string
 }) {
   return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/approveDelegatedArchiving`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/approveDelegatedArchiving`
   )
 }
 
 function rejectDelegatedVersionArchivingRequest({
   eserviceId,
   descriptorId,
-  rejectReason,
+  rejectionReason,
 }: {
   eserviceId: string
   descriptorId: string
-  rejectReason: string
+  rejectionReason: string
 }) {
   return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/rejectDelegatedArchiving`,
-    { rejectReason }
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/rejectDelegatedArchiving`,
+    { rejectionReason }
   )
 }
 
@@ -795,8 +795,6 @@ export const EServiceServices = {
   submitDelegatedArchivingVersionRequest,
   cancelDelegatedArchivingVersionRequest,
   cancelDelegatedArchivingEserviceRequest,
-  submitDelegatedArchivingRequest,
-  cancelDelegatedArchivingRequest,
   approveDelegatedEServiceArchivingRequest,
   rejectDelegatedEServiceArchivingRequest,
   approveDelegatedVersionArchivingRequest,

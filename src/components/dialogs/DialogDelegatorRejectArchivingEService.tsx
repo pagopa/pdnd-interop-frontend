@@ -36,7 +36,10 @@ const DialogDelegatorRejectArchivingEService: React.FC<
   const onSubmit: SubmitHandler<RejectArchivingDelegatedFormValues> = (values) => {
     if (!values.reason) return
 
-    rejectEServiceRequest({ eserviceId, rejectReason: values.reason }, { onSuccess: closeDialog })
+    rejectEServiceRequest(
+      { eserviceId, rejectionReason: values.reason },
+      { onSuccess: closeDialog }
+    )
   }
 
   return (

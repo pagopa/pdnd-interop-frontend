@@ -37,7 +37,7 @@ const DialogDelegatorRejectArchivingVersion: React.FC<
     if (!values.reason) return
 
     rejectVersionRequest(
-      { eserviceId, descriptorId, rejectReason: values.reason },
+      { eserviceId, descriptorId, rejectionReason: values.reason },
       { onSuccess: closeDialog }
     )
   }
