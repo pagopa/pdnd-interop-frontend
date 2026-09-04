@@ -153,6 +153,18 @@
         "error": "Non è stato possibile annullare l'archiviazione di questa versione dell'e-service. Riprova più tardi."
       }
     },
+    "cancelDelegatedArchivingVersionRequest": {
+      "outcome": {
+        "success": "La richiesta di archiviazione di questa versione dell’e-service è stata annullata",
+        "error": "Non è stato possibile annullare la richiesta di archiviazione di questa versione dell’e-service. Riprova più tardi."
+      }
+    },
+    "cancelDelegatedEserviceArchivingRequest": {
+      "outcome": {
+        "success": "La richiesta di archiviazione di questo e-service è stata annullata",
+        "error": "Non è stato possibile annullare la richiesta di archiviazione di questo e-service. Riprova più tardi."
+      }
+    },
     "approveDelegatedArchivingEService": {
       "outcome": {
         "success": "Questo e-service sarà archiviato tra {{days}} giorni",
@@ -181,12 +193,6 @@
       "outcome": {
         "success": "La richiesta di archiviazione di questa versione dell’e-service è stata annullata",
         "error": "Non è stato possibile annullare la richiesta di archiviazione di questa versione dell’e-service. Riprova più tardi."
-      }
-    },
-    "cancelDelegatedEserviceArchivingRequest": {
-      "outcome": {
-        "success": "La richiesta di archiviazione di questo e-service è stata annullata",
-        "error": "Non è stato possibile annullare la richiesta di archiviazione di questo e-service. Riprova più tardi."
       }
     },
     "cancelEserviceArchiving": {

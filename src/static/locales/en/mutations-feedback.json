@@ -159,6 +159,12 @@
         "error": "It was not possible to cancel the archiving request for this e-service version. Please try again later."
       }
     },
+    "cancelDelegatedEserviceArchivingRequest": {
+      "outcome": {
+        "success": "The archiving request for this e-service has been canceled",
+        "error": "It was not possible to cancel the archiving request for this e-service. Please try again later."
+      }
+    },
     "approveDelegatedArchivingEService": {
       "outcome": {
         "success": "This e-service will be archived in {{days}} days",
