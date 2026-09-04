@@ -2208,6 +2208,15 @@ export interface CertifiedDiscreteTenantAttributeSeed {
   certifiedDiscreteValue: number;
 }
 
+export interface UpdateCertifiedDiscreteTenantAttributeSeed {
+  /**
+   * @format int32
+   * @min 1
+   * @max 1000000000
+   */
+  certifiedDiscreteValue: number;
+}
+
 export interface DelegationTenant {
   /** @format uuid */
   id: string;
@@ -4519,6 +4528,19 @@ export interface RevokeCertifiedDiscreteAttributeParams {
   attributeId: string;
 }
 
+export interface UpdateCertifiedDiscreteAttributeParams {
+  /**
+   * Tenant id which attribute needs to be verified
+   * @format uuid
+   */
+  tenantId: string;
+  /**
+   * Attribute id to be revoked
+   * @format uuid
+   */
+  attributeId: string;
+}
+
 export interface UpdateVerifiedAttributeParams {
   /**
    * Tenant id which attribute needs to be verified
@@ -6650,10 +6672,10 @@ export namespace Tenants {
   }
 
   /**
-   * @description Retrieve the certified attributes
+   * @description Retrieves the certified attributes assigned by the requester tenant acting as certifier, paired with the tenants they are assigned to. It does not return the attributes assigned to the requester tenant.
    * @tags tenants
    * @name GetRequesterCertifiedAttributes
-   * @summary Gets the certified attributes of the requester
+   * @summary Gets the certified attributes assigned by the requester as certifier
    * @request GET:/tenants/attributes/certified
    * @secure
    */
@@ -6893,6 +6915,32 @@ export namespace Tenants {
     };
     export type RequestQuery = {};
     export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Update the value of a certified discrete attribute for a Tenant by the requester Tenant
+   * @tags tenants
+   * @name UpdateCertifiedDiscreteAttribute
+   * @request PUT:/tenants/{tenantId}/attributes/certifiedDiscrete/{attributeId}
+   * @secure
+   */
+  export namespace UpdateCertifiedDiscreteAttribute {
+    export type RequestParams = {
+      /**
+       * Tenant id which attribute needs to be verified
+       * @format uuid
+       */
+      tenantId: string;
+      /**
+       * Attribute id to be revoked
+       * @format uuid
+       */
+      attributeId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = UpdateCertifiedDiscreteTenantAttributeSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
