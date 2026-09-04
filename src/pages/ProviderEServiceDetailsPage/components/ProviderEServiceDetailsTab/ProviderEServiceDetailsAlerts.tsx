@@ -5,6 +5,7 @@ import StickyNote2Icon from '@mui/icons-material/StickyNote2'
 import { useTranslation } from 'react-i18next'
 import { formatDateStringNumeric } from '@/utils/format.utils'
 import { Drawer } from '@/components/shared/Drawer'
+import { AuthHooks } from '@/api/auth'
 import {
   getActiveDescriptor,
   getEServiceDescriptorAlertSpec,
@@ -25,8 +26,11 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
   >(null)
 
   const { t } = useTranslation('eservice', { keyPrefix: 'read.alert' })
+  const { jwt } = AuthHooks.useJwt()
 
   if (!descriptor) return null
+
+  const isDelegate = descriptor.delegation?.delegate.id === jwt?.organizationId
 
   const activeDescriptor = getActiveDescriptor(descriptor.eservice.descriptors)
   const isEServiceBeingArchived = isDescriptorPendingArchiving(activeDescriptor?.state)
@@ -52,28 +56,40 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
 
   const delegatorName = descriptor.delegation?.delegator.name || '-'
 
-  const shouldShowDelegatedArchivingRequestRejectedAlert = Boolean(
-    isDescriptorDelegatedArchivingRequest && delegatedArchivingRequest?.rejectedAt
+  const shouldShowDelegatedVersionArchivingRequestRejectedAlert = Boolean(
+    isDelegate && isDescriptorDelegatedArchivingRequest && delegatedArchivingRequest?.rejectedAt
   )
 
-  const shouldShowDelegatedArchivingRequestAlert =
-    isDescriptorDelegatedArchivingRequest && !shouldShowDelegatedArchivingRequestRejectedAlert
+  const shouldShowDelegatedVersionArchivingRequestAlert =
+    isDelegate &&
+    isDescriptorDelegatedArchivingRequest &&
+    !shouldShowDelegatedVersionArchivingRequestRejectedAlert &&
+    !isCurrentDescriptorArchiving
+
+  const shouldShowDelegatedVersionArchivingRequestAcceptedAlert = Boolean(
+    isDelegate &&
+    isDescriptorDelegatedArchivingRequest &&
+    !delegatedArchivingRequest?.rejectedAt &&
+    isCurrentDescriptorArchiving
+  )
 
   const delegatedEServiceArchivingDate = descriptor.archivingSchedule?.archivableOn
     ? formatDateStringNumeric(descriptor.archivingSchedule.archivableOn)
     : '-'
 
   const shouldShowDelegatedEServiceArchivingRequestRejectedAlert = Boolean(
-    isEServiceDelegatedArchivingRequest && delegatedArchivingRequest?.rejectedAt
+    isDelegate && isEServiceDelegatedArchivingRequest && delegatedArchivingRequest?.rejectedAt
   )
 
   const shouldShowDelegatedEServiceArchivingRequestAcceptedAlert = Boolean(
+    isDelegate &&
     isEServiceDelegatedArchivingRequest &&
     !delegatedArchivingRequest?.rejectedAt &&
     isCurrentDescriptorArchiving
   )
 
   const shouldShowDelegatedEServiceArchivingRequestAlert =
+    isDelegate &&
     isEServiceDelegatedArchivingRequest &&
     !delegatedArchivingRequest?.rejectedAt &&
     !isCurrentDescriptorArchiving
@@ -92,8 +108,9 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
 
   if (
     !alert &&
-    !shouldShowDelegatedArchivingRequestRejectedAlert &&
-    !shouldShowDelegatedArchivingRequestAlert &&
+    !shouldShowDelegatedVersionArchivingRequestRejectedAlert &&
+    !shouldShowDelegatedVersionArchivingRequestAlert &&
+    !shouldShowDelegatedVersionArchivingRequestAcceptedAlert &&
     !shouldShowDelegatedEServiceArchivingRequestRejectedAlert &&
     !shouldShowDelegatedEServiceArchivingRequestAcceptedAlert &&
     !shouldShowDelegatedEServiceArchivingRequestAlert &&
@@ -102,10 +119,20 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
   )
     return null
 
+  const shouldHideGenericAlert =
+    shouldShowDelegatedVersionArchivingRequestAlert ||
+    shouldShowDelegatedVersionArchivingRequestAcceptedAlert ||
+    shouldShowDelegatedEServiceArchivingRequestAlert ||
+    shouldShowDelegatedEServiceArchivingRequestAcceptedAlert
+
+  const visibleGenericAlert = shouldHideGenericAlert ? null : alert
+
   return (
     <Stack spacing={2} sx={{ mb: 3 }}>
-      {alert && <Alert severity={alert.severity}>{alert.content}</Alert>}
-      {shouldShowDelegatedArchivingRequestRejectedAlert && (
+      {visibleGenericAlert && (
+        <Alert severity={visibleGenericAlert.severity}>{visibleGenericAlert.content}</Alert>
+      )}
+      {shouldShowDelegatedVersionArchivingRequestRejectedAlert && (
         <Alert
           severity="error"
           action={
@@ -123,11 +150,20 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
           {t('delegatedDescriptorArchivingRequestRejected')}
         </Alert>
       )}
-      {shouldShowDelegatedArchivingRequestAlert && (
+      {shouldShowDelegatedVersionArchivingRequestAlert && (
         <Alert severity="info">
           {t('delegatedDescriptorArchivingRequest', {
             date: delegatedArchivingRequest?.requestedAt
               ? formatDateStringNumeric(delegatedArchivingRequest.requestedAt)
+              : '-',
+          })}
+        </Alert>
+      )}
+      {shouldShowDelegatedVersionArchivingRequestAcceptedAlert && (
+        <Alert severity="info">
+          {t('archivingDescriptor', {
+            date: descriptor.archivingSchedule?.archivableOn
+              ? formatDateStringNumeric(descriptor.archivingSchedule.archivableOn)
               : '-',
           })}
         </Alert>
@@ -150,7 +186,7 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
           {t('delegatedEServiceArchivingRequestRejected')}
         </Alert>
       )}
-      {shouldShowDelegatedEServiceArchivingRequestAcceptedAlert && !alert && (
+      {shouldShowDelegatedEServiceArchivingRequestAcceptedAlert && (
         <Alert severity="info">
           {t('archivingEService', {
             date: delegatedEServiceArchivingDate,
