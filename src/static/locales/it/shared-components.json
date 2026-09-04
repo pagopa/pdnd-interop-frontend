@@ -424,9 +424,11 @@
     "actions": {
       "customizeThreshold": "Personalizza soglia",
       "changeThreshold": "Modifica soglia",
+      "removeThreshold": "Rimuovi soglia",
       "inspectAttributeDetails": "Dettagli attributo",
       "modifyCertifiedDiscreteAttribute": "Modifica attributo"
     },
+    "removeThresholdSuccess": "Hai rimosso la soglia di chiamate API dell’attributo certificato.",
     "na": "n/a"
   },
   "attributeGroupContainer": {
