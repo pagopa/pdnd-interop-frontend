@@ -1,6 +1,6 @@
 import type {
   ArchivingSchedule,
-  DelegatedEServiceArchivingRequest,
+  DelegatedArchivingRequest,
   DelegationWithCompactTenants,
   EServiceDescriptorState,
   EServiceMode,
@@ -42,7 +42,7 @@ export function useGetProviderEServiceActions(
   onViewAllVersions?: () => void,
   isActiveDescriptor?: boolean,
   isEServiceBeingArchived?: boolean,
-  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest
+  delegatedArchivingRequest?: DelegatedArchivingRequest
 ): {
   primaryAction: ActionItemButton | undefined
   secondaryAction: ActionItemButton | undefined
@@ -1175,8 +1175,7 @@ export function useGetProviderEServiceActions(
     ? availableFromTemplateEserviceAction
     : availableClassicEServiceAction
 
-  const isHappyPathDetailsPage =
-    where === 'detailsPage' && (isAdmin || isOperatorAPI) && !isDelegator
+  const isHappyPathDetailsPage = where === 'detailsPage' && (isAdmin || isOperatorAPI)
   if (!isHappyPathDetailsPage) {
     return {
       primaryAction: undefined,
@@ -1199,7 +1198,7 @@ export function useGetProviderEServiceActions(
 
   const newVersionAction = hasVersionDraft ? editDraftAction : createNewDraftAction
 
-  const cloneItems: Array<ActionItemButton> = isTemplateInstance ? [] : [cloneAction]
+  const cloneItems: Array<ActionItemButton> = isTemplateInstance || isDelegate ? [] : [cloneAction]
   const upgradeItems: Array<ActionItemButton> =
     isTemplateInstance && isNewTemplateVersionAvailable ? [upgradeEServiceAction] : []
   const archiveEserviceItems: Array<ActionItemButton> = isArchivingRequestFromEservice
@@ -1231,7 +1230,19 @@ export function useGetProviderEServiceActions(
   ]
   const menuArchivedEserviceArchived = [...cloneItems, ...viewAllVersionsItems]
 
-  const slots: Slots = match({ state, archivingScope, isActiveDescriptor, isEServiceBeingArchived })
+  const slots: Slots = match({
+    state,
+    archivingScope,
+    isActiveDescriptor,
+    isEServiceBeingArchived,
+    isDelegator,
+  })
+    .with({ isDelegator: true }, () => ({
+      primary: undefined,
+      header: [],
+      menu:
+        where === 'detailsPage' ? [...availableAction, ...viewAllVersionsItems] : availableAction,
+    }))
     .with({ state: 'PUBLISHED' }, () => ({
       primary: undefined,
       header: [suspendAction, newVersionAction],

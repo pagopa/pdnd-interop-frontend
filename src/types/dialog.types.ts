@@ -61,6 +61,10 @@ export type DialogProps =
   | DialogArchiveVersionProps
   | DialogCancelVersionArchivingProps
   | DialogBlockArchivingRequestProps
+  | DialogDelegatorConfirmArchivingEServiceProps
+  | DialogDelegatorConfirmArchivingVersionProps
+  | DialogDelegatorRejectArchivingEServiceProps
+  | DialogDelegatorRejectArchivingVersionProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
@@ -294,4 +298,32 @@ export type DialogCancelVersionArchivingProps = {
 
 export type DialogBlockArchivingRequestProps = {
   type: 'blockArchivingRequest'
+}
+
+export type DialogDelegatorConfirmArchivingEServiceProps = {
+  type: 'delegatorConfirmArchivingEService'
+  eserviceId: string
+  delegatedName: string
+  gracePeriodDays: number
+}
+
+export type DialogDelegatorConfirmArchivingVersionProps = {
+  type: 'delegatorConfirmArchivingVersion'
+  eserviceId: string
+  descriptorId: string
+  delegatedName: string
+  gracePeriodDays: number
+}
+
+export type DialogDelegatorRejectArchivingEServiceProps = {
+  type: 'delegatorRejectArchivingEService'
+  eserviceId: string
+  delegatedName: string
+}
+
+export type DialogDelegatorRejectArchivingVersionProps = {
+  type: 'delegatorRejectArchivingVersion'
+  eserviceId: string
+  descriptorId: string
+  delegatedName: string
 }

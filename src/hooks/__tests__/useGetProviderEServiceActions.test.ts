@@ -7,7 +7,7 @@ import { act } from 'react-dom/test-utils'
 import { screen, waitFor } from '@testing-library/react'
 import type {
   ArchivingSchedule,
-  DelegatedEServiceArchivingRequest,
+  DelegatedArchivingRequest,
   ProducerEService,
 } from '@/api/api.generatedTypes'
 
@@ -931,7 +931,7 @@ function renderDetailsPageHook(
   descriptorMock: ProducerEService,
   options: {
     archivingSchedule?: Pick<ArchivingSchedule, 'scope'> & Partial<ArchivingSchedule>
-    delegatedArchivingRequest?: DelegatedEServiceArchivingRequest
+    delegatedArchivingRequest?: DelegatedArchivingRequest
     latestDescriptorId?: string
     isActiveDescriptor?: boolean
     isEServiceBeingArchived?: boolean

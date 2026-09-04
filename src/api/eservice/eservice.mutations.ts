@@ -269,6 +269,58 @@ function useCancelDelegatedEserviceArchivingRequest() {
   })
 }
 
+function useApproveDelegatedArchivingEServiceRequest({ days }: { days: number }) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.approveDelegatedArchivingEService',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.approveDelegatedEServiceArchivingRequest,
+    meta: {
+      successToastLabel: t('outcome.success', { days }),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useRejectDelegatedArchivingEServiceRequest() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.rejectDelegatedArchivingEService',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.rejectDelegatedEServiceArchivingRequest,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useApproveDelegatedArchivingVersionRequest({ days }: { days: number }) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.approveDelegatedArchivingVersion',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.approveDelegatedVersionArchivingRequest,
+    meta: {
+      successToastLabel: t('outcome.success', { days }),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useRejectDelegatedArchivingVersionRequest() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.rejectDelegatedArchivingVersion',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.rejectDelegatedVersionArchivingRequest,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
 function useScheduleArchiveEservice() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.scheduleArchiveEservice',
@@ -717,4 +769,8 @@ export const EServiceMutations = {
   useUpdateEServiceSignalHub,
   useUpdateEServicePersonalDataFlagAfterPublication,
   useUpdateEServiceDelegationFlagsAfterPublication,
+  useApproveDelegatedArchivingEServiceRequest,
+  useRejectDelegatedArchivingEServiceRequest,
+  useApproveDelegatedArchivingVersionRequest,
+  useRejectDelegatedArchivingVersionRequest,
 }
