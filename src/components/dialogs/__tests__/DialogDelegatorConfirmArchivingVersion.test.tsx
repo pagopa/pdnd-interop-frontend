@@ -59,16 +59,21 @@ describe('DialogDelegatorConfirmArchivingVersion', () => {
     expect(
       screen.getByText('dialogConfirmArchivingDelegated.version.secondParagraph')
     ).toBeInTheDocument()
+
+    expect(
+      screen.getByRole('button', { name: 'dialogConfirmArchivingDelegated.confirm' })
+    ).toBeInTheDocument()
+
+    expect(
+      screen.getByRole('button', { name: 'dialogConfirmArchivingDelegated.cancel' })
+    ).toBeInTheDocument()
   })
 
   it('check for function call on button  click', async () => {
     renderDialog()
 
-    const button = screen.getByRole('button', { name: 'dialogConfirmArchivingDelegated.cancel' })
+    const button = screen.getByRole('button', { name: 'dialogConfirmArchivingDelegated.confirm' })
     expect(button).toBeInTheDocument()
-    expect(
-      screen.getByRole('button', { name: 'dialogConfirmArchivingDelegated.confirm' })
-    ).toBeInTheDocument()
     await userEvent.click(button)
     expect(mockApproveArchiveVersionRequest).toBeCalled()
   })

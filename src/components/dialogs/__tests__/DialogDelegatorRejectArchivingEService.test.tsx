@@ -50,18 +50,33 @@ describe('DialogDelegatorRejectArchivingEService', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     expect(screen.getByText('dialogRejectArchivingDelegated.title')).toBeInTheDocument()
     expect(screen.getByText('dialogRejectArchivingDelegated.paragraph')).toBeInTheDocument()
-    expect(screen.getByText('dialogConfirmArchivingDelegated.fieldLabel')).toBeInTheDocument()
+    expect(screen.getByText('dialogRejectArchivingDelegated.fieldLabel')).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'dialogRejectArchivingDelegated.cancel' })
+    ).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: 'dialogRejectArchivingDelegated.confirm' })
+    ).toBeInTheDocument()
   })
 
   it('check for function call on button click', async () => {
     renderDialog()
+    const input = screen.getByRole('textbox', {
+      name: /dialogRejectArchivingDelegated\.fieldLabel/i,
+    })
 
-    const button = screen.getByRole('button', { name: 'dialogRejectArchivingDelegated.cancel' })
+    await userEvent.type(input, 'rejection-reason-test-input')
+    const button = screen.getByRole('button', { name: 'dialogRejectArchivingDelegated.confirm' })
     expect(button).toBeInTheDocument()
-    expect(
-      screen.getByRole('button', { name: 'dialogRejectArchivingDelegated.confirm' })
-    ).toBeInTheDocument()
     await userEvent.click(button)
-    expect(mockRejectArchiveEServiceRequest).toBeCalled()
+    expect(mockRejectArchiveEServiceRequest).toBeCalledWith(
+      {
+        eserviceId: 'eservice-id',
+        rejectionReason: 'rejection-reason-test-input',
+      },
+      {
+        onSuccess: mockCloseDialog,
+      }
+    )
   })
 })

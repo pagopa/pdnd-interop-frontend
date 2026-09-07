@@ -58,23 +58,21 @@ describe('DialogDelegatorConfirmArchivingEService', () => {
     expect(
       screen.getByText('dialogConfirmArchivingDelegated.eservice.secondParagraph')
     ).toBeInTheDocument()
-    const button = screen.getByRole('button', { name: 'dialogConfirmArchivingDelegated.cancel' })
-    expect(button).toBeInTheDocument()
+
+    expect(
+      screen.getByRole('button', { name: 'dialogConfirmArchivingDelegated.cancel' })
+    ).toBeInTheDocument()
+
     expect(
       screen.getByRole('button', { name: 'dialogConfirmArchivingDelegated.confirm' })
     ).toBeInTheDocument()
-    await userEvent.click(button)
-    expect(mockApproveArchiveEServiceRequest).toBeCalled()
   })
 
   it('check for function call on button  click', async () => {
     renderDialog()
 
-    const button = screen.getByRole('button', { name: 'dialogConfirmArchivingDelegated.cancel' })
+    const button = screen.getByRole('button', { name: 'dialogConfirmArchivingDelegated.confirm' })
     expect(button).toBeInTheDocument()
-    expect(
-      screen.getByRole('button', { name: 'dialogConfirmArchivingDelegated.confirm' })
-    ).toBeInTheDocument()
     await userEvent.click(button)
     expect(mockApproveArchiveEServiceRequest).toBeCalled()
   })

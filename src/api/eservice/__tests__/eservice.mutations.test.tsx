@@ -111,7 +111,7 @@ describe('EServiceMutations delegator archiving toasts', () => {
       { withReactQueryContext: true }
     )
 
-    result.current.mutate({ eserviceId: 'eservice-id', rejectReason: 'reject-reason' })
+    result.current.mutate({ eserviceId: 'eservice-id', rejectionReason: 'reject-reason' })
 
     const mutationMeta = queryClient.getMutationCache().getAll().at(-1)?.meta
 
@@ -153,7 +153,7 @@ describe('EServiceMutations delegator archiving toasts', () => {
     result.current.mutate({
       eserviceId: 'eservice-id',
       descriptorId: 'descriptor-id',
-      rejectReason: 'reject-reason',
+      rejectionReason: 'reject-reason',
     })
 
     const mutationMeta = queryClient.getMutationCache().getAll().at(-1)?.meta
