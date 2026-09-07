@@ -36,6 +36,11 @@ const UpdateAttributeValueDrawer: React.FC<UpdateAttributeValueDrawerProps> = ({
   })
 
   const onSubmit = formMethods.handleSubmit(({ value }: UpdateAttributeValueFormValues) => {
+    if (value === attribute.discreteValue) {
+      onClose()
+      return
+    }
+
     updateCertifiedDiscreteAttribute(
       {
         tenantId: attribute.tenantId,

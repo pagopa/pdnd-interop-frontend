@@ -105,8 +105,9 @@ describe('UpdateAttributeValueDrawer', () => {
   describe('form submission', () => {
     it('should call updateCertifiedDiscreteAttribute with the new value on submit', async () => {
       const user = userEvent.setup()
+      const onCloseFn = vi.fn()
       const screen = renderWithApplicationContext(
-        <UpdateAttributeValueDrawer attribute={mockAttribute} isOpen={true} onClose={vi.fn()} />,
+        <UpdateAttributeValueDrawer attribute={mockAttribute} isOpen={true} onClose={onCloseFn} />,
         {
           withReactQueryContext: true,
         }
@@ -128,6 +129,27 @@ describe('UpdateAttributeValueDrawer', () => {
         attributeId: mockAttribute.attributeId,
         body: { certifiedDiscreteValue: 500 },
       })
+      expect(onCloseFn).toHaveBeenCalled()
+    })
+
+    it('should call onClose without calling updateCertifiedDiscreteAttribute when the value is unchanged', async () => {
+      const user = userEvent.setup()
+      const onCloseFn = vi.fn()
+      const screen = renderWithApplicationContext(
+        <UpdateAttributeValueDrawer attribute={mockAttribute} isOpen={true} onClose={onCloseFn} />,
+        {
+          withReactQueryContext: true,
+        }
+      )
+
+      const submitButton = screen.getByRole('button', { name: 'submitBtnLabel' })
+      await user.click(submitButton)
+
+      await waitFor(() => {
+        expect(onCloseFn).toHaveBeenCalled()
+      })
+
+      expect(updateCertifiedDiscreteAttributeRequests).toHaveLength(0)
     })
 
     it('should show a required error and block submit when the value field is empty', async () => {
