@@ -103,7 +103,8 @@
         "error": "Non è stato possibile inoltrare al delegante la versione per approvazione. Per favore, riprova!"
       },
       "confirmDialog": {
-        "title": "Richiedi pubblicazione versione",
+        "title": "Richiedi pubblicazione e-service",
+        "titleNewVersion": "Richiedi pubblicazione versione",
         "description": "Stai per inoltrare a <strong>{{delegatorName}}</strong> la richiesta di pubblicazione di una nuova versione dell’e-service <strong>{{eserviceName}}</strong>.",
         "actions": {
           "proceed": "Inoltra richiesta"
