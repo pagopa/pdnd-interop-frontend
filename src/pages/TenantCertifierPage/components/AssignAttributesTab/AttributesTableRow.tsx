@@ -39,7 +39,7 @@ export const AttributesTableRow: React.FC<AttributesTableRowProps> = ({ attribut
 
   const changeValueAction: ActionItem = {
     action: openDrawer,
-    label: t('changeAttributeValueBtn'),
+    label: t('updateAttributeValueBtn'),
   }
 
   return (
