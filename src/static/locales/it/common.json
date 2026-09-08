@@ -97,7 +97,10 @@
       "linkedEserviceProviderName": "Nome erogatore",
       "purposeTemplateCreatorName": "Nome realizzatore",
       "purposeTemplateTarget": "Destinatario",
-      "assignmentDate": "Data assegnazione"
+      "assignmentDate": "Data assegnazione",
+      "reviewersCount": "Numero valutatori",
+      "approvalDate": "Data approvazione",
+      "reviewer": "Valutatore"
     }
   },
   "status": {
@@ -170,7 +173,9 @@
     },
     "riskAnalysisList": {
       "ASSIGNED": "da compilare",
-      "SUBMITTED": "da approvare"
+      "SUBMITTED": "da approvare",
+      "SIGNED": "approvata",
+      "REJECTED": "rifiutata"
     }
   },
   "userProductRole": {
