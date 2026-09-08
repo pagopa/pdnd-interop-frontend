@@ -601,12 +601,12 @@ export interface ProducerEServiceDetails {
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
   asyncExchange?: boolean;
-  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest;
+  delegatedArchivingRequest?: DelegatedArchivingRequest;
   /** @format uuid */
   latestActiveDescriptorId?: string;
 }
 
-export interface DelegatedEServiceArchivingRequest {
+export interface DelegatedArchivingRequest {
   /** @format date-time */
   requestedAt: string;
   /** @format date-time */
@@ -744,7 +744,7 @@ export interface ProducerDescriptorEService {
   personalData?: boolean;
   instanceLabel?: string;
   asyncExchange?: boolean;
-  delegatedArchivingRequest?: DelegatedEServiceArchivingRequest;
+  delegatedArchivingRequest?: DelegatedArchivingRequest;
 }
 
 export interface ProducerDescriptorEServiceProducer {
