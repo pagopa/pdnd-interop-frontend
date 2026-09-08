@@ -16,10 +16,11 @@ import type {
 import { RiskAnalysisTable, RiskAnalysisTableSkeleton } from './components/RiskAnalysisTable'
 import { PurposeQueries } from '@/api/purpose'
 import { EServiceQueries } from '@/api/eservice'
-import { Tab } from '@mui/material'
+import { Tab, Typography } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { useActiveTab } from '@/hooks/useActiveTab'
-import NoDataBox from './components/NoDataBox'
+import { NoItemResults } from '@/components/shared/NoItemResults/NoItemResults'
+import { Box } from '@mui/material'
 
 export const RiskAnalysisListPageTab = {
   TODO: 'todo',
@@ -122,7 +123,13 @@ const RiskAnalysisListPage: React.FC = () => {
   return (
     <PageContainer title={t('title')} description={t('description')}>
       {isInitialEmptyState ? (
-        <NoDataBox isInTab label={tPurpose('noData.label')} />
+        <Box mt={5}>
+          <NoItemResults padding={2}>
+            <Typography variant="body2" textAlign="center">
+              {tPurpose('noData.label')}
+            </Typography>
+          </NoItemResults>
+        </Box>
       ) : (
         <>
           <TabContext value={activeTab}>
@@ -137,7 +144,11 @@ const RiskAnalysisListPage: React.FC = () => {
             </TabList>
             <TabPanel value={activeTab}>
               {data?.results.length === 0 && !hasActiveFilters ? (
-                <NoDataBox label={emptyTabLabel} />
+                <NoItemResults padding={2}>
+                  <Typography variant="body2" textAlign="center">
+                    {emptyTabLabel}
+                  </Typography>
+                </NoItemResults>
               ) : (
                 <>
                   <Filters {...filtersHandlers} />
