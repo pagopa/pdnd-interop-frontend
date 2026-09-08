@@ -1479,7 +1479,7 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     ).toBeInTheDocument()
   })
 
-  it('delegate cannot open a new e-service archiving request while another delegated archiving request is in progress', () => {
+  it('delegate cannot open a new e-service archiving request while another archiving request is in progress', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
       delegation: createMockDelegationWithCompactTenants({
