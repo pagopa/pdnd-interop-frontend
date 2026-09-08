@@ -75,6 +75,7 @@ import { ConsumerSimulateGetVoucherPage } from '@/pages/ConsumerSimulateGetVouch
 import RiskAnalysisSummaryPage from '@/pages/RiskAnalysisSummaryPage/RiskAnalysisSummary.page'
 import RiskAnalysisApproveThankYouPage from '@/pages/RiskAnalysisApproveThankYouPage/RiskAnalysisApproveThankYou.page'
 import RiskAnalysisCompilePage from '@/pages/RiskAnalysisCompilePage/RiskAnalysisCompile.page'
+import RiskAnalysisDetailsPage from '@/pages/RiskAnalysisDetailsPage/RiskAnalysisDetails.page'
 import RiskAnalysisInfoCompilePage from '@/pages/RiskAnalysisInfoCompilePage/RiskAnalysisInfoCompile.page'
 import RiskAnalysisListPage from '@/pages/RiskAnalysisListPage/RiskAnalysisList.page'
 import RiskAnalysisRejectThankYouPage from '@/pages/RiskAnalysisRejectThankYouPage/RiskAnalysisRejectThankYou.page'
@@ -750,6 +751,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <RiskAnalysisInfoCompilePage />,
     public: false,
     hideSideNav: true,
+    authLevels: ['reviewer'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_DETAILS',
+    path: '/analisi-del-rischio/:purposeId/dettaglio',
+    element: <RiskAnalysisDetailsPage />,
+    public: false,
+    hideSideNav: false,
     authLevels: ['reviewer'],
   })
   .addRoute({
