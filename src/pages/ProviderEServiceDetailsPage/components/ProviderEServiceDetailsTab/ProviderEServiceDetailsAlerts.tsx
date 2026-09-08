@@ -56,17 +56,17 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
 
   const delegatorName = descriptor.delegation?.delegator.name || '-'
 
-  const shouldShowDelegatedVersionArchivingRequestRejectedAlert = Boolean(
+  const shouldShowDelegatedDescriptorArchivingRequestRejectedAlert = Boolean(
     isDelegate && isDescriptorDelegatedArchivingRequest && delegatedArchivingRequest?.rejectedAt
   )
 
-  const shouldShowDelegatedVersionArchivingRequestAlert =
+  const shouldShowDelegatedDescriptorArchivingRequestAlert =
     isDelegate &&
     isDescriptorDelegatedArchivingRequest &&
-    !shouldShowDelegatedVersionArchivingRequestRejectedAlert &&
+    !shouldShowDelegatedDescriptorArchivingRequestRejectedAlert &&
     !isCurrentDescriptorArchiving
 
-  const shouldShowDelegatedVersionArchivingRequestAcceptedAlert = Boolean(
+  const shouldShowDelegatedDescriptorArchivingRequestAcceptedAlert = Boolean(
     isDelegate &&
     isDescriptorDelegatedArchivingRequest &&
     !delegatedArchivingRequest?.rejectedAt &&
@@ -108,9 +108,9 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
 
   if (
     !alert &&
-    !shouldShowDelegatedVersionArchivingRequestRejectedAlert &&
-    !shouldShowDelegatedVersionArchivingRequestAlert &&
-    !shouldShowDelegatedVersionArchivingRequestAcceptedAlert &&
+    !shouldShowDelegatedDescriptorArchivingRequestRejectedAlert &&
+    !shouldShowDelegatedDescriptorArchivingRequestAlert &&
+    !shouldShowDelegatedDescriptorArchivingRequestAcceptedAlert &&
     !shouldShowDelegatedEServiceArchivingRequestRejectedAlert &&
     !shouldShowDelegatedEServiceArchivingRequestAcceptedAlert &&
     !shouldShowDelegatedEServiceArchivingRequestAlert &&
@@ -120,8 +120,8 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
     return null
 
   const shouldHideGenericAlert =
-    shouldShowDelegatedVersionArchivingRequestAlert ||
-    shouldShowDelegatedVersionArchivingRequestAcceptedAlert ||
+    shouldShowDelegatedDescriptorArchivingRequestAlert ||
+    shouldShowDelegatedDescriptorArchivingRequestAcceptedAlert ||
     shouldShowDelegatedEServiceArchivingRequestAlert ||
     shouldShowDelegatedEServiceArchivingRequestAcceptedAlert
 
@@ -132,7 +132,7 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
       {visibleGenericAlert && (
         <Alert severity={visibleGenericAlert.severity}>{visibleGenericAlert.content}</Alert>
       )}
-      {shouldShowDelegatedVersionArchivingRequestRejectedAlert && (
+      {shouldShowDelegatedDescriptorArchivingRequestRejectedAlert && (
         <Alert
           severity="error"
           action={
@@ -150,7 +150,7 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
           {t('delegatedDescriptorArchivingRequestRejected')}
         </Alert>
       )}
-      {shouldShowDelegatedVersionArchivingRequestAlert && (
+      {shouldShowDelegatedDescriptorArchivingRequestAlert && (
         <Alert severity="info">
           {t('delegatedDescriptorArchivingRequest', {
             date: delegatedArchivingRequest?.requestedAt
@@ -159,7 +159,7 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
           })}
         </Alert>
       )}
-      {shouldShowDelegatedVersionArchivingRequestAcceptedAlert && (
+      {shouldShowDelegatedDescriptorArchivingRequestAcceptedAlert && (
         <Alert severity="info">
           {t('archivingDescriptor', {
             date: descriptor.archivingSchedule?.archivableOn
