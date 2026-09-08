@@ -11,15 +11,18 @@ import {
   Button,
 } from '@mui/material'
 import { useDialog } from '@/stores'
-import type { DialogDelegatorConfirmArchivingEServiceProps } from '@/types/dialog.types'
 import { useTranslation, Trans } from 'react-i18next'
 import { EServiceMutations } from '@/api/eservice'
 import { calculateArchivableOn } from '@/utils/eservice.utils'
 import { formatDateStringNumeric } from '@/utils/format.utils'
+import type { DialogDelegatorConfirmArchivingProps } from '@/types/dialog.types'
 
-const DialogDelegatorConfirmArchivingEService: React.FC<
-  DialogDelegatorConfirmArchivingEServiceProps
-> = ({ eserviceId, delegatedName, gracePeriodDays }) => {
+const DialogDelegatorConfirmArchiving: React.FC<DialogDelegatorConfirmArchivingProps> = ({
+  eserviceId,
+  descriptorId,
+  delegatedName,
+  gracePeriodDays,
+}) => {
   const ariaLabelId = React.useId()
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
 
@@ -27,27 +30,43 @@ const DialogDelegatorConfirmArchivingEService: React.FC<
   const { mutate: approveEServiceRequest } =
     EServiceMutations.useApproveDelegatedArchivingEServiceRequest({ days: gracePeriodDays })
 
+  const { mutate: approveVersionRequest } =
+    EServiceMutations.useApproveDelegatedArchivingVersionRequest({ days: gracePeriodDays })
   const archivingDate = formatDateStringNumeric(calculateArchivableOn(new Date(), gracePeriodDays))
 
   const handleApprove = () => {
-    approveEServiceRequest({ eserviceId }, { onSuccess: closeDialog })
+    if (descriptorId) {
+      approveVersionRequest({ eserviceId, descriptorId }, { onSuccess: closeDialog })
+    } else {
+      approveEServiceRequest({ eserviceId }, { onSuccess: closeDialog })
+    }
   }
+
+  const title = descriptorId
+    ? t('dialogConfirmArchivingDelegated.version.title')
+    : t('dialogConfirmArchivingDelegated.eservice.title')
+
+  const firstParagraph = descriptorId
+    ? t('dialogConfirmArchivingDelegated.version.firstParagraph', { entity: delegatedName })
+    : t('dialogConfirmArchivingDelegated.eservice.firstParagraph', {
+        entity: delegatedName,
+      })
+
+  const secondParagraph = descriptorId
+    ? t('dialogConfirmArchivingDelegated.version.secondParagraph', {
+        date: archivingDate,
+      })
+    : t('dialogConfirmArchivingDelegated.eservice.secondParagraph', {
+        date: archivingDate,
+      })
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
-      <DialogTitle>{t('dialogConfirmArchivingDelegated.eservice.title')}</DialogTitle>
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <Stack gap={3}>
-          <Typography>
-            {t('dialogConfirmArchivingDelegated.eservice.firstParagraph', {
-              entity: delegatedName,
-            })}
-          </Typography>
-          <Typography>
-            {t('dialogConfirmArchivingDelegated.eservice.secondParagraph', {
-              date: archivingDate,
-            })}
-          </Typography>
+          <Typography>{firstParagraph}</Typography>
+          <Typography>{secondParagraph}</Typography>
           <Alert severity="info">
             <Trans
               components={{
@@ -80,4 +99,4 @@ const DialogDelegatorConfirmArchivingEService: React.FC<
   )
 }
 
-export default DialogDelegatorConfirmArchivingEService
+export default DialogDelegatorConfirmArchiving

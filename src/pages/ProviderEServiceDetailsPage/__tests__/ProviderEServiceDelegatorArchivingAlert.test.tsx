@@ -2,14 +2,17 @@ import { describe, it, expect } from 'vitest'
 import { screen } from '@testing-library/react'
 
 import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
 import { ProviderEServiceDelegatorArchivingAlert } from '../components/ProviderEServiceDelegatorArchivingAlert'
+
+mockUseJwt()
 
 const renderAlerts = (descriptor: ProducerEServiceDescriptor | undefined) =>
   renderWithApplicationContext(
     <ProviderEServiceDelegatorArchivingAlert descriptor={descriptor} />,
     {
+      withReactQueryContext: true,
       withRouterContext: true,
     }
   )

@@ -9,23 +9,27 @@ import {
   Button,
 } from '@mui/material'
 import { useDialog } from '@/stores'
-import type { DialogDelegatorRejectArchivingVersionProps } from '@/types/dialog.types'
 import { useTranslation } from 'react-i18next'
 import { FormProvider, useForm, type SubmitHandler } from 'react-hook-form'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { RequiredTextLabel } from '@/components/shared/RequiredTextLabel'
 import { EServiceMutations } from '@/api/eservice'
+import type { DialogDelegatorRejectArchivingProps } from '@/types/dialog.types'
 
 type RejectArchivingDelegatedFormValues = {
   reason: string
 }
 
-const DialogDelegatorRejectArchivingVersion: React.FC<
-  DialogDelegatorRejectArchivingVersionProps
-> = ({ eserviceId, descriptorId, delegatedName }) => {
+const DialogDelegatorRejectArchiving: React.FC<DialogDelegatorRejectArchivingProps> = ({
+  eserviceId,
+  descriptorId,
+  delegatedName,
+}) => {
   const ariaLabelId = React.useId()
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
   const { closeDialog } = useDialog()
+  const { mutate: rejectEServiceRequest } =
+    EServiceMutations.useRejectDelegatedArchivingEServiceRequest()
   const { mutate: rejectVersionRequest } =
     EServiceMutations.useRejectDelegatedArchivingVersionRequest()
 
@@ -35,11 +39,17 @@ const DialogDelegatorRejectArchivingVersion: React.FC<
 
   const onSubmit: SubmitHandler<RejectArchivingDelegatedFormValues> = (values) => {
     if (!values.reason) return
-
-    rejectVersionRequest(
-      { eserviceId, descriptorId, rejectionReason: values.reason },
-      { onSuccess: closeDialog }
-    )
+    if (descriptorId) {
+      rejectVersionRequest(
+        { eserviceId, descriptorId, rejectionReason: values.reason },
+        { onSuccess: closeDialog }
+      )
+    } else {
+      rejectEServiceRequest(
+        { eserviceId, rejectionReason: values.reason },
+        { onSuccess: closeDialog }
+      )
+    }
   }
 
   return (
@@ -79,4 +89,4 @@ const DialogDelegatorRejectArchivingVersion: React.FC<
   )
 }
 
-export default DialogDelegatorRejectArchivingVersion
+export default DialogDelegatorRejectArchiving

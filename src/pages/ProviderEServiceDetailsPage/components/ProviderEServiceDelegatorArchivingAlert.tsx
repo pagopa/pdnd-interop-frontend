@@ -88,7 +88,7 @@ export const ProviderEServiceDelegatorArchivingAlert: React.FC<
                 size="small"
                 onClick={() =>
                   openDialog({
-                    type: 'delegatorConfirmArchivingEService',
+                    type: 'delegatorConfirmArchiving',
                     eserviceId: descriptor.eservice.id,
                     delegatedName: descriptor.delegation?.delegate.name ?? '',
                     gracePeriodDays: request.gracePeriodDays,
@@ -106,7 +106,7 @@ export const ProviderEServiceDelegatorArchivingAlert: React.FC<
                 }}
                 onClick={() =>
                   openDialog({
-                    type: 'delegatorRejectArchivingEService',
+                    type: 'delegatorRejectArchiving',
                     eserviceId: descriptor.eservice.id,
                     delegatedName: descriptor.delegation?.delegate.name ?? '',
                   })
@@ -175,7 +175,7 @@ export const ProviderEServiceDelegatorArchivingAlert: React.FC<
                 size="small"
                 onClick={() =>
                   openDialog({
-                    type: 'delegatorConfirmArchivingVersion',
+                    type: 'delegatorConfirmArchiving',
                     eserviceId: descriptor.eservice.id,
                     descriptorId: descriptor.id,
                     delegatedName: descriptor.delegation?.delegate.name ?? '',
@@ -194,7 +194,7 @@ export const ProviderEServiceDelegatorArchivingAlert: React.FC<
                 }}
                 onClick={() =>
                   openDialog({
-                    type: 'delegatorRejectArchivingVersion',
+                    type: 'delegatorRejectArchiving',
                     eserviceId: descriptor.eservice.id,
                     descriptorId: descriptor.id,
                     delegatedName: descriptor.delegation?.delegate.name ?? '',
