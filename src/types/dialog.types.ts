@@ -62,8 +62,7 @@ export type DialogProps =
   | DialogCancelVersionArchivingProps
   | DialogBlockArchivingRequestProps
   | DialogDelegatorConfirmArchivingProps
-  | DialogDelegatorRejectArchivingEServiceProps
-  | DialogDelegatorRejectArchivingVersionProps
+  | DialogDelegatorRejectArchivingProps
 
 export type DialogAttributeDetailsProps = {
   type: 'showAttributeDetails'
