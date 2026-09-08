@@ -163,6 +163,36 @@ describe('ProviderEServiceDetailsAlerts', () => {
     expect(screen.queryByText('archivingEService')).not.toBeInTheDocument()
   })
 
+  it('does not render delegated descriptor archiving alerts when the user is not the delegate', () => {
+    mockUseJwt({ jwt: { organizationId: 'different-organization-id' } })
+
+    const descriptor = createMockEServiceDescriptorProvider({
+      id: 'descriptor-id-1',
+      state: 'PUBLISHED',
+      delegation: {
+        delegator: { id: 'delegator-id', name: 'Comune di Milano' },
+        delegate: { id: 'delegate-id', name: 'Comune di Roma' },
+      },
+      eservice: {
+        delegatedArchivingRequest: {
+          requestedAt: '2026-12-01T00:00:00.000Z',
+          descriptorId: 'descriptor-id-1',
+          requesterId: 'requester-id',
+          gracePeriodDays: 30,
+          archivingReason: 'Motivo archiviazione',
+        },
+      },
+    })
+
+    renderAlerts(descriptor)
+
+    expect(screen.queryByText('delegatedDescriptorArchivingRequest')).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('delegatedDescriptorArchivingRequestRejected')
+    ).not.toBeInTheDocument()
+    expect(screen.queryByText('archivingDescriptor')).not.toBeInTheDocument()
+  })
+
   it('renders delegated descriptor archiving accepted alert when the descriptor is being archived', () => {
     mockUseJwt({ jwt: { organizationId: 'delegate-id' } })
 

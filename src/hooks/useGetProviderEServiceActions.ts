@@ -61,9 +61,9 @@ export function useGetProviderEServiceActions(
   const isDelegator = delegation?.delegator.id === jwt?.organizationId
   const isDelegate = delegation?.delegate.id === jwt?.organizationId
 
-const isArchivingRequestInProgress = Boolean(
-  delegatedArchivingRequest && !delegatedArchivingRequest.rejectedAt
-)
+  const isArchivingRequestInProgress = Boolean(
+    delegatedArchivingRequest && !delegatedArchivingRequest.rejectedAt
+  )
   const isArchivingRequestFromActiveDescriptor = Boolean(
     isArchivingRequestInProgress && delegatedArchivingRequest?.descriptorId === activeDescriptorId
   )
