@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { AxiosError } from 'axios'
 import type {
   EServiceRiskAnalysisSeed,
+  ProblemError,
   UpdateEServiceDescriptorSeed,
   UpdateEServiceDescriptorTemplateInstanceSeed,
 } from '../api.generatedTypes'
@@ -246,8 +247,10 @@ function useScheduleArchiveEservice() {
       errorToastLabel: (error: unknown) => {
         if (
           error instanceof AxiosError &&
-          error.response?.data?.errors?.[0]?.code ===
-            GRACE_PERIOD_DAYS_LOWER_THAN_DESCRIPTOR_ERROR_CODE
+          error.response?.data?.errors?.some(
+            (problemError: ProblemError) =>
+              problemError.code === GRACE_PERIOD_DAYS_LOWER_THAN_DESCRIPTOR_ERROR_CODE
+          )
         ) {
           return t('outcome.gracePeriodError')
         }

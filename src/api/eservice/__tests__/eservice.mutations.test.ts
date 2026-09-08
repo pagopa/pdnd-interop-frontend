@@ -41,26 +41,29 @@ function getErrorToastLabel() {
   return (options!.meta as Record<string, unknown>).errorToastLabel as (error: unknown) => string
 }
 
-function makeApiError(code: string) {
+function makeApiError(...codes: string[]) {
   return new AxiosError('test', undefined, undefined, undefined, {
     status: 400,
     statusText: 'Bad Request',
-    data: { errors: [{ code }] },
+    data: { errors: codes.map((code) => ({ code })) },
     headers: {},
     config: {} as never,
   })
 }
 
 describe('useScheduleArchiveEservice', () => {
-  it('returns the contextual error label when the grace period is lower than a descriptor', () => {
-    renderHookWithApplicationContext(() => EServiceMutations.useScheduleArchiveEservice(), {
-      withReactQueryContext: true,
-    })
+  it.each([['001-0070'], ['001-0001', '001-0070']])(
+    'returns the contextual error label when the response includes the grace period error (%j)',
+    (...codes) => {
+      renderHookWithApplicationContext(() => EServiceMutations.useScheduleArchiveEservice(), {
+        withReactQueryContext: true,
+      })
 
-    const errorToastLabel = getErrorToastLabel()
+      const errorToastLabel = getErrorToastLabel()
 
-    expect(errorToastLabel(makeApiError('001-0070'))).toBe('outcome.gracePeriodError')
-  })
+      expect(errorToastLabel(makeApiError(...codes))).toBe('outcome.gracePeriodError')
+    }
+  )
 
   it('returns the default error label for other errors', () => {
     renderHookWithApplicationContext(() => EServiceMutations.useScheduleArchiveEservice(), {
@@ -70,5 +73,7 @@ describe('useScheduleArchiveEservice', () => {
     const errorToastLabel = getErrorToastLabel()
 
     expect(errorToastLabel(new Error('generic error'))).toBe('outcome.error')
+    expect(errorToastLabel(makeApiError('001-0001', '001-0002'))).toBe('outcome.error')
+    expect(errorToastLabel(makeApiError())).toBe('outcome.error')
   })
 })
