@@ -217,7 +217,7 @@
     "producer": {
       "title": "Producer Delegation Revocation",
       "content": {
-        "description": "The delegate will lose management of your e-service <strong>{{eserviceName}} with producer delegation</strong>, and the service requests and the purposes associated with it. The e-service will return under your control in the state it was in at the time of revocation. Do you have doubts? <1>Read the guide</1>.",
+        "description": "If you confirm, the delegated entity <strong>{{delegateName}}</strong> will lose management of your e-service <strong>{{eserviceName}} with producer delegation</strong>, as well as the consumption requests and the associated purposes. If archive requests were present, they will be cancelled. The e-service will now be managed by your organization. Do you have doubts? <1>Read the guide</1>.",
         "checkbox": "I have read and I want to proceed with the revocation"
       },
       "actions": {
