@@ -69,7 +69,7 @@ describe('DialogDelegatorConfirmArchivingVersion', () => {
     ).toBeInTheDocument()
   })
 
-  it('check for function call on button  click', async () => {
+  it('should call function on button  click', async () => {
     renderDialog()
 
     const button = screen.getByRole('button', { name: 'dialogConfirmArchivingDelegated.confirm' })

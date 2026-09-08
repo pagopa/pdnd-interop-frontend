@@ -1,20 +1,18 @@
-import React from 'react'
-import { describe, it, expect, vi } from 'vitest'
-import { screen, waitFor } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
+import { describe, it, expect } from 'vitest'
+import { screen } from '@testing-library/react'
 
 import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
-import { ProviderEServiceArchivingAlert } from '../components/ProviderEServiceArchivingAlert'
+import { ProviderEServiceDelegatorArchivingAlert } from '../components/ProviderEServiceDelegatorArchivingAlert'
 
-const renderAlerts = (
-  descriptor: ProducerEServiceDescriptor | undefined,
-  onViewKeychains?: VoidFunction
-) =>
-  renderWithApplicationContext(<ProviderEServiceArchivingAlert descriptor={descriptor} />, {
-    withRouterContext: true,
-  })
+const renderAlerts = (descriptor: ProducerEServiceDescriptor | undefined) =>
+  renderWithApplicationContext(
+    <ProviderEServiceDelegatorArchivingAlert descriptor={descriptor} />,
+    {
+      withRouterContext: true,
+    }
+  )
 
 describe('ProviderEServiceArchivingAlert', () => {
   it('renders nothing when descriptor is undefined', () => {
@@ -22,12 +20,12 @@ describe('ProviderEServiceArchivingAlert', () => {
     expect(container).toBeEmptyDOMElement()
   })
 
-  it('renders nothing when the descriptor state has no matching alert spec (PUBLISHED)', () => {
+  it('should not render this alertwhen the descriptor state === PUBLISHED', () => {
     const { container } = renderAlerts(createMockEServiceDescriptorProvider({ state: 'PUBLISHED' }))
     expect(container).toBeEmptyDOMElement()
   })
 
-  it('renders delegated archiving request warning alert for EService', () => {
+  it('should render warning alert when a delegated entity create an archiving request for the whole eservice', () => {
     const descriptor = createMockEServiceDescriptorProvider({
       eservice: {
         delegatedArchivingRequest: {
@@ -45,7 +43,7 @@ describe('ProviderEServiceArchivingAlert', () => {
     expect(screen.getByRole('alert')).toHaveClass(/MuiAlert-standardWarning/)
   })
 
-  it('renders delegated archiving request warning alert for current Descriptor', () => {
+  it('should render warning alert when a delegated entity create an archiving request for the eservice version selected by the delegator', () => {
     const descriptor = createMockEServiceDescriptorProvider({
       id: 'descriptor-id-1',
       eservice: {
@@ -65,7 +63,7 @@ describe('ProviderEServiceArchivingAlert', () => {
     expect(screen.getByRole('alert')).toHaveClass(/MuiAlert-standardWarning/)
   })
 
-  it('renders delegated archiving request warning alert for obsolete Descriptor', () => {
+  it('should render warning alert when a delegated entity create an archiving request for an obsolete eservice version', () => {
     const descriptor = createMockEServiceDescriptorProvider({
       id: 'descriptor-id-1',
       eservice: {

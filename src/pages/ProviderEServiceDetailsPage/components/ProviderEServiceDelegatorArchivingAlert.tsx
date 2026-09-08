@@ -6,20 +6,26 @@ import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { Drawer } from '@/components/shared/Drawer'
 import { useDialog } from '@/stores'
 import { formatDateStringNumeric } from '@/utils/format.utils'
+import { AuthHooks } from '@/api/auth'
 
-type ProviderEServiceArchivingAlertProps = {
+type ProviderEServiceDelegatorArchivingAlertProps = {
   descriptor?: ProducerEServiceDescriptor
 }
 
-export const ProviderEServiceArchivingAlert: React.FC<ProviderEServiceArchivingAlertProps> = ({
-  descriptor,
-}) => {
+export const ProviderEServiceDelegatorArchivingAlert: React.FC<
+  ProviderEServiceDelegatorArchivingAlertProps
+> = ({ descriptor }) => {
+  const { jwt } = AuthHooks.useJwt()
   const [isArchivingRequestDrawerOpen, setIsArchivingRequestDrawerOpen] = React.useState(false)
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
 
   const { openDialog } = useDialog()
 
   if (!descriptor) return
+
+  const isDelegator = jwt?.organizationId === descriptor.delegation?.delegator.id
+
+  if (isDelegator) return
 
   const request = descriptor.eservice.delegatedArchivingRequest
 

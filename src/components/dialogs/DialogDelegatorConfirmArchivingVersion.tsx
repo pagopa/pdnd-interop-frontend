@@ -49,6 +49,7 @@ const DialogDelegatorConfirmArchivingVersion: React.FC<
           <Alert severity="info">
             <Trans
               components={{
+                // TODO: Add documentation link
                 1: <Link href={''} target="_blank" />,
               }}
             >

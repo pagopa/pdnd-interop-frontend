@@ -60,8 +60,8 @@ const DialogDelegatorRejectArchivingEService: React.FC<
               focusOnMount
               required
               multiline
-              inputProps={{ maxLength: 1000 }}
-              rules={{ required: true, minLength: 20 }}
+              inputProps={{ maxLength: 250 }}
+              rules={{ required: true, minLength: 10 }}
             />
           </DialogContent>
 
