@@ -82,6 +82,13 @@
         "error": "The API call threshold for this attribute could not be changed. Please make sure you entered the correct information."
       }
     },
+    "removeAttributeThreshold": {
+      "loading": "The certified attribute API call threshold is being removed",
+      "outcome": {
+        "success": "You removed the certified attribute API call threshold.",
+        "error": "The certified attribute API call threshold could not be removed. Please try again."
+      }
+    },
     "publishVersionDraft": {
       "loading": "E-service version draft is being published",
       "outcome": {

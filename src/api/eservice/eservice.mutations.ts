@@ -259,9 +259,19 @@ function useCancelEserviceArchiving() {
   })
 }
 
-function useUpdateVersion({ isThresholdOnlyUpdate }: { isThresholdOnlyUpdate?: boolean } = {}) {
+function useUpdateVersion({
+  isThresholdOnlyUpdate,
+  isAttributeThresholdRemoval,
+}: {
+  isThresholdOnlyUpdate?: boolean
+  isAttributeThresholdRemoval?: boolean
+} = {}) {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: isThresholdOnlyUpdate ? 'eservice.updateThresholds' : 'eservice.updateVersion',
+    keyPrefix: isAttributeThresholdRemoval
+      ? 'eservice.removeAttributeThreshold'
+      : isThresholdOnlyUpdate
+        ? 'eservice.updateThresholds'
+        : 'eservice.updateVersion',
   })
   return useMutation({
     mutationFn: EServiceServices.updateVersion,
@@ -275,9 +285,17 @@ function useUpdateVersion({ isThresholdOnlyUpdate }: { isThresholdOnlyUpdate?: b
 
 function useUpdateInstanceVersion({
   isThresholdOnlyUpdate,
-}: { isThresholdOnlyUpdate?: boolean } = {}) {
+  isAttributeThresholdRemoval,
+}: {
+  isThresholdOnlyUpdate?: boolean
+  isAttributeThresholdRemoval?: boolean
+} = {}) {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: isThresholdOnlyUpdate ? 'eservice.updateThresholds' : 'eservice.updateVersion',
+    keyPrefix: isAttributeThresholdRemoval
+      ? 'eservice.removeAttributeThreshold'
+      : isThresholdOnlyUpdate
+        ? 'eservice.updateThresholds'
+        : 'eservice.updateVersion',
   })
   return useMutation({
     mutationFn: EServiceServices.updateInstanceVersion,

@@ -20,8 +20,10 @@ import {
   useCustomizeThresholdDrawer,
 } from '@/components/shared/CustomizeThresholdDrawer'
 import cloneDeep from 'lodash/cloneDeep'
-import type { DescriptorAttributes } from '@/api/api.generatedTypes'
+import type { DescriptorAttribute, DescriptorAttributes } from '@/api/api.generatedTypes'
 import { remapDescriptorAttributesToDescriptorAttributesSeed } from '@/utils/attribute.utils'
+import { useDialog } from '@/stores'
+import omit from 'lodash/omit'
 
 export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.sections.attributes' })
@@ -31,6 +33,10 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
   const { t: tCustomizeThresholdDrawer } = useTranslation('eservice', {
     keyPrefix: 'read.drawers.customizeThresholdDrawer',
   })
+  const { t: tRemoveThresholdDialog } = useTranslation('eservice', {
+    keyPrefix: 'read.dialogs.removeAttributeThreshold',
+  })
+  const { openDialog } = useDialog()
   const { jwt, isAdmin, isOperatorAPI, isViewer } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'PROVIDE_ESERVICE_MANAGE'>()
@@ -102,6 +108,12 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
   const { mutate: updateInstanceVersion } = EServiceMutations.useUpdateInstanceVersion({
     isThresholdOnlyUpdate: true,
   })
+  const { mutate: removeAttributeThreshold } = EServiceMutations.useUpdateVersion({
+    isAttributeThresholdRemoval: true,
+  })
+  const { mutate: removeInstanceAttributeThreshold } = EServiceMutations.useUpdateInstanceVersion({
+    isAttributeThresholdRemoval: true,
+  })
 
   const handleUpdateDailyCalls = (
     id: string,
@@ -169,6 +181,49 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
     )
   }
 
+  const handleRemoveCertifiedAttributeThreshold = (
+    attribute: DescriptorAttribute,
+    attributeGroupIndex: number
+  ) => {
+    openDialog({
+      type: 'basic',
+      title: tRemoveThresholdDialog('title'),
+      description: tRemoveThresholdDialog('description', { attributeName: attribute.name }),
+      onProceed: () => {
+        const updatedAttributes: DescriptorAttributes = cloneDeep(descriptor.attributes)
+        updatedAttributes.certified[attributeGroupIndex] = updatedAttributes.certified[
+          attributeGroupIndex
+        ].map((currentAttribute) =>
+          currentAttribute.id === attribute.id
+            ? omit(currentAttribute, 'dailyCallsPerConsumer')
+            : currentAttribute
+        )
+
+        const attributes = remapDescriptorAttributesToDescriptorAttributesSeed(updatedAttributes)
+
+        if (isEserviceFromTemplate) {
+          removeInstanceAttributeThreshold({
+            eserviceId: descriptor.eservice.id,
+            descriptorId: descriptor.id,
+            dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
+            dailyCallsTotal: descriptor.dailyCallsTotal,
+            attributes,
+          })
+          return
+        }
+
+        removeAttributeThreshold({
+          eserviceId: descriptor.eservice.id,
+          descriptorId: descriptor.id,
+          voucherLifespan: descriptor.voucherLifespan,
+          dailyCallsPerConsumer: descriptor.dailyCallsPerConsumer,
+          dailyCallsTotal: descriptor.dailyCallsTotal,
+          attributes,
+        })
+      },
+    })
+  }
+
   const customizeThresholdDrawerSubtitle = (
     <Typography variant="body2">
       <Trans
@@ -221,6 +276,7 @@ export const ProviderEServiceDescriptorAttributesSection: React.FC = () => {
           descriptorAttributes={descriptorAttributes}
           topSideActions={getAttributeSectionActions('certified')}
           withThreshold={!isViewer}
+          onRemoveThreshold={handleRemoveCertifiedAttributeThreshold}
         />
         <Divider sx={{ my: 3 }} />
         <AttributeGroupsListSection
