@@ -16,6 +16,7 @@ import { EServiceMutations } from '@/api/eservice'
 import { calculateArchivableOn } from '@/utils/eservice.utils'
 import { formatDateStringNumeric } from '@/utils/format.utils'
 import type { DialogDelegatorConfirmArchivingProps } from '@/types/dialog.types'
+import { archivingGuideLink } from '@/config/constants'
 
 const DialogDelegatorConfirmArchiving: React.FC<DialogDelegatorConfirmArchivingProps> = ({
   eserviceId,
@@ -70,8 +71,7 @@ const DialogDelegatorConfirmArchiving: React.FC<DialogDelegatorConfirmArchivingP
           <Alert severity="info">
             <Trans
               components={{
-                // TODO: Add documentation link
-                1: <Link href={''} target="_blank" />,
+                1: <Link href={archivingGuideLink} target="_blank" />,
               }}
             >
               {t('dialogConfirmArchivingDelegated.alert')}
