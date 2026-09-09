@@ -268,6 +268,22 @@
               }
             }
           }
+        },
+        "riskAnalysis": {
+          "title": "Risk Analysis",
+          "riskAnalysisAssignment": {
+            "title": "Assignment for completion or approval",
+            "components": {
+              "riskAnalysisStateUpdated": {
+                "label": "Status of assignments received",
+                "description": "Notify me when I receive a completed or approved risk analysis, or when one is revoked"
+              },
+              "purposePublication": {
+                "label": "Purpose publication",
+                "description": "Notify me when the administrator publishes a purpose for which I have been assigned the risk analysis"
+              }
+            }
+          }
         }
       },
       "outcome": {

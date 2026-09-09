@@ -5,6 +5,7 @@ import { match } from 'ts-pattern'
 import React from 'react'
 import { ConsumerIcon, ProviderIcon, MyTenantIcon } from '@/icons'
 import CodeIcon from '@mui/icons-material/Code'
+import AssignmentIcon from '@mui/icons-material/Assignment'
 import { AuthHooks } from '@/api/auth'
 
 export function useGetNotificationConfigSchema(type: NotificationConfigType) {
@@ -267,6 +268,36 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
                 'keyAndAttributes.keys.components.clientKeysAssociationUpdated.description'
               ),
               visibility: ['admin', 'security'], // To define
+            },
+          ],
+        },
+      ],
+    },
+    riskAnalysis: {
+      title: t('riskAnalysis.title'),
+      icon: AssignmentIcon,
+      subsections: [
+        {
+          name: 'riskAnalysisAssignment',
+          title: t('riskAnalysis.riskAnalysisAssignment.title'),
+          components: [
+            {
+              key: 'riskAnalysisStateUpdated',
+              title: t(
+                'riskAnalysis.riskAnalysisAssignment.components.riskAnalysisStateUpdated.label'
+              ),
+              description: t(
+                'riskAnalysis.riskAnalysisAssignment.components.riskAnalysisStateUpdated.description'
+              ),
+              visibility: ['reviewer'],
+            },
+            {
+              key: 'purposePublication',
+              title: t('riskAnalysis.riskAnalysisAssignment.components.purposePublication.label'),
+              description: t(
+                'riskAnalysis.riskAnalysisAssignment.components.purposePublication.description'
+              ),
+              visibility: ['reviewer'],
             },
           ],
         },
