@@ -21,6 +21,7 @@ import {
 } from '@/utils/eservice.utils'
 import { ProviderEServiceDetailsAlerts } from './components/ProviderEServiceDetailsTab/ProviderEServiceDetailsAlerts'
 import { AuthHooks } from '@/api/auth'
+import { ProviderEServiceDelegatorArchivingAlert } from './components/ProviderEServiceDelegatorArchivingAlert'
 
 const ProviderEServiceDetailsPage: React.FC = () => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
@@ -143,6 +144,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         descriptor={descriptor}
         onViewKeychains={canViewKeychains ? handleViewKeychains : undefined}
       />
+      <ProviderEServiceDelegatorArchivingAlert descriptor={descriptor} />
       {!isViewer ? (
         <TabContext value={selectedTab}>
           <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">

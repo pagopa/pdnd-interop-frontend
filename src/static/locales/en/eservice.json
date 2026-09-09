@@ -659,6 +659,10 @@
       "delegatedEServiceArchivingRequestRejectedDrawerTitle": "Archiving request rejection",
       "delegatedEServiceArchivingRequestRejectedDrawerSubtitle": "The delegating institution {{name}} rejected the archiving request with this reason.",
       "delegatedEServiceArchivingRequestRejectedDrawerAction": "Close",
+      "delegatorDeprecatedDescriptorArchivingRequest": "The delegated entity {{entity}} has requested the archiving of an obsolete version of this e-service.",
+      "delegatorDescriptorArchivingRequest": "On {{date}}, the delegated entity {{entity}} requested archiving of this version of the e-service. You can approve the request and archive the version or reject it with a reason.",
+      "delegatorEServiceArchivingRequest": "On {{date}}, the delegated entity {{entity}} requested archiving of the e-service. You can approve the request and archive the e-service or reject it with a reason.",
+      "delegatorArchivingRequestAction": "View request",
       "archivingSuspendedEService": "This version is currently suspended. The e-service is being archived and will be automatically archived on {{date}}.",
       "archivedEService": "This e-service was permanently archived on {{date}}.",
       "missingProducerKeychain": "The producer has not linked the keychain to this async e-service yet. Data exchange is currently unavailable.",
@@ -711,6 +715,29 @@
       "actions": {
         "goBack": "Go back"
       }
+    },
+    "dialogConfirmArchivingDelegated": {
+      "eservice": {
+        "title": "Archive e-service",
+        "firstParagraph": "The delegated entity {{entity}} has requested the e-service archiving.",
+        "secondParagraph": "If you approve the request, archiving will take place on {{date}}. Before this date, the e-service will remain active to allow users to adapt. You can cancel archiving only before this date."
+      },
+      "version": {
+        "title": "Archive version",
+        "firstParagraph": "The delegated entity {{entity}} has requested archiving of this version of the e-service.",
+        "secondParagraph": "If you approve the request, archiving will take place on {{date}}. Before this date, the version will remain active to allow users to adapt. You can cancel archiving only before this date."
+      },
+      "alert": "Actual archiving may require additional technical time as users continue to exchange data. See <1>documentation</1> for further details.",
+      "confirm": "Archive",
+      "cancel": "Cancel"
+    },
+    "dialogRejectArchivingDelegated": {
+      "title": "Reject archiving request",
+      "paragraph": "The delegated entity {{entity}} will be informed of the reject reason.",
+      "fieldLabel": "Reject reason",
+      "fieldInfoLabel": "Explain why you chose to decline the e-service archiving request. Min 10 characters, max 250 characters",
+      "confirm": "Reject request",
+      "cancel": "Back"
     },
     "actions": {
       "goBack": "Go back",
@@ -1213,6 +1240,22 @@
           "checkboxLabel": "I authorize delegates to associate their clients with the purposes they have created as delegates for access. See the <1>documentation</1> for more details"
         },
         "alert": "Before proceeding, make sure that the preference has been approved by at least one administrator in your organization."
+      },
+      "delegatedEServiceArchivingRequestDrawer": {
+        "title": "Archiving request",
+        "firstParagraph": "The delegated entity has requested archiving of the e-service with this message.",
+        "secondParagraph": "If you continue, you will see the date and archiving details.",
+        "thirdParagraph": "If you refuse the request, you will need to share the reason with the designated entity.",
+        "archiveAction": "Continue with archiving",
+        "rejectAction": "Reject"
+      },
+      "delegatedEServiceDescriptorArchivingRequestDrawer": {
+        "title": "Archiving request",
+        "firstParagraph": "The delegated entity has requested the archiving of this version of the e-service.",
+        "secondParagraph": "If you continue, you will see the date and archiving details.",
+        "thirdParagraph": "If you refuse the request, you will need to share the reason with the designated entity.",
+        "archiveAction": "Continue with archiving",
+        "rejectAction": "Reject"
       }
     }
   },
