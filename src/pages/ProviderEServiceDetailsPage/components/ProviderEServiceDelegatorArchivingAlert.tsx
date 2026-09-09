@@ -7,6 +7,7 @@ import { Drawer } from '@/components/shared/Drawer'
 import { useDialog } from '@/stores'
 import { formatDateStringNumeric } from '@/utils/format.utils'
 import { AuthHooks } from '@/api/auth'
+import { useNavigate } from '@/router'
 
 type ProviderEServiceDelegatorArchivingAlertProps = {
   descriptor?: ProducerEServiceDescriptor
@@ -18,6 +19,7 @@ export const ProviderEServiceDelegatorArchivingAlert: React.FC<
   const { jwt } = AuthHooks.useJwt()
   const [isArchivingRequestDrawerOpen, setIsArchivingRequestDrawerOpen] = React.useState(false)
   const { t } = useTranslation('eservice', { keyPrefix: 'read' })
+  const navigate = useNavigate()
 
   const { openDialog } = useDialog()
 
@@ -31,193 +33,143 @@ export const ProviderEServiceDelegatorArchivingAlert: React.FC<
 
   if (!request || request.rejectedAt || request.acceptedAt) return
 
-  // CASE I: Archiving request for e-service
+  let alert = ''
+  let drawer = true
+  let title = ''
+  let firstParagraph = ''
+  let secondParagraph = ''
+  let thirdParagraph = ''
+  let archive = ''
+  let reject = ''
+
   if (!request.descriptorId) {
-    return (
-      <Stack mb={3}>
-        <Alert severity="warning">
-          <Stack direction="row" spacing={5}>
-            <Box>
-              {t('alert.delegatorEServiceArchivingRequest', {
-                date: formatDateStringNumeric(request.requestedAt),
-                entity: descriptor.delegation?.delegate.name,
-              })}
-            </Box>
-            <Button
-              variant="naked"
-              startIcon={<ArchiveIcon />}
-              size="small"
-              sx={{
-                whiteSpace: 'nowrap',
-              }}
-              onClick={() => setIsArchivingRequestDrawerOpen(true)}
-            >
-              {t('alert.delegatorArchivingRequestAction')}
-            </Button>
-          </Stack>
-        </Alert>
-        <Drawer
-          isOpen={isArchivingRequestDrawerOpen}
-          onClose={() => setIsArchivingRequestDrawerOpen(false)}
-          title={t('drawers.delegatedEServiceArchivingRequestDrawer.title')}
-        >
-          <Stack
-            justifyContent="space-between"
-            sx={{
-              height: '100%',
-              pb: 3,
-            }}
-          >
-            <Stack spacing={1}>
-              <Typography component="p" variant="body1">
-                {t('drawers.delegatedEServiceArchivingRequestDrawer.firstParagraph')}
-              </Typography>
-              <Typography component="p" variant="body1">
-                {request.archivingReason}
-              </Typography>
-              <Typography component="p" variant="body1">
-                {t('drawers.delegatedEServiceArchivingRequestDrawer.secondParagraph')}
-              </Typography>
-              <Typography component="p" variant="body1">
-                {t('drawers.delegatedEServiceArchivingRequestDrawer.thirdParagraph')}
-              </Typography>
-            </Stack>
-            <Stack gap={1}>
-              <Button
-                variant="contained"
-                size="small"
-                onClick={() =>
-                  openDialog({
-                    type: 'delegatorConfirmArchiving',
-                    eserviceId: descriptor.eservice.id,
-                    delegatedName: descriptor.delegation?.delegate.name ?? '',
-                    gracePeriodDays: request.gracePeriodDays,
-                  })
-                }
-              >
-                {t('drawers.delegatedEServiceArchivingRequestDrawer.archiveAction')}
-              </Button>
-              <Button
-                variant="contained"
-                size="small"
-                color="error"
-                sx={{
-                  color: 'common.white',
-                }}
-                onClick={() =>
-                  openDialog({
-                    type: 'delegatorRejectArchiving',
-                    eserviceId: descriptor.eservice.id,
-                    delegatedName: descriptor.delegation?.delegate.name ?? '',
-                  })
-                }
-              >
-                {t('drawers.delegatedEServiceArchivingRequestDrawer.rejectAction')}
-              </Button>
-            </Stack>
-          </Stack>
-        </Drawer>
-      </Stack>
-    )
+    // CASE I: Archiving request for e-service
+    alert = t('alert.delegatorEServiceArchivingRequest', {
+      date: formatDateStringNumeric(request.requestedAt),
+      entity: descriptor.delegation?.delegate.name,
+    })
+    title = t('drawers.delegatedEServiceArchivingRequestDrawer.title')
+    firstParagraph = t('drawers.delegatedEServiceArchivingRequestDrawer.firstParagraph')
+    secondParagraph = t('drawers.delegatedEServiceArchivingRequestDrawer.secondParagraph')
+    thirdParagraph = t('drawers.delegatedEServiceArchivingRequestDrawer.thirdParagraph')
+    archive = t('drawers.delegatedEServiceArchivingRequestDrawer.archiveAction')
+    reject = t('drawers.delegatedEServiceArchivingRequestDrawer.rejectAction')
+  } else if (request.descriptorId === descriptor.id) {
+    // CASE II: Archiving request for the current version
+    alert = t('alert.delegatorDescriptorArchivingRequest', {
+      date: formatDateStringNumeric(request.requestedAt),
+      entity: descriptor?.delegation?.delegate.name,
+    })
+    title = t('drawers.delegatedEServiceDescriptorArchivingRequestDrawer.title')
+    firstParagraph = t('drawers.delegatedEServiceDescriptorArchivingRequestDrawer.firstParagraph')
+    secondParagraph = t('drawers.delegatedEServiceDescriptorArchivingRequestDrawer.secondParagraph')
+    thirdParagraph = t('drawers.delegatedEServiceDescriptorArchivingRequestDrawer.thirdParagraph')
+    archive = t('drawers.delegatedEServiceDescriptorArchivingRequestDrawer.archiveAction')
+    reject = t('drawers.delegatedEServiceDescriptorArchivingRequestDrawer.rejectAction')
+  } else {
+    // CASE III: Archiving request for version different from the current one
+    alert = t('alert.delegatorDeprecatedDescriptorArchivingRequest', {
+      entity: descriptor?.delegation?.delegate.name,
+    })
+    drawer = false
   }
 
-  // CASE II: Archiving request for the current version
-  if (request.descriptorId === descriptor.id) {
-    return (
-      <Stack mb={3}>
-        <Alert severity="warning">
-          <Stack direction="row" spacing={5}>
-            <Box>
-              {t('alert.delegatorDescriptorArchivingRequest', {
-                date: formatDateStringNumeric(request.requestedAt),
-                entity: descriptor?.delegation?.delegate.name,
-              })}
-            </Box>
-            <Button
-              variant="naked"
-              startIcon={<ArchiveIcon />}
-              size="small"
-              sx={{
-                whiteSpace: 'nowrap',
-              }}
-              onClick={() => setIsArchivingRequestDrawerOpen(true)}
-            >
-              {t('alert.delegatorArchivingRequestAction')}
-            </Button>
-          </Stack>
-        </Alert>
-        <Drawer
-          isOpen={isArchivingRequestDrawerOpen}
-          onClose={() => setIsArchivingRequestDrawerOpen(false)}
-          title={t('drawers.delegatedEServiceDescriptorArchivingRequestDrawer.title')}
-        >
-          <Stack
-            justifyContent="space-between"
-            sx={{
-              height: '100%',
-              pb: 3,
-            }}
-          >
-            <Stack spacing={1}>
-              <Typography component="p" variant="body1">
-                {t('drawers.delegatedEServiceDescriptorArchivingRequestDrawer.firstParagraph')}
-              </Typography>
-              <Typography component="p" variant="body1">
-                {t('drawers.delegatedEServiceDescriptorArchivingRequestDrawer.secondParagraph')}
-              </Typography>
-              <Typography component="p" variant="body1">
-                {t('drawers.delegatedEServiceDescriptorArchivingRequestDrawer.thirdParagraph')}
-              </Typography>
-            </Stack>
-            <Stack gap={1}>
-              <Button
-                variant="contained"
-                size="small"
-                onClick={() =>
-                  openDialog({
-                    type: 'delegatorConfirmArchiving',
-                    eserviceId: descriptor.eservice.id,
-                    descriptorId: descriptor.id,
-                    delegatedName: descriptor.delegation?.delegate.name ?? '',
-                    gracePeriodDays: request.gracePeriodDays,
-                  })
-                }
-              >
-                {t('drawers.delegatedEServiceDescriptorArchivingRequestDrawer.archiveAction')}
-              </Button>
-              <Button
-                variant="contained"
-                size="small"
-                color="error"
-                sx={{
-                  color: 'common.white',
-                }}
-                onClick={() =>
-                  openDialog({
-                    type: 'delegatorRejectArchiving',
-                    eserviceId: descriptor.eservice.id,
-                    descriptorId: descriptor.id,
-                    delegatedName: descriptor.delegation?.delegate.name ?? '',
-                  })
-                }
-              >
-                {t('drawers.delegatedEServiceDescriptorArchivingRequestDrawer.rejectAction')}
-              </Button>
-            </Stack>
-          </Stack>
-        </Drawer>
-      </Stack>
-    )
-  }
-
-  // CASE III: Archiving request for version different from the current one
   return (
     <Stack mb={3}>
       <Alert severity="warning">
-        {t('alert.delegatorDeprecatedDescriptorArchivingRequest', {
-          entity: descriptor?.delegation?.delegate.name,
-        })}
+        <Stack direction="row" spacing={5}>
+          <Box>{alert}</Box>
+          <Button
+            variant="naked"
+            startIcon={<ArchiveIcon />}
+            size="small"
+            sx={{
+              whiteSpace: 'nowrap',
+            }}
+            onClick={() => {
+              if (request.descriptorId && request.descriptorId !== descriptor.id) {
+                navigate('PROVIDE_ESERVICE_MANAGE', {
+                  params: {
+                    eserviceId: descriptor.eservice.id,
+                    descriptorId: request.descriptorId ?? '',
+                  },
+                })
+              } else {
+                setIsArchivingRequestDrawerOpen(true)
+              }
+            }}
+          >
+            {t('alert.delegatorArchivingRequestAction')}
+          </Button>
+        </Stack>
       </Alert>
+      {drawer && (
+        <Drawer
+          isOpen={isArchivingRequestDrawerOpen}
+          onClose={() => setIsArchivingRequestDrawerOpen(false)}
+          title={title}
+        >
+          <Stack
+            justifyContent="space-between"
+            sx={{
+              height: '100%',
+              pb: 3,
+            }}
+          >
+            <Stack spacing={1}>
+              <Typography component="p" variant="body1">
+                {firstParagraph}
+              </Typography>
+              {request.archivingReason && (
+                <Typography component="p" variant="body1">
+                  {request.archivingReason}
+                </Typography>
+              )}
+              <Typography component="p" variant="body1">
+                {secondParagraph}
+              </Typography>
+              <Typography component="p" variant="body1">
+                {thirdParagraph}
+              </Typography>
+            </Stack>
+            <Stack gap={1}>
+              <Button
+                variant="contained"
+                size="small"
+                onClick={() =>
+                  openDialog({
+                    type: 'delegatorConfirmArchiving',
+                    eserviceId: descriptor.eservice.id,
+                    descriptorId: request.descriptorId,
+                    delegatedName: descriptor.delegation?.delegate.name ?? '',
+                    gracePeriodDays: request.gracePeriodDays,
+                  })
+                }
+              >
+                {archive}
+              </Button>
+              <Button
+                variant="contained"
+                size="small"
+                color="error"
+                sx={{
+                  color: 'common.white',
+                }}
+                onClick={() =>
+                  openDialog({
+                    type: 'delegatorRejectArchiving',
+                    eserviceId: descriptor.eservice.id,
+                    descriptorId: request.descriptorId,
+                    delegatedName: descriptor.delegation?.delegate.name ?? '',
+                  })
+                }
+              >
+                {reject}
+              </Button>
+            </Stack>
+          </Stack>
+        </Drawer>
+      )}
     </Stack>
   )
 }

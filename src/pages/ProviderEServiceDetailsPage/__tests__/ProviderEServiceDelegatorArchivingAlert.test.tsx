@@ -5,6 +5,11 @@ import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockEServiceDescriptorProvider } from '@/../__mocks__/data/eservice.mocks'
 import { ProviderEServiceDelegatorArchivingAlert } from '../components/ProviderEServiceDelegatorArchivingAlert'
+import * as router from '@/router'
+
+const mockFn = vi.fn()
+
+vi.spyOn(router, 'useNavigate').mockReturnValue(mockFn)
 
 mockUseJwt()
 
@@ -16,6 +21,10 @@ const renderAlerts = (descriptor: ProducerEServiceDescriptor | undefined) =>
       withRouterContext: true,
     }
   )
+
+afterAll(() => {
+  vi.clearAllMocks()
+})
 
 describe('ProviderEServiceArchivingAlert', () => {
   it('renders nothing when descriptor is undefined', () => {
