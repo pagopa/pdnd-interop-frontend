@@ -1224,16 +1224,15 @@ export function useGetProviderEServiceActions(
     ...archiveEserviceItems,
     ...viewAllVersionsItems,
   ]
-  const menuWithNewVersion =
-    isEServiceBeingArchived || isArchivingRequestFromEservice
-      ? [...cloneItems, ...viewAllVersionsItems]
-      : [
-          ...upgradeItems,
-          newVersionAction,
-          ...cloneItems,
-          ...archiveEserviceItems,
-          ...viewAllVersionsItems,
-        ]
+  const menuWithNewVersion = isEServiceBeingArchived
+    ? [...cloneItems, ...viewAllVersionsItems]
+    : [
+        ...upgradeItems,
+        newVersionAction,
+        ...cloneItems,
+        ...archiveEserviceItems,
+        ...viewAllVersionsItems,
+      ]
   const menuEserviceArchiving = [...cloneItems, ...viewAllVersionsItems]
   const menuArchivedEserviceActive = [
     ...upgradeItems,
@@ -1259,7 +1258,7 @@ export function useGetProviderEServiceActions(
     }))
     .with({ state: 'PUBLISHED' }, () => ({
       primary: undefined,
-      header: isArchivingRequestFromEservice ? [suspendAction] : [suspendAction, newVersionAction],
+      header: [suspendAction, newVersionAction],
       menu: menuClassic,
     }))
     .with({ state: 'DEPRECATED' }, () => ({
