@@ -91,7 +91,6 @@ const DialogDelegatorConfirmArchiving: React.FC<DialogDelegatorConfirmArchivingP
           }}
           onClick={handleApprove}
         >
-          {' '}
           {t('dialogConfirmArchivingDelegated.confirm')}
         </Button>
       </DialogActions>

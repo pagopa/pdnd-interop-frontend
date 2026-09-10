@@ -11,7 +11,11 @@ const mockFn = vi.fn()
 
 vi.spyOn(router, 'useNavigate').mockReturnValue(mockFn)
 
-mockUseJwt()
+mockUseJwt({
+  jwt: {
+    organizationId: 'delegator-id',
+  },
+})
 
 const renderAlerts = (descriptor: ProducerEServiceDescriptor | undefined) =>
   renderWithApplicationContext(
@@ -39,6 +43,11 @@ describe('ProviderEServiceArchivingAlert', () => {
 
   it('should render warning alert when a delegated entity create an archiving request for the whole eservice', () => {
     const descriptor = createMockEServiceDescriptorProvider({
+      delegation: {
+        delegator: {
+          id: 'delegator-id',
+        },
+      },
       eservice: {
         delegatedArchivingRequest: {
           requestedAt: '2026-12-01T00:00:00.000Z',
@@ -58,6 +67,11 @@ describe('ProviderEServiceArchivingAlert', () => {
   it('should render warning alert when a delegated entity create an archiving request for the eservice version selected by the delegator', () => {
     const descriptor = createMockEServiceDescriptorProvider({
       id: 'descriptor-id-1',
+      delegation: {
+        delegator: {
+          id: 'delegator-id',
+        },
+      },
       eservice: {
         delegatedArchivingRequest: {
           requestedAt: '2026-12-01T00:00:00.000Z',
@@ -78,6 +92,11 @@ describe('ProviderEServiceArchivingAlert', () => {
   it('should render warning alert when a delegated entity create an archiving request for an obsolete eservice version', () => {
     const descriptor = createMockEServiceDescriptorProvider({
       id: 'descriptor-id-1',
+      delegation: {
+        delegator: {
+          id: 'delegator-id',
+        },
+      },
       eservice: {
         delegatedArchivingRequest: {
           requestedAt: '2026-12-01T00:00:00.000Z',

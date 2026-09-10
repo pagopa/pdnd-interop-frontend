@@ -27,8 +27,8 @@ export const ProviderEServiceDelegatorArchivingAlert: React.FC<
 
   const isDelegator = Boolean(
     jwt?.organizationId &&
-      descriptor.delegation?.delegator.id &&
-      jwt.organizationId === descriptor.delegation.delegator.id
+    descriptor.delegation?.delegator.id &&
+    jwt.organizationId === descriptor.delegation.delegator.id
   )
 
   if (!isDelegator) return
