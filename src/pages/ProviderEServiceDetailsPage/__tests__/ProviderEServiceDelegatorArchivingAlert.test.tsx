@@ -36,7 +36,7 @@ describe('ProviderEServiceArchivingAlert', () => {
     expect(container).toBeEmptyDOMElement()
   })
 
-  it('should not render this alertwhen the descriptor state === PUBLISHED', () => {
+  it('should not render this alert when the descriptor state === PUBLISHED', () => {
     const { container } = renderAlerts(createMockEServiceDescriptorProvider({ state: 'PUBLISHED' }))
     expect(container).toBeEmptyDOMElement()
   })
