@@ -1250,6 +1250,31 @@ export function useGetProviderEServiceActions(
     isEServiceBeingArchived,
     isDelegator,
   })
+    .with({ state: 'ARCHIVING', archivingScope: 'ESERVICE', isDelegator: true }, () => ({
+      primary: cancelArchivingEserviceAction,
+      header: [],
+      menu:
+        where === 'detailsPage' ? [...availableAction, ...viewAllVersionsItems] : availableAction,
+    }))
+    .with(
+      {
+        state: 'ARCHIVING',
+        archivingScope: 'DESCRIPTOR',
+        isEServiceBeingArchived: true,
+        isDelegator: true,
+      },
+      () => ({
+        primary: cancelArchivingEserviceAction,
+        header: [cancelArchivingDescriptorAction],
+        menu:
+          where === 'detailsPage' ? [...availableAction, ...viewAllVersionsItems] : availableAction,
+      })
+    )
+    .with({ state: 'ARCHIVING', isDelegator: true }, () => ({
+      primary: undefined,
+      header: [cancelArchivingDescriptorAction],
+      menu: menuWithNewVersion,
+    }))
     .with({ isDelegator: true }, () => ({
       primary: undefined,
       header: [],
