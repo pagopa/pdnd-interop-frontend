@@ -1,7 +1,7 @@
 import type { DialogDelegatorRejectArchivingProps } from '@/types/dialog.types'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { screen } from '@testing-library/react'
-import { userEvent } from '@testing-library/user-event'
+import userEvent from '@testing-library/user-event'
 import DialogDelegatorRejectArchiving from '../DialogDelegatorRejectArchiving'
 
 const mockCloseDialog = vi.fn()
