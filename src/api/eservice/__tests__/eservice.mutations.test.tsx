@@ -7,9 +7,8 @@ vi.mock('../eservice.services', () => ({
   EServiceServices: {
     submitDelegatedArchivingVersionRequest: vi.fn(),
     cancelDelegatedArchivingVersionRequest: vi.fn(),
+    submitDelegatedArchivingEserviceRequest: vi.fn(),
     cancelDelegatedArchivingEserviceRequest: vi.fn(),
-    submitDelegatedArchivingRequest: vi.fn(),
-    cancelDelegatedArchivingRequest: vi.fn(),
     approveDelegatedEServiceArchivingRequest: vi.fn(),
     rejectDelegatedEServiceArchivingRequest: vi.fn(),
     approveDelegatedVersionArchivingRequest: vi.fn(),
