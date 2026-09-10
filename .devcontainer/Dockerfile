@@ -7,3 +7,7 @@ RUN apt-get update \
 
 RUN npx --yes playwright@1.61.1 install-deps chromium \
     && rm -rf /var/lib/apt/lists/*
+
+# Create the parent before Docker mounts the Playwright browser volume below it.
+RUN mkdir -p /home/node/.cache \
+    && chown -R node:node /home/node/.cache

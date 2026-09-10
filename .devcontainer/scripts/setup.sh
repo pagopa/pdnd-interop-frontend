@@ -8,7 +8,7 @@ sudo chown -R "$(id -u):$(id -g)" \
   "$FRONTEND_ROOT/node_modules" \
   "$BACKEND_ROOT/node_modules" \
   /home/node/.local/share/pnpm \
-  /home/node/.cache/ms-playwright
+  /home/node/.cache
 
 (cd "$BACKEND_ROOT" && CI=true pnpm install --frozen-lockfile)
 (cd "$FRONTEND_ROOT" && CI=true pnpm install --frozen-lockfile)

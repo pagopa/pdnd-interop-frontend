@@ -25,6 +25,10 @@ Dependencies and the pnpm store use Docker volumes, so host and container
 native modules remain separate and subsequent container rebuilds can reuse the
 downloaded packages.
 
+Setup makes
+the whole `/home/node/.cache` directory writable by the container user so native
+dependency builds can also create their caches.
+
 Each backend launch builds the selected services' workspace dependencies with
 Turbo before starting their TypeScript sources. Unchanged builds use Turbo's
 cache; changing branches or removing generated `dist` files rebuilds the needed
@@ -175,6 +179,8 @@ and configuration behaviour are covered by automated smoke and unit tests.
 
 ## Troubleshooting
 
+- Rebuild the devcontainer after Dockerfile changes; an infrastructure reset
+  does not update the development image. Existing database volumes can be kept.
 - Use `pnpm local:status` first, then `pnpm local:logs`.
 - Open <http://localhost:3000/ui/local-dashboard/> to inspect services and
   search the latest 2 MB of logs by source, level, process, correlation ID, or
