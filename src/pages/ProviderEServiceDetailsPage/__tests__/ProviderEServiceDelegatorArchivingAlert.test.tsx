@@ -46,6 +46,10 @@ describe('ProviderEServiceArchivingAlert', () => {
       delegation: {
         delegator: {
           id: 'delegator-id',
+          name: 'delegator-name',
+        },
+        delegate: {
+          name: 'delegate-name',
         },
       },
       eservice: {
@@ -70,6 +74,10 @@ describe('ProviderEServiceArchivingAlert', () => {
       delegation: {
         delegator: {
           id: 'delegator-id',
+          name: 'delegator-name',
+        },
+        delegate: {
+          name: 'delegate-name',
         },
       },
       eservice: {
@@ -95,6 +103,10 @@ describe('ProviderEServiceArchivingAlert', () => {
       delegation: {
         delegator: {
           id: 'delegator-id',
+          name: 'delegator-name',
+        },
+        delegate: {
+          name: 'delegate-name',
         },
       },
       eservice: {
