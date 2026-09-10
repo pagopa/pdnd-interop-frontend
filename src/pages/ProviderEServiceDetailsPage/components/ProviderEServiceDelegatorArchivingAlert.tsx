@@ -27,7 +27,7 @@ export const ProviderEServiceDelegatorArchivingAlert: React.FC<
 
   const isDelegator = jwt?.organizationId === descriptor.delegation?.delegator.id
 
-  if (isDelegator) return
+  if (!isDelegator) return
 
   const request = descriptor.eservice.delegatedArchivingRequest
 
