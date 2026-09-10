@@ -13,51 +13,20 @@ import {
   Typography,
 } from '@mui/material'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { z } from 'zod'
 import { useTranslation } from 'react-i18next'
 import i18n from 'i18next'
 import { AuthQueries } from '@/api/auth'
+import { LocalIdentityServices } from '@/api/auth/local-identity.services'
 import { STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import { useNavigate } from '@/router'
 import type { LangCode } from '@/types/common.types'
 import localIdentitySelectionEnNs from '@/static/locales/en/local-identity-selection.json'
 import localIdentitySelectionItNs from '@/static/locales/it/local-identity-selection.json'
 
-const localIdentitiesEndpoint = '/__local-dashboard/api/identities'
-const localIdentityEndpoint = '/__local-dashboard/api/identity'
 const translationNamespace = 'local-identity-selection'
 
 i18n.addResourceBundle('it', translationNamespace, localIdentitySelectionItNs)
 i18n.addResourceBundle('en', translationNamespace, localIdentitySelectionEnNs)
-
-const localIdentityUserSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  surname: z.string(),
-  email: z.string().email(),
-  roles: z.array(z.string()),
-})
-
-const localIdentitiesSchema = z.object({
-  tenants: z.array(
-    z.object({
-      key: z.string(),
-      id: z.string().uuid(),
-      name: z.string(),
-      users: z.array(localIdentityUserSchema),
-    })
-  ),
-})
-
-const sessionTokenSchema = z.object({
-  sessionToken: z.string().min(1),
-})
-
-const requestJson = async (input: RequestInfo | URL, init?: RequestInit) => {
-  const response = await fetch(input, init)
-  if (!response.ok) throw new Error(`Local identity request failed with ${response.status}`)
-  return response.json()
-}
 
 const LocalIdentitySelectionPage: React.FC<{ language: LangCode }> = ({ language }) => {
   const { t } = useTranslation(translationNamespace)
@@ -72,18 +41,15 @@ const LocalIdentitySelectionPage: React.FC<{ language: LangCode }> = ({ language
 
   const identitiesQuery = useQuery({
     queryKey: ['local-development', 'identities'],
-    queryFn: async () => localIdentitiesSchema.parse(await requestJson(localIdentitiesEndpoint)),
-    staleTime: Infinity,
+    queryFn: ({ signal }) => LocalIdentityServices.getIdentities(signal),
+    staleTime: 0,
+    throwOnError: false,
+    retry: true,
+    retryDelay: 2000,
+    refetchOnWindowFocus: true,
   })
   const identityMutation = useMutation({
-    mutationFn: async () =>
-      sessionTokenSchema.parse(
-        await requestJson(localIdentityEndpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ tenantKey, userId }),
-        })
-      ),
+    mutationFn: () => LocalIdentityServices.createIdentityToken(tenantKey, userId),
     onSuccess: ({ sessionToken }) => {
       queryClient.clear()
       window.localStorage.setItem(STORAGE_KEY_SESSION_TOKEN, sessionToken)

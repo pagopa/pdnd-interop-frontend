@@ -93,6 +93,17 @@ Use the party switcher in the frontend header, or open
 and a role-specific user. Every local user can access all seeded tenants, and the
 selection persists across page reloads.
 
+After an infrastructure reset, the frontend restores the same tenant and user
+using their stable Selfcare and user IDs, and issues a token for the new tenant
+ID. It checks at page load and when returning to an open tab. A changed session
+reloads the page to discard cached data from the previous environment; an
+unchanged session keeps the page intact. If the identity was removed from the
+dataset, the identity selection page opens instead.
+
+Startup marks `.local-development/identity.status` as ready only after the seed
+and token generation succeed. Until then, or while the local identity API is
+unavailable, the frontend retains the saved session and retries automatically.
+
 The local frontend runner sets `SELFCARE_LOGIN_URL` to that route. Override the
 variable before starting Vite if the frontend is published on a different host
 URL.

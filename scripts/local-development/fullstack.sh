@@ -75,6 +75,7 @@ restart_frontend() {
 }
 
 start() {
+  printf 'starting\n' > "$RUNTIME_ROOT/identity.status"
   echo "Starting Vite with the local dashboard"
   restart_frontend bootstrap
   echo "[1/7] Checking access to the host Docker daemon"
@@ -103,11 +104,13 @@ start() {
   echo "Seed completed successfully"
   echo "[6/7] Generating the local frontend token"
   generate_token
+  printf 'ready\n' > "$RUNTIME_ROOT/identity.status"
   echo "[7/7] Starting the frontend"
   restart_frontend local
 }
 
 stop() {
+  printf 'stopped\n' > "$RUNTIME_ROOT/identity.status"
   for session in interop-frontend interop-backend interop-port-forwards; do
     has_session "$session" && tmux kill-session -t "$session"
   done

@@ -44,10 +44,12 @@ describe('Local identity selection page', () => {
       if (String(input).endsWith('/identities')) {
         return new Response(
           JSON.stringify({
+            ready: true,
             tenants: [
               {
                 key: 'comune',
                 id: '5470e567-de4c-416a-abd5-738dab94a5fd',
+                selfcareId: 'stable-comune-id',
                 name: 'Comune Demo',
                 users: [
                   {

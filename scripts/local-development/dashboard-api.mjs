@@ -163,14 +163,7 @@ async function defaultIsSessionRunning(name) {
 async function defaultGenerateIdentityToken(backendRoot, { tenantKey, userId }) {
   const { stdout } = await execFileAsync(
     'node',
-    [
-      'scripts/local-development/cli.mjs',
-      'token',
-      '--tenant',
-      tenantKey,
-      '--user',
-      userId,
-    ],
+    ['scripts/local-development/cli.mjs', 'token', '--tenant', tenantKey, '--user', userId],
     { cwd: backendRoot, maxBuffer: 1024 * 1024 }
   )
   return stdout.trim()
@@ -185,12 +178,22 @@ export function createDashboardApi({
   generateIdentityToken = (identity) => defaultGenerateIdentityToken(backendRoot, identity),
 }) {
   const getIdentities = async () => {
+    const identityState = await readFileOrEmpty(
+      join(frontendRoot, '.local-development/identity.status')
+    )
+    if (identityState.trim() !== 'ready') return { ready: false, tenants: [] }
+
     const [dataset, state] = await Promise.all([
       readFile(join(backendRoot, 'docker/local-development/dataset.json'), 'utf8').then(JSON.parse),
       readFile(join(backendRoot, '.local-development/state.json'), 'utf8').then(JSON.parse),
     ])
 
+    if (dataset.tenants.some((tenant) => !state.tenants[tenant.key]?.id)) {
+      return { ready: false, tenants: [] }
+    }
+
     return {
+      ready: true,
       tenants: dataset.tenants.flatMap((tenant) => {
         const tenantState = state.tenants[tenant.key]
         if (!tenantState) return []
@@ -199,24 +202,24 @@ export function createDashboardApi({
           {
             key: tenant.key,
             id: tenantState.id,
+            selfcareId: tenant.selfcareId,
             name: tenant.name,
-            users: dataset.users
-              .flatMap((user) => {
-                const membership = user.memberships.find(
-                  (candidate) => candidate.tenantSelfcareId === tenant.selfcareId
-                )
-                return membership
-                  ? [
-                      {
-                        id: user.id,
-                        name: user.name,
-                        surname: user.surname,
-                        email: user.email,
-                        roles: membership.roles,
-                      },
-                    ]
-                  : []
-              }),
+            users: dataset.users.flatMap((user) => {
+              const membership = user.memberships.find(
+                (candidate) => candidate.tenantSelfcareId === tenant.selfcareId
+              )
+              return membership
+                ? [
+                    {
+                      id: user.id,
+                      name: user.name,
+                      surname: user.surname,
+                      email: user.email,
+                      roles: membership.roles,
+                    },
+                  ]
+                : []
+            }),
           },
         ]
       }),
