@@ -21,13 +21,23 @@ trusted repositories and dependencies. Only one local Interop full-stack
 environment is supported at a time because its ports and Docker project name
 are fixed.
 
-Root `node_modules` directories and the pnpm store use Docker volumes.
+Root and backend workspace-package `node_modules` directories, plus the pnpm
+store, use Docker volumes. pnpm's dependency symlinks are created inside those
+volumes instead of the host's shared filesystem. Existing host dependency
+directories are hidden by the mounts and are left untouched.
+
+Before container creation, `.devcontainer/initialize.sh` discovers backend
+`packages/*/package.json` files and prepares one named dependency volume per
+package. A stopped `interop-backend-workspace-modules` container records these
+mounts; the devcontainer inherits them using Docker's `--volumes-from` option.
+This holder uses `busybox:1.37.0` and never runs a process. It is recreated as
+needed while preserving its named volumes. Rebuild the devcontainer after a
+branch change that adds workspace packages so their mounts can be included.
+
 The container explicitly sets `npm_config_store_dir` to
 `/home/node/.local/share/pnpm/store` so pnpm does not fall back to a `.pnpm-store`
-directory in the bind-mounted repository. Backend workspace packages still have
-dependency links under `packages/*/node_modules`, so some filesystem operations
-cross the host mount and can be slower on macOS. Subsequent container rebuilds
-reuse the downloaded packages.
+directory in the bind-mounted repository. Subsequent container rebuilds reuse
+the downloaded packages.
 
 The image includes Debian's Chromium for Puppeteer on both amd64 and arm64,
 including Apple Silicon hosts. Puppeteer's browser download is disabled only

@@ -16,7 +16,10 @@
   "features": {
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
   },
-  "runArgs": ["--add-host=host.docker.internal:host-gateway"],
+  "runArgs": [
+    "--add-host=host.docker.internal:host-gateway",
+    "--volumes-from=interop-backend-workspace-modules"
+  ],
   "appPort": ["3000:5173"],
   "containerEnv": {
     "INTEROP_DEVCONTAINER": "true",
