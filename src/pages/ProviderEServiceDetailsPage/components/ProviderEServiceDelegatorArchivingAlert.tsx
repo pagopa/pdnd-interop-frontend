@@ -23,7 +23,7 @@ export const ProviderEServiceDelegatorArchivingAlert: React.FC<
 
   const { openDialog } = useDialog()
 
-  if (!descriptor) return
+  if (!descriptor) return null
 
   const isDelegator = Boolean(
     jwt?.organizationId &&
@@ -31,11 +31,11 @@ export const ProviderEServiceDelegatorArchivingAlert: React.FC<
     jwt.organizationId === descriptor.delegation.delegator.id
   )
 
-  if (!isDelegator) return
+  if (!isDelegator) return null
 
   const request = descriptor.eservice.delegatedArchivingRequest
 
-  if (!request || request.rejectedAt || request.acceptedAt) return
+  if (!request || request.rejectedAt || request.acceptedAt) return null
 
   let alert = ''
   let drawer = true
