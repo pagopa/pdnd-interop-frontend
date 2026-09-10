@@ -21,9 +21,13 @@ trusted repositories and dependencies. Only one local Interop full-stack
 environment is supported at a time because its ports and Docker project name
 are fixed.
 
-Dependencies and the pnpm store use Docker volumes, so host and container
-native modules remain separate and subsequent container rebuilds can reuse the
-downloaded packages.
+Root `node_modules` directories and the pnpm store use Docker volumes.
+The container explicitly sets `npm_config_store_dir` to
+`/home/node/.local/share/pnpm/store` so pnpm does not fall back to a `.pnpm-store`
+directory in the bind-mounted repository. Backend workspace packages still have
+dependency links under `packages/*/node_modules`, so some filesystem operations
+cross the host mount and can be slower on macOS. Subsequent container rebuilds
+reuse the downloaded packages.
 
 The image includes Debian's Chromium for Puppeteer on both amd64 and arm64,
 including Apple Silicon hosts. Puppeteer's browser download is disabled only
@@ -184,6 +188,10 @@ and configuration behaviour are covered by automated smoke and unit tests.
 
 - Rebuild the devcontainer after Dockerfile changes; an infrastructure reset
   does not update the development image. Existing database volumes can be kept.
+- Repeated `Progress: resolved ..., reused ..., downloaded ..., added ...` lines
+  are updates from one pnpm install in VS Code's non-interactive setup log, not
+  repeated installations. Reusing the store still requires linking dependencies;
+  the first install into a fresh volume can take longer than later starts.
 - Use `pnpm local:status` first, then `pnpm local:logs`.
 - Open <http://localhost:3000/ui/local-dashboard/> to inspect services and
   search the latest 2 MB of logs by source, level, process, correlation ID, or

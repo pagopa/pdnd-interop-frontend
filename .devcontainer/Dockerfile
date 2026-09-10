@@ -1,7 +1,9 @@
 FROM mcr.microsoft.com/devcontainers/typescript-node:1-20-bookworm
 
+# Keep pnpm's store in its named volume even when the workspace is a bind mount.
 # Debian provides Chromium for both amd64 and arm64; Puppeteer's download does not.
-ENV PUPPETEER_SKIP_DOWNLOAD=true \
+ENV npm_config_store_dir=/home/node/.local/share/pnpm/store \
+    PUPPETEER_SKIP_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 
 RUN apt-get update \

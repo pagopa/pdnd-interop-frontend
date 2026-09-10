@@ -10,8 +10,11 @@ sudo chown -R "$(id -u):$(id -g)" \
   /home/node/.local/share/pnpm \
   /home/node/.cache
 
+echo "Installing backend dependencies"
 (cd "$BACKEND_ROOT" && CI=true pnpm install --frozen-lockfile)
+echo "Installing frontend dependencies"
 (cd "$FRONTEND_ROOT" && CI=true pnpm install --frozen-lockfile)
+echo "Installing the Playwright Chromium browser"
 (cd "$FRONTEND_ROOT" && pnpm exec playwright install chromium)
 
 echo "Frontend, backend, and Playwright dependencies are installed"
