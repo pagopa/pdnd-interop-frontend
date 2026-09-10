@@ -25,6 +25,18 @@ Dependencies and the pnpm store use Docker volumes, so host and container
 native modules remain separate and subsequent container rebuilds can reuse the
 downloaded packages.
 
+Each backend launch builds the selected services' workspace dependencies with
+Turbo before starting their TypeScript sources. Unchanged builds use Turbo's
+cache; changing branches or removing generated `dist` files rebuilds the needed
+libraries automatically. Compilation runs before the runtime's per-service
+memory limit is applied.
+
+Startup allows up to ten minutes for dependency compilation, infrastructure,
+and process launch before checking HTTP readiness. If compilation fails or a
+backend process exits unexpectedly, startup fails with the relevant log instead
+of waiting for an HTTP timeout. A service exit also stops the other backend
+processes, so a failed runtime can be restarted as a whole.
+
 ## First start
 
 1. Open `interop-pdnd-fullstack.code-workspace` in VS Code.

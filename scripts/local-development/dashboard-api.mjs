@@ -229,21 +229,32 @@ export function createDashboardApi({
   return {
     async getStatus() {
       const frontendRuntime = join(frontendRoot, '.local-development')
-      const [startupStateContent, startupLog, pidRegistry, composeOutput, sessions, logs] =
-        await Promise.all([
-          readFileOrEmpty(join(frontendRuntime, 'startup.status')),
-          readFileOrEmpty(join(frontendRuntime, 'startup.log')),
-          readFileOrEmpty(join(backendRoot, '.local-development/frontend-full.pids')),
-          composePs().catch(() => ''),
-          Promise.all(
-            SESSION_NAMES.map(async (name) => ({
-              name,
-              state: (await isSessionRunning(name)) ? 'running' : 'stopped',
-            }))
-          ),
-          readLogsMetadata(frontendRoot),
-        ])
-      const startupState = startupStateContent.trim() || 'stopped'
+      const [
+        startupStateContent,
+        backendStateContent,
+        startupLog,
+        pidRegistry,
+        composeOutput,
+        sessions,
+        logs,
+      ] = await Promise.all([
+        readFileOrEmpty(join(frontendRuntime, 'startup.status')),
+        readFileOrEmpty(join(backendRoot, '.local-development/frontend-full.status')),
+        readFileOrEmpty(join(frontendRuntime, 'startup.log')),
+        readFileOrEmpty(join(backendRoot, '.local-development/frontend-full.pids')),
+        composePs().catch(() => ''),
+        Promise.all(
+          SESSION_NAMES.map(async (name) => ({
+            name,
+            state: (await isSessionRunning(name)) ? 'running' : 'stopped',
+          }))
+        ),
+        readLogsMetadata(frontendRoot),
+      ])
+      const backendFailed = backendStateContent.trim() === 'failed'
+      const savedStartupState = startupStateContent.trim() || 'stopped'
+      const startupState =
+        savedStartupState === 'starting' && backendFailed ? 'failed' : savedStartupState
       const processes = await Promise.all(
         parseProcessRegistry(pidRegistry, isProcessRunning).map(async (process) => ({
           ...process,
@@ -254,7 +265,7 @@ export function createDashboardApi({
 
       return {
         timestamp: new Date().toISOString(),
-        overall: deriveOverallState({ startupState, processes, infrastructure }),
+        overall: deriveOverallState({ startupState, processes, infrastructure, backendFailed }),
         startup: {
           state: startupState,
           checks: deriveStartupChecks(startupState, startupLog),

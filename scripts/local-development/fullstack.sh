@@ -7,6 +7,7 @@ RUNTIME_ROOT="$FRONTEND_ROOT/.local-development"
 LOG_ROOT="$RUNTIME_ROOT/logs"
 SELECTION_FILE="$RUNTIME_ROOT/selection.env"
 STATUS_FILE="$RUNTIME_ROOT/startup.status"
+BACKEND_STATUS_FILE="$BACKEND_ROOT/.local-development/frontend-full.status"
 
 mkdir -p "$LOG_ROOT"
 
@@ -28,8 +29,28 @@ start_session() {
   if ! has_session "$name"; then
     : > "$log_file"
     tmux new-session -d -s "$name" \
-      "bash -lc '$command 2>&1 | tee -a \"$log_file\"'"
+      "bash -o pipefail -lc '$command 2>&1 | tee -a \"$log_file\"'"
   fi
+}
+
+wait_backend_startup() {
+  local attempts=0 backend_state
+  echo "Waiting for backend startup (dependency build, infrastructure, and processes)"
+  while true; do
+    backend_state="$(cat "$BACKEND_STATUS_FILE" 2>/dev/null || true)"
+    if ! has_session interop-backend || [[ "$backend_state" == failed || "$backend_state" == stopped ]]; then
+      echo "Backend startup failed. Last log lines from $LOG_ROOT/interop-backend.log:" >&2
+      tail -n 60 "$LOG_ROOT/interop-backend.log" >&2 || true
+      return 1
+    fi
+    if [[ "$backend_state" == running ]]; then return 0; fi
+    attempts=$((attempts + 1))
+    if (( attempts >= 600 )); then
+      echo "Timed out preparing the backend (state: $backend_state). See $LOG_ROOT/interop-backend.log" >&2
+      return 1
+    fi
+    sleep 1
+  done
 }
 
 wait_http() {
@@ -39,13 +60,15 @@ wait_http() {
   local display_location="${4:-at $url}"
   local attempts=0
   echo "Waiting for $name $display_location"
-  until curl --fail --silent --output /dev/null "$url"; do
-    if [[ -n "$session" ]] && ! has_session "$session"; then
+  while true; do
+    if { [[ -n "$session" ]] && ! has_session "$session"; } \
+      || { [[ "$session" == interop-backend ]] && [[ "$(cat "$BACKEND_STATUS_FILE" 2>/dev/null || true)" == failed ]]; }; then
       echo "$name cannot start because $session exited unexpectedly." >&2
       echo "Last log lines from $LOG_ROOT/$session.log:" >&2
       tail -n 40 "$LOG_ROOT/$session.log" >&2 || true
       return 1
     fi
+    if curl --fail --silent --connect-timeout 2 --max-time 3 --output /dev/null "$url"; then break; fi
     attempts=$((attempts + 1))
     if (( attempts >= 180 )); then
       echo "Timed out waiting for $name $display_location. See $LOG_ROOT/interop-backend.log" >&2
@@ -90,8 +113,10 @@ start() {
     return 1
   fi
   echo "[3/7] Starting Docker infrastructure and backend processes"
+  if ! has_session interop-backend; then rm -f "$BACKEND_STATUS_FILE"; fi
   start_session interop-backend \
     "cd \"$BACKEND_ROOT\" && pnpm local:start:frontend-full"
+  wait_backend_startup
   wait_http "tenant process" "http://localhost:3500/status" interop-backend
   wait_http "catalog process" "http://localhost:3000/status" interop-backend
   wait_http "backend for frontend" \

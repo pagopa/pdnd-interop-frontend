@@ -8,7 +8,7 @@ const STARTUP_CHECKS = [
   {
     id: 'backend',
     label: 'Backend',
-    running: 'Waiting for tenant process',
+    running: 'Waiting for backend startup',
     passed: '[4/7] Backend services are ready',
   },
   { id: 'seed', label: 'Seed', running: '[5/7]', passed: 'Seed completed successfully' },
@@ -30,7 +30,12 @@ const STARTUP_CHECKS = [
 
 const SUCCESSFUL_ONE_SHOT_SERVICES = new Set(['dynamodb-migrations', 'minio-seed'])
 
-export function deriveOverallState({ startupState, processes, infrastructure }) {
+export function deriveOverallState({
+  startupState,
+  processes,
+  infrastructure,
+  backendFailed = false,
+}) {
   if (startupState !== 'ready') {
     return startupState
   }
@@ -40,7 +45,7 @@ export function deriveOverallState({ startupState, processes, infrastructure }) 
     ({ state }) => state !== 'running' && state !== 'passed'
   )
 
-  return hasStoppedProcess || hasStoppedInfrastructure ? 'degraded' : 'ready'
+  return backendFailed || hasStoppedProcess || hasStoppedInfrastructure ? 'degraded' : 'ready'
 }
 
 export function deriveStartupChecks(startupState, startupLog) {
