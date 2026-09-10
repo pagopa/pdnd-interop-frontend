@@ -53,6 +53,9 @@ export const ProviderEServiceTemplateTechnicalSpecsSummarySection: React.FC = ()
       component="button"
       startIcon={<AttachFileIcon fontSize="small" />}
       onClick={handleDownloadDocument.bind(null, document)}
+      aria-label={tCommon('ariaLabels.downloadDocument', {
+        name: document.prettyName,
+      })}
     >
       {document.prettyName}
     </IconLink>
