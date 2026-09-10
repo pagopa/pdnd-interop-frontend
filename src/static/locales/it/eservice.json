@@ -720,7 +720,7 @@
     "dialogConfirmArchivingDelegated": {
       "eservice": {
         "title": "Archivia e-service",
-        "firstParagraph": "L’ente delegato {{entity}} ha richiesto l’archiviazione dell’e-service.  ",
+        "firstParagraph": "L’ente delegato {{entity}} ha richiesto l’archiviazione dell’e-service.",
         "secondParagraph": "Se approvi la richiesta, l’archiviazione avverrà il giorno {{date}}. Prima di questa data, l’e-service resterà attivo per consentire ai fruitori di adeguarsi. Potrai annullare l’archiviazione solo prima di questa data."
       },
       "version": {
