@@ -892,7 +892,7 @@ describe('useGetProviderEServiceTableActions tests', () => {
         descriptorId: 'fd09a069-81f8-4cb5-a302-64320e83a033',
       })
     })
-    vi.spyOn(EServiceMutations, 'useCloneFromVersion').mockReturnValueOnce({
+    const cloneSpy = vi.spyOn(EServiceMutations, 'useCloneFromVersion').mockReturnValueOnce({
       mutate: cloneMutate,
     } as unknown as ReturnType<typeof EServiceMutations.useCloneFromVersion>)
 
@@ -927,9 +927,11 @@ describe('useGetProviderEServiceTableActions tests', () => {
         options?.onSuccess?.({ id: 'test-id' })
       }
     )
-    vi.spyOn(EServiceMutations, 'useCreateVersionDraft').mockReturnValueOnce({
-      mutate: createDraftMutate,
-    } as unknown as ReturnType<typeof EServiceMutations.useCreateVersionDraft>)
+    const createDraftSpy = vi
+      .spyOn(EServiceMutations, 'useCreateVersionDraft')
+      .mockReturnValueOnce({
+        mutate: createDraftMutate,
+      } as unknown as ReturnType<typeof EServiceMutations.useCreateVersionDraft>)
 
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
