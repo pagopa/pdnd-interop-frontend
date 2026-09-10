@@ -1,6 +1,7 @@
 import React from 'react'
 import { type InferRouteKey, InteropRouterBuilder } from '@pagopa/interop-fe-commons'
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, useRouteError } from 'react-router-dom'
+import { Box } from '@mui/material'
 import {
   PartyRegistryPage,
   ConsumerEServiceCatalogPage,
@@ -55,6 +56,7 @@ import {
   RiskAnalysisExporterToolPage,
   PublishThankYouPage,
   ConsumerPurposePublishThankYouPage,
+  ErrorPage,
 } from '@/pages'
 import RoutesWrapper from './components/RoutesWrapper'
 import type { LangCode } from '@/types/common.types'
@@ -112,6 +114,16 @@ const LandingByRole = () => {
     <components.Redirect to="SUBSCRIBE_RISK_ANALYSIS_LIST" />
   ) : (
     <components.Redirect to="SUBSCRIBE_CATALOG_LIST" />
+  )
+}
+
+const RouterErrorPage = () => {
+  const error = useRouteError()
+
+  return (
+    <Box sx={{ p: 8 }}>
+      <ErrorPage error={error} resetErrorBoundary={() => window.location.reload()} />
+    </Box>
   )
 }
 
@@ -809,10 +821,15 @@ export type RouteKey = InferRouteKey<typeof routes>
 
 export const router = createBrowserRouter(
   [
-    ...localDevelopmentRoutes,
-    { element: <RoutesWrapper />, children: reactRouterDOMRoutes },
-    { path: '/', element: <LandingByRole /> },
-    { path: '/*', element: <components.Redirect to="NOT_FOUND" /> },
+    {
+      errorElement: <RouterErrorPage />,
+      children: [
+        ...localDevelopmentRoutes,
+        { element: <RoutesWrapper />, children: reactRouterDOMRoutes },
+        { path: '/', element: <LandingByRole /> },
+        { path: '/*', element: <components.Redirect to="NOT_FOUND" /> },
+      ],
+    },
   ],
   { basename: '/ui' }
 )

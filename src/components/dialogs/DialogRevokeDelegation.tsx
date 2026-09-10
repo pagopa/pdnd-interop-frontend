@@ -17,6 +17,7 @@ import {
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { match } from 'ts-pattern'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 export const DialogRevokeDelegation: React.FC<DialogRevokeDelegationProps> = ({
   delegationId,
@@ -33,6 +34,7 @@ export const DialogRevokeDelegation: React.FC<DialogRevokeDelegationProps> = ({
   })
 
   const [isConfirmCheckboxChecked, setIsConfirmCheckboxChecked] = React.useState<boolean>(false)
+  const isConfirmDisabled = useIsActionDisabledBySupport(!isConfirmCheckboxChecked)
 
   const { mutate: revokeProducerDelegation } = DelegationMutations.useRevokeProducerDelegation()
   const { mutate: revokeConsumerDelegation } = DelegationMutations.useRevokeConsumerDelegation()
@@ -86,7 +88,7 @@ export const DialogRevokeDelegation: React.FC<DialogRevokeDelegationProps> = ({
         <Button variant="outlined" onClick={closeDialog}>
           {tCommon('cancel')}
         </Button>
-        <Button variant="contained" disabled={!isConfirmCheckboxChecked} onClick={handleRevoke}>
+        <Button variant="contained" disabled={isConfirmDisabled} onClick={handleRevoke}>
           {t('actions.revoke')}
         </Button>
       </DialogActions>

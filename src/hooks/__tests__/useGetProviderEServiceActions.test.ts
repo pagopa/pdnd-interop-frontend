@@ -1,13 +1,15 @@
 import { createMockEServiceProvider } from '@/../__mocks__/data/eservice.mocks'
 import { createMockDelegationWithCompactTenants } from '@/../__mocks__/data/delegation.mocks'
+import { EServiceMutations } from '@/api/eservice'
 import { useGetProviderEServiceActions } from '../useGetProviderEServiceActions'
 import { mockUseJwt, renderHookWithApplicationContext } from '@/utils/testing.utils'
 import { rest } from 'msw'
 import { setupServer } from 'msw/node'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import { act } from 'react-dom/test-utils'
-import { fireEvent, screen, waitFor } from '@testing-library/react'
+import { waitFor } from '@testing-library/react'
 import type { ArchivingSchedule, ProducerEService } from '@/api/api.generatedTypes'
+import { DEFAULT_GRACE_PERIOD_DAYS } from '@/config/constants'
 
 mockUseJwt({ isAdmin: true })
 
@@ -633,9 +635,10 @@ describe('useGetProviderEServiceTableActions tests', () => {
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.menuActions).toHaveLength(2)
+    expect(result.current.menuActions).toHaveLength(3)
     expect(result.current.menuActions[0].label).toBe('cloneEservice')
     expect(result.current.menuActions[1].label).toBe('createNewVersion')
+    expect(result.current.menuActions[2].label).toBe('suspendVersion')
   })
 
   it('should return the correct actions if user is an api operator and e-service is PUBLISHED with a draft descriptor in state DRAFT', () => {
@@ -646,10 +649,11 @@ describe('useGetProviderEServiceTableActions tests', () => {
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.menuActions).toHaveLength(3)
+    expect(result.current.menuActions).toHaveLength(4)
     expect(result.current.menuActions[0].label).toBe('cloneEservice')
     expect(result.current.menuActions[1].label).toBe('manageDraft')
     expect(result.current.menuActions[2].label).toBe('deleteDraft')
+    expect(result.current.menuActions[3].label).toBe('suspendVersion')
   })
 
   it('should not return actions if user is an api operator and delegator, e-service is PUBLISHED with no draft descriptors', () => {
@@ -713,8 +717,9 @@ describe('useGetProviderEServiceTableActions tests', () => {
       }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.menuActions).toHaveLength(1)
+    expect(result.current.menuActions).toHaveLength(2)
     expect(result.current.menuActions[0].label).toBe('createNewVersion')
+    expect(result.current.menuActions[1].label).toBe('suspendVersion')
   })
 
   it('should return the correct actions if user is an api operator and delegate, e-service is PUBLISHED with a draft descriptor in state DRAFT', () => {
@@ -730,12 +735,13 @@ describe('useGetProviderEServiceTableActions tests', () => {
       }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.menuActions).toHaveLength(2)
+    expect(result.current.menuActions).toHaveLength(3)
     expect(result.current.menuActions[0].label).toBe('manageDraft')
     expect(result.current.menuActions[1].label).toBe('deleteDraft')
+    expect(result.current.menuActions[2].label).toBe('suspendVersion')
   })
 
-  it('should not return actions if user is an api operator and delegate, e-service is PUBLISHED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
+  it('should return the correct actions if user is an api operator and delegate, e-service is PUBLISHED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
@@ -748,7 +754,20 @@ describe('useGetProviderEServiceTableActions tests', () => {
       }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.menuActions).toHaveLength(0)
+    expect(result.current.menuActions).toHaveLength(1)
+    expect(result.current.menuActions[0].label).toBe('suspendVersion')
+  })
+
+  it('should return suspend action if user is an api operator and template instance e-service is PUBLISHED', () => {
+    mockUseJwt({ isAdmin: false, isOperatorAPI: true })
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'PUBLISHED', version: '1' },
+      isTemplateInstance: true,
+      isNewTemplateVersionAvailable: false,
+      delegation: undefined,
+    })
+    const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
+    expect(result.current.menuActions.map((a) => a.label)).toContain('suspendVersion')
   })
 
   it('should return the correct actions if user is an api operator and e-service is SUSPENDED with no draft descriptors', () => {
@@ -758,9 +777,10 @@ describe('useGetProviderEServiceTableActions tests', () => {
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.menuActions).toHaveLength(2)
-    expect(result.current.menuActions[0].label).toBe('cloneEservice')
-    expect(result.current.menuActions[1].label).toBe('createNewVersion')
+    expect(result.current.menuActions).toHaveLength(3)
+    expect(result.current.menuActions[0].label).toBe('reactivateVersion')
+    expect(result.current.menuActions[1].label).toBe('cloneEservice')
+    expect(result.current.menuActions[2].label).toBe('createNewVersion')
   })
 
   it('should return the correct actions if user is an api operator and e-service is SUSPENDED with a draft descriptor in state DRAFT', () => {
@@ -771,10 +791,11 @@ describe('useGetProviderEServiceTableActions tests', () => {
       delegation: undefined,
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.menuActions).toHaveLength(3)
-    expect(result.current.menuActions[0].label).toBe('cloneEservice')
-    expect(result.current.menuActions[1].label).toBe('manageDraft')
-    expect(result.current.menuActions[2].label).toBe('deleteDraft')
+    expect(result.current.menuActions).toHaveLength(4)
+    expect(result.current.menuActions[0].label).toBe('reactivateVersion')
+    expect(result.current.menuActions[1].label).toBe('cloneEservice')
+    expect(result.current.menuActions[2].label).toBe('manageDraft')
+    expect(result.current.menuActions[3].label).toBe('deleteDraft')
   })
 
   it('should not return actions if user is an api operator and delegator, e-service is SUSPENDED with no draft descriptors', () => {
@@ -837,8 +858,9 @@ describe('useGetProviderEServiceTableActions tests', () => {
       }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.menuActions).toHaveLength(1)
-    expect(result.current.menuActions[0].label).toBe('createNewVersion')
+    expect(result.current.menuActions).toHaveLength(2)
+    expect(result.current.menuActions[0].label).toBe('reactivateVersion')
+    expect(result.current.menuActions[1].label).toBe('createNewVersion')
   })
 
   it('should return the correct actions if user is an api operator and delegate, e-service is SUSPENDED with a draft descriptor in state DRAFT', () => {
@@ -854,12 +876,13 @@ describe('useGetProviderEServiceTableActions tests', () => {
       }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.menuActions).toHaveLength(2)
-    expect(result.current.menuActions[0].label).toBe('manageDraft')
-    expect(result.current.menuActions[1].label).toBe('deleteDraft')
+    expect(result.current.menuActions).toHaveLength(3)
+    expect(result.current.menuActions[0].label).toBe('reactivateVersion')
+    expect(result.current.menuActions[1].label).toBe('manageDraft')
+    expect(result.current.menuActions[2].label).toBe('deleteDraft')
   })
 
-  it('should not return actions if user is an api operator and delegate, e-service is SUSPENDED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
+  it('should return the correct actions if user is an api operator and delegate, e-service is SUSPENDED with a draft descriptor in state WAITING_FOR_APPROVAL', () => {
     mockUseJwt({ isAdmin: false, isOperatorAPI: true })
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
@@ -872,11 +895,39 @@ describe('useGetProviderEServiceTableActions tests', () => {
       }),
     })
     const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
-    expect(result.current.menuActions).toHaveLength(0)
+    expect(result.current.menuActions).toHaveLength(1)
+    expect(result.current.menuActions[0].label).toBe('reactivateVersion')
+  })
+
+  it('should return reactivate action if user is an api operator and template instance e-service is SUSPENDED', () => {
+    mockUseJwt({ isAdmin: false, isOperatorAPI: true })
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      isTemplateInstance: true,
+      isNewTemplateVersionAvailable: false,
+      delegation: undefined,
+    })
+    const { result } = renderUseGetProviderEServiceTableActionsHook(descriptorMock)
+    expect(result.current.menuActions.map((a) => a.label)).toContain('reactivateVersion')
   })
 
   it('should navigate to PROVIDE_ESERVICE_EDIT page on clone action success', async () => {
     mockUseJwt({ isAdmin: true })
+    const cloneMutateMock = vi.fn(
+      (
+        _variables: unknown,
+        options?: { onSuccess?: (data: { id: string; descriptorId: string }) => void }
+      ) => {
+        options?.onSuccess?.({
+          id: '6dbb7416-8315-4970-a6be-393a03d0a79d',
+          descriptorId: 'fd09a069-81f8-4cb5-a302-64320e83a033',
+        })
+      }
+    )
+    const cloneSpy = vi
+      .spyOn(EServiceMutations, 'useCloneFromVersion')
+      .mockReturnValue({ mutate: cloneMutateMock } as never)
+
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       draftDescriptor: { id: 'test-2', state: 'DRAFT', version: '2' },
@@ -892,19 +943,26 @@ describe('useGetProviderEServiceTableActions tests', () => {
       cloneAction.action()
     })
 
-    act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
-    })
-
     await waitFor(() => {
       expect(history.location.pathname).toBe(
         '/it/erogazione/e-service/6dbb7416-8315-4970-a6be-393a03d0a79d/fd09a069-81f8-4cb5-a302-64320e83a033/modifica'
       )
     })
+
+    cloneSpy.mockRestore()
   })
 
   it('should navigate to PROVIDE_ESERVICE_EDIT page on create new draft action success', async () => {
     mockUseJwt({ isAdmin: true })
+    const createDraftMutateMock = vi.fn(
+      (_variables: unknown, options?: { onSuccess?: (data: { id: string }) => void }) => {
+        options?.onSuccess?.({ id: 'test-id' })
+      }
+    )
+    const createDraftSpy = vi
+      .spyOn(EServiceMutations, 'useCreateVersionDraft')
+      .mockReturnValue({ mutate: createDraftMutateMock } as never)
+
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
       delegation: undefined,
@@ -919,15 +977,13 @@ describe('useGetProviderEServiceTableActions tests', () => {
       cloneAction.action()
     })
 
-    act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'confirm' }))
-    })
-
     await waitFor(() => {
       expect(history.location.pathname).toBe(
         '/it/erogazione/e-service/ad474d35-7939-4bee-bde9-4e469cca1030/test-id/modifica'
       )
     })
+
+    createDraftSpy.mockRestore()
   })
 
   it('should not return actions if the user is a security operator', () => {
@@ -953,14 +1009,16 @@ function renderDetailsPageHook(
   } = {}
 ) {
   const hasMultipleVersions = options.hasMultipleVersions ?? true
-  const archivingScheduleMock: ArchivingSchedule | undefined = options.archivingSchedule
-    ? {
-        archivableOn: options.archivingSchedule.archivableOn ?? '2026-01-01T00:00:00.000Z',
-        startedAt: options.archivingSchedule.startedAt ?? '2026-01-01T00:00:00.000Z',
-        scope: options.archivingSchedule.scope,
-        gracePeriodDays: options.archivingSchedule.gracePeriodDays,
-      }
-    : undefined
+  const archivingScheduleMock = (
+    options.archivingSchedule
+      ? {
+          archivableOn: options.archivingSchedule.archivableOn ?? '2026-01-01T00:00:00.000Z',
+          startedAt: options.archivingSchedule.startedAt ?? '2026-01-01T00:00:00.000Z',
+          scope: options.archivingSchedule.scope,
+          gracePeriodDays: options.archivingSchedule.gracePeriodDays ?? DEFAULT_GRACE_PERIOD_DAYS,
+        }
+      : undefined
+  ) as ArchivingSchedule | undefined
   return renderHookWithApplicationContext(
     () =>
       useGetProviderEServiceActions(

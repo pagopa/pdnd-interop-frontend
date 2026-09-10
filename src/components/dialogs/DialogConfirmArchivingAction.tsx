@@ -10,6 +10,7 @@ import {
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { useDialog } from '@/stores'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 type DialogConfirmArchivingActionProps = {
   title: string
@@ -36,6 +37,7 @@ export const DialogConfirmArchivingAction: React.FC<DialogConfirmArchivingAction
   const { closeDialog } = useDialog()
   const ariaLabelId = React.useId()
   const ariaDescriptionId = React.useId()
+  const isConfirmDisabled = useIsActionDisabledBySupport()
 
   return (
     <Dialog
@@ -66,6 +68,7 @@ export const DialogConfirmArchivingAction: React.FC<DialogConfirmArchivingAction
         <Button
           variant="contained"
           color={confirmColor}
+          disabled={isConfirmDisabled}
           onClick={onConfirm}
           sx={confirmColor === 'error' ? { color: 'common.white' } : undefined}
         >

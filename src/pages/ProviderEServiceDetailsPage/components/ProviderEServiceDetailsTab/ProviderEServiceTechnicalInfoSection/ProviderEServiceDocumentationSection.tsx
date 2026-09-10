@@ -85,6 +85,9 @@ export const ProviderEServiceDocumentationSection: React.FC<
                     component="button"
                     onClick={handleDownloadDocument.bind(null, doc)}
                     startIcon={<AttachFileIcon fontSize="small" />}
+                    aria-label={tCommon('ariaLabels.downloadDocument', {
+                      name: doc.prettyName,
+                    })}
                   >
                     {doc.prettyName}
                   </IconLink>
@@ -105,6 +108,9 @@ export const ProviderEServiceDocumentationSection: React.FC<
                     descriptor.asyncExchangeCallbackInterface
                   )}
                   startIcon={<AttachFileIcon fontSize="small" />}
+                  aria-label={tCommon('ariaLabels.downloadDocument', {
+                    name: descriptor.asyncExchangeCallbackInterface.prettyName,
+                  })}
                 >
                   {descriptor.asyncExchangeCallbackInterface.prettyName}
                 </IconLink>

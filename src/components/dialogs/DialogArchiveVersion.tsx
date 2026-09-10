@@ -1,6 +1,7 @@
 import { EServiceMutations } from '@/api/eservice'
 import type { GracePeriodDays } from '@/api/api.generatedTypes'
 import { archivingGuideLink, DEFAULT_GRACE_PERIOD_DAYS } from '@/config/constants'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import { useDialog } from '@/stores'
 import type { DialogArchiveVersionProps } from '@/types/dialog.types'
 import {
@@ -36,6 +37,7 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
 
   const { closeDialog } = useDialog()
   const { mutate: scheduleArchive } = EServiceMutations.useScheduleArchiveDescriptor()
+  const isConfirmDisabled = useIsActionDisabledBySupport()
 
   const formMethods = useForm<ArchiveVersionFormValues>({
     defaultValues: { gracePeriodDays: String(DEFAULT_GRACE_PERIOD_DAYS) },
@@ -78,6 +80,7 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
           <Button
             variant="contained"
             color="error"
+            disabled={isConfirmDisabled}
             onClick={handleArchive}
             sx={{ color: 'common.white' }}
           >

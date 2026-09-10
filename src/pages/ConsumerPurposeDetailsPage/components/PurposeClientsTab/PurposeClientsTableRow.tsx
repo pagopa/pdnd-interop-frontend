@@ -1,6 +1,7 @@
 import type { Purpose } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { ClientQueries } from '@/api/client'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { PurposeMutations } from '@/api/purpose'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
@@ -42,7 +43,10 @@ export const PurposeClientsTableRow: React.FC<PurposeClientsTableRowProps> = ({
   }
 
   const handlePrefetchClient = () => {
-    queryClient.prefetchQuery(ClientQueries.getSingle(client.id))
+    queryClient.prefetchQuery({
+      ...ClientQueries.getSingle(client.id),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   return (

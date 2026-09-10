@@ -52,7 +52,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
   const isEserviceFromTemplate = Boolean(descriptor?.templateRef)
 
   const viewLatestVersionTargetId = React.useMemo(
-    () => getViewLatestVersionTargetId(descriptor?.eservice.descriptors, descriptorId),
+    () => getViewLatestVersionTargetId(descriptor?.eservice.descriptors, descriptorId, 'provider'),
     [descriptor?.eservice.descriptors, descriptorId]
   )
 
@@ -98,6 +98,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
       secondaryAction={secondaryAction}
       menuActions={menuActions}
       isLoading={!descriptor}
+      byDelegationChip={descriptor?.delegation ? { delegation: descriptor.delegation } : undefined}
       backToAction={{
         label: t('actions.backToListLabel'),
         to: 'PROVIDE_ESERVICE_LIST',

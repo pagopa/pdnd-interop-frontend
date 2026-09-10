@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { screen } from '@testing-library/react'
+import { screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import ProviderEServiceSummaryPage from '../ProviderEServiceSummary.page'
 import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
@@ -240,8 +240,15 @@ describe('ProviderEServiceSummaryPage', () => {
       withRouterContext: true,
     })
 
-    const publishButton = screen.getByRole('button', { name: 'publish' })
-    expect(publishButton).toBeDisabled()
+    const publishButton = screen.getByRole('button', {
+      name: 'publish - summary.notPublishableTooltip.label',
+    })
+    expect(publishButton).toHaveAttribute('aria-disabled', 'true')
+    const innerButton = within(publishButton).getByRole('button', {
+      name: 'publish',
+      hidden: true,
+    })
+    expect(innerButton).toBeDisabled()
   })
 
   it('disables delegated approval when asynchronous mandatory fields are missing', () => {
@@ -263,8 +270,15 @@ describe('ProviderEServiceSummaryPage', () => {
       withRouterContext: true,
     })
 
-    const approveButton = screen.getByRole('button', { name: 'publish' })
-    expect(approveButton).toBeDisabled()
+    const approveButton = screen.getByRole('button', {
+      name: 'publish - summary.notPublishableTooltip.label',
+    })
+    expect(approveButton).toHaveAttribute('aria-disabled', 'true')
+    const innerButton = within(approveButton).getByRole('button', {
+      name: 'publish',
+      hidden: true,
+    })
+    expect(innerButton).toBeDisabled()
   })
 
   it('renders edit button', () => {
@@ -430,8 +444,15 @@ describe('ProviderEServiceSummaryPage', () => {
         withRouterContext: true,
       })
 
-      const publishButton = screen.getByRole('button', { name: 'publish' })
-      expect(publishButton).toBeDisabled()
+      const publishButton = screen.getByRole('button', {
+        name: 'publish - summary.rulesetExpiredTooltip.label',
+      })
+      expect(publishButton).toHaveAttribute('aria-disabled', 'true')
+      const innerButton = within(publishButton).getByRole('button', {
+        name: 'publish',
+        hidden: true,
+      })
+      expect(innerButton).toBeDisabled()
     })
 
     it('should be false when there are other descriptors even if riskAnalysis rulesetExpiration is expired', () => {

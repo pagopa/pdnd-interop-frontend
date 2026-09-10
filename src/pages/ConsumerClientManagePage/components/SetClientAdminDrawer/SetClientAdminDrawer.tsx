@@ -29,7 +29,7 @@ export const SetClientAdminDrawer: React.FC<SetClientAdminDrawerProps> = ({
 }) => {
   const { t } = useTranslation('client', { keyPrefix: 'edit.setClientAdminDrawer' })
   const { t: tCommon } = useTranslation('common')
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt, isAdmin } = AuthHooks.useJwt()
 
   const { mutate: setClientAdmin } = ClientMutations.useSetClientAdmin()
 
@@ -45,6 +45,7 @@ export const SetClientAdminDrawer: React.FC<SetClientAdminDrawerProps> = ({
       roles: ['admin'],
     }),
     select: (results) => results ?? [],
+    enabled: isAdmin,
   })
 
   const handleCloseDrawer = () => {

@@ -161,9 +161,17 @@ function deleteDraftDocument({
   )
 }
 
-async function activate({ agreementId, delegationId }: { agreementId: string } & DelegationRef) {
+async function approve({ agreementId, delegationId }: { agreementId: string } & DelegationRef) {
   const response = await axiosInstance.post<Agreement>(
-    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/activate`,
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/approve`,
+    { delegationId }
+  )
+  return response.data
+}
+
+async function unsuspend({ agreementId, delegationId }: { agreementId: string } & DelegationRef) {
+  const response = await axiosInstance.post<Agreement>(
+    `${BACKEND_FOR_FRONTEND_URL}/agreements/${agreementId}/unsuspend`,
     { delegationId }
   )
   return response.data
@@ -241,7 +249,8 @@ export const AgreementServices = {
   downloadDraftDocument,
   uploadDraftDocument,
   deleteDraftDocument,
-  activate,
+  approve,
+  unsuspend,
   reject,
   suspend,
   archive,
