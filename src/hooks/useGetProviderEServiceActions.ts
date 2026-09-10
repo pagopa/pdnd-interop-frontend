@@ -1217,15 +1217,16 @@ export function useGetProviderEServiceActions(
     ...archiveEserviceItems,
     ...viewAllVersionsItems,
   ]
-  const menuWithNewVersion = isEServiceBeingArchived
-    ? [...cloneItems, ...viewAllVersionsItems]
-    : [
-        ...upgradeItems,
-        newVersionAction,
-        ...cloneItems,
-        ...archiveEserviceItems,
-        ...viewAllVersionsItems,
-      ]
+  const menuWithNewVersion =
+    isEServiceBeingArchived || isArchivingRequestFromEservice
+      ? [...cloneItems, ...viewAllVersionsItems]
+      : [
+          ...upgradeItems,
+          newVersionAction,
+          ...cloneItems,
+          ...archiveEserviceItems,
+          ...viewAllVersionsItems,
+        ]
   const menuEserviceArchiving = [...cloneItems, ...viewAllVersionsItems]
   const menuArchivedEserviceActive = [
     ...upgradeItems,
@@ -1251,7 +1252,7 @@ export function useGetProviderEServiceActions(
     }))
     .with({ state: 'PUBLISHED' }, () => ({
       primary: undefined,
-      header: [suspendAction, newVersionAction],
+      header: isArchivingRequestFromEservice ? [suspendAction] : [suspendAction, newVersionAction],
       menu: menuClassic,
     }))
     .with({ state: 'DEPRECATED' }, () => ({
@@ -1335,9 +1336,10 @@ export function useGetProviderEServiceActions(
     variant: 'contained',
   }
 
-  const primaryAction = isArchivingRequestFromEservice
-    ? delegateCancelEserviceArchivingAction
-    : slots.primary
+  const primaryAction =
+    isArchivingRequestFromEservice && isDelegate
+      ? delegateCancelEserviceArchivingAction
+      : slots.primary
 
   return {
     primaryAction,
