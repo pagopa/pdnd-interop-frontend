@@ -483,11 +483,13 @@ export function useGetProviderEServiceActions(
     .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: false }, () => [
       cloneAction,
       createNewDraftAction,
+      suspendAction,
     ])
     .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: true }, () => [
       cloneAction,
       editDraftAction,
       deleteAction,
+      suspendAction,
     ])
     .with(
       { isAdmin: false, isDelegator: true, isDelegate: false, hasVersionDraft: false },
@@ -515,6 +517,7 @@ export function useGetProviderEServiceActions(
     )
     .with({ isAdmin: false, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
       createNewDraftAction,
+      suspendAction,
     ])
     .with(
       {
@@ -524,7 +527,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => [editDraftAction, deleteAction]
+      () => [editDraftAction, deleteAction, suspendAction]
     )
     .with(
       {
@@ -534,7 +537,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => []
+      () => [suspendAction]
     )
     .otherwise(() => [])
 
@@ -607,10 +610,12 @@ export function useGetProviderEServiceActions(
       () => [reactivateAction]
     )
     .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: false }, () => [
+      reactivateAction,
       cloneAction,
       createNewDraftAction,
     ])
     .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: true }, () => [
+      reactivateAction,
       cloneAction,
       editDraftAction,
       deleteAction,
@@ -640,6 +645,7 @@ export function useGetProviderEServiceActions(
       () => [editDraftAction]
     )
     .with({ isAdmin: false, isDelegator: false, isDelegate: true, hasVersionDraft: false }, () => [
+      reactivateAction,
       createNewDraftAction,
     ])
     .with(
@@ -650,7 +656,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => [editDraftAction, deleteAction]
+      () => [reactivateAction, editDraftAction, deleteAction]
     )
     .with(
       {
@@ -660,7 +666,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => []
+      () => [reactivateAction]
     )
     .otherwise(() => [])
 
@@ -793,7 +799,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [createNewDraftAction, upgradeEServiceAction]
+      () => [createNewDraftAction, upgradeEServiceAction, suspendAction]
     )
     .with(
       {
@@ -803,10 +809,11 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: false,
       },
-      () => []
+      () => [suspendAction]
     )
     .with({ isAdmin: false, isDelegator: false, isDelegate: false, hasVersionDraft: true }, () => [
       deleteAction,
+      suspendAction,
     ])
     .with(
       { isAdmin: false, isDelegator: true, isDelegate: false, hasVersionDraft: false },
@@ -840,7 +847,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [upgradeEServiceAction]
+      () => [upgradeEServiceAction, suspendAction]
     )
     .with(
       {
@@ -850,7 +857,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: false,
       },
-      () => []
+      () => [suspendAction]
     )
     .with(
       {
@@ -860,7 +867,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => [editDraftAction, deleteAction]
+      () => [editDraftAction, deleteAction, suspendAction]
     )
     .with(
       {
@@ -870,7 +877,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => []
+      () => [suspendAction]
     )
     .otherwise(() => [])
 
@@ -1004,7 +1011,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [upgradeEServiceAction]
+      () => [reactivateAction, upgradeEServiceAction]
     )
     .with(
       {
@@ -1014,7 +1021,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: false,
       },
-      () => []
+      () => [reactivateAction]
     )
     .with(
       {
@@ -1024,7 +1031,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isNewTemplateVersionAvailable: true,
       },
-      () => [upgradeEServiceAction, editDraftAction, deleteAction]
+      () => [reactivateAction, upgradeEServiceAction, editDraftAction, deleteAction]
     )
     .with(
       {
@@ -1034,7 +1041,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isNewTemplateVersionAvailable: false,
       },
-      () => [editDraftAction, deleteAction]
+      () => [reactivateAction, editDraftAction, deleteAction]
     )
     .with(
       { isAdmin: false, isDelegator: true, isDelegate: false, hasVersionDraft: false },
@@ -1068,7 +1075,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: true,
       },
-      () => [upgradeEServiceAction]
+      () => [reactivateAction, upgradeEServiceAction]
     )
     .with(
       {
@@ -1078,7 +1085,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: false,
         isNewTemplateVersionAvailable: false,
       },
-      () => []
+      () => [reactivateAction]
     )
     .with(
       {
@@ -1088,7 +1095,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: false,
       },
-      () => [editDraftAction, deleteAction]
+      () => [reactivateAction, editDraftAction, deleteAction]
     )
     .with(
       {
@@ -1098,7 +1105,7 @@ export function useGetProviderEServiceActions(
         hasVersionDraft: true,
         isDraftWaitingForApproval: true,
       },
-      () => []
+      () => [reactivateAction]
     )
     .otherwise(() => [])
 

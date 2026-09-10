@@ -104,7 +104,8 @@
       "cancelLabel": "Annulla",
       "upgrade": {
         "label": "Aggiorna",
-        "notAllCheckboxCheckedTooltip": "Per poter aggiornare, spunta tutte le caselle di controllo sopra"
+        "notAllCheckboxCheckedTooltip": "Per poter aggiornare, spunta tutte le caselle di controllo sopra",
+        "supportDisableInfo": "L'utenza di assistenza non è abilitata ad aggiornare l'accordo"
       }
     }
   },
@@ -422,7 +423,7 @@
   },
   "environmentBanner": {
     "content": {
-      "uat": "Ambiente di collaudo. Non utilizzare dati reali.",
+      "uat": "Ambiente di collaudo. Configura come se fossi in Produzione, ma usa solo dati fittizi.",
       "att": "Ambiente di attestazione per enti privati: attenzione i dati non devono essere reali"
     }
   },
@@ -487,7 +488,8 @@
   },
   "drawer": {
     "closeIconAriaLabel": "Chiudi il drawer",
-    "updateLabel": "Aggiorna"
+    "updateLabel": "Aggiorna",
+    "supportDisableInfo": "L'utenza di assistenza non è abilitata a eseguire questa azione"
   },
   "configureCertifiedDiscreteAttributeDrawer": {
     "title": "Configura attributo",
@@ -501,14 +503,14 @@
   "byDelegationChip": {
     "label": {
       "default": "In delega",
-      "delegator": "Delegato",
+      "delegator": "Affidato in delega",
       "delegate": "Ricevuto in delega"
     }
   },
   "delegationTooltip": {
     "label": {
       "default": "In delega",
-      "delegator": "Delegato a {{delegate}}",
+      "delegator": "Affidato in delega a {{delegate}}",
       "delegate": "Ricevuto in delega da {{delegator}}"
     }
   },

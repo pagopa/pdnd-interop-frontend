@@ -1,5 +1,6 @@
 import type { CompactAttribute } from '@/api/api.generatedTypes'
 import { AttributeQueries } from '@/api/attribute'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { Link } from '@/router'
 import { Skeleton } from '@mui/material'
@@ -18,7 +19,10 @@ export const AttributesTableRow: React.FC<AttributesTableRowProps> = ({ attribut
   const queryClient = useQueryClient()
 
   const handlePrefetch = () => {
-    queryClient.prefetchQuery(AttributeQueries.getSingle(attribute.id))
+    queryClient.prefetchQuery({
+      ...AttributeQueries.getSingle(attribute.id),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   return (

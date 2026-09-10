@@ -9,6 +9,7 @@ import {
 } from '@mui/material'
 import { Trans, useTranslation } from 'react-i18next'
 import { useDialog } from '@/stores'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import type { DialogRequestPurposeApprovalProps } from '@/types/dialog.types'
 
 export const DialogRequestPurposeApproval: React.FC<DialogRequestPurposeApprovalProps> = ({
@@ -19,6 +20,7 @@ export const DialogRequestPurposeApproval: React.FC<DialogRequestPurposeApproval
   const ariaDescriptionId = React.useId()
 
   const { closeDialog } = useDialog()
+  const isConfirmDisabled = useIsActionDisabledBySupport()
   const { t } = useTranslation('purpose', {
     keyPrefix: 'edit.stepRiskAnalysis.requestApprovalDialog',
   })
@@ -57,7 +59,7 @@ export const DialogRequestPurposeApproval: React.FC<DialogRequestPurposeApproval
         <Button variant="outlined" onClick={closeDialog}>
           {tCommon('cancel')}
         </Button>
-        <Button variant="contained" onClick={handleConfirm}>
+        <Button variant="contained" disabled={isConfirmDisabled} onClick={handleConfirm}>
           {t('proceedLabel')}
         </Button>
       </DialogActions>

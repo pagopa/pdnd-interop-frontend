@@ -104,7 +104,8 @@
       "cancelLabel": "Cancel",
       "upgrade": {
         "label": "Update",
-        "notAllCheckboxCheckedTooltip": "To be able to update, check all the boxes above"
+        "notAllCheckboxCheckedTooltip": "To be able to update, check all the boxes above",
+        "supportDisableInfo": "The support account is not enabled to update the agreement"
       }
     }
   },
@@ -422,7 +423,7 @@
   },
   "environmentBanner": {
     "content": {
-      "uat": "Testing environment. Do not use real data.",
+      "uat": "Testing environment. Configure as if in Production, but use only test data.",
       "att": "Validation environment for private entities: be careful, the data must not be real"
     }
   },
@@ -488,7 +489,8 @@
   },
   "drawer": {
     "closeIconAriaLabel": "Close drawer",
-    "updateLabel": "Update"
+    "updateLabel": "Update",
+    "supportDisableInfo": "The support account is not enabled to perform this action"
   },
   "configureCertifiedDiscreteAttributeDrawer": {
     "title": "Configure attribute",

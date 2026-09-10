@@ -2,6 +2,7 @@ import { KeychainMutations } from '@/api/keychain/keychain.mutations'
 import { keychainGuideLink } from '@/config/constants'
 import { useNavigate } from '@/router'
 import { useDialog } from '@/stores'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import type { DialogDeleteProducerKeychainKeyProps } from '@/types/dialog.types'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Link } from '@mui/material'
 import React from 'react'
@@ -14,6 +15,7 @@ export const DialogDeleteProducerKeychainKey: React.FC<DialogDeleteProducerKeych
   const ariaLabelId = React.useId()
   const ariaDescriptionId = React.useId()
   const { closeDialog } = useDialog()
+  const isConfirmDisabled = useIsActionDisabledBySupport()
   const navigate = useNavigate()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('shared-components', {
@@ -65,7 +67,7 @@ export const DialogDeleteProducerKeychainKey: React.FC<DialogDeleteProducerKeych
         <Button variant="outlined" onClick={handleCancel}>
           {tCommon('cancel')}
         </Button>
-        <Button variant="contained" onClick={handleProceed}>
+        <Button variant="contained" disabled={isConfirmDisabled} onClick={handleProceed}>
           {tCommon('confirm')}
         </Button>
       </DialogActions>
