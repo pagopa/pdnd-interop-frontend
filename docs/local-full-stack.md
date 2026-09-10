@@ -25,7 +25,10 @@ Dependencies and the pnpm store use Docker volumes, so host and container
 native modules remain separate and subsequent container rebuilds can reuse the
 downloaded packages.
 
-Setup makes
+The image includes Debian's Chromium for Puppeteer on both amd64 and arm64,
+including Apple Silicon hosts. Puppeteer's browser download is disabled only
+inside the devcontainer, and `PUPPETEER_EXECUTABLE_PATH` selects `/usr/bin/chromium`.
+Playwright installs its own matching browser in the dedicated volume. Setup makes
 the whole `/home/node/.cache` directory writable by the container user so native
 dependency builds can also create their caches.
 
