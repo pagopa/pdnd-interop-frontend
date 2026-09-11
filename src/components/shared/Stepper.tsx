@@ -11,7 +11,6 @@ type StepperProps = {
 export function Stepper({ steps, activeIndex }: StepperProps) {
   return (
     <Box sx={{ py: 3 }}>
-      step
       <MIStepper activeStep={activeIndex} steps={steps.map(({ label }) => ({ label }))} />
     </Box>
   )
