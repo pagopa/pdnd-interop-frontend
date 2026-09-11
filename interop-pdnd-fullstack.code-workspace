@@ -10,6 +10,8 @@
     }
   ],
   "settings": {
+    "remote.restoreForwardedPorts": false,
+    "remote.forwardOnOpen": false,
     "prettier.enable": false,
     "editor.formatOnSave": false,
     "prettier.requireConfig": false,

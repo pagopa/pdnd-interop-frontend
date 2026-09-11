@@ -29,6 +29,10 @@
   "postStartCommand": ".devcontainer/scripts/post-start.sh",
   "forwardPorts": [5173],
   "portsAttributes": {
+    "3000": {
+      "label": "Catalog backend (internal only)",
+      "onAutoForward": "ignore"
+    },
     "5173": {
       "label": "PDND Interop frontend",
       "onAutoForward": "openBrowser",
@@ -40,6 +44,10 @@
   },
   "customizations": {
     "vscode": {
+      "settings": {
+        "remote.restoreForwardedPorts": false,
+        "remote.forwardOnOpen": false
+      },
       "extensions": [
         "dbaeumer.vscode-eslint",
         "editorconfig.editorconfig",

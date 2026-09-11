@@ -235,3 +235,12 @@ appear; the individual browser tests keep their 60-second timeout.
   VS Code forwarded the catalog process on port `3000`, it could shadow the
   Docker mapping from host port `3000` to Vite and return a backend error when
   opening the UI.
+- Restoring saved VS Code port forwards and forwarding ports when opening
+  terminal/debug-console links are disabled in both the devcontainer settings
+  and the full-stack workspace. Port `3000` is also explicitly excluded from
+  automatic forwarding. This preserves Docker's host `3000` to Vite `5173`
+  mapping and the configured Vite forwarding/browser opening behaviour.
+  Rebuild the devcontainer to apply updated container settings. If VS Code
+  already has an active forward of container port `3000`, use **Stop Forwarding
+  Port** for that entry in the **Ports** view once. Manual forwarding is still
+  possible, so do not forward the internal catalog port to host port `3000`.
