@@ -193,6 +193,10 @@ After `pnpm local:start`, verify the user-visible contract:
 This is the extended manual UI check. Startup also runs focused Playwright
 checks for the published frontend shell and seeded catalog; API, seed, proxy,
 and configuration behaviour are covered by automated smoke and unit tests.
+Before the dashboard checks, a Playwright setup hook waits for the dashboard
+heading to render, allowing React's lazy route to finish loading. This hook
+has a separate 120-second budget, with up to 90 seconds for the heading to
+appear; the individual browser tests keep their 60-second timeout.
 
 ## Troubleshooting
 

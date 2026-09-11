@@ -1,5 +1,21 @@
 import { expect, test } from '@playwright/test'
 
+test.beforeAll(async ({ browser, baseURL }) => {
+  // An HTTP response from Vite does not mean the lazy dashboard has rendered.
+  // Give the first load its own budget before running the browser checks.
+  test.setTimeout(120_000)
+
+  const page = await browser.newPage({ baseURL })
+  try {
+    await page.goto('/ui/local-dashboard/', { waitUntil: 'domcontentloaded' })
+    await expect(page.getByRole('heading', { name: 'Ambiente locale' })).toBeVisible({
+      timeout: 90_000,
+    })
+  } finally {
+    await page.close()
+  }
+})
+
 test('shows local services and searches their logs', async ({ page }) => {
   await page.goto('/ui/local-dashboard/')
 
