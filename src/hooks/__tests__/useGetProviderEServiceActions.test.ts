@@ -10,7 +10,6 @@ import type {
   DelegatedArchivingRequest,
   ProducerEService,
 } from '@/api/api.generatedTypes'
-import { DEFAULT_GRACE_PERIOD_DAYS } from '@/config/constants'
 
 mockUseJwt({ isAdmin: true })
 
@@ -1355,6 +1354,69 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
       'suspendVersion',
       'cancelArchivingVersion',
     ])
+  })
+
+  it('ARCHIVING with DESCRIPTOR scope (DELEGATOR): cancelArchivingVersion in header, no primary', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVING', version: '1' },
+      delegation: {
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+        delegate: {
+          id: 'delegate-id',
+          name: 'delegate-name',
+        },
+      },
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      archivingSchedule: { scope: 'DESCRIPTOR' },
+    })
+    expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.headerInfoActions.map((a) => a.label)).toEqual(['cancelArchivingVersion'])
+  })
+
+  it('ARCHIVING with ESERVICE scope (DELEGATOR): cancelArchivingEservice as primary', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVING', version: '1' },
+      delegation: {
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+        delegate: {
+          id: 'delegate-id',
+          name: 'delegate-name',
+        },
+      },
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      archivingSchedule: { scope: 'ESERVICE' },
+    })
+    expect(result.current.primaryAction?.label).toBe('cancelArchivingEservice')
+  })
+
+  it('ARCHIVING with DESCRIPTOR scope and ESERVICE archiving (DELEGATOR): cancelArchivingVersion in header, cancelArchivingEservice as primary', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVING', version: '1' },
+      delegation: {
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+        delegate: {
+          id: 'delegate-id',
+          name: 'delegate-name',
+        },
+      },
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      archivingSchedule: { scope: 'DESCRIPTOR' },
+      isEServiceBeingArchived: true,
+    })
+    expect(result.current.primaryAction?.label).toBe('cancelArchivingEservice')
+    expect(result.current.headerInfoActions.map((a) => a.label)).toEqual(['cancelArchivingVersion'])
   })
 
   it('delegate cancel archiving dialog uses delegate-approved variant when state is ARCHIVING, even without acceptedAt', async () => {
