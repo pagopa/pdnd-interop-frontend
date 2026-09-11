@@ -1,5 +1,6 @@
 import React from 'react'
-import { Stepper as MUIStepper, Step, StepLabel, Box } from '@mui/material'
+import { Box } from '@mui/material'
+import { MIStepper } from '@pagopa/mui-italia/components/MIStepper'
 import type { StepperStep } from '@/types/common.types'
 
 type StepperProps = {
@@ -10,13 +11,8 @@ type StepperProps = {
 export function Stepper({ steps, activeIndex }: StepperProps) {
   return (
     <Box sx={{ py: 3 }}>
-      <MUIStepper activeStep={activeIndex} alternativeLabel>
-        {steps.map(({ label }) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </MUIStepper>
+      step
+      <MIStepper activeStep={activeIndex} steps={steps.map(({ label }) => ({ label }))} />
     </Box>
   )
 }
