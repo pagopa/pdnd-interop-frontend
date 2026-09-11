@@ -15,13 +15,26 @@ export const ActionsButtons: React.FC<ActionsButtonsProps> = ({ actions }) => {
     <Stack direction="row" spacing={2} alignItems="center">
       {primaryActions.map(
         (
-          { action, label, color, icon: Icon, tooltip, onPointerEnter, onFocusVisible, ...props },
+          {
+            action,
+            label,
+            color,
+            icon: Icon,
+            tooltip,
+            onPointerEnter,
+            onFocusVisible,
+            disabled,
+            ...props
+          },
           i
         ) => {
+          const isAriaDisabled = Boolean(disabled)
+          const tooltipText = typeof tooltip === 'string' ? tooltip : undefined
+
           const Wrapper = tooltip
             ? ({ children }: { children: React.ReactElement }) => (
-                <Tooltip arrow title={tooltip}>
-                  <span tabIndex={props.disabled ? 0 : undefined}>{children}</span>
+                <Tooltip arrow title={tooltip} describeChild>
+                  <span>{children}</span>
                 </Tooltip>
               )
             : React.Fragment
@@ -30,11 +43,13 @@ export const ActionsButtons: React.FC<ActionsButtonsProps> = ({ actions }) => {
             <Wrapper key={i}>
               <Button
                 onClick={action}
-                variant="text"
                 color={color}
                 startIcon={Icon && <Icon />}
                 onPointerEnter={onPointerEnter}
                 onFocusVisible={onFocusVisible}
+                aria-disabled={isAriaDisabled}
+                aria-description={tooltipText}
+                className={isAriaDisabled ? 'Mui-disabled' : undefined}
                 {...props}
               >
                 {label}
