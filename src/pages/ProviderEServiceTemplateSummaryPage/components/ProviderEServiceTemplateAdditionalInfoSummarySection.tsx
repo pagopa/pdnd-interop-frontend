@@ -18,6 +18,7 @@ export const ProviderEServiceTemplateAdditionalInfoSummarySection: React.FC = ()
   })
   const { t: tSummary } = useTranslation('eserviceTemplate', { keyPrefix: 'summary' })
   const params = useParams<'PROVIDE_ESERVICE_TEMPLATE_SUMMARY'>()
+  const { t: tCommon } = useTranslation('common')
 
   const { data: eserviceTemplate } = useSuspenseQuery(
     EServiceTemplateQueries.getSingle(params.eServiceTemplateId, params.eServiceTemplateVersionId)
@@ -67,6 +68,9 @@ export const ProviderEServiceTemplateAdditionalInfoSummarySection: React.FC = ()
                   key={doc.id}
                   startIcon={<AttachFileIcon fontSize="small" />}
                   onClick={handleDownloadDocument.bind(null, doc)}
+                  aria-label={tCommon('ariaLabels.downloadDocument', {
+                    name: doc.prettyName,
+                  })}
                 >
                   {doc.prettyName}
                 </IconLink>

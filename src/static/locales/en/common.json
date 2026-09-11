@@ -203,6 +203,6 @@
     "NE": "Not equal to"
   },
   "ariaLabels": {
-    "downloadDocument": "Download document {{name}}"
+    "downloadDocument": "{{name}}, download attached document"
   }
 }
