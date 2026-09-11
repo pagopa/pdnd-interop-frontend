@@ -71,7 +71,6 @@ export default defineConfig(({ mode }) => {
           '**/api/attribute/**',
           '**/api/auth/**',
           '**/api/client/**',
-          '**/api/eservice/**',
           '**/api/party/**',
           '**/api/purpose/**',
           '**/api/voucher/**',

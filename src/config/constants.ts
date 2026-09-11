@@ -51,6 +51,7 @@ export const GRACE_PERIOD_DAYS_OPTIONS = [
   30, 60, 90, 120,
 ] as const satisfies readonly GracePeriodDays[]
 export const DEFAULT_GRACE_PERIOD_DAYS: GracePeriodDays = 60
+export const GRACE_PERIOD_DAYS_LOWER_THAN_DESCRIPTOR_ERROR_CODE = '001-0070'
 export const userRolesGuideLink = `${DOCUMENTATION_URL}/per-iniziare/primo-accesso-e-configurazione-iniziale`
 export const notificationGuideLink = `https://developer.pagopa.it/pdnd-interoperabilita/guides/manuale-operativo-pdnd-interoperabilita/v1.0/riferimenti-tecnici/notifiche`
 export const notificationMailChangeLink =
