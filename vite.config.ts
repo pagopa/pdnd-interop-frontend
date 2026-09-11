@@ -4,11 +4,24 @@ import type { PluginOption } from 'vite'
 import react from '@vitejs/plugin-react'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { parse } from 'node-html-parser'
+import { configDefaults } from 'vitest/config'
+import { resolveBackendProxy } from './scripts/local-development/vite-config.mjs'
+import { localDashboardPlugin } from './scripts/local-development/vite-dashboard-plugin.mjs'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
+  const isLocalDevelopment = process.env.INTEROP_LOCAL_DEVELOPMENT === 'true'
+  const localDevelopmentPlugins = isLocalDevelopment
+    ? [
+        localDashboardPlugin({
+          frontendRoot: __dirname,
+          backendRoot: path.resolve(__dirname, '../interop-be-monorepo'),
+          selfcareLoginUrl: process.env.SELFCARE_LOGIN_URL,
+        }),
+      ]
+    : []
   const prodPlugins = [react(), setNonceAttToScripts()]
-  const devPlugins = [react(), visualizer(), configurePreviewServer()]
+  const devPlugins = [react(), visualizer(), configurePreviewServer(), ...localDevelopmentPlugins]
   const testPlugins = [react()]
 
   const plugins =
@@ -43,10 +56,17 @@ export default defineConfig(({ mode }) => {
     },
     envPrefix: 'REACT_APP_',
     server: {
-      port: 3000,
+      port: Number(process.env.INTEROP_FRONTEND_PORT ?? 3000),
+      allowedHosts:
+        process.env.INTEROP_FRONTEND_PORT === '5173' ? ['host.docker.internal'] : undefined,
+      hmr: process.env.INTEROP_FRONTEND_PORT === '5173' ? { clientPort: 3000 } : undefined,
+      watch:
+        process.env.INTEROP_FRONTEND_POLLING === 'true'
+          ? { usePolling: true, interval: 500 }
+          : undefined,
       proxy: {
         '/0.0/backend-for-frontend': {
-          target: 'https://selfcare.dev.interop.pagopa.it',
+          ...resolveBackendProxy(process.env.INTEROP_BACKEND_TARGET),
           changeOrigin: true,
           secure: false,
         },
@@ -56,6 +76,7 @@ export default defineConfig(({ mode }) => {
       globals: true,
       environment: 'jsdom',
       setupFiles: './setupTests.ts',
+      exclude: [...configDefaults.exclude, 'e2e/**'],
       server: {
         deps: {
           inline: ['@pagopa/mui-italia'],

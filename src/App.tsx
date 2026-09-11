@@ -16,6 +16,7 @@ import type { MIAlertProps } from '@pagopa/mui-italia'
 import { AuthQueries } from './api/auth'
 import i18n from './config/react-i18next'
 import { DEFAULT_LANG, LANGUAGES } from './config/constants'
+import { isLocalIdentitySelectionEnabled } from './config/local-development'
 
 // --- Init application ----
 
@@ -41,7 +42,9 @@ if (redirectUrl) {
   const url = `/ui/${lang}/#${fragmentParams.toString()}`
 
   window.location.replace(url)
-} else {
+} else if (!isLocalIdentitySelectionEnabled) {
+  // The local session guard waits for the seed. Dashboard and identity selection
+  // must remain accessible without restoring a session in the background.
   queryClient.prefetchQuery(AuthQueries.getSessionToken())
 }
 // end init ---

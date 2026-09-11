@@ -5,3 +5,8 @@ Sede della repo frontend del back office di prodotto. Disciplinata nell'articolo
 Il canale primario di assistenza per PDND Interoperabilità è disponibile all'interno del back office del prodotto, nel link in alto a destra ("Assistenza"). È tuttavia possibile aprire una issue pubblica su Github per tutte quelle informazioni, chiarimenti o proposte di feature che possono essere di pubblico interesse.
 
 **NB: è fatto divieto di inserire all'interno delle issue Github pubbliche le proprie client assertion o qualsiasi altro materiale di natura potenzialmente riservata o sensibile. Le issue che contengono informazioni potenzialmente sensibili potranno essere rimosse senza preavviso dagli amministratori.**
+
+## Sviluppo locale full stack
+
+Per avviare frontend, backend e infrastruttura locale con VS Code, consulta la
+[guida al devcontainer](docs/local-full-stack.md).

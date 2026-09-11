@@ -6,6 +6,8 @@ import { MOCK_TOKEN, STORAGE_KEY_SESSION_TOKEN } from '@/config/constants'
 import { TokenExchangeError } from '@/utils/errors.utils'
 import { parseJwt } from './auth.utils'
 import { hasSessionExpired } from '@/utils/common.utils'
+import { isLocalIdentitySelectionEnabled } from '@/config/local-development'
+import { LocalIdentityServices } from './local-identity.services'
 
 async function swapTokens(identity_token: string) {
   const response = await axiosInstance.post<{ session_token: string }>(
@@ -15,7 +17,43 @@ async function swapTokens(identity_token: string) {
   return response.data
 }
 
-async function getSessionToken(): Promise<string | null> {
+async function getSessionToken(signal?: AbortSignal): Promise<string | null> {
+  if (isLocalIdentitySelectionEnabled) {
+    const token = window.localStorage.getItem(STORAGE_KEY_SESSION_TOKEN) || MOCK_TOKEN
+    if (!token) return null
+
+    // A reset changes Interop tenant IDs, but preserves Selfcare and local user IDs.
+    // Wait for the complete seed before deciding that a saved identity was removed.
+    const { tenants } = await LocalIdentityServices.getIdentities(signal)
+    signal?.throwIfAborted()
+    let jwt: ReturnType<typeof parseJwt>['jwt']
+    try {
+      jwt = parseJwt(token).jwt
+    } catch {
+      window.localStorage.removeItem(STORAGE_KEY_SESSION_TOKEN)
+      return null
+    }
+    const tenant = tenants.find((candidate) => candidate.selfcareId === jwt?.selfcareId)
+    const user = tenant?.users.find((candidate) => candidate.id === jwt?.uid)
+    if (!jwt || !tenant || !user) {
+      window.localStorage.removeItem(STORAGE_KEY_SESSION_TOKEN)
+      return null
+    }
+
+    const roles = jwt.organization.roles.map(({ role }) => role)
+    const needsNewToken =
+      tenant.id !== jwt.organizationId ||
+      hasSessionExpired(jwt.exp) ||
+      roles.length !== user.roles.length ||
+      !roles.every((role) => user.roles.includes(role))
+    const sessionToken = needsNewToken
+      ? (await LocalIdentityServices.createIdentityToken(tenant.key, user.id, signal)).sessionToken
+      : token
+    signal?.throwIfAborted()
+    window.localStorage.setItem(STORAGE_KEY_SESSION_TOKEN, sessionToken)
+    return sessionToken
+  }
+
   const resolveToken = (sessionToken: string) => {
     // Check if session has expired. In that case, we need to remove token from localStorage
     const parsedJwt = parseJwt(sessionToken)
