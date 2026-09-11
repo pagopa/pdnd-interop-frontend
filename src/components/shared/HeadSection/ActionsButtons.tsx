@@ -42,7 +42,7 @@ export const ActionsButtons: React.FC<ActionsButtonsProps> = ({ actions }) => {
           return (
             <Wrapper key={i}>
               <Button
-                onClick={action}
+                onClick={disabled ? undefined : action}
                 color={color}
                 startIcon={Icon && <Icon />}
                 onPointerEnter={onPointerEnter}
