@@ -18,6 +18,7 @@ import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { useTranslation } from 'react-i18next'
 import { useQueryClient } from '@tanstack/react-query'
 import { EServiceQueries } from '@/api/eservice'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { Link } from '@/router'
 import type { CatalogEService } from '@/api/api.generatedTypes'
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline'
@@ -42,9 +43,10 @@ export const EServiceContainer = ({ eservice, showWarning, onRemove }: EServiceC
   const handlePrefetchEService = () => {
     if (alreadyPrefetched.current) return
     alreadyPrefetched.current = true
-    queryClient.prefetchQuery(
-      EServiceQueries.getDescriptorCatalog(eservice.id, eservice.activeDescriptor?.id as string)
-    )
+    queryClient.prefetchQuery({
+      ...EServiceQueries.getDescriptorCatalog(eservice.id, eservice.activeDescriptor?.id as string),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   return (

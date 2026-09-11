@@ -53,6 +53,7 @@ export function useGetDelegationActions(delegation: Delegation | CompactDelegati
       type: 'revokeDelegation',
       delegationId: delegation.id,
       eserviceName: delegation.eservice?.name ?? '-',
+      delegateName: delegation.delegate.name ?? '-',
       delegationKind: delegation.kind,
     })
   }

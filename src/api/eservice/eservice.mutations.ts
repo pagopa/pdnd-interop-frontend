@@ -217,12 +217,103 @@ function useScheduleArchiveDescriptor() {
   })
 }
 
+function useRequestArchiveDescriptor() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.requestArchiveDescriptor',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.submitDelegatedArchivingVersionRequest,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
 function useCancelDescriptorArchiving() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.cancelDescriptorArchiving',
   })
   return useMutation({
     mutationFn: EServiceServices.cancelDescriptorArchiving,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useCancelDelegatedArchivingVersionRequest() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.cancelDelegatedArchivingVersionRequest',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.cancelDelegatedArchivingVersionRequest,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useCancelDelegatedEserviceArchivingRequest() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.cancelDelegatedEserviceArchivingRequest',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.cancelDelegatedArchivingEserviceRequest,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useApproveDelegatedArchivingEServiceRequest({ days }: { days: number }) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.approveDelegatedArchivingEService',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.approveDelegatedEServiceArchivingRequest,
+    meta: {
+      successToastLabel: t('outcome.success', { days }),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useRejectDelegatedArchivingEServiceRequest() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.rejectDelegatedArchivingEService',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.rejectDelegatedEServiceArchivingRequest,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useApproveDelegatedArchivingVersionRequest({ days }: { days: number }) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.approveDelegatedArchivingVersion',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.approveDelegatedVersionArchivingRequest,
+    meta: {
+      successToastLabel: t('outcome.success', { days }),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useRejectDelegatedArchivingVersionRequest() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.rejectDelegatedArchivingVersion',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.rejectDelegatedVersionArchivingRequest,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -241,6 +332,19 @@ function useScheduleArchiveEservice() {
         t('outcome.success', {
           days: (variables as { gracePeriodDays: number }).gracePeriodDays,
         }),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useRequestArchiveEservice() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.requestArchiveEservice',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.submitDelegatedArchivingEserviceRequest,
+    meta: {
+      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
     },
   })
@@ -634,8 +738,12 @@ export const EServiceMutations = {
   useSuspendVersion,
   useReactivateVersion,
   useScheduleArchiveDescriptor,
+  useRequestArchiveDescriptor,
   useCancelDescriptorArchiving,
+  useCancelDelegatedArchivingVersionRequest,
+  useCancelDelegatedEserviceArchivingRequest,
   useScheduleArchiveEservice,
+  useRequestArchiveEservice,
   useCancelEserviceArchiving,
   useUpdateVersion,
   useDeleteVersionDraft,
@@ -661,4 +769,8 @@ export const EServiceMutations = {
   useUpdateEServiceSignalHub,
   useUpdateEServicePersonalDataFlagAfterPublication,
   useUpdateEServiceDelegationFlagsAfterPublication,
+  useApproveDelegatedArchivingEServiceRequest,
+  useRejectDelegatedArchivingEServiceRequest,
+  useApproveDelegatedArchivingVersionRequest,
+  useRejectDelegatedArchivingVersionRequest,
 }
