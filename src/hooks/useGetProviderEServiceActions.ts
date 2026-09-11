@@ -1273,7 +1273,8 @@ export function useGetProviderEServiceActions(
     .with({ state: 'ARCHIVING', isDelegator: true }, () => ({
       primary: undefined,
       header: [cancelArchivingDescriptorAction],
-      menu: menuWithNewVersion,
+      menu:
+        where === 'detailsPage' ? [...availableAction, ...viewAllVersionsItems] : availableAction,
     }))
     .with({ isDelegator: true }, () => ({
       primary: undefined,
