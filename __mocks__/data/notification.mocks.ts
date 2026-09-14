@@ -25,8 +25,8 @@ const createUserNotificationConfigs = createMockFactory<UserNotificationConfig>(
     clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: false,
     purposeQuotaAdjustmentRequestToProducer: false,
     purposeOverQuotaStateToConsumer: false,
-    riskAnalysisStateUpdated: false,
-    purposePublication: false,
+    purposeRiskAnalysisAssignmentStatusToReviewer: false,
+    purposePublishedWithRiskAnalysisToReviewer: false,
   },
   inAppNotificationPreference: false,
   emailNotificationPreference: false,
@@ -54,8 +54,8 @@ const createUserNotificationConfigs = createMockFactory<UserNotificationConfig>(
     clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: false,
     purposeQuotaAdjustmentRequestToProducer: false,
     purposeOverQuotaStateToConsumer: false,
-    riskAnalysisStateUpdated: false,
-    purposePublication: false,
+    purposeRiskAnalysisAssignmentStatusToReviewer: false,
+    purposePublishedWithRiskAnalysisToReviewer: false,
   },
 })
 

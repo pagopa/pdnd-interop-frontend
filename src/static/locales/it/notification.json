@@ -275,11 +275,11 @@
           "riskAnalysisAssignment": {
             "title": "Assegnazione di compilazione o approvazione",
             "components": {
-              "riskAnalysisStateUpdated": {
+              "purposeRiskAnalysisAssignmentStatusToReviewer": {
                 "label": "Stato delle assegnazioni ricevute",
                 "description": "Avvisami quando ricevo la compilazione o l’approvazione di un’analisi del rischio o quando mi viene revocata"
               },
-              "purposePublication": {
+              "purposePublishedWithRiskAnalysisToReviewer": {
                 "label": "Pubblicazione delle finalità",
                 "description": "Avvisami quando l’amministratore pubblica una finalità di cui mi è stata assegnata l’analisi del rischio"
               }

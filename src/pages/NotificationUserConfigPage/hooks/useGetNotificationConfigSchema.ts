@@ -282,20 +282,22 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
           title: t('riskAnalysis.riskAnalysisAssignment.title'),
           components: [
             {
-              key: 'riskAnalysisStateUpdated',
+              key: 'purposeRiskAnalysisAssignmentStatusToReviewer',
               title: t(
-                'riskAnalysis.riskAnalysisAssignment.components.riskAnalysisStateUpdated.label'
+                'riskAnalysis.riskAnalysisAssignment.components.purposeRiskAnalysisAssignmentStatusToReviewer.label'
               ),
               description: t(
-                'riskAnalysis.riskAnalysisAssignment.components.riskAnalysisStateUpdated.description'
+                'riskAnalysis.riskAnalysisAssignment.components.purposeRiskAnalysisAssignmentStatusToReviewer.description'
               ),
               visibility: ['reviewer'],
             },
             {
-              key: 'purposePublication',
-              title: t('riskAnalysis.riskAnalysisAssignment.components.purposePublication.label'),
+              key: 'purposePublishedWithRiskAnalysisToReviewer',
+              title: t(
+                'riskAnalysis.riskAnalysisAssignment.components.purposePublishedWithRiskAnalysisToReviewer.label'
+              ),
               description: t(
-                'riskAnalysis.riskAnalysisAssignment.components.purposePublication.description'
+                'riskAnalysis.riskAnalysisAssignment.components.purposePublishedWithRiskAnalysisToReviewer.description'
               ),
               visibility: ['reviewer'],
             },
