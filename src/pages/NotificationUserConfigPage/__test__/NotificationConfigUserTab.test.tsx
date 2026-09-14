@@ -123,6 +123,23 @@ describe('NotificationConfigUserTab', () => {
         within(enableAllSectionButton).queryByText('disableSectionAllNotifications')
       ).toBeInTheDocument()
     })
+
+    it('Should show only risk analysis section for reviewer role', () => {
+      cleanup()
+
+      mockUseJwt({ currentRoles: ['reviewer'] })
+
+      renderComponent('inApp', {
+        inAppNotificationPreference: true,
+      })
+
+      expect(screen.getByTestId('config-section-riskAnalysis')).toBeInTheDocument()
+
+      expect(screen.queryByTestId('config-section-subscriber')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('config-section-provider')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('config-section-delegations')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('config-section-keyAndAttributes')).not.toBeInTheDocument()
+    })
   })
 
   describe('mail', () => {
