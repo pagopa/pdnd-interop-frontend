@@ -1,13 +1,16 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { AxiosError } from 'axios'
 import type {
   EServiceRiskAnalysisSeed,
+  ProblemError,
   UpdateEServiceDescriptorSeed,
   UpdateEServiceDescriptorTemplateInstanceSeed,
 } from '../api.generatedTypes'
 import { EServiceServices } from './eservice.services'
 import { EServiceQueries } from './eservice.queries'
 import type { AttributeKey } from '@/types/attribute.types'
+import { GRACE_PERIOD_DAYS_LOWER_THAN_DESCRIPTOR_ERROR_CODE } from '@/config/constants'
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createDraft' })
@@ -332,7 +335,18 @@ function useScheduleArchiveEservice() {
         t('outcome.success', {
           days: (variables as { gracePeriodDays: number }).gracePeriodDays,
         }),
-      errorToastLabel: t('outcome.error'),
+      errorToastLabel: (error: unknown) => {
+        if (
+          error instanceof AxiosError &&
+          error.response?.data?.errors?.some(
+            (problemError: ProblemError) =>
+              problemError.code === GRACE_PERIOD_DAYS_LOWER_THAN_DESCRIPTOR_ERROR_CODE
+          )
+        ) {
+          return t('outcome.gracePeriodError')
+        }
+        return t('outcome.error')
+      },
     },
   })
 }
