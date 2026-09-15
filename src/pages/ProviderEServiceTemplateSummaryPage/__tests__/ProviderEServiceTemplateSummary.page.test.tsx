@@ -279,6 +279,23 @@ describe('ProviderEServiceTemplateSummaryPage', () => {
     })
   })
 
+  it('shows the missing fields tooltip when interface is missing', async () => {
+    mockUseJwt({ isAdmin: true, isViewer: false })
+    useQueryMock.mockReturnValue({
+      data: createMockEServiceTemplateVersionDetailsNoInterface(),
+      isLoading: false,
+    })
+
+    renderWithApplicationContext(<ProviderEServiceTemplateSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    const publishButton = screen.getByRole('button', { name: 'publish' })
+    expect(publishButton).toBeDisabled()
+    expect(screen.getByLabelText('missingFieldsTooltip')).toBeInTheDocument()
+  })
+
   expect(screen.queryByRole('button', { name: 'publish' })).not.toBeInTheDocument()
   expect(screen.queryByRole('button', { name: 'deleteDraft' })).not.toBeInTheDocument()
   expect(screen.queryByRole('button', { name: 'editDraft' })).not.toBeInTheDocument()
