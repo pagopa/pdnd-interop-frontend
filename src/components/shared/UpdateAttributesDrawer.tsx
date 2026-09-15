@@ -20,6 +20,7 @@ import {
 } from '@/utils/attribute.utils'
 import { useParams } from '@/router'
 import { EServiceTemplateMutations } from '@/api/eserviceTemplate'
+import isEqual from 'lodash/isEqual'
 
 type UpdateAttributesDrawerProps = {
   isOpen: boolean
@@ -103,6 +104,11 @@ export const UpdateAttributesDrawer: React.FC<UpdateAttributesDrawerProps> = ({
   }
 
   const handleSubmit = () => {
+    if (isEqual(selectedAttributes, formModelAttributes)) {
+      onClose()
+      return
+    }
+
     if (kind === 'ESERVICE') {
       updateEserviceAttributes(
         {
