@@ -27,6 +27,7 @@ export function RHFNewAutocompleteSingle<T>(props: RHFAutocompleteSingleProps<T>
   const { watch } = useFormContext()
   const value = watch(props.name) as T
   const hasSetOptions = React.useRef(false)
+  const latestInputChangeReason = React.useRef<'input' | 'clear' | 'selectOption'>()
 
   const [internalState, setInternalState] = React.useState<RHFAutocompleteInput<T> | null>(null)
 
@@ -49,6 +50,29 @@ export function RHFNewAutocompleteSingle<T>(props: RHFAutocompleteSingleProps<T>
     }
   }, [value, props.options, internalState])
 
+  function filteringOptions<T>(
+    options: Array<T>,
+    state: { inputValue: string; getOptionLabel: (option: T) => string }
+  ): Array<T> {
+    const { inputValue, getOptionLabel } = state
+    const normalizedInputValue = inputValue.trim().toLowerCase()
+
+    if (normalizedInputValue === '') {
+      return options
+    }
+
+    const isInputEqualToSelectedOption =
+      latestInputChangeReason.current === 'selectOption' &&
+      internalState !== null &&
+      getOptionLabel(internalState as T).toLowerCase() === normalizedInputValue
+
+    return options.filter((option) =>
+      isInputEqualToSelectedOption
+        ? !isEqual(option, internalState)
+        : getOptionLabel(option).toLowerCase().includes(normalizedInputValue)
+    )
+  }
+
   return (
     <RHFNewAutocompleteBase
       multiple={false}
@@ -61,7 +85,12 @@ export function RHFNewAutocompleteSingle<T>(props: RHFAutocompleteSingleProps<T>
       }}
       rules={props.rules}
       onValueChange={props.onValueChange}
+      handleFiltering={filteringOptions}
       {...props}
+      onInputChange={(inputValue, reason) => {
+        latestInputChangeReason.current = reason
+        props.onInputChange?.(inputValue, reason)
+      }}
       value={internalState}
       setInternalState={setInternalState}
     />
