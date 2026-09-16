@@ -106,7 +106,6 @@ const RHFNewAutocompleteBase = <T, Multiple extends boolean | undefined>({
       />
     </InputWrapper>
   )
-  // return <Autocomplete options={[]} />
 }
 
 export default RHFNewAutocompleteBase
