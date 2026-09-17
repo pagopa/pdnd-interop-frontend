@@ -17,6 +17,7 @@ export const RiskAnalysisTableRow: React.FC<{
   purpose: Purpose
 }> = ({ purpose }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisList' })
+  const { t: tCommon } = useTranslation('common')
   const { activeTab } = useActiveTab(RiskAnalysisListPageTab.TODO)
   const { jwt } = AuthHooks.useJwt()
 
@@ -87,6 +88,7 @@ export const RiskAnalysisTableRow: React.FC<{
           as="button"
           variant="naked"
           size="small"
+          aria-label={`${tCommon('actions.inspect')}: ${purpose.title}`}
           to={redirectPath}
           params={{
             purposeId: purpose.id,

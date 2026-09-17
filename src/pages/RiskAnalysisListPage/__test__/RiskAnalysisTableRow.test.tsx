@@ -10,7 +10,7 @@ mockUseJwt({ isAdmin: false, isReviewer: true, jwt: { uid: 'reviewer-1' } })
 
 function renderRow(signingState: RiskAnalysisSigningState) {
   const purpose: Purpose = {
-    ...createMockPurpose({ id: 'purpose-id-001' }),
+    ...createMockPurpose({ id: 'purpose-id-001', title: 'Verifica residenza' }),
     reviewerWorkflow: {
       signingState,
       signedBy: 'reviewer-1',
@@ -41,7 +41,9 @@ describe('RiskAnalysisTableRow', () => {
     async (signingState) => {
       const { history } = renderRow(signingState)
 
-      await userEvent.setup().click(screen.getByRole('link'))
+      await userEvent
+        .setup()
+        .click(screen.getByRole('link', { name: 'actions.inspect: Verifica residenza' }))
 
       expect(history.location.pathname).toBe('/it/analisi-del-rischio/purpose-id-001/dettaglio')
     }
@@ -50,7 +52,9 @@ describe('RiskAnalysisTableRow', () => {
   it('should link an assigned risk analysis to the compilation info page', async () => {
     const { history } = renderRow('ASSIGNED')
 
-    await userEvent.setup().click(screen.getByRole('link'))
+    await userEvent
+      .setup()
+      .click(screen.getByRole('link', { name: 'actions.inspect: Verifica residenza' }))
 
     expect(history.location.pathname).toBe('/it/analisi-del-rischio/purpose-id-001')
   })
@@ -58,7 +62,9 @@ describe('RiskAnalysisTableRow', () => {
   it('should link a submitted risk analysis to the approval page', async () => {
     const { history } = renderRow('SUBMITTED')
 
-    await userEvent.setup().click(screen.getByRole('link'))
+    await userEvent
+      .setup()
+      .click(screen.getByRole('link', { name: 'actions.inspect: Verifica residenza' }))
 
     expect(history.location.pathname).toBe('/it/analisi-del-rischio/purpose-id-001/approvazione')
   })
