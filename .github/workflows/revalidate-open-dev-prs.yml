@@ -43,11 +43,13 @@ jobs:
           for pr_number in "${pr_numbers[@]}"; do
             [ -n "$pr_number" ] || continue
 
-            has_blocking_review=$(gh api "repos/${{ github.repository }}/pulls/$pr_number/reviews" \
+            if ! has_blocking_review=$(gh api "repos/${{ github.repository }}/pulls/$pr_number/reviews" \
               --method GET \
               --paginate \
-              --slurp \
-              --jq 'flatten | any(.user.login == "github-actions[bot]" and .state == "CHANGES_REQUESTED" and ((.body // "") | startswith("Release version validation failed.")))')
+              | jq -r 'flatten | any(.user.login == "github-actions[bot]" and .state == "CHANGES_REQUESTED" and ((.body // "") | startswith("Release version validation failed.")))') ; then
+              echo "Failed to fetch reviews for PR #$pr_number."
+              exit 1
+            fi
 
             if [ "$has_blocking_review" != "true" ]; then
               echo "Skipping PR #$pr_number: no blocking release validation review found."
