@@ -28,6 +28,8 @@ const inAppNotificationConfigMock: NotificationConfig = {
   certifiedVerifiedAttributeAssignedRevokedToAssignee: true, // 24
   purposeQuotaAdjustmentRequestToProducer: false,
   purposeOverQuotaStateToConsumer: false,
+  eserviceArchivingRequestedToDelegator: false,
+  eserviceArchivingApprovedRejectedToDelegate: false,
   clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: true, // 25
 }
 
