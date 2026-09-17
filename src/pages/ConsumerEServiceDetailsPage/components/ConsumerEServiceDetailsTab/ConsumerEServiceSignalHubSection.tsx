@@ -42,7 +42,7 @@ export const ConsumerEServiceSignalHubSection: React.FC = () => {
         }
       >
         <SectionContainer innerSection>
-          <Stack spacing={2}>
+          <Stack component="dl" spacing={2} sx={{ m: 0 }}>
             <InformationContainer
               label={t('consumer.status.label')}
               content={t(`consumer.status.content.${isSignalHubEnabled}`)}

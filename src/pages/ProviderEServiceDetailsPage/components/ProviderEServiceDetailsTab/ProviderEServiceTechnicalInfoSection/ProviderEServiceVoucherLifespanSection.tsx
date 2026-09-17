@@ -89,7 +89,7 @@ export const ProviderEServiceVoucherLifespanSection: React.FC<
             : []
         }
       >
-        <Stack spacing={2}>
+        <Stack component="dl" spacing={2} sx={{ m: 0 }}>
           <InformationContainer
             label={t('thresholds.voucherLifespan.label')}
             labelDescription={t('thresholds.voucherLifespan.labelDescription')}
