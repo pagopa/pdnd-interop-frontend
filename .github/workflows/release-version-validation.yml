@@ -1,11 +1,27 @@
 name: Release version validation
 
 on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to validate'
+        required: true
+        type: number
   pull_request:
-    types: [opened, reopened, synchronize, labeled, unlabeled, edited, ready_for_review, converted_to_draft]
+    types:
+      [
+        opened,
+        reopened,
+        synchronize,
+        labeled,
+        unlabeled,
+        edited,
+        ready_for_review,
+        converted_to_draft,
+      ]
 
 concurrency:
-  group: ${{ github.workflow }}-pr-${{ github.event.pull_request.number }}
+  group: ${{ github.workflow }}-pr-${{ github.event.inputs.pr_number || github.event.pull_request.number }}
   cancel-in-progress: true
 
 permissions:
@@ -17,7 +33,7 @@ env:
 jobs:
   validate-dev:
     name: Validate PR towards dev
-    if: github.event.action == 'converted_to_draft' || (github.event.pull_request.state == 'open' && github.event.pull_request.draft == false)
+    if: github.event_name == 'workflow_dispatch' || github.event.action == 'converted_to_draft' || (github.event.pull_request.state == 'open' && github.event.pull_request.draft == false)
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -28,19 +44,37 @@ jobs:
         env:
           PR_LABELS_JSON: ${{ toJson(github.event.pull_request.labels.*.name) }}
           GH_TOKEN: ${{ github.token }}
-          PR_ACTION: ${{ github.event.action }}
+          PR_ACTION: ${{ github.event.action || 'manual' }}
           CURRENT_BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+          PR_NUMBER: ${{ github.event.inputs.pr_number || github.event.pull_request.number }}
         run: |
           set -euo pipefail
+
+          if [ -z "$PR_NUMBER" ]; then
+            echo "Unable to resolve a PR number for this run."
+            exit 1
+          fi
+
+          if [ "${GITHUB_EVENT_NAME:-}" = "workflow_dispatch" ]; then
+            PR_DETAILS="$(gh api "repos/${{ github.repository }}/pulls/$PR_NUMBER" --method GET)"
+            CURRENT_BASE_BRANCH="$(echo "$PR_DETAILS" | jq -r '.base.ref')"
+            PR_LABELS_JSON="$(echo "$PR_DETAILS" | jq -c '.labels | map(.name)')"
+            PR_ACTION="manual"
+            current_head_sha="$(echo "$PR_DETAILS" | jq -r '.head.sha')"
+          else
+            current_head_sha="${{ github.event.pull_request.head.sha }}"
+          fi
 
           SEMVER_REGEX='^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$'
 
           echo "Checking PR labels for release tag..."
+          echo "PR number: $PR_NUMBER"
           echo "Allowed release: $ALLOWED_RELEASE_TOWARDS_DEV_BRANCH"
 
           get_latest_bot_review_info() {
             local reviews_json
-            if ! reviews_json="$(gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
+            if ! reviews_json="$(gh api "repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews" \
+              --method GET \
               --paginate \
               --slurp)"; then
               return 1
@@ -61,10 +95,8 @@ jobs:
               fi
             fi
 
-              echo "Posting REQUEST_CHANGES review with current validation reason."
-              current_head_sha="${{ github.event.pull_request.head.sha }}"
-
-            gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
+            echo "Posting REQUEST_CHANGES review with current validation reason."
+            gh api "repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews" \
               --method POST \
               -f event='REQUEST_CHANGES' \
               -f commit_id="$current_head_sha" \
@@ -73,7 +105,8 @@ jobs:
 
           dismiss_blocking_review_if_present() {
             local reviews_json
-            if ! reviews_json="$(gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews" \
+            if ! reviews_json="$(gh api "repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews" \
+              --method GET \
               --paginate \
               --slurp)"; then
               echo "::warning::Failed to fetch bot reviews; skipping dismissal."
@@ -86,7 +119,7 @@ jobs:
             fi
 
             for review_id in "${review_ids[@]}"; do
-              gh api "repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews/$review_id/dismissals" \
+              gh api "repos/${{ github.repository }}/pulls/$PR_NUMBER/reviews/$review_id/dismissals" \
                 --method PUT \
                 -f message='Release version validation updated. Dismissing previous blocking review.' >/dev/null \
                 || echo "::warning::Failed to dismiss previous blocking review (id: $review_id)."
