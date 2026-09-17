@@ -673,6 +673,13 @@
         "error": "Non è stato possibile assegnare l’analisi del rischio."
       }
     },
+    "updateRiskAnalysisAssignment": {
+      "loading": "Stiamo modificando l’assegnazione dell’analisi del rischio",
+      "outcome": {
+        "success": "Hai modificato l’assegnazione dell’analisi del rischio.",
+        "error": "Non è stato possibile modificare l’assegnazione dell’analisi del rischio."
+      }
+    },
     "submitRiskAnalysis": {
       "loading": "Stiamo assegnando l’analisi del rischio a un valutatore",
       "outcome": {

@@ -673,6 +673,13 @@
         "error": "It was not possible to assign the risk analysis."
       }
     },
+    "updateRiskAnalysisAssignment": {
+      "loading": "We are updating the risk analysis assignment",
+      "outcome": {
+        "success": "You have updated the risk analysis assignment.",
+        "error": "It was not possible to update the risk analysis assignment."
+      }
+    },
     "submitRiskAnalysis": {
       "loading": "We are assigning the risk analysis to a reviewer",
       "outcome": {

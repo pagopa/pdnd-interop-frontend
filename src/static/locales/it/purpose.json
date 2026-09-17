@@ -98,30 +98,47 @@
       "reviewModeField": {
         "label": "Scegli una modalità",
         "options": {
-          "selfWritesSelfSigns": "Compilazione e approvazione in autonomia",
-          "selfWritesReviewerSigns": "Compilazione in autonomia e approvazione del valutatore",
-          "reviewerWritesReviewerSigns": "Compilazione e approvazione del valutatore"
+          "ADMIN_WRITES_ADMIN_SIGNS": "Compilazione e approvazione in autonomia",
+          "ADMIN_WRITES_REVIEWER_SIGNS": "Compilazione in autonomia e approvazione del valutatore",
+          "REVIEWER_WRITES_REVIEWER_SIGNS": "Compilazione e approvazione del valutatore"
         }
       },
       "reviewerField": {
         "label": {
-          "selfWritesReviewerSigns": "Chi approverà l’analisi del rischio?",
-          "reviewerWritesReviewerSigns": "Chi compilerà l’analisi del rischio?"
+          "ADMIN_WRITES_REVIEWER_SIGNS": "Chi approverà l’analisi del rischio?",
+          "REVIEWER_WRITES_REVIEWER_SIGNS": "Chi compilerà l’analisi del rischio?"
         },
         "inputLabel": "Seleziona valutatore",
-        "requiredError": "Per proseguire, seleziona un valutatore"
+        "requiredError": "Per proseguire, seleziona un valutatore",
+        "removedError_one": "Il valutatore {{names}} è stato rimosso dagli utenti del tuo ente",
+        "removedError_other": "I valutatori {{names}} sono stati rimossi dagli utenti del tuo ente"
+      },
+      "editAssignmentDialog": {
+        "title": "Modifica assegnazione",
+        "modeChosen": "Hai scelto la modalità {{mode}}.",
+        "modeTransition": "Stai passando da {{from}} a {{to}}.",
+        "selectedReviewersLabel": "Chi hai selezionato",
+        "removedReviewersLabel": "Chi hai rimosso",
+        "riskAnalysisLossWarning": "Se confermi, perderai tutte le informazioni dell’analisi del rischio già compilate."
       },
       "noReviewersAlert": {
         "message": "Il tuo ente non ha ancora un utente con ruolo di valutatore. Puoi aggiungerlo dall’Area Riservata o compilare in autonomia l’analisi del rischio.",
+        "removedReviewerMessage_one": "Il valutatore assegnato a questa analisi del rischio è stato rimosso. Nel tuo ente non ci sono altre persone con il ruolo di valutatore: puoi assegnarlo dall’Area Riservata oppure compilare l’analisi in autonomia.",
+        "removedReviewerMessage_other": "I valutatori assegnati a questa analisi del rischio sono stati rimossi. Nel tuo ente non ci sono altre persone con il ruolo di valutatore: puoi assegnarlo dall’Area Riservata oppure compilare l’analisi in autonomia.",
         "linkLabel": "Vai a Utenti"
       },
       "delegateAlert": "Come delegato alla fruizione dell’e-service {{name}}, non puoi assegnare l'analisi del rischio a un valutatore ma puoi compilarla in autonomia.",
       "forwardBtn": "Salva bozza e prosegui",
       "requestReviewerCompilationBtn": "Richiedi compilazione",
       "readOnly": {
-        "subtitle": "Non puoi modificare l'assegnazione perché hai inviato l'analisi del rischio al valutatore.",
+        "subtitle": {
+          "signed": "Non puoi modificare l’assegnazione perché l’analisi del rischio è stata approvata.",
+          "published": "Non puoi modificare l’assegnazione perché la finalità è stata pubblicata.",
+          "notDraft": "Non puoi modificare l’assegnazione perché la finalità non è più in bozza."
+        },
         "modeLabel": "Modalità",
-        "reviewerLabel": "Valutatore",
+        "reviewerLabel_one": "Valutatore",
+        "reviewerLabel_other": "Valutatori",
         "reviewerUnknown": "Valutatore non disponibile",
         "forwardBtn": "Avanti"
       }
