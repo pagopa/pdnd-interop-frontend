@@ -126,6 +126,17 @@ jobs:
             done
           }
 
+          if [ "${GITHUB_EVENT_NAME:-}" = "workflow_dispatch" ]; then
+            PR_STATE="$(echo "$PR_DETAILS" | jq -r '.state // empty')"
+            PR_DRAFT="$(echo "$PR_DETAILS" | jq -r '.draft // false')"
+
+            if [ "$PR_STATE" != "open" ] || [ "$PR_DRAFT" != "false" ]; then
+              echo "Skipping validation for PR #$PR_NUMBER because it is not an open, non-draft PR (state=${PR_STATE:-unknown}, draft=${PR_DRAFT:-unknown})."
+              dismiss_blocking_review_if_present
+              exit 0
+            fi
+          fi
+
           # Early exit: if PR converted to draft, dismiss any blocking review
           if [[ "$PR_ACTION" == "converted_to_draft" ]]; then
             echo "PR converted to draft. Dismissing any blocking review."
