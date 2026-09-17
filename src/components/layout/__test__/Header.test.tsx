@@ -262,7 +262,8 @@ describe('Header', () => {
       productsData: mockProducts,
     })
 
-    const spyWindowOpen = vi.spyOn(window, 'open')
+    const spyWindowOpen = vi.spyOn(window, 'open').mockImplementation(() => null)
+    spyWindowOpen.mockClear()
 
     spyUseErrorData.mockReturnValue({
       correlationId: null,
@@ -293,7 +294,8 @@ describe('Header', () => {
       productsData: mockProducts,
     })
 
-    const spyWindowOpen = vi.spyOn(window, 'open')
+    const spyWindowOpen = vi.spyOn(window, 'open').mockImplementation(() => null)
+    spyWindowOpen.mockClear()
 
     const correlationId = 'test-correlation-id'
     const errorCode = 'test-error-code'
