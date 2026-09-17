@@ -622,6 +622,12 @@
     "disabledTooltip": "Test e-service archived from the catalog and not usable."
   },
   "read": {
+    "dialogs": {
+      "removeAttributeThreshold": {
+        "title": "Remove threshold",
+        "description": "<p>You are about to remove the custom threshold for the certified attribute <strong>{{attributeName}}</strong>.</p><p>If you confirm, consumers with this attribute will use the threshold for consumers without custom thresholds. If the organization has other attributes with custom thresholds, the highest threshold will apply.</p>"
+      }
+    },
     "versionHeaderLabel": "Version",
     "versionListModal": {
       "title": "Version statuses",

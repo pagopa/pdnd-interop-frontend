@@ -622,6 +622,12 @@
     "disabledTooltip": "E-service di test archiviato dal catalogo e non utilizzabile"
   },
   "read": {
+    "dialogs": {
+      "removeAttributeThreshold": {
+        "title": "Rimuovi soglia",
+        "description": "<p>Stai per rimuovere la soglia personalizzata per l’attributo certificato <strong>{{attributeName}}</strong>.</p><p>Se confermi, ai fruitori con questo attributo sarà applicata la soglia prevista per chi non ha soglie personalizzate. Oppure, se l’ente possiede altri attributi con soglie personalizzate, sarà applicata la soglia più alta.</p>"
+      }
+    },
     "versionHeaderLabel": "Versione",
     "versionListModal": {
       "title": "Stato versioni",
