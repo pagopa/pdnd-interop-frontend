@@ -1,0 +1,9 @@
+{
+  "title": "Seleziona l’identità locale",
+  "subtitle": "Scegli l’ente e l’utente con cui aprire PDND Interoperabilità.",
+  "tenantLabel": "Ente",
+  "userLabel": "Utente",
+  "submitButton": "Prosegui",
+  "loadError": "Non è stato possibile caricare le identità locali.",
+  "submitError": "Non è stato possibile attivare l’identità selezionata."
+}
