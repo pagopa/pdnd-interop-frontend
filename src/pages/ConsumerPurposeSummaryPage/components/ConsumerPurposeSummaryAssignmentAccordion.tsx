@@ -16,7 +16,7 @@ export const ConsumerPurposeSummaryAssignmentAccordion: React.FC<
   const { data: purpose } = useSuspenseQuery(PurposeQueries.getSingle(purposeId))
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisAssignment' })
 
-  const modeLabel = getReviewModeLabel(purpose.reviewerWorkflow?.reviewMode, t)
+  const modeLabel = getReviewModeLabel(purpose.reviewMode, t)
 
   // We surface only the first reviewer: the BE models `reviewers` as a list to allow multiple
   // reviewers in the future, but today at most one reviewer is ever assigned.
