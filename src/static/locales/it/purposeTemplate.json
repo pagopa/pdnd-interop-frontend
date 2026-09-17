@@ -1,5 +1,10 @@
 {
   "backToListBtn": "Torna ai template",
+  "publishThankYou": {
+    "title": "Hai pubblicato il template di finalità",
+    "description": "Ora potrà essere usato dagli enti per velocizzare l’accesso ai dati degli e-service.",
+    "action": "Vai al template"
+  },
   "list": {
     "filters": {
       "nameField": {
