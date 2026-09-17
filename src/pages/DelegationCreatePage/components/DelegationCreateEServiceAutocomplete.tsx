@@ -67,6 +67,16 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
       offset: 0,
       delegated: false,
       personalData: 'DEFINED',
+      // cant delegate an e-service that is in ARCHIVED state, so we don't need to show it in the autocomplete
+      states: [
+        'PUBLISHED',
+        'DEPRECATED',
+        'DRAFT',
+        'SUSPENDED',
+        'WAITING_FOR_APPROVAL',
+        'ARCHIVING',
+        'ARCHIVING_SUSPENDED',
+      ],
     }),
     enabled: delegationKind === 'DELEGATED_PRODUCER',
     select: (d) => d.results ?? [],

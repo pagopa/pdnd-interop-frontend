@@ -103,7 +103,8 @@
         "error": "It was not possible to forward the new e-service version to the delegator for approval. Please try again!"
       },
       "confirmDialog": {
-        "title": "Request New E-service Version Publication",
+        "title": "Request e-service publication",
+        "titleNewVersion": "Request version publication",
         "description": "You are about to forward to <strong>{{delegatorName}}</strong> the request to publish a new version of the <strong>{{eserviceName}}</strong> e-service.",
         "actions": {
           "proceed": "Submit request"
@@ -141,10 +142,52 @@
         "error": "This e-service version could not be archived. Please try again later."
       }
     },
+    "requestArchiveDescriptor": {
+      "outcome": {
+        "success": "You have requested the archiving of this e-service version from the delegating organization",
+        "error": "It was not possible to request the archiving of this e-service version. Please try again later."
+      }
+    },
     "cancelDescriptorArchiving": {
       "outcome": {
         "success": "This version is no longer being archived",
         "error": "The archiving of this e-service version could not be canceled. Please try again later."
+      }
+    },
+    "cancelDelegatedArchivingVersionRequest": {
+      "outcome": {
+        "success": "The archiving request for this e-service version has been canceled",
+        "error": "It was not possible to cancel the archiving request for this e-service version. Please try again later."
+      }
+    },
+    "cancelDelegatedEserviceArchivingRequest": {
+      "outcome": {
+        "success": "The archiving request for this e-service has been canceled",
+        "error": "It was not possible to cancel the archiving request for this e-service. Please try again later."
+      }
+    },
+    "approveDelegatedArchivingEService": {
+      "outcome": {
+        "success": "This e-service will be archived in {{days}} days",
+        "error": "It was not possible to archive this e-service. Please try again later."
+      }
+    },
+    "rejectDelegatedArchivingEService": {
+      "outcome": {
+        "success": "You have rejected the e-service archiving request",
+        "error": "Your e-service archiving request could not be rejected. Please try again later."
+      }
+    },
+    "approveDelegatedArchivingVersion": {
+      "outcome": {
+        "success": "This version of the e-service will be archived in {{days}} days",
+        "error": "It was not possible to archive this version of the e-service. Please try again later."
+      }
+    },
+    "rejectDelegatedArchivingVersion": {
+      "outcome": {
+        "success": "You have rejected the request to archive this version of the e-service",
+        "error": "The request to archive this version of the e-service could not be rejected. Please try again later."
       }
     },
     "cancelEserviceArchiving": {
@@ -156,7 +199,14 @@
     "scheduleArchiveEservice": {
       "outcome": {
         "success": "This e-service will be archived in {{days}} days",
+        "gracePeriodError": "You cannot archive the e-service before a version that is already being archived. Select a longer grace period.",
         "error": "This e-service could not be archived. Please try again later."
+      }
+    },
+    "requestArchiveEservice": {
+      "outcome": {
+        "success": "You have requested the archiving of this e-service from the delegating organization",
+        "error": "It was not possible to request the archiving of this e-service. Please try again later."
       }
     },
     "suspendVersion": {
@@ -334,11 +384,18 @@
         "success": "The attribute has been created successfully"
       }
     },
+    "createCertifiedAttribute": {
+      "loading": "We are creating the new attribute.",
+      "outcome": {
+        "error": "The certificate attribute could not be created. Check that you have entered the correct information.",
+        "success": "You have created a new certified attribute."
+      }
+    },
     "addCertifiedAttribute": {
       "loading": "Attribute is being assigned",
       "outcome": {
-        "error": "The attribute could not be assigned. Please try again",
-        "success": "The attribute has been assigned successfully"
+        "error": "The certificate attribute could not be assigned. Check that you have entered the correct information.",
+        "success": "You have assigned the certified attribute."
       }
     },
     "revokeCertifiedAttribute": {
@@ -387,6 +444,13 @@
       "confirmDialog": {
         "title": "Revoke Declared Attribute",
         "description": "Are you sure you want to revoke the attribute?"
+      }
+    },
+    "updateCertifiedDiscreteAttribute": {
+      "loading": "Certified attribute value is being modified.",
+      "outcome": {
+        "error": "The value of the discrete certificate attribute could not be changed. Please check that you have entered the correct information.",
+        "success": "You have changed the value of the certificate attribute."
       }
     }
   },

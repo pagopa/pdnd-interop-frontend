@@ -39,6 +39,7 @@ export const VoucherInstructionsSecondDPoPProofStep: React.FC = () => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const clientKind = useClientKind()
+  const guidanceKind = clientKind === 'API' ? 'pdnd' : 'eservice'
 
   const purposeId = searchParams.get('purposeId') || ''
   const memberType = (searchParams.get('memberType') as MemberType) || ''
@@ -103,7 +104,9 @@ export const VoucherInstructionsSecondDPoPProofStep: React.FC = () => {
                   <RHFSelect
                     name="htm"
                     label={t('secondDPoPProofStep.assertionPayload.htmField.label')}
-                    infoLabel={t('secondDPoPProofStep.assertionPayload.htmField.description')}
+                    infoLabel={t(
+                      `secondDPoPProofStep.assertionPayload.htmField.description.${guidanceKind}`
+                    )}
                     options={HTM_OPTIONS.map((value) => ({ label: value, value }))}
                   />
                 </FormControl>
@@ -113,14 +116,16 @@ export const VoucherInstructionsSecondDPoPProofStep: React.FC = () => {
                   <RHFTextField
                     name="htu"
                     label={t('secondDPoPProofStep.assertionPayload.htuField.label')}
-                    infoLabel={t('secondDPoPProofStep.assertionPayload.htuField.description')}
+                    infoLabel={t(
+                      `secondDPoPProofStep.assertionPayload.htuField.description.${guidanceKind}`
+                    )}
                   />
                 </FormControl>
               </Grid>
             </FormProvider>
             <Grid item xs={12} md={12} sx={{ display: 'flex', alignItems: 'center' }}>
               <Alert severity="info" variant="outlined" sx={{ width: '100%', mb: 1.5 }}>
-                {t('secondDPoPProofStep.assertionPayload.alert')}
+                {t(`secondDPoPProofStep.assertionPayload.alert.${guidanceKind}`)}
               </Alert>
             </Grid>
             <VerticalInformationContainer

@@ -6,12 +6,14 @@ import type {
   Attributes,
   CertifiedAttributeSeed,
   CertifiedAttributesResponse,
+  CertifiedDiscreteTenantAttributeSeed,
   CertifiedTenantAttributeSeed,
   DeclaredAttributesResponse,
   DeclaredTenantAttributeSeed,
   GetAttributesParams,
   GetRequesterCertifiedAttributesParams,
   RequesterCertifiedAttributes,
+  UpdateCertifiedDiscreteTenantAttributeSeed,
   UpdateVerifiedTenantAttributeSeed,
   VerifiedAttributesResponse,
   VerifiedTenantAttributeSeed,
@@ -70,6 +72,14 @@ async function createCertified(payload: CertifiedAttributeSeed) {
   return response.data
 }
 
+async function createCertifiedDiscrete(payload: AttributeSeed) {
+  const response = await axiosInstance.post<Attribute>(
+    `${BACKEND_FOR_FRONTEND_URL}/certifiedDiscreteAttributes`,
+    payload
+  )
+  return response.data
+}
+
 async function createVerified(payload: AttributeSeed) {
   const response = await axiosInstance.post<Attribute>(
     `${BACKEND_FOR_FRONTEND_URL}/verifiedAttributes`,
@@ -96,6 +106,16 @@ async function addCertifiedAttribute({
   )
 }
 
+async function addCertifiedDiscreteAttribute({
+  tenantId,
+  ...payload
+}: { tenantId: string } & CertifiedDiscreteTenantAttributeSeed) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/attributes/certifiedDiscrete`,
+    payload
+  )
+}
+
 async function revokeCertifiedAttribute({
   tenantId,
   attributeId,
@@ -105,6 +125,18 @@ async function revokeCertifiedAttribute({
 }) {
   return axiosInstance.delete(
     `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/attributes/certified/${attributeId}`
+  )
+}
+
+async function revokeCertifiedDiscreteAttribute({
+  tenantId,
+  attributeId,
+}: {
+  tenantId: string
+  attributeId: string
+}) {
+  return axiosInstance.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/attributes/certifiedDiscrete/${attributeId}`
   )
 }
 
@@ -154,6 +186,17 @@ async function revokeDeclaredPartyAttribute({ attributeId }: { attributeId: stri
   )
 }
 
+async function updateCertifiedDiscreteAttribute({
+  tenantId,
+  attributeId,
+  ...payload
+}: { tenantId: string; attributeId: string } & UpdateCertifiedDiscreteTenantAttributeSeed) {
+  return axiosInstance.put(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/attributes/certifiedDiscrete/${attributeId}`,
+    payload
+  )
+}
+
 export const AttributeServices = {
   getList,
   getRequesterCertifiedAttributesList,
@@ -162,13 +205,17 @@ export const AttributeServices = {
   getPartyVerifiedList,
   getPartyDeclaredList,
   createCertified,
+  createCertifiedDiscrete,
   createVerified,
   createDeclared,
   addCertifiedAttribute,
+  addCertifiedDiscreteAttribute,
   revokeCertifiedAttribute,
+  revokeCertifiedDiscreteAttribute,
   verifyPartyAttribute,
   updateVerifiedPartyAttribute,
   revokeVerifiedPartyAttribute,
   declarePartyAttribute,
   revokeDeclaredPartyAttribute,
+  updateCertifiedDiscreteAttribute,
 }

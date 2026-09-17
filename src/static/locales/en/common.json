@@ -78,6 +78,7 @@
       "userName": "First and last name",
       "certifiedAttributes": "Certified attributes",
       "assigneeTenant": "Assigned party",
+      "certifiedDiscreteAttributeValue": "Value",
       "certifiedAttribute": "Certified attribute",
       "keychain": "Keychain",
       "delegationKind": "Delegation for",
@@ -200,5 +201,8 @@
     "LTE": "Less than or equal to",
     "EQ": "Equal to",
     "NE": "Not equal to"
+  },
+  "ariaLabels": {
+    "downloadDocument": "Download document {{name}}"
   }
 }

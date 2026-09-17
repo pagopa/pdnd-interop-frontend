@@ -19,6 +19,7 @@ import type {
   GetEServicesCatalogParams,
   GetProducerEServicesParams,
   GetProducersParams,
+  GracePeriodDays,
   PresignedUrl,
   ProducerEServiceDescriptor,
   ProducerEServiceDetails,
@@ -197,12 +198,15 @@ function reactivateVersion({
 function scheduleArchiveDescriptor({
   eserviceId,
   descriptorId,
+  gracePeriodDays,
 }: {
   eserviceId: string
   descriptorId: string
+  gracePeriodDays: GracePeriodDays
 }) {
   return axiosInstance.post(
-    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/scheduleArchive`
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/scheduleArchive`,
+    { gracePeriodDays }
   )
 }
 
@@ -218,16 +222,116 @@ function cancelDescriptorArchiving({
   )
 }
 
+function submitDelegatedArchivingVersionRequest({
+  eserviceId,
+  descriptorId,
+  gracePeriodDays,
+}: {
+  eserviceId: string
+  descriptorId: string
+  gracePeriodDays: GracePeriodDays
+}) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/submitDelegatedArchiving`,
+    { gracePeriodDays }
+  )
+}
+
+function cancelDelegatedArchivingVersionRequest({
+  eserviceId,
+  descriptorId,
+}: {
+  eserviceId: string
+  descriptorId: string
+}) {
+  return axiosInstance.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/submitDelegatedArchiving`
+  )
+}
+
+function cancelDelegatedArchivingEserviceRequest({ eserviceId }: { eserviceId: string }) {
+  return axiosInstance.delete(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/submitDelegatedArchiving`
+  )
+}
+
+function approveDelegatedEServiceArchivingRequest({ eserviceId }: { eserviceId: string }) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/approveDelegatedArchiving`
+  )
+}
+
+function rejectDelegatedEServiceArchivingRequest({
+  eserviceId,
+  rejectionReason,
+}: {
+  eserviceId: string
+  rejectionReason: string
+}) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/rejectDelegatedArchiving`,
+    { rejectionReason }
+  )
+}
+
+function approveDelegatedVersionArchivingRequest({
+  eserviceId,
+  descriptorId,
+}: {
+  eserviceId: string
+  descriptorId: string
+}) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/approveDelegatedArchiving`
+  )
+}
+
+function rejectDelegatedVersionArchivingRequest({
+  eserviceId,
+  descriptorId,
+  rejectionReason,
+}: {
+  eserviceId: string
+  descriptorId: string
+  rejectionReason: string
+}) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/descriptors/${descriptorId}/rejectDelegatedArchiving`,
+    { rejectionReason }
+  )
+}
+
 function scheduleArchiveEservice({
   eserviceId,
   archivingReason,
+  gracePeriodDays,
 }: {
   eserviceId: string
   archivingReason: string
+  gracePeriodDays: GracePeriodDays
 }) {
   return axiosInstance.post(`${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/scheduleArchive`, {
     archivingReason,
+    gracePeriodDays,
   })
+}
+
+function submitDelegatedArchivingEserviceRequest({
+  eserviceId,
+  archivingReason,
+  gracePeriodDays,
+}: {
+  eserviceId: string
+  archivingReason: string
+  gracePeriodDays: GracePeriodDays
+}) {
+  return axiosInstance.post(
+    `${BACKEND_FOR_FRONTEND_URL}/eservices/${eserviceId}/submitDelegatedArchiving`,
+    {
+      archivingReason,
+      gracePeriodDays,
+    }
+  )
 }
 
 function cancelEserviceArchiving({ eserviceId }: { eserviceId: string }) {
@@ -688,8 +792,16 @@ export const EServiceServices = {
   updateAgreementApprovalPolicy,
   reactivateVersion,
   scheduleArchiveDescriptor,
+  submitDelegatedArchivingVersionRequest,
+  cancelDelegatedArchivingVersionRequest,
+  cancelDelegatedArchivingEserviceRequest,
+  approveDelegatedEServiceArchivingRequest,
+  rejectDelegatedEServiceArchivingRequest,
+  approveDelegatedVersionArchivingRequest,
+  rejectDelegatedVersionArchivingRequest,
   cancelDescriptorArchiving,
   scheduleArchiveEservice,
+  submitDelegatedArchivingEserviceRequest,
   cancelEserviceArchiving,
   deleteVersionDraft,
   addEServiceRiskAnalysis,

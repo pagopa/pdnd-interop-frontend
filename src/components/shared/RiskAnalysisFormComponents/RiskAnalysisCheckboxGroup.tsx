@@ -4,7 +4,7 @@ import { Controller, useFormContext, useWatch } from 'react-hook-form'
 import type { InputOption } from '@/types/common.types'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
-import { mapValidationErrorMessages } from '@/utils/form.utils'
+import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
 import RiskAnalysisInputWrapper from './RiskAnalysisInputWrapper'
 import { isRiskAnalysisQuestionDisabled } from '@/utils/common.utils'
 import { usePurposeCreateContext } from '../PurposeCreateContext'
@@ -41,6 +41,13 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
 
   const error = useRiskAnalysisDisplayError(questionKey)
 
+  const { accessibilityProps, ids } = getAriaAccessibilityInputProps(name, {
+    label,
+    infoLabel,
+    error,
+    helperText,
+  })
+
   const conditionalRules =
     isAssignedToTemplateUsersSwitch && type === 'creator'
       ? { validate: () => true }
@@ -53,12 +60,13 @@ export const RiskAnalysisCheckboxGroup: React.FC<RiskAnalysisCheckboxGroupProps>
       infoLabel={infoLabel}
       helperText={helperText}
       error={error}
+      {...ids}
       isFromPurposeTemplate={isFromPurposeTemplate}
       questionKey={questionKey}
       type={type}
       isAssignedToTemplateUsersSwitch={isAssignedToTemplateUsersSwitch}
     >
-      <FormGroup>
+      <FormGroup {...accessibilityProps}>
         <Controller
           name={name}
           rules={conditionalRules}

@@ -27,6 +27,8 @@ vi.mock('@/api/client/client.services', () => ({
       results: [],
       pagination: { offset: 0, limit: 50, totalCount: 0 },
     }),
+    getSingle: vi.fn().mockResolvedValue({ purposes: [] }),
+    getAllKeysList: vi.fn().mockResolvedValue([]),
   },
 }))
 

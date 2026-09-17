@@ -1,10 +1,9 @@
 import { EServiceMutations } from '@/api/eservice'
-import { GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS } from '@/config/env'
-import { archivingGuideLink } from '@/config/constants'
+import type { GracePeriodDays } from '@/api/api.generatedTypes'
+import { archivingGuideLink, DEFAULT_GRACE_PERIOD_DAYS } from '@/config/constants'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import { useDialog } from '@/stores'
 import type { DialogArchiveVersionProps } from '@/types/dialog.types'
-import { calculateArchivableOn } from '@/utils/eservice.utils'
-import { formatDateStringNumeric } from '@/utils/format.utils'
 import {
   Alert,
   Button,
@@ -13,14 +12,23 @@ import {
   DialogContent,
   DialogTitle,
   Link,
+  Stack,
   Typography,
 } from '@mui/material'
 import React from 'react'
+import { FormProvider, useForm } from 'react-hook-form'
 import { Trans, useTranslation } from 'react-i18next'
+import { GracePeriodField } from '../shared/GracePeriodField'
+
+type ArchiveVersionFormValues = {
+  gracePeriodDays: string
+}
 
 export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
   eserviceId,
   descriptorId,
+  isDelegate,
+  delegatorName,
 }) => {
   const ariaLabelId = React.useId()
 
@@ -31,51 +39,69 @@ export const DialogArchiveVersion: React.FC<DialogArchiveVersionProps> = ({
 
   const { closeDialog } = useDialog()
   const { mutate: scheduleArchive } = EServiceMutations.useScheduleArchiveDescriptor()
+  const { mutate: requestArchive } = EServiceMutations.useRequestArchiveDescriptor()
+  const isConfirmDisabled = useIsActionDisabledBySupport()
+
+  const formMethods = useForm<ArchiveVersionFormValues>({
+    defaultValues: { gracePeriodDays: String(DEFAULT_GRACE_PERIOD_DAYS) },
+  })
 
   const handleCancel = () => {
     closeDialog()
   }
 
   const handleArchive = () => {
-    scheduleArchive({ eserviceId, descriptorId }, { onSuccess: closeDialog })
-  }
+    const gracePeriodDays = Number(formMethods.getValues('gracePeriodDays')) as GracePeriodDays
+    if (isDelegate) {
+      requestArchive({ eserviceId, descriptorId, gracePeriodDays }, { onSuccess: closeDialog })
+      return
+    }
 
-  const archiveDate = calculateArchivableOn(new Date(), GRACE_PERIOD_ARCHIVING_ESERVICE_DAYS)
-  const formattedArchiveDate = formatDateStringNumeric(archiveDate)
+    scheduleArchive({ eserviceId, descriptorId, gracePeriodDays }, { onSuccess: closeDialog })
+  }
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} fullWidth>
-      <DialogTitle id={ariaLabelId}>{t('title')}</DialogTitle>
-      <DialogContent>
-        <Typography variant="body2">
-          <Trans
-            components={{
-              strong: <Typography component="span" variant="inherit" fontWeight={600} />,
-            }}
-          >
-            {t('content.description', { date: formattedArchiveDate })}
-          </Trans>
-        </Typography>
+      <DialogTitle id={ariaLabelId}>{isDelegate ? t('titleDelegate') : t('title')}</DialogTitle>
+      <FormProvider {...formMethods}>
+        <DialogContent>
+          <Stack spacing={3}>
+            <Typography variant="body2" sx={{ whiteSpace: 'pre-line' }}>
+              <Trans
+                t={t}
+                i18nKey={isDelegate ? 'content.descriptionDelegate' : 'content.description'}
+                values={isDelegate ? { name: delegatorName ?? '' } : undefined}
+              />
+            </Typography>
+            <GracePeriodField isDelegate={isDelegate} />
+          </Stack>
 
-        <Alert severity="info" sx={{ mt: 4 }}>
-          <Trans
-            components={{
-              1: <Link underline="hover" href={archivingGuideLink} target="_blank" />,
-            }}
-          >
-            {t('content.alert')}
-          </Trans>
-        </Alert>
-      </DialogContent>
+          <Alert severity="info" sx={{ mt: 4 }}>
+            <Trans
+              components={{
+                1: <Link underline="hover" href={archivingGuideLink} target="_blank" />,
+              }}
+            >
+              {t('content.alert')}
+            </Trans>
+          </Alert>
+        </DialogContent>
 
-      <DialogActions>
-        <Button variant="outlined" onClick={handleCancel}>
-          {tCommon('cancel')}
-        </Button>
-        <Button variant="contained" onClick={handleArchive}>
-          {tCommon('archive')}
-        </Button>
-      </DialogActions>
+        <DialogActions>
+          <Button variant="outlined" onClick={handleCancel}>
+            {tCommon('cancel')}
+          </Button>
+          <Button
+            variant="contained"
+            color="error"
+            disabled={isConfirmDisabled}
+            onClick={handleArchive}
+            sx={{ color: 'common.white' }}
+          >
+            {isDelegate ? t('actions.requestArchiving') : tCommon('archive')}
+          </Button>
+        </DialogActions>
+      </FormProvider>
     </Dialog>
   )
 }

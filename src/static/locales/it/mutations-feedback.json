@@ -103,7 +103,8 @@
         "error": "Non è stato possibile inoltrare al delegante la versione per approvazione. Per favore, riprova!"
       },
       "confirmDialog": {
-        "title": "Richiedi pubblicazione versione",
+        "title": "Richiedi pubblicazione e-service",
+        "titleNewVersion": "Richiedi pubblicazione versione",
         "description": "Stai per inoltrare a <strong>{{delegatorName}}</strong> la richiesta di pubblicazione di una nuova versione dell’e-service <strong>{{eserviceName}}</strong>.",
         "actions": {
           "proceed": "Inoltra richiesta"
@@ -141,10 +142,52 @@
         "error": "Non è stato possibile procedere con l'archiviazione di questa versione dell'e-service. Riprova più tardi."
       }
     },
+    "requestArchiveDescriptor": {
+      "outcome": {
+        "success": "Hai richiesto l’archiviazione di questa versione dell’e-service all’ente delegante",
+        "error": "Non è stato possibile richiedere l’archiviazione di questa versione dell’e-service. Riprova più tardi."
+      }
+    },
     "cancelDescriptorArchiving": {
       "outcome": {
         "success": "Questa versione non è più in fase di archiviazione",
         "error": "Non è stato possibile annullare l'archiviazione di questa versione dell'e-service. Riprova più tardi."
+      }
+    },
+    "cancelDelegatedArchivingVersionRequest": {
+      "outcome": {
+        "success": "La richiesta di archiviazione di questa versione dell’e-service è stata annullata",
+        "error": "Non è stato possibile annullare la richiesta di archiviazione di questa versione dell’e-service. Riprova più tardi."
+      }
+    },
+    "cancelDelegatedEserviceArchivingRequest": {
+      "outcome": {
+        "success": "La richiesta di archiviazione di questo e-service è stata annullata",
+        "error": "Non è stato possibile annullare la richiesta di archiviazione di questo e-service. Riprova più tardi."
+      }
+    },
+    "approveDelegatedArchivingEService": {
+      "outcome": {
+        "success": "Questo e-service sarà archiviato tra {{days}} giorni",
+        "error": "Non è stato possibile procedere con l’archiviazione di questo e-service. Riprova più tardi."
+      }
+    },
+    "rejectDelegatedArchivingEService": {
+      "outcome": {
+        "success": "Hai rifiutato la richiesta di archiviazione dell’e-service",
+        "error": "Non è stato possibile rifiutare la richiesta di archiviazione dell’e-service. Riprova più tardi."
+      }
+    },
+    "approveDelegatedArchivingVersion": {
+      "outcome": {
+        "success": "Questa versione dell'e-service sarà archiviata tra {{days}} giorni",
+        "error": "Non è stato possibile procedere con l’archiviazione di questa versione dell’e-service. Riprova più tardi."
+      }
+    },
+    "rejectDelegatedArchivingVersion": {
+      "outcome": {
+        "success": "Hai rifiutato la richiesta di archiviazione di questa versione dell’e-service",
+        "error": "Non è stato possibile rifiutare la richiesta di archiviazione di questa versione dell’e-service. Riprova più tardi."
       }
     },
     "cancelEserviceArchiving": {
@@ -156,7 +199,14 @@
     "scheduleArchiveEservice": {
       "outcome": {
         "success": "Questo e-service sarà archiviato tra {{days}} giorni",
+        "gracePeriodError": "Non puoi archiviare l’e-service prima di una versione già in fase di archiviazione. Seleziona una durata più lunga.",
         "error": "Non è stato possibile procedere con l'archiviazione di questo e-service. Riprova più tardi."
+      }
+    },
+    "requestArchiveEservice": {
+      "outcome": {
+        "success": "Hai richiesto l’archiviazione di questo e-service all’ente delegante",
+        "error": "Non è stato possibile richiedere l’archiviazione di questo e-service. Riprova più tardi."
       }
     },
     "suspendVersion": {
@@ -283,7 +333,7 @@
       "loading": "Stiamo modificando i dati di interfaccia dell e-service",
       "outcome": {
         "error": "Non è stato possibile salvare i dati di interfaccia. Assicurati di aver inserito le informazioni corrette.",
-        "success": "Dati di interfaccia sono stati salvati corettamente"
+        "success": "I dati di interfaccia sono stati salvati."
       }
     },
     "deleteAndUpgradeEService": {
@@ -334,11 +384,18 @@
         "success": "L’attributo è stato creato correttamente"
       }
     },
+    "createCertifiedAttribute": {
+      "loading": "Stiamo creando il nuovo attributo",
+      "outcome": {
+        "error": "Non è stato possibile creare l'attributo certificato. Controlla di aver inserito le informazioni corrette.",
+        "success": "Hai creato un nuovo attributo certificato."
+      }
+    },
     "addCertifiedAttribute": {
       "loading": "Stiamo assegnando l'attributo",
       "outcome": {
-        "error": "Non è stato possibile assegnare l’attributo. Per favore, riprova",
-        "success": "L’attributo è stato assegnato correttamente"
+        "error": "Non è stato possibile assegnare l'attributo certificato. Controlla di aver inserito le informazioni corrette.",
+        "success": "Hai assegnato l'attributo certificato."
       }
     },
     "revokeCertifiedAttribute": {
@@ -387,6 +444,13 @@
       "confirmDialog": {
         "title": "Revoca attributo dichiarato",
         "description": "Sei sicuro di voler revocare l'attributo?"
+      }
+    },
+    "updateCertifiedDiscreteAttribute": {
+      "loading": "Stiamo modificando il valore dell’attributo certificato.",
+      "outcome": {
+        "error": "Non è stato possibile modificare il valore dell’attributo certificato discreto. Controlla di aver inserito le informazioni corrette.",
+        "success": "Hai modificato il valore dell’attributo certificato."
       }
     }
   },
@@ -929,17 +993,17 @@
       }
     },
     "updateEServiceDescription": {
-      "loading": "Stiamo modificando la descrizione dell'e-service del template",
+      "loading": "Stiamo modificando la descrizione del template e-service",
       "outcome": {
-        "error": "Descrizione dell'e-service del template dell'e-service non aggiornata. Riprovare.",
-        "success": "Descrizione dell'e-service del template dell'e-service aggiornata correttamente"
+        "error": "Descrizione del template e-service non aggiornata. Riprovare.",
+        "success": "Descrizione del template e-service aggiornata correttamente"
       }
     },
     "updateVersion": {
-      "loading": "Stiamo modificando la descrizione della versione dell'e-service del template",
+      "loading": "Stiamo modificando la descrizione della versione del template e-service",
       "outcome": {
-        "error": "Descrizione della versione dell'e-service del template dell'e-service non aggiornata. Riprovare.",
-        "success": "Descrizione della versione dell'e-service del template dell'e-service aggiornata correttamente"
+        "error": "Descrizione della versione del template e-service non aggiornata. Riprovare.",
+        "success": "Descrizione della versione del template e-service aggiornata correttamente"
       }
     },
     "postVersionDraftDocument": {
