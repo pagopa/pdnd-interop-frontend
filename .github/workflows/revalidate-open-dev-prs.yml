@@ -1,0 +1,55 @@
+name: Revalidate open dev PRs
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  find-open-dev-prs:
+    name: Re-run release validation on open dev PRs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Re-run validation only for open dev PRs already blocked by the bot
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          echo "Fetching open PRs targeting dev..."
+          pr_numbers=$(gh api "repos/${{ github.repository }}/pulls" \
+            --paginate \
+            -f state=open \
+            -f sort=updated \
+            -f direction=desc \
+            --jq '.[] | select(.base.ref == "dev" and (.draft == false)) | .number')
+
+          if [ -z "$pr_numbers" ]; then
+            echo "No open PRs targeting dev were found."
+            exit 0
+          fi
+
+          found=false
+          printf '%s\n' "$pr_numbers" | while IFS= read -r pr_number; do
+            [ -n "$pr_number" ] || continue
+
+            has_blocking_review=$(gh api "repos/${{ github.repository }}/pulls/$pr_number/reviews" \
+              --paginate \
+              --slurp \
+              --jq 'flatten | any(.user.login == "github-actions[bot]" and .state == "CHANGES_REQUESTED" and ((.body // "") | startswith("Release version validation failed.")))')
+
+            if [ "$has_blocking_review" != "true" ]; then
+              echo "Skipping PR #$pr_number: no blocking release validation review found."
+              continue
+            fi
+
+            found=true
+            echo "Triggering validation for PR #$pr_number"
+            gh workflow run release-version-validation.yml -f pr_number="$pr_number"
+          done
+
+          if [ "$found" != "true" ]; then
+            echo "No open dev PRs are currently blocked by the release validation bot."
+          fi
