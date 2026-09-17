@@ -13,6 +13,7 @@ import type {
   PurposeUpdateContent,
   ReviewerWorkflow,
   RiskAnalysisFormConfig,
+  RiskAnalysisReviewMode,
   RiskAnalysisSubmissionSeed,
 } from '@/api/api.generatedTypes'
 
@@ -86,11 +87,14 @@ function mockQueries(
   })
 }
 
-function buildPurpose(reviewerWorkflow?: ReviewerWorkflow): Purpose {
-  return {
-    ...createMockPurpose({ id: 'purpose-123' }),
-    ...(reviewerWorkflow ? { reviewerWorkflow } : {}),
-  }
+type ReviewSetup = { reviewMode: RiskAnalysisReviewMode } & ReviewerWorkflow
+
+function buildPurpose(review?: ReviewSetup): Purpose {
+  const purpose = createMockPurpose({ id: 'purpose-123' })
+  if (!review) return purpose
+
+  const { reviewMode, ...reviewerWorkflow } = review
+  return { ...purpose, reviewMode, reviewerWorkflow }
 }
 
 function getLastFormProps(): RiskAnalysisFormSpyProps {
@@ -129,7 +133,6 @@ describe('PurposeEditStepRiskAnalysis', () => {
     mockQueries(
       buildPurpose({
         reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-        reviewerIds: ['reviewer-1'],
         signingState: 'DRAFT',
       }),
       createMockRiskAnalysisFormConfig()
@@ -145,7 +148,6 @@ describe('PurposeEditStepRiskAnalysis', () => {
     mockQueries(
       buildPurpose({
         reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-        reviewerIds: ['reviewer-1'],
         signingState: 'SUBMITTED',
       }),
       createMockRiskAnalysisFormConfig()
@@ -167,7 +169,6 @@ describe('PurposeEditStepRiskAnalysis', () => {
     mockQueries(
       buildPurpose({
         reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-        reviewerIds: ['reviewer-1'],
         signingState: 'SIGNED',
       }),
       createMockRiskAnalysisFormConfig()
@@ -186,7 +187,6 @@ describe('PurposeEditStepRiskAnalysis', () => {
     mockQueries(
       buildPurpose({
         reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-        reviewerIds: ['reviewer-1'],
         signingState: 'REJECTED',
       }),
       createMockRiskAnalysisFormConfig()
@@ -202,7 +202,6 @@ describe('PurposeEditStepRiskAnalysis', () => {
     mockQueries(
       buildPurpose({
         reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
-        reviewerIds: ['reviewer-1'],
         signingState: 'ASSIGNED',
       }),
       createMockRiskAnalysisFormConfig()
@@ -224,7 +223,6 @@ describe('PurposeEditStepRiskAnalysis', () => {
     mockQueries(
       buildPurpose({
         reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
-        reviewerIds: ['reviewer-1'],
         signingState: 'SIGNED',
       }),
       createMockRiskAnalysisFormConfig()
@@ -248,7 +246,6 @@ describe('PurposeEditStepRiskAnalysis', () => {
       mockQueries(
         buildPurpose({
           reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
-          reviewerIds: ['reviewer-1'],
           signingState,
         }),
         createMockRiskAnalysisFormConfig()
@@ -264,7 +261,6 @@ describe('PurposeEditStepRiskAnalysis', () => {
     mockQueries(
       buildPurpose({
         reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-        reviewerIds: ['reviewer-1'],
         signingState: 'SIGNED',
       }),
       createMockRiskAnalysisFormConfig()
@@ -310,7 +306,6 @@ describe('PurposeEditStepRiskAnalysis', () => {
     const reviewer = { userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' }
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-      reviewerIds: ['reviewer-1'],
       reviewers: [reviewer],
       signingState: 'DRAFT',
     })
@@ -356,11 +351,10 @@ describe('PurposeEditStepRiskAnalysis', () => {
     })
   })
 
-  it('in option 2 logs and no-ops when reviewerIds is missing (BE contract violation) instead of opening a malformed dialog', () => {
+  it('in option 2 logs and no-ops when reviewers is missing (BE contract violation) instead of opening a malformed dialog', () => {
     const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-      reviewerIds: [],
       reviewers: [],
       signingState: 'DRAFT',
     })
@@ -370,38 +364,15 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
     getLastFormProps().onSubmit({ purpose: ['OTHER'] })
 
-    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching(/reviewerIds/))
+    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching(/reviewers/))
     expect(openDialogMock).not.toHaveBeenCalled()
 
     consoleErrorSpy.mockRestore()
   })
 
-  it('in option 2 still opens the dialog when reviewerIds is present but reviewers is not yet populated (staggered BE release)', () => {
-    const purpose = buildPurpose({
-      reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-      reviewerIds: ['reviewer-1'],
-      reviewers: [],
-      signingState: 'DRAFT',
-    })
-    mockQueries(purpose, createMockRiskAnalysisFormConfig())
-
-    render(<PurposeEditStepRiskAnalysis back={vi.fn()} forward={vi.fn()} activeStep={2} />)
-
-    getLastFormProps().onSubmit({ purpose: ['OTHER'] })
-
-    // The missing reviewers[] must not block the admin: the dialog opens with a placeholder
-    // reviewer built from reviewerId (name + surname simply unavailable until the BE backfills).
-    expect(openDialogMock).toHaveBeenCalledTimes(1)
-    expect(openDialogMock.mock.calls[0][0]).toMatchObject({
-      type: 'requestPurposeApproval',
-      reviewer: { userId: 'reviewer-1', name: '', familyName: '' },
-    })
-  })
-
   it('in option 2 the draft save only persists and navigates without submitting', () => {
     const purpose = buildPurpose({
       reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-      reviewerIds: ['reviewer-1'],
       signingState: 'DRAFT',
     })
     mockQueries(purpose, createMockRiskAnalysisFormConfig())
