@@ -30,6 +30,7 @@ export function RHFNewAutocompleteSingle<T>(props: RHFAutocompleteSingleProps<T>
   const latestInputChangeReason = React.useRef<'input' | 'clear' | 'selectOption'>()
 
   const [internalState, setInternalState] = React.useState<RHFAutocompleteInput<T> | null>(null)
+  const [inputValue, setInputValue] = React.useState('')
 
   /**
    * This handles the synchronization between mui autocomplete internal state and react-hook-form state in case options are loaded async
@@ -46,6 +47,7 @@ export function RHFNewAutocompleteSingle<T>(props: RHFAutocompleteSingleProps<T>
       const selectedOption = props.options.find((option) => isEqual(value, option.value))
       if (selectedOption) {
         setInternalState(selectedOption)
+        setInputValue(selectedOption.label)
       }
     }
   }, [value, props.options, internalState])
@@ -87,9 +89,11 @@ export function RHFNewAutocompleteSingle<T>(props: RHFAutocompleteSingleProps<T>
       onValueChange={props.onValueChange}
       handleFiltering={filteringOptions}
       {...props}
-      onInputChange={(inputValue, reason) => {
+      inputValue={inputValue}
+      onInputChange={(nextInputValue, reason) => {
+        setInputValue(nextInputValue)
         latestInputChangeReason.current = reason
-        props.onInputChange?.(inputValue, reason)
+        props.onInputChange?.(nextInputValue, reason)
       }}
       value={internalState}
       setInternalState={setInternalState}
