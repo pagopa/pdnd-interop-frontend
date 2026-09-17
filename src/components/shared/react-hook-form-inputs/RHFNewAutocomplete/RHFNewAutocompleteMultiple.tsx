@@ -71,22 +71,9 @@ export function RHFNewAutocompleteMultiple<T>(props: RHFAutocompleteMultipleProp
     <RHFNewAutocompleteBase
       multiple
       getOptionValue={(data) => data.map((d) => d?.value ?? d)}
-      // renderTags={(options, getTagProps) =>
-      //   options
-      //     .filter((option) => selectedValues?.includes(option.value))
-      //     .map((option, index: number) => (
-      //       <Chip
-      //         variant="filled"
-      //         size="small"
-      //         label={option.label}
-      //         {...getTagProps({ index })}
-      //         key={option.label}
-      //       />
-      //     ))
-      // }
+      {...props}
       rules={props.rules}
       onValueChange={props.onValueChange}
-      {...props}
       value={internalState}
       setInternalState={setInternalState}
     />
