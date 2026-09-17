@@ -17,8 +17,8 @@ import PurposeEditStepAssignmentForm, {
 import PurposeEditStepAssignmentReadOnly from './PurposeEditStepAssignmentReadOnly'
 
 const getDefaultValues = (purpose: Purpose): PurposeEditStepAssignmentFormValues => ({
-  reviewMode: beEnumToReviewModeOption(purpose.reviewerWorkflow?.reviewMode),
-  reviewerId: purpose.reviewerWorkflow?.reviewerIds[0],
+  reviewMode: beEnumToReviewModeOption(purpose.reviewMode),
+  reviewerId: purpose.reviewerWorkflow?.reviewers?.[0]?.userId,
 })
 
 export const PurposeEditStepAssignment: React.FC<ActiveStepProps> = (props) => {

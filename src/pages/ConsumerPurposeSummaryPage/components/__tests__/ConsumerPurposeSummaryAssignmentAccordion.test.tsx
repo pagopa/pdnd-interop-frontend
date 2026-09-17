@@ -3,7 +3,7 @@ import { screen } from '@testing-library/react'
 import { ConsumerPurposeSummaryAssignmentAccordion } from '../ConsumerPurposeSummaryAssignmentAccordion'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
-import type { Purpose, ReviewerWorkflow } from '@/api/api.generatedTypes'
+import type { Purpose, ReviewerWorkflow, RiskAnalysisReviewMode } from '@/api/api.generatedTypes'
 
 const useSuspenseQueryMock = vi.fn()
 
@@ -24,9 +24,13 @@ vi.mock('@/api/purpose', () => ({
 const REVIEWER_ID = '11111111-2222-3333-4444-555555555555'
 const OTHER_REVIEWER_ID = '66666666-7777-8888-9999-000000000000'
 
-const setPurpose = (reviewerWorkflow: ReviewerWorkflow | undefined) => {
+const setPurpose = (
+  reviewMode: RiskAnalysisReviewMode | undefined,
+  reviewerWorkflow?: ReviewerWorkflow
+) => {
   const purpose: Purpose = {
     ...createMockPurpose(),
+    reviewMode,
     reviewerWorkflow,
   }
   useSuspenseQueryMock.mockReturnValue({ data: purpose })
@@ -35,6 +39,18 @@ const setPurpose = (reviewerWorkflow: ReviewerWorkflow | undefined) => {
 describe('ConsumerPurposeSummaryAssignmentAccordion', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+  })
+
+  it('shows the autonomy mode for ADMIN_WRITES_ADMIN_SIGNS without reviewers', () => {
+    setPurpose('ADMIN_WRITES_ADMIN_SIGNS')
+
+    renderWithApplicationContext(
+      <ConsumerPurposeSummaryAssignmentAccordion purposeId="test-id" />,
+      { withReactQueryContext: true }
+    )
+
+    expect(screen.getByText('mode.autonomy')).toBeInTheDocument()
+    expect(screen.queryByText('reviewer.label')).not.toBeInTheDocument()
   })
 
   it('option 1 (autonomy) and fallback (reviewerWorkflow undefined): renders only "Modalità" row with autonomy copy', () => {
@@ -51,9 +67,7 @@ describe('ConsumerPurposeSummaryAssignmentAccordion', () => {
   })
 
   it('option 2 (ADMIN_WRITES_REVIEWER_SIGNS): renders "Modalità" + "Valutatore" rows with the reviewer name', () => {
-    setPurpose({
-      reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-      reviewerIds: [REVIEWER_ID],
+    setPurpose('ADMIN_WRITES_REVIEWER_SIGNS', {
       reviewers: [{ userId: REVIEWER_ID, name: 'Mario', familyName: 'Rossi' }],
       signingState: 'ASSIGNED',
     })
@@ -70,9 +84,7 @@ describe('ConsumerPurposeSummaryAssignmentAccordion', () => {
   })
 
   it('option 3 (REVIEWER_WRITES_REVIEWER_SIGNS): renders "Modalità" + "Valutatore" rows with the reviewer name', () => {
-    setPurpose({
-      reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
-      reviewerIds: [REVIEWER_ID],
+    setPurpose('REVIEWER_WRITES_REVIEWER_SIGNS', {
       reviewers: [{ userId: REVIEWER_ID, name: 'Mario', familyName: 'Rossi' }],
       signingState: 'ASSIGNED',
     })
@@ -89,9 +101,7 @@ describe('ConsumerPurposeSummaryAssignmentAccordion', () => {
   })
 
   it('renders every assigned reviewer as a comma separated list', () => {
-    setPurpose({
-      reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-      reviewerIds: [REVIEWER_ID, OTHER_REVIEWER_ID],
+    setPurpose('ADMIN_WRITES_REVIEWER_SIGNS', {
       reviewers: [
         { userId: REVIEWER_ID, name: 'Mario', familyName: 'Rossi' },
         { userId: OTHER_REVIEWER_ID, name: 'Luigi', familyName: 'Verdi' },
@@ -109,9 +119,7 @@ describe('ConsumerPurposeSummaryAssignmentAccordion', () => {
   })
 
   it('does not render the "Valutatore" row when the reviewer workflow has no reviewers', () => {
-    setPurpose({
-      reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-      reviewerIds: [REVIEWER_ID],
+    setPurpose('ADMIN_WRITES_REVIEWER_SIGNS', {
       signingState: 'ASSIGNED',
     })
 
@@ -125,9 +133,7 @@ describe('ConsumerPurposeSummaryAssignmentAccordion', () => {
   })
 
   it('does not render the "Valutatore" row when the reviewers list is empty', () => {
-    setPurpose({
-      reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-      reviewerIds: [],
+    setPurpose('ADMIN_WRITES_REVIEWER_SIGNS', {
       reviewers: [],
       signingState: 'ASSIGNED',
     })

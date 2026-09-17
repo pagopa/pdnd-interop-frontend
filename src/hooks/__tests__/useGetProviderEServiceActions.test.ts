@@ -958,7 +958,7 @@ function renderDetailsPageHook(
         archivableOn: options.archivingSchedule.archivableOn ?? '2026-01-01T00:00:00.000Z',
         startedAt: options.archivingSchedule.startedAt ?? '2026-01-01T00:00:00.000Z',
         scope: options.archivingSchedule.scope,
-        gracePeriodDays: options.archivingSchedule.gracePeriodDays,
+        gracePeriodDays: options.archivingSchedule.gracePeriodDays ?? 30,
       }
     : undefined
   return renderHookWithApplicationContext(
