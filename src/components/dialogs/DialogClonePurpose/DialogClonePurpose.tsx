@@ -20,6 +20,7 @@ import { DialogClonePurposeEServiceAutocomplete } from './DialogClonePurposeESer
 import { useQuery } from '@tanstack/react-query'
 import { getFormattedExpirationDate } from '@/utils/purpose.utils'
 import { match } from 'ts-pattern'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 type ClonePurposeFormValues = {
   eserviceId: string
@@ -78,6 +79,7 @@ export const DialogClonePurpose: React.FC<DialogClonePurposeProps> = ({ purposeI
     setSelectedEServicePersonalData(personalData)
   }
   const expirationDate = purpose?.rulesetExpiration
+  const isConfirmDisabled = useIsActionDisabledBySupport(incompatiblePersonalData())
 
   return (
     <Dialog aria-labelledby={ariaLabelId} open onClose={closeDialog} maxWidth="md" fullWidth>
@@ -115,7 +117,7 @@ export const DialogClonePurpose: React.FC<DialogClonePurposeProps> = ({ purposeI
             <Button type="button" variant="outlined" onClick={closeDialog}>
               {tCommon('cancel')}
             </Button>
-            <Button variant="contained" type="submit" disabled={incompatiblePersonalData()}>
+            <Button variant="contained" type="submit" disabled={isConfirmDisabled}>
               {tCommon('confirm')}
             </Button>
           </DialogActions>

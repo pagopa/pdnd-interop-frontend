@@ -123,6 +123,7 @@ const SidebarMobile: React.FC<{ children: React.ReactNode; labelMobile: string }
             sx={{ padding: { xs: 1 } }}
             data-testid="hamburger-mobile-icon"
             aria-label="hamburger-mobile-icon"
+            aria-expanded={isOpenSidebar}
             onClick={handleOpenSidebar}
             size="large"
           >

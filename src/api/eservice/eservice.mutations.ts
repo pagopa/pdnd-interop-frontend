@@ -1,13 +1,16 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
+import { AxiosError } from 'axios'
 import type {
   EServiceRiskAnalysisSeed,
+  ProblemError,
   UpdateEServiceDescriptorSeed,
   UpdateEServiceDescriptorTemplateInstanceSeed,
 } from '../api.generatedTypes'
 import { EServiceServices } from './eservice.services'
 import { EServiceQueries } from './eservice.queries'
 import type { AttributeKey } from '@/types/attribute.types'
+import { GRACE_PERIOD_DAYS_LOWER_THAN_DESCRIPTOR_ERROR_CODE } from '@/config/constants'
 
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'eservice.createDraft' })
@@ -217,12 +220,103 @@ function useScheduleArchiveDescriptor() {
   })
 }
 
+function useRequestArchiveDescriptor() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.requestArchiveDescriptor',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.submitDelegatedArchivingVersionRequest,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
 function useCancelDescriptorArchiving() {
   const { t } = useTranslation('mutations-feedback', {
     keyPrefix: 'eservice.cancelDescriptorArchiving',
   })
   return useMutation({
     mutationFn: EServiceServices.cancelDescriptorArchiving,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useCancelDelegatedArchivingVersionRequest() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.cancelDelegatedArchivingVersionRequest',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.cancelDelegatedArchivingVersionRequest,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useCancelDelegatedEserviceArchivingRequest() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.cancelDelegatedEserviceArchivingRequest',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.cancelDelegatedArchivingEserviceRequest,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useApproveDelegatedArchivingEServiceRequest({ days }: { days: number }) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.approveDelegatedArchivingEService',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.approveDelegatedEServiceArchivingRequest,
+    meta: {
+      successToastLabel: t('outcome.success', { days }),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useRejectDelegatedArchivingEServiceRequest() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.rejectDelegatedArchivingEService',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.rejectDelegatedEServiceArchivingRequest,
+    meta: {
+      successToastLabel: t('outcome.success'),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useApproveDelegatedArchivingVersionRequest({ days }: { days: number }) {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.approveDelegatedArchivingVersion',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.approveDelegatedVersionArchivingRequest,
+    meta: {
+      successToastLabel: t('outcome.success', { days }),
+      errorToastLabel: t('outcome.error'),
+    },
+  })
+}
+
+function useRejectDelegatedArchivingVersionRequest() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.rejectDelegatedArchivingVersion',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.rejectDelegatedVersionArchivingRequest,
     meta: {
       successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
@@ -241,6 +335,30 @@ function useScheduleArchiveEservice() {
         t('outcome.success', {
           days: (variables as { gracePeriodDays: number }).gracePeriodDays,
         }),
+      errorToastLabel: (error: unknown) => {
+        if (
+          error instanceof AxiosError &&
+          error.response?.data?.errors?.some(
+            (problemError: ProblemError) =>
+              problemError.code === GRACE_PERIOD_DAYS_LOWER_THAN_DESCRIPTOR_ERROR_CODE
+          )
+        ) {
+          return t('outcome.gracePeriodError')
+        }
+        return t('outcome.error')
+      },
+    },
+  })
+}
+
+function useRequestArchiveEservice() {
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'eservice.requestArchiveEservice',
+  })
+  return useMutation({
+    mutationFn: EServiceServices.submitDelegatedArchivingEserviceRequest,
+    meta: {
+      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
     },
   })
@@ -259,9 +377,19 @@ function useCancelEserviceArchiving() {
   })
 }
 
-function useUpdateVersion({ isThresholdOnlyUpdate }: { isThresholdOnlyUpdate?: boolean } = {}) {
+function useUpdateVersion({
+  isThresholdOnlyUpdate,
+  isAttributeThresholdRemoval,
+}: {
+  isThresholdOnlyUpdate?: boolean
+  isAttributeThresholdRemoval?: boolean
+} = {}) {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: isThresholdOnlyUpdate ? 'eservice.updateThresholds' : 'eservice.updateVersion',
+    keyPrefix: isAttributeThresholdRemoval
+      ? 'eservice.removeAttributeThreshold'
+      : isThresholdOnlyUpdate
+        ? 'eservice.updateThresholds'
+        : 'eservice.updateVersion',
   })
   return useMutation({
     mutationFn: EServiceServices.updateVersion,
@@ -275,9 +403,17 @@ function useUpdateVersion({ isThresholdOnlyUpdate }: { isThresholdOnlyUpdate?: b
 
 function useUpdateInstanceVersion({
   isThresholdOnlyUpdate,
-}: { isThresholdOnlyUpdate?: boolean } = {}) {
+  isAttributeThresholdRemoval,
+}: {
+  isThresholdOnlyUpdate?: boolean
+  isAttributeThresholdRemoval?: boolean
+} = {}) {
   const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: isThresholdOnlyUpdate ? 'eservice.updateThresholds' : 'eservice.updateVersion',
+    keyPrefix: isAttributeThresholdRemoval
+      ? 'eservice.removeAttributeThreshold'
+      : isThresholdOnlyUpdate
+        ? 'eservice.updateThresholds'
+        : 'eservice.updateVersion',
   })
   return useMutation({
     mutationFn: EServiceServices.updateInstanceVersion,
@@ -634,8 +770,12 @@ export const EServiceMutations = {
   useSuspendVersion,
   useReactivateVersion,
   useScheduleArchiveDescriptor,
+  useRequestArchiveDescriptor,
   useCancelDescriptorArchiving,
+  useCancelDelegatedArchivingVersionRequest,
+  useCancelDelegatedEserviceArchivingRequest,
   useScheduleArchiveEservice,
+  useRequestArchiveEservice,
   useCancelEserviceArchiving,
   useUpdateVersion,
   useDeleteVersionDraft,
@@ -661,4 +801,8 @@ export const EServiceMutations = {
   useUpdateEServiceSignalHub,
   useUpdateEServicePersonalDataFlagAfterPublication,
   useUpdateEServiceDelegationFlagsAfterPublication,
+  useApproveDelegatedArchivingEServiceRequest,
+  useRejectDelegatedArchivingEServiceRequest,
+  useApproveDelegatedArchivingVersionRequest,
+  useRejectDelegatedArchivingVersionRequest,
 }

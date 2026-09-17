@@ -2,6 +2,7 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { vi, describe, it, expect, beforeEach } from 'vitest'
 import { UpdateAttributesDrawer } from '../UpdateAttributesDrawer'
+import type { FormDescriptorAttribute } from '@/types/attribute.types'
 
 vi.mock('@/components/layout/containers', () => {
   type Attribute = { id: string; name: string }
@@ -20,7 +21,22 @@ vi.mock('@/components/layout/containers', () => {
 })
 
 vi.mock('@/components/shared/AttributeAutocomplete', () => ({
-  AttributeAutocomplete: () => <div data-testid="attribute-autocomplete" />,
+  AttributeAutocomplete: ({
+    onAddAttribute,
+  }: {
+    onAddAttribute: (attribute: FormDescriptorAttribute) => void
+  }) => (
+    <button
+      data-testid="attribute-autocomplete"
+      onClick={() =>
+        onAddAttribute({
+          id: 'attr-3',
+          name: 'Attribute 3',
+          kind: 'CERTIFIED',
+        })
+      }
+    />
+  ),
 }))
 
 const useUpdateAttributes = vi.fn()
@@ -163,15 +179,43 @@ describe('UpdateAttributesDrawer', () => {
     expect(screen.getByText('group.or')).toBeInTheDocument()
   })
 
-  it('calls updateEserviceTemplateAttributes when kind is ESERVICE_TEMPLATE', () => {
-    render(<UpdateAttributesDrawer {...defaultProps} kind="ESERVICE_TEMPLATE" />)
+  it('closes without calling updateEserviceTemplateAttributes when kind is ESERVICE_TEMPLATE and attributes are unchanged', () => {
+    const onClose = vi.fn()
+
+    render(<UpdateAttributesDrawer {...defaultProps} kind="ESERVICE_TEMPLATE" onClose={onClose} />)
     fireEvent.click(screen.getByText('actions.saveEdits'))
+
+    expect(useUpdateAttributes).not.toHaveBeenCalled()
+    expect(onClose).toHaveBeenCalledOnce()
+  })
+
+  it('closes without calling updateEserviceAttributes when kind is ESERVICE and attributes are unchanged', () => {
+    const onClose = vi.fn()
+
+    render(<UpdateAttributesDrawer {...defaultProps} kind="ESERVICE" onClose={onClose} />)
+    fireEvent.click(screen.getByText('actions.saveEdits'))
+
+    expect(useUpdateDescriptorAttributes).not.toHaveBeenCalled()
+    expect(onClose).toHaveBeenCalledOnce()
+  })
+
+  it('calls updateEserviceTemplateAttributes when kind is ESERVICE_TEMPLATE and attributes changed', () => {
+    render(<UpdateAttributesDrawer {...defaultProps} kind="ESERVICE_TEMPLATE" />)
+
+    fireEvent.click(screen.getAllByText('group.addAnotherBtn')[0])
+    fireEvent.click(screen.getByTestId('attribute-autocomplete'))
+    fireEvent.click(screen.getByText('actions.saveEdits'))
+
     expect(useUpdateAttributes).toHaveBeenCalled()
   })
 
-  it('calls updateEserviceAttributes when kind is ESERVICE', () => {
+  it('calls updateEserviceAttributes when kind is ESERVICE and attributes changed', () => {
     render(<UpdateAttributesDrawer {...defaultProps} kind="ESERVICE" />)
+
+    fireEvent.click(screen.getAllByText('group.addAnotherBtn')[0])
+    fireEvent.click(screen.getByTestId('attribute-autocomplete'))
     fireEvent.click(screen.getByText('actions.saveEdits'))
+
     expect(useUpdateDescriptorAttributes).toHaveBeenCalled()
   })
 })
