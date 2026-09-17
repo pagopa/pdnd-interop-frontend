@@ -46,6 +46,7 @@ describe('RiskAnalysisRejectThankYouPage', () => {
 
     expect(navigateMock).toHaveBeenCalledWith('SUBSCRIBE_RISK_ANALYSIS_DETAILS', {
       params: { purposeId: 'purpose-id-001' },
+      state: { awaitRiskAnalysisConclusion: true },
     })
   })
 })

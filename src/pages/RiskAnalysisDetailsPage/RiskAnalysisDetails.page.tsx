@@ -7,6 +7,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Alert, Grid, Tab } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import {
   RiskAnalysisDetailsPurposeTab,
@@ -30,6 +31,14 @@ const RiskAnalysisDetailsPage: React.FC = () => {
   const { purposeId } = useParams<'SUBSCRIBE_RISK_ANALYSIS_DETAILS'>()
   const navigate = useNavigate()
   const { activeTab, updateActiveTab } = useActiveTab(RiskAnalysisDetailsPageTab.DETAILS)
+  const locationState: unknown = useLocation().state
+  const [isWaitingForConclusion, setIsWaitingForConclusion] = React.useState(
+    () =>
+      typeof locationState === 'object' &&
+      locationState !== null &&
+      'awaitRiskAnalysisConclusion' in locationState &&
+      locationState.awaitRiskAnalysisConclusion === true
+  )
 
   const {
     data: purpose,
@@ -38,6 +47,7 @@ const RiskAnalysisDetailsPage: React.FC = () => {
   } = useQuery({
     ...PurposeQueries.getSingle(purposeId),
     throwOnError: true,
+    refetchInterval: isWaitingForConclusion ? 1000 : false,
   })
 
   useMarkNotificationsAsRead(purposeId)
@@ -45,13 +55,24 @@ const RiskAnalysisDetailsPage: React.FC = () => {
   const signingState = purpose?.reviewerWorkflow?.signingState
   const concludedSigningState = isConcludedSigningState(signingState) ? signingState : undefined
 
-  // Waits for the query to settle: right after the approval/rejection flow the cache still holds
-  // the pre-mutation state, and redirecting on it would bounce the reviewer back to the list.
+  // A successful mutation can precede the readmodel update. Match the global polling window,
+  // but start it on arrival from the success page, even if the user stayed there for a while.
   React.useEffect(() => {
-    if (!isFetching && purpose && !concludedSigningState) {
+    if (!isWaitingForConclusion) return
+    if (concludedSigningState) {
+      setIsWaitingForConclusion(false)
+      return
+    }
+
+    const timeout = window.setTimeout(() => setIsWaitingForConclusion(false), 20_000)
+    return () => window.clearTimeout(timeout)
+  }, [isWaitingForConclusion, concludedSigningState])
+
+  React.useEffect(() => {
+    if (!isWaitingForConclusion && !isFetching && purpose && !concludedSigningState) {
       navigate('SUBSCRIBE_RISK_ANALYSIS_LIST', { replace: true })
     }
-  }, [purpose, concludedSigningState, isFetching, navigate])
+  }, [purpose, concludedSigningState, isFetching, isWaitingForConclusion, navigate])
 
   return (
     <PageContainer

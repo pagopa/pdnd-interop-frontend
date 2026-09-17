@@ -11,7 +11,10 @@ const RiskAnalysisRejectThankYouPage: React.FC = () => {
   const navigate = useNavigate()
 
   const handleClose = () => {
-    navigate('SUBSCRIBE_RISK_ANALYSIS_DETAILS', { params: { purposeId } })
+    navigate('SUBSCRIBE_RISK_ANALYSIS_DETAILS', {
+      params: { purposeId },
+      state: { awaitRiskAnalysisConclusion: true },
+    })
   }
 
   return (
