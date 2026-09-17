@@ -14,6 +14,7 @@ import type {
   GetRequesterCertifiedAttributesParams,
   RequesterCertifiedAttributes,
   RevokeVerifiedAttributePayload,
+  UpdateCertifiedDiscreteTenantAttributeSeed,
   UpdateVerifiedTenantAttributeSeed,
   VerifiedAttributesResponse,
   VerifiedTenantAttributeSeed,
@@ -182,6 +183,17 @@ async function revokeDeclaredPartyAttribute({ attributeId }: { attributeId: stri
   )
 }
 
+async function updateCertifiedDiscreteAttribute({
+  tenantId,
+  attributeId,
+  ...payload
+}: { tenantId: string; attributeId: string } & UpdateCertifiedDiscreteTenantAttributeSeed) {
+  return axiosInstance.put(
+    `${BACKEND_FOR_FRONTEND_URL}/tenants/${tenantId}/attributes/certifiedDiscrete/${attributeId}`,
+    payload
+  )
+}
+
 export const AttributeServices = {
   getList,
   getRequesterCertifiedAttributesList,
@@ -202,4 +214,5 @@ export const AttributeServices = {
   revokeVerifiedPartyAttribute,
   declarePartyAttribute,
   revokeDeclaredPartyAttribute,
+  updateCertifiedDiscreteAttribute,
 }

@@ -6,6 +6,7 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { AgreementMutations } from '@/api/agreement'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 type RejectAgreementFormValues = {
   reason: string
@@ -19,6 +20,7 @@ export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ ag
   })
   const { closeDialog } = useDialog()
   const { mutate: reject } = AgreementMutations.useReject()
+  const isConfirmDisabled = useIsActionDisabledBySupport()
 
   const formMethods = useForm<RejectAgreementFormValues>({
     defaultValues: { reason: '' },
@@ -51,7 +53,7 @@ export const DialogRejectAgreement: React.FC<DialogRejectAgreementProps> = ({ ag
             <Button type="button" variant="outlined" onClick={closeDialog}>
               {t('actions.cancelLabel')}
             </Button>
-            <Button variant="contained" type="submit">
+            <Button variant="contained" type="submit" disabled={isConfirmDisabled}>
               {t('actions.confirmLabel')}
             </Button>
           </DialogActions>
