@@ -84,14 +84,18 @@ function buildPurpose(
 ): Purpose {
   const reviewerWorkflow: Purpose['reviewerWorkflow'] | undefined = assignment?.reviewMode
     ? {
-        reviewMode: assignment.reviewMode,
-        reviewerIds: assignment.reviewerIds ?? [],
+        reviewers: (assignment.reviewerIds ?? []).map((userId) => ({
+          userId,
+          name: 'Mario',
+          familyName: 'Rossi',
+        })),
         signingState: 'ASSIGNED',
       }
     : undefined
   const base = createMockPurpose({ id: 'purpose-123', ...overrides })
   return {
     ...base,
+    reviewMode: assignment?.reviewMode,
     // Default to an editable draft so the form path is exercised unless a test opts out.
     currentVersion: base.currentVersion && {
       ...base.currentVersion,
