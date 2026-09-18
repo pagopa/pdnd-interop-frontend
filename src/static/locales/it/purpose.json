@@ -108,10 +108,14 @@
           "ADMIN_WRITES_REVIEWER_SIGNS": "Chi approverà l’analisi del rischio?",
           "REVIEWER_WRITES_REVIEWER_SIGNS": "Chi compilerà l’analisi del rischio?"
         },
+        "infoLabel": "Puoi selezionare più di un valutatore.",
         "inputLabel": "Seleziona valutatore",
         "requiredError": "Per proseguire, seleziona un valutatore",
-        "removedError_one": "Il valutatore {{names}} è stato rimosso dagli utenti del tuo ente",
-        "removedError_other": "I valutatori {{names}} sono stati rimossi dagli utenti del tuo ente"
+        "removedError_one": "Il valutatore che avevi scelto non è più disponibile. Fai una nuova selezione.",
+        "removedError_other": "I valutatori che avevi scelto non sono più disponibili. Fai una nuova selezione.",
+        "partiallyRemovedWarningTitle": "Informazioni sui valutatori",
+        "partiallyRemovedWarningLabel": "Uno o più valutatori che avevi scelto non sono più disponibili: controlla i valutatori selezionati.",
+        "dismissButtonLabel": "Ok, ho capito"
       },
       "editAssignmentDialog": {
         "title": "Modifica assegnazione",
