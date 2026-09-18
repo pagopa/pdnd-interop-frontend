@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
+import type { FilterOptionsState } from '@mui/material'
 import {
   Alert,
+  AlertTitle,
   Box,
-  type FilterOptionsState,
-  Link,
+  Button,
   Stack,
   Typography,
   createFilterOptions,
@@ -28,6 +29,8 @@ import { useNavigate } from '@/router'
 import SaveIcon from '@mui/icons-material/Save'
 import SendIcon from '@mui/icons-material/Send'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import LaunchIcon from '@mui/icons-material/Launch'
+import { IconLink } from '@/components/shared/IconLink'
 
 export type PurposeEditStepAssignmentFormValues = {
   reviewMode: RiskAnalysisReviewMode
@@ -69,6 +72,7 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
   const { t: tEdit } = useTranslation('purpose', { keyPrefix: 'edit' })
   const navigate = useNavigate()
   const { openDialog } = useDialog()
+  const [showPartiallyRemovedReviewersAlert, setShowPartiallyRemovedReviewersAlert] = useState(true)
 
   // A purpose only carries a review mode once the assignment step has been completed, so its
   // absence marks the first compilation (this holds for purposes predating the reviewer feature
@@ -84,17 +88,24 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
 
   const assignedReviewers = purpose.reviewerWorkflow?.reviewers ?? []
   const assignedReviewerIds = assignedReviewers.map(({ userId }) => userId)
+  const availableReviewerIds = reviewers.map(({ userId }) => userId)
 
-  // Reviewers assigned by a previous release but no longer among the institution's users. They
-  // must stay visible so the admin can see and drop them, but they block the submit.
+  // Reviewers assigned by a previous release but no longer among the institution's users.
   const removedReviewers = assignedReviewers.filter(
     (assigned) => !reviewers.some((user) => user.userId === assigned.userId)
   )
   const removedReviewerIds = removedReviewers.map(({ userId }) => userId)
 
+  const hasRemovedReviewers = removedReviewers.length > 0
+  // No reviewers available from Selfcare
   const hasNoReviewers = reviewers.length === 0
 
-  const hasLostItsOnlyReviewers = !isDelegate && hasNoReviewers && removedReviewers.length > 0
+  // Some assigned reviewers have been removed, but other reviewers can be chosen -> show warning alert
+  const hasAvailableAssignedReviewers = assignedReviewers.some(({ userId }) =>
+    availableReviewerIds.includes(userId)
+  )
+
+  const hasLostItsOnlyReviewers = !isDelegate && hasNoReviewers && hasRemovedReviewers
   const isFormHidden = isDelegate || hasNoReviewers
 
   const formMethods = useForm<PurposeEditStepAssignmentFormValues>({ defaultValues })
@@ -102,6 +113,15 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
   const reviewMode = formMethods.watch('reviewMode')
   const needsReviewers = checkReviewModeNeedsReviewers(reviewMode)
   const isRequestReviewerCompilation = reviewMode === 'REVIEWER_WRITES_REVIEWER_SIGNS'
+
+  // All previously set reviewers are no longer available, but other reviewers can be chosen -> trigger validation on rendering
+  React.useEffect(() => {
+    if (!needsReviewers || !hasRemovedReviewers) {
+      return
+    }
+
+    formMethods.trigger('reviewerIds')
+  }, [formMethods, needsReviewers, hasRemovedReviewers])
 
   const getReviewerName = (userId: string) => {
     const user =
@@ -192,34 +212,26 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
     })
   }
 
-  // Reviewers no longer belonging to the institution are kept among the options so that their
-  // chip still renders, but they are filtered out of the dropdown so they cannot be picked again.
-  const reviewerOptions: Array<ReviewerOption> = [
-    ...reviewers.map((user) => ({ label: getReviewerName(user.userId), value: user.userId })),
-    ...removedReviewers.map((user) => ({
-      label: getReviewerName(user.userId),
-      value: user.userId,
-    })),
-  ]
+  // Autocomplete is populated with available reviewers only
+  const reviewerOptions: Array<ReviewerOption> = reviewers.map((user) => ({
+    label: getReviewerName(user.userId),
+    value: user.userId,
+  }))
 
   const filterOptions = (
     options: Array<ReviewerOption>,
     state: FilterOptionsState<ReviewerOption>
-  ) =>
-    filterReviewerOptions(
-      options.filter((option) => !removedReviewerIds.includes(option.value)),
-      state
-    )
+  ) => filterReviewerOptions(options, state)
 
   const validateReviewerIds = (reviewerIds: Array<string>) => {
     if (reviewerIds.length === 0) return t('reviewerField.requiredError')
 
     const removed = reviewerIds.filter((userId) => removedReviewerIds.includes(userId))
     if (removed.length === 0) return true
+    if (hasAvailableAssignedReviewers) return true
 
     return t('reviewerField.removedError', {
       count: removed.length,
-      names: removed.map(getReviewerName).join(', '),
     })
   }
 
@@ -240,17 +252,29 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
               </Alert>
             )}
             {!isDelegate && hasNoReviewers && (
-              <Alert severity="info">
+              <Alert
+                severity="info"
+                action={
+                  selfcareUsersPageUrl && (
+                    <IconLink
+                      href={selfcareUsersPageUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      startIcon={<LaunchIcon fontSize="small" />}
+                      sx={{ whiteSpace: 'nowrap' }}
+                    >
+                      <Typography component="span" variant="inherit" fontWeight={700}>
+                        {t('noReviewersAlert.linkLabel')}
+                      </Typography>
+                    </IconLink>
+                  )
+                }
+              >
                 {hasLostItsOnlyReviewers
                   ? t('noReviewersAlert.removedReviewerMessage', {
                       count: removedReviewers.length,
                     })
-                  : t('noReviewersAlert.message')}{' '}
-                {selfcareUsersPageUrl && (
-                  <Link href={selfcareUsersPageUrl} target="_blank" rel="noopener noreferrer">
-                    {t('noReviewersAlert.linkLabel')}
-                  </Link>
-                )}
+                  : t('noReviewersAlert.message')}
               </Alert>
             )}
             {!isFormHidden && (
@@ -279,6 +303,9 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
                   <>
                     <Typography variant="body2" fontWeight={600}>
                       {t(`reviewerField.label.${reviewerLabelKey}`)}
+                      <Typography variant="body2" fontWeight={400} sx={{ mt: 1 }}>
+                        {t(`reviewerField.infoLabel`)}
+                      </Typography>
                     </Typography>
                     <RHFAutocompleteMultiple
                       name="reviewerIds"
@@ -290,6 +317,27 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
                         validate: validateReviewerIds,
                       }}
                     />
+
+                    {hasRemovedReviewers &&
+                      hasAvailableAssignedReviewers &&
+                      showPartiallyRemovedReviewersAlert && (
+                        <Alert
+                          color="warning"
+                          severity="warning"
+                          action={
+                            <Button
+                              color="inherit"
+                              size="small"
+                              onClick={() => setShowPartiallyRemovedReviewersAlert(false)}
+                            >
+                              {t('reviewerField.dismissButtonLabel')}
+                            </Button>
+                          }
+                        >
+                          <AlertTitle>{t('reviewerField.partiallyRemovedWarningTitle')}</AlertTitle>
+                          {t('reviewerField.partiallyRemovedWarningLabel')}
+                        </Alert>
+                      )}
                   </>
                 )}
               </>

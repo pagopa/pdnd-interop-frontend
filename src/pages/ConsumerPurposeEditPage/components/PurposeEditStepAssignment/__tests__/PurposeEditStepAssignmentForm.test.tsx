@@ -486,12 +486,6 @@ describe('PurposeEditStepAssignmentForm', () => {
       reviewerIds: [removedReviewer.userId],
     }
 
-    it('keeps the removed reviewer visible as a selected chip', () => {
-      renderComponent({ purpose: purposeWithRemovedReviewer(), defaultValues })
-
-      expect(screen.getByText('Luca Neri')).toBeInTheDocument()
-    })
-
     it('does not offer the removed reviewer among the dropdown options', async () => {
       const user = userEvent.setup()
       renderComponent({ purpose: purposeWithRemovedReviewer(), defaultValues })
@@ -641,6 +635,44 @@ describe('PurposeEditStepAssignmentForm', () => {
       await user.click(screen.getByRole('button', { name: 'forwardBtn' }))
 
       expect(await screen.findByText('reviewerField.removedError')).toBeInTheDocument()
+      expect(assignReviewerMock).not.toHaveBeenCalled()
+    })
+
+    it('shows the removed reviewer validation on render when no previously assigned reviewer is still available', async () => {
+      renderComponent({
+        purpose: purposeWithRemovedReviewer(),
+        defaultValues,
+        reviewers: [mockReviewer, mockReviewer2],
+      })
+
+      expect(await screen.findByText('reviewerField.removedError')).toBeInTheDocument()
+      expect(assignReviewerMock).not.toHaveBeenCalled()
+    })
+
+    it('shows the warning without validation error when some previously assigned reviewers are still available', async () => {
+      const purpose = buildAssignedPurpose('ADMIN_WRITES_REVIEWER_SIGNS', [
+        removedReviewer,
+        {
+          userId: mockReviewer.userId,
+          name: mockReviewer.name,
+          familyName: mockReviewer.familyName,
+        },
+      ])
+
+      renderComponent({
+        purpose,
+        reviewers: [mockReviewer, mockReviewer2],
+        defaultValues: {
+          reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+          reviewerIds: [removedReviewer.userId, mockReviewer.userId],
+        },
+      })
+
+      expect(
+        await screen.findByText('reviewerField.partiallyRemovedWarningTitle')
+      ).toBeInTheDocument()
+
+      expect(screen.queryByText('reviewerField.removedError')).not.toBeInTheDocument()
       expect(assignReviewerMock).not.toHaveBeenCalled()
     })
   })
