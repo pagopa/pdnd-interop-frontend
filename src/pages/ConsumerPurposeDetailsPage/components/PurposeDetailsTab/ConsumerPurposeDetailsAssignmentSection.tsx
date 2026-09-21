@@ -15,7 +15,7 @@ export const ConsumerPurposeDetailsAssignmentSection: React.FC<
 > = ({ purpose }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisAssignment' })
 
-  const modeLabel = getReviewModeLabel(purpose.reviewMode, t)
+  const modeLabel = getReviewModeLabel(purpose.riskAnalysisReviewMode, t)
 
   const reviewerNames = getReviewerNames(purpose.reviewerWorkflow?.reviewers)
 

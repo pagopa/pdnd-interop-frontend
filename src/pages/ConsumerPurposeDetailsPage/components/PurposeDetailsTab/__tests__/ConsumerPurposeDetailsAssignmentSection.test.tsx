@@ -26,7 +26,7 @@ describe('ConsumerPurposeDetailsAssignmentSection', () => {
     renderWithApplicationContext(
       <ConsumerPurposeDetailsAssignmentSection
         purpose={createMockPurpose({
-          reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+          riskAnalysisReviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
           reviewerWorkflow: {
             reviewers: [{ userId: reviewerId, name: 'Mario', familyName: 'Rossi' }],
             signingState: 'ASSIGNED',
@@ -45,7 +45,7 @@ describe('ConsumerPurposeDetailsAssignmentSection', () => {
     renderWithApplicationContext(
       <ConsumerPurposeDetailsAssignmentSection
         purpose={createMockPurpose({
-          reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+          riskAnalysisReviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
           reviewerWorkflow: {
             reviewers: [
               { userId: reviewerId, name: 'Mario', familyName: 'Rossi' },
@@ -66,7 +66,7 @@ describe('ConsumerPurposeDetailsAssignmentSection', () => {
     renderWithApplicationContext(
       <ConsumerPurposeDetailsAssignmentSection
         purpose={createMockPurpose({
-          reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+          riskAnalysisReviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
           reviewerWorkflow: {
             signingState: 'ASSIGNED',
           },

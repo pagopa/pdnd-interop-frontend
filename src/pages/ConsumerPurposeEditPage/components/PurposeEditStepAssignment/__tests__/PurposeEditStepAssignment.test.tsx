@@ -95,7 +95,7 @@ function buildPurpose(
   const base = createMockPurpose({ id: 'purpose-123', ...overrides })
   return {
     ...base,
-    reviewMode: assignment?.reviewMode,
+    riskAnalysisReviewMode: assignment?.reviewMode,
     // Default to an editable draft so the form path is exercised unless a test opts out.
     currentVersion: base.currentVersion && {
       ...base.currentVersion,

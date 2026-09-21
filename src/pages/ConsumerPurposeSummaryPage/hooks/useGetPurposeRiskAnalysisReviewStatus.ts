@@ -35,7 +35,7 @@ export function useGetPurposeRiskAnalysisReviewStatus(
   })
 
   const signingState = purpose?.reviewerWorkflow?.signingState
-  const reviewMode = purpose?.reviewMode
+  const reviewMode = purpose?.riskAnalysisReviewMode
 
   const chip = match(signingState)
     .returnType<RiskAnalysisReviewChip | undefined>()

@@ -294,7 +294,11 @@ describe('ConsumerPurposeSummaryPage', () => {
         : undefined
 
       useQueryMock.mockReturnValue({
-        data: { ...createMockPurposeCompatiblePersonalDataYes(), reviewMode, reviewerWorkflow },
+        data: {
+          ...createMockPurposeCompatiblePersonalDataYes(),
+          riskAnalysisReviewMode: reviewMode,
+          reviewerWorkflow,
+        },
         isLoading: false,
       })
 
