@@ -22,7 +22,7 @@ const PurposeEditStepAssignmentReadOnly: React.FC<PurposeEditStepAssignmentReadO
   const { t } = useTranslation('purpose', { keyPrefix: 'edit.stepAssignment' })
   const { t: tEdit } = useTranslation('purpose', { keyPrefix: 'edit' })
 
-  const reviewMode = purpose.reviewMode ?? 'ADMIN_WRITES_ADMIN_SIGNS'
+  const reviewMode = purpose.riskAnalysisReviewMode ?? 'ADMIN_WRITES_ADMIN_SIGNS'
 
   const subtitle = match(purpose.currentVersion?.state)
     .with('DRAFT', () => t('readOnly.subtitle.signed'))

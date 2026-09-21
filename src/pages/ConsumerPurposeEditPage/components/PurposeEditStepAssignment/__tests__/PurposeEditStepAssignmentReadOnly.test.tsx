@@ -27,7 +27,7 @@ function buildPurpose(
   return {
     ...base,
     currentVersion: base.currentVersion && { ...base.currentVersion, state: versionState },
-    reviewMode,
+    riskAnalysisReviewMode: reviewMode,
     reviewerWorkflow: {
       reviewers,
       signingState: 'SIGNED',

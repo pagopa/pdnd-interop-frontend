@@ -22,7 +22,7 @@ const buildPurpose = (
 
   return createMockPurpose({
     currentVersion: { state: currentVersionState },
-    reviewMode: signingState ? 'REVIEWER_WRITES_REVIEWER_SIGNS' : undefined,
+    riskAnalysisReviewMode: signingState ? 'REVIEWER_WRITES_REVIEWER_SIGNS' : undefined,
     reviewerWorkflow,
   })
 }

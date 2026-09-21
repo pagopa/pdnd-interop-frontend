@@ -29,7 +29,7 @@ const setPurpose = (
 ) => {
   const purpose: Purpose = {
     ...createMockPurpose(),
-    reviewMode,
+    riskAnalysisReviewMode: reviewMode,
     reviewerWorkflow,
   }
   useSuspenseQueryMock.mockReturnValue({ data: purpose })

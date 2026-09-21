@@ -54,7 +54,7 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
     return <RiskAnalysisFormSkeleton />
   }
 
-  const reviewMode = purpose.reviewMode
+  const reviewMode = purpose.riskAnalysisReviewMode
   const signingState = purpose.reviewerWorkflow?.signingState
 
   const stepMode = match<

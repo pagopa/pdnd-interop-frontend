@@ -95,7 +95,7 @@ function buildPurpose(
     },
     ...(assignment?.reviewMode
       ? {
-          reviewMode: assignment.reviewMode,
+          riskAnalysisReviewMode: assignment.reviewMode,
           reviewerWorkflow: {
             reviewers: assignment.reviewers ?? [],
             signingState: assignment.signingState ?? 'ASSIGNED',

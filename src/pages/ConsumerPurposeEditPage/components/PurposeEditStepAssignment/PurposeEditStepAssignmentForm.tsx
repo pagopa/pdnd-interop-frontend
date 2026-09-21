@@ -74,9 +74,9 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
   // absence marks the first compilation (this holds for purposes predating the reviewer feature
   // too). Saving an assignment that already exists is an edit instead, which asks for confirmation
   // through its own dialog and gives its own feedback.
-  // The backend always sets `reviewMode` alongside `reviewerWorkflow`, so this single check is
+  // The backend always sets `riskAnalysisReviewMode` alongside `reviewerWorkflow`, so this single check is
   // enough to tell the two flows apart.
-  const isEditing = purpose.reviewMode !== undefined
+  const isEditing = purpose.riskAnalysisReviewMode !== undefined
 
   const { mutate: assignReviewer } = PurposeMutations.useAssignRiskAnalysisReviewer({
     feedback: isEditing ? 'edit' : 'none',
@@ -161,7 +161,7 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
     }
 
     // `isEditing` guarantees the purpose carries a persisted review mode.
-    const fromMode = purpose.reviewMode as RiskAnalysisReviewMode
+    const fromMode = purpose.riskAnalysisReviewMode as RiskAnalysisReviewMode
 
     const addedReviewerNames = nextReviewerIds
       .filter((userId) => !assignedReviewerIds.includes(userId))

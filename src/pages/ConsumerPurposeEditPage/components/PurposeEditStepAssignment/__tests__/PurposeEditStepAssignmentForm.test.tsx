@@ -66,7 +66,7 @@ function buildAssignedPurpose(
   const base = createMockPurpose({ id: 'purpose-id' })
   return {
     ...base,
-    reviewMode,
+    riskAnalysisReviewMode: reviewMode,
     reviewerWorkflow: { reviewers, signingState: 'ASSIGNED' },
   }
 }
