@@ -1,6 +1,5 @@
 import React from 'react'
 import type { ActiveStepProps } from '@/hooks/useActiveStep'
-import type { CompactUser } from '@/api/api.generatedTypes'
 import { RiskAnalysisForm, RiskAnalysisFormSkeleton } from './RiskAnalysisForm/RiskAnalysisForm'
 import { useNavigate, useParams } from '@/router'
 import { PurposeMutations, PurposeQueries } from '@/api/purpose'
@@ -142,8 +141,8 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
   }
 
   const handleRequestApproval = (answers: Record<string, string[]>) => {
-    const reviewer: CompactUser | undefined = purpose.reviewerWorkflow?.reviewers?.[0]
-    if (!reviewer) {
+    const reviewers = purpose.reviewerWorkflow?.reviewers ?? []
+    if (reviewers.length === 0) {
       // If we land here the purpose is malformed;
       // log loudly and no-op rather than crashing the route —
       // this is a UI action handler, not a place to throw to the ErrorBoundary.
@@ -155,7 +154,7 @@ export const PurposeEditStepRiskAnalysis: React.FC<ActiveStepProps> = ({ back })
 
     openDialog({
       type: 'requestPurposeApproval',
-      reviewer,
+      reviewers,
       // Chain must live in the parent: putting it in the dialog would race
       // closeDialog(), and the second mutate() would silently no-op against a
       // destroyed observer.

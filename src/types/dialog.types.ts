@@ -205,7 +205,7 @@ export type DialogTenantKindPurposeTemplateProps = {
 
 export type DialogRequestPurposeApprovalProps = {
   type: 'requestPurposeApproval'
-  reviewer: CompactUser
+  reviewers: Array<CompactUser>
   onConfirm: VoidFunction
 }
 
