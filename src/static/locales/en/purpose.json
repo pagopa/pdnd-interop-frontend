@@ -669,7 +669,7 @@
     },
     "riskAnalysisSection": {
       "title": "Risk analysis",
-      "signedSubtitle": "You can no longer edit the risk analysis because you approved it."
+      "signedSubtitle": "You can no longer edit the risk analysis because it has been approved."
     }
   },
   "riskAnalysisList": {

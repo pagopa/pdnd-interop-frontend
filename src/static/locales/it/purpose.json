@@ -669,7 +669,7 @@
     },
     "riskAnalysisSection": {
       "title": "Analisi del rischio",
-      "signedSubtitle": "Non puoi più modificare l’analisi del rischio perché l’hai approvata."
+      "signedSubtitle": "Non puoi più modificare l’analisi del rischio perché è stata approvata."
     }
   },
   "riskAnalysisList": {
