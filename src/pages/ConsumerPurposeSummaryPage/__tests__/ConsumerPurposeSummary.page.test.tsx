@@ -274,7 +274,7 @@ describe('ConsumerPurposeSummaryPage', () => {
 
   describe('risk analysis review status (options 2 / 3)', () => {
     const renderWithReviewerWorkflow = (signingState: RiskAnalysisSigningState | undefined) => {
-      const reviewMode: RiskAnalysisReviewMode | undefined = signingState
+      const riskAnalysisReviewMode: RiskAnalysisReviewMode | undefined = signingState
         ? signingState === 'ASSIGNED'
           ? 'REVIEWER_WRITES_REVIEWER_SIGNS'
           : 'ADMIN_WRITES_REVIEWER_SIGNS'
@@ -294,7 +294,11 @@ describe('ConsumerPurposeSummaryPage', () => {
         : undefined
 
       useQueryMock.mockReturnValue({
-        data: { ...createMockPurposeCompatiblePersonalDataYes(), reviewMode, reviewerWorkflow },
+        data: {
+          ...createMockPurposeCompatiblePersonalDataYes(),
+          riskAnalysisReviewMode,
+          reviewerWorkflow,
+        },
         isLoading: false,
       })
 
