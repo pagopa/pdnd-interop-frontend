@@ -60,13 +60,13 @@ const DEFAULT_VALUES: PurposeEditStepAssignmentFormValues = {
 
 /** Builds a purpose that already carries a persisted assignment, i.e. the edit flow. */
 function buildAssignedPurpose(
-  reviewMode: RiskAnalysisReviewMode,
+  riskAnalysisReviewMode: RiskAnalysisReviewMode,
   reviewers: Array<CompactUser>
 ): Purpose {
   const base = createMockPurpose({ id: 'purpose-id' })
   return {
     ...base,
-    reviewMode,
+    riskAnalysisReviewMode,
     reviewerWorkflow: { reviewers, signingState: 'ASSIGNED' },
   }
 }

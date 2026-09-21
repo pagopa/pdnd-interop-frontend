@@ -18,7 +18,7 @@ import PurposeEditStepAssignmentReadOnly from './PurposeEditStepAssignmentReadOn
 const getDefaultValues = (purpose: Purpose): PurposeEditStepAssignmentFormValues => ({
   // A purpose with no persisted review mode has never been assigned: the form starts on
   // self-compilation and self-approval.
-  reviewMode: purpose.reviewMode ?? 'ADMIN_WRITES_ADMIN_SIGNS',
+  reviewMode: purpose.riskAnalysisReviewMode ?? 'ADMIN_WRITES_ADMIN_SIGNS',
   reviewerIds: purpose.reviewerWorkflow?.reviewers?.map(({ userId }) => userId) ?? [],
 })
 

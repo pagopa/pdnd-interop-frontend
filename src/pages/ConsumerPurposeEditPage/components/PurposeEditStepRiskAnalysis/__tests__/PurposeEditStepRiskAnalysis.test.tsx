@@ -87,14 +87,14 @@ function mockQueries(
   })
 }
 
-type ReviewSetup = { reviewMode: RiskAnalysisReviewMode } & ReviewerWorkflow
+type ReviewSetup = { riskAnalysisReviewMode: RiskAnalysisReviewMode } & ReviewerWorkflow
 
 function buildPurpose(review?: ReviewSetup): Purpose {
   const purpose = createMockPurpose({ id: 'purpose-123' })
   if (!review) return purpose
 
-  const { reviewMode, ...reviewerWorkflow } = review
-  return { ...purpose, reviewMode, reviewerWorkflow }
+  const { riskAnalysisReviewMode, ...reviewerWorkflow } = review
+  return { ...purpose, riskAnalysisReviewMode, reviewerWorkflow }
 }
 
 function getLastFormProps(): RiskAnalysisFormSpyProps {
@@ -132,7 +132,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
   it('passes isReviewerApprovalMode=true with onSaveDraft when reviewMode is ADMIN_WRITES_REVIEWER_SIGNS', () => {
     mockQueries(
       buildPurpose({
-        reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+        riskAnalysisReviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
         signingState: 'DRAFT',
       }),
       createMockRiskAnalysisFormConfig()
@@ -147,7 +147,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
   it('in option 2 awaiting approval shows the read-only summary with the submitted chip and subtitle, not the editable form', () => {
     mockQueries(
       buildPurpose({
-        reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+        riskAnalysisReviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
         signingState: 'SUBMITTED',
       }),
       createMockRiskAnalysisFormConfig()
@@ -168,7 +168,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
   it('in option 2 approved shows the read-only summary with the approved chip and subtitle, not the editable form', () => {
     mockQueries(
       buildPurpose({
-        reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+        riskAnalysisReviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
         signingState: 'SIGNED',
       }),
       createMockRiskAnalysisFormConfig()
@@ -186,7 +186,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
   it('in option 2 rejected keeps the form editable, flags the rejected alert and stays in approval mode', () => {
     mockQueries(
       buildPurpose({
-        reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+        riskAnalysisReviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
         signingState: 'REJECTED',
       }),
       createMockRiskAnalysisFormConfig()
@@ -201,7 +201,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
   it('in option 3 before the reviewer compiled shows only the info card, not the form', () => {
     mockQueries(
       buildPurpose({
-        reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
+        riskAnalysisReviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
         signingState: 'ASSIGNED',
       }),
       createMockRiskAnalysisFormConfig()
@@ -222,7 +222,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
   it('in option 3 after the reviewer signed shows the read-only summary with the approved chip, not the editable form', () => {
     mockQueries(
       buildPurpose({
-        reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
+        riskAnalysisReviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
         signingState: 'SIGNED',
       }),
       createMockRiskAnalysisFormConfig()
@@ -245,7 +245,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
     (signingState) => {
       mockQueries(
         buildPurpose({
-          reviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
+          riskAnalysisReviewMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
           signingState,
         }),
         createMockRiskAnalysisFormConfig()
@@ -260,7 +260,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
   it('in a read-only state the forward CTA stays accessible and navigates to the summary', () => {
     mockQueries(
       buildPurpose({
-        reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+        riskAnalysisReviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
         signingState: 'SIGNED',
       }),
       createMockRiskAnalysisFormConfig()
@@ -305,7 +305,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
   it('in option 2 opens the requestPurposeApproval dialog and the dialog onConfirm runs the submit+navigate chain', () => {
     const reviewer = { userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' }
     const purpose = buildPurpose({
-      reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+      riskAnalysisReviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
       reviewers: [reviewer],
       signingState: 'DRAFT',
     })
@@ -354,7 +354,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
   it('in option 2 logs and no-ops when reviewers is missing (BE contract violation) instead of opening a malformed dialog', () => {
     const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
     const purpose = buildPurpose({
-      reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+      riskAnalysisReviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
       reviewers: [],
       signingState: 'DRAFT',
     })
@@ -372,7 +372,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
 
   it('in option 2 the draft save only persists and navigates without submitting', () => {
     const purpose = buildPurpose({
-      reviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
+      riskAnalysisReviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
       signingState: 'DRAFT',
     })
     mockQueries(purpose, createMockRiskAnalysisFormConfig())
