@@ -447,7 +447,8 @@
       "reviewerWritesReviewerSigns": "Compilazione e approvazione del valutatore"
     },
     "reviewer": {
-      "label": "Valutatore"
+      "label_one": "Valutatore",
+      "label_other": "Valutatori"
     }
   },
   "consumerView": {

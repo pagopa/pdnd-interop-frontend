@@ -23,7 +23,7 @@ const PurposeEditStepAssignmentReadOnly: React.FC<PurposeEditStepAssignmentReadO
   const { t: tEdit } = useTranslation('purpose', { keyPrefix: 'edit' })
 
   const reviewerWorkflow = purpose.reviewerWorkflow
-  const reviewModeOption = beEnumToReviewModeOption(reviewerWorkflow?.reviewMode)
+  const reviewModeOption = beEnumToReviewModeOption(purpose.riskAnalysisReviewMode)
 
   const reviewer = reviewerWorkflow?.reviewers?.[0]
   // The assigned reviewer may no longer be resolvable (role revoked on SelfCare, left the
