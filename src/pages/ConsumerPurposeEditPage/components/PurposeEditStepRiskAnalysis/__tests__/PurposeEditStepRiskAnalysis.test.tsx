@@ -303,10 +303,13 @@ describe('PurposeEditStepRiskAnalysis', () => {
   })
 
   it('in option 2 opens the requestPurposeApproval dialog and the dialog onConfirm runs the submit+navigate chain', () => {
-    const reviewer = { userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' }
+    const reviewers = [
+      { userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' },
+      { userId: 'reviewer-2', name: 'Anna', familyName: 'Verdi' },
+    ]
     const purpose = buildPurpose({
       riskAnalysisReviewMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-      reviewers: [reviewer],
+      reviewers,
       signingState: 'DRAFT',
     })
     const riskAnalysis = createMockRiskAnalysisFormConfig()
@@ -326,7 +329,7 @@ describe('PurposeEditStepRiskAnalysis', () => {
     const dialogPayload = openDialogMock.mock.calls[0][0]
     expect(dialogPayload).toMatchObject({
       type: 'requestPurposeApproval',
-      reviewer,
+      reviewers,
     })
     expect(typeof dialogPayload.onConfirm).toBe('function')
 

@@ -12,7 +12,7 @@ import { useDialog } from '@/stores'
 import type { DialogRequestPurposeApprovalProps } from '@/types/dialog.types'
 
 export const DialogRequestPurposeApproval: React.FC<DialogRequestPurposeApprovalProps> = ({
-  reviewer,
+  reviewers,
   onConfirm,
 }) => {
   const ariaLabelId = React.useId()
@@ -24,7 +24,9 @@ export const DialogRequestPurposeApproval: React.FC<DialogRequestPurposeApproval
   })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
-  const reviewerName = `${reviewer.name} ${reviewer.familyName}`.trim()
+  const reviewerNames = reviewers
+    .map(({ name, familyName }) => `${name} ${familyName}`.trim())
+    .join(', ')
 
   const handleConfirm = () => {
     onConfirm()
@@ -48,7 +50,7 @@ export const DialogRequestPurposeApproval: React.FC<DialogRequestPurposeApproval
               strong: <Typography component="span" variant="inherit" fontWeight={600} />,
             }}
           >
-            {t('description', { reviewerName })}
+            {t('description', { reviewerNames, count: reviewers.length })}
           </Trans>
         </Typography>
       </DialogContent>

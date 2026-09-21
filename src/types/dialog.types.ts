@@ -205,7 +205,7 @@ export type DialogTenantKindPurposeTemplateProps = {
 
 export type DialogRequestPurposeApprovalProps = {
   type: 'requestPurposeApproval'
-  reviewer: CompactUser
+  reviewers: Array<CompactUser>
   onConfirm: VoidFunction
 }
 
@@ -232,6 +232,7 @@ export type DialogEditRiskAnalysisAssignmentProps = {
 export type DialogApproveRiskAnalysisProps = {
   type: 'approveRiskAnalysis'
   purposeId: string
+  metadataVersionToSign: number
 }
 
 export type DialogRejectRiskAnalysisProps = {

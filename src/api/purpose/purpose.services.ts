@@ -25,6 +25,7 @@ import type {
   ReversePurposeUpdateContent,
   RiskAnalysisAssignmentSeed,
   RiskAnalysisFormConfig,
+  RiskAnalysisSignSeed,
   RiskAnalysisSubmissionSeed,
   RiskAnalysisRejectionSeed,
   SignRiskAnalysisParams,
@@ -70,7 +71,18 @@ async function getSingle(purposeId: string) {
   const response = await axiosInstance.get<Purpose>(
     `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}`
   )
-  return REMOVE_ME_remapPurpose(response.data)
+  const metadataVersionHeader = response.headers['x-metadata-version']
+  const metadataVersion =
+    metadataVersionHeader === undefined ? undefined : Number(metadataVersionHeader)
+
+  if (
+    metadataVersion !== undefined &&
+    (!Number.isInteger(metadataVersion) || metadataVersion < 0)
+  ) {
+    throw new Error('Invalid purpose metadata version')
+  }
+
+  return { ...REMOVE_ME_remapPurpose(response.data), metadataVersion }
 }
 
 async function getRiskAnalysisLatest(params?: RetrieveLatestRiskAnalysisConfigurationParams) {
@@ -317,9 +329,13 @@ async function submitRiskAnalysis({
   return response.data
 }
 
-async function signRiskAnalysis({ purposeId }: SignRiskAnalysisParams) {
+async function signRiskAnalysis({
+  purposeId,
+  ...payload
+}: SignRiskAnalysisParams & RiskAnalysisSignSeed) {
   const response = await axiosInstance.post<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/sign`
+    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/sign`,
+    payload
   )
   return response.data
 }
