@@ -1,7 +1,10 @@
 import { screen } from '@testing-library/react'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import RiskAnalysisListPage from '../RiskAnalysisList.page'
-import type { RiskAnalysisSigningState } from '@/api/api.generatedTypes'
+import type {
+  GetRiskAnalysisAssignmentsParams,
+  RiskAnalysisSigningState,
+} from '@/api/api.generatedTypes'
 import { useQuery } from '@tanstack/react-query'
 import type * as ReactQuery from '@tanstack/react-query'
 import { RiskAnalysisTable, RiskAnalysisTableSkeleton } from '../components/RiskAnalysisTable'
@@ -31,28 +34,30 @@ vi.mock('@/hooks/useActiveTab', () => ({
 
 vi.mock('@/api/purpose', () => ({
   PurposeQueries: {
-    getRiskAnalysisAssignments: () => ({
-      queryKey: ['risk-analysis'],
+    getRiskAnalysisAssignments: (params: GetRiskAnalysisAssignmentsParams) => ({
+      queryKey: ['risk-analysis', params],
       queryFn: async () => ({
-        results: [
-          {
-            id: '1',
-            eservice: {
-              name: 'Test E-service',
-              producer: { name: 'PagoPA' },
-            },
-            reviewerWorkflow: {
-              signingState: 'ASSIGNED',
-              reviewers: [
-                {
-                  userId: 'reviewer-1',
-                  name: 'Mario Rossi',
-                  sentToReviewerAt: new Date().toISOString(),
+        results: params.signingStates?.includes('SIGNED')
+          ? [
+              {
+                id: '1',
+                eservice: {
+                  name: 'Test E-service',
+                  producer: { name: 'PagoPA' },
                 },
-              ],
-            },
-          },
-        ],
+                reviewerWorkflow: {
+                  signingState: 'SIGNED',
+                  reviewers: [
+                    {
+                      userId: 'reviewer-1',
+                      name: 'Mario Rossi',
+                      sentToReviewerAt: new Date().toISOString(),
+                    },
+                  ],
+                },
+              },
+            ]
+          : [],
         pagination: { totalCount: 1 },
       }),
     }),
@@ -80,6 +85,26 @@ vi.mock('@tanstack/react-query', async () => {
 })
 
 const mockedUseQuery = vi.mocked(useQuery)
+
+describe('RiskAnalysisListPage with only concluded assignments', () => {
+  beforeEach(async () => {
+    vi.resetAllMocks()
+    const actual = await vi.importActual<typeof ReactQuery>('@tanstack/react-query')
+    mockedUseQuery.mockImplementation(actual.useQuery)
+    mockUseActiveTab.mockReturnValue({ activeTab: 'todo', updateActiveTab: vi.fn() })
+  })
+
+  it('keeps the concluded tab accessible when the backend defaults to pending assignments', async () => {
+    renderWithApplicationContext(<RiskAnalysisListPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(await screen.findByText('emptyTodo')).toBeInTheDocument()
+    expect(screen.getByRole('tab', { name: 'tabs.done' })).toBeInTheDocument()
+    expect(screen.queryByText('noData.label')).not.toBeInTheDocument()
+  })
+})
 
 describe('RiskAnalysisListPage', () => {
   const renderPage = () =>
