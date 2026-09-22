@@ -113,7 +113,7 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
                       label={t('reviewersSection.reviewers.label')}
                       content={
                         purpose.reviewerWorkflow?.reviewers
-                          ?.map((reviewer) => reviewer.familyName)
+                          ?.map((reviewer) => `${reviewer.name} ${reviewer.familyName}`)
                           .join(', ') ?? '-'
                       }
                     />
