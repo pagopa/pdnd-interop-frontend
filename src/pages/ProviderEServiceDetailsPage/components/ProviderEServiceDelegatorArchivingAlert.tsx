@@ -1,5 +1,5 @@
 import React from 'react'
-import { Alert, Button, Stack, Box, Typography } from '@mui/material'
+import { Alert, Button, Stack, Typography } from '@mui/material'
 import ArchiveIcon from '@mui/icons-material/Archive'
 import { useTranslation } from 'react-i18next'
 import type { ProducerEServiceDescriptor } from '@/api/api.generatedTypes'
@@ -79,16 +79,30 @@ export const ProviderEServiceDelegatorArchivingAlert: React.FC<
   }
 
   return (
-    <Stack mb={3}>
-      <Alert severity="warning">
-        <Stack direction="row" spacing={5}>
-          <Box>{alert}</Box>
+    <>
+      <Alert
+        severity="warning"
+        sx={{
+          mb: 3,
+          '& .MuiAlert-message': { flexGrow: 1 },
+        }}
+      >
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{ width: '100%' }}
+          spacing={3}
+        >
+          <Typography variant="body2">{alert}</Typography>
           <Button
             variant="naked"
             startIcon={<ArchiveIcon />}
             size="small"
             sx={{
               whiteSpace: 'nowrap',
+              paddingRight: 0,
+              flexShrink: 0,
             }}
             onClick={() => {
               if (request.descriptorId && request.descriptorId !== descriptor.id) {
@@ -174,6 +188,6 @@ export const ProviderEServiceDelegatorArchivingAlert: React.FC<
           </Stack>
         </Drawer>
       )}
-    </Stack>
+    </>
   )
 }
