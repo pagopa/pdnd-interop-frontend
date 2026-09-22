@@ -573,9 +573,10 @@
     "backButton": "Back",
     "exitButton": "Exit",
     "exitDialog": {
-      "title": "Do you want to exit?",
-      "description": "Any unsaved changes will be lost. Do you want to exit the flow?",
-      "confirmButton": "Exit"
+      "title": "Do you want to leave?",
+      "description": "Any unsaved changes will be lost. Do you want to leave this flow?",
+      "cancelButton": "Exit without saving",
+      "confirmButton": "Save and exit"
     }
   },
   "routeLabels": {

@@ -1,7 +1,6 @@
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import CloseIcon from '@mui/icons-material/Close'
-import { Button, Stack } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { Stack } from '@mui/material'
+import { useNavigate } from '@/router'
 import { useTranslation } from 'react-i18next'
 import type { useParams } from '@/router'
 import { Link, type RouteKey } from '@/router'
@@ -58,16 +57,27 @@ export const PageNavigation: React.FC<PageNavigationProps> = (props) => {
       if (!exitLink) return
 
       event.preventDefault()
-      const exitPath = exitLink.getAttribute('href')
 
-      if (!exitPath) return
+      const routeNavigate = navigate as (
+        routeKey: RouteKey,
+        options?: {
+          params?: Record<string, string>
+          urlParams?: Record<string, string>
+        }
+      ) => void
+
+      const navigateOptions = exitAction.urlParams ? { urlParams: exitAction.urlParams } : undefined
+      const routeConfig = exitAction.params
+        ? { ...navigateOptions, params: exitAction.params }
+        : navigateOptions
 
       openDialog({
         type: 'basic',
         title: t('exitDialog.title'),
         description: t('exitDialog.description'),
+        cancelLabel: t('exitDialog.cancelButton'),
         proceedLabel: t('exitDialog.confirmButton'),
-        onProceed: () => navigate(exitPath),
+        onProceed: () => routeNavigate(exitAction.to, routeConfig),
       })
     }
 
@@ -88,29 +98,8 @@ export const PageNavigation: React.FC<PageNavigationProps> = (props) => {
     )
   }
 
-  const backButton = (
-    <Button
-      type="button"
-      onClick={() => navigate(-1)}
-      startIcon={<ArrowBackIcon />}
-      size="small"
-      variant="naked"
-    >
-      {t('backButton')}
-    </Button>
-  )
-
-  if (props.mode === 'back') {
-    return (
-      <Stack alignItems="flex-start" sx={{ mb: 1 }}>
-        {backButton}
-      </Stack>
-    )
-  }
-
   return (
     <Stack direction="column" alignItems="flex-start" spacing={1} sx={{ mb: 1 }}>
-      {props.showBackButton && backButton}
       <Breadcrumbs />
     </Stack>
   )

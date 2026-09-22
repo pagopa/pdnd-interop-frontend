@@ -20,6 +20,7 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
   descriptionLink,
   onProceed,
   onCancel,
+  cancelLabel,
   proceedLabel,
   disabled = false,
   maxWidth,
@@ -95,7 +96,7 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
 
       <DialogActions>
         <Button variant="outlined" onClick={handleCancel}>
-          {tCommon('cancel')}
+          {cancelLabel ?? tCommon('cancel')}
         </Button>
         <Button
           variant="contained"
