@@ -44,6 +44,9 @@ export default defineConfig(({ mode }) => {
     envPrefix: 'REACT_APP_',
     server: {
       port: 3000,
+      watch: {
+        ignored: ['**/.pnpm-store/**'],
+      },
       proxy: {
         '/0.0/backend-for-frontend': {
           target: 'https://selfcare.dev.interop.pagopa.it',
@@ -71,7 +74,6 @@ export default defineConfig(({ mode }) => {
           '**/api/attribute/**',
           '**/api/auth/**',
           '**/api/client/**',
-          '**/api/eservice/**',
           '**/api/party/**',
           '**/api/purpose/**',
           '**/api/voucher/**',

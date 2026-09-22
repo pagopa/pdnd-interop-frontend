@@ -30,7 +30,7 @@ export const PurposeTemplateEditStepGeneral: React.FC<ActiveStepProps> = (props)
     purposeTitle: purposeTemplate.purposeTitle ?? t('title'),
     purposeDescription: purposeTemplate.purposeDescription ?? t('description'),
     purposeDailyCalls: purposeTemplate?.purposeDailyCalls,
-    purposeIsFreeOfCharge: purposeTemplate?.purposeIsFreeOfCharge ? 'true' : 'false',
+    purposeIsFreeOfCharge: purposeTemplate.purposeIsFreeOfCharge,
     purposeFreeOfChargeReason:
       purposeTemplate?.purposeFreeOfChargeReason ?? t('freeOfChargeReason'),
     targetTenantKind: purposeTemplate.targetTenantKind,

@@ -13,6 +13,7 @@ import {
 import { Trans, useTranslation } from 'react-i18next'
 import type { DialogBasicProps } from '@/types/dialog.types'
 import { useDialog } from '@/stores'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 export const DialogBasic: React.FC<DialogBasicProps> = ({
   title = 'Conferma azione',
@@ -30,6 +31,10 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
   const ariaDescriptionId = React.useId()
   const { closeDialog } = useDialog()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const [isCheckboxChecked, setIsCheckboxChecked] = React.useState<boolean>(false)
+  const isProceedDisabled = useIsActionDisabledBySupport(
+    disabled || (!!checkbox && !isCheckboxChecked)
+  )
 
   const handleCancel = () => {
     onCancel?.()
@@ -40,8 +45,6 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
     onProceed()
     closeDialog()
   }
-
-  const [isCheckboxChecked, setIsCheckboxChecked] = React.useState<boolean>(false)
 
   const handleCheckBoxChange = () => {
     setIsCheckboxChecked((prev) => {
@@ -98,11 +101,7 @@ export const DialogBasic: React.FC<DialogBasicProps> = ({
         <Button variant="outlined" onClick={handleCancel}>
           {cancelLabel ?? tCommon('cancel')}
         </Button>
-        <Button
-          variant="contained"
-          onClick={handleProceed}
-          disabled={disabled || (!!checkbox && !isCheckboxChecked)}
-        >
+        <Button variant="contained" onClick={handleProceed} disabled={isProceedDisabled}>
           {proceedLabel ?? tCommon('confirm')}
         </Button>
       </DialogActions>

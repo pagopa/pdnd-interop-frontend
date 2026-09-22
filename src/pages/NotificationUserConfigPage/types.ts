@@ -10,15 +10,16 @@ export type NotificationConfigFormValues = NotificationConfig & {
   emailDigestPreference: boolean
 }
 
+export type NotificationSubSectionComponentSchema = {
+  key: string
+  title: string
+  description: string
+  visibility: UserProductRole[]
+}
 export type NotificationSubSectionSchema = {
   name: string
   title: string
-  components: {
-    key: string
-    title: string
-    description: string
-    visibility: UserProductRole[]
-  }[]
+  components: NotificationSubSectionComponentSchema[]
 }
 export type NotificationSectionSchema = {
   title: string

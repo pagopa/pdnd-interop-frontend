@@ -9,6 +9,7 @@ import { ActionMenu } from '@/components/shared/ActionMenu'
 import { ArchivingScheduleBadge } from '@/components/shared/ArchivingScheduleBadge'
 import type { ArchivingScope } from '@/api/api.generatedTypes'
 import { PageNavigation, type PageNavigationProps } from './PageNavigation'
+import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
 
 type RouteParams<TRouteKey extends RouteKey> = ReturnType<typeof useParams<TRouteKey>>
 
@@ -53,6 +54,7 @@ type IntroProps = {
   title?: string
   description?: string | React.ReactNode
   statusChip?: React.ComponentProps<typeof StatusChip>
+  byDelegationChip?: React.ComponentProps<typeof ByDelegationChip>
   infoSection?: HeaderInfoSectionProps
 } & ActionsSectionProps
 
@@ -103,6 +105,7 @@ const Intro: React.FC<IntroProps> = ({
   title,
   description,
   statusChip,
+  byDelegationChip,
   primaryAction,
   secondaryAction,
   menuActions,
@@ -121,6 +124,7 @@ const Intro: React.FC<IntroProps> = ({
             <StatusChip {...statusChip} />
           </Box>
         )}
+        {byDelegationChip && <ByDelegationChip {...byDelegationChip} />}
         <ActionsSection
           primaryAction={primaryAction}
           secondaryAction={secondaryAction}

@@ -93,6 +93,37 @@ describe('AttributeContainer', () => {
     expect(screen.getByRole('menuitem', { name: 'actions.changeThreshold' })).toBeInTheDocument()
   })
 
+  it('should show and invoke "removeThreshold" when a customized threshold exists', async () => {
+    const user = userEvent.setup()
+    const onRemoveThreshold = vi.fn()
+    renderWithApplicationContext(
+      <AttributeContainer
+        attribute={{ ...baseAttribute, dailyCallsPerConsumer: 100 }}
+        onRemoveThreshold={onRemoveThreshold}
+      />,
+      { withReactQueryContext: true }
+    )
+
+    await user.click(screen.getByLabelText('iconButtonAriaLabel'))
+    await user.click(screen.getByRole('menuitem', { name: 'actions.removeThreshold' }))
+
+    expect(onRemoveThreshold).toHaveBeenCalledOnce()
+  })
+
+  it('should not show "removeThreshold" when no customized threshold exists', async () => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(
+      <AttributeContainer attribute={baseAttribute} onRemoveThreshold={vi.fn()} />,
+      { withReactQueryContext: true }
+    )
+
+    await user.click(screen.getByLabelText('iconButtonAriaLabel'))
+
+    expect(
+      screen.queryByRole('menuitem', { name: 'actions.removeThreshold' })
+    ).not.toBeInTheDocument()
+  })
+
   it('should show threshold value when hideThreshold is false', async () => {
     renderWithApplicationContext(
       <AttributeContainer
