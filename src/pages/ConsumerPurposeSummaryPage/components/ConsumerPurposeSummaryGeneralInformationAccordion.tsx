@@ -111,7 +111,7 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
               content={
                 purpose.reviewerWorkflow?.reviewers
                   ?.map((reviewer) => `${reviewer.name} ${reviewer.familyName}`)
-                  .join(', ') ?? '-'
+                  .join(', ') || '-'
               }
             />
           </Stack>

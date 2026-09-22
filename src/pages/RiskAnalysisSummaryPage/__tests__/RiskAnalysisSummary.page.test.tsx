@@ -9,6 +9,41 @@ import * as router from '@/router'
 const mockPurposeId = 'test-purpose-id'
 const navigateMock = vi.fn()
 
+type MockedPurposeData = {
+  eservice: {
+    mode: string
+    personalData: boolean
+    descriptor: { state: string }
+  }
+  agreement: { state: string }
+  riskAnalysisForm: {
+    answers: {
+      usesPersonalData: string[]
+    }
+  }
+  rulesetExpiration: string
+  reviewerWorkflow?: {
+    reviewers: Array<{ userId: string }>
+  }
+}
+
+const basePurposeData: MockedPurposeData = {
+  eservice: {
+    mode: 'DELIVER',
+    personalData: true,
+    descriptor: { state: 'ACTIVE' },
+  },
+  agreement: { state: 'ACTIVE' },
+  riskAnalysisForm: {
+    answers: {
+      usesPersonalData: ['YES'],
+    },
+  },
+  rulesetExpiration: '2099-01-01',
+}
+
+let mockedPurposeData: MockedPurposeData = basePurposeData
+
 mockUseParams({
   purposeId: mockPurposeId,
 })
@@ -29,20 +64,7 @@ vi.mock('@tanstack/react-query', async () => {
   return {
     ...actual,
     useQuery: () => ({
-      data: {
-        eservice: {
-          mode: 'DELIVER',
-          personalData: true,
-          descriptor: { state: 'ACTIVE' },
-        },
-        agreement: { state: 'ACTIVE' },
-        riskAnalysisForm: {
-          answers: {
-            usesPersonalData: ['YES'],
-          },
-        },
-        rulesetExpiration: '2099-01-01',
-      },
+      data: mockedPurposeData,
       isLoading: false,
     }),
   }
@@ -69,6 +91,7 @@ describe('RiskAnalysisSummaryPage (UI)', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     mockRouteKey('SUBSCRIBE_RISK_ANALYSIS_SUMMARY')
+    mockedPurposeData = basePurposeData
   })
 
   it('should render summary page title', () => {
@@ -100,6 +123,22 @@ describe('RiskAnalysisSummaryPage (UI)', () => {
     expect(screen.getByTestId('general-info-accordion')).toBeInTheDocument()
     expect(screen.getByTestId('risk-analysis-accordion')).toBeInTheDocument()
     expect(screen.getByText('infoAlert')).toBeInTheDocument()
+  })
+
+  it('should render multiple-reviewer info alert when reviewers are more than one', () => {
+    mockedPurposeData = {
+      ...basePurposeData,
+      reviewerWorkflow: {
+        reviewers: [{ userId: 'reviewer-1' }, { userId: 'reviewer-2' }],
+      },
+    }
+
+    renderWithApplicationContext(<RiskAnalysisSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('infoAlertMoreReviewers')).toBeInTheDocument()
   })
 
   it('should render edit and approve buttons in summary flow', () => {
