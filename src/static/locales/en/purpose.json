@@ -674,7 +674,7 @@
       "description": "When it is approved, you will receive a notification. Until approval, you will not be able to associate clients or access the e-service data.",
       "action": "Go to purpose"
     },
-    "action": "Close"
+    "action": "Go to purpose"
   },
   "approveThankYou": {
     "title": "You have approved the risk analysis",

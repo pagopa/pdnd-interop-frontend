@@ -40,7 +40,16 @@ const ConsumerClientCreatePage: React.FC = () => {
     if (clientKind === 'CONSUMER') {
       createClient(dataToPost, {
         onSuccess(data) {
-          navigate('SUBSCRIBE_CLIENT_EDIT', { params: { clientId: data.id } })
+          navigate('SUBSCRIBE_CLIENT_CREATE_THANK_YOU', {
+            params: { clientId: data.id },
+            state: {
+              title: t('create.thankYou.title'),
+              description: t('create.thankYou.description'),
+              buttonLabel: t('create.thankYou.action'),
+              closeRouteKey: 'SUBSCRIBE_CLIENT_EDIT',
+              closeRouteParams: { clientId: data.id },
+            },
+          })
         },
       })
     }
@@ -48,7 +57,16 @@ const ConsumerClientCreatePage: React.FC = () => {
     if (clientKind === 'API') {
       createInteropM2MClient(dataToPost, {
         onSuccess(data) {
-          navigate('SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT', { params: { clientId: data.id } })
+          navigate('SUBSCRIBE_INTEROP_M2M_CLIENT_CREATE_THANK_YOU', {
+            params: { clientId: data.id },
+            state: {
+              title: t('create.thankYou.title'),
+              description: t('create.thankYou.description'),
+              buttonLabel: t('create.thankYou.action'),
+              closeRouteKey: 'SUBSCRIBE_INTEROP_M2M_CLIENT_EDIT',
+              closeRouteParams: { clientId: data.id },
+            },
+          })
         },
       })
     }

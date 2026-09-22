@@ -674,7 +674,7 @@
       "description": "Quando sarà approvata, riceverai una notifica. Fino all'approvazione, non potrai associare client o accedere ai dati dell’e-service.",
       "action": "Vai alla finalità"
     },
-    "action": "Chiudi"
+    "action": "Vai alla finalità"
   },
   "approveThankYou": {
     "title": "Hai approvato l’analisi del rischio",
