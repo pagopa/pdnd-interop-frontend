@@ -628,7 +628,8 @@
       "title": "Risk analysis"
     },
     "publishBtnDisabled": "Your declaration on personal data processing in the risk analysis prevents publication",
-    "infoAlert": "Once you approve the risk analysis, the administrator will be able to publish the purpose."
+    "infoAlert": "Once you approve the risk analysis, you will no longer be able to modify it and the administrator will be able to publish the purpose.",
+    "infoAlertMoreReviewers": "The risk analysis requires the approval of only one reviewer, even if it is assigned to multiple reviewers. Once approved, it will no longer be editable and the administrator will be able to publish the purpose."
   },
   "riskAnalysisCompile": {
     "backToListBtn": "Back to risk analysis",

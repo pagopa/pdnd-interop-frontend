@@ -16,6 +16,8 @@ import { ConsumerPurposeSummaryRiskAnalysisAlertContainer } from '../ConsumerPur
 
 import { useRiskAnalysisSummaryPage } from './hooks/useRiskAnalysisSummaryPage'
 import { useCurrentRoute } from '@/router'
+import { PurposeQueries } from '@/api/purpose'
+import { useQuery } from '@tanstack/react-query'
 
 const RiskAnalysisSummaryPage: React.FC = () => {
   const { routeKey } = useCurrentRoute()
@@ -39,6 +41,15 @@ const RiskAnalysisSummaryPage: React.FC = () => {
     expirationDate,
     isRulesetExpired,
   } = useRiskAnalysisSummaryPage()
+
+  const { data: purpose } = useQuery({
+    ...PurposeQueries.getSingle(purposeId),
+  })
+
+  const infoAlertMessage =
+    purpose?.reviewerWorkflow?.reviewers && purpose?.reviewerWorkflow?.reviewers.length > 1
+      ? t('infoAlertMoreReviewers')
+      : t('infoAlert')
 
   return (
     <PageContainer
@@ -77,7 +88,7 @@ const RiskAnalysisSummaryPage: React.FC = () => {
       )}
 
       <Alert severity="info" sx={{ mt: 4 }}>
-        {t('infoAlert')}
+        {infoAlertMessage}
       </Alert>
 
       <Stack spacing={1} sx={{ mt: 4 }} direction="row" justifyContent="end">
