@@ -736,7 +736,7 @@
       "title": "Rifiuta richiesta di archiviazione",
       "paragraph": "L’ente delegato {{entity}} sarà informato della motivazione del rifiuto.",
       "fieldLabel": "Motivazione rifiuto",
-      "fieldInfoLabel": "Spiega perché hai scelto di rifiutare la richiesta di archiviazione dell’e-service. Min 10 caratteri, max 250 caratteri",
+      "fieldInfoLabel": "Spiega perché hai scelto di rifiutare la richiesta di archiviazione dell’e-service. Min 10 caratteri, max 250 caratteri",
       "confirm": "Rifiuta richiesta",
       "cancel": "Indietro"
     },
