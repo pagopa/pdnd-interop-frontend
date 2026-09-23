@@ -71,6 +71,10 @@ const ProviderEServiceDetailsPage: React.FC = () => {
 
   const hasMultipleVersions = (descriptor?.eservice.descriptors?.length ?? 0) > 1
 
+  const isEServiceArchived = descriptor?.eservice.descriptors.every(
+    (descriptor) => descriptor.state === 'ARCHIVED'
+  )
+
   const { primaryAction, secondaryAction, menuActions, headerInfoActions } =
     useGetProviderEServiceActions(
       eserviceId,
@@ -90,7 +94,8 @@ const ProviderEServiceDetailsPage: React.FC = () => {
       hasMultipleVersions ? openVersionSelectorDrawer : undefined,
       isActiveDescriptor,
       isEServiceBeingArchived,
-      descriptor?.eservice.delegatedArchivingRequest
+      descriptor?.eservice.delegatedArchivingRequest,
+      isEServiceArchived
     )
 
   return (
