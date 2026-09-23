@@ -159,6 +159,45 @@ describe('RiskAnalysisDetailsPage', () => {
     expect(screen.queryByRole('tab', { name: 'tabs.details' })).not.toBeInTheDocument()
   })
 
+  it.each<RiskAnalysisSigningState>(['SIGNED', 'REJECTED'])(
+    'should redirect without showing %s details when assigned to another reviewer',
+    (signingState) => {
+      const purpose = createConcludedPurpose(signingState, {
+        reviewers: [{ userId: 'reviewer-2', name: 'Luigi', familyName: 'Verdi' }],
+      })
+
+      renderPage(purpose)
+
+      expect(mockNavigate).toHaveBeenCalledWith('SUBSCRIBE_RISK_ANALYSIS_LIST', { replace: true })
+      expect(screen.queryByRole('heading', { name: purpose.title })).not.toBeInTheDocument()
+      expect(screen.queryByRole('tab')).not.toBeInTheDocument()
+      expect(markNotificationsAsReadMock).not.toHaveBeenCalledWith('purpose-id-001')
+    }
+  )
+
+  it('should redirect when the concluded analysis has no assigned reviewers', () => {
+    renderPage(createConcludedPurpose('SIGNED', { reviewers: [] }))
+
+    expect(mockNavigate).toHaveBeenCalledWith('SUBSCRIBE_RISK_ANALYSIS_LIST', { replace: true })
+    expect(screen.queryByRole('tab')).not.toBeInTheDocument()
+  })
+
+  it('should allow an assigned reviewer when another reviewer signed', () => {
+    renderPage(createConcludedPurpose('SIGNED', { signedBy: 'reviewer-2' }))
+
+    expect(mockNavigate).not.toHaveBeenCalled()
+    expect(screen.getByRole('tab', { name: 'tabs.details' })).toBeInTheDocument()
+  })
+
+  it('should wait for a refetch before redirecting an apparently unassigned reviewer', () => {
+    const purpose = createConcludedPurpose('SIGNED', { reviewers: [] })
+    renderPage(purpose, { isFetching: true })
+
+    expect(mockNavigate).not.toHaveBeenCalled()
+    expect(screen.queryByRole('heading', { name: purpose.title })).not.toBeInTheDocument()
+    expect(screen.queryByRole('tab')).not.toBeInTheDocument()
+  })
+
   it('should not redirect while the purpose is still loading', () => {
     renderPage(undefined, { isLoading: true, isFetching: true })
 

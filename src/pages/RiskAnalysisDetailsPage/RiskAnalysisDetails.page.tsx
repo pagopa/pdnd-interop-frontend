@@ -1,4 +1,5 @@
 import { PurposeQueries } from '@/api/purpose'
+import { AuthHooks } from '@/api/auth'
 import { PageContainer } from '@/components/layout/containers'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
@@ -30,6 +31,7 @@ const RiskAnalysisDetailsPage: React.FC = () => {
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisDetails' })
   const { purposeId } = useParams<'SUBSCRIBE_RISK_ANALYSIS_DETAILS'>()
   const navigate = useNavigate()
+  const { jwt } = AuthHooks.useJwt()
   const { activeTab, updateActiveTab } = useActiveTab(RiskAnalysisDetailsPageTab.DETAILS)
   const locationState: unknown = useLocation().state
   const [isWaitingForConclusion, setIsWaitingForConclusion] = React.useState(
@@ -50,7 +52,10 @@ const RiskAnalysisDetailsPage: React.FC = () => {
     refetchInterval: isWaitingForConclusion ? 1000 : false,
   })
 
-  useMarkNotificationsAsRead(purposeId)
+  const isAssignedReviewer =
+    purpose?.reviewerWorkflow?.reviewers?.some((reviewer) => reviewer.userId === jwt?.uid) ?? false
+
+  useMarkNotificationsAsRead(isAssignedReviewer ? purposeId : undefined)
 
   const signingState = purpose?.reviewerWorkflow?.signingState
   const concludedSigningState = isConcludedSigningState(signingState) ? signingState : undefined
@@ -69,10 +74,24 @@ const RiskAnalysisDetailsPage: React.FC = () => {
   }, [isWaitingForConclusion, concludedSigningState])
 
   React.useEffect(() => {
-    if (!isWaitingForConclusion && !isFetching && purpose && !concludedSigningState) {
+    if (
+      !isWaitingForConclusion &&
+      !isFetching &&
+      purpose &&
+      (!isAssignedReviewer || !concludedSigningState)
+    ) {
       navigate('SUBSCRIBE_RISK_ANALYSIS_LIST', { replace: true })
     }
-  }, [purpose, concludedSigningState, isFetching, isWaitingForConclusion, navigate])
+  }, [
+    purpose,
+    isAssignedReviewer,
+    concludedSigningState,
+    isFetching,
+    isWaitingForConclusion,
+    navigate,
+  ])
+
+  if (purpose && !isAssignedReviewer) return null
 
   return (
     <PageContainer

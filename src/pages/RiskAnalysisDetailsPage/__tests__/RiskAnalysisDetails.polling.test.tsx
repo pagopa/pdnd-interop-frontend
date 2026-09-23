@@ -65,7 +65,14 @@ describe('RiskAnalysisDetailsPage eventual consistency', () => {
       getPurposeMock
         .mockResolvedValueOnce(stalePurpose)
         .mockResolvedValueOnce(stalePurpose)
-        .mockResolvedValue(createMockPurpose({ reviewerWorkflow: { signingState } }))
+        .mockResolvedValue(
+          createMockPurpose({
+            reviewerWorkflow: {
+              signingState,
+              reviewers: [{ userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' }],
+            },
+          })
+        )
 
       renderPage(true)
       await act(() => vi.advanceTimersByTimeAsync(10))
