@@ -157,7 +157,8 @@ export function getConsumerAgreementVersionAlertSpec(args: {
         activeDescriptorState: P.union('ARCHIVING', 'ARCHIVING_SUSPENDED'),
       },
       () => [
-        { severity: 'warning', content: t('archivingDescriptorShort', { date: scheduledDate }) },
+        { severity: 'warning', content: t('archivingEService', { date: scheduledDate }) },
+        { severity: 'info' as AlertColor, content: t('deprecatedActive') },
       ]
     )
     .with({ state: 'ARCHIVING', scope: 'DESCRIPTOR' }, () => [
