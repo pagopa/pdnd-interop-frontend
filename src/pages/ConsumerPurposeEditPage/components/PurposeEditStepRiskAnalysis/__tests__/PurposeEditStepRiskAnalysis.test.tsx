@@ -94,7 +94,7 @@ function buildPurpose(review?: ReviewSetup): Purpose {
   if (!review) return purpose
 
   const { reviewMode, ...reviewerWorkflow } = review
-  return { ...purpose, reviewMode, reviewerWorkflow }
+  return { ...purpose, riskAnalysisReviewMode: reviewMode, reviewerWorkflow }
 }
 
 function getLastFormProps(): RiskAnalysisFormSpyProps {

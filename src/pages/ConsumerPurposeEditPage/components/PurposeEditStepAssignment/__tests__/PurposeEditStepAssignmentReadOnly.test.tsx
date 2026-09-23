@@ -16,7 +16,7 @@ const mockReviewer: CompactUser = {
 function buildPurpose(reviewMode: RiskAnalysisReviewMode, reviewers: Array<CompactUser>): Purpose {
   return {
     ...createMockPurpose({ id: 'purpose-id' }),
-    reviewMode,
+    riskAnalysisReviewMode: reviewMode,
     reviewerWorkflow: {
       reviewers,
       signingState: 'ASSIGNED',
@@ -43,7 +43,7 @@ function renderComponent(overrides?: {
 describe('PurposeEditStepAssignmentReadOnly', () => {
   it('renders the autonomy label for the explicit admin review mode', () => {
     renderComponent({
-      purpose: createMockPurpose({ reviewMode: 'ADMIN_WRITES_ADMIN_SIGNS' }),
+      purpose: createMockPurpose({ riskAnalysisReviewMode: 'ADMIN_WRITES_ADMIN_SIGNS' }),
     })
 
     expect(screen.getByText('reviewModeField.options.selfWritesSelfSigns')).toBeInTheDocument()

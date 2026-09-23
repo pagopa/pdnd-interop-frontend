@@ -28,7 +28,7 @@ vi.mock('@/components/shared/RiskAnalysisInfoSummary', () => ({
 const setPurpose = (signingState: RiskAnalysisSigningState | undefined) => {
   const purpose: Purpose = {
     ...createMockPurpose(),
-    reviewMode: signingState ? 'REVIEWER_WRITES_REVIEWER_SIGNS' : undefined,
+    riskAnalysisReviewMode: signingState ? 'REVIEWER_WRITES_REVIEWER_SIGNS' : undefined,
     reviewerWorkflow: signingState
       ? {
           reviewers: [
