@@ -24,6 +24,7 @@ export const ProviderEServiceDelegatorArchivingAlert: React.FC<
   const { openDialog } = useDialog()
 
   if (!descriptor) return null
+  if (descriptor.state === 'ARCHIVED') return null
 
   const isDelegator = Boolean(
     jwt?.organizationId &&
