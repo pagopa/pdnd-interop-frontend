@@ -31,6 +31,7 @@ import SendIcon from '@mui/icons-material/Send'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import LaunchIcon from '@mui/icons-material/Launch'
 import { IconLink } from '@/components/shared/IconLink'
+import { useReviewerAssignmentState } from './hooks/useReviewerAssignmentState'
 
 export type PurposeEditStepAssignmentFormValues = {
   reviewMode: RiskAnalysisReviewMode
@@ -86,27 +87,17 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
     feedback: isEditing ? 'edit' : 'none',
   })
 
-  const assignedReviewers = purpose.reviewerWorkflow?.reviewers ?? []
-  const assignedReviewerIds = assignedReviewers.map(({ userId }) => userId)
-  const availableReviewerIds = reviewers.map(({ userId }) => userId)
-
-  // Reviewers assigned by a previous release but no longer among the institution's users.
-  const removedReviewers = assignedReviewers.filter(
-    (assigned) => !reviewers.some((user) => user.userId === assigned.userId)
-  )
-  const removedReviewerIds = removedReviewers.map(({ userId }) => userId)
-
-  const hasRemovedReviewers = removedReviewers.length > 0
-  // No reviewers available from Selfcare
-  const hasNoReviewers = reviewers.length === 0
-
-  // Some assigned reviewers have been removed, but other reviewers can be chosen -> show warning alert
-  const hasAvailableAssignedReviewers = assignedReviewers.some(({ userId }) =>
-    availableReviewerIds.includes(userId)
-  )
-
-  const hasLostItsOnlyReviewers = !isDelegate && hasNoReviewers && hasRemovedReviewers
-  const isFormHidden = isDelegate || hasNoReviewers
+  const {
+    assignedReviewers,
+    assignedReviewerIds,
+    removedReviewers,
+    removedReviewerIds,
+    hasRemovedReviewers,
+    hasNoReviewers,
+    hasAvailableAssignedReviewers,
+    hasLostItsOnlyReviewers,
+    isFormHidden,
+  } = useReviewerAssignmentState(purpose, reviewers, isDelegate)
 
   const formMethods = useForm<PurposeEditStepAssignmentFormValues>({ defaultValues })
 
@@ -324,6 +315,7 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
                         <Alert
                           color="warning"
                           severity="warning"
+                          sx={{ mt: 3 }}
                           action={
                             <Button
                               color="inherit"
