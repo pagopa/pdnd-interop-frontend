@@ -1,5 +1,4 @@
 import { Table } from '@pagopa/interop-fe-commons'
-
 import { useTranslation } from 'react-i18next'
 import type { Purpose } from '@/api/api.generatedTypes'
 import { RiskAnalysisTableRow, RiskAnalysisTableRowSkeleton } from './RiskAnalysisTableRow'
@@ -22,7 +21,7 @@ const getHeadLabels = (activeTab: string, tCommon: TFunction<'common', 'table.he
         '',
       ]
     : [
-        tCommon('approvalDate'),
+        tCommon('valuationDate'),
         tCommon('eserviceName'),
         tCommon('providerName'),
         tCommon('reviewer'),

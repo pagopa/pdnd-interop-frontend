@@ -99,7 +99,7 @@
       "purposeTemplateTarget": "Destinatario",
       "assignmentDate": "Data assegnazione",
       "reviewersCount": "Numero valutatori",
-      "approvalDate": "Data approvazione",
+      "valuationDate": "Data valutazione",
       "reviewer": "Valutatore"
     }
   },

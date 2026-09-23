@@ -42,6 +42,9 @@ export const RiskAnalysisTableRow: React.FC<{
       currentReviewer?.sentToReviewerAt ? new Date(currentReviewer.sentToReviewerAt) : null
     )
     .with('SIGNED', () => (reviewerWorkflow?.signedAt ? new Date(reviewerWorkflow.signedAt) : null))
+    .with('REJECTED', () =>
+      reviewerWorkflow?.rejectedAt ? new Date(reviewerWorkflow.rejectedAt) : null
+    )
     .otherwise(() => null)
 
   const formattedDate = assignedOrApprovedDate
