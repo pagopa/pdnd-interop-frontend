@@ -401,7 +401,7 @@ describe('RiskAnalysisListPage', () => {
       withReactQueryContext: true,
     })
 
-    expect(screen.getByText('approvalDate')).toBeInTheDocument()
+    expect(screen.getByText('valuationDate')).toBeInTheDocument()
     expect(screen.getByText('reviewer')).toBeInTheDocument()
   })
 

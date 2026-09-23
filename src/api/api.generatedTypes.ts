@@ -1241,7 +1241,7 @@ export interface Purpose {
   /** @format date-time */
   rulesetExpiration?: string;
   /** Risk analysis review mode */
-  reviewMode?: RiskAnalysisReviewMode;
+  riskAnalysisReviewMode?: RiskAnalysisReviewMode;
   /** Reviewer workflow state for a purpose risk analysis */
   reviewerWorkflow?: ReviewerWorkflow;
 }
@@ -2770,6 +2770,11 @@ export interface NotificationConfig {
   clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: boolean;
   purposeQuotaAdjustmentRequestToProducer: boolean;
   purposeOverQuotaStateToConsumer: boolean;
+  /** Enables risk analysis approval and rejection notifications for administrators. */
+  purposeRiskAnalysisAssignmentStatusToAdmin: boolean;
+  /** Enables assignment, removal, draft deletion and approval by another reviewer notifications. */
+  purposeRiskAnalysisAssignmentStatusToReviewer: boolean;
+  purposePublishedWithRiskAnalysisToReviewer: boolean;
   eserviceArchivingRequestedToDelegator: boolean;
   eserviceArchivingApprovedRejectedToDelegate: boolean;
 }
@@ -2909,10 +2914,14 @@ export interface NotificationsCountBySection {
 }
 
 /** A designated reviewer enriched with its user details */
-export type Reviewer = CompactUser & {
+export interface Reviewer {
+  /** @format uuid */
+  userId: string;
+  name: string;
+  familyName: string;
   /** @format date-time */
   sentToReviewerAt?: string;
-};
+}
 
 /** Reviewer workflow state for a purpose risk analysis */
 export interface ReviewerWorkflow {
@@ -2925,6 +2934,8 @@ export interface ReviewerWorkflow {
   signedAt?: string;
   /** @format uuid */
   rejectedBy?: string;
+  /** @format date-time */
+  rejectedAt?: string;
   rejectionReason?: string;
 }
 
