@@ -50,7 +50,7 @@ export function useRiskAnalysisSummaryPage() {
   const handleApproveDraft = async () => {
     if (!purpose?.currentVersion) return
 
-    const metadataVersion = purpose.metadataVersion
+    const { metadataVersion } = purpose
     const { data: refreshedPurpose, isError } = await refetch()
     const refreshedSigningState = refreshedPurpose?.reviewerWorkflow?.signingState
     const isRiskAnalysisConcluded =
