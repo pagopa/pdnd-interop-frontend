@@ -1731,6 +1731,41 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     expect(result.current.primaryAction?.label).toBe('cancelArchivingEservice')
   })
 
+  it('SUSPENDED with detailsPage + DELEGATOR: no header actions and only viewAllVersions in the menu', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: { id: 'organizationId', name: 'delegator-name' },
+        delegate: { id: 'delegate-id', name: 'delegate-name' },
+      }),
+    })
+
+    const { result } = renderDetailsPageHook(descriptorMock)
+
+    expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.headerInfoActions).toEqual([])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual(['viewAllVersions'])
+  })
+
+  it('ARCHIVING_SUSPENDED with DESCRIPTOR scope + DELEGATOR + active descriptor: no actions at all', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVING_SUSPENDED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: { id: 'organizationId', name: 'delegator-name' },
+        delegate: { id: 'delegate-id', name: 'delegate-name' },
+      }),
+    })
+
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      archivingSchedule: { scope: 'DESCRIPTOR' },
+      isActiveDescriptor: true,
+    })
+
+    expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.headerInfoActions).toEqual([])
+    expect(result.current.menuActions).toEqual([])
+  })
+
   it('ARCHIVING DESCRIPTOR: header has suspend+cancelArchivingVersion, menu has createNewVersion+clone+archiveEservice+viewAllVersions', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'ARCHIVING', version: '1' },
