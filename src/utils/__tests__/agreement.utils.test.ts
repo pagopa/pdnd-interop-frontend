@@ -265,7 +265,7 @@ describe('getConsumerAgreementVersionAlertSpec utility function testing', () => 
     expect(result[0].showSeeDetailsAction).toBeUndefined()
   })
 
-  it('returns warning + deprecated info alert for ARCHIVING + scope DESCRIPTOR when the active descriptor is also archiving', () => {
+  it('returns single warning alert for ARCHIVING + scope DESCRIPTOR when the active descriptor is also archiving', () => {
     const result = getConsumerAgreementVersionAlertSpec({
       ...baseArgs,
       state: 'ARCHIVING',
@@ -273,11 +273,11 @@ describe('getConsumerAgreementVersionAlertSpec utility function testing', () => 
       archivableOn: '2026-12-01T00:00:00.000Z',
       activeDescriptorState: 'ARCHIVING',
     })
-    expect(result).toHaveLength(2)
+    expect(result).toHaveLength(1)
     expect(result[0]).toMatchObject({ severity: 'warning' })
     expect(result[0].content).toMatch(/^archivingEService:/)
-    expect(result[1]).toEqual({ severity: 'info', content: 'deprecatedActive' })
   })
+
   it('uses activeDescriptorArchivableOn for archivingEService alerts when provided', () => {
     const result = getConsumerAgreementVersionAlertSpec({
       ...baseArgs,
