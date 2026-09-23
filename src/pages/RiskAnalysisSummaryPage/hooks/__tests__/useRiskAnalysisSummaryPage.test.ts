@@ -161,14 +161,18 @@ describe('useRiskAnalysisSummaryPage', () => {
       eservice: { mode: 'RECEIVE', descriptor: { state: 'ACTIVE' } },
       agreement: { state: 'ACTIVE' },
     }
-    const refetch = vi.fn().mockResolvedValue({ data: purpose, isError: false })
-    useQueryMock.mockReturnValue({ data: purpose, isLoading: false, refetch })
+    const refetchGetPurpose = vi.fn().mockResolvedValue({ data: purpose, isError: false })
+    useQueryMock.mockReturnValue({
+      data: purpose,
+      isLoading: false,
+      refetch: refetchGetPurpose,
+    })
 
     const { result } = renderHook(() => useRiskAnalysisSummaryPage())
 
     await act(() => result.current.handleApproveDraft())
 
-    expect(refetch).toHaveBeenCalledTimes(1)
+    expect(refetchGetPurpose).toHaveBeenCalledTimes(1)
     expect(openDialogMock).toHaveBeenCalledWith({
       type: 'approveRiskAnalysis',
       purposeId: 'test-purpose-id',
