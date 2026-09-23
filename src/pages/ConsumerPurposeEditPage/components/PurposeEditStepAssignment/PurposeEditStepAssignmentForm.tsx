@@ -300,12 +300,12 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
                   ]}
                 />
                 {needsReviewers && (
-                  <>
+                  <Box>
                     <Typography variant="body2" fontWeight={600}>
                       {t(`reviewerField.label.${reviewerLabelKey}`)}
-                      <Typography variant="body2" fontWeight={400} sx={{ mt: 1 }}>
-                        {t(`reviewerField.infoLabel`)}
-                      </Typography>
+                    </Typography>
+                    <Typography color="text.secondary" variant="body2" sx={{ mt: 1, mb: 3 }}>
+                      {t(`reviewerField.infoLabel`)}
                     </Typography>
                     <RHFAutocompleteMultiple
                       name="reviewerIds"
@@ -338,7 +338,7 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
                           {t('reviewerField.partiallyRemovedWarningLabel')}
                         </Alert>
                       )}
-                  </>
+                  </Box>
                 )}
               </>
             )}
