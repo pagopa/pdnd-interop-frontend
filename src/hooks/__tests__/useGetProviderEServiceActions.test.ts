@@ -1937,6 +1937,21 @@ describe('useGetProviderEServiceActions slot split with an existing version draf
     ])
   })
 
+  it('SUSPENDED + delegator on details page: no action buttons, only viewAllVersions remains', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: { id: 'organizationId', name: 'delegator-name' },
+        delegate: { id: 'delegate-id', name: 'delegate-name' },
+      }),
+    })
+    const { result } = renderDetailsPageHook(descriptorMock)
+
+    expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.headerInfoActions).toHaveLength(0)
+    expect(result.current.menuActions.map((a) => a.label)).toEqual(['viewAllVersions'])
+  })
+
   it('ARCHIVED with a newer descriptor (e-service still active) + draft: manageDraft replaces createNewVersion in the menu', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },
