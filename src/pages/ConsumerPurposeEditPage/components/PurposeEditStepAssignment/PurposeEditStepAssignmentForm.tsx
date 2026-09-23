@@ -36,15 +36,14 @@ const reviewModeOptionToBeEnum = (option: ReviewModeOption): RiskAnalysisReviewM
     .with('reviewerWritesReviewerSigns', () => 'REVIEWER_WRITES_REVIEWER_SIGNS' as const)
     .exhaustive()
 
-// Maps the persisted BE review mode to its form option. The absence of a reviewer
-// workflow (undefined) means self-compilation and self-approval (option 1).
+// Undefined covers purposes created before the explicit self-approval mode was introduced.
 export const beEnumToReviewModeOption = (
   reviewMode: RiskAnalysisReviewMode | undefined
 ): ReviewModeOption =>
   match(reviewMode)
     .with('ADMIN_WRITES_REVIEWER_SIGNS', () => 'selfWritesReviewerSigns' as const)
     .with('REVIEWER_WRITES_REVIEWER_SIGNS', () => 'reviewerWritesReviewerSigns' as const)
-    .with(undefined, () => 'selfWritesSelfSigns' as const)
+    .with(undefined, 'ADMIN_WRITES_ADMIN_SIGNS', () => 'selfWritesSelfSigns' as const)
     .exhaustive()
 
 type PurposeEditStepAssignmentFormProps = ActiveStepProps & {

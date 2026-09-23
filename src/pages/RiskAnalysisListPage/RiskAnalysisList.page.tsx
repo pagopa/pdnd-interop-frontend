@@ -100,6 +100,7 @@ const RiskAnalysisListPage: React.FC = () => {
     ...PurposeQueries.getRiskAnalysisAssignments({
       offset: 0,
       limit: 1,
+      signingStates: ['ASSIGNED', 'SUBMITTED', 'SIGNED', 'REJECTED'],
     }),
     placeholderData: keepPreviousData,
   })
