@@ -1,14 +1,7 @@
 import React, { useState } from 'react'
 import type { FilterOptionsState } from '@mui/material'
-import {
-  Alert,
-  AlertTitle,
-  Box,
-  Button,
-  Stack,
-  Typography,
-  createFilterOptions,
-} from '@mui/material'
+import { Alert, Box, Stack, Typography, createFilterOptions } from '@mui/material'
+import { MIAlert } from '@pagopa/mui-italia'
 import { FormProvider, useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
@@ -312,23 +305,18 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
                     {hasRemovedReviewers &&
                       hasAvailableAssignedReviewers &&
                       showPartiallyRemovedReviewersAlert && (
-                        <Alert
-                          color="warning"
-                          severity="warning"
-                          sx={{ mt: 3 }}
-                          action={
-                            <Button
-                              color="inherit"
-                              size="small"
-                              onClick={() => setShowPartiallyRemovedReviewersAlert(false)}
-                            >
-                              {t('reviewerField.dismissButtonLabel')}
-                            </Button>
-                          }
-                        >
-                          <AlertTitle>{t('reviewerField.partiallyRemovedWarningTitle')}</AlertTitle>
-                          {t('reviewerField.partiallyRemovedWarningLabel')}
-                        </Alert>
+                        <Box sx={{ mt: 3 }}>
+                          <MIAlert
+                            variant="default"
+                            severity="warning"
+                            title={t('reviewerField.partiallyRemovedWarningTitle')}
+                            description={t('reviewerField.partiallyRemovedWarningLabel')}
+                            action={{
+                              label: t('reviewerField.dismissButtonLabel'),
+                              onClick: () => setShowPartiallyRemovedReviewersAlert(false),
+                            }}
+                          />
+                        </Box>
                       )}
                   </Box>
                 )}
