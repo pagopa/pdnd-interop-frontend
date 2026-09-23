@@ -85,8 +85,16 @@ export const DelegationCreateEServiceAutocomplete: React.FC<
   const { data: catalogEservices = [], isLoading: isLoadingCatalogEservices } = useQuery({
     ...EServiceQueries.getCatalogList({
       q: getQ(),
-      // e-service might also be on 'DEPRECATED' state
-      states: ['PUBLISHED'],
+      // cant delegate an e-service that is in ARCHIVED state, so we don't need to show it in the autocomplete
+      states: [
+        'PUBLISHED',
+        'DEPRECATED',
+        'DRAFT',
+        'SUSPENDED',
+        'WAITING_FOR_APPROVAL',
+        'ARCHIVING',
+        'ARCHIVING_SUSPENDED',
+      ],
       limit: 50,
       offset: 0,
       isConsumerDelegable: true,
