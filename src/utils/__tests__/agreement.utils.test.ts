@@ -278,7 +278,18 @@ describe('getConsumerAgreementVersionAlertSpec utility function testing', () => 
     expect(result[0].content).toMatch(/^archivingEService:/)
     expect(result[1]).toEqual({ severity: 'info', content: 'deprecatedActive' })
   })
+  it('uses activeDescriptorArchivableOn for archivingEService alerts when provided', () => {
+    const result = getConsumerAgreementVersionAlertSpec({
+      ...baseArgs,
+      state: 'ARCHIVING',
+      scope: 'DESCRIPTOR',
+      archivableOn: '2026-12-01T00:00:00.000Z',
+      activeDescriptorArchivableOn: '2027-12-15T00:00:00.000Z',
+      activeDescriptorState: 'ARCHIVING',
+    })
 
+    expect(result[0].content).toBe('archivingEService:15/12/2027')
+  })
   it('returns warning + obsolete info alert for ARCHIVING + scope DESCRIPTOR when the descriptor is obsolete', () => {
     const result = getConsumerAgreementVersionAlertSpec({
       ...baseArgs,
