@@ -100,7 +100,15 @@ describe('DelegationCreateEServiceAutocomplete', () => {
         q: '',
         limit: 50,
         offset: 0,
-        states: ['PUBLISHED'],
+        states: [
+          'PUBLISHED',
+          'DEPRECATED',
+          'DRAFT',
+          'SUSPENDED',
+          'WAITING_FOR_APPROVAL',
+          'ARCHIVING',
+          'ARCHIVING_SUSPENDED',
+        ],
         isConsumerDelegable: true,
       })
     )
