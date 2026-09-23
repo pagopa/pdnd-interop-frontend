@@ -55,6 +55,40 @@ describe('ProviderEServiceDetailsAlerts', () => {
     expect(alert).toHaveClass(/MuiAlert-standardInfo/)
   })
 
+  it('hides delegated archiving alerts when state is ARCHIVED', () => {
+    mockUseJwt({ jwt: { organizationId: 'delegate-id' } })
+
+    const descriptor = createMockEServiceDescriptorProvider({
+      id: 'descriptor-id-1',
+      state: 'ARCHIVED',
+      archivingSchedule: { scope: 'ESERVICE' },
+      delegation: {
+        delegator: { id: 'delegator-id', name: 'Comune di Milano' },
+        delegate: { id: 'delegate-id', name: 'Comune di Roma' },
+      },
+      eservice: {
+        delegatedArchivingRequest: {
+          requestedAt: '2026-12-01T00:00:00.000Z',
+          descriptorId: 'descriptor-id-1',
+          requesterId: 'requester-id',
+          gracePeriodDays: 30,
+          archivingReason: 'Motivo archiviazione',
+        },
+      },
+    })
+
+    renderAlerts(descriptor)
+
+    expect(screen.queryByText('delegatedDescriptorArchivingRequest')).not.toBeInTheDocument()
+    expect(
+      screen.queryByText('delegatedDescriptorArchivingRequestRejected')
+    ).not.toBeInTheDocument()
+    expect(screen.queryByText('delegatedEServiceArchivingRequest')).not.toBeInTheDocument()
+    expect(screen.queryByText('delegatedEServiceArchivingRequestRejected')).not.toBeInTheDocument()
+    expect(screen.queryByText('archivingDescriptor')).not.toBeInTheDocument()
+    expect(screen.queryByText('archivingEService')).not.toBeInTheDocument()
+  })
+
   it('renders delegated archiving request info alert when latest request is not rejected', () => {
     mockUseJwt({ jwt: { organizationId: 'delegate-id' } })
 
