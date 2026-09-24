@@ -1276,11 +1276,10 @@ export function useGetProviderEServiceActions(
       menu:
         where === 'detailsPage' ? [...availableAction, ...viewAllVersionsItems] : availableAction,
     }))
-    .with({ isDelegator: true }, () => ({
+    .with({ state: 'PUBLISHED', isDelegator: true }, () => ({
       primary: undefined,
       header: [],
-      menu:
-        where === 'detailsPage' ? [...availableAction, ...viewAllVersionsItems] : availableAction,
+      menu: viewAllVersionsItems,
     }))
     .with({ state: 'PUBLISHED' }, () => ({
       primary: undefined,
@@ -1293,6 +1292,11 @@ export function useGetProviderEServiceActions(
         ? [suspendAction, cancelArchivingDescriptorAction]
         : [suspendAction, archiveDescriptorAction],
       menu: menuWithNewVersion,
+    }))
+    .with({ state: 'SUSPENDED', isDelegator: true }, () => ({
+      primary: undefined,
+      header: [],
+      menu: where === 'detailsPage' ? viewAllVersionsItems : [],
     }))
     .with({ state: 'SUSPENDED', isActiveDescriptor: true }, () => ({
       primary: undefined,
@@ -1336,6 +1340,12 @@ export function useGetProviderEServiceActions(
       header: [suspendAction, cancelArchivingDescriptorAction],
       menu: menuWithNewVersion,
     }))
+    .with({ state: 'ARCHIVING_SUSPENDED', archivingScope: 'ESERVICE', isDelegator: true }, () => ({
+      primary: cancelArchivingEserviceAction,
+      header: [],
+      menu:
+        where === 'detailsPage' ? [...availableAction, ...viewAllVersionsItems] : availableAction,
+    }))
     .with({ state: 'ARCHIVING_SUSPENDED', archivingScope: 'ESERVICE' }, () => ({
       primary: cancelArchivingEserviceAction,
       header: [reactivateAction],
@@ -1353,10 +1363,25 @@ export function useGetProviderEServiceActions(
         menu: menuWithNewVersion,
       })
     )
+    .with(
+      { state: 'ARCHIVING_SUSPENDED', archivingScope: 'DESCRIPTOR', isDelegator: true },
+      () => ({
+        primary: undefined,
+        header: [cancelArchivingDescriptorAction],
+        menu:
+          where === 'detailsPage' ? [...availableAction, ...viewAllVersionsItems] : availableAction,
+      })
+    )
     .with({ state: 'ARCHIVING_SUSPENDED' }, () => ({
       primary: undefined,
       header: [reactivateAction, cancelArchivingDescriptorAction],
       menu: menuWithNewVersion,
+    }))
+    .with({ isDelegator: true }, () => ({
+      primary: undefined,
+      header: [],
+      menu:
+        where === 'detailsPage' ? [...availableAction, ...viewAllVersionsItems] : availableAction,
     }))
     .with({ state: P.union('DRAFT', 'WAITING_FOR_APPROVAL') }, emptySlots)
     .exhaustive()

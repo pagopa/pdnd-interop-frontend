@@ -1690,6 +1690,82 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     expect(result.current.headerInfoActions.map((a) => a.label)).toEqual(['reactivateVersion'])
   })
 
+  it('ARCHIVING_SUSPENDED with DESCRIPTOR scope (DELEGATOR): cancelArchivingVersion in header', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVING_SUSPENDED', version: '1' },
+      delegation: {
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+        delegate: {
+          id: 'delegate-id',
+          name: 'delegate-name',
+        },
+      },
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      archivingSchedule: { scope: 'DESCRIPTOR' },
+    })
+    expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.headerInfoActions.map((a) => a.label)).toEqual(['cancelArchivingVersion'])
+  })
+
+  it('ARCHIVING_SUSPENDED with ESERVICE scope (DELEGATOR): cancelArchivingEservice as primary', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVING_SUSPENDED', version: '1' },
+      delegation: {
+        delegator: {
+          id: 'organizationId',
+          name: 'delegator-name',
+        },
+        delegate: {
+          id: 'delegate-id',
+          name: 'delegate-name',
+        },
+      },
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      archivingSchedule: { scope: 'ESERVICE' },
+    })
+    expect(result.current.primaryAction?.label).toBe('cancelArchivingEservice')
+  })
+
+  it('SUSPENDED with detailsPage + DELEGATOR: no header actions and only viewAllVersions in the menu', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: { id: 'organizationId', name: 'delegator-name' },
+        delegate: { id: 'delegate-id', name: 'delegate-name' },
+      }),
+    })
+
+    const { result } = renderDetailsPageHook(descriptorMock)
+
+    expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.headerInfoActions).toEqual([])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual(['viewAllVersions'])
+  })
+
+  it('ARCHIVING_SUSPENDED with DESCRIPTOR scope + DELEGATOR + active descriptor: no actions at all', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVING_SUSPENDED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: { id: 'organizationId', name: 'delegator-name' },
+        delegate: { id: 'delegate-id', name: 'delegate-name' },
+      }),
+    })
+
+    const { result } = renderDetailsPageHook(descriptorMock, {
+      archivingSchedule: { scope: 'DESCRIPTOR' },
+      isActiveDescriptor: true,
+    })
+
+    expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.headerInfoActions).toEqual([])
+    expect(result.current.menuActions).toEqual([])
+  })
+
   it('ARCHIVING DESCRIPTOR: header has suspend+cancelArchivingVersion, menu has createNewVersion+clone+archiveEservice+viewAllVersions', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'ARCHIVING', version: '1' },
@@ -1894,6 +1970,21 @@ describe('useGetProviderEServiceActions slot split with an existing version draf
       'archiveEservice',
       'viewAllVersions',
     ])
+  })
+
+  it('SUSPENDED + delegator on details page: no action buttons, only viewAllVersions remains', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'SUSPENDED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: { id: 'organizationId', name: 'delegator-name' },
+        delegate: { id: 'delegate-id', name: 'delegate-name' },
+      }),
+    })
+    const { result } = renderDetailsPageHook(descriptorMock)
+
+    expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.headerInfoActions).toHaveLength(0)
+    expect(result.current.menuActions.map((a) => a.label)).toEqual(['viewAllVersions'])
   })
 
   it('ARCHIVED with a newer descriptor (e-service still active) + draft: manageDraft replaces createNewVersion in the menu', () => {
