@@ -141,11 +141,25 @@ export function getConsumerAgreementVersionAlertSpec(args: {
   isObsoleteDescriptor: boolean
   t: TFunction<'agreement', 'consumerRead.versionAlert'>
   activeDescriptorState: EServiceDescriptorState | undefined
+  activeDescriptorArchivableOn?: string | undefined
 }): ConsumerAgreementVersionAlertSpec[] {
-  const { state, scope, archivableOn, archivedAt, isObsoleteDescriptor, t, activeDescriptorState } =
-    args
+  const {
+    state,
+    scope,
+    archivableOn,
+    archivedAt,
+    isObsoleteDescriptor,
+    t,
+    activeDescriptorState,
+    activeDescriptorArchivableOn,
+  } = args
   const scheduledDate = archivableOn ? formatDateStringNumeric(archivableOn) : ''
+  const activeDescriptorScheduledDate = activeDescriptorArchivableOn
+    ? formatDateStringNumeric(activeDescriptorArchivableOn)
+    : ''
   const archivedDate = archivedAt ? formatDateStringNumeric(archivedAt) : ''
+
+  const archivingEServiceDate = activeDescriptorScheduledDate || scheduledDate
 
   return match({ state, scope, activeDescriptorState })
     .returnType<ConsumerAgreementVersionAlertSpec[]>()
@@ -157,7 +171,10 @@ export function getConsumerAgreementVersionAlertSpec(args: {
         activeDescriptorState: P.union('ARCHIVING', 'ARCHIVING_SUSPENDED'),
       },
       () => [
-        { severity: 'warning', content: t('archivingDescriptorShort', { date: scheduledDate }) },
+        { severity: 'warning', content: t('archivingEService', { date: archivingEServiceDate }) },
+        ...(isObsoleteDescriptor
+          ? [{ severity: 'info' as AlertColor, content: t('deprecatedActive') }]
+          : []),
       ]
     )
     .with({ state: 'ARCHIVING', scope: 'DESCRIPTOR' }, () => [
@@ -169,7 +186,7 @@ export function getConsumerAgreementVersionAlertSpec(args: {
     .with({ state: 'ARCHIVING', scope: 'ESERVICE' }, () => [
       {
         severity: 'warning',
-        content: t('archivingEService', { date: scheduledDate }),
+        content: t('archivingEService', { date: archivingEServiceDate }),
         showSeeDetailsAction: true,
       },
       ...(isObsoleteDescriptor
@@ -183,7 +200,7 @@ export function getConsumerAgreementVersionAlertSpec(args: {
       { severity: 'error', content: t('suspendedLastNoNewVersion') },
       {
         severity: 'warning',
-        content: t('archivingEService', { date: scheduledDate }),
+        content: t('archivingEService', { date: archivingEServiceDate }),
         showSeeDetailsAction: true,
       },
     ])
