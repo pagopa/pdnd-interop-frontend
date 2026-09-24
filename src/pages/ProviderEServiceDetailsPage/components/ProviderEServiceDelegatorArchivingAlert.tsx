@@ -37,6 +37,11 @@ export const ProviderEServiceDelegatorArchivingAlert: React.FC<
 
   if (!request || request.rejectedAt || request.acceptedAt) return null
 
+  const isCurrentDescriptorArchivingAlreadyArchived = Boolean(
+    descriptor.state === 'ARCHIVED' && request.descriptorId === descriptor.id
+  )
+  if (isCurrentDescriptorArchivingAlreadyArchived) return null
+
   let alert = ''
   let drawer = true
   let title = ''
