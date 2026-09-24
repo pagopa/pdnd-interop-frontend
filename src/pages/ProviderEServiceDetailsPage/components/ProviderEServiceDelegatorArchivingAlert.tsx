@@ -24,7 +24,6 @@ export const ProviderEServiceDelegatorArchivingAlert: React.FC<
   const { openDialog } = useDialog()
 
   if (!descriptor) return null
-  if (descriptor.state === 'ARCHIVED') return null
 
   const isDelegator = Boolean(
     jwt?.organizationId &&
@@ -37,6 +36,11 @@ export const ProviderEServiceDelegatorArchivingAlert: React.FC<
   const request = descriptor.eservice.delegatedArchivingRequest
 
   if (!request || request.rejectedAt || request.acceptedAt) return null
+
+  const isCurrentDescriptorArchivingAlreadyArchived = Boolean(
+    descriptor.state === 'ARCHIVED' && request.descriptorId === descriptor.id
+  )
+  if (isCurrentDescriptorArchivingAlreadyArchived) return null
 
   let alert = ''
   let drawer = true

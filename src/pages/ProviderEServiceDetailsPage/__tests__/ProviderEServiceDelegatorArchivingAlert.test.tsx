@@ -127,4 +127,33 @@ describe('ProviderEServiceArchivingAlert', () => {
     ).toBeInTheDocument()
     expect(screen.getByRole('alert')).toHaveClass(/MuiAlert-standardWarning/)
   })
+
+  it('should not render when the descriptor is ARCHIVED and the request targets the current descriptor', () => {
+    const descriptor = createMockEServiceDescriptorProvider({
+      id: 'descriptor-id-1',
+      state: 'ARCHIVED',
+      delegation: {
+        delegator: {
+          id: 'delegator-id',
+          name: 'delegator-name',
+        },
+        delegate: {
+          name: 'delegate-name',
+        },
+      },
+      eservice: {
+        delegatedArchivingRequest: {
+          requestedAt: '2026-12-01T00:00:00.000Z',
+          descriptorId: 'descriptor-id-1',
+          requesterId: 'requester-id',
+          gracePeriodDays: 30,
+          archivingReason: 'Motivo archiviazione',
+        },
+      },
+    })
+
+    const { container } = renderAlerts(descriptor)
+
+    expect(container).toBeEmptyDOMElement()
+  })
 })

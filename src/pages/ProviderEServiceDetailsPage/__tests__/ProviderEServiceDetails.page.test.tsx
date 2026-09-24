@@ -173,7 +173,40 @@ describe('ProviderEServiceDetailsPage', () => {
     expect(screen.getByTestId('alerts')).toHaveAttribute('data-has-view-keychains', 'false')
   })
 
-  it('does not show the delegator archiving alert when the descriptor is ARCHIVED', () => {
+  it('does not show the delegator archiving alert when the descriptor is ARCHIVED and the request targets the current descriptor', () => {
+    mockUseJwt({ jwt: { organizationId: 'delegator-id' } })
+
+    mockedUseQuery.mockReturnValue({
+      data: {
+        id: 'descriptor-id',
+        version: '1',
+        state: 'ARCHIVED',
+        archivingSchedule: { scope: 'ESERVICE' },
+        archivedAt: '2026-12-01T00:00:00.000Z',
+        delegation: {
+          delegator: { id: 'delegator-id', name: 'Delegator name' },
+          delegate: { id: 'delegate-id', name: 'Delegate name' },
+        },
+        eservice: {
+          name: 'E-Service Name',
+          descriptors: [{ id: 'descriptor-id', state: 'ARCHIVED', version: '1' }],
+          delegatedArchivingRequest: {
+            requestedAt: '2026-12-01T00:00:00.000Z',
+            descriptorId: 'descriptor-id',
+            requesterId: 'requester-id',
+            gracePeriodDays: 30,
+            archivingReason: 'Motivo archiviazione',
+          },
+        },
+      },
+    })
+
+    renderPage()
+
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
+
+  it('shows the delegator archiving alert when the descriptor is ARCHIVED but the request targets the whole e-service', () => {
     mockUseJwt({ jwt: { organizationId: 'delegator-id' } })
 
     mockedUseQuery.mockReturnValue({
@@ -202,6 +235,6 @@ describe('ProviderEServiceDetailsPage', () => {
 
     renderPage()
 
-    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    expect(screen.getByRole('alert')).toBeInTheDocument()
   })
 })

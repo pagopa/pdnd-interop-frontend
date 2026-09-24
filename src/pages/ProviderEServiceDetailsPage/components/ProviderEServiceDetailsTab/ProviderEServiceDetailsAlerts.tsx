@@ -34,7 +34,6 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
   const activeDescriptor = getActiveDescriptor(descriptor.eservice.descriptors)
   const isEServiceBeingArchived = isDescriptorPendingArchiving(activeDescriptor?.state)
   const isCurrentDescriptorArchiving = isDescriptorPendingArchiving(descriptor.state)
-  const isCurrentDescriptorArchived = descriptor.state === 'ARCHIVED'
 
   const alert = getEServiceDescriptorAlertSpec({
     state: descriptor.state,
@@ -47,6 +46,9 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
   })
 
   const delegatedArchivingRequest = descriptor.eservice.delegatedArchivingRequest
+  const isCurrentDescriptorArchivingAlreadyArchived = Boolean(
+    descriptor.state === 'ARCHIVED' && delegatedArchivingRequest?.descriptorId === descriptor.id
+  )
   const isDescriptorDelegatedArchivingRequest = Boolean(
     delegatedArchivingRequest && delegatedArchivingRequest.descriptorId === descriptor.id
   )
@@ -57,21 +59,21 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
   const delegatorName = descriptor.delegation?.delegator.name || '-'
 
   const shouldShowDelegatedDescriptorArchivingRequestRejectedAlert = Boolean(
-    !isCurrentDescriptorArchived &&
+    !isCurrentDescriptorArchivingAlreadyArchived &&
     isDelegate &&
     isDescriptorDelegatedArchivingRequest &&
     delegatedArchivingRequest?.rejectedAt
   )
 
   const shouldShowDelegatedDescriptorArchivingRequestAlert =
-    !isCurrentDescriptorArchived &&
+    !isCurrentDescriptorArchivingAlreadyArchived &&
     isDelegate &&
     isDescriptorDelegatedArchivingRequest &&
     !shouldShowDelegatedDescriptorArchivingRequestRejectedAlert &&
     !isCurrentDescriptorArchiving
 
   const shouldShowDelegatedDescriptorArchivingRequestAcceptedAlert = Boolean(
-    !isCurrentDescriptorArchived &&
+    !isCurrentDescriptorArchivingAlreadyArchived &&
     isDelegate &&
     isDescriptorDelegatedArchivingRequest &&
     !delegatedArchivingRequest?.rejectedAt &&
@@ -83,14 +85,14 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
     : '-'
 
   const shouldShowDelegatedEServiceArchivingRequestRejectedAlert = Boolean(
-    !isCurrentDescriptorArchived &&
+    !isCurrentDescriptorArchivingAlreadyArchived &&
     isDelegate &&
     isEServiceDelegatedArchivingRequest &&
     delegatedArchivingRequest?.rejectedAt
   )
 
   const shouldShowDelegatedEServiceArchivingRequestAcceptedAlert = Boolean(
-    !isCurrentDescriptorArchived &&
+    !isCurrentDescriptorArchivingAlreadyArchived &&
     isDelegate &&
     isEServiceDelegatedArchivingRequest &&
     !delegatedArchivingRequest?.rejectedAt &&
@@ -98,7 +100,7 @@ export const ProviderEServiceDetailsAlerts: React.FC<ProviderEServiceDetailsAler
   )
 
   const shouldShowDelegatedEServiceArchivingRequestAlert =
-    !isCurrentDescriptorArchived &&
+    !isCurrentDescriptorArchivingAlreadyArchived &&
     isDelegate &&
     isEServiceDelegatedArchivingRequest &&
     !delegatedArchivingRequest?.rejectedAt &&
