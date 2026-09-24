@@ -7,7 +7,7 @@ import type { StepperStep } from '@/types/common.types'
 import { PurposeEditStepGeneral } from './components/PurposeEditStepGeneral'
 import { PurposeEditStepAssignment } from './components/PurposeEditStepAssignment'
 import { PurposeEditStepRiskAnalysis } from './components/PurposeEditStepRiskAnalysis'
-import { useParams, useNavigate } from '@/router'
+import { useParams, useNavigate, useLocation } from '@/router'
 import { PurposeQueries } from '@/api/purpose'
 import { useQuery } from '@tanstack/react-query'
 import { RequiredTextLabel } from '@/components/shared/RequiredTextLabel'
@@ -18,6 +18,9 @@ const ConsumerPurposeEditPage: React.FC = () => {
   const navigate = useNavigate()
 
   const { purposeId } = useParams<'SUBSCRIBE_PURPOSE_EDIT'>()
+
+  const locationState = useLocation().state as { isFirstEdit?: boolean } | null
+  const isFirstEdit = Boolean(locationState?.isFirstEdit)
 
   const { data: purpose, isLoading: isLoadingPurpose } = useQuery(
     PurposeQueries.getSingle(purposeId)
@@ -59,7 +62,7 @@ const ConsumerPurposeEditPage: React.FC = () => {
 
   return (
     <PageContainer
-      title={t('edit.emptyTitle')}
+      title={isFirstEdit ? t('create.emptyTitle') : t('edit.emptyTitle')}
       isLoading={isLoadingPurpose}
       backToAction={{
         label: t('backToListBtn'),
