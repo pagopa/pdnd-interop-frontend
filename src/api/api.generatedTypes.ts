@@ -4670,12 +4670,12 @@ export interface UpdateVerifiedAttributeParams {
   attributeId: string;
 }
 
-export interface RevokeVerifiedAttributePayload {
-  /** @format uuid */
-  agreementId: string;
-}
-
 export interface RevokeVerifiedAttributeParams {
+  /**
+   * Agreement id related to the Verified attribute revocation
+   * @format uuid
+   */
+  agreementId: string;
   /**
    * Tenant id which attribute needs to be verified
    * @format uuid
@@ -7113,8 +7113,14 @@ export namespace Tenants {
        */
       attributeId: string;
     };
-    export type RequestQuery = {};
-    export type RequestBody = RevokeVerifiedAttributePayload;
+    export type RequestQuery = {
+      /**
+       * Agreement id related to the Verified attribute revocation
+       * @format uuid
+       */
+      agreementId: string;
+    };
+    export type RequestBody = never;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
