@@ -690,7 +690,8 @@
     "signRiskAnalysis": {
       "loading": "Risk analysis is being signed",
       "outcome": {
-        "error": "The risk analysis could not be signed. Please try again!"
+        "error": "The risk analysis could not be signed. Please try again!",
+        "versionChanged": "Another reviewer has modified this risk analysis. Reload the page to see the updated version and decide whether to approve it."
       }
     },
     "rejectRiskAnalysis": {
