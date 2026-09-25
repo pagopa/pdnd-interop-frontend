@@ -219,16 +219,40 @@ function useCreateDraftFromPurposeTemplate() {
   })
 }
 
-function useAssignRiskAnalysisReviewer({ showSuccessToast }: { showSuccessToast: boolean }) {
-  const { t } = useTranslation('mutations-feedback', {
-    keyPrefix: 'purpose.assignRiskAnalysisReviewer',
-  })
+/**
+ * Feedback variant for the risk analysis assignment mutation:
+ *  - `none`: first assignment in the self-compilation modes, which give no success feedback
+ *  - `create`: first assignment in the reviewer-compilation mode
+ *  - `edit`: any change to an assignment that already exists
+ */
+export type AssignRiskAnalysisReviewerFeedback = 'none' | 'create' | 'edit'
+
+function useAssignRiskAnalysisReviewer({
+  feedback,
+}: {
+  feedback: AssignRiskAnalysisReviewerFeedback
+}) {
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose' })
+
+  const labels =
+    feedback === 'edit'
+      ? {
+          success: t('updateRiskAnalysisAssignment.outcome.success'),
+          error: t('updateRiskAnalysisAssignment.outcome.error'),
+          loading: t('updateRiskAnalysisAssignment.loading'),
+        }
+      : {
+          success: t('assignRiskAnalysisReviewer.outcome.success'),
+          error: t('assignRiskAnalysisReviewer.outcome.error'),
+          loading: t('assignRiskAnalysisReviewer.loading'),
+        }
+
   return useMutation({
     mutationFn: PurposeServices.assignRiskAnalysisReviewer,
     meta: {
-      successToastLabel: showSuccessToast ? t('outcome.success') : undefined,
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
+      successToastLabel: feedback === 'none' ? undefined : labels.success,
+      errorToastLabel: labels.error,
+      loadingLabel: labels.loading,
     },
   })
 }

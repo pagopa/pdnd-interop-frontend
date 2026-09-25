@@ -26,7 +26,14 @@ vi.mock('@/api/purpose', () => ({
             },
             reviewerWorkflow: {
               signingState: 'ASSIGNED',
-              sentToReviewerAt: new Date().toISOString(),
+              reviewers: [
+                {
+                  userId: 'reviewer-1',
+                  name: 'Mario',
+                  familyName: 'Rossi',
+                  sentToReviewerAt: new Date().toISOString(),
+                },
+              ],
             },
           },
         ],
@@ -68,7 +75,14 @@ describe('RiskAnalysisListPage', () => {
             },
             reviewerWorkflow: {
               signingState: 'ASSIGNED',
-              sentToReviewerAt: new Date().toISOString(),
+              reviewers: [
+                {
+                  userId: 'reviewer-1',
+                  name: 'Mario',
+                  familyName: 'Rossi',
+                  sentToReviewerAt: new Date().toISOString(),
+                },
+              ],
             },
           },
         ],
