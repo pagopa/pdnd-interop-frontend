@@ -673,6 +673,13 @@
         "error": "It was not possible to assign the risk analysis."
       }
     },
+    "updateRiskAnalysisAssignment": {
+      "loading": "We are updating the risk analysis assignment",
+      "outcome": {
+        "success": "You have updated the risk analysis assignment.",
+        "error": "It was not possible to update the risk analysis assignment."
+      }
+    },
     "submitRiskAnalysis": {
       "loading": "We are assigning the risk analysis to a reviewer",
       "outcome": {
@@ -683,7 +690,9 @@
     "signRiskAnalysis": {
       "loading": "Risk analysis is being signed",
       "outcome": {
-        "error": "The risk analysis could not be signed. Please try again!"
+        "error": "The risk analysis could not be signed. Please try again!",
+        "versionChanged": "Another reviewer has modified this risk analysis. Reload the page to see the updated version and decide whether to approve it.",
+        "alreadyApproved": "This risk analysis has already been approved by another reviewer. Reload the page to see the approved risk analysis."
       }
     },
     "rejectRiskAnalysis": {

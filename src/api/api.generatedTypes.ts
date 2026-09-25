@@ -2770,11 +2770,6 @@ export interface NotificationConfig {
   clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: boolean;
   purposeQuotaAdjustmentRequestToProducer: boolean;
   purposeOverQuotaStateToConsumer: boolean;
-  /** Enables risk analysis approval and rejection notifications for administrators. */
-  purposeRiskAnalysisAssignmentStatusToAdmin: boolean;
-  /** Enables assignment, removal, draft deletion and approval by another reviewer notifications. */
-  purposeRiskAnalysisAssignmentStatusToReviewer: boolean;
-  purposePublishedWithRiskAnalysisToReviewer: boolean;
   eserviceArchivingRequestedToDelegator: boolean;
   eserviceArchivingApprovedRejectedToDelegate: boolean;
 }
