@@ -86,13 +86,13 @@ export const EServiceTemplateTechnicalInfoSection: React.FC<
                 ]
           }
         >
-          <Stack component="dl" spacing={2} sx={{ m: 0 }}>
-            <InformationContainer
-              label={t('thresholds.voucherLifespan.label')}
-              labelDescription={t('thresholds.voucherLifespan.labelDescription')}
-              content={`${voucherLifespan}`}
-            />
-          </Stack>
+          <InformationContainer
+            component="dl"
+            sx={{ m: 0 }}
+            label={t('thresholds.voucherLifespan.label')}
+            labelDescription={t('thresholds.voucherLifespan.labelDescription')}
+            content={`${voucherLifespan}`}
+          />
         </SectionContainer>
         <Divider />
         <EServiceTemplateDocumentationSection

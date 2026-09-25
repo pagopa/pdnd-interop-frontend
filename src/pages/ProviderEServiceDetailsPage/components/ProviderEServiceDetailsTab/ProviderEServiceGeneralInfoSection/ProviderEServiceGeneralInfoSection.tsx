@@ -235,23 +235,23 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
           )}
           {isEserviceFromTemplate ? (
             <>
-              <Stack component="dl" sx={{ m: 0 }}>
-                <InformationContainer
-                  label={t('eserviceTemplateName.label')}
-                  content={
-                    <Link
-                      to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
-                      params={{
-                        eServiceTemplateId: descriptor.templateRef?.templateId as string,
-                        eServiceTemplateVersionId: descriptor.templateRef
-                          ?.templateVersionId as string,
-                      }}
-                    >
-                      {descriptor.templateRef?.templateName}
-                    </Link>
-                  }
-                />
-              </Stack>
+              <InformationContainer
+                component="dl"
+                sx={{ m: 0 }}
+                label={t('eserviceTemplateName.label')}
+                content={
+                  <Link
+                    to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
+                    params={{
+                      eServiceTemplateId: descriptor.templateRef?.templateId as string,
+                      eServiceTemplateVersionId: descriptor.templateRef
+                        ?.templateVersionId as string,
+                    }}
+                  >
+                    {descriptor.templateRef?.templateName}
+                  </Link>
+                }
+              />
               <Divider />
               <SectionContainer
                 innerSection

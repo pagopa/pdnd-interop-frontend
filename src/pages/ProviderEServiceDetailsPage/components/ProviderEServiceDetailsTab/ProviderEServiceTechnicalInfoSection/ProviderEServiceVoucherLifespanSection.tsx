@@ -3,7 +3,6 @@ import { SectionContainer } from '@/components/layout/containers'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import EditIcon from '@mui/icons-material/Edit'
-import { Stack } from '@mui/material'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { secondsToMinutes } from '@/utils/format.utils'
 import { useDrawerState } from '@/hooks/useDrawerState'
@@ -89,15 +88,15 @@ export const ProviderEServiceVoucherLifespanSection: React.FC<
             : []
         }
       >
-        <Stack component="dl" spacing={2} sx={{ m: 0 }}>
-          <InformationContainer
-            label={t('thresholds.voucherLifespan.label')}
-            labelDescription={t('thresholds.voucherLifespan.labelDescription')}
-            content={`${voucherLifespan} ${tCommon('time.minute', {
-              count: voucherLifespan,
-            })}`}
-          />
-        </Stack>
+        <InformationContainer
+          component="dl"
+          sx={{ m: 0 }}
+          label={t('thresholds.voucherLifespan.label')}
+          labelDescription={t('thresholds.voucherLifespan.labelDescription')}
+          content={`${voucherLifespan} ${tCommon('time.minute', {
+            count: voucherLifespan,
+          })}`}
+        />
       </SectionContainer>
       <UpdateVoucherDrawer
         isOpen={isOpen}
