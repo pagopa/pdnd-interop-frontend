@@ -51,7 +51,12 @@ export const ProviderKeychainUserDetailsGeneralInfoSection: React.FC<
         },
       ]}
     >
-      <InformationContainer label={t('productRoleField.label')} content={userRoles} />
+      <InformationContainer
+        component="dl"
+        sx={{ m: 0 }}
+        label={t('productRoleField.label')}
+        content={userRoles}
+      />
     </SectionContainer>
   )
 }

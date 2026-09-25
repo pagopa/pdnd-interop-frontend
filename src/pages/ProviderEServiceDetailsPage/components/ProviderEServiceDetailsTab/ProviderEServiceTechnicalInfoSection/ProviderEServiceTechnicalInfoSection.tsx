@@ -31,7 +31,7 @@ export const ProviderEServiceTechnicalInfoSection: React.FC = () => {
     <SectionContainer title={t('title')} description={t('description')}>
       <Stack spacing={2}>
         <SectionContainer innerSection>
-          <Stack spacing={2}>
+          <Stack component="dl" spacing={2} sx={{ m: 0 }}>
             <InformationContainer
               label={t('eserviceId.label')}
               content={eserviceId}

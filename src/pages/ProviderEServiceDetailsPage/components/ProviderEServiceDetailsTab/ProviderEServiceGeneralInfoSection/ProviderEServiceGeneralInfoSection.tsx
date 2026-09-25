@@ -203,17 +203,19 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
         ]}
       >
         <Stack spacing={2}>
-          <InformationContainer label={t('version.label')} content={descriptor.version} />
-          <InformationContainer
-            label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
-            content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
-          />
-          <InformationContainer
-            label={t('exchangeType.label')}
-            content={t(
-              `exchangeType.value.${descriptor.eservice.asyncExchange ? 'async' : 'sync'}`
-            )}
-          />
+          <Stack component="dl" spacing={2} sx={{ m: 0 }}>
+            <InformationContainer label={t('version.label')} content={descriptor.version} />
+            <InformationContainer
+              label={t(`personalDataField.${descriptor.eservice.mode}.label`)}
+              content={t(`personalDataField.value.${descriptor.eservice.personalData}`)}
+            />
+            <InformationContainer
+              label={t('exchangeType.label')}
+              content={t(
+                `exchangeType.value.${descriptor.eservice.asyncExchange ? 'async' : 'sync'}`
+              )}
+            />
+          </Stack>
           {(isAdmin || isOperatorAPI) && !arePersonalDataSet && !isEserviceFromTemplate && (
             <Alert severity="warning" sx={{ alignItems: 'center' }} variant="outlined">
               <Stack spacing={25} direction="row" alignItems="center">
@@ -234,6 +236,8 @@ export const ProviderEServiceGeneralInfoSection: React.FC = () => {
           {isEserviceFromTemplate ? (
             <>
               <InformationContainer
+                component="dl"
+                sx={{ m: 0 }}
                 label={t('eserviceTemplateName.label')}
                 content={
                   <Link

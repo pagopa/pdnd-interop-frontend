@@ -57,7 +57,7 @@ export const EServiceTemplateTechnicalInfoSection: React.FC<
     <SectionContainer title={t('title')} description={t('description')}>
       <Stack spacing={2}>
         <SectionContainer innerSection>
-          <Stack spacing={2}>
+          <Stack component="dl" spacing={2} sx={{ m: 0 }}>
             <InformationContainer
               label={t('technology')}
               content={eserviceTemplate.eserviceTemplate.technology}
@@ -87,6 +87,8 @@ export const EServiceTemplateTechnicalInfoSection: React.FC<
           }
         >
           <InformationContainer
+            component="dl"
+            sx={{ m: 0 }}
             label={t('thresholds.voucherLifespan.label')}
             labelDescription={t('thresholds.voucherLifespan.labelDescription')}
             content={`${voucherLifespan}`}
