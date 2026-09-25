@@ -115,6 +115,9 @@ function useMarkNotificationsAsReadByEntityId() {
     mutationFn: (payload: { entityId: string }) =>
       NotificationServices.markNotificationsAsReadByEntityId(payload),
     retry: false,
+    meta: {
+      skipActiveQueriesPolling: true,
+    },
   })
 }
 

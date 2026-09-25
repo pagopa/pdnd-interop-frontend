@@ -1,6 +1,7 @@
 import type { Purpose } from '@/api/api.generatedTypes'
 import { AuthHooks } from '@/api/auth'
 import { PurposeQueries } from '@/api/purpose'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { InfoTooltip } from '@/components/shared/InfoTooltip'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
@@ -33,7 +34,10 @@ export const ConsumerPurposesTableRow: React.FC<{ purpose: Purpose }> = ({ purpo
   )
 
   const handlePrefetch = () => {
-    queryClient.prefetchQuery(PurposeQueries.getSingle(purpose.id))
+    queryClient.prefetchQuery({
+      ...PurposeQueries.getSingle(purpose.id),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   const isDelegator = Boolean(

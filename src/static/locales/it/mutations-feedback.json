@@ -673,6 +673,13 @@
         "error": "Non è stato possibile assegnare l’analisi del rischio."
       }
     },
+    "updateRiskAnalysisAssignment": {
+      "loading": "Stiamo modificando l’assegnazione dell’analisi del rischio",
+      "outcome": {
+        "success": "Hai modificato l’assegnazione dell’analisi del rischio.",
+        "error": "Non è stato possibile modificare l’assegnazione dell’analisi del rischio."
+      }
+    },
     "submitRiskAnalysis": {
       "loading": "Stiamo assegnando l’analisi del rischio a un valutatore",
       "outcome": {
@@ -683,7 +690,9 @@
     "signRiskAnalysis": {
       "loading": "Stiamo approvando l'analisi del rischio",
       "outcome": {
-        "error": "Non è stato possibile approvare l'analisi del rischio. Per favore, riprova!"
+        "error": "Non è stato possibile approvare l'analisi del rischio. Per favore, riprova!",
+        "versionChanged": "Un altro valutatore ha modificato questa analisi del rischio. Ricarica la pagina per vedere la versione aggiornata e decidi se approvarla.",
+        "alreadyApproved": "Questa analisi del rischio è già stata approvata da un altro valutatore. Ricarica la pagina per vedere l’analisi del rischio approvata."
       }
     },
     "rejectRiskAnalysis": {
@@ -936,17 +945,17 @@
       }
     },
     "updateEServiceDescription": {
-      "loading": "Stiamo modificando la descrizione dell'e-service del template",
+      "loading": "Stiamo modificando la descrizione del template e-service",
       "outcome": {
-        "error": "Descrizione dell'e-service del template dell'e-service non aggiornata. Riprovare.",
-        "success": "Descrizione dell'e-service del template dell'e-service aggiornata correttamente"
+        "error": "Descrizione del template e-service non aggiornata. Riprovare.",
+        "success": "Descrizione del template e-service aggiornata correttamente"
       }
     },
     "updateVersion": {
-      "loading": "Stiamo modificando la descrizione della versione dell'e-service del template",
+      "loading": "Stiamo modificando la descrizione della versione del template e-service",
       "outcome": {
-        "error": "Descrizione della versione dell'e-service del template dell'e-service non aggiornata. Riprovare.",
-        "success": "Descrizione della versione dell'e-service del template dell'e-service aggiornata correttamente"
+        "error": "Descrizione della versione del template e-service non aggiornata. Riprovare.",
+        "success": "Descrizione della versione del template e-service aggiornata correttamente"
       }
     },
     "postVersionDraftDocument": {
