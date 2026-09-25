@@ -13,10 +13,45 @@ import { useTranslation } from 'react-i18next'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { Divider, Stack } from '@mui/material'
 import { formatThousands } from '@/utils/format.utils'
+import type {
+  DelegationTenant,
+  DescriptorAttributes,
+  TenantAttributes,
+} from '@/api/api.generatedTypes'
+import { isAttributeOwned } from '@/utils/attribute.utils'
 
-export const ConsumerEServiceDescriptorAttributes: React.FC = () => {
+function getCustomizedDailyCallsPerConsumer(
+  descriptorAttributes: DescriptorAttributes['certified'],
+  ownedAttributes: TenantAttributes['certified']
+): number | undefined {
+  return descriptorAttributes.flat().reduce<number | undefined>((max, attribute) => {
+    if (
+      attribute.dailyCallsPerConsumer === undefined ||
+      !isAttributeOwned(
+        'certified',
+        attribute.id,
+        ownedAttributes,
+        attribute.discreteConfig ? { discreteConfig: attribute.discreteConfig } : undefined
+      )
+    ) {
+      return max
+    }
+
+    return max === undefined
+      ? attribute.dailyCallsPerConsumer
+      : Math.max(max, attribute.dailyCallsPerConsumer)
+  }, undefined)
+}
+
+type ConsumerEServiceDescriptorAttributesProps = {
+  delegators?: DelegationTenant[]
+}
+
+export const ConsumerEServiceDescriptorAttributes: React.FC<
+  ConsumerEServiceDescriptorAttributesProps
+> = ({ delegators = [] }) => {
   const { t } = useTranslation('eservice', { keyPrefix: 'read.sections.attributes' })
-  const { jwt } = AuthHooks.useJwt()
+  const { jwt, isReviewer } = AuthHooks.useJwt()
 
   const { eserviceId, descriptorId } = useParams<'SUBSCRIBE_CATALOG_VIEW'>()
   const { data: descriptor } = useSuspenseQuery(
@@ -32,6 +67,10 @@ export const ConsumerEServiceDescriptorAttributes: React.FC = () => {
       ],
     })
 
+  const delegatorCertifiedAttributes = useSuspenseQueries({
+    queries: delegators.map(({ id }) => AttributeQueries.getPartyCertifiedList(id)),
+  })
+
   const ownershipData: AttributeOwnershipData = React.useMemo(
     () => ({
       certified: ownedCertified.attributes,
@@ -41,6 +80,48 @@ export const ConsumerEServiceDescriptorAttributes: React.FC = () => {
     }),
     [ownedCertified, ownedVerified, ownedDeclared, descriptor.eservice.producer.id]
   )
+
+  const customizedThresholds = React.useMemo(() => {
+    const currentTenantThreshold = isReviewer
+      ? undefined
+      : getCustomizedDailyCallsPerConsumer(
+          descriptor.attributes.certified,
+          ownedCertified.attributes
+        )
+
+    const delegatorThresholds = delegators.flatMap((delegator, index) => {
+      const ownedAttributes = delegatorCertifiedAttributes[index]?.data.attributes
+      if (!ownedAttributes) return []
+
+      const dailyCallsPerConsumer = getCustomizedDailyCallsPerConsumer(
+        descriptor.attributes.certified,
+        ownedAttributes
+      )
+
+      return dailyCallsPerConsumer === undefined
+        ? []
+        : [{ id: delegator.id, label: delegator.name, dailyCallsPerConsumer }]
+    })
+
+    return currentTenantThreshold === undefined
+      ? delegatorThresholds
+      : [
+          {
+            id: jwt?.organizationId ?? 'current-tenant',
+            label: t('thresholds.customized.currentTenantLabel'),
+            dailyCallsPerConsumer: currentTenantThreshold,
+          },
+          ...delegatorThresholds,
+        ]
+  }, [
+    delegators,
+    delegatorCertifiedAttributes,
+    descriptor.attributes.certified,
+    isReviewer,
+    jwt?.organizationId,
+    ownedCertified.attributes,
+    t,
+  ])
 
   return (
     <SectionContainer title={t('title')} description={t('description')}>
@@ -62,6 +143,19 @@ export const ConsumerEServiceDescriptorAttributes: React.FC = () => {
           />
         </Stack>
       </SectionContainer>
+      {customizedThresholds.length > 0 && (
+        <SectionContainer innerSection title={t('thresholds.customized.title')}>
+          <Stack spacing={2}>
+            {customizedThresholds.map(({ id, label, dailyCallsPerConsumer }) => (
+              <InformationContainer
+                key={id}
+                label={label}
+                content={`${formatThousands(dailyCallsPerConsumer)}`}
+              />
+            ))}
+          </Stack>
+        </SectionContainer>
+      )}
       <Divider sx={{ my: 3 }} />
       <ReadOnlyDescriptorAttributes
         descriptorAttributes={descriptor.attributes}
