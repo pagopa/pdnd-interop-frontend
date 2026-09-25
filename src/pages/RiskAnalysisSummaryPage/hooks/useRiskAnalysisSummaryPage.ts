@@ -61,10 +61,14 @@ export function useRiskAnalysisSummaryPage() {
       !refreshedPurpose ||
       metadataVersion === undefined ||
       refreshedPurpose.metadataVersion === undefined ||
-      refreshedPurpose.metadataVersion !== metadataVersion ||
       isRiskAnalysisConcluded
     ) {
       showToast(t('error'), 'error')
+      return
+    }
+
+    if (refreshedPurpose.metadataVersion !== metadataVersion) {
+      showToast(t('versionChanged'), 'error')
       return
     }
 
