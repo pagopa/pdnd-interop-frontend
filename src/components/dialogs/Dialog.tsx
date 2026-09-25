@@ -39,6 +39,9 @@ import type {
   DialogReactivateArchivingDescriptorProps,
   DialogArchiveVersionProps,
   DialogCancelVersionArchivingProps,
+  DialogBlockArchivingRequestProps,
+  DialogDelegatorConfirmArchivingProps,
+  DialogDelegatorRejectArchivingProps,
 } from '@/types/dialog.types'
 import { DialogRejectAgreement } from './DialogRejectAgreement'
 import { ErrorBoundary } from '../shared/ErrorBoundary'
@@ -73,6 +76,9 @@ import { DialogSuspendArchivingDescriptor } from './DialogSuspendArchivingDescri
 import { DialogReactivateArchivingDescriptor } from './DialogReactivateArchivingDescriptor'
 import { DialogArchiveVersion } from './DialogArchiveVersion'
 import { DialogCancelVersionArchiving } from './DialogCancelVersionArchiving'
+import { DialogBlockArchivingRequest } from './DialogBlockArchivingRequest'
+import DialogDelegatorConfirmArchiving from './DialogDelegatorConfirmArchiving'
+import DialogDelegatorRejectArchiving from './DialogDelegatorRejectArchiving'
 
 function match<T>(
   onBasic: (props: DialogBasicProps) => T,
@@ -108,7 +114,10 @@ function match<T>(
   onSuspendArchivingDescriptor: (props: DialogSuspendArchivingDescriptorProps) => T,
   onReactivateArchivingDescriptor: (props: DialogReactivateArchivingDescriptorProps) => T,
   onArchiveVersion: (props: DialogArchiveVersionProps) => T,
-  onCancelVersionArchiving: (props: DialogCancelVersionArchivingProps) => T
+  onCancelVersionArchiving: (props: DialogCancelVersionArchivingProps) => T,
+  onBlockArchivingRequest: (props: DialogBlockArchivingRequestProps) => T,
+  onDelegatorConfirmArchiving: (props: DialogDelegatorConfirmArchivingProps) => T,
+  onDelegatorRejectArchiving: (props: DialogDelegatorRejectArchivingProps) => T
 ) {
   return (props: DialogProps) => {
     switch (props.type) {
@@ -180,6 +189,12 @@ function match<T>(
         return onArchiveVersion(props)
       case 'cancelVersionArchiving':
         return onCancelVersionArchiving(props)
+      case 'blockArchivingRequest':
+        return onBlockArchivingRequest(props)
+      case 'delegatorConfirmArchiving':
+        return onDelegatorConfirmArchiving(props)
+      case 'delegatorRejectArchiving':
+        return onDelegatorRejectArchiving(props)
     }
   }
 }
@@ -218,7 +233,10 @@ const _Dialog = match(
   (props) => <DialogSuspendArchivingDescriptor {...props} />,
   (props) => <DialogReactivateArchivingDescriptor {...props} />,
   (props) => <DialogArchiveVersion {...props} />,
-  (props) => <DialogCancelVersionArchiving {...props} />
+  (props) => <DialogCancelVersionArchiving {...props} />,
+  () => <DialogBlockArchivingRequest />,
+  (props) => <DialogDelegatorConfirmArchiving {...props} />,
+  (props) => <DialogDelegatorRejectArchiving {...props} />
 )
 
 export const Dialog: React.FC = () => {

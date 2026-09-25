@@ -21,6 +21,14 @@
         "description": "Dopo aver creato e selezionato un client, puoi simulare l’ottenimento di un voucher attraverso questo strumento.",
         "firstButton": "Simula per e-service",
         "secondButton": "Simula per Interoperabilità"
+      },
+      "sectionOpenApiAnalysis": {
+        "title": "Analisi file OpenAPI",
+        "description": "Prima della pubblicazione, puoi verificare il file OpenAPI di un’interfaccia REST con questi strumenti per:",
+        "openApiCheckerDescription": "controllare la conformità tecnica secondo le linee guida ModI con OpenAPI Checker;",
+        "schemaEditorDescription": "verificare la qualità semantica del tuo schema dati attraverso lo score calcolato dallo Schema Editor.",
+        "openApiCheckerButton": "OpenAPI Checker",
+        "schemaEditorButton": "Schema Editor"
       }
     }
   },

@@ -1,5 +1,6 @@
 import type { CompactDelegation } from '@/api/api.generatedTypes'
 import { DelegationQueries } from '@/api/delegation'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
 import { ButtonSkeleton } from '@/components/shared/MUI-skeletons'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
@@ -30,7 +31,10 @@ export const DelegationsTableRow: React.FC<DelegationsTableRowProps> = ({
   const { actions } = useGetDelegationActions(delegation)
 
   const handlePrefetch = () => {
-    queryClient.prefetchQuery(DelegationQueries.getSingle({ delegationId: delegation.id }))
+    queryClient.prefetchQuery({
+      ...DelegationQueries.getSingle({ delegationId: delegation.id }),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   const delegationKindLabel = match(delegation.kind)

@@ -13,13 +13,21 @@ vi.spyOn(stores, 'useDialog').mockReturnValue({
   openDialog: openDialogMock,
 } as never)
 
-const baseAttribute: RequesterCertifiedAttribute = {
+const baseCertifiedDiscreteAttribute: RequesterCertifiedAttribute = {
   tenantId: 'tenant-id-1',
   tenantName: 'Comune di Test',
   attributeId: 'attribute-id-1',
   attributeName: 'Codice ATECO',
   kind: 'CERTIFIED_DISCRETE',
   discreteValue: 1000,
+}
+
+const baseCertifiedAttribute: RequesterCertifiedAttribute = {
+  tenantId: 'tenant-id-1',
+  tenantName: 'Comune di Test',
+  attributeId: 'attribute-id-1',
+  attributeName: 'Codice ATECO',
+  kind: 'CERTIFIED',
 }
 
 const renderRow = (attribute: RequesterCertifiedAttribute) =>
@@ -40,7 +48,7 @@ describe('AttributesTableRow', () => {
   it('should render tenant name, attribute name and formatted discrete value', () => {
     mockUseJwt({ isAdmin: true })
 
-    const { getByText } = renderRow(baseAttribute)
+    const { getByText } = renderRow(baseCertifiedDiscreteAttribute)
 
     expect(getByText('Comune di Test')).toBeInTheDocument()
     expect(getByText('Codice ATECO')).toBeInTheDocument()
@@ -50,35 +58,102 @@ describe('AttributesTableRow', () => {
   it('should render "-" when discreteValue is missing', () => {
     mockUseJwt({ isAdmin: true })
 
-    const { getByText } = renderRow({
-      ...baseAttribute,
-      discreteValue: undefined,
-    })
+    const { getByText } = renderRow(baseCertifiedAttribute)
 
     expect(getByText('-')).toBeInTheDocument()
   })
 
-  it('should render revoke action for admin and open revoke dialog on click', async () => {
+  it('should render only revoke action for admin for CERTIFIED attribute row', async () => {
     mockUseJwt({ isAdmin: true })
 
-    const { getByRole } = renderRow(baseAttribute)
+    const { getByRole, queryByRole } = renderRow(baseCertifiedAttribute)
 
     const user = userEvent.setup()
-    await user.click(getByRole('button', { name: 'actions.revoke' }))
+    await user.click(getByRole('button', { name: 'iconButtonAriaLabel' }))
+
+    expect(getByRole('menuitem', { name: 'revokeAttributeBtn' })).toBeInTheDocument()
+    expect(queryByRole('menuitem', { name: 'updateAttributeValueBtn' })).not.toBeInTheDocument()
+  })
+
+  it('should render revoke and update value actions for admin for CERTIFIED_DISCRETE attribute row', async () => {
+    mockUseJwt({ isAdmin: true })
+
+    const { getByRole } = renderRow(baseCertifiedDiscreteAttribute)
+
+    const user = userEvent.setup()
+    await user.click(getByRole('button', { name: 'iconButtonAriaLabel' }))
+
+    expect(getByRole('menuitem', { name: 'revokeAttributeBtn' })).toBeInTheDocument()
+    expect(getByRole('menuitem', { name: 'updateAttributeValueBtn' })).toBeInTheDocument()
+  })
+
+  it('should open revoke dialog when admin clicks the revoke action (CERTIFIED_DISCRETE)', async () => {
+    mockUseJwt({ isAdmin: true })
+
+    const { getByRole } = renderRow(baseCertifiedDiscreteAttribute)
+
+    const user = userEvent.setup()
+    await user.click(getByRole('button', { name: 'iconButtonAriaLabel' }))
+    await user.click(getByRole('menuitem', { name: 'revokeAttributeBtn' }))
 
     expect(openDialogMock).toHaveBeenCalledTimes(1)
     expect(openDialogMock).toHaveBeenCalledWith({
       type: 'revokeCertifiedAttribute',
-      attribute: baseAttribute,
+      attribute: baseCertifiedDiscreteAttribute,
     })
+  })
+
+  it('should open revoke dialog when admin clicks the revoke action (CERTIFIED)', async () => {
+    mockUseJwt({ isAdmin: true })
+
+    const { getByRole } = renderRow(baseCertifiedAttribute)
+
+    const user = userEvent.setup()
+    await user.click(getByRole('button', { name: 'iconButtonAriaLabel' }))
+    await user.click(getByRole('menuitem', { name: 'revokeAttributeBtn' }))
+
+    expect(openDialogMock).toHaveBeenCalledTimes(1)
+    expect(openDialogMock).toHaveBeenCalledWith({
+      type: 'revokeCertifiedAttribute',
+      attribute: baseCertifiedAttribute,
+    })
+  })
+
+  it('should open update value drawer when admin clicks the update value action (CERTIFIED_DISCRETE)', async () => {
+    mockUseJwt({ isAdmin: true })
+
+    const { getByRole, getByText } = renderRow(baseCertifiedDiscreteAttribute)
+
+    const user = userEvent.setup()
+    await user.click(getByRole('button', { name: 'iconButtonAriaLabel' }))
+    await user.click(getByRole('menuitem', { name: 'updateAttributeValueBtn' }))
+
+    expect(getByText('title')).toBeInTheDocument()
+    expect(getByRole('spinbutton', { name: 'form.valueField.label' })).toHaveValue(1000)
+  })
+
+  it('should render only revoke action for admin with CERTIFIED attribute', async () => {
+    mockUseJwt({ isAdmin: true })
+
+    const { getByRole, queryByRole } = renderRow({
+      ...baseCertifiedDiscreteAttribute,
+      kind: 'CERTIFIED',
+      discreteValue: undefined,
+    })
+
+    const user = userEvent.setup()
+    await user.click(getByRole('button', { name: 'iconButtonAriaLabel' }))
+
+    expect(getByRole('menuitem', { name: 'revokeAttributeBtn' })).toBeInTheDocument()
+    expect(queryByRole('menuitem', { name: 'updateAttributeValueBtn' })).not.toBeInTheDocument()
   })
 
   it('should not render revoke action for non-admin user', () => {
     mockUseJwt({ isAdmin: false })
 
-    const { queryByRole } = renderRow(baseAttribute)
+    const { queryByRole } = renderRow(baseCertifiedDiscreteAttribute)
 
-    expect(queryByRole('button', { name: 'actions.revoke' })).not.toBeInTheDocument()
+    expect(queryByRole('button', { name: 'iconButtonAriaLabel' })).not.toBeInTheDocument()
   })
 })
 
