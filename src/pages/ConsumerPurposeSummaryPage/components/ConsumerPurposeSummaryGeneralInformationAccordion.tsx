@@ -110,7 +110,7 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
               label={t('assignmentSection.reviewers.label')}
               content={
                 purpose.reviewerWorkflow?.reviewers
-                  ?.map((reviewer) => `${reviewer.name} ${reviewer.familyName}`)
+                  ?.map((reviewer) => `${reviewer.name} ${reviewer.familyName}`.trim())
                   .join(', ') || '-'
               }
             />
