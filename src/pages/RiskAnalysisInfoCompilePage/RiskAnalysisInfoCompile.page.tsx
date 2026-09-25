@@ -29,10 +29,7 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
     <PageContainer
       title={t('title')}
       isLoading={isLoading}
-      backToAction={{
-        label: t('backToListBtn'),
-        to: 'SUBSCRIBE_RISK_ANALYSIS_LIST',
-      }}
+      navigation={{ mode: 'wizard', exitAction: { to: 'SUBSCRIBE_RISK_ANALYSIS_LIST' } }}
     >
       <Grid container sx={{ mt: 3 }}>
         <Grid item xs={12}>

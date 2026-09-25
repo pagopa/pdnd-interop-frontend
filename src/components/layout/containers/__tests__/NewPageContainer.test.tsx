@@ -1,4 +1,5 @@
 import userEvent from '@testing-library/user-event'
+import { createMemoryHistory, type MemoryHistory } from 'history'
 import { NewPageContainer, type PageContainerProps } from '../NewPageContainer'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
 import type { ActionItemButton } from '@/types/common.types'
@@ -33,7 +34,7 @@ const renderComponent = ({
   return renderWithApplicationContext(
     <NewPageContainer
       title={title}
-      backToAction={backToAction}
+      navigation={navigation}
       statusChip={statusChip}
       byDelegationChip={byDelegationChip}
       primaryAction={primaryAction}
@@ -44,7 +45,8 @@ const renderComponent = ({
     >
       {children}
     </NewPageContainer>,
-    { withRouterContext: true }
+    { withRouterContext: true },
+    history
   )
 }
 
@@ -82,25 +84,31 @@ describe('NewPageContainer', () => {
     expect(statusChip).toBeInTheDocument()
   })
 
-  it('should correctly render the backToAction link that navigate to the DEFAULT route passed', async () => {
-    const { history, ...screen } = renderComponent({
-      children: 'Test children',
-      title: 'Test title',
-      backToAction: {
-        label: 'test backToAction',
-        to: 'DEFAULT',
-      },
+  it('should correctly render the browser back button', async () => {
+    const history = createMemoryHistory({
+      initialEntries: ['/it/termini-di-servizio', '/it/privacy-policy'],
+      initialIndex: 1,
     })
+    const screen = renderComponent(
+      {
+        children: 'Test children',
+        title: 'Test title',
+        navigation: {
+          showBackButton: true,
+        },
+      },
+      history
+    )
 
     const user = userEvent.setup()
 
-    const backToActionButton = screen.getByRole('link', { name: 'test backToAction' })
+    const backButton = screen.getByRole('button', { name: 'backButton' })
 
-    expect(backToActionButton).toBeInTheDocument()
+    expect(backButton).toBeInTheDocument()
 
-    await user.click(backToActionButton)
+    await user.click(backButton)
 
-    expect(history.location.pathname).toEqual('/it/')
+    expect(history.location.pathname).toEqual('/it/termini-di-servizio')
   })
 
   it('should correctly render the description', () => {

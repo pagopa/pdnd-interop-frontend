@@ -25,9 +25,10 @@ const ConsumerPurposeTemplateEditPage: React.FC = () => {
     <PurposeCreateContextProvider type="creator" isFromPurposeTemplate={true}>
       <PageContainer
         title={t('edit.emptyTitle')}
-        backToAction={{
-          label: t('backToListBtn'),
-          to: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST',
+        navigation={{
+          mode: 'wizard',
+          exitAction: { to: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST' },
+          stepKey: activeStep,
         }}
       >
         <Stepper steps={steps} activeIndex={activeStep} />

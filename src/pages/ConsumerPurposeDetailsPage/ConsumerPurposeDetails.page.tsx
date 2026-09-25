@@ -61,10 +61,7 @@ const ConsumerPurposeDetailsPage: React.FC = () => {
       isLoading={isPurposeLoading || isDescriptorLoading}
       topSideActions={actions}
       statusChip={purpose ? { for: 'purpose', purpose: purpose } : undefined}
-      backToAction={{
-        label: t('backToListBtn'),
-        to: 'SUBSCRIBE_PURPOSE_LIST',
-      }}
+      navigation={{ showBackButton: true }}
     >
       {alertProps && (
         <Alert severity={alertProps.severity} sx={{ my: 3 }} variant={alertProps.variant}>

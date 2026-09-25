@@ -4,7 +4,7 @@ import useGetProviderPurposesActions from '@/hooks/useGetProviderPurposesActions
 import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { useParams } from '@/router'
 import React from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { Trans } from 'react-i18next'
 import {
   ProviderPurposeDetailsGeneralInfoSection,
   ProviderPurposeDetailsGeneralInfoSectionSkeleton,
@@ -21,7 +21,6 @@ import { useQuery } from '@tanstack/react-query'
 import { ProviderPurposeDetailsTechnicalInfoSection } from './components/ProviderPurposeDetailsTechnicalInfoSection'
 
 const ProviderPurposeDetailsPage: React.FC = () => {
-  const { t } = useTranslation('purpose')
   const { purposeId } = useParams<'PROVIDE_PURPOSE_DETAILS'>()
 
   const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
@@ -40,10 +39,7 @@ const ProviderPurposeDetailsPage: React.FC = () => {
       isLoading={isLoading}
       topSideActions={actions}
       statusChip={purpose ? { for: 'purpose', purpose: purpose } : undefined}
-      backToAction={{
-        label: t('backToListBtn'),
-        to: 'PROVIDE_PURPOSE_LIST',
-      }}
+      navigation={{ showBackButton: true }}
     >
       {alertProps && (
         <Alert severity={alertProps.severity} sx={{ mb: 3 }} variant={alertProps.variant}>

@@ -26,11 +26,11 @@ export const UsersInputTable: React.FC = () => {
 
   const handleRemoveUser = (operatorId: string) => {
     const newUsers = users.filter((o) => o.userId !== operatorId)
-    setValue('users', newUsers)
+    setValue('users', newUsers, { shouldDirty: true })
   }
 
   const handleAddUsers = (newUsers: Users) => {
-    setValue('users', [...users, ...newUsers])
+    setValue('users', [...users, ...newUsers], { shouldDirty: true })
   }
 
   const handleOpenAddUsersDrawer = () => {

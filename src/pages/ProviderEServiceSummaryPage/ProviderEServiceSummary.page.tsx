@@ -357,10 +357,7 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             </Trans>
           ) : undefined
         }
-        backToAction={{
-          label: t('backToListBtn'),
-          to: 'PROVIDE_ESERVICE_LIST',
-        }}
+        navigation={{ mode: 'back' }}
         isLoading={isLoading}
         statusChip={{
           for: 'eservice',

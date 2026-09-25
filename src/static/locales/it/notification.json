@@ -2,8 +2,8 @@
   "notifications": {
     "page": {
       "title": "Notifiche",
-      "description": "Visualizza tutte le notifiche per la tua utenza.",
-      "addNotificationConfigBtn": "Configura notifiche",
+      "description": "Qui trovi le notifiche per le attività del tuo ente, ma anche quelle relative alle deleghe.",
+      "addNotificationConfigBtn": "Gestisci notifiche",
       "notNotificationAvailable": "Non hai ancora ricevuto notifiche di piattaforma.",
       "noItemsConfigurationLink": "Configura le preferenze di notifica",
       "rowActions": {
@@ -62,8 +62,8 @@
       }
     },
     "configurationPage": {
-      "title": "Configurazione notifiche utente",
-      "description": "Gestisci le tue impostazioni di notifica in app e via email personale. Hai dubbi su come configurare le notifiche? <1>Consulta il manuale</1>",
+      "title": "Gestisci le notifiche",
+      "description": "Scegli quali notifiche vuoi ricevere via piattaforma e via email.<br/>Hai dubbi su come impostare le notifiche? <1>Consulta il manuale</1>",
       "inAppTabTitle": "Notifiche in-app",
       "emailTabTitle": "Email",
       "inApp": {

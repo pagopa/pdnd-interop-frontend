@@ -30,12 +30,7 @@ const ProviderKeychainPublicKeyDetailsPage: React.FC = () => {
       isLoading={isLoading}
       title={publicKey?.name}
       topSideActions={actions}
-      backToAction={{
-        label: t('actions.backToKeychainsListLabel'),
-        to: 'PROVIDE_KEYCHAIN_DETAILS',
-        params: { keychainId },
-        urlParams: { tab: 'publicKeys' },
-      }}
+      navigation={{ showBackButton: true }}
     >
       <React.Suspense fallback={<ProviderKeychainPublicKeyDetailsGeneralInfoSectionSkeleton />}>
         {publicKey?.isOrphan && (

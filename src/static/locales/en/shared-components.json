@@ -596,6 +596,16 @@
     "notAvailableYet": "The document will be available soon"
   },
   "requiredLabel": "*Required fields.",
+  "pageNavigation": {
+    "backButton": "Back",
+    "exitButton": "Exit",
+    "exitDialog": {
+      "title": "Do you want to leave?",
+      "description": "Any unsaved changes will be lost. Do you want to leave this flow?",
+      "cancelButton": "Exit without saving",
+      "confirmButton": "Save and exit"
+    }
+  },
   "routeLabels": {
     "LOGOUT": "Logout",
     "TOS": "Terms of Service",
