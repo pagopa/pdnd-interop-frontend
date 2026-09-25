@@ -22,7 +22,7 @@ export const EServiceTemplateThresholds: React.FC<EServiceTemplateThresholdsProp
   if (noThresholds) return <EmptySectionTextCard text={emptyMessage} />
 
   return (
-    <Stack component="dl" spacing={2} sx={{ m: 0 }}>
+    <Stack component="dl" sx={{ m: 0 }}>
       <InformationContainer label={dailyCallsPerConsumerLabel} content={dailyCallsPerConsumer} />
       <InformationContainer label={dailyCallsTotalLabel} content={dailyCallsTotal} />
     </Stack>
