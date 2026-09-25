@@ -53,17 +53,20 @@ export function useRiskAnalysisSummaryPage() {
     const { metadataVersion } = purpose
     const { data: refreshedPurpose, isError } = await refetch()
     const refreshedSigningState = refreshedPurpose?.reviewerWorkflow?.signingState
-    const isRiskAnalysisConcluded =
-      refreshedSigningState === 'SIGNED' || refreshedSigningState === 'REJECTED'
 
     if (
       isError ||
       !refreshedPurpose ||
       metadataVersion === undefined ||
       refreshedPurpose.metadataVersion === undefined ||
-      isRiskAnalysisConcluded
+      refreshedSigningState === 'REJECTED'
     ) {
       showToast(t('error'), 'error')
+      return
+    }
+
+    if (refreshedSigningState === 'SIGNED') {
+      showToast(t('alreadyApproved'), 'error')
       return
     }
 

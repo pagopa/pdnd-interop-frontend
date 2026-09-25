@@ -239,9 +239,12 @@ describe('useRiskAnalysisSummaryPage', () => {
     }
   )
 
-  it.each(['SIGNED', 'REJECTED'])(
-    'should keep the generic error when the risk analysis is %s',
-    async (signingState) => {
+  it.each([
+    { signingState: 'SIGNED', expectedMessage: 'alreadyApproved' },
+    { signingState: 'REJECTED', expectedMessage: 'error' },
+  ])(
+    'should show $expectedMessage when the risk analysis is $signingState',
+    async ({ signingState, expectedMessage }) => {
       const purpose = {
         currentVersion: {},
         metadataVersion: 3,
@@ -262,7 +265,7 @@ describe('useRiskAnalysisSummaryPage', () => {
 
       await act(() => result.current.handleApproveDraft())
 
-      expect(showToastMock).toHaveBeenCalledWith('error', 'error')
+      expect(showToastMock).toHaveBeenCalledWith(expectedMessage, 'error')
       expect(openDialogMock).not.toHaveBeenCalled()
     }
   )
