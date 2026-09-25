@@ -15,6 +15,7 @@ import { RHFTextField } from '../shared/react-hook-form-inputs'
 import { RequiredTextLabel } from '@/components/shared/RequiredTextLabel'
 import { EServiceMutations } from '@/api/eservice'
 import type { DialogDelegatorRejectArchivingProps } from '@/types/dialog.types'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 
 type RejectArchivingDelegatedFormValues = {
   reason: string
@@ -36,6 +37,7 @@ const DialogDelegatorRejectArchiving: React.FC<DialogDelegatorRejectArchivingPro
   const formMethods = useForm<RejectArchivingDelegatedFormValues>({
     defaultValues: { reason: '' },
   })
+  const isDelegatorRejectDisabled = useIsActionDisabledBySupport()
 
   const onSubmit: SubmitHandler<RejectArchivingDelegatedFormValues> = (values) => {
     if (!values.reason) return
@@ -79,7 +81,7 @@ const DialogDelegatorRejectArchiving: React.FC<DialogDelegatorRejectArchivingPro
             <Button type="button" variant="outlined" onClick={closeDialog}>
               {t('dialogRejectArchivingDelegated.cancel')}
             </Button>
-            <Button variant="contained" type="submit">
+            <Button variant="contained" type="submit" disabled={isDelegatorRejectDisabled}>
               {t('dialogRejectArchivingDelegated.confirm')}
             </Button>
           </DialogActions>

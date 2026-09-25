@@ -150,7 +150,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         descriptor={descriptor}
         onViewKeychains={canViewKeychains ? handleViewKeychains : undefined}
       />
-      <ProviderEServiceDelegatorArchivingAlert descriptor={descriptor} />
+      {!isViewer && <ProviderEServiceDelegatorArchivingAlert descriptor={descriptor} />}
       {!isViewer ? (
         <TabContext value={selectedTab}>
           <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
