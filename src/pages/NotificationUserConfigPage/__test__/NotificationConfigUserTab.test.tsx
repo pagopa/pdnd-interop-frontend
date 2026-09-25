@@ -18,6 +18,9 @@ const inAppNotificationConfigMock: NotificationConfig = {
   agreementActivatedRejectedToConsumer: true, // 12
   purposeActivatedRejectedToConsumer: true, // 15
   purposeSuspendedUnsuspendedToConsumer: true, // 16
+  purposeRiskAnalysisAssignmentStatusToAdmin: true,
+  purposeRiskAnalysisAssignmentStatusToReviewer: true,
+  purposePublishedWithRiskAnalysisToReviewer: true,
   newEserviceTemplateVersionToInstantiator: true, // 17
   eserviceTemplateNameChangedToInstantiator: true, //18
   eserviceTemplateStatusChangedToInstantiator: true, // 19
@@ -124,6 +127,23 @@ describe('NotificationConfigUserTab', () => {
       expect(
         within(enableAllSectionButton).queryByText('disableSectionAllNotifications')
       ).toBeInTheDocument()
+    })
+
+    it('Should show only risk analysis section for reviewer role', () => {
+      cleanup()
+
+      mockUseJwt({ currentRoles: ['reviewer'] })
+
+      renderComponent('inApp', {
+        inAppNotificationPreference: true,
+      })
+
+      expect(screen.getByTestId('config-section-riskAnalysis')).toBeInTheDocument()
+
+      expect(screen.queryByTestId('config-section-subscriber')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('config-section-provider')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('config-section-delegations')).not.toBeInTheDocument()
+      expect(screen.queryByTestId('config-section-keyAndAttributes')).not.toBeInTheDocument()
     })
   })
 
