@@ -25,17 +25,15 @@ export const RiskAnalysisTableRow: React.FC<{
   const currentReviewer = reviewers.find((reviewer) => reviewer.userId === jwt?.uid)
 
   const signedOrRejectedBy = match(reviewerWorkflow?.signingState)
-    .with(
-      'SIGNED',
-      () =>
-        reviewers.find((reviewer) => reviewer.userId === reviewerWorkflow?.signedBy)?.name ?? '-'
-    )
-    .with(
-      'REJECTED',
-      () =>
-        reviewers.find((reviewer) => reviewer.userId === reviewerWorkflow?.rejectedBy)?.name ?? '-'
-    )
-    .otherwise(() => '-')
+    .with('SIGNED', () => reviewerWorkflow?.signedBy)
+    .with('REJECTED', () => reviewerWorkflow?.rejectedBy)
+    .otherwise(() => undefined)
+
+  const signedOrRejectedReviewer = reviewers.find(({ userId }) => userId === signedOrRejectedBy)
+
+  const reviewerFullName = signedOrRejectedReviewer
+    ? `${signedOrRejectedReviewer.name} ${signedOrRejectedReviewer.familyName}`
+    : '-'
 
   const assignedOrApprovedDate = match(reviewerWorkflow?.signingState)
     .with(P.union('ASSIGNED', 'SUBMITTED'), () =>
@@ -66,7 +64,7 @@ export const RiskAnalysisTableRow: React.FC<{
     </Stack>,
     purpose.eservice.name,
     purpose.eservice.producer.name,
-    activeTab === RiskAnalysisListPageTab.TODO ? String(reviewers.length) : signedOrRejectedBy,
+    activeTab === RiskAnalysisListPageTab.TODO ? String(reviewers.length) : reviewerFullName,
     purpose.reviewerWorkflow?.signingState
       ? match(purpose.reviewerWorkflow.signingState)
           .with(P.union('ASSIGNED', 'SUBMITTED', 'SIGNED', 'REJECTED'), (state) => (

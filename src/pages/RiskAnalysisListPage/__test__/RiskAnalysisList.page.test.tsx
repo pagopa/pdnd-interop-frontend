@@ -46,7 +46,8 @@ vi.mock('@/api/purpose', () => ({
               reviewers: [
                 {
                   userId: 'reviewer-1',
-                  name: 'Mario Rossi',
+                  name: 'Mario',
+                  familyName: 'Rossi',
                   sentToReviewerAt: new Date().toISOString(),
                 },
               ],
@@ -119,7 +120,8 @@ describe('RiskAnalysisListPage', () => {
                 reviewers: [
                   {
                     userId: 'reviewer-1',
-                    name: 'Mario Rossi',
+                    name: 'Mario',
+                    familyName: 'Rossi',
                     sentToReviewerAt: new Date().toISOString(),
                   },
                 ],
@@ -299,7 +301,8 @@ describe('RiskAnalysisListPage', () => {
                 reviewers: [
                   {
                     userId: 'reviewer-2',
-                    name: 'Mario Rossi',
+                    name: 'Mario',
+                    familyName: 'Rossi',
                     sentToReviewerAt: new Date().toISOString(),
                   },
                 ],
@@ -342,12 +345,14 @@ describe('RiskAnalysisListPage', () => {
                 reviewers: [
                   {
                     userId: 'reviewer-1',
-                    name: 'Mario Rossi',
+                    name: 'Mario',
+                    familyName: 'Rossi',
                     sentToReviewerAt: new Date().toISOString(),
                   },
                   {
                     userId: 'reviewer-2',
-                    name: 'Luigi Verdi',
+                    name: 'Luigi',
+                    familyName: 'Verdi',
                     sentToReviewerAt: new Date().toISOString(),
                   },
                 ],
