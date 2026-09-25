@@ -108,10 +108,14 @@
           "ADMIN_WRITES_REVIEWER_SIGNS": "Who will approve the risk analysis?",
           "REVIEWER_WRITES_REVIEWER_SIGNS": "Who will fill in the risk analysis?"
         },
+        "infoLabel": "You can select more than one evaluator.",
         "inputLabel": "Select the reviewer",
         "requiredError": "To proceed, please select a reviewer",
-        "removedError_one": "The reviewer {{names}} has been removed from your institution's users",
-        "removedError_other": "The reviewers {{names}} have been removed from your institution's users"
+        "removedError_one": "The reviewer you selected is no longer available. Please make a new selection.",
+        "removedError_other": "The reviewers you selected are no longer available. Please make a new selection.",
+        "partiallyRemovedWarningTitle": "Information about the reviewers",
+        "partiallyRemovedWarningLabel": "One or more reviewers you chose are no longer available: please check the selected reviewers.",
+        "dismissButtonLabel": "Ok, understood"
       },
       "editAssignmentDialog": {
         "title": "Edit assignment",

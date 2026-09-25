@@ -19,7 +19,7 @@ const mockReviewer: CompactUser = {
 }
 
 function buildPurpose(
-  reviewMode: RiskAnalysisReviewMode,
+  riskAnalysisReviewMode: RiskAnalysisReviewMode,
   reviewers: Array<CompactUser>,
   versionState: PurposeVersionState = 'DRAFT'
 ): Purpose {
@@ -27,7 +27,7 @@ function buildPurpose(
   return {
     ...base,
     currentVersion: base.currentVersion && { ...base.currentVersion, state: versionState },
-    riskAnalysisReviewMode: reviewMode,
+    riskAnalysisReviewMode,
     reviewerWorkflow: {
       reviewers,
       signingState: 'SIGNED',

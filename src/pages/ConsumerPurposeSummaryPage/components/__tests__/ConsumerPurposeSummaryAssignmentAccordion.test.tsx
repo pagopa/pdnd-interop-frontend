@@ -24,12 +24,12 @@ vi.mock('@/api/purpose', () => ({
 const REVIEWER_ID = '11111111-2222-3333-4444-555555555555'
 
 const setPurpose = (
-  reviewMode: RiskAnalysisReviewMode | undefined,
+  riskAnalysisReviewMode: RiskAnalysisReviewMode | undefined,
   reviewerWorkflow?: ReviewerWorkflow
 ) => {
   const purpose: Purpose = {
     ...createMockPurpose(),
-    riskAnalysisReviewMode: reviewMode,
+    riskAnalysisReviewMode,
     reviewerWorkflow,
   }
   useSuspenseQueryMock.mockReturnValue({ data: purpose })
