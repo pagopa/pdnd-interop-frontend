@@ -1,5 +1,7 @@
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
+import { isAxiosError } from 'axios'
+import { RiskAnalysisAlreadyApprovedError } from '@/utils/errors.utils'
 import type {
   CreatedResource,
   DelegationRef,
@@ -333,10 +335,12 @@ async function signRiskAnalysis({
   purposeId,
   ...payload
 }: SignRiskAnalysisParams & RiskAnalysisSignSeed) {
-  const response = await axiosInstance.post<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/sign`,
-    payload
-  )
+  const response = await axiosInstance
+    .post<CreatedResource>(
+      `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/sign`,
+      payload
+    )
+    .catch((error: unknown) => handleRiskAnalysisConflict(error, purposeId))
   return response.data
 }
 
@@ -355,10 +359,21 @@ async function updateRiskAnalysis({
   purposeId,
   ...payload
 }: { purposeId: string } & RiskAnalysisFormSeed) {
-  return axiosInstance.put(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/form`,
-    payload
-  )
+  return axiosInstance
+    .put(`${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/form`, payload)
+    .catch((error: unknown) => handleRiskAnalysisConflict(error, purposeId))
+}
+
+async function handleRiskAnalysisConflict(error: unknown, purposeId: string): Promise<never> {
+  if (isAxiosError(error) && error.response?.status === 409) {
+    // A conflict can also mean rejection, reassignment or a changed version.
+    // Check the current state before claiming that another reviewer approved it.
+    const purpose = await getSingle(purposeId).catch(() => undefined)
+    if (purpose?.reviewerWorkflow?.signingState === 'SIGNED') {
+      throw new RiskAnalysisAlreadyApprovedError()
+    }
+  }
+  throw error
 }
 
 async function getRiskAnalysisAssignments(params: GetRiskAnalysisAssignmentsParams) {
