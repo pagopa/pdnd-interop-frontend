@@ -1,6 +1,7 @@
 import { ReactHookFormWrapper, renderWithApplicationContext } from '@/utils/testing.utils'
 import { EServiceThresholdSection } from '../EServiceThresholdSection'
 import { screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 const renderComponent = (isEServiceCreatedFromTemplate?: boolean) => {
   return renderWithApplicationContext(
@@ -34,6 +35,19 @@ describe('EServiceThresholdSection', () => {
     expect(screen.getAllByText('dailyCallsPerConsumerField.label').length).toBeGreaterThan(0)
     expect(screen.getAllByText('dailyCallsTotalField.label').length).toBeGreaterThan(0)
   })
+
+  it.each(['dailyCallsPerConsumerField.label', 'dailyCallsTotalField.label'])(
+    'should prevent decimal values in the %s field',
+    async (label) => {
+      const user = userEvent.setup()
+      renderComponent()
+
+      const input = screen.getByRole('spinbutton', { name: label })
+      await user.type(input, '1.5')
+
+      expect(input).toHaveValue(15)
+    }
+  )
 
   it('should render alert with suggested values', () => {
     renderComponent(true)
