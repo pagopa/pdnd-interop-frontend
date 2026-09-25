@@ -27,6 +27,8 @@ const createUserNotificationConfigs = createMockFactory<UserNotificationConfig>(
     purposeOverQuotaStateToConsumer: false,
     purposeRiskAnalysisAssignmentStatusToReviewer: false,
     purposePublishedWithRiskAnalysisToReviewer: false,
+    eserviceArchivingRequestedToDelegator: false,
+    eserviceArchivingApprovedRejectedToDelegate: false,
   },
   inAppNotificationPreference: false,
   emailNotificationPreference: false,
@@ -56,6 +58,8 @@ const createUserNotificationConfigs = createMockFactory<UserNotificationConfig>(
     purposeOverQuotaStateToConsumer: false,
     purposeRiskAnalysisAssignmentStatusToReviewer: false,
     purposePublishedWithRiskAnalysisToReviewer: false,
+    eserviceArchivingRequestedToDelegator: false,
+    eserviceArchivingApprovedRejectedToDelegate: false,
   },
 })
 

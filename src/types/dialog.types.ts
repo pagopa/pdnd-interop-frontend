@@ -8,6 +8,7 @@ import type {
   TargetTenantKind,
   CompactAgreement,
   CompactUser,
+  RiskAnalysisReviewMode,
 } from '@/api/api.generatedTypes'
 import type { RouteKey } from '@/router'
 import type { DialogProps as MUIDialogProps } from '@mui/material'
@@ -49,6 +50,7 @@ export type DialogProps =
   | DialogSelectAgreementConsumerProps
   | DialogRequestPurposeApprovalProps
   | DialogRequestRiskAnalysisCompilationProps
+  | DialogEditRiskAnalysisAssignmentProps
   | DialogApproveRiskAnalysisProps
   | DialogRejectRiskAnalysisProps
   | DialogShowEserviceVersionsListProps
@@ -203,20 +205,34 @@ export type DialogTenantKindPurposeTemplateProps = {
 
 export type DialogRequestPurposeApprovalProps = {
   type: 'requestPurposeApproval'
-  reviewer: CompactUser
+  reviewers: Array<CompactUser>
   onConfirm: VoidFunction
 }
 
 export type DialogRequestRiskAnalysisCompilationProps = {
   type: 'requestRiskAnalysisCompilation'
   purposeId: string
-  reviewerId: string
-  reviewerName: string
+  reviewerIds: string[]
+  reviewerNames: string[]
+}
+
+export type DialogEditRiskAnalysisAssignmentProps = {
+  type: 'editRiskAnalysisAssignment'
+  /** Review mode currently persisted on the purpose. */
+  fromMode: RiskAnalysisReviewMode
+  /** Review mode the admin is about to save. */
+  toMode: RiskAnalysisReviewMode
+  /** Full names of the reviewers added on top of the persisted ones. */
+  addedReviewerNames: string[]
+  /** Full names of the persisted reviewers the admin is dropping. */
+  removedReviewerNames: string[]
+  onConfirm: VoidFunction
 }
 
 export type DialogApproveRiskAnalysisProps = {
   type: 'approveRiskAnalysis'
   purposeId: string
+  metadataVersionToSign: number
 }
 
 export type DialogRejectRiskAnalysisProps = {
