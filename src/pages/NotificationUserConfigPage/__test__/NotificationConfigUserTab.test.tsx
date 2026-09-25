@@ -19,6 +19,8 @@ const inAppNotificationConfigMock: NotificationConfig = {
   purposeActivatedRejectedToConsumer: true, // 15
   purposeSuspendedUnsuspendedToConsumer: true, // 16
   purposeRiskAnalysisAssignmentStatusToAdmin: true,
+  purposeRiskAnalysisAssignmentStatusToReviewer: true,
+  purposePublishedWithRiskAnalysisToReviewer: true,
   newEserviceTemplateVersionToInstantiator: true, // 17
   eserviceTemplateNameChangedToInstantiator: true, //18
   eserviceTemplateStatusChangedToInstantiator: true, // 19
