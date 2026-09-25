@@ -306,7 +306,7 @@
       "assignmentSection": {
         "label": "Assegnazione",
         "assignmentDate": {
-          "label": "Data di assegnazione"
+          "label": "Data assegnazione"
         },
         "reviewers": {
           "label": "Assegnata a"
@@ -673,7 +673,7 @@
     "reviewersSection": {
       "label": "Assegnazione",
       "assignmentDate": {
-        "label": "Data di assegnazione"
+        "label": "Data assegnazione"
       },
       "reviewers": {
         "label": "Assegnata a"
