@@ -2929,6 +2929,8 @@ export interface ReviewerWorkflow {
   signedAt?: string;
   /** @format uuid */
   rejectedBy?: string;
+  /** @format date-time */
+  rejectedAt?: string;
   rejectionReason?: string;
 }
 
