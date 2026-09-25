@@ -302,6 +302,15 @@
           "label": "Soglia totale prevista dall'erogatore",
           "value": "{{value}} chiamate API/giorno"
         }
+      },
+      "assignmentSection": {
+        "label": "Assegnazione",
+        "assignmentDate": {
+          "label": "Data assegnazione"
+        },
+        "reviewers": {
+          "label": "Assegnata a"
+        }
       }
     },
     "assignmentSection": {
@@ -619,7 +628,8 @@
       "title": "Analisi del rischio"
     },
     "publishBtnDisabled": "La tua dichiarazione sul trattamento dei dati personali nell’analisi del rischio non permette la pubblicazione",
-    "infoAlert": "Quando approvi l’analisi del rischio, l’amministratore potrà pubblicare la finalità."
+    "infoAlert": "Quando approvi l’analisi del rischio, non potrai più modificarla e l’amministratore potrà pubblicare la finalità.",
+    "infoAlertMoreReviewers": "L’analisi del rischio richiede l’approvazione di un solo valutatore, anche se è assegnata a più valutatori. Dopo l’approvazione, non sarà più modificabile e l’amministratore potrà pubblicare la finalità."
   },
   "riskAnalysisCompile": {
     "backToListBtn": "Torna alle analisi del rischio",
@@ -658,6 +668,15 @@
       "label": "Stima chiamate API",
       "dailyCalls": {
         "label": "Stima numero chiamate API/giorno"
+      }
+    },
+    "reviewersSection": {
+      "label": "Assegnazione",
+      "assignmentDate": {
+        "label": "Data assegnazione"
+      },
+      "reviewers": {
+        "label": "Assegnata a"
       }
     },
     "beginCompileBtn": "Inizia la compilazione"
