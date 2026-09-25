@@ -690,7 +690,9 @@
     "signRiskAnalysis": {
       "loading": "Stiamo approvando l'analisi del rischio",
       "outcome": {
-        "error": "Non è stato possibile approvare l'analisi del rischio. Per favore, riprova!"
+        "error": "Non è stato possibile approvare l'analisi del rischio. Per favore, riprova!",
+        "versionChanged": "Un altro valutatore ha modificato questa analisi del rischio. Ricarica la pagina per vedere la versione aggiornata e decidi se approvarla.",
+        "alreadyApproved": "Questa analisi del rischio è già stata approvata da un altro valutatore. Ricarica la pagina per vedere l’analisi del rischio approvata."
       }
     },
     "rejectRiskAnalysis": {
