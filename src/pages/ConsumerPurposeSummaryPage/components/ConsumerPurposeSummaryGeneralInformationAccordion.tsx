@@ -26,6 +26,7 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
   })
 
   const { t } = useTranslation('purpose', { keyPrefix: 'summary.generalInformationSection' })
+  const { t: tCommon } = useTranslation('common')
 
   const generalInfoAlertProps = useGetPurposeInfoAlert({
     dailyCalls: purpose.currentVersion?.dailyCalls,
@@ -41,6 +42,13 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
   const assignmentDate = loggedReviewer?.sentToReviewerAt
     ? formatDateStringNumeric(loggedReviewer.sentToReviewerAt)
     : '-'
+  const reviewers = purpose.reviewerWorkflow?.reviewers ?? []
+  // An assigned reviewer may no longer be resolvable (role revoked on SelfCare, left the
+  // organization, or a different tenant in a delegation): fall back to a placeholder
+  // instead of rendering a blank value.
+  const reviewerNames = reviewers
+    .map((reviewer) => `${reviewer.name} ${reviewer.familyName}`.trim())
+    .map((name) => name || tCommon('reviewerUnknown'))
 
   return (
     <Stack spacing={2}>
@@ -108,11 +116,7 @@ export const ConsumerPurposeSummaryGeneralInformationAccordion: React.FC<
             />
             <InformationContainer
               label={t('assignmentSection.reviewers.label')}
-              content={
-                purpose.reviewerWorkflow?.reviewers
-                  ?.map((reviewer) => `${reviewer.name} ${reviewer.familyName}`.trim())
-                  .join(', ') || '-'
-              }
+              content={reviewerNames.join(', ') || '-'}
             />
           </Stack>
         </SectionContainer>

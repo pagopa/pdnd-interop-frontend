@@ -200,5 +200,6 @@
     "LTE": "Minore o uguale a",
     "EQ": "Uguale a",
     "NE": "Diverso da"
-  }
+  },
+  "reviewerUnknown": "Valutatore non disponibile"
 }

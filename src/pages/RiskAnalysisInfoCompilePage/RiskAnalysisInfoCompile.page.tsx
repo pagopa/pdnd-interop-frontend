@@ -11,6 +11,7 @@ import { AuthHooks } from '@/api/auth'
 
 const RiskAnalysisInfoCompilePage: React.FC = () => {
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisInfoCompile' })
+  const { t: tCommon } = useTranslation('common')
   const { purposeId } = useParams<'SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE'>()
   const navigate = useNavigate()
 
@@ -33,6 +34,14 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
   const assignmentDate = loggedReviewer?.sentToReviewerAt
     ? formatDateStringNumeric(loggedReviewer.sentToReviewerAt)
     : '-'
+
+  const reviewers = purpose?.reviewerWorkflow?.reviewers ?? []
+  // An assigned reviewer may no longer be resolvable (role revoked on SelfCare, left the
+  // organization, or a different tenant in a delegation): fall back to a placeholder
+  // instead of rendering a blank value.
+  const reviewerNames = reviewers
+    .map((reviewer) => `${reviewer.name} ${reviewer.familyName}`.trim())
+    .map((name) => name || tCommon('reviewerUnknown'))
 
   return (
     <PageContainer
@@ -111,11 +120,7 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
                     />
                     <InformationContainer
                       label={t('reviewersSection.reviewers.label')}
-                      content={
-                        purpose.reviewerWorkflow?.reviewers
-                          ?.map((reviewer) => `${reviewer.name} ${reviewer.familyName}`.trim())
-                          .join(', ') || '-'
-                      }
+                      content={reviewerNames.join(', ') || '-'}
                     />
                   </Stack>
                 </SectionContainer>
