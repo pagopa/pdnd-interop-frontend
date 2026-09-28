@@ -208,6 +208,61 @@ describe('NotificationConfigUserTab', () => {
       )
     })
 
+    it('should not show risk analysis switches for non-reviewer role', () => {
+      cleanup()
+
+      mockUseJwt({ currentRoles: ['admin'] })
+
+      const handleUpdateNotificationConfigs = vi.fn()
+
+      renderWithApplicationContext(
+        <NotificationConfigUserTab
+          type="inApp"
+          notificationConfig={{
+            ...inAppNotificationConfigMock,
+            inAppNotificationPreference: true,
+            emailNotificationPreference: false,
+            emailDigestPreference: false,
+            purposeRiskAnalysisAssignmentStatusToReviewer: false,
+            purposePublishedWithRiskAnalysisToReviewer: false,
+          }}
+          handleUpdateNotificationConfigs={handleUpdateNotificationConfigs}
+        />,
+        {
+          withRouterContext: true,
+          withReactQueryContext: true,
+        }
+      )
+
+      expect(
+        screen.queryByTestId('purposeRiskAnalysisAssignmentStatusToReviewer')
+      ).not.toBeInTheDocument()
+
+      expect(
+        screen.queryByTestId('purposePublishedWithRiskAnalysisToReviewer')
+      ).not.toBeInTheDocument()
+    })
+  })
+
+  describe('mail', () => {
+    beforeEach(() => {
+      renderComponent('email', {
+        emailNotificationPreference: true,
+        emailDigestPreference: false,
+      })
+    })
+
+    it('Should be able to see user email', () => {
+      const email = screen.getByTestId('test-email')
+      expect(email).toBeInTheDocument()
+    })
+
+    it('Should be able to choose if user can receive digest emails', () => {
+      const digestSwitch = screen.getByTestId('emailDigestPreference')
+      expect(digestSwitch).toBeInTheDocument()
+      expect(digestSwitch).not.toBeChecked()
+    })
+
     it('should show and update both risk analysis switches for reviewer role on email tab', async () => {
       cleanup()
 
@@ -279,11 +334,11 @@ describe('NotificationConfigUserTab', () => {
 
       renderWithApplicationContext(
         <NotificationConfigUserTab
-          type="inApp"
+          type="email"
           notificationConfig={{
             ...inAppNotificationConfigMock,
-            inAppNotificationPreference: true,
-            emailNotificationPreference: false,
+            inAppNotificationPreference: false,
+            emailNotificationPreference: true,
             emailDigestPreference: false,
             purposeRiskAnalysisAssignmentStatusToReviewer: false,
             purposePublishedWithRiskAnalysisToReviewer: false,
@@ -303,26 +358,6 @@ describe('NotificationConfigUserTab', () => {
       expect(
         screen.queryByTestId('purposePublishedWithRiskAnalysisToReviewer')
       ).not.toBeInTheDocument()
-    })
-  })
-
-  describe('mail', () => {
-    beforeEach(() => {
-      renderComponent('email', {
-        emailNotificationPreference: true,
-        emailDigestPreference: false,
-      })
-    })
-
-    it('Should be able to see user email', () => {
-      const email = screen.getByTestId('test-email')
-      expect(email).toBeInTheDocument()
-    })
-
-    it('Should be able to choose if user can receive digest emails', () => {
-      const digestSwitch = screen.getByTestId('emailDigestPreference')
-      expect(digestSwitch).toBeInTheDocument()
-      expect(digestSwitch).not.toBeChecked()
     })
   })
 })
