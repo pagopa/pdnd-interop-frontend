@@ -1287,6 +1287,12 @@ export function useGetProviderEServiceActions(
       header: [suspendAction, newVersionAction],
       menu: menuClassic,
     }))
+    .with({ state: 'DEPRECATED', isDelegator: true }, () => ({
+      primary: undefined,
+      header: [],
+      menu:
+        where === 'detailsPage' ? [...availableAction, ...viewAllVersionsItems] : availableAction,
+    }))
     .with({ state: 'DEPRECATED' }, () => ({
       primary: undefined,
       header: isArchivingRequestFromActiveDescriptor

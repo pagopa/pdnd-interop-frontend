@@ -1102,6 +1102,38 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     expect(cancelArchivingVersionAction).toBeDefined()
   })
 
+  it('DEPRECATED + delegator on details page: no header actions, menu keeps only viewAllVersions when available', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: { id: 'organizationId', name: 'delegator-name' },
+        delegate: { id: 'delegate-id', name: 'delegate-name' },
+      }),
+    })
+
+    const { result } = renderDetailsPageHook(descriptorMock)
+
+    expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.headerInfoActions).toHaveLength(0)
+    expect(result.current.menuActions.map((a) => a.label)).toEqual(['viewAllVersions'])
+  })
+
+  it('DEPRECATED + delegator on details page without viewAllVersions callback: no header actions and empty menu', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: { id: 'organizationId', name: 'delegator-name' },
+        delegate: { id: 'delegate-id', name: 'delegate-name' },
+      }),
+    })
+
+    const { result } = renderDetailsPageHook(descriptorMock, { hasMultipleVersions: false })
+
+    expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.headerInfoActions).toHaveLength(0)
+    expect(result.current.menuActions).toHaveLength(0)
+  })
+
   it('DEPRECATED: descriptor as a delegate with a rejected delegatedArchivingRequest: header must show archiveVersion button and hide cancelArchivingVersion button', async () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'DEPRECATED', version: '1' },
