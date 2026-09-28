@@ -1,5 +1,5 @@
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
-import { cleanup, fireEvent, screen, within } from '@testing-library/react'
+import { act, cleanup, fireEvent, screen, within } from '@testing-library/react'
 import { NotificationConfigUserTab } from '../components/NotificationUserConfigTab'
 import { type NotificationConfig } from '@/api/api.generatedTypes'
 import type { NotificationConfigType } from '../types'
@@ -144,6 +144,165 @@ describe('NotificationConfigUserTab', () => {
       expect(screen.queryByTestId('config-section-provider')).not.toBeInTheDocument()
       expect(screen.queryByTestId('config-section-delegations')).not.toBeInTheDocument()
       expect(screen.queryByTestId('config-section-keyAndAttributes')).not.toBeInTheDocument()
+    })
+
+    it('should show and update both risk analysis switches for reviewer role on inApp tab', async () => {
+      cleanup()
+
+      vi.useFakeTimers()
+      mockUseJwt({ currentRoles: ['reviewer'] })
+
+      const handleUpdateNotificationConfigs = vi.fn()
+
+      renderWithApplicationContext(
+        <NotificationConfigUserTab
+          type="inApp"
+          notificationConfig={{
+            ...inAppNotificationConfigMock,
+            inAppNotificationPreference: true,
+            emailNotificationPreference: false,
+            emailDigestPreference: false,
+            purposeRiskAnalysisAssignmentStatusToReviewer: false,
+            purposePublishedWithRiskAnalysisToReviewer: false,
+          }}
+          handleUpdateNotificationConfigs={handleUpdateNotificationConfigs}
+        />,
+        {
+          withRouterContext: true,
+          withReactQueryContext: true,
+        }
+      )
+
+      const assignmentStatusSwitch = within(
+        screen.getByTestId('purposeRiskAnalysisAssignmentStatusToReviewer')
+      ).getByRole('checkbox')
+
+      const publishedWithRiskAnalysisSwitch = within(
+        screen.getByTestId('purposePublishedWithRiskAnalysisToReviewer')
+      ).getByRole('checkbox')
+
+      expect(assignmentStatusSwitch).toBeInTheDocument()
+      expect(publishedWithRiskAnalysisSwitch).toBeInTheDocument()
+
+      expect(assignmentStatusSwitch).not.toBeChecked()
+      expect(publishedWithRiskAnalysisSwitch).not.toBeChecked()
+
+      fireEvent.click(assignmentStatusSwitch)
+      fireEvent.click(publishedWithRiskAnalysisSwitch)
+
+      expect(assignmentStatusSwitch).toBeChecked()
+      expect(publishedWithRiskAnalysisSwitch).toBeChecked()
+
+      await act(async () => {
+        vi.advanceTimersByTime(1000)
+      })
+
+      expect(handleUpdateNotificationConfigs).toHaveBeenCalledWith(
+        expect.objectContaining({
+          purposeRiskAnalysisAssignmentStatusToReviewer: true,
+          purposePublishedWithRiskAnalysisToReviewer: true,
+        }),
+        true,
+        false,
+        false
+      )
+    })
+
+    it('should show and update both risk analysis switches for reviewer role on email tab', async () => {
+      cleanup()
+
+      vi.useFakeTimers()
+      mockUseJwt({ currentRoles: ['reviewer'] })
+
+      const handleUpdateNotificationConfigs = vi.fn()
+
+      renderWithApplicationContext(
+        <NotificationConfigUserTab
+          type="email"
+          notificationConfig={{
+            ...inAppNotificationConfigMock,
+            inAppNotificationPreference: false,
+            emailNotificationPreference: true,
+            emailDigestPreference: false,
+            purposeRiskAnalysisAssignmentStatusToReviewer: false,
+            purposePublishedWithRiskAnalysisToReviewer: false,
+          }}
+          handleUpdateNotificationConfigs={handleUpdateNotificationConfigs}
+        />,
+        {
+          withRouterContext: true,
+          withReactQueryContext: true,
+        }
+      )
+
+      const assignmentStatusSwitch = within(
+        screen.getByTestId('purposeRiskAnalysisAssignmentStatusToReviewer')
+      ).getByRole('checkbox')
+
+      const publishedWithRiskAnalysisSwitch = within(
+        screen.getByTestId('purposePublishedWithRiskAnalysisToReviewer')
+      ).getByRole('checkbox')
+
+      expect(assignmentStatusSwitch).toBeInTheDocument()
+      expect(publishedWithRiskAnalysisSwitch).toBeInTheDocument()
+
+      expect(assignmentStatusSwitch).not.toBeChecked()
+      expect(publishedWithRiskAnalysisSwitch).not.toBeChecked()
+
+      fireEvent.click(assignmentStatusSwitch)
+      fireEvent.click(publishedWithRiskAnalysisSwitch)
+
+      expect(assignmentStatusSwitch).toBeChecked()
+      expect(publishedWithRiskAnalysisSwitch).toBeChecked()
+
+      await act(async () => {
+        vi.advanceTimersByTime(1000)
+      })
+
+      expect(handleUpdateNotificationConfigs).toHaveBeenCalledWith(
+        expect.objectContaining({
+          purposeRiskAnalysisAssignmentStatusToReviewer: true,
+          purposePublishedWithRiskAnalysisToReviewer: true,
+        }),
+        false,
+        true,
+        false
+      )
+    })
+
+    it('should not show risk analysis switches for non-reviewer role', () => {
+      cleanup()
+
+      mockUseJwt({ currentRoles: ['admin'] })
+
+      const handleUpdateNotificationConfigs = vi.fn()
+
+      renderWithApplicationContext(
+        <NotificationConfigUserTab
+          type="inApp"
+          notificationConfig={{
+            ...inAppNotificationConfigMock,
+            inAppNotificationPreference: true,
+            emailNotificationPreference: false,
+            emailDigestPreference: false,
+            purposeRiskAnalysisAssignmentStatusToReviewer: false,
+            purposePublishedWithRiskAnalysisToReviewer: false,
+          }}
+          handleUpdateNotificationConfigs={handleUpdateNotificationConfigs}
+        />,
+        {
+          withRouterContext: true,
+          withReactQueryContext: true,
+        }
+      )
+
+      expect(
+        screen.queryByTestId('purposeRiskAnalysisAssignmentStatusToReviewer')
+      ).not.toBeInTheDocument()
+
+      expect(
+        screen.queryByTestId('purposePublishedWithRiskAnalysisToReviewer')
+      ).not.toBeInTheDocument()
     })
   })
 
