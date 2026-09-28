@@ -141,6 +141,23 @@ describe('RiskAnalysisSummaryPage (UI)', () => {
     expect(screen.getByText('infoAlertMoreReviewers')).toBeInTheDocument()
   })
 
+  it('should render only standard info alert when exactly one reviewer is assigned', () => {
+    mockedPurposeData = {
+      ...basePurposeData,
+      reviewerWorkflow: {
+        reviewers: [{ userId: 'reviewer-1' }],
+      },
+    }
+
+    renderWithApplicationContext(<RiskAnalysisSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByText('infoAlert')).toBeInTheDocument()
+    expect(screen.queryByText('infoAlertMoreReviewers')).not.toBeInTheDocument()
+  })
+
   it('should render edit and approve buttons in summary flow', () => {
     renderWithApplicationContext(<RiskAnalysisSummaryPage />, {
       withReactQueryContext: true,
