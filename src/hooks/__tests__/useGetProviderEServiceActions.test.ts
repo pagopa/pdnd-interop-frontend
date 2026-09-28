@@ -1328,6 +1328,21 @@ describe('useGetProviderEServiceActions slot split (where=detailsPage, admin hap
     ])
   })
 
+  it('ARCHIVED + delegator on details page: viewLatestVersion in header, menu keeps only viewAllVersions', () => {
+    const descriptorMock = createMockEServiceProvider({
+      activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },
+      delegation: createMockDelegationWithCompactTenants({
+        delegator: { id: 'organizationId', name: 'delegator-name' },
+        delegate: { id: 'delegate-id', name: 'delegate-name' },
+      }),
+    })
+    const { result } = renderDetailsPageHook(descriptorMock, { latestDescriptorId: 'newer-id' })
+
+    expect(result.current.primaryAction).toBeUndefined()
+    expect(result.current.headerInfoActions.map((a) => a.label)).toEqual(['viewLatestVersion'])
+    expect(result.current.menuActions.map((a) => a.label)).toEqual(['viewAllVersions'])
+  })
+
   it('ARCHIVED with no newer descriptor (whole e-service archived): no header actions, clone+viewAllVersions in menu', () => {
     const descriptorMock = createMockEServiceProvider({
       activeDescriptor: { id: 'test-1', state: 'ARCHIVED', version: '1' },

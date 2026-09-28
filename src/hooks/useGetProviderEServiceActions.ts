@@ -42,7 +42,8 @@ export function useGetProviderEServiceActions(
   onViewAllVersions?: () => void,
   isActiveDescriptor?: boolean,
   isEServiceBeingArchived?: boolean,
-  delegatedArchivingRequest?: DelegatedArchivingRequest
+  delegatedArchivingRequest?: DelegatedArchivingRequest,
+  isEServiceArchived?: boolean
 ): {
   primaryAction: ActionItemButton | undefined
   secondaryAction: ActionItemButton | undefined
@@ -1242,7 +1243,7 @@ export function useGetProviderEServiceActions(
     ...viewAllVersionsItems,
   ]
   const menuArchivedEserviceArchived = [...cloneItems, ...viewAllVersionsItems]
-  debugger
+
   const slots: Slots = match({
     state,
     archivingScope,
@@ -1320,7 +1321,7 @@ export function useGetProviderEServiceActions(
       primary: undefined,
       header: latestDescriptorId ? [viewLatestVersionAction] : [],
       menu:
-        latestDescriptorId && !isEServiceBeingArchived
+        latestDescriptorId && !isEServiceBeingArchived && !isEServiceArchived
           ? menuArchivedEserviceActive
           : menuArchivedEserviceArchived,
     }))
