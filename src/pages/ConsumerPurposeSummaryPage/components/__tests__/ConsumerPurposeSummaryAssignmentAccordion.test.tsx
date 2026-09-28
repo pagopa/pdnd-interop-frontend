@@ -25,12 +25,12 @@ const REVIEWER_ID = '11111111-2222-3333-4444-555555555555'
 const OTHER_REVIEWER_ID = '66666666-7777-8888-9999-000000000000'
 
 const setPurpose = (
-  reviewMode: RiskAnalysisReviewMode | undefined,
+  riskAnalysisReviewMode: RiskAnalysisReviewMode | undefined,
   reviewerWorkflow?: ReviewerWorkflow
 ) => {
   const purpose: Purpose = {
     ...createMockPurpose(),
-    riskAnalysisReviewMode: reviewMode,
+    riskAnalysisReviewMode,
     reviewerWorkflow,
   }
   useSuspenseQueryMock.mockReturnValue({ data: purpose })
@@ -41,30 +41,21 @@ describe('ConsumerPurposeSummaryAssignmentAccordion', () => {
     vi.clearAllMocks()
   })
 
-  it('shows the autonomy mode for ADMIN_WRITES_ADMIN_SIGNS without reviewers', () => {
-    setPurpose('ADMIN_WRITES_ADMIN_SIGNS')
+  it.each<RiskAnalysisReviewMode | undefined>([undefined, 'ADMIN_WRITES_ADMIN_SIGNS'])(
+    'option 1 (autonomy, reviewMode %s): renders only "Modalità" row with autonomy copy',
+    (reviewMode) => {
+      setPurpose(reviewMode)
 
-    renderWithApplicationContext(
-      <ConsumerPurposeSummaryAssignmentAccordion purposeId="test-id" />,
-      { withReactQueryContext: true }
-    )
+      renderWithApplicationContext(
+        <ConsumerPurposeSummaryAssignmentAccordion purposeId="test-id" />,
+        { withReactQueryContext: true }
+      )
 
-    expect(screen.getByText('mode.autonomy')).toBeInTheDocument()
-    expect(screen.queryByText('reviewer.label')).not.toBeInTheDocument()
-  })
-
-  it('option 1 (autonomy) and fallback (reviewerWorkflow undefined): renders only "Modalità" row with autonomy copy', () => {
-    setPurpose(undefined)
-
-    renderWithApplicationContext(
-      <ConsumerPurposeSummaryAssignmentAccordion purposeId="test-id" />,
-      { withReactQueryContext: true }
-    )
-
-    expect(screen.getByText('mode.label')).toBeInTheDocument()
-    expect(screen.getByText('mode.autonomy')).toBeInTheDocument()
-    expect(screen.queryByText('reviewer.label')).not.toBeInTheDocument()
-  })
+      expect(screen.getByText('mode.label')).toBeInTheDocument()
+      expect(screen.getByText('mode.autonomy')).toBeInTheDocument()
+      expect(screen.queryByText('reviewer.label')).not.toBeInTheDocument()
+    }
+  )
 
   it('option 2 (ADMIN_WRITES_REVIEWER_SIGNS): renders "Modalità" + "Valutatore" rows with the reviewer name', () => {
     setPurpose('ADMIN_WRITES_REVIEWER_SIGNS', {
@@ -119,9 +110,7 @@ describe('ConsumerPurposeSummaryAssignmentAccordion', () => {
   })
 
   it('does not render the "Valutatore" row when the reviewer workflow has no reviewers', () => {
-    setPurpose('ADMIN_WRITES_REVIEWER_SIGNS', {
-      signingState: 'ASSIGNED',
-    })
+    setPurpose('ADMIN_WRITES_REVIEWER_SIGNS', { signingState: 'ASSIGNED' })
 
     renderWithApplicationContext(
       <ConsumerPurposeSummaryAssignmentAccordion purposeId="test-id" />,

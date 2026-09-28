@@ -3,6 +3,12 @@
  */
 export class NotFoundError extends Error {}
 
+export class RiskAnalysisAlreadyApprovedError extends Error {
+  constructor() {
+    super('Risk analysis already approved')
+  }
+}
+
 /**
  * This error is thrown when an api calls returns a 401 status code.
  */

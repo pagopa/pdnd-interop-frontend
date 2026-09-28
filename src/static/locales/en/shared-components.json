@@ -237,7 +237,8 @@
   },
   "dialogRequestRiskAnalysisCompilation": {
     "title": "Request compilation and approval",
-    "description": "If you confirm, you will assign the compilation and approval of the risk analysis to the reviewer <strong>{{reviewerName}}</strong> and you will no longer be able to change this choice."
+    "description_one": "If you confirm, you will assign the compilation and approval of the risk analysis to the reviewer <strong>{{reviewerNames}}</strong> and you will no longer be able to change this choice.",
+    "description_other": "If you confirm, you will assign the compilation and approval of the risk analysis to the reviewers <strong>{{reviewerNames}}</strong> and you will no longer be able to change this choice."
   },
   "dialogRejectDelegatedVersionDraft": {
     "title": "Reject Publication",

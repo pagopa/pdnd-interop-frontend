@@ -98,30 +98,51 @@
       "reviewModeField": {
         "label": "Choose a mode",
         "options": {
-          "selfWritesSelfSigns": "Self-compilation and self-approval",
-          "selfWritesReviewerSigns": "Self-compilation and reviewer approval",
-          "reviewerWritesReviewerSigns": "Reviewer compilation and approval"
+          "ADMIN_WRITES_ADMIN_SIGNS": "Self-compilation and self-approval",
+          "ADMIN_WRITES_REVIEWER_SIGNS": "Self-compilation and reviewer approval",
+          "REVIEWER_WRITES_REVIEWER_SIGNS": "Reviewer compilation and approval"
         }
       },
       "reviewerField": {
         "label": {
-          "selfWritesReviewerSigns": "Who will approve the risk analysis?",
-          "reviewerWritesReviewerSigns": "Who will fill in the risk analysis?"
+          "ADMIN_WRITES_REVIEWER_SIGNS": "Who will approve the risk analysis?",
+          "REVIEWER_WRITES_REVIEWER_SIGNS": "Who will fill in the risk analysis?"
         },
+        "infoLabel": "You can select more than one evaluator.",
         "inputLabel": "Select the reviewer",
-        "requiredError": "To proceed, please select a reviewer"
+        "requiredError": "To proceed, please select a reviewer",
+        "removedError_one": "The reviewer you selected is no longer available. Please make a new selection.",
+        "removedError_other": "The reviewers you selected are no longer available. Please make a new selection.",
+        "partiallyRemovedWarningTitle": "Information about the reviewers",
+        "partiallyRemovedWarningLabel": "One or more reviewers you chose are no longer available: please check the selected reviewers.",
+        "dismissButtonLabel": "Ok, understood"
+      },
+      "editAssignmentDialog": {
+        "title": "Edit assignment",
+        "modeChosen": "You have chosen the mode {{mode}}.",
+        "modeTransition": "You are switching from {{from}} to {{to}}.",
+        "selectedReviewersLabel": "Who you selected",
+        "removedReviewersLabel": "Who you removed",
+        "riskAnalysisLossWarning": "If you confirm, you will lose all the risk analysis information already filled in."
       },
       "noReviewersAlert": {
         "message": "Your institution does not yet have a user with the reviewer role. You can add one from the Reserved Area or complete the risk analysis yourself.",
+        "removedReviewerMessage_one": "The reviewer assigned to this risk analysis has been removed. There is nobody else with the reviewer role in your institution: you can assign the role from the Reserved Area or complete the risk analysis yourself.",
+        "removedReviewerMessage_other": "The reviewers assigned to this risk analysis have been removed. There is nobody else with the reviewer role in your institution: you can assign the role from the Reserved Area or complete the risk analysis yourself.",
         "linkLabel": "Go to Users"
       },
       "delegateAlert": "As the delegate to consuming the e-service {{name}}, you cannot assign the risk analysis to a reviewer but you can complete it yourself.",
       "forwardBtn": "Save draft and proceed",
       "requestReviewerCompilationBtn": "Request compilation",
       "readOnly": {
-        "subtitle": "You cannot modify the assignment because you have submitted the risk assessment to the evaluator.",
+        "subtitle": {
+          "signed": "You cannot modify the assignment because the risk analysis has been approved.",
+          "published": "You cannot modify the assignment because the purpose has been published.",
+          "notDraft": "You cannot modify the assignment because the purpose is no longer a draft."
+        },
         "modeLabel": "Mode",
-        "reviewerLabel": "Reviewer",
+        "reviewerLabel_one": "Reviewer",
+        "reviewerLabel_other": "Reviewers",
         "reviewerUnknown": "Reviewer not available",
         "forwardBtn": "Next"
       }
@@ -193,7 +214,8 @@
       "requiredFieldErrorReviewer": "Fill in to continue",
       "requestApprovalDialog": {
         "title": "Request approval",
-        "description": "By confirming, you will assign the approval of the risk analysis to the reviewer <strong>{{reviewerName}}</strong> and you will no longer be able to make changes.",
+        "description_one": "By confirming, you will assign the approval of the risk analysis to the reviewer <strong>{{reviewerNames}}</strong> and you will no longer be able to make changes.",
+        "description_other": "By confirming, you will assign the approval of the risk analysis to the reviewers <strong>{{reviewerNames}}</strong> and you will no longer be able to make changes.",
         "proceedLabel": "Confirm"
       }
     },

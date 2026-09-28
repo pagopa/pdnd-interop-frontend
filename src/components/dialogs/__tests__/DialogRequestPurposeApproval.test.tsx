@@ -43,7 +43,7 @@ vi.mock('react-i18next', () => ({
 
 const defaultProps = {
   type: 'requestPurposeApproval' as const,
-  reviewer: { userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' },
+  reviewers: [{ userId: 'reviewer-1', name: 'Mario', familyName: 'Rossi' }],
   onConfirm: vi.fn(),
 }
 
@@ -61,7 +61,7 @@ describe('DialogRequestPurposeApproval', () => {
     // The description string from t() is resolved with reviewerName interpolated.
     expect(
       screen.getByText(
-        'edit.stepRiskAnalysis.requestApprovalDialog.description(reviewerName=Mario Rossi)'
+        'edit.stepRiskAnalysis.requestApprovalDialog.description(reviewerNames=Mario Rossi,count=1)'
       )
     ).toBeInTheDocument()
     // <Trans> receives a `components.strong` to wrap the bold portion.
@@ -82,6 +82,24 @@ describe('DialogRequestPurposeApproval', () => {
 
     expect(closeDialogMock).toHaveBeenCalledTimes(1)
     expect(onConfirm).not.toHaveBeenCalled()
+  })
+
+  it('shows every assigned reviewer and selects plural copy', () => {
+    render(
+      <DialogRequestPurposeApproval
+        {...defaultProps}
+        reviewers={[
+          ...defaultProps.reviewers,
+          { userId: 'reviewer-2', name: 'Anna', familyName: 'Verdi' },
+        ]}
+      />
+    )
+
+    expect(
+      screen.getByText(
+        'edit.stepRiskAnalysis.requestApprovalDialog.description(reviewerNames=Mario Rossi, Anna Verdi,count=2)'
+      )
+    ).toBeInTheDocument()
   })
 
   it('invokes onConfirm and closes the dialog when "Conferma" is clicked', () => {

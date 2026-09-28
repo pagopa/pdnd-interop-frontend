@@ -2770,6 +2770,11 @@ export interface NotificationConfig {
   clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: boolean;
   purposeQuotaAdjustmentRequestToProducer: boolean;
   purposeOverQuotaStateToConsumer: boolean;
+  /** Enables risk analysis approval and rejection notifications for administrators. */
+  purposeRiskAnalysisAssignmentStatusToAdmin: boolean;
+  /** Enables assignment, removal, draft deletion and approval by another reviewer notifications. */
+  purposeRiskAnalysisAssignmentStatusToReviewer: boolean;
+  purposePublishedWithRiskAnalysisToReviewer: boolean;
   eserviceArchivingRequestedToDelegator: boolean;
   eserviceArchivingApprovedRejectedToDelegate: boolean;
 }
@@ -2929,6 +2934,8 @@ export interface ReviewerWorkflow {
   signedAt?: string;
   /** @format uuid */
   rejectedBy?: string;
+  /** @format date-time */
+  rejectedAt?: string;
   rejectionReason?: string;
 }
 
@@ -6523,7 +6530,7 @@ export namespace Agreements {
     export type RequestQuery = {};
     export type RequestBody = AddAgreementConsumerDocumentPayload;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -6544,7 +6551,7 @@ export namespace Agreements {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -6587,7 +6594,7 @@ export namespace Agreements {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -6741,7 +6748,7 @@ export namespace Agreements {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 }
 
@@ -7482,7 +7489,7 @@ export namespace Eservices {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -8073,7 +8080,7 @@ export namespace Eservices {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -8999,7 +9006,7 @@ export namespace Eservices {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -9676,7 +9683,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -9708,7 +9715,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -10298,7 +10305,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -10320,7 +10327,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -10396,7 +10403,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -11308,7 +11315,7 @@ export namespace PrivacyNotices {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 }
 
@@ -11771,7 +11778,7 @@ export namespace Delegations {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -11798,7 +11805,7 @@ export namespace Delegations {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 }
 
