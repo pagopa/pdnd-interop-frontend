@@ -3,9 +3,6 @@ import { createMockFactory } from '../../src/utils/testing.utils'
 
 const createUserNotificationConfigs = createMockFactory<UserNotificationConfig>({
   emailConfig: {
-    purposeRiskAnalysisAssignmentStatusToAdmin: false,
-    purposeRiskAnalysisAssignmentStatusToReviewer: false,
-    purposePublishedWithRiskAnalysisToReviewer: false,
     agreementSuspendedUnsuspendedToProducer: false,
     agreementManagementToProducer: false,
     clientAddedRemovedToProducer: false,
@@ -35,9 +32,6 @@ const createUserNotificationConfigs = createMockFactory<UserNotificationConfig>(
   emailNotificationPreference: false,
   emailDigestPreference: false,
   inAppConfig: {
-    purposeRiskAnalysisAssignmentStatusToAdmin: false,
-    purposeRiskAnalysisAssignmentStatusToReviewer: false,
-    purposePublishedWithRiskAnalysisToReviewer: false,
     agreementSuspendedUnsuspendedToProducer: false,
     agreementManagementToProducer: false,
     clientAddedRemovedToProducer: false,

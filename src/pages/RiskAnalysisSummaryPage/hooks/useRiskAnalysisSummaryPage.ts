@@ -3,14 +3,19 @@ import { useNavigate, useParams } from '@/router'
 import { checkIsRulesetExpired } from '@/utils/purpose.utils'
 import { useQuery } from '@tanstack/react-query'
 import { useGetConsumerPurposeAlertProps } from '../../ConsumerPurposeSummaryPage/hooks/useGetConsumerPurposeAlertProps'
-import { useDialog } from '@/stores'
+import { useDialog, useToastNotificationStore } from '@/stores'
+import { useTranslation } from 'react-i18next'
 
 export function useRiskAnalysisSummaryPage() {
   const { purposeId } = useParams<'SUBSCRIBE_RISK_ANALYSIS_SUMMARY'>()
   const navigate = useNavigate()
   const { openDialog } = useDialog()
+  const showToast = useToastNotificationStore((state) => state.showToast)
+  const { t } = useTranslation('mutations-feedback', {
+    keyPrefix: 'purpose.signRiskAnalysis.outcome',
+  })
 
-  const { data: purpose, isLoading } = useQuery(PurposeQueries.getSingle(purposeId))
+  const { data: purpose, isLoading, refetch } = useQuery(PurposeQueries.getSingle(purposeId))
 
   const isEserviceDeliverMode = purpose?.eservice.mode === 'DELIVER'
 
@@ -42,11 +47,38 @@ export function useRiskAnalysisSummaryPage() {
     })
   }
 
-  const handleApproveDraft = () => {
+  const handleApproveDraft = async () => {
     if (!purpose?.currentVersion) return
+
+    const { metadataVersion } = purpose
+    const { data: refreshedPurpose, isError } = await refetch()
+    const refreshedSigningState = refreshedPurpose?.reviewerWorkflow?.signingState
+
+    if (
+      isError ||
+      !refreshedPurpose ||
+      metadataVersion === undefined ||
+      refreshedPurpose.metadataVersion === undefined ||
+      refreshedSigningState === 'REJECTED'
+    ) {
+      showToast(t('error'), 'error')
+      return
+    }
+
+    if (refreshedSigningState === 'SIGNED') {
+      showToast(t('alreadyApproved'), 'error')
+      return
+    }
+
+    if (refreshedPurpose.metadataVersion !== metadataVersion) {
+      showToast(t('versionChanged'), 'error')
+      return
+    }
+
     openDialog({
       type: 'approveRiskAnalysis',
       purposeId,
+      metadataVersionToSign: refreshedPurpose.metadataVersion,
     })
   }
 
