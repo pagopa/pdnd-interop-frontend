@@ -173,7 +173,7 @@ export function getConsumerAgreementVersionAlertSpec(args: {
       () => [
         { severity: 'warning', content: t('archivingEService', { date: archivingEServiceDate }) },
         ...(isObsoleteDescriptor
-          ? [{ severity: 'info' as AlertColor, content: t('deprecatedActive') }]
+          ? [{ severity: 'info' as AlertColor, content: t('deprecatedActiveShort') }]
           : []),
       ]
     )
