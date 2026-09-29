@@ -69,15 +69,15 @@ describe('DialogRequestRiskAnalysisCompilation', () => {
       "Se confermi, assegnerai la compilazione e l'approvazione dell'analisi del rischio al valutatore Mario Rossi e non potrai più modificare questa scelta."
     )
     expect(screen.getByRole('dialog')).not.toHaveTextContent(
-      'Se confermi, perderai tutte le informazioni dell’analisi del rischio già compilate.'
+      'perderai tutte le informazioni dell’analisi del rischio già compilate'
     )
   })
 
   it.each([
-    { reviewerNames: ['Mario Rossi'], assignmentText: 'al valutatore Mario Rossi' },
+    { reviewerNames: ['Mario Rossi'], assignmentText: 'Mario Rossi' },
     {
       reviewerNames: ['Mario Rossi', 'Anna Verdi'],
-      assignmentText: 'ai valutatori Mario Rossi, Anna Verdi',
+      assignmentText: 'Mario Rossi, Anna Verdi',
     },
   ])(
     'warns about losing existing risk analysis data for $reviewerNames',
@@ -85,10 +85,11 @@ describe('DialogRequestRiskAnalysisCompilation', () => {
       renderDialog({ hasRiskAnalysis: true, reviewerNames })
 
       const dialog = screen.getByRole('dialog')
-      expect(dialog).toHaveTextContent(assignmentText)
-      expect(dialog).toHaveTextContent(
-        'Se confermi, perderai tutte le informazioni dell’analisi del rischio già compilate.'
-      )
+      expect(
+        screen.getByText(
+          `Se confermi, assegnerai la compilazione e l’approvazione dell’analisi del rischio a ${assignmentText} e perderai tutte le informazioni dell’analisi del rischio già compilate.`
+        )
+      ).toBeInTheDocument()
       expect(dialog).not.toHaveTextContent('non potrai più modificare questa scelta')
       expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     }

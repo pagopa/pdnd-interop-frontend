@@ -23,9 +23,6 @@ export const DialogRequestRiskAnalysisCompilation: React.FC<
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogRequestRiskAnalysisCompilation',
   })
-  const { t: tAssignment } = useTranslation('purpose', {
-    keyPrefix: 'edit.stepAssignment.editAssignmentDialog',
-  })
 
   const description = t(hasRiskAnalysis ? 'descriptionWithRiskAnalysis' : 'description', {
     count: reviewerNames.length,
@@ -70,9 +67,7 @@ export const DialogRequestRiskAnalysisCompilation: React.FC<
               strong: <Typography variant="inherit" component="span" fontWeight={600} />,
             }}
           >
-            {hasRiskAnalysis
-              ? `${description} ${tAssignment('riskAnalysisLossWarning')}`
-              : description}
+            {description}
           </Trans>
         </Typography>
       </DialogContent>
