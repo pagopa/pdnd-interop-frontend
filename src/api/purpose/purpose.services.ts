@@ -34,31 +34,12 @@ import type {
   RiskAnalysisFormSeed,
 } from '../api.generatedTypes'
 
-/**
- * This logic should be ported in the BFF.
- * When a provider tries to activate a suspended purpose whom e-service is overquota,
- * backend side a new waiting for approval version is created. For this case, in order
- * to the frontend to function properly, we remove the current version.
- */
-function REMOVE_ME_remapPurpose(purpose: Purpose): Purpose {
-  if (
-    purpose.waitingForApprovalVersion &&
-    purpose.currentVersion &&
-    purpose.suspendedByConsumer &&
-    purpose.currentVersion.dailyCalls === purpose.waitingForApprovalVersion.dailyCalls
-  ) {
-    return { ...purpose, currentVersion: undefined }
-  }
-
-  return purpose
-}
-
 async function getProducersList(params: GetProducerPurposesParams) {
   const response = await axiosInstance.get<Purposes>(
     `${BACKEND_FOR_FRONTEND_URL}/producers/purposes`,
     { params }
   )
-  return { ...response.data, results: response.data.results.map(REMOVE_ME_remapPurpose) }
+  return response.data
 }
 
 async function getConsumersList(params: GetConsumerPurposesParams) {
@@ -66,7 +47,7 @@ async function getConsumersList(params: GetConsumerPurposesParams) {
     `${BACKEND_FOR_FRONTEND_URL}/consumers/purposes`,
     { params }
   )
-  return { ...response.data, results: response.data.results.map(REMOVE_ME_remapPurpose) }
+  return response.data
 }
 
 async function getSingle(purposeId: string) {
@@ -84,7 +65,7 @@ async function getSingle(purposeId: string) {
     throw new Error('Invalid purpose metadata version')
   }
 
-  return { ...REMOVE_ME_remapPurpose(response.data), metadataVersion }
+  return { ...response.data, metadataVersion }
 }
 
 async function getRiskAnalysisLatest(params?: RetrieveLatestRiskAnalysisConfigurationParams) {
@@ -381,7 +362,7 @@ async function getRiskAnalysisAssignments(params: GetRiskAnalysisAssignmentsPara
     `${BACKEND_FOR_FRONTEND_URL}/purposes/riskAnalysis/assignments`,
     { params }
   )
-  return { ...response.data, results: response.data.results.map(REMOVE_ME_remapPurpose) }
+  return response.data
 }
 
 export const PurposeServices = {
