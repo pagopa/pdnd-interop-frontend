@@ -8,13 +8,17 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { useTranslation } from 'react-i18next'
 import isToday from 'date-fns/isToday'
 import { match, P } from 'ts-pattern'
+import { AuthHooks } from '@/api/auth'
 
 export const RiskAnalysisTableRow: React.FC<{
   purpose: Purpose
 }> = ({ purpose }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisList' })
+  const { jwt } = AuthHooks.useJwt()
 
-  const sentToReviewerAt = purpose.reviewerWorkflow?.reviewers?.[0]?.sentToReviewerAt
+  const sentToReviewerAt = purpose.reviewerWorkflow?.reviewers?.find(
+    (reviewer) => reviewer.userId === jwt?.uid
+  )?.sentToReviewerAt
   const sentDate = sentToReviewerAt ? new Date(sentToReviewerAt) : null
 
   const formattedDate = sentDate

@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import RiskAnalysisListPage from '../RiskAnalysisList.page'
 import type { RiskAnalysisSigningState } from '@/api/api.generatedTypes'
 import { useQuery } from '@tanstack/react-query'
@@ -63,6 +63,7 @@ describe('RiskAnalysisListPage', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    mockUseJwt({ jwt: { uid: 'reviewer-1' } })
 
     mockedUseQuery.mockReturnValue({
       data: {
@@ -76,6 +77,12 @@ describe('RiskAnalysisListPage', () => {
             reviewerWorkflow: {
               signingState: 'ASSIGNED',
               reviewers: [
+                {
+                  userId: 'other-reviewer',
+                  name: 'Luigi',
+                  familyName: 'Verdi',
+                  sentToReviewerAt: '2020-01-01T12:00:00.000Z',
+                },
                 {
                   userId: 'reviewer-1',
                   name: 'Mario',
@@ -116,7 +123,7 @@ describe('RiskAnalysisListPage', () => {
     expect(await screen.findByText('ASSIGNED')).toBeInTheDocument()
   })
 
-  it('renders today label', async () => {
+  it('renders the current reviewer assignment date even when another reviewer is first', async () => {
     expect(await screen.findByText('today.label')).toBeInTheDocument()
   })
 

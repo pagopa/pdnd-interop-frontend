@@ -52,6 +52,15 @@ function renderComponent(overrides?: {
 }
 
 describe('PurposeEditStepAssignmentReadOnly', () => {
+  it('renders the autonomy label for the explicit admin review mode', () => {
+    renderComponent({
+      purpose: createMockPurpose({ riskAnalysisReviewMode: 'ADMIN_WRITES_ADMIN_SIGNS' }),
+    })
+
+    expect(screen.getByText('reviewModeField.options.ADMIN_WRITES_ADMIN_SIGNS')).toBeInTheDocument()
+    expect(screen.queryByText('readOnly.reviewerLabel')).not.toBeInTheDocument()
+  })
+
   it('renders only the "mode" row with the option-1 label when there is no reviewer workflow', () => {
     const purpose = { ...createMockPurpose({ id: 'purpose-id' }), reviewerWorkflow: undefined }
     renderComponent({ purpose })
