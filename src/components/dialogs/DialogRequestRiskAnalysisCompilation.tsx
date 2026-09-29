@@ -16,12 +16,20 @@ import type { DialogRequestRiskAnalysisCompilationProps } from '@/types/dialog.t
 
 export const DialogRequestRiskAnalysisCompilation: React.FC<
   DialogRequestRiskAnalysisCompilationProps
-> = ({ purposeId, reviewerIds, reviewerNames }) => {
+> = ({ purposeId, reviewerIds, reviewerNames, hasRiskAnalysis }) => {
   const ariaLabelId = React.useId()
 
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('shared-components', {
     keyPrefix: 'dialogRequestRiskAnalysisCompilation',
+  })
+  const { t: tAssignment } = useTranslation('purpose', {
+    keyPrefix: 'edit.stepAssignment.editAssignmentDialog',
+  })
+
+  const description = t(hasRiskAnalysis ? 'descriptionWithRiskAnalysis' : 'description', {
+    count: reviewerNames.length,
+    reviewerNames: reviewerNames.join(', '),
   })
 
   const { closeDialog } = useDialog()
@@ -62,10 +70,9 @@ export const DialogRequestRiskAnalysisCompilation: React.FC<
               strong: <Typography variant="inherit" component="span" fontWeight={600} />,
             }}
           >
-            {t('description', {
-              count: reviewerNames.length,
-              reviewerNames: reviewerNames.join(', '),
-            })}
+            {hasRiskAnalysis
+              ? `${description} ${tAssignment('riskAnalysisLossWarning')}`
+              : description}
           </Trans>
         </Typography>
       </DialogContent>

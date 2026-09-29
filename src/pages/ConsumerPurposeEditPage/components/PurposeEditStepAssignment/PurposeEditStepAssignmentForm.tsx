@@ -157,6 +157,7 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
           purposeId: purpose.id,
           reviewerIds: nextReviewerIds,
           reviewerNames: nextReviewerIds.map(getReviewerName),
+          hasRiskAnalysis: purpose.riskAnalysisForm !== undefined,
         })
         return
       }
