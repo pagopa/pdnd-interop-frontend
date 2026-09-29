@@ -15,6 +15,53 @@ vi.mock('@/config/axios', () => ({
 describe('PurposeServices', () => {
   beforeEach(() => vi.resetAllMocks())
 
+  const suspendedPurpose = createMockPurpose({
+    suspendedByConsumer: true,
+    currentVersion: {
+      id: 'current-version',
+      state: 'SUSPENDED',
+      dailyCalls: 10,
+      createdAt: '2026-09-01T00:00:00Z',
+    },
+    waitingForApprovalVersion: {
+      id: 'waiting-version',
+      state: 'WAITING_FOR_APPROVAL',
+      dailyCalls: 10,
+      createdAt: '2026-09-02T00:00:00Z',
+    },
+  })
+
+  describe.each([
+    { name: 'BFF versions', purpose: suspendedPurpose },
+    {
+      name: 'BFF-normalized versions',
+      purpose: { ...suspendedPurpose, currentVersion: undefined },
+    },
+  ])('$name', ({ purpose }) => {
+    it('preserves the detail payload and metadata version', async () => {
+      vi.mocked(axiosInstance.get).mockResolvedValueOnce({
+        data: purpose,
+        headers: { 'x-metadata-version': '3' },
+      })
+
+      expect(await PurposeServices.getSingle(purpose.id)).toEqual({
+        ...purpose,
+        metadataVersion: 3,
+      })
+    })
+
+    it.each([
+      ['producers', PurposeServices.getProducersList],
+      ['consumers', PurposeServices.getConsumersList],
+      ['risk analysis assignments', PurposeServices.getRiskAnalysisAssignments],
+    ])('preserves %s results and pagination metadata', async (_name, request) => {
+      const data = { results: [purpose], pagination: { offset: 10, limit: 10, totalCount: 21 } }
+      vi.mocked(axiosInstance.get).mockResolvedValueOnce({ data })
+
+      expect(await request({ offset: 10, limit: 10 })).toEqual(data)
+    })
+  })
+
   const operations = [
     {
       name: 'save',
