@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react'
-import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import RiskAnalysisListPage from '../RiskAnalysisList.page'
 import type { RiskAnalysisSigningState } from '@/api/api.generatedTypes'
 import { useQuery } from '@tanstack/react-query'
@@ -91,6 +91,7 @@ describe('RiskAnalysisListPage', () => {
 
   beforeEach(() => {
     vi.clearAllMocks()
+    mockUseJwt({ jwt: { uid: 'reviewer-1' } })
 
     mockUseActiveTab.mockReturnValue({
       activeTab: 'todo',
@@ -118,6 +119,12 @@ describe('RiskAnalysisListPage', () => {
               reviewerWorkflow: {
                 signingState: 'ASSIGNED',
                 reviewers: [
+                  {
+                    userId: 'other-reviewer',
+                    name: 'Luigi',
+                    familyName: 'Verdi',
+                    sentToReviewerAt: '2020-01-01T12:00:00.000Z',
+                  },
                   {
                     userId: 'reviewer-1',
                     name: 'Mario',
@@ -165,7 +172,7 @@ describe('RiskAnalysisListPage', () => {
     expect(await screen.findByText('ASSIGNED')).toBeInTheDocument()
   })
 
-  it('should render today label', async () => {
+  it('renders the current reviewer assignment date even when another reviewer is first', async () => {
     expect(await screen.findByText('today.label')).toBeInTheDocument()
   })
 
@@ -368,7 +375,7 @@ describe('RiskAnalysisListPage', () => {
 
     renderPage()
 
-    expect(await screen.findByText('2')).toBeInTheDocument()
+    expect(await screen.findAllByText('2')).not.toHaveLength(0)
   })
 
   it('should render done table headers', () => {
