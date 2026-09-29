@@ -362,6 +362,31 @@ describe('ProviderEServiceSummaryPage', () => {
     expect(screen.queryByTestId('CreateIcon')).not.toBeInTheDocument()
   })
 
+  it('should render CTA buttons (publish, delete, edit) for delegate if user is watching e-service in DRAFT state', () => {
+    mockDelegationRole.mockReturnValue({
+      isDelegator: false,
+      isDelegate: true,
+      isDelegationLoading: false,
+      producerDelegations: [],
+    })
+
+    useQueryMock.mockReturnValue({
+      data: createMockEServiceDescriptorProvider({
+        state: 'DRAFT',
+      }),
+      isLoading: false,
+    })
+
+    renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByRole('button', { name: 'publish' })).toBeInTheDocument()
+    expect(screen.getByTestId('DeleteOutlineIcon')).toBeInTheDocument()
+    expect(screen.getByTestId('CreateIcon')).toBeInTheDocument()
+  })
+
   it('should not render CTA buttons while delegation role is still loading', () => {
     mockDelegationRole.mockReturnValue({
       isDelegator: false,
