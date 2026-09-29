@@ -15,9 +15,14 @@ import { mockUseJwt } from '@/utils/testing.utils'
 import { renderHook } from '@testing-library/react'
 import { useGetProducerDelegationUserRole } from '../useGetProducerDelegationUserRole'
 
-const mockUseGetList = (data: Array<CompactDelegation> | undefined) =>
+const mockUseGetList = (
+  data: Array<CompactDelegation> | undefined,
+  { isLoading = false, isPending = false }: { isLoading?: boolean; isPending?: boolean } = {}
+) =>
   (useQuery as Mock).mockReturnValue({
     data,
+    isLoading,
+    isPending,
   } as never)
 
 describe('useGetDelegationUserRole tests', () => {
@@ -76,5 +81,17 @@ describe('useGetDelegationUserRole tests', () => {
     expect(result.current.isDelegator).toBe(false)
     expect(result.current.isDelegate).toBe(false)
     expect(result.current.producerDelegations?.length).toBe(0)
+  })
+
+  it('should expose loading state while delegation query is pending', () => {
+    mockUseGetList(undefined, { isPending: true })
+    const { result } = renderHook(() =>
+      useGetProducerDelegationUserRole({
+        eserviceId: 'eserviceId',
+        organizationId: 'organizationId',
+      })
+    )
+
+    expect(result.current.isDelegationLoading).toBe(true)
   })
 })

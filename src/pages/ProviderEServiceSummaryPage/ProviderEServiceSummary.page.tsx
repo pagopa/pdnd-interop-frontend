@@ -43,10 +43,11 @@ const ProviderEServiceSummaryPage: React.FC = () => {
 
   const { isOpen, openDrawer, closeDrawer } = useDrawerState()
 
-  const { isDelegator, isDelegate, producerDelegations } = useGetProducerDelegationUserRole({
-    eserviceId,
-    organizationId: jwt?.organizationId,
-  })
+  const { isDelegator, isDelegate, isDelegationLoading, producerDelegations } =
+    useGetProducerDelegationUserRole({
+      eserviceId,
+      organizationId: jwt?.organizationId,
+    })
 
   const delegation = producerDelegations?.find(
     (delegation) => delegation.eservice?.id === eserviceId
@@ -468,7 +469,8 @@ const ProviderEServiceSummaryPage: React.FC = () => {
             </Alert>
           )}
         </Stack>
-        {!isDelegator &&
+        {!isDelegationLoading &&
+          !isDelegator &&
           !(isEServiceFromTemplate && descriptor?.state === 'WAITING_FOR_APPROVAL') &&
           !(isDelegate && descriptor?.state === 'WAITING_FOR_APPROVAL') && (
             <>
