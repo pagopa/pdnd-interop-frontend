@@ -469,7 +469,8 @@ const ProviderEServiceSummaryPage: React.FC = () => {
           )}
         </Stack>
         {!isDelegator &&
-          !(isEServiceFromTemplate && descriptor?.state === 'WAITING_FOR_APPROVAL') && (
+          !(isEServiceFromTemplate && descriptor?.state === 'WAITING_FOR_APPROVAL') &&
+          !(isDelegate && descriptor?.state === 'WAITING_FOR_APPROVAL') && (
             <>
               {!isAsyncExchangeValidationLoading && !isPublishable && (
                 <Alert severity="warning" sx={{ mt: 3 }}>

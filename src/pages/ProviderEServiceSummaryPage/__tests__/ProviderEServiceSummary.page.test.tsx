@@ -333,6 +333,30 @@ describe('ProviderEServiceSummaryPage', () => {
     expect(screen.queryByTestId('CreateIcon')).not.toBeInTheDocument()
   })
 
+  it('should not render CTA buttons for delegate viewing an eservice in WAITING_FOR_APPROVAL state', () => {
+    mockDelegationRole.mockReturnValue({
+      isDelegator: false,
+      isDelegate: true,
+      producerDelegations: [],
+    })
+
+    useQueryMock.mockReturnValue({
+      data: createMockEServiceDescriptorProvider({
+        state: 'WAITING_FOR_APPROVAL',
+      }),
+      isLoading: false,
+    })
+
+    renderWithApplicationContext(<ProviderEServiceSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.queryByRole('button', { name: 'publish' })).not.toBeInTheDocument()
+    expect(screen.queryByTestId('DeleteOutlineIcon')).not.toBeInTheDocument()
+    expect(screen.queryByTestId('CreateIcon')).not.toBeInTheDocument()
+  })
+
   describe('handlePublishDraft navigation state', () => {
     const setupAndPublish = async (
       descriptor: ReturnType<typeof createMockEServiceDescriptorProvider>
