@@ -143,16 +143,18 @@ const RiskAnalysisListPage: React.FC = () => {
               <Tab label={tPurpose('tabs.done')} value={RiskAnalysisListPageTab.DONE} />
             </TabList>
             <TabPanel value={activeTab}>
-              <Filters key={activeTab} {...filtersHandlers} />
               <RiskAnalysisTableWrapper
                 params={queryParams}
                 hasActiveFilters={hasActiveFilters}
                 emptyLabel={emptyTabLabel}
-              />
-              <Pagination
-                {...paginationProps}
-                rowPerPageOptions={rowPerPageOptions}
-                totalPages={totalPageCount}
+                filters={<Filters key={activeTab} {...filtersHandlers} />}
+                pagination={
+                  <Pagination
+                    {...paginationProps}
+                    rowPerPageOptions={rowPerPageOptions}
+                    totalPages={totalPageCount}
+                  />
+                }
               />
             </TabPanel>
           </TabContext>
@@ -166,7 +168,9 @@ const RiskAnalysisTableWrapper: React.FC<{
   params: GetRiskAnalysisAssignmentsParams
   hasActiveFilters: boolean
   emptyLabel: string
-}> = ({ params, hasActiveFilters, emptyLabel }) => {
+  filters: React.ReactNode
+  pagination: React.ReactNode
+}> = ({ params, hasActiveFilters, emptyLabel, filters, pagination }) => {
   const { data, isFetching } = useQuery(PurposeQueries.getRiskAnalysisAssignments(params))
 
   if (!data && isFetching) return <RiskAnalysisTableSkeleton />
@@ -181,7 +185,13 @@ const RiskAnalysisTableWrapper: React.FC<{
     )
   }
 
-  return <RiskAnalysisTable purposes={data?.results ?? []} />
+  return (
+    <>
+      {filters}
+      <RiskAnalysisTable purposes={data?.results ?? []} />
+      {pagination}
+    </>
+  )
 }
 
 export default RiskAnalysisListPage
