@@ -27,6 +27,7 @@
     "upgrade": "Upgrade",
     "delete": "Delete",
     "inspect": "View",
+    "inspectEService": "Go to e-service",
     "edit": "Edit",
     "clone": "Duplicate",
     "publish": "Publish",
