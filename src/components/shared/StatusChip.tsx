@@ -139,7 +139,7 @@ type StatusChipProps = Omit<ChipProps, 'color' | 'label'> &
       }
     | {
         for: 'riskAnalysisList'
-        state: Exclude<RiskAnalysisSigningState, 'DRAFT' | 'SIGNED' | 'REJECTED'>
+        state: Exclude<RiskAnalysisSigningState, 'DRAFT'>
       }
   )
 
