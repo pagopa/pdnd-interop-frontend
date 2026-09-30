@@ -205,5 +205,6 @@
     "LTE": "Less than or equal to",
     "EQ": "Equal to",
     "NE": "Not equal to"
-  }
+  },
+  "reviewerUnknown": "Reviewer not available"
 }

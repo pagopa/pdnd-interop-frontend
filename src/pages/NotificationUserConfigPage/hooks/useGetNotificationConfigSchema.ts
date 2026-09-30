@@ -5,6 +5,7 @@ import { match } from 'ts-pattern'
 import React from 'react'
 import { ConsumerIcon, ProviderIcon, MyTenantIcon } from '@/icons'
 import CodeIcon from '@mui/icons-material/Code'
+import AssignmentIcon from '@mui/icons-material/Assignment'
 import { AuthHooks } from '@/api/auth'
 
 export function useGetNotificationConfigSchema(type: NotificationConfigType) {
@@ -58,6 +59,16 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
               title: t('subscriber.purpose.components.purposeStateUpdated.label'), // 16
               description: t('subscriber.purpose.components.purposeStateUpdated.description'),
               visibility: ['admin', 'security'],
+            },
+            {
+              key: 'purposeRiskAnalysisAssignmentStatusToAdmin',
+              title: t(
+                'subscriber.purpose.components.purposeRiskAnalysisAssignmentStatusToAdmin.label'
+              ),
+              description: t(
+                'subscriber.purpose.components.purposeRiskAnalysisAssignmentStatusToAdmin.description'
+              ),
+              visibility: ['admin'],
             },
           ],
         },
@@ -267,6 +278,38 @@ export function useGetNotificationConfigSchema(type: NotificationConfigType) {
                 'keyAndAttributes.keys.components.clientKeysAssociationUpdated.description'
               ),
               visibility: ['admin', 'security'], // To define
+            },
+          ],
+        },
+      ],
+    },
+    riskAnalysis: {
+      title: t('riskAnalysis.title'),
+      icon: AssignmentIcon,
+      subsections: [
+        {
+          name: 'riskAnalysisAssignment',
+          title: t('riskAnalysis.riskAnalysisAssignment.title'),
+          components: [
+            {
+              key: 'purposeRiskAnalysisAssignmentStatusToReviewer',
+              title: t(
+                'riskAnalysis.riskAnalysisAssignment.components.purposeRiskAnalysisAssignmentStatusToReviewer.label'
+              ),
+              description: t(
+                'riskAnalysis.riskAnalysisAssignment.components.purposeRiskAnalysisAssignmentStatusToReviewer.description'
+              ),
+              visibility: ['reviewer'],
+            },
+            {
+              key: 'purposePublishedWithRiskAnalysisToReviewer',
+              title: t(
+                'riskAnalysis.riskAnalysisAssignment.components.purposePublishedWithRiskAnalysisToReviewer.label'
+              ),
+              description: t(
+                'riskAnalysis.riskAnalysisAssignment.components.purposePublishedWithRiskAnalysisToReviewer.description'
+              ),
+              visibility: ['reviewer'],
             },
           ],
         },

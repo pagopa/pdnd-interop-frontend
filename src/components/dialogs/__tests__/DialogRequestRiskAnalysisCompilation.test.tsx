@@ -11,6 +11,7 @@ const assignReviewerMock = vi.fn()
 let isPendingMock = false
 
 vi.mock('@/stores', async () => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
   const actual = await vi.importActual<typeof import('@/stores')>('@/stores')
   return {
     ...actual,
@@ -36,6 +37,7 @@ const defaultProps = {
   purposeId: 'purpose-id',
   reviewerIds: ['reviewer-uuid-1'],
   reviewerNames: ['Mario Rossi'],
+  hasRiskAnalysis: false,
 }
 
 const renderDialog = (overrides?: Partial<typeof defaultProps>) =>
@@ -60,6 +62,15 @@ describe('DialogRequestRiskAnalysisCompilation', () => {
     expect(screen.getByRole('dialog')).toBeInTheDocument()
     expect(screen.getByText('title')).toBeInTheDocument()
     expect(screen.getByText('description')).toBeInTheDocument()
+    expect(screen.queryByText('descriptionWithRiskAnalysis')).not.toBeInTheDocument()
+  })
+
+  it('renders the risk analysis warning when risk analysis data exists', () => {
+    renderDialog({ hasRiskAnalysis: true })
+
+    expect(screen.getByText('descriptionWithRiskAnalysis')).toBeInTheDocument()
+    expect(screen.queryByText('description')).not.toBeInTheDocument()
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
   })
 
   it('renders the cancel and confirm CTAs', () => {

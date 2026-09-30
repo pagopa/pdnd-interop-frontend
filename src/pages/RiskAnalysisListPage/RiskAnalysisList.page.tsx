@@ -10,7 +10,6 @@ import {
 import { useQuery, keepPreviousData } from '@tanstack/react-query'
 import type {
   GetRiskAnalysisAssignmentsParams,
-  Purpose,
   RiskAnalysisSigningState,
 } from '@/api/api.generatedTypes'
 import { RiskAnalysisTable, RiskAnalysisTableSkeleton } from './components/RiskAnalysisTable'
@@ -105,9 +104,10 @@ const RiskAnalysisListPage: React.FC = () => {
     placeholderData: keepPreviousData,
   })
 
-  const { data, isFetching } = useQuery({
+  const { data: totalPageCount = 0 } = useQuery({
     ...PurposeQueries.getRiskAnalysisAssignments(queryParams),
     placeholderData: keepPreviousData,
+    select: ({ pagination }) => getTotalPageCount(pagination.totalCount),
   })
 
   const hasActiveFilters =
@@ -144,26 +144,19 @@ const RiskAnalysisListPage: React.FC = () => {
               <Tab label={tPurpose('tabs.done')} value={RiskAnalysisListPageTab.DONE} />
             </TabList>
             <TabPanel value={activeTab}>
-              {data?.results.length === 0 && !hasActiveFilters ? (
-                <NoItemResults padding={2}>
-                  <Typography variant="body2" textAlign="center">
-                    {emptyTabLabel}
-                  </Typography>
-                </NoItemResults>
-              ) : (
-                <>
-                  <Filters {...filtersHandlers} />
-                  <RiskAnalysisTableWrapper
-                    purposes={data?.results ?? []}
-                    isFetching={isFetching}
-                  />
+              <RiskAnalysisTableWrapper
+                params={queryParams}
+                hasActiveFilters={hasActiveFilters}
+                emptyLabel={emptyTabLabel}
+                filters={<Filters key={activeTab} {...filtersHandlers} />}
+                pagination={
                   <Pagination
                     {...paginationProps}
                     rowPerPageOptions={rowPerPageOptions}
-                    totalPages={getTotalPageCount(data?.pagination.totalCount ?? 0)}
+                    totalPages={totalPageCount}
                   />
-                </>
-              )}
+                }
+              />
             </TabPanel>
           </TabContext>
         </>
@@ -172,13 +165,34 @@ const RiskAnalysisListPage: React.FC = () => {
   )
 }
 
-const RiskAnalysisTableWrapper: React.FC<{ purposes: Purpose[]; isFetching: boolean }> = ({
-  purposes,
-  isFetching,
-}) => {
-  if (isFetching && !purposes.length) return <RiskAnalysisTableSkeleton />
+const RiskAnalysisTableWrapper: React.FC<{
+  params: GetRiskAnalysisAssignmentsParams
+  hasActiveFilters: boolean
+  emptyLabel: string
+  filters: React.ReactNode
+  pagination: React.ReactNode
+}> = ({ params, hasActiveFilters, emptyLabel, filters, pagination }) => {
+  const { data, isFetching } = useQuery(PurposeQueries.getRiskAnalysisAssignments(params))
 
-  return <RiskAnalysisTable purposes={purposes} />
+  if (!data && isFetching) return <RiskAnalysisTableSkeleton />
+
+  if (data?.results.length === 0 && !hasActiveFilters) {
+    return (
+      <NoItemResults padding={2}>
+        <Typography variant="body2" textAlign="center">
+          {emptyLabel}
+        </Typography>
+      </NoItemResults>
+    )
+  }
+
+  return (
+    <>
+      {filters}
+      <RiskAnalysisTable purposes={data?.results ?? []} />
+      {pagination}
+    </>
+  )
 }
 
 export default RiskAnalysisListPage

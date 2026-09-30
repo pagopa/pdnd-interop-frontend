@@ -5,6 +5,7 @@ import {
   checkIsRulesetExpired,
   getFormattedExpirationDate,
   getReviewModeLabel,
+  getReviewerNames,
 } from '../purpose.utils'
 import type { TFunction } from 'i18next'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
@@ -196,5 +197,48 @@ describe('getReviewModeLabel', () => {
     expect(getReviewModeLabel('REVIEWER_WRITES_REVIEWER_SIGNS', t)).toBe(
       'mode.reviewerWritesReviewerSigns'
     )
+  })
+})
+
+describe('getReviewerNames', () => {
+  it('returns an empty array when the reviewers are undefined', () => {
+    expect(getReviewerNames(undefined)).toEqual([])
+  })
+
+  it('returns an empty array when the reviewers list is empty', () => {
+    expect(getReviewerNames([])).toEqual([])
+  })
+
+  it('returns the full name of a single reviewer', () => {
+    expect(getReviewerNames([{ userId: 'user-1', name: 'Mario', familyName: 'Rossi' }])).toEqual([
+      'Mario Rossi',
+    ])
+  })
+
+  it('preserves the order of multiple reviewers', () => {
+    expect(
+      getReviewerNames([
+        { userId: 'user-1', name: 'Mario', familyName: 'Rossi' },
+        { userId: 'user-2', name: 'Luigi', familyName: 'Verdi' },
+      ])
+    ).toEqual(['Mario Rossi', 'Luigi Verdi'])
+  })
+
+  it('does not leave dangling spaces when one of the name parts is empty', () => {
+    expect(
+      getReviewerNames([
+        { userId: 'user-1', name: 'Mario', familyName: '' },
+        { userId: 'user-2', name: '', familyName: 'Verdi' },
+      ])
+    ).toEqual(['Mario', 'Verdi'])
+  })
+
+  it('drops reviewers with no name at all', () => {
+    expect(
+      getReviewerNames([
+        { userId: 'user-1', name: '', familyName: '' },
+        { userId: 'user-2', name: 'Luigi', familyName: 'Verdi' },
+      ])
+    ).toEqual(['Luigi Verdi'])
   })
 })

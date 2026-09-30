@@ -270,6 +270,7 @@ describe('PurposeEditStepAssignmentForm', () => {
         },
         expect.objectContaining({ onSuccess: forward })
       )
+      expect(openDialogMock).not.toHaveBeenCalled()
     })
 
     it('sends every selected reviewer, not just the first one', async () => {
@@ -288,28 +289,39 @@ describe('PurposeEditStepAssignmentForm', () => {
       )
     })
 
-    it('on submit with option 3, opens the compilation dialog without calling the API', async () => {
-      const user = userEvent.setup()
-      const forward = vi.fn()
-      renderComponent({ forward })
-
-      await user.click(
-        screen.getByRole('radio', {
-          name: 'reviewModeField.options.REVIEWER_WRITES_REVIEWER_SIGNS',
+    it.each([true, false])(
+      'on submit with option 3, tells the compilation dialog whether risk analysis data will be lost (present: %s)',
+      async (hasRiskAnalysis) => {
+        const user = userEvent.setup()
+        const forward = vi.fn()
+        const purpose = createMockPurpose({ id: 'purpose-id' })
+        renderComponent({
+          purpose: {
+            ...purpose,
+            riskAnalysisForm: hasRiskAnalysis ? purpose.riskAnalysisForm : undefined,
+          },
+          forward,
         })
-      )
-      await selectReviewers(user, ['Mario Rossi', 'Anna Verdi'])
-      await user.click(screen.getByRole('button', { name: 'requestReviewerCompilationBtn' }))
 
-      expect(assignReviewerMock).not.toHaveBeenCalled()
-      expect(forward).not.toHaveBeenCalled()
-      expect(openDialogMock).toHaveBeenCalledWith({
-        type: 'requestRiskAnalysisCompilation',
-        purposeId: 'purpose-id',
-        reviewerIds: ['reviewer-uuid-1', 'reviewer-uuid-2'],
-        reviewerNames: ['Mario Rossi', 'Anna Verdi'],
-      })
-    })
+        await user.click(
+          screen.getByRole('radio', {
+            name: 'reviewModeField.options.REVIEWER_WRITES_REVIEWER_SIGNS',
+          })
+        )
+        await selectReviewers(user, ['Mario Rossi', 'Anna Verdi'])
+        await user.click(screen.getByRole('button', { name: 'requestReviewerCompilationBtn' }))
+
+        expect(assignReviewerMock).not.toHaveBeenCalled()
+        expect(forward).not.toHaveBeenCalled()
+        expect(openDialogMock).toHaveBeenCalledWith({
+          type: 'requestRiskAnalysisCompilation',
+          purposeId: 'purpose-id',
+          reviewerIds: ['reviewer-uuid-1', 'reviewer-uuid-2'],
+          reviewerNames: ['Mario Rossi', 'Anna Verdi'],
+          hasRiskAnalysis,
+        })
+      }
+    )
 
     it('drops the selected reviewers when switching back to option 1 before submitting', async () => {
       const user = userEvent.setup()
