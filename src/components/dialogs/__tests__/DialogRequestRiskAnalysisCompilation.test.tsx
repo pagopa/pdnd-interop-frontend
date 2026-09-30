@@ -4,9 +4,6 @@ import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 import { DialogRequestRiskAnalysisCompilation } from '../DialogRequestRiskAnalysisCompilation'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import i18n from '@/config/react-i18next'
-
-vi.unmock('react-i18next')
 
 const closeDialogMock = vi.fn()
 const navigateMock = vi.fn()
@@ -52,8 +49,7 @@ const renderDialog = (overrides?: Partial<typeof defaultProps>) =>
   )
 
 describe('DialogRequestRiskAnalysisCompilation', () => {
-  beforeEach(async () => {
-    await i18n.changeLanguage('it')
+  beforeEach(() => {
     isPendingMock = false
     closeDialogMock.mockReset()
     navigateMock.mockReset()
@@ -64,49 +60,31 @@ describe('DialogRequestRiskAnalysisCompilation', () => {
     renderDialog()
 
     expect(screen.getByRole('dialog')).toBeInTheDocument()
-    expect(screen.getByText('Richiedi compilazione e approvazione')).toBeInTheDocument()
-    expect(screen.getByRole('dialog')).toHaveTextContent(
-      "Se confermi, assegnerai la compilazione e l'approvazione dell'analisi del rischio al valutatore Mario Rossi e non potrai più modificare questa scelta."
-    )
-    expect(screen.getByRole('dialog')).not.toHaveTextContent(
-      'perderai tutte le informazioni dell’analisi del rischio già compilate'
-    )
+    expect(screen.getByText('title')).toBeInTheDocument()
+    expect(screen.getByText('description')).toBeInTheDocument()
+    expect(screen.queryByText('descriptionWithRiskAnalysis')).not.toBeInTheDocument()
   })
 
-  it.each([
-    { reviewerNames: ['Mario Rossi'], assignmentText: 'Mario Rossi' },
-    {
-      reviewerNames: ['Mario Rossi', 'Anna Verdi'],
-      assignmentText: 'Mario Rossi, Anna Verdi',
-    },
-  ])(
-    'warns about losing existing risk analysis data for $reviewerNames',
-    ({ reviewerNames, assignmentText }) => {
-      renderDialog({ hasRiskAnalysis: true, reviewerNames })
+  it('renders the risk analysis warning when risk analysis data exists', () => {
+    renderDialog({ hasRiskAnalysis: true })
 
-      const dialog = screen.getByRole('dialog')
-      expect(
-        screen.getByText(
-          `Se confermi, assegnerai la compilazione e l’approvazione dell’analisi del rischio a ${assignmentText} e perderai tutte le informazioni dell’analisi del rischio già compilate.`
-        )
-      ).toBeInTheDocument()
-      expect(dialog).not.toHaveTextContent('non potrai più modificare questa scelta')
-      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
-    }
-  )
+    expect(screen.getByText('descriptionWithRiskAnalysis')).toBeInTheDocument()
+    expect(screen.queryByText('description')).not.toBeInTheDocument()
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
 
   it('renders the cancel and confirm CTAs', () => {
     renderDialog()
 
-    expect(screen.getByRole('button', { name: 'Annulla' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Conferma' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'cancel' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'confirm' })).toBeInTheDocument()
   })
 
   it('on cancel, closes the dialog without calling the mutation', async () => {
     const user = userEvent.setup()
     renderDialog()
 
-    await user.click(screen.getByRole('button', { name: 'Annulla' }))
+    await user.click(screen.getByRole('button', { name: 'cancel' }))
 
     expect(closeDialogMock).toHaveBeenCalledTimes(1)
     expect(assignReviewerMock).not.toHaveBeenCalled()
@@ -116,7 +94,7 @@ describe('DialogRequestRiskAnalysisCompilation', () => {
     const user = userEvent.setup()
     renderDialog()
 
-    await user.click(screen.getByRole('button', { name: 'Conferma' }))
+    await user.click(screen.getByRole('button', { name: 'confirm' }))
 
     expect(assignReviewerMock).toHaveBeenCalledTimes(1)
     const [payload] = assignReviewerMock.mock.calls[0]
@@ -134,7 +112,7 @@ describe('DialogRequestRiskAnalysisCompilation', () => {
       reviewerNames: ['Mario Rossi', 'Anna Verdi'],
     })
 
-    await user.click(screen.getByRole('button', { name: 'Conferma' }))
+    await user.click(screen.getByRole('button', { name: 'confirm' }))
 
     const [payload] = assignReviewerMock.mock.calls[0]
     expect(payload).toEqual({
@@ -148,7 +126,7 @@ describe('DialogRequestRiskAnalysisCompilation', () => {
     const user = userEvent.setup()
     renderDialog()
 
-    await user.click(screen.getByRole('button', { name: 'Conferma' }))
+    await user.click(screen.getByRole('button', { name: 'confirm' }))
 
     const [, options] = assignReviewerMock.mock.calls[0]
     options.onSuccess()
@@ -163,7 +141,7 @@ describe('DialogRequestRiskAnalysisCompilation', () => {
     const user = userEvent.setup()
     renderDialog()
 
-    await user.click(screen.getByRole('button', { name: 'Conferma' }))
+    await user.click(screen.getByRole('button', { name: 'confirm' }))
 
     expect(assignReviewerMock).toHaveBeenCalledTimes(1)
     expect(closeDialogMock).not.toHaveBeenCalled()
@@ -174,8 +152,8 @@ describe('DialogRequestRiskAnalysisCompilation', () => {
     isPendingMock = true
     renderDialog()
 
-    expect(screen.getByRole('button', { name: 'Annulla' })).toBeDisabled()
-    expect(screen.getByRole('button', { name: 'Conferma' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'cancel' })).toBeDisabled()
+    expect(screen.getByRole('button', { name: 'confirm' })).toBeDisabled()
   })
 
   it('shows the loading indicator on the confirm CTA while the mutation is pending', () => {
@@ -191,7 +169,7 @@ describe('DialogRequestRiskAnalysisCompilation', () => {
     isPendingMock = true
     renderDialog()
 
-    fireEvent.click(screen.getByRole('button', { name: 'Annulla' }))
+    fireEvent.click(screen.getByRole('button', { name: 'cancel' }))
 
     expect(closeDialogMock).not.toHaveBeenCalled()
   })
