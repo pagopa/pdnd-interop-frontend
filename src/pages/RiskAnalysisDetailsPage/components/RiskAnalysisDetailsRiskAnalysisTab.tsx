@@ -26,10 +26,12 @@ export const RiskAnalysisDetailsRiskAnalysisTab: React.FC<
           signingState === 'SIGNED' ? t('riskAnalysisSection.signedSubtitle') : undefined
         }
       >
-        <InformationContainer
-          label={tEdit('personalDataFlag.label')}
-          content={tEdit(`personalDataFlag.content.${purpose.eservice.personalData}`)}
-        />
+        <Stack component="dl" spacing={3} sx={{ m: 0 }}>
+          <InformationContainer
+            label={tEdit('personalDataFlag.label')}
+            content={tEdit(`personalDataFlag.content.${purpose.eservice.personalData}`)}
+          />
+        </Stack>
       </SectionContainer>
       {purpose.riskAnalysisForm && (
         <PurposeRiskAnalysisInfoSummary purpose={purpose} innerSection={false} hideTitle />

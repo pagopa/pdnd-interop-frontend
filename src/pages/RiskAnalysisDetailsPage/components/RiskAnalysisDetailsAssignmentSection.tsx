@@ -59,7 +59,7 @@ export const RiskAnalysisDetailsAssignmentSection: React.FC<
 
   return (
     <SectionContainer title={t('assignmentSection.title')}>
-      <Stack spacing={3}>
+      <Stack component="dl" spacing={3} sx={{ m: 0 }}>
         {fields.map(({ label, content }) => (
           <InformationContainer key={label} label={label} content={content} />
         ))}

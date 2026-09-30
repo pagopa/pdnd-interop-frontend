@@ -67,7 +67,7 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
               <RiskAnalysisPurposeLoadEstimateSection purpose={purpose} />
               {isReviewer && (
                 <SectionContainer title={t('reviewersSection.label')}>
-                  <Stack spacing={3}>
+                  <Stack component="dl" spacing={3} sx={{ m: 0 }}>
                     <InformationContainer
                       label={t('reviewersSection.assignmentDate.label')}
                       content={assignmentDate}

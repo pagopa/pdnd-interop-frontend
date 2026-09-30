@@ -23,7 +23,7 @@ export const RiskAnalysisPurposeGeneralInfoSection: React.FC<
 
   return (
     <SectionContainer title={t('generalInfoSection.label')}>
-      <Stack spacing={3}>
+      <Stack component="dl" spacing={3} sx={{ m: 0 }}>
         <InformationContainer
           label={t('generalInfoSection.eService.label')}
           content={
@@ -77,7 +77,7 @@ export const RiskAnalysisPurposeLoadEstimateSection: React.FC<
 
   return (
     <SectionContainer title={t('loadEstimationSection.label')}>
-      <Stack spacing={3}>
+      <Stack component="dl" spacing={3} sx={{ m: 0 }}>
         <InformationContainer
           label={t('loadEstimationSection.dailyCalls.label')}
           content={`${purpose.currentVersion?.dailyCalls ?? purpose.waitingForApprovalVersion?.dailyCalls ?? 1}`}
