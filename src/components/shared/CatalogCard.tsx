@@ -15,10 +15,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 
-type CatalogRoutesKeys = Extract<
-  RouteKey,
-  'SUBSCRIBE_CATALOG_VIEW' | 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS'
->
+type CatalogRoutesKeys = Extract<RouteKey, 'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS'>
 type CatalogCardRouteParams<TRouteKey extends RouteKey> = ReturnType<typeof useParams<TRouteKey>>
 
 interface CatalogCardProps<TRouteKey extends CatalogRoutesKeys> {

@@ -2,11 +2,11 @@ import { Grid, Alert } from '@mui/material'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CatalogEService } from '@/api/api.generatedTypes'
-import { AVATAR_BASEPATH, STAGE } from '@/config/env'
 import { PREFETCH_STALE_TIME, SH_ESERVICES_TO_HIDE_TEMP } from '@/config/constants'
-import { useQueryClient } from '@tanstack/react-query'
 import { EServiceQueries } from '@/api/eservice'
-import { CatalogCard, CatalogCardSkeleton } from '@/components/shared/CatalogCard'
+import { EServiceCatalogCard, EServiceCatalogCardSkeleton } from '@/components/EServiceCatalogCard'
+import { queryClient } from '@/config/query-client'
+import { STAGE } from '@/config/env'
 
 type EServiceCatalogGridProps = { eservices: Array<CatalogEService> | undefined }
 
@@ -17,6 +17,14 @@ export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ eservi
 
   if (isEmpty) return <Alert severity="info">{t('noDataLabel')}</Alert>
 
+  const handlePrefetch = (eservice: CatalogEService) => {
+    if (!eservice.activeDescriptor) return
+    queryClient.prefetchQuery({
+      ...EServiceQueries.getDescriptorCatalog(eservice.id, eservice.activeDescriptor.id),
+      staleTime: PREFETCH_STALE_TIME,
+    })
+  }
+
   return (
     <Grid container spacing={3}>
       {eservices?.map((eservice) => (
@@ -25,44 +33,11 @@ export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ eservi
             key={eservice.activeDescriptor?.id}
             eservice={eservice}
             disabled={!!SH_ESERVICES_TO_HIDE_TEMP[STAGE]?.includes(eservice.id)}
+            prefetchFn={() => handlePrefetch(eservice)}
           />
         </Grid>
       ))}
     </Grid>
-  )
-}
-
-export const EServiceCatalogCard: React.FC<{ eservice: CatalogEService; disabled: boolean }> = ({
-  eservice,
-  disabled,
-}) => {
-  const queryClient = useQueryClient()
-
-  const { id: eServiceId, activeDescriptor } = eservice
-
-  const handlePrefetch = () => {
-    if (!activeDescriptor) return
-    queryClient.prefetchQuery({
-      ...EServiceQueries.getDescriptorCatalog(eServiceId, activeDescriptor.id),
-      staleTime: PREFETCH_STALE_TIME,
-    })
-  }
-  return (
-    <CatalogCard
-      key={eservice.id}
-      producerName={eservice.producer.name}
-      description={eservice.description}
-      avatarURL={
-        eservice.producer.selfcareId
-          ? `${AVATAR_BASEPATH}/institutions/${eservice.producer.selfcareId}/logo.png`
-          : undefined
-      }
-      title={eservice.name}
-      prefetchFn={handlePrefetch}
-      to="SUBSCRIBE_CATALOG_VIEW"
-      params={{ eserviceId: eservice.id, descriptorId: activeDescriptor?.id ?? '' }}
-      disabled={disabled}
-    />
   )
 }
 
@@ -71,7 +46,7 @@ export const EServiceCatalogGridSkeleton: React.FC = () => {
     <Grid container spacing={3}>
       {new Array(9).fill('').map((_, i) => (
         <Grid key={i} xs={12} sm={4} item>
-          <CatalogCardSkeleton />
+          <EServiceCatalogCardSkeleton />
         </Grid>
       ))}
     </Grid>
