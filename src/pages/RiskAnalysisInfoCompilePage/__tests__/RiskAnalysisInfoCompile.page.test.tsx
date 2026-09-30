@@ -4,12 +4,17 @@ import RiskAnalysisInfoCompilePage from '../RiskAnalysisInfoCompile.page'
 import { mockUseJwt, mockUseParams, renderWithApplicationContext } from '@/utils/testing.utils'
 import * as router from '@/router'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
+import { formatDateStringNumeric } from '@/utils/format.utils'
 
 mockUseParams({
   purposeId: 'purpose-id-001',
 })
 
 const mockNavigate = vi.fn()
+const reviewer1Id = 'reviewer-1-id'
+const reviewer2Id = 'reviewer-2-id'
+const reviewer1AssignmentDate = '2026-01-10T12:00:00.000Z'
+const reviewer2AssignmentDate = '2026-02-20T12:00:00.000Z'
 
 vi.spyOn(router, 'useNavigate').mockReturnValue(mockNavigate)
 
@@ -213,5 +218,63 @@ describe('RiskAnalysisInfoCompilePage', () => {
     fireEvent.click(button)
 
     expect(mockNavigate).not.toHaveBeenCalled()
+  })
+
+  it('should not show reviewers section when user is not reviewer', async () => {
+    const mockPurpose = createMockPurpose()
+
+    useQueryMock.mockReturnValue({
+      data: mockPurpose,
+      isLoading: false,
+    })
+    mockUseJwt({ isReviewer: false })
+
+    renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.queryByText('reviewersSection.assignmentDate.label')).not.toBeInTheDocument()
+    expect(screen.queryByText('reviewersSection.reviewers.label')).not.toBeInTheDocument()
+  })
+
+  it('should show reviewers section when user is reviewer', async () => {
+    const mockPurpose = createMockPurpose({
+      reviewerWorkflow: {
+        reviewers: [
+          {
+            userId: reviewer1Id,
+            name: 'Mario',
+            familyName: 'Rossi',
+            sentToReviewerAt: reviewer1AssignmentDate,
+          },
+          {
+            userId: reviewer2Id,
+            name: 'Luigi',
+            familyName: 'Verdi',
+            sentToReviewerAt: reviewer2AssignmentDate,
+          },
+        ],
+      },
+    })
+
+    useQueryMock.mockReturnValue({
+      data: mockPurpose,
+      isLoading: false,
+    })
+    mockUseJwt({ isReviewer: true, jwt: { uid: reviewer2Id } })
+
+    renderWithApplicationContext(<RiskAnalysisInfoCompilePage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.queryByText('reviewersSection.assignmentDate.label')).toBeInTheDocument()
+    expect(screen.queryByText('reviewersSection.reviewers.label')).toBeInTheDocument()
+    expect(screen.getByText(formatDateStringNumeric(reviewer2AssignmentDate))).toBeInTheDocument()
+    expect(
+      screen.queryByText(formatDateStringNumeric(reviewer1AssignmentDate))
+    ).not.toBeInTheDocument()
+    expect(screen.getByText('Mario Rossi, Luigi Verdi')).toBeInTheDocument()
   })
 })
