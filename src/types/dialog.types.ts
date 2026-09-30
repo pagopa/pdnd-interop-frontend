@@ -214,6 +214,7 @@ export type DialogRequestRiskAnalysisCompilationProps = {
   purposeId: string
   reviewerIds: string[]
   reviewerNames: string[]
+  hasRiskAnalysis: boolean
 }
 
 export type DialogEditRiskAnalysisAssignmentProps = {
