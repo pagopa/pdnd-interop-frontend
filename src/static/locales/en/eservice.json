@@ -619,7 +619,9 @@
         }
       }
     },
-    "disabledTooltip": "Test e-service archived from the catalog and not usable."
+    "disabledTooltip": "Test e-service archived from the catalog and not usable.",
+    "inspectCollection": "View collection",
+    "collectionBadge": "{{ count }} e-service"
   },
   "read": {
     "versionHeaderLabel": "Version",
