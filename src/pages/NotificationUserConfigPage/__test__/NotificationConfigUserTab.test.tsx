@@ -24,6 +24,8 @@ const inAppNotificationConfigMock: NotificationConfig = {
   delegationApprovedRejectedToDelegator: true, // 20
   eserviceNewVersionSubmittedToDelegator: true, // 21
   eserviceNewVersionApprovedRejectedToDelegate: true, // 22
+  eserviceArchivingRequestedToDelegator: true,
+  eserviceArchivingApprovedRejectedToDelegate: true,
   delegationSubmittedRevokedToDelegate: true, // 23
   certifiedVerifiedAttributeAssignedRevokedToAssignee: true, // 24
   purposeQuotaAdjustmentRequestToProducer: false,

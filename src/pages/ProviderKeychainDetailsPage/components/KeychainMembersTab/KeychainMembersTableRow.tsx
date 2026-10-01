@@ -9,6 +9,7 @@ import { AuthHooks } from '@/api/auth'
 import type { CompactUser } from '@/api/api.generatedTypes'
 import { useQueryClient } from '@tanstack/react-query'
 import { SelfcareQueries } from '@/api/selfcare'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { useGetProducerKeychainUserActions } from '../../hooks/useGetProducerKeychainUserActions'
 
 interface KeychainMembersTableRowProps {
@@ -27,7 +28,10 @@ export const KeychainMembersTableRow: React.FC<KeychainMembersTableRowProps> = (
   const { actions } = useGetProducerKeychainUserActions({ keychainId, userId: user.userId })
 
   const handlePrefetchOperator = () => {
-    queryClient.prefetchQuery(SelfcareQueries.getSingleUser(user.userId))
+    queryClient.prefetchQuery({
+      ...SelfcareQueries.getSingleUser(user.userId),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
 
   return (

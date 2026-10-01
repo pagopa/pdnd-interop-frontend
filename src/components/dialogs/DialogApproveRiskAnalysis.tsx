@@ -1,6 +1,7 @@
 import { PurposeMutations } from '@/api/purpose'
 import { useNavigate } from '@/router'
 import { useDialog } from '@/stores'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import type { DialogApproveRiskAnalysisProps } from '@/types/dialog.types'
 import {
   Button,
@@ -24,6 +25,7 @@ export const DialogApproveRiskAnalysis: React.FC<DialogApproveRiskAnalysisProps>
   const { closeDialog } = useDialog()
   const navigate = useNavigate()
   const { mutate: signRiskAnalysis, isPending } = PurposeMutations.useSignRiskAnalysis()
+  const isConfirmDisabled = useIsActionDisabledBySupport(isPending)
 
   const handleCloseDialog = () => {
     if (!isPending) {
@@ -61,7 +63,7 @@ export const DialogApproveRiskAnalysis: React.FC<DialogApproveRiskAnalysisProps>
         <Button type="button" variant="outlined" onClick={handleCloseDialog} disabled={isPending}>
           {t('actions.cancel')}
         </Button>
-        <Button variant="contained" onClick={onProceed} disabled={isPending}>
+        <Button variant="contained" onClick={onProceed} disabled={isConfirmDisabled}>
           {t('actions.confirm')}
         </Button>
       </DialogActions>

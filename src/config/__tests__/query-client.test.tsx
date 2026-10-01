@@ -4,19 +4,38 @@ import { useMutation } from '@tanstack/react-query'
 import { queryClient } from '../query-client'
 import { useDialogStore } from '@/stores'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
-import type { ConfirmationDialogMeta } from '@tanstack/react-query'
+import type { ConfirmationDialogMeta, MutationMeta } from '@tanstack/react-query'
+import type * as CommonUtils from '@/utils/common.utils'
+
+const { mockedSetExponentialInterval, mockedClearExponentialInterval } = vi.hoisted(() => ({
+  mockedSetExponentialInterval: vi.fn(() => 'active-queries-polling-interval-id'),
+  mockedClearExponentialInterval: vi.fn(),
+}))
+
+vi.mock('@/utils/common.utils', async () => {
+  const actual = await vi.importActual<typeof CommonUtils>('@/utils/common.utils')
+
+  return {
+    ...actual,
+    setExponentialInterval: mockedSetExponentialInterval,
+    clearExponentialInterval: mockedClearExponentialInterval,
+  }
+})
 
 const TestMutation = ({
   confirmationDialog,
   mutationFn,
+  meta,
 }: {
-  confirmationDialog: ConfirmationDialogMeta | Array<ConfirmationDialogMeta>
+  confirmationDialog?: ConfirmationDialogMeta | Array<ConfirmationDialogMeta>
   mutationFn: () => Promise<void>
+  meta?: MutationMeta
 }) => {
   const { mutate } = useMutation({
     mutationFn,
     meta: {
       confirmationDialog,
+      ...meta,
     },
   })
 
@@ -27,6 +46,8 @@ describe('queryClient confirmation dialogs', () => {
   beforeEach(() => {
     queryClient.clear()
     useDialogStore.setState({ dialog: null })
+    mockedSetExponentialInterval.mockClear()
+    mockedClearExponentialInterval.mockClear()
   })
 
   it('should wait for ordered confirmation dialogs before running the mutation', async () => {
@@ -74,6 +95,35 @@ describe('queryClient confirmation dialogs', () => {
     await user.click(confirmButton)
 
     await waitFor(() => expect(mutationFn).toHaveBeenCalledTimes(1))
+  })
+
+  it('should not request active queries polling when the mutation opts out', async () => {
+    const user = userEvent.setup()
+    const mutationFn = vi.fn().mockResolvedValue(undefined)
+
+    renderWithApplicationContext(
+      <TestMutation mutationFn={mutationFn} meta={{ skipActiveQueriesPolling: true }} />,
+      { withReactQueryContext: true }
+    )
+
+    await user.click(screen.getByRole('button', { name: 'submit' }))
+
+    await waitFor(() => expect(mutationFn).toHaveBeenCalledTimes(1))
+    expect(mockedSetExponentialInterval).not.toHaveBeenCalled()
+  })
+
+  it('should request active queries polling when the mutation does not opt out', async () => {
+    const user = userEvent.setup()
+    const mutationFn = vi.fn().mockResolvedValue(undefined)
+
+    renderWithApplicationContext(<TestMutation mutationFn={mutationFn} />, {
+      withReactQueryContext: true,
+    })
+
+    await user.click(screen.getByRole('button', { name: 'submit' }))
+
+    await waitFor(() => expect(mutationFn).toHaveBeenCalledTimes(1))
+    expect(mockedSetExponentialInterval).toHaveBeenCalledWith(expect.any(Function), 20 * 1000)
   })
 
   it('should not run the mutation when a confirmation dialog is cancelled', async () => {

@@ -41,7 +41,7 @@
       },
       "detailsSection": {
         "title": "E-service details",
-        "description": "This information has been pre-populated by the template creator and cannot be edited.",
+        "description": "This information cannot be edited.",
         "readOnlyDescription": "The following information is no longer editable.",
         "firstVersionOnlyEditableInfo": "This data will no longer be editable after the first version of the e-service is published.",
         "asyncExchangeField": {
@@ -628,6 +628,7 @@
       "versionRowLabel": "Version {{ version }}"
     },
     "scheduledArchivalTooltip": {
+      "status": "archiving",
       "descriptor": "Version scheduled for archival on {{ date }}",
       "eservice": "E-service scheduled for archival on {{ date }}"
     },
@@ -647,6 +648,22 @@
       "archivingSuspendedDescriptor": "This e-service version is being archived and is currently suspended. It will be automatically archived on {{date}}.",
       "archivedDescriptor": "This e-service version was archived on {{date}}.",
       "archivedDescriptorNoConsumers": "This version is archived. No consumer can access the data provided.",
+      "delegatedDescriptorArchivingRequest": "On {{date}} you requested archiving of this e-service version to the delegating institution. The delegating institution can approve or reject it with a reason.",
+      "delegatedDescriptorArchivingRequestRejected": "The delegating institution rejected the archiving request for this e-service version. Read the reason or contact the delegating institution. You can request archiving of the version again at any time.",
+      "delegatedDescriptorArchivingRequestRejectedAction": "Read reason",
+      "delegatedDescriptorArchivingRequestRejectedDrawerTitle": "Archiving request rejection",
+      "delegatedDescriptorArchivingRequestRejectedDrawerSubtitle": "The delegating institution {{name}} rejected the archiving request with this reason.",
+      "delegatedDescriptorArchivingRequestRejectedDrawerAction": "Close",
+      "delegatedEServiceArchivingRequest": "On {{date}} you requested archiving of the e-service to the delegating institution. The delegating institution can approve or reject it with a reason.",
+      "delegatedEServiceArchivingRequestRejected": "The delegating institution rejected the archiving request for the e-service. Read the reason or contact the delegating institution. You can request archiving of this e-service again at any time.",
+      "delegatedEServiceArchivingRequestRejectedAction": "Read reason",
+      "delegatedEServiceArchivingRequestRejectedDrawerTitle": "Archiving request rejection",
+      "delegatedEServiceArchivingRequestRejectedDrawerSubtitle": "The delegating institution {{name}} rejected the archiving request with this reason.",
+      "delegatedEServiceArchivingRequestRejectedDrawerAction": "Close",
+      "delegatorDeprecatedDescriptorArchivingRequest": "The delegated entity {{entity}} has requested the archiving of an obsolete version of this e-service.",
+      "delegatorDescriptorArchivingRequest": "On {{date}}, the delegated entity {{entity}} requested archiving of this version of the e-service. You can approve the request and archive the version or reject it with a reason.",
+      "delegatorEServiceArchivingRequest": "On {{date}}, the delegated entity {{entity}} requested archiving of the e-service. You can approve the request and archive the e-service or reject it with a reason.",
+      "delegatorArchivingRequestAction": "View request",
       "archivingSuspendedEService": "This version is currently suspended. The e-service is being archived and will be automatically archived on {{date}}.",
       "archivedEService": "This e-service was permanently archived on {{date}}.",
       "missingProducerKeychain": "The producer has not linked the keychain to this async e-service yet. Data exchange is currently unavailable.",
@@ -693,7 +710,38 @@
       },
       "proceedLabel": "Reactivate"
     },
+    "dialogBlockArchivingRequest": {
+      "title": "An archiving request already exists",
+      "description": "Only one archiving request at a time can be sent for the same e-service.\nIf you want to send a new one, you must first cancel the existing request.",
+      "actions": {
+        "goBack": "Go back"
+      }
+    },
+    "dialogConfirmArchivingDelegated": {
+      "eservice": {
+        "title": "Archive e-service",
+        "firstParagraph": "The delegated entity {{entity}} has requested the e-service archiving.",
+        "secondParagraph": "If you approve the request, archiving will take place on {{date}}. Before this date, the e-service will remain active to allow users to adapt. You can cancel archiving only before this date."
+      },
+      "version": {
+        "title": "Archive version",
+        "firstParagraph": "The delegated entity {{entity}} has requested archiving of this version of the e-service.",
+        "secondParagraph": "If you approve the request, archiving will take place on {{date}}. Before this date, the version will remain active to allow users to adapt. You can cancel archiving only before this date."
+      },
+      "alert": "Actual archiving may require additional technical time as users continue to exchange data. See <1>documentation</1> for further details.",
+      "confirm": "Archive",
+      "cancel": "Cancel"
+    },
+    "dialogRejectArchivingDelegated": {
+      "title": "Reject archiving request",
+      "paragraph": "The delegated entity {{entity}} will be informed of the reject reason.",
+      "fieldLabel": "Reject reason",
+      "fieldInfoLabel": "Explain why you chose to decline the e-service archiving request. Min 10 characters, max 250 characters",
+      "confirm": "Reject request",
+      "cancel": "Back"
+    },
     "actions": {
+      "goBack": "Go back",
       "backToListLabel": "Back to the e-services",
       "backToCatalogLabel": "Back to the catalog",
       "suspendVersion": "Suspend version",
@@ -728,6 +776,9 @@
         "eserviceTemplateName": {
           "label": "Template reference"
         },
+        "eserviceTemplateInUse": {
+          "label": "Template in use"
+        },
         "eserviceName": {
           "label": "E-service name"
         },
@@ -761,6 +812,25 @@
           }
         },
         "consumerListFileName": "{{timestamp}}-consumers-list-{{eserviceName}}.csv",
+        "delegationSection": {
+          "title": "Fruition via delegation",
+          "isConsumerDelegable": {
+            "label": "Authorization",
+            "value": {
+              "true": "Yes",
+              "false": "No",
+              "undefined": "No"
+            }
+          },
+          "isClientAccessDelegable": {
+            "label": "Authorization for client association",
+            "value": {
+              "true": "Yes",
+              "false": "No",
+              "undefined": "No"
+            }
+          }
+        },
         "bottomActions": {
           "showTechnicalDetails": "Show e-service technical details",
           "showAsyncExchangeDetails": "Show asynchronous exchange details",
@@ -1193,6 +1263,22 @@
           "checkboxLabel": "I authorize delegates to associate their clients with the purposes they have created as delegates for access. See the <1>documentation</1> for more details"
         },
         "alert": "Before proceeding, make sure that the preference has been approved by at least one administrator in your organization."
+      },
+      "delegatedEServiceArchivingRequestDrawer": {
+        "title": "Archiving request",
+        "firstParagraph": "The delegated entity has requested archiving of the e-service with this message.",
+        "secondParagraph": "If you continue, you will see the date and archiving details.",
+        "thirdParagraph": "If you refuse the request, you will need to share the reason with the designated entity.",
+        "archiveAction": "Continue with archiving",
+        "rejectAction": "Reject"
+      },
+      "delegatedEServiceDescriptorArchivingRequestDrawer": {
+        "title": "Archiving request",
+        "firstParagraph": "The delegated entity has requested the archiving of this version of the e-service.",
+        "secondParagraph": "If you continue, you will see the date and archiving details.",
+        "thirdParagraph": "If you refuse the request, you will need to share the reason with the designated entity.",
+        "archiveAction": "Continue with archiving",
+        "rejectAction": "Reject"
       }
     }
   },

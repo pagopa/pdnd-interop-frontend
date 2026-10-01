@@ -5,6 +5,7 @@ import type { CatalogEServiceTemplate } from '@/api/api.generatedTypes'
 import { CatalogCard } from '@/components/shared/CatalogCard'
 import { useQueryClient } from '@tanstack/react-query'
 import { EServiceTemplateQueries } from '@/api/eserviceTemplate'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import { AVATAR_BASEPATH } from '@/config/env'
 
 type EServiceTemplateCatalogGridProps = {
@@ -40,9 +41,10 @@ export const EServiceTemplateCatalogCard: React.FC<{
 
   const handlePrefetch = () => {
     if (!eserviceTemplate.publishedVersion.id) return
-    queryClient.prefetchQuery(
-      EServiceTemplateQueries.getSingle(publishedVersion.id, eServiceTemplateVersionId)
-    )
+    queryClient.prefetchQuery({
+      ...EServiceTemplateQueries.getSingle(publishedVersion.id, eServiceTemplateVersionId),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
   return (
     <CatalogCard

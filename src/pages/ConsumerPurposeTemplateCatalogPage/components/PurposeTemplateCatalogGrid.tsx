@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import type { CatalogPurposeTemplate } from '@/api/api.generatedTypes'
 import { useQueryClient } from '@tanstack/react-query'
 import { PurposeTemplateQueries } from '@/api/purposeTemplate/purposeTemplate.queries'
+import { PREFETCH_STALE_TIME } from '@/config/constants'
 import {
   CatalogCardForPurposeTemplate,
   CatalogCardForPurposeTemplateSkeleton,
@@ -46,7 +47,10 @@ export const PurposeTemplateCatalogCard: React.FC<{
 
   const handlePrefetch = () => {
     if (!purposeTemplate) return
-    queryClient.prefetchQuery(PurposeTemplateQueries.getSingle(purposeTemplateId))
+    queryClient.prefetchQuery({
+      ...PurposeTemplateQueries.getSingle(purposeTemplateId),
+      staleTime: PREFETCH_STALE_TIME,
+    })
   }
   return (
     <CatalogCardForPurposeTemplate

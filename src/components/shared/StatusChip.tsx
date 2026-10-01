@@ -178,83 +178,96 @@ function getAgreementChipState(
 export const StatusChip: React.FC<StatusChipProps> = (props) => {
   const { t } = useTranslation('common')
 
-  let color: MUIColor = 'primary'
-  let label = ''
+  // Extra `ChipProps` (size, sx, onClick, …) forwarded to the rendered `Chip` for the
+  // single-chip variants; the discriminant and variant-specific fields are stripped out.
+  const chipProps = omit(props, [
+    'for',
+    'state',
+    'agreement',
+    'purpose',
+    'isActiveDescriptor',
+    'isDraftToCorrect',
+    'attributeKey',
+  ])
 
-  if (props.for === 'eservice') {
-    const remappedState: EServiceDescriptorState = match(props.state)
-      .with('ARCHIVING', () => 'PUBLISHED' as const)
-      .with('ARCHIVING_SUSPENDED', () => 'SUSPENDED' as const)
-      .otherwise((state) => state)
-
-    color = props.isDraftToCorrect ? 'warning' : chipColors['eservice'][remappedState]
-    label = props.isDraftToCorrect
-      ? t('status.eservice.DRAFT_TO_CORRECT')
-      : t(`status.eservice.${remappedState}`)
-  }
-
-  if (props.for === 'descriptor') {
-    const isActiveDescriptorBeingArchived =
-      props.isActiveDescriptor && isDescriptorPendingArchiving(props.state)
-
-    const remappedState: EServiceDescriptorState = match({
-      state: props.state,
-      isActiveDescriptorBeingArchived,
-    })
-      .with({ isActiveDescriptorBeingArchived: false }, ({ state }) => state)
-      .with({ state: 'ARCHIVING' }, () => 'PUBLISHED' as const)
-      .otherwise(() => 'SUSPENDED' as const)
-
-    color = chipColors['descriptor'][remappedState]
-    label = t(`status.descriptor.${remappedState}`)
-  }
-
-  if (props.for === 'agreement') {
-    return (
+  return match(props)
+    .with({ for: 'agreement' }, ({ agreement }) => (
       <Stack direction="row" spacing={1}>
-        {getAgreementChipState(props.agreement, t).map(({ label, color }, i) => (
+        {getAgreementChipState(agreement, t).map(({ label, color }, i) => (
           <Chip size="small" key={i} label={label} color={color} />
         ))}
       </Stack>
-    )
-  }
+    ))
+    .with({ for: 'purpose' }, ({ purpose }) => <PurposeStatusChip purpose={purpose} />)
+    .with({ for: 'eservice' }, (p) => {
+      const remappedState: EServiceDescriptorState = match(p.state)
+        .with('ARCHIVING', () => 'PUBLISHED' as const)
+        .with('ARCHIVING_SUSPENDED', () => 'SUSPENDED' as const)
+        .otherwise((state) => state)
 
-  if (props.for === 'purpose') {
-    return <PurposeStatusChip purpose={props.purpose} />
-  }
+      const color = p.isDraftToCorrect ? 'warning' : chipColors.eservice[remappedState]
+      const label = p.isDraftToCorrect
+        ? t('status.eservice.DRAFT_TO_CORRECT')
+        : t(`status.eservice.${remappedState}`)
 
-  if (props.for === 'delegation') {
-    color = chipColors['delegation'][props.state]
-    label = t(`status.delegation.${props.state}`)
-  }
+      return <Chip label={label} color={color} {...chipProps} />
+    })
+    .with({ for: 'descriptor' }, (p) => {
+      const isActiveDescriptorBeingArchived =
+        p.isActiveDescriptor && isDescriptorPendingArchiving(p.state)
 
-  if (props.for === 'eserviceTemplate') {
-    color = chipColors['eserviceTemplate'][props.state]
-    label = t(`status.eserviceTemplate.${props.state}`)
-  }
+      const remappedState: EServiceDescriptorState = match({
+        state: p.state,
+        isActiveDescriptorBeingArchived,
+      })
+        .with({ isActiveDescriptorBeingArchived: false }, ({ state }) => state)
+        .with({ state: 'ARCHIVING' }, () => 'PUBLISHED' as const)
+        .otherwise(() => 'SUSPENDED' as const)
 
-  if (props.for === 'purposeTemplate') {
-    color = chipColors['purposeTemplate'][props.state]
-    label = t(`status.purposeTemplate.${props.state}`)
-  }
-
-  if (props.for === 'riskAnalysis') {
-    color = chipColors['riskAnalysis'][props.state]
-    label = t(`status.riskAnalysis.${props.state}`)
-  }
-
-  if (props.for === 'riskAnalysisList') {
-    color = chipColors['riskAnalysisList'][props.state]
-    label = t(`status.riskAnalysisList.${props.state}`)
-  }
-
-  return (
-    <Chip
-      label={label}
-      color={color}
-      {...omit(props, ['for', 'state', 'agreement', 'attributeKey', 'isActiveDescriptor'])}
-    />
-  )
+      return (
+        <Chip
+          label={t(`status.descriptor.${remappedState}`)}
+          color={chipColors.descriptor[remappedState]}
+          {...chipProps}
+        />
+      )
+    })
+    .with({ for: 'delegation' }, (p) => (
+      <Chip
+        label={t(`status.delegation.${p.state}`)}
+        color={chipColors.delegation[p.state]}
+        {...chipProps}
+      />
+    ))
+    .with({ for: 'eserviceTemplate' }, (p) => (
+      <Chip
+        label={t(`status.eserviceTemplate.${p.state}`)}
+        color={chipColors.eserviceTemplate[p.state]}
+        {...chipProps}
+      />
+    ))
+    .with({ for: 'purposeTemplate' }, (p) => (
+      <Chip
+        label={t(`status.purposeTemplate.${p.state}`)}
+        color={chipColors.purposeTemplate[p.state]}
+        {...chipProps}
+      />
+    ))
+    .with({ for: 'riskAnalysis' }, (p) => (
+      <Chip
+        label={t(`status.riskAnalysis.${p.state}`)}
+        color={chipColors.riskAnalysis[p.state]}
+        {...chipProps}
+      />
+    ))
+    .with({ for: 'riskAnalysisList' }, (p) => (
+      <Chip
+        label={t(`status.riskAnalysisList.${p.state}`)}
+        color={chipColors.riskAnalysisList[p.state]}
+        {...chipProps}
+      />
+    ))
+    .exhaustive()
 }
 
 const PurposeStatusChip: React.FC<{ purpose: Purpose }> = ({ purpose }) => {
