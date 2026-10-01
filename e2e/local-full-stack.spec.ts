@@ -1,8 +1,11 @@
 import { expect, test } from '@playwright/test'
 
-test('publishes the frontend instead of an internal backend endpoint', async ({ request }) => {
+test('publishes the frontend instead of an internal backend endpoint', async ({
+  request,
+  baseURL,
+}) => {
   const publicFrontendUrl =
-    process.env.PLAYWRIGHT_PUBLIC_FRONTEND_URL ?? 'http://host.docker.internal:3000/ui/it/'
+    process.env.PLAYWRIGHT_PUBLIC_FRONTEND_URL ?? new URL('/ui/it/', baseURL).toString()
   const response = await request.get(publicFrontendUrl)
   const body = await response.text()
 
