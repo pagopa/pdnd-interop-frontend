@@ -115,4 +115,23 @@ describe('DialogRequestPurposeApproval', () => {
     expect(onConfirm).toHaveBeenCalledTimes(1)
     expect(closeDialogMock).toHaveBeenCalledTimes(1)
   })
+
+  it('shows an unavailable-name fallback for every unnamed reviewer and retains the count', () => {
+    render(
+      <DialogRequestPurposeApproval
+        {...defaultProps}
+        reviewers={[
+          { userId: 'reviewer-2', name: '', familyName: '' },
+          ...defaultProps.reviewers,
+          { userId: 'reviewer-3', name: '  ', familyName: '\t' },
+        ]}
+      />
+    )
+
+    expect(
+      screen.getByText(
+        'edit.stepRiskAnalysis.requestApprovalDialog.description(reviewerNames=reviewerUnknown, Mario Rossi, reviewerUnknown,count=3)'
+      )
+    ).toBeInTheDocument()
+  })
 })

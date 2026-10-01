@@ -11,6 +11,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { useDialog } from '@/stores'
 import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import type { DialogRequestPurposeApprovalProps } from '@/types/dialog.types'
+import { getReviewerNames } from '@/utils/purpose.utils'
 
 export const DialogRequestPurposeApproval: React.FC<DialogRequestPurposeApprovalProps> = ({
   reviewers,
@@ -24,11 +25,9 @@ export const DialogRequestPurposeApproval: React.FC<DialogRequestPurposeApproval
   const { t } = useTranslation('purpose', {
     keyPrefix: 'edit.stepRiskAnalysis.requestApprovalDialog',
   })
-  const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
+  const { t: tCommon } = useTranslation('common')
 
-  const reviewerNames = reviewers
-    .map(({ name, familyName }) => `${name} ${familyName}`.trim())
-    .join(', ')
+  const reviewerNames = getReviewerNames(reviewers, tCommon('reviewerUnknown')).join(', ')
 
   const handleConfirm = () => {
     onConfirm()
@@ -59,7 +58,7 @@ export const DialogRequestPurposeApproval: React.FC<DialogRequestPurposeApproval
 
       <DialogActions>
         <Button variant="outlined" onClick={closeDialog}>
-          {tCommon('cancel')}
+          {tCommon('actions.cancel')}
         </Button>
         <Button variant="contained" disabled={isConfirmDisabled} onClick={handleConfirm}>
           {t('proceedLabel')}
