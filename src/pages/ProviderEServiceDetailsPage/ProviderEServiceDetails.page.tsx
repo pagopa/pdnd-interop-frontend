@@ -71,6 +71,10 @@ const ProviderEServiceDetailsPage: React.FC = () => {
 
   const hasMultipleVersions = (descriptor?.eservice.descriptors?.length ?? 0) > 1
 
+  const isEServiceArchived = descriptor?.eservice.descriptors.every(
+    (descriptor) => descriptor.state === 'ARCHIVED'
+  )
+
   const { primaryAction, secondaryAction, menuActions, headerInfoActions } =
     useGetProviderEServiceActions(
       eserviceId,
@@ -90,7 +94,8 @@ const ProviderEServiceDetailsPage: React.FC = () => {
       hasMultipleVersions ? openVersionSelectorDrawer : undefined,
       isActiveDescriptor,
       isEServiceBeingArchived,
-      descriptor?.eservice.delegatedArchivingRequest
+      descriptor?.eservice.delegatedArchivingRequest,
+      isEServiceArchived
     )
 
   return (
@@ -145,7 +150,7 @@ const ProviderEServiceDetailsPage: React.FC = () => {
         descriptor={descriptor}
         onViewKeychains={canViewKeychains ? handleViewKeychains : undefined}
       />
-      <ProviderEServiceDelegatorArchivingAlert descriptor={descriptor} />
+      {!isViewer && <ProviderEServiceDelegatorArchivingAlert descriptor={descriptor} />}
       {!isViewer ? (
         <TabContext value={selectedTab}>
           <TabList onChange={updateActiveTab} aria-label={t('tabs.ariaLabel')} variant="fullWidth">
