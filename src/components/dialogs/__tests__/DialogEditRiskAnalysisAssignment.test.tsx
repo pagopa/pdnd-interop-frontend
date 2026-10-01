@@ -1,8 +1,9 @@
-import { screen } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { DialogEditRiskAnalysisAssignment } from '../DialogEditRiskAnalysisAssignment'
 import { renderWithApplicationContext } from '@/utils/testing.utils'
+import { SupportActionGuardProvider } from '@/hooks/useIsActionDisabledBySupport'
 import type { RiskAnalysisReviewMode } from '@/api/api.generatedTypes'
 
 const closeDialogMock = vi.fn()
@@ -160,6 +161,31 @@ describe('DialogEditRiskAnalysisAssignment', () => {
     await user.click(screen.getByRole('button', { name: 'confirm' }))
 
     expect(onConfirmMock).toHaveBeenCalledTimes(1)
+    expect(closeDialogMock).toHaveBeenCalledTimes(1)
+  })
+
+  it('disables confirmation for support users while allowing cancellation', async () => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(
+      <SupportActionGuardProvider isSupport>
+        <DialogEditRiskAnalysisAssignment {...defaultProps} />
+      </SupportActionGuardProvider>,
+      { withReactQueryContext: true }
+    )
+
+    const confirmButton = screen.getByRole('button', { name: 'confirm' })
+    expect(confirmButton).toBeDisabled()
+
+    fireEvent.click(confirmButton)
+
+    expect(onConfirmMock).not.toHaveBeenCalled()
+    expect(closeDialogMock).not.toHaveBeenCalled()
+
+    const cancelButton = screen.getByRole('button', { name: 'cancel' })
+    expect(cancelButton).toBeEnabled()
+
+    await user.click(cancelButton)
+
     expect(closeDialogMock).toHaveBeenCalledTimes(1)
   })
 

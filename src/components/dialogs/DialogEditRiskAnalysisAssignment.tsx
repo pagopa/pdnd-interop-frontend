@@ -11,6 +11,7 @@ import {
 import { useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
 import { useDialog } from '@/stores'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import type { RiskAnalysisReviewMode } from '@/api/api.generatedTypes'
 import type { DialogEditRiskAnalysisAssignmentProps } from '@/types/dialog.types'
 
@@ -43,6 +44,7 @@ export const DialogEditRiskAnalysisAssignment: React.FC<DialogEditRiskAnalysisAs
   const ariaDescriptionId = React.useId()
 
   const { closeDialog } = useDialog()
+  const isConfirmDisabled = useIsActionDisabledBySupport()
   const { t } = useTranslation('purpose', { keyPrefix: 'edit.stepAssignment' })
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
 
@@ -121,7 +123,7 @@ export const DialogEditRiskAnalysisAssignment: React.FC<DialogEditRiskAnalysisAs
         <Button variant="outlined" onClick={closeDialog}>
           {tCommon('cancel')}
         </Button>
-        <Button variant="contained" onClick={handleConfirm}>
+        <Button variant="contained" disabled={isConfirmDisabled} onClick={handleConfirm}>
           {tCommon('confirm')}
         </Button>
       </DialogActions>
