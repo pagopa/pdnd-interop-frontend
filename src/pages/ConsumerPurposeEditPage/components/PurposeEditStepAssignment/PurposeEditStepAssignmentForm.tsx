@@ -311,12 +311,13 @@ const PurposeEditStepAssignmentForm: React.FC<PurposeEditStepAssignmentFormProps
                             variant="default"
                             severity="warning"
                             title={t('reviewerField.partiallyRemovedWarningTitle')}
-                            description={t('reviewerField.partiallyRemovedWarningLabel')}
                             action={{
                               label: t('reviewerField.dismissButtonLabel'),
                               onClick: () => setShowPartiallyRemovedReviewersAlert(false),
                             }}
-                          />
+                          >
+                            {t('reviewerField.partiallyRemovedWarningLabel')}
+                          </MIAlert>
                         </Box>
                       )}
                   </Box>

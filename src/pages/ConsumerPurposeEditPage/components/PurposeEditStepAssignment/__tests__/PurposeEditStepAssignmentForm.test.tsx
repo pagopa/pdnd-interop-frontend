@@ -683,6 +683,7 @@ describe('PurposeEditStepAssignmentForm', () => {
       expect(
         await screen.findByText('reviewerField.partiallyRemovedWarningTitle')
       ).toBeInTheDocument()
+      expect(screen.getByText('reviewerField.partiallyRemovedWarningLabel')).toBeInTheDocument()
 
       expect(screen.queryByText('reviewerField.removedError')).not.toBeInTheDocument()
       expect(assignReviewerMock).not.toHaveBeenCalled()

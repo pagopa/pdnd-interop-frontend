@@ -1,6 +1,7 @@
 import { ClientMutations } from '@/api/client'
 import { clientKeyGuideLink } from '@/config/constants'
 import { useDialog } from '@/stores'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import type { DialogRemoveOperatorFromClientProps } from '@/types/dialog.types'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Link } from '@mui/material'
 import React from 'react'
@@ -13,6 +14,7 @@ export const DialogRemoveOperatorFromClient: React.FC<DialogRemoveOperatorFromCl
   const ariaLabelId = React.useId()
   const ariaDescriptionId = React.useId()
   const { closeDialog } = useDialog()
+  const isConfirmDisabled = useIsActionDisabledBySupport()
   const { t: tCommon } = useTranslation('common', { keyPrefix: 'actions' })
   const { t } = useTranslation('shared-components', { keyPrefix: 'dialogRemoveOperatorFromClient' })
   const { mutate: removeOperatorFromClient } = ClientMutations.useRemoveOperator()
@@ -51,7 +53,7 @@ export const DialogRemoveOperatorFromClient: React.FC<DialogRemoveOperatorFromCl
         <Button variant="outlined" onClick={handleCancel}>
           {tCommon('cancel')}
         </Button>
-        <Button variant="contained" onClick={handleProceed}>
+        <Button variant="contained" disabled={isConfirmDisabled} onClick={handleProceed}>
           {tCommon('confirm')}
         </Button>
       </DialogActions>

@@ -1,5 +1,6 @@
 import { DelegationMutations } from '@/api/delegation'
 import { useDialog } from '@/stores'
+import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
 import type { DialogAcceptDelegationProps } from '@/types/dialog.types'
 import {
   Button,
@@ -37,6 +38,7 @@ export const DialogAcceptDelegation: React.FC<DialogAcceptDelegationProps> = ({
     .exhaustive()
 
   const [isConfirmCheckboxChecked, setIsConfirmCheckboxChecked] = React.useState<boolean>(false)
+  const isConfirmDisabled = useIsActionDisabledBySupport(!isConfirmCheckboxChecked)
 
   const handleCheckBoxChange = () => {
     setIsConfirmCheckboxChecked((prev) => {
@@ -74,7 +76,7 @@ export const DialogAcceptDelegation: React.FC<DialogAcceptDelegationProps> = ({
         <Button type="button" variant="outlined" onClick={closeDialog}>
           {tCommon('cancel')}
         </Button>
-        <Button variant="contained" disabled={!isConfirmCheckboxChecked} onClick={handleAccept}>
+        <Button variant="contained" disabled={isConfirmDisabled} onClick={handleAccept}>
           {t('actions.accept')}
         </Button>
       </DialogActions>

@@ -78,6 +78,7 @@
       "userName": "First and last name",
       "certifiedAttributes": "Certified attributes",
       "assigneeTenant": "Assigned party",
+      "certifiedDiscreteAttributeValue": "Value",
       "certifiedAttribute": "Certified attribute",
       "keychain": "Keychain",
       "delegationKind": "Delegation for",
@@ -206,5 +207,8 @@
     "EQ": "Equal to",
     "NE": "Not equal to"
   },
-  "reviewerUnknown": "Reviewer not available"
+  "reviewerUnknown": "Reviewer not available",
+  "ariaLabels": {
+    "downloadDocument": "Download document {{name}}"
+  }
 }

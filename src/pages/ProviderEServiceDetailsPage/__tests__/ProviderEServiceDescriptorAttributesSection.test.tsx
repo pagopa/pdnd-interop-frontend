@@ -1,4 +1,5 @@
 import { screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { ProviderEServiceDescriptorAttributesSection } from '../components/ProviderEServiceDetailsTab/ProviderEServiceDescriptorAttributesSection'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
@@ -40,12 +41,17 @@ const descriptorMock = {
   },
 }
 
+let isTemplateInstance = false
+
 vi.mock('@tanstack/react-query', async () => {
   const actual = (await vi.importActual('@tanstack/react-query')) as Record<string, unknown>
   return {
     ...actual,
     useSuspenseQuery: () => ({
-      data: descriptorMock,
+      data: {
+        ...descriptorMock,
+        templateRef: isTemplateInstance ? { templateVersionId: 'template-version-id' } : undefined,
+      },
     }),
   }
 })
@@ -78,6 +84,8 @@ vi.mock('../components', () => ({
 describe('ProviderEServiceDescriptorAttributesSection', () => {
   beforeEach(() => {
     vi.clearAllMocks()
+    isTemplateInstance = false
+    mockUseJwt({ currentRoles: ['admin'], isAdmin: true, isViewer: false })
   })
 
   it('renders thresholds correctly', () => {
@@ -98,11 +106,66 @@ describe('ProviderEServiceDescriptorAttributesSection', () => {
     expect(screen.getByText('modify')).toBeInTheDocument()
   })
 
-  it('hides the threshold edit action for viewer users', () => {
+  it('hides the threshold actions for viewer users', async () => {
+    const user = userEvent.setup()
     mockUseJwt({ isAdmin: false, isViewer: true })
     renderWithApplicationContext(<ProviderEServiceDescriptorAttributesSection />, {
       withReactQueryContext: true,
     })
     expect(screen.queryByText('modify')).not.toBeInTheDocument()
+
+    await user.click(screen.getByLabelText('iconButtonAriaLabel'))
+    expect(
+      screen.queryByRole('menuitem', { name: 'actions.removeThreshold' })
+    ).not.toBeInTheDocument()
+  })
+
+  it('removes a customized threshold after confirmation', async () => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(<ProviderEServiceDescriptorAttributesSection />, {
+      withReactQueryContext: true,
+    })
+
+    await user.click(screen.getByLabelText('iconButtonAriaLabel'))
+    await user.click(screen.getByRole('menuitem', { name: 'actions.removeThreshold' }))
+
+    expect(screen.getByRole('dialog', { name: 'title' })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'confirm' }))
+
+    expect(useUpdateVersion).toHaveBeenCalledOnce()
+    expect(useUpdateVersion.mock.calls[0][0].attributes.certified[0][0]).toEqual(
+      expect.objectContaining({ dailyCallsPerConsumer: undefined })
+    )
+  })
+
+  it('removes a customized threshold from a template instance', async () => {
+    const user = userEvent.setup()
+    isTemplateInstance = true
+    renderWithApplicationContext(<ProviderEServiceDescriptorAttributesSection />, {
+      withReactQueryContext: true,
+    })
+
+    await user.click(screen.getByLabelText('iconButtonAriaLabel'))
+    await user.click(screen.getByRole('menuitem', { name: 'actions.removeThreshold' }))
+    await user.click(screen.getByRole('button', { name: 'confirm' }))
+
+    expect(useUpdateInstanceVersion).toHaveBeenCalledOnce()
+    expect(useUpdateInstanceVersion.mock.calls[0][0].attributes.certified[0][0]).toEqual(
+      expect.objectContaining({ dailyCallsPerConsumer: undefined })
+    )
+  })
+
+  it('does not remove a customized threshold when confirmation is cancelled', async () => {
+    const user = userEvent.setup()
+    renderWithApplicationContext(<ProviderEServiceDescriptorAttributesSection />, {
+      withReactQueryContext: true,
+    })
+
+    await user.click(screen.getByLabelText('iconButtonAriaLabel'))
+    await user.click(screen.getByRole('menuitem', { name: 'actions.removeThreshold' }))
+    await user.click(screen.getByRole('button', { name: 'cancel' }))
+
+    expect(useUpdateVersion).not.toHaveBeenCalled()
+    expect(useUpdateInstanceVersion).not.toHaveBeenCalled()
   })
 })

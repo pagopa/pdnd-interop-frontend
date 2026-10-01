@@ -1,6 +1,6 @@
 import React from 'react'
 import { StatusChip, StatusChipSkeleton } from '@/components/shared/StatusChip'
-import { Box, Skeleton, Stack, Typography } from '@mui/material'
+import { Box, Chip, Skeleton, Stack, Tooltip, Typography } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { Link } from '@/router'
 import { ActionMenu, ActionMenuSkeleton } from '@/components/shared/ActionMenu'
@@ -13,7 +13,8 @@ import type { EServiceDescriptorState, ProducerEService } from '@/api/api.genera
 import { AuthHooks } from '@/api/auth'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { NotificationBadgeDot } from '@/components/shared/NotificationBadgeDot/NotificationBadgeDot'
-import { DelegationTooltip } from '@/components/shared/DelegationTooltip'
+import { ByDelegationChip } from '@/components/shared/ByDelegationChip'
+import { formatDateStringNumeric } from '@/utils/format.utils'
 
 type EServiceTableRow = {
   eservice: ProducerEService
@@ -21,6 +22,9 @@ type EServiceTableRow = {
 
 export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
   const { t } = useTranslation('common')
+  const { t: tEservice } = useTranslation('eservice', {
+    keyPrefix: 'read.scheduledArchivalTooltip',
+  })
   const { isAdmin, isOperatorAPI, jwt } = AuthHooks.useJwt()
 
   const queryClient = useQueryClient()
@@ -83,7 +87,7 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
           <Stack direction="row" alignItems={'center'} spacing={1}>
             {eservice.hasUnreadNotifications && <NotificationBadgeDot />}
             <Typography variant="body2">{eservice.name}</Typography>
-            {eservice.delegation && <DelegationTooltip delegation={eservice.delegation} />}
+            {eservice.delegation && <ByDelegationChip delegation={eservice.delegation} />}
           </Stack>
         ) : (
           <Stack direction="row" alignItems="center">
@@ -96,6 +100,18 @@ export const EServiceTableRow: React.FC<EServiceTableRow> = ({ eservice }) => {
           {eservice?.activeDescriptor && (
             <StatusChip for="eservice" state={eservice.activeDescriptor.state} />
           )}
+          {eservice?.activeDescriptor &&
+            (eservice.activeDescriptor.state === 'ARCHIVING' ||
+              eservice.activeDescriptor.state === 'ARCHIVING_SUSPENDED') &&
+            eservice.activeDescriptor.archivableOn && (
+              <Tooltip
+                title={tEservice('eservice', {
+                  date: formatDateStringNumeric(eservice.activeDescriptor.archivableOn),
+                })}
+              >
+                <Chip label={tEservice('status')} color="info" />
+              </Tooltip>
+            )}
           {(!hasActiveDescriptor || eservice?.draftDescriptor) && (
             <StatusChip
               for="eservice"

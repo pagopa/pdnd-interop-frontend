@@ -17,7 +17,7 @@ import type {
   DescriptorAttributes,
   UpdateEServiceTemplateVersionSeed,
 } from '@/api/api.generatedTypes'
-import { attributesHelpLink } from '@/config/constants'
+import { attributesHelpLink, certifiedAttributesHelpLink } from '@/config/constants'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { useActiveTab } from '@/hooks/useActiveTab'
 import { AddAttributesToForm } from '@/components/shared/AddAttributesToForm'
@@ -233,7 +233,13 @@ export const EServiceTemplateCreateStepThresholdsAndAttributes: React.FC<ActiveS
                     ns="eserviceTemplate"
                     i18nKey="create.step2.thresholdsAndAttributes.accessRequirements.tabs.certifiedDescription"
                     components={{
-                      1: <Link underline="hover" href={attributesHelpLink} target="_blank" />,
+                      1: (
+                        <Link
+                          underline="hover"
+                          href={certifiedAttributesHelpLink}
+                          target="_blank"
+                        />
+                      ),
                     }}
                   />
                 </Typography>

@@ -6,6 +6,7 @@ import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import ProviderEServiceDetailsPage from '../ProviderEServiceDetails.page'
 import type * as ReactQuery from '@tanstack/react-query'
 import type * as Stores from '@/stores'
+import { ProviderEServiceDelegatorArchivingAlert } from '../components/ProviderEServiceDelegatorArchivingAlert'
 
 const { mockedGetDescriptorProvider, mockedUseQuery } = vi.hoisted(() => ({
   mockedGetDescriptorProvider: vi.fn(),
@@ -76,6 +77,10 @@ vi.mock('../components/ProviderEServiceDetailsTab/ProviderEServiceDetailsAlerts'
 
 vi.mock('@/components/shared/EServiceVersionSelectorDrawer', () => ({
   EServiceVersionSelectorDrawer: () => <div data-testid="version-selector-drawer" />,
+}))
+
+vi.mock('../components/ProviderEServiceDelegatorArchivingAlert', () => ({
+  ProviderEServiceDelegatorArchivingAlert: () => <div data-testid="delegator-archiving-alert" />,
 }))
 
 function renderPage(search = '') {
