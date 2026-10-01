@@ -83,11 +83,12 @@ export function getReviewModeLabel(
 
 /**
  * Returns the full names of the reviewers assigned to the risk analysis, preserving the order
- * returned by the BE and dropping entries with no name at all. Both the purpose summary and details
- * surfaces list them in the `riskAnalysisAssignment` section, pluralizing the label on the count.
+ * returned by the BE and using the localized fallback for entries with no name. Both the purpose
+ * summary and details surfaces list them in the `riskAnalysisAssignment` section, pluralizing the
+ * label on the count.
  */
-export function getReviewerNames(reviewers: CompactUser[] | undefined) {
-  return (reviewers ?? [])
-    .map((reviewer) => [reviewer.name, reviewer.familyName].filter(Boolean).join(' ').trim())
-    .filter(Boolean)
+export function getReviewerNames(reviewers: CompactUser[] | undefined, fallback: string) {
+  return (reviewers ?? []).map(
+    (reviewer) => [reviewer.name, reviewer.familyName].filter(Boolean).join(' ').trim() || fallback
+  )
 }

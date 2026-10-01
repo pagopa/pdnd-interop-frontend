@@ -201,44 +201,56 @@ describe('getReviewModeLabel', () => {
 })
 
 describe('getReviewerNames', () => {
+  const fallback = 'reviewerUnknown'
+
   it('returns an empty array when the reviewers are undefined', () => {
-    expect(getReviewerNames(undefined)).toEqual([])
+    expect(getReviewerNames(undefined, fallback)).toEqual([])
   })
 
   it('returns an empty array when the reviewers list is empty', () => {
-    expect(getReviewerNames([])).toEqual([])
+    expect(getReviewerNames([], fallback)).toEqual([])
   })
 
   it('returns the full name of a single reviewer', () => {
-    expect(getReviewerNames([{ userId: 'user-1', name: 'Mario', familyName: 'Rossi' }])).toEqual([
-      'Mario Rossi',
-    ])
+    expect(
+      getReviewerNames([{ userId: 'user-1', name: 'Mario', familyName: 'Rossi' }], fallback)
+    ).toEqual(['Mario Rossi'])
   })
 
   it('preserves the order of multiple reviewers', () => {
     expect(
-      getReviewerNames([
-        { userId: 'user-1', name: 'Mario', familyName: 'Rossi' },
-        { userId: 'user-2', name: 'Luigi', familyName: 'Verdi' },
-      ])
+      getReviewerNames(
+        [
+          { userId: 'user-1', name: 'Mario', familyName: 'Rossi' },
+          { userId: 'user-2', name: 'Luigi', familyName: 'Verdi' },
+        ],
+        fallback
+      )
     ).toEqual(['Mario Rossi', 'Luigi Verdi'])
   })
 
   it('does not leave dangling spaces when one of the name parts is empty', () => {
     expect(
-      getReviewerNames([
-        { userId: 'user-1', name: 'Mario', familyName: '' },
-        { userId: 'user-2', name: '', familyName: 'Verdi' },
-      ])
+      getReviewerNames(
+        [
+          { userId: 'user-1', name: 'Mario', familyName: '' },
+          { userId: 'user-2', name: '', familyName: 'Verdi' },
+        ],
+        fallback
+      )
     ).toEqual(['Mario', 'Verdi'])
   })
 
-  it('drops reviewers with no name at all', () => {
+  it('preserves reviewers with empty or whitespace-only names using the supplied fallback', () => {
     expect(
-      getReviewerNames([
-        { userId: 'user-1', name: '', familyName: '' },
-        { userId: 'user-2', name: 'Luigi', familyName: 'Verdi' },
-      ])
-    ).toEqual(['Luigi Verdi'])
+      getReviewerNames(
+        [
+          { userId: 'user-1', name: '', familyName: '' },
+          { userId: 'user-2', name: 'Luigi', familyName: 'Verdi' },
+          { userId: 'user-3', name: '  ', familyName: '\t' },
+        ],
+        fallback
+      )
+    ).toEqual([fallback, 'Luigi Verdi', fallback])
   })
 })

@@ -6,6 +6,15 @@ import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
 import type { Purpose, ReviewerWorkflow, RiskAnalysisReviewMode } from '@/api/api.generatedTypes'
 
 const useSuspenseQueryMock = vi.fn()
+const translationMock = vi.fn((key: string) => key)
+
+vi.mock('react-i18next', async () => {
+  const actual = await import('@/../__mocks__/react-i18next')
+  return {
+    ...actual,
+    useTranslation: () => ({ ...actual.useTranslation(), t: translationMock }),
+  }
+})
 
 vi.mock('@tanstack/react-query', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@tanstack/react-query')>()
@@ -119,6 +128,40 @@ describe('ConsumerPurposeSummaryAssignmentAccordion', () => {
 
     expect(screen.getByText('mode.adminWritesReviewerSigns')).toBeInTheDocument()
     expect(screen.queryByText('reviewer.label')).not.toBeInTheDocument()
+  })
+
+  it('keeps unavailable assigned reviewers visible and counts them in the label', () => {
+    setPurpose('ADMIN_WRITES_REVIEWER_SIGNS', {
+      reviewers: [
+        { userId: REVIEWER_ID, name: '', familyName: '' },
+        { userId: OTHER_REVIEWER_ID, name: 'Luigi', familyName: 'Verdi' },
+      ],
+      signingState: 'ASSIGNED',
+    })
+
+    renderWithApplicationContext(
+      <ConsumerPurposeSummaryAssignmentAccordion purposeId="test-id" />,
+      { withReactQueryContext: true }
+    )
+
+    expect(screen.getByText('reviewerUnknown, Luigi Verdi')).toBeInTheDocument()
+    expect(translationMock).toHaveBeenCalledWith('reviewer.label', { count: 2 })
+  })
+
+  it('keeps the reviewer row when its only assigned reviewer has no available name', () => {
+    setPurpose('ADMIN_WRITES_REVIEWER_SIGNS', {
+      reviewers: [{ userId: REVIEWER_ID, name: '  ', familyName: '\t' }],
+      signingState: 'ASSIGNED',
+    })
+
+    renderWithApplicationContext(
+      <ConsumerPurposeSummaryAssignmentAccordion purposeId="test-id" />,
+      { withReactQueryContext: true }
+    )
+
+    expect(screen.getByText('reviewer.label')).toBeInTheDocument()
+    expect(screen.getByText('reviewerUnknown')).toBeInTheDocument()
+    expect(translationMock).toHaveBeenCalledWith('reviewer.label', { count: 1 })
   })
 
   it('does not render the "Valutatore" row when the reviewers list is empty', () => {

@@ -14,10 +14,14 @@ export const ConsumerPurposeDetailsAssignmentSection: React.FC<
   ConsumerPurposeDetailsAssignmentSectionProps
 > = ({ purpose }) => {
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisAssignment' })
+  const { t: tCommon } = useTranslation('common')
 
   const modeLabel = getReviewModeLabel(purpose.riskAnalysisReviewMode, t)
 
-  const reviewerNames = getReviewerNames(purpose.reviewerWorkflow?.reviewers)
+  const reviewerNames = getReviewerNames(
+    purpose.reviewerWorkflow?.reviewers,
+    tCommon('reviewerUnknown')
+  )
 
   return (
     <SectionContainer title={t('title')}>

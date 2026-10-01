@@ -15,10 +15,14 @@ export const ConsumerPurposeSummaryAssignmentAccordion: React.FC<
 > = ({ purposeId }) => {
   const { data: purpose } = useSuspenseQuery(PurposeQueries.getSingle(purposeId))
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisAssignment' })
+  const { t: tCommon } = useTranslation('common')
 
   const modeLabel = getReviewModeLabel(purpose.riskAnalysisReviewMode, t)
 
-  const reviewerNames = getReviewerNames(purpose.reviewerWorkflow?.reviewers)
+  const reviewerNames = getReviewerNames(
+    purpose.reviewerWorkflow?.reviewers,
+    tCommon('reviewerUnknown')
+  )
 
   return (
     <Stack spacing={2}>
