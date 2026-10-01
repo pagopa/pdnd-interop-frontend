@@ -127,6 +127,10 @@
               "purposeStateUpdated": {
                 "label": "Variazione di stato di una finalità",
                 "description": "Avvisami quando lo stato di una finalità viene sospesa, archiviata o riattivata"
+              },
+              "purposeRiskAnalysisAssignmentStatusToAdmin": {
+                "label": "Stato delle assegnazioni di un’analisi del rischio",
+                "description": "Avvisami quando un valutatore approva o rifiuta un’analisi del rischio"
               }
             }
           },
@@ -274,6 +278,22 @@
               "clientKeysAssociationUpdated": {
                 "label": "Variazioni sullo stato delle chiavi collegate ad un client",
                 "description": "Avvisami quando lo stato di una chiave collegata ad un client cambia oppure è bene venga sostituita."
+              }
+            }
+          }
+        },
+        "riskAnalysis": {
+          "title": "Analisi del rischio",
+          "riskAnalysisAssignment": {
+            "title": "Assegnazione di compilazione o approvazione",
+            "components": {
+              "purposeRiskAnalysisAssignmentStatusToReviewer": {
+                "label": "Stato delle assegnazioni ricevute",
+                "description": "Avvisami quando ricevo la compilazione o l’approvazione di un’analisi del rischio o quando mi viene revocata"
+              },
+              "purposePublishedWithRiskAnalysisToReviewer": {
+                "label": "Pubblicazione delle finalità",
+                "description": "Avvisami quando l’amministratore pubblica una finalità di cui mi è stata assegnata l’analisi del rischio"
               }
             }
           }

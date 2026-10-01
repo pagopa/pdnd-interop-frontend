@@ -1,16 +1,26 @@
 import { PurposeQueries } from '@/api/purpose'
 import { PageContainer, SectionContainer } from '@/components/layout/containers'
-import { Link, useNavigate, useParams } from '@/router'
+import { InformationContainer } from '@pagopa/interop-fe-commons'
+import { formatDateStringNumeric } from '@/utils/format.utils'
+import { AuthHooks } from '@/api/auth'
+import { useNavigate, useParams } from '@/router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Button, Grid, Skeleton, Stack } from '@mui/material'
+import { Button, Grid, Stack } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
-import { InformationContainer } from '@pagopa/interop-fe-commons'
+import {
+  RiskAnalysisPurposeGeneralInfoSection,
+  RiskAnalysisPurposeGeneralInfoSectionSkeleton,
+  RiskAnalysisPurposeLoadEstimateSection,
+  RiskAnalysisPurposeLoadEstimateSectionSkeleton,
+} from '@/components/shared/RiskAnalysisPurposeInfoSections'
 
 const RiskAnalysisInfoCompilePage: React.FC = () => {
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisInfoCompile' })
+  const { t: tCommon } = useTranslation('common')
   const { purposeId } = useParams<'SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE'>()
   const navigate = useNavigate()
+  const { jwt, isReviewer } = AuthHooks.useJwt()
 
   const { data: purpose, isLoading } = useQuery({
     ...PurposeQueries.getSingle(purposeId),
@@ -25,6 +35,19 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
     }
   }
 
+  const loggedReviewer = purpose?.reviewerWorkflow?.reviewers?.find((r) => r.userId === jwt?.uid)
+  const assignmentDate = loggedReviewer?.sentToReviewerAt
+    ? formatDateStringNumeric(loggedReviewer.sentToReviewerAt)
+    : '-'
+
+  const reviewers = purpose?.reviewerWorkflow?.reviewers ?? []
+  // An assigned reviewer may no longer be resolvable (role revoked on SelfCare, left the
+  // organization, or a different tenant in a delegation): fall back to a placeholder
+  // instead of rendering a blank value.
+  const reviewerNames = reviewers
+    .map((reviewer) => `${reviewer.name} ${reviewer.familyName}`.trim())
+    .map((name) => name || tCommon('reviewerUnknown'))
+
   return (
     <PageContainer
       title={t('title')}
@@ -37,62 +60,25 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
       <Grid container sx={{ mt: 3 }}>
         <Grid item xs={12}>
           {!purpose ? (
-            <RiskAnalysisInfoCompilePageSkeleton />
+            <RiskAnalysisInfoCompilePageSkeleton isReviewer={isReviewer} />
           ) : (
             <Stack spacing={3}>
-              <SectionContainer title={t('generalInfoSection.label')}>
-                <Stack spacing={3}>
-                  <InformationContainer
-                    label={t('generalInfoSection.eService.label')}
-                    content={
-                      <Link
-                        to="SUBSCRIBE_CATALOG_VIEW"
-                        params={{
-                          eserviceId: purpose.eservice.id,
-                          descriptorId: purpose.eservice.descriptor.id,
-                        }}
-                        target="_blank"
-                      >
-                        {purpose.eservice.name}
-                      </Link>
-                    }
-                  />
-                  <InformationContainer
-                    label={t('generalInfoSection.producer.label')}
-                    content={purpose.eservice.producer.name}
-                  />
-                  <InformationContainer
-                    label={t('generalInfoSection.purposeName.label')}
-                    content={purpose.title}
-                  />
-                  <InformationContainer
-                    label={t('generalInfoSection.purposeDescription.label')}
-                    content={purpose.description}
-                  />
-                  <InformationContainer
-                    label={t('generalInfoSection.isFreeOfCharge.label')}
-                    content={
-                      purpose.isFreeOfCharge
-                        ? t('generalInfoSection.isFreeOfCharge.options.YES')
-                        : t('generalInfoSection.isFreeOfCharge.options.NO')
-                    }
-                  />
-                  {purpose.isFreeOfCharge && (
+              <RiskAnalysisPurposeGeneralInfoSection purpose={purpose} />
+              <RiskAnalysisPurposeLoadEstimateSection purpose={purpose} />
+              {isReviewer && (
+                <SectionContainer title={t('reviewersSection.label')}>
+                  <Stack component="dl" spacing={3} sx={{ m: 0 }}>
                     <InformationContainer
-                      label={t('generalInfoSection.freeOfChargeReason.label')}
-                      content={purpose.freeOfChargeReason || ''}
+                      label={t('reviewersSection.assignmentDate.label')}
+                      content={assignmentDate}
                     />
-                  )}
-                </Stack>
-              </SectionContainer>
-              <SectionContainer title={t('loadEstimationSection.label')}>
-                <Stack spacing={3}>
-                  <InformationContainer
-                    label={t('loadEstimationSection.dailyCalls.label')}
-                    content={`${purpose.currentVersion?.dailyCalls ?? purpose.waitingForApprovalVersion?.dailyCalls ?? 1}`}
-                  />
-                </Stack>
-              </SectionContainer>
+                    <InformationContainer
+                      label={t('reviewersSection.reviewers.label')}
+                      content={reviewerNames.join(', ') || '-'}
+                    />
+                  </Stack>
+                </SectionContainer>
+              )}
             </Stack>
           )}
         </Grid>
@@ -106,32 +92,18 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
   )
 }
 
-const RiskAnalysisGeneralInfoSectionSkeleton: React.FC = () => (
-  <SectionContainer title="">
-    <Stack spacing={3}>
-      <Skeleton variant="text" width="40%" height={32} />
-      <Skeleton variant="rectangular" height={56} />
-      <Skeleton variant="rectangular" height={56} />
-      <Skeleton variant="rectangular" height={56} />
-      <Skeleton variant="rectangular" height={56} />
-    </Stack>
-  </SectionContainer>
-)
+type RiskAnalysisInfoCompilePageSkeletonProps = {
+  isReviewer: boolean
+}
 
-const RiskAnalysisLoadEstimateSectionSkeleton: React.FC = () => (
-  <SectionContainer title="">
-    <Stack spacing={3}>
-      <Skeleton variant="text" width="30%" height={32} />
-      <Skeleton variant="rectangular" height={56} />
-    </Stack>
-  </SectionContainer>
-)
-
-const RiskAnalysisInfoCompilePageSkeleton: React.FC = () => {
+const RiskAnalysisInfoCompilePageSkeleton: React.FC<RiskAnalysisInfoCompilePageSkeletonProps> = ({
+  isReviewer,
+}) => {
   return (
     <Stack spacing={3}>
-      <RiskAnalysisGeneralInfoSectionSkeleton />
-      <RiskAnalysisLoadEstimateSectionSkeleton />
+      <RiskAnalysisPurposeGeneralInfoSectionSkeleton />
+      <RiskAnalysisPurposeLoadEstimateSectionSkeleton />
+      {isReviewer && <RiskAnalysisPurposeLoadEstimateSectionSkeleton />}
     </Stack>
   )
 }

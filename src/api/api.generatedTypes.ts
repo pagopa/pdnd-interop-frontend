@@ -20,6 +20,7 @@ export type RiskAnalysisSigningState =
 
 /** Risk analysis review mode */
 export type RiskAnalysisReviewMode =
+  | "ADMIN_WRITES_ADMIN_SIGNS"
   | "ADMIN_WRITES_REVIEWER_SIGNS"
   | "REVIEWER_WRITES_REVIEWER_SIGNS";
 
@@ -1239,6 +1240,8 @@ export interface Purpose {
   isDocumentReady: boolean;
   /** @format date-time */
   rulesetExpiration?: string;
+  /** Risk analysis review mode */
+  riskAnalysisReviewMode?: RiskAnalysisReviewMode;
   /** Reviewer workflow state for a purpose risk analysis */
   reviewerWorkflow?: ReviewerWorkflow;
 }
@@ -2531,7 +2534,7 @@ export interface VersionSeedForEServiceTemplateCreation {
    * @minLength 10
    * @maxLength 250
    */
-  description?: string;
+  description: string;
   /**
    * @format int32
    * @min 60
@@ -2767,6 +2770,11 @@ export interface NotificationConfig {
   clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: boolean;
   purposeQuotaAdjustmentRequestToProducer: boolean;
   purposeOverQuotaStateToConsumer: boolean;
+  /** Enables risk analysis approval and rejection notifications for administrators. */
+  purposeRiskAnalysisAssignmentStatusToAdmin: boolean;
+  /** Enables assignment, removal, draft deletion and approval by another reviewer notifications. */
+  purposeRiskAnalysisAssignmentStatusToReviewer: boolean;
+  purposePublishedWithRiskAnalysisToReviewer: boolean;
   eserviceArchivingRequestedToDelegator: boolean;
   eserviceArchivingApprovedRejectedToDelegate: boolean;
 }
@@ -2905,19 +2913,30 @@ export interface NotificationsCountBySection {
   };
 }
 
+/** A designated reviewer enriched with its user details */
+export interface Reviewer {
+  /** @format uuid */
+  userId: string;
+  name: string;
+  familyName: string;
+  /** @format date-time */
+  sentToReviewerAt?: string;
+}
+
 /** Reviewer workflow state for a purpose risk analysis */
 export interface ReviewerWorkflow {
-  /** Risk analysis review mode */
-  reviewMode: RiskAnalysisReviewMode;
-  reviewerIds: string[];
-  reviewers?: CompactUser[];
+  reviewers?: Reviewer[];
   /** Risk analysis signing state */
   signingState: RiskAnalysisSigningState;
   /** @format uuid */
   signedBy?: string;
-  rejectionReason?: string;
   /** @format date-time */
-  sentToReviewerAt?: string;
+  signedAt?: string;
+  /** @format uuid */
+  rejectedBy?: string;
+  /** @format date-time */
+  rejectedAt?: string;
+  rejectionReason?: string;
 }
 
 /** Payload to assign reviewer mode and reviewers to a purpose risk analysis */
@@ -2925,12 +2944,21 @@ export interface RiskAnalysisAssignmentSeed {
   /** Risk analysis review mode */
   reviewMode: RiskAnalysisReviewMode;
   /** @minItems 1 */
-  reviewerIds: string[];
+  reviewerIds?: string[];
 }
 
 /** Payload to submit the risk analysis form for reviewer signing */
 export interface RiskAnalysisSubmissionSeed {
   riskAnalysisForm: RiskAnalysisFormSeed;
+}
+
+/** Payload to sign the latest version of a purpose risk analysis */
+export interface RiskAnalysisSignSeed {
+  /**
+   * @format int32
+   * @min 0
+   */
+  metadataVersionToSign: number;
 }
 
 /** Payload to reject the risk analysis with a reason */
@@ -6502,7 +6530,7 @@ export namespace Agreements {
     export type RequestQuery = {};
     export type RequestBody = AddAgreementConsumerDocumentPayload;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -6523,7 +6551,7 @@ export namespace Agreements {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -6566,7 +6594,7 @@ export namespace Agreements {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -6720,7 +6748,7 @@ export namespace Agreements {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 }
 
@@ -7461,7 +7489,7 @@ export namespace Eservices {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -8052,7 +8080,7 @@ export namespace Eservices {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -8978,7 +9006,7 @@ export namespace Eservices {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -9655,7 +9683,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -9687,7 +9715,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -9763,7 +9791,7 @@ export namespace Purposes {
       purposeId: string;
     };
     export type RequestQuery = {};
-    export type RequestBody = never;
+    export type RequestBody = RiskAnalysisSignSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
@@ -10277,7 +10305,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -10299,7 +10327,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -10375,7 +10403,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -11287,7 +11315,7 @@ export namespace PrivacyNotices {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 }
 
@@ -11750,7 +11778,7 @@ export namespace Delegations {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -11777,7 +11805,7 @@ export namespace Delegations {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 }
 

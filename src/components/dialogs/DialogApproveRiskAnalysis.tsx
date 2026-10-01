@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 
 export const DialogApproveRiskAnalysis: React.FC<DialogApproveRiskAnalysisProps> = ({
   purposeId,
+  metadataVersionToSign,
 }) => {
   const ariaLabelId = React.useId()
 
@@ -35,7 +36,7 @@ export const DialogApproveRiskAnalysis: React.FC<DialogApproveRiskAnalysisProps>
 
   const onProceed = () => {
     signRiskAnalysis(
-      { purposeId },
+      { purposeId, metadataVersionToSign },
       {
         onSuccess() {
           navigate('SUBSCRIBE_RISK_ANALYSIS_APPROVAL_SUCCESS', {

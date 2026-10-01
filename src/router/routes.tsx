@@ -75,6 +75,7 @@ import { ConsumerSimulateGetVoucherPage } from '@/pages/ConsumerSimulateGetVouch
 import RiskAnalysisSummaryPage from '@/pages/RiskAnalysisSummaryPage/RiskAnalysisSummary.page'
 import RiskAnalysisApproveThankYouPage from '@/pages/RiskAnalysisApproveThankYouPage/RiskAnalysisApproveThankYou.page'
 import RiskAnalysisCompilePage from '@/pages/RiskAnalysisCompilePage/RiskAnalysisCompile.page'
+import RiskAnalysisDetailsPage from '@/pages/RiskAnalysisDetailsPage/RiskAnalysisDetails.page'
 import RiskAnalysisInfoCompilePage from '@/pages/RiskAnalysisInfoCompilePage/RiskAnalysisInfoCompile.page'
 import RiskAnalysisListPage from '@/pages/RiskAnalysisListPage/RiskAnalysisList.page'
 import RiskAnalysisRejectThankYouPage from '@/pages/RiskAnalysisRejectThankYouPage/RiskAnalysisRejectThankYou.page'
@@ -662,7 +663,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <NotificationsPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'api', 'security'],
+    authLevels: ['admin', 'api', 'security', 'reviewer'],
   })
   .addRoute({
     key: 'NOTIFICATIONS_CONFIG',
@@ -670,7 +671,7 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <NotificationUserConfigPage />,
     public: false,
     hideSideNav: false,
-    authLevels: ['admin', 'security', 'api'],
+    authLevels: ['admin', 'security', 'api', 'reviewer'],
   })
   .addRoute({
     key: 'SUBSCRIBE_PURPOSE_TEMPLATE_LIST',
@@ -750,6 +751,14 @@ export const { routes, reactRouterDOMRoutes, hooks, components, utils } = new In
     element: <RiskAnalysisInfoCompilePage />,
     public: false,
     hideSideNav: true,
+    authLevels: ['reviewer'],
+  })
+  .addRoute({
+    key: 'SUBSCRIBE_RISK_ANALYSIS_DETAILS',
+    path: '/analisi-del-rischio/:purposeId/dettaglio',
+    element: <RiskAnalysisDetailsPage />,
+    public: false,
+    hideSideNav: false,
     authLevels: ['reviewer'],
   })
   .addRoute({

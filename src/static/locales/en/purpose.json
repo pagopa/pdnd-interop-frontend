@@ -98,30 +98,51 @@
       "reviewModeField": {
         "label": "Choose a mode",
         "options": {
-          "selfWritesSelfSigns": "Self-compilation and self-approval",
-          "selfWritesReviewerSigns": "Self-compilation and reviewer approval",
-          "reviewerWritesReviewerSigns": "Reviewer compilation and approval"
+          "ADMIN_WRITES_ADMIN_SIGNS": "Self-compilation and self-approval",
+          "ADMIN_WRITES_REVIEWER_SIGNS": "Self-compilation and reviewer approval",
+          "REVIEWER_WRITES_REVIEWER_SIGNS": "Reviewer compilation and approval"
         }
       },
       "reviewerField": {
         "label": {
-          "selfWritesReviewerSigns": "Who will approve the risk analysis?",
-          "reviewerWritesReviewerSigns": "Who will fill in the risk analysis?"
+          "ADMIN_WRITES_REVIEWER_SIGNS": "Who will approve the risk analysis?",
+          "REVIEWER_WRITES_REVIEWER_SIGNS": "Who will fill in the risk analysis?"
         },
+        "infoLabel": "You can select more than one evaluator.",
         "inputLabel": "Select the reviewer",
-        "requiredError": "To proceed, please select a reviewer"
+        "requiredError": "To proceed, please select a reviewer",
+        "removedError_one": "The reviewer you selected is no longer available. Please make a new selection.",
+        "removedError_other": "The reviewers you selected are no longer available. Please make a new selection.",
+        "partiallyRemovedWarningTitle": "Information about the reviewers",
+        "partiallyRemovedWarningLabel": "One or more reviewers you chose are no longer available: please check the selected reviewers.",
+        "dismissButtonLabel": "Ok, understood"
+      },
+      "editAssignmentDialog": {
+        "title": "Edit assignment",
+        "modeChosen": "You have chosen the mode {{mode}}.",
+        "modeTransition": "You are switching from {{from}} to {{to}}.",
+        "selectedReviewersLabel": "Who you selected",
+        "removedReviewersLabel": "Who you removed",
+        "riskAnalysisLossWarning": "If you confirm, you will lose all the risk analysis information already filled in."
       },
       "noReviewersAlert": {
         "message": "Your institution does not yet have a user with the reviewer role. You can add one from the Reserved Area or complete the risk analysis yourself.",
+        "removedReviewerMessage_one": "The reviewer assigned to this risk analysis has been removed. There is nobody else with the reviewer role in your institution: you can assign the role from the Reserved Area or complete the risk analysis yourself.",
+        "removedReviewerMessage_other": "The reviewers assigned to this risk analysis have been removed. There is nobody else with the reviewer role in your institution: you can assign the role from the Reserved Area or complete the risk analysis yourself.",
         "linkLabel": "Go to Users"
       },
       "delegateAlert": "As the delegate to consuming the e-service {{name}}, you cannot assign the risk analysis to a reviewer but you can complete it yourself.",
       "forwardBtn": "Save draft and proceed",
       "requestReviewerCompilationBtn": "Request compilation",
       "readOnly": {
-        "subtitle": "You cannot modify the assignment because you have submitted the risk assessment to the evaluator.",
+        "subtitle": {
+          "signed": "You cannot modify the assignment because the risk analysis has been approved.",
+          "published": "You cannot modify the assignment because the purpose has been published.",
+          "notDraft": "You cannot modify the assignment because the purpose is no longer a draft."
+        },
         "modeLabel": "Mode",
-        "reviewerLabel": "Reviewer",
+        "reviewerLabel_one": "Reviewer",
+        "reviewerLabel_other": "Reviewers",
         "reviewerUnknown": "Reviewer not available",
         "forwardBtn": "Next"
       }
@@ -162,7 +183,7 @@
       "description": "The questions below will change based on the answers provided. If you edit an answer above, it may change the following questions",
       "personalInfoAlert": "Warning: do not put personal data inside text fields",
       "readOnlySubtitle": "You cannot modify the risk analysis because it has been sent to the reviewer.",
-      "rejectedAlert": "The reviewer rejected the risk analysis. Edit the analysis and submit it again for approval.",
+      "rejectedAlert": "A reviewer rejected the risk analysis. Edit the analysis and submit it again for approval.",
       "rejectedAlertLinkLabel": "Read reason",
       "reviewerWritesReviewerSigns": "Once the reviewer has compiled and approved the risk analysis, you will be able to publish the purpose.",
       "versionMismatchDialog": {
@@ -193,7 +214,8 @@
       "requiredFieldErrorReviewer": "Fill in to continue",
       "requestApprovalDialog": {
         "title": "Request approval",
-        "description": "By confirming, you will assign the approval of the risk analysis to the reviewer <strong>{{reviewerName}}</strong> and you will no longer be able to make changes.",
+        "description_one": "By confirming, you will assign the approval of the risk analysis to the reviewer <strong>{{reviewerNames}}</strong> and you will no longer be able to make changes.",
+        "description_other": "By confirming, you will assign the approval of the risk analysis to the reviewers <strong>{{reviewerNames}}</strong> and you will no longer be able to make changes.",
         "proceedLabel": "Confirm"
       }
     },
@@ -280,6 +302,15 @@
           "label": "Total threshold set by the producer",
           "value": "{{value}} API calls/day"
         }
+      },
+      "assignmentSection": {
+        "label": "Assignment",
+        "assignmentDate": {
+          "label": "Assignment date"
+        },
+        "reviewers": {
+          "label": "Assigned to"
+        }
       }
     },
     "assignmentSection": {
@@ -301,7 +332,7 @@
           "reviewerWritesReviewerSigns": "Once the reviewer has compiled and approved the risk analysis, you will be able to publish the purpose."
         },
         "rejectedAlert": {
-          "label": "The reviewer rejected the risk analysis. Read the reason, edit the analysis and submit it again for approval.",
+          "label": "A reviewer rejected the risk analysis. Read the reason, edit the analysis and submit it again for approval.",
           "action": "Read reason"
         }
       }
@@ -313,7 +344,7 @@
   },
   "riskAnalysisRejectionDrawer": {
     "title": "Risk analysis rejection",
-    "intro": "The reviewer rejected the risk analysis with the following reason.",
+    "intro": "A reviewer rejected the risk analysis with the following reason.",
     "noReason": "No reason available."
   },
   "list": {
@@ -447,7 +478,8 @@
       "reviewerWritesReviewerSigns": "Completed and approved by the reviewer"
     },
     "reviewer": {
-      "label": "Reviewer"
+      "label_one": "Reviewer",
+      "label_other": "Reviewers"
     }
   },
   "consumerView": {
@@ -597,7 +629,8 @@
       "title": "Risk analysis"
     },
     "publishBtnDisabled": "Your declaration on personal data processing in the risk analysis prevents publication",
-    "infoAlert": "Once you approve the risk analysis, the administrator will be able to publish the purpose."
+    "infoAlert": "Once you approve the risk analysis, you will no longer be able to modify it and the administrator will be able to publish the purpose.",
+    "infoAlertMoreReviewers": "The risk analysis requires the approval of only one reviewer, even if it is assigned to multiple reviewers. Once approved, it will no longer be editable and the administrator will be able to publish the purpose."
   },
   "riskAnalysisCompile": {
     "backToListBtn": "Back to risk analysis",
@@ -638,7 +671,48 @@
         "label": "Estimated number of API calls/day"
       }
     },
+    "reviewersSection": {
+      "label": "Assignment",
+      "assignmentDate": {
+        "label": "Assignment date"
+      },
+      "reviewers": {
+        "label": "Assigned to"
+      }
+    },
     "beginCompileBtn": "Start compilation"
+  },
+  "riskAnalysisDetails": {
+    "backToListBtn": "Back to risk analysis",
+    "tabs": {
+      "ariaLabel": "Two separate tabs for the purpose details and for the risk analysis",
+      "details": "Purpose details",
+      "riskAnalysis": "Risk analysis"
+    },
+    "signedAlert": "You can no longer edit the risk analysis because it has been approved.",
+    "rejectedAlert": {
+      "label": "The risk analysis of this purpose has been rejected.",
+      "action": "Read reason"
+    },
+    "assignmentSection": {
+      "title": "Assignment",
+      "assignedAt": {
+        "label": "Assignment date"
+      },
+      "signedAt": {
+        "label": "Approval date"
+      },
+      "signedBy": {
+        "label": "Approved by"
+      },
+      "assignedTo": {
+        "label": "Assigned to"
+      }
+    },
+    "riskAnalysisSection": {
+      "title": "Risk analysis",
+      "signedSubtitle": "You can no longer edit the risk analysis because it has been approved."
+    }
   },
   "riskAnalysisList": {
     "filters": {
@@ -649,7 +723,9 @@
         "label": "Risk analysis state",
         "statusField": {
           "ASSIGNED": "To fill out",
-          "SUBMITTED": "To be approved"
+          "SUBMITTED": "To be approved",
+          "SIGNED": "Signed",
+          "REJECTED": "Rejected"
         }
       }
     },
@@ -657,11 +733,18 @@
       "label": "Today"
     },
     "noData": {
-      "label": "You have no risk analysis to evaluate"
+      "label": "You do not have any risk analyses assigned for now"
     },
     "noResults": {
       "label": "The current search returned no results."
-    }
+    },
+    "tabs": {
+      "ariaLabel": "Two separate tabs for risk analyses: those to be completed and those already concluded",
+      "todo": "To do",
+      "done": "Done"
+    },
+    "emptyTodo": "You have no risk analyses to evaluate for now",
+    "emptyDone": "You have no completed risk analyses for now"
   },
   "publishThankYou": {
     "loading": "Publishing in progress",
