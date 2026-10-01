@@ -288,7 +288,7 @@
             "components": {
               "purposeRiskAnalysisAssignmentStatusToReviewer": {
                 "label": "Status of assignments received",
-                "description": "Notify me when I receive a completed or approved risk analysis, or when one is revoked"
+                "description": "Notify me when I am assigned to complete or approve a risk analysis, or when my assignment is revoked"
               },
               "purposePublishedWithRiskAnalysisToReviewer": {
                 "label": "Purpose publication",
