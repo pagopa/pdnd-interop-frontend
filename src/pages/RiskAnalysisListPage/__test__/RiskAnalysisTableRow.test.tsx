@@ -1,19 +1,25 @@
 import { describe, it, expect } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { screen } from '@testing-library/react'
+import { createMemoryHistory } from 'history'
 import { RiskAnalysisTableRow } from '../components/RiskAnalysisTableRow'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import { createMockPurpose } from '@/../__mocks__/data/purpose.mocks'
-import type { Purpose, RiskAnalysisSigningState } from '@/api/api.generatedTypes'
+import type { Purpose, ReviewerWorkflow, RiskAnalysisSigningState } from '@/api/api.generatedTypes'
 
 mockUseJwt({ isAdmin: false, isReviewer: true, jwt: { uid: 'reviewer-1' } })
 
-function renderRow(signingState: RiskAnalysisSigningState) {
+function renderRow(
+  signingState: RiskAnalysisSigningState,
+  reviewerWorkflow: Partial<ReviewerWorkflow> = {},
+  tab = 'todo'
+) {
   const purpose: Purpose = {
     ...createMockPurpose({ id: 'purpose-id-001', title: 'Verifica residenza' }),
     reviewerWorkflow: {
       signingState,
       signedBy: 'reviewer-1',
+      rejectedBy: 'reviewer-1',
       reviewers: [
         {
           userId: 'reviewer-1',
@@ -22,6 +28,7 @@ function renderRow(signingState: RiskAnalysisSigningState) {
           sentToReviewerAt: '2026-03-10T10:00:00.000Z',
         },
       ],
+      ...reviewerWorkflow,
     },
   }
 
@@ -31,7 +38,8 @@ function renderRow(signingState: RiskAnalysisSigningState) {
         <RiskAnalysisTableRow purpose={purpose} />
       </tbody>
     </table>,
-    { withRouterContext: true, withReactQueryContext: true }
+    { withRouterContext: true, withReactQueryContext: true },
+    createMemoryHistory({ initialEntries: [`/?tab=${tab}`] })
   )
 }
 
@@ -73,5 +81,33 @@ describe('RiskAnalysisTableRow', () => {
     renderRow('DRAFT')
 
     expect(screen.queryByRole('link')).not.toBeInTheDocument()
+  })
+
+  describe.each<RiskAnalysisSigningState>(['SIGNED', 'REJECTED'])('%s completed row', (state) => {
+    it.each([
+      { name: '', familyName: '' },
+      { name: '  ', familyName: '\t' },
+    ])('should show the unavailable-name fallback for a reviewer with name %j', (name) => {
+      renderRow(state, { reviewers: [{ userId: 'reviewer-1', ...name }] }, 'done')
+
+      expect(screen.getByRole('cell', { name: 'reviewerUnknown' })).toBeInTheDocument()
+    })
+
+    it('should trim the reviewer name', () => {
+      renderRow(
+        state,
+        { reviewers: [{ userId: 'reviewer-1', name: '  Mario', familyName: 'Rossi  ' }] },
+        'done'
+      )
+
+      expect(screen.getByRole('cell', { name: 'Mario Rossi' }).textContent).toBe('Mario Rossi')
+    })
+
+    it('should keep a dash when the signer or rejecter record is absent', () => {
+      renderRow(state, { reviewers: [] }, 'done')
+
+      expect(screen.getAllByRole('cell', { name: '-' })).toHaveLength(2)
+      expect(screen.queryByText('reviewerUnknown')).not.toBeInTheDocument()
+    })
   })
 })

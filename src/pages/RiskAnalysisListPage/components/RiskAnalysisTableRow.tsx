@@ -33,7 +33,8 @@ export const RiskAnalysisTableRow: React.FC<{
   const signedOrRejectedReviewer = reviewers.find(({ userId }) => userId === signedOrRejectedBy)
 
   const reviewerFullName = signedOrRejectedReviewer
-    ? `${signedOrRejectedReviewer.name} ${signedOrRejectedReviewer.familyName}`
+    ? `${signedOrRejectedReviewer.name} ${signedOrRejectedReviewer.familyName}`.trim() ||
+      tCommon('reviewerUnknown')
     : '-'
 
   const assignedOrApprovedDate = match(reviewerWorkflow?.signingState)
