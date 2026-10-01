@@ -16,7 +16,8 @@ type RiskAnalysisDetailsAssignmentSectionProps = {
 
 const EMPTY_FIELD = '-'
 
-const getReviewerFullName = (reviewer: Reviewer) => `${reviewer.name} ${reviewer.familyName}`.trim()
+const getReviewerFullName = (reviewer: Reviewer) =>
+  `${reviewer.name} ${reviewer.familyName}`.trim() || EMPTY_FIELD
 
 const formatDate = (date: string | undefined) =>
   date ? formatDateStringNumeric(date) : EMPTY_FIELD

@@ -72,4 +72,30 @@ describe('RiskAnalysisDetailsAssignmentSection', () => {
 
     expect(screen.getAllByText('-')).toHaveLength(3)
   })
+
+  it.each([
+    { name: '', familyName: '' },
+    { name: '  ', familyName: '\t' },
+  ])('should show a dash for a signer with unavailable name %j', (name) => {
+    renderSection('SIGNED', {
+      signedBy: 'reviewer-2',
+      signedAt: '2026-03-12T10:00:00.000Z',
+      reviewers: [reviewers[0], { ...reviewers[1], ...name }],
+    })
+
+    expect(screen.getByText('-')).toBeInTheDocument()
+    expect(screen.getByText('assignmentSection.signedBy.label')).toBeInTheDocument()
+  })
+
+  it('should preserve a dash for each unavailable assigned reviewer when rejected', () => {
+    renderSection('REJECTED', {
+      reviewers: [
+        { ...reviewers[0], name: '', familyName: '' },
+        reviewers[1],
+        { userId: 'reviewer-3', name: '  ', familyName: '\t' },
+      ],
+    })
+
+    expect(screen.getByText('-, Luigi Verdi, -')).toBeInTheDocument()
+  })
 })
