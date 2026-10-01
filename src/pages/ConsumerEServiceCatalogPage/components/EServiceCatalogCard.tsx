@@ -37,6 +37,7 @@ export const EServiceCatalogCard: React.FC<{
     : undefined
 
   const handleInspectClick = () => {
+    //TODO: in the second release, handle navigation differently for collections
     navigate('SUBSCRIBE_CATALOG_VIEW', {
       params: {
         eserviceId: eservice.id,

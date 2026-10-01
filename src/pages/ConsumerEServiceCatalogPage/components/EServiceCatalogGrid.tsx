@@ -36,12 +36,12 @@ export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ eservi
             prefetchFn={() => handlePrefetch(eservice)}
             // TODO now for test isCollection is hardcoded for specific eService IDs to see the difference in rendering
             // in the second release this hardcoded logic will be removed
-            isCollection={
-              eservice.id === '6f4a4fe1-1fe3-4cc7-9989-ffc4065fe668' ||
-              eservice.id === 'eb5fd3d9-1f4a-462e-a470-0368d96eac29'
-                ? true
-                : false
-            }
+            // isCollection={
+            //   eservice.id === '6f4a4fe1-1fe3-4cc7-9989-ffc4065fe668' ||
+            //   eservice.id === 'eb5fd3d9-1f4a-462e-a470-0368d96eac29'
+            //     ? true
+            //     : false
+            // }
           />
         </Grid>
       ))}
