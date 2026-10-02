@@ -209,6 +209,6 @@
   },
   "reviewerUnknown": "Valutatore non disponibile",
   "ariaLabels": {
-    "downloadDocument": "Scarica il documento {{name}}"
+    "downloadDocument": "{{name}}, scarica l'allegato"
   }
 }
