@@ -61,13 +61,13 @@ export const EServiceCatalogCard: React.FC<{
   }
 
   return (
-    <Card sx={catalogCardStyles.card}>
+    <Card sx={{ ...catalogCardStyles.card, opacity: disabled ? 0.5 : 1 }}>
       <CardHeader
         sx={catalogCardStyles.header}
         disableTypography
         title={
           <Box sx={catalogCardStyles.headerBox}>
-            <PartyAvatar customSrc={avatarUrl} customAlt="partyLogo" />
+            <PartyAvatar customSrc={avatarUrl} customAlt={eservice.producer.name} />
             <Box sx={{ display: 'grid', gap: 0 }}>
               <Typography
                 variant="caption"
