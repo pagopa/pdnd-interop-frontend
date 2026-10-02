@@ -45,7 +45,7 @@ export const ConsumerEServiceDescriptorAttributes: React.FC = () => {
   return (
     <SectionContainer title={t('title')} description={t('description')}>
       <SectionContainer innerSection title={t('thresholds.title')}>
-        <Stack spacing={2}>
+        <Stack component="dl" spacing={2} sx={{ m: 0 }}>
           <InformationContainer
             label={t('thresholds.dailyCallsPerConsumer.label')}
             content={

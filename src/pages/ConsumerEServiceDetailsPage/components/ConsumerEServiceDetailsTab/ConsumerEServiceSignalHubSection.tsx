@@ -1,6 +1,5 @@
 import React from 'react'
 import { SectionContainer, SectionContainerSkeleton } from '@/components/layout/containers'
-import { Stack } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 import { IconLink } from '@/components/shared/IconLink'
 import LaunchIcon from '@mui/icons-material/Launch'
@@ -42,12 +41,12 @@ export const ConsumerEServiceSignalHubSection: React.FC = () => {
         }
       >
         <SectionContainer innerSection>
-          <Stack spacing={2}>
-            <InformationContainer
-              label={t('consumer.status.label')}
-              content={t(`consumer.status.content.${isSignalHubEnabled}`)}
-            />
-          </Stack>
+          <InformationContainer
+            component="dl"
+            sx={{ m: 0 }}
+            label={t('consumer.status.label')}
+            content={t(`consumer.status.content.${isSignalHubEnabled}`)}
+          />
         </SectionContainer>
       </SectionContainer>
     </>
