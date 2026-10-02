@@ -61,6 +61,7 @@ export const UploadCallbackInterfaceDoc: React.FC<UploadCallbackInterfaceDocProp
         sxBox={{ py: 2 }}
         error={error}
         dropzoneLabel={t('callbackInterface.dropzoneLabel')}
+        technology={descriptor?.eservice.technology}
       />
     ))
     .with({ readOnly: false, actualInterface: P.not(null) }, ({ actualInterface }) => (
