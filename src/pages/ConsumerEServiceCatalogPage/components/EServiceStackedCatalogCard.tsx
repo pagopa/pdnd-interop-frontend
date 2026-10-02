@@ -38,7 +38,7 @@ export const EServiceStackedCatalogCard: React.FC<EServiceStackedCatalogCardProp
 }) => {
   return (
     <Box sx={stackedStyles.container(disabled)}>
-      <Card sx={stackedStyles.card}>
+      <Card sx={{ ...stackedStyles.card, opacity: disabled ? 0.5 : 1 }}>
         <CardContent sx={stackedStyles.cardContent}>
           <Box sx={stackedStyles.headerBox}>
             <CollectionIconAvatar />
