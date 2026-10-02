@@ -54,6 +54,11 @@ if [ -t 0 ]; then
   exit 0
 fi
 
+log "Checking frontend/backend error mapping alignment..."
+if ! pnpm check:error-mappings; then
+  log "Error mapping check reported warnings. Push continues."
+fi
+
 log "Collecting changed TypeScript files..."
 
 while read -r local_ref local_sha _ remote_sha; do
