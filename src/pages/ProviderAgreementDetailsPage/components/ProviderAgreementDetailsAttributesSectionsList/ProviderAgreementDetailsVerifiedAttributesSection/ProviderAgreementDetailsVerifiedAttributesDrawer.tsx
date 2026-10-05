@@ -153,6 +153,7 @@ function useGetDrawerComponents(
         partyId: agreement.consumer.id,
         attributeId,
         agreementId: agreement.id,
+        delegationId: agreement.delegation?.id,
       },
       { onSuccess: closeProviderAgreementVerifiedAttributesDrawer }
     )
@@ -178,6 +179,7 @@ function useGetDrawerComponents(
         id: attributeId,
         expirationDate: selectedExpirationDate,
         agreementId: agreement.id,
+        delegationId: agreement.delegation?.id,
       },
       { onSuccess: closeProviderAgreementVerifiedAttributesDrawer }
     )
