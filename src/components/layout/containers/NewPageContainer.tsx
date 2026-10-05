@@ -4,7 +4,7 @@ import { Box, Button, Skeleton, Stack, Tooltip, Typography } from '@mui/material
 import type { ActionItemButton } from '@/types/common.types'
 import { StatusChip } from '@/components/shared/StatusChip'
 import type { useParams } from '@/router'
-import { Link, type RouteKey } from '@/router'
+import { Link, type RouteKey, useNavigate } from '@/router'
 import { ActionMenu } from '@/components/shared/ActionMenu'
 import { ArchivingScheduleBadge } from '@/components/shared/ArchivingScheduleBadge'
 import type { ArchivingScope } from '@/api/api.generatedTypes'
@@ -19,8 +19,14 @@ type ActionsSectionProps = {
   menuActions?: Array<ActionItemButton>
 }
 
+type BackToActionProps = {
+  label: string
+  to: RouteKey
+}
+
 type NavigationSectionProps = {
   navigation?: PageNavigationProps
+  backToAction?: BackToActionProps
 }
 
 type ShortCutProps =
@@ -146,9 +152,22 @@ const Subtitle: React.FC<SubtitleProps> = ({ description }) => {
     description
   )
 }
-const NavigationSection: React.FC<NavigationSectionProps> = ({ navigation }) => (
-  <PageNavigation {...(navigation ?? {})} />
-)
+const NavigationSection: React.FC<NavigationSectionProps> = ({ navigation, backToAction }) => {
+  const navigate = useNavigate()
+
+  if (backToAction) {
+    return (
+      <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
+        <PageNavigation {...(navigation ?? {})} />
+        <Button type="button" size="small" variant="text" onClick={() => navigate(backToAction.to)}>
+          {backToAction.label}
+        </Button>
+      </Stack>
+    )
+  }
+
+  return <PageNavigation {...(navigation ?? {})} />
+}
 
 const ActionsSection: React.FC<ActionsSectionProps> = ({
   primaryAction,

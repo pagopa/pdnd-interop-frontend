@@ -19,22 +19,27 @@ const mockDelegation: DelegationWithCompactTenants = {
   delegate: { id: 'delegate-id', name: 'Ente Delegato' },
 }
 
-const renderComponent = ({
-  children,
-  title,
-  backToAction,
-  statusChip,
-  byDelegationChip,
-  primaryAction,
-  secondaryAction,
-  menuActions,
-  description,
-  infoSection,
-}: PageContainerProps) => {
+const renderComponent = (
+  {
+    children,
+    title,
+    statusChip,
+    byDelegationChip,
+    primaryAction,
+    secondaryAction,
+    menuActions,
+    description,
+    infoSection,
+    navigation,
+    backToAction,
+  }: PageContainerProps,
+  history: MemoryHistory = createMemoryHistory()
+) => {
   return renderWithApplicationContext(
     <NewPageContainer
       title={title}
       navigation={navigation}
+      backToAction={backToAction}
       statusChip={statusChip}
       byDelegationChip={byDelegationChip}
       primaryAction={primaryAction}
@@ -201,7 +206,7 @@ describe('NewPageContainer', () => {
 
     await user.click(infoSectionShortcut)
 
-    expect(history.location.pathname).toEqual('/it/')
+    expect(history.location.pathname).toEqual('/it')
   })
 
   it('should correctly render the infoSection with the label and the shortcut passed. That shortcut should be a button', () => {

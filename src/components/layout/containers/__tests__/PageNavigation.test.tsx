@@ -67,7 +67,7 @@ describe('PageNavigation', () => {
       })
     )
 
-    expect(screen.history.location.pathname).toBe('/it/')
+    expect(screen.history.location.pathname).toBe('/it')
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
   })
 
@@ -92,7 +92,7 @@ describe('PageNavigation', () => {
       })
     )
 
-    expect(screen.history.location.pathname).not.toBe('/it/')
+    expect(screen.history.location.pathname).not.toBe('/it')
     expect(
       screen.getByRole('dialog', {
         name: 'exitDialog.title',
@@ -101,11 +101,11 @@ describe('PageNavigation', () => {
 
     await userEvent.click(
       screen.getByRole('button', {
-        name: 'Esci senza salvare',
+        name: 'exitDialog.cancelButton',
       })
     )
 
-    expect(screen.history.location.pathname).not.toBe('/it/')
+    expect(screen.history.location.pathname).not.toBe('/it')
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
 
     await userEvent.click(
