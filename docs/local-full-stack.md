@@ -113,7 +113,7 @@ Run these commands from the frontend terminal inside the devcontainer:
 | `pnpm local:identity -- <tenant> <user>` | Generates a local token and restarts Vite with that identity                      |
 
 `local:reset` is destructive for this local environment. It removes event
-store, SQL readmodels, DynamoDB, Kafka, Redis, MinIO, and generated seed/token
+store, SQL readmodels, DynamoDB, Kafka, Redis, RustFS, and generated seed/token
 state; it does not delete either Git checkout.
 
 ## Identities and seed
@@ -228,7 +228,7 @@ appear; the individual browser tests keep their 60-second timeout.
 - Docker services are published by the host daemon. Small `socat` forwarders
   make those host ports reachable as `localhost` from inside the devcontainer.
   They must not be added to the devcontainer `forwardPorts`: VS Code would bind
-  the same host ports before Compose and prevent services such as MinIO from
+  the same host ports before Compose and prevent services such as RustFS from
   starting.
 - Automatic forwarding is disabled for every port except Vite `5173`. This is
   important because backend processes also listen inside the devcontainer; if
