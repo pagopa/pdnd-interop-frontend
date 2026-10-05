@@ -49,7 +49,7 @@ export const EServiceStackedCatalogCard: React.FC<EServiceStackedCatalogCardProp
           </Box>
 
           <Box sx={{ display: 'grid', gap: 1 }}>
-            <Typography color="text.primary" sx={commonTitleTextStyle}>
+            <Typography color="text.primary" sx={commonTitleTextStyle} component="h2">
               {eservice.name}
             </Typography>
             <Typography color="text.primary" sx={commonDescTextStyle}>

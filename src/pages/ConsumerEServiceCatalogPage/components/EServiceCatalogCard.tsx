@@ -26,7 +26,7 @@ export const EServiceCatalogCard: React.FC<{
   eservice: CatalogEService
   disabled: boolean
   prefetchFn: () => void
-  isCollection?: boolean // isCollection istrue for the collection of eservices instantiated from an eService template
+  isCollection?: boolean // isCollection is true for the collection of eservices instantiated from an e-service template
 }> = ({ eservice, disabled, prefetchFn, isCollection }) => {
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('eservice')
@@ -82,7 +82,7 @@ export const EServiceCatalogCard: React.FC<{
       />
       <CardContent sx={catalogCardStyles.content}>
         <Stack direction="column" spacing={1}>
-          <Typography color="text.primary" sx={commonTitleTextStyle}>
+          <Typography color="text.primary" sx={commonTitleTextStyle} component="h2">
             {eservice.name}
           </Typography>
           <Typography variant="body2" color="text.primary" sx={commonDescTextStyle}>
