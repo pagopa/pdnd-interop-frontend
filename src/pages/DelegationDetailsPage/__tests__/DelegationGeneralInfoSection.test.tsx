@@ -99,6 +99,7 @@ afterEach(() => {
   // This will remove any runtime request handlers
   // after each test, ensuring isolated network behavior.
   server.resetHandlers()
+  vi.clearAllMocks()
 })
 
 describe('DelegationGeneralInfoSection', () => {
@@ -132,5 +133,46 @@ describe('DelegationGeneralInfoSection', () => {
       fireEvent.click(button)
       expect(mockDownloadSignedContract).toHaveBeenCalled()
     })
+  })
+
+  it('should download signed revocation document using the signed contract endpoint', async () => {
+    server.use(
+      rest.get(`${BACKEND_FOR_FRONTEND_URL}/delegations/${delegationId}`, (_, res, ctx) => {
+        return res(
+          ctx.json<Delegation>(
+            createMockDelegation({
+              state: 'REVOKED',
+              activationSignedContract: {
+                id: 'contract-signed-id-123',
+                prettyName: 'Delegation Contract Signed',
+              },
+              revocationSignedContract: {
+                id: 'revocation-signed-id-123',
+                prettyName: 'Revocation Contract Signed',
+              },
+            })
+          )
+        )
+      })
+    )
+
+    const screen = renderWithApplicationContext(
+      <DelegationGeneralInfoSection delegationId={delegationId} />,
+      {
+        withReactQueryContext: true,
+        withRouterContext: true,
+      }
+    )
+
+    const button = await screen.findByRole('button', {
+      name: /party.delegations.details.generalInfoSection.downloadRevokedContractAction.label/i,
+    })
+    fireEvent.click(button)
+
+    expect(mockDownloadSignedContract).toHaveBeenCalledWith(
+      { delegationId, contractId: 'revocation-signed-id-123' },
+      'Revocation Contract Signed.pdf'
+    )
+    expect(mockDownloadDelegationContract).not.toHaveBeenCalled()
   })
 })
