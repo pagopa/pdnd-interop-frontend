@@ -4,13 +4,42 @@ import { useTranslation } from 'react-i18next'
 import { EServiceCatalogGrid, EServiceCatalogGridSkeleton } from './components'
 import { EServiceQueries } from '@/api/eservice'
 import { Pagination, useAutocompleteTextInput, usePagination } from '@pagopa/interop-fe-commons'
-import type { CatalogFilterPayload, EServiceDescriptorState } from '@/api/api.generatedTypes'
+import type {
+  CatalogFilterPayload,
+  EServiceDescriptorState,
+  EServiceProducerCategory,
+  RequesterDelegationRole,
+  EServiceMode,
+} from '@/api/api.generatedTypes'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { trackEvent } from '@/config/tracking'
 import { debounce } from 'lodash'
 import { ProductUpdatesBanner } from '@/components/shared/banners/ProductUpdatesBanner'
 import { Filters } from '@/components/shared/Filters/Filters'
 import { useFilters } from '@/hooks/useFilters'
+
+const producerCategoriesOptions: EServiceProducerCategory[] = [
+  'ALTRE_PUBBLICHE_AMMINISTRAZIONI_LOCALI',
+  'AZIENDE_OSPEDALIERE_ASL',
+  'COMUNI',
+  'PROVINCE_CITTA_METROPOLITANE',
+  'PUBBLICHE_AMMINISTRAZIONI_CENTRALI',
+  'ENTI_NAZIONALI_PREVIDENZA_ASSISTENZA',
+  'REGIONI_PROVINCE_AUTONOME',
+  'CONSORZI_ASSOCIAZIONI_REGIONALI',
+  'SCUOLE',
+  'UNIVERSITA_AFAM',
+  'ISTITUTI_RICERCA',
+  'STAZIONI_APPALTANTI_GESTORI_PUBBLICI_SERVIZI',
+]
+
+const requesterDelegationRolesOptions: (RequesterDelegationRole | 'ALL')[] = [
+  'ALL',
+  'DELEGATE',
+  'DELEGATOR',
+]
+
+const eserviceModesOptions: (EServiceMode | 'ALL')[] = ['ALL', 'RECEIVE', 'DELIVER']
 
 const ConsumerEServiceCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
@@ -72,7 +101,10 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
             name: 'producerCategories',
             label: tEservice('side.rapidSelection.producerCategoriesField.label'),
             type: 'select-multiple',
-            options: [],
+            options: producerCategoriesOptions.map((category) => ({
+              label: tEservice(`side.rapidSelection.producerCategoriesField.options.${category}`),
+              value: category,
+            })),
           },
         ],
       },
@@ -98,13 +130,29 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
             name: 'asyncExchange',
             label: tEservice('side.techSpec.asyncExchangeField.label'),
             type: 'select-single',
-            options: [],
+            options: [
+              {
+                label: tEservice('side.techSpec.asyncExchangeField.options.ALL'),
+                value: 'ALL',
+              },
+              {
+                label: tEservice('side.techSpec.asyncExchangeField.options.SYNC'),
+                value: 'SYNC',
+              },
+              {
+                label: tEservice('side.techSpec.asyncExchangeField.options.ASYNC'),
+                value: 'ASYNC',
+              },
+            ],
           },
           {
             name: 'mode',
             label: tEservice('side.techSpec.modeField.label'),
             type: 'select-single',
-            options: [],
+            options: eserviceModesOptions.map((mode) => ({
+              label: tEservice(`side.techSpec.modeField.options.${mode}`),
+              value: mode,
+            })),
           },
         ],
       },
@@ -114,12 +162,20 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
           {
             name: 'requesterDelegationRoles',
             label: tEservice('side.delegationAndSignalHub.requesterDelegationRolesField.label'),
-            type: 'select-multiple',
-            options: [],
+            type: 'select-single',
+            options: requesterDelegationRolesOptions.map((role) => ({
+              label: tEservice(
+                `side.delegationAndSignalHub.requesterDelegationRolesField.options.${role}`
+              ),
+              value: role,
+            })),
           },
           {
             name: 'onlySignalHubEnabled',
             label: tEservice('side.delegationAndSignalHub.onlySignalHubEnabledField.label'),
+            description: tEservice(
+              'side.delegationAndSignalHub.onlySignalHubEnabledField.description'
+            ),
             type: 'boolean',
           },
         ],
@@ -129,10 +185,10 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
 
   // Only e-service published or suspended can be shown in the catalog
   const states: Array<EServiceDescriptorState> = ['PUBLISHED', 'SUSPENDED']
-  const queryParams = { ...paginationParams, ...filters, states }
+  const query = { ...paginationParams, ...filters, states }
 
   const { data } = useQuery({
-    ...EServiceQueries.getCatalogList(queryParams),
+    ...EServiceQueries.getCatalogList(query),
     placeholderData: keepPreviousData,
   })
 
@@ -154,7 +210,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
     <PageContainer title={t('title')} description={t('description')}>
       <ProductUpdatesBanner />
       <Filters {...handlers} filters={filters} />
-      <EServiceCatalogWrapper params={queryParams} />
+      <EServiceCatalogWrapper params={query} />
       <Pagination
         {...paginationProps}
         totalPages={getTotalPageCount(data?.pagination.totalCount)}
