@@ -16,7 +16,7 @@ import type { MIAlertProps } from '@pagopa/mui-italia'
 import { AuthQueries } from './api/auth'
 import i18n from './config/react-i18next'
 import { DEFAULT_LANG, LANGUAGES } from './config/constants'
-import { NuqsAdapter } from 'nuqs/adapters/react'
+import { NuqsAdapter } from 'nuqs/adapters/react-router/v6'
 
 // --- Init application ----
 
