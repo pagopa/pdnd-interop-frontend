@@ -589,6 +589,54 @@
       },
       "consumerField": {
         "label": "Cerca per fruitore"
+      },
+      "side": {
+        "rapidSelection": {
+          "title": "Selezione rapida",
+          "onlyActiveEServicesField": {
+            "label": "E-service attivi",
+            "description": "Escludi gli e-service sospesi"
+          },
+          "availableForRequesterField": {
+            "label": "Fruibili dal tuo ente",
+            "description": "In base agli attributi"
+          },
+          "subscribedByrequesterField": {
+            "label": "Già in fruizione",
+            "description": "Con richiesta attiva"
+          },
+          "producerCategoriesField": {
+            "label": "Categoria erogatore"
+          }
+        },
+        "template": {
+          "title": "Template",
+          "onlyTemplateInstancesField": {
+            "label": "Creati da template"
+          },
+          "hasLinkedPurposeTemplatesField": {
+            "label": "Con template finalità collegati"
+          }
+        },
+        "techSpec": {
+          "title": "Specifiche tecniche",
+          "asyncExchangeField": {
+            "label": "Scambio dati"
+          },
+          "modeField": {
+            "label": "Eroga o riceve dati"
+          }
+        },
+        "delegationAndSignalHub": {
+          "title": "Deleghe e notifiche modifica dati",
+          "requesterDelegationRolesField": {
+            "label": "Deleghe"
+          },
+          "onlySignalHubEnabledField": {
+            "label": "Signal Hub",
+            "description": "Con servizio di notifica in caso di variazione dati"
+          }
+        }
       }
     },
     "drawers": {
