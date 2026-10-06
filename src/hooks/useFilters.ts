@@ -1,8 +1,10 @@
 import type {
+  AutocompleteFilterFieldOptions,
   FilterFields,
   FilterFieldsValues,
   FiltersHandler,
   FiltersParams,
+  SelectFilterFieldOptions,
   SideFiltersSection,
 } from '@/types/filters.types'
 import {
@@ -16,6 +18,7 @@ import {
   type SingleParserBuilder as ParserBuilder,
 } from 'nuqs'
 import { useCallback } from 'react'
+import { match } from 'ts-pattern'
 
 type ParsersFor<T> = { [K in keyof T]: ParserBuilder<T[K]> }
 
@@ -28,42 +31,50 @@ type FilterParser =
   | ParserBuilder<boolean[]>
   | ParserBuilder<Date>
 
-const getParsers = <T,>(
+const getParsers = <T>(
   main: FilterFields<Extract<keyof T, string>>,
   side: FilterFields<Extract<keyof T, string>> = []
 ): ParsersFor<T> => {
   const parsers: Partial<Record<Extract<keyof T, string>, FilterParser>> = {}
   ;[...main, ...side].forEach((field) => {
-    switch (field.type) {
-      case 'freetext':
+    match(field.type)
+      .with('freetext', () => {
         parsers[field.name] = parseAsString
-        break
-      case 'numeric':
+      })
+      .with('numeric', () => {
         parsers[field.name] = parseAsFloat
-        break
-      case 'boolean':
+      })
+      .with('boolean', () => {
         parsers[field.name] = parseAsBoolean
-        break
-      case 'datepicker':
+      })
+      .with('datepicker', () => {
         parsers[field.name] = parseAsIsoDate
-        break
-      case 'autocomplete-single':
-        parsers[field.name] = parseAsStringLiteral(field.options.map((option) => option.value))
-        break
-      case 'autocomplete-multiple':
-        parsers[field.name] = parseAsArrayOf(
-          parseAsStringLiteral(field.options.map((option) => option.value))
+      })
+      .with('autocomplete-single', () => {
+        parsers[field.name] = parseAsStringLiteral(
+          (field as AutocompleteFilterFieldOptions).options.map((option) => option.value)
         )
-        break
-      case 'select-single':
-        parsers[field.name] = parseAsStringLiteral(field.options.map((option) => option.value))
-        break
-      case 'select-multiple':
+      })
+      .with('autocomplete-multiple', () => {
         parsers[field.name] = parseAsArrayOf(
-          parseAsStringLiteral(field.options.map((option) => option.value))
+          parseAsStringLiteral(
+            (field as AutocompleteFilterFieldOptions).options.map((option) => option.value)
+          )
         )
-        break
-    }
+      })
+      .with('select-single', () => {
+        parsers[field.name] = parseAsStringLiteral(
+          (field as SelectFilterFieldOptions).options.map((option) => option.value)
+        )
+      })
+      .with('select-multiple', () => {
+        parsers[field.name] = parseAsArrayOf(
+          parseAsStringLiteral(
+            (field as SelectFilterFieldOptions).options.map((option) => option.value)
+          )
+        )
+      })
+      .exhaustive()
   })
   return parsers as unknown as ParsersFor<T>
 }

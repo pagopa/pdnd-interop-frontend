@@ -1,4 +1,5 @@
 import type { FilterFields, FilterFieldsValues } from '@/types/filters.types'
+import { match } from 'ts-pattern'
 
 export const getFiltersDefaultValues = (fields: FilterFields, filters: FilterFieldsValues) => {
   const values: FilterFieldsValues = {}
@@ -7,35 +8,32 @@ export const getFiltersDefaultValues = (fields: FilterFields, filters: FilterFie
     let value = filters[field.name]
 
     if (value === undefined || value === null) {
-      switch (field.type) {
-        case 'freetext':
+      match(field.type)
+        .with('freetext', () => {
           value = ''
-          break
-        case 'select-single':
+        })
+        .with('select-single', () => {
           value = ''
-          break
-        case 'select-multiple':
+        })
+        .with('select-multiple', () => {
           value = []
-          break
-        case 'datepicker':
+        })
+        .with('datepicker', () => {
           value = null
-          break
-        case 'autocomplete-single':
-          value = null
-          break
-        case 'autocomplete-multiple':
+        })
+        .with('autocomplete-single', () => {
+          value = ''
+        })
+        .with('autocomplete-multiple', () => {
           value = []
-          break
-        case 'numeric':
-          value = null
-          break
-        case 'boolean':
+        })
+        .with('numeric', () => {
+          value = ''
+        })
+        .with('boolean', () => {
           value = false
-          break
-        default:
-          value = ''
-          break
-      }
+        })
+        .exhaustive()
     }
 
     values[field.name] = value
