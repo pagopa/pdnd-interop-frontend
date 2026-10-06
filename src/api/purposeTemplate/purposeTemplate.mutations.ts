@@ -86,7 +86,6 @@ function usePublishDraft() {
   return useMutation({
     mutationFn: PurposeTemplateServices.publishDraft,
     meta: {
-      successToastLabel: t('outcome.success'),
       errorToastLabel: t('outcome.error'),
       loadingLabel: t('loading'),
       confirmationDialog: {
