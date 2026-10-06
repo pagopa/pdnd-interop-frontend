@@ -1,0 +1,14 @@
+{
+  "main": {
+    "button": "Search"
+  },
+  "side": {
+    "trigger": "Filters",
+    "title": "Filters",
+    "subtitle": "Use the filters for a more specific search.",
+    "actions": {
+      "reset": "Reset filtri",
+      "apply": "Apply filtri"
+    }
+  }
+}

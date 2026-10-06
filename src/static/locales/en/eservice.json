@@ -589,6 +589,54 @@
       },
       "consumerField": {
         "label": "Find by consumer"
+      },
+      "side": {
+        "rapidSelection": {
+          "title": "Rapid selection",
+          "onlyActiveEServicesField": {
+            "label": "Active e-services",
+            "description": "Exclude suspended e-services"
+          },
+          "availableForRequesterField": {
+            "label": "Available for use by your entity",
+            "description": "Based on the attributes"
+          },
+          "subscribedByrequesterField": {
+            "label": "Already in use",
+            "description": "With an active request"
+          },
+          "producerCategoriesField": {
+            "label": "Producer category"
+          }
+        },
+        "template": {
+          "title": "Template",
+          "onlyTemplateInstancesField": {
+            "label": "Template instance"
+          },
+          "hasLinkedPurposeTemplatesField": {
+            "label": "With linked purpose templates"
+          }
+        },
+        "techSpec": {
+          "title": "Technical specifications",
+          "asyncExchangeField": {
+            "label": "Data exchange"
+          },
+          "modeField": {
+            "label": "Transmits or receives data"
+          }
+        },
+        "delegationAndSignalHub": {
+          "title": "Delegations and data change notifications",
+          "requesterDelegationRolesField": {
+            "label": "Delegations"
+          },
+          "onlySignalHubEnabledField": {
+            "label": "Signal Hub",
+            "description": "Includes a notification service for data changes"
+          }
+        }
       }
     },
     "drawers": {
