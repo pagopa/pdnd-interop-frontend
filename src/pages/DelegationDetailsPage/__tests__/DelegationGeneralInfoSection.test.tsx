@@ -1,5 +1,6 @@
 import { type Delegation } from '@/api/api.generatedTypes'
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
+import { queryClient } from '@/config/query-client'
 import { setupServer } from 'msw/node'
 import { rest } from 'msw'
 import { createMockDelegation } from '../../../../__mocks__/data/delegation.mocks'
@@ -11,6 +12,7 @@ import {
 import { DelegationGeneralInfoSection } from '../components/DelegationGeneralInfoSection'
 import { fireEvent, waitFor } from '@testing-library/react'
 import type * as DelegationApi from '@/api/delegation'
+import { DelegationQueries } from '@/api/delegation'
 const delegationId = 'delegation-id-123'
 
 mockUseGetActiveUserParty()
@@ -100,6 +102,7 @@ afterEach(() => {
   // after each test, ensuring isolated network behavior.
   server.resetHandlers()
   vi.clearAllMocks()
+  queryClient.clear()
 })
 
 describe('DelegationGeneralInfoSection', () => {
@@ -136,23 +139,18 @@ describe('DelegationGeneralInfoSection', () => {
   })
 
   it('should download signed revocation document using the signed contract endpoint', async () => {
-    server.use(
-      rest.get(`${BACKEND_FOR_FRONTEND_URL}/delegations/${delegationId}`, (_, res, ctx) => {
-        return res(
-          ctx.json<Delegation>(
-            createMockDelegation({
-              state: 'REVOKED',
-              activationSignedContract: {
-                id: 'contract-signed-id-123',
-                prettyName: 'Delegation Contract Signed',
-              },
-              revocationSignedContract: {
-                id: 'revocation-signed-id-123',
-                prettyName: 'Revocation Contract Signed',
-              },
-            })
-          )
-        )
+    queryClient.setQueryData(
+      DelegationQueries.getSingle({ delegationId }).queryKey,
+      createMockDelegation({
+        state: 'REVOKED',
+        activationSignedContract: {
+          id: 'contract-signed-id-123',
+          prettyName: 'Delegation Contract Signed',
+        },
+        revocationSignedContract: {
+          id: 'revocation-signed-id-123',
+          prettyName: 'Revocation Contract Signed',
+        },
       })
     )
 
