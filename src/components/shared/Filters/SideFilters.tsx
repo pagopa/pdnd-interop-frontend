@@ -3,10 +3,10 @@ import { Close, FilterAltOutlined } from '@mui/icons-material'
 import { Drawer as MUIDrawer, Button, Stack, Typography, IconButton } from '@mui/material'
 import React, { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { FilterField } from './FilterField/FilterField'
+import { FilterField } from './FilterField'
 import { getFiltersDefaultValues } from '@/utils/filters.utils'
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
-import _ from 'lodash'
+import { isEqual } from 'lodash'
 
 type SideFiltersProps = {
   sections: SideFiltersSection[]
@@ -53,7 +53,7 @@ export const SideFilters: React.FC<SideFiltersProps> = ({
 
   const onClose = useCallback(() => {
     setIsOpen(false)
-    if (!_.isEqual(getValues(), defaultValues)) {
+    if (!isEqual(getValues(), defaultValues)) {
       reset(defaultValues)
     }
   }, [reset, getValues, defaultValues])
