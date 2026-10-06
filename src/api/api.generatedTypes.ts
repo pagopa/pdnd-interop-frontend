@@ -2071,8 +2071,6 @@ export interface VerifiedTenantAttributeSeed {
   id: string;
   /** @format uuid */
   agreementId: string;
-  /** @format uuid */
-  delegationId?: string;
   /** @format date-time */
   expirationDate?: string;
 }
@@ -4703,8 +4701,6 @@ export interface UpdateVerifiedAttributeParams {
 export interface RevokeVerifiedAttributePayload {
   /** @format uuid */
   agreementId: string;
-  /** @format uuid */
-  delegationId?: string;
 }
 
 export interface RevokeVerifiedAttributeParams {

@@ -13,7 +13,6 @@ import type {
   GetAttributesParams,
   GetRequesterCertifiedAttributesParams,
   RequesterCertifiedAttributes,
-  RevokeVerifiedAttributePayload,
   UpdateCertifiedDiscreteTenantAttributeSeed,
   UpdateVerifiedTenantAttributeSeed,
   VerifiedAttributesResponse,
@@ -165,11 +164,15 @@ async function updateVerifiedPartyAttribute({
 async function revokeVerifiedPartyAttribute({
   partyId,
   attributeId,
-  ...payload
-}: { partyId: string; attributeId: string } & RevokeVerifiedAttributePayload) {
+  agreementId,
+}: {
+  partyId: string
+  attributeId: string
+  agreementId: string
+}) {
   return axiosInstance.delete<Attribute>(
     `${BACKEND_FOR_FRONTEND_URL}/tenants/${partyId}/attributes/verified/${attributeId}`,
-    { data: payload }
+    { data: { agreementId } }
   )
 }
 
