@@ -16,8 +16,7 @@ import { ConsumerPurposeSummaryRiskAnalysisAlertContainer } from '../ConsumerPur
 
 import { useRiskAnalysisSummaryPage } from './hooks/useRiskAnalysisSummaryPage'
 import { useCurrentRoute } from '@/router'
-import { PurposeQueries } from '@/api/purpose'
-import { useQuery } from '@tanstack/react-query'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 
 const RiskAnalysisSummaryPage: React.FC = () => {
   const { routeKey } = useCurrentRoute()
@@ -30,6 +29,7 @@ const RiskAnalysisSummaryPage: React.FC = () => {
 
   const {
     purposeId,
+    purpose,
     isLoading,
     alertProps,
     isPublishButtonDisabled,
@@ -42,9 +42,7 @@ const RiskAnalysisSummaryPage: React.FC = () => {
     isRulesetExpired,
   } = useRiskAnalysisSummaryPage()
 
-  const { data: purpose } = useQuery({
-    ...PurposeQueries.getSingle(purposeId),
-  })
+  useMarkNotificationsAsRead(purposeId)
 
   const infoAlertMessage =
     purpose?.reviewerWorkflow?.reviewers && purpose?.reviewerWorkflow?.reviewers.length > 1

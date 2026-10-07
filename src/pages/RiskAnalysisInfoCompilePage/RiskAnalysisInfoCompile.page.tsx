@@ -3,6 +3,7 @@ import { PageContainer, SectionContainer } from '@/components/layout/containers'
 import { InformationContainer } from '@pagopa/interop-fe-commons'
 import { formatDateStringNumeric } from '@/utils/format.utils'
 import { AuthHooks } from '@/api/auth'
+import { useMarkNotificationsAsRead } from '@/hooks/useMarkNotificationsAsRead'
 import { useNavigate, useParams } from '@/router'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -19,6 +20,7 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
   const { t } = useTranslation('purpose', { keyPrefix: 'riskAnalysisInfoCompile' })
   const { t: tCommon } = useTranslation('common')
   const { purposeId } = useParams<'SUBSCRIBE_RISK_ANALYSIS_INFO_COMPILE'>()
+  useMarkNotificationsAsRead(purposeId)
   const navigate = useNavigate()
   const { jwt, isReviewer } = AuthHooks.useJwt()
 
@@ -36,6 +38,7 @@ const RiskAnalysisInfoCompilePage: React.FC = () => {
   }
 
   const loggedReviewer = purpose?.reviewerWorkflow?.reviewers?.find((r) => r.userId === jwt?.uid)
+
   const assignmentDate = loggedReviewer?.sentToReviewerAt
     ? formatDateStringNumeric(loggedReviewer.sentToReviewerAt)
     : '-'
