@@ -1,6 +1,5 @@
 import React from 'react'
 import type { MITextFieldProps } from '@pagopa/mui-italia/components/MITextField'
-import { theme } from '@pagopa/mui-italia'
 import { InputWrapper } from '../InputWrapper'
 import type { FieldErrors, FieldValues } from 'react-hook-form'
 import { useFormContext, Controller } from 'react-hook-form'
