@@ -119,7 +119,7 @@
       },
       "editAssignmentDialog": {
         "title": "Modifica assegnazione",
-        "modeChosen": "Hai scelto la modalità {{mode}}.",
+        "modeChosen": "Hai scelto la modalità <strong>{{mode}}</strong>.",
         "selectedReviewersLabel": "Chi hai selezionato",
         "removedReviewersLabel": "Chi hai rimosso",
         "riskAnalysisLossWarning": "Se confermi, perderai tutte le informazioni dell’analisi del rischio già compilate."

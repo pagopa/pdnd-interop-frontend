@@ -8,7 +8,7 @@ import {
   Stack,
   Typography,
 } from '@mui/material'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { match, P } from 'ts-pattern'
 import { useDialog } from '@/stores'
 import { useIsActionDisabledBySupport } from '@/hooks/useIsActionDisabledBySupport'
@@ -86,7 +86,13 @@ export const DialogEditRiskAnalysisAssignment: React.FC<DialogEditRiskAnalysisAs
         <Stack id={ariaDescriptionId} spacing={2}>
           {fromMode !== toMode && (
             <Typography variant="body2">
-              {t('editAssignmentDialog.modeChosen', { mode: getModeLabel(toMode) })}
+              <Trans
+                components={{
+                  strong: <Typography component="span" variant="inherit" fontWeight={600} />,
+                }}
+              >
+                {t('editAssignmentDialog.modeChosen', { mode: getModeLabel(toMode) })}
+              </Trans>
             </Typography>
           )}
           {addedReviewerNames.length > 0 && (
