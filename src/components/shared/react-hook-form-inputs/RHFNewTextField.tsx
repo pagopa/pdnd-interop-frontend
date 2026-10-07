@@ -66,6 +66,7 @@ export const RHFNewTextField: React.FC<RHFNewTextFieldProps> = ({
     <InputWrapper error={error} sx={sx} infoLabel={infoLabel} {...ids}>
       <Controller
         name={fieldName}
+        disabled={props.disabled}
         rules={withTrimmedRequired(mapValidationErrorMessages(rules, t), t)}
         render={({ field: { ref, onChange: _onChange, ...fieldProps } }) => (
           <MITextField
