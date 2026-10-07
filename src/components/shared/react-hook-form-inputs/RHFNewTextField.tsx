@@ -30,7 +30,7 @@ export type RHFNewTextFieldProps = Omit<MITextFieldProps, 'type' | 'label'> & {
       }
     | {
         type?: 'number'
-        onValueChange?: (value: number) => void
+        onValueChange?: (value: number | '') => void
       }
   )
 
@@ -69,6 +69,7 @@ export const RHFNewTextField: React.FC<RHFNewTextFieldProps> = ({
         rules={withTrimmedRequired(mapValidationErrorMessages(rules, t), t)}
         render={({ field: { ref, onChange: _onChange, ...fieldProps } }) => (
           <MITextField
+            {...props}
             autoFocus={focusOnMount}
             id={fieldName}
             label={label}
@@ -107,7 +108,7 @@ export const RHFNewTextField: React.FC<RHFNewTextFieldProps> = ({
                       e.preventDefault()
                     }
                   }
-                : undefined
+                : props.onKeyDown
             }
             onChange={(e) => {
               let value: string | number = e.target.value
@@ -116,11 +117,11 @@ export const RHFNewTextField: React.FC<RHFNewTextFieldProps> = ({
                 value = e.target.value === '' ? '' : isNaN(valueAsNumber) ? '' : valueAsNumber
               }
               _onChange(value)
+              props.onChange?.(e)
               if (onValueChange) onValueChange(value as never)
             }}
             inputRef={ref}
             {...fieldProps}
-            {...props}
           />
         )}
       />
