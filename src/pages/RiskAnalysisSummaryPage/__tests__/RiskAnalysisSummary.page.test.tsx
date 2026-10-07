@@ -94,6 +94,23 @@ describe('RiskAnalysisSummaryPage (UI)', () => {
     mockedPurposeData = basePurposeData
   })
 
+  it.each([
+    { routeKey: 'SUBSCRIBE_RISK_ANALYSIS_APPROVAL', expanded: 'true' },
+    { routeKey: 'SUBSCRIBE_RISK_ANALYSIS_SUMMARY', expanded: 'false' },
+  ])('should start card 2 with aria-expanded=$expanded for $routeKey', ({ routeKey, expanded }) => {
+    mockRouteKey(routeKey)
+
+    renderWithApplicationContext(<RiskAnalysisSummaryPage />, {
+      withReactQueryContext: true,
+      withRouterContext: true,
+    })
+
+    expect(screen.getByRole('button', { name: '2 riskAnalysisSection.title' })).toHaveAttribute(
+      'aria-expanded',
+      expanded
+    )
+  })
+
   it('should render summary page title', () => {
     renderWithApplicationContext(<RiskAnalysisSummaryPage />, {
       withReactQueryContext: true,

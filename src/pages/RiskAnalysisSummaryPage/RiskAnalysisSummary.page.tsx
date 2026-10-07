@@ -74,7 +74,11 @@ const RiskAnalysisSummaryPage: React.FC = () => {
         </React.Suspense>
 
         <React.Suspense fallback={<SummaryAccordionSkeleton />}>
-          <SummaryAccordion headline="2" title={t('riskAnalysisSection.title')}>
+          <SummaryAccordion
+            headline="2"
+            title={t('riskAnalysisSection.title')}
+            defaultExpanded={isApprovalFlow}
+          >
             <ConsumerPurposeSummaryRiskAnalysisAccordion purposeId={purposeId} />
           </SummaryAccordion>
         </React.Suspense>
