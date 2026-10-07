@@ -78,11 +78,6 @@ export const RHFNewTextField: React.FC<RHFNewTextFieldProps> = ({
             multiline={multiline}
             rows={multiline && !rows ? 2.5 : rows}
             error={!!error}
-            sx={{
-              '& .MuiFormLabel-asterisk': {
-                color: props.required ? theme.palette.error.dark : 'inherit',
-              },
-            }}
             InputLabelProps={
               labelType === 'external'
                 ? {
