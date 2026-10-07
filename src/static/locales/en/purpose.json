@@ -120,7 +120,6 @@
       "editAssignmentDialog": {
         "title": "Edit assignment",
         "modeChosen": "You have chosen the mode {{mode}}.",
-        "modeTransition": "You are switching from {{from}} to {{to}}.",
         "selectedReviewersLabel": "Who you selected",
         "removedReviewersLabel": "Who you removed",
         "riskAnalysisLossWarning": "If you confirm, you will lose all the risk analysis information already filled in."

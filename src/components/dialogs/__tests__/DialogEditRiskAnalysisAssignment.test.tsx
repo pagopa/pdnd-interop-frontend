@@ -49,24 +49,19 @@ describe('DialogEditRiskAnalysisAssignment', () => {
   })
 
   describe('mode change copy', () => {
-    it('announces the chosen mode when leaving the self-compilation mode', () => {
-      renderDialog({
-        fromMode: 'ADMIN_WRITES_ADMIN_SIGNS',
-        toMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
-      })
+    const modeChanges: Array<[RiskAnalysisReviewMode, RiskAnalysisReviewMode]> = [
+      ['ADMIN_WRITES_ADMIN_SIGNS', 'ADMIN_WRITES_REVIEWER_SIGNS'],
+      ['ADMIN_WRITES_ADMIN_SIGNS', 'REVIEWER_WRITES_REVIEWER_SIGNS'],
+      ['ADMIN_WRITES_REVIEWER_SIGNS', 'ADMIN_WRITES_ADMIN_SIGNS'],
+      ['ADMIN_WRITES_REVIEWER_SIGNS', 'REVIEWER_WRITES_REVIEWER_SIGNS'],
+      ['REVIEWER_WRITES_REVIEWER_SIGNS', 'ADMIN_WRITES_ADMIN_SIGNS'],
+      ['REVIEWER_WRITES_REVIEWER_SIGNS', 'ADMIN_WRITES_REVIEWER_SIGNS'],
+    ]
+
+    it.each(modeChanges)('announces the chosen mode from %s to %s', (fromMode, toMode) => {
+      renderDialog({ fromMode, toMode })
 
       expect(screen.getByText('editAssignmentDialog.modeChosen')).toBeInTheDocument()
-      expect(screen.queryByText('editAssignmentDialog.modeTransition')).not.toBeInTheDocument()
-    })
-
-    it('frames the change as a transition between two modes otherwise', () => {
-      renderDialog({
-        fromMode: 'ADMIN_WRITES_REVIEWER_SIGNS',
-        toMode: 'REVIEWER_WRITES_REVIEWER_SIGNS',
-      })
-
-      expect(screen.getByText('editAssignmentDialog.modeTransition')).toBeInTheDocument()
-      expect(screen.queryByText('editAssignmentDialog.modeChosen')).not.toBeInTheDocument()
     })
 
     it('shows no mode copy at all when only the reviewers changed', () => {
@@ -76,7 +71,6 @@ describe('DialogEditRiskAnalysisAssignment', () => {
         addedReviewerNames: ['Anna Verdi'],
       })
 
-      expect(screen.queryByText('editAssignmentDialog.modeTransition')).not.toBeInTheDocument()
       expect(screen.queryByText('editAssignmentDialog.modeChosen')).not.toBeInTheDocument()
     })
   })

@@ -50,18 +50,6 @@ export const DialogEditRiskAnalysisAssignment: React.FC<DialogEditRiskAnalysisAs
 
   const getModeLabel = (mode: RiskAnalysisReviewMode) => t(`reviewModeField.options.${mode}`)
 
-  const getModeChangeText = () => {
-    if (fromMode === toMode) return undefined
-
-    if (fromMode === 'ADMIN_WRITES_ADMIN_SIGNS') {
-      return t('editAssignmentDialog.modeChosen', { mode: getModeLabel(toMode) })
-    }
-    return t('editAssignmentDialog.modeTransition', {
-      from: getModeLabel(fromMode),
-      to: getModeLabel(toMode),
-    })
-  }
-
   const losesRiskAnalysis = match({ fromMode, toMode })
     .returnType<boolean>()
     .with(
@@ -78,8 +66,6 @@ export const DialogEditRiskAnalysisAssignment: React.FC<DialogEditRiskAnalysisAs
     .with({ toMode: 'REVIEWER_WRITES_REVIEWER_SIGNS' }, () => true)
     .with({ fromMode: 'REVIEWER_WRITES_REVIEWER_SIGNS' }, () => true)
     .exhaustive()
-
-  const modeChangeText = getModeChangeText()
 
   const handleConfirm = () => {
     onConfirm()
@@ -98,7 +84,11 @@ export const DialogEditRiskAnalysisAssignment: React.FC<DialogEditRiskAnalysisAs
 
       <DialogContent>
         <Stack id={ariaDescriptionId} spacing={2}>
-          {modeChangeText && <Typography variant="body2">{modeChangeText}</Typography>}
+          {fromMode !== toMode && (
+            <Typography variant="body2">
+              {t('editAssignmentDialog.modeChosen', { mode: getModeLabel(toMode) })}
+            </Typography>
+          )}
           {addedReviewerNames.length > 0 && (
             <ReviewerNamesBlock
               label={t('editAssignmentDialog.selectedReviewersLabel')}
