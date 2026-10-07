@@ -1,0 +1,102 @@
+import React, { useId } from 'react'
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  type SelectChangeEvent,
+} from '@mui/material'
+import { MISelect, type MISelectProps } from '@pagopa/mui-italia'
+import { Controller, useFormContext } from 'react-hook-form'
+import type { InputOption } from '@/types/common.types'
+import type { ControllerProps } from 'react-hook-form/dist/types'
+import { useTranslation } from 'react-i18next'
+import { mapValidationErrorMessages } from '@/utils/form.utils'
+
+export type RHFNewSelectProps = Omit<MISelectProps, 'onChange' | 'label' | 'value'> & {
+  name: string
+  options: Array<InputOption & { disabled?: boolean }>
+  label?: string
+  rules?: ControllerProps['rules']
+  onValueChange?: (value: string | number) => void
+  emptyLabel?: string
+  infoLabel?: string
+}
+
+export const RHFNewSelect: React.FC<RHFNewSelectProps> = ({
+  name,
+  options,
+  label,
+  rules,
+  onValueChange,
+  emptyLabel,
+  disabled,
+  infoLabel,
+  ...props
+}) => {
+  const { formState } = useFormContext()
+  const { t } = useTranslation()
+  const labelId = useId()
+  const error = formState.errors[name]?.message as string | undefined
+
+  const conditionalRules = mapValidationErrorMessages(rules, t)
+
+  return (
+    <Controller
+      name={name}
+      rules={conditionalRules}
+      render={({ field: { onChange, value, ...fieldProps } }) => (
+        <FormControl
+          fullWidth
+          error={!!error}
+          disabled={disabled}
+          required={Boolean(rules?.required)}
+        >
+          <InputLabel
+            id={labelId}
+            sx={{
+              '& .MuiFormLabel-asterisk': {
+                color: 'error.main',
+              },
+            }}
+          >
+            {label}
+          </InputLabel>
+          <MISelect
+            {...props}
+            {...fieldProps}
+            value={value ?? ''}
+            labelId={labelId}
+            id={name}
+            label={label}
+            onChange={(e: SelectChangeEvent<unknown>) => {
+              const value = e.target.value as string | number
+              onChange(value)
+              if (onValueChange) onValueChange(value)
+            }}
+            disabled={disabled}
+          >
+            {options.length > 0 ? (
+              options.map((option, index) => (
+                <MenuItem
+                  key={`${name}-${option.value}-${index}`}
+                  value={option.value}
+                  disabled={option.disabled}
+                >
+                  {option.label}
+                </MenuItem>
+              ))
+            ) : (
+              <MenuItem value="">{emptyLabel ?? ''}</MenuItem>
+            )}
+          </MISelect>
+          {infoLabel && (
+            <FormHelperText component="span" error={false} sx={{ fontWeight: 400 }}>
+              {infoLabel}
+            </FormHelperText>
+          )}
+        </FormControl>
+      )}
+    />
+  )
+}
