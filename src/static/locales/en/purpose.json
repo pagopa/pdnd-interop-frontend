@@ -688,7 +688,6 @@
       "details": "Purpose details",
       "riskAnalysis": "Risk analysis"
     },
-    "signedAlert": "You can no longer edit the risk analysis because it has been approved.",
     "rejectedAlert": {
       "label": "The risk analysis of this purpose has been rejected.",
       "action": "Read reason"

@@ -688,7 +688,6 @@
       "details": "Dettagli finalità",
       "riskAnalysis": "Analisi del rischio"
     },
-    "signedAlert": "Non puoi più modificare l’analisi del rischio perché è stata approvata.",
     "rejectedAlert": {
       "label": "L’analisi del rischio di questa finalità è stata rifiutata.",
       "action": "Leggi motivazione"
