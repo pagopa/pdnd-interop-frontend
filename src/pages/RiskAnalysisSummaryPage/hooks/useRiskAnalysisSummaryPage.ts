@@ -15,7 +15,12 @@ export function useRiskAnalysisSummaryPage() {
     keyPrefix: 'purpose.signRiskAnalysis.outcome',
   })
 
-  const { data: purpose, isLoading, refetch } = useQuery(PurposeQueries.getSingle(purposeId))
+  const {
+    data: purpose,
+    isLoading,
+    isFetching,
+    refetch,
+  } = useQuery(PurposeQueries.getSingle(purposeId))
 
   const isEserviceDeliverMode = purpose?.eservice.mode === 'DELIVER'
 
@@ -98,6 +103,7 @@ export function useRiskAnalysisSummaryPage() {
     purposeId,
     purpose,
     isLoading,
+    isFetching,
     isEserviceDeliverMode,
     expirationDate,
     isRulesetExpired,
