@@ -45,7 +45,7 @@ export const RHFNewSelect: React.FC<RHFNewSelectProps> = ({
     <Controller
       name={name}
       rules={conditionalRules}
-      render={({ field: { onChange, value, ...fieldProps } }) => (
+      render={({ field: { ref, onChange, value, ...fieldProps } }) => (
         <FormControl
           fullWidth
           error={!!error}
@@ -67,7 +67,9 @@ export const RHFNewSelect: React.FC<RHFNewSelectProps> = ({
             {...fieldProps}
             value={value ?? ''}
             labelId={labelId}
+            ref={ref}
             id={name}
+            inputRef={ref}
             label={label}
             onChange={(e: SelectChangeEvent<unknown>) => {
               const value = e.target.value as string | number
