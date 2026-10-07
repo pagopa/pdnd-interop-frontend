@@ -52,16 +52,7 @@ export const RHFNewSelect: React.FC<RHFNewSelectProps> = ({
           disabled={disabled}
           required={Boolean(rules?.required)}
         >
-          <InputLabel
-            id={labelId}
-            sx={{
-              '& .MuiFormLabel-asterisk': {
-                color: 'error.main',
-              },
-            }}
-          >
-            {label}
-          </InputLabel>
+          <InputLabel id={labelId}>{label}</InputLabel>
           <MISelect
             {...props}
             {...fieldProps}
