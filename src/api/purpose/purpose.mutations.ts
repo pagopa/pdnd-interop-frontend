@@ -1,7 +1,11 @@
 import { useMutation } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { PurposeServices } from './purpose.services'
-import { RiskAnalysisAlreadyApprovedError } from '@/utils/errors.utils'
+import {
+  RiskAnalysisAlreadyApprovedError,
+  RiskAnalysisAlreadyRejectedError,
+} from '@/utils/errors.utils'
+import { match, P } from 'ts-pattern'
 function useCreateDraft() {
   const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.createDraft' })
   return useMutation({
@@ -279,9 +283,10 @@ function useSignRiskAnalysis() {
     meta: {
       errorToastLabel: (error: unknown) =>
         t(
-          error instanceof RiskAnalysisAlreadyApprovedError
-            ? 'outcome.alreadyApproved'
-            : 'outcome.error'
+          match(error)
+            .with(P.instanceOf(RiskAnalysisAlreadyApprovedError), () => 'outcome.alreadyApproved')
+            .with(P.instanceOf(RiskAnalysisAlreadyRejectedError), () => 'outcome.alreadyRejected')
+            .otherwise(() => 'outcome.error')
         ),
       loadingLabel: t('loading'),
     },
@@ -289,12 +294,24 @@ function useSignRiskAnalysis() {
 }
 
 function useRejectRiskAnalysis() {
-  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose.rejectRiskAnalysis' })
+  const { t } = useTranslation('mutations-feedback', { keyPrefix: 'purpose' })
   return useMutation({
     mutationFn: PurposeServices.rejectRiskAnalysis,
     meta: {
-      errorToastLabel: t('outcome.error'),
-      loadingLabel: t('loading'),
+      errorToastLabel: (error: unknown) =>
+        t(
+          match(error)
+            .with(
+              P.instanceOf(RiskAnalysisAlreadyApprovedError),
+              () => 'signRiskAnalysis.outcome.alreadyApproved'
+            )
+            .with(
+              P.instanceOf(RiskAnalysisAlreadyRejectedError),
+              () => 'signRiskAnalysis.outcome.alreadyRejected'
+            )
+            .otherwise(() => 'rejectRiskAnalysis.outcome.error')
+        ),
+      loadingLabel: t('rejectRiskAnalysis.loading'),
     },
   })
 }
@@ -306,9 +323,16 @@ function useUpdateRiskAnalysis() {
     meta: {
       errorToastLabel: (error: unknown) =>
         t(
-          error instanceof RiskAnalysisAlreadyApprovedError
-            ? 'signRiskAnalysis.outcome.alreadyApproved'
-            : 'updateRiskAnalysis.outcome.error'
+          match(error)
+            .with(
+              P.instanceOf(RiskAnalysisAlreadyApprovedError),
+              () => 'signRiskAnalysis.outcome.alreadyApproved'
+            )
+            .with(
+              P.instanceOf(RiskAnalysisAlreadyRejectedError),
+              () => 'signRiskAnalysis.outcome.alreadyRejected'
+            )
+            .otherwise(() => 'updateRiskAnalysis.outcome.error')
         ),
       loadingLabel: t('updateRiskAnalysis.loading'),
     },

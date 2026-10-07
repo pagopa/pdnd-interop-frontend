@@ -1,7 +1,10 @@
 import { BACKEND_FOR_FRONTEND_URL } from '@/config/env'
 import axiosInstance from '@/config/axios'
 import { isAxiosError } from 'axios'
-import { RiskAnalysisAlreadyApprovedError } from '@/utils/errors.utils'
+import {
+  RiskAnalysisAlreadyApprovedError,
+  RiskAnalysisAlreadyRejectedError,
+} from '@/utils/errors.utils'
 import type {
   CreatedResource,
   DelegationRef,
@@ -329,10 +332,12 @@ async function rejectRiskAnalysis({
   purposeId,
   ...payload
 }: { purposeId: string } & RiskAnalysisRejectionSeed) {
-  const response = await axiosInstance.post<CreatedResource>(
-    `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/reject`,
-    payload
-  )
+  const response = await axiosInstance
+    .post<CreatedResource>(
+      `${BACKEND_FOR_FRONTEND_URL}/purposes/${purposeId}/riskAnalysis/reject`,
+      payload
+    )
+    .catch((error: unknown) => handleRiskAnalysisConflict(error, purposeId))
   return response.data
 }
 
@@ -347,11 +352,14 @@ async function updateRiskAnalysis({
 
 async function handleRiskAnalysisConflict(error: unknown, purposeId: string): Promise<never> {
   if (isAxiosError(error) && error.response?.status === 409) {
-    // A conflict can also mean rejection, reassignment or a changed version.
-    // Check the current state before claiming that another reviewer approved it.
+    // A conflict can also mean reassignment or a changed version.
+    // Check the current state before claiming that another reviewer concluded it.
     const purpose = await getSingle(purposeId).catch(() => undefined)
     if (purpose?.reviewerWorkflow?.signingState === 'SIGNED') {
       throw new RiskAnalysisAlreadyApprovedError()
+    }
+    if (purpose?.reviewerWorkflow?.signingState === 'REJECTED') {
+      throw new RiskAnalysisAlreadyRejectedError()
     }
   }
   throw error
