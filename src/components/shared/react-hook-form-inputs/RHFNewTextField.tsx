@@ -1,5 +1,4 @@
 import React from 'react'
-import type { MITextFieldProps } from '@pagopa/mui-italia/components/MITextField'
 import { InputWrapper } from '../InputWrapper'
 import type { FieldErrors, FieldValues } from 'react-hook-form'
 import { useFormContext, Controller } from 'react-hook-form'
@@ -11,7 +10,7 @@ import {
 } from '@/utils/form.utils'
 import { useTranslation } from 'react-i18next'
 import get from 'lodash/get'
-import { MITextField } from '@pagopa/mui-italia/components/MITextField'
+import { type MITextFieldProps, MITextField } from '@pagopa/mui-italia'
 
 export type RHFNewTextFieldProps = Omit<MITextFieldProps, 'type' | 'label'> & {
   name: string
