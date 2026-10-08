@@ -127,6 +127,10 @@
               "purposeStateUpdated": {
                 "label": "Variazione di stato di una finalità",
                 "description": "Avvisami quando lo stato di una finalità viene sospesa, archiviata o riattivata"
+              },
+              "purposeRiskAnalysisAssignmentStatusToAdmin": {
+                "label": "Stato delle assegnazioni di un’analisi del rischio",
+                "description": "Avvisami quando un valutatore approva o rifiuta un’analisi del rischio"
               }
             }
           },
@@ -232,6 +236,10 @@
               "eserviceDelegatedCreated": {
                 "label": "Approvazione delle richieste del delegato",
                 "description": "Avvisami quando il delegato genera una nuova versione di e-service in delega affinché possa valutarla"
+              },
+              "archivingRequestFromDelegate": {
+                "label": "Gestione archiviazione",
+                "description": "Avvisami quando il delegato richiede l’archiviazione di una versione o di un e-service affidato in delega"
               }
             }
           },
@@ -245,6 +253,10 @@
               "eserviceDelegatedApproval": {
                 "label": "Approvazione della pubblicazione di una nuova versione di e-service",
                 "description": "Avvisami quando l’ente delegante ha approvato o rifiutato la mia richiesta di variazione della versione"
+              },
+              "archivingRequestApprovedRejectedByDelegator": {
+                "label": "Gestione archiviazione",
+                "description": "Avvisami quando l’ente delegante approva o rifiuta la mia richiesta di archiviazione di una versione o di un e-service affidato in delega"
               }
             }
           }
@@ -266,6 +278,22 @@
               "clientKeysAssociationUpdated": {
                 "label": "Variazioni sullo stato delle chiavi collegate ad un client",
                 "description": "Avvisami quando lo stato di una chiave collegata ad un client cambia oppure è bene venga sostituita."
+              }
+            }
+          }
+        },
+        "riskAnalysis": {
+          "title": "Analisi del rischio",
+          "riskAnalysisAssignment": {
+            "title": "Assegnazione di compilazione o approvazione",
+            "components": {
+              "purposeRiskAnalysisAssignmentStatusToReviewer": {
+                "label": "Stato delle assegnazioni ricevute",
+                "description": "Avvisami quando ricevo la compilazione o l’approvazione di un’analisi del rischio o quando mi viene revocata"
+              },
+              "purposePublishedWithRiskAnalysisToReviewer": {
+                "label": "Pubblicazione delle finalità",
+                "description": "Avvisami quando l’amministratore pubblica una finalità di cui mi è stata assegnata l’analisi del rischio"
               }
             }
           }

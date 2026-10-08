@@ -82,6 +82,13 @@
         "error": "Non è stato possibile modificare la soglia di chiamate API dell’attributo. Controlla di aver inserito le informazioni corrette."
       }
     },
+    "removeAttributeThreshold": {
+      "loading": "La soglia di chiamate API dell'attributo certificato è in fase di rimozione",
+      "outcome": {
+        "success": "Hai rimosso la soglia di chiamate API dell’attributo certificato.",
+        "error": "Non è stato possibile rimuovere la soglia di chiamate API dell’attributo. Riprova."
+      }
+    },
     "publishVersionDraft": {
       "loading": "Stiamo pubblicando la versione in bozza",
       "outcome": {
@@ -142,10 +149,52 @@
         "error": "Non è stato possibile procedere con l'archiviazione di questa versione dell'e-service. Riprova più tardi."
       }
     },
+    "requestArchiveDescriptor": {
+      "outcome": {
+        "success": "Hai richiesto l’archiviazione di questa versione dell’e-service all’ente delegante",
+        "error": "Non è stato possibile richiedere l’archiviazione di questa versione dell’e-service. Riprova più tardi."
+      }
+    },
     "cancelDescriptorArchiving": {
       "outcome": {
         "success": "Questa versione non è più in fase di archiviazione",
         "error": "Non è stato possibile annullare l'archiviazione di questa versione dell'e-service. Riprova più tardi."
+      }
+    },
+    "cancelDelegatedArchivingVersionRequest": {
+      "outcome": {
+        "success": "La richiesta di archiviazione di questa versione dell’e-service è stata annullata",
+        "error": "Non è stato possibile annullare la richiesta di archiviazione di questa versione dell’e-service. Riprova più tardi."
+      }
+    },
+    "cancelDelegatedEserviceArchivingRequest": {
+      "outcome": {
+        "success": "La richiesta di archiviazione di questo e-service è stata annullata",
+        "error": "Non è stato possibile annullare la richiesta di archiviazione di questo e-service. Riprova più tardi."
+      }
+    },
+    "approveDelegatedArchivingEService": {
+      "outcome": {
+        "success": "Questo e-service sarà archiviato tra {{days}} giorni",
+        "error": "Non è stato possibile procedere con l’archiviazione di questo e-service. Riprova più tardi."
+      }
+    },
+    "rejectDelegatedArchivingEService": {
+      "outcome": {
+        "success": "Hai rifiutato la richiesta di archiviazione dell’e-service",
+        "error": "Non è stato possibile rifiutare la richiesta di archiviazione dell’e-service. Riprova più tardi."
+      }
+    },
+    "approveDelegatedArchivingVersion": {
+      "outcome": {
+        "success": "Questa versione dell'e-service sarà archiviata tra {{days}} giorni",
+        "error": "Non è stato possibile procedere con l’archiviazione di questa versione dell’e-service. Riprova più tardi."
+      }
+    },
+    "rejectDelegatedArchivingVersion": {
+      "outcome": {
+        "success": "Hai rifiutato la richiesta di archiviazione di questa versione dell’e-service",
+        "error": "Non è stato possibile rifiutare la richiesta di archiviazione di questa versione dell’e-service. Riprova più tardi."
       }
     },
     "cancelEserviceArchiving": {
@@ -157,7 +206,14 @@
     "scheduleArchiveEservice": {
       "outcome": {
         "success": "Questo e-service sarà archiviato tra {{days}} giorni",
+        "gracePeriodError": "Non puoi archiviare l’e-service prima di una versione già in fase di archiviazione. Seleziona una durata più lunga.",
         "error": "Non è stato possibile procedere con l'archiviazione di questo e-service. Riprova più tardi."
+      }
+    },
+    "requestArchiveEservice": {
+      "outcome": {
+        "success": "Hai richiesto l’archiviazione di questo e-service all’ente delegante",
+        "error": "Non è stato possibile richiedere l’archiviazione di questo e-service. Riprova più tardi."
       }
     },
     "suspendVersion": {
@@ -681,6 +737,13 @@
         "error": "Non è stato possibile assegnare l’analisi del rischio."
       }
     },
+    "updateRiskAnalysisAssignment": {
+      "loading": "Stiamo modificando l’assegnazione dell’analisi del rischio",
+      "outcome": {
+        "success": "Hai modificato l’assegnazione dell’analisi del rischio.",
+        "error": "Non è stato possibile modificare l’assegnazione dell’analisi del rischio."
+      }
+    },
     "submitRiskAnalysis": {
       "loading": "Stiamo assegnando l’analisi del rischio a un valutatore",
       "outcome": {
@@ -691,7 +754,9 @@
     "signRiskAnalysis": {
       "loading": "Stiamo approvando l'analisi del rischio",
       "outcome": {
-        "error": "Non è stato possibile approvare l'analisi del rischio. Per favore, riprova!"
+        "error": "Non è stato possibile approvare l'analisi del rischio. Per favore, riprova!",
+        "versionChanged": "Un altro valutatore ha modificato questa analisi del rischio. Ricarica la pagina per vedere la versione aggiornata e decidi se approvarla.",
+        "alreadyApproved": "Questa analisi del rischio è già stata approvata da un altro valutatore. Ricarica la pagina per vedere l’analisi del rischio approvata."
       }
     },
     "rejectRiskAnalysis": {

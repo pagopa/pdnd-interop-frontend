@@ -14,13 +14,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 permissions:
   contents: read
-  actions: write
-  pull-requests: read
 
 jobs:
   build:
@@ -28,7 +23,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [18.15.0]
+        node: [22.14.0]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current branch (full)
@@ -59,7 +54,7 @@ jobs:
       matrix:
         shard: [1, 2, 3, 4]
         os: [ubuntu-latest]
-        node: [18.15.0]
+        node: [22.14.0]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current branch (full)
@@ -104,9 +99,8 @@ jobs:
           pattern: lcov-shard-*
           path: coverage-reports
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@ba3875ecf642b2129de2b589510c81a8b53dbf4e # master
+        uses: SonarSource/sonarqube-scan-action@22918119ff8e1ca75a623e15c8296b6ea4fbe28f # v8.2.1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
@@ -123,7 +117,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node: [18.15.0]
+        node: [22.14.0]
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout current branch (full)
@@ -131,7 +125,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install node 16
+      - name: Install node
         uses: actions/setup-node@1a4442cacd436585916779262731d5b162bc6ec7 # v3
         with:
           node-version: ${{ matrix.node }}

@@ -20,6 +20,7 @@ export type RiskAnalysisSigningState =
 
 /** Risk analysis review mode */
 export type RiskAnalysisReviewMode =
+  | "ADMIN_WRITES_ADMIN_SIGNS"
   | "ADMIN_WRITES_REVIEWER_SIGNS"
   | "REVIEWER_WRITES_REVIEWER_SIGNS";
 
@@ -601,8 +602,26 @@ export interface ProducerEServiceDetails {
   isClientAccessDelegable?: boolean;
   personalData?: boolean;
   asyncExchange?: boolean;
+  delegatedArchivingRequest?: DelegatedArchivingRequest;
   /** @format uuid */
   latestActiveDescriptorId?: string;
+}
+
+export interface DelegatedArchivingRequest {
+  /** @format date-time */
+  requestedAt: string;
+  /** @format date-time */
+  acceptedAt?: string;
+  /** @format date-time */
+  rejectedAt?: string;
+  rejectionReason?: string;
+  /** @format uuid */
+  requesterId: string;
+  /** Number of days for the archiving grace period */
+  gracePeriodDays: GracePeriodDays;
+  archivingReason?: string;
+  /** @format uuid */
+  descriptorId?: string;
 }
 
 export interface ArchivingSchedule {
@@ -726,6 +745,7 @@ export interface ProducerDescriptorEService {
   personalData?: boolean;
   instanceLabel?: string;
   asyncExchange?: boolean;
+  delegatedArchivingRequest?: DelegatedArchivingRequest;
 }
 
 export interface ProducerDescriptorEServiceProducer {
@@ -1220,6 +1240,8 @@ export interface Purpose {
   isDocumentReady: boolean;
   /** @format date-time */
   rulesetExpiration?: string;
+  /** Risk analysis review mode */
+  riskAnalysisReviewMode?: RiskAnalysisReviewMode;
   /** Reviewer workflow state for a purpose risk analysis */
   reviewerWorkflow?: ReviewerWorkflow;
 }
@@ -2512,7 +2534,7 @@ export interface VersionSeedForEServiceTemplateCreation {
    * @minLength 10
    * @maxLength 250
    */
-  description?: string;
+  description: string;
   /**
    * @format int32
    * @min 60
@@ -2748,6 +2770,13 @@ export interface NotificationConfig {
   clientKeyAndProducerKeychainKeyAddedDeletedToClientUsers: boolean;
   purposeQuotaAdjustmentRequestToProducer: boolean;
   purposeOverQuotaStateToConsumer: boolean;
+  /** Enables risk analysis approval and rejection notifications for administrators. */
+  purposeRiskAnalysisAssignmentStatusToAdmin: boolean;
+  /** Enables assignment, removal, draft deletion and approval by another reviewer notifications. */
+  purposeRiskAnalysisAssignmentStatusToReviewer: boolean;
+  purposePublishedWithRiskAnalysisToReviewer: boolean;
+  eserviceArchivingRequestedToDelegator: boolean;
+  eserviceArchivingApprovedRejectedToDelegate: boolean;
 }
 
 export interface TenantNotificationConfig {
@@ -2788,6 +2817,18 @@ export interface EServiceArchivingSeed {
   archivingReason: string;
   /** Number of days for the archiving grace period */
   gracePeriodDays: GracePeriodDays;
+}
+
+/** Seed for an owner to reject a delegated archiving request */
+export interface RejectDelegatedEServiceArchivingSeed {
+  /** @minLength 1 */
+  rejectionReason: string;
+}
+
+/** Seed for an owner to reject a delegated descriptor archiving request */
+export interface RejectDelegatedDescriptorArchivingSeed {
+  /** @minLength 1 */
+  rejectionReason: string;
 }
 
 export interface CompactPurposeTemplateEServiceTemplate {
@@ -2872,19 +2913,30 @@ export interface NotificationsCountBySection {
   };
 }
 
+/** A designated reviewer enriched with its user details */
+export interface Reviewer {
+  /** @format uuid */
+  userId: string;
+  name: string;
+  familyName: string;
+  /** @format date-time */
+  sentToReviewerAt?: string;
+}
+
 /** Reviewer workflow state for a purpose risk analysis */
 export interface ReviewerWorkflow {
-  /** Risk analysis review mode */
-  reviewMode: RiskAnalysisReviewMode;
-  reviewerIds: string[];
-  reviewers?: CompactUser[];
+  reviewers?: Reviewer[];
   /** Risk analysis signing state */
   signingState: RiskAnalysisSigningState;
   /** @format uuid */
   signedBy?: string;
-  rejectionReason?: string;
   /** @format date-time */
-  sentToReviewerAt?: string;
+  signedAt?: string;
+  /** @format uuid */
+  rejectedBy?: string;
+  /** @format date-time */
+  rejectedAt?: string;
+  rejectionReason?: string;
 }
 
 /** Payload to assign reviewer mode and reviewers to a purpose risk analysis */
@@ -2892,12 +2944,21 @@ export interface RiskAnalysisAssignmentSeed {
   /** Risk analysis review mode */
   reviewMode: RiskAnalysisReviewMode;
   /** @minItems 1 */
-  reviewerIds: string[];
+  reviewerIds?: string[];
 }
 
 /** Payload to submit the risk analysis form for reviewer signing */
 export interface RiskAnalysisSubmissionSeed {
   riskAnalysisForm: RiskAnalysisFormSeed;
+}
+
+/** Payload to sign the latest version of a purpose risk analysis */
+export interface RiskAnalysisSignSeed {
+  /**
+   * @format int32
+   * @min 0
+   */
+  metadataVersionToSign: number;
 }
 
 /** Payload to reject the risk analysis with a reason */
@@ -3385,6 +3446,84 @@ export interface ScheduleArchiveEserviceParams {
   eServiceId: string;
 }
 
+export interface ApproveDelegatedEServiceArchivingParams {
+  /** @format uuid */
+  eServiceId: string;
+}
+
+export interface RejectDelegatedEServiceArchivingParams {
+  /** @format uuid */
+  eServiceId: string;
+}
+
+export interface SubmitDelegatedEServiceArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface CancelDelegatedEServiceArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+}
+
+export interface SubmitDelegatedDescriptorArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface CancelDelegatedDescriptorArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface ApproveDelegatedDescriptorArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
+export interface RejectDelegatedDescriptorArchivingParams {
+  /**
+   * the eservice id
+   * @format uuid
+   */
+  eServiceId: string;
+  /**
+   * the descriptor Id
+   * @format uuid
+   */
+  descriptorId: string;
+}
+
 export interface UpdateTemplateInstanceDescriptorParams {
   /**
    * the eservice id
@@ -3809,6 +3948,11 @@ export interface GetProducerEServicesParams {
   consumersIds?: string[];
   /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
   delegated?: boolean;
+  /**
+   * comma separated sequence of states
+   * @default []
+   */
+  states?: EServiceDescriptorState[];
   /**
    * @format int32
    * @min 0
@@ -5957,6 +6101,11 @@ export namespace Producers {
       /** if true only delegated e-services will be returned, if false only non-delegated e-services will be returned, if not present all e-services will be returned */
       delegated?: boolean;
       /**
+       * comma separated sequence of states
+       * @default []
+       */
+      states?: EServiceDescriptorState[];
+      /**
        * @format int32
        * @min 0
        */
@@ -6381,7 +6530,7 @@ export namespace Agreements {
     export type RequestQuery = {};
     export type RequestBody = AddAgreementConsumerDocumentPayload;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -6402,7 +6551,7 @@ export namespace Agreements {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -6445,7 +6594,7 @@ export namespace Agreements {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -6599,7 +6748,7 @@ export namespace Agreements {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 }
 
@@ -7340,7 +7489,7 @@ export namespace Eservices {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -7572,6 +7721,196 @@ export namespace Eservices {
   }
 
   /**
+   * @description Allows the owner (delegator) to approve a delegate's archiving request
+   * @tags eservices
+   * @name ApproveDelegatedEServiceArchiving
+   * @summary Approve a delegated archiving request for an E-Service
+   * @request POST:/eservices/{eServiceId}/approveDelegatedArchiving
+   * @secure
+   */
+  export namespace ApproveDelegatedEServiceArchiving {
+    export type RequestParams = {
+      /** @format uuid */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows the owner (delegator) to reject a delegate's archiving request
+   * @tags eservices
+   * @name RejectDelegatedEServiceArchiving
+   * @summary Reject a delegated archiving request for an E-Service
+   * @request POST:/eservices/{eServiceId}/rejectDelegatedArchiving
+   * @secure
+   */
+  export namespace RejectDelegatedEServiceArchiving {
+    export type RequestParams = {
+      /** @format uuid */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RejectDelegatedEServiceArchivingSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows a delegate to request the archiving of the specified E-Service. The owner must then approve or reject the request.
+   * @tags eservices
+   * @name SubmitDelegatedEServiceArchiving
+   * @summary Submit a delegated archiving request for an E-Service
+   * @request POST:/eservices/{eServiceId}/submitDelegatedArchiving
+   * @secure
+   */
+  export namespace SubmitDelegatedEServiceArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = EServiceArchivingSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows a delegate to cancel a previously submitted archiving request for the specified E-Service.
+   * @tags eservices
+   * @name CancelDelegatedEServiceArchiving
+   * @summary Cancel a delegated archiving request for an E-Service
+   * @request DELETE:/eservices/{eServiceId}/submitDelegatedArchiving
+   * @secure
+   */
+  export namespace CancelDelegatedEServiceArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows a delegate to request the archiving of the specified Descriptor. The owner must then approve or reject the request.
+   * @tags eservices
+   * @name SubmitDelegatedDescriptorArchiving
+   * @summary Submit a delegated archiving request for an E-Service
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/submitDelegatedArchiving
+   * @secure
+   */
+  export namespace SubmitDelegatedDescriptorArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = GracePeriodDaysSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows a delegate to cancel a previously submitted archiving request for the specified Descriptor.
+   * @tags eservices
+   * @name CancelDelegatedDescriptorArchiving
+   * @summary Cancel a delegated archiving request for an E-Service
+   * @request DELETE:/eservices/{eServiceId}/descriptors/{descriptorId}/submitDelegatedArchiving
+   * @secure
+   */
+  export namespace CancelDelegatedDescriptorArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows the owner (delegator) to approve a delegate's descriptor archiving request
+   * @tags eservices
+   * @name ApproveDelegatedDescriptorArchiving
+   * @summary Approve a delegated archiving request for a Descriptor
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/approveDelegatedArchiving
+   * @secure
+   */
+  export namespace ApproveDelegatedDescriptorArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = never;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
+   * @description Allows the owner (delegator) to reject a delegate's descriptor archiving request
+   * @tags eservices
+   * @name RejectDelegatedDescriptorArchiving
+   * @summary Reject a delegated archiving request for a Descriptor
+   * @request POST:/eservices/{eServiceId}/descriptors/{descriptorId}/rejectDelegatedArchiving
+   * @secure
+   */
+  export namespace RejectDelegatedDescriptorArchiving {
+    export type RequestParams = {
+      /**
+       * the eservice id
+       * @format uuid
+       */
+      eServiceId: string;
+      /**
+       * the descriptor Id
+       * @format uuid
+       */
+      descriptorId: string;
+    };
+    export type RequestQuery = {};
+    export type RequestBody = RejectDelegatedDescriptorArchivingSeed;
+    export type RequestHeaders = {};
+    export type ResponseBody = void;
+  }
+
+  /**
    * @description Update agreement approval policy of published descriptor
    * @tags eservices
    * @name UpdateAgreementApprovalPolicy
@@ -7741,7 +8080,7 @@ export namespace Eservices {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -8667,7 +9006,7 @@ export namespace Eservices {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -9344,7 +9683,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -9376,7 +9715,7 @@ export namespace Purposes {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -9452,7 +9791,7 @@ export namespace Purposes {
       purposeId: string;
     };
     export type RequestQuery = {};
-    export type RequestBody = never;
+    export type RequestBody = RiskAnalysisSignSeed;
     export type RequestHeaders = {};
     export type ResponseBody = void;
   }
@@ -9966,7 +10305,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -9988,7 +10327,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -10064,7 +10403,7 @@ export namespace PurposeTemplates {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -10976,7 +11315,7 @@ export namespace PrivacyNotices {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 }
 
@@ -11439,7 +11778,7 @@ export namespace Delegations {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 
   /**
@@ -11466,7 +11805,7 @@ export namespace Delegations {
     export type RequestQuery = {};
     export type RequestBody = never;
     export type RequestHeaders = {};
-    export type ResponseBody = File;
+    export type ResponseBody = Blob;
   }
 }
 

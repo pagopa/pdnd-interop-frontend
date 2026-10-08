@@ -42,5 +42,12 @@ export const UploadInterfaceDoc: React.FC<UploadInterfaceDocProps> = ({ error })
     )
   }
 
-  return <UploadDocumentsInterface onSubmit={onSubmit} sxBox={{ py: 2 }} error={error} />
+  return (
+    <UploadDocumentsInterface
+      onSubmit={onSubmit}
+      sxBox={{ py: 2 }}
+      error={error}
+      technology={descriptor?.eservice.technology}
+    />
+  )
 }
