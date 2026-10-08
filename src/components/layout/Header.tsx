@@ -19,6 +19,7 @@ import { useQuery } from '@tanstack/react-query'
 import { SelfcareQueries } from '@/api/selfcare'
 import { useErrorData } from '@/stores/error-data.store'
 import useCurrentLanguage from '@/hooks/useCurrentLanguage'
+import { isLocalIdentitySelectionEnabled } from '@/config/local-development'
 
 /**
  * Generate the party list to be used in the HeaderProduct component to show the party switcher
@@ -149,6 +150,11 @@ export const Header: React.FC<HeaderProps> = ({ jwt, isSupport }) => {
   }
 
   const handleSelectParty = (party: PartySwitchItem) => {
+    if (isLocalIdentitySelectionEnabled) {
+      window.location.assign(FE_LOGIN_URL)
+      return
+    }
+
     window.location.assign(
       `${SELFCARE_BASE_URL}/token-exchange?institutionId=${party.id}&productId=${SELFCARE_PRODUCT_ID}&lang=${lang}`
     )
