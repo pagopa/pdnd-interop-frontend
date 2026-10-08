@@ -5,7 +5,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import type { ControllerProps } from 'react-hook-form/dist/types'
 import { useTranslation } from 'react-i18next'
 import { getAriaAccessibilityInputProps, mapValidationErrorMessages } from '@/utils/form.utils'
-import { MISwitch } from '@pagopa/mui-italia/components/MISwitch'
+import { MISwitch } from '@pagopa/mui-italia'
 
 export type RHFNewSwitchProps = Omit<MUISwitchProps, 'checked' | 'onChange'> & {
   label: string | React.ReactNode
