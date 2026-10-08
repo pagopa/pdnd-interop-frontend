@@ -30,4 +30,4 @@ elif [[ "$MODE" != "dev" ]]; then
   exit 1
 fi
 
-exec pnpm dev --host 0.0.0.0
+exec pnpm dev --host 0.0.0.0 --strictPort
