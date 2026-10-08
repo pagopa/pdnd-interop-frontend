@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ThemeProvider } from '@mui/material'
-import { theme } from '@pagopa/interop-fe-commons'
 
 import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
 import { RHFNewSelect } from '@/components/shared/react-hook-form-inputs/RHFNewSelect'
+import { theme } from '@pagopa/mui-italia'
 
 const options = [
   { label: 'option1', value: 'option1' },
