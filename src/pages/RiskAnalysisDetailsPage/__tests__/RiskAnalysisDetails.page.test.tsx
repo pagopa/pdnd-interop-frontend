@@ -86,18 +86,24 @@ describe('RiskAnalysisDetailsPage', () => {
     activeTabMock.mockReturnValue({ activeTab: 'details', updateActiveTab: vi.fn() })
   })
 
-  it('should render the purpose title and the info alert for an approved risk analysis', () => {
-    const purpose = createConcludedPurpose('SIGNED', {
-      signedBy: 'reviewer-1',
-      signedAt: '2026-03-12T10:00:00.000Z',
-    })
+  it.each(['ADMIN_WRITES_REVIEWER_SIGNS', 'REVIEWER_WRITES_REVIEWER_SIGNS'] as const)(
+    'should render approved details without a redundant alert in %s mode',
+    (riskAnalysisReviewMode) => {
+      const purpose = {
+        ...createConcludedPurpose('SIGNED', {
+          signedBy: 'reviewer-1',
+          signedAt: '2026-03-12T10:00:00.000Z',
+        }),
+        riskAnalysisReviewMode,
+      }
 
-    renderPage(purpose)
+      renderPage(purpose)
 
-    expect(screen.getByRole('heading', { name: purpose.title })).toBeInTheDocument()
-    expect(screen.getByText('signedAlert')).toBeInTheDocument()
-    expect(screen.queryByText('rejectedAlert.label')).not.toBeInTheDocument()
-  })
+      expect(screen.getByRole('heading', { name: purpose.title })).toBeInTheDocument()
+      expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+      expect(screen.queryByText('rejectedAlert.label')).not.toBeInTheDocument()
+    }
+  )
 
   it('should render the rejected alert and open the rejection drawer', async () => {
     const user = userEvent.setup()
@@ -133,6 +139,7 @@ describe('RiskAnalysisDetailsPage', () => {
     renderPage(createConcludedPurpose('SIGNED', { signedBy: 'reviewer-1' }))
 
     expect(screen.getByText('riskAnalysisSection.title')).toBeInTheDocument()
+    expect(screen.getByText('riskAnalysisSection.signedSubtitle')).toBeInTheDocument()
     expect(screen.getByText('personalDataFlag.label')).toBeInTheDocument()
     expect(screen.getByTestId('risk-analysis-info-summary')).toBeInTheDocument()
   })

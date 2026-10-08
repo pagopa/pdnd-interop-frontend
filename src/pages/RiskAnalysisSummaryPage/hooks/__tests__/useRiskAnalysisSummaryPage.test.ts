@@ -241,7 +241,7 @@ describe('useRiskAnalysisSummaryPage', () => {
 
   it.each([
     { signingState: 'SIGNED', expectedMessage: 'alreadyApproved' },
-    { signingState: 'REJECTED', expectedMessage: 'error' },
+    { signingState: 'REJECTED', expectedMessage: 'alreadyRejected' },
   ])(
     'should show $expectedMessage when the risk analysis is $signingState',
     async ({ signingState, expectedMessage }) => {

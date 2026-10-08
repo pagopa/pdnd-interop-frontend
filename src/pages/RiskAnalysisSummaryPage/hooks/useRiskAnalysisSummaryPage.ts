@@ -15,7 +15,12 @@ export function useRiskAnalysisSummaryPage() {
     keyPrefix: 'purpose.signRiskAnalysis.outcome',
   })
 
-  const { data: purpose, isLoading, refetch } = useQuery(PurposeQueries.getSingle(purposeId))
+  const {
+    data: purpose,
+    isLoading,
+    isFetching,
+    refetch,
+  } = useQuery(PurposeQueries.getSingle(purposeId))
 
   const isEserviceDeliverMode = purpose?.eservice.mode === 'DELIVER'
 
@@ -58,8 +63,7 @@ export function useRiskAnalysisSummaryPage() {
       isError ||
       !refreshedPurpose ||
       metadataVersion === undefined ||
-      refreshedPurpose.metadataVersion === undefined ||
-      refreshedSigningState === 'REJECTED'
+      refreshedPurpose.metadataVersion === undefined
     ) {
       showToast(t('error'), 'error')
       return
@@ -67,6 +71,11 @@ export function useRiskAnalysisSummaryPage() {
 
     if (refreshedSigningState === 'SIGNED') {
       showToast(t('alreadyApproved'), 'error')
+      return
+    }
+
+    if (refreshedSigningState === 'REJECTED') {
+      showToast(t('alreadyRejected'), 'error')
       return
     }
 
@@ -94,6 +103,7 @@ export function useRiskAnalysisSummaryPage() {
     purposeId,
     purpose,
     isLoading,
+    isFetching,
     isEserviceDeliverMode,
     expirationDate,
     isRulesetExpired,

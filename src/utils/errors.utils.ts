@@ -9,6 +9,12 @@ export class RiskAnalysisAlreadyApprovedError extends Error {
   }
 }
 
+export class RiskAnalysisAlreadyRejectedError extends Error {
+  constructor() {
+    super('Risk analysis already rejected')
+  }
+}
+
 /**
  * This error is thrown when an api calls returns a 401 status code.
  */
