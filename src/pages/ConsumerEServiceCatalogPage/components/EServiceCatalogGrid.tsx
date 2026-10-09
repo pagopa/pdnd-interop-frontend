@@ -1,10 +1,10 @@
 import { Grid, Alert } from '@mui/material'
+import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import type { CatalogEService } from '@/api/api.generatedTypes'
 import { PREFETCH_STALE_TIME, SH_ESERVICES_TO_HIDE_TEMP } from '@/config/constants'
 import { EServiceQueries } from '@/api/eservice'
-import { queryClient } from '@/config/query-client'
 import { AVATAR_BASEPATH, STAGE } from '@/config/env'
 import { EServiceCatalogCard, EServiceCatalogCardSkeleton } from './EServiceCatalogCard'
 
@@ -12,6 +12,7 @@ type EServiceCatalogGridProps = { eservices: Array<CatalogEService> | undefined 
 
 export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ eservices }) => {
   const { t } = useTranslation('shared-components', { keyPrefix: 'table' })
+  const queryClient = useQueryClient()
 
   const isEmpty = !eservices || eservices.length === 0
 

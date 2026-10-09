@@ -24,4 +24,6 @@ export const commonDescTextStyle = {
 export const commonButtonTextStyle = {
   fontSize: theme.typography.monospaced.fontSize,
   lineHeight: theme.typography.monospaced.lineHeight,
+  color: theme.colors.blue[500],
+  '&.Mui-focusVisible': { outlineColor: theme.colors.blue[500] },
 } as const

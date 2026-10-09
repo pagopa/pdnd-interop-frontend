@@ -1,5 +1,5 @@
 import React from 'react'
-import type { RouteKey, useParams } from '@/router'
+import type { useParams } from '@/router'
 import { Link } from '@/router'
 import {
   Avatar,
@@ -15,8 +15,8 @@ import {
 import { useTranslation } from 'react-i18next'
 import AccountBalanceIcon from '@mui/icons-material/AccountBalance'
 
-type EServiceTemplateCatalogCardRouteParams<TRouteKey extends RouteKey> = ReturnType<
-  typeof useParams<TRouteKey>
+type EServiceTemplateCatalogCardRouteParams = ReturnType<
+  typeof useParams<'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS'>
 >
 
 interface EServiceTemplateCatalogCardProps {
@@ -25,7 +25,7 @@ interface EServiceTemplateCatalogCardProps {
   producerName: string
   avatarURL?: string
   prefetchFn: () => void
-  params: EServiceTemplateCatalogCardRouteParams<'SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS'>
+  params: EServiceTemplateCatalogCardRouteParams
   disabled?: boolean
 }
 

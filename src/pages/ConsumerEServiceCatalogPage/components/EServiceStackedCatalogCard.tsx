@@ -17,7 +17,6 @@ interface EServiceStackedCatalogCardProps {
   avatarUrl?: string
   disabled: boolean
   prefetchFn: () => void
-  onInspectClick: () => void
   disabledTooltip?: string
   collectionBadgeLabel: string
   collectionCtaLabel: string
@@ -27,7 +26,6 @@ export const EServiceStackedCatalogCard: React.FC<EServiceStackedCatalogCardProp
   eservice,
   disabled,
   prefetchFn,
-  onInspectClick,
   disabledTooltip,
   collectionBadgeLabel,
   collectionCtaLabel,
@@ -60,7 +58,11 @@ export const EServiceStackedCatalogCard: React.FC<EServiceStackedCatalogCardProp
           <EServiceCatalogCardActionButton
             prefetchFn={prefetchFn}
             disabled={disabled}
-            handleInspectClick={onInspectClick}
+            to="SUBSCRIBE_CATALOG_VIEW" //TODO: in the second release, this should be updated to the correct route
+            params={{
+              eserviceId: eservice.id,
+              descriptorId: eservice.activeDescriptor?.id ?? '',
+            }}
             buttonLabel={collectionCtaLabel}
             tooltipTitle={disabledTooltip}
           />

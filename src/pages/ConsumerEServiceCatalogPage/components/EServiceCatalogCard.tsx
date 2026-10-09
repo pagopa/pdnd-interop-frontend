@@ -9,9 +9,7 @@ import {
   Typography,
 } from '@mui/material'
 import { PartyAvatar } from '@pagopa/mui-italia'
-
 import { useTranslation } from 'react-i18next'
-import { useNavigate } from '@/router'
 import React from 'react'
 import { catalogCardStyles, skeletonStyles } from '../style/eserviceCatalogCardStyle'
 import type { CatalogEService } from '@/api/api.generatedTypes'
@@ -26,17 +24,6 @@ export const EServiceCatalogCard: React.FC<{
 }> = ({ eservice, disabled, prefetchFn, avatarUrl }) => {
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('eservice')
-  const navigate = useNavigate()
-
-  const handleInspectClick = () => {
-    //TODO: in the second release, handle navigation differently for collections
-    navigate('SUBSCRIBE_CATALOG_VIEW', {
-      params: {
-        eserviceId: eservice.id,
-        descriptorId: eservice.activeDescriptor?.id ?? '',
-      },
-    })
-  }
 
   return (
     <Card sx={{ ...catalogCardStyles.card, opacity: disabled ? 0.5 : 1 }}>
@@ -73,7 +60,11 @@ export const EServiceCatalogCard: React.FC<{
         <EServiceCatalogCardActionButton
           prefetchFn={prefetchFn}
           disabled={disabled}
-          handleInspectClick={handleInspectClick}
+          to="SUBSCRIBE_CATALOG_VIEW"
+          params={{
+            eserviceId: eservice.id,
+            descriptorId: eservice.activeDescriptor?.id ?? '',
+          }}
           buttonLabel={tCommon('actions.inspectEService')}
           tooltipTitle={t('list.disabledTooltip')}
         />
