@@ -619,7 +619,9 @@
         }
       }
     },
-    "disabledTooltip": "E-service di test archiviato dal catalogo e non utilizzabile"
+    "disabledTooltip": "E-service di test archiviato dal catalogo e non utilizzabile",
+    "inspectCollection": "Vedi raccolta",
+    "collectionBadge": "{{ count }} e-service"
   },
   "read": {
     "dialogs": {

@@ -27,6 +27,7 @@
     "upgrade": "Aggiorna",
     "delete": "Elimina",
     "inspect": "Visualizza",
+    "inspectEService": "Vai all'e-service",
     "edit": "Modifica",
     "clone": "Duplica",
     "publish": "Pubblica",
