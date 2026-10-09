@@ -34,7 +34,24 @@ describe('Checks CatalogCard button', () => {
         withReactQueryContext: true,
       }
     )
-    const inspectLink = getByRole('button', { name: 'actions.inspectEService' })
-    expect(inspectLink).toBeDisabled()
+    const disabledTooltipWrapper = getByRole('button', { name: 'list.disabledTooltip' })
+
+    expect(disabledTooltipWrapper).toBeInTheDocument()
+    expect(disabledTooltipWrapper).toHaveAttribute('aria-disabled', 'true')
+  })
+
+  it('does not render tooltip wrapper when disabled is false', () => {
+    const eserviceMock = createMockEServiceCatalog()
+    const { queryByRole } = renderWithApplicationContext(
+      <EServiceCatalogCard eservice={eserviceMock} prefetchFn={() => {}} disabled={false} />,
+      {
+        withRouterContext: true,
+        withReactQueryContext: true,
+      }
+    )
+
+    const disabledTooltipWrapper = queryByRole('button', { name: 'list.disabledTooltip' })
+
+    expect(disabledTooltipWrapper).not.toBeInTheDocument()
   })
 })

@@ -6,20 +6,18 @@ import {
   CardHeader,
   Skeleton,
   Stack,
-  Tooltip,
   Typography,
 } from '@mui/material'
-import { PartyAvatar, MIButton } from '@pagopa/mui-italia'
+import { PartyAvatar } from '@pagopa/mui-italia'
+
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from '@/router'
 import React from 'react'
 import { catalogCardStyles, skeletonStyles } from '../style/eserviceCatalogCardStyle'
 import type { CatalogEService } from '@/api/api.generatedTypes'
-import {
-  commonTitleTextStyle,
-  commonDescTextStyle,
-  commonButtonTextStyle,
-} from '../style/commonStyle'
+import { commonTitleTextStyle, commonDescTextStyle } from '../style/commonStyle'
+import { EServiceCatalogCardActionButton } from './EServiceCatalogCardActionButton'
+
 export const EServiceCatalogCard: React.FC<{
   eservice: CatalogEService
   disabled: boolean
@@ -72,25 +70,13 @@ export const EServiceCatalogCard: React.FC<{
       </CardContent>
       <Box sx={{ minHeight: 6.5 }} />
       <CardActions sx={catalogCardStyles.actions}>
-        <Stack direction="row" spacing={2} sx={{ maxWidth: '100%', width: 'auto' }}>
-          <Tooltip
-            title={disabled ? t('list.disabledTooltip') : ''}
-            arrow
-            disableHoverListener={!disabled}
-          >
-            <MIButton
-              size="small"
-              variant="text"
-              onFocus={prefetchFn}
-              onClick={handleInspectClick}
-              color="primary"
-              disabled={disabled}
-              sx={commonButtonTextStyle}
-            >
-              {tCommon('actions.inspectEService')}
-            </MIButton>
-          </Tooltip>
-        </Stack>
+        <EServiceCatalogCardActionButton
+          prefetchFn={prefetchFn}
+          disabled={disabled}
+          handleInspectClick={handleInspectClick}
+          buttonLabel={tCommon('actions.inspectEService')}
+          tooltipTitle={t('list.disabledTooltip')}
+        />
       </CardActions>
     </Card>
   )

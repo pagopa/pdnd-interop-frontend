@@ -41,8 +41,8 @@ export const EServiceTemplateCatalogGrid: React.FC<EServiceTemplateCatalogGridPr
               if (!eserviceTemplate.publishedVersion.id) return
               queryClient.prefetchQuery({
                 ...EServiceTemplateQueries.getSingle(
-                  eserviceTemplate.publishedVersion.id,
-                  eserviceTemplate.id
+                  eserviceTemplate.id,
+                  eserviceTemplate.publishedVersion.id
                 ),
                 staleTime: PREFETCH_STALE_TIME,
               })
