@@ -1,5 +1,5 @@
 import React from 'react'
-import { CatalogCard } from '../CatalogCard'
+import { EServiceTemplateCatalogCard } from '../EServiceTemplateCatalogCard'
 import { createMockCatalogEServiceTemplate } from '@/../__mocks__/data/eserviceTemplate.mocks'
 import { mockUseJwt, renderWithApplicationContext } from '@/utils/testing.utils'
 import userEvent from '@testing-library/user-event'
@@ -12,8 +12,7 @@ describe('Checks CatalogCard button', () => {
     const user = userEvent.setup()
     const eserviceTemplateMock = createMockCatalogEServiceTemplate()
     const { history, ...screen } = renderWithApplicationContext(
-      <CatalogCard
-        to="SUBSCRIBE_ESERVICE_TEMPLATE_DETAILS"
+      <EServiceTemplateCatalogCard
         description={eserviceTemplateMock.description}
         producerName={eserviceTemplateMock.creator.name}
         prefetchFn={() => {}}
