@@ -589,6 +589,83 @@
       },
       "consumerField": {
         "label": "Find by consumer"
+      },
+      "side": {
+        "rapidSelection": {
+          "title": "Rapid selection",
+          "onlyActiveEServicesField": {
+            "label": "Active e-services",
+            "description": "Exclude suspended e-services"
+          },
+          "availableForRequesterField": {
+            "label": "Available for use by your entity",
+            "description": "Based on the attributes"
+          },
+          "subscribedByrequesterField": {
+            "label": "Already in use",
+            "description": "With an active request"
+          },
+          "producerCategoriesField": {
+            "label": "Producer category",
+            "options": {
+              "ALTRE_PUBBLICHE_AMMINISTRAZIONI_LOCALI": "Other local public administrations",
+              "AZIENDE_OSPEDALIERE_ASL": "Hospital Trusts and Local Health Authorities",
+              "COMUNI": "Municipalities",
+              "PROVINCE_CITTA_METROPOLITANE": "Provinces and Metropolitan Cities",
+              "PUBBLICHE_AMMINISTRAZIONI_CENTRALI": "Central Government Bodies",
+              "ENTI_NAZIONALI_PREVIDENZA_ASSISTENZA": "National Social Security and Welfare Institutions",
+              "REGIONI_PROVINCE_AUTONOME": "Regions and Autonomous Provinces",
+              "CONSORZI_ASSOCIAZIONI_REGIONALI": "Regional consortia and associations",
+              "SCUOLE": "Schools",
+              "UNIVERSITA_AFAM": "Universities and AFAM",
+              "ISTITUTI_RICERCA": "Research institutes",
+              "STAZIONI_APPALTANTI_GESTORI_PUBBLICI_SERVIZI": "Contracting Authorities and Public Service Operators"
+            }
+          }
+        },
+        "template": {
+          "title": "Template",
+          "onlyTemplateInstancesField": {
+            "label": "Template instance"
+          },
+          "hasLinkedPurposeTemplatesField": {
+            "label": "With linked purpose templates"
+          }
+        },
+        "techSpec": {
+          "title": "Technical specifications",
+          "asyncExchangeField": {
+            "label": "Data exchange",
+            "options": {
+              "ALL": "All",
+              "SYNC": "Sincrono",
+              "ASYNC": "Asincrono / massivo"
+            }
+          },
+          "modeField": {
+            "label": "Transmits or receives data",
+            "options": {
+              "ALL": "All",
+              "DELIVER": "Deliver data",
+              "RECEIVE": "Transmits data"
+            }
+          }
+        },
+        "delegationAndSignalHub": {
+          "title": "Delegations and data change notifications",
+          "requesterDelegationRolesField": {
+            "label": "Delegations",
+            "options": {
+              "ALL": "All",
+              "DELEGATE": "E-services received by delegation",
+              "DELEGATOR": "E-services delegated to other entities"
+            }
+          },
+          "onlySignalHubEnabledField": {
+            "label": "Signal Hub",
+            "description": "Includes a notification service for data changes"
+          }
+        }
       }
     },
     "drawers": {
