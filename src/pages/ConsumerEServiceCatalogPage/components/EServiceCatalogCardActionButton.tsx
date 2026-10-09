@@ -23,7 +23,6 @@ export const EServiceCatalogCardActionButton: React.FC<ActionButtonProps> = ({
     <Tooltip title={tooltipTitle} arrow>
       <span tabIndex={0} role="button" aria-disabled="true" aria-label={ariaLabel ?? tooltipTitle}>
         <span aria-hidden="true">
-          {' '}
           <MIButton
             variant="text"
             onClick={handleInspectClick}

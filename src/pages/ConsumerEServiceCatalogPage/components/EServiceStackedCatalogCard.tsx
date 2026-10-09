@@ -18,7 +18,7 @@ interface EServiceStackedCatalogCardProps {
   disabled: boolean
   prefetchFn: () => void
   onInspectClick: () => void
-  disabledTooltip: string
+  disabledTooltip?: string
   collectionBadgeLabel: string
   collectionCtaLabel: string
 }

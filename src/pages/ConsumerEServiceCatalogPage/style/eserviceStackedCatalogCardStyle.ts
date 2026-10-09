@@ -7,7 +7,7 @@ export const collectionIconStyles = {
   backgroundColor: 'transparent',
   boxSizing: 'border-box',
   padding: theme.spacing(0.9),
-  color: '#0B3EE3',
+  color: theme.colors.blue[500],
   '& .MuiAvatar-img': {
     objectFit: 'contain',
     objectPosition: 'center',
@@ -19,7 +19,7 @@ export const collectionIconStyles = {
     right: 0,
     top: 0,
     bottom: 0,
-    boxShadow: 'inset 0 0 0 1px #E3E7EB',
+    boxShadow: `inset 0 0 0 1px ${theme.palette.divider}`,
     borderRadius: 'inherit',
   },
 } as const
@@ -29,7 +29,7 @@ export const stackedStyles = {
     position: 'relative',
     height: '100%',
     borderRadius: 2,
-    backgroundColor: '#E8EBF1',
+    backgroundColor: theme.colors.neutral.grey[100],
     boxShadow:
       '0px 3px 1.5px rgba(0, 43, 85, 0.10), 0px 3px 2px rgba(0, 43, 85, 0.05), 0px 1px 4px rgba(0, 43, 85, 0.10)',
     pb: '10px',
@@ -48,13 +48,13 @@ export const stackedStyles = {
   cardContent: { p: 0, display: 'grid', gap: 2 },
   headerBox: { display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' },
   collectionBadge: {
-    backgroundColor: '#E1F5FE',
+    backgroundColor: theme.colors.info[100],
     borderRadius: theme.shape.radius[4],
     px: theme.spacing(0.75),
     py: theme.spacing(0.4),
   },
   collectionBadgeText: {
-    color: '#215C76',
+    color: theme.colors.info[850],
     lineHeight: theme.typography.pxToRem(18),
     whiteSpace: 'nowrap',
   },
