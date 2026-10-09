@@ -1,4 +1,3 @@
-import { AVATAR_BASEPATH } from '@/config/env'
 import {
   Box,
   Card,
@@ -14,7 +13,6 @@ import { PartyAvatar, MIButton } from '@pagopa/mui-italia'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from '@/router'
 import React from 'react'
-import { EServiceStackedCatalogCard } from './EServiceStackedCatalogCard'
 import { catalogCardStyles, skeletonStyles } from '../style/eserviceCatalogCardStyle'
 import type { CatalogEService } from '@/api/api.generatedTypes'
 import {
@@ -25,16 +23,12 @@ import {
 export const EServiceCatalogCard: React.FC<{
   eservice: CatalogEService
   disabled: boolean
+  avatarUrl?: string
   prefetchFn: () => void
-  isCollection?: boolean // isCollection is true for the collection of eservices instantiated from an e-service template
-}> = ({ eservice, disabled, prefetchFn, isCollection }) => {
+}> = ({ eservice, disabled, prefetchFn, avatarUrl }) => {
   const { t: tCommon } = useTranslation('common')
   const { t } = useTranslation('eservice')
   const navigate = useNavigate()
-
-  const avatarUrl = eservice.producer.selfcareId
-    ? `${AVATAR_BASEPATH}/institutions/${eservice.producer.selfcareId}/logo.png`
-    : undefined
 
   const handleInspectClick = () => {
     //TODO: in the second release, handle navigation differently for collections
@@ -44,20 +38,6 @@ export const EServiceCatalogCard: React.FC<{
         descriptorId: eservice.activeDescriptor?.id ?? '',
       },
     })
-  }
-
-  if (isCollection) {
-    return (
-      <EServiceStackedCatalogCard
-        eservice={eservice}
-        disabled={disabled}
-        prefetchFn={prefetchFn}
-        onInspectClick={handleInspectClick}
-        disabledTooltip={t('list.disabledTooltip')}
-        collectionBadgeLabel={t('list.collectionBadge', { count: 78 })} //TODO: in the second release remove hardcoded value
-        collectionCtaLabel={t('list.inspectCollection')}
-      />
-    )
   }
 
   return (
@@ -85,7 +65,7 @@ export const EServiceCatalogCard: React.FC<{
           <Typography color="text.primary" sx={commonTitleTextStyle} component="h2">
             {eservice.name}
           </Typography>
-          <Typography variant="body2" color="text.primary" sx={commonDescTextStyle}>
+          <Typography variant="body1" color="text.primary" sx={commonDescTextStyle}>
             {eservice.description}
           </Typography>
         </Stack>
@@ -98,19 +78,17 @@ export const EServiceCatalogCard: React.FC<{
             arrow
             disableHoverListener={!disabled}
           >
-            <span style={{ display: 'block' }}>
-              <MIButton
-                size="small"
-                variant="text"
-                onFocus={prefetchFn}
-                onClick={handleInspectClick}
-                color="primary"
-                disabled={disabled}
-                sx={commonButtonTextStyle}
-              >
-                {tCommon('actions.inspectEService')}
-              </MIButton>
-            </span>
+            <MIButton
+              size="small"
+              variant="text"
+              onFocus={prefetchFn}
+              onClick={handleInspectClick}
+              color="primary"
+              disabled={disabled}
+              sx={commonButtonTextStyle}
+            >
+              {tCommon('actions.inspectEService')}
+            </MIButton>
           </Tooltip>
         </Stack>
       </CardActions>

@@ -1,3 +1,5 @@
+import { theme } from '@pagopa/mui-italia'
+
 export const commonTextClamp = (lines: number | { xs: number; sm: number }) =>
   ({
     display: '-webkit-box',
@@ -10,19 +12,16 @@ export const commonTextClamp = (lines: number | { xs: number; sm: number }) =>
 export const commonTitleTextStyle = {
   ...commonTextClamp(2),
   fontWeight: 700,
-  fontSize: '24px',
-  lineHeight: '32px',
+  fontSize: theme.typography.h5.fontSize,
+  lineHeight: 1.35,
 } as const
 
 export const commonDescTextStyle = {
   ...commonTextClamp({ xs: 2, sm: 3 }),
-  fontWeight: 400,
-  fontSize: '18px',
-  lineHeight: 1.4,
-  minHeight: { xs: '50.4px', sm: '75.6px' },
+  minHeight: { xs: theme.spacing(6.3), sm: theme.spacing(9.45) },
 } as const
 
 export const commonButtonTextStyle = {
-  fontSize: '16px',
-  lineHeight: '22px',
+  fontSize: theme.typography.monospaced.fontSize,
+  lineHeight: theme.typography.monospaced.lineHeight,
 } as const

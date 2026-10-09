@@ -44,7 +44,9 @@ export const EServiceStackedCatalogCard: React.FC<EServiceStackedCatalogCardProp
             <CollectionIconAvatar />
 
             <Box sx={stackedStyles.collectionBadge}>
-              <Typography sx={stackedStyles.collectionBadgeText}>{collectionBadgeLabel}</Typography>
+              <Typography variant="subtitle2" sx={stackedStyles.collectionBadgeText}>
+                {collectionBadgeLabel}
+              </Typography>
             </Box>
           </Box>
 
@@ -52,7 +54,7 @@ export const EServiceStackedCatalogCard: React.FC<EServiceStackedCatalogCardProp
             <Typography color="text.primary" sx={commonTitleTextStyle} component="h2">
               {eservice.name}
             </Typography>
-            <Typography color="text.primary" sx={commonDescTextStyle}>
+            <Typography variant="body1" color="text.primary" sx={commonDescTextStyle}>
               {eservice.description}
             </Typography>
           </Box>
@@ -60,19 +62,17 @@ export const EServiceStackedCatalogCard: React.FC<EServiceStackedCatalogCardProp
 
         <CardActions sx={stackedStyles.actions}>
           <Tooltip title={disabled ? disabledTooltip : ''} arrow disableHoverListener={!disabled}>
-            <span style={{ display: 'block' }}>
-              <MIButton
-                size="small"
-                variant="text"
-                onFocus={prefetchFn}
-                onClick={onInspectClick}
-                color="primary"
-                disabled={disabled}
-                sx={commonButtonTextStyle}
-              >
-                {collectionCtaLabel}
-              </MIButton>
-            </span>
+            <MIButton
+              size="small"
+              variant="text"
+              onFocus={prefetchFn}
+              onClick={onInspectClick}
+              color="primary"
+              disabled={disabled}
+              sx={commonButtonTextStyle}
+            >
+              {collectionCtaLabel}
+            </MIButton>
           </Tooltip>
         </CardActions>
       </Card>

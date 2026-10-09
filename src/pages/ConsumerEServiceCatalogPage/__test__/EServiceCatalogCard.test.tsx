@@ -38,25 +38,3 @@ describe('Checks CatalogCard button', () => {
     expect(inspectLink).toBeDisabled()
   })
 })
-
-describe('EServiceCatalogCard component', () => {
-  it('should render stacked card layout when isCollection is true', () => {
-    const eserviceMock = createMockEServiceCatalog()
-    const { getByRole, getByText, queryByRole } = renderWithApplicationContext(
-      <EServiceCatalogCard
-        eservice={eserviceMock}
-        prefetchFn={() => {}}
-        disabled={false}
-        isCollection={true}
-      />,
-      {
-        withRouterContext: true,
-        withReactQueryContext: true,
-      }
-    )
-
-    expect(getByText('list.collectionBadge')).toBeInTheDocument()
-    expect(getByRole('button', { name: 'list.inspectCollection' })).toBeInTheDocument()
-    expect(queryByRole('button', { name: 'actions.inspectEService' })).not.toBeInTheDocument()
-  })
-})

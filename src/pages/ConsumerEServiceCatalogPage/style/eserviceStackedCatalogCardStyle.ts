@@ -1,10 +1,12 @@
+import { theme } from '@pagopa/mui-italia'
+
 export const collectionIconStyles = {
   position: 'relative',
   width: 40,
   height: 40,
   backgroundColor: 'transparent',
   boxSizing: 'border-box',
-  padding: '7.2px',
+  padding: theme.spacing(0.9),
   color: '#0B3EE3',
   '& .MuiAvatar-img': {
     objectFit: 'contain',
@@ -34,12 +36,12 @@ export const stackedStyles = {
     opacity: disabled ? 0.5 : 1,
   }),
   card: {
-    px: '31px',
-    py: '24px',
+    px: theme.spacing(3.8),
+    py: theme.spacing(3),
     display: 'grid',
     gridTemplateRows: 'auto minmax(53px, 1fr) auto',
     height: '100%',
-    borderRadius: '8px',
+    borderRadius: theme.shape.radius[8],
     boxShadow:
       '0px 3px 3px -2px rgba(0, 43, 85, 0.10), 0px 3px 4px rgba(0, 43, 85, 0.05), 0px 1px 8px rgba(0, 43, 85, 0.10)',
   },
@@ -47,15 +49,13 @@ export const stackedStyles = {
   headerBox: { display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' },
   collectionBadge: {
     backgroundColor: '#E1F5FE',
-    borderRadius: '4px',
-    px: '6px',
-    py: '3px',
+    borderRadius: theme.shape.radius[4],
+    px: theme.spacing(0.75),
+    py: theme.spacing(0.4),
   },
   collectionBadgeText: {
     color: '#215C76',
-    fontWeight: 600,
-    fontSize: '14px',
-    lineHeight: '18px',
+    lineHeight: theme.typography.pxToRem(18),
     whiteSpace: 'nowrap',
   },
   actions: {
