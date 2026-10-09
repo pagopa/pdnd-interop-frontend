@@ -37,7 +37,11 @@ export const RHFNewSelect: React.FC<RHFNewSelectProps> = ({
   const { formState } = useFormContext()
   const { t } = useTranslation()
   const labelId = useId()
+  const errorId = useId()
+  const infoId = useId()
   const error = formState.errors[name]?.message as string | undefined
+
+  const describedBy = [infoLabel && infoId, error && errorId].filter(Boolean).join(' ') || undefined
 
   const conditionalRules = mapValidationErrorMessages(rules, t)
 
@@ -68,6 +72,8 @@ export const RHFNewSelect: React.FC<RHFNewSelectProps> = ({
               if (onValueChange) onValueChange(value)
             }}
             disabled={disabled}
+            aria-describedby={describedBy}
+            SelectDisplayProps={{ 'aria-invalid': !!error }}
           >
             {options.length > 0 ? (
               options.map((option, index) => (
@@ -84,8 +90,13 @@ export const RHFNewSelect: React.FC<RHFNewSelectProps> = ({
             )}
           </MISelect>
           {infoLabel && (
-            <FormHelperText component="span" error={false} sx={{ fontWeight: 400 }}>
+            <FormHelperText id={infoId} component="span" error={false} sx={{ fontWeight: 400 }}>
               {infoLabel}
+            </FormHelperText>
+          )}
+          {error && (
+            <FormHelperText id={errorId} role="alert">
+              {error}
             </FormHelperText>
           )}
         </FormControl>

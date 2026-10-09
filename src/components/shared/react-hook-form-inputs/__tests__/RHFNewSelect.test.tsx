@@ -62,4 +62,12 @@ describe('determine whether the integration between react-hook-form and MUI’s 
 
     expect(screen.getByText('testInfoLabel')).toBeInTheDocument()
   })
+
+  it('links the infoLabel to the select via aria-describedby', () => {
+    renderSelect()
+
+    const selectInput = screen.getByRole('combobox', { name: 'label' })
+    expect(selectInput).toHaveAccessibleDescription('testInfoLabel')
+    expect(selectInput).toHaveAttribute('aria-invalid', 'false')
+  })
 })
