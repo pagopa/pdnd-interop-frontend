@@ -73,7 +73,7 @@ export const RHFNewSelect: React.FC<RHFNewSelectProps> = ({
             }}
             disabled={disabled}
             aria-describedby={describedBy}
-            SelectDisplayProps={{ 'aria-invalid': !!error }}
+            aria-invalid={!!error}
           >
             {options.length > 0 ? (
               options.map((option, index) => (
