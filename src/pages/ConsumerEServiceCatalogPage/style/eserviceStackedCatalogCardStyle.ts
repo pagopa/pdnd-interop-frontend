@@ -28,7 +28,7 @@ export const stackedStyles = {
   container: (disabled: boolean) => ({
     position: 'relative',
     height: '100%',
-    borderRadius: 2,
+    borderRadius: theme.shape.radius[8],
     backgroundColor: theme.colors.neutral.grey[100],
     boxShadow:
       '0px 3px 1.5px rgba(0, 43, 85, 0.10), 0px 3px 2px rgba(0, 43, 85, 0.05), 0px 1px 4px rgba(0, 43, 85, 0.10)',

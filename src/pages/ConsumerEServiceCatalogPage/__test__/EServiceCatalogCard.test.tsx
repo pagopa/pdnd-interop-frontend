@@ -17,7 +17,7 @@ describe('Checks CatalogCard button', () => {
         withReactQueryContext: true,
       }
     )
-    const inspectLink = screen.getByRole('button', { name: 'actions.inspectEService' })
+    const inspectLink = screen.getByRole('link', { name: 'actions.inspectEService' })
     expect(history.location.pathname).toEqual('/')
     await user.click(inspectLink)
     expect(history.location.pathname).toBe(
