@@ -79,7 +79,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
       <EServiceCatalogWrapper params={queryParams} />
       <MIPagination
         page={paginationProps.page}
-        rowPerPageOptions={paginationProps.itemsPerPageOptions}
+        itemsPerPageOptions={paginationProps.itemsPerPageOptions}
         count={getTotalPageCount(data?.pagination.totalCount)}
         onChange={(_, page) => paginationProps.onPageChange(page)}
       />
