@@ -12,7 +12,7 @@ import {
   RHFSwitch,
   RHFNewTextField,
 } from '../react-hook-form-inputs'
-import { RHFDatePicker } from '../react-hook-form-inputs/RHFDatepicker'
+import { RHFDatePicker } from '../react-hook-form-inputs/RHFDatePicker'
 
 type FilterFieldProps = {
   field: TFilterField
