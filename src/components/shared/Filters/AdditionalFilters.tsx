@@ -1,28 +1,44 @@
-import type { FilterFieldsValues, FiltersHandler, SideFiltersSection } from '@/types/filters.types'
+import type {
+  FilterFieldsValues,
+  FiltersHandler,
+  AdditionalFiltersSection,
+} from '@/types/filters.types'
 import { Close, FilterAltOutlined } from '@mui/icons-material'
-import { Drawer as MUIDrawer, Button, Stack, Typography, IconButton } from '@mui/material'
-import React, { useCallback, useState } from 'react'
+import {
+  Drawer as MUIDrawer,
+  Stack,
+  Typography,
+  IconButton,
+  useTheme,
+  useMediaQuery,
+  Badge,
+} from '@mui/material'
+import { MIButton as Button } from '@pagopa/mui-italia'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FilterField } from './FilterField'
-import { getFiltersDefaultValues } from '@/utils/filters.utils'
+import { getActiveFiltersCount, getFiltersDefaultValues } from '@/utils/filters.utils'
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
 import { isEqual } from 'lodash'
 
-type SideFiltersProps = {
-  sections: SideFiltersSection[]
+type AdditionalFiltersProps = {
+  fields: AdditionalFiltersSection[]
   filters: FilterFieldsValues
   onChangeActiveFilters: FiltersHandler
 }
 
-export const SideFilters: React.FC<SideFiltersProps> = ({
-  sections,
+export const AdditionalFilters: React.FC<AdditionalFiltersProps> = ({
+  fields: sections,
   filters,
   onChangeActiveFilters,
 }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const { t: tShared } = useTranslation('shared-components', { keyPrefix: 'drawer' })
-  const { t } = useTranslation('filters', { keyPrefix: 'side' })
+  const { t } = useTranslation('filters', { keyPrefix: 'additionals' })
+
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   const defaultValues = getFiltersDefaultValues(
     sections.flatMap((section) => section.fields),
@@ -34,6 +50,10 @@ export const SideFilters: React.FC<SideFiltersProps> = ({
   })
 
   const { reset, getValues } = formMethods
+
+  const activeFiltersCount = useMemo(() => {
+    return getActiveFiltersCount(filters)
+  }, [filters])
 
   const onSubmit: SubmitHandler<FilterFieldsValues> = useCallback(
     (data) => {
@@ -58,19 +78,42 @@ export const SideFilters: React.FC<SideFiltersProps> = ({
     }
   }, [reset, getValues, defaultValues])
 
+  useEffect(() => {
+    reset(defaultValues)
+  }, [defaultValues, reset])
+
   return (
     <>
-      <Button variant="text" startIcon={<FilterAltOutlined />} onClick={() => setIsOpen(true)}>
-        {t('trigger')}
-      </Button>
+      <Stack direction={'row'} alignItems={'center'} gap={1}>
+        {activeFiltersCount > 0 && (
+          <Badge
+            badgeContent={activeFiltersCount}
+            sx={{
+              '& .MuiBadge-badge': {
+                color: theme.colors.neutral.white,
+                backgroundColor: theme.colors.blue[500],
+                position: 'relative',
+                transform: 'none',
+              },
+            }}
+          />
+        )}
+        <Button
+          variant="text"
+          startIcon={!activeFiltersCount ? <FilterAltOutlined /> : undefined}
+          onClick={() => setIsOpen(true)}
+        >
+          {t('trigger')}
+        </Button>
+      </Stack>
       <MUIDrawer
         variant="temporary"
-        anchor="right"
+        anchor={isMobile ? 'bottom' : 'right'}
         open={isOpen}
         onClose={onClose}
         PaperProps={{
           sx: {
-            width: { xs: '100%', sm: 375 },
+            width: { xs: '100%', md: 375 },
             maxWidth: '100%',
           },
         }}
@@ -103,7 +146,14 @@ export const SideFilters: React.FC<SideFiltersProps> = ({
                 </Stack>
               ))}
             </Stack>
-            <Stack direction="row" pb={4} pt={0.5} px={3} justifyContent={'end'}>
+            <Stack
+              direction={{ xs: 'column-reverse', md: 'row' }}
+              pb={4}
+              pt={3}
+              px={3}
+              justifyContent={{ xs: 'center', md: 'flex-end' }}
+              gap={{ xs: 3, md: 4 }}
+            >
               <Button variant="text" type="button" onClick={onReset}>
                 {t('actions.reset')}
               </Button>

@@ -1,38 +1,64 @@
-import { Stack } from '@mui/material'
-import { MainFilters } from './MainFilters'
-import { SideFilters } from './SideFilters'
-import type {
-  FilterFields,
-  FilterFieldsValues,
-  FiltersHandler,
-  SideFiltersSection,
-} from '@/types/filters.types'
+import type { FilterFields, FilterFieldsValues, FiltersHandler } from '@/types/filters.types'
+import { Grid } from '@mui/material'
+import { MIButton as Button } from '@pagopa/mui-italia'
+import { FilterField } from './FilterField'
+import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
+import { getFiltersDefaultValues } from '@/utils/filters.utils'
+import { useTranslation } from 'react-i18next'
+import { useCallback, useEffect } from 'react'
 
-export type FiltersProps = {
-  main: FilterFields
-  side?: SideFiltersSection[]
+type FiltersProps = {
   filters: FilterFieldsValues
+  fields: FilterFields
   onChangeActiveFilters: FiltersHandler
-  onResetActiveFilters: VoidFunction
 }
 
-export const Filters: React.FC<FiltersProps> = ({
-  main,
-  side,
-  filters,
-  onChangeActiveFilters,
-  onResetActiveFilters,
-}) => {
+export const Filters: React.FC<FiltersProps> = ({ fields, filters, onChangeActiveFilters }) => {
+  const { t } = useTranslation('filters')
+  const defaultValues = getFiltersDefaultValues(fields, filters)
+
+  const formMethods = useForm<FilterFieldsValues>({
+    defaultValues,
+  })
+
+  const { reset } = formMethods
+
+  const onSubmit: SubmitHandler<FilterFieldsValues> = useCallback(
+    (data) => {
+      onChangeActiveFilters(data)
+    },
+    [onChangeActiveFilters]
+  )
+
+  useEffect(() => {}, [defaultValues, reset])
+
   return (
-    <Stack spacing={2} alignItems={'flex-start'}>
-      <MainFilters fields={main} filters={filters} onChangeActiveFilters={onChangeActiveFilters} />
-      {side && (
-        <SideFilters
-          sections={side}
-          filters={filters}
-          onChangeActiveFilters={onChangeActiveFilters}
-        />
-      )}
-    </Stack>
+    <FormProvider {...formMethods}>
+      <Grid
+        component={'form'}
+        container
+        spacing={2}
+        alignItems={{ xs: 'stretch', md: 'center' }}
+        onSubmit={formMethods.handleSubmit(onSubmit)}
+      >
+        {fields.map((field) => {
+          return (
+            <Grid item xs={12} md={4} key={field.name}>
+              <FilterField field={field} />
+            </Grid>
+          )
+        })}
+        <Grid item xs={12} md={4}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            sx={{ width: { xs: '100%', md: 'auto' } }}
+          >
+            {t('button')}
+          </Button>
+        </Grid>
+      </Grid>
+    </FormProvider>
   )
 }

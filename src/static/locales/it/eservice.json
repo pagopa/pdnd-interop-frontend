@@ -580,6 +580,12 @@
     }
   },
   "list": {
+    "sorting": {
+      "CREATED_AT_ASC": "Dal meno recente",
+      "CREATED_AT_DESC": "Dal più recente",
+      "NAME_ASC": "Nomee-service A-Z",
+      "NAME_DESC": "Nomee-service Z-A"
+    },
     "filters": {
       "nameField": {
         "label": "Cerca per nome"

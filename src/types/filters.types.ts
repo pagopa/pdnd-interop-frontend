@@ -112,7 +112,7 @@ export type FilterOption = { label: string; value: string }
 
 export type FiltersHandler = (values: FilterFieldsValues) => void
 
-export type SideFiltersSection<TName extends string = string> = {
+export type AdditionalFiltersSection<TName extends string = string> = {
   title: string
   fields: FilterFields<TName>
 }

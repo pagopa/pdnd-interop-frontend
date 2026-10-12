@@ -5,7 +5,7 @@ import type {
   FiltersHandler,
   FiltersParams,
   SelectFilterFieldOptions,
-  SideFiltersSection,
+  AdditionalFiltersSection,
 } from '@/types/filters.types'
 import {
   parseAsArrayOf,
@@ -32,11 +32,11 @@ type FilterParser =
   | ParserBuilder<Date>
 
 const getParsers = <T>(
-  main: FilterFields<Extract<keyof T, string>>,
-  side: FilterFields<Extract<keyof T, string>> = []
+  fields: FilterFields<Extract<keyof T, string>>,
+  additionals: FilterFields<Extract<keyof T, string>> = []
 ): ParsersFor<T> => {
   const parsers: Partial<Record<Extract<keyof T, string>, FilterParser>> = {}
-  ;[...main, ...side].forEach((field) => {
+  ;[...fields, ...additionals].forEach((field) => {
     match(field.type)
       .with('freetext', () => {
         parsers[field.name] = parseAsString
@@ -80,12 +80,12 @@ const getParsers = <T>(
 }
 
 export const useFilters = <TFiltersParams extends FiltersParams>(
-  main: FilterFields<Extract<keyof TFiltersParams, string>>,
-  side?: SideFiltersSection<Extract<keyof TFiltersParams, string>>[]
+  fields: FilterFields<Extract<keyof TFiltersParams, string>>,
+  additionals?: AdditionalFiltersSection<Extract<keyof TFiltersParams, string>>[]
 ) => {
   const parsers: ParsersFor<TFiltersParams> = getParsers<TFiltersParams>(
-    main,
-    side?.flatMap((section) => section.fields)
+    fields,
+    additionals?.flatMap((section) => section.fields)
   )
   const [filters, setFilters] = useQueryStates(parsers, {
     history: 'push',
@@ -103,8 +103,8 @@ export const useFilters = <TFiltersParams extends FiltersParams>(
   }, [setFilters])
 
   return {
-    main,
-    side,
+    fields,
+    additionals,
     filters,
     onChangeActiveFilters,
     onResetActiveFilters,

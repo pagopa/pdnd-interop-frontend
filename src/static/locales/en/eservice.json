@@ -580,6 +580,12 @@
     }
   },
   "list": {
+    "sorting": {
+      "CREATED_AT_ASC": "From the oldest",
+      "CREATED_AT_DESC": "From the most recent",
+      "NAME_ASC": "E-service name A-Z",
+      "NAME_DESC": "E-service name Z-A"
+    },
     "filters": {
       "nameField": {
         "label": "Find by name"

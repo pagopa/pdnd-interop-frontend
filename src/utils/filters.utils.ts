@@ -41,3 +41,19 @@ export const getFiltersDefaultValues = (fields: FilterFields, filters: FilterFie
 
   return values
 }
+
+export const getActiveFiltersCount = (filters: FilterFieldsValues) => {
+  let count = 0
+  Object.keys(filters).some((key) => {
+    const value = filters[key]
+    if (
+      value !== undefined &&
+      value !== null &&
+      value !== '' &&
+      !(Array.isArray(value) && value.length === 0) &&
+      value !== false
+    )
+      count++
+  })
+  return count
+}

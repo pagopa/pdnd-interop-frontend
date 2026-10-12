@@ -5,10 +5,11 @@ import type {
 } from '@/types/filters.types'
 import { match } from 'ts-pattern'
 import {
-  RHFAutocompleteSingle,
-  RHFSelect,
+  RHFNewAutocompleteSingle,
+  RHFNewAutocompleteMultiple,
+  RHFNewSelect,
   RHFSwitch,
-  RHFTextField,
+  RHFNewTextField,
 } from '../react-hook-form-inputs'
 
 type FilterFieldProps = {
@@ -18,10 +19,10 @@ type FilterFieldProps = {
 export const FilterField: React.FC<FilterFieldProps> = ({ field }) => {
   return match(field.type)
     .with('freetext', () => {
-      return <RHFTextField name={field.name} label={field.label} />
+      return <RHFNewTextField name={field.name} label={field.label} />
     })
     .with('numeric', () => {
-      return <RHFTextField name={field.name} label={field.label} type="number" />
+      return <RHFNewTextField name={field.name} label={field.label} type="number" />
     })
     .with('boolean', () => {
       return <RHFSwitch name={field.name} label={field.label} infoLabel={field.description} />
@@ -31,7 +32,7 @@ export const FilterField: React.FC<FilterFieldProps> = ({ field }) => {
     })
     .with('select-single', () => {
       return (
-        <RHFSelect
+        <RHFNewSelect
           name={field.name}
           label={field.label}
           options={(field as SelectFilterFieldOptions).options}
@@ -39,19 +40,40 @@ export const FilterField: React.FC<FilterFieldProps> = ({ field }) => {
       )
     })
     .with('select-multiple', () => {
-      return <div>Select multiple component placeholder</div>
+      return (
+        <RHFNewSelect
+          multiple
+          name={field.name}
+          label={field.label}
+          options={(field as SelectFilterFieldOptions).options}
+        />
+      )
     })
     .with('autocomplete-single', () => {
       return (
-        <RHFAutocompleteSingle
+        <RHFNewAutocompleteSingle
           name={field.name}
           label={field.label}
           options={(field as AutocompleteFilterFieldOptions).options}
+          showSelectionCountOnly={true}
+          onInputChange={(value) =>
+            (field as AutocompleteFilterFieldOptions)?.onTextInputChange?.(value)
+          }
         />
       )
     })
     .with('autocomplete-multiple', () => {
-      return <div>Autocomplete multiple component placeholder</div>
+      return (
+        <RHFNewAutocompleteMultiple
+          name={field.name}
+          label={field.label}
+          showSelectionCountOnly={true}
+          options={(field as AutocompleteFilterFieldOptions).options}
+          onInputChange={(value) => {
+            ;(field as AutocompleteFilterFieldOptions).onTextInputChange?.(value)
+          }}
+        />
+      )
     })
     .exhaustive()
 }

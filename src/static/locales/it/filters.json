@@ -1,8 +1,8 @@
 {
-  "main": {
-    "button": "Cerca"
-  },
-  "side": {
+  "button": "Cerca",
+  "results": "risultati",
+  "remove": "Rimuovi filtri",
+  "additionals": {
     "trigger": "Filtri",
     "title": "Filtri",
     "subtitle": "Usa i filtri per una ricerca più specifica.",

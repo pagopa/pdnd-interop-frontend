@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form'
 import isEqual from 'lodash/isEqual'
 import RHFNewAutocompleteBase from './RHFNewAutocompleteBase'
 
-type RHFAutocompleteMultipleProps<T> = Omit<
+type RHFNewAutocompleteMultipleProps<T> = Omit<
   RHFNewAutocompleteBaseProps<{ label: string; value: T }, true>,
   | 'onChange'
   | 'value'
@@ -21,7 +21,7 @@ type RHFAutocompleteMultipleProps<T> = Omit<
   }>
 }
 
-export function RHFNewAutocompleteMultiple<T>(props: RHFAutocompleteMultipleProps<T>) {
+export function RHFNewAutocompleteMultiple<T>(props: RHFNewAutocompleteMultipleProps<T>) {
   const [internalState, setInternalState] = React.useState<RHFAutocompleteInput<T>[]>([])
   const hasSetOptions = React.useRef(false)
 

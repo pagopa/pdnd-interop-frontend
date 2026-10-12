@@ -10,13 +10,15 @@ import type {
   EServiceProducerCategory,
   RequesterDelegationRole,
   EServiceMode,
+  EServiceSortBy,
 } from '@/api/api.generatedTypes'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { trackEvent } from '@/config/tracking'
 import { debounce } from 'lodash'
 import { ProductUpdatesBanner } from '@/components/shared/banners/ProductUpdatesBanner'
-import { Filters } from '@/components/shared/Filters/Filters'
 import { useFilters } from '@/hooks/useFilters'
+import { useSorting } from '@/hooks/useSorting'
+import { FiltersSection } from '@/components/shared/Filters/FiltersSection'
 
 const producerCategoriesOptions: EServiceProducerCategory[] = [
   'ALTRE_PUBBLICHE_AMMINISTRAZIONI_LOCALI',
@@ -41,9 +43,16 @@ const requesterDelegationRolesOptions: (RequesterDelegationRole | 'ALL')[] = [
 
 const eserviceModesOptions: (EServiceMode | 'ALL')[] = ['ALL', 'RECEIVE', 'DELIVER']
 
+const sortByOptions: EServiceSortBy[] = [
+  'CREATED_AT_ASC',
+  'CREATED_AT_DESC',
+  'NAME_ASC',
+  'NAME_DESC',
+]
+
 const ConsumerEServiceCatalogPage: React.FC = () => {
   const { t } = useTranslation('pages', { keyPrefix: 'consumerEServiceCatalog' })
-  const { t: tEservice } = useTranslation('eservice', { keyPrefix: 'list.filters' })
+  const { t: tEservice } = useTranslation('eservice', { keyPrefix: 'list' })
 
   const [producersAutocompleteInput, setProducersAutocompleteInput] = useAutocompleteTextInput()
 
@@ -64,12 +73,12 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
     [
       {
         name: 'keyword',
-        label: tEservice('nameField.label'),
+        label: tEservice('filters.nameField.label'),
         type: 'freetext',
       },
       {
         name: 'producersIds',
-        label: tEservice('providerField.label'),
+        label: tEservice('filters.providerField.label'),
         type: 'autocomplete-multiple',
         options: producersOptions,
         onTextInputChange: setProducersAutocompleteInput,
@@ -77,104 +86,114 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
     ],
     [
       {
-        title: tEservice('side.rapidSelection.title'),
+        title: tEservice('filters.side.rapidSelection.title'),
         fields: [
           {
             name: 'onlyActiveEservices',
-            label: tEservice('side.rapidSelection.onlyActiveEServicesField.label'),
-            description: tEservice('side.rapidSelection.onlyActiveEServicesField.description'),
+            label: tEservice('filters.side.rapidSelection.onlyActiveEServicesField.label'),
+            description: tEservice(
+              'filters.side.rapidSelection.onlyActiveEServicesField.description'
+            ),
             type: 'boolean',
           },
           {
             name: 'availableForRequester',
-            label: tEservice('side.rapidSelection.availableForRequesterField.label'),
-            description: tEservice('side.rapidSelection.availableForRequesterField.description'),
+            label: tEservice('filters.side.rapidSelection.availableForRequesterField.label'),
+            description: tEservice(
+              'filters.side.rapidSelection.availableForRequesterField.description'
+            ),
             type: 'boolean',
           },
           {
             name: 'subscribedByRequester',
-            label: tEservice('side.rapidSelection.subscribedByrequesterField.label'),
-            description: tEservice('side.rapidSelection.subscribedByrequesterField.description'),
+            label: tEservice('filters.side.rapidSelection.subscribedByrequesterField.label'),
+            description: tEservice(
+              'filters.side.rapidSelection.subscribedByrequesterField.description'
+            ),
             type: 'boolean',
           },
           {
             name: 'producerCategories',
-            label: tEservice('side.rapidSelection.producerCategoriesField.label'),
+            label: tEservice('filters.side.rapidSelection.producerCategoriesField.label'),
             type: 'select-multiple',
             options: producerCategoriesOptions.map((category) => ({
-              label: tEservice(`side.rapidSelection.producerCategoriesField.options.${category}`),
+              label: tEservice(
+                `filters.side.rapidSelection.producerCategoriesField.options.${category}`
+              ),
               value: category,
             })),
           },
         ],
       },
       {
-        title: tEservice('side.template.title'),
+        title: tEservice('filters.side.template.title'),
         fields: [
           {
             name: 'onlyTemplateInstances',
-            label: tEservice('side.template.onlyTemplateInstancesField.label'),
+            label: tEservice('filters.side.template.onlyTemplateInstancesField.label'),
             type: 'boolean',
           },
           {
             name: 'hasLinkedPurposeTemplates',
-            label: tEservice('side.template.hasLinkedPurposeTemplatesField.label'),
+            label: tEservice('filters.side.template.hasLinkedPurposeTemplatesField.label'),
             type: 'boolean',
           },
         ],
       },
       {
-        title: tEservice('side.techSpec.title'),
+        title: tEservice('filters.side.techSpec.title'),
         fields: [
           {
             name: 'asyncExchange',
-            label: tEservice('side.techSpec.asyncExchangeField.label'),
+            label: tEservice('filters.side.techSpec.asyncExchangeField.label'),
             type: 'select-single',
             options: [
               {
-                label: tEservice('side.techSpec.asyncExchangeField.options.ALL'),
+                label: tEservice('filters.side.techSpec.asyncExchangeField.options.ALL'),
                 value: 'ALL',
               },
               {
-                label: tEservice('side.techSpec.asyncExchangeField.options.SYNC'),
+                label: tEservice('filters.side.techSpec.asyncExchangeField.options.SYNC'),
                 value: 'SYNC',
               },
               {
-                label: tEservice('side.techSpec.asyncExchangeField.options.ASYNC'),
+                label: tEservice('filters.side.techSpec.asyncExchangeField.options.ASYNC'),
                 value: 'ASYNC',
               },
             ],
           },
           {
             name: 'mode',
-            label: tEservice('side.techSpec.modeField.label'),
+            label: tEservice('filters.side.techSpec.modeField.label'),
             type: 'select-single',
             options: eserviceModesOptions.map((mode) => ({
-              label: tEservice(`side.techSpec.modeField.options.${mode}`),
+              label: tEservice(`filters.side.techSpec.modeField.options.${mode}`),
               value: mode,
             })),
           },
         ],
       },
       {
-        title: tEservice('side.delegationAndSignalHub.title'),
+        title: tEservice('filters.side.delegationAndSignalHub.title'),
         fields: [
           {
             name: 'requesterDelegationRoles',
-            label: tEservice('side.delegationAndSignalHub.requesterDelegationRolesField.label'),
+            label: tEservice(
+              'filters.side.delegationAndSignalHub.requesterDelegationRolesField.label'
+            ),
             type: 'select-single',
             options: requesterDelegationRolesOptions.map((role) => ({
               label: tEservice(
-                `side.delegationAndSignalHub.requesterDelegationRolesField.options.${role}`
+                `filters.side.delegationAndSignalHub.requesterDelegationRolesField.options.${role}`
               ),
               value: role,
             })),
           },
           {
             name: 'onlySignalHubEnabled',
-            label: tEservice('side.delegationAndSignalHub.onlySignalHubEnabledField.label'),
+            label: tEservice('filters.side.delegationAndSignalHub.onlySignalHubEnabledField.label'),
             description: tEservice(
-              'side.delegationAndSignalHub.onlySignalHubEnabledField.description'
+              'filters.side.delegationAndSignalHub.onlySignalHubEnabledField.description'
             ),
             type: 'boolean',
           },
@@ -183,9 +202,15 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
     ]
   )
 
+  const sorting = useSorting(
+    sortByOptions.map((sortBy) => ({ value: sortBy, label: tEservice(`sorting.${sortBy}`) }))
+  )
+
+  const { sortBy } = sorting
+
   // Only e-service published or suspended can be shown in the catalog
   const states: Array<EServiceDescriptorState> = ['PUBLISHED', 'SUSPENDED']
-  const query = { ...paginationParams, ...filters, states }
+  const query = { ...paginationParams, ...filters, sortBy, states }
 
   const { data } = useQuery({
     ...EServiceQueries.getCatalogList(query),
@@ -209,7 +234,12 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
   return (
     <PageContainer title={t('title')} description={t('description')}>
       <ProductUpdatesBanner />
-      <Filters {...handlers} filters={filters} />
+      <FiltersSection
+        filters={filters}
+        {...handlers}
+        sorting={sorting}
+        results={data?.pagination.totalCount}
+      />
       <EServiceCatalogWrapper params={query} />
       <Pagination
         {...paginationProps}
