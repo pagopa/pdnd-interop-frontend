@@ -2,6 +2,7 @@ import React from 'react'
 import type { PropsWithChildren } from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { FormProvider, useForm } from 'react-hook-form'
 
 import { TestInputWrapper } from '@/components/shared/react-hook-form-inputs/__tests__/test-utils'
 import { RHFNewSwitch } from '@/components/shared/react-hook-form-inputs'
@@ -18,6 +19,38 @@ const switchProps = {
 const WithTheme = ({ children }: PropsWithChildren) => (
   <ThemeProvider theme={theme}>{children}</ThemeProvider>
 )
+
+const NestedFieldErrorWrapper = ({ children }: PropsWithChildren) => {
+  const { setError, ...formMethods } = useForm<{ preferences: { enabled: boolean } }>({
+    defaultValues: { preferences: { enabled: false } },
+  })
+
+  React.useEffect(() => {
+    setError('preferences.enabled', {
+      type: 'manual',
+      message: 'Enable this preference to continue',
+    })
+  }, [setError])
+
+  return (
+    <FormProvider {...formMethods} setError={setError}>
+      {children}
+    </FormProvider>
+  )
+}
+
+const RequiredFieldErrorWrapper = ({ children }: PropsWithChildren) => {
+  const formMethods = useForm<{ preferences: { enabled: boolean } }>({
+    defaultValues: { preferences: { enabled: false } },
+  })
+  const { trigger } = formMethods
+
+  React.useEffect(() => {
+    void trigger('preferences.enabled')
+  }, [trigger])
+
+  return <FormProvider {...formMethods}>{children}</FormProvider>
+}
 
 describe('determine whether the integration between react-hook-form and MUI’s Switch works', () => {
   it('gets the input from the user correctly', async () => {
@@ -56,14 +89,52 @@ describe('RHFNewSwitch Accessibility', () => {
     // MUI Switch renders an <input type="checkbox" role="checkbox" /> under the hood
     const switchInput = screen.getByRole('checkbox')
 
-    const ariaLabelledBy = switchInput.getAttribute('aria-labelledby')
+    const labelledByIds = switchInput.getAttribute('aria-labelledby')?.split(' ') ?? []
 
-    expect(ariaLabelledBy).toBeTruthy()
+    expect(labelledByIds).not.toHaveLength(0)
+    expect(
+      labelledByIds.some((id) => document.getElementById(id)?.textContent?.includes(testLabel))
+    ).toBe(true)
+  })
 
-    const labelElementById = document.getElementById(ariaLabelledBy as string)
+  it('shows nested field errors and links them to the switch input', async () => {
+    const errorMessage = 'Enable this preference to continue'
 
-    expect(labelElementById).toBeInTheDocument()
+    render(
+      <WithTheme>
+        <NestedFieldErrorWrapper>
+          <RHFNewSwitch name="preferences.enabled" label="Preference enabled" />
+        </NestedFieldErrorWrapper>
+      </WithTheme>
+    )
 
-    expect(labelElementById).toHaveTextContent(testLabel)
+    const switchInput = screen.getByRole('checkbox')
+    const renderedError = await screen.findByText(errorMessage)
+    expect(renderedError.textContent).toBe(errorMessage)
+    expect(switchInput.getAttribute('aria-invalid')).toBe('true')
+    const describedByIds = switchInput.getAttribute('aria-describedby')?.split(' ') ?? []
+    expect(
+      describedByIds.some((id) => document.getElementById(id)?.textContent === errorMessage)
+    ).toBe(true)
+  })
+
+  it('shows errors produced by validation rules', async () => {
+    const errorMessage = 'Enable this preference to continue'
+
+    render(
+      <WithTheme>
+        <RequiredFieldErrorWrapper>
+          <RHFNewSwitch
+            name="preferences.enabled"
+            label="Preference enabled"
+            rules={{ required: errorMessage }}
+          />
+        </RequiredFieldErrorWrapper>
+      </WithTheme>
+    )
+
+    const switchInput = screen.getByRole('checkbox')
+    expect((await screen.findByText(errorMessage)).textContent).toBe(errorMessage)
+    expect(switchInput.getAttribute('aria-invalid')).toBe('true')
   })
 })
