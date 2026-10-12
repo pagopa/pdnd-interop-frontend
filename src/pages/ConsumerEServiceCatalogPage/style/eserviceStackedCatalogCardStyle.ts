@@ -41,7 +41,7 @@ export const stackedStyles = {
     display: 'grid',
     gridTemplateRows: 'auto minmax(53px, 1fr) auto',
     height: '100%',
-    borderRadius: theme.shape.radius[8],
+    borderRadius: 2,
     boxShadow:
       '0px 3px 3px -2px rgba(0, 43, 85, 0.10), 0px 3px 4px rgba(0, 43, 85, 0.05), 0px 1px 8px rgba(0, 43, 85, 0.10)',
   },
@@ -49,7 +49,7 @@ export const stackedStyles = {
   headerBox: { display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' },
   collectionBadge: {
     backgroundColor: theme.colors.info[100],
-    borderRadius: theme.shape.radius[4],
+    borderRadius: 1,
     px: theme.spacing(0.75),
     py: theme.spacing(0.4),
   },
