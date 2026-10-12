@@ -5,10 +5,10 @@ import { SortSharp } from '@mui/icons-material'
 type SortByProps = {
   options: { label: string; value: string }[]
   sortBy: string
-  onChangeOrder: (value: string) => void
+  onSortingChange: (value: string) => void
 }
 
-export const SortBy: React.FC<SortByProps> = ({ options, sortBy, onChangeOrder }) => {
+export const SortBy: React.FC<SortByProps> = ({ options, sortBy, onSortingChange }) => {
   const [isOpen, setIsOpen] = useState(false)
   const id = useId()
   const triggerId = `${id}-trigger`
@@ -51,7 +51,7 @@ export const SortBy: React.FC<SortByProps> = ({ options, sortBy, onChangeOrder }
         items={options.map((option) => ({
           label: option.label,
           id: option.value,
-          onClick: () => onChangeOrder(option.value),
+          onClick: () => onSortingChange(option.value),
         }))}
         MenuListProps={{
           'aria-labelledby': triggerId,

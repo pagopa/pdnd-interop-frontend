@@ -17,9 +17,13 @@ import { MIButton as Button } from '@pagopa/mui-italia'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { FilterField } from './FilterField'
-import { getActiveFiltersCount, getFiltersDefaultValues } from '@/utils/filters.utils'
+import {
+  getActiveFiltersCount,
+  getFiltersDefaultValues,
+  getFiltersValues,
+} from '@/utils/filters.utils'
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 
 type AdditionalFiltersProps = {
   fields: AdditionalFiltersSection[]
@@ -40,16 +44,20 @@ export const AdditionalFilters: React.FC<AdditionalFiltersProps> = ({
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
-  const defaultValues = getFiltersDefaultValues(
+  const values = getFiltersValues(
     sections.flatMap((section) => section.fields),
     filters
   )
 
   const formMethods = useForm<FilterFieldsValues>({
-    defaultValues,
+    values,
   })
 
   const { reset, getValues } = formMethods
+
+  const defaultValues = useMemo(() => {
+    return getFiltersDefaultValues(sections.flatMap((section) => section.fields))
+  }, [sections])
 
   const activeFiltersCount = useMemo(() => {
     return getActiveFiltersCount(filters)
@@ -58,29 +66,30 @@ export const AdditionalFilters: React.FC<AdditionalFiltersProps> = ({
   const onSubmit: SubmitHandler<FilterFieldsValues> = useCallback(
     (data) => {
       onChangeActiveFilters(data)
+      setIsOpen(false)
     },
     [onChangeActiveFilters]
   )
 
   const onReset = useCallback(() => {
-    reset(
-      getFiltersDefaultValues(
-        sections.flatMap((section) => section.fields),
-        {}
-      )
-    )
-  }, [reset, sections])
+    reset()
+    onChangeActiveFilters(defaultValues)
+    setIsOpen(false)
+  }, [reset, defaultValues, onChangeActiveFilters])
 
   const onClose = useCallback(() => {
     setIsOpen(false)
-    if (!isEqual(getValues(), defaultValues)) {
-      reset(defaultValues)
+    if (!isEqual(getValues(), values)) {
+      reset(values)
     }
-  }, [reset, getValues, defaultValues])
+  }, [reset, getValues, values])
 
   useEffect(() => {
-    reset(defaultValues)
-  }, [defaultValues, reset])
+    // Reset form values when filters change and there are no active filters / Remove all active filters
+    const activeFiltersCount = getActiveFiltersCount(filters)
+    const currentValues = getValues()
+    if (!activeFiltersCount && !isEqual(defaultValues, currentValues)) reset(defaultValues)
+  }, [reset, filters, getValues, defaultValues])
 
   return (
     <>

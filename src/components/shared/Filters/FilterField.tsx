@@ -1,5 +1,6 @@
 import type {
   AutocompleteFilterFieldOptions,
+  DatepickerFilterFieldOptions,
   SelectFilterFieldOptions,
   FilterField as TFilterField,
 } from '@/types/filters.types'
@@ -11,6 +12,7 @@ import {
   RHFSwitch,
   RHFNewTextField,
 } from '../react-hook-form-inputs'
+import { RHFDatePicker } from '../react-hook-form-inputs/RHFDatepicker'
 
 type FilterFieldProps = {
   field: TFilterField
@@ -28,7 +30,14 @@ export const FilterField: React.FC<FilterFieldProps> = ({ field }) => {
       return <RHFSwitch name={field.name} label={field.label} infoLabel={field.description} />
     })
     .with('datepicker', () => {
-      return <div>Datepicker component placeholder</div>
+      return (
+        <RHFDatePicker
+          name={field.name}
+          label={field.label}
+          minDate={(field as DatepickerFilterFieldOptions).minDate}
+          maxDate={(field as DatepickerFilterFieldOptions).maxDate}
+        />
+      )
     })
     .with('select-single', () => {
       return (

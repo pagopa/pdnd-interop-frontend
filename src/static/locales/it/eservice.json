@@ -583,8 +583,8 @@
     "sorting": {
       "CREATED_AT_ASC": "Dal meno recente",
       "CREATED_AT_DESC": "Dal più recente",
-      "NAME_ASC": "Nomee-service A-Z",
-      "NAME_DESC": "Nomee-service Z-A"
+      "NAME_ASC": "Nome-service A-Z",
+      "NAME_DESC": "Nome-service Z-A"
     },
     "filters": {
       "nameField": {

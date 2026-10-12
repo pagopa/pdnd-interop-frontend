@@ -3,9 +3,14 @@ import { Grid } from '@mui/material'
 import { MIButton as Button } from '@pagopa/mui-italia'
 import { FilterField } from './FilterField'
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form'
-import { getFiltersDefaultValues } from '@/utils/filters.utils'
+import {
+  getActiveFiltersCount,
+  getFiltersDefaultValues,
+  getFiltersValues,
+} from '@/utils/filters.utils'
 import { useTranslation } from 'react-i18next'
 import { useCallback, useEffect } from 'react'
+import isEqual from 'lodash/isEqual'
 
 type FiltersProps = {
   filters: FilterFieldsValues
@@ -15,13 +20,13 @@ type FiltersProps = {
 
 export const Filters: React.FC<FiltersProps> = ({ fields, filters, onChangeActiveFilters }) => {
   const { t } = useTranslation('filters')
-  const defaultValues = getFiltersDefaultValues(fields, filters)
+  const values = getFiltersValues(fields, filters)
 
   const formMethods = useForm<FilterFieldsValues>({
-    defaultValues,
+    values,
   })
 
-  const { reset } = formMethods
+  const { reset, getValues } = formMethods
 
   const onSubmit: SubmitHandler<FilterFieldsValues> = useCallback(
     (data) => {
@@ -30,7 +35,13 @@ export const Filters: React.FC<FiltersProps> = ({ fields, filters, onChangeActiv
     [onChangeActiveFilters]
   )
 
-  useEffect(() => {}, [defaultValues, reset])
+  useEffect(() => {
+    // Reset form values when filters change and there are no active filters / Remove all active filters
+    const activeFiltersCount = getActiveFiltersCount(filters)
+    const defaultValues = getFiltersDefaultValues(fields)
+    const currentValues = getValues()
+    if (!activeFiltersCount && !isEqual(defaultValues, currentValues)) reset(defaultValues)
+  }, [reset, filters, getValues, fields])
 
   return (
     <FormProvider {...formMethods}>

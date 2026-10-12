@@ -1,42 +1,56 @@
-import type { FilterFields, FilterFieldsValues } from '@/types/filters.types'
+import type { FilterFields, FilterFieldsValues, FilterFieldValue } from '@/types/filters.types'
 import { match } from 'ts-pattern'
 
-export const getFiltersDefaultValues = (fields: FilterFields, filters: FilterFieldsValues) => {
+const getDefaultValue = (type: string) => {
+  return match(type)
+    .with('freetext', () => {
+      return ''
+    })
+    .with('select-single', () => {
+      return ''
+    })
+    .with('select-multiple', () => {
+      return []
+    })
+    .with('datepicker', () => {
+      return null
+    })
+    .with('autocomplete-single', () => {
+      return ''
+    })
+    .with('autocomplete-multiple', () => {
+      return []
+    })
+    .with('numeric', () => {
+      return ''
+    })
+    .with('boolean', () => {
+      return false
+    })
+    .otherwise(() => null)
+}
+
+export const getFiltersValues = (fields: FilterFields, filters: FilterFieldsValues) => {
   const values: FilterFieldsValues = {}
 
   fields.forEach((field) => {
     let value = filters[field.name]
 
     if (value === undefined || value === null) {
-      match(field.type)
-        .with('freetext', () => {
-          value = ''
-        })
-        .with('select-single', () => {
-          value = ''
-        })
-        .with('select-multiple', () => {
-          value = []
-        })
-        .with('datepicker', () => {
-          value = null
-        })
-        .with('autocomplete-single', () => {
-          value = ''
-        })
-        .with('autocomplete-multiple', () => {
-          value = []
-        })
-        .with('numeric', () => {
-          value = ''
-        })
-        .with('boolean', () => {
-          value = false
-        })
-        .exhaustive()
+      value = getDefaultValue(field.type)
     }
 
     values[field.name] = value
+  })
+
+  return values
+}
+
+export const getFiltersDefaultValues = (fields: FilterFields) => {
+  const values: FilterFieldsValues = {}
+
+  fields.forEach((field) => {
+    values[field.name] = getDefaultValue(field.type)
   })
 
   return values

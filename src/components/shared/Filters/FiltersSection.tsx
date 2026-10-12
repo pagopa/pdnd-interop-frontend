@@ -23,7 +23,7 @@ type FiltersSectionProps = {
   sorting?: {
     options: SortOption[]
     sortBy: string
-    onChangeOrder: (value: string) => void
+    onSortingChange: (value: string) => void
   }
   results?: number
 }

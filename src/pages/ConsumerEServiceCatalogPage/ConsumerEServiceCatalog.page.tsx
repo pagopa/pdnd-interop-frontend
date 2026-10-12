@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { PageContainer } from '@/components/layout/containers'
 import { useTranslation } from 'react-i18next'
 import { EServiceCatalogGrid, EServiceCatalogGridSkeleton } from './components'
@@ -19,6 +19,7 @@ import { ProductUpdatesBanner } from '@/components/shared/banners/ProductUpdates
 import { useFilters } from '@/hooks/useFilters'
 import { useSorting } from '@/hooks/useSorting'
 import { FiltersSection } from '@/components/shared/Filters/FiltersSection'
+import { match } from 'ts-pattern'
 
 const producerCategoriesOptions: EServiceProducerCategory[] = [
   'ALTRE_PUBBLICHE_AMMINISTRAZIONI_LOCALI',
@@ -115,7 +116,7 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
           {
             name: 'producerCategories',
             label: tEservice('filters.side.rapidSelection.producerCategoriesField.label'),
-            type: 'select-multiple',
+            type: 'autocomplete-multiple',
             options: producerCategoriesOptions.map((category) => ({
               label: tEservice(
                 `filters.side.rapidSelection.producerCategoriesField.options.${category}`
@@ -208,12 +209,44 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
 
   const { sortBy } = sorting
 
+  const payload = useMemo(() => {
+    const mappedFilters: Partial<CatalogFilterPayload> = {}
+    Object.entries(filters).forEach(([key, value]) => {
+      if (key === 'asyncExchange') {
+        match(value)
+          .with('ALL', () => {
+            mappedFilters[key] = undefined
+          })
+          .with('SYNC', () => {
+            mappedFilters[key] = false
+          })
+          .with('ASYNC', () => {
+            mappedFilters[key] = true
+          })
+        return
+      }
+      if (
+        value === null ||
+        value === false ||
+        value === '' ||
+        (Array.isArray(value) && value.length === 0)
+      ) {
+        mappedFilters[key as keyof CatalogFilterPayload] = undefined
+        return
+      }
+
+      mappedFilters[key as keyof CatalogFilterPayload] = value as never
+    })
+
+    return mappedFilters
+  }, [filters])
+
   // Only e-service published or suspended can be shown in the catalog
-  const states: Array<EServiceDescriptorState> = ['PUBLISHED', 'SUSPENDED']
-  const query = { ...paginationParams, ...filters, sortBy, states }
+  // const states: Array<EServiceDescriptorState> = ['PUBLISHED', 'SUSPENDED']
+  const query = { ...paginationParams, ...payload, sortBy: sortBy as EServiceSortBy }
 
   const { data } = useQuery({
-    ...EServiceQueries.getCatalogList(query),
+    ...EServiceQueries.queryCatalogList(query),
     placeholderData: keepPreviousData,
   })
 

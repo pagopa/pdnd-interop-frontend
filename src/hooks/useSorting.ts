@@ -12,7 +12,7 @@ export const useSorting = (options: SortOption[]) => {
     parseAsStringLiteral(options.map((option) => option.value)).withDefault(options[0].value)
   )
 
-  const onChangeOrder = useCallback(
+  const onSortingChange = useCallback(
     (value: string) => {
       setSortBy(value)
     },
@@ -22,6 +22,6 @@ export const useSorting = (options: SortOption[]) => {
   return {
     options,
     sortBy,
-    onChangeOrder,
+    onSortingChange,
   }
 }
