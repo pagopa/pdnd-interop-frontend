@@ -1,250 +1,124 @@
 # Local full-stack development
 
-The VS Code devcontainer runs the frontend and the backend monorepo against a
-local, persistent infrastructure. The frontend is available at
-<http://localhost:3000/ui/it/> and uses the local backend by default. The local
-operations dashboard is available at
-<http://localhost:3000/ui/local-dashboard/>.
+The backend owns the standalone development dashboard at
+<http://localhost:8076>. One Docker Compose runtime supervises the backend
+processes and Vite when the frontend checkout is mounted and started. The frontend is available at
+<http://localhost:3000/ui/it/>. The dashboard remains available when Vite or a
+backend process stops.
 
 ## Prerequisites
 
-- Linux, macOS, or Windows with WSL2 (see the [Windows setup guide](local-full-stack-windows.md))
-- Docker Engine or Docker Desktop running on the host
-- VS Code with the Dev Containers extension
-- Git access to `https://github.com/pagopa/interop-be-monorepo.git`
-- at least 8 CPU and 12 GB RAM allocated to Docker Desktop (or available to the
-  Docker Engine); backend watch mode can require more
+- Docker Engine or Docker Desktop with Linux containers
+- Sibling checkouts of this frontend and `interop-be-monorepo` containing the
+  development dashboard changes
+- Linux, macOS, or Windows with WSL2; see the [Windows guide](local-full-stack-windows.md)
+- VS Code and Dev Containers only if you want to attach an editor to the runtime
 
-The container reuses the host Docker socket. Code running inside the container
-can therefore control the host Docker daemon; use this configuration only with
-trusted repositories and dependencies. Only one local Interop full-stack
-environment is supported at a time because its ports and Docker project name
-are fixed.
-
-Root and backend workspace-package `node_modules` directories, plus the pnpm
-store, use Docker volumes. pnpm's dependency symlinks are created inside those
-volumes instead of the host's shared filesystem. Existing host dependency
-directories are hidden by the mounts and are left untouched.
-
-Before container creation, `.devcontainer/initialize.sh` discovers backend
-`packages/*/package.json` files and prepares one named dependency volume per
-package. A stopped `interop-backend-workspace-modules` container records these
-mounts; the devcontainer inherits them using Docker's `--volumes-from` option.
-This holder uses `busybox:1.37.0` and never runs a process. It is recreated as
-needed while preserving its named volumes. Rebuild the devcontainer after a
-branch change that adds workspace packages so their mounts can be included.
-
-The container explicitly sets `npm_config_store_dir` to
-`/home/node/.local/share/pnpm/store` so pnpm does not fall back to a `.pnpm-store`
-directory in the bind-mounted repository. Subsequent container rebuilds reuse
-the downloaded packages.
-
-The image includes Debian's Chromium for Puppeteer on both amd64 and arm64,
-including Apple Silicon hosts. Puppeteer's browser download is disabled only
-inside the devcontainer, and `PUPPETEER_EXECUTABLE_PATH` selects `/usr/bin/chromium`.
-Playwright installs its own matching browser in the dedicated volume. Setup makes
-the whole `/home/node/.cache` directory writable by the container user so native
-dependency builds can also create their caches.
-
-Each backend launch builds the selected services' workspace dependencies with
-Turbo before starting their TypeScript sources. Unchanged builds use Turbo's
-cache; changing branches or removing generated `dist` files rebuilds the needed
-libraries automatically. Compilation runs before the runtime's per-service
-memory limit is applied.
-
-Startup allows up to ten minutes for dependency compilation, infrastructure,
-and process launch before checking HTTP readiness. If compilation fails or a
-backend process exits unexpectedly, startup fails with the relevant log instead
-of waiting for an HTTP timeout. A service exit also stops the other backend
-processes, so a failed runtime can be restarted as a whole.
+Node, pnpm, Docker CLI, Chromium and the process supervisor run inside the
+backend image. Host Node/pnpm and VS Code are not needed to start the stack.
+Dependency directories, the pnpm store and browser cache use named Docker
+volumes. Source repositories retain their absolute host paths in the container.
+The runtime accesses the host Docker socket; use trusted repositories.
 
 ## First start
 
-On Windows, complete the [WSL2 prerequisites and repository setup](local-full-stack-windows.md)
-first and open the workspace from the WSL terminal.
+From the backend checkout, without opening VS Code:
 
-1. Open `interop-pdnd-fullstack.code-workspace` in VS Code.
-2. Run **Dev Containers: Reopen in Container**.
-3. When VS Code asks whether automatic tasks are allowed for this repository,
-   select **Allow Automatic Tasks**. This explicit, one-time permission is
-   required before VS Code can open the `fullstack:startup-dashboard` terminal.
-4. Vite starts first in bootstrap mode, so VS Code can immediately open the
-   React dashboard at <http://localhost:3000/ui/local-dashboard/>. The page
-   reports startup progress, Docker infrastructure, backend processes, and
-   searchable logs while the rest of the stack is still starting.
-5. Follow the `fullstack:startup-dashboard` terminal for the same startup flow
-   in text form. Startup failures are displayed there immediately with the
-   relevant backend log tail.
-6. After seed and token generation, Vite restarts once in authenticated local
-   mode. The dashboard reconnects automatically after this brief interruption.
-   When startup reports `READY`, open the application at
-   <http://localhost:3000/ui/it/>.
+```bash
+bash scripts/local-development/dashboard.sh start --frontend "$(realpath ../pdnd-interop-frontend)" --preset frontend-full
+```
 
-If the automatic-task notification was dismissed, run **Tasks: Manage
-Automatic Tasks** from the Command Palette, choose **Allow Automatic Tasks**,
-and reload the window. Alternatively, run `pnpm local:dashboard` in a terminal
-to attach to the startup that is already running.
+Open <http://localhost:8076> to follow dependency installation, infrastructure,
+backend compilation and readiness, seed, token generation, frontend startup,
+smoke checks and browser checks. Inspect failed operation phases and logs there.
+Open <http://localhost:3000/ui/it/> when full-stack startup has passed.
 
-The automatic task is guarded by the devcontainer environment. Opening the
-repository or workspace directly on the host does not start the local stack.
+Alternatively, open `interop-pdnd-fullstack.code-workspace` and run
+**Dev Containers: Reopen in Container**. Initialization prepares the same
+backend Compose configuration; VS Code attaches to its `dashboard` service.
+There are no editor startup tasks, duplicate dependency installations or tmux
+sessions. Closing VS Code leaves the runtime running.
+If the sibling backend checkout is missing, initialization clones `develop`;
+the dashboard changes must be available on the selected backend branch.
+Existing checkouts and their local changes are preserved.
 
-If `../interop-be-monorepo` is missing, the initialize step clones its
-`develop` branch. If it already exists, it is left untouched: no checkout,
-pull, stash, or branch change is performed.
-
-Set `INTEROP_AUTO_START=false` in the environment that launches VS Code to open
-the container without starting the stack automatically. Then run
-`pnpm local:start` when needed.
+For backend-only development, start the dashboard from the backend without
+`--frontend`. Mounting the frontend checkout makes its controls available;
+`--preset frontend-full` selects automatic full-stack startup. Without a startup
+preset, the runtime prepares only infrastructure, even with the frontend mounted.
+Reconfigure through the backend launcher when changing checkout mounts.
 
 ## Commands
 
-Run these commands from the frontend terminal inside the devcontainer:
+Inside the shared runtime, from the frontend checkout:
 
-| Command                                  | Effect                                                                            |
-| ---------------------------------------- | --------------------------------------------------------------------------------- |
-| `pnpm local:start`                       | Starts infrastructure, backend, base seed, token, and frontend                    |
-| `pnpm local:status`                      | Shows tmux sessions, every backend application process, and Docker services       |
-| `pnpm local:dashboard`                   | Follows the current automatic startup in the terminal and prints its final status |
-| `pnpm local:smoke`                       | Checks frontend, BFF, Selfcare, catalog seed, and Docker services                 |
-| `pnpm local:test:e2e`                    | Opens the published frontend with Playwright and verifies the local seed          |
-| `pnpm local:logs`                        | Follows the combined backend log                                                  |
-| `pnpm local:logs -- frontend`            | Follows the frontend log                                                          |
-| `pnpm local:stop`                        | Stops the stack and preserves Docker volumes                                      |
-| `pnpm local:reset`                       | Stops the stack and deletes all local Interop volumes and generated state         |
-| `pnpm local:use:local`                   | Restarts only Vite against the local backend                                      |
-| `pnpm local:use:dev`                     | Restarts only Vite against the development environment                            |
-| `pnpm local:identity -- <tenant> <user>` | Generates a local token and restarts Vite with that identity                      |
+| Command                                  | Effect                                                                   |
+| ---------------------------------------- | ------------------------------------------------------------------------ |
+| `pnpm local:start`                       | Starts the full stack and waits for its operation to pass or fail        |
+| `pnpm local:status`                      | Prints dashboard package, infrastructure and operation status            |
+| `pnpm local:dashboard`                   | Prints the independent dashboard URL                                     |
+| `pnpm local:logs`                        | Prints the latest combined logs                                          |
+| `pnpm local:logs -- frontend`            | Prints the latest frontend logs                                          |
+| `pnpm local:stop`                        | Stops application processes; keeps dashboard, infrastructure and volumes |
+| `pnpm local:reset`                       | Explicitly confirms destructive local infrastructure reset               |
+| `pnpm local:use:local`                   | Restarts Vite against the local BFF                                      |
+| `pnpm local:use:dev`                     | Restarts Vite against the development environment                        |
+| `pnpm local:identity -- comune reviewer` | Generates a local token and restarts Vite                                |
+| `pnpm local:smoke`                       | Checks frontend, BFF, Selfcare, seed and infrastructure                  |
+| `pnpm local:test:e2e`                    | Runs the frontend browser checks                                         |
 
-`local:reset` is destructive for this local environment. It removes event
-store, SQL readmodels, DynamoDB, Kafka, Redis, MinIO, and generated seed/token
-state; it does not delete either Git checkout.
+The dashboard also controls single backend processes, watch mode, infrastructure
+and shared/personal presets. A reset removes local infrastructure data and
+generated seed state; it does not delete either Git checkout. Use infrastructure
+stop in the dashboard when you want to stop those containers as well.
 
-## Identities and seed
+The frontend CLI delegates to the dashboard API. It does not launch its own
+supervisor. `INTEROP_DASHBOARD_URL` can override the API origin for local tools
+and Vite; only loopback HTTP origins are accepted. Normal `pnpm dev` and
+production builds do not enable this proxy.
 
-Available tenants are `comune`, `provider`, `impresa`, and `certificatore`.
-Available users are `admin`, `api`, `security`, `reviewer`, and `viewer`, each
-with the corresponding single role on every tenant.
-Use the party switcher in the frontend header, or open
-<http://localhost:3000/ui/it/local-identity-selection/>, to select a local tenant
-and a role-specific user. Every local user can access all seeded tenants, and the
-selection persists across page reloads.
+## Local identities
 
-After an infrastructure reset, the frontend restores the same tenant and user
-using their stable Selfcare and user IDs, and issues a token for the new tenant
-ID. It checks at page load and when returning to an open tab. A changed session
-reloads the page to discard cached data from the previous environment; an
-unchanged session keeps the page intact. If the identity was removed from the
-dataset, the identity selection page opens instead.
+Tenants: `comune`, `provider`, `impresa`, `certificatore`.
+Users: `admin`, `api`, `security`, `reviewer`, `viewer`.
 
-Startup marks `.local-development/identity.status` as ready only after the seed
-and token generation succeed. Until then, or while the local identity API is
-unavailable, the frontend retains the saved session and retries automatically.
+Use the header party switcher or
+<http://localhost:3000/ui/it/local-identity-selection/>. The selection persists
+across reloads. After an infrastructure reset, the frontend restores the same
+tenant and user using stable Selfcare/user IDs and requests a new local token.
+While the seed or identity API is unavailable, it retains the saved session and
+retries. If the identity was removed, the selection page opens.
 
-The local frontend runner sets `SELFCARE_LOGIN_URL` to that route. Override the
-variable before starting Vite if the frontend is published on a different host
-URL.
+The dashboard provides the identity API; Vite proxies it on the frontend origin.
+Local identity selection uses its own development flag and does not depend on a
+dashboard route in the SPA. `SELFCARE_LOGIN_URL` defaults to the local identity
+page and can be overridden for a different public frontend origin.
+Token files remain in the ignored backend `.local-development` directory.
 
-The CLI remains available as a fallback:
+The idempotent seed creates `Catalogo Demo`, owned by `Provider Demo`, and the
+demo tenants and role-specific users. Confirm the catalog and selected identity
+in the application after startup.
 
-```bash
-pnpm local:identity -- comune reviewer
-pnpm local:identity -- provider admin
-```
+## Networking and troubleshooting
 
-IDs are generated or discovered during the seed and stored under the ignored
-backend `.local-development` directory. They are deliberately not copied from
-older token-generation scripts. Tokens are signed by local KMS and the frontend
-reads the generated token file without writing it to a tracked `.env` file.
+Docker publishes frontend host port `3000` to runtime Vite port `5173`, and
+dashboard port `8076` independently. The backend catalog uses runtime
+`localhost:3000`; that internal address is not the frontend. Vite proxies the
+local BFF on `localhost:3600`. HMR uses public browser port `3000`.
+Vite runs with `--strictPort` and fails when `5173` is occupied.
+Infrastructure relays are managed by the backend runtime.
 
-The idempotent base seed creates the four Selfcare tenants and a published
-`Catalogo Demo` e-service owned by `Provider Demo`. Each tenant also receives a
-`CONTACT_EMAIL`, so agreement submission and the other flows that require a
-tenant contact address work without manual setup. Data reaches the SQL and
-DynamoDB readmodels through the same APIs and event consumers used by the
-application.
+VS Code automatic forwarding and restored forwards are disabled. Remove old
+manual forwards of `3000` or infrastructure ports; they can shadow Docker's
+public bindings. Use the published URLs from the host browser.
 
-## Local and development backend
+Use dashboard operation errors and service logs first. Retry the failed
+operation after resolving its cause. Restart/rebuild through the backend
+launcher after runtime image or workspace package changes. Named volumes survive
+ordinary stops; fresh volumes can require a longer first dependency install.
 
-Local mode rewrites frontend gateway requests to the local BFF. Development
-mode keeps the regular Vite environment configuration and therefore uses the
-token already configured for development. Changing mode restarts Vite only;
-the local backend and its volumes stay running.
-
-The dashboard route and its read-only status/log endpoints exist only when Vite
-is started by the local-development scripts. They are not registered by a
-normal `pnpm dev` or production build. Log search covers the most recent 2 MB
-of each local startup, backend, frontend, and port-forward log and accepts a
-correlation ID or arbitrary text. Subsequent polling requests use a byte cursor
-for each source and transfer only complete log lines appended since the
-previous response. Changing the source or search text starts a fresh query.
-
-## Manual UI verification
-
-After `pnpm local:start`, verify the user-visible contract:
-
-1. Open the UI and confirm that the selected institution is `Comune Demo`.
-2. Open the catalog and confirm that `Catalogo Demo`, published by
-   `Provider Demo`, is visible.
-3. Use the header party switcher to select `Provider Demo` and `Utente Viewer`,
-   then confirm that the frontend opens with the selected identity.
-4. As `provider admin`, create an e-service and confirm that it appears in the
-   producer e-service list after a refresh.
-5. Switch to `comune reviewer` and confirm that the risk-analysis/reviewer area
-   is accessible.
-6. Switch back to `comune admin` and confirm normal administration navigation.
-
-This is the extended manual UI check. Startup also runs focused Playwright
-checks for the published frontend shell and seeded catalog; API, seed, proxy,
-and configuration behaviour are covered by automated smoke and unit tests.
-Before the dashboard checks, a Playwright setup hook waits for the dashboard
-heading to render, allowing React's lazy route to finish loading. This hook
-has a separate 120-second budget, with up to 90 seconds for the heading to
-appear; the individual browser tests keep their 60-second timeout.
-
-## Troubleshooting
-
-- Rebuild the devcontainer after Dockerfile changes; an infrastructure reset
-  does not update the development image. Existing database volumes can be kept.
-- Repeated `Progress: resolved ..., reused ..., downloaded ..., added ...` lines
-  are updates from one pnpm install in VS Code's non-interactive setup log, not
-  repeated installations. Reusing the store still requires linking dependencies;
-  the first install into a fresh volume can take longer than later starts.
-- Use `pnpm local:status` first, then `pnpm local:logs`.
-- Open <http://localhost:3000/ui/local-dashboard/> to inspect services and
-  search the latest 2 MB of logs by source, level, process, correlation ID, or
-  message without leaving the browser. Each query returns up to 500 matching
-  entries. Selecting a process in the services table applies the corresponding
-  log filter. Use **Copia log filtrati** to copy the complete filtered result,
-  including virtualized rows, for an issue or troubleshooting note.
-- Port `5173` is Vite's internal devcontainer port, used by health checks and
-  the configured VS Code forward. From the host browser always use port `3000`
-  so login and HMR share the expected public origin.
-- After an unclean Docker shutdown, startup automatically removes a stale
-  ZooKeeper `/brokers/ids/1` registration only when Kafka is not running. Kafka
-  topics and persistent volumes are preserved.
-- The `fullstack:startup-dashboard` terminal is opened automatically on every
-  container start. Use **Terminal: Run Task** to reopen it if it was closed.
-- If old persistent data is incompatible with the current branches, run
-  `pnpm local:reset` and then `pnpm local:start`.
-- If port `3000` or an infrastructure port is already occupied, the dashboard
-  now fails immediately and displays Docker's conflicting port. Stop the other
-  Interop environment before starting this one.
-- Docker services are published by the host daemon. Small `socat` forwarders
-  make those host ports reachable as `localhost` from inside the devcontainer.
-  They must not be added to the devcontainer `forwardPorts`: VS Code would bind
-  the same host ports before Compose and prevent services such as MinIO from
-  starting.
-- Automatic forwarding is disabled for every port except Vite `5173`. This is
-  important because backend processes also listen inside the devcontainer; if
-  VS Code forwarded the catalog process on port `3000`, it could shadow the
-  Docker mapping from host port `3000` to Vite and return a backend error when
-  opening the UI.
-- Restoring saved VS Code port forwards and forwarding ports when opening
-  terminal/debug-console links are disabled in both the devcontainer settings
-  and the full-stack workspace. Port `3000` is also explicitly excluded from
-  automatic forwarding. This preserves Docker's host `3000` to Vite `5173`
-  mapping and the configured Vite forwarding/browser opening behaviour.
-  Rebuild the devcontainer to apply updated container settings. If VS Code
-  already has an active forward of container port `3000`, use **Stop Forwarding
-  Port** for that entry in the **Ports** view once. Manual forwarding is still
-  possible, so do not forward the internal catalog port to host port `3000`.
+Keep shell scripts LF-terminated in both repositories. Windows users should
+store source in the WSL Linux filesystem and use the wrapper
+`pnpm local:test:e2e` to preserve the published frontend's browser origin.
+Windows validation remains a separate target; Linux tests do not certify WSL2
+bind mounts or networking.

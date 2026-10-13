@@ -2,7 +2,7 @@
 set -euo pipefail
 
 FRONTEND_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-BACKEND_ROOT="$(dirname "$FRONTEND_ROOT")/interop-be-monorepo"
+BACKEND_ROOT="${INTEROP_BE_ROOT:-$(dirname "$FRONTEND_ROOT")/interop-be-monorepo}"
 TOKEN_FILE="$BACKEND_ROOT/.local-development/frontend-token"
 
 [[ -s "$TOKEN_FILE" ]] || { echo "Missing local token. Run pnpm local:start first." >&2; exit 1; }

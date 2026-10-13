@@ -2,14 +2,13 @@
 set -euo pipefail
 
 FRONTEND_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-BACKEND_ROOT="$(dirname "$FRONTEND_ROOT")/interop-be-monorepo"
+BACKEND_ROOT="${INTEROP_BE_ROOT:-$(dirname "$FRONTEND_ROOT")/interop-be-monorepo}"
 MODE="${1:-local}"
 
 cd "$FRONTEND_ROOT"
 export INTEROP_FRONTEND_PORT="${INTEROP_FRONTEND_PORT:-5173}"
 export INTEROP_FRONTEND_POLLING="${INTEROP_FRONTEND_POLLING:-true}"
 export INTEROP_LOCAL_DEVELOPMENT="true"
-export REACT_APP_LOCAL_DASHBOARD="true"
 
 if [[ "$MODE" == "local" ]]; then
   export REACT_APP_LOCAL_IDENTITY_SELECTION="true"

@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { execFile } from 'node:child_process'
-import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { promisify } from 'node:util'
@@ -30,6 +30,7 @@ require('node:fs').writeFileSync(process.env.NETWORK_TEST_RESULT, JSON.stringify
   gateway: process.env.PLAYWRIGHT_HOST_GATEWAY,
   publicFrontendUrl: process.env.PLAYWRIGHT_PUBLIC_FRONTEND_URL,
   baseURL: process.env.PLAYWRIGHT_BASE_URL,
+  ...(process.env.NETWORK_TEST_TOKEN ? { token: process.env.REACT_APP_MOCK_TOKEN } : {}),
 }))
 `,
       { mode: 0o755 }
@@ -102,5 +103,17 @@ require('node:fs').writeFileSync(process.env.NETWORK_TEST_RESULT, JSON.stringify
   it('asks Vite to reject a busy frontend port', async () => {
     const result = await runScript('run-frontend.sh', ['bootstrap'])
     expect(result.arguments).toContain('--strictPort')
+  })
+
+  it('loads the local token from the configured backend checkout', async () => {
+    environment.INTEROP_BE_ROOT = directory
+    environment.NETWORK_TEST_TOKEN = 'true'
+    await mkdir(join(directory, '.local-development'))
+    await writeFile(
+      join(directory, '.local-development/frontend-token'),
+      'configured-backend-token\n'
+    )
+    const result = await runScript('run-frontend.sh', ['local'])
+    expect(result.token).toBe('configured-backend-token')
   })
 })
