@@ -16,6 +16,7 @@ import type { MIAlertProps } from '@pagopa/mui-italia'
 import { AuthQueries } from './api/auth'
 import i18n from './config/react-i18next'
 import { DEFAULT_LANG, LANGUAGES } from './config/constants'
+import { NuqsAdapter } from 'nuqs/adapters/react-router/v6'
 
 // --- Init application ----
 
@@ -65,23 +66,25 @@ function App() {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      {envBannerProps && (
-        <MIAlert variant="header" severity={envBannerProps.severity}>
-          {envBannerProps.children}
-        </MIAlert>
-      )}
-      <React.Suspense fallback={<FirstLoadingSpinner />}>
-        <QueryClientProvider client={queryClient}>
-          <CssBaseline />
-          <RouterProvider />
-          <LoadingOverlay />
-          <ToastNotification />
-          <MaintenanceBanner />
-          <ReactQueryDevtools initialIsOpen={false} />
-        </QueryClientProvider>
-      </React.Suspense>
-    </ThemeProvider>
+    <NuqsAdapter>
+      <ThemeProvider theme={theme}>
+        {envBannerProps && (
+          <MIAlert variant="header" severity={envBannerProps.severity}>
+            {envBannerProps.children}
+          </MIAlert>
+        )}
+        <React.Suspense fallback={<FirstLoadingSpinner />}>
+          <QueryClientProvider client={queryClient}>
+            <CssBaseline />
+            <RouterProvider />
+            <LoadingOverlay />
+            <ToastNotification />
+            <MaintenanceBanner />
+            <ReactQueryDevtools initialIsOpen={false} />
+          </QueryClientProvider>
+        </React.Suspense>
+      </ThemeProvider>
+    </NuqsAdapter>
   )
 }
 
