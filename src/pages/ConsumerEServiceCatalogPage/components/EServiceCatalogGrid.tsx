@@ -23,7 +23,7 @@ export const EServiceCatalogGrid: React.FC<EServiceCatalogGridProps> = ({ eservi
   if (isEmpty)
     return (
       <NoItemResults padding={1} borderRadius={0}>
-        <Stack alignItems="center" sx={{ p: 1 }} spacing={1}>
+        <Stack role="status" aria-live="polite" alignItems="center" sx={{ p: 1 }} spacing={1}>
           <ErrorIcon />
           <Stack alignItems="center">
             <Typography
