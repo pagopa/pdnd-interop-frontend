@@ -1,22 +1,32 @@
-import { act } from '@testing-library/react'
-import { createMemoryHistory } from 'history'
-import { renderHookWithApplicationContext } from '@/utils/testing.utils'
+import React from 'react'
+import { act, renderHook, waitFor } from '@testing-library/react'
+import { withNuqsTestingAdapter } from 'nuqs/adapters/testing'
+import { MemoryRouter } from 'react-router-dom'
 import { usePagination } from '../usePagination'
 
 function renderPagination(
   searchParams?: Record<string, string>,
   options?: { limit: number; limitOptions?: number[] }
 ) {
-  const history = createMemoryHistory()
   const query = new URLSearchParams(searchParams).toString()
-  history.push(`/${query ? `?${query}` : ''}`)
-
-  const hook = renderHookWithApplicationContext(
-    () => usePagination(options),
-    { withRouterContext: true },
-    history
+  const initialEntry = `/${query ? `?${query}` : ''}`
+  const onUrlUpdate = vi.fn(({ searchParams }: { searchParams: URLSearchParams }) =>
+    searchParams.toString()
   )
-  return { ...hook, history }
+  const NuqsTestingWrapper = withNuqsTestingAdapter({
+    searchParams,
+    onUrlUpdate,
+    hasMemory: true,
+  })
+  const wrapper = ({ children }: { children: React.ReactNode }) =>
+    React.createElement(
+      MemoryRouter,
+      { initialEntries: [initialEntry] },
+      React.createElement(NuqsTestingWrapper, null, children)
+    )
+
+  const hook = renderHook(() => usePagination(options), { wrapper })
+  return { ...hook, onUrlUpdate }
 }
 
 describe('usePagination', () => {
@@ -24,8 +34,8 @@ describe('usePagination', () => {
     vi.restoreAllMocks()
   })
 
-  it('uses the default limit, offset, and limit options', () => {
-    const { result } = renderPagination()
+  it('uses and writes the default limit, offset, and limit options', async () => {
+    const { result, onUrlUpdate } = renderPagination()
 
     expect(result.current.paginationParams).toEqual({ limit: 10, offset: 0 })
     expect(result.current.paginationProps).toEqual({
@@ -37,10 +47,17 @@ describe('usePagination', () => {
         onLimitChange: expect.any(Function),
       },
     })
+
+    await waitFor(() =>
+      expect(onUrlUpdate.mock.lastCall?.[0].searchParams.toString()).toBe('limit=10')
+    )
   })
 
-  it('uses supplied defaults and pagination options when URL params are absent', () => {
-    const { result } = renderPagination(undefined, { limit: 24, limitOptions: [12, 24, 48] })
+  it('uses and writes supplied defaults and pagination options when URL params are absent', async () => {
+    const { result, onUrlUpdate } = renderPagination(undefined, {
+      limit: 24,
+      limitOptions: [12, 24, 48],
+    })
 
     expect(result.current.paginationParams).toEqual({ limit: 24, offset: 0 })
     expect(result.current.paginationProps.itemsPerPageOptions).toEqual({
@@ -48,6 +65,10 @@ describe('usePagination', () => {
       options: [12, 24, 48],
       onLimitChange: expect.any(Function),
     })
+
+    await waitFor(() =>
+      expect(onUrlUpdate.mock.lastCall?.[0].searchParams.toString()).toBe('limit=24')
+    )
   })
 
   it('reads limit and offset from the URL and calculates the current page', () => {
@@ -57,11 +78,15 @@ describe('usePagination', () => {
     expect(result.current.paginationProps.page).toBe(3)
   })
 
-  it('falls back for invalid URL params and limits greater than 50', () => {
-    const { result } = renderPagination({ limit: '51', offset: '-4' }, { limit: 24 })
+  it('corrects invalid URL params and limits greater than 50', async () => {
+    const { result, onUrlUpdate } = renderPagination({ limit: '51', offset: '-4' }, { limit: 24 })
 
-    expect(result.current.paginationParams).toEqual({ limit: 10, offset: 0 })
+    expect(result.current.paginationParams).toEqual({ limit: 24, offset: 0 })
     expect(result.current.paginationProps.page).toBe(1)
+
+    await waitFor(() =>
+      expect(onUrlUpdate.mock.lastCall?.[0].searchParams.toString()).toBe('limit=24')
+    )
   })
 
   it('calculates total pages for counts, zero, and an undefined count', () => {
@@ -72,42 +97,50 @@ describe('usePagination', () => {
     expect(result.current.getTotalPageCount(undefined)).toBe(0)
   })
 
-  it('sets the offset when changing page and preserves other URL params', () => {
-    const scrollSpy = vi.spyOn(window, 'scroll').mockImplementation(() => {})
-    const { result, history, rerender } = renderPagination({ filter: 'active' })
+  it('sets the offset when changing page and preserves other URL params', async () => {
+    const { result, onUrlUpdate } = renderPagination({ filter: 'active' })
 
     act(() => result.current.paginationProps.onPageChange(3))
-    rerender()
 
-    expect(history.location.search).toBe('?filter=active&offset=20')
+    await waitFor(() =>
+      expect(Object.fromEntries(onUrlUpdate.mock.lastCall?.[0].searchParams ?? [])).toEqual({
+        filter: 'active',
+        limit: '10',
+        offset: '20',
+      })
+    )
     expect(result.current.paginationParams.offset).toBe(20)
     expect(result.current.paginationProps.page).toBe(3)
-    expect(scrollSpy).toHaveBeenCalledWith(0, 0)
   })
 
-  it('removes the offset when returning to the first page', () => {
-    vi.spyOn(window, 'scroll').mockImplementation(() => {})
-    const { result, history, rerender } = renderPagination({ filter: 'active', offset: '20' })
+  it('removes the offset when returning to the first page', async () => {
+    const { result, onUrlUpdate } = renderPagination({ filter: 'active', offset: '20' })
 
     act(() => result.current.paginationProps.onPageChange(1))
-    rerender()
 
-    expect(history.location.search).toBe('?filter=active')
+    await waitFor(() =>
+      expect(Object.fromEntries(onUrlUpdate.mock.lastCall?.[0].searchParams ?? [])).toEqual({
+        filter: 'active',
+        limit: '10',
+      })
+    )
     expect(result.current.paginationParams.offset).toBe(0)
     expect(result.current.paginationProps.page).toBe(1)
   })
 
-  it('sets a new limit, removes the offset, and preserves other URL params', () => {
-    const scrollSpy = vi.spyOn(window, 'scroll').mockImplementation(() => {})
-    const { result, history, rerender } = renderPagination({ filter: 'active', offset: '20' })
+  it('sets a new limit, removes the offset, and preserves other URL params', async () => {
+    const { result, onUrlUpdate } = renderPagination({ filter: 'active', offset: '20' })
 
     act(() => result.current.paginationProps.itemsPerPageOptions.onLimitChange(24))
-    rerender()
 
-    expect(history.location.search).toBe('?filter=active&limit=24')
+    await waitFor(() =>
+      expect(Object.fromEntries(onUrlUpdate.mock.lastCall?.[0].searchParams ?? [])).toEqual({
+        filter: 'active',
+        limit: '24',
+      })
+    )
     expect(result.current.paginationParams).toEqual({ limit: 24, offset: 0 })
     expect(result.current.paginationProps.page).toBe(1)
-    expect(scrollSpy).toHaveBeenCalledWith(0, 0)
   })
 
   it('throws when changing to an invalid page or limit', () => {
