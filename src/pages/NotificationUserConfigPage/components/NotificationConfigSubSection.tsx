@@ -1,8 +1,4 @@
-import {
-  RHFNewSwitch,
-  RHFSwitch,
-  SwitchLabelDescription,
-} from '@/components/shared/react-hook-form-inputs'
+import { RHFSwitch, SwitchLabelDescription } from '@/components/shared/react-hook-form-inputs'
 import { Box } from '@mui/system'
 import { Typography } from '@mui/material'
 import { AuthHooks } from '@/api/auth'
@@ -34,13 +30,17 @@ export const NotificationConfigSubSection: React.FC<NotificationConfigSubSection
           (component) =>
             // is currentRoles authorized to show the switch  ?
             currentRoles.some((item) => component.visibility.includes(item)) && (
-              <RHFNewSwitch
+              <RHFSwitch
                 sx={{ mt: 1, mb: 1 }}
                 data-testid={component.key}
                 key={component.key}
                 name={component.key}
-                label={component.title}
-                description={component.description}
+                label={
+                  <SwitchLabelDescription
+                    label={component.title}
+                    description={component.description}
+                  />
+                }
               />
             )
         )}
