@@ -649,11 +649,11 @@
             }
           },
           "modeField": {
-            "label": "Transmits or receives data",
+            "label": "Deliver or receives data",
             "options": {
               "ALL": "All",
               "DELIVER": "Deliver data",
-              "RECEIVE": "Transmits data"
+              "RECEIVE": "Receive data"
             }
           }
         },

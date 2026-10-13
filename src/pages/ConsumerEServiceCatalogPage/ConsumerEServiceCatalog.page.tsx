@@ -234,7 +234,19 @@ const ConsumerEServiceCatalogPage: React.FC = () => {
       }
 
       if (key === 'requesterDelegationRoles' && value === 'ALL') {
-        mappedFilters[key] = undefined
+        match(value)
+          .with('ALL', () => {
+            mappedFilters[key] = ['DELEGATE', 'DELEGATOR']
+          })
+          .with('DELEGATE', () => {
+            mappedFilters[key] = ['DELEGATE']
+          })
+          .with('DELEGATOR', () => {
+            mappedFilters[key] = ['DELEGATOR']
+          })
+          .otherwise(() => {
+            mappedFilters[key] = undefined
+          })
         return
       }
 

@@ -34,6 +34,7 @@ export const SortBy: React.FC<SortByProps> = ({ options, sortBy, onSortingChange
   return (
     <>
       <Button
+        id={triggerId}
         variant="text"
         aria-controls={isOpen ? id : undefined}
         aria-haspopup="true"

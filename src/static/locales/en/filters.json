@@ -7,8 +7,8 @@
     "title": "Filters",
     "subtitle": "Use the filters for a more specific search.",
     "actions": {
-      "reset": "Reset filtri",
-      "apply": "Apply filtri"
+      "reset": "Reset filters",
+      "apply": "Apply filters"
     }
   }
 }
