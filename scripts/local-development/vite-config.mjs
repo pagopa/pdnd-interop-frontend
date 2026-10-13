@@ -2,12 +2,17 @@
 
 const sharedDevelopmentBackend = 'https://selfcare.dev.interop.pagopa.it'
 
-/** @param {string | undefined} explicitTarget */
-export const resolveDashboardTarget = (explicitTarget) => {
+/** @param {string | undefined} explicitTarget @param {boolean} container */
+export const resolveDashboardTarget = (
+  explicitTarget,
+  container = process.env.INTEROP_DEVCONTAINER === 'true'
+) => {
   const target = new URL(explicitTarget ?? 'http://127.0.0.1:8076')
   if (
     target.protocol !== 'http:' ||
-    !['localhost', '127.0.0.1', '[::1]'].includes(target.hostname) ||
+    !['localhost', '127.0.0.1', '[::1]', ...(container ? ['dashboard'] : [])].includes(
+      target.hostname
+    ) ||
     target.username ||
     target.password ||
     target.pathname !== '/' ||

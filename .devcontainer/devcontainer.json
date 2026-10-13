@@ -2,10 +2,11 @@
   "name": "PDND Interop full stack",
   "dockerComposeFile": [
     "../../interop-be-monorepo/docker/docker-compose.yml",
-    "../../interop-be-monorepo/.local-development/dashboard/compose.yml"
+    "../../interop-be-monorepo/.local-development/dashboard/compose.yml",
+    "../.local-development/frontend/compose.yml"
   ],
-  "service": "dashboard",
-  "runServices": ["dashboard"],
+  "service": "frontend",
+  "runServices": ["dashboard", "frontend"],
   "workspaceFolder": "${localWorkspaceFolder}",
   "initializeCommand": ["bash", ".devcontainer/initialize.sh"],
   "overrideCommand": false,

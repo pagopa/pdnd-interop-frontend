@@ -75,14 +75,16 @@ which is sufficient only after the local-runtime changes have landed there.
 Once both branches are selected, open the workspace from this WSL terminal:
 
 ```bash
-code interop-pdnd-fullstack.code-workspace
+code .
 ```
 
 VS Code must show **WSL: Ubuntu** before **Dev Containers: Reopen in Container**.
-Then follow [First start](local-full-stack.md#first-start). The backend launcher
+Then follow [First start](local-full-stack.md#first-start). The frontend launcher
 can also start the full stack from WSL without VS Code or host Node/pnpm.
-VS Code attaches to the same Compose runtime; it does not install dependencies
-or start another supervisor. After reopening, the terminal runs in that runtime.
+VS Code attaches to the separate frontend service, which mounts only this
+checkout and installs its own dependencies and Chromium. Backend packages,
+infrastructure and the dashboard run in their own service. The host full-stack
+workspace remains available for browsing both repos outside the container.
 
 Storing bind-mounted source on Linux avoids slow Windows filesystem crossings
 and missing file-change events. Dependency directories and the pnpm store use
@@ -99,14 +101,15 @@ checkout commands that discard local work.
 
 ## Understand the ports and mounts
 
-| Caller                      | Destination                          | Purpose                                                                                        |
-| --------------------------- | ------------------------------------ | ---------------------------------------------------------------------------------------------- |
-| Windows browser             | `http://localhost:3000/ui/it/`       | Frontend through Docker's host `3000` → devcontainer `5173` mapping                            |
-| Windows browser             | `http://localhost:8076`              | Independent backend dashboard and API                                                          |
-| Vite inside devcontainer    | `http://localhost:3600`              | Local BFF API proxy; the browser never needs a separate BFF port                               |
-| Backend inside devcontainer | `localhost:<infrastructure-port>`    | `socat` relay to `host.docker.internal:<port>`, then Docker's published infrastructure service |
-| Internal backend callers    | `localhost:3000` inside devcontainer | Catalog process, **not** the frontend                                                          |
-| Vite HMR in browser         | WebSocket on `localhost:3000`        | Same public frontend port; Vite listens internally on `5173`                                   |
+| Caller                             | Destination                                 | Purpose                                                                                  |
+| ---------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Windows browser                    | `http://localhost:3000/ui/it/`              | Frontend through Docker's host `3000` → devcontainer `5173` mapping                      |
+| Windows browser                    | `http://localhost:8076`                     | Independent backend dashboard and API                                                    |
+| Vite inside frontend container     | `http://dashboard:3600`                     | BFF API proxy through Compose DNS; the browser uses only the frontend origin             |
+| Frontend launcher / identity proxy | `http://dashboard:8076`                     | Dashboard APIs for backend operations and token issuance                                 |
+| Backend inside dashboard container | `localhost:<infrastructure-port>`           | `socat` relay to `host.docker.internal:<port>`, then Docker's infrastructure publication |
+| Internal backend callers           | `localhost:3000` inside dashboard container | Catalog process in the backend container                                                 |
+| Vite HMR in browser                | WebSocket on `localhost:3000`               | Same public frontend port; Vite listens internally on `5173`                             |
 
 Do not forward catalog port `3000`, BFF ports, or infrastructure ports through
 VS Code. Docker already owns the public bindings. Automatic forwarding is disabled, including Vite `5173`. The documented browser origin remains
@@ -126,12 +129,13 @@ VPNs, and firewall policies can affect connectivity; diagnose the failing hop
 before changing machine-wide settings. See [Microsoft's WSL networking guide](https://learn.microsoft.com/en-us/windows/wsl/networking)
 and [Docker Desktop networking](https://docs.docker.com/desktop/features/networking/networking-how-tos/).
 
-The devcontainer retains the repositories' absolute WSL paths because backend
-Compose uses files from the backend checkout. Bind sources are resolved by the
-Docker daemon, not by the process calling Compose inside the devcontainer.
+Each service retains its own checkout's absolute WSL path. The frontend
+devcontainer does not mount the backend, its dependencies or the Docker socket.
+Backend Compose SQL/config files belong to the dashboard service. Bind sources
+are resolved by the Docker daemon, not by the frontend process.
 If a SQL/config mount is missing or becomes an empty directory, compare the
 source path in `docker compose -f ../interop-be-monorepo/docker/docker-compose.yml config`
-with the devcontainer's mounts from `docker inspect <container-id>`. Also check
+with the dashboard service's mounts from `docker inspect <container-id>`. Also check
 that the same files exist in WSL. Do not replace the workspace target with
 `/workspaces/...` without adapting these source paths. Historical Docker Desktop
 versions have had [nested WSL bind-mount issues](https://github.com/devcontainers/features/issues/919);
@@ -144,7 +148,8 @@ After startup, these read-only checks inside the devcontainer isolate the hops:
 getent ahostsv4 host.docker.internal
 curl --fail http://localhost:5173/ui/it/
 curl --fail http://host.docker.internal:3000/ui/it/
-curl --fail http://localhost:3600/backend-for-frontend/0.0/status
+curl --fail http://dashboard:3600/backend-for-frontend/0.0/status
+curl --fail http://dashboard:8076/health
 ```
 
 The two frontend requests must return the PDND HTML shell. From PowerShell,
@@ -154,7 +159,7 @@ and host connectivity before investigating React or the API proxy.
 
 ## Browser tests and debugging
 
-Run `pnpm local:test:e2e` in the shared runtime after the full-stack operation passes.
+Run `pnpm local:test:e2e` in the frontend container after its launcher completes.
 The default is headless Chromium; no Windows browser installation, display
 server, or WSLg integration is required. Setup installs Playwright's matching
 Chromium separately from the system Chromium used by Puppeteer.
@@ -162,8 +167,9 @@ Chromium separately from the system Chromium used by Puppeteer.
 Chromium and Playwright's Node HTTP client resolve addresses separately.
 Chromium's host resolver override preserves the `localhost:3000` browser origin
 while connecting to the Docker host. The published-frontend HTTP check uses a
-host-reachable URL instead of container `localhost:3000`, which would hit the
-catalog service. Run the wrapper even when filtering a test; invoking Playwright
+host-reachable URL instead of container `localhost:3000`, where no frontend is
+listening (Vite uses internal `5173`). The dashboard check uses Compose DNS.
+Run the wrapper even when filtering a test; invoking Playwright
 directly skips its environment preparation.
 
 Automatic Docker-host routing applies only when `INTEROP_DEVCONTAINER=true`
@@ -221,7 +227,7 @@ mode, both Git revisions, and whether a VPN is active. Do not mark this procedur
 passed based only on Ubuntu tests.
 
 1. Create/rebuild from the WSL filesystem following the steps above. Confirm
-   dependency volumes mount, runtime initialization succeeds, and the full-stack operation passes.
+   separate dependency volumes mount, frontend setup/checks pass, and dashboard APIs complete.
 2. In Windows Edge/Chrome, open the frontend on `localhost:3000` and dashboard on `localhost:8076`.
    Confirm the dashboard shows services and logs, and the UI shows `Comune Demo`
    and the seeded `Catalogo Demo` e-service.
@@ -231,7 +237,9 @@ passed based only on Ubuntu tests.
    browser through port `3000`, then undo only that edit.
 5. Run `pnpm local:smoke` and `pnpm local:test:e2e` inside the devcontainer.
    Both the Node HTTP publication check and Chromium UI checks must pass.
-6. Stop/start the local stack and reopen the container. Confirm existing seed
+6. Stop/start the local stack and reopen the frontend container. Confirm a stopped
+   frontend starts again in the same container and a setup failure leaves the
+   editor available for manual retry. Confirm existing seed
    data remains usable and no stale VS Code forwards steal port `3000` or the
    infrastructure ports. Recheck HMR and the two browser URLs.
 

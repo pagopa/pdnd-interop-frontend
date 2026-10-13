@@ -12,7 +12,7 @@ test('serves the backend dashboard and its API on their own origin', async ({ re
   const status = await request.get(`${dashboardUrl}/__local-dashboard/api/status`)
   expect(status.ok()).toBe(true)
   const runtime = await status.json()
-  expect(runtime).toMatchObject({ frontendAvailable: true })
+  expect(runtime).not.toHaveProperty('frontendAvailable')
   expect(runtime).not.toHaveProperty('mode')
 })
 

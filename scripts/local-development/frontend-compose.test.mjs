@@ -1,0 +1,141 @@
+// @vitest-environment node
+import { afterEach, expect, it } from 'vitest'
+import { execFile } from 'node:child_process'
+import { cp, mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+import { promisify } from 'node:util'
+
+const execute = promisify(execFile)
+const sourceRoot = fileURLToPath(new URL('../..', import.meta.url))
+const roots = []
+afterEach(async () => {
+  await Promise.all(roots.splice(0).map((path) => rm(path, { recursive: true, force: true })))
+})
+
+async function fixture({ startupFailure = false } = {}) {
+  const directory = await mkdtemp(join(tmpdir(), 'interop-frontend-compose-'))
+  roots.push(directory)
+  const frontend = join(directory, 'frontend')
+  const backend = join(directory, 'backend')
+  const bin = join(directory, 'bin')
+  await mkdir(bin)
+  await mkdir(frontend)
+  await cp(join(sourceRoot, '.devcontainer'), join(frontend, '.devcontainer'), { recursive: true })
+  await cp(
+    join(sourceRoot, 'scripts/local-development'),
+    join(frontend, 'scripts/local-development'),
+    { recursive: true }
+  )
+  await mkdir(join(backend, '.git'), { recursive: true })
+  await mkdir(join(backend, 'scripts/local-development'), { recursive: true })
+  await writeFile(
+    join(backend, 'scripts/local-development/dashboard.sh'),
+    '#!/usr/bin/env bash\nmkdir -p "$INTEROP_BE_ROOT/.local-development/dashboard"\nprintf \'{"services":{"dashboard":{}}}\\n\' > "$INTEROP_BE_ROOT/.local-development/dashboard/compose.yml"\n'
+  )
+  const stateFile = join(directory, 'docker-state.json')
+  const callsFile = join(directory, 'docker-calls.jsonl')
+  await writeFile(stateFile, JSON.stringify({ running: false, vite: false, startup: 'pending' }))
+  await writeFile(
+    join(bin, 'docker'),
+    `#!/usr/bin/env node
+const fs = require('node:fs'); const args = process.argv.slice(2);
+fs.appendFileSync(process.env.DOCKER_TEST_CALLS, JSON.stringify(args) + '\\n');
+const state = JSON.parse(fs.readFileSync(process.env.DOCKER_TEST_STATE));
+if (args[0] === 'inspect') {
+  console.log(args[2].includes('Health') ? (state.startup === 'failed' ? 'starting' : state.vite ? 'healthy' : 'unhealthy') : String(state.running));
+} else if (args.includes('up')) {
+  if (args.includes('frontend') && !state.running) {
+    state.running = true; state.vite = !process.env.DOCKER_TEST_FAILURE;
+    state.startup = process.env.DOCKER_TEST_FAILURE ? 'failed' : 'passed';
+  }
+} else if (args.includes('ps')) {
+  if (state.running) console.log('frontend-1');
+} else if (args.includes('exec')) {
+  if (args.at(-1) === 'startup-state') console.log(state.startup);
+  else if (args.at(-1) === 'stop') { state.vite = false; state.startup = 'stopped'; }
+  else if (args.at(-1) === 'start') { state.vite = true; state.startup = 'passed'; }
+}
+fs.writeFileSync(process.env.DOCKER_TEST_STATE, JSON.stringify(state));
+`,
+    { mode: 0o755 }
+  )
+  const env = {
+    ...process.env,
+    PATH: `${bin}:${process.env.PATH}`,
+    INTEROP_BE_ROOT: backend,
+    DOCKER_TEST_STATE: stateFile,
+    DOCKER_TEST_CALLS: callsFile,
+    ...(startupFailure ? { DOCKER_TEST_FAILURE: 'true' } : {}),
+  }
+  delete env.INTEROP_FRONTEND_RUNTIME
+  const run = (command) =>
+    execute('bash', [join(frontend, 'scripts/local-development/fullstack.sh'), command], { env })
+  return { frontend, backend, run, callsFile, stateFile }
+}
+
+it('restarts the frontend launcher when a host start follows stop on the same container', async () => {
+  const { run, stateFile, callsFile } = await fixture()
+  await run('start')
+  await run('stop')
+  await run('start')
+  expect(JSON.parse(await readFile(stateFile, 'utf8')).vite).toBe(true)
+  const calls = (await readFile(callsFile, 'utf8'))
+    .trim()
+    .split('\n')
+    .map((line) => JSON.parse(line))
+  expect(calls.some((args) => args.includes('exec') && args.at(-1) === 'start')).toBe(true)
+})
+
+it('generates a frontend-only mount and volumes on the shared Compose network', async () => {
+  const { frontend, backend, run } = await fixture()
+  await run('start')
+  const config = JSON.parse(
+    await readFile(join(frontend, '.local-development/frontend/compose.yml'), 'utf8')
+  )
+  expect(Object.keys(config.services)).toEqual(['frontend'])
+  const service = config.services.frontend
+  expect(service.environment).toMatchObject({
+    INTEROP_DASHBOARD_URL: 'http://dashboard:8076',
+    INTEROP_LOCAL_BACKEND_TARGET: 'http://dashboard:3600',
+  })
+  expect(service.environment).not.toHaveProperty('INTEROP_BE_ROOT')
+  expect(service.volumes.filter(({ type }) => type === 'bind')).toEqual([
+    { type: 'bind', source: frontend, target: frontend },
+  ])
+  expect(JSON.stringify(service.volumes)).not.toContain(backend)
+  expect(JSON.stringify(service)).not.toContain('/var/run/docker.sock')
+  expect(service.ports).toEqual(['3000:5173'])
+  expect(service.init).toBe(true)
+  expect(service.depends_on.dashboard.condition).toBe('service_healthy')
+})
+
+it('reports failed startup immediately while leaving its editor container running', async () => {
+  const { run, stateFile, callsFile } = await fixture({ startupFailure: true })
+  await expect(run('start')).rejects.toThrow()
+  expect(JSON.parse(await readFile(stateFile, 'utf8')).running).toBe(true)
+  const calls = (await readFile(callsFile, 'utf8'))
+    .trim()
+    .split('\n')
+    .map((line) => JSON.parse(line))
+  expect(calls.filter((args) => args[0] === 'inspect')).toHaveLength(0)
+  expect(calls.some((args) => args.includes('logs'))).toBe(true)
+})
+
+it('preserves an existing standalone backend overlay and its startup settings', async () => {
+  const { backend, run } = await fixture()
+  const directory = join(backend, '.local-development/dashboard')
+  await mkdir(directory, { recursive: true })
+  const path = join(directory, 'compose.yml')
+  const original = JSON.stringify({
+    services: {
+      dashboard: {
+        environment: { DASHBOARD_AUTOSTART: 'false', DASHBOARD_AUTOSTART_PRESET: 'tenant-seeding' },
+      },
+    },
+  })
+  await writeFile(path, original)
+  await run('start')
+  expect(await readFile(path, 'utf8')).toBe(original)
+})

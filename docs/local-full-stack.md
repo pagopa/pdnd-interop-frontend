@@ -1,81 +1,101 @@
 # Local full-stack development
 
-The backend owns the standalone development dashboard at
-<http://localhost:8076>. One Docker Compose runtime supervises the backend
-processes and Vite when the frontend checkout is mounted and started. The frontend is available at
-<http://localhost:3000/ui/it/>. The dashboard remains available when Vite or a
-backend process stops.
+The backend owns the standalone dashboard at <http://localhost:8076>. A separate
+frontend container runs VS Code, Vite and frontend checks. It mounts only the
+frontend checkout and serves <http://localhost:3000/ui/it/>. The dashboard works
+without the frontend checkout or container and remains available when Vite stops.
 
 ## Prerequisites
 
 - Docker Engine or Docker Desktop with Linux containers
-- Sibling checkouts of this frontend and `interop-be-monorepo` containing the
-  development dashboard changes
+- Sibling frontend and `interop-be-monorepo` checkouts containing the dashboard changes
 - Linux, macOS, or Windows with WSL2; see the [Windows guide](local-full-stack-windows.md)
-- VS Code and Dev Containers only if you want to attach an editor to the runtime
+- VS Code and Dev Containers only for editing inside the frontend container
 
-Node, pnpm, Docker CLI, Chromium and the process supervisor run inside the
-backend image. Host Node/pnpm and VS Code are not needed to start the stack.
-Dependency directories, the pnpm store and browser cache use named Docker
-volumes. Source repositories retain their absolute host paths in the container.
-The runtime accesses the host Docker socket; use trusted repositories.
+Host Node/pnpm is optional. Each image installs its own dependencies into named
+volumes. The frontend has its own pnpm store and Playwright browser cache. Its
+container has no backend checkout, backend dependencies or Docker socket.
+The backend dashboard retains Docker access for infrastructure commands.
 
 ## First start
 
-From the backend checkout, without opening VS Code:
+From the frontend checkout, without opening VS Code:
 
 ```bash
-bash scripts/local-development/dashboard.sh start --frontend "$(realpath ../pdnd-interop-frontend)" --preset frontend-full
+bash scripts/local-development/fullstack.sh start
 ```
 
-Open <http://localhost:8076> to follow dependency installation, infrastructure,
-backend compilation and readiness, seed, token generation, frontend startup,
-smoke checks and browser checks. Inspect failed operation phases and logs there.
-Open <http://localhost:3000/ui/it/> when full-stack startup has passed.
+The host initializer prepares a missing backend Compose configuration and the
+frontend overlay at `.local-development/frontend/compose.yml`. An existing
+backend-only overlay and its startup settings are preserved. Compose starts
+`dashboard` and `frontend` on the same network; only the frontend image is rebuilt
+by routine frontend starts.
 
-Alternatively, open `interop-pdnd-fullstack.code-workspace` and run
-**Dev Containers: Reopen in Container**. Initialization prepares the same
-backend Compose configuration; VS Code attaches to its `dashboard` service.
-There are no editor startup tasks, duplicate dependency installations or tmux
-sessions. Closing VS Code leaves the runtime running.
-If the sibling backend checkout is missing, initialization clones `develop`;
-the dashboard changes must be available on the selected backend branch.
-Existing checkouts and their local changes are preserved.
+The frontend entrypoint installs dependencies and Chromium. Its launcher then
+calls the dashboard API in order: infrastructure start, the `frontend-full`
+backend preset, and the idempotent seed. It waits for every accepted operation to
+finish, resolves the selected identity through the API, saves the returned token
+in the frontend checkout, starts Vite, and runs smoke and browser checks.
+The default identity is `comune` / `admin`; subsequent starts retain CLI selections.
 
-For backend-only development, start the dashboard from the backend without
-`--frontend`. Mounting the frontend checkout makes its controls available;
-`--preset frontend-full` selects automatic full-stack startup. Without a startup
-preset, the runtime prepares only infrastructure, even with the frontend mounted.
-Reconfigure through the backend launcher when changing checkout mounts.
+The host command waits for completed setup and checks. Backend operations and
+logs appear in the dashboard. Frontend setup and failures appear in the frontend
+container logs and `.local-development/frontend/startup.log`; Vite logs are in
+`.local-development/frontend/vite.log`. Failed setup leaves the frontend container
+alive for inspection and manual retry; it does not automatically retry the seed.
+
+For VS Code, open **the frontend folder** from the host/WSL terminal (`code .`),
+then choose **Dev Containers: Reopen in Container**. VS Code attaches to
+`frontend` and uses the same automatic setup. Closing the editor leaves both
+containers running. Fix setup errors inside the container and retry
+`pnpm local:start`.
+
+The host `interop-pdnd-fullstack.code-workspace` remains useful for browsing both
+repos outside the container. Its backend folder is not mounted in the frontend
+devcontainer; open the frontend folder before reopening in the container.
+Existing checkouts and local changes are preserved. A missing backend is cloned
+from `develop`, which must contain the dashboard changes.
+
+For the standalone dashboard, run the backend launcher without frontend arguments,
+or `bash scripts/local-development/dashboard.sh` from the frontend host checkout.
+This starts only the dashboard, without Vite.
+
+A legacy backend overlay that mounts the frontend must be migrated explicitly:
+stop that old runtime and run the backend's `dashboard.sh start` without
+frontend arguments to rebuild its image before starting the new frontend container. Initialization reports
+the legacy configuration instead of silently replacing a running backend.
 
 ## Commands
 
-Inside the shared runtime, from the frontend checkout:
+Run these from the frontend checkout, on the host or in its devcontainer:
 
-| Command                                  | Effect                                                                   |
-| ---------------------------------------- | ------------------------------------------------------------------------ |
-| `pnpm local:start`                       | Starts the full stack and waits for its operation to pass or fail        |
-| `pnpm local:status`                      | Prints dashboard package, infrastructure and operation status            |
-| `pnpm local:dashboard`                   | Prints the independent dashboard URL                                     |
-| `pnpm local:logs`                        | Prints the latest combined logs                                          |
-| `pnpm local:logs -- frontend`            | Prints the latest frontend logs                                          |
-| `pnpm local:stop`                        | Stops application processes; keeps dashboard, infrastructure and volumes |
-| `pnpm local:reset`                       | Explicitly confirms destructive local infrastructure reset               |
-| `pnpm local:use:local`                   | Restarts Vite against the local BFF                                      |
-| `pnpm local:use:dev`                     | Restarts Vite against the development environment                        |
-| `pnpm local:identity -- comune reviewer` | Generates a local token and restarts Vite                                |
-| `pnpm local:smoke`                       | Checks frontend, BFF, Selfcare, seed and infrastructure                  |
-| `pnpm local:test:e2e`                    | Runs the frontend browser checks                                         |
+| Command                                  | Effect                                                                                        |
+| ---------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `pnpm local:start`                       | Starts frontend and its backend preset, seeds, obtains a token and runs checks                |
+| `pnpm local:stop`                        | Stops Vite and the frontend-full backend preset; keeps containers, infrastructure and volumes |
+| `pnpm local:status`                      | Prints backend status and the owned frontend process state                                    |
+| `pnpm local:dashboard`                   | Starts or waits for the standalone dashboard and prints its URL                               |
+| `pnpm local:logs`                        | Prints recent backend logs                                                                    |
+| `pnpm local:logs -- frontend`            | Prints frontend Vite logs                                                                     |
+| `pnpm local:reset`                       | Stops Vite and explicitly confirms destructive local infrastructure reset                     |
+| `pnpm local:use:local`                   | Obtains the selected local token and restarts Vite against the local BFF                      |
+| `pnpm local:use:dev`                     | Restarts Vite against shared development without local token injection                        |
+| `pnpm local:identity -- comune reviewer` | Resolves tenant/user keys through the API and restarts Vite with their token                  |
 
-The dashboard also controls single backend processes, watch mode, infrastructure
-and shared/personal presets. A reset removes local infrastructure data and
-generated seed state; it does not delete either Git checkout. Use infrastructure
-stop in the dashboard when you want to stop those containers as well.
+Host lifecycle commands enter the frontend container through Compose. Inside it,
+the launcher uses APIs and manages only its own Vite process group. Repeated
+starts also restart a stopped frontend in an existing container. Overlapping
+commands are rejected by a Linux kernel lock, which is released when the command exits.
+Refreshing a token restarts Vite so its environment receives the new token.
 
-The frontend CLI delegates to the dashboard API. It does not launch its own
-supervisor. `INTEROP_DASHBOARD_URL` can override the API origin for local tools
-and Vite; only loopback HTTP origins are accepted. Normal `pnpm dev` and
-production builds do not enable this proxy.
+After reset, run `pnpm local:start` to seed and start again. Reset removes local
+infrastructure data, not either checkout. Ordinary frontend stop leaves unrelated
+backend packages alone. The dashboard controls other backend packages, watch
+mode, presets and infrastructure.
+
+Run `pnpm local:smoke` and `pnpm local:test:e2e` **inside the frontend container**,
+which contains their dependencies and browser installation. Rebuild through the
+host launcher or Dev Containers after image/container configuration changes.
 
 ## Local identities
 
@@ -83,42 +103,42 @@ Tenants: `comune`, `provider`, `impresa`, `certificatore`.
 Users: `admin`, `api`, `security`, `reviewer`, `viewer`.
 
 Use the header party switcher or
-<http://localhost:3000/ui/it/local-identity-selection/>. The selection persists
-across reloads. After an infrastructure reset, the frontend restores the same
-tenant and user using stable Selfcare/user IDs and requests a new local token.
-While the seed or identity API is unavailable, it retains the saved session and
-retries. If the identity was removed, the selection page opens.
+<http://localhost:3000/ui/it/local-identity-selection/>. Selection persists across
+reloads. After reset, the application restores tenant/user using stable
+Selfcare/user IDs and requests a new token. While seed or the identity API is
+unavailable, it retains the saved session and retries. Removed identities return
+to the selection page.
 
-The dashboard provides the identity API; Vite proxies it on the frontend origin.
-Local identity selection uses its own development flag and does not depend on a
-dashboard route in the SPA. `SELFCARE_LOGIN_URL` defaults to the local identity
-page and can be overridden for a different public frontend origin.
-Token files remain in the ignored backend `.local-development` directory.
+Vite proxies the identity API on the frontend origin. The CLI uses this API too,
+resolving user IDs from `users[].key`. Tokens are saved privately in the
+frontend's ignored `.local-development/frontend-token`, never read from backend
+files. `SELFCARE_LOGIN_URL` defaults to the public local identity page.
 
-The idempotent seed creates `Catalogo Demo`, owned by `Provider Demo`, and the
-demo tenants and role-specific users. Confirm the catalog and selected identity
-in the application after startup.
+The seed creates `Catalogo Demo`, owned by `Provider Demo`, and demo tenants and
+role-specific users. Confirm the catalog and identity in the application.
 
 ## Networking and troubleshooting
 
-Docker publishes frontend host port `3000` to runtime Vite port `5173`, and
-dashboard port `8076` independently. The backend catalog uses runtime
-`localhost:3000`; that internal address is not the frontend. Vite proxies the
-local BFF on `localhost:3600`. HMR uses public browser port `3000`.
-Vite runs with `--strictPort` and fails when `5173` is occupied.
-Infrastructure relays are managed by the backend runtime.
+Docker publishes frontend host port `3000` to frontend-container Vite port
+`5173`. Dashboard port `8076` is independent. Vite calls `dashboard:3600` for the
+BFF and `dashboard:8076` for identities through Compose DNS. These are internal
+addresses, not browser URLs. The backend catalog runs on port `3000` in a
+different container. The public browser origin and HMR remain
+`http://localhost:3000`.
 
-VS Code automatic forwarding and restored forwards are disabled. Remove old
-manual forwards of `3000` or infrastructure ports; they can shadow Docker's
-public bindings. Use the published URLs from the host browser.
+Host dashboard targets must use local HTTP loopback origins. The frontend
+container also accepts the exact Compose hostname `dashboard`.
+`INTEROP_DASHBOARD_URL` selects the API/proxy origin;
+`INTEROP_LOCAL_BACKEND_TARGET` and `INTEROP_SELFCARE_URL` select internal smoke
+targets. Normal `pnpm dev` and production builds do not enable the identity proxy.
 
-Use dashboard operation errors and service logs first. Retry the failed
-operation after resolving its cause. Restart/rebuild through the backend
-launcher after runtime image or workspace package changes. Named volumes survive
-ordinary stops; fresh volumes can require a longer first dependency install.
+VS Code automatic and restored forwarding are disabled. Remove old manual
+forwards of `3000` or infrastructure ports that shadow Docker publications.
+Vite uses `--strictPort`, and the launcher rejects an occupied internal `5173`
+before spawning a process.
 
-Keep shell scripts LF-terminated in both repositories. Windows users should
-store source in the WSL Linux filesystem and use the wrapper
-`pnpm local:test:e2e` to preserve the published frontend's browser origin.
-Windows validation remains a separate target; Linux tests do not certify WSL2
-bind mounts or networking.
+The Playwright wrapper retains the public `localhost:3000` browser origin while
+connecting through the Docker host gateway. Node HTTP publication checks use
+`host.docker.internal:3000`; dashboard checks use Compose DNS. Keep scripts
+LF-terminated and source in WSL's Linux filesystem. Windows acceptance remains
+separate: Linux checks do not certify WSL2 mounts or networking.

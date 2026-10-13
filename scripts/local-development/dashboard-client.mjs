@@ -18,6 +18,18 @@ export async function requestJson(path, body) {
 
 const pause = () => new Promise((resolve) => setTimeout(resolve, 1000))
 
+export async function waitForDashboard({ request = requestJson, pause: wait = pause } = {}) {
+  for (let attempt = 0; attempt < 600; attempt += 1) {
+    try {
+      if ((await request('health')).status === 'ok') return
+    } catch {
+      // The backend image may still be installing or building the dashboard.
+    }
+    await wait()
+  }
+  throw new Error('Dashboard did not become ready; inspect the dashboard container logs')
+}
+
 export async function waitForOperation(
   operationId,
   { request = requestJson, pause: wait = pause } = {}
@@ -45,32 +57,80 @@ export async function runAction(action, options = {}) {
   return waitForOperation(operationId, options)
 }
 
-async function main([command, value]) {
+async function main([command, value, user]) {
   if (command === 'ready') {
     resolveDashboardTarget(process.env.INTEROP_DASHBOARD_URL)
-    for (let attempt = 0; attempt < 600; attempt += 1) {
-      try {
-        const health = await requestJson('health')
-        if (health.status === 'ok') return
-      } catch {
-        // Image initialization can finish before the API is listening.
-      }
-      await pause()
-    }
-    throw new Error('Dashboard did not become ready; inspect the dashboard container logs')
+    await waitForDashboard()
   } else if (command === 'status') {
-    console.log(JSON.stringify(await requestJson('status'), null, 2))
+    const status = await requestJson('status')
+    const { createFrontendRuntime } = await import('./frontend-runtime.mjs')
+    console.log(
+      JSON.stringify({ ...status, frontend: await createFrontendRuntime().status() }, null, 2)
+    )
   } else if (command === 'logs') {
+    if (value === 'frontend') {
+      const { createFrontendRuntime } = await import('./frontend-runtime.mjs')
+      console.log(await createFrontendRuntime().logs())
+      return
+    }
     const parameters = new URLSearchParams({ limit: '200' })
     if (value) parameters.set('source', value)
     const logs = await requestJson(`logs?${parameters}`)
     console.log(logs.entries.map(({ source, message }) => `[${source}] ${message}`).join('\n'))
+  } else if (
+    [
+      'start',
+      'stop',
+      'use-local',
+      'use-dev',
+      'identity',
+      'reset',
+      'frontend.stop',
+      'serve',
+      'startup-status',
+      'startup-state',
+    ].includes(command)
+  ) {
+    const { createFrontendRuntime } = await import('./frontend-runtime.mjs')
+    const { createFrontendLauncher, serveFrontend } = await import('./frontend-launcher.mjs')
+    const runtime = createFrontendRuntime()
+    const launcher = createFrontendLauncher({ runtime })
+    if (command === 'startup-status') {
+      if ((await runtime.startup()).state !== 'passed' || !(await runtime.status()).running)
+        process.exitCode = 1
+    } else if (command === 'startup-state') {
+      console.log((await runtime.startup()).state)
+    } else if (command === 'serve') {
+      await serveFrontend({ runtime, launcher })
+    } else if (command === 'start') {
+      await runtime.reportStartup({ state: 'running' })
+      try {
+        await launcher.start()
+        await runtime.reportStartup({ state: 'passed' })
+      } catch (error) {
+        await runtime.reportStartup({ state: 'failed', error: error.message })
+        throw error
+      }
+    } else {
+      try {
+        if (command === 'frontend.stop') await runtime.exclusive(() => runtime.stop())
+        else if (command === 'identity') await launcher.selectIdentity(value, user)
+        else if (command === 'use-local' || command === 'use-dev')
+          await launcher.useMode(command.slice(4))
+        else await launcher[command]()
+        const running = (await runtime.status()).running
+        await runtime.reportStartup({ state: running ? 'passed' : 'stopped' })
+      } catch (error) {
+        await runtime.reportStartup({ state: 'failed', error: error.message })
+        throw error
+      }
+    }
   } else {
     const action =
       command === 'infra.reset'
         ? { type: command, confirm: true }
-        : command === 'frontend.restart'
-          ? { type: command, mode: value }
+        : command === 'preset.start' || command === 'preset.stop'
+          ? { type: command, id: value }
           : { type: command }
     const operation = await runAction(action)
     console.log(`${operation.kind}: ${operation.state}`)

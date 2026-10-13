@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { execFile } from 'node:child_process'
-import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { promisify } from 'node:util'
@@ -105,15 +105,12 @@ require('node:fs').writeFileSync(process.env.NETWORK_TEST_RESULT, JSON.stringify
     expect(result.arguments).toContain('--strictPort')
   })
 
-  it('loads the local token from the configured backend checkout', async () => {
-    environment.INTEROP_BE_ROOT = directory
+  it('loads the frontend-owned token without a backend checkout', async () => {
+    environment.INTEROP_BE_ROOT = join(directory, 'missing-backend')
+    environment.INTEROP_FRONTEND_TOKEN_FILE = join(directory, 'frontend-token')
     environment.NETWORK_TEST_TOKEN = 'true'
-    await mkdir(join(directory, '.local-development'))
-    await writeFile(
-      join(directory, '.local-development/frontend-token'),
-      'configured-backend-token\n'
-    )
+    await writeFile(environment.INTEROP_FRONTEND_TOKEN_FILE, 'frontend-owned-token\n')
     const result = await runScript('run-frontend.sh', ['local'])
-    expect(result.token).toBe('configured-backend-token')
+    expect(result.token).toBe('frontend-owned-token')
   })
 })
