@@ -10,7 +10,7 @@ import useResolveError from '../useResolveError'
 import { AxiosError } from 'axios'
 import { queryClient } from '@/config/query-client'
 import { ThemeProvider } from '@mui/material'
-import { theme } from '@pagopa/mui-italia'
+import { theme } from '@pagopa/interop-fe-commons'
 
 const TestErrorComponent: React.FC<FallbackProps> = (props) => {
   const { title, description, content } = useResolveError(props)
